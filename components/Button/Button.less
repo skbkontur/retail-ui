@@ -1,0 +1,38 @@
+.RTButton {
+  background: linear-gradient(#fefefe, #ececec);
+  border: 1px solid #d9d9d9;
+  border-bottom-color: #b2b2b2;
+  border-radius: 3px;
+  color: #404040;
+  display: inline-block;
+  line-height: 34px;
+  font-size: 14px;
+  outline: 0;
+  padding: 0 10px;
+
+  &::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+
+  &:hover {
+    background: linear-gradient(#f2f2f2, #dfdfdf);
+  }
+
+  &:focus {
+    border-color: #fff;
+    box-shadow: 0 0 0 2px #5199db;
+  }
+
+  &:active {
+    background: #d9d9d9;
+    border-color: #fff;
+    box-shadow: 0 0 0 2px #5199db, inset 0 2px 2px -2px #a6a6a6;
+  }
+
+  &&-disabled {
+    background: #f2f2f2;
+    border-color: #d9d9d9;
+    color: #808080;
+  }
+}
