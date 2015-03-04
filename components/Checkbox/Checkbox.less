@@ -1,5 +1,41 @@
 .RTCheckbox {
-  &-active {
-    background: #f88;
+  &-input {
+    height: 0;
+    opacity: 0;
+    outline: 0;
+    width: 0;
+  }
+
+  &-box {
+    background: linear-gradient(#fdfdfd, #ededed);
+    border: 1px solid #d9d9d9;
+    border-bottom-color: #b2b2b2;
+    border-radius: 2px;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 16px;
+    margin-right: 4px;
+    position: relative;
+    vertical-align: top;
+    width: 16px;
+  }
+
+  &-isFocused &-box {
+    border-color: #5199db;
+    box-shadow: 0 0 0 1px #5199db;
+
+    outline: 1px solid #5199db \0;
+  }
+
+  &-ok {
+    display: none;
+    left: 1px;
+    line-height: 14px;
+    position: absolute;
+    top: -1px;
+  }
+
+  &-isChecked &-ok {
+    display: block;
   }
 }
