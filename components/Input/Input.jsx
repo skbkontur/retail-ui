@@ -7,7 +7,10 @@ var cx = require('../cx')('RTInput');
 var Input = React.createClass({
   render() {
     var props = assign({
-      className: cx('')
+      className: cx({
+        '': true,
+        'hasIcon': this.props.hasIcon
+      })
     }, this.props);
 
     return (
