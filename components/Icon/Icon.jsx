@@ -4,7 +4,8 @@ require('./Icon.less');
 var cx = require('ui/cx')('RTIcon');
 
 var MAP = {
-  ok: '\ue006'
+  ok: '\ue006',
+  magnifier: '\ue009'
 };
 
 var Icon = React.createClass({
