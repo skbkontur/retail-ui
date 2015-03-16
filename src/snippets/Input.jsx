@@ -1,0 +1,1 @@
+React.render(<Input />, mountNode);

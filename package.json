@@ -13,12 +13,14 @@
     "file-loader": "^0.8.1",
     "less": "^2.4.0",
     "less-loader": "^2.1.0",
+    "raw-loader": "^0.5.1",
     "style-loader": "^0.8.3",
     "webpack": "^1.7.2"
   },
   "dependencies": {
     "babel-runtime": "^4.7.8",
     "object-assign": "^2.0.0",
-    "react": "^0.13.0"
+    "react": "^0.13.0",
+    "react-tools": "^0.13.0"
   }
 }
