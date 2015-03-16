@@ -20,7 +20,7 @@
   "dependencies": {
     "babel-runtime": "^4.7.8",
     "object-assign": "^2.0.0",
-    "react": "^0.13.0",
-    "react-tools": "^0.13.0"
+    "react": "^0.12.2",
+    "react-tools": "^0.12.2",
   }
 }
