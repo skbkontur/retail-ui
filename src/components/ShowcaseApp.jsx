@@ -11,7 +11,7 @@ var ShowcaseApp = React.createClass({
       <div className={cx('')}>
         <div className={cx('head')}>UI LIB</div>
         <div className={cx('content')}>
-          <ComponentList items={this.props.items} />
+          <ComponentList items={this.props.components} />
         </div>
       </div>
     );

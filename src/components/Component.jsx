@@ -1,6 +1,7 @@
 var React = require('react');
 
 var CodeRunner = require('./CodeRunner');
+var PropsDoc = require('./PropsDoc');
 
 require('./Component.less');
 var cx = require('ui/cx')('rt-sc-Component');
@@ -9,9 +10,10 @@ var Component = React.createClass({
   render() {
     return (
       <div className={cx('')}>
-        <h2 className={cx('name')}>{this.props.item.name}</h2>
+        <h2 className={cx('name')}>{this.props.component.name}</h2>
         <div className={cx('docs')}>
           <div ref="code"></div>
+          <PropsDoc component={this.props.component} />
         </div>
         <div className={cx('demo')}>
           <CodeRunner src={this.state.src} />
@@ -22,7 +24,7 @@ var Component = React.createClass({
 
   getInitialState() {
     return {
-      src: this.props.item.src || ''
+      src: this.props.component.src || ''
     };
   },
 

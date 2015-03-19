@@ -10,7 +10,7 @@ var ComponentList = React.createClass({
     return (
       <div className={cx('')}>
         {this.props.items.map((item, i) => {
-          return <Component key={i} item={item} />;
+          return <Component key={i} component={item} />;
         })}
       </div>
     );

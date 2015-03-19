@@ -21,6 +21,7 @@
     "babel-runtime": "^4.7.8",
     "object-assign": "^2.0.0",
     "react": "^0.12.2",
+    "react-docgen": "^1.0.2",
     "react-tools": "^0.12.2",
     "retail-ui": "ssh://git@stash.skbkontur.ru:7777/uiex/retail.ui.git"
   }
