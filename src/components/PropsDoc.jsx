@@ -1,13 +1,11 @@
 var React = require('react');
 
-var reactDocs = require('react-docgen');
-
 require('./PropsDoc.less');
 var cx = require('ui/cx')('rt-sc-PropsDoc');
 
 var PropsDoc = React.createClass({
   render() {
-    var info = this.state.info;
+    var info = this.props.component.info;
 
     return (
       <div>
@@ -34,12 +32,6 @@ var PropsDoc = React.createClass({
       </div>
     );
   },
-
-  getInitialState() {
-    return {
-      info: reactDocs.parse(this.props.component.source),
-    };
-  }
 });
 
 module.exports = PropsDoc;
