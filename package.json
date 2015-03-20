@@ -23,6 +23,6 @@
     "react": "^0.12.2",
     "react-docgen": "^1.0.2",
     "react-tools": "^0.12.2",
-    "retail-ui": "ssh://git@stash.skbkontur.ru:7777/uiex/retail.ui.git"
+    "retail-ui": "git+ssh://git@stash.skbkontur.ru:7777/ret/retail-ui.git"
   }
 }
