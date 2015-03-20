@@ -30,7 +30,7 @@ var Component = React.createClass({
 
   componentDidMount() {
     var editor = CodeMirror(this.refs.code.getDOMNode(), {
-      value: this.state.src,
+      value: this.state.src.replace(/\n$/, ''),
       theme: 'solarized light',
       lineWrapping: true,
       viewportMargin: Infinity,
