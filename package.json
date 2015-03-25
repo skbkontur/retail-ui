@@ -4,9 +4,21 @@
   "description": "UI Components",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "dependencies": {
-    "add-event-listener": "0.0.1"
+    "add-event-listener": "0.0.1",
+    "react": "^0.13.1"
+  },
+  "devDependencies": {
+    "babel-jest": "^4.0.0",
+    "jest-cli": "^0.4.0"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/preprocessor.js",
+    "unmockedModulePathPatterns": [
+      "node_modules/react",
+      "<rootDir>/components/cx.js"
+    ]
   }
 }
