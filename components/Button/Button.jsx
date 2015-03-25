@@ -4,6 +4,15 @@ require('./Button.less');
 var cx = require('../cx')('RTButton');
 
 var Button = React.createClass({
+  propTypes: {
+    disabled: React.PropTypes.bool,
+
+    /**
+     * Click handler.
+     */
+    onClick: React.PropTypes.func,
+  },
+
   render() {
     var rootProps = {
       className: cx({
