@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "test": "jest",
-    "start": "webpack-dev-server -w -d"
+    "start": "webpack-dev-server -w -d",
+    "deploy": "rsync -r index.html dist tc@ownercat:/var/www/ui"
   },
   "devDependencies": {
     "babel-core": "^4.7.8",
