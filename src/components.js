@@ -12,6 +12,12 @@ module.exports = [
     src: require('!raw!./snippets/Checkbox.jsx'),
   },
   {
+    name: 'Icon',
+    component: require('ui/Icon'),
+    info: require('!docgen!ui/Icon/Icon.jsx'),
+    src: require('!raw!./snippets/Icon.jsx'),
+  },
+  {
     name: 'Input',
     component: require('ui/Input'),
     info: require('!docgen!ui/Input/Input.jsx'),

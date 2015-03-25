@@ -17,6 +17,7 @@ function run(src, mountNode) {
 function evalCode(_src, mountNode) {
   var Button = require('ui/Button');
   var Checkbox = require('ui/Checkbox');
+  var Icon = require('ui/Icon');
   var Input = require('ui/Input');
   var SearchBox = require('ui/SearchBox');
 
