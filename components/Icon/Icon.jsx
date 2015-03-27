@@ -74,7 +74,34 @@ var MAP = {
   link: '\ue062',
   marker: '\ue075',
   archive: '\ue076',
-  unarchive: '\ue077'
+  unarchive: '\ue077',
+
+  'play-forward': '\ue050',
+  'play-backward': '\ue051',
+  right: '\ue052',
+  left: '\ue053',
+
+  list: '\ue01b',
+  groups: '\ue01c',
+  gear: '\ue018',
+  tag: '\ue016',
+  video: '\ue017',
+  menu: '\ue01d',
+  user: '\ue020',
+  'user-gear': '\ue05b',
+  trash: '\ue022',
+  upload: '\ue02c',
+  download: '\ue015',
+  help: '\ue037',
+  'help-o': '\ue038',
+  'help-circle': '\ue055',
+  info: '\ue06f',
+  login: '\ue067',
+  logout: '\ue039',
+  home: '\ue05c',
+  hourglass: '\ue071',
+  'comment-o': '\ue054',
+  comment: '\ue05d'
 };
 
 var Icon = React.createClass({
