@@ -11,12 +11,12 @@ var Component = React.createClass({
     return (
       <div className={cx('')}>
         <h2 className={cx('name')}>{this.props.component.name}</h2>
+        <div className={cx('demo')}>
+          <CodeRunner src={this.state.src} />
+        </div>
         <div className={cx('docs')}>
           <div ref="code"></div>
           <PropsDoc component={this.props.component} />
-        </div>
-        <div className={cx('demo')}>
-          <CodeRunner src={this.state.src} />
         </div>
       </div>
     );
