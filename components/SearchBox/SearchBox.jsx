@@ -10,7 +10,7 @@ var SearchBox = React.createClass({
   render() {
     return (
       <label className={cx('')}>
-        <div className={cx('icon')}><Icon name="magnifier" /></div>
+        <div className={cx('icon')}><Icon name="search" /></div>
         <Input {...this.props} hasIcon={true} />
       </label>
     );
