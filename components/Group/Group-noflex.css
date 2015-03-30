@@ -1,0 +1,13 @@
+@media screen\0 {
+  .RTGroup {
+    display: 'table';
+  }
+
+  .RTGroup-wrap {
+    display: 'table-cell';
+  }
+
+  .RTGroup-stretch {
+    width: '100%';
+  }
+}
