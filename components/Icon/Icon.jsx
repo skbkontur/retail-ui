@@ -101,7 +101,20 @@ var MAP = {
   home: '\ue05c',
   hourglass: '\ue071',
   'comment-o': '\ue054',
-  comment: '\ue05d'
+  comment: '\ue05d',
+
+  'eye-slash': '\ue043',
+  eye: '\ue044',
+  infinity: '\ue03f',
+  'map-pin': '\ue04e',
+  pin: '\ue06b',
+  clip: '\ue045',
+  money: '\ue046',
+  coins: '\ue05a',
+  stats: '\ue047',
+  filter: '\ue060',
+  bulb: '\ue06e',
+  heart: '\ue070'
 };
 
 var Icon = React.createClass({
