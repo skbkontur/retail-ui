@@ -28,5 +28,11 @@ module.exports = [
     component: require('ui/SearchBox'),
     info: require('!docgen!ui/SearchBox/SearchBox.jsx'),
     src: require('!raw!./snippets/SearchBox.jsx'),
-  }
+  },
+  {
+    name: 'Group',
+    component: require('ui/Group'),
+    info: require('!docgen!ui/Group/Group.jsx'),
+    src: require('!raw!./snippets/Group.jsx'),
+  },
 ];
