@@ -19,9 +19,13 @@ var Button = React.createClass({
         '': true,
         'disabled': this.props.disabled
       }),
+      style: {},
       disabled: this.props.disabled,
-      onClick: this.props.onClick
+      onClick: this.props.onClick,
     };
+    if (this.props.width) {
+      rootProps.style.width = this.props.width;
+    }
 
     return (
       <button {...rootProps}>{this.props.children}</button>

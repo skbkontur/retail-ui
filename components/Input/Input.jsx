@@ -5,13 +5,19 @@ var cx = require('../cx')('RTInput');
 
 var Input = React.createClass({
   render() {
-    var inputClass = cx({
-      '': true,
-      'hasIcon': this.props.hasIcon
-    });
+    var props = {
+      className: cx({
+        '': true,
+        'hasIcon': this.props.hasIcon
+      }),
+      style: {},
+    };
+    if (this.props.width) {
+      props.style.width = this.props.width;
+    }
 
     return (
-      <input {...this.props} className={inputClass} />
+      <input {...this.props} {...props} />
     );
   },
 
