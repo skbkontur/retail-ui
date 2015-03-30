@@ -114,7 +114,30 @@ var MAP = {
   stats: '\ue047',
   filter: '\ue060',
   bulb: '\ue06e',
-  heart: '\ue070'
+  heart: '\ue070',
+
+  doc: '\ue024',
+  'doc-group': '\ue02f',
+  'doc-auto': '\ue05f',
+  'doc-new': '\ue025',
+  'doc-duplicate': '\ue026',
+  folder: '\ue028',
+  'doc-doc': '\ue031',
+  'doc-rtf': '\ue064',
+  'doc-pdf': '\ue032',
+  'doc-txt': '\ue033',
+  'doc-xls': '\ue034',
+  'doc-xml': '\ue035',
+
+  phone: '\ue03b',
+  vk: '\ue03d',
+  odnoklassniki: '\ue056',
+  facebook: '\ue03a',
+  twitter: '\ue03c',
+  'google-plus': '\ue063',
+  youtube: '\ue057',
+  instagram: '\ue072',
+  rss: '\ue05e'
 };
 
 var Icon = React.createClass({
