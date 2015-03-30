@@ -35,4 +35,10 @@ module.exports = [
     info: require('!docgen!ui/Group/Group.jsx'),
     src: require('!raw!./snippets/Group.jsx'),
   },
+  {
+    name: 'Radio',
+    component: require('ui/Radio'),
+    info: require('!docgen!!ui/Radio/Radio.jsx'),
+    src: require('!raw!./snippets/Radio.jsx'),
+  },
 ];

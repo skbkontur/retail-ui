@@ -21,6 +21,7 @@ function evalCode(_src, mountNode) {
   var Input = require('ui/Input');
   var SearchBox = require('ui/SearchBox');
   var Group = require('ui/Group');
+  var Radio = require('ui/Radio');
 
   eval(reactTools.transform(_src, {
     harmony: true
