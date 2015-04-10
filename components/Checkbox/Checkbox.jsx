@@ -12,12 +12,14 @@ var Checkbox = React.createClass({
       '': true,
       'isChecked': this.props.checked,
       'isActive': this.state.active,
-      'isFocused': this.state.focused
+      'isFocused': this.state.focused,
+      'isDisabled': this.props.disabled,
     });
 
     return (
       <label className={rootClass} onMouseDown={this.handleActivate}>
         <input type="checkbox" className={cx('input')}
+            disabled={this.props.disabled}
             onChange={this.handleChange} onFocus={this.handleFocus}
             onBlur={this.handleBlur} />
         <span className={cx('box')}>

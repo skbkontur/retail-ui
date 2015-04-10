@@ -1,6 +1,10 @@
 .RTCheckbox {
   position: relative;
 
+  &-isDisabled {
+    color: #808080;
+  }
+
   &-input {
     height: 0;
     opacity: 0;
@@ -28,6 +32,12 @@
     box-shadow: 0 0 0 1px #5199db;
 
     outline: 1px solid #5199db \0;
+  }
+
+  &-isDisabled &-box {
+    background: #f2f2f2;
+    border-color: #d9d9d9;
+    color: #a0a0a0;
   }
 
   &-ok {
