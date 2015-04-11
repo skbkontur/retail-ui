@@ -1,7 +1,7 @@
 .RTButton {
-  background: linear-gradient(#fefefe, #ececec);
-  border: 1px solid #d9d9d9;
-  border-bottom-color: #b2b2b2;
+  @focus-shadow: 0 0 0 2px #5199db;
+
+  border: 1px solid;
   border-radius: 3px;
   color: #404040;
   display: inline-block;
@@ -17,20 +17,41 @@
     padding: 0;
   }
 
-  &:hover {
-    background: linear-gradient(#f2f2f2, #dfdfdf);
-  }
-
   &:focus {
     border-color: #fff;
-    box-shadow: 0 0 0 2px #5199db;
+    box-shadow: @focus-shadow;
     position: relative;
   }
 
-  &:active {
-    background: #d9d9d9;
-    border-color: #fff;
-    box-shadow: 0 0 0 2px #5199db, inset 0 2px 2px -2px #a6a6a6;
+  &-use-default {
+    background: linear-gradient(#fefefe, #ececec);
+    border-color: #d9d9d9 #d9d9d9 #b2b2b2;
+
+    &:hover {
+      background: linear-gradient(#f2f2f2, #dfdfdf);
+    }
+
+    &:active {
+      background: #d9d9d9;
+      border-color: #fff;
+      box-shadow: @focus-shadow, inset 0 2px 2px -2px #a6a6a6;
+    }
+  }
+
+  &-use-primary {
+    background: linear-gradient(#28d, #025fa9);
+    border-color: #0166b5 #015ba2 #004a89;
+    color: #fff;
+
+    &:hover {
+      background: linear-gradient(#0a6fc9, #014994);
+    }
+
+    &:active {
+      background: #0069c3;
+      border-color: #fff;
+      box-shadow: @focus-shadow, inset 0 2px 1px -1px #00549c;
+    }
   }
 
   &&-disabled {

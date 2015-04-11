@@ -7,6 +7,11 @@ var Button = React.createClass({
   propTypes: {
     disabled: React.PropTypes.bool,
 
+    use: React.PropTypes.oneOf([
+      'default',
+      'primary',
+    ]),
+
     /**
      * Click handler.
      */
@@ -17,6 +22,7 @@ var Button = React.createClass({
     var rootProps = {
       className: cx({
         '': true,
+        ['use-' + this.props.use]: true,
         'disabled': this.props.disabled
       }),
       style: {},
@@ -33,7 +39,9 @@ var Button = React.createClass({
   },
 
   getDefaultProps() {
-    return {};
+    return {
+      use: 'default',
+    };
   }
 });
 
