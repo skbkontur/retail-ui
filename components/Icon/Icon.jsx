@@ -1,5 +1,7 @@
 var React = require('react');
 
+var { PropTypes } = React;
+
 require('./Icon.less');
 var cx = require('../cx')('RTIcon');
 
@@ -151,12 +153,20 @@ var Icon = React.createClass({
     /**
      * Icon id.
      */
-    name: React.PropTypes.string.isRequired,
+    name: PropTypes.oneOf(Object.keys(MAP)),
+
+    size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+    color: PropTypes.string,
   },
 
   render() {
+    var style = {
+      color: this.props.color,
+      fontSize: this.props.size,
+    };
     return (
-      <span className={cx('')}>{MAP[this.props.name]}</span>
+      <span className={cx('')} style={style}>{MAP[this.props.name]}</span>
     );
   }
 });
