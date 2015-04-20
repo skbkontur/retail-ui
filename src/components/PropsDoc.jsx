@@ -22,7 +22,7 @@ var PropsDoc = React.createClass({
               <div key={name} className={cx('prop')}>
                 <span className={cx('prop-name')}>{name}</span>
                 <span className={cx('prop-typeColon')}>:</span>
-                <span className={cx('prop-type')}>{prop.type.name}</span>
+                <span className={cx('prop-type')}>{formatType(prop.type)}</span>
                 {required}
                 {desc}
               </div>
@@ -33,5 +33,34 @@ var PropsDoc = React.createClass({
     );
   },
 });
+
+function formatType(type) {
+  if (type.name === 'union') {
+    return type.value.map(formatType).join(' | ');
+  }
+
+  if (type.name === 'shape') {
+    return '{' + Object.keys(type.value).map(key => {
+      return `${key}: ${formatType(type.value[key])}`;
+    }).join(', ') + '}';
+  }
+
+  var str = type.name;
+
+  if (type.name === 'enum') {
+    let values = type.value.map(value => value.value);
+    str += ` (${values.join(', ')})`;
+  }
+
+  if (type.name === 'instanceOf') {
+    str += ` <${type.value}>`;
+  }
+
+  if (type.name === 'arrayOf') {
+    str += `<${formatType(type.value)}>`;
+  }
+
+  return str;
+}
 
 module.exports = PropsDoc;
