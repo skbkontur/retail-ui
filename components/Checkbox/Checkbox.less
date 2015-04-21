@@ -27,15 +27,13 @@
     height: 16px;
     margin-right: 4px;
     position: relative;
-    vertical-align: top;
+    vertical-align: middle;
     width: 16px;
   }
 
   &-isFocused &-box {
     border-color: #5199db;
     box-shadow: 0 0 0 1px #5199db;
-
-    outline: 1px solid #5199db \0;
   }
 
   &-isDisabled &-box {
@@ -54,5 +52,9 @@
 
   &-isChecked &-ok {
     display: block;
+  }
+
+  &-caption {
+    vertical-align: middle;
   }
 }

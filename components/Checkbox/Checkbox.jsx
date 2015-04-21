@@ -4,6 +4,7 @@ var React = require('react');
 var Icon = require('../Icon');
 
 require('./Checkbox.less');
+require('./Checkbox.css');
 var cx = require('../cx')('RTCheckbox');
 
 var Checkbox = React.createClass({
@@ -25,7 +26,7 @@ var Checkbox = React.createClass({
         <span className={cx('box')}>
           <div className={cx('ok')}><Icon name="ok" /></div>
         </span>
-        <span>{this.props.children}</span>
+        <span className={cx('caption')}>{this.props.children}</span>
       </label>
     );
   },
