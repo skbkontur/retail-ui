@@ -1,0 +1,5 @@
+@media \0screen {
+  .RTButton:focus {
+    outline: 2px solid #5199db;
+  }
+}

@@ -1,6 +1,7 @@
 var React = require('react');
 
 require('./Button.less');
+require('./Button.css');
 var cx = require('../cx')('RTButton');
 
 var Button = React.createClass({
