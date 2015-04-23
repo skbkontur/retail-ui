@@ -14,6 +14,7 @@
     "file-loader": "^0.8.1",
     "less": "^2.4.0",
     "less-loader": "^2.1.0",
+    "marked": "^0.3.3",
     "raw-loader": "^0.5.1",
     "style-loader": "^0.8.3",
     "webpack": "^1.7.2"

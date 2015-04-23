@@ -9,22 +9,21 @@ var PropsDoc = React.createClass({
 
     return (
       <div>
-        <div className={cx('desc')}>{info.description}</div>
+        <div className={cx({'desc': true, 'md': true})}
+            dangerouslySetInnerHTML={{__html: info.description}} />
         <div className={cx('props')}>
           {Object.keys(info.props).map((name) => {
             var prop = info.props[name];
             var required = prop.required ?
                 <span className={cx('prop-required')}>required</span> : null;
-            var desc = prop.description ?
-                <span className={cx('prop-desc')}>— {prop.description}</span> :
-                null;
             return (
               <div key={name} className={cx('prop')}>
                 <span className={cx('prop-name')}>{name}</span>
                 <span className={cx('prop-typeColon')}>:</span>
                 <span className={cx('prop-type')}>{formatType(prop.type)}</span>
                 {required}
-                {desc}
+                <div className={cx({'prop-desc': true, 'md': true})}
+                    dangerouslySetInnerHTML={{__html: prop.description}} />
               </div>
             );
           })}
