@@ -30,6 +30,12 @@ module.exports = [
     src: require('!raw!./snippets/SearchBox.jsx'),
   },
   {
+    name: 'Gapped',
+    component: require('ui/Gapped'),
+    info: require('!docgen!ui/Gapped/Gapped.jsx'),
+    src: require('!raw!./snippets/Gapped.jsx'),
+  },
+  {
     name: 'Group',
     component: require('ui/Group'),
     info: require('!docgen!ui/Group/Group.jsx'),

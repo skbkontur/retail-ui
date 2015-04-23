@@ -20,6 +20,7 @@ function evalCode(_src, mountNode) {
   var Icon = require('ui/Icon');
   var Input = require('ui/Input');
   var SearchBox = require('ui/SearchBox');
+  var Gapped = require('ui/Gapped');
   var Group = require('ui/Group');
   var Radio = require('ui/Radio');
 
