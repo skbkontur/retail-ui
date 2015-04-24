@@ -47,8 +47,10 @@ function formatType(type) {
   var str = type.name;
 
   if (type.name === 'enum') {
-    let values = type.value.map(value => value.value);
-    str += ` (${values.join(', ')})`;
+    if (Array.isArray(type.value)) {
+      let value = type.value.map(value => value.value).join(', ');
+      str += ` (${value})`;
+    }
   }
 
   if (type.name === 'instanceOf') {
