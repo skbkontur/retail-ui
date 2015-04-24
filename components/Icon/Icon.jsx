@@ -1,6 +1,6 @@
 var React = require('react');
 
-var { PropTypes } = React;
+var PropTypes = React.PropTypes;
 
 require('./Icon.less');
 var cx = require('../cx')('RTIcon');
