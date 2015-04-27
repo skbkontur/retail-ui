@@ -15,6 +15,7 @@ function run(src, mountNode) {
 }
 
 function evalCode(_src, mountNode) {
+  var Autocomplete = require('ui/Autocomplete');
   var Button = require('ui/Button');
   var Checkbox = require('ui/Checkbox');
   var Icon = require('ui/Icon');
