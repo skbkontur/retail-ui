@@ -29,6 +29,21 @@ var Autocomplete = React.createClass({
       PropTypes.func,
     ]),
 
+    /**
+     * Функция для отрисовки альтернативного инпута. Единственный аргумент —
+     * props для инпута.
+     *
+     * Событие *onChange* должно прикрепляться к самому автокомплиту, а не к
+     * инпуту.
+     *
+     * Пример:
+     * ```
+     * <Autocomplete onChange={...}
+     *     renderInput={props => <SearchBox {...props} />} />
+     * ```
+     */
+    renderInput: PropTypes.func,
+
     onChange: PropTypes.func,
   },
 
@@ -46,9 +61,15 @@ var Autocomplete = React.createClass({
       onBlur: e => this.handleBlur(e),
       onKeyDown: e => this.handleKey(e),
     };
+    var input;
+    if (this.props.renderInput) {
+      input = this.props.renderInput(inputProps);
+    } else {
+      input = <Input {...inputProps} />
+    }
     return (
       <span className={cx('')}>
-        <Input {...inputProps} ref="input" />
+        {input}
         {this.renderMenu()}
       </span>
     );
