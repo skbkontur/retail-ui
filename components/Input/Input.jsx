@@ -1,23 +1,53 @@
 var React = require('react');
 
+var PropTypes = React.PropTypes;
+
 require('./Input.less');
 var cx = require('../cx')('RTInput');
 
 var Input = React.createClass({
+  propTypes: {
+    /**
+     * Иконка слева инпута.
+     */
+    leftIcon: PropTypes.element,
+
+    /**
+     * Иконка справа инпута.
+     */
+    rightIcon: PropTypes.element,
+  },
+
   render() {
-    var props = {
+    var labelProps = {
       className: cx({
         '': true,
-        'hasIcon': this.props.hasIcon
+        'padLeft': this.props.leftIcon,
+        'padRight': this.props.rightIcon,
       }),
       style: {},
     };
     if (this.props.width) {
-      props.style.width = this.props.width;
+      labelProps.style.width = this.props.width;
+    }
+
+    var leftIcon = null;
+    if (this.props.leftIcon) {
+      leftIcon = <div className={cx('leftIcon')}>{this.props.leftIcon}</div>;
+    }
+    var rightIcon = null;
+    if (this.props.rightIcon) {
+      rightIcon = (
+        <div className={cx('rightIcon')}>{this.props.rightIcon}</div>
+      );
     }
 
     return (
-      <input {...this.props} {...props} />
+      <label {...labelProps}>
+        <input className={cx('input')} {...this.props} />
+        {leftIcon}
+        {rightIcon}
+      </label>
     );
   },
 

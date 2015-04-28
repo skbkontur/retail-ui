@@ -1,16 +1,22 @@
 .RTInput {
-  border: 1px solid #d9d9d9;
-  border-top-color: #b2b2b2;
-  box-sizing: border-box;
-  font-family: inherit;
-  font-size: 14px;
-  height: 30px;
-  line-height: 28px;
-  outline: none;
-  padding: 0 8px;
+  display: inline-block;
+  position: relative;
   width: 250px;
 
-  &:focus {
+  &-input {
+    border: 1px solid #d9d9d9;
+    border-top-color: #b2b2b2;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 14px;
+    height: 30px;
+    line-height: 28px;
+    outline: none;
+    padding: 0 8px;
+    width: 100%;
+  }
+
+  &-input:focus {
     border-color: #5199db;
     border-radius: 1px;
     box-shadow: 0 0 0 1px #5199db;
@@ -19,7 +25,28 @@
     outline: 1px solid #5199db \0;
   }
 
-  &-hasIcon {
+  &-padLeft &-input {
     padding-left: 25px;
+  }
+
+  &-padRight &-input {
+    padding-right: 25px;
+  }
+
+  &-leftIcon,
+  &-rightIcon {
+    color: #a9a9a9;
+    cursor: text;
+    line-height: 28px;
+    position: absolute;
+    top: 0;
+  }
+
+  &-leftIcon {
+    left: 8px;
+  }
+
+  &-rightIcon {
+    right: 8px;
   }
 }
