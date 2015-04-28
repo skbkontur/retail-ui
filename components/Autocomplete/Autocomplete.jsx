@@ -146,9 +146,16 @@ var Autocomplete = React.createClass({
         selected = items.length - 1;
       }
       this.setState({selected});
-    } else if (event.key === 'Enter' && items && items[this.state.selected]) {
-      event.preventDefault();
-      this.choose_(this.state.selected);
+    } else if (event.key === 'Enter') {
+      if (items && items[this.state.selected]) {
+        event.preventDefault();
+
+        this.choose_(this.state.selected);
+      } else {
+        this.setState({items: null});
+      }
+    } else if (event.key === 'Escape' && items && items.length) {
+      this.setState({items: null});
     }
   },
 
