@@ -8,6 +8,8 @@ var cx = require('../cx')('RTAutocomplete');
 
 /**
  * Стандартный инпут с подсказками.
+ *
+ * Все свойства передаются во внутренний *Input*.
  */
 var Autocomplete = React.createClass({
   propTypes: {
@@ -28,23 +30,6 @@ var Autocomplete = React.createClass({
       PropTypes.array,
       PropTypes.func,
     ]),
-
-    /**
-     * Функция для отрисовки альтернативного инпута. Единственный аргумент —
-     * props для инпута.
-     *
-     * Событие *onChange* должно прикрепляться к самому автокомплиту, а не к
-     * инпуту.
-     *
-     * Пример:
-     * ```
-     * <Autocomplete onChange={...}
-     *     renderInput={props => <SearchBox {...props} />} />
-     * ```
-     */
-    renderInput: PropTypes.func,
-
-    onChange: PropTypes.func,
   },
 
   getInitialState() {
@@ -61,15 +46,9 @@ var Autocomplete = React.createClass({
       onBlur: e => this.handleBlur(e),
       onKeyDown: e => this.handleKey(e),
     };
-    var input;
-    if (this.props.renderInput) {
-      input = this.props.renderInput(inputProps);
-    } else {
-      input = <Input {...inputProps} />
-    }
     return (
       <span className={cx('')}>
-        {input}
+        <Input {...this.props} {...inputProps} />
         {this.renderMenu()}
       </span>
     );
@@ -129,14 +108,20 @@ var Autocomplete = React.createClass({
     this.fireChange_(event.target.value);
   },
 
-  handleBlur() {
+  handleBlur(event) {
     this.setState({items: null});
+
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
   },
 
   handleKey(event) {
     var items = this.state.items;
+    var stop = false;
     if ((event.key === 'ArrowUp' || event.key === 'ArrowDown') && items) {
       event.preventDefault();
+      stop = true;
 
       let step = event.key === 'ArrowUp' ? -1 : 1;
       let selected = this.state.selected + step;
@@ -149,13 +134,20 @@ var Autocomplete = React.createClass({
     } else if (event.key === 'Enter') {
       if (items && items[this.state.selected]) {
         event.preventDefault();
+        stop = true;
 
         this.choose_(this.state.selected);
       } else {
         this.setState({items: null});
       }
     } else if (event.key === 'Escape' && items && items.length) {
+      stop = true;
+
       this.setState({items: null});
+    }
+
+    if (!stop && this.props.onKeyDown) {
+      this.props.onKeyDown(event);
     }
   },
 
