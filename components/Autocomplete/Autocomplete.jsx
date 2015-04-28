@@ -81,16 +81,15 @@ var Autocomplete = React.createClass({
       return null;
     }
 
-    var onItemAction = e => this.handleItemSelect(e);
-    var onItemHighlight = e => this.handleItemHighlight(e);
-
     return (
       <div className={cx('menuHolder')}>
         <div className={cx('menu')}>
           {items.map((item, i) => {
             var hover = this.state.selected === i;
             return <Item key={item} index={i} value={item} hover={hover}
-                onAction={onItemAction} onHighlight={onItemHighlight} />;
+                onAction={e => this.handleItemSelect(e)}
+                onEnter={e => this.setState({selected: i})}
+                onLeave={e => this.setState({selected: -1})} />;
           })}
         </div>
       </div>
@@ -157,12 +156,6 @@ var Autocomplete = React.createClass({
     this.choose_(event.index);
   },
 
-  handleItemHighlight(event) {
-    this.setState({
-      selected: event.index,
-    });
-  },
-
   choose_(index) {
     var value = this.state.items[index];
 
@@ -190,7 +183,8 @@ var Item = React.createClass({
     });
     return (
       <div className={rootClass} onMouseDown={e => this.handleMouseDown(e)}
-          onMouseEnter={e => this.handleMouseEnter(e)}>
+          onMouseEnter={e => this.props.onEnter(e)}
+          onMouseLeave={e => this.props.onLeave(e)}>
         {this.props.value}
       </div>
     );
@@ -199,10 +193,6 @@ var Item = React.createClass({
   handleMouseDown(event) {
     event.preventDefault();
     this.props.onAction({index: this.props.index});
-  },
-
-  handleMouseEnter(event) {
-    this.props.onHighlight({index: this.props.index});
   },
 });
 
