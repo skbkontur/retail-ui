@@ -142,8 +142,8 @@ var Autocomplete = React.createClass({
       let step = event.key === 'ArrowUp' ? -1 : 1;
       let selected = this.state.selected + step;
       if (selected >= items.length) {
-        selected = 0;
-      } else if (selected < 0) {
+        selected = -1;
+      } else if (selected < -1) {
         selected = items.length - 1;
       }
       this.setState({selected});
