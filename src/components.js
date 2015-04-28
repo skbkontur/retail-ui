@@ -30,12 +30,6 @@ module.exports = [
     src: require('!raw!./snippets/Input.jsx'),
   },
   {
-    name: 'SearchBox',
-    component: require('ui/SearchBox'),
-    info: require('!docgen!ui/SearchBox/SearchBox.jsx'),
-    src: require('!raw!./snippets/SearchBox.jsx'),
-  },
-  {
     name: 'Gapped',
     component: require('ui/Gapped'),
     info: require('!docgen!ui/Gapped/Gapped.jsx'),

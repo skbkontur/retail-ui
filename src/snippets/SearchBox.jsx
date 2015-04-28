@@ -1,1 +1,0 @@
-React.render(<SearchBox />, mountNode);

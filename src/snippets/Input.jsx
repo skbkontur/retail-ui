@@ -1,1 +1,1 @@
-React.render(<Input />, mountNode);
+React.render(<Input leftIcon={<Icon name="search" />} />, mountNode);
