@@ -1,5 +1,7 @@
 var React = require('react/addons');
 
+var components = require('../components');
+
 var Component = require('./Component');
 
 require('./ComponentList.less');
@@ -9,7 +11,7 @@ var ComponentList = React.createClass({
   render() {
     return (
       <div className={cx('')}>
-        {this.props.items.map((item, i) => {
+        {components.map((item, i) => {
           return <Component key={i} component={item} />;
         })}
       </div>

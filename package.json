@@ -24,6 +24,7 @@
     "object-assign": "^2.0.0",
     "react": "^0.13.1",
     "react-docgen": "^1.0.2",
+    "react-router": "^0.13.2",
     "react-tools": "^0.12.2",
     "retail-ui": "git+ssh://git@stash.skbkontur.ru:7777/ret/retail-ui.git"
   }

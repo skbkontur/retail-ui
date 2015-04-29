@@ -1,6 +1,5 @@
 var React = require('react');
-
-var ComponentList = require('./ComponentList');
+var Router = require('react-router');
 
 require('./ShowcaseApp.less');
 var cx = require('ui/cx')('rt-sc-ShowcaseApp');
@@ -9,9 +8,20 @@ var ShowcaseApp = React.createClass({
   render() {
     return (
       <div className={cx('')}>
-        <div className={cx('head')}>UI LIB</div>
+        <div className={cx('head')}>
+          <div className={cx('head-in')}>
+            <div className={cx('title')}>UI LIB</div>
+            <div className={cx('links')}>
+              <Router.Link to="components" className={cx('link')}>
+                Components
+              </Router.Link>
+              <Router.Link to="demo" className={cx('link')}>Demo</Router.Link>
+            </div>
+            <div style={{clear: 'both'}} />
+          </div>
+        </div>
         <div className={cx('content')}>
-          <ComponentList items={this.props.components} />
+          <Router.RouteHandler />
         </div>
       </div>
     );

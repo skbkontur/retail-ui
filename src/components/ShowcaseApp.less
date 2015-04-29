@@ -15,10 +15,35 @@ body {
   &-head {
     background: #666;
     color: #fff;
-    font-size: 24px;
     font-weight: 300;
-    padding: 10px;
-    text-align: center;
+    line-height: 50px;
+
+    &-in {
+      box-sizing: border-box;
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 0 20px;
+    }
+  }
+
+  &-title {
+    float: left;
+    font-size: 24px;
+  }
+
+  &-links {
+    float: right;
+  }
+
+  &-link {
+    color: #fff;
+    font-size: 16px;
+    margin-left: 10px;
+    text-decoration: none;
+
+    &.active {
+      text-decoration: underline;
+    }
   }
 
   &-content {
