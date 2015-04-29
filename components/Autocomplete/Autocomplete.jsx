@@ -66,6 +66,7 @@ var Autocomplete = React.createClass({
           {items.map((item, i) => {
             var hover = this.state.selected === i;
             return <Item key={item} index={i} value={item} hover={hover}
+                padLeft={!!this.props.leftIcon}
                 onAction={e => this.handleItemSelect(e)}
                 onEnter={e => this.setState({selected: i})}
                 onLeave={e => this.setState({selected: -1})} />;
@@ -179,6 +180,7 @@ var Item = React.createClass({
     var rootClass = cx({
       'Item': true,
       'Item-hover': this.props.hover,
+      'Item-padLeft': this.props.padLeft,
     });
     return (
       <div className={rootClass} onMouseDown={e => this.handleMouseDown(e)}
