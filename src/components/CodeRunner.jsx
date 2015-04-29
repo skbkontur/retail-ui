@@ -18,6 +18,7 @@ function evalCode(_src, mountNode) {
   var Autocomplete = require('ui/Autocomplete');
   var Button = require('ui/Button');
   var Checkbox = require('ui/Checkbox');
+  var Dropdown = require('ui/Dropdown');
   var Icon = require('ui/Icon');
   var Input = require('ui/Input');
   var Gapped = require('ui/Gapped');

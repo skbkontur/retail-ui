@@ -18,6 +18,12 @@ module.exports = [
     src: require('!raw!./snippets/Checkbox.jsx'),
   },
   {
+    name: 'Dropdown',
+    component: require('ui/Dropdown'),
+    info: require('!docgen!ui/Dropdown/Dropdown.jsx'),
+    src: require('!raw!./snippets/Dropdown.jsx'),
+  },
+  {
     name: 'Icon',
     component: require('ui/Icon'),
     info: require('!docgen!ui/Icon/Icon.jsx'),
