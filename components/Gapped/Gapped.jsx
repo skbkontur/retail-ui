@@ -19,7 +19,7 @@ var Gapped = React.createClass({
 
   render() {
     var itemStyle = {
-      display: 'inline-block',
+      display: this.props.vertical ? 'block' : 'inline-block',
       marginRight: this.props.gap,
       marginTop: this.props.gap,
     };
