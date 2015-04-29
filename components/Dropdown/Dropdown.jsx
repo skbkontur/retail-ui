@@ -46,8 +46,11 @@ var Dropdown = React.createClass({
   renderMenu() {
     var search = null;
     if (this.props.search) {
-      search = <Input className={cx('search')} autoFocus
-          onBlur={this.close_} />;
+      search = (
+        <div className={cx('search')}>
+          <Input autoFocus onBlur={this.close_} />
+        </div>
+      );
     }
 
     return (
