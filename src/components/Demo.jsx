@@ -27,7 +27,8 @@ var Demo = React.createClass({
               renderItem={renderDropdownItem} />
 
           <Dropdown items={sampleItems} renderValue={renderDropdownValue}
-              renderItem={renderDropdownItem} search />
+              renderItem={renderDropdownItem} search
+              placeholder="мой плэйсхолдер" />
 
           <Gapped>
             <Button>One</Button>
