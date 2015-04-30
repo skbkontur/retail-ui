@@ -164,7 +164,7 @@ function renderValue(item) {
   if (typeof item === 'string') {
     return item;
   } else {
-    return item.label;
+    return item.name;
   }
 }
 
@@ -172,7 +172,7 @@ function renderItem(item) {
   if (typeof item === 'string') {
     return <div key={item}>{item}</div>;
   } else {
-    return <div key={item.key}>{item.label}</div>;
+    return <div key={item.id}>{item.name}</div>;
   }
 }
 
