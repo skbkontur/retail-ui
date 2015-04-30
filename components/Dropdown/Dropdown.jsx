@@ -8,6 +8,12 @@ require('./Dropdown.less');
 var cx = require('ui/cx')('RTDropdown');
 
 var Dropdown = React.createClass({
+  getDefaultProps() {
+    return {
+      placeholder: 'ничего не выбрано',
+    };
+  },
+
   render() {
     var value = this.getValue_();
 
@@ -15,7 +21,9 @@ var Dropdown = React.createClass({
     if (value) {
       label = (this.props.renderValue || renderValue)(value);
     } else {
-      label = <span>&nbsp;</span>;
+      label = (
+        <span className={cx('placeholder')}>{this.props.placeholder}</span>
+      );
     }
 
     var rootProps = {
