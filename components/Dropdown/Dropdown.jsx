@@ -100,7 +100,10 @@ var Dropdown = React.createClass({
 
   close_(e) {
     if (this.state.opened) {
-      this.setState({opened: false});
+      this.setState({
+        opened: false,
+        current: -1,
+      });
     }
   },
 
@@ -145,6 +148,7 @@ var Dropdown = React.createClass({
   select_(item) {
     this.setState({
       opened: false,
+      current: -1,
       value: item,
     }, () => {
       setTimeout(() => {
