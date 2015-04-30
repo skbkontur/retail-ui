@@ -25,6 +25,11 @@
     outline: 1px solid #5199db \0;
   }
 
+  &-disabled &-input {
+    background: #f2f2f2;
+    border-color: #d9d9d9;
+  }
+
   &-padLeft &-input {
     padding-left: 25px;
   }
@@ -40,6 +45,10 @@
     line-height: 28px;
     position: absolute;
     top: 0;
+  }
+  &-disabled &-leftIcon,
+  &-disabled &-rightIcon {
+    cursor: default;
   }
 
   &-leftIcon {

@@ -22,6 +22,7 @@ var Input = React.createClass({
     var labelProps = {
       className: cx({
         '': true,
+        'disabled': this.props.disabled,
         'padLeft': this.props.leftIcon,
         'padRight': this.props.rightIcon,
       }),
