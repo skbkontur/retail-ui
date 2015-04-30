@@ -53,6 +53,8 @@ var Dropdown = React.createClass({
       );
     }
 
+    var value = this.getValue_();
+
     return (
       <div className={cx('container')}>
         <div className={cx('drop')}>
@@ -66,6 +68,7 @@ var Dropdown = React.createClass({
                   key: itemEl.key,
                   className: cx({
                     'menu-item': true,
+                    'menu-item-selected': item === value,
                     'menu-item-current': i === this.state.current,
                   }),
                   onMouseDown: e => this.select_(item),
