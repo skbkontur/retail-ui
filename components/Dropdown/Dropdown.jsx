@@ -56,12 +56,17 @@ var Dropdown = React.createClass({
     if (this.props.search) {
       search = (
         <div className={cx('search')}>
-          <Input autoFocus onBlur={this.close_} />
+          <Input autoFocus onChange={this.handleSearch} onBlur={this.close_} />
         </div>
       );
     }
 
     var value = this.getValue_();
+
+    var items = this.props.items;
+    if (this.props.search) {
+      items = filter(items, this.state.searchPattern || '');
+    }
 
     return (
       <div className={cx('container')}>
@@ -70,7 +75,7 @@ var Dropdown = React.createClass({
           <div style={{position: 'relative'}}>
             <div className={cx('menu')}>
               {search}
-              {this.props.items.map((item, i) => {
+              {items.map((item, i) => {
                 var itemEl = (this.props.renderItem || renderItem)(item);
                 var holderProps = {
                   key: itemEl.key,
@@ -153,6 +158,10 @@ var Dropdown = React.createClass({
     }
   },
 
+  handleSearch(event) {
+    this.setState({searchPattern: event.target.value});
+  },
+
   select_(item) {
     this.setState({
       opened: false,
@@ -190,6 +199,21 @@ function renderItem(item) {
   } else {
     return <div key={item.id}>{item.name}</div>;
   }
+}
+
+function filter(items, pattern) {
+  pattern = pattern.toLowerCase();
+
+  return items.filter(item => {
+    var value;
+    if (typeof item === 'string') {
+      value = item;
+    } else {
+      value = item.name;
+    }
+
+    return value.toLowerCase().indexOf(pattern) !== -1;
+  });
 }
 
 module.exports = Dropdown;
