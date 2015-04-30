@@ -70,6 +70,7 @@ var Dropdown = React.createClass({
                   }),
                   onMouseDown: e => this.select_(item),
                   onMouseEnter: e => this.setState({current: i}),
+                  onMouseLeave: e => this.setState({current: -1}),
                 };
                 return <div {...holderProps}>{itemEl}</div>;
               })}
