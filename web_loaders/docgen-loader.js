@@ -12,9 +12,9 @@ marked.setOptions({
 module.exports = function(src) {
   var info = reactDocs.parse(src);
 
-  info.description = marked(info.description);
+  info.description = marked(info.description || '');
   for (var prop in info.props) {
-    info.props[prop].description = marked(info.props[prop].description);
+    info.props[prop].description = marked(info.props[prop].description || '');
   }
 
   return 'module.exports = ' + JSON.stringify(info) + ';';
