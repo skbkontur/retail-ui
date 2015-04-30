@@ -34,6 +34,10 @@ var PropsDoc = React.createClass({
 });
 
 function formatType(type) {
+  if (!type) {
+    return '?';
+  }
+
   if (type.name === 'union') {
     return type.value.map(formatType).join(' | ');
   }
