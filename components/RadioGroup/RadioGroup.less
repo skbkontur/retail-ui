@@ -1,0 +1,51 @@
+.RTRadioGroup {
+  display: inline-block;
+
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+
+  &-input {
+    border: 0;
+    height: 0;
+    outline: 0;
+    position: absolute;
+    width: 0;
+  }
+
+  &-box {
+    background: #ebebeb;
+    border: 1px solid #d9d9d9;
+    border-radius: 50%;
+    box-shadow: inset 0 2px 3px -2px rgba(0, 0, 0, .1);
+    display: inline-block;
+    height: 14px;
+    margin-right: 4px;
+    vertical-align: middle;
+    width: 14px;
+  }
+
+  &-focused &-box {
+    border-color: #5199db;
+    box-shadow: 0 0 0 1px #5199db;
+  }
+
+  &-inbox {
+    background: #404040;
+    border-radius: 50%;
+    display: none;
+    height: 8px;
+    margin: 3px;
+    width: 8px;
+  }
+
+  &-checked &-inbox {
+    display: block;
+  }
+
+  &-label {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
