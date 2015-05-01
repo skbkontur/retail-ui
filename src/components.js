@@ -50,7 +50,13 @@ module.exports = [
   {
     name: 'Radio',
     component: require('ui/Radio'),
-    info: require('!docgen!!ui/Radio/Radio.jsx'),
+    info: require('!docgen!ui/Radio/Radio.jsx'),
     src: require('!raw!./snippets/Radio.jsx'),
+  },
+  {
+    name: 'RadioGroup',
+    component: require('ui/RadioGroup'),
+    info: require('!docgen!ui/Radio/Radio.jsx'),
+    src: require('!raw!./snippets/RadioGroup.jsx'),
   },
 ];

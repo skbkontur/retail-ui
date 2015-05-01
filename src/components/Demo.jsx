@@ -6,6 +6,7 @@ var Dropdown = require('ui/Dropdown');
 var Gapped = require('ui/Gapped');
 var Icon = require('ui/Icon');
 var Input = require('ui/Input');
+var RadioGroup = require('ui/RadioGroup');
 
 require('./Demo.less');
 var cx = require('ui/cx')('rt-sc-Demo');
@@ -29,6 +30,8 @@ var Demo = React.createClass({
           <Dropdown items={sampleItems} renderValue={renderDropdownValue}
               renderItem={renderDropdownItem} search
               placeholder="мой плэйсхолдер" />
+
+          <RadioGroup items={sampleItems} />
 
           <Gapped>
             <Button>One</Button>

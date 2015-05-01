@@ -24,6 +24,7 @@ function evalCode(_src, mountNode) {
   var Gapped = require('ui/Gapped');
   var Group = require('ui/Group');
   var Radio = require('ui/Radio');
+  var RadioGroup = require('ui/RadioGroup');
 
   eval(reactTools.transform(_src, {
     harmony: true
