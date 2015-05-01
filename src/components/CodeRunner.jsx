@@ -1,9 +1,15 @@
 var React = require('react');
 var reactTools = require('react-tools');
 
+var __components = require('../components');
+
+var __header = __components.map((component, i) => {
+  return `var ${component.name} = __components[${i}].component;`;
+}).join('\n') + '\n';
+
 function run(src, mountNode) {
   try {
-    evalCode(src, mountNode);
+    evalCode(__header + src, mountNode);
   } catch (ex) {
     let error = ex.toString();
     if ('textContent' in mountNode) {
@@ -15,17 +21,6 @@ function run(src, mountNode) {
 }
 
 function evalCode(_src, mountNode) {
-  var Autocomplete = require('ui/Autocomplete');
-  var Button = require('ui/Button');
-  var Checkbox = require('ui/Checkbox');
-  var Dropdown = require('ui/Dropdown');
-  var Icon = require('ui/Icon');
-  var Input = require('ui/Input');
-  var Gapped = require('ui/Gapped');
-  var Group = require('ui/Group');
-  var Radio = require('ui/Radio');
-  var RadioGroup = require('ui/RadioGroup');
-
   eval(reactTools.transform(_src, {
     harmony: true
   }));
