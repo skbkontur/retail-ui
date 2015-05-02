@@ -24,6 +24,18 @@ module.exports = [
     src: require('!raw!./snippets/Dropdown.jsx'),
   },
   {
+    name: 'Gapped',
+    component: require('ui/Gapped'),
+    info: require('!docgen!ui/Gapped/Gapped.jsx'),
+    src: require('!raw!./snippets/Gapped.jsx'),
+  },
+  {
+    name: 'Group',
+    component: require('ui/Group'),
+    info: require('!docgen!ui/Group/Group.jsx'),
+    src: require('!raw!./snippets/Group.jsx'),
+  },
+  {
     name: 'Icon',
     component: require('ui/Icon'),
     info: require('!docgen!ui/Icon/Icon.jsx'),
@@ -36,16 +48,10 @@ module.exports = [
     src: require('!raw!./snippets/Input.jsx'),
   },
   {
-    name: 'Gapped',
-    component: require('ui/Gapped'),
-    info: require('!docgen!ui/Gapped/Gapped.jsx'),
-    src: require('!raw!./snippets/Gapped.jsx'),
-  },
-  {
-    name: 'Group',
-    component: require('ui/Group'),
-    info: require('!docgen!ui/Group/Group.jsx'),
-    src: require('!raw!./snippets/Group.jsx'),
+    name: 'Link',
+    component: require('ui/Link'),
+    info: require('!docgen!ui/Link/Link.jsx'),
+    src: require('!raw!./snippets/Link.jsx'),
   },
   {
     name: 'Radio',

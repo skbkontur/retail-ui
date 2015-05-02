@@ -6,6 +6,7 @@ var Dropdown = require('ui/Dropdown');
 var Gapped = require('ui/Gapped');
 var Icon = require('ui/Icon');
 var Input = require('ui/Input');
+var Link = require('ui/Link');
 var RadioGroup = require('ui/RadioGroup');
 
 require('./Demo.less');
@@ -32,6 +33,11 @@ var Demo = React.createClass({
               placeholder="мой плэйсхолдер" />
 
           <RadioGroup items={sampleItems} />
+
+          <div>
+            Press <Link>69</Link> if you fapped today exactly 2 times.
+            Disabled <Link disabled>link</Link>.
+          </div>
 
           <Gapped>
             <Button>One</Button>
