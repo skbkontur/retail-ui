@@ -1,0 +1,25 @@
+.RTLink {
+  border-radius: 1px;
+  color: #3072c4;
+  outline: none;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px #5199db;
+  }
+
+  &:active {
+    color: #044785;
+  }
+
+  &&-disabled {
+    box-shadow: none;
+    color: #808080;
+    cursor: default;
+    text-decoration: none;
+  }
+}
