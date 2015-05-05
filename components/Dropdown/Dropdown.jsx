@@ -27,7 +27,6 @@ var Dropdown = React.createClass({
     }
 
     var rootProps = {
-      ref: 'root',
       className: cx({
         '': true,
         'isOpened': this.state.opened,
@@ -137,7 +136,7 @@ var Dropdown = React.createClass({
     } else {
       if (key === 'Escape') {
         this.setState({opened: false}, () => {
-          this.refs.root.getDOMNode().focus();
+          React.findDOMNode(this).focus();
         });
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
         e.preventDefault();
@@ -169,7 +168,7 @@ var Dropdown = React.createClass({
       value: item,
     }, () => {
       setTimeout(() => {
-        this.refs.root.getDOMNode().focus();
+        React.findDOMNode(this).focus();
       }, 0);
     });
     if (this.props.onChange) {
