@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require('webpack');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -14,8 +15,12 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader?loose&optional=runtime',
-        exclude: /node_modules\/react/
+        loader: 'babel-loader?loose&optional=es3.memberExpressionLiterals',
+        include: [
+          path.join(__dirname, 'src'),
+          /retail-ui\/components/,
+          /esprima\.js$/, // Need memberExpressionLiterals for IE8.
+        ],
       },
       {
         test: /\.(css|less)$/,
@@ -36,6 +41,7 @@ module.exports = {
     fallback: path.join(__dirname, 'node_modules')
   },
   plugins: [
-    new ExtractTextPlugin('showcase.css')
+    new ExtractTextPlugin('showcase.css'),
+    new webpack.PrefetchPlugin('react'),
   ]
 };
