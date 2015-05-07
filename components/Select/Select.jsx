@@ -4,10 +4,10 @@ var PropTypes = React.PropTypes;
 
 var Input = require('../Input');
 
-require('./Dropdown.less');
-var cx = require('ui/cx')('RTDropdown');
+require('./Select.less');
+var cx = require('ui/cx')('RTSelect');
 
-var Dropdown = React.createClass({
+var Select = React.createClass({
   getDefaultProps() {
     return {
       placeholder: 'ничего не выбрано',
@@ -215,4 +215,4 @@ function filter(items, pattern) {
   });
 }
 
-module.exports = Dropdown;
+module.exports = Select;
