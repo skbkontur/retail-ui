@@ -2,6 +2,8 @@ var React = require('react');
 
 var PropTypes = React.PropTypes;
 
+var Radio = require('../Radio');
+
 require('./RadioGroup.less');
 var cx = require('ui/cx')('RTRadioGroup');
 
@@ -35,17 +37,11 @@ var RadioGroup = React.createClass({
       }
 
       var checked = this.state.selected === i;
-      var itemClass = cx({
-        'item': true,
-        'checked': checked,
-        'focused': this.state.focused &&
-            (checked || this.state.selected === -1 && i === 0),
-      });
+      var focused = this.state.focused &&
+          (checked || this.state.selected === -1 && i === 0);
       items.push(
-        <span key={item} className={itemClass} onClick={e => this.select_(i)}>
-          <span className={cx('box')}>
-            <div className={cx('inbox')} />
-          </span>
+        <span key={item} className={cx('item')} onClick={e => this.select_(i)}>
+          <Radio checked={checked} focused={focused} />
           <span className={cx('label')}>{item}</span>
         </span>
       );
