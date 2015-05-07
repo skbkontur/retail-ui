@@ -18,12 +18,6 @@ module.exports = [
     src: require('!raw!./snippets/Checkbox.jsx'),
   },
   {
-    name: 'Dropdown',
-    component: require('ui/Dropdown'),
-    info: require('!docgen!ui/Dropdown/Dropdown.jsx'),
-    src: require('!raw!./snippets/Dropdown.jsx'),
-  },
-  {
     name: 'Gapped',
     component: require('ui/Gapped'),
     info: require('!docgen!ui/Gapped/Gapped.jsx'),
@@ -64,5 +58,11 @@ module.exports = [
     component: require('ui/RadioGroup'),
     info: require('!docgen!ui/Radio/Radio.jsx'),
     src: require('!raw!./snippets/RadioGroup.jsx'),
+  },
+  {
+    name: 'Select',
+    component: require('ui/Select'),
+    info: require('!docgen!ui/Select/Select.jsx'),
+    src: require('!raw!./snippets/Select.jsx'),
   },
 ];

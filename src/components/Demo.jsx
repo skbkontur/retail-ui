@@ -2,7 +2,7 @@ var React = require('react');
 
 var Autocomplete = require('ui/Autocomplete');
 var Button = require('ui/Button');
-var Dropdown = require('ui/Dropdown');
+var Select = require('ui/Select');
 var Gapped = require('ui/Gapped');
 var Icon = require('ui/Icon');
 var Input = require('ui/Input');
@@ -25,11 +25,11 @@ var Demo = React.createClass({
                 leftIcon={<Icon name="search" />} />
           </div>
 
-          <Dropdown items={sampleItems} renderValue={renderDropdownValue}
-              renderItem={renderDropdownItem} />
+          <Select items={sampleItems} renderValue={renderSelectValue}
+              renderItem={renderSelectItem} />
 
-          <Dropdown items={sampleItems} renderValue={renderDropdownValue}
-              renderItem={renderDropdownItem} search
+          <Select items={sampleItems} renderValue={renderSelectValue}
+              renderItem={renderSelectItem} search
               placeholder="мой плэйсхолдер" />
 
           <RadioGroup items={sampleItems} />
@@ -50,7 +50,7 @@ var Demo = React.createClass({
   },
 });
 
-function renderDropdownValue(item) {
+function renderSelectValue(item) {
   return (
     <div>
       <div style={{color: '#888', float: 'right'}}>420</div>
@@ -59,7 +59,7 @@ function renderDropdownValue(item) {
   );
 }
 
-function renderDropdownItem(item) {
+function renderSelectItem(item) {
   return (
     <div key={item}>
       <div style={{color: '#888', float: 'right'}}>yo</div>
