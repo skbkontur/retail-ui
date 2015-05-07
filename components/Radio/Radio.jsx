@@ -1,58 +1,38 @@
 var React = require('react');
 
+var PropTypes = React.PropTypes;
+
 require('./Radio.less');
 var cx = require('../cx')('RTRadio');
 
+/**
+ * Индикатор для радио-кнопок. Используется в RadioGroup. Может быть
+ * использована для кастомных радио-кнопок.
+ */
 var Radio = React.createClass({
   propTypes: {
-    value: React.PropTypes.bool,
+    checked: PropTypes.bool,
 
-    /**
-     * Вызывается, только если `checked` равно `true`.
-     */
-    onChange: React.PropTypes.func,
+    focused: PropTypes.bool,
   },
 
   render() {
     var rootClass = cx({
       '': true,
-      'isChecked': this.props.checked,
-      'isFocused': this.state.focused,
+      'checked': this.props.checked,
+      'focused': this.props.focused,
     });
 
     return (
-      <label className={rootClass}>
-        <input type="checkbox" className={cx('input')}
-            onChange={this.handleChange} onFocus={this.handleFocus}
-            onBlur={this.handleBlur} />
-        <span className={cx('box')}><div className={cx('inbox')}/></span>
-        <span className={cx('label')}>{this.props.children}</span>
-      </label>
+      <span className={rootClass}><div className={cx('inbox')}/></span>
     );
   },
 
   getDefaultProps() {
-    return {};
-  },
-
-  getInitialState() {
     return {
+      checked: false,
       focused: false,
     };
-  },
-
-  handleChange(event) {
-    if (this.props.onChange && !this.props.checked) {
-      this.props.onChange({target: {checked: true}});
-    }
-  },
-
-  handleFocus() {
-    this.setState({focused: true});
-  },
-
-  handleBlur() {
-    this.setState({focused: false});
   },
 });
 
