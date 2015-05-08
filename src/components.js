@@ -12,6 +12,12 @@ module.exports = [
     src: require('!raw!./snippets/Button.jsx'),
   },
   {
+    name: 'Center',
+    component: require('ui/Center'),
+    info: require('!docgen!ui/Center/Center.jsx'),
+    src: require('!raw!./snippets/Center.jsx'),
+  },
+  {
     name: 'Checkbox',
     component: require('ui/Checkbox'),
     info: require('!docgen!ui/Checkbox/Checkbox.jsx'),
