@@ -32,6 +32,7 @@ var Component = React.createClass({
     var editor = CodeMirror(this.refs.code.getDOMNode(), {
       value: this.state.src.replace(/\n$/, ''),
       theme: 'solarized light',
+      smartIndent: false, // Doesn't work for jsx.
       lineWrapping: true,
       viewportMargin: Infinity,
     });
