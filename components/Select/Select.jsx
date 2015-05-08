@@ -8,6 +8,31 @@ require('./Select.less');
 var cx = require('ui/cx')('RTSelect');
 
 var Select = React.createClass({
+  propTypes: {
+    items: PropTypes.array,
+
+    value: PropTypes.any,
+
+    /**
+     * Показывать строку поиска в списке.
+     */
+    search: PropTypes.bool,
+
+    placeholder: PropTypes.node,
+
+    /**
+     * Функция для отрисовки выбранного элемента. Единственный аргумент —
+     * *item*.
+     */
+    renderValue: PropTypes.func,
+
+    /**
+     * Функция для отрисовки элемента в выпадающем списке. Единственный
+     * аргумент — *item*.
+     */
+    renderItem: PropTypes.func,
+  },
+
   getDefaultProps() {
     return {
       placeholder: 'ничего не выбрано',
