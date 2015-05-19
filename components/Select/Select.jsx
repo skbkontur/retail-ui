@@ -60,14 +60,24 @@ var Select = React.createClass({
       onKeyDown: this.handleKey,
       onBlur: this.handleBlur,
     };
-    var labelClass = cx({
-      'label': true,
-      'label-isOpened': this.state.opened,
-    });
+
+    var labelProps = {
+      className: cx({
+        'label': true,
+        'label-isOpened': this.state.opened,
+      }),
+      onClick: this.open_,
+    };
+    if (this.props.width) {
+      labelProps.style = {
+        width: this.props.width,
+      };
+    }
+
     return (
       <span {...rootProps}>
-        <span className={labelClass} onClick={this.open_}>
-          {label}
+        <span {...labelProps}>
+          <span className={cx('labelText')}>{label}</span>
           <div className={cx('arrow')} />
         </span>
         {this.state.opened && this.renderMenu()}
