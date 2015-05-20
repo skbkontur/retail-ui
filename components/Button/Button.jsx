@@ -21,7 +21,10 @@ var Button = React.createClass({
 
   render() {
     var rootProps = {
-      type: 'button', // On IE8 it's 'submit' by default.
+      // Be default the type attribute is 'submit'. IE8 will fire a click event
+      // on this button if somewhere on the page user presses Enter while some
+      // input is focused. So we set type to 'button' by default.
+      type: 'button',
       className: cx({
         '': true,
         ['use-' + this.props.use]: true,
