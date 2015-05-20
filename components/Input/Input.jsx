@@ -5,8 +5,16 @@ var PropTypes = React.PropTypes;
 require('./Input.less');
 var cx = require('../cx')('RTInput');
 
+var polyfillPlaceholder = false;
+if (typeof window !== 'undefined' && window.document
+    && window.document.createElement) {
+  polyfillPlaceholder = !('placeholder' in document.createElement('input'));
+}
+
 var Input = React.createClass({
   propTypes: {
+    placeholder: PropTypes.string,
+
     /**
      * Иконка слева инпута.
      */
@@ -32,6 +40,14 @@ var Input = React.createClass({
       labelProps.style.width = this.props.width;
     }
 
+    var placeholder = null;
+    if (this.state.polyfillPlaceholder && this.props.placeholder
+        && !this.state.value) {
+      placeholder = (
+        <div className={cx('placeholder')}>{this.props.placeholder}</div>
+      );
+    }
+
     var leftIcon = null;
     if (this.props.leftIcon) {
       leftIcon = <div className={cx('leftIcon')}>{this.props.leftIcon}</div>;
@@ -45,7 +61,9 @@ var Input = React.createClass({
 
     return (
       <label {...labelProps}>
-        <input className={cx('input')} {...this.props} />
+        <input className={cx('input')} {...this.props} value={this.state.value}
+            onChange={e => this.handleChange(e)} />
+        {placeholder}
         {leftIcon}
         {rightIcon}
       </label>
@@ -54,7 +72,35 @@ var Input = React.createClass({
 
   getDefaultProps() {
     return {};
-  }
+  },
+
+  getInitialState() {
+    return {
+      value: this.props.value !== undefined ? this.props.value : '',
+    };
+  },
+
+  componentDidMount() {
+    if (polyfillPlaceholder) {
+      this.setState({polyfillPlaceholder: true});
+    }
+  },
+
+  componentWillReceiveProps(props) {
+    if (props.value !== undefined) {
+      this.setState({value: props.value});
+    }
+  },
+
+  handleChange(event) {
+    if (this.props.value === undefined) {
+      this.setState({value: event.target.value});
+    }
+
+    if (this.props.onChange) {
+      this.props.onChange(event);
+    }
+  },
 });
 
 module.exports = Input;

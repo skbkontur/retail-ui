@@ -3,6 +3,9 @@
   position: relative;
   width: 250px;
 
+  @side-padding: 8px;
+  @side-padding-padded: 25px;
+
   &-input {
     border: 1px solid #d9d9d9;
     border-top-color: #b2b2b2;
@@ -12,7 +15,7 @@
     height: 30px;
     line-height: 28px;
     outline: none;
-    padding: 0 8px;
+    padding: 0 @side-padding;
     width: 100%;
   }
 
@@ -32,11 +35,28 @@
   }
 
   &-padLeft &-input {
-    padding-left: 25px;
+    padding-left: @side-padding-padded;
   }
 
   &-padRight &-input {
-    padding-right: 25px;
+    padding-right: @side-padding-padded;
+  }
+
+  &-placeholder {
+    color: #aaa;
+    left: @side-padding + 1;
+    line-height: 28px;
+    overflow: hidden;
+    position: absolute;
+    right: @side-padding + 1;
+    top: 1px;
+    white-space: nowrap;
+  }
+  &-padLeft &-placeholder {
+    left: @side-padding-padded + 1;
+  }
+  &-padRight &-placeholder {
+    right: @side-padding-padded + 1;
   }
 
   &-leftIcon,
