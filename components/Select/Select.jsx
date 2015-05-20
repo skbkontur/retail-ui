@@ -187,6 +187,7 @@ var Select = React.createClass({
         this.setState({current});
       } else if (e.key === 'Enter') {
         if (this.props.items[this.state.current]) {
+          e.preventDefault(); // To prevent form submission.
           this.select_(this.props.items[this.state.current]);
         }
       }
