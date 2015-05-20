@@ -5,6 +5,7 @@ var PropTypes = React.PropTypes;
 var Input = require('../Input');
 
 require('./Select.less');
+require('./Select.css');
 var cx = require('ui/cx')('RTSelect');
 
 var Select = React.createClass({
