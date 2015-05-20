@@ -21,6 +21,7 @@ var Button = React.createClass({
 
   render() {
     var rootProps = {
+      type: 'button', // On IE8 it's 'submit' by default.
       className: cx({
         '': true,
         ['use-' + this.props.use]: true,
