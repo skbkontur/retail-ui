@@ -142,6 +142,7 @@ var Autocomplete = React.createClass({
         this.setState({items: null});
       }
     } else if (event.key === 'Escape' && items && items.length) {
+      event.preventDefault(); // Escape clears the input on IE.
       stop = true;
 
       this.setState({items: null});
