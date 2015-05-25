@@ -54,6 +54,12 @@ module.exports = [
     src: require('!raw!./snippets/Link.jsx'),
   },
   {
+    name: 'Modal',
+    component: require('ui/Modal'),
+    info: require('!docgen!ui/Modal/Modal.jsx'),
+    src: require('!raw!./snippets/Modal.jsx'),
+  },
+  {
     name: 'Radio',
     component: require('ui/Radio'),
     info: require('!docgen!ui/Radio/Radio.jsx'),
