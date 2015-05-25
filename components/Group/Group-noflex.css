@@ -1,10 +1,11 @@
 @media screen\0 {
   .RTGroup {
-    display: 'table';
+    display: table;
   }
 
   .RTGroup-wrap {
-    display: 'table-cell';
+    display: table-cell;
+    vertical-align: top;
   }
 
   .RTGroup-stretch {
