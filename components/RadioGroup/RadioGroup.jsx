@@ -16,6 +16,7 @@ var RadioGroup = React.createClass({
 
   render() {
     var inputProps = {
+      type: 'checkbox',
       className: cx('input'),
       onKeyDown: this.handleKey,
       onFocus: this.handleFocus,
