@@ -3,6 +3,8 @@ var reactTools = require('react-tools');
 
 var __components = require('../components');
 
+require('./CodeRunner.less');
+
 var __header = __components.map((component, i) => {
   return `var ${component.name} = __components[${i}].component;`;
 }).join('\n') + '\n';
@@ -28,7 +30,8 @@ function evalCode(_src, mountNode) {
 
 var CodeRunner = React.createClass({
   render() {
-    return <div />;
+    var className = require('ui/cx')('rt-sc-CodeRunner')('');
+    return <div className={className} />;
   },
 
   componentDidMount() {
