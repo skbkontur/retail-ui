@@ -91,5 +91,5 @@ $ npm start
 Сборка приложения:
 
 ```
-$npm run build
+$ npm run build
 ```
