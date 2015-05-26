@@ -12,6 +12,17 @@ var cx = require('../cx')('RTModal');
 var Modal = React.createClass({
   propTypes: {
     opened: PropTypes.bool,
+
+    /**
+     * Не показывать крестик для закрытия окна.
+     */
+    noClose: PropTypes.bool,
+
+    /**
+     * Вызывается, когда пользователь запросил закрытие окна (нажал на фон, на
+     * Escape или на крестик).
+     */
+    onClose: PropTypes.func,
   },
 
   render() {
@@ -30,14 +41,21 @@ var Modal = React.createClass({
 
 var OpenedModal = React.createClass({
   render() {
+    var close = null;
+    if (!this.props.noClose) {
+      close = (
+        <a href="javascript:" className={cx('close')}
+            onClick={this.handleClose}>
+          &times;
+        </a>
+      );
+    }
+
     return (
       <Center className={cx('')}>
         <div className={cx('bg')} onClick={this.handleClose} />
         <div className={cx('window')}>
-          <a href="javascript:" className={cx('close')}
-              onClick={this.handleClose}>
-            &times;
-          </a>
+          {close}
           {this.props.render()}
         </div>
       </Center>
