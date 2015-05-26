@@ -18,7 +18,7 @@ var Comp = React.createClass({
       <div>
         <Modal.Header>Title</Modal.Header>
         <Modal.Body>
-          A lotta people ask me where the fuck I've been it last few years.
+          A lotta people ask me where the fuck I've been at the last few years.
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.close}>Close</Button>
