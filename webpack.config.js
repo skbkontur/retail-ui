@@ -27,7 +27,8 @@ module.exports = {
         loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
       },
       {test: /\.less$/, loader: 'less-loader'},
-      {test: /\.(woff|eot)$/, loader: "file-loader"}
+      {test: /\.(woff|eot)$/, loader: "file-loader"},
+      {test: /\.md$/, loader: 'marked-loader'},
     ]
   },
   resolve: {
