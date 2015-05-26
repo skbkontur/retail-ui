@@ -70,3 +70,26 @@ module.exports = {
   devtool: devtool,
 };
 ```
+
+package.json:
+
+```
+{
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "NODE_ENV=production webpack"
+  }
+}
+```
+
+Запуск dev-сервера:
+
+```
+$ npm start
+```
+
+Сборка приложения:
+
+```
+$npm run build
+```
