@@ -12,6 +12,9 @@ var ShowcaseApp = React.createClass({
           <div className={cx('head-in')}>
             <div className={cx('title')}>UI LIB</div>
             <div className={cx('links')}>
+              <Router.Link to="gettingStarted" className={cx('link')}>
+                Getting Started
+              </Router.Link>
               <Router.Link to="components" className={cx('link')}>
                 Components
               </Router.Link>
