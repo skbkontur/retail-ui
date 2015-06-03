@@ -9,6 +9,11 @@ var Gapped = React.createClass({
      * Расстояние между элементами.
      */
     gap: React.PropTypes.number,
+
+    /**
+     * Располагать элементы вертикально.
+     */
+    vertical: React.PropTypes.bool,
   },
 
   getDefaultProps() {
