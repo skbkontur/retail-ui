@@ -1,5 +1,7 @@
 var React = require('react');
 
+var filterProps = require('../filterProps');
+
 var PropTypes = React.PropTypes;
 
 require('./Input.less');
@@ -10,6 +12,10 @@ if (typeof window !== 'undefined' && window.document
     && window.document.createElement) {
   polyfillPlaceholder = !('placeholder' in document.createElement('input'));
 }
+
+const INPUT_PASS_PROPS = {
+  placeholder: true,
+};
 
 var Input = React.createClass({
   propTypes: {
@@ -24,6 +30,11 @@ var Input = React.createClass({
      * Иконка справа инпута.
      */
     rightIcon: PropTypes.element,
+
+    /**
+     * Вызывается при вводе каждого символа.
+     */
+    onChange: PropTypes.func,
   },
 
   render() {
@@ -59,9 +70,11 @@ var Input = React.createClass({
       );
     }
 
+    const inputProps = filterProps(this.props, INPUT_PASS_PROPS);
+
     return (
       <label {...labelProps}>
-        <input className={cx('input')} {...this.props} value={this.state.value}
+        <input className={cx('input')} {...inputProps} value={this.state.value}
             onChange={e => this.handleChange(e)} />
         {placeholder}
         {leftIcon}
