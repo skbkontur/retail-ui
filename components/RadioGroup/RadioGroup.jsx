@@ -8,6 +8,12 @@ require('./RadioGroup.less');
 var cx = require('ui/cx')('RTRadioGroup');
 
 var RadioGroup = React.createClass({
+  propTypes: {
+    items: PropTypes.arrayOf(PropTypes.string).isRequired,
+
+    onChange: PropTypes.func,
+  },
+
   getInitialState() {
     return {
       selected: -1,
