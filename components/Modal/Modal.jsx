@@ -11,6 +11,24 @@ var cx = require('../cx')('RTModal');
 
 var Modal = React.createClass({
   propTypes: {
+    /**
+     * Функция, которая возвращает содержимое окна.
+     *
+     * Для оформления можно использовать специальные компоненты:
+     * ```
+     * function render() {
+     *   return (
+     *     <div>
+     *       <Modal.Header>Title</Modal.Header>
+     *       <Modal.Body>Content</Modal.Body>
+     *       <Modal.Footer>Buttons</Modal.Footer>
+     *     </div>
+     *   );
+     * }
+     * ```
+     */
+    render: PropTypes.func.isRequired,
+
     opened: PropTypes.bool,
 
     /**
