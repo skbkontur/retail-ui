@@ -15,6 +15,10 @@ if (typeof window !== 'undefined' && window.document
 
 const INPUT_PASS_PROPS = {
   placeholder: true,
+
+  onChange: true,
+  onBlur: true,
+  onKeyDown: true,
 };
 
 var Input = React.createClass({
@@ -35,6 +39,10 @@ var Input = React.createClass({
      * Вызывается при вводе каждого символа.
      */
     onChange: PropTypes.func,
+
+    onBlur: PropTypes.func,
+
+    onKeyDown: true,
   },
 
   render() {
