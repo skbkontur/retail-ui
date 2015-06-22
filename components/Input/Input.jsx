@@ -42,7 +42,7 @@ var Input = React.createClass({
 
     onBlur: PropTypes.func,
 
-    onKeyDown: true,
+    onKeyDown: PropTypes.func,
   },
 
   render() {
