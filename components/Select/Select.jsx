@@ -91,7 +91,8 @@ var Select = React.createClass({
     if (this.props.search) {
       search = (
         <div className={cx('search')}>
-          <Input autoFocus onChange={this.handleSearch} onBlur={this.close_} />
+          <Input ref={c => c && React.findDOMNode(c).focus()}
+              onChange={this.handleSearch} onBlur={this.close_} />
         </div>
       );
     }
