@@ -19,7 +19,7 @@ var Checkbox = React.createClass({
   render() {
     var rootClass = cx({
       '': true,
-      'isChecked': this.props.checked,
+      'isChecked': this.state.checked,
       'isActive': this.state.active,
       'isFocused': this.state.focused,
       'isDisabled': this.props.disabled,
@@ -41,9 +41,16 @@ var Checkbox = React.createClass({
 
   getInitialState() {
     return {
+      checked: this.props.checked !== undefined ? this.props.checked : false,
       active: false,
       focused: false
     };
+  },
+
+  componentWillReceiveProps(props) {
+    if (props.checked !== undefined) {
+      this.setState({checked: props.checked});
+    }
   },
 
   handleActivate(event) {
@@ -63,6 +70,10 @@ var Checkbox = React.createClass({
   },
 
   handleChange(event) {
+    if (this.props.checked === undefined) {
+      this.setState({checked: event.target.checked});
+    }
+
     this.props.onChange && this.props.onChange(event);
   },
 
