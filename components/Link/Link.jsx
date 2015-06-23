@@ -7,14 +7,14 @@ var cx = require('ui/cx')('RTLink');
 
 /**
  * Стандартная ссылка.
+ *
+ * Все свойства передаются в элемент *<a>*.
  */
 var Link = React.createClass({
   propTypes: {
     href: PropTypes.string,
 
     disabled: PropTypes.bool,
-
-    onClick: PropTypes.func,
   },
 
   getDefaultProps() {

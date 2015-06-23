@@ -3,11 +3,19 @@ var React = require('react');
 
 var Icon = require('../Icon');
 
+var PropTypes = React.PropTypes;
+
 require('./Checkbox.less');
 require('./Checkbox.css');
 var cx = require('../cx')('RTCheckbox');
 
 var Checkbox = React.createClass({
+  propTypes: {
+    checked: PropTypes.bool,
+
+    disabled: PropTypes.bool,
+  },
+
   render() {
     var rootClass = cx({
       '': true,

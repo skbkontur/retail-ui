@@ -1,10 +1,20 @@
 var React = require('react');
 
+var PropTypes = React.PropTypes;
+
 require('./Group.less');
 require('./Group-noflex.css');
 var cx = require('../cx')('RTGroup');
 
+/**
+ * Главный *Input*, который должен занимать всю доступную ширину, должен быть
+ * помечен свойством *mainInGroup*.
+ */
 var Group = React.createClass({
+  propTypes: {
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  },
+
   render() {
     var style = {};
     if (this.props.width) {

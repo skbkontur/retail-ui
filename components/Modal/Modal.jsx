@@ -9,6 +9,9 @@ var PropTypes = React.PropTypes;
 require('./Modal.less');
 var cx = require('../cx')('RTModal');
 
+/**
+ * Модальное окно.
+ */
 var Modal = React.createClass({
   propTypes: {
     /**
@@ -29,6 +32,9 @@ var Modal = React.createClass({
      */
     render: PropTypes.func.isRequired,
 
+    /**
+     * Если `true`, то окно показывается.
+     */
     opened: PropTypes.bool,
 
     /**

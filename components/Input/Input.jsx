@@ -14,6 +14,7 @@ if (typeof window !== 'undefined' && window.document
 }
 
 const INPUT_PASS_PROPS = {
+  disabled: true,
   placeholder: true,
 
   onChange: true,
@@ -23,7 +24,13 @@ const INPUT_PASS_PROPS = {
 
 var Input = React.createClass({
   propTypes: {
+    disabled: PropTypes.bool,
+
     placeholder: PropTypes.string,
+
+    value: PropTypes.any,
+
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
      * Иконка слева инпута.

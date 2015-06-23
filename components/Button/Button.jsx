@@ -1,22 +1,26 @@
 var React = require('react');
 
+var PropTypes = React.PropTypes;
+
 require('./Button.less');
 require('./Button.css');
 var cx = require('../cx')('RTButton');
 
 var Button = React.createClass({
   propTypes: {
-    disabled: React.PropTypes.bool,
+    disabled: PropTypes.bool,
 
-    use: React.PropTypes.oneOf([
+    use: PropTypes.oneOf([
       'default',
       'primary',
     ]),
 
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
     /**
      * Click handler.
      */
-    onClick: React.PropTypes.func,
+    onClick: PropTypes.func,
   },
 
   render() {
