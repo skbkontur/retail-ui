@@ -10,6 +10,9 @@ var cx = require('ui/cx')('RTSelect');
 
 var Select = React.createClass({
   propTypes: {
+    /**
+     * Массив значений. Для вставки разделителя можно использовать `Select.SEP`.
+     */
     items: PropTypes.array,
 
     value: PropTypes.any,
@@ -32,11 +35,20 @@ var Select = React.createClass({
      * аргумент — *item*.
      */
     renderItem: PropTypes.func,
+
+    /**
+     * Функция, которая возвращает `true` для элемента, если этот элемент может
+     * быть выделен с клавиатуры. Аргумент: *item*.
+     */
+    isSelectable: PropTypes.func,
   },
 
   getDefaultProps() {
     return {
       placeholder: 'ничего не выбрано',
+      renderValue,
+      renderItem,
+      isSelectable,
     };
   },
 
@@ -45,7 +57,7 @@ var Select = React.createClass({
 
     var label;
     if (value) {
-      label = (this.props.renderValue || renderValue)(value);
+      label = this.props.renderValue(value);
     } else {
       label = (
         <span className={cx('placeholder')}>{this.props.placeholder}</span>
@@ -112,9 +124,7 @@ var Select = React.createClass({
             <div className={cx('menu')}>
               {search}
               {items.map((item, i) => {
-                var itemEl = (this.props.renderItem || renderItem)(item);
-                var holderProps = {
-                  key: itemEl.key,
+                let props = {
                   className: cx({
                     'menu-item': true,
                     'menu-item-selected': item === value,
@@ -124,7 +134,13 @@ var Select = React.createClass({
                   onMouseEnter: e => this.setState({current: i}),
                   onMouseLeave: e => this.setState({current: -1}),
                 };
-                return <div {...holderProps}>{itemEl}</div>;
+                let el = null;
+                if (item === Select.SEP) {
+                  el = <div key={`hr:${i}`} className={cx('menu-sep')} />;
+                } else {
+                  el = this.props.renderItem(item, i, props);
+                }
+                return el;
               })}
             </div>
           </div>
@@ -178,13 +194,8 @@ var Select = React.createClass({
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
         e.preventDefault();
 
-        let dif = e.key === 'ArrowUp' ? -1 : 1;
-        let current = this.state.current + dif;
-        if (current < 0) {
-          current = this.props.items.length - 1;
-        } else if (current >= this.props.items.length) {
-          current = 0;
-        }
+        let step = e.key === 'ArrowUp' ? -1 : 1;
+        let current = this.nextSelectable_(step);
         this.setState({current});
       } else if (e.key === 'Enter') {
         if (this.props.items[this.state.current]) {
@@ -220,7 +231,25 @@ var Select = React.createClass({
     }
     return this.state.value;
   },
+
+  nextSelectable_(step) {
+    let current = this.state.current;
+    do {
+      current += step;
+      if (current < 0) {
+        current = this.props.items.length - 1;
+      } else if (current >= this.props.items.length) {
+        current = 0;
+      }
+      let item = this.props.items[current];
+      if (item !== Select.SEP && this.props.isSelectable(item)) {
+        return current;
+      }
+    } while (this.state.current !== current);
+  },
 });
+
+Select.SEP = {};
 
 function renderValue(item) {
   if (typeof item === 'string') {
@@ -230,12 +259,16 @@ function renderValue(item) {
   }
 }
 
-function renderItem(item) {
+function renderItem(item, i, props) {
   if (typeof item === 'string') {
-    return <div key={item}>{item}</div>;
+    return <div key={`it:${i}`} {...props}>{item}</div>;
   } else {
-    return <div key={item.id}>{item.name}</div>;
+    return <div key={`it:${item.id}`} {...props}>{item.name}</div>;
   }
+}
+
+function isSelectable(item) {
+  return true;
 }
 
 function filter(items, pattern) {
