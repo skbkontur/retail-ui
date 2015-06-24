@@ -26,6 +26,8 @@ var Select = React.createClass({
 
     placeholder: PropTypes.node,
 
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
     /**
      * Функция для отрисовки выбранного элемента. Единственный аргумент —
      * *item*.
