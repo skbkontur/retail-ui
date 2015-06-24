@@ -17,6 +17,8 @@ var Select = React.createClass({
 
     value: PropTypes.any,
 
+    defaultValue: PropTypes.any,
+
     /**
      * Показывать строку поиска в списке.
      */
@@ -49,6 +51,14 @@ var Select = React.createClass({
       renderValue,
       renderItem,
       isSelectable,
+    };
+  },
+
+  getInitialState() {
+    return {
+      opened: false,
+      current: -1,
+      value: this.props.defaultValue,
     };
   },
 
@@ -148,13 +158,6 @@ var Select = React.createClass({
         <div className={cx('botBorder')} />
       </div>
     );
-  },
-
-  getInitialState() {
-    return {
-      opened: false,
-      current: -1,
-    };
   },
 
   open_() {
