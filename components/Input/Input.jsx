@@ -30,6 +30,8 @@ var Input = React.createClass({
 
     value: PropTypes.any,
 
+    defaultValue: PropTypes.any,
+
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
@@ -104,7 +106,8 @@ var Input = React.createClass({
 
   getInitialState() {
     return {
-      value: this.props.value !== undefined ? this.props.value : '',
+      value: this.props.value !== undefined ? this.props.value
+          : this.props.defaultValue,
     };
   },
 
