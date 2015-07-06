@@ -27,6 +27,7 @@ var Gapped = React.createClass({
       display: this.props.vertical ? 'block' : 'inline-block',
       marginRight: this.props.gap,
       marginTop: this.props.gap,
+      verticalAlign: 'top',
     };
     var children = React.Children.map(this.props.children, child => {
       if (!child) {
