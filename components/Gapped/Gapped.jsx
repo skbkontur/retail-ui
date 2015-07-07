@@ -25,7 +25,7 @@ var Gapped = React.createClass({
   render() {
     var itemStyle = {
       display: this.props.vertical ? 'block' : 'inline-block',
-      marginRight: this.props.gap,
+      marginLeft: this.props.gap,
       marginTop: this.props.gap,
       verticalAlign: 'top',
     };
@@ -35,7 +35,11 @@ var Gapped = React.createClass({
       }
       return <span style={itemStyle}>{child}</span>;
     });
-    return <div style={{marginTop: -this.props.gap}}>{children}</div>;
+    const style = {
+      marginTop: -this.props.gap,
+      marginLeft: -this.props.gap,
+    };
+    return <div style={style}>{children}</div>;
   },
 });
 
