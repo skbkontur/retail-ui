@@ -17,7 +17,6 @@ const INPUT_PASS_PROPS = {
   disabled: true,
   placeholder: true,
 
-  onChange: true,
   onBlur: true,
   onKeyDown: true,
 };
@@ -31,6 +30,8 @@ var Input = React.createClass({
     value: PropTypes.any,
 
     defaultValue: PropTypes.any,
+
+    align: PropTypes.oneOf(['left', 'center', 'right']),
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
@@ -88,6 +89,11 @@ var Input = React.createClass({
     }
 
     const inputProps = filterProps(this.props, INPUT_PASS_PROPS);
+    inputProps.style = {};
+
+    if (this.props.align) {
+      inputProps.style.textAlign = this.props.align;
+    }
 
     return (
       <label {...labelProps}>
