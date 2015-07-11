@@ -15,6 +15,8 @@ var Button = React.createClass({
       'primary',
     ]),
 
+    narrow: PropTypes.bool,
+
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
@@ -32,7 +34,8 @@ var Button = React.createClass({
       className: cx({
         '': true,
         ['use-' + this.props.use]: true,
-        'disabled': this.props.disabled
+        'disabled': this.props.disabled,
+        'narrow': this.props.narrow,
       }),
       style: {},
       disabled: this.props.disabled,
