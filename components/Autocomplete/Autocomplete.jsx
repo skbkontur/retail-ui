@@ -32,10 +32,13 @@ var Autocomplete = React.createClass({
     ]),
   },
 
+  opened_: false,
+
   getInitialState() {
     return {
       selected: -1,
-      value: '',
+      value: this.props.value !== undefined ? this.props.value
+          : this.props.defaultValue,
     };
   },
 
@@ -76,40 +79,28 @@ var Autocomplete = React.createClass({
     );
   },
 
-  handleChange(event) {
-    var pattern = event.target.value;
-
-    if (!pattern.trim()) {
-      this.setState({
-        value: pattern,
-        items: null,
-      });
-    } else {
-      this.setState({
-        value: pattern,
-      });
-
-      var source = this.props.source;
-      var promise;
-      if (typeof source === 'function') {
-        promise = source(pattern);
-      } else {
-        promise = match(pattern, source);
-      }
-      promise.then(items => {
-        if (this.state.value === pattern) {
-          this.setState({
-            items,
-            selected: -1,
-          });
-        }
-      });
+  componentWillReceiveProps(props) {
+    if (props.value !== undefined) {
+      this.setState({value: props.value});
+      this.updateItems(props.value);
     }
+  },
 
-    this.fireChange_(event.target.value);
+  handleChange(event) {
+    this.opened_ = true;
+
+    let value = event.target.value;
+
+    if (this.props.value === undefined) {
+      this.setState({value});
+    }
+    this.updateItems(value);
+
+    this.fireChange_(value);
   },
 
   handleBlur(event) {
+    this.opened_ = false;
     this.setState({items: null});
 
     if (this.props.onBlur) {
@@ -139,12 +130,14 @@ var Autocomplete = React.createClass({
 
         this.choose_(this.state.selected);
       } else {
+        this.opened_ = false;
         this.setState({items: null});
       }
     } else if (event.key === 'Escape' && items && items.length) {
       event.preventDefault(); // Escape clears the input on IE.
       stop = true;
 
+      this.opened_ = false;
       this.setState({items: null});
     }
 
@@ -160,13 +153,37 @@ var Autocomplete = React.createClass({
   choose_(index) {
     var value = this.state.items[index];
 
+    this.opened_ = false;
     this.setState({
       selected: -1,
-      value,
       items: null,
     });
+    if (this.props.value === undefined) {
+      this.setState({value});
+    }
 
     this.fireChange_(value);
+  },
+
+  updateItems(value) {
+    if (!this.opened_) return;
+
+    let pattern = value.trim();
+    let source = this.props.source;
+    let promise;
+    if (typeof source === 'function') {
+      promise = source(pattern);
+    } else {
+      promise = match(pattern, source);
+    }
+    promise.then(items => {
+      if (this.state.value === value && this.opened_) {
+        this.setState({
+          items,
+          selected: -1,
+        });
+      }
+    });
   },
 
   fireChange_(value) {
@@ -199,11 +216,11 @@ var Item = React.createClass({
 });
 
 function match(pattern, items) {
-  if (!items) {
+  if (!pattern || !items) {
     return Promise.resolve(null);
   }
 
-  var pattern = pattern.toLowerCase();
+  pattern = pattern.toLowerCase();
   return new Promise((resolve, reject) => {
     resolve(items.filter(item => item.toLowerCase().indexOf(pattern) !== -1));
   });
