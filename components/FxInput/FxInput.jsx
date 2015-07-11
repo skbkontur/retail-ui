@@ -27,14 +27,16 @@ var FxInput = React.createClass({
       inputProps.leftIcon = <Icon name="fx" />;
     } else {
       button = (
-        <Button onClick={this.props.onRestore}><Icon name="undo" /></Button>
+        <Button narrow onClick={this.props.onRestore}>
+          <Icon name="undo" />
+        </Button>
       );
     }
 
     return (
       <Group width={width}>
         {button}
-        <Input mainInGroup {...this.props} {...inputProps} />
+        <Input mainInGroup align="right" {...this.props} {...inputProps} />
       </Group>
     );
   },
