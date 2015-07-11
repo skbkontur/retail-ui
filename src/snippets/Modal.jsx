@@ -6,8 +6,7 @@ var Comp = React.createClass({
   render() {
     return (
       <div>
-        <Modal render={this.renderModal} opened={this.state.opened}
-            onClose={this.close} />
+        {this.state.opened && this.renderModal()}
         <Button onClick={this.open}>Open</Button>
       </div>
     );
@@ -15,7 +14,7 @@ var Comp = React.createClass({
 
   renderModal() {
     return (
-      <div>
+      <Modal render={this.renderModal} onClose={this.close}>
         <Modal.Header>Title</Modal.Header>
         <Modal.Body>
           A lotta people ask me where the fuck I've been at the last few years.
@@ -23,7 +22,7 @@ var Comp = React.createClass({
         <Modal.Footer>
           <Button onClick={this.close}>Close</Button>
         </Modal.Footer>
-      </div>
+      </Modal>
     );
   },
 
