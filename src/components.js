@@ -24,6 +24,12 @@ module.exports = [
     src: require('!raw!./snippets/Checkbox.jsx'),
   },
   {
+    name: 'FxInput',
+    component: require('ui/FxInput'),
+    info: require('!docgen!ui/FxInput/FxInput.jsx'),
+    src: require('!raw!./snippets/FxInput.jsx'),
+  },
+  {
     name: 'Gapped',
     component: require('ui/Gapped'),
     info: require('!docgen!ui/Gapped/Gapped.jsx'),
