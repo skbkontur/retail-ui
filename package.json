@@ -7,26 +7,26 @@
     "deploy": "rsync -r index.html dist tc@ownercat:/var/www/ui"
   },
   "devDependencies": {
-    "babel-core": "^5.2.15",
-    "babel-loader": "^5.0.0",
-    "css-loader": "^0.12.0",
-    "extract-text-webpack-plugin": "^0.7.1",
-    "file-loader": "^0.8.1",
-    "less": "^2.5.0",
+    "babel-core": "^5.6.17",
+    "babel-loader": "^5.3.1",
+    "css-loader": "^0.15.2",
+    "extract-text-webpack-plugin": "^0.8.2",
+    "file-loader": "^0.8.4",
+    "less": "^2.5.1",
     "less-loader": "^2.2.0",
     "marked": "^0.3.3",
     "raw-loader": "^0.5.1",
-    "style-loader": "^0.12.1",
-    "webpack": "^1.8.11"
+    "style-loader": "^0.12.3",
+    "webpack": "^1.10.1"
   },
   "dependencies": {
-    "babel": "^5.2.15",
-    "babel-runtime": "^5.2.15",
-    "object-assign": "^2.0.0",
-    "react": "^0.13.2",
-    "react-docgen": "^1.2.0",
+    "babel": "^5.6.14",
+    "babel-runtime": "^5.6.17",
+    "object-assign": "^3.0.0",
+    "react": "^0.13.3",
+    "react-docgen": "^1.3.0",
     "react-router": "^0.13.3",
-    "react-tools": "^0.13.2",
+    "react-tools": "^0.13.3",
     "retail-ui": "git+ssh://git@stash.skbkontur.ru:7777/ret/retail-ui.git"
   }
 }
