@@ -83,4 +83,10 @@ module.exports = [
     info: require('!docgen!ui/Select/Select.jsx'),
     src: require('!raw!./snippets/Select.jsx'),
   },
+  {
+    name: 'Textarea',
+    component: require('ui/Textarea'),
+    info: require('!docgen!ui/Textarea/Textarea.jsx'),
+    src: require('!raw!./snippets/Textarea.jsx'),
+  },
 ];

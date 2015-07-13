@@ -1,0 +1,1 @@
+React.render(<Textarea />, mountNode);
