@@ -1,0 +1,26 @@
+:local {
+  .root {
+    border: 1px solid #d9d9d9;
+    border-top-color: #b2b2b2;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    padding: 6px 8px;
+    width: 250px;
+  }
+
+  .root:focus {
+    border-color: #5199db;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px #5199db;
+    position: relative;
+    z-index: 2;
+  }
+
+  .root[disabled] {
+    background: #f2f2f2;
+    border-color: #d9d9d9;
+    color: #808080;
+  }
+}
