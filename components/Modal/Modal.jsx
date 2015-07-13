@@ -15,29 +15,6 @@ var cx = require('../cx')('RTModal');
 var Modal = React.createClass({
   propTypes: {
     /**
-     * Функция, которая возвращает содержимое окна.
-     *
-     * Для оформления можно использовать специальные компоненты:
-     * ```
-     * function render() {
-     *   return (
-     *     <div>
-     *       <Modal.Header>Title</Modal.Header>
-     *       <Modal.Body>Content</Modal.Body>
-     *       <Modal.Footer>Buttons</Modal.Footer>
-     *     </div>
-     *   );
-     * }
-     * ```
-     */
-    render: PropTypes.func.isRequired,
-
-    /**
-     * Если `true`, то окно показывается.
-     */
-    opened: PropTypes.bool,
-
-    /**
      * Не показывать крестик для закрытия окна.
      */
     noClose: PropTypes.bool,
@@ -50,14 +27,9 @@ var Modal = React.createClass({
   },
 
   render() {
-    var modal = null;
-    if (this.props.opened) {
-      modal = <OpenedModal key="one" {...this.props} />;
-    }
-
     return (
       <CSSTransitionGroup transitionName={cx('anim')}>
-        {modal}
+        <OpenedModal key="one" {...this.props} />
       </CSSTransitionGroup>
     );
   },
@@ -80,7 +52,7 @@ var OpenedModal = React.createClass({
         <div className={cx('bg')} onClick={this.handleClose} />
         <div className={cx('window')}>
           {close}
-          {this.props.render()}
+          {this.props.children}
         </div>
       </Center>
     );
