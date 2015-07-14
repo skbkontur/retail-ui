@@ -35,11 +35,18 @@ var Gapped = React.createClass({
       }
       return <span style={itemStyle}>{child}</span>;
     });
-    const style = {
-      marginTop: -this.props.gap,
+    const rootStyle = {
+      paddingTop: 1,
+    }
+    const contStyle = {
+      marginTop: -this.props.gap - 1,
       marginLeft: -this.props.gap,
     };
-    return <div style={style}>{children}</div>;
+    return (
+      <div style={rootStyle}>
+        <div style={contStyle}>{children}</div>
+      </div>
+    );
   },
 });
 
