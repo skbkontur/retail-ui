@@ -25,6 +25,8 @@ const Textarea = React.createClass({
 
     value: PropTypes.string,
 
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
     onChange: PropTypes.func,
   },
 
@@ -37,6 +39,11 @@ const Textarea = React.createClass({
   render() {
     const props = filterProps(this.props, PASS_PROPS);
     props.className = styles.root;
+    props.style = {};
+
+    if (this.props.width) {
+      props.style.width = this.props.width;
+    }
 
     return (
       <textarea {...props} />
