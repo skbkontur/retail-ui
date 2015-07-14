@@ -59,9 +59,9 @@ function renderSelectValue(item) {
   );
 }
 
-function renderSelectItem(item) {
+function renderSelectItem(item, i, props) {
   return (
-    <div key={item}>
+    <div key={i} {...props}>
       <div style={{color: '#888', float: 'right'}}>yo</div>
       <div style={{marginRight: 30}}>{item}</div>
       <div style={{fontSize: 12}}>I shit on you</div>
