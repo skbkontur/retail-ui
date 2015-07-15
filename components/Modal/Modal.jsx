@@ -19,6 +19,8 @@ var Modal = React.createClass({
      */
     noClose: PropTypes.bool,
 
+    width: PropTypes.number,
+
     /**
      * Вызывается, когда пользователь запросил закрытие окна (нажал на фон, на
      * Escape или на крестик).
@@ -47,10 +49,15 @@ var OpenedModal = React.createClass({
       );
     }
 
+    let style = {};
+    if (this.props.width) {
+      style.width = this.props.width;
+    }
+
     return (
       <Center className={cx('')}>
         <div className={cx('bg')} onClick={this.handleClose} />
-        <div className={cx('window')}>
+        <div className={cx('window')} style={style}>
           {close}
           {this.props.children}
         </div>
