@@ -14,7 +14,7 @@ var Comp = React.createClass({
 
   renderModal() {
     return (
-      <Modal render={this.renderModal} onClose={this.close}>
+      <Modal onClose={this.close}>
         <Modal.Header>Title</Modal.Header>
         <Modal.Body>
           A lotta people ask me where the fuck I've been at the last few years.
