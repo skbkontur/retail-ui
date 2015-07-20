@@ -111,7 +111,10 @@ export default function(box, target, pos) {
         if (tHeight / 2 < pinOffset) top += tHeight / 2 - pinOffset;
         break;
       case 'middle': top += tHeight / 2 - height / 2; break;
-      case 'bottom': top += tHeight - height; break;
+      case 'bottom':
+        top += tHeight - height;
+        if (tHeight / 2 < pinOffset) top -= tHeight / 2 - pinOffset;
+        break;
     }
     switch (pos.hor) {
       case 'left': left -= width + SPACE; break;
