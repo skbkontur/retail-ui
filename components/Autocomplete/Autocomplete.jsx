@@ -30,9 +30,21 @@ var Autocomplete = React.createClass({
       PropTypes.array,
       PropTypes.func,
     ]),
+
+    /**
+     * Функция для отрисовки элемента в выпадающем списке. Единственный аргумент
+     * — *item*.
+     */
+    renderItem: PropTypes.func,
   },
 
   opened_: false,
+
+  getDefaultProps() {
+    return {
+      renderItem,
+    };
+  },
 
   getInitialState() {
     return {
@@ -67,12 +79,19 @@ var Autocomplete = React.createClass({
       <div className={cx('menuHolder')}>
         <div className={cx('menu')}>
           {items.map((item, i) => {
-            var hover = this.state.selected === i;
-            return <Item key={item} index={i} value={item} hover={hover}
-                padLeft={!!this.props.leftIcon}
-                onAction={e => this.handleItemSelect(e)}
-                onEnter={e => this.setState({selected: i})}
-                onLeave={e => this.setState({selected: -1})} />;
+            let rootClass = cx({
+              'item': true,
+              'item-hover': this.state.selected === i,
+              'item-padLeft': this.props.leftIcon,
+            });
+            return (
+              <div key={i} className={rootClass}
+                  onMouseDown={e => this.handleItemClick(e, i)}
+                  onMouseEnter={e => this.setState({selected: i})}
+                  onMouseLeave={e => this.setState({selected: -1})}>
+                {this.props.renderItem(item)}
+              </div>
+            );
           })}
         </div>
       </div>
@@ -146,8 +165,9 @@ var Autocomplete = React.createClass({
     }
   },
 
-  handleItemSelect(event) {
-    this.choose_(event.index);
+  handleItemClick(event, index) {
+    event.preventDefault();
+    this.choose_(index);
   },
 
   choose_(index) {
@@ -193,28 +213,6 @@ var Autocomplete = React.createClass({
   },
 });
 
-var Item = React.createClass({
-  render() {
-    var rootClass = cx({
-      'Item': true,
-      'Item-hover': this.props.hover,
-      'Item-padLeft': this.props.padLeft,
-    });
-    return (
-      <div className={rootClass} onMouseDown={e => this.handleMouseDown(e)}
-          onMouseEnter={e => this.props.onEnter(e)}
-          onMouseLeave={e => this.props.onLeave(e)}>
-        {this.props.value}
-      </div>
-    );
-  },
-
-  handleMouseDown(event) {
-    event.preventDefault();
-    this.props.onAction({index: this.props.index});
-  },
-});
-
 function match(pattern, items) {
   if (!pattern || !items) {
     return Promise.resolve(null);
@@ -224,6 +222,10 @@ function match(pattern, items) {
   return new Promise((resolve, reject) => {
     resolve(items.filter(item => item.toLowerCase().indexOf(pattern) !== -1));
   });
+}
+
+function renderItem(item) {
+  return item;
 }
 
 module.exports = Autocomplete;
