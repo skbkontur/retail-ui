@@ -89,4 +89,10 @@ module.exports = [
     info: require('!docgen!ui/Textarea/Textarea.jsx'),
     src: require('!raw!./snippets/Textarea.jsx'),
   },
+  {
+    name: 'Tooltip',
+    component: require('ui/Tooltip'),
+    info: require('!docgen!ui/Tooltip/Tooltip.jsx'),
+    src: require('!raw!./snippets/Tooltip.jsx'),
+  },
 ];
