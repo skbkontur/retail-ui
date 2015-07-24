@@ -28,6 +28,7 @@ var Checkbox = React.createClass({
     return (
       <label className={rootClass} onMouseDown={this.handleActivate}>
         <input type="checkbox" className={cx('input')}
+            checked={this.state.checked}
             disabled={this.props.disabled}
             onChange={this.handleChange} onFocus={this.handleFocus}
             onBlur={this.handleBlur} />
