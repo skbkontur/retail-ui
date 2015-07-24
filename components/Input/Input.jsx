@@ -36,6 +36,11 @@ var Input = React.createClass({
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
+     * Визуально показать наличие ошибки.
+     */
+    error: PropTypes.bool,
+
+    /**
      * Иконка слева инпута.
      */
     leftIcon: PropTypes.element,
@@ -60,6 +65,7 @@ var Input = React.createClass({
       className: cx({
         '': true,
         'disabled': this.props.disabled,
+        'error': this.props.error,
         'padLeft': this.props.leftIcon,
         'padRight': this.props.rightIcon,
       }),
