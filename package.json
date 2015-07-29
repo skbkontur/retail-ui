@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "UI Components",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git@git.skbkontur.ru:catalogue/retail-ui.git"
+  },
   "scripts": {
     "test": "jest"
   },
