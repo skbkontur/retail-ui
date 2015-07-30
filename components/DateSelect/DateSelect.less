@@ -1,0 +1,72 @@
+:local {
+  .root {
+    background: linear-gradient(#fefefe, #ececec);
+    border: 1px solid #d9d9d9;
+    border-bottom-color: #b2b2b2;
+    border-radius: 3px;
+    color: #404040;
+    cursor: default;
+    display: inline-block;
+    line-height: 28px;
+    outline: 0;
+    position: relative;
+  }
+
+  .caption {
+    padding: 0 18px 0 10px;
+  }
+
+  .arrow {
+    position: absolute;
+    right: 8px;
+    top: 10px;
+
+    &:before, &:after {
+      border: 3px solid transparent;
+      content: '';
+      display: block;
+    }
+
+    &:before {
+      border-bottom-color: #a6a6a6;
+      border-top: 0;
+      margin-bottom: 2px;
+    }
+
+    &:after {
+      border-bottom: 0;
+      border-top-color: #a6a6a6;
+    }
+  }
+
+  .menuHolder {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .25);
+    box-sizing: content-box;
+    margin: 0 -1px;
+    min-width: 100%;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1000;
+  }
+
+  .menuOverlay {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .menuItem {
+    line-height: 30px;
+    padding: 0 10px;
+    white-space: nowrap;
+
+    &Active {
+      background: #eee;
+    }
+  }
+}
