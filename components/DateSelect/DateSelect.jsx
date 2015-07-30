@@ -12,7 +12,7 @@ const HEIGHT = 30;
 const DateSelect = React.createClass({
   propTypes: {
     type: PropTypes.string,
-    
+
     value: PropTypes.number.isRequired,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -36,7 +36,7 @@ const DateSelect = React.createClass({
   },
 
   render() {
-    const { width } = this.state;
+    const { width } = this.props;
     const rootProps = {
       className: styles.root,
       style: {width},
