@@ -4,10 +4,15 @@ const PropTypes = React.PropTypes;
 
 const styles = require('./DateSelect.less');
 
+const MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
+    'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+
 const HEIGHT = 30;
 
 const DateSelect = React.createClass({
   propTypes: {
+    type: PropTypes.string,
+    
     value: PropTypes.number.isRequired,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -17,6 +22,7 @@ const DateSelect = React.createClass({
 
   getDefaultProps() {
     return {
+      type: 'year',
       width: 'auto',
     };
   },
@@ -24,7 +30,6 @@ const DateSelect = React.createClass({
   getInitialState() {
     return {
       opened: false,
-      top: -5 * HEIGHT,
       pos: 0,
       mouseY: -HEIGHT,
     };
@@ -32,11 +37,18 @@ const DateSelect = React.createClass({
 
   render() {
     const { width } = this.state;
+    const rootProps = {
+      className: styles.root,
+      style: {width},
+      tabIndex: '0',
+      onBlur: this.close,
+      onKeyDown: this.handleKey,
+    };
     return (
-      <span className={styles.root} style={{width}}>
+      <span {...rootProps}>
         <div className={styles.caption}
             onClick={this.open}>
-          {this.props.value}
+          {this.getItem(0)}
           <div className={styles.arrow} />
         </div>
         {this.state.opened && this.renderMenu()}
@@ -45,8 +57,7 @@ const DateSelect = React.createClass({
   },
 
   renderMenu() {
-    let { top } = this.state;
-    let height = 11 * HEIGHT;
+    let { top, height } = this.state;
 
     let shift = this.state.pos % HEIGHT;
     if (shift < 0) {
@@ -90,6 +101,10 @@ const DateSelect = React.createClass({
   },
 
   handleWheel(event) {
+    if (this.props.type === 'month') {
+      return;
+    }
+
     event.preventDefault();
 
     let deltaY = event.deltaY;
@@ -99,6 +114,7 @@ const DateSelect = React.createClass({
       deltaY *= HEIGHT * 4;
     }
     let pos = this.state.pos += deltaY;
+    this.resetSize();
     this.setState({pos});
   },
 
@@ -116,7 +132,7 @@ const DateSelect = React.createClass({
   handleItemClick(event) {
     let rect = event.currentTarget.getBoundingClientRect();
     let y = event.clientY - rect.top + this.state.top + this.state.pos;
-    let value = this.getItem(Math.floor(y / HEIGHT));
+    let value = this.props.value + Math.floor(y / HEIGHT);
 
     this.close();
 
@@ -125,19 +141,47 @@ const DateSelect = React.createClass({
     }
   },
 
+  handleKey(event) {
+    switch (event.key) {
+      case 'Escape':
+        this.close();
+        break;
+    }
+  },
+
   getItem(index) {
-    return this.props.value + index;
+    let value = this.props.value + index;
+    if (this.props.type === 'month') {
+      return MONTHS[value];
+    }
+    return value;
   },
 
   open() {
+    if (this.state.opened) return;
+
+    this.resetSize();
     this.setState({
       opened: true,
       pos: 0,
+      mouseY: -HEIGHT,
     });
   },
 
   close() {
+    if (!this.state.opened) return;
+
     this.setState({opened: false});
+  },
+
+  resetSize() {
+    let top = -5 * HEIGHT;
+    let height = 11 * HEIGHT;
+    if (this.props.type === 'month') {
+      top = -this.props.value * HEIGHT;
+      height = 12 * HEIGHT;
+    }
+    this.setState({top, height});
   },
 });
 
