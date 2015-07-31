@@ -29,12 +29,9 @@ var DatePicker = React.createClass({
       <span className={styles.root}>
         <Group width={150}>
           <Input mainInGroup value={this.state.value} />
-          <span className={styles.buttonHolder}>
-            <Button narrow active={this.state.opened} onClick={this.open}>
-              <Icon name="calendar" />
-            </Button>
-            {this.state.opened && <div className={styles.buttonLine} />}
-          </span>
+          <Button narrow active={this.state.opened} onClick={this.open}>
+            <Icon name="calendar" />
+          </Button>
         </Group>
         {picker}
       </span>
