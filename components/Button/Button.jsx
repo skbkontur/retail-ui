@@ -8,6 +8,11 @@ var cx = require('../cx')('RTButton');
 
 var Button = React.createClass({
   propTypes: {
+    /**
+     * Визуально нажатое состояние.
+     */
+    active: PropTypes.bool,
+
     disabled: PropTypes.bool,
 
     use: PropTypes.oneOf([
@@ -34,6 +39,7 @@ var Button = React.createClass({
       className: cx({
         '': true,
         ['use-' + this.props.use]: true,
+        'active': this.props.active,
         'disabled': this.props.disabled,
         'narrow': this.props.narrow,
       }),

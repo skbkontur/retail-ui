@@ -33,12 +33,12 @@
       background: #ebebeb;
       background: linear-gradient(#f2f2f2, #dfdfdf);
     }
-
-    &:active {
-      background: #d9d9d9;
-      border-color: #fff;
-      box-shadow: @focus-shadow, inset 0 2px 2px -2px #a6a6a6;
-    }
+  }
+  &-use-default:active,
+  &-use-default&-active {
+    background: #d9d9d9;
+    border-color: #a6a6a6 #ccc #ccc;
+    box-shadow: inset 0 2px 2px -2px #a6a6a6;
   }
 
   &-use-primary {
@@ -51,12 +51,12 @@
       background: #1582c9;
       background: linear-gradient(#0a6fc9, #014994);
     }
-
-    &:active {
-      background: #1074b5;
-      border-color: #fff;
-      box-shadow: @focus-shadow, inset 0 2px 1px -1px #00549c;
-    }
+  }
+  &-use-primary:active,
+  &-use-primary&-active {
+    background: #1074b5;
+    border-color: #015798 #015ba2 #004a89;
+    box-shadow: inset 0 2px 1px -1px #00549c;
   }
 
   &&-disabled {
