@@ -70,6 +70,7 @@ const Calendar = React.createClass({
       let cellClass = classNames({
         [styles.cell]: true,
         [styles.cellActive]: active,
+        [styles.cellCurrent]: +this.props.value === +date,
         [styles.grey]: date.getMonth() % 2,
         [styles.cellHoly]: date.getDay() === 0 || date.getDay() === 6,
       });

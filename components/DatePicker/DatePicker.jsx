@@ -11,7 +11,7 @@ const styles = require('./DatePicker.less');
 var DatePicker = React.createClass({
   getInitialState() {
     return {
-      value: '',
+      value: null,
       opened: false,
     };
   },
@@ -21,14 +21,14 @@ var DatePicker = React.createClass({
     if (this.state.opened) {
       picker = (
         <div className={styles.picker}>
-          <Picker onPick={this.handlePick} />
+          <Picker value={this.state.value} onPick={this.handlePick} />
         </div>
       );
     }
     return (
       <span className={styles.root}>
         <Group width={150}>
-          <Input mainInGroup value={this.state.value} />
+          <Input mainInGroup value={formatDate(this.state.value)} />
           <Button narrow active={this.state.opened} onClick={this.open}>
             <Icon name="calendar" />
           </Button>
@@ -39,9 +39,7 @@ var DatePicker = React.createClass({
   },
 
   handlePick(date) {
-    let day = formatNumber(date.getDate());
-    let month = formatNumber(date.getMonth());
-    this.setState({value: `${day}.${month}.${date.getFullYear()}`});
+    this.setState({value: date});
     this.close();
   },
 
@@ -53,6 +51,14 @@ var DatePicker = React.createClass({
     this.setState({opened: false});
   },
 });
+
+function formatDate(date) {
+  if (!date) return '';
+
+  let day = formatNumber(date.getDate());
+  let month = formatNumber(date.getMonth());
+  return `${day}.${month}.${date.getFullYear()}`;
+}
 
 function formatNumber(value) {
   let ret = value.toString();
