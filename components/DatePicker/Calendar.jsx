@@ -82,7 +82,7 @@ const Calendar = React.createClass({
     }
 
     return (
-      <div className={styles.root} onWheel={this.handleWheel}>
+      <div className={styles.root} tabIndex="0" onWheel={this.handleWheel}>
         {cells}
         {months}
         <div className={styles.mask} onMouseMove={this.handleMouseMove}
@@ -90,6 +90,10 @@ const Calendar = React.createClass({
             onMouseDown={this.handleMouseDown} />
       </div>
     );
+  },
+
+  componentDidMount() {
+    React.findDOMNode(this).focus();
   },
 
   moveToDate(date) {

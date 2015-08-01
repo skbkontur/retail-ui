@@ -20,7 +20,8 @@ var DatePicker = React.createClass({
     let picker = null;
     if (this.state.opened) {
       picker = (
-        <div className={styles.picker}>
+        <div className={styles.picker} onKeyDown={this.handlePickerKey}>
+          <div className={styles.overlay} onMouseDown={this.close} />
           <Picker value={this.state.value} onPick={this.handlePick} />
         </div>
       );
@@ -28,7 +29,7 @@ var DatePicker = React.createClass({
     return (
       <span className={styles.root}>
         <Group width={150}>
-          <Input mainInGroup value={formatDate(this.state.value)} />
+          <Input ref="input" mainInGroup value={formatDate(this.state.value)} />
           <Button narrow active={this.state.opened} onClick={this.open}>
             <Icon name="calendar" />
           </Button>
@@ -36,6 +37,12 @@ var DatePicker = React.createClass({
         {picker}
       </span>
     );
+  },
+
+  handlePickerKey(event) {
+    if (event.key === 'Escape') {
+      this.close();
+    }
   },
 
   handlePick(date) {
@@ -49,6 +56,7 @@ var DatePicker = React.createClass({
 
   close() {
     this.setState({opened: false});
+    setTimeout(() => this.refs.input.focus(), 0);
   },
 });
 
