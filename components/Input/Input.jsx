@@ -135,6 +135,10 @@ var Input = React.createClass({
     }
   },
 
+  focus() {
+    React.findDOMNode(this).querySelector('input').focus();
+  },
+
   handleChange(event) {
     if (this.props.value === undefined) {
       this.setState({value: event.target.value});
