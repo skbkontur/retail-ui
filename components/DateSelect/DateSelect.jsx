@@ -1,3 +1,4 @@
+const classNames = require('classnames');
 const React = require('react');
 
 const PropTypes = React.PropTypes;
@@ -31,7 +32,7 @@ const DateSelect = React.createClass({
     return {
       opened: false,
       pos: 0,
-      mouseY: -HEIGHT,
+      current: 0,
     };
   },
 
@@ -66,11 +67,10 @@ const DateSelect = React.createClass({
     let to = from + Math.ceil((height + shift) / HEIGHT);
     let items = [];
     for (let i = from; i < to; ++i) {
-      let className = styles.menuItem;
-      let y = this.state.mouseY + top + this.state.pos;
-      if (Math.floor(y / HEIGHT) === i) {
-        className += ' ' + styles.menuItemActive;
-      }
+      let className = classNames({
+        [styles.menuItem]: true,
+        [styles.menuItemActive]: i === this.state.current,
+      });
       items.push(
         <div key={i} className={className}>
           {this.getItem(i)}
@@ -119,13 +119,13 @@ const DateSelect = React.createClass({
 
   handleMouseMove(event) {
     let rect = event.currentTarget.getBoundingClientRect();
-    this.setState({
-      mouseY: event.clientY - rect.top,
-    });
+    let y = event.clientY - rect.top + this.state.top + this.state.pos;
+    let current = Math.floor(y / HEIGHT);
+    this.setState({current});
   },
 
   handleMouseLeave() {
-    this.setState({mouseY: -HEIGHT});
+    this.setState({current: null});
   },
 
   handleItemClick(event) {
@@ -143,9 +143,28 @@ const DateSelect = React.createClass({
   handleKey(event) {
     if (this.state.opened) {
       switch (event.key) {
+        case 'Enter':
+          if (this.state.current !== null && this.props.onChange) {
+            let value = this.props.value + this.state.current;
+            this.props.onChange({target: {value}});
+          }
+          this.close();
+          event.stopPropagation();
+          break;
+
         case 'Escape':
           this.close();
           event.stopPropagation(); // Specifically for DatePicker.
+          break;
+
+        case 'ArrowUp':
+          this.setState({current: this.state.current - 1});
+          event.preventDefault();
+          break;
+
+        case 'ArrowDown':
+          this.setState({current: this.state.current + 1});
+          event.preventDefault();
           break;
       }
     } else {
@@ -175,7 +194,7 @@ const DateSelect = React.createClass({
     this.setState({
       opened: true,
       pos: 0,
-      mouseY: -HEIGHT,
+      current: 0,
     });
   },
 
