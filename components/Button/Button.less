@@ -1,5 +1,5 @@
 .RTButton {
-  @focus-shadow: 0 0 0 2px #5199db;
+  @focus-shadow: 0 0 0 1px #5199db, inset 0 0 0 1px #fff;
 
   border: 1px solid;
   border-radius: 3px;
@@ -18,7 +18,7 @@
   }
 
   &:focus {
-    border-color: #fff;
+    border-color: #5199db;
     box-shadow: @focus-shadow;
     position: relative;
     z-index: 2;
