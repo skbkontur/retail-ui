@@ -1,12 +1,14 @@
 :local {
+  @day-side: 25px;
+
   .root {
     background: #fff;
     border-radius: 0 0 2px 2px;
-    height: 300px;
+    height: 220px;
     outline: none;
     overflow: hidden;
     position: relative;
-    width: 270px;
+    width: 220px;
     z-index: 900;
   }
 
@@ -26,11 +28,11 @@
   .month {
     box-sizing: border-box;
     font-size: 12px;
-    left: 210px;
-    padding: 6px 0 0 6px;
+    left: @day-side * 7;
+    padding: 6px 0 0 0;
     position: absolute;
     text-align: center;
-    width: 60px;
+    width: 45px;
   }
 
   .year {
@@ -43,11 +45,11 @@
 
   .cellInner {
     border-radius: 2px;
-    font-size: 12px;
-    height: 30px;
-    line-height: 30px;
+    font-size: 11px;
+    height: @day-side;
+    line-height: @day-side;
     text-align: center;
-    width: 30px;
+    width: @day-side;
   }
 
   .cellActive .cellInner {

@@ -11,8 +11,8 @@ const MONTH_NAMES = [
 const DAY = 24 * 60 * 60 * 1000;
 const WEEK = 7 * DAY;
 const FIRST_WEEK_SHIFT = (new Date(0).getDay() - 1) * DAY;
-const DAY_HEIGHT = 30;
-const CALENDAR_HEIGHT = 300;
+const DAY_HEIGHT = 25;
+const CALENDAR_HEIGHT = 220;
 
 const CELLS_COUNT = (CALENDAR_HEIGHT / DAY_HEIGHT + 1) * 7;
 
@@ -54,18 +54,19 @@ const Calendar = React.createClass({
     }
 
     let cells = [];
-    for (let i = 0; i < CELLS_COUNT; ++i) {
+    let cellCount = Math.ceil((CALENDAR_HEIGHT + offset) / DAY_HEIGHT) * 7;
+    for (let i = 0; i < cellCount; ++i) {
       let cur = from + i * DAY;
       let curWeek = getWeek(cur);
       let date = new Date(cur);
-      let x = getDay(date) * 30;
-      let y = (curWeek - week) * 30 - offset;
+      let x = getDay(date) * DAY_HEIGHT;
+      let y = (curWeek - week) * DAY_HEIGHT - offset;
       let style = {left: x, top: y};
 
       let mouseX = this.state.mouseX;
       let mouseY = this.state.mouseY;
-      let active = x < mouseX && x + 30 > mouseX && y < mouseY && y +
-          30 > mouseY;
+      let active = x < mouseX && x + DAY_HEIGHT > mouseX && y < mouseY && y +
+          DAY_HEIGHT > mouseY;
 
       let cellClass = classNames({
         [styles.cell]: true,
