@@ -46,8 +46,7 @@ const DateSelect = React.createClass({
     };
     return (
       <span {...rootProps}>
-        <div className={styles.caption}
-            onClick={this.open}>
+        <div className={styles.caption} onClick={this.open}>
           {this.getItem(0)}
           <div className={styles.arrow} />
         </div>
@@ -90,7 +89,7 @@ const DateSelect = React.createClass({
 
     return (
       <div className={styles.menuHolder} style={style}
-          onWheel={this.handleWheel}>
+          onKeyDown={this.handleKey} onWheel={this.handleWheel}>
         <div style={shiftStyle}>{items}</div>
         <div className={styles.menuOverlay}
             onMouseDown={this.handleItemClick}
@@ -142,10 +141,22 @@ const DateSelect = React.createClass({
   },
 
   handleKey(event) {
-    switch (event.key) {
-      case 'Escape':
-        this.close();
-        break;
+    if (this.state.opened) {
+      switch (event.key) {
+        case 'Escape':
+          this.close();
+          event.stopPropagation(); // Specifically for DatePicker.
+          break;
+      }
+    } else {
+      switch (event.key) {
+        case ' ':
+        case 'ArrowUp':
+        case 'ArrowDown':
+          this.open();
+          event.preventDefault();
+          break;
+      }
     }
   },
 
