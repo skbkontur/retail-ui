@@ -1,24 +1,32 @@
-var React = require('react');
+const React = require('react');
+
+const PropTypes = React.PropTypes;
 
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
  */
-var Gapped = React.createClass({
+const Gapped = React.createClass({
   propTypes: {
     /**
      * Расстояние между элементами.
      */
-    gap: React.PropTypes.number,
+    gap: PropTypes.number,
 
     /**
      * Располагать элементы вертикально.
      */
-    vertical: React.PropTypes.bool,
+    vertical: PropTypes.bool,
+
+    /**
+     * Вертикальное выравнивание элементов.
+     */
+    verticalAlign: PropTypes.oneOf(['top', 'middle', 'bottom']),
   },
 
   getDefaultProps() {
     return {
       gap: 10,
+      verticalAlign: 'top',
     };
   },
 
@@ -27,7 +35,7 @@ var Gapped = React.createClass({
       display: this.props.vertical ? 'block' : 'inline-block',
       marginLeft: this.props.gap,
       marginTop: this.props.gap,
-      verticalAlign: 'top',
+      verticalAlign: this.props.verticalAlign,
     };
     var children = React.Children.map(this.props.children, child => {
       if (!child) {
