@@ -151,7 +151,7 @@ const Calendar = React.createClass({
 });
 
 function dateToPos(date) {
-  return date / WEEK * DAY_HEIGHT;
+  return (Math.floor((+date - FIRST_WEEK_SHIFT - DAY) / WEEK) - 1) * DAY_HEIGHT;
 }
 
 function posToDate(pos) {

@@ -9,7 +9,7 @@ const styles = require('./Picker.less');
 const Picker = React.createClass({
   getInitialState() {
     return {
-      date: new Date(),
+      date: this.props.value ? new Date(this.props.value) : new Date(),
     }
   },
 
