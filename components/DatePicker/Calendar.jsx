@@ -45,8 +45,10 @@ const Calendar = React.createClass({
       });
       months.push(
         <div key={+monthStart} className={monthClass} style={style}>
-          {MONTH_NAMES[monthStart.getMonth()]}
-          <div className={styles.year}>{monthStart.getFullYear()}</div>
+          <div style={{position: 'relative', top: Math.max(0, -y)}}>
+            {MONTH_NAMES[monthStart.getMonth()]}
+            <div className={styles.year}>{monthStart.getFullYear()}</div>
+          </div>
         </div>
       );
 
