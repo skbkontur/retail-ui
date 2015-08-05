@@ -33,11 +33,11 @@ const Picker = React.createClass({
   },
 
   componentDidMount() {
-    events.addEventListener(document, 'mousedown', this.callOnClose);
+    events.addEventListener(document, 'mousedown', this.handleDocClick);
   },
 
   componentWillUnmount() {
-    events.removeEventListener(document, 'mousedown', this.callOnClose);
+    events.removeEventListener(document, 'mousedown', this.handleDocClick);
   },
 
   handleMonthChange(event) {
@@ -54,9 +54,22 @@ const Picker = React.createClass({
     this.refs.calendar.moveToDate(this.state.date);
   },
 
-  callOnClose() {
-    this.props.onClose();
+  handleDocClick(event) {
+    let target = event.target;
+    if (!React.findDOMNode(this).contains(target) && !isDetached(target)) {
+      this.props.onClose();
+    }
   },
 });
+
+function isDetached(element) {
+  let body = document.body;
+  do {
+    if (element === body) return false;
+    element = element.parentNode;
+  } while (element);
+
+  return true;
+}
 
 module.exports = Picker;
