@@ -118,7 +118,9 @@ const Calendar = React.createClass({
     let pos = this.state.pos + deltaY;
     this.setState({pos});
 
-    this.props.onNav(posToDate(pos));
+    let date = posToDate(pos);
+    date.setDate(date.getDate() + 6);
+    this.props.onNav(date);
   },
 
   handleMouseMove(event) {
@@ -157,7 +159,7 @@ function dateToPos(date) {
 }
 
 function posToDate(pos) {
-  return new Date(pos * WEEK / DAY_HEIGHT);
+  return new Date(Math.floor(pos / DAY_HEIGHT + 2) * WEEK - FIRST_WEEK_SHIFT);
 }
 
 function getWeek(time) {
