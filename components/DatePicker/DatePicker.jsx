@@ -22,9 +22,8 @@ var DatePicker = React.createClass({
     if (this.state.opened) {
       picker = (
         <div className={styles.picker} onKeyDown={this.handlePickerKey}>
-          <div className={styles.overlay}
-              onMouseDown={this.handleOverlayClick} />
-          <Picker value={this.state.value} onPick={this.handlePick} />
+          <Picker value={this.state.value} onPick={this.handlePick}
+              onClose={this.handlePickerClose} />
         </div>
       );
     }
@@ -69,10 +68,10 @@ var DatePicker = React.createClass({
 
   handlePick(date) {
     this.setState({value: date, textValue: formatDate(date)});
-    this.close(true);
+    this.close(false);
   },
 
-  handleOverlayClick() {
+  handlePickerClose() {
     this.close(false);
   },
 

@@ -1,3 +1,4 @@
+const events = require('add-event-listener');
 const React = require('react');
 
 const Calendar = require('./Calendar');
@@ -31,6 +32,14 @@ const Picker = React.createClass({
     );
   },
 
+  componentDidMount() {
+    events.addEventListener(document, 'mousedown', this.callOnClose);
+  },
+
+  componentWillUnmount() {
+    events.removeEventListener(document, 'mousedown', this.callOnClose);
+  },
+
   handleMonthChange(event) {
     this.state.date.setMonth(event.target.value);
     this.setState({});
@@ -43,6 +52,10 @@ const Picker = React.createClass({
     this.setState({});
 
     this.refs.calendar.moveToDate(this.state.date);
+  },
+
+  callOnClose() {
+    this.props.onClose();
   },
 });
 
