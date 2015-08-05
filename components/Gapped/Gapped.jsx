@@ -26,7 +26,7 @@ const Gapped = React.createClass({
   getDefaultProps() {
     return {
       gap: 10,
-      verticalAlign: 'top',
+      verticalAlign: 'middle',
     };
   },
 
