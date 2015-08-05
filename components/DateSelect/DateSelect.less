@@ -51,11 +51,19 @@
     border-radius: 3px;
     box-shadow: 0 0 8px rgba(0, 0, 0, .25);
     box-sizing: content-box;
-    margin: 0 -1px;
+    margin: -14px -1px 0;
     min-width: 100%;
     overflow: hidden;
     position: absolute;
     z-index: 1000;
+  }
+  .menuHolder.isTopCapped {
+    margin-top: 0;
+  }
+
+  .itemsHolder {
+    overflow: hidden;
+    position: relative;
   }
 
   .menuOverlay {
@@ -74,6 +82,40 @@
 
     &Active {
       background: #eee;
+    }
+  }
+
+  .menuUp,
+  .menuDown {
+    background: linear-gradient(#fdfdfd, #ededed);
+    box-sizing: border-box;
+    height: 14px;
+    text-align: center;
+
+    &:before {
+      border: 4px solid transparent;
+      content: '';
+      display: inline-block;
+      margin: 4px 0;
+      vertical-align: top;
+    }
+  }
+
+  .menuUp {
+    border-bottom: 1px solid #d0d0d0;
+
+    &:before {
+      border-bottom-color: #a0a0a0;
+      border-top: 0;
+    }
+  }
+
+  .menuDown {
+    border-top: 1px solid #d0d0d0;
+
+    &:before {
+      border-bottom: 0;
+      border-top-color: #a0a0a0;
     }
   }
 }
