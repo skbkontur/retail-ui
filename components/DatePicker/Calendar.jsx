@@ -25,6 +25,9 @@ const Calendar = React.createClass({
 
   render() {
     let offset = this.state.pos % DAY_HEIGHT;
+    if (offset < 0) {
+      offset += DAY_HEIGHT;
+    }
     let from = (this.state.pos - offset) / DAY_HEIGHT * WEEK - FIRST_WEEK_SHIFT;
     let week = getWeek(from);
 
