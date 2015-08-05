@@ -30,7 +30,7 @@ var DatePicker = React.createClass({
     }
     return (
       <span className={styles.root}>
-        <Group width={150}>
+        <Group width={120}>
           <Input ref="input" mainInGroup value={this.state.textValue}
               placeholder="дд.мм.гггг" onChange={this.handleChange}
               onBlur={this.handleBlur} />
