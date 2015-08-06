@@ -24,6 +24,12 @@ module.exports = [
     src: require('!raw!./snippets/Checkbox.jsx'),
   },
   {
+    name: 'DatePicker',
+    component: require('ui/DatePicker'),
+    info: require('!docgen!ui/DatePicker/DatePicker.jsx'),
+    src: require('!raw!./snippets/DatePicker.jsx'),
+  },
+  {
     name: 'FxInput',
     component: require('ui/FxInput'),
     info: require('!docgen!ui/FxInput/FxInput.jsx'),
