@@ -24,7 +24,10 @@ module.exports = {
       },
       {
         test: /\.(css|less)$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          'css-loader?localIdentName=[name]-[local]-[hash:base64:8]'
+        ),
       },
       {test: /\.less$/, loader: 'less-loader'},
       {test: /\.(woff|eot)$/, loader: "file-loader"},
