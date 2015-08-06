@@ -31,8 +31,8 @@ var DatePicker = React.createClass({
       <span className={styles.root}>
         <Group width={120}>
           <Input ref="input" mainInGroup value={this.state.textValue}
-              placeholder="дд.мм.гггг" onChange={this.handleChange}
-              onBlur={this.handleBlur} />
+              maxLength="10" placeholder="дд.мм.гггг"
+              onChange={this.handleChange} onBlur={this.handleBlur} />
           <Button narrow active={this.state.opened} onClick={this.open}>
             <Icon name="calendar" />
           </Button>
@@ -43,7 +43,7 @@ var DatePicker = React.createClass({
   },
 
   handleChange(event) {
-    let value = event.target.value;
+    let value = event.target.value.replace(/[^\d\.]/g, '');
     this.setState({textValue: value});
 
     let date = parseDate(value);
