@@ -1,5 +1,7 @@
 const React = require('react');
 
+const PropTypes = React.PropTypes;
+
 const Button = require('../Button');
 const Group = require('../Group');
 const Icon = require('../Icon');
@@ -9,9 +11,15 @@ const Picker = require('./Picker');
 const styles = require('./DatePicker.less');
 
 var DatePicker = React.createClass({
+  propTypes: {
+    value: PropTypes.instanceOf(Date),
+
+    onChange: PropTypes.func,
+  },
+
   getInitialState() {
     return {
-      value: null,
+      value: this.props.value !== undefined ? this.props.value : null,
       textValue: '',
       opened: false,
     };
@@ -42,22 +50,42 @@ var DatePicker = React.createClass({
     );
   },
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.value !== undefined && this.state.value !== newProps.value) {
+      this.setState({
+        value: newProps.value,
+        textValue: formatDate(newProps.value),
+      });
+    }
+  },
+
   handleChange(event) {
     let value = event.target.value.replace(/[^\d\.]/g, '');
-    this.setState({textValue: value});
-
     let date = parseDate(value);
     if (date) {
-      this.setState({value: date});
+      if (this.props.value === undefined) {
+        this.setState({
+          value: date,
+          textValue: value,
+        });
+      } else if (this.props.onChange) {
+        this.props.onChange(date);
+      }
+    } else {
+      this.setState({textValue: value});
     }
   },
 
   handleBlur() {
-    let value = parseDate(this.state.textValue);
-    this.setState({
-      value,
-      textValue: formatDate(value),
-    });
+    if (this.props.value === undefined) {
+      let value = parseDate(this.state.textValue);
+      this.setState({
+        value,
+        textValue: formatDate(value),
+      });
+    } else {
+      this.setState({textValue: formatDate(this.props.value)});
+    }
   },
 
   handlePickerKey(event) {
@@ -67,7 +95,11 @@ var DatePicker = React.createClass({
   },
 
   handlePick(date) {
-    this.setState({value: date, textValue: formatDate(date)});
+    if (this.props.value === undefined) {
+      this.setState({value: date, textValue: formatDate(date)});
+    } else if (this.props.onChange) {
+      this.props.onChange(date);
+    }
     this.close(false);
   },
 
