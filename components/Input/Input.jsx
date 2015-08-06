@@ -15,6 +15,7 @@ if (typeof window !== 'undefined' && window.document
 
 const INPUT_PASS_PROPS = {
   disabled: true,
+  maxLength: true,
   placeholder: true,
 
   onBlur: true,
@@ -24,6 +25,8 @@ const INPUT_PASS_PROPS = {
 var Input = React.createClass({
   propTypes: {
     disabled: PropTypes.bool,
+
+    maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     placeholder: PropTypes.string,
 
