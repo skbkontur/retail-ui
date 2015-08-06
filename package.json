@@ -4,7 +4,9 @@
   "scripts": {
     "test": "jest",
     "start": "webpack-dev-server -w -d",
-    "deploy": "rsync -r index.html dist tc@ownercat:/var/www/ui"
+    "build": "webpack -p --progress --colors",
+    "deploy": "rsync -r index.html dist tc@ownercat:/var/www/ui",
+    "publish": "npm run build ; npm run deploy"
   },
   "devDependencies": {
     "babel-core": "^5.6.17",
