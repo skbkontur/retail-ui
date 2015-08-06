@@ -72,6 +72,7 @@ const DateSelect = React.createClass({
       let className = classNames({
         [styles.menuItem]: true,
         [styles.menuItemActive]: i === this.state.current,
+        [styles.menuItemSelected]: i === 0,
       });
       items.push(
         <div key={i} className={className}>
