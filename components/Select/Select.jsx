@@ -6,7 +6,7 @@ var Input = require('../Input');
 
 require('./Select.less');
 require('./Select.css');
-var cx = require('ui/cx')('RTSelect');
+var cx = require('../cx')('RTSelect');
 
 var Select = React.createClass({
   propTypes: {
