@@ -55,7 +55,7 @@ const Picker = React.createClass({
   },
 
   handleDocClick(event) {
-    let target = event.target;
+    let target = event.target || event.srcElement;
     if (!React.findDOMNode(this).contains(target) && !isDetached(target)) {
       this.props.onClose();
     }
