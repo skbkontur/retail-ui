@@ -14,11 +14,14 @@ const Tooltip = React.createClass({
       'left top', 'left middle', 'left bottom',
       'right top', 'right middle', 'right bottom',
     ]),
+
+    trigger: PropTypes.oneOf(['hover', 'click']),
   },
 
   getDefaultProps() {
     return {
       pos: 'top left',
+      trigger: 'hover',
     };
   },
 
@@ -31,9 +34,13 @@ const Tooltip = React.createClass({
   render() {
     const props = {
       style: {display: 'inline-block'},
-      onMouseEnter: this.handleMouseEnter,
-      onMouseLeave: this.handleMouseLeave,
     };
+    if (this.props.trigger === 'hover') {
+      props.onMouseEnter = this.handleMouseEnter;
+      props.onMouseLeave = this.handleMouseLeave;
+    } else if (this.props.trigger === 'click') {
+      props.onClick = this.handleClick;
+    }
 
     return <span {...props}>{this.props.children}</span>;
   },
@@ -53,7 +60,10 @@ const Tooltip = React.createClass({
     if (this.state.opened) {
       let target = React.findDOMNode(this);
       React.render(
-        <Box target={target} pos={this.props.pos}>{this.props.render()}</Box>,
+        <Box trigger={this.props.trigger} target={target} pos={this.props.pos}
+            onClose={this.handleBoxClose}>
+          {this.props.render()}
+        </Box>,
         this.boxDom
       );
     } else {
@@ -66,6 +76,14 @@ const Tooltip = React.createClass({
   },
 
   handleMouseLeave() {
+    this.setState({opened: false});
+  },
+
+  handleClick() {
+    this.setState({opened: true});
+  },
+
+  handleBoxClose() {
     this.setState({opened: false});
   },
 });

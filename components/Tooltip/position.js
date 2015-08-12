@@ -8,11 +8,16 @@ export default function(box, target, pos) {
 
   let docElem = document.documentElement;
 
+  let pageXOffset = window.pageXOffset !== undefined ? window.pageXOffset
+      : docElem.scrollLeft;
+  let pageYOffset = window.pageYOffset !== undefined ? window.pageYOffset
+      : docElem.scrollTop;
+
   let tRect = target.getBoundingClientRect();
   let tWidth = tRect.right - tRect.left;
   let tHeight = tRect.bottom - tRect.top;
-  let targetTop = tRect.top + window.pageYOffset - docElem.clientTop;
-  let targetLeft = tRect.left + window.pageXOffset - docElem.clientLeft;
+  let targetTop = tRect.top + pageYOffset - docElem.clientTop;
+  let targetLeft = tRect.left + pageXOffset - docElem.clientLeft;
 
   let wndWidth = docElem.clientWidth;
   let wndHeight = docElem.clientHeight;

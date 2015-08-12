@@ -13,6 +13,7 @@ export default class Box extends React.Component {
       pos: null,
     };
 
+    this.handleDocClick = this.handleDocClick.bind(this);
     this.reflow = this.reflow.bind(this);
   }
 
@@ -94,14 +95,22 @@ export default class Box extends React.Component {
     this.reflow();
 
     events.addEventListener(window, 'scroll', this.reflow);
+    if (this.props.trigger === 'click') {
+      events.addEventListener(document, 'click', this.handleDocClick);
+    }
   }
 
   componentWillUnmount() {
     events.removeEventListener(window, 'scroll', this.reflow);
+    events.removeEventListener(document, 'click', this.handleDocClick);
   }
 
   componentDidUpdate() {
     this.reflow();
+  }
+
+  handleDocClick() {
+    this.props.onClose();
   }
 
   reflow() {
