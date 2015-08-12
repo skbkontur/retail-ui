@@ -29,6 +29,7 @@ var Demo = React.createClass({
       ttWidth: '100px',
       ttHeight: '20px',
       ttPos: 'top center',
+      ttTrigger: 'hover',
     };
   },
 
@@ -83,7 +84,8 @@ var Demo = React.createClass({
 
     return (
       <Gapped vertical>
-        <Tooltip pos={this.state.ttPos} render={this.renderTooltipContent}>
+        <Tooltip pos={this.state.ttPos} render={this.renderTooltipContent}
+            trigger={this.state.ttTrigger}>
           <div style={style} />
         </Tooltip>
         <div>
@@ -103,6 +105,11 @@ var Demo = React.createClass({
               onChange={e => this.setState({ttWidth: e.target.value})} />
           <Input value={this.state.ttHeight} width={50}
               onChange={e => this.setState({ttHeight: e.target.value})} />
+        </div>
+        <div>
+          Триггер{' '}
+          <Select items={['hover', 'click']} value={this.state.ttTrigger}
+              onChange={e => this.setState({ttTrigger: e.target.value})} />
         </div>
       </Gapped>
     );

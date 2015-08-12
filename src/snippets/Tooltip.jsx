@@ -5,7 +5,7 @@ function render() {
 React.render(<div>
   <Tooltip render={render} pos="top right">top right</Tooltip>
   <br /><br />
-  <Tooltip render={render} pos="top center">top center</Tooltip>
+  <Tooltip render={render} pos="top center" trigger="click">top center</Tooltip>
   <br /><br />
   <Tooltip render={render} pos="bottom left">bottom left</Tooltip>
   <br /><br />
