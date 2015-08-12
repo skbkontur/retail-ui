@@ -36,13 +36,21 @@ body {
   }
 
   &-link {
+    border-radius: 2px;
     color: #fff;
     font-size: 16px;
-    margin-left: 10px;
+    margin-left: 5px;
+    padding: 2px 8px;
     text-decoration: none;
 
+    transition: background .2s;
+
+    &:hover {
+      background: #555;
+    }
+
     &.active {
-      text-decoration: underline;
+      background: #444;
     }
   }
 
