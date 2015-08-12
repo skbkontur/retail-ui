@@ -9,7 +9,7 @@ module.exports = {
   output: {
     path: __dirname + '/dist',
     publicPath: '/dist/',
-    filename: 'showcase.js'
+    filename: 'showcase.js',
   },
   module: {
     loaders: [
@@ -32,14 +32,15 @@ module.exports = {
       {test: /\.less$/, loader: 'less-loader'},
       {test: /\.(woff|eot)$/, loader: "file-loader"},
       {test: /\.md$/, loader: 'marked-loader'},
+      {test: /\.json/, loader: 'json-loader'},
     ]
   },
   resolve: {
     fallback: path.join(__dirname, 'node_modules'),
     alias: {
-      ui: 'retail-ui/components'
+      ui: 'retail-ui/components',
     },
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.json'],
   },
   resolveLoader: {
     fallback: path.join(__dirname, 'node_modules')
