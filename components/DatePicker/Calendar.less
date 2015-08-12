@@ -13,9 +13,13 @@
   }
 
   .mask {
+    // With transparent background on IE8 underlying text appears over the mask.
+    background: #fff;
     bottom: 0;
     box-shadow: inset 0 5px 6px -5px rgba(0, 0, 0, .2);
     left: 0;
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     position: absolute;
     right: 0;
     top: 0;

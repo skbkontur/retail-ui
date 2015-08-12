@@ -67,8 +67,12 @@
   }
 
   .menuOverlay {
+    // With transparent background on IE8 underlying text appears over the mask.
+    background: #fff;
     bottom: 0;
     left: 0;
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     position: absolute;
     right: 0;
     top: 0;
