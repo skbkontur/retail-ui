@@ -46,6 +46,8 @@ var MAP = {
   'maximize': '\ue085',
   'minimize': '\ue086',
 
+  enter: '\ue098',
+
   ellipsis: '\ue048',
   sort: '\ue049',
 
@@ -62,6 +64,7 @@ var MAP = {
   remove: '\ue00e',
   minus: '\ue01e',
   edit: '\ue00f',
+  copy: '\ue097',
   search: '\ue009',
   comp: '\ue069',
   print: '\ue010',
@@ -69,6 +72,8 @@ var MAP = {
   'envelop-o': '\ue078',
   'mail-in': '\ue079',
   'mail-out': '\ue07a',
+  'send-o': '\ue095',
+  send: '\ue096',
   fx: '\ue036',
   calendar: '\ue023',
   undo: '\ue012',
@@ -88,6 +93,7 @@ var MAP = {
   marker: '\ue075',
   archive: '\ue076',
   unarchive: '\ue077',
+  child: '\ue094',
 
   'play-forward': '\ue050',
   'play-backward': '\ue051',
@@ -102,6 +108,7 @@ var MAP = {
   menu: '\ue01d',
   user: '\ue020',
   'user-gear': '\ue05b',
+  people: '\ue093',
   trash: '\ue022',
   upload: '\ue02c',
   download: '\ue015',
