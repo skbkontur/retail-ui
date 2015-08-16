@@ -11,9 +11,17 @@ var cx = require('../cx')('RTSelect');
 var Select = React.createClass({
   propTypes: {
     /**
-     * Массив значений. Для вставки разделителя можно использовать `Select.SEP`.
+     * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
+     * `Array`, `Map`, `Immutable.Map`.
+     *
+     * Элементы воспринимаются следующим образом: если элемент — это массив, то
+     * первый элемент является значением , а второй — отображается в списке;
+     * если элемент не является массивом, то он используется и для отображения,
+     * и для значения.
+     *
+     * Для вставки разделителя можно использовать `Select.SEP`.
      */
-    items: PropTypes.array,
+    items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 
     value: PropTypes.any,
 
@@ -40,6 +48,8 @@ var Select = React.createClass({
      */
     renderItem: PropTypes.func,
 
+    filterItem: PropTypes.func,
+
     /**
      * Функция, которая возвращает `true` для элемента, если этот элемент может
      * быть выделен с клавиатуры. Аргумент: *item*.
@@ -52,6 +62,7 @@ var Select = React.createClass({
       placeholder: 'ничего не выбрано',
       renderValue,
       renderItem,
+      filterItem,
       isSelectable,
     };
   },
@@ -69,7 +80,7 @@ var Select = React.createClass({
 
     var label;
     if (value) {
-      label = this.props.renderValue(value);
+      label = this.props.renderValue(getItemByValue(this.props.items, value));
     } else {
       label = (
         <span className={cx('placeholder')}>{this.props.placeholder}</span>
@@ -123,11 +134,6 @@ var Select = React.createClass({
 
     var value = this.getValue_();
 
-    var items = this.props.items;
-    if (this.props.search) {
-      items = filter(items, this.state.searchPattern || '');
-    }
-
     return (
       <div className={cx('container')}>
         <div className={cx('drop')}>
@@ -135,14 +141,14 @@ var Select = React.createClass({
           <div style={{position: 'relative'}}>
             <div className={cx('menu')}>
               {search}
-              {items.map((item, i) => {
+              {this.mapItems((iValue, item, i) => {
                 let props = {
                   className: cx({
                     'menu-item': true,
-                    'menu-item-selected': item === value,
+                    'menu-item-selected': iValue === value,
                     'menu-item-current': i === this.state.current,
                   }),
-                  onMouseDown: e => this.select_(item),
+                  onMouseDown: e => this.select_(iValue),
                   onMouseEnter: e => this.setState({current: i}),
                   onMouseLeave: e => this.setState({current: -1}),
                 };
@@ -203,9 +209,10 @@ var Select = React.createClass({
         let current = this.nextSelectable_(step);
         this.setState({current});
       } else if (e.key === 'Enter') {
-        if (this.props.items[this.state.current]) {
+        const items = this.mapItems(value => value);
+        if (items[this.state.current]) {
           e.preventDefault(); // To prevent form submission.
-          this.select_(this.props.items[this.state.current]);
+          this.select_(items[this.state.current]);
         }
       }
     }
@@ -215,18 +222,18 @@ var Select = React.createClass({
     this.setState({searchPattern: event.target.value});
   },
 
-  select_(item) {
+  select_(value) {
     this.setState({
       opened: false,
       current: -1,
-      value: item,
+      value,
     }, () => {
       setTimeout(() => {
         React.findDOMNode(this).focus();
       }, 0);
     });
     if (this.props.onChange) {
-      this.props.onChange({target: {value: item}});
+      this.props.onChange({target: {value}});
     }
   },
 
@@ -238,19 +245,37 @@ var Select = React.createClass({
   },
 
   nextSelectable_(step) {
+    const items = this.mapItems((value, item) => [value, item]);
     let current = this.state.current;
     do {
       current += step;
       if (current < 0) {
-        current = this.props.items.length - 1;
-      } else if (current >= this.props.items.length) {
+        current = items.length - 1;
+      } else if (current >= items.length) {
         current = 0;
       }
-      let item = this.props.items[current];
-      if (item !== Select.SEP && this.props.isSelectable(item)) {
+      const [ value, item ] = items[current];
+      if (item !== Select.SEP && this.props.isSelectable(value, item)) {
         return current;
       }
     } while (this.state.current !== current);
+  },
+
+  mapItems(fn) {
+    const pattern = this.state.searchPattern &&
+      this.state.searchPattern.toLowerCase();
+
+    const ret = [];
+    let index = 0;
+    for (let entry of this.props.items) {
+      const [ value, item ] = normalizeEntry(entry);
+      if (!pattern || this.props.filterItem(value, item, pattern)) {
+        ret.push(fn(value, item, index));
+        ++index;
+      }
+    }
+
+    return ret;
   },
 });
 
@@ -272,23 +297,30 @@ function renderItem(item, i, props) {
   }
 }
 
-function isSelectable(item) {
+function isSelectable(value, item) {
   return true;
 }
 
-function filter(items, pattern) {
-  pattern = pattern.toLowerCase();
-
-  return items.filter(item => {
-    var value;
-    if (typeof item === 'string') {
-      value = item;
-    } else {
-      value = item.name;
+function getItemByValue(items, value) {
+  for (let entry of items) {
+    entry = normalizeEntry(entry);
+    if (entry[0] === value) {
+      return entry[1];
     }
+  }
+  return null;
+}
 
-    return value.toLowerCase().indexOf(pattern) !== -1;
-  });
+function normalizeEntry(entry) {
+  if (Array.isArray(entry)) {
+    return entry;
+  } else {
+    return [entry, entry];
+  }
+}
+
+function filterItem(value, item, pattern) {
+  return item.toLowerCase().indexOf(pattern) !== -1;
 }
 
 module.exports = Select;
