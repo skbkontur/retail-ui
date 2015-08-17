@@ -109,8 +109,12 @@ export default class Box extends React.Component {
     this.reflow();
   }
 
-  handleDocClick() {
-    this.props.onClose();
+  handleDocClick(event) {
+    const target = event.target || srcElement;
+    if (!this.props.target.contains(target) &&
+        !React.findDOMNode(this).contains(target)) {
+      this.props.onClose();
+    }
   }
 
   reflow() {
