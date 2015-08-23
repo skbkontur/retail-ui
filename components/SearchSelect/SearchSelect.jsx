@@ -16,6 +16,8 @@ const SearchSelect = React.createClass({
     renderItem: PropTypes.func,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+    onChange: PropTypes.func,
   },
 
   getDefaultProps() {
@@ -27,10 +29,11 @@ const SearchSelect = React.createClass({
   },
 
   getInitialState() {
+    const value = this.props.value !== undefined ? this.props.value : '';
     return {
       opened: false,
-      searchText: '',
-      value: '',
+      searchText: value,
+      value: value,
       results: null,
     };
   },
@@ -97,6 +100,12 @@ const SearchSelect = React.createClass({
     );
   },
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.value !== undefined) {
+      this.setState({value: newProps.value});
+    }
+  },
+
   refFocusable(el) {
     this.focusable_ = el && (el.focus ? el : React.findDOMNode(el));
   },
@@ -109,7 +118,6 @@ const SearchSelect = React.createClass({
     });
     this.props.source(pattern).then(results => {
       if (this.state.searchText === pattern) {
-        console.log(results);
         this.setState({
           selected: -1,
           results,
@@ -133,10 +141,8 @@ const SearchSelect = React.createClass({
           this.state.results[this.state.selected];
         if (item) {
           event.preventDefault();
-          this.setState({
-            value: this.props.getValue(item),
-            opened: false,
-          });
+          this.setState({opened: false});
+          this.change_(this.props.getValue(item));
           this.focus_();
         }
         break;
@@ -155,23 +161,16 @@ const SearchSelect = React.createClass({
         }
       }
     }
+    this.setState({opened: false});
     if (value) {
-      this.setState({
-        opened: false,
-        value,
-      });
+      this.change_(value);
     } else {
-      this.setState({
-        opened: false,
-        searchText: this.state.value,
-      });
+      this.setState({searchText: this.state.value});
     }
   },
 
   handleOpenClick() {
-    this.setState({
-      opened: true,
-    });
+    this.setState({opened: true});
     this.focus_();
   },
 
@@ -196,9 +195,9 @@ const SearchSelect = React.createClass({
     const value = this.props.getValue(item);
     this.setState({
       searchText: value,
-      value,
       opened: false,
     });
+    this.change_(value);
     this.focus_();
   },
 
@@ -221,6 +220,15 @@ const SearchSelect = React.createClass({
       selected = 0;
     }
     this.setState({selected});
+  },
+
+  change_(value) {
+    if (this.props.value === undefined) {
+      this.setState({value});
+    }
+    if (this.props.onChange) {
+      this.props.onChange({target: {value}});
+    }
   },
 });
 
