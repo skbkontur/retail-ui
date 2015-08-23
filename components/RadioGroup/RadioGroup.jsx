@@ -9,14 +9,26 @@ var cx = require('ui/cx')('RTRadioGroup');
 
 var RadioGroup = React.createClass({
   propTypes: {
-    items: PropTypes.arrayOf(PropTypes.string).isRequired,
+    /**
+     * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
+     * `Array`, `Map`, `Immutable.Map`.
+     *
+     * Элементы воспринимаются следующим образом: если элемент — это массив, то
+     * первый элемент является значением, а второй — отображается в списке;
+     * если элемент не является массивом, то он используется и для отображения,
+     * и для значения.
+     */
+    items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+
+    value: PropTypes.any,
 
     onChange: PropTypes.func,
   },
 
   getInitialState() {
+    const props = this.props;
     return {
-      selected: -1,
+      value: props.value !== undefined ? props.value : null,
     };
   },
 
@@ -38,16 +50,17 @@ var RadioGroup = React.createClass({
 
   renderItems() {
     var items = [];
-    this.props.items.forEach((item, i) => {
+    this.eachItem((value, item, i) => {
       if (i) {
         items.push(<br key={'br:' + i} />);
       }
 
-      var checked = this.state.selected === i;
+      var checked = this.state.value === value;
       var focused = this.state.focused &&
-          (checked || this.state.selected === -1 && i === 0);
+          (checked || this.state.value == null && i === 0);
       items.push(
-        <span key={item} className={cx('item')} onClick={e => this.select_(i)}>
+        <span key={item} className={cx('item')}
+            onClick={e => this.select_(value)}>
           <Radio checked={checked} focused={focused} />
           <span className={cx('label')}>{item}</span>
         </span>
@@ -57,27 +70,19 @@ var RadioGroup = React.createClass({
     return items;
   },
 
-  handleKey(event) {
-    var move = 0;
+  componentWillReceiveProps(newProps) {
+    if (newProps.value !== undefined) {
+      this.setState({value: newProps.value});
+    }
+  },
 
+  handleKey(event) {
     if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
       event.preventDefault();
-
-      move = -1;
+      this.move_(-1);
     } else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
       event.preventDefault();
-
-      move = 1;
-    }
-
-    if (move) {
-      var selected = this.state.selected + move;
-      if (selected < 0) {
-        selected = this.props.items.length - 1;
-      } else if (selected >= this.props.items.length) {
-        selected = 0;
-      }
-      this.select_(selected);
+      this.move_(1);
     }
   },
 
@@ -89,13 +94,49 @@ var RadioGroup = React.createClass({
     this.setState({focused: false});
   },
 
-  select_(i) {
-    this.setState({selected: i});
+  move_(step) {
+    const items = [];
+    let selectedIndex = -1;
+    this.eachItem((value, item, i) => {
+      items.push(value);
+      if (selectedIndex === -1 && value === this.state.value) {
+        selectedIndex = i;
+      }
+    });
 
+    selectedIndex += step;
+    if (selectedIndex < 0) {
+      selectedIndex = items.length - 1;
+    } else if (selectedIndex >= items.length) {
+      selectedIndex = 0;
+    }
+    this.select_(items[selectedIndex]);
+  },
+
+  select_(value) {
+    if (this.props.value === undefined) {
+      this.setState({value});
+    }
     if (this.props.onChange) {
-      this.props.onChange({target: {value: this.props.items[i]}});
+      this.props.onChange({target: {value}});
+    }
+  },
+
+  eachItem(fn) {
+    let index = 0;
+    for (let entry of this.props.items) {
+      const [value, item] = normalizeEntry(entry);
+      fn(value, item, index);
+      ++index;
     }
   },
 });
+
+function normalizeEntry(entry) {
+  if (!Array.isArray(entry)) {
+    return [entry, entry];
+  }
+  return entry;
+}
 
 module.exports = RadioGroup;
