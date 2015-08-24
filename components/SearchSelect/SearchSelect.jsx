@@ -1,13 +1,22 @@
 const classNames = require('classnames');
 import React, {PropTypes} from 'react';
 
+const filterProps = require('../filterProps');
+
 const Input = require('ui/Input');
 
 const styles = require('./SearchSelect.less');
 
+const INPUT_PASS_PROPS = {
+  placeholder: true,
+  width: true,
+};
+
 const SearchSelect = React.createClass({
   propTypes: {
     value: PropTypes.string,
+
+    placeholder: PropTypes.string,
 
     source: PropTypes.func,
 
@@ -54,12 +63,13 @@ const SearchSelect = React.createClass({
   },
 
   renderOpenedValue() {
+    const inputProps = filterProps(this.props, INPUT_PASS_PROPS);
     return (
       <div className={styles.input}>
-        <Input ref={this.refFocusable} value={this.state.searchText}
-            rightIcon={<span />} width={this.props.width}
-            onChange={this.handleInputChange}
-            onKeyDown={this.handleInputKey} onBlur={this.handleInputBlur} />
+        <Input ref={this.refFocusable} {...inputProps}
+            value={this.state.searchText} rightIcon={<span />}
+            onChange={this.handleInputChange} onKeyDown={this.handleInputKey}
+            onBlur={this.handleInputBlur} />
         <span className={styles.openArrow} onMouseDown={this.handleOpenClick} />
       </div>
     );
