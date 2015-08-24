@@ -31,7 +31,7 @@ var Group = React.createClass({
     });
 
     return (
-      <div className={cx('')} style={style}>
+      <span className={cx('')} style={style}>
         {React.Children.map(this.props.children, child => {
           if (!child) {
             return null;
@@ -63,7 +63,7 @@ var Group = React.createClass({
             </div>
           );
         })}
-      </div>
+      </span>
     );
   }
 });
