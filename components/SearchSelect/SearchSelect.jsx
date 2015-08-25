@@ -2,6 +2,7 @@ const classNames = require('classnames');
 import React, {PropTypes} from 'react';
 
 const filterProps = require('../filterProps');
+const Fetcher = require('./Fetcher');
 
 const Input = require('ui/Input');
 
@@ -12,7 +13,16 @@ const INPUT_PASS_PROPS = {
   width: true,
 };
 
+/**
+ * DRAFT
+ */
 const SearchSelect = React.createClass({
+  statics: {
+    createFetcher(fetchFunc) {
+      return new Fetcher(fetchFunc);
+    },
+  },
+
   propTypes: {
     value: PropTypes.string,
 
@@ -20,7 +30,13 @@ const SearchSelect = React.createClass({
 
     source: PropTypes.func,
 
+    fetcher: PropTypes.shape({
+      fetch: PropTypes.func,
+    }),
+
     getValue: PropTypes.func,
+
+    renderValue: PropTypes.func,
 
     renderItem: PropTypes.func,
 
@@ -39,6 +55,8 @@ const SearchSelect = React.createClass({
 
   getInitialState() {
     const value = this.props.value !== undefined ? this.props.value : '';
+    this.initItem_(value);
+
     return {
       opened: false,
       searchText: value,
@@ -76,11 +94,22 @@ const SearchSelect = React.createClass({
   },
 
   renderClosedValue() {
+    let value;
+    if (this.props.fetcher) {
+      if (this.state.item) {
+        value = this.props.renderValue(this.state.value, this.state.item);
+      } else {
+        value = <i>Загрузка</i>;
+      }
+    } else {
+      value = this.props.renderValue(this.state.value);
+    }
+
     return (
       <div ref={this.refFocusable} className={styles.value}
           tabIndex="0" onClick={this.handleValueClick}
           onKeyDown={this.handleValueKey}>
-        {this.state.value}
+        {value}
         <span className={styles.openArrow} />
       </div>
     );
@@ -113,6 +142,7 @@ const SearchSelect = React.createClass({
   componentWillReceiveProps(newProps) {
     if (newProps.value !== undefined) {
       this.setState({value: newProps.value});
+      this.resetItem_(newProps.value);
     }
   },
 
@@ -152,7 +182,7 @@ const SearchSelect = React.createClass({
         if (item) {
           event.preventDefault();
           this.setState({opened: false});
-          this.change_(this.props.getValue(item));
+          this.change_(item);
           this.focus_();
         }
         break;
@@ -161,19 +191,12 @@ const SearchSelect = React.createClass({
 
   handleInputBlur() {
     let value = null;
+    const {getValue} = this.props;
     const {searchText, results} = this.state;
-    if (results) {
-      for (let item of results) {
-        const itemValue = this.props.getValue(item);
-        if (itemValue === searchText) {
-          value = itemValue;
-          break;
-        }
-      }
-    }
+    const item = this.findItemByValue_(searchText);;
     this.setState({opened: false});
-    if (value) {
-      this.change_(value);
+    if (item) {
+      this.change_(item);
     } else {
       this.setState({searchText: this.state.value});
     }
@@ -207,8 +230,32 @@ const SearchSelect = React.createClass({
       searchText: value,
       opened: false,
     });
-    this.change_(value);
+    this.change_(item);
     this.focus_();
+  },
+
+  initItem_(value) {
+    if (value) {
+      this.fetchItem_(value);
+    }
+  },
+
+  resetItem_(value) {
+    if (this.state.value === value) return;
+
+    const item = this.findItemByValue_(value);
+    this.setState({item});
+    if (!item && this.props.fetcher) {
+      this.fetchItem_(value);
+    }
+  },
+
+  fetchItem_(value) {
+    this.props.fetcher.fetch(value).then(item => {
+      if (value === this.state.value) {
+        this.setState({item});
+      }
+    });
   },
 
   focus_() {
@@ -232,13 +279,20 @@ const SearchSelect = React.createClass({
     this.setState({selected});
   },
 
-  change_(value) {
+  change_(item) {
+    const value = this.props.getValue(item);
     if (this.props.value === undefined) {
       this.setState({value});
+      this.resetItem_(value);
     }
     if (this.props.onChange) {
       this.props.onChange({target: {value}});
     }
+  },
+
+  findItemByValue_(value) {
+    const {results} = this.state;
+    return results && results.find(item => this.props.getValue(item) == value);
   },
 });
 
