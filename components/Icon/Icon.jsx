@@ -176,6 +176,10 @@ var MAP = {
 
 var Icon = React.createClass({
   statics: {
+    charsByName : function(){
+      return MAP;
+    },
+
     getAllNames() {
       return Object.keys(MAP);
     }

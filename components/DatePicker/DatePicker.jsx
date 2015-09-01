@@ -40,7 +40,9 @@ var DatePicker = React.createClass({
         <Group width={120}>
           <Input ref="input" mainInGroup value={this.state.textValue}
               maxLength="10" placeholder="дд.мм.гггг"
-              onChange={this.handleChange} onBlur={this.handleBlur} />
+              onChange={this.handleChange} onBlur={this.handleBlur}
+              onFocus={this.props.onFocus} error={this.props.error}
+              />
           <Button narrow active={this.state.opened} onClick={this.open}>
             <Icon name="calendar" />
           </Button>
@@ -68,11 +70,15 @@ var DatePicker = React.createClass({
           value: date,
           textValue: value,
         });
-      } else if (this.props.onChange) {
+      }
+      else if (this.props.onChange) {
         this.props.onChange(date);
       }
     } else {
-      this.setState({textValue: value});
+      this.setState({
+        textValue: value,
+        value : null
+      });
     }
   },
 
@@ -84,9 +90,14 @@ var DatePicker = React.createClass({
         textValue: formatDate(value),
       });
     } else {
-      this.setState({textValue: formatDate(this.props.value)});
+      this.setState({
+        textValue: formatDate(this.props.value),
+        value : null
+      });
     }
   },
+
+  formatDate : formatDate,
 
   handlePickerKey(event) {
     if (event.key === 'Escape') {
