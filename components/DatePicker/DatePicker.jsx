@@ -42,6 +42,7 @@ var DatePicker = React.createClass({
               maxLength="10" placeholder="дд.мм.гггг"
               onChange={this.handleChange} onBlur={this.handleBlur}
               onFocus={this.props.onFocus} error={this.props.error}
+              className={this.props.inputClassName}
               />
           <Button narrow active={this.state.opened} onClick={this.open}>
             <Icon name="calendar" />
@@ -64,21 +65,12 @@ var DatePicker = React.createClass({
   handleChange(event) {
     let value = event.target.value.replace(/[^\d\.]/g, '');
     let date = parseDate(value);
-    if (date) {
-      if (this.props.value === undefined) {
-        this.setState({
-          value: date,
-          textValue: value,
-        });
-      }
-      else if (this.props.onChange) {
-        this.props.onChange(date);
-      }
-    } else {
-      this.setState({
-        textValue: value,
-        value : null
-      });
+    this.setState({
+      value: date,
+      textValue: value,
+    });
+    if (this.props.onChange) {
+      this.props.onChange(date);
     }
   },
 
@@ -106,11 +98,12 @@ var DatePicker = React.createClass({
   },
 
   handlePick(date) {
-    if (this.props.value === undefined) {
-      this.setState({value: date, textValue: formatDate(date)});
-    } else if (this.props.onChange) {
+    this.setState({
+      value: date,
+      textValue: formatDate(date)
+    });
+    if (this.props.onChange)
       this.props.onChange(date);
-    }
     this.close(false);
   },
 

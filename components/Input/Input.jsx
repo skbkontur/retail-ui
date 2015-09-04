@@ -103,6 +103,9 @@ var Input = React.createClass({
     if (this.props.align) {
       inputProps.style.textAlign = this.props.align;
     }
+    if (this.props.display) {
+      inputProps.style.display = this.props.display;
+    }
     var additionalClassName = this.props.className ? " " + this.props.className : "";
 
     return (
