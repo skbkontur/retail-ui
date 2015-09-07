@@ -1,22 +1,24 @@
-.RTLink {
-  border-radius: 1px;
-  color: #3072c4;
-  outline: none;
-  text-decoration: none;
+:local {
+  .root {
+    border-radius: 1px;
+    color: #3072c4;
+    outline: none;
+    text-decoration: none;
+  }
 
-  &:hover {
+  .hover {
     text-decoration: underline;
   }
 
-  &:focus {
+  .focus {
     box-shadow: 0 0 0 2px #5199db;
   }
 
-  &:active {
+  .active {
     color: #044785;
   }
 
-  &&-disabled {
+  .root.disabled {
     box-shadow: none;
     color: #808080;
     cursor: default;

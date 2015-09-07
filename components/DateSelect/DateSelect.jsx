@@ -1,9 +1,7 @@
-const classNames = require('classnames');
-const React = require('react');
+import classNames from 'classnames';
+import React, {PropTypes} from 'react';
 
-const PropTypes = React.PropTypes;
-
-const styles = require('./DateSelect.less');
+import styles from './DateSelect.less';
 
 const MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
     'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];

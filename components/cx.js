@@ -1,3 +1,9 @@
+if (console.warning) {
+  console.warning(
+    'The cx function is deprecated. Use webpack css-loader local scope.'
+  );
+}
+
 module.exports = function(prefix) {
   return function(classNames) {
     if (typeof classNames === 'string' && arguments.length === 1) {

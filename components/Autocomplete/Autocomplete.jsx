@@ -1,10 +1,9 @@
-var React = require('react');
-var PropTypes = React.PropTypes;
+import classNames from 'classnames';
+import React, {PropTypes} from 'react';
 
-var Input = require('../Input');
+import Input from '../Input';
 
-require('./Autocomplete.less');
-var cx = require('../cx')('RTAutocomplete');
+import styles from './Autocomplete.less';
 
 /**
  * Стандартный инпут с подсказками.
@@ -62,7 +61,7 @@ var Autocomplete = React.createClass({
       onKeyDown: e => this.handleKey(e),
     };
     return (
-      <span className={cx('')}>
+      <span className={styles.root}>
         <Input {...this.props} {...inputProps} />
         {this.renderMenu()}
       </span>
@@ -76,13 +75,13 @@ var Autocomplete = React.createClass({
     }
 
     return (
-      <div className={cx('menuHolder')}>
-        <div className={cx('menu')}>
+      <div className={styles.menuHolder}>
+        <div className={styles.menu}>
           {items.map((item, i) => {
-            let rootClass = cx({
-              'item': true,
-              'item-hover': this.state.selected === i,
-              'item-padLeft': this.props.leftIcon,
+            let rootClass = classNames({
+              [styles.item]: true,
+              [styles.itemHover]: this.state.selected === i,
+              [styles.itemPadLeft]: this.props.leftIcon,
             });
             return (
               <div key={i} className={rootClass}

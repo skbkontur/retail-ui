@@ -1,9 +1,7 @@
-var React = require('react');
+import classNames from 'classnames';
+import React, {PropTypes} from 'react';
 
-var PropTypes = React.PropTypes;
-
-require('./Radio.less');
-var cx = require('../cx')('RTRadio');
+import styles from './Radio.less';
 
 /**
  * Индикатор для радио-кнопок. Используется в RadioGroup. Может быть
@@ -17,14 +15,14 @@ var Radio = React.createClass({
   },
 
   render() {
-    var rootClass = cx({
-      '': true,
-      'checked': this.props.checked,
-      'focused': this.props.focused,
+    var rootClass = classNames({
+      [styles.root]: true,
+      [styles.checked]: this.props.checked,
+      [styles.focused]: this.props.focused,
     });
 
     return (
-      <span className={rootClass}><div className={cx('inbox')}/></span>
+      <span className={rootClass}><div className={styles.inbox} /></span>
     );
   },
 

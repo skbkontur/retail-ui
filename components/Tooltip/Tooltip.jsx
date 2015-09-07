@@ -1,8 +1,6 @@
-const React = require('react');
+import React, {PropTypes} from 'react';
 
-const PropTypes = React.PropTypes;
-
-const Box = require('./Box');
+import Box from './Box';
 
 const Tooltip = React.createClass({
   propTypes: {

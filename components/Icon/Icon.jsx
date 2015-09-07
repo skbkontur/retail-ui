@@ -1,9 +1,6 @@
-var React = require('react');
+import React, {PropTypes} from 'react';
 
-var PropTypes = React.PropTypes;
-
-require('./Icon.less');
-var cx = require('../cx')('RTIcon');
+import styles from './Icon.less';
 
 var MAP = {
   error: '\ue004',
@@ -174,7 +171,7 @@ var MAP = {
   'rss-o': '\ue092',
 };
 
-var Icon = React.createClass({
+const Icon = React.createClass({
   statics: {
     getAllNames() {
       return Object.keys(MAP);
@@ -198,7 +195,7 @@ var Icon = React.createClass({
       fontSize: this.props.size,
     };
     return (
-      <span className={cx('')} style={style}>{MAP[this.props.name]}</span>
+      <span className={styles.root} style={style}>{MAP[this.props.name]}</span>
     );
   }
 });

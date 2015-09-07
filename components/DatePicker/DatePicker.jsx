@@ -1,14 +1,12 @@
-const React = require('react');
+import React, {PropTypes} from 'react';
 
-const PropTypes = React.PropTypes;
+import Button from '../Button';
+import Group from '../Group';
+import Icon from '../Icon';
+import Input from '../Input';
+import Picker from './Picker';
 
-const Button = require('../Button');
-const Group = require('../Group');
-const Icon = require('../Icon');
-const Input = require('../Input');
-const Picker = require('./Picker');
-
-const styles = require('./DatePicker.less');
+import styles from './DatePicker.less';
 
 var DatePicker = React.createClass({
   propTypes: {

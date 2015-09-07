@@ -1,9 +1,6 @@
-var React = require('react');
+import React, {PropTypes} from 'react';
 
-var PropTypes = React.PropTypes;
-
-require('./Center.less');
-var cx = require('../cx')('RTCenter');
+import styles from './Center.less';
 
 /**
  * Контейнер для вертикального центрирования. В компонент можно передавать
@@ -29,9 +26,9 @@ var Center = React.createClass({
     }, this.props.style);
 
     return (
-      <div className={cx('')} {...this.props} style={style}>
-        <span className={cx('spring')} />
-        <span className={cx('container')}>{this.props.children}</span>
+      <div className={styles.root} {...this.props} style={style}>
+        <span className={styles.spring} />
+        <span className={styles.container}>{this.props.children}</span>
       </div>
     );
   },

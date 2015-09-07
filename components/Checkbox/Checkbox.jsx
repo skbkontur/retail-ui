@@ -1,13 +1,10 @@
-var events = require('add-event-listener');
-var React = require('react');
+import classNames from 'classnames';
+import events from 'add-event-listener';
+import React, {PropTypes} from 'react';
 
-var Icon = require('../Icon');
+import Icon from '../Icon';
 
-var PropTypes = React.PropTypes;
-
-require('./Checkbox.less');
-require('./Checkbox.css');
-var cx = require('../cx')('RTCheckbox');
+import styles from './Checkbox.less';
 
 var Checkbox = React.createClass({
   propTypes: {
@@ -17,25 +14,25 @@ var Checkbox = React.createClass({
   },
 
   render() {
-    var rootClass = cx({
-      '': true,
-      'isChecked': this.state.checked,
-      'isActive': this.state.active,
-      'isFocused': this.state.focused,
-      'isDisabled': this.props.disabled,
+    var rootClass = classNames({
+      [styles.root]: true,
+      [styles.isChecked]: this.state.checked,
+      [styles.isActive]: this.state.active,
+      [styles.isFocused]: this.state.focused,
+      [styles.isDisabled]: this.props.disabled,
     });
 
     return (
       <label className={rootClass} onMouseDown={this.handleActivate}>
-        <input type="checkbox" className={cx('input')}
+        <input type="checkbox" className={styles.input}
             checked={this.state.checked}
             disabled={this.props.disabled}
             onChange={this.handleChange} onFocus={this.handleFocus}
             onBlur={this.handleBlur} />
-        <span className={cx('box')}>
-          <div className={cx('ok')}><Icon name="ok" /></div>
+        <span className={styles.box}>
+          <div className={styles.ok}><Icon name="ok" /></div>
         </span>
-        <span className={cx('caption')}>{this.props.children}</span>
+        <span className={styles.caption}>{this.props.children}</span>
       </label>
     );
   },

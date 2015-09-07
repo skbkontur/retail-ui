@@ -1,12 +1,14 @@
-.RTRadioGroup {
-  display: inline-block;
+:local {
+  .root {
+    display: inline-block;
 
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
 
-  &-input {
+  .input {
     border: 0;
     height: 0;
     left: -10000px;
@@ -16,12 +18,12 @@
     width: 0;
   }
 
-  &-item {
+  .item {
     display: inline-block;
     margin-bottom: 4px;
   }
 
-  &-label {
+  .label {
     display: inline-block;
     vertical-align: middle;
   }

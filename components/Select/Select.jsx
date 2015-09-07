@@ -1,14 +1,11 @@
-var React = require('react');
+import classNames from 'classnames';
+import React, {PropTypes} from 'react';
 
-var PropTypes = React.PropTypes;
+import Input from '../Input';
 
-var Input = require('../Input');
+import styles from './Select.less';
 
-require('./Select.less');
-require('./Select.css');
-var cx = require('../cx')('RTSelect');
-
-var Select = React.createClass({
+const Select = React.createClass({
   propTypes: {
     /**
      * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
@@ -83,14 +80,14 @@ var Select = React.createClass({
       label = this.props.renderValue(getItemByValue(this.props.items, value));
     } else {
       label = (
-        <span className={cx('placeholder')}>{this.props.placeholder}</span>
+        <span className={styles.placeholder}>{this.props.placeholder}</span>
       );
     }
 
     var rootProps = {
-      className: cx({
-        '': true,
-        'isOpened': this.state.opened,
+      className: classNames({
+        [styles.root]: true,
+        [styles.isOpened]: this.state.opened,
       }),
       tabIndex: (this.state.opened && this.props.search) ? "-1" : "0",
       onKeyDown: this.handleKey,
@@ -98,9 +95,9 @@ var Select = React.createClass({
     };
 
     var labelProps = {
-      className: cx({
-        'label': true,
-        'label-isOpened': this.state.opened,
+      className: classNames({
+        [styles.label]: true,
+        [styles.labelIsOpened]: this.state.opened,
       }),
       onClick: this.open_,
     };
@@ -113,8 +110,8 @@ var Select = React.createClass({
     return (
       <span {...rootProps}>
         <span {...labelProps}>
-          <span className={cx('labelText')}>{label}</span>
-          <div className={cx('arrow')} />
+          <span className={styles.labelText}>{label}</span>
+          <div className={styles.arrow} />
         </span>
         {this.state.opened && this.renderMenu()}
       </span>
@@ -125,7 +122,7 @@ var Select = React.createClass({
     var search = null;
     if (this.props.search) {
       search = (
-        <div className={cx('search')}>
+        <div className={styles.search}>
           <Input ref={c => c && React.findDOMNode(c).focus()}
               onChange={this.handleSearch} onBlur={this.close_} />
         </div>
@@ -135,18 +132,18 @@ var Select = React.createClass({
     var value = this.getValue_();
 
     return (
-      <div className={cx('container')}>
-        <div className={cx('drop')}>
-          <div className={cx('overlay')} onMouseDown={this.close_} />
+      <div className={styles.container}>
+        <div className={styles.drop}>
+          <div className={styles.overlay} onMouseDown={this.close_} />
           <div style={{position: 'relative'}}>
-            <div className={cx('menu')}>
+            <div className={styles.menu}>
               {search}
               {this.mapItems((iValue, item, i) => {
                 let props = {
-                  className: cx({
-                    'menu-item': true,
-                    'menu-item-selected': iValue === value,
-                    'menu-item-current': i === this.state.current,
+                  className: classNames({
+                    [styles.menuItem]: true,
+                    [styles.menuItemSelected]: iValue === value,
+                    [styles.menuItemCurrent]: i === this.state.current,
                   }),
                   onMouseDown: e => this.select_(iValue),
                   onMouseEnter: e => this.setState({current: i}),
@@ -154,7 +151,7 @@ var Select = React.createClass({
                 };
                 let el = null;
                 if (item === Select.SEP) {
-                  el = <div key={`hr:${i}`} className={cx('menu-sep')} />;
+                  el = <div key={`hr:${i}`} className={styles.menuSep} />;
                 } else {
                   el = this.props.renderItem(item, i, props);
                 }
@@ -163,7 +160,7 @@ var Select = React.createClass({
             </div>
           </div>
         </div>
-        <div className={cx('botBorder')} />
+        <div className={styles.botBorder} />
       </div>
     );
   },

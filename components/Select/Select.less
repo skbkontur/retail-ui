@@ -1,35 +1,39 @@
-.RTSelect {
-  background: linear-gradient(#fefefe, #ececec);
-  border: 1px solid #d9d9d9;
-  border-bottom-color: #b2b2b2;
-  border-radius: 3px;
-  color: #404040;
-  cursor: default;
-  display: inline-block;
-  outline: 0;
-  position: relative;
-
-  &:focus {
-    border-color: #fff;
-    box-shadow: 0 0 0 2px #5199db;
+:local {
+  .root {
+    background: linear-gradient(#fefefe, #ececec);
+    border: 1px solid #d9d9d9;
+    border-bottom-color: #b2b2b2;
+    border-radius: 3px;
+    color: #404040;
+    cursor: default;
+    display: inline-block;
+    outline: 0;
     position: relative;
   }
 
-  &:hover {
+  .root:focus {
+    border-color: #5199db;
+    box-shadow: 0 0 0 1px #5199db, inset 0 0 0 1px #fff;
+    position: relative;
+  }
+
+  .root:hover {
     background: #ebebeb;
     background: linear-gradient(#f2f2f2, #dfdfdf);
   }
 
-  &-isOpened {
+  .isOpened {
     background: #d7d7d7;
 
     && {
-      border-color: #b3b3b3;
-      box-shadow: inset 0 3px 2px -2px rgba(0, 0, 1, .3);
     }
   }
+  .isOpened.isOpened {
+    border-color: #b3b3b3;
+    box-shadow: inset 0 3px 2px -2px rgba(0, 0, 1, .3);
+  }
 
-  &-label {
+  .label {
     display: inline-block;
     line-height: 28px;
     height: 28px;
@@ -37,12 +41,12 @@
     padding: 0 20px 0 10px;
   }
 
-  &-label-isOpened {
+  .labelIsOpened {
     position: relative;
     z-index: 1000;
   }
 
-  &-labelText {
+  .labelText {
     display: inline-block;
     max-width: 100%;
     overflow: hidden;
@@ -50,11 +54,11 @@
     white-space: nowrap;
   }
 
-  &-placeholder {
+  .placeholder {
     color: #888;
   }
 
-  &-arrow {
+  .arrow {
     border: 4px solid transparent;
     border-bottom-width: 0;
     border-top-color: #a6a6a6;
@@ -63,7 +67,7 @@
     top: 13px;
   }
 
-  &-container {
+  .container {
     bottom: 1px;
     left: -1px;
     position: absolute;
@@ -71,13 +75,13 @@
     z-index: 1000;
   }
 
-  &-botBorder {
+  .botBorder {
     background: #b3b3b3;
     height: 1px;
     position: relative;
   }
 
-  &-overlay {
+  .overlay {
     bottom: 0;
     left: 0;
     position: fixed;
@@ -85,12 +89,12 @@
     top: 0;
   }
 
-  &-drop {
+  .drop {
     min-width: 100%;
     position: absolute;
   }
 
-  &-menu {
+  .menu {
     background: #fff;
     border: 1px solid #d5d5d5;
     box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
@@ -98,26 +102,26 @@
     overflow: auto;
     padding: 4px 0;
 
-    &-item {
+    &Item {
       padding: 6px 18px 7px 6px;
       white-space: nowrap;
     }
 
-    &-item-selected {
+    &ItemSelected {
       background: #f1f1f1;
     }
 
-    &-item-current {
+    &ItemCurrent {
       background: #e4f3ff;
     }
 
-    &-sep {
+    &Sep {
       border-top: 1px solid #ececec;
       margin: 5px 6px;
     }
   }
 
-  &-search {
+  .search {
     margin: 0 4px 4px;
   }
 }

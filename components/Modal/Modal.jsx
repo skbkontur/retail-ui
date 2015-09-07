@@ -1,18 +1,14 @@
-var events = require('add-event-listener');
-var React = require('react/addons');
+import events from 'add-event-listener';
+import React, {PropTypes} from 'react';
 
-var Center = require('../Center');
+import Center from '../Center';
 
-var CSSTransitionGroup = React.addons.CSSTransitionGroup;
-var PropTypes = React.PropTypes;
-
-require('./Modal.less');
-var cx = require('../cx')('RTModal');
+import styles from './Modal.less';
 
 /**
  * Модальное окно.
  */
-var Modal = React.createClass({
+const Modal = React.createClass({
   propTypes: {
     /**
      * Не показывать крестик для закрытия окна.
@@ -29,20 +25,10 @@ var Modal = React.createClass({
   },
 
   render() {
-    return (
-      <CSSTransitionGroup transitionName={cx('anim')}>
-        <OpenedModal key="one" {...this.props} />
-      </CSSTransitionGroup>
-    );
-  },
-});
-
-var OpenedModal = React.createClass({
-  render() {
     var close = null;
     if (!this.props.noClose) {
       close = (
-        <a href="javascript:" className={cx('close')}
+        <a href="javascript:" className={styles.close}
             onClick={this.handleClose}>
           &times;
         </a>
@@ -55,9 +41,9 @@ var OpenedModal = React.createClass({
     }
 
     return (
-      <Center className={cx('')}>
-        <div className={cx('bg')} onClick={this.handleClose} />
-        <div className={cx('window')} style={style}>
+      <Center className={styles.root}>
+        <div className={styles.bg} onClick={this.handleClose} />
+        <div className={styles.window} style={style}>
           {close}
           {this.props.children}
         </div>
@@ -88,19 +74,19 @@ var OpenedModal = React.createClass({
 
 Modal.Header = React.createClass({
   render() {
-    return <div className={cx('Header')}>{this.props.children}</div>;
+    return <div className={styles.header}>{this.props.children}</div>;
   },
 });
 
 Modal.Body = React.createClass({
   render() {
-    return <div className={cx('Body')}>{this.props.children}</div>;
+    return <div className={styles.body}>{this.props.children}</div>;
   },
 });
 
 Modal.Footer = React.createClass({
   render() {
-    return <div className={cx('Footer')}>{this.props.children}</div>;
+    return <div className={styles.footer}>{this.props.children}</div>;
   },
 });
 

@@ -1,13 +1,10 @@
-var React = require('react');
+import React, {PropTypes} from 'react';
 
-var PropTypes = React.PropTypes;
+import Radio from '../Radio';
 
-var Radio = require('../Radio');
+import styles from './RadioGroup.less';
 
-require('./RadioGroup.less');
-var cx = require('ui/cx')('RTRadioGroup');
-
-var RadioGroup = React.createClass({
+const RadioGroup = React.createClass({
   propTypes: {
     /**
      * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
@@ -35,13 +32,13 @@ var RadioGroup = React.createClass({
   render() {
     var inputProps = {
       type: 'checkbox',
-      className: cx('input'),
+      className: styles.input,
       onKeyDown: this.handleKey,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
     };
     return (
-      <label className={cx('')}>
+      <label className={styles.root}>
         <input {...inputProps} />
         {this.renderItems()}
       </label>
@@ -59,10 +56,10 @@ var RadioGroup = React.createClass({
       var focused = this.state.focused &&
           (checked || this.state.value == null && i === 0);
       items.push(
-        <span key={item} className={cx('item')}
+        <span key={item} className={styles.item}
             onClick={e => this.select_(value)}>
           <Radio checked={checked} focused={focused} />
-          <span className={cx('label')}>{item}</span>
+          <span className={styles.label}>{item}</span>
         </span>
       );
     });

@@ -1,6 +1,4 @@
-const React = require('react');
-
-const PropTypes = React.PropTypes;
+import React, {PropTypes} from 'react';
 
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.

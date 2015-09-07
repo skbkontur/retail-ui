@@ -1,10 +1,7 @@
-var React = require('react');
+import classNames from 'classnames';
+import React, {PropTypes} from 'react';
 
-var PropTypes = React.PropTypes;
-
-require('./Button.less');
-require('./Button.css');
-var cx = require('../cx')('RTButton');
+import styles from './Button.less';
 
 var Button = React.createClass({
   propTypes: {
@@ -36,12 +33,12 @@ var Button = React.createClass({
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
       type: 'button',
-      className: cx({
-        '': true,
-        ['use-' + this.props.use]: true,
-        'active': this.props.active,
-        'disabled': this.props.disabled,
-        'narrow': this.props.narrow,
+      className: classNames({
+        [styles.root]: true,
+        [styles['use-' + this.props.use]]: true,
+        [styles.active]: this.props.active,
+        [styles.disabled]: this.props.disabled,
+        [styles.narrow]: this.props.narrow,
       }),
       style: {},
       disabled: this.props.disabled,

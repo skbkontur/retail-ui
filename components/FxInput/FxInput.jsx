@@ -1,11 +1,9 @@
-var React = require('react');
+import React, {PropTypes} from 'react';
 
-var Button = require('../Button');
-var Group = require('../Group');
-var Icon = require('../Icon');
-var Input = require('../Input');
-
-var PropTypes = React.PropTypes;
+import Button from '../Button';
+import Group from '../Group';
+import Icon from '../Icon';
+import Input from '../Input';
 
 var FxInput = React.createClass({
   propTypes: {

@@ -1,15 +1,17 @@
-.RTCheckbox {
-  position: relative;
+:local {
+  .root {
+    position: relative;
 
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+  }
 
-  &-isDisabled {
+  .isDisabled {
     color: #808080;
   }
 
-  &-input {
+  .input {
     height: 0;
     opacity: 0;
     outline: 0;
@@ -17,7 +19,7 @@
     width: 0;
   }
 
-  &-box {
+  .box {
     background: linear-gradient(#fdfdfd, #ededed);
     border: 1px solid #d9d9d9;
     border-bottom-color: #b2b2b2;
@@ -31,18 +33,18 @@
     width: 16px;
   }
 
-  &-isFocused &-box {
+  .isFocused .box {
     border-color: #5199db;
     box-shadow: 0 0 0 1px #5199db;
   }
 
-  &-isDisabled &-box {
+  .isDisabled .box {
     background: #f2f2f2;
     border-color: #d9d9d9;
     color: #a0a0a0;
   }
 
-  &-ok {
+  .ok {
     display: none;
     left: 1px;
     line-height: 14px;
@@ -50,11 +52,11 @@
     top: -1px;
   }
 
-  &-isChecked &-ok {
+  .isChecked .ok {
     display: block;
   }
 
-  &-caption {
+  .caption {
     vertical-align: middle;
   }
 }

@@ -1,11 +1,11 @@
-const events = require('add-event-listener');
-const React = require('react');
+import events from 'add-event-listener';
+import React from 'react';
 
-const Calendar = require('./Calendar');
-const DateSelect = require('../DateSelect');
-const Gapped = require('../Gapped');
+import Calendar from './Calendar';
+import DateSelect from '../DateSelect';
+import Gapped from '../Gapped';
 
-const styles = require('./Picker.less');
+import styles from './Picker.less';
 
 const Picker = React.createClass({
   getInitialState() {

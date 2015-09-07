@@ -1,19 +1,21 @@
-.RTGroup {
-  display: inline-flex;
+:local {
+  .root {
+    display: inline-flex;
+  }
 
-  &-fixed {
+  .fixed {
     flex-shrink: 0;
   }
 
-  &-stretch {
+  .stretch {
     flex-grow: 1;
   }
 
-  &-item {
+  .item {
     margin-left: -1px;
   }
 
-  &-item-first {
+  .itemFirst {
     margin-left: 0;
   }
 }

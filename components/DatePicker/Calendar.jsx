@@ -1,7 +1,7 @@
-const classNames = require('classnames');
-const React = require('react');
+import classNames from 'classnames';
+import React from 'react';
 
-const styles = require('./Calendar.less');
+import styles from './Calendar.less';
 
 const MONTH_NAMES = [
   'янв', 'фев', 'мар', 'апр',

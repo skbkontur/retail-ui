@@ -1,10 +1,8 @@
-const React = require('react');
+import React, {PropTypes} from 'react';
 
-const filterProps = require('../filterProps');
+import filterProps from '../filterProps';
 
-const PropTypes = React.PropTypes;
-
-const styles = require('./Textarea.less');
+import styles from './Textarea.less';
 
 const PASS_PROPS = {
   disabled: true,

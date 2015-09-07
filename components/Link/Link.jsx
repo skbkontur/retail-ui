@@ -1,16 +1,13 @@
-var React = require('react');
+import React, {PropTypes} from 'react';
 
-var PropTypes = React.PropTypes;
-
-require('./Link.less');
-var cx = require('ui/cx')('RTLink');
+import styles from './Link.less';
 
 /**
  * Стандартная ссылка.
  *
  * Все свойства передаются в элемент *<a>*.
  */
-var Link = React.createClass({
+const Link = React.createClass({
   propTypes: {
     href: PropTypes.string,
 
@@ -25,11 +22,11 @@ var Link = React.createClass({
 
   render() {
     var props = {
-      className: cx(''),
+      className: styles.root,
       href: this.props.href,
     };
     if (this.props.disabled) {
-      props.className += ' ' + cx('disabled');
+      props.className += ' ' + styles.disabled;
       props.tabIndex = '-1';
     }
     return <a {...this.props} {...props}>{this.props.children}</a>;

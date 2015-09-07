@@ -1,11 +1,9 @@
-var React = require('react');
+import classNames from 'classnames';
+import React, {PropTypes} from 'react';
 
-var filterProps = require('../filterProps');
+import filterProps from '../filterProps';
 
-var PropTypes = React.PropTypes;
-
-require('./Input.less');
-var cx = require('../cx')('RTInput');
+import styles from './Input.less';
 
 var polyfillPlaceholder = false;
 if (typeof window !== 'undefined' && window.document
@@ -22,7 +20,7 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
 };
 
-var Input = React.createClass({
+const Input = React.createClass({
   propTypes: {
     disabled: PropTypes.bool,
 
@@ -65,12 +63,12 @@ var Input = React.createClass({
 
   render() {
     var labelProps = {
-      className: cx({
-        '': true,
-        'disabled': this.props.disabled,
-        'error': this.props.error,
-        'padLeft': this.props.leftIcon,
-        'padRight': this.props.rightIcon,
+      className: classNames({
+        [styles.root]: true,
+        [styles.disabled]: this.props.disabled,
+        [styles.error]: this.props.error,
+        [styles.padLeft]: this.props.leftIcon,
+        [styles.padRight]: this.props.rightIcon,
       }),
       style: {},
     };
@@ -82,18 +80,18 @@ var Input = React.createClass({
     if (this.state.polyfillPlaceholder && this.props.placeholder
         && !this.state.value) {
       placeholder = (
-        <div className={cx('placeholder')}>{this.props.placeholder}</div>
+        <div className={styles.placeholder}>{this.props.placeholder}</div>
       );
     }
 
     var leftIcon = null;
     if (this.props.leftIcon) {
-      leftIcon = <div className={cx('leftIcon')}>{this.props.leftIcon}</div>;
+      leftIcon = <div className={styles.leftIcon}>{this.props.leftIcon}</div>;
     }
     var rightIcon = null;
     if (this.props.rightIcon) {
       rightIcon = (
-        <div className={cx('rightIcon')}>{this.props.rightIcon}</div>
+        <div className={styles.rightIcon}>{this.props.rightIcon}</div>
       );
     }
 
@@ -106,7 +104,7 @@ var Input = React.createClass({
 
     return (
       <label {...labelProps}>
-        <input className={cx('input')} {...inputProps} value={this.state.value}
+        <input className={styles.input} {...inputProps} value={this.state.value}
             onChange={e => this.handleChange(e)} />
         {placeholder}
         {leftIcon}

@@ -1,12 +1,14 @@
-.RTInput {
-  display: inline-block;
-  position: relative;
-  width: 250px;
-
+:local {
   @side-padding: 8px;
   @side-padding-padded: 25px;
 
-  &-input {
+  .root {
+    display: inline-block;
+    position: relative;
+    width: 250px;
+  }
+
+  .input {
     border: 1px solid #d9d9d9;
     border-top-color: #b2b2b2;
     box-sizing: border-box;
@@ -19,7 +21,7 @@
     width: 100%;
   }
 
-  &-input:focus {
+  .input:focus {
     border-color: #5199db;
     border-radius: 1px;
     box-shadow: 0 0 0 1px #5199db;
@@ -27,27 +29,27 @@
     z-index: 2;
   }
 
-  &-disabled &-input {
+  .disabled .input {
     background: #f2f2f2;
     border-color: #d9d9d9;
     color: #808080;
   }
 
-  &-error &-input {
+  .error .input {
     border-color: #da0902;
     border-radius: 1px;
     box-shadow: 0 0 0 1px #da0902;
   }
 
-  &-padLeft &-input {
+  .padLeft .input {
     padding-left: @side-padding-padded;
   }
 
-  &-padRight &-input {
+  .padRight .input {
     padding-right: @side-padding-padded;
   }
 
-  &-placeholder {
+  .placeholder {
     color: #aaa;
     left: @side-padding + 1;
     line-height: 28px;
@@ -57,15 +59,15 @@
     top: 1px;
     white-space: nowrap;
   }
-  &-padLeft &-placeholder {
+  .padLeft .placeholder {
     left: @side-padding-padded + 1;
   }
-  &-padRight &-placeholder {
+  .padRight .placeholder {
     right: @side-padding-padded + 1;
   }
 
-  &-leftIcon,
-  &-rightIcon {
+  .leftIcon,
+  .rightIcon {
     color: #a9a9a9;
     cursor: text;
     line-height: 28px;
@@ -73,16 +75,16 @@
     top: 0;
     z-index: 2;
   }
-  &-disabled &-leftIcon,
-  &-disabled &-rightIcon {
+  .disabled .leftIcon,
+  .disabled .rightIcon {
     cursor: default;
   }
 
-  &-leftIcon {
+  .leftIcon {
     left: 8px;
   }
 
-  &-rightIcon {
+  .rightIcon {
     right: 8px;
   }
 }
