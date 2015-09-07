@@ -1,12 +1,12 @@
-const classNames = require('classnames');
+import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
-const filterProps = require('../filterProps');
-const Fetcher = require('./Fetcher');
+import filterProps from '../filterProps';
+import Fetcher from './Fetcher';
 
-const Input = require('ui/Input');
+import Input from 'ui/Input';
 
-const styles = require('./SearchSelect.less');
+import styles from './SearchSelect.less';
 
 const INPUT_PASS_PROPS = {
   placeholder: true,
@@ -24,11 +24,11 @@ const SearchSelect = React.createClass({
   },
 
   propTypes: {
-    value: PropTypes.string,
+    value: PropTypes.any,
 
     placeholder: PropTypes.string,
 
-    source: PropTypes.func,
+    source: PropTypes.func.isRequired,
 
     fetcher: PropTypes.shape({
       fetch: PropTypes.func,
@@ -49,6 +49,7 @@ const SearchSelect = React.createClass({
     return {
       getValue,
       renderItem,
+      renderValue,
       width: 250,
     };
   },
@@ -130,7 +131,7 @@ const SearchSelect = React.createClass({
                   onMouseDown={e => this.handleItemClick(item)}
                   onMouseEnter={e => this.setState({selected: i})}
                   onMouseLeave={e => this.setState({selected: -1})}>
-                {this.props.renderItem(item)}
+                {this.props.renderItem(this.props.getValue(item), item)}
               </div>
             );
           })}
@@ -208,7 +209,10 @@ const SearchSelect = React.createClass({
   },
 
   handleValueClick() {
-    this.setState({opened: true});
+    this.setState({
+      opened: true,
+      searchText: '',
+    });
     this.focus_();
   },
 
@@ -218,7 +222,10 @@ const SearchSelect = React.createClass({
       case 'ArrowUp':
       case 'ArrowDown':
         event.preventDefault();
-        this.setState({opened: true});
+        this.setState({
+          opened: true,
+          searchText: '',
+        });
         this.focus_();
         break;
     }
@@ -300,7 +307,11 @@ function getValue(item) {
   return item;
 }
 
-function renderItem(item) {
+function renderValue(value, item) {
+  return item;
+}
+
+function renderItem(value, item) {
   return item;
 }
 
