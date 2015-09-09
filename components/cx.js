@@ -1,5 +1,5 @@
-if (console.warning) {
-  console.warning(
+if (global.console && console.error) {
+  console.error(
     'The cx function is deprecated. Use webpack css-loader local scope.'
   );
 }
