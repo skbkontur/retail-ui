@@ -5,7 +5,9 @@ import filterProps from '../filterProps';
 import styles from './Textarea.less';
 
 const PASS_PROPS = {
+  defaultValue: true,
   disabled: true,
+  placeholder: true,
   rows: true,
   value: true,
 
@@ -14,12 +16,16 @@ const PASS_PROPS = {
 
 const Textarea = React.createClass({
   propTypes: {
+    defaultValue: PropTypes.string,
+
     disabled: PropTypes.bool,
 
     /**
      * Количество строк
      */
     rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+    placeholder: PropTypes.string,
 
     value: PropTypes.string,
 
