@@ -16,6 +16,7 @@ const INPUT_PASS_PROPS = {
   maxLength: true,
   placeholder: true,
 
+  onFocus: true,
   onBlur: true,
   onKeyDown: true,
 };
@@ -65,6 +66,7 @@ const Input = React.createClass({
     var labelProps = {
       className: classNames({
         [styles.root]: true,
+        [this.props.className || '']: true,
         [styles.disabled]: this.props.disabled,
         [styles.error]: this.props.error,
         [styles.padLeft]: this.props.leftIcon,
