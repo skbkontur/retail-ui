@@ -113,7 +113,6 @@ const Select = React.createClass({
           <span className={styles.labelText}>{label}</span>
           <div className={styles.arrow} />
         </span>
-        {this.state.opened && this.renderMenu()}
       </span>
     );
   },
@@ -279,6 +278,8 @@ const Select = React.createClass({
 Select.SEP = {};
 
 function renderValue(item) {
+  if (!item)
+    return null;
   if (typeof item === 'string') {
     return item;
   } else {
