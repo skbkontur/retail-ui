@@ -19,7 +19,7 @@ var DatePicker = React.createClass({
   getInitialState() {
     return {
       value: this.props.value !== undefined ? this.props.value : null,
-      textValue: '',
+      textValue: formatDate(this.props.value),
       opened: false,
     };
   },
