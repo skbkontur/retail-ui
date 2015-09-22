@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 
 import filterProps from '../filterProps';
 
+import '../ensureOldIEClassName';
 import styles from './Textarea.less';
 
 const PASS_PROPS = {

@@ -17,6 +17,12 @@
     position: relative;
   }
 
+  :global(.rt-ie8) {
+    .root:focus {
+      outline: 1px solid #5199db;
+    }
+  }
+
   .root:hover {
     background: #ebebeb;
     background: linear-gradient(#f2f2f2, #dfdfdf);

@@ -38,6 +38,12 @@
     box-shadow: 0 0 0 1px #5199db;
   }
 
+  :global(.rt-ie8) {
+    .isFocused .box {
+      outline: 1px solid #5199db;
+    }
+  }
+
   .isDisabled .box {
     background: #f2f2f2;
     border-color: #d9d9d9;

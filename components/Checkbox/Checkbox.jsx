@@ -4,6 +4,7 @@ import React, {PropTypes} from 'react';
 
 import Icon from '../Icon';
 
+import '../ensureOldIEClassName';
 import styles from './Checkbox.less';
 
 var Checkbox = React.createClass({

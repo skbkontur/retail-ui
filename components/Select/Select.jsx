@@ -3,6 +3,7 @@ import React, {PropTypes} from 'react';
 
 import Input from '../Input';
 
+import '../ensureOldIEClassName';
 import styles from './Select.less';
 
 const Select = React.createClass({
