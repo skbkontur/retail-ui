@@ -1,1 +1,1 @@
-module.exports = require('./Gapped');
+module.exports = require('./Gapped.jsx');
