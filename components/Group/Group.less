@@ -18,4 +18,20 @@
   .itemFirst {
     margin-left: 0;
   }
+
+  :global(.rt-ie8),
+  :global(.rt-ie9) {
+    .root {
+      display: table;
+    }
+
+    .wrap {
+      display: table-cell;
+      vertical-align: top;
+    }
+
+    .stretch {
+      width: 100%;
+    }
+  }
 }
