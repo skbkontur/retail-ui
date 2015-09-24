@@ -35,22 +35,20 @@ const Select = React.createClass({
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
-     * Функция для отрисовки выбранного элемента. Единственный аргумент —
-     * *item*.
+     * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
      */
     renderValue: PropTypes.func,
 
     /**
-     * Функция для отрисовки элемента в выпадающем списке. Единственный
-     * аргумент — *item*.
+     * Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
+     * *item*.
      */
     renderItem: PropTypes.func,
 
     filterItem: PropTypes.func,
 
     /**
-     * Функция, которая возвращает `true` для элемента, если этот элемент может
-     * быть выделен с клавиатуры. Аргумент: *item*.
+     * DEPRECATED
      */
     isSelectable: PropTypes.func,
   },
@@ -78,7 +76,10 @@ const Select = React.createClass({
 
     var label;
     if (value) {
-      label = this.props.renderValue(getItemByValue(this.props.items, value));
+      label = this.props.renderValue(
+        value,
+        getItemByValue(this.props.items, value)
+      );
     } else {
       label = (
         <span className={styles.placeholder}>{this.props.placeholder}</span>
@@ -140,21 +141,23 @@ const Select = React.createClass({
             <div className={styles.menu}>
               {search}
               {this.mapItems((iValue, item, i) => {
-                let props = {
-                  className: classNames({
-                    [styles.menuItem]: true,
-                    [styles.menuItemSelected]: iValue === value,
-                    [styles.menuItemCurrent]: i === this.state.current,
-                  }),
-                  onMouseDown: e => this.select_(iValue),
-                  onMouseEnter: e => this.setState({current: i}),
-                  onMouseLeave: e => this.setState({current: -1}),
-                };
+                let itemClassName = classNames({
+                  [styles.menuItem]: true,
+                  [styles.menuItemSelected]: iValue === value,
+                  [styles.menuItemCurrent]: i === this.state.current,
+                });
                 let el = null;
                 if (item === Select.SEP) {
                   el = <div key={`hr:${i}`} className={styles.menuSep} />;
                 } else {
-                  el = this.props.renderItem(item, i, props);
+                  el = (
+                    <div key={i} className={itemClassName}
+                        onMouseDown={e => this.select_(iValue)}
+                        onMouseEnter={e => this.setState({current: i})}
+                        onMouseLeave={e => this.setState({current: -1})}>
+                      {this.props.renderItem(iValue, item)}
+                    </div>
+                  );
                 }
                 return el;
               })}
@@ -279,22 +282,12 @@ const Select = React.createClass({
 
 Select.SEP = {};
 
-function renderValue(item) {
-  if (!item) {
-    return null;
-  } else if (typeof item === 'string') {
-    return item;
-  } else {
-    return item.name;
-  }
+function renderValue(value, item) {
+  return item;
 }
 
-function renderItem(item, i, props) {
-  if (typeof item === 'string') {
-    return <div key={`it:${i}`} {...props}>{item}</div>;
-  } else {
-    return <div key={`it:${item.id}`} {...props}>{item.name}</div>;
-  }
+function renderItem(value, item) {
+  return item;
 }
 
 function isSelectable(value, item) {
