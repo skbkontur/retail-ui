@@ -84,7 +84,10 @@ var DatePicker = React.createClass({
         value,
         textValue: formatDate(value),
       });
-    } else {
+      if (!value)
+          this.props.onChange(value);
+    }
+    else {
       this.setState({
         textValue: formatDate(this.props.value),
         value : null,
@@ -136,6 +139,7 @@ function formatDate(date) {
 }
 
 function parseDate(str) {
+  str = str || "";
   let match = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
   if (match) {
     let date = new Date(0);
