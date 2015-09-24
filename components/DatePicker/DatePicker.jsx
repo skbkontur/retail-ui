@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
-
 import Button from '../Button';
 import Group from '../Group';
 import Icon from '../Icon';
@@ -25,6 +24,7 @@ var DatePicker = React.createClass({
   },
 
   render() {
+
     let picker = null;
     if (this.state.opened) {
       picker = (
@@ -55,13 +55,17 @@ var DatePicker = React.createClass({
   },
 
   componentWillReceiveProps(newProps) {
-    if (newProps.value !== undefined && this.state.value !== newProps.value) {
-      this.setState({
-        value: newProps.value,
-        textValue: formatDate(newProps.value),
-      });
+    if (newProps.value !== undefined) {
+      if (!datesAreEqual(parseDate(this.__textValue || this.state.textValue || ""),newProps.value)) {
+
+        this.setState({
+          value: newProps.value,
+          textValue: formatDate(newProps.value),
+        });
+      }
     }
   },
+
 
   handleChange(event) {
     let value = event.target.value.replace(/[^\d\.]/g, '');
@@ -72,7 +76,13 @@ var DatePicker = React.createClass({
         textValue: value,
       });
     }
-    if (this.props.onChange) {
+    else {
+      this.__textValue = value;
+      this.setState({
+        textValue: value
+      },()=>delete this.__textValue);
+    }
+    if ((!value || date) && this.props.onChange) {
       this.props.onChange(date);
     }
   },
@@ -84,14 +94,15 @@ var DatePicker = React.createClass({
         value,
         textValue: formatDate(value),
       });
-      if (!value)
-          this.props.onChange(value);
     }
     else {
       this.setState({
         textValue: formatDate(this.props.value),
         value : null,
       });
+    }
+    if (this.props.onBlur) {
+      this.props.onBlur();
     }
   },
 
@@ -149,6 +160,14 @@ function parseDate(str) {
     return date;
   }
   return null;
+}
+
+function datesAreEqual(d1, d2){
+  if (d1==d2)
+    return true;
+  if (d1==null || d2==null)
+    return false;
+  return d1.toString()==d2.toString();
 }
 
 function formatNumber(value) {
