@@ -109,7 +109,8 @@ const SearchSelect = React.createClass({
     return (
       <div ref={this.refFocusable} className={styles.value}
           tabIndex="0" onClick={this.handleValueClick}
-          onKeyDown={this.handleValueKey}>
+          onKeyDown={this.handleValueKey}
+          onKeyPress={this.handleValueKeyPress}>
         {value}
         <span className={styles.openArrow} />
       </div>
@@ -118,10 +119,13 @@ const SearchSelect = React.createClass({
 
   renderMenu() {
     const {results} = this.state;
+    if (!results || results.length === 0) {
+      return null;
+    }
     return (
       <div className={styles.menuHolder}>
         <div className={styles.menu}>
-          {results && results.map((item, i) => {
+          {results.map((item, i) => {
             const className = classNames({
               [styles.menuItem]: true,
               [styles.menuItemSelected]: this.state.selected === i,
@@ -212,13 +216,22 @@ const SearchSelect = React.createClass({
     this.setState({
       opened: true,
       searchText: '',
+      results: null,
     });
     this.focus_();
+  },
+
+  handleValueKeyPress(event) {
+    this.setState({
+      opened: true,
+      searchText: String.fromCharCode(event.charCode),
+    });
   },
 
   handleValueKey(event) {
     switch (event.key) {
       case ' ':
+      case 'Enter':
       case 'ArrowUp':
       case 'ArrowDown':
         event.preventDefault();
@@ -236,6 +249,7 @@ const SearchSelect = React.createClass({
     this.setState({
       searchText: value,
       opened: false,
+      results: null,
     });
     this.change_(item);
     this.focus_();

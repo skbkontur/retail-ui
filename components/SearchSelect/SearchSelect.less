@@ -4,44 +4,28 @@
     position: relative;
   }
 
-  .openArrow {
-    height: 28px;
-    position: absolute;
-    right: 1px;
-    top: 1px;
-    width: 28px;
-    z-index: 2;
-
-    &:after {
-      border: 4px solid transparent;
-      border-bottom: 0;
-      border-top-color: #ccc;
-      content: '';
-      left: 9px;
-      position: absolute;
-      top: 12px;
-    }
-  }
-  .value .openArrow:after {
-    border-top-color: #777;
-  }
-
   .value {
-    background: linear-gradient(#fefefe, #ececec);
     border: 1px solid #d9d9d9;
-    border-bottom-color: #b2b2b2;
-    border-radius: 3px;
-    color: #404040;
-    cursor: default;
+    border-top-color: #b2b2b2;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 14px;
+    height: 30px;
     line-height: 28px;
-    outline: 0;
-    padding: 0 20px 0 10px;
-    position: relative;
+    outline: none;
+    overflow: hidden;
+    padding: 0 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
   }
 
   .value:focus {
-    box-shadow: 0 0 0 1px #5199db, inset 0 0 0 1px #5199db;
+    border-color: #5199db;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px #5199db;
     outline: 0;
+    position: relative;
     z-index: 2;
   }
 
