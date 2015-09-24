@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
+import '../ensureOldIEClassName';
 import styles from './Button.less';
 
 var Button = React.createClass({

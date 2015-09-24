@@ -6,15 +6,21 @@
     text-decoration: none;
   }
 
-  .hover {
+  .root:hover {
     text-decoration: underline;
   }
 
-  .focus {
+  .root:focus {
     box-shadow: 0 0 0 2px #5199db;
   }
 
-  .active {
+  :global(.rt-ie8) {
+    .root:focus {
+      outline: 2px solid #5199db;
+    }
+  }
+
+  .root:active {
     color: #044785;
   }
 

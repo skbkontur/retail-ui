@@ -12,6 +12,7 @@
     font-size: 14px;
     outline: 0;
     padding: 0 10px;
+    position: relative;
 
     &::-moz-focus-inner {
       border: 0;
@@ -24,6 +25,31 @@
     box-shadow: @focus-shadow;
     position: relative;
     z-index: 2;
+  }
+
+  :global(.rt-ie8) {
+    .root:focus {
+      outline: 1px solid #5199db;
+    }
+
+    .root:focus:before {
+      border: 1px solid #fff;
+      bottom: 0;
+      content: '';
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    .root:active,
+    .root.active {
+      outline: 0;
+
+      &:before {
+        display: none;
+      }
+    }
   }
 
   .use-default {

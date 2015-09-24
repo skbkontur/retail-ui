@@ -3,6 +3,7 @@ import React, {PropTypes} from 'react';
 
 import filterProps from '../filterProps';
 
+import '../ensureOldIEClassName';
 import styles from './Input.less';
 
 var polyfillPlaceholder = false;

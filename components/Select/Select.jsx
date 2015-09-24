@@ -3,6 +3,7 @@ import React, {PropTypes} from 'react';
 
 import Input from '../Input';
 
+import '../ensureOldIEClassName';
 import styles from './Select.less';
 
 const Select = React.createClass({
@@ -113,6 +114,7 @@ const Select = React.createClass({
           <span className={styles.labelText}>{label}</span>
           <div className={styles.arrow} />
         </span>
+        {this.state.opened && this.renderMenu()}
       </span>
     );
   },
@@ -278,9 +280,9 @@ const Select = React.createClass({
 Select.SEP = {};
 
 function renderValue(item) {
-  if (!item)
+  if (!item) {
     return null;
-  if (typeof item === 'string') {
+  } else if (typeof item === 'string') {
     return item;
   } else {
     return item.name;
