@@ -143,7 +143,11 @@ export default function(box, target, pos) {
   }
 
   return {
-    boxStyle: {width, top, left},
+    boxStyle: {
+      width: getComputedWidth(box),
+      top,
+      left,
+    },
     pinStyle,
     pinDirection,
   };
@@ -164,4 +168,11 @@ function extractPos(pos) {
     ver: aside ? second : first,
     hor: aside ? first : second,
   };
+}
+
+function getComputedWidth(element) {
+  if (element.currentStyle) {
+    return element.currentStyle.width;
+  }
+  return getComputedStyle(element).width;
 }
