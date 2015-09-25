@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
 import filterProps from '../filterProps';
-import Fetcher from './Fetcher.js';
 
 import Input from 'ui/Input';
 
@@ -216,10 +215,19 @@ const SearchSelect = React.createClass({
   },
 
   handleValueKeyPress(event) {
-    this.setState({
-      opened: true,
-      searchText: String.fromCharCode(event.charCode),
-    });
+    // Set input value to empty string and then back to the real value to make
+    // cursor appear at the and.
+    const str = String.fromCharCode(event.charCode);
+    this.setState(
+      {
+        opened: true,
+        searchText: '',
+      },
+      () => {
+        this.focusable_.focus();
+        this.setState({searchText: str});
+      }
+    );
   },
 
   handleValueKey(event) {
