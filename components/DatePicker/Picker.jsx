@@ -1,7 +1,7 @@
 import events from 'add-event-listener';
 import React from 'react';
 
-import Calendar from './Calendar';
+import Calendar from './Calendar.jsx';
 import DateSelect from '../DateSelect';
 import Gapped from '../Gapped';
 

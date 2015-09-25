@@ -1,1 +1,1 @@
-module.exports = require('./DatePicker');
+module.exports = require('./DatePicker.jsx');

@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-import Box from './Box';
+import Box from './Box.jsx';
 
 const Tooltip = React.createClass({
   propTypes: {
