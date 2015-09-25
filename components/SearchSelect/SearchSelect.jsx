@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
 import filterProps from '../filterProps';
-import Fetcher from './Fetcher.jsx';
+import Fetcher from './Fetcher.js';
 
 import Input from 'ui/Input';
 
