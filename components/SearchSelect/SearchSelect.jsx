@@ -17,12 +17,6 @@ const INPUT_PASS_PROPS = {
  * DRAFT
  */
 const SearchSelect = React.createClass({
-  statics: {
-    createFetcher(fetchFunc) {
-      return new Fetcher(fetchFunc);
-    },
-  },
-
   propTypes: {
     value: PropTypes.any,
 
@@ -30,8 +24,8 @@ const SearchSelect = React.createClass({
 
     source: PropTypes.func.isRequired,
 
-    fetcher: PropTypes.shape({
-      fetch: PropTypes.func,
+    loader: PropTypes.shape({
+      load: PropTypes.func,
     }),
 
     getValue: PropTypes.func,
@@ -96,7 +90,7 @@ const SearchSelect = React.createClass({
 
   renderClosedValue() {
     let value;
-    if (this.props.fetcher) {
+    if (this.props.loader) {
       if (this.state.item) {
         value = this.props.renderValue(this.state.value, this.state.item);
       } else {
@@ -257,7 +251,7 @@ const SearchSelect = React.createClass({
 
   initItem_(value) {
     if (value) {
-      this.fetchItem_(value);
+      this.loadItem_(value);
     }
   },
 
@@ -266,13 +260,13 @@ const SearchSelect = React.createClass({
 
     const item = this.findItemByValue_(value);
     this.setState({item});
-    if (!item && this.props.fetcher) {
-      this.fetchItem_(value);
+    if (!item && this.props.loader) {
+      this.loadItem_(value);
     }
   },
 
-  fetchItem_(value) {
-    this.props.fetcher.fetch(value).then(item => {
+  loadItem_(value) {
+    this.props.loader.load(value).then(item => {
       if (value === this.state.value) {
         this.setState({item});
       }
