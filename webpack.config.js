@@ -26,7 +26,7 @@ module.exports = {
         test: /\.(css|less)$/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
-          'css-loader?localIdentName=[name]-[local]-[hash:base64:8]'
+          'css?localIdentName=[name]-[local]-[hash:base64:8]!autoprefixer'
         ),
       },
       {test: /\.less$/, loader: 'less-loader'},
