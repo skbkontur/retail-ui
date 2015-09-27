@@ -1,0 +1,1 @@
+React.render(<DatePicker />, mountNode);
