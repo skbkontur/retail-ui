@@ -38,7 +38,7 @@ module.exports = {
   resolve: {
     fallback: path.join(__dirname, 'node_modules'),
     alias: {
-      ui: 'retail-ui/components',
+      ui: path.resolve(__dirname, '../components'),
     },
     extensions: ['', '.js', '.jsx', '.json'],
   },

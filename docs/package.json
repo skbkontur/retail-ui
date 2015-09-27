@@ -30,7 +30,6 @@
     "object-assign": "^3.0.0",
     "react": "^0.13.3",
     "react-router": "^0.13.3",
-    "react-tools": "^0.13.3",
-    "retail-ui": "git+ssh://git@stash.skbkontur.ru:7777/ret/retail-ui.git"
+    "react-tools": "^0.13.3"
   }
 }
