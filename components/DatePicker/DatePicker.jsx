@@ -55,7 +55,7 @@ var DatePicker = React.createClass({
   },
 
   componentWillReceiveProps(newProps) {
-    if (newProps.value !== undefined && this.state.value !== newProps.value) {
+    if (newProps.value !== undefined) {
       this.setState({
         value: newProps.value,
         textValue: formatDate(newProps.value),
@@ -64,31 +64,32 @@ var DatePicker = React.createClass({
   },
 
   handleChange(event) {
-    let value = event.target.value.replace(/[^\d\.]/g, '');
-    let date = parseDate(value);
-    if (this.props.value === undefined) {
-      this.setState({
-        value: date,
-        textValue: value,
-      });
-    }
-    if (this.props.onChange) {
-      this.props.onChange(date);
-    }
+    const value = event.target.value.replace(/[^\d\.]/g, '');
+    this.setState({
+      textValue: value,
+    });
   },
 
   handleBlur() {
+    const date = parseDate(this.state.textValue);
     if (this.props.value === undefined) {
-      let value = parseDate(this.state.textValue);
       this.setState({
-        value,
-        textValue: formatDate(value),
+        value: date,
+        textValue: formatDate(date),
       });
     } else {
       this.setState({
         textValue: formatDate(this.props.value),
         value : null,
       });
+    }
+
+    if (this.props.onChange && +this.state.value !== +date) {
+      this.props.onChange({target: {value: date}});
+    }
+
+    if (this.props.onBlur) {
+      this.props.onBlur();
     }
   },
 
@@ -106,7 +107,7 @@ var DatePicker = React.createClass({
       });
     }
     if (this.props.onChange) {
-      this.props.onChange(date);
+      this.props.onChange({target: {value: date}});
     }
     this.close(false);
   },
@@ -136,6 +137,7 @@ function formatDate(date) {
 }
 
 function parseDate(str) {
+  str = str || '';
   let match = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
   if (match) {
     let date = new Date(0);
