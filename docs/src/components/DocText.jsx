@@ -1,11 +1,12 @@
 import React from 'react';
 
-import './DocText.less';
-var cx = require('ui/cx')('rt-sc-DocText');
+import styles from './DocText.less';
 
 export default class DocText extends React.Component {
   render() {
     var html = this.props.content;
-    return <div className={cx('')} dangerouslySetInnerHTML={{__html: html}} />;
+    return (
+      <div className={styles.root} dangerouslySetInnerHTML={{__html: html}} />
+    );
   }
 }

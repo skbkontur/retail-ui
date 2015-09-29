@@ -11,31 +11,31 @@ body {
   height: auto;
 }
 
-.rt-sc-ShowcaseApp {
-  &-head {
+:local {
+  .head {
     background: #666;
     color: #fff;
     font-weight: 300;
     line-height: 50px;
-
-    &-in {
-      box-sizing: border-box;
-      margin: 0 auto;
-      max-width: 1200px;
-      padding: 0 20px;
-    }
   }
 
-  &-title {
+  .headIn {
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 20px;
+  }
+
+  .title {
     float: left;
     font-size: 24px;
   }
 
-  &-links {
+  .links {
     float: right;
   }
 
-  &-link {
+  .link {
     border-radius: 2px;
     color: #fff;
     font-size: 16px;
@@ -49,12 +49,12 @@ body {
       background: #555;
     }
 
-    &.active {
+    &:global(.active) {
       background: #444;
     }
   }
 
-  &-content {
+  .content {
     margin: 0 auto;
     max-width: 1200px;
   }

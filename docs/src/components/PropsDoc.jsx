@@ -1,29 +1,38 @@
+var classNames = require('classnames');
 var React = require('react');
 
-require('./PropsDoc.less');
-var cx = require('ui/cx')('rt-sc-PropsDoc');
+import styles from './PropsDoc.less';
 
 var PropsDoc = React.createClass({
   render() {
     var info = this.props.component.info;
 
+    var descClassName = classNames({
+      [styles.desc]: true,
+      [styles.md]: true,
+    });
+    var propDescClassName = classNames({
+      [styles.propDesc]: true,
+      [styles.md]: true,
+    });
+
     return (
       <div>
-        <div className={cx({'desc': true, 'md': true})}
+        <div className={descClassName}
           dangerouslySetInnerHTML={{__html: info.description}}
         />
-        <div className={cx('props')}>
+        <div>
           {Object.keys(info.props).map((name) => {
             var prop = info.props[name];
             var required = prop.required ?
-                <span className={cx('prop-required')}>required</span> : null;
+                <span className={styles.propRequired}>required</span> : null;
             return (
-              <div key={name} className={cx('prop')}>
-                <span className={cx('prop-name')}>{name}</span>
-                <span className={cx('prop-typeColon')}>:</span>
-                <span className={cx('prop-type')}>{formatType(prop.type)}</span>
+              <div key={name} className={styles.prop}>
+                <span className={styles.propName}>{name}</span>
+                <span className={styles.propTypeColon}>:</span>
+                <span className={styles.propType}>{formatType(prop.type)}</span>
                 {required}
-                <div className={cx({'prop-desc': true, 'md': true})}
+                <div className={propDescClassName}
                   dangerouslySetInnerHTML={{__html: prop.description}}
                 />
               </div>

@@ -3,18 +3,17 @@ var React = require('react');
 var CodeRunner = require('./CodeRunner');
 var PropsDoc = require('./PropsDoc');
 
-require('./Component.less');
-var cx = require('ui/cx')('rt-sc-Component');
+import styles from './Component.less';
 
 var Component = React.createClass({
   render() {
     return (
-      <div className={cx('')}>
-        <h2 className={cx('name')}>{this.props.component.name}</h2>
-        <div className={cx('demo')}>
+      <div className={styles.root}>
+        <h2 className={styles.name}>{this.props.component.name}</h2>
+        <div className={styles.demo}>
           <CodeRunner src={this.state.src} />
         </div>
-        <div className={cx('docs')}>
+        <div className={styles.docs}>
           <div ref="code"></div>
           <PropsDoc component={this.props.component} />
         </div>

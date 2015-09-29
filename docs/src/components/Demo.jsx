@@ -11,8 +11,7 @@ var Link = require('ui/Link');
 var RadioGroup = require('ui/RadioGroup');
 var Tooltip = require('ui/Tooltip');
 
-require('./Demo.less');
-var cx = require('ui/cx')('rt-sc-Demo');
+import styles from './Demo.less';
 
 const TOOLTIP_POSITIONS = [
   'top left', 'top center', 'top right',
@@ -35,7 +34,7 @@ var Demo = React.createClass({
 
   render() {
     return (
-      <div className={cx('')}>
+      <div className={styles.root}>
         <Gapped vertical gap={20}>
           <Input rightIcon={<Icon name="warning" />}
             defaultValue="I'm mentally retarded"

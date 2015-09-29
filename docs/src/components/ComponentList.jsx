@@ -4,13 +4,12 @@ var components = require('../components');
 
 var Component = require('./Component');
 
-require('./ComponentList.less');
-var cx = require('ui/cx')('rt-sc-ComponentList');
+import styles from './ComponentList.less';
 
 var ComponentList = React.createClass({
   render() {
     return (
-      <div className={cx('')}>
+      <div className={styles.root}>
         {components.map((item, i) => {
           return <Component key={i} component={item} />;
         })}
