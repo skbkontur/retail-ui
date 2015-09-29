@@ -28,7 +28,7 @@ var ShowcaseApp = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });
 
 module.exports = ShowcaseApp;

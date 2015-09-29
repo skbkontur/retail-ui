@@ -16,7 +16,7 @@ var ComponentList = React.createClass({
         })}
       </div>
     );
-  }
+  },
 });
 
 module.exports = ComponentList;

@@ -17,6 +17,6 @@ var routes = (
 );
 
 var holder = document.getElementById('showcase');
-Router.run(routes, Handler => {
+Router.run(routes, (Handler) => {
   React.render(<Handler />, holder);
 });

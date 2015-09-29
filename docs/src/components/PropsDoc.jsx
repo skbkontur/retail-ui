@@ -43,7 +43,7 @@ function formatType(type) {
   }
 
   if (type.name === 'shape') {
-    return '{' + Object.keys(type.value).map(key => {
+    return '{' + Object.keys(type.value).map((key) => {
       return `${key}: ${formatType(type.value[key])}`;
     }).join(', ') + '}';
   }
@@ -52,7 +52,7 @@ function formatType(type) {
 
   if (type.name === 'enum') {
     if (Array.isArray(type.value)) {
-      let value = type.value.map(value => value.value).join(', ');
+      const value = type.value.map((value) => value.value).join(', ');
       str += ` (${value})`;
     }
   }

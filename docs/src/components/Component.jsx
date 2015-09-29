@@ -24,12 +24,12 @@ var Component = React.createClass({
 
   getInitialState() {
     return {
-      src: this.props.component.src || ''
+      src: this.props.component.src || '',
     };
   },
 
   componentDidMount() {
-    var editor = CodeMirror(this.refs.code.getDOMNode(), {
+    var editor = global.CodeMirror(this.refs.code.getDOMNode(), {
       value: this.state.src.replace(/\n$/, ''),
       theme: 'solarized light',
       smartIndent: false, // Doesn't work for jsx.

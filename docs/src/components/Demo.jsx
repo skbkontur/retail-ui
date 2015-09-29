@@ -90,26 +90,28 @@ var Demo = React.createClass({
         </Tooltip>
         <div>
           <Select items={TOOLTIP_POSITIONS} value={this.state.ttPos}
-              onChange={e => this.setState({ttPos: e.target.value})} />
+              onChange={(e) => this.setState({ttPos: e.target.value})} />
         </div>
         <div>
           Размер объекта{' '}
           <Input value={this.state.ttTargetWidth} width={50}
-              onChange={e => this.setState({ttTargetWidth: e.target.value})} />
+              onChange={(e) => this.setState({ttTargetWidth: e.target.value})}
+              />
           <Input value={this.state.ttTargetHeight} width={50}
-              onChange={e => this.setState({ttTargetHeight: e.target.value})} />
+              onChange={(e) => this.setState({ttTargetHeight: e.target.value})}
+              />
         </div>
         <div>
           Размер подсказки{' '}
           <Input value={this.state.ttWidth} width={50}
-              onChange={e => this.setState({ttWidth: e.target.value})} />
+              onChange={(e) => this.setState({ttWidth: e.target.value})} />
           <Input value={this.state.ttHeight} width={50}
-              onChange={e => this.setState({ttHeight: e.target.value})} />
+              onChange={(e) => this.setState({ttHeight: e.target.value})} />
         </div>
         <div>
           Триггер{' '}
           <Select items={['hover', 'click']} value={this.state.ttTrigger}
-              onChange={e => this.setState({ttTrigger: e.target.value})} />
+              onChange={(e) => this.setState({ttTrigger: e.target.value})} />
         </div>
       </Gapped>
     );

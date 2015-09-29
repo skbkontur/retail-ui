@@ -13,7 +13,7 @@ function run(src, mountNode) {
   try {
     evalCode(__header + src, mountNode);
   } catch (ex) {
-    let error = ex.toString();
+    const error = ex.toString();
     if ('textContent' in mountNode) {
       mountNode.textContent = error;
     } else {
@@ -23,8 +23,8 @@ function run(src, mountNode) {
 }
 
 function evalCode(_src, mountNode) {
-  eval(reactTools.transform(_src, {
-    harmony: true
+  eval(reactTools.transform(_src, { // eslint-disable-line no-eval
+    harmony: true,
   }));
 }
 
@@ -40,7 +40,7 @@ var CodeRunner = React.createClass({
 
   componentWillReceiveProps(props) {
     run(props.src, this.getDOMNode());
-  }
+  },
 });
 
 module.exports = CodeRunner;
