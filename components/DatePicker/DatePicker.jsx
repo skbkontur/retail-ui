@@ -30,7 +30,8 @@ var DatePicker = React.createClass({
       picker = (
         <div className={styles.picker} onKeyDown={this.handlePickerKey}>
           <Picker value={this.state.value} onPick={this.handlePick}
-              onClose={this.handlePickerClose} />
+            onClose={this.handlePickerClose}
+          />
         </div>
       );
     }
@@ -42,9 +43,10 @@ var DatePicker = React.createClass({
       <span className={className}>
         <Group width={120}>
           <Input ref="input" mainInGroup value={this.state.textValue}
-              maxLength="10" placeholder="дд.мм.гггг"
-              onChange={this.handleChange} onBlur={this.handleBlur}
-              onFocus={this.props.onFocus} error={this.props.error} />
+            maxLength="10" placeholder="дд.мм.гггг"
+            onChange={this.handleChange} onBlur={this.handleBlur}
+            onFocus={this.props.onFocus} error={this.props.error}
+          />
           <Button narrow active={this.state.opened} onClick={this.open}>
             <Icon name="calendar" />
           </Button>
@@ -129,18 +131,20 @@ var DatePicker = React.createClass({
 });
 
 function formatDate(date) {
-  if (!date) return '';
+  if (!date) {
+    return '';
+  }
 
-  let day = formatNumber(date.getDate());
-  let month = formatNumber(date.getMonth() + 1);
+  const day = formatNumber(date.getDate());
+  const month = formatNumber(date.getMonth() + 1);
   return `${day}.${month}.${date.getFullYear()}`;
 }
 
 function parseDate(str) {
   str = str || '';
-  let match = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+  const match = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
   if (match) {
-    let date = new Date(0);
+    const date = new Date(0);
     date.setFullYear(parseInt(match[3], 10));
     date.setMonth(parseInt(match[2], 10) - 1);
     date.setDate(parseInt(match[1], 10));

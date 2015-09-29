@@ -65,7 +65,8 @@ const Tooltip = React.createClass({
     if (this.state.opened) {
       React.render(
         <Box trigger={this.props.trigger} target={this.targetDOM}
-            pos={this.props.pos} onClose={this.handleBoxClose}>
+          pos={this.props.pos} onClose={this.handleBoxClose}
+        >
           {this.props.render()}
         </Box>,
         this.boxDom

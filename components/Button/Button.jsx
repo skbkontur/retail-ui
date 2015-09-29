@@ -58,7 +58,7 @@ var Button = React.createClass({
     return {
       use: 'default',
     };
-  }
+  },
 });
 
 module.exports = Button;

@@ -29,13 +29,14 @@ const Modal = React.createClass({
     if (!this.props.noClose) {
       close = (
         <a href="javascript:" className={styles.close}
-            onClick={this.handleClose}>
+          onClick={this.handleClose}
+        >
           &times;
         </a>
       );
     }
 
-    let style = {};
+    const style = {};
     if (this.props.width) {
       style.width = this.props.width;
     }

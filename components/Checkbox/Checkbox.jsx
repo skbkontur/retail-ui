@@ -26,10 +26,11 @@ var Checkbox = React.createClass({
     return (
       <label className={rootClass} onMouseDown={this.handleActivate}>
         <input type="checkbox" className={styles.input}
-            checked={this.state.checked}
-            disabled={this.props.disabled}
-            onChange={this.handleChange} onFocus={this.handleFocus}
-            onBlur={this.handleBlur} />
+          checked={this.state.checked}
+          disabled={this.props.disabled}
+          onChange={this.handleChange} onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+        />
         <span className={styles.box}>
           <div className={styles.ok}><Icon name="ok" /></div>
         </span>
@@ -42,7 +43,7 @@ var Checkbox = React.createClass({
     return {
       checked: this.props.checked !== undefined ? this.props.checked : false,
       active: false,
-      focused: false
+      focused: false,
     };
   },
 
@@ -53,7 +54,7 @@ var Checkbox = React.createClass({
   },
 
   handleActivate(event) {
-    if (event.button != 0) {
+    if (event.button !== 0) {
       return;
     }
 
@@ -82,7 +83,7 @@ var Checkbox = React.createClass({
 
   handleBlur() {
     this.setState({focused: false});
-  }
+  },
 });
 
 module.exports = Checkbox;

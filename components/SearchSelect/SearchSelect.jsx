@@ -54,7 +54,7 @@ const SearchSelect = React.createClass({
     return {
       opened: false,
       searchText: value,
-      value: value,
+      value,
       results: null,
     };
   },
@@ -79,9 +79,10 @@ const SearchSelect = React.createClass({
     return (
       <div className={styles.input}>
         <Input ref={this.refFocusable} {...inputProps}
-            value={this.state.searchText} rightIcon={<span />}
-            onChange={this.handleInputChange} onKeyDown={this.handleInputKey}
-            onBlur={this.handleInputBlur} />
+          value={this.state.searchText} rightIcon={<span />}
+          onChange={this.handleInputChange} onKeyDown={this.handleInputKey}
+          onBlur={this.handleInputBlur}
+        />
         <span className={styles.openArrow} onMouseDown={this.handleOpenClick} />
       </div>
     );
@@ -101,9 +102,10 @@ const SearchSelect = React.createClass({
 
     return (
       <div ref={this.refFocusable} className={styles.value}
-          tabIndex="0" onClick={this.handleValueClick}
-          onKeyDown={this.handleValueKey}
-          onKeyPress={this.handleValueKeyPress}>
+        tabIndex="0" onClick={this.handleValueClick}
+        onKeyDown={this.handleValueKey}
+        onKeyPress={this.handleValueKeyPress}
+      >
         {value}
         <span className={styles.openArrow} />
       </div>
@@ -125,9 +127,10 @@ const SearchSelect = React.createClass({
             });
             return (
               <div key={i} className={className}
-                  onMouseDown={e => this.handleItemClick(item)}
-                  onMouseEnter={e => this.setState({selected: i})}
-                  onMouseLeave={e => this.setState({selected: -1})}>
+                onMouseDown={(e) => this.handleItemClick(item)}
+                onMouseEnter={(e) => this.setState({selected: i})}
+                onMouseLeave={(e) => this.setState({selected: -1})}
+              >
                 {this.props.renderItem(this.props.getValue(item), item)}
               </div>
             );
@@ -154,7 +157,7 @@ const SearchSelect = React.createClass({
       opened: true,
       searchText: pattern,
     });
-    this.props.source(pattern).then(results => {
+    this.props.source(pattern).then((results) => {
       if (this.state.searchText === pattern) {
         this.setState({
           selected: -1,
@@ -188,10 +191,8 @@ const SearchSelect = React.createClass({
   },
 
   handleInputBlur() {
-    let value = null;
-    const {getValue} = this.props;
-    const {searchText, results} = this.state;
-    const item = this.findItemByValue_(searchText);;
+    const {searchText} = this.state;
+    const item = this.findItemByValue_(searchText);
     this.setState({opened: false});
     if (item) {
       this.change_(item);
@@ -264,7 +265,9 @@ const SearchSelect = React.createClass({
   },
 
   resetItem_(value) {
-    if (this.state.value === value) return;
+    if (this.state.value === value) {
+      return;
+    }
 
     const item = this.findItemByValue_(value);
     this.setState({item});
@@ -274,7 +277,7 @@ const SearchSelect = React.createClass({
   },
 
   loadItem_(value) {
-    this.props.loader.load(value).then(item => {
+    this.props.loader.load(value).then((item) => {
       if (value === this.state.value) {
         this.setState({item});
       }
@@ -290,7 +293,9 @@ const SearchSelect = React.createClass({
   },
 
   moveSelection_(step) {
-    if (!this.state.results) return;
+    if (!this.state.results) {
+      return;
+    }
 
     let selected = this.state.selected + step;
     if (selected < 0) {
@@ -315,7 +320,9 @@ const SearchSelect = React.createClass({
 
   findItemByValue_(value) {
     const {results} = this.state;
-    return results && results.find(item => this.props.getValue(item) == value);
+    return results && results.find(
+      (item) => this.props.getValue(item) === value
+    );
   },
 });
 

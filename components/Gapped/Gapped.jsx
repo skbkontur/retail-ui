@@ -35,7 +35,7 @@ const Gapped = React.createClass({
       marginTop: this.props.gap,
       verticalAlign: this.props.verticalAlign,
     };
-    var children = React.Children.map(this.props.children, child => {
+    var children = React.Children.map(this.props.children, (child) => {
       if (!child) {
         return child;
       }
@@ -43,7 +43,7 @@ const Gapped = React.createClass({
     });
     const rootStyle = {
       paddingTop: 1,
-    }
+    };
     const contStyle = {
       marginTop: -this.props.gap - 1,
       marginLeft: -this.props.gap,

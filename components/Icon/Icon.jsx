@@ -175,7 +175,7 @@ const Icon = React.createClass({
   statics: {
     getAllNames() {
       return Object.keys(MAP);
-    }
+    },
   },
 
   propTypes: {
@@ -197,7 +197,7 @@ const Icon = React.createClass({
     return (
       <span className={styles.root} style={style}>{MAP[this.props.name]}</span>
     );
-  }
+  },
 });
 
 module.exports = Icon;

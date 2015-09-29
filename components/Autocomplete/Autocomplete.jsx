@@ -56,9 +56,9 @@ var Autocomplete = React.createClass({
   render() {
     var inputProps = {
       value: this.state.value,
-      onChange: e => this.handleChange(e),
-      onBlur: e => this.handleBlur(e),
-      onKeyDown: e => this.handleKey(e),
+      onChange: (e) => this.handleChange(e),
+      onBlur: (e) => this.handleBlur(e),
+      onKeyDown: (e) => this.handleKey(e),
     };
     return (
       <span className={styles.root}>
@@ -78,16 +78,17 @@ var Autocomplete = React.createClass({
       <div className={styles.menuHolder}>
         <div className={styles.menu}>
           {items.map((item, i) => {
-            let rootClass = classNames({
+            const rootClass = classNames({
               [styles.item]: true,
               [styles.itemHover]: this.state.selected === i,
               [styles.itemPadLeft]: this.props.leftIcon,
             });
             return (
               <div key={i} className={rootClass}
-                  onMouseDown={e => this.handleItemClick(e, i)}
-                  onMouseEnter={e => this.setState({selected: i})}
-                  onMouseLeave={e => this.setState({selected: -1})}>
+                onMouseDown={(e) => this.handleItemClick(e, i)}
+                onMouseEnter={(e) => this.setState({selected: i})}
+                onMouseLeave={(e) => this.setState({selected: -1})}
+              >
                 {this.props.renderItem(item)}
               </div>
             );
@@ -107,7 +108,7 @@ var Autocomplete = React.createClass({
   handleChange(event) {
     this.opened_ = true;
 
-    let value = event.target.value;
+    const value = event.target.value;
 
     if (this.props.value === undefined) {
       this.setState({value});
@@ -133,7 +134,7 @@ var Autocomplete = React.createClass({
       event.preventDefault();
       stop = true;
 
-      let step = event.key === 'ArrowUp' ? -1 : 1;
+      const step = event.key === 'ArrowUp' ? -1 : 1;
       let selected = this.state.selected + step;
       if (selected >= items.length) {
         selected = -1;
@@ -185,17 +186,19 @@ var Autocomplete = React.createClass({
   },
 
   updateItems(value) {
-    if (!this.opened_) return;
+    if (!this.opened_) {
+      return;
+    }
 
-    let pattern = value.trim();
-    let source = this.props.source;
+    const pattern = value.trim();
+    const source = this.props.source;
     let promise;
     if (typeof source === 'function') {
       promise = source(pattern);
     } else {
       promise = match(pattern, source);
     }
-    promise.then(items => {
+    promise.then((items) => {
       if (this.state.value === value && this.opened_) {
         this.setState({
           items,
@@ -219,7 +222,7 @@ function match(pattern, items) {
 
   pattern = pattern.toLowerCase();
   return new Promise((resolve, reject) => {
-    resolve(items.filter(item => item.toLowerCase().indexOf(pattern) !== -1));
+    resolve(items.filter((item) => item.toLowerCase().indexOf(pattern) !== -1));
   });
 }
 

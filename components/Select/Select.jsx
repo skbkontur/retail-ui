@@ -91,7 +91,7 @@ const Select = React.createClass({
         [styles.root]: true,
         [styles.isOpened]: this.state.opened,
       }),
-      tabIndex: (this.state.opened && this.props.search) ? "-1" : "0",
+      tabIndex: (this.state.opened && this.props.search) ? '-1' : '0',
       onKeyDown: this.handleKey,
       onBlur: this.handleBlur,
     };
@@ -125,8 +125,9 @@ const Select = React.createClass({
     if (this.props.search) {
       search = (
         <div className={styles.search}>
-          <Input ref={c => c && React.findDOMNode(c).focus()}
-              onChange={this.handleSearch} onBlur={this.close_} />
+          <Input ref={(c) => c && React.findDOMNode(c).focus()}
+            onChange={this.handleSearch} onBlur={this.close_}
+          />
         </div>
       );
     }
@@ -141,7 +142,7 @@ const Select = React.createClass({
             <div className={styles.menu}>
               {search}
               {this.mapItems((iValue, item, i) => {
-                let itemClassName = classNames({
+                const itemClassName = classNames({
                   [styles.menuItem]: true,
                   [styles.menuItemSelected]: iValue === value,
                   [styles.menuItemCurrent]: i === this.state.current,
@@ -152,9 +153,10 @@ const Select = React.createClass({
                 } else {
                   el = (
                     <div key={i} className={itemClassName}
-                        onMouseDown={e => this.select_(iValue)}
-                        onMouseEnter={e => this.setState({current: i})}
-                        onMouseLeave={e => this.setState({current: -1})}>
+                      onMouseDown={(e) => this.select_(iValue)}
+                      onMouseEnter={(e) => this.setState({current: i})}
+                      onMouseLeave={(e) => this.setState({current: -1})}
+                    >
                       {this.props.renderItem(iValue, item)}
                     </div>
                   );
@@ -206,11 +208,11 @@ const Select = React.createClass({
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
         e.preventDefault();
 
-        let step = e.key === 'ArrowUp' ? -1 : 1;
-        let current = this.nextSelectable_(step);
+        const step = e.key === 'ArrowUp' ? -1 : 1;
+        const current = this.nextSelectable_(step);
         this.setState({current});
       } else if (e.key === 'Enter') {
-        const items = this.mapItems(value => value);
+        const items = this.mapItems((value) => value);
         if (items[this.state.current]) {
           e.preventDefault(); // To prevent form submission.
           this.select_(items[this.state.current]);
@@ -255,7 +257,7 @@ const Select = React.createClass({
       } else if (current >= items.length) {
         current = 0;
       }
-      const [ value, item ] = items[current];
+      const [value, item] = items[current];
       if (item !== Select.SEP && this.props.isSelectable(value, item)) {
         return current;
       }
@@ -268,8 +270,8 @@ const Select = React.createClass({
 
     const ret = [];
     let index = 0;
-    for (let entry of this.props.items) {
-      const [ value, item ] = normalizeEntry(entry);
+    for (const entry of this.props.items) {
+      const [value, item] = normalizeEntry(entry);
       if (!pattern || this.props.filterItem(value, item, pattern)) {
         ret.push(fn(value, item, index));
         ++index;

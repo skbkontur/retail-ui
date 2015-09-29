@@ -37,7 +37,7 @@ const DateSelect = React.createClass({
   },
 
   render() {
-    const { width } = this.props;
+    const {width} = this.props;
     const rootProps = {
       className: styles.root,
       style: {width},
@@ -57,17 +57,17 @@ const DateSelect = React.createClass({
   },
 
   renderMenu() {
-    let { top, height } = this.state;
+    const {top, height} = this.state;
 
     let shift = this.state.pos % HEIGHT;
     if (shift < 0) {
       shift += HEIGHT;
     }
-    let from = (this.state.pos - shift + top) / HEIGHT;
-    let to = from + Math.ceil((height + shift) / HEIGHT);
-    let items = [];
+    const from = (this.state.pos - shift + top) / HEIGHT;
+    const to = from + Math.ceil((height + shift) / HEIGHT);
+    const items = [];
     for (let i = from; i < to; ++i) {
-      let className = classNames({
+      const className = classNames({
         [styles.menuItem]: true,
         [styles.menuItemActive]: i === this.state.current,
         [styles.menuItemSelected]: i === 0,
@@ -78,16 +78,16 @@ const DateSelect = React.createClass({
         </div>
       );
     }
-    let style = {
+    const style = {
       top: top - 2,
     };
 
-    let shiftStyle = {
+    const shiftStyle = {
       position: 'relative',
       top: -shift,
     };
 
-    let holderClass = classNames({
+    const holderClass = classNames({
       [styles.menuHolder]: true,
       [styles.isTopCapped]: this.state.topCapped,
     });
@@ -100,10 +100,11 @@ const DateSelect = React.createClass({
         <div className={styles.itemsHolder} style={{height}}>
           <div style={shiftStyle}>{items}</div>
           <div className={styles.menuOverlay}
-              onMouseDown={this.handleItemClick}
-              onMouseMove={this.handleMouseMove}
-              onMouseLeave={this.handleMouseLeave}
-              onWheel={this.handleWheel} />
+            onMouseDown={this.handleItemClick}
+            onMouseMove={this.handleMouseMove}
+            onMouseLeave={this.handleMouseLeave}
+            onWheel={this.handleWheel}
+          />
           </div>
         {!this.state.botCapped && (
           <div className={styles.menuDown} onClick={this.handleDown} />
@@ -121,14 +122,14 @@ const DateSelect = React.createClass({
     } else if (event.deltaMode === 2) {
       deltaY *= HEIGHT * 4;
     }
-    let pos = this.state.pos += deltaY;
+    const pos = this.state.pos += deltaY;
     this.resetSize(pos);
   },
 
   handleMouseMove(event) {
-    let rect = event.currentTarget.getBoundingClientRect();
-    let y = event.clientY - rect.top + this.state.top + this.state.pos;
-    let current = Math.floor(y / HEIGHT);
+    const rect = event.currentTarget.getBoundingClientRect();
+    const y = event.clientY - rect.top + this.state.top + this.state.pos;
+    const current = Math.floor(y / HEIGHT);
     this.setState({current});
   },
 
@@ -137,9 +138,9 @@ const DateSelect = React.createClass({
   },
 
   handleItemClick(event) {
-    let rect = event.currentTarget.getBoundingClientRect();
-    let y = event.clientY - rect.top + this.state.top + this.state.pos;
-    let value = this.props.value + Math.floor(y / HEIGHT);
+    const rect = event.currentTarget.getBoundingClientRect();
+    const y = event.clientY - rect.top + this.state.top + this.state.pos;
+    const value = this.props.value + Math.floor(y / HEIGHT);
 
     this.close();
 
@@ -153,7 +154,7 @@ const DateSelect = React.createClass({
       switch (event.key) {
         case 'Enter':
           if (this.state.current !== null && this.props.onChange) {
-            let value = this.props.value + this.state.current;
+            const value = this.props.value + this.state.current;
             this.props.onChange({target: {value}});
           }
           this.close();
@@ -196,7 +197,7 @@ const DateSelect = React.createClass({
   },
 
   getItem(index) {
-    let value = this.props.value + index;
+    const value = this.props.value + index;
     if (this.props.type === 'month') {
       return MONTHS[value];
     }
@@ -204,7 +205,9 @@ const DateSelect = React.createClass({
   },
 
   open() {
-    if (this.state.opened) return;
+    if (this.state.opened) {
+      return;
+    }
 
     this.resetSize(0);
     this.setState({
@@ -214,7 +217,9 @@ const DateSelect = React.createClass({
   },
 
   close() {
-    if (!this.state.opened) return;
+    if (!this.state.opened) {
+      return;
+    }
 
     this.setState({opened: false});
   },
@@ -227,16 +232,16 @@ const DateSelect = React.createClass({
       height = 12 * HEIGHT;
     }
 
-    let minPos = this.getMinPos() - top;
-    let maxPos = this.getMaxPos() - top - height + HEIGHT;
+    const minPos = this.getMinPos() - top;
+    const maxPos = this.getMaxPos() - top - height + HEIGHT;
     if (minPos >= pos) {
       pos = minPos;
     }
     if (maxPos <= pos) {
       pos = maxPos;
     }
-    let topCapped = pos <= minPos;
-    let botCapped = pos >= maxPos;
+    const topCapped = pos <= minPos;
+    const botCapped = pos >= maxPos;
 
     this.setState({pos, top, height, topCapped, botCapped});
   },
@@ -255,7 +260,7 @@ const DateSelect = React.createClass({
     } else if (this.props.type === 'year') {
       return (2100 - this.props.value) * HEIGHT;
     }
-  }
+  },
 });
 
 module.exports = DateSelect;

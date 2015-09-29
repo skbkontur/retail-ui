@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "jest",
-    "lint": "eslint --ext .js,.jsx src docs/src"
+    "lint": "eslint --ext .js,.jsx components docs/src"
   },
   "dependencies": {
     "add-event-listener": "0.0.1",

@@ -11,23 +11,26 @@ const Picker = React.createClass({
   getInitialState() {
     return {
       date: this.props.value ? new Date(this.props.value) : new Date(),
-    }
+    };
   },
 
   render() {
-    let { date } = this.state;
+    const {date} = this.state;
     return (
       <div className={styles.root}>
         <div className={styles.monthYear}>
           <Gapped gap={5}>
             <DateSelect type="month" value={this.state.date.getMonth()}
-                width={100} onChange={this.handleMonthChange} />
+              width={100} onChange={this.handleMonthChange}
+            />
             <DateSelect type="year" value={this.state.date.getFullYear()}
-                width={70} onChange={this.handleYearChange} />
+              width={70} onChange={this.handleYearChange}
+            />
           </Gapped>
         </div>
         <Calendar ref="calendar" {...this.props} initialDate={date}
-            onNav={date => this.setState({date})}/>
+          onNav={(date) => this.setState({date})}
+        />
       </div>
     );
   },
@@ -55,7 +58,7 @@ const Picker = React.createClass({
   },
 
   handleDocClick(event) {
-    let target = event.target || event.srcElement;
+    const target = event.target || event.srcElement;
     if (!React.findDOMNode(this).contains(target) && !isDetached(target)) {
       this.props.onClose();
     }
@@ -63,9 +66,11 @@ const Picker = React.createClass({
 });
 
 function isDetached(element) {
-  let body = document.body;
+  const body = document.body;
   do {
-    if (element === body) return false;
+    if (element === body) {
+      return false;
+    }
     element = element.parentNode;
   } while (element);
 

@@ -3,24 +3,24 @@ const SPACE = 8;
 export default function(box, target, pos) {
   pos = extractPos(pos);
 
-  let width = box.offsetWidth;
-  let height = box.offsetHeight;
+  const width = box.offsetWidth;
+  const height = box.offsetHeight;
 
-  let docElem = document.documentElement;
+  const docElem = document.documentElement;
 
-  let pageXOffset = window.pageXOffset !== undefined ? window.pageXOffset
+  const pageXOffset = window.pageXOffset !== undefined ? window.pageXOffset
       : docElem.scrollLeft;
-  let pageYOffset = window.pageYOffset !== undefined ? window.pageYOffset
+  const pageYOffset = window.pageYOffset !== undefined ? window.pageYOffset
       : docElem.scrollTop;
 
-  let tRect = target.getBoundingClientRect();
-  let tWidth = tRect.right - tRect.left;
-  let tHeight = tRect.bottom - tRect.top;
-  let targetTop = tRect.top + pageYOffset - docElem.clientTop;
-  let targetLeft = tRect.left + pageXOffset - docElem.clientLeft;
+  const tRect = target.getBoundingClientRect();
+  const tWidth = tRect.right - tRect.left;
+  const tHeight = tRect.bottom - tRect.top;
+  const targetTop = tRect.top + pageYOffset - docElem.clientTop;
+  const targetLeft = tRect.left + pageXOffset - docElem.clientLeft;
 
-  let wndWidth = docElem.clientWidth;
-  let wndHeight = docElem.clientHeight;
+  const wndWidth = docElem.clientWidth;
+  const wndHeight = docElem.clientHeight;
 
   if (pos.aside) {
     switch (pos.ver) {
@@ -86,7 +86,7 @@ export default function(box, target, pos) {
     case !pos.aside && pos.ver === 'bottom': pinDirection = 'top'; break;
   }
 
-  let pinStyle = {};
+  const pinStyle = {};
   let pinOffset = 15;
   if (pos.aside) {
     if (pinOffset > height / 2) {
@@ -113,12 +113,16 @@ export default function(box, target, pos) {
   if (pos.aside) {
     switch (pos.ver) {
       case 'top':
-        if (tHeight / 2 < pinOffset) top += tHeight / 2 - pinOffset;
+        if (tHeight / 2 < pinOffset) {
+          top += tHeight / 2 - pinOffset;
+        }
         break;
       case 'middle': top += tHeight / 2 - height / 2; break;
       case 'bottom':
         top += tHeight - height;
-        if (tHeight / 2 < pinOffset) top -= tHeight / 2 - pinOffset;
+        if (tHeight / 2 < pinOffset) {
+          top -= tHeight / 2 - pinOffset;
+        }
         break;
     }
     switch (pos.hor) {
@@ -132,12 +136,16 @@ export default function(box, target, pos) {
     }
     switch (pos.hor) {
       case 'left':
-        if (tWidth / 2 < pinOffset) left += tWidth / 2 - pinOffset;
+        if (tWidth / 2 < pinOffset) {
+          left += tWidth / 2 - pinOffset;
+        }
         break;
       case 'center': left += tWidth / 2 - width / 2; break;
       case 'right':
         left += tWidth - width;
-        if (tWidth / 2 < pinOffset) left -= tWidth / 2 - pinOffset;
+        if (tWidth / 2 < pinOffset) {
+          left -= tWidth / 2 - pinOffset;
+        }
         break;
     }
   }
@@ -154,7 +162,7 @@ export default function(box, target, pos) {
 }
 
 function extractPos(pos) {
-  let [ first, second ] = pos.split(' ', 2);
+  const [first, second] = pos.split(' ', 2);
   let aside = false;
   switch (first) {
     case 'left':

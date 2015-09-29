@@ -18,7 +18,7 @@ export default class Box extends React.Component {
   }
 
   render() {
-    let style = this.state.pos ? this.state.pos.boxStyle : {left: 0};
+    const style = this.state.pos ? this.state.pos.boxStyle : {left: 0};
 
     return (
       <div className={styles.root} style={style}>
@@ -29,11 +29,13 @@ export default class Box extends React.Component {
   }
 
   renderPin() {
-    let pos = this.state.pos;
-    if (!pos) return null;
+    const pos = this.state.pos;
+    if (!pos) {
+      return null;
+    }
 
-    let outer = Object.assign({}, pos.pinStyle);
-    let inner = {};
+    const outer = Object.assign({}, pos.pinStyle);
+    const inner = {};
     switch (pos.pinDirection) {
       case 'bottom':
         outer.bottom = -6;
@@ -118,12 +120,14 @@ export default class Box extends React.Component {
   }
 
   reflow() {
-    if (this.updating_) return;
+    if (this.updating_) {
+      return;
+    }
 
     this.updating_ = true;
     this.setState({pos: null}, () => {
-      let of = this.props.target;
-      let el = React.findDOMNode(this);
+      const of = this.props.target;
+      const el = React.findDOMNode(this);
       this.setState({pos: position(el, of, this.props.pos)}, () => {
         this.updating_ = false;
       });

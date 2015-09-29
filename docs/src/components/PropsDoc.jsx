@@ -10,7 +10,8 @@ var PropsDoc = React.createClass({
     return (
       <div>
         <div className={cx({'desc': true, 'md': true})}
-            dangerouslySetInnerHTML={{__html: info.description}} />
+          dangerouslySetInnerHTML={{__html: info.description}}
+        />
         <div className={cx('props')}>
           {Object.keys(info.props).map((name) => {
             var prop = info.props[name];
@@ -23,7 +24,8 @@ var PropsDoc = React.createClass({
                 <span className={cx('prop-type')}>{formatType(prop.type)}</span>
                 {required}
                 <div className={cx({'prop-desc': true, 'md': true})}
-                    dangerouslySetInnerHTML={{__html: prop.description}} />
+                  dangerouslySetInnerHTML={{__html: prop.description}}
+                />
               </div>
             );
           })}

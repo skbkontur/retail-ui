@@ -13,7 +13,7 @@ describe('Button', function() {
     expect(button.getDOMNode().textContent).toBe('Foo');
   });
 
-  it ('handles click event', function() {
+  it('handles click event', function() {
     var handler = jest.genMockFn();
     var button = TestUtils.renderIntoDocument(
       <Button onClick={handler} />

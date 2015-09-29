@@ -21,7 +21,7 @@ var Group = React.createClass({
 
     var first = null;
     var last = null;
-    React.Children.forEach(this.props.children, child => {
+    React.Children.forEach(this.props.children, (child) => {
       if (child) {
         first = first || child;
         last = child;
@@ -30,7 +30,7 @@ var Group = React.createClass({
 
     return (
       <span className={styles.root} style={style}>
-        {React.Children.map(this.props.children, child => {
+        {React.Children.map(this.props.children, (child) => {
           if (!child) {
             return null;
           }
@@ -63,7 +63,7 @@ var Group = React.createClass({
         })}
       </span>
     );
-  }
+  },
 });
 
 module.exports = Group;

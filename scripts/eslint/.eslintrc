@@ -158,8 +158,8 @@ rules:
   no-redeclare: 1
   # equivalent to jshint boss
   no-return-assign: 0
-  # equivalent to jshint scripturl
-  no-script-url: 2
+  # need this for <a href="javascript:">
+  no-script-url: 0
   # not in jshint, but is in jslint, and is almost certainly a mistake
   no-self-compare: 1
   # there are very limited valid use-cases for this
@@ -344,9 +344,9 @@ rules:
   no-bitwise: 1
   no-plusplus: 0
 
-  react/jsx-closing-bracket-location: [1, after-props]
+  react/jsx-closing-bracket-location: [1, tag-aligned]
   react/jsx-curly-spacing: 2
-  react/jsx-indent-props: 1
+  react/jsx-indent-props: [1, 2]
   react/jsx-no-undef: 2
   # should probably enable
   react/jsx-sort-prop-types: 0

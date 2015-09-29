@@ -17,9 +17,9 @@ var FxInput = React.createClass({
   },
 
   render() {
-    let { width } = this.props;
+    const {width} = this.props;
 
-    let inputProps = {};
+    const inputProps = {};
     let button = null;
     if (this.props.auto) {
       inputProps.leftIcon = <Icon name="fx" />;

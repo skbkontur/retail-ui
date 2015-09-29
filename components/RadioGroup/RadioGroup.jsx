@@ -57,7 +57,8 @@ const RadioGroup = React.createClass({
           (checked || this.state.value == null && i === 0);
       items.push(
         <span key={item} className={styles.item}
-            onClick={e => this.select_(value)}>
+          onClick={(e) => this.select_(value)}
+        >
           <Radio checked={checked} focused={focused} />
           <span className={styles.label}>{item}</span>
         </span>
@@ -121,7 +122,7 @@ const RadioGroup = React.createClass({
 
   eachItem(fn) {
     let index = 0;
-    for (let entry of this.props.items) {
+    for (const entry of this.props.items) {
       const [value, item] = normalizeEntry(entry);
       fn(value, item, index);
       ++index;
