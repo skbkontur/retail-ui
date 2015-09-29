@@ -1,12 +1,18 @@
 ---
 parser: babel-eslint
 
+plugins:
+  - react
+
 env:
   browser: true
   node: true
   jest: true
   jasmine: true
   es6: true
+
+ecmaFeatures:
+  jsx: true
 
 globals:
   __DEV__: true
@@ -338,3 +344,11 @@ rules:
   no-bitwise: 1
   no-plusplus: 0
 
+  react/jsx-closing-bracket-location: [1, after-props]
+  react/jsx-curly-spacing: 2
+  react/jsx-indent-props: 1
+  react/jsx-no-undef: 2
+  # should probably enable
+  react/jsx-sort-prop-types: 0
+  # don't use it atm
+  react/jsx-sort-props: 0
