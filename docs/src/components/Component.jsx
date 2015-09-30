@@ -1,5 +1,10 @@
 var React = require('react');
 
+require('codemirror/lib/codemirror.css');
+require('codemirror/theme/solarized.css');
+require('codemirror/mode/javascript/javascript');
+var CodeMirror = require('codemirror');
+
 var CodeRunner = require('./CodeRunner');
 var PropsDoc = require('./PropsDoc');
 
@@ -28,11 +33,12 @@ var Component = React.createClass({
   },
 
   componentDidMount() {
-    var editor = global.CodeMirror(this.refs.code.getDOMNode(), {
+    var editor = CodeMirror(this.refs.code.getDOMNode(), {
       value: this.state.src.replace(/\n$/, ''),
       theme: 'solarized light',
       smartIndent: false, // Doesn't work for jsx.
       lineWrapping: true,
+      lineNumbers: true,
       viewportMargin: Infinity,
     });
     editor.on('change', (doc) => {
