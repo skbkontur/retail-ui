@@ -4,6 +4,6 @@ if (global.document) {
   const ieVerison = parseInt(div.innerHTML, 10);
 
   if (ieVerison) {
-    document.body.className += ' rt-ie' + ieVerison;
+    document.documentElement.className += ' rt-ie' + ieVerison;
   }
 }
