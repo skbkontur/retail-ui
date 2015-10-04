@@ -1,4 +1,5 @@
 import events from 'add-event-listener';
+import LayoutEvents from '../../lib/LayoutEvents';
 import React from 'react';
 
 import position from './position';
@@ -96,14 +97,14 @@ export default class Box extends React.Component {
   componentDidMount() {
     this.reflow();
 
-    events.addEventListener(window, 'scroll', this.reflow);
+    this._layoutEventsToken = LayoutEvents.addListener(this.reflow);
     if (this.props.trigger === 'click') {
       events.addEventListener(document, 'click', this.handleDocClick);
     }
   }
 
   componentWillUnmount() {
-    events.removeEventListener(window, 'scroll', this.reflow);
+    this._layoutEventsToken.remove();
     events.removeEventListener(document, 'click', this.handleDocClick);
   }
 
