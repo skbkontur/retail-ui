@@ -236,7 +236,7 @@ const Select = React.createClass({
       }, 0);
     });
     if (this.props.onChange) {
-      this.props.onChange({target: {value}});
+      this.props.onChange({target: {value}}, value);
     }
   },
 

@@ -116,7 +116,7 @@ const RadioGroup = React.createClass({
       this.setState({value});
     }
     if (this.props.onChange) {
-      this.props.onChange({target: {value}});
+      this.props.onChange({target: {value}}, value);
     }
   },
 

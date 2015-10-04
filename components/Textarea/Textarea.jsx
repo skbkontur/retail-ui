@@ -11,8 +11,6 @@ const PASS_PROPS = {
   placeholder: true,
   rows: true,
   value: true,
-
-  onChange: true,
 };
 
 const Textarea = React.createClass({
@@ -51,8 +49,14 @@ const Textarea = React.createClass({
     }
 
     return (
-      <textarea {...props} />
+      <textarea {...props} onChange={this.handleChange} />
     );
+  },
+
+  handleChange(event) {
+    if (this.props.onChange) {
+      this.props.onChange(event, event.target.value);
+    }
   },
 });
 

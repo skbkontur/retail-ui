@@ -56,9 +56,9 @@ var Autocomplete = React.createClass({
   render() {
     var inputProps = {
       value: this.state.value,
-      onChange: (e) => this.handleChange(e),
-      onBlur: (e) => this.handleBlur(e),
-      onKeyDown: (e) => this.handleKey(e),
+      onChange: this.handleChange,
+      onBlur: this.handleBlur,
+      onKeyDown: this.handleKey,
     };
     return (
       <span className={styles.root}>
@@ -210,7 +210,7 @@ var Autocomplete = React.createClass({
 
   fireChange_(value) {
     if (this.props.onChange) {
-      this.props.onChange({target: {value}});
+      this.props.onChange({target: {value}}, value);
     }
   },
 });

@@ -87,7 +87,7 @@ var DatePicker = React.createClass({
     }
 
     if (this.props.onChange && +this.state.value !== +date) {
-      this.props.onChange({target: {value: date}});
+      this.props.onChange({target: {value: date}}, date);
     }
 
     if (this.props.onBlur) {
@@ -109,7 +109,7 @@ var DatePicker = React.createClass({
       });
     }
     if (this.props.onChange) {
-      this.props.onChange({target: {value: date}});
+      this.props.onChange({target: {value: date}}, date);
     }
     this.close(false);
   },

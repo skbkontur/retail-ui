@@ -74,7 +74,7 @@ var Checkbox = React.createClass({
       this.setState({checked: event.target.checked});
     }
 
-    this.props.onChange && this.props.onChange(event);
+    this.props.onChange && this.props.onChange(event, event.target.checked);
   },
 
   handleFocus() {

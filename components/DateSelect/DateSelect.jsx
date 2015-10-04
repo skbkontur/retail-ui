@@ -145,7 +145,7 @@ const DateSelect = React.createClass({
     this.close();
 
     if (this.props.onChange) {
-      this.props.onChange({target: {value}});
+      this.props.onChange({target: {value}}, value);
     }
   },
 
@@ -155,7 +155,7 @@ const DateSelect = React.createClass({
         case 'Enter':
           if (this.state.current !== null && this.props.onChange) {
             const value = this.props.value + this.state.current;
-            this.props.onChange({target: {value}});
+            this.props.onChange({target: {value}}, value);
           }
           this.close();
           event.stopPropagation();

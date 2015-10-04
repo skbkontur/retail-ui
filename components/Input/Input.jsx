@@ -108,7 +108,7 @@ const Input = React.createClass({
     return (
       <label {...labelProps}>
         <input className={styles.input} {...inputProps} value={this.state.value}
-          onChange={(e) => this.handleChange(e)}
+          onChange={this.handleChange}
         />
         {placeholder}
         {leftIcon}
@@ -150,7 +150,7 @@ const Input = React.createClass({
     }
 
     if (this.props.onChange) {
-      this.props.onChange(event);
+      this.props.onChange(event, event.target.value);
     }
   },
 });
