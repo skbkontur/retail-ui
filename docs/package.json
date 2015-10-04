@@ -29,8 +29,9 @@
     "babel-runtime": "^5.8.20",
     "codemirror": "^5.7.0",
     "object-assign": "^3.0.0",
-    "react": "^0.13.3",
-    "react-router": "^0.13.3",
+    "react": "^0.14.0-rc1",
+    "react-dom": "^0.14.0-rc1",
+    "react-router": "^1.0.0-rc1",
     "react-tools": "^0.13.3"
   }
 }

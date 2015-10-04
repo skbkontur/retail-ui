@@ -9,7 +9,7 @@ var ShowcaseApp = React.createClass({
       <div>
         <div className={styles.head}>
           <div className={styles.headIn}>
-            <div className={styles.title}>UI LIB</div>
+            <div className={styles.title}>ReactUI</div>
             <div className={styles.links}>
               <Router.Link to="gettingStarted" className={styles.link}>
                 Getting Started
@@ -23,7 +23,7 @@ var ShowcaseApp = React.createClass({
           </div>
         </div>
         <div className={styles.content}>
-          <Router.RouteHandler />
+          {this.props.children}
         </div>
       </div>
     );

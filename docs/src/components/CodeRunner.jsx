@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var reactTools = require('react-tools');
 
 var __components = require('../components');
@@ -34,11 +35,11 @@ var CodeRunner = React.createClass({
   },
 
   componentDidMount() {
-    run(this.props.src, this.getDOMNode());
+    run(this.props.src, ReactDOM.findDOMNode(this));
   },
 
   componentWillReceiveProps(props) {
-    run(props.src, this.getDOMNode());
+    run(props.src, ReactDOM.findDOMNode(this));
   },
 });
 

@@ -19,7 +19,7 @@ var Component = React.createClass({
           <CodeRunner src={this.state.src} />
         </div>
         <div className={styles.docs}>
-          <div ref="code"></div>
+          <div ref={(node) => this._codeNode = node}></div>
           <PropsDoc component={this.props.component} />
         </div>
       </div>
@@ -33,7 +33,7 @@ var Component = React.createClass({
   },
 
   componentDidMount() {
-    var editor = CodeMirror(this.refs.code.getDOMNode(), {
+    var editor = CodeMirror(this._codeNode, {
       value: this.state.src.replace(/\n$/, ''),
       theme: 'solarized light',
       smartIndent: false, // Doesn't work for jsx.
