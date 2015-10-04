@@ -18,7 +18,7 @@ module.exports = {
         loader: 'babel-loader?loose&optional=es3.memberExpressionLiterals',
         include: [
           path.join(__dirname, 'src'),
-          /retail-ui\/components/,
+          /retail-ui\/(components|lib)/,
           /esprima\.js$/, // Need memberExpressionLiterals for IE8.
         ],
       },
