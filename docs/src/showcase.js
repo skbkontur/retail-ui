@@ -2,7 +2,7 @@ require('babel/polyfill');
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var {Router, Route, Redirect} = require('react-router');
+var {Router, Route, IndexRedirect} = require('react-router');
 
 var Component = require('./components/Component');
 var Components = require('./components/Components');
@@ -13,7 +13,7 @@ var ShowcaseApp = require('./components/ShowcaseApp');
 React.render((
   <Router>
     <Route path="/" component={ShowcaseApp}>
-      <Redirect from="/" to="/components" />
+      <IndexRedirect to="/components" />
       <Route path="gettingStarted" component={GettingStarted} />
       <Route path="components" component={Components}>
         <Route path=":component" component={Component} />
