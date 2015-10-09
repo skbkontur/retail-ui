@@ -1,6 +1,8 @@
 var React = require('react');
 var Router = require('react-router');
 
+var {Link} = Router;
+
 import styles from './ShowcaseApp.less';
 
 var ShowcaseApp = React.createClass({
@@ -11,13 +13,18 @@ var ShowcaseApp = React.createClass({
           <div className={styles.headIn}>
             <div className={styles.title}>ReactUI</div>
             <div className={styles.links}>
-              <Router.Link to="gettingStarted" className={styles.link}>
+              <Link to="/gettingStarted" className={styles.link}
+                  activeClassName={styles.linkActive}>
                 Getting Started
-              </Router.Link>
-              <Router.Link to="components" className={styles.link}>
+              </Link>
+              <Link to="/components" className={styles.link}
+                  activeClassName={styles.linkActive}>
                 Components
-              </Router.Link>
-              <Router.Link to="demo" className={styles.link}>Demo</Router.Link>
+              </Link>
+              <Link to="/demo" className={styles.link}
+                  activeClassName={styles.linkActive}>
+                Demo
+              </Link>
             </div>
             <div style={{clear: 'both'}} />
           </div>

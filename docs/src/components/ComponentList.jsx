@@ -1,17 +1,35 @@
-var React = require('react/addons');
+var classNames = require('classnames');
+var React = require('react');
+var {Link} = require('react-router');
 
-var components = require('../components');
-
-var Component = require('./Component');
-
-import styles from './ComponentList.less';
+var styles = require('./ComponentList.less');
 
 var ComponentList = React.createClass({
+  contextTypes: {
+    history: React.PropTypes.object.isRequired,
+  },
+
+  getInitialState() {
+    return {
+      searchString: '',
+    };
+  },
+
   render() {
     return (
       <div className={styles.root}>
-        {components.map((item, i) => {
-          return <Component key={i} component={item} />;
+        {this.props.components.map((component) => {
+          const className = classNames({
+            [styles.link]: true,
+            [styles.linkActive]: component.name === this.props.current,
+          });
+          return (
+            <Link key={component.name} to={`/components/${component.name}`}
+              className={className}
+            >
+              {component.name}
+            </Link>
+          );
         })}
       </div>
     );
