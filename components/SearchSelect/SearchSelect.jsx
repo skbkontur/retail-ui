@@ -157,14 +157,20 @@ const SearchSelect = React.createClass({
       opened: true,
       searchText: pattern,
     });
-    this.props.source(pattern).then((results) => {
-      if (this.state.searchText === pattern) {
-        this.setState({
-          selected: -1,
-          results,
-        });
-      }
-    });
+    if (pattern) {
+      this.props.source(pattern).then((results) => {
+        if (this.state.searchText === pattern) {
+          this.setState({
+            selected: -1,
+            results,
+          });
+        }
+      });
+    } else {
+      this.setState({
+        results: null,
+      });
+    }
   },
 
   handleInputKey(event) {
@@ -182,10 +188,16 @@ const SearchSelect = React.createClass({
           this.state.results[this.state.selected];
         if (item) {
           event.preventDefault();
-          this.setState({opened: false});
+          this.close_(() => {
+            this.focus_();
+          });
           this.change_(item);
-          this.focus_();
         }
+        break;
+      case 'Escape':
+        this.close_(() => {
+          this.focus_();
+        });
         break;
     }
   },
@@ -212,7 +224,7 @@ const SearchSelect = React.createClass({
       searchText: '',
       results: null,
     });
-    this.focus_();
+    this.focusAsync_();
   },
 
   handleValueKeyPress(event) {
@@ -226,7 +238,6 @@ const SearchSelect = React.createClass({
       },
       () => {
         this.focusable_.focus();
-        this.setState({searchText: str});
       }
     );
   },
@@ -241,21 +252,17 @@ const SearchSelect = React.createClass({
         this.setState({
           opened: true,
           searchText: '',
+        }, () => {
+          this.focus_();
         });
-        this.focus_();
         break;
     }
   },
 
   handleItemClick(item) {
-    const value = this.props.getValue(item);
-    this.setState({
-      searchText: value,
-      opened: false,
-      results: null,
-    });
+    this.close_();
     this.change_(item);
-    this.focus_();
+    this.focusAsync_();
   },
 
   initItem_(value) {
@@ -285,11 +292,13 @@ const SearchSelect = React.createClass({
   },
 
   focus_() {
-    setTimeout(() => {
-      if (this.focusable_) {
-        this.focusable_.focus();
-      }
-    }, 0);
+    if (this.focusable_) {
+      this.focusable_.focus();
+    }
+  },
+
+  focusAsync_() {
+    process.nextTick(this.focus_);
   },
 
   moveSelection_(step) {
@@ -316,6 +325,13 @@ const SearchSelect = React.createClass({
     if (this.props.onChange) {
       this.props.onChange({target: {value}});
     }
+  },
+
+  close_(callback) {
+    this.setState({
+      opened: false,
+      results: null,
+    }, callback);
   },
 
   findItemByValue_(value) {
