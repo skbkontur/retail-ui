@@ -3,7 +3,7 @@ var React = require('react');
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/solarized.css');
 require('codemirror/mode/javascript/javascript');
-var CodeMirror = require('codemirror');
+var CodeMirror = require('react-codemirror');
 
 var components = require('../components');
 
@@ -11,6 +11,14 @@ var CodeRunner = require('./CodeRunner');
 var PropsDoc = require('./PropsDoc');
 
 import styles from './Component.less';
+
+const editorOptions = {
+  theme: 'solarized light',
+  smartIndent: false, // Doesn't work for jsx.
+  lineWrapping: true,
+  lineNumbers: true,
+  viewportMargin: Infinity,
+};
 
 var Component = React.createClass({
   render() {
@@ -22,7 +30,9 @@ var Component = React.createClass({
           <CodeRunner src={this.state.src} />
         </div>
         <div className={styles.docs}>
-          <div ref={(node) => this._codeNode = node}></div>
+          <CodeMirror value={this.state.src} onChange={this.handleCodeChange}
+            options={editorOptions}
+          />
           <PropsDoc component={component} />
         </div>
       </div>
@@ -31,26 +41,24 @@ var Component = React.createClass({
 
   getInitialState() {
     return {
-      src: this._getComponent().src || '',
+      src: this._getComponent().src,
     };
   },
 
-  componentDidMount() {
-    var editor = CodeMirror(this._codeNode, {
-      value: this.state.src.replace(/\n$/, ''),
-      theme: 'solarized light',
-      smartIndent: false, // Doesn't work for jsx.
-      lineWrapping: true,
-      lineNumbers: true,
-      viewportMargin: Infinity,
-    });
-    editor.on('change', (doc) => {
-      this.setState({src: doc.getValue()});
-    });
+  componentWillReceiveProps(newProps) {
+    if (newProps.params.component !== this.props.params.component) {
+      this.setState({
+        src: this._getComponent(newProps.params.component).src,
+      });
+    }
   },
 
-  _getComponent() {
-    return components.find((c) => c.name === this.props.params.component);
+  handleCodeChange(src) {
+    this.setState({src});
+  },
+
+  _getComponent(name = this.props.params.component) {
+    return components.find((c) => c.name === name);
   },
 });
 
