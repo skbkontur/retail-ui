@@ -5,12 +5,14 @@ import Button from '../Button';
 import Group from '../Group';
 import Icon from '../Icon';
 import Input from '../Input';
-import Picker from './Picker';
+import Picker from './Picker.jsx';
 
 import styles from './DatePicker.less';
 
 var DatePicker = React.createClass({
   propTypes: {
+    error: PropTypes.bool,
+
     value: PropTypes.instanceOf(Date),
 
     onChange: PropTypes.func,
