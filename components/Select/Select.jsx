@@ -75,7 +75,7 @@ const Select = React.createClass({
     var value = this.getValue_();
 
     var label;
-    if (value) {
+    if (value != null) {
       label = this.props.renderValue(
         value,
         getItemByValue(this.props.items, value)
