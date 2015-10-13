@@ -13,9 +13,15 @@ var Button = React.createClass({
 
     disabled: PropTypes.bool,
 
+    /**
+     * Вариант использования. Влияет на цвет кнопки.
+     */
     use: PropTypes.oneOf([
       'default',
       'primary',
+      'success',
+      'danger',
+      'pay',
     ]),
 
     narrow: PropTypes.bool,
