@@ -26,6 +26,8 @@ var Button = React.createClass({
 
     narrow: PropTypes.bool,
 
+    size: PropTypes.oneOf(['default', 'large']),
+
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
@@ -46,6 +48,7 @@ var Button = React.createClass({
         [styles.active]: this.props.active,
         [styles.disabled]: this.props.disabled,
         [styles.narrow]: this.props.narrow,
+        [styles.sizeLarge]: this.props.size === 'large',
       }),
       style: {},
       disabled: this.props.disabled,
@@ -63,6 +66,7 @@ var Button = React.createClass({
   getDefaultProps() {
     return {
       use: 'default',
+      size: 'default',
     };
   },
 });
