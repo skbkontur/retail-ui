@@ -95,6 +95,11 @@ const Select = React.createClass({
       onKeyDown: this.handleKey,
       onBlur: this.handleBlur,
     };
+    if (this.props.width) {
+      rootProps.style = {
+        width: this.props.width,
+      };
+    }
 
     var labelProps = {
       className: classNames({
@@ -103,11 +108,6 @@ const Select = React.createClass({
       }),
       onClick: this.open_,
     };
-    if (this.props.width) {
-      labelProps.style = {
-        width: this.props.width,
-      };
-    }
 
     return (
       <span {...rootProps}>
