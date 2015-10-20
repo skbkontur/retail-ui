@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 
-import '../ensureOldIEClassName';
 import styles from './Link.less';
 
 /**
