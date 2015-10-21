@@ -5,7 +5,7 @@ import filterProps from '../filterProps';
 
 import '../ensureOldIEClassName';
 import styles from './Input.less';
-import MaskedInput from './MaskedInput';
+import InputElement from 'react-input-mask/build/InputElement.js';
 
 var polyfillPlaceholder = false;
 if (typeof window !== 'undefined' && window.document
@@ -20,7 +20,7 @@ const INPUT_PASS_PROPS = {
 
   onFocus: true,
   onBlur: true,
-  onKeyDown: true
+  onKeyDown: true,
 };
 
 const Input = React.createClass({
@@ -69,12 +69,14 @@ const Input = React.createClass({
     borderless: PropTypes.bool,
 
     /**
-     * Маска ввода. Заменяет placeholder и defaultValue, влияет на значение инпута. Позволяет вводить только ограниченное количество символов.
-     * Шаблоны:
+     * Маска ввода. Заменяет placeholder и defaultValue, влияет на
+     * значение инпута.Позволяет вводить только ограниченное количество
+     * символов. Шаблоны:
      *  9: 0-9
      *  a: A-Z, a-z
      *  *: A-Z, a-z, 0-9
-     *  Можно делать неудаляемую маску, например: "+4\\9 99 999 99" - \\ экранирует символ шаблона
+     *  Можно делать неудаляемую маску, например: "+4\9 99 999 99" -
+     *  \ экранирует символ шаблона
      */
     mask: PropTypes.string,
     /**
@@ -106,8 +108,8 @@ const Input = React.createClass({
     }
 
     var placeholder = null;
-    if (this.state.polyfillPlaceholder && this.props.placeholder && !this.props.mask
-        && !this.state.value) {
+    if (this.state.polyfillPlaceholder && this.props.placeholder
+        && !this.props.mask && !this.state.value) {
       placeholder = (
         <div className={styles.placeholder}>{this.props.placeholder}</div>
       );
@@ -132,14 +134,19 @@ const Input = React.createClass({
     }
 
     var commonInputProps = {
-        className: styles.input,
-        ...inputProps,
-        value: this.state.value,
-        onChange: e => this.handleChange(e)
+      className: styles.input,
+      ...inputProps,
+      value: this.state.value,
+      onChange: (e) => this.handleChange(e),
     };
     return (
       <label {...labelProps}>
-          {React.createElement(this.props.mask ? MaskedInput : "input", {...commonInputProps, mask:this.props.mask, maskChar:this.props.maskChar || "_", showEmptyMask: this.props.showEmptyMask})}
+          {
+              React.createElement(this.props.mask ? InputElement : 'input',
+              {...commonInputProps, mask:this.props.mask,
+              maskChar:this.props.maskChar || InputElement.defaultMaskChar,
+              showEmptyMask: this.props.showEmptyMask})
+          }
         {placeholder}
         {leftIcon}
         {rightIcon}
