@@ -134,7 +134,7 @@ const Input = React.createClass({
     }
 
     var commonInputProps = {
-      className: styles.input,
+        className: styles.input,
       ...inputProps,
       value: this.state.value,
       onChange: (e) => this.handleChange(e),
@@ -144,7 +144,7 @@ const Input = React.createClass({
           {
               React.createElement(this.props.mask ? InputElement : 'input',
               {...commonInputProps, mask:this.props.mask,
-              maskChar:this.props.maskChar || InputElement.defaultMaskChar,
+              maskChar:this.props.maskChar || '_',
               showEmptyMask: this.props.showEmptyMask})
           }
         {placeholder}
