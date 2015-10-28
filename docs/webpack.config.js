@@ -3,10 +3,6 @@ var webpack = require('webpack');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var directory = {};
-directory.retail = path.resolve(__dirname, '..');
-directory.components = path.join(directory.retail, "components");
-
 module.exports = {
   context: path.join(__dirname, 'src'),
   entry: './showcase',
@@ -23,8 +19,8 @@ module.exports = {
         include: [
           path.join(__dirname, 'src'),
           /jstransform/,
-          directory.components,
-          path.join(directory.retail, "lib"),
+          path.resolve(__dirname, '..', 'components'),
+          path.resolve(__dirname, '..', 'lib'),
           /esprima\.js$/, // Need memberExpressionLiterals for IE8.
         ],
       },
@@ -44,7 +40,7 @@ module.exports = {
   resolve: {
     fallback: path.join(__dirname, 'node_modules'),
     alias: {
-      ui: directory.components
+      ui: path.resolve(__dirname, '..', 'components')
     },
     extensions: ['', '.js', '.jsx', '.json'],
   },
