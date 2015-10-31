@@ -32,7 +32,7 @@ module.exports = {
         ),
       },
       {test: /\.less$/, loader: 'less-loader'},
-      {test: /\.(woff|eot)$/, loader: "file-loader"},
+      {test: /\.(woff|woff2|eot)$/, loader: "file-loader"},
       {test: /\.md$/, loader: 'marked-loader'},
       {test: /\.json/, loader: 'json-loader'},
     ]
