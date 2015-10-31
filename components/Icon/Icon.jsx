@@ -91,6 +91,8 @@ var MAP = {
   archive: '\ue076',
   unarchive: '\ue077',
   child: '\ue094',
+  vacation: '\ue09a',
+  sick: '\ue09b',
 
   'play-forward': '\ue050',
   'play-backward': '\ue051',
