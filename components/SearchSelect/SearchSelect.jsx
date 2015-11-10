@@ -56,6 +56,7 @@ const SearchSelect = React.createClass({
       searchText: value,
       value,
       results: null,
+      selected: -1,
     };
   },
 
