@@ -1,11 +1,11 @@
 import classNames from 'classnames';
+import InputElement from 'react-input-mask/build/InputElement.js';
 import React, {PropTypes} from 'react';
 
 import filterProps from '../filterProps';
 
 import '../ensureOldIEClassName';
 import styles from './Input.less';
-import InputElement from 'react-input-mask/build/InputElement.js';
 
 var polyfillPlaceholder = false;
 if (typeof window !== 'undefined' && window.document
@@ -134,19 +134,19 @@ const Input = React.createClass({
     }
 
     var commonInputProps = {
-        className: styles.input,
+      className: styles.input,
       ...inputProps,
       value: this.state.value,
       onChange: (e) => this.handleChange(e),
     };
     return (
       <label {...labelProps}>
-          {
-              React.createElement(this.props.mask ? InputElement : 'input',
-              {...commonInputProps, mask:this.props.mask,
-              maskChar:this.props.maskChar || '_',
-              showEmptyMask: this.props.showEmptyMask})
-          }
+        {
+          React.createElement(this.props.mask ? InputElement : 'input',
+          {...commonInputProps, mask:this.props.mask,
+          maskChar:this.props.maskChar || '_',
+          showEmptyMask: this.props.showEmptyMask})
+        }
         {placeholder}
         {leftIcon}
         {rightIcon}
