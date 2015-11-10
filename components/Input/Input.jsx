@@ -36,6 +36,11 @@ const Input = React.createClass({
 
     align: PropTypes.oneOf(['left', 'center', 'right']),
 
+    /**
+     * Высота инпута.
+     */
+    size: PropTypes.oneOf(['small', 'default', 'large']),
+
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
@@ -72,6 +77,8 @@ const Input = React.createClass({
         [styles.error]: this.props.error,
         [styles.padLeft]: this.props.leftIcon,
         [styles.padRight]: this.props.rightIcon,
+        [styles.sizeSmall]: this.props.size === 'small',
+        [styles.sizeLarge]: this.props.size === 'large',
       }),
       style: {},
     };
