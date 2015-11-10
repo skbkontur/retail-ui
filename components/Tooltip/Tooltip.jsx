@@ -13,7 +13,7 @@ const Tooltip = React.createClass({
       'right top', 'right middle', 'right bottom',
     ]),
 
-    trigger: PropTypes.oneOf(['hover', 'click']),
+    trigger: PropTypes.oneOf(['hover', 'click', 'opened', 'closed']),
   },
 
   getDefaultProps() {
@@ -62,7 +62,7 @@ const Tooltip = React.createClass({
   },
 
   componentDidUpdate() {
-    if (this.state.opened) {
+    if (this.state.opened || this.props.trigger === 'opened') {
       React.render(
         <Box trigger={this.props.trigger} target={this.targetDOM}
           pos={this.props.pos} onClose={this.handleBoxClose}
