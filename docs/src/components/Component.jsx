@@ -62,4 +62,4 @@ var Component = React.createClass({
   },
 });
 
-module.exports = Component;
+export default Component;

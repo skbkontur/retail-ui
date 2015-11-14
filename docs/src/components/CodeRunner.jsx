@@ -43,4 +43,4 @@ var CodeRunner = React.createClass({
   },
 });
 
-module.exports = CodeRunner;
+export default CodeRunner;
