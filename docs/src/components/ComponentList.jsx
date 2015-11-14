@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
-import {Link} 'react-router';
+import {Link} from 'react-router';
 
 import styles from './ComponentList.less';
 
