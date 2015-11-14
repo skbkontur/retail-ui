@@ -68,6 +68,7 @@ const Modal = React.createClass({
 
   handleNativeKey(event) {
     if (event.keyCode === 27 && this.props.onClose) {
+      event.stopPropagation();
       this.props.onClose();
     }
   },
