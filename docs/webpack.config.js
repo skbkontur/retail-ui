@@ -15,7 +15,10 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader?loose&optional=es3.memberExpressionLiterals',
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'stage-0', 'react'],
+        },
         include: [
           path.join(__dirname, 'src'),
           /jstransform/,
