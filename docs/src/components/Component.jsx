@@ -1,14 +1,14 @@
-var React = require('react');
+import React from 'react';
 
-require('codemirror/lib/codemirror.css');
-require('codemirror/theme/solarized.css');
-require('codemirror/mode/javascript/javascript');
-var CodeMirror = require('react-codemirror');
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/solarized.css';
+import 'codemirror/mode/javascript/javascript';
+import CodeMirror from 'react-codemirror';
 
-var components = require('../components');
+import components from '../components';
 
-var CodeRunner = require('./CodeRunner');
-var PropsDoc = require('./PropsDoc');
+import CodeRunner from './CodeRunner';
+import PropsDoc from './PropsDoc';
 
 import styles from './Component.less';
 

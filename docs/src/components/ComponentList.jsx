@@ -1,8 +1,8 @@
-var classNames = require('classnames');
-var React = require('react');
-var {Link} = require('react-router');
+import classNames from 'classnames';
+import React from 'react';
+import {Link} 'react-router';
 
-var styles = require('./ComponentList.less');
+import styles from './ComponentList.less';
 
 var ComponentList = React.createClass({
   contextTypes: {

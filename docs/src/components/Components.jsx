@@ -1,8 +1,8 @@
-var React = require('react');
+import React from 'react';
 
-var components = require('../components');
+import components from '../components';
 
-var ComponentList = require('./ComponentList');
+import ComponentList from './ComponentList';
 
 import styles from './Components.less';
 

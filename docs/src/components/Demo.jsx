@@ -1,15 +1,15 @@
-var React = require('react');
+import React from 'react';
 
-var Autocomplete = require('ui/Autocomplete');
-var Button = require('ui/Button');
-var DatePicker = require('ui/DatePicker');
-var Select = require('ui/Select');
-var Gapped = require('ui/Gapped');
-var Icon = require('ui/Icon');
-var Input = require('ui/Input');
-var Link = require('ui/Link');
-var RadioGroup = require('ui/RadioGroup');
-var Tooltip = require('ui/Tooltip');
+import Autocomplete from 'ui/Autocomplete';
+import Button from 'ui/Button';
+import DatePicker from 'ui/DatePicker';
+import Select from 'ui/Select';
+import Gapped from 'ui/Gapped';
+import Icon from 'ui/Icon';
+import Input from 'ui/Input';
+import Link from 'ui/Link';
+import RadioGroup from 'ui/RadioGroup';
+import Tooltip from 'ui/Tooltip';
 
 import styles from './Demo.less';
 

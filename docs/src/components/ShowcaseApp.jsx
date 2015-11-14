@@ -1,7 +1,5 @@
-var React = require('react');
-var Router = require('react-router');
-
-var {Link} = Router;
+import React from 'react';
+import {Link, Router} from 'react-router';
 
 import styles from './ShowcaseApp.less';
 

@@ -1,14 +1,14 @@
 require('babel/polyfill');
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-var {Router, Route, IndexRedirect} = require('react-router');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Router, Route, IndexRedirect} from 'react-router';
 
-var Component = require('./components/Component');
-var Components = require('./components/Components');
-var Demo = require('./components/Demo');
-var GettingStarted = require('./components/GettingStarted');
-var ShowcaseApp = require('./components/ShowcaseApp');
+import Component from './components/Component';
+import Components from './components/Components';
+import Demo from './components/Demo';
+import GettingStarted from './components/GettingStarted';
+import ShowcaseApp from './components/ShowcaseApp';
 
 ReactDOM.render((
   <Router>

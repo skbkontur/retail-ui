@@ -1,8 +1,8 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var reactTools = require('react-tools');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import reactTools from 'react-tools';
 
-var __components = require('../components');
+import __components from '../components';
 
 import styles from './CodeRunner.less';
 
