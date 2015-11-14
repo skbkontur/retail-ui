@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import styles from './Calendar.less';
 
@@ -99,7 +100,7 @@ const Calendar = React.createClass({
   },
 
   componentDidMount() {
-    React.findDOMNode(this).focus();
+    ReactDOM.findDOMNode(this).focus();
   },
 
   moveToDate(date) {

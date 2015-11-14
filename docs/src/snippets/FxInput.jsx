@@ -17,4 +17,4 @@ var Comp = React.createClass({
   },
 });
 
-React.render(<Comp />, mountNode);
+ReactDOM.render(<Comp />, mountNode);

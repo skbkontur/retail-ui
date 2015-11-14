@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 
 import filterProps from '../filterProps';
 
@@ -148,7 +149,7 @@ const Input = React.createClass({
   },
 
   focus() {
-    React.findDOMNode(this).querySelector('input').focus();
+    ReactDOM.findDOMNode(this).querySelector('input').focus();
   },
 
   handleChange(event) {

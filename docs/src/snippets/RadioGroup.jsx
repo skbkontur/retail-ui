@@ -1,3 +1,3 @@
 var items = ['One', 'Two', 'Three'];
 
-React.render(<RadioGroup items={items} />, mountNode);
+ReactDOM.render(<RadioGroup items={items} />, mountNode);

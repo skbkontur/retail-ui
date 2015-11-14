@@ -1,4 +1,4 @@
-React.render(
+ReactDOM.render(
   <div>
     <Radio />
     <Radio checked />

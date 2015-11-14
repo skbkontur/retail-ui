@@ -1,4 +1,4 @@
-React.render(
+ReactDOM.render(
   <Gapped vertical>
     <div>Имя показывается при наведении:</div>
     <Gapped>

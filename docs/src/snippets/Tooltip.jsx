@@ -2,7 +2,7 @@ function render() {
   return <div>Hey there!</div>;
 }
 
-React.render(
+ReactDOM.render(
   <Gapped vertical>
     <Tooltip render={render} pos="right top">
       <div style={{height: 100, background: '#f99'}} />

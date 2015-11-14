@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 
 import Input from '../Input';
 
@@ -125,7 +126,7 @@ const Select = React.createClass({
     if (this.props.search) {
       search = (
         <div className={styles.search}>
-          <Input ref={(c) => c && React.findDOMNode(c).focus()}
+          <Input ref={(c) => c && ReactDOM.findDOMNode(c).focus()}
             onChange={this.handleSearch} onBlur={this.close_}
           />
         </div>
@@ -203,7 +204,7 @@ const Select = React.createClass({
     } else {
       if (key === 'Escape') {
         this.setState({opened: false}, () => {
-          React.findDOMNode(this).focus();
+          ReactDOM.findDOMNode(this).focus();
         });
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
         e.preventDefault();
@@ -232,7 +233,7 @@ const Select = React.createClass({
       value,
     }, () => {
       setTimeout(() => {
-        React.findDOMNode(this).focus();
+        ReactDOM.findDOMNode(this).focus();
       }, 0);
     });
     if (this.props.onChange) {

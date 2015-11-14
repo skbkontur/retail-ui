@@ -10,7 +10,7 @@ var Demo = require('./components/Demo');
 var GettingStarted = require('./components/GettingStarted');
 var ShowcaseApp = require('./components/ShowcaseApp');
 
-React.render((
+ReactDOM.render((
   <Router>
     <Route path="/" component={ShowcaseApp}>
       <IndexRedirect to="/components" />

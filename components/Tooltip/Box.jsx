@@ -1,6 +1,7 @@
 import events from 'add-event-listener';
 import LayoutEvents from '../../lib/LayoutEvents';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import position from './position';
 
@@ -115,7 +116,7 @@ export default class Box extends React.Component {
   handleDocClick(event) {
     const target = event.target || event.srcElement;
     if (!this.props.target.contains(target) &&
-        !React.findDOMNode(this).contains(target)) {
+        !ReactDOM.findDOMNode(this).contains(target)) {
       this.props.onClose();
     }
   }
@@ -128,7 +129,7 @@ export default class Box extends React.Component {
     this.updating_ = true;
     this.setState({pos: null}, () => {
       const of = this.props.target;
-      const el = React.findDOMNode(this);
+      const el = ReactDOM.findDOMNode(this);
       this.setState({pos: position(el, of, this.props.pos)}, () => {
         this.updating_ = false;
       });

@@ -26,4 +26,4 @@ var MyGroup = React.createClass({
   getInitialState() { return {auto: false}; },
 });
 
-React.render(<MyGroup />, mountNode);
+ReactDOM.render(<MyGroup />, mountNode);

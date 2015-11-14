@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 
 import filterProps from '../filterProps';
 
@@ -149,7 +150,7 @@ const SearchSelect = React.createClass({
   },
 
   refFocusable(el) {
-    this.focusable_ = el && (el.focus ? el : React.findDOMNode(el));
+    this.focusable_ = el && (el.focus ? el : ReactDOM.findDOMNode(el));
   },
 
   handleInputChange(event) {

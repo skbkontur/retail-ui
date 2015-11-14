@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 
 import Box from './Box.jsx';
 
@@ -63,7 +64,7 @@ const Tooltip = React.createClass({
 
   componentDidUpdate() {
     if (this.state.opened || this.props.trigger === 'opened') {
-      React.render(
+      ReactDOM.render(
         <Box trigger={this.props.trigger} target={this.targetDOM}
           pos={this.props.pos} onClose={this.handleBoxClose}
         >
@@ -72,12 +73,12 @@ const Tooltip = React.createClass({
         this.boxDom
       );
     } else {
-      React.render(<div />, this.boxDom);
+      ReactDOM.render(<div />, this.boxDom);
     }
   },
 
   refChild(el) {
-    this.targetDOM = el && React.findDOMNode(el);
+    this.targetDOM = el && ReactDOM.findDOMNode(el);
   },
 
   handleMouseOver(event) {

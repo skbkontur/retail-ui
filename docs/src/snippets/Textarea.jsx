@@ -1,1 +1,1 @@
-React.render(<Textarea />, mountNode);
+ReactDOM.render(<Textarea />, mountNode);

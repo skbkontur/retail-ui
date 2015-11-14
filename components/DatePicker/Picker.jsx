@@ -1,5 +1,6 @@
 import events from 'add-event-listener';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import Calendar from './Calendar.jsx';
 import DateSelect from '../DateSelect';
@@ -59,7 +60,7 @@ const Picker = React.createClass({
 
   handleDocClick(event) {
     const target = event.target || event.srcElement;
-    if (!React.findDOMNode(this).contains(target) && !isDetached(target)) {
+    if (!ReactDOM.findDOMNode(this).contains(target) && !isDetached(target)) {
       this.props.onClose();
     }
   },

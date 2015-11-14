@@ -6,4 +6,4 @@ var items = [
   'Resident Sleeper',
 ];
 
-React.render(<Autocomplete source={items} />, mountNode);
+ReactDOM.render(<Autocomplete source={items} />, mountNode);
