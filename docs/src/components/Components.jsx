@@ -24,4 +24,4 @@ var Components = React.createClass({
   },
 });
 
-module.exports = Components;
+export default Components;

@@ -96,6 +96,12 @@ module.exports = [
     src: require('!raw!./snippets/Select.jsx'),
   },
   {
+    name: 'Spinner',
+    component: require('ui/Spinner').default,
+    info: require('!docgen!ui/Spinner/Spinner.jsx'),
+    src: require('!raw!./snippets/Spinner.jsx'),
+  },
+  {
     name: 'Textarea',
     component: require('ui/Textarea'),
     info: require('!docgen!ui/Textarea/Textarea.jsx'),

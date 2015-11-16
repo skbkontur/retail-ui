@@ -1,2 +1,3 @@
-module.exports = require('./Spinner.jsx');
+import Spinner from './Spinner.jsx';
+export default Spinner;
 

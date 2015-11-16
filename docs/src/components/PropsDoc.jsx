@@ -79,4 +79,4 @@ function formatType(type) {
   return str;
 }
 
-module.exports = PropsDoc;
+export default PropsDoc;

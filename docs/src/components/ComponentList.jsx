@@ -36,4 +36,4 @@ var ComponentList = React.createClass({
   },
 });
 
-module.exports = ComponentList;
+export default ComponentList;

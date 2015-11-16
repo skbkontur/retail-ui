@@ -35,4 +35,4 @@ var ShowcaseApp = React.createClass({
   },
 });
 
-module.exports = ShowcaseApp;
+export default ShowcaseApp;

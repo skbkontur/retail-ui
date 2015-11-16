@@ -162,4 +162,4 @@ var sampleItems = [
   'Resident Sleeper',
 ];
 
-module.exports = Demo;
+export default Demo;
