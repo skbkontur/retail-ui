@@ -4,18 +4,24 @@
  * import {Button, Gapped} from 'ui';
  *
  * into this:
- * 
+ *
  * import Button from 'ui/Button';
  * import Gapped from 'ui/Gapped';
  */
 module.exports = function(babel) {
   var t = babel.types;
+  console.log(t);
 
-  return new babel.Transformer('component-imports', {
+  var babel5 = !!babel.Transformer;
+  var stringLiteral = babel5 ? t.literal : t.stringLiteral;
+
+  var visitor = {
     ImportDeclaration: {
-      enter: function(node, parent, scope, state) {
+      enter: function(path) {
+        var node = babel5 ? path : path.node;
+
         if (node.source.value !== 'ui') {
-          return node;
+          return;
         }
 
         var imports = [];
@@ -28,13 +34,23 @@ module.exports = function(babel) {
 
           var imp = t.importDeclaration(
             [t.importDefaultSpecifier(specifier.local)],
-            t.literal('ui/' + specifier.imported.name)
+            stringLiteral('ui/' + specifier.imported.name)
           );
           imports.push(imp);
         });
 
-        return imports;
+        if (babel5) {
+          return imports;
+        } else {
+          path.replaceWithMultiple(imports);
+        }
       },
     },
-  });
+  };
+
+  if (babel5) {
+    return new babel.Transformer('component-imports', visitor);
+  } else {
+    return {visitor};
+  }
 };
