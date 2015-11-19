@@ -20,6 +20,8 @@ const SearchSelect = React.createClass({
   propTypes: {
     value: PropTypes.any,
 
+    disabled: PropTypes.bool,
+
     placeholder: PropTypes.string,
 
     source: PropTypes.func.isRequired,
@@ -82,6 +84,7 @@ const SearchSelect = React.createClass({
       <div className={styles.input}>
         <Input ref={this.refFocusable} {...inputProps}
           value={this.state.searchText} rightIcon={<span />}
+          disabled={this.props.disabled}
           onChange={this.handleInputChange} onKeyDown={this.handleInputKey}
           onBlur={this.handleInputBlur}
         />
