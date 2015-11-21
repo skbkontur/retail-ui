@@ -66,6 +66,12 @@ module.exports = [
     src: require('!raw!./snippets/Link.jsx'),
   },
   {
+    name: 'Loader',
+    component: require('ui/Loader').default,
+    info: require('!docgen!ui/Loader/Loader.jsx'),
+    src: require('!raw!./snippets/Loader.jsx'),
+  },
+  {
     name: 'Modal',
     component: require('ui/Modal'),
     info: require('!docgen!ui/Modal/Modal.jsx'),

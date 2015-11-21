@@ -1,0 +1,49 @@
+.fillContainerPosition(){
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+:local {
+  .loader {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    z-index: inherit;
+
+    &.active:after {
+      .fillContainerPosition;
+      z-index: 1;
+
+      content: " ";
+
+      opacity: 0.8;
+      filter: alpha(opacity=80);
+      background: #fff;
+    }
+  }
+
+  .spinnerContainer {
+    display: block;
+    margin: auto;
+
+    text-align: center;
+    z-index: 2;
+  }
+
+  .spinnerContainerCenter {
+    composes: spinnerContainer;
+    .fillContainerPosition;
+
+    &:before {
+      display: inline-block;
+      content: " ";
+      height: 100%;
+      min-height: 100%;
+      vertical-align: middle;
+    }
+  }
+}
