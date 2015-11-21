@@ -42,6 +42,7 @@
     "react-codemirror": "^0.2.0",
     "react-dom": "^0.14.2",
     "react-router": "^1.0.0",
-    "react-tools": "^0.13.3"
+    "react-tools": "^0.13.3",
+    "url-loader": "0.5.6"
   }
 }

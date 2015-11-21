@@ -6,17 +6,26 @@
 :local {
   .spinner {
     display: inline-block;
+    text-align: center;
   }
 
   .caption {
     color: rgb(128, 128, 128);
+
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .captionRight {
+    composes: caption;
     position: relative;
     top: -3px;
     margin-left: 5px;
+  }
 
-    font-family: "Segoe UI";
-    font-size: 14px;
-    line-height: 20px;
+  .captionBottom {
+    composes: caption;
+    display: block;
   }
 
   .path {
@@ -57,6 +66,11 @@
       rotate 2s linear infinite,
       color 6s ease-in-out infinite;
     }
+  }
+
+  .fallbackImage {
+    opacity: 0.8;
+    filter: alpha(opacity=80);
   }
 }
 

@@ -25,7 +25,19 @@ export const sizeMaps = {
   },
 };
 
+export function svgAnimateSupport() {
+  if(!!document.createElementNS) {
+    const element = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+    if(element){
+      return  /SVGAnimate/.test(element.toString());
+    }
+  }
+
+  return false;
+}
+
 export default {
   types,
   sizeMaps,
+  svgAnimateSupport,
 };

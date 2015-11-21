@@ -1,14 +1,15 @@
-import classnames from 'classnames';
-import {Component, PropTypes} from 'react';
-import styles from "./Spinner.less";
-import {types, sizeMaps} from "./settings";
+import React, {PropTypes} from 'react';
+import styles from './Spinner.less';
+import {types, sizeMaps, svgAnimateSupport} from './settings';
+
+import cloud_fallback from "./cloud_fallback.gif";
+const hasSvgAnimationSupport = svgAnimateSupport();
 
 /**
  * DRAFT - инлайн-лоадер
  */
-class Spinner extends Component {
-  renderCloud() {
-    const {type} = this.props;
+class Spinner extends React.Component {
+  renderCloud(type) {
     const params = sizeMaps[type];
 
     const svgPath = `M32.0297086,9.1495774 L31.5978628,8.5870774 C29.3570968,
@@ -27,16 +28,15 @@ class Spinner extends Component {
            viewBox={params.viewBox}>
         <path className={styles.bg}
               strokeWidth={params.strokeWidth}
-              d={svgPath}></path>
+              d={svgPath} />
         <path className={styles.path}
               strokeWidth={params.strokeWidth}
-              d={svgPath}></path>
+              d={svgPath} />
       </svg>
     );
   }
 
-  renderCircle() {
-    const {type} = this.props;
+  renderCircle(type) {
     const params = sizeMaps[type];
 
     return (
@@ -51,17 +51,51 @@ class Spinner extends Component {
     );
   }
 
+  renderFallback(type) {
+    const params = sizeMaps[type];
+
+    return (
+      <img className={styles.fallbackImage} src={cloud_fallback} height={params.height}/>
+    );
+  }
+
+  renderSpinner(type) {
+    if (!hasSvgAnimationSupport) {
+      return this.renderFallback(type);
+
+    } else if(type === types.mini) {
+      return this.renderCircle(type);
+
+    } else {
+      return this.renderCloud(type);
+    }
+  }
+
+  renderCaption(type, alwaysShowCaption) {
+
+    if (type === types.mini) {
+      return (
+        <span className={styles.captionRight}>{this.props.caption}</span>
+      );
+
+    } else if (alwaysShowCaption) {
+      return (
+        <span className={styles.captionBottom}>{this.props.caption}</span>
+      );
+    }
+
+    return null;
+  }
+
   render() {
-    const {type} = this.props;
+    const {type, alwaysShowCaption} = this.props;
 
     return (
       <div className={styles.spinner}>
-        {type === types.mini ? this.renderCircle() : this.renderCloud()}
-        {type === types.mini ?
-          <span className={styles.caption}>{this.props.caption}</span>
-          : null}
+        {this.renderSpinner(type)}
+        {this.renderCaption(type, alwaysShowCaption)}
       </div>
-    )
+    );
   }
 }
 
@@ -74,18 +108,23 @@ Spinner.propTypes = {
    * Spinner.types - все доступные типы
    */
   type: PropTypes.oneOf(Object.values(types)),
-
   /**
    * Текст рядом с мини-лоадером.
    *
-   * "Загрузка" - значение по-умолчанию
+   * 'Загрузка' - значение по-умолчанию
    */
   caption: PropTypes.string,
+
+  /**
+   * Параметр чтобы всегда показывать текст лоадера.
+   */
+  alwaysShowCaption: PropTypes.bool,
 };
 
 Spinner.defaultProps = {
   type: types.normal,
-  caption: "Загрузка",
+  caption: 'Загрузка',
+  alwaysShowCaption: false,
 };
 
 Spinner.types = types;
