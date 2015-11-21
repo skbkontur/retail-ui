@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import styles from './Spinner.less';
 import {types, sizeMaps, svgAnimateSupport} from './settings';
 
-import cloud_fallback from "./cloud_fallback.gif";
+import cloud_fallback from './cloud_fallback.gif';
 const hasSvgAnimationSupport = svgAnimateSupport();
 
 /**
@@ -55,7 +55,9 @@ class Spinner extends React.Component {
     const params = sizeMaps[type];
 
     return (
-      <img className={styles.fallbackImage} src={cloud_fallback} height={params.height}/>
+      <img className={styles.fallbackImage}
+           src={cloud_fallback}
+           height={params.height} />
     );
   }
 
@@ -63,7 +65,7 @@ class Spinner extends React.Component {
     if (!hasSvgAnimationSupport) {
       return this.renderFallback(type);
 
-    } else if(type === types.mini) {
+    } else if (type === types.mini) {
       return this.renderCircle(type);
 
     } else {
