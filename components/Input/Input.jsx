@@ -198,6 +198,20 @@ const Input = React.createClass({
     ReactDOM.findDOMNode(this).querySelector('input').focus();
   },
 
+  setSelectionRange(start, end) {
+    const input = React.findDOMNode(this).querySelector('input');
+    if (input.setSelectionRange) {
+      input.focus();
+      input.setSelectionRange(start, end);
+    } else if (input.createTextRange) {
+      var range = input.createTextRange();
+      range.collapse(true);
+      range.moveEnd('character', end);
+      range.moveStart('character', start);
+      range.select();
+    }
+  },
+
   handleChange(event) {
     if (this.props.value === undefined) {
       this.setState({value: event.target.value});
