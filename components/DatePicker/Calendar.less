@@ -1,8 +1,10 @@
+@import '../variables.less';
+
 :local {
   @day-side: 25px;
 
   .root {
-    background: #fff;
+    background: @calendar-bg;
     border-radius: 0 0 2px 2px;
     height: 220px;
     outline: none;
@@ -14,7 +16,7 @@
 
   .mask {
     // With transparent background on IE8 underlying text appears over the mask.
-    background: #fff;
+    background: @calendar-mask-bg;
     bottom: 0;
     box-shadow: inset 0 5px 6px -5px rgba(0, 0, 0, .2);
     -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
@@ -26,7 +28,7 @@
   }
 
   .grey {
-    background: #f1f1f1;
+    background: @calendar-grey-bg;
   }
 
   .month {
@@ -41,7 +43,7 @@
   }
 
   .year {
-    color: #888;
+    color: @calendar-year-color;
   }
 
   .cell {
@@ -58,15 +60,15 @@
   }
 
   .cellActive .cellInner {
-    background: #ddd;
+    background: @calendar-cellActive-bg;
   }
 
   .cellCurrent .cellInner {
-    background: #808080;
-    color: #fff;
+    background: @calendar-cellCurrent-bg;
+    color: @calendar-cellCurrent-color;
   }
 
   .cellHoly {
-    color: #c22;
+    color: @calendar-cellHoly-color;
   }
 }
