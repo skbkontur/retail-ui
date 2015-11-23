@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 :local {
   .root {
     display: inline-block;
@@ -23,8 +25,8 @@
   }
 
   .value {
-    border: 1px solid #d9d9d9;
-    border-top-color: #b2b2b2;
+    border: 1px solid @searchselect-value-bc;
+    border-top-color: @searchselect-value-bc-top;
     box-sizing: border-box;
     font-family: inherit;
     font-size: 14px;
@@ -39,9 +41,9 @@
   }
 
   .value:focus {
-    border-color: #5199db;
+    border-color: @searchselect-value-focus-bc;
     border-radius: 1px;
-    box-shadow: 0 0 0 1px #5199db;
+    box-shadow: 0 0 0 1px @searchselect-value-focus-box-shadow;
     outline: 0;
     position: relative;
     z-index: 2;
@@ -52,8 +54,8 @@
   }
 
   .menu {
-    background: #fff;
-    border: 1px solid #d0d0d0;
+    background: @searchselect-menu-bg;
+    border: 1px solid @searchselect-menu-bc;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
     box-sizing: border-box;
     min-width: 100%;
@@ -68,6 +70,6 @@
   }
 
   .menuItemSelected {
-    background: #eee;
+    background: @searchselect-menuItemSelected-bg;
   }
 }
