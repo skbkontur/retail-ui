@@ -1,11 +1,13 @@
+@import '../variables.less';
+
 :local {
   .root {
-    background: linear-gradient(#fefefe, #ececec);
-    border: 1px solid #d9d9d9;
-    border-bottom-color: #b2b2b2;
+    background: linear-gradient(@select-bg-lg-start, @select-bg-lg-end);
+    border: 1px solid @select-bc;
+    border-bottom-color: @select-bc-bottom;
     border-radius: 3px;
     box-sizing: border-box;
-    color: #404040;
+    color: @select-color;
     cursor: default;
     display: inline-block;
     outline: 0;
@@ -13,30 +15,30 @@
   }
 
   .root:focus {
-    border-color: #5199db;
-    box-shadow: 0 0 0 1px #5199db, inset 0 0 0 1px #fff;
+    border-color: @select-focus-bc;
+    box-shadow: 0 0 0 1px @select-focus-bc, inset 0 0 0 1px @select-focus-box-shadow-left-right;
     position: relative;
   }
 
   :global(.rt-ie8) {
     .root:focus {
-      outline: 1px solid #5199db;
+      outline: 1px solid @select-focus-bc;
     }
   }
 
   .root:hover {
-    background: #ebebeb;
-    background: linear-gradient(#f2f2f2, #dfdfdf);
+    background: @select-hover-bg;
+    background: linear-gradient(@select-hover-bg-lg-start, @select-hover-bg-lg-end);
   }
 
   .isOpened {
-    background: #d7d7d7;
+    background: @select-isOpened-bg;
 
     && {
     }
   }
   .isOpened.isOpened {
-    border-color: #b3b3b3;
+    border-color: @select-isOpened-bc;
     box-shadow: inset 0 3px 2px -2px rgba(0, 0, 1, .3);
   }
 
@@ -65,13 +67,13 @@
   }
 
   .placeholder {
-    color: #888;
+    color: @select-placeholder-color;
   }
 
   .arrow {
     border: 4px solid transparent;
     border-bottom-width: 0;
-    border-top-color: #a6a6a6;
+    border-top-color: @select-arrow-bc-top;
     position: absolute;
     right: 8px;
     top: 13px;
@@ -86,7 +88,7 @@
   }
 
   .botBorder {
-    background: #b3b3b3;
+    background: @select-botBorder-bg;
     height: 1px;
     position: relative;
   }
@@ -105,8 +107,8 @@
   }
 
   .menu {
-    background: #fff;
-    border: 1px solid #d5d5d5;
+    background: @select-menu-bg;
+    border: 1px solid @select-menu-bc;
     box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
     max-height: 300px;
     overflow: auto;
@@ -118,15 +120,15 @@
     }
 
     &ItemSelected {
-      background: #f1f1f1;
+      background: @select-menuItemSelected-bg;
     }
 
     &ItemCurrent {
-      background: #e4f3ff;
+      background: @select-menuItemCurrent-bg;
     }
 
     &Sep {
-      border-top: 1px solid #ececec;
+      border-top: 1px solid @select-menuSep-bc-top;
       margin: 5px 6px;
     }
   }
