@@ -1,10 +1,12 @@
+@import '../variables.less';
+
 :local {
   .root {
-    background: linear-gradient(#fefefe, #ececec);
-    border: 1px solid #d9d9d9;
-    border-bottom-color: #b2b2b2;
+    background: linear-gradient(@dateselect-bg-lg-start, @dateselect-bg-lg-end);
+    border: 1px solid @dateselect-bc;
+    border-bottom-color: @dateselect-bc-bottom;
     border-radius: 3px;
-    color: #404040;
+    color: @dateselect-color;
     cursor: default;
     display: inline-block;
     line-height: 28px;
@@ -12,8 +14,8 @@
     position: relative;
 
     &:focus {
-      border-color: #fff;
-      box-shadow: 0 0 0 2px #5199db;
+      border-color: @dateselect-focus-bc;
+      box-shadow: 0 0 0 2px @dateselect-focus-sc;
       position: relative;
     }
   }
@@ -35,20 +37,20 @@
     }
 
     &:before {
-      border-bottom-color: #a6a6a6;
+      border-bottom-color: @dateselect-arrow-bc;
       border-top: 0;
       margin-bottom: 2px;
     }
 
     &:after {
       border-bottom: 0;
-      border-top-color: #a6a6a6;
+      border-top-color: @dateselect-arrow-bc;
     }
   }
 
   .menuHolder {
     background: #fff;
-    border: 1px solid #ccc;
+    border: 1px solid @dateselect-menuHolder-bc;
     border-radius: 3px;
     box-shadow: 0 0 8px rgba(0, 0, 0, .25);
     box-sizing: content-box;
@@ -69,7 +71,7 @@
 
   .menuOverlay {
     // With transparent background on IE8 underlying text appears over the mask.
-    background: #fff;
+    background: @dateselect-menuOverlay-bg;
     bottom: 0;
     -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
     left: 0;
@@ -86,17 +88,17 @@
     white-space: nowrap;
 
     &Active {
-      background: #e4f3ff;
+      background: @dateselect-menuItem-active-bg;
     }
 
     &Selected {
-      background: #f1f1f1;
+      background: @dateselect-menuItem-selected-bg;
     }
   }
 
   .menuUp,
   .menuDown {
-    background: linear-gradient(#fdfdfd, #ededed);
+    background: linear-gradient(@dateselect-menuUpDown-bg-lg-start, @dateselect-menuUpDown-bg-lg-end);
     box-sizing: border-box;
     height: 14px;
     text-align: center;
@@ -111,20 +113,20 @@
   }
 
   .menuUp {
-    border-bottom: 1px solid #d0d0d0;
+    border-bottom: 1px solid @dateselect-menuUpDown-bc;
 
     &:before {
-      border-bottom-color: #a0a0a0;
+      border-bottom-color: @dateselect-menuUpDown-before-bc;
       border-top: 0;
     }
   }
 
   .menuDown {
-    border-top: 1px solid #d0d0d0;
+    border-top: 1px solid @dateselect-menuUpDown-bc;
 
     &:before {
       border-bottom: 0;
-      border-top-color: #a0a0a0;
+      border-top-color: @dateselect-menuUpDown-before-bc;
     }
   }
 }
