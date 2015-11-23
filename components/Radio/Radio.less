@@ -1,7 +1,9 @@
+@import '../variables.less';
+
 :local {
   .root {
-    background: linear-gradient(#fcfcfc, #ececec);
-    border: 1px solid #d9d9d9;
+    background: linear-gradient(@radio-bg-lg-start, @radio-bg-lg-end);
+    border: 1px solid @radio-bc;
     border-radius: 50%;
     box-shadow: inset 0 2px 3px -2px rgba(0, 0, 0, .1);
     display: inline-block;
@@ -12,12 +14,12 @@
   }
 
   .focused {
-    border-color: #5199db;
-    box-shadow: 0 0 0 1px #5199db;
+    border-color: @radio-focused-bc;
+    box-shadow: 0 0 0 1px @radio-focused-box-shadow;
   }
 
   .inbox {
-    background: #404040;
+    background: @radio-inbox-bg;
     border-radius: 50%;
     display: none;
     height: 8px;
