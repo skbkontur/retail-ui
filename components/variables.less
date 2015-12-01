@@ -13,7 +13,6 @@
 @btn-default-bg-lg-start: #fefefe;
 @btn-default-bg-lg-end: #ececec;
 @btn-default-bc-top: #d9d9d9;
-@btn-default-bc-left-right: @btn-default-bc-top;
 @btn-default-bc-bottom: #b2b2b2;
 @btn-default-hover-bg: #ebebeb;
 @btn-default-hover-bg-lg-start: #f2f2f2;
@@ -21,8 +20,6 @@
 @btn-default-active-bg: #d9d9d9; // совпадает с @btn-default-border-color-top
 @btn-default-active-bc-top: #a6a6a6;
 @btn-default-active-bc-left-right: #ccc;
-@btn-default-active-bc-bottom: @btn-default-active-bc-left-right;
-@btn-default-active-box-shadow: @btn-default-active-bc-top;
 
 // use primary
 @btn-primary-bg: #1e8dd4;
@@ -36,8 +33,6 @@
 @btn-primary-hover-bg-lg-end: #014994;
 @btn-primary-active-bg: #1074b5;
 @btn-primary-active-bc-top: #015798;
-@btn-primary-active-bc-left-right: @btn-primary-bc-left-right;
-@btn-primary-active-bc-bottom: @btn-primary-bc-bottom;
 @btn-primary-active-box-shadow: #00549c;
 
 // use success
@@ -45,18 +40,15 @@
 @btn-success-bg-lg-start: #4ba91d;
 @btn-success-bg-lg-end: #38920c;
 @btn-success-bc-top: #5e9450;
-@btn-success-bc-left-right: @btn-success-bc-top;
 @btn-success-bc-bottom: #457339;
 @btn-success-hover-bg: #36850f;
 @btn-success-hover-bg-lg-start: #3b8d13;
 @btn-success-hover-bg-lg-end: #317e0b;
 @btn-success-hover-bc-top: #527f4d;
-@btn-success-hover-bc-left-right: @btn-success-hover-bc-top;
 @btn-success-hover-bc-bottom: #426c36;
 @btn-success-active-bg: #35840e;
 @btn-success-active-bc-top: #3d5333;
 @btn-success-active-bc-left-right: #51744c;
-@btn-success-active-bc-bottom: @btn-success-active-bc-left-right;
 @btn-success-active-box-shadow: #29660b;
 
 // use danger
@@ -64,18 +56,15 @@
 @btn-danger-bg-lg-start: #ec5437;
 @btn-danger-bg-lg-end: #d54328;
 @btn-danger-bc-top: #c5574c;
-@btn-danger-bc-left-right: @btn-danger-bc-top;
 @btn-danger-bc-bottom: #a93535;
 @btn-danger-hover-bg: #ce3a1e;
 @btn-danger-hover-bg-lg-start: #d44227;
 @btn-danger-hover-bg-lg-end: #c73013;
 @btn-danger-hover-bc-top: #b24c4c;
-@btn-danger-hover-bc-left-right: @btn-danger-hover-bc-top;
 @btn-danger-hover-bc-bottom: #993333;
 @btn-danger-active-bg: #cd381b;
 @btn-danger-active-bc-top: #853333;
 @btn-danger-active-bc-left-right: #b24c4c;
-@btn-danger-active-bc-bottom: @btn-danger-active-bc-left-right;
 @btn-danger-active-box-shadow: #9e2b15;
 
 // use pay
@@ -83,18 +72,14 @@
 @btn-pay-bg-lg-start: #ffd44b;
 @btn-pay-bg-lg-end: #ffbc3a;
 @btn-pay-bc-top: #f3c365;
-@btn-pay-bc-left-right: @btn-pay-bc-top;
 @btn-pay-bc-bottom: #d89535;
 @btn-pay-hover-bg: #fcb32c;
 @btn-pay-hover-bg-lg-start: #ffbd3a;
 @btn-pay-hover-bg-lg-end: #f8a91d;
 @btn-pay-hover-bc-top: #ebb052;
-@btn-pay-hover-bc-left-right: @btn-pay-hover-bc-top;
 @btn-pay-hover-bc-bottom: #de9033;
 @btn-pay-active-bg: #fbb028;
 @btn-pay-active-bc-top: #d18933;
-@btn-pay-active-bc-left-right: @btn-pay-hover-bc-top;
-@btn-pay-active-bc-bottom: @btn-pay-active-bc-left-right;
 @btn-pay-active-box-shadow: #d69622;
 
 @btn-disabled-bg: #f2f2f2;
@@ -108,9 +93,7 @@
 @checkbox-box-border: #d9d9d9;
 @checkbox-box-border-bottom: #b2b2b2;
 @checkbox-box-focused-bc: #5199db;
-@checkbox-box-focused-box-shadow: @checkbox-box-focused-bc;
 @checkbox-box-disabled-bg: #f2f2f2;
-@checkbox-box-disabled-bc: @checkbox-box-border;
 @checkbox-box-disabled-color: #a0a0a0;
 
 // Calendar
@@ -126,7 +109,6 @@
 // Picker
 @picker-border-color: #d0d0d0;
 @picker-monthYear-bg: #f1f1f1;
-@picker-monthYear-border-bottom-color: @picker-border-color;
 
 // DateSelect
 @dateselect-bg-lg-start: #fefefe;
@@ -150,13 +132,10 @@
 @input-bc: #d9d9d9;
 @input-bc-top: #b2b2b2;
 @input-focus-bc: #5199db;
-@input-focus-box-shadow: @input-focus-bc;
-@input-focus-outline: @input-focus-bc;
 @input-disabled-bg: #f2f2f2;
 @input-disabled-bc: #d9d9d9;
 @input-disabled-color: #808080;
 @input-error-bc: #da0902;
-@input-error-box-shadow: @input-error-bc;
 @input-icon-color: #a9a9a9;
 
 // Link
@@ -171,21 +150,18 @@
 @modal-close-focus-outline: #5199db;
 @modal-header-bc-bottom: #e4e4e4;
 @modal-footer-bg: #f5f5f5;
-@modal-footer-bc-top: @modal-header-bc-bottom;
 
 // Radio
 @radio-bg-lg-start: #fcfcfc;
 @radio-bg-lg-end: #ececec;
 @radio-bc: #d9d9d9;
 @radio-focused-bc: #5199db;
-@radio-focused-box-shadow: @radio-focused-bc;
 @radio-inbox-bg: #404040;
 
 // SearchSelect
 @searchselect-value-bc: #d9d9d9;
 @searchselect-value-bc-top: #b2b2b2;
 @searchselect-value-focus-bc: #5199db;
-@searchselect-value-focus-box-shadow: @searchselect-value-focus-bc;
 @searchselect-menu-bg: #fff;
 @searchselect-menu-bc: #d0d0d0;
 @searchselect-menuItemSelected-bg: #eee;

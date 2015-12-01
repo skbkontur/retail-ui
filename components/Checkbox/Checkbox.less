@@ -38,18 +38,18 @@
 
   .isFocused .box {
     border-color: @checkbox-box-focused-bc;
-    box-shadow: 0 0 0 1px @checkbox-box-focused-box-shadow;
+    box-shadow: 0 0 0 1px @checkbox-box-focused-bc;
   }
 
   :global(.rt-ie8) {
     .isFocused .box {
-      outline: 1px solid @checkbox-box-focused-box-shadow;
+      outline: 1px solid @checkbox-box-focused-bc;
     }
   }
 
   .isDisabled .box {
     background: @checkbox-box-disabled-bg;
-    border-color: @checkbox-box-disabled-bc;
+    border-color: @checkbox-box-border;
     color: @checkbox-box-disabled-color;
   }
 

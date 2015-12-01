@@ -36,14 +36,14 @@
   .input:focus {
     border-color: @input-focus-bc;
     border-radius: 1px;
-    box-shadow: 0 0 0 1px @input-focus-box-shadow;
+    box-shadow: 0 0 0 1px @input-focus-bc;
     position: relative;
     z-index: 2;
   }
 
   :global(.rt-ie8) {
     .input:focus {
-      outline: 1px solid @input-focus-outline;
+      outline: 1px solid @input-focus-bc;
     }
   }
 
@@ -56,7 +56,7 @@
   .error .input {
     border-color: @input-error-bc;
     border-radius: 1px;
-    box-shadow: 0 0 0 1px @input-error-box-shadow;
+    box-shadow: 0 0 0 1px @input-error-bc;
     position: relative;
     z-index: 2;
   }
