@@ -6,6 +6,7 @@ import '../ensureOldIEClassName';
 import styles from './Textarea.less';
 
 const PASS_PROPS = {
+  autoFocus: true,
   defaultValue: true,
   disabled: true,
   placeholder: true,

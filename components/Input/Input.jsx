@@ -15,6 +15,7 @@ if (typeof window !== 'undefined' && window.document
 }
 
 const INPUT_PASS_PROPS = {
+  autoFocus: true,
   disabled: true,
   maxLength: true,
   placeholder: true,
