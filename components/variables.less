@@ -1,23 +1,67 @@
-// Autocomplete
-@autocomplete-menu-bg: #fff;
-@autocomplete-menu-border: #d0d0d0;
-@autocomplete-menu-hover-bg: #e4f3fe;
+/*@gray-0:  #000;
+@gray-1:  #00030a;
+@gray-2:  #404040;
+@gray-3:  #808080;
+@gray-4:  #888;
+@gray-5:  #a0a0a0;
+@gray-6:  #a6a6a6;
+@gray-7:  #a9a9a9;
+@gray-8:  #b2b2b2;
+@gray-9:  #b3b3b3;
+@gray-10: #ccc;
+@gray-11: #d0d0d0;
+@gray-12: #d5d5d5;
+@gray-13: #d7d7d7;
+@gray-14: #d9d9d9;
+@gray-15: #dfdfdf;
+@gray-16: #ddd;
+@gray-17: #e4e4e4;
+@gray-17: #e6e6e6;
+@gray-19: #ebebeb;
+@gray-20: #ececec;
+@gray-21: #ededed;
+@gray-22: #eee;
+@gray-23: #f1f1f1;
+@gray-24: #f2f2f2;
+@gray-25: #f5f5f5;
+@gray-26: #fcfcfc;
+@gray-27: #fefefe;
+@gray-28: #fff;*/
+
+// Common
+@bg-default: #fff;
+
+@text-color-default: #404040;
+@text-color-invert: #fff;
+
+@box-shadow-lighter: rgba(0, 0, 0, .1);
+@box-shadow-light: rgba(0, 0, 0, .15);
+@box-shadow: rgba(0, 0, 0, .2);
+@box-shadow-dark: rgba(0, 0, 0, .25);
+
+@border-color: #5199db;
+@border-color-gray-dark: #b2b2b2;
+@border-color-gray-light: #d9d9d9;
+@border-color-gray-lighter: #fff;
+
+@dropdown-menu-border: #d0d0d0;
+@dropdown-menu-bg: @bg-default;
+@dropdown-menu-hover-bg: #e4f3ff;
+@dropdown-menu-selected-bg: #f1f1f1;
+
+@input-disabled-bg: #f2f2f2;
+@input-disabled-color: #808080;
+@input-error-bc: #da0902;
+@input-icon-color: #a9a9a9;
 
 // Button
-@btn-focus-border-color: #5199db;
-@btn-dark-color: #404040;
-@btn-light-color: #fff;
-
 // use default
 @btn-default-bg: #f9f9f9;
 @btn-default-bg-lg-start: #fefefe;
 @btn-default-bg-lg-end: #ececec;
-@btn-default-bc-top: #d9d9d9;
-@btn-default-bc-bottom: #b2b2b2;
 @btn-default-hover-bg: #ebebeb;
 @btn-default-hover-bg-lg-start: #f2f2f2;
 @btn-default-hover-bg-lg-end: #dfdfdf;
-@btn-default-active-bg: #d9d9d9; // совпадает с @btn-default-border-color-top
 @btn-default-active-bc-top: #a6a6a6;
 @btn-default-active-bc-left-right: #ccc;
 
@@ -82,98 +126,47 @@
 @btn-pay-active-bc-top: #d18933;
 @btn-pay-active-box-shadow: #d69622;
 
-@btn-disabled-bg: #f2f2f2;
-@btn-disabled-bc: #d9d9d9;
-@btn-disabled-color: #808080;
-
 // Checkbox
-@checkbox-disabled-color: #808080;
 @checkbox-box-bg-lg-start: #fdfdfd;
 @checkbox-box-bg-lg-end: #ededed;
-@checkbox-box-border: #d9d9d9;
-@checkbox-box-border-bottom: #b2b2b2;
-@checkbox-box-focused-bc: #5199db;
-@checkbox-box-disabled-bg: #f2f2f2;
 @checkbox-box-disabled-color: #a0a0a0;
 
 // Calendar
-@calendar-bg: #fff;
-@calendar-mask-bg: @calendar-bg;
-@calendar-grey-bg: #f1f1f1;
 @calendar-year-color: #888;
 @calendar-cellActive-bg: #ddd;
 @calendar-cellCurrent-bg: #808080;
-@calendar-cellCurrent-color: #fff;
 @calendar-cellHoly-color: #c22;
-
-// Picker
-@picker-border-color: #d0d0d0;
-@picker-monthYear-bg: #f1f1f1;
 
 // DateSelect
 @dateselect-bg-lg-start: #fefefe;
 @dateselect-bg-lg-end: #ececec;
-@dateselect-bc: #d9d9d9;
-@dateselect-bc-bottom: #b2b2b2;
-@dateselect-color: #404040;
-@dateselect-focus-bc: #fff;
-@dateselect-focus-sc: #5199db;
 @dateselect-arrow-bc: #a6a6a6;
 @dateselect-menuHolder-bc: #ccc;
-@dateselect-menuOverlay-bg: #fff;
-@dateselect-menuItem-active-bg: #e4f3ff;
-@dateselect-menuItem-selected-bg: #f1f1f1;
 @dateselect-menuUpDown-bg-lg-start: #fdfdfd;
 @dateselect-menuUpDown-bg-lg-end: #ededed;
-@dateselect-menuUpDown-bc: #d0d0d0;
 @dateselect-menuUpDown-before-bc: #a0a0a0;
-
-// Input
-@input-bc: #d9d9d9;
-@input-bc-top: #b2b2b2;
-@input-focus-bc: #5199db;
-@input-disabled-bg: #f2f2f2;
-@input-disabled-bc: #d9d9d9;
-@input-disabled-color: #808080;
-@input-error-bc: #da0902;
-@input-icon-color: #a9a9a9;
 
 // Link
 @link-color: #3072c4;
 @link-active-color: #044785;
-@link-disabled-color: #808080;
+@link-disabled-color: @input-disabled-color;
 
 // Modal
 @modal-bg-bg: #00030a;
-@modal-window-bg: #fff;
 @modal-close-color: #000;
-@modal-close-focus-outline: #5199db;
 @modal-header-bc-bottom: #e4e4e4;
 @modal-footer-bg: #f5f5f5;
 
 // Radio
 @radio-bg-lg-start: #fcfcfc;
 @radio-bg-lg-end: #ececec;
-@radio-bc: #d9d9d9;
-@radio-focused-bc: #5199db;
-@radio-inbox-bg: #404040;
 
 // SearchSelect
-@searchselect-value-bc: #d9d9d9;
-@searchselect-value-bc-top: #b2b2b2;
-@searchselect-value-focus-bc: #5199db;
-@searchselect-menu-bg: #fff;
-@searchselect-menu-bc: #d0d0d0;
 @searchselect-menuItemSelected-bg: #eee;
 
 // Select
 @select-bg-lg-start: #fefefe;
 @select-bg-lg-end: #ececec;
-@select-bc: #d9d9d9;
-@select-bc-bottom: #b2b2b2;
-@select-color: #404040;
-@select-focus-bc: #5199db;
-@select-focus-box-shadow-left-right: #fff;
 @select-hover-bg: #ebebeb;
 @select-hover-bg-lg-start: #f2f2f2;
 @select-hover-bg-lg-end: #dfdfdf;
@@ -182,28 +175,16 @@
 @select-placeholder-color: #888;
 @select-arrow-bc-top: #a6a6a6;
 @select-botBorder-bg: #b3b3b3;
-@select-menu-bg: #fff;
 @select-menu-bc: #d5d5d5;
-@select-menuItemSelected-bg: #f1f1f1;
-@select-menuItemCurrent-bg: #e4f3ff;
-@select-menuSep-bc-top: #ececec;
+@select-menuSep-bc-top: #e6e6e6;
 
 // Spinner
-@spinner-green: #00AA90;
-@spinner-blue: #1E79BE;
-@spinner-red: #D70C17;
-@spinner-yellow: #F8982D;
-
-// Textarea
-@textarea-bc: #d9d9d9;
-@textarea-bc-top: #b2b2b2;
-@textarea-focus-bc: #5199db;
-@textarea-disabled-bg: #f2f2f2;
-@textarea-disabled-bc: #d9d9d9;
-@textarea-color: #808080;
+@spinner-green: #00aa90;
+@spinner-blue: #1e79be;
+@spinner-red: #d70c17;
+@spinner-yellow: #f8982d;
 
 // Tooltip Box
-@box-inner-bg: #fff;
 @box-inner-bc: #ccc;
 
 @import '~react-ui-theme/variables.less';

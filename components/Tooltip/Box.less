@@ -8,10 +8,10 @@
   }
 
   .inner {
-    background: @box-inner-bg;
+    background: @bg-default;
     border: 1px solid @box-inner-bc;
     border-radius: 4px;
-    box-shadow: 0 0 8px 0 rgba(0, 0, 0, .15);
+    box-shadow: 0 0 8px 0 @box-shadow-light;
     padding: 5px 10px;
   }
 
@@ -21,7 +21,7 @@
   }
 
   .pinInner {
-    border: 6px solid @box-inner-bg;
+    border: 6px solid @border-color-gray-lighter;
     position: absolute;
   }
 }

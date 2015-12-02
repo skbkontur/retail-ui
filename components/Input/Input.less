@@ -11,8 +11,8 @@
   }
 
   .input {
-    border: 1px solid @input-bc;
-    border-top-color: @input-bc-top;
+    border: 1px solid @border-color-gray-light;
+    border-top-color: @border-color-gray-dark;
     box-sizing: border-box;
     font-family: inherit;
     font-size: 14px;
@@ -34,22 +34,22 @@
   }
 
   .input:focus {
-    border-color: @input-focus-bc;
+    border-color: @border-color;
     border-radius: 1px;
-    box-shadow: 0 0 0 1px @input-focus-bc;
+    box-shadow: 0 0 0 1px @border-color;
     position: relative;
     z-index: 2;
   }
 
   :global(.rt-ie8) {
     .input:focus {
-      outline: 1px solid @input-focus-bc;
+      outline: 1px solid @border-color;
     }
   }
 
   .disabled .input {
     background: @input-disabled-bg;
-    border-color: @input-disabled-bc;
+    border-color: @border-color-gray-light;
     color: @input-disabled-color;
   }
 

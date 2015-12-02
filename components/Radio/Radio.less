@@ -3,9 +3,9 @@
 :local {
   .root {
     background: linear-gradient(@radio-bg-lg-start, @radio-bg-lg-end);
-    border: 1px solid @radio-bc;
+    border: 1px solid @border-color-gray-light;
     border-radius: 50%;
-    box-shadow: inset 0 2px 3px -2px rgba(0, 0, 0, .1);
+    box-shadow: inset 0 2px 3px -2px @box-shadow-lighter;
     display: inline-block;
     height: 14px;
     margin-right: 4px;
@@ -14,12 +14,12 @@
   }
 
   .focused {
-    border-color: @radio-focused-bc;
-    box-shadow: 0 0 0 1px @radio-focused-bc;
+    border-color: @border-color;
+    box-shadow: 0 0 0 1px @border-color;
   }
 
   .inbox {
-    background: @radio-inbox-bg;
+    background: @text-color-default;
     border-radius: 50%;
     display: none;
     height: 8px;

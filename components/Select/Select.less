@@ -3,11 +3,11 @@
 :local {
   .root {
     background: linear-gradient(@select-bg-lg-start, @select-bg-lg-end);
-    border: 1px solid @select-bc;
-    border-bottom-color: @select-bc-bottom;
+    border: 1px solid @border-color-gray-light;
+    border-bottom-color: @border-color-gray-dark;
     border-radius: 3px;
     box-sizing: border-box;
-    color: @select-color;
+    color: @text-color-default;
     cursor: default;
     display: inline-block;
     outline: 0;
@@ -15,14 +15,14 @@
   }
 
   .root:focus {
-    border-color: @select-focus-bc;
-    box-shadow: 0 0 0 1px @select-focus-bc, inset 0 0 0 1px @select-focus-box-shadow-left-right;
+    border-color: @border-color;
+    box-shadow: 0 0 0 1px @border-color, inset 0 0 0 1px @border-color-gray-lighter;
     position: relative;
   }
 
   :global(.rt-ie8) {
     .root:focus {
-      outline: 1px solid @select-focus-bc;
+      outline: 1px solid @border-color;
     }
   }
 
@@ -107,9 +107,9 @@
   }
 
   .menu {
-    background: @select-menu-bg;
+    background: @bg-default;
     border: 1px solid @select-menu-bc;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+    box-shadow: 0 2px 6px @box-shadow;
     max-height: 300px;
     overflow: auto;
     padding: 4px 0;
@@ -120,11 +120,11 @@
     }
 
     &ItemSelected {
-      background: @select-menuItemSelected-bg;
+      background: @dropdown-menu-selected-bg;
     }
 
     &ItemCurrent {
-      background: @select-menuItemCurrent-bg;
+      background: @dropdown-menu-hover-bg;
     }
 
     &Sep {

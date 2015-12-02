@@ -22,8 +22,8 @@
   }
 
   .window {
-    background: @modal-window-bg;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, .2);
+    background: @bg-default;
+    box-shadow: 0 4px 20px @box-shadow;
     position: relative;
   }
 
@@ -38,7 +38,7 @@
     width: 40px;
 
     &:focus {
-      outline: 1px solid @modal-close-focus-outline;
+      outline: 1px solid @border-color;
     }
   }
 

@@ -3,10 +3,10 @@
 :local {
   .root {
     background: linear-gradient(@dateselect-bg-lg-start, @dateselect-bg-lg-end);
-    border: 1px solid @dateselect-bc;
-    border-bottom-color: @dateselect-bc-bottom;
+    border: 1px solid @border-color-gray-light;
+    border-bottom-color: @border-color-gray-dark;
     border-radius: 3px;
-    color: @dateselect-color;
+    color: @text-color-default;
     cursor: default;
     display: inline-block;
     line-height: 28px;
@@ -14,8 +14,8 @@
     position: relative;
 
     &:focus {
-      border-color: @dateselect-focus-bc;
-      box-shadow: 0 0 0 2px @dateselect-focus-sc;
+      border-color: @border-color-gray-lighter;
+      box-shadow: 0 0 0 2px @border-color;
       position: relative;
     }
   }
@@ -52,7 +52,7 @@
     background: #fff;
     border: 1px solid @dateselect-menuHolder-bc;
     border-radius: 3px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, .25);
+    box-shadow: 0 0 8px @box-shadow-dark;
     box-sizing: content-box;
     margin: -14px -1px 0;
     min-width: 100%;
@@ -71,7 +71,7 @@
 
   .menuOverlay {
     // With transparent background on IE8 underlying text appears over the mask.
-    background: @dateselect-menuOverlay-bg;
+    background: @dropdown-menu-bg;
     bottom: 0;
     -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
     left: 0;
@@ -88,11 +88,11 @@
     white-space: nowrap;
 
     &Active {
-      background: @dateselect-menuItem-active-bg;
+      background: @dropdown-menu-hover-bg;
     }
 
     &Selected {
-      background: @dateselect-menuItem-selected-bg;
+      background: @dropdown-menu-selected-bg;
     }
   }
 
@@ -113,7 +113,7 @@
   }
 
   .menuUp {
-    border-bottom: 1px solid @dateselect-menuUpDown-bc;
+    border-bottom: 1px solid @dropdown-menu-border;
 
     &:before {
       border-bottom-color: @dateselect-menuUpDown-before-bc;
@@ -122,7 +122,7 @@
   }
 
   .menuDown {
-    border-top: 1px solid @dateselect-menuUpDown-bc;
+    border-top: 1px solid @dropdown-menu-border;
 
     &:before {
       border-bottom: 0;

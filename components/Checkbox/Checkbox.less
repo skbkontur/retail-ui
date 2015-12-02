@@ -10,7 +10,7 @@
   }
 
   .isDisabled {
-    color: @checkbox-disabled-color;
+    color: @input-disabled-color;
     cursor: default;
   }
 
@@ -24,8 +24,8 @@
 
   .box {
     background: linear-gradient(@checkbox-box-bg-lg-start, @checkbox-box-bg-lg-end);
-    border: 1px solid @checkbox-box-border;
-    border-bottom-color: @checkbox-box-border-bottom;
+    border: 1px solid @border-color-gray-light;
+    border-bottom-color: @border-color-gray-dark;
     border-radius: 2px;
     box-sizing: border-box;
     display: inline-block;
@@ -37,19 +37,19 @@
   }
 
   .isFocused .box {
-    border-color: @checkbox-box-focused-bc;
-    box-shadow: 0 0 0 1px @checkbox-box-focused-bc;
+    border-color: @border-color;
+    box-shadow: 0 0 0 1px @border-color;
   }
 
   :global(.rt-ie8) {
     .isFocused .box {
-      outline: 1px solid @checkbox-box-focused-bc;
+      outline: 1px solid @border-color;
     }
   }
 
   .isDisabled .box {
-    background: @checkbox-box-disabled-bg;
-    border-color: @checkbox-box-border;
+    background: @input-disabled-bg;
+    border-color: @border-color-gray-light;
     color: @checkbox-box-disabled-color;
   }
 

@@ -1,12 +1,12 @@
 @import '../variables.less';
 
 :local {
-  @focus-shadow: 0 0 0 1px @btn-focus-border-color, inset 0 0 0 1px @btn-light-color;
+  @focus-shadow: 0 0 0 1px @border-color, inset 0 0 0 1px @border-color-gray-lighter;
 
   .root {
     border: 1px solid;
     border-radius: 3px;
-    color: @btn-dark-color;
+    color: @text-color-default;
     display: inline-block;
     font-family: inherit;
     font-size: 14px;
@@ -24,7 +24,7 @@
   }
 
   .root:focus {
-    border-color: @btn-focus-border-color;
+    border-color: @border-color;
     box-shadow: @focus-shadow;
     position: relative;
     z-index: 2;
@@ -32,11 +32,11 @@
 
   :global(.rt-ie8) {
     .root:focus {
-      outline: 1px solid @btn-focus-border-color;
+      outline: 1px solid @border-color;
     }
 
     .root:focus:before {
-      border: 1px solid @btn-light-color;
+      border: 1px solid @border-color-gray-lighter;
       bottom: 0;
       content: '';
       left: 0;
@@ -64,7 +64,7 @@
   .use-default {
     background: @btn-default-bg;
     background: linear-gradient(@btn-default-bg-lg-start, @btn-default-bg-lg-end);
-    border-color: @btn-default-bc-top @btn-default-bc-top @btn-default-bc-bottom;
+    border-color: @border-color-gray-light @border-color-gray-light @border-color-gray-dark;
 
     &:hover {
       background: @btn-default-hover-bg;
@@ -73,7 +73,7 @@
   }
   .use-default:active,
   .use-default.active {
-    background: @btn-default-active-bg;
+    background: @border-color-gray-light;
     border-color: @btn-default-active-bc-top @btn-default-active-bc-left-right @btn-default-active-bc-left-right;
     box-shadow: inset 0 2px 2px -2px @btn-default-active-bc-top;
   }
@@ -82,7 +82,7 @@
     background: @btn-primary-bg;
     background: linear-gradient(@btn-primary-bg-lg-start, @btn-primary-bg-lg-end);
     border-color: @btn-primary-bc-top @btn-primary-bc-left-right @btn-primary-bc-bottom;
-    color: @btn-light-color;
+    color: @text-color-invert;
 
     &:hover {
       background: @btn-primary-hover-bg;
@@ -100,7 +100,7 @@
     background: @btn-success-bg;
     background: linear-gradient(@btn-success-bg-lg-start, @btn-success-bg-lg-end);
     border-color: @btn-success-bc-top @btn-success-bc-top @btn-success-bc-bottom;
-    color: @btn-light-color;
+    color: @text-color-invert;
 
     &:hover {
       background: @btn-success-hover-bg;
@@ -119,7 +119,7 @@
     background: @btn-danger-bg;
     background: linear-gradient(@btn-danger-bg-lg-start, @btn-danger-bg-lg-end);
     border-color: @btn-danger-bc-top @btn-danger-bc-top @btn-danger-bc-bottom;
-    color: @btn-light-color;
+    color: @text-color-invert;
 
     &:hover {
       background: @btn-danger-hover-bg;
@@ -153,10 +153,10 @@
   }
 
   .root.disabled {
-    background: @btn-disabled-bg;
-    border-color: @btn-disabled-bc;
-    box-shadow: none;
-    color: @btn-disabled-color;
+    background: @input-disabled-bg;
+    border-color: @border-color-gray-light;
+    box-shadow: none
+    color: @input-disabled-color;
   }
 
   .narrow {

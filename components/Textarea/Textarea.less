@@ -2,8 +2,8 @@
 
 :local {
   .root {
-    border: 1px solid @textarea-bc;
-    border-top-color: @textarea-bc-top;
+    border: 1px solid @border-color-gray-light;
+    border-top-color: @border-color-gray-dark;
     box-sizing: border-box;
     font-family: inherit;
     font-size: 14px;
@@ -14,23 +14,23 @@
   }
 
   .root:focus {
-    border-color: @textarea-focus-bc;
+    border-color: @border-color;
     border-radius: 1px;
-    box-shadow: 0 0 0 1px @textarea-focus-bc;
+    box-shadow: 0 0 0 1px @border-color;
     position: relative;
     z-index: 2;
   }
 
   :global(.rt-ie8) {
     .root:focus {
-      outline: 1px solid @textarea-focus-bc;
+      outline: 1px solid @border-color;
     }
   }
 
   .root[disabled] {
-    background: @textarea-disabled-bg;
-    border-color: @textarea-disabled-bc;
-    color: @textarea-color;
+    background: @input-disabled-bg;
+    border-color: @border-color-gray-light;
+    color: @input-disabled-color;
   }
 
   .error {
