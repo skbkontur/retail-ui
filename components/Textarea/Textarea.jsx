@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react';
 import classNames from 'classnames';
+import React, {PropTypes} from 'react';
 
 import filterProps from '../filterProps';
 
@@ -50,7 +50,7 @@ const Textarea = React.createClass({
     const props = filterProps(this.props, PASS_PROPS);
     props.className = classNames({
       [styles.root]: true,
-      [styles.error]: this.props.error
+      [styles.error]: this.props.error,
     });
     props.style = {};
 
