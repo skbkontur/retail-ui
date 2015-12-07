@@ -10,6 +10,7 @@ const PASS_PROPS = {
   autoFocus: true,
   defaultValue: true,
   disabled: true,
+  maxLength: true,
   placeholder: true,
   rows: true,
   value: true,
@@ -25,6 +26,8 @@ const Textarea = React.createClass({
      * Визуально показать наличие ошибки.
      */
     error: PropTypes.bool,
+
+    maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
      * Количество строк
