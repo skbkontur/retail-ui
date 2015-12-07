@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
 import filterProps from '../filterProps';
@@ -21,6 +22,11 @@ const Textarea = React.createClass({
     disabled: PropTypes.bool,
 
     /**
+     * Визуально показать наличие ошибки.
+     */
+    error: PropTypes.bool,
+
+    /**
      * Количество строк
      */
     rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -42,7 +48,10 @@ const Textarea = React.createClass({
 
   render() {
     const props = filterProps(this.props, PASS_PROPS);
-    props.className = styles.root;
+    props.className = classNames({
+      [styles.root]: true,
+      [styles.error]: this.props.error,
+    });
     props.style = {};
 
     if (this.props.width) {
