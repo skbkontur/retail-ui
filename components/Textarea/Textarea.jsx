@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
 import filterProps from '../filterProps';
@@ -9,6 +10,7 @@ const PASS_PROPS = {
   autoFocus: true,
   defaultValue: true,
   disabled: true,
+  maxLength: true,
   placeholder: true,
   rows: true,
   value: true,
@@ -19,6 +21,13 @@ const Textarea = React.createClass({
     defaultValue: PropTypes.string,
 
     disabled: PropTypes.bool,
+
+    /**
+     * Визуально показать наличие ошибки.
+     */
+    error: PropTypes.bool,
+
+    maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
      * Количество строк
@@ -42,7 +51,10 @@ const Textarea = React.createClass({
 
   render() {
     const props = filterProps(this.props, PASS_PROPS);
-    props.className = styles.root;
+    props.className = classNames({
+      [styles.root]: true,
+      [styles.error]: this.props.error,
+    });
     props.style = {};
 
     if (this.props.width) {
