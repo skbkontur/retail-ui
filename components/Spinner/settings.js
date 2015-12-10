@@ -25,7 +25,21 @@ export const sizeMaps = {
   },
 };
 
+export function svgAnimateSupport() {
+  if (document.createElementNS) {
+    const namespaceURI = 'http://www.w3.org/2000/svg';
+    const element = document.createElementNS(namespaceURI, 'animate');
+
+    if (element) {
+      return  /SVGAnimate/.test(element.toString());
+    }
+  }
+
+  return false;
+}
+
 export default {
   types,
   sizeMaps,
+  svgAnimateSupport,
 };

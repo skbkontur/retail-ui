@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import styles from "./Spinner.less";
 import {types, sizeMaps} from "./settings";
 
