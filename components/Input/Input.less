@@ -55,6 +55,14 @@
     border-color: #da0902;
     border-radius: 1px;
     box-shadow: 0 0 0 1px #da0902;
+    position: relative;
+    z-index: 2;
+  }
+
+  :global(.rt-ie8) {
+    .error .input {
+      outline: 1px solid #da0902;
+    }
   }
 
   .padLeft .input {
@@ -102,5 +110,9 @@
 
   .rightIcon {
     right: 8px;
+  }
+
+  .borderless .input {
+    border-width: 0;
   }
 }

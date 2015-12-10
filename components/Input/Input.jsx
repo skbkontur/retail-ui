@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import MaskedInput from 'react-input-mask';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
@@ -14,6 +15,7 @@ if (typeof window !== 'undefined' && window.document
 }
 
 const INPUT_PASS_PROPS = {
+  autoFocus: true,
   disabled: true,
   maxLength: true,
   placeholder: true,
@@ -67,6 +69,35 @@ const Input = React.createClass({
     onBlur: PropTypes.func,
 
     onKeyDown: PropTypes.func,
+
+    /**
+     * Не отрисовывать рамку.
+     */
+    borderless: PropTypes.bool,
+
+    /**
+     * Маска ввода. Заменяет placeholder и defaultValue, влияет на значение
+     * инпута. Позволяет вводить только ограниченное количество символов.
+     *
+     * Шаблоны:
+     *  9: 0-9
+     *  a: A-Z, a-z
+     *  *: A-Z, a-z, 0-9
+     *
+     * Можно делать неудаляемую маску, например: `+4\9 99 999 99`. `\` &mdash;
+     * экранирует символ шаблона.
+     */
+    mask: PropTypes.string,
+
+    /**
+     * Символ маски. Если не указан, используется '_'.
+     */
+    maskChar: PropTypes.string,
+
+    /**
+     * Показывать маску, даже если ничего не введено.
+     */
+    alwaysShowMask: PropTypes.bool,
   },
 
   render() {
@@ -74,6 +105,7 @@ const Input = React.createClass({
       className: classNames({
         [styles.root]: true,
         [this.props.className || '']: true,
+        [styles.borderless]: this.props.borderless,
         [styles.disabled]: this.props.disabled,
         [styles.error]: this.props.error,
         [styles.padLeft]: this.props.leftIcon,
@@ -89,7 +121,7 @@ const Input = React.createClass({
 
     var placeholder = null;
     if (this.state.polyfillPlaceholder && this.props.placeholder
-        && !this.state.value) {
+        && !this.props.mask && !this.state.value) {
       placeholder = (
         <div className={styles.placeholder}>{this.props.placeholder}</div>
       );
@@ -106,18 +138,33 @@ const Input = React.createClass({
       );
     }
 
-    const inputProps = filterProps(this.props, INPUT_PASS_PROPS);
-    inputProps.style = {};
+    const inputProps = {
+      ...filterProps(this.props, INPUT_PASS_PROPS),
+      className: styles.input,
+      value: this.state.value,
+      onChange: (e) => this.handleChange(e),
+      style: {},
+    };
 
     if (this.props.align) {
       inputProps.style.textAlign = this.props.align;
     }
 
+    let input = null;
+    if (this.props.mask) {
+      input = (
+        <MaskedInput {...inputProps} mask={this.props.mask}
+          maskChar={this.props.maskChar || '_'}
+          showEmptyMask={this.props.alwaysShowMask}
+        />
+      );
+    } else {
+      input = <input {...inputProps} />;
+    }
+
     return (
       <label {...labelProps}>
-        <input className={styles.input} {...inputProps} value={this.state.value}
-          onChange={this.handleChange}
-        />
+        {input}
         {placeholder}
         {leftIcon}
         {rightIcon}
@@ -132,7 +179,7 @@ const Input = React.createClass({
   getInitialState() {
     return {
       value: this.props.value !== undefined ? this.props.value
-          : this.props.defaultValue,
+          : (this.props.mask ? null : this.props.defaultValue),
     };
   },
 
@@ -150,6 +197,20 @@ const Input = React.createClass({
 
   focus() {
     ReactDOM.findDOMNode(this).querySelector('input').focus();
+  },
+
+  setSelectionRange(start, end) {
+    const input = React.findDOMNode(this).querySelector('input');
+    if (input.setSelectionRange) {
+      input.focus();
+      input.setSelectionRange(start, end);
+    } else if (input.createTextRange) {
+      var range = input.createTextRange();
+      range.collapse(true);
+      range.moveEnd('character', end);
+      range.moveStart('character', start);
+      range.select();
+    }
   },
 
   handleChange(event) {
