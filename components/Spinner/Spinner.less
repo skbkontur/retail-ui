@@ -18,13 +18,15 @@
 
   .captionRight {
     composes: caption;
+
+    margin-left: 5px;
     position: relative;
     top: -3px;
-    margin-left: 5px;
   }
 
   .captionBottom {
     composes: caption;
+
     display: block;
   }
 
@@ -48,9 +50,9 @@
     stroke-dashoffset: 15;
 
     :global {
-      animation: cloud_offset 1s cubic-bezier(.50, .20, .50, .80) infinite,
-      cloud_length 2s cubic-bezier(.36, .14, .38, .69) infinite,
-      color 6s ease-in-out infinite;
+      animation: rt_cloud_offset 1s cubic-bezier(.50, .20, .50, .80) infinite,
+        rt_cloud_length 2s cubic-bezier(.36, .14, .38, .69) infinite,
+        rt_color 6s ease-in-out infinite;
     }
   }
 
@@ -61,10 +63,10 @@
     stroke-dashoffset: -37;
 
     :global {
-      animation: circle_offset 1s cubic-bezier(.50, .20, .50, .80) infinite,
-      circle_length 2s cubic-bezier(.36, .14, .38, .69) infinite,
-      rotate 2s linear infinite,
-      color 6s ease-in-out infinite;
+      animation: rt_circle_offset 1s cubic-bezier(.50, .20, .50, .80) infinite,
+        rt_circle_length 2s cubic-bezier(.36, .14, .38, .69) infinite,
+        rt_rotate 2s linear infinite,
+        rt_color 6s ease-in-out infinite;
     }
   }
 
@@ -74,7 +76,7 @@
   }
 }
 
-@keyframes cloud_offset {
+@keyframes rt_cloud_offset {
   0% {
     stroke-dashoffset: 0+10;
   }
@@ -83,7 +85,7 @@
   }
 }
 
-@keyframes cloud_length {
+@keyframes rt_cloud_length {
   0% {
     stroke-dasharray: 10, 96;
   }
@@ -95,7 +97,7 @@
   }
 }
 
-@keyframes circle_offset {
+@keyframes rt_circle_offset {
   0% {
     stroke-dashoffset: 0;
   }
@@ -104,7 +106,7 @@
   }
 }
 
-@keyframes circle_length {
+@keyframes rt_circle_length {
   0% {
     stroke-dasharray: 10, 27;
   }
@@ -116,7 +118,7 @@
   }
 }
 
-@keyframes color {
+@keyframes rt_color {
   100%, 0% {
     stroke: @red;
   }
@@ -131,7 +133,7 @@
   }
 }
 
-@keyframes rotate {
+@keyframes rt_rotate {
   100% {
     transform: rotate(360deg);
   }

@@ -1,8 +1,10 @@
 import React, {PropTypes} from 'react';
-import styles from './Spinner.less';
+
 import {types, sizeMaps, svgAnimateSupport} from './settings';
 
+import styles from './Spinner.less';
 import cloud_fallback from './cloud_fallback.gif';
+
 const hasSvgAnimationSupport = svgAnimateSupport();
 
 /**
@@ -23,15 +25,18 @@ class Spinner extends React.Component {
 
     return (
       <svg className={styles.cloud}
-           width={params.width}
-           height={params.height}
-           viewBox={params.viewBox}>
+        width={params.width}
+        height={params.height}
+        viewBox={params.viewBox}
+      >
         <path className={styles.bg}
-              strokeWidth={params.strokeWidth}
-              d={svgPath} />
+          strokeWidth={params.strokeWidth}
+          d={svgPath}
+        />
         <path className={styles.path}
-              strokeWidth={params.strokeWidth}
-              d={svgPath} />
+          strokeWidth={params.strokeWidth}
+          d={svgPath}
+        />
       </svg>
     );
   }
@@ -41,12 +46,13 @@ class Spinner extends React.Component {
 
     return (
       <svg className={styles.circle}
-           width={params.width}
-           height={params.height}>
-
+        width={params.width}
+        height={params.height}
+      >
         <circle cx="8" cy="8" r="6" stroke-miterlimit="10"
-                className="path"
-                strokeWidth={params.strokeWidth} />
+          className="path"
+          strokeWidth={params.strokeWidth}
+        />
       </svg>
     );
   }
@@ -56,8 +62,9 @@ class Spinner extends React.Component {
 
     return (
       <img className={styles.fallbackImage}
-           src={cloud_fallback}
-           height={params.height} />
+        src={cloud_fallback}
+        height={params.height}
+      />
     );
   }
 
@@ -68,13 +75,11 @@ class Spinner extends React.Component {
     } else if (type === types.mini) {
       return this.renderCircle(type);
 
-    } else {
-      return this.renderCloud(type);
     }
+    return this.renderCloud(type);
   }
 
   renderCaption(type, alwaysShowCaption) {
-
     if (type === types.mini) {
       return (
         <span className={styles.captionRight}>{this.props.caption}</span>
@@ -129,6 +134,6 @@ Spinner.defaultProps = {
   alwaysShowCaption: false,
 };
 
-Spinner.types = types;
+Spinner.Types = types;
 
 export default Spinner;
