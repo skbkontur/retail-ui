@@ -54,9 +54,7 @@ export default class ScrollContainer extends React.Component {
     return (
       <div className={styles.root}>
         {scroll}
-        <div ref={this._refInner} className={styles.inner} style={innerStyle}
-          onScroll={this._reflow}
-        >
+        <div ref={this._refInner} className={styles.inner} style={innerStyle}>
           {this.props.children}
         </div>
       </div>
@@ -65,10 +63,16 @@ export default class ScrollContainer extends React.Component {
 
   componentDidMount() {
     this._reflow();
+
+    events.addEventListener(this._inner, 'scroll', this._reflow);
   }
 
   componentDidUpdate() {
     this._reflow();
+  }
+
+  componentWillUnmount() {
+    events.removeEventListener(this._inner, 'scroll', this._reflow);
   }
 
   _refInner = (el) => {
@@ -117,7 +121,11 @@ export default class ScrollContainer extends React.Component {
 
       this._inner.scrollTop = initialScrollTop + deltaY;
 
-      event.preventDefault();
+      if (event.preventDefault) {
+        event.preventDefault();
+      } else {
+        event.returnValue = false;
+      }
     };
     const mouseUp = () => {
       events.removeEventListener(target, 'mousemove', mouseMove);
