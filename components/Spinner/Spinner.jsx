@@ -73,7 +73,7 @@ Spinner.propTypes = {
    *
    * Spinner.types - все доступные типы
    */
-  type: PropTypes.oneOf(Object.values(types)),
+  type: PropTypes.oneOf(Object.keys(types)),
 
   /**
    * Текст рядом с мини-лоадером.
@@ -88,6 +88,6 @@ Spinner.defaultProps = {
   caption: "Загрузка",
 };
 
-Spinner.types = types;
+Spinner.Types = types;
 
 export default Spinner;

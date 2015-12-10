@@ -1,5 +1,5 @@
 ReactDOM.render(
-  <Loader type="big" isActive>
+  <Loader type="big" active>
     <h1>
       Yeah, and if you were the pope they'd be all,
       "Straighten your pope hat."

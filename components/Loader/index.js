@@ -1,2 +1,2 @@
 import Loader from './Loader.jsx';
-export default Loader;
+module.exports = Loader;

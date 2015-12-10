@@ -8,28 +8,25 @@ import styles from './Loader.less';
  * DRAFT - лоадер-контейнер
  */
 class Loader extends React.Component {
-  renderSpinner(type, caption, alwaysShowCaption) {
-
+  _renderSpinner(type, caption) {
     return (
       <span className={styles.spinnerContainerCenter}>
-        <Spinner type={type}
-                 caption={caption}
-                 alwaysShowCaption={alwaysShowCaption}/>
+        <Spinner type={type} caption={caption} />
       </span>
     );
   }
 
   render() {
-    const {isActive, type, caption, alwaysShowCaption} = this.props;
+    const {active, type, caption, alwaysShowCaption} = this.props;
     const loaderClassName = classnames(styles.loader, {
-      [styles.active]: isActive,
+      [styles.active]: active,
     });
 
     return (
       <div className={loaderClassName}>
         {this.props.children}
 
-        {isActive && this.renderSpinner(type, caption, alwaysShowCaption)}
+        {active && this._renderSpinner(type, caption)}
       </div>
     );
   }
@@ -39,7 +36,7 @@ Loader.propTypes = {
   /**
    * показываем лоадер или нет
    */
-  isActive: PropTypes.bool.isRequired,
+  active: PropTypes.bool.isRequired,
 
   /**
    * Текст рядом с лоадером.
@@ -49,24 +46,18 @@ Loader.propTypes = {
   caption: PropTypes.string,
 
   /**
-   * Показываем ли текст для большого и маленького лоадера
-   */
-  alwaysShowCaption: PropTypes.bool,
-
-  /**
    * Тип спиннера: mini, normal, big
    *
    * Значение по-умолчанию - normal
    *
    * Spinner.types - все доступные типы
    */
-  type: PropTypes.oneOf(Object.keys(Spinner.types)),
+  type: PropTypes.oneOf(Object.keys(Spinner.Types)),
 };
 
 Loader.defaultProps = {
-  alwaysShowCaption: false,
   caption: null,
-  type: Spinner.types.normal,
+  type: Spinner.Types.normal,
 };
 
 export default Loader;
