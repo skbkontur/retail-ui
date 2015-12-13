@@ -1,0 +1,26 @@
+# Change Log
+All notable changes to this project will be documented in this file.
+This project adheres to [Semantic Versioning](http://semver.org/).
+
+## [0.2.0] - 2015-12-13
+### Added
+- icons font in woff2-format
+- Spinner component
+- ScrollContainer component
+- Loader component
+
+### Changed
+- Updates icon glyphs. Added vacation and sick icons
+- SearchSelect has select = -1 in initial state
+- Added height of input (small, default, large)
+- Added toooltip trigger options (opened, closed)
+- Dropped react 0.13 support
+- Passed autoFocus prop to Input and Textarea
+- Added mask prop to Input
+
+### Fixed
+- pointer cursor for checkbox
+- vertical-align fot DatePicker and Group
+
+## [0.1.0] - 2015-10-22
+First version
