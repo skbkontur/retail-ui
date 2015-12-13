@@ -1,5 +1,60 @@
 @import '../variables.less';
 
+// use default
+@btn-default-bg: #f9f9f9;
+@btn-default-bg-lg-start: #fefefe;
+@btn-default-bg-lg-end: #ececec;
+@btn-default-hover-bg: #ebebeb;
+@btn-default-hover-bg-lg-start: #f2f2f2;
+@btn-default-hover-bg-lg-end: #dfdfdf;
+@btn-default-active-bc-top: #a6a6a6;
+@btn-default-active-bc-left-right: #ccc;
+
+// use primary
+@btn-primary-bg: #1e8dd4;
+@btn-primary-bg-lg-start: #28d;
+@btn-primary-bg-lg-end: #025fa9;
+@btn-primary-bc-top: #0166b5;
+@btn-primary-bc-left-right: #015ba2;
+@btn-primary-bc-bottom: #004a89;
+@btn-primary-hover-bg: #1582c9;
+@btn-primary-hover-bg-lg-start: #0a6fc9;
+@btn-primary-hover-bg-lg-end: #014994;
+@btn-primary-active-bg: #1074b5;
+@btn-primary-active-bc-top: #015798;
+@btn-primary-active-box-shadow: #00549c;
+
+// use danger
+@btn-danger-bg: #e14c30;
+@btn-danger-bg-lg-start: #ec5437;
+@btn-danger-bg-lg-end: #d54328;
+@btn-danger-bc-top: #c5574c;
+@btn-danger-bc-bottom: #a93535;
+@btn-danger-hover-bg: #ce3a1e;
+@btn-danger-hover-bg-lg-start: #d44227;
+@btn-danger-hover-bg-lg-end: #c73013;
+@btn-danger-hover-bc-top: #b24c4c;
+@btn-danger-hover-bc-bottom: #993333;
+@btn-danger-active-bg: #cd381b;
+@btn-danger-active-bc-top: #853333;
+@btn-danger-active-bc-left-right: #b24c4c;
+@btn-danger-active-box-shadow: #9e2b15;
+
+// use pay
+@btn-pay-bg: #ffc943;
+@btn-pay-bg-lg-start: #ffd44b;
+@btn-pay-bg-lg-end: #ffbc3a;
+@btn-pay-bc-top: #f3c365;
+@btn-pay-bc-bottom: #d89535;
+@btn-pay-hover-bg: #fcb32c;
+@btn-pay-hover-bg-lg-start: #ffbd3a;
+@btn-pay-hover-bg-lg-end: #f8a91d;
+@btn-pay-hover-bc-top: #ebb052;
+@btn-pay-hover-bc-bottom: #de9033;
+@btn-pay-active-bg: #fbb028;
+@btn-pay-active-bc-top: #d18933;
+@btn-pay-active-box-shadow: #d69622;
+
 :local {
   @focus-shadow: 0 0 0 1px @border-color, inset 0 0 0 1px @border-color-gray-lighter;
 
@@ -153,7 +208,7 @@
   }
 
   .root.disabled {
-    background: @input-disabled-bg;
+    background: @bg-disabled;
     border-color: @border-color-gray-light;
     box-shadow: none
     color: @input-disabled-color;

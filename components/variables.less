@@ -1,84 +1,35 @@
-/*@gray-0:  #000;
-@gray-1:  #00030a;
-@gray-2:  #404040;
-@gray-3:  #808080;
-@gray-4:  #888;
-@gray-5:  #a0a0a0;
-@gray-6:  #a6a6a6;
-@gray-7:  #a9a9a9;
-@gray-8:  #b2b2b2;
-@gray-9:  #b3b3b3;
-@gray-10: #ccc;
-@gray-11: #d0d0d0;
-@gray-12: #d5d5d5;
-@gray-13: #d7d7d7;
-@gray-14: #d9d9d9;
-@gray-15: #dfdfdf;
-@gray-16: #ddd;
-@gray-17: #e4e4e4;
-@gray-17: #e6e6e6;
-@gray-19: #ebebeb;
-@gray-20: #ececec;
-@gray-21: #ededed;
-@gray-22: #eee;
-@gray-23: #f1f1f1;
-@gray-24: #f2f2f2;
-@gray-25: #f5f5f5;
-@gray-26: #fcfcfc;
-@gray-27: #fefefe;
-@gray-28: #fff;*/
-
 // Common
 @bg-default: #fff;
+@bg-disabled: #f2f2f2;
 
+@icon-color: #a9a9a9;
+@border-color: #5199db;
+@border-color-gray-dark: #b2b2b2;
+@border-color-gray-light: #d9d9d9;
+@border-color-gray-lighter: #fff;
+@border-color-error: #da0902;
+
+// Text
 @text-color-default: #404040;
 @text-color-invert: #fff;
+@text-color-disabled: #808080;
+
+// Link
+@link-color: #3072c4;
+@link-active-color: #044785;
+@link-disabled-color: @text-color-disabled;
 
 @box-shadow-dark: rgba(0, 0, 0, .25);
 @box-shadow: rgba(0, 0, 0, .2);
 @box-shadow-light: rgba(0, 0, 0, .15);
 @box-shadow-lighter: rgba(0, 0, 0, .1);
 
-@border-color: #5199db;
-@border-color-gray-dark: #b2b2b2;
-@border-color-gray-light: #d9d9d9;
-@border-color-gray-lighter: #fff;
-
 @dropdown-menu-border: #d0d0d0;
 @dropdown-menu-bg: @bg-default;
 @dropdown-menu-hover-bg: #e4f3ff;
 @dropdown-menu-selected-bg: #f1f1f1;
 
-@input-disabled-bg: #f2f2f2;
-@input-disabled-color: #808080;
-@input-error-bc: #da0902;
-@input-icon-color: #a9a9a9;
-
 // Button
-// use default
-@btn-default-bg: #f9f9f9;
-@btn-default-bg-lg-start: #fefefe;
-@btn-default-bg-lg-end: #ececec;
-@btn-default-hover-bg: #ebebeb;
-@btn-default-hover-bg-lg-start: #f2f2f2;
-@btn-default-hover-bg-lg-end: #dfdfdf;
-@btn-default-active-bc-top: #a6a6a6;
-@btn-default-active-bc-left-right: #ccc;
-
-// use primary
-@btn-primary-bg: #1e8dd4;
-@btn-primary-bg-lg-start: #28d;
-@btn-primary-bg-lg-end: #025fa9;
-@btn-primary-bc-top: #0166b5;
-@btn-primary-bc-left-right: #015ba2;
-@btn-primary-bc-bottom: #004a89;
-@btn-primary-hover-bg: #1582c9;
-@btn-primary-hover-bg-lg-start: #0a6fc9;
-@btn-primary-hover-bg-lg-end: #014994;
-@btn-primary-active-bg: #1074b5;
-@btn-primary-active-bc-top: #015798;
-@btn-primary-active-box-shadow: #00549c;
-
 // use success
 @btn-success-bg: #419d14;
 @btn-success-bg-lg-start: #4ba91d;
@@ -94,94 +45,5 @@
 @btn-success-active-bc-top: #3d5333;
 @btn-success-active-bc-left-right: #51744c;
 @btn-success-active-box-shadow: #29660b;
-
-// use danger
-@btn-danger-bg: #e14c30;
-@btn-danger-bg-lg-start: #ec5437;
-@btn-danger-bg-lg-end: #d54328;
-@btn-danger-bc-top: #c5574c;
-@btn-danger-bc-bottom: #a93535;
-@btn-danger-hover-bg: #ce3a1e;
-@btn-danger-hover-bg-lg-start: #d44227;
-@btn-danger-hover-bg-lg-end: #c73013;
-@btn-danger-hover-bc-top: #b24c4c;
-@btn-danger-hover-bc-bottom: #993333;
-@btn-danger-active-bg: #cd381b;
-@btn-danger-active-bc-top: #853333;
-@btn-danger-active-bc-left-right: #b24c4c;
-@btn-danger-active-box-shadow: #9e2b15;
-
-// use pay
-@btn-pay-bg: #ffc943;
-@btn-pay-bg-lg-start: #ffd44b;
-@btn-pay-bg-lg-end: #ffbc3a;
-@btn-pay-bc-top: #f3c365;
-@btn-pay-bc-bottom: #d89535;
-@btn-pay-hover-bg: #fcb32c;
-@btn-pay-hover-bg-lg-start: #ffbd3a;
-@btn-pay-hover-bg-lg-end: #f8a91d;
-@btn-pay-hover-bc-top: #ebb052;
-@btn-pay-hover-bc-bottom: #de9033;
-@btn-pay-active-bg: #fbb028;
-@btn-pay-active-bc-top: #d18933;
-@btn-pay-active-box-shadow: #d69622;
-
-// Checkbox
-@checkbox-box-bg-lg-start: #fdfdfd;
-@checkbox-box-bg-lg-end: #ededed;
-@checkbox-box-disabled-color: #a0a0a0;
-
-// Calendar
-@calendar-year-color: #888;
-@calendar-cellActive-bg: #ddd;
-@calendar-cellCurrent-bg: #808080;
-@calendar-cellHoly-color: #c22;
-
-// DateSelect
-@dateselect-bg-lg-start: #fefefe;
-@dateselect-bg-lg-end: #ececec;
-@dateselect-arrow-bc: #a6a6a6;
-@dateselect-menuHolder-bc: #ccc;
-@dateselect-menuUpDown-bg-lg-start: #fdfdfd;
-@dateselect-menuUpDown-bg-lg-end: #ededed;
-@dateselect-menuUpDown-before-bc: #a0a0a0;
-
-// Link
-@link-color: #3072c4;
-@link-active-color: #044785;
-@link-disabled-color: @input-disabled-color;
-
-// Modal
-@modal-bg-bg: #00030a;
-@modal-close-color: #000;
-@modal-header-bc-bottom: #e4e4e4;
-@modal-footer-bg: #f5f5f5;
-
-// Radio
-@radio-bg-lg-start: #fcfcfc;
-@radio-bg-lg-end: #ececec;
-
-// SearchSelect
-@searchselect-menuItemSelected-bg: #eee;
-
-// Select
-@select-bg-lg-start: #fefefe;
-@select-bg-lg-end: #ececec;
-@select-hover-bg: #ebebeb;
-@select-hover-bg-lg-start: #f2f2f2;
-@select-hover-bg-lg-end: #dfdfdf;
-@select-isOpened-bg: #d7d7d7;
-@select-isOpened-bc: #b3b3b3;
-@select-placeholder-color: #888;
-@select-arrow-bc-top: #a6a6a6;
-@select-botBorder-bg: #b3b3b3;
-@select-menu-bc: #d5d5d5;
-@select-menuSep-bc-top: #e6e6e6;
-
-// Spinner
-@spinner-green: #00aa90;
-@spinner-blue: #1e79be;
-@spinner-red: #d70c17;
-@spinner-yellow: #f8982d;
 
 @import '~react-ui-theme/variables.less';

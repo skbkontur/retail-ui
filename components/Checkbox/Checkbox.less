@@ -1,5 +1,9 @@
 @import '../variables.less';
 
+@checkbox-box-bg-lg-start: #fdfdfd;
+@checkbox-box-bg-lg-end: #ededed;
+@checkbox-box-disabled-color: #a0a0a0;
+
 :local {
   .root {
     cursor: pointer;
@@ -10,7 +14,7 @@
   }
 
   .isDisabled {
-    color: @input-disabled-color;
+    color: @text-color-disabled;
     cursor: default;
   }
 
@@ -48,7 +52,7 @@
   }
 
   .isDisabled .box {
-    background: @input-disabled-bg;
+    background: @bg-disabled;
     border-color: @border-color-gray-light;
     color: @checkbox-box-disabled-color;
   }
