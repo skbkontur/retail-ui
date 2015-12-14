@@ -62,8 +62,18 @@ const Tooltip = React.createClass({
     this.boxDom = null;
   },
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.trigger !== this.props.trigger) {
+      if (newProps.trigger === 'opened') {
+        this.setState({opened: true});
+      } else if (newProps.trigger === 'closed') {
+        this.setState({opened: false});
+      }
+    }
+  },
+
   componentDidUpdate() {
-    if (this.state.opened || this.props.trigger === 'opened') {
+    if (this.state.opened) {
       ReactDOM.render(
         <Box trigger={this.props.trigger} target={this.targetDOM}
           pos={this.props.pos} onClose={this.handleBoxClose}
