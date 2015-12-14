@@ -9,7 +9,6 @@ import Input from '../Input';
 import styles from './SearchSelect.less';
 
 const INPUT_PASS_PROPS = {
-  placeholder: true,
   width: true,
 };
 
@@ -50,13 +49,10 @@ const SearchSelect = React.createClass({
   },
 
   getInitialState() {
-    const value = this.props.value !== undefined ? this.props.value : null;
-    this._initItem(value);
-
     return {
       opened: false,
-      searchText: value,
-      value,
+      searchText: '',
+      value: this.props.value !== undefined ? this.props.value : null,
       results: null,
       selected: -1,
     };
@@ -146,6 +142,12 @@ const SearchSelect = React.createClass({
         </div>
       </div>
     );
+  },
+
+  componentWillMount() {
+    if (this.state.value != null) {
+      this._loadItem(this.state.value);
+    }
   },
 
   componentWillReceiveProps(newProps) {
@@ -260,12 +262,6 @@ const SearchSelect = React.createClass({
     this._close();
     this._change(item);
     this._focusAsync();
-  },
-
-  _initItem(value) {
-    if (value) {
-      this._loadItem(value);
-    }
   },
 
   _resetItem(value) {

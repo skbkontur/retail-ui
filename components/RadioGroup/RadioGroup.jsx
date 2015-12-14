@@ -23,9 +23,8 @@ const RadioGroup = React.createClass({
   },
 
   getInitialState() {
-    const props = this.props;
     return {
-      value: props.value !== undefined ? props.value : null,
+      value: this.props.value !== undefined ? this.props.value : null,
     };
   },
 
