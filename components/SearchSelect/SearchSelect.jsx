@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 
 import filterProps from '../filterProps';
 
-import Input from 'ui/Input';
+import Input from '../Input';
 
 import styles from './SearchSelect.less';
 
@@ -44,12 +44,13 @@ const SearchSelect = React.createClass({
       getValue,
       renderItem,
       renderValue,
+      placeholder: 'Пусто',
       width: 250,
     };
   },
 
   getInitialState() {
-    const value = this.props.value !== undefined ? this.props.value : '';
+    const value = this.props.value !== undefined ? this.props.value : null;
     this._initItem(value);
 
     return {
@@ -63,7 +64,7 @@ const SearchSelect = React.createClass({
 
   render() {
     let valueEl;
-    if (this.state.opened || !this.state.value) {
+    if (this.state.opened) {
       valueEl = this.renderOpenedValue();
     } else {
       valueEl = this.renderClosedValue();
@@ -93,7 +94,11 @@ const SearchSelect = React.createClass({
 
   renderClosedValue() {
     let value;
-    if (this.props.loader) {
+    if (this.state.value == null) {
+      value = (
+        <span className={styles.placeholder}>{this.props.placeholder}</span>
+      );
+    } else if (this.props.loader) {
       if (this.state.item) {
         value = this.props.renderValue(this.state.value, this.state.item);
       } else {
