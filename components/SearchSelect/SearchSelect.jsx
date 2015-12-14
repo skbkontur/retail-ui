@@ -50,7 +50,7 @@ const SearchSelect = React.createClass({
 
   getInitialState() {
     const value = this.props.value !== undefined ? this.props.value : '';
-    this.initItem_(value);
+    this._initItem(value);
 
     return {
       opened: false,
@@ -69,10 +69,11 @@ const SearchSelect = React.createClass({
       valueEl = this.renderClosedValue();
     }
     return (
-      <span className={styles.root} style={{width: this.props.width}}>
+      <label className={styles.root} style={{width: this.props.width}}>
         {valueEl}
         {this.state.opened && this.renderMenu()}
-      </span>
+        <div className={styles.arrow} />
+      </label>
     );
   },
 
@@ -145,7 +146,7 @@ const SearchSelect = React.createClass({
   componentWillReceiveProps(newProps) {
     if (newProps.value !== undefined) {
       this.setState({value: newProps.value});
-      this.resetItem_(newProps.value);
+      this._resetItem(newProps.value);
     }
   },
 
@@ -159,46 +160,33 @@ const SearchSelect = React.createClass({
       opened: true,
       searchText: pattern,
     });
-    if (pattern) {
-      this.props.source(pattern).then((results) => {
-        if (this.state.searchText === pattern) {
-          this.setState({
-            selected: -1,
-            results,
-          });
-        }
-      });
-    } else {
-      this.setState({
-        results: null,
-      });
-    }
+    this._fetchList(pattern);
   },
 
   handleInputKey(event) {
     switch (event.key) {
       case 'ArrowUp':
         event.preventDefault();
-        this.moveSelection_(-1);
+        this._moveSelection(-1);
         break;
       case 'ArrowDown':
         event.preventDefault();
-        this.moveSelection_(1);
+        this._moveSelection(1);
         break;
       case 'Enter':
         const item = this.state.results &&
           this.state.results[this.state.selected];
         if (item) {
           event.preventDefault();
-          this.close_(() => {
-            this.focus_();
+          this._close(() => {
+            this._focus();
           });
-          this.change_(item);
+          this._change(item);
         }
         break;
       case 'Escape':
-        this.close_(() => {
-          this.focus_();
+        this._close(() => {
+          this._focus();
         });
         break;
     }
@@ -206,10 +194,10 @@ const SearchSelect = React.createClass({
 
   handleInputBlur() {
     const {searchText} = this.state;
-    const item = this.findItemByValue_(searchText);
+    const item = this._findItemByValue(searchText);
     this.setState({opened: false});
     if (item) {
-      this.change_(item);
+      this._change(item);
     } else {
       this.setState({searchText: this.state.value});
     }
@@ -217,7 +205,7 @@ const SearchSelect = React.createClass({
 
   handleOpenClick() {
     this.setState({opened: true});
-    this.focus_();
+    this._focus();
   },
 
   handleValueClick() {
@@ -226,7 +214,8 @@ const SearchSelect = React.createClass({
       searchText: '',
       results: null,
     });
-    this.focusAsync_();
+    this._focusAsync();
+    this._fetchList('');
   },
 
   handleValueKeyPress(event) {
@@ -255,37 +244,38 @@ const SearchSelect = React.createClass({
           opened: true,
           searchText: '',
         }, () => {
-          this.focus_();
+          this._focus();
         });
+        this._fetchList('');
         break;
     }
   },
 
   handleItemClick(item) {
-    this.close_();
-    this.change_(item);
-    this.focusAsync_();
+    this._close();
+    this._change(item);
+    this._focusAsync();
   },
 
-  initItem_(value) {
+  _initItem(value) {
     if (value) {
-      this.loadItem_(value);
+      this._loadItem(value);
     }
   },
 
-  resetItem_(value) {
+  _resetItem(value) {
     if (this.state.value === value) {
       return;
     }
 
-    const item = this.findItemByValue_(value);
+    const item = this._findItemByValue(value);
     this.setState({item});
     if (!item && this.props.loader) {
-      this.loadItem_(value);
+      this._loadItem(value);
     }
   },
 
-  loadItem_(value) {
+  _loadItem(value) {
     this.props.loader.load(value).then((item) => {
       if (value === this.state.value) {
         this.setState({item});
@@ -293,17 +283,28 @@ const SearchSelect = React.createClass({
     });
   },
 
-  focus_() {
+  _fetchList(pattern) {
+    this.props.source(pattern).then((results) => {
+      if (this.state.searchText === pattern) {
+        this.setState({
+          selected: -1,
+          results,
+        });
+      }
+    });
+  },
+
+  _focus() {
     if (this.focusable_) {
       this.focusable_.focus();
     }
   },
 
-  focusAsync_() {
-    process.nextTick(this.focus_);
+  _focusAsync() {
+    process.nextTick(this._focus);
   },
 
-  moveSelection_(step) {
+  _moveSelection(step) {
     if (!this.state.results) {
       return;
     }
@@ -318,25 +319,25 @@ const SearchSelect = React.createClass({
     this.setState({selected});
   },
 
-  change_(item) {
+  _change(item) {
     const value = this.props.getValue(item);
     if (this.props.value === undefined) {
       this.setState({value});
-      this.resetItem_(value);
+      this._resetItem(value);
     }
     if (this.props.onChange) {
       this.props.onChange({target: {value}});
     }
   },
 
-  close_(callback) {
+  _close(callback) {
     this.setState({
       opened: false,
       results: null,
     }, callback);
   },
 
-  findItemByValue_(value) {
+  _findItemByValue(value) {
     const {results} = this.state;
     return results && results.find(
       (item) => this.props.getValue(item) === value
