@@ -166,6 +166,10 @@ var Autocomplete = React.createClass({
   },
 
   handleItemClick(event, index) {
+    if (event.button !== 0) {
+      return;
+    }
+
     event.preventDefault();
     this.choose_(index);
   },

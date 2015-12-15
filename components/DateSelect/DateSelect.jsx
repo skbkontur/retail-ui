@@ -138,6 +138,10 @@ const DateSelect = React.createClass({
   },
 
   handleItemClick(event) {
+    if (event.button !== 0) {
+      return;
+    }
+
     const rect = event.currentTarget.getBoundingClientRect();
     const y = event.clientY - rect.top + this.state.top + this.state.pos;
     const value = this.props.value + Math.floor(y / HEIGHT);

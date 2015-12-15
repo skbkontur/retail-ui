@@ -131,7 +131,7 @@ const SearchSelect = React.createClass({
             });
             return (
               <div key={i} className={className}
-                onMouseDown={(e) => this.handleItemClick(item)}
+                onMouseDown={(e) => this.handleItemClick(e, item)}
                 onMouseEnter={(e) => this.setState({selected: i})}
                 onMouseLeave={(e) => this.setState({selected: -1})}
               >
@@ -258,7 +258,11 @@ const SearchSelect = React.createClass({
     }
   },
 
-  handleItemClick(item) {
+  handleItemClick(event, item) {
+    if (event.button !== 0) {
+      return;
+    }
+
     this._close();
     this._change(item);
     this._focusAsync();

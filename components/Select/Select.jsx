@@ -154,7 +154,7 @@ const Select = React.createClass({
                 } else {
                   el = (
                     <div key={i} className={itemClassName}
-                      onMouseDown={(e) => this.select_(iValue)}
+                      onMouseDown={(e) => this._handleItemClick(e, iValue)}
                       onMouseEnter={(e) => this.setState({current: i})}
                       onMouseLeave={(e) => this.setState({current: -1})}
                     >
@@ -219,6 +219,12 @@ const Select = React.createClass({
           this.select_(items[this.state.current]);
         }
       }
+    }
+  },
+
+  _handleItemClick(event, value) {
+    if (event.button === 0) {
+      this.select_(value);
     }
   },
 

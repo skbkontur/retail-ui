@@ -140,6 +140,10 @@ const Calendar = React.createClass({
   },
 
   handleMouseDown(event) {
+    if (event.button !== 0) {
+      return;
+    }
+
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
