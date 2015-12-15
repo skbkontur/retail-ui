@@ -14,16 +14,16 @@
   }
 
   .root:focus {
-    border-color: @border-color;
+    border-color: @border-color-focus;
     border-radius: 1px;
-    box-shadow: 0 0 0 1px @border-color;
+    box-shadow: 0 0 0 1px @border-color-focus;
     position: relative;
     z-index: 2;
   }
 
   :global(.rt-ie8) {
     .root:focus {
-      outline: 1px solid @border-color;
+      outline: 1px solid @border-color-focus;
     }
   }
 

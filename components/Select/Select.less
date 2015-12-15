@@ -28,14 +28,14 @@
   }
 
   .root:focus {
-    border-color: @border-color;
-    box-shadow: 0 0 0 1px @border-color, inset 0 0 0 1px @border-color-gray-lighter;
+    border-color: @border-color-focus;
+    box-shadow: 0 0 0 1px @border-color-focus, inset 0 0 0 1px @border-color-gray-lighter;
     position: relative;
   }
 
   :global(.rt-ie8) {
     .root:focus {
-      outline: 1px solid @border-color;
+      outline: 1px solid @border-color-focus;
     }
   }
 

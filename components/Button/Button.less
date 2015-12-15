@@ -56,7 +56,7 @@
 @btn-pay-active-box-shadow: #d69622;
 
 :local {
-  @focus-shadow: 0 0 0 1px @border-color, inset 0 0 0 1px @border-color-gray-lighter;
+  @focus-shadow: 0 0 0 1px @border-color-focus, inset 0 0 0 1px @border-color-gray-lighter;
 
   .root {
     border: 1px solid;
@@ -79,7 +79,7 @@
   }
 
   .root:focus {
-    border-color: @border-color;
+    border-color: @border-color-focus;
     box-shadow: @focus-shadow;
     position: relative;
     z-index: 2;
@@ -87,7 +87,7 @@
 
   :global(.rt-ie8) {
     .root:focus {
-      outline: 1px solid @border-color;
+      outline: 1px solid @border-color-focus;
     }
 
     .root:focus:before {
