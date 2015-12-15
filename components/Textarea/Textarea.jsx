@@ -13,6 +13,7 @@ const PASS_PROPS = {
   maxLength: true,
   placeholder: true,
   rows: true,
+  title: true,
   value: true,
 };
 
@@ -29,12 +30,14 @@ const Textarea = React.createClass({
 
     maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
+    placeholder: PropTypes.string,
+
     /**
      * Количество строк
      */
     rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
-    placeholder: PropTypes.string,
+    title: PropTypes.string,
 
     value: PropTypes.string,
 
