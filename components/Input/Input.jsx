@@ -19,6 +19,7 @@ const INPUT_PASS_PROPS = {
   disabled: true,
   maxLength: true,
   placeholder: true,
+  title: true,
 
   onFocus: true,
   onBlur: true,
@@ -32,6 +33,8 @@ const Input = React.createClass({
     maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     placeholder: PropTypes.string,
+
+    title: PropTypes.string,
 
     value: PropTypes.any,
 
