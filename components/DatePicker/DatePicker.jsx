@@ -20,7 +20,9 @@ var DatePicker = React.createClass({
 
   getInitialState() {
     return {
-      value: this.props.value !== undefined ? this.props.value : null,
+      value: checkDate(
+        this.props.value !== undefined ? this.props.value : null
+      ),
       textValue: formatDate(this.props.value),
       opened: false,
     };
@@ -60,9 +62,10 @@ var DatePicker = React.createClass({
 
   componentWillReceiveProps(newProps) {
     if (newProps.value !== undefined) {
+      const date = checkDate(newProps.value);
       this.setState({
-        value: newProps.value,
-        textValue: formatDate(newProps.value),
+        value: date,
+        textValue: formatDate(date),
       });
     }
   },
@@ -132,8 +135,15 @@ var DatePicker = React.createClass({
   },
 });
 
+function checkDate(date) {
+  if (date instanceof Date && !isNaN(date.getTime())) {
+    return date;
+  }
+  return null;
+}
+
 function formatDate(date) {
-  if (!date) {
+  if (!checkDate(date)) {
     return '';
   }
 
