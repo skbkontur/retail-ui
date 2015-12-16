@@ -37,10 +37,14 @@ const Picker = React.createClass({
   },
 
   componentDidMount() {
+    this._mounted = true;
+
     events.addEventListener(document, 'mousedown', this.handleDocClick);
   },
 
   componentWillUnmount() {
+    this._mounted = false;
+
     events.removeEventListener(document, 'mousedown', this.handleDocClick);
   },
 
@@ -59,6 +63,12 @@ const Picker = React.createClass({
   },
 
   handleDocClick(event) {
+    // For some reason mousedown handler is still being called after
+    // `componentWillUnmount` was called in IE11.
+    if (!this._mounted) {
+      return;
+    }
+
     const target = event.target || event.srcElement;
     if (!ReactDOM.findDOMNode(this).contains(target) && !isDetached(target)) {
       this.props.onClose();
