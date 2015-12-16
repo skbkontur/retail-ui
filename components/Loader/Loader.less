@@ -1,35 +1,32 @@
 :local {
   .fillContainerPosition() {
-    position: absolute;
-    top: 0;
-    right: 0;
     bottom: 0;
     left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 
   .loader {
     box-sizing: border-box;
     display: inline-block;
-    width: 100%;
     position: relative;
+    width: 100%;
     z-index: inherit;
 
     &.active:after {
-      .fillContainerPosition;
-      z-index: 1;
-
-      content: " ";
-
-      opacity: 0.8;
-      filter: alpha(opacity=80);
       background: #fff;
+      content: ' ';
+      .fillContainerPosition;
+      filter: alpha(opacity=80);
+      opacity: .8;
+      z-index: 1;
     }
   }
 
   .spinnerContainer {
     display: block;
     margin: auto;
-
     text-align: center;
     z-index: 2;
   }
@@ -39,8 +36,8 @@
     .fillContainerPosition;
 
     &:before {
+      content: ' ';
       display: inline-block;
-      content: " ";
       height: 100%;
       min-height: 100%;
       vertical-align: middle;
