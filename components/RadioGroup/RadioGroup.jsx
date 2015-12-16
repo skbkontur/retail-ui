@@ -4,8 +4,8 @@ import Radio from '../Radio';
 
 import styles from './RadioGroup.less';
 
-const RadioGroup = React.createClass({
-  propTypes: {
+class RadioGroup extends React.Component {
+  static propTypes = {
     /**
      * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
      * `Array`, `Map`, `Immutable.Map`.
@@ -20,13 +20,15 @@ const RadioGroup = React.createClass({
     value: PropTypes.any,
 
     onChange: PropTypes.func,
-  },
+  };
 
-  getInitialState() {
-    return {
-      value: this.props.value !== undefined ? this.props.value : null,
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      value: props.value !== undefined ? props.value : null,
     };
-  },
+  }
 
   render() {
     var inputProps = {
@@ -42,7 +44,7 @@ const RadioGroup = React.createClass({
         {this.renderItems()}
       </label>
     );
-  },
+  }
 
   renderItems() {
     var items = [];
@@ -65,15 +67,15 @@ const RadioGroup = React.createClass({
     });
 
     return items;
-  },
+  }
 
   componentWillReceiveProps(newProps) {
     if (newProps.value !== undefined) {
       this.setState({value: newProps.value});
     }
-  },
+  }
 
-  handleKey(event) {
+  handleKey = event => {
     if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
       event.preventDefault();
       this.move_(-1);
@@ -81,15 +83,15 @@ const RadioGroup = React.createClass({
       event.preventDefault();
       this.move_(1);
     }
-  },
+  };
 
-  handleFocus(event) {
+  handleFocus = event => {
     this.setState({focused: true});
-  },
+  };
 
-  handleBlur(event) {
+  handleBlur = event => {
     this.setState({focused: false});
-  },
+  };
 
   move_(step) {
     const items = [];
@@ -108,7 +110,7 @@ const RadioGroup = React.createClass({
       selectedIndex = 0;
     }
     this.select_(items[selectedIndex]);
-  },
+  }
 
   select_(value) {
     if (this.props.value === undefined) {
@@ -117,7 +119,7 @@ const RadioGroup = React.createClass({
     if (this.props.onChange) {
       this.props.onChange({target: {value}}, value);
     }
-  },
+  }
 
   eachItem(fn) {
     let index = 0;
@@ -126,8 +128,8 @@ const RadioGroup = React.createClass({
       fn(value, item, index);
       ++index;
     }
-  },
-});
+  }
+}
 
 function normalizeEntry(entry) {
   if (!Array.isArray(entry)) {

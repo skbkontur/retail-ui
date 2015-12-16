@@ -26,8 +26,8 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
 };
 
-const Input = React.createClass({
-  propTypes: {
+class Input extends React.Component {
+  static propTypes = {
     disabled: PropTypes.bool,
 
     maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -101,7 +101,18 @@ const Input = React.createClass({
      * Показывать маску, даже если ничего не введено.
      */
     alwaysShowMask: PropTypes.bool,
-  },
+  };
+
+  static defaultProps = {};
+
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      value: props.value !== undefined ? props.value
+          : (props.mask ? null : props.defaultValue),
+    };
+  }
 
   render() {
     var labelProps = {
@@ -173,34 +184,23 @@ const Input = React.createClass({
         {rightIcon}
       </label>
     );
-  },
-
-  getDefaultProps() {
-    return {};
-  },
-
-  getInitialState() {
-    return {
-      value: this.props.value !== undefined ? this.props.value
-          : (this.props.mask ? null : this.props.defaultValue),
-    };
-  },
+  }
 
   componentDidMount() {
     if (polyfillPlaceholder) {
       this.setState({polyfillPlaceholder: true});
     }
-  },
+  }
 
   componentWillReceiveProps(props) {
     if (props.value !== undefined) {
       this.setState({value: props.value});
     }
-  },
+  }
 
   focus() {
     ReactDOM.findDOMNode(this).querySelector('input').focus();
-  },
+  }
 
   setSelectionRange(start, end) {
     const input = React.findDOMNode(this).querySelector('input');
@@ -214,7 +214,7 @@ const Input = React.createClass({
       range.moveStart('character', start);
       range.select();
     }
-  },
+  }
 
   handleChange(event) {
     if (this.props.value === undefined) {
@@ -224,7 +224,7 @@ const Input = React.createClass({
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
-  },
-});
+  }
+}
 
 module.exports = Input;

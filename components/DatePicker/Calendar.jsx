@@ -15,12 +15,14 @@ const FIRST_WEEK_SHIFT = (new Date(0).getDay() - 1) * DAY;
 const DAY_HEIGHT = 25;
 const CALENDAR_HEIGHT = 220;
 
-const Calendar = React.createClass({
-  getInitialState() {
-    return {
-      pos: dateToPos(this.props.initialDate),
+class Calendar extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      pos: dateToPos(props.initialDate),
     };
-  },
+  }
 
   render() {
     let offset = this.state.pos % DAY_HEIGHT;
@@ -97,20 +99,20 @@ const Calendar = React.createClass({
         />
       </div>
     );
-  },
+  }
 
   componentDidMount() {
     ReactDOM.findDOMNode(this).focus();
-  },
+  }
 
   moveToDate(date) {
     const newDate = new Date(0);
     newDate.setFullYear(date.getFullYear());
     newDate.setMonth(date.getMonth());
     this.setState({pos: dateToPos(newDate)});
-  },
+  }
 
-  handleWheel(event) {
+  handleWheel = event => {
     event.preventDefault();
     let deltaY = event.deltaY;
     if (event.deltaMode === 1) {
@@ -125,21 +127,21 @@ const Calendar = React.createClass({
     const date = posToDate(pos);
     date.setDate(date.getDate() + 6);
     this.props.onNav(date);
-  },
+  };
 
-  handleMouseMove(event) {
+  handleMouseMove = event => {
     const rect = event.currentTarget.getBoundingClientRect();
     this.setState({
       mouseX: event.clientX - rect.left,
       mouseY: event.clientY - rect.top,
     });
-  },
+  };
 
-  handleMouseLeave() {
+  handleMouseLeave = () => {
     this.setState({mouseX: -10});
-  },
+  };
 
-  handleMouseDown(event) {
+  handleMouseDown = event => {
     if (event.button !== 0) {
       return;
     }
@@ -159,8 +161,8 @@ const Calendar = React.createClass({
         this.props.onPick(date);
       }
     }
-  },
-});
+  };
+}
 
 function dateToPos(date) {
   return (Math.floor((+date - FIRST_WEEK_SHIFT - DAY) / WEEK) - 1) * DAY_HEIGHT;

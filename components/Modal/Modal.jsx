@@ -8,8 +8,8 @@ import styles from './Modal.less';
 /**
  * Модальное окно.
  */
-const Modal = React.createClass({
-  propTypes: {
+class Modal extends React.Component {
+  static propTypes = {
     /**
      * Не показывать крестик для закрытия окна.
      */
@@ -22,7 +22,11 @@ const Modal = React.createClass({
      * Escape или на крестик).
      */
     onClose: PropTypes.func,
-  },
+  };
+
+  constructor(props, context) {
+    super(props, context);
+  }
 
   render() {
     var close = null;
@@ -50,46 +54,50 @@ const Modal = React.createClass({
         </div>
       </Center>
     );
-  },
+  }
 
   componentDidMount() {
     events.addEventListener(document, 'keydown', this.handleNativeKey);
-  },
+  }
 
   componentWillUnmount() {
     events.removeEventListener(document, 'keydown', this.handleNativeKey);
-  },
+  }
 
-  handleClose(event) {
+  handleClose = event => {
     if (this.props.onClose) {
       this.props.onClose();
     }
-  },
+  };
 
-  handleNativeKey(event) {
+  handleNativeKey = event => {
     if (event.keyCode === 27 && this.props.onClose) {
       event.stopPropagation();
       this.props.onClose();
     }
-  },
-});
+  };
+}
 
-Modal.Header = React.createClass({
+class Header extends React.Component {
   render() {
     return <div className={styles.header}>{this.props.children}</div>;
-  },
-});
+  }
+}
 
-Modal.Body = React.createClass({
+class Body extends React.Component {
   render() {
     return <div className={styles.body}>{this.props.children}</div>;
-  },
-});
+  }
+}
 
-Modal.Footer = React.createClass({
+class Footer extends React.Component {
   render() {
     return <div className={styles.footer}>{this.props.children}</div>;
-  },
-});
+  }
+}
+
+Modal.Header = Header;
+Modal.Body = Body;
+Modal.Footer = Footer;
 
 module.exports = Modal;

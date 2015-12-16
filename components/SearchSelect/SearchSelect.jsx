@@ -15,8 +15,8 @@ const INPUT_PASS_PROPS = {
 /**
  * DRAFT
  */
-const SearchSelect = React.createClass({
-  propTypes: {
+class SearchSelect extends React.Component {
+  static propTypes = {
     value: PropTypes.any,
 
     placeholder: PropTypes.string,
@@ -36,27 +36,27 @@ const SearchSelect = React.createClass({
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onChange: PropTypes.func,
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      getValue,
-      renderItem,
-      renderValue,
-      placeholder: 'Пусто',
-      width: 250,
-    };
-  },
+  static defaultProps = {
+    getValue,
+    renderItem,
+    renderValue,
+    placeholder: 'Пусто',
+    width: 250,
+  };
 
-  getInitialState() {
-    return {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
       opened: false,
       searchText: '',
-      value: this.props.value !== undefined ? this.props.value : null,
+      value: props.value !== undefined ? props.value : null,
       results: null,
       selected: -1,
     };
-  },
+  }
 
   render() {
     let valueEl;
@@ -72,7 +72,7 @@ const SearchSelect = React.createClass({
         <div className={styles.arrow} />
       </label>
     );
-  },
+  }
 
   renderOpenedValue() {
     const inputProps = filterProps(this.props, INPUT_PASS_PROPS);
@@ -86,7 +86,7 @@ const SearchSelect = React.createClass({
         <span className={styles.openArrow} onMouseDown={this.handleOpenClick} />
       </div>
     );
-  },
+  }
 
   renderClosedValue() {
     let value;
@@ -114,7 +114,7 @@ const SearchSelect = React.createClass({
         <span className={styles.openArrow} />
       </div>
     );
-  },
+  }
 
   renderMenu() {
     const {results} = this.state;
@@ -142,35 +142,35 @@ const SearchSelect = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
   componentWillMount() {
     if (this.state.value != null) {
       this._loadItem(this.state.value);
     }
-  },
+  }
 
   componentWillReceiveProps(newProps) {
     if (newProps.value !== undefined) {
       this.setState({value: newProps.value});
       this._resetItem(newProps.value);
     }
-  },
+  }
 
-  refFocusable(el) {
+  refFocusable = el => {
     this.focusable_ = el && (el.focus ? el : ReactDOM.findDOMNode(el));
-  },
+  };
 
-  handleInputChange(event) {
+  handleInputChange = event => {
     const pattern = event.target.value;
     this.setState({
       opened: true,
       searchText: pattern,
     });
     this._fetchList(pattern);
-  },
+  };
 
-  handleInputKey(event) {
+  handleInputKey = event => {
     switch (event.key) {
       case 'ArrowUp':
         event.preventDefault();
@@ -197,9 +197,9 @@ const SearchSelect = React.createClass({
         });
         break;
     }
-  },
+  };
 
-  handleInputBlur() {
+  handleInputBlur = () => {
     const {searchText} = this.state;
     const item = this._findItemByValue(searchText);
     this.setState({opened: false});
@@ -208,14 +208,14 @@ const SearchSelect = React.createClass({
     } else {
       this.setState({searchText: this.state.value});
     }
-  },
+  };
 
-  handleOpenClick() {
+  handleOpenClick = () => {
     this.setState({opened: true});
     this._focus();
-  },
+  };
 
-  handleValueClick() {
+  handleValueClick = () => {
     this.setState({
       opened: true,
       searchText: '',
@@ -223,9 +223,9 @@ const SearchSelect = React.createClass({
     });
     this._focusAsync();
     this._fetchList('');
-  },
+  };
 
-  handleValueKeyPress(event) {
+  handleValueKeyPress = event => {
     // Set input value to empty string and then back to the real value to make
     // cursor appear at the and.
     const str = String.fromCharCode(event.charCode);
@@ -238,9 +238,9 @@ const SearchSelect = React.createClass({
         this.focusable_.focus();
       }
     );
-  },
+  };
 
-  handleValueKey(event) {
+  handleValueKey = event => {
     switch (event.key) {
       case ' ':
       case 'Enter':
@@ -256,7 +256,7 @@ const SearchSelect = React.createClass({
         this._fetchList('');
         break;
     }
-  },
+  };
 
   handleItemClick(event, item) {
     if (event.button !== 0) {
@@ -266,7 +266,7 @@ const SearchSelect = React.createClass({
     this._close();
     this._change(item);
     this._focusAsync();
-  },
+  }
 
   _resetItem(value) {
     if (this.state.value === value) {
@@ -278,7 +278,7 @@ const SearchSelect = React.createClass({
     if (!item && this.props.loader) {
       this._loadItem(value);
     }
-  },
+  }
 
   _loadItem(value) {
     this.props.loader.load(value).then((item) => {
@@ -286,7 +286,7 @@ const SearchSelect = React.createClass({
         this.setState({item});
       }
     });
-  },
+  }
 
   _fetchList(pattern) {
     this.props.source(pattern).then((results) => {
@@ -297,17 +297,17 @@ const SearchSelect = React.createClass({
         });
       }
     });
-  },
+  }
 
-  _focus() {
+  _focus = () => {
     if (this.focusable_) {
       this.focusable_.focus();
     }
-  },
+  };
 
   _focusAsync() {
     process.nextTick(this._focus);
-  },
+  }
 
   _moveSelection(step) {
     if (!this.state.results) {
@@ -322,7 +322,7 @@ const SearchSelect = React.createClass({
       selected = 0;
     }
     this.setState({selected});
-  },
+  }
 
   _change(item) {
     const value = this.props.getValue(item);
@@ -333,22 +333,22 @@ const SearchSelect = React.createClass({
     if (this.props.onChange) {
       this.props.onChange({target: {value}});
     }
-  },
+  }
 
   _close(callback) {
     this.setState({
       opened: false,
       results: null,
     }, callback);
-  },
+  }
 
   _findItemByValue(value) {
     const {results} = this.state;
     return results && results.find(
       (item) => this.props.getValue(item) === value
     );
-  },
-});
+  }
+}
 
 function getValue(item) {
   return item;

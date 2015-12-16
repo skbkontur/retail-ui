@@ -3,8 +3,8 @@ import React, {PropTypes} from 'react';
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
  */
-const Gapped = React.createClass({
-  propTypes: {
+class Gapped extends React.Component {
+  static propTypes = {
     /**
      * Расстояние между элементами.
      */
@@ -19,14 +19,12 @@ const Gapped = React.createClass({
      * Вертикальное выравнивание элементов.
      */
     verticalAlign: PropTypes.oneOf(['top', 'middle', 'bottom']),
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      gap: 10,
-      verticalAlign: 'middle',
-    };
-  },
+  static defaultProps = {
+    gap: 10,
+    verticalAlign: 'middle',
+  };
 
   render() {
     var itemStyle = {
@@ -53,7 +51,7 @@ const Gapped = React.createClass({
         <div style={contStyle}>{children}</div>
       </div>
     );
-  },
-});
+  }
+}
 
 module.exports = Gapped;

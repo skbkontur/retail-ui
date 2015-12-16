@@ -10,8 +10,8 @@ import styles from './Autocomplete.less';
  *
  * Все свойства передаются во внутренний *Input*.
  */
-var Autocomplete = React.createClass({
-  propTypes: {
+class Autocomplete extends React.Component {
+  static propTypes = {
     /**
      * Если передан массив, то совпадения ищутся по этому массиву.
      *
@@ -35,23 +35,22 @@ var Autocomplete = React.createClass({
      * — *item*.
      */
     renderItem: PropTypes.func,
-  },
+  };
 
-  opened_: false,
+  static defaultProps = {
+    renderItem,
+  };
 
-  getDefaultProps() {
-    return {
-      renderItem,
-    };
-  },
+  constructor(props, context) {
+    super(props, context);
 
-  getInitialState() {
-    return {
+    this.state = {
       selected: -1,
-      value: this.props.value !== undefined ? this.props.value
-          : this.props.defaultValue,
+      value: props.value !== undefined ? props.value
+          : props.defaultValue,
     };
-  },
+    this.opened_ = false;
+  }
 
   render() {
     var inputProps = {
@@ -66,7 +65,7 @@ var Autocomplete = React.createClass({
         {this.renderMenu()}
       </span>
     );
-  },
+  }
 
   renderMenu() {
     var items = this.state.items;
@@ -96,16 +95,16 @@ var Autocomplete = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
   componentWillReceiveProps(props) {
     if (props.value !== undefined) {
       this.setState({value: props.value});
       this.updateItems(props.value);
     }
-  },
+  }
 
-  handleChange(event) {
+  handleChange = event => {
     this.opened_ = true;
 
     const value = event.target.value;
@@ -116,18 +115,18 @@ var Autocomplete = React.createClass({
     this.updateItems(value);
 
     this.fireChange_(value);
-  },
+  };
 
-  handleBlur(event) {
+  handleBlur = event => {
     this.opened_ = false;
     this.setState({items: null});
 
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
-  },
+  };
 
-  handleKey(event) {
+  handleKey = event => {
     var items = this.state.items;
     var stop = false;
     if ((event.key === 'ArrowUp' || event.key === 'ArrowDown') && items) {
@@ -163,7 +162,7 @@ var Autocomplete = React.createClass({
     if (!stop && this.props.onKeyDown) {
       this.props.onKeyDown(event);
     }
-  },
+  };
 
   handleItemClick(event, index) {
     if (event.button !== 0) {
@@ -172,7 +171,7 @@ var Autocomplete = React.createClass({
 
     event.preventDefault();
     this.choose_(index);
-  },
+  }
 
   choose_(index) {
     var value = this.state.items[index];
@@ -187,7 +186,7 @@ var Autocomplete = React.createClass({
     }
 
     this.fireChange_(value);
-  },
+  }
 
   updateItems(value) {
     if (!this.opened_) {
@@ -210,14 +209,14 @@ var Autocomplete = React.createClass({
         });
       }
     });
-  },
+  }
 
   fireChange_(value) {
     if (this.props.onChange) {
       this.props.onChange({target: {value}}, value);
     }
-  },
-});
+  }
+}
 
 function match(pattern, items) {
   if (!pattern || !items) {

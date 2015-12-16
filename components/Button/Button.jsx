@@ -4,8 +4,8 @@ import React, {PropTypes} from 'react';
 import '../ensureOldIEClassName';
 import styles from './Button.less';
 
-var Button = React.createClass({
-  propTypes: {
+class Button extends React.Component {
+  static propTypes = {
     /**
      * Визуально нажатое состояние.
      */
@@ -34,7 +34,12 @@ var Button = React.createClass({
      * Click handler.
      */
     onClick: PropTypes.func,
-  },
+  };
+
+  static defaultProps = {
+    use: 'default',
+    size: 'default',
+  };
 
   render() {
     var rootProps = {
@@ -61,14 +66,7 @@ var Button = React.createClass({
     return (
       <button {...rootProps}>{this.props.children}</button>
     );
-  },
-
-  getDefaultProps() {
-    return {
-      use: 'default',
-      size: 'default',
-    };
-  },
-});
+  }
+}
 
 module.exports = Button;

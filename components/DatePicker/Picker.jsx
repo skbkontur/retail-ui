@@ -8,12 +8,14 @@ import Gapped from '../Gapped';
 
 import styles from './Picker.less';
 
-const Picker = React.createClass({
-  getInitialState() {
-    return {
-      date: this.props.value ? new Date(this.props.value) : new Date(),
+class Picker extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      date: props.value ? new Date(props.value) : new Date(),
     };
-  },
+  }
 
   render() {
     const {date} = this.state;
@@ -34,35 +36,35 @@ const Picker = React.createClass({
         />
       </div>
     );
-  },
+  }
 
   componentDidMount() {
     this._mounted = true;
 
     events.addEventListener(document, 'mousedown', this.handleDocClick);
-  },
+  }
 
   componentWillUnmount() {
     this._mounted = false;
 
     events.removeEventListener(document, 'mousedown', this.handleDocClick);
-  },
+  }
 
-  handleMonthChange(event) {
+  handleMonthChange = event => {
     this.state.date.setMonth(event.target.value);
     this.setState({});
 
     this.refs.calendar.moveToDate(this.state.date);
-  },
+  };
 
-  handleYearChange(event) {
+  handleYearChange = event => {
     this.state.date.setFullYear(event.target.value);
     this.setState({});
 
     this.refs.calendar.moveToDate(this.state.date);
-  },
+  };
 
-  handleDocClick(event) {
+  handleDocClick = event => {
     // For some reason mousedown handler is still being called after
     // `componentWillUnmount` was called in IE11.
     if (!this._mounted) {
@@ -73,8 +75,8 @@ const Picker = React.createClass({
     if (!ReactDOM.findDOMNode(this).contains(target) && !isDetached(target)) {
       this.props.onClose();
     }
-  },
-});
+  };
+}
 
 function isDetached(element) {
   const body = document.body;

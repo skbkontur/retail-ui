@@ -5,16 +5,14 @@ import Group from '../Group';
 import Icon from '../Icon';
 import Input from '../Input';
 
-var FxInput = React.createClass({
-  propTypes: {
+class FxInput extends React.Component {
+  static propTypes = {
     auto: PropTypes.bool,
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      width: 250,
-    };
-  },
+  static defaultProps = {
+    width: 250,
+  };
 
   render() {
     const {width} = this.props;
@@ -37,7 +35,7 @@ var FxInput = React.createClass({
         <Input mainInGroup align="right" {...this.props} {...inputProps} />
       </Group>
     );
-  },
-});
+  }
+}
 
 module.exports = FxInput;

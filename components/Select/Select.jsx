@@ -7,8 +7,8 @@ import Input from '../Input';
 import '../ensureOldIEClassName';
 import styles from './Select.less';
 
-const Select = React.createClass({
-  propTypes: {
+class Select extends React.Component {
+  static propTypes = {
     /**
      * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
      * `Array`, `Map`, `Immutable.Map`.
@@ -52,25 +52,25 @@ const Select = React.createClass({
      * DEPRECATED
      */
     isSelectable: PropTypes.func,
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      placeholder: 'ничего не выбрано',
-      renderValue,
-      renderItem,
-      filterItem,
-      isSelectable,
-    };
-  },
+  static defaultProps = {
+    placeholder: 'ничего не выбрано',
+    renderValue,
+    renderItem,
+    filterItem,
+    isSelectable,
+  };
 
-  getInitialState() {
-    return {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
       opened: false,
       current: -1,
-      value: this.props.defaultValue,
+      value: props.defaultValue,
     };
-  },
+  }
 
   render() {
     var value = this.getValue_();
@@ -119,7 +119,7 @@ const Select = React.createClass({
         {this.state.opened && this.renderMenu()}
       </span>
     );
-  },
+  }
 
   renderMenu() {
     var search = null;
@@ -170,30 +170,30 @@ const Select = React.createClass({
         <div className={styles.botBorder} />
       </div>
     );
-  },
+  }
 
-  open_() {
+  open_ = () => {
     if (!this.state.opened) {
       this.setState({opened: true});
     }
-  },
+  };
 
-  close_(e) {
+  close_ = e => {
     if (this.state.opened) {
       this.setState({
         opened: false,
         current: -1,
       });
     }
-  },
+  };
 
-  handleBlur(event) {
+  handleBlur = event => {
     if (!this.props.search) {
       this.close_();
     }
-  },
+  };
 
-  handleKey(e) {
+  handleKey = e => {
     var key = e.key;
     if (!this.state.opened) {
       if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
@@ -220,17 +220,17 @@ const Select = React.createClass({
         }
       }
     }
-  },
+  };
 
   _handleItemClick(event, value) {
     if (event.button === 0) {
       this.select_(value);
     }
-  },
+  }
 
-  handleSearch(event) {
+  handleSearch = event => {
     this.setState({searchPattern: event.target.value});
-  },
+  };
 
   select_(value) {
     this.setState({
@@ -245,14 +245,14 @@ const Select = React.createClass({
     if (this.props.onChange) {
       this.props.onChange({target: {value}}, value);
     }
-  },
+  }
 
   getValue_() {
     if (this.props.value !== undefined) {
       return this.props.value;
     }
     return this.state.value;
-  },
+  }
 
   nextSelectable_(step) {
     const items = this.mapItems((value, item) => [value, item]);
@@ -269,7 +269,7 @@ const Select = React.createClass({
         return current;
       }
     } while (this.state.current !== current);
-  },
+  }
 
   mapItems(fn) {
     const pattern = this.state.searchPattern &&
@@ -286,8 +286,8 @@ const Select = React.createClass({
     }
 
     return ret;
-  },
-});
+  }
+}
 
 Select.SEP = {};
 

@@ -9,24 +9,26 @@ import Picker from './Picker.jsx';
 
 import styles from './DatePicker.less';
 
-var DatePicker = React.createClass({
-  propTypes: {
+class DatePicker extends React.Component {
+  static propTypes = {
     error: PropTypes.bool,
 
     value: PropTypes.instanceOf(Date),
 
     onChange: PropTypes.func,
-  },
+  };
 
-  getInitialState() {
-    return {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
       value: checkDate(
-        this.props.value !== undefined ? this.props.value : null
+        props.value !== undefined ? props.value : null
       ),
-      textValue: formatDate(this.props.value),
+      textValue: formatDate(props.value),
       opened: false,
     };
-  },
+  }
 
   render() {
     let picker = null;
@@ -58,7 +60,7 @@ var DatePicker = React.createClass({
         {picker}
       </span>
     );
-  },
+  }
 
   componentWillReceiveProps(newProps) {
     if (newProps.value !== undefined) {
@@ -68,16 +70,16 @@ var DatePicker = React.createClass({
         textValue: formatDate(date),
       });
     }
-  },
+  }
 
-  handleChange(event) {
+  handleChange = event => {
     const value = event.target.value.replace(/[^\d\.]/g, '');
     this.setState({
       textValue: value,
     });
-  },
+  };
 
-  handleBlur() {
+  handleBlur = () => {
     const date = parseDate(this.state.textValue);
     if (this.props.value === undefined) {
       this.setState({
@@ -98,15 +100,15 @@ var DatePicker = React.createClass({
     if (this.props.onBlur) {
       this.props.onBlur();
     }
-  },
+  };
 
-  handlePickerKey(event) {
+  handlePickerKey = event => {
     if (event.key === 'Escape') {
       this.close(true);
     }
-  },
+  };
 
-  handlePick(date) {
+  handlePick = date => {
     if (this.props.value === undefined) {
       this.setState({
         value: date,
@@ -117,23 +119,23 @@ var DatePicker = React.createClass({
       this.props.onChange({target: {value: date}}, date);
     }
     this.close(false);
-  },
+  };
 
-  handlePickerClose() {
+  handlePickerClose = () => {
     this.close(false);
-  },
+  };
 
-  open() {
+  open = () => {
     this.setState({opened: true});
-  },
+  };
 
   close(focus) {
     this.setState({opened: false});
     if (focus) {
       setTimeout(() => this.refs.input.focus(), 0);
     }
-  },
-});
+  }
+}
 
 function checkDate(date) {
   if (date instanceof Date && !isNaN(date.getTime())) {

@@ -17,8 +17,8 @@ const PASS_PROPS = {
   value: true,
 };
 
-const Textarea = React.createClass({
-  propTypes: {
+class Textarea extends React.Component {
+  static propTypes = {
     defaultValue: PropTypes.string,
 
     disabled: PropTypes.bool,
@@ -44,13 +44,15 @@ const Textarea = React.createClass({
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onChange: PropTypes.func,
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      rows: '3',
-    };
-  },
+  static defaultProps = {
+    rows: '3',
+  };
+
+  constructor(props, context) {
+    super(props, context);
+  }
 
   render() {
     const props = filterProps(this.props, PASS_PROPS);
@@ -67,13 +69,13 @@ const Textarea = React.createClass({
     return (
       <textarea {...props} onChange={this.handleChange} />
     );
-  },
+  }
 
-  handleChange(event) {
+  handleChange = event => {
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
-  },
-});
+  };
+}
 
 module.exports = Textarea;
