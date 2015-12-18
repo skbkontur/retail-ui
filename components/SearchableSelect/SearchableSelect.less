@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 :local {
   .root {
     display: inline-block;
@@ -25,7 +27,7 @@
   .menuContainer {
     background: #fff;
     border: 1px solid #d5d5d5;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+    box-shadow: 0 2px 6px @box-shadow;
     box-sizing: border-box;
     min-width: 100%;
     position: absolute;
@@ -46,7 +48,7 @@
     }
 
     &ItemCurrent {
-      background: #e4f3ff;
+      background: @dropdown-menu-hover-bg;
     }
 
     &Sep {

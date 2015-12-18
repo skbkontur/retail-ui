@@ -1,16 +1,8 @@
 @import '../variables.less';
 
-@dateselect-bg-lg-start: #fefefe;
-@dateselect-bg-lg-end: #ececec;
-@dateselect-arrow-bc: #a6a6a6;
-@dateselect-menuHolder-bc: #ccc;
-@dateselect-menuUpDown-bg-lg-start: #fdfdfd;
-@dateselect-menuUpDown-bg-lg-end: #ededed;
-@dateselect-menuUpDown-before-bc: #a0a0a0;
-
 :local {
   .root {
-    background: linear-gradient(@dateselect-bg-lg-start, @dateselect-bg-lg-end);
+    background: linear-gradient(#fefefe, #ececec);
     border: 1px solid @border-color-gray-light;
     border-bottom-color: @border-color-gray-dark;
     border-radius: 3px;
@@ -45,20 +37,20 @@
     }
 
     &:before {
-      border-bottom-color: @dateselect-arrow-bc;
+      border-bottom-color: #a6a6a6;
       border-top: 0;
       margin-bottom: 2px;
     }
 
     &:after {
       border-bottom: 0;
-      border-top-color: @dateselect-arrow-bc;
+      border-top-color: #a6a6a6;
     }
   }
 
   .menuHolder {
     background: #fff;
-    border: 1px solid @dateselect-menuHolder-bc;
+    border: 1px solid #ccc;
     border-radius: 3px;
     box-shadow: 0 0 8px @box-shadow-dark;
     box-sizing: content-box;
@@ -106,7 +98,7 @@
 
   .menuUp,
   .menuDown {
-    background: linear-gradient(@dateselect-menuUpDown-bg-lg-start, @dateselect-menuUpDown-bg-lg-end);
+    background: linear-gradient(#fdfdfd, #ededed);
     box-sizing: border-box;
     height: 14px;
     text-align: center;
@@ -124,7 +116,7 @@
     border-bottom: 1px solid @dropdown-menu-border;
 
     &:before {
-      border-bottom-color: @dateselect-menuUpDown-before-bc;
+      border-bottom-color: #a0a0a0;
       border-top: 0;
     }
   }
@@ -134,7 +126,7 @@
 
     &:before {
       border-bottom: 0;
-      border-top-color: @dateselect-menuUpDown-before-bc;
+      border-top-color: #a0a0a0;
     }
   }
 }

@@ -1,9 +1,5 @@
 @import '../variables.less';
 
-@checkbox-box-bg-lg-start: #fdfdfd;
-@checkbox-box-bg-lg-end: #ededed;
-@checkbox-box-disabled-color: #a0a0a0;
-
 :local {
   .root {
     cursor: pointer;
@@ -27,7 +23,7 @@
   }
 
   .box {
-    background: linear-gradient(@checkbox-box-bg-lg-start, @checkbox-box-bg-lg-end);
+    background: linear-gradient(#fdfdfd, #ededed);
     border: 1px solid @border-color-gray-light;
     border-bottom-color: @border-color-gray-dark;
     border-radius: 2px;
@@ -54,7 +50,7 @@
   .isDisabled .box {
     background: @bg-disabled;
     border-color: @border-color-gray-light;
-    color: @checkbox-box-disabled-color;
+    color: #a0a0a0;
   }
 
   .ok {

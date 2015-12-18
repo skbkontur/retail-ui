@@ -1,10 +1,5 @@
 @import '../variables.less';
 
-@calendar-year-color: #888;
-@calendar-cellActive-bg: #ddd;
-@calendar-cellCurrent-bg: #808080;
-@calendar-cellHoly-color: #c22;
-
 :local {
   @day-side: 25px;
 
@@ -48,7 +43,7 @@
   }
 
   .year {
-    color: @calendar-year-color;
+    color: #888;
   }
 
   .cell {
@@ -65,15 +60,15 @@
   }
 
   .cellActive .cellInner {
-    background: @calendar-cellActive-bg;
+    background: #ddd;
   }
 
   .cellCurrent .cellInner {
-    background: @calendar-cellCurrent-bg;
+    background: #808080;
     color: @text-color-invert;
   }
 
   .cellHoly {
-    color: @calendar-cellHoly-color;
+    color: #c22;
   }
 }
