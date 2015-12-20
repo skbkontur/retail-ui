@@ -7,6 +7,7 @@ var MAP = {
   warning: '\ue005',
   ok: '\ue006',
   star: '\ue007',
+  'star-o': '\ue09d',
   fired: '\ue008',
   cert: '\ue00a',
   smile: '\ue00b',
@@ -50,6 +51,7 @@ var MAP = {
 
   circle: '\ue001',
   'circle-o': '\ue082',
+  'circle-o-dotted': '\ue099',
   'circle-small': '\ue068',
   'circle-small-o': '\ue083',
   cloud: '\ue002',
@@ -74,6 +76,7 @@ var MAP = {
   fx: '\ue036',
   calendar: '\ue023',
   undo: '\ue012',
+  redo: '\ue09c',
   forward: '\ue013',
   backward: '\ue014',
   sum: '\ue02a',
