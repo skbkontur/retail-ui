@@ -331,7 +331,7 @@ class SearchSelect extends React.Component {
       this._resetItem(value);
     }
     if (this.props.onChange) {
-      this.props.onChange({target: {value}});
+      this.props.onChange({target: {value}}, value);
     }
   }
 
