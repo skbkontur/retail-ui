@@ -1,7 +1,9 @@
+@import '../variables.less';
+
 :local {
   .root {
     border-radius: 1px;
-    color: #3072c4;
+    color: @link-color;
     outline: none;
     text-decoration: none;
   }
@@ -12,12 +14,12 @@
   }
 
   .root:active {
-    color: #044785;
+    color: @link-active-color;
   }
 
   .root.disabled {
     box-shadow: none;
-    color: #808080;
+    color: @link-disabled-color;
     cursor: default;
     text-decoration: none;
   }

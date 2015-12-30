@@ -1,10 +1,12 @@
+@import '../variables.less';
+
 :local {
   .root {
     background: linear-gradient(#fefefe, #ececec);
-    border: 1px solid #d9d9d9;
-    border-bottom-color: #b2b2b2;
+    border: 1px solid @border-color-gray-light;
+    border-bottom-color: @border-color-gray-dark;
     border-radius: 3px;
-    color: #404040;
+    color: @text-color-default;
     cursor: default;
     display: inline-block;
     line-height: 28px;
@@ -12,8 +14,8 @@
     position: relative;
 
     &:focus {
-      border-color: #fff;
-      box-shadow: 0 0 0 2px #5199db;
+      border-color: @border-color-gray-lighter;
+      box-shadow: 0 0 0 2px @border-color-focus;
       position: relative;
     }
   }
@@ -86,11 +88,11 @@
     white-space: nowrap;
 
     &Active {
-      background: #e4f3ff;
+      background: @dropdown-menu-hover-bg;
     }
 
     &Selected {
-      background: #f1f1f1;
+      background: @dropdown-menu-selected-bg;
     }
   }
 
@@ -111,7 +113,7 @@
   }
 
   .menuUp {
-    border-bottom: 1px solid #d0d0d0;
+    border-bottom: 1px solid @dropdown-menu-border;
 
     &:before {
       border-bottom-color: #a0a0a0;
@@ -120,7 +122,7 @@
   }
 
   .menuDown {
-    border-top: 1px solid #d0d0d0;
+    border-top: 1px solid @dropdown-menu-border;
 
     &:before {
       border-bottom: 0;

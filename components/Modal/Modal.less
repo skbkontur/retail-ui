@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 :local {
   .root {
     height: 100%;
@@ -20,7 +22,7 @@
   }
 
   .window {
-    background: #fff;
+    background: @bg-default;
     box-shadow: 0 4px 20px rgba(0, 0, 0, .2);
     position: relative;
   }
@@ -36,7 +38,7 @@
     width: 40px;
 
     &:focus {
-      outline: 1px solid #5199db;
+      outline: 1px solid @border-color-focus;
     }
   }
 

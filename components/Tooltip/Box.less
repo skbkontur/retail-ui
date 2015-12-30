@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 :local {
   .root {
     box-sizing: border-box;
@@ -6,20 +8,20 @@
   }
 
   .inner {
-    background: #fff;
-    border: 1px solid #ccc;
+    background: @bg-default;
+    border: 1px solid @dropdown-menu-border;
     border-radius: 4px;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, .15);
     padding: 5px 10px;
   }
 
   .pin {
-    border: 7px solid #ccc;
+    border: 7px solid @dropdown-menu-border;
     position: absolute;
   }
 
   .pinInner {
-    border: 6px solid #fff;
+    border: 6px solid @border-color-gray-lighter;
     position: absolute;
   }
 }
