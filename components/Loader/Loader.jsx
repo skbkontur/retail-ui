@@ -17,7 +17,7 @@ class Loader extends React.Component {
   }
 
   render() {
-    const {active, type, caption, alwaysShowCaption} = this.props;
+    const {active, type, caption} = this.props;
     const loaderClassName = classnames(styles.loader, {
       [styles.active]: active,
     });
@@ -56,7 +56,6 @@ Loader.propTypes = {
 };
 
 Loader.defaultProps = {
-  caption: null,
   type: Spinner.Types.normal,
 };
 

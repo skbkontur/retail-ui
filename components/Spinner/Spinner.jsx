@@ -1,9 +1,9 @@
 import classnames from 'classnames';
 import React, {PropTypes} from 'react';
 
-import styles from "./Spinner.less";
-import cloud_fallback from './cloud_fallback.gif';
-import {types, sizeMaps, svgAnimateSupport} from "./settings";
+import styles from './Spinner.less';
+import SpinnerFallback from './SpinnerFallback';
+import {types, sizeMaps, svgAnimateSupport} from './settings';
 
 const hasSvgAnimationSupport = svgAnimateSupport();
 
@@ -11,7 +11,7 @@ const hasSvgAnimationSupport = svgAnimateSupport();
  * DRAFT - инлайн-лоадер
  */
 class Spinner extends React.Component {
-  renderCloud(type) {
+  _renderCloud = (type) => {
     const params = sizeMaps[type];
 
     const svgPath = `M32.0297086,9.1495774 L31.5978628,8.5870774 C29.3570968,
@@ -42,17 +42,17 @@ class Spinner extends React.Component {
         />
       </svg>
     );
-  }
+  };
 
-  renderCircle(type) {
+  _renderCircle = (type) => {
     const params = sizeMaps[type];
 
     return (
       <svg
         className={styles.circle}
         width={params.width}
-        height={params.height}>
-
+        height={params.height}
+      >
         <circle cx="8" cy="8" r="6" stroke-miterlimit="10"
           stroke-dashoffset="0"
           className={styles.path}
@@ -60,33 +60,17 @@ class Spinner extends React.Component {
         />
       </svg>
     );
-  }
+  };
 
-  renderFallback(type) {
-    const params = sizeMaps[type];
-
-    return (
-      <img
-        className={styles.fallbackImage}
-        src={cloud_fallback}
-        height={params.height}
-      />
-    );
-  }
-
-  renderSpinner(type) {
-    if (!hasSvgAnimationSupport) {
-      return this.renderFallback(type);
-
-    } else if (type === types.mini) {
-      return this.renderCircle(type);
-
-    } else {
-      return this.renderCloud(type);
+  _renderSpinner = (type) => {
+    if (type === types.mini) {
+      return this._renderCircle(type);
     }
-  }
 
-  renderCaption(type, caption) {
+    return this._renderCloud(type);
+  };
+
+  _renderCaption = (type, caption) => {
     const spanClassName = classnames({
       [styles.captionRight]: type === types.mini,
       [styles.captionBottom]: type !== types.mini,
@@ -97,15 +81,16 @@ class Spinner extends React.Component {
           {caption}
       </span>
     );
-  }
+  };
 
   render() {
     const {type, caption} = this.props;
 
     return (
       <div className={styles.spinner}>
-        {this.renderSpinner(type)}
-        {caption && this.renderCaption(type, caption)}
+        {hasSvgAnimationSupport && this._renderSpinner(type)}
+        {!hasSvgAnimationSupport && <SpinnerFallback type={type} />}
+        {caption && this._renderCaption(type, caption)}
       </div>
     );
   }
@@ -124,14 +109,14 @@ Spinner.propTypes = {
   /**
    * Текст рядом с мини-лоадером.
    *
-   * "Загрузка" - значение по-умолчанию
+   * 'Загрузка' - значение по-умолчанию
    */
   caption: PropTypes.string,
 };
 
 Spinner.defaultProps = {
   type: types.normal,
-  caption: "Загрузка",
+  caption: 'Загрузка',
 };
 
 Spinner.Types = types;
