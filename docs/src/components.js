@@ -68,7 +68,7 @@ module.exports = [
   {
     name: 'Loader',
     component: require('ui/Loader'),
-    info: require('!docgen!ui/Loader/Loader.jsx'),
+    info: require('!docgen!ui/Loader/Loader.js'),
     src: require('!raw!./snippets/Loader.jsx'),
   },
   {
@@ -110,7 +110,7 @@ module.exports = [
   {
     name: 'Spinner',
     component: require('ui/Spinner'),
-    info: require('!docgen!ui/Spinner/Spinner.jsx'),
+    info: require('!docgen!ui/Spinner/Spinner.js'),
     src: require('!raw!./snippets/Spinner.jsx'),
   },
   {
