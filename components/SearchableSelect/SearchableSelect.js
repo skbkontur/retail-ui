@@ -89,11 +89,11 @@ export default class SearchableSelect extends React.Component {
 
   _refInput = (el) => {
     this._input = el;
-  }
+  };
 
   _refScrollContainer = (el) => {
     this._scrollContainer = el;
-  }
+  };
 
   _refItem = (el, index) => {
     if (el) {
@@ -101,7 +101,7 @@ export default class SearchableSelect extends React.Component {
     } else {
       delete this._itemNodes[index];
     }
-  }
+  };
 
   _handleKey = (event) => {
     if (this.state.opened) {
@@ -152,11 +152,11 @@ export default class SearchableSelect extends React.Component {
           break;
       }
     }
-  }
+  };
 
   _handleSearch = (event) => {
     this.setState({searchText: event.target.value});
-  }
+  };
 
   _selectItem(index) {
     this.setState({selected: index});
@@ -201,7 +201,7 @@ export default class SearchableSelect extends React.Component {
         callback();
       }
     });
-  }
+  };
 
   _close = (callback) => {
     if (!this.state.opened) {
@@ -214,7 +214,7 @@ export default class SearchableSelect extends React.Component {
         callback();
       }
     });
-  }
+  };
 
   _getItems() {
     const ret = [];
@@ -276,4 +276,4 @@ SearchableSelect.defaultProps = {
     }
     return item.toLowerCase().includes(pattern.toLowerCase());
   },
-}
+};
