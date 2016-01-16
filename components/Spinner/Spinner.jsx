@@ -1,14 +1,17 @@
 import classnames from 'classnames';
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
+
 import styles from "./Spinner.less";
-import {types, sizeMaps} from "./settings";
+import cloud_fallback from './cloud_fallback.gif';
+import {types, sizeMaps, svgAnimateSupport} from "./settings";
+
+const hasSvgAnimationSupport = svgAnimateSupport();
 
 /**
  * DRAFT - инлайн-лоадер
  */
-class Spinner extends Component {
-  renderCloud() {
-    const {type} = this.props;
+class Spinner extends React.Component {
+  renderCloud(type) {
     const params = sizeMaps[type];
 
     const svgPath = `M32.0297086,9.1495774 L31.5978628,8.5870774 C29.3570968,
@@ -21,47 +24,90 @@ class Spinner extends Component {
       9.19661922 L32.0297086,9.1495774 Z`;
 
     return (
-      <svg className={styles.cloud}
-           width={params.width}
-           height={params.height}
-           viewBox={params.viewBox}>
-        <path className={styles.bg}
-              strokeWidth={params.strokeWidth}
-              d={svgPath}></path>
-        <path className={styles.path}
-              strokeWidth={params.strokeWidth}
-              d={svgPath}></path>
+      <svg
+        className={styles.cloud}
+        width={params.width}
+        height={params.height}
+        viewBox={params.viewBox}
+      >
+        <path
+          className={styles.bg}
+          strokeWidth={params.strokeWidth}
+          d={svgPath}
+        />
+        <path
+          className={styles.path}
+          strokeWidth={params.strokeWidth}
+          d={svgPath}
+        />
       </svg>
     );
   }
 
-  renderCircle() {
-    const {type} = this.props;
+  renderCircle(type) {
     const params = sizeMaps[type];
 
     return (
-      <svg className={styles.circle}
-           width={params.width}
-           height={params.height}>
+      <svg
+        className={styles.circle}
+        width={params.width}
+        height={params.height}>
 
         <circle cx="8" cy="8" r="6" stroke-miterlimit="10"
-                className="path"
-                strokeWidth={params.strokeWidth} />
+          stroke-dashoffset="0"
+          className={styles.path}
+          strokeWidth={params.strokeWidth}
+        />
       </svg>
+    );
+  }
+
+  renderFallback(type) {
+    const params = sizeMaps[type];
+
+    return (
+      <img
+        className={styles.fallbackImage}
+        src={cloud_fallback}
+        height={params.height}
+      />
+    );
+  }
+
+  renderSpinner(type) {
+    if (!hasSvgAnimationSupport) {
+      return this.renderFallback(type);
+
+    } else if (type === types.mini) {
+      return this.renderCircle(type);
+
+    } else {
+      return this.renderCloud(type);
+    }
+  }
+
+  renderCaption(type, caption) {
+    const spanClassName = classnames({
+      [styles.captionRight]: type === types.mini,
+      [styles.captionBottom]: type !== types.mini,
+    });
+
+    return (
+      <span className={spanClassName}>
+          {caption}
+      </span>
     );
   }
 
   render() {
-    const {type} = this.props;
+    const {type, caption} = this.props;
 
     return (
       <div className={styles.spinner}>
-        {type === types.mini ? this.renderCircle() : this.renderCloud()}
-        {type === types.mini ?
-          <span className={styles.caption}>{this.props.caption}</span>
-          : null}
+        {this.renderSpinner(type)}
+        {caption && this.renderCaption(type, caption)}
       </div>
-    )
+    );
   }
 }
 

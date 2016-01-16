@@ -224,9 +224,8 @@ function match(pattern, items) {
   }
 
   pattern = pattern.toLowerCase();
-  return new Promise((resolve, reject) => {
-    resolve(items.filter((item) => item.toLowerCase().indexOf(pattern) !== -1));
-  });
+  let filteredItems = items.filter((item) => item.toLowerCase().indexOf(pattern) !== -1);
+  return Promise.resolve(filteredItems);
 }
 
 function renderItem(item) {

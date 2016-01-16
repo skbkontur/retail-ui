@@ -136,7 +136,7 @@ export default class ScrollContainer extends React.Component {
     events.addEventListener(target, 'mouseup', mouseUp);
 
     event.preventDefault();
-  }
+  };
 
   _handleScrollWheel = (event) => {
     const inner = this._inner;
@@ -153,7 +153,7 @@ export default class ScrollContainer extends React.Component {
 
     inner.scrollTop += event.deltaY;
     event.preventDefault();
-  }
+  };
 }
 
 ScrollContainer.propTypes = {
