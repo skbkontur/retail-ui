@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 
 import filterProps from '../filterProps';
 
@@ -145,12 +146,12 @@ const Input = React.createClass({
   },
 
   setSelectionRange(start, end) {
-    const input = React.findDOMNode(this).querySelector('input');
+    const input = ReactDOM.findDOMNode(this).querySelector('input');
     if (input.setSelectionRange) {
       input.focus();
       input.setSelectionRange(start, end);
     } else if (input.createTextRange) {
-      var range = input.createTextRange();
+      const range = input.createTextRange();
       range.collapse(true);
       range.moveEnd('character', end);
       range.moveStart('character', start);
