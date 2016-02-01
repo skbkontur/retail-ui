@@ -103,7 +103,7 @@ class Tooltip extends React.Component {
   };
 
   handleClick = event => {
-    if (this.targetDOM.contains(event.target)) {
+    if (!this.state.opened && this.targetDOM.contains(event.target)) {
       this.setState({opened: true});
     }
   };
