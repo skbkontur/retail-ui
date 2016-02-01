@@ -1,8 +1,10 @@
+import events from 'add-event-listener';
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
 import Input from '../Input';
+import listenFocusOutside from '../../lib/listenFocusOutside';
 
 import '../ensureOldIEClassName';
 import styles from './Select.less';
@@ -70,6 +72,9 @@ class Select extends React.Component {
       current: -1,
       value: props.defaultValue,
     };
+
+    this._menuContainer = null;
+    this._focusSubscribtion = null;
   }
 
   render() {
@@ -94,7 +99,6 @@ class Select extends React.Component {
       }),
       tabIndex: (this.state.opened && this.props.search) ? '-1' : '0',
       onKeyDown: this.handleKey,
-      onBlur: this.handleBlur,
     };
     if (this.props.width) {
       rootProps.style = {
@@ -127,7 +131,7 @@ class Select extends React.Component {
       search = (
         <div className={styles.search}>
           <Input ref={(c) => c && ReactDOM.findDOMNode(c).focus()}
-            onChange={this.handleSearch} onBlur={this.close_}
+            onChange={this.handleSearch}
           />
         </div>
       );
@@ -136,7 +140,7 @@ class Select extends React.Component {
     var value = this.getValue_();
 
     return (
-      <div className={styles.container}>
+      <div ref={this._refMenuContainer} className={styles.container}>
         <div className={styles.drop}>
           <div className={styles.overlay} onMouseDown={this.close_} />
           <div style={{position: 'relative'}}>
@@ -172,13 +176,43 @@ class Select extends React.Component {
     );
   }
 
+  _refMenuContainer = (el) => {
+    this._menuContainer = el;
+
+    if (this._focusSubscribtion) {
+      this._focusSubscribtion.remove();
+      this._focusSubscribtion = null;
+
+      events.removeEventListener(
+        document, 'mousedown', this._handleNativeDocClick
+      );
+    }
+
+    if (el) {
+      this._focusSubscribtion = listenFocusOutside(
+        [ReactDOM.findDOMNode(this)], this.close_
+      );
+
+      events.addEventListener(
+        document, 'mousedown', this._handleNativeDocClick
+      );
+    }
+  };
+
+  _handleNativeDocClick = (event) => {
+    const target = event.target || event.srcElement;
+    if (this._menuContainer && !this._menuContainer.contains(target)) {
+      this.close_();
+    }
+  };
+
   open_ = () => {
     if (!this.state.opened) {
       this.setState({opened: true});
     }
   };
 
-  close_ = e => {
+  close_ = () => {
     if (this.state.opened) {
       this.setState({
         opened: false,
@@ -187,13 +221,7 @@ class Select extends React.Component {
     }
   };
 
-  handleBlur = event => {
-    if (!this.props.search) {
-      this.close_();
-    }
-  };
-
-  handleKey = e => {
+  handleKey = (e) => {
     var key = e.key;
     if (!this.state.opened) {
       if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
