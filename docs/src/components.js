@@ -30,6 +30,12 @@ module.exports = [
     src: require('!raw!./snippets/DatePicker.jsx'),
   },
   {
+    name: 'Dropdown',
+    component: require('ui/Dropdown'),
+    info: require('!docgen!ui/Dropdown/Dropdown'),
+    src: require('!raw!./snippets/Dropdown.jsx'),
+  },
+  {
     name: 'FxInput',
     component: require('ui/FxInput'),
     info: require('!docgen!ui/FxInput/FxInput.jsx'),
