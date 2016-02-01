@@ -15,6 +15,11 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
+        loader: 'es3ify',
+        exclude: [/react-input-mask/],
+      },
+      {
+        test: /\.jsx?$/,
         loader: 'babel-loader',
         query: {
           presets: ['es2015', 'stage-0', 'react'],
