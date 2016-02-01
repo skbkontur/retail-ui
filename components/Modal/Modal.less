@@ -1,6 +1,10 @@
 @import '../variables.less';
 
 :local {
+  .bodyClass {
+    overflow-y: hidden !important;
+  }
+
   .root {
     height: 100%;
     left: 0;
@@ -19,6 +23,14 @@
     position: absolute;
     right: 0;
     top: 0;
+  }
+
+  .container {
+    box-sizing: border-box;
+    height: 100%;
+    overflow-y: auto;
+    padding: 20px 0;
+    position: relative;
   }
 
   .window {
