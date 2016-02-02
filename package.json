@@ -22,7 +22,7 @@
     "babel-jest": "^6.0.1",
     "eslint": "^1.9.0",
     "eslint-plugin-react": "^3.8.0",
-    "jest-cli": "^0.7.1"
+    "jest-cli": "^0.8.2"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/preprocessor.js",
