@@ -1,3 +1,5 @@
+/* @flow */
+
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
@@ -11,6 +13,8 @@ import styles from './SearchSelect.less';
 const INPUT_PASS_PROPS = {
   width: true,
 };
+
+type Props = any;
 
 /**
  * DRAFT
@@ -46,16 +50,29 @@ class SearchSelect extends React.Component {
     width: 250,
   };
 
-  constructor(props, context) {
+  state: {
+    opened: bool,
+    searchText: string,
+    value: any,
+    item: any,
+    results: ?Array<any>,
+    selected: number,
+  };
+
+  _focusable: ?HTMLElement;
+
+  constructor(props: Props, context: any) {
     super(props, context);
 
     this.state = {
       opened: false,
       searchText: '',
       value: props.value !== undefined ? props.value : null,
+      item: null,
       results: null,
       selected: -1,
     };
+    this._focusable = null;
   }
 
   render() {
@@ -78,12 +95,14 @@ class SearchSelect extends React.Component {
     const inputProps = filterProps(this.props, INPUT_PASS_PROPS);
     return (
       <div className={styles.input}>
-        <Input ref={this.refFocusable} {...inputProps}
+        <Input ref={this._refFocusable} {...inputProps}
           value={this.state.searchText} rightIcon={<span />}
-          onChange={this.handleInputChange} onKeyDown={this.handleInputKey}
-          onBlur={this.handleInputBlur}
+          onChange={this._handleInputChange} onKeyDown={this._handleInputKey}
+          onBlur={this._handleInputBlur}
         />
-        <span className={styles.openArrow} onMouseDown={this.handleOpenClick} />
+        <span className={styles.openArrow}
+          onMouseDown={this._handleOpenClick}
+        />
       </div>
     );
   }
@@ -105,10 +124,10 @@ class SearchSelect extends React.Component {
     }
 
     return (
-      <div ref={this.refFocusable} className={styles.value}
-        tabIndex="0" onClick={this.handleValueClick}
-        onKeyDown={this.handleValueKey}
-        onKeyPress={this.handleValueKeyPress}
+      <div ref={this._refFocusable} className={styles.value}
+        tabIndex="0" onClick={this._handleValueClick}
+        onKeyDown={this._handleValueKey}
+        onKeyPress={this._handleValueKeyPress}
       >
         {value}
         <span className={styles.openArrow} />
@@ -131,7 +150,7 @@ class SearchSelect extends React.Component {
             });
             return (
               <div key={i} className={className}
-                onMouseDown={(e) => this.handleItemClick(e, item)}
+                onMouseDown={(e) => this._handleItemClick(e, item)}
                 onMouseEnter={(e) => this.setState({selected: i})}
                 onMouseLeave={(e) => this.setState({selected: -1})}
               >
@@ -150,18 +169,20 @@ class SearchSelect extends React.Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: Props) {
     if (newProps.value !== undefined) {
       this.setState({value: newProps.value});
       this._resetItem(newProps.value);
     }
   }
 
-  refFocusable = el => {
-    this.focusable_ = el && (el.focus ? el : ReactDOM.findDOMNode(el));
+  // $FlowIssue 850
+  _refFocusable = (el: ?HTMLElement) => {
+    this._focusable = el && (el.focus ? el : ReactDOM.findDOMNode(el));
   };
 
-  handleInputChange = event => {
+  // $FlowIssue 850
+  _handleInputChange = (event: any) => {
     const pattern = event.target.value;
     this.setState({
       opened: true,
@@ -170,7 +191,8 @@ class SearchSelect extends React.Component {
     this._fetchList(pattern);
   };
 
-  handleInputKey = event => {
+  // $FlowIssue 850
+  _handleInputKey = (event) => {
     switch (event.key) {
       case 'ArrowUp':
         event.preventDefault();
@@ -199,7 +221,8 @@ class SearchSelect extends React.Component {
     }
   };
 
-  handleInputBlur = () => {
+  // $FlowIssue 850
+  _handleInputBlur = () => {
     const {searchText} = this.state;
     const item = this._findItemByValue(searchText);
     this.setState({opened: false});
@@ -210,12 +233,14 @@ class SearchSelect extends React.Component {
     }
   };
 
-  handleOpenClick = () => {
+  // $FlowIssue 850
+  _handleOpenClick = () => {
     this.setState({opened: true});
     this._focus();
   };
 
-  handleValueClick = () => {
+  // $FlowIssue 850
+  _handleValueClick = () => {
     this.setState({
       opened: true,
       searchText: '',
@@ -225,7 +250,8 @@ class SearchSelect extends React.Component {
     this._fetchList('');
   };
 
-  handleValueKeyPress = event => {
+  // $FlowIssue 850
+  _handleValueKeyPress = event => {
     // Set input value to empty string and then back to the real value to make
     // cursor appear at the and.
     const str = String.fromCharCode(event.charCode);
@@ -235,12 +261,15 @@ class SearchSelect extends React.Component {
         searchText: '',
       },
       () => {
-        this.focusable_.focus();
+        if (this._focusable) {
+          this._focusable.focus();
+        }
       }
     );
   };
 
-  handleValueKey = event => {
+  // $FlowIssue 850
+  _handleValueKey = event => {
     switch (event.key) {
       case ' ':
       case 'Enter':
@@ -258,7 +287,7 @@ class SearchSelect extends React.Component {
     }
   };
 
-  handleItemClick(event, item) {
+  _handleItemClick(event: MouseEvent, item: any) {
     if (event.button !== 0) {
       return;
     }
@@ -268,7 +297,7 @@ class SearchSelect extends React.Component {
     this._focusAsync();
   }
 
-  _resetItem(value) {
+  _resetItem(value: any) {
     if (this.state.value === value) {
       return;
     }
@@ -280,7 +309,7 @@ class SearchSelect extends React.Component {
     }
   }
 
-  _loadItem(value) {
+  _loadItem(value: any) {
     this.props.loader.load(value).then((item) => {
       if (value === this.state.value) {
         this.setState({item});
@@ -288,7 +317,7 @@ class SearchSelect extends React.Component {
     });
   }
 
-  _fetchList(pattern) {
+  _fetchList(pattern: string) {
     this.props.source(pattern).then((results) => {
       if (this.state.searchText === pattern) {
         this.setState({
@@ -299,6 +328,7 @@ class SearchSelect extends React.Component {
     });
   }
 
+  // $FlowIssue 850
   _focus = () => {
     if (this.focusable_) {
       this.focusable_.focus();
@@ -309,7 +339,7 @@ class SearchSelect extends React.Component {
     process.nextTick(this._focus);
   }
 
-  _moveSelection(step) {
+  _moveSelection(step: number) {
     if (!this.state.results) {
       return;
     }
@@ -324,7 +354,7 @@ class SearchSelect extends React.Component {
     this.setState({selected});
   }
 
-  _change(item) {
+  _change(item: any) {
     const value = this.props.getValue(item);
     if (this.props.value === undefined) {
       this.setState({value});
@@ -335,14 +365,14 @@ class SearchSelect extends React.Component {
     }
   }
 
-  _close(callback) {
+  _close(callback: any) {
     this.setState({
       opened: false,
       results: null,
     }, callback);
   }
 
-  _findItemByValue(value) {
+  _findItemByValue(value: any): any {
     const {results} = this.state;
     return results && results.find(
       (item) => this.props.getValue(item) === value
