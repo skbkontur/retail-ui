@@ -1,23 +1,26 @@
+@import '../variables.less';
+
 :local {
   .root {
     border-radius: 1px;
-    color: #3072c4;
+    color: @link-color;
     outline: none;
     text-decoration: none;
   }
 
   .root:hover,
   .root:focus {
-    text-decoration: underline;
+    color: @link-hover-color;
+    text-decoration: @link-hover-text-decoration;
   }
 
   .root:active {
-    color: #044785;
+    color: @link-active-color;
   }
 
   .root.disabled {
     box-shadow: none;
-    color: #808080;
+    color: @link-disabled-color;
     cursor: default;
     text-decoration: none;
   }

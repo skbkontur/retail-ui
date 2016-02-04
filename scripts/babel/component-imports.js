@@ -10,7 +10,6 @@
  */
 module.exports = function(babel) {
   var t = babel.types;
-  console.log(t);
 
   var babel5 = !!babel.Transformer;
   var stringLiteral = babel5 ? t.literal : t.stringLiteral;

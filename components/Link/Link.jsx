@@ -7,18 +7,16 @@ import styles from './Link.less';
  *
  * Все свойства передаются в элемент *<a>*.
  */
-const Link = React.createClass({
-  propTypes: {
+class Link extends React.Component {
+  static propTypes = {
     href: PropTypes.string,
 
     disabled: PropTypes.bool,
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      href: 'javascript:',
-    };
-  },
+  static defaultProps = {
+    href: 'javascript:',
+  };
 
   render() {
     var props = {
@@ -30,7 +28,7 @@ const Link = React.createClass({
       props.tabIndex = '-1';
     }
     return <a {...this.props} {...props}>{this.props.children}</a>;
-  },
-});
+  }
+}
 
 module.exports = Link;

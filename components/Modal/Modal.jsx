@@ -1,15 +1,20 @@
 import events from 'add-event-listener';
 import React, {PropTypes} from 'react';
 
+import addClass from '../../lib/dom/addClass';
 import Center from '../Center';
+import removeClass from '../../lib/dom/removeClass';
+import stopPropagation from '../../lib/events/stopPropagation';
 
 import styles from './Modal.less';
+
+let mountedModalsCount = 0;
 
 /**
  * Модальное окно.
  */
-const Modal = React.createClass({
-  propTypes: {
+class Modal extends React.Component {
+  static propTypes = {
     /**
      * Не показывать крестик для закрытия окна.
      */
@@ -22,14 +27,18 @@ const Modal = React.createClass({
      * Escape или на крестик).
      */
     onClose: PropTypes.func,
-  },
+  };
+
+  constructor(props, context) {
+    super(props, context);
+  }
 
   render() {
     var close = null;
     if (!this.props.noClose) {
       close = (
         <a href="javascript:" className={styles.close}
-          onClick={this.handleClose}
+          onClick={this._handleClose}
         >
           &times;
         </a>
@@ -42,54 +51,78 @@ const Modal = React.createClass({
     }
 
     return (
-      <Center className={styles.root}>
-        <div className={styles.bg} onClick={this.handleClose} />
-        <div className={styles.window} style={style}>
-          {close}
-          {this.props.children}
-        </div>
-      </Center>
+      <div className={styles.root}>
+        <div className={styles.bg} />
+        <Center className={styles.container}
+          onClick={this._handleCotanierClick}
+        >
+          <div className={styles.window} style={style}>
+            {close}
+            {this.props.children}
+          </div>
+        </Center>
+      </div>
     );
-  },
+  }
 
   componentDidMount() {
-    events.addEventListener(document, 'keydown', this.handleNativeKey);
-  },
+    events.addEventListener(document, 'keydown', this._handleNativeKey);
+
+    if (mountedModalsCount === 0) {
+      addClass(document.body, styles.bodyClass);
+    }
+    mountedModalsCount++;
+  }
 
   componentWillUnmount() {
-    events.removeEventListener(document, 'keydown', this.handleNativeKey);
-  },
+    events.removeEventListener(document, 'keydown', this._handleNativeKey);
 
-  handleClose(event) {
+    mountedModalsCount++;
+    if (mountedModalsCount === 0) {
+      removeClass(document.body, styles.bodyClass);
+    }
+  }
+
+  _handleCotanierClick = (event) => {
+    if (event.target === event.currentTarget) {
+      this._handleClose();
+    }
+  };
+
+  _handleClose = () => {
     if (this.props.onClose) {
       this.props.onClose();
     }
-  },
+  };
 
-  handleNativeKey(event) {
-    if (event.keyCode === 27 && this.props.onClose) {
-      event.stopPropagation();
+  _handleNativeKey = (nativeEvent) => {
+    if (nativeEvent.keyCode === 27 && this.props.onClose) {
+      stopPropagation(nativeEvent);
       this.props.onClose();
     }
-  },
-});
+  };
+}
 
-Modal.Header = React.createClass({
+class Header extends React.Component {
   render() {
     return <div className={styles.header}>{this.props.children}</div>;
-  },
-});
+  }
+}
 
-Modal.Body = React.createClass({
+class Body extends React.Component {
   render() {
     return <div className={styles.body}>{this.props.children}</div>;
-  },
-});
+  }
+}
 
-Modal.Footer = React.createClass({
+class Footer extends React.Component {
   render() {
     return <div className={styles.footer}>{this.props.children}</div>;
-  },
-});
+  }
+}
+
+Modal.Header = Header;
+Modal.Body = Body;
+Modal.Footer = Footer;
 
 module.exports = Modal;

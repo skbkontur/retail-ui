@@ -1,32 +1,41 @@
+@import '../variables.less';
+
 :local {
   .root {
-    border: 1px solid #d9d9d9;
-    border-top-color: #b2b2b2;
+    border: 1px solid @border-color-gray-light;
+    border-top-color: @border-color-gray-dark;
     box-sizing: border-box;
     font-family: inherit;
     font-size: 14px;
+    line-height: 16px;
     outline: none;
     padding: 6px 8px;
     width: 250px;
   }
 
   .root:focus {
-    border-color: #5199db;
+    border-color: @border-color-focus;
     border-radius: 1px;
-    box-shadow: 0 0 0 1px #5199db;
+    box-shadow: 0 0 0 1px @border-color-focus;
     position: relative;
     z-index: 2;
   }
 
   :global(.rt-ie8) {
     .root:focus {
-      outline: 1px solid #5199db;
+      outline: 1px solid @border-color-focus;
     }
   }
 
   .root[disabled] {
-    background: #f2f2f2;
-    border-color: #d9d9d9;
-    color: #808080;
+    background: @bg-disabled;
+    border-color: @border-color-gray-light;
+    color: @text-color-disabled;
+  }
+
+  .error {
+    border-color: @border-color-error;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px @border-color-error;
   }
 }

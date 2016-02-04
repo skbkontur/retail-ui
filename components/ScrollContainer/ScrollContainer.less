@@ -1,0 +1,27 @@
+:local {
+  .root {
+    overflow: hidden;
+  }
+
+  .inner {
+    overflow-y: scroll;
+  }
+
+  .scroll {
+    position: absolute;
+    right: 2px;
+    width: 6px;
+
+    &:after {
+      background: #b7b7b7;
+      border-radius: 3px;
+      bottom: 1px;
+      content: '';
+      display: block;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 1px;
+    }
+  }
+}

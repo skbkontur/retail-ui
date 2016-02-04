@@ -1,4 +1,10 @@
+@import '../variables.less';
+
 :local {
+  .bodyClass {
+    overflow-y: hidden !important;
+  }
+
   .root {
     height: 100%;
     left: 0;
@@ -11,17 +17,24 @@
   .bg {
     background: #00030a;
     bottom: 0;
+    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=60)';
     left: 0;
     opacity: .6;
     position: absolute;
     right: 0;
     top: 0;
+  }
 
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  .container {
+    box-sizing: border-box;
+    height: 100%;
+    overflow-y: auto;
+    padding: 20px 0;
+    position: relative;
   }
 
   .window {
-    background: #fff;
+    background: @bg-default;
     box-shadow: 0 4px 20px rgba(0, 0, 0, .2);
     position: relative;
   }
@@ -37,7 +50,7 @@
     width: 40px;
 
     &:focus {
-      outline: 1px solid #5199db;
+      outline: 1px solid @border-color-focus;
     }
   }
 

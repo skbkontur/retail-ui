@@ -1,14 +1,16 @@
+import events from 'add-event-listener';
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
 import Input from '../Input';
+import listenFocusOutside from '../../lib/listenFocusOutside';
 
 import '../ensureOldIEClassName';
 import styles from './Select.less';
 
-const Select = React.createClass({
-  propTypes: {
+class Select extends React.Component {
+  static propTypes = {
     /**
      * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
      * `Array`, `Map`, `Immutable.Map`.
@@ -52,25 +54,28 @@ const Select = React.createClass({
      * DEPRECATED
      */
     isSelectable: PropTypes.func,
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      placeholder: 'ничего не выбрано',
-      renderValue,
-      renderItem,
-      filterItem,
-      isSelectable,
-    };
-  },
+  static defaultProps = {
+    placeholder: 'ничего не выбрано',
+    renderValue,
+    renderItem,
+    filterItem,
+    isSelectable,
+  };
 
-  getInitialState() {
-    return {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
       opened: false,
       current: -1,
-      value: this.props.defaultValue,
+      value: props.defaultValue,
     };
-  },
+
+    this._menuContainer = null;
+    this._focusSubscribtion = null;
+  }
 
   render() {
     var value = this.getValue_();
@@ -94,7 +99,6 @@ const Select = React.createClass({
       }),
       tabIndex: (this.state.opened && this.props.search) ? '-1' : '0',
       onKeyDown: this.handleKey,
-      onBlur: this.handleBlur,
     };
     if (this.props.width) {
       rootProps.style = {
@@ -119,7 +123,7 @@ const Select = React.createClass({
         {this.state.opened && this.renderMenu()}
       </span>
     );
-  },
+  }
 
   renderMenu() {
     var search = null;
@@ -127,7 +131,7 @@ const Select = React.createClass({
       search = (
         <div className={styles.search}>
           <Input ref={(c) => c && ReactDOM.findDOMNode(c).focus()}
-            onChange={this.handleSearch} onBlur={this.close_}
+            onChange={this.handleSearch}
           />
         </div>
       );
@@ -136,7 +140,7 @@ const Select = React.createClass({
     var value = this.getValue_();
 
     return (
-      <div className={styles.container}>
+      <div ref={this._refMenuContainer} className={styles.container}>
         <div className={styles.drop}>
           <div className={styles.overlay} onMouseDown={this.close_} />
           <div style={{position: 'relative'}}>
@@ -154,7 +158,7 @@ const Select = React.createClass({
                 } else {
                   el = (
                     <div key={i} className={itemClassName}
-                      onMouseDown={(e) => this.select_(iValue)}
+                      onMouseDown={(e) => this._handleItemClick(e, iValue)}
                       onMouseEnter={(e) => this.setState({current: i})}
                       onMouseLeave={(e) => this.setState({current: -1})}
                     >
@@ -170,30 +174,54 @@ const Select = React.createClass({
         <div className={styles.botBorder} />
       </div>
     );
-  },
+  }
 
-  open_() {
+  _refMenuContainer = (el) => {
+    this._menuContainer = el;
+
+    if (this._focusSubscribtion) {
+      this._focusSubscribtion.remove();
+      this._focusSubscribtion = null;
+
+      events.removeEventListener(
+        document, 'mousedown', this._handleNativeDocClick
+      );
+    }
+
+    if (el) {
+      this._focusSubscribtion = listenFocusOutside(
+        [ReactDOM.findDOMNode(this)], this.close_
+      );
+
+      events.addEventListener(
+        document, 'mousedown', this._handleNativeDocClick
+      );
+    }
+  };
+
+  _handleNativeDocClick = (event) => {
+    const target = event.target || event.srcElement;
+    if (this._menuContainer && !this._menuContainer.contains(target)) {
+      this.close_();
+    }
+  };
+
+  open_ = () => {
     if (!this.state.opened) {
       this.setState({opened: true});
     }
-  },
+  };
 
-  close_(e) {
+  close_ = () => {
     if (this.state.opened) {
       this.setState({
         opened: false,
         current: -1,
       });
     }
-  },
+  };
 
-  handleBlur(event) {
-    if (!this.props.search) {
-      this.close_();
-    }
-  },
-
-  handleKey(e) {
+  handleKey = (e) => {
     var key = e.key;
     if (!this.state.opened) {
       if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
@@ -220,11 +248,17 @@ const Select = React.createClass({
         }
       }
     }
-  },
+  };
 
-  handleSearch(event) {
+  _handleItemClick(event, value) {
+    if (event.button === 0) {
+      this.select_(value);
+    }
+  }
+
+  handleSearch = event => {
     this.setState({searchPattern: event.target.value});
-  },
+  };
 
   select_(value) {
     this.setState({
@@ -239,14 +273,14 @@ const Select = React.createClass({
     if (this.props.onChange) {
       this.props.onChange({target: {value}}, value);
     }
-  },
+  }
 
   getValue_() {
     if (this.props.value !== undefined) {
       return this.props.value;
     }
     return this.state.value;
-  },
+  }
 
   nextSelectable_(step) {
     const items = this.mapItems((value, item) => [value, item]);
@@ -263,7 +297,7 @@ const Select = React.createClass({
         return current;
       }
     } while (this.state.current !== current);
-  },
+  }
 
   mapItems(fn) {
     const pattern = this.state.searchPattern &&
@@ -280,8 +314,8 @@ const Select = React.createClass({
     }
 
     return ret;
-  },
-});
+  }
+}
 
 Select.SEP = {};
 

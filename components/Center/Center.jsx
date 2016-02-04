@@ -6,19 +6,17 @@ import styles from './Center.less';
  * Контейнер для вертикального центрирования. В компонент можно передавать
  * свойства как в любой div.
  */
-var Center = React.createClass({
-  propTypes: {
+class Center extends React.Component {
+  static propTypes = {
     /**
      * Горизонтальное выравнивание контента.
      */
     align: PropTypes.oneOf(['left', 'center', 'right']),
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      align: 'center',
-    };
-  },
+  static defaultProps = {
+    align: 'center',
+  };
 
   render() {
     var style = Object.assign({
@@ -31,7 +29,7 @@ var Center = React.createClass({
         <span className={styles.container}>{this.props.children}</span>
       </div>
     );
-  },
-});
+  }
+}
 
 module.exports = Center;

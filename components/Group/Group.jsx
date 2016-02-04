@@ -8,10 +8,10 @@ import styles from './Group.less';
  * Главный *Input*, который должен занимать всю доступную ширину, должен быть
  * помечен свойством *mainInGroup*.
  */
-var Group = React.createClass({
-  propTypes: {
+class Group extends React.Component {
+  static propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  },
+  };
 
   render() {
     var style = {};
@@ -63,7 +63,7 @@ var Group = React.createClass({
         })}
       </span>
     );
-  },
-});
+  }
+}
 
 module.exports = Group;

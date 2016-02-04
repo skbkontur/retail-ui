@@ -115,8 +115,7 @@ export default class Box extends React.Component {
 
   handleDocClick(event) {
     const target = event.target || event.srcElement;
-    if (!this.props.target.contains(target) &&
-        !ReactDOM.findDOMNode(this).contains(target)) {
+    if (!ReactDOM.findDOMNode(this).contains(target)) {
       this.props.onClose();
     }
   }

@@ -30,6 +30,12 @@ module.exports = [
     src: require('!raw!./snippets/DatePicker.jsx'),
   },
   {
+    name: 'Dropdown',
+    component: require('ui/Dropdown'),
+    info: require('!docgen!ui/Dropdown/Dropdown'),
+    src: require('!raw!./snippets/Dropdown.jsx'),
+  },
+  {
     name: 'FxInput',
     component: require('ui/FxInput'),
     info: require('!docgen!ui/FxInput/FxInput.jsx'),
@@ -66,6 +72,12 @@ module.exports = [
     src: require('!raw!./snippets/Link.jsx'),
   },
   {
+    name: 'Loader',
+    component: require('ui/Loader'),
+    info: require('!docgen!ui/Loader/Loader.js'),
+    src: require('!raw!./snippets/Loader.jsx'),
+  },
+  {
     name: 'Modal',
     component: require('ui/Modal'),
     info: require('!docgen!ui/Modal/Modal.jsx'),
@@ -84,6 +96,12 @@ module.exports = [
     src: require('!raw!./snippets/RadioGroup.jsx'),
   },
   {
+    name: 'SearchableSelect',
+    component: require('ui/SearchableSelect'),
+    info: require('!docgen!ui/SearchableSelect/SearchableSelect.js'),
+    src: require('!raw!./snippets/SearchableSelect.jsx'),
+  },
+  {
     name: 'SearchSelect',
     component: require('ui/SearchSelect'),
     info: require('!docgen!ui/SearchSelect/SearchSelect.jsx'),
@@ -97,8 +115,8 @@ module.exports = [
   },
   {
     name: 'Spinner',
-    component: require('ui/Spinner').default,
-    info: require('!docgen!ui/Spinner/Spinner.jsx'),
+    component: require('ui/Spinner'),
+    info: require('!docgen!ui/Spinner/Spinner.js'),
     src: require('!raw!./snippets/Spinner.jsx'),
   },
   {
@@ -112,5 +130,5 @@ module.exports = [
     component: require('ui/Tooltip'),
     info: require('!docgen!ui/Tooltip/Tooltip.jsx'),
     src: require('!raw!./snippets/Tooltip.jsx'),
-  },
+  }
 ];

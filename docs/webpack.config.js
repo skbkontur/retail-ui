@@ -15,6 +15,11 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
+        loader: 'es3ify',
+        exclude: [/react-input-mask/],
+      },
+      {
+        test: /\.jsx?$/,
         loader: 'babel-loader',
         query: {
           presets: ['es2015', 'stage-0', 'react'],
@@ -36,12 +41,13 @@ module.exports = {
       },
       {test: /\.less$/, loader: 'less-loader'},
       {test: /\.(woff|woff2|eot)$/, loader: "file-loader"},
+      {test: /\.(jpe?g|png|gif|svg)$/i, loader: "url-loader"},
       {test: /\.md$/, loader: 'marked-loader'},
       {test: /\.json/, loader: 'json-loader'},
 
-      { test: require.resolve("react"), loader: "expose?React" },
-      { test: require.resolve("react-dom"), loader: "expose?ReactDOM" },
-      { test: path.resolve(__dirname, "src", "components.js"), loader: "expose?__components" }
+      {test: require.resolve('react'), loader: 'expose?React'},
+      {test: require.resolve('react-dom'), loader: 'expose?ReactDOM'},
+      {test: path.resolve(__dirname, 'src', 'components.js'), loader: 'expose?__components'}
     ]
   },
   resolve: {

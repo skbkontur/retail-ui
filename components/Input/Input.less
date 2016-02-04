@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 :local {
   @side-padding: 8px;
   @side-padding-padded: 25px;
@@ -9,8 +11,8 @@
   }
 
   .input {
-    border: 1px solid #d9d9d9;
-    border-top-color: #b2b2b2;
+    border: 1px solid @border-color-gray-light;
+    border-top-color: @border-color-gray-dark;
     box-sizing: border-box;
     font-family: inherit;
     font-size: 14px;
@@ -32,29 +34,37 @@
   }
 
   .input:focus {
-    border-color: #5199db;
+    border-color: @border-color-focus;
     border-radius: 1px;
-    box-shadow: 0 0 0 1px #5199db;
+    box-shadow: 0 0 0 1px @border-color-focus;
     position: relative;
     z-index: 2;
   }
 
   :global(.rt-ie8) {
     .input:focus {
-      outline: 1px solid #5199db;
+      outline: 1px solid @border-color-focus;
     }
   }
 
   .disabled .input {
-    background: #f2f2f2;
-    border-color: #d9d9d9;
-    color: #808080;
+    background: @bg-disabled;
+    border-color: @border-color-gray-light;
+    color: @text-color-disabled;
   }
 
   .error .input {
-    border-color: #da0902;
+    border-color: @border-color-error;
     border-radius: 1px;
-    box-shadow: 0 0 0 1px #da0902;
+    box-shadow: 0 0 0 1px @border-color-error;
+    position: relative;
+    z-index: 2;
+  }
+
+  :global(.rt-ie8) {
+    .error .input {
+      outline: 1px solid #da0902;
+    }
   }
 
   .padLeft .input {
@@ -74,6 +84,7 @@
     right: @side-padding + 1;
     top: 1px;
     white-space: nowrap;
+    z-index: 2;
   }
   .padLeft .placeholder {
     left: @side-padding-padded + 1;
@@ -102,5 +113,19 @@
 
   .rightIcon {
     right: 8px;
+  }
+
+  .sizeLarge .leftIcon,
+  .sizeLarge .rightIcon {
+    line-height: 34px;
+  }
+
+  .sizeSmall .leftIcon,
+  .sizeSmall .rightIcon {
+    line-height: 22px;
+  }
+
+  .borderless .input {
+    border-width: 0;
   }
 }

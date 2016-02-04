@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 
 import Box from './Box.jsx';
 
-const Tooltip = React.createClass({
-  propTypes: {
+class Tooltip extends React.Component {
+  static propTypes = {
     render: PropTypes.func,
 
     pos: PropTypes.oneOf([
@@ -15,20 +15,20 @@ const Tooltip = React.createClass({
     ]),
 
     trigger: PropTypes.oneOf(['hover', 'click', 'opened', 'closed']),
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      pos: 'top left',
-      trigger: 'hover',
-    };
-  },
+  static defaultProps = {
+    pos: 'top left',
+    trigger: 'hover',
+  };
 
-  getInitialState() {
-    return {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
       opened: false,
     };
-  },
+  }
 
   render() {
     const props = {};
@@ -49,21 +49,31 @@ const Tooltip = React.createClass({
     }
 
     return <span {...props}>{child}</span>;
-  },
+  }
 
   componentDidMount() {
     this.boxDom = document.createElement('div');
     document.body.appendChild(this.boxDom);
     this.componentDidUpdate();
-  },
+  }
 
   componentWillUnmount() {
     this.boxDom.parentNode.removeChild(this.boxDom);
     this.boxDom = null;
-  },
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.trigger !== this.props.trigger) {
+      if (newProps.trigger === 'opened') {
+        this.setState({opened: true});
+      } else if (newProps.trigger === 'closed') {
+        this.setState({opened: false});
+      }
+    }
+  }
 
   componentDidUpdate() {
-    if (this.state.opened || this.props.trigger === 'opened') {
+    if (this.state.opened) {
       ReactDOM.render(
         <Box trigger={this.props.trigger} target={this.targetDOM}
           pos={this.props.pos} onClose={this.handleBoxClose}
@@ -75,32 +85,32 @@ const Tooltip = React.createClass({
     } else {
       ReactDOM.render(<div />, this.boxDom);
     }
-  },
+  }
 
-  refChild(el) {
+  refChild = el => {
     this.targetDOM = el && ReactDOM.findDOMNode(el);
-  },
+  };
 
-  handleMouseOver(event) {
+  handleMouseOver = event => {
     const opened = this.targetDOM.contains(event.target);
     if (this.state.opened !== opened) {
       this.setState({opened});
     }
-  },
+  };
 
-  handleMouseLeave() {
+  handleMouseLeave = () => {
     this.setState({opened: false});
-  },
+  };
 
-  handleClick(event) {
-    if (this.targetDOM.contains(event.target)) {
+  handleClick = event => {
+    if (!this.state.opened && this.targetDOM.contains(event.target)) {
       this.setState({opened: true});
     }
-  },
+  };
 
-  handleBoxClose() {
+  handleBoxClose = () => {
     this.setState({opened: false});
-  },
-});
+  };
+}
 
 module.exports = Tooltip;

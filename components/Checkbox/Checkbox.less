@@ -1,14 +1,17 @@
+@import '../variables.less';
+
 :local {
   .root {
+    cursor: pointer;
     position: relative;
-
+    -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    -webkit-user-select: none;
   }
 
   .isDisabled {
-    color: #808080;
+    color: @text-color-disabled;
+    cursor: default;
   }
 
   .input {
@@ -21,8 +24,8 @@
 
   .box {
     background: linear-gradient(#fdfdfd, #ededed);
-    border: 1px solid #d9d9d9;
-    border-bottom-color: #b2b2b2;
+    border: 1px solid @border-color-gray-light;
+    border-bottom-color: @border-color-gray-dark;
     border-radius: 2px;
     box-sizing: border-box;
     display: inline-block;
@@ -34,19 +37,19 @@
   }
 
   .isFocused .box {
-    border-color: #5199db;
-    box-shadow: 0 0 0 1px #5199db;
+    border-color: @border-color-focus;
+    box-shadow: 0 0 0 1px @border-color-focus;
   }
 
   :global(.rt-ie8) {
     .isFocused .box {
-      outline: 1px solid #5199db;
+      outline: 1px solid @border-color-focus;
     }
   }
 
   .isDisabled .box {
-    background: #f2f2f2;
-    border-color: #d9d9d9;
+    background: @bg-disabled;
+    border-color: @border-color-gray-light;
     color: #a0a0a0;
   }
 

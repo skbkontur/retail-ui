@@ -7,12 +7,22 @@ import Icon from '../Icon';
 import '../ensureOldIEClassName';
 import styles from './Checkbox.less';
 
-var Checkbox = React.createClass({
-  propTypes: {
+class Checkbox extends React.Component {
+  static propTypes = {
     checked: PropTypes.bool,
 
     disabled: PropTypes.bool,
-  },
+  };
+
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      checked: props.checked !== undefined ? props.checked : false,
+      active: false,
+      focused: false,
+    };
+  }
 
   render() {
     var rootClass = classNames({
@@ -37,23 +47,15 @@ var Checkbox = React.createClass({
         <span className={styles.caption}>{this.props.children}</span>
       </label>
     );
-  },
-
-  getInitialState() {
-    return {
-      checked: this.props.checked !== undefined ? this.props.checked : false,
-      active: false,
-      focused: false,
-    };
-  },
+  }
 
   componentWillReceiveProps(props) {
     if (props.checked !== undefined) {
       this.setState({checked: props.checked});
     }
-  },
+  }
 
-  handleActivate(event) {
+  handleActivate = event => {
     if (event.button !== 0) {
       return;
     }
@@ -61,29 +63,29 @@ var Checkbox = React.createClass({
     this.setState({active: true});
 
     events.addEventListener(document, 'mouseup', this.deactivate);
-  },
+  };
 
-  deactivate() {
+  deactivate = () => {
     this.setState({active: false});
 
     events.removeEventListener(document, 'mouseup', this.deactivate);
-  },
+  };
 
-  handleChange(event) {
+  handleChange = event => {
     if (this.props.checked === undefined) {
       this.setState({checked: event.target.checked});
     }
 
     this.props.onChange && this.props.onChange(event, event.target.checked);
-  },
+  };
 
-  handleFocus() {
+  handleFocus = () => {
     this.setState({focused: true});
-  },
+  };
 
-  handleBlur() {
+  handleBlur = () => {
     this.setState({focused: false});
-  },
-});
+  };
+}
 
 module.exports = Checkbox;

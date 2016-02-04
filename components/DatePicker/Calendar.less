@@ -1,8 +1,10 @@
+@import '../variables.less';
+
 :local {
   @day-side: 25px;
 
   .root {
-    background: #fff;
+    background: @bg-default;
     border-radius: 0 0 2px 2px;
     height: 220px;
     outline: none;
@@ -14,19 +16,19 @@
 
   .mask {
     // With transparent background on IE8 underlying text appears over the mask.
-    background: #fff;
+    background: @bg-default;
     bottom: 0;
     box-shadow: inset 0 5px 6px -5px rgba(0, 0, 0, .2);
+    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
     left: 0;
     opacity: 0;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     position: absolute;
     right: 0;
     top: 0;
   }
 
   .grey {
-    background: #f1f1f1;
+    background: @dropdown-menu-selected-bg;
   }
 
   .month {
@@ -63,7 +65,7 @@
 
   .cellCurrent .cellInner {
     background: #808080;
-    color: #fff;
+    color: @text-color-invert;
   }
 
   .cellHoly {
