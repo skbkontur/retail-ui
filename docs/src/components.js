@@ -120,6 +120,12 @@ module.exports = [
     src: require('!raw!./snippets/Spinner.jsx'),
   },
   {
+    name: 'Sticky',
+    component: require('ui/Sticky'),
+    info: require('!docgen!ui/Sticky/Sticky.js'),
+    src: require('!raw!./snippets/Sticky.jsx'),
+  },
+  {
     name: 'Textarea',
     component: require('ui/Textarea'),
     info: require('!docgen!ui/Textarea/Textarea.jsx'),
