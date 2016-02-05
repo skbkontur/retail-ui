@@ -77,8 +77,7 @@ class Modal extends React.Component {
   componentWillUnmount() {
     events.removeEventListener(document, 'keydown', this._handleNativeKey);
 
-    mountedModalsCount++;
-    if (mountedModalsCount === 0) {
+    if (--mountedModalsCount === 0) {
       removeClass(document.body, styles.bodyClass);
     }
   }

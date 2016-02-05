@@ -23,6 +23,8 @@ class SearchSelect extends React.Component {
   static propTypes = {
     value: PropTypes.any,
 
+    disabled: PropTypes.bool,
+
     placeholder: PropTypes.string,
 
     source: PropTypes.func.isRequired,
@@ -97,6 +99,7 @@ class SearchSelect extends React.Component {
       <div className={styles.input}>
         <Input ref={this._refFocusable} {...inputProps}
           value={this.state.searchText} rightIcon={<span />}
+          disabled={this.props.disabled}
           onChange={this._handleInputChange} onKeyDown={this._handleInputKey}
           onBlur={this._handleInputBlur}
         />
