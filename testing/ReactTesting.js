@@ -1,5 +1,7 @@
 import ReactDOM from 'react-dom';
 
+const PASS_TO_KEY = Symbol('passTo');
+
 const map = {};
 let lastID = 0;
 
@@ -18,12 +20,25 @@ function ref(tid) {
   };
 }
 
+function pass(component) {
+  return function(el) {
+    component[PASS_TO_KEY] = el;
+  }
+}
+
 function find(tid) {
   const ret = [];
   for (const key of Object.keys(map)) {
     const item = map[key];
     if (item.tid === tid) {
-      ret.push(item.el);
+      let el = item.el;
+      while (el[PASS_TO_KEY]) {
+        el = el[PASS_TO_KEY];
+      }
+      if (el.constructor && el.constructor.__ADAPTER__) {
+        el = new el.constructor.__ADAPTER__(el);
+      }
+      ret.push(el);
     }
   }
   return ret;
@@ -35,6 +50,7 @@ function findDOMNode(tid) {
 
 export default {
   ref,
+  pass,
   find,
   findDOMNode,
 
