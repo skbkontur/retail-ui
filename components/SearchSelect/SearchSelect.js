@@ -412,4 +412,4 @@ function renderItem(value, item) {
   return item;
 }
 
-module.exports = SearchSelect;
+export default SearchSelect;

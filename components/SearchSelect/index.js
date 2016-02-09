@@ -1,1 +1,1 @@
-module.exports = require('./SearchSelect.jsx');
+module.exports = require('./SearchSelect').default;
