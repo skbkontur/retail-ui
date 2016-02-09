@@ -138,4 +138,4 @@ function normalizeEntry(entry) {
   return entry;
 }
 
-module.exports = RadioGroup;
+export default RadioGroup;

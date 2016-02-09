@@ -353,4 +353,4 @@ function filterItem(value, item, pattern) {
   return item.toLowerCase().indexOf(pattern) !== -1;
 }
 
-module.exports = Select;
+export default Select;

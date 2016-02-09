@@ -1,1 +1,1 @@
-module.exports = require('./Input.jsx');
+module.exports = require('./Input').default;

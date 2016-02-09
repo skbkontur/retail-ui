@@ -1,1 +1,1 @@
-module.exports = require('./Textarea.jsx');
+module.exports = require('./Textarea').default;

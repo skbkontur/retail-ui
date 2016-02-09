@@ -1,1 +1,1 @@
-module.exports = require('./RadioGroup.jsx');
+module.exports = require('./RadioGroup').default;

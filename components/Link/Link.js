@@ -31,4 +31,4 @@ class Link extends React.Component {
   }
 }
 
-module.exports = Link;
+export default Link;

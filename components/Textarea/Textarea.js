@@ -78,4 +78,4 @@ class Textarea extends React.Component {
   };
 }
 
-module.exports = Textarea;
+export default Textarea;

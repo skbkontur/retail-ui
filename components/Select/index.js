@@ -1,1 +1,1 @@
-module.exports = require('./Select.jsx');
+module.exports = require('./Select').default;
