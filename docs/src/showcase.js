@@ -2,7 +2,7 @@ import 'babel-polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRedirect} from 'react-router';
+import {Router, Route, IndexRedirect, browserHistory} from 'react-router';
 
 import Component from './components/Component';
 import Components from './components/Components';
@@ -11,7 +11,7 @@ import GettingStarted from './components/GettingStarted';
 import ShowcaseApp from './components/ShowcaseApp';
 
 ReactDOM.render((
-  <Router>
+  <Router history={browserHistory}>
     <Route path="/" component={ShowcaseApp}>
       <IndexRedirect to="/components" />
       <Route path="gettingStarted" component={GettingStarted} />
