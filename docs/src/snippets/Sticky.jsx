@@ -9,7 +9,7 @@ ReactDOM.render((
       <div style={style}>Small loan of a million dollars</div>
     </Sticky>
     <div style={{height: 1000}} />
-    <Sticky side="bottom">
+    <Sticky side="bottom" padding={10}>
       <div style={style}>Make America Great Again</div>
     </Sticky>
     <div style={{height: 100}} />

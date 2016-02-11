@@ -2,7 +2,7 @@ import 'babel-polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRedirect} from 'react-router';
+import {Router, Route, IndexRedirect, useRouterHistory} from 'react-router';
 import createHashHistory from 'history/lib/createHashHistory';
 
 import Component from './components/Component';
@@ -11,7 +11,7 @@ import Demo from './components/Demo';
 import GettingStarted from './components/GettingStarted';
 import ShowcaseApp from './components/ShowcaseApp';
 
-const history = createHashHistory({queryKey: false});
+const history = useRouterHistory(createHashHistory)({queryKey: false});
 
 ReactDOM.render((
   <Router history={history}>

@@ -10,6 +10,11 @@ import styles from './Sticky.less';
 export default class Sticky extends React.Component {
   static propTypes = {
     side: PropTypes.oneOf(['top', 'bottom']).isRequired,
+
+    /**
+     * Отступ от границы в пикселях
+     **/
+    padding: PropTypes.number,
   };
 
   state: {
@@ -23,6 +28,10 @@ export default class Sticky extends React.Component {
   _inner: HTMLElement;
 
   _layoutSubscription: {remove: () => void};
+
+  static defaultProps = {
+    padding: 0,
+  };
 
   constructor(props: any, context: any) {
     super(props, context);
@@ -40,7 +49,7 @@ export default class Sticky extends React.Component {
     let innerStyle = null;
     if (this.state.fixed) {
       wrapperStyle = {
-        height: this.state.height
+        height: this.state.height,
       };
 
       innerStyle = ({
@@ -50,9 +59,9 @@ export default class Sticky extends React.Component {
       }: Object);
 
       if (this.props.side === 'top') {
-        innerStyle.top = 0;
+        innerStyle.top = this.props.padding;
       } else {
-        innerStyle.bottom = 0;
+        innerStyle.bottom = this.props.padding;
       }
     }
 
@@ -82,8 +91,8 @@ export default class Sticky extends React.Component {
     const wrapLeft = wrapRect.left;
     const wrapTop = wrapRect.top;
     const fixed = this.props.side === 'top'
-      ? wrapTop < 0
-      : wrapBottom > window.innerHeight;
+      ? wrapTop < this.props.padding
+      : wrapBottom > window.innerHeight - this.props.padding;
 
     this.setState({fixed});
 
