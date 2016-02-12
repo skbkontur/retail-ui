@@ -7,14 +7,26 @@ import LayoutEvents from '../../lib/LayoutEvents';
 
 import styles from './Sticky.less';
 
+type Props = {
+  side: 'top' | 'bottom',
+  offset: number,
+  children?: any
+}
+
 export default class Sticky extends React.Component {
+
+  props: Props;
+  defaultProps: {offset: number};
+
   static propTypes = {
     side: PropTypes.oneOf(['top', 'bottom']).isRequired,
 
     /**
      * Отступ от границы в пикселях
      **/
-    padding: PropTypes.number,
+    offset: PropTypes.number,
+
+    children: PropTypes.node
   };
 
   state: {
@@ -30,10 +42,10 @@ export default class Sticky extends React.Component {
   _layoutSubscription: {remove: () => void};
 
   static defaultProps = {
-    padding: 0,
+    offset: 0,
   };
 
-  constructor(props: any, context: any) {
+  constructor(props: Props, context: any) {
     super(props, context);
 
     this.state = {
@@ -59,9 +71,9 @@ export default class Sticky extends React.Component {
       }: Object);
 
       if (this.props.side === 'top') {
-        innerStyle.top = this.props.padding;
+        innerStyle.top = this.props.offset;
       } else {
-        innerStyle.bottom = this.props.padding;
+        innerStyle.bottom = this.props.offset;
       }
     }
 
@@ -91,8 +103,8 @@ export default class Sticky extends React.Component {
     const wrapLeft = wrapRect.left;
     const wrapTop = wrapRect.top;
     const fixed = this.props.side === 'top'
-      ? wrapTop < this.props.padding
-      : wrapBottom > window.innerHeight - this.props.padding;
+      ? wrapTop < this.props.offset
+      : wrapBottom > window.innerHeight - this.props.offset;
 
     this.setState({fixed});
 
