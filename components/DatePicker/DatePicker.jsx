@@ -156,13 +156,9 @@ function formatDate(date) {
 
 function parseDate(str) {
   str = str || '';
-  const match = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+  const match = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})$/);
   if (match) {
-    const date = new Date(0);
-    date.setFullYear(parseInt(match[3], 10));
-    date.setMonth(parseInt(match[2], 10) - 1);
-    date.setDate(parseInt(match[1], 10));
-    return date;
+    return new Date(`${match[3]}-${match[2]}-${match[1]}`);
   }
   return null;
 }
