@@ -43,6 +43,17 @@
     box-shadow: inset 0 3px 2px -2px rgba(0, 0, 1, .3);
   }
 
+  .root.error {
+    border-color: @border-color-error;
+    box-shadow: 0 0 0 1px @border-color-error;
+  }
+
+  :global(.rt-ie8) {
+    .root.error {
+      outline: 1px solid @border-color-error;
+    }
+  }
+
   .label {
     box-sizing: border-box;
     display: inline-block;

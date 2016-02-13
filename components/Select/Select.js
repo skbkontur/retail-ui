@@ -38,6 +38,11 @@ class Select extends React.Component {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
+     * Визуально показать наличие ошибки.
+     */
+    error: PropTypes.bool,
+
+    /**
      * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
      */
     renderValue: PropTypes.func,
@@ -96,6 +101,7 @@ class Select extends React.Component {
       className: classNames({
         [styles.root]: true,
         [styles.isOpened]: this.state.opened,
+        [styles.error]: this.props.error,
       }),
       tabIndex: (this.state.opened && this.props.search) ? '-1' : '0',
       onKeyDown: this.handleKey,
