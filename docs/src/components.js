@@ -24,6 +24,12 @@ module.exports = [
     src: require('!raw!./snippets/Checkbox.jsx'),
   },
   {
+    name: 'ComboBox',
+    component: require('ui/ComboBox'),
+    info: require('!docgen!ui/ComboBox/ComboBox.js'),
+    src: require('!raw!./snippets/ComboBox.jsx'),
+  },
+  {
     name: 'DatePicker',
     component: require('ui/DatePicker'),
     info: require('!docgen!ui/DatePicker/DatePicker.jsx'),
