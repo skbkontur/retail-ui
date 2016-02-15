@@ -1,0 +1,1 @@
+ReactDOM.render(<Kladr />, mountNode);

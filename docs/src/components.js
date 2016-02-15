@@ -72,6 +72,12 @@ module.exports = [
     src: require('!raw!./snippets/Input.jsx'),
   },
   {
+    name: 'Kladr',
+    component: require('ui/Kladr'),
+    info: require('!docgen!ui/Kladr/Kladr.js'),
+    src: require('!raw!./snippets/Kladr.jsx'),
+  },
+  {
     name: 'Link',
     component: require('ui/Link'),
     info: require('!docgen!ui/Link/Link.js'),
