@@ -16,7 +16,6 @@ type Props = {
 export default class Sticky extends React.Component {
 
   props: Props;
-  defaultProps: {offset: number};
 
   static propTypes = {
     side: PropTypes.oneOf(['top', 'bottom']).isRequired,
@@ -41,7 +40,7 @@ export default class Sticky extends React.Component {
 
   _layoutSubscription: {remove: () => void};
 
-  static defaultProps = {
+  static defaultProps: {offset: number} = {
     offset: 0,
   };
 
