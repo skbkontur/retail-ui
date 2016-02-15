@@ -15,7 +15,8 @@
     "add-event-listener": "0.0.1",
     "classnames": "^2.2.0",
     "fbemitter": "^2.0.0",
-    "react-input-mask": "kontur-recognition/react-input-mask.git"
+    "react-input-mask": "kontur-recognition/react-input-mask.git",
+    "warning": "^2.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^4.1.5",

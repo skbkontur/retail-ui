@@ -3,6 +3,7 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
+import warning from 'warning';
 
 import filterProps from '../filterProps';
 
@@ -39,8 +40,10 @@ type State = {
   selected: number,
 };
 
+warning(false, 'Component SearchSelect is deprecated use ComboBox instead.');
+
 /**
- * DRAFT
+ * DEPRECATED. Use ComboBox instead.
  */
 class SearchSelect extends React.Component {
   static propTypes = {
