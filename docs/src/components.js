@@ -78,6 +78,12 @@ module.exports = [
     src: require('!raw!./snippets/Loader.jsx'),
   },
   {
+    name: 'Logo',
+    component: require('ui/Logo'),
+    info: require('!docgen!ui/Logo/Logo.jsx'),
+    src: require('!raw!./snippets/Logo.jsx'),
+  },
+  {
     name: 'Modal',
     component: require('ui/Modal'),
     info: require('!docgen!ui/Modal/Modal.jsx'),
