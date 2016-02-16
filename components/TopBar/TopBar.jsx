@@ -7,6 +7,8 @@ import Logotype from 'ui/Logotype';
 import styles from './TopBar.less';
 
 /**
+ * __DRAFT__
+ *
  * Шапка
  *
  * `Left({children: node})` – левая часть шапки
