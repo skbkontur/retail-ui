@@ -1,1 +1,2 @@
-module.exports = require('./ComboBox').default;
+import ComboBox from './ComboBox';
+module.exports = ComboBox;

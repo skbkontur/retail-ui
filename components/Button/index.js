@@ -1,1 +1,2 @@
-module.exports = require('./Button').default;
+import Button from './Button';
+module.exports = Button;
