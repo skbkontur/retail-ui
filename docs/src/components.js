@@ -78,10 +78,10 @@ module.exports = [
     src: require('!raw!./snippets/Loader.jsx'),
   },
   {
-    name: 'Logo',
-    component: require('ui/Logo'),
-    info: require('!docgen!ui/Logo/Logo.jsx'),
-    src: require('!raw!./snippets/Logo.jsx'),
+    name: 'Logotype',
+    component: require('ui/Logotype'),
+    info: require('!docgen!ui/Logotype/Logotype.jsx'),
+    src: require('!raw!./snippets/Logotype.jsx'),
   },
   {
     name: 'Modal',
@@ -142,5 +142,11 @@ module.exports = [
     component: require('ui/Tooltip'),
     info: require('!docgen!ui/Tooltip/Tooltip.jsx'),
     src: require('!raw!./snippets/Tooltip.jsx'),
-  }
+  },
+  {
+    name: 'TopBar',
+    component: require('ui/TopBar'),
+    info: require('!docgen!ui/TopBar/TopBar.jsx'),
+    src: require('!raw!./snippets/TopBar.jsx'),
+  },
 ];

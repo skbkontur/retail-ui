@@ -147,7 +147,7 @@ export default class SearchableSelect extends React.Component {
         case 'ArrowUp':
         case 'ArrowDown':
         case ' ':
-          this._open(() => {this._input.focus()});
+          this._open(() => {this._input.focus();});
           event.preventDefault();
           break;
       }
@@ -167,7 +167,7 @@ export default class SearchableSelect extends React.Component {
       const value = this._getItems()[index][0];
       this.props.onChange({target: {value}}, value);
     }
-    const doFocus = () => {this._input.focus()};
+    const doFocus = () => {this._input.focus();};
     this._close(!asyncFocus && doFocus);
     if (asyncFocus) {
       process.nextTick(doFocus);
