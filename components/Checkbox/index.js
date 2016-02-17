@@ -1,1 +1,2 @@
-module.exports = require('./Checkbox').default;
+import Checkbox from './Checkbox';
+module.exports = Checkbox;

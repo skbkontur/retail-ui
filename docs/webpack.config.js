@@ -57,7 +57,9 @@ module.exports = {
   resolve: {
     fallback: path.join(__dirname, 'node_modules'),
     alias: {
-      ui: path.resolve(__dirname, '..', 'components')
+      ui: path.resolve(__dirname, '..', 'components'),
+      react: path.resolve(__dirname, 'node_modules/react'),
+      'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
     },
     extensions: ['', '.js', '.jsx', '.json'],
   },

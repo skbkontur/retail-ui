@@ -1,1 +1,2 @@
-module.exports = require('./Select').default;
+import Select from './Select';
+module.exports = Select;

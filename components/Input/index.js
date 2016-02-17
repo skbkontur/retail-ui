@@ -1,1 +1,2 @@
-module.exports = require('./Input').default;
+import Input from './Input';
+module.exports = Input;

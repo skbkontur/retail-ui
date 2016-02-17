@@ -1,2 +1,2 @@
-import Spinner from './Spinner.js';
+import Spinner from './Spinner';
 module.exports = Spinner;

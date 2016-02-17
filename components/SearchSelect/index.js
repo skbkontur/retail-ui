@@ -1,1 +1,2 @@
-module.exports = require('./SearchSelect').default;
+import SearchSelect from './SearchSelect';
+module.exports = SearchSelect;

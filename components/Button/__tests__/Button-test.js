@@ -1,25 +1,28 @@
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+const React = require('react');
+const ReactDOM = require('react-dom');
+const TestUtils = require('react-addons-test-utils');
 
-jest.dontMock('../Button.jsx');
-var Button = require('../Button.jsx');
+jest.dontMock('../Button');
+const Button = require('../Button').default;
 
 describe('Button', function() {
   it('has correct label', function() {
-    var button = TestUtils.renderIntoDocument(
+    const button = TestUtils.renderIntoDocument(
       <Button>Foo</Button>
     );
+    const buttonNode = ReactDOM.findDOMNode(button);
 
-    expect(button.getDOMNode().textContent).toBe('Foo');
+    expect(buttonNode.textContent).toBe('Foo');
   });
 
   it('handles click event', function() {
-    var handler = jest.genMockFn();
-    var button = TestUtils.renderIntoDocument(
+    const handler = jest.genMockFn();
+    const button = TestUtils.renderIntoDocument(
       <Button onClick={handler} />
     );
+    const buttonNode = ReactDOM.findDOMNode(button);
 
-    TestUtils.Simulate.click(button.getDOMNode());
+    TestUtils.Simulate.click(buttonNode);
 
     expect(handler.mock.calls.length).toBe(1);
   });

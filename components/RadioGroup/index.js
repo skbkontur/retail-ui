@@ -1,1 +1,2 @@
-module.exports = require('./RadioGroup').default;
+import RadioGroup from './RadioGroup';
+module.exports = RadioGroup;
