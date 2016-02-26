@@ -77,13 +77,23 @@ export default class Sticky extends React.Component {
     }
 
     return (
-      <div style={wrapperStyle} ref={(ref) => this._wrapper = ref}>
-        <div style={innerStyle} ref={(ref) => this._inner = ref}>
+      <div style={wrapperStyle} ref={this._refWrapper}>
+        <div style={innerStyle} ref={this._refInner}>
           {this.props.children}
         </div>
       </div>
     );
   }
+
+  // $FlowIssue 850
+  _refWrapper = (ref) => {
+    this._wrapper = ref;
+  };
+
+  // $FlowIssue 850
+  _refInner = (ref) => {
+    this._inner = ref;
+  };
 
   componentDidMount() {
     this._reflow();
