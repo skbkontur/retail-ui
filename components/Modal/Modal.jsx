@@ -3,6 +3,7 @@ import React, {PropTypes} from 'react';
 
 import addClass from '../../lib/dom/addClass';
 import Center from '../Center';
+import LayoutEvents from '../../lib/LayoutEvents';
 import removeClass from '../../lib/dom/removeClass';
 import stopPropagation from '../../lib/events/stopPropagation';
 
@@ -70,6 +71,7 @@ class Modal extends React.Component {
 
     if (mountedModalsCount === 0) {
       addClass(document.body, styles.bodyClass);
+      LayoutEvents.emit();
     }
     mountedModalsCount++;
   }
@@ -79,6 +81,7 @@ class Modal extends React.Component {
 
     if (--mountedModalsCount === 0) {
       removeClass(document.body, styles.bodyClass);
+      LayoutEvents.emit();
     }
   }
 
