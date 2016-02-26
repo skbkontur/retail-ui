@@ -165,7 +165,11 @@ class ComboBox extends React.Component {
       <label className={styles.root} style={{width: this.props.width}}>
         {valueEl}
         {this.state.opened && this.renderMenu()}
-        {this.props.openButton && <div className={styles.arrow} />}
+        {this.props.openButton && (
+          <div className={styles.arrow} onMouseDown={this._handleArrowMouseDown}
+            onClick={this._handleArrowClick}
+          />
+        )}
       </label>
     );
   }
@@ -387,6 +391,18 @@ class ComboBox extends React.Component {
     this._change(value);
     this._focusAsync();
   }
+
+  // $FlowIssue 850
+  _handleArrowMouseDown = (event) => {
+    event.preventDefault();
+  };
+
+  // $FlowIssue 850
+  _handleArrowClick = (event) => {
+    if (!this.state.opened) {
+      this._handleValueClick();
+    }
+  };
 
   _resetItem(value: Value) {
     if (this.state.value === value) {
