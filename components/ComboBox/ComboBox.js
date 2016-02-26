@@ -7,11 +7,14 @@ import ReactDOM from 'react-dom';
 import filterProps from '../filterProps';
 
 import Input from '../Input';
+import InputLikeText from '../internal/InputLikeText';
 import ScrollContainer from '../ScrollContainer';
 
 import styles from './ComboBox.less';
 
 const INPUT_PASS_PROPS = {
+  error: true,
+  warning: true,
   width: true,
 };
 
@@ -42,6 +45,8 @@ type Props = {
   renderItem: (value: Value, info: Info) => ReactElement,
   recover?: (RecoverFunc | bool),
   width: (number | string),
+  error?: bool,
+  warning?: bool,
   onChange: (event: {target: {value: Value}}, value: Value) => void,
 };
 
@@ -103,6 +108,16 @@ class ComboBox extends React.Component {
     ]),
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+    /**
+     * Визуально показать наличие ошибки.
+     */
+    error: PropTypes.bool,
+
+    /**
+     * Визуально показать наличие предупреждения.
+     */
+    warning: PropTypes.bool,
 
     onChange: PropTypes.func,
   };
@@ -169,6 +184,8 @@ class ComboBox extends React.Component {
   }
 
   renderClosedValue() {
+    const inputProps = filterProps(this.props, INPUT_PASS_PROPS);
+
     let value;
     if (this.state.value == null) {
       value = (
@@ -185,12 +202,12 @@ class ComboBox extends React.Component {
     }
 
     return (
-      <div ref={this._refFocusable} className={styles.value} tabIndex="0"
+      <InputLikeText ref={this._refFocusable} {...inputProps}
         onClick={this._handleValueClick} onKeyDown={this._handleValueKey}
         onKeyPress={this._handleValueKeyPress}
       >
         {value}
-      </div>
+      </InputLikeText>
     );
   }
 

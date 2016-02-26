@@ -57,6 +57,14 @@
     color: @text-color-disabled;
   }
 
+  .warning .input {
+    border-color: @border-color-warning;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px @border-color-warning;
+    position: relative;
+    z-index: 2;
+  }
+
   .error .input {
     border-color: @border-color-error;
     border-radius: 1px;
@@ -66,6 +74,10 @@
   }
 
   :global(.rt-ie8) {
+    .warning .input {
+      outline: 1px solid @border-color-warning;
+    }
+
     .error .input {
       outline: 1px solid @border-color-error;
     }
