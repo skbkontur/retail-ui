@@ -174,6 +174,7 @@ var MAP = {
   instagram: '\ue072',
   rss: '\ue05e',
   'rss-o': '\ue092',
+  ruble: '\u20bd',
 };
 
 class Icon extends React.Component {
