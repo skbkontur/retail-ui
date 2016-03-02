@@ -1,6 +1,6 @@
 import events from 'add-event-listener';
 import LayoutEvents from '../../lib/LayoutEvents';
-import React from 'react';
+import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
 import position from './position';
@@ -8,6 +8,10 @@ import position from './position';
 import styles from './Box.less';
 
 export default class Box extends React.Component {
+  static contextTypes = {
+    rt_inModal: PropTypes.bool,
+  };
+
   constructor(props) {
     super(props);
 
@@ -20,7 +24,10 @@ export default class Box extends React.Component {
   }
 
   render() {
-    const style = this.state.pos ? this.state.pos.boxStyle : {left: 0};
+    const style = {
+      ...(this.state.pos ? this.state.pos.boxStyle : {left: 0}),
+      zIndex: this.context.rt_inModal ? 1100 : 900,
+    };
 
     return (
       <div className={styles.root} style={style}>
@@ -127,7 +134,7 @@ export default class Box extends React.Component {
 
     this.updating_ = true;
     this.setState({pos: null}, () => {
-      const of = this.props.target;
+      const of = this.props.getTarget();
       const el = ReactDOM.findDOMNode(this);
       this.setState({pos: position(el, of, this.props.pos)}, () => {
         this.updating_ = false;

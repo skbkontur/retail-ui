@@ -1,7 +1,29 @@
+// @flow
+
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
 import Box from './Box.jsx';
+import RenderContainer from '../RenderContainer';
+
+type Pos = 'top left' | 'top center' | 'top right'
+  | 'bottom left' | 'bottom center' | 'bottom right'
+  | 'left top' | 'left middle' | 'left bottom'
+  | 'right top' | 'right middle' | 'right bottom';
+
+type Props = {
+  children: React.Element,
+
+  render: () => React.Element,
+
+  pos: Pos,
+
+  trigger: 'hover' | 'click' | 'opened' | 'closed',
+};
+
+type State = {
+  opened: bool,
+};
 
 class Tooltip extends React.Component {
   static propTypes = {
@@ -22,47 +44,66 @@ class Tooltip extends React.Component {
     trigger: 'hover',
   };
 
-  constructor(props, context) {
+  static contextTypes = {
+    rt_inModal: PropTypes.bool,
+  };
+
+  props: Props;
+  state: State;
+
+  _targetDOM: ?HTMLElement;
+
+  constructor(props: Props, context: any) {
     super(props, context);
 
     this.state = {
-      opened: false,
+      opened: props.trigger === 'opened',
     };
   }
 
   render() {
     const props = {};
     if (this.props.trigger === 'hover') {
-      props.onMouseOver = this.handleMouseOver;
-      props.onMouseLeave = this.handleMouseLeave;
+      props.onMouseOver = this._handleMouseOver;
+      props.onMouseLeave = this._handleMouseLeave;
     } else if (this.props.trigger === 'click') {
-      props.onClick = this.handleClick;
+      props.onClick = this._handleClick;
     }
 
     let child = this.props.children;
     if (typeof child === 'string') {
-      child = <span ref={this.refChild}>{child}</span>;
+      child = <span ref={this._refTarget}>{child}</span>;
     } else {
       child = React.cloneElement(React.Children.only(child), {
-        ref: this.refChild,
+        ref: this._refTarget,
       });
     }
 
-    return <span {...props}>{child}</span>;
+    return (
+      <span {...props}>
+        {child}
+        {this._renderBox()}
+      </span>
+    );
   }
 
-  componentDidMount() {
-    this.boxDom = document.createElement('div');
-    document.body.appendChild(this.boxDom);
-    this.componentDidUpdate();
+  _renderBox() {
+    if (!this.state.opened) {
+      return null;
+    }
+
+    return (
+      <RenderContainer>
+        <Box trigger={this.props.trigger} getTarget={this._getTarget}
+          pos={this.props.pos} onClose={this._handleBoxClose}
+        >
+          {this.props.render()}
+        </Box>
+      </RenderContainer>
+    );
   }
 
-  componentWillUnmount() {
-    this.boxDom.parentNode.removeChild(this.boxDom);
-    this.boxDom = null;
-  }
-
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: Props) {
     if (newProps.trigger !== this.props.trigger) {
       if (newProps.trigger === 'opened') {
         this.setState({opened: true});
@@ -72,45 +113,48 @@ class Tooltip extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    if (this.state.opened) {
-      ReactDOM.render(
-        <Box trigger={this.props.trigger} target={this.targetDOM}
-          pos={this.props.pos} onClose={this.handleBoxClose}
-        >
-          {this.props.render()}
-        </Box>,
-        this.boxDom
-      );
-    } else {
-      ReactDOM.render(<div />, this.boxDom);
-    }
-  }
-
-  refChild = el => {
-    this.targetDOM = el && ReactDOM.findDOMNode(el);
+  // $FlowIssue 850
+  _refTarget = (el) => {
+    this._targetDOM = el && ReactDOM.findDOMNode(el);
   };
 
-  handleMouseOver = event => {
-    const opened = this.targetDOM.contains(event.target);
+  // $FlowIssue 850
+  _getTarget = () => this._targetDOM;
+
+  // $FlowIssue 850
+  _handleMouseOver = (event) => {
+    if (this._targetDOM) {
+      const opened = this._targetDOM.contains(event.target);
+      if (this.state.opened !== opened) {
+        this._setOpened(opened);
+      }
+    }
+  };
+
+  // $FlowIssue 850
+  _handleMouseLeave = () => {
+    this._setOpened(false);
+  };
+
+  // $FlowIssue 850
+  _handleClick = event => {
+    if (this._targetDOM) {
+      if (!this.state.opened && this._targetDOM.contains(event.target)) {
+        this._setOpened(true);
+      }
+    }
+  };
+
+  // $FlowIssue 850
+  _handleBoxClose = () => {
+    this._setOpened(false);
+  };
+
+  _setOpened(opened: bool) {
     if (this.state.opened !== opened) {
       this.setState({opened});
     }
-  };
-
-  handleMouseLeave = () => {
-    this.setState({opened: false});
-  };
-
-  handleClick = event => {
-    if (!this.state.opened && this.targetDOM.contains(event.target)) {
-      this.setState({opened: true});
-    }
-  };
-
-  handleBoxClose = () => {
-    this.setState({opened: false});
-  };
+  }
 }
 
 module.exports = Tooltip;

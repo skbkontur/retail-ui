@@ -30,6 +30,14 @@ class Modal extends React.Component {
     onClose: PropTypes.func,
   };
 
+  static childContextTypes = {
+    rt_inModal: PropTypes.bool,
+  };
+
+  getChildContext() {
+    return {rt_inModal: true};
+  }
+
   constructor(props, context) {
     super(props, context);
   }
