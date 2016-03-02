@@ -5,8 +5,6 @@ import ReactDOM from 'react-dom';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 
-import styles from './Sticky.less';
-
 type Props = {
   side: 'top' | 'bottom',
   offset: number,
@@ -67,6 +65,7 @@ export default class Sticky extends React.Component {
         left: this.state.left,
         position: 'fixed',
         width: this.state.width,
+        zIndex: 100,
       }: Object);
 
       if (this.props.side === 'top') {
