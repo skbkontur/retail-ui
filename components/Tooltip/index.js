@@ -1,1 +1,2 @@
-module.exports = require('./Tooltip.jsx');
+import Tooltip from './Tooltip';
+module.exports = Tooltip;

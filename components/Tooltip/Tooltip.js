@@ -3,7 +3,7 @@
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
-import Box from './Box.jsx';
+import Box from './Box';
 import RenderContainer from '../RenderContainer';
 
 type Pos = 'top left' | 'top center' | 'top right'
@@ -167,4 +167,4 @@ class Tooltip extends React.Component {
   }
 }
 
-module.exports = Tooltip;
+export default Tooltip;
