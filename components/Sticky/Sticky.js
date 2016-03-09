@@ -11,6 +11,13 @@ type Props = {
   children?: any
 }
 
+type State = {
+  fixed: bool,
+  height: (number | string),
+  left: (number | string),
+  width: (number | string),
+};
+
 export default class Sticky extends React.Component {
 
   props: Props;
@@ -26,16 +33,12 @@ export default class Sticky extends React.Component {
     children: PropTypes.node
   };
 
-  state: {
-    fixed: bool,
-    height: (number | string),
-    left: (number | string),
-    width: (number | string),
-  };
+  state: State;
 
   _wrapper: HTMLElement;
   _inner: HTMLElement;
 
+  _immediateState: $Shape<State>;
   _layoutSubscription: {remove: () => void};
 
   static defaultProps: {offset: number} = {
@@ -51,6 +54,8 @@ export default class Sticky extends React.Component {
       left: 'auto',
       width: 'auto',
     };
+
+    this._immediateState = {};
   }
 
   render() {
@@ -104,6 +109,10 @@ export default class Sticky extends React.Component {
     this._layoutSubscription.remove();
   }
 
+  componentDidUpdate() {
+    this._reflow();
+  }
+
   // $FlowIssue 850
   _reflow = () => {
     const wrapRect = this._wrapper.getBoundingClientRect();
@@ -114,14 +123,32 @@ export default class Sticky extends React.Component {
       ? wrapTop < this.props.offset
       : wrapBottom > window.innerHeight - this.props.offset;
 
-    this.setState({fixed});
+    this._setStateIfChanged({fixed});
 
     if (fixed) {
       const width = this._wrapper.offsetWidth;
-      this.setState({width, left: wrapLeft}, () => {
+      this._setStateIfChanged({width, left: wrapLeft}, () => {
         const height = this._inner.offsetHeight;
-        this.setState({height});
+        this._setStateIfChanged({height});
       });
+    }
+  };
+
+  _setStateIfChanged(state: $Shape<State>, callback?: () => void) {
+    let changed = false;
+    for (const key in state) {
+      if (this._immediateState[key] !== state[key]) {
+        changed = true;
+        this._immediateState[key] = state[key];
+      }
+    }
+
+    if (changed) {
+      this.setState(state, callback);
+    } else {
+      if (callback) {
+        callback();
+      }
     }
   };
 }
