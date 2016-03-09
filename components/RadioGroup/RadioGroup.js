@@ -19,7 +19,34 @@ class RadioGroup extends React.Component {
 
     value: PropTypes.any,
 
+    /**
+     * Функция для отрисовки элемента (той части, которая находится справа от
+     * круглишка).
+     *
+     * Если внутри элемента используются ссылки, или другие активные элементы,
+     * по клику на которые элемент списка выбираться не должен, то нужно
+     * использовать компонент `RadioGroup.Prevent`:
+     *
+     * ```
+     * function renderItem(value, data) {
+     *   return (
+     *     <div>
+     *       {data}
+     *       <RadioGroup.Prevent><Link>...</Link></RadioGroup.Prevent>
+     *     </div>
+     *   );
+     * }
+     * ```
+     */
+    renderItem: PropTypes.func,
+
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
     onChange: PropTypes.func,
+  };
+
+  static defaultProps = {
+    renderItem,
   };
 
   constructor(props, context) {
@@ -38,8 +65,14 @@ class RadioGroup extends React.Component {
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
     };
+
+    var style = {};
+    if (this.props.width) {
+      style.width = this.props.width;
+    }
+
     return (
-      <label className={styles.root}>
+      <label className={styles.root} style={style}>
         <input {...inputProps} />
         {this.renderItems()}
       </label>
@@ -48,20 +81,20 @@ class RadioGroup extends React.Component {
 
   renderItems() {
     var items = [];
-    this.eachItem((value, item, i) => {
-      if (i) {
-        items.push(<br key={'br:' + i} />);
-      }
-
+    this.eachItem((value, data, i) => {
       var checked = this.state.value === value;
       var focused = this.state.focused &&
           (checked || this.state.value == null && i === 0);
       items.push(
-        <span key={item} className={styles.item}
+        <span key={i} className={styles.item}
           onClick={(e) => this.select_(value)}
         >
-          <Radio checked={checked} focused={focused} />
-          <span className={styles.label}>{item}</span>
+          <div className={styles.radio}>
+            <Radio checked={checked} focused={focused} />
+          </div>
+          <div className={styles.label}>
+            {this.props.renderItem(value, data)}
+          </div>
         </span>
       );
     });
@@ -96,7 +129,7 @@ class RadioGroup extends React.Component {
   move_(step) {
     const items = [];
     let selectedIndex = -1;
-    this.eachItem((value, item, i) => {
+    this.eachItem((value, data, i) => {
       items.push(value);
       if (selectedIndex === -1 && value === this.state.value) {
         selectedIndex = i;
@@ -124,11 +157,29 @@ class RadioGroup extends React.Component {
   eachItem(fn) {
     let index = 0;
     for (const entry of this.props.items) {
-      const [value, item] = normalizeEntry(entry);
-      fn(value, item, index);
+      const [value, data] = normalizeEntry(entry);
+      fn(value, data, index);
       ++index;
     }
   }
+}
+
+class Prevent extends React.Component {
+  render() {
+    return (
+      <span onClick={this._prevent}>{this.props.children}</span>
+    );
+  }
+
+  _prevent = (event) => {
+    event.stopPropagation();
+  };
+}
+
+RadioGroup.Prevent = Prevent;
+
+function renderItem(value, data) {
+  return data;
 }
 
 function normalizeEntry(entry) {
