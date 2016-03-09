@@ -175,7 +175,7 @@ class Input extends React.Component {
       input = (
         <MaskedInput {...inputProps} mask={this.props.mask}
           maskChar={this.props.maskChar || '_'}
-          showEmptyMask={this.props.alwaysShowMask}
+          alwaysShowMask={this.props.alwaysShowMask}
         />
       );
     } else {
