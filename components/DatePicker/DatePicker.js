@@ -13,9 +13,24 @@ class DatePicker extends React.Component {
   static propTypes = {
     error: PropTypes.bool,
 
+    /**
+     * Минимальный год в селекте для года.
+     */
+    minYear: PropTypes.number,
+
+    /**
+     * Максимальный год в селекте для года.
+     */
+    maxYear: PropTypes.number,
+
     value: PropTypes.instanceOf(Date),
 
     onChange: PropTypes.func,
+  };
+
+  static defaultProps = {
+    minYear: 1900,
+    maxYear: 2100,
   };
 
   constructor(props, context) {
@@ -35,8 +50,9 @@ class DatePicker extends React.Component {
     if (this.state.opened) {
       picker = (
         <div className={styles.picker} onKeyDown={this.handlePickerKey}>
-          <Picker value={this.state.value} onPick={this.handlePick}
-            onClose={this.handlePickerClose}
+          <Picker value={this.state.value}
+            minYear={this.props.minYear} maxYear={this.props.maxYear}
+            onPick={this.handlePick} onClose={this.handlePickerClose}
           />
         </div>
       );

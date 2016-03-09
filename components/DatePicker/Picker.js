@@ -27,6 +27,7 @@ class Picker extends React.Component {
               width={100} onChange={this.handleMonthChange}
             />
             <DateSelect type="year" value={this.state.date.getFullYear()}
+              minYear={this.props.minYear} maxYear={this.props.maxYear}
               width={70} onChange={this.handleYearChange}
             />
           </Gapped>

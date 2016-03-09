@@ -32,7 +32,7 @@ module.exports = [
   {
     name: 'DatePicker',
     component: require('ui/DatePicker'),
-    info: require('!docgen!ui/DatePicker/DatePicker.jsx'),
+    info: require('!docgen!ui/DatePicker/DatePicker.js'),
     src: require('!raw!./snippets/DatePicker.jsx'),
   },
   {
