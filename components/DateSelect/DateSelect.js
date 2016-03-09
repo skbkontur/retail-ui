@@ -267,4 +267,4 @@ class DateSelect extends React.Component {
   }
 }
 
-module.exports = DateSelect;
+export default DateSelect;

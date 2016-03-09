@@ -1,1 +1,2 @@
-module.exports = require('./DateSelect.jsx');
+import DateSelect from './DateSelect';
+module.exports = DateSelect;
