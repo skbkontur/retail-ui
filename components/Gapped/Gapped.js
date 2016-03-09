@@ -27,8 +27,34 @@ class Gapped extends React.Component {
   };
 
   render() {
+    if (this.props.vertical) {
+      return this._renderVertical();
+    }
+    return this._renderHorizontal();
+  }
+
+  _renderVertical() {
+    var subsequentItemStyle = {
+      paddingTop: this.props.gap,
+    };
+    let isFirst = true;
+    var children = React.Children.map(this.props.children, (child) => {
+      if (!child) {
+        return child;
+      }
+      const style = isFirst ? null : subsequentItemStyle;
+
+      isFirst = false;
+
+      return <div style={style}>{child}</div>;
+    });
+
+    return <div>{children}</div>;
+  }
+
+  _renderHorizontal() {
     var itemStyle = {
-      display: this.props.vertical ? 'block' : 'inline-block',
+      display: 'inline-block',
       marginLeft: this.props.gap,
       marginTop: this.props.gap,
       verticalAlign: this.props.verticalAlign,
@@ -54,4 +80,4 @@ class Gapped extends React.Component {
   }
 }
 
-module.exports = Gapped;
+export default Gapped;

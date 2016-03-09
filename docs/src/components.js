@@ -50,7 +50,7 @@ module.exports = [
   {
     name: 'Gapped',
     component: require('ui/Gapped'),
-    info: require('!docgen!ui/Gapped/Gapped.jsx'),
+    info: require('!docgen!ui/Gapped/Gapped.js'),
     src: require('!raw!./snippets/Gapped.jsx'),
   },
   {
