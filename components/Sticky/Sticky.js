@@ -8,6 +8,7 @@ import LayoutEvents from '../../lib/LayoutEvents';
 type Props = {
   side: 'top' | 'bottom',
   offset: number,
+  getStop?: () => ?HTMLElement,
   children?: any
 }
 
@@ -16,6 +17,9 @@ type State = {
   height: (number | string),
   left: (number | string),
   width: (number | string),
+
+  stopped: bool,
+  relativeTop: number,
 };
 
 export default class Sticky extends React.Component {
@@ -30,7 +34,12 @@ export default class Sticky extends React.Component {
      **/
     offset: PropTypes.number,
 
-    children: PropTypes.node
+    /**
+     * Функция, которая возвращает DOM-элемент, который нельзя пересекать.
+     */
+    getStop: PropTypes.func,
+
+    children: PropTypes.node,
   };
 
   state: State;
@@ -53,6 +62,9 @@ export default class Sticky extends React.Component {
       height: 'auto',
       left: 'auto',
       width: 'auto',
+
+      stopped: false,
+      relativeTop: 0,
     };
 
     this._immediateState = {};
@@ -62,21 +74,28 @@ export default class Sticky extends React.Component {
     let wrapperStyle = null;
     let innerStyle = null;
     if (this.state.fixed) {
-      wrapperStyle = {
-        height: this.state.height,
-      };
-
-      innerStyle = ({
-        left: this.state.left,
-        position: 'fixed',
-        width: this.state.width,
-        zIndex: 100,
-      }: Object);
-
-      if (this.props.side === 'top') {
-        innerStyle.top = this.props.offset;
+      if (this.state.stopped) {
+        innerStyle = {
+          position: 'relative',
+          top: this.state.relativeTop,
+        };
       } else {
-        innerStyle.bottom = this.props.offset;
+        wrapperStyle = {
+          height: this.state.height,
+        };
+
+        innerStyle = ({
+          left: this.state.left,
+          position: 'fixed',
+          width: this.state.width,
+          zIndex: 100,
+        }: Object);
+
+        if (this.props.side === 'top') {
+          innerStyle.top = this.props.offset;
+        } else {
+          innerStyle.bottom = this.props.offset;
+        }
       }
     }
 
@@ -115,13 +134,14 @@ export default class Sticky extends React.Component {
 
   // $FlowIssue 850
   _reflow = () => {
+    const windowHeight = window.innerHeight;
     const wrapRect = this._wrapper.getBoundingClientRect();
     const wrapBottom = wrapRect.bottom;
     const wrapLeft = wrapRect.left;
     const wrapTop = wrapRect.top;
     const fixed = this.props.side === 'top'
       ? wrapTop < this.props.offset
-      : wrapBottom > window.innerHeight - this.props.offset;
+      : wrapBottom > windowHeight - this.props.offset;
 
     this._setStateIfChanged({fixed});
 
@@ -130,6 +150,24 @@ export default class Sticky extends React.Component {
       this._setStateIfChanged({width, left: wrapLeft}, () => {
         const height = this._inner.offsetHeight;
         this._setStateIfChanged({height});
+
+        if (this.props.getStop) {
+          const stop = this.props.getStop();
+          if (stop) {
+            const stopRect = stop.getBoundingClientRect();
+            const outerHeight = height + this.props.offset;
+
+            if (this.props.side === 'top') {
+              const stopped = stopRect.top - outerHeight < 0;
+              const relativeTop = stopRect.top - height - wrapTop;
+              this._setStateIfChanged({relativeTop, stopped});
+            } else {
+              const stopped = stopRect.bottom + outerHeight > windowHeight;
+              const relativeTop = stopRect.bottom - wrapTop;
+              this._setStateIfChanged({relativeTop, stopped});
+            }
+          }
+        }
       });
     }
   };
