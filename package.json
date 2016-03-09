@@ -19,28 +19,27 @@
     "warning": "^2.1.0"
   },
   "devDependencies": {
+    "babel-core": "^6.7.0",
     "babel-eslint": "^4.1.5",
-    "babel-jest": "^6.0.1",
     "babel-preset-es2015": "^6.5.0",
+    "babel-preset-jest": "^1.0.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.23.1",
+    "enzyme": "^2.0.0",
     "eslint": "^1.9.0",
     "eslint-plugin-react": "^3.8.0",
-    "jest-cli": "^0.8.2",
+    "jest-cli": "^0.9.1",
     "react": "^0.14.7",
     "react-addons-test-utils": "^0.14.7",
     "react-dom": "^0.14.7"
   },
   "jest": {
+    "automock": false,
     "scriptPreprocessor": "<rootDir>/preprocessor.js",
     "testPathDirs": [
       "<rootDir>/components",
       "<rootDir>/lib"
-    ],
-    "unmockedModulePathPatterns": [
-      "node_modules/react",
-      "<rootDir>/components/cx.js"
     ]
   }
 }

@@ -1,10 +1,18 @@
-var babelPreprocessor = require('babel-jest');
+const babel = require('babel-core');
 
 module.exports = {
   process: function(src, path) {
     if (path.match(/.less$/)) {
       return '';
     }
-    return babelPreprocessor.process(src, path);
+    if (babel.util.canCompile(path)) {
+      return babel.transform(src, {
+        filename: path,
+        presets: ['jest', 'es2015', 'react', 'stage-0'],
+        retainLines: true,
+      }).code;
+    }
+
+    return src;
   }
 };
