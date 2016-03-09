@@ -5,7 +5,7 @@ import Button from '../Button';
 import Group from '../Group';
 import Icon from '../Icon';
 import Input from '../Input';
-import Picker from './Picker.jsx';
+import Picker from './Picker';
 
 import styles from './DatePicker.less';
 
@@ -171,4 +171,4 @@ function formatNumber(value) {
   return ret;
 }
 
-module.exports = DatePicker;
+export default DatePicker;

@@ -2,7 +2,7 @@ import events from 'add-event-listener';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Calendar from './Calendar.jsx';
+import Calendar from './Calendar';
 import DateSelect from '../DateSelect';
 import Gapped from '../Gapped';
 
@@ -90,4 +90,4 @@ function isDetached(element) {
   return true;
 }
 
-module.exports = Picker;
+export default Picker;

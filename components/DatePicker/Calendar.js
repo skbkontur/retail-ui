@@ -185,4 +185,4 @@ function getDayTop(fromWeek, offset, time) {
   return (getWeek(time) - fromWeek) * DAY_HEIGHT - offset;
 }
 
-module.exports = Calendar;
+export default Calendar;
