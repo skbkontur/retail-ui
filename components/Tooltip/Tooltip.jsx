@@ -52,6 +52,7 @@ class Tooltip extends React.Component {
   state: State;
 
   _targetDOM: ?HTMLElement;
+  _lastRef: ((el: ?React.Element) => void) | string | null;
 
   constructor(props: Props, context: any) {
     super(props, context);
@@ -59,6 +60,9 @@ class Tooltip extends React.Component {
     this.state = {
       opened: props.trigger === 'opened',
     };
+
+    this._targetDOM = null;
+    this._lastRef = null;
   }
 
   render() {
@@ -71,10 +75,13 @@ class Tooltip extends React.Component {
     }
 
     let child = this.props.children;
+    this._lastRef = null;
     if (typeof child === 'string') {
       child = <span ref={this._refTarget}>{child}</span>;
     } else {
-      child = React.cloneElement(React.Children.only(child), {
+      const onlyChild = React.Children.only(child);
+      this._lastRef = onlyChild.ref;
+      child = React.cloneElement(onlyChild, {
         ref: this._refTarget,
       });
     }
@@ -115,6 +122,9 @@ class Tooltip extends React.Component {
 
   // $FlowIssue 850
   _refTarget = (el) => {
+    if (typeof this._lastRef === 'function') {
+      this._lastRef(el);
+    }
     this._targetDOM = el && ReactDOM.findDOMNode(el);
   };
 
