@@ -174,7 +174,7 @@ function parseDate(str) {
   str = str || '';
   const match = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})$/);
   if (match) {
-    return new Date(`${match[3]}-${match[2]}-${match[1]}`);
+    return checkDate(new Date(`${match[2]}-${match[1]}-${match[3]} UTC`));
   }
   return null;
 }
