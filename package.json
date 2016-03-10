@@ -39,7 +39,8 @@
     "scriptPreprocessor": "<rootDir>/preprocessor.js",
     "testPathDirs": [
       "<rootDir>/components",
-      "<rootDir>/lib"
+      "<rootDir>/lib",
+      "<rootDir>/scripts"
     ]
   }
 }
