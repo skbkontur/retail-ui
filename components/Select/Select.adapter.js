@@ -19,6 +19,12 @@ class SelectAdapter {
       select.props.onChange({target: {value}}, value);
     }
   }
+
+  getItemValues() {
+    this._select.open_();
+    this._select.close_();
+    return this._select.mapItems((value) => value);
+  }
 }
 
 Select.__ADAPTER__ = SelectAdapter;
