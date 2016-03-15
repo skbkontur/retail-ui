@@ -123,7 +123,9 @@ class Tooltip extends React.Component {
   // $FlowIssue 850
   _refTarget = (el) => {
     if (typeof this._lastRef === 'function') {
-      this._lastRef(el);
+      // React calls refs without context.
+      const ref = this._lastRef;
+      ref(el);
     }
     this._targetDOM = el && ReactDOM.findDOMNode(el);
   };
