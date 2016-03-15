@@ -39,14 +39,15 @@ class Button extends React.Component {
   static defaultProps = {
     use: 'default',
     size: 'default',
+    type: 'button',
   };
 
   render() {
     var rootProps = {
-      // Be default the type attribute is 'submit'. IE8 will fire a click event
+      // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
-      type: 'button',
+      type: this.props.type,
       className: classNames({
         [styles.root]: true,
         [styles['use-' + this.props.use]]: true,
