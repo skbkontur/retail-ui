@@ -21,6 +21,7 @@
   "devDependencies": {
     "babel-core": "^6.7.0",
     "babel-eslint": "^4.1.5",
+    "babel-polyfill": "^6.7.2",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-jest": "^1.0.0",
     "babel-preset-react": "^6.5.0",
@@ -41,6 +42,9 @@
       "<rootDir>/components",
       "<rootDir>/lib",
       "<rootDir>/scripts"
+    ],
+    "setupFiles": [
+      "<rootDir>/node_modules/babel-polyfill"
     ]
   }
 }
