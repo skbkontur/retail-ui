@@ -1,22 +1,33 @@
 import '../../../testing';
+import {mountTest} from '../../../testing/TestingTestUtils';
 
-import {mount} from 'enzyme';
 import React from 'react';
 
 import ComboBox from '../ComboBox.adapter.js';
 
-describe('ComboBox-adapter', () => {
-  pit('search and getResult', async () => {
-    const source = jest.fn(
-      () => Promise.resolve({values: [1, 2, 3]})
-    );
-    const wrapper = mount(
-      <div>
-        <ComboBox tid="el" source={source} />
-      </div>
-    );
+function noop() {}
 
-    const node = ReactTesting.findDOMNodes('el', wrapper.node)[0];
+describe('ComboBox-adapter', () => {
+  it('getValue', () => {
+    const {node} = mountTest(<ComboBox tid="a" value="foo" source={noop} />);
+    expect(ReactTesting.call(node, 'getValue')).toBe('foo');
+  });
+
+  it('setValue', () => {
+    const onChange = jest.fn();
+    const {node} = mountTest(
+      <ComboBox tid="a" onChange={onChange} source={noop} />
+    );
+    ReactTesting.call(node, 'setValue', ['foo']);
+
+    expect(onChange.mock.calls.length).toBe(1);
+    expect(onChange.mock.calls[0][1]).toBe('foo');
+  });
+
+  pit('search and getResult', async () => {
+    const source = jest.fn(() => Promise.resolve({values: [1, 2, 3]}));
+    const {node} = mountTest(<ComboBox tid="a" source={source} />);
+
     ReactTesting.call(node, 'search', ['test']);
 
     expect(source.mock.calls.length).toBe(1);

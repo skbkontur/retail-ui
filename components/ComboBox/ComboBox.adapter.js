@@ -9,6 +9,14 @@ class ComboBoxAdapter {
     this._instance = instance;
   }
 
+  getValue() {
+    return this._instance.state.value;
+  }
+
+  setValue(value) {
+    this._instance._change(value);
+  }
+
   search(searchString: string) {
     this._instance._handleOpenClick();
     this._instance._handleInputChange({target: {value: searchString}});
