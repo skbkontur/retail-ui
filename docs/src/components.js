@@ -2,7 +2,7 @@ module.exports = [
   {
     name: 'Autocomplete',
     component: require('ui/Autocomplete'),
-    info: require('!docgen!ui/Autocomplete/Autocomplete.jsx'),
+    info: require('!docgen!ui/Autocomplete/Autocomplete.js'),
     src: require('!raw!./snippets/Autocomplete.jsx'),
   },
   {
