@@ -30,5 +30,5 @@ class ComboBoxAdapter {
 
 ComboBox.__ADAPTER__ = ComboBoxAdapter;
 
-export default from './ComboBox.js';
+export default ComboBox;
 export * from './ComboBox.js';

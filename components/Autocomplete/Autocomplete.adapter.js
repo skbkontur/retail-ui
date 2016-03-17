@@ -24,5 +24,5 @@ class AutocompleteAdapter {
 
 Autocomplete.__ADAPTER__ = AutocompleteAdapter;
 
-export default from './Autocomplete.js';
+export default Autocomplete;
 export * from './Autocomplete.js';
