@@ -246,6 +246,12 @@ class ComboBox extends React.Component {
     );
   }
 
+  focus() {
+    if (this._focusable) {
+      this._focusable.focus();
+    }
+  }
+
   componentWillMount() {
     if (this.state.value != null) {
       this._loadItem(this.state.value);
@@ -256,6 +262,12 @@ class ComboBox extends React.Component {
     if (newProps.value !== undefined) {
       this.setState({value: newProps.value});
       this._resetItem(newProps.value);
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.autoFocus) {
+      this.focus();
     }
   }
 
