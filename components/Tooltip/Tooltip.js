@@ -18,7 +18,7 @@ type Props = {
 
   pos: Pos,
 
-  trigger: 'hover' | 'click' | 'opened' | 'closed',
+  trigger: 'hover' | 'click' | 'focus' | 'opened' | 'closed',
 };
 
 type State = {
@@ -36,7 +36,7 @@ class Tooltip extends React.Component {
       'right top', 'right middle', 'right bottom',
     ]),
 
-    trigger: PropTypes.oneOf(['hover', 'click', 'opened', 'closed']),
+    trigger: PropTypes.oneOf(['hover', 'click', 'focus', 'opened', 'closed']),
   };
 
   static defaultProps = {
@@ -51,7 +51,8 @@ class Tooltip extends React.Component {
   props: Props;
   state: State;
 
-  _targetDOM: ?HTMLElement;
+  _hotspotDOM: ?HTMLElement;
+  _boxDOM: ?HTMLElement;
   _lastRef: ((el: ?React.Element) => void) | string | null;
 
   constructor(props: Props, context: any) {
@@ -61,7 +62,8 @@ class Tooltip extends React.Component {
       opened: props.trigger === 'opened',
     };
 
-    this._targetDOM = null;
+    this._hotspotDOM = null;
+    this._boxDOM = null;
     this._lastRef = null;
   }
 
@@ -74,16 +76,22 @@ class Tooltip extends React.Component {
       props.onClick = this._handleClick;
     }
 
+    const childProps: Object = {
+      ref: this._refHotspot,
+    };
+    if (this.props.trigger === 'focus') {
+      childProps.onFocus = this._handleFocus;
+      childProps.onBlur = this._handleBlur;
+    }
+
     let child = this.props.children;
     this._lastRef = null;
     if (typeof child === 'string') {
-      child = <span ref={this._refTarget}>{child}</span>;
+      child = <span {...childProps}>{child}</span>;
     } else {
       const onlyChild = React.Children.only(child);
       this._lastRef = onlyChild.ref;
-      child = React.cloneElement(onlyChild, {
-        ref: this._refTarget,
-      });
+      child = React.cloneElement(onlyChild, childProps);
     }
 
     return (
@@ -121,22 +129,24 @@ class Tooltip extends React.Component {
   }
 
   // $FlowIssue 850
-  _refTarget = (el) => {
+  _refHotspot = (el) => {
     if (typeof this._lastRef === 'function') {
       // React calls refs without context.
       const ref = this._lastRef;
       ref(el);
     }
-    this._targetDOM = el && ReactDOM.findDOMNode(el);
+    this._hotspotDOM = el && ReactDOM.findDOMNode(el);
   };
 
   // $FlowIssue 850
-  _getTarget = () => this._targetDOM;
+  _getTarget = () => {
+    return this._hotspotDOM;
+  };
 
   // $FlowIssue 850
   _handleMouseOver = (event) => {
-    if (this._targetDOM) {
-      const opened = this._targetDOM.contains(event.target);
+    if (this._hotspotDOM) {
+      const opened = this._hotspotDOM.contains(event.target);
       if (this.state.opened !== opened) {
         this._setOpened(opened);
       }
@@ -150,8 +160,8 @@ class Tooltip extends React.Component {
 
   // $FlowIssue 850
   _handleClick = event => {
-    if (this._targetDOM) {
-      if (!this.state.opened && this._targetDOM.contains(event.target)) {
+    if (this._hotspotDOM) {
+      if (!this.state.opened && this._hotspotDOM.contains(event.target)) {
         this._setOpened(true);
       }
     }
@@ -159,6 +169,16 @@ class Tooltip extends React.Component {
 
   // $FlowIssue 850
   _handleBoxClose = () => {
+    this._setOpened(false);
+  };
+
+  // $FlowIssue 850
+  _handleFocus = () => {
+    this._setOpened(true);
+  };
+
+  // $FlowIssue 850
+  _handleBlur = () => {
     this._setOpened(false);
   };
 
