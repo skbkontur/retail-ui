@@ -25,12 +25,15 @@ class DatePicker extends React.Component {
 
     value: PropTypes.instanceOf(Date),
 
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
     onChange: PropTypes.func,
   };
 
   static defaultProps = {
     minYear: 1900,
     maxYear: 2100,
+    width: 120,
   };
 
   constructor(props, context) {
@@ -62,8 +65,8 @@ class DatePicker extends React.Component {
       [this.props.className || '']: true,
     });
     return (
-      <span className={className}>
-        <Group width={120}>
+      <span className={className} style={{width: this.props.width}}>
+        <Group width="100%">
           <Input ref="input" mainInGroup value={this.state.textValue}
             maxLength="10" placeholder="дд.мм.гггг"
             onChange={this.handleChange} onBlur={this.handleBlur}
