@@ -41,6 +41,10 @@ var CodeRunner = React.createClass({
   componentWillReceiveProps(props) {
     run(props.src, ReactDOM.findDOMNode(this));
   },
+
+  componentWillUnmount() {
+    ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this));
+  }
 });
 
 export default CodeRunner;
