@@ -86,7 +86,7 @@ module.exports = [
   {
     name: 'Modal',
     component: require('ui/Modal'),
-    info: require('!docgen!ui/Modal/Modal.jsx'),
+    info: require('!docgen!ui/Modal/Modal.js'),
     src: require('!raw!./snippets/Modal.jsx'),
   },
   {
