@@ -102,12 +102,6 @@ module.exports = [
     src: require('!raw!./snippets/RadioGroup.jsx'),
   },
   {
-    name: 'SearchSelect',
-    component: require('ui/SearchSelect'),
-    info: require('!docgen!ui/SearchSelect/SearchSelect.js'),
-    src: require('!raw!./snippets/SearchSelect.jsx'),
-  },
-  {
     name: 'Select',
     component: require('ui/Select'),
     info: require('!docgen!ui/Select/Select.js'),
