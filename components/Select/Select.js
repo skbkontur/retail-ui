@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 
 import Input from '../Input';
 import listenFocusOutside from '../../lib/listenFocusOutside';
+import Upgrades from '../../lib/Upgrades';
 
 import '../ensureOldIEClassName';
 import styles from './Select.less';
@@ -108,6 +109,8 @@ class Select extends React.Component {
         [styles.isOpened]: this.state.opened,
         [styles.error]: this.props.error,
         [styles.disabled]: this.props.disabled,
+
+        [styles.deprecated_oldSize]: !Upgrades.__height34,
       }),
       tabIndex: focusable ? '0' : '-1',
       onKeyDown: this.handleKey,

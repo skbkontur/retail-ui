@@ -34,9 +34,6 @@
 
   .isOpened {
     background: #d7d7d7;
-
-    && {
-    }
   }
   .isOpened.isOpened {
     border-color: #b3b3b3;
@@ -58,8 +55,8 @@
     box-sizing: border-box;
     display: inline-block;
     font-size: 14px;
-    height: 28px;
-    line-height: 28px;
+    height: 32px;
+    line-height: 32px;
     padding: 0 20px 0 10px;
     width: 100%;
   }
@@ -71,7 +68,7 @@
 
   .labelText {
     display: inline-block;
-    height: 28px;
+    height: 32px;
     max-width: 100%;
     overflow: hidden;
     vertical-align: top;
@@ -88,7 +85,7 @@
     border-top-color: #a6a6a6;
     position: absolute;
     right: 8px;
-    top: 13px;
+    top: 15px;
   }
 
   .container {
@@ -154,5 +151,20 @@
 
   .search {
     margin: 0 4px 4px;
+  }
+
+  .deprecated_oldSize {
+    .label {
+      height: 28px;
+      line-height: 28px;
+    }
+
+    .labelText {
+      height: 28px;
+    }
+
+    .arrow {
+      top: 13px;
+    }
   }
 }
