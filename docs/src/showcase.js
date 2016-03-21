@@ -5,11 +5,15 @@ import ReactDOM from 'react-dom';
 import {Router, Route, IndexRedirect, useRouterHistory} from 'react-router';
 import createHashHistory from 'history/lib/createHashHistory';
 
+import Upgrades from '../../lib/Upgrades';
+
 import Component from './components/Component';
 import Components from './components/Components';
 import Demo from './components/Demo';
 import GettingStarted from './components/GettingStarted';
 import ShowcaseApp from './components/ShowcaseApp';
+
+Upgrades.enableHeight34();
 
 const history = useRouterHistory(createHashHistory)({queryKey: false});
 
