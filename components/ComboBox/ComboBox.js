@@ -5,6 +5,7 @@ import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
 import filterProps from '../filterProps';
+import Upgrades from '../../lib/Upgrades';
 
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
@@ -155,14 +156,20 @@ class ComboBox extends React.Component {
   }
 
   render() {
+    const className = classNames({
+      [styles.root]: true,
+      [styles.deprecated_oldSize]: !Upgrades.__height34,
+    });
+
     let valueEl;
     if (this.state.opened) {
       valueEl = this.renderOpenedValue();
     } else {
       valueEl = this.renderClosedValue();
     }
+
     return (
-      <label className={styles.root} style={{width: this.props.width}}>
+      <label className={className} style={{width: this.props.width}}>
         {valueEl}
         {this.state.opened && this.renderMenu()}
         {this.props.openButton && (

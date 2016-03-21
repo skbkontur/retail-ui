@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import filterProps from '../../filterProps';
+import Upgrades from '../../../lib/Upgrades';
 
 import '../../ensureOldIEClassName';
 import styles from './InputLikeText.less';
@@ -21,6 +22,8 @@ export default class InputLikeText extends React.Component {
       [styles.root]: true,
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,
+
+      [styles.deprecated_oldSize]: !Upgrades.__height34,
     });
 
     return (
