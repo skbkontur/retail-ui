@@ -4,6 +4,7 @@ import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
 import filterProps from '../filterProps';
+import Upgrades from '../../lib/Upgrades';
 
 import '../ensureOldIEClassName';
 import styles from './Input.less';
@@ -26,6 +27,12 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
 };
 
+const SIZE_CLASS_NAMES = {
+  small: styles.deprecated_sizeSmall,
+  default: styles.deprecated_sizeDefault,
+  large: styles.deprecated_sizeLarge,
+};
+
 class Input extends React.Component {
   static propTypes = {
     disabled: PropTypes.bool,
@@ -43,7 +50,7 @@ class Input extends React.Component {
     align: PropTypes.oneOf(['left', 'center', 'right']),
 
     /**
-     * Высота инпута.
+     * DEPRECATED
      */
     size: PropTypes.oneOf(['small', 'default', 'large']),
 
@@ -108,7 +115,9 @@ class Input extends React.Component {
     alwaysShowMask: PropTypes.bool,
   };
 
-  static defaultProps = {};
+  static defaultProps = {
+    size: 'default',
+  };
 
   constructor(props, context) {
     super(props, context);
@@ -130,13 +139,15 @@ class Input extends React.Component {
         [styles.warning]: this.props.warning,
         [styles.padLeft]: this.props.leftIcon,
         [styles.padRight]: this.props.rightIcon,
-        [styles.sizeSmall]: this.props.size === 'small',
-        [styles.sizeLarge]: this.props.size === 'large',
       }),
       style: {},
     };
     if (this.props.width) {
       labelProps.style.width = this.props.width;
+    }
+
+    if (!Upgrades.__height34) {
+      labelProps.className += ' ' + SIZE_CLASS_NAMES[this.props.size];
     }
 
     var placeholder = null;
