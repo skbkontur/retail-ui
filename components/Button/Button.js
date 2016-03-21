@@ -1,8 +1,22 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
+import Upgrades from '../../lib/Upgrades';
+
 import '../ensureOldIEClassName';
 import styles from './Button.less';
+
+const DEPRECATED_SIZE_CLASSES = {
+  default: styles.deprecated_sizeDefault,
+  small: styles.deprecated_sizeDefault, // for new default size
+  large: styles.deprecated_sizeLarge,
+};
+
+const SIZE_CLASSES = {
+  small: styles.sizeSmall,
+  medium: styles.sizeMedium,
+  large: styles.sizeLarge,
+};
 
 class Button extends React.Component {
   static propTypes = {
@@ -26,7 +40,7 @@ class Button extends React.Component {
 
     narrow: PropTypes.bool,
 
-    size: PropTypes.oneOf(['default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
@@ -38,7 +52,7 @@ class Button extends React.Component {
 
   static defaultProps = {
     use: 'default',
-    size: 'default',
+    size: 'small',
     type: 'button',
   };
 
@@ -54,7 +68,8 @@ class Button extends React.Component {
         [styles.active]: this.props.active,
         [styles.disabled]: this.props.disabled,
         [styles.narrow]: this.props.narrow,
-        [styles.sizeLarge]: this.props.size === 'large',
+
+        ...this._getSizeClassMap(),
       }),
       style: {},
       disabled: this.props.disabled,
@@ -67,6 +82,18 @@ class Button extends React.Component {
     return (
       <button {...rootProps}>{this.props.children}</button>
     );
+  }
+
+  _getSizeClassMap() {
+    if (!Upgrades.__height34) {
+      return {
+        [DEPRECATED_SIZE_CLASSES[this.props.size]]: true,
+      };
+    }
+
+    return {
+      [SIZE_CLASSES[this.props.size]]: true,
+    };
   }
 }
 
