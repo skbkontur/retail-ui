@@ -67,14 +67,16 @@ export default class AddressModal extends React.Component {
     );
   }
 
-  createFieldProps(field: string, parents: Array<string>, level: string): FieldProps {
+  createFieldProps(field: string,
+    parents: Array<string>,
+    level: string): FieldProps {
     return {
       source: this.createSource(field, parents, level),
       onChange: this.createHandler(field),
       renderItem: renderValueOrItem,
       renderValue: renderValueOrItem,
-      recover: recover,
-    }
+      recover,
+    };
   }
 
   createHandler(place: string): HandlerFunction {
@@ -83,17 +85,19 @@ export default class AddressModal extends React.Component {
         address: {
           ...this.state.address,
           [place]: value,
-        }
+        },
       });
 
       this.updateIndex();
-    }
+    };
   }
 
-  createSource(field: string, parents: Array<string>, level: string): SourceFunction {
+  createSource(field: string,
+    parents: Array<string>,
+    level: string): SourceFunction {
     return (searchText) => {
       let parentCode = null;
-      for (let parentName of parents) {
+      for (const parentName of parents) {
         const parent = this.state.address[parentName];
         if (parent && parent.code) {
           parentCode = parent.code;
@@ -101,29 +105,29 @@ export default class AddressModal extends React.Component {
       }
 
       return search(searchText, `[${level}]`, parentCode).then((values) => ({
-        values: values.map(address => address[field]),
+        values: values.map((address) => address[field]),
       }));
     };
   }
 
-  updateIndex(){
+  updateIndex() {
     let code = null;
     const house = this.state.address.house;
 
-    for (let place of PLACES) {
+    for (const place of PLACES) {
       const currentPlace = this.state.address[place];
       if (currentPlace && currentPlace.code) {
         code = currentPlace.code;
       }
     }
 
-    code && searchIndex(code, house).then(index => {
+    code && searchIndex(code, house).then((index) => {
       this.setState({
         address: {
           ...this.state.address,
-          index
-        }
-      })
+          index,
+        },
+      });
     });
   }
 
@@ -156,7 +160,9 @@ export default class AddressModal extends React.Component {
         <div className={styles.row}>
           <div className={styles.label}>Регион</div>
           <div className={styles.field}>
-            <ComboBox value={this.state.address.region} {...this._regionProps} />
+            <ComboBox value={this.state.address.region}
+              {...this._regionProps}
+            />
           </div>
         </div>
         <div className={styles.row}>
@@ -172,7 +178,7 @@ export default class AddressModal extends React.Component {
           <div className={styles.field}>
             <ComboBox value={this.state.address.city}
               {...this._cityProps}
-              />
+            />
           </div>
         </div>
         <div className={styles.row}>
@@ -180,7 +186,7 @@ export default class AddressModal extends React.Component {
           <div className={styles.field}>
             <ComboBox value={this.state.address.settlement}
               {...this._settlementProps}
-              />
+            />
           </div>
         </div>
         <div className={styles.row}>
