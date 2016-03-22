@@ -9,7 +9,7 @@ import Input from '../Input';
 import Modal from '../Modal';
 import Select from '../Select';
 
-import {search} from './KladrAPI';
+import {search, searchIndex} from './KladrAPI';
 import type {Address, PlaceDescription} from './Types';
 
 import styles from './AddressModal.less';
@@ -32,6 +32,8 @@ type FieldProps = {
   renderValue: Function,
   recover: Function,
 }
+
+const PLACES = ['region', 'district', 'city', 'settlement', 'street'];
 
 export default class AddressModal extends React.Component {
   props: Props;
@@ -82,7 +84,9 @@ export default class AddressModal extends React.Component {
           ...this.state.address,
           [place]: value,
         }
-      })
+      });
+
+      this.updateIndex();
     }
   }
 
@@ -93,7 +97,6 @@ export default class AddressModal extends React.Component {
         const parent = this.state.address[parentName];
         if (parent && parent.code) {
           parentCode = parent.code;
-          break;
         }
       }
 
@@ -101,6 +104,27 @@ export default class AddressModal extends React.Component {
         values: values.map(address => address[field]),
       }));
     };
+  }
+
+  updateIndex(){
+    let code = null;
+    const house = this.state.address.house;
+
+    for (let place of PLACES) {
+      const currentPlace = this.state.address[place];
+      if (currentPlace && currentPlace.code) {
+        code = currentPlace.code;
+      }
+    }
+
+    code && searchIndex(code, house).then(index => {
+      this.setState({
+        address: {
+          ...this.state.address,
+          index
+        }
+      })
+    });
   }
 
   render() {
@@ -126,7 +150,7 @@ export default class AddressModal extends React.Component {
         <div className={styles.row}>
           <div className={styles.label}>Индекс</div>
           <div className={styles.field}>
-            <Input width="100%" />
+            <Input width="100%" value={this.state.address.index}/>
           </div>
         </div>
         <div className={styles.row}>

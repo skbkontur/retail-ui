@@ -16,6 +16,16 @@ export function search(searchText: string, levels: string, parentCode: string) {
     .then(json => toJS(json));
 }
 
+export function searchIndex(code: string, house: ?string) {
+  const data = createQuery({
+    code,
+    house: house || '',
+  });
+
+  return fetch(`${kladrUrl}kladr/index?${data}`)
+    .then(response => response.text());
+}
+
 function createQuery(data){
   let params = [];
   for (const key in data) {
