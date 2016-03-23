@@ -239,7 +239,7 @@ class ComboBox extends React.Component {
               return (
                 <div key={i} ref={(el) => this._refItem(el, i)}
                   className={className}
-                  onMouseDown={(e) => this._handleItemClick(e, value)}
+                  onMouseDown={(e) => this._handleItemClick(e, value, info)}
                   onMouseEnter={(e) => this.setState({selected: i})}
                   onMouseLeave={(e) => this.setState({selected: -1})}
                 >
@@ -323,10 +323,11 @@ class ComboBox extends React.Component {
           this._focus();
         });
 
-        const value = this.state.result &&
-          this.state.result.values[this.state.selected];
+        const {result, selected} = this.state;
+        const value = result && result.values[selected];
+        const info = result && result.infos && result.infos[selected];
         if (value) {
-          this._change(value);
+          this._change(value, info);
         } else {
           this._tryRecover();
         }
@@ -401,13 +402,13 @@ class ComboBox extends React.Component {
     }
   };
 
-  _handleItemClick(event: MouseEvent, value: Value) {
+  _handleItemClick(event: MouseEvent, value: Value, info: Info) {
     if (event.button !== 0) {
       return;
     }
 
     this._close();
-    this._change(value);
+    this._change(value, info);
     this._focusAsync();
   }
 
@@ -509,13 +510,13 @@ class ComboBox extends React.Component {
     }
   }
 
-  _change(value: Value) {
+  _change(value: Value, info?: Info) {
     if (this.props.value === undefined) {
       this.setState({value});
       this._resetItem(value);
     }
     if (this.props.onChange) {
-      this.props.onChange({target: {value}}, value);
+      this.props.onChange({target: {value}}, value, info);
     }
   }
 
