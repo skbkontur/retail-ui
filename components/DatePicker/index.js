@@ -1,1 +1,2 @@
-module.exports = require('./DatePicker.jsx');
+import DatePicker from './DatePicker';
+module.exports = DatePicker;

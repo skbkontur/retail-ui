@@ -12,6 +12,10 @@ class DateSelect extends React.Component {
   static propTypes = {
     type: PropTypes.string,
 
+    minYear: PropTypes.number,
+
+    maxYear: PropTypes.number,
+
     value: PropTypes.number.isRequired,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -21,6 +25,8 @@ class DateSelect extends React.Component {
 
   static defaultProps = {
     type: 'year',
+    minYear: 1900,
+    maxYear: 2100,
     width: 'auto',
   };
 
@@ -254,7 +260,7 @@ class DateSelect extends React.Component {
     if (this.props.type === 'month') {
       return -this.props.value * HEIGHT;
     } else if (this.props.type === 'year') {
-      return (1900 - this.props.value) * HEIGHT;
+      return (this.props.minYear - this.props.value) * HEIGHT;
     }
   }
 
@@ -262,9 +268,9 @@ class DateSelect extends React.Component {
     if (this.props.type === 'month') {
       return (11 - this.props.value) * HEIGHT;
     } else if (this.props.type === 'year') {
-      return (2100 - this.props.value) * HEIGHT;
+      return (this.props.maxYear - this.props.value) * HEIGHT;
     }
   }
 }
 
-module.exports = DateSelect;
+export default DateSelect;

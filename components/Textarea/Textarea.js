@@ -15,6 +15,9 @@ const PASS_PROPS = {
   rows: true,
   title: true,
   value: true,
+
+  onFocus: true,
+  onBlur: true,
 };
 
 class Textarea extends React.Component {
@@ -44,6 +47,10 @@ class Textarea extends React.Component {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onChange: PropTypes.func,
+
+    onFocus: PropTypes.func,
+    
+    onBlur: PropTypes.func,
   };
 
   static defaultProps = {
@@ -78,4 +85,4 @@ class Textarea extends React.Component {
   };
 }
 
-module.exports = Textarea;
+export default Textarea;

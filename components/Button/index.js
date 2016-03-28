@@ -1,1 +1,2 @@
-module.exports = require('./Button.jsx');
+import Button from './Button';
+module.exports = Button;

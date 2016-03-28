@@ -162,6 +162,7 @@ ScrollContainer.propTypes = {
 
 function measureScrollWidth() {
   const div = document.createElement('div');
+  div.innerHTML = 'a'; // In IE clientWidth is 0 if this div is empty.
   div.style.overflowY = 'scroll';
   document.body.appendChild(div);
   const ret = div.offsetWidth - div.clientWidth;

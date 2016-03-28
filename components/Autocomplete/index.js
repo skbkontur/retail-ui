@@ -1,1 +1,2 @@
-module.exports = require('./Autocomplete.jsx');
+import Autocomplete from './Autocomplete';
+module.exports = Autocomplete;

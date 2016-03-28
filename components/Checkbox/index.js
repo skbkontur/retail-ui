@@ -1,1 +1,2 @@
-module.exports = require('./Checkbox.jsx');
+import Checkbox from './Checkbox';
+module.exports = Checkbox;

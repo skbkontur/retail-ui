@@ -2,7 +2,7 @@ import events from 'add-event-listener';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Calendar from './Calendar.jsx';
+import Calendar from './Calendar';
 import DateSelect from '../DateSelect';
 import Gapped from '../Gapped';
 
@@ -27,6 +27,7 @@ class Picker extends React.Component {
               width={100} onChange={this.handleMonthChange}
             />
             <DateSelect type="year" value={this.state.date.getFullYear()}
+              minYear={this.props.minYear} maxYear={this.props.maxYear}
               width={70} onChange={this.handleYearChange}
             />
           </Gapped>
@@ -90,4 +91,4 @@ function isDetached(element) {
   return true;
 }
 
-module.exports = Picker;
+export default Picker;

@@ -3,7 +3,9 @@ import React, {PropTypes} from 'react';
 
 import addClass from '../../lib/dom/addClass';
 import Center from '../Center';
+import LayoutEvents from '../../lib/LayoutEvents';
 import removeClass from '../../lib/dom/removeClass';
+import RenderContainer from '../RenderContainer';
 import stopPropagation from '../../lib/events/stopPropagation';
 
 import styles from './Modal.less';
@@ -29,6 +31,14 @@ class Modal extends React.Component {
     onClose: PropTypes.func,
   };
 
+  static childContextTypes = {
+    rt_inModal: PropTypes.bool,
+  };
+
+  getChildContext() {
+    return {rt_inModal: true};
+  }
+
   constructor(props, context) {
     super(props, context);
   }
@@ -51,17 +61,19 @@ class Modal extends React.Component {
     }
 
     return (
-      <div className={styles.root}>
-        <div className={styles.bg} />
-        <Center className={styles.container}
-          onClick={this._handleCotanierClick}
-        >
-          <div className={styles.window} style={style}>
-            {close}
-            {this.props.children}
-          </div>
-        </Center>
-      </div>
+      <RenderContainer>
+        <div className={styles.root}>
+          <div className={styles.bg} />
+          <Center className={styles.container}
+            onClick={this._handleCotanierClick}
+          >
+            <div className={styles.window} style={style}>
+              {close}
+              {this.props.children}
+            </div>
+          </Center>
+        </div>
+      </RenderContainer>
     );
   }
 
@@ -70,6 +82,7 @@ class Modal extends React.Component {
 
     if (mountedModalsCount === 0) {
       addClass(document.body, styles.bodyClass);
+      LayoutEvents.emit();
     }
     mountedModalsCount++;
   }
@@ -79,6 +92,7 @@ class Modal extends React.Component {
 
     if (--mountedModalsCount === 0) {
       removeClass(document.body, styles.bodyClass);
+      LayoutEvents.emit();
     }
   }
 

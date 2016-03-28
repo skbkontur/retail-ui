@@ -28,6 +28,8 @@ class Select extends React.Component {
 
     defaultValue: PropTypes.any,
 
+    disabled: PropTypes.bool,
+
     /**
      * Показывать строку поиска в списке.
      */
@@ -36,6 +38,11 @@ class Select extends React.Component {
     placeholder: PropTypes.node,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+    /**
+     * Визуально показать наличие ошибки.
+     */
+    error: PropTypes.bool,
 
     /**
      * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
@@ -92,12 +99,17 @@ class Select extends React.Component {
       );
     }
 
+    const focusable = !(this.state.opened && this.props.search) &&
+      !this.props.disabled;
+
     var rootProps = {
       className: classNames({
         [styles.root]: true,
         [styles.isOpened]: this.state.opened,
+        [styles.error]: this.props.error,
+        [styles.disabled]: this.props.disabled,
       }),
-      tabIndex: (this.state.opened && this.props.search) ? '-1' : '0',
+      tabIndex: focusable ? '0' : '-1',
       onKeyDown: this.handleKey,
     };
     if (this.props.width) {
@@ -120,7 +132,7 @@ class Select extends React.Component {
           <span className={styles.labelText}>{label}</span>
           <div className={styles.arrow} />
         </span>
-        {this.state.opened && this.renderMenu()}
+        {!this.props.disabled && this.state.opened && this.renderMenu()}
       </span>
     );
   }
@@ -353,4 +365,4 @@ function filterItem(value, item, pattern) {
   return item.toLowerCase().indexOf(pattern) !== -1;
 }
 
-module.exports = Select;
+export default Select;

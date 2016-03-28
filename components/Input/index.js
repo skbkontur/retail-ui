@@ -1,1 +1,2 @@
-module.exports = require('./Input.jsx');
+import Input from './Input';
+module.exports = Input;

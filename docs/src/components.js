@@ -2,13 +2,13 @@ module.exports = [
   {
     name: 'Autocomplete',
     component: require('ui/Autocomplete'),
-    info: require('!docgen!ui/Autocomplete/Autocomplete.jsx'),
+    info: require('!docgen!ui/Autocomplete/Autocomplete.js'),
     src: require('!raw!./snippets/Autocomplete.jsx'),
   },
   {
     name: 'Button',
     component: require('ui/Button'),
-    info: require('!docgen!ui/Button/Button.jsx'),
+    info: require('!docgen!ui/Button/Button.js'),
     src: require('!raw!./snippets/Button.jsx'),
   },
   {
@@ -20,19 +20,25 @@ module.exports = [
   {
     name: 'Checkbox',
     component: require('ui/Checkbox'),
-    info: require('!docgen!ui/Checkbox/Checkbox.jsx'),
+    info: require('!docgen!ui/Checkbox/Checkbox.js'),
     src: require('!raw!./snippets/Checkbox.jsx'),
+  },
+  {
+    name: 'ComboBox',
+    component: require('ui/ComboBox'),
+    info: require('!docgen!ui/ComboBox/ComboBox.js'),
+    src: require('!raw!./snippets/ComboBox.jsx'),
   },
   {
     name: 'DatePicker',
     component: require('ui/DatePicker'),
-    info: require('!docgen!ui/DatePicker/DatePicker.jsx'),
+    info: require('!docgen!ui/DatePicker/DatePicker.js'),
     src: require('!raw!./snippets/DatePicker.jsx'),
   },
   {
     name: 'Dropdown',
     component: require('ui/Dropdown'),
-    info: require('!docgen!ui/Dropdown/Dropdown'),
+    info: require('!docgen!ui/Dropdown/Dropdown.js'),
     src: require('!raw!./snippets/Dropdown.jsx'),
   },
   {
@@ -44,7 +50,7 @@ module.exports = [
   {
     name: 'Gapped',
     component: require('ui/Gapped'),
-    info: require('!docgen!ui/Gapped/Gapped.jsx'),
+    info: require('!docgen!ui/Gapped/Gapped.js'),
     src: require('!raw!./snippets/Gapped.jsx'),
   },
   {
@@ -62,13 +68,13 @@ module.exports = [
   {
     name: 'Input',
     component: require('ui/Input'),
-    info: require('!docgen!ui/Input/Input.jsx'),
+    info: require('!docgen!ui/Input/Input.js'),
     src: require('!raw!./snippets/Input.jsx'),
   },
   {
     name: 'Link',
     component: require('ui/Link'),
-    info: require('!docgen!ui/Link/Link.jsx'),
+    info: require('!docgen!ui/Link/Link.js'),
     src: require('!raw!./snippets/Link.jsx'),
   },
   {
@@ -86,7 +92,7 @@ module.exports = [
   {
     name: 'Modal',
     component: require('ui/Modal'),
-    info: require('!docgen!ui/Modal/Modal.jsx'),
+    info: require('!docgen!ui/Modal/Modal.js'),
     src: require('!raw!./snippets/Modal.jsx'),
   },
   {
@@ -98,7 +104,7 @@ module.exports = [
   {
     name: 'RadioGroup',
     component: require('ui/RadioGroup'),
-    info: require('!docgen!ui/RadioGroup/RadioGroup.jsx'),
+    info: require('!docgen!ui/RadioGroup/RadioGroup.js'),
     src: require('!raw!./snippets/RadioGroup.jsx'),
   },
   {
@@ -110,13 +116,13 @@ module.exports = [
   {
     name: 'SearchSelect',
     component: require('ui/SearchSelect'),
-    info: require('!docgen!ui/SearchSelect/SearchSelect.jsx'),
+    info: require('!docgen!ui/SearchSelect/SearchSelect.js'),
     src: require('!raw!./snippets/SearchSelect.jsx'),
   },
   {
     name: 'Select',
     component: require('ui/Select'),
-    info: require('!docgen!ui/Select/Select.jsx'),
+    info: require('!docgen!ui/Select/Select.js'),
     src: require('!raw!./snippets/Select.jsx'),
   },
   {
@@ -134,13 +140,13 @@ module.exports = [
   {
     name: 'Textarea',
     component: require('ui/Textarea'),
-    info: require('!docgen!ui/Textarea/Textarea.jsx'),
+    info: require('!docgen!ui/Textarea/Textarea.js'),
     src: require('!raw!./snippets/Textarea.jsx'),
   },
   {
     name: 'Tooltip',
     component: require('ui/Tooltip'),
-    info: require('!docgen!ui/Tooltip/Tooltip.jsx'),
+    info: require('!docgen!ui/Tooltip/Tooltip.js'),
     src: require('!raw!./snippets/Tooltip.jsx'),
   },
   {

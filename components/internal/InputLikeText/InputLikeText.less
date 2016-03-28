@@ -1,3 +1,5 @@
+@import '../../variables.less';
+
 :local {
   .root {
     border: 1px solid #d9d9d9;
@@ -24,5 +26,31 @@
     outline: 0;
     position: relative;
     z-index: 2;
+  }
+
+  .warning {
+    border-color: @border-color-warning;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px @border-color-warning;
+    position: relative;
+    z-index: 2;
+  }
+
+  .error {
+    border-color: @border-color-error;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px @border-color-error;
+    position: relative;
+    z-index: 2;
+  }
+
+  :global(.rt-ie8) {
+    .warning {
+      outline: 1px solid @border-color-warning;
+    }
+
+    .error {
+      outline: 1px solid @border-color-error;
+    }
   }
 }

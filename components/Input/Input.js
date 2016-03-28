@@ -55,6 +55,11 @@ class Input extends React.Component {
     error: PropTypes.bool,
 
     /**
+     * Визуально показать наличие предупреждения.
+     */
+    warning: PropTypes.bool,
+
+    /**
      * Иконка слева инпута.
      */
     leftIcon: PropTypes.element,
@@ -122,6 +127,7 @@ class Input extends React.Component {
         [styles.borderless]: this.props.borderless,
         [styles.disabled]: this.props.disabled,
         [styles.error]: this.props.error,
+        [styles.warning]: this.props.warning,
         [styles.padLeft]: this.props.leftIcon,
         [styles.padRight]: this.props.rightIcon,
         [styles.sizeSmall]: this.props.size === 'small',
@@ -169,7 +175,7 @@ class Input extends React.Component {
       input = (
         <MaskedInput {...inputProps} mask={this.props.mask}
           maskChar={this.props.maskChar || '_'}
-          showEmptyMask={this.props.alwaysShowMask}
+          alwaysShowMask={this.props.alwaysShowMask}
         />
       );
     } else {
@@ -227,4 +233,4 @@ class Input extends React.Component {
   }
 }
 
-module.exports = Input;
+export default Input;

@@ -1,1 +1,2 @@
-module.exports = require('./Select.jsx');
+import Select from './Select';
+module.exports = Select;

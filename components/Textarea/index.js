@@ -1,1 +1,2 @@
-module.exports = require('./Textarea.jsx');
+import Textarea from './Textarea';
+module.exports = Textarea;

@@ -1,1 +1,2 @@
-module.exports = require('./Link.jsx');
+import Link from './Link';
+module.exports = Link;

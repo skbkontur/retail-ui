@@ -1,1 +1,2 @@
-module.exports = require('./SearchSelect.jsx');
+import SearchSelect from './SearchSelect';
+module.exports = SearchSelect;

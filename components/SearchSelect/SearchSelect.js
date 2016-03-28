@@ -3,6 +3,7 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
+import warning from 'warning';
 
 import filterProps from '../filterProps';
 
@@ -14,10 +15,35 @@ const INPUT_PASS_PROPS = {
   width: true,
 };
 
-type Props = any;
+type Value = any;
+type Data = any;
+
+type Props = {
+  value: ?Value,
+  disabled?: bool,
+  placeholder?: string,
+  source: (searchString: string) => Promise<Array<Data>>,
+  loader: {load: (id: Value) => Promise<Data>},
+  getValue: (data: Data) => Value,
+  renderValue: (value: Value, data: ?Data) => any,
+  renderItem: (value: Value, data: Data) => any,
+  width: (number | string),
+  onChange: (event: {target: {value: Value}}, value: Value) => void,
+};
+
+type State = {
+  opened: bool,
+  searchText: string,
+  value: any,
+  item: any,
+  results: ?Array<Data>,
+  selected: number,
+};
+
+warning(false, 'Component SearchSelect is deprecated use ComboBox instead.');
 
 /**
- * DRAFT
+ * DEPRECATED. Use ComboBox instead.
  */
 class SearchSelect extends React.Component {
   static propTypes = {
@@ -52,14 +78,8 @@ class SearchSelect extends React.Component {
     width: 250,
   };
 
-  state: {
-    opened: bool,
-    searchText: string,
-    value: any,
-    item: any,
-    results: ?Array<any>,
-    selected: number,
-  };
+  props: Props;
+  state: State;
 
   _focusable: ?HTMLElement;
 
@@ -123,7 +143,7 @@ class SearchSelect extends React.Component {
         value = <i>Загрузка</i>;
       }
     } else {
-      value = this.props.renderValue(this.state.value);
+      value = this.props.renderValue(this.state.value, null);
     }
 
     return (
@@ -395,4 +415,4 @@ function renderItem(value, item) {
   return item;
 }
 
-module.exports = SearchSelect;
+export default SearchSelect;

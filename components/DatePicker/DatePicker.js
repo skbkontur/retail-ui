@@ -5,7 +5,7 @@ import Button from '../Button';
 import Group from '../Group';
 import Icon from '../Icon';
 import Input from '../Input';
-import Picker from './Picker.jsx';
+import Picker from './Picker';
 
 import styles from './DatePicker.less';
 
@@ -13,9 +13,27 @@ class DatePicker extends React.Component {
   static propTypes = {
     error: PropTypes.bool,
 
+    /**
+     * Минимальный год в селекте для года.
+     */
+    minYear: PropTypes.number,
+
+    /**
+     * Максимальный год в селекте для года.
+     */
+    maxYear: PropTypes.number,
+
     value: PropTypes.instanceOf(Date),
 
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
     onChange: PropTypes.func,
+  };
+
+  static defaultProps = {
+    minYear: 1900,
+    maxYear: 2100,
+    width: 120,
   };
 
   constructor(props, context) {
@@ -35,8 +53,9 @@ class DatePicker extends React.Component {
     if (this.state.opened) {
       picker = (
         <div className={styles.picker} onKeyDown={this.handlePickerKey}>
-          <Picker value={this.state.value} onPick={this.handlePick}
-            onClose={this.handlePickerClose}
+          <Picker value={this.state.value}
+            minYear={this.props.minYear} maxYear={this.props.maxYear}
+            onPick={this.handlePick} onClose={this.handlePickerClose}
           />
         </div>
       );
@@ -46,8 +65,8 @@ class DatePicker extends React.Component {
       [this.props.className || '']: true,
     });
     return (
-      <span className={className}>
-        <Group width={120}>
+      <span className={className} style={{width: this.props.width}}>
+        <Group width="100%">
           <Input ref="input" mainInGroup value={this.state.textValue}
             maxLength="10" placeholder="дд.мм.гггг"
             onChange={this.handleChange} onBlur={this.handleBlur}
@@ -156,13 +175,9 @@ function formatDate(date) {
 
 function parseDate(str) {
   str = str || '';
-  const match = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+  const match = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})$/);
   if (match) {
-    const date = new Date(0);
-    date.setFullYear(parseInt(match[3], 10));
-    date.setMonth(parseInt(match[2], 10) - 1);
-    date.setDate(parseInt(match[1], 10));
-    return date;
+    return checkDate(new Date(`${match[2]}-${match[1]}-${match[3]} UTC`));
   }
   return null;
 }
@@ -175,4 +190,4 @@ function formatNumber(value) {
   return ret;
 }
 
-module.exports = DatePicker;
+export default DatePicker;
