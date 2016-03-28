@@ -1,4 +1,4 @@
-const {Left, Right, Item, Divider, Logo, ButtonItem} = TopBar
+const {Left, Right, Item, Divider} = TopBar
 
 const pageStyle = {
   background: '#e6e6e6',
@@ -15,27 +15,21 @@ const contentStyle = {
 
 ReactDOM.render(
   <div style={pageStyle}>
-    <TopBar>
+    <TopBar userName="Alexander The Great" suffix="ui">
       <Left>
-        <Logo suffix="ui" color="#0097A7"/>
-        <Divider />
-        <ButtonItem iconOnly>
-          <Icon color="#aaa" size={20} name="angle-bottom"/>
-        </ButtonItem>
+        <Item>
+          Hello
+        </Item>
       </Left>
       <Right>
         <Item>
-          <Icon color="#666" name="user" /> Alexander The Great
+          World
         </Item>
-        <Divider />
-        <ButtonItem onClick={() => alert('Logout')}>
-          Logout
-        </ButtonItem>
       </Right>
     </TopBar>
     <Loader active caption="neverending...">
       <div style={contentStyle} />
     </Loader>
   </div>,
-mountNode
+  mountNode
 )
