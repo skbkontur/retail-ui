@@ -1,10 +1,25 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Children} from 'react';
 import cx from 'classnames';
 
 import Center from 'ui/Center';
 import Logotype from 'ui/Logotype';
+import Icon from 'ui/Icon';
 
 import styles from './TopBar.less';
+
+type Props = {
+  children?: React.Component | React.Component[] | string | string[],
+  maxWidth?: string | number,
+  noShadow?: boolean,
+  noMargin?: boolean,
+  suffix: string,
+  color?: string,
+  userName: string,
+}
+
+type DefaultProps = {
+  maxWidth: string | number
+}
 
 /**
  * __DRAFT__
@@ -26,20 +41,91 @@ import styles from './TopBar.less';
  * `Divider()` – разделитель
  *
  **/
-const TopBar = ({children, maxWidth, noShadow, noMargin}) => (
-  <div
-    className={cx(styles.root, {
-      [styles.noShadow]: noShadow,
-      [styles.noMargin]: noMargin,
-    })}
-  >
-    <div className={styles.center} style={{maxWidth}}>
-      <div className={styles.container}>
-        {children}
+class TopBar extends React.Component {
+
+  props: Props;
+  defaultProps: DefaultProps;
+  renderLeftItems : () => React.Component[];
+  renderRightItems : () =>  React.Component[];
+
+  constructor(props: Props) {
+    super(props);
+
+    this.defaultProps = {
+      maxWidth: 1166,
+    };
+
+  }
+
+  static Divider = Divider;
+
+  static Left = Left;
+
+  static Right = Right;
+
+  static Item = ButtonItem;
+
+  renderLeftItems = () => {
+    const {children} = this.props;
+    if (children) {
+      return Children.toArray(children).filter((item) => item === Left);
+    }
+    return null;
+  };
+
+  renderRightItems = () => {
+    const {children} = this.props;
+    if (children) {
+      return Children.toArray(children).filter((item) => item === Right);
+    }
+    return null;
+  };
+
+  render() {
+
+    const {
+      maxWidth,
+      noShadow,
+      noMargin,
+      suffix,
+      color,
+      userName,
+    } = this.props;
+
+    return (
+      <div
+        className={cx(styles.root, {
+          [styles.noShadow]: noShadow,
+          [styles.noMargin]: noMargin,
+        })}
+      >
+        <div className={styles.center} style={{maxWidth}}>
+          <div className={styles.container}>
+            <Left>
+              <Logo suffix={suffix} color={color}/>
+              <Divider />
+              <ButtonItem iconOnly>
+                <Icon color="#aaa" size={20} name="angle-bottom"/>
+              </ButtonItem>
+              {this.renderLeftItems()}
+            </Left>
+
+            <Right>
+              {this.renderRightItems()}
+              <Item>
+                <Icon color="#666" name="user" /> {userName}
+              </Item>
+              <Divider />
+              <ButtonItem onClick={() => alert('Logout')}>
+                Logout
+              </ButtonItem>
+            </Right>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-);
+    );
+  }
+}
 
 TopBar.propTypes = {
   /**
@@ -59,22 +145,30 @@ TopBar.propTypes = {
   maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
   children: PropTypes.node,
+
+  /**
+   * Суффикс логотипа
+   **/
+  suffix: PropTypes.string.isRequired,
+
+  /**
+   * Цвет логотипа
+   **/
+  color: PropTypes.string,
+
+  /**
+   * Имя пользователя
+   **/
+  userName: PropTypes.string,
 };
 
-TopBar.defaultProps = {
-  maxWidth: 1166,
-};
-
-
-TopBar.Left = ({children}) =>
+const Left = ({children}) =>
   <div className={styles.left}>{children}</div>;
 
-
-TopBar.Right = ({children}) =>
+const Right = ({children}) =>
   <div className={styles.right}>{children}</div>;
 
-
-TopBar.Item = ({children, _onClick, className, iconOnly}) =>
+const Item = ({children, _onClick, className, iconOnly}) =>
   <div
     className={cx(styles.block, {
       [className]: className,
@@ -88,19 +182,17 @@ TopBar.Item = ({children, _onClick, className, iconOnly}) =>
   </div>;
 
 
-TopBar.Divider = () =>
+const Divider = () =>
   <span className={styles.divider} />;
 
-
-TopBar.Logo = ({suffix, color}) =>
-  <TopBar.Item>
+const Logo = ({suffix, color}) =>
+  <Item>
     <Logotype suffix={suffix} color={color}/>
-  </TopBar.Item>;
+  </Item>;
 
-
-TopBar.ButtonItem = ({onClick, children, iconOnly}) =>
-  <TopBar.Item className={styles.button} _onClick={onClick} iconOnly={iconOnly}>
+const ButtonItem = ({onClick, children, iconOnly}) =>
+  <Item className={styles.button} _onClick={onClick} iconOnly={iconOnly}>
     {children}
-  </TopBar.Item>;
+  </Item>;
 
 module.exports = TopBar;
