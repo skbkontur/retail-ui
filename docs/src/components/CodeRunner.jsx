@@ -6,27 +6,37 @@ import __components from '../components';
 
 import styles from './CodeRunner.less';
 
-var __header = __components.map((component, i) => {
-  return `var ${component.name} = __components[${i}].component;`;
-}).join('\n') + '\n';
-
 function run(src, mountNode) {
   try {
-    evalCode(__header + src, mountNode);
+    evalCode(src, mountNode);
   } catch (ex) {
-    const error = ex.toString();
-    if ('textContent' in mountNode) {
-      mountNode.textContent = error;
-    } else {
-      mountNode.innerText = error;
-    }
+    console.error(ex);
+
+    ReactDOM.render(<div>{ex.toString()}</div>, mountNode);
   }
 }
 
+const __vars = {
+  React,
+  ReactDOM,
+};
+for (const component of __components) {
+  __vars[component.name] = component.component;
+}
+
 function evalCode(_src, mountNode) {
-  eval(reactTools.transform(_src, { // eslint-disable-line no-eval
+  let code = '';
+  for (const name in __vars) {
+    if (__vars.hasOwnProperty(name)) {
+      code += `var ${name} = __vars.${name};`;
+    }
+  }
+
+  code += reactTools.transform(_src, {
     harmony: true,
-  }));
+  });
+
+  eval(`(function(__vars) { ${code} })`)(__vars); // eslint-disable-line no-eval
 }
 
 var CodeRunner = React.createClass({
@@ -44,7 +54,7 @@ var CodeRunner = React.createClass({
 
   componentWillUnmount() {
     ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this));
-  }
+  },
 });
 
 export default CodeRunner;
