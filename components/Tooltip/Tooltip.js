@@ -54,6 +54,8 @@ class Tooltip extends React.Component {
   _hotspotDOM: ?HTMLElement;
   _boxDOM: ?HTMLElement;
   _lastRef: ((el: ?React.Element) => void) | string | null;
+  _lastOnFocus: ((event: any) => void) | null;
+  _lastOnBlur: ((event: any) => void) | null;
 
   constructor(props: Props, context: any) {
     super(props, context);
@@ -65,6 +67,8 @@ class Tooltip extends React.Component {
     this._hotspotDOM = null;
     this._boxDOM = null;
     this._lastRef = null;
+    this._lastOnFocus = null;
+    this._lastOnBlur = null;
   }
 
   render() {
@@ -86,11 +90,17 @@ class Tooltip extends React.Component {
 
     let child = this.props.children;
     this._lastRef = null;
+    this._lastOnFocus = null;
+    this._lastOnBlur = null;
     if (typeof child === 'string') {
       child = <span {...childProps}>{child}</span>;
     } else {
       const onlyChild = React.Children.only(child);
       this._lastRef = onlyChild.ref;
+      if (onlyChild.props) {
+        this._lastOnFocus = onlyChild.props.onFocus;
+        this._lastOnBlur = onlyChild.props.onBlur;
+      }
       child = React.cloneElement(onlyChild, childProps);
     }
 
@@ -173,13 +183,23 @@ class Tooltip extends React.Component {
   };
 
   // $FlowIssue 850
-  _handleFocus = () => {
+  _handleFocus = event => {
     this._setOpened(true);
+
+    const onFocus = this._lastOnFocus;
+    if (onFocus) {
+      onFocus(event);
+    }
   };
 
   // $FlowIssue 850
-  _handleBlur = () => {
+  _handleBlur = event => {
     this._setOpened(false);
+
+    const onBlur = this._lastOnBlur;
+    if (onBlur) {
+      onBlur(event);
+    }
   };
 
   _setOpened(opened: bool) {
