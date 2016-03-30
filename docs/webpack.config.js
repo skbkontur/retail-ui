@@ -8,7 +8,7 @@ module.exports = {
   entry: './showcase',
   output: {
     path: path.join(__dirname, 'dist'),
-    publicPath: '/dist/',
+    publicPath: '/react-ui/dist/',
     filename: 'showcase.js',
   },
   module: {

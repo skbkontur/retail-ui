@@ -4,9 +4,7 @@
   "scripts": {
     "test": "jest",
     "start": "webpack-dev-server -w -d",
-    "build": "webpack -p --progress --colors",
-    "deploy": "rsync -r index.html dist root@vm-react-ui:/usr/share/nginx/html",
-    "publish": "npm run build && npm run deploy"
+    "build": "webpack -p --progress --colors"
   },
   "devDependencies": {
     "babel-loader": "^6.2.1",
