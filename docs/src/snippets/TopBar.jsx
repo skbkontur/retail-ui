@@ -15,17 +15,16 @@ const contentStyle = {
 
 ReactDOM.render(
   <div style={pageStyle}>
-    <TopBar userName="Alexander The Great" suffix="ui">
+    <TopBar
+      userName="Alexander The Great"
+      suffix="ui"
+      logout={() => alert('Logout!')}
+    >
       <Left>
         <Item>
-          Hello
+          <Icon name="child" color="#666"/>
         </Item>
       </Left>
-      <Right>
-        <Item>
-          World
-        </Item>
-      </Right>
     </TopBar>
     <Loader active caption="neverending...">
       <div style={contentStyle} />
