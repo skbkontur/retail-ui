@@ -1,16 +1,24 @@
 import ReactDOM from 'react-dom';
 
 const PASS_TO_KEY = Symbol('passTo');
+const DATA_RENDER_CONTAINER_ID = 'data-render-container-id';
 
 const map = {};
+const renderContainers = {};
+
 let lastID = 0;
 
 function ref(tid) {
   const id = ++lastID;
   return function(el) {
     if (el) {
-      const node = ReactDOM.findDOMNode(el);
+      let node = ReactDOM.findDOMNode(el);
       if (node) {
+        if (node.hasAttribute(DATA_RENDER_CONTAINER_ID)) {
+          node = renderContainers[node.getAttribute(DATA_RENDER_CONTAINER_ID)].
+            _domContainer;
+        }
+
         node.setAttribute('tid', tid);
         node.setAttribute('react-testing-id', id);
       }
@@ -27,9 +35,51 @@ function pass(component) {
   }
 }
 
+function addRenderContainer(id, instance) {
+  renderContainers[id] = instance;
+}
+
+function removeRenderContainer(id) {
+  delete renderContainers[id];
+}
+
 function findDOMNodes(path, parentNode = document) {
-  const query = path.split(' ').map((tid) => `[tid="${tid}"]`).join(' ');
-  return parentNode.querySelectorAll(query);
+  return _findDOMNodes(path.split(' '), [parentNode]);
+}
+
+function _findDOMNodes(tokens, parentNodes) {
+  if (tokens.length === 0) {
+    return parentNodes;
+  }
+
+  const token = tokens[0];
+  return parentNodes.reduce((all, parentNode) => {
+    return [
+      ...all,
+      ..._findDOMNodes(tokens.slice(1), queryByTid(parentNode, token)),
+      ..._findDOMNodes(tokens, queryContainers(parentNode)),
+    ];
+  }, []);
+}
+
+function queryByTid(node, tid) {
+  const ret = [];
+
+  if (node.getAttribute('tid') === tid) {
+    ret.push(node);
+  }
+
+  ret.push(...node.querySelectorAll(`[tid="${tid}"]`));
+
+  return ret;
+}
+
+function queryContainers(node) {
+  const links = node.querySelectorAll('[data-render-container-id]');
+  return Array.from(links).map(link => {
+    const id = link.getAttribute(DATA_RENDER_CONTAINER_ID);
+    return renderContainers[id]._domContainer;
+  });
 }
 
 function call(node, method, args = []) {
@@ -51,6 +101,9 @@ function call(node, method, args = []) {
 export default {
   ref,
   pass,
+  addRenderContainer,
+  removeRenderContainer,
+
   findDOMNodes,
   call,
 

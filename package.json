@@ -41,7 +41,8 @@
     "testPathDirs": [
       "<rootDir>/components",
       "<rootDir>/lib",
-      "<rootDir>/scripts"
+      "<rootDir>/scripts",
+      "<rootDir>/testing"
     ],
     "setupFiles": [
       "<rootDir>/node_modules/babel-polyfill"
