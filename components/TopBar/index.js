@@ -1,1 +1,2 @@
-module.exports = require('./TopBar');
+import TopBar from './TopBar';
+module.exports = TopBar;

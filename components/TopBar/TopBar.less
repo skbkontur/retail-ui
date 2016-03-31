@@ -44,9 +44,18 @@
     display: inline-block;
     height: 50px;
     cursor: pointer;
+    position: relative;
 
     &:hover {
       background: rgba(0,0,0,0.06);
+    }
+  }
+  .dropdown {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    a, a:hover {
+      color: #4a4a4a;
     }
   }
   .iconOnly {
