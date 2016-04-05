@@ -46,6 +46,8 @@ class DatePicker extends React.Component {
       textValue: formatDate(props.value),
       opened: false,
     };
+
+    this._focused = false;
   }
 
   render() {
@@ -70,7 +72,7 @@ class DatePicker extends React.Component {
           <Input ref="input" mainInGroup value={this.state.textValue}
             maxLength="10" placeholder="дд.мм.гггг"
             onChange={this.handleChange} onBlur={this.handleBlur}
-            onFocus={this.props.onFocus} error={this.props.error}
+            onFocus={this.handleFocus} error={this.props.error}
           />
           <Button narrow active={this.state.opened} onClick={this.open}>
             <Icon name="calendar" />
@@ -84,10 +86,11 @@ class DatePicker extends React.Component {
   componentWillReceiveProps(newProps) {
     if (newProps.value !== undefined) {
       const date = checkDate(newProps.value);
-      this.setState({
-        value: date,
-        textValue: formatDate(date),
-      });
+      this.setState({value: date});
+
+      if (!this._focused) {
+        this.setState({textValue: formatDate(date)});
+      }
     }
   }
 
@@ -98,7 +101,17 @@ class DatePicker extends React.Component {
     });
   };
 
+  handleFocus = () => {
+    this._focused = true;
+
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
+  };
+
   handleBlur = () => {
+    this._focused = false;
+
     const date = parseDate(this.state.textValue);
     if (this.props.value === undefined) {
       this.setState({
