@@ -190,7 +190,17 @@ function parseDate(str) {
   str = str || '';
   const match = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})$/);
   if (match) {
-    return checkDate(new Date(`${match[2]}-${match[1]}-${match[3]} UTC`));
+    let [, date, month, year] = match;
+    date = date.padLeft(2, '0');
+    month = month.padLeft(2, '0');
+    if (year.length === 2) {
+      if (parseInt(year, 10) < 50) {
+        year = '20' + year;
+      } else {
+        year = '19' + year;
+      }
+    }
+    return checkDate(new Date(`${year}-${month}-${date}`));
   }
   return null;
 }
