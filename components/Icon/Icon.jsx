@@ -198,8 +198,11 @@ class Icon extends React.Component {
       color: this.props.color,
       fontSize: this.props.size,
     };
+    var className = styles.root;
+    if (this.props.className)
+      className += " " + this.props.className;
     return (
-      <span className={styles.root} style={style}>{MAP[this.props.name]}</span>
+      <span className={className} style={style}>{MAP[this.props.name]}</span>
     );
   }
 }
