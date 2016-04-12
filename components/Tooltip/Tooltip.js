@@ -14,7 +14,7 @@ type Pos = 'top left' | 'top center' | 'top right'
 type Props = {
   children: React.Element,
 
-  render: () => React.Element,
+  render: () => ?React.Element,
 
   pos: Pos,
 
@@ -27,6 +27,11 @@ type State = {
 
 class Tooltip extends React.Component {
   static propTypes = {
+    /**
+     * Функция, которая возвращает содержимое тултипа.
+     *
+     * Если эта функция вернула `null`, то тултип не показывается.
+     */
     render: PropTypes.func,
 
     pos: PropTypes.oneOf([
@@ -117,12 +122,18 @@ class Tooltip extends React.Component {
       return null;
     }
 
+    const content = this.props.render();
+
+    if (content == null) {
+      return null;
+    }
+
     return (
       <RenderContainer>
         <Box trigger={this.props.trigger} getTarget={this._getTarget}
           pos={this.props.pos} onClose={this._handleBoxClose}
         >
-          {this.props.render()}
+          {content}
         </Box>
       </RenderContainer>
     );

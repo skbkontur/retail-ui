@@ -1,6 +1,7 @@
 import {mount} from 'enzyme';
 import React from 'react';
 
+import RenderContainer from '../../RenderContainer';
 import Tooltip from '../Tooltip.js';
 
 describe('Tooltip', () => {
@@ -32,5 +33,21 @@ describe('Tooltip', () => {
 
     input.simulate('blur');
     expect(onBlur.mock.calls.length).toBe(1);
+  });
+
+  it('does not show tooltip in render func returned false', () => {
+    const wrapper = mount(
+      <div>
+        <div id="foo">
+          <Tooltip trigger="opened" render={() => ''}>foo</Tooltip>
+        </div>
+        <div id="bar">
+          <Tooltip trigger="opened" render={() => null}>bar</Tooltip>
+        </div>
+      </div>
+    );
+
+    expect(wrapper.find('#foo').find(RenderContainer).length).toBe(1);
+    expect(wrapper.find('#bar').find(RenderContainer).length).toBe(0);
   });
 });
