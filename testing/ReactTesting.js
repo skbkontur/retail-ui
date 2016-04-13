@@ -43,7 +43,7 @@ function removeRenderContainer(id) {
   delete renderContainers[id];
 }
 
-function findDOMNodes(path, parentNode = document) {
+function findDOMNodes(path, parentNode = document.body) {
   return _findDOMNodes(path.split(' '), [parentNode]);
 }
 
