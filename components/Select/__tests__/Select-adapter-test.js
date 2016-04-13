@@ -1,4 +1,5 @@
 import '../../../testing';
+import {mountTest} from '../../../testing/TestingTestUtils';
 
 import {mount} from 'enzyme';
 import React from 'react';
@@ -12,6 +13,12 @@ const items = [
 ];
 
 describe('Select-adapter', () => {
+  it('getValue', () => {
+    const {node} = mountTest(<Select tid="a" value="two" items={[]} />);
+
+    expect(ReactTesting.call(node, 'getValue')).toBe('two');
+  });
+
   it('getItemValues', () => {
     const wrapper = mount(
       <div>

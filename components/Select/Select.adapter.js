@@ -10,7 +10,7 @@ class SelectAdapter {
   }
 
   getValue() {
-    return this._select;
+    return this._select.getValue_();
   }
 
   setValue(value) {
