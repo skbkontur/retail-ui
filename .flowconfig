@@ -15,5 +15,8 @@ esproposal.class_instance_fields=enable
 
 suppress_comment=.*\\$FlowIssue.*
 
+module.file_ext=.js
+module.file_ext=.jsx
+
 module.name_mapper='^.*\.less+$' -> '<PROJECT_ROOT>/flow/CssStub'
 module.name_mapper='^.*\.png+$' -> '<PROJECT_ROOT>/flow/StringStub'
