@@ -13,14 +13,12 @@ class PhoneInput extends React.Component {
 
   render() {
     return (
-      <div className={styles.phoneWrapper}>
-        <Input
-          {...this.props}
-          width={this.props.width}
-          mask="999 999-99-99"
-          maskChar={null}
-        />
-      </div>
+      <Input
+        {...this.props}
+        width={this.props.width}
+        mask="999 999-99-99"
+        maskChar={null}
+      />
     );
   }
 }
