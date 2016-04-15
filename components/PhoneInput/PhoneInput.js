@@ -18,6 +18,7 @@ class PhoneInput extends React.Component {
         width={this.props.width}
         mask="+7 999 999-99-99"
         maskChar={null}
+        placeholder="+7"
       />
     );
   }
