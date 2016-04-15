@@ -49,6 +49,8 @@ type Props = {
   error?: bool,
   warning?: bool,
   onChange: (event: {target: {value: Value}}, value: Value) => void,
+
+  alkoValueToText: (value: Value) => string,
 };
 
 type State = {
@@ -353,18 +355,13 @@ class ComboBox extends React.Component {
   };
 
   // $FlowIssue 850
-  _handleOpenClick = () => {
-    this.setState({opened: true});
-    this._focus();
-  };
-
-  // $FlowIssue 850
   _handleValueClick = () => {
     this.setState({
       opened: true,
       searchText: '',
       result: null,
     });
+    this._alkoSetCurrentSearchText(this.state.value);
     this._focusAsync();
     this._fetchList('');
   };
@@ -397,6 +394,7 @@ class ComboBox extends React.Component {
         }, () => {
           this._focus();
         });
+        this._alkoSetCurrentSearchText(this.state.value);
         this._fetchList('');
         break;
     }
@@ -535,6 +533,20 @@ class ComboBox extends React.Component {
     }
 
     return null;
+  }
+
+  _alkoSetCurrentSearchText(value: Value) {
+    if (this.props.alkoValueToText && value) {
+      const searchText = this.props.alkoValueToText(value);
+      this.setState(
+        {searchText},
+        () => {
+          if (this._focusable && this._focusable.setSelectionRange) {
+            this._focusable.setSelectionRange(0, searchText.length);
+          }
+        },
+      );
+    }
   }
 }
 
