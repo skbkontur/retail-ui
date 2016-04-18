@@ -27,6 +27,9 @@ class Link extends React.Component {
       props.className += ' ' + styles.disabled;
       props.tabIndex = '-1';
     }
+    if (this.props.className) {
+      props.className += ' ' + this.props.className;
+    }
     return <a {...this.props} {...props}>{this.props.children}</a>;
   }
 }
