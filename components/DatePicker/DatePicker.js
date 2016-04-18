@@ -70,7 +70,7 @@ class DatePicker extends React.Component {
       <span className={className} style={{width: this.props.width}}>
         <Group width="100%">
           <Input ref="input" mainInGroup value={this.state.textValue}
-            maxLength="10" placeholder="дд.мм.гггг"
+            maxLength="10"
             onChange={this.handleChange} onBlur={this.handleBlur}
             onFocus={this.handleFocus} error={this.props.error}
           />
