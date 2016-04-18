@@ -18,6 +18,7 @@ if (typeof window !== 'undefined' && window.document
 const INPUT_PASS_PROPS = {
   autoFocus: true,
   disabled: true,
+  id: true,
   maxLength: true,
   placeholder: true,
   title: true,
@@ -36,6 +37,11 @@ const SIZE_CLASS_NAMES = {
 class Input extends React.Component {
   static propTypes = {
     disabled: PropTypes.bool,
+
+    /**
+     * ID для использования с элементом label.
+     */
+    id: PropTypes.string,
 
     maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
