@@ -10,6 +10,8 @@ import Upgrades from '../../lib/Upgrades';
 import '../ensureOldIEClassName';
 import styles from './Select.less';
 
+const STATIC_ITEM = Symbol('static_item');
+
 class Select extends React.Component {
   static propTypes = {
     /**
@@ -22,6 +24,18 @@ class Select extends React.Component {
      * и для значения.
      *
      * Для вставки разделителя можно использовать `Select.SEP`.
+     *
+     * Вставить невыделяемый элемент со своей разметкой можно так:
+     * ```
+     * <Select ...
+     *   items={[Select.static(() => <div>My Element</div>)]}
+     * />
+     * ```
+     *
+     * Чтобы добавить стандартный отступ для статического элемента:
+     * ```
+     * <Select.Item>My Element</Select.Item>
+     * ```
      */
     items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 
@@ -71,6 +85,13 @@ class Select extends React.Component {
     filterItem,
     isSelectable,
   };
+
+  static static(item) {
+    return {
+      __type: STATIC_ITEM,
+      item,
+    };
+  }
 
   constructor(props, context) {
     super(props, context);
@@ -168,8 +189,11 @@ class Select extends React.Component {
                   [styles.menuItemCurrent]: i === this.state.current,
                 });
                 let el = null;
-                if (item === Select.SEP) {
-                  el = <div key={`hr:${i}`} className={styles.menuSep} />;
+                if (item && item.__type === STATIC_ITEM) {
+                  el = React.cloneElement(
+                    typeof item.item === 'function' ? item.item() : item.item,
+                    {key: i},
+                  );
                 } else {
                   el = (
                     <div key={i} className={itemClassName}
@@ -308,7 +332,7 @@ class Select extends React.Component {
         current = 0;
       }
       const [value, item] = items[current];
-      if (item !== Select.SEP && this.props.isSelectable(value, item)) {
+      if (item && item.__type !== STATIC_ITEM) {
         return current;
       }
     } while (this.state.current !== current);
@@ -332,7 +356,15 @@ class Select extends React.Component {
   }
 }
 
-Select.SEP = {};
+Select.SEP = Select.static(
+  () => <div className={styles.menuSep} />
+);
+
+Select.Item = class Item extends React.Component {
+  render() {
+    return <div className={styles.menuItem}>{this.props.children}</div>;
+  }
+};
 
 function renderValue(value, item) {
   return item;
