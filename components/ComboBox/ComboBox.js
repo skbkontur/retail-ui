@@ -19,11 +19,18 @@ const INPUT_PASS_PROPS = {
   width: true,
 };
 
+const STATIC_ITEM = Symbol('static_item');
+
+type StaticItem = {
+  __type: typeof STATIC_ITEM,
+  item: (() => React.Element) | React.Element,
+};
+
 type Value = any;
 type Info = any;
 
 type SourceResult = {
-  values: Array<Value>,
+  values: Array<Value | StaticItem>,
   infos?: Array<Info>,
   total?: number,
 };
@@ -62,10 +69,20 @@ type State = {
   selected: number,
 };
 
-/**
- * DRAFT
- */
 class ComboBox extends React.Component {
+  static Item = class Item extends React.Component {
+    render() {
+      return <div className={styles.menuItem}>{this.props.children}</div>;
+    }
+  };
+
+  static static(item: ((() => React.Element) | React.Element)) {
+    return {
+      __type: STATIC_ITEM,
+      item,
+    };
+  }
+
   static propTypes = {
     value: PropTypes.any,
 
@@ -234,6 +251,13 @@ class ComboBox extends React.Component {
         <div className={styles.menu}>
           <ScrollContainer ref={this._refScroll} maxHeight={200}>
             {mapResult(result, (value, info, i) => {
+              if (value && value.__type === STATIC_ITEM) {
+                const item: StaticItem = value;
+                return React.cloneElement(
+                  typeof item.item === 'function' ? item.item() : item.item,
+                  {key: i},
+                );
+              }
               const className = classNames({
                 [styles.menuItem]: true,
                 [styles.menuItemSelected]: this.state.selected === i,
@@ -476,13 +500,20 @@ class ComboBox extends React.Component {
       return;
     }
 
-    let selected = this.state.selected + step;
-    if (selected < 0) {
-      selected = this.state.result.values.length - 1;
-    }
-    if (selected >= this.state.result.values.length) {
-      selected = 0;
-    }
+    let selected = this.state.selected;
+    do {
+      selected += step;
+      if (selected < 0) {
+        selected = this.state.result.values.length - 1;
+      }
+      if (selected >= this.state.result.values.length) {
+        selected = 0;
+      }
+      const value = this.state.result.values[selected];
+      if (value && value.__type !== STATIC_ITEM) {
+        break;
+      }
+    } while (selected !== this.state.selected);
     this.setState({selected}, this._scrollToSelected);
   }
 
