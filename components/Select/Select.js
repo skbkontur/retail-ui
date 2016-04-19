@@ -3,11 +3,11 @@ import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
+import Button from '../Button';
 import Input from '../Input';
 import listenFocusOutside from '../../lib/listenFocusOutside';
 import Upgrades from '../../lib/Upgrades';
 
-import '../ensureOldIEClassName';
 import styles from './Select.less';
 
 const STATIC_ITEM = Symbol('static_item');
@@ -125,21 +125,17 @@ class Select extends React.Component {
       !this.props.disabled;
 
     var rootProps = {
-      className: classNames({
-        [styles.root]: true,
-        [styles.isOpened]: this.state.opened,
-        [styles.error]: this.props.error,
-        [styles.disabled]: this.props.disabled,
-
-        [styles.deprecated_oldSize]: !Upgrades.__height34,
-      }),
-      tabIndex: focusable ? '0' : '-1',
+      align: 'left',
+      _noPadding: true,
+      onClick: this.open_,
       onKeyDown: this.handleKey,
     };
+    if (this.state.opened) {
+      rootProps.active = true;
+      rootProps.corners = Button.BOTTOM_LEFT | Button.BOTTOM_RIGHT;
+    }
     if (this.props.width) {
-      rootProps.style = {
-        width: this.props.width,
-      };
+      rootProps.width = this.props.width;
     }
 
     var labelProps = {
@@ -151,11 +147,13 @@ class Select extends React.Component {
     };
 
     return (
-      <span {...rootProps}>
-        <span {...labelProps}>
-          <span className={styles.labelText}>{label}</span>
-          <div className={styles.arrow} />
-        </span>
+      <span className={styles.root}>
+        <Button {...rootProps}>
+          <span {...labelProps}>
+            <span className={styles.labelText}>{label}</span>
+            <div className={styles.arrow} />
+          </span>
+        </Button>
         {!this.props.disabled && this.state.opened && this.renderMenu()}
       </span>
     );
@@ -178,7 +176,6 @@ class Select extends React.Component {
     return (
       <div ref={this._refMenuContainer} className={styles.container}>
         <div className={styles.drop}>
-          <div className={styles.overlay} onMouseDown={this.close_} />
           <div style={{position: 'relative'}}>
             <div className={styles.menu}>
               {search}

@@ -18,7 +18,17 @@ const SIZE_CLASSES = {
   large: styles.sizeLarge,
 };
 
+const TOP_LEFT = 1;
+const TOP_RIGHT = 2;
+const BOTTOM_RIGHT = 4;
+const BOTTOM_LEFT = 8;
+
 class Button extends React.Component {
+  static TOP_LEFT = TOP_LEFT;
+  static TOP_RIGHT = TOP_RIGHT;
+  static BOTTOM_RIGHT = BOTTOM_RIGHT;
+  static BOTTOM_LEFT = BOTTOM_LEFT;
+
   static propTypes = {
     /**
      * Визуально нажатое состояние.
@@ -57,6 +67,9 @@ class Button extends React.Component {
   };
 
   render() {
+    const {corners = 0} = this.props;
+    const radius = '3px';
+
     var rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
@@ -68,13 +81,23 @@ class Button extends React.Component {
         [styles.active]: this.props.active,
         [styles.disabled]: this.props.disabled,
         [styles.narrow]: this.props.narrow,
+        [styles.noPadding]: this.props._noPadding,
 
         ...this._getSizeClassMap(),
       }),
-      style: {},
+      style: {
+        borderRadius: `${corners & TOP_LEFT ? 0 : radius}` +
+          ` ${corners & TOP_RIGHT ? 0 : radius}` +
+          ` ${corners & BOTTOM_RIGHT ? 0 : radius}` +
+          ` ${corners & BOTTOM_LEFT ? 0 : radius}`,
+      },
       disabled: this.props.disabled,
       onClick: this.props.onClick,
+      onKeyDown: this.props.onKeyDown,
     };
+    if (this.props.align) {
+      rootProps.style.textAlign = this.props.align;
+    }
     if (this.props.width) {
       rootProps.style.width = this.props.width;
     }
