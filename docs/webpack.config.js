@@ -30,10 +30,8 @@ module.exports = {
         },
         include: [
           path.join(__dirname, 'src'),
-          /jstransform/,
           path.resolve(__dirname, '..', 'components'),
           path.resolve(__dirname, '..', 'lib'),
-          /esprima\.js$/, // Need memberExpressionLiterals for IE8.
         ],
       },
       {

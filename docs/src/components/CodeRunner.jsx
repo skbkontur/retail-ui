@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reactTools from 'react-tools';
 
-import __components from '../components';
+import components from '../components';
 
 import styles from './CodeRunner.less';
 
@@ -16,27 +16,27 @@ function run(src, mountNode) {
   }
 }
 
-const __vars = {
+const vars = {
   React,
   ReactDOM,
 };
-for (const component of __components) {
-  __vars[component.name] = component.component;
+for (const component of components) {
+  vars[component.name] = component.component;
 }
 
 function evalCode(_src, mountNode) {
-  let code = '';
-  for (const name in __vars) {
-    if (__vars.hasOwnProperty(name)) {
-      code += `var ${name} = __vars.${name};`;
-    }
-  }
+  const localVars = {
+    ...vars,
+    mountNode,
+  };
+  const names = Object.keys(localVars);
+  const values = names.map(name => localVars[name]);
 
-  code += reactTools.transform(_src, {
+  const code = reactTools.transform(_src, {
     harmony: true,
   });
 
-  eval(`(function(__vars) { ${code} })`)(__vars); // eslint-disable-line no-eval
+  new Function(...names, code)(...values);
 }
 
 var CodeRunner = React.createClass({
