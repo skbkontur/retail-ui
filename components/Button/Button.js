@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
+import Corners from './Corners';
 import Upgrades from '../../lib/Upgrades';
 
 import '../ensureOldIEClassName';
@@ -18,16 +19,11 @@ const SIZE_CLASSES = {
   large: styles.sizeLarge,
 };
 
-const TOP_LEFT = 1;
-const TOP_RIGHT = 2;
-const BOTTOM_RIGHT = 4;
-const BOTTOM_LEFT = 8;
-
 class Button extends React.Component {
-  static TOP_LEFT = TOP_LEFT;
-  static TOP_RIGHT = TOP_RIGHT;
-  static BOTTOM_RIGHT = BOTTOM_RIGHT;
-  static BOTTOM_LEFT = BOTTOM_LEFT;
+  static TOP_LEFT = Corners.TOP_LEFT;
+  static TOP_RIGHT = Corners.TOP_RIGHT;
+  static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
+  static BOTTOM_LEFT = Corners.BOTTOM_LEFT;
 
   static propTypes = {
     /**
@@ -88,10 +84,10 @@ class Button extends React.Component {
         ...this._getSizeClassMap(),
       }),
       style: {
-        borderRadius: `${corners & TOP_LEFT ? 0 : radius}` +
-          ` ${corners & TOP_RIGHT ? 0 : radius}` +
-          ` ${corners & BOTTOM_RIGHT ? 0 : radius}` +
-          ` ${corners & BOTTOM_LEFT ? 0 : radius}`,
+        borderRadius: `${corners & Corners.TOP_LEFT ? 0 : radius}` +
+          ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
+          ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
+          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
       },
       disabled: this.props.disabled,
       onClick: this.props.onClick,
