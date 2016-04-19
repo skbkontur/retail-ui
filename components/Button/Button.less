@@ -192,6 +192,32 @@
     color: #808080;
   }
 
+  .warning {
+    border-color: @border-color-warning;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px @border-color-warning;
+    position: relative;
+    z-index: 2;
+  }
+
+  .error {
+    border-color: @border-color-error;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px @border-color-error;
+    position: relative;
+    z-index: 2;
+  }
+
+  :global(.rt-ie8) {
+    .warning {
+      outline: 1px solid @border-color-warning;
+    }
+
+    .error {
+      outline: 1px solid @border-color-error;
+    }
+  }
+
   .narrow {
     padding-left: 5px;
     padding-right: 5px;

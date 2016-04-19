@@ -4,6 +4,7 @@ import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
 import Button from '../Button';
+import filterProps from '../filterProps';
 import Input from '../Input';
 import listenFocusOutside from '../../lib/listenFocusOutside';
 import Upgrades from '../../lib/Upgrades';
@@ -11,6 +12,13 @@ import Upgrades from '../../lib/Upgrades';
 import styles from './Select.less';
 
 const STATIC_ITEM = Symbol('static_item');
+
+const PASS_BUTTON_PROPS = {
+  error: true,
+  use: true,
+  warning: true,
+  width: true,
+};
 
 class Select extends React.Component {
   static propTypes = {
@@ -124,18 +132,17 @@ class Select extends React.Component {
     const focusable = !(this.state.opened && this.props.search) &&
       !this.props.disabled;
 
-    var rootProps = {
+    var buttonProps = {
+      ...filterProps(this.props, PASS_BUTTON_PROPS),
+
       align: 'left',
       _noPadding: true,
       onClick: this.open_,
       onKeyDown: this.handleKey,
     };
     if (this.state.opened) {
-      rootProps.active = true;
-      rootProps.corners = Button.BOTTOM_LEFT | Button.BOTTOM_RIGHT;
-    }
-    if (this.props.width) {
-      rootProps.width = this.props.width;
+      buttonProps.active = true;
+      buttonProps.corners = Button.BOTTOM_LEFT | Button.BOTTOM_RIGHT;
     }
 
     var labelProps = {
@@ -148,7 +155,7 @@ class Select extends React.Component {
 
     return (
       <span className={styles.root}>
-        <Button {...rootProps}>
+        <Button {...buttonProps}>
           <span {...labelProps}>
             <span className={styles.labelText}>{label}</span>
             <div className={styles.arrow} />

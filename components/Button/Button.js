@@ -80,6 +80,8 @@ class Button extends React.Component {
         [styles['use-' + this.props.use]]: true,
         [styles.active]: this.props.active,
         [styles.disabled]: this.props.disabled,
+        [styles.error]: this.props.error,
+        [styles.warning]: this.props.warning,
         [styles.narrow]: this.props.narrow,
         [styles.noPadding]: this.props._noPadding,
 
