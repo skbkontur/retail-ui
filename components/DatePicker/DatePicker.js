@@ -11,6 +11,8 @@ import styles from './DatePicker.less';
 
 class DatePicker extends React.Component {
   static propTypes = {
+    disabled: PropTypes.bool,
+
     error: PropTypes.bool,
 
     /**
@@ -70,11 +72,13 @@ class DatePicker extends React.Component {
       <span className={className} style={{width: this.props.width}}>
         <Group width="100%">
           <Input ref="input" mainInGroup value={this.state.textValue}
-            maxLength="10"
+            disabled={this.props.disabled} maxLength="10"
             onChange={this.handleChange} onBlur={this.handleBlur}
             onFocus={this.handleFocus} error={this.props.error}
           />
-          <Button narrow active={this.state.opened} onClick={this.open}>
+          <Button narrow active={this.state.opened}
+            disabled={this.props.disabled} onClick={this.open}
+          >
             <Icon name="calendar" />
           </Button>
         </Group>
