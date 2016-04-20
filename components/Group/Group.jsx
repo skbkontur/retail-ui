@@ -49,10 +49,10 @@ class Group extends React.Component {
 
           let corners = 0;
           if (child !== first) {
-            corners |= Button.TOP_LEFT | Button.BOTTOM_LEFT;
+            corners |= Corners.TOP_LEFT | Corners.BOTTOM_LEFT;
           }
           if (child !== last) {
-            corners |= Button.TOP_RIGHT | Button.BOTTOM_RIGHT;
+            corners |= Corners.TOP_RIGHT | Corners.BOTTOM_RIGHT;
           }
 
           const childProps = {corners};
