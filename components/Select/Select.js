@@ -16,6 +16,7 @@ const STATIC_ITEM = Symbol('static_item');
 const PASS_BUTTON_PROPS = {
   error: true,
   use: true,
+  size: true,
   warning: true,
   width: true,
 };
@@ -158,7 +159,9 @@ class Select extends React.Component {
         <Button {...buttonProps}>
           <span {...labelProps}>
             <span className={styles.labelText}>{label}</span>
-            <div className={styles.arrow} />
+            <div className={styles.arrowWrap}>
+              <div className={styles.arrow} />
+            </div>
           </span>
         </Button>
         {!this.props.disabled && this.state.opened && this.renderMenu()}
