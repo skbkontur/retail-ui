@@ -34,6 +34,10 @@ const SIZE_CLASS_NAMES = {
   large: styles.deprecated_sizeLarge,
 };
 
+const PASS_TYPES = {
+  password: true
+}
+
 class Input extends React.Component {
   static propTypes = {
     disabled: PropTypes.bool,
@@ -182,6 +186,11 @@ class Input extends React.Component {
       onChange: (e) => this.handleChange(e),
       style: {},
     };
+    
+    const type = this.props.type
+    if (PASS_TYPES[type]) {
+      inputProps.type = type
+    }
 
     if (this.props.align) {
       inputProps.style.textAlign = this.props.align;
