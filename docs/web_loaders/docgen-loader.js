@@ -1,3 +1,4 @@
+var doctrine = require('doctrine');
 var marked = require('marked');
 var reactDocs = require('react-docgen');
 
@@ -12,10 +13,19 @@ marked.setOptions({
 module.exports = function(src) {
   var info = reactDocs.parse(src);
 
-  info.description = marked(info.description || '');
+  var description = doctrine.parse(info.description);
+  info.description = processDescription(info.description);
   for (var prop in info.props) {
-    info.props[prop].description = marked(info.props[prop].description || '');
+    info.props[prop].description = processDescription(
+      info.props[prop].description
+    );
   }
 
   return 'module.exports = ' + JSON.stringify(info) + ';';
 };
+
+function processDescription(description) {
+  const doctrineAST = doctrine.parse(description || '');
+  doctrineAST.description = marked(doctrineAST.description);
+  return doctrineAST;
+}

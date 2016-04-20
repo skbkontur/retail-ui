@@ -28,6 +28,7 @@ var ComponentList = React.createClass({
               className={className}
             >
               {component.name}
+              {isDraft(component) && <span className={styles.draft}>DRAFT</span>}
             </Link>
           );
         })}
@@ -35,5 +36,10 @@ var ComponentList = React.createClass({
     );
   },
 });
+
+function isDraft(component) {
+  const desc = component.info.description;
+  return !!desc.tags.find(t => t.title === 'draft');
+}
 
 export default ComponentList;
