@@ -56,6 +56,7 @@ type Props = {
   error?: bool,
   warning?: bool,
   onChange: (event: {target: {value: Value}}, value: Value) => void,
+  menuAlign: 'left' | 'right',
 
   alkoValueToText: (value: Value) => string,
 };
@@ -140,6 +141,8 @@ class ComboBox extends React.Component {
     warning: PropTypes.bool,
 
     onChange: PropTypes.func,
+
+    menuAlign: PropTypes.oneOf(['left', 'right']),
   };
 
   static defaultProps = {
@@ -147,6 +150,7 @@ class ComboBox extends React.Component {
     renderValue,
     placeholder: 'Пусто',
     width: 250,
+    menuAlign: 'left',
   };
 
   props: Props;
@@ -246,9 +250,13 @@ class ComboBox extends React.Component {
     if (!result) {
       return null;
     }
+    const menuClassName = classNames({
+      [styles.menu]: true,
+      [styles.menuAlignRight]: this.props.menuAlign === 'right',
+    });
     return (
       <div className={styles.menuHolder}>
-        <div className={styles.menu}>
+        <div className={menuClassName}>
           <ScrollContainer ref={this._refScroll} maxHeight={200}>
             {mapResult(result, (value, info, i) => {
               if (value && value.__type === STATIC_ITEM) {
