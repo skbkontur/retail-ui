@@ -14,11 +14,11 @@ import styles from './Select.less';
 const STATIC_ITEM = Symbol('static_item');
 
 const PASS_BUTTON_PROPS = {
+  disabled: true,
   error: true,
   use: true,
   size: true,
   warning: true,
-  width: true,
 };
 
 class Select extends React.Component {
@@ -137,7 +137,9 @@ class Select extends React.Component {
       ...filterProps(this.props, PASS_BUTTON_PROPS),
 
       align: 'left',
+      disabled: this.props.disabled,
       _noPadding: true,
+      width: '100%',
       onClick: this.open_,
       onKeyDown: this.handleKey,
     };
@@ -155,7 +157,7 @@ class Select extends React.Component {
     };
 
     return (
-      <span className={styles.root}>
+      <span className={styles.root} style={{width: this.props.width}}>
         <Button {...buttonProps}>
           <span {...labelProps}>
             <span className={styles.labelText}>{label}</span>
