@@ -6,6 +6,7 @@ import Select from '../Select';
 const PASS_PROPS = {
   error: true,
   use: true,
+  size: true,
   warning: true,
   width: true,
 };
@@ -24,6 +25,8 @@ export default class Dropdown extends React.Component {
      * Визуально показать наличие ошибки.
      */
     error: PropTypes.bool,
+
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
 
     /**
      * Смотри Button.
