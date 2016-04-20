@@ -43,20 +43,20 @@ type RecoverResult = {
 type RecoverFunc = (searchString: string) => RecoverResult;
 
 type Props = {
-  value: ?Value,
-  info?: Info | (v: Value) => Promise<Info>,
-  source: (searchText: string) => Promise<SourceResult>,
   disabled?: bool,
+  error?: bool,
+  info?: Info | (v: Value) => Promise<Info>,
+  menuAlign: 'left' | 'right',
   openButton?: bool,
   placeholder?: string,
-  renderValue: (value: Value, info: ?Info) => React.Element,
-  renderItem: (value: Value, info: Info) => React.Element,
   recover?: (RecoverFunc | bool),
-  width: (number | string),
-  error?: bool,
+  renderItem: (value: Value, info: Info) => React.Element,
+  renderValue: (value: Value, info: ?Info) => React.Element,
+  source: (searchText: string) => Promise<SourceResult>,
   warning?: bool,
+  value: ?Value,
+  width: (number | string),
   onChange: (event: {target: {value: Value}}, value: Value) => void,
-  menuAlign: 'left' | 'right',
 
   alkoValueToText: (value: Value) => string,
 };
@@ -85,7 +85,12 @@ class ComboBox extends React.Component {
   }
 
   static propTypes = {
-    value: PropTypes.any,
+    disabled: PropTypes.bool,
+
+    /**
+     * Визуально показать наличие ошибки.
+     */
+    error: PropTypes.bool,
 
     /**
      * Данные, которые будут переданы в функции для отрисовки значений
@@ -96,9 +101,7 @@ class ComboBox extends React.Component {
       PropTypes.func,
     ]),
 
-    source: PropTypes.func.isRequired,
-
-    disabled: PropTypes.bool,
+    menuAlign: PropTypes.oneOf(['left', 'right']),
 
     /**
      * Показывать кнопку-треугольник для показа резаультатов.
@@ -106,10 +109,6 @@ class ComboBox extends React.Component {
     openButton: PropTypes.bool,
 
     placeholder: PropTypes.string,
-
-    renderValue: PropTypes.func,
-
-    renderItem: PropTypes.func,
 
     /**
      * Функция для обработки неожиданного ввода. Если пользователь ввел что-то в
@@ -128,21 +127,22 @@ class ComboBox extends React.Component {
       PropTypes.func,
     ]),
 
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    renderItem: PropTypes.func,
 
-    /**
-     * Визуально показать наличие ошибки.
-     */
-    error: PropTypes.bool,
+    renderValue: PropTypes.func,
+
+    source: PropTypes.func.isRequired,
+
+    value: PropTypes.any,
 
     /**
      * Визуально показать наличие предупреждения.
      */
     warning: PropTypes.bool,
 
-    onChange: PropTypes.func,
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
-    menuAlign: PropTypes.oneOf(['left', 'right']),
+    onChange: PropTypes.func,
   };
 
   static defaultProps = {
