@@ -35,8 +35,8 @@ const SIZE_CLASS_NAMES = {
 };
 
 const PASS_TYPES = {
-  password: true
-}
+  password: true,
+};
 
 class Input extends React.Component {
   static propTypes = {
@@ -123,6 +123,8 @@ class Input extends React.Component {
      * Показывать маску, даже если ничего не введено.
      */
     alwaysShowMask: PropTypes.bool,
+
+    type: PropTypes.oneOf(['password']),
   };
 
   static defaultProps = {
@@ -187,9 +189,9 @@ class Input extends React.Component {
       style: {},
     };
     
-    const type = this.props.type
+    const type = this.props.type;
     if (PASS_TYPES[type]) {
-      inputProps.type = type
+      inputProps.type = type;
     }
 
     if (this.props.align) {
