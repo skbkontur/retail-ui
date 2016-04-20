@@ -232,10 +232,16 @@ class Input extends React.Component {
     }
   }
 
+  /**
+   * @api
+   */
   focus() {
     ReactDOM.findDOMNode(this).querySelector('input').focus();
   }
 
+  /**
+   * @api
+   */
   setSelectionRange(start, end) {
     const input = ReactDOM.findDOMNode(this).querySelector('input');
     if (input.setSelectionRange) {
