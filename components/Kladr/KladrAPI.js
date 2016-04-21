@@ -1,9 +1,11 @@
 /* @flow */
 
+declare function fetch(): any;
+
 const kladrUrl = 'https://kladr.kontur.ru/v1/';
 const LIMIT = 50;
 
-export function search(searchText: string, levels: string, parentCode: string) {
+export function search(searchText: string, levels: string, parentCode: ?string) {
   const data = createQuery({
     prefix: searchText,
     parentKladr: parentCode || '',

@@ -117,23 +117,7 @@ export default class AddressModal extends React.Component {
     };
   }
 
-  updateIndex() {
-    let code = null;
-    const house = this.state.address.house;
-
-    for (const place of PLACES) {
-      const currentPlace = this.state.address[place];
-      if (currentPlace && currentPlace.code) {
-        code = currentPlace.code;
-      }
-    }
-
-    searchIndex(code, house).then((index) => {
-      this.setStateAddress('index', index);
-    });
-  }
-
-  setStateAddress(key, value) {
+  setStateAddress(key: string, value: PlaceDescription|string) {
     this.setState({
       address: {
         ...this.state.address,
