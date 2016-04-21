@@ -80,15 +80,21 @@ export default class AddressModal extends React.Component {
   }
 
   createHandler(place: string): HandlerFunction {
-    return (e, value) => {
-      this.setState({
-        address: {
-          ...this.state.address,
-          [place]: value,
-        },
-      });
-
-      this.updateIndex();
+    return (e, value, info) => {
+      if (!info) {
+        this.setStateAddress(place, value);
+        return;
+      }
+      const address = {...this.state.address};
+      for (const item of ['index', ...PLACES]) {
+        if (item !== place && info[item]) {
+          address[item] = info[item];
+        } else if (item === place) {
+          address[place] = value;
+          break;
+        }
+      }
+      this.setState({address});
     };
   }
 
@@ -106,6 +112,7 @@ export default class AddressModal extends React.Component {
 
       return search(searchText, `[${level}]`, parentCode).then((values) => ({
         values: values.map((address) => address[field]),
+        infos: values,
       }));
     };
   }
@@ -121,13 +128,17 @@ export default class AddressModal extends React.Component {
       }
     }
 
-    code && searchIndex(code, house).then((index) => {
-      this.setState({
-        address: {
-          ...this.state.address,
-          index,
-        },
-      });
+    searchIndex(code, house).then((index) => {
+      this.setStateAddress('index', index);
+    });
+  }
+
+  setStateAddress(key, value) {
+    this.setState({
+      address: {
+        ...this.state.address,
+        [key]: value,
+      },
     });
   }
 
