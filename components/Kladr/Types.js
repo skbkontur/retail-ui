@@ -5,6 +5,7 @@ export type PlaceDescription = {
   fiasGuid: string,
   name: string,
   abbreviation: string,
+  isError: bool,
 };
 
 export type Address = {

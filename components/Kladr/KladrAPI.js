@@ -1,4 +1,5 @@
 /* @flow */
+import type {Address} from './Types';
 
 declare function fetch(): any;
 
@@ -28,6 +29,18 @@ export function searchIndex(code: string, house: ?string) {
     .then(response => response.text());
 }
 
+export function verify(req: Address) {
+  return fetch(`${kladrUrl}verify/`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(toJSON({address: req})),
+  }).then((res) => res.json())
+    .then((json) => toJS(json));
+}
+
 function createQuery(data){
   let params = [];
   for (const key in data) {
@@ -36,6 +49,19 @@ function createQuery(data){
     }
   }
   return params.join('&');
+}
+
+function toJSON(obj) {
+  if (Array.isArray(obj)) {
+    return obj.map(toJSON);
+  } else if (obj && typeof obj === 'object') {
+    const ret = {};
+    for (const key in obj) {
+      ret[key.charAt(0).toUpperCase() + key.substr(1)] = toJSON(obj[key]);
+    }
+    return ret;
+  }
+  return obj;
 }
 
 function toJS(obj) {
