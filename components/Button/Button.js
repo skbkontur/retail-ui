@@ -32,6 +32,8 @@ class Button extends React.Component {
     active: PropTypes.bool,
 
     disabled: PropTypes.bool,
+    
+    loading: PropTypes.bool,
 
     /**
      * Вариант использования. Влияет на цвет кнопки.
@@ -75,7 +77,8 @@ class Button extends React.Component {
         [styles.root]: true,
         [styles['use-' + this.props.use]]: true,
         [styles.active]: this.props.active,
-        [styles.disabled]: this.props.disabled,
+        [styles.disabled]: this.props.disabled,        
+        [styles.loading]: this.props.loading,
         [styles.error]: this.props.error,
         [styles.warning]: this.props.warning,
         [styles.narrow]: this.props.narrow,
@@ -89,7 +92,7 @@ class Button extends React.Component {
           ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
           ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
       },
-      disabled: this.props.disabled,
+      disabled: this.props.disabled || this.props.loading,
       onClick: this.props.onClick,
       onKeyDown: this.props.onKeyDown,
     };
