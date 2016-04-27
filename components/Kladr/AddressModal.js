@@ -33,8 +33,8 @@ type FieldProps = {
   recover: Function,
 }
 
-const PLACES = ['region', 'district', 'city', 'settlement', 'street'];
-const ENUM = {
+const PLACES = {
+  '0': 'index',
   '1': 'region',
   '2': 'district',
   '4': 'city',
@@ -88,19 +88,21 @@ export default class AddressModal extends React.Component {
 
   createHandler(place: string): HandlerFunction {
     return (e, value, info) => {
-      if (!info) {
-        this.setStateAddress(place, value);
-        return;
-      }
       const address = {...this.state.address};
-      for (const item of ['index', ...PLACES]) {
-        if (item !== place && info[item]) {
-          address[item] = info[item];
-        } else if (item === place) {
-          address[place] = value;
-          break;
+      if (info) {
+        for (const item in PLACES) {
+          const itemPlace = PLACES[item];
+          if (itemPlace !== place && info[itemPlace]) {
+            address[itemPlace] = info[itemPlace];
+          } else if (itemPlace === place) {
+            address[place] = value;
+            break;
+          }
         }
+      } else {
+        address[place] = value;
       }
+
       this.setState({address}, this.check);
     };
   }
@@ -110,7 +112,7 @@ export default class AddressModal extends React.Component {
       if (json.isKladrAddress) {
         return;
       }
-      const place = ENUM[json.invalidItem];
+      const place = PLACES[json.invalidItem];
       const address = {...this.state.address};
       if (address[place]) {
         address[place].isError = true;
@@ -177,7 +179,7 @@ export default class AddressModal extends React.Component {
           <div className={styles.label}>Регион</div>
           <div className={styles.field}>
             <ComboBox value={this.state.address.region}
-              error={this.state.address.region 
+              error={this.state.address.region
                 && this.state.address.region.isError}
               {...this._regionProps}
             />
@@ -187,7 +189,7 @@ export default class AddressModal extends React.Component {
           <div className={styles.label}>Район</div>
           <div className={styles.field}>
             <ComboBox value={this.state.address.district}
-              error={this.state.address.district 
+              error={this.state.address.district
                 && this.state.address.district.isError}
               {...this._districtProps}
             />
@@ -197,7 +199,7 @@ export default class AddressModal extends React.Component {
           <div className={styles.label}>Город</div>
           <div className={styles.field}>
             <ComboBox value={this.state.address.city}
-              error={this.state.address.city 
+              error={this.state.address.city
                 && this.state.address.city.isError}
               {...this._cityProps}
             />
@@ -207,7 +209,7 @@ export default class AddressModal extends React.Component {
           <div className={styles.label}>Населенный пункт</div>
           <div className={styles.field}>
             <ComboBox value={this.state.address.settlement}
-              error={this.state.address.settlement 
+              error={this.state.address.settlement
                 && this.state.address.settlement.isError}
               {...this._settlementProps}
             />
@@ -217,7 +219,7 @@ export default class AddressModal extends React.Component {
           <div className={styles.label}>Улица</div>
           <div className={styles.field}>
             <ComboBox value={this.state.address.street}
-              error={this.state.address.street 
+              error={this.state.address.street
                 && this.state.address.street.isError}
               {...this._streetProps}
             />
