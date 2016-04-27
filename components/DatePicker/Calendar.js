@@ -22,6 +22,8 @@ class Calendar extends React.Component {
     this.state = {
       pos: dateToPos(props.initialDate),
     };
+
+    this._today = new Date();
   }
 
   render() {
@@ -78,7 +80,8 @@ class Calendar extends React.Component {
       const cellClass = classNames({
         [styles.cell]: true,
         [styles.cellActive]: active,
-        [styles.cellCurrent]: +this.props.value === +date,
+        [styles.cellToday]: this._isToday(date),
+        [styles.cellCurrent]: isSameDate(this.props.value, date),
         [styles.grey]: date.getMonth() % 2,
         [styles.cellHoly]: date.getDay() === 0 || date.getDay() === 6,
       });
@@ -162,6 +165,10 @@ class Calendar extends React.Component {
       }
     }
   };
+
+  _isToday(date) {
+    return isSameDate(date, this._today);
+  }
 }
 
 function dateToPos(date) {
@@ -183,6 +190,13 @@ function getDay(date) {
 
 function getDayTop(fromWeek, offset, time) {
   return (getWeek(time) - fromWeek) * DAY_HEIGHT - offset;
+}
+
+function isSameDate(a, b) {
+  return a && b &&
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate();
 }
 
 export default Calendar;

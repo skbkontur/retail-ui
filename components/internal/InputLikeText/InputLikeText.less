@@ -2,14 +2,16 @@
 
 :local {
   .root {
+    background-color: @bg-default;
     border: 1px solid #d9d9d9;
     border-top-color: #b2b2b2;
     box-sizing: border-box;
+    cursor: default;
     display: inline-block;
     font-family: inherit;
     font-size: 14px;
-    height: 30px;
-    line-height: 28px;
+    height: 34px;
+    line-height: 32px;
     outline: none;
     overflow: hidden;
     padding: 0 8px;
@@ -17,6 +19,11 @@
     vertical-align: bottom;
     white-space: nowrap;
     width: 100%;
+  }
+
+  .deprecated_oldSize {
+    height: 30px;
+    line-height: 28px;
   }
 
   .root:focus {

@@ -8,7 +8,7 @@ module.exports = {
   entry: './showcase',
   output: {
     path: path.join(__dirname, 'dist'),
-    publicPath: '/dist/',
+    publicPath: '/react-ui/dist/',
     filename: 'showcase.js',
   },
   module: {
@@ -30,10 +30,8 @@ module.exports = {
         },
         include: [
           path.join(__dirname, 'src'),
-          /jstransform/,
           path.resolve(__dirname, '..', 'components'),
           path.resolve(__dirname, '..', 'lib'),
-          /esprima\.js$/, // Need memberExpressionLiterals for IE8.
         ],
       },
       {

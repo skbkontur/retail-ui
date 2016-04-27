@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react';
 
+import Icon from '../Icon';
+
 import styles from './Link.less';
 
 /**
@@ -12,6 +14,8 @@ class Link extends React.Component {
     href: PropTypes.string,
 
     disabled: PropTypes.bool,
+
+    icon: PropTypes.string,
   };
 
   static defaultProps = {
@@ -19,6 +23,13 @@ class Link extends React.Component {
   };
 
   render() {
+    let icon = null;
+    if (this.props.icon) {
+      icon = (
+        <span className={styles.icon}><Icon name={this.props.icon} /></span>
+      );
+    }
+
     var props = {
       className: styles.root,
       href: this.props.href,
@@ -27,7 +38,7 @@ class Link extends React.Component {
       props.className += ' ' + styles.disabled;
       props.tabIndex = '-1';
     }
-    return <a {...this.props} {...props}>{this.props.children}</a>;
+    return <a {...this.props} {...props}>{icon}{this.props.children}</a>;
   }
 }
 

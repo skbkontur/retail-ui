@@ -3,17 +3,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+let lastID = 0;
+function nextID() {
+  return ++lastID;
+}
+
 export default class RenderContainer extends React.Component {
   _domContainer: HTMLElement;
+
+  _testID: number;
 
   constructor(props: any, context: any) {
     super(props, context);
 
     this._domContainer = document.createElement('div');
+
+    if (global.ReactTesting) {
+      this._testID = nextID();
+
+      global.ReactTesting.addRenderContainer(this._testID, this);
+    }
   }
 
-  render(): null {
-    return null;
+  render() {
+    return <noscript data-render-container-id={this._testID} />;
   }
 
   componentDidMount() {
@@ -29,6 +42,10 @@ export default class RenderContainer extends React.Component {
   componentWillUnmount() {
     ReactDOM.unmountComponentAtNode(this._domContainer);
     this._domContainer.parentNode.removeChild(this._domContainer);
+
+    if (global.ReactTesting) {
+      global.ReactTesting.removeRenderContainer(this._testID);
+    }
   }
 
   _renderChild() {

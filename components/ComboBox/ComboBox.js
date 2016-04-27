@@ -5,6 +5,7 @@ import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
 import filterProps from '../filterProps';
+import Upgrades from '../../lib/Upgrades';
 
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
@@ -18,11 +19,18 @@ const INPUT_PASS_PROPS = {
   width: true,
 };
 
+const STATIC_ITEM = Symbol('static_item');
+
+type StaticItem = {
+  __type: typeof STATIC_ITEM,
+  item: (() => React.Element) | React.Element,
+};
+
 type Value = any;
 type Info = any;
 
 type SourceResult = {
-  values: Array<Value>,
+  values: Array<Value | StaticItem>,
   infos?: Array<Info>,
   total?: number,
 };
@@ -35,19 +43,22 @@ type RecoverResult = {
 type RecoverFunc = (searchString: string) => RecoverResult;
 
 type Props = {
-  value: ?Value,
-  info?: Info | (v: Value) => Promise<Info>,
-  source: (searchText: string) => Promise<SourceResult>,
   disabled?: bool,
+  error?: bool,
+  info?: Info | (v: Value) => Promise<Info>,
+  menuAlign: 'left' | 'right',
   openButton?: bool,
   placeholder?: string,
-  renderValue: (value: Value, info: ?Info) => React.Element,
-  renderItem: (value: Value, info: Info) => React.Element,
   recover?: (RecoverFunc | bool),
-  width: (number | string),
-  error?: bool,
+  renderItem: (value: Value, info: Info) => React.Element,
+  renderValue: (value: Value, info: ?Info) => React.Element,
+  source: (searchText: string) => Promise<SourceResult>,
   warning?: bool,
+  value: ?Value,
+  width: (number | string),
   onChange: (event: {target: {value: Value}}, value: Value) => void,
+
+  alkoValueToText: (value: Value) => string,
 };
 
 type State = {
@@ -59,12 +70,27 @@ type State = {
   selected: number,
 };
 
-/**
- * DRAFT
- */
 class ComboBox extends React.Component {
+  static Item = class Item extends React.Component {
+    render() {
+      return <div className={styles.menuItem}>{this.props.children}</div>;
+    }
+  };
+
+  static static(item: ((() => React.Element) | React.Element)) {
+    return {
+      __type: STATIC_ITEM,
+      item,
+    };
+  }
+
   static propTypes = {
-    value: PropTypes.any,
+    disabled: PropTypes.bool,
+
+    /**
+     * Визуально показать наличие ошибки.
+     */
+    error: PropTypes.bool,
 
     /**
      * Данные, которые будут переданы в функции для отрисовки значений
@@ -75,9 +101,7 @@ class ComboBox extends React.Component {
       PropTypes.func,
     ]),
 
-    source: PropTypes.func.isRequired,
-
-    disabled: PropTypes.bool,
+    menuAlign: PropTypes.oneOf(['left', 'right']),
 
     /**
      * Показывать кнопку-треугольник для показа резаультатов.
@@ -85,10 +109,6 @@ class ComboBox extends React.Component {
     openButton: PropTypes.bool,
 
     placeholder: PropTypes.string,
-
-    renderValue: PropTypes.func,
-
-    renderItem: PropTypes.func,
 
     /**
      * Функция для обработки неожиданного ввода. Если пользователь ввел что-то в
@@ -107,17 +127,20 @@ class ComboBox extends React.Component {
       PropTypes.func,
     ]),
 
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    renderItem: PropTypes.func,
 
-    /**
-     * Визуально показать наличие ошибки.
-     */
-    error: PropTypes.bool,
+    renderValue: PropTypes.func,
+
+    source: PropTypes.func.isRequired,
+
+    value: PropTypes.any,
 
     /**
      * Визуально показать наличие предупреждения.
      */
     warning: PropTypes.bool,
+
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onChange: PropTypes.func,
   };
@@ -127,6 +150,7 @@ class ComboBox extends React.Component {
     renderValue,
     placeholder: 'Пусто',
     width: 250,
+    menuAlign: 'left',
   };
 
   props: Props;
@@ -155,14 +179,20 @@ class ComboBox extends React.Component {
   }
 
   render() {
+    const className = classNames({
+      [styles.root]: true,
+      [styles.deprecated_oldSize]: !Upgrades.__height34,
+    });
+
     let valueEl;
     if (this.state.opened) {
       valueEl = this.renderOpenedValue();
     } else {
       valueEl = this.renderClosedValue();
     }
+
     return (
-      <label className={styles.root} style={{width: this.props.width}}>
+      <label className={className} style={{width: this.props.width}}>
         {valueEl}
         {this.state.opened && this.renderMenu()}
         {this.props.openButton && (
@@ -220,11 +250,22 @@ class ComboBox extends React.Component {
     if (!result) {
       return null;
     }
+    const menuClassName = classNames({
+      [styles.menu]: true,
+      [styles.menuAlignRight]: this.props.menuAlign === 'right',
+    });
     return (
       <div className={styles.menuHolder}>
-        <div className={styles.menu}>
+        <div className={menuClassName}>
           <ScrollContainer ref={this._refScroll} maxHeight={200}>
             {mapResult(result, (value, info, i) => {
+              if (value && value.__type === STATIC_ITEM) {
+                const item: StaticItem = value;
+                return React.cloneElement(
+                  typeof item.item === 'function' ? item.item() : item.item,
+                  {key: i},
+                );
+              }
               const className = classNames({
                 [styles.menuItem]: true,
                 [styles.menuItemSelected]: this.state.selected === i,
@@ -232,7 +273,7 @@ class ComboBox extends React.Component {
               return (
                 <div key={i} ref={(el) => this._refItem(el, i)}
                   className={className}
-                  onMouseDown={(e) => this._handleItemClick(e, value)}
+                  onMouseDown={(e) => this._handleItemClick(e, value, info)}
                   onMouseEnter={(e) => this.setState({selected: i})}
                   onMouseLeave={(e) => this.setState({selected: -1})}
                 >
@@ -316,10 +357,11 @@ class ComboBox extends React.Component {
           this._focus();
         });
 
-        const value = this.state.result &&
-          this.state.result.values[this.state.selected];
+        const {result, selected} = this.state;
+        const value = result && result.values[selected];
+        const info = result && result.infos && result.infos[selected];
         if (value) {
-          this._change(value);
+          this._change(value, info);
         } else {
           this._tryRecover();
         }
@@ -345,18 +387,13 @@ class ComboBox extends React.Component {
   };
 
   // $FlowIssue 850
-  _handleOpenClick = () => {
-    this.setState({opened: true});
-    this._focus();
-  };
-
-  // $FlowIssue 850
   _handleValueClick = () => {
     this.setState({
       opened: true,
       searchText: '',
       result: null,
     });
+    this._alkoSetCurrentSearchText(this.state.value);
     this._focusAsync();
     this._fetchList('');
   };
@@ -389,18 +426,19 @@ class ComboBox extends React.Component {
         }, () => {
           this._focus();
         });
+        this._alkoSetCurrentSearchText(this.state.value);
         this._fetchList('');
         break;
     }
   };
 
-  _handleItemClick(event: MouseEvent, value: Value) {
+  _handleItemClick(event: MouseEvent, value: Value, info: Info) {
     if (event.button !== 0) {
       return;
     }
 
     this._close();
-    this._change(value);
+    this._change(value, info);
     this._focusAsync();
   }
 
@@ -470,13 +508,20 @@ class ComboBox extends React.Component {
       return;
     }
 
-    let selected = this.state.selected + step;
-    if (selected < 0) {
-      selected = this.state.result.values.length - 1;
-    }
-    if (selected >= this.state.result.values.length) {
-      selected = 0;
-    }
+    let selected = this.state.selected;
+    do {
+      selected += step;
+      if (selected < 0) {
+        selected = this.state.result.values.length - 1;
+      }
+      if (selected >= this.state.result.values.length) {
+        selected = 0;
+      }
+      const value = this.state.result.values[selected];
+      if (value && value.__type !== STATIC_ITEM) {
+        break;
+      }
+    } while (selected !== this.state.selected);
     this.setState({selected}, this._scrollToSelected);
   }
 
@@ -502,13 +547,13 @@ class ComboBox extends React.Component {
     }
   }
 
-  _change(value: Value) {
+  _change(value: Value, info?: Info) {
     if (this.props.value === undefined) {
       this.setState({value});
       this._resetItem(value);
     }
     if (this.props.onChange) {
-      this.props.onChange({target: {value}}, value);
+      this.props.onChange({target: {value}}, value, info);
     }
   }
 
@@ -527,6 +572,20 @@ class ComboBox extends React.Component {
     }
 
     return null;
+  }
+
+  _alkoSetCurrentSearchText(value: Value) {
+    if (this.props.alkoValueToText && value) {
+      const searchText = this.props.alkoValueToText(value);
+      this.setState(
+        {searchText},
+        () => {
+          if (this._focusable && this._focusable.setSelectionRange) {
+            this._focusable.setSelectionRange(0, searchText.length);
+          }
+        },
+      );
+    }
   }
 }
 

@@ -9,7 +9,6 @@ import Icon from 'ui/Icon';
 import Input from 'ui/Input';
 import Link from 'ui/Link';
 import RadioGroup from 'ui/RadioGroup';
-import SearchableSelect from 'ui/SearchableSelect';
 import Tooltip from 'ui/Tooltip';
 
 import styles from './Demo.less';
@@ -44,13 +43,6 @@ var Demo = React.createClass({
           <div>
             <Autocomplete source={sampleItems} placeholder="Search through"
               leftIcon={<Icon name="search" />}
-            />
-          </div>
-
-          <div>
-            <SearchableSelect items={['One', 'Two', 'Three', 'Four', 'Five']}
-              value={this.state.selectedVal}
-              onChange={(e, v) => {this.setState({selectedVal: v})}}
             />
           </div>
 

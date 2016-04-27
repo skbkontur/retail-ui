@@ -2,76 +2,19 @@
 
 :local {
   .root {
-    background: linear-gradient(#fefefe, #ececec);
-    border: 1px solid @border-color-gray-light;
-    border-bottom-color: @border-color-gray-dark;
-    border-radius: 3px;
-    box-sizing: border-box;
-    color: @text-color-default;
-    cursor: default;
     display: inline-block;
-    outline: 0;
     position: relative;
-  }
-
-  .root:focus {
-    border-color: @border-color-focus;
-    box-shadow: 0 0 0 1px @border-color-focus,
-      inset 0 0 0 1px @border-color-gray-lighter;
-    position: relative;
-  }
-
-  :global(.rt-ie8) {
-    .root:focus {
-      outline: 1px solid @border-color-focus;
-    }
-  }
-
-  .root:hover {
-    background: #ebebeb;
-    background: linear-gradient(#f2f2f2, #dfdfdf);
-  }
-
-  .isOpened {
-    background: #d7d7d7;
-
-    && {
-    }
-  }
-  .isOpened.isOpened {
-    border-color: #b3b3b3;
-    box-shadow: inset 0 3px 2px -2px rgba(0, 0, 1, .3);
-  }
-
-  .root.error {
-    border-color: @border-color-error;
-    box-shadow: 0 0 0 1px @border-color-error;
-  }
-
-  :global(.rt-ie8) {
-    .root.error {
-      outline: 1px solid @border-color-error;
-    }
   }
 
   .label {
     box-sizing: border-box;
     display: inline-block;
-    font-size: 14px;
-    height: 28px;
-    line-height: 28px;
-    padding: 0 20px 0 10px;
+    padding: 0 19px 0 9px;
     width: 100%;
-  }
-
-  .labelIsOpened {
-    position: relative;
-    z-index: 1000;
   }
 
   .labelText {
     display: inline-block;
-    height: 28px;
     max-width: 100%;
     overflow: hidden;
     vertical-align: top;
@@ -82,25 +25,39 @@
     color: #888;
   }
 
+  .arrowWrap {
+    bottom: 0;
+    position: absolute;
+    right: 8px;
+    top: 0;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+    }
+  }
+
   .arrow {
     border: 4px solid transparent;
     border-bottom-width: 0;
     border-top-color: #a6a6a6;
-    position: absolute;
-    right: 8px;
-    top: 13px;
+    display: inline-block;
+    margin-bottom: 3px;
+    vertical-align: middle;
   }
 
   .container {
-    bottom: 1px;
-    left: -1px;
+    bottom: 0px;
+    left: 0;
     position: absolute;
-    right: -1px;
-    z-index: 1000;
+    right: 0;
+    z-index: 800;
   }
 
   .botBorder {
-    background: #b3b3b3;
+    background: #c0c0c0;
     height: 1px;
     position: relative;
   }
@@ -116,13 +73,6 @@
   .drop {
     min-width: 100%;
     position: absolute;
-  }
-
-  .root.disabled {
-    background: @bg-disabled;
-    border-color: @border-color-gray-light;
-    box-shadow: none;
-    color: #808080;
   }
 
   .menu {
@@ -154,5 +104,20 @@
 
   .search {
     margin: 0 4px 4px;
+  }
+
+  .deprecated_oldSize {
+    .label {
+      height: 28px;
+      line-height: 28px;
+    }
+
+    .labelText {
+      height: 28px;
+    }
+
+    .arrow {
+      top: 13px;
+    }
   }
 }

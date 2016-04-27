@@ -3,11 +3,23 @@ import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
+import Button from '../Button';
+import filterProps from '../filterProps';
 import Input from '../Input';
 import listenFocusOutside from '../../lib/listenFocusOutside';
+import Upgrades from '../../lib/Upgrades';
 
-import '../ensureOldIEClassName';
 import styles from './Select.less';
+
+const STATIC_ITEM = Symbol('static_item');
+
+const PASS_BUTTON_PROPS = {
+  disabled: true,
+  error: true,
+  use: true,
+  size: true,
+  warning: true,
+};
 
 class Select extends React.Component {
   static propTypes = {
@@ -21,6 +33,18 @@ class Select extends React.Component {
      * и для значения.
      *
      * Для вставки разделителя можно использовать `Select.SEP`.
+     *
+     * Вставить невыделяемый элемент со своей разметкой можно так:
+     * ```
+     * <Select ...
+     *   items={[Select.static(() => <div>My Element</div>)]}
+     * />
+     * ```
+     *
+     * Чтобы добавить стандартный отступ для статического элемента:
+     * ```
+     * <Select.Item>My Element</Select.Item>
+     * ```
      */
     items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 
@@ -71,6 +95,13 @@ class Select extends React.Component {
     isSelectable,
   };
 
+  static static(item) {
+    return {
+      __type: STATIC_ITEM,
+      item,
+    };
+  }
+
   constructor(props, context) {
     super(props, context);
 
@@ -102,20 +133,19 @@ class Select extends React.Component {
     const focusable = !(this.state.opened && this.props.search) &&
       !this.props.disabled;
 
-    var rootProps = {
-      className: classNames({
-        [styles.root]: true,
-        [styles.isOpened]: this.state.opened,
-        [styles.error]: this.props.error,
-        [styles.disabled]: this.props.disabled,
-      }),
-      tabIndex: focusable ? '0' : '-1',
+    var buttonProps = {
+      ...filterProps(this.props, PASS_BUTTON_PROPS),
+
+      align: 'left',
+      disabled: this.props.disabled,
+      _noPadding: true,
+      width: '100%',
+      onClick: this.open_,
       onKeyDown: this.handleKey,
     };
-    if (this.props.width) {
-      rootProps.style = {
-        width: this.props.width,
-      };
+    if (this.state.opened) {
+      buttonProps.active = true;
+      buttonProps.corners = Button.BOTTOM_LEFT | Button.BOTTOM_RIGHT;
     }
 
     var labelProps = {
@@ -127,11 +157,15 @@ class Select extends React.Component {
     };
 
     return (
-      <span {...rootProps}>
-        <span {...labelProps}>
-          <span className={styles.labelText}>{label}</span>
-          <div className={styles.arrow} />
-        </span>
+      <span className={styles.root} style={{width: this.props.width}}>
+        <Button {...buttonProps}>
+          <span {...labelProps}>
+            <span className={styles.labelText}>{label}</span>
+            <div className={styles.arrowWrap}>
+              <div className={styles.arrow} />
+            </div>
+          </span>
+        </Button>
         {!this.props.disabled && this.state.opened && this.renderMenu()}
       </span>
     );
@@ -154,7 +188,6 @@ class Select extends React.Component {
     return (
       <div ref={this._refMenuContainer} className={styles.container}>
         <div className={styles.drop}>
-          <div className={styles.overlay} onMouseDown={this.close_} />
           <div style={{position: 'relative'}}>
             <div className={styles.menu}>
               {search}
@@ -165,8 +198,11 @@ class Select extends React.Component {
                   [styles.menuItemCurrent]: i === this.state.current,
                 });
                 let el = null;
-                if (item === Select.SEP) {
-                  el = <div key={`hr:${i}`} className={styles.menuSep} />;
+                if (item && item.__type === STATIC_ITEM) {
+                  el = React.cloneElement(
+                    typeof item.item === 'function' ? item.item() : item.item,
+                    {key: i},
+                  );
                 } else {
                   el = (
                     <div key={i} className={itemClassName}
@@ -305,7 +341,7 @@ class Select extends React.Component {
         current = 0;
       }
       const [value, item] = items[current];
-      if (item !== Select.SEP && this.props.isSelectable(value, item)) {
+      if (item && item.__type !== STATIC_ITEM) {
         return current;
       }
     } while (this.state.current !== current);
@@ -329,7 +365,15 @@ class Select extends React.Component {
   }
 }
 
-Select.SEP = {};
+Select.SEP = Select.static(
+  () => <div className={styles.menuSep} />
+);
+
+Select.Item = class Item extends React.Component {
+  render() {
+    return <div className={styles.menuItem}>{this.props.children}</div>;
+  }
+};
 
 function renderValue(value, item) {
   return item;

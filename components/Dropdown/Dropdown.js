@@ -1,9 +1,18 @@
 import React, {PropTypes} from 'react';
 
+import filterProps from '../filterProps';
 import Select from '../Select';
 
+const PASS_PROPS = {
+  error: true,
+  use: true,
+  size: true,
+  warning: true,
+  width: true,
+};
+
 /**
- * **DRAFT**
+ * Выпадающее меню.
  */
 export default class Dropdown extends React.Component {
   static propTypes = {
@@ -11,6 +20,25 @@ export default class Dropdown extends React.Component {
      * Подпись на кнопке.
      */
     caption: PropTypes.node.isRequired,
+
+    /**
+     * Визуально показать наличие ошибки.
+     */
+    error: PropTypes.bool,
+
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
+
+    /**
+     * Смотри Button.
+     */
+    use: PropTypes.any,
+
+    /**
+     * Визуально показать наличие предупреждения.
+     */
+    warning: PropTypes.bool,
+
+    width: PropTypes.number,
   };
 
   constructor(props) {
@@ -28,7 +56,9 @@ export default class Dropdown extends React.Component {
     });
 
     return (
-      <Select value={this.props.caption} items={items} renderValue={renderValue}
+      <Select
+        {...filterProps(this.props, PASS_PROPS)}
+        value={this.props.caption} items={items} renderValue={renderValue}
         renderItem={renderItem} onChange={this._handleChange}
       />
     );

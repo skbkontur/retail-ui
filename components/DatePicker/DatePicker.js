@@ -11,6 +11,8 @@ import styles from './DatePicker.less';
 
 class DatePicker extends React.Component {
   static propTypes = {
+    disabled: PropTypes.bool,
+
     error: PropTypes.bool,
 
     /**
@@ -46,6 +48,8 @@ class DatePicker extends React.Component {
       textValue: formatDate(props.value),
       opened: false,
     };
+
+    this._focused = false;
   }
 
   render() {
@@ -68,11 +72,13 @@ class DatePicker extends React.Component {
       <span className={className} style={{width: this.props.width}}>
         <Group width="100%">
           <Input ref="input" mainInGroup value={this.state.textValue}
-            maxLength="10" placeholder="дд.мм.гггг"
+            disabled={this.props.disabled} maxLength="10"
             onChange={this.handleChange} onBlur={this.handleBlur}
-            onFocus={this.props.onFocus} error={this.props.error}
+            onFocus={this.handleFocus} error={this.props.error}
           />
-          <Button narrow active={this.state.opened} onClick={this.open}>
+          <Button narrow active={this.state.opened}
+            disabled={this.props.disabled} onClick={this.open}
+          >
             <Icon name="calendar" />
           </Button>
         </Group>
@@ -84,10 +90,11 @@ class DatePicker extends React.Component {
   componentWillReceiveProps(newProps) {
     if (newProps.value !== undefined) {
       const date = checkDate(newProps.value);
-      this.setState({
-        value: date,
-        textValue: formatDate(date),
-      });
+      this.setState({value: date});
+
+      if (!this._focused) {
+        this.setState({textValue: formatDate(date)});
+      }
     }
   }
 
@@ -98,7 +105,17 @@ class DatePicker extends React.Component {
     });
   };
 
+  handleFocus = () => {
+    this._focused = true;
+
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
+  };
+
   handleBlur = () => {
+    this._focused = false;
+
     const date = parseDate(this.state.textValue);
     if (this.props.value === undefined) {
       this.setState({
@@ -177,7 +194,17 @@ function parseDate(str) {
   str = str || '';
   const match = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})$/);
   if (match) {
-    return checkDate(new Date(`${match[2]}-${match[1]}-${match[3]} UTC`));
+    let [, date, month, year] = match;
+    date = date.padLeft(2, '0');
+    month = month.padLeft(2, '0');
+    if (year.length === 2) {
+      if (parseInt(year, 10) < 50) {
+        year = '20' + year;
+      } else {
+        year = '19' + year;
+      }
+    }
+    return checkDate(new Date(`${year}-${month}-${date}`));
   }
   return null;
 }

@@ -2,31 +2,41 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reactTools from 'react-tools';
 
-import __components from '../components';
+import components from '../components';
 
 import styles from './CodeRunner.less';
 
-var __header = __components.map((component, i) => {
-  return `var ${component.name} = __components[${i}].component;`;
-}).join('\n') + '\n';
-
 function run(src, mountNode) {
   try {
-    evalCode(__header + src, mountNode);
+    evalCode(src, mountNode);
   } catch (ex) {
-    const error = ex.toString();
-    if ('textContent' in mountNode) {
-      mountNode.textContent = error;
-    } else {
-      mountNode.innerText = error;
-    }
+    console.error(ex);
+
+    ReactDOM.render(<div>{ex.toString()}</div>, mountNode);
   }
 }
 
+const vars = {
+  React,
+  ReactDOM,
+};
+for (const component of components) {
+  vars[component.name] = component.component;
+}
+
 function evalCode(_src, mountNode) {
-  eval(reactTools.transform(_src, { // eslint-disable-line no-eval
+  const localVars = {
+    ...vars,
+    mountNode,
+  };
+  const names = Object.keys(localVars);
+  const values = names.map(name => localVars[name]);
+
+  const code = reactTools.transform(_src, {
     harmony: true,
-  }));
+  });
+
+  new Function(...names, code)(...values);
 }
 
 var CodeRunner = React.createClass({
@@ -44,7 +54,7 @@ var CodeRunner = React.createClass({
 
   componentWillUnmount() {
     ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this));
-  }
+  },
 });
 
 export default CodeRunner;

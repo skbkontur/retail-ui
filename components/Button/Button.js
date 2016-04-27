@@ -1,10 +1,30 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
+import Corners from './Corners';
+import Upgrades from '../../lib/Upgrades';
+
 import '../ensureOldIEClassName';
 import styles from './Button.less';
 
+const DEPRECATED_SIZE_CLASSES = {
+  default: styles.deprecated_sizeDefault,
+  small: styles.deprecated_sizeDefault, // for new default size
+  large: styles.deprecated_sizeLarge,
+};
+
+const SIZE_CLASSES = {
+  small: styles.sizeSmall,
+  medium: styles.sizeMedium,
+  large: styles.sizeLarge,
+};
+
 class Button extends React.Component {
+  static TOP_LEFT = Corners.TOP_LEFT;
+  static TOP_RIGHT = Corners.TOP_RIGHT;
+  static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
+  static BOTTOM_LEFT = Corners.BOTTOM_LEFT;
+
   static propTypes = {
     /**
      * Визуально нажатое состояние.
@@ -26,7 +46,7 @@ class Button extends React.Component {
 
     narrow: PropTypes.bool,
 
-    size: PropTypes.oneOf(['default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
@@ -38,11 +58,14 @@ class Button extends React.Component {
 
   static defaultProps = {
     use: 'default',
-    size: 'default',
+    size: 'small',
     type: 'button',
   };
 
   render() {
+    const {corners = 0} = this.props;
+    const radius = '3px';
+
     var rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
@@ -53,13 +76,26 @@ class Button extends React.Component {
         [styles['use-' + this.props.use]]: true,
         [styles.active]: this.props.active,
         [styles.disabled]: this.props.disabled,
+        [styles.error]: this.props.error,
+        [styles.warning]: this.props.warning,
         [styles.narrow]: this.props.narrow,
-        [styles.sizeLarge]: this.props.size === 'large',
+        [styles.noPadding]: this.props._noPadding,
+
+        ...this._getSizeClassMap(),
       }),
-      style: {},
+      style: {
+        borderRadius: `${corners & Corners.TOP_LEFT ? 0 : radius}` +
+          ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
+          ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
+          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
+      },
       disabled: this.props.disabled,
       onClick: this.props.onClick,
+      onKeyDown: this.props.onKeyDown,
     };
+    if (this.props.align) {
+      rootProps.style.textAlign = this.props.align;
+    }
     if (this.props.width) {
       rootProps.style.width = this.props.width;
     }
@@ -67,6 +103,18 @@ class Button extends React.Component {
     return (
       <button {...rootProps}>{this.props.children}</button>
     );
+  }
+
+  _getSizeClassMap() {
+    if (!Upgrades.__height34) {
+      return {
+        [DEPRECATED_SIZE_CLASSES[this.props.size]]: true,
+      };
+    }
+
+    return {
+      [SIZE_CLASSES[this.props.size]]: true,
+    };
   }
 }
 
