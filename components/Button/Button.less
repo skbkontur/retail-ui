@@ -21,6 +21,10 @@
     }
   }
 
+  .root div {
+    position: relative;
+  }
+
   .root:focus {
     border-color: @border-color-focus;
     box-shadow: @focus-shadow;
@@ -193,18 +197,19 @@
     overflow: hidden;
   }
 
-  .root.loading:before {
+  .loading:before {
     content: '';
-    width: 100000%;
     height: 100%;
     position: absolute;
     opacity: .3;
     background: linear-gradient(-60deg, transparent 33%, #ccc 0, #ccc 66%, transparent 0);
     background-size: 50px 100%;
-    :global {
-      animation: btn_loading 300s linear infinite;
-    }
     top: 0;
+    left: 0;
+    right: -50px;
+    :global {
+      animation: btn_loading 1.4s linear infinite;
+    }
   }
 
   .warning {
@@ -246,9 +251,9 @@
 
 @keyframes btn_loading {
   0% {
-      left: 0
+    transform: translateX(0);
   }
   100% {
-      left: -9900%
+    transform: translateX(-50px);
   }
 } 

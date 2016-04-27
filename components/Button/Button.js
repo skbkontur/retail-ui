@@ -77,7 +77,7 @@ class Button extends React.Component {
         [styles.root]: true,
         [styles['use-' + this.props.use]]: true,
         [styles.active]: this.props.active,
-        [styles.disabled]: this.props.disabled,        
+        [styles.disabled]: this.props.disabled,
         [styles.loading]: this.props.loading,
         [styles.error]: this.props.error,
         [styles.warning]: this.props.warning,
@@ -104,7 +104,11 @@ class Button extends React.Component {
     }
 
     return (
-      <button {...rootProps}>{this.props.children}</button>
+      <button {...rootProps}>
+        <div>
+          {this.props.children}
+        </div>
+      </button>
     );
   }
 
