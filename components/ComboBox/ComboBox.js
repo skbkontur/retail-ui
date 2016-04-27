@@ -156,7 +156,7 @@ class ComboBox extends React.Component {
   props: Props;
   state: State;
 
-  _focusable: ?HTMLElement;
+  _focusable: ?HTMLInputElement;
   _scroll: ?ScrollContainer;
   _itemNodes: {[_: number]: HTMLElement};
   _recoverResult: ?RecoverResult;
@@ -313,7 +313,7 @@ class ComboBox extends React.Component {
   }
 
   // $FlowIssue 850
-  _refFocusable = (el: ?HTMLElement) => {
+  _refFocusable = (el: ?HTMLInputElement) => {
     this._focusable = el && (el.focus ? el : ReactDOM.findDOMNode(el));
   };
 
@@ -400,15 +400,19 @@ class ComboBox extends React.Component {
 
   // $FlowIssue 850
   _handleValueKeyPress = (event) => {
-    // Set input value to empty string and then back to the real value to make
-    // cursor appear at the and.
+    // Prevent current char from being appended to the input element (chrome).
+    event.preventDefault();
     const str = String.fromCharCode(event.charCode);
     this.setState(
       {
         opened: true,
-        searchText: '',
+        searchText: str,
       },
-      this._focus
+      () => {
+        if (this._focusable) {
+          this._focusable.setSelectionRange(1, 1);
+        }
+      }
     );
   };
 
