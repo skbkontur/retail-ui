@@ -18,7 +18,7 @@ ReactDOM.render(
     <TopBar
       userName="Alexander The Great"
       suffix="ui"
-      logout={() => alert('Logout!')}
+      onLogout={() => alert('Logout!')}
     >
       <Left>
         <Item>

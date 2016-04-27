@@ -90,18 +90,18 @@ class User extends React.Component {
         {opened &&
           <div className={styles.dropdown}>
             <DropdownMenu onClose={() => this.setState({opened: false})}>
-              <Link href="https://cabinet.kontur.ru">
+              <a href="https://cabinet.kontur.ru" className={styles.userLink}>
                 <b>Личный кабинет Контура</b>
-              </Link>
-              <Link href="https://cabinet.kontur.ru">
+              </a>
+              <a href="https://cabinet.kontur.ru" className={styles.userLink}>
                 Настройка входа в сервисы
-              </Link>
-              <Link href="https://cabinet.kontur.ru#certificates">
+              </a>
+              <a href="https://cabinet.kontur.ru#certificates" className={styles.userLink}>
                 Сертификаты
-              </Link>
-              <Link href="https://cabinet.kontur.ru#services">
+              </a>
+              <a href="https://cabinet.kontur.ru#services" className={styles.userLink}>
                 Оплата сервисов
-              </Link>
+              </a>
             </DropdownMenu>
           </div>
         }
@@ -119,7 +119,7 @@ type Props = {
   suffix: string,
   color?: string,
   userName: string,
-  logout: Function,
+  onLogout: Function,
 }
 
 type DefaultProps = {
@@ -190,7 +190,7 @@ class TopBar extends React.Component {
       suffix,
       color,
       userName,
-      logout
+      onLogout
     } = this.props;
 
     return (
@@ -216,8 +216,8 @@ class TopBar extends React.Component {
               {this.renderRightItems()}
               <User userName={userName}/>
               <Divider />
-              <ButtonItem onClick={logout}>
-                Logout
+              <ButtonItem onClick={onLogout}>
+                Выйти
               </ButtonItem>
             </RightGroup>
           </div>
@@ -264,7 +264,7 @@ TopBar.propTypes = {
   /**
    * Функция выхода
    **/
-  logout: PropTypes.func,
+  onLogout: PropTypes.func.isRequired,
 };
 
 export default TopBar;

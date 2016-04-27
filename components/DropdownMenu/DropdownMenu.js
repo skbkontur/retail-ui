@@ -91,8 +91,18 @@ class DropdownMenu extends React.Component {
       onMouseEnter={() => this.setState({selected: index})}
       onMouseLeave={() => this.setState({selected: -1})}
     >
-      {item}
+      {React.cloneElement(item, {
+        onFocus: this.focusItem(item, index),
+        _onFocus: item.props.onFocus
+      })}
     </div>;
+
+  focusItem = (item, index) => (e) => {
+    this.setState({selected: index})
+    return item.props._onFocus
+      ? item.props._onFocus(e)
+      : null
+  }
 
   render() {
     const {children, onClose} = this.props;

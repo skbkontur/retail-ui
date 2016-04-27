@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var autoprefixer = require('autoprefixer');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -38,7 +39,8 @@ module.exports = {
         test: /\.(css|less)$/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
-          'css?localIdentName=[name]-[local]-[hash:base64:8]!autoprefixer'
+          'css?localIdentName=[name]-[local]-[hash:base64:8]',
+          'postcss'
         ),
       },
       {test: /\.less$/, loader: 'less-loader'},
@@ -52,6 +54,9 @@ module.exports = {
       {test: path.resolve(__dirname, 'src', 'components.js'), loader: 'expose?__components'}
     ]
   },
+  postcss: [
+    autoprefixer({ browsers: ['last 2 versions', 'IE 8'] })
+  ],
   resolve: {
     fallback: path.join(__dirname, 'node_modules'),
     alias: {
