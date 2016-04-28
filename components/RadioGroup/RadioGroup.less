@@ -1,9 +1,6 @@
 :local {
   .root {
     display: inline-block;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
   }
 
@@ -27,6 +24,8 @@
   }
 
   .label {
+    // To make it 16px for default size text, so radio aligns with text.
+    line-height: 1.143;
     margin-left: 20px;
   }
 }
