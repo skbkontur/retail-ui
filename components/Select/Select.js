@@ -7,6 +7,8 @@ import Button from '../Button';
 import filterProps from '../filterProps';
 import Input from '../Input';
 import listenFocusOutside from '../../lib/listenFocusOutside';
+import MenuItem from '../MenuItem/MenuItem';
+import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import Upgrades from '../../lib/Upgrades';
 
 import styles from './Select.less';
@@ -192,11 +194,6 @@ class Select extends React.Component {
             <div className={styles.menu}>
               {search}
               {this.mapItems((iValue, item, i) => {
-                const itemClassName = classNames({
-                  [styles.menuItem]: true,
-                  [styles.menuItemSelected]: iValue === value,
-                  [styles.menuItemCurrent]: i === this.state.current,
-                });
                 let el = null;
                 if (item && item.__type === STATIC_ITEM) {
                   el = React.cloneElement(
@@ -204,14 +201,20 @@ class Select extends React.Component {
                     {key: i},
                   );
                 } else {
+                  const itemState =
+                    i === this.state.current ? 'hover' :
+                    iValue === value ? 'selected' :
+                    null;
+
                   el = (
-                    <div key={i} className={itemClassName}
+                    <MenuItem key={i}
+                      state={itemState}
                       onMouseDown={(e) => this._handleItemClick(e, iValue)}
                       onMouseEnter={(e) => this.setState({current: i})}
                       onMouseLeave={(e) => this.setState({current: -1})}
                     >
                       {this.props.renderItem(iValue, item)}
-                    </div>
+                    </MenuItem>
                   );
                 }
                 return el;
@@ -365,13 +368,11 @@ class Select extends React.Component {
   }
 }
 
-Select.SEP = Select.static(
-  () => <div className={styles.menuSep} />
-);
+Select.SEP = Select.static(() => <MenuSeparator />);
 
 Select.Item = class Item extends React.Component {
   render() {
-    return <div className={styles.menuItem}>{this.props.children}</div>;
+    return <MenuItem>{this.props.children}</MenuItem>;
   }
 };
 
