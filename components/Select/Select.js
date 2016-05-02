@@ -7,6 +7,7 @@ import Button from '../Button';
 import filterProps from '../filterProps';
 import Input from '../Input';
 import listenFocusOutside from '../../lib/listenFocusOutside';
+import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import Upgrades from '../../lib/Upgrades';
@@ -109,7 +110,6 @@ class Select extends React.Component {
 
     this.state = {
       opened: false,
-      current: -1,
       value: props.defaultValue,
     };
 
@@ -191,35 +191,26 @@ class Select extends React.Component {
       <div ref={this._refMenuContainer} className={styles.container}>
         <div className={styles.drop}>
           <div style={{position: 'relative'}}>
-            <div className={styles.menu}>
+            <Menu ref={this._refMenu}>
               {search}
               {this.mapItems((iValue, item, i) => {
-                let el = null;
                 if (item && item.__type === STATIC_ITEM) {
-                  el = React.cloneElement(
+                  return React.cloneElement(
                     typeof item.item === 'function' ? item.item() : item.item,
                     {key: i},
                   );
-                } else {
-                  const itemState =
-                    i === this.state.current ? 'hover' :
-                    iValue === value ? 'selected' :
-                    null;
-
-                  el = (
-                    <MenuItem key={i}
-                      state={itemState}
-                      onMouseDown={(e) => this._handleItemClick(e, iValue)}
-                      onMouseEnter={(e) => this.setState({current: i})}
-                      onMouseLeave={(e) => this.setState({current: -1})}
-                    >
-                      {this.props.renderItem(iValue, item)}
-                    </MenuItem>
-                  );
                 }
-                return el;
+
+                return (
+                  <MenuItem key={i}
+                    state={iValue === value ? 'selected' : null}
+                    onClick={this.select_.bind(this, iValue)}
+                  >
+                    {this.props.renderItem(iValue, item)}
+                  </MenuItem>
+                );
               })}
-            </div>
+            </Menu>
           </div>
         </div>
         <div className={styles.botBorder} />
@@ -250,6 +241,10 @@ class Select extends React.Component {
     }
   };
 
+  _refMenu = (menu) => {
+    this._menu = menu;
+  };
+
   _handleNativeDocClick = (event) => {
     const target = event.target || event.srcElement;
     if (this._menuContainer && !this._menuContainer.contains(target)) {
@@ -265,10 +260,7 @@ class Select extends React.Component {
 
   close_ = () => {
     if (this.state.opened) {
-      this.setState({
-        opened: false,
-        current: -1,
-      });
+      this.setState({opened: false});
     }
   };
 
@@ -285,27 +277,18 @@ class Select extends React.Component {
         this.setState({opened: false}, () => {
           ReactDOM.findDOMNode(this).focus();
         });
-      } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      } else if (e.key === 'ArrowUp') {
         e.preventDefault();
-
-        const step = e.key === 'ArrowUp' ? -1 : 1;
-        const current = this.nextSelectable_(step);
-        this.setState({current});
+        this._menu && this._menu.up();
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        this._menu && this._menu.down();
       } else if (e.key === 'Enter') {
-        const items = this.mapItems((value) => value);
-        if (items[this.state.current]) {
-          e.preventDefault(); // To prevent form submission.
-          this.select_(items[this.state.current]);
-        }
+        e.preventDefault(); // To prevent form submission.
+        this._menu && this._menu.enter();
       }
     }
   };
-
-  _handleItemClick(event, value) {
-    if (event.button === 0) {
-      this.select_(value);
-    }
-  }
 
   handleSearch = event => {
     this.setState({searchPattern: event.target.value});
@@ -314,7 +297,6 @@ class Select extends React.Component {
   select_(value) {
     this.setState({
       opened: false,
-      current: -1,
       value,
     }, () => {
       setTimeout(() => {
@@ -331,23 +313,6 @@ class Select extends React.Component {
       return this.props.value;
     }
     return this.state.value;
-  }
-
-  nextSelectable_(step) {
-    const items = this.mapItems((value, item) => [value, item]);
-    let current = this.state.current;
-    do {
-      current += step;
-      if (current < 0) {
-        current = items.length - 1;
-      } else if (current >= items.length) {
-        current = 0;
-      }
-      const [value, item] = items[current];
-      if (item && item.__type !== STATIC_ITEM) {
-        return current;
-      }
-    } while (this.state.current !== current);
   }
 
   mapItems(fn) {
