@@ -8,6 +8,8 @@ import styles from './MenuItem.less';
 global.React = React;
 
 export default class MenuItem extends React.Component {
+  static __MENU_ITEM__ = true;
+
   props: {
     state: 'hover' | 'selected';
   };
