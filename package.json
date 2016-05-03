@@ -15,6 +15,7 @@
     "add-event-listener": "0.0.1",
     "classnames": "^2.2.0",
     "fbemitter": "^2.0.0",
+    "invariant": "^2.2.1",
     "react-input-mask": "^0.5.10",
     "warning": "^2.1.0"
   },

@@ -14,8 +14,6 @@ import Upgrades from '../../lib/Upgrades';
 
 import styles from './Select.less';
 
-const STATIC_ITEM = Symbol('static_item');
-
 const PASS_BUTTON_PROPS = {
   disabled: true,
   error: true,
@@ -83,11 +81,6 @@ class Select extends React.Component {
     renderItem: PropTypes.func,
 
     filterItem: PropTypes.func,
-
-    /**
-     * DEPRECATED
-     */
-    isSelectable: PropTypes.func,
   };
 
   static defaultProps = {
@@ -95,14 +88,12 @@ class Select extends React.Component {
     renderValue,
     renderItem,
     filterItem,
-    isSelectable,
   };
 
-  static static(item) {
-    return {
-      __type: STATIC_ITEM,
-      item,
-    };
+  static static(element) {
+    invariant(React.isValidElement(element));
+
+    return element;
   }
 
   constructor(props, context) {
@@ -194,9 +185,9 @@ class Select extends React.Component {
             <Menu ref={this._refMenu}>
               {search}
               {this.mapItems((iValue, item, i) => {
-                if (item && item.__type === STATIC_ITEM) {
+                if (typeof item === 'function' || React.isValidElement(item)) {
                   return React.cloneElement(
-                    typeof item.item === 'function' ? item.item() : item.item,
+                    typeof item === 'function' ? item() : item,
                     {key: i},
                   );
                 }
@@ -333,7 +324,7 @@ class Select extends React.Component {
   }
 }
 
-Select.SEP = Select.static(() => <MenuSeparator />);
+Select.SEP = () => <MenuSeparator />;
 
 Select.Item = class Item extends React.Component {
   render() {
@@ -347,10 +338,6 @@ function renderValue(value, item) {
 
 function renderItem(value, item) {
   return item;
-}
-
-function isSelectable(value, item) {
-  return true;
 }
 
 function getItemByValue(items, value) {
