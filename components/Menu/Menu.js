@@ -38,14 +38,20 @@ export default class Menu extends React.Component {
   }
 
   enter() {
-    this._select(this.state.highlightedIndex);
+    return this._select(this.state.highlightedIndex);
+  }
+
+  reset() {
+    this.setState({highlightedIndex: -1});
   }
 
   _select(index: number) {
     const item = childrenToArray(this.props.children)[index];
     if (this._canSelect(item)) {
       item.props.onClick && item.props.onClick();
+      return true;
     }
+    return false;
   }
 
   _highlightItem(index: number) {
