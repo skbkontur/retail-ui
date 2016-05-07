@@ -4,7 +4,6 @@ import cx from 'classnames';
 import Center from 'ui/Center';
 import Logotype from 'ui/Logotype';
 import Icon from 'ui/Icon';
-import Link from 'ui/Link';
 import DropdownMenu from 'ui/DropdownMenu';
 
 import styles from './TopBar.less';
@@ -203,13 +202,16 @@ class TopBar extends React.Component {
         <div className={styles.center} style={{maxWidth}}>
           <div className={styles.container}>
             <LeftGroup>
-              <Logo suffix={suffix} color={color}/>
-              <Divider />
-              <ButtonItem iconOnly>
-                <Icon color="#aaa" size={20} name="angle-bottom"/>
-              </ButtonItem>
+              <div id="spwDropdown" style={{display: 'inline-block'}}>
+                <span ref={this._refLogoWrapper}>
+                  <Logo suffix={suffix} color={color}/>
+                  <Divider />
+                </span>
+                <ButtonItem iconOnly>
+                  <Icon color="#aaa" size={20} name="angle-bottom"/>
+                </ButtonItem>
+              </div>
               {this.renderLeftItems()}
-
             </LeftGroup>
 
             <RightGroup>
@@ -225,6 +227,43 @@ class TopBar extends React.Component {
       </div>
     );
   }
+
+  componentDidMount() {
+    const loadWidget = () => {
+      const script = document.createElement('script');
+      script.src = 'https://widget-product.kontur.ru/widget/loader?' +
+        'product=&type=service';
+      document.getElementsByTagName('head')[0].appendChild(script);
+    };
+
+    if (global.jQuery) {
+      loadWidget();
+    } else {
+      const jquery = document.createElement('script');
+      jquery.onload = loadWidget;
+      jquery.src = 'https://code.jquery.com/jquery-2.2.2.min.js';
+      document.getElementsByTagName('head')[0].appendChild(jquery);
+    }
+  }
+
+  _refLogoWrapper = el => {
+    if (this._logoWrapper) {
+      this._logoWrapper.removeEventListener(
+        'click',
+        this._handleNativeLogoClick
+      );
+    }
+
+    if (el) {
+      el.addEventListener('click', this._handleNativeLogoClick);
+    }
+
+    this._logoWrapper = el;
+  };
+
+  _handleNativeLogoClick = event => {
+    event.stopPropagation();
+  };
 }
 
 TopBar.propTypes = {
