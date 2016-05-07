@@ -1,6 +1,9 @@
 // @flow
 
 import React from 'react';
+import ReactDOM from 'react-dom';
+
+import ScrollContainer from '../ScrollContainer/ScrollContainer';
 
 import styles from './Menu.less';
 
@@ -11,20 +14,35 @@ export default class Menu extends React.Component {
     highlightedIndex: -1,
   };
 
+  _scrollContainer: ScrollContainer;
+  _highlighted: any;
+  _highlightedItemRef: ?((el: any) => void);
+
   render() {
     return (
       <div className={styles.root}>
-        {React.Children.map(this.props.children, (child, index) => {
-          if (this._canSelect(child)) {
-            return React.cloneElement(child, {
-              state: this.state.highlightedIndex === index ? 'hover' : null,
-              onClick: this._select.bind(this, index),
-              onMouseEnter: this._highlightItem.bind(this, index),
-              onMouseLeave: this._unhighlight,
-            });
-          }
-          return child;
-        })}
+        <ScrollContainer ref={this._refScrollContainer} maxHeight={200}>
+          {React.Children.map(this.props.children, (child, index) => {
+            if (this._canSelect(child)) {
+              const highlight = this.state.highlightedIndex === index;
+
+              let ref = child.ref;
+              if (highlight) {
+                this._highlightedItemRef = ref;
+                ref = this._refHighlighted;
+              }
+
+              return React.cloneElement(child, {
+                ref,
+                state: highlight ? 'hover' : null,
+                onClick: this._select.bind(this, index),
+                onMouseEnter: this._highlightItem.bind(this, index),
+                onMouseLeave: this._unhighlight,
+              });
+            }
+            return child;
+          })}
+        </ScrollContainer>
       </div>
     );
   }
@@ -45,6 +63,21 @@ export default class Menu extends React.Component {
     this.setState({highlightedIndex: -1});
   }
 
+  _refScrollContainer: Function = scrollContainer => {
+    this._scrollContainer = scrollContainer;
+  };
+
+  _refHighlighted: Function = menuItem => {
+    this._highlighted = menuItem;
+
+    const originalRef = this._highlightedItemRef;
+    originalRef && originalRef(menuItem);
+  };
+
+  _scrollToSelected: Function = () => {
+    this._scrollContainer.scrollTo(ReactDOM.findDOMNode(this._highlighted));
+  };
+
   _select(index: number) {
     const item = childrenToArray(this.props.children)[index];
     if (this._canSelect(item)) {
@@ -58,8 +91,7 @@ export default class Menu extends React.Component {
     this.setState({highlightedIndex: index});
   }
 
-  // $FlowIssue 850
-  _unhighlight = () => {
+  _unhighlight: Function = () => {
     this.setState({highlightedIndex: -1});
   };
 
@@ -76,7 +108,7 @@ export default class Menu extends React.Component {
 
       const child = children[index];
       if (this._canSelect(child)) {
-        this.setState({highlightedIndex: index});
+        this.setState({highlightedIndex: index}, this._scrollToSelected);
         return;
       }
     } while (index !== this.state.highlightedIndex);
