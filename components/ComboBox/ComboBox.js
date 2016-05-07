@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import classNames from 'classnames';
 import events from 'add-event-listener';
@@ -13,7 +13,6 @@ import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
-import ScrollContainer from '../ScrollContainer';
 
 import styles from './ComboBox.less';
 
@@ -150,7 +149,6 @@ class ComboBox extends React.Component {
   state: State;
 
   _focusable: ?HTMLInputElement;
-  _scroll: ?ScrollContainer;
   _menu: ?Menu;
   _recoverResult: ?RecoverResult;
   _focusSubscribtion: ?{remove: () => void};
@@ -167,7 +165,6 @@ class ComboBox extends React.Component {
       selected: -1,
     };
     this._focusable = null;
-    this._scroll = null;
     this._recoverResult = null;
   }
 
@@ -299,18 +296,11 @@ class ComboBox extends React.Component {
     }
   }
 
-  // $FlowIssue 850
-  _refFocusable = (el: ?HTMLInputElement) => {
+  _refFocusable: Function = (el: ?HTMLInputElement) => {
     this._focusable = el && (el.focus ? el : ReactDOM.findDOMNode(el));
   };
 
-  // $FlowIssue 850
-  _refScroll = (el: ?ScrollContainer) => {
-    this._scroll = el;
-  };
-
-  // $FlowIssue 850
-  _refMenuHolder = (menuHolder: any) => {
+  _refMenuHolder: Function = (menuHolder: any) => {
     if (this._focusSubscribtion) {
       this._focusSubscribtion.remove();
       this._focusSubscribtion = null;
@@ -335,13 +325,11 @@ class ComboBox extends React.Component {
     }
   };
 
-  // $FlowIssue 850
-  _refMenu = (menu: Menu) => {
+  _refMenu: Function = (menu: Menu) => {
     this._menu = menu;
   };
 
-  // $FlowIssue 850
-  _handleInputChange = (event: any) => {
+  _handleInputChange: Function = (event: any) => {
     const pattern = event.target.value;
     this.setState({
       opened: true,
@@ -350,8 +338,7 @@ class ComboBox extends React.Component {
     this._fetchList(pattern);
   };
 
-  // $FlowIssue 850
-  _handleInputKey = (event) => {
+  _handleInputKey: Function = (event) => {
     switch (event.key) {
       case 'ArrowUp':
         event.preventDefault();
@@ -379,8 +366,7 @@ class ComboBox extends React.Component {
     }
   };
 
-  // $FlowIssue 850
-  _handleValueClick = () => {
+  _handleValueClick: Function = () => {
     this.setState({
       opened: true,
       searchText: '',
@@ -391,8 +377,7 @@ class ComboBox extends React.Component {
     this._fetchList('');
   };
 
-  // $FlowIssue 850
-  _handleValueKeyPress = (event) => {
+  _handleValueKeyPress: Function = (event) => {
     // Prevent current char from being appended to the input element (chrome).
     event.preventDefault();
     const str = String.fromCharCode(event.charCode);
@@ -409,8 +394,7 @@ class ComboBox extends React.Component {
     );
   };
 
-  // $FlowIssue 850
-  _handleValueKey = (event) => {
+  _handleValueKey: Function = (event) => {
     switch (event.key) {
       case ' ':
       case 'Enter':
@@ -435,20 +419,17 @@ class ComboBox extends React.Component {
     this._focusAsync();
   }
 
-  // $FlowIssue 850
-  _handleArrowMouseDown = (event) => {
+  _handleArrowMouseDown: Function = (event) => {
     event.preventDefault();
   };
 
-  // $FlowIssue 850
-  _handleArrowClick = (event) => {
+  _handleArrowClick: Function = (event) => {
     if (!this.state.opened) {
       this._handleValueClick();
     }
   };
 
-  // $FlowIssue 850
-  _handleNativeDocClick = (event) => {
+  _handleNativeDocClick: Function = (event) => {
     const target: Element = event.target || event.srcElement;
 
     const thisDOM: Element = ReactDOM.findDOMNode(this);
@@ -497,8 +478,7 @@ class ComboBox extends React.Component {
     });
   }
 
-  // $FlowIssue 850
-  _focus = () => {
+  _focus: Function = () => {
     if (this._focusable) {
       this._focusable.focus();
     }
