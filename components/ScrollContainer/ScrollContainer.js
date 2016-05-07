@@ -168,5 +168,6 @@ function measureScrollWidth() {
   const ret = div.offsetWidth - div.clientWidth;
   document.body.removeChild(div);
 
-  return ret;
+  // At least in jest it's NaN.
+  return ret || 0;
 }

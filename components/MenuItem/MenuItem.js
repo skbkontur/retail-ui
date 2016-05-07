@@ -11,7 +11,7 @@ export default class MenuItem extends React.Component {
   static __MENU_ITEM__ = true;
 
   props: {
-    state: 'hover' | 'selected';
+    state?: 'hover' | 'selected';
   };
 
   render() {
