@@ -1,6 +1,7 @@
 import React, {PropTypes, Children} from 'react';
 import cx from 'classnames';
 
+import Button from 'ui/Button'
 import Center from 'ui/Center';
 import Logotype from 'ui/Logotype';
 import Icon from 'ui/Icon';
@@ -49,7 +50,7 @@ class _Item extends React.Component {
 
 class ButtonItem extends React.Component {
   render() {
-    const {onClick, children, iconOnly} = this.props;
+    const {onClick, children, iconOnly, className, style} = this.props;
     return (
       <_Item className={styles.button} _onClick={onClick} iconOnly={iconOnly}>
         {children}
@@ -75,6 +76,44 @@ class Logo extends React.Component {
   }
 }
 
+class DropdownItem extends React.Component {
+
+  static propTypes = {
+    content: PropTypes.node,
+    children: PropTypes.node,
+  };
+
+  state = {
+    opened: false,
+  };
+
+  toggleDropdown = () => {
+    const {opened} = this.state;
+    this.setState({opened: !opened});
+  }
+
+  hideDropdown = () => {
+    this.setState({opened: false})
+  }
+
+  render() {
+    const {content, children} = this.props;
+    const {opened} = this.state;
+    return (
+      <ButtonItem onClick={this.toggleDropdown}>
+        {content}
+        {opened &&
+        <div className={styles.dropdown}>
+          <DropdownMenu onClose={this.hideDropdown}>
+            {children}
+          </DropdownMenu>
+        </div>
+        }
+      </ButtonItem>
+    );
+  }
+}
+
 class User extends React.Component {
   state = {
     opened: false,
@@ -85,7 +124,7 @@ class User extends React.Component {
     const {opened} = this.state;
     return (
       <ButtonItem onClick={() => this.setState({opened: !opened})}>
-        <Icon color="#666" name="user" /> {userName}
+        <Icon color="#666" name="user" size="22"/> {userName}
         {opened &&
           <div className={styles.dropdown}>
             <DropdownMenu onClose={() => this.setState({opened: false})}>
@@ -101,6 +140,7 @@ class User extends React.Component {
               <a href="https://cabinet.kontur.ru#services" className={styles.userLink}>
                 Оплата сервисов
               </a>
+              <Button>Hello</Button>
             </DropdownMenu>
           </div>
         }
@@ -151,6 +191,7 @@ class TopBar extends React.Component {
   static Left = LeftGroup;
   static Right = RightGroup;
   static Item = ButtonItem;
+  // static
 
   defaultProps = {
     maxWidth: 1166,
