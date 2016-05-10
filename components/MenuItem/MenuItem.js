@@ -17,7 +17,7 @@ export default class MenuItem extends React.Component {
   render() {
     const {
       state,
-      ...rest
+      ...rest,
     } = this.props;
     const className = classNames({
       [styles.root]: true,

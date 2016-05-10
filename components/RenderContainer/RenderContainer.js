@@ -41,7 +41,9 @@ export default class RenderContainer extends React.Component {
 
   componentWillUnmount() {
     ReactDOM.unmountComponentAtNode(this._domContainer);
-    this._domContainer.parentNode.removeChild(this._domContainer);
+    if (this._domContainer.parentNode) {
+      this._domContainer.parentNode.removeChild(this._domContainer);
+    }
 
     if (global.ReactTesting) {
       global.ReactTesting.removeRenderContainer(this._testID);

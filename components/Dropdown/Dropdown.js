@@ -56,7 +56,6 @@ export default class Dropdown extends React.Component {
         value={this.props.caption}
         items={items}
         renderValue={renderValue}
-        renderItem={renderItem}
       />
     );
   }
