@@ -6,11 +6,11 @@ import ReactDOM from 'react-dom';
 import Button from '../Button';
 import filterProps from '../filterProps';
 import Input from '../Input';
+import invariant from 'invariant';
 import listenFocusOutside from '../../lib/listenFocusOutside';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
-import Upgrades from '../../lib/Upgrades';
 
 import styles from './Select.less';
 
@@ -122,9 +122,6 @@ class Select extends React.Component {
         <span className={styles.placeholder}>{this.props.placeholder}</span>
       );
     }
-
-    const focusable = !(this.state.opened && this.props.search) &&
-      !this.props.disabled;
 
     var buttonProps = {
       ...filterProps(this.props, PASS_BUTTON_PROPS),

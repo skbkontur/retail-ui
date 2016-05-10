@@ -1,7 +1,6 @@
 /* @flow */
 
 import React, {PropTypes} from 'react';
-import ReactDOM from 'react-dom';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 
@@ -217,5 +216,5 @@ export default class Sticky extends React.Component {
         callback();
       }
     }
-  };
+  }
 }

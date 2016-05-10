@@ -16,6 +16,8 @@ ecmaFeatures:
 
 globals:
   __DEV__: true
+  $Shape: true
+  ReactTesting: true
 
 rules:
   # Possible Errors <http://eslint.org/docs/rules/#possible-errors>
@@ -106,8 +108,6 @@ rules:
   no-div-regex: 0
   # we don't do this/care about this
   no-else-return: 0
-  # equivalent to jshint W028
-  no-empty-label: 2
   # see eqeqeq: we explicitly allow this, equivalent to jshint eqnull
   no-eq-null: 0
   # equivalent to jshint evil
@@ -248,6 +248,7 @@ rules:
   jsx-quotes: [2, prefer-double]
   # we may use extra spaces for alignment
   key-spacing: [0, {beforeColon: false, afterColon: true}]
+  keyword-spacing: 2
   lines-around-comment: 0
   # should be handled by a generic TXT linter instead
   linebreak-style: [0, unix]
@@ -293,16 +294,10 @@ rules:
   # equivalent to jshint asi/W032
   semi: [1, always]
   sort-vars: 0
-  # require `if ()` instead of `if()`
-  space-after-keywords: [1, always]
-  # require `if () {` instead of `if (){`
-  space-before-blocks: [1, always]
   # require `function foo()` instead of `function foo ()`
   space-before-function-paren: [1, {anonymous: never, named: never}]
   space-in-parens: [1, never]
   space-infix-ops: 0
-  # require `return -a` instead of `return-a`
-  space-return-throw-case: 1
   # Currently broken: https://github.com/eslint/eslint/issues/2764
   space-unary-ops: [0, {words: true, nonwords: false}]
   # TODO: Figure out a way to do this that doesn't break typechecks
@@ -312,7 +307,7 @@ rules:
 
   # ECMAScript 6 <http://eslint.org/docs/rules/#ecmascript-6>
   # TODO: our style guide says to always use parens, even w/ a single param
-  arrow-parens: 1
+  arrow-parens: 0
   # tbgs finds *very few* places where we don't put spaces around =>
   arrow-spacing: [1, {before: true, after: true}]
   # violation of the ES6 spec, won't transform
@@ -341,7 +336,7 @@ rules:
   max-len: [2, 80]
   max-params: 0
   max-statements: 0
-  no-bitwise: 1
+  no-bitwise: 0
   no-plusplus: 0
 
   react/jsx-closing-bracket-location: [1, tag-aligned]
@@ -352,3 +347,5 @@ rules:
   react/jsx-sort-prop-types: 0
   # don't use it atm
   react/jsx-sort-props: 0
+  react/jsx-uses-react: 2
+  react/jsx-uses-vars: 2

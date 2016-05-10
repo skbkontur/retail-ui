@@ -5,8 +5,6 @@ import React from 'react';
 
 import Modal from '../Modal.adapter.js';
 
-import RenderContainer from '../../RenderContainer';
-
 describe('Modal-adapter', () => {
   it('close', () => {
     const onClose = jest.fn();

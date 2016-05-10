@@ -262,6 +262,7 @@ class DateSelect extends React.Component {
     } else if (this.props.type === 'year') {
       return (this.props.minYear - this.props.value) * HEIGHT;
     }
+    return -Infinity; // Be defensive.
   }
 
   getMaxPos() {
@@ -270,6 +271,7 @@ class DateSelect extends React.Component {
     } else if (this.props.type === 'year') {
       return (this.props.maxYear - this.props.value) * HEIGHT;
     }
+    return Infinity; // Be defensive.
   }
 }
 
