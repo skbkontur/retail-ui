@@ -224,7 +224,9 @@ function match(pattern, items) {
   }
 
   pattern = pattern.toLowerCase();
-  let filteredItems = items.filter((item) => item.toLowerCase().indexOf(pattern) !== -1);
+  const filteredItems = items.filter(
+    item => item.toLowerCase().includes(pattern)
+  );
   return Promise.resolve(filteredItems);
 }
 
