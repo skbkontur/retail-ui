@@ -26,7 +26,7 @@ type Value = any;
 type Info = any;
 
 type SourceResult = {
-  values: Array<Value | React.Element<*> | (() => React.Element<*>)>,
+  values: Array<Value | React.Element<any> | (() => React.Element<any>)>,
   infos?: Array<Info>,
   total?: number,
 };
@@ -46,8 +46,8 @@ type Props = {
   openButton?: bool,
   placeholder?: string,
   recover?: (RecoverFunc | bool),
-  renderItem: (value: Value, info: Info) => React.Element<*>,
-  renderValue: (value: Value, info: ?Info) => React.Element<*>,
+  renderItem: (value: Value, info: Info) => React.Element<any>,
+  renderValue: (value: Value, info: ?Info) => React.Element<any>,
   source: (searchText: string) => Promise<SourceResult>,
   warning?: bool,
   value: ?Value,
@@ -72,7 +72,7 @@ class ComboBox extends React.Component {
     }
   };
 
-  static static(element: ((() => React.Element<*>) | React.Element<*>)) {
+  static static(element: ((() => React.Element<any>) | React.Element<any>)) {
     return element;
   }
 
