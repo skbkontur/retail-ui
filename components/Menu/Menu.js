@@ -114,7 +114,7 @@ export default class Menu extends React.Component {
     } while (index !== this.state.highlightedIndex);
   }
 
-  _canSelect(element: ?React.Element<*>) {
+  _canSelect(element: ?React.Element<any>) {
     return element && element.type.__MENU_ITEM__;
   }
 }
