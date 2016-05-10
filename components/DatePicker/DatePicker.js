@@ -185,8 +185,8 @@ function formatDate(date) {
     return '';
   }
 
-  const day = formatNumber(date.getDate());
-  const month = formatNumber(date.getMonth() + 1);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
   return `${day}.${month}.${date.getFullYear()}`;
 }
 
@@ -195,26 +195,28 @@ function parseDate(str) {
   const match = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})$/);
   if (match) {
     let [, date, month, year] = match;
-    date = date.padLeft(2, '0');
-    month = month.padLeft(2, '0');
-    if (year.length === 2) {
-      if (parseInt(year, 10) < 50) {
-        year = '20' + year;
-      } else {
-        year = '19' + year;
-      }
+    year = parseInt(year, 10);
+    month = parseInt(month, 10) - 1;
+    date = parseInt(date, 10);
+
+    // Handle short year version
+    if (year < 50) { // 20xx
+      year += 2000;
+    } else if (year < 100) { // 19xx
+      year += 1900;
     }
-    return checkDate(new Date(`${year}-${month}-${date}`));
+
+    // IE8 does't support `Date('yyyy-mm-dd')` constructor.
+    const dateObj = new Date(Date.UTC(year, month, date));
+    if (
+      dateObj.getFullYear() === year &&
+      dateObj.getMonth() === month &&
+      dateObj.getDate() === date
+    ) {
+      return checkDate(dateObj);
+    }
   }
   return null;
-}
-
-function formatNumber(value) {
-  let ret = value.toString();
-  while (ret.length < 2) {
-    ret = '0' + ret;
-  }
-  return ret;
 }
 
 export default DatePicker;
