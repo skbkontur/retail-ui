@@ -79,9 +79,16 @@ class Button extends React.Component {
       rootProps.style.width = this.props.width;
     }
 
+    if (this.props.focus)
+      rootProps.ref=domButton=>{this.domButton = domButton;};
     return (
       <button {...rootProps}>{this.props.children}</button>
     );
+  }
+
+  componentDidMount() {
+    if (this.props.focus && this.domButton)
+       this.domButton.focus();
   }
 
   _getSizeClassMap() {
