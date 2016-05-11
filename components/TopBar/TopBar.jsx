@@ -1,11 +1,12 @@
 import React, {PropTypes, Children} from 'react';
 import cx from 'classnames';
 
-import Button from 'ui/Button'
+import Button from 'ui/Button';
 import Center from 'ui/Center';
+import Dropdown from 'ui/Dropdown';
 import Logotype from 'ui/Logotype';
 import Icon from 'ui/Icon';
-import DropdownMenu from 'ui/DropdownMenu';
+import MenuItem from 'ui/MenuItem/MenuItem';
 
 import styles from './TopBar.less';
 
@@ -35,7 +36,7 @@ class _Item extends React.Component {
     return (
       <div
         className={cx(styles.block, {
-          [className]: className,
+          [className]: true,
           [styles.iconOnly]: iconOnly,
         })}
         onClick={_onClick}
@@ -50,7 +51,7 @@ class _Item extends React.Component {
 
 class ButtonItem extends React.Component {
   render() {
-    const {onClick, children, iconOnly, className, style} = this.props;
+    const {onClick, children, iconOnly} = this.props;
     return (
       <_Item className={styles.button} _onClick={onClick} iconOnly={iconOnly}>
         {children}
@@ -76,75 +77,52 @@ class Logo extends React.Component {
   }
 }
 
-class DropdownItem extends React.Component {
-
-  static propTypes = {
-    content: PropTypes.node,
-    children: PropTypes.node,
-  };
-
-  state = {
-    opened: false,
-  };
-
-  toggleDropdown = () => {
-    const {opened} = this.state;
-    this.setState({opened: !opened});
-  }
-
-  hideDropdown = () => {
-    this.setState({opened: false})
-  }
-
+class TopBarDropdown extends React.Component {
   render() {
-    const {content, children} = this.props;
-    const {opened} = this.state;
     return (
-      <ButtonItem onClick={this.toggleDropdown}>
-        {content}
-        {opened &&
-        <div className={styles.dropdown}>
-          <DropdownMenu onClose={this.hideDropdown}>
-            {children}
-          </DropdownMenu>
-        </div>
-        }
-      </ButtonItem>
+      <Dropdown _renderButton={this._renderButton} {...this.props}>
+        {this.props.children}
+      </Dropdown>
     );
   }
+
+  _renderButton = (params) => {
+    return (
+      <span
+        className={cx(styles.button, params.opened && styles.buttonActive)}
+        tabIndex="0"
+        onClick={params.onClick}
+        onKeyDown={params.onKeyDown}
+      >
+        {params.label}
+      </span>
+    );
+  };
 }
 
 class User extends React.Component {
-  state = {
-    opened: false,
-  };
-
   render() {
     const {userName} = this.props;
-    const {opened} = this.state;
     return (
-      <ButtonItem onClick={() => this.setState({opened: !opened})}>
-        <Icon color="#666" name="user" size="22"/> {userName}
-        {opened &&
-          <div className={styles.dropdown}>
-            <DropdownMenu onClose={() => this.setState({opened: false})}>
-              <a href="https://cabinet.kontur.ru" className={styles.userLink}>
-                <b>Личный кабинет Контура</b>
-              </a>
-              <a href="https://cabinet.kontur.ru" className={styles.userLink}>
-                Настройка входа в сервисы
-              </a>
-              <a href="https://cabinet.kontur.ru#certificates" className={styles.userLink}>
-                Сертификаты
-              </a>
-              <a href="https://cabinet.kontur.ru#services" className={styles.userLink}>
-                Оплата сервисов
-              </a>
-              <Button>Hello</Button>
-            </DropdownMenu>
-          </div>
+      <TopBarDropdown
+        caption={
+          <span><Icon color="#666" name="user" size="22"/> {userName}</span>
         }
-      </ButtonItem>
+      >
+        <MenuItem href="https://cabinet.kontur.ru">
+          <b>Личный кабинет Контура</b>
+        </MenuItem>
+        <MenuItem href="https://cabinet.kontur.ru">
+          Настройка входа в сервисы
+        </MenuItem>
+        <MenuItem href="https://cabinet.kontur.ru#certificates">
+          Сертификаты
+        </MenuItem>
+        <MenuItem href="https://cabinet.kontur.ru#services">
+          Оплата сервисов
+        </MenuItem>
+        <Button>Hello</Button>
+      </TopBarDropdown>
     );
   }
 
@@ -200,10 +178,10 @@ class TopBar extends React.Component {
   renderLeftItems = () => {
     const {children} = this.props;
     if (children) {
-      const leftItems = Children
-      .toArray(children)
-      .filter((item) => item.type === TopBar.Left)
-      .map(({props}) => props.children);
+      const leftItems = Children.
+        toArray(children).
+        filter((item) => item.type === TopBar.Left).
+        map(({props}) => props.children);
 
       return leftItems;
     }
@@ -213,10 +191,10 @@ class TopBar extends React.Component {
   renderRightItems = () => {
     const {children} = this.props;
     if (children) {
-      return Children
-        .toArray(children)
-        .filter((item) => item.type === TopBar.Right)
-        .map(({props}) => props.children);
+      return Children.
+        toArray(children).
+        filter(item => item.type === TopBar.Right).
+        map(({props}) => props.children);
     }
     return null;
   };
@@ -230,7 +208,7 @@ class TopBar extends React.Component {
       suffix,
       color,
       userName,
-      onLogout
+      onLogout,
     } = this.props;
 
     return (

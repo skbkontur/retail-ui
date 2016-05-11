@@ -33,22 +33,29 @@
   .right {
     height: 50px;
     float: right;
-    text-align: right;
   }
   .block {
     display: inline-block;
     height: 50px;
+    line-height: 50px;
     padding: 0 15px;
   }
   .button {
     display: inline-block;
     height: 50px;
+    line-height: 50px;
     cursor: pointer;
+    outline: 0;
+    padding: 0 15px;
     position: relative;
 
-    &:hover {
+    &:hover,
+    &:focus {
       background: rgba(0,0,0,0.06);
     }
+  }
+  .buttonActive {
+    background: rgba(0, 0, 0, .06);
   }
   .dropdown {
     position: absolute;

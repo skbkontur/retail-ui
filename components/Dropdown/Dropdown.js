@@ -6,6 +6,7 @@ import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import Select from '../Select';
 
 const PASS_PROPS = {
+  _renderButton: true,
   error: true,
   use: true,
   size: true,
