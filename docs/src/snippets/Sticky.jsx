@@ -8,8 +8,14 @@ let stop = null;
 ReactDOM.render((
   <div>
     <Sticky side="top" getStop={() => stop}>
-      <div style={style}>Small loan of a million dollars</div>
+      {fixed => (
+        <div style={style}>
+          Small loan of a million dollars
+          {fixed ? ' fixed' : <div>not fixed</div>}
+        </div>
+      )}
     </Sticky>
+    Great
 
     <div style={{height: 1000}} />
     <div ref={(el) => stop = el}

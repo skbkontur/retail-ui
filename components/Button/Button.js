@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
+import Corners from './Corners';
 import Upgrades from '../../lib/Upgrades';
 
 import '../ensureOldIEClassName';
@@ -19,6 +20,11 @@ const SIZE_CLASSES = {
 };
 
 class Button extends React.Component {
+  static TOP_LEFT = Corners.TOP_LEFT;
+  static TOP_RIGHT = Corners.TOP_RIGHT;
+  static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
+  static BOTTOM_LEFT = Corners.BOTTOM_LEFT;
+
   static propTypes = {
     /**
      * Визуально нажатое состояние.
@@ -26,6 +32,8 @@ class Button extends React.Component {
     active: PropTypes.bool,
 
     disabled: PropTypes.bool,
+    
+    loading: PropTypes.bool,
 
     /**
      * Вариант использования. Влияет на цвет кнопки.
@@ -57,6 +65,9 @@ class Button extends React.Component {
   };
 
   render() {
+    const {corners = 0} = this.props;
+    const radius = '3px';
+
     var rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
@@ -67,14 +78,27 @@ class Button extends React.Component {
         [styles['use-' + this.props.use]]: true,
         [styles.active]: this.props.active,
         [styles.disabled]: this.props.disabled,
+        [styles.loading]: this.props.loading,
+        [styles.error]: this.props.error,
+        [styles.warning]: this.props.warning,
         [styles.narrow]: this.props.narrow,
+        [styles.noPadding]: this.props._noPadding,
 
         ...this._getSizeClassMap(),
       }),
-      style: {},
-      disabled: this.props.disabled,
+      style: {
+        borderRadius: `${corners & Corners.TOP_LEFT ? 0 : radius}` +
+          ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
+          ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
+          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
+      },
+      disabled: this.props.disabled || this.props.loading,
       onClick: this.props.onClick,
+      onKeyDown: this.props.onKeyDown,
     };
+    if (this.props.align) {
+      rootProps.style.textAlign = this.props.align;
+    }
     if (this.props.width) {
       rootProps.style.width = this.props.width;
     }
@@ -82,7 +106,11 @@ class Button extends React.Component {
     if (this.props.focus)
       rootProps.ref=domButton=>{this.domButton = domButton;};
     return (
-      <button {...rootProps}>{this.props.children}</button>
+      <button {...rootProps}>
+        <div>
+          {this.props.children}
+        </div>
+      </button>
     );
   }
 

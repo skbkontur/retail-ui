@@ -18,6 +18,7 @@ if (typeof window !== 'undefined' && window.document
 const INPUT_PASS_PROPS = {
   autoFocus: true,
   disabled: true,
+  id: true,
   maxLength: true,
   placeholder: true,
   title: true,
@@ -33,9 +34,18 @@ const SIZE_CLASS_NAMES = {
   large: styles.deprecated_sizeLarge,
 };
 
+const PASS_TYPES = {
+  password: true,
+};
+
 class Input extends React.Component {
   static propTypes = {
     disabled: PropTypes.bool,
+
+    /**
+     * ID для использования с элементом label.
+     */
+    id: PropTypes.string,
 
     maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
@@ -113,6 +123,8 @@ class Input extends React.Component {
      * Показывать маску, даже если ничего не введено.
      */
     alwaysShowMask: PropTypes.bool,
+
+    type: PropTypes.oneOf(['password']),
   };
 
   static defaultProps = {
@@ -176,6 +188,11 @@ class Input extends React.Component {
       onChange: (e) => this.handleChange(e),
       style: {},
     };
+    
+    const type = this.props.type;
+    if (PASS_TYPES[type]) {
+      inputProps.type = type;
+    }
 
     if (this.props.align) {
       inputProps.style.textAlign = this.props.align;
@@ -185,7 +202,7 @@ class Input extends React.Component {
     if (this.props.mask) {
       input = (
         <MaskedInput {...inputProps} mask={this.props.mask}
-          maskChar={this.props.maskChar || '_'}
+          maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
           alwaysShowMask={this.props.alwaysShowMask}
         />
       );
@@ -215,10 +232,16 @@ class Input extends React.Component {
     }
   }
 
+  /**
+   * @api
+   */
   focus() {
     ReactDOM.findDOMNode(this).querySelector('input').focus();
   }
 
+  /**
+   * @api
+   */
   setSelectionRange(start, end) {
     const input = ReactDOM.findDOMNode(this).querySelector('input');
     if (input.setSelectionRange) {

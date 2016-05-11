@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
+import Corners from '../Button/Corners';
+
 import '../ensureOldIEClassName';
 import styles from './Group.less';
 
@@ -44,16 +46,21 @@ class Group extends React.Component {
             [styles.item]: true,
             [styles.itemFirst]: child === first,
           });
+
+          let corners = 0;
           if (child !== first) {
-            itemCss += ' RTSpec-hNotFirst';
+            corners |= Corners.TOP_LEFT | Corners.BOTTOM_LEFT;
           }
           if (child !== last) {
-            itemCss += ' RTSpec-hNotLast';
+            corners |= Corners.TOP_RIGHT | Corners.BOTTOM_RIGHT;
           }
 
+          const childProps = {corners};
           if (child.props.mainInGroup) {
-            child = React.cloneElement(child, {width: '100%'});
+            childProps.width = '100%';
           }
+
+          child = React.cloneElement(child, childProps);
 
           return (
             <div className={wrapCss}>

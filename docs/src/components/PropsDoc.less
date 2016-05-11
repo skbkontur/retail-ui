@@ -1,10 +1,25 @@
 :local {
+  .title {
+    font-size: 24px;
+    margin: 40px 0 20px;
+    padding: 5px;
+  }
+
   .desc {
-    margin: 20px 0;
+    margin: 20px 5px;
   }
 
   .prop {
-    margin: 20px 0;
+    background: #f0f0f0;
+    overflow: hidden;
+  }
+
+  .propOdd {
+    background: #fafafa;
+  }
+
+  .propTitle {
+    padding: 10px;
   }
 
   .propName {
@@ -25,23 +40,32 @@
     margin-left: 5px;
   }
 
+  .propDefaultValue {
+    color: #ff5050;
+    margin-left: 5px;
+  }
+
   .propDesc {
-    margin-left: 15px;
+    padding: 0 10px 10px;
   }
 
   .md {
     pre code {
-      background: #f4f4f4;
+      background: #e0e0e0;
       display: block;
       overflow: auto;
       padding: 4px;
     }
 
     code {
-      background: #f4f4f4;
-      border: 1px solid #eee;
+      background: #e0e0e0;
+      border: 1px solid #ddd;
       border-radius: 2px;
       padding: 1px 4px;
+    }
+
+    p {
+      margin: 0 0 8px;
     }
   }
 }

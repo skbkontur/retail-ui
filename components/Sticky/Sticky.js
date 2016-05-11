@@ -14,7 +14,7 @@ type Props = {
 
 type State = {
   fixed: bool,
-  height: (number | string),
+  height: number,
   left: (number | string),
   width: (number | string),
 
@@ -39,7 +39,7 @@ export default class Sticky extends React.Component {
      */
     getStop: PropTypes.func,
 
-    children: PropTypes.node,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   };
 
   state: State;
@@ -48,6 +48,11 @@ export default class Sticky extends React.Component {
   _inner: HTMLElement;
 
   _immediateState: $Shape<State>;
+  /**
+   * Should this be a flag? For now just err on the side of caution and make it
+   * a counter.
+   */
+  _pendingSetState: number;
   _layoutSubscription: {remove: () => void};
 
   static defaultProps: {offset: number} = {
@@ -59,7 +64,7 @@ export default class Sticky extends React.Component {
 
     this.state = {
       fixed: false,
-      height: 'auto',
+      height: -1,
       left: 'auto',
       width: 'auto',
 
@@ -68,6 +73,7 @@ export default class Sticky extends React.Component {
     };
 
     this._immediateState = {};
+    this._pendingSetState = 0;
   }
 
   render() {
@@ -81,7 +87,7 @@ export default class Sticky extends React.Component {
         };
       } else {
         wrapperStyle = {
-          height: this.state.height,
+          height: this.state.height === -1 ? 'auto' : this.state.height,
         };
 
         innerStyle = ({
@@ -99,10 +105,15 @@ export default class Sticky extends React.Component {
       }
     }
 
+    let children = this.props.children;
+    if (typeof children === 'function') {
+      children = children(this.state.fixed);
+    }
+
     return (
       <div style={wrapperStyle} ref={this._refWrapper}>
         <div style={innerStyle} ref={this._refInner}>
-          {this.props.children}
+          {children}
         </div>
       </div>
     );
@@ -134,6 +145,10 @@ export default class Sticky extends React.Component {
 
   // $FlowIssue 850
   _reflow = () => {
+    if (this._pendingSetState) {
+      return;
+    }
+
     const windowHeight = window.innerHeight;
     const wrapRect = this._wrapper.getBoundingClientRect();
     const wrapBottom = wrapRect.bottom;
@@ -147,28 +162,38 @@ export default class Sticky extends React.Component {
 
     if (fixed) {
       const width = this._wrapper.offsetWidth;
-      this._setStateIfChanged({width, left: wrapLeft}, () => {
-        const height = this._inner.offsetHeight;
-        this._setStateIfChanged({height});
+      const widthHasChanged = this.state.width !== width;
+      this._setStateIfChanged(
+        {
+          width,
+          fixed: widthHasChanged ? false : fixed,
+          left: wrapLeft,
+        },
+        () => {
+          const height = widthHasChanged
+            ? this._inner.offsetHeight
+            : this.state.height;
+          this._setStateIfChanged({height, fixed});
 
-        if (this.props.getStop) {
-          const stop = this.props.getStop();
-          if (stop) {
-            const stopRect = stop.getBoundingClientRect();
-            const outerHeight = height + this.props.offset;
+          if (this.props.getStop) {
+            const stop = this.props.getStop();
+            if (stop) {
+              const stopRect = stop.getBoundingClientRect();
+              const outerHeight = height + this.props.offset;
 
-            if (this.props.side === 'top') {
-              const stopped = stopRect.top - outerHeight < 0;
-              const relativeTop = stopRect.top - height - wrapTop;
-              this._setStateIfChanged({relativeTop, stopped});
-            } else {
-              const stopped = stopRect.bottom + outerHeight > windowHeight;
-              const relativeTop = stopRect.bottom - wrapTop;
-              this._setStateIfChanged({relativeTop, stopped});
+              if (this.props.side === 'top') {
+                const stopped = stopRect.top - outerHeight < 0;
+                const relativeTop = stopRect.top - height - wrapTop;
+                this._setStateIfChanged({relativeTop, stopped});
+              } else {
+                const stopped = stopRect.bottom + outerHeight > windowHeight;
+                const relativeTop = stopRect.bottom - wrapTop;
+                this._setStateIfChanged({relativeTop, stopped});
+              }
             }
           }
-        }
-      });
+        },
+      );
     }
   };
 
@@ -182,7 +207,11 @@ export default class Sticky extends React.Component {
     }
 
     if (changed) {
-      this.setState(state, callback);
+      this._pendingSetState++;
+      this.setState(state, () => {
+        this._pendingSetState--;
+        callback && callback();
+      });
     } else {
       if (callback) {
         callback();
