@@ -99,25 +99,28 @@ export default class AddressModal extends React.Component {
             break;
           }
         }
-      } else {
+      } else if (value.name) {
         address[place] = value;
+      } else {
+        address[place] = null;
       }
 
-      this.setState({address}, this.check);
+      this.setState({address});
+      this.check(address);
     };
   }
 
-  check() {
-    verify(this.state.address).then((json) => {
+  check(address) {
+    verify(address).then((json) => {
       if (json.isKladrAddress) {
-        return;
+        address = json.address;
+      } else {
+        const place = PLACES[json.invalidItem];
+        if (address[place]) {
+          address[place].isError = true;
+        }
       }
-      const place = PLACES[json.invalidItem];
-      const address = {...this.state.address};
-      if (address[place]) {
-        address[place].isError = true;
-        this.setState({address});
-      }
+      this.setState({address});
     });
   }
 
@@ -172,7 +175,9 @@ export default class AddressModal extends React.Component {
         <div className={styles.row}>
           <div className={styles.label}>Индекс</div>
           <div className={styles.field}>
-            <Input width="100%" value={this.state.address.index}/>
+            <Input width="100%" value={this.state.address.index}
+              onChange={(e) => {this.setStateAddress('index', e.target.value);}}
+            />
           </div>
         </div>
         <div className={styles.row}>
