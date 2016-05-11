@@ -32,9 +32,11 @@ class RightGroup extends React.Component {
 
 class _Item extends React.Component {
   render() {
-    const {children, _onClick, className, iconOnly} = this.props;
+    const {children, _onClick, className, iconOnly, icon, ...rest} = this.props;
     return (
       <div
+        {...rest}
+
         className={cx(styles.block, {
           [className]: true,
           [styles.iconOnly]: iconOnly,
@@ -42,6 +44,11 @@ class _Item extends React.Component {
         onClick={_onClick}
       >
         <Center>
+          {icon &&
+            <span className={styles.icon}>
+              <Icon color="#666" name={icon} size="22"/>
+            </span>
+          }
           {children}
         </Center>
       </div>
@@ -51,9 +58,9 @@ class _Item extends React.Component {
 
 class ButtonItem extends React.Component {
   render() {
-    const {onClick, children, iconOnly} = this.props;
+    const {onClick, children} = this.props;
     return (
-      <_Item className={styles.button} _onClick={onClick} iconOnly={iconOnly}>
+      <_Item {...this.props} className={styles.button} _onClick={onClick}>
         {children}
       </_Item>
     );
@@ -88,14 +95,14 @@ class TopBarDropdown extends React.Component {
 
   _renderButton = (params) => {
     return (
-      <span
-        className={cx(styles.button, params.opened && styles.buttonActive)}
+      <ButtonItem
+        icon={this.props.icon}
         tabIndex="0"
         onClick={params.onClick}
         onKeyDown={params.onKeyDown}
       >
         {params.label}
-      </span>
+      </ButtonItem>
     );
   };
 }
@@ -105,9 +112,8 @@ class User extends React.Component {
     const {userName} = this.props;
     return (
       <TopBarDropdown
-        caption={
-          <span><Icon color="#666" name="user" size="22"/> {userName}</span>
-        }
+        icon="user"
+        caption={userName}
       >
         <MenuItem href="https://cabinet.kontur.ru">
           <b>Личный кабинет Контура</b>
@@ -121,7 +127,6 @@ class User extends React.Component {
         <MenuItem href="https://cabinet.kontur.ru#services">
           Оплата сервисов
         </MenuItem>
-        <Button>Hello</Button>
       </TopBarDropdown>
     );
   }
@@ -169,7 +174,7 @@ class TopBar extends React.Component {
   static Left = LeftGroup;
   static Right = RightGroup;
   static Item = ButtonItem;
-  // static
+  static DropdDown = TopBarDropdown;
 
   defaultProps = {
     maxWidth: 1166,
