@@ -392,6 +392,7 @@ class ComboBox extends React.Component {
         }
       }
     );
+    this._fetchList(str);
   };
 
   _handleValueKey: Function = (event) => {
