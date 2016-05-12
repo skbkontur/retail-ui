@@ -8,7 +8,7 @@ import filterProps from '../filterProps';
 import Input from '../Input';
 import listenFocusOutside from '../../lib/listenFocusOutside';
 import Menu from '../Menu/Menu';
-import MenuItem from '../MenuItem/MenuItem';
+import MenuItem from '../MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 
 import styles from './Select.less';

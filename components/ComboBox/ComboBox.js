@@ -12,7 +12,7 @@ import Upgrades from '../../lib/Upgrades';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Menu from '../Menu/Menu';
-import MenuItem from '../MenuItem/MenuItem';
+import MenuItem from '../MenuItem';
 
 import styles from './ComboBox.less';
 

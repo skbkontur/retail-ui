@@ -6,7 +6,7 @@ import Center from 'ui/Center';
 import Dropdown from 'ui/Dropdown';
 import Logotype from 'ui/Logotype';
 import Icon from 'ui/Icon';
-import MenuItem from 'ui/MenuItem/MenuItem';
+import MenuItem from 'ui/MenuItem';
 
 import styles from './TopBar.less';
 
@@ -226,7 +226,7 @@ class TopBar extends React.Component {
         <div className={styles.center} style={{maxWidth}}>
           <div className={styles.container}>
             <LeftGroup>
-              <div id="spwDropdown" style={{display: 'inline-block'}}>
+              <div id="spwDropdown" className={styles.spwDropdown}>
                 <span ref={this._refLogoWrapper}>
                   <Logo suffix={suffix} color={color}/>
                   <Divider />
