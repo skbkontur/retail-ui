@@ -24,6 +24,7 @@ var Component = React.createClass({
   getInitialState() {
     return {
       showCode: false,
+      src: this._getComponent().src,
     };
   },
 
@@ -50,12 +51,6 @@ var Component = React.createClass({
         </div>
       </div>
     );
-  },
-
-  getInitialState() {
-    return {
-      src: this._getComponent().src,
-    };
   },
 
   componentWillReceiveProps(newProps) {

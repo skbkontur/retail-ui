@@ -130,5 +130,5 @@ module.exports = [
     component: require('ui/Tooltip'),
     info: require('!docgen!ui/Tooltip/Tooltip.js'),
     src: require('!raw!./snippets/Tooltip.jsx'),
-  }
+  },
 ];

@@ -49,7 +49,9 @@ var PropsDoc = React.createClass({
                 <div className={styles.propTitle}>
                   <span className={styles.propName}>{name}</span>
                   <span className={styles.propTypeColon}>:</span>
-                  <span className={styles.propType}>{formatType(prop.type)}</span>
+                  <span className={styles.propType}>
+                    {formatType(prop.type)}
+                  </span>
                   {required}
                   {defaultValue}
                 </div>
