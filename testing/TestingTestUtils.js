@@ -3,7 +3,9 @@
 import {mount} from 'enzyme';
 import React from 'react';
 
-export function mountTest(reactElement: React.Element<*>): {node: HTMLElement} {
+export function mountTest(
+  reactElement: React.Element<mixed>
+): {node: HTMLElement} {
   const wrapper = mount(<div>{reactElement}</div>);
 
   return {
