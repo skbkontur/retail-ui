@@ -78,7 +78,7 @@ export default class Menu extends React.Component {
     this._scrollContainer.scrollTo(ReactDOM.findDOMNode(this._highlighted));
   };
 
-  _select(index: number, event: SyntheticMouseEvent) {
+  _select(index: number, event?: SyntheticMouseEvent) {
     const item = childrenToArray(this.props.children)[index];
     if (this._canSelect(item)) {
       if (item.props.href) {

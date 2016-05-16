@@ -18,7 +18,7 @@ class ComboBoxAdapter {
   }
 
   search(searchString: string) {
-    this._instance._handleOpenClick();
+    this._instance._handleValueClick();
     this._instance._handleInputChange({target: {value: searchString}});
   }
 

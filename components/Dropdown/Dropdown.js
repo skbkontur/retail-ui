@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 
 import filterProps from '../filterProps';
-import MenuItem from '../MenuItem';
+import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import Select from '../Select';
 

@@ -3,7 +3,7 @@ const babel = require('babel-core');
 const testingPlugin = require('./scripts/babel-6/testing');
 
 module.exports = {
-  process: function(src, path) {
+  process(src, path) {
     if (path.match(/.less$/)) {
       return '';
     }
@@ -17,5 +17,5 @@ module.exports = {
     }
 
     return src;
-  }
+  },
 };

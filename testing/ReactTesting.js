@@ -8,7 +8,7 @@ const renderContainers = {};
 
 let lastID = 0;
 
-function ref(tid) {
+function ref(tid, existingRef) {
   const id = ++lastID;
   return function(el) {
     if (el) {
@@ -26,13 +26,14 @@ function ref(tid) {
     } else {
       delete map[id];
     }
+    existingRef && existingRef(el);
   };
 }
 
 function pass(component) {
   return function(el) {
     component[PASS_TO_KEY] = el;
-  }
+  };
 }
 
 function addRenderContainer(id, instance) {

@@ -6,9 +6,10 @@ import ReactDOM from 'react-dom';
 import Button from '../Button';
 import filterProps from '../filterProps';
 import Input from '../Input';
+import invariant from 'invariant';
 import listenFocusOutside from '../../lib/listenFocusOutside';
 import Menu from '../Menu/Menu';
-import MenuItem from '../MenuItem';
+import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 
 import styles from './Select.less';
@@ -97,6 +98,11 @@ class Select extends React.Component {
   };
 
   static static(element) {
+    invariant(
+      React.isValidElement(element) || typeof element === 'function',
+      'Select.static(element) expects element to be a valid react element.'
+    );
+
     return element;
   }
 

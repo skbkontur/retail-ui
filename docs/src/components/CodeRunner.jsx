@@ -36,7 +36,8 @@ function evalCode(_src, mountNode) {
     harmony: true,
   });
 
-  new Function(...names, code)(...values);
+
+  new Function(...names, code)(...values); // eslint-disable-line no-new-func
 }
 
 var CodeRunner = React.createClass({

@@ -28,7 +28,9 @@ var ComponentList = React.createClass({
               className={className}
             >
               {component.name}
-              {isDraft(component) && <span className={styles.draft}>DRAFT</span>}
+              {isDraft(component) && (
+                <span className={styles.draft}>DRAFT</span>
+              )}
             </Link>
           );
         })}

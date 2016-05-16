@@ -30,10 +30,11 @@ describe('ComboBox-adapter', () => {
 
     ReactTesting.call(node, 'search', ['test']);
 
-    expect(source.mock.calls.length).toBe(1);
-    expect(source.mock.calls[0][0]).toBe('test');
+    expect(source.mock.calls.length).toBe(2);
+    expect(source.mock.calls[0][0]).toBe('');
+    expect(source.mock.calls[1][0]).toBe('test');
 
-    await source.mock.instances[0];
+    await source.mock.instances[1];
 
     const result = ReactTesting.call(node, 'getResult');
     expect(result).toEqual([1, 2, 3]);
