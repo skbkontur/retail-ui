@@ -1,7 +1,6 @@
 import React, {PropTypes, Children} from 'react';
 import cx from 'classnames';
 
-import Button from 'ui/Button';
 import Center from 'ui/Center';
 import Dropdown from 'ui/Dropdown';
 import Logotype from 'ui/Logotype';
@@ -46,7 +45,7 @@ class _Item extends React.Component {
         <Center>
           {icon &&
             <span className={styles.icon}>
-              <Icon color="#666" name={icon} size="22"/>
+              <Icon color="#666" name={icon} size="20"/>
             </span>
           }
           {children}
@@ -174,7 +173,7 @@ class TopBar extends React.Component {
   static Left = LeftGroup;
   static Right = RightGroup;
   static Item = ButtonItem;
-  static DropdDown = TopBarDropdown;
+  static Dropdown = TopBarDropdown;
 
   defaultProps = {
     maxWidth: 1166,
