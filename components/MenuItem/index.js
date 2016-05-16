@@ -1,1 +1,1 @@
-module.exports = require('./MenuItem.jsx');
+module.exports = require('./MenuItem');

@@ -1,1 +1,1 @@
-module.exports = require('./Group.jsx');
+module.exports = require('./Group');

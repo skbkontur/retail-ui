@@ -12,6 +12,18 @@ export default class MenuItem extends React.Component {
 
   props: {
     state?: 'hover' | 'selected';
+    href?: string;
+    onClick?: Function;
+  };
+
+  handleClick: mixed = event => {
+    const {href, onClick} = this.props;
+    if (href) {
+      location.href = href;
+    }
+    if (onClick) {
+      onClick(event);
+    }
   };
 
   render() {
@@ -26,9 +38,14 @@ export default class MenuItem extends React.Component {
     });
 
     return (
-      <div {...rest} className={className}>
+      <a
+        {...rest}
+        className={className}
+        tabIndex="-1"
+        onClick={this.handleClick}
+      >
         {(this.props: any).children}
-      </div>
+      </a>
     );
   }
 }
