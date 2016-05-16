@@ -1,1 +1,2 @@
-module.exports = require('./Logotype');
+import Logotype from './Logotype';
+module.exports = Logotype;

@@ -1,11 +1,9 @@
 import React, {PropTypes} from 'react';
-import modernizr from './modernizr-inlinesvg';
 
-// noinspection JSUnresolvedVariable
 import styles from './Logotype.less';
 
 /* eslint-disable max-len */
-const createCloudSVG = color => (
+const createCloud = color => (
   <svg width="25px" height="19px" viewBox="9 0 25 19" className={styles.cloud}>
     <path
       fill={color}
@@ -15,31 +13,6 @@ const createCloudSVG = color => (
   </svg>
 );
 /* eslint-enable max-len */
-
-const createCloudVML = (color) => {
-  document.namespaces.add('v', 'urn:schemas-microsoft-com:vml', '#default#VML');
-  const cloud = `
-    <v:shape
-      style="position: absolute;left: 0;bottom: -1px; width: 0.66px;height: 0.66px;z-index: 1;"
-      coordsize="21600,21600" filled="t" fillcolor=${color} stroked="f"
-      strokecolor="black" strokeweight="1pt"
-      path=" m9510480,12696480 c9570960,12696480,9627120,12724560,9663840,12772080,9663840,12772080,9678960,12793680,9678960,12793680,9678960,12793680,9704880,12793680,9704880,12793680,9797760,12800160,9869040,12875760,9869040,12968640,9869040,13065840,9791280,13143600,9691920,13143600,9691920,13143600,9350640,13143600,9350640,13143600,9268560,13143600,9201600,13076640 9201600,12992400,9201600,12927600,9240480,12873600,9300960,12849840,9300960,12849840,9326880,12843360,9326880,12843360,9326880,12843360,9337680,12817440,9337680,12817440,9361440,12748320,9432720,12696480,9510480,12696480 m9510480,12640320 c9404640,12640320,9316080,12707280,9279360,12802320,9201600,12830400,9145440,12910320,9145440,12994560,9145440,13109040,9238320,13201920,9350640,13201920,9350640,13201920,9691920,13201920,9691920,13201920,9819360,13201920,9923040,13098240,9923040,12968640,9923040,12843360,9828000,12744000,9707040,12735360,9663840,12679200,9592560,12640320 9510480,12640320,9510480,12640320,9510480,12640320,9510480,12640320,9510480,12640320,9510480,12640320,9510480,12640320 e"
-    >
-      <v:stroke opacity=".75" miterlimit="8" />
-      <v:skew on="t" matrix="1,0,0,1,0,0" offset="-424,-586" />
-      <v:fill type="solid" />
-    </v:shape>
-  `;
-  return (
-    <span
-      style={{position: 'relative', width: 23, display: 'inline-block'}}
-      dangerouslySetInnerHTML={{__html: cloud}}
-    />
-  );
-};
-
-// noinspection JSUnresolvedVariable
-const createCloud = modernizr.inlinesvg ? createCloudSVG : createCloudVML;
 
 const Logotype = ({color = '#D92932', suffix}) => (
   <a href="/" tabIndex="-1" className={styles.root}>
@@ -62,4 +35,4 @@ Logotype.propTypes = {
   suffix: PropTypes.string.isRequired,
 };
 
-module.exports = Logotype;
+export default Logotype;
