@@ -1,33 +1,65 @@
+'use strict';
+
+const invariant = require('invariant');
+
 module.exports = function(babel) {
   const t = babel.types;
 
-  function getTid(attr) {
-    if (t.isJSXExpressionContainer(attr)) {
-      return attr.expression;
-    }
-    return attr;
-  }
-
-  const buildRefFunc = babel.template(`global.ReactTesting.ref(TID)`);
-  const buildPassFunc = babel.template(`global.ReactTesting.pass(this)`);
+  const buildRefFunc = babel.template('global.ReactTesting.ref(TID, REF)');
+  const buildPassFunc = babel.template('global.ReactTesting.pass(this)');
 
   return {
     visitor: {
-      JSXAttribute(path) {
-        if (path.node.name.name === 'tid') {
-          path.node.name.name = 'ref';
+      JSXOpeningElement(path) {
+        const refAttr = findAttribute(path, 'ref');
+        const tidAttr = findAttribute(path, 'tid');
+        const tidPassAttr = findAttribute(path, 'tid-pass');
 
-          const tid = getTid(path.node.value);
-          path.node.value = t.JSXExpressionContainer(
-            buildRefFunc({TID: tid}).expression
+        if (tidAttr) {
+          tidAttr.node.name.name = 'ref';
+
+          let ref = t.NullLiteral();
+          if (refAttr) {
+            ref = refAttr.node.value.expression;
+            refAttr.remove();
+          }
+
+          const tid = getTid(tidAttr);
+          tidAttr.node.value = t.JSXExpressionContainer(
+            buildRefFunc({
+              TID: tid,
+              REF: ref,
+            }).expression
           );
-        } else if (path.node.name.name === 'tid-pass') {
-          path.node.name.name = 'ref';
-          path.node.value = t.JSXExpressionContainer(
+        } else if (tidPassAttr) {
+          invariant(
+            !refAttr,
+            'Attributes `ref` and `tid-pass` cannot be used together.'
+          );
+
+          tidPassAttr.node.name.name = 'ref';
+          tidPassAttr.node.value = t.JSXExpressionContainer(
             buildPassFunc().expression
           );
         }
-      }
-    }
+      },
+    },
   };
 };
+
+function findAttribute(openingElementPath, name) {
+  for (const attr of openingElementPath.get('attributes') || []) {
+    if (attr.isJSXAttribute() && attr.node.name.name === name) {
+      return attr;
+    }
+  }
+  return null;
+}
+
+function getTid(attrPath) {
+  const valuePath = attrPath.get('value');
+  if (valuePath.isJSXExpressionContainer()) {
+    return valuePath.node.expression;
+  }
+  return valuePath.node;
+}
