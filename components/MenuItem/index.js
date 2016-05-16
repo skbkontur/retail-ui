@@ -1,1 +1,2 @@
-module.exports = require('./MenuItem');
+import MenuItem from './MenuItem';
+module.exports = MenuItem;

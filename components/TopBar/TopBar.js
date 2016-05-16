@@ -1,11 +1,11 @@
-import React, {PropTypes, Children} from 'react';
-import cx from 'classnames';
+import classNames from 'classnames';
+import React, {PropTypes} from 'react';
 
-import Center from 'ui/Center';
-import Dropdown from 'ui/Dropdown';
-import Logotype from 'ui/Logotype';
-import Icon from 'ui/Icon';
-import MenuItem from 'ui/MenuItem';
+import Center from '../Center';
+import Dropdown from '../Dropdown';
+import Icon from '../Icon';
+import Logotype from '../Logotype';
+import MenuItem from '../MenuItem';
 
 import styles from './TopBar.less';
 
@@ -35,8 +35,7 @@ class _Item extends React.Component {
     return (
       <div
         {...rest}
-
-        className={cx(styles.block, {
+        className={classNames(styles.block, {
           [className]: true,
           [styles.iconOnly]: iconOnly,
         })}
@@ -77,7 +76,7 @@ class Logo extends React.Component {
     const {suffix, color} = this.props;
     return (
       <_Item>
-        <Logotype suffix={suffix} color={color}/>
+        <Logotype suffix={suffix} color={color} />
       </_Item>
     );
   }
@@ -129,7 +128,6 @@ class User extends React.Component {
       </TopBarDropdown>
     );
   }
-
 }
 
 type Props = {
@@ -141,11 +139,11 @@ type Props = {
   color?: string,
   userName: string,
   onLogout: Function,
-}
+};
 
 type DefaultProps = {
   maxWidth: string | number
-}
+};
 
 /**
  * __DRAFT__
@@ -182,7 +180,7 @@ class TopBar extends React.Component {
   renderLeftItems = () => {
     const {children} = this.props;
     if (children) {
-      const leftItems = Children.
+      const leftItems = React.Children.
         toArray(children).
         filter((item) => item.type === TopBar.Left).
         map(({props}) => props.children);
@@ -195,7 +193,7 @@ class TopBar extends React.Component {
   renderRightItems = () => {
     const {children} = this.props;
     if (children) {
-      return Children.
+      return React.Children.
         toArray(children).
         filter(item => item.type === TopBar.Right).
         map(({props}) => props.children);
@@ -217,7 +215,7 @@ class TopBar extends React.Component {
 
     return (
       <div
-        className={cx(styles.root, {
+        className={classNames(styles.root, {
           [styles.noShadow]: noShadow,
           [styles.noMargin]: noMargin,
         })}
