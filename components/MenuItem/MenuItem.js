@@ -17,16 +17,6 @@ export default class MenuItem extends React.Component {
     onClick?: Function;
   };
 
-  handleClick: mixed = event => {
-    const {href, onClick} = this.props;
-    if (href) {
-      location.href = href;
-    }
-    if (onClick) {
-      onClick(event);
-    }
-  };
-
   render() {
     const {
       loose,
@@ -45,7 +35,6 @@ export default class MenuItem extends React.Component {
         {...rest}
         className={className}
         tabIndex="-1"
-        onClick={this.handleClick}
       >
         {(this.props: any).children}
       </a>

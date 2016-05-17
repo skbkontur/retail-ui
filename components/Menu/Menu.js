@@ -42,7 +42,7 @@ export default class Menu extends React.Component {
               return React.cloneElement(child, {
                 ref,
                 state: highlight ? 'hover' : null,
-                onClick: this._select.bind(this, index),
+                onClick: this._select.bind(this, index, false),
                 onMouseEnter: this._highlightItem.bind(this, index),
                 onMouseLeave: this._unhighlight,
               });
@@ -63,7 +63,7 @@ export default class Menu extends React.Component {
   }
 
   enter() {
-    return this._select(this.state.highlightedIndex);
+    return this._select(this.state.highlightedIndex, true);
   }
 
   reset() {
@@ -85,12 +85,15 @@ export default class Menu extends React.Component {
     this._scrollContainer.scrollTo(ReactDOM.findDOMNode(this._highlighted));
   };
 
-  _select(index: number, event?: SyntheticMouseEvent) {
+  _select(index: number, shouldHandleHref: bool) {
     const item = childrenToArray(this.props.children)[index];
     if (this._canSelect(item)) {
-      if (item.props.href) {
-        location.href = item.props.href;
-        event && event.preventDefault();
+      if (shouldHandleHref && item.props.href) {
+        if (item.props.target) {
+          window.open(item.props.href, item.props.target);
+        } else {
+          location.href = item.props.href;
+        }
       }
       item.props.onClick && item.props.onClick();
       return true;
