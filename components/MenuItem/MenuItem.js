@@ -13,6 +13,7 @@ export default class MenuItem extends React.Component {
   props: {
     state?: 'hover' | 'selected';
     href?: string;
+    loose?: bool;
     onClick?: Function;
   };
 
@@ -28,12 +29,14 @@ export default class MenuItem extends React.Component {
 
   render() {
     const {
+      loose,
       state,
       ...rest,
     } = this.props;
     const className = classNames({
       [styles.root]: true,
       [styles.hover]: state === 'hover',
+      [styles.loose]: loose,
       [styles.selected]: state === 'selected',
     });
 

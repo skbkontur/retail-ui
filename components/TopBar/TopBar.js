@@ -103,16 +103,16 @@ class User extends React.Component {
         caption={userName}
         menuAlign="right"
       >
-        <MenuItem href="https://cabinet.kontur.ru">
+        <MenuItem loose href="https://cabinet.kontur.ru">
           <b>Личный кабинет Контура</b>
         </MenuItem>
-        <MenuItem href="https://cabinet.kontur.ru">
+        <MenuItem loose href="https://cabinet.kontur.ru">
           Настройка входа в сервисы
         </MenuItem>
-        <MenuItem href="https://cabinet.kontur.ru#certificates">
+        <MenuItem loose href="https://cabinet.kontur.ru#certificates">
           Сертификаты
         </MenuItem>
-        <MenuItem href="https://cabinet.kontur.ru#services">
+        <MenuItem loose href="https://cabinet.kontur.ru#services">
           Оплата сервисов
         </MenuItem>
       </TopBarDropdown>
