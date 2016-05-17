@@ -14,6 +14,13 @@ import MenuSeparator from '../MenuSeparator/MenuSeparator';
 
 import styles from './Select.less';
 
+export type ButtonParams = {
+  opened: bool;
+  label: React.Element;
+  onClick: () => void;
+  onKeyDown: (event: SyntheticKeyboardEvent) => void;
+};
+
 const PASS_BUTTON_PROPS = {
   disabled: true,
   error: true,
@@ -91,7 +98,10 @@ class Select extends React.Component {
   };
 
   static static(element) {
-    invariant(React.isValidElement(element));
+    invariant(
+      React.isValidElement(element) || typeof element === 'function',
+      'Select.static(element) expects element to be a valid react element.'
+    );
 
     return element;
   }
@@ -123,6 +133,24 @@ class Select extends React.Component {
       );
     }
 
+    const buttonParams = {
+      opened: this.state.opened,
+      label,
+      onClick: this.open_,
+      onKeyDown: this.handleKey,
+    };
+
+    return (
+      <span className={styles.root} style={{width: this.props.width}}>
+        {this.props._renderButton
+          ? this.props._renderButton(buttonParams)
+          : this.renderDefaultButton(buttonParams)}
+        {!this.props.disabled && this.state.opened && this.renderMenu()}
+      </span>
+    );
+  }
+
+  renderDefaultButton(params: ButtonParams) {
     var buttonProps = {
       ...filterProps(this.props, PASS_BUTTON_PROPS),
 
@@ -130,10 +158,10 @@ class Select extends React.Component {
       disabled: this.props.disabled,
       _noPadding: true,
       width: '100%',
-      onClick: this.open_,
-      onKeyDown: this.handleKey,
+      onClick: params.onClick,
+      onKeyDown: params.onKeyDown,
     };
-    if (this.state.opened) {
+    if (params.opened) {
       buttonProps.active = true;
       buttonProps.corners = Button.BOTTOM_LEFT | Button.BOTTOM_RIGHT;
     }
@@ -141,23 +169,19 @@ class Select extends React.Component {
     var labelProps = {
       className: classNames({
         [styles.label]: true,
-        [styles.labelIsOpened]: this.state.opened,
+        [styles.labelIsOpened]: params.opened,
       }),
-      onClick: this.open_,
     };
 
     return (
-      <span className={styles.root} style={{width: this.props.width}}>
-        <Button {...buttonProps}>
-          <span {...labelProps}>
-            <span className={styles.labelText}>{label}</span>
-            <div className={styles.arrowWrap}>
-              <div className={styles.arrow} />
-            </div>
-          </span>
-        </Button>
-        {!this.props.disabled && this.state.opened && this.renderMenu()}
-      </span>
+      <Button {...buttonProps}>
+        <span {...labelProps}>
+          <span className={styles.labelText}>{params.label}</span>
+          <div className={styles.arrowWrap}>
+            <div className={styles.arrow} />
+          </div>
+        </span>
+      </Button>
     );
   }
 
@@ -174,10 +198,14 @@ class Select extends React.Component {
     }
 
     var value = this.getValue_();
+    var dropClassName = classNames({
+      [styles.drop]: true,
+      [styles.dropAlignRight]: this.props.menuAlign === 'right',
+    });
 
     return (
       <div ref={this._refMenuContainer} className={styles.container}>
-        <div className={styles.drop}>
+        <div className={dropClassName}>
           <div style={{position: 'relative'}}>
             <Menu ref={this._refMenu}>
               {search}
@@ -233,6 +261,13 @@ class Select extends React.Component {
     this._menu = menu;
   };
 
+  /**
+   * @api
+   */
+  open() {
+    this.open_();
+  }
+
   _handleNativeDocClick = (event) => {
     const target = event.target || event.srcElement;
     if (this._menuContainer && !this._menuContainer.contains(target)) {
@@ -243,6 +278,9 @@ class Select extends React.Component {
   open_ = () => {
     if (!this.state.opened) {
       this.setState({opened: true});
+
+      const {onOpen} = this.props;
+      onOpen && onOpen();
     }
   };
 
@@ -257,8 +295,7 @@ class Select extends React.Component {
     if (!this.state.opened) {
       if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
         e.preventDefault();
-
-        this.setState({opened: true});
+        this.open_();
       }
     } else {
       if (key === 'Escape') {

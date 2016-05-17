@@ -8,6 +8,11 @@ import ScrollContainer from '../ScrollContainer/ScrollContainer';
 import styles from './Menu.less';
 
 export default class Menu extends React.Component {
+  props: {
+    maxHeight?: number,
+    children?: any,
+  };
+
   state: {
     highlightedIndex: number,
   } = {
@@ -21,7 +26,9 @@ export default class Menu extends React.Component {
   render() {
     return (
       <div className={styles.root}>
-        <ScrollContainer ref={this._refScrollContainer} maxHeight={200}>
+        <ScrollContainer ref={this._refScrollContainer}
+          maxHeight={this.props.maxHeight}
+        >
           {React.Children.map(this.props.children, (child, index) => {
             if (this._canSelect(child)) {
               const highlight = this.state.highlightedIndex === index;
@@ -34,8 +41,8 @@ export default class Menu extends React.Component {
 
               return React.cloneElement(child, {
                 ref,
-                state: highlight ? 'hover' : null,
-                onClick: this._select.bind(this, index),
+                state: highlight ? 'hover' : child.props.state,
+                onClick: this._select.bind(this, index, false),
                 onMouseEnter: this._highlightItem.bind(this, index),
                 onMouseLeave: this._unhighlight,
               });
@@ -56,7 +63,7 @@ export default class Menu extends React.Component {
   }
 
   enter() {
-    return this._select(this.state.highlightedIndex);
+    return this._select(this.state.highlightedIndex, true);
   }
 
   reset() {
@@ -78,9 +85,16 @@ export default class Menu extends React.Component {
     this._scrollContainer.scrollTo(ReactDOM.findDOMNode(this._highlighted));
   };
 
-  _select(index: number) {
+  _select(index: number, shouldHandleHref: bool) {
     const item = childrenToArray(this.props.children)[index];
     if (this._canSelect(item)) {
+      if (shouldHandleHref && item.props.href) {
+        if (item.props.target) {
+          window.open(item.props.href, item.props.target);
+        } else {
+          location.href = item.props.href;
+        }
+      }
       item.props.onClick && item.props.onClick();
       return true;
     }

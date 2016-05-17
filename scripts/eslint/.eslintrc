@@ -18,6 +18,7 @@ globals:
   __DEV__: true
   # Flow
   $Shape: true
+  SyntheticMouseEvent: true
   SyntheticKeyboardEvent: true
   # Testing
   ReactTesting: true

@@ -14,7 +14,7 @@ module.exports = [
   {
     name: 'Center',
     component: require('ui/Center'),
-    info: require('!docgen!ui/Center/Center.jsx'),
+    info: require('!docgen!ui/Center/Center.js'),
     src: require('!raw!./snippets/Center.jsx'),
   },
   {
@@ -44,7 +44,7 @@ module.exports = [
   {
     name: 'FxInput',
     component: require('ui/FxInput'),
-    info: require('!docgen!ui/FxInput/FxInput.jsx'),
+    info: require('!docgen!ui/FxInput/FxInput.js'),
     src: require('!raw!./snippets/FxInput.jsx'),
   },
   {
@@ -56,13 +56,13 @@ module.exports = [
   {
     name: 'Group',
     component: require('ui/Group'),
-    info: require('!docgen!ui/Group/Group.jsx'),
+    info: require('!docgen!ui/Group/Group.js'),
     src: require('!raw!./snippets/Group.jsx'),
   },
   {
     name: 'Icon',
     component: require('ui/Icon'),
-    info: require('!docgen!ui/Icon/Icon.jsx'),
+    info: require('!docgen!ui/Icon/Icon.js'),
     src: require('!raw!./snippets/Icon.jsx'),
   },
   {
@@ -84,6 +84,12 @@ module.exports = [
     src: require('!raw!./snippets/Loader.jsx'),
   },
   {
+    name: 'Logotype',
+    component: require('ui/Logotype'),
+    info: require('!docgen!ui/Logotype/Logotype.js'),
+    src: require('!raw!./snippets/Logotype.jsx'),
+  },
+  {
     name: 'Modal',
     component: require('ui/Modal'),
     info: require('!docgen!ui/Modal/Modal.js'),
@@ -92,7 +98,7 @@ module.exports = [
   {
     name: 'Radio',
     component: require('ui/Radio'),
-    info: require('!docgen!ui/Radio/Radio.jsx'),
+    info: require('!docgen!ui/Radio/Radio.js'),
     src: require('!raw!./snippets/Radio.jsx'),
   },
   {
@@ -130,5 +136,11 @@ module.exports = [
     component: require('ui/Tooltip'),
     info: require('!docgen!ui/Tooltip/Tooltip.js'),
     src: require('!raw!./snippets/Tooltip.jsx'),
+  },
+  {
+    name: 'TopBar',
+    component: require('ui/TopBar'),
+    info: require('!docgen!ui/TopBar/TopBar.js'),
+    src: require('!raw!./snippets/TopBar.jsx'),
   },
 ];

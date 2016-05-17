@@ -1,0 +1,94 @@
+:local {
+  @active-background: rgba(0, 0, 0, .06);
+  @height: 50px;
+
+  .root {
+    background: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px 3px rgba(221,221,221,.75);
+    height: @height;
+    padding: 0 15px;
+  }
+
+  .noShadow {
+    box-shadow: none;
+  }
+
+  .noMargin {
+    margin-bottom: 0;
+  }
+
+  .center {
+    margin: auto;
+  }
+
+  .container {
+    margin: 0 -15px;
+  }
+
+  .divider {
+    display: inline-block;
+    vertical-align: middle;
+    height: 30px;
+    margin: 10px 0;
+    width: 1px;
+    background-color: #dfdfdf;
+  }
+
+  .left {
+    height: @height;
+    float: left;
+  }
+
+  .right {
+    height: @height;
+    float: right;
+  }
+
+  .item {
+    display: inline-block;
+    height: @height;
+    line-height: @height;
+    padding: 0 15px;
+    vertical-align: middle;
+  }
+
+  .button {
+    display: inline-block;
+    height: @height;
+    line-height: @height;
+    cursor: pointer;
+    outline: 0;
+    padding: 0 15px;
+    position: relative;
+    vertical-align: middle;
+
+    &:hover,
+    &:focus {
+      background: @active-background;
+    }
+  }
+
+  .buttonActive {
+    background: @active-background;
+  }
+
+  .iconOnly {
+    padding: 0 11px;
+  }
+
+  .icon {
+    position: relative;
+    margin-right: 4px;
+    bottom: -4px;
+  }
+
+  .spwDropdown {
+    display: inline-block;
+    height: @height;
+  }
+
+  :global(.kontur-projects_opened) .button {
+    background: @active-background;
+  }
+}

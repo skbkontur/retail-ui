@@ -1,1 +1,1 @@
-module.exports = require('./Radio.jsx');
+module.exports = require('./Radio');

@@ -6,11 +6,14 @@ import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import Select from '../Select';
 
 const PASS_PROPS = {
+  _renderButton: true,
   error: true,
+  menuAlign: true,
   use: true,
   size: true,
   warning: true,
   width: true,
+  onOpen: true,
 };
 
 /**
@@ -28,6 +31,8 @@ export default class Dropdown extends React.Component {
      */
     error: PropTypes.bool,
 
+    menuAlign: PropTypes.oneOf(['left', 'right']),
+
     size: PropTypes.oneOf(['small', 'medium', 'large']),
 
     /**
@@ -41,6 +46,11 @@ export default class Dropdown extends React.Component {
     warning: PropTypes.bool,
 
     width: PropTypes.number,
+
+    /**
+     * Вызывается при открытии меню.
+     */
+    onOpen: PropTypes.func,
   };
 
   constructor(props) {
@@ -52,12 +62,24 @@ export default class Dropdown extends React.Component {
 
     return (
       <Select
+        ref={this._refSelect}
         {...filterProps(this.props, PASS_PROPS)}
         value={this.props.caption}
         items={items}
         renderValue={renderValue}
       />
     );
+  }
+
+  _refSelect = select => {
+    this._select = select;
+  };
+
+  /**
+   * @api
+   */
+  open() {
+    this._select.open();
   }
 }
 

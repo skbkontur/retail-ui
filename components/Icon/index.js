@@ -1,1 +1,1 @@
-module.exports = require('./Icon.jsx');
+module.exports = require('./Icon');

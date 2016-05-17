@@ -157,7 +157,7 @@ export default class ScrollContainer extends React.Component {
 }
 
 ScrollContainer.propTypes = {
-  maxHeight: PropTypes.number.isRequired,
+  maxHeight: PropTypes.number,
 };
 
 function measureScrollWidth() {
