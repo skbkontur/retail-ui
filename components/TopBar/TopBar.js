@@ -112,6 +112,7 @@ class User extends React.Component {
       <TopBarDropdown
         icon="user"
         caption={userName}
+        menuAlign="right"
       >
         <MenuItem href="https://cabinet.kontur.ru">
           <b>Личный кабинет Контура</b>

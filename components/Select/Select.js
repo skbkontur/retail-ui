@@ -199,10 +199,14 @@ class Select extends React.Component {
     }
 
     var value = this.getValue_();
+    var dropClassName = classNames({
+      [styles.drop]: true,
+      [styles.dropAlignRight]: this.props.menuAlign === 'right',
+    });
 
     return (
       <div ref={this._refMenuContainer} className={styles.container}>
-        <div className={styles.drop}>
+        <div className={dropClassName}>
           <div style={{position: 'relative'}}>
             <Menu ref={this._refMenu}>
               {search}

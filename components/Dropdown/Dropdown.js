@@ -8,6 +8,7 @@ import Select from '../Select';
 const PASS_PROPS = {
   _renderButton: true,
   error: true,
+  menuAlign: true,
   use: true,
   size: true,
   warning: true,
@@ -28,6 +29,8 @@ export default class Dropdown extends React.Component {
      * Визуально показать наличие ошибки.
      */
     error: PropTypes.bool,
+
+    menuAlign: PropTypes.oneOf(['left', 'right']),
 
     size: PropTypes.oneOf(['small', 'medium', 'large']),
 
