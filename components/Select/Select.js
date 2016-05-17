@@ -171,7 +171,6 @@ class Select extends React.Component {
         [styles.label]: true,
         [styles.labelIsOpened]: params.opened,
       }),
-      onClick: params.onClick,
     };
 
     return (
@@ -272,6 +271,9 @@ class Select extends React.Component {
   open_ = () => {
     if (!this.state.opened) {
       this.setState({opened: true});
+
+      const {onOpen} = this.props;
+      onOpen && onOpen();
     }
   };
 
@@ -286,8 +288,7 @@ class Select extends React.Component {
     if (!this.state.opened) {
       if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
         e.preventDefault();
-
-        this.setState({opened: true});
+        this.open_();
       }
     } else {
       if (key === 'Escape') {

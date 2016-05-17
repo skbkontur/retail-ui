@@ -13,6 +13,7 @@ const PASS_PROPS = {
   size: true,
   warning: true,
   width: true,
+  onOpen: true,
 };
 
 /**
@@ -45,6 +46,11 @@ export default class Dropdown extends React.Component {
     warning: PropTypes.bool,
 
     width: PropTypes.number,
+
+    /**
+     * Вызывается при открытии меню.
+     */
+    onOpen: PropTypes.func,
   };
 
   constructor(props) {
