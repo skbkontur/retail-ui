@@ -41,7 +41,7 @@ export default class Menu extends React.Component {
 
               return React.cloneElement(child, {
                 ref,
-                state: highlight ? 'hover' : null,
+                state: highlight ? 'hover' : child.props.state,
                 onClick: this._select.bind(this, index, false),
                 onMouseEnter: this._highlightItem.bind(this, index),
                 onMouseLeave: this._unhighlight,

@@ -261,6 +261,13 @@ class Select extends React.Component {
     this._menu = menu;
   };
 
+  /**
+   * @api
+   */
+  open() {
+    this.open_();
+  }
+
   _handleNativeDocClick = (event) => {
     const target = event.target || event.srcElement;
     if (this._menuContainer && !this._menuContainer.contains(target)) {

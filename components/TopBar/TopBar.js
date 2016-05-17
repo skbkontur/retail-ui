@@ -73,7 +73,11 @@ class Logo extends React.Component {
 class TopBarDropdown extends React.Component {
   render() {
     return (
-      <Dropdown _renderButton={this._renderButton} {...this.props}>
+      <Dropdown
+        ref={this._ref}
+        _renderButton={this._renderButton}
+        {...this.props}
+      >
         {this.props.children}
       </Dropdown>
     );
@@ -92,6 +96,14 @@ class TopBarDropdown extends React.Component {
       </ButtonItem>
     );
   };
+
+  _ref = dropdown => {
+    this._dropdown = dropdown;
+  };
+
+  open() {
+    this._dropdown.open();
+  }
 }
 
 class User extends React.Component {

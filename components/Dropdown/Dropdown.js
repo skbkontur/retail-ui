@@ -62,12 +62,24 @@ export default class Dropdown extends React.Component {
 
     return (
       <Select
+        ref={this._refSelect}
         {...filterProps(this.props, PASS_PROPS)}
         value={this.props.caption}
         items={items}
         renderValue={renderValue}
       />
     );
+  }
+
+  _refSelect = select => {
+    this._select = select;
+  };
+
+  /**
+   * @api
+   */
+  open() {
+    this._select.open();
   }
 }
 
