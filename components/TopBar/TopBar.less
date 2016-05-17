@@ -1,4 +1,5 @@
 :local {
+  @active-background: rgba(0, 0, 0, .06);
   @height: 50px;
 
   .root {
@@ -8,18 +9,23 @@
     height: @height;
     padding: 0 15px;
   }
+
   .noShadow {
     box-shadow: none;
   }
+
   .noMargin {
     margin-bottom: 0;
   }
+
   .center {
     margin: auto;
   }
+
   .container {
     margin: 0 -15px;
   }
+
   .divider {
     display: inline-block;
     vertical-align: middle;
@@ -28,20 +34,25 @@
     width: 1px;
     background-color: #dfdfdf;
   }
+
   .left {
     height: @height;
     float: left;
   }
+
   .right {
     height: @height;
     float: right;
   }
-  .block {
+
+  .item {
     display: inline-block;
     height: @height;
     line-height: @height;
     padding: 0 15px;
+    vertical-align: middle;
   }
+
   .button {
     display: inline-block;
     height: @height;
@@ -50,37 +61,34 @@
     outline: 0;
     padding: 0 15px;
     position: relative;
+    vertical-align: middle;
 
     &:hover,
     &:focus {
-      background: rgba(0,0,0,0.06);
+      background: @active-background;
     }
   }
+
   .buttonActive {
-    background: rgba(0, 0, 0, .06);
+    background: @active-background;
   }
-  .dropdown {
-    position: absolute;
-    top: 50px;
-    left: 0;
-    a, a:hover {
-      color: #4a4a4a;
-    }
-  }
+
   .iconOnly {
     padding: 0 11px;
   }
-  .userLink, .userLink:focus {
-    text-decoration: none;
-    outline: none;
-  }
+
   .icon {
     position: relative;
     margin-right: 4px;
     bottom: -4px;
   }
+
   .spwDropdown {
     display: inline-block;
     height: @height;
+  }
+
+  :global(.kontur-projects_opened) .button {
+    background: @active-background;
   }
 }
