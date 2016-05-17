@@ -8,6 +8,11 @@ import ScrollContainer from '../ScrollContainer/ScrollContainer';
 import styles from './Menu.less';
 
 export default class Menu extends React.Component {
+  props: {
+    maxHeight?: number,
+    children?: any,
+  };
+
   state: {
     highlightedIndex: number,
   } = {
@@ -21,7 +26,9 @@ export default class Menu extends React.Component {
   render() {
     return (
       <div className={styles.root}>
-        <ScrollContainer ref={this._refScrollContainer} maxHeight={200}>
+        <ScrollContainer ref={this._refScrollContainer}
+          maxHeight={this.props.maxHeight}
+        >
           {React.Children.map(this.props.children, (child, index) => {
             if (this._canSelect(child)) {
               const highlight = this.state.highlightedIndex === index;

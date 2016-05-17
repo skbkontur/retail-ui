@@ -250,7 +250,7 @@ class ComboBox extends React.Component {
     });
     return (
       <div className={menuClassName}>
-        <Menu ref={this._refMenu}>
+        <Menu ref={this._refMenu} maxHeight={200}>
           {mapResult(result, (value, info, i) => {
             if (typeof value === 'function' || React.isValidElement(value)) {
               return React.cloneElement(
