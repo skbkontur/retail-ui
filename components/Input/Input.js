@@ -23,9 +23,14 @@ const INPUT_PASS_PROPS = {
   placeholder: true,
   title: true,
 
-  onFocus: true,
   onBlur: true,
+  onCopy: true,
+  onCut: true,
+  onFocus: true,
   onKeyDown: true,
+  onKeyPress: true,
+  onKeyUp: true,
+  onPaste: true,
 };
 
 const SIZE_CLASS_NAMES = {
@@ -86,14 +91,26 @@ class Input extends React.Component {
      */
     rightIcon: PropTypes.element,
 
+    onBlur: PropTypes.func,
+
     /**
      * Вызывается при вводе каждого символа.
      */
     onChange: PropTypes.func,
 
-    onBlur: PropTypes.func,
+    onCopy: PropTypes.func,
+
+    onCut: PropTypes.func,
+
+    onFocus: PropTypes.func,
 
     onKeyDown: PropTypes.func,
+
+    onKeyPress: PropTypes.func,
+
+    onKeyUp: PropTypes.func,
+
+    onPaste: PropTypes.func,
 
     /**
      * Не отрисовывать рамку.
