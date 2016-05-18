@@ -113,18 +113,29 @@ class User extends React.Component {
       <TopBarDropdown
         icon="user"
         caption={userName}
-        menuAlign="right"
       >
-        <MenuItem loose href="https://cabinet.kontur.ru">
+        <div style={{padding: '6px 18px 7px 15px'}}>
           <b>Личный кабинет Контура</b>
-        </MenuItem>
-        <MenuItem loose href="https://cabinet.kontur.ru">
+        </div>
+        <MenuItem
+          loose
+          href="https://cabinet.kontur.ru"
+          target="_blank"
+        >
           Настройка входа в сервисы
         </MenuItem>
-        <MenuItem loose href="https://cabinet.kontur.ru#certificates">
+        <MenuItem
+          loose
+          href="https://cabinet.kontur.ru#certificates"
+          target="_blank"
+        >
           Сертификаты
         </MenuItem>
-        <MenuItem loose href="https://cabinet.kontur.ru#services">
+        <MenuItem
+          loose
+          href="https://cabinet.kontur.ru#services"
+          target="_blank"
+        >
           Оплата сервисов
         </MenuItem>
       </TopBarDropdown>
