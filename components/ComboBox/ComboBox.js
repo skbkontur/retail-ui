@@ -439,8 +439,12 @@ class ComboBox extends React.Component {
       return;
     }
 
-    this._close();
-    this._tryRecover();
+    // Go async to let blur event happen before focused element removed from the
+    // document.
+    process.nextTick(() => {
+      this._close();
+      this._tryRecover();
+    });
   };
 
   _resetItem(value: Value) {
