@@ -33,7 +33,6 @@ export default class MenuItem extends React.Component {
     return (
       <a
         {...rest}
-        style={{cursor: this.props.href ? 'pointer' : 'default'}}
         className={className}
         tabIndex="-1"
       >
