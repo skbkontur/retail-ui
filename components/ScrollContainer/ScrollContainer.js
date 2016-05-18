@@ -1,4 +1,5 @@
 import events from 'add-event-listener';
+import ExecutionEnvironment from 'exenv';
 import React, {PropTypes} from 'react';
 
 import styles from './ScrollContainer.less';
@@ -161,6 +162,10 @@ ScrollContainer.propTypes = {
 };
 
 function measureScrollWidth() {
+  if (!ExecutionEnvironment.canUseDOM) {
+    return 0;
+  }
+
   const div = document.createElement('div');
   div.innerHTML = 'a'; // In IE clientWidth is 0 if this div is empty.
   div.style.overflowY = 'scroll';
