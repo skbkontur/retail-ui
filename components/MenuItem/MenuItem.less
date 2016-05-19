@@ -2,13 +2,14 @@
 
 :local {
   .root {
-    cursor: pointer;
-    padding: 6px 18px 7px 6px;
-    white-space: nowrap;
-    display: block;
-    text-decoration: none;
     color: inherit;
+    cursor: pointer;
+    display: block;
+    line-height: 18px;
     outline: none;
+    padding: 6px 18px 7px 6px;
+    text-decoration: none;
+    white-space: nowrap;
   }
 
   .hover {
@@ -22,5 +23,15 @@
 
   .selected {
     background: @dropdown-menu-selected-bg;
+  }
+
+  .comment {
+    color: #a0a0a0;
+    white-space: normal;
+  }
+
+  .commentHover {
+    color: #fff;
+    opacity: .6;
   }
 }

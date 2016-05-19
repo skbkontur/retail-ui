@@ -8,8 +8,13 @@ import ScrollContainer from '../ScrollContainer/ScrollContainer';
 import styles from './Menu.less';
 
 export default class Menu extends React.Component {
+  static defaultProps = {
+    width: 'auto',
+  };
+
   props: {
     maxHeight?: number,
+    width?: number | string,
     children?: any,
   };
 
@@ -25,7 +30,7 @@ export default class Menu extends React.Component {
 
   render() {
     return (
-      <div className={styles.root}>
+      <div className={styles.root} style={{width: this.props.width}}>
         <ScrollContainer ref={this._refScrollContainer}
           maxHeight={this.props.maxHeight}
         >

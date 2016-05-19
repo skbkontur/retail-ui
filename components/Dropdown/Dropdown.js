@@ -9,6 +9,7 @@ const PASS_PROPS = {
   _renderButton: true,
   error: true,
   menuAlign: true,
+  menuWidth: true,
   use: true,
   size: true,
   warning: true,
@@ -32,6 +33,11 @@ export default class Dropdown extends React.Component {
     error: PropTypes.bool,
 
     menuAlign: PropTypes.oneOf(['left', 'right']),
+
+    menuWidth: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
 
     size: PropTypes.oneOf(['small', 'medium', 'large']),
 

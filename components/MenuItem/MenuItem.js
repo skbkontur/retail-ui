@@ -5,20 +5,20 @@ import React from 'react';
 
 import styles from './MenuItem.less';
 
-global.React = React;
-
 export default class MenuItem extends React.Component {
   static __MENU_ITEM__ = true;
 
   props: {
-    state?: 'hover' | 'selected';
+    comment?: string;
     href?: string;
     loose?: bool;
+    state?: 'hover' | 'selected';
     onClick?: Function;
   };
 
   render() {
     const {
+      comment,
       loose,
       state,
       ...rest,
@@ -37,6 +37,16 @@ export default class MenuItem extends React.Component {
         tabIndex="-1"
       >
         {(this.props: any).children}
+        {this.props.comment && (
+          <div
+            className={classNames({
+              [styles.comment]: true,
+              [styles.commentHover]: state === 'hover',
+            })}
+          >
+            {comment}
+          </div>
+        )}
       </a>
     );
   }
