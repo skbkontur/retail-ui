@@ -1,5 +1,5 @@
 import {transform} from 'babel-core';
-import jsxSyntaxPlugin from 'babel-preset-react/node_modules/babel-plugin-syntax-jsx';
+import jsxSyntaxPlugin from 'babel-plugin-syntax-jsx';
 import testingPugin from '../testing.js';
 
 function compile(input) {
