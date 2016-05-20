@@ -207,7 +207,11 @@ class Select extends React.Component {
       <div ref={this._refMenuContainer} className={styles.container}>
         <div className={dropClassName}>
           <div style={{position: 'relative'}}>
-            <Menu ref={this._refMenu} width={this.props.menuWidth}>
+            <Menu
+              ref={this._refMenu}
+              width={this.props.menuWidth}
+              onItemClick={this.close_}
+            >
               {search}
               {this.mapItems((iValue, item, i) => {
                 if (typeof item === 'function' || React.isValidElement(item)) {

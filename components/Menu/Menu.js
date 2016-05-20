@@ -16,6 +16,7 @@ export default class Menu extends React.Component {
     maxHeight?: number,
     width?: number | string,
     children?: any,
+    onItemClick?: () => void,
   };
 
   state: {
@@ -101,6 +102,7 @@ export default class Menu extends React.Component {
         }
       }
       item.props.onClick && item.props.onClick();
+      this.props.onItemClick && this.props.onItemClick();
       return true;
     }
     return false;
