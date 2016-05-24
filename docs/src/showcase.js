@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import '../../testing';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

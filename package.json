@@ -17,7 +17,9 @@
     "classnames": "^2.2.0",
     "exenv": "^1.2.1",
     "fbemitter": "^2.0.0",
+    "fbjs": "^0.8.2",
     "invariant": "^2.2.1",
+    "object-assign": "^4.1.0",
     "react-input-mask": "^0.5.10",
     "warning": "^2.1.0"
   },
