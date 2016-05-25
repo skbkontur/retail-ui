@@ -1,13 +1,12 @@
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
-
 import Button from '../Button';
 import Group from '../Group';
 import Icon from '../Icon';
 import Input from '../Input';
 import Picker from './Picker';
-
 import styles from './DatePicker.less';
+import padStart from 'lodash.padstart';
 
 class DatePicker extends React.Component {
   static propTypes = {
@@ -185,8 +184,8 @@ function formatDate(date) {
     return '';
   }
 
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = padStart(date.getDate().toString(), 2, '0');
+  const month = padStart((date.getMonth() + 1).toString(), 2, '0');
   return `${day}.${month}.${date.getFullYear()}`;
 }
 
