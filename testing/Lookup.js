@@ -55,15 +55,27 @@ agent.on('unmount', id => {
 
 inject(hook, agent);
 
-exports.find = (path: string) => {
+exports.find = (path: string, tree) => {
   const tokens = path.split(' ');
-  return search(getRoots(), tokens).map(id => {
+
+  let roots;
+  if (tree) {
+    roots = mounted[tree._id] ? [tree._id] : [];
+  } else {
+    roots = getRoots();
+  }
+
+  return search(roots, tokens).map(id => {
     const comp = mounted[id];
     return {
+      _id: comp.id,
       node: agent.getNodeForID(id),
       instance: comp.publicInstance,
       call(methodName, args) {
         return call(comp.publicInstance, methodName, args);
+      },
+      call2(funcName, args) {
+        return call2(comp.publicInstance, funcName, args);
       },
     };
   });
@@ -91,7 +103,7 @@ const search = (ids, tokens) => {
     }
 
     return [];
-  }).reduce((ids, all) => [...all, ...ids], []);
+  }).reduce((all, ids) => [...all, ...ids], []);
 };
 
 const getRoots = () => {
@@ -110,6 +122,10 @@ const call = (reactInstance, methodName, args) => {
   invariant(method, 'Adapter function `%s` not found.', methodName);
 
   return method.call(adapter, ...args);
+};
+
+const call2 = (reactInstance, funcName, args) => {
+  return getAdapter(reactInstance)[funcName].call(null, reactInstance, ...args);
 };
 
 const getAdapter = reactInstance => {
