@@ -17,7 +17,7 @@ describe('Lookup', () => {
     let byRef;
     mount(<div ref={el => byRef = el} tid="foo" />);
 
-    const found = Lookup.find('foo');
+    const found = Lookup.findAll('foo');
 
     expect(found.length).toBe(1);
     expect(byRef).toBeTruthy();
@@ -34,11 +34,11 @@ describe('Lookup', () => {
     let byRef;
     mount(<Comp ref={c => byRef = c} tid="foo" />);
 
-    const found = Lookup.find('foo');
+    const found = Lookup.findAll('foo');
 
     expect(found.length).toBe(1);
     expect(byRef).toBeTruthy();
-    expect(found[0].instance).toBe(byRef);
+    expect(found[0].node).toBe(ReactDOM.findDOMNode(byRef));
   });
 
   it('finds stateless component', () => {
@@ -47,7 +47,7 @@ describe('Lookup', () => {
 
     mount(<Comp tid="foo" />);
 
-    const found = Lookup.find('foo');
+    const found = Lookup.findAll('foo');
 
     expect(found.length).toBe(1);
     expect(byRef).toBeTruthy();
@@ -66,7 +66,7 @@ describe('Lookup', () => {
       </div>
     );
 
-    const found = Lookup.find('container foo');
+    const found = Lookup.findAll('container foo');
 
     expect(found.length).toBe(2);
     expect(byRef).toBeTruthy();
@@ -84,10 +84,19 @@ describe('Lookup', () => {
       </div>
     );
 
-    const [foundTree] = Lookup.find('tree');
-    const foundBars = Lookup.find('bar', foundTree);
+    const foundTree = Lookup.findOne('tree');
+    const foundBars = Lookup.findAll('bar', foundTree);
 
     expect(foundBars.length).toBe(2);
+  });
+
+  it('throws if subtree is unmounted', () => {
+    mount(<div tid="foo" />);
+
+    const found = Lookup.findOne('foo');
+    ReactDOM.unmountComponentAtNode(container);
+
+    expect(() => Lookup.findAll('a', found)).toThrow();
   });
 
   it('calls adapter functions', () => {
@@ -103,9 +112,9 @@ describe('Lookup', () => {
     let comp;
     mount(<Comp ref={c => comp = c} tid="foo" />);
 
-    const [foundComp] = Lookup.find('foo');
+    const foundComp = Lookup.findOne('foo');
 
-    const result = foundComp.call2('getValue', ['baz']);
+    const result = Lookup.getAdapter(foundComp).getValue('baz');
 
     expect(result).toBe('bar');
     expect(getValue.mock.calls[0][0]).toBe(comp);

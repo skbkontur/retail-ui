@@ -2,25 +2,19 @@
 
 import Autocomplete from './Autocomplete.js';
 
-class AutocompleteAdapter {
-  _instance: Autocomplete;
+const AutocompleteAdapter = {
+  getValue(inst: Autocomplete) {
+    return inst.state.value;
+  },
 
-  constructor(instance: Autocomplete) {
-    this._instance = instance;
-  }
+  setValue(inst: Autocomplete, value: string) {
+    inst.handleChange({target: {value}});
+  },
 
-  getValue() {
-    return this._instance.state.value;
-  }
-
-  setValue(value: string) {
-    this._instance.handleChange({target: {value}});
-  }
-
-  getSuggestions() {
-    return this._instance.state.items;
-  }
-}
+  getSuggestions(inst: Autocomplete) {
+    return inst.state.items;
+  },
+};
 
 Autocomplete.__ADAPTER__ = AutocompleteAdapter;
 

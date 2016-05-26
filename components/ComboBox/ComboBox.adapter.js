@@ -2,31 +2,25 @@
 
 import ComboBox from './ComboBox.js';
 
-class ComboBoxAdapter {
-  _instance: ComboBox;
+const ComboBoxAdapter = {
+  getValue(inst) {
+    return inst.state.value;
+  },
 
-  constructor(instance: ComboBox) {
-    this._instance = instance;
-  }
+  setValue(inst, value) {
+    inst._change(value);
+  },
 
-  getValue() {
-    return this._instance.state.value;
-  }
+  search(inst, searchString: string) {
+    inst._handleValueClick();
+    inst._handleInputChange({target: {value: searchString}});
+  },
 
-  setValue(value) {
-    this._instance._change(value);
-  }
-
-  search(searchString: string) {
-    this._instance._handleValueClick();
-    this._instance._handleInputChange({target: {value: searchString}});
-  }
-
-  getResult() {
-    const {result} = this._instance.state;
+  getResult(inst) {
+    const {result} = inst.state;
     return result && result.values;
-  }
-}
+  },
+};
 
 (ComboBox: Object).__ADAPTER__ = ComboBoxAdapter;
 

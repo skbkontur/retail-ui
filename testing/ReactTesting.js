@@ -1,4 +1,4 @@
-import Lookup from './Lookup';
+import * as Lookup from './Lookup';
 
 import ReactDOM from 'react-dom';
 
@@ -47,24 +47,15 @@ function removeRenderContainer(id) {
 }
 
 function findDOMNodes(path, parentNode = document.body) {
-  return Lookup.find(path).map(element => {
+  return Lookup.findAll(path).map(element => {
     const node = element.node;
-    node.reactInstance = element.instance;
+    node.lookupElement = element;
     return node;
   });
 }
 
 function call(node, method, args = []) {
-  const instance = node.reactInstance;
-  if (instance) {
-    const type = instance.constructor;
-    if (type && type.__ADAPTER__) {
-      const adapter = new type.__ADAPTER__(instance);
-      return adapter[method](...args);
-    }
-  }
-
-  throw new Error(`Failed to call method ${method}.`);
+  return Lookup.getAdapter(node.lookupElement)[method](...args);
 }
 
 export default {

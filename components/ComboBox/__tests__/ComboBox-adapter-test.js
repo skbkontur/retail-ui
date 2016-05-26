@@ -9,24 +9,30 @@ function noop() {}
 
 describe('ComboBox-adapter', () => {
   it('getValue', () => {
-    const {node} = mountTest(<ComboBox tid="a" value="foo" source={noop} />);
+    const {node, unmount} = mountTest(
+      <ComboBox tid="a" value="foo" source={noop} />
+    );
     expect(ReactTesting.call(node, 'getValue')).toBe('foo');
+
+    unmount();
   });
 
   it('setValue', () => {
     const onChange = jest.fn();
-    const {node} = mountTest(
+    const {node, unmount} = mountTest(
       <ComboBox tid="a" onChange={onChange} source={noop} />
     );
     ReactTesting.call(node, 'setValue', ['foo']);
 
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0][1]).toBe('foo');
+
+    unmount();
   });
 
   pit('search and getResult', async () => {
     const source = jest.fn(() => Promise.resolve({values: [1, 2, 3]}));
-    const {node} = mountTest(<ComboBox tid="a" source={source} />);
+    const {node, unmount} = mountTest(<ComboBox tid="a" source={source} />);
 
     ReactTesting.call(node, 'search', ['test']);
 
@@ -38,5 +44,7 @@ describe('ComboBox-adapter', () => {
 
     const result = ReactTesting.call(node, 'getResult');
     expect(result).toEqual([1, 2, 3]);
+
+    unmount();
   });
 });

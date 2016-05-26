@@ -55,12 +55,20 @@ agent.on('unmount', id => {
 
 inject(hook, agent);
 
-exports.find = (path: string, tree) => {
+export const findOne = (path: string, tree) => {
+  return findAll(path, tree)[0];
+};
+
+export const findAll = (path: string, tree) => {
   const tokens = path.split(' ');
 
   let roots;
   if (tree) {
-    roots = mounted[tree._id] ? [tree._id] : [];
+    if (!mounted[tree._id]) {
+      throw new Error('Cannot search in unmounted component.');
+    }
+
+    roots = [tree._id];
   } else {
     roots = getRoots();
   }
@@ -70,13 +78,6 @@ exports.find = (path: string, tree) => {
     return {
       _id: comp.id,
       node: agent.getNodeForID(id),
-      instance: comp.publicInstance,
-      call(methodName, args) {
-        return call(comp.publicInstance, methodName, args);
-      },
-      call2(funcName, args) {
-        return call2(comp.publicInstance, funcName, args);
-      },
     };
   });
 };
@@ -114,29 +115,27 @@ const getDetachedRoot = (portalID) => {
   return roots.find(id => mounted[id].props.props.rt_portalID);
 };
 
-const call = (reactInstance, methodName, args) => {
-  const Adapter = getAdapter(reactInstance);
-  const adapter = new Adapter(reactInstance);
-  const method = adapter[methodName];
+export const getAdapter = element => {
+  const comp = mounted[element._id];
+  invariant(comp, 'Cannot get adapter of unmounted component.');
 
-  invariant(method, 'Adapter function `%s` not found.', methodName);
-
-  return method.call(adapter, ...args);
-};
-
-const call2 = (reactInstance, funcName, args) => {
-  return getAdapter(reactInstance)[funcName].call(null, reactInstance, ...args);
-};
-
-const getAdapter = reactInstance => {
-  const type = reactInstance && reactInstance.constructor;
+  const instance = comp.publicInstance;
+  const type = instance && instance.constructor;
   if (type && type.__ADAPTER__) {
-    return type.__ADAPTER__;
+    return objectMap(type.__ADAPTER__, func => func.bind(null, instance));
   }
 
   invariant(false, 'No adapter found.');
 
   return null;
+};
+
+export const objectMap = (obj, fn) => {
+  const ret = {};
+  for (const key of Object.keys(obj)) {
+    ret[key] = fn(obj[key], key);
+  }
+  return ret;
 };
 
 global.Lookup = exports;
