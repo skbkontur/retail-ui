@@ -1,7 +1,6 @@
 import '../../../testing';
 import {mountTest} from '../../../testing/TestingTestUtils';
 
-import {mount} from 'enzyme';
 import React from 'react';
 
 import Select from '../Select.adapter.js';

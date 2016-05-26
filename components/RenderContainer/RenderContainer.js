@@ -63,7 +63,9 @@ export default class RenderContainer extends React.Component {
 
 class Portal extends React.Component {
   render() {
-    return null;
+    // return null;
+    // Return null once we kill all ReactTesting usages.
+    return <noscript data-render-container-id={this.props.rt_rootID} />;
   }
 }
 
