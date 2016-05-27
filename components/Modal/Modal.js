@@ -13,6 +13,7 @@ import Sticky from '../Sticky';
 import styles from './Modal.less';
 
 let mountedModalsCount = 0;
+let isHeader = false;
 
 /**
  * Модальное окно.
@@ -43,19 +44,7 @@ class Modal extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      isHeader: this.checkIsHeader(),
-    };
-  }
-
-  checkIsHeader() {
-    let isHeader = false;
-    React.Children.forEach(this.props.children, child => {
-      if (child.type === Header) {
-        isHeader = true;
-      }
-    });
-    return isHeader;
+    isHeader = this.isHeaderInChildren(props.children);
   }
 
   render() {
@@ -83,9 +72,9 @@ class Modal extends React.Component {
             onScroll={() => LayoutEvents.emit()}
           >
             <div className={styles.window} style={style}>
-              {!this.state.isHeader && close}
+              {!isHeader && close}
               {React.Children.map(this.props.children, child => {
-                if (child.type.name === 'Header') {
+                if (child.type === Header) {
                   return React.cloneElement(child, {close});
                 }
                 return child;
@@ -107,6 +96,10 @@ class Modal extends React.Component {
     mountedModalsCount++;
   }
 
+  componentWillReceiveProps(nextProps) {
+    isHeader = this.isHeaderInChildren(nextProps.children);
+  }
+
   componentWillUnmount() {
     events.removeEventListener(document, 'keydown', this._handleNativeKey);
 
@@ -114,6 +107,16 @@ class Modal extends React.Component {
       removeClass(document.body, styles.bodyClass);
       LayoutEvents.emit();
     }
+  }
+
+  isHeaderInChildren(children) {
+    let result = false;
+    React.Children.forEach(children, child => {
+      if (child.type === Header) {
+        result = true;
+      }
+    });
+    return result;
   }
 
   _handleCotanierClick = (event) => {
@@ -141,7 +144,9 @@ class Header extends React.Component {
     return (
       <Sticky side="top">
         {fixed =>
-          <div className={classNames(styles.header, fixed && styles.fixedHeader)}>
+          <div
+            className={classNames(styles.header, fixed && styles.fixedHeader)}
+          >
             {this.props.close &&
               <div className={styles.absoluteClose}>{this.props.close}</div>}
             {this.props.children}
