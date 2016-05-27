@@ -24,6 +24,7 @@ globals:
   SyntheticMouseEvent: true
   SyntheticKeyboardEvent: true
   # Testing
+  Lookup: true
   ReactTesting: true
 
 rules:

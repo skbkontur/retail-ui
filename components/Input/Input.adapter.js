@@ -2,21 +2,15 @@
 
 import Input from './Input.js';
 
-class InputAdapter {
-  _input: Input;
+const InputAdapter = {
+  getValue(inst) {
+    return inst.state.value;
+  },
 
-  constructor(input) {
-    this._input = input;
-  }
-
-  getValue() {
-    return this._input.state.value;
-  }
-
-  setValue(value) {
-    this._input.handleChange({target: {value}});
-  }
-}
+  setValue(inst, value) {
+    inst.handleChange({target: {value}});
+  },
+};
 
 Input.__ADAPTER__ = InputAdapter;
 
