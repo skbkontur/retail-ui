@@ -25,4 +25,3 @@ const ComboBoxAdapter = {
 (ComboBox: Object).__ADAPTER__ = ComboBoxAdapter;
 
 export default ComboBox;
-export * from './ComboBox.js';

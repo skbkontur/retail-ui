@@ -19,4 +19,3 @@ const AutocompleteAdapter = {
 Autocomplete.__ADAPTER__ = AutocompleteAdapter;
 
 export default Autocomplete;
-export * from './Autocomplete.js';

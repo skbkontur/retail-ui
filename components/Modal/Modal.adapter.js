@@ -11,4 +11,3 @@ const ModalAdapter = {
 Modal.__ADAPTER__ = ModalAdapter;
 
 export default Modal;
-export * from './Modal.js';
