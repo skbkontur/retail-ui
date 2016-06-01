@@ -16,8 +16,11 @@ ecmaFeatures:
 
 globals:
   __DEV__: true
+  # Built ins
+  Generator: true
   # Flow
   $Shape: true
+  # React
   SyntheticMouseEvent: true
   SyntheticKeyboardEvent: true
   # Testing
