@@ -13,7 +13,6 @@ import Sticky from '../Sticky';
 import styles from './Modal.less';
 
 let mountedModalsCount = 0;
-let isHeader = false;
 
 /**
  * Модальное окно.
@@ -42,11 +41,6 @@ class Modal extends React.Component {
     return {rt_inModal: true};
   }
 
-  constructor(props, context) {
-    super(props, context);
-    isHeader = this.isHeaderInChildren(props.children);
-  }
-
   render() {
     var close = null;
     if (!this.props.noClose) {
@@ -59,6 +53,15 @@ class Modal extends React.Component {
       );
     }
 
+    let hasHeader = false;
+    const children = React.Children.map(this.props.children, child => {
+      if (child.type === Header) {
+        hasHeader = true;
+        return React.cloneElement(child, {close});
+      }
+      return child;
+    });
+
     const style = {};
     if (this.props.width) {
       style.width = this.props.width;
@@ -68,17 +71,12 @@ class Modal extends React.Component {
         <div className={styles.root}>
           <div className={styles.bg} />
           <Center className={styles.container}
-            onClick={this._handleCotanierClick}
+            onClick={this._handleContainerClick}
             onScroll={() => LayoutEvents.emit()}
           >
             <div className={styles.window} style={style}>
-              {!isHeader && close}
-              {React.Children.map(this.props.children, child => {
-                if (child.type === Header) {
-                  return React.cloneElement(child, {close});
-                }
-                return child;
-              })}
+              {!hasHeader && close}
+              {children}
             </div>
           </Center>
         </div>
@@ -96,10 +94,6 @@ class Modal extends React.Component {
     mountedModalsCount++;
   }
 
-  componentWillReceiveProps(nextProps) {
-    isHeader = this.isHeaderInChildren(nextProps.children);
-  }
-
   componentWillUnmount() {
     events.removeEventListener(document, 'keydown', this._handleNativeKey);
 
@@ -109,17 +103,7 @@ class Modal extends React.Component {
     }
   }
 
-  isHeaderInChildren(children) {
-    let result = false;
-    React.Children.forEach(children, child => {
-      if (child.type === Header) {
-        result = true;
-      }
-    });
-    return result;
-  }
-
-  _handleCotanierClick = (event) => {
+  _handleContainerClick = (event) => {
     if (event.target === event.currentTarget) {
       this._handleClose();
     }
