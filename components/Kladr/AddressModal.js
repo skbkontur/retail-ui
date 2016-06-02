@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import React from 'react';
 
@@ -74,9 +74,11 @@ export default class AddressModal extends React.Component {
     );
   }
 
-  createFieldProps(field: string,
+  createFieldProps(
+    field: string,
     parents: Array<string>,
-    level: string): FieldProps {
+    level: string
+  ): FieldProps {
     return {
       source: this.createSource(field, parents, level),
       onChange: this.createHandler(field),
@@ -110,7 +112,7 @@ export default class AddressModal extends React.Component {
     };
   }
 
-  check(address) {
+  check(address: Address) {
     verify(address).then((json) => {
       if (json.isKladrAddress) {
         address = json.address;
@@ -124,10 +126,12 @@ export default class AddressModal extends React.Component {
     });
   }
 
-  createSource(field: string,
+  createSource(
+    field: string,
     parents: Array<string>,
-    level: string): SourceFunction {
-    return (searchText) => {
+    level: string
+  ) {
+    return (searchText: string) => {
       let parentCode = null;
       for (const parentName of parents) {
         const parent = this.state.address[parentName];
@@ -175,7 +179,7 @@ export default class AddressModal extends React.Component {
         <div className={styles.row}>
           <div className={styles.label}>Индекс</div>
           <div className={styles.field}>
-            <Input width="100%" value={this.state.address.index}
+            <Input value={this.state.address.index} width="100%"
               onChange={(e) => {this.setStateAddress('index', e.target.value);}}
             />
           </div>
@@ -183,9 +187,12 @@ export default class AddressModal extends React.Component {
         <div className={styles.row}>
           <div className={styles.label}>Регион</div>
           <div className={styles.field}>
-            <ComboBox value={this.state.address.region}
-              error={this.state.address.region
-                && this.state.address.region.isError}
+            <ComboBox
+              value={this.state.address.region}
+              error={
+                this.state.address.region && this.state.address.region.isError
+              }
+              width="100%"
               {...this._regionProps}
             />
           </div>
@@ -193,9 +200,13 @@ export default class AddressModal extends React.Component {
         <div className={styles.row}>
           <div className={styles.label}>Район</div>
           <div className={styles.field}>
-            <ComboBox value={this.state.address.district}
-              error={this.state.address.district
-                && this.state.address.district.isError}
+            <ComboBox
+              value={this.state.address.district}
+              error={
+                this.state.address.district &&
+                this.state.address.district.isError
+              }
+              width="100%"
               {...this._districtProps}
             />
           </div>
@@ -203,9 +214,10 @@ export default class AddressModal extends React.Component {
         <div className={styles.row}>
           <div className={styles.label}>Город</div>
           <div className={styles.field}>
-            <ComboBox value={this.state.address.city}
-              error={this.state.address.city
-                && this.state.address.city.isError}
+            <ComboBox
+              value={this.state.address.city}
+              error={this.state.address.city && this.state.address.city.isError}
+              width="100%"
               {...this._cityProps}
             />
           </div>
@@ -213,9 +225,13 @@ export default class AddressModal extends React.Component {
         <div className={styles.row}>
           <div className={styles.label}>Населенный пункт</div>
           <div className={styles.field}>
-            <ComboBox value={this.state.address.settlement}
-              error={this.state.address.settlement
-                && this.state.address.settlement.isError}
+            <ComboBox
+              value={this.state.address.settlement}
+              error={
+                this.state.address.settlement &&
+                this.state.address.settlement.isError
+              }
+              width="100%"
               {...this._settlementProps}
             />
           </div>
@@ -223,30 +239,23 @@ export default class AddressModal extends React.Component {
         <div className={styles.row}>
           <div className={styles.label}>Улица</div>
           <div className={styles.field}>
-            <ComboBox value={this.state.address.street}
-              error={this.state.address.street
-                && this.state.address.street.isError}
+            <ComboBox
+              value={this.state.address.street}
+              error={
+                this.state.address.street && this.state.address.street.isError
+              }
+              width="100%"
               {...this._streetProps}
             />
           </div>
         </div>
+        <div className={styles.row}>
+          <div className={styles.label}>Дом, корпус</div>
+          <div className={styles.field}>
+            <Input width={100} />
+          </div>
+        </div>
 
-        <div className={styles.row}>
-          <div className={styles.label}>
-            <Select width="100%" items={[]} />
-          </div>
-          <div className={styles.field}>
-            <Input width="100px" />
-          </div>
-        </div>
-        <div className={styles.row}>
-          <div className={styles.label}>
-            <Select width="100%" items={[]} />
-          </div>
-          <div className={styles.field}>
-            <Input width="100px" />
-          </div>
-        </div>
         <div className={styles.row}>
           <div className={styles.label}>
             <Select width="100%" items={[]} />

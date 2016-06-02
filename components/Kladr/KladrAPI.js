@@ -1,4 +1,5 @@
-/* @flow */
+// @flow
+
 import type {Address} from './Types';
 
 declare function fetch(): any;
@@ -6,7 +7,11 @@ declare function fetch(): any;
 const kladrUrl = 'https://kladr.kontur.ru/v1/';
 const LIMIT = 50;
 
-export function search(searchText: string, levels: string, parentCode: ?string) {
+export function search(
+  searchText: string,
+  levels: string,
+  parentCode: ?string
+) {
   const data = createQuery({
     prefix: searchText,
     parentKladr: parentCode || '',
@@ -14,9 +19,9 @@ export function search(searchText: string, levels: string, parentCode: ?string) 
     desiredAoLevels: levels,
     strictSubordination: 'false',
   });
-  return fetch(`${kladrUrl}suggest?${data}`)
-    .then(response => response.json())
-    .then(json => toJS(json));
+  return fetch(`${kladrUrl}suggest?${data}`).
+    then(response => response.json()).
+    then(json => toJS(json));
 }
 
 export function searchIndex(code: string, house: ?string) {
@@ -25,8 +30,8 @@ export function searchIndex(code: string, house: ?string) {
     house: house || '',
   });
 
-  return fetch(`${kladrUrl}kladr/index?${data}`)
-    .then(response => response.text());
+  return fetch(`${kladrUrl}kladr/index?${data}`).
+    then(response => response.text());
 }
 
 export function verify(req: Address) {
@@ -37,12 +42,11 @@ export function verify(req: Address) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(toJSON({address: req})),
-  }).then((res) => res.json())
-    .then((json) => toJS(json));
+  }).then(res => toJS(res.json()));
 }
 
 function createQuery(data){
-  let params = [];
+  const params = [];
   for (const key in data) {
     if (data.hasOwnProperty) {
       params.push(`${key}=${encodeURIComponent(data[key])}`);
