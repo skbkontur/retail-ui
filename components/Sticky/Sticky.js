@@ -48,6 +48,7 @@ export default class Sticky extends React.Component {
 
   _scheduled: bool = false;
   _reflowing: bool = false;
+  _lastInnerHeight: number = -1;
   _layoutSubscription: {remove: () => void};
 
   static defaultProps: {offset: number} = {
@@ -136,7 +137,7 @@ export default class Sticky extends React.Component {
   }
 
   _reflow: Function = () => {
-    if (this._inProgress) {
+    if (this._reflowing) {
       this._scheduled = true;
       return;
     }
@@ -173,7 +174,11 @@ export default class Sticky extends React.Component {
       const width = Math.floor(wrapRect.right - wrapRect.left);
 
       let height = this.state.height;
-      if (!wasFixed || this.state.width !== width) {
+      if (
+        !wasFixed ||
+        this.state.width !== width ||
+        this._lastInnerHeight !== this._inner.offsetHeight
+      ) {
         yield {
           fixed: false,
           height,
@@ -187,6 +192,8 @@ export default class Sticky extends React.Component {
         fixed: true,
         left: wrapLeft,
       };
+
+      this._lastInnerHeight = this._inner.offsetHeight;
 
       const stop = this.props.getStop && this.props.getStop();
       if (stop) {
