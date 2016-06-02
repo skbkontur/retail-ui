@@ -10,7 +10,7 @@ import Modal from '../Modal';
 import Select from '../Select';
 
 import {search, verify} from './KladrAPI';
-import type {Address, PlaceDescription} from './Types';
+import type {Address, PlaceDescription, VerifyResult} from './Types';
 
 import styles from './AddressModal.less';
 
@@ -21,6 +21,7 @@ type Props = {
 
 type State = {
   address: Address,
+  invalidField: ?string,
 };
 
 type SourceFunction = (searchText: string) => Promise<PlaceDescription>;
@@ -52,11 +53,14 @@ export default class AddressModal extends React.Component {
   _settlementProps: FieldProps;
   _streetProps: FieldProps;
 
+  _verifyPromise: ?Promise<VerifyResult>;
+
   constructor(props: Props) {
     super(props);
 
     this.state = {
       address: props.address || {},
+      invalidField: null,
     };
 
     this._regionProps = this.createFieldProps('region', [], 'Region');
@@ -113,16 +117,23 @@ export default class AddressModal extends React.Component {
   }
 
   check(address: Address) {
-    verify(address).then((json) => {
-      if (json.isKladrAddress) {
-        address = json.address;
-      } else {
-        const place = PLACES[json.invalidItem];
-        if (address[place]) {
-          address[place].isError = true;
-        }
+    const promise = verify(address);
+    this._verifyPromise = promise;
+
+    promise.then(result => {
+      if (promise !== this._verifyPromise) {
+        return;
       }
-      this.setState({address});
+      this._verifyPromise = null;
+
+      let invalidField = null;
+      if (!result.isKladrAddress) {
+        invalidField = PLACES[result.invalidItem];
+      }
+      this.setState({
+        address: result.address,
+        invalidField,
+      });
     });
   }
 
@@ -174,6 +185,8 @@ export default class AddressModal extends React.Component {
   }
 
   _renderForm() {
+    const {invalidField} = this.state;
+
     return (
       <Gapped vertical>
         <div className={styles.row}>
@@ -189,9 +202,7 @@ export default class AddressModal extends React.Component {
           <div className={styles.field}>
             <ComboBox
               value={this.state.address.region}
-              error={
-                this.state.address.region && this.state.address.region.isError
-              }
+              error={invalidField === 'region'}
               width="100%"
               {...this._regionProps}
             />
@@ -202,10 +213,7 @@ export default class AddressModal extends React.Component {
           <div className={styles.field}>
             <ComboBox
               value={this.state.address.district}
-              error={
-                this.state.address.district &&
-                this.state.address.district.isError
-              }
+              error={invalidField === 'district'}
               width="100%"
               {...this._districtProps}
             />
@@ -216,7 +224,7 @@ export default class AddressModal extends React.Component {
           <div className={styles.field}>
             <ComboBox
               value={this.state.address.city}
-              error={this.state.address.city && this.state.address.city.isError}
+              error={invalidField === 'city'}
               width="100%"
               {...this._cityProps}
             />
@@ -227,10 +235,7 @@ export default class AddressModal extends React.Component {
           <div className={styles.field}>
             <ComboBox
               value={this.state.address.settlement}
-              error={
-                this.state.address.settlement &&
-                this.state.address.settlement.isError
-              }
+              error={invalidField === 'settlement'}
               width="100%"
               {...this._settlementProps}
             />
@@ -241,9 +246,7 @@ export default class AddressModal extends React.Component {
           <div className={styles.field}>
             <ComboBox
               value={this.state.address.street}
-              error={
-                this.state.address.street && this.state.address.street.isError
-              }
+              error={invalidField === 'street'}
               width="100%"
               {...this._streetProps}
             />
@@ -269,7 +272,7 @@ export default class AddressModal extends React.Component {
   }
 }
 
-function renderValueOrItem(place) {
+function renderValueOrItem(place: ?PlaceDescription) {
   return place ? place.name : 'null';
 }
 

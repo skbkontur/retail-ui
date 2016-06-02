@@ -1,6 +1,6 @@
 // @flow
 
-import type {Address} from './Types';
+import type {Address, VerifyResult} from './Types';
 
 declare function fetch(): any;
 
@@ -34,7 +34,7 @@ export function searchIndex(code: string, house: ?string) {
     then(response => response.text());
 }
 
-export function verify(req: Address) {
+export function verify(req: Address): Promise<VerifyResult> {
   return fetch(`${kladrUrl}verify/`, {
     method: 'POST',
     headers: {
@@ -42,7 +42,9 @@ export function verify(req: Address) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(toJSON({address: req})),
-  }).then(res => toJS(res.json()));
+  }).
+    then(res => res.json()).
+    then(json => toJS(json));
 }
 
 function createQuery(data){

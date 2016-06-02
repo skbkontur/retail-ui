@@ -19,3 +19,9 @@ export type Address = {
   house: string,
   room: string,
 };
+
+export type VerifyResult = {
+  address: Address,
+  invalidItem: number,
+  isKladrAddress: bool,
+};
