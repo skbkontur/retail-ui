@@ -162,7 +162,6 @@ class Input extends React.Component {
       className: classNames({
         [styles.root]: true,
         [this.props.className || '']: true,
-        [styles.borderless]: this.props.borderless,
         [styles.disabled]: this.props.disabled,
         [styles.error]: this.props.error,
         [styles.warning]: this.props.warning,
@@ -200,7 +199,10 @@ class Input extends React.Component {
 
     const inputProps = {
       ...filterProps(this.props, INPUT_PASS_PROPS),
-      className: styles.input,
+      className: classNames({
+        [styles.input]: true,
+        [styles.borderless]: this.props.borderless,
+      }),
       value: this.state.value,
       onChange: (e) => this.handleChange(e),
       style: {},

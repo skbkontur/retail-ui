@@ -17,6 +17,7 @@ import MenuItem from '../MenuItem/MenuItem';
 import styles from './ComboBox.less';
 
 const INPUT_PASS_PROPS = {
+  borderless: true,
   error: true,
   warning: true,
   width: true,
@@ -39,6 +40,7 @@ type RecoverResult = {
 type RecoverFunc = (searchString: string) => RecoverResult;
 
 type Props = {
+  borderless?: bool,
   disabled?: bool,
   error?: bool,
   info?: Info | (v: Value) => Promise<Info>,
@@ -77,6 +79,8 @@ class ComboBox extends React.Component {
   }
 
   static propTypes = {
+    borderless: PropTypes.bool,
+
     disabled: PropTypes.bool,
 
     /**
@@ -140,7 +144,7 @@ class ComboBox extends React.Component {
   static defaultProps = {
     renderItem,
     renderValue,
-    placeholder: 'Пусто',
+    placeholder: '',
     width: 250,
     menuAlign: 'left',
   };
