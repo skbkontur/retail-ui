@@ -182,10 +182,10 @@ export default class AddressModal extends React.Component {
         <Modal.Body>
           {this._renderForm()}
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer panel>
           <Gapped>
-            <Button>Сохранить</Button>
-            <Button onClick={this.props.onClose}>Отмена</Button>
+            <Button size="medium" use="primary">Сохранить</Button>
+            <Button size="medium" onClick={this.props.onClose}>Отмена</Button>
           </Gapped>
         </Modal.Footer>
       </Modal>
