@@ -20,6 +20,17 @@ export type Address = {
   room: string,
 };
 
+export type Place =
+  'region' |
+  'district' |
+  'city' |
+  'settlement' |
+  'street' |
+  'index' |
+  'okato' |
+  'house' |
+  'room';
+
 export type VerifyResult = {
   address: Address,
   invalidItem: number,

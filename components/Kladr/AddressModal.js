@@ -10,7 +10,7 @@ import Modal from '../Modal';
 import Select from '../Select';
 
 import {search, verify} from './KladrAPI';
-import type {Address, PlaceDescription, VerifyResult} from './Types';
+import type {Address, Place, PlaceDescription, VerifyResult} from './Types';
 
 import styles from './AddressModal.less';
 
@@ -24,8 +24,16 @@ type State = {
   invalidField: ?string,
 };
 
-type SourceFunction = (searchText: string) => Promise<PlaceDescription>;
-type HandlerFunction = (e: any, value: PlaceDescription) => void;
+type Info = {
+  searchText: string,
+  address: Address,
+};
+type SourceResult = {
+  values: Array<PlaceDescription>,
+  infos: Array<Info>,
+};
+type SourceFunction = (searchText: string) => Promise<SourceResult>;
+type HandlerFunction = (e: any, value: PlaceDescription, info?: Info) => void;
 type FieldProps = {
   source: SourceFunction,
   onChange: HandlerFunction,
@@ -79,15 +87,15 @@ export default class AddressModal extends React.Component {
   }
 
   createFieldProps(
-    field: string,
-    parents: Array<string>,
+    field: Place,
+    parents: Array<Place>,
     level: string
   ): FieldProps {
     return {
       source: this.createSource(field, parents, level),
       onChange: this.createHandler(field),
-      renderItem: renderValueOrItem,
-      renderValue: renderValueOrItem,
+      renderItem: this._renderItem.bind(this, field, parents),
+      renderValue,
       recover,
     };
   }
@@ -98,8 +106,8 @@ export default class AddressModal extends React.Component {
       if (info) {
         for (const item in PLACES) {
           const itemPlace = PLACES[item];
-          if (itemPlace !== place && info[itemPlace]) {
-            address[itemPlace] = info[itemPlace];
+          if (itemPlace !== place && info.address[itemPlace]) {
+            address[itemPlace] = info.address[itemPlace];
           } else if (itemPlace === place) {
             address[place] = value;
             break;
@@ -139,7 +147,7 @@ export default class AddressModal extends React.Component {
 
   createSource(
     field: string,
-    parents: Array<string>,
+    parents: Array<Place>,
     level: string
   ) {
     return (searchText: string) => {
@@ -151,9 +159,9 @@ export default class AddressModal extends React.Component {
         }
       }
 
-      return search(searchText, `[${level}]`, parentCode).then((values) => ({
-        values: values.map((address) => address[field]),
-        infos: values,
+      return search(searchText, `[${level}]`, parentCode).then(values => ({
+        values: values.map(address => address[field]),
+        infos: values.map(address => ({searchText, address})),
       }));
     };
   }
@@ -203,6 +211,7 @@ export default class AddressModal extends React.Component {
             <ComboBox
               value={this.state.address.region}
               error={invalidField === 'region'}
+              placeholder="Можно вводить код или название"
               width="100%"
               {...this._regionProps}
             />
@@ -270,9 +279,41 @@ export default class AddressModal extends React.Component {
       </Gapped>
     );
   }
+
+  _renderItem(
+    field: Place,
+    parents: Array<Place>,
+    place: PlaceDescription,
+    info: Info
+  ) {
+    const parentNames = [];
+    for (let i = parents.length - 1; i >= 0; --i) {
+      const parentField = parents[i];
+      if (this.state.address[parentField]) {
+        break;
+      }
+
+      const parent = info.address[parentField];
+      if (parent && typeof parent === 'object') {
+        let parentName = parent.name;
+        if (parentField === 'region') {
+          parentName = parent.code.substr(0, 2) + ' ' + parentName;
+        }
+        parentNames.unshift(parentName);
+      }
+    }
+    return (
+      <div>
+        {place.name}
+        {parentNames.length > 0 && (
+          <div className={styles.menuItemParents}>{parentNames.join(', ')}</div>
+        )}
+      </div>
+    );
+  }
 }
 
-function renderValueOrItem(place: ?PlaceDescription) {
+function renderValue(place: ?PlaceDescription) {
   return place ? place.name : 'null';
 }
 
