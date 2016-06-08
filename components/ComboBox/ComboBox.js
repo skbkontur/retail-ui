@@ -257,9 +257,14 @@ class ComboBox extends React.Component {
         <Menu ref={this._refMenu} maxHeight={200}>
           {mapResult(result, (value, info, i) => {
             if (typeof value === 'function' || React.isValidElement(value)) {
+              const element = typeof value === 'function' ? value() : value;
+              const elementValue = element.props.value;
               return React.cloneElement(
-                typeof value === 'function' ? value() : value,
-                {key: i},
+                element,
+                {
+                  key: i,
+                  onClick: this._handleItemClick.bind(this, elementValue, info),
+                },
               );
             }
             return (
