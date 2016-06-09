@@ -16,6 +16,7 @@ import styles from './AddressModal.less';
 
 type Props = {
   address: Address,
+  onChange: (value: {address: Address}) => void,
   onClose: () => void,
 };
 
@@ -184,7 +185,9 @@ export default class AddressModal extends React.Component {
         </Modal.Body>
         <Modal.Footer panel>
           <Gapped>
-            <Button size="medium" use="primary">Сохранить</Button>
+            <Button size="medium" use="primary" onClick={this._handleSave}>
+              Сохранить
+            </Button>
             <Button size="medium" onClick={this.props.onClose}>Отмена</Button>
           </Gapped>
         </Modal.Footer>
@@ -311,6 +314,11 @@ export default class AddressModal extends React.Component {
       </div>
     );
   }
+
+  _handleSave: Function = () => {
+    this.props.onChange({address: this.state.address});
+    this.props.onClose();
+  };
 }
 
 function renderValue(place: ?PlaceDescription) {
