@@ -2,11 +2,21 @@ import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 import Button from '../Button';
 import Group from '../Group';
+import filterProps from '../filterProps';
 import Icon from '../Icon';
 import Input from '../Input';
 import Picker from './Picker';
 import styles from './DatePicker.less';
 import padStart from 'lodash.padstart';
+
+const INPUT_PASS_PROPS = {
+  disabled: true,
+  error: true,
+
+  onKeyDown: true,
+  onKeyPress: true,
+  onKeyUp: true,
+};
 
 class DatePicker extends React.Component {
   static propTypes = {
@@ -28,7 +38,17 @@ class DatePicker extends React.Component {
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
+    onBlur: PropTypes.func,
+
     onChange: PropTypes.func,
+
+    onFocus: PropTypes.func,
+
+    onKeyDown: PropTypes.func,
+
+    onKeyPress: PropTypes.func,
+
+    onKeyUp: PropTypes.func,
   };
 
   static defaultProps = {
@@ -67,20 +87,25 @@ class DatePicker extends React.Component {
       [styles.root]: true,
       [this.props.className || '']: true,
     });
+    const openClassName = classNames({
+      [styles.openButton]: true,
+      [styles.openButtonDisabled]: this.props.disabled,
+    });
     return (
       <span className={className} style={{width: this.props.width}}>
-        <Group width="100%">
-          <Input ref="input" mainInGroup value={this.state.textValue}
-            disabled={this.props.disabled} maxLength="10"
-            onChange={this.handleChange} onBlur={this.handleBlur}
-            onFocus={this.handleFocus} error={this.props.error}
-          />
-          <Button narrow active={this.state.opened}
-            disabled={this.props.disabled} onClick={this.open}
-          >
-            <Icon name="calendar" />
-          </Button>
-        </Group>
+        <Input
+          ref="input"
+          {...filterProps(this.props, INPUT_PASS_PROPS)}
+          value={this.state.textValue}
+          maxLength="10"
+          width="100%"
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          onFocus={this.handleFocus}
+        />
+        <div className={openClassName} onClick={this.open}>
+          <Icon name="calendar" />
+        </div>
         {picker}
       </span>
     );
@@ -153,7 +178,7 @@ class DatePicker extends React.Component {
     if (this.props.onChange) {
       this.props.onChange({target: {value: date}}, date);
     }
-    this.close(false);
+    this.close(true);
   };
 
   handlePickerClose = () => {
@@ -161,7 +186,9 @@ class DatePicker extends React.Component {
   };
 
   open = () => {
-    this.setState({opened: true});
+    if (!this.props.disabled) {
+      this.setState({opened: true});
+    }
   };
 
   close(focus) {

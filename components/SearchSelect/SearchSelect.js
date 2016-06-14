@@ -277,7 +277,6 @@ class SearchSelect extends React.Component {
   _handleValueKeyPress = event => {
     // Set input value to empty string and then back to the real value to make
     // cursor appear at the and.
-    const str = String.fromCharCode(event.charCode);
     this.setState(
       {
         opened: true,

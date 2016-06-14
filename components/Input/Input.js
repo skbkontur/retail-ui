@@ -23,9 +23,14 @@ const INPUT_PASS_PROPS = {
   placeholder: true,
   title: true,
 
-  onFocus: true,
   onBlur: true,
+  onCopy: true,
+  onCut: true,
+  onFocus: true,
   onKeyDown: true,
+  onKeyPress: true,
+  onKeyUp: true,
+  onPaste: true,
 };
 
 const SIZE_CLASS_NAMES = {
@@ -86,14 +91,26 @@ class Input extends React.Component {
      */
     rightIcon: PropTypes.element,
 
+    onBlur: PropTypes.func,
+
     /**
      * Вызывается при вводе каждого символа.
      */
     onChange: PropTypes.func,
 
-    onBlur: PropTypes.func,
+    onCopy: PropTypes.func,
+
+    onCut: PropTypes.func,
+
+    onFocus: PropTypes.func,
 
     onKeyDown: PropTypes.func,
+
+    onKeyPress: PropTypes.func,
+
+    onKeyUp: PropTypes.func,
+
+    onPaste: PropTypes.func,
 
     /**
      * Не отрисовывать рамку.
@@ -145,7 +162,6 @@ class Input extends React.Component {
       className: classNames({
         [styles.root]: true,
         [this.props.className || '']: true,
-        [styles.borderless]: this.props.borderless,
         [styles.disabled]: this.props.disabled,
         [styles.error]: this.props.error,
         [styles.warning]: this.props.warning,
@@ -183,12 +199,15 @@ class Input extends React.Component {
 
     const inputProps = {
       ...filterProps(this.props, INPUT_PASS_PROPS),
-      className: styles.input,
+      className: classNames({
+        [styles.input]: true,
+        [styles.borderless]: this.props.borderless,
+      }),
       value: this.state.value,
       onChange: (e) => this.handleChange(e),
       style: {},
     };
-    
+
     const type = this.props.type;
     if (PASS_TYPES[type]) {
       inputProps.type = type;
@@ -202,7 +221,9 @@ class Input extends React.Component {
     if (this.props.mask) {
       input = (
         <MaskedInput {...inputProps} mask={this.props.mask}
-          maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
+          maskChar={
+            this.props.maskChar === undefined ? '_' : this.props.maskChar
+          }
           alwaysShowMask={this.props.alwaysShowMask}
         />
       );

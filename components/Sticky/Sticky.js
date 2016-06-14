@@ -1,7 +1,6 @@
 /* @flow */
 
 import React, {PropTypes} from 'react';
-import ReactDOM from 'react-dom';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 
@@ -47,12 +46,9 @@ export default class Sticky extends React.Component {
   _wrapper: HTMLElement;
   _inner: HTMLElement;
 
-  _immediateState: $Shape<State>;
-  /**
-   * Should this be a flag? For now just err on the side of caution and make it
-   * a counter.
-   */
-  _pendingSetState: number;
+  _scheduled: bool = false;
+  _reflowing: bool = false;
+  _lastInnerHeight: number = -1;
   _layoutSubscription: {remove: () => void};
 
   static defaultProps: {offset: number} = {
@@ -71,9 +67,6 @@ export default class Sticky extends React.Component {
       stopped: false,
       relativeTop: 0,
     };
-
-    this._immediateState = {};
-    this._pendingSetState = 0;
   }
 
   render() {
@@ -143,79 +136,95 @@ export default class Sticky extends React.Component {
     this._reflow();
   }
 
-  // $FlowIssue 850
-  _reflow = () => {
-    if (this._pendingSetState) {
+  _reflow: Function = () => {
+    if (this._reflowing) {
+      this._scheduled = true;
       return;
     }
 
+    this._scheduled = false;
+    this._reflowing = true;
+    const generator = this._doReflow();
+    const check = () => {
+      const next = generator.next();
+      if (next.done) {
+        this._reflowing = false;
+        if (this._scheduled) {
+          this._reflow();
+        }
+      } else {
+        this._setStateIfChanged(next.value, check);
+      }
+    };
+    check();
+  };
+
+  *_doReflow(): Generator<$Shape<State>, void, void> {
     const windowHeight = window.innerHeight;
     const wrapRect = this._wrapper.getBoundingClientRect();
-    const wrapBottom = wrapRect.bottom;
     const wrapLeft = wrapRect.left;
     const wrapTop = wrapRect.top;
     const fixed = this.props.side === 'top'
       ? wrapTop < this.props.offset
-      : wrapBottom > windowHeight - this.props.offset;
+      : wrapRect.bottom > windowHeight - this.props.offset;
 
-    this._setStateIfChanged({fixed});
+    const wasFixed = this.state.fixed;
 
     if (fixed) {
-      const width = this._wrapper.offsetWidth;
-      const widthHasChanged = this.state.width !== width;
-      this._setStateIfChanged(
-        {
-          width,
-          fixed: widthHasChanged ? false : fixed,
-          left: wrapLeft,
-        },
-        () => {
-          const height = widthHasChanged
-            ? this._inner.offsetHeight
-            : this.state.height;
-          this._setStateIfChanged({height, fixed});
+      const width = Math.floor(wrapRect.right - wrapRect.left);
 
-          if (this.props.getStop) {
-            const stop = this.props.getStop();
-            if (stop) {
-              const stopRect = stop.getBoundingClientRect();
-              const outerHeight = height + this.props.offset;
+      let height = this.state.height;
+      if (
+        !wasFixed ||
+        this.state.width !== width ||
+        this._lastInnerHeight !== this._inner.offsetHeight
+      ) {
+        yield {
+          fixed: false,
+          height,
+        };
+        height = this._inner.offsetHeight;
+      }
 
-              if (this.props.side === 'top') {
-                const stopped = stopRect.top - outerHeight < 0;
-                const relativeTop = stopRect.top - height - wrapTop;
-                this._setStateIfChanged({relativeTop, stopped});
-              } else {
-                const stopped = stopRect.bottom + outerHeight > windowHeight;
-                const relativeTop = stopRect.bottom - wrapTop;
-                this._setStateIfChanged({relativeTop, stopped});
-              }
-            }
-          }
-        },
-      );
+      yield {
+        width,
+        height,
+        fixed: true,
+        left: wrapLeft,
+      };
+
+      this._lastInnerHeight = this._inner.offsetHeight;
+
+      const stop = this.props.getStop && this.props.getStop();
+      if (stop) {
+        const stopRect = stop.getBoundingClientRect();
+        const outerHeight = height + this.props.offset;
+
+        if (this.props.side === 'top') {
+          const stopped = stopRect.top - outerHeight < 0;
+          const relativeTop = stopRect.top - height - wrapTop;
+
+          yield {relativeTop, stopped};
+        } else {
+          const stopped = stopRect.bottom + outerHeight > windowHeight;
+          const relativeTop = stopRect.bottom - wrapTop;
+
+          yield {relativeTop, stopped};
+        }
+      }
+    } else {
+      yield {fixed: false};
     }
-  };
+  }
 
   _setStateIfChanged(state: $Shape<State>, callback?: () => void) {
-    let changed = false;
     for (const key in state) {
-      if (this._immediateState[key] !== state[key]) {
-        changed = true;
-        this._immediateState[key] = state[key];
+      if (this.state[key] !== state[key]) {
+        this.setState(state, callback);
+        return;
       }
     }
 
-    if (changed) {
-      this._pendingSetState++;
-      this.setState(state, () => {
-        this._pendingSetState--;
-        callback && callback();
-      });
-    } else {
-      if (callback) {
-        callback();
-      }
-    }
-  };
+    callback && callback();
+  }
 }

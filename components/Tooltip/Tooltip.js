@@ -12,9 +12,9 @@ type Pos = 'top left' | 'top center' | 'top right'
   | 'right top' | 'right middle' | 'right bottom';
 
 type Props = {
-  children: React.Element,
+  children: React.Element<any>,
 
-  render: () => ?React.Element,
+  render: () => ?React.Element<any>,
 
   pos: Pos,
 
@@ -58,7 +58,7 @@ class Tooltip extends React.Component {
 
   _hotspotDOM: ?HTMLElement;
   _boxDOM: ?HTMLElement;
-  _lastRef: ((el: ?React.Element) => void) | string | null;
+  _lastRef: ((el: ?React.Element<any>) => void) | string | null;
   _lastOnFocus: ((event: any) => void) | null;
   _lastOnBlur: ((event: any) => void) | null;
 

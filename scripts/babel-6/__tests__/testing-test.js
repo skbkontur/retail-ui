@@ -1,16 +1,26 @@
 import {transform} from 'babel-core';
-import jsxSyntaxPlugin from 'babel-preset-react/node_modules/babel-plugin-syntax-jsx';
+import jsxSyntaxPlugin from 'babel-plugin-syntax-jsx';
 import testingPugin from '../testing.js';
+
+function compile(input) {
+  return transform(input, {
+    plugins: [jsxSyntaxPlugin, testingPugin],
+  }).code;
+}
 
 describe('testing plugin', () => {
   it('transforms tid', () => {
-    const input = '<a tid="a" />;<b tid={b} />;';
+    const input = '<a tid="a" />;<b ref={refFn} tid={b} />;';
+    const output = '<a ref={global.ReactTesting.ref("a", null)} />;' +
+      '<b ref={global.ReactTesting.ref(b, refFn)} />;';
 
-    const output = transform(input, {
-      plugins: [jsxSyntaxPlugin, testingPugin],
-    }).code;
-    const expected = '<a ref={global.ReactTesting.ref("a")} />;' +
-      '<b ref={global.ReactTesting.ref(b)} />;';
-    expect(output).toBe(expected);
+    expect(compile(input)).toBe(output);
+  });
+
+  it('transforms tid-pass', () => {
+    const input = '<a tid-pass />;';
+    const output = '<a ref={global.ReactTesting.pass(this)} />;';
+
+    expect(compile(input)).toBe(output);
   });
 });

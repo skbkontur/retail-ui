@@ -1,36 +1,33 @@
-/* @flow */
+// @flow
 
 import classNames from 'classnames';
+import events from 'add-event-listener';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
 import filterProps from '../filterProps';
+import listenFocusOutside from '../../lib/listenFocusOutside';
 import Upgrades from '../../lib/Upgrades';
 
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
-import ScrollContainer from '../ScrollContainer';
+import Menu from '../Menu/Menu';
+import MenuItem from '../MenuItem/MenuItem';
 
 import styles from './ComboBox.less';
 
 const INPUT_PASS_PROPS = {
+  borderless: true,
   error: true,
   warning: true,
   width: true,
-};
-
-const STATIC_ITEM = Symbol('static_item');
-
-type StaticItem = {
-  __type: typeof STATIC_ITEM,
-  item: (() => React.Element) | React.Element,
 };
 
 type Value = any;
 type Info = any;
 
 type SourceResult = {
-  values: Array<Value | StaticItem>,
+  values: Array<Value | React.Element<any> | (() => React.Element<any>)>,
   infos?: Array<Info>,
   total?: number,
 };
@@ -43,6 +40,7 @@ type RecoverResult = {
 type RecoverFunc = (searchString: string) => RecoverResult;
 
 type Props = {
+  borderless?: bool,
   disabled?: bool,
   error?: bool,
   info?: Info | (v: Value) => Promise<Info>,
@@ -50,8 +48,8 @@ type Props = {
   openButton?: bool,
   placeholder?: string,
   recover?: (RecoverFunc | bool),
-  renderItem: (value: Value, info: Info) => React.Element,
-  renderValue: (value: Value, info: ?Info) => React.Element,
+  renderItem: (value: Value, info: Info) => React.Element<any>,
+  renderValue: (value: Value, info: ?Info) => React.Element<any>,
   source: (searchText: string) => Promise<SourceResult>,
   warning?: bool,
   value: ?Value,
@@ -67,24 +65,22 @@ type State = {
   value: Value,
   info: Info,
   result: ?SourceResult,
-  selected: number,
 };
 
 class ComboBox extends React.Component {
   static Item = class Item extends React.Component {
     render() {
-      return <div className={styles.menuItem}>{this.props.children}</div>;
+      return <MenuItem>{this.props.children}</MenuItem>;
     }
   };
 
-  static static(item: ((() => React.Element) | React.Element)) {
-    return {
-      __type: STATIC_ITEM,
-      item,
-    };
+  static static(element: ((() => React.Element<any>) | React.Element<any>)) {
+    return element;
   }
 
   static propTypes = {
+    borderless: PropTypes.bool,
+
     disabled: PropTypes.bool,
 
     /**
@@ -148,7 +144,7 @@ class ComboBox extends React.Component {
   static defaultProps = {
     renderItem,
     renderValue,
-    placeholder: 'Пусто',
+    placeholder: '',
     width: 250,
     menuAlign: 'left',
   };
@@ -157,9 +153,9 @@ class ComboBox extends React.Component {
   state: State;
 
   _focusable: ?HTMLInputElement;
-  _scroll: ?ScrollContainer;
-  _itemNodes: {[_: number]: HTMLElement};
+  _menu: ?Menu;
   _recoverResult: ?RecoverResult;
+  _focusSubscribtion: ?{remove: () => void};
 
   constructor(props: Props, context: any) {
     super(props, context);
@@ -173,8 +169,6 @@ class ComboBox extends React.Component {
       selected: -1,
     };
     this._focusable = null;
-    this._scroll = null;
-    this._itemNodes = {};
     this._recoverResult = null;
   }
 
@@ -194,7 +188,11 @@ class ComboBox extends React.Component {
     return (
       <label className={className} style={{width: this.props.width}}>
         {valueEl}
-        {this.state.opened && this.renderMenu()}
+        {this.state.opened && (
+          <div ref={this._refMenuHolder} className={styles.menuHolder}>
+            {this.renderMenu()}
+          </div>
+        )}
         {this.props.openButton && (
           <div className={styles.arrow} onMouseDown={this._handleArrowMouseDown}
             onClick={this._handleArrowClick}
@@ -211,7 +209,7 @@ class ComboBox extends React.Component {
         <Input ref={this._refFocusable} {...inputProps}
           value={this.state.searchText} rightIcon={<span />}
           disabled={this.props.disabled} onChange={this._handleInputChange}
-          onKeyDown={this._handleInputKey} onBlur={this._handleInputBlur}
+          onKeyDown={this._handleInputKey}
         />
       </div>
     );
@@ -247,7 +245,7 @@ class ComboBox extends React.Component {
 
   renderMenu() {
     const {result} = this.state;
-    if (!result) {
+    if (!result || result.values.length === 0) {
       return null;
     }
     const menuClassName = classNames({
@@ -255,34 +253,29 @@ class ComboBox extends React.Component {
       [styles.menuAlignRight]: this.props.menuAlign === 'right',
     });
     return (
-      <div className={styles.menuHolder}>
-        <div className={menuClassName}>
-          <ScrollContainer ref={this._refScroll} maxHeight={200}>
-            {mapResult(result, (value, info, i) => {
-              if (value && value.__type === STATIC_ITEM) {
-                const item: StaticItem = value;
-                return React.cloneElement(
-                  typeof item.item === 'function' ? item.item() : item.item,
-                  {key: i},
-                );
-              }
-              const className = classNames({
-                [styles.menuItem]: true,
-                [styles.menuItemSelected]: this.state.selected === i,
-              });
-              return (
-                <div key={i} ref={(el) => this._refItem(el, i)}
-                  className={className}
-                  onMouseDown={(e) => this._handleItemClick(e, value, info)}
-                  onMouseEnter={(e) => this.setState({selected: i})}
-                  onMouseLeave={(e) => this.setState({selected: -1})}
-                >
-                  {this.props.renderItem(value, info)}
-                </div>
+      <div className={menuClassName}>
+        <Menu ref={this._refMenu} maxHeight={200}>
+          {mapResult(result, (value, info, i) => {
+            if (typeof value === 'function' || React.isValidElement(value)) {
+              const element = typeof value === 'function' ? value() : value;
+              const elementValue = element.props.value;
+              return React.cloneElement(
+                element,
+                {
+                  key: i,
+                  onClick: this._handleItemClick.bind(this, elementValue, info),
+                },
               );
-            })}
-          </ScrollContainer>
-        </div>
+            }
+            return (
+              <MenuItem key={i}
+                onClick={this._handleItemClick.bind(this, value, info)}
+              >
+                {this.props.renderItem(value, info)}
+              </MenuItem>
+            );
+          })}
+        </Menu>
       </div>
     );
   }
@@ -312,26 +305,40 @@ class ComboBox extends React.Component {
     }
   }
 
-  // $FlowIssue 850
-  _refFocusable = (el: ?HTMLInputElement) => {
+  _refFocusable: Function = (el: ?HTMLInputElement) => {
     this._focusable = el && (el.focus ? el : ReactDOM.findDOMNode(el));
   };
 
-  // $FlowIssue 850
-  _refScroll = (el: ?ScrollContainer) => {
-    this._scroll = el;
+  _refMenuHolder: Function = (menuHolder: any) => {
+    if (this._focusSubscribtion) {
+      this._focusSubscribtion.remove();
+      this._focusSubscribtion = null;
+
+      events.removeEventListener(
+        document, 'mousedown', this._handleNativeDocClick
+      );
+    }
+
+    if (menuHolder) {
+      this._focusSubscribtion = listenFocusOutside(
+        [ReactDOM.findDOMNode(this)],
+        () => {
+          this._close();
+          this._tryRecover();
+        }
+      );
+
+      events.addEventListener(
+        document, 'mousedown', this._handleNativeDocClick
+      );
+    }
   };
 
-  _refItem(el: ?HTMLElement, index: number) {
-    if (el) {
-      this._itemNodes[index] = el;
-    } else {
-      delete this._itemNodes[index];
-    }
-  }
+  _refMenu: Function = (menu: Menu) => {
+    this._menu = menu;
+  };
 
-  // $FlowIssue 850
-  _handleInputChange = (event: any) => {
+  _handleInputChange: Function = (event: any) => {
     const pattern = event.target.value;
     this.setState({
       opened: true,
@@ -340,16 +347,15 @@ class ComboBox extends React.Component {
     this._fetchList(pattern);
   };
 
-  // $FlowIssue 850
-  _handleInputKey = (event) => {
+  _handleInputKey: Function = (event) => {
     switch (event.key) {
       case 'ArrowUp':
         event.preventDefault();
-        this._moveSelection(-1);
+        this._menu && this._menu.up();
         break;
       case 'ArrowDown':
         event.preventDefault();
-        this._moveSelection(1);
+        this._menu && this._menu.down();
         break;
       case 'Enter':
         event.preventDefault();
@@ -357,12 +363,7 @@ class ComboBox extends React.Component {
           this._focus();
         });
 
-        const {result, selected} = this.state;
-        const value = result && result.values[selected];
-        const info = result && result.infos && result.infos[selected];
-        if (value) {
-          this._change(value, info);
-        } else {
+        if (this._menu && !this._menu.enter()) {
           this._tryRecover();
         }
         break;
@@ -374,20 +375,7 @@ class ComboBox extends React.Component {
     }
   };
 
-  // $FlowIssue 850
-  _handleInputBlur = () => {
-    const {result, searchText} = this.state;
-    const value = result && result.values.find((v) => v === searchText);
-    this.setState({opened: false});
-    if (value) {
-      this._change(value);
-    } else {
-      this._tryRecover();
-    }
-  };
-
-  // $FlowIssue 850
-  _handleValueClick = () => {
+  _handleValueClick: Function = () => {
     this.setState({
       opened: true,
       searchText: '',
@@ -398,8 +386,7 @@ class ComboBox extends React.Component {
     this._fetchList('');
   };
 
-  // $FlowIssue 850
-  _handleValueKeyPress = (event) => {
+  _handleValueKeyPress: Function = (event) => {
     // Prevent current char from being appended to the input element (chrome).
     event.preventDefault();
     const str = String.fromCharCode(event.charCode);
@@ -414,10 +401,10 @@ class ComboBox extends React.Component {
         }
       }
     );
+    this._fetchList(str);
   };
 
-  // $FlowIssue 850
-  _handleValueKey = (event) => {
+  _handleValueKey: Function = (event) => {
     switch (event.key) {
       case ' ':
       case 'Enter':
@@ -436,26 +423,37 @@ class ComboBox extends React.Component {
     }
   };
 
-  _handleItemClick(event: MouseEvent, value: Value, info: Info) {
-    if (event.button !== 0) {
-      return;
-    }
-
+  _handleItemClick(value: Value, info: Info) {
     this._close();
     this._change(value, info);
     this._focusAsync();
   }
 
-  // $FlowIssue 850
-  _handleArrowMouseDown = (event) => {
+  _handleArrowMouseDown: Function = (event) => {
     event.preventDefault();
   };
 
-  // $FlowIssue 850
-  _handleArrowClick = (event) => {
+  _handleArrowClick: Function = (event) => {
     if (!this.state.opened) {
       this._handleValueClick();
     }
+  };
+
+  _handleNativeDocClick: Function = (event) => {
+    const target: Element = event.target || event.srcElement;
+
+    const thisDOM: Element = ReactDOM.findDOMNode(this);
+    const menuDOM: ?Element = this._menu && ReactDOM.findDOMNode(this._menu);
+    if (thisDOM.contains(target) || menuDOM && menuDOM.contains(target)) {
+      return;
+    }
+
+    // Go async to let blur event happen before focused element removed from the
+    // document.
+    process.nextTick(() => {
+      this._close();
+      this._tryRecover();
+    });
   };
 
   _resetItem(value: Value) {
@@ -488,16 +486,13 @@ class ComboBox extends React.Component {
   _fetchList(pattern: string) {
     this.props.source(pattern).then((result) => {
       if (this.state.searchText === pattern) {
-        this.setState({
-          selected: -1,
-          result,
-        });
+        this._menu && this._menu.reset();
+        this.setState({result});
       }
     });
   }
 
-  // $FlowIssue 850
-  _focus = () => {
+  _focus: Function = () => {
     if (this._focusable) {
       this._focusable.focus();
     }
@@ -506,35 +501,6 @@ class ComboBox extends React.Component {
   _focusAsync() {
     process.nextTick(this._focus);
   }
-
-  _moveSelection(step: number) {
-    if (!this.state.result) {
-      return;
-    }
-
-    let selected = this.state.selected;
-    do {
-      selected += step;
-      if (selected < 0) {
-        selected = this.state.result.values.length - 1;
-      }
-      if (selected >= this.state.result.values.length) {
-        selected = 0;
-      }
-      const value = this.state.result.values[selected];
-      if (value && value.__type !== STATIC_ITEM) {
-        break;
-      }
-    } while (selected !== this.state.selected);
-    this.setState({selected}, this._scrollToSelected);
-  }
-
-  // $FlowIssue 850
-  _scrollToSelected = () => {
-    if (this._scroll) {
-      this._scroll.scrollTo(this._itemNodes[this.state.selected]);
-    }
-  };
 
   _tryRecover() {
     const searchText = this.state.searchText;

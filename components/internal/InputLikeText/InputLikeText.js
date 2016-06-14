@@ -20,6 +20,7 @@ export default class InputLikeText extends React.Component {
 
     const className = classNames({
       [styles.root]: true,
+      [styles.borderless]: this.props.borderless,
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,
 

@@ -2,6 +2,7 @@ import '../index';
 
 import {mount} from 'enzyme';
 import React from 'react';
+import {mountTest} from '../TestingTestUtils';
 
 import RenderContainer from '../../components/RenderContainer';
 
@@ -20,5 +21,25 @@ describe('ReactTesting', () => {
     const foundNodes = ReactTesting.findDOMNodes('a b', wrapper.node);
     expect(foundNodes.length).toBe(1);
     expect(foundNodes[0].innerHTML).toBe('b');
+  });
+
+  it('works for <div ref tid> case.', () => {
+    const ref = jest.fn();
+    const {node} = mountTest(
+      <div ref={ref} tid="a" />
+    );
+
+    expect(node).toBeTruthy();
+    expect(node).toBe(ref.mock.calls[0][0]);
+  });
+
+  it('works for <div tid ref> case.', () => {
+    const ref = jest.fn();
+    const {node} = mountTest(
+      <div tid="a" ref={ref} />
+    );
+
+    expect(node).toBeTruthy();
+    expect(node).toBe(ref.mock.calls[0][0]);
   });
 });

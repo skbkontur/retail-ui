@@ -32,7 +32,7 @@ class Button extends React.Component {
     active: PropTypes.bool,
 
     disabled: PropTypes.bool,
-    
+
     loading: PropTypes.bool,
 
     /**
@@ -107,7 +107,7 @@ class Button extends React.Component {
       rootProps.ref=domButton=>{this.domButton = domButton;};
     return (
       <button {...rootProps}>
-        <div>
+        <div className={styles.caption}>
           {this.props.children}
         </div>
       </button>

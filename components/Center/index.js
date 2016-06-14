@@ -1,1 +1,1 @@
-module.exports = require('./Center.jsx');
+module.exports = require('./Center');

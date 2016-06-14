@@ -1,0 +1,37 @@
+@import '../variables.less';
+
+:local {
+  .root {
+    color: inherit;
+    cursor: pointer;
+    display: block;
+    line-height: 18px;
+    outline: none;
+    padding: 6px 18px 7px 6px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .hover {
+    background: @dropdown-menu-hover-bg;
+    color: @text-color-invert;
+  }
+
+  .loose {
+    padding-left: 15px;
+  }
+
+  .selected {
+    background: @dropdown-menu-selected-bg;
+  }
+
+  .comment {
+    color: #a0a0a0;
+    white-space: normal;
+  }
+
+  .commentHover {
+    color: #fff;
+    opacity: .6;
+  }
+}

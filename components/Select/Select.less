@@ -17,6 +17,7 @@
     display: inline-block;
     max-width: 100%;
     overflow: hidden;
+    text-overflow: ellipsis;
     vertical-align: top;
     white-space: nowrap;
   }
@@ -75,6 +76,10 @@
     position: absolute;
   }
 
+  .dropAlignRight {
+    right: 0;
+  }
+
   .menu {
     background: @bg-default;
     border: 1px solid #d5d5d5;
@@ -82,24 +87,6 @@
     max-height: 300px;
     overflow: auto;
     padding: 4px 0;
-
-    &Item {
-      padding: 6px 18px 7px 6px;
-      white-space: nowrap;
-    }
-
-    &ItemSelected {
-      background: @dropdown-menu-selected-bg;
-    }
-
-    &ItemCurrent {
-      background: @dropdown-menu-hover-bg;
-    }
-
-    &Sep {
-      border-top: 1px solid #e6e6e6;
-      margin: 5px 6px;
-    }
   }
 
   .search {

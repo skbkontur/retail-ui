@@ -1,8 +1,7 @@
-import {shallow, mount} from 'enzyme';
+import {mount} from 'enzyme';
 import React from 'react';
 
 import DatePicker from '../DatePicker.js';
-import Input from '../../Input';
 
 describe('DatePicker', () => {
   it('parses input correctly', () => {
@@ -37,5 +36,5 @@ describe('DatePicker', () => {
     input.simulate('blur');
 
     expect(input.prop('value')).toBe('01.02.2003');
-  })
+  });
 });

@@ -1,4 +1,5 @@
 import events from 'add-event-listener';
+import ExecutionEnvironment from 'exenv';
 import React, {PropTypes} from 'react';
 
 import styles from './ScrollContainer.less';
@@ -157,10 +158,14 @@ export default class ScrollContainer extends React.Component {
 }
 
 ScrollContainer.propTypes = {
-  maxHeight: PropTypes.number.isRequired,
+  maxHeight: PropTypes.number,
 };
 
 function measureScrollWidth() {
+  if (!ExecutionEnvironment.canUseDOM) {
+    return 0;
+  }
+
   const div = document.createElement('div');
   div.innerHTML = 'a'; // In IE clientWidth is 0 if this div is empty.
   div.style.overflowY = 'scroll';
@@ -168,5 +173,6 @@ function measureScrollWidth() {
   const ret = div.offsetWidth - div.clientWidth;
   document.body.removeChild(div);
 
-  return ret;
+  // At least in jest it's NaN.
+  return ret || 0;
 }

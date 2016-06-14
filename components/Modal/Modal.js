@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import events from 'add-event-listener';
 import React, {PropTypes} from 'react';
 
@@ -7,6 +8,7 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import removeClass from '../../lib/dom/removeClass';
 import RenderContainer from '../RenderContainer';
 import stopPropagation from '../../lib/events/stopPropagation';
+import Sticky from '../Sticky';
 
 import styles from './Modal.less';
 
@@ -39,10 +41,6 @@ class Modal extends React.Component {
     return {rt_inModal: true};
   }
 
-  constructor(props, context) {
-    super(props, context);
-  }
-
   render() {
     var close = null;
     if (!this.props.noClose) {
@@ -55,21 +53,30 @@ class Modal extends React.Component {
       );
     }
 
+    let hasHeader = false;
+    const children = React.Children.map(this.props.children, child => {
+      if (child.type === Header) {
+        hasHeader = true;
+        return React.cloneElement(child, {close});
+      }
+      return child;
+    });
+
     const style = {};
     if (this.props.width) {
       style.width = this.props.width;
     }
-
     return (
       <RenderContainer>
         <div className={styles.root}>
           <div className={styles.bg} />
           <Center className={styles.container}
-            onClick={this._handleCotanierClick}
+            onClick={this._handleContainerClick}
+            onScroll={() => LayoutEvents.emit()}
           >
             <div className={styles.window} style={style}>
-              {close}
-              {this.props.children}
+              {!hasHeader && close}
+              {children}
             </div>
           </Center>
         </div>
@@ -96,7 +103,7 @@ class Modal extends React.Component {
     }
   }
 
-  _handleCotanierClick = (event) => {
+  _handleContainerClick = (event) => {
     if (event.target === event.currentTarget) {
       this._handleClose();
     }
@@ -118,7 +125,19 @@ class Modal extends React.Component {
 
 class Header extends React.Component {
   render() {
-    return <div className={styles.header}>{this.props.children}</div>;
+    return (
+      <Sticky side="top">
+        {fixed =>
+          <div
+            className={classNames(styles.header, fixed && styles.fixedHeader)}
+          >
+            {this.props.close &&
+              <div className={styles.absoluteClose}>{this.props.close}</div>}
+            {this.props.children}
+          </div>
+        }
+      </Sticky>
+    );
   }
 }
 
@@ -129,8 +148,25 @@ class Body extends React.Component {
 }
 
 class Footer extends React.Component {
+  static propTypes = {
+    panel: PropTypes.bool,
+  }
+
   render() {
-    return <div className={styles.footer}>{this.props.children}</div>;
+    var names = classNames({
+      [styles.footer]: true,
+      [styles.panel]: this.props.panel,
+    });
+
+    return (
+      <Sticky side="bottom">
+        {fixed =>
+          <div className={classNames(names, fixed && styles.fixedFooter)}>
+            {this.props.children}
+          </div>
+        }
+      </Sticky>
+    );
   }
 }
 
