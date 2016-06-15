@@ -150,6 +150,7 @@ var MAP = {
   'doc-revise': '\ue07f',
   'doc-new': '\ue025',
   'doc-duplicate': '\ue026',
+  'doc-convert': '\ue0b9',
   folder: '\ue028',
   'doc-doc': '\ue031',
   'doc-rtf': '\ue064',
