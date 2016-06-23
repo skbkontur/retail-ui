@@ -90,7 +90,7 @@ class Kladr extends React.Component {
     this.setState({opened: true});
   };
 
-  _handleChange: Function = value => {
+  _handleChange = (value: {address: Address}) => {
     const onChange = this.props.onChange;
     onChange && onChange(null, value);
   };

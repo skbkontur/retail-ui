@@ -343,7 +343,7 @@ export default class AddressModal extends React.Component {
     );
   }
 
-  _handleSave: Function = () => {
+  _handleSave = () => {
     this.props.onChange({address: this.state.address});
     this.props.onClose();
   };

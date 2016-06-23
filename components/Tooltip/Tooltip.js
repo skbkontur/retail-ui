@@ -149,8 +149,7 @@ class Tooltip extends React.Component {
     }
   }
 
-  // $FlowIssue 850
-  _refHotspot = (el) => {
+  _refHotspot = (el: any) => {
     if (typeof this._lastRef === 'function') {
       // React calls refs without context.
       const ref = this._lastRef;
@@ -159,42 +158,38 @@ class Tooltip extends React.Component {
     this._hotspotDOM = el && ReactDOM.findDOMNode(el);
   };
 
-  // $FlowIssue 850
   _getTarget = () => {
     return this._hotspotDOM;
   };
 
-  // $FlowIssue 850
-  _handleMouseOver = (event) => {
+  _handleMouseOver = (event: SyntheticMouseEvent) => {
+    const target: HTMLElement = (event.target: any);
     if (this._hotspotDOM) {
-      const opened = this._hotspotDOM.contains(event.target);
+      const opened = this._hotspotDOM.contains(target);
       if (this.state.opened !== opened) {
         this._setOpened(opened);
       }
     }
   };
 
-  // $FlowIssue 850
   _handleMouseLeave = () => {
     this._setOpened(false);
   };
 
-  // $FlowIssue 850
-  _handleClick = event => {
+  _handleClick = (event: SyntheticMouseEvent) => {
+    const target: HTMLElement = (event.target: any);
     if (this._hotspotDOM) {
-      if (!this.state.opened && this._hotspotDOM.contains(event.target)) {
+      if (!this.state.opened && this._hotspotDOM.contains(target)) {
         this._setOpened(true);
       }
     }
   };
 
-  // $FlowIssue 850
   _handleBoxClose = () => {
     this._setOpened(false);
   };
 
-  // $FlowIssue 850
-  _handleFocus = event => {
+  _handleFocus = (event: SyntheticFocusEvent) => {
     this._setOpened(true);
 
     const onFocus = this._lastOnFocus;
@@ -203,8 +198,7 @@ class Tooltip extends React.Component {
     }
   };
 
-  // $FlowIssue 850
-  _handleBlur = event => {
+  _handleBlur = (event: SyntheticFocusEvent) => {
     this._setOpened(false);
 
     const onBlur = this._lastOnBlur;
