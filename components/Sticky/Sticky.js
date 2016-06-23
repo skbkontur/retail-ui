@@ -23,8 +23,6 @@ type State = {
 
 export default class Sticky extends React.Component {
 
-  props: Props;
-
   static propTypes = {
     side: PropTypes.oneOf(['top', 'bottom']).isRequired,
 
@@ -41,6 +39,12 @@ export default class Sticky extends React.Component {
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   };
 
+  static defaultProps: {offset: number} = {
+    offset: 0,
+  };
+
+  props: Props;
+
   state: State;
 
   _wrapper: HTMLElement;
@@ -50,10 +54,6 @@ export default class Sticky extends React.Component {
   _reflowing: bool = false;
   _lastInnerHeight: number = -1;
   _layoutSubscription: {remove: () => void};
-
-  static defaultProps: {offset: number} = {
-    offset: 0,
-  };
 
   constructor(props: Props, context: any) {
     super(props, context);
