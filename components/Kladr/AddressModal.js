@@ -7,15 +7,16 @@ import ComboBox from '../ComboBox';
 import Gapped from '../Gapped';
 import Input from '../Input';
 import Modal from '../Modal';
-import Select from '../Select';
 
 import {search, verify} from './KladrAPI';
 import type {Address, Place, PlaceDescription, VerifyResult} from './Types';
+import * as util from './util';
 
 import styles from './AddressModal.less';
 
 type Props = {
   address: Address,
+  title: string,
   onChange: (value: {address: Address}) => void,
   onClose: () => void,
 };
@@ -41,7 +42,10 @@ type FieldProps = {
   renderItem: Function,
   renderValue: Function,
   recover: Function,
-}
+};
+type SimpleFieldProps = {
+  onChange: (event: mixed, value: string) => void,
+};
 
 const PLACES = {
   '0': 'index',
@@ -61,6 +65,8 @@ export default class AddressModal extends React.Component {
   _cityProps: FieldProps;
   _settlementProps: FieldProps;
   _streetProps: FieldProps;
+  _houseProps: SimpleFieldProps;
+  _roomProps: SimpleFieldProps;
 
   _verifyPromise: ?Promise<VerifyResult>;
 
@@ -85,6 +91,8 @@ export default class AddressModal extends React.Component {
     this._streetProps = this.createFieldProps(
       'street', ['region', 'district', 'city', 'settlement'], 'Street'
     );
+    this._houseProps = this.createSimpleFieldProps('house');
+    this._roomProps = this.createSimpleFieldProps('room');
   }
 
   createFieldProps(
@@ -98,6 +106,18 @@ export default class AddressModal extends React.Component {
       renderItem: this._renderItem.bind(this, field, parents),
       renderValue,
       recover,
+    };
+  }
+
+  createSimpleFieldProps(field: 'house' | 'room'): SimpleFieldProps {
+    return {
+      onChange: (event, value) => {
+        const address = {
+          ...this.state.address,
+          [field]: value,
+        };
+        this.setState({address});
+      },
     };
   }
 
@@ -179,7 +199,7 @@ export default class AddressModal extends React.Component {
   render() {
     return (
       <Modal width={520} onClose={this.props.onClose}>
-        <Modal.Header>123</Modal.Header>
+        <Modal.Header>{this.props.title}</Modal.Header>
         <Modal.Body>
           {this._renderForm()}
         </Modal.Body>
@@ -267,16 +287,24 @@ export default class AddressModal extends React.Component {
         <div className={styles.row}>
           <div className={styles.label}>Дом, корпус</div>
           <div className={styles.field}>
-            <Input width={100} />
+            <Input
+              value={this.state.address.house}
+              width={100}
+              {...this._houseProps}
+            />
           </div>
         </div>
 
         <div className={styles.row}>
           <div className={styles.label}>
-            <Select width="100%" items={[]} />
+            Квартира / офис
           </div>
           <div className={styles.field}>
-            <Input width="100px" />
+            <Input
+              value={this.state.address.room}
+              width="100px"
+              {...this._roomProps}
+            />
           </div>
         </div>
       </Gapped>
@@ -307,7 +335,7 @@ export default class AddressModal extends React.Component {
     }
     return (
       <div>
-        {place.name}
+        {util.placeName(place)}
         {parentNames.length > 0 && (
           <div className={styles.menuItemParents}>{parentNames.join(', ')}</div>
         )}
@@ -322,7 +350,7 @@ export default class AddressModal extends React.Component {
 }
 
 function renderValue(place: ?PlaceDescription) {
-  return place ? place.name : 'null';
+  return place ? util.placeName(place) : 'null';
 }
 
 function recover(searchText) {
