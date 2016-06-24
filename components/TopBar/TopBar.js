@@ -1,5 +1,8 @@
+/* @flow */
+/* global React$Element */
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
+import events from 'add-event-listener';
 
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
@@ -9,6 +12,19 @@ import MenuItem from '../MenuItem';
 import styles from './TopBar.less';
 
 class Item extends React.Component {
+  props: {
+    active?: boolean;
+    children?: React$Element<*>;
+    _onClick?: (e: SyntheticMouseEvent) => void;
+    className: string;
+    iconOnly?: boolean;
+    icon?: string;
+  };
+
+  static defaultProps = {
+    className: '',
+  };
+
   render() {
     const {
       active,
@@ -71,6 +87,8 @@ class Logo extends React.Component {
 }
 
 class TopBarDropdown extends React.Component {
+  _dropdown: () => void;
+
   render() {
     return (
       <Dropdown
@@ -144,7 +162,9 @@ class User extends React.Component {
 }
 
 type Props = {
-  children?: React.Component | React.Component[] | string | string[],
+  children?: React$Element<*>,
+  leftItems?: React$Element<*>[],
+  rightItems?: React$Element<*>[],
   maxWidth?: string | number,
   noShadow?: boolean,
   noMargin?: boolean,
@@ -172,6 +192,8 @@ type DefaultProps = {
 class TopBar extends React.Component {
 
   props: Props;
+
+  _logoWrapper: HTMLElement;
 
   static Divider = Divider;
   static Item = ButtonItem;
@@ -232,7 +254,7 @@ class TopBar extends React.Component {
     );
   }
 
-  _renderItems(items) {
+  _renderItems(items: React$Element<*>[] | void) {
     if (!items) {
       return null;
     }
@@ -265,22 +287,23 @@ class TopBar extends React.Component {
     }
   }
 
-  _refLogoWrapper = el => {
+  _refLogoWrapper = (el: HTMLElement) => {
     if (this._logoWrapper) {
-      this._logoWrapper.removeEventListener(
+      events.removeEventListener(
+        this._logoWrapper,
         'click',
         this._handleNativeLogoClick
       );
     }
 
     if (el) {
-      el.addEventListener('click', this._handleNativeLogoClick);
+      events.addEventListener(el, 'click', this._handleNativeLogoClick);
     }
 
     this._logoWrapper = el;
   };
 
-  _handleNativeLogoClick = event => {
+  _handleNativeLogoClick = (event: Event) => {
     event.stopPropagation();
   };
 }
