@@ -38,12 +38,12 @@
     "doctrine": "^1.2.2",
     "es3ify-loader": "^0.2.0",
     "expose-loader": "0.7.1",
-    "react": "^0.14.7",
-    "history": "^3.0.0",
+    "history": "^2.1.2",
     "object-assign": "^4.1.0",
+    "react": "^0.14.7",
     "react-codemirror": "^0.2.6",
     "react-dom": "^0.14.7",
-    "react-router": "^2.5.1",
+    "react-router": "~2.3.0",
     "react-tools": "^0.13.3",
     "url-loader": "0.5.7"
   }
