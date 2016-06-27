@@ -17,8 +17,6 @@ class RadioGroup extends React.Component {
      */
     items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
 
-    value: PropTypes.any,
-
     /**
      * Функция для отрисовки элемента (той части, которая находится справа от
      * круглишка).
@@ -39,6 +37,8 @@ class RadioGroup extends React.Component {
      * ```
      */
     renderItem: PropTypes.func,
+
+    value: PropTypes.any,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 

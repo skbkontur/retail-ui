@@ -11,6 +11,29 @@ const hasSvgAnimationSupport = svgAnimateSupport();
  * DRAFT - инлайн-лоадер
  */
 class Spinner extends React.Component {
+  static propTypes = {
+    /**
+     * Текст рядом с мини-лоадером.
+     *
+     * 'Загрузка' - значение по-умолчанию
+     */
+    caption: PropTypes.string,
+
+    /**
+     * Тип спиннера: mini, normal, big
+     *
+     * Значение по-умолчанию - normal
+     *
+     * Spinner.types - все доступные типы
+     */
+    type: PropTypes.oneOf(Object.keys(types)),
+  };
+
+  static defaultProps = {
+    type: types.normal,
+    caption: 'Загрузка',
+  };
+
   constructor(props) {
     super(props);
   }
@@ -99,29 +122,6 @@ class Spinner extends React.Component {
     );
   }
 }
-
-Spinner.propTypes = {
-  /**
-   * Тип спиннера: mini, normal, big
-   *
-   * Значение по-умолчанию - normal
-   *
-   * Spinner.types - все доступные типы
-   */
-  type: PropTypes.oneOf(Object.keys(types)),
-
-  /**
-   * Текст рядом с мини-лоадером.
-   *
-   * 'Загрузка' - значение по-умолчанию
-   */
-  caption: PropTypes.string,
-};
-
-Spinner.defaultProps = {
-  type: types.normal,
-  caption: 'Загрузка',
-};
 
 Spinner.Types = types;
 

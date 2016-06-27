@@ -47,11 +47,11 @@ class Textarea extends React.Component {
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
+    onBlur: PropTypes.func,
+
     onChange: PropTypes.func,
 
     onFocus: PropTypes.func,
-
-    onBlur: PropTypes.func,
   };
 
   static defaultProps = {

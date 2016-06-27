@@ -24,14 +24,14 @@ class DatePicker extends React.Component {
     error: PropTypes.bool,
 
     /**
-     * Минимальный год в селекте для года.
-     */
-    minYear: PropTypes.number,
-
-    /**
      * Максимальный год в селекте для года.
      */
     maxYear: PropTypes.number,
+
+    /**
+     * Минимальный год в селекте для года.
+     */
+    minYear: PropTypes.number,
 
     value: PropTypes.instanceOf(Date),
 

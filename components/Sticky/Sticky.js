@@ -24,19 +24,19 @@ type State = {
 export default class Sticky extends React.Component {
 
   static propTypes = {
-    side: PropTypes.oneOf(['top', 'bottom']).isRequired,
-
-    /**
-     * Отступ от границы в пикселях
-     **/
-    offset: PropTypes.number,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
     /**
      * Функция, которая возвращает DOM-элемент, который нельзя пересекать.
      */
     getStop: PropTypes.func,
 
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    /**
+     * Отступ от границы в пикселях
+     **/
+    offset: PropTypes.number,
+
+    side: PropTypes.oneOf(['top', 'bottom']).isRequired,
   };
 
   static defaultProps: {offset: number} = {

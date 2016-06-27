@@ -35,6 +35,10 @@ class Button extends React.Component {
 
     loading: PropTypes.bool,
 
+    narrow: PropTypes.bool,
+
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
+
     /**
      * Вариант использования. Влияет на цвет кнопки.
      */
@@ -45,10 +49,6 @@ class Button extends React.Component {
       'danger',
       'pay',
     ]),
-
-    narrow: PropTypes.bool,
-
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 

@@ -1,4 +1,5 @@
 /* @flow weak */
+/* eslint-disable */
 
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';

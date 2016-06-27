@@ -11,9 +11,9 @@ import styles from './Link.less';
  */
 class Link extends React.Component {
   static propTypes = {
-    href: PropTypes.string,
-
     disabled: PropTypes.bool,
+
+    href: PropTypes.string,
 
     icon: PropTypes.string,
   };

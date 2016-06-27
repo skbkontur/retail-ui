@@ -31,6 +31,17 @@ const PASS_BUTTON_PROPS = {
 
 class Select extends React.Component {
   static propTypes = {
+    defaultValue: PropTypes.any,
+
+    disabled: PropTypes.bool,
+
+    /**
+     * Визуально показать наличие ошибки.
+     */
+    error: PropTypes.bool,
+
+    filterItem: PropTypes.func,
+
     /**
      * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
      * `Array`, `Map`, `Immutable.Map`.
@@ -56,30 +67,7 @@ class Select extends React.Component {
      */
     items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 
-    value: PropTypes.any,
-
-    defaultValue: PropTypes.any,
-
-    disabled: PropTypes.bool,
-
-    /**
-     * Показывать строку поиска в списке.
-     */
-    search: PropTypes.bool,
-
     placeholder: PropTypes.node,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    /**
-     * Визуально показать наличие ошибки.
-     */
-    error: PropTypes.bool,
-
-    /**
-     * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
-     */
-    renderValue: PropTypes.func,
 
     /**
      * Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
@@ -87,7 +75,19 @@ class Select extends React.Component {
      */
     renderItem: PropTypes.func,
 
-    filterItem: PropTypes.func,
+    /**
+     * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
+     */
+    renderValue: PropTypes.func,
+
+    /**
+     * Показывать строку поиска в списке.
+     */
+    search: PropTypes.bool,
+
+    value: PropTypes.any,
+
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   };
 
   static defaultProps = {

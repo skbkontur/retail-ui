@@ -180,14 +180,14 @@ var MAP = {
 
 class Icon extends React.Component {
   static propTypes = {
+    color: PropTypes.string,
+
     /**
      * Icon id.
      */
     name: PropTypes.oneOf(Object.keys(MAP)),
 
     size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    color: PropTypes.string,
   };
 
   static getAllNames = function() {

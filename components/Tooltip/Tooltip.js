@@ -27,19 +27,19 @@ type State = {
 
 class Tooltip extends React.Component {
   static propTypes = {
-    /**
-     * Функция, которая возвращает содержимое тултипа.
-     *
-     * Если эта функция вернула `null`, то тултип не показывается.
-     */
-    render: PropTypes.func,
-
     pos: PropTypes.oneOf([
       'top left', 'top center', 'top right',
       'bottom left', 'bottom center', 'bottom right',
       'left top', 'left middle', 'left bottom',
       'right top', 'right middle', 'right bottom',
     ]),
+
+    /**
+     * Функция, которая возвращает содержимое тултипа.
+     *
+     * Если эта функция вернула `null`, то тултип не показывается.
+     */
+    render: PropTypes.func,
 
     trigger: PropTypes.oneOf(['hover', 'click', 'focus', 'opened', 'closed']),
   };

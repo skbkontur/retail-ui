@@ -45,31 +45,21 @@ const PASS_TYPES = {
 
 class Input extends React.Component {
   static propTypes = {
-    disabled: PropTypes.bool,
-
-    /**
-     * ID для использования с элементом label.
-     */
-    id: PropTypes.string,
-
-    maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    placeholder: PropTypes.string,
-
-    title: PropTypes.string,
-
-    value: PropTypes.any,
-
-    defaultValue: PropTypes.any,
-
     align: PropTypes.oneOf(['left', 'center', 'right']),
 
     /**
-     * DEPRECATED
+     * Показывать маску, даже если ничего не введено.
      */
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    alwaysShowMask: PropTypes.bool,
 
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    /**
+     * Не отрисовывать рамку.
+     */
+    borderless: PropTypes.bool,
+
+    defaultValue: PropTypes.any,
+
+    disabled: PropTypes.bool,
 
     /**
      * Визуально показать наличие ошибки.
@@ -77,9 +67,9 @@ class Input extends React.Component {
     error: PropTypes.bool,
 
     /**
-     * Визуально показать наличие предупреждения.
+     * ID для использования с элементом label.
      */
-    warning: PropTypes.bool,
+    id: PropTypes.string,
 
     /**
      * Иконка слева инпута.
@@ -87,9 +77,50 @@ class Input extends React.Component {
     leftIcon: PropTypes.element,
 
     /**
+     * Маска ввода. Заменяет placeholder и defaultValue, влияет на значение
+     * инпута. Позволяет вводить только ограниченное количество символов.
+     *
+     * Шаблоны:
+     *  9: 0-9
+     *  a: A-Z, a-z
+     *  *: A-Z, a-z, 0-9
+     *
+     * Можно делать неудаляемую маску, например: `+4\9 99 999 99`. `\` &mdash;
+     * экранирует символ шаблона.
+     */
+    mask: PropTypes.string,
+
+    /**
+     * Символ маски. Если не указан, используется '_'.
+     */
+    maskChar: PropTypes.string,
+
+    maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+    placeholder: PropTypes.string,
+
+    /**
      * Иконка справа инпута.
      */
     rightIcon: PropTypes.element,
+
+    /**
+     * DEPRECATED
+     */
+    size: PropTypes.oneOf(['small', 'default', 'large']),
+
+    title: PropTypes.string,
+
+    type: PropTypes.oneOf(['password']),
+
+    value: PropTypes.any,
+
+    /**
+     * Визуально показать наличие предупреждения.
+     */
+    warning: PropTypes.bool,
+
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onBlur: PropTypes.func,
 
@@ -111,37 +142,6 @@ class Input extends React.Component {
     onKeyUp: PropTypes.func,
 
     onPaste: PropTypes.func,
-
-    /**
-     * Не отрисовывать рамку.
-     */
-    borderless: PropTypes.bool,
-
-    /**
-     * Маска ввода. Заменяет placeholder и defaultValue, влияет на значение
-     * инпута. Позволяет вводить только ограниченное количество символов.
-     *
-     * Шаблоны:
-     *  9: 0-9
-     *  a: A-Z, a-z
-     *  *: A-Z, a-z, 0-9
-     *
-     * Можно делать неудаляемую маску, например: `+4\9 99 999 99`. `\` &mdash;
-     * экранирует символ шаблона.
-     */
-    mask: PropTypes.string,
-
-    /**
-     * Символ маски. Если не указан, используется '_'.
-     */
-    maskChar: PropTypes.string,
-
-    /**
-     * Показывать маску, даже если ничего не введено.
-     */
-    alwaysShowMask: PropTypes.bool,
-
-    type: PropTypes.oneOf(['password']),
   };
 
   static defaultProps = {
