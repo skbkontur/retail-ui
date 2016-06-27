@@ -14,7 +14,7 @@ import styles from './TopBar.less';
 class Item extends React.Component {
   props: {
     active?: boolean;
-    children?: React$Element<*>;
+    children?: React$Element<any>;
     _onClick?: (e: SyntheticMouseEvent) => void;
     className: string;
     iconOnly?: boolean;
@@ -162,9 +162,9 @@ class User extends React.Component {
 }
 
 type Props = {
-  children?: React$Element<*>,
-  leftItems?: React$Element<*>[],
-  rightItems?: React$Element<*>[],
+  children?: React$Element<any>,
+  leftItems?: React$Element<any>[],
+  rightItems?: React$Element<any>[],
   maxWidth?: string | number,
   noShadow?: boolean,
   noMargin?: boolean,
@@ -254,7 +254,7 @@ class TopBar extends React.Component {
     );
   }
 
-  _renderItems(items: React$Element<*>[] | void) {
+  _renderItems(items: React$Element<any>[] | void) {
     if (!items) {
       return null;
     }
