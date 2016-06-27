@@ -4,6 +4,7 @@ var Comp = React.createClass({
   render() {
     return (
       <Kladr
+        title="Адрес"
         value={this.state.value}
         onChange={(_, v) => this.setState({value: v})}
       />

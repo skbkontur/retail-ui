@@ -21,6 +21,8 @@ globals:
   # Flow
   $Shape: true
   # React
+  SyntheticEvent: true
+  SyntheticFocusEvent: true
   SyntheticMouseEvent: true
   SyntheticKeyboardEvent: true
   # Testing

@@ -112,13 +112,11 @@ export default class Sticky extends React.Component {
     );
   }
 
-  // $FlowIssue 850
-  _refWrapper = (ref) => {
+  _refWrapper = (ref: HTMLElement) => {
     this._wrapper = ref;
   };
 
-  // $FlowIssue 850
-  _refInner = (ref) => {
+  _refInner = (ref: HTMLElement) => {
     this._inner = ref;
   };
 
@@ -136,7 +134,7 @@ export default class Sticky extends React.Component {
     this._reflow();
   }
 
-  _reflow: Function = () => {
+  _reflow = () => {
     if (this._reflowing) {
       this._scheduled = true;
       return;
