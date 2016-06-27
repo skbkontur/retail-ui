@@ -1,14 +1,31 @@
+// @flow
+
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
+import events from 'add-event-listener';
 
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Logotype from '../Logotype';
 import MenuItem from '../MenuItem';
+import stopPropagation from '../../lib/events/stopPropagation';
 
 import styles from './TopBar.less';
 
 class Item extends React.Component {
+  props: {
+    active?: boolean;
+    children?: React.Element<any>;
+    _onClick?: (e: SyntheticMouseEvent) => void;
+    className: string;
+    iconOnly?: boolean;
+    icon?: string;
+  };
+
+  static defaultProps = {
+    className: '',
+  };
+
   render() {
     const {
       active,
@@ -71,6 +88,8 @@ class Logo extends React.Component {
 }
 
 class TopBarDropdown extends React.Component {
+  _dropdown: Dropdown;
+
   render() {
     return (
       <Dropdown
@@ -144,7 +163,9 @@ class User extends React.Component {
 }
 
 type Props = {
-  children?: React.Component | React.Component[] | string | string[],
+  children?: React.Element<any>,
+  leftItems?: React.Element<any>[],
+  rightItems?: React.Element<any>[],
   maxWidth?: string | number,
   noShadow?: boolean,
   noMargin?: boolean,
@@ -172,6 +193,8 @@ type DefaultProps = {
 class TopBar extends React.Component {
 
   props: Props;
+
+  _logoWrapper: HTMLElement;
 
   static Divider = Divider;
   static Item = ButtonItem;
@@ -232,7 +255,7 @@ class TopBar extends React.Component {
     );
   }
 
-  _renderItems(items) {
+  _renderItems(items: React.Element<any>[] | void) {
     if (!items) {
       return null;
     }
@@ -248,7 +271,13 @@ class TopBar extends React.Component {
   }
 
   componentDidMount() {
+    let calledLoad = false;
     const loadWidget = () => {
+      if (calledLoad) {
+        return;
+      }
+      calledLoad = true;
+
       const script = document.createElement('script');
       script.src = 'https://widget-product.kontur.ru/widget/loader?' +
         'product=&type=service';
@@ -260,28 +289,34 @@ class TopBar extends React.Component {
     } else {
       const jquery = document.createElement('script');
       jquery.onload = loadWidget;
-      jquery.src = 'https://code.jquery.com/jquery-2.2.2.min.js';
+      jquery.onreadystatechange = function() {
+        if (this.readyState === 'loaded' || this.readyState === 'complete') {
+          loadWidget();
+        }
+      };
+      jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
       document.getElementsByTagName('head')[0].appendChild(jquery);
     }
   }
 
-  _refLogoWrapper = el => {
+  _refLogoWrapper = (el: HTMLElement) => {
     if (this._logoWrapper) {
-      this._logoWrapper.removeEventListener(
+      events.removeEventListener(
+        this._logoWrapper,
         'click',
         this._handleNativeLogoClick
       );
     }
 
     if (el) {
-      el.addEventListener('click', this._handleNativeLogoClick);
+      events.addEventListener(el, 'click', this._handleNativeLogoClick);
     }
 
     this._logoWrapper = el;
   };
 
-  _handleNativeLogoClick = event => {
-    event.stopPropagation();
+  _handleNativeLogoClick = (event: Event) => {
+    stopPropagation(event);
   };
 }
 

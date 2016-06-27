@@ -1,6 +1,9 @@
 import React, {PropTypes} from 'react';
 
 import styles from './Logotype.less';
+import cloudImage from './cloud.png';
+
+const hasSVGSupport = () => 'SVGSVGElement' in window;
 
 /* eslint-disable max-len */
 const createCloud = color => (
@@ -14,10 +17,24 @@ const createCloud = color => (
 );
 /* eslint-enable max-len */
 
+const createPngCloud = backgroundColor => (
+  <div style={{backgroundColor}} className={styles.cloud}>
+    <div
+      style={{backgroundImage: `url('${cloudImage}')`}}
+      className={styles.inner}
+    />
+  </div>
+);
+
 const Logotype = ({color = '#D92932', suffix}) => (
   <a href="/" tabIndex="-1" className={styles.root}>
     <span>к</span>
-    <span style={{color}}>{createCloud(color)}</span>
+    <span style={{color}}>
+      {hasSVGSupport()
+        ? createCloud(color)
+        : createPngCloud(color)
+      }
+    </span>
     <span>нтур.</span>
     <span style={{color}}>{suffix}</span>
   </a>
