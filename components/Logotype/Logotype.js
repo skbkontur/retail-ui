@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 
 import styles from './Logotype.less';
 import cloudImage from './cloud.png';
-import '../ensureOldIEClassName';
 
 const hasSVGSupport = () => 'SVGSVGElement' in window;
 
