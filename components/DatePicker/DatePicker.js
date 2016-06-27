@@ -12,6 +12,7 @@ const INPUT_PASS_PROPS = {
   disabled: true,
   error: true,
 
+  onInput: true,
   onKeyDown: true,
   onKeyPress: true,
   onKeyUp: true,
@@ -42,6 +43,8 @@ class DatePicker extends React.Component {
     onChange: PropTypes.func,
 
     onFocus: PropTypes.func,
+
+    onInput: PropTypes.func,
 
     onKeyDown: PropTypes.func,
 

@@ -27,6 +27,7 @@ const INPUT_PASS_PROPS = {
   onCopy: true,
   onCut: true,
   onFocus: true,
+  onInput: true,
   onKeyDown: true,
   onKeyPress: true,
   onKeyUp: true,
@@ -134,6 +135,8 @@ class Input extends React.Component {
     onCut: PropTypes.func,
 
     onFocus: PropTypes.func,
+
+    onInput: PropTypes.func,
 
     onKeyDown: PropTypes.func,
 
