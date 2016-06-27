@@ -1,5 +1,5 @@
-/* @flow */
-/* global React$Element */
+// @flow
+
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 import events from 'add-event-listener';
@@ -8,13 +8,14 @@ import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Logotype from '../Logotype';
 import MenuItem from '../MenuItem';
+import stopPropagation from '../../lib/events/stopPropagation';
 
 import styles from './TopBar.less';
 
 class Item extends React.Component {
   props: {
     active?: boolean;
-    children?: React$Element<any>;
+    children?: React.Element<any>;
     _onClick?: (e: SyntheticMouseEvent) => void;
     className: string;
     iconOnly?: boolean;
@@ -87,7 +88,7 @@ class Logo extends React.Component {
 }
 
 class TopBarDropdown extends React.Component {
-  _dropdown: () => void;
+  _dropdown: Dropdown;
 
   render() {
     return (
@@ -162,9 +163,9 @@ class User extends React.Component {
 }
 
 type Props = {
-  children?: React$Element<any>,
-  leftItems?: React$Element<any>[],
-  rightItems?: React$Element<any>[],
+  children?: React.Element<any>,
+  leftItems?: React.Element<any>[],
+  rightItems?: React.Element<any>[],
   maxWidth?: string | number,
   noShadow?: boolean,
   noMargin?: boolean,
@@ -254,7 +255,7 @@ class TopBar extends React.Component {
     );
   }
 
-  _renderItems(items: React$Element<any>[] | void) {
+  _renderItems(items: React.Element<any>[] | void) {
     if (!items) {
       return null;
     }
@@ -270,7 +271,13 @@ class TopBar extends React.Component {
   }
 
   componentDidMount() {
+    let calledLoad = false;
     const loadWidget = () => {
+      if (calledLoad) {
+        return;
+      }
+      calledLoad = true;
+
       const script = document.createElement('script');
       script.src = 'https://widget-product.kontur.ru/widget/loader?' +
         'product=&type=service';
@@ -282,7 +289,12 @@ class TopBar extends React.Component {
     } else {
       const jquery = document.createElement('script');
       jquery.onload = loadWidget;
-      jquery.src = 'https://code.jquery.com/jquery-2.2.2.min.js';
+      jquery.onreadystatechange = function() {
+        if (this.readyState === 'loaded' || this.readyState === 'complete') {
+          loadWidget();
+        }
+      };
+      jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
       document.getElementsByTagName('head')[0].appendChild(jquery);
     }
   }
@@ -304,7 +316,7 @@ class TopBar extends React.Component {
   };
 
   _handleNativeLogoClick = (event: Event) => {
-    event.stopPropagation();
+    stopPropagation(event);
   };
 }
 
