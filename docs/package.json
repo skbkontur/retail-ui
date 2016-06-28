@@ -39,6 +39,7 @@
     "es3ify-loader": "^0.2.0",
     "expose-loader": "0.7.1",
     "history": "^2.1.2",
+    "jscodeshift": "^0.3.25",
     "object-assign": "^4.1.0",
     "react": "^0.14.7",
     "react-codemirror": "^0.2.6",
