@@ -17,6 +17,7 @@ export type Address = {
   index: string,
   okato: string,
   house: string,
+  building: string,
   room: string,
 };
 
@@ -29,6 +30,7 @@ export type Place =
   'index' |
   'okato' |
   'house' |
+  'building' |
   'room';
 
 export type VerifyResult = {

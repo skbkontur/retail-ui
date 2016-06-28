@@ -66,6 +66,7 @@ export default class AddressModal extends React.Component {
   _settlementProps: FieldProps;
   _streetProps: FieldProps;
   _houseProps: SimpleFieldProps;
+  _buildingProps: SimpleFieldProps;
   _roomProps: SimpleFieldProps;
 
   _verifyPromise: ?Promise<VerifyResult>;
@@ -92,6 +93,7 @@ export default class AddressModal extends React.Component {
       'street', ['region', 'district', 'city', 'settlement'], 'Street'
     );
     this._houseProps = this.createSimpleFieldProps('house');
+    this._buildingProps = this.createSimpleFieldProps('building');
     this._roomProps = this.createSimpleFieldProps('room');
   }
 
@@ -109,10 +111,12 @@ export default class AddressModal extends React.Component {
     };
   }
 
-  createSimpleFieldProps(field: 'house' | 'room'): SimpleFieldProps {
+  createSimpleFieldProps(
+    field: 'house' | 'room' | 'building'
+  ): SimpleFieldProps {
     return {
       onChange: (event, value) => {
-        const address = {
+        const address: $Shape<Address> = {
           ...this.state.address,
           [field]: value,
         };
@@ -160,7 +164,10 @@ export default class AddressModal extends React.Component {
         invalidField = PLACES[result.invalidItem];
       }
       this.setState({
-        address: result.address,
+        address: {
+          ...this.state.address, // Saving the `building` field.
+          ...result.address,
+        },
         invalidField,
       });
     });
@@ -216,6 +223,7 @@ export default class AddressModal extends React.Component {
   }
 
   _renderForm() {
+    console.log('render form', this.state.address);
     const {invalidField} = this.state;
 
     return (
@@ -285,12 +293,22 @@ export default class AddressModal extends React.Component {
           </div>
         </div>
         <div className={styles.row}>
-          <div className={styles.label}>Дом, корпус</div>
+          <div className={styles.label}>Дом</div>
           <div className={styles.field}>
             <Input
               value={this.state.address.house}
               width={100}
               {...this._houseProps}
+            />
+          </div>
+        </div>
+        <div className={styles.row}>
+          <div className={styles.label}>Корпус</div>
+          <div className={styles.field}>
+            <Input
+              value={this.state.address.building || ''}
+              width={100}
+              {...this._buildingProps}
             />
           </div>
         </div>

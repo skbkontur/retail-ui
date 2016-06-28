@@ -70,6 +70,7 @@ class Kladr extends React.Component {
       place(address.settlement),
       place(address.street),
       address.house && `дом ${address.house}`,
+      address.building && `корпус ${address.building}`,
       address.room && `квартира ${address.room}`,
     ].filter(x => !!x).join(', ');
   }
