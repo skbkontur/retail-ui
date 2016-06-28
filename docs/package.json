@@ -45,6 +45,7 @@
     "react-dom": "^0.14.7",
     "react-router": "~2.3.0",
     "react-tools": "^0.13.3",
+    "regenerator": "amccloud/regenerator#patch-1",
     "url-loader": "0.5.7"
   }
 }

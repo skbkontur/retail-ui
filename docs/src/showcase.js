@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import './regeneratorRuntime';
 import '../../testing';
 
 import React from 'react';
