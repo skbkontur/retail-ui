@@ -80,12 +80,11 @@ class RadioGroup extends React.Component {
   }
 
   renderItems() {
-    var items = [];
-    this.eachItem((value, data, i) => {
+    const items = this.mapItems((value, data, i) => {
       var checked = this.state.value === value;
       var focused = this.state.focused &&
           (checked || this.state.value == null && i === 0);
-      items.push(
+      return (
         <span key={i} className={styles.item}
           onClick={(e) => this.select_(value)}
         >
@@ -127,13 +126,12 @@ class RadioGroup extends React.Component {
   };
 
   move_(step) {
-    const items = [];
     let selectedIndex = -1;
-    this.eachItem((value, data, i) => {
-      items.push(value);
+    const items = this.mapItems((value, data, i) => {
       if (selectedIndex === -1 && value === this.state.value) {
         selectedIndex = i;
       }
+      return value;
     });
 
     selectedIndex += step;
@@ -154,13 +152,16 @@ class RadioGroup extends React.Component {
     }
   }
 
-  eachItem(fn) {
+  mapItems(fn) {
+    const items = [];
     let index = 0;
     for (const entry of this.props.items) {
       const [value, data] = normalizeEntry(entry);
-      fn(value, data, index);
+      items.push(fn(value, data, index));
       ++index;
     }
+
+    return items;
   }
 }
 
