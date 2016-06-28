@@ -3,13 +3,16 @@
 import React, {PropTypes} from 'react';
 
 import AddressModal from './AddressModal';
+import Colors from '../../lib/Colors';
 import Link from '../Link';
 import type {Address} from './Types';
 import * as util from './util';
 
 type Props = {
+  error?: ?string,
   title: string,
   value: any,
+  warning?: ?string,
   onChange: any,
 };
 
@@ -22,8 +25,10 @@ type State = {
  */
 class Kladr extends React.Component {
   static propTypes = {
+    error: PropTypes.string,
     title: PropTypes.string,
     value: PropTypes.any,
+    warning: PropTypes.string,
     onChange: PropTypes.func,
   };
 
@@ -43,6 +48,21 @@ class Kladr extends React.Component {
     const empty = isEmpty(value);
     const change = empty ? 'Заполнить адрес' : 'Изменить адрес';
 
+    let validation = null;
+    if (this.props.error) {
+      validation = (
+        <div style={{color: Colors.ERROR, marginBottom: 5}}>
+          {this.props.error}
+        </div>
+      );
+    } else if (this.props.warning) {
+      validation = (
+        <div style={{color: Colors.WARNING, marginBottom: 5}}>
+          {this.props.warning}
+        </div>
+      );
+    }
+
     return (
       <span>
         {!empty && (
@@ -50,6 +70,7 @@ class Kladr extends React.Component {
             {this._renderAddress(value.address)}
           </div>
         )}
+        {validation}
         <Link icon="edit" onClick={this._handleOpen}>{change}</Link>
         {this.state.opened && this._renderModal()}
       </span>
