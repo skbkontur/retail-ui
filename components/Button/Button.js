@@ -113,13 +113,15 @@ class Button extends React.Component {
     }
 
     return (
-      <button {...rootProps}>
-        {loading}
-        <div className={styles.caption}>
-          {this.props.children}
-        </div>
-        {error}
-      </button>
+      <span className={styles.wrap}>
+        <button {...rootProps}>
+          {loading}
+          <div className={styles.caption}>
+            {this.props.children}
+          </div>
+          {error}
+        </button>
+      </span>
     );
   }
 

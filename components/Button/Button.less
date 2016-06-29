@@ -4,6 +4,11 @@
   @focus-shadow: 0 0 0 1px @border-color-focus,
     inset 0 0 0 1px @border-color-gray-lighter;
 
+  .wrap {
+    display: inline-block;
+    padding: 1px;
+  }
+
   .root {
     border: 0;
     color: @text-color-default;
@@ -11,7 +16,7 @@
     display: inline-block;
     font-family: inherit;
     font-size: 14px;
-    margin: 1px;
+    margin: 0; // Need for Safari.
     outline: 0;
     overflow: visible; // On IE it's hidden by default.
     position: relative;

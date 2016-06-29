@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 
 import filterProps from '../filterProps';
+import MenuHeader from '../MenuHeader/MenuHeader';
 import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import Select from '../Select';
@@ -93,5 +94,6 @@ function renderValue(value) {
   return value;
 }
 
+Dropdown.Header = MenuHeader;
 Dropdown.MenuItem = MenuItem;
 Dropdown.Separator = MenuSeparator;
