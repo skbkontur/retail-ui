@@ -6,6 +6,7 @@ import events from 'add-event-listener';
 
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
+import CapIcon from '../Icon/20px'
 import Logotype from '../Logotype';
 import MenuItem from '../MenuItem';
 import stopPropagation from '../../lib/events/stopPropagation';
@@ -50,7 +51,7 @@ class Item extends React.Component {
       >
         {icon && (
           <span className={styles.icon}>
-            <Icon color="#666" name={icon} size="20"/>
+            <CapIcon color="#666" name={icon}/>
           </span>
         )}
         {children}
