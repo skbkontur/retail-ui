@@ -21,6 +21,13 @@ class Item extends React.Component {
     className: string;
     iconOnly?: boolean;
     icon?: string;
+    use?: string;
+  };
+
+  static propTypes = {
+    use: PropTypes.oneOf([
+      'pay',
+    ]),
   };
 
   static defaultProps = {
@@ -46,6 +53,7 @@ class Item extends React.Component {
           [styles.buttonActive]: active,
           [className]: true,
           [styles.iconOnly]: iconOnly,
+          [styles['use-' + this.props.use]]: this.props.use,
         })}
         onClick={_onClick}
       >
@@ -111,6 +119,7 @@ class TopBarDropdown extends React.Component {
         tabIndex="0"
         onClick={params.onClick}
         onKeyDown={params.onKeyDown}
+        use={this.props.use}
       >
         {params.label}
       </ButtonItem>
