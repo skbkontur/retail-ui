@@ -239,34 +239,33 @@ class TopBar extends React.Component {
       >
         <div className={styles.center} style={{maxWidth}}>
           <div className={styles.container}>
-            <div className={styles.left}>
-              <div id="spwDropdown" className={styles.spwDropdown}>
-                <span ref={this._refLogoWrapper}>
-                  <Logo suffix={suffix} color={color}/>
-                  <Divider />
-                </span>
-                <ButtonItem iconOnly>
-                  <Icon color="#aaa" size={20} name="angle-bottom"/>
-                </ButtonItem>
-              </div>
-              {this._renderItems(leftItems)}
+            <div id="spwDropdown" className={styles.spwDropdown}>
+              <span ref={this._refLogoWrapper}>
+                <Logo suffix={suffix} color={color}/>
+                <Divider />
+              </span>
+              <ButtonItem iconOnly>
+                <Icon color="#aaa" size={20} name="angle-bottom"/>
+              </ButtonItem>
             </div>
-
-            <div className={styles.right}>
-              {this._renderItems(rightItems)}
-              <User userName={userName}/>
-              <Divider />
+            <div className={styles.leftItems}>
+              {this._renderLeftItems(leftItems)}
+            </div>
+            {this._renderRightItems([
+              ...rightItems,
+              <User userName={userName}/>,
+              <Divider />,
               <ButtonItem onClick={onLogout}>
                 Выйти
               </ButtonItem>
-            </div>
+            ])}
           </div>
         </div>
       </div>
     );
   }
 
-  _renderItems(items: React.Element<any>[] | void) {
+  _renderLeftItems(items: React.Element<any>[] | void) {
     if (!items) {
       return null;
     }
@@ -278,6 +277,23 @@ class TopBar extends React.Component {
         });
       }
       return item;
+    });
+  }
+
+  _renderRightItems(items: React.Element<any>[] | void) {
+    if (!items) {
+      return null;
+    }
+
+    return items.map((item, i) => {
+      return (
+        <span
+          className={styles.rightItem}
+          key={'$topbar_' + i}
+        >
+          {React.cloneElement(item)}
+        </span>
+      );
     });
   }
 
