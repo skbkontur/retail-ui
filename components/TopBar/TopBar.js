@@ -42,6 +42,7 @@ class Item extends React.Component {
       className,
       iconOnly,
       icon,
+      use,
       ...rest,
     } = this.props;
 
@@ -53,7 +54,7 @@ class Item extends React.Component {
           [styles.buttonActive]: active,
           [className]: true,
           [styles.iconOnly]: iconOnly,
-          [styles['use-' + this.props.use]]: this.props.use,
+          [styles['use-' + use]]: use,
         })}
         onClick={_onClick}
       >
@@ -117,9 +118,9 @@ class TopBarDropdown extends React.Component {
         active={params.opened}
         icon={this.props.icon}
         tabIndex="0"
+        use={this.props.use}
         onClick={params.onClick}
         onKeyDown={params.onKeyDown}
-        use={this.props.use}
       >
         {params.label}
       </ButtonItem>
