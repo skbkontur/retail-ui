@@ -6,7 +6,7 @@ import events from 'add-event-listener';
 
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
-import CapIcon from '../Icon/20px'
+import CapIcon from '../Icon/20px';
 import Logotype from '../Logotype';
 import MenuItem from '../MenuItem';
 import stopPropagation from '../../lib/events/stopPropagation';
@@ -265,7 +265,7 @@ class TopBar extends React.Component {
     );
   }
 
-  _renderLeftItems(items: React.Element<any>[] | void) {
+  _renderLeftItems(items: Array<React.Element<any>>) {
     if (!items) {
       return null;
     }
@@ -280,18 +280,15 @@ class TopBar extends React.Component {
     });
   }
 
-  _renderRightItems(items: React.Element<any>[] | void) {
+  _renderRightItems(items: Array<React.Element<any>>) {
     if (!items) {
       return null;
     }
 
     return items.map((item, i) => {
       return (
-        <span
-          className={styles.rightItem}
-          key={'$topbar_' + i}
-        >
-          {React.cloneElement(item)}
+        <span className={styles.rightItem} key={'$topbar_' + i}>
+          {item}
         </span>
       );
     });
