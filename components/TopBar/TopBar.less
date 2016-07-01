@@ -23,7 +23,20 @@
   }
 
   .container {
+    display: table;
     margin: 0 -15px;
+  }
+
+  .leftItems {
+    display: table-cell;
+    padding-right: 60px;
+    vertical-align: top;
+    width: 100%;
+  }
+
+  .rightItem {
+    display: table-cell;
+    vertical-align: top;
   }
 
   .divider {
@@ -35,22 +48,14 @@
     background-color: #dfdfdf;
   }
 
-  .left {
-    height: @height;
-    float: left;
-  }
-
-  .right {
-    height: @height;
-    float: right;
-  }
-
   .item {
+    box-sizing: border-box;
     display: inline-block;
     height: @height;
     line-height: @height;
     padding: 0 15px;
     vertical-align: middle;
+    white-space: nowrap;
   }
 
   .button {
@@ -74,18 +79,34 @@
   }
 
   .iconOnly {
+    line-height: 54px;
     padding: 0 11px;
   }
 
   .icon {
-    position: relative;
     margin-right: 4px;
-    bottom: -4px;
   }
 
+  // Use Pay
+
+  .use-pay {
+    background: #fff4d1;
+
+    &:hover {
+      background: #ffeca9;
+    }
+  }
+
+  .use-pay.buttonActive {
+    background: #ffeca9;
+  }
+
+  // End Use
+
   .spwDropdown {
-    display: inline-block;
+    display: table-cell;
     height: @height;
+    white-space: nowrap;
   }
 
   :global(.kontur-projects_opened) .button {

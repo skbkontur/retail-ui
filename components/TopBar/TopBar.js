@@ -6,6 +6,7 @@ import events from 'add-event-listener';
 
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
+import CapIcon from '../Icon/20px';
 import Logotype from '../Logotype';
 import MenuItem from '../MenuItem';
 import stopPropagation from '../../lib/events/stopPropagation';
@@ -20,6 +21,13 @@ class Item extends React.Component {
     className: string;
     iconOnly?: boolean;
     icon?: string;
+    use?: string;
+  };
+
+  static propTypes = {
+    use: PropTypes.oneOf([
+      'pay',
+    ]),
   };
 
   static defaultProps = {
@@ -34,6 +42,7 @@ class Item extends React.Component {
       className,
       iconOnly,
       icon,
+      use,
       ...rest,
     } = this.props;
 
@@ -45,12 +54,13 @@ class Item extends React.Component {
           [styles.buttonActive]: active,
           [className]: true,
           [styles.iconOnly]: iconOnly,
+          [styles['use-' + use]]: use,
         })}
         onClick={_onClick}
       >
         {icon && (
           <span className={styles.icon}>
-            <Icon color="#666" name={icon} size="20"/>
+            <CapIcon color="#666" name={icon}/>
           </span>
         )}
         {children}
@@ -108,6 +118,7 @@ class TopBarDropdown extends React.Component {
         active={params.opened}
         icon={this.props.icon}
         tabIndex="0"
+        use={this.props.use}
         onClick={params.onClick}
         onKeyDown={params.onKeyDown}
       >
@@ -228,34 +239,33 @@ class TopBar extends React.Component {
       >
         <div className={styles.center} style={{maxWidth}}>
           <div className={styles.container}>
-            <div className={styles.left}>
-              <div id="spwDropdown" className={styles.spwDropdown}>
-                <span ref={this._refLogoWrapper}>
-                  <Logo suffix={suffix} color={color}/>
-                  <Divider />
-                </span>
-                <ButtonItem iconOnly>
-                  <Icon color="#aaa" size={20} name="angle-bottom"/>
-                </ButtonItem>
-              </div>
-              {this._renderItems(leftItems)}
+            <div id="spwDropdown" className={styles.spwDropdown}>
+              <span ref={this._refLogoWrapper}>
+                <Logo suffix={suffix} color={color}/>
+                <Divider />
+              </span>
+              <ButtonItem iconOnly>
+                <Icon color="#aaa" size={20} name="angle-bottom"/>
+              </ButtonItem>
             </div>
-
-            <div className={styles.right}>
-              {this._renderItems(rightItems)}
-              <User userName={userName}/>
-              <Divider />
+            <div className={styles.leftItems}>
+              {this._renderLeftItems(leftItems)}
+            </div>
+            {this._renderRightItems([
+              ...rightItems,
+              <User userName={userName}/>,
+              <Divider />,
               <ButtonItem onClick={onLogout}>
                 Выйти
               </ButtonItem>
-            </div>
+            ])}
           </div>
         </div>
       </div>
     );
   }
 
-  _renderItems(items: React.Element<any>[] | void) {
+  _renderLeftItems(items: ?Array<React.Element<any>>) {
     if (!items) {
       return null;
     }
@@ -267,6 +277,20 @@ class TopBar extends React.Component {
         });
       }
       return item;
+    });
+  }
+
+  _renderRightItems(items: ?Array<React.Element<any>>) {
+    if (!items) {
+      return null;
+    }
+
+    return items.map((item, i) => {
+      return (
+        <span className={styles.rightItem} key={'$topbar_' + i}>
+          {item}
+        </span>
+      );
     });
   }
 
