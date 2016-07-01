@@ -106,7 +106,7 @@ export default class AddressModal extends React.Component {
       source: this.createSource(field, parents, level),
       onChange: this.createHandler(field),
       renderItem: this._renderItem.bind(this, field, parents),
-      renderValue,
+      renderValue: renderValue.bind(null, field),
       recover,
     };
   }
@@ -353,7 +353,7 @@ export default class AddressModal extends React.Component {
     }
     return (
       <div>
-        {util.placeName(place)}
+        {util.placeName(place, field)}
         {parentNames.length > 0 && (
           <div className={styles.menuItemParents}>{parentNames.join(', ')}</div>
         )}
@@ -367,8 +367,8 @@ export default class AddressModal extends React.Component {
   };
 }
 
-function renderValue(place: ?PlaceDescription) {
-  return place ? util.placeName(place) : 'null';
+function renderValue(type: Place, place: ?PlaceDescription) {
+  return place ? util.placeName(place, type) : 'null';
 }
 
 function recover(searchText) {

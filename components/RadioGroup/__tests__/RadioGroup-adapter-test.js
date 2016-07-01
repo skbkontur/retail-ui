@@ -35,7 +35,7 @@ describe('RadioGroup-adapter', () => {
     expect(onChange.mock.calls[0][1]).toBe('foo');
 
     unmount();
-  })
+  });
 
   it('getItemValues', () => {
     const {node, unmount} = mountTest(<RadioGroup tid="a" items={items} />);
