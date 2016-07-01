@@ -265,7 +265,7 @@ class TopBar extends React.Component {
     );
   }
 
-  _renderLeftItems(items: Array<React.Element<any>>) {
+  _renderLeftItems(items: ?Array<React.Element<any>>) {
     if (!items) {
       return null;
     }
@@ -280,7 +280,7 @@ class TopBar extends React.Component {
     });
   }
 
-  _renderRightItems(items: Array<React.Element<any>>) {
+  _renderRightItems(items: ?Array<React.Element<any>>) {
     if (!items) {
       return null;
     }
