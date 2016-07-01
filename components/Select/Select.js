@@ -67,6 +67,8 @@ class Select extends React.Component {
      */
     items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 
+    maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
     placeholder: PropTypes.node,
 
     /**
@@ -140,8 +142,15 @@ class Select extends React.Component {
       onKeyDown: this.handleKey,
     };
 
+    const style = {
+      width: this.props.width,
+    };
+    if (this.props.maxWidth) {
+      style.maxWidth = this.props.maxWidth;
+    }
+
     return (
-      <span className={styles.root} style={{width: this.props.width}}>
+      <span className={styles.root} style={style}>
         {this.props._renderButton
           ? this.props._renderButton(buttonParams)
           : this.renderDefaultButton(buttonParams)}
