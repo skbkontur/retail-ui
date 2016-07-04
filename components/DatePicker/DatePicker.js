@@ -34,7 +34,7 @@ class DatePicker extends React.Component {
      */
     minYear: PropTypes.number,
 
-    value: PropTypes.instanceOf(Date),
+    value: PropTypes.instanceOf(Date).isRequired,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 

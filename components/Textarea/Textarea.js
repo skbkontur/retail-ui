@@ -43,7 +43,7 @@ class Textarea extends React.Component {
 
     title: PropTypes.string,
 
-    value: PropTypes.string,
+    value: PropTypes.string.isRequired,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 

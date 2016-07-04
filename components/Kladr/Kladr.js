@@ -27,7 +27,7 @@ class Kladr extends React.Component {
   static propTypes = {
     error: PropTypes.string,
     title: PropTypes.string,
-    value: PropTypes.any,
+    value: PropTypes.any.isRequired,
     warning: PropTypes.string,
     onChange: PropTypes.func,
   };

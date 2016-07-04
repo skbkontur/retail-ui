@@ -38,7 +38,7 @@ class RadioGroup extends React.Component {
      */
     renderItem: PropTypes.func,
 
-    value: PropTypes.any,
+    value: PropTypes.any.isRequired,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 

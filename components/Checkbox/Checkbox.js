@@ -9,9 +9,9 @@ import styles from './Checkbox.less';
 
 class Checkbox extends React.Component {
   static propTypes = {
-    checked: PropTypes.bool,
-
+    checked: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
+    onChange: PropTypes.func,
   };
 
   constructor(props, context) {
