@@ -11,11 +11,12 @@
   .scroll {
     position: absolute;
     right: 2px;
-    width: 6px;
+    transition: width .2s;
+    width: 5px;
 
     &:after {
       background: #b7b7b7;
-      border-radius: 3px;
+      border-radius: 5px;
       bottom: 1px;
       content: '';
       display: block;
@@ -24,5 +25,9 @@
       right: 0;
       top: 1px;
     }
+  }
+
+  .scrollHover {
+    width: 10px;
   }
 }
