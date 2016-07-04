@@ -46,18 +46,18 @@ class Item extends React.Component {
       ...rest,
     } = this.props;
 
+    const classes = {
+      [styles.item]: true,
+      [styles.buttonActive]: active,
+      [className]: true,
+      [styles.iconOnly]: iconOnly,
+    };
+    if (use) {
+      classes['use-' + use] = true;
+    }
+
     return (
-      <div
-        {...rest}
-        className={classNames({
-          [styles.item]: true,
-          [styles.buttonActive]: active,
-          [className]: true,
-          [styles.iconOnly]: iconOnly,
-          [styles['use-' + use]]: use,
-        })}
-        onClick={_onClick}
-      >
+      <div {...rest} className={classNames(classes)} onClick={_onClick}>
         {icon && (
           <span className={styles.icon}>
             <CapIcon color="#666" name={icon}/>
@@ -252,12 +252,12 @@ class TopBar extends React.Component {
               {this._renderLeftItems(leftItems)}
             </div>
             {this._renderRightItems([
-              ...rightItems,
+              ...rightItems || [],
               <User userName={userName}/>,
               <Divider />,
               <ButtonItem onClick={onLogout}>
                 Выйти
-              </ButtonItem>
+              </ButtonItem>,
             ])}
           </div>
         </div>

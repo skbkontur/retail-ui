@@ -57,9 +57,9 @@ var PropsDoc = React.createClass({
                 </div>
                 {prop.description && (
                   <div className={propDescClassName}
-                    dangerouslySetInnerHTML={
-                      {__html: prop.description.description}
-                    }
+                    dangerouslySetInnerHTML={{
+                      __html: prop.description.description,
+                    }}
                   />
                 )}
               </div>
