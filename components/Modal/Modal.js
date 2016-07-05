@@ -58,7 +58,7 @@ class Modal extends React.Component {
 
     let hasHeader = false;
     const children = React.Children.map(this.props.children, child => {
-      if (child.type === Header) {
+      if (child && child.type === Header) {
         hasHeader = true;
         return React.cloneElement(child, {close});
       }
