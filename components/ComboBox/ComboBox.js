@@ -258,18 +258,17 @@ class ComboBox extends React.Component {
           {mapResult(result, (value, info, i) => {
             if (typeof value === 'function' || React.isValidElement(value)) {
               const element = typeof value === 'function' ? value() : value;
-              const elementValue = element.props.value;
               return React.cloneElement(
                 element,
                 {
                   key: i,
-                  onClick: this._handleItemClick.bind(this, elementValue, info),
+                  onClick: this._handleItemClick.bind(this, element.props),
                 },
               );
             }
             return (
               <MenuItem key={i}
-                onClick={this._handleItemClick.bind(this, value, info)}
+                onClick={this._handleItemClick.bind(this, {value, info})}
               >
                 {this.props.renderItem(value, info)}
               </MenuItem>
@@ -423,10 +422,17 @@ class ComboBox extends React.Component {
     }
   };
 
-  _handleItemClick(value: Value, info: Info) {
+  _handleItemClick(
+    options: {value?: Value, info?: Info, onClick?: () => void}
+  ) {
     this._close();
-    this._change(value, info);
+    this._change(options.value, options.info);
     this._focusAsync();
+
+    if (options.onClick) {
+      const onClick = options.onClick;
+      onClick();
+    }
   }
 
   _handleArrowMouseDown = (event: SyntheticMouseEvent) => {
