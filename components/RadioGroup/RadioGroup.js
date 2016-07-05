@@ -6,6 +6,8 @@ import styles from './RadioGroup.less';
 
 class RadioGroup extends React.Component {
   static propTypes = {
+    error: PropTypes.bool,
+
     /**
      * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
      * `Array`, `Map`, `Immutable.Map`.
@@ -40,6 +42,8 @@ class RadioGroup extends React.Component {
 
     value: PropTypes.any.isRequired,
 
+    warning: PropTypes.bool,
+
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onChange: PropTypes.func,
@@ -58,7 +62,7 @@ class RadioGroup extends React.Component {
   }
 
   render() {
-    var inputProps = {
+    const inputProps = {
       type: 'checkbox',
       className: styles.input,
       onKeyDown: this.handleKey,
@@ -66,7 +70,7 @@ class RadioGroup extends React.Component {
       onBlur: this.handleBlur,
     };
 
-    var style = {};
+    const style = {};
     if (this.props.width) {
       style.width = this.props.width;
     }
@@ -81,15 +85,20 @@ class RadioGroup extends React.Component {
 
   renderItems() {
     const items = this.mapItems((value, data, i) => {
-      var checked = this.state.value === value;
-      var focused = this.state.focused &&
+      const checked = this.state.value === value;
+      const focused = this.state.focused &&
           (checked || this.state.value == null && i === 0);
       return (
         <span key={i} className={styles.item}
           onClick={(e) => this.select_(value)}
         >
           <div className={styles.radio}>
-            <Radio checked={checked} focused={focused} />
+            <Radio
+              checked={checked}
+              focused={focused}
+              error={this.props.error}
+              warning={this.props.warning}
+            />
           </div>
           <div className={styles.label}>
             {this.props.renderItem(value, data)}

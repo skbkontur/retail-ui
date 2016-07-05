@@ -11,6 +11,8 @@ class Checkbox extends React.Component {
   static propTypes = {
     checked: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
+    error: PropTypes.bool,
+    warning: PropTypes.bool,
     onChange: PropTypes.func,
   };
 
@@ -31,6 +33,8 @@ class Checkbox extends React.Component {
       [styles.isActive]: this.state.active,
       [styles.isFocused]: this.state.focused,
       [styles.isDisabled]: this.props.disabled,
+      [styles.error]: this.props.error,
+      [styles.warning]: this.props.warning,
     });
 
     return (
