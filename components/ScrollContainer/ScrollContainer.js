@@ -45,6 +45,7 @@ export default class ScrollContainer extends React.Component {
     if (this.state.scrollActive) {
       const scrollClass = classNames({
         [styles.scroll]: true,
+        [styles.scrollInvert]: this.props.invert,
         [styles.scrollHover]: this.state.hover || this.state.scrolling,
       });
       const scrollStyle = {
@@ -64,6 +65,7 @@ export default class ScrollContainer extends React.Component {
       maxHeight: this.props.maxHeight,
       paddingRight: PADDING_RIGHT,
     };
+
     return (
       <div
         className={styles.root}
@@ -192,6 +194,7 @@ export default class ScrollContainer extends React.Component {
 }
 
 ScrollContainer.propTypes = {
+  invert: PropTypes.bool,
   maxHeight: PropTypes.number,
 };
 

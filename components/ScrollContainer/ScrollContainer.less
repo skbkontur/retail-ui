@@ -1,10 +1,12 @@
 :local {
   .root {
+    height: 100%;
     overflow: hidden;
     position: relative;
   }
 
   .inner {
+    max-height: 100%;
     overflow-y: scroll;
   }
 
@@ -12,7 +14,7 @@
     position: absolute;
     right: 2px;
     transition: width .2s;
-    width: 5px;
+    width: 4px;
 
     &:after {
       background: #b7b7b7;
@@ -29,5 +31,10 @@
 
   .scrollHover {
     width: 10px;
+  }
+
+  .scrollInvert:after {
+    background: #ccc;
+    background: rgba(255, 255, 255, .5);
   }
 }
