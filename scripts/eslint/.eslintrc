@@ -21,9 +21,12 @@ globals:
   # Flow
   $Shape: true
   # React
+  SyntheticEvent: true
+  SyntheticFocusEvent: true
   SyntheticMouseEvent: true
   SyntheticKeyboardEvent: true
   # Testing
+  Lookup: true
   ReactTesting: true
 
 rules:
@@ -330,7 +333,7 @@ rules:
   no-var: 0
   object-shorthand: 2
   # will only impact future ES6 code that'll use let
-  prefer-const: 1
+  prefer-const: 0
   prefer-spread: 1
   # we don't support/polyfill this yet
   prefer-reflect: 0
@@ -351,7 +354,7 @@ rules:
   react/jsx-indent-props: [1, 2]
   react/jsx-no-undef: 2
   # should probably enable
-  react/jsx-sort-prop-types: 0
+  react/sort-prop-types: [1, {callbacksLast: true}]
   # don't use it atm
   react/jsx-sort-props: 0
   react/jsx-uses-react: 2

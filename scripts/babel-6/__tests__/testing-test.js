@@ -11,8 +11,8 @@ function compile(input) {
 describe('testing plugin', () => {
   it('transforms tid', () => {
     const input = '<a tid="a" />;<b ref={refFn} tid={b} />;';
-    const output = '<a ref={global.ReactTesting.ref("a", null)} />;' +
-      '<b ref={global.ReactTesting.ref(b, refFn)} />;';
+    const output = '<a tid="a" ref={global.ReactTesting.ref("a", null)} />;' +
+      '<b tid={b} ref={global.ReactTesting.ref(b, refFn)} />;';
 
     expect(compile(input)).toBe(output);
   });

@@ -43,15 +43,15 @@ class Textarea extends React.Component {
 
     title: PropTypes.string,
 
-    value: PropTypes.string,
+    value: PropTypes.string.isRequired,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+    onBlur: PropTypes.func,
 
     onChange: PropTypes.func,
 
     onFocus: PropTypes.func,
-
-    onBlur: PropTypes.func,
   };
 
   static defaultProps = {

@@ -1,23 +1,18 @@
-/* @flow */
+// @flow
 
 import Input from './Input.js';
 
-class InputAdapter {
-  _input: Input;
+const InputAdapter = {
+  getValue(inst: Input) {
+    return inst.state.value;
+  },
 
-  constructor(input) {
-    this._input = input;
-  }
-
-  getValue() {
-    return this._input.state.value;
-  }
-
-  setValue(value) {
-    this._input.handleChange({target: {value}});
-  }
-}
+  setValue(inst: Input, value: string) {
+    inst.handleChange({target: {value}});
+  },
+};
 
 Input.__ADAPTER__ = InputAdapter;
 
+export {InputAdapter};
 export default Input;

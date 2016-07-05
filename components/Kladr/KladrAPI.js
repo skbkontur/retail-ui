@@ -1,5 +1,7 @@
 // @flow
 
+import fetch from '../../lib/net/fetch-cors';
+
 import type {Address, VerifyResult} from './Types';
 
 const kladrUrl = 'https://kladr.kontur.ru/v1/';
@@ -33,10 +35,6 @@ export function searchIndex(code: string, house: ?string) {
 export function verify(req: Address): Promise<VerifyResult> {
   return fetch(`${kladrUrl}verify/`, {
     method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify(toJSON({address: req})),
   }).then(res => res.json()).then(toJS);
 }

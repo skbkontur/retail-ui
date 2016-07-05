@@ -16,8 +16,6 @@ module.exports = function(babel) {
         const tidPassAttr = findAttribute(path, 'tid-pass');
 
         if (tidAttr) {
-          tidAttr.node.name.name = 'ref';
-
           let ref = t.NullLiteral();
           if (refAttr) {
             ref = refAttr.node.value.expression;
@@ -25,12 +23,20 @@ module.exports = function(babel) {
           }
 
           const tid = getTid(tidAttr);
-          tidAttr.node.value = t.JSXExpressionContainer(
+          const refValue = t.JSXExpressionContainer(
             buildRefFunc({
               TID: tid,
               REF: ref,
             }).expression
           );
+
+          tidAttr.replaceWithMultiple([
+            tidAttr.node,
+            t.JSXAttribute(
+              t.JSXIdentifier('ref'),
+              refValue
+            ),
+          ]);
         } else if (tidPassAttr) {
           invariant(
             !refAttr,

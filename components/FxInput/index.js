@@ -1,1 +1,2 @@
-module.exports = require('./FxInput');
+import FxInput from './FxInput';
+module.exports = FxInput;

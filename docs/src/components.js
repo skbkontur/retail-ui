@@ -114,6 +114,12 @@ module.exports = [
     src: require('!raw!./snippets/RadioGroup.jsx'),
   },
   {
+    name: 'ScrollContainer',
+    component: require('ui/ScrollContainer'),
+    info: require('!docgen!ui/ScrollContainer/ScrollContainer.js'),
+    src: require('!raw!./snippets/ScrollContainer.jsx'),
+  },
+  {
     name: 'Select',
     component: require('ui/Select'),
     info: require('!docgen!ui/Select/Select.js'),

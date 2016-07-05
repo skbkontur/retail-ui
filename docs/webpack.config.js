@@ -33,6 +33,7 @@ module.exports = {
           path.join(__dirname, 'src'),
           path.resolve(__dirname, '..', 'components'),
           path.resolve(__dirname, '..', 'lib'),
+          path.resolve(__dirname, '..', 'testing'),
         ],
       },
       {
@@ -60,7 +61,7 @@ module.exports = {
       react: path.resolve(__dirname, 'node_modules/react'),
       'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
     },
-    extensions: ['', '.js', '.jsx', '.json'],
+    extensions: ['', '.adapter.js', '.js', '.jsx', '.json'],
   },
   resolveLoader: {
     fallback: path.join(__dirname, 'node_modules')

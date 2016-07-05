@@ -7,6 +7,7 @@ import Button from '../Button';
 import filterProps from '../filterProps';
 import Input from '../Input';
 import invariant from 'invariant';
+import Link from '../Link';
 import listenFocusOutside from '../../lib/listenFocusOutside';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
@@ -31,6 +32,17 @@ const PASS_BUTTON_PROPS = {
 
 class Select extends React.Component {
   static propTypes = {
+    defaultValue: PropTypes.any,
+
+    disabled: PropTypes.bool,
+
+    /**
+     * Визуально показать наличие ошибки.
+     */
+    error: PropTypes.bool,
+
+    filterItem: PropTypes.func,
+
     /**
      * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
      * `Array`, `Map`, `Immutable.Map`.
@@ -56,30 +68,9 @@ class Select extends React.Component {
      */
     items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 
-    value: PropTypes.any,
-
-    defaultValue: PropTypes.any,
-
-    disabled: PropTypes.bool,
-
-    /**
-     * Показывать строку поиска в списке.
-     */
-    search: PropTypes.bool,
+    maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     placeholder: PropTypes.node,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    /**
-     * Визуально показать наличие ошибки.
-     */
-    error: PropTypes.bool,
-
-    /**
-     * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
-     */
-    renderValue: PropTypes.func,
 
     /**
      * Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
@@ -87,7 +78,19 @@ class Select extends React.Component {
      */
     renderItem: PropTypes.func,
 
-    filterItem: PropTypes.func,
+    /**
+     * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
+     */
+    renderValue: PropTypes.func,
+
+    /**
+     * Показывать строку поиска в списке.
+     */
+    search: PropTypes.bool,
+
+    value: PropTypes.any.isRequired,
+
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   };
 
   static defaultProps = {
@@ -140,8 +143,15 @@ class Select extends React.Component {
       onKeyDown: this.handleKey,
     };
 
+    const style = {
+      width: this.props.width,
+    };
+    if (this.props.maxWidth) {
+      style.maxWidth = this.props.maxWidth;
+    }
+
     return (
-      <span className={styles.root} style={{width: this.props.width}}>
+      <span className={styles.root} style={style}>
         {this.props._renderButton
           ? this.props._renderButton(buttonParams)
           : this.renderDefaultButton(buttonParams)}
@@ -151,7 +161,11 @@ class Select extends React.Component {
   }
 
   renderDefaultButton(params: ButtonParams) {
-    var buttonProps = {
+    if (this.props.diadocLink) {
+      return this.renderLinkButton(params);
+    }
+
+    const buttonProps = {
       ...filterProps(this.props, PASS_BUTTON_PROPS),
 
       align: 'left',
@@ -182,6 +196,22 @@ class Select extends React.Component {
           </div>
         </span>
       </Button>
+    );
+  }
+
+  renderLinkButton(params: ButtonParams) {
+    const linkProps = {
+      disabled: params.disabled,
+      icon: this.props.diadocLinkIcon,
+      _button: true,
+      _buttonOpened: params.opened,
+
+      onClick: params.onClick,
+      onKeyDown: params.onKeyDown,
+    };
+
+    return (
+      <Link {...linkProps}>{params.label}</Link>
     );
   }
 

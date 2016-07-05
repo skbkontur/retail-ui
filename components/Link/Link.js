@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
 import Icon from '../Icon';
@@ -11,9 +12,9 @@ import styles from './Link.less';
  */
 class Link extends React.Component {
   static propTypes = {
-    href: PropTypes.string,
-
     disabled: PropTypes.bool,
+
+    href: PropTypes.string,
 
     icon: PropTypes.string,
   };
@@ -30,18 +31,31 @@ class Link extends React.Component {
       );
     }
 
-    var props = {
-      className: styles.root,
+    let arrow = null;
+    if (this.props._button) {
+      arrow = <span className={styles.arrow} />;
+    }
+
+    const props = {
+      className: classNames({
+        [styles.root]: true,
+        [styles.disabled]: this.props.disabled,
+        [styles.button]: this.props._button,
+        [styles.buttonOpened]: this.props._buttonOpened,
+      }),
       href: this.props.href,
     };
     if (this.props.disabled) {
-      props.className += ' ' + styles.disabled;
       props.tabIndex = '-1';
     }
-    if (this.props.className) {
-      props.className += ' ' + this.props.className;
-    }
-    return <a {...this.props} {...props}>{icon}{this.props.children}</a>;
+
+    return (
+      <a {...this.props} {...props}>
+        {icon}
+        {this.props.children}
+        {arrow}
+      </a>
+    );
   }
 }
 

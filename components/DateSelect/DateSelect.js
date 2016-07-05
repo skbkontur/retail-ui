@@ -10,11 +10,11 @@ const HEIGHT = 30;
 
 class DateSelect extends React.Component {
   static propTypes = {
-    type: PropTypes.string,
+    maxYear: PropTypes.number,
 
     minYear: PropTypes.number,
 
-    maxYear: PropTypes.number,
+    type: PropTypes.string,
 
     value: PropTypes.number.isRequired,
 

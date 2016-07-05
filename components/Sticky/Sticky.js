@@ -23,23 +23,27 @@ type State = {
 
 export default class Sticky extends React.Component {
 
-  props: Props;
-
   static propTypes = {
-    side: PropTypes.oneOf(['top', 'bottom']).isRequired,
-
-    /**
-     * Отступ от границы в пикселях
-     **/
-    offset: PropTypes.number,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
     /**
      * Функция, которая возвращает DOM-элемент, который нельзя пересекать.
      */
     getStop: PropTypes.func,
 
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    /**
+     * Отступ от границы в пикселях
+     **/
+    offset: PropTypes.number,
+
+    side: PropTypes.oneOf(['top', 'bottom']).isRequired,
   };
+
+  static defaultProps: {offset: number} = {
+    offset: 0,
+  };
+
+  props: Props;
 
   state: State;
 
@@ -50,10 +54,6 @@ export default class Sticky extends React.Component {
   _reflowing: bool = false;
   _lastInnerHeight: number = -1;
   _layoutSubscription: {remove: () => void};
-
-  static defaultProps: {offset: number} = {
-    offset: 0,
-  };
 
   constructor(props: Props, context: any) {
     super(props, context);
@@ -112,13 +112,11 @@ export default class Sticky extends React.Component {
     );
   }
 
-  // $FlowIssue 850
-  _refWrapper = (ref) => {
+  _refWrapper = (ref: HTMLElement) => {
     this._wrapper = ref;
   };
 
-  // $FlowIssue 850
-  _refInner = (ref) => {
+  _refInner = (ref: HTMLElement) => {
     this._inner = ref;
   };
 
@@ -136,7 +134,7 @@ export default class Sticky extends React.Component {
     this._reflow();
   }
 
-  _reflow: Function = () => {
+  _reflow = () => {
     if (this._reflowing) {
       this._scheduled = true;
       return;
@@ -160,7 +158,8 @@ export default class Sticky extends React.Component {
   };
 
   *_doReflow(): Generator<$Shape<State>, void, void> {
-    const windowHeight = window.innerHeight;
+    const windowHeight = window.innerHeight ||
+      document.documentElement.clientHeight;
     const wrapRect = this._wrapper.getBoundingClientRect();
     const wrapLeft = wrapRect.left;
     const wrapTop = wrapRect.top;
