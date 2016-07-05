@@ -21,6 +21,7 @@ class Item extends React.Component {
     className: string;
     iconOnly?: boolean;
     icon?: string;
+    minWidth?: string | number,
     use?: string;
   };
 
@@ -42,6 +43,7 @@ class Item extends React.Component {
       className,
       iconOnly,
       icon,
+      minWidth,
       use,
       ...rest,
     } = this.props;
@@ -57,7 +59,12 @@ class Item extends React.Component {
     }
 
     return (
-      <div {...rest} className={classNames(classes)} onClick={_onClick}>
+      <div
+        {...rest}
+        className={classNames(classes)}
+        onClick={_onClick}
+        style={{minWidth}}
+      >
         {icon && (
           <span className={styles.icon}>
             <CapIcon color="#666" name={icon}/>
@@ -117,6 +124,7 @@ class TopBarDropdown extends React.Component {
       <ButtonItem
         active={params.opened}
         icon={this.props.icon}
+        minWidth={this.props.minWidth}
         tabIndex="0"
         use={this.props.use}
         onClick={params.onClick}
@@ -173,6 +181,107 @@ class User extends React.Component {
   }
 }
 
+class Organizations extends React.Component {
+  state = {
+    captionWhiteSpace: 'normal',
+    minWidth: null,
+  };
+
+  componentDidMount() {
+    this._recalculateWidth();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.caption !== this.props.caption) {
+      this._recalculateWidth();
+    }
+  }
+
+  render() {
+    const {caption, comment} = this.props;
+
+    const title = (
+      <div>
+        <span
+          className={styles.organizationsTitle}
+          style={{
+            paddingRight: this._comment && this._comment.offsetWidth + 30,
+          }}
+        >
+          <span
+            className={styles.organizationsCaption}
+            ref={this._getCaptionRef}
+          >
+            {caption}
+          </span>
+          {comment &&
+            <span
+              className={styles.organizationsComment}
+              ref={this._getCommentRef}
+            >
+              {comment}
+            </span>
+          }
+          <span className={styles.organizationsArrow}>
+            <Icon color="#aaa" size={14} name="angle-bottom"/>
+          </span>
+        </span>
+        <div
+          className={styles.organizationsTitleDummy}
+          style={{whiteSpace: this.state.captionWhiteSpace}}
+        >
+          <span className={styles.organizationsCaption}>
+            {caption}
+          </span>
+          {comment &&
+            <span className={styles.organizationsCommentDummy}>
+              {comment}
+            </span>
+          }
+        </div>
+      </div>
+    );
+
+    return (
+      <TopBarDropdown
+        {...this.props}
+        caption={title}
+        minWidth={this.state.minWidth}
+      >
+        {this.props.children}
+      </TopBarDropdown>
+    );
+  }
+
+  _getCaptionRef = (el) => {
+    this._caption = el;
+  };
+
+  _getCommentRef = (el) => {
+    this._comment = el;
+  };
+
+  _recalculateWidth() {
+    const commentWidth = this._comment
+      ? this._comment.offsetWidth
+      : 0;
+
+    // 360 is minWidth from guides. Apply it when content is bigger.
+    // 315 is because of 15px left padding and 30px arrow.
+    if (this._caption.offsetWidth + commentWidth > 315) {
+      this.setState({
+        captionWhiteSpace: 'normal',
+        minWidth: 360
+      });
+    } else {
+      this.setState({
+        captionWhiteSpace: 'nowrap',
+        minWidth: null
+      });
+    }
+  }
+}
+
 type Props = {
   children?: React.Element<any>,
   leftItems?: React.Element<any>[],
@@ -210,6 +319,7 @@ class TopBar extends React.Component {
   static Divider = Divider;
   static Item = ButtonItem;
   static Dropdown = TopBarDropdown;
+  static OrganizationsDropdown = Organizations;
 
   static defaultProps: DefaultProps = {
     maxWidth: 1166,
