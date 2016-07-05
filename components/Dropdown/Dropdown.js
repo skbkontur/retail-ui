@@ -16,6 +16,9 @@ const PASS_PROPS = {
   warning: true,
   width: true,
   onOpen: true,
+
+  diadocLink: true,
+  diadocLinkIcon: true,
 };
 
 /**

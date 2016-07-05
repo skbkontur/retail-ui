@@ -7,6 +7,7 @@ import Button from '../Button';
 import filterProps from '../filterProps';
 import Input from '../Input';
 import invariant from 'invariant';
+import Link from '../Link';
 import listenFocusOutside from '../../lib/listenFocusOutside';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
@@ -160,7 +161,11 @@ class Select extends React.Component {
   }
 
   renderDefaultButton(params: ButtonParams) {
-    var buttonProps = {
+    if (this.props.diadocLink) {
+      return this.renderLinkButton(params);
+    }
+
+    const buttonProps = {
       ...filterProps(this.props, PASS_BUTTON_PROPS),
 
       align: 'left',
@@ -191,6 +196,22 @@ class Select extends React.Component {
           </div>
         </span>
       </Button>
+    );
+  }
+
+  renderLinkButton(params: ButtonParams) {
+    const linkProps = {
+      disabled: params.disabled,
+      icon: this.props.diadocLinkIcon,
+      _button: true,
+      _buttonOpened: params.opened,
+
+      onClick: params.onClick,
+      onKeyDown: params.onKeyDown,
+    };
+
+    return (
+      <Link {...linkProps}>{params.label}</Link>
     );
   }
 
