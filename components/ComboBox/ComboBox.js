@@ -54,7 +54,10 @@ type Props = {
   warning?: bool,
   value: Value,
   width: (number | string),
-  onChange: (event: {target: {value: Value}}, value: Value) => void,
+
+  onChange?: (event: {target: {value: Value}}, value: Value) => void,
+  onClose?: () => void,
+  onOpen?: () => void,
 
   alkoValueToText: (value: Value) => string,
 };
@@ -139,6 +142,10 @@ class ComboBox extends React.Component {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onChange: PropTypes.func,
+
+    onClose: PropTypes.func,
+
+    onOpen: PropTypes.func,
   };
 
   static defaultProps = {
@@ -339,8 +346,8 @@ class ComboBox extends React.Component {
 
   _handleInputChange = (event: SyntheticEvent) => {
     const pattern = (event.target: any).value;
+    this._open();
     this.setState({
-      opened: true,
       searchText: pattern,
     });
     this._fetchList(pattern);
@@ -358,12 +365,14 @@ class ComboBox extends React.Component {
         break;
       case 'Enter':
         event.preventDefault();
-        this._close(() => {
-          this._focus();
-        });
 
         if (this._menu && !this._menu.enter()) {
           this._tryRecover();
+
+          // Close ComboBox only if Enter wasn't handled by the Menu.
+          this._close(() => {
+            this._focus();
+          });
         }
         break;
       case 'Escape':
@@ -375,8 +384,8 @@ class ComboBox extends React.Component {
   };
 
   _handleValueClick = () => {
+    this._open();
     this.setState({
-      opened: true,
       searchText: '',
       result: null,
     });
@@ -389,9 +398,9 @@ class ComboBox extends React.Component {
     // Prevent current char from being appended to the input element (chrome).
     event.preventDefault();
     const str = String.fromCharCode(event.charCode);
+    this._open();
     this.setState(
       {
-        opened: true,
         searchText: str,
       },
       () => {
@@ -410,8 +419,8 @@ class ComboBox extends React.Component {
       case 'ArrowUp':
       case 'ArrowDown':
         event.preventDefault();
+        this._open();
         this.setState({
-          opened: true,
           searchText: '',
         }, () => {
           this._focus();
@@ -533,11 +542,23 @@ class ComboBox extends React.Component {
     }
   }
 
+  _open() {
+    this.setState({
+      opened: true,
+    });
+    if (this.props.onOpen) {
+      this.props.onOpen.call(null);
+    }
+  }
+
   _close(callback: any) {
     this.setState({
       opened: false,
       result: null,
     }, callback);
+    if (this.props.onClose) {
+      this.props.onClose.call(null);
+    }
   }
 
   _findInfoByValue(value: Value): ?Info {
