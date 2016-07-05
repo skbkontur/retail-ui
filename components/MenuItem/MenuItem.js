@@ -1,12 +1,33 @@
 // @flow
 
 import classNames from 'classnames';
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import styles from './MenuItem.less';
 
+/**
+ * Элемент меню.
+ */
 export default class MenuItem extends React.Component {
   static __MENU_ITEM__ = true;
+
+  static propTypes = {
+    comment: PropTypes.string,
+
+    disabled: PropTypes.bool,
+
+    href: PropTypes.string,
+
+    /** internal */
+    loose: PropTypes.bool,
+
+    /** internal */
+    state: PropTypes.string,
+
+    target: PropTypes.string,
+
+    onClick: PropTypes.func,
+  }
 
   props: {
     comment?: string,

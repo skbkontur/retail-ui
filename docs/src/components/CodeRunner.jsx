@@ -7,6 +7,7 @@ import components from '../components';
 import styles from './CodeRunner.less';
 
 function run(src, mountNode) {
+  ReactDOM.unmountComponentAtNode(mountNode);
   try {
     evalCode(src, mountNode);
   } catch (ex) {
