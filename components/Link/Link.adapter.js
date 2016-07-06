@@ -1,20 +1,16 @@
 /* @flow */
 
-import ReactDOM from 'react-dom';
-
 import Link from './Link.js';
 
-class LinkAdapter {
-  _link: Link;
+const LinkAdapter = {
+  click(inst) {
+    inst.props.onClick();
+  },
 
-  constructor(link) {
-    this._link = link;
-  }
-
-  click() {
-    ReactDOM.findDOMNode(this._link).click();
-  }
-}
+  isDisabled(inst) {
+    return !!inst.props.disabled;
+  },
+};
 
 Link.__ADAPTER__ = LinkAdapter;
 

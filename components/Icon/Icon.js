@@ -150,6 +150,7 @@ var MAP = {
   'doc-revise': '\ue07f',
   'doc-new': '\ue025',
   'doc-duplicate': '\ue026',
+  'doc-convert': '\ue0b9',
   folder: '\ue028',
   'doc-doc': '\ue031',
   'doc-rtf': '\ue064',
@@ -179,14 +180,14 @@ var MAP = {
 
 class Icon extends React.Component {
   static propTypes = {
+    color: PropTypes.string,
+
     /**
      * Icon id.
      */
     name: PropTypes.oneOf(Object.keys(MAP)),
 
     size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    color: PropTypes.string,
   };
 
   static getAllNames = function() {

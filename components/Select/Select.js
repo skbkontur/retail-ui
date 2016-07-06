@@ -7,6 +7,7 @@ import Button from '../Button';
 import filterProps from '../filterProps';
 import Input from '../Input';
 import invariant from 'invariant';
+import Link from '../Link';
 import listenFocusOutside from '../../lib/listenFocusOutside';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
@@ -31,6 +32,17 @@ const PASS_BUTTON_PROPS = {
 
 class Select extends React.Component {
   static propTypes = {
+    defaultValue: PropTypes.any,
+
+    disabled: PropTypes.bool,
+
+    /**
+     * Визуально показать наличие ошибки.
+     */
+    error: PropTypes.bool,
+
+    filterItem: PropTypes.func,
+
     /**
      * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
      * `Array`, `Map`, `Immutable.Map`.
@@ -56,30 +68,9 @@ class Select extends React.Component {
      */
     items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 
-    value: PropTypes.any,
-
-    defaultValue: PropTypes.any,
-
-    disabled: PropTypes.bool,
-
-    /**
-     * Показывать строку поиска в списке.
-     */
-    search: PropTypes.bool,
+    maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     placeholder: PropTypes.node,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    /**
-     * Визуально показать наличие ошибки.
-     */
-    error: PropTypes.bool,
-
-    /**
-     * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
-     */
-    renderValue: PropTypes.func,
 
     /**
      * Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
@@ -87,7 +78,19 @@ class Select extends React.Component {
      */
     renderItem: PropTypes.func,
 
-    filterItem: PropTypes.func,
+    /**
+     * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
+     */
+    renderValue: PropTypes.func,
+
+    /**
+     * Показывать строку поиска в списке.
+     */
+    search: PropTypes.bool,
+
+    value: PropTypes.any.isRequired,
+
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   };
 
   static defaultProps = {
@@ -114,12 +117,11 @@ class Select extends React.Component {
       value: props.defaultValue,
     };
 
-    this._menuContainer = null;
     this._focusSubscribtion = null;
   }
 
   render() {
-    var value = this.getValue_();
+    var value = this._getValue();
 
     var label;
     if (value != null) {
@@ -136,12 +138,19 @@ class Select extends React.Component {
     const buttonParams = {
       opened: this.state.opened,
       label,
-      onClick: this.open_,
+      onClick: this._toggle,
       onKeyDown: this.handleKey,
     };
 
+    const style = {
+      width: this.props.width,
+    };
+    if (this.props.maxWidth) {
+      style.maxWidth = this.props.maxWidth;
+    }
+
     return (
-      <span className={styles.root} style={{width: this.props.width}}>
+      <span className={styles.root} style={style}>
         {this.props._renderButton
           ? this.props._renderButton(buttonParams)
           : this.renderDefaultButton(buttonParams)}
@@ -151,7 +160,11 @@ class Select extends React.Component {
   }
 
   renderDefaultButton(params: ButtonParams) {
-    var buttonProps = {
+    if (this.props.diadocLink) {
+      return this.renderLinkButton(params);
+    }
+
+    const buttonProps = {
       ...filterProps(this.props, PASS_BUTTON_PROPS),
 
       align: 'left',
@@ -185,6 +198,22 @@ class Select extends React.Component {
     );
   }
 
+  renderLinkButton(params: ButtonParams) {
+    const linkProps = {
+      disabled: params.disabled,
+      icon: this.props.diadocLinkIcon,
+      _button: true,
+      _buttonOpened: params.opened,
+
+      onClick: params.onClick,
+      onKeyDown: params.onKeyDown,
+    };
+
+    return (
+      <Link {...linkProps}>{params.label}</Link>
+    );
+  }
+
   renderMenu() {
     var search = null;
     if (this.props.search) {
@@ -197,7 +226,7 @@ class Select extends React.Component {
       );
     }
 
-    var value = this.getValue_();
+    var value = this._getValue();
     var dropClassName = classNames({
       [styles.drop]: true,
       [styles.dropAlignRight]: this.props.menuAlign === 'right',
@@ -210,7 +239,7 @@ class Select extends React.Component {
             <Menu
               ref={this._refMenu}
               width={this.props.menuWidth}
-              onItemClick={this.close_}
+              onItemClick={this._close}
             >
               {search}
               {this.mapItems((iValue, item, i) => {
@@ -224,7 +253,7 @@ class Select extends React.Component {
                 return (
                   <MenuItem key={i}
                     state={iValue === value ? 'selected' : null}
-                    onClick={this.select_.bind(this, iValue)}
+                    onClick={this._select.bind(this, iValue)}
                   >
                     {this.props.renderItem(iValue, item)}
                   </MenuItem>
@@ -239,8 +268,6 @@ class Select extends React.Component {
   }
 
   _refMenuContainer = (el) => {
-    this._menuContainer = el;
-
     if (this._focusSubscribtion) {
       this._focusSubscribtion.remove();
       this._focusSubscribtion = null;
@@ -252,7 +279,7 @@ class Select extends React.Component {
 
     if (el) {
       this._focusSubscribtion = listenFocusOutside(
-        [ReactDOM.findDOMNode(this)], this.close_
+        [ReactDOM.findDOMNode(this)], this._close
       );
 
       events.addEventListener(
@@ -269,17 +296,25 @@ class Select extends React.Component {
    * @api
    */
   open() {
-    this.open_();
+    this._open();
   }
 
   _handleNativeDocClick = (event) => {
     const target = event.target || event.srcElement;
-    if (this._menuContainer && !this._menuContainer.contains(target)) {
-      this.close_();
+    if (!ReactDOM.findDOMNode(this).contains(target)) {
+      this._close();
     }
   };
 
-  open_ = () => {
+  _toggle = () => {
+    if (this.state.opened) {
+      this._close();
+    } else {
+      this._open();
+    }
+  };
+
+  _open = () => {
     if (!this.state.opened) {
       this.setState({opened: true});
 
@@ -288,7 +323,7 @@ class Select extends React.Component {
     }
   };
 
-  close_ = () => {
+  _close = () => {
     if (this.state.opened) {
       this.setState({opened: false});
     }
@@ -299,7 +334,7 @@ class Select extends React.Component {
     if (!this.state.opened) {
       if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
         e.preventDefault();
-        this.open_();
+        this._open();
       }
     } else {
       if (key === 'Escape') {
@@ -323,7 +358,7 @@ class Select extends React.Component {
     this.setState({searchPattern: event.target.value});
   };
 
-  select_(value) {
+  _select(value) {
     this.setState({
       opened: false,
       value,
@@ -337,7 +372,7 @@ class Select extends React.Component {
     }
   }
 
-  getValue_() {
+  _getValue() {
     if (this.props.value !== undefined) {
       return this.props.value;
     }

@@ -1,28 +1,21 @@
+import {mount} from 'enzyme';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
 
 import Button from '../Button.js';
 
 describe('Button', function() {
   it('has correct label', function() {
-    const button = TestUtils.renderIntoDocument(
-      <Button>Foo</Button>
-    );
-    const buttonNode = ReactDOM.findDOMNode(button);
+    const wrapper = mount(<Button>Foo</Button>);
 
-    expect(buttonNode.textContent).toBe('Foo');
+    expect(wrapper.text()).toBe('Foo');
   });
 
   it('handles click event', function() {
-    const handler = jest.genMockFn();
-    const button = TestUtils.renderIntoDocument(
-      <Button onClick={handler} />
-    );
-    const buttonNode = ReactDOM.findDOMNode(button);
+    const onClick = jest.fn();
+    const wrapper = mount(<Button onClick={onClick} />);
 
-    TestUtils.Simulate.click(buttonNode);
+    wrapper.find('button').simulate('click');
 
-    expect(handler.mock.calls.length).toBe(1);
+    expect(onClick.mock.calls.length).toBe(1);
   });
 });

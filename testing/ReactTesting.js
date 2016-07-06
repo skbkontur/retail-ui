@@ -1,3 +1,5 @@
+import * as Lookup from './Lookup';
+
 import ReactDOM from 'react-dom';
 
 const PASS_TO_KEY = Symbol('passTo');
@@ -45,58 +47,15 @@ function removeRenderContainer(id) {
 }
 
 function findDOMNodes(path, parentNode = document.body) {
-  return _findDOMNodes(path.split(' '), [parentNode]);
-}
-
-function _findDOMNodes(tokens, parentNodes) {
-  if (tokens.length === 0) {
-    return parentNodes;
-  }
-
-  const token = tokens[0];
-  return parentNodes.reduce((all, parentNode) => {
-    return [
-      ...all,
-      ..._findDOMNodes(tokens.slice(1), queryByTid(parentNode, token)),
-      ..._findDOMNodes(tokens, queryContainers(parentNode)),
-    ];
-  }, []);
-}
-
-function queryByTid(node, tid) {
-  const ret = [];
-
-  if (node.getAttribute('tid') === tid) {
-    ret.push(node);
-  }
-
-  ret.push(...node.querySelectorAll(`[tid="${tid}"]`));
-
-  return ret;
-}
-
-function queryContainers(node) {
-  const links = node.querySelectorAll('[data-render-container-id]');
-  return Array.from(links).map(link => {
-    const id = link.getAttribute(DATA_RENDER_CONTAINER_ID);
-    return renderContainers[id]._domContainer;
+  return Lookup.findAll(path).map(element => {
+    const node = element.node;
+    node.lookupElement = element;
+    return node;
   });
 }
 
 function call(node, method, args = []) {
-  const item = map[node.getAttribute('react-testing-id')];
-  if (item) {
-    let el = item.el;
-    while (el[PASS_TO_KEY]) {
-      el = el[PASS_TO_KEY];
-    }
-    if (el.constructor && el.constructor.__ADAPTER__) {
-      const adapter = new el.constructor.__ADAPTER__(el);
-      return adapter[method](...args);
-    }
-  }
-
-  throw new Error(`Failed to call method ${method}.`);
+  return Lookup.getAdapter(node.lookupElement)[method](...args);
 }
 
 export default {

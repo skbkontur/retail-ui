@@ -13,6 +13,7 @@ const INPUT_PASS_PROPS = {
   disabled: true,
   error: true,
 
+  onInput: true,
   onKeyDown: true,
   onKeyPress: true,
   onKeyUp: true,
@@ -25,16 +26,16 @@ class DatePicker extends React.Component {
     error: PropTypes.bool,
 
     /**
-     * Минимальный год в селекте для года.
-     */
-    minYear: PropTypes.number,
-
-    /**
      * Максимальный год в селекте для года.
      */
     maxYear: PropTypes.number,
 
-    value: PropTypes.instanceOf(Date),
+    /**
+     * Минимальный год в селекте для года.
+     */
+    minYear: PropTypes.number,
+
+    value: PropTypes.instanceOf(Date).isRequired,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
@@ -43,6 +44,8 @@ class DatePicker extends React.Component {
     onChange: PropTypes.func,
 
     onFocus: PropTypes.func,
+
+    onInput: PropTypes.func,
 
     onKeyDown: PropTypes.func,
 

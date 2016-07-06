@@ -1,13 +1,14 @@
-const {Item, Divider} = TopBar;
+var Item = TopBar.Item;
+var Divider = TopBar.Divider;
 
-const pageStyle = {
+var pageStyle = {
   background: '#e6e6e6',
   height: 400,
   border: '1px solid #dedfdf',
   overflow: 'hidden',
 };
 
-const contentStyle = {
+var contentStyle = {
   background: 'white',
     padding: 15,
     height: 280,

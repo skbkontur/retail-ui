@@ -14,7 +14,7 @@
 
   .hover {
     background: @dropdown-menu-hover-bg;
-    color: @text-color-invert;
+    color: @text-color-invert !important; // To override `a:hover`.
   }
 
   .loose {
@@ -23,6 +23,12 @@
 
   .selected {
     background: @dropdown-menu-selected-bg;
+  }
+
+  .disabled {
+    background: transparent;
+    color: @text-color-disabled;
+    cursor: default;
   }
 
   .comment {

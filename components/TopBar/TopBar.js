@@ -1,14 +1,40 @@
+// @flow
+
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
+import events from 'add-event-listener';
 
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
+import CapIcon from '../Icon/20px';
 import Logotype from '../Logotype';
 import MenuItem from '../MenuItem';
+import stopPropagation from '../../lib/events/stopPropagation';
 
 import styles from './TopBar.less';
 
 class Item extends React.Component {
+  props: {
+    active?: boolean;
+    children?: React.Element<any>;
+    _onClick?: (e: SyntheticMouseEvent) => void;
+    className: string;
+    iconOnly?: boolean;
+    icon?: string;
+    minWidth?: string | number,
+    use?: string;
+  };
+
+  static propTypes = {
+    use: PropTypes.oneOf([
+      'pay',
+    ]),
+  };
+
+  static defaultProps = {
+    className: '',
+  };
+
   render() {
     const {
       active,
@@ -17,23 +43,31 @@ class Item extends React.Component {
       className,
       iconOnly,
       icon,
+      minWidth,
+      use,
       ...rest,
     } = this.props;
+
+    const classes = {
+      [styles.item]: true,
+      [styles.buttonActive]: active,
+      [className]: true,
+      [styles.iconOnly]: iconOnly,
+    };
+    if (use) {
+      classes['use-' + use] = true;
+    }
 
     return (
       <div
         {...rest}
-        className={classNames({
-          [styles.item]: true,
-          [styles.buttonActive]: active,
-          [className]: true,
-          [styles.iconOnly]: iconOnly,
-        })}
+        className={classNames(classes)}
         onClick={_onClick}
+        style={{minWidth}}
       >
         {icon && (
           <span className={styles.icon}>
-            <Icon color="#666" name={icon} size="20"/>
+            <CapIcon color="#666" name={icon}/>
           </span>
         )}
         {children}
@@ -71,6 +105,8 @@ class Logo extends React.Component {
 }
 
 class TopBarDropdown extends React.Component {
+  _dropdown: Dropdown;
+
   render() {
     return (
       <Dropdown
@@ -88,7 +124,9 @@ class TopBarDropdown extends React.Component {
       <ButtonItem
         active={params.opened}
         icon={this.props.icon}
+        minWidth={this.props.minWidth}
         tabIndex="0"
+        use={this.props.use}
         onClick={params.onClick}
         onKeyDown={params.onKeyDown}
       >
@@ -143,8 +181,111 @@ class User extends React.Component {
   }
 }
 
+class Organizations extends React.Component {
+  state = {
+    captionWhiteSpace: 'normal',
+    minWidth: null,
+  };
+
+  componentDidMount() {
+    this._recalculateWidth();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.caption !== this.props.caption) {
+      this._recalculateWidth();
+    }
+  }
+
+  render() {
+    const {caption, comment} = this.props;
+
+    const title = (
+      <div>
+        <span
+          className={styles.organizationsTitle}
+          style={{
+            paddingRight: this._comment && this._comment.offsetWidth + 30,
+          }}
+        >
+          <span
+            className={styles.organizationsCaption}
+            ref={this._getCaptionRef}
+          >
+            {caption}
+          </span>
+          {comment &&
+            <span
+              className={styles.organizationsComment}
+              ref={this._getCommentRef}
+            >
+              {comment}
+            </span>
+          }
+          <span className={styles.organizationsArrow}>
+            <Icon color="#aaa" size={14} name="angle-bottom"/>
+          </span>
+        </span>
+        <div
+          className={styles.organizationsTitleDummy}
+          style={{whiteSpace: this.state.captionWhiteSpace}}
+        >
+          <span className={styles.organizationsCaption}>
+            {caption}
+          </span>
+          {comment &&
+            <span className={styles.organizationsCommentDummy}>
+              {comment}
+            </span>
+          }
+        </div>
+      </div>
+    );
+
+    return (
+      <TopBarDropdown
+        {...this.props}
+        caption={title}
+        minWidth={this.state.minWidth}
+      >
+        {this.props.children}
+      </TopBarDropdown>
+    );
+  }
+
+  _getCaptionRef = (el) => {
+    this._caption = el;
+  };
+
+  _getCommentRef = (el) => {
+    this._comment = el;
+  };
+
+  _recalculateWidth() {
+    const commentWidth = this._comment
+      ? this._comment.offsetWidth
+      : 0;
+
+    // 360 is minWidth from guides. Apply it when content is bigger.
+    // 315 is because of 15px left padding and 30px arrow.
+    if (this._caption.offsetWidth + commentWidth > 315) {
+      this.setState({
+        captionWhiteSpace: 'normal',
+        minWidth: 360
+      });
+    } else {
+      this.setState({
+        captionWhiteSpace: 'nowrap',
+        minWidth: null
+      });
+    }
+  }
+}
+
 type Props = {
-  children?: React.Component | React.Component[] | string | string[],
+  children?: React.Element<any>,
+  leftItems?: React.Element<any>[],
+  rightItems?: React.Element<any>[],
   maxWidth?: string | number,
   noShadow?: boolean,
   noMargin?: boolean,
@@ -173,9 +314,12 @@ class TopBar extends React.Component {
 
   props: Props;
 
+  _logoWrapper: HTMLElement;
+
   static Divider = Divider;
   static Item = ButtonItem;
   static Dropdown = TopBarDropdown;
+  static OrganizationsDropdown = Organizations;
 
   static defaultProps: DefaultProps = {
     maxWidth: 1166,
@@ -205,34 +349,33 @@ class TopBar extends React.Component {
       >
         <div className={styles.center} style={{maxWidth}}>
           <div className={styles.container}>
-            <div className={styles.left}>
-              <div id="spwDropdown" className={styles.spwDropdown}>
-                <span ref={this._refLogoWrapper}>
-                  <Logo suffix={suffix} color={color}/>
-                  <Divider />
-                </span>
-                <ButtonItem iconOnly>
-                  <Icon color="#aaa" size={20} name="angle-bottom"/>
-                </ButtonItem>
-              </div>
-              {this._renderItems(leftItems)}
-            </div>
-
-            <div className={styles.right}>
-              {this._renderItems(rightItems)}
-              <User userName={userName}/>
-              <Divider />
-              <ButtonItem onClick={onLogout}>
-                Выйти
+            <div id="spwDropdown" className={styles.spwDropdown}>
+              <span ref={this._refLogoWrapper}>
+                <Logo suffix={suffix} color={color}/>
+                <Divider />
+              </span>
+              <ButtonItem iconOnly>
+                <Icon color="#aaa" size={20} name="angle-bottom"/>
               </ButtonItem>
             </div>
+            <div className={styles.leftItems}>
+              {this._renderLeftItems(leftItems)}
+            </div>
+            {this._renderRightItems([
+              ...rightItems || [],
+              <User userName={userName}/>,
+              <Divider />,
+              <ButtonItem onClick={onLogout}>
+                Выйти
+              </ButtonItem>,
+            ])}
           </div>
         </div>
       </div>
     );
   }
 
-  _renderItems(items) {
+  _renderLeftItems(items: ?Array<React.Element<any>>) {
     if (!items) {
       return null;
     }
@@ -247,8 +390,28 @@ class TopBar extends React.Component {
     });
   }
 
+  _renderRightItems(items: ?Array<React.Element<any>>) {
+    if (!items) {
+      return null;
+    }
+
+    return items.map((item, i) => {
+      return (
+        <span className={styles.rightItem} key={'$topbar_' + i}>
+          {item}
+        </span>
+      );
+    });
+  }
+
   componentDidMount() {
+    let calledLoad = false;
     const loadWidget = () => {
+      if (calledLoad) {
+        return;
+      }
+      calledLoad = true;
+
       const script = document.createElement('script');
       script.src = 'https://widget-product.kontur.ru/widget/loader?' +
         'product=&type=service';
@@ -260,28 +423,34 @@ class TopBar extends React.Component {
     } else {
       const jquery = document.createElement('script');
       jquery.onload = loadWidget;
-      jquery.src = 'https://code.jquery.com/jquery-2.2.2.min.js';
+      jquery.onreadystatechange = function() {
+        if (this.readyState === 'loaded' || this.readyState === 'complete') {
+          loadWidget();
+        }
+      };
+      jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
       document.getElementsByTagName('head')[0].appendChild(jquery);
     }
   }
 
-  _refLogoWrapper = el => {
+  _refLogoWrapper = (el: HTMLElement) => {
     if (this._logoWrapper) {
-      this._logoWrapper.removeEventListener(
+      events.removeEventListener(
+        this._logoWrapper,
         'click',
         this._handleNativeLogoClick
       );
     }
 
     if (el) {
-      el.addEventListener('click', this._handleNativeLogoClick);
+      events.addEventListener(el, 'click', this._handleNativeLogoClick);
     }
 
     this._logoWrapper = el;
   };
 
-  _handleNativeLogoClick = event => {
-    event.stopPropagation();
+  _handleNativeLogoClick = (event: Event) => {
+    stopPropagation(event);
   };
 }
 

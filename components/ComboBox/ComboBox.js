@@ -52,9 +52,12 @@ type Props = {
   renderValue: (value: Value, info: ?Info) => React.Element<any>,
   source: (searchText: string) => Promise<SourceResult>,
   warning?: bool,
-  value: ?Value,
+  value: Value,
   width: (number | string),
-  onChange: (event: {target: {value: Value}}, value: Value) => void,
+
+  onChange?: (event: {target: {value: Value}}, value: Value) => void,
+  onClose?: () => void,
+  onOpen?: () => void,
 
   alkoValueToText: (value: Value) => string,
 };
@@ -129,7 +132,7 @@ class ComboBox extends React.Component {
 
     source: PropTypes.func.isRequired,
 
-    value: PropTypes.any,
+    value: PropTypes.any.isRequired,
 
     /**
      * Визуально показать наличие предупреждения.
@@ -139,6 +142,10 @@ class ComboBox extends React.Component {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onChange: PropTypes.func,
+
+    onClose: PropTypes.func,
+
+    onOpen: PropTypes.func,
   };
 
   static defaultProps = {
@@ -258,18 +265,17 @@ class ComboBox extends React.Component {
           {mapResult(result, (value, info, i) => {
             if (typeof value === 'function' || React.isValidElement(value)) {
               const element = typeof value === 'function' ? value() : value;
-              const elementValue = element.props.value;
               return React.cloneElement(
                 element,
                 {
                   key: i,
-                  onClick: this._handleItemClick.bind(this, elementValue, info),
+                  onClick: this._handleItemClick.bind(this, element.props),
                 },
               );
             }
             return (
               <MenuItem key={i}
-                onClick={this._handleItemClick.bind(this, value, info)}
+                onClick={this._handleItemClick.bind(this, {value, info})}
               >
                 {this.props.renderItem(value, info)}
               </MenuItem>
@@ -305,11 +311,11 @@ class ComboBox extends React.Component {
     }
   }
 
-  _refFocusable: Function = (el: ?HTMLInputElement) => {
+  _refFocusable = (el: ?HTMLInputElement) => {
     this._focusable = el && (el.focus ? el : ReactDOM.findDOMNode(el));
   };
 
-  _refMenuHolder: Function = (menuHolder: any) => {
+  _refMenuHolder = (menuHolder: any) => {
     if (this._focusSubscribtion) {
       this._focusSubscribtion.remove();
       this._focusSubscribtion = null;
@@ -334,20 +340,20 @@ class ComboBox extends React.Component {
     }
   };
 
-  _refMenu: Function = (menu: Menu) => {
+  _refMenu = (menu: Menu) => {
     this._menu = menu;
   };
 
-  _handleInputChange: Function = (event: any) => {
-    const pattern = event.target.value;
+  _handleInputChange = (event: SyntheticEvent) => {
+    const pattern = (event.target: any).value;
+    this._open();
     this.setState({
-      opened: true,
       searchText: pattern,
     });
     this._fetchList(pattern);
   };
 
-  _handleInputKey: Function = (event) => {
+  _handleInputKey = (event: SyntheticKeyboardEvent) => {
     switch (event.key) {
       case 'ArrowUp':
         event.preventDefault();
@@ -359,12 +365,14 @@ class ComboBox extends React.Component {
         break;
       case 'Enter':
         event.preventDefault();
-        this._close(() => {
-          this._focus();
-        });
 
         if (this._menu && !this._menu.enter()) {
           this._tryRecover();
+
+          // Close ComboBox only if Enter wasn't handled by the Menu.
+          this._close(() => {
+            this._focus();
+          });
         }
         break;
       case 'Escape':
@@ -375,9 +383,9 @@ class ComboBox extends React.Component {
     }
   };
 
-  _handleValueClick: Function = () => {
+  _handleValueClick = () => {
+    this._open();
     this.setState({
-      opened: true,
       searchText: '',
       result: null,
     });
@@ -386,13 +394,13 @@ class ComboBox extends React.Component {
     this._fetchList('');
   };
 
-  _handleValueKeyPress: Function = (event) => {
+  _handleValueKeyPress = (event: SyntheticKeyboardEvent) => {
     // Prevent current char from being appended to the input element (chrome).
     event.preventDefault();
     const str = String.fromCharCode(event.charCode);
+    this._open();
     this.setState(
       {
-        opened: true,
         searchText: str,
       },
       () => {
@@ -404,15 +412,15 @@ class ComboBox extends React.Component {
     this._fetchList(str);
   };
 
-  _handleValueKey: Function = (event) => {
+  _handleValueKey = (event: SyntheticKeyboardEvent) => {
     switch (event.key) {
       case ' ':
       case 'Enter':
       case 'ArrowUp':
       case 'ArrowDown':
         event.preventDefault();
+        this._open();
         this.setState({
-          opened: true,
           searchText: '',
         }, () => {
           this._focus();
@@ -423,24 +431,31 @@ class ComboBox extends React.Component {
     }
   };
 
-  _handleItemClick(value: Value, info: Info) {
+  _handleItemClick(
+    options: {value?: Value, info?: Info, onClick?: () => void}
+  ) {
     this._close();
-    this._change(value, info);
+    this._change(options.value, options.info);
     this._focusAsync();
+
+    if (options.onClick) {
+      const onClick = options.onClick;
+      onClick();
+    }
   }
 
-  _handleArrowMouseDown: Function = (event) => {
+  _handleArrowMouseDown = (event: SyntheticMouseEvent) => {
     event.preventDefault();
   };
 
-  _handleArrowClick: Function = (event) => {
+  _handleArrowClick = (event: SyntheticMouseEvent) => {
     if (!this.state.opened) {
       this._handleValueClick();
     }
   };
 
-  _handleNativeDocClick: Function = (event) => {
-    const target: Element = event.target || event.srcElement;
+  _handleNativeDocClick = (event: MouseEvent) => {
+    const target: Element = (event.target: any) || event.srcElement;
 
     const thisDOM: Element = ReactDOM.findDOMNode(this);
     const menuDOM: ?Element = this._menu && ReactDOM.findDOMNode(this._menu);
@@ -492,7 +507,7 @@ class ComboBox extends React.Component {
     });
   }
 
-  _focus: Function = () => {
+  _focus = () => {
     if (this._focusable) {
       this._focusable.focus();
     }
@@ -527,11 +542,23 @@ class ComboBox extends React.Component {
     }
   }
 
+  _open() {
+    this.setState({
+      opened: true,
+    });
+    if (this.props.onOpen) {
+      this.props.onOpen.call(null);
+    }
+  }
+
   _close(callback: any) {
     this.setState({
       opened: false,
       result: null,
     }, callback);
+    if (this.props.onClose) {
+      this.props.onClose.call(null);
+    }
   }
 
   _findInfoByValue(value: Value): ?Info {

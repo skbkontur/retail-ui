@@ -41,9 +41,27 @@
     box-shadow: 0 0 0 1px @border-color-focus;
   }
 
+  .warning .box {
+    border-color: @border-color-warning;
+    box-shadow: 0 0 0 1px @border-color-warning;
+  }
+
+  .error .box {
+    border-color: @border-color-error;
+    box-shadow: 0 0 0 1px @border-color-error;
+  }
+
   :global(.rt-ie8) {
     .isFocused .box {
       outline: 1px solid @border-color-focus;
+    }
+
+    .warning .box {
+      outline: 1px solid @border-color-warning;
+    }
+
+    .error .box {
+      outline: 1px solid @border-color-error;
     }
   }
 

@@ -57,9 +57,9 @@ var PropsDoc = React.createClass({
                 </div>
                 {prop.description && (
                   <div className={propDescClassName}
-                    dangerouslySetInnerHTML={
-                      {__html: prop.description.description}
-                    }
+                    dangerouslySetInnerHTML={{
+                      __html: prop.description.description,
+                    }}
                   />
                 )}
               </div>
@@ -76,6 +76,30 @@ var PropsDoc = React.createClass({
                   className={classNames(styles.prop, (i % 2) && styles.propOdd)}
                 >
                   {this._renderMethod(method)}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {info.adapterProps && (
+          <div>
+            <div className={styles.title}>Adapter</div>
+            <div>
+              {info.adapterProps.map((prop, i) => (
+                <div key={i}
+                  className={classNames(styles.prop, (i % 2) && styles.propOdd)}
+                >
+                  <div className={styles.propTitle}>
+                    <span className={styles.propName}>
+                      {prop.name}
+                    </span>
+                    <span className={styles.propTypeColon}>:</span>
+                    <span className={styles.propType}>
+                      {prop.args.join(', ')}
+                    </span>
+                  </div>
+                  <div className={styles.propDesc}>{prop.desc}</div>
                 </div>
               ))}
             </div>

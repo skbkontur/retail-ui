@@ -35,6 +35,10 @@ class Button extends React.Component {
 
     loading: PropTypes.bool,
 
+    narrow: PropTypes.bool,
+
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
+
     /**
      * Вариант использования. Влияет на цвет кнопки.
      */
@@ -45,10 +49,6 @@ class Button extends React.Component {
       'danger',
       'pay',
     ]),
-
-    narrow: PropTypes.bool,
-
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
@@ -66,7 +66,7 @@ class Button extends React.Component {
 
   render() {
     const {corners = 0} = this.props;
-    const radius = '3px';
+    const radius = '2px';
 
     var rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
@@ -77,10 +77,7 @@ class Button extends React.Component {
         [styles.root]: true,
         [styles['use-' + this.props.use]]: true,
         [styles.active]: this.props.active,
-        [styles.disabled]: this.props.disabled,
-        [styles.loading]: this.props.loading,
-        [styles.error]: this.props.error,
-        [styles.warning]: this.props.warning,
+        [styles.disabled]: this.props.disabled || this.props.loading,
         [styles.narrow]: this.props.narrow,
         [styles.noPadding]: this.props._noPadding,
 
@@ -103,14 +100,28 @@ class Button extends React.Component {
       rootProps.style.width = this.props.width;
     }
 
-    if (this.props.focus)
-      rootProps.ref=domButton=>{this.domButton = domButton;};
+    let error = null;
+    if (this.props.error) {
+      error = <div className={styles.error} />;
+    } else if (this.props.warning) {
+      error = <div className={styles.warning} />;
+    }
+
+    let loading = null;
+    if (this.props.loading) {
+      loading = <div className={styles.loading} />;
+    }
+
     return (
-      <button {...rootProps}>
-        <div className={styles.caption}>
-          {this.props.children}
-        </div>
-      </button>
+      <span className={styles.wrap}>
+        <button {...rootProps}>
+          {loading}
+          <div className={styles.caption}>
+            {this.props.children}
+          </div>
+          {error}
+        </button>
+      </span>
     );
   }
 

@@ -76,18 +76,18 @@ export default class Menu extends React.Component {
     this.setState({highlightedIndex: -1});
   }
 
-  _refScrollContainer: Function = scrollContainer => {
+  _refScrollContainer = (scrollContainer: ?ScrollContainer) => {
     this._scrollContainer = scrollContainer;
   };
 
-  _refHighlighted: Function = menuItem => {
+  _refHighlighted = (menuItem: any) => {
     this._highlighted = menuItem;
 
     const originalRef = this._highlightedItemRef;
     originalRef && originalRef(menuItem);
   };
 
-  _scrollToSelected: Function = () => {
+  _scrollToSelected = () => {
     this._scrollContainer.scrollTo(ReactDOM.findDOMNode(this._highlighted));
   };
 
@@ -112,7 +112,7 @@ export default class Menu extends React.Component {
     this.setState({highlightedIndex: index});
   }
 
-  _unhighlight: Function = () => {
+  _unhighlight = () => {
     this.setState({highlightedIndex: -1});
   };
 
@@ -136,7 +136,7 @@ export default class Menu extends React.Component {
   }
 
   _canSelect(element: ?React.Element<any>) {
-    return element && element.type.__MENU_ITEM__;
+    return element && element.type.__MENU_ITEM__ && !element.props.disabled;
   }
 }
 

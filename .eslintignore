@@ -1,2 +1,4 @@
+testing/react-devtools/
+
 # We use React and components without importing them.
 docs/src/snippets/

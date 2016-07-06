@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import events from 'add-event-listener';
 import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 
 import addClass from '../../lib/dom/addClass';
 import Center from '../Center';
@@ -37,6 +38,8 @@ class Modal extends React.Component {
     rt_inModal: PropTypes.bool,
   };
 
+  _centerDOM: ?HTMLElement = null;
+
   getChildContext() {
     return {rt_inModal: true};
   }
@@ -55,7 +58,7 @@ class Modal extends React.Component {
 
     let hasHeader = false;
     const children = React.Children.map(this.props.children, child => {
-      if (child.type === Header) {
+      if (child && child.type === Header) {
         hasHeader = true;
         return React.cloneElement(child, {close});
       }
@@ -70,9 +73,10 @@ class Modal extends React.Component {
       <RenderContainer>
         <div className={styles.root}>
           <div className={styles.bg} />
-          <Center className={styles.container}
+          <Center
+            ref={this._refCenter}
+            className={styles.container}
             onClick={this._handleContainerClick}
-            onScroll={() => LayoutEvents.emit()}
           >
             <div className={styles.window} style={style}>
               {!hasHeader && close}
@@ -83,6 +87,18 @@ class Modal extends React.Component {
       </RenderContainer>
     );
   }
+
+  _refCenter = (center: ?Center) => {
+    if (this._centerDOM) {
+      events.removeEventListener(this._centerDOM, 'scroll', LayoutEvents.emit);
+    }
+    this._centerDOM = null;
+    if (center) {
+      const dom = ReactDOM.findDOMNode(center);
+      this._centerDOM = dom;
+      events.addEventListener(this._centerDOM, 'scroll', LayoutEvents.emit);
+    }
+  };
 
   componentDidMount() {
     events.addEventListener(document, 'keydown', this._handleNativeKey);

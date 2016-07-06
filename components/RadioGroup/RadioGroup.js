@@ -6,6 +6,8 @@ import styles from './RadioGroup.less';
 
 class RadioGroup extends React.Component {
   static propTypes = {
+    error: PropTypes.bool,
+
     /**
      * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
      * `Array`, `Map`, `Immutable.Map`.
@@ -16,8 +18,6 @@ class RadioGroup extends React.Component {
      * и для значения.
      */
     items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-
-    value: PropTypes.any,
 
     /**
      * Функция для отрисовки элемента (той части, которая находится справа от
@@ -40,6 +40,10 @@ class RadioGroup extends React.Component {
      */
     renderItem: PropTypes.func,
 
+    value: PropTypes.any.isRequired,
+
+    warning: PropTypes.bool,
+
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onChange: PropTypes.func,
@@ -58,7 +62,7 @@ class RadioGroup extends React.Component {
   }
 
   render() {
-    var inputProps = {
+    const inputProps = {
       type: 'checkbox',
       className: styles.input,
       onKeyDown: this.handleKey,
@@ -66,7 +70,7 @@ class RadioGroup extends React.Component {
       onBlur: this.handleBlur,
     };
 
-    var style = {};
+    const style = {};
     if (this.props.width) {
       style.width = this.props.width;
     }
@@ -80,17 +84,21 @@ class RadioGroup extends React.Component {
   }
 
   renderItems() {
-    var items = [];
-    this.eachItem((value, data, i) => {
-      var checked = this.state.value === value;
-      var focused = this.state.focused &&
+    const items = this.mapItems((value, data, i) => {
+      const checked = this.state.value === value;
+      const focused = this.state.focused &&
           (checked || this.state.value == null && i === 0);
-      items.push(
+      return (
         <span key={i} className={styles.item}
           onClick={(e) => this.select_(value)}
         >
           <div className={styles.radio}>
-            <Radio checked={checked} focused={focused} />
+            <Radio
+              checked={checked}
+              focused={focused}
+              error={this.props.error}
+              warning={this.props.warning}
+            />
           </div>
           <div className={styles.label}>
             {this.props.renderItem(value, data)}
@@ -127,13 +135,12 @@ class RadioGroup extends React.Component {
   };
 
   move_(step) {
-    const items = [];
     let selectedIndex = -1;
-    this.eachItem((value, data, i) => {
-      items.push(value);
+    const items = this.mapItems((value, data, i) => {
       if (selectedIndex === -1 && value === this.state.value) {
         selectedIndex = i;
       }
+      return value;
     });
 
     selectedIndex += step;
@@ -154,13 +161,16 @@ class RadioGroup extends React.Component {
     }
   }
 
-  eachItem(fn) {
+  mapItems(fn) {
+    const items = [];
     let index = 0;
     for (const entry of this.props.items) {
       const [value, data] = normalizeEntry(entry);
-      fn(value, data, index);
+      items.push(fn(value, data, index));
       ++index;
     }
+
+    return items;
   }
 }
 
