@@ -21,7 +21,8 @@
     "invariant": "^2.2.1",
     "object-assign": "^4.1.0",
     "react-input-mask": "^0.7.0",
-    "warning": "^3.0.0"
+    "warning": "^3.0.0",
+    "lodash.padstart": "^4.5.0"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",
