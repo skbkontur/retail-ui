@@ -182,7 +182,19 @@ class User extends React.Component {
 }
 
 class Organizations extends React.Component {
-  state = {
+  _caption: HTMLElement;
+  _comment: HTMLElement;
+
+  props: {
+    caption: string,
+    comment: ?string,
+    children: React.Element<any>
+  };
+
+  state: {
+    captionWhiteSpace: string,
+    minWidth: ?number
+  } = {
     captionWhiteSpace: 'normal',
     minWidth: null,
   };
@@ -271,12 +283,12 @@ class Organizations extends React.Component {
     if (this._caption.offsetWidth + commentWidth > 315) {
       this.setState({
         captionWhiteSpace: 'normal',
-        minWidth: 360
+        minWidth: 360,
       });
     } else {
       this.setState({
         captionWhiteSpace: 'nowrap',
-        minWidth: null
+        minWidth: null,
       });
     }
   }
