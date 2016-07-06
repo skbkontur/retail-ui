@@ -40,7 +40,7 @@ class RadioGroup extends React.Component {
      */
     renderItem: PropTypes.func,
 
-    value: PropTypes.any.isRequired,
+    value: PropTypes.any,
 
     warning: PropTypes.bool,
 

@@ -23,11 +23,11 @@ type State = {
 /**
  * DRAFT
  */
-class Kladr extends React.Component {
+export default class Kladr extends React.Component {
   static propTypes = {
     error: PropTypes.string,
     title: PropTypes.string,
-    value: PropTypes.any.isRequired,
+    value: PropTypes.any,
     warning: PropTypes.string,
     onChange: PropTypes.func,
   };
@@ -134,5 +134,3 @@ function isEmpty(value) {
 
   return true;
 }
-
-export default Kladr;

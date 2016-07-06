@@ -52,7 +52,7 @@ type Props = {
   renderValue: (value: Value, info: ?Info) => React.Element<any>,
   source: (searchText: string) => Promise<SourceResult>,
   warning?: bool,
-  value: Value,
+  value: ?Value,
   width: (number | string),
 
   onChange?: (event: {target: {value: Value}}, value: Value) => void,
@@ -132,7 +132,7 @@ class ComboBox extends React.Component {
 
     source: PropTypes.func.isRequired,
 
-    value: PropTypes.any.isRequired,
+    value: PropTypes.any,
 
     /**
      * Визуально показать наличие предупреждения.

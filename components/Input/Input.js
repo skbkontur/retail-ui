@@ -114,7 +114,7 @@ class Input extends React.Component {
 
     type: PropTypes.oneOf(['password']),
 
-    value: PropTypes.any.isRequired,
+    value: PropTypes.string.isRequired,
 
     /**
      * Визуально показать наличие предупреждения.

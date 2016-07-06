@@ -88,7 +88,7 @@ class Select extends React.Component {
      */
     search: PropTypes.bool,
 
-    value: PropTypes.any.isRequired,
+    value: PropTypes.any,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   };
