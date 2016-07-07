@@ -19,13 +19,15 @@ type Props = {
   pos: Pos,
 
   trigger: 'hover' | 'click' | 'focus' | 'opened' | 'closed',
+
+  onCloseClick?: () => void,
 };
 
 type State = {
   opened: bool,
 };
 
-class Tooltip extends React.Component {
+export default class Tooltip extends React.Component {
   static propTypes = {
     pos: PropTypes.oneOf([
       'top left', 'top center', 'top right',
@@ -42,6 +44,8 @@ class Tooltip extends React.Component {
     render: PropTypes.func,
 
     trigger: PropTypes.oneOf(['hover', 'click', 'focus', 'opened', 'closed']),
+
+    onCloseClick: PropTypes.func,
   };
 
   static defaultProps = {
@@ -128,10 +132,13 @@ class Tooltip extends React.Component {
       return null;
     }
 
+    const close = this.props.trigger !== 'hover';
+
     return (
       <RenderContainer>
         <Box trigger={this.props.trigger} getTarget={this._getTarget}
-          pos={this.props.pos} onClose={this._handleBoxClose}
+          pos={this.props.pos} close={close}
+          onClose={this._handleBoxClose}
         >
           {content}
         </Box>
@@ -186,7 +193,13 @@ class Tooltip extends React.Component {
   };
 
   _handleBoxClose = () => {
-    this._setOpened(false);
+    if (this.props.trigger !== 'opened') {
+      this._setOpened(false);
+    }
+
+    if (this.props.onCloseClick) {
+      this.props.onCloseClick.call(null);
+    }
   };
 
   _handleFocus = (event: SyntheticFocusEvent) => {
@@ -213,5 +226,3 @@ class Tooltip extends React.Component {
     }
   }
 }
-
-export default Tooltip;

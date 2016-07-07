@@ -32,7 +32,14 @@ export default class Box extends React.Component {
     return (
       <div className={styles.root} style={style}>
         {this.renderPin()}
-        <div className={styles.inner}>{this.props.children}</div>
+        <div className={styles.inner}>
+          {this.props.close && (
+            <div className={styles.cross} onClick={this._handleCrossClick}>
+              ✕
+            </div>
+          )}
+          {this.props.children}
+        </div>
       </div>
     );
   }
@@ -43,7 +50,7 @@ export default class Box extends React.Component {
       return null;
     }
 
-    const outer = Object.assign({}, pos.pinStyle);
+    const outer = {...pos.pinStyle};
     const inner = {};
     switch (pos.pinDirection) {
       case 'bottom':
@@ -126,6 +133,10 @@ export default class Box extends React.Component {
       this.props.onClose();
     }
   }
+
+  _handleCrossClick = () => {
+    this.props.onClose();
+  };
 
   reflow() {
     if (this.updating_) {

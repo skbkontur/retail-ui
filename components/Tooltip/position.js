@@ -1,4 +1,4 @@
-const SPACE = 8;
+const SPACE = 9;
 
 export default function(box, target, pos) {
   pos = extractPos(pos);
