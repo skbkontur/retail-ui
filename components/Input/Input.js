@@ -112,7 +112,7 @@ class Input extends React.Component {
 
     title: PropTypes.string,
 
-    type: PropTypes.oneOf(['password']),
+    type: PropTypes.oneOf(['password', 'text']),
 
     value: PropTypes.string.isRequired,
 
