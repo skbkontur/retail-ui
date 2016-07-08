@@ -96,8 +96,10 @@ class Button extends React.Component {
     if (this.props.align) {
       rootProps.style.textAlign = this.props.align;
     }
+
+    const wrapStyle = {};
     if (this.props.width) {
-      rootProps.style.width = this.props.width;
+      wrapStyle.width = this.props.width;
     }
 
     let error = null;
@@ -113,7 +115,7 @@ class Button extends React.Component {
     }
 
     return (
-      <span className={styles.wrap}>
+      <span className={styles.wrap} style={wrapStyle}>
         <button {...rootProps}>
           {loading}
           <div className={styles.caption}>
