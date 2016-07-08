@@ -41,7 +41,7 @@ export default class Tooltip extends React.Component {
      *
      * Если эта функция вернула `null`, то тултип не показывается.
      */
-    render: PropTypes.func,
+    render: PropTypes.func.isRequired,
 
     trigger: PropTypes.oneOf(['hover', 'click', 'focus', 'opened', 'closed']),
 
