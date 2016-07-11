@@ -21,6 +21,11 @@ let mountedModalsCount = 0;
 class Modal extends React.Component {
   static propTypes = {
     /**
+     * Не закрывать окно при клике на фон.
+     */
+    ignoreBackgroundClick: PropTypes.bool,
+
+    /**
      * Не показывать крестик для закрытия окна.
      */
     noClose: PropTypes.bool,
@@ -58,7 +63,7 @@ class Modal extends React.Component {
 
     let hasHeader = false;
     const children = React.Children.map(this.props.children, child => {
-      if (child.type === Header) {
+      if (child && child.type === Header) {
         hasHeader = true;
         return React.cloneElement(child, {close});
       }
@@ -120,7 +125,10 @@ class Modal extends React.Component {
   }
 
   _handleContainerClick = (event) => {
-    if (event.target === event.currentTarget) {
+    if (
+      event.target === event.currentTarget &&
+      !this.props.ignoreBackgroundClick
+    ) {
       this._handleClose();
     }
   };

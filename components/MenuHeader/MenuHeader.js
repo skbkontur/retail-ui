@@ -8,6 +8,9 @@ type Props = {
   children: mixed,
 };
 
+/**
+ * Заголовок в меню.
+ */
 export default class MenuHeader extends React.Component {
   props: Props;
 

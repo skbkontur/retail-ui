@@ -8,7 +8,6 @@
     box-sizing: border-box;
     display: inline-block;
     padding: 1px;
-    width: 100%;
   }
 
   .root {
@@ -22,6 +21,7 @@
     outline: 0;
     overflow: visible; // On IE it's hidden by default.
     position: relative;
+    width: 100%;
 
     &::-moz-focus-inner {
       border: 0;
@@ -36,6 +36,15 @@
   .fallbackMixin(@class; @bg; @border: @bg) {
     :global(.rt-ie8),
     :global(.rt-ie9) {
+      .@{class}[disabled],
+      .@{class}[disabled]:hover,
+      .@{class}[disabled]:active,
+      .@{class}[disabled]:focus:before {
+        background: #f2f2f2;
+        color: #808080;
+        outline: 1px solid #d9d9d9;
+      }
+
       .@{class},
       .@{class}:hover,
       .@{class}:active {

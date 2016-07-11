@@ -136,7 +136,7 @@ export default class Menu extends React.Component {
   }
 
   _canSelect(element: ?React.Element<any>) {
-    return element && element.type.__MENU_ITEM__;
+    return element && element.type.__MENU_ITEM__ && !element.props.disabled;
   }
 }
 
