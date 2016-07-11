@@ -1,3 +1,4 @@
+import raf from 'fbjs/lib/requestAnimationFrame';
 import React, {PropTypes} from 'react';
 
 import {types, sizeMaps} from './settings';
@@ -6,13 +7,16 @@ import fallbackImage_mini from './fallback_circle.png';
 import fallbackImage_big from './fallback_cloud_big.png';
 import fallbackImage_normal from './fallback_cloud_normal.png';
 
-class SpinnerFallback extends React.Component {
+export default class SpinnerFallback extends React.Component {
   static propTypes = {
     type: PropTypes.oneOf(Object.keys(types)),
   };
 
-  _updateDelay = 1000 / 25;
-  _timer = null;
+  state = {
+    frame: 0,
+  };
+
+  _mounted = false;
 
   _framesCount = {
     [types.mini]: 180,
@@ -26,39 +30,28 @@ class SpinnerFallback extends React.Component {
     [types.big]: fallbackImage_big,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {frame: 0};
+  componentDidMount() {
+    this._mounted = true;
+    this.animate();
   }
 
   componentWillUnmount() {
-    this.killTimer();
+    this._mounted = false;
   }
 
-  componentDidMount() {
-    this.setTimer();
-  }
+  animate = () => {
+    if (!this._mounted) {
+      return;
+    }
 
-  componentDidUpdate() {
-    this.killTimer();
-    this.setTimer();
-  }
-
-  killTimer() {
-    clearTimeout(this._timer);
-  }
-
-  setTimer() {
-    this._timer = setTimeout(() => this.shiftBg(), this._updateDelay);
-  }
-
-  shiftBg() {
     const {frame} = this.state;
     const {type} = this.props;
     const framesCount = this._framesCount[type];
     const nextFrame = frame < framesCount ? frame + 1 : 0;
     this.setState({frame: nextFrame});
-  }
+
+    raf(this.animate);
+  };
 
   render() {
     const {type} = this.props;
@@ -66,11 +59,13 @@ class SpinnerFallback extends React.Component {
     const size = sizeMaps[type];
 
     const cssSet = {
-      backgroundPosition: `0 -${frame*size.height}px`,
+      backgroundPosition: `0 -${frame * size.height}px`,
       backgroundImage: `url('${this._imageUrls[type]}')`,
-      width: size.width,
-      height: size.height,
       display: 'inline-block',
+      height: size.height,
+      position: 'relative',
+      top: type === 'mini' ? 2 : 0,
+      width: size.width,
     };
 
     return (
@@ -78,6 +73,3 @@ class SpinnerFallback extends React.Component {
     );
   }
 }
-
-SpinnerFallback.propTypes = {};
-export default SpinnerFallback;

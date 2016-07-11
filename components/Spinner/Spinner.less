@@ -18,8 +18,6 @@
   .captionRight {
     composes: caption;
     margin-left: 5px;
-    position: relative;
-    top: -3px;
   }
 
   .captionBottom {
@@ -55,9 +53,11 @@
 
   .circle {
     fill: none;
+    position: relative;
     stroke-dasharray: 10, 27;
     stroke-dashoffset: -37;
     stroke-width: 1.5px;
+    top: 2px;
 
     :global {
       animation: rt_circle_offset 1s cubic-bezier(.50, .20, .50, .80) infinite,
