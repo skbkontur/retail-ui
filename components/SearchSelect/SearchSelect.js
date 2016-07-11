@@ -1,4 +1,5 @@
-/* @flow */
+/* @flow weak */
+/* eslint-disable */
 
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
@@ -199,12 +200,10 @@ class SearchSelect extends React.Component {
     }
   }
 
-  // $FlowIssue 850
   _refFocusable = (el: ?HTMLElement) => {
     this._focusable = el && (el.focus ? el : ReactDOM.findDOMNode(el));
   };
 
-  // $FlowIssue 850
   _handleInputChange = (event: any) => {
     const pattern = event.target.value;
     this.setState({
@@ -214,7 +213,6 @@ class SearchSelect extends React.Component {
     this._fetchList(pattern);
   };
 
-  // $FlowIssue 850
   _handleInputKey = (event) => {
     switch (event.key) {
       case 'ArrowUp':
@@ -244,7 +242,6 @@ class SearchSelect extends React.Component {
     }
   };
 
-  // $FlowIssue 850
   _handleInputBlur = () => {
     const {searchText} = this.state;
     const item = this._findItemByValue(searchText);
@@ -256,13 +253,11 @@ class SearchSelect extends React.Component {
     }
   };
 
-  // $FlowIssue 850
   _handleOpenClick = () => {
     this.setState({opened: true});
     this._focus();
   };
 
-  // $FlowIssue 850
   _handleValueClick = () => {
     this.setState({
       opened: true,
@@ -273,7 +268,6 @@ class SearchSelect extends React.Component {
     this._fetchList('');
   };
 
-  // $FlowIssue 850
   _handleValueKeyPress = event => {
     // Set input value to empty string and then back to the real value to make
     // cursor appear at the and.
@@ -290,7 +284,6 @@ class SearchSelect extends React.Component {
     );
   };
 
-  // $FlowIssue 850
   _handleValueKey = event => {
     switch (event.key) {
       case ' ':
@@ -350,7 +343,6 @@ class SearchSelect extends React.Component {
     });
   }
 
-  // $FlowIssue 850
   _focus = () => {
     if (this.focusable_) {
       this.focusable_.focus();

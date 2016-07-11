@@ -10,5 +10,6 @@ export function mountTest(
 
   return {
     node: ReactTesting.findDOMNodes('a', wrapper.node)[0],
+    unmount: wrapper.unmount.bind(wrapper),
   };
 }

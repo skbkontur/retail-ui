@@ -27,6 +27,7 @@ const INPUT_PASS_PROPS = {
   onCopy: true,
   onCut: true,
   onFocus: true,
+  onInput: true,
   onKeyDown: true,
   onKeyPress: true,
   onKeyUp: true,
@@ -45,31 +46,21 @@ const PASS_TYPES = {
 
 class Input extends React.Component {
   static propTypes = {
-    disabled: PropTypes.bool,
-
-    /**
-     * ID для использования с элементом label.
-     */
-    id: PropTypes.string,
-
-    maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    placeholder: PropTypes.string,
-
-    title: PropTypes.string,
-
-    value: PropTypes.any,
-
-    defaultValue: PropTypes.any,
-
     align: PropTypes.oneOf(['left', 'center', 'right']),
 
     /**
-     * DEPRECATED
+     * Показывать маску, даже если ничего не введено.
      */
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    alwaysShowMask: PropTypes.bool,
 
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    /**
+     * Не отрисовывать рамку.
+     */
+    borderless: PropTypes.bool,
+
+    defaultValue: PropTypes.any,
+
+    disabled: PropTypes.bool,
 
     /**
      * Визуально показать наличие ошибки.
@@ -77,45 +68,14 @@ class Input extends React.Component {
     error: PropTypes.bool,
 
     /**
-     * Визуально показать наличие предупреждения.
+     * ID для использования с элементом label.
      */
-    warning: PropTypes.bool,
+    id: PropTypes.string,
 
     /**
      * Иконка слева инпута.
      */
     leftIcon: PropTypes.element,
-
-    /**
-     * Иконка справа инпута.
-     */
-    rightIcon: PropTypes.element,
-
-    onBlur: PropTypes.func,
-
-    /**
-     * Вызывается при вводе каждого символа.
-     */
-    onChange: PropTypes.func,
-
-    onCopy: PropTypes.func,
-
-    onCut: PropTypes.func,
-
-    onFocus: PropTypes.func,
-
-    onKeyDown: PropTypes.func,
-
-    onKeyPress: PropTypes.func,
-
-    onKeyUp: PropTypes.func,
-
-    onPaste: PropTypes.func,
-
-    /**
-     * Не отрисовывать рамку.
-     */
-    borderless: PropTypes.bool,
 
     /**
      * Маска ввода. Заменяет placeholder и defaultValue, влияет на значение
@@ -136,12 +96,55 @@ class Input extends React.Component {
      */
     maskChar: PropTypes.string,
 
-    /**
-     * Показывать маску, даже если ничего не введено.
-     */
-    alwaysShowMask: PropTypes.bool,
+    maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
-    type: PropTypes.oneOf(['password']),
+    placeholder: PropTypes.string,
+
+    /**
+     * Иконка справа инпута.
+     */
+    rightIcon: PropTypes.element,
+
+    /**
+     * DEPRECATED
+     */
+    size: PropTypes.oneOf(['small', 'default', 'large']),
+
+    title: PropTypes.string,
+
+    type: PropTypes.oneOf(['password', 'text']),
+
+    value: PropTypes.any.isRequired,
+
+    /**
+     * Визуально показать наличие предупреждения.
+     */
+    warning: PropTypes.bool,
+
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+    onBlur: PropTypes.func,
+
+    /**
+     * Вызывается при вводе каждого символа.
+     */
+    onChange: PropTypes.func,
+
+    onCopy: PropTypes.func,
+
+    onCut: PropTypes.func,
+
+    onFocus: PropTypes.func,
+
+    onInput: PropTypes.func,
+
+    onKeyDown: PropTypes.func,
+
+    onKeyPress: PropTypes.func,
+
+    onKeyUp: PropTypes.func,
+
+    onPaste: PropTypes.func,
   };
 
   static defaultProps = {

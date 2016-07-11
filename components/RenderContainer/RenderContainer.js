@@ -26,7 +26,7 @@ export default class RenderContainer extends React.Component {
   }
 
   render() {
-    return <noscript data-render-container-id={this._testID} />;
+    return <Portal rt_rootID={this._testID} />;
   }
 
   componentDidMount() {
@@ -53,8 +53,22 @@ export default class RenderContainer extends React.Component {
   _renderChild() {
     ReactDOM.unstable_renderSubtreeIntoContainer(
       this,
-      React.Children.only(this.props.children),
+      <RootContainer rt_portalID={this._testID}>
+        {this.props.children}
+      </RootContainer>,
       this._domContainer
     );
   }
 }
+
+class Portal extends React.Component {
+  render() {
+    // return null;
+    // Return null once we kill all ReactTesting usages.
+    return <noscript data-render-container-id={this.props.rt_rootID} />;
+  }
+}
+
+const RootContainer = (props) => {
+  return React.Children.only(props.children);
+};

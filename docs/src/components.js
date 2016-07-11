@@ -96,6 +96,24 @@ module.exports = [
     src: require('!raw!./snippets/Logotype.jsx'),
   },
   {
+    name: 'MenuHeader',
+    component: require('ui/MenuHeader'),
+    info: require('!docgen!ui/MenuHeader/MenuHeader.js'),
+    src: '',
+  },
+  {
+    name: 'MenuItem',
+    component: require('ui/MenuItem'),
+    info: require('!docgen!ui/MenuItem/MenuItem.js'),
+    src: '',
+  },
+  {
+    name: 'MenuSeparator',
+    component: require('ui/MenuSeparator'),
+    info: require('!docgen!ui/MenuSeparator/MenuSeparator.js'),
+    src: '',
+  },
+  {
     name: 'Modal',
     component: require('ui/Modal'),
     info: require('!docgen!ui/Modal/Modal.js'),
@@ -112,6 +130,12 @@ module.exports = [
     component: require('ui/RadioGroup'),
     info: require('!docgen!ui/RadioGroup/RadioGroup.js'),
     src: require('!raw!./snippets/RadioGroup.jsx'),
+  },
+  {
+    name: 'ScrollContainer',
+    component: require('ui/ScrollContainer'),
+    info: require('!docgen!ui/ScrollContainer/ScrollContainer.js'),
+    src: require('!raw!./snippets/ScrollContainer.jsx'),
   },
   {
     name: 'Select',

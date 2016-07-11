@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow weak */
 
 import SearchSelect from './SearchSelect.js';
 
@@ -20,6 +20,6 @@ class SearchSelectAdapter {
   }
 }
 
-SearchSelect.__ADAPTER__ = SearchSelectAdapter;
+(SearchSelect: any).__ADAPTER__ = SearchSelectAdapter;
 
 export default SearchSelect;

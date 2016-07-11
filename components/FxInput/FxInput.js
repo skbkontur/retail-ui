@@ -14,6 +14,8 @@ class FxInput extends React.Component {
     width: 250,
   };
 
+  _input = null;
+
   render() {
     const {width} = this.props;
 
@@ -32,10 +34,20 @@ class FxInput extends React.Component {
     return (
       <Group width={width}>
         {button}
-        <Input mainInGroup align="right" {...this.props} {...inputProps} />
+        <Input
+          ref={this._refInput}
+          mainInGroup
+          align="right"
+          {...this.props}
+          {...inputProps}
+        />
       </Group>
     );
   }
+
+  _refInput = input => {
+    this._input = input;
+  };
 }
 
-module.exports = FxInput;
+export default FxInput;

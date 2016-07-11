@@ -26,46 +26,50 @@ var PropsDoc = React.createClass({
           dangerouslySetInnerHTML={{__html: info.description.description}}
         />
 
-        <div className={styles.title}>Props</div>
-        <div>
-          {Object.keys(info.props).map((name, i) => {
-            var prop = info.props[name];
-            var required = prop.required ?
-              <span className={styles.propRequired}>required</span> : null;
-            var defaultValue = prop.defaultValue ?
-              (
-                <span className={styles.propDefaultValue}>
-                  = {prop.defaultValue.value}
-                </span>
-              ) :
-              null;
+        {info.props && (
+          <div>
+            <div className={styles.title}>Props</div>
+            <div>
+              {Object.keys(info.props).map((name, i) => {
+                var prop = info.props[name];
+                var required = prop.required ?
+                  <span className={styles.propRequired}>required</span> : null;
+                var defaultValue = prop.defaultValue ?
+                  (
+                    <span className={styles.propDefaultValue}>
+                      = {prop.defaultValue.value}
+                    </span>
+                  ) :
+                  null;
 
-            const className = classNames({
-              [styles.prop]: true,
-              [styles.propOdd]: i % 2,
-            });
-            return (
-              <div key={name} className={className}>
-                <div className={styles.propTitle}>
-                  <span className={styles.propName}>{name}</span>
-                  <span className={styles.propTypeColon}>:</span>
-                  <span className={styles.propType}>
-                    {formatType(prop.type)}
-                  </span>
-                  {required}
-                  {defaultValue}
-                </div>
-                {prop.description && (
-                  <div className={propDescClassName}
-                    dangerouslySetInnerHTML={
-                      {__html: prop.description.description}
-                    }
-                  />
-                )}
-              </div>
-            );
-          })}
-        </div>
+                const className = classNames({
+                  [styles.prop]: true,
+                  [styles.propOdd]: i % 2,
+                });
+                return (
+                  <div key={name} className={className}>
+                    <div className={styles.propTitle}>
+                      <span className={styles.propName}>{name}</span>
+                      <span className={styles.propTypeColon}>:</span>
+                      <span className={styles.propType}>
+                        {formatType(prop.type)}
+                      </span>
+                      {required}
+                      {defaultValue}
+                    </div>
+                    {prop.description && (
+                      <div className={propDescClassName}
+                        dangerouslySetInnerHTML={{
+                          __html: prop.description.description,
+                        }}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {methods.length > 0 && (
           <div>
@@ -76,6 +80,30 @@ var PropsDoc = React.createClass({
                   className={classNames(styles.prop, (i % 2) && styles.propOdd)}
                 >
                   {this._renderMethod(method)}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {info.adapterProps && (
+          <div>
+            <div className={styles.title}>Adapter</div>
+            <div>
+              {info.adapterProps.map((prop, i) => (
+                <div key={i}
+                  className={classNames(styles.prop, (i % 2) && styles.propOdd)}
+                >
+                  <div className={styles.propTitle}>
+                    <span className={styles.propName}>
+                      {prop.name}
+                    </span>
+                    <span className={styles.propTypeColon}>:</span>
+                    <span className={styles.propType}>
+                      {prop.args.join(', ')}
+                    </span>
+                  </div>
+                  <div className={styles.propDesc}>{prop.desc}</div>
                 </div>
               ))}
             </div>

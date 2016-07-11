@@ -13,6 +13,12 @@ import styles from './Autocomplete.less';
 class Autocomplete extends React.Component {
   static propTypes = {
     /**
+     * Функция для отрисовки элемента в выпадающем списке. Единственный аргумент
+     * — *item*.
+     */
+    renderItem: PropTypes.func,
+
+    /**
      * Если передан массив, то совпадения ищутся по этому массиву.
      *
      * Если передается функция, то она должна возвращать thenable, который
@@ -29,12 +35,6 @@ class Autocomplete extends React.Component {
       PropTypes.array,
       PropTypes.func,
     ]),
-
-    /**
-     * Функция для отрисовки элемента в выпадающем списке. Единственный аргумент
-     * — *item*.
-     */
-    renderItem: PropTypes.func,
   };
 
   static defaultProps = {
