@@ -36,8 +36,11 @@ class Link extends React.Component {
       arrow = <span className={styles.arrow} />;
     }
 
-    const props = {
+    var externalClassName = this.props.className || "";
+
+    let props = {
       className: classNames({
+        [externalClassName] : true,
         [styles.root]: true,
         [styles.disabled]: this.props.disabled,
         [styles.button]: this.props._button,
@@ -45,6 +48,7 @@ class Link extends React.Component {
       }),
       href: this.props.href,
     };
+
     if (this.props.disabled) {
       props.tabIndex = '-1';
     }
