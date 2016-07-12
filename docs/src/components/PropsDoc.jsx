@@ -32,7 +32,7 @@ var PropsDoc = React.createClass({
             <div>
               {Object.keys(info.props).map((name, i) => {
                 var prop = info.props[name];
-                var required = prop.required ?
+                var required = (prop.required && !prop.defaultValue) ?
                   <span className={styles.propRequired}>required</span> : null;
                 var defaultValue = prop.defaultValue ?
                   (
@@ -52,7 +52,7 @@ var PropsDoc = React.createClass({
                       <span className={styles.propName}>{name}</span>
                       <span className={styles.propTypeColon}>:</span>
                       <span className={styles.propType}>
-                        {formatType(prop.type)}
+                        {formatType(prop)}
                       </span>
                       {required}
                       {defaultValue}
@@ -130,18 +130,27 @@ var PropsDoc = React.createClass({
   },
 });
 
-function formatType(type) {
+function formatType(prop) {
+  if (prop.type) {
+    return formatLegacyType(prop.type);
+  } else if (prop.flowType) {
+    return formatFlowType(prop.flowType);
+  }
+  return '?';
+}
+
+function formatLegacyType(type) {
   if (!type) {
     return '?';
   }
 
   if (type.name === 'union') {
-    return type.value.map(formatType).join(' | ');
+    return type.value.map(formatLegacyType).join(' | ');
   }
 
   if (type.name === 'shape') {
     return '{' + Object.keys(type.value).map((key) => {
-      return `${key}: ${formatType(type.value[key])}`;
+      return `${key}: ${formatLegacyType(type.value[key])}`;
     }).join(', ') + '}';
   }
 
@@ -159,10 +168,20 @@ function formatType(type) {
   }
 
   if (type.name === 'arrayOf') {
-    str += `<${formatType(type.value)}>`;
+    str += `<${formatLegacyType(type.value)}>`;
   }
 
   return str;
+}
+
+function formatFlowType(type) {
+  switch (type.name) {
+    case 'union':
+      return type.raw;
+
+    default:
+      return type.name;
+  }
 }
 
 export default PropsDoc;
