@@ -182,7 +182,7 @@ class ComboBox extends React.Component {
   render() {
     const className = classNames({
       [styles.root]: true,
-      [styles.deprecated_oldSize]: !Upgrades.__height34,
+      [styles.deprecated_oldSize]: !Upgrades.isHeight34Enabled(),
     });
 
     let valueEl;

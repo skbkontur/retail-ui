@@ -68,7 +68,7 @@ class Textarea extends React.Component {
       [styles.root]: true,
       [styles.error]: this.props.error,
 
-      [styles.deprecated_oldSize]: !Upgrades.__height34,
+      [styles.deprecated_oldSize]: !Upgrades.isHeight34Enabled(),
     });
     props.style = {};
 

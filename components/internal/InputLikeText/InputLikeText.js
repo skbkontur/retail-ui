@@ -24,7 +24,7 @@ export default class InputLikeText extends React.Component {
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,
 
-      [styles.deprecated_oldSize]: !Upgrades.__height34,
+      [styles.deprecated_oldSize]: !Upgrades.isHeight34Enabled(),
     });
 
     return (

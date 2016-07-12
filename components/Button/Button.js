@@ -128,7 +128,7 @@ class Button extends React.Component {
   }
 
   _getSizeClassMap() {
-    if (!Upgrades.__height34) {
+    if (!Upgrades.isHeight34Enabled()) {
       return {
         [DEPRECATED_SIZE_CLASSES[this.props.size]]: true,
       };
