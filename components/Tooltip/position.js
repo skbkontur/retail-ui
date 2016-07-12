@@ -1,7 +1,21 @@
+// @flow
+
+import invariant from 'invariant';
+
 const SPACE = 9;
 
-export default function(box, target, pos) {
-  pos = extractPos(pos);
+export type Result = {
+  boxStyle: Object,
+  pinStyle: Object,
+  pinDirection: 'top' | 'right' | 'bottom' | 'left';
+};
+
+export default function(
+  box: HTMLElement,
+  target: HTMLElement,
+  posStr: string
+): Result {
+  const pos = extractPos(posStr);
 
   const width = box.offsetWidth;
   const height = box.offsetHeight;
@@ -84,6 +98,7 @@ export default function(box, target, pos) {
     case pos.aside && pos.hor === 'right': pinDirection = 'left'; break;
     case !pos.aside && pos.ver === 'top': pinDirection = 'bottom'; break;
     case !pos.aside && pos.ver === 'bottom': pinDirection = 'top'; break;
+    default: invariant(false, '');
   }
 
   const pinStyle = {};
@@ -178,9 +193,9 @@ function extractPos(pos) {
   };
 }
 
-function getComputedWidth(element) {
-  if (element.currentStyle) {
-    return element.currentStyle.width;
+function getComputedWidth(element): number {
+  if ((element: any).currentStyle) {
+    return (element: any).currentStyle.width;
   }
   return getComputedStyle(element).width;
 }
