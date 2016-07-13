@@ -1,3 +1,5 @@
+// @flow
+
 import classNames from 'classnames';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -15,11 +17,20 @@ const PASS_PROPS = {
 };
 
 export default class InputLikeText extends React.Component {
+  props: {
+    borderless?: bool,
+    children?: any,
+    error?: bool,
+    padRight?: bool,
+    warning?: bool,
+  };
+
   render() {
     const passProps = filterProps(this.props, PASS_PROPS);
 
     const className = classNames({
       [styles.root]: true,
+      [styles.padRight]: this.props.padRight,
       [styles.borderless]: this.props.borderless,
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,

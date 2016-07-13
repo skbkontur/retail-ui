@@ -10,7 +10,7 @@ import listenFocusOutside from '../../lib/listenFocusOutside';
 import Upgrades from '../../lib/Upgrades';
 
 import Input from '../Input';
-import InputLikeText from '../internal/InputLikeText';
+import InputLikeText from '../internal/InputLikeText/InputLikeText';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
 
@@ -40,6 +40,7 @@ type RecoverResult = {
 type RecoverFunc = (searchString: string) => RecoverResult;
 
 type Props = {
+  autoFocus?: bool,
   borderless?: bool,
   disabled?: bool,
   error?: bool,
@@ -82,6 +83,8 @@ class ComboBox extends React.Component {
   }
 
   static propTypes = {
+    autoFocus: PropTypes.bool,
+
     borderless: PropTypes.bool,
 
     disabled: PropTypes.bool,
@@ -214,7 +217,8 @@ class ComboBox extends React.Component {
     return (
       <div className={styles.input}>
         <Input ref={this._refFocusable} {...inputProps}
-          value={this.state.searchText} rightIcon={<span />}
+          value={this.state.searchText}
+          rightIcon={this.props.openButton && <span />}
           disabled={this.props.disabled} onChange={this._handleInputChange}
           onKeyDown={this._handleInputKey}
         />
@@ -242,6 +246,7 @@ class ComboBox extends React.Component {
 
     return (
       <InputLikeText ref={this._refFocusable} {...inputProps}
+        padRight={this.props.openButton}
         onClick={this._handleValueClick} onKeyDown={this._handleValueKey}
         onKeyPress={this._handleValueKeyPress}
       >
