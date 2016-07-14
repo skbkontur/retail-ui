@@ -1,4 +1,3 @@
-import raf from 'fbjs/lib/requestAnimationFrame';
 import React, {PropTypes} from 'react';
 
 import {types, sizeMaps} from './settings';
@@ -50,7 +49,7 @@ export default class SpinnerFallback extends React.Component {
     const nextFrame = frame < framesCount ? frame + 1 : 0;
     this.setState({frame: nextFrame});
 
-    raf(this.animate);
+    setTimeout(this.animate, 1000 / 25);
   };
 
   render() {
