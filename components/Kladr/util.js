@@ -34,6 +34,21 @@ export function placeName(region: PlaceDescription, _for: ?Place = null) {
     case 'ул':
       return (_for !== 'street' ? 'улица ' : '') + region.name;
 
+    case 'пл':
+      return 'площадь ' + region.name;
+
+    case 'пр-кт':
+      return 'проспект ' + region.name;
+
+    case 'проезд':
+      return 'проезд ' + region.name;
+
+    case 'тер':
+      return 'тер ' + region.name;
+
+    case 'кв-л':
+      return region.name + ' квартал';
+
     case 'пер':
       return region.name + ' переулок';
   }
