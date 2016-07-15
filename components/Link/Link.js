@@ -44,6 +44,7 @@ class Link extends React.Component {
         [styles.buttonOpened]: this.props._buttonOpened,
       }),
       href: this.props.href,
+      onClick: this._handleClick,
     };
     if (this.props.disabled) {
       props.tabIndex = '-1';
@@ -57,6 +58,12 @@ class Link extends React.Component {
       </a>
     );
   }
+
+  _handleClick = event => {
+    if (this.props.onClick && !this.props.disabled) {
+      this.props.onClick.call(null, event);
+    }
+  };
 }
 
 export default Link;
