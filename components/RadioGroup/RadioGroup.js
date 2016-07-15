@@ -98,6 +98,7 @@ class RadioGroup extends React.Component {
         <span key={i}
           className={classNames({
             [styles.item]: true,
+            [styles.itemFirst]: i === 0,
             [styles.itemInline]: this.props.inline,
           })}
           onClick={(e) => this.select_(value)}
