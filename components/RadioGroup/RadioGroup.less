@@ -15,8 +15,9 @@
   }
 
   .item {
-    display: block;
+    display: table;
     margin-top: 10px;
+    width: 100%;
   }
 
   .itemFirst {
@@ -24,18 +25,24 @@
   }
 
   .itemInline {
-    display: inline-block;
+    display: inline-table;
     margin-top: 0;
     margin-right: 15px;
+    width: auto;
   }
 
   .radio {
-    float: left;
+    display: table-cell;
+    width: 25px;
+  }
+
+  .radioWrap {
+    position: relative;
+    top: 3px;
   }
 
   .label {
-    // To make it 16px for default size text, so radio aligns with text.
-    line-height: 1.143;
+    display: table-cell;
     margin-left: 22px;
   }
 

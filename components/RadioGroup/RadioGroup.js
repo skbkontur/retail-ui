@@ -104,13 +104,15 @@ class RadioGroup extends React.Component {
           onClick={(e) => this.select_(value)}
         >
           <div className={styles.radio}>
-            <Radio
-              checked={checked}
-              disabled={this.props.disabled}
-              focused={focused}
-              error={this.props.error}
-              warning={this.props.warning}
-            />
+            <div className={styles.radioWrap}>
+              <Radio
+                checked={checked}
+                disabled={this.props.disabled}
+                focused={focused}
+                error={this.props.error}
+                warning={this.props.warning}
+              />
+            </div>
           </div>
           <div
             className={classNames({
