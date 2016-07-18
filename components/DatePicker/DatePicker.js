@@ -63,9 +63,6 @@ class DatePicker extends React.Component {
     super(props, context);
 
     this.state = {
-      value: checkDate(
-        props.value !== undefined ? props.value : null
-      ),
       textValue: formatDate(props.value),
       opened: false,
     };
@@ -78,7 +75,7 @@ class DatePicker extends React.Component {
     if (this.state.opened) {
       picker = (
         <div className={styles.picker} onKeyDown={this.handlePickerKey}>
-          <Picker value={this.state.value}
+          <Picker value={this.props.value}
             minYear={this.props.minYear} maxYear={this.props.maxYear}
             onPick={this.handlePick} onClose={this.handlePickerClose}
           />
@@ -114,13 +111,8 @@ class DatePicker extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.value !== undefined) {
-      const date = checkDate(newProps.value);
-      this.setState({value: date});
-
-      if (!this._focused) {
-        this.setState({textValue: formatDate(date)});
-      }
+    if (!this._focused) {
+      this.setState({textValue: formatDate(newProps.value)});
     }
   }
 
@@ -143,19 +135,12 @@ class DatePicker extends React.Component {
     this._focused = false;
 
     const date = parseDate(this.state.textValue);
-    if (this.props.value === undefined) {
-      this.setState({
-        value: date,
-        textValue: formatDate(date),
-      });
-    } else {
-      this.setState({
-        textValue: formatDate(this.props.value),
-        value : null,
-      });
-    }
 
-    if (this.props.onChange && +this.state.value !== +date) {
+    this.setState({
+      textValue: formatDate(this.props.value),
+    });
+
+    if (this.props.onChange && +this.props.value !== +date) {
       this.props.onChange({target: {value: date}}, date);
     }
 
@@ -171,12 +156,6 @@ class DatePicker extends React.Component {
   };
 
   handlePick = date => {
-    if (this.props.value === undefined) {
-      this.setState({
-        value: date,
-        textValue: formatDate(date),
-      });
-    }
     if (this.props.onChange) {
       this.props.onChange({target: {value: date}}, date);
     }

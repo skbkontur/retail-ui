@@ -37,4 +37,15 @@ describe('DatePicker', () => {
 
     expect(input.prop('value')).toBe('01.02.2003');
   });
+
+  it('formats date correctly', () => {
+    const wrapper = mount(<DatePicker value={new Date('02-01-2003 UTC')} />);
+    const input = wrapper.find('Input');
+
+    expect(input.prop('value')).toBe('01.02.2003');
+
+    // Make sure input is updated on rerender.
+    wrapper.setProps({value: new Date('03-02-2004')});
+    expect(input.prop('value')).toBe('02.03.2004');
+  });
 });
