@@ -6,6 +6,27 @@ import components from '../components';
 
 import styles from './CodeRunner.less';
 
+function unc(element) {
+  class Uncontrolled extends React.Component {
+    state = {
+      value: null,
+    };
+
+    render() {
+      return React.cloneElement(element, {
+        value: this.state.value,
+        onChange: this._handleChange,
+      });
+    }
+
+    _handleChange = (_, value) => {
+      this.setState({value});
+    };
+  }
+
+  return <Uncontrolled />;
+}
+
 function run(src, mountNode) {
   ReactDOM.unmountComponentAtNode(mountNode);
   try {
@@ -20,6 +41,7 @@ function run(src, mountNode) {
 const vars = {
   React,
   ReactDOM,
+  unc,
 };
 for (const component of components) {
   vars[component.name] = component.component;
