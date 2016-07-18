@@ -52,7 +52,8 @@
       "<rootDir>/testing"
     ],
     "setupFiles": [
-      "<rootDir>/node_modules/babel-polyfill/lib/index.js"
+      "<rootDir>/node_modules/babel-polyfill/lib/index.js",
+      "<rootDir>/jest-setup.js"
     ]
   }
 }
