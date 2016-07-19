@@ -243,7 +243,10 @@ class Organizations extends React.Component {
           style={{whiteSpace: this.state.captionWhiteSpace}}
         >
           <span className={styles.organizationsCaption}>
-            {caption}
+            {React.isValidElement(caption)
+              ? React.cloneElement(caption, {ref: null})
+              : caption
+            }
           </span>
           {comment &&
             <span className={styles.organizationsCommentDummy}>
