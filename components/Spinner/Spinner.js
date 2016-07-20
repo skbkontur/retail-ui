@@ -17,7 +17,7 @@ class Spinner extends React.Component {
      *
      * 'Загрузка' - значение по-умолчанию
      */
-    caption: PropTypes.string,
+    caption: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
 
     /**
      * Тип спиннера: mini, normal, big
