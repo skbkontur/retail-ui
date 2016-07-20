@@ -21,6 +21,9 @@ const INPUT_PASS_PROPS = {
   error: true,
   warning: true,
   width: true,
+
+  onFocus: true,
+  onBlur: true,
 };
 
 type Value = any;
@@ -56,8 +59,10 @@ type Props = {
   value: ?Value,
   width: (number | string),
 
+  onBlur?: () => void,
   onChange?: (event: {target: {value: Value}}, value: Value) => void,
   onClose?: () => void,
+  onFocus?: () => void,
   onOpen?: () => void,
 
   alkoValueToText: (value: Value) => string,
@@ -144,9 +149,13 @@ class ComboBox extends React.Component {
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
+    onBlur: PropTypes.func,
+
     onChange: PropTypes.func,
 
     onClose: PropTypes.func,
+
+    onFocus: PropTypes.func,
 
     onOpen: PropTypes.func,
   };

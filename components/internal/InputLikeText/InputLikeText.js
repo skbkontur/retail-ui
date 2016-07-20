@@ -11,7 +11,9 @@ import '../../ensureOldIEClassName';
 import styles from './InputLikeText.less';
 
 const PASS_PROPS = {
+  onBlur: true,
   onClick: true,
+  onFocus: true,
   onKeyDown: true,
   onKeyPress: true,
 };
