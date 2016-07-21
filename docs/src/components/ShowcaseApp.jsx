@@ -21,11 +21,6 @@ var ShowcaseApp = React.createClass({
               >
                 Components
               </Link>
-              <Link to="/demo" className={styles.link}
-                activeClassName={styles.linkActive}
-              >
-                Demo
-              </Link>
             </div>
             <div style={{clear: 'both'}} />
           </div>
