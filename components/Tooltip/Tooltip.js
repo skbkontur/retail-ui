@@ -132,11 +132,12 @@ export default class Tooltip extends React.Component {
       return null;
     }
 
-    const close = this.props.trigger !== 'hover';
+    const trigger = this.props.trigger;
+    const close = trigger !== 'hover' && trigger !== 'focus';
 
     return (
       <RenderContainer>
-        <Box trigger={this.props.trigger} getTarget={this._getTarget}
+        <Box trigger={trigger} getTarget={this._getTarget}
           pos={this.props.pos} close={close}
           onClose={this._handleBoxClose}
         >
