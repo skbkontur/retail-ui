@@ -14,15 +14,24 @@ describe('Tooltip', () => {
   const render = () => '';
 
   it('keeps child ref', () => {
-    const refFn = jest.fn();
-    const wrapper = mount(
-      <Tooltip render={render}>
-        <div ref={refFn} />
-      </Tooltip>
-    );
+    const Comp = ({refFn}) => {
+      return <Tooltip render={render}><div ref={refFn} /></Tooltip>;
+    };
+    const refFn1 = jest.fn();
+    const refFn2 = jest.fn();
 
-    expect(refFn.mock.calls.length).toBe(1);
-    expect(refFn.mock.calls[0][0]).toBe(wrapper.find('div').node);
+    const wrapper = mount(<Comp refFn={refFn1} />);
+    // Force rerender to make sure no additional ref calls happens when ref
+    // didn't change.
+    wrapper.update();
+    wrapper.setProps({refFn: refFn2});
+
+    expect(refFn1.mock.calls.length).toBe(2);
+    expect(refFn1.mock.calls[0][0]).toBeTruthy();
+    expect(refFn1.mock.calls[1][0]).toBe(null);
+
+    expect(refFn2.mock.calls.length).toBe(1);
+    expect(refFn2.mock.calls[0][0]).toBe(wrapper.find('div').node);
   });
 
   it('calls onFocus/onBlur when trigger=focus', () => {

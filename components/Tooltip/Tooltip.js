@@ -62,9 +62,11 @@ export default class Tooltip extends React.Component {
 
   _hotspotDOM: ?HTMLElement;
   _boxDOM: ?HTMLElement;
-  _lastRef: ((el: ?React.Element<any>) => void) | string | null;
   _lastOnFocus: ((event: any) => void) | null;
   _lastOnBlur: ((event: any) => void) | null;
+
+  _childRef: ((el: ?React.Element<any>) => void) | string | null = null;
+  _cachedRef: ?((el: any, childRef: any) => void);
 
   constructor(props: Props, context: any) {
     super(props, context);
@@ -75,7 +77,6 @@ export default class Tooltip extends React.Component {
 
     this._hotspotDOM = null;
     this._boxDOM = null;
-    this._lastRef = null;
     this._lastOnFocus = null;
     this._lastOnBlur = null;
   }
@@ -89,23 +90,22 @@ export default class Tooltip extends React.Component {
       props.onClick = this._handleClick;
     }
 
-    const childProps: Object = {
-      ref: this._refHotspot,
-    };
+    const childProps: Object = {};
     if (this.props.trigger === 'focus') {
       childProps.onFocus = this._handleFocus;
       childProps.onBlur = this._handleBlur;
     }
 
     let child = this.props.children;
-    this._lastRef = null;
     this._lastOnFocus = null;
     this._lastOnBlur = null;
     if (typeof child === 'string') {
-      child = <span {...childProps}>{child}</span>;
+      child = (
+        <span ref={this._getHotspotRef(null)} {...childProps}>{child}</span>
+      );
     } else {
       const onlyChild = React.Children.only(child);
-      this._lastRef = onlyChild.ref;
+      childProps.ref = this._getHotspotRef(onlyChild.ref);
       if (onlyChild.props) {
         this._lastOnFocus = onlyChild.props.onFocus;
         this._lastOnBlur = onlyChild.props.onBlur;
@@ -157,14 +157,20 @@ export default class Tooltip extends React.Component {
     }
   }
 
-  _refHotspot = (el: any) => {
-    if (typeof this._lastRef === 'function') {
-      // React calls refs without context.
-      const ref = this._lastRef;
-      ref(el);
+  _refHotspot(childRef: any, el: any) {
+    if (typeof childRef === 'function') {
+      childRef(el);
     }
     this._hotspotDOM = el && ReactDOM.findDOMNode(el);
-  };
+  }
+
+  _getHotspotRef(childRef: any) {
+    if (!this._cachedRef || this._childRef !== childRef) {
+      this._childRef = childRef;
+      this._cachedRef = this._refHotspot.bind(this, childRef);
+    }
+    return this._cachedRef;
+  }
 
   _getTarget = () => {
     return this._hotspotDOM;
