@@ -14,6 +14,8 @@ class Link extends React.Component {
   static propTypes = {
     disabled: PropTypes.bool,
 
+    grayed: PropTypes.bool,
+
     href: PropTypes.string,
 
     icon: PropTypes.string,
@@ -42,6 +44,7 @@ class Link extends React.Component {
         [styles.disabled]: this.props.disabled,
         [styles.button]: this.props._button,
         [styles.buttonOpened]: this.props._buttonOpened,
+        [styles.grayed]: this.props.grayed,
       }),
       href: this.props.href,
       onClick: this._handleClick,
