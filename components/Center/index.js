@@ -1,1 +1,2 @@
-module.exports = require('./Center');
+import Center from './Center';
+module.exports = Center;
