@@ -3,7 +3,7 @@ import {mountTest} from '../../../testing/TestingTestUtils';
 
 import React from 'react';
 
-import ComboBox from '../EnhancedComboBox.adapter.js';
+import ComboBox from '../ComboBox.adapter.js';
 
 function noop() {}
 

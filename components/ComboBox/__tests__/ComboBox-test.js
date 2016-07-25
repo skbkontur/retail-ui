@@ -2,7 +2,7 @@ import {mount} from 'enzyme';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ComboBox from '../EnhancedComboBox.js';
+import ComboBox from '../ComboBox.js';
 
 describe('ComboBox', () => {
   it('autoFocus', () => {

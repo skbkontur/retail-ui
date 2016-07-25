@@ -1,6 +1,6 @@
 // @flow
 
-import ComboBox from './EnhancedComboBox.js';
+import ComboBox from './ComboBox.js';
 
 const ComboBoxAdapter = {
   getValue(inst) {
