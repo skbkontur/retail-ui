@@ -2,7 +2,7 @@
 
 import classNames from 'classnames';
 import events from 'add-event-listener';
-import React, {PropTypes} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 
 import filterProps from '../filterProps';
@@ -26,8 +26,8 @@ const INPUT_PASS_PROPS = {
   onBlur: true,
 };
 
-type Value = any;
-type Info = any;
+export type Value = any;
+export type Info = any;
 
 type SourceResult = {
   values: Array<Value | React.Element<any> | (() => React.Element<any>)>,
@@ -42,7 +42,7 @@ type RecoverResult = {
 
 type RecoverFunc = (searchString: string) => RecoverResult;
 
-type Props = {
+export type BaseProps = {
   autoFocus?: bool,
   borderless?: bool,
   disabled?: bool,
@@ -50,13 +50,13 @@ type Props = {
   info?: Info | (v: Value) => Promise<Info>,
   menuAlign: 'left' | 'right',
   openButton?: bool,
-  placeholder?: string,
+  placeholder: string,
   recover?: (RecoverFunc | bool),
   renderItem: (value: Value, info: Info) => React.Element<any>,
   renderValue: (value: Value, info: ?Info) => React.Element<any>,
   source: (searchText: string) => Promise<SourceResult>,
   warning?: bool,
-  value: ?Value,
+  value: Value | null,
   width: (number | string),
 
   onBlur?: () => void,
@@ -65,18 +65,20 @@ type Props = {
   onFocus?: () => void,
   onOpen?: () => void,
 
-  alkoValueToText: (value: Value) => string,
+  alkoValueToText?: (value: Value) => string,
+};
+
+type Props = BaseProps & {
+  info: Info,
 };
 
 type State = {
   opened: bool,
   searchText: string,
-  value: Value,
-  info: Info,
   result: ?SourceResult,
 };
 
-class ComboBox extends React.Component {
+class ComboBoxRenderer extends React.Component {
   static Item = class Item extends React.Component {
     render() {
       return <MenuItem>{this.props.children}</MenuItem>;
@@ -87,108 +89,31 @@ class ComboBox extends React.Component {
     return element;
   }
 
-  static propTypes = {
-    autoFocus: PropTypes.bool,
-
-    borderless: PropTypes.bool,
-
-    disabled: PropTypes.bool,
-
-    /**
-     * Визуально показать наличие ошибки.
-     */
-    error: PropTypes.bool,
-
-    /**
-     * Данные, которые будут переданы в функции для отрисовки значений
-     * (`renderValue` и `renderItem`).
-     */
-    info: PropTypes.oneOfType([
-      PropTypes.any,
-      PropTypes.func,
-    ]),
-
-    menuAlign: PropTypes.oneOf(['left', 'right']),
-
-    /**
-     * Показывать кнопку-треугольник для показа резаультатов.
-     */
-    openButton: PropTypes.bool,
-
-    placeholder: PropTypes.string,
-
-    /**
-     * Функция для обработки неожиданного ввода. Если пользователь ввел что-то в
-     * строку поиска и нажал Enter или ушел из поля, не выбрав значение, то
-     * будет вызвана эта функция, которая может вернуть значение, которое будет
-     * использовано как будто оно было выбрано.
-     *
-     * Возвращаемое значение может быть `null`, либо объектом такой формы:
-     * `{value: any, info?: any}`.
-     *
-     * Если задать это поле в `true`, то будет использована такая функция:
-     * `(searchText) => searchText`.
-     */
-    recover: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.func,
-    ]),
-
-    renderItem: PropTypes.func,
-
-    renderValue: PropTypes.func,
-
-    source: PropTypes.func.isRequired,
-
-    value: PropTypes.any,
-
-    /**
-     * Визуально показать наличие предупреждения.
-     */
-    warning: PropTypes.bool,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    onBlur: PropTypes.func,
-
-    onChange: PropTypes.func,
-
-    onClose: PropTypes.func,
-
-    onFocus: PropTypes.func,
-
-    onOpen: PropTypes.func,
-  };
 
   static defaultProps = {
     renderItem,
     renderValue,
     placeholder: '',
-    width: 250,
+    width: (250: number | string),
     menuAlign: 'left',
   };
 
   props: Props;
   state: State;
 
-  _focusable: ?HTMLInputElement;
-  _menu: ?Menu;
-  _recoverResult: ?RecoverResult;
-  _focusSubscribtion: ?{remove: () => void};
+  _focusable: ?HTMLInputElement = null;
+  _menu: ?Menu = null;
+  _focusSubscribtion: ?{remove: () => void} = null;
 
-  constructor(props: Props, context: any) {
+  constructor(props: Props, context: mixed) {
     super(props, context);
 
     this.state = {
       opened: false,
       searchText: '',
-      value: props.value !== undefined ? props.value : null,
-      info: null,
       result: null,
       selected: -1,
     };
-    this._focusable = null;
-    this._recoverResult = null;
   }
 
   render() {
@@ -239,18 +164,12 @@ class ComboBox extends React.Component {
     const inputProps = filterProps(this.props, INPUT_PASS_PROPS);
 
     let value;
-    if (this.state.value == null) {
+    if (this.props.value == null) {
       value = (
         <span className={styles.placeholder}>{this.props.placeholder}</span>
       );
-    } else if (this.props.info) {
-      if (this.state.info) {
-        value = this.props.renderValue(this.state.value, this.state.info);
-      } else {
-        value = <i>Загрузка</i>;
-      }
     } else {
-      value = this.props.renderValue(this.state.value, null);
+      value = this.props.renderValue(this.props.value, this.props.info);
     }
 
     return (
@@ -303,19 +222,6 @@ class ComboBox extends React.Component {
   focus() {
     if (this._focusable) {
       this._focusable.focus();
-    }
-  }
-
-  componentWillMount() {
-    if (this.state.value != null) {
-      this._loadItem(this.state.value);
-    }
-  }
-
-  componentWillReceiveProps(newProps: Props) {
-    if (newProps.value !== undefined) {
-      this.setState({value: newProps.value});
-      this._resetItem(newProps.value);
     }
   }
 
@@ -403,7 +309,7 @@ class ComboBox extends React.Component {
       searchText: '',
       result: null,
     });
-    this._alkoSetCurrentSearchText(this.state.value);
+    this._alkoSetCurrentSearchText(this.props.value);
     this._focusAsync();
     this._fetchList('');
   };
@@ -439,7 +345,7 @@ class ComboBox extends React.Component {
         }, () => {
           this._focus();
         });
-        this._alkoSetCurrentSearchText(this.state.value);
+        this._alkoSetCurrentSearchText(this.props.value);
         this._fetchList('');
         break;
     }
@@ -485,33 +391,6 @@ class ComboBox extends React.Component {
     });
   };
 
-  _resetItem(value: Value) {
-    if (this.state.value === value) {
-      return;
-    }
-
-    let info;
-    if (this._recoverResult && this._recoverResult.value === value) {
-      info = this._recoverResult.info;
-    } else {
-      info = this._findInfoByValue(value);
-    }
-    this.setState({info});
-    if (!info && typeof this.props.info) {
-      this._loadItem(value);
-    }
-  }
-
-  _loadItem(value: any) {
-    if (typeof this.props.info === 'function') {
-      this.props.info(value).then((info) => {
-        if (value === this.state.value) {
-          this.setState({info});
-        }
-      });
-    }
-  }
-
   _fetchList(pattern: string) {
     this.props.source(pattern).then((result) => {
       if (this.state.searchText === pattern) {
@@ -540,17 +419,12 @@ class ComboBox extends React.Component {
       recovered = {value: searchText};
     }
 
-    this._recoverResult = recovered;
     if (recovered) {
-      this._change(recovered.value);
+      this._change(recovered.value, recovered.info);
     }
   }
 
   _change(value: Value, info?: Info) {
-    if (this.props.value === undefined) {
-      this.setState({value});
-      this._resetItem(value);
-    }
     if (this.props.onChange) {
       this.props.onChange({target: {value}}, value, info);
     }
@@ -618,4 +492,4 @@ function renderItem(value, info) {
   return info;
 }
 
-export default ComboBox;
+export default ComboBoxRenderer;

@@ -26,7 +26,7 @@ module.exports = [
   {
     name: 'ComboBox',
     component: require('ui/ComboBox'),
-    info: require('!docgen!ui/ComboBox/ComboBox.js'),
+    info: require('!docgen!ui/ComboBox/EnhancedComboBox.js'),
     src: require('!raw!./snippets/ComboBox.jsx'),
   },
   {

@@ -1,23 +1,23 @@
 // @flow
 
-import ComboBox from './ComboBox.js';
+import ComboBox from './EnhancedComboBox.js';
 
 const ComboBoxAdapter = {
   getValue(inst) {
-    return inst.state.value;
+    return inst.props.value;
   },
 
-  setValue(inst, value) {
-    inst._change(value);
+  setValue({renderer}, value) {
+    renderer._change(value);
   },
 
-  search(inst, searchString: string) {
-    inst._handleValueClick();
-    inst._handleInputChange({target: {value: searchString}});
+  search({renderer}, searchString: string) {
+    renderer._handleValueClick();
+    renderer._handleInputChange({target: {value: searchString}});
   },
 
-  getResult(inst) {
-    const {result} = inst.state;
+  getResult({renderer}) {
+    const {result} = renderer.state;
     return result && result.values;
   },
 };

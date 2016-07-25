@@ -1,2 +1,2 @@
-import ComboBox from './ComboBox';
+import ComboBox from './EnhancedComboBox';
 module.exports = ComboBox;
