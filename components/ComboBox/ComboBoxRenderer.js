@@ -40,6 +40,8 @@ type RecoverResult = {
   info?: Info,
 };
 
+type ErrorKind = null | 'not_recovered';
+
 type RecoverFunc = (searchString: string) => RecoverResult;
 
 export type BaseProps = {
@@ -62,6 +64,7 @@ export type BaseProps = {
   onBlur?: () => void,
   onChange?: (event: {target: {value: Value}}, value: Value) => void,
   onClose?: () => void,
+  onError?: (kind: ErrorKind) => void,
   onFocus?: () => void,
   onOpen?: () => void,
 
@@ -104,6 +107,7 @@ class ComboBoxRenderer extends React.Component {
   _focusable: ?HTMLInputElement = null;
   _menu: ?Menu = null;
   _focusSubscribtion: ?{remove: () => void} = null;
+  _lastError: ErrorKind = null;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -123,7 +127,7 @@ class ComboBoxRenderer extends React.Component {
     });
 
     let valueEl;
-    if (this.state.opened) {
+    if (this.state.opened || this.state.searchText) {
       valueEl = this.renderOpenedValue();
     } else {
       valueEl = this.renderClosedValue();
@@ -148,6 +152,9 @@ class ComboBoxRenderer extends React.Component {
 
   renderOpenedValue() {
     const inputProps = filterProps(this.props, INPUT_PASS_PROPS);
+    if (!this.state.opened) {
+      inputProps.error = true;
+    }
     return (
       <div className={styles.input}>
         <Input ref={this._refFocusable} {...inputProps}
@@ -286,7 +293,8 @@ class ComboBoxRenderer extends React.Component {
       case 'Enter':
         event.preventDefault();
 
-        if (this._menu && !this._menu.enter()) {
+        const handled = this._menu && !this._menu.enter();
+        if (!handled) {
           this._tryRecover();
 
           // Close ComboBox only if Enter wasn't handled by the Menu.
@@ -296,6 +304,7 @@ class ComboBoxRenderer extends React.Component {
         }
         break;
       case 'Escape':
+        this.setState({searchText: ''});
         this._close(() => {
           this._focus();
         });
@@ -420,7 +429,19 @@ class ComboBoxRenderer extends React.Component {
     }
 
     if (recovered) {
+      this.setState({searchText: ''});
       this._change(recovered.value, recovered.info);
+      this._setError(null);
+    } else {
+      this._change(null);
+      this._setError(this.state.searchText ? 'not_recovered' : null);
+    }
+  }
+
+  _setError(error: ErrorKind) {
+    if (this._lastError !== error && this.props.onError) {
+      this._lastError = error;
+      this.props.onError(error);
     }
   }
 
