@@ -78,7 +78,7 @@ export default class Menu extends React.Component {
     this._scrollContainer = scrollContainer;
   };
 
-  _refHighlighted(originalRef, menuItem: any) {
+  _refHighlighted(originalRef: any, menuItem: any) {
     this._highlighted = menuItem;
 
     originalRef && originalRef(menuItem);

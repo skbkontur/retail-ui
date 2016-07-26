@@ -186,7 +186,7 @@ class Organizations extends React.Component {
   _comment: HTMLElement;
 
   props: {
-    caption: string,
+    caption: string | React.Element<any>,
     comment: ?string,
     children: React.Element<any>
   };
@@ -244,7 +244,7 @@ class Organizations extends React.Component {
         >
           <span className={styles.organizationsCaption}>
             {React.isValidElement(caption)
-              ? React.cloneElement(caption, {ref: null})
+              ? React.cloneElement((caption: any), {ref: null})
               : caption
             }
           </span>
