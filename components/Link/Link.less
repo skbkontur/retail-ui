@@ -3,23 +3,59 @@
 :local {
   .root {
     border-radius: 1px;
-    color: @link-color;
     outline: none;
     text-decoration: none;
   }
 
   .root:hover,
   .root:focus {
-    color: @link-hover-color;
     text-decoration: @link-hover-text-decoration;
   }
 
-  .root:active {
-    color: @link-active-color;
+  .useDefault {
+    color: @link-color;
+
+    &:hover,
+    &:focus {
+      color: @link-hover-color;
+    }
+
+    &:active {
+      color: @link-active-color;
+    }
   }
 
-  .root.grayed {
-    color: @link-disabled-color;
+  .useSuccess {
+    &,
+    &:hover,
+    &:active {
+      color: #3f9726;
+    }
+
+    &:active {
+      color: #24760d;
+    }
+  }
+
+  .useDanger {
+    &,
+    &:hover,
+    &:focus {
+      color: #e3071c;
+    }
+
+    &:active {
+      color: #b00616;
+    }
+  }
+
+  .useGrayed {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      color: @link-disabled-color;
+    }
   }
 
   .root.disabled {

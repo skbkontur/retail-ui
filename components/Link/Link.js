@@ -5,6 +5,13 @@ import Icon from '../Icon';
 
 import styles from './Link.less';
 
+const useClasses = {
+  default: styles.useDefault,
+  success: styles.useSuccess,
+  danger: styles.useDanger,
+  grayed: styles.useGrayed,
+};
+
 /**
  * Стандартная ссылка.
  *
@@ -14,15 +21,16 @@ class Link extends React.Component {
   static propTypes = {
     disabled: PropTypes.bool,
 
-    grayed: PropTypes.bool,
-
     href: PropTypes.string,
 
     icon: PropTypes.string,
+
+    use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
   };
 
   static defaultProps = {
     href: 'javascript:',
+    use: 'default',
   };
 
   render() {
@@ -41,10 +49,10 @@ class Link extends React.Component {
     const props = {
       className: classNames({
         [styles.root]: true,
+        [useClasses[this.props.use]]: true,
         [styles.disabled]: this.props.disabled,
         [styles.button]: this.props._button,
         [styles.buttonOpened]: this.props._buttonOpened,
-        [styles.grayed]: this.props.grayed,
       }),
       href: this.props.href,
       onClick: this._handleClick,
