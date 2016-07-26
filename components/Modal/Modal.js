@@ -129,6 +129,7 @@ class Modal extends React.Component {
     events.addEventListener(document, 'keydown', this._handleNativeKey);
 
     if (mountedModalsCount === 0) {
+      addClass(document.documentElement, styles.bodyClass);
       addClass(document.body, styles.bodyClass);
       LayoutEvents.emit();
     }
@@ -141,6 +142,7 @@ class Modal extends React.Component {
     events.removeEventListener(document, 'keydown', this._handleNativeKey);
 
     if (--mountedModalsCount === 0) {
+      removeClass(document.documentElement, styles.bodyClass);
       removeClass(document.body, styles.bodyClass);
       LayoutEvents.emit();
     }
