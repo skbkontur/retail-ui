@@ -246,6 +246,17 @@
 
   // End Use
 
+  .root.checked {
+    background: #737373;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, .6),
+      inset 0 1px 2px 0 rgba(0, 0, 0, .3);
+    color: #fff;
+  }
+
+  .focusMixin(checked);
+  .fallbackMixin(checked, #737373);
+
   .root.disabled {
     background: @bg-disabled;
     box-shadow: 0 0 0 1px @border-color-gray-light;

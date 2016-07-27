@@ -31,6 +31,8 @@ class Button extends React.Component {
      */
     active: PropTypes.bool,
 
+    checked: PropTypes.bool,
+
     disabled: PropTypes.bool,
 
     loading: PropTypes.bool,
@@ -77,6 +79,7 @@ class Button extends React.Component {
         [styles.root]: true,
         [styles['use-' + this.props.use]]: true,
         [styles.active]: this.props.active,
+        [styles.checked]: this.props.checked,
         [styles.disabled]: this.props.disabled || this.props.loading,
         [styles.narrow]: this.props.narrow,
         [styles.noPadding]: this.props._noPadding,
