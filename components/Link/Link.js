@@ -34,35 +34,45 @@ class Link extends React.Component {
   };
 
   render() {
+    const {
+      disabled,
+      href,
+      icon: iconName,
+      use,
+      _button,
+      _buttonOpened,
+      ...rest,
+    } = this.props;
+
     let icon = null;
-    if (this.props.icon) {
+    if (iconName) {
       icon = (
-        <span className={styles.icon}><Icon name={this.props.icon} /></span>
+        <span className={styles.icon}><Icon name={iconName} /></span>
       );
     }
 
     let arrow = null;
-    if (this.props._button) {
+    if (_button) {
       arrow = <span className={styles.arrow} />;
     }
 
     const props = {
       className: classNames({
         [styles.root]: true,
-        [useClasses[this.props.use]]: true,
-        [styles.disabled]: this.props.disabled,
-        [styles.button]: this.props._button,
-        [styles.buttonOpened]: this.props._buttonOpened,
+        [useClasses[use]]: true,
+        [styles.disabled]: disabled,
+        [styles.button]: _button,
+        [styles.buttonOpened]: _buttonOpened,
       }),
-      href: this.props.href,
+      href,
       onClick: this._handleClick,
     };
-    if (this.props.disabled) {
+    if (disabled) {
       props.tabIndex = '-1';
     }
 
     return (
-      <a {...this.props} {...props}>
+      <a {...rest} {...props}>
         {icon}
         {this.props.children}
         {arrow}
