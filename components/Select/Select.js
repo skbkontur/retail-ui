@@ -91,6 +91,8 @@ class Select extends React.Component {
     value: PropTypes.any,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+    onChange: PropTypes.func,
   };
 
   static defaultProps = {
