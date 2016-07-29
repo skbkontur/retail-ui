@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import ExecutionEnvironment from 'exenv';
 import React, {PropTypes} from 'react';
 
+import LayoutEvents from '../../lib/LayoutEvents';
+
 import styles from './ScrollContainer.less';
 
 const SCROLL_WIDTH = measureScrollWidth();
@@ -83,7 +85,7 @@ export default class ScrollContainer extends React.Component {
   componentDidMount() {
     this._reflow();
 
-    events.addEventListener(this._inner, 'scroll', this._reflow);
+    events.addEventListener(this._inner, 'scroll', this._handleNativeScroll);
   }
 
   componentDidUpdate() {
@@ -91,11 +93,16 @@ export default class ScrollContainer extends React.Component {
   }
 
   componentWillUnmount() {
-    events.removeEventListener(this._inner, 'scroll', this._reflow);
+    events.removeEventListener(this._inner, 'scroll', this._handleNativeScroll);
   }
 
   _refInner = (el) => {
     this._inner = el;
+  };
+
+  _handleNativeScroll = () => {
+    this._reflow();
+    LayoutEvents.emit();
   };
 
   _reflow = () => {

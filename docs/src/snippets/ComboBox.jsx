@@ -9,7 +9,7 @@ function info(id) {
 };
 
 function search(query) {
-  query = pattern.toLowerCase();
+  query = query.toLowerCase();
   var results = items.filter(item => (
     item.name.toLowerCase().indexOf(query) !== -1
   ));

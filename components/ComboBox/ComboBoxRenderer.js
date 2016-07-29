@@ -9,6 +9,7 @@ import filterProps from '../filterProps';
 import listenFocusOutside from '../../lib/listenFocusOutside';
 import Upgrades from '../../lib/Upgrades';
 
+import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText/InputLikeText';
 import Menu from '../Menu/Menu';
@@ -137,7 +138,7 @@ class ComboBoxRenderer extends React.Component {
       <label className={className} style={{width: this.props.width}}>
         {valueEl}
         {this.state.opened && (
-          <div ref={this._refMenuHolder} className={styles.menuHolder}>
+          <div ref={this._refMenuHolder}>
             {this.renderMenu()}
           </div>
         )}
@@ -195,12 +196,11 @@ class ComboBoxRenderer extends React.Component {
     if (!result || result.values.length === 0) {
       return null;
     }
-    const menuClassName = classNames({
-      [styles.menu]: true,
-      [styles.menuAlignRight]: this.props.menuAlign === 'right',
-    });
     return (
-      <div className={menuClassName}>
+      <DropdownContainer
+        getParent={() => ReactDOM.findDOMNode(this)}
+        align={this.props.menuAlign}
+      >
         <Menu ref={this._refMenu} maxHeight={200}>
           {mapResult(result, (value, info, i) => {
             if (typeof value === 'function' || React.isValidElement(value)) {
@@ -222,7 +222,7 @@ class ComboBoxRenderer extends React.Component {
             );
           })}
         </Menu>
-      </div>
+      </DropdownContainer>
     );
   }
 
@@ -254,7 +254,13 @@ class ComboBoxRenderer extends React.Component {
 
     if (menuHolder) {
       this._focusSubscribtion = listenFocusOutside(
-        [ReactDOM.findDOMNode(this)],
+        () => {
+          const ret = [ReactDOM.findDOMNode(this)];
+          if (this._menu) {
+            ret.push(ReactDOM.findDOMNode(this._menu));
+          }
+          return ret;
+        },
         () => {
           this._close();
           this._tryRecover();
