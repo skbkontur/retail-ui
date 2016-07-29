@@ -79,6 +79,7 @@ type Props = BaseProps & {
 type State = {
   opened: bool,
   searchText: string,
+  changed: bool, // If user typed anything after opening.
   result: ?SourceResult,
 };
 
@@ -116,6 +117,7 @@ class ComboBoxRenderer extends React.Component {
     this.state = {
       opened: false,
       searchText: '',
+      changed: false,
       result: null,
       selected: -1,
     };
@@ -279,9 +281,10 @@ class ComboBoxRenderer extends React.Component {
 
   _handleInputChange = (event: SyntheticEvent) => {
     const pattern = (event.target: any).value;
-    this._open();
+    this._open(); // TODO: remove?
     this.setState({
       searchText: pattern,
+      changed: true,
     });
     this._fetchList(pattern);
   };
@@ -322,6 +325,7 @@ class ComboBoxRenderer extends React.Component {
     this._open();
     this.setState({
       searchText: '',
+      changed: false,
       result: null,
     });
     this._alkoSetCurrentSearchText(this.props.value);
@@ -337,6 +341,7 @@ class ComboBoxRenderer extends React.Component {
     this.setState(
       {
         searchText: str,
+        changed: true,
       },
       () => {
         if (this._focusable) {
@@ -357,6 +362,7 @@ class ComboBoxRenderer extends React.Component {
         this._open();
         this.setState({
           searchText: '',
+          changed: false,
         }, () => {
           this._focus();
         });
@@ -426,6 +432,12 @@ class ComboBoxRenderer extends React.Component {
   }
 
   _tryRecover() {
+    if (!this.state.changed) {
+      this.setState({searchText: ''});
+      this._close();
+      return;
+    }
+
     const searchText = this.state.searchText;
     let recovered: ?RecoverResult = null;
     if (typeof this.props.recover === 'function') {
