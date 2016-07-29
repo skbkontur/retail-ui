@@ -299,7 +299,7 @@ class ComboBoxRenderer extends React.Component {
       case 'Enter':
         event.preventDefault();
 
-        const handled = this._menu && !this._menu.enter();
+        const handled = this._menu && this._menu.enter();
         if (!handled) {
           this._tryRecover();
 

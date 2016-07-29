@@ -90,4 +90,22 @@ describe('ComboBoxRenderer', () => {
     expect(onChange.mock.calls.length).toBe(0);
     expect(wrapper.find('InputLikeText').length).toBe(1);
   });
+
+  it('selects item by keyboard', async () => {
+    const items = ['foo', 'bar'];
+    const promise = Promise.resolve({values: items});
+    const onChange = jest.fn();
+    const wrapper = mount(
+      <ComboBoxRenderer value="" source={() => promise} onChange={onChange} />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    await promise;
+    wrapper.find('input').
+      simulate('keydown', {key: 'ArrowDown'}).
+      simulate('keydown', {key: 'Enter'});
+
+    expect(onChange.mock.calls.length).toBe(1);
+    expect(onChange.mock.calls[0][1]).toBe('foo');
+  });
 });
