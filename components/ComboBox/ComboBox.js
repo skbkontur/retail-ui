@@ -10,7 +10,7 @@ import listenFocusOutside from '../../lib/listenFocusOutside';
 import Upgrades from '../../lib/Upgrades';
 
 import Input from '../Input';
-import InputLikeText from '../internal/InputLikeText';
+import InputLikeText from '../internal/InputLikeText/InputLikeText';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
 
@@ -21,6 +21,9 @@ const INPUT_PASS_PROPS = {
   error: true,
   warning: true,
   width: true,
+
+  onFocus: true,
+  onBlur: true,
 };
 
 type Value = any;
@@ -40,6 +43,7 @@ type RecoverResult = {
 type RecoverFunc = (searchString: string) => RecoverResult;
 
 type Props = {
+  autoFocus?: bool,
   borderless?: bool,
   disabled?: bool,
   error?: bool,
@@ -52,11 +56,13 @@ type Props = {
   renderValue: (value: Value, info: ?Info) => React.Element<any>,
   source: (searchText: string) => Promise<SourceResult>,
   warning?: bool,
-  value: Value,
+  value: ?Value,
   width: (number | string),
 
+  onBlur?: () => void,
   onChange?: (event: {target: {value: Value}}, value: Value) => void,
   onClose?: () => void,
+  onFocus?: () => void,
   onOpen?: () => void,
 
   alkoValueToText: (value: Value) => string,
@@ -82,6 +88,8 @@ class ComboBox extends React.Component {
   }
 
   static propTypes = {
+    autoFocus: PropTypes.bool,
+
     borderless: PropTypes.bool,
 
     disabled: PropTypes.bool,
@@ -132,7 +140,7 @@ class ComboBox extends React.Component {
 
     source: PropTypes.func.isRequired,
 
-    value: PropTypes.any.isRequired,
+    value: PropTypes.any,
 
     /**
      * Визуально показать наличие предупреждения.
@@ -141,9 +149,13 @@ class ComboBox extends React.Component {
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
+    onBlur: PropTypes.func,
+
     onChange: PropTypes.func,
 
     onClose: PropTypes.func,
+
+    onFocus: PropTypes.func,
 
     onOpen: PropTypes.func,
   };
@@ -182,7 +194,7 @@ class ComboBox extends React.Component {
   render() {
     const className = classNames({
       [styles.root]: true,
-      [styles.deprecated_oldSize]: !Upgrades.__height34,
+      [styles.deprecated_oldSize]: !Upgrades.isHeight34Enabled(),
     });
 
     let valueEl;
@@ -214,7 +226,8 @@ class ComboBox extends React.Component {
     return (
       <div className={styles.input}>
         <Input ref={this._refFocusable} {...inputProps}
-          value={this.state.searchText} rightIcon={<span />}
+          value={this.state.searchText}
+          rightIcon={this.props.openButton && <span />}
           disabled={this.props.disabled} onChange={this._handleInputChange}
           onKeyDown={this._handleInputKey}
         />
@@ -242,6 +255,7 @@ class ComboBox extends React.Component {
 
     return (
       <InputLikeText ref={this._refFocusable} {...inputProps}
+        padRight={this.props.openButton}
         onClick={this._handleValueClick} onKeyDown={this._handleValueKey}
         onKeyPress={this._handleValueKeyPress}
       >

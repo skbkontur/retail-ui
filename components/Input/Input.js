@@ -114,7 +114,7 @@ class Input extends React.Component {
 
     type: PropTypes.oneOf(['password', 'text']),
 
-    value: PropTypes.any.isRequired,
+    value: PropTypes.string.isRequired,
 
     /**
      * Визуально показать наличие предупреждения.
@@ -177,7 +177,7 @@ class Input extends React.Component {
       labelProps.style.width = this.props.width;
     }
 
-    if (!Upgrades.__height34) {
+    if (!Upgrades.isHeight34Enabled()) {
       labelProps.className += ' ' + SIZE_CLASS_NAMES[this.props.size];
     }
 

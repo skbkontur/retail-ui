@@ -344,8 +344,8 @@ class SearchSelect extends React.Component {
   }
 
   _focus = () => {
-    if (this.focusable_) {
-      this.focusable_.focus();
+    if (this._focusable) {
+      this._focusable.focus();
     }
   };
 

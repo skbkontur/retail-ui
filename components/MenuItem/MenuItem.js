@@ -12,6 +12,8 @@ export default class MenuItem extends React.Component {
   static __MENU_ITEM__ = true;
 
   static propTypes = {
+    alkoLink: PropTypes.bool,
+
     comment: PropTypes.string,
 
     disabled: PropTypes.bool,
@@ -30,6 +32,7 @@ export default class MenuItem extends React.Component {
   }
 
   props: {
+    alkoLink?: bool,
     comment?: string,
     disabled?: bool,
     href?: string,
@@ -41,6 +44,7 @@ export default class MenuItem extends React.Component {
 
   render() {
     const {
+      alkoLink,
       comment,
       disabled,
       loose,
@@ -57,6 +61,7 @@ export default class MenuItem extends React.Component {
       [styles.hover]: hover,
       [styles.loose]: loose,
       [styles.selected]: state === 'selected',
+      [styles.link]: alkoLink,
     });
 
     return (

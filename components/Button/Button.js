@@ -31,6 +31,8 @@ class Button extends React.Component {
      */
     active: PropTypes.bool,
 
+    checked: PropTypes.bool,
+
     disabled: PropTypes.bool,
 
     loading: PropTypes.bool,
@@ -77,6 +79,7 @@ class Button extends React.Component {
         [styles.root]: true,
         [styles['use-' + this.props.use]]: true,
         [styles.active]: this.props.active,
+        [styles.checked]: this.props.checked,
         [styles.disabled]: this.props.disabled || this.props.loading,
         [styles.narrow]: this.props.narrow,
         [styles.noPadding]: this.props._noPadding,
@@ -96,8 +99,10 @@ class Button extends React.Component {
     if (this.props.align) {
       rootProps.style.textAlign = this.props.align;
     }
+
+    const wrapStyle = {};
     if (this.props.width) {
-      rootProps.style.width = this.props.width;
+      wrapStyle.width = this.props.width;
     }
 
     let error = null;
@@ -113,7 +118,7 @@ class Button extends React.Component {
     }
 
     return (
-      <span className={styles.wrap}>
+      <span className={styles.wrap} style={wrapStyle}>
         <button {...rootProps}>
           {loading}
           <div className={styles.caption}>
@@ -131,7 +136,7 @@ class Button extends React.Component {
   }
 
   _getSizeClassMap() {
-    if (!Upgrades.__height34) {
+    if (!Upgrades.isHeight34Enabled()) {
       return {
         [DEPRECATED_SIZE_CLASSES[this.props.size]]: true,
       };

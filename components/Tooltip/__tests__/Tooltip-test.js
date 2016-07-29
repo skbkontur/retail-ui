@@ -4,24 +4,41 @@ import React from 'react';
 import RenderContainer from '../../RenderContainer';
 import Tooltip from '../Tooltip.js';
 
-describe('Tooltip', () => {
-  it('keeps child ref', () => {
-    const refFn = jest.fn();
-    const wrapper = mount(
-      <Tooltip>
-        <div ref={refFn} />
-      </Tooltip>
-    );
+jest.mock('../../RenderContainer/RenderContainer.js', () => {
+  return function RenderContainerMock(props) {
+    return <div>{props.children}</div>;
+  };
+});
 
-    expect(refFn.mock.calls.length).toBe(1);
-    expect(refFn.mock.calls[0][0]).toBe(wrapper.find('div').node);
+describe('Tooltip', () => {
+  const render = () => '';
+
+  it('keeps child ref', () => {
+    const Comp = ({refFn}) => {
+      return <Tooltip render={render}><div ref={refFn} /></Tooltip>;
+    };
+    const refFn1 = jest.fn();
+    const refFn2 = jest.fn();
+
+    const wrapper = mount(<Comp refFn={refFn1} />);
+    // Force rerender to make sure no additional ref calls happens when ref
+    // didn't change.
+    wrapper.update();
+    wrapper.setProps({refFn: refFn2});
+
+    expect(refFn1.mock.calls.length).toBe(2);
+    expect(refFn1.mock.calls[0][0]).toBeTruthy();
+    expect(refFn1.mock.calls[1][0]).toBe(null);
+
+    expect(refFn2.mock.calls.length).toBe(1);
+    expect(refFn2.mock.calls[0][0]).toBe(wrapper.find('div').node);
   });
 
   it('calls onFocus/onBlur when trigger=focus', () => {
     const onFocus = jest.fn();
     const onBlur = jest.fn();
     const wrapper = mount(
-      <Tooltip trigger="focus" render={() => ''}>
+      <Tooltip trigger="focus" render={render}>
         <input onFocus={onFocus} onBlur={onBlur} />
       </Tooltip>
     );
@@ -39,7 +56,7 @@ describe('Tooltip', () => {
     const wrapper = mount(
       <div>
         <div id="foo">
-          <Tooltip trigger="opened" render={() => ''}>foo</Tooltip>
+          <Tooltip trigger="opened" render={render}>foo</Tooltip>
         </div>
         <div id="bar">
           <Tooltip trigger="opened" render={() => null}>bar</Tooltip>
@@ -49,5 +66,17 @@ describe('Tooltip', () => {
 
     expect(wrapper.find('#foo').find(RenderContainer).length).toBe(1);
     expect(wrapper.find('#bar').find(RenderContainer).length).toBe(0);
+  });
+
+  it('calls `onCloseClick` when click on the cross', () => {
+    const onClose = jest.fn();
+    const wrapper = mount(
+      <Tooltip trigger="opened" render={render} onCloseClick={onClose}>
+        <div />
+      </Tooltip>
+    );
+
+    wrapper.find('.cross').simulate('click');
+    expect(onClose.mock.calls.length).toBe(1);
   });
 });

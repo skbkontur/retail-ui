@@ -182,7 +182,7 @@ export default class AddressModal extends React.Component {
       let parentCode = null;
       for (const parentName of parents) {
         const parent = this.state.address[parentName];
-        if (parent && parent.code) {
+        if (parent && typeof parent === 'object' && parent.code) {
           parentCode = parent.code;
         }
       }

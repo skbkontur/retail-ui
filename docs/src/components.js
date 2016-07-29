@@ -60,6 +60,12 @@ module.exports = [
     src: require('!raw!./snippets/Group.jsx'),
   },
   {
+    name: 'Hint',
+    component: require('ui/Hint'),
+    info: require('!docgen!ui/Hint/Hint.js'),
+    src: require('!raw!./snippets/Hint.jsx'),
+  },
+  {
     name: 'Icon',
     component: require('ui/Icon'),
     info: require('!docgen!ui/Icon/Icon.js'),

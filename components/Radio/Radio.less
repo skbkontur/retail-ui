@@ -6,7 +6,7 @@
     border: 1px solid @border-color-gray-light;
     border-radius: 50%;
     box-shadow: inset 0 2px 3px -2px rgba(0, 0, 0, .1);
-    display: inline-block;
+    display: block;
     height: 14px;
     margin-right: 4px;
     width: 14px;
@@ -38,5 +38,14 @@
 
   .checked .inbox {
     display: block;
+  }
+
+  .disabled {
+    background: #f2f2f2;
+    box-shadow: none;
+  }
+
+  .disabled .inbox {
+    background: #808080;
   }
 }

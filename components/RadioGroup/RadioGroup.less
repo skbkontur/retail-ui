@@ -15,17 +15,38 @@
   }
 
   .item {
-    display: block;
-    margin-bottom: 6px;
+    display: table;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .itemFirst {
+    margin-top: 0;
+  }
+
+  .itemInline {
+    display: inline-table;
+    margin-top: 0;
+    margin-right: 15px;
+    width: auto;
   }
 
   .radio {
-    float: left;
+    display: table-cell;
+    width: 25px;
+  }
+
+  .radioWrap {
+    position: relative;
+    top: 3px;
   }
 
   .label {
-    // To make it 16px for default size text, so radio aligns with text.
-    line-height: 1.143;
-    margin-left: 20px;
+    display: table-cell;
+    margin-left: 22px;
+  }
+
+  .labelDisabled {
+    color: #808080;
   }
 }

@@ -19,13 +19,15 @@ type Props = {
   pos: Pos,
 
   trigger: 'hover' | 'click' | 'focus' | 'opened' | 'closed',
+
+  onCloseClick?: () => void,
 };
 
 type State = {
   opened: bool,
 };
 
-class Tooltip extends React.Component {
+export default class Tooltip extends React.Component {
   static propTypes = {
     pos: PropTypes.oneOf([
       'top left', 'top center', 'top right',
@@ -39,9 +41,11 @@ class Tooltip extends React.Component {
      *
      * Если эта функция вернула `null`, то тултип не показывается.
      */
-    render: PropTypes.func,
+    render: PropTypes.func.isRequired,
 
     trigger: PropTypes.oneOf(['hover', 'click', 'focus', 'opened', 'closed']),
+
+    onCloseClick: PropTypes.func,
   };
 
   static defaultProps = {
@@ -58,9 +62,11 @@ class Tooltip extends React.Component {
 
   _hotspotDOM: ?HTMLElement;
   _boxDOM: ?HTMLElement;
-  _lastRef: ((el: ?React.Element<any>) => void) | string | null;
   _lastOnFocus: ((event: any) => void) | null;
   _lastOnBlur: ((event: any) => void) | null;
+
+  _childRef: ((el: ?React.Element<any>) => void) | string | null = null;
+  _cachedRef: ?((el: any, childRef: any) => void);
 
   constructor(props: Props, context: any) {
     super(props, context);
@@ -71,7 +77,6 @@ class Tooltip extends React.Component {
 
     this._hotspotDOM = null;
     this._boxDOM = null;
-    this._lastRef = null;
     this._lastOnFocus = null;
     this._lastOnBlur = null;
   }
@@ -85,23 +90,22 @@ class Tooltip extends React.Component {
       props.onClick = this._handleClick;
     }
 
-    const childProps: Object = {
-      ref: this._refHotspot,
-    };
+    const childProps: Object = {};
     if (this.props.trigger === 'focus') {
       childProps.onFocus = this._handleFocus;
       childProps.onBlur = this._handleBlur;
     }
 
     let child = this.props.children;
-    this._lastRef = null;
     this._lastOnFocus = null;
     this._lastOnBlur = null;
     if (typeof child === 'string') {
-      child = <span {...childProps}>{child}</span>;
+      child = (
+        <span ref={this._getHotspotRef(null)} {...childProps}>{child}</span>
+      );
     } else {
       const onlyChild = React.Children.only(child);
-      this._lastRef = onlyChild.ref;
+      childProps.ref = this._getHotspotRef(onlyChild.ref);
       if (onlyChild.props) {
         this._lastOnFocus = onlyChild.props.onFocus;
         this._lastOnBlur = onlyChild.props.onBlur;
@@ -128,10 +132,14 @@ class Tooltip extends React.Component {
       return null;
     }
 
+    const trigger = this.props.trigger;
+    const close = trigger !== 'hover' && trigger !== 'focus';
+
     return (
       <RenderContainer>
-        <Box trigger={this.props.trigger} getTarget={this._getTarget}
-          pos={this.props.pos} onClose={this._handleBoxClose}
+        <Box trigger={trigger} getTarget={this._getTarget}
+          pos={this.props.pos} close={close}
+          onClose={this._handleBoxClose}
         >
           {content}
         </Box>
@@ -149,14 +157,20 @@ class Tooltip extends React.Component {
     }
   }
 
-  _refHotspot = (el: any) => {
-    if (typeof this._lastRef === 'function') {
-      // React calls refs without context.
-      const ref = this._lastRef;
-      ref(el);
+  _refHotspot(childRef: any, el: any) {
+    if (typeof childRef === 'function') {
+      childRef(el);
     }
     this._hotspotDOM = el && ReactDOM.findDOMNode(el);
-  };
+  }
+
+  _getHotspotRef(childRef: any) {
+    if (!this._cachedRef || this._childRef !== childRef) {
+      this._childRef = childRef;
+      this._cachedRef = this._refHotspot.bind(this, childRef);
+    }
+    return this._cachedRef;
+  }
 
   _getTarget = () => {
     return this._hotspotDOM;
@@ -186,7 +200,13 @@ class Tooltip extends React.Component {
   };
 
   _handleBoxClose = () => {
-    this._setOpened(false);
+    if (this.props.trigger !== 'opened') {
+      this._setOpened(false);
+    }
+
+    if (this.props.onCloseClick) {
+      this.props.onCloseClick.call(null);
+    }
   };
 
   _handleFocus = (event: SyntheticFocusEvent) => {
@@ -213,5 +233,3 @@ class Tooltip extends React.Component {
     }
   }
 }
-
-export default Tooltip;

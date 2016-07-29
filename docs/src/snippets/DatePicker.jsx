@@ -1,1 +1,1 @@
-ReactDOM.render(<DatePicker />, mountNode);
+ReactDOM.render(unc(<DatePicker />), mountNode);

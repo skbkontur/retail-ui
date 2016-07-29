@@ -182,7 +182,19 @@ class User extends React.Component {
 }
 
 class Organizations extends React.Component {
-  state = {
+  _caption: HTMLElement;
+  _comment: HTMLElement;
+
+  props: {
+    caption: string | React.Element<any>,
+    comment: ?string,
+    children: React.Element<any>
+  };
+
+  state: {
+    captionWhiteSpace: string,
+    minWidth: ?number
+  } = {
     captionWhiteSpace: 'normal',
     minWidth: null,
   };
@@ -231,7 +243,10 @@ class Organizations extends React.Component {
           style={{whiteSpace: this.state.captionWhiteSpace}}
         >
           <span className={styles.organizationsCaption}>
-            {caption}
+            {React.isValidElement(caption)
+              ? React.cloneElement((caption: any), {ref: null})
+              : caption
+            }
           </span>
           {comment &&
             <span className={styles.organizationsCommentDummy}>
@@ -271,12 +286,12 @@ class Organizations extends React.Component {
     if (this._caption.offsetWidth + commentWidth > 315) {
       this.setState({
         captionWhiteSpace: 'normal',
-        minWidth: 360
+        minWidth: 360,
       });
     } else {
       this.setState({
         captionWhiteSpace: 'nowrap',
-        minWidth: null
+        minWidth: null,
       });
     }
   }
@@ -348,27 +363,29 @@ class TopBar extends React.Component {
         })}
       >
         <div className={styles.center} style={{maxWidth}}>
-          <div className={styles.container}>
-            <div id="spwDropdown" className={styles.spwDropdown}>
+          <div className={styles.containerWrap}>
+            <div className={styles.container}>
+              <div id="spwDropdown" className={styles.spwDropdown}>
               <span ref={this._refLogoWrapper}>
                 <Logo suffix={suffix} color={color}/>
                 <Divider />
               </span>
-              <ButtonItem iconOnly>
-                <Icon color="#aaa" size={20} name="angle-bottom"/>
-              </ButtonItem>
+                <ButtonItem iconOnly>
+                  <Icon color="#aaa" size={20} name="angle-bottom"/>
+                </ButtonItem>
+              </div>
+              <div className={styles.leftItems}>
+                {this._renderLeftItems(leftItems)}
+              </div>
+              {this._renderRightItems([
+                ...rightItems || [],
+                <User userName={userName}/>,
+                <Divider />,
+                <ButtonItem onClick={onLogout}>
+                  Выйти
+                </ButtonItem>,
+              ])}
             </div>
-            <div className={styles.leftItems}>
-              {this._renderLeftItems(leftItems)}
-            </div>
-            {this._renderRightItems([
-              ...rightItems || [],
-              <User userName={userName}/>,
-              <Divider />,
-              <ButtonItem onClick={onLogout}>
-                Выйти
-              </ButtonItem>,
-            ])}
           </div>
         </div>
       </div>
