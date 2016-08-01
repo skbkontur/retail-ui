@@ -375,6 +375,7 @@ class ComboBoxRenderer extends React.Component {
   _handleItemClick(
     options: {value?: Value, info?: Info, onClick?: () => void}
   ) {
+    this.setState({searchText: ''});
     this._close();
     this._change(options.value, options.info);
     this._focusAsync();

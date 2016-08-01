@@ -102,11 +102,15 @@ describe('ComboBoxRenderer', () => {
     wrapper.find('[tabIndex]').simulate('click');
     await promise;
     wrapper.find('input').
+      simulate('change', {target: {value: 'baz'}}).
       simulate('keydown', {key: 'ArrowDown'}).
       simulate('keydown', {key: 'Enter'});
 
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0][1]).toBe('foo');
+
+    // Ensure that ComboBox is closed.
+    expect(wrapper.find('InputLikeText').length).toBe(1);
   });
 
   it('does not try to recover if closed by Enter without editing', () => {
