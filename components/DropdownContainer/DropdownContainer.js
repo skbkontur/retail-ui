@@ -72,7 +72,8 @@ export default class DropdownContainer extends React.Component {
     const dom = this._dom;
     if (target && dom) {
       const targetRect = target.getBoundingClientRect();
-      const {scrollX, scrollY} = (window: {scrollX: number, scrollY: number});
+      var scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop;
 
       let left = null;
       let right = null;
