@@ -30,6 +30,31 @@ describe('ComboBox-adapter', () => {
     unmount();
   });
 
+  it('getInfo', () => {
+    const {node, unmount} = mountTest(
+      <ComboBox tid="a" value="foo" info="info" source={noop} />
+    );
+
+    expect(ReactTesting.call(node, 'getInfo', [])).toBe('info');
+
+    unmount();
+  });
+
+  it('getInfo of promise', async () => {
+    const promise = Promise.resolve('info');
+    const {node, unmount} = mountTest(
+      <ComboBox tid="a" value="foo" info={() => promise} source={noop} />
+    );
+
+    // Info is null until promise is resolved.
+    expect(ReactTesting.call(node, 'getInfo', [])).toBe(null);
+
+    await promise;
+    expect(ReactTesting.call(node, 'getInfo', [])).toBe('info');
+
+    unmount();
+  });
+
   pit('search and getResult', async () => {
     const source = jest.fn(() => Promise.resolve({values: [1, 2, 3]}));
     const {node, unmount} = mountTest(<ComboBox tid="a" source={source} />);

@@ -11,6 +11,10 @@ const ComboBoxAdapter = {
     renderer._change(value);
   },
 
+  getInfo({renderer}) {
+    return renderer.props.info;
+  },
+
   search({renderer}, searchString: string) {
     renderer._handleValueClick();
     renderer._handleInputChange({target: {value: searchString}});
