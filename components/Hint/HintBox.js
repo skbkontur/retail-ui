@@ -25,7 +25,7 @@ export default class HintBox extends React.Component {
   };
 
   _dom: ?HTMLElement = null;
-  _positioning = false;
+  _positioning: boolean = false;
 
   render() {
     let style = {};
