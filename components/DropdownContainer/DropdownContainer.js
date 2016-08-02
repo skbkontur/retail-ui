@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer/RenderContainer';
@@ -20,6 +20,10 @@ type State = {
 };
 
 export default class DropdownContainer extends React.Component {
+  static contextTypes = {
+    rt_inModal: PropTypes.bool,
+  };
+
   static defaultProps = {
     align: 'left',
   };
@@ -38,7 +42,7 @@ export default class DropdownContainer extends React.Component {
       top: '0',
       left: null,
       right: null,
-      zIndex: 900,
+      zIndex: this.context.rt_inModal ? 1100 : 900,
     };
     if (this.state.position) {
       style = {
