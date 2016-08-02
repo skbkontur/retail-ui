@@ -14,6 +14,7 @@ import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText/InputLikeText';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
+import type {MenuItemState} from '../MenuItem/MenuItem';
 
 import styles from './ComboBoxRenderer.less';
 
@@ -55,7 +56,11 @@ export type BaseProps = {
   openButton?: bool,
   placeholder: string,
   recover?: (RecoverFunc | bool),
-  renderItem: (value: Value, info: Info) => React.Element<any>,
+  renderItem: (
+    value: Value,
+    info: Info,
+    state: MenuItemState
+  ) => React.Element<any>,
   renderValue: (value: Value, info: ?Info) => React.Element<any>,
   source: (searchText: string) => Promise<SourceResult>,
   warning?: bool,
@@ -219,7 +224,7 @@ class ComboBoxRenderer extends React.Component {
               <MenuItem key={i}
                 onClick={this._handleItemClick.bind(this, {value, info})}
               >
-                {this.props.renderItem(value, info)}
+                {state => this.props.renderItem(value, info, state)}
               </MenuItem>
             );
           })}
@@ -528,7 +533,7 @@ function renderValue(value, info) {
   return info;
 }
 
-function renderItem(value, info) {
+function renderItem(value, info, state) {
   return info;
 }
 

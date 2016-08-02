@@ -5,6 +5,8 @@ import React, {PropTypes} from 'react';
 
 import styles from './MenuItem.less';
 
+export type MenuItemState = null | 'hover' | 'selected';
+
 /**
  * Элемент меню.
  */
@@ -37,9 +39,10 @@ export default class MenuItem extends React.Component {
     disabled?: bool,
     href?: string,
     loose?: bool,
-    state?: 'hover' | 'selected',
+    state?: MenuItemState,
     target?: string,
     onClick?: () => void,
+    children?: any,
   };
 
   render() {
@@ -64,6 +67,11 @@ export default class MenuItem extends React.Component {
       [styles.link]: alkoLink,
     });
 
+    let {children} = this.props;
+    if (typeof children === 'function') {
+      children = children(this.props.state);
+    }
+
     return (
       <a
         {...rest}
@@ -71,7 +79,7 @@ export default class MenuItem extends React.Component {
         tabIndex="-1"
         onClick={disabled ? null : onClick}
       >
-        {(this.props: any).children}
+        {children}
         {this.props.comment && (
           <div
             className={classNames({
