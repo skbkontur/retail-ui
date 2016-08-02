@@ -91,6 +91,7 @@ export default class ComboBox extends React.Component {
 
   renderer: ComboBoxRenderer;
 
+  _mounted = false;
   _infoPromise: ?Promise<any>;
 
   render() {
@@ -110,10 +111,15 @@ export default class ComboBox extends React.Component {
   };
 
   componentDidMount() {
+    this._mounted = true;
     const {value, info} = this.props;
     if (typeof info === 'function') {
       this._fetchInfo(value, info);
     }
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   componentWillReceiveProps(newProps: Props) {
@@ -143,7 +149,7 @@ export default class ComboBox extends React.Component {
 
     promise.then(
       info => {
-        if (this._infoPromise === promise) {
+        if (this._mounted && this._infoPromise === promise) {
           this.setState({info});
         }
       }
