@@ -82,7 +82,7 @@ export default class Menu extends React.Component {
     this._highlighted = menuItem;
 
     originalRef && originalRef(menuItem);
-  };
+  }
 
   _scrollToSelected = () => {
     this._scrollContainer.scrollTo(ReactDOM.findDOMNode(this._highlighted));

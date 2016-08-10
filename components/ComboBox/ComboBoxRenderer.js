@@ -23,9 +23,6 @@ const INPUT_PASS_PROPS = {
   error: true,
   warning: true,
   width: true,
-
-  onFocus: true,
-  onBlur: true,
 };
 
 export type Value = any;
@@ -75,6 +72,8 @@ export type BaseProps = {
   onOpen?: () => void,
 
   alkoValueToText?: (value: Value) => string,
+  onAlkoFocus?: () => void,
+  onAlkoBlur?: () => void,
 };
 
 type Props = BaseProps & {
@@ -115,6 +114,7 @@ class ComboBoxRenderer extends React.Component {
   _menu: ?Menu = null;
   _focusSubscribtion: ?{remove: () => void} = null;
   _lastError: ErrorKind = null;
+  _focusReporter;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -126,6 +126,11 @@ class ComboBoxRenderer extends React.Component {
       result: null,
       selected: -1,
     };
+
+    this._focusReporter = new FocusReporter(
+      () => (this.props.onAlkoFocus && this.props.onAlkoFocus()),
+      () => (this.props.onAlkoBlur && this.props.onAlkoBlur()),
+    );
   }
 
   render() {
@@ -168,8 +173,11 @@ class ComboBoxRenderer extends React.Component {
         <Input ref={this._refFocusable} {...inputProps}
           value={this.state.searchText}
           rightIcon={this.props.openButton && <span />}
-          disabled={this.props.disabled} onChange={this._handleInputChange}
+          disabled={this.props.disabled}
+          onChange={this._handleInputChange}
           onKeyDown={this._handleInputKey}
+          onFocus={this._handleFocus}
+          onBlur={this._handleBlur}
         />
       </div>
     );
@@ -190,8 +198,11 @@ class ComboBoxRenderer extends React.Component {
     return (
       <InputLikeText ref={this._refFocusable} {...inputProps}
         padRight={this.props.openButton}
-        onClick={this._handleValueClick} onKeyDown={this._handleValueKey}
+        onClick={this._handleValueClick}
+        onKeyDown={this._handleValueKey}
         onKeyPress={this._handleValueKeyPress}
+        onFocus={this._handleFocus}
+        onBlur={this._handleBlur}
       >
         {value}
       </InputLikeText>
@@ -418,6 +429,22 @@ class ComboBoxRenderer extends React.Component {
     });
   };
 
+  _handleFocus = () => {
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
+    this._focusReporter.focus();
+  };
+
+  _handleBlur = () => {
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
+    if (!this.state.opened) {
+      this._focusReporter.blur();
+    }
+  };
+
   _fetchList(pattern: string) {
     this.props.source(pattern).then((result) => {
       if (this.state.searchText === pattern) {
@@ -434,6 +461,7 @@ class ComboBoxRenderer extends React.Component {
   };
 
   _focusAsync() {
+    this._focusReporter.focus();
     process.nextTick(this._focus);
   }
 
@@ -492,6 +520,7 @@ class ComboBoxRenderer extends React.Component {
     if (this.props.onClose) {
       this.props.onClose.call(null);
     }
+    this._focusReporter.blur();
   }
 
   _findInfoByValue(value: Value): ?Info {
@@ -535,6 +564,31 @@ function renderValue(value, info) {
 
 function renderItem(value, info, state) {
   return info;
+}
+
+class FocusReporter {
+  _onFocus;
+  _onBlur;
+  _focused = false;
+
+  constructor(onFocus: () => void, onBlur: () => void) {
+    this._onFocus = onFocus;
+    this._onBlur = onBlur;
+  }
+
+  focus = () => {
+    if (!this._focused) {
+      this._focused = true;
+      this._onFocus();
+    }
+  };
+
+  blur = () => {
+    if (this._focused) {
+      this._focused = false;
+      this._onBlur();
+    }
+  };
 }
 
 export default ComboBoxRenderer;
