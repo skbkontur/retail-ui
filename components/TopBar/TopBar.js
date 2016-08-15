@@ -27,6 +27,7 @@ class Item extends React.Component {
 
   static propTypes = {
     use: PropTypes.oneOf([
+      'danger',
       'pay',
     ]),
   };
@@ -55,7 +56,7 @@ class Item extends React.Component {
       [styles.iconOnly]: iconOnly,
     };
     if (use) {
-      classes['use-' + use] = true;
+      classes[styles['use-' + use]] = true;
     }
 
     return (
