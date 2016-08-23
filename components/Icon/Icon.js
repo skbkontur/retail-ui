@@ -96,6 +96,8 @@ var MAP = {
   child: '\ue094',
   vacation: '\ue09a',
   sick: '\ue09b',
+  'shop-cashregister': '\ue0C5',
+  'shop-receipt': '\ue0C6',
 
   'play-forward': '\ue050',
   'play-backward': '\ue051',
