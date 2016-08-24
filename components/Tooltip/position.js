@@ -197,5 +197,5 @@ function getComputedWidth(element): number {
   if ((element: any).currentStyle) {
     return (element: any).currentStyle.width;
   }
-  return getComputedStyle(element).width;
+  return Math.ceil(getComputedStyle(element).width);
 }
