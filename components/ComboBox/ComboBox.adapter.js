@@ -9,6 +9,7 @@ const ComboBoxAdapter = {
 
   setValue({renderer}, value) {
     renderer._change(value);
+    renderer._close();
   },
 
   getInfo({renderer}) {
