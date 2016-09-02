@@ -6,7 +6,7 @@ var items = [
 
 function info(id) {
   return Promise.resolve(items.find(item => item.id === id));
-};
+}
 
 function search(query) {
   query = query.toLowerCase();

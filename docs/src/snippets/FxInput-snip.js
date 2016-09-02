@@ -4,8 +4,11 @@ var Comp = React.createClass({
   },
 
   render() {
-    return <FxInput auto={this.state.auto} value={this.state.value}
-        onChange={this.handleChange} onRestore={this.handleRestore} />;
+    return (
+      <FxInput auto={this.state.auto} value={this.state.value}
+        onChange={this.handleChange} onRestore={this.handleRestore}
+      />
+    );
   },
 
   handleChange(event) {

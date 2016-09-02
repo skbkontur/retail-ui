@@ -16,7 +16,8 @@ var MyGroup = React.createClass({
       <Group width={300}>
         {auto}
         <Input mainInGroup leftIcon={icon}
-            onChange={e => this.setState({auto: false})} />
+          onChange={e => this.setState({auto: false})}
+        />
         <Button>Hey</Button>
         <Button>Ma</Button>
       </Group>

@@ -1,0 +1,3 @@
+rules:
+  no-undef: 'off'
+  react/jsx-no-undef: [0]
