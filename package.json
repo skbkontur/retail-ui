@@ -10,7 +10,7 @@
   "scripts": {
     "test": "jest",
     "typecheck": "flow",
-    "lint": "eslint --ext .js,.jsx components docs/src"
+    "lint": "eslint ."
   },
   "dependencies": {
     "add-event-listener": "0.0.1",
@@ -43,7 +43,6 @@
     "react-dom": "^0.14.7"
   },
   "jest": {
-    "automock": false,
     "scriptPreprocessor": "<rootDir>/preprocessor.js",
     "testPathDirs": [
       "<rootDir>/components",

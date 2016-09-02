@@ -473,14 +473,19 @@ class TopBar extends React.Component {
 }
 
 TopBar.propTypes = {
-  leftItems: PropTypes.arrayOf(PropTypes.element),
-
-  rightItems: PropTypes.arrayOf(PropTypes.element),
+  children: PropTypes.node,
 
   /**
-   * Отключает тень
+   * Цвет логотипа
    */
-  noShadow: PropTypes.bool,
+  color: PropTypes.string,
+
+  leftItems: PropTypes.arrayOf(PropTypes.element),
+
+  /**
+   * Максимальная ширина контейнера в шапке
+   */
+  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
   /**
    * Отключает отступ снизу
@@ -488,21 +493,16 @@ TopBar.propTypes = {
   noMargin: PropTypes.bool,
 
   /**
-   * Максимальная ширина контейнера в шапке
+   * Отключает тень
    */
-  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  noShadow: PropTypes.bool,
 
-  children: PropTypes.node,
+  rightItems: PropTypes.arrayOf(PropTypes.element),
 
   /**
    * Суффикс логотипа
    */
   suffix: PropTypes.string.isRequired,
-
-  /**
-   * Цвет логотипа
-   */
-  color: PropTypes.string,
 
   /**
    * Имя пользователя

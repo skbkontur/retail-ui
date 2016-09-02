@@ -5,7 +5,6 @@ cache:
 
 before_script:
   - nvm install stable
-  - npm -g install npm@2
   - npm prune
   - npm install
 
