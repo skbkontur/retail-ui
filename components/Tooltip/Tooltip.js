@@ -14,6 +14,8 @@ type Pos = 'top left' | 'top center' | 'top right'
 type Props = {
   children: React.Element<any>,
 
+  closeButton?: bool,
+
   render: () => ?React.Element<any>,
 
   pos: Pos,
@@ -29,6 +31,12 @@ type State = {
 
 export default class Tooltip extends React.Component {
   static propTypes = {
+    /**
+     * Показывать крестик для закрытия тултипа. По-умолчанию крестик
+     * показывается если проп *trigger* не `hover` и не `focus`.
+     */
+    closeButton: PropTypes.bool,
+
     pos: PropTypes.oneOf([
       'top left', 'top center', 'top right',
       'bottom left', 'bottom center', 'bottom right',
@@ -133,7 +141,12 @@ export default class Tooltip extends React.Component {
     }
 
     const trigger = this.props.trigger;
-    const close = trigger !== 'hover' && trigger !== 'focus';
+    let close;
+    if (this.props.closeButton !== undefined) {
+      close = this.props.closeButton;
+    } else {
+      close = trigger !== 'hover' && trigger !== 'focus';
+    }
 
     return (
       <RenderContainer>
