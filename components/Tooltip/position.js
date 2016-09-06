@@ -13,7 +13,8 @@ export type Result = {
 export default function(
   box: HTMLElement,
   target: HTMLElement,
-  posStr: string
+  posStr: string,
+  fixed: bool,
 ): Result {
   const pos = extractPos(posStr);
 
@@ -30,8 +31,13 @@ export default function(
   const tRect = target.getBoundingClientRect();
   const tWidth = tRect.right - tRect.left;
   const tHeight = tRect.bottom - tRect.top;
-  const targetTop = tRect.top + pageYOffset - docElem.clientTop;
-  const targetLeft = tRect.left + pageXOffset - docElem.clientLeft;
+
+  let targetTop = tRect.top;
+  let targetLeft = tRect.left;
+  if (!fixed) {
+    targetTop += pageYOffset - docElem.clientTop;
+    targetLeft += pageXOffset - docElem.clientLeft;
+  }
 
   const wndWidth = docElem.clientWidth;
   const wndHeight = docElem.clientHeight;
@@ -167,6 +173,7 @@ export default function(
 
   return {
     boxStyle: {
+      position: fixed ? 'fixed' : 'absolute',
       width: getComputedWidth(box),
       top,
       left,

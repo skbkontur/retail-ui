@@ -29,6 +29,33 @@ type State = {
   opened: bool,
 };
 
+/**
+ * **Оптимизация перерисовки**
+
+ * По-умолчанию, DOM-элемент тултипа добавляется в конец документа и имеет
+ * `position: absolute`. Однако, если тултип показывается на элементе с
+ * `position: fixed`, то тултип будет дергаться при прокрутке страницы. Но если
+ * в реактовском контексте задать `insideFixedContainer: true`, то у тултипа
+ * будет `fixed`-позиционирование, и он не будет дергаться. Пример:
+ *
+ * ```
+ * class Container extends React.Component {
+ *   static childContextTypes = {
+ *     insideFixedContainer: React.PropTypes.bool,
+ *   };
+ *
+ *   getChildContext() { return {insideFixedContainer: true}; }
+ *
+ *   render() {
+ *     return (
+ *       <div style={{position: 'fixed'}}>
+ *         tooltips here or down the tree
+ *       </div>
+ *     );
+ *   }
+ * }
+ * ```
+ */
 export default class Tooltip extends React.Component {
   static propTypes = {
     /**
@@ -59,10 +86,6 @@ export default class Tooltip extends React.Component {
   static defaultProps = {
     pos: 'top left',
     trigger: 'hover',
-  };
-
-  static contextTypes = {
-    rt_inModal: PropTypes.bool,
   };
 
   props: Props;

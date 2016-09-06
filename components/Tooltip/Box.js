@@ -10,6 +10,7 @@ import styles from './Box.less';
 
 export default class Box extends React.Component {
   static contextTypes = {
+    insideFixedContainer: PropTypes.bool,
     rt_inModal: PropTypes.bool,
   };
 
@@ -83,7 +84,9 @@ export default class Box extends React.Component {
     this.setState({pos: null}, () => {
       const of = this.props.getTarget();
       const el = ReactDOM.findDOMNode(this);
-      this.setState({pos: position(el, of, this.props.pos)}, () => {
+      const fixed = this.context.insideFixedContainer === true;
+      const pos = position(el, of, this.props.pos, fixed);
+      this.setState({pos}, () => {
         this.updating_ = false;
       });
     });
