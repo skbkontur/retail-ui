@@ -56,7 +56,7 @@ export type Props = {
   maxLength?: number | string,
   placeholder?: string,
   rightIcon?: React.Element<mixed>,
-  size: 'small' | 'default' | 'large',
+  size?: 'small' | 'default' | 'large',
   title?: string,
   type?: 'password' | 'text',
   value: string,
@@ -179,10 +179,6 @@ export default class Input extends React.Component {
     onPaste: PropTypes.func,
   };
 
-  static defaultProps = {
-    size: 'default',
-  };
-
   props: Props;
   state: State = {
     polyfillPlaceholder: false,
@@ -207,7 +203,8 @@ export default class Input extends React.Component {
     }
 
     if (!Upgrades.isHeight34Enabled()) {
-      labelProps.className += ' ' + SIZE_CLASS_NAMES[this.props.size];
+      const size = this.props.size || 'default';
+      labelProps.className += ' ' + SIZE_CLASS_NAMES[size];
     }
 
     var placeholder = null;

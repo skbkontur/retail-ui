@@ -8,6 +8,6 @@ declare var ReactTesting: {
   call: (
     node: HTMLElement,
     method: string,
-    args: Array<any>
+    args?: Array<any>
   ) => any,
 };
