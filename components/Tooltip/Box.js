@@ -14,16 +14,11 @@ export default class Box extends React.Component {
     rt_inModal: PropTypes.bool,
   };
 
-  constructor(props) {
-    super(props);
+  state = {
+    pos: null,
+  };
 
-    this.state = {
-      pos: null,
-    };
-
-    this.handleDocClick = this.handleDocClick.bind(this);
-    this.reflow = this.reflow.bind(this);
-  }
+  _mounted = false;
 
   render() {
     const style = {
@@ -47,35 +42,46 @@ export default class Box extends React.Component {
   }
 
   componentDidMount() {
+    this._mounted = true;
+
     this.reflow();
 
     this._layoutEventsToken = LayoutEvents.addListener(this.reflow);
     if (this.props.trigger === 'click') {
-      events.addEventListener(document, 'click', this.handleDocClick);
+      events.addEventListener(document, 'click', this._handleNativeDocClick);
     }
   }
 
   componentWillUnmount() {
     this._layoutEventsToken.remove();
-    events.removeEventListener(document, 'click', this.handleDocClick);
+    events.removeEventListener(document, 'click', this._handleNativeDocClick);
+
+    this._mounted = false;
   }
 
   componentDidUpdate() {
     this.reflow();
   }
 
-  handleDocClick(event) {
+  _handleNativeDocClick = event => {
+    if (!this._mounted) {
+      // The component might already have been unmounted if closed by clicking
+      // on the cross. `ReactDOM.findDOMNode()` throws if called on unmounted
+      // component instance.
+      return;
+    }
+
     const target = event.target || event.srcElement;
     if (!ReactDOM.findDOMNode(this).contains(target)) {
       this.props.onClose();
     }
-  }
+  };
 
   _handleCrossClick = () => {
     this.props.onClose();
   };
 
-  reflow() {
+  reflow = () => {
     if (this.updating_) {
       return;
     }
@@ -90,5 +96,5 @@ export default class Box extends React.Component {
         this.updating_ = false;
       });
     });
-  }
+  };
 }
