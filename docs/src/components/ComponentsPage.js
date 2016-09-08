@@ -4,7 +4,7 @@ import components from '../components';
 
 import ComponentList from './ComponentList';
 
-import styles from './Components.less';
+import styles from './ComponentsPage.less';
 
 var Components = React.createClass({
   render() {

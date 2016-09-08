@@ -1,9 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import styles from './ShowcaseApp.less';
+import styles from './DocsApp.less';
 
-var ShowcaseApp = React.createClass({
+var DocsApp = React.createClass({
   render() {
     return (
       <div>
@@ -33,4 +33,4 @@ var ShowcaseApp = React.createClass({
   },
 });
 
-export default ShowcaseApp;
+export default DocsApp;

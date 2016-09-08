@@ -10,7 +10,7 @@ import components from '../components';
 import CodeRunner from './CodeRunner';
 import PropsDoc from './PropsDoc';
 
-import styles from './Component.less';
+import styles from './ComponentInfo.less';
 
 const editorOptions = {
   theme: 'monokai',

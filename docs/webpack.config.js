@@ -6,11 +6,11 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   context: path.join(__dirname, 'src'),
-  entry: './showcase',
+  entry: './docs-entry',
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/react-ui/dist/',
-    filename: 'showcase.js',
+    filename: 'docs.js',
   },
   module: {
     loaders: [
@@ -67,7 +67,7 @@ module.exports = {
     fallback: path.join(__dirname, 'node_modules'),
   },
   plugins: [
-    new ExtractTextPlugin('showcase.css'),
+    new ExtractTextPlugin('docs.css'),
     new webpack.PrefetchPlugin('react'),
   ],
 };
