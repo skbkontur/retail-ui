@@ -27,7 +27,6 @@ export {default as Radio} from './Radio/Radio';
 export {default as RadioGroup} from './RadioGroup/RadioGroup';
 export {default as RenderContainer} from './RenderContainer/RenderContainer';
 export {default as ScrollContainer} from './ScrollContainer/ScrollContainer';
-export {default as SearchSelect} from './SearchSelect/SearchSelect';
 export {default as Select} from './Select/Select';
 export {default as Spinner} from './Spinner/Spinner';
 export {default as Sticky} from './Sticky/Sticky';
