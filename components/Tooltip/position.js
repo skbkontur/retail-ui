@@ -14,7 +14,7 @@ export default function(
   box: HTMLElement,
   target: HTMLElement,
   posStr: string,
-  fixed: bool = false,
+  fixed: bool,
 ): Result {
   const pos = extractPos(posStr);
 

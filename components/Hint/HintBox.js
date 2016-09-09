@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import RenderContainer from '../RenderContainer/RenderContainer';
 import position from '../Tooltip/position';
@@ -14,6 +14,11 @@ type State = {
 };
 
 export default class HintBox extends React.Component {
+  static contextTypes = {
+    insideFixedContainer: PropTypes.bool,
+    rt_inModal: PropTypes.bool,
+  };
+
   props: {
     getTarget: () => ?HTMLElement,
     pos: 'top' | 'right' | 'bottom' | 'left',
@@ -28,7 +33,9 @@ export default class HintBox extends React.Component {
   _positioning: boolean = false;
 
   render() {
-    let style = {};
+    let style = {
+      zIndex: this.context.rt_inModal ? 1100 : 900,
+    };
     let className = styles.root;
     if (this.state.pos) {
       style = {...style, ...this.state.pos.boxStyle};
@@ -78,7 +85,8 @@ export default class HintBox extends React.Component {
     const target = this.props.getTarget();
     const box = this._dom;
     if (target && box) {
-      const pos = position(box, target, posStr);
+      const fixed = this.context.insideFixedContainer === true;
+      const pos = position(box, target, posStr, fixed);
 
       this._positioning = true;
       this.setState({pos}, () => {
