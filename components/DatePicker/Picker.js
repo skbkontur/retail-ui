@@ -1,3 +1,5 @@
+// @flow
+
 import events from 'add-event-listener';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -8,8 +10,25 @@ import Gapped from '../Gapped';
 
 import styles from './Picker.less';
 
-class Picker extends React.Component {
-  constructor(props, context) {
+type Props = {
+  maxYear: number,
+  minYear: number,
+  value: ?Date,
+  onClose: () => void,
+  onPick: (date: Date) => void,
+};
+
+type State = {
+  date: Date,
+};
+
+export default class Picker extends React.Component {
+  props: Props;
+  state: State;
+
+  _mounted: bool;
+
+  constructor(props: Props, context: mixed) {
     super(props, context);
 
     this.state = {
@@ -51,28 +70,28 @@ class Picker extends React.Component {
     events.removeEventListener(document, 'mousedown', this.handleDocClick);
   }
 
-  handleMonthChange = event => {
-    this.state.date.setMonth(event.target.value);
+  handleMonthChange = (month: number) => {
+    this.state.date.setMonth(month);
     this.setState({});
 
     this.refs.calendar.moveToDate(this.state.date);
   };
 
-  handleYearChange = event => {
-    this.state.date.setFullYear(event.target.value);
+  handleYearChange = (year: number) => {
+    this.state.date.setFullYear(year);
     this.setState({});
 
     this.refs.calendar.moveToDate(this.state.date);
   };
 
-  handleDocClick = event => {
+  handleDocClick = (event: MouseEvent) => {
     // For some reason mousedown handler is still being called after
     // `componentWillUnmount` was called in IE11.
     if (!this._mounted) {
       return;
     }
 
-    const target = event.target || event.srcElement;
+    const target: Element = (event.target: any) || event.srcElement;
     if (!ReactDOM.findDOMNode(this).contains(target) && !isDetached(target)) {
       this.props.onClose();
     }
@@ -85,10 +104,8 @@ function isDetached(element) {
     if (element === body) {
       return false;
     }
-    element = element.parentNode;
+    element = element && element.parentElement;
   } while (element);
 
   return true;
 }
-
-export default Picker;

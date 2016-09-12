@@ -1,3 +1,5 @@
+// @flow
+
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
@@ -18,7 +20,29 @@ const INPUT_PASS_PROPS = {
   onKeyUp: true,
 };
 
-class DatePicker extends React.Component {
+type Props = {
+  className?: string, // legacy
+  disabled?: bool,
+  error?: bool,
+  maxYear?: number,
+  minYear?: number,
+  value: Date,
+  width?: number | string,
+  onBlur?: () => void,
+  onChange?: (e: {target: {value: ?Date}}, v: ?Date) => void,
+  onFocus?: () => void,
+  onInput?: (e: SyntheticInputEvent) => void,
+  onKeyDown?: (e: SyntheticKeyboardEvent) => void,
+  onKeyPress?: (e: SyntheticKeyboardEvent) => void,
+  onKeyUp?: (e: SyntheticKeyboardEvent) => void,
+};
+
+type State = {
+  opened: bool,
+  textValue: string,
+};
+
+export default class DatePicker extends React.Component {
   static propTypes = {
     disabled: PropTypes.bool,
 
@@ -59,23 +83,27 @@ class DatePicker extends React.Component {
     width: 120,
   };
 
-  constructor(props, context) {
+  props: Props;
+  state: State;
+
+  _focused = false;
+
+  constructor(props: Props, context: mixed) {
     super(props, context);
 
     this.state = {
       textValue: formatDate(props.value),
       opened: false,
     };
-
-    this._focused = false;
   }
 
   render() {
+    const value = checkDate(this.props.value);
     let picker = null;
     if (this.state.opened) {
       picker = (
         <div className={styles.picker} onKeyDown={this.handlePickerKey}>
-          <Picker value={this.props.value}
+          <Picker value={value}
             minYear={this.props.minYear} maxYear={this.props.maxYear}
             onPick={this.handlePick} onClose={this.handlePickerClose}
           />
@@ -110,14 +138,14 @@ class DatePicker extends React.Component {
     );
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: Props) {
     if (!this._focused) {
       this.setState({textValue: formatDate(newProps.value)});
     }
   }
 
-  handleChange = event => {
-    const value = event.target.value.replace(/[^\d\.]/g, '');
+  handleChange = (event: any) => {
+    const value: string = event.target.value.replace(/[^\d\.]/g, '');
     this.setState({
       textValue: value,
     });
@@ -149,13 +177,13 @@ class DatePicker extends React.Component {
     }
   };
 
-  handlePickerKey = event => {
+  handlePickerKey = (event: SyntheticKeyboardEvent) => {
     if (event.key === 'Escape') {
       this.close(true);
     }
   };
 
-  handlePick = date => {
+  handlePick = (date: Date) => {
     if (this.props.onChange) {
       this.props.onChange({target: {value: date}}, date);
     }
@@ -172,7 +200,7 @@ class DatePicker extends React.Component {
     }
   };
 
-  close(focus) {
+  close(focus: bool) {
     this.setState({opened: false});
     if (focus) {
       setTimeout(() => this.refs.input.focus(), 0);
@@ -192,7 +220,9 @@ function formatDate(date) {
     return '';
   }
 
+  // $FlowIssue https://github.com/facebook/flow/pull/2444
   const day = date.getDate().toString().padStart(2, '0');
+  // $FlowIssue https://github.com/facebook/flow/pull/2444
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   return `${day}.${month}.${date.getFullYear()}`;
 }
@@ -225,5 +255,3 @@ function parseDate(str) {
   }
   return null;
 }
-
-export default DatePicker;

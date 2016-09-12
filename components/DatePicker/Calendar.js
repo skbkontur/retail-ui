@@ -1,3 +1,5 @@
+// @flow
+
 import classNames from 'classnames';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -15,11 +17,31 @@ const FIRST_WEEK_SHIFT = (new Date(0).getDay() - 1) * DAY;
 const DAY_HEIGHT = 25;
 const CALENDAR_HEIGHT = 220;
 
-class Calendar extends React.Component {
-  constructor(props, context) {
+type Props = {
+  initialDate: Date,
+  value: ?Date,
+  onNav: (date: Date) => void,
+  onPick: (date: Date) => void,
+};
+
+type State = {
+  mouseX: number,
+  mouseY: number,
+  pos: number,
+};
+
+export default class Calendar extends React.Component {
+  props: Props;
+  state: State;
+
+  _today: Date;
+
+  constructor(props: Props, context: mixed) {
     super(props, context);
 
     this.state = {
+      mouseX: 0,
+      mouseY: 0,
       pos: dateToPos(props.initialDate),
     };
 
@@ -108,14 +130,14 @@ class Calendar extends React.Component {
     ReactDOM.findDOMNode(this).focus();
   }
 
-  moveToDate(date) {
+  moveToDate(date: Date) {
     const newDate = new Date(0);
     newDate.setFullYear(date.getFullYear());
     newDate.setMonth(date.getMonth());
     this.setState({pos: dateToPos(newDate)});
   }
 
-  handleWheel = event => {
+  handleWheel = (event: SyntheticWheelEvent) => {
     event.preventDefault();
     let deltaY = event.deltaY;
     if (event.deltaMode === 1) {
@@ -132,8 +154,9 @@ class Calendar extends React.Component {
     this.props.onNav(date);
   };
 
-  handleMouseMove = event => {
-    const rect = event.currentTarget.getBoundingClientRect();
+  handleMouseMove = (event: SyntheticMouseEvent) => {
+    const currentTarget: HTMLElement = (event.currentTarget: any);
+    const rect = currentTarget.getBoundingClientRect();
     this.setState({
       mouseX: event.clientX - rect.left,
       mouseY: event.clientY - rect.top,
@@ -144,12 +167,13 @@ class Calendar extends React.Component {
     this.setState({mouseX: -10});
   };
 
-  handleMouseDown = event => {
+  handleMouseDown = (event: SyntheticMouseEvent) => {
     if (event.button !== 0) {
       return;
     }
 
-    const rect = event.currentTarget.getBoundingClientRect();
+    const currentTarget: HTMLElement = (event.currentTarget: any);
+    const rect = currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
@@ -198,5 +222,3 @@ function isSameDate(a, b) {
     a.getMonth() === b.getMonth() &&
     a.getDate() === b.getDate();
 }
-
-export default Calendar;

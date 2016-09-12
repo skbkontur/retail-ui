@@ -8,11 +8,11 @@ const DatePickerAdapter = {
   },
 
   setValue(inst: DatePicker, value: ?Date) {
-    const {onChange} = inst.props;
+    const onChange: any = inst.props.onChange;
     onChange && onChange({target: {value}}, value);
   },
 };
 
-DatePicker.__ADAPTER__ = DatePickerAdapter;
+(DatePicker: any).__ADAPTER__ = DatePickerAdapter;
 
 export default DatePicker;
