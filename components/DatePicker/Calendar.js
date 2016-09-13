@@ -61,7 +61,7 @@ export default class Calendar extends React.Component {
     let monthStart = new Date(from);
     monthStart.setDate(1);
     for (let i = 0; i < 4; ++i) {
-      const monthEnd = new Date(monthStart);
+      const monthEnd = new Date(monthStart.getTime());
       monthEnd.setMonth(monthEnd.getMonth() + 1);
       const y = getDayTop(week, offset, +monthStart);
       const style = {

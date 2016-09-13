@@ -32,7 +32,7 @@ export default class Picker extends React.Component {
     super(props, context);
 
     this.state = {
-      date: props.value ? new Date(props.value) : new Date(),
+      date: props.value ? new Date(props.value.getTime()) : new Date(),
     };
   }
 
