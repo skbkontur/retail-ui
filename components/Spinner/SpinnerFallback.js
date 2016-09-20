@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {types, sizeMaps} from './settings';
-import styles from './Spinner.less';
+
+require('./fallbackSpinner.css');
 
 class SpinnerFallback extends React.Component {
   static propTypes = {
@@ -64,7 +65,7 @@ class SpinnerFallback extends React.Component {
     };
 
     return (
-      <span className={styles["spinner-fallback-" + type]} style={cssSet}/>
+      <span className={"spinner-fallback-" + type} style={cssSet}/>
     );
   }
 }
