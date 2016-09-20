@@ -1,10 +1,6 @@
 import React, {PropTypes} from 'react';
-
 import {types, sizeMaps} from './settings';
-
-import fallbackImage_mini from './fallback_circle.png';
-import fallbackImage_big from './fallback_cloud_big.png';
-import fallbackImage_normal from './fallback_cloud_normal.png';
+import styles from './Spinner.less';
 
 class SpinnerFallback extends React.Component {
   static propTypes = {
@@ -20,11 +16,6 @@ class SpinnerFallback extends React.Component {
     [types.big]: 60,
   };
 
-  _imageUrls = {
-    [types.mini]: fallbackImage_mini,
-    [types.normal]: fallbackImage_normal,
-    [types.big]: fallbackImage_big,
-  };
 
   constructor(props) {
     super(props);
@@ -67,14 +58,13 @@ class SpinnerFallback extends React.Component {
 
     const cssSet = {
       backgroundPosition: `0 -${frame*size.height}px`,
-      backgroundImage: `url('${this._imageUrls[type]}')`,
       width: size.width,
       height: size.height,
       display: 'inline-block',
     };
 
     return (
-      <span style={cssSet} />
+      <span className={styles["spinner-fallback-" + type]} style={cssSet}/>
     );
   }
 }
