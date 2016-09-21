@@ -209,7 +209,7 @@ export default class Input extends React.Component {
 
     var placeholder = null;
     if (this.state.polyfillPlaceholder && this.props.placeholder
-        && !this.props.mask && !this.state.value) {
+        && !this.props.mask && !this.props.value) {
       placeholder = (
         <div className={styles.placeholder}>{this.props.placeholder}</div>
       );
