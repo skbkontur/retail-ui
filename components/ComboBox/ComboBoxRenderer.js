@@ -115,6 +115,7 @@ class ComboBoxRenderer extends React.Component {
   _focusSubscribtion: ?{remove: () => void} = null;
   _lastError: ErrorKind = null;
   _focusReporter;
+  _pendingRecover = false;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -423,9 +424,15 @@ class ComboBoxRenderer extends React.Component {
 
     // Go async to let blur event happen before focused element removed from the
     // document.
+    this._pendingRecover = true;
     process.nextTick(() => {
       this._close();
-      this._tryRecover();
+      // Between the ticks another _tryRecover might have been called. For
+      // instance, if clicked on another focusable element, following events
+      // will call _tryRecover: doc click, focus outside.
+      if (this._pendingRecover) {
+        this._tryRecover();
+      }
     });
   };
 
@@ -466,6 +473,7 @@ class ComboBoxRenderer extends React.Component {
   }
 
   _tryRecover() {
+    this._pendingRecover = false;
     if (!this.state.changed) {
       this.setState({searchText: ''});
       this._close();
