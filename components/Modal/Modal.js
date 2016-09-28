@@ -187,19 +187,24 @@ class Modal extends React.Component {
 
 class Header extends React.Component {
   render() {
-    return (
-      <Sticky side="top">
+    if (this.props.isSticky !== false) {
+      return (<Sticky side="top">
         {fixed =>
-          <div
-            className={classNames(styles.header, fixed && styles.fixedHeader)}
-          >
+          <div className={classNames(styles.header, fixed && styles.fixedHeader)}>
+            {this.props.close &&
+            <div className={styles.absoluteClose}>{this.props.close}</div>}
+            {this.props.children}
+          </div>
+        }
+        </Sticky>
+      );
+    }
+
+    return <div className={classNames(styles.header)}>
             {this.props.close &&
               <div className={styles.absoluteClose}>{this.props.close}</div>}
             {this.props.children}
           </div>
-        }
-      </Sticky>
-    );
   }
 }
 
@@ -212,7 +217,8 @@ class Body extends React.Component {
 class Footer extends React.Component {
   static propTypes = {
     panel: PropTypes.bool,
-  }
+    isSticky: PropTypes.bool,
+  };
 
   render() {
     var names = classNames({
@@ -220,15 +226,18 @@ class Footer extends React.Component {
       [styles.panel]: this.props.panel,
     });
 
-    return (
-      <Sticky side="bottom">
+    if (this.props.isSticky !== false) {
+      return <Sticky side="bottom">
         {fixed =>
           <div className={classNames(names, fixed && styles.fixedFooter)}>
             {this.props.children}
           </div>
         }
       </Sticky>
-    );
+    }
+    return <div className={classNames(names)}>
+      {this.props.children}
+    </div>;
   }
 }
 
