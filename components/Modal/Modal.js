@@ -130,7 +130,6 @@ class Modal extends React.Component {
 
     if (mountedModalsCount === 0) {
       addClass(document.documentElement, styles.bodyClass);
-      addClass(document.body, styles.bodyClass);
       LayoutEvents.emit();
     }
     mountedModalsCount++;
