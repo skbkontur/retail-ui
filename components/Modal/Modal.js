@@ -142,7 +142,6 @@ class Modal extends React.Component {
 
     if (--mountedModalsCount === 0) {
       removeClass(document.documentElement, styles.bodyClass);
-      removeClass(document.body, styles.bodyClass);
       LayoutEvents.emit();
     }
 
