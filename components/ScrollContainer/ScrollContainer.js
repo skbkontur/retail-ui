@@ -1,13 +1,12 @@
 import events from 'add-event-listener';
 import classNames from 'classnames';
-import ExecutionEnvironment from 'exenv';
 import React, {PropTypes} from 'react';
 
 import LayoutEvents from '../../lib/LayoutEvents';
+import getScrollWidth from '../../lib/dom/getScrollWidth';
 
 import styles from './ScrollContainer.less';
 
-const SCROLL_WIDTH = measureScrollWidth();
 const PADDING_RIGHT = 30;
 
 export default class ScrollContainer extends React.Component {
@@ -63,7 +62,7 @@ export default class ScrollContainer extends React.Component {
     }
 
     const innerStyle = {
-      marginRight: -(PADDING_RIGHT + SCROLL_WIDTH),
+      marginRight: -(PADDING_RIGHT + getScrollWidth()),
       maxHeight: this.props.maxHeight,
       paddingRight: PADDING_RIGHT,
     };
@@ -204,19 +203,3 @@ ScrollContainer.propTypes = {
   invert: PropTypes.bool,
   maxHeight: PropTypes.number,
 };
-
-function measureScrollWidth() {
-  if (!ExecutionEnvironment.canUseDOM) {
-    return 0;
-  }
-
-  const div = document.createElement('div');
-  div.innerHTML = 'a'; // In IE clientWidth is 0 if this div is empty.
-  div.style.overflowY = 'scroll';
-  document.body.appendChild(div);
-  const ret = div.offsetWidth - div.clientWidth;
-  document.body.removeChild(div);
-
-  // At least in jest it's NaN.
-  return ret || 0;
-}
