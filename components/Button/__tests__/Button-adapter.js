@@ -1,6 +1,6 @@
 // @flow
 
-import Lookup from '../../../testing/Lookup';
+import * as Lookup from '../../../testing/Lookup';
 
 import {mount} from 'enzyme';
 import React from 'react';

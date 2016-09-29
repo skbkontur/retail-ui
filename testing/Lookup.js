@@ -146,7 +146,7 @@ const objectMap = (obj, fn) => {
   return ret;
 };
 
-const Lookup = {
+export {
   findOne,
   findAll,
   getAdapter,
@@ -156,6 +156,11 @@ const Lookup = {
   mounted,
 };
 
-export default Lookup;
+global.Lookup = {
+  findOne,
+  findAll,
+  getAdapter,
 
-global.Lookup = Lookup;
+  roots,
+  mounted,
+};
