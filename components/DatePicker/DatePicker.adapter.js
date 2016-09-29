@@ -11,6 +11,18 @@ const DatePickerAdapter = {
     const onChange: any = inst.props.onChange;
     onChange && onChange({target: {value}}, value);
   },
+
+  getStringValue(inst: DatePicker) {
+    const value = inst.props.value;
+    return value ? value.toISOString() : null;
+  },
+
+  setStringValue(inst: DatePicker, value: ?string) {
+    const onChange: any = inst.props.onChange;
+    const date = value ? new Date(value) : null;
+    onChange && onChange({target: {value: date}}, date);
+  },
+
 };
 
 (DatePicker: any).__ADAPTER__ = DatePickerAdapter;
