@@ -43,6 +43,7 @@ var MAP = {
   'arrow-up-left': '\ue08b',
   'maximize': '\ue085',
   'minimize': '\ue086',
+  drag: '\ue0c8',
 
   enter: '\ue098',
 
