@@ -5,7 +5,9 @@ import React from 'react';
 
 import ComboBox from '../ComboBox.adapter.js';
 
-function noop() {}
+function noop() {
+  return Promise.resolve([]);
+}
 
 describe('ComboBox-adapter', () => {
   it('getValue', () => {
@@ -23,6 +25,27 @@ describe('ComboBox-adapter', () => {
       <ComboBox tid="a" onChange={onChange} source={noop} />
     );
     ReactTesting.call(node, 'setValue', ['foo']);
+
+    expect(onChange.mock.calls.length).toBe(1);
+    expect(onChange.mock.calls[0][1]).toBe('foo');
+
+    unmount();
+  });
+
+  it('setValue closes the ComboBox', () => {
+    const onChange = jest.fn();
+    const source = jest.fn(() => Promise.resolve(['bar']));
+    const {node, unmount} = mountTest(
+      <ComboBox tid="a" onChange={onChange} source={source} />
+    );
+
+    const isOpened = () => !!node.querySelector('input');
+
+    ReactTesting.call(node, 'search', ['whoop']);
+    expect(isOpened()).toBe(true);
+
+    ReactTesting.call(node, 'setValue', ['foo']);
+    expect(isOpened()).toBe(false);
 
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0][1]).toBe('foo');

@@ -110,6 +110,7 @@ class ComboBoxRenderer extends React.Component {
   props: Props;
   state: State;
 
+  _mounted = false;
   _focusable: ?HTMLInputElement = null;
   _menu: ?Menu = null;
   _focusSubscribtion: ?{remove: () => void} = null;
@@ -252,9 +253,14 @@ class ComboBoxRenderer extends React.Component {
   }
 
   componentDidMount() {
+    this._mounted = true;
     if (this.props.autoFocus) {
       this.focus();
     }
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   _refFocusable = (el: ?HTMLInputElement) => {
@@ -454,7 +460,7 @@ class ComboBoxRenderer extends React.Component {
 
   _fetchList(pattern: string) {
     this.props.source(pattern).then((result) => {
-      if (this.state.searchText === pattern) {
+      if (this._mounted && this.state.searchText === pattern) {
         this._menu && this._menu.reset();
         this.setState({result});
       }
