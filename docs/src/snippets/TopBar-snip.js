@@ -1,5 +1,4 @@
 var Item = TopBar.Item;
-var Divider = TopBar.Divider;
 
 var pageStyle = {
   background: '#e6e6e6',
@@ -10,8 +9,8 @@ var pageStyle = {
 
 var contentStyle = {
   background: 'white',
-    padding: 15,
-    height: 280,
+  padding: 15,
+  height: 280,
 };
 
 ReactDOM.render(
@@ -24,7 +23,7 @@ ReactDOM.render(
       leftItems={[
         <Item>
           <Icon name="child" color="#666"/>
-        </Item>
+        </Item>,
       ]}
     />
     <Loader active caption="neverending...">

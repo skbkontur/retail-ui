@@ -6,10 +6,10 @@ import components from '../components';
 
 import styles from './CodeRunner.less';
 
-function unc(element) {
+function unc(element, defaultValue = null) {
   class Uncontrolled extends React.Component {
     state = {
-      value: null,
+      value: defaultValue,
     };
 
     render() {

@@ -1,13 +1,18 @@
+// @flow
+
+// $FlowIssue
 const injectGlobalHook = require('./react-devtools/backend/installGlobalHook');
 injectGlobalHook(global);
 
+// $FlowIssue
 const Agent = require('./react-devtools/agent/Agent');
+// $FlowIssue
 const inject = require('./react-devtools/agent/inject');
 const invariant = require('invariant');
 
 const React = require('react');
 const oldCreateElement = React.createElement;
-React.createElement = (type, props, ...children) => {
+(React: any).createElement = (type, props, ...children) => {
   if (!props) {
     return oldCreateElement(type, props, ...children);
   }
@@ -26,13 +31,16 @@ React.createElement = (type, props, ...children) => {
   return oldCreateElement(type, newProps, ...children);
 };
 
+type Element = {
+  _id: number,
+  node: Node,
+};
+
 const hook = global.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
 const agent = new Agent(global);
-const roots = [];
+const roots: Array<string> = [];
 const mounted = {};
-exports.roots = roots;
-exports.mounted = mounted;
 
 agent.on('root', id => {
   if (!roots.includes(id)) {
@@ -55,11 +63,11 @@ agent.on('unmount', id => {
 
 inject(hook, agent);
 
-export const findOne = (path: string, tree) => {
+const findOne = (path: string, tree: any) => {
   return findAll(path, tree)[0];
 };
 
-export const findAll = (path: string, tree) => {
+const findAll = (path: string, tree: any) => {
   const tokens = path.split(' ');
 
   let roots;
@@ -91,7 +99,9 @@ const search = (ids, tokens) => {
     const comp = mounted[id];
 
     if (comp.props && comp.props.rt_rootID) {
-      return search([getDetachedRoot(comp.props.rt_rootID)], tokens);
+      const root = getDetachedRoot(comp.props.rt_rootID);
+      invariant(root, 'Detached react root not found.');
+      return search([root], tokens);
     }
 
     const tid = comp.props && comp.props.$$tid;
@@ -115,7 +125,7 @@ const getDetachedRoot = (portalID) => {
   return roots.find(id => mounted[id].props.props.rt_portalID);
 };
 
-export const getAdapter = element => {
+function getAdapter(element: Element): any {
   const comp = mounted[element._id];
   invariant(comp, 'Cannot get adapter of unmounted component.');
 
@@ -126,11 +136,9 @@ export const getAdapter = element => {
   }
 
   invariant(false, 'No adapter found.');
+}
 
-  return null;
-};
-
-export const objectMap = (obj, fn) => {
+const objectMap = (obj, fn) => {
   const ret = {};
   for (const key of Object.keys(obj)) {
     ret[key] = fn(obj[key], key);
@@ -138,4 +146,21 @@ export const objectMap = (obj, fn) => {
   return ret;
 };
 
-global.Lookup = exports;
+export {
+  findOne,
+  findAll,
+  getAdapter,
+
+  // For debugging.
+  roots,
+  mounted,
+};
+
+global.Lookup = {
+  findOne,
+  findAll,
+  getAdapter,
+
+  roots,
+  mounted,
+};

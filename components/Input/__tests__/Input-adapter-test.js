@@ -26,7 +26,7 @@ describe('Input-adapter', () => {
 
   it('setValue', () => {
     const onChange = jest.fn();
-    mnt(<Input tid="a" onChange={onChange} />);
+    mnt(<Input tid="a" value="" onChange={onChange} />);
 
     Lookup.getAdapter(Lookup.findOne('a')).setValue('Kappa');
 

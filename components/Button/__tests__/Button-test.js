@@ -1,3 +1,5 @@
+// @flow
+
 import {mount} from 'enzyme';
 import React from 'react';
 

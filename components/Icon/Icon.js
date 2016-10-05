@@ -43,6 +43,7 @@ var MAP = {
   'arrow-up-left': '\ue08b',
   'maximize': '\ue085',
   'minimize': '\ue086',
+  drag: '\ue0c8',
 
   enter: '\ue098',
 
@@ -96,6 +97,8 @@ var MAP = {
   child: '\ue094',
   vacation: '\ue09a',
   sick: '\ue09b',
+  'shop-cashregister': '\ue0C5',
+  'shop-receipt': '\ue0C6',
 
   'play-forward': '\ue050',
   'play-backward': '\ue051',

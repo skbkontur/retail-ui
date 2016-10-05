@@ -1,3 +1,5 @@
+// @flow
+
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
@@ -8,7 +10,26 @@ const MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', '�
 
 const HEIGHT = 30;
 
-class DateSelect extends React.Component {
+type Props = {
+  maxYear: number,
+  minYear: number,
+  type: 'month' | 'year',
+  value: number,
+  width: number | string,
+  onChange: (value: number) => void,
+};
+
+type State = {
+  botCapped: bool,
+  current: ?number,
+  height: number,
+  opened: bool,
+  pos: number,
+  top: number,
+  topCapped: bool,
+};
+
+export default class DateSelect extends React.Component {
   static propTypes = {
     maxYear: PropTypes.number,
 
@@ -30,15 +51,20 @@ class DateSelect extends React.Component {
     width: 'auto',
   };
 
-  constructor(props, context) {
+  props: Props;
+  state: State;
+
+  constructor(props: Props, context: mixed) {
     super(props, context);
 
     this.state = {
-      opened: false,
-      pos: 0,
-      topCapped: false,
       botCapped: false,
       current: 0,
+      height: 0,
+      opened: false,
+      pos: 0,
+      top: 0,
+      topCapped: false,
     };
   }
 
@@ -119,7 +145,7 @@ class DateSelect extends React.Component {
     );
   }
 
-  handleWheel = event => {
+  handleWheel = (event: SyntheticWheelEvent) => {
     event.preventDefault();
 
     let deltaY = event.deltaY;
@@ -132,8 +158,9 @@ class DateSelect extends React.Component {
     this.resetSize(pos);
   };
 
-  handleMouseMove = event => {
-    const rect = event.currentTarget.getBoundingClientRect();
+  handleMouseMove = (event: SyntheticMouseEvent) => {
+    const currentTarget: HTMLElement = (event.currentTarget: any);
+    const rect = currentTarget.getBoundingClientRect();
     const y = event.clientY - rect.top + this.state.top + this.state.pos;
     const current = Math.floor(y / HEIGHT);
     this.setState({current});
@@ -143,29 +170,30 @@ class DateSelect extends React.Component {
     this.setState({current: null});
   };
 
-  handleItemClick = event => {
+  handleItemClick = (event: SyntheticMouseEvent) => {
     if (event.button !== 0) {
       return;
     }
 
-    const rect = event.currentTarget.getBoundingClientRect();
+    const currentTarget: HTMLElement = (event.currentTarget: any);
+    const rect = currentTarget.getBoundingClientRect();
     const y = event.clientY - rect.top + this.state.top + this.state.pos;
     const value = this.props.value + Math.floor(y / HEIGHT);
 
     this.close();
 
     if (this.props.onChange) {
-      this.props.onChange({target: {value}}, value);
+      this.props.onChange(value);
     }
   };
 
-  handleKey = event => {
+  handleKey = (event: SyntheticKeyboardEvent) => {
     if (this.state.opened) {
       switch (event.key) {
         case 'Enter':
           if (this.state.current !== null && this.props.onChange) {
             const value = this.props.value + this.state.current;
-            this.props.onChange({target: {value}}, value);
+            this.props.onChange(value);
           }
           this.close();
           event.stopPropagation();
@@ -177,12 +205,12 @@ class DateSelect extends React.Component {
           break;
 
         case 'ArrowUp':
-          this.setState({current: this.state.current - 1});
+          this.setState({current: (this.state.current || 0) - 1});
           event.preventDefault();
           break;
 
         case 'ArrowDown':
-          this.setState({current: this.state.current + 1});
+          this.setState({current: (this.state.current || 0) + 1});
           event.preventDefault();
           break;
       }
@@ -206,7 +234,7 @@ class DateSelect extends React.Component {
     this.resetSize(this.state.pos + HEIGHT);
   };
 
-  getItem(index) {
+  getItem(index: number) {
     const value = this.props.value + index;
     if (this.props.type === 'month') {
       return MONTHS[value];
@@ -234,7 +262,7 @@ class DateSelect extends React.Component {
     this.setState({opened: false});
   };
 
-  resetSize(pos) {
+  resetSize(pos: number) {
     let top = -5 * HEIGHT;
     let height = 11 * HEIGHT;
     if (this.props.type === 'month') {
@@ -274,5 +302,3 @@ class DateSelect extends React.Component {
     return Infinity; // Be defensive.
   }
 }
-
-export default DateSelect;

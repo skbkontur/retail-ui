@@ -5,6 +5,8 @@ import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
 import addClass from '../../lib/dom/addClass';
+import getScrollWidth from '../../lib/dom/getScrollWidth';
+import getComputedStyle from '../../lib/dom/getComputedStyle';
 import Center from '../Center';
 import LayoutEvents from '../../lib/LayoutEvents';
 import removeClass from '../../lib/dom/removeClass';
@@ -20,6 +22,7 @@ const stack = {
 };
 
 let mountedModalsCount = 0;
+let prevMarginRight = 0;
 
 /**
  * Модальное окно.
@@ -129,8 +132,10 @@ class Modal extends React.Component {
     events.addEventListener(document, 'keydown', this._handleNativeKey);
 
     if (mountedModalsCount === 0) {
-      addClass(document.documentElement, styles.bodyClass);
-      addClass(document.body, styles.bodyClass);
+      // NOTE This not covered case if somebody change style while modal is open
+      prevMarginRight = document.documentElement.style.marginRight;
+      this._handleWindowResize();
+      events.addEventListener(window, 'resize', this._handleWindowResize);
       LayoutEvents.emit();
     }
     mountedModalsCount++;
@@ -142,8 +147,9 @@ class Modal extends React.Component {
     events.removeEventListener(document, 'keydown', this._handleNativeKey);
 
     if (--mountedModalsCount === 0) {
+      document.documentElement.style.marginRight = prevMarginRight;
       removeClass(document.documentElement, styles.bodyClass);
-      removeClass(document.body, styles.bodyClass);
+      events.removeEventListener(window, 'resize', this._handleWindowResize);
       LayoutEvents.emit();
     }
 
@@ -153,6 +159,24 @@ class Modal extends React.Component {
       stack.mounted.splice(inStackIndex, 1);
     }
     stack.emitter.emit();
+  }
+
+  _handleWindowResize = () => {
+    const {clientHeight, scrollHeight, style} = document.documentElement;
+    if (clientHeight < scrollHeight) {
+      const scrollbarWidth = getScrollWidth();
+      document.documentElement.style.marginRight = prevMarginRight;
+      removeClass(document.documentElement, styles.bodyClass);
+      const marginRight = parseFloat(
+        getComputedStyle(document.documentElement).marginRight
+      );
+      addClass(document.documentElement, styles.bodyClass);
+      document.documentElement.style.marginRight = `${
+        marginRight + scrollbarWidth
+      }px`;
+    } else if (style.marginRight !== prevMarginRight) {
+      style.marginRight = prevMarginRight;
+    }
   }
 
   _handleStackChange = () => {

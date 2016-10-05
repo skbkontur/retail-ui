@@ -14,6 +14,8 @@ type Pos = 'top left' | 'top center' | 'top right'
 type Props = {
   children: React.Element<any>,
 
+  closeButton?: bool,
+
   render: () => ?React.Element<any>,
 
   pos: Pos,
@@ -27,8 +29,41 @@ type State = {
   opened: bool,
 };
 
+/**
+ * **Оптимизация перерисовки**
+
+ * По-умолчанию, DOM-элемент тултипа добавляется в конец документа и имеет
+ * `position: absolute`. Однако, если тултип показывается на элементе с
+ * `position: fixed`, то тултип будет дергаться при прокрутке страницы. Но если
+ * в реактовском контексте задать `insideFixedContainer: true`, то у тултипа
+ * будет `fixed`-позиционирование, и он не будет дергаться. Пример:
+ *
+ * ```
+ * class Container extends React.Component {
+ *   static childContextTypes = {
+ *     insideFixedContainer: React.PropTypes.bool,
+ *   };
+ *
+ *   getChildContext() { return {insideFixedContainer: true}; }
+ *
+ *   render() {
+ *     return (
+ *       <div style={{position: 'fixed'}}>
+ *         tooltips here or down the tree
+ *       </div>
+ *     );
+ *   }
+ * }
+ * ```
+ */
 export default class Tooltip extends React.Component {
   static propTypes = {
+    /**
+     * Показывать крестик для закрытия тултипа. По-умолчанию крестик
+     * показывается если проп *trigger* не `hover` и не `focus`.
+     */
+    closeButton: PropTypes.bool,
+
     pos: PropTypes.oneOf([
       'top left', 'top center', 'top right',
       'bottom left', 'bottom center', 'bottom right',
@@ -51,10 +86,6 @@ export default class Tooltip extends React.Component {
   static defaultProps = {
     pos: 'top left',
     trigger: 'hover',
-  };
-
-  static contextTypes = {
-    rt_inModal: PropTypes.bool,
   };
 
   props: Props;
@@ -133,7 +164,12 @@ export default class Tooltip extends React.Component {
     }
 
     const trigger = this.props.trigger;
-    const close = trigger !== 'hover' && trigger !== 'focus';
+    let close;
+    if (this.props.closeButton !== undefined) {
+      close = this.props.closeButton;
+    } else {
+      close = trigger !== 'hover' && trigger !== 'focus';
+    }
 
     return (
       <RenderContainer>

@@ -4,7 +4,7 @@ import Autocomplete from './Autocomplete.js';
 
 const AutocompleteAdapter = {
   getValue(inst: Autocomplete) {
-    return inst.state.value;
+    return inst.props.value;
   },
 
   setValue(inst: Autocomplete, value: string) {
@@ -14,8 +14,12 @@ const AutocompleteAdapter = {
   getSuggestions(inst: Autocomplete) {
     return inst.state.items;
   },
+
+  setValueByIndex(inst: Autocomplete, index: number) {
+    inst._choose(index);
+  },
 };
 
-Autocomplete.__ADAPTER__ = AutocompleteAdapter;
+(Autocomplete: any).__ADAPTER__ = AutocompleteAdapter;
 
 export default Autocomplete;

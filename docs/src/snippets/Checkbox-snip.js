@@ -11,7 +11,7 @@ var Comp = React.createClass({
 
   handleChange(event) {
     this.setState({checked: event.target.checked});
-  }
+  },
 });
 
 ReactDOM.render(<Comp />, mountNode);

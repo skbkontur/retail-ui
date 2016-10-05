@@ -1,16 +1,29 @@
+// @flow
+
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
 import Input from '../Input';
+import type {Props as InputProps} from '../Input/Input';
 
 import styles from './Autocomplete.less';
+
+type Props = InputProps & {
+  renderItem: any,
+  source: any,
+};
+
+type State = {
+  items: ?Array<any>,
+  selected: number,
+};
 
 /**
  * Стандартный инпут с подсказками.
  *
  * Все свойства передаются во внутренний *Input*.
  */
-class Autocomplete extends React.Component {
+export default class Autocomplete extends React.Component {
   static propTypes = {
     /**
      * Функция для отрисовки элемента в выпадающем списке. Единственный аргумент
@@ -41,20 +54,15 @@ class Autocomplete extends React.Component {
     renderItem,
   };
 
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      selected: -1,
-      value: props.value !== undefined ? props.value
-          : props.defaultValue,
-    };
-    this.opened_ = false;
-  }
+  props: Props;
+  state: State = {
+    items: null,
+    selected: -1,
+  };
+  _opened: bool = false;
 
   render() {
     var inputProps = {
-      value: this.state.value,
       onChange: this.handleChange,
       onBlur: this.handleBlur,
       onKeyDown: this.handleKey,
@@ -97,28 +105,22 @@ class Autocomplete extends React.Component {
     );
   }
 
-  componentWillReceiveProps(props) {
-    if (props.value !== undefined) {
-      this.setState({value: props.value});
-      this.updateItems(props.value);
-    }
+  componentWillReceiveProps(props: Props) {
+    this.updateItems(props.value);
   }
 
-  handleChange = event => {
-    this.opened_ = true;
+  handleChange = (event: any) => {
+    this._opened = true;
 
-    const value = event.target.value;
+    const value: string = event.target.value;
 
-    if (this.props.value === undefined) {
-      this.setState({value});
-    }
     this.updateItems(value);
 
-    this.fireChange_(value);
+    this._fireChange(value);
   };
 
-  handleBlur = event => {
-    this.opened_ = false;
+  handleBlur = (event: SyntheticFocusEvent) => {
+    this._opened = false;
     this.setState({items: null});
 
     if (this.props.onBlur) {
@@ -126,7 +128,7 @@ class Autocomplete extends React.Component {
     }
   };
 
-  handleKey = event => {
+  handleKey = (event: SyntheticKeyboardEvent) => {
     var items = this.state.items;
     var stop = false;
     if ((event.key === 'ArrowUp' || event.key === 'ArrowDown') && items) {
@@ -146,16 +148,16 @@ class Autocomplete extends React.Component {
         event.preventDefault();
         stop = true;
 
-        this.choose_(this.state.selected);
+        this._choose(this.state.selected);
       } else {
-        this.opened_ = false;
+        this._opened = false;
         this.setState({items: null});
       }
     } else if (event.key === 'Escape' && items && items.length) {
       event.preventDefault(); // Escape clears the input on IE.
       stop = true;
 
-      this.opened_ = false;
+      this._opened = false;
       this.setState({items: null});
     }
 
@@ -164,32 +166,33 @@ class Autocomplete extends React.Component {
     }
   };
 
-  handleItemClick(event, index) {
+  handleItemClick(event: SyntheticMouseEvent, index: number) {
     if (event.button !== 0) {
       return;
     }
 
     event.preventDefault();
-    this.choose_(index);
+    this._choose(index);
   }
 
-  choose_(index) {
-    var value = this.state.items[index];
+  _choose(index: number) {
+    if (!this.state.items) {
+      return;
+    }
 
-    this.opened_ = false;
+    const value = this.state.items[index];
+
+    this._opened = false;
     this.setState({
       selected: -1,
       items: null,
     });
-    if (this.props.value === undefined) {
-      this.setState({value});
-    }
 
-    this.fireChange_(value);
+    this._fireChange(value);
   }
 
-  updateItems(value) {
-    if (!this.opened_) {
+  updateItems(value: string) {
+    if (!this._opened) {
       return;
     }
 
@@ -202,7 +205,7 @@ class Autocomplete extends React.Component {
       promise = match(pattern, source);
     }
     promise.then((items) => {
-      if (this.state.value === value && this.opened_) {
+      if (this.props.value === value && this._opened) {
         this.setState({
           items,
           selected: -1,
@@ -211,7 +214,7 @@ class Autocomplete extends React.Component {
     });
   }
 
-  fireChange_(value) {
+  _fireChange(value: string) {
     if (this.props.onChange) {
       this.props.onChange({target: {value}}, value);
     }
@@ -233,5 +236,3 @@ function match(pattern, items) {
 function renderItem(item) {
   return item;
 }
-
-module.exports = Autocomplete;

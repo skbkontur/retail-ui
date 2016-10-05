@@ -5,7 +5,7 @@ import React from 'react';
 
 import Checkbox from '../Checkbox.adapter';
 
-describe('', () => {
+describe('Checkbox-adapter', () => {
   let wrapper;
   const mnt = (element) => {
     wrapper = mount(<div>{element}</div>);
@@ -19,8 +19,8 @@ describe('', () => {
   it('isChecked', () => {
     mnt(
       <div>
-        <Checkbox tid="a"  />
-        <Checkbox tid="b" checked />
+        <Checkbox tid="a" checked={false} />
+        <Checkbox tid="b" checked={true} />
       </div>
     );
 
@@ -34,7 +34,7 @@ describe('', () => {
 
   it('setChecked', () => {
     const onChange = jest.fn();
-    mnt(<Checkbox tid="a" onChange={onChange} />);
+    mnt(<Checkbox tid="a" checked={false} onChange={onChange} />);
 
     const adapter = Lookup.getAdapter(Lookup.findOne('a'));
     adapter.setChecked(true);

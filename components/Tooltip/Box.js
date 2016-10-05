@@ -1,4 +1,5 @@
 import events from 'add-event-listener';
+import ExecutionEnvironment from 'exenv';
 import LayoutEvents from '../../lib/LayoutEvents';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
@@ -8,21 +9,23 @@ import renderPin from './renderPin';
 
 import styles from './Box.less';
 
+// Windows XP fonts don't include the cross character used for the close button.
+// So we use another one on XP only, because it looks ugly on modern systems.
+const WIN_XP = ExecutionEnvironment.canUseDOM &&
+  navigator.userAgent.includes('Windows NT 5.');
+const CROSS = WIN_XP ? '╳' : '✕';
+
 export default class Box extends React.Component {
   static contextTypes = {
+    insideFixedContainer: PropTypes.bool,
     rt_inModal: PropTypes.bool,
   };
 
-  constructor(props) {
-    super(props);
+  state = {
+    pos: null,
+  };
 
-    this.state = {
-      pos: null,
-    };
-
-    this.handleDocClick = this.handleDocClick.bind(this);
-    this.reflow = this.reflow.bind(this);
-  }
+  _mounted = false;
 
   render() {
     const style = {
@@ -36,7 +39,7 @@ export default class Box extends React.Component {
         <div className={styles.inner}>
           {this.props.close && (
             <div className={styles.cross} onClick={this._handleCrossClick}>
-              ✕
+              {CROSS}
             </div>
           )}
           {this.props.children}
@@ -46,35 +49,46 @@ export default class Box extends React.Component {
   }
 
   componentDidMount() {
+    this._mounted = true;
+
     this.reflow();
 
     this._layoutEventsToken = LayoutEvents.addListener(this.reflow);
     if (this.props.trigger === 'click') {
-      events.addEventListener(document, 'click', this.handleDocClick);
+      events.addEventListener(document, 'click', this._handleNativeDocClick);
     }
   }
 
   componentWillUnmount() {
     this._layoutEventsToken.remove();
-    events.removeEventListener(document, 'click', this.handleDocClick);
+    events.removeEventListener(document, 'click', this._handleNativeDocClick);
+
+    this._mounted = false;
   }
 
   componentDidUpdate() {
     this.reflow();
   }
 
-  handleDocClick(event) {
+  _handleNativeDocClick = event => {
+    if (!this._mounted) {
+      // The component might already have been unmounted if closed by clicking
+      // on the cross. `ReactDOM.findDOMNode()` throws if called on unmounted
+      // component instance.
+      return;
+    }
+
     const target = event.target || event.srcElement;
     if (!ReactDOM.findDOMNode(this).contains(target)) {
       this.props.onClose();
     }
-  }
+  };
 
   _handleCrossClick = () => {
     this.props.onClose();
   };
 
-  reflow() {
+  reflow = () => {
     if (this.updating_) {
       return;
     }
@@ -83,9 +97,11 @@ export default class Box extends React.Component {
     this.setState({pos: null}, () => {
       const of = this.props.getTarget();
       const el = ReactDOM.findDOMNode(this);
-      this.setState({pos: position(el, of, this.props.pos)}, () => {
+      const fixed = this.context.insideFixedContainer === true;
+      const pos = position(el, of, this.props.pos, fixed);
+      this.setState({pos}, () => {
         this.updating_ = false;
       });
     });
-  }
+  };
 }

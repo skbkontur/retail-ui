@@ -26,9 +26,9 @@ class Icon extends React.Component {
     name: PropTypes.oneOf(Object.keys(MAP)),
   };
 
-  static getAllNames = function () {
+  static getAllNames() {
     return Object.keys(MAP);
-  };
+  }
 
   render() {
     var style = {

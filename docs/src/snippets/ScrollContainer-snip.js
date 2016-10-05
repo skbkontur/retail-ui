@@ -20,7 +20,7 @@ var absStyle = {
   boxSizing: 'border-box',
   position: 'absolute',
   width: '100%',
-}
+};
 
 ReactDOM.render((
   <div>

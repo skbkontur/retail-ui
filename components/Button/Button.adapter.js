@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import Button from './Button.js';
 
@@ -14,6 +14,6 @@ const ButtonAdapter = {
   },
 };
 
-Button.__ADAPTER__ = ButtonAdapter;
+(Button: any).__ADAPTER__ = ButtonAdapter;
 
 export default Button;

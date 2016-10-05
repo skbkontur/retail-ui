@@ -6,11 +6,11 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   context: path.join(__dirname, 'src'),
-  entry: './showcase',
+  entry: './docs-entry',
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/react-ui/dist/',
-    filename: 'showcase.js',
+    filename: 'docs.js',
   },
   module: {
     loaders: [
@@ -45,14 +45,14 @@ module.exports = {
         ),
       },
       {test: /\.less$/, loader: 'less-loader'},
-      {test: /\.(woff|woff2|eot)$/, loader: "file-loader"},
-      {test: /\.(jpe?g|png|gif|svg)$/i, loader: "url-loader"},
+      {test: /\.(woff|woff2|eot)$/, loader: 'file-loader'},
+      {test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader'},
       {test: /\.md$/, loader: 'marked-loader'},
       {test: /\.json/, loader: 'json-loader'},
-    ]
+    ],
   },
   postcss: [
-    autoprefixer({ browsers: ['last 2 versions', 'IE 8'] })
+    autoprefixer({browsers: ['last 2 versions', 'IE 8']}),
   ],
   resolve: {
     fallback: path.join(__dirname, 'node_modules'),
@@ -64,10 +64,10 @@ module.exports = {
     extensions: ['', '.adapter.js', '.js', '.jsx', '.json'],
   },
   resolveLoader: {
-    fallback: path.join(__dirname, 'node_modules')
+    fallback: path.join(__dirname, 'node_modules'),
   },
   plugins: [
-    new ExtractTextPlugin('showcase.css'),
+    new ExtractTextPlugin('docs.css'),
     new webpack.PrefetchPlugin('react'),
-  ]
+  ],
 };

@@ -1,3 +1,5 @@
+// @flow
+
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
@@ -17,6 +19,23 @@ const SIZE_CLASSES = {
   small: styles.sizeSmall,
   medium: styles.sizeMedium,
   large: styles.sizeLarge,
+};
+
+type Props = {
+  _noPadding?: bool,
+  active?: bool,
+  checked?: bool,
+  children?: any,
+  corners?: number, // internal
+  disabled?: bool,
+  loading?: bool,
+  narrow?: bool,
+  size: 'small' | 'medium' | 'large',
+  type: 'button' | 'submit' | 'reset',
+  use: 'default' | 'primary' | 'success' | 'danger' | 'pay',
+  width?: number | string,
+  onClick?: (e: SyntheticMouseEvent) => void,
+  onKeyDown?: (e: SyntheticKeyboardEvent) => void,
 };
 
 class Button extends React.Component {
@@ -66,11 +85,14 @@ class Button extends React.Component {
     type: 'button',
   };
 
+  props: Props;
+  state: null;
+
   render() {
     const {corners = 0} = this.props;
     const radius = '2px';
 
-    var rootProps = {
+    const rootProps: any = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
@@ -138,7 +160,7 @@ class Button extends React.Component {
   _getSizeClassMap() {
     if (!Upgrades.isHeight34Enabled()) {
       return {
-        [DEPRECATED_SIZE_CLASSES[this.props.size]]: true,
+        [DEPRECATED_SIZE_CLASSES[(this.props.size: any)]]: true,
       };
     }
 

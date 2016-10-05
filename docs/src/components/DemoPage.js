@@ -11,7 +11,7 @@ import Link from 'ui/Link';
 import RadioGroup from 'ui/RadioGroup';
 import Tooltip from 'ui/Tooltip';
 
-import styles from './Demo.less';
+import styles from './DemoPage.less';
 
 const TOOLTIP_POSITIONS = [
   'top left', 'top center', 'top right',

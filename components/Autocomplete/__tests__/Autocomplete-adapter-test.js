@@ -1,3 +1,5 @@
+// @flow
+
 import '../../../testing';
 import {mountTest} from '../../../testing/TestingTestUtils';
 
@@ -7,7 +9,9 @@ import Autocomplete from '../Autocomplete.adapter.js';
 
 describe('Autocomplete-adapter', () => {
   it('getValue', () => {
-    const {node, unmount} = mountTest(<Autocomplete tid="a" value="foo" />);
+    const {node, unmount} = mountTest(
+      <Autocomplete tid="a" value="foo" source={null} />
+    );
     expect(ReactTesting.call(node, 'getValue')).toBe('foo');
 
     unmount();
@@ -17,7 +21,7 @@ describe('Autocomplete-adapter', () => {
     const source = jest.fn(() => Promise.resolve([]));
     const onChange = jest.fn();
     const {node, unmount} = mountTest(
-      <Autocomplete tid="a" source={source} onChange={onChange} />
+      <Autocomplete tid="a" value="" source={source} onChange={onChange} />
     );
 
     ReactTesting.call(node, 'setValue', ['foo']);
@@ -33,13 +37,34 @@ describe('Autocomplete-adapter', () => {
 
   pit('getSuggestions', async () => {
     const source = jest.fn(() => Promise.resolve([1, 2, 3]));
-    const {node, unmount} = mountTest(<Autocomplete tid="a" source={source} />);
+    const {node, unmount, setProps} = mountTest(
+      <Autocomplete tid="a" value="" source={source} />
+    );
 
+    setProps({value: 'foo'});
     ReactTesting.call(node, 'setValue', ['foo']);
 
-    await source.mock.instances[0];
+    await (source.mock.instances: any)[0];
 
     expect(ReactTesting.call(node, 'getSuggestions')).toEqual([1, 2, 3]);
+
+    unmount();
+  });
+
+  it('setValueByIndex', async () => {
+    const source = jest.fn(() => Promise.resolve(['foo']));
+    const onChange = jest.fn((e, value) => setProps({value}));
+    const {node, unmount, setProps} = mountTest(
+      <Autocomplete tid="a" value="" source={source} onChange={onChange} />
+    );
+
+    // Fetch suggestions.
+    ReactTesting.call(node, 'setValue', ['bar']);
+    await (source.mock.instances: any)[0];
+    ReactTesting.call(node, 'setValueByIndex', [0]);
+
+    expect(onChange.mock.calls.length).toBe(2);
+    expect(onChange.mock.calls[1][1]).toBe('foo');
 
     unmount();
   });
