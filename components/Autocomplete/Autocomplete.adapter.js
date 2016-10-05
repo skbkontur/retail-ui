@@ -14,6 +14,9 @@ const AutocompleteAdapter = {
   getSuggestions(inst: Autocomplete) {
     return inst.state.items;
   },
+  setValueByIndex(inst: Autocomplete, index: number) {
+    inst._choose(index);
+  },
 };
 
 (Autocomplete: any).__ADAPTER__ = AutocompleteAdapter;

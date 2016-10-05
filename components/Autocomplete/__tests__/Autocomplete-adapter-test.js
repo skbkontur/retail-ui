@@ -50,4 +50,19 @@ describe('Autocomplete-adapter', () => {
 
     unmount();
   });
+
+  it('setValueByIndex', () => {
+    const source = jest.fn(() => Promise.resolve(['foo']));
+    const onChange = jest.fn();
+    const {node, unmount} = mountTest(
+      <Autocomplete tid="a" value="" source={source} onChange={onChange} />
+    );
+
+    ReactTesting.call(node, 'setValueByIndex', [0]);
+
+    expect(onChange.mock.calls.length).toBe(1);
+    expect(onChange.mock.calls[0][1]).toBe('foo');
+
+    unmount();
+  });
 });
