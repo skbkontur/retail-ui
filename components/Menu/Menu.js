@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import isActiveElement from './isActiveElement';
 import ScrollContainer from '../ScrollContainer/ScrollContainer';
 
 import styles from './Menu.less';
@@ -35,7 +36,7 @@ export default class Menu extends React.Component {
           maxHeight={this.props.maxHeight}
         >
           {React.Children.map(this.props.children, (child, index) => {
-            if (this._canSelect(child)) {
+            if (isActiveElement(child)) {
               const highlight = this.state.highlightedIndex === index;
 
               let ref = child.ref;
@@ -90,7 +91,7 @@ export default class Menu extends React.Component {
 
   _select(index: number, shouldHandleHref: bool) {
     const item = childrenToArray(this.props.children)[index];
-    if (this._canSelect(item)) {
+    if (isActiveElement(item)) {
       if (shouldHandleHref && item.props.href) {
         if (item.props.target) {
           window.open(item.props.href, item.props.target);
@@ -125,15 +126,11 @@ export default class Menu extends React.Component {
       }
 
       const child = children[index];
-      if (this._canSelect(child)) {
+      if (isActiveElement(child)) {
         this.setState({highlightedIndex: index}, this._scrollToSelected);
         return;
       }
     } while (index !== this.state.highlightedIndex);
-  }
-
-  _canSelect(element: ?React.Element<any>) {
-    return element && element.type.__MENU_ITEM__ && !element.props.disabled;
   }
 }
 

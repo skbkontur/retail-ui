@@ -4,6 +4,7 @@ import {mountTest} from '../../../testing/TestingTestUtils';
 import React from 'react';
 
 import ComboBox from '../ComboBox.adapter.js';
+import MenuItem from '../../MenuItem/MenuItem';
 
 function noop() {
   return Promise.resolve([]);
@@ -79,7 +80,12 @@ describe('ComboBox-adapter', () => {
   });
 
   pit('search and getResult', async () => {
-    const source = jest.fn(() => Promise.resolve({values: [1, 2, 3]}));
+    const values = [
+      1,
+      <span>2</span>,
+      <MenuItem value={3}>3</MenuItem>,
+    ];
+    const source = jest.fn(() => Promise.resolve({values}));
     const {node, unmount} = mountTest(<ComboBox tid="a" source={source} />);
 
     ReactTesting.call(node, 'search', ['test']);
@@ -91,7 +97,7 @@ describe('ComboBox-adapter', () => {
     await source.mock.instances[1];
 
     const result = ReactTesting.call(node, 'getResult');
-    expect(result).toEqual([1, 2, 3]);
+    expect(result).toEqual([1, null, 3]);
 
     unmount();
   });
