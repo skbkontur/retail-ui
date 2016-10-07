@@ -220,9 +220,7 @@ function formatDate(date) {
     return '';
   }
 
-  // $FlowIssue https://github.com/facebook/flow/pull/2444
   const day = date.getDate().toString().padStart(2, '0');
-  // $FlowIssue https://github.com/facebook/flow/pull/2444
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   return `${day}.${month}.${date.getFullYear()}`;
 }
