@@ -4,11 +4,13 @@
 const injectGlobalHook = require('./react-devtools/backend/installGlobalHook');
 injectGlobalHook(global);
 
-// $FlowIssue
+// $FlowIssue ./react-devtools/* ignored in flowconfig
 const Agent = require('./react-devtools/agent/Agent');
-// $FlowIssue
+// $FlowIssue ./react-devtools/* ignored in flowconfig
 const inject = require('./react-devtools/agent/inject');
 const invariant = require('invariant');
+
+const TID_HIDDEN = 'data-tid-auto';
 
 const React = require('react');
 const oldCreateElement = React.createElement;
@@ -17,16 +19,14 @@ const oldCreateElement = React.createElement;
     return oldCreateElement(type, props, ...children);
   }
 
-  let {
-    tid,
-    $$tid, // eslint-disable-line no-unused-vars
-    ...newProps,
-  } = props;
-  if (tid) {
-    newProps = {
-      $$tid: tid,
-      ...newProps,
-    };
+  const newProps = {};
+  for (const key of Object.keys(props)) {
+    if (key !== 'tid' && key !== TID_HIDDEN) {
+      newProps[key] = props[key];
+    }
+  }
+  if (props.tid) {
+    newProps[TID_HIDDEN] = props.tid;
   }
   return oldCreateElement(type, newProps, ...children);
 };
@@ -104,7 +104,7 @@ const search = (ids, tokens) => {
       return search([root], tokens);
     }
 
-    const tid = comp.props && comp.props.$$tid;
+    const tid = comp.props && comp.props[TID_HIDDEN];
     if (tid === tokens[0]) {
       return search([id], tokens.slice(1));
     }
