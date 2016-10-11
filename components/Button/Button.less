@@ -58,7 +58,7 @@
         bottom: 0;
         content: '';
         left: 0;
-        outline: 2px solid #5199db;
+        outline: 2px solid @border-color-focus;
         position: absolute;
         right: 0;
         top: 0;
@@ -70,7 +70,7 @@
     .@{className}:focus {
       box-shadow:
         inset 0 0 0 1px #FFFFFF,
-        0 0 0 2px #5199DB;
+        0 0 0 2px @border-color-focus;
       position: relative;
       z-index: 2;
     }
@@ -130,7 +130,7 @@
       inset 0 1px 2px 0 rgba(0, 0, 0, .10);
   }
 
-  .fallbackMixin(use-default; #f9f9f9; #b2b2b2);
+  .fallbackMixin(use-default; #f9f9f9; @border-color-gray-dark);
 
   // Use Primary
 
@@ -254,6 +254,17 @@
   .fallbackMixin(use-pay, #ffc943);
 
   // End Use
+
+  .root.checked {
+    background: #737373;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, .6),
+      inset 0 1px 2px 0 rgba(0, 0, 0, .3);
+    color: #fff;
+  }
+
+  .focusMixin(checked);
+  .fallbackMixin(checked, #737373);
 
   .root.disabled {
     background: @bg-disabled;

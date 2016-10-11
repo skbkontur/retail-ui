@@ -20,11 +20,18 @@ globals:
   Generator: true
   # Flow
   $Shape: true
-  # React
+  # React events
+  SyntheticClipboardEvent: true
+  SyntheticCompositionEvent: true
+  SyntheticDragEvent: true
   SyntheticEvent: true
   SyntheticFocusEvent: true
-  SyntheticMouseEvent: true
+  SyntheticInputEvent: true
   SyntheticKeyboardEvent: true
+  SyntheticMouseEvent: true
+  SyntheticTouchEvent: true
+  SyntheticUIEvent: true
+  SyntheticWheelEvent: true
   # Testing
   Lookup: true
   ReactTesting: true

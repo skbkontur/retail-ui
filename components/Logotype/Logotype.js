@@ -1,3 +1,4 @@
+/* @flow */
 import React, {PropTypes} from 'react';
 
 import styles from './Logotype.less';
@@ -26,7 +27,12 @@ const createPngCloud = backgroundColor => (
   </div>
 );
 
-const Logotype = ({color = '#D92932', suffix}) => (
+type LogotypeType = {
+  color: string,
+  suffix: ?string
+}
+
+const Logotype = ({color = '#D92932', suffix}: LogotypeType) => (
   <a href="/" tabIndex="-1" className={styles.root}>
     <span>к</span>
     <span style={{color}}>

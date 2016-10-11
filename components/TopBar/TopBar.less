@@ -1,12 +1,14 @@
 :local {
   @active-background: rgba(0, 0, 0, .06);
   @buttonSidePadding: 15px;
+  @danger-color: #ffe3e3;
   @height: 50px;
+  @pay-color: #ffeca9;
 
   .root {
     background: #fff;
     margin-bottom: 20px;
-    box-shadow: 0 1px 1px 3px rgba(221,221,221,.75);
+    box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.10), 0px 1px 8px 0px rgba(0,0,0,0.10);
     height: @height;
     padding: 0 15px;
   }
@@ -23,9 +25,14 @@
     margin: auto;
   }
 
+  .containerWrap {
+    margin: 0 -@buttonSidePadding;
+  }
+
   .container {
     display: table;
-    margin: 0 -@buttonSidePadding;
+    min-width: 100%;
+    width: 0;
   }
 
   .leftItems {
@@ -90,16 +97,18 @@
 
   // Use Pay
 
-  .use-pay {
-    background: #fff4d1;
-
-    &:hover {
-      background: #ffeca9;
-    }
+  .use-pay,
+  .use-pay:hover,
+  .use-pay.buttonActive {
+    background: @pay-color;
   }
 
-  .use-pay.buttonActive {
-    background: #ffeca9;
+  // Use Danger
+
+  .use-danger,
+  .use-danger:hover,
+  .use-danger.buttonActive {
+    background: @danger-color;
   }
 
   // End Use

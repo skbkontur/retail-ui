@@ -26,6 +26,11 @@ function ref(tid, existingRef) {
       }
       map[id] = {el, node, tid};
     } else {
+      const node = map[id].node;
+      if (node) {
+        node.removeAttribute('tid');
+        node.removeAttribute('react-testing-id');
+      }
       delete map[id];
     }
     existingRef && existingRef(el);

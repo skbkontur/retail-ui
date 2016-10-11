@@ -1,3 +1,5 @@
+// @flow
+
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
@@ -19,6 +21,23 @@ const SIZE_CLASSES = {
   large: styles.sizeLarge,
 };
 
+type Props = {
+  _noPadding?: bool,
+  active?: bool,
+  checked?: bool,
+  children?: any,
+  corners?: number, // internal
+  disabled?: bool,
+  loading?: bool,
+  narrow?: bool,
+  size: 'small' | 'medium' | 'large',
+  type: 'button' | 'submit' | 'reset',
+  use: 'default' | 'primary' | 'success' | 'danger' | 'pay',
+  width?: number | string,
+  onClick?: (e: SyntheticMouseEvent) => void,
+  onKeyDown?: (e: SyntheticKeyboardEvent) => void,
+};
+
 class Button extends React.Component {
   static TOP_LEFT = Corners.TOP_LEFT;
   static TOP_RIGHT = Corners.TOP_RIGHT;
@@ -30,6 +49,8 @@ class Button extends React.Component {
      * Визуально нажатое состояние.
      */
     active: PropTypes.bool,
+
+    checked: PropTypes.bool,
 
     disabled: PropTypes.bool,
 
@@ -64,11 +85,14 @@ class Button extends React.Component {
     type: 'button',
   };
 
+  props: Props;
+  state: null;
+
   render() {
     const {corners = 0} = this.props;
     const radius = '2px';
 
-    var rootProps = {
+    const rootProps: any = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
@@ -77,6 +101,7 @@ class Button extends React.Component {
         [styles.root]: true,
         [styles['use-' + this.props.use]]: true,
         [styles.active]: this.props.active,
+        [styles.checked]: this.props.checked,
         [styles.disabled]: this.props.disabled || this.props.loading,
         [styles.narrow]: this.props.narrow,
         [styles.noPadding]: this.props._noPadding,
@@ -96,8 +121,10 @@ class Button extends React.Component {
     if (this.props.align) {
       rootProps.style.textAlign = this.props.align;
     }
+
+    const wrapStyle = {};
     if (this.props.width) {
-      rootProps.style.width = this.props.width;
+      wrapStyle.width = this.props.width;
     }
 
     let error = null;
@@ -113,7 +140,7 @@ class Button extends React.Component {
     }
 
     return (
-      <span className={styles.wrap}>
+      <span className={styles.wrap} style={wrapStyle}>
         <button {...rootProps}>
           {loading}
           <div className={styles.caption}>
@@ -131,9 +158,9 @@ class Button extends React.Component {
   }
 
   _getSizeClassMap() {
-    if (!Upgrades.__height34) {
+    if (!Upgrades.isHeight34Enabled()) {
       return {
-        [DEPRECATED_SIZE_CLASSES[this.props.size]]: true,
+        [DEPRECATED_SIZE_CLASSES[(this.props.size: any)]]: true,
       };
     }
 

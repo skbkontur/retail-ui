@@ -5,6 +5,8 @@ import React, {PropTypes} from 'react';
 
 import styles from './MenuItem.less';
 
+export type MenuItemState = null | 'hover' | 'selected';
+
 /**
  * Элемент меню.
  */
@@ -12,6 +14,8 @@ export default class MenuItem extends React.Component {
   static __MENU_ITEM__ = true;
 
   static propTypes = {
+    alkoLink: PropTypes.bool,
+
     comment: PropTypes.string,
 
     disabled: PropTypes.bool,
@@ -30,17 +34,20 @@ export default class MenuItem extends React.Component {
   }
 
   props: {
+    alkoLink?: bool,
     comment?: string,
     disabled?: bool,
     href?: string,
     loose?: bool,
-    state?: 'hover' | 'selected',
+    state?: MenuItemState,
     target?: string,
     onClick?: () => void,
+    children?: any,
   };
 
   render() {
     const {
+      alkoLink,
       comment,
       disabled,
       loose,
@@ -57,7 +64,13 @@ export default class MenuItem extends React.Component {
       [styles.hover]: hover,
       [styles.loose]: loose,
       [styles.selected]: state === 'selected',
+      [styles.link]: alkoLink,
     });
+
+    let {children} = this.props;
+    if (typeof children === 'function') {
+      children = children(this.props.state);
+    }
 
     return (
       <a
@@ -66,7 +79,7 @@ export default class MenuItem extends React.Component {
         tabIndex="-1"
         onClick={disabled ? null : onClick}
       >
-        {(this.props: any).children}
+        {children}
         {this.props.comment && (
           <div
             className={classNames({

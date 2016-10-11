@@ -1,3 +1,5 @@
+// @flow
+
 import classNames from 'classnames';
 import MaskedInput from 'react-input-mask';
 import React, {PropTypes} from 'react';
@@ -40,11 +42,43 @@ const SIZE_CLASS_NAMES = {
   large: styles.deprecated_sizeLarge,
 };
 
-const PASS_TYPES = {
-  password: true,
+export type Props = {
+  align?: 'left' | 'center' | 'right',
+  alwaysShowMask?: bool,
+  borderless?: bool,
+  className?: string, // TODO: kill it
+  disabled?: bool,
+  error?: bool,
+  id?: string,
+  leftIcon?: React.Element<mixed>,
+  mask?: string,
+  maskChar?: string,
+  maxLength?: number | string,
+  placeholder?: string,
+  rightIcon?: React.Element<mixed>,
+  size?: 'small' | 'default' | 'large',
+  title?: string,
+  type?: 'password' | 'text',
+  value: string,
+  warning?: bool,
+  width?: number | string,
+  onBlur?: (e: SyntheticFocusEvent) => void,
+  onChange?: (e: {target: {value: string}}, v: string) => void,
+  onCopy?: (e: SyntheticClipboardEvent) => void,
+  onCut?: (e: SyntheticClipboardEvent) => void,
+  onFocus?: (e: SyntheticFocusEvent) => void,
+  onInput?: (e: SyntheticInputEvent) => void,
+  onKeyDown?: (e: SyntheticKeyboardEvent) => void,
+  onKeyPress?: (e: SyntheticKeyboardEvent) => void,
+  onKeyUp?: (e: SyntheticKeyboardEvent) => void,
+  onPaste?: (e: SyntheticFocusEvent) => void,
 };
 
-class Input extends React.Component {
+type State = {
+  polyfillPlaceholder: bool,
+};
+
+export default class Input extends React.Component {
   static propTypes = {
     align: PropTypes.oneOf(['left', 'center', 'right']),
 
@@ -57,8 +91,6 @@ class Input extends React.Component {
      * Не отрисовывать рамку.
      */
     borderless: PropTypes.bool,
-
-    defaultValue: PropTypes.any,
 
     disabled: PropTypes.bool,
 
@@ -114,7 +146,7 @@ class Input extends React.Component {
 
     type: PropTypes.oneOf(['password', 'text']),
 
-    value: PropTypes.any.isRequired,
+    value: PropTypes.string.isRequired,
 
     /**
      * Визуально показать наличие предупреждения.
@@ -147,24 +179,17 @@ class Input extends React.Component {
     onPaste: PropTypes.func,
   };
 
-  static defaultProps = {
-    size: 'default',
+  props: Props;
+  state: State = {
+    polyfillPlaceholder: false,
   };
 
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      value: props.value !== undefined ? props.value
-          : (props.mask ? null : props.defaultValue),
-    };
-  }
-
   render() {
+    const className: string = this.props.className || '';
     var labelProps = {
       className: classNames({
         [styles.root]: true,
-        [this.props.className || '']: true,
+        [className]: true,
         [styles.disabled]: this.props.disabled,
         [styles.error]: this.props.error,
         [styles.warning]: this.props.warning,
@@ -177,13 +202,14 @@ class Input extends React.Component {
       labelProps.style.width = this.props.width;
     }
 
-    if (!Upgrades.__height34) {
-      labelProps.className += ' ' + SIZE_CLASS_NAMES[this.props.size];
+    if (!Upgrades.isHeight34Enabled()) {
+      const size = this.props.size || 'default';
+      labelProps.className += ' ' + SIZE_CLASS_NAMES[size];
     }
 
     var placeholder = null;
     if (this.state.polyfillPlaceholder && this.props.placeholder
-        && !this.props.mask && !this.state.value) {
+        && !this.props.mask && !this.props.value) {
       placeholder = (
         <div className={styles.placeholder}>{this.props.placeholder}</div>
       );
@@ -206,13 +232,13 @@ class Input extends React.Component {
         [styles.input]: true,
         [styles.borderless]: this.props.borderless,
       }),
-      value: this.state.value,
-      onChange: (e) => this.handleChange(e),
+      value: this.props.value,
+      onChange: (e) => this._handleChange(e),
       style: {},
     };
 
     const type = this.props.type;
-    if (PASS_TYPES[type]) {
+    if (type === 'password') {
       inputProps.type = type;
     }
 
@@ -250,12 +276,6 @@ class Input extends React.Component {
     }
   }
 
-  componentWillReceiveProps(props) {
-    if (props.value !== undefined) {
-      this.setState({value: props.value});
-    }
-  }
-
   /**
    * @api
    */
@@ -266,8 +286,9 @@ class Input extends React.Component {
   /**
    * @api
    */
-  setSelectionRange(start, end) {
-    const input = ReactDOM.findDOMNode(this).querySelector('input');
+  setSelectionRange(start: number, end: number) {
+    const input: HTMLInputElement = ReactDOM.findDOMNode(this).
+      querySelector('input');
     if (input.setSelectionRange) {
       input.focus();
       input.setSelectionRange(start, end);
@@ -280,15 +301,9 @@ class Input extends React.Component {
     }
   }
 
-  handleChange(event) {
-    if (this.props.value === undefined) {
-      this.setState({value: event.target.value});
-    }
-
+  _handleChange(event) {
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
   }
 }
-
-export default Input;

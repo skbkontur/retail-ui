@@ -27,7 +27,6 @@ export default class Menu extends React.Component {
 
   _scrollContainer: ScrollContainer;
   _highlighted: any;
-  _highlightedItemRef: ?((el: any) => void);
 
   render() {
     return (
@@ -41,8 +40,7 @@ export default class Menu extends React.Component {
 
               let ref = child.ref;
               if (highlight) {
-                this._highlightedItemRef = ref;
-                ref = this._refHighlighted;
+                ref = this._refHighlighted.bind(this, child.ref);
               }
 
               return React.cloneElement(child, {
@@ -80,12 +78,11 @@ export default class Menu extends React.Component {
     this._scrollContainer = scrollContainer;
   };
 
-  _refHighlighted = (menuItem: any) => {
+  _refHighlighted(originalRef: any, menuItem: any) {
     this._highlighted = menuItem;
 
-    const originalRef = this._highlightedItemRef;
     originalRef && originalRef(menuItem);
-  };
+  }
 
   _scrollToSelected = () => {
     this._scrollContainer.scrollTo(ReactDOM.findDOMNode(this._highlighted));

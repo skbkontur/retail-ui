@@ -13,6 +13,8 @@ marked.setOptions({
 });
 
 module.exports = function(src) {
+  this.cacheable();
+
   var info = reactDocs.parse(src);
 
   info.description = processDescription(info.description);
@@ -24,6 +26,8 @@ module.exports = function(src) {
 
   const adapterPath = this.resourcePath.replace(/\.js$/, '.adapter.js');
   if (fs.existsSync(adapterPath)) {
+    this.addDependency(adapterPath);
+
     const src = fs.readFileSync(adapterPath, 'utf8');
     info.adapterProps = extractAdapterDoc(src);
   }

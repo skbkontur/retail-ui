@@ -10,6 +10,7 @@ import styles from './Radio.less';
 class Radio extends React.Component {
   static propTypes = {
     checked: PropTypes.bool,
+    disabled: PropTypes.bool,
     error: PropTypes.bool,
     focused: PropTypes.bool,
     warning: PropTypes.bool,
@@ -24,6 +25,7 @@ class Radio extends React.Component {
     var rootClass = classNames({
       [styles.root]: true,
       [styles.checked]: this.props.checked,
+      [styles.disabled]: this.props.disabled,
       [styles.error]: this.props.error,
       [styles.focused]: this.props.focused,
       [styles.warning]: this.props.warning,

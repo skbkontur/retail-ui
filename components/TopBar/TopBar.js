@@ -27,6 +27,7 @@ class Item extends React.Component {
 
   static propTypes = {
     use: PropTypes.oneOf([
+      'danger',
       'pay',
     ]),
   };
@@ -55,7 +56,7 @@ class Item extends React.Component {
       [styles.iconOnly]: iconOnly,
     };
     if (use) {
-      classes['use-' + use] = true;
+      classes[styles['use-' + use]] = true;
     }
 
     return (
@@ -182,7 +183,19 @@ class User extends React.Component {
 }
 
 class Organizations extends React.Component {
-  state = {
+  _caption: HTMLElement;
+  _comment: HTMLElement;
+
+  props: {
+    caption: string | React.Element<any>,
+    comment: ?string,
+    children: React.Element<any>
+  };
+
+  state: {
+    captionWhiteSpace: string,
+    minWidth: ?number
+  } = {
     captionWhiteSpace: 'normal',
     minWidth: null,
   };
@@ -231,7 +244,10 @@ class Organizations extends React.Component {
           style={{whiteSpace: this.state.captionWhiteSpace}}
         >
           <span className={styles.organizationsCaption}>
-            {caption}
+            {React.isValidElement(caption)
+              ? React.cloneElement((caption: any), {ref: null})
+              : caption
+            }
           </span>
           {comment &&
             <span className={styles.organizationsCommentDummy}>
@@ -271,12 +287,12 @@ class Organizations extends React.Component {
     if (this._caption.offsetWidth + commentWidth > 315) {
       this.setState({
         captionWhiteSpace: 'normal',
-        minWidth: 360
+        minWidth: 360,
       });
     } else {
       this.setState({
         captionWhiteSpace: 'nowrap',
-        minWidth: null
+        minWidth: null,
       });
     }
   }
@@ -348,27 +364,29 @@ class TopBar extends React.Component {
         })}
       >
         <div className={styles.center} style={{maxWidth}}>
-          <div className={styles.container}>
-            <div id="spwDropdown" className={styles.spwDropdown}>
+          <div className={styles.containerWrap}>
+            <div className={styles.container}>
+              <div id="spwDropdown" className={styles.spwDropdown}>
               <span ref={this._refLogoWrapper}>
                 <Logo suffix={suffix} color={color}/>
                 <Divider />
               </span>
-              <ButtonItem iconOnly>
-                <Icon color="#aaa" size={20} name="angle-bottom"/>
-              </ButtonItem>
+                <ButtonItem iconOnly>
+                  <Icon color="#aaa" size={20} name="angle-bottom"/>
+                </ButtonItem>
+              </div>
+              <div className={styles.leftItems}>
+                {this._renderLeftItems(leftItems)}
+              </div>
+              {this._renderRightItems([
+                ...rightItems || [],
+                <User userName={userName}/>,
+                <Divider />,
+                <ButtonItem onClick={onLogout}>
+                  Выйти
+                </ButtonItem>,
+              ])}
             </div>
-            <div className={styles.leftItems}>
-              {this._renderLeftItems(leftItems)}
-            </div>
-            {this._renderRightItems([
-              ...rightItems || [],
-              <User userName={userName}/>,
-              <Divider />,
-              <ButtonItem onClick={onLogout}>
-                Выйти
-              </ButtonItem>,
-            ])}
           </div>
         </div>
       </div>
@@ -455,14 +473,19 @@ class TopBar extends React.Component {
 }
 
 TopBar.propTypes = {
-  leftItems: PropTypes.arrayOf(PropTypes.element),
-
-  rightItems: PropTypes.arrayOf(PropTypes.element),
+  children: PropTypes.node,
 
   /**
-   * Отключает тень
+   * Цвет логотипа
    */
-  noShadow: PropTypes.bool,
+  color: PropTypes.string,
+
+  leftItems: PropTypes.arrayOf(PropTypes.element),
+
+  /**
+   * Максимальная ширина контейнера в шапке
+   */
+  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
   /**
    * Отключает отступ снизу
@@ -470,21 +493,16 @@ TopBar.propTypes = {
   noMargin: PropTypes.bool,
 
   /**
-   * Максимальная ширина контейнера в шапке
+   * Отключает тень
    */
-  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  noShadow: PropTypes.bool,
 
-  children: PropTypes.node,
+  rightItems: PropTypes.arrayOf(PropTypes.element),
 
   /**
    * Суффикс логотипа
    */
   suffix: PropTypes.string.isRequired,
-
-  /**
-   * Цвет логотипа
-   */
-  color: PropTypes.string,
 
   /**
    * Имя пользователя

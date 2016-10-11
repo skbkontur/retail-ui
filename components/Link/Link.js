@@ -5,6 +5,13 @@ import Icon from '../Icon';
 
 import styles from './Link.less';
 
+const useClasses = {
+  default: styles.useDefault,
+  success: styles.useSuccess,
+  danger: styles.useDanger,
+  grayed: styles.useGrayed,
+};
+
 /**
  * Стандартная ссылка.
  *
@@ -17,22 +24,35 @@ class Link extends React.Component {
     href: PropTypes.string,
 
     icon: PropTypes.string,
+
+    use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
   };
 
   static defaultProps = {
     href: 'javascript:',
+    use: 'default',
   };
 
   render() {
+    const {
+      disabled,
+      href,
+      icon: iconName,
+      use,
+      _button,
+      _buttonOpened,
+      ...rest,
+    } = this.props;
+
     let icon = null;
-    if (this.props.icon) {
+    if (iconName) {
       icon = (
-        <span className={styles.icon}><Icon name={this.props.icon} /></span>
+        <span className={styles.icon}><Icon name={iconName} /></span>
       );
     }
 
     let arrow = null;
-    if (this.props._button) {
+    if (_button) {
       arrow = <span className={styles.arrow} />;
     }
 
@@ -42,25 +62,33 @@ class Link extends React.Component {
       className: classNames({
         [externalClassName] : true,
         [styles.root]: true,
-        [styles.disabled]: this.props.disabled,
-        [styles.button]: this.props._button,
-        [styles.buttonOpened]: this.props._buttonOpened,
+        [useClasses[use]]: true,
+        [styles.disabled]: disabled,
+        [styles.button]: _button,
+        [styles.buttonOpened]: _buttonOpened,
       }),
-      href: this.props.href,
+      href,
+      onClick: this._handleClick,
     };
 
-    if (this.props.disabled) {
+    if (disabled) {
       props.tabIndex = '-1';
     }
 
     return (
-      <a {...this.props} {...props}>
+      <a {...rest} {...props}>
         {icon}
         {this.props.children}
         {arrow}
       </a>
     );
   }
+
+  _handleClick = event => {
+    if (this.props.onClick && !this.props.disabled) {
+      this.props.onClick.call(null, event);
+    }
+  };
 }
 
 export default Link;

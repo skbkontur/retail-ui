@@ -16,7 +16,7 @@ module.exports = function(babel) {
 
   var visitor = {
     ImportDeclaration: {
-      enter: function(path) {
+      enter(path) {
         var node = babel5 ? path : path.node;
 
         if (node.source.value !== 'ui') {

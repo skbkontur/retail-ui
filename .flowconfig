@@ -15,10 +15,9 @@ flow/testing.js
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
 
-suppress_comment=.*\\$FlowIssue.*
+munge_underscores=true
 
-module.file_ext=.js
-module.file_ext=.jsx
+suppress_comment=.*\\$FlowIssue.*
 
 module.name_mapper='^.*\.less+$' -> '<PROJECT_ROOT>/flow/CssStub'
 module.name_mapper='^.*\.png+$' -> '<PROJECT_ROOT>/flow/StringStub'

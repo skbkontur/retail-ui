@@ -5,7 +5,9 @@ import React from 'react';
 
 import ComboBox from '../ComboBox.adapter.js';
 
-function noop() {}
+function noop() {
+  return Promise.resolve([]);
+}
 
 describe('ComboBox-adapter', () => {
   it('getValue', () => {
@@ -26,6 +28,52 @@ describe('ComboBox-adapter', () => {
 
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0][1]).toBe('foo');
+
+    unmount();
+  });
+
+  it('setValue closes the ComboBox', () => {
+    const onChange = jest.fn();
+    const source = jest.fn(() => Promise.resolve(['bar']));
+    const {node, unmount} = mountTest(
+      <ComboBox tid="a" onChange={onChange} source={source} />
+    );
+
+    const isOpened = () => !!node.querySelector('input');
+
+    ReactTesting.call(node, 'search', ['whoop']);
+    expect(isOpened()).toBe(true);
+
+    ReactTesting.call(node, 'setValue', ['foo']);
+    expect(isOpened()).toBe(false);
+
+    expect(onChange.mock.calls.length).toBe(1);
+    expect(onChange.mock.calls[0][1]).toBe('foo');
+
+    unmount();
+  });
+
+  it('getInfo', () => {
+    const {node, unmount} = mountTest(
+      <ComboBox tid="a" value="foo" info="info" source={noop} />
+    );
+
+    expect(ReactTesting.call(node, 'getInfo', [])).toBe('info');
+
+    unmount();
+  });
+
+  it('getInfo of promise', async () => {
+    const promise = Promise.resolve('info');
+    const {node, unmount} = mountTest(
+      <ComboBox tid="a" value="foo" info={() => promise} source={noop} />
+    );
+
+    // Info is null until promise is resolved.
+    expect(ReactTesting.call(node, 'getInfo', [])).toBe(null);
+
+    await promise;
+    expect(ReactTesting.call(node, 'getInfo', [])).toBe('info');
 
     unmount();
   });

@@ -1,27 +1,31 @@
 import events from 'add-event-listener';
+import ExecutionEnvironment from 'exenv';
 import LayoutEvents from '../../lib/LayoutEvents';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
 import position from './position';
+import renderPin from './renderPin';
 
 import styles from './Box.less';
 
+// Windows XP fonts don't include the cross character used for the close button.
+// So we use another one on XP only, because it looks ugly on modern systems.
+const WIN_XP = ExecutionEnvironment.canUseDOM &&
+  navigator.userAgent.includes('Windows NT 5.');
+const CROSS = WIN_XP ? '╳' : '✕';
+
 export default class Box extends React.Component {
   static contextTypes = {
+    insideFixedContainer: PropTypes.bool,
     rt_inModal: PropTypes.bool,
   };
 
-  constructor(props) {
-    super(props);
+  state = {
+    pos: null,
+  };
 
-    this.state = {
-      pos: null,
-    };
-
-    this.handleDocClick = this.handleDocClick.bind(this);
-    this.reflow = this.reflow.bind(this);
-  }
+  _mounted = false;
 
   render() {
     const style = {
@@ -31,103 +35,60 @@ export default class Box extends React.Component {
 
     return (
       <div className={styles.root} style={style}>
-        {this.renderPin()}
-        <div className={styles.inner}>{this.props.children}</div>
-      </div>
-    );
-  }
-
-  renderPin() {
-    const pos = this.state.pos;
-    if (!pos) {
-      return null;
-    }
-
-    const outer = Object.assign({}, pos.pinStyle);
-    const inner = {};
-    switch (pos.pinDirection) {
-      case 'bottom':
-        outer.bottom = -6;
-        outer.marginLeft = -7;
-
-        outer.borderBottom = inner.borderBottom = '0';
-        outer.borderLeftColor = inner.borderLeftColor = 'transparent';
-        outer.borderRightColor = inner.borderRightColor = 'transparent';
-
-        inner.top = -7;
-        inner.left = -6;
-        break;
-
-      case 'top':
-        outer.top = -6;
-        outer.marginLeft = -7;
-
-        outer.borderTop = inner.borderTop = '0';
-        outer.borderLeftColor = inner.borderLeftColor = 'transparent';
-        outer.borderRightColor = inner.borderRightColor = 'transparent';
-
-        inner.top = 1;
-        inner.left = -6;
-        break;
-
-      case 'left':
-        outer.left = -6;
-        outer.marginTop = -7;
-
-        outer.borderLeft = inner.borderLeft = '0';
-        outer.borderTopColor = inner.borderTopColor = 'transparent';
-        outer.borderBottomColor = inner.borderBottomColor = 'transparent';
-
-        inner.top = -6;
-        inner.left = 1;
-        break;
-
-      case 'right':
-        outer.right = -6;
-        outer.marginTop = -7;
-
-        outer.borderRight = inner.borderRight = '0';
-        outer.borderTopColor = inner.borderTopColor = 'transparent';
-        outer.borderBottomColor = inner.borderBottomColor = 'transparent';
-
-        inner.top = -6;
-        inner.left = -7;
-        break;
-    }
-
-    return (
-      <div className={styles.pin} style={outer}>
-        <div className={styles.pinInner} style={inner} />
+        {renderPin(this.state.pos, styles.pin, styles.pinInner)}
+        <div className={styles.inner}>
+          {this.props.close && (
+            <div className={styles.cross} onClick={this._handleCrossClick}>
+              {CROSS}
+            </div>
+          )}
+          {this.props.children}
+        </div>
       </div>
     );
   }
 
   componentDidMount() {
+    this._mounted = true;
+
     this.reflow();
 
     this._layoutEventsToken = LayoutEvents.addListener(this.reflow);
     if (this.props.trigger === 'click') {
-      events.addEventListener(document, 'click', this.handleDocClick);
+      events.addEventListener(document, 'click', this._handleNativeDocClick);
     }
   }
 
   componentWillUnmount() {
     this._layoutEventsToken.remove();
-    events.removeEventListener(document, 'click', this.handleDocClick);
+    events.removeEventListener(document, 'click', this._handleNativeDocClick);
+
+    this._mounted = false;
   }
 
   componentDidUpdate() {
     this.reflow();
   }
 
-  handleDocClick(event) {
+  _handleNativeDocClick = event => {
+    if (!this._mounted) {
+      // The component might already have been unmounted if closed by clicking
+      // on the cross. `ReactDOM.findDOMNode()` throws if called on unmounted
+      // component instance.
+      return;
+    }
+
     const target = event.target || event.srcElement;
     if (!ReactDOM.findDOMNode(this).contains(target)) {
       this.props.onClose();
     }
-  }
+  };
 
-  reflow() {
+  _handleCrossClick = () => {
+    this.props.onClose();
+  };
+
+  reflow = () => {
     if (this.updating_) {
       return;
     }
@@ -136,9 +97,11 @@ export default class Box extends React.Component {
     this.setState({pos: null}, () => {
       const of = this.props.getTarget();
       const el = ReactDOM.findDOMNode(this);
-      this.setState({pos: position(el, of, this.props.pos)}, () => {
+      const fixed = this.context.insideFixedContainer === true;
+      const pos = position(el, of, this.props.pos, fixed);
+      this.setState({pos}, () => {
         this.updating_ = false;
       });
     });
-  }
+  };
 }

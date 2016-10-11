@@ -4,20 +4,26 @@ import ComboBox from './ComboBox.js';
 
 const ComboBoxAdapter = {
   getValue(inst) {
-    return inst.state.value;
+    return inst.props.value;
   },
 
-  setValue(inst, value) {
-    inst._change(value);
+  setValue({renderer}, value) {
+    renderer._handleInputChange({target: {value: ''}});
+    renderer._change(value);
+    renderer._close();
   },
 
-  search(inst, searchString: string) {
-    inst._handleValueClick();
-    inst._handleInputChange({target: {value: searchString}});
+  getInfo({renderer}) {
+    return renderer.props.info;
   },
 
-  getResult(inst) {
-    const {result} = inst.state;
+  search({renderer}, searchString: string) {
+    renderer._handleValueClick();
+    renderer._handleInputChange({target: {value: searchString}});
+  },
+
+  getResult({renderer}) {
+    const {result} = renderer.state;
     return result && result.values;
   },
 };

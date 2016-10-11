@@ -16,11 +16,18 @@
     box-sizing: border-box;
     font-family: inherit;
     font-size: 14px;
-    height: 34px;
     line-height: 32px;
+    margin: 0; // For Safari.
     outline: none;
     padding: 0 @side-padding;
     width: 100%;
+  }
+
+  :global(.rt-ie-any) .input {
+    // Set height for IE only since IE does not support line-height for inputs.
+    // On the other hand, Chrome renders text (Segoe UI) 1 pixel lower if input
+    // has height set.
+    height: 34px;
   }
 
   .input::-ms-clear {
@@ -97,9 +104,11 @@
   }
 
   .placeholder {
+    bottom: 1px;
     color: #aaa;
+    font-size: inherit;
     left: @side-padding + 1;
-    line-height: 28px;
+    line-height: inherit;
     overflow: hidden;
     position: absolute;
     right: @side-padding + 1;

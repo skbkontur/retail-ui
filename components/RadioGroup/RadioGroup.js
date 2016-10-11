@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
 import Radio from '../Radio';
@@ -6,7 +7,11 @@ import styles from './RadioGroup.less';
 
 class RadioGroup extends React.Component {
   static propTypes = {
+    disabled: PropTypes.bool,
+
     error: PropTypes.bool,
+
+    inline: PropTypes.bool,
 
     /**
      * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
@@ -40,7 +45,7 @@ class RadioGroup extends React.Component {
      */
     renderItem: PropTypes.func,
 
-    value: PropTypes.any.isRequired,
+    value: PropTypes.any,
 
     warning: PropTypes.bool,
 
@@ -65,6 +70,7 @@ class RadioGroup extends React.Component {
     const inputProps = {
       type: 'checkbox',
       className: styles.input,
+      disabled: this.props.disabled,
       onKeyDown: this.handleKey,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
@@ -89,18 +95,31 @@ class RadioGroup extends React.Component {
       const focused = this.state.focused &&
           (checked || this.state.value == null && i === 0);
       return (
-        <span key={i} className={styles.item}
+        <span key={i}
+          className={classNames({
+            [styles.item]: true,
+            [styles.itemFirst]: i === 0,
+            [styles.itemInline]: this.props.inline,
+          })}
           onClick={(e) => this.select_(value)}
         >
           <div className={styles.radio}>
-            <Radio
-              checked={checked}
-              focused={focused}
-              error={this.props.error}
-              warning={this.props.warning}
-            />
+            <div className={styles.radioWrap}>
+              <Radio
+                checked={checked}
+                disabled={this.props.disabled}
+                focused={focused}
+                error={this.props.error}
+                warning={this.props.warning}
+              />
+            </div>
           </div>
-          <div className={styles.label}>
+          <div
+            className={classNames({
+              [styles.label]: true,
+              [styles.labelDisabled]: this.props.disabled,
+            })}
+          >
             {this.props.renderItem(value, data)}
           </div>
         </span>
@@ -153,6 +172,10 @@ class RadioGroup extends React.Component {
   }
 
   select_(value) {
+    if (this.props.disabled) {
+      return;
+    }
+
     if (this.props.value === undefined) {
       this.setState({value});
     }

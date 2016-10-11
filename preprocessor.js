@@ -3,7 +3,16 @@ const babel = require('babel-core');
 module.exports = {
   process(src, path) {
     if (path.match(/.less$/)) {
-      return '';
+      return `
+        module.exports = new Proxy({}, {
+          get (_, name) {
+            if (name === '__esModule') {
+              return undefined;
+            }
+            return name;
+          },
+        });
+      `;
     }
     if (babel.util.canCompile(path)) {
       return babel.transform(src, {

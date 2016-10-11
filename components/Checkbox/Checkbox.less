@@ -3,6 +3,8 @@
 :local {
   .root {
     cursor: pointer;
+    display: inline-block;
+    padding-left: 20px;
     position: relative;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -30,9 +32,10 @@
     box-sizing: border-box;
     display: inline-block;
     height: 16px;
+    margin-left: -20px;
     margin-right: 4px;
     position: relative;
-    vertical-align: middle;
+    top: 3px;
     width: 16px;
   }
 
@@ -80,9 +83,5 @@
 
   .isChecked .ok {
     display: block;
-  }
-
-  .caption {
-    vertical-align: middle;
   }
 }

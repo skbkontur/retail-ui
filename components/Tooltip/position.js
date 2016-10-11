@@ -1,7 +1,22 @@
-const SPACE = 8;
+// @flow
 
-export default function(box, target, pos) {
-  pos = extractPos(pos);
+import invariant from 'invariant';
+
+const SPACE = 9;
+
+export type Result = {
+  boxStyle: Object,
+  pinStyle: Object,
+  pinDirection: 'top' | 'right' | 'bottom' | 'left';
+};
+
+export default function(
+  box: HTMLElement,
+  target: HTMLElement,
+  posStr: string,
+  fixed: bool,
+): Result {
+  const pos = extractPos(posStr);
 
   const width = box.offsetWidth;
   const height = box.offsetHeight;
@@ -16,8 +31,13 @@ export default function(box, target, pos) {
   const tRect = target.getBoundingClientRect();
   const tWidth = tRect.right - tRect.left;
   const tHeight = tRect.bottom - tRect.top;
-  const targetTop = tRect.top + pageYOffset - docElem.clientTop;
-  const targetLeft = tRect.left + pageXOffset - docElem.clientLeft;
+
+  let targetTop = tRect.top;
+  let targetLeft = tRect.left;
+  if (!fixed) {
+    targetTop += pageYOffset - docElem.clientTop;
+    targetLeft += pageXOffset - docElem.clientLeft;
+  }
 
   const wndWidth = docElem.clientWidth;
   const wndHeight = docElem.clientHeight;
@@ -84,6 +104,7 @@ export default function(box, target, pos) {
     case pos.aside && pos.hor === 'right': pinDirection = 'left'; break;
     case !pos.aside && pos.ver === 'top': pinDirection = 'bottom'; break;
     case !pos.aside && pos.ver === 'bottom': pinDirection = 'top'; break;
+    default: invariant(false, '');
   }
 
   const pinStyle = {};
@@ -152,6 +173,7 @@ export default function(box, target, pos) {
 
   return {
     boxStyle: {
+      position: fixed ? 'fixed' : 'absolute',
       width: getComputedWidth(box),
       top,
       left,
@@ -178,9 +200,9 @@ function extractPos(pos) {
   };
 }
 
-function getComputedWidth(element) {
-  if (element.currentStyle) {
-    return element.currentStyle.width;
+function getComputedWidth(element): number {
+  if ((element: any).currentStyle) {
+    return (element: any).currentStyle.width;
   }
-  return getComputedStyle(element).width;
+  return Math.ceil(getComputedStyle(element).width);
 }

@@ -3,13 +3,16 @@ import {types, sizeMaps} from './settings';
 
 require('./fallbackSpinner.css');
 
-class SpinnerFallback extends React.Component {
+export default class SpinnerFallback extends React.Component {
   static propTypes = {
     type: PropTypes.oneOf(Object.keys(types)),
   };
 
-  _updateDelay = 1000 / 25;
-  _timer = null;
+  state = {
+    frame: 0,
+  };
+
+  _mounted = false;
 
   _framesCount = {
     [types.mini]: 180,
@@ -18,39 +21,28 @@ class SpinnerFallback extends React.Component {
   };
 
 
-  constructor(props) {
-    super(props);
-    this.state = {frame: 0};
+  componentDidMount() {
+    this._mounted = true;
+    this.animate();
   }
 
   componentWillUnmount() {
-    this.killTimer();
+    this._mounted = false;
   }
 
-  componentDidMount() {
-    this.setTimer();
-  }
+  animate = () => {
+    if (!this._mounted) {
+      return;
+    }
 
-  componentDidUpdate() {
-    this.killTimer();
-    this.setTimer();
-  }
-
-  killTimer() {
-    clearTimeout(this._timer);
-  }
-
-  setTimer() {
-    this._timer = setTimeout(() => this.shiftBg(), this._updateDelay);
-  }
-
-  shiftBg() {
     const {frame} = this.state;
     const {type} = this.props;
     const framesCount = this._framesCount[type];
     const nextFrame = frame < framesCount ? frame + 1 : 0;
     this.setState({frame: nextFrame});
-  }
+
+    setTimeout(this.animate, 1000 / 25);
+  };
 
   render() {
     const {type} = this.props;
@@ -62,6 +54,10 @@ class SpinnerFallback extends React.Component {
       width: size.width,
       height: size.height,
       display: 'inline-block',
+      height: size.height,
+      position: 'relative',
+      top: type === 'mini' ? 2 : 0,
+      width: size.width,
     };
 
     return (
@@ -69,6 +65,3 @@ class SpinnerFallback extends React.Component {
     );
   }
 }
-
-SpinnerFallback.propTypes = {};
-export default SpinnerFallback;
