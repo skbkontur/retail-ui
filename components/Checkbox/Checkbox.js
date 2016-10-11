@@ -1,3 +1,5 @@
+// @flow
+
 import classNames from 'classnames';
 import events from 'add-event-listener';
 import React, {PropTypes} from 'react';
@@ -6,6 +8,20 @@ import Icon from '../Icon';
 
 import '../ensureOldIEClassName';
 import styles from './Checkbox.less';
+
+type Props = {
+  children?: any,
+  checked: bool,
+  disabled?: bool,
+  error?: bool,
+  warning?: bool,
+  onChange?: (event: {target: {value: bool}}, value: bool) => void,
+};
+
+type State = {
+  active: bool,
+  focused: bool,
+};
 
 class Checkbox extends React.Component {
   static propTypes = {
@@ -16,11 +32,13 @@ class Checkbox extends React.Component {
     onChange: PropTypes.func,
   };
 
-  constructor(props, context) {
+  props: Props;
+  state: State;
+
+  constructor(props: Props, context: mixed) {
     super(props, context);
 
     this.state = {
-      checked: props.checked !== undefined ? props.checked : false,
       active: false,
       focused: false,
     };
@@ -29,7 +47,7 @@ class Checkbox extends React.Component {
   render() {
     var rootClass = classNames({
       [styles.root]: true,
-      [styles.isChecked]: this.state.checked,
+      [styles.isChecked]: this.props.checked,
       [styles.isActive]: this.state.active,
       [styles.isFocused]: this.state.focused,
       [styles.isDisabled]: this.props.disabled,
@@ -40,7 +58,7 @@ class Checkbox extends React.Component {
     return (
       <label className={rootClass} onMouseDown={this.handleActivate}>
         <input type="checkbox" className={styles.input}
-          checked={this.state.checked}
+          checked={this.props.checked}
           disabled={this.props.disabled}
           onChange={this.handleChange} onFocus={this.handleFocus}
           onBlur={this.handleBlur}
@@ -53,13 +71,7 @@ class Checkbox extends React.Component {
     );
   }
 
-  componentWillReceiveProps(props) {
-    if (props.checked !== undefined) {
-      this.setState({checked: props.checked});
-    }
-  }
-
-  handleActivate = event => {
+  handleActivate = (event: SyntheticMouseEvent) => {
     if (event.button !== 0) {
       return;
     }
@@ -75,12 +87,9 @@ class Checkbox extends React.Component {
     events.removeEventListener(document, 'mouseup', this.deactivate);
   };
 
-  handleChange = event => {
-    if (this.props.checked === undefined) {
-      this.setState({checked: event.target.checked});
-    }
-
-    this.props.onChange && this.props.onChange(event, event.target.checked);
+  handleChange = (event: SyntheticEvent) => {
+    const checked: bool = (event.target: any).checked;
+    this.props.onChange && this.props.onChange((event: any), checked);
   };
 
   handleFocus = () => {

@@ -12,6 +12,6 @@ const CheckboxAdapter = {
   },
 };
 
-Checkbox.__ADAPTER__ = CheckboxAdapter;
+(Checkbox: any).__ADAPTER__ = CheckboxAdapter;
 
 export default Checkbox;
