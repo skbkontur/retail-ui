@@ -220,9 +220,9 @@ function formatDate(date) {
     return '';
   }
 
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  return `${day}.${month}.${date.getFullYear()}`;
+  const day = date.getUTCDate().toString().padStart(2, '0');
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+  return `${day}.${month}.${date.getUTCFullYear()}`;
 }
 
 function parseDate(str) {
@@ -244,9 +244,9 @@ function parseDate(str) {
     // IE8 does't support `Date('yyyy-mm-dd')` constructor.
     const dateObj = new Date(Date.UTC(year, month, date));
     if (
-      dateObj.getFullYear() === year &&
-      dateObj.getMonth() === month &&
-      dateObj.getDate() === date
+      dateObj.getUTCFullYear() === year &&
+      dateObj.getUTCMonth() === month &&
+      dateObj.getUTCDate() === date
     ) {
       return checkDate(dateObj);
     }

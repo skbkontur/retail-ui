@@ -13,7 +13,7 @@ const MONTH_NAMES = [
 ];
 const DAY = 24 * 60 * 60 * 1000;
 const WEEK = 7 * DAY;
-const FIRST_WEEK_SHIFT = (new Date(0).getDay() - 1) * DAY;
+const FIRST_WEEK_SHIFT = (new Date(0).getUTCDay() - 1) * DAY;
 const DAY_HEIGHT = 25;
 const CALENDAR_HEIGHT = 220;
 
@@ -59,10 +59,10 @@ export default class Calendar extends React.Component {
 
     const months = [];
     let monthStart = new Date(from);
-    monthStart.setDate(1);
+    monthStart.setUTCDate(1);
     for (let i = 0; i < 4; ++i) {
       const monthEnd = new Date(monthStart.getTime());
-      monthEnd.setMonth(monthEnd.getMonth() + 1);
+      monthEnd.setUTCMonth(monthEnd.getUTCMonth() + 1);
       const y = getDayTop(week, offset, +monthStart);
       const style = {
         top: y,
@@ -70,13 +70,13 @@ export default class Calendar extends React.Component {
       };
       const monthClass = classNames({
         [styles.month]: true,
-        [styles.grey]: monthStart.getMonth() % 2,
+        [styles.grey]: monthStart.getUTCMonth() % 2,
       });
       months.push(
         <div key={+monthStart} className={monthClass} style={style}>
           <div style={{position: 'relative', top: Math.max(0, -y)}}>
-            {MONTH_NAMES[monthStart.getMonth()]}
-            <div className={styles.year}>{monthStart.getFullYear()}</div>
+            {MONTH_NAMES[monthStart.getUTCMonth()]}
+            <div className={styles.year}>{monthStart.getUTCFullYear()}</div>
           </div>
         </div>
       );
@@ -104,12 +104,12 @@ export default class Calendar extends React.Component {
         [styles.cellActive]: active,
         [styles.cellToday]: this._isToday(date),
         [styles.cellCurrent]: isSameDate(this.props.value, date),
-        [styles.grey]: date.getMonth() % 2,
-        [styles.cellHoly]: date.getDay() === 0 || date.getDay() === 6,
+        [styles.grey]: date.getUTCMonth() % 2,
+        [styles.cellHoly]: date.getUTCDay() === 0 || date.getUTCDay() === 6,
       });
       cells.push(
         <span key={cur} className={cellClass} style={style}>
-          <div className={styles.cellInner}>{date.getDate()}</div>
+          <div className={styles.cellInner}>{date.getUTCDate()}</div>
         </span>
       );
     }
@@ -132,8 +132,8 @@ export default class Calendar extends React.Component {
 
   moveToDate(date: Date) {
     const newDate = new Date(0);
-    newDate.setFullYear(date.getFullYear());
-    newDate.setMonth(date.getMonth());
+    newDate.setUTCFullYear(date.getUTCFullYear());
+    newDate.setUTCMonth(date.getUTCMonth());
     this.setState({pos: dateToPos(newDate)});
   }
 
@@ -150,7 +150,7 @@ export default class Calendar extends React.Component {
     this.setState({pos});
 
     const date = posToDate(pos);
-    date.setDate(date.getDate() + 6);
+    date.setUTCDate(date.getUTCDate() + 6);
     this.props.onNav(date);
   };
 
@@ -182,7 +182,7 @@ export default class Calendar extends React.Component {
     const date = new Date(time);
     const weekDay = Math.floor(x / DAY_HEIGHT);
     if (weekDay < 7) {
-      date.setDate(date.getDate() + weekDay);
+      date.setUTCDate(date.getUTCDate() + weekDay);
 
       if (this.props.onPick) {
         this.props.onPick(date);
@@ -208,7 +208,7 @@ function getWeek(time) {
 }
 
 function getDay(date) {
-  const day = date.getDay();
+  const day = date.getUTCDay();
   return day ? day - 1 : 6;
 }
 
@@ -218,7 +218,7 @@ function getDayTop(fromWeek, offset, time) {
 
 function isSameDate(a, b) {
   return a && b &&
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate();
+    a.getUTCFullYear() === b.getUTCFullYear() &&
+    a.getUTCMonth() === b.getUTCMonth() &&
+    a.getUTCDate() === b.getUTCDate();
 }
