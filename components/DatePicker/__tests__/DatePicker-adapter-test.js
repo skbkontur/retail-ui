@@ -1,54 +1,38 @@
-import '../../../testing';
-import {getAdapter, findOne} from '../../../testing/Lookup';
+// @flow
 
-import {mount} from 'enzyme';
+import {testAdapter} from '../../../testing/AdapterTestUtils';
+
 import React from 'react';
 
 import DatePicker from '../DatePicker.adapter';
 
 describe('DatePicker-adapter', () => {
-  it('getValue', () => {
+  testAdapter('getValue', mount => {
     const date = new Date();
-    const wrapper = mount(<div><DatePicker tid="a" value={date} /></div>);
-    const adapter = getAdapter(findOne('a'));
-
+    const adapter = mount(<DatePicker value={date} />);
     expect(adapter.getValue()).toBe(date);
-
-    wrapper.unmount();
   });
 
-  it('setValue', () => {
+  testAdapter('setValue', mount => {
     const onChange = jest.fn();
-    const wrapper = mount(
-      <div><DatePicker tid="a" value={null} onChange={onChange} /></div>
-    );
-    const adapter = getAdapter(findOne('a'));
+    const adapter = mount(<DatePicker value={null} onChange={onChange} />);
 
     const date = new Date();
     adapter.setValue(date);
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0][0].target.value).toBe(date);
     expect(onChange.mock.calls[0][1]).toBe(date);
-
-    wrapper.unmount();
   });
 
-  it('getStringValue', () => {
+  testAdapter('getStringValue', mount => {
     const date = new Date(Date.UTC(2016, 8, 29));
-    const wrapper = mount(<div><DatePicker tid="a" value={date} /></div>);
-    const adapter = getAdapter(findOne('a'));
-
+    const adapter = mount(<DatePicker value={date} />);
     expect(adapter.getStringValue()).toBe('2016-09-29T00:00:00.000Z');
-
-    wrapper.unmount();
   });
 
-  it('setStringValue', () => {
+  testAdapter('setStringValue', mount => {
     const onChange = jest.fn();
-    const wrapper = mount(
-      <div><DatePicker tid="a" value={null} onChange={onChange} /></div>
-    );
-    const adapter = getAdapter(findOne('a'));
+    const adapter = mount(<DatePicker value={null} onChange={onChange} />);
 
     adapter.setStringValue('2016-09-29T00:00:00.000Z');
 
@@ -56,7 +40,5 @@ describe('DatePicker-adapter', () => {
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0][0].target.value.getTime()).toBe(time);
     expect(onChange.mock.calls[0][1].getTime()).toBe(time);
-
-    wrapper.unmount();
   });
 });

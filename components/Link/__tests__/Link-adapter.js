@@ -1,43 +1,26 @@
-import '../../../testing/Lookup';
+// @flow
 
-import {mount} from 'enzyme';
+import {testAdapter} from '../../../testing/AdapterTestUtils';
+
 import React from 'react';
 
 import Link from '../Link.adapter';
 
 describe('Link-adapter', () => {
-  let wrapper;
-  const mnt = (element) => {
-    wrapper = mount(<div>{element}</div>);
-    return wrapper;
-  };
-
-  afterEach(() => {
-    wrapper && wrapper.unmount();
-  });
-
-  it('click', () => {
+  testAdapter('click', mount => {
     const onClick = jest.fn();
-    mnt(<Link tid="a" onClick={onClick} />);
+    const adapter = mount(<Link onClick={onClick} />);
 
-    Lookup.getAdapter(Lookup.findOne('a')).click();
+    adapter.click();
 
     expect(onClick.mock.calls.length).toBe(1);
   });
 
-  it('isDisabled', () => {
-    mnt(
-      <div>
-        <Link tid="a" />
-        <Link tid="b" disabled />
-      </div>
-    );
+  testAdapter('isDisabled', mount => {
+    const adapter1 = mount(<Link tid="a" />);
+    expect(adapter1.isDisabled()).toBe(false);
 
-    expect(
-      Lookup.getAdapter(Lookup.findOne('a')).isDisabled()
-    ).toBe(false);
-    expect(
-      Lookup.getAdapter(Lookup.findOne('b')).isDisabled()
-    ).toBe(true);
+    const adapter2 = mount(<Link tid="b" disabled />);
+    expect(adapter2.isDisabled()).toBe(true);
   });
 });

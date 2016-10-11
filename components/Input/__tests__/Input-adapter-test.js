@@ -1,34 +1,22 @@
-import '../../../testing/Lookup';
+// @flow
 
-import {mount} from 'enzyme';
+import {testAdapter} from '../../../testing/AdapterTestUtils';
+
 import React from 'react';
 
 import Input from '../Input.adapter';
 
 describe('Input-adapter', () => {
-  let wrapper;
-  const mnt = (element) => {
-    wrapper = mount(<div>{element}</div>);
-    return wrapper;
-  };
-
-  afterEach(() => {
-    wrapper && wrapper.unmount();
+  testAdapter('getValue', mount => {
+    const adapter = mount(<Input value="Kappa" />);
+    expect(adapter.getValue()).toBe('Kappa');
   });
 
-  it('getValue', () => {
-    mnt(<Input tid="a" value="Kappa" />);
-
-    expect(
-      Lookup.getAdapter(Lookup.findOne('a')).getValue()
-    ).toBe('Kappa');
-  });
-
-  it('setValue', () => {
+  testAdapter('setValue', mount => {
     const onChange = jest.fn();
-    mnt(<Input tid="a" value="" onChange={onChange} />);
+    const adapter = mount(<Input value="" onChange={onChange} />);
 
-    Lookup.getAdapter(Lookup.findOne('a')).setValue('Kappa');
+    adapter.setValue('Kappa');
 
     expect(onChange.mock.calls[0][1]).toBe('Kappa');
   });

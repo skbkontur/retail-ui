@@ -26,7 +26,7 @@ type Props = {
   error?: bool,
   maxYear?: number,
   minYear?: number,
-  value: Date,
+  value: ?Date,
   width?: number | string,
   onBlur?: () => void,
   onChange?: (e: {target: {value: ?Date}}, v: ?Date) => void,
@@ -216,7 +216,7 @@ function checkDate(date) {
 }
 
 function formatDate(date) {
-  if (!checkDate(date)) {
+  if (!date || !checkDate(date)) {
     return '';
   }
 

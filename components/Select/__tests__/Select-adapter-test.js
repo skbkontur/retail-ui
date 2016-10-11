@@ -1,5 +1,6 @@
-import '../../../testing';
-import {mountTest} from '../../../testing/TestingTestUtils';
+// @flow
+
+import {testAdapter} from '../../../testing/AdapterTestUtils';
 
 import React from 'react';
 
@@ -12,39 +13,25 @@ const items = [
 ];
 
 describe('Select-adapter', () => {
-  it('getValue', () => {
-    const {
-      node,
-      unmount,
-    } = mountTest(<Select tid="a" value="two" items={[]} />);
-
-    expect(ReactTesting.call(node, 'getValue')).toBe('two');
-
-    unmount();
+  testAdapter('getValue', mount => {
+    const adapter = mount(<Select value="two" items={[]} />);
+    expect(adapter.getValue()).toBe('two');
   });
 
-  it('getItemValues', () => {
-    const {node, unmount} = mountTest(<Select tid="a" items={items} />);
-
-    const actual = ReactTesting.call(node, 'getItemValues');
-
+  testAdapter('getItemValues', mount => {
+    const adapter = mount(<Select items={items} />);
+    const actual = adapter.getItemValues();
     expect(actual).toEqual(['one', 'two', 'three']);
-
-    unmount();
   });
 
-  it('getItemValues fails with renderItem', () => {
+  testAdapter('getItemValues fails with renderItem', mount => {
     function renderItem() {
       throw new Error('Render error');
     }
-    const {node, unmount} = mountTest(
-      <Select tid="a" items={items} renderItem={renderItem} />
-    );
+    const adapter = mount(<Select items={items} renderItem={renderItem} />);
 
     expect(() => {
-      ReactTesting.call(node, 'getItemValues');
+      adapter.getItemValues();
     }).toThrow(new Error('Render error'));
-
-    unmount();
   });
 });

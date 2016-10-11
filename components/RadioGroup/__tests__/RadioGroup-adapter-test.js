@@ -1,5 +1,6 @@
-import '../../../testing';
-import {mountTest} from '../../../testing/TestingTestUtils';
+// @flow
+
+import {testAdapter} from '../../../testing/AdapterTestUtils';
 
 import React from 'react';
 
@@ -12,38 +13,23 @@ const items = [
 ];
 
 describe('RadioGroup-adapter', () => {
-  it('getValue', () => {
-    const {
-      node,
-      unmount,
-    } = mountTest(<RadioGroup tid="a" value="two" items={[]} />);
-
-    expect(ReactTesting.call(node, 'getValue')).toBe('two');
-
-    unmount();
+  testAdapter('getValue', mount => {
+    const adapter = mount(<RadioGroup value="two" items={[]} />);
+    expect(adapter.getValue()).toBe('two');
   });
 
-  it('setValue', () => {
+  testAdapter('setValue', mount => {
     const onChange = jest.fn();
-    const {
-      node,
-      unmount,
-    } = mountTest(<RadioGroup tid="a" items={[]} onChange={onChange}/>);
+    const adapter = mount(<RadioGroup items={[]} onChange={onChange}/>);
 
-    ReactTesting.call(node, 'setValue', ['foo']);
+    adapter.setValue('foo');
 
     expect(onChange.mock.calls[0][1]).toBe('foo');
-
-    unmount();
   });
 
-  it('getItemValues', () => {
-    const {node, unmount} = mountTest(<RadioGroup tid="a" items={items} />);
-
-    const actual = ReactTesting.call(node, 'getItemValues');
-
+  testAdapter('getItemValues', mount => {
+    const adapter = mount(<RadioGroup items={items} />);
+    const actual = adapter.getItemValues();
     expect(actual).toEqual(['one', 'two', 'three']);
-
-    unmount();
   });
 });
