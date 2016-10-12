@@ -4,7 +4,7 @@ import RadioGroup from './RadioGroup.js';
 
 const RadioGroupAdapter = {
   getValue(inst: RadioGroup) {
-    return inst.state.value;
+    return inst.props.value;
   },
 
   setValue(inst, value) {
@@ -18,6 +18,6 @@ const RadioGroupAdapter = {
   },
 };
 
-RadioGroup.__ADAPTER__ = RadioGroupAdapter;
+(RadioGroup: any).__ADAPTER__ = RadioGroupAdapter;
 
 export default RadioGroup;

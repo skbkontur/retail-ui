@@ -20,7 +20,9 @@ describe('RadioGroup-adapter', () => {
 
   testAdapter('setValue', mount => {
     const onChange = jest.fn();
-    const adapter = mount(<RadioGroup items={[]} onChange={onChange}/>);
+    const adapter = mount(
+      <RadioGroup value={null} items={[]} onChange={onChange}/>
+    );
 
     adapter.setValue('foo');
 
@@ -28,7 +30,7 @@ describe('RadioGroup-adapter', () => {
   });
 
   testAdapter('getItemValues', mount => {
-    const adapter = mount(<RadioGroup items={items} />);
+    const adapter = mount(<RadioGroup value={null} items={items} />);
     const actual = adapter.getItemValues();
     expect(actual).toEqual(['one', 'two', 'three']);
   });

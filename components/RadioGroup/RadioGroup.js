@@ -1,3 +1,5 @@
+// @flow
+
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
@@ -5,7 +7,25 @@ import Radio from '../Radio';
 
 import styles from './RadioGroup.less';
 
+type Props = {
+  disabled?: bool,
+  error?: bool,
+  inline?: bool,
+  items: Iterable<any>,
+  renderItem: (value: any, data: any) => React.Element<any>,
+  value: any,
+  warning?: bool,
+  width?: number | string,
+  onChange?: (event: any, value: any) => void,
+};
+
+type State = {
+  focused: bool,
+};
+
 class RadioGroup extends React.Component {
+  static Prevent = Prevent;
+
   static propTypes = {
     disabled: PropTypes.bool,
 
@@ -58,11 +78,14 @@ class RadioGroup extends React.Component {
     renderItem,
   };
 
-  constructor(props, context) {
+  props: Props;
+  state: State;
+
+  constructor(props: Props, context: mixed) {
     super(props, context);
 
     this.state = {
-      value: props.value !== undefined ? props.value : null,
+      focused: false,
     };
   }
 
@@ -90,10 +113,10 @@ class RadioGroup extends React.Component {
   }
 
   renderItems() {
-    const items = this.mapItems((value, data, i) => {
-      const checked = this.state.value === value;
+    const items = this._mapItems((value: any, data: any, i: number) => {
+      const checked = this.props.value === value;
       const focused = this.state.focused &&
-          (checked || this.state.value == null && i === 0);
+          (checked || this.props.value == null && i === 0);
       return (
         <span key={i}
           className={classNames({
@@ -101,7 +124,7 @@ class RadioGroup extends React.Component {
             [styles.itemFirst]: i === 0,
             [styles.itemInline]: this.props.inline,
           })}
-          onClick={(e) => this.select_(value)}
+          onClick={(e) => this._select(value)}
         >
           <div className={styles.radio}>
             <div className={styles.radioWrap}>
@@ -129,13 +152,7 @@ class RadioGroup extends React.Component {
     return items;
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.value !== undefined) {
-      this.setState({value: newProps.value});
-    }
-  }
-
-  handleKey = event => {
+  handleKey = (event: SyntheticKeyboardEvent) => {
     if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
       event.preventDefault();
       this.move_(-1);
@@ -145,18 +162,18 @@ class RadioGroup extends React.Component {
     }
   };
 
-  handleFocus = event => {
+  handleFocus = () => {
     this.setState({focused: true});
   };
 
-  handleBlur = event => {
+  handleBlur = () => {
     this.setState({focused: false});
   };
 
-  move_(step) {
+  move_(step: (1 | -1)) {
     let selectedIndex = -1;
-    const items = this.mapItems((value, data, i) => {
-      if (selectedIndex === -1 && value === this.state.value) {
+    const items = this._mapItems((value: any, data: any, i: number) => {
+      if (selectedIndex === -1 && value === this.props.value) {
         selectedIndex = i;
       }
       return value;
@@ -168,23 +185,20 @@ class RadioGroup extends React.Component {
     } else if (selectedIndex >= items.length) {
       selectedIndex = 0;
     }
-    this.select_(items[selectedIndex]);
+    this._select(items[selectedIndex]);
   }
 
-  select_(value) {
+  _select(value) {
     if (this.props.disabled) {
       return;
     }
 
-    if (this.props.value === undefined) {
-      this.setState({value});
-    }
     if (this.props.onChange) {
       this.props.onChange({target: {value}}, value);
     }
   }
 
-  mapItems(fn) {
+  _mapItems(fn) {
     const items = [];
     let index = 0;
     for (const entry of this.props.items) {
@@ -208,8 +222,6 @@ class Prevent extends React.Component {
     event.stopPropagation();
   };
 }
-
-RadioGroup.Prevent = Prevent;
 
 function renderItem(value, data) {
   return data;
