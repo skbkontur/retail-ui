@@ -170,7 +170,7 @@ class RadioGroup extends React.Component {
     this.setState({focused: false});
   };
 
-  move_(step: (1 | -1)) {
+  move_(step: number) {
     let selectedIndex = -1;
     const items = this._mapItems((value: any, data: any, i: number) => {
       if (selectedIndex === -1 && value === this.props.value) {
