@@ -87,8 +87,8 @@ class Checkbox extends React.Component {
     events.removeEventListener(document, 'mouseup', this.deactivate);
   };
 
-  handleChange = (event: SyntheticEvent) => {
-    const checked: bool = (event.target: any).checked;
+  handleChange = (event: {target: {checked: bool}}) => {
+    const checked = event.target.checked;
     this.props.onChange && this.props.onChange((event: any), checked);
   };
 

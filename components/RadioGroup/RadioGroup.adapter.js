@@ -7,14 +7,14 @@ const RadioGroupAdapter = {
     return inst.props.value;
   },
 
-  setValue(inst, value) {
+  setValue(inst: RadioGroup, value) {
     if (inst.props.onChange) {
       inst.props.onChange({target: {value}}, value);
     }
   },
 
-  getItemValues(inst) {
-    return inst.mapItems((value) => value);
+  getItemValues(inst: RadioGroup) {
+    return inst._mapItems((value) => value);
   },
 };
 

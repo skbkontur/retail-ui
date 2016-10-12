@@ -198,7 +198,7 @@ class RadioGroup extends React.Component {
     }
   }
 
-  _mapItems(fn) {
+  _mapItems<T>(fn: (v: any, d: any, i: number) => T): Array<T> {
     const items = [];
     let index = 0;
     for (const entry of this.props.items) {
