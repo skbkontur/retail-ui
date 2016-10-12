@@ -36,7 +36,7 @@
     "enzyme": "^2.4.1",
     "eslint": "^3.4.0",
     "eslint-plugin-react": "^6.2.0",
-    "flow-bin": "^0.31.1",
+    "flow-bin": "^0.33.0",
     "jest-cli": "^15.0.2",
     "react": "^0.14.7",
     "react-addons-test-utils": "^0.14.7",
