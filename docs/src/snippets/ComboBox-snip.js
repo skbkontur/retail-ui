@@ -35,7 +35,7 @@ function renderItem(value, info) {
   return <span>{value}: {info.name}</span>;
 }
 
-function valueToText(id) {
+function valueToString(id) {
   var info = items.find(x => x.id === id);
   return info ? info.name : '';
 }
@@ -47,7 +47,7 @@ var Comp = React.createClass({
     return (
       <ComboBox info={info} source={search} value={this.state.value}
         recover={recover} renderValue={renderValue} renderItem={renderItem}
-        alkoValueToText={valueToText}
+        valueToString={valueToString}
         onChange={e => this.setState({value: e.target.value})}
       />
     );

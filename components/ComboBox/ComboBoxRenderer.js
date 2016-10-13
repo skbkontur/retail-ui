@@ -62,6 +62,7 @@ export type BaseProps = {
   source: (searchText: string) => Promise<SourceResult>,
   warning?: bool,
   value: Value | null,
+  valueToString?: (value: Value, info: ?Info) => string,
   width: (number | string),
 
   onBlur?: () => void,
@@ -351,7 +352,7 @@ class ComboBoxRenderer extends React.Component {
       changed: false,
       result: null,
     });
-    this._alkoSetCurrentSearchText(this.props.value);
+    this._setCurrentSearchText(this.props.value, this.props.info);
     this._focusAsync();
     this._fetchList('');
   };
@@ -389,7 +390,7 @@ class ComboBoxRenderer extends React.Component {
         }, () => {
           this._focus();
         });
-        this._alkoSetCurrentSearchText(this.props.value);
+        this._setCurrentSearchText(this.props.value, this.props.info);
         this._fetchList('');
         break;
     }
@@ -547,9 +548,11 @@ class ComboBoxRenderer extends React.Component {
     return null;
   }
 
-  _alkoSetCurrentSearchText(value: Value) {
-    if (this.props.alkoValueToText && value) {
-      const searchText = this.props.alkoValueToText(value);
+  _setCurrentSearchText(value: Value, info: ?Info) {
+    const valueToString = this.props.valueToString ||
+      this.props.alkoValueToText;
+    if (valueToString && value) {
+      const searchText = valueToString(value, info);
       this.setState(
         {searchText},
         () => {
