@@ -1,8 +1,7 @@
 {
   "name": "retail-ui",
-  "version": "0.4.17",
+  "version": "0.4.18-rc.2",
   "description": "UI Components",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git@git.skbkontur.ru:catalogue/retail-ui.git"
@@ -41,6 +40,9 @@
     "react": "^0.14.7",
     "react-addons-test-utils": "^0.14.7",
     "react-dom": "^0.14.7"
+  },
+  "publishConfig": {
+    "tag": "0.4.18-rc.2"
   },
   "jest": {
     "automock": false,
