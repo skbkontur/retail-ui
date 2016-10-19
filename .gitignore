@@ -1,3 +1,5 @@
 node_modules
 /docs/dist/
 .idea
+travis-deploy-key
+npm-debug.log

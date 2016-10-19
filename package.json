@@ -4,7 +4,7 @@
   "description": "UI Components",
   "repository": {
     "type": "git",
-    "url": "git@git.skbkontur.ru:catalogue/retail-ui.git"
+    "url": "git@github.com:skbkontur/retail-ui.git"
   },
   "scripts": {
     "test": "jest",
