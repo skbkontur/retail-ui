@@ -41,6 +41,7 @@ type FieldProps = {
   onChange: HandlerFunction,
   renderItem: Function,
   renderValue: Function,
+  valueToString: (value: PlaceDescription) => string,
   recover: Function,
 };
 type SimpleFieldProps = {
@@ -107,6 +108,7 @@ export default class AddressModal extends React.Component {
       onChange: this.createHandler(field),
       renderItem: this._renderItem.bind(this, field, parents),
       renderValue: renderValue.bind(null, field),
+      valueToString: renderValue.bind(null, field),
       recover,
     };
   }
@@ -223,7 +225,6 @@ export default class AddressModal extends React.Component {
   }
 
   _renderForm() {
-    console.log('render form', this.state.address);
     const {invalidField} = this.state;
 
     return (
