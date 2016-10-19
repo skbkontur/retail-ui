@@ -6,6 +6,9 @@
     "type": "git",
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
+  "bugs": {
+    "url": "https://github.com/skbkontur/retail-ui/issues"
+  },  
   "scripts": {
     "test": "jest",
     "typecheck": "flow",
