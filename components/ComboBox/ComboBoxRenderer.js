@@ -461,7 +461,11 @@ class ComboBoxRenderer extends React.Component {
 
   _fetchList(pattern: string) {
     this.props.source(pattern).then((result) => {
-      if (this._mounted && this.state.searchText === pattern) {
+      if (!this._mounted) {
+        return;
+      }
+
+      if (this.state.searchText === pattern || !pattern) {
         this._menu && this._menu.reset();
         this.setState({result});
       }
