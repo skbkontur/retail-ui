@@ -45,8 +45,14 @@ var Comp = React.createClass({
 
   render() {
     return (
-      <ComboBox info={info} source={search} value={this.state.value}
-        recover={recover} renderValue={renderValue} renderItem={renderItem}
+      <ComboBox
+        autoFocus
+        info={info}
+        source={search}
+        value={this.state.value}
+        recover={recover}
+        renderValue={renderValue}
+        renderItem={renderItem}
         valueToString={valueToString}
         onChange={e => this.setState({value: e.target.value})}
       />

@@ -447,6 +447,7 @@ class ComboBoxRenderer extends React.Component {
     if (this.props.onFocus) {
       this.props.onFocus();
     }
+    this._handleValueClick();
     this._focusReporter.focus();
   };
 
