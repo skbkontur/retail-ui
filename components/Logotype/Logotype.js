@@ -28,20 +28,24 @@ const createPngCloud = backgroundColor => (
 );
 
 type LogotypeType = {
-  color: string,
+  color?: string,
+  textColor?: string,
   suffix: ?string
-}
+};
 
-const Logotype = ({color = '#D92932', suffix}: LogotypeType) => (
+const Logotype = ({
+  color = '#D92932',
+  textColor = '#000',
+  suffix}: LogotypeType) => (
   <a href="/" tabIndex="-1" className={styles.root}>
-    <span>к</span>
+    <span style={{color: textColor}}>к</span>
     <span style={{color}}>
       {hasSVGSupport()
         ? createCloud(color)
         : createPngCloud(color)
       }
     </span>
-    <span>нтур.</span>
+    <span style={{color: textColor}}>нтур.</span>
     <span style={{color}}>{suffix}</span>
   </a>
 );
@@ -56,6 +60,11 @@ Logotype.propTypes = {
    * Суффикс сервиса
    */
   suffix: PropTypes.string.isRequired,
+
+  /**
+   * Цвет логотипа Контура в rgb, rgba, hex
+   */
+  textColor: PropTypes.string,
 };
 
 export default Logotype;
