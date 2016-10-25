@@ -28,9 +28,9 @@ const createPngCloud = backgroundColor => (
 );
 
 type LogotypeType = {
-  color: ?string,
-  textColor: ?string,
-  suffix: string
+  color?: string,
+  textColor?: string,
+  suffix: ?string
 };
 
 const Logotype = ({
