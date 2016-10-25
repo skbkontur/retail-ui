@@ -2,7 +2,7 @@
 
 import React, {PropTypes} from 'react';
 
-import ComboBoxRenderer from './ComboBoxRenderer.js';
+import ComboBoxRenderer from './ComboBoxRenderer';
 import type {BaseProps, Info, Value} from './ComboBoxRenderer';
 
 type Props = BaseProps & {

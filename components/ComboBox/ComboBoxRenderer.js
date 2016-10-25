@@ -214,49 +214,51 @@ class ComboBoxRenderer extends React.Component {
 
   renderMenu() {
     const {result} = this.state;
-    if (!result || result.values.length === 0) {
+    if (!result) {
       return null;
     }
+
+    const isEmptyResults = result.values.length === 0;
+
     return (
       <DropdownContainer
         getParent={() => ReactDOM.findDOMNode(this)}
         align={this.props.menuAlign}
       >
         <Menu ref={this._refMenu} maxHeight={200}>
-          {mapResult(result, (value, info, i) => {
-            if (typeof value === 'function' || React.isValidElement(value)) {
-              const element = typeof value === 'function' ? value() : value;
-              return React.cloneElement(
-                element,
-                {
-                  key: i,
-                  onClick: this._handleItemClick.bind(this, element.props),
-                },
-              );
-            }
-            return (
-              <MenuItem key={i}
-                onClick={this._handleItemClick.bind(this, {value, info})}
-              >
-                {state => this.props.renderItem(value, info, state)}
+          {isEmptyResults
+            ? <MenuItem disabled>
+                Не найдено
               </MenuItem>
-            );
-          })}
+            : mapResult(result, (value, info, i) => {
+              if (typeof value === 'function' || React.isValidElement(value)) {
+                const element = typeof value === 'function' ? value() : value;
+                return React.cloneElement(
+                  element,
+                  {
+                    key: i,
+                    onClick: this._handleItemClick.bind(this, element.props),
+                  },
+                );
+              }
+              return (
+                <MenuItem key={i}
+                  onClick={this._handleItemClick.bind(this, {value, info})}
+                >
+                  {state => this.props.renderItem(value, info, state)}
+                </MenuItem>
+              );
+            })
+          }
         </Menu>
       </DropdownContainer>
     );
   }
 
-  focus() {
-    if (this._focusable) {
-      this._focusable.focus();
-    }
-  }
-
   componentDidMount() {
     this._mounted = true;
     if (this.props.autoFocus) {
-      this.focus();
+      this._focus();
     }
   }
 
@@ -402,7 +404,6 @@ class ComboBoxRenderer extends React.Component {
     this.setState({searchText: ''});
     this._close();
     this._change(options.value, options.info);
-    this._focusAsync();
 
     if (options.onClick) {
       const onClick = options.onClick;
