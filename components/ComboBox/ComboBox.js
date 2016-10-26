@@ -59,6 +59,23 @@ export default class ComboBox extends React.Component {
 
     renderItem: PropTypes.func,
 
+    /**
+     * Сообщение при отсутствии результатов
+     *
+     * `string | (searchText: string) => React$Element<*> | string`
+     */
+    renderNotFound: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+    ]),
+
+    /**
+     * Общее количество найденных элементов
+     *
+     * `(foundCount: number, totalCount: number) => React$Element<*> | string`
+     */
+    renderTotalCount: PropTypes.func,
+
     renderValue: PropTypes.func,
 
     source: PropTypes.func.isRequired,

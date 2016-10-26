@@ -2,6 +2,9 @@ var items = [
   {id: 1, name: 'Kappa'},
   {id: 2, name: 'Keepo'},
   {id: 3, name: 'ResidentSleeper'},
+  {id: 4, name: 'Kestrel'},
+  {id: 5, name: 'Kats'},
+  {id: 6, name: 'Junior'},
 ];
 
 function info(id) {
@@ -14,8 +17,9 @@ function search(query) {
     item.name.toLowerCase().indexOf(query) !== -1
   ));
   return Promise.resolve({
-    values: results.map((d) => d.id),
+    values: results.map((d) => d.id).slice(0, 3),
     infos: results,
+    total: results.length,
   });
 }
 
@@ -40,6 +44,10 @@ function valueToString(id) {
   return info ? info.name : '';
 }
 
+function renderTotalCount(found, total) {
+  return <div style={{maxWidth: 220}}>Displayed {found} from {total}</div>;
+}
+
 var Comp = React.createClass({
   getInitialState() { return {value: 3}; },
 
@@ -53,6 +61,8 @@ var Comp = React.createClass({
         recover={recover}
         renderValue={renderValue}
         renderItem={renderItem}
+        renderNotFound="Nothing here"
+        renderTotalCount={renderTotalCount}
         valueToString={valueToString}
         onChange={e => this.setState({value: e.target.value})}
       />

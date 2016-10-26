@@ -1,5 +1,5 @@
 // @flow
-
+/* global React$Element */
 import classNames from 'classnames';
 import events from 'add-event-listener';
 import React from 'react';
@@ -59,6 +59,8 @@ export type BaseProps = {
     state: MenuItemState
   ) => React.Element<any>,
   renderValue: (value: Value, info: ?Info) => React.Element<any>,
+  renderNotFound?: string | (searchText: string) => React$Element<*> | string,
+  renderTotalCount?: (searchText: string) => React$Element<*> | string,
   source: (searchText: string) => Promise<SourceResult>,
   warning?: bool,
   value: Value | null,
@@ -227,31 +229,71 @@ class ComboBoxRenderer extends React.Component {
       >
         <Menu ref={this._refMenu} maxHeight={200}>
           {isEmptyResults
-            ? <MenuItem disabled>
-                Не найдено
-              </MenuItem>
-            : mapResult(result, (value, info, i) => {
-              if (typeof value === 'function' || React.isValidElement(value)) {
-                const element = typeof value === 'function' ? value() : value;
-                return React.cloneElement(
-                  element,
-                  {
-                    key: i,
-                    onClick: this._handleItemClick.bind(this, element.props),
-                  },
-                );
-              }
-              return (
-                <MenuItem key={i}
-                  onClick={this._handleItemClick.bind(this, {value, info})}
-                >
-                  {state => this.props.renderItem(value, info, state)}
-                </MenuItem>
-              );
-            })
+            ? this.renderEmptyResults()
+            : this.renderResults(result)
           }
+          {this.renderTotalCount(result)}
         </Menu>
       </DropdownContainer>
+    );
+  }
+
+  renderResults(result: SourceResult) {
+    return mapResult(result, (value, info, i) => {
+      if (typeof value === 'function' || React.isValidElement(value)) {
+        const element = typeof value === 'function' ? value() : value;
+        return React.cloneElement(
+            element,
+          {
+            key: i,
+            onClick: this._handleItemClick.bind(this, element.props),
+          },
+          );
+      }
+      return (
+          <MenuItem key={i}
+            onClick={this._handleItemClick.bind(this, {value, info})}
+          >
+            {state => this.props.renderItem(value, info, state)}
+          </MenuItem>
+        );
+    });
+  }
+
+  renderEmptyResults() {
+    const {renderNotFound} = this.props;
+
+    if (!renderNotFound) {
+      return null;
+    }
+
+    const isFunction = typeof renderNotFound === 'function';
+    const {searchText} = this.state;
+
+    return (
+      <MenuItem disabled={!isFunction}>
+        {isFunction ? renderNotFound(searchText) : renderNotFound}
+      </MenuItem>
+    );
+  }
+
+  renderTotalCount(result: SourceResult) {
+    const {renderTotalCount} = this.props;
+
+    if (!renderTotalCount || !result || !result.values || !result.total) {
+      return null;
+    }
+
+    if (result.values.length === result.total) {
+      return null;
+    }
+
+    return (
+      <MenuItem disabled>
+        <div className={styles.totalCount}>
+          {renderTotalCount(result.values.length, result.total)}
+        </div>
+      </MenuItem>
     );
   }
 
