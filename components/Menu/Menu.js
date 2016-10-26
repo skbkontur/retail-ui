@@ -30,6 +30,10 @@ export default class Menu extends React.Component {
   _highlighted: any;
 
   render() {
+    if (this._isEmpty()) {
+      return null;
+    }
+
     return (
       <div className={styles.root} style={{width: this.props.width}}>
         <ScrollContainer ref={this._refScrollContainer}
@@ -132,6 +136,16 @@ export default class Menu extends React.Component {
       }
     } while (index !== this.state.highlightedIndex);
   }
+
+  _isEmpty() {
+    const {children} = this.props;
+    return !children ||
+           !childrenToArray(children).filter(isExist).length;
+  }
+}
+
+function isExist(value: any) {
+  return value !== null && value !== undefined;
 }
 
 function childrenToArray(children) {
