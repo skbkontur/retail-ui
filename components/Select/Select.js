@@ -120,6 +120,8 @@ class Select extends React.Component {
     };
 
     this._focusSubscribtion = null;
+
+    window.onpopstate = this._close();
   }
 
   render() {
