@@ -12,6 +12,6 @@ const LinkAdapter = {
   },
 };
 
-Link.__ADAPTER__ = LinkAdapter;
+(Link: Object).__ADAPTER__ = LinkAdapter;
 
 export default Link;
