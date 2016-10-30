@@ -18,6 +18,7 @@ before_deploy:
 - cd docs
 - npm install
 - ./deploy.sh
+- cd ..
 deploy:
   provider: npm
   email: tihonov.ea@gmail.com
