@@ -5,7 +5,9 @@ install: true
 script:
 - true
 before_deploy:
-- "! git log -1 --pretty=%an | grep -q 'Travis CI'"
+- nvm install stable
+- npm prune
+- npm install
 - openssl aes-256-cbc -k $travis_key_password -in travis-deploy-key.enc -out travis-deploy-key
   -d
 - chmod 600 travis-deploy-key
@@ -13,13 +15,15 @@ before_deploy:
 - ssh-add travis-deploy-key
 - git config --global user.name "Travis CI"
 - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
-- npm version patch -m '%s [ci skip]'
-- git status
-- git push --follow-tags git@github.com:skbkontur/retail-ui.git HEAD:master
+- cd docs
+- npm install
+- ./deploy.sh
+- cd ..
 deploy:
   provider: npm
   email: tihonov.ea@gmail.com
   on:
+    tags: true
     branch: master
   api_key:
     secure: q2UYmhnEgJMQT17qEUAmkuceiVJb7nPmnp55nTIqVsPUwI4dgKm0q1A/52p1rBfdplLiJqUH06bIMbBRg3XVUx49zniYj/JfYNSqxeC9VUfg/oxWpikJzCRJ7chHASV+EKl/LK7nbNQItcR2ecCe1cSEOkd7/2gZKNI3dflH4QsQOrNp8urA0T5J8Msd2JEvVAkes+3reJLUWDSSA1vSsv6u0yrUANgNwpeo/ZFz8etcy2EU/fodk2V4N3rIirYn0i3NQ+u3LI8cLK57x1krthfoorlRvtk/6k+U6VheHxjW057ED841pv/7uxZmWFi2dB11fEQyWjKGSYjHszG8MjIa/L3Sopi25yTqCOftMeHSkiTWtwNvp/0oTdkfVEqzwj0SdlCCEdP15e5JFtuFBtUSGuxLv7aFJ1ElIuzUMi89uG8szyvhm60MpbxGRxf/zUDeBNSJ4aI3DWkGOOw0nEj79Ymnr1TYtEaDq09GEVi/Utki+y6XKHHmIMEduEMVDPQyswIa++dpRISgCjfL4NU7sTse/XybhNcqSo4jJ7dlye+yW0CLRyxfzGGQTfx5YGqz0VnguhmW5+f199ftlROcHxuBEgqdS+mehvYK0c1t8bIGTpaLxAxX99XfHvSjGcxXsb2D1jPs1gsLZlzPTM3VPD62Kq1Ri61VFpQk5Ak=
