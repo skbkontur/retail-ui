@@ -23,6 +23,18 @@ type State = {
   focused: bool,
 };
 
+class Prevent extends React.Component {
+  render() {
+    return (
+      <span onClick={this._prevent}>{this.props.children}</span>
+    );
+  }
+
+  _prevent = (event) => {
+    event.stopPropagation();
+  };
+}
+
 class RadioGroup extends React.Component {
   static Prevent = Prevent;
 
@@ -209,18 +221,6 @@ class RadioGroup extends React.Component {
 
     return items;
   }
-}
-
-class Prevent extends React.Component {
-  render() {
-    return (
-      <span onClick={this._prevent}>{this.props.children}</span>
-    );
-  }
-
-  _prevent = (event) => {
-    event.stopPropagation();
-  };
 }
 
 function renderItem(value, data) {
