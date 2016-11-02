@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
 import Corners from './Corners';
+import Icon from '../Icon';
 import Upgrades from '../../lib/Upgrades';
 
 import '../ensureOldIEClassName';
@@ -28,6 +29,7 @@ type Props = {
   children?: any,
   corners?: number, // internal
   disabled?: bool,
+  icon?: string,
   loading?: bool,
   narrow?: bool,
   size: 'small' | 'medium' | 'large',
@@ -53,6 +55,8 @@ class Button extends React.Component {
     checked: PropTypes.bool,
 
     disabled: PropTypes.bool,
+
+    icon: PropTypes.string,
 
     loading: PropTypes.bool,
 
@@ -105,7 +109,7 @@ class Button extends React.Component {
         [styles.disabled]: this.props.disabled || this.props.loading,
         [styles.narrow]: this.props.narrow,
         [styles.noPadding]: this.props._noPadding,
-
+        [styles.withIcon]: !!this.props.icon,
         ...this._getSizeClassMap(),
       }),
       style: {
@@ -139,11 +143,17 @@ class Button extends React.Component {
       loading = <div className={styles.loading} />;
     }
 
+    let icon = null;
+    if (this.props.icon) {
+      icon = <Icon name={this.props.icon} />;
+    }
+
     return (
       <span className={styles.wrap} style={wrapStyle}>
         <button {...rootProps}>
           {loading}
           <div className={styles.caption}>
+            <span className={styles.icon}>{icon}</span>
             {this.props.children}
           </div>
           {error}
