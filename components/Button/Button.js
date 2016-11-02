@@ -29,6 +29,7 @@ type Props = {
   children?: any,
   corners?: number, // internal
   disabled?: bool,
+  focused?: bool,
   icon?: string,
   loading?: bool,
   narrow?: bool,
@@ -56,6 +57,10 @@ class Button extends React.Component {
 
     disabled: PropTypes.bool,
 
+    focused: PropTypes.bool,
+    /**
+     * Иконка слева от текста кнопки.
+     */
     icon: PropTypes.string,
 
     loading: PropTypes.bool,
