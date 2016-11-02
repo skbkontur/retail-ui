@@ -171,10 +171,12 @@ export default function(
     }
   }
 
+  let tmpWidth = getComputedWidth(box);
+
   return {
     boxStyle: {
       position: fixed ? 'fixed' : 'absolute',
-      width: getComputedWidth(box),
+      width: isNaN(tmpWidth) ? "auto" : tmpWidth,
       top,
       left,
     },
