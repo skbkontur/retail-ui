@@ -34,6 +34,13 @@ export default class ComboBox extends React.Component {
     menuAlign: PropTypes.oneOf(['left', 'right']),
 
     /**
+     * Не использовать Portal для рендеринга меню.
+     * По-умолчанию `false`.
+     * См. https://github.com/skbkontur/retail-ui/issues/15
+     */
+    noUsePortal: PropTypes.bool,
+
+    /**
      * Показывать кнопку-треугольник для показа резаультатов.
      */
     openButton: PropTypes.bool,
