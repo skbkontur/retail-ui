@@ -50,6 +50,7 @@ export type BaseProps = {
   error?: bool,
   info?: Info | (v: Value) => Promise<Info>,
   menuAlign: 'left' | 'right',
+  disablePortal?: bool,
   openButton?: bool,
   placeholder: string,
   recover?: (RecoverFunc | bool),
@@ -226,6 +227,7 @@ class ComboBoxRenderer extends React.Component {
       <DropdownContainer
         getParent={() => ReactDOM.findDOMNode(this)}
         align={this.props.menuAlign}
+        disablePortal={this.props.disablePortal}
       >
         <Menu ref={this._refMenu} maxHeight={200}>
           {isEmptyResults
