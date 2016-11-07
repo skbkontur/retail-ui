@@ -9,7 +9,7 @@ type Props = {
   align: 'left' | 'right',
   getParent: () => HTMLElement,
   children?: any,
-  noUsePortal?: bool,
+  disablePortal?: bool,
 };
 
 type State = {
@@ -27,7 +27,7 @@ export default class DropdownContainer extends React.Component {
 
   static defaultProps = {
     align: 'left',
-    noUsePortal: false,
+    disablePortal: false,
   };
 
   props: Props;
@@ -52,7 +52,7 @@ export default class DropdownContainer extends React.Component {
         ...this.state.position,
       };
     }
-    if (this.props.noUsePortal){
+    if (this.props.disablePortal){
       style = {
         ...style,
         ...{
@@ -62,13 +62,13 @@ export default class DropdownContainer extends React.Component {
       };
     }
 
-    let context = <div ref={this._ref} style={style}>
+    const content = <div ref={this._ref} style={style}>
       {this.props.children}
     </div>;
 
-    return this.props.noUsePortal
-      ? context
-      : (<RenderContainer>{context}</RenderContainer>);
+    return this.props.disablePortal
+      ? content
+      : (<RenderContainer>{content}</RenderContainer>);
   }
 
   _ref = (dom: ?HTMLElement) => {
@@ -76,14 +76,14 @@ export default class DropdownContainer extends React.Component {
   };
 
   componentDidMount() {
-    if (!this.props.noUsePortal){
+    if (!this.props.disablePortal){
       this._position();
       this._layoutSub = LayoutEvents.addListener(this._position);
     }
   }
 
   componentWillUnmount() {
-    if (!this.props.noUsePortal){
+    if (!this.props.disablePortal){
       this._layoutSub.remove();
     }
   }
