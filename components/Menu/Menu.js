@@ -30,6 +30,8 @@ export default class Menu extends React.Component {
   _highlighted: any;
 
   render() {
+    let enableIconPadding = false;
+
     if (this._isEmpty()) {
       return null;
     }
@@ -40,6 +42,16 @@ export default class Menu extends React.Component {
           maxHeight={this.props.maxHeight}
         >
           {React.Children.map(this.props.children, (child, index) => {
+            if (child && child.type.__MENU_ITEM__) {
+              if (child.props.icon && !enableIconPadding) {
+                enableIconPadding = true;
+              }
+              if (enableIconPadding) {
+                child = React.cloneElement(child, {
+                  _enableIconPadding: true,
+                });
+              }
+            }
             if (isActiveElement(child)) {
               const highlight = this.state.highlightedIndex === index;
 
