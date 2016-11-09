@@ -130,6 +130,12 @@ export default class ComboBox extends React.Component {
     return <ComboBoxRenderer ref={this._ref} {...spread} info={info} />;
   }
 
+  focus() {
+    if (this.renderer) {
+      this.renderer._focus();
+    }
+  }
+
   _ref = (renderer: ComboBoxRenderer) => {
     this.renderer = renderer;
   };
