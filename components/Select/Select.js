@@ -181,11 +181,23 @@ class Select extends React.Component {
       buttonProps.corners = Button.BOTTOM_LEFT | Button.BOTTOM_RIGHT;
     }
 
+    if (this.props._icon) {
+      Object.assign(buttonProps, {
+        _noPadding: false,
+        _noRightPadding: true,
+        icon: this.props._icon,
+      });
+    }
+
     var labelProps = {
       className: classNames({
         [styles.label]: true,
+        [styles.labelWithLeftIcon]: !!this.props._icon,
         [styles.labelIsOpened]: params.opened,
       }),
+      style: {
+        paddingRight: buttonProps.size === 'large'? '41px': '38px',
+      },
     };
 
     return (

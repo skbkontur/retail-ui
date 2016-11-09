@@ -36,6 +36,11 @@ export default class Dropdown extends React.Component {
      */
     error: PropTypes.bool,
 
+    /**
+     * Иконка слева от текста кнопки
+     */
+    icon: PropTypes.string,
+
     menuAlign: PropTypes.oneOf(['left', 'right']),
 
     menuWidth: PropTypes.oneOfType([
@@ -76,6 +81,7 @@ export default class Dropdown extends React.Component {
         {...filterProps(this.props, PASS_PROPS)}
         value={this.props.caption}
         items={items}
+        _icon={this.props.icon}
         renderValue={renderValue}
       />
     );

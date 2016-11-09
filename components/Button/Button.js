@@ -24,6 +24,7 @@ const SIZE_CLASSES = {
 
 type Props = {
   _noPadding?: bool,
+  _noRightPadding?: bool,
   active?: bool,
   checked?: bool,
   children?: any,
@@ -58,6 +59,7 @@ class Button extends React.Component {
     disabled: PropTypes.bool,
 
     focused: PropTypes.bool,
+
     /**
      * Иконка слева от текста кнопки.
      */
@@ -114,7 +116,8 @@ class Button extends React.Component {
         [styles.disabled]: this.props.disabled || this.props.loading,
         [styles.narrow]: this.props.narrow,
         [styles.noPadding]: this.props._noPadding,
-        [styles.withIcon]: !!this.props.icon,
+        [styles.noRightPadding]: this.props._noRightPadding,
+        [styles.buttonWithIcon]: !!this.props.icon,
         ...this._getSizeClassMap(),
       }),
       style: {
@@ -150,16 +153,20 @@ class Button extends React.Component {
 
     let icon = null;
     if (this.props.icon) {
-      icon = <Icon name={this.props.icon} />;
+      icon =(<span className={styles.icon}>
+        <Icon name={this.props.icon} />
+      </span>);
     }
 
     return (
       <span className={styles.wrap} style={wrapStyle}>
         <button {...rootProps}>
           {loading}
-          <div className={styles.caption}>
-            <span className={styles.icon}>{icon}</span>
+          <div className={styles.buttonContent}>
+            {icon}
+            <div className={styles.caption}>
             {this.props.children}
+          </div>
           </div>
           {error}
         </button>
