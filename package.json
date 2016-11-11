@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "0.4.25",
+  "version": "0.4.30",
   "description": "UI Components",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "fbjs": "^0.8.4",
     "invariant": "^2.2.1",
     "object-assign": "^4.1.0",
-    "react-input-mask": "^0.7.3",
+    "react-input-mask": "0.7.1",
     "warning": "^3.0.0"
   },
   "devDependencies": {

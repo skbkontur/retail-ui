@@ -127,7 +127,7 @@ export default class DateSelect extends React.Component {
     return (
       <div className={holderClass} style={style} onKeyDown={this.handleKey}>
         {!this.state.topCapped && (
-          <div className={styles.menuUp} onClick={this.handleUp} />
+          <div className={styles.menuUp} onMouseDown={this.handleUp} />
         )}
         <div className={styles.itemsHolder} style={{height}}>
           <div style={shiftStyle}>{items}</div>
@@ -137,9 +137,9 @@ export default class DateSelect extends React.Component {
             onMouseLeave={this.handleMouseLeave}
             onWheel={this.handleWheel}
           />
-          </div>
+        </div>
         {!this.state.botCapped && (
-          <div className={styles.menuDown} onClick={this.handleDown} />
+          <div className={styles.menuDown} onMouseDown={this.handleDown} />
         )}
       </div>
     );
@@ -226,11 +226,13 @@ export default class DateSelect extends React.Component {
     }
   };
 
-  handleUp = () => {
+  handleUp = (event: Event) => {
+    event.preventDefault();
     this.resetSize(this.state.pos - HEIGHT);
   };
 
-  handleDown = () => {
+  handleDown = (event: Event) => {
+    event.preventDefault();
     this.resetSize(this.state.pos + HEIGHT);
   };
 

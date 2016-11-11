@@ -15,6 +15,13 @@ export default class ComboBox extends React.Component {
 
     borderless: PropTypes.bool,
 
+    /**
+     * Не использовать Portal для рендеринга меню.
+     * По-умолчанию `false`.
+     * См. https://github.com/skbkontur/retail-ui/issues/15
+     */
+    disablePortal: PropTypes.bool,
+
     disabled: PropTypes.bool,
 
     /**
@@ -121,6 +128,12 @@ export default class ComboBox extends React.Component {
     const spread: BaseProps = this.props;
 
     return <ComboBoxRenderer ref={this._ref} {...spread} info={info} />;
+  }
+
+  focus() {
+    if (this.renderer) {
+      this.renderer._focus();
+    }
   }
 
   _ref = (renderer: ComboBoxRenderer) => {

@@ -61,7 +61,7 @@ export default class MenuItem extends React.Component {
 
       onClick,
 
-      ...rest,
+      ...rest
     } = this.props;
     let {
       _enableIconPadding,

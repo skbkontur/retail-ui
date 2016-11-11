@@ -1,3 +1,4 @@
+// @flow
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
@@ -41,7 +42,7 @@ class Link extends React.Component {
       use,
       _button,
       _buttonOpened,
-      ...rest,
+      ...rest
     } = this.props;
 
     let icon = null;
@@ -56,7 +57,7 @@ class Link extends React.Component {
       arrow = <span className={styles.arrow} />;
     }
 
-    const props = {
+    const props: Object = {
       className: classNames({
         [styles.root]: true,
         [useClasses[use]]: true,

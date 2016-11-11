@@ -69,6 +69,6 @@ class Portal extends React.Component {
   }
 }
 
-const RootContainer = (props) => {
+function RootContainer(props: { children?: React.Element<*>}) {
   return React.Children.only(props.children);
-};
+}
