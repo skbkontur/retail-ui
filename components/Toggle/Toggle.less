@@ -1,0 +1,51 @@
+@containerHeight: 19px;
+@containerWidth: 34px;
+@handleSize: 15px;
+
+@bgColorChecked: #3f9726;
+@bgColorNotChecked: #d0d0d0;
+
+:local {
+  .container {
+    position: relative;
+
+    display: inline-block;
+    width: @containerWidth;
+    height: @containerHeight;
+    box-sizing: border-box;
+
+    transition: all .2s ease-in;
+
+    border-radius: @containerHeight / 2;
+    background: @bgColorNotChecked;
+
+    cursor: pointer;
+
+    &.isChecked {
+      background: @bgColorChecked;
+    }
+
+    &.isDisabled {
+      cursor: default;
+    }
+  }
+
+  .handle {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    left: 2px;
+
+    width: @handleSize;
+    margin-left:  0;
+
+    transition: all .2s ease-out;
+
+    border-radius: @handleSize / 2;
+    background: white;
+
+    :local(.isChecked) & {
+      left: @containerWidth - @handleSize - 2px;
+    }
+  }
+}

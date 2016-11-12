@@ -179,4 +179,10 @@ module.exports = [
     info: require('!docgen!ui/TopBar/TopBar.js'),
     src: require('!raw!./snippets/TopBar-snip.js'),
   },
+  {
+    name: 'Toggle',
+    component: require('ui/Toggle'),
+    info: require('!docgen!ui/Toggle/Toggle.js'),
+    src: require('!raw!./snippets/Toggle-snip.js'),
+  },
 ];
