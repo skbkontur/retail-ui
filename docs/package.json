@@ -7,9 +7,9 @@
     "build": "webpack -p --progress --colors"
   },
   "devDependencies": {
-    "babel-loader": "^6.2.5",
     "autoprefixer": "^6.4.0",
-    "css-loader": "^0.24.0",
+    "babel-loader": "^6.2.5",
+    "css-loader": "^0.25.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "imports-loader": "^0.6.5",
@@ -17,7 +17,7 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "marked": "^0.3.6",
-    "postcss-loader": "^0.11.1",
+    "postcss-loader": "^1.1.1",
     "raw-loader": "^0.5.1",
     "react-docgen": "^2.10.0",
     "style-loader": "^0.13.1",
@@ -47,7 +47,7 @@
     "react-dom": "^0.14.7",
     "react-router": "~2.3.0",
     "react-tools": "^0.13.3",
-    "regenerator": "amccloud/regenerator#patch-1",
+    "regenerator-runtime": "0.9.6",
     "url-loader": "0.5.7"
   }
 }

@@ -7,15 +7,11 @@ import ReactDOM from 'react-dom';
 import {Router, Route, IndexRedirect, useRouterHistory} from 'react-router';
 import createHashHistory from 'history/lib/createHashHistory';
 
-import Upgrades from '../../lib/Upgrades';
-
 import ComponentInfo from './components/ComponentInfo';
 import ComponentsPage from './components/ComponentsPage';
 import DemoPage from './components/DemoPage';
 import GettingStartedPage from './components/GettingStartedPage';
 import DocsApp from './components/DocsApp';
-
-Upgrades.enableHeight34();
 
 const history = useRouterHistory(createHashHistory)({queryKey: false});
 

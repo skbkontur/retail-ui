@@ -1,11 +1,10 @@
 /* @flow */
 
 import React, {PropTypes} from 'react';
-import cx from 'classnames';
+import classNames from 'classnames';
 import styles from './Toggle.less';
 
 type Props = {
-  value: bool,
   checked: bool,
   disabled?: bool,
   onChange?: (value: bool) => void,
@@ -35,7 +34,7 @@ class Toggle extends React.Component {
   render() {
     const {checked, disabled} = this.props;
 
-    const containerClassName = cx(styles.container, {
+    const containerClassName = classNames(styles.container, {
       [styles.isChecked]: checked,
       [styles.isDisabled]: disabled,
     });
