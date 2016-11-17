@@ -1,71 +1,58 @@
 // @flow
 
-import '../../../testing';
-import {mountTest} from '../../../testing/TestingTestUtils';
+import {testAdapter} from '../../../testing/AdapterTestUtils';
 
 import React from 'react';
 
 import Autocomplete from '../Autocomplete.adapter.js';
 
 describe('Autocomplete-adapter', () => {
-  it('getValue', () => {
-    const {node, unmount} = mountTest(
-      <Autocomplete tid="a" value="foo" source={null} />
-    );
-    expect(ReactTesting.call(node, 'getValue')).toBe('foo');
-
-    unmount();
+  testAdapter('getValue', mount => {
+    const adapter = mount(<Autocomplete value="foo" source={null} />);
+    expect(adapter.getValue()).toBe('foo');
   });
 
-  it('setValue', () => {
+  testAdapter('setValue', mount => {
     const source = jest.fn(() => Promise.resolve([]));
     const onChange = jest.fn();
-    const {node, unmount} = mountTest(
-      <Autocomplete tid="a" value="" source={source} onChange={onChange} />
+    const adapter = mount(
+      <Autocomplete value="" source={source} onChange={onChange} />
     );
 
-    ReactTesting.call(node, 'setValue', ['foo']);
+    adapter.setValue('foo');
 
     expect(source.mock.calls.length).toBe(1);
     expect(source.mock.calls[0][0]).toBe('foo');
 
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0][1]).toBe('foo');
-
-    unmount();
   });
 
-  pit('getSuggestions', async () => {
+  testAdapter('getSuggestions', async mount => {
     const source = jest.fn(() => Promise.resolve([1, 2, 3]));
-    const {node, unmount, setProps} = mountTest(
-      <Autocomplete tid="a" value="" source={source} />
-    );
+    const adapter = mount(<Autocomplete value="" source={source} />);
 
-    setProps({value: 'foo'});
-    ReactTesting.call(node, 'setValue', ['foo']);
+    adapter.setProps({value: 'foo'});
+    adapter.setValue('foo');
 
     await (source.mock.instances: any)[0];
 
-    expect(ReactTesting.call(node, 'getSuggestions')).toEqual([1, 2, 3]);
-
-    unmount();
+    expect(adapter.getSuggestions()).toEqual([1, 2, 3]);
   });
 
-  it('setValueByIndex', async () => {
+  testAdapter('setValueByIndex', async mount => {
     const source = jest.fn(() => Promise.resolve(['foo']));
-    const onChange = jest.fn((e, value) => setProps({value}));
-    const {node, unmount, setProps} = mountTest(
-      <Autocomplete tid="a" value="" source={source} onChange={onChange} />
+    const onChange = jest.fn((e, value) => adapter.setProps({value}));
+    const adapter = mount(
+      <Autocomplete value="" source={source} onChange={onChange} />
     );
 
     // Fetch suggestions.
-    ReactTesting.call(node, 'setValue', ['bar']);
+    adapter.setValue('bar');
     await (source.mock.instances: any)[0];
-    ReactTesting.call(node, 'setValueByIndex', [0]);
+    adapter.setValueByIndex(0);
 
     expect(onChange.mock.calls.length).toBe(2);
     expect(onChange.mock.calls[1][1]).toBe('foo');
-
-    unmount();
   });
 });

@@ -46,7 +46,7 @@ class Item extends React.Component {
       icon,
       minWidth,
       use,
-      ...rest,
+      ...rest
     } = this.props;
 
     const classes = {

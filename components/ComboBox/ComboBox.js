@@ -2,7 +2,7 @@
 
 import React, {PropTypes} from 'react';
 
-import ComboBoxRenderer from './ComboBoxRenderer.js';
+import ComboBoxRenderer from './ComboBoxRenderer';
 import type {BaseProps, Info, Value} from './ComboBoxRenderer';
 
 type Props = BaseProps & {
@@ -14,6 +14,13 @@ export default class ComboBox extends React.Component {
     autoFocus: PropTypes.bool,
 
     borderless: PropTypes.bool,
+
+    /**
+     * Не использовать Portal для рендеринга меню.
+     * По-умолчанию `false`.
+     * См. https://github.com/skbkontur/retail-ui/issues/15
+     */
+    disablePortal: PropTypes.bool,
 
     disabled: PropTypes.bool,
 
@@ -58,6 +65,23 @@ export default class ComboBox extends React.Component {
     ]),
 
     renderItem: PropTypes.func,
+
+    /**
+     * Сообщение при отсутствии результатов
+     *
+     * `string | (searchText: string) => React$Element<*> | string`
+     */
+    renderNotFound: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+    ]),
+
+    /**
+     * Общее количество найденных элементов
+     *
+     * `(foundCount: number, totalCount: number) => React$Element<*> | string`
+     */
+    renderTotalCount: PropTypes.func,
 
     renderValue: PropTypes.func,
 
@@ -104,6 +128,12 @@ export default class ComboBox extends React.Component {
     const spread: BaseProps = this.props;
 
     return <ComboBoxRenderer ref={this._ref} {...spread} info={info} />;
+  }
+
+  focus() {
+    if (this.renderer) {
+      this.renderer._focus();
+    }
   }
 
   _ref = (renderer: ComboBoxRenderer) => {

@@ -2,6 +2,9 @@ var items = [
   {id: 1, name: 'Kappa'},
   {id: 2, name: 'Keepo'},
   {id: 3, name: 'ResidentSleeper'},
+  {id: 4, name: 'Kestrel'},
+  {id: 5, name: 'Kats'},
+  {id: 6, name: 'Junior'},
 ];
 
 function info(id) {
@@ -14,8 +17,9 @@ function search(query) {
     item.name.toLowerCase().indexOf(query) !== -1
   ));
   return Promise.resolve({
-    values: results.map((d) => d.id),
+    values: results.map((d) => d.id).slice(0, 3),
     infos: results,
+    total: results.length,
   });
 }
 
@@ -35,9 +39,13 @@ function renderItem(value, info) {
   return <span>{value}: {info.name}</span>;
 }
 
-function valueToText(id) {
+function valueToString(id) {
   var info = items.find(x => x.id === id);
   return info ? info.name : '';
+}
+
+function renderTotalCount(found, total) {
+  return <div style={{maxWidth: 220}}>Displayed {found} from {total}</div>;
 }
 
 var Comp = React.createClass({
@@ -45,9 +53,17 @@ var Comp = React.createClass({
 
   render() {
     return (
-      <ComboBox info={info} source={search} value={this.state.value}
-        recover={recover} renderValue={renderValue} renderItem={renderItem}
-        alkoValueToText={valueToText}
+      <ComboBox
+        autoFocus
+        info={info}
+        source={search}
+        value={this.state.value}
+        recover={recover}
+        renderValue={renderValue}
+        renderItem={renderItem}
+        renderNotFound="Nothing here"
+        renderTotalCount={renderTotalCount}
+        valueToString={valueToString}
         onChange={e => this.setState({value: e.target.value})}
       />
     );

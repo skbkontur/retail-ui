@@ -158,7 +158,7 @@ class Modal extends React.Component {
     if (inStackIndex !== -1) {
       stack.mounted.splice(inStackIndex, 1);
     }
-    stack.emitter.emit();
+    stack.emitter.emit('change');
   }
 
   _handleWindowResize = () => {

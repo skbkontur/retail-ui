@@ -1,45 +1,26 @@
 // @flow
 
-import * as Lookup from '../../../testing/Lookup';
+import {testAdapter} from '../../../testing/AdapterTestUtils';
 
-import {mount} from 'enzyme';
 import React from 'react';
 
 import Button from '../Button.adapter';
 
 describe('Button-adapter', () => {
-  let wrapper;
-  const mnt = (element) => {
-    wrapper = mount(<div>{element}</div>);
-    return wrapper;
-  };
-
-  afterEach(() => {
-    wrapper && wrapper.unmount();
-  });
-
-  it('click', () => {
+  testAdapter('click', mount => {
     const onClick = jest.fn();
-    mnt(<Button tid="a" onClick={onClick} />);
+    const adapter = mount(<Button onClick={onClick} />);
 
-    Lookup.getAdapter(Lookup.findOne('a')).click();
+    adapter.click();
 
     expect(onClick.mock.calls.length).toBe(1);
   });
 
-  it('isDisabled', () => {
-    mnt(
-      <div>
-        <Button tid="a" />
-        <Button tid="b" disabled />
-      </div>
-    );
+  testAdapter('isDisabled', mount => {
+    const adapter1 = mount(<Button />);
+    expect(adapter1.isDisabled()).toBe(false);
 
-    expect(
-      Lookup.getAdapter(Lookup.findOne('a')).isDisabled()
-    ).toBe(false);
-    expect(
-      Lookup.getAdapter(Lookup.findOne('b')).isDisabled()
-    ).toBe(true);
+    const adapter2 = mount(<Button disabled />);
+    expect(adapter2.isDisabled()).toBe(true);
   });
 });

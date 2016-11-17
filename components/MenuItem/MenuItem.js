@@ -55,7 +55,7 @@ export default class MenuItem extends React.Component {
 
       onClick,
 
-      ...rest,
+      ...rest
     } = this.props;
     const hover = state === 'hover' && !disabled;
     const className = classNames({

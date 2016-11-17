@@ -1,42 +1,24 @@
-import '../../../testing/Lookup';
+// @flow
 
-import {mount} from 'enzyme';
+import {testAdapter} from '../../../testing/AdapterTestUtils';
+
 import React from 'react';
 
 import Checkbox from '../Checkbox.adapter';
 
 describe('Checkbox-adapter', () => {
-  let wrapper;
-  const mnt = (element) => {
-    wrapper = mount(<div>{element}</div>);
-    return wrapper;
-  };
+  testAdapter('isChecked', mount => {
+    const adapter1 = mount(<Checkbox checked={false} />);
+    expect(adapter1.isChecked()).toBe(false);
 
-  afterEach(() => {
-    wrapper && wrapper.unmount();
+    const adapter2 = mount(<Checkbox checked={true} />);
+    expect(adapter2.isChecked()).toBe(true);
   });
 
-  it('isChecked', () => {
-    mnt(
-      <div>
-        <Checkbox tid="a" checked={false} />
-        <Checkbox tid="b" checked={true} />
-      </div>
-    );
-
-    expect(
-      Lookup.getAdapter(Lookup.findOne('a')).isChecked()
-    ).toBe(false);
-    expect(
-      Lookup.getAdapter(Lookup.findOne('b')).isChecked()
-    ).toBe(true);
-  });
-
-  it('setChecked', () => {
+  testAdapter('setChecked', mount => {
     const onChange = jest.fn();
-    mnt(<Checkbox tid="a" checked={false} onChange={onChange} />);
+    const adapter = mount(<Checkbox checked={false} onChange={onChange} />);
 
-    const adapter = Lookup.getAdapter(Lookup.findOne('a'));
     adapter.setChecked(true);
     adapter.setChecked(false);
 

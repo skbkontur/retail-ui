@@ -1,3 +1,2 @@
-// Remove this when https://github.com/facebook/regenerator/pull/249 is merged.
-global.regeneratorRuntime = null;
-require('regenerator/packages/regenerator-runtime/runtime');
+// Remove this when babel-polyfill upgrades regenerator-runtime to > 0.9.6
+global.regeneratorRuntime = require('regenerator-runtime');

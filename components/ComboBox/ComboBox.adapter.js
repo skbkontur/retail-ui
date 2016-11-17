@@ -1,5 +1,8 @@
 // @flow
 
+import isActiveElement from '../Menu/isActiveElement';
+import React from 'react';
+
 import ComboBox from './ComboBox.js';
 
 const ComboBoxAdapter = {
@@ -24,7 +27,13 @@ const ComboBoxAdapter = {
 
   getResult({renderer}) {
     const {result} = renderer.state;
-    return result && result.values;
+    return result && result.values.map(value => {
+      let val = typeof value === 'function' ? value() : value;
+      if (React.isValidElement(val)) {
+        return isActiveElement(val) ? (val.props && val.props.value) : null;
+      }
+      return val;
+    });
   },
 };
 

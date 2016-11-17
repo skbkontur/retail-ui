@@ -14,6 +14,8 @@ type Pos = 'top left' | 'top center' | 'top right'
 type Props = {
   children: React.Element<any>,
 
+  className: string,
+
   closeButton?: bool,
 
   render: () => ?React.Element<any>,
@@ -114,6 +116,8 @@ export default class Tooltip extends React.Component {
 
   render() {
     const props = {};
+    const {className} = this.props;
+
     if (this.props.trigger === 'hover') {
       props.onMouseOver = this._handleMouseOver;
       props.onMouseLeave = this._handleMouseLeave;
@@ -145,7 +149,7 @@ export default class Tooltip extends React.Component {
     }
 
     return (
-      <span {...props}>
+      <span {...props} className={className}>
         {child}
         {this._renderBox()}
       </span>

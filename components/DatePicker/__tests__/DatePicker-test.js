@@ -45,7 +45,7 @@ describe('DatePicker', () => {
     expect(input.prop('value')).toBe('01.02.2003');
 
     // Make sure input is updated on rerender.
-    wrapper.setProps({value: new Date('03-02-2004')});
+    wrapper.setProps({value: new Date('03-02-2004 UTC')});
     expect(input.prop('value')).toBe('02.03.2004');
   });
 });

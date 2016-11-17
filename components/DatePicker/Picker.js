@@ -42,10 +42,10 @@ export default class Picker extends React.Component {
       <div className={styles.root}>
         <div className={styles.monthYear}>
           <Gapped gap={5}>
-            <DateSelect type="month" value={this.state.date.getMonth()}
+            <DateSelect type="month" value={this.state.date.getUTCMonth()}
               width={100} onChange={this.handleMonthChange}
             />
-            <DateSelect type="year" value={this.state.date.getFullYear()}
+            <DateSelect type="year" value={this.state.date.getUTCFullYear()}
               minYear={this.props.minYear} maxYear={this.props.maxYear}
               width={70} onChange={this.handleYearChange}
             />
@@ -71,14 +71,14 @@ export default class Picker extends React.Component {
   }
 
   handleMonthChange = (month: number) => {
-    this.state.date.setMonth(month);
+    this.state.date.setUTCMonth(month);
     this.setState({});
 
     this.refs.calendar.moveToDate(this.state.date);
   };
 
   handleYearChange = (year: number) => {
-    this.state.date.setFullYear(year);
+    this.state.date.setUTCFullYear(year);
     this.setState({});
 
     this.refs.calendar.moveToDate(this.state.date);

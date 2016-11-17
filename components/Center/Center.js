@@ -21,7 +21,7 @@ export default class Center extends React.Component {
   render() {
     const {
       align,
-      ...rest,
+      ...rest
     } = this.props;
 
     const style = Object.assign({

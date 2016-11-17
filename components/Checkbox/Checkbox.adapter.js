@@ -3,15 +3,15 @@
 import Checkbox from './Checkbox.js';
 
 const CheckboxAdapter = {
-  isChecked(inst) {
-    return inst.state.checked;
+  isChecked(inst: Checkbox) {
+    return inst.props.checked;
   },
 
-  setChecked(inst, checked) {
+  setChecked(inst: Checkbox, checked) {
     inst.handleChange({target: {checked}});
   },
 };
 
-Checkbox.__ADAPTER__ = CheckboxAdapter;
+(Checkbox: any).__ADAPTER__ = CheckboxAdapter;
 
 export default Checkbox;

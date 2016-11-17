@@ -8,6 +8,7 @@ import filterProps from '../filterProps';
 import Icon from '../Icon';
 import Input from '../Input';
 import Picker from './Picker';
+import dateParser from './dateParser';
 import styles from './DatePicker.less';
 import padStart from 'lodash.padstart';
 
@@ -27,7 +28,7 @@ type Props = {
   error?: bool,
   maxYear?: number,
   minYear?: number,
-  value: Date,
+  value: ?Date,
   width?: number | string,
   onBlur?: () => void,
   onChange?: (e: {target: {value: ?Date}}, v: ?Date) => void,
@@ -217,42 +218,19 @@ function checkDate(date) {
 }
 
 function formatDate(date) {
-  if (!checkDate(date)) {
+  if (!date || !checkDate(date)) {
     return '';
   }
 
-  // $FlowIssue https://github.com/facebook/flow/pull/2444
-  const day = date.getDate().toString().padStart(2, '0');
-  // $FlowIssue https://github.com/facebook/flow/pull/2444
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  return `${day}.${month}.${date.getFullYear()}`;
+  const day = date.getUTCDate().toString().padStart(2, '0');
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+  return `${day}.${month}.${date.getUTCFullYear()}`;
 }
 
 function parseDate(str) {
-  str = str || '';
-  const match = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})$/);
-  if (match) {
-    let [, date, month, year] = match;
-    year = parseInt(year, 10);
-    month = parseInt(month, 10) - 1;
-    date = parseInt(date, 10);
-
-    // Handle short year version
-    if (year < 50) { // 20xx
-      year += 2000;
-    } else if (year < 100) { // 19xx
-      year += 1900;
-    }
-
-    // IE8 does't support `Date('yyyy-mm-dd')` constructor.
-    const dateObj = new Date(Date.UTC(year, month, date));
-    if (
-      dateObj.getFullYear() === year &&
-      dateObj.getMonth() === month &&
-      dateObj.getDate() === date
-    ) {
-      return checkDate(dateObj);
-    }
+  const date = dateParser(str);
+  if (!date) {
+    return null;
   }
-  return null;
+  return checkDate(date);
 }

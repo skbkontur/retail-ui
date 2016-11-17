@@ -18,6 +18,7 @@ globals:
   __DEV__: true
   # Built ins
   Generator: true
+  Iterable: true
   # Flow
   $Shape: true
   # React events

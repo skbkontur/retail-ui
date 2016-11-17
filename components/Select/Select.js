@@ -287,6 +287,8 @@ class Select extends React.Component {
       events.addEventListener(
         document, 'mousedown', this._handleNativeDocClick
       );
+
+      events.addEventListener(window, 'popstate', this._close);
     }
   };
 
@@ -329,6 +331,8 @@ class Select extends React.Component {
     if (this.state.opened) {
       this.setState({opened: false});
     }
+
+    events.removeEventListener(window, 'popstate', this._close);
   };
 
   handleKey = (e) => {

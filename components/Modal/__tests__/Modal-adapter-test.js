@@ -1,16 +1,17 @@
-import '../../../testing';
-import {mountTest} from '../../../testing/TestingTestUtils';
+// @flow
+
+import {testAdapter} from '../../../testing/AdapterTestUtils';
 
 import React from 'react';
 
 import Modal from '../Modal.adapter.js';
 
 describe('Modal-adapter', () => {
-  it('close', () => {
+  testAdapter('close', mount => {
     const onClose = jest.fn();
-    const {node} = mountTest(<Modal tid="a" onClose={onClose} />);
+    const adapter = mount(<Modal onClose={onClose} />);
 
-    ReactTesting.call(node, 'close', []);
+    adapter.close();
 
     expect(onClose.mock.calls.length).toBe(1);
   });

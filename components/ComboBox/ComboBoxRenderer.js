@@ -1,5 +1,5 @@
 // @flow
-
+/* global React$Element */
 import classNames from 'classnames';
 import events from 'add-event-listener';
 import React from 'react';
@@ -50,6 +50,7 @@ export type BaseProps = {
   error?: bool,
   info?: Info | (v: Value) => Promise<Info>,
   menuAlign: 'left' | 'right',
+  disablePortal?: bool,
   openButton?: bool,
   placeholder: string,
   recover?: (RecoverFunc | bool),
@@ -59,9 +60,12 @@ export type BaseProps = {
     state: MenuItemState
   ) => React.Element<any>,
   renderValue: (value: Value, info: ?Info) => React.Element<any>,
+  renderNotFound?: string | (searchText: string) => React$Element<*> | string,
+  renderTotalCount?: (searchText: string) => React$Element<*> | string,
   source: (searchText: string) => Promise<SourceResult>,
   warning?: bool,
   value: Value | null,
+  valueToString?: (value: Value, info: ?Info) => string,
   width: (number | string),
 
   onBlur?: () => void,
@@ -213,49 +217,92 @@ class ComboBoxRenderer extends React.Component {
 
   renderMenu() {
     const {result} = this.state;
-    if (!result || result.values.length === 0) {
+    if (!result) {
       return null;
     }
+
+    const isEmptyResults = result.values.length === 0;
+
     return (
       <DropdownContainer
         getParent={() => ReactDOM.findDOMNode(this)}
         align={this.props.menuAlign}
+        disablePortal={this.props.disablePortal}
       >
         <Menu ref={this._refMenu} maxHeight={200}>
-          {mapResult(result, (value, info, i) => {
-            if (typeof value === 'function' || React.isValidElement(value)) {
-              const element = typeof value === 'function' ? value() : value;
-              return React.cloneElement(
-                element,
-                {
-                  key: i,
-                  onClick: this._handleItemClick.bind(this, element.props),
-                },
-              );
-            }
-            return (
-              <MenuItem key={i}
-                onClick={this._handleItemClick.bind(this, {value, info})}
-              >
-                {state => this.props.renderItem(value, info, state)}
-              </MenuItem>
-            );
-          })}
+          {isEmptyResults
+            ? this.renderEmptyResults()
+            : this.renderResults(result)
+          }
+          {this.renderTotalCount(result)}
         </Menu>
       </DropdownContainer>
     );
   }
 
-  focus() {
-    if (this._focusable) {
-      this._focusable.focus();
+  renderResults(result: SourceResult) {
+    return mapResult(result, (value, info, i) => {
+      if (typeof value === 'function' || React.isValidElement(value)) {
+        const element = typeof value === 'function' ? value() : value;
+        return React.cloneElement(
+            element,
+          {
+            key: i,
+            onClick: this._handleItemClick.bind(this, element.props),
+          },
+          );
+      }
+      return (
+          <MenuItem key={i}
+            onClick={this._handleItemClick.bind(this, {value, info})}
+          >
+            {state => this.props.renderItem(value, info, state)}
+          </MenuItem>
+        );
+    });
+  }
+
+  renderEmptyResults() {
+    const {renderNotFound} = this.props;
+
+    if (!renderNotFound) {
+      return null;
     }
+
+    const isFunction = typeof renderNotFound === 'function';
+    const {searchText} = this.state;
+
+    return (
+      <MenuItem disabled={!isFunction}>
+        {isFunction ? renderNotFound(searchText) : renderNotFound}
+      </MenuItem>
+    );
+  }
+
+  renderTotalCount(result: SourceResult) {
+    const {renderTotalCount} = this.props;
+
+    if (!renderTotalCount || !result || !result.values || !result.total) {
+      return null;
+    }
+
+    if (result.values.length === result.total) {
+      return null;
+    }
+
+    return (
+      <MenuItem disabled>
+        <div className={styles.totalCount}>
+          {renderTotalCount(result.values.length, result.total)}
+        </div>
+      </MenuItem>
+    );
   }
 
   componentDidMount() {
     this._mounted = true;
     if (this.props.autoFocus) {
-      this.focus();
+      this._focus();
     }
   }
 
@@ -351,7 +398,7 @@ class ComboBoxRenderer extends React.Component {
       changed: false,
       result: null,
     });
-    this._alkoSetCurrentSearchText(this.props.value);
+    this._setCurrentSearchText(this.props.value, this.props.info);
     this._focusAsync();
     this._fetchList('');
   };
@@ -389,7 +436,7 @@ class ComboBoxRenderer extends React.Component {
         }, () => {
           this._focus();
         });
-        this._alkoSetCurrentSearchText(this.props.value);
+        this._setCurrentSearchText(this.props.value, this.props.info);
         this._fetchList('');
         break;
     }
@@ -401,7 +448,6 @@ class ComboBoxRenderer extends React.Component {
     this.setState({searchText: ''});
     this._close();
     this._change(options.value, options.info);
-    this._focusAsync();
 
     if (options.onClick) {
       const onClick = options.onClick;
@@ -446,6 +492,7 @@ class ComboBoxRenderer extends React.Component {
     if (this.props.onFocus) {
       this.props.onFocus();
     }
+    this._handleValueClick();
     this._focusReporter.focus();
   };
 
@@ -460,7 +507,11 @@ class ComboBoxRenderer extends React.Component {
 
   _fetchList(pattern: string) {
     this.props.source(pattern).then((result) => {
-      if (this._mounted && this.state.searchText === pattern) {
+      if (!this._mounted) {
+        return;
+      }
+
+      if (this.state.searchText === pattern || !pattern) {
         this._menu && this._menu.reset();
         this.setState({result});
       }
@@ -547,9 +598,11 @@ class ComboBoxRenderer extends React.Component {
     return null;
   }
 
-  _alkoSetCurrentSearchText(value: Value) {
-    if (this.props.alkoValueToText && value) {
-      const searchText = this.props.alkoValueToText(value);
+  _setCurrentSearchText(value: Value, info: ?Info) {
+    const valueToString = this.props.valueToString ||
+      this.props.alkoValueToText;
+    if (valueToString && value) {
+      const searchText = valueToString(value, info);
       this.setState(
         {searchText},
         () => {
