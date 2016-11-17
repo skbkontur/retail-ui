@@ -23,6 +23,7 @@ const INPUT_PASS_PROPS = {
   error: true,
   warning: true,
   width: true,
+  table: true,
 };
 
 export type Value = any;
@@ -63,6 +64,7 @@ export type BaseProps = {
   renderNotFound?: string | (searchText: string) => React$Element<*> | string,
   renderTotalCount?: (searchText: string) => React$Element<*> | string,
   source: (searchText: string) => Promise<SourceResult>,
+  table: bool,
   warning?: bool,
   value: Value | null,
   valueToString?: (value: Value, info: ?Info) => string,
@@ -258,7 +260,7 @@ class ComboBoxRenderer extends React.Component {
           >
             {state => this.props.renderItem(value, info, state)}
           </MenuItem>
-        );
+      );
     });
   }
 

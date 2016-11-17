@@ -6,7 +6,6 @@ import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
 import filterProps from '../filterProps';
-import Upgrades from '../../lib/Upgrades';
 
 import '../ensureOldIEClassName';
 import styles from './Input.less';
@@ -24,6 +23,7 @@ const INPUT_PASS_PROPS = {
   maxLength: true,
   placeholder: true,
   title: true,
+  table: true,
 
   onBlur: true,
   onCopy: true,
@@ -34,12 +34,6 @@ const INPUT_PASS_PROPS = {
   onKeyPress: true,
   onKeyUp: true,
   onPaste: true,
-};
-
-const SIZE_CLASS_NAMES = {
-  small: styles.deprecated_sizeSmall,
-  default: styles.deprecated_sizeDefault,
-  large: styles.deprecated_sizeLarge,
 };
 
 export type Props = {
@@ -57,6 +51,7 @@ export type Props = {
   placeholder?: string,
   rightIcon?: React.Element<mixed>,
   size?: 'small' | 'default' | 'large',
+  table?: boolean,
   title?: string,
   type?: 'password' | 'text',
   value: string,
@@ -189,6 +184,7 @@ export default class Input extends React.Component {
     var labelProps = {
       className: classNames({
         [styles.root]: true,
+        [styles.table]: this.props.table,
         [className]: true,
         [styles.disabled]: this.props.disabled,
         [styles.error]: this.props.error,
@@ -200,11 +196,6 @@ export default class Input extends React.Component {
     };
     if (this.props.width) {
       labelProps.style.width = this.props.width;
-    }
-
-    if (!Upgrades.isHeight34Enabled()) {
-      const size = this.props.size || 'default';
-      labelProps.className += ' ' + SIZE_CLASS_NAMES[size];
     }
 
     var placeholder = null;
@@ -246,23 +237,27 @@ export default class Input extends React.Component {
       inputProps.style.textAlign = this.props.align;
     }
 
-    let input = null;
-    if (this.props.mask) {
-      input = (
-        <MaskedInput {...inputProps} mask={this.props.mask}
-          maskChar={
-            this.props.maskChar === undefined ? '_' : this.props.maskChar
-          }
-          alwaysShowMask={this.props.alwaysShowMask}
-        />
-      );
-    } else {
-      input = <input {...inputProps} />;
-    }
+    const input =this.props.mask ?
+      <MaskedInput
+        {...inputProps}
+        mask={this.props.mask}
+        maskChar={
+          this.props.maskChar === undefined
+            ? '_'
+            : this.props.maskChar
+        }
+        alwaysShowMask={this.props.alwaysShowMask}
+      /> :
+      <input {...inputProps} />;
+
+    const focusLine = this.props.table
+      ? <div className={styles.focusLine}/>
+      : null;
 
     return (
       <label {...labelProps}>
         {input}
+        {focusLine}
         {placeholder}
         {leftIcon}
         {rightIcon}

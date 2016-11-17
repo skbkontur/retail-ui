@@ -87,6 +87,8 @@ export default class ComboBox extends React.Component {
 
     source: PropTypes.func.isRequired,
 
+    table: PropTypes.bool,
+
     value: PropTypes.any,
 
     /**
