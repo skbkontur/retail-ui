@@ -41,7 +41,8 @@ export default class MenuItem extends React.Component {
     loose?: bool,
     state?: MenuItemState,
     target?: string,
-    onClick?: () => void,
+    onClick?: (event: Event) => void,
+    onMouseDown?: (event: Event) => void,
     children?: any,
   };
 
@@ -77,7 +78,7 @@ export default class MenuItem extends React.Component {
         {...rest}
         className={className}
         tabIndex="-1"
-        onClick={disabled ? null : onClick}
+        onMouseDown={disabled ? null : onClick}
       >
         {children}
         {this.props.comment && (
