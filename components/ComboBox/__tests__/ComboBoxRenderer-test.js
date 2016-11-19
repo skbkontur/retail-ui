@@ -184,4 +184,72 @@ describe('ComboBoxRenderer', () => {
     // Ensure ComboBox is still open and error=true.
     expect(wrapper.find('Input').prop('error')).toBe(true);
   });
+
+  it('calls onOpen when opening', () => {
+    const items = ['foo', 'bar'];
+    const promise = Promise.resolve({values: items});
+    const onOpen = jest.fn();
+    const wrapper = mount(
+      <ComboBoxRenderer value="" source={() => promise} onOpen={onOpen} />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    expect(onOpen.mock.calls.length).toBe(1);
+
+    wrapper.find('input').
+      simulate('keydown', {key: 'Escape'}).
+      simulate('keydown', {key: 'ArrowDown'});
+    expect(onOpen.mock.calls.length).toBe(2);
+  });
+
+  it('calls onClose when closes', () => {
+    const items = ['foo', 'bar'];
+    const promise = Promise.resolve({values: items});
+    const onClose = jest.fn();
+    const wrapper = mount(
+      <ComboBoxRenderer value="" source={() => promise} onClose={onClose} />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    expect(onClose.mock.calls.length).toBe(0);
+
+    wrapper.find('input').
+      simulate('keydown', {key: 'Escape'});
+    expect(onClose.mock.calls.length).toBe(1);
+  });
+
+  it('calls onFocus when focuses', () => {
+    const items = ['foo', 'bar'];
+    const promise = Promise.resolve({values: items});
+    const onFocus = jest.fn();
+    const wrapper = mount(
+      <ComboBoxRenderer value="" source={() => promise} onFocus={onFocus} />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    expect(onFocus.mock.calls.length).toBe(1);
+
+    wrapper.find('input')
+      .simulate('keydown', {key: 'ArrowDown'})
+      .simulate('keydown', {key: 'Enter'});
+
+    expect(onFocus.mock.calls.length).toBe(1);
+  });
+
+  it('calls onBlur when selecting an item with Enter', async () => {
+    const items = ['foo', 'bar'];
+    const promise = Promise.resolve({values: items});
+    const onBlur = jest.fn();
+    const wrapper = mount(
+      <ComboBoxRenderer value="" source={() => promise} onBlur={onBlur} />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    await promise
+    wrapper.find('input')
+      .simulate('keydown', {key: 'ArrowDown'})
+      .simulate('keydown', {key: 'Enter'});
+
+    expect(onBlur.mock.calls.length).toBe(1);
+  });
 });
