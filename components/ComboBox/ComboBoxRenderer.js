@@ -177,16 +177,16 @@ class ComboBoxRenderer extends React.Component {
           {this.props.placeholder}
         </span>;
 
-    const isError = !!this.state.searchText;
+    const isNotRecovered = !!this.state.searchText;
 
     return (
       <InputLikeText ref={this._refFocusable} {...inputProps}
         padRight={this.props.openButton}
         onClick={this._handleValueClick}
         onFocus={this._handleValueClick}
-        error={isError}
+        error={isNotRecovered || this.props.error}
       >
-        {isError ? this.state.searchText : value}
+        {isNotRecovered ? this.state.searchText : value}
       </InputLikeText>
     );
   }
@@ -402,7 +402,7 @@ class ComboBoxRenderer extends React.Component {
   };
 
   _handleFocus = () => {
-    this.setState({opened: true});
+    this.setState({isEditing: true, opened: true});
     safelyCall(this.props.onOpen);
     if (!safelyCall(this.props.onFocus)) {
       safelyCall(this.props.onAlkoFocus);
@@ -482,10 +482,7 @@ class ComboBoxRenderer extends React.Component {
         ? valueToString(value, info)
         : this.state.searchText;
 
-      this.setState({
-        searchText,
-        isEditing: true,
-      }, () => {
+      this.setState({searchText}, () => {
         if (this._focusable && this._focusable.setSelectionRange) {
           this._focusable.setSelectionRange(0, searchText.length);
         }
