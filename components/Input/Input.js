@@ -17,6 +17,10 @@ if (typeof window !== 'undefined' && window.document
   polyfillPlaceholder = !('placeholder' in document.createElement('input'));
 }
 
+function showInputIsNotMountedError(methodName: string) {
+  console.error(`Cannot call '${methodName}' because Input is not mounted`);
+}
+
 const INPUT_PASS_PROPS = {
   autoFocus: true,
   disabled: true,
@@ -184,6 +188,8 @@ export default class Input extends React.Component {
     polyfillPlaceholder: false,
   };
 
+  input = null;
+
   render() {
     const className: string = this.props.className || '';
     var labelProps = {
@@ -249,7 +255,9 @@ export default class Input extends React.Component {
     let input = null;
     if (this.props.mask) {
       input = (
-        <MaskedInput {...inputProps} mask={this.props.mask}
+        <MaskedInput
+          {...inputProps}
+          mask={this.props.mask}
           maskChar={
             this.props.maskChar === undefined ? '_' : this.props.maskChar
           }
@@ -257,7 +265,11 @@ export default class Input extends React.Component {
         />
       );
     } else {
-      input = <input {...inputProps} />;
+      input = (
+        <input
+          {...inputProps}
+        />
+      );
     }
 
     return (
@@ -274,21 +286,44 @@ export default class Input extends React.Component {
     if (polyfillPlaceholder) {
       this.setState({polyfillPlaceholder: true});
     }
+    this.input = ReactDOM.findDOMNode(this).querySelector('input');
+  }
+
+  componentWillUnmount() {
+    this.input = null;
   }
 
   /**
    * @api
    */
   focus() {
-    ReactDOM.findDOMNode(this).querySelector('input').focus();
+    if (!this.input) {
+      showInputIsNotMountedError('focus');
+      return;
+    }
+    this.input.focus();
+  }
+
+  /**
+   * @api
+   */
+  blur() {
+    if (!this.input) {
+      showInputIsNotMountedError('blur');
+      return;
+    }
+    this.input.blur();
   }
 
   /**
    * @api
    */
   setSelectionRange(start: number, end: number) {
-    const input: HTMLInputElement = ReactDOM.findDOMNode(this).
-      querySelector('input');
+    const input: ?HTMLInputElement = this.input;
+    if (!input) {
+      showInputIsNotMountedError('setSelectionRange');
+      return;
+    }
     if (input.setSelectionRange) {
       input.focus();
       input.setSelectionRange(start, end);
