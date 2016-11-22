@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import MaskedInput from 'react-input-mask';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
+import invariant from 'invariant';
 
 import filterProps from '../filterProps';
 import Upgrades from '../../lib/Upgrades';
@@ -15,10 +16,6 @@ var polyfillPlaceholder = false;
 if (typeof window !== 'undefined' && window.document
     && window.document.createElement) {
   polyfillPlaceholder = !('placeholder' in document.createElement('input'));
-}
-
-function showInputIsNotMountedError(methodName: string) {
-  console.error(`Cannot call '${methodName}' because Input is not mounted`);
 }
 
 const INPUT_PASS_PROPS = {
@@ -241,6 +238,7 @@ export default class Input extends React.Component {
       value: this.props.value,
       onChange: (e) => this._handleChange(e),
       style: {},
+      ref: this.getInputFromRef,
     };
 
     const type = this.props.type;
@@ -286,21 +284,19 @@ export default class Input extends React.Component {
     if (polyfillPlaceholder) {
       this.setState({polyfillPlaceholder: true});
     }
-    this.input = ReactDOM.findDOMNode(this).querySelector('input');
   }
 
-  componentWillUnmount() {
-    this.input = null;
-  }
+  getInputFromRef = (ref: any) => {
+    this.input = this.props.mask
+      ? ReactDOM.findDOMNode(this).querySelector('input')
+      : ref;
+  };
 
   /**
    * @api
    */
   focus() {
-    if (!this.input) {
-      showInputIsNotMountedError('focus');
-      return;
-    }
+    invariant(this.input, 'Cannot call "focus" because Input is not mounted');
     this.input.focus();
   }
 
@@ -308,10 +304,7 @@ export default class Input extends React.Component {
    * @api
    */
   blur() {
-    if (!this.input) {
-      showInputIsNotMountedError('blur');
-      return;
-    }
+    invariant(this.input, 'Cannot call "blur" because Input is not mounted');
     this.input.blur();
   }
 
@@ -319,16 +312,16 @@ export default class Input extends React.Component {
    * @api
    */
   setSelectionRange(start: number, end: number) {
-    const input: ?HTMLInputElement = this.input;
-    if (!input) {
-      showInputIsNotMountedError('setSelectionRange');
-      return;
-    }
-    if (input.setSelectionRange) {
-      input.focus();
-      input.setSelectionRange(start, end);
-    } else if (input.createTextRange) {
-      const range = input.createTextRange();
+    invariant(
+      this.input,
+      'Cannot call "setSelectionRange" because Input is not mounted'
+    );
+    if (this.input.setSelectionRange) {
+      this.input.focus();
+      // $FlowIssue: suppressing the error of possibly null value of this.input
+      this.input.setSelectionRange(start, end);
+    } else if (this.input.createTextRange) {
+      const range = this.input.createTextRange();
       range.collapse(true);
       range.moveEnd('character', end);
       range.moveStart('character', start);
