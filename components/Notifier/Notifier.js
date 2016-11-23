@@ -29,6 +29,7 @@ class Notifier extends Component {
   props: Props;
 
   _timeout: number;
+  _toast: Toast;
 
   constructor(props: Props) {
     super(props);
@@ -86,9 +87,14 @@ class Notifier extends Component {
       onClose: this._close,
       children: notification,
       action,
+      ref: this._refToast,
     };
 
     return <Toast {...toastProps} />;
+  }
+
+  _refToast = (el: Toast) => {
+    this._toast = el;
   }
 
   _close = () => {

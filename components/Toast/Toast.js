@@ -25,13 +25,13 @@ class Toast extends Component {
     } = this.props;
 
     const link = action
-      ? <span className={styles.link} onClick={action.handler}>
+      ? <span className={styles.link} onClick={action.handler} data-close>
           {action.label}
         </span>
       : null;
 
     const close = action
-      ? <span className={styles.close} onClick={onClose}>
+      ? <span className={styles.close} onClick={onClose} data-action>
           {CROSS}
         </span>
       : null;
