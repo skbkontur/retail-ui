@@ -23,6 +23,14 @@ type Props = {
   onClose?: (notification: string, action?: Action) => void
 }
 
+/**
+ * Notifier manages tosts
+ * method `push` is sending notification,
+ * then automatically hides it after 3 or 7 seconds,
+ * depending is this toast contains action or not.
+ *
+ * There is also NotifierWidget with static `push`
+ */
 class Notifier extends Component {
 
   state: State;
@@ -44,9 +52,12 @@ class Notifier extends Component {
     this._clearTimer();
   }
 
+  /**
+   * @api
+   */
   push(notification: string, action?: Action) {
     if (this.notification) {
-      this._close();
+      this.close();
     }
 
     safelyCall(this.props.onPush, notification, action);
@@ -55,6 +66,14 @@ class Notifier extends Component {
       ({id}) => ({notification, action, id: id + 1}),
       this._setTimer
     );
+  }
+
+  /**
+   * @api
+   */
+  close = () => {
+    safelyCall(this.props.onClose, this.state.notification, this.state.action);
+    this.setState({notification: null, action: null});
   }
 
   render() {
@@ -84,7 +103,7 @@ class Notifier extends Component {
       key: id,
       onMouseEnter: this._clearTimer,
       onMouseLeave: this._setTimer,
-      onClose: this._close,
+      onClose: this.close,
       children: notification,
       action,
       ref: this._refToast,
@@ -95,11 +114,6 @@ class Notifier extends Component {
 
   _refToast = (el: Toast) => {
     this._toast = el;
-  }
-
-  _close = () => {
-    safelyCall(this.props.onClose, this.state.notification, this.state.action);
-    this.setState({notification: null, action: null});
   }
 
   _clearTimer = () => {
@@ -114,7 +128,7 @@ class Notifier extends Component {
 
     const timeOut = typeof this.state.notification === 'string' ? 3 : 7;
 
-    this._timeout = setTimeout(this._close, timeOut * 1000);
+    this._timeout = setTimeout(this.close, timeOut * 1000);
   }
 }
 

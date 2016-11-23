@@ -1,5 +1,5 @@
 // @flow
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import CROSS from '../internal/cross';
 
 import styles from './Toast.less';
@@ -15,6 +15,21 @@ type Props = {
 
 class Toast extends Component {
   props: Props;
+
+  static propTypes = {
+    /**
+     * Adds action handling and close icon fot tost
+     */
+    action: PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      handler: PropTypes.func.isRequired,
+    }),
+    /**
+     * Tost content
+     */
+    children: PropTypes.string.isRequired,
+    onClose: PropTypes.func,
+  }
 
   render() {
     const {

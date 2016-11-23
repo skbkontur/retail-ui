@@ -63,7 +63,7 @@ describe('Notifier', () => {
 
   it('support actions in tosts', () => {
     const wrapper = mount(<Notifier />);
-    wrapper.instance().push('message', {label: 'action'});
+    wrapper.instance().push('message', {label: 'action', handler: () => {}});
 
     const toast = wrapper.instance()._toast;
     const link = ReactDOM.

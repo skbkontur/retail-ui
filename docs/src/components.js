@@ -126,6 +126,12 @@ module.exports = [
     src: require('!raw!./snippets/Modal-snip.js'),
   },
   {
+    name: 'Notifier',
+    component: require('ui/Notifier'),
+    info: require('!docgen!ui/Notifier/Notifier.js'),
+    src: require('!raw!./snippets/Notifier-snip.js'),
+  },
+  {
     name: 'Radio',
     component: require('ui/Radio'),
     info: require('!docgen!ui/Radio/Radio.js'),
@@ -166,6 +172,12 @@ module.exports = [
     component: require('ui/Textarea'),
     info: require('!docgen!ui/Textarea/Textarea.js'),
     src: require('!raw!./snippets/Textarea-snip.js'),
+  },
+  {
+    name: 'Toast',
+    component: require('ui/Toast'),
+    info: require('!docgen!ui/Toast/Toast.js'),
+    src: require('!raw!./snippets/Toast-snip.js'),
   },
   {
     name: 'Tooltip',
