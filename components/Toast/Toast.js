@@ -1,66 +1,147 @@
-// @flow
-import React, {Component, PropTypes} from 'react';
-import CROSS from '../internal/cross';
+/* @flow */
+import React, {Component} from 'react';
 
-import styles from './Toast.less';
+import RenderContainer from '../RenderContainer';
+import Transition from 'react-addons-css-transition-group';
+import ToastView from './ToastView';
+import ToastStatic from './ToastStatic';
 
-type Props = {
-  children?: string,
-  action?: {
-    label: string,
-    handler: () => void
-  },
-  onClose?: () => void
+import './Toast.less';
+
+export type Action = {
+  label: string,
+  handler: () => void
 }
 
+type State = {
+  notification: ?string,
+  action: ?Action,
+  id: number
+}
+
+type Props = {
+  onPush?: (notification: string, action?: Action) => void,
+  onClose?: (notification: string, action?: Action) => void
+}
+
+/**
+ * Toast component manages tosts
+ * method `push` is sending notification,
+ * then automatically hides it after 3 or 7 seconds,
+ * depending is this toast contains action or not.
+ *
+ * There is also static `push` whith the same interface as instance method
+ * Can be used like `Toast.push('message')`
+ */
 class Toast extends Component {
+
+  state: State;
   props: Props;
 
-  static propTypes = {
-    /**
-     * Adds action handling and close icon fot tost
-     */
-    action: PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      handler: PropTypes.func.isRequired,
-    }),
-    /**
-     * Tost content
-     */
-    children: PropTypes.string.isRequired,
-    onClose: PropTypes.func,
+  _timeout: number;
+  _toast: ToastView;
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      notification: null,
+      action: null,
+      id: 0,
+    };
+  }
+
+  componentWillUnmount() {
+    this._clearTimer();
+  }
+
+  static push(...args) {
+    ToastStatic.push(...args);
+  }
+
+  /**
+   * @api
+   */
+  push(notification: string, action?: Action) {
+    if (this.notification) {
+      this.close();
+    }
+
+    safelyCall(this.props.onPush, notification, action);
+
+    this.setState(
+      ({id}) => ({notification, action, id: id + 1}),
+      this._setTimer
+    );
+  }
+
+  /**
+   * @api
+   */
+  close = () => {
+    safelyCall(this.props.onClose, this.state.notification, this.state.action);
+    this.setState({notification: null, action: null});
   }
 
   render() {
-    const {
-      children,
-      action,
-      onClose,
-      ...rest
-    } = this.props;
-
-    const link = action
-      ? <span className={styles.link} onClick={action.handler} data-close>
-          {action.label}
-        </span>
-      : null;
-
-    const close = action
-      ? <span className={styles.close} onClick={onClose} data-action>
-          {CROSS}
-        </span>
-      : null;
-
     return (
-      <div className={styles.wrapper}>
-        <div className={styles.root} {...rest}>
-          {children}
-          {link}
-          {close}
-        </div>
-      </div>
+      <RenderContainer>
+        <Transition
+          transitionName="slide-and-fade"
+          transitionAppear={true}
+          transitionAppearTimeout={200}
+          transitionEnterTimeout={200}
+          transitionLeaveTimeout={150}
+        >
+          {this._renderToast()}
+        </Transition>
+      </RenderContainer>
     );
+  }
+
+  _renderToast() {
+    const {notification, action, id} = this.state;
+
+    if (!notification) {
+      return null;
+    }
+
+    const toastProps: Object = {
+      key: id,
+      onMouseEnter: this._clearTimer,
+      onMouseLeave: this._setTimer,
+      onClose: this.close,
+      children: notification,
+      action,
+      ref: this._refToast,
+    };
+
+    return <ToastView {...toastProps} />;
+  }
+
+  _refToast = (el: ToastView) => {
+    this._toast = el;
+  }
+
+  _clearTimer = () => {
+    if (this._timeout) {
+      clearTimeout(this._timeout);
+      this._timeout = 0;
+    }
+  }
+
+  _setTimer = () => {
+    this._clearTimer();
+
+    const timeOut = typeof this.state.notification === 'string' ? 3 : 7;
+
+    this._timeout = setTimeout(this.close, timeOut * 1000);
   }
 }
 
 export default Toast;
+
+function safelyCall(fn: ?Function, ...args: any[]) {
+  if (fn) {
+    fn(...args);
+  }
+}
