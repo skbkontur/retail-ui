@@ -1,0 +1,60 @@
+:local {
+  .wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    text-align: center;
+  }
+
+  .root {
+    display: inline-block;
+    position: relative;
+    top: 20px;
+    z-index: 9999;
+
+    padding: 10px 20px 11px 20px;
+
+    background: rgba(51, 51, 51, 0.8);
+    opacity: 1;
+    font-size: 14px;
+    color: white;
+
+    border-radius: 2px;
+  }
+
+  .link {
+    color: #3FAEFC;
+    cursor: pointer;
+    display: inline-block;
+    margin: -10px 23px -11px 5px;
+    padding: 10px 10px 11px 10px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .close {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+
+    width: 38px;
+    height: 40px;
+
+    line-height: 40px;
+    text-align: center;
+    color: #A0A0A0;
+
+    cursor: pointer;
+    
+    &:hover {
+      color: white;
+    }
+  }
+
+}

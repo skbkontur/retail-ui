@@ -1,0 +1,22 @@
+@show-transtion: top 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+@hide-transition: opacity 0.15s ease-out;
+
+.slide-and-fade {
+  &-appear, &-enter {
+    top: -40px;
+  }
+
+  &-appear-active, &-enter-active {
+    transition: @show-transtion;
+    top: 0px;
+  }
+
+  &-leave {
+    opacity: 1;
+  }
+
+  &-leave-active {
+    opacity: 0.01;
+    transition: @hide-transition;
+  }
+}
