@@ -1,6 +1,5 @@
 /* @flow */
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 
 import RenderContainer from '../RenderContainer';
 import Transition from 'react-addons-css-transition-group';
@@ -8,7 +7,7 @@ import Toast from '../Toast';
 
 import './Notifier.less';
 
-type Action = {
+export type Action = {
   label: string,
   handler: () => void
 }
@@ -55,25 +54,6 @@ class Notifier extends Component {
       ({id}) => ({notification, action, id: id + 1}),
       this._setTimer
     );
-  }
-
-  static DOM: any = null
-
-  static push(notification: string, action?: Action) {
-    if (!Notifier.DOM) {
-      Notifier.DOM = {
-        node: document.createElement('div'),
-        instance: null,
-      };
-      document.body.appendChild(Notifier.DOM.node);
-      ReactDOM.render(
-        <Notifier ref={el => Notifier.DOM.instance = el}/>,
-        Notifier.DOM.node,
-        () => Notifier.DOM.instance.push(notification, action)
-      );
-    } else {
-      Notifier.DOM.instance.push(notification, action);
-    }
   }
 
   render() {

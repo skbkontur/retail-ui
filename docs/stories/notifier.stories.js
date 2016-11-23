@@ -2,6 +2,7 @@
 import React from 'react';
 import {storiesOf, action} from '@kadira/storybook';
 import Notifier from '../../components/Notifier';
+import NotifierWidget from '../../components/Notifier/NotifierWidget';
 import Button from '../../components/Button';
 
 class TestNotifier extends React.Component {
@@ -54,8 +55,8 @@ storiesOf('Notifier', module).
   add('complex notifiacation', () => (
     <TestNotifier complex />
   )).
-  add('static push', () => (
-    <Button onClick={() => Notifier.push('Static method call')}>
+  add('widget', () => (
+    <Button onClick={() => NotifierWidget.push('Static method call')}>
       Show static
     </Button>
   ));
