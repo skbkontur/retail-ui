@@ -168,6 +168,12 @@ module.exports = [
     src: require('!raw!./snippets/Textarea-snip.js'),
   },
   {
+    name: 'Toast',
+    component: require('ui/Toast'),
+    info: require('!docgen!ui/Toast/Toast.js'),
+    src: require('!raw!./snippets/Toast-snip.js'),
+  },
+  {
     name: 'Tooltip',
     component: require('ui/Tooltip'),
     info: require('!docgen!ui/Tooltip/Tooltip.js'),

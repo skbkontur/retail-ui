@@ -1,5 +1,5 @@
 import events from 'add-event-listener';
-import ExecutionEnvironment from 'exenv';
+import CROSS from '../internal/cross';
 import LayoutEvents from '../../lib/LayoutEvents';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
@@ -8,12 +8,6 @@ import position from './position';
 import renderPin from './renderPin';
 
 import styles from './Box.less';
-
-// Windows XP fonts don't include the cross character used for the close button.
-// So we use another one on XP only, because it looks ugly on modern systems.
-const WIN_XP = ExecutionEnvironment.canUseDOM &&
-  navigator.userAgent.includes('Windows NT 5.');
-const CROSS = WIN_XP ? '╳' : '✕';
 
 export default class Box extends React.Component {
   static contextTypes = {
