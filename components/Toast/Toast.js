@@ -25,13 +25,13 @@ type Props = {
 }
 
 /**
- * Toast component manages tosts
+ * Toast manages notifications
  * method `push` is sending notification,
  * then automatically hides it after 3 or 7 seconds,
- * depending is this toast contains action or not.
+ * depending on if this notification contains action or not.
  *
- * There is also static `push` whith the same interface as instance method
- * Can be used like `Toast.push('message')`
+ * Can be used like `Toast.push('message')` or
+ * `Toast.push('message', {label: 'Cancel', handler: cancelHandler})`
  */
 class Toast extends Component {
 
@@ -54,13 +54,13 @@ class Toast extends Component {
     this._clearTimer();
   }
 
-  static push(...args) {
-    ToastStatic.push(...args);
-  }
-
   /**
    * @api
    */
+  static push(notification: string, action?: Action) {
+    ToastStatic.push(notification, action);
+  }
+
   push(notification: string, action?: Action) {
     if (this.notification) {
       this.close();
@@ -77,6 +77,10 @@ class Toast extends Component {
   /**
    * @api
    */
+  static close() {
+    ToastStatic.close();
+  }
+
   close = () => {
     safelyCall(this.props.onClose, this.state.notification, this.state.action);
     this.setState({notification: null, action: null});
@@ -132,7 +136,7 @@ class Toast extends Component {
   _setTimer = () => {
     this._clearTimer();
 
-    const timeOut = typeof this.state.notification === 'string' ? 3 : 7;
+    const timeOut = this.state.action ? 7 : 3;
 
     this._timeout = setTimeout(this.close, timeOut * 1000);
   }

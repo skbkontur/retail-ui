@@ -8,31 +8,19 @@ class TestNotifier extends React.Component {
   }
 
   showSimpleNotification() {
-    if (this.notifier) {
-      this.notifier.push('Successfully saved');
-    }
+    Toast.push('Successfully saved');
   }
 
   showComplexNotification() {
-    if (this.notifier) {
-      this.notifier.push(
-        'Successfully saved',
-        {
-          label: 'Cancel',
-          handler: () => this.notifier.push('Canceled'),
-        }
-      );
-    }
+    Toast.push('Successfully saved', {
+      label: 'Cancel',
+      handler: () => Toast.push('Canceled'),
+    });
   }
 
   render() {
     return (
       <div>
-        <Toast
-          ref={el => this.notifier = el}
-          onClose={(text, action) => console.log('close', text, action)}
-          onPush={(text, action) => console.log('push', text, action)}
-        />
         <Button onClick={() => this.showNotification()}>
           Show notification
         </Button>
@@ -42,4 +30,3 @@ class TestNotifier extends React.Component {
 }
 
 ReactDOM.render(<TestNotifier complex />, mountNode);
-

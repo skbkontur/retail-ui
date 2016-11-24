@@ -31,6 +31,12 @@ class ToastStatic {
       ToastStatic.instance.push(notification, action);
     }
   }
+
+  static close = function() {
+    if (ToastStatic.instance) {
+      ToastStatic.instance.close();
+    }
+  }
 }
 
 export default ToastStatic;
