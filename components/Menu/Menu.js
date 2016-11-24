@@ -42,10 +42,14 @@ export default class Menu extends React.Component {
           maxHeight={this.props.maxHeight}
         >
           {React.Children.map(this.props.children, (child, index) => {
-            if (child && child.type.__MENU_ITEM__) {
+            const isMenuItem = child && child.type.__MENU_ITEM__;
+            const isMenuHeader = child && child.type.__MENU_HEADER__;
+            if (isMenuItem) {
               if (child.props.icon && !enableIconPadding) {
                 enableIconPadding = true;
               }
+            }
+            if (isMenuItem || isMenuHeader) {
               if (enableIconPadding) {
                 child = React.cloneElement(child, {
                   _enableIconPadding: true,
