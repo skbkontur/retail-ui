@@ -40,13 +40,13 @@ class ToastView extends Component {
     } = this.props;
 
     const link = action
-      ? <span className={styles.link} onClick={action.handler} data-close>
+      ? <span className={styles.link} onClick={action.handler}>
           {action.label}
         </span>
       : null;
 
     const close = action
-      ? <span className={styles.close} onClick={onClose} data-action>
+      ? <span className={styles.close} onClick={onClose}>
           {CROSS}
         </span>
       : null;

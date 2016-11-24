@@ -68,7 +68,7 @@ describe('Toast', () => {
     const toast = wrapper.instance()._toast;
     const link = ReactDOM.
       findDOMNode(toast).
-      querySelector('[data-action]');
+      querySelector('.link');
     expect(link).toBeTruthy();
   });
 
