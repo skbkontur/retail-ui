@@ -244,7 +244,7 @@ class Select extends React.Component {
               onItemClick={this._close}
             >
               {search}
-              {this.mapItems((iValue, item, i) => {
+              {this.mapItems((iValue, item, i, comment) => {
                 if (typeof item === 'function' || React.isValidElement(item)) {
                   return React.cloneElement(
                     typeof item === 'function' ? item() : item,
@@ -256,6 +256,7 @@ class Select extends React.Component {
                   <MenuItem key={i}
                     state={iValue === value ? 'selected' : null}
                     onClick={this._select.bind(this, iValue)}
+                    comment={comment}
                   >
                     {this.props.renderItem(iValue, item)}
                   </MenuItem>
@@ -392,9 +393,9 @@ class Select extends React.Component {
     const ret = [];
     let index = 0;
     for (const entry of this.props.items) {
-      const [value, item] = normalizeEntry(entry);
+      const [value, item, comment] = normalizeEntry(entry);
       if (!pattern || this.props.filterItem(value, item, pattern)) {
-        ret.push(fn(value, item, index));
+        ret.push(fn(value, item, index, comment));
         ++index;
       }
     }
