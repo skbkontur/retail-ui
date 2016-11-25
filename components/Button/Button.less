@@ -29,8 +29,20 @@
     }
   }
 
+  .buttonContent {
+    display: table;
+    width: 100%;
+  }
+
   .caption {
     position: relative;
+    display: table-cell;
+  }
+
+  .icon {
+    display: table-cell;
+    width: 1px;
+    padding-right: 7px;
   }
 
   .fallbackMixin(@class; @bg; @border: @bg) {
@@ -96,6 +108,11 @@
     height: 34px;
     line-height: 34px;
     padding: 0 20px;
+  }
+
+  .buttonWithIcon {
+    padding-right: 15px;
+    padding-left: 15px;
   }
 
   // Use Default
@@ -324,6 +341,10 @@
 
   .noPadding {
     padding-left: 0;
+    padding-right: 0;
+  }
+
+  .noRightPadding {
     padding-right: 0;
   }
 }

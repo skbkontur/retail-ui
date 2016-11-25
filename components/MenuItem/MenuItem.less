@@ -2,6 +2,7 @@
 
 :local {
   .root {
+    position: relative;
     color: inherit;
     cursor: pointer;
     display: block;
@@ -35,6 +36,10 @@
     color: @link-color;
   }
 
+  .withIcon {
+    padding-left: @menu-item-padding-for-icon;
+  }
+
   .comment {
     color: #a0a0a0;
     white-space: normal;
@@ -43,5 +48,12 @@
   .commentHover {
     color: #fff;
     opacity: .6;
+  }
+
+  .icon {
+    display: inline-block;
+    position: absolute;
+    left: 15px;
+    top: 5px;
   }
 }
