@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import MaskedInput from 'react-input-mask';
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
+import invariant from 'invariant';
 
 import filterProps from '../filterProps';
 import Upgrades from '../../lib/Upgrades';
@@ -184,6 +185,8 @@ export default class Input extends React.Component {
     polyfillPlaceholder: false,
   };
 
+  input = null;
+
   render() {
     const className: string = this.props.className || '';
     var labelProps = {
@@ -235,6 +238,7 @@ export default class Input extends React.Component {
       value: this.props.value,
       onChange: (e) => this._handleChange(e),
       style: {},
+      ref: this.getInputFromRef,
     };
 
     const type = this.props.type;
@@ -249,7 +253,9 @@ export default class Input extends React.Component {
     let input = null;
     if (this.props.mask) {
       input = (
-        <MaskedInput {...inputProps} mask={this.props.mask}
+        <MaskedInput
+          {...inputProps}
+          mask={this.props.mask}
           maskChar={
             this.props.maskChar === undefined ? '_' : this.props.maskChar
           }
@@ -257,7 +263,11 @@ export default class Input extends React.Component {
         />
       );
     } else {
-      input = <input {...inputProps} />;
+      input = (
+        <input
+          {...inputProps}
+        />
+      );
     }
 
     return (
@@ -276,24 +286,42 @@ export default class Input extends React.Component {
     }
   }
 
+  getInputFromRef = (ref: any) => {
+    this.input = this.props.mask
+      ? ReactDOM.findDOMNode(this).querySelector('input')
+      : ref;
+  };
+
   /**
    * @api
    */
   focus() {
-    ReactDOM.findDOMNode(this).querySelector('input').focus();
+    invariant(this.input, 'Cannot call "focus" because Input is not mounted');
+    this.input.focus();
+  }
+
+  /**
+   * @api
+   */
+  blur() {
+    invariant(this.input, 'Cannot call "blur" because Input is not mounted');
+    this.input.blur();
   }
 
   /**
    * @api
    */
   setSelectionRange(start: number, end: number) {
-    const input: HTMLInputElement = ReactDOM.findDOMNode(this).
-      querySelector('input');
-    if (input.setSelectionRange) {
-      input.focus();
-      input.setSelectionRange(start, end);
-    } else if (input.createTextRange) {
-      const range = input.createTextRange();
+    invariant(
+      this.input,
+      'Cannot call "setSelectionRange" because Input is not mounted'
+    );
+    if (this.input.setSelectionRange) {
+      this.input.focus();
+      // $FlowIssue: suppressing the error of possibly null value of this.input
+      this.input.setSelectionRange(start, end);
+    } else if (this.input.createTextRange) {
+      const range = this.input.createTextRange();
       range.collapse(true);
       range.moveEnd('character', end);
       range.moveStart('character', start);

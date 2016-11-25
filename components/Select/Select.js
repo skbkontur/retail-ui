@@ -48,7 +48,8 @@ class Select extends React.Component {
      * `Array`, `Map`, `Immutable.Map`.
      *
      * Элементы воспринимаются следующим образом: если элемент — это массив, то
-     * первый элемент является значением , а второй — отображается в списке;
+     * первый элемент является значением , второй — отображается в списке,
+     * а третий – комментарий;
      * если элемент не является массивом, то он используется и для отображения,
      * и для значения.
      *
@@ -244,7 +245,7 @@ class Select extends React.Component {
               onItemClick={this._close}
             >
               {search}
-              {this.mapItems((iValue, item, i) => {
+              {this.mapItems((iValue, item, i, comment) => {
                 if (typeof item === 'function' || React.isValidElement(item)) {
                   return React.cloneElement(
                     typeof item === 'function' ? item() : item,
@@ -256,6 +257,7 @@ class Select extends React.Component {
                   <MenuItem key={i}
                     state={iValue === value ? 'selected' : null}
                     onClick={this._select.bind(this, iValue)}
+                    comment={comment}
                   >
                     {this.props.renderItem(iValue, item)}
                   </MenuItem>
@@ -392,9 +394,9 @@ class Select extends React.Component {
     const ret = [];
     let index = 0;
     for (const entry of this.props.items) {
-      const [value, item] = normalizeEntry(entry);
+      const [value, item, comment] = normalizeEntry(entry);
       if (!pattern || this.props.filterItem(value, item, pattern)) {
-        ret.push(fn(value, item, index));
+        ret.push(fn(value, item, index, comment));
         ++index;
       }
     }
