@@ -18,6 +18,11 @@ before_deploy:
 - npm install
 - ./deploy.sh
 - cd ..
+addons:
+  code_climate:
+    repo_token: 94d9a7401dea88efe5656fa972508cbb376ac198
+after_success:
+- codeclimate-test-reporter < coverage/lcov.info
 deploy:
   provider: npm
   email: tihonov.ea@gmail.com
