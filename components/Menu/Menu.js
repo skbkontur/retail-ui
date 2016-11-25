@@ -30,7 +30,9 @@ export default class Menu extends React.Component {
   _highlighted: any;
 
   render() {
-    let enableIconPadding = false;
+    const enableIconPadding = React.Children.
+      toArray(this.props.children).
+      some(({props}) => props.icon);
 
     if (this._isEmpty()) {
       return null;
@@ -44,17 +46,10 @@ export default class Menu extends React.Component {
           {React.Children.map(this.props.children, (child, index) => {
             const isMenuItem = child && child.type.__MENU_ITEM__;
             const isMenuHeader = child && child.type.__MENU_HEADER__;
-            if (isMenuItem) {
-              if (child.props.icon && !enableIconPadding) {
-                enableIconPadding = true;
-              }
-            }
-            if (isMenuItem || isMenuHeader) {
-              if (enableIconPadding) {
-                child = React.cloneElement(child, {
-                  _enableIconPadding: true,
-                });
-              }
+            if (enableIconPadding && (isMenuItem || isMenuHeader)) {
+              child = React.cloneElement(child, {
+                _enableIconPadding: true,
+              });
             }
             if (isActiveElement(child)) {
               const highlight = this.state.highlightedIndex === index;

@@ -153,9 +153,11 @@ class Button extends React.Component {
 
     let icon = null;
     if (this.props.icon) {
-      icon =(<span className={styles.icon}>
-        <Icon name={this.props.icon} />
-      </span>);
+      icon = (
+        <span className={styles.icon}>
+          <Icon name={this.props.icon} />
+        </span>
+      );
     }
 
     return (
