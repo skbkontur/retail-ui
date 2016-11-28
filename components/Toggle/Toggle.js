@@ -41,7 +41,10 @@ class Toggle extends React.Component {
 
     return (
       <span className={containerClassName} onClick={this.handleClick}>
-        <span className={styles.handle} />
+        <span className={styles.handle}>
+          <div className={styles.bg} />
+          <span className={styles.hinge} />
+        </span>
       </span>
     );
   }
