@@ -52,8 +52,15 @@ storiesOf('Button', module)
   .add('with icons', () => {
     const icon = select('icon', Icon.getAllNames(), 'ok');
     return <Gapped>
-      <Button><Icon name={icon}/> Small</Button>
-      <Button size="medium"><Icon name={icon} /> Medium</Button>
-      <Button size="large"><Icon name={icon}/> Large</Button>
-    </Gapped>
+      <Button icon={icon}>Small</Button>
+      <Button size="medium" icon={icon}>Medium</Button>
+      <Button size="large" icon={icon}>Large</Button>
+    </Gapped>;
+  })
+  .add('with icon, fixed width and long text', () => {
+    return (
+      <Button icon="ok" width="200">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio sunt ad repudiandae ipsum quos! Dolores ipsam magnam maxime debitis praesentium aperiam laudantium. Nulla laboriosam perferendis, maiores esse unde nam numquam!
+      </Button>
+    )
   });
