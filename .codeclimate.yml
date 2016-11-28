@@ -17,4 +17,4 @@ ratings:
   - "testing/**.js"
 exclude_paths: 
   - "docs/**/*"
-  - "**/__tests__/**"
+  - "**/__tests__/**/*"
