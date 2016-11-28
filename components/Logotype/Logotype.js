@@ -31,14 +31,17 @@ const createPngCloud = backgroundColor => (
 type LogotypeType = {
   color?: string,
   textColor?: string,
-  suffix: ?string
+  suffix: string,
+  href?: string,
 };
 
 const Logotype = ({
   color = '#D92932',
   textColor = '#000',
-  suffix}: LogotypeType) => (
-  <a href="/" tabIndex="-1" className={styles.root}>
+  suffix,
+  href = '/',
+}: LogotypeType) => (
+  <a href={href} tabIndex="-1" className={styles.root}>
     <span style={{color: textColor}}>к</span>
     <span style={{color}}>
       {hasSVGSupport()
@@ -56,6 +59,11 @@ Logotype.propTypes = {
    * Цвет логотипа в rgb, rgba, hex
    */
   color: PropTypes.string,
+
+  /**
+   * Адрес ссылки
+   */
+  href: PropTypes.string,
 
   /**
    * Суффикс сервиса
