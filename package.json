@@ -22,7 +22,7 @@
     "fbjs": "^0.8.6",
     "invariant": "2.2.2",
     "object-assign": "^4.1.0",
-    "react-addons-css-transition-group": "^0.14.7 || ^15.3.2",
+    "react-addons-css-transition-group": ">=0.14.0 <=15.3.2",
     "react-input-mask": "0.7.1",
     "warning": "^3.0.0"
   },
@@ -41,9 +41,9 @@
     "eslint-plugin-react": "6.7.1",
     "flow-bin": "0.36.0",
     "jest-cli": "17.0.3",
-    "react": "^0.14.7",
-    "react-addons-test-utils": "^0.14.7",
-    "react-dom": "^0.14.7"
+    "react": ">=0.14.0 <=15.3.2",
+    "react-addons-test-utils": ">=0.14.0 <=15.3.2",
+    "react-dom": ">=0.14.0 <=15.3.2"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/preprocessor.js",
