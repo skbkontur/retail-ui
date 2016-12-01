@@ -15,7 +15,14 @@ import styles from './Input.less';
 var polyfillPlaceholder = false;
 if (typeof window !== 'undefined' && window.document
     && window.document.createElement) {
-  polyfillPlaceholder = !('placeholder' in document.createElement('input'));
+
+  const sAgent = window.navigator.userAgent;
+
+  if (!('placeholder' in document.createElement('input'))
+      || !!navigator.userAgent.match(/Trident\/7\./)
+      || sAgent.indexOf('MSIE') > 0) {
+    polyfillPlaceholder = true;
+  }
 }
 
 const INPUT_PASS_PROPS = {
