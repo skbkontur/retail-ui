@@ -30,7 +30,7 @@ const INPUT_PASS_PROPS = {
   disabled: true,
   id: true,
   maxLength: true,
-  placeholder: true,
+  placeholder: !polyfillPlaceholder,
   title: true,
 
   onBlur: true,
