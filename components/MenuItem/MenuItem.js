@@ -46,7 +46,8 @@ export default class MenuItem extends React.Component {
     loose?: bool,
     state?: MenuItemState,
     target?: string,
-    onClick?: () => void,
+    onClick?: (event: Event) => void,
+    onMouseDown?: (event: Event) => void,
     children?: any,
   };
 

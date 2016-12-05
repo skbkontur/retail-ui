@@ -8,15 +8,27 @@ const source = text => Promise.resolve([]);
 describe('ComboBoxRenderer', () => {
   function editAndBlur(wrapper, text = 'foo') {
     const valueElement = wrapper.find('[tabIndex]');
-    if (valueElement.length) {
-      valueElement.simulate('click');
-    }
+    valueElement.simulate('click');
+
     wrapper.find('input').
       simulate('change', {target: {value: text}}).
       simulate('keydown', {key: 'Enter'});
   }
 
-  it('does not close if not recovered', () => {
+  it('opens on click', () => {
+    const wrapper = mount(
+      <ComboBoxRenderer
+        value={null}
+        source={source}
+      />
+    );
+    wrapper.find('[tabIndex]').simulate('click');
+    expect(wrapper.state().opened).toBeTruthy();
+    expect(wrapper.state().isEditing).toBeTruthy();
+    expect(wrapper.find('input').length).toBe(1);
+  });
+
+  it('closes if not recovered', () => {
     const onChange = jest.fn();
     const wrapper = mount(
       <ComboBoxRenderer
@@ -31,9 +43,11 @@ describe('ComboBoxRenderer', () => {
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0][1]).toBe(null);
 
-    const input = wrapper.find('Input');
-    expect(input.prop('value')).toBe('foo');
-    expect(input.prop('error')).toBe(true);
+    expect(wrapper.state().isEditing).toBeFalsy();
+
+    const value = wrapper.find('InputLikeText');
+    expect(value.text('value')).toBe('foo');
+    expect(value.prop('error')).toBe(true);
   });
 
   it('closes when value was recovered', () => {
@@ -76,7 +90,7 @@ describe('ComboBoxRenderer', () => {
     expect(onError.mock.calls[1][0]).toBe(null);
   });
 
-  it('resets on escape press', () => {
+  it('close menu on escape press', () => {
     const onChange = jest.fn();
     const wrapper = mount(
       <ComboBoxRenderer value="" source={source} onChange={onChange} />
@@ -87,8 +101,9 @@ describe('ComboBoxRenderer', () => {
       simulate('change', {target: {value: '123'}}).
       simulate('keydown', {key: 'Escape'});
 
+    expect(wrapper.state().opened).toBeFalsy();
     expect(onChange.mock.calls.length).toBe(0);
-    expect(wrapper.find('InputLikeText').length).toBe(1);
+    expect(wrapper.find('Menu').length).toBe(0);
   });
 
   it('selects item by keyboard', async () => {
@@ -113,7 +128,8 @@ describe('ComboBoxRenderer', () => {
     expect(wrapper.find('InputLikeText').length).toBe(1);
   });
 
-  it('does not try to recover if closed by Enter without editing', () => {
+  it.skip('does not try to recover if closed by Enter without editing', () => {
+    // TODO: do we really need this?
     const source = jest.fn(() => Promise.resolve([]));
     const onChange = jest.fn();
     const recover = jest.fn();
@@ -138,7 +154,8 @@ describe('ComboBoxRenderer', () => {
     expect(wrapper.find('InputLikeText').length).toBe(1);
   });
 
-  it('tries to recover if opened by entering a char', () => {
+  /* No longer supporting this */
+  it.skip('tries to recover if opened by entering a char', () => {
     const source = jest.fn(() => Promise.resolve([]));
     const onChange = jest.fn();
     const recover = jest.fn();
@@ -166,5 +183,73 @@ describe('ComboBoxRenderer', () => {
 
     // Ensure ComboBox is still open and error=true.
     expect(wrapper.find('Input').prop('error')).toBe(true);
+  });
+
+  it('calls onOpen when opening', () => {
+    const items = ['foo', 'bar'];
+    const promise = Promise.resolve({values: items});
+    const onOpen = jest.fn();
+    const wrapper = mount(
+      <ComboBoxRenderer value="" source={() => promise} onOpen={onOpen} />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    expect(onOpen.mock.calls.length).toBe(1);
+
+    wrapper.find('input').
+      simulate('keydown', {key: 'Escape'}).
+      simulate('keydown', {key: 'ArrowDown'});
+    expect(onOpen.mock.calls.length).toBe(2);
+  });
+
+  it('calls onClose when closes', () => {
+    const items = ['foo', 'bar'];
+    const promise = Promise.resolve({values: items});
+    const onClose = jest.fn();
+    const wrapper = mount(
+      <ComboBoxRenderer value="" source={() => promise} onClose={onClose} />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    expect(onClose.mock.calls.length).toBe(0);
+
+    wrapper.find('input').
+      simulate('keydown', {key: 'Escape'});
+    expect(onClose.mock.calls.length).toBe(1);
+  });
+
+  it('calls onFocus when focuses', () => {
+    const items = ['foo', 'bar'];
+    const promise = Promise.resolve({values: items});
+    const onFocus = jest.fn();
+    const wrapper = mount(
+      <ComboBoxRenderer value="" source={() => promise} onFocus={onFocus} />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    expect(onFocus.mock.calls.length).toBe(1);
+
+    wrapper.find('input')
+      .simulate('keydown', {key: 'ArrowDown'})
+      .simulate('keydown', {key: 'Enter'});
+
+    expect(onFocus.mock.calls.length).toBe(1);
+  });
+
+  it('calls onBlur when selecting an item with Enter', async () => {
+    const items = ['foo', 'bar'];
+    const promise = Promise.resolve({values: items});
+    const onBlur = jest.fn();
+    const wrapper = mount(
+      <ComboBoxRenderer value="" source={() => promise} onBlur={onBlur} />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    await promise
+    wrapper.find('input')
+      .simulate('keydown', {key: 'ArrowDown'})
+      .simulate('keydown', {key: 'Enter'});
+
+    expect(onBlur.mock.calls.length).toBe(1);
   });
 });

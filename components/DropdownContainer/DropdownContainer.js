@@ -10,6 +10,8 @@ type Props = {
   getParent: () => HTMLElement,
   children?: any,
   disablePortal?: bool,
+  offsetY?: number,
+  offsetX?: number
 };
 
 type State = {
@@ -28,6 +30,8 @@ export default class DropdownContainer extends React.Component {
   static defaultProps = {
     align: 'left',
     disablePortal: false,
+    offsetX: 0,
+    offsetY: -1,
   };
 
   props: Props;
@@ -101,15 +105,15 @@ export default class DropdownContainer extends React.Component {
       let right = null;
       if (this.props.align === 'right') {
         const docWidth = document.documentElement.offsetWidth || 0;
-        right = docWidth - (targetRect.right + scrollX);
+        right = docWidth - (targetRect.right + scrollX) + this.props.offsetX;
       } else {
-        left = targetRect.left + scrollX;
+        left = targetRect.left + scrollX + this.props.offsetX;
       }
 
       const position = {
         // -1 because we need it in ComboBox. Should become configurable
         // eventually.
-        top: targetRect.bottom + scrollY - 1,
+        top: targetRect.bottom + scrollY + this.props.offsetY,
         left,
         right,
         minWidth: targetRect.right - targetRect.left,
