@@ -32,7 +32,7 @@ describe('Menu', () => {
       </Menu>
     );
 
-    wrapper.find('[data-click]').simulate('mousedown');
+    wrapper.find('[data-click]').simulate('click');
 
     expect(onClick.mock.calls.length).toBe(1);
   });
