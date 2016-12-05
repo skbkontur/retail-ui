@@ -12,12 +12,20 @@ describe('ComboBox', () => {
     expect(focusable.ownerDocument.activeElement).toBe(focusable);
   });
 
-  it('fetches items when opened by entering a char', () => {
+  it('handles focus', () => {
+    const wrapper = mount(<ComboBox source={() => null} />);
+    wrapper.instance().focus();
+
+    const focusable = ReactDOM.findDOMNode(wrapper.get(0).renderer._focusable);
+    expect(focusable.ownerDocument.activeElement).toBe(focusable);
+  });
+
+  /* No longer supporting this */
+  it.skip('fetches items when opened by entering a char', async () => {
     const source = jest.fn(() => Promise.resolve({values: []}));
     const wrapper = mount(<ComboBox source={source} />);
 
     expect(source.mock.calls.length).toBe(0);
-
     wrapper.find('[tabIndex]').simulate('keypress', {
       charCode: 'a'.charCodeAt(0),
     });
