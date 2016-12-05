@@ -1,9 +1,8 @@
-@containerHeight: 19px;
-@containerWidth: 34px;
-@handleSize: 15px;
+@import '../variables.less';
 
-@bgColorChecked: #3f9726;
-@bgColorNotChecked: #d0d0d0;
+@containerHeight: 20px;
+@containerWidth: 34px;
+@handleSize: 18px;
 
 :local {
   .container {
@@ -13,17 +12,15 @@
     width: @containerWidth;
     height: @containerHeight;
     box-sizing: border-box;
+    border: 1px solid #d0d0d0;
 
-    transition: all .2s ease-in;
+    transition: border .2s ease-in;
+    transition-delay: .05s;
 
     border-radius: @containerHeight / 2;
-    background: @bgColorNotChecked;
+    background: white;
 
     cursor: pointer;
-
-    &.isChecked {
-      background: @bgColorChecked;
-    }
 
     &.isDisabled {
       cursor: default;
@@ -35,22 +32,88 @@
     }
   }
 
+  .background {
+    position: absolute;
+    right: 100%;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    background: @toggle-bg-checked;
+    transition: right 0.2s ease-in;
+  }
+
+  .isChecked {
+    border: 1px solid @toggle-bg-checked;
+  }
+
+  .isDisabled {
+    background: @bg-disabled;
+    opacity: 0.7;
+  }
+
+  .isChecked.isDisabled {
+    border: 1px solid @toggle-bg-checked-disabled;
+  }
+
   .handle {
     position: absolute;
-    top: 2px;
-    bottom: 2px;
-    left: 2px;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    z-index: 2;
 
     width: @handleSize;
     margin-left:  0;
 
-    transition: all .2s ease-out;
-
-    border-radius: @handleSize / 2;
-    background: white;
+    transition: width 0.2s cubic-bezier(0.4, 0, 1, 1);
 
     :local(.isChecked) & {
-      left: @containerWidth - @handleSize - 2px;
+      width: @containerWidth - 2px;
+    }
+  }
+
+  .bg {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: @handleSize / 2;
+    left: 0;
+    transition: left 0.2s ease-in;
+    transition-delay: 0.05s;
+
+    :local(.isChecked) & {
+      left: -1px;
+    }
+
+    &:after {
+      content: ' ';
+      position: absolute;
+      right: @handleSize / 2 + 1px;
+      top: 0px;
+      width: @containerWidth - @handleSize / 2 - 2px;
+      border-radius: @handleSize / 2 0 0 @handleSize / 2;
+      height: @handleSize; 
+      background: @toggle-bg-checked;
+
+      :local(.isDisabled) & {
+        background: @toggle-bg-checked-disabled;
+      }
+    }
+  }
+
+  .hinge {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: @handleSize / 2;
+    width: @handleSize;
+    background-image: linear-gradient(-180deg, #FFFFFF, #EBEBEB);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, .15), 0 0 0 1px rgba(0, 0, 0, .15);
+
+    :local(.isDisabled) & {
+      background: white;
     }
   }
 }

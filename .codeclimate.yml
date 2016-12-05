@@ -1,0 +1,23 @@
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+  eslint:
+    enabled: true
+    channel: "eslint-3"
+    config:
+      config: ".eslintrc"
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - "components/**.js"
+  - "components/**.jsx"
+  - "lib/**.js"
+  - "scipts/**.js"
+  - "testing/**.js"
+exclude_paths: 
+  - "docs/**/*"
+  - "**/__tests__/**/*"

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
 import Corners from './Corners';
+import Icon from '../Icon';
 import Upgrades from '../../lib/Upgrades';
 
 import '../ensureOldIEClassName';
@@ -23,11 +24,14 @@ const SIZE_CLASSES = {
 
 type Props = {
   _noPadding?: bool,
+  _noRightPadding?: bool,
   active?: bool,
   checked?: bool,
   children?: any,
   corners?: number, // internal
   disabled?: bool,
+  focused?: bool,
+  icon?: string,
   loading?: bool,
   narrow?: bool,
   size: 'small' | 'medium' | 'large',
@@ -53,6 +57,13 @@ class Button extends React.Component {
     checked: PropTypes.bool,
 
     disabled: PropTypes.bool,
+
+    focused: PropTypes.bool,
+
+    /**
+     * Иконка слева от текста кнопки.
+     */
+    icon: PropTypes.string,
 
     loading: PropTypes.bool,
 
@@ -105,7 +116,8 @@ class Button extends React.Component {
         [styles.disabled]: this.props.disabled || this.props.loading,
         [styles.narrow]: this.props.narrow,
         [styles.noPadding]: this.props._noPadding,
-
+        [styles.noRightPadding]: this.props._noRightPadding,
+        [styles.buttonWithIcon]: !!this.props.icon,
         ...this._getSizeClassMap(),
       }),
       style: {
@@ -139,11 +151,21 @@ class Button extends React.Component {
       loading = <div className={styles.loading} />;
     }
 
+    let icon = null;
+    if (this.props.icon) {
+      icon = (
+        <span className={styles.icon}>
+          <Icon name={this.props.icon} />
+        </span>
+      );
+    }
+
     return (
       <span className={styles.wrap} style={wrapStyle}>
         <button {...rootProps}>
           {loading}
           <div className={styles.caption}>
+            {icon}
             {this.props.children}
           </div>
           {error}

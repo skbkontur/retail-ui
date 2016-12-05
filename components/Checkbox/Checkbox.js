@@ -55,14 +55,22 @@ class Checkbox extends React.Component {
       [styles.warning]: this.props.warning,
     });
 
+    const inputProps: Object = {
+      type: 'checkbox',
+      className: styles.input,
+      checked: this.props.checked,
+      disabled: this.props.disabled,
+      onChange: this.handleChange,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
+    };
+    if (this.props.tabIndex) {
+      inputProps.tabIndex = this.props.tabIndex;
+    }
+
     return (
       <label className={rootClass} onMouseDown={this.handleActivate}>
-        <input type="checkbox" className={styles.input}
-          checked={this.props.checked}
-          disabled={this.props.disabled}
-          onChange={this.handleChange} onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-        />
+        <input {...inputProps} />
         <span className={styles.box}>
           <div className={styles.ok}><Icon name="ok" /></div>
         </span>

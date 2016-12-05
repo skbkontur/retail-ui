@@ -2,6 +2,7 @@
 
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
+import Icon from '../Icon';
 
 import styles from './MenuItem.less';
 
@@ -16,11 +17,13 @@ export default class MenuItem extends React.Component {
   static propTypes = {
     alkoLink: PropTypes.bool,
 
-    comment: PropTypes.string,
+    comment: PropTypes.node,
 
     disabled: PropTypes.bool,
 
     href: PropTypes.string,
+
+    icon: PropTypes.string,
 
     /** internal */
     loose: PropTypes.bool,
@@ -34,10 +37,12 @@ export default class MenuItem extends React.Component {
   }
 
   props: {
+    _enableIconPadding?: bool,
     alkoLink?: bool,
     comment?: string,
     disabled?: bool,
     href?: string,
+    icon?: string,
     loose?: bool,
     state?: MenuItemState,
     target?: string,
@@ -51,6 +56,7 @@ export default class MenuItem extends React.Component {
       alkoLink,
       comment,
       disabled,
+      icon,
       loose,
       state,
 
@@ -58,7 +64,18 @@ export default class MenuItem extends React.Component {
 
       ...rest
     } = this.props;
+    let {
+      _enableIconPadding,
+      children,
+    } = this.props;
     const hover = state === 'hover' && !disabled;
+    let $icon = null;
+    if (icon){
+      _enableIconPadding = true;
+      $icon = <div className={styles.icon}>
+        <Icon name={icon} />
+      </div>;
+    }
     const className = classNames({
       [styles.root]: true,
       [styles.disabled]: disabled,
@@ -66,9 +83,8 @@ export default class MenuItem extends React.Component {
       [styles.loose]: loose,
       [styles.selected]: state === 'selected',
       [styles.link]: alkoLink,
+      [styles.withIcon]: _enableIconPadding,
     });
-
-    let {children} = this.props;
     if (typeof children === 'function') {
       children = children(this.props.state);
     }
@@ -80,6 +96,7 @@ export default class MenuItem extends React.Component {
         tabIndex="-1"
         onMouseDown={disabled ? null : onClick}
       >
+        {$icon}
         {children}
         {this.props.comment && (
           <div
