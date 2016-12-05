@@ -94,7 +94,7 @@ export default class MenuItem extends React.Component {
         {...rest}
         className={className}
         tabIndex="-1"
-        onMouseDown={disabled ? null : onClick}
+        onClick={disabled ? null : onClick}
       >
         {$icon}
         {children}

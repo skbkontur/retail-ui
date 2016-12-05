@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 
 import filterProps from '../filterProps';
 import listenFocusOutside from '../../lib/listenFocusOutside';
+import events from 'add-event-listener';
 
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import Input from '../Input';
@@ -117,6 +118,7 @@ class ComboBoxRenderer extends React.Component {
   _focusSubscribtion: ?{remove: () => void} = null;
   _lastError: ErrorKind = null;
   _ignoreRecover = false;
+  _ignoreBlur = true;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -162,7 +164,6 @@ class ComboBoxRenderer extends React.Component {
           disabled={this.props.disabled}
           onChange={this._handleInputChange}
           onKeyDown={this._handleInputKey}
-          onBlur={this._handleBlur}
         />
       </div>
     );
@@ -280,10 +281,34 @@ class ComboBoxRenderer extends React.Component {
     if (this.props.autoFocus) {
       this._focus();
     }
+
+    /* Needs to handle clicks in menu */
+    events.addEventListener(document, 'click', this._blurIfNeeded);
+  }
+
+  _blurIfNeeded = (event) => {
+    const domNodes = this.getDomNodes();
+    if (domNodes.some(node => node.contains(event.target))) {
+      return;
+    }
+
+    this._handleBlur();
+  }
+
+  /**
+   * returns dom nodes of input and menu
+   */
+  getDomNodes = () => {
+    const ret = [ReactDOM.findDOMNode(this)];
+    if (this._menu) {
+      ret.push(ReactDOM.findDOMNode(this._menu));
+    }
+    return ret;
   }
 
   componentWillUnmount() {
     this._mounted = false;
+    events.removeEventListener(document, 'click', this._blurIfNeeded);
   }
 
   _refFocusable = (el: ?HTMLInputElement) => {
@@ -298,16 +323,8 @@ class ComboBoxRenderer extends React.Component {
 
     if (menuHolder) {
       this._focusSubscribtion = listenFocusOutside(
-        () => {
-          const ret = [ReactDOM.findDOMNode(this)];
-          if (this._menu) {
-            ret.push(ReactDOM.findDOMNode(this._menu));
-          }
-          return ret;
-        },
-        () => {
-          this._tryRecover();
-        }
+        this.getDomNodes,
+        this._handleBlur
       );
     }
   };
@@ -387,7 +404,6 @@ class ComboBoxRenderer extends React.Component {
     this._change(options.value, options.info);
 
     safelyCall(options.onClick);
-
     this._handleBlur();
   }
 
@@ -402,20 +418,32 @@ class ComboBoxRenderer extends React.Component {
   };
 
   _handleFocus = () => {
+    /* Allow blur happen only if focus occured */
+    this._ignoreBlur = false;
+
     this.setState({isEditing: true, opened: true});
     safelyCall(this.props.onOpen);
+
     if (!safelyCall(this.props.onFocus)) {
       safelyCall(this.props.onAlkoFocus);
     }
   };
 
   _handleBlur = () => {
+    if (this._ignoreBlur) {
+      return;
+    }
+
     this.setState({isEditing: false, opened: false});
     safelyCall(this.props.onClose);
     this._tryRecover();
+
     if (!safelyCall(this.props.onBlur)) {
       safelyCall(this.props.onAlkoBlur);
     }
+
+    /* Blur should occure only once */
+    this._ignoreBlur = true;
   };
 
   _fetchList(pattern: string) {
