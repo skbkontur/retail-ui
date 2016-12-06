@@ -11,6 +11,7 @@ import Logotype from '../Logotype';
 import MenuItem from '../MenuItem';
 import stopPropagation from '../../lib/events/stopPropagation';
 
+import '../ensureOldIEClassName';
 import styles from './TopBar.less';
 
 class Item extends React.Component {
