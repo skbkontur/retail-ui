@@ -371,20 +371,14 @@ class ComboBoxRenderer extends React.Component {
           this._tryRecover();
 
           // Close ComboBox only if Enter wasn't handled by the Menu.
-          this.setState(
-            {opened: false, isEditing: false},
-            () => { safelyCall(this.props.onClose); }
-          );
+          this._close(true);
         }
         break;
       case 'Escape':
         if (!this.state.opened) {
           return;
         }
-        this.setState(
-          {opened: false},
-          () => { safelyCall(this.props.onClose); }
-        );
+        this._close();
         break;
     }
   };
@@ -434,8 +428,7 @@ class ComboBoxRenderer extends React.Component {
       return;
     }
 
-    this.setState({isEditing: false, opened: false});
-    safelyCall(this.props.onClose);
+    this._close(true);
     this._tryRecover();
 
     if (!safelyCall(this.props.onBlur)) {
@@ -445,6 +438,11 @@ class ComboBoxRenderer extends React.Component {
     /* Blur should occure only once */
     this._ignoreBlur = true;
   };
+
+  _close = (endEdit?: bool) => {
+    this.setState({isEditing: !endEdit, opened: false});
+    safelyCall(this.props.onClose);
+  }
 
   _fetchList(pattern: string) {
     this.props.source(pattern).then((result) => {

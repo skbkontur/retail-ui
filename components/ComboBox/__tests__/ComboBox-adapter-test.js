@@ -41,6 +41,22 @@ describe('ComboBox-adapter', () => {
     expect(onChange.mock.calls[0][1]).toBe('foo');
   });
 
+  testAdapter('setValue calls onClose', mount => {
+    const onClose = jest.fn();
+    const source = jest.fn(() => Promise.resolve(['bar']));
+    const adapter = mount(<ComboBox onClose={onClose} source={source} />);
+
+    const isOpened = () => !adapter.wrapper.find('input').isEmpty();
+
+    adapter.search('whoop');
+    expect(isOpened()).toBe(true);
+
+    adapter.setValue('foo');
+    expect(isOpened()).toBe(false);
+
+    expect(onClose.mock.calls.length).toBe(1);
+  });
+
   testAdapter('getInfo', mount => {
     const adapter = mount(<ComboBox value="foo" info="info" source={noop} />);
 
