@@ -12,7 +12,7 @@ import Upgrades from '../../lib/Upgrades';
 import '../ensureOldIEClassName';
 import styles from './Input.less';
 
-var polyfillPlaceholder = false;
+let polyfillPlaceholder = false;
 if (typeof window !== 'undefined' && window.document
     && window.document.createElement) {
 
@@ -218,6 +218,7 @@ export default class Input extends React.Component {
     }
 
     var placeholder = null;
+
     if (this.state.polyfillPlaceholder && this.props.placeholder
         && !this.props.mask && !this.props.value) {
       placeholder = (
@@ -337,6 +338,13 @@ export default class Input extends React.Component {
   }
 
   _handleChange(event) {
+    if (polyfillPlaceholder) {
+      const fieldIsEmpty = event.target.value === '';
+      if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
+        this.setState({polyfillPlaceholder: fieldIsEmpty});
+      }
+    }
+
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
