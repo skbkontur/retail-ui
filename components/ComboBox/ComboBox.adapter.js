@@ -13,7 +13,7 @@ const ComboBoxAdapter = {
   setValue({renderer}, value) {
     renderer._handleInputChange({target: {value: ''}});
     renderer._change(value);
-    renderer.setState({isEditing: false, opened: false});
+    renderer._close(true);
   },
 
   getInfo({renderer}) {
