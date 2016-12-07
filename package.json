@@ -14,6 +14,7 @@
     "typecheck": "flow",
     "lint": "eslint ."
   },
+  "license": "MIT",
   "dependencies": {
     "add-event-listener": "0.0.1",
     "classnames": "^2.2.5",
