@@ -46,8 +46,7 @@ describe('ComboBoxRenderer', () => {
     expect(wrapper.state().isEditing).toBeFalsy();
 
     const value = wrapper.find('InputLikeText');
-    expect(value.text('value')).toBe('foo');
-    expect(value.prop('error')).toBe(true);
+    expect(value.text('value')).toBe('');
   });
 
   it('closes when value was recovered', () => {
@@ -74,7 +73,7 @@ describe('ComboBoxRenderer', () => {
       <ComboBoxRenderer
         value={null}
         source={source}
-        recover={text => (text === 'bar' ? {value: 'bar'} : null)}
+        recover={text => (text === 'bar') ? {value: 'bar'} : null}
         onError={onError}
       />
     );

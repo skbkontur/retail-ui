@@ -82,13 +82,13 @@ type Props = BaseProps & {
   info: Info,
 };
 
-type State = {
+type State = {|
   opened: bool,
   searchText: string,
   isEditing: bool,
-  changed: bool, // If user typed anything after opening.
   result: ?SourceResult,
-};
+  selected: number,
+|};
 
 class ComboBoxRenderer extends React.Component {
   static Item = class Item extends React.Component {
@@ -117,7 +117,8 @@ class ComboBoxRenderer extends React.Component {
   _menu: ?Menu = null;
   _focusSubscribtion: ?{remove: () => void} = null;
   _lastError: ErrorKind = null;
-  _ignoreRecover = false;
+  _error: ErrorKind = null;
+  _ignoreRecover = true;
   _ignoreBlur = true;
 
   constructor(props: Props, context: mixed) {
@@ -126,7 +127,6 @@ class ComboBoxRenderer extends React.Component {
     this.state = {
       opened: false,
       searchText: '',
-      changed: false,
       result: null,
       isEditing: false,
       selected: -1,
@@ -178,7 +178,7 @@ class ComboBoxRenderer extends React.Component {
           {this.props.placeholder}
         </span>;
 
-    const isNotRecovered = !!this.state.searchText;
+    const isNotRecovered = !!this._error;
 
     return (
       <InputLikeText ref={this._refFocusable} {...inputProps}
@@ -340,6 +340,7 @@ class ComboBoxRenderer extends React.Component {
       opened: true,
     });
     this._fetchList(pattern);
+    this._ignoreRecover = false;
   };
 
   _handleInputKey = (event: SyntheticKeyboardEvent) => {
@@ -371,7 +372,7 @@ class ComboBoxRenderer extends React.Component {
           this._tryRecover();
 
           // Close ComboBox only if Enter wasn't handled by the Menu.
-          this._close(true);
+          this._handleBlur();
         }
         break;
       case 'Escape':
@@ -394,7 +395,6 @@ class ComboBoxRenderer extends React.Component {
     options: {value?: Value, info?: Info, onClick?: () => void}
   ) {
     this.setState({searchText: '', opened: false, isEditing: false});
-    this._ignoreRecover = true;
     this._change(options.value, options.info);
 
     safelyCall(options.onClick);
@@ -465,7 +465,13 @@ class ComboBoxRenderer extends React.Component {
 
   _tryRecover() {
     if (this._ignoreRecover) {
-      this._ignoreRecover = false;
+      return;
+    }
+    this._ignoreRecover = true;
+
+    if (!this.props.recover) {
+      this._change(null);
+      this.setState({searchText: ''});
       return;
     }
 
@@ -479,9 +485,7 @@ class ComboBoxRenderer extends React.Component {
     }
 
     if (recovered) {
-      this.setState({searchText: ''});
       this._change(recovered.value, recovered.info);
-      this._setError(null);
     } else {
       this._change(null);
       this._setError(this.state.searchText ? 'not_recovered' : null);
@@ -489,14 +493,19 @@ class ComboBoxRenderer extends React.Component {
   }
 
   _setError(error: ErrorKind) {
-    if (this._lastError !== error && this.props.onError) {
+    this._error = error;
+    if (this._lastError !== error) {
       this._lastError = error;
-      this.props.onError(error);
+      safelyCall(this.props.onError, error);
     }
   }
 
   _change(value: Value, info?: Info) {
     safelyCall(this.props.onChange, {target: {value}}, value, info);
+    this._setError(null);
+
+    /* No need in recovers after value changes */
+    this._ignoreRecover = true;
   }
 
   _setCurrentSearchText(value: Value, info: ?Info) {
