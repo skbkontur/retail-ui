@@ -458,8 +458,8 @@ class ComboBoxRenderer extends React.Component {
   }
 
   _focus = () => {
-    if (this._focusable) {
-      this._focusable.focus();
+    if (this._focusable && this._focusable.setSelectionRange) {
+      this._focusable.setSelectionRange(0, this.state.searchText.length);
     }
   };
 
@@ -517,12 +517,10 @@ class ComboBoxRenderer extends React.Component {
         ? valueToString(value, info)
         : this.state.searchText;
 
-      this.setState({searchText}, () => {
-        if (this._focusable && this._focusable.setSelectionRange) {
-          this._focusable.setSelectionRange(0, searchText.length);
-        }
-      });
+      return this.setState({searchText}, this._focus);
     }
+
+    return this.setState({searchText: ''}, this._focus);
   }
 }
 
