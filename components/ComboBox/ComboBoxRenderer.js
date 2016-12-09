@@ -82,13 +82,13 @@ type Props = BaseProps & {
   info: Info,
 };
 
-type State = {|
+type State = {
   opened: bool,
   searchText: string,
   isEditing: bool,
   result: ?SourceResult,
   selected: number,
-|};
+};
 
 class ComboBoxRenderer extends React.Component {
   static Item = class Item extends React.Component {
