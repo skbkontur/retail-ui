@@ -88,6 +88,7 @@ type State = {
   isEditing: bool,
   changed: bool, // If user typed anything after opening.
   result: ?SourceResult,
+  selected: number,
 };
 
 class ComboBoxRenderer extends React.Component {
