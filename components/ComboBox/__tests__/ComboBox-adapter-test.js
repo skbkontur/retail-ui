@@ -96,4 +96,23 @@ describe('ComboBox-adapter', () => {
     const result = adapter.getResult();
     expect(result).toEqual([1, null, 3]);
   });
+
+  testAdapter('get null result of closed', async mount => {
+    const values = [
+      1,
+      <span>2</span>,
+      <MenuItem value={3}>3</MenuItem>,
+    ];
+    const source = jest.fn(() => Promise.resolve({values}));
+    const adapter = mount(<ComboBox source={source} />);
+
+    adapter.search('test');
+
+    await (source.mock.instances: any)[1];
+
+    adapter.setValue(2);
+
+    const result = adapter.getResult();
+    expect(result).toEqual(null);
+  });
 });
