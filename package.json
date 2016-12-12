@@ -10,7 +10,7 @@
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "typecheck": "flow",
     "lint": "eslint ."
   },
