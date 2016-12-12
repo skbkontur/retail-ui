@@ -24,7 +24,6 @@
     "invariant": "2.2.2",
     "object-assign": "^4.1.0",
     "react-input-mask": "0.7.1",
-    "react-addons-css-transition-group": "^0.14.8",
     "warning": "^3.0.0"
   },
   "devDependencies": {
