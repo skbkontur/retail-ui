@@ -5,7 +5,7 @@
     "test": "jest",
     "start": "webpack-dev-server -w -d --host 0.0.0.0",
     "build": "webpack -p --progress --colors",
-    "storybook": "start-storybook -p 6060",
+    "storybook": "start-storybook -p 3000",
     "build-storybook": "build-storybook"
   },
   "devDependencies": {
