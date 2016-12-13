@@ -6,7 +6,7 @@ before_script:
 - npm update
 - sudo apt-get update -qq 
 - sudo apt-get install -qq -y graphicsmagick
-- sudo apt-get -qq install g++-4.9
+- sudo apt-get install build-essential
 - npm install -g gemini
 - cd docs
 - npm i
