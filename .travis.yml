@@ -3,7 +3,9 @@ node_js:
 - '6'
 cache: yarn
 before_script:
+- cd docs
 - npm run storybook &
+- cd ..
 before_deploy:
 - nvm install stable
 - npm prune
