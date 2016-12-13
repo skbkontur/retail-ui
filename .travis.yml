@@ -4,6 +4,7 @@ node_js:
 cache: yarn
 before_script:
 - cd docs
+- npm i
 - npm run storybook &
 - cd ..
 before_deploy:
