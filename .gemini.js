@@ -1,5 +1,5 @@
 module.exports = {
-    rootUrl: 'http://localhost:6006/',
+    rootUrl: 'http://storybook:3000/',
 	gridUrl: 'http://ondemand.saucelabs.com/wd/hub',
     browsers: {
         chrome: {
