@@ -17,8 +17,8 @@ class Loader extends React.Component {
   }
 
   render() {
-    const {active, type, caption} = this.props;
-    const loaderClassName = classnames(styles.loader, {
+    const {active, type, caption, className} = this.props;
+    const loaderClassName = classnames(styles.loader, className, {
       [styles.active]: active,
     });
 
@@ -53,6 +53,11 @@ Loader.propTypes = {
    * Spinner.types - все доступные типы
    */
   type: PropTypes.oneOf(Object.keys(Spinner.Types)),
+
+  /**
+   * Класс для обертки
+   */
+  className: PropTypes.string,
 };
 
 Loader.defaultProps = {
