@@ -440,7 +440,7 @@ class ComboBoxRenderer extends React.Component {
   };
 
   _close = (endEdit?: bool) => {
-    this.setState({isEditing: !endEdit, opened: false});
+    this.setState({isEditing: !endEdit, opened: false, result: null});
     safelyCall(this.props.onClose);
   }
 
@@ -460,6 +460,8 @@ class ComboBoxRenderer extends React.Component {
   _focus = () => {
     if (this._focusable && this._focusable.setSelectionRange) {
       this._focusable.setSelectionRange(0, this.state.searchText.length);
+    } else if (this._focusable) {
+      this._focusable.focus();
     }
   };
 
