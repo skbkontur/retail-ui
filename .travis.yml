@@ -3,9 +3,11 @@ node_js:
 - '6'
 cache: yarn
 before_script:
-- npm install -g gemini
+- npm update
 - sudo apt-get update -qq 
 - sudo apt-get install -qq -y graphicsmagick
+- sudo apt-get -qq install g++-4.9
+- npm install -g gemini
 - cd docs
 - npm i
 - npm run storybook &
