@@ -21,6 +21,7 @@ before_script:
 - cd docs
 - npm i
 - npm run storybook &
+- sleep 2
 - cd ..
 before_deploy:
 - nvm install stable
