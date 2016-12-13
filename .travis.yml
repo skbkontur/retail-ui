@@ -10,6 +10,10 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
+  sauce_connect:
+    username: "vkochev"
+  jwt:
+    secure: "yUIuwH/ds4dFEr+89e0rnn/fQC1psPCV7sHeQjCRfcn4MXTbduEYN0xjwgQ2/E2nz5v9nZs4twKuPKDoLMuyLalT5b+wLfguNSMj14B9WtxUZiD+7oIW1FBFuZcPteVb/JhMvhujoRK+3E5qNv3ZZo5peUd8W/kvxdckxdYaR3AbfFRlVOBjuXvkk2BJ/jP0WsqSSWwRW8OSgXST4lekKd2JYhqCg6nx5pGW74V9TA6Uknx5aKuptmcycwUy8EHuiNgFWF6lVUPVkFTkaB2kTb2ObZnDy3XlJGxYU4lZGFj+4HHxwuz7f0q5DwEpv0IfdMXICxuixN7lrqcx+YeHKvwDnwoBKuIs0urhyrJFo/aJz2YFxbhJXKcxHLyFnPV6zWuLVwRXaOK5rpmdWNBxuEZIpY+JtAm3zYQufzN9lN90dUpIfCHtctb88MzF4CltYk5m776np3jua88GiFmw26K+Aq8CFh9YzxTpHoXbPVjZ9vzWEv2MuOvjuno9RaYckVKJSCSsAYCNe6lVWulZxknwc+2aEsbbpCQe43XzCbmi2kB2mdW82EE/F3lzEreE0dPELGLHD8QLCiLYPfFCbbcUixDb7SPiWWo28mMeH7dy31LWjEsRrRglaaJ6Ew0RIRfusUrKAOo2g7NHppWhNKuVRWQgSlusFD0WHT5ax9o="
 before_script:
 - sudo apt-get update -qq 
 - sudo apt-get install -qq -y graphicsmagick
