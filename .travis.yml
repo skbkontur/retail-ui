@@ -2,11 +2,17 @@ language: node_js
 node_js:
 - '6'
 cache: yarn
+sudo: required
+dist: trusty
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
 before_script:
-- npm update
 - sudo apt-get update -qq 
 - sudo apt-get install -qq -y graphicsmagick
-- sudo apt-get install build-essential
 - npm install -g gemini
 - cd docs
 - npm i
