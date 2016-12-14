@@ -5,7 +5,18 @@ module.exports = {
             desiredCapabilities: {
                 browserName: 'chrome'
             }
-        }
+        },
+		firefox: {
+            desiredCapabilities: {
+                browserName: 'firefox'
+            }
+		},		
+		ie11: {
+            desiredCapabilities: {
+                browserName: 'internet explorer',
+				version: '11'
+            }
+		}
     },
 	system: {
 		plugins: {
