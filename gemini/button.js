@@ -2,7 +2,7 @@
 
 gemini.suite('button', (suite) => {
   suite.setUrl('/iframe.html?selectedKind=Button&selectedStory=playground')
-    .setCaptureElements('#root')
+    .setCaptureElements('#test-element')
     .capture('idle')
     .capture('pressed', (actions, find) => {
       actions.mouseDown(find('button'));
