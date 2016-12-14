@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "0.5.3",
+  "version": "0.5.5",
   "description": "UI Components",
   "repository": {
     "type": "git",
@@ -24,7 +24,6 @@
     "invariant": "2.2.2",
     "object-assign": "^4.1.0",
     "react-input-mask": "0.7.1",
-    "react-addons-css-transition-group": "^0.14.8",
     "warning": "^3.0.0"
   },
   "devDependencies": {
@@ -43,6 +42,7 @@
     "flow-bin": "0.36.0",
     "jest-cli": "^17.0.3",
     "react": "^0.14.8",
+    "react-addons-css-transition-group": "^0.14.8",
     "react-addons-test-utils": "^0.14.8",
     "react-dom": "^0.14.8"
   },
