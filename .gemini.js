@@ -1,11 +1,15 @@
 module.exports = {
-    rootUrl: 'http://storybook:6060/',
-	gridUrl: 'http://ondemand.saucelabs.com/wd/hub',
+    rootUrl: 'http://localhost:6060/',
     browsers: {
         chrome: {
             desiredCapabilities: {
                 browserName: 'chrome'
             }
         }
-    }
+    },
+	system: {
+		plugins: {
+			sauce: true
+		}
+	}
 };
