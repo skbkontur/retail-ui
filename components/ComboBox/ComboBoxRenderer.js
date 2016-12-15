@@ -120,6 +120,7 @@ class ComboBoxRenderer extends React.Component {
   _error: ErrorKind = null;
   _ignoreRecover = true;
   _ignoreBlur = true;
+  _fetchingId = 0;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -301,7 +302,14 @@ class ComboBoxRenderer extends React.Component {
   getDomNodes = () => {
     const ret = [ReactDOM.findDOMNode(this)];
     if (this._menu) {
-      ret.push(ReactDOM.findDOMNode(this._menu));
+      // flow needs this for some reasons
+      const menu = this._menu;
+
+      // will be null if menu is empty
+      const menuNode = ReactDOM.findDOMNode(menu);
+      if (menuNode) {
+        ret.push(ReactDOM.findDOMNode(menu));
+      }
     }
     return ret;
   }
@@ -376,6 +384,7 @@ class ComboBoxRenderer extends React.Component {
         }
         break;
       case 'Escape':
+        event.preventDefault();
         if (!this.state.opened) {
           return;
         }
@@ -445,12 +454,13 @@ class ComboBoxRenderer extends React.Component {
   }
 
   _fetchList(pattern: string) {
+    const expectingId = ++this._fetchingId;
     this.props.source(pattern).then((result) => {
       if (!this._mounted) {
         return;
       }
 
-      if (this.state.searchText === pattern || !pattern) {
+      if (expectingId === this._fetchingId) {
         this._menu && this._menu.reset();
         this.setState({result});
       }

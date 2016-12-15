@@ -176,7 +176,7 @@ export default function(
   return {
     boxStyle: {
       position: fixed ? 'fixed' : 'absolute',
-      width: isNaN(tmpWidth) ? "auto" : tmpWidth,
+      width: isNaN(tmpWidth) ? 'auto' : tmpWidth,
       top,
       left,
     },

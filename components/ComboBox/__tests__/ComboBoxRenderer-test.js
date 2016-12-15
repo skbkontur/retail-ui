@@ -228,9 +228,9 @@ describe('ComboBoxRenderer', () => {
     wrapper.find('[tabIndex]').simulate('click');
     expect(onFocus.mock.calls.length).toBe(1);
 
-    wrapper.find('input')
-      .simulate('keydown', {key: 'ArrowDown'})
-      .simulate('keydown', {key: 'Enter'});
+    wrapper.find('input').
+      simulate('keydown', {key: 'ArrowDown'}).
+      simulate('keydown', {key: 'Enter'});
 
     expect(onFocus.mock.calls.length).toBe(1);
   });
@@ -244,10 +244,10 @@ describe('ComboBoxRenderer', () => {
     );
 
     wrapper.find('[tabIndex]').simulate('click');
-    await promise
-    wrapper.find('input')
-      .simulate('keydown', {key: 'ArrowDown'})
-      .simulate('keydown', {key: 'Enter'});
+    await promise;
+    wrapper.find('input').
+      simulate('keydown', {key: 'ArrowDown'}).
+      simulate('keydown', {key: 'Enter'});
 
     expect(onBlur.mock.calls.length).toBe(1);
   });

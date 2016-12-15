@@ -46,6 +46,11 @@ Loader.propTypes = {
   caption: PropTypes.string,
 
   /**
+   * Класс для обертки
+   */
+  className: PropTypes.string,
+
+  /**
    * Тип спиннера: mini, normal, big
    *
    * Значение по-умолчанию - normal
@@ -53,11 +58,6 @@ Loader.propTypes = {
    * Spinner.types - все доступные типы
    */
   type: PropTypes.oneOf(Object.keys(Spinner.Types)),
-
-  /**
-   * Класс для обертки
-   */
-  className: PropTypes.string,
 };
 
 Loader.defaultProps = {
