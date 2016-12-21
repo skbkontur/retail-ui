@@ -460,7 +460,7 @@ class ComboBoxRenderer extends React.Component {
         return;
       }
 
-      if (expectingId === this._fetchingId) {
+      if (expectingId === this._fetchingId && this.state.opened) {
         this._menu && this._menu.reset();
         this.setState({result});
       }
