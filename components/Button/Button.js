@@ -40,6 +40,7 @@ type Props = {
   width?: number | string,
   onClick?: (e: SyntheticMouseEvent) => void,
   onKeyDown?: (e: SyntheticKeyboardEvent) => void,
+  arrow?: bool,
 };
 
 class Button extends React.Component {
@@ -88,6 +89,11 @@ class Button extends React.Component {
      * Click handler.
      */
     onClick: PropTypes.func,
+
+    /**
+     * Кнопка со стрелкой.
+     */
+    arrow: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -118,6 +124,7 @@ class Button extends React.Component {
         [styles.noPadding]: this.props._noPadding,
         [styles.noRightPadding]: this.props._noRightPadding,
         [styles.buttonWithIcon]: !!this.props.icon,
+        [styles.arrowButton]: this.props.arrow,
         ...this._getSizeClassMap(),
       }),
       style: {
@@ -137,6 +144,10 @@ class Button extends React.Component {
     const wrapStyle = {};
     if (this.props.width) {
       wrapStyle.width = this.props.width;
+    }
+
+    if (this.props.arrow) {
+      wrapStyle.marginRight = '10px'
     }
 
     let error = null;
