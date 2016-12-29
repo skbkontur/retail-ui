@@ -27,11 +27,6 @@ const getKnobs = () => ({
 
 storiesOf('Button', module).
   addDecorator(withKnobs).
-  addDecorator((story) => (
-	<div id="test-element" style={{display: 'inline-block', padding: 4}}>
-    {story()}
-	</div>
-  )).
   add('playground', () => {
     const {icon, children, ...rest} = getKnobs();
     return <Button {...rest}>

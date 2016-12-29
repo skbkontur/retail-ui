@@ -10,7 +10,7 @@
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "scripts": {
-    "test": "gemini test --reporter vflat && jest --coverage",
+    "test": "jest --no-cache && gemini test --reporter vflat",
     "typecheck": "flow",
     "lint": "eslint .",
     "test-unit": "jest"
@@ -21,14 +21,16 @@
     "classnames": "^2.2.5",
     "exenv": "^1.2.1",
     "fbemitter": "^2.0.2",
-    "fbjs": "^0.8.6",
+    "fbjs": "^0.8.8",
+    "gemini": "4.14.3",
+    "gemini-sauce": "1.0.0",
     "invariant": "2.2.2",
     "object-assign": "^4.1.0",
     "react-input-mask": "^0.7.5",
     "warning": "^3.0.0"
   },
   "devDependencies": {
-    "babel-core": "^6.20.0",
+    "babel-core": "^6.21.0",
     "babel-eslint": "7.1.1",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-polyfill": "^6.20.0",
@@ -37,11 +39,11 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.26.1",
-    "enzyme": "^2.6.0",
+    "enzyme": "^2.7.0",
     "eslint": "^3.12.2",
     "eslint-plugin-react": "^6.8.0",
-    "flow-bin": "^0.37.0",
-    "jest-cli": "^18.0.0",
+    "flow-bin": "^0.37.4",
+    "jest-cli": "^18.1.0",
     "react": "^0.14.8",
     "react-addons-css-transition-group": "^0.14.8",
     "react-addons-test-utils": "^0.14.8",
