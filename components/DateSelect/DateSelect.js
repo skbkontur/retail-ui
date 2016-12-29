@@ -6,7 +6,7 @@ import React, {PropTypes} from 'react';
 import styles from './DateSelect.less';
 
 const MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
-    'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+  'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 
 const HEIGHT = 30;
 

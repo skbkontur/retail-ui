@@ -10,7 +10,6 @@
 
   .inner {
     background: @tooltip-bg;
-    border: 1px solid @tooltip-border;
     border-radius: @tooltip-border-raduis;
     box-shadow: @tooltip-box-shadow;
     padding: 15px 20px;
@@ -21,10 +20,14 @@
     cursor: pointer;
     height: 24px;
     position: absolute;
-    right: 3px;
     text-align: center;
     top: 3px;
     width: 24px;
+    right: 0;
+    padding: 8px;
+    height: 11px;
+    white-space: nowrap;
+    line-height: 0.8;
   }
 
   .cross:hover {

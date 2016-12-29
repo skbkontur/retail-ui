@@ -86,8 +86,8 @@ type State = {
   opened: bool,
   searchText: string,
   isEditing: bool,
-  changed: bool, // If user typed anything after opening.
   result: ?SourceResult,
+  selected: number,
 };
 
 class ComboBoxRenderer extends React.Component {
@@ -117,8 +117,10 @@ class ComboBoxRenderer extends React.Component {
   _menu: ?Menu = null;
   _focusSubscribtion: ?{remove: () => void} = null;
   _lastError: ErrorKind = null;
-  _ignoreRecover = false;
+  _error: ErrorKind = null;
+  _ignoreRecover = true;
   _ignoreBlur = true;
+  _fetchingId = 0;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -126,7 +128,6 @@ class ComboBoxRenderer extends React.Component {
     this.state = {
       opened: false,
       searchText: '',
-      changed: false,
       result: null,
       isEditing: false,
       selected: -1,
@@ -178,7 +179,7 @@ class ComboBoxRenderer extends React.Component {
           {this.props.placeholder}
         </span>;
 
-    const isNotRecovered = !!this.state.searchText;
+    const isNotRecovered = !!this._error;
 
     return (
       <InputLikeText ref={this._refFocusable} {...inputProps}
@@ -301,7 +302,14 @@ class ComboBoxRenderer extends React.Component {
   getDomNodes = () => {
     const ret = [ReactDOM.findDOMNode(this)];
     if (this._menu) {
-      ret.push(ReactDOM.findDOMNode(this._menu));
+      // flow needs this for some reasons
+      const menu = this._menu;
+
+      // will be null if menu is empty
+      const menuNode = ReactDOM.findDOMNode(menu);
+      if (menuNode) {
+        ret.push(ReactDOM.findDOMNode(menu));
+      }
     }
     return ret;
   }
@@ -340,6 +348,7 @@ class ComboBoxRenderer extends React.Component {
       opened: true,
     });
     this._fetchList(pattern);
+    this._ignoreRecover = false;
   };
 
   _handleInputKey = (event: SyntheticKeyboardEvent) => {
@@ -371,20 +380,15 @@ class ComboBoxRenderer extends React.Component {
           this._tryRecover();
 
           // Close ComboBox only if Enter wasn't handled by the Menu.
-          this.setState(
-            {opened: false, isEditing: false},
-            () => { safelyCall(this.props.onClose); }
-          );
+          this._handleBlur();
         }
         break;
       case 'Escape':
+        event.preventDefault();
         if (!this.state.opened) {
           return;
         }
-        this.setState(
-          {opened: false},
-          () => { safelyCall(this.props.onClose); }
-        );
+        this._close();
         break;
     }
   };
@@ -400,7 +404,6 @@ class ComboBoxRenderer extends React.Component {
     options: {value?: Value, info?: Info, onClick?: () => void}
   ) {
     this.setState({searchText: '', opened: false, isEditing: false});
-    this._ignoreRecover = true;
     this._change(options.value, options.info);
 
     safelyCall(options.onClick);
@@ -434,8 +437,7 @@ class ComboBoxRenderer extends React.Component {
       return;
     }
 
-    this.setState({isEditing: false, opened: false});
-    safelyCall(this.props.onClose);
+    this._close(true);
     this._tryRecover();
 
     if (!safelyCall(this.props.onBlur)) {
@@ -446,13 +448,19 @@ class ComboBoxRenderer extends React.Component {
     this._ignoreBlur = true;
   };
 
+  _close = (endEdit?: bool) => {
+    this.setState({isEditing: !endEdit, opened: false, result: null});
+    safelyCall(this.props.onClose);
+  }
+
   _fetchList(pattern: string) {
+    const expectingId = ++this._fetchingId;
     this.props.source(pattern).then((result) => {
       if (!this._mounted) {
         return;
       }
 
-      if (this.state.searchText === pattern || !pattern) {
+      if (expectingId === this._fetchingId && this.state.opened) {
         this._menu && this._menu.reset();
         this.setState({result});
       }
@@ -460,14 +468,22 @@ class ComboBoxRenderer extends React.Component {
   }
 
   _focus = () => {
-    if (this._focusable) {
+    if (this._focusable && this._focusable.setSelectionRange) {
+      this._focusable.setSelectionRange(0, this.state.searchText.length);
+    } else if (this._focusable) {
       this._focusable.focus();
     }
   };
 
   _tryRecover() {
     if (this._ignoreRecover) {
-      this._ignoreRecover = false;
+      return;
+    }
+    this._ignoreRecover = true;
+
+    if (!this.props.recover) {
+      this._change(null);
+      this.setState({searchText: ''});
       return;
     }
 
@@ -481,9 +497,7 @@ class ComboBoxRenderer extends React.Component {
     }
 
     if (recovered) {
-      this.setState({searchText: ''});
       this._change(recovered.value, recovered.info);
-      this._setError(null);
     } else {
       this._change(null);
       this._setError(this.state.searchText ? 'not_recovered' : null);
@@ -491,14 +505,19 @@ class ComboBoxRenderer extends React.Component {
   }
 
   _setError(error: ErrorKind) {
-    if (this._lastError !== error && this.props.onError) {
+    this._error = error;
+    if (this._lastError !== error) {
       this._lastError = error;
-      this.props.onError(error);
+      safelyCall(this.props.onError, error);
     }
   }
 
   _change(value: Value, info?: Info) {
     safelyCall(this.props.onChange, {target: {value}}, value, info);
+    this._setError(null);
+
+    /* No need in recovers after value changes */
+    this._ignoreRecover = true;
   }
 
   _setCurrentSearchText(value: Value, info: ?Info) {
@@ -510,12 +529,10 @@ class ComboBoxRenderer extends React.Component {
         ? valueToString(value, info)
         : this.state.searchText;
 
-      this.setState({searchText}, () => {
-        if (this._focusable && this._focusable.setSelectionRange) {
-          this._focusable.setSelectionRange(0, searchText.length);
-        }
-      });
+      return this.setState({searchText}, this._focus);
     }
+
+    return this.setState({searchText: ''}, this._focus);
   }
 }
 

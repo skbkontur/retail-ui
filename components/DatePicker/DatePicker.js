@@ -207,6 +207,11 @@ export default class DatePicker extends React.Component {
       setTimeout(() => this.refs.input.focus(), 0);
     }
   }
+
+  focus() {
+    this._focused = true;
+    this.refs.input.focus();
+  }
 }
 
 function checkDate(date) {
