@@ -10,7 +10,7 @@
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "scripts": {
-    "test": "gemini test --reporter vflat && jest --coverage --no-cache",
+    "test": "jest --coverage --no-cache && gemini test --reporter vflat",
     "typecheck": "flow",
     "lint": "eslint .",
     "test-unit": "jest"
