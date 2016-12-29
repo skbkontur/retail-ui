@@ -2,7 +2,7 @@
 
 import invariant from 'invariant';
 
-const SPACE = 9;
+const SPACE = 13;
 
 export type Result = {
   boxStyle: Object,
@@ -108,7 +108,7 @@ export default function(
   }
 
   const pinStyle = {};
-  let pinOffset = 15;
+  let pinOffset = 24;
   if (pos.aside) {
     if (pinOffset > height / 2) {
       pinOffset = height / 2;
