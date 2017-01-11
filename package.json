@@ -24,7 +24,7 @@
     "fbjs": "^0.8.8",
     "invariant": "2.2.2",
     "object-assign": "^4.1.0",
-    "react-input-mask": "^0.7.5",
+    "react-input-mask": "0.7.3",
     "warning": "^3.0.0"
   },
   "devDependencies": {
