@@ -21,6 +21,7 @@ const INPUT_PASS_PROPS = {
   error: true,
   warning: true,
   width: true,
+  disabled: true,
 };
 
 export type Value = any;
@@ -162,7 +163,6 @@ class ComboBoxRenderer extends React.Component {
         <Input ref={this._refFocusable} {...inputProps}
           value={this.state.searchText}
           rightIcon={this.props.openButton && <span />}
-          disabled={this.props.disabled}
           onChange={this._handleInputChange}
           onKeyDown={this._handleInputKey}
         />
