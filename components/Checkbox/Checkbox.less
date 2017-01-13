@@ -46,7 +46,7 @@
     line-height: 20px;
   }
 
-  .isFocused .box {
+  input[type="checkbox"]:focus ~ .box {
     box-shadow: inset 0 0 0 1px #fff,0 0 0 2px @border-color-focus;
   }
 
@@ -59,7 +59,7 @@
   }
 
   :global(.rt-ie8) {
-    .isFocused .box {
+    input[type="checkbox"]:focus ~ .box {
       outline: 1px solid @border-color-focus;
     }
 
@@ -79,13 +79,15 @@
   }
 
   .ok {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
     left: 1px;
     position: absolute;
     top: -2px;
   }
 
   .isChecked .ok {
-    display: block;
+    visibility: visible;
+    opacity: 1;
   }
 }
