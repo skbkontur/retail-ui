@@ -11,6 +11,9 @@ gemini.suite('button', (suite) => {
     capture('clicked', (actions, find) => {
       actions.mouseUp(find('button'));
     }).
+    capture('mouseLeave', (actions, find) => {
+      actions.mouseMove(find('body'), [0, 0]);
+    }).
     capture('hover', (actions, find) => {
       actions.mouseMove(find('button'));
     });
