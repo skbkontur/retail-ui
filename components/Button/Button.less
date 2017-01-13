@@ -291,14 +291,14 @@
     content: '';
     height: 100%;
     position: absolute;
-    opacity: .3;
-    background: linear-gradient(-60deg, transparent 33%, #ccc 0, #ccc 66%, transparent 0);
-    background-size: 50px 100%;
+    opacity: .2;
+    background: linear-gradient(-70deg, #ccc 30%, transparent 0, transparent 60%, #ccc 0);
+    background-size: 30px 100%;
     top: 0;
     left: 0;
-    right: -50px;
+    right: -30px;
     :global {
-      animation: btn_loading 1.4s linear infinite;
+      animation: btn_loading 1s linear infinite;
     }
   }
 
@@ -350,6 +350,6 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50px);
+    transform: translateX(-30px);
   }
 }

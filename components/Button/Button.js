@@ -129,6 +129,7 @@ class Button extends React.Component {
       disabled: this.props.disabled || this.props.loading,
       onClick: this.props.onClick,
       onKeyDown: this.props.onKeyDown,
+      onMouseDown: e => e.preventDefault(), //to prevent focus on click
     };
     if (this.props.align) {
       rootProps.style.textAlign = this.props.align;

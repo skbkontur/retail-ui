@@ -9,6 +9,15 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+
+    &:hover .box {
+      background: linear-gradient(-180deg, #F2F2F2 0, #DFDFDF 100%);
+    }
+
+    &:active .box {
+      background: #E1E1E1;
+      box-shadow: 0 -1px 0 0 rgba(0,0,0,0.1),0 0 0 1px rgba(0,0,0,0.2),inset 0 1px 2px 0 rgba(0,0,0,0.1);
+    }
   }
 
   .isDisabled {

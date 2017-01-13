@@ -67,6 +67,7 @@ class Link extends React.Component {
       }),
       href,
       onClick: this._handleClick,
+      onMouseDown: e => e.preventDefault(), //to prevent focus on click
     };
     if (disabled) {
       props.tabIndex = '-1';
