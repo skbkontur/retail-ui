@@ -41,4 +41,3 @@ module: {
 }
 /* ... */
 ```
-Или можно воспользоваться проектом: [retail-ui-starter](https://git.skbkontur.ru/catalogue/retail-ui-starter)
