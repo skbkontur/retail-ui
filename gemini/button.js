@@ -1,7 +1,8 @@
 /* global gemini */
+var pathTo = require('./utils').pathTo;
 
 gemini.suite('button', (suite) => {
-  suite.setUrl('/iframe.html?selectedKind=Button&selectedStory=playground').
+  suite.setUrl(pathTo('Button', 'playground')).
     setCaptureElements('#test-element').
     capture('idle').
     capture('pressed', (actions, find) => {

@@ -1,8 +1,9 @@
 /* global gemini */
+var pathTo = require('./utils').pathTo;
 
 gemini.suite('Tooltip', (suite) => {
   suite.
-    setUrl('iframe.html?selectedKind=Tooltip&selectedStory=static tooltip').
+    setUrl(pathTo('Tooltip', 'static tooltip')).
     setCaptureElements(['[class^="Box-root"]']).
     capture('simple');
 });
