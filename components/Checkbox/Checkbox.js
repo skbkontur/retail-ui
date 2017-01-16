@@ -27,10 +27,7 @@ class Checkbox extends React.Component {
   };
 
   props: Props;
-
-  constructor(props: Props, context: mixed) {
-    super(props, context);
-  }
+  input: ?HTMLInputElement;
 
   render() {
     const rootClass = classNames({
@@ -47,14 +44,14 @@ class Checkbox extends React.Component {
       checked: this.props.checked,
       disabled: this.props.disabled,
       onChange: this.handleChange,
-      ref: this.inputRef,
+      ref: this._inputRef,
     };
     if (this.props.tabIndex) {
       inputProps.tabIndex = this.props.tabIndex;
     }
 
     return (
-      <label className={rootClass} onClick={ this.preventFocus }>
+      <label className={rootClass} onClick={this._preventFocus}>
         <input {...inputProps} />
         <span className={styles.box}>
           <div className={styles.ok}><Icon name="ok" /></div>
@@ -64,11 +61,13 @@ class Checkbox extends React.Component {
     );
   }
 
-  preventFocus = () => {
-    this.input.blur();
+  _preventFocus = () => {
+    if (this.input) {
+      this.input.blur();
+    }
   };
 
-  inputRef = ref => {
+  _inputRef = (ref: HTMLInputElement) => {
     this.input = ref;
   };
 
