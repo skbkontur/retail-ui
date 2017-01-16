@@ -10,7 +10,7 @@ module.exports = {
 		firefox: {
       desiredCapabilities: {
         browserName: 'firefox',
-        version: '36'
+        version: '47'
       }
 		},
 		ie11: {
