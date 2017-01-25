@@ -1,4 +1,2 @@
 .idea
-dist/
-app/
-webpack.config.js
+src/
