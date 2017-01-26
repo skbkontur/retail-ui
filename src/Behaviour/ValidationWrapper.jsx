@@ -184,9 +184,12 @@ export default class ValidationWrapper extends React.Component {
             children
                 ? React.cloneElement(
                     children, {
-                        // TODO так писать вроде нормально
-                        // eslint-disable-next-line brace-style
-                        ref: x => { this.child = x; },
+                        ref: x => {
+                            if(children && children.ref) {
+                                children.ref(x);
+                            }
+                            this.child = x;
+                        },
                         error: this.isChanging ? false : Boolean(validation && validation.error),
                         onBlur: () => {
                             this.handleBlur();
