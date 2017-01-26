@@ -13,7 +13,7 @@
     "test": "jest --no-cache && gemini test --reporter vflat",
     "typecheck": "flow",
     "lint": "eslint .",
-    "test-unit": "jest"
+    "unit-test": "jest"
   },
   "license": "MIT",
   "dependencies": {

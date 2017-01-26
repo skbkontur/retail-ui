@@ -73,6 +73,8 @@ export type BaseProps = {
   onError?: (kind: ErrorKind) => void,
   onFocus?: () => void,
   onOpen?: () => void,
+  onInputChange?: (value: string) => ?string,
+  onInputKeyDown?: (e: SyntheticKeyboardEvent) => void,
 
   alkoValueToText?: (value: Value) => string,
   onAlkoFocus?: () => void,
@@ -344,17 +346,35 @@ class ComboBoxRenderer extends React.Component {
     this._menu = menu;
   };
 
-  _handleInputChange = (event: SyntheticEvent) => {
-    const pattern = (event.target: any).value;
-    this.setState({
-      searchText: pattern,
+  _handleInputChange = (event: SyntheticEvent & {target: HTMLInputElement}) => {
+    let newInputValue = event.target.value;
+
+    const inputValueChanged = this.state.searchText !== event.target.value;
+    if (inputValueChanged && this.props.onInputChange) {
+      let nextState = this.props.onInputChange(newInputValue);
+
+      if (nextState != null && typeof nextState !== 'object') {
+        newInputValue = '' + nextState;
+      }
+    }
+
+    this.setState(() => ({
+      searchText: newInputValue,
       opened: true,
-    });
-    this._fetchList(pattern);
+    }));
+    this._fetchList(newInputValue);
     this._ignoreRecover = false;
   };
 
   _handleInputKey = (event: SyntheticKeyboardEvent) => {
+
+    if (typeof this.props.onInputKeyDown === 'function') {
+      this.props.onInputKeyDown(event);
+      if (event.defaultPrevented) {
+        return;
+      }
+    }
+
     switch (event.key) {
       case 'ArrowUp':
         event.preventDefault();
@@ -452,7 +472,7 @@ class ComboBoxRenderer extends React.Component {
   };
 
   _close = (endEdit?: bool) => {
-    this.setState({isEditing: !endEdit, opened: false, result: null});
+    this.setState(() => ({isEditing: !endEdit, opened: false, result: null}));
     safelyCall(this.props.onClose);
   }
 
@@ -465,7 +485,7 @@ class ComboBoxRenderer extends React.Component {
 
       if (expectingId === this._fetchingId && this.state.opened) {
         this._menu && this._menu.reset();
-        this.setState({result});
+        this.setState(() => ({result}));
       }
     });
   }
