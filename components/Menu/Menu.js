@@ -131,6 +131,9 @@ export default class Menu extends React.Component {
 
   _move(step: number) {
     const children = childrenToArray(this.props.children);
+    if (!children.some(isActiveElement)) {
+      return;
+    }
     let index = this.state.highlightedIndex;
     do {
       index += step;

@@ -29,7 +29,7 @@ describe('ComboBox-adapter', () => {
     const source = jest.fn(() => Promise.resolve(['bar']));
     const adapter = mount(<ComboBox onChange={onChange} source={source} />);
 
-    const isOpened = () => !adapter.wrapper.find('input').isEmpty();
+    const isOpened = () => adapter.wrapper.find('input').exists();
 
     adapter.search('whoop');
     expect(isOpened()).toBe(true);
@@ -39,6 +39,22 @@ describe('ComboBox-adapter', () => {
 
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0][1]).toBe('foo');
+  });
+
+  testAdapter('setValue calls onClose', mount => {
+    const onClose = jest.fn();
+    const source = jest.fn(() => Promise.resolve(['bar']));
+    const adapter = mount(<ComboBox onClose={onClose} source={source} />);
+
+    const isOpened = () => adapter.wrapper.find('input').exists();
+
+    adapter.search('whoop');
+    expect(isOpened()).toBe(true);
+
+    adapter.setValue('foo');
+    expect(isOpened()).toBe(false);
+
+    expect(onClose.mock.calls.length).toBe(1);
   });
 
   testAdapter('getInfo', mount => {
@@ -79,5 +95,24 @@ describe('ComboBox-adapter', () => {
 
     const result = adapter.getResult();
     expect(result).toEqual([1, null, 3]);
+  });
+
+  testAdapter('get null result of closed', async mount => {
+    const values = [
+      1,
+      <span>2</span>,
+      <MenuItem value={3}>3</MenuItem>,
+    ];
+    const source = jest.fn(() => Promise.resolve({values}));
+    const adapter = mount(<ComboBox source={source} />);
+
+    adapter.search('test');
+
+    await (source.mock.instances: any)[1];
+
+    adapter.setValue(2);
+
+    const result = adapter.getResult();
+    expect(result).toEqual(null);
   });
 });

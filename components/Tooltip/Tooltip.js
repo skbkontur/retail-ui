@@ -231,6 +231,7 @@ export default class Tooltip extends React.Component {
   };
 
   _handleClick = (event: SyntheticMouseEvent) => {
+    event.stopPropagation();
     const target: HTMLElement = (event.target: any);
     if (this._hotspotDOM) {
       if (!this.state.opened && this._hotspotDOM.contains(target)) {

@@ -1,7 +1,6 @@
 // @flow
 
 import classNames from 'classnames';
-import events from 'add-event-listener';
 import React, {PropTypes} from 'react';
 
 import Icon from '../Icon';
@@ -18,11 +17,6 @@ type Props = {
   onChange?: (event: {target: {value: bool}}, value: bool) => void,
 };
 
-type State = {
-  active: bool,
-  focused: bool,
-};
-
 class Checkbox extends React.Component {
   static propTypes = {
     checked: PropTypes.bool.isRequired,
@@ -33,23 +27,12 @@ class Checkbox extends React.Component {
   };
 
   props: Props;
-  state: State;
-
-  constructor(props: Props, context: mixed) {
-    super(props, context);
-
-    this.state = {
-      active: false,
-      focused: false,
-    };
-  }
+  input: ?HTMLInputElement;
 
   render() {
-    var rootClass = classNames({
+    const rootClass = classNames({
       [styles.root]: true,
       [styles.isChecked]: this.props.checked,
-      [styles.isActive]: this.state.active,
-      [styles.isFocused]: this.state.focused,
       [styles.isDisabled]: this.props.disabled,
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,
@@ -61,15 +44,14 @@ class Checkbox extends React.Component {
       checked: this.props.checked,
       disabled: this.props.disabled,
       onChange: this.handleChange,
-      onFocus: this.handleFocus,
-      onBlur: this.handleBlur,
+      ref: this._inputRef,
     };
     if (this.props.tabIndex) {
       inputProps.tabIndex = this.props.tabIndex;
     }
 
     return (
-      <label className={rootClass} onMouseDown={this.handleActivate}>
+      <label className={rootClass} onClick={this._preventFocus}>
         <input {...inputProps} />
         <span className={styles.box}>
           <div className={styles.ok}><Icon name="ok" /></div>
@@ -79,33 +61,19 @@ class Checkbox extends React.Component {
     );
   }
 
-  handleActivate = (event: SyntheticMouseEvent) => {
-    if (event.button !== 0) {
-      return;
+  _preventFocus = () => {
+    if (this.input) {
+      this.input.blur();
     }
-
-    this.setState({active: true});
-
-    events.addEventListener(document, 'mouseup', this.deactivate);
   };
 
-  deactivate = () => {
-    this.setState({active: false});
-
-    events.removeEventListener(document, 'mouseup', this.deactivate);
+  _inputRef = (ref: HTMLInputElement) => {
+    this.input = ref;
   };
 
   handleChange = (event: {target: {checked: bool}}) => {
     const checked = event.target.checked;
     this.props.onChange && this.props.onChange((event: any), checked);
-  };
-
-  handleFocus = () => {
-    this.setState({focused: true});
-  };
-
-  handleBlur = () => {
-    this.setState({focused: false});
   };
 }
 

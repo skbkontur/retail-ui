@@ -17,8 +17,8 @@ class Loader extends React.Component {
   }
 
   render() {
-    const {active, type, caption} = this.props;
-    const loaderClassName = classnames(styles.loader, {
+    const {active, type, caption, className} = this.props;
+    const loaderClassName = classnames(styles.loader, className, {
       [styles.active]: active,
     });
 
@@ -44,6 +44,11 @@ Loader.propTypes = {
    * "Загрузка" - значение по-умолчанию
    */
   caption: PropTypes.string,
+
+  /**
+   * Класс для обертки
+   */
+  className: PropTypes.string,
 
   /**
    * Тип спиннера: mini, normal, big

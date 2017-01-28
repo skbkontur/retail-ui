@@ -35,6 +35,18 @@
     z-index: 2;
   }
 
+  .disabled {
+    background: @bg-disabled;
+    border-color: @border-color-gray-light;
+    color: @text-color-disabled;
+
+    &:focus {
+      border-color: @border-color-gray-light;
+      box-shadow: none;
+      border-radius: 0;
+    }
+  }
+
   :global(.rt-ie8) {
     .root:focus {
       outline: 1px solid @border-color-focus;
