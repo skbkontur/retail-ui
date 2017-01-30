@@ -171,10 +171,18 @@ class Button extends React.Component {
       );
     }
 
+    let arrow = null;
+    if (this.props.arrow) {
+      arrow = this.props.loading
+        ? <div className={styles.arrowLoading} />
+        : <div className={styles.arrow} />;
+    }
+
     return (
       <span className={styles.wrap} style={wrapStyle}>
         <button {...rootProps}>
           {loading}
+          {arrow}
           <div className={styles.caption}>
             {icon}
             {this.props.children}

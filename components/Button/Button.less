@@ -41,6 +41,10 @@
     padding-right: 7px;
   }
 
+  .arrow {
+
+  }
+
   .fallbackMixin(@class; @bg; @border: @bg) {
     //:global(.rt-ie8),
     //:global(.rt-ie9) {
@@ -75,7 +79,7 @@
       position: relative;
       z-index: 2;
 
-      &:after {
+      .arrow {
         box-shadow:
           inset -1px 1px 0 0 #FFFFFF,
           2px -2px 0 0 @border-color-focus;
@@ -90,24 +94,46 @@
     }
   }
 
-  .arrowSizeMixin(@className, @length, @top, @right, @shift) {
+  .arrowSizeMixin(@className, @length, @top, @right, @shift, @transform, @arrow_loading) {
     .@{className} {
-      &:after {
+      .arrow,
+      .arrowLoading {
         position: absolute;
         top: @top;
         right: @right;
         height: @length;
         width: @length;
-        transform: rotate(53deg) skewX(25deg) skewY(10deg);
+        transform: @transform;//rotate(53deg) skewX(24deg) skewY(10deg);
         border-radius: 2px 2px 2px 16px;
         box-sizing: border-box;
+      }
+
+      .arrowLoading {
+        overflow: hidden;
+
+        &:before {
+          background: @arrow_loading;
+          content: '';
+          height: 265%;
+          position: absolute;
+          opacity: .3;
+
+          background-size: 68px 100%;
+          top: 0px;
+          left: -170px;
+          right: -50px;
+          :global {
+            animation: btn_loading_arrow 1.4s linear infinite;
+          }
+          transform: rotate(-45.4deg) skewX(0deg) skewY(0deg);
+        }
       }
     }
 
     :global(.rt-ie9),
     :global(.rt-ie8) {
       .@{className} {
-        &:after {
+        .arrow {
           height: 0;
           width: 0;
         }
@@ -118,7 +144,7 @@
   .arrowColorMixin(@className, @hoverColorStart, @hoverColorEnd, @hoverShadow, @colorStart, @colorEnd, @shadow, @bg, @border: @bg) {
     .@{className} {
       &:hover {
-        &:after {
+        .arrow {
           background-image: linear-gradient(
             to bottom right,
             @hoverColorStart,
@@ -127,7 +153,7 @@
           box-shadow: @hoverShadow;
         }
       }
-      &:after {
+      .arrow {
         background-image: linear-gradient(
           to bottom right,
           @colorStart,
@@ -167,14 +193,18 @@
     line-height: 32px;
     padding: 0 15px;
   }
-  .arrowSizeMixin(sizeSmall, 16.8px, 7.5px, -7.5px, -7.7px);
+  .arrowSizeMixin(sizeSmall, 16.8px, 7.5px, -7.5px, -7.7px,
+                  rotate(53deg) skewX(24deg) skewY(10deg),
+                  linear-gradient(-44deg, transparent 46.5%, #ccc 0, #ccc 73.5%, transparent 0));
 
   .sizeMedium {
     height: 38px;
     line-height: 38px;
     padding: 0 15px;
   }
-  .arrowSizeMixin(sizeMedium, 19.4px, 9.3px, -9.1px, -9.3px);
+  .arrowSizeMixin(sizeMedium, 20.2px, 8.9px, -9.3px, -9.5px,
+                  rotate(53deg) skewX(24deg) skewY(8deg),
+                  linear-gradient(-44deg, transparent 44.5%, #ccc 0, #ccc 71.3%, transparent 0));
 
   .sizeLarge {
     font-size: 16px;
@@ -182,21 +212,27 @@
     line-height: 42px;
     padding: 0 20px;
   }
-  .arrowSizeMixin(sizeLarge, 21.7px, 10.2px, -10px, -10.2px);
+  .arrowSizeMixin(sizeLarge, 21.7px, 10.2px, -10px, -10.2px,
+                  rotate(53deg) skewX(25deg) skewY(10deg),
+                  linear-gradient(-44deg, transparent 44.2%, #ccc 0, #ccc 70.4%, transparent 0));
 
   .deprecated_sizeDefault {
     height: 28px;
     line-height: 28px;
     padding: 0 10px;
   }
-  .arrowSizeMixin(deprecated_sizeDefault, 14.4px, 7px, -6.5px, -6.7px);
+  .arrowSizeMixin(deprecated_sizeDefault, 14.4px, 7px, -6.5px, -6.7px,
+                  rotate(53deg) skewX(24deg) skewY(10deg),
+                  linear-gradient(-44deg, transparent 44.5%, #ccc 0, #ccc 71.3%, transparent 0));
 
   .deprecated_sizeLarge {
     height: 34px;
     line-height: 34px;
     padding: 0 20px;
   }
-  .arrowSizeMixin(deprecated_sizeLarge, 17.7px, 8.3px, -8.1px, -8.3px);
+  .arrowSizeMixin(deprecated_sizeLarge, 17.7px, 8.3px, -8.1px, -8.3px,
+                  rotate(53deg) skewX(24deg) skewY(10deg),
+                  linear-gradient(-44deg, transparent 44.5%, #ccc 0, #ccc 71.3%, transparent 0));
 
   .buttonWithIcon {
     padding-right: 15px;
@@ -245,7 +281,7 @@
     background: @btn-default-active-bg;
     box-shadow: @btn-default-active-shadow;
 
-    &:after {
+    .arrow {
       background: @btn-default-active-bg;
       box-shadow: @btn-default-active-shadow-arrow;
     }
@@ -287,7 +323,7 @@
     background: @btn-primary-active-bg;
     box-shadow: @btn-primary-active-shadow;
 
-    &:after {
+    .arrow {
       background: @btn-primary-active-bg;
       box-shadow: @btn-primary-active-shadow-arrow;
     }
@@ -329,7 +365,7 @@
     background: @btn-success-active-bg;
     box-shadow: @btn-success-active-shadow;
 
-    &:after {
+    .arrow {
       background: @btn-success-active-bg;
       box-shadow: @btn-success-active-shadow-arrow;
     }
@@ -375,7 +411,7 @@
     background: @btn-danger-active-bg;
     box-shadow: @btn-danger-active-shadow;
 
-    &:after {
+    .arrow {
       background: @btn-danger-active-bg;
       box-shadow: @btn-danger-active-shadow-arrow;
     }
@@ -416,7 +452,7 @@
     background: @btn-pay-active-bg;
     box-shadow: @btn-pay-active-shadow;
 
-    &:after {
+    .arrow {
       background: @btn-pay-active-bg;
       box-shadow: @btn-pay-active-shadow-arrow;
     }
@@ -442,6 +478,12 @@
     box-shadow: 0 0 0 1px @border-color-gray-light;
     color: #808080;
     cursor: default;
+
+    .arrow,
+    .arrowLoading {
+      background: @bg-disabled;
+      box-shadow: 1px -1px 0 0 @border-color-gray-light;
+    }
   }
 
   .loading {
@@ -454,12 +496,15 @@
     overflow: hidden;
   }
 
+  .arrowLoading {
+    overflow: hidden;
+  }
   .loading:before {
     content: '';
     height: 100%;
     position: absolute;
     opacity: .3;
-    background: linear-gradient(-60deg, transparent 33%, #ccc 0, #ccc 66%, transparent 0);
+    background: linear-gradient(-120deg, transparent 33%, #ccc 0, #ccc 66%, transparent 0);
     background-size: 50px 100%;
     top: 0;
     left: 0;
@@ -467,7 +512,12 @@
     :global {
       animation: btn_loading 1.4s linear infinite;
     }
+    transform: rotateY(180deg) skewX(0deg) skewY(0deg);
   }
+
+  //.arrowLoading:before {
+  //
+  //}
 
   .warning,
   .error {
@@ -514,9 +564,18 @@
 
 @keyframes btn_loading {
   0% {
-    transform: translateX(0);
+    transform: translateX(0) rotateY(180deg);
   }
   100% {
-    transform: translateX(-50px);
+    transform: translateX(-50px) rotateY(180deg);
+  }
+}
+
+@keyframes btn_loading_arrow {
+  0% {
+    transform: translateX(56px) rotate(-45.4deg) skewX(0deg) skewY(0deg);
+  }
+  100% {
+    transform: translateX(8px) translateY(50px) rotate(-45.4deg) skewX(0deg) skewY(0deg);
   }
 }
