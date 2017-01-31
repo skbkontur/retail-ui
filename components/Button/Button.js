@@ -5,17 +5,10 @@ import React, {PropTypes} from 'react';
 
 import Corners from './Corners';
 import Icon from '../Icon';
-import Upgrades from '../../lib/Upgrades';
 import browser from '../../lib/browserNormalizer';
 
 import '../ensureOldIEClassName';
 import styles from './Button.less';
-
-const DEPRECATED_SIZE_CLASSES = {
-  default: styles.deprecated_sizeDefault,
-  small: styles.deprecated_sizeDefault, // for new default size
-  large: styles.deprecated_sizeLarge,
-};
 
 const SIZE_CLASSES = {
   small: styles.sizeSmall,
@@ -119,7 +112,7 @@ class Button extends React.Component {
         [styles.noPadding]: this.props._noPadding,
         [styles.noRightPadding]: this.props._noRightPadding,
         [styles.buttonWithIcon]: !!this.props.icon,
-        ...this._getSizeClassMap(),
+        [SIZE_CLASSES[this.props.size]]: true,
       }),
       style: {
         borderRadius: `${corners & Corners.TOP_LEFT ? 0 : radius}` +
@@ -181,18 +174,6 @@ class Button extends React.Component {
       document.activeElement.blur();
       e.preventDefault();
     }
-  }
-
-  _getSizeClassMap() {
-    if (!Upgrades.isHeight34Enabled()) {
-      return {
-        [DEPRECATED_SIZE_CLASSES[(this.props.size: any)]]: true,
-      };
-    }
-
-    return {
-      [SIZE_CLASSES[this.props.size]]: true,
-    };
   }
 }
 
