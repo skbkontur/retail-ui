@@ -65,12 +65,6 @@ var Comp = React.createClass({
         renderTotalCount={renderTotalCount}
         valueToString={valueToString}
         onChange={e => this.setState({value: e.target.value})}
-        onBlur={() => console.count('Blur')}
-        onFocus={() => console.count('Focus')}
-        onOpen={() => console.count('Open')}
-        onClose={() => console.count('Close')}
-
-        tid="ComboBox"
       />
     );
   },

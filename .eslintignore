@@ -2,3 +2,6 @@ node_modules
 /docs/dist/
 /flow-typed/npm/
 /testing/react-devtools/
+coverage
+gemini-report
+flow

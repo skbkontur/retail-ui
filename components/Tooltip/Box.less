@@ -10,20 +10,23 @@
 
   .inner {
     background: @tooltip-bg;
-    border: 1px solid @tooltip-border;
     border-radius: @tooltip-border-raduis;
     box-shadow: @tooltip-box-shadow;
-    padding: 15px 18px;
+    padding: 15px 20px;
   }
 
   .cross {
     color: #808080;
     cursor: pointer;
     position: absolute;
-    right: 3px;
     text-align: center;
-    top: 3px;
-    width: 16px;
+    top: 0;
+    width: 11px;
+    right: 0;
+    padding: 8px;
+    height: 11px;
+    white-space: nowrap;
+    line-height: 10px;
   }
 
   .cross:hover {
@@ -31,12 +34,12 @@
   }
 
   .pin {
-    border: 7px solid @tooltip-border;
+    border: 9px solid @tooltip-border;
     position: absolute;
   }
 
   .pinInner {
-    border: 6px solid @tooltip-bg;
+    border: 8px solid @tooltip-bg;
     position: absolute;
   }
 }

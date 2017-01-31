@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
 import Icon from '../Icon';
+import browser from '../../lib/browserNormalizer';
 
 import styles from './Link.less';
 
@@ -83,8 +84,10 @@ class Link extends React.Component {
   }
 
   _handleMouseDown(e) {
-    document.activeElement.blur();
-    e.preventDefault();
+    if (browser.hasFocusOnLinkClick) {
+      document.activeElement.blur();
+      e.preventDefault();
+    }
   }
 
   _handleClick = event => {

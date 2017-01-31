@@ -6,6 +6,7 @@ import React, {PropTypes} from 'react';
 import Corners from './Corners';
 import Icon from '../Icon';
 import Upgrades from '../../lib/Upgrades';
+import browser from '../../lib/browserNormalizer';
 
 import '../ensureOldIEClassName';
 import styles from './Button.less';
@@ -176,8 +177,10 @@ class Button extends React.Component {
   }
 
   _handleMouseDown(e) {
-    document.activeElement.blur();
-    e.preventDefault();
+    if (browser.hasFocusOnButtonClick) {
+      document.activeElement.blur();
+      e.preventDefault();
+    }
   }
 
   _getSizeClassMap() {

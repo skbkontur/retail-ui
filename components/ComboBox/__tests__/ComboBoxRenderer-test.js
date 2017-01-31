@@ -46,8 +46,7 @@ describe('ComboBoxRenderer', () => {
     expect(wrapper.state().isEditing).toBeFalsy();
 
     const value = wrapper.find('InputLikeText');
-    expect(value.text('value')).toBe('foo');
-    expect(value.prop('error')).toBe(true);
+    expect(value.text('value')).toBe('');
   });
 
   it('closes when value was recovered', () => {
@@ -74,7 +73,7 @@ describe('ComboBoxRenderer', () => {
       <ComboBoxRenderer
         value={null}
         source={source}
-        recover={text => (text === 'bar' ? {value: 'bar'} : null)}
+        recover={text => (text === 'bar') ? {value: 'bar'} : null}
         onError={onError}
       />
     );
@@ -229,9 +228,9 @@ describe('ComboBoxRenderer', () => {
     wrapper.find('[tabIndex]').simulate('click');
     expect(onFocus.mock.calls.length).toBe(1);
 
-    wrapper.find('input')
-      .simulate('keydown', {key: 'ArrowDown'})
-      .simulate('keydown', {key: 'Enter'});
+    wrapper.find('input').
+      simulate('keydown', {key: 'ArrowDown'}).
+      simulate('keydown', {key: 'Enter'});
 
     expect(onFocus.mock.calls.length).toBe(1);
   });
@@ -245,11 +244,87 @@ describe('ComboBoxRenderer', () => {
     );
 
     wrapper.find('[tabIndex]').simulate('click');
-    await promise
-    wrapper.find('input')
-      .simulate('keydown', {key: 'ArrowDown'})
-      .simulate('keydown', {key: 'Enter'});
+    await promise;
+    wrapper.find('input').
+      simulate('keydown', {key: 'ArrowDown'}).
+      simulate('keydown', {key: 'Enter'});
 
     expect(onBlur.mock.calls.length).toBe(1);
+  });
+
+  it('calls onInputChange function', () => {
+    const onInputChange = jest.fn();
+    const wrapper = mount(
+      <ComboBoxRenderer
+        value=""
+        source={() => Promise.resolve()}
+        onInputChange={onInputChange}
+      />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find('input').simulate('change', {target: {value: 'hello'}});
+    expect(onInputChange.mock.calls[0][0]).toBe('hello');
+  });
+
+  it('applies onInputChange transforms for input value', () => {
+    const onInputChange = v => v.toUpperCase();
+    const wrapper = mount(
+      <ComboBoxRenderer
+        value=""
+        source={() => Promise.resolve()}
+        onInputChange={onInputChange}
+      />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find('input').simulate('change', {target: {value: 'hello'}});
+    expect(wrapper.find('input').get(0).value).toBe('HELLO');
+  });
+
+  it('ignores transforms if returned not string', () => {
+    const onInputChange = v => {};
+    const wrapper = mount(
+      <ComboBoxRenderer
+        value=""
+        source={() => Promise.resolve()}
+        onInputChange={onInputChange}
+      />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find('input').simulate('change', {target: {value: 'hello'}});
+    expect(wrapper.find('input').get(0).value).toBe('hello');
+  });
+
+  it('calls onInputKeyDown function', () => {
+    const onInputKeyDown = jest.fn();
+    const wrapper = mount(
+      <ComboBoxRenderer
+        value=""
+        source={() => Promise.resolve()}
+        onInputKeyDown={onInputKeyDown}
+      />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find('input').simulate('keydown', {key: 'h'});
+    expect(onInputKeyDown.mock.calls[0][0]).toMatchObject({key: 'h'});
+  });
+
+  it('prevents default keyDown handling if onInputKeyDown prevents', () => {
+    const onInputKeyDown = e => e.preventDefault();
+    const wrapper = mount(
+      <ComboBoxRenderer
+        value=""
+        source={() => Promise.resolve()}
+        onInputKeyDown={onInputKeyDown}
+      />
+    );
+
+    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find('input').
+      simulate('keydown', {key: 'Escape'});
+    expect(wrapper.find('input').length).toBe(1);
   });
 });
