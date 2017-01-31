@@ -5,10 +5,12 @@ import React, {PropTypes} from 'react';
 
 import styles from './DateSelect.less';
 
-const MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
-    'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+import Icon from '../Icon/Icon.js';
 
-const HEIGHT = 30;
+const MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
+  'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+
+const HEIGHT = 24;
 
 type Props = {
   maxYear: number,
@@ -81,7 +83,9 @@ export default class DateSelect extends React.Component {
       <span {...rootProps}>
         <div className={styles.caption} onClick={this.open}>
           {this.getItem(0)}
-          <div className={styles.arrow} />
+          <div className={styles.arrow}>
+            <Icon name="sort"/>
+          </div>
         </div>
         {this.state.opened && this.renderMenu()}
       </span>
@@ -90,6 +94,7 @@ export default class DateSelect extends React.Component {
 
   renderMenu() {
     const {top, height} = this.state;
+    const {width, type} = this.props;
 
     let shift = this.state.pos % HEIGHT;
     if (shift < 0) {
@@ -111,8 +116,17 @@ export default class DateSelect extends React.Component {
       );
     }
     const style = {
-      top: top - 2,
+      top: top - 5,
     };
+    switch (type) {
+      case 'year':
+        style.width = width + 7;
+        style.left = '-10px';
+        break;
+      case 'month':
+        style.width = width + 12;
+        style.right = 0;
+    }
 
     const shiftStyle = {
       position: 'relative',
@@ -122,24 +136,29 @@ export default class DateSelect extends React.Component {
     const holderClass = classNames({
       [styles.menuHolder]: true,
       [styles.isTopCapped]: this.state.topCapped,
+      [styles.isBotCapped]: this.state.botCapped,
     });
 
     return (
       <div className={holderClass} style={style} onKeyDown={this.handleKey}>
         {!this.state.topCapped && (
-          <div className={styles.menuUp} onMouseDown={this.handleUp} />
+          <div className={styles.menuUp} onMouseDown={this.handleUp}>
+            <span><Icon name={"caret-top"}/></span>
+          </div>
         )}
         <div className={styles.itemsHolder} style={{height}}>
           <div style={shiftStyle}>{items}</div>
           <div className={styles.menuOverlay}
-            onMouseDown={this.handleItemClick}
-            onMouseMove={this.handleMouseMove}
-            onMouseLeave={this.handleMouseLeave}
-            onWheel={this.handleWheel}
+               onMouseDown={this.handleItemClick}
+               onMouseMove={this.handleMouseMove}
+               onMouseLeave={this.handleMouseLeave}
+               onWheel={this.handleWheel}
           />
         </div>
         {!this.state.botCapped && (
-          <div className={styles.menuDown} onMouseDown={this.handleDown} />
+          <div className={styles.menuDown} onMouseDown={this.handleDown}>
+            <span><Icon name={"caret-bottom"}/></span>
+          </div>
         )}
       </div>
     );

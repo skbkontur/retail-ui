@@ -1,16 +1,16 @@
 @import '../variables.less';
 
 :local {
-  @day-side: 25px;
+  @cell-height: 31px;
+  @day-side: 24px;
 
   .root {
     background: @bg-default;
-    border-radius: 0 0 2px 2px;
     height: 220px;
+    width: 280px;
     outline: none;
     overflow: hidden;
     position: relative;
-    width: 220px;
     z-index: 900;
   }
 
@@ -28,52 +28,63 @@
   }
 
   .grey {
-    background: @dropdown-menu-selected-bg;
+    background: #ececec;
   }
 
   .month {
     box-sizing: border-box;
-    font-size: 12px;
-    left: @day-side * 7;
+    font-size: 14px;
+    line-height: @cell-height;
+    left: 196px;
     overflow: hidden;
-    padding: 6px 0 0 0;
+    padding-left: 3px;
     position: absolute;
-    text-align: center;
-    width: 45px;
+    width: 84px;
   }
 
   .year {
-    color: #888;
+    display: none;
+  }
+
+  .month.first .year {
+    display: block;
+    line-height: 10px;
   }
 
   .cell {
     position: absolute;
+
+    &:nth-child(7n) .cellInner{
+      margin-right: 3px;
+    }
   }
 
   .cellInner {
-    border-radius: 2px;
-    font-size: 11px;
+    font-size: 14px;
     height: @day-side;
     line-height: @day-side;
-    text-align: center;
     width: @day-side;
+    cursor: pointer;
+    float: right;
+    margin-top: (@cell-height - @day-side) / 2;
+    margin-right: 1px;
+    text-align: center;
   }
 
   .cellActive .cellInner {
-    background: #ddd;
+    background: @border-color-focus;
+    color: @text-color-invert;
   }
 
   .cellToday .cellInner {
-    background: @bg-active;
-    color: @text-color-invert;
+    font-weight: bold;
   }
 
   .cellCurrent .cellInner {
-    background: #808080;
-    color: @text-color-invert;
+    background: rgba(0,0,0,0.09);
   }
 
   .cellHoly {
-    color: #c22;
+    color: @text-color-disabled;
   }
 }

@@ -51,7 +51,6 @@
 
   .input:focus {
     border-color: @border-color-focus;
-    border-radius: 1px;
     box-shadow: 0 0 0 1px @border-color-focus;
     position: relative;
     z-index: 2;
@@ -71,7 +70,6 @@
 
   .warning .input {
     border-color: @border-color-warning;
-    border-radius: 1px;
     box-shadow: 0 0 0 1px @border-color-warning;
     position: relative;
     z-index: 2;
@@ -79,7 +77,6 @@
 
   .error .input {
     border-color: @border-color-error;
-    border-radius: 1px;
     box-shadow: 0 0 0 1px @border-color-error;
     position: relative;
     z-index: 2;
@@ -108,17 +105,22 @@
     color: #aaa;
     font-size: inherit;
     left: @side-padding + 1;
-    line-height: inherit;
     overflow: hidden;
     position: absolute;
     right: @side-padding + 1;
     top: 1px;
     white-space: nowrap;
     z-index: 2;
+    user-select: none;
+    -ms-user-select: none;
+    cursor: text;
+    line-height: 32px;
   }
+
   .padLeft .placeholder {
     left: @side-padding-padded + 1;
   }
+
   .padRight .placeholder {
     right: @side-padding-padded + 1;
   }
@@ -132,6 +134,7 @@
     top: 0;
     z-index: 2;
   }
+
   .disabled .leftIcon,
   .disabled .rightIcon {
     cursor: default;
@@ -139,10 +142,6 @@
 
   .leftIcon {
     left: 8px;
-  }
-
-  .rightIcon {
-    right: 8px;
   }
 
   .deprecated_sizeLarge .leftIcon,
@@ -162,5 +161,17 @@
 
   .borderless {
     border-color: transparent;
+  }
+
+  .searchLine {
+    font-size: 15px;
+    border-radius: 2px;
+    &.leftIcon {
+      font-size: 22px;
+    }
+    &:focus {
+      border-color: transparent;
+      box-shadow: none;
+    }
   }
 }

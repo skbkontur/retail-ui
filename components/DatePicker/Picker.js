@@ -41,18 +41,25 @@ export default class Picker extends React.Component {
     return (
       <div className={styles.root}>
         <div className={styles.monthYear}>
-          <Gapped gap={5}>
-            <DateSelect type="month" value={this.state.date.getUTCMonth()}
-              width={100} onChange={this.handleMonthChange}
+          <Gapped gap={4}>
+            <DateSelect
+              type="year"
+              value={this.state.date.getUTCFullYear()}
+              minYear={this.props.minYear}
+              maxYear={this.props.maxYear}
+              width={50}
+              onChange={this.handleYearChange}
             />
-            <DateSelect type="year" value={this.state.date.getUTCFullYear()}
-              minYear={this.props.minYear} maxYear={this.props.maxYear}
-              width={70} onChange={this.handleYearChange}
+            <DateSelect
+              type="month"
+              value={this.state.date.getUTCMonth()}
+              width={80}
+              onChange={this.handleMonthChange}
             />
           </Gapped>
         </div>
         <Calendar ref="calendar" {...this.props} initialDate={date}
-          onNav={(date) => this.setState({date})}
+                  onNav={(date) => this.setState({date})}
         />
       </div>
     );
