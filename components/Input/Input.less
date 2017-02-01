@@ -22,13 +22,6 @@
     width: 100%;
   }
 
-  :global(.rt-ie-any) .input {
-    // Set height for IE only since IE does not support line-height for inputs.
-    // On the other hand, Chrome renders text (Segoe UI) 1 pixel lower if input
-    // has height set.
-    height: 34px;
-  }
-
   .input::-ms-clear {
     display: none;
   }
@@ -44,6 +37,23 @@
   .sizeLarge .input {
     line-height: 42px;
     font-size: 16px;
+  }
+
+  :global(.rt-ie-any) {
+    // Set height for IE only since IE does not support line-height for inputs.
+    // On the other hand, Chrome renders text (Segoe UI) 1 pixel lower if input
+    // has height set.
+    .sizeSmall .input {
+      height: 34px;
+    }
+
+    .sizeMedium .input {
+      height: 40px;
+    }
+
+    .sizeLarge .input {
+      height: 44px;
+    }
   }
 
   .input:focus {
