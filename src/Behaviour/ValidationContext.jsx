@@ -5,6 +5,7 @@ import ValidationWrapper from './ValidationWrapper';
 
 type ValidationContextProps = {
     children?: any;
+    onValidationUpdated?: (index?: int, isValid?: boolean) => void;
 };
 
 export default class ValidationContext extends React.Component {
@@ -29,7 +30,19 @@ export default class ValidationContext extends React.Component {
         this.childWrappers.splice(this.childWrappers.indexOf(wrapper), 1);
     }
 
-    async submit(withoutFocus: boolean): Promise<void> {
+    onValidationUpdated(index, isValid) {
+        if (this.props.onValidationUpdated) {
+            let isValidResult;
+            if (index !== undefined && isValid !== undefined) {
+                isValidResult = !this.childWrappers.filter((v, i) => i !== index).find(x => x.hasError()) && isValid;
+            } else {
+                isValidResult = !this.childWrappers.find(x => x.hasError());
+            }
+            this.props.onValidationUpdated(isValidResult);
+        }
+    }
+
+    async validate(withoutFocus: boolean): Promise<boolean> {
         await Promise.all(this.childWrappers.map(x => x.processSubmit()));
         const firstInvalid = this.childWrappers.find(x => x.hasError());
         if (firstInvalid) {
@@ -38,6 +51,8 @@ export default class ValidationContext extends React.Component {
             }
             firstInvalid.activateValidationMessageIfNeed();
         }
+        this.onValidationUpdated();
+        return !firstInvalid;
     }
 
     render(): React.Element<*> {

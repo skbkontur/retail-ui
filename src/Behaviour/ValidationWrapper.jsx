@@ -13,6 +13,7 @@ export type Validation = {
 export interface IValidationContext {
     register(wrapper: ValidationWrapper): void;
     unregister(wrapper: ValidationWrapper): void;
+    onValidationUpdated(index: int, isValid: boolean): void;
 }
 
 export type RenderErrorMessage =
@@ -144,6 +145,7 @@ export default class ValidationWrapper extends React.Component {
                     ],
                 });
             }
+            this.context.validationContext.onValidationUpdated(index, !validation.error);
         }
     }
 
