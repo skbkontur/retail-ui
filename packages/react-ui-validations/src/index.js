@@ -20,19 +20,28 @@ import cn from './Validations.less';
 
 type ValidationContainerProps = {
     children?: any;
+    onValidationUpdated?: (isValid: boolean) => void;
 };
 
 export class ValidationContainer extends React.Component {
     props: ValidationContainerProps;
 
     async submit(withoutFocus: boolean = false): Promise<void> {
-        await this.refs.childContext.submit(withoutFocus);
+        await this.refs.childContext.validate(withoutFocus);
+    }
+
+    async validate(withoutFocus: boolean = false): Promise<boolean> {
+        return await this.refs.childContext.validate(withoutFocus);
     }
 
     render(): React.Element<*> {
         const { children } = this.props;
+        let contextProps = {};
+        if (this.props.onValidationUpdated) {
+            contextProps.onValidationUpdated = this.props.onValidationUpdated;
+        }
         return (
-            <ValidationContext ref='childContext'>
+            <ValidationContext ref='childContext' {...contextProps}>
                 <ValidationTooltipContext ref='childTooltipContext'>
                     {children}
                 </ValidationTooltipContext>
