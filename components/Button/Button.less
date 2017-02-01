@@ -10,6 +10,19 @@
     padding: 1px;
   }
 
+  .wrap_arrow {
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 1px;
+    margin-right: 10px;
+  }
+  :global(.rt-ie9),
+  :global(.rt-ie8) {
+    .wrap_arrow {
+      margin-right: 0;
+    }
+  }
+
   .root {
     border: 0;
     color: @text-color-default;
@@ -41,74 +54,21 @@
     padding-right: 7px;
   }
 
-  .arrow {
-
-  }
-
-  .fallbackMixin(@class; @bg; @border: @bg) {
-    //:global(.rt-ie8),
-    //:global(.rt-ie9) {
-    //  .@{class},
-    //  .@{class}:hover,
-    //  .@{class}:active  {
-    //    background: @bg;
-    //    box-shadow: none;
-    //    outline: 1px solid @border;
-    //  }
-    //
-    //  .@{class}:focus {
-    //    &:before {
-    //      border: 1px solid #fff;
-    //      bottom: 0;
-    //      content: '';
-    //      left: 0;
-    //      outline: 2px solid @border-color-focus;
-    //      position: absolute;
-    //      right: 0;
-    //      top: 0;
-    //    }
-    //  }
-    //}
-  }
-
-  .focusMixin(@className) {
-    .@{className}:focus {
-      box-shadow:
-        inset 0 0 0 1px #FFFFFF,
-        0 0 0 2px @border-color-focus;
-      position: relative;
-      z-index: 2;
-
-      .arrow {
-        box-shadow:
-          inset -1px 1px 0 0 #FFFFFF,
-          2px -2px 0 0 @border-color-focus;
-      }
-    }
-
-    :global(.rt-ie9),
-    :global(.rt-ie8) {
-      .@{className}:focus {
-        box-shadow: none
-      }
-    }
-  }
-
-  .arrowSizeMixin(@className, @length, @top, @right, @shift, @transform, @arrow_loading) {
+  .buttonSizeMixin(@className, @length, @top, @right, @shift, @transform, @arrow_loading) {
     .@{className} {
-      .arrow,
-      .arrowLoading {
+      .arrow {
         position: absolute;
         top: @top;
         right: @right;
         height: @length;
         width: @length;
-        transform: @transform;//rotate(53deg) skewX(24deg) skewY(10deg);
+        transform: @transform;
         border-radius: 2px 2px 2px 16px;
         box-sizing: border-box;
+        z-index: 1;
       }
 
-      .arrowLoading {
+      .arrow.arrow_loading {
         overflow: hidden;
 
         &:before {
@@ -119,7 +79,7 @@
           opacity: .3;
 
           background-size: 68px 100%;
-          top: 0px;
+          top: 0;
           left: -170px;
           right: -50px;
           :global {
@@ -141,25 +101,92 @@
     }
   }
 
-  .arrowColorMixin(@className, @hoverColorStart, @hoverColorEnd, @hoverShadow, @colorStart, @colorEnd, @shadow, @bg, @border: @bg) {
+  .buttonColorMixin(@className, @hoverColorStart, @hoverColorEnd, @hoverShadow, @hoverShadowArrow, @activeColor, @activeShadow, @activeShadowArrow, @colorStart, @colorEnd, @shadow, @shadowArrow, @bg, @color, @border: @bg) {
     .@{className} {
-      &:hover {
-        .arrow {
-          background-image: linear-gradient(
-            to bottom right,
-            @hoverColorStart,
-            @hoverColorEnd
-          );
-          box-shadow: @hoverShadow;
-        }
-      }
+      background-image: linear-gradient(
+        @colorStart,
+        @colorEnd
+      );
+      color: @color;
+      box-shadow: @shadow;
+
       .arrow {
         background-image: linear-gradient(
           to bottom right,
           @colorStart,
           @colorEnd
         );
-        box-shadow: @shadow;
+        box-shadow: @shadowArrow;
+      }
+      .arrow.arrow_warning {
+        box-shadow: 2px -2px 0 0 @border-color-warning;
+      }
+      .arrow.arrow_error {
+        box-shadow: 2px -2px 0 0 @border-color-error;
+      }
+
+      &:hover {
+        background-image: linear-gradient(
+          @hoverColorStart,
+          @hoverColorEnd
+        );
+        box-shadow: @hoverShadow;
+
+        .arrow {
+          background-image: linear-gradient(
+            to bottom right,
+            @hoverColorStart,
+            @hoverColorEnd
+          );
+          box-shadow: @hoverShadowArrow;
+        }
+        .arrow.arrow_warning {
+          box-shadow: 2px -2px 0 0 @border-color-warning;
+        }
+        .arrow.arrow_error {
+          box-shadow: 2px -2px 0 0 @border-color-error;
+        }
+      }
+
+      &:focus {
+        box-shadow:
+          inset 0 0 0 1px #FFFFFF,
+          0 0 0 2px @border-color-focus;
+        position: relative;
+        z-index: 2;
+
+        .arrow  {
+          box-shadow:
+              inset -1px 1px 0 0 #FFFFFF,
+              2px -2px 0 0 @border-color-focus;
+        }
+        .arrow.arrow_warning {
+          box-shadow:
+              inset -1px 1px 0 0 #FFFFFF,
+              2px -2px 0 0 @border-color-warning;
+        }
+        .arrow.arrow_error {
+          box-shadow:
+              inset -1px 1px 0 0 #FFFFFF,
+              2px -2px 0 0 @border-color-error;
+        }
+      }
+    }
+
+    .@{className}:active,
+    .@{className}.active {
+      background: @activeColor;
+      box-shadow: @activeShadow;
+
+      .arrow {
+        background: @activeColor;
+        box-shadow: @activeShadowArrow;
+      }
+      .arrow.arrow_warning {
+        box-shadow: 2px -2px 0 0 @border-color-warning;
+      }
+      .arrow.arrow_error {
+        box-shadow: 2px -2px 0 0 @border-color-error;
       }
     }
 
@@ -174,6 +201,8 @@
       }
 
       .@{className}:focus {
+         box-shadow: none;
+
         &:before {
           border: 1px solid #fff;
           bottom: 0;
@@ -193,18 +222,24 @@
     line-height: 32px;
     padding: 0 15px;
   }
-  .arrowSizeMixin(sizeSmall, 16.8px, 7.5px, -7.5px, -7.7px,
-                  rotate(53deg) skewX(24deg) skewY(10deg),
-                  linear-gradient(-44deg, transparent 46.5%, #ccc 0, #ccc 73.5%, transparent 0));
+  .buttonSizeMixin(sizeSmall,
+                   16.8px,
+                   7.5px,
+                   -7.5px,
+                   -7.7px,
+                   rotate(53deg) skewX(24deg) skewY(10deg),
+                   linear-gradient(-44deg, transparent 46.5%, #ccc 0, #ccc 73.5%, transparent 0));
 
   .sizeMedium {
     height: 38px;
     line-height: 38px;
     padding: 0 15px;
   }
-  .arrowSizeMixin(sizeMedium, 20.2px, 8.9px, -9.3px, -9.5px,
-                  rotate(53deg) skewX(24deg) skewY(8deg),
-                  linear-gradient(-44deg, transparent 44.5%, #ccc 0, #ccc 71.3%, transparent 0));
+  .buttonSizeMixin(sizeMedium,
+                   20.2px,
+                   8.9px, -9.3px, -9.5px,
+                   rotate(53deg) skewX(24deg) skewY(8deg),
+                   linear-gradient(-44deg, transparent 44.5%, #ccc 0, #ccc 71.3%, transparent 0));
 
   .sizeLarge {
     font-size: 16px;
@@ -212,253 +247,140 @@
     line-height: 42px;
     padding: 0 20px;
   }
-  .arrowSizeMixin(sizeLarge, 21.7px, 10.2px, -10px, -10.2px,
-                  rotate(53deg) skewX(25deg) skewY(10deg),
-                  linear-gradient(-44deg, transparent 44.2%, #ccc 0, #ccc 70.4%, transparent 0));
+  .buttonSizeMixin(sizeLarge,
+                   21.7px,
+                   10.2px,
+                   -10px,
+                   -10.2px,
+                   rotate(53deg) skewX(25deg) skewY(10deg),
+                   linear-gradient(-44deg, transparent 44.2%, #ccc 0, #ccc 70.4%, transparent 0));
 
   .deprecated_sizeDefault {
     height: 28px;
     line-height: 28px;
     padding: 0 10px;
   }
-  .arrowSizeMixin(deprecated_sizeDefault, 14.4px, 7px, -6.5px, -6.7px,
-                  rotate(53deg) skewX(24deg) skewY(10deg),
-                  linear-gradient(-44deg, transparent 44.5%, #ccc 0, #ccc 71.3%, transparent 0));
+  .buttonSizeMixin(deprecated_sizeDefault,
+                   14.4px,
+                   7px,
+                   -6.5px,
+                   -6.7px,
+                   rotate(53deg) skewX(24deg) skewY(10deg),
+                   linear-gradient(-44deg, transparent 44.5%, #ccc 0, #ccc 71.3%, transparent 0));
 
   .deprecated_sizeLarge {
     height: 34px;
     line-height: 34px;
     padding: 0 20px;
   }
-  .arrowSizeMixin(deprecated_sizeLarge, 17.7px, 8.3px, -8.1px, -8.3px,
-                  rotate(53deg) skewX(24deg) skewY(10deg),
-                  linear-gradient(-44deg, transparent 44.5%, #ccc 0, #ccc 71.3%, transparent 0));
+  .buttonSizeMixin(deprecated_sizeLarge,
+                   17.7px,
+                   8.3px,
+                   -8.1px,
+                   -8.3px,
+                   rotate(53deg) skewX(24deg) skewY(10deg),
+                   linear-gradient(-44deg, transparent 44.5%, #ccc 0, #ccc 71.3%, transparent 0));
 
   .buttonWithIcon {
     padding-right: 15px;
     padding-left: 15px;
   }
 
-  .arrowButton {
-    &:after {
-      content: '';
-    }
-  }
-
   // Use Default
 
-  .use-default {
-    background-image: linear-gradient(
-      -180deg,
-      @btn-default-bg-start,
-      @btn-default-bg-end
-    );
-    box-shadow: @btn-default-shadow;
-
-    &:hover {
-      background-image: linear-gradient(
-        -180deg,
-        @btn-default-hover-bg-start,
-        @btn-default-hover-bg-end
-      );
-      box-shadow: @btn-default-hover-shadow;
-    }
-  }
-  .arrowColorMixin(use-default,
+  .buttonColorMixin(use-default,
     @btn-default-hover-bg-start,
     @btn-default-hover-bg-end,
+    @btn-default-hover-shadow,
     @btn-default-hover-shadow-arrow,
+
+    @btn-default-active-bg,
+    @btn-default-active-shadow,
+    @btn-default-active-shadow-arrow,
+
     @btn-default-bg-start,
     @btn-default-bg-end,
+    @btn-default-shadow,
     @btn-default-shadow-arrow,
     @btn-default-bg,
+    none,
     @border-color-gray-dark);
-
-  .focusMixin(use-default);
-
-  .use-default:active,
-  .use-default.active {
-    background: @btn-default-active-bg;
-    box-shadow: @btn-default-active-shadow;
-
-    .arrow {
-      background: @btn-default-active-bg;
-      box-shadow: @btn-default-active-shadow-arrow;
-    }
-  }
-
-  //.fallbackMixin(use-default; @btn-default-bg; @border-color-gray-dark);
 
   // Use Primary
 
-  .use-primary {
-    background-image: linear-gradient(
-      @btn-primary-bg-start,
-      @btn-primary-bg-end
-    );
-    box-shadow: @btn-primary-shadow;
-    color: #fff;
-
-    &:hover {
-      background-image: linear-gradient(
-        @btn-primary-hover-bg-start,
-        @btn-primary-hover-bg-end
-      );
-      box-shadow: @btn-primary-hover-shadow;
-    }
-  }
-  .arrowColorMixin(use-primary,
+  .buttonColorMixin(use-primary,
      @btn-primary-hover-bg-start,
      @btn-primary-hover-bg-end,
+     @btn-primary-hover-shadow,
      @btn-primary-hover-shadow-arrow,
+
+     @btn-primary-active-bg,
+     @btn-primary-active-shadow,
+     @btn-primary-active-shadow-arrow,
+
      @btn-primary-bg-start,
      @btn-primary-bg-end,
+     @btn-primary-shadow,
      @btn-primary-shadow-arrow,
-     @btn-primary-bg);
-
-  .focusMixin(use-primary);
-
-  .use-primary:active,
-  .use-primary.active {
-    background: @btn-primary-active-bg;
-    box-shadow: @btn-primary-active-shadow;
-
-    .arrow {
-      background: @btn-primary-active-bg;
-      box-shadow: @btn-primary-active-shadow-arrow;
-    }
-  }
-
-  //.fallbackMixin(use-primary, @btn-primary-bg);
+     @btn-primary-bg,
+     #fff);
 
   // Use Success
 
-  .use-success {
-    background-image: linear-gradient(
-      @btn-success-bg-start,
-      @btn-success-bg-end
-    );
-    box-shadow: @btn-success-shadow;
-    color: #fff;
-
-    &:hover {
-      background-image: linear-gradient(
-        @btn-success-hover-bg-start,
-        @btn-success-hover-bg-end
-      );
-      box-shadow: @btn-success-hover-shadow;
-    }
-  }
-  .arrowColorMixin(use-success,
+  .buttonColorMixin(use-success,
     @btn-success-hover-bg-start,
     @btn-success-hover-bg-end,
+    @btn-success-hover-shadow,
     @btn-success-hover-shadow-arrow,
+
+    @btn-success-active-bg,
+    @btn-success-active-shadow,
+    @btn-success-active-shadow-arrow,
+
     @btn-success-bg-start,
     @btn-success-bg-end,
+    @btn-success-shadow,
     @btn-success-shadow-arrow,
-    @btn-success-bg);
-
-  .focusMixin(use-success);
-
-  .use-success:active,
-  .use-success.active {
-    background: @btn-success-active-bg;
-    box-shadow: @btn-success-active-shadow;
-
-    .arrow {
-      background: @btn-success-active-bg;
-      box-shadow: @btn-success-active-shadow-arrow;
-    }
-  }
-
-  //.fallbackMixin(use-success, @btn-success-bg);
+    @btn-success-bg,
+    #fff);
 
   // Use Danger
 
-  .use-danger {
-    background-image: linear-gradient(
-      @btn-danger-bg-start,
-      @btn-danger-bg-end
-    );
-    box-shadow: @btn-danger-shadow;
-    color: #fff;
-
-    &:hover {
-      background-image: linear-gradient(
-        @btn-danger-hover-bg-start,
-        @btn-danger-hover-bg-end
-      );
-      box-shadow: @btn-danger-hover-shadow;
-    }
-  }
-  .arrowColorMixin(use-danger,
+  .buttonColorMixin(use-danger,
     @btn-danger-hover-bg-start,
     @btn-danger-hover-bg-end,
+    @btn-danger-hover-shadow,
     @btn-danger-hover-shadow-arrow,
+
+    @btn-danger-active-bg,
+    @btn-danger-active-shadow,
+    @btn-danger-active-shadow-arrow,
+
     @btn-danger-bg-start,
     @btn-danger-bg-end,
+    @btn-danger-shadow,
     @btn-danger-shadow-arrow,
-    @btn-danger-bg);
-
-  .focusMixin(use-danger);
-
-  .use-danger:active,
-  .use-danger.active {
-    //background: #cd381b;
-    //border-color: #853333 #b24c4c #b24c4c;
-    //box-shadow: inset 0 2px 1px -1px #9e2b15;
-
-    background: @btn-danger-active-bg;
-    box-shadow: @btn-danger-active-shadow;
-
-    .arrow {
-      background: @btn-danger-active-bg;
-      box-shadow: @btn-danger-active-shadow-arrow;
-    }
-  }
-
-  //.fallbackMixin(use-danger, @btn-danger-bg);
+    @btn-danger-bg,
+    #fff);
 
   // Use Pay
 
-  .use-pay {
-    background-image: linear-gradient(
-      @btn-pay-bg-start,
-      @btn-pay-bg-end
-    );
-    box-shadow: @btn-pay-shadow;
-
-    &:hover {
-      background-image: linear-gradient(
-        @btn-pay-hover-bg-start,
-        @btn-pay-hover-bg-end
-      );
-      box-shadow: @btn-pay-hover-shadow;
-    }
-  }
-  .arrowColorMixin(use-pay,
+  .buttonColorMixin(use-pay,
     @btn-pay-hover-bg-start,
     @btn-pay-hover-bg-end,
+    @btn-pay-hover-shadow,
     @btn-pay-hover-shadow-arrow,
+
+    @btn-pay-active-bg,
+    @btn-pay-active-shadow,
+    @btn-pay-active-shadow-arrow,
+
     @btn-pay-bg-start,
     @btn-pay-bg-end,
+    @btn-pay-shadow,
     @btn-pay-shadow-arrow,
-    @btn-pay-bg);
-
-  .focusMixin(use-pay);
-
-  .use-pay:active,
-  .use-pay.active {
-    background: @btn-pay-active-bg;
-    box-shadow: @btn-pay-active-shadow;
-
-    .arrow {
-      background: @btn-pay-active-bg;
-      box-shadow: @btn-pay-active-shadow-arrow;
-    }
-  }
-
-  //.fallbackMixin(use-pay, @btn-pay-bg);
+    @btn-pay-bg,
+    none);
 
   // End Use
 
@@ -468,10 +390,46 @@
       0 0 0 1px rgba(0, 0, 0, .6),
       inset 0 1px 2px 0 rgba(0, 0, 0, .3);
     color: #fff;
-  }
 
-  .focusMixin(checked);
-  .fallbackMixin(checked, #737373);
+    .arrow {
+      background: #737373;
+      box-shadow: @btn-shadow-checked-arrow;
+    }
+    .arrow.arrow_error {
+      box-shadow:
+        inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
+        2px -2px 0 0 @border-color-error;
+    }
+    .arrow.arrow_warning {
+      box-shadow:
+        inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
+        2px -2px 0 0 @border-color-warning;
+    }
+
+    &:focus {
+      box-shadow:
+        inset 0 0 0 1px #FFFFFF,
+        0 0 0 2px @border-color-focus;
+      position: relative;
+      z-index: 2;
+
+      .arrow  {
+        box-shadow:
+            inset -1px 1px 0 0 #FFFFFF,
+            2px -2px 0 0 @border-color-focus;
+      }
+      .arrow.arrow_warning {
+        box-shadow:
+            inset -1px 1px 0 0 #FFFFFF,
+            2px -2px 0 0 @border-color-warning;
+      }
+      .arrow.arrow_error {
+        box-shadow:
+            inset -1px 1px 0 0 #FFFFFF,
+            2px -2px 0 0 @border-color-error;
+      }
+    }
+  }
 
   .root.disabled {
     background: @bg-disabled;
@@ -479,10 +437,15 @@
     color: #808080;
     cursor: default;
 
-    .arrow,
-    .arrowLoading {
+    .arrow {
       background: @bg-disabled;
       box-shadow: 1px -1px 0 0 @border-color-gray-light;
+    }
+    .arrow.arrow_warning {
+      box-shadow: 2px -2px 0 0 @border-color-warning;
+    }
+    .arrow.arrow_error {
+      box-shadow: 2px -2px 0 0 @border-color-error;
     }
   }
 
@@ -496,9 +459,6 @@
     overflow: hidden;
   }
 
-  .arrowLoading {
-    overflow: hidden;
-  }
   .loading:before {
     content: '';
     height: 100%;
@@ -514,10 +474,6 @@
     }
     transform: rotateY(180deg) skewX(0deg) skewY(0deg);
   }
-
-  //.arrowLoading:before {
-  //
-  //}
 
   .warning,
   .error {

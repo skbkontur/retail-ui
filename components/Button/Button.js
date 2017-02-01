@@ -146,10 +146,6 @@ class Button extends React.Component {
       wrapStyle.width = this.props.width;
     }
 
-    if (this.props.arrow) {
-      wrapStyle.marginRight = '10px'
-    }
-
     let error = null;
     if (this.props.error) {
       error = <div className={styles.error} />;
@@ -172,14 +168,18 @@ class Button extends React.Component {
     }
 
     let arrow = null;
+    let arrow_styles = classNames(
+      styles.arrow,
+      this.props.loading ? styles.arrow_loading : '',
+      this.props.error ? styles.arrow_error : '',
+      this.props.warning? styles.arrow_warning : ''
+    );
     if (this.props.arrow) {
-      arrow = this.props.loading
-        ? <div className={styles.arrowLoading} />
-        : <div className={styles.arrow} />;
+      arrow = <div className={arrow_styles} />;
     }
 
     return (
-      <span className={styles.wrap} style={wrapStyle}>
+      <span className={this.props.arrow ? styles.wrap_arrow : styles.wrap} style={wrapStyle}>
         <button {...rootProps}>
           {loading}
           {arrow}
