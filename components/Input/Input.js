@@ -7,7 +7,6 @@ import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 
 import filterProps from '../filterProps';
-import Upgrades from '../../lib/Upgrades';
 
 import '../ensureOldIEClassName';
 import styles from './Input.less';
@@ -45,9 +44,9 @@ const INPUT_PASS_PROPS = {
 };
 
 const SIZE_CLASS_NAMES = {
-  small: styles.deprecated_sizeSmall,
-  default: styles.deprecated_sizeDefault,
-  large: styles.deprecated_sizeLarge,
+  small: styles.sizeSmall,
+  medium: styles.sizeMedium,
+  large: styles.sizeLarge,
 };
 
 export type Props = {
@@ -145,10 +144,7 @@ export default class Input extends React.Component {
      */
     rightIcon: PropTypes.element,
 
-    /**
-     * DEPRECATED
-     */
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
 
     title: PropTypes.string,
 
@@ -187,6 +183,10 @@ export default class Input extends React.Component {
     onPaste: PropTypes.func,
   };
 
+  static defaultProps = {
+    size: 'small',
+  }
+
   props: Props;
   state: State = {
     polyfillPlaceholder: false,
@@ -205,16 +205,12 @@ export default class Input extends React.Component {
         [styles.warning]: this.props.warning,
         [styles.padLeft]: this.props.leftIcon,
         [styles.padRight]: this.props.rightIcon,
+        [SIZE_CLASS_NAMES[this.props.size]]: true,
       }),
       style: {},
     };
     if (this.props.width) {
       labelProps.style.width = this.props.width;
-    }
-
-    if (!Upgrades.isHeight34Enabled()) {
-      const size = this.props.size || 'default';
-      labelProps.className += ' ' + SIZE_CLASS_NAMES[size];
     }
 
     var placeholder = null;
