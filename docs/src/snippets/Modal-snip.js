@@ -17,9 +17,20 @@ var Comp = React.createClass({
       <Modal onClose={this.close}>
         <Modal.Header>Title</Modal.Header>
         <Modal.Body>
-          A lotta people ask me where the fuck I've been at the last few years.
+          <p>
+            A lotta people ask me where the
+            fuck I've been at the last few years.
+          </p>
+
+          <div>
+            <Toggle
+              checked={this.state.panel}
+              onChange={() => this.setState(({panel}) => ({panel: !panel}))}
+            /> Panel {this.state.panel ? 'enabled' : 'disabled'}
+          </div>
+
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer panel={this.state.panel}>
           <Button onClick={this.close}>Close</Button>
         </Modal.Footer>
       </Modal>

@@ -1,0 +1,33 @@
+// @flow
+import React from 'react';
+import {storiesOf} from '@kadira/storybook';
+
+import Textarea from '../../components/Textarea';
+
+storiesOf('Textarea', module).
+  add('Simple Textarea', () => (
+    <Textarea />
+  )).
+  add('Filled Textarea', () => (
+    <Textarea
+      value={'Lorem ipsum dolor sit amet, consectetur adipisicing elit.\
+        Modi enim voluptatum esse, id libero voluptas similique beatae,\
+        molestiae, impedit corrupti corporis asperiores odit ullam provident\
+        officia alias aperiam eum quas.'
+      }
+    />
+  )).
+  add('Textarea in inlin-flex and text', () => (
+    <div>
+      <div style={{display: 'inline-flex'}}>
+        <Textarea
+          value={'Lorem ipsum dolor sit amet, consectetur adipisicing elit.\
+            Modi enim voluptatum esse, id libero voluptas similique beatae,\
+            molestiae, impedit corrupti corporis asperiores odit ullam\
+            provident officia alias aperiam eum quas.'
+          }
+        />
+      </div>
+      Lorem text
+    </div>
+  ));

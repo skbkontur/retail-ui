@@ -25,7 +25,13 @@ let mountedModalsCount = 0;
 let prevMarginRight = 0;
 
 /**
- * Модальное окно.
+ * Модальное окно
+ *
+ * Содержит в себе три компоненты: **Modal.Header**,
+ * **Modal.Body** и **Modal.Footer**
+ *
+ * Для отображения серой плашки в футере в компонент
+ * **Footer** необходимо передать пропс **panel**
  */
 class Modal extends React.Component {
   static propTypes = {
@@ -233,8 +239,12 @@ class Body extends React.Component {
   }
 }
 
+/**
+ * Футер модального окна.
+ */
 class Footer extends React.Component {
   static propTypes = {
+    /** Включает серый цвет в футере */
     panel: PropTypes.bool,
   }
 
