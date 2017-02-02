@@ -17,51 +17,51 @@ export default function renderPin(
   const inner = {};
   switch (pos.pinDirection) {
     case 'bottom':
-      outer.bottom = -6;
-      outer.marginLeft = -7;
+      outer.bottom = -8;
+      outer.marginLeft = -9;
 
       outer.borderBottom = inner.borderBottom = '0';
       outer.borderLeftColor = inner.borderLeftColor = 'transparent';
       outer.borderRightColor = inner.borderRightColor = 'transparent';
 
-      inner.top = -7;
-      inner.left = -6;
+      inner.top = -9;
+      inner.left = -8;
       break;
 
     case 'top':
-      outer.top = -6;
-      outer.marginLeft = -7;
+      outer.top = -8;
+      outer.marginLeft = -9;
 
       outer.borderTop = inner.borderTop = '0';
       outer.borderLeftColor = inner.borderLeftColor = 'transparent';
       outer.borderRightColor = inner.borderRightColor = 'transparent';
 
       inner.top = 1;
-      inner.left = -6;
+      inner.left = -8;
       break;
 
     case 'left':
-      outer.left = -6;
-      outer.marginTop = -7;
+      outer.left = -8;
+      outer.marginTop = -9;
 
       outer.borderLeft = inner.borderLeft = '0';
       outer.borderTopColor = inner.borderTopColor = 'transparent';
       outer.borderBottomColor = inner.borderBottomColor = 'transparent';
 
-      inner.top = -6;
+      inner.top = -8;
       inner.left = 1;
       break;
 
     case 'right':
-      outer.right = -6;
-      outer.marginTop = -7;
+      outer.right = -8;
+      outer.marginTop = -9;
 
       outer.borderRight = inner.borderRight = '0';
       outer.borderTopColor = inner.borderTopColor = 'transparent';
       outer.borderBottomColor = inner.borderBottomColor = 'transparent';
 
-      inner.top = -6;
-      inner.left = -7;
+      inner.top = -8;
+      inner.left = -9;
       break;
   }
 

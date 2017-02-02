@@ -25,10 +25,13 @@ export default class InputLikeText extends React.Component {
     error?: bool,
     padRight?: bool,
     warning?: bool,
+    disabled?: bool
   };
 
   render() {
-    const passProps = filterProps(this.props, PASS_PROPS);
+    const passProps = this.props.disabled
+      ? {}
+      : filterProps(this.props, PASS_PROPS);
 
     const className = classNames({
       [styles.root]: true,
@@ -36,7 +39,7 @@ export default class InputLikeText extends React.Component {
       [styles.borderless]: this.props.borderless,
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,
-
+      [styles.disabled]: this.props.disabled,
       [styles.deprecated_oldSize]: !Upgrades.isHeight34Enabled(),
     });
 

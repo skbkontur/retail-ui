@@ -10,14 +10,11 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
+      - graphicsmagick
 before_script:
-- sudo apt-get update -qq 
-- sudo apt-get install -qq -y graphicsmagick
-- npm install -g gemini
-- npm install -g gemini-sauce
 - cd docs
-- npm i
-- npm run storybook &
+- yarn
+- yarn run storybook &
 - sleep 2
 - cd ..
 before_deploy:
@@ -35,9 +32,6 @@ before_deploy:
 - npm install
 - ./deploy.sh
 - cd ..
-after_success:
-- npm install codeclimate-test-reporter
-- codeclimate-test-reporter < coverage/lcov.info
 deploy:
   provider: npm
   email: tihonov.ea@gmail.com

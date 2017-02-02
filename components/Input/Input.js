@@ -222,7 +222,12 @@ export default class Input extends React.Component {
     if (this.state.polyfillPlaceholder && this.props.placeholder
         && !this.props.mask && !this.props.value) {
       placeholder = (
-        <div className={styles.placeholder}>{this.props.placeholder}</div>
+        <div
+          className={styles.placeholder}
+          style={{textAlign: this.props.align || 'inherit'}}
+        >
+          {this.props.placeholder}
+        </div>
       );
     }
 

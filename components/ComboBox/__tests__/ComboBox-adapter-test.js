@@ -29,7 +29,7 @@ describe('ComboBox-adapter', () => {
     const source = jest.fn(() => Promise.resolve(['bar']));
     const adapter = mount(<ComboBox onChange={onChange} source={source} />);
 
-    const isOpened = () => !adapter.wrapper.find('input').isEmpty();
+    const isOpened = () => adapter.wrapper.find('input').exists();
 
     adapter.search('whoop');
     expect(isOpened()).toBe(true);
@@ -46,7 +46,7 @@ describe('ComboBox-adapter', () => {
     const source = jest.fn(() => Promise.resolve(['bar']));
     const adapter = mount(<ComboBox onClose={onClose} source={source} />);
 
-    const isOpened = () => !adapter.wrapper.find('input').isEmpty();
+    const isOpened = () => adapter.wrapper.find('input').exists();
 
     adapter.search('whoop');
     expect(isOpened()).toBe(true);

@@ -6,6 +6,7 @@ import React, {PropTypes} from 'react';
 import Corners from './Corners';
 import Icon from '../Icon';
 import Upgrades from '../../lib/Upgrades';
+import browser from '../../lib/browserNormalizer';
 
 import '../ensureOldIEClassName';
 import styles from './Button.less';
@@ -136,6 +137,7 @@ class Button extends React.Component {
       disabled: this.props.disabled || this.props.loading,
       onClick: this.props.onClick,
       onKeyDown: this.props.onKeyDown,
+      onMouseDown: this._handleMouseDown, //to prevent focus on click
     };
     if (this.props.align) {
       rootProps.style.textAlign = this.props.align;
@@ -191,6 +193,13 @@ class Button extends React.Component {
         </button>
       </span>
     );
+  }
+
+  _handleMouseDown(e) {
+    if (browser.hasFocusOnButtonClick) {
+      document.activeElement.blur();
+      e.preventDefault();
+    }
   }
 
   _getSizeClassMap() {

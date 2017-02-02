@@ -108,7 +108,6 @@
     color: #aaa;
     font-size: inherit;
     left: @side-padding + 1;
-    line-height: inherit;
     overflow: hidden;
     position: absolute;
     right: @side-padding + 1;
@@ -120,9 +119,11 @@
     cursor: text;
     line-height: 32px;
   }
+
   .padLeft .placeholder {
     left: @side-padding-padded + 1;
   }
+
   .padRight .placeholder {
     right: @side-padding-padded + 1;
   }
@@ -136,6 +137,7 @@
     top: 0;
     z-index: 2;
   }
+
   .disabled .leftIcon,
   .disabled .rightIcon {
     cursor: default;

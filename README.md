@@ -1,6 +1,17 @@
 # React UI
 [![Build Status](https://travis-ci.org/skbkontur/retail-ui.svg?branch=master)](https://travis-ci.org/skbkontur/retail-ui)
-[![Test Coverage](https://codeclimate.com/github/skbkontur/retail-ui/badges/coverage.svg)](https://codeclimate.com/github/skbkontur/retail-ui/coverage)
+
+### Тестирование
+Тестирование происходит с использованием [jest](https://facebook.github.io/jest/) и
+[gemini](https://gemini-testing.github.io/).
+Для запуска тестов на gemini необходимо проставить переменные окружения
+`SAUCE_USERNAME` и `SAUCE_ACCESS_KEY`.<br />
+Для запуска только __jest__ тестов можно выполнить `npm run test-unit`
+
+### Помощь в развитии
+Мы рады любой сторонней помощи. Не стесняйтесь писать в [issues](https://github.com/skbkontur/retail-ui/issues)
+баги и идеи для развития библиотеки.<br />
+Присылайте пулл-реквесты. Даже если в них нет поддержки IE8. Мы доделаем (:
 
 ### Подключение
 **Webpack**
@@ -28,6 +39,5 @@ module: {
   ]
   /* ... */
 }
-/* ... */ 
+/* ... */
 ```
-Или можно воспользоваться проектом: [retail-ui-starter](https://git.skbkontur.ru/catalogue/retail-ui-starter)

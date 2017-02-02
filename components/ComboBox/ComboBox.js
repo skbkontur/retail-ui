@@ -104,7 +104,25 @@ export default class ComboBox extends React.Component {
 
     onFocus: PropTypes.func,
 
+    /**
+     * Вызывается при изменении текста в поле ввода,
+     * если результатом функции будет строка,
+     * то она станет следующим состояним полем ввода
+     *
+     * `(value: string) => any`
+     */
+    onInputChange: PropTypes.func,
+
+    /**
+     * Позволяет обработать нажатия клавиш.
+     * Можно отменить стандартное поведение, используя `event.preventDefault()`
+     *
+     * `(event: KeyboardSyntheticEvent) => void`
+     */
+    onInputKeyDown: PropTypes.func,
+
     onOpen: PropTypes.func,
+
   };
 
   props: Props;

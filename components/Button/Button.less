@@ -40,13 +40,16 @@
       border: 0;
       padding: 0;
     }
+
+    &:active {
+      padding-top: 1px;
+      vertical-align: -1px;
+    }
   }
 
   .caption {
     position: relative;
     white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
   }
 
   .icon {
@@ -463,14 +466,14 @@
     content: '';
     height: 100%;
     position: absolute;
-    opacity: .3;
-    background: linear-gradient(-120deg, transparent 33%, #ccc 0, #ccc 66%, transparent 0);
-    background-size: 50px 100%;
+    opacity: .2;
+    background: linear-gradient(-70deg, #ccc 30%, transparent 0, transparent 60%, #ccc 0);
+    background-size: 30px 100%;
     top: 0;
     left: 0;
-    right: -50px;
+    right: -30px;
     :global {
-      animation: btn_loading 1.4s linear infinite;
+      animation: btn_loading 1s linear infinite;
     }
     transform: rotateY(180deg) skewX(0deg) skewY(0deg);
   }
@@ -523,7 +526,7 @@
     transform: translateX(0) rotateY(180deg);
   }
   100% {
-    transform: translateX(-50px) rotateY(180deg);
+    transform: translateX(-30px) rotateY(180deg);
   }
 }
 
