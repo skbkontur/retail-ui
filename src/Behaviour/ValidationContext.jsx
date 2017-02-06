@@ -5,7 +5,7 @@ import ValidationWrapper from './ValidationWrapper';
 
 type ValidationContextProps = {
     children?: any;
-    onValidationUpdated?: (index?: int, isValid?: boolean) => void;
+    onValidationUpdated?: (isValid?: boolean) => void;
 };
 
 export default class ValidationContext extends React.Component {
@@ -30,7 +30,7 @@ export default class ValidationContext extends React.Component {
         this.childWrappers.splice(this.childWrappers.indexOf(wrapper), 1);
     }
 
-    onValidationUpdated(index, isValid) {
+    onValidationUpdated(index?: number, isValid?: boolean) {
         if (this.props.onValidationUpdated) {
             let isValidResult;
             if (index !== undefined && isValid !== undefined) {
