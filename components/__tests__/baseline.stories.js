@@ -2,9 +2,9 @@
 import React from 'react';
 import {storiesOf} from '@kadira/storybook';
 
-import Button from '../../components/Button';
-import Link from '../../components/Link';
-import Input from '../../components/Input';
+import Button from '../Button';
+import Link from '../Link';
+import Input from '../Input';
 
 storiesOf('Baseline', module).
   add('Button and text', () => (

@@ -25,9 +25,9 @@ module.exports = {
           ],
         },
         include: [
-          path.resolve(__dirname, '..', '..', 'components'),
-          path.resolve(__dirname, '..', '..', 'lib'),
-          path.resolve(__dirname, '..', '..', 'testing'),
+          path.resolve(__dirname, '..', 'components'),
+          path.resolve(__dirname, '..', 'lib'),
+          path.resolve(__dirname, '..', 'testing'),
         ],
       },
       {
@@ -42,21 +42,9 @@ module.exports = {
     ],
   },
   resolve: {
-    fallback: path.join(__dirname, '..', 'node_modules'),
     alias: {
-      ui: path.resolve(__dirname, '..', '..', 'components'),
-      react: path.resolve(__dirname, '..', 'node_modules/react'),
-      'react-dom': path.resolve(__dirname, '..', 'node_modules/react-dom'),
+      ui: path.resolve(__dirname, '..', 'components'),
     },
     extensions: ['', '.adapter.js', '.js', '.jsx', '.json'],
-  },
-  resolveLoader: {
-    modulesDirectories: [
-      "web_loaders",
-      "web_modules",
-      "node_loaders",
-      "node_modules",
-      path.join(__dirname, '..', 'node_modules')
-    ]
   }
 };
