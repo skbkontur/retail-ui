@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
 import {storiesOf} from '@kadira/storybook';
-import Tooltip from '../../components/Tooltip';
-import Button from '../../components/Button';
+import Tooltip from '../Tooltip';
+import Button from '../../Button';
 
 class TestTooltip extends React.Component {
   render() {

@@ -1,8 +1,9 @@
 // @flow
 import React from 'react';
 import {storiesOf, action} from '@kadira/storybook';
-import Toast from '../../components/Toast';
-import Button from '../../components/Button';
+
+import Toast from '../Toast';
+import Button from '../../Button';
 
 class TestNotifier extends React.Component {
   notifier: Toast

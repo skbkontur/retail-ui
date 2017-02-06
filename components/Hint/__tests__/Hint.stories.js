@@ -3,7 +3,7 @@ import React from 'react';
 import {storiesOf} from '@kadira/storybook';
 
 // import Hint from '../../components/Hint';
-import HintBox from '../../components/Hint/HintBox';
+import HintBox from '../HintBox';
 
 class Hint extends React.Component {
   props: {

@@ -125,6 +125,12 @@ export default class ComboBox extends React.Component {
 
   };
 
+  static defaultProps = {
+    menuAlign: 'left',
+    placeholder: '',
+    width: 250,
+  }
+
   props: Props;
 
   state = {

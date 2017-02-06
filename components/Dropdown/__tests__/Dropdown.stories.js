@@ -2,7 +2,7 @@
 import React from 'react';
 import {storiesOf} from '@kadira/storybook';
 
-import Dropdown, {MenuItem} from '../../components/Dropdown';
+import Dropdown, {MenuItem} from '../Dropdown';
 
 storiesOf('Dropdown', module).
   addDecorator(story => (

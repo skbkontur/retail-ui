@@ -2,7 +2,7 @@
 import React from 'react';
 import {storiesOf} from '@kadira/storybook';
 
-import Textarea from '../../components/Textarea';
+import Textarea from '../Textarea';
 
 storiesOf('Textarea', module).
   add('Simple Textarea', () => (

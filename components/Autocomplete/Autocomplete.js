@@ -52,6 +52,7 @@ export default class Autocomplete extends React.Component {
 
   static defaultProps = {
     renderItem,
+    size: 'small',
   };
 
   props: Props;

@@ -37,7 +37,6 @@ module.exports = {
       {test: /\.less$/, loader: 'less-loader'},
       {test: /\.(woff|woff2|eot)$/, loader: 'file-loader'},
       {test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader'},
-      {test: /\.md$/, loader: 'marked-loader'},
       {test: /\.json/, loader: 'json-loader'}
     ],
   },
