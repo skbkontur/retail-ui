@@ -16,11 +16,9 @@ export { ValidationWrapper };
 
 import type { RenderErrorMessage } from './Behaviour/ValidationWrapper';
 
-import cn from './Validations.less';
-
 type ValidationContainerProps = {
     children?: any;
-    onValidationUpdated?: (isValid: boolean) => void;
+    onValidationUpdated?: (isValid?: ?boolean) => void;
 };
 
 export class ValidationContainer extends React.Component {
@@ -92,7 +90,9 @@ export function tooltip(pos: string): RenderErrorMessage {
                 pos={pos}
                 error={hasError}
                 render={() => validation && validation.message || ''}>
-                {control}
+                <span>
+                    {control}
+                </span>
             </ValidationTooltip>
         );
 }
@@ -105,7 +105,9 @@ export function text(pos: string = 'right'): RenderErrorMessage {
             (
                 <span>
                     {control}
-                    <span className={cn('error-message')}>{validation && validation.message || ''}</span>
+                    <span style={{ marginLeft: '10px', color: '#d43517' }}>
+                        {validation && validation.message || ''}
+                    </span>
                 </span>
             );
     }
@@ -113,10 +115,17 @@ export function text(pos: string = 'right'): RenderErrorMessage {
     // eslint-disable-next-line react/display-name
     return (control, hasError, validation) =>
         (
-            <span className={cn('control-with-error-message')}>
+            <span style={{ position: 'relative', display: 'inline-block' }}>
                 {control}
-                <span className={cn('bottom-error-message-container')}>
-                    <span className={cn('bottom-error-message')}>{validation && validation.message || ''}</span>
+                <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>
+                    <span style={{
+                        color: '#d43517',
+                        overflow: 'visible',
+                        whiteSpace: 'nowrap',
+                        position: 'absolute',
+                        top: '2px',
+                        left: 0,
+                    }}>{validation && validation.message || ''}</span>
                 </span>
             </span>
         );

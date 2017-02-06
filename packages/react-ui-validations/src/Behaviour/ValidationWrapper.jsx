@@ -13,7 +13,7 @@ export type Validation = {
 export interface IValidationContext {
     register(wrapper: ValidationWrapper): void;
     unregister(wrapper: ValidationWrapper): void;
-    onValidationUpdated(index: int, isValid: boolean): void;
+    onValidationUpdated(index: number, isValid: boolean): void;
 }
 
 export type RenderErrorMessage =
