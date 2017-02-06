@@ -97,7 +97,7 @@ export default class ValidationTooltipContext extends React.Component {
         }
     }
 
-    instanceMouseEnter(validationTooltip: ValidationTooltip) {
+    instanceMouseOver(validationTooltip: ValidationTooltip) {
         if (validationTooltip.props.error) {
             if (this.focusedValidationTooltip !== validationTooltip &&
                 this.prevFocusedValidationTooltip !== validationTooltip) {
@@ -126,7 +126,7 @@ export default class ValidationTooltipContext extends React.Component {
         }
     }
 
-    instanceMouseLeave(validationTooltip: ValidationTooltip) {
+    instanceMouseOut(validationTooltip: ValidationTooltip) {
         if (validationTooltip.props.error) {
             if (this.hoveredValidationTooltip === validationTooltip) {
                 validationTooltip.setOpened(false);

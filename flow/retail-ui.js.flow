@@ -1,0 +1,8 @@
+// @flow
+declare module 'retail-ui/components/Tooltip' {
+    declare export default ReactClass<*>;
+}
+
+declare module 'retail-ui/components/RadioGroup' {
+    declare export default ReactClass<*>;
+}

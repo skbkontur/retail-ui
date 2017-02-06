@@ -61,12 +61,12 @@ export default class ValidationTooltip extends React.Component {
         this.context.validationTooltipContext.instanceBlur(this);
     }
 
-    handleMouseEnter() {
-        this.context.validationTooltipContext.instanceMouseEnter(this);
+    handleMouseOver() {
+        this.context.validationTooltipContext.instanceMouseOver(this);
     }
 
-    handleMouseLeave() {
-        this.context.validationTooltipContext.instanceMouseLeave(this);
+    handleMouseOut() {
+        this.context.validationTooltipContext.instanceMouseOut(this);
     }
 
     render(): React.Element<*> {
@@ -85,8 +85,8 @@ export default class ValidationTooltip extends React.Component {
                     onlyChild.props.onBlur(...args);
                 }
             },
-            onMouseEnter: () => this.handleMouseEnter(),
-            onMouseLeave: () => this.handleMouseLeave(),
+            onMouseOver: () => this.handleMouseOver(),
+            onMouseOut: () => this.handleMouseOut(),
         };
         if (onlyChild.type === RadioGroup) {
             const prevRenderItem = onlyChild.props.renderItem;
