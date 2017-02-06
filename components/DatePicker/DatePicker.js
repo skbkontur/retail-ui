@@ -14,6 +14,8 @@ import styles from './DatePicker.less';
 const INPUT_PASS_PROPS = {
   disabled: true,
   error: true,
+  placeholder: true,
+  size: true,
 
   onInput: true,
   onKeyDown: true,
@@ -27,6 +29,7 @@ type Props = {
   error?: bool,
   maxYear?: number,
   minYear?: number,
+  size?: 'small' | 'medium' | 'large',
   value: ?Date,
   width?: number | string,
   onBlur?: () => void,
@@ -58,6 +61,8 @@ export default class DatePicker extends React.Component {
      * Минимальный год в селекте для года.
      */
     minYear: PropTypes.number,
+
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
 
     value: PropTypes.instanceOf(Date),
 
@@ -119,6 +124,7 @@ export default class DatePicker extends React.Component {
       [styles.openButton]: true,
       [styles.openButtonDisabled]: this.props.disabled,
     });
+    const iconSize = this.props.size === 'large' ? 16 : 14;
     return (
       <span className={className} style={{width: this.props.width}}>
         <Input
@@ -130,10 +136,13 @@ export default class DatePicker extends React.Component {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
+          rightIcon={(
+            <div className={openClassName} onClick={this.open}>
+              <Icon name="calendar" size={iconSize}/>
+            </div>
+          )}
         />
-        <div className={openClassName} onClick={this.open}>
-          <Icon name="calendar" />
-        </div>
+
         {picker}
       </span>
     );
