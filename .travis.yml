@@ -1,6 +1,17 @@
 language: node_js
 node_js:
 - '5'
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_874140afe167_key -iv $encrypted_874140afe167_iv -in travis-deploy-key.enc -out travis-deploy-key -d
+- chmod 600 travis-deploy-key
+- eval `ssh-agent -s`
+- ssh-add travis-deploy-key
+- git config --global user.name "Travis CI"
+- git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
+- pushd docs
+- npm install
+- npm publish
+- popd
 deploy:
   provider: npm
   email: tihonov.ea@gmail.com
