@@ -2,12 +2,14 @@
 
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 
 import filterProps from '../filterProps';
 import Icon from '../Icon';
 import Input from '../Input';
 import Picker from './Picker';
 import dateParser from './dateParser';
+import DropdownContainer from '../DropdownContainer/DropdownContainer';
 
 import styles from './DatePicker.less';
 
@@ -108,12 +110,15 @@ export default class DatePicker extends React.Component {
     let picker = null;
     if (this.state.opened) {
       picker = (
-        <div className={styles.picker} onKeyDown={this.handlePickerKey}>
+        <DropdownContainer
+          getParent={() => findDOMNode(this)}
+          offsetY={1}
+        >
           <Picker value={value}
             minYear={this.props.minYear} maxYear={this.props.maxYear}
             onPick={this.handlePick} onClose={this.handlePickerClose}
           />
-        </div>
+        </DropdownContainer>
       );
     }
     const className = classNames({
