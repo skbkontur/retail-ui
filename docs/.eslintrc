@@ -1,5 +1,12 @@
 {
-    "rules": {
-        "react/no-multi-comp": 0
+    "extends": [
+        "skbkontur-retail"
+    ],
+    "globals": {
+        "ReactClass": false,
+        "$Keys": false,
+        "Class": false,
+        "$NonMaybeType": false,
+        "RequestOptions": false
     }
 }
