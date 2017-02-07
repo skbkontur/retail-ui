@@ -9,8 +9,8 @@ function createConfig(publicPath, output) {
         entry: {
             'index': [
                 require.resolve('babel-polyfill'),
-                './src/index.js'
-            ]
+                './src/index.js',
+            ],
         },
         output: {
             path: output,
@@ -31,8 +31,8 @@ function createConfig(publicPath, output) {
                         'classnames-loader',
                         'style-loader',
                         'css-loader?modules&localIdentName=[name]-[local]-[hash:base64:4]',
-                        'less-loader'
-                    ]
+                        'less-loader',
+                    ],
                 },
                 {
                     test: /\.(woff|woff2|eot|svg|ttf|gif|png)$/,
@@ -68,15 +68,15 @@ function createConfig(publicPath, output) {
                 'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
                 'react-ui-validations': path.resolve(__dirname, '../src'),
                 'retail-ui': path.resolve(__dirname, 'node_modules/retail-ui'),
-            }
+            },
         },
         plugins: [
             new HtmlWebpackPlugin({
-                template: './src/index.html'
+                template: './src/index.html',
             }),
             new DefinePlugin({
                 'process.env.libraryVersion': JSON.stringify(process.env.TRAVIS_TAG),
-            })
+            }),
         ],
     };
 }
