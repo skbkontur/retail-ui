@@ -12,12 +12,9 @@ before_script:
 script:
 - npm run lint
 - npm run flow.check
+
 - pushd docs
 - npm install
-- npm run clean
-- npm run build
-- popd
-- pushd docs
 - npm run publish-docs
 - popd
 deploy:
