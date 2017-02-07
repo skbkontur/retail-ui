@@ -2,25 +2,27 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-import { Router, Route, useRouterHistory } from 'react-router';
+import { Router, IndexRoute, Route, useRouterHistory } from 'react-router';
 import createHashHistory from 'history/lib/createHashHistory';
 
 import Layout from './components/Layout/Layout';
-import OnBlurValidations from './components/OnBlurValidations/OnBlurValidations';
-import OnBlurValidationsWithSubmitValidation from './components/OnBlurValidations/OnBlurValidationsWithSubmitValidation';
-import DifferentMessages from './components/OnBlurValidations/DifferentMessages';
-import SimpleTextMessages from './components/OnBlurValidations/SimpleTextMessages';
-import ScrollDifferentMessages from './components/OnBlurValidations/ScrollDifferentMessages';
-import ManyEditors from './components/OnBlurValidations/ManyEditors';
+import Description from './components/Pages/Description';
+import OnBlurValidations from './components/Pages/OnBlurValidations';
+import OnBlurValidationsWithSubmitValidation from './components/Pages/OnBlurValidationsWithSubmitValidation';
+import DifferentMessages from './components/Pages/DifferentMessages';
+import SimpleTextMessages from './components/Pages/SimpleTextMessages';
+import ScrollDifferentMessages from './components/Pages/ScrollDifferentMessages';
+import ManyEditors from './components/Pages/ManyEditors';
 
 import './styles/reset.less';
 import './styles/typography.less';
 
-const history = useRouterHistory(createHashHistory)({ queryKey: false })
+const history = useRouterHistory(createHashHistory)();
 
 ReactDom.render(
     <Router history={history}>
         <Route path='/' component={Layout}>
+            <IndexRoute component={Description} />
             <Route path='OnBlurValidations' component={OnBlurValidations} />
             <Route path='OnBlurValidationsWithSubmitValidation' component={OnBlurValidationsWithSubmitValidation} />
             <Route path='DifferentMessages' component={DifferentMessages} />
