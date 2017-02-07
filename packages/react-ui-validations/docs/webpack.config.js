@@ -14,11 +14,9 @@ function createConfig(publicPath, output) {
         },
         output: {
             path: output,
-            publicPath: process.env.NODE_ENV === 'production' 
-                ? 'http://tech.skbkontur.ru/react-ui-validations/'
-                : '/',
+            publicPath: publicPath,
             filename: '[name].js',
-        }, 
+        },
         module: {
             rules: [
                 {
@@ -30,9 +28,9 @@ function createConfig(publicPath, output) {
                     test: /\.(c|le)ss$/,
                     exclude: /node_modules/,
                     use: [
-                        'classnames-loader', 
-                        'style-loader', 
-                        'css-loader?modules&localIdentName=[name]-[local]-[hash:base64:4]', 
+                        'classnames-loader',
+                        'style-loader',
+                        'css-loader?modules&localIdentName=[name]-[local]-[hash:base64:4]',
                         'less-loader'
                     ]
                 },
@@ -49,9 +47,9 @@ function createConfig(publicPath, output) {
                 {
                     test: /\.(c|le)ss$/,
                     include: /retail-ui/,
-                    use: [ 
-                        'style-loader', 
-                        'css-loader?localIdentName=[name]-[local]-[hash:base64:4]', 
+                    use: [
+                        'style-loader',
+                        'css-loader?localIdentName=[name]-[local]-[hash:base64:4]',
                         'less-loader',
                     ],
                 },
@@ -61,7 +59,7 @@ function createConfig(publicPath, output) {
                     use: 'file-loader',
                 },
             ],
-        },    
+        },
         resolve: {
             extensions: ['.js', '.jsx'],
             modules: ['node_modules', 'web_modules'],
@@ -71,7 +69,7 @@ function createConfig(publicPath, output) {
                 'react-ui-validations': path.resolve(__dirname, '../src'),
                 'retail-ui': path.resolve(__dirname, 'node_modules/retail-ui'),
             }
-        },    
+        },
         plugins: [
             new HtmlWebpackPlugin({
                 template: './src/index.html'
@@ -86,7 +84,7 @@ function createConfig(publicPath, output) {
 if (process.env.NODE_ENV === 'production') {
     var version = process.env.TRAVIS_TAG;
     module.exports = [
-        createConfig('http://tech.skbkontur.ru/react-ui-validations/' + version, path.join(__dirname, 'dist/' + version)),
+        createConfig('http://tech.skbkontur.ru/react-ui-validations/' + version + '/', path.join(__dirname, 'dist/' + version)),
         createConfig('http://tech.skbkontur.ru/react-ui-validations/', path.join(__dirname, 'dist')),
     ];
 }
