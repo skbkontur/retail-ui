@@ -16,6 +16,11 @@
   "bugs": {
     "url": "https://github.com/skbkontur/react-ui-validations/issues"
   },
+  "files": [
+    "dist/",
+    "src/",
+    "index.js"
+  ],  
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0-0",
     "react-addons-css-transition-group": "^0.14.0 || ^15.0.0-0",
