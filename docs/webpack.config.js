@@ -2,6 +2,7 @@
 
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var DefinePlugin = require('webpack').DefinePlugin;
 
 function createConfig(publicPath, output) {
     return {
@@ -75,6 +76,9 @@ function createConfig(publicPath, output) {
             new HtmlWebpackPlugin({
                 template: './src/index.html'
             }),
+            new DefinePlugin({
+                'process.env.libraryVersion': JSON.stringify(process.env.TRAVIS_TAG),
+            })
         ],
     };
 }
