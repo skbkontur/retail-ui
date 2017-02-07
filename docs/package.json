@@ -5,7 +5,7 @@
     "clean": "rimraf dist",
     "build": "cross-env NODE_ENV=production webpack -p",
     "start": "webpack-dev-server --history-api-fallback",
-    "publish-docs": "npm run clean && npm run build && cd dist && git init && git commit --allow-empty -m \"update docs\" && git checkout -b gh-pages && git add . && git commit --allow-empty -am \"update docs\" && git push git@github.com:skbkontur/react-ui-validations.git gh-pages --force"
+    "publish-docs": "npm run clean && git clone git@github.com:skbkontur/react-ui-validations.git dist && npm run build && cd dist && git checkout -b gh-pages && git add . && git commit --allow-empty -am \"$TRAVIS_TAG\" && git push git@github.com:skbkontur/react-ui-validations.git gh-pages --force"
   },
   "description": "Documentation project for react-ui-validations library",
   "author": "tihonove",
