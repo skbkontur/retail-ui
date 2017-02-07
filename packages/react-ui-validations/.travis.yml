@@ -3,10 +3,10 @@ node_js:
 - '5'
 install: npm install --only=dev
 script:
-- openssl aes-256-cbc -k "$travis_key_password" -in travis-deploy-key.enc -out travis-deploy-key -d
-- chmod 600 travis-deploy-key
+- openssl aes-256-cbc -k "$travis_key_password" -in travis-react-ui-validations-deploy-key.enc -out travis-react-ui-validations-deploy-key -d
+- chmod 600 travis-react-ui-validations-deploy-key
 - eval `ssh-agent -s`
-- ssh-add travis-deploy-key
+- ssh-add travis-react-ui-validations-deploy-key
 - git config --global user.name "Travis CI"
 - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
 - pushd docs
