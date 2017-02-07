@@ -34,8 +34,10 @@ export default class ValidationContext extends React.Component {
         if (this.props.onValidationUpdated) {
             let isValidResult;
             if (index !== undefined && isValid !== undefined) {
-                isValidResult = !this.childWrappers.filter((v, i) => i !== index).find(x => x.hasError()) && isValid;
-            } else {
+                isValidResult = !this.childWrappers
+                    .filter((_value, i) => i !== index).find(x => x.hasError()) && isValid;
+            }
+            else {
                 isValidResult = !this.childWrappers.find(x => x.hasError());
             }
             this.props.onValidationUpdated(isValidResult);

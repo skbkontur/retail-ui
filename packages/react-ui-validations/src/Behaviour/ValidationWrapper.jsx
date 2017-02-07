@@ -187,7 +187,7 @@ export default class ValidationWrapper extends React.Component {
                 ? React.cloneElement(
                     children, {
                         ref: x => {
-                            if(children && children.ref) {
+                            if (children && children.ref) {
                                 children.ref(x);
                             }
                             this.child = x;

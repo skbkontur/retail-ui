@@ -34,7 +34,7 @@ export class ValidationContainer extends React.Component {
 
     render(): React.Element<*> {
         const { children } = this.props;
-        let contextProps = {};
+        const contextProps = {};
         if (this.props.onValidationUpdated) {
             contextProps.onValidationUpdated = this.props.onValidationUpdated;
         }

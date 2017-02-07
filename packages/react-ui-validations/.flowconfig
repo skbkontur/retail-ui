@@ -1,4 +1,8 @@
+[version]
+0.38.0
+
 [ignore]
+.*/docs/.*
 .*/retail-ui/lib/.*
 .*/retail-ui/testing/.*
 .*/retail-ui/components/.*
@@ -8,7 +12,7 @@
 [include]
 
 [libs]
-flow/
+interfaces/
 
 [options]
 module.system.node.resolve_dirname=node_modules
