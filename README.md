@@ -2,18 +2,20 @@
 
 [![Travis](https://img.shields.io/travis/skbkontur/react-ui-validations.svg?maxAge=300&style=flat-square)](https://travis-ci.org/skbkontur/react-ui-validations) [![npm](https://img.shields.io/npm/v/react-ui-validations.svg?maxAge=300&style=flat)](https://www.npmjs.com/package/react-ui-validations)
 
-Набор компонентов, реализующих поведение валидаций по контур-гайдам.
+Набор компонентов, реализующих поведение [валидаций по контур-гайдам](https://guides.kontur.ru/principles/validation/).
 
-## Установка
+## Документация
+
+* [Docs & Demos](http://tech.skbkontur.ru/react-ui-validations/)
+* [Validation guides](https://guides.kontur.ru/principles/validation/)
+
+## Использование
 
 ```
 npm install --save react-ui-validations
 ```
 
-## Использование
-
 ```
-/.../
 import {ValidationContainer, ValidationWrapperV1} from 'react-ui-validations';
  
 export default class MyAwesomeComponent extends React.Component {
@@ -21,7 +23,7 @@ export default class MyAwesomeComponent extends React.Component {
     return (
       <ValidationContainer>
         <ValidationWrapperV1 validationInfo={{error: true, message: "Wrong!"}}>
-          <Input value="Right?"/>
+          <Input value="Right?" />
         </ValidationWrapperV1>
       </ValidationContainer>
     );
