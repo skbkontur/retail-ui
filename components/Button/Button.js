@@ -170,7 +170,7 @@ class Button extends React.Component {
   }
 
   _handleMouseDown(e) {
-    if (browser.hasFocusOnButtonClick) {
+    if (browser.hasFocusOnButtonClick && document.activeElement) {
       document.activeElement.blur();
       e.preventDefault();
     }
