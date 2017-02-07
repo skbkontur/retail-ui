@@ -2,7 +2,8 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route, useRouterHistory } from 'react-router';
+import createHashHistory from 'history/lib/createHashHistory'
 
 import Layout from './components/Layout/Layout';
 import OnBlurValidations from './components/OnBlurValidations/OnBlurValidations';
@@ -15,8 +16,10 @@ import ManyEditors from './components/OnBlurValidations/ManyEditors';
 import './styles/reset.less';
 import './styles/typography.less';
 
+const history = useRouterHistory(createHashHistory)({ queryKey: false })
+
 ReactDom.render(
-    <Router history={browserHistory}>
+    <Router history={history}>
         <Route path='/' component={Layout}>
             <Route path='OnBlurValidations' component={OnBlurValidations} />            
             <Route path='OnBlurValidationsWithSubmitValidation' component={OnBlurValidationsWithSubmitValidation} />
