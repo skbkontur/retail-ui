@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 
 import { Router, Route, useRouterHistory } from 'react-router';
-import createHashHistory from 'history/lib/createHashHistory'
+import createHashHistory from 'history/lib/createHashHistory';
 
 import Layout from './components/Layout/Layout';
 import OnBlurValidations from './components/OnBlurValidations/OnBlurValidations';
@@ -21,12 +21,12 @@ const history = useRouterHistory(createHashHistory)({ queryKey: false })
 ReactDom.render(
     <Router history={history}>
         <Route path='/' component={Layout}>
-            <Route path='OnBlurValidations' component={OnBlurValidations} />            
+            <Route path='OnBlurValidations' component={OnBlurValidations} />
             <Route path='OnBlurValidationsWithSubmitValidation' component={OnBlurValidationsWithSubmitValidation} />
             <Route path='DifferentMessages' component={DifferentMessages} />
             <Route path='SimpleTextMessages' component={SimpleTextMessages} />
             <Route path='ScrollDifferentMessages' component={ScrollDifferentMessages} />
-            <Route path='ManyEditors' component={ManyEditors} />        
+            <Route path='ManyEditors' component={ManyEditors} />
         </Route>
     </Router>,
     document.getElementById('content'));
