@@ -28,7 +28,7 @@
     "react-addons-css-transition-group": "^0.14.0 || ^15.0.0-0",
     "react-addons-test-utils": "^0.14.0 || ^15.0.0-0",
     "react-dom": "^0.14.0 || ^15.0.0-0",
-    "retail-ui": "^0.5.6"
+    "retail-ui": "<1.0.0"
   },
   "dependencies": {
     "lodash.isequal": "^4.5.0",
