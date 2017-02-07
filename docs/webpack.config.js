@@ -5,7 +5,10 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        'index': './index.js'
+        'index': [
+            require.resolve('babel-polyfill'),
+            './src/index.js'
+        ]
     },
     output: {
         path: path.join(__dirname, 'dist'),
@@ -24,7 +27,12 @@ module.exports = {
             {
                 test: /\.(c|le)ss$/,
                 exclude: /node_modules/,
-                use: 'classnames-loader!style-loader!css-loader?modules&localIdentName=[name]-[local]-[hash:base64:4]!less-loader'
+                use: [
+                    'classnames-loader', 
+                    'style-loader', 
+                    'css-loader?modules&localIdentName=[name]-[local]-[hash:base64:4]', 
+                    'less-loader'
+                ]
             },
             {
                 test: /\.(woff|woff2|eot|svg|ttf|gif|png)$/,
@@ -33,27 +41,38 @@ module.exports = {
             },
             {
                 test: /\.jsx?$/,
-                use: 'babel',
+                use: 'babel-loader',
                 include: /retail-ui/,
-                exclude: /retail-ui(\\|\/)node_modules/,
             },
             {
                 test: /\.(c|le)ss$/,
                 include: /retail-ui/,
-                exclude: /retail-ui(\\|\/)node_modules/,
-                use: 'style-loader!css-loader?localIdentName=[name]-[local]-[hash:base64:4]!less-loader',
+                use: [ 
+                    'style-loader', 
+                    'css-loader?localIdentName=[name]-[local]-[hash:base64:4]', 
+                    'less-loader',
+                ],
             },
             {
                 test: /\.(woff|woff2|eot|svg|ttf|gif|png)$/,
                 include: /retail-ui/,
-                exclude: /retail-ui(\\|\/)node_modules/,
                 use: 'file-loader',
             },
         ],
     },    
+    resolve: {
+        extensions: ['.js', '.jsx'],
+        modules: ['node_modules', 'web_modules'],
+        alias: {
+            'react': path.resolve(__dirname, 'node_modules/react'),
+            'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
+            'react-ui-validations': path.resolve(__dirname, '../src'),
+            'retail-ui': path.resolve(__dirname, 'node_modules/retail-ui'),
+        }
+    },    
     plugins: [
         new HtmlWebpackPlugin({
-            template: './index.html'
+            template: './src/index.html'
         }),
     ],
 };

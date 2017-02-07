@@ -1,7 +1,9 @@
 // @flow
 import React from 'react';
 
-import { Input, Button, RadioGroup } from 'ui';
+import Input from 'retail-ui/components/Input';
+import Button  from 'retail-ui/components/Button';
+import RadioGroup from 'retail-ui/components/RadioGroup';
 
 import type {
     ContactInfo,
@@ -12,7 +14,7 @@ import type {
 import Demo from '../Demo/Demo';
 import Form from '../Form/Form';
 
-import { ValidationContainer, ValidationWrapperV1, text } from '../../../Commons/Validations';
+import { ValidationContainer, ValidationWrapperV1, text } from 'react-ui-validations';
 
 function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.Element<*> {
     return (

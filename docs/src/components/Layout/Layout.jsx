@@ -15,16 +15,16 @@ export default function Layout({ children }: LayoutProps): React.Element<*> {
         <div className={cn('root')}>
             <div className={cn('navigation-bar')}>
                 {/*<Logotype suffix='ритейл' color='#fff' textColor='#fff' />*/}
-                <Link activeClassName={cn('active')} to='/ValidationsDemo/OnBlurValidations'>OnBlurValidations</Link>
-                <Link activeClassName={cn('active')} to='/ValidationsDemo/OnBlurValidationsWithSubmitValidation'>
+                <Link activeClassName={cn('active')} to='/OnBlurValidations'>OnBlurValidations</Link>
+                <Link activeClassName={cn('active')} to='/OnBlurValidationsWithSubmitValidation'>
                     OnBlurValidationsWithSubmitValidation
                 </Link>
-                <Link activeClassName={cn('active')} to='/ValidationsDemo/DifferentMessages'>DifferentMessages</Link>
-                <Link activeClassName={cn('active')} to='/ValidationsDemo/SimpleTextMessages'>SimpleTextMessages</Link>
-                <Link activeClassName={cn('active')} to='/ValidationsDemo/ScrollDifferentMessages'>
+                <Link activeClassName={cn('active')} to='/DifferentMessages'>DifferentMessages</Link>
+                <Link activeClassName={cn('active')} to='/SimpleTextMessages'>SimpleTextMessages</Link>
+                <Link activeClassName={cn('active')} to='/ScrollDifferentMessages'>
                     ScrollDifferentMessages
                 </Link>
-                <Link activeClassName={cn('active')} to='/ValidationsDemo/ManyEditors'>ManyEditors</Link>
+                <Link activeClassName={cn('active')} to='/ManyEditors'>ManyEditors</Link>
             </div>
             <div className={cn('content')}>
                 {children}
