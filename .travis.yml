@@ -9,6 +9,7 @@ script:
 - ssh-add travis-react-ui-validations-deploy-key
 - git config --global user.name "Travis CI"
 - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
+- npm install --only=prod || true
 - pushd docs
 - npm install
 - npm run publish-docs
