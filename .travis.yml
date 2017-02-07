@@ -12,7 +12,7 @@ before_script:
 script:
 - npm run lint
 - npm run flow.check
-
+before_deploy:
 - pushd docs
 - npm install
 - npm run publish-docs
