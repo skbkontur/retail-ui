@@ -1,7 +1,8 @@
 // @flow
 import React from 'react';
 
-import { Input, Button } from 'ui';
+import Button from 'retail-ui/components/Button';
+import Input from 'retail-ui/components/Input';
 
 import type {
     ContactInfo,
@@ -9,10 +10,11 @@ import type {
     FormEditorProps,
 } from '../../Domain/ContactInfo';
 
+import SpaceFiller from '../SpaceFiller/SpaceFiller';
 import Demo from '../Demo/Demo';
 import Form from '../Form/Form';
 
-import { ValidationContainer, ValidationWrapperV1, text } from '../../../Commons/Validations';
+import { ValidationContainer, ValidationWrapperV1, text } from 'react-ui-validations';
 
 function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.Element<*> {
     return (
@@ -27,6 +29,7 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
                     />
                 </ValidationWrapperV1>
             </Form.Line>
+            <SpaceFiller height={1600} />
             <Form.Line title='Email'>
                 <ValidationWrapperV1
                     validationInfo={validationInfo.email}>
@@ -97,12 +100,8 @@ export default class DifferentMessages extends React.Component {
                 <p>Ожидаемое поведение:</p>
                 <ul>
                     <li>
-                        При нажатии на кнопку Сохранить подсвечиваются
-                        невалидные поля, открывается баллун на первом невалидном поле.
-                    </li>
-                    <li>
-                        При редактировании невалидного поля, баллун остётся на месте,
-                        а красная подсветка с поля снимается.
+                        При редактировании невалидного поля, баллун остётся на
+                        месте, а красная подсветка с поля снимается.
                     </li>
                 </ul>
                 <Demo>

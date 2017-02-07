@@ -1,11 +1,12 @@
 // @flow
 import React from 'react';
 
-import { Input, Button } from 'ui';
+import Input from 'retail-ui/components/Input';
+import Button  from 'retail-ui/components/Button';
 
 import Form from '../Form/Form';
 
-import { ValidationContainer, ValidationWrapperV1 } from '../../../Commons/Validations';
+import { ValidationContainer, ValidationWrapperV1 } from 'react-ui-validations';
 
 import type {
     ContactInfo,
