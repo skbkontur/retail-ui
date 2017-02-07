@@ -1,20 +1,33 @@
 // @flow
 import React from 'react';
 import Code from 'react-syntax-highlighter';
+import cn from './Pages.less';
 
 export default class Description extends React.Component {
+    printVersion(): React.Element<*> | null {
+        if (process.env.libraryVersion) {
+            return (
+                <span className={cn('version')}> {process.env.libraryVersion}</span>
+            );
+        }
+        return null;
+    }
+
+    getLinkToBadge() {
+        if (process.env.libraryVersion) {
+            return `https://img.shields.io/travis/skbkontur/react-ui-validations/${process.env.libraryVersion}.svg?maxAge=300&style=flat-square`;
+        }
+        return 'https://img.shields.io/travis/skbkontur/react-ui-validations.svg?maxAge=300&style=flat-square';
+    }
+
     render(): React.Element<*> {
         return (
             <div>
                 <h1>
-                    react-ui-validations (WIP)
+                    react-ui-validations{this.printVersion()} (WIP)
                     {' '}
                     <a href='https://travis-ci.org/skbkontur/react-ui-validations'>
-                        <img src='https://img.shields.io/travis/skbkontur/react-ui-validations.svg?maxAge=300&style=flat-square' />
-                    </a>
-                    {' '}
-                    <a href='https://www.npmjs.com/package/react-ui-validations'>
-                        <img src='https://img.shields.io/npm/v/react-ui-validations.svg?maxAge=300&style=flat-square' />
+                        <img src={this.getLinkToBadge()} />
                     </a>
                 </h1>
                 <p>
