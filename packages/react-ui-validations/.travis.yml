@@ -11,7 +11,7 @@ script:
 - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
 - pushd docs
 - npm install
-- npm publish
+- npm run publish-docs
 - popd
 deploy:
   provider: npm
