@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import Code from 'react-syntax-highlighter';
+import Link from 'retail-ui/components/Link';
 import cn from './Pages.less';
 
 export default class Description extends React.Component {
@@ -26,12 +27,13 @@ export default class Description extends React.Component {
                 <h1>
                     react-ui-validations{this.printVersion()} (WIP)
                     {' '}
-                    <a href='https://travis-ci.org/skbkontur/react-ui-validations'>
+                    <Link href='https://travis-ci.org/skbkontur/react-ui-validations'>
                         <img src={this.getLinkToBadge()} />
-                    </a>
+                    </Link>
                 </h1>
+                <p>Sources: <Link href='https://github.com/skbkontur/react-ui-validations'>github.com/skbkontur/react-ui-validations</Link></p>
                 <p>
-                    Набор компонентов, реализующих поведение <a href='https://guides.kontur.ru/principles/validation/'>валидаций по контур-гайдам</a>.
+                    Набор компонентов, реализующих поведение <Link href='https://guides.kontur.ru/principles/validation/'>валидаций по контур-гайдам</Link>.
                 </p>
                 <h2>Установка и использование</h2>
                 <Code language='bash'>npm install --save react-ui-validations</Code>
