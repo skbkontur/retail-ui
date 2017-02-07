@@ -1,4 +1,4 @@
-@navigation-bar-size: 300px;
+@navigation-bar-size: 290px;
 
 @sidebar-color: #41464e;
 @sidebar-text-color: #ffffff;
@@ -11,11 +11,16 @@
             margin-bottom: 30px;
         }
 
+        h2 {
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
         h4 {
             margin-bottom: 10px;
         }
 
-        p {
+        p, pre {
             margin-bottom: 10px;
         }
 
@@ -34,10 +39,15 @@
         width: @navigation-bar-size;
         background-color: @sidebar-color;
         color: @sidebar-text-color;
-        padding: 100px 0 0;
+        padding: 33px 0 0;
         box-sizing: border-box;
 
-        a {
+        .logo {
+            display: block;
+            padding: 30px 20px;
+        }
+
+        .sections > a {
             &.active {
                 background-color: @sidebar-link-active-color;
 
