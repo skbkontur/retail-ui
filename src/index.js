@@ -90,9 +90,7 @@ export function tooltip(pos: string): RenderErrorMessage {
                 pos={pos}
                 error={hasError}
                 render={() => validation && validation.message || ''}>
-                <span>
-                    {control}
-                </span>
+                {control}
             </ValidationTooltip>
         );
 }
