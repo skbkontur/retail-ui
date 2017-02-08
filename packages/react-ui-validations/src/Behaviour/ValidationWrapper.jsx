@@ -210,10 +210,6 @@ export default class ValidationWrapper extends React.Component {
         const childWithError = React.cloneElement(
             errorMessage(clonedChild, Boolean(validation && validation.error), validation),
             { ref: 'errorMessage' });
-        return (
-            <span>
-                {childWithError}
-            </span>
-        );
+        return childWithError;
     }
 }
