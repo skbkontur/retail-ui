@@ -1,19 +1,23 @@
-var items = ['One', 'Two', 'Three'];
+import React from 'react';
+import {storiesOf} from '@kadira/storybook';
 
-var blockStyle = {
+import RadioGroup from '../../components/RadioGroup';
+
+
+const items = ['One', 'Two', 'Three'];
+
+const blockStyle = {
   borderLeft: '1px solid #ccc',
   marginBottom: 20,
   paddingLeft: 10,
 };
 
-var Component = React.createClass({
-  getInitialState() {
-    return {
-      group1: '',
-      group2: '',
-      group3: '',
-    };
-  },
+class Component extends React.Component {
+  state = {
+    group1: '',
+    group2: '',
+    group3: '',
+  }
 
   renderBlock(item) {
     return (
@@ -22,13 +26,13 @@ var Component = React.createClass({
         eh
       </div>
     );
-  },
+  }
 
   onChange(groupName) {
     return (el) => {
       this.setState({[groupName]: el.target.value});
     };
-  },
+  }
 
   render() {
     return (
@@ -59,7 +63,10 @@ var Component = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
 
-ReactDOM.render(<Component />, mountNode);
+storiesOf('RadioGroup', module).
+  add('playground', () => {
+    return <Component />;
+  });
