@@ -16,21 +16,18 @@ import styles from './TopBar.less';
 
 class Item extends React.Component {
   props: {
-    active?: boolean;
-    children?: React.Element<any>;
-    _onClick?: (e: SyntheticMouseEvent) => void;
-    className: string;
-    iconOnly?: boolean;
-    icon?: string;
+    active?: boolean,
+    children?: React.Element<any>,
+    _onClick?: (e: SyntheticMouseEvent) => void,
+    className: string,
+    iconOnly?: boolean,
+    icon?: string,
     minWidth?: string | number,
-    use?: string;
+    use?: string
   };
 
   static propTypes = {
-    use: PropTypes.oneOf([
-      'danger',
-      'pay',
-    ]),
+    use: PropTypes.oneOf(['danger', 'pay']),
   };
 
   static defaultProps = {
@@ -67,11 +64,10 @@ class Item extends React.Component {
         onClick={_onClick}
         style={{minWidth}}
       >
-        {icon && (
+        {icon &&
           <span className={styles.icon}>
-            <CapIcon color="#666" name={icon}/>
-          </span>
-        )}
+            <CapIcon color="#666" name={icon} />
+          </span>}
         {children}
       </div>
     );
@@ -150,18 +146,11 @@ class User extends React.Component {
   render() {
     const {userName} = this.props;
     return (
-      <TopBarDropdown
-        icon="user"
-        caption={userName}
-      >
+      <TopBarDropdown icon="user" caption={userName}>
         <div style={{padding: '6px 18px 7px 15px'}}>
           <b>Личный кабинет Контура</b>
         </div>
-        <MenuItem
-          loose
-          href="https://cabinet.kontur.ru"
-          target="_blank"
-        >
+        <MenuItem loose href="https://cabinet.kontur.ru" target="_blank">
           Настройка входа в сервисы
         </MenuItem>
         <MenuItem
@@ -234,10 +223,9 @@ class Organizations extends React.Component {
               ref={this._getCommentRef}
             >
               {comment}
-            </span>
-          }
+            </span>}
           <span className={styles.organizationsArrow}>
-            <Icon color="#aaa" size={14} name="angle-bottom"/>
+            <Icon color="#aaa" size={14} name="angle-bottom" />
           </span>
         </span>
         <div
@@ -247,14 +235,12 @@ class Organizations extends React.Component {
           <span className={styles.organizationsCaption}>
             {React.isValidElement(caption)
               ? React.cloneElement((caption: any), {ref: null})
-              : caption
-            }
+              : caption}
           </span>
           {comment &&
             <span className={styles.organizationsCommentDummy}>
               {comment}
-            </span>
-          }
+            </span>}
         </div>
       </div>
     );
@@ -270,18 +256,16 @@ class Organizations extends React.Component {
     );
   }
 
-  _getCaptionRef = (el) => {
+  _getCaptionRef = el => {
     this._caption = el;
   };
 
-  _getCommentRef = (el) => {
+  _getCommentRef = el => {
     this._comment = el;
   };
 
   _recalculateWidth() {
-    const commentWidth = this._comment
-      ? this._comment.offsetWidth
-      : 0;
+    const commentWidth = this._comment ? this._comment.offsetWidth : 0;
 
     // 360 is minWidth from guides. Apply it when content is bigger.
     // 315 is because of 15px left padding and 30px arrow.
@@ -302,14 +286,15 @@ class Organizations extends React.Component {
 type Props = {
   children?: React.Element<any>,
   leftItems?: React.Element<any>[],
-  rightItems?: React.Element<any>[],
+  rightItems: React.Element<any>[],
   maxWidth?: string | number,
   noShadow?: boolean,
+  noWidget?: boolean,
   noMargin?: boolean,
   suffix: string,
   color?: string,
-  userName: string,
-  onLogout: Function,
+  userName?: string,
+  onLogout?: Function
 };
 
 type DefaultProps = {
@@ -328,7 +313,6 @@ type DefaultProps = {
  *
  **/
 class TopBar extends React.Component {
-
   props: Props;
 
   _logoWrapper: HTMLElement;
@@ -340,21 +324,35 @@ class TopBar extends React.Component {
 
   static defaultProps: DefaultProps = {
     maxWidth: 1166,
+    rightItems: [],
   };
 
   render() {
-
     const {
       leftItems,
       rightItems,
       maxWidth,
       noShadow,
       noMargin,
-      suffix,
-      color,
       userName,
       onLogout,
     } = this.props;
+
+    const _rightItems = [].concat(rightItems);
+    if (this.props.userName) {
+      _rightItems.push(
+        <User userName={userName} />,
+        <Divider />
+      );
+    }
+
+    if (this.props.onLogout) {
+      _rightItems.push((
+        <ButtonItem onClick={onLogout}>
+          Выйти
+        </ButtonItem>
+      ));
+    }
 
     return (
       <div
@@ -367,29 +365,32 @@ class TopBar extends React.Component {
         <div className={styles.center} style={{maxWidth}}>
           <div className={styles.containerWrap}>
             <div className={styles.container}>
-              <div id="spwDropdown" className={styles.spwDropdown}>
-              <span ref={this._refLogoWrapper}>
-                <Logo suffix={suffix} color={color}/>
-                <Divider />
-              </span>
-                <ButtonItem iconOnly>
-                  <Icon color="#aaa" size={20} name="angle-bottom"/>
-                </ButtonItem>
-              </div>
+              {this._renderLogo()}
               <div className={styles.leftItems}>
                 {this._renderLeftItems(leftItems)}
               </div>
-              {this._renderRightItems([
-                ...rightItems || [],
-                <User userName={userName}/>,
-                <Divider />,
-                <ButtonItem onClick={onLogout}>
-                  Выйти
-                </ButtonItem>,
-              ])}
+              {this._renderRightItems(_rightItems)}
             </div>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  _renderLogo() {
+    const {suffix, color} = this.props;
+    if (this.props.noWidget) {
+      return <Logo suffix={suffix} color={color} />;
+    }
+    return (
+      <div id="spwDropdown" className={styles.spwDropdown}>
+        <span ref={this._refLogoWrapper}>
+          <Logo suffix={suffix} color={color} />
+          <Divider />
+        </span>
+        <ButtonItem iconOnly>
+          <Icon color="#aaa" size={20} name="angle-bottom" />
+        </ButtonItem>
       </div>
     );
   }
@@ -424,6 +425,12 @@ class TopBar extends React.Component {
   }
 
   componentDidMount() {
+    if (!this.props.noWidget) {
+      this._loadWidget();
+    }
+  }
+
+  _loadWidget() {
     let calledLoad = false;
     const loadWidget = () => {
       if (calledLoad) {
@@ -475,41 +482,36 @@ class TopBar extends React.Component {
 
 TopBar.propTypes = {
   children: PropTypes.node,
-
   /**
    * Цвет логотипа
    */
   color: PropTypes.string,
-
   leftItems: PropTypes.arrayOf(PropTypes.element),
-
   /**
    * Максимальная ширина контейнера в шапке
    */
   maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
   /**
    * Отключает отступ снизу
    */
   noMargin: PropTypes.bool,
-
   /**
    * Отключает тень
    */
   noShadow: PropTypes.bool,
-
+  /**
+   * Отключает виджет
+   */
+  noWidget: PropTypes.bool,
   rightItems: PropTypes.arrayOf(PropTypes.element),
-
   /**
    * Суффикс логотипа
    */
   suffix: PropTypes.string.isRequired,
-
   /**
    * Имя пользователя
    */
-  userName: PropTypes.string,
-
+  userName: PropTypes.node,
   /**
    * Функция выхода
    */
