@@ -31,6 +31,7 @@ type Props = {
   error?: bool,
   maxYear?: number,
   minYear?: number,
+  placeholder?: string,
   size?: 'small' | 'medium' | 'large',
   value: ?Date,
   width?: number | string,
@@ -63,6 +64,8 @@ export default class DatePicker extends React.Component {
      * Минимальный год в селекте для года.
      */
     minYear: PropTypes.number,
+
+    placeholder: PropTypes.string,
 
     size: PropTypes.oneOf(['small', 'medium', 'large']),
 
@@ -147,16 +150,13 @@ export default class DatePicker extends React.Component {
             </div>
           )}
         />
-
         {picker}
       </span>
     );
   }
 
   componentWillReceiveProps(newProps: Props) {
-    if (!this._focused) {
-      this.setState({textValue: formatDate(newProps.value)});
-    }
+    this.setState({textValue: formatDate(newProps.value)});
   }
 
   handleChange = (event: any) => {
@@ -167,16 +167,12 @@ export default class DatePicker extends React.Component {
   };
 
   handleFocus = () => {
-    this._focused = true;
-
     if (this.props.onFocus) {
       this.props.onFocus();
     }
   };
 
   handleBlur = () => {
-    this._focused = false;
-
     const date = parseDate(this.state.textValue);
 
     this.setState({
@@ -223,7 +219,6 @@ export default class DatePicker extends React.Component {
   }
 
   focus() {
-    this._focused = true;
     this.refs.input.focus();
   }
 }
