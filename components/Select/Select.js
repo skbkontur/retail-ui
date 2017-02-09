@@ -29,6 +29,10 @@ const PASS_BUTTON_PROPS = {
   use: true,
   size: true,
   warning: true,
+
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true,
 };
 
 class Select extends React.Component {
@@ -95,6 +99,12 @@ class Select extends React.Component {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onChange: PropTypes.func,
+
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func,
   };
 
   static defaultProps = {

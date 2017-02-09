@@ -121,6 +121,12 @@ export default class ComboBox extends React.Component {
      */
     onInputKeyDown: PropTypes.func,
 
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func,
+
     onOpen: PropTypes.func,
 
   };

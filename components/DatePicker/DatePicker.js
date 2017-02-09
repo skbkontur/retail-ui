@@ -23,6 +23,10 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
   onKeyPress: true,
   onKeyUp: true,
+
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true,
 };
 
 type Props = {
@@ -42,6 +46,9 @@ type Props = {
   onKeyDown?: (e: SyntheticKeyboardEvent) => void,
   onKeyPress?: (e: SyntheticKeyboardEvent) => void,
   onKeyUp?: (e: SyntheticKeyboardEvent) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
 };
 
 type State = {
@@ -86,6 +93,12 @@ export default class DatePicker extends React.Component {
     onKeyPress: PropTypes.func,
 
     onKeyUp: PropTypes.func,
+
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func,
   };
 
   static defaultProps = {

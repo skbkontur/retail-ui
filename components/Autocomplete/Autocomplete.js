@@ -69,6 +69,9 @@ export default class Autocomplete extends React.Component {
       onChange: this.handleChange,
       onBlur: this.handleBlur,
       onKeyDown: this.handleKey,
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver,
     };
     return (
       <span className={styles.root}>

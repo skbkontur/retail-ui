@@ -19,6 +19,10 @@ const PASS_PROPS = {
 
   onFocus: true,
   onBlur: true,
+
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true,
 };
 
 class Textarea extends React.Component {
@@ -52,6 +56,12 @@ class Textarea extends React.Component {
     onChange: PropTypes.func,
 
     onFocus: PropTypes.func,
+
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func,
   };
 
   static defaultProps = {

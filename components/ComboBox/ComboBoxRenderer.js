@@ -22,6 +22,9 @@ const INPUT_PASS_PROPS = {
   warning: true,
   width: true,
   disabled: true,
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true,
 };
 
 export type Value = any;
@@ -79,6 +82,10 @@ export type BaseProps = {
   alkoValueToText?: (value: Value) => string,
   onAlkoFocus?: () => void,
   onAlkoBlur?: () => void,
+
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
 };
 
 type Props = BaseProps & {
