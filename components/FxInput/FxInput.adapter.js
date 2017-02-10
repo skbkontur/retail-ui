@@ -9,6 +9,16 @@ const FxInputAdapter = {
     return InputAdapter.getValue(inst._input);
   },
 
+  getAutoFlag(inst: FxInput) {
+    return inst.props.auto;
+  },
+
+  restore(inst: FxInput) {
+	  if (inst.props.onRestore) {
+		  inst.props.onRestore();
+	  }
+  },
+
   setValue(inst: FxInput, value: string) {
     InputAdapter.setValue(inst._input, value);
   },
