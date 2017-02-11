@@ -26,7 +26,9 @@ class Renderer {
                 return this.renderContent(content);
             case 'header':
                 const { level } = attrs;
-                return `<h${level}>` + this.renderContent(content) + `</h${level}>`;
+                return `<Header level={${level}}>` +
+                    this.renderContent(content) +
+                    '</Header>';
             case 'para':
                 return '<p>' + this.renderContent(content) + '</p>';
             case 'code_block':
@@ -87,6 +89,15 @@ const InlineCode = styled.span\`
     background-color: rgb(240, 240, 240);
     font-size: 90%;
 \`;
+
+function Header({ level, children }) {
+    const HeaderTag = 'h' + level;
+    return (
+        <HeaderTag>
+            {children}
+        </HeaderTag>
+    );
+}
 
 export default class GettingStarted extends React.Component {
     render(): React.Element<*> {

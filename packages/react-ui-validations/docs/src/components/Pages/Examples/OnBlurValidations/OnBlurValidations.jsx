@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import Helmet from 'react-helmet';
-import Code from 'react-syntax-highlighter';
 import Demo from '../../../Demo';
 import Example from './Example';
 import ExampleSource from '!raw-loader!./Example';
@@ -38,12 +37,7 @@ export default class OnBlurValidations extends React.Component {
                     <li>Только два тултипа</li>
                     <li>Рекваед валидация срабатывает только по субмиту</li>
                 </ul>
-                <Demo>
-                    <Example />
-                </Demo>
-                <Code language='javascript'>
-                    {ExampleSource}
-                </Code>
+                <Demo demo={Example} source={ExampleSource} />
             </div>
         );
     }
