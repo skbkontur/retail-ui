@@ -23,6 +23,10 @@ export default function(
 
   const docElem = document.documentElement;
 
+  if (!docElem) {
+    throw Error('There is no "documentElement" in "document"');
+  }
+
   const pageXOffset = window.pageXOffset !== undefined ? window.pageXOffset
       : docElem.scrollLeft;
   const pageYOffset = window.pageYOffset !== undefined ? window.pageYOffset

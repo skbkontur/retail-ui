@@ -84,7 +84,7 @@ class Link extends React.Component {
   }
 
   _handleMouseDown(e) {
-    if (browser.hasFocusOnLinkClick) {
+    if (browser.hasFocusOnLinkClick && document.activeElement) {
       document.activeElement.blur();
       e.preventDefault();
     }

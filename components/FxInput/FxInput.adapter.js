@@ -14,9 +14,9 @@ const FxInputAdapter = {
   },
 
   restore(inst: FxInput) {
-	  if (inst.props.onRestore) {
-		  inst.props.onRestore();
-	  }
+    if (inst.props.onRestore) {
+      inst.props.onRestore();
+    }
   },
 
   setValue(inst: FxInput, value: string) {

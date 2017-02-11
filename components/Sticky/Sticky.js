@@ -158,8 +158,14 @@ export default class Sticky extends React.Component {
   };
 
   *_doReflow(): Generator<$Shape<State>, void, void> {
+    const {documentElement} = document;
+
+    if (!documentElement) {
+      throw Error('There is no "documentElement" in document');
+    }
+
     const windowHeight = window.innerHeight ||
-      document.documentElement.clientHeight;
+      documentElement.clientHeight;
     const wrapRect = this._wrapper.getBoundingClientRect();
     const wrapLeft = wrapRect.left;
     const wrapTop = wrapRect.top;

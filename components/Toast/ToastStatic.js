@@ -12,8 +12,11 @@ class ToastStatic {
   static push = function(notification: string, action?: Action) {
     if (!ToastStatic.node) {
       ToastStatic.node = document.createElement('div');
-
-      document.body.appendChild(ToastStatic.node);
+      const {body} = document;
+      if (!body) {
+        throw Error('There is no "body" element in "document"');
+      }
+      body.appendChild(ToastStatic.node);
 
       ReactDOM.render(
         <Toast ref={el => ToastStatic.instance = el}/>,
