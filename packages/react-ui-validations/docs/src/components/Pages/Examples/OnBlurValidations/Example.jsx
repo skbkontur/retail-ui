@@ -1,26 +1,24 @@
 // @flow
 import React from 'react';
 
+import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
-import Button  from 'retail-ui/components/Button';
 
 import type {
     ContactInfo,
     ContactInfoValidationInfo,
     FormEditorProps,
-} from '../../Domain/ContactInfo';
+} from '../../../../Domain/ContactInfo';
 
-import Demo from '../Demo/Demo';
-import Form from '../Form/Form';
+import Form from '../../../Form';
 
-import { ValidationContainer, ValidationWrapperV1, text } from 'react-ui-validations';
+import { ValidationContainer, ValidationWrapperV1 } from 'react-ui-validations';
 
 function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.Element<*> {
     return (
         <Form>
             <Form.Line title='Имя'>
                 <ValidationWrapperV1
-                    renderMessage={text()}
                     validationInfo={validationInfo.name}>
                     <Input
                         value={data.name}
@@ -72,7 +70,7 @@ function validate(data: ContactInfo): ContactInfoValidationInfo {
     return result;
 }
 
-export default class DifferentMessages extends React.Component {
+export default class OnBlurValidationsExample extends React.Component {
     state = {
         data: {
             name: '',
@@ -88,37 +86,16 @@ export default class DifferentMessages extends React.Component {
 
     render(): React.Element<*> {
         return (
-            <div>
-                <h1>Валидации по потере фокуса</h1>
-                <h4>Демо 1.</h4>
-                <p>
-                    На этой форме есть валидации по потере фокуса.
-                    Имя должно состоять из двух слов и в почте должен быть символ '@'.
-                </p>
-                <p>Ожидаемое поведение:</p>
-                <ul>
-                    <li>
-                        При нажатии на кнопку Сохранить подсвечиваются
-                        невалидные поля, открывается баллун на первом невалидном поле.
-                    </li>
-                    <li>
-                        При редактировании невалидного поля, баллун остётся на месте,
-                        а красная подсветка с поля снимается.
-                    </li>
-                </ul>
-                <Demo>
-                    <ValidationContainer ref='container'>
-                        <FormEditor
-                            data={this.state.data}
-                            validationInfo={validate(this.state.data)}
-                            onChange={update => this.setState({ data: { ...this.state.data, ...update } })}
-                        />
-                        <Form.ActionsBar>
-                            <Button use='primary' onClick={() => this.handleSubmit()}>Сохранить</Button>
-                        </Form.ActionsBar>
-                    </ValidationContainer>
-                </Demo>
-            </div>
+            <ValidationContainer ref='container'>
+                <FormEditor
+                    data={this.state.data}
+                    validationInfo={validate(this.state.data)}
+                    onChange={update => this.setState({ data: { ...this.state.data, ...update } })}
+                />
+                <Form.ActionsBar>
+                    <Button use='primary' onClick={() => this.handleSubmit()}>Сохранить</Button>
+                </Form.ActionsBar>
+            </ValidationContainer>
         );
     }
 }

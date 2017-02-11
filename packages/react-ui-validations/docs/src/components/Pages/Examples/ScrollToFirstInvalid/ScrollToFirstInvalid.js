@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-
+import Helmet from 'react-helmet';
 import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
 
@@ -8,10 +8,11 @@ import type {
     ContactInfo,
     ContactInfoValidationInfo,
     FormEditorProps,
-} from '../../Domain/ContactInfo';
+} from '../../../../Domain/ContactInfo';
 
-import Demo from '../Demo/Demo';
-import Form from '../Form/Form';
+import SpaceFiller from '../../../SpaceFiller';
+import Demo from '../../../Demo';
+import Form from '../../../Form';
 
 import { ValidationContainer, ValidationWrapperV1, text } from 'react-ui-validations';
 
@@ -28,9 +29,9 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
                     />
                 </ValidationWrapperV1>
             </Form.Line>
+            <SpaceFiller height='1600px'>Пустое место</SpaceFiller>
             <Form.Line title='Email'>
                 <ValidationWrapperV1
-                    renderMessage={text()}
                     validationInfo={validationInfo.email}>
                     <Input
                         value={data.email}
@@ -40,7 +41,6 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
             </Form.Line>
             <Form.Line title='Телефон'>
                 <ValidationWrapperV1
-                    renderMessage={text('bottom')}
                     validationInfo={validationInfo.phone}>
                     <Input
                         value={data.phone}
@@ -91,7 +91,8 @@ export default class DifferentMessages extends React.Component {
     render(): React.Element<*> {
         return (
             <div>
-                <h1>Валидации по потере фокуса</h1>
+                <Helmet title='Прокрутка к первому невадному контролу' />
+                <h1>Прокрутка к первому невадному контролу</h1>
                 <h4>Демо 1.</h4>
                 <p>
                     На этой форме есть валидации по потере фокуса.
@@ -99,10 +100,6 @@ export default class DifferentMessages extends React.Component {
                 </p>
                 <p>Ожидаемое поведение:</p>
                 <ul>
-                    <li>
-                        При нажатии на кнопку Сохранить подсвечиваются невалидные
-                        поля, открывается баллун на первом невалидном поле.
-                    </li>
                     <li>
                         При редактировании невалидного поля, баллун остётся на
                         месте, а красная подсветка с поля снимается.

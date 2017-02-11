@@ -2,7 +2,17 @@
 
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var DefinePlugin = require('webpack').DefinePlugin;
+var webpack = require('webpack');
+
+function readVersionFromPackageJson(packageJsonPath) {
+    var content = require(packageJsonPath);
+    return 'v' + content.version;
+}
+
+var libraryVersion = process.env.TRAVIS_TAG;
+if (!libraryVersion) {
+    libraryVersion = readVersionFromPackageJson(path.resolve('../package.json'));
+}
 
 function createConfig(publicPath, output) {
     return {
@@ -21,7 +31,12 @@ function createConfig(publicPath, output) {
             rules: [
                 {
                     test: /\.jsx?$/,
-                    use: 'babel-loader',
+                    use: ['react-hot-loader', 'babel-loader'],
+                    exclude: /node_modules/,
+                },
+                {
+                    test: /\.md$/,
+                    use: ['react-hot-loader', 'babel-loader', './loaders/markdown-loader'],
                     exclude: /node_modules/,
                 },
                 {
@@ -74,17 +89,16 @@ function createConfig(publicPath, output) {
             new HtmlWebpackPlugin({
                 template: './src/index.html',
             }),
-            new DefinePlugin({
-                'process.env.libraryVersion': JSON.stringify(process.env.TRAVIS_TAG),
+            new webpack.DefinePlugin({
+                'process.env.libraryVersion': JSON.stringify(libraryVersion),
             }),
         ],
     };
 }
 
 if (process.env.NODE_ENV === 'production') {
-    var version = process.env.TRAVIS_TAG;
     module.exports = [
-        createConfig('http://tech.skbkontur.ru/react-ui-validations/' + version + '/', path.join(__dirname, 'dist/' + version)),
+        createConfig('http://tech.skbkontur.ru/react-ui-validations/' + libraryVersion + '/', path.join(__dirname, 'dist/' + libraryVersion)),
         createConfig('http://tech.skbkontur.ru/react-ui-validations/', path.join(__dirname, 'dist')),
     ];
 }
