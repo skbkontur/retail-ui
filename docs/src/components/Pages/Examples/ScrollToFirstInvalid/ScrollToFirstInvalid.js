@@ -51,6 +51,8 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
         </Form>
     );
 }
+FormEditor.contextTypes = { location: React.PropTypes.object };
+
 
 function validate(data: ContactInfo): ContactInfoValidationInfo {
     const result = {};

@@ -7,10 +7,9 @@ Sources: https://github.com/skbkontur/react-ui-validations
                 
 ## Установка и использование
 
-
     npm install --save react-ui-validations
 
-Пример использования
+Пример использования:
 
     import {ValidationContainer, ValidationWrapperV1} from 'react-ui-validations';
 
@@ -18,7 +17,7 @@ Sources: https://github.com/skbkontur/react-ui-validations
         render() {
             return (
                 <ValidationContainer>
-                    <ValidationWrapperV1 validationInfo={{error: true, message: "Wrong!"}}>
+                    <ValidationWrapperV1 validationInfo={{ message: "Wrong!" }}>
                         <Input value="Right?" />
                     </ValidationWrapperV1>
                 </ValidationContainer>
@@ -31,13 +30,11 @@ Sources: https://github.com/skbkontur/react-ui-validations
 * Реализация *поведения* описанного в контур.гайдах.
 * Упрощение использования совместно в библиотекой retail-ui.
 
-
-
 ## Как это работает
 
-Библиотека не содержит никаких упрощающих создание валидаций функций.
-Библиотека реализует только функциональность, ответственную за принятие решений о том,
+Библиотека не содержит никаких упрощающих создание валидаций функций и реализует только 
+функциональность, ответственную за принятие решений о том,
 когда и как показывать валидацию.
 
-Поскольку контролы должны взаимодействовать между собой область используется механизм работы
+Поскольку контролы должны взаимодействовать между собой, область используется механизм работы
 [через контекст](https://facebook.github.io/react/docs/context.html#parent-child-coupling).

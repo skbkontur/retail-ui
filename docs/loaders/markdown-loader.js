@@ -60,7 +60,7 @@ var Renderer = function () {
                 case 'header':
                     var level = attrs.level;
 
-                    return '<h' + level + '>' + this.renderContent(content) + ('</h' + level + '>');
+                    return '<Header level={' + level + '}>' + this.renderContent(content) + '</Header>';
                 case 'para':
                     return '<p>' + this.renderContent(content) + '</p>';
                 case 'code_block':
@@ -110,5 +110,5 @@ module.exports = function (content) {
         header = '<Helmet title={`' + markdownTree[1][2] + '`} />';
     }
 
-    return '\nimport React from \'react\';\nimport Helmet from \'react-helmet\';\nimport Code from \'react-syntax-highlighter\';\nimport Link from \'retail-ui/components/Link\';\nimport styled from \'styled-components\';\n\nconst InlineCode = styled.span`\n    font-family: Consolas, monospace;\n    background-color: rgb(240, 240, 240);\n    font-size: 90%;\n`;\n\nexport default class GettingStarted extends React.Component {\n    render(): React.Element<*> {\n        return (\n            <div>\n                ' + header + '\n                ' + result + '\n            </div>\n        );\n    }\n}';
+    return '\nimport React from \'react\';\nimport Helmet from \'react-helmet\';\nimport Code from \'react-syntax-highlighter\';\nimport Link from \'retail-ui/components/Link\';\nimport styled from \'styled-components\';\n\nconst InlineCode = styled.span`\n    font-family: Consolas, monospace;\n    background-color: rgb(240, 240, 240);\n    font-size: 90%;\n`;\n\nfunction Header({ level, children }) {\n    const HeaderTag = \'h\' + level;\n    return (\n        <HeaderTag>\n            {children}\n        </HeaderTag>\n    );\n}\n\nexport default class GettingStarted extends React.Component {\n    render(): React.Element<*> {\n        return (\n            <div>\n                ' + header + '\n                ' + result + '\n            </div>\n        );\n    }\n}';
 };

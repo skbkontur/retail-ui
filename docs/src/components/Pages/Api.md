@@ -17,7 +17,7 @@
 
 ### ``validate(): Promise<boolean>``
 
-При вызове этой функции загораются все невалидные котролы так же как и при вызове
+При вызове этой функции загораются все невалидные контролы так же как и при вызове
 функции ``submit()``. Кроме того функция
 возвращает признак валидности формы.
 
@@ -47,26 +47,58 @@
 
 ### ``onValidationUpdated?: (isValid: boolean) => void``
 
-Данные callback вызывается в случае изменения состояния валдности дочерних контролов.
-
+Данный callback вызывается в случае изменения состояния валдности дочерних контролов.
 
 ## ValidationWrapperV1
 
 ### ``children: React.Element<*>``
 
+Дочерный компонент должен быть ровно один. ValidationWrapperV1 контролирует его поведение путём передачи
+prop-ов, используя сограшение retail-ui. Для отрисовки tooltip-а используется стандартный 
+[Tooltip](http://tech.skbkontur.ru/react-ui/#/components/Tooltip). Для работы с компонентом используется
+[React.cloneElement()](https://facebook.github.io/react/docs/react-api.html#cloneelement);
+
 ### ``validationInfo: ?ValidationInfo``
 
 где
 
-    type ValidationInfo = { type?: 'immediate' | 'lostfocus' | 'submit'; message: string; }
+    type ValidationInfo = { 
+        type?: 'immediate' | 'lostfocus' | 'submit'; 
+        message: string; 
+    };
+
+способ передать результат валидаций в ValidationWrapper. Если значение определено, контрол считается 
+невалидным. Поле ``type`` используется для задания поведения валидации. Значение по умолчанию для ``type`` -- ``lostfocus``.
 
 ### ``renderMessage?: RenderErrorMessage``
 
 где
 
     type RenderErrorMessage =
-        (control: React.Element<*>, hasError: boolean, validation: ?Validation) => React.Element<*>;
+        (
+            control: React.Element<*>, 
+            hasError: boolean, 
+            validation: ?Validation
+        ) => React.Element<*>;
 
-## tooltip(pos: string)
+Способ кастомизации отображения сообщения об ошибке (не путать с 
+[подсветкой контрола](https://guides.kontur.ru/principles/validation/#13)).
+Для задания определённых в гайдах способа отображения ошибок используйте функции ``tooltip`` и ``text``.
+Значение по умолчанию -- ``tooltip('right middle')``
 
-## text(pos: string)
+Например
+
+    // ...
+    <ValidationWrapperV1 renderMessage={tooltip('top center')} validationInfo={{ ... }}>
+    // ...
+
+## tooltip(pos: string): RenderErrorMessage
+
+Возвращает функцию для рендеринга сообщения о ошибке в виде тултипа. Используется для передачи в renderMessage.
+Аргумент pos -- строка передаваемая в соответствующий prop [retail-ui Tooltip-а](http://tech.skbkontur.ru/react-ui/#/components/Tooltip).
+
+## text(pos: 'right' | 'bottom'): RenderErrorMessage
+
+Возвращает функцию для рендеринга сообщения о ошибке в виде текстового блока рядом с контролом.
+Используется для передачи в renderMessage. Аргумент pos управляет положением тултипа и примает значения
+'right' и 'bottom' для отображения сообщения справа и внизу соответственно.
