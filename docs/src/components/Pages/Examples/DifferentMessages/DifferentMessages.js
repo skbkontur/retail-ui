@@ -1,18 +1,17 @@
 // @flow
 import React from 'react';
-
-import Button from 'retail-ui/components/Button';
+import Helmet from 'react-helmet';
 import Input from 'retail-ui/components/Input';
+import Button from 'retail-ui/components/Button';
 
 import type {
     ContactInfo,
     ContactInfoValidationInfo,
     FormEditorProps,
-} from '../../Domain/ContactInfo';
+} from '../../../../Domain/ContactInfo';
 
-import SpaceFiller from '../SpaceFiller/SpaceFiller';
-import Demo from '../Demo/Demo';
-import Form from '../Form/Form';
+import Demo from '../../../Demo';
+import Form from '../../../Form';
 
 import { ValidationContainer, ValidationWrapperV1, text } from 'react-ui-validations';
 
@@ -29,7 +28,6 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
                     />
                 </ValidationWrapperV1>
             </Form.Line>
-            <SpaceFiller height={1600} />
             <Form.Line title='Email'>
                 <ValidationWrapperV1
                     validationInfo={validationInfo.email}>
@@ -91,19 +89,8 @@ export default class DifferentMessages extends React.Component {
     render(): React.Element<*> {
         return (
             <div>
-                <h1>Валидации по потере фокуса</h1>
-                <h4>Демо 1.</h4>
-                <p>
-                    На этой форме есть валидации по потере фокуса.
-                    Имя должно состоять из двух слов и в почте должен быть символ '@'.
-                </p>
-                <p>Ожидаемое поведение:</p>
-                <ul>
-                    <li>
-                        При редактировании невалидного поля, баллун остётся на
-                        месте, а красная подсветка с поля снимается.
-                    </li>
-                </ul>
+                <Helmet title='Разные типы сообщения в одной форме' />
+                <h1>Разные типы сообщения в одной форме</h1>
                 <Demo>
                     <ValidationContainer ref='container'>
                         <FormEditor

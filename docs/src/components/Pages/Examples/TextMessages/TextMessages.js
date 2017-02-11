@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-
+import Helmet from 'react-helmet';
 import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
 
@@ -8,18 +8,19 @@ import type {
     ContactInfo,
     ContactInfoValidationInfo,
     FormEditorProps,
-} from '../../Domain/ContactInfo';
+} from '../../../../Domain/ContactInfo';
 
-import Demo from '../Demo/Demo';
-import Form from '../Form/Form';
+import Demo from '../../../Demo';
+import Form from '../../../Form';
 
-import { ValidationContainer, ValidationWrapperV1 } from 'react-ui-validations';
+import { ValidationContainer, ValidationWrapperV1, text } from 'react-ui-validations';
 
 function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.Element<*> {
     return (
         <Form>
             <Form.Line title='Имя'>
                 <ValidationWrapperV1
+                    renderMessage={text()}
                     validationInfo={validationInfo.name}>
                     <Input
                         value={data.name}
@@ -29,6 +30,7 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
             </Form.Line>
             <Form.Line title='Email'>
                 <ValidationWrapperV1
+                    renderMessage={text()}
                     validationInfo={validationInfo.email}>
                     <Input
                         value={data.email}
@@ -38,6 +40,7 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
             </Form.Line>
             <Form.Line title='Телефон'>
                 <ValidationWrapperV1
+                    renderMessage={text('bottom')}
                     validationInfo={validationInfo.phone}>
                     <Input
                         value={data.phone}
@@ -71,7 +74,7 @@ function validate(data: ContactInfo): ContactInfoValidationInfo {
     return result;
 }
 
-export default class OnBlurValidations extends React.Component {
+export default class DifferentMessages extends React.Component {
     state = {
         data: {
             name: '',
@@ -88,19 +91,8 @@ export default class OnBlurValidations extends React.Component {
     render(): React.Element<*> {
         return (
             <div>
-                <h1>Валидации по потере фокуса</h1>
-                <h4>Демо 1.</h4>
-                <p>
-                    На этой форме есть валидации по потере фокуса.
-                    Имя должно состоять из двух слов и в почте должен быть символ '@'.
-                </p>
-                <p>Ожидаемое поведение:</p>
-                <ul>
-                    <li>
-                        При редактировании невалидного поля, баллун остётся на
-                        месте, а красная подсветка с поля снимается.
-                    </li>
-                </ul>
+                <Helmet title='Текстовые сообщения' />
+                <h1>Текстовые сообщения</h1>
                 <Demo>
                     <ValidationContainer ref='container'>
                         <FormEditor
