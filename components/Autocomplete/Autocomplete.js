@@ -2,9 +2,11 @@
 
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 
 import Input from '../Input';
 import type {Props as InputProps} from '../Input/Input';
+import DropdownContainer from '../DropdownContainer/DropdownContainer';
 
 import styles from './Autocomplete.less';
 
@@ -67,6 +69,9 @@ export default class Autocomplete extends React.Component {
       onChange: this.handleChange,
       onBlur: this.handleBlur,
       onKeyDown: this.handleKey,
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver,
     };
     return (
       <span className={styles.root}>
@@ -83,7 +88,7 @@ export default class Autocomplete extends React.Component {
     }
 
     return (
-      <div className={styles.menuHolder}>
+      <DropdownContainer offsetY={1} getParent={() => findDOMNode(this)}>
         <div className={styles.menu}>
           {items.map((item, i) => {
             const rootClass = classNames({
@@ -102,7 +107,7 @@ export default class Autocomplete extends React.Component {
             );
           })}
         </div>
-      </div>
+      </DropdownContainer>
     );
   }
 

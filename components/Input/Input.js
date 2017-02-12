@@ -79,6 +79,9 @@ export type Props = {
   onKeyPress?: (e: SyntheticKeyboardEvent) => void,
   onKeyUp?: (e: SyntheticKeyboardEvent) => void,
   onPaste?: (e: SyntheticFocusEvent) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
 };
 
 type State = {
@@ -180,6 +183,12 @@ export default class Input extends React.Component {
 
     onKeyUp: PropTypes.func,
 
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func,
+
     onPaste: PropTypes.func,
   };
 
@@ -250,6 +259,9 @@ export default class Input extends React.Component {
       onChange: (e) => this._handleChange(e),
       style: {},
       ref: this.getInputFromRef,
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver,
     };
 
     const type = this.props.type;

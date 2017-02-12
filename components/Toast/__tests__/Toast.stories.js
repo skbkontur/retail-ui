@@ -1,12 +1,16 @@
 // @flow
 import React from 'react';
 import {storiesOf, action} from '@kadira/storybook';
-
-import Toast from '../Toast';
+import Toast from '../../Toast';
 import Button from '../../Button';
+import Modal from '../../Modal';
 
 class TestNotifier extends React.Component {
   notifier: Toast
+
+  state = {
+    modal: false,
+  }
 
   showNotification = () => {
     if (this.props.complex) {
@@ -43,8 +47,24 @@ class TestNotifier extends React.Component {
           onPush={action('push')}
         />
         <Button onClick={this.showNotification}>Show notification</Button>
+        <Button onClick={() => this.setState({modal: true})}>Show Modal</Button>
+        {this.state.modal && this.renderModal()}
       </div>
     );
+  }
+
+  renderModal() {
+    return <Modal>
+      <Modal.Header>Modalka</Modal.Header>
+      <Modal.Body>
+        <Button onClick={this.showNotification}>Show notification</Button>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={() => this.setState({modal: false})}>
+          Close Modal
+        </Button>
+      </Modal.Footer>
+    </Modal>;
   }
 }
 

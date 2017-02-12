@@ -8,6 +8,7 @@
  * import Button from 'ui/Button';
  * import Gapped from 'ui/Gapped';
  */
+/* eslint-disable consistent-return */
 module.exports = function(babel) {
   var t = babel.types;
 

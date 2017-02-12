@@ -15,6 +15,9 @@ type Props = {
   error?: bool,
   warning?: bool,
   onChange?: (event: {target: {value: bool}}, value: bool) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
 };
 
 class Checkbox extends React.Component {
@@ -24,6 +27,9 @@ class Checkbox extends React.Component {
     error: PropTypes.bool,
     warning: PropTypes.bool,
     onChange: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+    onMouseOver: PropTypes.func,
   };
 
   props: Props;
@@ -45,6 +51,9 @@ class Checkbox extends React.Component {
       disabled: this.props.disabled,
       onChange: this.handleChange,
       ref: this._inputRef,
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver,
     };
     if (this.props.tabIndex) {
       inputProps.tabIndex = this.props.tabIndex;

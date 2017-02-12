@@ -30,7 +30,11 @@ export default class RenderContainer extends React.Component {
   }
 
   componentDidMount() {
-    document.body.appendChild(this._domContainer);
+    const {body} = document;
+    if (!body) {
+      throw Error('There is no "body" in "document"');
+    }
+    body.appendChild(this._domContainer);
 
     this._renderChild();
   }

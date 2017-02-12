@@ -2,7 +2,6 @@
 var pathTo = require('./utils').pathTo;
 
 var ROOT_SELECTOR = '[class^="Select-root"]';
-var DROP_SELECTOR = '[class^="Select-drop"]';
 var MENU_ITEM_SELECTOR = '[class^="MenuItem-root"]';
 
 gemini.suite('Dropdown', (suite) => {

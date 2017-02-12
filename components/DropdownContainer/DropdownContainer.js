@@ -16,7 +16,7 @@ type Props = {
 
 type State = {
   position: ?{
-    top: number,
+    top: number | 'auto',
     left: ?number,
     right: ?number,
   },
@@ -98,22 +98,34 @@ export default class DropdownContainer extends React.Component {
     if (target && dom) {
       const targetRect = target.getBoundingClientRect();
       const docEl = document.documentElement;
+
+      if (!docEl) {
+        throw Error('There is no "documentElement" in "document"');
+      }
+
       const scrollX = window.pageXOffset || docEl.scrollLeft || 0;
       const scrollY = window.pageYOffset || docEl.scrollTop || 0;
 
       let left = null;
       let right = null;
       if (this.props.align === 'right') {
-        const docWidth = document.documentElement.offsetWidth || 0;
+        const docWidth = docEl.offsetWidth || 0;
         right = docWidth - (targetRect.right + scrollX) + this.props.offsetX;
       } else {
         left = targetRect.left + scrollX + this.props.offsetX;
       }
 
+      const {offsetY = 0} = this.props;
+      let top = targetRect.bottom + scrollY + offsetY;
+
+      const distanceToBottom =
+        docEl.clientHeight - targetRect.bottom;
+      if (distanceToBottom < this._getHeight()) {
+        top = targetRect.top - this._getHeight() + scrollY - offsetY;
+      }
+
       const position = {
-        // -1 because we need it in ComboBox. Should become configurable
-        // eventually.
-        top: targetRect.bottom + scrollY + this.props.offsetY,
+        top,
         left,
         right,
         minWidth: targetRect.right - targetRect.left,
@@ -121,4 +133,18 @@ export default class DropdownContainer extends React.Component {
       this.setState({position});
     }
   };
+
+  _getHeight = () => {
+    if (!this._dom) {
+      return 0;
+    }
+    const child = this._dom.children.item(0);
+    if (!child) {
+      return 0;
+    }
+    const rect = child.getBoundingClientRect();
+    return rect.height
+      ? rect.height
+      : rect.bottom - rect.top;
+  }
 }

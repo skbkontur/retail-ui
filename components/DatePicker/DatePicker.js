@@ -2,23 +2,31 @@
 
 import classNames from 'classnames';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 
 import filterProps from '../filterProps';
 import Icon from '../Icon';
 import Input from '../Input';
 import Picker from './Picker';
 import dateParser from './dateParser';
+import DropdownContainer from '../DropdownContainer/DropdownContainer';
 
 import styles from './DatePicker.less';
 
 const INPUT_PASS_PROPS = {
   disabled: true,
   error: true,
+  placeholder: true,
+  size: true,
 
   onInput: true,
   onKeyDown: true,
   onKeyPress: true,
   onKeyUp: true,
+
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true,
 };
 
 type Props = {
@@ -27,6 +35,8 @@ type Props = {
   error?: bool,
   maxYear?: number,
   minYear?: number,
+  placeholder?: string,
+  size?: 'small' | 'medium' | 'large',
   value: ?Date,
   width?: number | string,
   onBlur?: () => void,
@@ -36,6 +46,9 @@ type Props = {
   onKeyDown?: (e: SyntheticKeyboardEvent) => void,
   onKeyPress?: (e: SyntheticKeyboardEvent) => void,
   onKeyUp?: (e: SyntheticKeyboardEvent) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
 };
 
 type State = {
@@ -59,6 +72,10 @@ export default class DatePicker extends React.Component {
      */
     minYear: PropTypes.number,
 
+    placeholder: PropTypes.string,
+
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
+
     value: PropTypes.instanceOf(Date),
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -76,6 +93,12 @@ export default class DatePicker extends React.Component {
     onKeyPress: PropTypes.func,
 
     onKeyUp: PropTypes.func,
+
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func,
   };
 
   static defaultProps = {
@@ -103,12 +126,15 @@ export default class DatePicker extends React.Component {
     let picker = null;
     if (this.state.opened) {
       picker = (
-        <div className={styles.picker} onKeyDown={this.handlePickerKey}>
+        <DropdownContainer
+          getParent={() => findDOMNode(this)}
+          offsetY={1}
+        >
           <Picker value={value}
             minYear={this.props.minYear} maxYear={this.props.maxYear}
             onPick={this.handlePick} onClose={this.handlePickerClose}
           />
-        </div>
+        </DropdownContainer>
       );
     }
     const className = classNames({
@@ -119,6 +145,7 @@ export default class DatePicker extends React.Component {
       [styles.openButton]: true,
       [styles.openButtonDisabled]: this.props.disabled,
     });
+    const iconSize = this.props.size === 'large' ? 16 : 14;
     return (
       <span className={className} style={{width: this.props.width}}>
         <Input
@@ -130,19 +157,19 @@ export default class DatePicker extends React.Component {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
+          rightIcon={(
+            <div className={openClassName} onClick={this.open}>
+              <Icon name="calendar" size={iconSize}/>
+            </div>
+          )}
         />
-        <div className={openClassName} onClick={this.open}>
-          <Icon name="calendar" />
-        </div>
         {picker}
       </span>
     );
   }
 
   componentWillReceiveProps(newProps: Props) {
-    if (!this._focused) {
-      this.setState({textValue: formatDate(newProps.value)});
-    }
+    this.setState({textValue: formatDate(newProps.value)});
   }
 
   handleChange = (event: any) => {
@@ -153,16 +180,12 @@ export default class DatePicker extends React.Component {
   };
 
   handleFocus = () => {
-    this._focused = true;
-
     if (this.props.onFocus) {
       this.props.onFocus();
     }
   };
 
   handleBlur = () => {
-    this._focused = false;
-
     const date = parseDate(this.state.textValue);
 
     this.setState({
@@ -209,7 +232,6 @@ export default class DatePicker extends React.Component {
   }
 
   focus() {
-    this._focused = true;
     this.refs.input.focus();
   }
 }

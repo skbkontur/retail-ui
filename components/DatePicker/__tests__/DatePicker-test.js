@@ -21,7 +21,7 @@ describe('DatePicker', () => {
     expect(value.getUTCFullYear()).toBe(2013);
   });
 
-  it('does not reset input value if new props come while editing', () => {
+  it('set input value if new props come while editing', () => {
     const wrapper = mount(
       <DatePicker value={new Date()} />
     );
@@ -31,7 +31,7 @@ describe('DatePicker', () => {
     input.simulate('change', {target: {value: '123'}});
     wrapper.setProps({value: new Date('02-01-2003 UTC')});
 
-    expect(input.prop('value')).toBe('123');
+    expect(input.prop('value')).toBe('01.02.2003');
 
     input.simulate('blur');
 

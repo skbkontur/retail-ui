@@ -4,6 +4,7 @@ import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
 import Button from '../Button';
+import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import filterProps from '../filterProps';
 import Input from '../Input';
 import invariant from 'invariant';
@@ -28,6 +29,10 @@ const PASS_BUTTON_PROPS = {
   use: true,
   size: true,
   warning: true,
+
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true,
 };
 
 class Select extends React.Component {
@@ -94,6 +99,12 @@ class Select extends React.Component {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onChange: PropTypes.func,
+
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func,
   };
 
   static defaultProps = {
@@ -179,7 +190,6 @@ class Select extends React.Component {
     };
     if (params.opened) {
       buttonProps.active = true;
-      buttonProps.corners = Button.BOTTOM_LEFT | Button.BOTTOM_RIGHT;
     }
 
     if (this.props._icon) {
@@ -242,44 +252,43 @@ class Select extends React.Component {
     }
 
     var value = this._getValue();
-    var dropClassName = classNames({
-      [styles.drop]: true,
-      [styles.dropAlignRight]: this.props.menuAlign === 'right',
-    });
 
     return (
-      <div ref={this._refMenuContainer} className={styles.container}>
-        <div className={dropClassName}>
-          <div style={{position: 'relative'}}>
-            <Menu
-              ref={this._refMenu}
-              width={this.props.menuWidth}
-              onItemClick={this._close}
-            >
-              {search}
-              {this.mapItems((iValue, item, i, comment) => {
-                if (typeof item === 'function' || React.isValidElement(item)) {
-                  return React.cloneElement(
-                    typeof item === 'function' ? item() : item,
-                    {key: i},
-                  );
-                }
+      <DropdownContainer
+        getParent={() => ReactDOM.findDOMNode(this)}
+        offsetY={-1}
+        ref={this._refMenuContainer}
+        align={this.props.menuAlign}
+      >
+        <Menu
+          ref={this._refMenu}
+          width={this.props.menuWidth}
+          onItemClick={this._close}
+        >
+          {search}
+          {this.mapItems((iValue, item, i, comment) => {
+            if (
+              typeof item === 'function' ||
+              React.isValidElement(item)
+            ) {
+              return React.cloneElement(
+                typeof item === 'function' ? item() : item,
+                {key: i},
+              );
+            }
 
-                return (
-                  <MenuItem key={i}
-                    state={iValue === value ? 'selected' : null}
-                    onClick={this._select.bind(this, iValue)}
-                    comment={comment}
-                  >
-                    {this.props.renderItem(iValue, item)}
-                  </MenuItem>
-                );
-              })}
-            </Menu>
-          </div>
-        </div>
-        <div className={styles.botBorder} />
-      </div>
+            return (
+              <MenuItem key={i}
+                state={iValue === value ? 'selected' : null}
+                onClick={this._select.bind(this, iValue)}
+                comment={comment}
+              >
+                {this.props.renderItem(iValue, item)}
+              </MenuItem>
+            );
+          })}
+        </Menu>
+      </DropdownContainer>
     );
   }
 

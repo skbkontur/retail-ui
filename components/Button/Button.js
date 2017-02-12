@@ -34,6 +34,9 @@ type Props = {
   width?: number | string,
   onClick?: (e: SyntheticMouseEvent) => void,
   onKeyDown?: (e: SyntheticKeyboardEvent) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
 };
 
 class Button extends React.Component {
@@ -82,6 +85,12 @@ class Button extends React.Component {
      * Click handler.
      */
     onClick: PropTypes.func,
+
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func,
   };
 
   static defaultProps = {
@@ -123,7 +132,10 @@ class Button extends React.Component {
       disabled: this.props.disabled || this.props.loading,
       onClick: this.props.onClick,
       onKeyDown: this.props.onKeyDown,
-      onMouseDown: this._handleMouseDown, //to prevent focus on click
+      onMouseDown: this._handleMouseDown, // to prevent focus on click
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver,
     };
     if (this.props.align) {
       rootProps.style.textAlign = this.props.align;
@@ -170,7 +182,7 @@ class Button extends React.Component {
   }
 
   _handleMouseDown(e) {
-    if (browser.hasFocusOnButtonClick) {
+    if (browser.hasFocusOnButtonClick && document.activeElement) {
       document.activeElement.blur();
       e.preventDefault();
     }
