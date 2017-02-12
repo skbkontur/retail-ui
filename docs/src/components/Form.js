@@ -30,12 +30,14 @@ const Title = styled.span`
     box-sizing: border-box;
     margin-right: 10px;
     width: 130px;
-    display: inline-block;
     text-align: right;
 `;
 
 const Content = styled.span`
     display: inline-flex;
+    > span {
+        display: inline-flex;
+    }
 `;
 
 function FormLine({ children, title }: FormLineProps): React.Element<*> {
