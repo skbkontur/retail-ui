@@ -1,5 +1,5 @@
-import React from 'react';
 import QuickValidations from './QuickValidations/QuickValidations';
+import ValidationsBuilder from './ValidationsBuilder/ValidationsBuilder';
 
 export default [
     {
@@ -8,7 +8,7 @@ export default [
         caption: 'Быстрые inline-валидации',
     },
     {
-        component: () => <span />,
+        component: ValidationsBuilder,
         url: 'validations-builder',
         caption: 'Конструктор валидаций',
     },
