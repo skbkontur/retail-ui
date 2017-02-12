@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React, {PropTypes} from 'react';
 
 import filterProps from '../filterProps';
-import Upgrades from '../../lib/Upgrades';
 
 import '../ensureOldIEClassName';
 import styles from './Textarea.less';
@@ -79,8 +78,6 @@ class Textarea extends React.Component {
     props.className = classNames({
       [styles.root]: true,
       [styles.error]: this.props.error,
-
-      [styles.deprecated_oldSize]: !Upgrades.isHeight34Enabled(),
     });
     props.style = {};
 

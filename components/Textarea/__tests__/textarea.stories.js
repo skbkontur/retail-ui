@@ -5,10 +5,10 @@ import {storiesOf} from '@kadira/storybook';
 import Textarea from '../Textarea';
 
 storiesOf('Textarea', module).
-  add('Simple Textarea', () => (
+  add('Simple', () => (
     <Textarea />
   )).
-  add('Filled Textarea', () => (
+  add('Filled', () => (
     <Textarea
       value={'Lorem ipsum dolor sit amet, consectetur adipisicing elit.\
         Modi enim voluptatum esse, id libero voluptas similique beatae,\
@@ -17,7 +17,17 @@ storiesOf('Textarea', module).
       }
     />
   )).
-  add('Textarea in inlin-flex and text', () => (
+  add('With error', () => (
+    <Textarea
+      error
+      value={'Lorem ipsum dolor sit amet, consectetur adipisicing elit.\
+        Modi enim voluptatum esse, id libero voluptas similique beatae,\
+        molestiae, impedit corrupti corporis asperiores odit ullam provident\
+        officia alias aperiam eum quas.'
+      }
+    />
+  )).
+  add('Textarea in inline-flex and text', () => (
     <div>
       <div style={{display: 'inline-flex'}}>
         <Textarea
