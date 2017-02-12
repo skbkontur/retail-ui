@@ -16,6 +16,9 @@ const PASS_PROPS = {
   onFocus: true,
   onKeyDown: true,
   onKeyPress: true,
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true,
 };
 
 export default class InputLikeText extends React.Component {
