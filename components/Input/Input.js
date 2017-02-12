@@ -2,7 +2,7 @@
 
 import classNames from 'classnames';
 import MaskedInput from 'react-input-mask';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 
@@ -40,13 +40,13 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
   onKeyPress: true,
   onKeyUp: true,
-  onPaste: true,
+  onPaste: true
 };
 
 const SIZE_CLASS_NAMES = {
   small: styles.sizeSmall,
   medium: styles.sizeMedium,
-  large: styles.sizeLarge,
+  large: styles.sizeLarge
 };
 
 export type Props = {
@@ -189,16 +189,16 @@ export default class Input extends React.Component {
 
     onMouseOver: PropTypes.func,
 
-    onPaste: PropTypes.func,
+    onPaste: PropTypes.func
   };
 
   static defaultProps = {
-    size: 'small',
+    size: 'small'
   }
 
   props: Props;
   state: State = {
-    polyfillPlaceholder: false,
+    polyfillPlaceholder: false
   };
 
   input = null;
@@ -216,9 +216,9 @@ export default class Input extends React.Component {
         [styles.warning]: this.props.warning,
         [styles.padLeft]: this.props.leftIcon,
         [styles.padRight]: this.props.rightIcon,
-        [sizeClassName]: true,
+        [sizeClassName]: true
       }),
-      style: {},
+      style: {}
     };
     if (this.props.width) {
       labelProps.style.width = this.props.width;
@@ -231,7 +231,7 @@ export default class Input extends React.Component {
       placeholder = (
         <div
           className={styles.placeholder}
-          style={{textAlign: this.props.align || 'inherit'}}
+          style={{ textAlign: this.props.align || 'inherit' }}
         >
           {this.props.placeholder}
         </div>
@@ -253,7 +253,7 @@ export default class Input extends React.Component {
       ...filterProps(this.props, INPUT_PASS_PROPS),
       className: classNames({
         [styles.input]: true,
-        [styles.borderless]: this.props.borderless,
+        [styles.borderless]: this.props.borderless
       }),
       value: this.props.value,
       onChange: (e) => this._handleChange(e),
@@ -261,7 +261,7 @@ export default class Input extends React.Component {
       ref: this.getInputFromRef,
       onMouseEnter: this.props.onMouseEnter,
       onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver,
+      onMouseOver: this.props.onMouseOver
     };
 
     const type = this.props.type;
@@ -305,7 +305,7 @@ export default class Input extends React.Component {
 
   componentDidMount() {
     if (polyfillPlaceholder) {
-      this.setState({polyfillPlaceholder: true});
+      this.setState({ polyfillPlaceholder: true });
     }
   }
 
@@ -356,7 +356,7 @@ export default class Input extends React.Component {
     if (polyfillPlaceholder) {
       const fieldIsEmpty = event.target.value === '';
       if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
-        this.setState({polyfillPlaceholder: fieldIsEmpty});
+        this.setState({ polyfillPlaceholder: fieldIsEmpty });
       }
     }
 

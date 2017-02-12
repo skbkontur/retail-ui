@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
 import styles from './DocsApp.less';
 
@@ -22,7 +22,7 @@ var DocsApp = React.createClass({
                 Components
               </Link>
             </div>
-            <div style={{clear: 'both'}} />
+            <div style={{ clear: 'both' }} />
           </div>
         </div>
         <div className={styles.content}>
@@ -30,7 +30,7 @@ var DocsApp = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 });
 
 export default DocsApp;

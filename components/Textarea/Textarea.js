@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import filterProps from '../filterProps';
 
@@ -21,7 +21,7 @@ const PASS_PROPS = {
 
   onMouseEnter: true,
   onMouseLeave: true,
-  onMouseOver: true,
+  onMouseOver: true
 };
 
 class Textarea extends React.Component {
@@ -60,11 +60,11 @@ class Textarea extends React.Component {
 
     onMouseLeave: PropTypes.func,
 
-    onMouseOver: PropTypes.func,
+    onMouseOver: PropTypes.func
   };
 
   static defaultProps = {
-    rows: '3',
+    rows: '3'
   };
 
   _node: HTMLTextAreaElement;
@@ -77,7 +77,7 @@ class Textarea extends React.Component {
     const props = filterProps(this.props, PASS_PROPS);
     props.className = classNames({
       [styles.root]: true,
-      [styles.error]: this.props.error,
+      [styles.error]: this.props.error
     });
     props.style = {};
 

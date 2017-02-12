@@ -80,7 +80,7 @@ const findAll = (path: string, tree: any) => {
     const comp = mounted[id];
     return {
       _id: comp.id,
-      node: agent.getNodeForID(id),
+      node: agent.getNodeForID(id)
     };
   });
 };
@@ -150,7 +150,7 @@ export {
 
   // For debugging.
   roots,
-  mounted,
+  mounted
 };
 
 global.Lookup = {
@@ -159,5 +159,5 @@ global.Lookup = {
   getAdapter,
 
   roots,
-  mounted,
+  mounted
 };

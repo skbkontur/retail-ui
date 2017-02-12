@@ -17,14 +17,14 @@ function ref(tid, existingRef) {
       let node = ReactDOM.findDOMNode(el);
       if (node) {
         if (node.hasAttribute(DATA_RENDER_CONTAINER_ID)) {
-          node = renderContainers[node.getAttribute(DATA_RENDER_CONTAINER_ID)].
-            _domContainer;
+          node = renderContainers[node.getAttribute(DATA_RENDER_CONTAINER_ID)]
+            ._domContainer;
         }
 
         node.setAttribute('tid', tid);
         node.setAttribute('react-testing-id', id);
       }
-      map[id] = {el, node, tid};
+      map[id] = { el, node, tid };
     } else {
       const node = map[id].node;
       if (node) {
@@ -72,5 +72,5 @@ export default {
   findDOMNodes,
   call,
 
-  _map: map,
+  _map: map
 };

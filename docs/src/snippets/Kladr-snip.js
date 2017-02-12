@@ -6,10 +6,10 @@ var Comp = React.createClass({
       <Kladr
         title="Адрес"
         value={this.state.value}
-        onChange={(_, v) => this.setState({value: v})}
+        onChange={(_, v) => this.setState({ value: v })}
       />
     );
-  },
+  }
 });
 
 ReactDOM.render(<Comp />, mountNode);

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import events from 'add-event-listener';
-import {EventEmitter} from 'fbemitter';
-import React, {PropTypes} from 'react';
+import { EventEmitter } from 'fbemitter';
+import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
 import addClass from '../../lib/dom/addClass';
@@ -18,7 +18,7 @@ import styles from './Modal.less';
 
 const stack = {
   emitter: new EventEmitter(),
-  mounted: [],
+  mounted: []
 };
 
 let mountedModalsCount = 0;
@@ -51,16 +51,16 @@ class Modal extends React.Component {
      * Вызывается, когда пользователь запросил закрытие окна (нажал на фон, на
      * Escape или на крестик).
      */
-    onClose: PropTypes.func,
+    onClose: PropTypes.func
   };
 
   static childContextTypes = {
-    rt_inModal: PropTypes.bool,
+    rt_inModal: PropTypes.bool
   };
 
   state = {
     // Is shadowed by another modal that was rendered on top of this one.
-    shadowed: false,
+    shadowed: false
   };
 
   _stackSubscribtion = null;
@@ -75,7 +75,7 @@ class Modal extends React.Component {
   }
 
   getChildContext() {
-    return {rt_inModal: true};
+    return { rt_inModal: true };
   }
 
   render() {
@@ -94,7 +94,7 @@ class Modal extends React.Component {
     const children = React.Children.map(this.props.children, child => {
       if (child && child.type === Header) {
         hasHeader = true;
-        return React.cloneElement(child, {close});
+        return React.cloneElement(child, { close });
       }
       return child;
     });
@@ -168,7 +168,7 @@ class Modal extends React.Component {
   }
 
   _handleWindowResize = () => {
-    const {clientHeight, scrollHeight, style} = document.documentElement;
+    const { clientHeight, scrollHeight, style } = document.documentElement;
     if (clientHeight < scrollHeight) {
       const scrollbarWidth = getScrollWidth();
       document.documentElement.style.marginRight = prevMarginRight;
@@ -188,7 +188,7 @@ class Modal extends React.Component {
   _handleStackChange = () => {
     const shadowed = stack.mounted[stack.mounted.length - 1] !== this;
     if (this.state.shadowed !== shadowed) {
-      this.setState({shadowed});
+      this.setState({ shadowed });
     }
   };
 
@@ -245,13 +245,13 @@ class Body extends React.Component {
 class Footer extends React.Component {
   static propTypes = {
     /** Включает серый цвет в футере */
-    panel: PropTypes.bool,
+    panel: PropTypes.bool
   }
 
   render() {
     var names = classNames({
       [styles.footer]: true,
-      [styles.panel]: this.props.panel,
+      [styles.panel]: this.props.panel
     });
 
     return (

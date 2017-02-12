@@ -26,7 +26,7 @@ module.exports = function(babel) {
           const refValue = t.JSXExpressionContainer(
             buildRefFunc({
               TID: tid,
-              REF: ref,
+              REF: ref
             }).expression
           );
 
@@ -35,7 +35,7 @@ module.exports = function(babel) {
             t.JSXAttribute(
               t.JSXIdentifier('ref'),
               refValue
-            ),
+            )
           ]);
         } else if (tidPassAttr) {
           invariant(
@@ -48,8 +48,8 @@ module.exports = function(babel) {
             buildPassFunc().expression
           );
         }
-      },
-    },
+      }
+    }
   };
 };
 

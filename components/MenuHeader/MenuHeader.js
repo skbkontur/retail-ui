@@ -16,16 +16,16 @@ type Props = {
 export default class MenuHeader extends React.Component {
   static __MENU_HEADER__ = true;
   static defaultProps = {
-    _enableIconPadding: false,
+    _enableIconPadding: false
   }
 
   props: Props;
 
   render() {
-    const {children, _enableIconPadding} = this.props;
+    const { children, _enableIconPadding } = this.props;
     const classnames = classNames({
       [styles.root]: true,
-      [styles.withLeftPadding]: _enableIconPadding,
+      [styles.withLeftPadding]: _enableIconPadding
     });
     return <div className={classnames}>{children}</div>;
   }

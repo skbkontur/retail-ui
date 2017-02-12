@@ -9,7 +9,7 @@ const DatePickerAdapter = {
 
   setValue(inst: DatePicker, value: ?Date) {
     const onChange: any = inst.props.onChange;
-    onChange && onChange({target: {value}}, value);
+    onChange && onChange({ target: { value } }, value);
   },
 
   getStringValue(inst: DatePicker) {
@@ -20,8 +20,8 @@ const DatePickerAdapter = {
   setStringValue(inst: DatePicker, value: ?string) {
     const onChange: any = inst.props.onChange;
     const date = value ? new Date(value) : null;
-    onChange && onChange({target: {value: date}}, date);
-  },
+    onChange && onChange({ target: { value: date } }, date);
+  }
 
 };
 

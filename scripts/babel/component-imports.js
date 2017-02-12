@@ -44,13 +44,13 @@ module.exports = function(babel) {
         } else {
           path.replaceWithMultiple(imports);
         }
-      },
-    },
+      }
+    }
   };
 
   if (babel5) {
     return new babel.Transformer('component-imports', visitor);
   } else {
-    return {visitor};
+    return { visitor };
   }
 };

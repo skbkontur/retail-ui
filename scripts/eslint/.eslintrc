@@ -40,7 +40,7 @@ globals:
 rules:
   # Possible Errors <http://eslint.org/docs/rules/#possible-errors>
   # babel removes them for older browsers
-  comma-dangle: [2, always-multiline]
+  comma-dangle: [1, never]
   # equivalent to jshint boss
   no-cond-assign: 1
   # equivalent to jshint devel
@@ -113,7 +113,7 @@ rules:
   default-case: 0
   dot-notation: 1
   # we don't do this/care about this, but probably should eventually
-  dot-location: [1, object]
+  dot-location: [1, property]
   # disabled as it's too noisy ATM
   eqeqeq: [2, allow-null]
   # we don't do this/care about this, equivalent to jshint forin
@@ -297,7 +297,7 @@ rules:
   # disallow `var isYes = answer === 1 ? true : false;`
   no-unneeded-ternary: 1
   # too noisy ATM
-  object-curly-spacing: 2
+  object-curly-spacing: [1, always]
   # makes indentation warnings clearer
   one-var: [1, {initialized: never}]
   # prefer `x += 4` over `x = x + 4`

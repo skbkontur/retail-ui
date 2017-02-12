@@ -20,7 +20,7 @@ var Components = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 });
 
 export default Components;

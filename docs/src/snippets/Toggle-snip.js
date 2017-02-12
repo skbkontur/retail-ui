@@ -1,12 +1,12 @@
 class Comp extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {checked: true};
+    this.state = { checked: true };
     this.toggle = this.toggle.bind(this);
   }
 
   toggle(checked) {
-    this.setState({checked});
+    this.setState({ checked });
   }
 
   render() {

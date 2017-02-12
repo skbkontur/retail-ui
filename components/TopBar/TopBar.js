@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import events from 'add-event-listener';
 
 import Dropdown from '../Dropdown';
@@ -27,11 +27,11 @@ class Item extends React.Component {
   };
 
   static propTypes = {
-    use: PropTypes.oneOf(['danger', 'pay']),
+    use: PropTypes.oneOf(['danger', 'pay'])
   };
 
   static defaultProps = {
-    className: '',
+    className: ''
   };
 
   render() {
@@ -51,7 +51,7 @@ class Item extends React.Component {
       [styles.item]: true,
       [styles.buttonActive]: active,
       [className]: true,
-      [styles.iconOnly]: iconOnly,
+      [styles.iconOnly]: iconOnly
     };
     if (use) {
       classes[styles['use-' + use]] = true;
@@ -62,7 +62,7 @@ class Item extends React.Component {
         {...rest}
         className={classNames(classes)}
         onClick={_onClick}
-        style={{minWidth}}
+        style={{ minWidth }}
       >
         {icon &&
           <span className={styles.icon}>
@@ -76,7 +76,7 @@ class Item extends React.Component {
 
 class ButtonItem extends React.Component {
   render() {
-    const {onClick, children} = this.props;
+    const { onClick, children } = this.props;
     return (
       <Item {...this.props} className={styles.button} _onClick={onClick}>
         {children}
@@ -93,7 +93,7 @@ class Divider extends React.Component {
 
 class Logo extends React.Component {
   render() {
-    const {suffix, color} = this.props;
+    const { suffix, color } = this.props;
     return (
       <Item>
         <Logotype suffix={suffix} color={color} />
@@ -144,10 +144,10 @@ class TopBarDropdown extends React.Component {
 
 class User extends React.Component {
   render() {
-    const {userName} = this.props;
+    const { userName } = this.props;
     return (
       <TopBarDropdown icon="user" caption={userName}>
-        <div style={{padding: '6px 18px 7px 15px'}}>
+        <div style={{ padding: '6px 18px 7px 15px' }}>
           <b>Личный кабинет Контура</b>
         </div>
         <MenuItem loose href="https://cabinet.kontur.ru" target="_blank">
@@ -187,7 +187,7 @@ class Organizations extends React.Component {
     minWidth: ?number
   } = {
     captionWhiteSpace: 'normal',
-    minWidth: null,
+    minWidth: null
   };
 
   componentDidMount() {
@@ -201,14 +201,14 @@ class Organizations extends React.Component {
   }
 
   render() {
-    const {caption, comment} = this.props;
+    const { caption, comment } = this.props;
 
     const title = (
       <div>
         <span
           className={styles.organizationsTitle}
           style={{
-            paddingRight: this._comment && this._comment.offsetWidth + 30,
+            paddingRight: this._comment && this._comment.offsetWidth + 30
           }}
         >
           <span
@@ -230,11 +230,11 @@ class Organizations extends React.Component {
         </span>
         <div
           className={styles.organizationsTitleDummy}
-          style={{whiteSpace: this.state.captionWhiteSpace}}
+          style={{ whiteSpace: this.state.captionWhiteSpace }}
         >
           <span className={styles.organizationsCaption}>
             {React.isValidElement(caption)
-              ? React.cloneElement((caption: any), {ref: null})
+              ? React.cloneElement((caption: any), { ref: null })
               : caption}
           </span>
           {comment &&
@@ -272,12 +272,12 @@ class Organizations extends React.Component {
     if (this._caption.offsetWidth + commentWidth > 315) {
       this.setState({
         captionWhiteSpace: 'normal',
-        minWidth: 360,
+        minWidth: 360
       });
     } else {
       this.setState({
         captionWhiteSpace: 'nowrap',
-        minWidth: null,
+        minWidth: null
       });
     }
   }
@@ -324,7 +324,7 @@ class TopBar extends React.Component {
 
   static defaultProps: DefaultProps = {
     maxWidth: 1166,
-    rightItems: [],
+    rightItems: []
   };
 
   render() {
@@ -335,7 +335,7 @@ class TopBar extends React.Component {
       noShadow,
       noMargin,
       userName,
-      onLogout,
+      onLogout
     } = this.props;
 
     const _rightItems = [].concat(rightItems);
@@ -359,10 +359,10 @@ class TopBar extends React.Component {
         className={classNames({
           [styles.root]: true,
           [styles.noShadow]: noShadow,
-          [styles.noMargin]: noMargin,
+          [styles.noMargin]: noMargin
         })}
       >
-        <div className={styles.center} style={{maxWidth}}>
+        <div className={styles.center} style={{ maxWidth }}>
           <div className={styles.containerWrap}>
             <div className={styles.container}>
               {this._renderLogo()}
@@ -378,7 +378,7 @@ class TopBar extends React.Component {
   }
 
   _renderLogo() {
-    const {suffix, color} = this.props;
+    const { suffix, color } = this.props;
     if (this.props.noWidget) {
       return <Logo suffix={suffix} color={color} />;
     }
@@ -403,7 +403,7 @@ class TopBar extends React.Component {
     return items.map((item, i) => {
       if (!item.key) {
         return React.cloneElement(item, {
-          key: '$topbar_' + i,
+          key: '$topbar_' + i
         });
       }
       return item;
@@ -515,7 +515,7 @@ TopBar.propTypes = {
   /**
    * Функция выхода
    */
-  onLogout: PropTypes.func.isRequired,
+  onLogout: PropTypes.func.isRequired
 };
 
 export default TopBar;

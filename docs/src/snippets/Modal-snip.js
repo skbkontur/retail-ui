@@ -1,6 +1,6 @@
 var Comp = React.createClass({
   getInitialState() {
-    return {opened: false};
+    return { opened: false };
   },
 
   render() {
@@ -25,7 +25,7 @@ var Comp = React.createClass({
           <div>
             <Toggle
               checked={this.state.panel}
-              onChange={() => this.setState(({panel}) => ({panel: !panel}))}
+              onChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
             /> Panel {this.state.panel ? 'enabled' : 'disabled'}
           </div>
 
@@ -38,12 +38,12 @@ var Comp = React.createClass({
   },
 
   open() {
-    this.setState({opened: true});
+    this.setState({ opened: true });
   },
 
   close() {
-    this.setState({opened: false});
-  },
+    this.setState({ opened: false });
+  }
 });
 
 ReactDOM.render(<Comp />, mountNode);

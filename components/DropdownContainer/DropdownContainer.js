@@ -1,6 +1,6 @@
 // @flow
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer/RenderContainer';
@@ -24,19 +24,19 @@ type State = {
 
 export default class DropdownContainer extends React.Component {
   static contextTypes = {
-    rt_inModal: PropTypes.bool,
+    rt_inModal: PropTypes.bool
   };
 
   static defaultProps = {
     align: 'left',
     disablePortal: false,
     offsetX: 0,
-    offsetY: -1,
+    offsetY: -1
   };
 
   props: Props;
   state: State = {
-    position: null,
+    position: null
   };
 
   _dom;
@@ -48,12 +48,12 @@ export default class DropdownContainer extends React.Component {
       top: '0',
       left: null,
       right: null,
-      zIndex: this.context.rt_inModal ? 1100 : 900,
+      zIndex: this.context.rt_inModal ? 1100 : 900
     };
     if (this.state.position) {
       style = {
         ...style,
-        ...this.state.position,
+        ...this.state.position
       };
     }
     if (this.props.disablePortal){
@@ -61,8 +61,8 @@ export default class DropdownContainer extends React.Component {
         ...style,
         ...{
           top: null,
-          minWidth: '100%',
-        },
+          minWidth: '100%'
+        }
       };
     }
 
@@ -115,7 +115,7 @@ export default class DropdownContainer extends React.Component {
         left = targetRect.left + scrollX + this.props.offsetX;
       }
 
-      const {offsetY = 0} = this.props;
+      const { offsetY = 0 } = this.props;
       let top = targetRect.bottom + scrollY + offsetY;
 
       const distanceToBottom =
@@ -128,9 +128,9 @@ export default class DropdownContainer extends React.Component {
         top,
         left,
         right,
-        minWidth: targetRect.right - targetRect.left,
+        minWidth: targetRect.right - targetRect.left
       };
-      this.setState({position});
+      this.setState({ position });
     }
   };
 

@@ -9,7 +9,7 @@ const LinkAdapter = {
 
   isDisabled(inst) {
     return !!inst.props.disabled;
-  },
+  }
 };
 
 (Link: Object).__ADAPTER__ = LinkAdapter;

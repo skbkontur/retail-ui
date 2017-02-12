@@ -4,7 +4,7 @@ import '../../testing';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRedirect, useRouterHistory} from 'react-router';
+import { Router, Route, IndexRedirect, useRouterHistory } from 'react-router';
 import createHashHistory from 'history/lib/createHashHistory';
 
 import ComponentInfo from './components/ComponentInfo';
@@ -13,7 +13,7 @@ import DemoPage from './components/DemoPage';
 import GettingStartedPage from './components/GettingStartedPage';
 import DocsApp from './components/DocsApp';
 
-const history = useRouterHistory(createHashHistory)({queryKey: false});
+const history = useRouterHistory(createHashHistory)({ queryKey: false });
 
 ReactDOM.render((
   <Router history={history}>

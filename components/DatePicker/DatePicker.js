@@ -1,8 +1,8 @@
 // @flow
 
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
-import {findDOMNode} from 'react-dom';
+import React, { PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
 
 import filterProps from '../filterProps';
 import Icon from '../Icon';
@@ -26,7 +26,7 @@ const INPUT_PASS_PROPS = {
 
   onMouseEnter: true,
   onMouseLeave: true,
-  onMouseOver: true,
+  onMouseOver: true
 };
 
 type Props = {
@@ -98,13 +98,13 @@ export default class DatePicker extends React.Component {
 
     onMouseLeave: PropTypes.func,
 
-    onMouseOver: PropTypes.func,
+    onMouseOver: PropTypes.func
   };
 
   static defaultProps = {
     minYear: 1900,
     maxYear: 2100,
-    width: 120,
+    width: 120
   };
 
   props: Props;
@@ -117,7 +117,7 @@ export default class DatePicker extends React.Component {
 
     this.state = {
       textValue: formatDate(props.value),
-      opened: false,
+      opened: false
     };
   }
 
@@ -139,15 +139,15 @@ export default class DatePicker extends React.Component {
     }
     const className = classNames({
       [styles.root]: true,
-      [this.props.className || '']: true,
+      [this.props.className || '']: true
     });
     const openClassName = classNames({
       [styles.openButton]: true,
-      [styles.openButtonDisabled]: this.props.disabled,
+      [styles.openButtonDisabled]: this.props.disabled
     });
     const iconSize = this.props.size === 'large' ? 16 : 14;
     return (
-      <span className={className} style={{width: this.props.width}}>
+      <span className={className} style={{ width: this.props.width }}>
         <Input
           ref="input"
           {...filterProps(this.props, INPUT_PASS_PROPS)}
@@ -169,13 +169,13 @@ export default class DatePicker extends React.Component {
   }
 
   componentWillReceiveProps(newProps: Props) {
-    this.setState({textValue: formatDate(newProps.value)});
+    this.setState({ textValue: formatDate(newProps.value) });
   }
 
   handleChange = (event: any) => {
     const value: string = event.target.value.replace(/[^\d\.]/g, '');
     this.setState({
-      textValue: value,
+      textValue: value
     });
   };
 
@@ -189,11 +189,11 @@ export default class DatePicker extends React.Component {
     const date = parseDate(this.state.textValue);
 
     this.setState({
-      textValue: formatDate(this.props.value),
+      textValue: formatDate(this.props.value)
     });
 
     if (this.props.onChange && +this.props.value !== +date) {
-      this.props.onChange({target: {value: date}}, date);
+      this.props.onChange({ target: { value: date } }, date);
     }
 
     if (this.props.onBlur) {
@@ -209,7 +209,7 @@ export default class DatePicker extends React.Component {
 
   handlePick = (date: Date) => {
     if (this.props.onChange) {
-      this.props.onChange({target: {value: date}}, date);
+      this.props.onChange({ target: { value: date } }, date);
     }
     this.close(true);
   };
@@ -220,12 +220,12 @@ export default class DatePicker extends React.Component {
 
   open = () => {
     if (!this.props.disabled) {
-      this.setState({opened: true});
+      this.setState({ opened: true });
     }
   };
 
   close(focus: bool) {
-    this.setState({opened: false});
+    this.setState({ opened: false });
     if (focus) {
       setTimeout(() => this.refs.input.focus(), 0);
     }

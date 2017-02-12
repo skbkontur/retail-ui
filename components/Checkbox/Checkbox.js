@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import Icon from '../Icon';
 
@@ -10,14 +10,14 @@ import styles from './Checkbox.less';
 
 type Props = {
   children?: any,
-  checked: bool,
-  disabled?: bool,
-  error?: bool,
-  warning?: bool,
-  onChange?: (event: {target: {value: bool}}, value: bool) => void,
+  checked?: boolean,
+  disabled?: boolean,
+  error?: boolean,
+  warning?: boolean,
+  onChange?: (event: { target: { value: boolean } }, value: boolean) => void,
   onMouseEnter?: (e: SyntheticMouseEvent) => void,
   onMouseLeave?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void
 };
 
 class Checkbox extends React.Component {
@@ -29,7 +29,7 @@ class Checkbox extends React.Component {
     onChange: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
+    onMouseOver: PropTypes.func
   };
 
   props: Props;
@@ -41,7 +41,7 @@ class Checkbox extends React.Component {
       [styles.isChecked]: this.props.checked,
       [styles.isDisabled]: this.props.disabled,
       [styles.error]: this.props.error,
-      [styles.warning]: this.props.warning,
+      [styles.warning]: this.props.warning
     });
 
     const inputProps: Object = {
@@ -50,17 +50,20 @@ class Checkbox extends React.Component {
       checked: this.props.checked,
       disabled: this.props.disabled,
       onChange: this.handleChange,
-      ref: this._inputRef,
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver,
+      ref: this._inputRef
     };
     if (this.props.tabIndex) {
       inputProps.tabIndex = this.props.tabIndex;
     }
 
     return (
-      <label className={rootClass} onClick={this._preventFocus}>
+      <label
+        className={rootClass}
+        onClick={this._preventFocus}
+        onMouseEnter={this.props.onMouseEnter}
+        onMouseLeave={this.props.onMouseLeave}
+        onMouseOver={this.props.onMouseOver}
+      >
         <input {...inputProps} />
         <span className={styles.box}>
           <div className={styles.ok}><Icon name="ok" /></div>
@@ -80,7 +83,7 @@ class Checkbox extends React.Component {
     this.input = ref;
   };
 
-  handleChange = (event: {target: {checked: bool}}) => {
+  handleChange = (event: { target: { checked: boolean } }) => {
     const checked = event.target.checked;
     this.props.onChange && this.props.onChange((event: any), checked);
   };

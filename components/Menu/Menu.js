@@ -10,7 +10,7 @@ import styles from './Menu.less';
 
 export default class Menu extends React.Component {
   static defaultProps = {
-    width: 'auto',
+    width: 'auto'
   };
 
   props: {
@@ -23,23 +23,23 @@ export default class Menu extends React.Component {
   state: {
     highlightedIndex: number,
   } = {
-    highlightedIndex: -1,
+    highlightedIndex: -1
   };
 
   _scrollContainer: ScrollContainer;
   _highlighted: any;
 
   render() {
-    const enableIconPadding = React.Children.
-      toArray(this.props.children).
-      some(({props}) => props.icon);
+    const enableIconPadding = React.Children
+      .toArray(this.props.children)
+      .some(({ props }) => props.icon);
 
     if (this._isEmpty()) {
       return null;
     }
 
     return (
-      <div className={styles.root} style={{width: this.props.width}}>
+      <div className={styles.root} style={{ width: this.props.width }}>
         <ScrollContainer ref={this._refScrollContainer}
           maxHeight={this.props.maxHeight}
         >
@@ -48,7 +48,7 @@ export default class Menu extends React.Component {
             const isMenuHeader = child && child.type.__MENU_HEADER__;
             if (enableIconPadding && (isMenuItem || isMenuHeader)) {
               child = React.cloneElement(child, {
-                _enableIconPadding: true,
+                _enableIconPadding: true
               });
             }
             if (isActiveElement(child)) {
@@ -64,7 +64,7 @@ export default class Menu extends React.Component {
                 state: highlight ? 'hover' : child.props.state,
                 onClick: this._select.bind(this, index, false),
                 onMouseEnter: this._highlightItem.bind(this, index),
-                onMouseLeave: this._unhighlight,
+                onMouseLeave: this._unhighlight
               });
             }
             return child;
@@ -87,7 +87,7 @@ export default class Menu extends React.Component {
   }
 
   reset() {
-    this.setState({highlightedIndex: -1});
+    this.setState({ highlightedIndex: -1 });
   }
 
   _refScrollContainer = (scrollContainer: ?ScrollContainer) => {
@@ -122,11 +122,11 @@ export default class Menu extends React.Component {
   }
 
   _highlightItem(index: number) {
-    this.setState({highlightedIndex: index});
+    this.setState({ highlightedIndex: index });
   }
 
   _unhighlight = () => {
-    this.setState({highlightedIndex: -1});
+    this.setState({ highlightedIndex: -1 });
   };
 
   _move(step: number) {
@@ -145,14 +145,14 @@ export default class Menu extends React.Component {
 
       const child = children[index];
       if (isActiveElement(child)) {
-        this.setState({highlightedIndex: index}, this._scrollToSelected);
+        this.setState({ highlightedIndex: index }, this._scrollToSelected);
         return;
       }
     } while (index !== this.state.highlightedIndex);
   }
 
   _isEmpty() {
-    const {children} = this.props;
+    const { children } = this.props;
     return !children ||
            !childrenToArray(children).filter(isExist).length;
   }

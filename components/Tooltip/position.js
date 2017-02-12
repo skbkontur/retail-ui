@@ -182,10 +182,10 @@ export default function(
       position: fixed ? 'fixed' : 'absolute',
       width: isNaN(tmpWidth) ? 'auto' : tmpWidth,
       top,
-      left,
+      left
     },
     pinStyle,
-    pinDirection,
+    pinDirection
   };
 }
 
@@ -202,7 +202,7 @@ function extractPos(pos) {
   return {
     aside,
     ver: aside ? second : first,
-    hor: aside ? first : second,
+    hor: aside ? first : second
   };
 }
 
