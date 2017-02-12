@@ -162,7 +162,7 @@ const validate: Validate<ContactInfo, ContactInfoValidationInfo> = validation()
         .satisfy(x => x.includes('@'), 'Почта указана неверно')
     .property(x => x.phone)
         .satisfy(
-            phone => phone !== '' && !/^[\s\d\-\+\(\)]*$/.test(phone),
+            phone => phone !== '' && /^[\s\d\-\+\(\)]*$/.test(phone),
             'Телефон должен состояить только из цифр, пробелов и знаков -,+,(,)')
     .property(x => x.sex).required()
     .property(x => x.city).required()

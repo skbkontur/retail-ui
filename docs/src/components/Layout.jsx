@@ -5,10 +5,58 @@ import { Link } from 'react-router';
 import styled from 'styled-components';
 import Logotype from 'retail-ui/components/Logotype';
 import Examples from './Pages/Examples';
+import Concepts from './Pages/Concepts';
 
 type LayoutProps = {
     children?: any;
 };
+
+export default function Layout({ children }: LayoutProps): React.Element<*> {
+    return (
+        <Root>
+            <Helmet
+                defaultTitle='React-UI Validations'
+                titleTemplate='%s | React-UI Validations'
+            />
+            <NavigationBar>
+                <LogoContainer>
+                    <Logotype suffix='ui-validations' href='#/' color='#fff' textColor='#fff' />
+                </LogoContainer>
+                <div>
+                    <NavigationLink activeClassName={'active'} to='/getting-started'>Введение</NavigationLink>
+                    <NavigationLink activeClassName={'active'} to='/api'>API reference</NavigationLink>
+
+                    <Divider />
+
+                    <Header>Примеры</Header>
+                    {Examples.map(page => (
+                        <NavigationLink
+                            key={page.url}
+                            activeClassName={'active'}
+                            to={'/' + page.url}>
+                            {page.caption}
+                        </NavigationLink>
+                    ))}
+
+                    <Header>Концепции</Header>
+                    {Concepts.map(page => (
+                        <NavigationLink
+                            key={page.url}
+                            activeClassName={'active'}
+                            to={'/' + page.url}>
+                            {page.caption}
+                        </NavigationLink>
+                    ))}
+                </div>
+            </NavigationBar>
+            <Content>
+                <ContentWrapper>
+                    {children}
+                </ContentWrapper>
+            </Content>
+        </Root>
+    );
+}
 
 const navigationBarSize = '290px';
 const sidebarColor = '#41464e';
@@ -119,40 +167,3 @@ const NavigationLink = styled(Link)`
         background-color: ${sidebarLinkFocusColor};
     }
 `;
-
-export default function Layout({ children }: LayoutProps): React.Element<*> {
-    return (
-        <Root>
-            <Helmet
-                defaultTitle='React-UI Validations'
-                titleTemplate='%s | React-UI Validations'
-            />
-            <NavigationBar>
-                <LogoContainer>
-                    <Logotype suffix='ui-validations' href='#/' color='#fff' textColor='#fff' />
-                </LogoContainer>
-                <div>
-                    <NavigationLink activeClassName={'active'} to='/getting-started'>Введение</NavigationLink>
-                    <NavigationLink activeClassName={'active'} to='/api'>API reference</NavigationLink>
-
-                    <Divider />
-
-                    <Header>Примеры</Header>
-                    {Examples.map(example => (
-                        <NavigationLink
-                            key={example.url}
-                            activeClassName={'active'}
-                            to={'/' + example.url}>
-                            {example.caption}
-                        </NavigationLink>
-                    ))}
-                </div>
-            </NavigationBar>
-            <Content>
-                <ContentWrapper>
-                    {children}
-                </ContentWrapper>
-            </Content>
-        </Root>
-    );
-}
