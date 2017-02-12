@@ -304,7 +304,7 @@ class Select extends React.Component {
 
     if (el) {
       this._focusSubscribtion = listenFocusOutside(
-        [ReactDOM.findDOMNode(this)], this._close
+        this._getDomNodes(), this._close
       );
 
       events.addEventListener(
@@ -328,10 +328,21 @@ class Select extends React.Component {
 
   _handleNativeDocClick = (event) => {
     const target = event.target || event.srcElement;
-    if (!ReactDOM.findDOMNode(this).contains(target)) {
-      this._close();
+    const nodes = this._getDomNodes();
+    if (nodes.some((node) => node.contains(target))) {
+      return;
     }
+    this._close();
   };
+
+  _getDomNodes() {
+    const result = [];
+    result.push(ReactDOM.findDOMNode(this));
+    if (this._menu) {
+      result.push(ReactDOM.findDOMNode(this._menu));
+    }
+    return result;
+  }
 
   _toggle = () => {
     if (this.state.opened) {

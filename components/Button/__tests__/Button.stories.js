@@ -22,16 +22,14 @@ const getKnobs = () => ({
   active: boolean('active', false),
   checked: boolean('checked', false),
   width: number('width'),
-  icon: select('icon', Icon.getAllNames()),
+  icon: select('icon', [''].concat(Icon.getAllNames()), ''),
 });
 
 storiesOf('Button', module).
   addDecorator(withKnobs).
   add('playground', () => {
-    const {icon, children, ...rest} = getKnobs();
+    const {children, ...rest} = getKnobs();
     return <Button {...rest}>
-      {icon && <Icon name={icon} />}
-      {icon && ' '}
       {children}
     </Button>;
   }).
