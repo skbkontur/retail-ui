@@ -7,9 +7,9 @@ import {
   select,
   number,
 } from '@kadira/storybook-addon-knobs';
-import Button from '../../components/Button';
-import Gapped from '../../components/Gapped';
-import Icon from '../../components/Icon';
+import Button from '../../Button';
+import Gapped from '../../Gapped';
+import Icon from '../../Icon';
 
 const getKnobs = () => ({
   use: select(

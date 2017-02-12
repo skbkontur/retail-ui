@@ -72,6 +72,7 @@
     "transform": {
       "\\.*": "<rootDir>/preprocessor.js"
     },
+    "testRegex": "(/__tests__/.*(test|spec))\\.(ts|tsx|js)$",
     "testPathDirs": [
       "<rootDir>/components",
       "<rootDir>/lib",
