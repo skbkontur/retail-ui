@@ -92,7 +92,6 @@ import { Input } from './ControlsWithValidations';
         onChange={(e, value) => onChange({ email: value })}
     />
 </Form.Line>
-
                 `}</Code>
 
                 <p>или так:</p>
@@ -110,7 +109,6 @@ import { DatePicker, lessThan } from './ControlsWithValidations';
         onChange={(e, value) => onChange({ born: value })}
     />
 </Form.Line>
-
                 `}</Code>
 
 
