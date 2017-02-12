@@ -2,7 +2,7 @@
 import React from 'react';
 import {storiesOf} from '@kadira/storybook';
 
-import ComboBox from '../../components/ComboBox';
+import ComboBox from '../ComboBox';
 
 function source() {
   return Promise.resolve({

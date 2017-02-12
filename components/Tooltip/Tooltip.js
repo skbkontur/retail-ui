@@ -12,9 +12,9 @@ type Pos = 'top left' | 'top center' | 'top right'
   | 'right top' | 'right middle' | 'right bottom';
 
 type Props = {
-  children: React.Element<any>,
+  children?: React.Element<any>,
 
-  className: string,
+  className?: string,
 
   closeButton?: bool,
 

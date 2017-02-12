@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import {storiesOf, action} from '@kadira/storybook';
-import Toast from '../../components/Toast/ToastView';
+import Toast from '../ToastView';
 
 storiesOf('ToastView', module).
   add('simple toast', () => (
