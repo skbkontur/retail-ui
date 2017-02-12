@@ -53,7 +53,7 @@ class ValidationBuilder {
 
     property(modelPicker, infoPicker, configuration) {
         if (!infoPicker) {
-            infoPicker = modelPicker.toString().match(/return [\w\d]+?\.(.*?);/)[1];
+            infoPicker = modelPicker.toString().match(/return [\w\d]+?\.(.*?)(;|\})/)[1];
         }
         const builder = new PropertyValidationBuilder(modelPicker, infoPicker, this);
         if (configuration) {
