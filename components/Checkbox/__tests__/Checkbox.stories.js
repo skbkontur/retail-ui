@@ -10,4 +10,12 @@ storiesOf('Checkbox', module)
   .add('disabled checked', () => (
     <Checkbox disabled checked>Disabled and checked</Checkbox>
   ))
-  .add('error', () => <Checkbox error>Error</Checkbox>);
+  .add('error', () => <Checkbox error>Error</Checkbox>)
+  .add('with mouse enter/leave handlers', () => (
+    <Checkbox
+      onMouseEnter={() => console.count('enter')}
+      onMouseLeave={() => console.count('leave')}
+    >
+      Hover me
+    </Checkbox>
+  ));

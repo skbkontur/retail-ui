@@ -22,7 +22,7 @@ type Props = {
 
 class Checkbox extends React.Component {
   static propTypes = {
-    checked: PropTypes.bool.isRequired,
+    checked: PropTypes.bool,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     warning: PropTypes.bool,
