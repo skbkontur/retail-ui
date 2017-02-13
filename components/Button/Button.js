@@ -1,26 +1,19 @@
 // @flow
 
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import Corners from './Corners';
 import Icon from '../Icon';
-import Upgrades from '../../lib/Upgrades';
 import browser from '../../lib/browserNormalizer';
 
 import '../ensureOldIEClassName';
 import styles from './Button.less';
 
-const DEPRECATED_SIZE_CLASSES = {
-  default: styles.deprecated_sizeDefault,
-  small: styles.deprecated_sizeDefault, // for new default size
-  large: styles.deprecated_sizeLarge,
-};
-
 const SIZE_CLASSES = {
   small: styles.sizeSmall,
   medium: styles.sizeMedium,
-  large: styles.sizeLarge,
+  large: styles.sizeLarge
 };
 
 type Props = {
@@ -42,6 +35,9 @@ type Props = {
   onClick?: (e: SyntheticMouseEvent) => void,
   onKeyDown?: (e: SyntheticKeyboardEvent) => void,
   arrow?: bool,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
 };
 
 class Button extends React.Component {
@@ -81,7 +77,7 @@ class Button extends React.Component {
       'primary',
       'success',
       'danger',
-      'pay',
+      'pay'
     ]),
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -90,6 +86,12 @@ class Button extends React.Component {
      * Click handler.
      */
     onClick: PropTypes.func,
+
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func
 
     /**
      * Кнопка со стрелкой.
@@ -100,14 +102,14 @@ class Button extends React.Component {
   static defaultProps = {
     use: 'default',
     size: 'small',
-    type: 'button',
+    type: 'button'
   };
 
   props: Props;
   state: null;
 
   render() {
-    const {corners = 0} = this.props;
+    const { corners = 0 } = this.props;
     const radius = '2px';
 
     const rootProps: any = {
@@ -126,18 +128,21 @@ class Button extends React.Component {
         [styles.noRightPadding]: this.props._noRightPadding,
         [styles.buttonWithIcon]: !!this.props.icon,
         [styles.arrowButton]: this.props.arrow,
-        ...this._getSizeClassMap(),
+        [SIZE_CLASSES[this.props.size]]: true
       }),
       style: {
         borderRadius: `${corners & Corners.TOP_LEFT ? 0 : radius}` +
           ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
           ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
-          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
+          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`
       },
       disabled: this.props.disabled || this.props.loading,
       onClick: this.props.onClick,
       onKeyDown: this.props.onKeyDown,
-      onMouseDown: this._handleMouseDown, //to prevent focus on click
+      onMouseDown: this._handleMouseDown, // to prevent focus on click
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver
     };
     if (this.props.align) {
       rootProps.style.textAlign = this.props.align;
@@ -196,22 +201,10 @@ class Button extends React.Component {
   }
 
   _handleMouseDown(e) {
-    if (browser.hasFocusOnButtonClick) {
+    if (browser.hasFocusOnButtonClick && document.activeElement) {
       document.activeElement.blur();
       e.preventDefault();
     }
-  }
-
-  _getSizeClassMap() {
-    if (!Upgrades.isHeight34Enabled()) {
-      return {
-        [DEPRECATED_SIZE_CLASSES[(this.props.size: any)]]: true,
-      };
-    }
-
-    return {
-      [SIZE_CLASSES[this.props.size]]: true,
-    };
   }
 }
 

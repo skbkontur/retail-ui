@@ -217,6 +217,12 @@
           top: 0;
         }
       }
+
+      .@{class}.disabled {
+        background: @bg-disabled;
+        box-shadow: none;
+        outline: 1px solid @border-color-gray-light;
+      }
     }
   }
 
@@ -268,40 +274,6 @@
     linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0),
     -32px,
     700%
-  );
-
-  .deprecated_sizeDefault {
-    height: 28px;
-    line-height: 28px;
-    padding: 0 10px;
-  }
-  .buttonSizeMixin(
-    deprecated_sizeDefault,
-    14.4px,
-    7px,
-    -6.5px,
-    -6.7px,
-    rotate(53deg) skewX(24deg) skewY(10deg),
-    linear-gradient(-56deg, transparent 47.5%, #ccc 0, #ccc 77.3%, transparent 0),
-    14px,
-    441%
-  );
-
-  .deprecated_sizeLarge {
-    height: 34px;
-    line-height: 34px;
-    padding: 0 20px;
-  }
-  .buttonSizeMixin(
-    deprecated_sizeLarge,
-    17.7px,
-    8.3px,
-    -8.1px,
-    -8.3px,
-    rotate(53deg) skewX(24deg) skewY(10deg),
-    linear-gradient(-56deg, transparent 47.5%, #ccc 0, #ccc 72.3%, transparent 0),
-    4px,
-    441%
   );
 
   .buttonWithIcon {
@@ -385,6 +357,21 @@
     @btn-danger-shadow-arrow,
     @btn-danger-bg,
     #fff);
+
+  //.focusMixin(use-danger);
+  //
+  //.use-danger:active,
+  //.use-danger.active {
+  //  background: #cd381b;
+  //  border-color: #853333 #b24c4c #b24c4c;
+  //  box-shadow: inset 0 2px 1px -1px #9e2b15;
+  //  box-shadow:
+  //    0 0 0 1px rgba(108, 7, 7, .75),
+  //      0 -1px 0 0 rgba(90, 3, 3, .40),
+  //    inset 0 1px 2px 0 rgba(0, 0, 0, .10);
+  //}
+  //
+  //.fallbackMixin(use-danger, #e14c30);
 
   // Use Pay
 

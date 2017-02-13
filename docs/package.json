@@ -4,13 +4,9 @@
   "scripts": {
     "test": "jest",
     "start": "webpack-dev-server -w -d --host 0.0.0.0",
-    "build": "webpack -p --progress --colors",
-    "storybook": "start-storybook -p 6060",
-    "build-storybook": "build-storybook"
+    "build": "webpack -p --progress --colors"
   },
   "devDependencies": {
-    "@kadira/storybook": "^2.21.0",
-    "@kadira/storybook-addon-knobs": "1.6.0",
     "autoprefixer": "^6.4.0",
     "babel-loader": "^6.2.5",
     "css-loader": "^0.25.0",

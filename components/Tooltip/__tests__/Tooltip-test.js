@@ -1,4 +1,4 @@
-import {mount} from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 
 import RenderContainer from '../../RenderContainer';
@@ -14,7 +14,7 @@ describe('Tooltip', () => {
   const render = () => '';
 
   it('keeps child ref', () => {
-    const Comp = ({refFn}) => {
+    const Comp = ({ refFn }) => {
       return <Tooltip render={render}><div ref={refFn} /></Tooltip>;
     };
     const refFn1 = jest.fn();
@@ -24,7 +24,7 @@ describe('Tooltip', () => {
     // Force rerender to make sure no additional ref calls happens when ref
     // didn't change.
     wrapper.update();
-    wrapper.setProps({refFn: refFn2});
+    wrapper.setProps({ refFn: refFn2 });
 
     expect(refFn1.mock.calls.length).toBe(2);
     expect(refFn1.mock.calls[0][0]).toBeTruthy();

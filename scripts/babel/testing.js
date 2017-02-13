@@ -24,6 +24,6 @@ module.exports = function(babel) {
       node.value = t.JSXExpressionContainer(
         buildRefFunc(node.value)
       );
-    },
+    }
   });
 };

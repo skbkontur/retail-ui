@@ -8,6 +8,7 @@
  * import Button from 'ui/Button';
  * import Gapped from 'ui/Gapped';
  */
+/* eslint-disable consistent-return */
 module.exports = function(babel) {
   var t = babel.types;
 
@@ -43,13 +44,13 @@ module.exports = function(babel) {
         } else {
           path.replaceWithMultiple(imports);
         }
-      },
-    },
+      }
+    }
   };
 
   if (babel5) {
     return new babel.Transformer('component-imports', visitor);
   } else {
-    return {visitor};
+    return { visitor };
   }
 };

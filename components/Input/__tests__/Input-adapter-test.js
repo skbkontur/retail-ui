@@ -1,6 +1,6 @@
 // @flow
 
-import {testAdapter} from '../../../testing/AdapterTestUtils';
+import { testAdapter } from '../../../testing/AdapterTestUtils';
 
 import React from 'react';
 

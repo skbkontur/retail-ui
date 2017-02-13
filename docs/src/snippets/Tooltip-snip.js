@@ -5,11 +5,11 @@ function render() {
 ReactDOM.render(
   <Gapped vertical>
     <Tooltip render={render} pos="right top">
-      <div style={{height: 100, background: '#f99'}} />
+      <div style={{ height: 100, background: '#f99' }} />
     </Tooltip>
 
     <Tooltip render={render} pos="right top">
-      <div style={{width: 100, height: 100, background: '#f99'}} />
+      <div style={{ width: 100, height: 100, background: '#f99' }} />
     </Tooltip>
 
     <Tooltip render={render} pos="top right">top right</Tooltip>
@@ -25,7 +25,7 @@ ReactDOM.render(
     <Tooltip render={render} pos="right middle">right middle</Tooltip>
 
     <Tooltip render={render}>
-      <span style={{border: '1px solid'}}>?</span>
+      <span style={{ border: '1px solid' }}>?</span>
     </Tooltip>
   </Gapped>,
   mountNode

@@ -1,4 +1,4 @@
-import {mount} from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 
 import Link from '../Link.js';

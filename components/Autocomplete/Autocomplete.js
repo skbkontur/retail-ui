@@ -1,10 +1,12 @@
 // @flow
 
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
 
 import Input from '../Input';
-import type {Props as InputProps} from '../Input/Input';
+import type { Props as InputProps } from '../Input/Input';
+import DropdownContainer from '../DropdownContainer/DropdownContainer';
 
 import styles from './Autocomplete.less';
 
@@ -46,18 +48,19 @@ export default class Autocomplete extends React.Component {
      */
     source: PropTypes.oneOfType([
       PropTypes.array,
-      PropTypes.func,
-    ]),
+      PropTypes.func
+    ])
   };
 
   static defaultProps = {
     renderItem,
+    size: 'small'
   };
 
   props: Props;
   state: State = {
     items: null,
-    selected: -1,
+    selected: -1
   };
   _opened: bool = false;
 
@@ -66,6 +69,9 @@ export default class Autocomplete extends React.Component {
       onChange: this.handleChange,
       onBlur: this.handleBlur,
       onKeyDown: this.handleKey,
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver
     };
     return (
       <span className={styles.root}>
@@ -82,26 +88,26 @@ export default class Autocomplete extends React.Component {
     }
 
     return (
-      <div className={styles.menuHolder}>
+      <DropdownContainer offsetY={1} getParent={() => findDOMNode(this)}>
         <div className={styles.menu}>
           {items.map((item, i) => {
             const rootClass = classNames({
               [styles.item]: true,
               [styles.itemHover]: this.state.selected === i,
-              [styles.itemPadLeft]: this.props.leftIcon,
+              [styles.itemPadLeft]: this.props.leftIcon
             });
             return (
               <div key={i} className={rootClass}
                 onMouseDown={(e) => this.handleItemClick(e, i)}
-                onMouseEnter={(e) => this.setState({selected: i})}
-                onMouseLeave={(e) => this.setState({selected: -1})}
+                onMouseEnter={(e) => this.setState({ selected: i })}
+                onMouseLeave={(e) => this.setState({ selected: -1 })}
               >
                 {this.props.renderItem(item)}
               </div>
             );
           })}
         </div>
-      </div>
+      </DropdownContainer>
     );
   }
 
@@ -121,7 +127,7 @@ export default class Autocomplete extends React.Component {
 
   handleBlur = (event: SyntheticFocusEvent) => {
     this._opened = false;
-    this.setState({items: null});
+    this.setState({ items: null });
 
     if (this.props.onBlur) {
       this.props.onBlur(event);
@@ -142,7 +148,7 @@ export default class Autocomplete extends React.Component {
       } else if (selected < -1) {
         selected = items.length - 1;
       }
-      this.setState({selected});
+      this.setState({ selected });
     } else if (event.key === 'Enter') {
       if (items && items[this.state.selected]) {
         event.preventDefault();
@@ -151,14 +157,14 @@ export default class Autocomplete extends React.Component {
         this._choose(this.state.selected);
       } else {
         this._opened = false;
-        this.setState({items: null});
+        this.setState({ items: null });
       }
     } else if (event.key === 'Escape' && items && items.length) {
       event.preventDefault(); // Escape clears the input on IE.
       stop = true;
 
       this._opened = false;
-      this.setState({items: null});
+      this.setState({ items: null });
     }
 
     if (!stop && this.props.onKeyDown) {
@@ -185,7 +191,7 @@ export default class Autocomplete extends React.Component {
     this._opened = false;
     this.setState({
       selected: -1,
-      items: null,
+      items: null
     });
 
     this._fireChange(value);
@@ -208,7 +214,7 @@ export default class Autocomplete extends React.Component {
       if (this.props.value === value && this._opened) {
         this.setState({
           items,
-          selected: -1,
+          selected: -1
         });
       }
     });
@@ -216,7 +222,7 @@ export default class Autocomplete extends React.Component {
 
   _fireChange(value: string) {
     if (this.props.onChange) {
-      this.props.onChange({target: {value}}, value);
+      this.props.onChange({ target: { value } }, value);
     }
   }
 }

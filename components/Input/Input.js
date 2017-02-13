@@ -2,12 +2,11 @@
 
 import classNames from 'classnames';
 import MaskedInput from 'react-input-mask';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 
 import filterProps from '../filterProps';
-import Upgrades from '../../lib/Upgrades';
 
 import '../ensureOldIEClassName';
 import styles from './Input.less';
@@ -41,13 +40,13 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
   onKeyPress: true,
   onKeyUp: true,
-  onPaste: true,
+  onPaste: true
 };
 
 const SIZE_CLASS_NAMES = {
-  small: styles.deprecated_sizeSmall,
-  default: styles.deprecated_sizeDefault,
-  large: styles.deprecated_sizeLarge,
+  small: styles.sizeSmall,
+  medium: styles.sizeMedium,
+  large: styles.sizeLarge
 };
 
 export type Props = {
@@ -64,7 +63,7 @@ export type Props = {
   maxLength?: number | string,
   placeholder?: string,
   rightIcon?: React.Element<mixed>,
-  size?: 'small' | 'default' | 'large',
+  size: 'small' | 'medium' | 'large',
   title?: string,
   type?: 'password' | 'text',
   value: string,
@@ -80,6 +79,9 @@ export type Props = {
   onKeyPress?: (e: SyntheticKeyboardEvent) => void,
   onKeyUp?: (e: SyntheticKeyboardEvent) => void,
   onPaste?: (e: SyntheticFocusEvent) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
 };
 
 type State = {
@@ -145,10 +147,7 @@ export default class Input extends React.Component {
      */
     rightIcon: PropTypes.element,
 
-    /**
-     * DEPRECATED
-     */
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
 
     title: PropTypes.string,
 
@@ -184,18 +183,30 @@ export default class Input extends React.Component {
 
     onKeyUp: PropTypes.func,
 
-    onPaste: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func,
+
+    onPaste: PropTypes.func
   };
+
+  static defaultProps = {
+    size: 'small'
+  }
 
   props: Props;
   state: State = {
-    polyfillPlaceholder: false,
+    polyfillPlaceholder: false
   };
 
   input = null;
 
   render() {
     const className: string = this.props.className || '';
+    const sizeClassName = SIZE_CLASS_NAMES[this.props.size] ||
+                          SIZE_CLASS_NAMES[Input.defaultProps.size];
     var labelProps = {
       className: classNames({
         [styles.root]: true,
@@ -205,16 +216,15 @@ export default class Input extends React.Component {
         [styles.warning]: this.props.warning,
         [styles.padLeft]: this.props.leftIcon,
         [styles.padRight]: this.props.rightIcon,
+        [sizeClassName]: true
       }),
       style: {},
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver
     };
     if (this.props.width) {
       labelProps.style.width = this.props.width;
-    }
-
-    if (!Upgrades.isHeight34Enabled()) {
-      const size = this.props.size || 'default';
-      labelProps.className += ' ' + SIZE_CLASS_NAMES[size];
     }
 
     var placeholder = null;
@@ -224,7 +234,7 @@ export default class Input extends React.Component {
       placeholder = (
         <div
           className={styles.placeholder}
-          style={{textAlign: this.props.align || 'inherit'}}
+          style={{ textAlign: this.props.align || 'inherit' }}
         >
           {this.props.placeholder}
         </div>
@@ -246,12 +256,12 @@ export default class Input extends React.Component {
       ...filterProps(this.props, INPUT_PASS_PROPS),
       className: classNames({
         [styles.input]: true,
-        [styles.borderless]: this.props.borderless,
+        [styles.borderless]: this.props.borderless
       }),
       value: this.props.value,
       onChange: (e) => this._handleChange(e),
       style: {},
-      ref: this.getInputFromRef,
+      ref: this.getInputFromRef
     };
 
     const type = this.props.type;
@@ -295,7 +305,7 @@ export default class Input extends React.Component {
 
   componentDidMount() {
     if (polyfillPlaceholder) {
-      this.setState({polyfillPlaceholder: true});
+      this.setState({ polyfillPlaceholder: true });
     }
   }
 
@@ -346,7 +356,7 @@ export default class Input extends React.Component {
     if (polyfillPlaceholder) {
       const fieldIsEmpty = event.target.value === '';
       if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
-        this.setState({polyfillPlaceholder: fieldIsEmpty});
+        this.setState({ polyfillPlaceholder: fieldIsEmpty });
       }
     }
 

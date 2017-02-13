@@ -1,17 +1,17 @@
 import classNames from 'classnames';
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
 import styles from './ComponentList.less';
 
 var ComponentList = React.createClass({
   contextTypes: {
-    history: React.PropTypes.object.isRequired,
+    history: React.PropTypes.object.isRequired
   },
 
   getInitialState() {
     return {
-      searchString: '',
+      searchString: ''
     };
   },
 
@@ -21,7 +21,7 @@ var ComponentList = React.createClass({
         {this.props.components.map((component) => {
           const className = classNames({
             [styles.link]: true,
-            [styles.linkActive]: component.name === this.props.current,
+            [styles.linkActive]: component.name === this.props.current
           });
           return (
             <Link key={component.name} to={`/components/${component.name}`}
@@ -36,7 +36,7 @@ var ComponentList = React.createClass({
         })}
       </div>
     );
-  },
+  }
 });
 
 function isDraft(component) {

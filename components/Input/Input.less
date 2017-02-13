@@ -16,37 +16,44 @@
     box-sizing: border-box;
     font-family: inherit;
     font-size: 14px;
-    line-height: 32px;
     margin: 0; // For Safari.
     outline: none;
     padding: 0 @side-padding;
     width: 100%;
   }
 
-  :global(.rt-ie-any) .input {
-    // Set height for IE only since IE does not support line-height for inputs.
-    // On the other hand, Chrome renders text (Segoe UI) 1 pixel lower if input
-    // has height set.
-    height: 34px;
-  }
-
   .input::-ms-clear {
     display: none;
   }
 
-  .deprecated_sizeLarge .input {
-    height: 36px;
-    line-height: 34px;
+  .sizeSmall .input {
+    line-height: 32px;
   }
 
-  .deprecated_sizeDefault .input {
-    height: 30px;
-    line-height: 28px;
+  .sizeMedium .input {
+    line-height: 38px;
   }
 
-  .deprecated_sizeSmall .input {
-    height: 24px;
-    line-height: 22px;
+  .sizeLarge .input {
+    line-height: 42px;
+    font-size: 16px;
+  }
+
+  :global(.rt-ie-any) {
+    // Set height for IE only since IE does not support line-height for inputs.
+    // On the other hand, Chrome renders text (Segoe UI) 1 pixel lower if input
+    // has height set.
+    .sizeSmall .input {
+      height: 34px;
+    }
+
+    .sizeMedium .input {
+      height: 40px;
+    }
+
+    .sizeLarge .input {
+      height: 44px;
+    }
   }
 
   .input:focus {
@@ -138,6 +145,20 @@
     z-index: 2;
   }
 
+  .sizeMedium {
+    .leftIcon,
+    .rightIcon {
+      line-height: 40px;
+    }
+  }
+
+  .sizeLarge {
+    .leftIcon,
+    .rightIcon {
+      line-height: 44px;
+    }
+  }
+
   .disabled .leftIcon,
   .disabled .rightIcon {
     cursor: default;
@@ -149,21 +170,6 @@
 
   .rightIcon {
     right: 8px;
-  }
-
-  .deprecated_sizeLarge .leftIcon,
-  .deprecated_sizeLarge .rightIcon {
-    line-height: 34px;
-  }
-
-  .deprecated_sizeDefault .leftIcon,
-  .deprecated_sizeDefault .rightIcon {
-    line-height: 28px;
-  }
-
-  .deprecated_sizeSmall .leftIcon,
-  .deprecated_sizeSmall .rightIcon {
-    line-height: 22px;
   }
 
   .borderless {

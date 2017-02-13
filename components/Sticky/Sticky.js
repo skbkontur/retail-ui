@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 
@@ -36,11 +36,11 @@ export default class Sticky extends React.Component {
      **/
     offset: PropTypes.number,
 
-    side: PropTypes.oneOf(['top', 'bottom']).isRequired,
+    side: PropTypes.oneOf(['top', 'bottom']).isRequired
   };
 
   static defaultProps: {offset: number} = {
-    offset: 0,
+    offset: 0
   };
 
   props: Props;
@@ -65,7 +65,7 @@ export default class Sticky extends React.Component {
       width: 'auto',
 
       stopped: false,
-      relativeTop: 0,
+      relativeTop: 0
     };
   }
 
@@ -76,18 +76,18 @@ export default class Sticky extends React.Component {
       if (this.state.stopped) {
         innerStyle = {
           position: 'relative',
-          top: this.state.relativeTop,
+          top: this.state.relativeTop
         };
       } else {
         wrapperStyle = {
-          height: this.state.height === -1 ? 'auto' : this.state.height,
+          height: this.state.height === -1 ? 'auto' : this.state.height
         };
 
         innerStyle = ({
           left: this.state.left,
           position: 'fixed',
           width: this.state.width,
-          zIndex: 100,
+          zIndex: 100
         }: Object);
 
         if (this.props.side === 'top') {
@@ -158,8 +158,14 @@ export default class Sticky extends React.Component {
   };
 
   *_doReflow(): Generator<$Shape<State>, void, void> {
+    const { documentElement } = document;
+
+    if (!documentElement) {
+      throw Error('There is no "documentElement" in document');
+    }
+
     const windowHeight = window.innerHeight ||
-      document.documentElement.clientHeight;
+      documentElement.clientHeight;
     const wrapRect = this._wrapper.getBoundingClientRect();
     const wrapLeft = wrapRect.left;
     const wrapTop = wrapRect.top;
@@ -180,7 +186,7 @@ export default class Sticky extends React.Component {
       ) {
         yield {
           fixed: false,
-          height,
+          height
         };
         height = this._inner.offsetHeight;
       }
@@ -189,7 +195,7 @@ export default class Sticky extends React.Component {
         width,
         height,
         fixed: true,
-        left: wrapLeft,
+        left: wrapLeft
       };
 
       this._lastInnerHeight = this._inner.offsetHeight;
@@ -203,16 +209,16 @@ export default class Sticky extends React.Component {
           const stopped = stopRect.top - outerHeight < 0;
           const relativeTop = stopRect.top - height - wrapTop;
 
-          yield {relativeTop, stopped};
+          yield { relativeTop, stopped };
         } else {
           const stopped = stopRect.bottom + outerHeight > windowHeight;
           const relativeTop = stopRect.bottom - wrapTop;
 
-          yield {relativeTop, stopped};
+          yield { relativeTop, stopped };
         }
       }
     } else {
-      yield {fixed: false};
+      yield { fixed: false };
     }
   }
 

@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import Button from '../Button';
 import Group from '../Group';
@@ -7,17 +7,17 @@ import Input from '../Input';
 
 class FxInput extends React.Component {
   static propTypes = {
-    auto: PropTypes.bool,
+    auto: PropTypes.bool
   };
 
   static defaultProps = {
-    width: 250,
+    width: 250
   };
 
   _input = null;
 
   render() {
-    const {width} = this.props;
+    const { width } = this.props;
 
     const inputProps = {};
     let button = null;

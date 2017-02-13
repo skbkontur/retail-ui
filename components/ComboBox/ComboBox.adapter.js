@@ -10,23 +10,23 @@ const ComboBoxAdapter = {
     return inst.props.value;
   },
 
-  setValue({renderer}, value) {
-    renderer._handleInputChange({target: {value: ''}});
+  setValue({ renderer }, value) {
+    renderer._handleInputChange({ target: { value: '' } });
     renderer._change(value);
     renderer._close(true);
   },
 
-  getInfo({renderer}) {
+  getInfo({ renderer }) {
     return renderer.props.info;
   },
 
-  search({renderer}, searchString: string) {
+  search({ renderer }, searchString: string) {
     renderer._handleValueClick();
-    renderer._handleInputChange({target: {value: searchString}});
+    renderer._handleInputChange({ target: { value: searchString } });
   },
 
-  getResult({renderer}) {
-    const {result} = renderer.state;
+  getResult({ renderer }) {
+    const { result } = renderer.state;
     return result && result.values.map(value => {
       let val = typeof value === 'function' ? value() : value;
       if (React.isValidElement(val)) {
@@ -34,7 +34,7 @@ const ComboBoxAdapter = {
       }
       return val;
     });
-  },
+  }
 };
 
 (ComboBox: Object).__ADAPTER__ = ComboBoxAdapter;

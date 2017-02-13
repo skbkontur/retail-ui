@@ -8,11 +8,11 @@ const InputAdapter = {
   },
 
   setValue(inst: Input, value: string) {
-    inst._handleChange({target: {value}});
-  },
+    inst._handleChange({ target: { value } });
+  }
 };
 
 (Input: any).__ADAPTER__ = InputAdapter;
 
-export {InputAdapter};
+export { InputAdapter };
 export default Input;

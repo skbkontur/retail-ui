@@ -1,4 +1,4 @@
-import {mount} from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 
 import DatePicker from '../DatePicker.js';
@@ -11,7 +11,7 @@ describe('DatePicker', () => {
     );
 
     const input = wrapper.find('input');
-    input.simulate('change', {target: {value: '4.12.13'}});
+    input.simulate('change', { target: { value: '4.12.13' } });
     input.simulate('blur');
 
     const value = onChange.mock.calls[0][1];
@@ -21,17 +21,17 @@ describe('DatePicker', () => {
     expect(value.getUTCFullYear()).toBe(2013);
   });
 
-  it('does not reset input value if new props come while editing', () => {
+  it('set input value if new props come while editing', () => {
     const wrapper = mount(
       <DatePicker value={new Date()} />
     );
     const input = wrapper.find('input');
 
     input.simulate('focus');
-    input.simulate('change', {target: {value: '123'}});
-    wrapper.setProps({value: new Date('02-01-2003 UTC')});
+    input.simulate('change', { target: { value: '123' } });
+    wrapper.setProps({ value: new Date('02-01-2003 UTC') });
 
-    expect(input.prop('value')).toBe('123');
+    expect(input.prop('value')).toBe('01.02.2003');
 
     input.simulate('blur');
 
@@ -45,7 +45,7 @@ describe('DatePicker', () => {
     expect(input.prop('value')).toBe('01.02.2003');
 
     // Make sure input is updated on rerender.
-    wrapper.setProps({value: new Date('03-02-2004 UTC')});
+    wrapper.setProps({ value: new Date('03-02-2004 UTC') });
     expect(input.prop('value')).toBe('02.03.2004');
   });
 });

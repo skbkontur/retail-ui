@@ -1,6 +1,6 @@
 // @flow
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import Icon from '../Icon';
 import browser from '../../lib/browserNormalizer';
@@ -11,7 +11,7 @@ const useClasses = {
   default: styles.useDefault,
   success: styles.useSuccess,
   danger: styles.useDanger,
-  grayed: styles.useGrayed,
+  grayed: styles.useGrayed
 };
 
 /**
@@ -27,12 +27,12 @@ class Link extends React.Component {
 
     icon: PropTypes.string,
 
-    use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
+    use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed'])
   };
 
   static defaultProps = {
     href: 'javascript:',
-    use: 'default',
+    use: 'default'
   };
 
   render() {
@@ -64,11 +64,11 @@ class Link extends React.Component {
         [useClasses[use]]: true,
         [styles.disabled]: disabled,
         [styles.button]: _button,
-        [styles.buttonOpened]: _buttonOpened,
+        [styles.buttonOpened]: _buttonOpened
       }),
       href,
       onClick: this._handleClick,
-      onMouseDown: this._handleMouseDown, //to prevent focus on click
+      onMouseDown: this._handleMouseDown //to prevent focus on click
     };
     if (disabled) {
       props.tabIndex = '-1';
@@ -84,7 +84,7 @@ class Link extends React.Component {
   }
 
   _handleMouseDown(e) {
-    if (browser.hasFocusOnLinkClick) {
+    if (browser.hasFocusOnLinkClick && document.activeElement) {
       document.activeElement.blur();
       e.preventDefault();
     }

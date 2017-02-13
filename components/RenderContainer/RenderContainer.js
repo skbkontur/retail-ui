@@ -20,6 +20,7 @@ export default class RenderContainer extends React.Component {
 
     if (global.ReactTesting) {
       this._testID = nextID();
+      this._domContainer.setAttribute('data-rendered-container-id', this._testID);
 
       global.ReactTesting.addRenderContainer(this._testID, this);
     }
@@ -30,7 +31,11 @@ export default class RenderContainer extends React.Component {
   }
 
   componentDidMount() {
-    document.body.appendChild(this._domContainer);
+    const { body } = document;
+    if (!body) {
+      throw Error('There is no "body" in "document"');
+    }
+    body.appendChild(this._domContainer);
 
     this._renderChild();
   }
@@ -63,8 +68,6 @@ export default class RenderContainer extends React.Component {
 
 class Portal extends React.Component {
   render() {
-    // return null;
-    // Return null once we kill all ReactTesting usages.
     return <noscript data-render-container-id={this.props.rt_rootID} />;
   }
 }
