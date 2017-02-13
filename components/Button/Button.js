@@ -91,7 +91,7 @@ class Button extends React.Component {
 
     onMouseLeave: PropTypes.func,
 
-    onMouseOver: PropTypes.func
+    onMouseOver: PropTypes.func,
 
     /**
      * Кнопка со стрелкой.
