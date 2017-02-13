@@ -218,7 +218,10 @@ export default class Input extends React.Component {
         [styles.padRight]: this.props.rightIcon,
         [sizeClassName]: true
       }),
-      style: {}
+      style: {},
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver
     };
     if (this.props.width) {
       labelProps.style.width = this.props.width;
@@ -258,10 +261,7 @@ export default class Input extends React.Component {
       value: this.props.value,
       onChange: (e) => this._handleChange(e),
       style: {},
-      ref: this.getInputFromRef,
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver
+      ref: this.getInputFromRef
     };
 
     const type = this.props.type;
