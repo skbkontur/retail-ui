@@ -20,7 +20,7 @@ type Props = {
 };
 
 type State = {
-  focused: bool,
+  focusedIndex: number,
 };
 
 class Prevent extends React.Component {
@@ -97,7 +97,7 @@ class RadioGroup extends React.Component {
     super(props, context);
 
     this.state = {
-      focused: false,
+      focusedIndex: null,
     };
   }
 
@@ -125,10 +125,11 @@ class RadioGroup extends React.Component {
   }
 
   renderItems() {
+    const {focusedIndex} = this.state
     const items = this._mapItems((value: any, data: any, i: number) => {
       const checked = this.props.value === value;
-      const focused = this.state.focused &&
-          (checked || this.props.value == null && i === 0);
+
+      const focused = focusedIndex === i;
       return (
         <span key={i}
           className={classNames({
@@ -157,6 +158,7 @@ class RadioGroup extends React.Component {
           >
             {this.props.renderItem(value, data)}
           </div>
+
         </span>
       );
     });
@@ -165,6 +167,18 @@ class RadioGroup extends React.Component {
   }
 
   handleKey = (event: SyntheticKeyboardEvent) => {
+    const focusedIndex = this.state.focusedIndex
+
+    if (typeof focusedIndex !== 'number') {
+      return
+    }
+
+    if (event.key === 'Enter') {
+      const value = this.props.items[focusedIndex]
+      this.props.onChange({target: {value}}, value)
+      return
+    }
+
     if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
       event.preventDefault();
       this.move_(-1);
@@ -175,29 +189,40 @@ class RadioGroup extends React.Component {
   };
 
   handleFocus = () => {
-    this.setState({focused: true});
+    window.onkeyup = (event) => {
+      if (event.key === 'Tab') {
+        const {value, items} = this.props
+        const currentIndex = items.indexOf(value)
+        const index = currentIndex > -1 ? currentIndex : 0
+
+        this.setState({focusedIndex: index});
+      }
+    };
   };
 
   handleBlur = () => {
-    this.setState({focused: false});
+    this.setState({focusedIndex: null});
   };
 
   move_(step: number) {
-    let selectedIndex = -1;
+    let selectedIndex = this.state.focusedIndex;
     const items = this._mapItems((value: any, data: any, i: number) => {
-      if (selectedIndex === -1 && value === this.props.value) {
-        selectedIndex = i;
-      }
       return value;
     });
 
     selectedIndex += step;
+
     if (selectedIndex < 0) {
       selectedIndex = items.length - 1;
     } else if (selectedIndex >= items.length) {
       selectedIndex = 0;
     }
-    this._select(items[selectedIndex]);
+
+    this._setFocusIndex(selectedIndex);
+  }
+
+  _setFocusIndex(index) {
+    this.setState({focusedIndex: index});
   }
 
   _select(value) {

@@ -2,19 +2,27 @@
 
 :local {
   .root {
-    background: linear-gradient(#fcfcfc, #ececec);
-    border: 1px solid @border-color-gray-light;
+    background-image: linear-gradient(-180deg, #FFFFFF 0, #EBEBEB 100%);
+    box-shadow: 0 1px 0 0 rgba(0,0,0,0.15),0 0 0 1px rgba(0,0,0,0.15);
     border-radius: 50%;
-    box-shadow: inset 0 2px 3px -2px rgba(0, 0, 0, .1);
     display: block;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     margin-right: 4px;
-    width: 14px;
+  }
+
+  .hovered {
+    background: linear-gradient(-180deg, #F2F2F2 0, #DFDFDF 100%);
+    box-shadow: 0 1px 0 0 rgba(0,0,0,0.15),0 0 0 1px rgba(0,0,0,0.2);
+  }
+
+  .pressed {
+    background: #E1E1E1;
+    box-shadow: 0 -1px 0 0 rgba(0,0,0,0.1),0 0 0 1px rgba(0,0,0,0.2),inset 0 1px 2px 0 rgba(0,0,0,0.1)
   }
 
   .focused {
-    border-color: @border-color-focus;
-    box-shadow: 0 0 0 1px @border-color-focus;
+    box-shadow: inset 0 0 0 1px #fff,0 0 0 2px @border-color-focus;
   }
 
   .warning {
@@ -27,22 +35,24 @@
     box-shadow: 0 0 0 1px @border-color-error;
   }
 
-  .inbox {
-    background: @text-color-default;
-    border-radius: 50%;
-    display: none;
-    height: 8px;
-    margin: 3px;
-    width: 8px;
+  .checked {
+    position: relative;
   }
 
-  .checked .inbox {
-    display: block;
+  .checked:before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    margin: auto;
+    height: 8px;
+    width: 8px;
+    background: @text-color-default;
+    border-radius: 50%;
   }
 
   .disabled {
     background: #f2f2f2;
-    box-shadow: none;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
   }
 
   .disabled .inbox {
