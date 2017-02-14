@@ -137,7 +137,7 @@ const NavigationBar = styled.div`
 
 const Content = styled.div`
     margin-left: ${navigationBarSize};
-    padding: 100px 20px 0 40px;
+    padding: 100px 20px 100px 40px;
 `;
 
 const ContentWrapper = styled.div`
