@@ -32,7 +32,15 @@ class Renderer {
             case 'para':
                 return '<p>' + this.renderContent(content) + '</p>';
             case 'code_block':
-                return '<Code>{`' + content + '`}</Code>';
+                if (content[0] && content[0].startsWith('!!DemoWithCode!!')) {
+                    const path = './' + content[0].replace('!!DemoWithCode!!', '');
+                    return `<Demo demo={require('${path}').default} source={require('!raw-loader!${path}')} />`;
+                }
+                if (content[0] && content[0].startsWith('!!Demo!!')) {
+                    const path = './' + content[0].replace('!!Demo!!', '');
+                    return `<Demo demo={require('${path}').default} />`;
+                }
+                return '<Code>{`' + content[0] + '`}</Code>';
             case 'link':
                 let result = '<Link';
                 if (attrs.alt) {
@@ -83,6 +91,7 @@ import Helmet from 'react-helmet';
 import Code from 'react-syntax-highlighter';
 import Link from 'retail-ui/components/Link';
 import styled from 'styled-components';
+import Demo from 'Demo';
 
 const InlineCode = styled.span\`
     font-family: Consolas, monospace;
