@@ -16,17 +16,33 @@ npm install --save react-ui-validations
 ```
 
 ```
-import {ValidationContainer, ValidationWrapperV1} from 'react-ui-validations';
- 
-export default class MyAwesomeComponent extends React.Component {
-  render() {
-    return (
-      <ValidationContainer>
-        <ValidationWrapperV1 validationInfo={{error: true, message: "Wrong!"}}>
-          <Input value="Right?" />
-        </ValidationWrapperV1>
-      </ValidationContainer>
-    );
-  }
+import { ValidationContainer, ValidationWrapperV1 } from 'react-ui-validations';
+
+export default class DataEditor extends React.Component {
+    // ...
+    render() {
+        return (
+            <ValidationContainer>
+                <ValidationWrapperV1 
+                    validationInfo={/\d+/.test(phone) 
+                        ? { message: 'Телефон должен состоять только из цифр' } 
+                        : null}>
+                    <Input
+                        value={phone}
+                        onChange={value => setState({ phone: value })}
+                    />
+                </ValidationWrapperV1>
+            </ValidationContainer>
+        );
+    }
 }
+```
+
+## Запуск примеров
+
+```
+git clone git@github.com:skbkontur/react-ui-validations.git
+cd react-ui-validations
+cd docs
+npm start
 ```
