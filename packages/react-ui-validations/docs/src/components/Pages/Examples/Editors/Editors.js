@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Input from 'retail-ui/components/Input';
 import Button from 'retail-ui/components/Button';
 import RadioGroup from 'retail-ui/components/RadioGroup';
-import Combobox from 'retail-ui/components/Combobox';
+import ComboBox from 'retail-ui/components/ComboBox';
 import Select from 'retail-ui/components/Select';
 import DatePicker from 'retail-ui/components/DatePicker';
 import Textarea from 'retail-ui/components/Textarea';
@@ -71,7 +71,7 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
             <Form.Line title='Город'>
                 <ValidationWrapperV1
                     validationInfo={validationInfo.city}>
-                    <Combobox
+                    <ComboBox
                         valueToString={x => x}
                         renderValue={x => x}
                         renderItem={x => x}
