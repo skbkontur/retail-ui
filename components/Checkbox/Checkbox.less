@@ -28,7 +28,10 @@
   }
 
   .input {
-    display: none;
+    display: inline-block;
+    opacity: 0;
+    width: 0;
+    height: 0;
   }
 
   .box {
@@ -58,6 +61,11 @@
   }
 
   :global(.rt-ie8) {
+    .box {
+      background-color: #fdfdfd;
+      border: 1px solid #ededed;
+    }
+
     input[type="checkbox"]:focus ~ .box {
       outline: 1px solid @border-color-focus;
     }
@@ -78,15 +86,8 @@
   }
 
   .ok {
-    visibility: hidden;
-    opacity: 0;
     left: 1px;
     position: absolute;
     top: -2px;
-  }
-
-  .isChecked .ok {
-    visibility: visible;
-    opacity: 1;
   }
 }
