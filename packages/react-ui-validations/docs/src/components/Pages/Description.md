@@ -1,7 +1,8 @@
-# react-ui-validations (WIP) #
-## Version: ${process.env.libraryVersion} [![Travis](https://img.shields.io/travis/skbkontur/react-ui-validations/${process.env.libraryVersion}.svg?maxAge=300&style=flat-square)](https://travis-ci.org/skbkontur/react-ui-validations)
+# react-ui-validations #
+[![Version](https://img.shields.io/badge/npm-${process.env.libraryVersion}-orange.svg?style=flat-square)](https://www.npmjs.com/package/react-ui-validations)
+[![Travis](https://img.shields.io/travis/skbkontur/react-ui-validations/${process.env.libraryVersion}.svg?maxAge=300&style=flat-square)](https://travis-ci.org/skbkontur/react-ui-validations)
 
-Sources: [на GitHub'е](https://github.com/skbkontur/react-ui-validations).
+Исходный код: [на GitHub'е](https://github.com/skbkontur/react-ui-validations).
 
 Набор компонентов, реализующих поведение [валидаций по контур-гайдам](https://guides.kontur.ru/principles/validation/).
                 
