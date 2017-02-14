@@ -83,6 +83,7 @@ function createConfig(publicPath, output) {
                 'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
                 'react-ui-validations': path.resolve(__dirname, '../src'),
                 'retail-ui': path.resolve(__dirname, 'node_modules/retail-ui'),
+                'Demo': path.resolve(__dirname, './src/components/Demo.js'),
             },
         },
         plugins: [

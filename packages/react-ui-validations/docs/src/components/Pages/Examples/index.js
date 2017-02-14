@@ -1,4 +1,4 @@
-import OnBlurValidations from './/OnBlurValidations/OnBlurValidations';
+import OnBlurValidations from './/OnBlurValidations/OnBlurValidations.md';
 import DifferentMessages from './DifferentMessages/DifferentMessages';
 import TextMessages from './TextMessages/TextMessages';
 import ScrollToFirstInvalid from './ScrollToFirstInvalid/ScrollToFirstInvalid';

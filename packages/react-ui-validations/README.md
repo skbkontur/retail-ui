@@ -43,6 +43,8 @@ export default class DataEditor extends React.Component {
 ```
 git clone git@github.com:skbkontur/react-ui-validations.git
 cd react-ui-validations
+npm install
 cd docs
+npm install
 npm start
 ```
