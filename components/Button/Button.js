@@ -169,7 +169,7 @@ class Button extends React.Component {
 
     return (
       <span className={styles.wrap} style={wrapStyle}>
-        <button {...rootProps}>
+        <button {...rootProps} ref={ref => this.buttonRef = ref}>
           {loading}
           <div className={styles.caption}>
             {icon}
@@ -181,8 +181,9 @@ class Button extends React.Component {
     );
   }
 
-  _handleMouseDown(e) {
-    if (browser.hasFocusOnButtonClick && document.activeElement) {
+  _handleMouseDown = e => {
+    if (browser.hasFocusOnButtonClick &&
+      document.activeElement === this.buttonRef) {
       document.activeElement.blur();
       e.preventDefault();
     }
