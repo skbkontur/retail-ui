@@ -10,6 +10,19 @@
     padding: 1px;
   }
 
+  .wrap_arrow {
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 1px;
+    margin-right: 10px;
+  }
+  :global(.rt-ie9),
+  :global(.rt-ie8) {
+    .wrap_arrow {
+      margin-right: 0;
+    }
+  }
+
   .root {
     border: 0;
     color: @text-color-default;
@@ -44,43 +57,172 @@
     padding-right: 7px;
   }
 
-  .fallbackMixin(@class; @bg; @border: @bg) {
+  .buttonSizeMixin(@className, @length, @top, @right, @shift, @transform, @arrow_loading, @arrow_loading_top, @arrow_loading_height) {
+    .@{className} {
+      .arrow {
+        position: absolute;
+        top: @top;
+        right: @right;
+        height: @length;
+        width: @length;
+        transform: @transform;
+        border-radius: 2px 2px 2px 16px;
+        box-sizing: border-box;
+        z-index: 1;
+      }
+
+      .arrow.arrow_loading {
+        overflow: hidden;
+
+        &:before {
+          background: @arrow_loading;
+          content: '';
+          height: @arrow_loading_height;
+          position: absolute;
+          opacity: .2;
+
+          background-size: 41px 100%;
+          top: @arrow_loading_top;
+          left: -207px;
+          right: -72px;
+          :global {
+            animation: btn_loading_arrow 1s linear infinite;
+          }
+          transform: rotate(-44.3deg) skewX(0deg) skewY(0deg);
+        }
+      }
+    }
+
+    :global(.rt-ie9),
+    :global(.rt-ie8) {
+      .@{className} {
+        .arrow {
+          height: 0;
+          width: 0;
+        }
+      }
+    }
+  }
+
+  .buttonColorMixin(@className, @hoverColorStart, @hoverColorEnd, @hoverShadow, @hoverShadowArrow, @activeColor, @activeShadow, @activeShadowArrow, @colorStart, @colorEnd, @shadow, @shadowArrow, @bg, @color, @border: @bg) {
+    .@{className} {
+      background-image: linear-gradient(
+        @colorStart,
+        @colorEnd
+      );
+      color: @color;
+      box-shadow: @shadow;
+
+      .arrow {
+        background-image: linear-gradient(
+          to bottom right,
+          @colorStart,
+          @colorEnd
+        );
+        box-shadow: @shadowArrow;
+      }
+      .arrow.arrow_warning {
+        box-shadow: 2px -2px 0 0 @border-color-warning;
+      }
+      .arrow.arrow_error {
+        box-shadow: 2px -2px 0 0 @border-color-error;
+      }
+
+      &:hover {
+        background-image: linear-gradient(
+          @hoverColorStart,
+          @hoverColorEnd
+        );
+        box-shadow: @hoverShadow;
+
+        .arrow {
+          background-image: linear-gradient(
+            to bottom right,
+            @hoverColorStart,
+            @hoverColorEnd
+          );
+          box-shadow: @hoverShadowArrow;
+        }
+        .arrow.arrow_warning {
+          box-shadow: 2px -2px 0 0 @border-color-warning;
+        }
+        .arrow.arrow_error {
+          box-shadow: 2px -2px 0 0 @border-color-error;
+        }
+      }
+
+      &:focus {
+        box-shadow:
+          inset 0 0 0 1px #FFFFFF,
+          0 0 0 2px @border-color-focus;
+        position: relative;
+        z-index: 2;
+
+        .arrow  {
+          box-shadow:
+              inset -1px 1px 0 0 #FFFFFF,
+              2px -2px 0 0 @border-color-focus;
+        }
+        .arrow.arrow_warning {
+          box-shadow:
+              inset -1px 1px 0 0 #FFFFFF,
+              2px -2px 0 0 @border-color-warning;
+        }
+        .arrow.arrow_error {
+          box-shadow:
+              inset -1px 1px 0 0 #FFFFFF,
+              2px -2px 0 0 @border-color-error;
+        }
+      }
+    }
+
+    .@{className}:active,
+    .@{className}.active {
+      background: @activeColor;
+      box-shadow: @activeShadow;
+
+      .arrow {
+        background: @activeColor;
+        box-shadow: @activeShadowArrow;
+      }
+      .arrow.arrow_warning {
+        box-shadow: 2px -2px 0 0 @border-color-warning;
+      }
+      .arrow.arrow_error {
+        box-shadow: 2px -2px 0 0 @border-color-error;
+      }
+    }
+
     :global(.rt-ie8),
     :global(.rt-ie9) {
-      .@{class},
-      .@{class}:hover,
-      .@{class}:active {
+      .@{className},
+      .@{className}:hover,
+      .@{className}:active  {
         background: @bg;
         box-shadow: none;
         outline: 1px solid @border;
       }
 
-      .@{class}:focus:before {
-        border: 1px solid #fff;
-        bottom: 0;
-        content: '';
-        left: 0;
-        outline: 2px solid @border-color-focus;
-        position: absolute;
-        right: 0;
-        top: 0;
+      .@{className}:focus {
+         box-shadow: none;
+
+        &:before {
+          border: 1px solid #fff;
+          bottom: 0;
+          content: '';
+          left: 0;
+          outline: 2px solid @border-color-focus;
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
       }
 
-      .@{class}.disabled {
+      .@{className}.disabled {
         background: @bg-disabled;
         box-shadow: none;
         outline: 1px solid @border-color-gray-light;
       }
-    }
-  }
-
-  .focusMixin(@className) {
-    .@{className}:focus {
-      box-shadow:
-        inset 0 0 0 1px #FFFFFF,
-        0 0 0 2px @border-color-focus;
-      position: relative;
-      z-index: 2;
     }
   }
 
@@ -89,12 +231,32 @@
     line-height: 32px;
     padding: 0 15px;
   }
+  .buttonSizeMixin(
+    sizeSmall,
+    16.8px,
+    7.5px,
+    -7.5px,
+    -7.7px,
+    rotate(53deg) skewX(24deg) skewY(10deg),
+    linear-gradient(-56deg, transparent 47.5%, #ccc 0, #ccc 73.5%, transparent 0),
+    7px,
+    441%
+  );
 
   .sizeMedium {
     height: 38px;
     line-height: 38px;
     padding: 0 15px;
   }
+  .buttonSizeMixin(
+    sizeMedium,
+    20.2px,
+    8.9px, -9.3px, -9.5px,
+    rotate(53deg) skewX(24deg) skewY(8deg),
+    linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0),
+    0px,
+    441%
+  );
 
   .sizeLarge {
     font-size: 16px;
@@ -102,6 +264,17 @@
     line-height: 42px;
     padding: 0 20px;
   }
+  .buttonSizeMixin(
+    sizeLarge,
+    21.7px,
+    10.2px,
+    -10px,
+    -10.2px,
+    rotate(53deg) skewX(25deg) skewY(10deg),
+    linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0),
+    -32px,
+    700%
+  );
 
   .buttonWithIcon {
     padding-right: 15px;
@@ -110,147 +283,99 @@
 
   // Use Default
 
-  .use-default {
-    background-image: linear-gradient(-180deg, #FFFFFF, #EBEBEB);
-    box-shadow: 0 1px 0 0 rgba(0, 0, 0, .15), 0 0 0 1px rgba(0, 0, 0, .15);
+  .buttonColorMixin(use-default,
+    @btn-default-hover-bg-start,
+    @btn-default-hover-bg-end,
+    @btn-default-hover-shadow,
+    @btn-default-hover-shadow-arrow,
 
-    &:hover {
-      background-image: linear-gradient(-180deg, #F2F2F2, #DFDFDF);
-      box-shadow: 0 1px 0 0 rgba(0, 0, 0, .15), 0 0 0 1px rgba(0, 0, 0, .20);
-    }
-  }
+    @btn-default-active-bg,
+    @btn-default-active-shadow,
+    @btn-default-active-shadow-arrow,
 
-  .focusMixin(use-default);
-
-  .use-default:active,
-  .use-default.active {
-    background: #E1E1E1;
-    box-shadow:
-      0 -1px 0 0 rgba(0, 0, 0, .10),
-      0 0 0 1px rgba(0, 0, 0, .20),
-      inset 0 1px 2px 0 rgba(0, 0, 0, .10);
-  }
-
-  .fallbackMixin(use-default; #f9f9f9; @border-color-gray-dark);
+    @btn-default-bg-start,
+    @btn-default-bg-end,
+    @btn-default-shadow,
+    @btn-default-shadow-arrow,
+    @btn-default-bg,
+    none,
+    @border-color-gray-dark);
 
   // Use Primary
 
-  .use-primary {
-    background-image: linear-gradient(
-      @btn-primary-bg-start,
-      @btn-primary-bg-end
-    );
-    box-shadow: @btn-primary-shadow;
-    color: #fff;
+  .buttonColorMixin(use-primary,
+     @btn-primary-hover-bg-start,
+     @btn-primary-hover-bg-end,
+     @btn-primary-hover-shadow,
+     @btn-primary-hover-shadow-arrow,
 
-    &:hover {
-      background-image: linear-gradient(
-        @btn-primary-hover-bg-start,
-        @btn-primary-hover-bg-end
-      );
-      box-shadow: @btn-primary-hover-shadow;
-    }
-  }
+     @btn-primary-active-bg,
+     @btn-primary-active-shadow,
+     @btn-primary-active-shadow-arrow,
 
-  .focusMixin(use-primary);
-
-  .use-primary:active,
-  .use-primary.active {
-    background: @btn-primary-active-bg;
-    box-shadow: @btn-primary-active-shadow;
-  }
-
-  .fallbackMixin(use-primary, @btn-primary-bg);
+     @btn-primary-bg-start,
+     @btn-primary-bg-end,
+     @btn-primary-shadow,
+     @btn-primary-shadow-arrow,
+     @btn-primary-bg,
+     #fff);
 
   // Use Success
 
-  .use-success {
-    background-image: linear-gradient(
-      @btn-success-bg-start,
-      @btn-success-bg-end
-    );
-    box-shadow: @btn-success-shadow;
-    color: #fff;
+  .buttonColorMixin(use-success,
+    @btn-success-hover-bg-start,
+    @btn-success-hover-bg-end,
+    @btn-success-hover-shadow,
+    @btn-success-hover-shadow-arrow,
 
-    &:hover {
-      background-image: linear-gradient(
-        @btn-success-hover-bg-start,
-        @btn-success-hover-bg-end
-      );
-      box-shadow: @btn-success-hover-shadow;
-    }
-  }
+    @btn-success-active-bg,
+    @btn-success-active-shadow,
+    @btn-success-active-shadow-arrow,
 
-  .focusMixin(use-success);
-
-  .use-success:active,
-  .use-success.active {
-    background: @btn-success-active-bg;
-    box-shadow: @btn-success-active-shadow;
-  }
-
-  .fallbackMixin(use-success, @btn-success-bg);
+    @btn-success-bg-start,
+    @btn-success-bg-end,
+    @btn-success-shadow,
+    @btn-success-shadow-arrow,
+    @btn-success-bg,
+    #fff);
 
   // Use Danger
 
-  .use-danger {
-    background-image: linear-gradient(#EC5438, #D44327);
-    box-shadow:
-      0 0 0 1px rgba(173, 15, 0, .70),
-      0 1px 0 0 rgba(0, 0, 0, .40);
-    color: #fff;
+  .buttonColorMixin(use-danger,
+    @btn-danger-hover-bg-start,
+    @btn-danger-hover-bg-end,
+    @btn-danger-hover-shadow,
+    @btn-danger-hover-shadow-arrow,
 
-    &:hover {
-      background-image: linear-gradient(#D44227, #C73013);
-      box-shadow:
-        0 0 0 1px rgba(145, 0, 0, .70),
-        0 1px 0 0 rgba(90, 3, 3, .40);
-    }
-  }
+    @btn-danger-active-bg,
+    @btn-danger-active-shadow,
+    @btn-danger-active-shadow-arrow,
 
-  .focusMixin(use-danger);
-
-  .use-danger:active,
-  .use-danger.active {
-    background: #cd381b;
-    border-color: #853333 #b24c4c #b24c4c;
-    box-shadow: inset 0 2px 1px -1px #9e2b15;
-    box-shadow:
-      0 0 0 1px rgba(108, 7, 7, .75),
-      0 -1px 0 0 rgba(90, 3, 3, .40),
-      inset 0 1px 2px 0 rgba(0, 0, 0, .10);
-  }
-
-  .fallbackMixin(use-danger, #e14c30);
+    @btn-danger-bg-start,
+    @btn-danger-bg-end,
+    @btn-danger-shadow,
+    @btn-danger-shadow-arrow,
+    @btn-danger-bg,
+    #fff);
 
   // Use Pay
 
-  .use-pay {
-    background-image: linear-gradient(#FFD54B, #FFBB39);
-    box-shadow:
-      0 0 0 1px rgba(238, 169, 34, .70),
-      0 1px 0 0 rgba(77, 16, 0, .56);
+  .buttonColorMixin(use-pay,
+    @btn-pay-hover-bg-start,
+    @btn-pay-hover-bg-end,
+    @btn-pay-hover-shadow,
+    @btn-pay-hover-shadow-arrow,
 
-    &:hover {
-      background-image: linear-gradient(#FFBD3A, #F8A91D);
-      box-shadow:
-        0 0 0 1px rgba(227, 142, 8, .70),
-        0 1px 0 0 rgba(93, 20, 3, .40);
-    }
-  }
+    @btn-pay-active-bg,
+    @btn-pay-active-shadow,
+    @btn-pay-active-shadow-arrow,
 
-  .focusMixin(use-pay);
-
-  .use-pay:active,
-  .use-pay.active {
-    background: #FBB028;
-    box-shadow:
-      0 0 0 1px rgba(210, 144, 0, .70),
-      0 -1px 0 0 rgba(0, 0, 0, .44),
-      inset 0 1px 2px 0 rgba(0, 0, 0, .05);
-  }
-
-  .fallbackMixin(use-pay, #ffc943);
+    @btn-pay-bg-start,
+    @btn-pay-bg-end,
+    @btn-pay-shadow,
+    @btn-pay-shadow-arrow,
+    @btn-pay-bg,
+    none);
 
   // End Use
 
@@ -260,16 +385,63 @@
       0 0 0 1px rgba(0, 0, 0, .6),
       inset 0 1px 2px 0 rgba(0, 0, 0, .3);
     color: #fff;
-  }
 
-  .focusMixin(checked);
-  .fallbackMixin(checked, #737373);
+    .arrow {
+      background: #737373;
+      box-shadow: @btn-shadow-checked-arrow;
+    }
+    .arrow.arrow_error {
+      box-shadow:
+        inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
+        2px -2px 0 0 @border-color-error;
+    }
+    .arrow.arrow_warning {
+      box-shadow:
+        inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
+        2px -2px 0 0 @border-color-warning;
+    }
+
+    &:focus {
+      box-shadow:
+        inset 0 0 0 1px #FFFFFF,
+        0 0 0 2px @border-color-focus;
+      position: relative;
+      z-index: 2;
+
+      .arrow  {
+        box-shadow:
+            inset -1px 1px 0 0 #FFFFFF,
+            2px -2px 0 0 @border-color-focus;
+      }
+      .arrow.arrow_warning {
+        box-shadow:
+            inset -1px 1px 0 0 #FFFFFF,
+            2px -2px 0 0 @border-color-warning;
+      }
+      .arrow.arrow_error {
+        box-shadow:
+            inset -1px 1px 0 0 #FFFFFF,
+            2px -2px 0 0 @border-color-error;
+      }
+    }
+  }
 
   .root.disabled {
     background: @bg-disabled;
     box-shadow: 0 0 0 1px @border-color-gray-light;
     color: #808080;
     cursor: default;
+
+    .arrow {
+      background: @bg-disabled;
+      box-shadow: 1px -1px 0 0 @border-color-gray-light;
+    }
+    .arrow.arrow_warning {
+      box-shadow: 2px -2px 0 0 @border-color-warning;
+    }
+    .arrow.arrow_error {
+      box-shadow: 2px -2px 0 0 @border-color-error;
+    }
   }
 
   .loading {
@@ -287,7 +459,7 @@
     height: 100%;
     position: absolute;
     opacity: .2;
-    background: linear-gradient(-70deg, #ccc 30%, transparent 0, transparent 60%, #ccc 0);
+    background: linear-gradient(-110deg, #ccc 30%, transparent 0, transparent 60%, #ccc 0);
     background-size: 30px 100%;
     top: 0;
     left: 0;
@@ -295,6 +467,7 @@
     :global {
       animation: btn_loading 1s linear infinite;
     }
+    transform: rotateY(180deg) skewX(0deg) skewY(0deg);
   }
 
   .warning,
@@ -342,9 +515,18 @@
 
 @keyframes btn_loading {
   0% {
-    transform: translateX(0);
+    transform: translateX(0) rotateY(180deg);
   }
   100% {
-    transform: translateX(-30px);
+    transform: translateX(-30px) rotateY(180deg);
+  }
+}
+
+@keyframes btn_loading_arrow {
+  0% {
+    transform: translateX(50px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
+  }
+  100% {
+    transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
   }
 }

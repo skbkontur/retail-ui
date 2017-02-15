@@ -34,6 +34,7 @@ type Props = {
   width?: number | string,
   onClick?: (e: SyntheticMouseEvent) => void,
   onKeyDown?: (e: SyntheticKeyboardEvent) => void,
+  arrow?: bool,
   onMouseEnter?: (e: SyntheticMouseEvent) => void,
   onMouseLeave?: (e: SyntheticMouseEvent) => void,
   onMouseOver?: (e: SyntheticMouseEvent) => void,
@@ -90,7 +91,12 @@ class Button extends React.Component {
 
     onMouseLeave: PropTypes.func,
 
-    onMouseOver: PropTypes.func
+    onMouseOver: PropTypes.func,
+
+    /**
+     * Кнопка со стрелкой.
+     */
+    arrow: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -121,6 +127,7 @@ class Button extends React.Component {
         [styles.noPadding]: this.props._noPadding,
         [styles.noRightPadding]: this.props._noRightPadding,
         [styles.buttonWithIcon]: !!this.props.icon,
+        [styles.arrowButton]: this.props.arrow,
         [SIZE_CLASSES[this.props.size]]: true
       }),
       style: {
@@ -167,10 +174,25 @@ class Button extends React.Component {
       );
     }
 
+    let arrow = null;
+    if (this.props.arrow) {
+      arrow = (
+        <div
+          className={classNames(
+            styles.arrow,
+            this.props.loading ? styles.arrow_loading : '',
+            this.props.error ? styles.arrow_error : '',
+            this.props.warning? styles.arrow_warning : ''
+          )}
+        />
+      );
+    }
+
     return (
-      <span className={styles.wrap} style={wrapStyle}>
+      <span className={this.props.arrow ? styles.wrap_arrow : styles.wrap} style={wrapStyle}>
         <button {...rootProps} ref={ref => this.buttonRef = ref}>
           {loading}
+          {arrow}
           <div className={styles.caption}>
             {icon}
             {this.props.children}
