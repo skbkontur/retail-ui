@@ -175,19 +175,22 @@ class Button extends React.Component {
     }
 
     let arrow = null;
-    let arrow_styles = classNames(
-      styles.arrow,
-      this.props.loading ? styles.arrow_loading : '',
-      this.props.error ? styles.arrow_error : '',
-      this.props.warning? styles.arrow_warning : ''
-    );
     if (this.props.arrow) {
-      arrow = <div className={arrow_styles} />;
+      arrow = (
+        <div
+          className={classNames(
+            styles.arrow,
+            this.props.loading ? styles.arrow_loading : '',
+            this.props.error ? styles.arrow_error : '',
+            this.props.warning? styles.arrow_warning : ''
+          )}
+        />
+      );
     }
 
     return (
       <span className={this.props.arrow ? styles.wrap_arrow : styles.wrap} style={wrapStyle}>
-        <button {...rootProps}>
+        <button {...rootProps} ref={ref => this.buttonRef = ref}>
           {loading}
           {arrow}
           <div className={styles.caption}>
@@ -200,8 +203,9 @@ class Button extends React.Component {
     );
   }
 
-  _handleMouseDown(e) {
-    if (browser.hasFocusOnButtonClick && document.activeElement) {
+  _handleMouseDown = e => {
+    if (browser.hasFocusOnButtonClick &&
+      document.activeElement === this.buttonRef) {
       document.activeElement.blur();
       e.preventDefault();
     }

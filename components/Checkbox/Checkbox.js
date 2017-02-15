@@ -66,7 +66,11 @@ class Checkbox extends React.Component {
       >
         <input {...inputProps} />
         <span className={styles.box}>
-          <div className={styles.ok}><Icon name="ok" /></div>
+          {this.props.checked &&
+          <div className={styles.ok}>
+            <Icon name="ok" />
+          </div>
+          }
         </span>
         <span className={styles.caption}>{this.props.children}</span>
       </label>
