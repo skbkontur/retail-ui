@@ -12,4 +12,4 @@ export default [
         url: 'validations-builder',
         caption: 'Конструктор валидаций',
     },
-]
+];
