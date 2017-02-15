@@ -66,4 +66,9 @@ storiesOf('Button', module)
         maiores esse unde nam numquam!
       </Button>
     );
+  })
+  .add('with arrow', () => {
+    return (
+      <Button arrow>Arrow!</Button>
+    );
   });

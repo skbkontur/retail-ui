@@ -35,6 +35,8 @@ class Checkbox extends React.Component {
   props: Props;
   input: ?HTMLInputElement;
 
+  _wasFocused = false;
+
   render() {
     const rootClass = classNames({
       [styles.root]: true,
@@ -60,6 +62,7 @@ class Checkbox extends React.Component {
       <label
         className={rootClass}
         onClick={this._preventFocus}
+        onMouseDown={this._checkFocus}
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}
@@ -67,10 +70,9 @@ class Checkbox extends React.Component {
         <input {...inputProps} />
         <span className={styles.box}>
           {this.props.checked &&
-          <div className={styles.ok}>
-            <Icon name="ok" />
-          </div>
-          }
+            <div className={styles.ok}>
+              <Icon name="ok" />
+            </div>}
         </span>
         <span className={styles.caption}>{this.props.children}</span>
       </label>
@@ -78,9 +80,13 @@ class Checkbox extends React.Component {
   }
 
   _preventFocus = () => {
-    if (this.input) {
+    if (this.input && !this._wasFocused) {
       this.input.blur();
     }
+  };
+
+  _checkFocus = () => {
+    this._wasFocused = this.input && document.activeElement === this.input;
   };
 
   _inputRef = (ref: HTMLInputElement) => {

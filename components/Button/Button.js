@@ -17,27 +17,27 @@ const SIZE_CLASSES = {
 };
 
 type Props = {
-  _noPadding?: bool,
-  _noRightPadding?: bool,
-  active?: bool,
-  checked?: bool,
+  _noPadding?: boolean,
+  _noRightPadding?: boolean,
+  active?: boolean,
+  checked?: boolean,
   children?: any,
   corners?: number, // internal
-  disabled?: bool,
-  focused?: bool,
+  disabled?: boolean,
+  focused?: boolean,
   icon?: string,
-  loading?: bool,
-  narrow?: bool,
+  loading?: boolean,
+  narrow?: boolean,
   size: 'small' | 'medium' | 'large',
   type: 'button' | 'submit' | 'reset',
   use: 'default' | 'primary' | 'success' | 'danger' | 'pay',
   width?: number | string,
   onClick?: (e: SyntheticMouseEvent) => void,
   onKeyDown?: (e: SyntheticKeyboardEvent) => void,
-  arrow?: bool,
+  arrow?: boolean,
   onMouseEnter?: (e: SyntheticMouseEvent) => void,
   onMouseLeave?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void
 };
 
 class Button extends React.Component {
@@ -51,6 +51,11 @@ class Button extends React.Component {
      * Визуально нажатое состояние.
      */
     active: PropTypes.bool,
+
+    /**
+     * Кнопка со стрелкой.
+     */
+    arrow: PropTypes.bool,
 
     checked: PropTypes.bool,
 
@@ -72,13 +77,7 @@ class Button extends React.Component {
     /**
      * Вариант использования. Влияет на цвет кнопки.
      */
-    use: PropTypes.oneOf([
-      'default',
-      'primary',
-      'success',
-      'danger',
-      'pay'
-    ]),
+    use: PropTypes.oneOf(['default', 'primary', 'success', 'danger', 'pay']),
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
@@ -91,12 +90,7 @@ class Button extends React.Component {
 
     onMouseLeave: PropTypes.func,
 
-    onMouseOver: PropTypes.func,
-
-    /**
-     * Кнопка со стрелкой.
-     */
-    arrow: PropTypes.bool,
+    onMouseOver: PropTypes.func
   };
 
   static defaultProps = {
@@ -131,10 +125,12 @@ class Button extends React.Component {
         [SIZE_CLASSES[this.props.size]]: true
       }),
       style: {
-        borderRadius: `${corners & Corners.TOP_LEFT ? 0 : radius}` +
-          ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
-          ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
-          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`
+        borderRadius: (
+          `${corners & Corners.TOP_LEFT ? 0 : radius}` +
+            ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
+            ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
+            ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`
+        )
       },
       disabled: this.props.disabled || this.props.loading,
       onClick: this.props.onClick,
@@ -182,15 +178,18 @@ class Button extends React.Component {
             styles.arrow,
             this.props.loading ? styles.arrow_loading : '',
             this.props.error ? styles.arrow_error : '',
-            this.props.warning? styles.arrow_warning : ''
+            this.props.warning ? styles.arrow_warning : ''
           )}
         />
       );
     }
 
     return (
-      <span className={this.props.arrow ? styles.wrap_arrow : styles.wrap} style={wrapStyle}>
-        <button {...rootProps} ref={ref => this.buttonRef = ref}>
+      <span
+        className={this.props.arrow ? styles.wrap_arrow : styles.wrap}
+        style={wrapStyle}
+      >
+        <button {...rootProps}>
           {loading}
           {arrow}
           <div className={styles.caption}>
@@ -204,12 +203,10 @@ class Button extends React.Component {
   }
 
   _handleMouseDown = e => {
-    if (browser.hasFocusOnButtonClick &&
-      document.activeElement === this.buttonRef) {
-      document.activeElement.blur();
+    if (browser.hasFocusOnButtonClick) {
       e.preventDefault();
     }
-  }
+  };
 }
 
 export default Button;

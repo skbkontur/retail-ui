@@ -48,9 +48,7 @@ class Link extends React.Component {
 
     let icon = null;
     if (iconName) {
-      icon = (
-        <span className={styles.icon}><Icon name={iconName} /></span>
-      );
+      icon = <span className={styles.icon}><Icon name={iconName} /></span>;
     }
 
     let arrow = null;
@@ -75,7 +73,7 @@ class Link extends React.Component {
     }
 
     return (
-      <a {...rest} {...props} ref={ref => this.linkRef = ref}>
+      <a {...rest} {...props}>
         {icon}
         {this.props.children}
         {arrow}
@@ -84,12 +82,10 @@ class Link extends React.Component {
   }
 
   _handleMouseDown = e => {
-    if (browser.hasFocusOnLinkClick &&
-      document.activeElement === this.linkRef) {
-      document.activeElement.blur();
+    if (browser.hasFocusOnLinkClick) {
       e.preventDefault();
     }
-  }
+  };
 
   _handleClick = event => {
     if (this.props.onClick && !this.props.disabled) {
