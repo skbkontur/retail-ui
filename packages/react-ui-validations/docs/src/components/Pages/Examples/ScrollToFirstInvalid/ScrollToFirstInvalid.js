@@ -71,7 +71,7 @@ function validate(data: ContactInfo): ContactInfoValidationInfo {
     }
 
     if (data.phone !== '' && !/^[\s\d\-\+\(\)]*$/.test(data.phone)) {
-        result.phone = { message: 'Телефон должне состояить только из цифр, пробелов и знаков -,+,(,)' };
+        result.phone = { message: 'Телефон должен состоять только из цифр, пробелов и знаков -,+,(,)' };
     }
     return result;
 }
@@ -103,7 +103,7 @@ export default class DifferentMessages extends React.Component {
                 <p>Ожидаемое поведение:</p>
                 <ul>
                     <li>
-                        При редактировании невалидного поля, баллун остётся на
+                        При редактировании невалидного поля, баллун остается на
                         месте, а красная подсветка с поля снимается.
                     </li>
                 </ul>

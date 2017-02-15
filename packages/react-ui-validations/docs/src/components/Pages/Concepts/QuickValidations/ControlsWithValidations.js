@@ -47,11 +47,11 @@ export function lessThan(value) {
             return { message: 'Значение должно быть меньше чем ' + value.toString() };
         }
         return undefined;
-    }
+    };
 }
 
 function wrapControl(Control) {
-    return (props) => {
+    return props => {
         const { controlProps, validationWrapperProps } = prepareProps(props);
 
         return (

@@ -24,11 +24,11 @@ export default [
     {
         component: ScrollToFirstInvalid,
         url: 'scroll-to-first-invalid',
-        caption: 'Скроллиг к первому невалидному',
+        caption: 'Скроллинг к первому невалидному',
     },
     {
         component: Editors,
         url: 'editors',
         caption: 'Редакторы',
     },
-]
+];
