@@ -1,5 +1,5 @@
 // @flow
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import CROSS from '../internal/cross';
 
 import styles from './Toast.less';
@@ -22,13 +22,13 @@ class ToastView extends Component {
      */
     action: PropTypes.shape({
       label: PropTypes.string.isRequired,
-      handler: PropTypes.func.isRequired,
+      handler: PropTypes.func.isRequired
     }),
     /**
      * Tost content
      */
     children: PropTypes.string.isRequired,
-    onClose: PropTypes.func,
+    onClose: PropTypes.func
   }
 
   render() {

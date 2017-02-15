@@ -1,6 +1,6 @@
 // @flow
 
-import {mount} from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 
 import Button from '../Button.js';

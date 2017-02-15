@@ -1,6 +1,6 @@
 // @flow
 
-import {testAdapter} from '../../../testing/AdapterTestUtils';
+import { testAdapter } from '../../../testing/AdapterTestUtils';
 
 import React from 'react';
 
@@ -32,7 +32,7 @@ describe('Autocomplete-adapter', () => {
     const source = jest.fn(() => Promise.resolve([1, 2, 3]));
     const adapter = mount(<Autocomplete value="" source={source} />);
 
-    adapter.setProps({value: 'foo'});
+    adapter.setProps({ value: 'foo' });
     adapter.setValue('foo');
 
     await (source.mock.instances: any)[0];
@@ -42,7 +42,7 @@ describe('Autocomplete-adapter', () => {
 
   testAdapter('setValueByIndex', async mount => {
     const source = jest.fn(() => Promise.resolve(['foo']));
-    const onChange = jest.fn((e, value) => adapter.setProps({value}));
+    const onChange = jest.fn((e, value) => adapter.setProps({ value }));
     const adapter = mount(
       <Autocomplete value="" source={source} onChange={onChange} />
     );

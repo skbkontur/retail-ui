@@ -10,14 +10,14 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/react-ui/dist/',
-    filename: 'docs.js',
+    filename: 'docs.js'
   },
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
         loader: 'es3ify',
-        exclude: [/react-input-mask/],
+        exclude: [/react-input-mask/]
       },
       {
         test: /\.jsx?$/,
@@ -26,15 +26,15 @@ module.exports = {
           presets: [
             require.resolve('babel-preset-es2015'),
             require.resolve('babel-preset-stage-0'),
-            require.resolve('babel-preset-react'),
-          ],
+            require.resolve('babel-preset-react')
+          ]
         },
         include: [
           path.join(__dirname, 'src'),
           path.resolve(__dirname, '..', 'components'),
           path.resolve(__dirname, '..', 'lib'),
-          path.resolve(__dirname, '..', 'testing'),
-        ],
+          path.resolve(__dirname, '..', 'testing')
+        ]
       },
       {
         test: /\.(css|less)$/,
@@ -42,32 +42,32 @@ module.exports = {
           'style-loader',
           'css?localIdentName=[name]-[local]-[hash:base64:8]',
           'postcss'
-        ),
+        )
       },
-      {test: /\.less$/, loader: 'less-loader'},
-      {test: /\.(woff|woff2|eot)$/, loader: 'file-loader'},
-      {test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader'},
-      {test: /\.md$/, loader: 'marked-loader'},
-      {test: /\.json/, loader: 'json-loader'},
-    ],
+      { test: /\.less$/, loader: 'less-loader' },
+      { test: /\.(woff|woff2|eot)$/, loader: 'file-loader' },
+      { test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader' },
+      { test: /\.md$/, loader: 'marked-loader' },
+      { test: /\.json/, loader: 'json-loader' }
+    ]
   },
   postcss: [
-    autoprefixer({browsers: ['last 2 versions', 'IE 8']}),
+    autoprefixer({ browsers: ['last 2 versions', 'IE 8'] })
   ],
   resolve: {
     fallback: path.join(__dirname, 'node_modules'),
     alias: {
       ui: path.resolve(__dirname, '..', 'components'),
       react: path.resolve(__dirname, 'node_modules/react'),
-      'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
+      'react-dom': path.resolve(__dirname, 'node_modules/react-dom')
     },
-    extensions: ['', '.adapter.js', '.js', '.jsx', '.json'],
+    extensions: ['', '.adapter.js', '.js', '.jsx', '.json']
   },
   resolveLoader: {
-    fallback: path.join(__dirname, 'node_modules'),
+    fallback: path.join(__dirname, 'node_modules')
   },
   plugins: [
     new ExtractTextPlugin('docs.css'),
-    new webpack.PrefetchPlugin('react'),
-  ],
+    new webpack.PrefetchPlugin('react')
+  ]
 };

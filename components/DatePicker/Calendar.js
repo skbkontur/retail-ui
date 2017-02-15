@@ -9,7 +9,7 @@ import styles from './Calendar.less';
 const MONTH_NAMES = [
   'янв', 'фев', 'мар', 'апр',
   'май', 'июн', 'июл', 'авг',
-  'сен', 'окт', 'ноя', 'дек',
+  'сен', 'окт', 'ноя', 'дек'
 ];
 const DAY = 24 * 60 * 60 * 1000;
 const WEEK = 7 * DAY;
@@ -42,7 +42,7 @@ export default class Calendar extends React.Component {
     this.state = {
       mouseX: 0,
       mouseY: 0,
-      pos: dateToPos(props.initialDate),
+      pos: dateToPos(props.initialDate)
     };
 
     this._today = new Date();
@@ -66,15 +66,15 @@ export default class Calendar extends React.Component {
       const y = getDayTop(week, offset, +monthStart);
       const style = {
         top: y,
-        height: getDayTop(week, offset, +monthEnd) - y,
+        height: getDayTop(week, offset, +monthEnd) - y
       };
       const monthClass = classNames({
         [styles.month]: true,
-        [styles.grey]: monthStart.getUTCMonth() % 2,
+        [styles.grey]: monthStart.getUTCMonth() % 2
       });
       months.push(
         <div key={+monthStart} className={monthClass} style={style}>
-          <div style={{position: 'relative', top: Math.max(0, -y)}}>
+          <div style={{ position: 'relative', top: Math.max(0, -y) }}>
             {MONTH_NAMES[monthStart.getUTCMonth()]}
             <div className={styles.year}>{monthStart.getUTCFullYear()}</div>
           </div>
@@ -92,7 +92,7 @@ export default class Calendar extends React.Component {
       const date = new Date(cur);
       const x = getDay(date) * DAY_HEIGHT;
       const y = (curWeek - week) * DAY_HEIGHT - offset;
-      const style = {left: x, top: y};
+      const style = { left: x, top: y };
 
       const mouseX = this.state.mouseX;
       const mouseY = this.state.mouseY;
@@ -105,7 +105,7 @@ export default class Calendar extends React.Component {
         [styles.cellToday]: this._isToday(date),
         [styles.cellCurrent]: isSameDate(this.props.value, date),
         [styles.grey]: date.getUTCMonth() % 2,
-        [styles.cellHoly]: date.getUTCDay() === 0 || date.getUTCDay() === 6,
+        [styles.cellHoly]: date.getUTCDay() === 0 || date.getUTCDay() === 6
       });
       cells.push(
         <span key={cur} className={cellClass} style={style}>
@@ -134,7 +134,7 @@ export default class Calendar extends React.Component {
     const newDate = new Date(0);
     newDate.setUTCFullYear(date.getUTCFullYear());
     newDate.setUTCMonth(date.getUTCMonth());
-    this.setState({pos: dateToPos(newDate)});
+    this.setState({ pos: dateToPos(newDate) });
   }
 
   handleWheel = (event: SyntheticWheelEvent) => {
@@ -147,7 +147,7 @@ export default class Calendar extends React.Component {
     }
 
     const pos = this.state.pos + deltaY;
-    this.setState({pos});
+    this.setState({ pos });
 
     const date = posToDate(pos);
     date.setUTCDate(date.getUTCDate() + 6);
@@ -159,12 +159,12 @@ export default class Calendar extends React.Component {
     const rect = currentTarget.getBoundingClientRect();
     this.setState({
       mouseX: event.clientX - rect.left,
-      mouseY: event.clientY - rect.top,
+      mouseY: event.clientY - rect.top
     });
   };
 
   handleMouseLeave = () => {
-    this.setState({mouseX: -10});
+    this.setState({ mouseX: -10 });
   };
 
   handleMouseDown = (event: SyntheticMouseEvent) => {

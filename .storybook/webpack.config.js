@@ -25,9 +25,9 @@ module.exports = {
           ],
         },
         include: [
-          path.resolve(__dirname, '..', '..', 'components'),
-          path.resolve(__dirname, '..', '..', 'lib'),
-          path.resolve(__dirname, '..', '..', 'testing'),
+          path.resolve(__dirname, '..', 'components'),
+          path.resolve(__dirname, '..', 'lib'),
+          path.resolve(__dirname, '..', 'testing'),
         ],
       },
       {
@@ -37,26 +37,13 @@ module.exports = {
       {test: /\.less$/, loader: 'less-loader'},
       {test: /\.(woff|woff2|eot)$/, loader: 'file-loader'},
       {test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader'},
-      {test: /\.md$/, loader: 'marked-loader'},
       {test: /\.json/, loader: 'json-loader'}
     ],
   },
   resolve: {
-    fallback: path.join(__dirname, '..', 'node_modules'),
     alias: {
-      ui: path.resolve(__dirname, '..', '..', 'components'),
-      react: path.resolve(__dirname, '..', 'node_modules/react'),
-      'react-dom': path.resolve(__dirname, '..', 'node_modules/react-dom'),
+      ui: path.resolve(__dirname, '..', 'components'),
     },
     extensions: ['', '.adapter.js', '.js', '.jsx', '.json'],
-  },
-  resolveLoader: {
-    modulesDirectories: [
-      "web_loaders",
-      "web_modules",
-      "node_loaders",
-      "node_modules",
-      path.join(__dirname, '..', 'node_modules')
-    ]
   }
 };

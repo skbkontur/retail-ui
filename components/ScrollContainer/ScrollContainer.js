@@ -1,6 +1,6 @@
 import events from 'add-event-listener';
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
@@ -21,7 +21,7 @@ export default class ScrollContainer extends React.Component {
       // Mouse is moving where big scrollbar can be located.
       hover: false,
       // True when scroll is following mouse (mouse down on scroll).
-      scrolling: false,
+      scrolling: false
     };
   }
 
@@ -47,11 +47,11 @@ export default class ScrollContainer extends React.Component {
       const scrollClass = classNames({
         [styles.scroll]: true,
         [styles.scrollInvert]: this.props.invert,
-        [styles.scrollHover]: this.state.hover || this.state.scrolling,
+        [styles.scrollHover]: this.state.hover || this.state.scrolling
       });
       const scrollStyle = {
         top: this.state.scrollPos,
-        height: this.state.scrollSize,
+        height: this.state.scrollSize
       };
       scroll = (
         <div className={scrollClass} style={scrollStyle}
@@ -64,7 +64,7 @@ export default class ScrollContainer extends React.Component {
     const innerStyle = {
       marginRight: -(PADDING_RIGHT + getScrollWidth()),
       maxHeight: this.props.maxHeight,
-      paddingRight: PADDING_RIGHT,
+      paddingRight: PADDING_RIGHT
     };
 
     return (
@@ -126,11 +126,11 @@ export default class ScrollContainer extends React.Component {
         this.setState({
           scrollActive: true,
           scrollSize,
-          scrollPos,
+          scrollPos
         });
       }
     } else {
-      this.setState({scrollActive: false});
+      this.setState({ scrollActive: false });
     }
   };
 
@@ -155,12 +155,12 @@ export default class ScrollContainer extends React.Component {
     const mouseUp = () => {
       events.removeEventListener(target, 'mousemove', mouseMove);
       events.removeEventListener(target, 'mouseup', mouseUp);
-      this.setState({scrolling: false});
+      this.setState({ scrolling: false });
     };
 
     events.addEventListener(target, 'mousemove', mouseMove);
     events.addEventListener(target, 'mouseup', mouseUp);
-    this.setState({scrolling: true});
+    this.setState({ scrolling: true });
 
     event.preventDefault();
   };
@@ -194,12 +194,12 @@ export default class ScrollContainer extends React.Component {
 
   _setHover(hover) {
     if (this.state.hover !== hover) {
-      this.setState({hover});
+      this.setState({ hover });
     }
   }
 }
 
 ScrollContainer.propTypes = {
   invert: PropTypes.bool,
-  maxHeight: PropTypes.number,
+  maxHeight: PropTypes.number
 };

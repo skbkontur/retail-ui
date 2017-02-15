@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import styles from './DateSelect.less';
 
@@ -41,14 +41,14 @@ export default class DateSelect extends React.Component {
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
-    onChange: PropTypes.func,
+    onChange: PropTypes.func
   };
 
   static defaultProps = {
     type: 'year',
     minYear: 1900,
     maxYear: 2100,
-    width: 'auto',
+    width: 'auto'
   };
 
   props: Props;
@@ -64,18 +64,18 @@ export default class DateSelect extends React.Component {
       opened: false,
       pos: 0,
       top: 0,
-      topCapped: false,
+      topCapped: false
     };
   }
 
   render() {
-    const {width} = this.props;
+    const { width } = this.props;
     const rootProps = {
       className: styles.root,
-      style: {width},
+      style: { width },
       tabIndex: '0',
       onBlur: this.close,
-      onKeyDown: this.handleKey,
+      onKeyDown: this.handleKey
     };
     return (
       <span {...rootProps}>
@@ -89,7 +89,7 @@ export default class DateSelect extends React.Component {
   }
 
   renderMenu() {
-    const {top, height} = this.state;
+    const { top, height } = this.state;
 
     let shift = this.state.pos % HEIGHT;
     if (shift < 0) {
@@ -102,7 +102,7 @@ export default class DateSelect extends React.Component {
       const className = classNames({
         [styles.menuItem]: true,
         [styles.menuItemActive]: i === this.state.current,
-        [styles.menuItemSelected]: i === 0,
+        [styles.menuItemSelected]: i === 0
       });
       items.push(
         <div key={i} className={className}>
@@ -111,17 +111,17 @@ export default class DateSelect extends React.Component {
       );
     }
     const style = {
-      top: top - 2,
+      top: top - 2
     };
 
     const shiftStyle = {
       position: 'relative',
-      top: -shift,
+      top: -shift
     };
 
     const holderClass = classNames({
       [styles.menuHolder]: true,
-      [styles.isTopCapped]: this.state.topCapped,
+      [styles.isTopCapped]: this.state.topCapped
     });
 
     return (
@@ -129,7 +129,7 @@ export default class DateSelect extends React.Component {
         {!this.state.topCapped && (
           <div className={styles.menuUp} onMouseDown={this.handleUp} />
         )}
-        <div className={styles.itemsHolder} style={{height}}>
+        <div className={styles.itemsHolder} style={{ height }}>
           <div style={shiftStyle}>{items}</div>
           <div className={styles.menuOverlay}
             onMouseDown={this.handleItemClick}
@@ -163,11 +163,11 @@ export default class DateSelect extends React.Component {
     const rect = currentTarget.getBoundingClientRect();
     const y = event.clientY - rect.top + this.state.top + this.state.pos;
     const current = Math.floor(y / HEIGHT);
-    this.setState({current});
+    this.setState({ current });
   };
 
   handleMouseLeave = () => {
-    this.setState({current: null});
+    this.setState({ current: null });
   };
 
   handleItemClick = (event: SyntheticMouseEvent) => {
@@ -205,12 +205,12 @@ export default class DateSelect extends React.Component {
           break;
 
         case 'ArrowUp':
-          this.setState({current: (this.state.current || 0) - 1});
+          this.setState({ current: (this.state.current || 0) - 1 });
           event.preventDefault();
           break;
 
         case 'ArrowDown':
-          this.setState({current: (this.state.current || 0) + 1});
+          this.setState({ current: (this.state.current || 0) + 1 });
           event.preventDefault();
           break;
       }
@@ -252,7 +252,7 @@ export default class DateSelect extends React.Component {
     this.resetSize(0);
     this.setState({
       opened: true,
-      current: 0,
+      current: 0
     });
   };
 
@@ -261,7 +261,7 @@ export default class DateSelect extends React.Component {
       return;
     }
 
-    this.setState({opened: false});
+    this.setState({ opened: false });
   };
 
   resetSize(pos: number) {
@@ -283,7 +283,7 @@ export default class DateSelect extends React.Component {
     const topCapped = pos <= minPos;
     const botCapped = pos >= maxPos;
 
-    this.setState({pos, top, height, topCapped, botCapped});
+    this.setState({ pos, top, height, topCapped, botCapped });
   }
 
   getMinPos() {

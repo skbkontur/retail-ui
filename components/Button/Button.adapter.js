@@ -11,7 +11,7 @@ const ButtonAdapter = {
 
   isDisabled(inst) {
     return !!inst.props.disabled;
-  },
+  }
 };
 
 (Button: any).__ADAPTER__ = ButtonAdapter;

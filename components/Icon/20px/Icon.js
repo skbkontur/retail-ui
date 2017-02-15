@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import styles from './Icon.less';
 
@@ -13,7 +13,7 @@ var MAP = {
   clear: '\ue030',
   grid: '\ue03e',
   money: '\ue046',
-  'help-circle': '\ue055',
+  'help-circle': '\ue055'
 };
 
 class Icon extends React.Component {
@@ -23,7 +23,7 @@ class Icon extends React.Component {
     /**
      * Icon id.
      */
-    name: PropTypes.oneOf(Object.keys(MAP)),
+    name: PropTypes.oneOf(Object.keys(MAP))
   };
 
   static getAllNames() {
@@ -32,7 +32,7 @@ class Icon extends React.Component {
 
   render() {
     var style = {
-      color: this.props.color,
+      color: this.props.color
     };
     return (
       <span className={styles.root} style={style}>{MAP[this.props.name]}</span>

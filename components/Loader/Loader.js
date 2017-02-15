@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 
 import Spinner from '../Spinner';
@@ -17,9 +17,9 @@ class Loader extends React.Component {
   }
 
   render() {
-    const {active, type, caption, className} = this.props;
+    const { active, type, caption, className } = this.props;
     const loaderClassName = classnames(styles.loader, className, {
-      [styles.active]: active,
+      [styles.active]: active
     });
 
     return (
@@ -57,11 +57,11 @@ Loader.propTypes = {
    *
    * Spinner.types - все доступные типы
    */
-  type: PropTypes.oneOf(Object.keys(Spinner.Types)),
+  type: PropTypes.oneOf(Object.keys(Spinner.Types))
 };
 
 Loader.defaultProps = {
-  type: Spinner.Types.normal,
+  type: Spinner.Types.normal
 };
 
 export default Loader;

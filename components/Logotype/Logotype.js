@@ -1,5 +1,5 @@
 /* @flow */
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import styles from './Logotype.less';
 import cloudImage from './cloud.png';
@@ -18,9 +18,9 @@ const createCloud = color => (
 /* eslint-enable max-len */
 
 const createPngCloud = backgroundColor => (
-  <div style={{backgroundColor}} className={styles.cloud}>
+  <div style={{ backgroundColor }} className={styles.cloud}>
     <div
-      style={{backgroundImage: `url('${cloudImage}')`}}
+      style={{ backgroundImage: `url('${cloudImage}')` }}
       className={styles.inner}
     />
   </div>
@@ -37,18 +37,18 @@ const Logotype = ({
   color = '#D92932',
   textColor = '#000',
   suffix,
-  href = '/',
+  href = '/'
 }: LogotypeType) => (
   <a href={href} tabIndex="-1" className={styles.root}>
-    <span style={{color: textColor}}>к</span>
-    <span style={{color}}>
+    <span style={{ color: textColor }}>к</span>
+    <span style={{ color }}>
       {hasSVGSupport()
         ? createCloud(color)
         : createPngCloud(color)
       }
     </span>
-    <span style={{color: textColor}}>нтур.</span>
-    <span style={{color}}>{suffix}</span>
+    <span style={{ color: textColor }}>нтур.</span>
+    <span style={{ color }}>{suffix}</span>
   </a>
 );
 
@@ -71,7 +71,7 @@ Logotype.propTypes = {
   /**
    * Цвет логотипа Контура в rgb, rgba, hex
    */
-  textColor: PropTypes.string,
+  textColor: PropTypes.string
 };
 
 export default Logotype;

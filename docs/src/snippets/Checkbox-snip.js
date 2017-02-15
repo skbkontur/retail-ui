@@ -6,12 +6,12 @@ var Comp = React.createClass({
   },
 
   getInitialState() {
-    return {checked: false};
+    return { checked: false };
   },
 
   handleChange(event) {
-    this.setState({checked: event.target.checked});
-  },
+    this.setState({ checked: event.target.checked });
+  }
 });
 
 ReactDOM.render(<Comp />, mountNode);

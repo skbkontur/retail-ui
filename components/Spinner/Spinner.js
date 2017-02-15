@@ -1,9 +1,9 @@
 import classnames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import styles from './Spinner.less';
 import SpinnerFallback from './SpinnerFallback';
-import {types, sizeMaps, svgAnimateSupport} from './settings';
+import { types, sizeMaps, svgAnimateSupport } from './settings';
 
 const hasSvgAnimationSupport = svgAnimateSupport();
 
@@ -26,12 +26,12 @@ class Spinner extends React.Component {
      *
      * Spinner.types - все доступные типы
      */
-    type: PropTypes.oneOf(Object.keys(types)),
+    type: PropTypes.oneOf(Object.keys(types))
   };
 
   static defaultProps = {
     type: types.normal,
-    caption: 'Загрузка',
+    caption: 'Загрузка'
   };
 
   constructor(props) {
@@ -100,7 +100,7 @@ class Spinner extends React.Component {
   _renderCaption = (type, caption) => {
     const spanClassName = classnames({
       [styles.captionRight]: type === types.mini,
-      [styles.captionBottom]: type !== types.mini,
+      [styles.captionBottom]: type !== types.mini
     });
 
     return (
@@ -111,7 +111,7 @@ class Spinner extends React.Component {
   };
 
   render() {
-    const {type, caption} = this.props;
+    const { type, caption } = this.props;
 
     return (
       <div className={styles.spinner}>

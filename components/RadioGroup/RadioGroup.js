@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import events from 'add-event-listener';
 
 import Radio from '../Radio';
@@ -84,11 +84,11 @@ class RadioGroup extends React.Component {
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
-    onChange: PropTypes.func,
+    onChange: PropTypes.func
   };
 
   static defaultProps = {
-    renderItem,
+    renderItem
   };
 
   props: Props;
@@ -119,7 +119,7 @@ class RadioGroup extends React.Component {
       disabled: this.props.disabled,
       onKeyDown: this.handleKey,
       onFocus: this.handleFocus,
-      onBlur: this.handleBlur,
+      onBlur: this.handleBlur
     };
 
     const style = {};
@@ -171,7 +171,7 @@ class RadioGroup extends React.Component {
           <div
             className={classNames({
               [styles.label]: true,
-              [styles.labelDisabled]: this.props.disabled,
+              [styles.labelDisabled]: this.props.disabled
             })}
           >
             {this.props.renderItem(value, data)}
@@ -248,7 +248,7 @@ class RadioGroup extends React.Component {
     }
 
     if (this.props.onChange) {
-      this.props.onChange({target: {value}}, value);
+      this.props.onChange({ target: { value } }, value);
     }
   }
 

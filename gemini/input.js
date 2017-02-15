@@ -34,7 +34,7 @@ gemini.suite('Inputs with different sizes', (parentSuite) => {
     capture('Plain').
     capture('Focused', (actions, find) => {
       actions.focus(find('#medium-input-wrapper input'));
-    }).
+    })
     capture('With typed text', (actions, find) => {
       actions.sendKeys(find('#medium-input-wrapper input'), 'Test...');
     });
@@ -46,7 +46,7 @@ gemini.suite('Inputs with different sizes', (parentSuite) => {
     capture('Plain').
     capture('Focused', (actions, find) => {
       actions.focus(find('#large-input-wrapper input'));
-    }).
+    })
     capture('With typed text', (actions, find) => {
       actions.sendKeys(find('#large-input-wrapper input'), 'Test...');
     });

@@ -36,7 +36,7 @@
     right: 13px;
     top: 0;
 
-    &:before {
+    &::before {
       content: '';
       display: inline-block;
       height: 100%;
@@ -87,14 +87,14 @@
   .menu {
     background: @bg-default;
     border: 1px solid #d5d5d5;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     max-height: 300px;
     overflow: auto;
     padding: 4px 0;
   }
 
   .search {
-    margin: 0 4px 4px;
+    margin: 1px 4px 4px;
   }
 
   .deprecated_oldSize {

@@ -1,15 +1,15 @@
 import React from 'react';
-import {storiesOf} from '@kadira/storybook';
+import { storiesOf } from '@kadira/storybook';
 import {
   withKnobs,
   text,
   boolean,
   select,
-  number,
+  number
 } from '@kadira/storybook-addon-knobs';
-import Button from '../../components/Button';
-import Gapped from '../../components/Gapped';
-import Icon from '../../components/Icon';
+import Button from '../../Button';
+import Gapped from '../../Gapped';
+import Icon from '../../Icon';
 
 const getKnobs = () => ({
   use: select(
@@ -22,20 +22,18 @@ const getKnobs = () => ({
   active: boolean('active', false),
   checked: boolean('checked', false),
   width: number('width'),
-  icon: select('icon', Icon.getAllNames()),
+  icon: select('icon', [''].concat(Icon.getAllNames()), '')
 });
 
-storiesOf('Button', module).
-  addDecorator(withKnobs).
-  add('playground', () => {
-    const {icon, children, ...rest} = getKnobs();
+storiesOf('Button', module)
+  .addDecorator(withKnobs)
+  .add('playground', () => {
+    const { children, ...rest } = getKnobs();
     return <Button {...rest}>
-      {icon && <Icon name={icon} />}
-      {icon && ' '}
       {children}
     </Button>;
-  }).
-  add('different use', () => (
+  })
+  .add('different use', () => (
     <Gapped>
       <Button>Default</Button>
       <Button use="primary">Primary</Button>
@@ -43,23 +41,23 @@ storiesOf('Button', module).
       <Button use="danger">Danger</Button>
       <Button use="pay">Pay</Button>
     </Gapped>
-  )).
-  add('different sizes', () => (
+  ))
+  .add('different sizes', () => (
     <Gapped>
       <Button>Small</Button>
       <Button size="medium">Medium</Button>
       <Button size="large">Large</Button>
     </Gapped>
-  )).
-  add('with icons', () => {
+  ))
+  .add('with icons', () => {
     const icon = select('icon', Icon.getAllNames(), 'ok');
     return <Gapped>
       <Button icon={icon}>Small</Button>
       <Button size="medium" icon={icon}>Medium</Button>
       <Button size="large" icon={icon}>Large</Button>
     </Gapped>;
-  }).
-  add('with icon, fixed width and long text', () => {
+  })
+  .add('with icon, fixed width and long text', () => {
     return (
       <Button icon="ok" width="200">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit.

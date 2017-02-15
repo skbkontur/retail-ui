@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import Corners from './Corners';
 import Icon from '../Icon';
@@ -13,7 +13,7 @@ import styles from './Button.less';
 const SIZE_CLASSES = {
   small: styles.sizeSmall,
   medium: styles.sizeMedium,
-  large: styles.sizeLarge,
+  large: styles.sizeLarge
 };
 
 type Props = {
@@ -34,6 +34,9 @@ type Props = {
   width?: number | string,
   onClick?: (e: SyntheticMouseEvent) => void,
   onKeyDown?: (e: SyntheticKeyboardEvent) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
 };
 
 class Button extends React.Component {
@@ -73,7 +76,7 @@ class Button extends React.Component {
       'primary',
       'success',
       'danger',
-      'pay',
+      'pay'
     ]),
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -82,19 +85,25 @@ class Button extends React.Component {
      * Click handler.
      */
     onClick: PropTypes.func,
+
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func
   };
 
   static defaultProps = {
     use: 'default',
     size: 'small',
-    type: 'button',
+    type: 'button'
   };
 
   props: Props;
   state: null;
 
   render() {
-    const {corners = 0} = this.props;
+    const { corners = 0 } = this.props;
     const radius = '2px';
 
     const rootProps: any = {
@@ -112,18 +121,21 @@ class Button extends React.Component {
         [styles.noPadding]: this.props._noPadding,
         [styles.noRightPadding]: this.props._noRightPadding,
         [styles.buttonWithIcon]: !!this.props.icon,
-        [SIZE_CLASSES[this.props.size]]: true,
+        [SIZE_CLASSES[this.props.size]]: true
       }),
       style: {
         borderRadius: `${corners & Corners.TOP_LEFT ? 0 : radius}` +
           ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
           ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
-          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
+          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`
       },
       disabled: this.props.disabled || this.props.loading,
       onClick: this.props.onClick,
       onKeyDown: this.props.onKeyDown,
-      onMouseDown: this._handleMouseDown, //to prevent focus on click
+      onMouseDown: this._handleMouseDown, // to prevent focus on click
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver
     };
     if (this.props.align) {
       rootProps.style.textAlign = this.props.align;
@@ -170,7 +182,7 @@ class Button extends React.Component {
   }
 
   _handleMouseDown(e) {
-    if (browser.hasFocusOnButtonClick) {
+    if (browser.hasFocusOnButtonClick && document.activeElement) {
       document.activeElement.blur();
       e.preventDefault();
     }

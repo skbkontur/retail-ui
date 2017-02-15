@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import Icon from '../Icon';
 
 import styles from './MenuItem.less';
@@ -33,7 +33,7 @@ export default class MenuItem extends React.Component {
 
     target: PropTypes.string,
 
-    onClick: PropTypes.func,
+    onClick: PropTypes.func
   }
 
   props: {
@@ -66,7 +66,7 @@ export default class MenuItem extends React.Component {
     } = this.props;
     let {
       _enableIconPadding,
-      children,
+      children
     } = this.props;
     const hover = state === 'hover' && !disabled;
     let $icon = null;
@@ -83,7 +83,7 @@ export default class MenuItem extends React.Component {
       [styles.loose]: loose,
       [styles.selected]: state === 'selected',
       [styles.link]: alkoLink,
-      [styles.withIcon]: _enableIconPadding,
+      [styles.withIcon]: _enableIconPadding
     });
     if (typeof children === 'function') {
       children = children(this.props.state);
@@ -102,7 +102,7 @@ export default class MenuItem extends React.Component {
           <div
             className={classNames({
               [styles.comment]: true,
-              [styles.commentHover]: hover,
+              [styles.commentHover]: hover
             })}
           >
             {comment}

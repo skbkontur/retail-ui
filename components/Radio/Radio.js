@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import styles from './Radio.less';
 
@@ -20,6 +20,7 @@ class Radio extends React.Component {
 
   static defaultProps = {
     checked: false,
+    focused: false
   };
 
   render() {
