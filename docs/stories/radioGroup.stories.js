@@ -3,7 +3,6 @@ import {storiesOf} from '@kadira/storybook';
 
 import RadioGroup from '../../components/RadioGroup';
 
-
 const items = ['One', 'Two', 'Three'];
 
 class Component extends React.Component {
@@ -17,15 +16,11 @@ class Component extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>
-          <RadioGroup
-            items={items}
-            value={this.state.value}
-            onChange={(el) => this.handleChange(el)}
-          />
-        </div>
-      </div>
+      <RadioGroup
+        items={items}
+        value={this.state.value}
+        onChange={(el) => this.handleChange(el)}
+      />
     );
   }
 }

@@ -5,16 +5,19 @@ import {storiesOf} from '@kadira/storybook';
 import Gapped from '../../components/Gapped';
 import Radio from '../../components/Radio';
 
-storiesOf('Radio button', module).
+storiesOf('Radio', module).
   add('Radio with different states', () => (
-    <Gapped>
-      <Radio />
-      <Radio disabled />
-      <Radio disabled checked />
-      <Radio checked />
-      <Radio focused />
-      <Radio focused checked />
-    </Gapped>
+    <div style={{margin: '5px'}}>
+      <Gapped gap={20}>
+        <Radio />
+        <Radio disabled />
+        <Radio disabled checked />
+        <Radio checked />
+        <Radio focused />
+        <Radio focused />
+        <Radio focused checked />
+      </Gapped>
+    </div>
   )).
   add('Playground', () => {
     class Comp extends React.Component {
@@ -35,12 +38,7 @@ storiesOf('Radio button', module).
               <span style={{display: 'inline-block', verticalAlign: 'sub'}}>
                 <Radio {...this.state} />
               </span>
-              <span style={{display: 'inline-block'}}>
-                Radio button
-              </span>
             </div>
-            <br />
-            <Radio disabled />
           </div>
         );
       }
