@@ -2,11 +2,11 @@ const items = ['One', 'Two', 'Three'];
 
 class Component extends React.Component {
   state = {
-    value: '',
+    value: ''
   }
 
   handleChange(el) {
-    this.setState({value: el.target.value});
+    this.setState({ value: el.target.value });
   }
 
   render() {

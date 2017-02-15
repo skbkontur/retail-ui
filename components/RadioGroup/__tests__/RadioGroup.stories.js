@@ -1,17 +1,17 @@
 import React from 'react';
-import {storiesOf} from '@kadira/storybook';
+import { storiesOf } from '@kadira/storybook';
 
-import RadioGroup from '../../components/RadioGroup';
+import RadioGroup from '../RadioGroup';
 
 const items = ['One', 'Two', 'Three'];
 
 class Component extends React.Component {
   state = {
-    value: '',
+    value: ''
   }
 
   handleChange(el) {
-    this.setState({value: el.target.value});
+    this.setState({ value: el.target.value });
   }
 
   render() {
@@ -25,7 +25,7 @@ class Component extends React.Component {
   }
 }
 
-storiesOf('RadioGroup', module).
-  add('playground', () => {
+storiesOf('RadioGroup', module)
+  .add('playground', () => {
     return <Component />;
   });

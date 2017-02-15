@@ -1,7 +1,7 @@
 @import '../variables.less';
 
 :local {
-  .root {
+  .radio {
     position: relative;
     background-image: linear-gradient(-180deg, #FFFFFF 0, #EBEBEB 100%);
     box-shadow: 0 1px 0 0 rgba(0,0,0,0.15),0 0 0 1px rgba(0,0,0,0.15);
@@ -12,36 +12,47 @@
     margin-right: 4px;
   }
 
-  .hovered {
+
+  .root:hover .radio {
     background: linear-gradient(-180deg, #F2F2F2 0, #DFDFDF 100%);
     box-shadow: 0 1px 0 0 rgba(0,0,0,0.15),0 0 0 1px rgba(0,0,0,0.2);
   }
 
-  .pressed {
+  .root:active .radio {
     background: #E1E1E1;
     box-shadow: 0 -1px 0 0 rgba(0,0,0,0.1),0 0 0 1px rgba(0,0,0,0.2),inset 0 1px 2px 0 rgba(0,0,0,0.1)
   }
 
-  .focused:after {
+  .focused:after,
+  .warning:after,
+  .error:after {
     content: '';
     position: absolute;
     box-sizing: border-box;
+    border-radius: 50%;
+  }
+
+  .warning:after, .error:after {
+    width: 20px;
+    height: 20px;
+    left: -2px;
+    top: -2px;
+  }
+
+  .focused:after {
     width: 24px;
     height: 24px;
     left: -4px;
     top: -4px;
     border: 2px solid @border-color-focus;
-    border-radius: 50%;
   }
 
-  .warning {
-    border-color: @border-color-warning;
-    box-shadow: 0 0 0 1px @border-color-warning;
+  .warning:after {
+    border: 2px solid @border-color-warning;
   }
 
-  .error {
-    border-color: @border-color-error;
-    box-shadow: 0 0 0 1px @border-color-error;
+  .error:after {
+    border: 2px solid @border-color-error;
   }
 
   .checked {
@@ -64,7 +75,23 @@
     box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
   }
 
-  .disabled .inbox {
-    background: #808080;
+  .disabled.checked:before {
+    background: #808080
+  }
+
+  .radioWrap {
+    position: relative;
+    top: 3px;
+    display: table-cell;
+    width: 25px;
+  }
+
+  .label {
+    display: table-cell;
+    margin-left: 22px;
+  }
+
+  .labelDisabled {
+    color: #808080;
   }
 }

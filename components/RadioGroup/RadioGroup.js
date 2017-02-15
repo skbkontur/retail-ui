@@ -2,7 +2,6 @@
 
 import classNames from 'classnames';
 import React, { PropTypes } from 'react';
-import events from 'add-event-listener';
 
 import Radio from '../Radio';
 
@@ -97,19 +96,7 @@ class RadioGroup extends React.Component {
   constructor(props: Props, context: mixed) {
     super(props, context);
 
-    this.state = {
-      hoveredIndex: null,
-      focusedIndex: null,
-      pressedIndex: null,
-    };
-  }
-
-  componentDidMount() {
-    events.addEventListener(window, 'mouseup', this.handleMouseUp);
-  }
-
-  componentWillUnmount() {
-    events.removeEventListener(window, 'mouseup', this.handleMouseUp);
+    this.state = { focusedIndex: null };
   }
 
   render() {
@@ -136,47 +123,30 @@ class RadioGroup extends React.Component {
   }
 
   renderItems() {
-    const {focusedIndex, hoveredIndex, pressedIndex} = this.state;
-    const {value, error, warning, disabled} = this.props;
+    const { focusedIndex } = this.state;
+    const { value, error, warning, disabled, inline, renderItem } = this.props;
     const items = this._mapItems((itemValue: any, data: any, i: number) => {
       const itemProps = {
         key: i,
         className: classNames({
           [styles.item]: true,
           [styles.itemFirst]: i === 0,
-          [styles.itemInline]: this.props.inline,
+          [styles.itemInline]: inline
         }),
-        onClick:      () => this._select(itemValue),
-        onMouseEnter: () => this.setState({hoveredIndex: i}),
-        onMouseLeave: () => this.setState({hoveredIndex: null}),
-        onMouseDown:  () => this.setState({pressedIndex: i}),
-        onMouseUp:    () => this.setState({pressedIndex: null}),
+        onClick: () => this._select(itemValue)
       };
 
       const radioProps = {
         disabled, error, warning,
         checked: value === itemValue,
-        focused: focusedIndex === i,
-        hovered: hoveredIndex === i,
-        pressed: pressedIndex === i,
+        focused: focusedIndex === i
       };
 
       return (
         <span {...itemProps}>
-          <div className={styles.radio}>
-            <div className={styles.radioWrap}>
-              <Radio {...radioProps} />
-            </div>
-          </div>
-          <div
-            className={classNames({
-              [styles.label]: true,
-              [styles.labelDisabled]: this.props.disabled
-            })}
-          >
-            {this.props.renderItem(value, data)}
-          </div>
-
+          <Radio {...radioProps} >
+              {renderItem(itemValue, data)}
+          </Radio>
         </span>
       );
     });
@@ -192,7 +162,7 @@ class RadioGroup extends React.Component {
 
     if (event.key === 'Enter') {
       const value = this.props.items[focusedIndex];
-      this.props.onChange({target: {value}}, value);
+      this.props.onChange({ target: { value } }, value);
       return;
     }
 
@@ -206,23 +176,23 @@ class RadioGroup extends React.Component {
   };
 
   handleMouseUp = () => {
-    this.setState({pressedIndex: null});
+    this.setState({ pressedIndex: null });
   }
 
   handleFocus = () => {
     window.onkeyup = (event) => {
       if (event.key === 'Tab') {
-        const {value, items} = this.props;
+        const { value, items } = this.props;
         const currentIndex = items.indexOf(value);
         const index = currentIndex > -1 ? currentIndex : 0;
 
-        this.setState({focusedIndex: index});
+        this.setState({ focusedIndex: index });
       }
     };
   };
 
   handleBlur = () => {
-    this.setState({focusedIndex: null});
+    this.setState({ focusedIndex: null });
   };
 
   move_(step: number) {
@@ -253,7 +223,7 @@ class RadioGroup extends React.Component {
   }
 
   _focus(index) {
-    this.setState({focusedIndex: index});
+    this.setState({ focusedIndex: index });
   }
 
   _mapItems<T>(fn: (v: any, d: any, i: number) => T): Array<T> {
