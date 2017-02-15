@@ -65,7 +65,7 @@ function validate(data: ContactInfo): ContactInfoValidationInfo {
     }
 
     if (data.phone !== '' && !/^[\s\d\-\+\(\)]*$/.test(data.phone)) {
-        result.phone = { message: 'Телефон должне состояить только из цифр, пробелов и знаков -,+,(,)' };
+        result.phone = { message: 'Телефон должен состоять только из цифр, пробелов и знаков -,+,(,)' };
     }
     return result;
 }
