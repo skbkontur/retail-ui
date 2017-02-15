@@ -8,8 +8,8 @@ import styles from './Calendar.less';
 import Cell from './CalendarCell';
 
 const MONTH_NAMES = [
-  'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
-  'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+  'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+  'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',
 ];
 const DAY = 24 * 60 * 60 * 1000;
 const WEEK = 7 * DAY;
@@ -25,8 +25,6 @@ type Props = {
 };
 
 type State = {
-  mouseX: number,
-  mouseY: number,
   pos: number,
 };
 
@@ -151,4 +149,3 @@ function getWeek(time) {
 function getDayTop(fromWeek, offset, time) {
   return (getWeek(time) - fromWeek) * DAY_HEIGHT - offset;
 }
-

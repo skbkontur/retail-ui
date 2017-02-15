@@ -58,8 +58,11 @@ export default class Picker extends React.Component {
             />
           </Gapped>
         </div>
-        <Calendar ref="calendar" {...this.props} initialDate={date}
-                  onNav={(date) => this.setState({date})}
+        <Calendar
+          ref="calendar"
+          {...this.props}
+          initialDate={date}
+          onNav={(date) => this.setState({date})}
         />
       </div>
     );
@@ -97,7 +100,6 @@ export default class Picker extends React.Component {
     if (!this._mounted) {
       return;
     }
-
     const target: Element = (event.target: any) || event.srcElement;
     if (!ReactDOM.findDOMNode(this).contains(target) && !isDetached(target)) {
       this.props.onClose();

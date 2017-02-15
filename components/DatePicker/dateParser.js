@@ -1,6 +1,6 @@
 // @flow
 export default function(str: string): ?Date {
-  const datePartsRegExp = /^(\d{2})\.?(\d{2})?\.?(\d{2,4})?$/;
+  const datePartsRegExp = /^(\d{1,2})\.?(\d{1,2})?\.?(\d{1,4})?$/;
   const parts = str.replace(/_/g, '').match(datePartsRegExp);
 
   if (parts) {
@@ -12,10 +12,10 @@ export default function(str: string): ?Date {
 
     const now = new Date();
     if (isNaN(month)) {
-      month = now.getMonth();
+      month = now.getUTCMonth();
     }
     if (isNaN(year)) {
-      year = now.getFullYear();
+      year = now.getUTCFullYear();
     }
 
     // Handle short year version
@@ -23,8 +23,6 @@ export default function(str: string): ?Date {
       year += 2000;
     } else if (year < 100) { // 19xx
       year += 1900;
-    } else if (year < 1000) {
-      year += 2000;
     }
 
     // IE8 does't support `Date('yyyy-mm-dd')` constructor.

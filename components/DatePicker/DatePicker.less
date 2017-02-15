@@ -3,19 +3,20 @@
 :local {
   .root {
     display: inline-block;
-    position: relative;
     vertical-align: bottom;
+    position: relative;
   }
 
   .openButton {
-    color: @text-color-default;
+    color: #333;
     cursor: pointer;
     line-height: 32px;
-    padding: 0 9px;
+    padding: 0 8px;
     position: absolute;
     right: 1px;
     top: 1px;
     z-index: 2;
+    font-size: 14px;
   }
 
   .openButtonDisabled {
@@ -26,15 +27,5 @@
   .picker {
     position: relative;
     top: -1px;
-  }
-
-  .inputOutline {
-    position: absolute;
-    box-sizing: border-box;
-    width: 100%;
-    height: 34px;
-    border: 1px solid @border-color-focus;
-    box-shadow: 0 0 0 1px @border-color-focus;
-    z-index: 1001;
   }
 }

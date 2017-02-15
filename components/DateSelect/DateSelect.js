@@ -84,7 +84,7 @@ export default class DateSelect extends React.Component {
         <div className={styles.caption} onClick={this.open}>
           {this.getItem(0)}
           <div className={styles.arrow}>
-            <Icon name="sort"/>
+            <Icon name="sort" />
           </div>
         </div>
         {this.state.opened && this.renderMenu()}
@@ -143,7 +143,7 @@ export default class DateSelect extends React.Component {
       <div className={holderClass} style={style} onKeyDown={this.handleKey}>
         {!this.state.topCapped && (
           <div className={styles.menuUp} onMouseDown={this.handleUp}>
-            <span><Icon name={"caret-top"}/></span>
+            <span><Icon name={"caret-top"} /></span>
           </div>
         )}
         <div className={styles.itemsHolder} style={{height}}>
@@ -157,7 +157,7 @@ export default class DateSelect extends React.Component {
         </div>
         {!this.state.botCapped && (
           <div className={styles.menuDown} onMouseDown={this.handleDown}>
-            <span><Icon name={"caret-bottom"}/></span>
+            <span><Icon name={"caret-bottom"} /></span>
           </div>
         )}
       </div>
