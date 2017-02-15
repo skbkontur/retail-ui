@@ -2,17 +2,16 @@ language: node_js
 node_js:
 - '5'
 install: npm install
-before_script:
+script:
+- npm run lint
+- npm run flow.check
+before_deploy:
 - openssl aes-256-cbc -k "$travis_key_password" -in travis-react-ui-validations-deploy-key.enc -out travis-react-ui-validations-deploy-key -d
 - chmod 600 travis-react-ui-validations-deploy-key
 - eval `ssh-agent -s`
 - ssh-add travis-react-ui-validations-deploy-key
 - git config --global user.name "Travis CI"
 - git config --global user.email "react-ui-validations-publish-bot@skbkontur.ru"
-script:
-- npm run lint
-- npm run flow.check
-before_deploy:
 - pushd docs
 - npm install
 - npm run publish-docs
