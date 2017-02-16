@@ -8,31 +8,54 @@ import styles from './Radio.less';
  * использована для кастомных радио-кнопок.
  */
 class Radio extends React.Component {
-  static propTypes = {
-    checked: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    focused: PropTypes.bool,
-    warning: PropTypes.bool
-  };
-
   static defaultProps = {
     checked: false,
     focused: false
   };
 
+  static PropTypes = {
+    checked: PropTypes.bool,
+    disabled: PropTypes.bool,
+    error: PropTypes.bool,
+    focused: PropTypes.bool,
+    hovered: PropTypes.bool,
+    pressed: PropTypes.bool,
+    warning: PropTypes.bool
+  }
+
   render() {
-    var rootClass = classNames({
-      [styles.root]: true,
+    const radioClassNames = classNames({
+      [styles.radio]: true,
+      [styles.withLabel]: this.props.children,
       [styles.checked]: this.props.checked,
       [styles.disabled]: this.props.disabled,
       [styles.error]: this.props.error,
-      [styles.focused]: this.props.focused,
+      [styles.focus]: this.props.focused,
+      [styles.hovered]: this.props.hovered,
+      [styles.pressed]: this.props.pressed,
       [styles.warning]: this.props.warning
     });
 
     return (
-      <span className={rootClass}><div className={styles.inbox} /></span>
+      <div className={styles.root}>
+        <div className={this.props.children && [styles.radioWrap]} >
+          <span className={radioClassNames} />
+        </div>
+        {this.props.children && this.renderLabel()}
+      </div>
+    );
+  }
+
+  renderLabel() {
+    const labelClassNames = classNames({
+      [styles.label]: true,
+      [styles.disabled]: this.props.disabled
+    });
+
+    return (
+      <div className={labelClassNames}>
+        {this.props.children}
+      </div>
     );
   }
 }
