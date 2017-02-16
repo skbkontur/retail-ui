@@ -30,7 +30,7 @@ class Radio extends React.Component {
       [styles.checked]: this.props.checked,
       [styles.disabled]: this.props.disabled,
       [styles.error]: this.props.error,
-      [styles.focused]: this.props.focused,
+      [styles.focus]: this.props.focused,
       [styles.hovered]: this.props.hovered,
       [styles.pressed]: this.props.pressed,
       [styles.warning]: this.props.warning

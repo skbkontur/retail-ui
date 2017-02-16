@@ -123,23 +123,26 @@ class RadioGroup extends React.Component {
   }
 
   renderItems() {
-    const { focusedIndex } = this.state;
-    const { value, error, warning, disabled, inline, renderItem } = this.props;
     const items = this._mapItems((itemValue: any, data: any, i: number) => {
       const itemProps = {
         key: i,
+        onClick: () => this._select(itemValue),
+        onMouseEnter: this.props.onMouseEnter,
+        onMouseLeave: this.props.onMouseLeave,
+        onMouseOver: this.props.onMouseOver,
         className: classNames({
           [styles.item]: true,
           [styles.itemFirst]: i === 0,
-          [styles.itemInline]: inline
-        }),
-        onClick: () => this._select(itemValue)
+          [styles.itemInline]: this.props.inline
+        })
       };
 
       const radioProps = {
-        disabled, error, warning,
-        checked: value === itemValue,
-        focused: focusedIndex === i
+        disabled: this.props.disabled,
+        error: this.props.error,
+        warning: this.props.warning,
+        checked: this.props.value === itemValue,
+        focused: this.state.focusedIndex === i
       };
 
       return (
