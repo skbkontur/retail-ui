@@ -5,7 +5,7 @@ import React, { PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 
 import filterProps from '../filterProps';
-import Icon from '../Icon';
+import Input from '../Input';
 import Picker from './Picker';
 import DateInput from './DateInput';
 import dateParser from './dateParser';
@@ -19,6 +19,8 @@ const INPUT_PASS_PROPS = {
   warning: true,
   error: true,
   withMask: true,
+  placeholder: true,
+  size: true,
 
   onInput: true,
   onKeyDown: true,
@@ -40,7 +42,9 @@ type Props = {
   minYear?: number,
   placeholder?: string,
   size?: 'small' | 'medium' | 'large',
-  value: ?Date,
+  value?: ?Date,
+  validationMsg?: string,
+  validationType?: 'text' | 'baloon',
   width?: number | string,
   onBlur?: () => void,
   onChange?: (e: {target: {value: ?Date}}, v: ?Date) => void,
@@ -115,7 +119,7 @@ export default class DatePicker extends React.Component {
     minYear: 1900,
     maxYear: 2100,
     width: 120,
-    withMask: false,
+    withMask: false
   };
 
   props: Props;
@@ -123,6 +127,7 @@ export default class DatePicker extends React.Component {
 
   _focused = false;
   _cursorPosition = 0;
+  input: Input;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -134,7 +139,7 @@ export default class DatePicker extends React.Component {
   }
 
   render() {
-    const {opened} = this.state;
+    const { opened } = this.state;
 
     const value = checkDate(this.props.value);
     let picker = null;
@@ -145,12 +150,12 @@ export default class DatePicker extends React.Component {
           offsetY={1}
         >
            <Picker
-            value={value}
-            minYear={this.props.minYear}
-            maxYear={this.props.maxYear}
-            onPick={this.handlePick}
-            onClose={this.handlePickerClose}
-          />
+             value={value}
+             minYear={this.props.minYear}
+             maxYear={this.props.maxYear}
+             onPick={this.handlePick}
+             onClose={this.handlePickerClose}
+           />
         </DropdownContainer>
       );
     }
@@ -159,13 +164,8 @@ export default class DatePicker extends React.Component {
       [styles.root]: true,
       [this.props.className || '']: true
     });
-    const openClassName = classNames({
-      [styles.openButton]: true,
-      [styles.openButtonDisabled]: this.props.disabled
-    });
-    const iconSize = this.props.size === 'large' ? 16 : 14;
     return (
-      <span className={className} style={{width: this.props.width}}>
+      <span className={className} style={{ width: this.props.width }}>
         <DateInput
           {...filterProps(this.props, INPUT_PASS_PROPS)}
           getRef={this.getInputRef}
@@ -174,6 +174,7 @@ export default class DatePicker extends React.Component {
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           onChange={this.handleChange}
+          onIconClick={this.open}
         />
         {picker}
       </span>
@@ -187,14 +188,14 @@ export default class DatePicker extends React.Component {
       !newProps.error &&
       this.state.textValue !== newTextValue
     ) {
-      this.setState({textValue: newTextValue});
+      this.setState({ textValue: newTextValue });
     }
   }
 
   handleChange = (newDate: Date | string) => {
     if (newDate === undefined) { return; }
     this.setState({
-      textValue: newDate instanceof Date ? formatDate(newDate) : newDate,
+      textValue: newDate instanceof Date ? formatDate(newDate) : newDate
     });
   };
 
@@ -208,11 +209,11 @@ export default class DatePicker extends React.Component {
     this._focused = false;
     this._cursorPosition = 0;
 
-    const {textValue} =  this.state;
+    const { textValue } =  this.state;
     const date = parseDate(textValue);
 
-    if (this.props.onChange && textValue !== formatDate(this.props.value) ) {
-      this.props.onChange({target: {value: date}}, date);
+    if (this.props.onChange && textValue !== formatDate(this.props.value)) {
+      this.props.onChange({ target: { value: date } }, date);
     }
 
     if (this.props.onBlur) {
@@ -255,7 +256,7 @@ export default class DatePicker extends React.Component {
     this.input.focus();
   }
 
-  getInputRef = (ref) => {
+  getInputRef = (ref: Input) => {
     this.input = ref;
   };
 }

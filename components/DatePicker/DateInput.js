@@ -1,5 +1,11 @@
-import React, {Component, PropTypes} from 'react';
+// @flow
+
+import classNames from 'classnames';
+import React, { Component, PropTypes } from 'react';
+
 import Input from '../Input';
+import Icon from '../Icon';
+
 import filterProps from '../filterProps';
 import styles from './DateInput.less';
 
@@ -8,20 +14,25 @@ const INPUT_PASS_PROPS = {
   disabled: true,
   warning: true,
   error: true,
+  size: true,
+  placeholder: true,
 
   onInput: true,
   onKeyPress: true,
-  onKeyUp: true,
+  onKeyUp: true
 };
 
 type Props = {
-  disabled?: bool,
+  disabled?: boolean,
   value: string,
+  placeholder?: string,
+  size: 'small' | 'medium' | 'large',
   getRef?: (ref: any) => void,
   onFocus?: () => void,
   onBlur?: () => void,
+  onIconClick: Function,
   onChange: () => void,
-  opened: bool,
+  opened: boolean
 };
 
 export default class DateInput extends Component {
@@ -29,29 +40,31 @@ export default class DateInput extends Component {
     getRef: PropTypes.func,
     opened: PropTypes.bool.isRequired,
     placeholder: PropTypes.string,
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     value: PropTypes.string.isRequired,
     onBlur: PropTypes.func,
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func,
+    onIconClick: PropTypes.func.isRequired
   };
 
   props: Props;
-
+  _input: Input;
   _cursorPosition = 0;
 
   render() {
-    const outlineStyle = {
-      display: this.props.opened ? 'block' : 'none',
-    };
     const mask = this.props.withMask ? '99.99.9999' : null;
-
+    const iconSize = this.props.size === 'large' ? 16 : 14;
+    const openClassName = classNames({
+      [styles.openButton]: true,
+      [styles.openButtonDisabled]: this.props.disabled
+    });
     return (
       <div
         onMouseDown={this.preventSelection}
         onClick={this.getCursorPosition}
         onDoubleClick={this.createSelection}
       >
-        <div className={styles.inputOutline} style={outlineStyle} />
         <Input
           {...filterProps(this.props, INPUT_PASS_PROPS)}
           mask={mask}
@@ -63,6 +76,13 @@ export default class DateInput extends Component {
           onChange={this.handleDateChange}
           onKeyDown={this.handleDateComponentChange}
           ref={this.getInputRef}
+          rightIcon={
+            (
+              <span className={openClassName} onClick={this.props.onIconClick}>
+                <Icon name="calendar" size={iconSize} />
+              </span>
+            )
+          }
         />
       </div>
     );
@@ -74,7 +94,7 @@ export default class DateInput extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (prevProps.value !== this.props.value && this._cursorPosition) {
       this._input.setSelectionRange(this._cursorPosition, this._cursorPosition);
     }
@@ -113,7 +133,9 @@ export default class DateInput extends Component {
     setTimeout(() => this._input.setSelectionRange(start, end), 0);
   };
 
-  handleDateComponentChange = (event: SyntheticKeyboardEvent) => {
+  handleDateComponentChange = (
+    event: SyntheticKeyboardEvent & { target: HTMLInputElement }
+  ) => {
     if (this.checkIfBadKeyDownEvent(event)) {
       return;
     }
@@ -122,14 +144,14 @@ export default class DateInput extends Component {
     this.props.onChange(newDate);
   };
 
-  checkIfBadKeyDownEvent = (event: SyntheticKeyboardEvent) => {
-    return (
-      event.target.value.match(/_/) ||
+  checkIfBadKeyDownEvent = (
+    event: SyntheticKeyboardEvent & { target: HTMLInputElement }
+  ) => {
+    return event.target.value.match(/_/) ||
       event.key !== 'ArrowUp' && event.key !== 'ArrowDown' ||
       event.target.selectionStart !== event.target.selectionEnd ||
       event.target.selectionStart === 0 ||
-      event.target.selectionStart === 10
-    );
+      event.target.selectionStart === 10;
   };
 
   handleDateChange = (event: any) => {
@@ -140,7 +162,9 @@ export default class DateInput extends Component {
     this.props.onChange(value);
   };
 
-  createNewDate = (event: SyntheticKeyboardEvent) => {
+  createNewDate = (
+    event: SyntheticKeyboardEvent & { target: HTMLInputElement }
+  ) => {
     event.preventDefault();
 
     const dateValue = event.target.value;
@@ -161,12 +185,13 @@ export default class DateInput extends Component {
 
     let newDate;
 
-    if (cursorPosition === 1) { // day
+    if (cursorPosition === 1) {
+      // day
       newDate = new Date(Date.UTC(year, month - 1, day + step));
-
-    } else if (cursorPosition === 4) { // month
+    } else if (cursorPosition === 4) {
+      // month
       let newMonth = month + step;
-      let newYear = (newMonth > 12 || newMonth < 1) ? year + step : year;
+      let newYear = newMonth > 12 || newMonth < 1 ? year + step : year;
       if (newMonth > 12) {
         newMonth -= 12;
       }
@@ -176,8 +201,8 @@ export default class DateInput extends Component {
       const newMonthDaysAmount = getDaysAmount(newYear, newMonth);
       let newDay = Math.min(day, newMonthDaysAmount);
       newDate = new Date(Date.UTC(newYear, newMonth - 1, newDay));
-
-    } else if (cursorPosition > 6 && cursorPosition < 10) { // year
+    } else if (cursorPosition > 6 && cursorPosition < 10) {
+      // year
       let newYear = year + step;
       const newMonthDaysAmount = getDaysAmount(newYear, month);
       let newDay = Math.min(day, newMonthDaysAmount);
@@ -193,7 +218,7 @@ export default class DateInput extends Component {
     }
   };
 
-  handleBlur = e => {
+  handleBlur = (e: Event) => {
     this._cursorPosition = 0;
 
     if (this.props.onBlur) {
@@ -203,7 +228,7 @@ export default class DateInput extends Component {
 
   getInputRef = (ref: any) => {
     this._input = ref;
-  }
+  };
 }
 
 function getDaysAmount(year, month) {

@@ -8,8 +8,18 @@ import styles from './Calendar.less';
 import Cell from './CalendarCell';
 
 const MONTH_NAMES = [
-  'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-  'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+  'Январь',
+  'Февраль',
+  'Март',
+  'Апрель',
+  'Май',
+  'Июнь',
+  'Июль',
+  'Август',
+  'Сентябрь',
+  'Октябрь',
+  'Ноябрь',
+  'Декабрь'
 ];
 const DAY = 24 * 60 * 60 * 1000;
 const WEEK = 7 * DAY;
@@ -21,11 +31,11 @@ type Props = {
   initialDate: Date,
   value: ?Date,
   onNav: (date: Date) => void,
-  onPick: (date: Date) => void,
+  onPick: (date: Date) => void
 };
 
 type State = {
-  pos: number,
+  pos: number
 };
 
 export default class Calendar extends React.Component {
@@ -36,7 +46,7 @@ export default class Calendar extends React.Component {
     super(props, context);
 
     this.state = {
-      pos: dateToPos(props.initialDate),
+      pos: dateToPos(props.initialDate)
     };
   }
 
@@ -59,18 +69,20 @@ export default class Calendar extends React.Component {
       const height = getDayTop(week, offset, +monthEnd) - y;
       const style = {
         top: y,
-        height,
+        height
       };
       const monthClass = classNames({
         [styles.month]: true,
         [styles.first]: monthStart.getUTCMonth() === 0,
-        [styles.grey]: monthStart.getUTCMonth() % 2,
+        [styles.grey]: monthStart.getUTCMonth() % 2
       });
       const top = Math.max(0, -y);
       const wrapperStyle = {
         position: 'relative',
         top,
-        display: (top > height/3) ? 'none' : 'block',
+        display: top > height ? 'none' : 'block',
+        opacity: top > height / 3 ? 0 : 1,
+        transition: 'opacity 0.2s ease-out'
       };
       months.push(
         <div key={+monthStart} className={monthClass} style={style}>
@@ -95,11 +107,9 @@ export default class Calendar extends React.Component {
         date,
         weekIdx: curWeek - week,
         offset,
-        value: this.props.value,
+        value: this.props.value
       };
-      cells.push(
-        <Cell key={cur} {...cellProps} onPick={this.props.onPick} />
-      );
+      cells.push(<Cell key={cur} {...cellProps} onPick={this.props.onPick} />);
     }
 
     return (

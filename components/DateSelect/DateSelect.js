@@ -93,8 +93,8 @@ export default class DateSelect extends React.Component {
   }
 
   renderMenu() {
-    const {top, height} = this.state;
-    const {width, type} = this.props;
+    const { top, height } = this.state;
+    const { width, type } = this.props;
 
     let shift = this.state.pos % HEIGHT;
     if (shift < 0) {
@@ -115,8 +115,8 @@ export default class DateSelect extends React.Component {
         </div>
       );
     }
-    const style = {
-      top: top - 5,
+    const style: Object = {
+      top: top - 5
     };
     switch (type) {
       case 'year':
@@ -136,28 +136,28 @@ export default class DateSelect extends React.Component {
     const holderClass = classNames({
       [styles.menuHolder]: true,
       [styles.isTopCapped]: this.state.topCapped,
-      [styles.isBotCapped]: this.state.botCapped,
+      [styles.isBotCapped]: this.state.botCapped
     });
 
     return (
       <div className={holderClass} style={style} onKeyDown={this.handleKey}>
         {!this.state.topCapped && (
           <div className={styles.menuUp} onMouseDown={this.handleUp}>
-            <span><Icon name={"caret-top"} /></span>
+            <span><Icon name={'caret-top'} /></span>
           </div>
         )}
         <div className={styles.itemsHolder} style={{ height }}>
           <div style={shiftStyle}>{items}</div>
           <div className={styles.menuOverlay}
-               onMouseDown={this.handleItemClick}
-               onMouseMove={this.handleMouseMove}
-               onMouseLeave={this.handleMouseLeave}
-               onWheel={this.handleWheel}
+            onMouseDown={this.handleItemClick}
+            onMouseMove={this.handleMouseMove}
+            onMouseLeave={this.handleMouseLeave}
+            onWheel={this.handleWheel}
           />
         </div>
         {!this.state.botCapped && (
           <div className={styles.menuDown} onMouseDown={this.handleDown}>
-            <span><Icon name={"caret-bottom"} /></span>
+            <span><Icon name={'caret-bottom'} /></span>
           </div>
         )}
       </div>
