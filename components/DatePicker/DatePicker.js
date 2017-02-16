@@ -64,10 +64,6 @@ export default class DatePicker extends React.Component {
      */
     minYear: PropTypes.number,
 
-    validationMsg: PropTypes.string,
-
-    validationType: PropTypes.oneOf(['text', 'balloon']),
-
     value: PropTypes.instanceOf(Date),
 
     warning: PropTypes.bool,
@@ -105,7 +101,6 @@ export default class DatePicker extends React.Component {
   state: State;
 
   _focused = false;
-  _cursorPosition = 0;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -163,13 +158,8 @@ export default class DatePicker extends React.Component {
   }
 
   componentWillReceiveProps(newProps: Props) {
-    const newTextValue = formatDate(newProps.value);
-    if (
-      !this._focused &&
-      !newProps.error &&
-      this.state.textValue !== newTextValue
-    ) {
-      this.setState({textValue: newTextValue});
+    if (!this._focused) {
+      this.setState({textValue: formatDate(newProps.value)});
     }
   }
 
@@ -190,12 +180,14 @@ export default class DatePicker extends React.Component {
 
   handleBlur = () => {
     this._focused = false;
-    this._cursorPosition = 0;
 
-    const {textValue} =  this.state;
-    const date = parseDate(textValue);
+    const date = parseDate(this.state.textValue);
 
-    if (this.props.onChange && textValue !== formatDate(this.props.value) ) {
+    this.setState({
+      textValue: formatDate(this.props.value),
+    });
+
+    if (this.props.onChange && +this.props.value !== +date) {
       this.props.onChange({target: {value: date}}, date);
     }
 
