@@ -1,8 +1,11 @@
 const items = ['One', 'Two', 'Three'];
 
 class Component extends React.Component {
-  state = {
-    value: ''
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: ''
+    };
   }
 
   handleChange(el) {
