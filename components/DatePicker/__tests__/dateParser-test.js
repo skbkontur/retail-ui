@@ -71,18 +71,6 @@ describe('DateParser', () => {
     expect(parsedDate.getFullYear()).toBe(now.getFullYear());
   });
 
-  it('should parse 3-digit string if last char is zero', () => {
-    const str = '110';
-    const parsedDate = dateParser(str);
-    const now = new Date();
-    if (!parsedDate) {
-      throw Error('Null result');
-    }
-    expect(parsedDate.getDate()).toBe(1);
-    expect(parsedDate.getMonth()).toBe(9);
-    expect(parsedDate.getFullYear()).toBe(now.getFullYear());
-  });
-
   it('should not parse 3-digit string with impossible day or month', () => {
     const str = '120';
     const parsedDate = dateParser(str);
@@ -99,17 +87,6 @@ describe('DateParser', () => {
     expect(parsedDate.getDate()).toBe(11);
     expect(parsedDate.getMonth()).toBe(9);
     expect(parsedDate.getFullYear()).toBe(now.getFullYear());
-  });
-
-  it('should parse 4-digit string ', () => {
-    const str = '1890';
-    const parsedDate = dateParser(str);
-    if (!parsedDate) {
-      throw Error('Null result');
-    }
-    expect(parsedDate.getDate()).toBe(18);
-    expect(parsedDate.getMonth()).toBe(8);
-    expect(parsedDate.getFullYear()).toBe(2000);
   });
 
   it('should not parse 4-digit string with impossible day', () => {
@@ -129,17 +106,6 @@ describe('DateParser', () => {
     expect(parsedDate.getFullYear()).toBe(2005);
   });
 
-  it('should parse 5-digit string', () => {
-    const str = '18905';
-    const parsedDate = dateParser(str);
-    if (!parsedDate) {
-      throw Error('Null result');
-    }
-    expect(parsedDate.getDate()).toBe(18);
-    expect(parsedDate.getMonth()).toBe(8);
-    expect(parsedDate.getFullYear()).toBe(2005);
-  });
-
   it('should parse 6-digit string', () => {
     const str = '021052';
     const parsedDate = dateParser(str);
@@ -151,17 +117,6 @@ describe('DateParser', () => {
     expect(parsedDate.getFullYear()).toBe(1952);
   });
 
-  it('should parse 7-digit string', () => {
-    const str = '0210352';
-    const parsedDate = dateParser(str);
-    if (!parsedDate) {
-      throw Error('Null result');
-    }
-    expect(parsedDate.getDate()).toBe(2);
-    expect(parsedDate.getMonth()).toBe(9);
-    expect(parsedDate.getFullYear()).toBe(2352);
-  });
-
   it('should parse 8-digit string', () => {
     const str = '02101952';
     const parsedDate = dateParser(str);
@@ -171,5 +126,11 @@ describe('DateParser', () => {
     expect(parsedDate.getDate()).toBe(2);
     expect(parsedDate.getMonth()).toBe(9);
     expect(parsedDate.getFullYear()).toBe(1952);
+  });
+
+  it('should not parse ', () => {
+    const str = '10.20.1202';
+    const parsedDate = dateParser(str);
+    expect(parsedDate).toBe(null);
   });
 });
