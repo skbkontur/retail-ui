@@ -2,6 +2,7 @@
 
 import classNames from 'classnames';
 import React, { PropTypes } from 'react';
+import events from 'add-event-listener';
 
 import Radio from '../Radio';
 
@@ -99,6 +100,10 @@ class RadioGroup extends React.Component {
     this.state = { focusedIndex: null };
   }
 
+  componentWillUnmount() {
+    events.removeEventListener(window, 'keyup', this.focusHandler)
+  }
+
   render() {
     const inputProps = {
       type: 'checkbox',
@@ -183,16 +188,18 @@ class RadioGroup extends React.Component {
   }
 
   handleFocus = () => {
-    window.onkeyup = (event) => {
-      if (event.key === 'Tab') {
-        const { value, items } = this.props;
-        const currentIndex = items.indexOf(value);
-        const index = currentIndex > -1 ? currentIndex : 0;
-
-        this.setState({ focusedIndex: index });
-      }
-    };
+    events.addEventListener(window, 'keyup', this.focusHandler);
   };
+
+  focusHandler = (event) => {
+    if (event.key === 'Tab') {
+      const { value, items } = this.props;
+      const currentIndex = items.indexOf(value);
+      const index = currentIndex > -1 ? currentIndex : 0;
+
+      this.setState({ focusedIndex: index });
+    }
+  }
 
   handleBlur = () => {
     this.setState({ focusedIndex: null });
