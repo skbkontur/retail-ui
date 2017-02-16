@@ -6,7 +6,7 @@
 [gemini](https://gemini-testing.github.io/).
 Для запуска тестов на gemini необходимо проставить переменные окружения
 `SAUCE_USERNAME` и `SAUCE_ACCESS_KEY`.<br />
-Для запуска только __jest__ тестов можно выполнить `npm run test-unit`
+Для запуска только __jest__ тестов можно выполнить `npm run unit-test`
 
 ### Помощь в развитии
 Мы рады любой сторонней помощи. Не стесняйтесь писать в [issues](https://github.com/skbkontur/retail-ui/issues)

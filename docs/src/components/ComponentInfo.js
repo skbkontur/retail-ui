@@ -17,14 +17,14 @@ const editorOptions = {
   lineWrapping: true,
   lineNumbers: true,
   mode: 'jsx',
-  viewportMargin: Infinity,
+  viewportMargin: Infinity
 };
 
 var Component = React.createClass({
   getInitialState() {
     return {
       showCode: false,
-      src: this._getComponent().src,
+      src: this._getComponent().src
     };
   },
 
@@ -56,24 +56,24 @@ var Component = React.createClass({
   componentWillReceiveProps(newProps) {
     if (newProps.params.component !== this.props.params.component) {
       this.setState({
-        src: this._getComponent(newProps.params.component).src,
+        src: this._getComponent(newProps.params.component).src
       });
     }
   },
 
   handleCodeChange(src) {
-    this.setState({src});
+    this.setState({ src });
   },
 
   _triggerCode() {
     this.setState({
-      showCode: !this.state.showCode,
+      showCode: !this.state.showCode
     });
   },
 
   _getComponent(name = this.props.params.component) {
     return components.find((c) => c.name === name);
-  },
+  }
 });
 
 export default Component;

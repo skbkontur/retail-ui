@@ -2,7 +2,7 @@
 
 import fetch from '../../lib/net/fetch-cors';
 
-import type {Address, VerifyResult} from './Types';
+import type { Address, VerifyResult } from './Types';
 
 const kladrUrl = 'https://kladr.kontur.ru/v1/';
 const LIMIT = 50;
@@ -17,7 +17,7 @@ export function search(
     parentKladr: parentCode || '',
     limit: LIMIT,
     desiredAoLevels: levels,
-    strictSubordination: 'false',
+    strictSubordination: 'false'
   });
   return fetch(`${kladrUrl}suggest?${data}`).then(res => res.json()).then(toJS);
 }
@@ -25,17 +25,17 @@ export function search(
 export function searchIndex(code: string, house: ?string) {
   const data = createQuery({
     code,
-    house: house || '',
+    house: house || ''
   });
 
-  return fetch(`${kladrUrl}kladr/index?${data}`).
-    then(response => response.text());
+  return fetch(`${kladrUrl}kladr/index?${data}`)
+    .then(response => response.text());
 }
 
 export function verify(req: Address): Promise<VerifyResult> {
   return fetch(`${kladrUrl}verify/`, {
     method: 'POST',
-    body: JSON.stringify(toJSON({address: req})),
+    body: JSON.stringify(toJSON({ address: req }))
   }).then(res => res.json()).then(toJS);
 }
 

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import type {Result} from './position';
+import type { Result } from './position';
 
 export default function renderPin(
   pos: ?Result,
@@ -13,7 +13,7 @@ export default function renderPin(
     return null;
   }
 
-  const outer = {...pos.pinStyle};
+  const outer = { ...pos.pinStyle };
   const inner = {};
   switch (pos.pinDirection) {
     case 'bottom':

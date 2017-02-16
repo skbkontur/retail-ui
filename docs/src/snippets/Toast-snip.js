@@ -14,7 +14,7 @@ class TestNotifier extends React.Component {
   showComplexNotification() {
     Toast.push('Successfully saved', {
       label: 'Cancel',
-      handler: () => Toast.push('Canceled'),
+      handler: () => Toast.push('Canceled')
     });
   }
 

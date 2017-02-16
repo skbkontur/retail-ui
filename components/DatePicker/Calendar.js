@@ -9,7 +9,7 @@ import Cell from './CalendarCell';
 
 const MONTH_NAMES = [
   'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-  'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',
+  'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
 ];
 const DAY = 24 * 60 * 60 * 1000;
 const WEEK = 7 * DAY;
@@ -90,6 +90,7 @@ export default class Calendar extends React.Component {
       const cur = from + i * DAY;
       const curWeek = getWeek(cur);
       const date = new Date(cur);
+
       const cellProps = {
         date,
         weekIdx: curWeek - week,
@@ -113,7 +114,7 @@ export default class Calendar extends React.Component {
     const newDate = new Date(0);
     newDate.setUTCFullYear(date.getUTCFullYear());
     newDate.setUTCMonth(date.getUTCMonth());
-    this.setState({pos: dateToPos(newDate)});
+    this.setState({ pos: dateToPos(newDate) });
   }
 
   handleWheel = (event: SyntheticWheelEvent) => {
@@ -126,7 +127,7 @@ export default class Calendar extends React.Component {
     }
 
     const pos = this.state.pos + deltaY;
-    this.setState({pos});
+    this.setState({ pos });
 
     const date = posToDate(pos);
     date.setUTCDate(date.getUTCDate() + 6);

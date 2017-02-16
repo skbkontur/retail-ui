@@ -1,10 +1,10 @@
 // @flow
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import RenderContainer from '../RenderContainer/RenderContainer';
 import position from '../Tooltip/position';
-import type {Result} from '../Tooltip/position';
+import type { Result } from '../Tooltip/position';
 import renderPin from '../Tooltip/renderPin';
 
 import styles from './HintBox.less';
@@ -16,7 +16,7 @@ type State = {
 export default class HintBox extends React.Component {
   static contextTypes = {
     insideFixedContainer: PropTypes.bool,
-    rt_inModal: PropTypes.bool,
+    rt_inModal: PropTypes.bool
   };
 
   props: {
@@ -26,7 +26,7 @@ export default class HintBox extends React.Component {
   };
 
   state: State = {
-    pos: null,
+    pos: null
   };
 
   _dom: ?HTMLElement = null;
@@ -34,13 +34,13 @@ export default class HintBox extends React.Component {
 
   render() {
     let style = {
-      zIndex: this.context.rt_inModal ? 1100 : 900,
+      zIndex: this.context.rt_inModal ? 1100 : 900
     };
     let className = styles.root;
     if (this.state.pos) {
-      style = {...style, ...this.state.pos.boxStyle};
+      style = { ...style, ...this.state.pos.boxStyle };
 
-      const {pinDirection} = this.state.pos;
+      const { pinDirection } = this.state.pos;
       if (pinDirection === 'top' || pinDirection === 'bottom') {
         className += ' ' + styles.rootCenter;
       }
@@ -89,7 +89,7 @@ export default class HintBox extends React.Component {
       const pos = position(box, target, posStr, fixed);
 
       this._positioning = true;
-      this.setState({pos}, () => {
+      this.setState({ pos }, () => {
         this._positioning = false;
       });
     }

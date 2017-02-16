@@ -23,6 +23,10 @@ export default function(
 
   const docElem = document.documentElement;
 
+  if (!docElem) {
+    throw Error('There is no "documentElement" in "document"');
+  }
+
   const pageXOffset = window.pageXOffset !== undefined ? window.pageXOffset
       : docElem.scrollLeft;
   const pageYOffset = window.pageYOffset !== undefined ? window.pageYOffset
@@ -178,10 +182,10 @@ export default function(
       position: fixed ? 'fixed' : 'absolute',
       width: isNaN(tmpWidth) ? 'auto' : tmpWidth,
       top,
-      left,
+      left
     },
     pinStyle,
-    pinDirection,
+    pinDirection
   };
 }
 
@@ -198,7 +202,7 @@ function extractPos(pos) {
   return {
     aside,
     ver: aside ? second : first,
-    hor: aside ? first : second,
+    hor: aside ? first : second
   };
 }
 

@@ -9,7 +9,7 @@ const SelectAdapter = {
 
   setValue(inst, value) {
     if (inst.props.onChange) {
-      inst.props.onChange({target: {value}}, value);
+      inst.props.onChange({ target: { value } }, value);
     }
   },
 
@@ -17,7 +17,7 @@ const SelectAdapter = {
     inst._open();
     inst._close();
     return inst.mapItems((value) => value);
-  },
+  }
 };
 
 Select.__ADAPTER__ = SelectAdapter;

@@ -32,12 +32,12 @@ export default class Picker extends React.Component {
     super(props, context);
 
     this.state = {
-      date: props.value ? new Date(props.value.getTime()) : new Date(),
+      date: props.value ? new Date(props.value.getTime()) : new Date()
     };
   }
 
   render() {
-    const {date} = this.state;
+    const { date } = this.state;
     return (
       <div className={styles.root}>
         <div className={styles.monthYear}>

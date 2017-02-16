@@ -1,4 +1,4 @@
-import {testAdapter} from '../../../testing/AdapterTestUtils';
+import { testAdapter } from '../../../testing/AdapterTestUtils';
 
 import React from 'react';
 
@@ -80,9 +80,9 @@ describe('ComboBox-adapter', () => {
     const values = [
       1,
       <span>2</span>,
-      <MenuItem value={3}>3</MenuItem>,
+      <MenuItem value={3}>3</MenuItem>
     ];
-    const source = jest.fn(() => Promise.resolve({values}));
+    const source = jest.fn(() => Promise.resolve({ values }));
     const adapter = mount(<ComboBox source={source} />);
 
     adapter.search('test');
@@ -101,9 +101,9 @@ describe('ComboBox-adapter', () => {
     const values = [
       1,
       <span>2</span>,
-      <MenuItem value={3}>3</MenuItem>,
+      <MenuItem value={3}>3</MenuItem>
     ];
-    const source = jest.fn(() => Promise.resolve({values}));
+    const source = jest.fn(() => Promise.resolve({ values }));
     const adapter = mount(<ComboBox source={source} />);
 
     adapter.search('test');

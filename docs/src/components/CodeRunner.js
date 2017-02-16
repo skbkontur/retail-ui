@@ -9,18 +9,18 @@ import styles from './CodeRunner.less';
 function unc(element, defaultValue = null) {
   class Uncontrolled extends React.Component {
     state = {
-      value: defaultValue,
+      value: defaultValue
     };
 
     render() {
       return React.cloneElement(element, {
         value: this.state.value,
-        onChange: this._handleChange,
+        onChange: this._handleChange
       });
     }
 
     _handleChange = (_, value) => {
-      this.setState({value});
+      this.setState({ value });
     };
   }
 
@@ -41,7 +41,7 @@ function run(src, mountNode) {
 const vars = {
   React,
   ReactDOM,
-  unc,
+  unc
 };
 for (const component of components) {
   vars[component.name] = component.component;
@@ -50,13 +50,13 @@ for (const component of components) {
 function evalCode(_src, mountNode) {
   const localVars = {
     ...vars,
-    mountNode,
+    mountNode
   };
   const names = Object.keys(localVars);
   const values = names.map(name => localVars[name]);
 
   const code = reactTools.transform(_src, {
-    harmony: true,
+    harmony: true
   });
 
 
@@ -78,7 +78,7 @@ var CodeRunner = React.createClass({
 
   componentWillUnmount() {
     ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this));
-  },
+  }
 });
 
 export default CodeRunner;

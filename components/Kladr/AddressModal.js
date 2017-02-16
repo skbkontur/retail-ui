@@ -8,8 +8,8 @@ import Gapped from '../Gapped';
 import Input from '../Input';
 import Modal from '../Modal';
 
-import {search, verify} from './KladrAPI';
-import type {Address, Place, PlaceDescription, VerifyResult} from './Types';
+import { search, verify } from './KladrAPI';
+import type { Address, Place, PlaceDescription, VerifyResult } from './Types';
 import * as util from './util';
 
 import styles from './AddressModal.less';
@@ -54,7 +54,7 @@ const PLACES = {
   '2': 'district',
   '4': 'city',
   '8': 'settlement',
-  '16': 'street',
+  '16': 'street'
 };
 
 export default class AddressModal extends React.Component {
@@ -77,7 +77,7 @@ export default class AddressModal extends React.Component {
 
     this.state = {
       address: props.address || {},
-      invalidField: null,
+      invalidField: null
     };
 
     this._regionProps = this.createFieldProps('region', [], 'Region');
@@ -109,7 +109,7 @@ export default class AddressModal extends React.Component {
       renderItem: this._renderItem.bind(this, field, parents),
       renderValue: renderValue.bind(null, field),
       valueToString: renderValue.bind(null, field),
-      recover,
+      recover
     };
   }
 
@@ -120,16 +120,16 @@ export default class AddressModal extends React.Component {
       onChange: (event, value) => {
         const address: $Shape<Address> = {
           ...this.state.address,
-          [field]: value,
+          [field]: value
         };
-        this.setState({address});
-      },
+        this.setState({ address });
+      }
     };
   }
 
   createHandler(place: string): HandlerFunction {
     return (e, value, info) => {
-      const address = {...this.state.address};
+      const address = { ...this.state.address };
       if (info) {
         for (const item in PLACES) {
           const itemPlace = PLACES[item];
@@ -146,7 +146,7 @@ export default class AddressModal extends React.Component {
         address[place] = null;
       }
 
-      this.setState({address});
+      this.setState({ address });
       this.check(address);
     };
   }
@@ -168,9 +168,9 @@ export default class AddressModal extends React.Component {
       this.setState({
         address: {
           ...this.state.address, // Saving the `building` field.
-          ...result.address,
+          ...result.address
         },
-        invalidField,
+        invalidField
       });
     });
   }
@@ -191,7 +191,7 @@ export default class AddressModal extends React.Component {
 
       return search(searchText, `[${level}]`, parentCode).then(values => ({
         values: values.map(address => address[field]),
-        infos: values.map(address => ({searchText, address})),
+        infos: values.map(address => ({ searchText, address }))
       }));
     };
   }
@@ -200,8 +200,8 @@ export default class AddressModal extends React.Component {
     this.setState({
       address: {
         ...this.state.address,
-        [key]: value,
-      },
+        [key]: value
+      }
     });
   }
 
@@ -225,7 +225,7 @@ export default class AddressModal extends React.Component {
   }
 
   _renderForm() {
-    const {invalidField} = this.state;
+    const { invalidField } = this.state;
 
     return (
       <Gapped vertical>
@@ -363,7 +363,7 @@ export default class AddressModal extends React.Component {
   }
 
   _handleSave = () => {
-    this.props.onChange({address: this.state.address});
+    this.props.onChange({ address: this.state.address });
     this.props.onClose();
   };
 }
@@ -374,6 +374,6 @@ function renderValue(type: Place, place: ?PlaceDescription) {
 
 function recover(searchText) {
   return {
-    value: {name: searchText},
+    value: { name: searchText }
   };
 }

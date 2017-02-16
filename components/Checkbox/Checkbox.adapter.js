@@ -8,8 +8,8 @@ const CheckboxAdapter = {
   },
 
   setChecked(inst: Checkbox, checked) {
-    inst.handleChange({target: {checked}});
-  },
+    inst.handleChange({ target: { checked } });
+  }
 };
 
 (Checkbox: any).__ADAPTER__ = CheckboxAdapter;

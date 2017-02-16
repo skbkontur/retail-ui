@@ -1,46 +1,43 @@
 // @flow
 
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import Corners from './Corners';
 import Icon from '../Icon';
-import Upgrades from '../../lib/Upgrades';
 import browser from '../../lib/browserNormalizer';
 
 import '../ensureOldIEClassName';
 import styles from './Button.less';
 
-const DEPRECATED_SIZE_CLASSES = {
-  default: styles.deprecated_sizeDefault,
-  small: styles.deprecated_sizeDefault, // for new default size
-  large: styles.deprecated_sizeLarge,
-};
-
 const SIZE_CLASSES = {
   small: styles.sizeSmall,
   medium: styles.sizeMedium,
-  large: styles.sizeLarge,
+  large: styles.sizeLarge
 };
 
 type Props = {
-  _noPadding?: bool,
-  _noRightPadding?: bool,
-  active?: bool,
-  checked?: bool,
+  _noPadding?: boolean,
+  _noRightPadding?: boolean,
+  active?: boolean,
+  checked?: boolean,
   children?: any,
   corners?: number, // internal
-  disabled?: bool,
-  focused?: bool,
+  disabled?: boolean,
+  focused?: boolean,
   icon?: string,
-  loading?: bool,
-  narrow?: bool,
+  loading?: boolean,
+  narrow?: boolean,
   size: 'small' | 'medium' | 'large',
   type: 'button' | 'submit' | 'reset',
   use: 'default' | 'primary' | 'success' | 'danger' | 'pay',
   width?: number | string,
   onClick?: (e: SyntheticMouseEvent) => void,
   onKeyDown?: (e: SyntheticKeyboardEvent) => void,
+  arrow?: boolean,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void
 };
 
 class Button extends React.Component {
@@ -54,6 +51,11 @@ class Button extends React.Component {
      * Визуально нажатое состояние.
      */
     active: PropTypes.bool,
+
+    /**
+     * Кнопка со стрелкой.
+     */
+    arrow: PropTypes.bool,
 
     checked: PropTypes.bool,
 
@@ -75,13 +77,7 @@ class Button extends React.Component {
     /**
      * Вариант использования. Влияет на цвет кнопки.
      */
-    use: PropTypes.oneOf([
-      'default',
-      'primary',
-      'success',
-      'danger',
-      'pay',
-    ]),
+    use: PropTypes.oneOf(['default', 'primary', 'success', 'danger', 'pay']),
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
@@ -89,19 +85,25 @@ class Button extends React.Component {
      * Click handler.
      */
     onClick: PropTypes.func,
+
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func
   };
 
   static defaultProps = {
     use: 'default',
     size: 'small',
-    type: 'button',
+    type: 'button'
   };
 
   props: Props;
   state: null;
 
   render() {
-    const {corners = 0} = this.props;
+    const { corners = 0 } = this.props;
     const radius = '2px';
 
     const rootProps: any = {
@@ -119,18 +121,24 @@ class Button extends React.Component {
         [styles.noPadding]: this.props._noPadding,
         [styles.noRightPadding]: this.props._noRightPadding,
         [styles.buttonWithIcon]: !!this.props.icon,
-        ...this._getSizeClassMap(),
+        [styles.arrowButton]: this.props.arrow,
+        [SIZE_CLASSES[this.props.size]]: true
       }),
       style: {
-        borderRadius: `${corners & Corners.TOP_LEFT ? 0 : radius}` +
-          ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
-          ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
-          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
+        borderRadius: (
+          `${corners & Corners.TOP_LEFT ? 0 : radius}` +
+            ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
+            ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
+            ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`
+        )
       },
       disabled: this.props.disabled || this.props.loading,
       onClick: this.props.onClick,
       onKeyDown: this.props.onKeyDown,
-      onMouseDown: this._handleMouseDown, //to prevent focus on click
+      onMouseDown: this._handleMouseDown, // to prevent focus on click
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver
     };
     if (this.props.align) {
       rootProps.style.textAlign = this.props.align;
@@ -162,10 +170,28 @@ class Button extends React.Component {
       );
     }
 
+    let arrow = null;
+    if (this.props.arrow) {
+      arrow = (
+        <div
+          className={classNames(
+            styles.arrow,
+            this.props.loading ? styles.arrow_loading : '',
+            this.props.error ? styles.arrow_error : '',
+            this.props.warning ? styles.arrow_warning : ''
+          )}
+        />
+      );
+    }
+
     return (
-      <span className={styles.wrap} style={wrapStyle}>
+      <span
+        className={this.props.arrow ? styles.wrap_arrow : styles.wrap}
+        style={wrapStyle}
+      >
         <button {...rootProps}>
           {loading}
+          {arrow}
           <div className={styles.caption}>
             {icon}
             {this.props.children}
@@ -176,24 +202,11 @@ class Button extends React.Component {
     );
   }
 
-  _handleMouseDown(e) {
+  _handleMouseDown = e => {
     if (browser.hasFocusOnButtonClick) {
-      document.activeElement.blur();
       e.preventDefault();
     }
-  }
-
-  _getSizeClassMap() {
-    if (!Upgrades.isHeight34Enabled()) {
-      return {
-        [DEPRECATED_SIZE_CLASSES[(this.props.size: any)]]: true,
-      };
-    }
-
-    return {
-      [SIZE_CLASSES[this.props.size]]: true,
-    };
-  }
+  };
 }
 
 export default Button;

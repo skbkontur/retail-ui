@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import Radio from '../Radio';
 
@@ -83,11 +83,11 @@ class RadioGroup extends React.Component {
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
-    onChange: PropTypes.func,
+    onChange: PropTypes.func
   };
 
   static defaultProps = {
-    renderItem,
+    renderItem
   };
 
   props: Props;
@@ -97,7 +97,7 @@ class RadioGroup extends React.Component {
     super(props, context);
 
     this.state = {
-      focused: false,
+      focused: false
     };
   }
 
@@ -108,7 +108,7 @@ class RadioGroup extends React.Component {
       disabled: this.props.disabled,
       onKeyDown: this.handleKey,
       onFocus: this.handleFocus,
-      onBlur: this.handleBlur,
+      onBlur: this.handleBlur
     };
 
     const style = {};
@@ -134,7 +134,7 @@ class RadioGroup extends React.Component {
           className={classNames({
             [styles.item]: true,
             [styles.itemFirst]: i === 0,
-            [styles.itemInline]: this.props.inline,
+            [styles.itemInline]: this.props.inline
           })}
           onClick={(e) => this._select(value)}
         >
@@ -152,7 +152,7 @@ class RadioGroup extends React.Component {
           <div
             className={classNames({
               [styles.label]: true,
-              [styles.labelDisabled]: this.props.disabled,
+              [styles.labelDisabled]: this.props.disabled
             })}
           >
             {this.props.renderItem(value, data)}
@@ -175,11 +175,11 @@ class RadioGroup extends React.Component {
   };
 
   handleFocus = () => {
-    this.setState({focused: true});
+    this.setState({ focused: true });
   };
 
   handleBlur = () => {
-    this.setState({focused: false});
+    this.setState({ focused: false });
   };
 
   move_(step: number) {
@@ -206,7 +206,7 @@ class RadioGroup extends React.Component {
     }
 
     if (this.props.onChange) {
-      this.props.onChange({target: {value}}, value);
+      this.props.onChange({ target: { value } }, value);
     }
   }
 

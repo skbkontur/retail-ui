@@ -1,6 +1,6 @@
 var Comp = React.createClass({
   getInitialState() {
-    return {auto: false};
+    return { auto: false };
   },
 
   render() {
@@ -12,12 +12,12 @@ var Comp = React.createClass({
   },
 
   handleChange(event) {
-    this.setState({auto: false, value: event.target.value});
+    this.setState({ auto: false, value: event.target.value });
   },
 
   handleRestore() {
-    this.setState({auto: true, value: 'auto'});
-  },
+    this.setState({ auto: true, value: 'auto' });
+  }
 });
 
 ReactDOM.render(<Comp />, mountNode);

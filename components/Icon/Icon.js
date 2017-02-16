@@ -1,5 +1,5 @@
 // @flow
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import styles from './Icon.less';
 
@@ -201,7 +201,7 @@ var MAP = {
   'shutter': '\ue0cb',
   'smartphone-slash': '\ue0cc',
   'telegram': '\ue0cd',
-  'telegram-o': '\ue0ce',
+  'telegram-o': '\ue0ce'
 };
 
 class Icon extends React.Component {
@@ -213,7 +213,7 @@ class Icon extends React.Component {
      */
     name: PropTypes.oneOf(Object.keys(MAP)),
 
-    size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    size: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   };
 
   static getAllNames = function() {
@@ -223,7 +223,7 @@ class Icon extends React.Component {
   render() {
     var style = {
       color: this.props.color,
-      fontSize: this.props.size,
+      fontSize: this.props.size
     };
     return (
       <span className={styles.root} style={style}>{MAP[this.props.name]}</span>

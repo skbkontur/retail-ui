@@ -1,6 +1,6 @@
 // @flow
 
-import {testAdapter} from '../../../testing/AdapterTestUtils';
+import { testAdapter } from '../../../testing/AdapterTestUtils';
 
 import React from 'react';
 
@@ -9,7 +9,7 @@ import RadioGroup from '../RadioGroup.adapter.js';
 const items = [
   ['one', 'One'],
   ['two', 'Two'],
-  ['three', 'Three'],
+  ['three', 'Three']
 ];
 
 describe('RadioGroup-adapter', () => {

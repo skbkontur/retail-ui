@@ -1,9 +1,9 @@
 // @flow
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import ComboBoxRenderer from './ComboBoxRenderer';
-import type {BaseProps, Info, Value} from './ComboBoxRenderer';
+import type { BaseProps, Info, Value } from './ComboBoxRenderer';
 
 type Props = BaseProps & {
   info?: Info | (v: Value) => Promise<Info>,
@@ -35,7 +35,7 @@ export default class ComboBox extends React.Component {
      */
     info: PropTypes.oneOfType([
       PropTypes.any,
-      PropTypes.func,
+      PropTypes.func
     ]),
 
     menuAlign: PropTypes.oneOf(['left', 'right']),
@@ -61,7 +61,7 @@ export default class ComboBox extends React.Component {
      */
     recover: PropTypes.oneOfType([
       PropTypes.bool,
-      PropTypes.func,
+      PropTypes.func
     ]),
 
     renderItem: PropTypes.func,
@@ -73,7 +73,7 @@ export default class ComboBox extends React.Component {
      */
     renderNotFound: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.func,
+      PropTypes.func
     ]),
 
     /**
@@ -121,14 +121,26 @@ export default class ComboBox extends React.Component {
      */
     onInputKeyDown: PropTypes.func,
 
-    onOpen: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func,
+
+    onOpen: PropTypes.func
 
   };
+
+  static defaultProps = {
+    menuAlign: 'left',
+    placeholder: '',
+    width: 250
+  }
 
   props: Props;
 
   state = {
-    info: null,
+    info: null
   };
 
   renderer: ComboBoxRenderer;
@@ -160,7 +172,7 @@ export default class ComboBox extends React.Component {
 
   componentDidMount() {
     this._mounted = true;
-    const {value, info} = this.props;
+    const { value, info } = this.props;
     if (typeof info === 'function') {
       this._fetchInfo(value, info);
     }
@@ -187,7 +199,7 @@ export default class ComboBox extends React.Component {
       return;
     }
 
-    this.setState({info: null});
+    this.setState({ info: null });
     this._fetchInfo(value, info);
   }
 
@@ -198,7 +210,7 @@ export default class ComboBox extends React.Component {
     promise.then(
       info => {
         if (this._mounted && this._infoPromise === promise) {
-          this.setState({info});
+          this.setState({ info });
         }
       }
     );

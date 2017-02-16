@@ -8,7 +8,7 @@ const AutocompleteAdapter = {
   },
 
   setValue(inst: Autocomplete, value: string) {
-    inst.handleChange({target: {value}});
+    inst.handleChange({ target: { value } });
   },
 
   getSuggestions(inst: Autocomplete) {
@@ -17,7 +17,7 @@ const AutocompleteAdapter = {
 
   setValueByIndex(inst: Autocomplete, index: number) {
     inst._choose(index);
-  },
+  }
 };
 
 (Autocomplete: any).__ADAPTER__ = AutocompleteAdapter;

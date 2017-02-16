@@ -4,7 +4,7 @@ var MyGroup = React.createClass({
     var icon = null;
     if (!this.state.auto) {
       auto = (
-        <Button onClick={e => this.setState({auto: true})}>
+        <Button onClick={e => this.setState({ auto: true })}>
           <Icon name="undo" />
         </Button>
       );
@@ -16,7 +16,7 @@ var MyGroup = React.createClass({
       <Group width={300}>
         {auto}
         <Input mainInGroup leftIcon={icon}
-          onChange={e => this.setState({auto: false})}
+          onChange={e => this.setState({ auto: false })}
         />
         <Button>Hey</Button>
         <Button>Ma</Button>
@@ -24,7 +24,7 @@ var MyGroup = React.createClass({
     );
   },
 
-  getInitialState() { return {auto: false}; },
+  getInitialState() { return { auto: false }; }
 });
 
 ReactDOM.render(<MyGroup />, mountNode);

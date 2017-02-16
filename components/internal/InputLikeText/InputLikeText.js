@@ -16,6 +16,9 @@ const PASS_PROPS = {
   onFocus: true,
   onKeyDown: true,
   onKeyPress: true,
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true
 };
 
 export default class InputLikeText extends React.Component {
@@ -40,7 +43,7 @@ export default class InputLikeText extends React.Component {
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,
       [styles.disabled]: this.props.disabled,
-      [styles.deprecated_oldSize]: !Upgrades.isHeight34Enabled(),
+      [styles.deprecated_oldSize]: !Upgrades.isHeight34Enabled()
     });
 
     return (

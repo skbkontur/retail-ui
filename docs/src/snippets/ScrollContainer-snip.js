@@ -13,13 +13,13 @@ var divStyle = {
   margin: 1,
   position: 'relative',
   verticalAlign: 'top',
-  width: 200,
+  width: 200
 };
 var absStyle = {
   border: '1px solid #000',
   boxSizing: 'border-box',
   position: 'absolute',
-  width: '100%',
+  width: '100%'
 };
 
 ReactDOM.render((
@@ -29,7 +29,7 @@ ReactDOM.render((
         {items(20).map(i => <div key={i}>{i}</div>)}
       </ScrollContainer>
     </div>
-    <div style={{...divStyle, background: '#888'}}>
+    <div style={{ ...divStyle, background: '#888' }}>
       <ScrollContainer invert>
         {items(20).map(i => <div key={i}>{i}</div>)}
       </ScrollContainer>

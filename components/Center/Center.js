@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import styles from './Center.less';
 
@@ -11,11 +11,11 @@ export default class Center extends React.Component {
     /**
      * Горизонтальное выравнивание контента.
      */
-    align: PropTypes.oneOf(['left', 'center', 'right']),
+    align: PropTypes.oneOf(['left', 'center', 'right'])
   };
 
   static defaultProps = {
-    align: 'center',
+    align: 'center'
   };
 
   render() {
@@ -25,7 +25,7 @@ export default class Center extends React.Component {
     } = this.props;
 
     const style = Object.assign({
-      textAlign: align,
+      textAlign: align
     }, this.props.style);
 
     return (

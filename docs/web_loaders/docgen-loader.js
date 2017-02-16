@@ -9,7 +9,7 @@ marked.setOptions({
   gfm: true,
   tables: true,
   breaks: false,
-  sanitize: true,
+  sanitize: true
 });
 
 module.exports = function(src) {

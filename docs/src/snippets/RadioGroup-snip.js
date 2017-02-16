@@ -3,7 +3,7 @@ var items = ['One', 'Two', 'Three'];
 function renderBlock(item) {
   return (
     <div>
-      <div style={{lineHeight: '40px'}}>{item}</div>
+      <div style={{ lineHeight: '40px' }}>{item}</div>
       eh
     </div>
   );
@@ -12,7 +12,7 @@ function renderBlock(item) {
 var blockStyle = {
   borderLeft: '1px solid #ccc',
   marginBottom: 20,
-  paddingLeft: 10,
+  paddingLeft: 10
 };
 
 ReactDOM.render((

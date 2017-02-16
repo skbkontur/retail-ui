@@ -1,10 +1,10 @@
 var items = [
-  {id: 1, name: 'Kappa'},
-  {id: 2, name: 'Keepo'},
-  {id: 3, name: 'ResidentSleeper'},
-  {id: 4, name: 'Kestrel'},
-  {id: 5, name: 'Kats'},
-  {id: 6, name: 'Junior'},
+  { id: 1, name: 'Kappa' },
+  { id: 2, name: 'Keepo' },
+  { id: 3, name: 'ResidentSleeper' },
+  { id: 4, name: 'Kestrel' },
+  { id: 5, name: 'Kats' },
+  { id: 6, name: 'Junior' }
 ];
 
 function info(id) {
@@ -19,14 +19,14 @@ function search(query) {
   return Promise.resolve({
     values: results.map((d) => d.id).slice(0, 3),
     infos: results,
-    total: results.length,
+    total: results.length
   });
 }
 
 function recover(query) {
   var found = items.find(x => x.name.toLowerCase() === query.toLowerCase());
   if (found) {
-    return {value: found.id};
+    return { value: found.id };
   }
   return null;
 }
@@ -45,11 +45,11 @@ function valueToString(id) {
 }
 
 function renderTotalCount(found, total) {
-  return <div style={{maxWidth: 220}}>Displayed {found} from {total}</div>;
+  return <div style={{ maxWidth: 220 }}>Displayed {found} from {total}</div>;
 }
 
 var Comp = React.createClass({
-  getInitialState() { return {value: 3}; },
+  getInitialState() { return { value: 3 }; },
 
   render() {
     return (
@@ -64,10 +64,10 @@ var Comp = React.createClass({
         renderNotFound="Nothing here"
         renderTotalCount={renderTotalCount}
         valueToString={valueToString}
-        onChange={e => this.setState({value: e.target.value})}
+        onChange={e => this.setState({ value: e.target.value })}
       />
     );
-  },
+  }
 });
 
 ReactDOM.render(<Comp />, mountNode);

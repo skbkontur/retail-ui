@@ -1,12 +1,7 @@
-// @flow
-
-// $FlowIssue
 const injectGlobalHook = require('./react-devtools/backend/installGlobalHook');
 injectGlobalHook(global);
 
-// $FlowIssue ./react-devtools/* ignored in flowconfig
 const Agent = require('./react-devtools/agent/Agent');
-// $FlowIssue ./react-devtools/* ignored in flowconfig
 const inject = require('./react-devtools/agent/inject');
 const invariant = require('invariant');
 
@@ -85,7 +80,7 @@ const findAll = (path: string, tree: any) => {
     const comp = mounted[id];
     return {
       _id: comp.id,
-      node: agent.getNodeForID(id),
+      node: agent.getNodeForID(id)
     };
   });
 };
@@ -125,6 +120,7 @@ const getDetachedRoot = (portalID) => {
   return roots.find(id => mounted[id].props.props.rt_portalID);
 };
 
+/* eslint-disable consistent-return */
 function getAdapter(element: Element): any {
   const comp = mounted[element._id];
   invariant(comp, 'Cannot get adapter of unmounted component.');
@@ -137,6 +133,7 @@ function getAdapter(element: Element): any {
 
   invariant(false, 'No adapter found.');
 }
+/* eslint-enable consistent-return */
 
 const objectMap = (obj, fn) => {
   const ret = {};
@@ -153,7 +150,7 @@ export {
 
   // For debugging.
   roots,
-  mounted,
+  mounted
 };
 
 global.Lookup = {
@@ -162,5 +159,5 @@ global.Lookup = {
   getAdapter,
 
   roots,
-  mounted,
+  mounted
 };

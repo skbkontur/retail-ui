@@ -4,17 +4,17 @@ module.exports = function(src) {
   const ast = j(src);
 
   const name = ast.find(j.AssignmentExpression, {
-    left: {property: {name: '__ADAPTER__'}},
+    left: { property: { name: '__ADAPTER__' } }
   }).get('right').node.name;
 
   const obj = ast.find(j.VariableDeclarator, {
-    id: {name},
+    id: { name }
   }).get('init');
 
   const props = obj.node.properties.map(prop => ({
     name: prop.key.name,
     args: getPropArgs(prop).slice(1),
-    desc: getPropDesc(prop),
+    desc: getPropDesc(prop)
   }));
 
   return props;

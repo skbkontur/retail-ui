@@ -103,7 +103,7 @@ describe('Lookup', () => {
     const getValue = jest.fn(() => 'bar');
     class Comp extends React.Component {
       static __ADAPTER__ = {
-        getValue,
+        getValue
       };
 
       render() { return null; }
