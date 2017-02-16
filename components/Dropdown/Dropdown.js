@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import filterProps from '../filterProps';
 import MenuHeader from '../MenuHeader/MenuHeader';
@@ -17,8 +17,12 @@ const PASS_PROPS = {
   width: true,
   onOpen: true,
 
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true,
+
   diadocLink: true,
-  diadocLinkIcon: true,
+  diadocLinkIcon: true
 };
 
 /**
@@ -45,7 +49,7 @@ export default class Dropdown extends React.Component {
 
     menuWidth: PropTypes.oneOfType([
       PropTypes.number,
-      PropTypes.string,
+      PropTypes.string
     ]),
 
     size: PropTypes.oneOf(['small', 'medium', 'large']),
@@ -62,10 +66,16 @@ export default class Dropdown extends React.Component {
 
     width: PropTypes.number,
 
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func,
+
     /**
      * Вызывается при открытии меню.
      */
-    onOpen: PropTypes.func,
+    onOpen: PropTypes.func
   };
 
   constructor(props) {

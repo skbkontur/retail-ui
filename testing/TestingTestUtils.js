@@ -1,11 +1,11 @@
 // @flow
 
-import {mount} from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 
 class Wrap extends React.Component {
   render() {
-    const {children, ...props} = this.props;
+    const { children, ...props } = this.props;
     return React.cloneElement(React.Children.only(children), props);
   }
 }
@@ -24,6 +24,6 @@ export function mountTest(
   return {
     node: ReactTesting.findDOMNodes('a', wrapper.node)[0],
     unmount: wrapper.unmount.bind(wrapper),
-    setProps: wrapper.setProps.bind(wrapper),
+    setProps: wrapper.setProps.bind(wrapper)
   };
 }

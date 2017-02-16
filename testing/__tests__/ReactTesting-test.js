@@ -1,8 +1,8 @@
 import '../index';
 
-import {mount} from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
-import {mountTest} from '../TestingTestUtils';
+import { mountTest } from '../TestingTestUtils';
 
 import RenderContainer from '../../components/RenderContainer';
 
@@ -27,7 +27,7 @@ describe('ReactTesting', () => {
 
   it('works for <div ref tid> case.', () => {
     const ref = jest.fn();
-    const {node, unmount} = mountTest(
+    const { node, unmount } = mountTest(
       <div ref={ref} tid="a" />
     );
 
@@ -39,7 +39,7 @@ describe('ReactTesting', () => {
 
   it('works for <div tid ref> case.', () => {
     const ref = jest.fn();
-    const {node,  unmount} = mountTest(
+    const { node,  unmount } = mountTest(
       <div tid="a" ref={ref} />
     );
 

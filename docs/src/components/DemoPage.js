@@ -17,7 +17,7 @@ const TOOLTIP_POSITIONS = [
   'top left', 'top center', 'top right',
   'right top', 'right middle', 'right bottom',
   'bottom left', 'bottom center', 'bottom right',
-  'left top', 'left middle', 'left bottom',
+  'left top', 'left middle', 'left bottom'
 ];
 
 var Demo = React.createClass({
@@ -28,7 +28,7 @@ var Demo = React.createClass({
       ttWidth: '100px',
       ttHeight: '20px',
       ttPos: 'top center',
-      ttTrigger: 'hover',
+      ttTrigger: 'hover'
     };
   },
 
@@ -72,7 +72,7 @@ var Demo = React.createClass({
             <Button>Three</Button>
           </Gapped>
 
-          <div style={{height: 500}} />
+          <div style={{ height: 500 }} />
         </Gapped>
       </div>
     );
@@ -82,7 +82,7 @@ var Demo = React.createClass({
     const style = {
       background: 'grey',
       width: this.state.ttTargetWidth,
-      height: this.state.ttTargetHeight,
+      height: this.state.ttTargetHeight
     };
 
     return (
@@ -94,31 +94,31 @@ var Demo = React.createClass({
         </Tooltip>
         <div>
           <Select items={TOOLTIP_POSITIONS} value={this.state.ttPos}
-            onChange={(e) => this.setState({ttPos: e.target.value})}
+            onChange={(e) => this.setState({ ttPos: e.target.value })}
           />
         </div>
         <div>
           Размер объекта{' '}
           <Input value={this.state.ttTargetWidth} width={50}
-            onChange={(e) => this.setState({ttTargetWidth: e.target.value})}
+            onChange={(e) => this.setState({ ttTargetWidth: e.target.value })}
           />
           <Input value={this.state.ttTargetHeight} width={50}
-            onChange={(e) => this.setState({ttTargetHeight: e.target.value})}
+            onChange={(e) => this.setState({ ttTargetHeight: e.target.value })}
           />
         </div>
         <div>
           Размер подсказки{' '}
           <Input value={this.state.ttWidth} width={50}
-            onChange={(e) => this.setState({ttWidth: e.target.value})}
+            onChange={(e) => this.setState({ ttWidth: e.target.value })}
           />
           <Input value={this.state.ttHeight} width={50}
-            onChange={(e) => this.setState({ttHeight: e.target.value})}
+            onChange={(e) => this.setState({ ttHeight: e.target.value })}
           />
         </div>
         <div>
           Триггер{' '}
           <Select items={['hover', 'click']} value={this.state.ttTrigger}
-            onChange={(e) => this.setState({ttTrigger: e.target.value})}
+            onChange={(e) => this.setState({ ttTrigger: e.target.value })}
           />
         </div>
       </Gapped>
@@ -128,18 +128,18 @@ var Demo = React.createClass({
   renderTooltipContent() {
     const style = {
       width: this.state.ttWidth,
-      height: this.state.ttHeight,
+      height: this.state.ttHeight
     };
 
     return <div style={style} />;
-  },
+  }
 });
 
 function renderSelectValue(item) {
   return (
     <div>
-      <div style={{color: '#888', float: 'right'}}>420</div>
-      <div style={{marginRight: 50}}>{item}</div>
+      <div style={{ color: '#888', float: 'right' }}>420</div>
+      <div style={{ marginRight: 50 }}>{item}</div>
     </div>
   );
 }
@@ -147,9 +147,9 @@ function renderSelectValue(item) {
 function renderSelectItem(item, i, props) {
   return (
     <div key={i} {...props}>
-      <div style={{color: '#888', float: 'right'}}>yo</div>
-      <div style={{marginRight: 30}}>{item}</div>
-      <div style={{fontSize: 12}}>I shit on you</div>
+      <div style={{ color: '#888', float: 'right' }}>yo</div>
+      <div style={{ marginRight: 30 }}>{item}</div>
+      <div style={{ fontSize: 12 }}>I shit on you</div>
     </div>
   );
 }
@@ -159,7 +159,7 @@ var sampleItems = [
   'Grey Space',
   'Kappa',
   'Keepo',
-  'Resident Sleeper',
+  'Resident Sleeper'
 ];
 
 export default Demo;

@@ -1,5 +1,5 @@
 /* @flow */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import RenderContainer from '../RenderContainer';
 import Transition from 'react-addons-css-transition-group';
@@ -46,7 +46,7 @@ class Toast extends Component {
     this.state = {
       notification: null,
       action: null,
-      id: 0,
+      id: 0
     };
   }
 
@@ -69,7 +69,7 @@ class Toast extends Component {
     safelyCall(this.props.onPush, notification, action);
 
     this.setState(
-      ({id}) => ({notification, action, id: id + 1}),
+      ({ id }) => ({ notification, action, id: id + 1 }),
       this._setTimer
     );
   }
@@ -83,7 +83,7 @@ class Toast extends Component {
 
   close = () => {
     safelyCall(this.props.onClose, this.state.notification, this.state.action);
-    this.setState({notification: null, action: null});
+    this.setState({ notification: null, action: null });
   }
 
   render() {
@@ -103,7 +103,7 @@ class Toast extends Component {
   }
 
   _renderToast() {
-    const {notification, action, id} = this.state;
+    const { notification, action, id } = this.state;
 
     if (!notification) {
       return null;
@@ -116,7 +116,7 @@ class Toast extends Component {
       onClose: this.close,
       children: notification,
       action,
-      ref: this._refToast,
+      ref: this._refToast
     };
 
     return <ToastView {...toastProps} />;

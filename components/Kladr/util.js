@@ -1,6 +1,6 @@
 // @flow
 
-import type {Place, PlaceDescription} from './Types';
+import type { Place, PlaceDescription } from './Types';
 
 export function placeName(region: PlaceDescription, _for: ?Place = null) {
   switch (region.abbreviation) {

@@ -9,31 +9,28 @@
     right: 0;
     height: 0;
     text-align: center;
+    z-index: 1200;
   }
 
   .root {
     display: inline-block;
     position: relative;
     top: 20px;
-    z-index: 9999;
-
-    padding: 10px 20px 11px 20px;
-
+    padding: 10px 20px 11px;
     background: #333;
     background: rgba(51, 51, 51, 0.8);
     opacity: 1;
     font-size: 14px;
     color: white;
-
     border-radius: 2px;
   }
 
   .link {
-    color: #80CAFF;
+    color: #80caff;
     cursor: pointer;
     display: inline-block;
     margin: -10px 24px -11px 4px;
-    padding: 10px 10px 11px 10px;
+    padding: 10px 10px 11px;
     font-weight: 600;
 
     &:hover {
@@ -47,31 +44,29 @@
     top: 0;
     bottom: 0;
     right: 0;
-
     width: 40px;
     height: 40px;
-
     line-height: 40px;
     text-align: center;
-    color: #A0A0A0;
-
+    color: #a0a0a0;
     cursor: pointer;
 
     &:hover {
       color: white;
     }
   }
-
 }
 
 .slide-and-fade {
-  &-appear, &-enter {
+  &-appear,
+  &-enter {
     top: -40px;
   }
 
-  &-appear-active, &-enter-active {
+  &-appear-active,
+  &-enter-active {
     transition: @show-transtion;
-    top: 0px;
+    top: 0;
   }
 
   &-leave {

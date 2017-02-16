@@ -3,12 +3,12 @@
 // This import has to go before react import.
 import * as Lookup from './Lookup';
 
-import {mount} from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 
 class Wrap extends React.Component {
   render() {
-    const {children, ...props} = this.props;
+    const { children, ...props } = this.props;
     return React.cloneElement(React.Children.only(children), props);
   }
 }
@@ -28,7 +28,7 @@ export function testAdapter(
       const wrapper = mount(
         <Wrap>
           {React.cloneElement(element, {
-            'data-tid-auto': tid,
+            'data-tid-auto': tid
           })}
         </Wrap>
       );

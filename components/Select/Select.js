@@ -1,9 +1,10 @@
 import events from 'add-event-listener';
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
 import Button from '../Button';
+import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import filterProps from '../filterProps';
 import Input from '../Input';
 import invariant from 'invariant';
@@ -28,6 +29,10 @@ const PASS_BUTTON_PROPS = {
   use: true,
   size: true,
   warning: true,
+
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true
 };
 
 class Select extends React.Component {
@@ -94,13 +99,19 @@ class Select extends React.Component {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onChange: PropTypes.func,
+
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func
   };
 
   static defaultProps = {
     placeholder: 'ничего не выбрано',
     renderValue,
     renderItem,
-    filterItem,
+    filterItem
   };
 
   static static(element) {
@@ -117,7 +128,7 @@ class Select extends React.Component {
 
     this.state = {
       opened: false,
-      value: props.defaultValue,
+      value: props.defaultValue
     };
 
     this._focusSubscribtion = null;
@@ -142,11 +153,11 @@ class Select extends React.Component {
       opened: this.state.opened,
       label,
       onClick: this._toggle,
-      onKeyDown: this.handleKey,
+      onKeyDown: this.handleKey
     };
 
     const style = {
-      width: this.props.width,
+      width: this.props.width
     };
     if (this.props.maxWidth) {
       style.maxWidth = this.props.maxWidth;
@@ -175,18 +186,17 @@ class Select extends React.Component {
       _noPadding: true,
       width: '100%',
       onClick: params.onClick,
-      onKeyDown: params.onKeyDown,
+      onKeyDown: params.onKeyDown
     };
     if (params.opened) {
       buttonProps.active = true;
-      buttonProps.corners = Button.BOTTOM_LEFT | Button.BOTTOM_RIGHT;
     }
 
     if (this.props._icon) {
       Object.assign(buttonProps, {
         _noPadding: false,
         _noRightPadding: true,
-        icon: this.props._icon,
+        icon: this.props._icon
       });
     }
 
@@ -194,11 +204,11 @@ class Select extends React.Component {
       className: classNames({
         [styles.label]: true,
         [styles.labelWithLeftIcon]: !!this.props._icon,
-        [styles.labelIsOpened]: params.opened,
+        [styles.labelIsOpened]: params.opened
       }),
       style: {
-        paddingRight: buttonProps.size === 'large'? '41px': '38px',
-      },
+        paddingRight: buttonProps.size === 'large'? '41px': '38px'
+      }
     };
 
     return (
@@ -221,7 +231,7 @@ class Select extends React.Component {
       _buttonOpened: params.opened,
 
       onClick: params.onClick,
-      onKeyDown: params.onKeyDown,
+      onKeyDown: params.onKeyDown
     };
 
     return (
@@ -242,44 +252,43 @@ class Select extends React.Component {
     }
 
     var value = this._getValue();
-    var dropClassName = classNames({
-      [styles.drop]: true,
-      [styles.dropAlignRight]: this.props.menuAlign === 'right',
-    });
 
     return (
-      <div ref={this._refMenuContainer} className={styles.container}>
-        <div className={dropClassName}>
-          <div style={{position: 'relative'}}>
-            <Menu
-              ref={this._refMenu}
-              width={this.props.menuWidth}
-              onItemClick={this._close}
-            >
-              {search}
-              {this.mapItems((iValue, item, i, comment) => {
-                if (typeof item === 'function' || React.isValidElement(item)) {
-                  return React.cloneElement(
-                    typeof item === 'function' ? item() : item,
-                    {key: i},
-                  );
-                }
+      <DropdownContainer
+        getParent={() => ReactDOM.findDOMNode(this)}
+        offsetY={-1}
+        ref={this._refMenuContainer}
+        align={this.props.menuAlign}
+      >
+        <Menu
+          ref={this._refMenu}
+          width={this.props.menuWidth}
+          onItemClick={this._close}
+        >
+          {search}
+          {this.mapItems((iValue, item, i, comment) => {
+            if (
+              typeof item === 'function' ||
+              React.isValidElement(item)
+            ) {
+              return React.cloneElement(
+                typeof item === 'function' ? item() : item,
+                { key: i },
+              );
+            }
 
-                return (
-                  <MenuItem key={i}
-                    state={iValue === value ? 'selected' : null}
-                    onClick={this._select.bind(this, iValue)}
-                    comment={comment}
-                  >
-                    {this.props.renderItem(iValue, item)}
-                  </MenuItem>
-                );
-              })}
-            </Menu>
-          </div>
-        </div>
-        <div className={styles.botBorder} />
-      </div>
+            return (
+              <MenuItem key={i}
+                state={iValue === value ? 'selected' : null}
+                onClick={this._select.bind(this, iValue)}
+                comment={comment}
+              >
+                {this.props.renderItem(iValue, item)}
+              </MenuItem>
+            );
+          })}
+        </Menu>
+      </DropdownContainer>
     );
   }
 
@@ -295,7 +304,7 @@ class Select extends React.Component {
 
     if (el) {
       this._focusSubscribtion = listenFocusOutside(
-        [ReactDOM.findDOMNode(this)], this._close
+        this._getDomNodes(), this._close
       );
 
       events.addEventListener(
@@ -319,10 +328,21 @@ class Select extends React.Component {
 
   _handleNativeDocClick = (event) => {
     const target = event.target || event.srcElement;
-    if (!ReactDOM.findDOMNode(this).contains(target)) {
-      this._close();
+    const nodes = this._getDomNodes();
+    if (nodes.some((node) => node.contains(target))) {
+      return;
     }
+    this._close();
   };
+
+  _getDomNodes() {
+    const result = [];
+    result.push(ReactDOM.findDOMNode(this));
+    if (this._menu) {
+      result.push(ReactDOM.findDOMNode(this._menu));
+    }
+    return result;
+  }
 
   _toggle = () => {
     if (this.state.opened) {
@@ -334,16 +354,16 @@ class Select extends React.Component {
 
   _open = () => {
     if (!this.state.opened) {
-      this.setState({opened: true});
+      this.setState({ opened: true });
 
-      const {onOpen} = this.props;
+      const { onOpen } = this.props;
       onOpen && onOpen();
     }
   };
 
   _close = () => {
     if (this.state.opened) {
-      this.setState({opened: false});
+      this.setState({ opened: false });
     }
 
     events.removeEventListener(window, 'popstate', this._close);
@@ -358,7 +378,7 @@ class Select extends React.Component {
       }
     } else {
       if (key === 'Escape') {
-        this.setState({opened: false}, () => {
+        this.setState({ opened: false }, () => {
           ReactDOM.findDOMNode(this).focus();
         });
       } else if (e.key === 'ArrowUp') {
@@ -375,20 +395,20 @@ class Select extends React.Component {
   };
 
   handleSearch = event => {
-    this.setState({searchPattern: event.target.value});
+    this.setState({ searchPattern: event.target.value });
   };
 
   _select(value) {
     this.setState({
       opened: false,
-      value,
+      value
     }, () => {
       setTimeout(() => {
         ReactDOM.findDOMNode(this).focus();
       }, 0);
     });
     if (this.props.onChange) {
-      this.props.onChange({target: {value}}, value);
+      this.props.onChange({ target: { value } }, value);
     }
   }
 

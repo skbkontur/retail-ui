@@ -12,13 +12,13 @@ type Props = {
 
 export default class Hint extends React.Component {
   static defaultProps = {
-    pos: 'top',
+    pos: 'top'
   };
 
   props: Props;
 
   state = {
-    opened: false,
+    opened: false
   };
 
   _timer: number = 0;
@@ -57,10 +57,10 @@ export default class Hint extends React.Component {
 
   _handleMouseLeave = () => {
     clearTimeout(this._timer);
-    this.setState({opened: false});
+    this.setState({ opened: false });
   };
 
   _open = () => {
-    this.setState({opened: true});
+    this.setState({ opened: true });
   };
 }

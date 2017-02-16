@@ -1,6 +1,6 @@
 // @flow
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
 import Box from './Box';
@@ -12,9 +12,9 @@ type Pos = 'top left' | 'top center' | 'top right'
   | 'right top' | 'right middle' | 'right bottom';
 
 type Props = {
-  children: React.Element<any>,
+  children?: React.Element<any>,
 
-  className: string,
+  className?: string,
 
   closeButton?: bool,
 
@@ -70,7 +70,7 @@ export default class Tooltip extends React.Component {
       'top left', 'top center', 'top right',
       'bottom left', 'bottom center', 'bottom right',
       'left top', 'left middle', 'left bottom',
-      'right top', 'right middle', 'right bottom',
+      'right top', 'right middle', 'right bottom'
     ]),
 
     /**
@@ -82,12 +82,12 @@ export default class Tooltip extends React.Component {
 
     trigger: PropTypes.oneOf(['hover', 'click', 'focus', 'opened', 'closed']),
 
-    onCloseClick: PropTypes.func,
+    onCloseClick: PropTypes.func
   };
 
   static defaultProps = {
     pos: 'top left',
-    trigger: 'hover',
+    trigger: 'hover'
   };
 
   props: Props;
@@ -105,7 +105,7 @@ export default class Tooltip extends React.Component {
     super(props, context);
 
     this.state = {
-      opened: props.trigger === 'opened',
+      opened: props.trigger === 'opened'
     };
 
     this._hotspotDOM = null;
@@ -116,7 +116,7 @@ export default class Tooltip extends React.Component {
 
   render() {
     const props = {};
-    const {className} = this.props;
+    const { className } = this.props;
 
     if (this.props.trigger === 'hover') {
       props.onMouseOver = this._handleMouseOver;
@@ -190,9 +190,9 @@ export default class Tooltip extends React.Component {
   componentWillReceiveProps(newProps: Props) {
     if (newProps.trigger !== this.props.trigger) {
       if (newProps.trigger === 'opened') {
-        this.setState({opened: true});
+        this.setState({ opened: true });
       } else if (newProps.trigger === 'closed') {
-        this.setState({opened: false});
+        this.setState({ opened: false });
       }
     }
   }
@@ -270,7 +270,7 @@ export default class Tooltip extends React.Component {
 
   _setOpened(opened: bool) {
     if (this.state.opened !== opened) {
-      this.setState({opened});
+      this.setState({ opened });
     }
   }
 }

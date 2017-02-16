@@ -1,13 +1,15 @@
 // @flow
 
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
 
 import filterProps from '../filterProps';
 import Icon from '../Icon';
 import Picker from './Picker';
 import DateInput from './DateInput';
 import dateParser from './dateParser';
+import DropdownContainer from '../DropdownContainer/DropdownContainer';
 
 import styles from './DatePicker.less';
 
@@ -22,6 +24,10 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
   onKeyPress: true,
   onKeyUp: true,
+
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true
 };
 
 type Props = {
@@ -32,6 +38,8 @@ type Props = {
   withMask?: bool,
   maxYear?: number,
   minYear?: number,
+  placeholder?: string,
+  size?: 'small' | 'medium' | 'large',
   value: ?Date,
   width?: number | string,
   onBlur?: () => void,
@@ -41,6 +49,9 @@ type Props = {
   onKeyDown?: (e: SyntheticKeyboardEvent) => void,
   onKeyPress?: (e: SyntheticKeyboardEvent) => void,
   onKeyUp?: (e: SyntheticKeyboardEvent) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
 };
 
 type State = {
@@ -92,6 +103,12 @@ export default class DatePicker extends React.Component {
     onKeyPress: PropTypes.func,
 
     onKeyUp: PropTypes.func,
+
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func
   };
 
   static defaultProps = {
@@ -112,7 +129,7 @@ export default class DatePicker extends React.Component {
 
     this.state = {
       textValue: formatDate(props.value),
-      opened: false,
+      opened: false
     };
   }
 
@@ -123,26 +140,30 @@ export default class DatePicker extends React.Component {
     let picker = null;
     if (opened) {
       picker = (
-        <div className={styles.picker} onKeyDown={this.handlePickerKey}>
-          <Picker
+        <DropdownContainer
+          getParent={() => findDOMNode(this)}
+          offsetY={1}
+        >
+           <Picker
             value={value}
             minYear={this.props.minYear}
             maxYear={this.props.maxYear}
             onPick={this.handlePick}
             onClose={this.handlePickerClose}
           />
-        </div>
+        </DropdownContainer>
       );
     }
 
     const className = classNames({
       [styles.root]: true,
-      [this.props.className || '']: true,
+      [this.props.className || '']: true
     });
     const openClassName = classNames({
       [styles.openButton]: true,
-      [styles.openButtonDisabled]: this.props.disabled,
+      [styles.openButtonDisabled]: this.props.disabled
     });
+    const iconSize = this.props.size === 'large' ? 16 : 14;
     return (
       <span className={className} style={{width: this.props.width}}>
         <DateInput
@@ -154,9 +175,6 @@ export default class DatePicker extends React.Component {
           onFocus={this.handleFocus}
           onChange={this.handleChange}
         />
-        <div className={openClassName} onClick={this.open}>
-          <Icon name="calendar" />
-        </div>
         {picker}
       </span>
     );
@@ -181,8 +199,6 @@ export default class DatePicker extends React.Component {
   };
 
   handleFocus = () => {
-    this._focused = true;
-
     if (this.props.onFocus) {
       this.props.onFocus();
     }
@@ -212,7 +228,7 @@ export default class DatePicker extends React.Component {
 
   handlePick = (date: Date) => {
     if (this.props.onChange) {
-      this.props.onChange({target: {value: date}}, date);
+      this.props.onChange({ target: { value: date } }, date);
     }
     this.close(true);
   };
@@ -223,12 +239,12 @@ export default class DatePicker extends React.Component {
 
   open = () => {
     if (!this.props.disabled) {
-      this.setState({opened: true});
+      this.setState({ opened: true });
     }
   };
 
   close(focus: bool) {
-    this.setState({opened: false});
+    this.setState({ opened: false });
     if (focus) {
       setTimeout(() => this.input.focus(), 0);
     }

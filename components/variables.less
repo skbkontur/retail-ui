@@ -29,6 +29,32 @@
 
 // Button
 
+// use default
+@btn-default-bg: #f9f9f9;
+@btn-default-bg-start: #ffffff;
+@btn-default-bg-end: #ebebeb;
+@btn-default-shadow:
+  0 1px 0 0 rgba(0, 0, 0, .15),
+  0 0 0 1px rgba(0, 0, 0, .15);
+@btn-default-shadow-arrow:
+  1px -1px 0 0 rgba(0, 0, 0, .15);
+@btn-default-hover-bg-start: #F2F2F2;
+@btn-default-hover-bg-end: #DFDFDF;
+@btn-default-hover-shadow:
+  0 1px 0 0 rgba(0, 0, 0, .15),
+  0 0 0 1px rgba(0, 0, 0, .20);
+@btn-default-hover-shadow-arrow:
+  1px -1px 0 0 rgba(0, 0, 0, .20);
+@btn-default-active-bg: #E1E1E1;
+@btn-default-active-shadow:
+  0 -1px 0 0 rgba(0, 0, 0, .10),
+  0 0 0 1px rgba(0, 0, 0, .20),
+  inset 0 1px 2px 0 rgba(0, 0, 0, .10);
+@btn-default-active-shadow-arrow:
+  0 -2px 0 -1px rgba(0, 0, 0, .10),
+  1px -1px 0 0 rgba(0, 0, 0, .20),
+  inset 0 4px 5px -4px rgba(0, 0, 0, .10);
+
 // use success
 @btn-success-bg: #419d14;
 @btn-success-bg-start: #4ba91d;
@@ -36,18 +62,24 @@
 @btn-success-shadow:
   0 0 0 1px rgba(25, 103, 6, .70),
   0 1px 0 0 rgba(21, 80, 7, .50);
-
+@btn-success-shadow-arrow:
+  1px -1px 0 0 rgba(25, 103, 6, .70);
 @btn-success-hover-bg-start: #3b8d13;
 @btn-success-hover-bg-end: #317e0b;
 @btn-success-hover-shadow:
   0 0 0 1px rgba(7, 73, 1, .70),
   0 1px 0 0 rgba(16, 70, 4, .30);
-
+@btn-success-hover-shadow-arrow:
+  1px -1px 0 0 rgba(7, 73, 1, .70);
 @btn-success-active-bg: #35840e;
 @btn-success-active-shadow:
   0 0 0 1px rgba(4, 63, 0, .75),
   0 -1px 0 0 rgba(9, 32, 4, .60),
   inset 0 1px 2px 0 rgba(0, 0, 0, .10);
+@btn-success-active-shadow-arrow:
+  1px -1px 0 0 rgba(4, 63, 0, .75),
+  0 -2px 0 -1px rgba(9, 32, 4, .60),
+  inset 0 4px 5px -4px rgba(0, 0, 0, .10);
 
 // use primary
 @btn-primary-bg: #1e8dd4;
@@ -56,18 +88,76 @@
 @btn-primary-shadow:
   0 0 0 1px rgba(14, 81, 129, .70),
   0 1px 0 0 rgba(7, 37, 80, .50);
-
+@btn-primary-shadow-arrow:
+  1px -1px 0 0 rgba(14, 81, 129, .70);
 @btn-primary-hover-bg-start: #0087D5;
 @btn-primary-hover-bg-end: #167ac1;
 @btn-primary-hover-shadow:
   0 0 0 1px rgba(5, 60, 99, .70),
   0 1px 0 0 rgba(7, 37, 80, .30);
-
+@btn-primary-hover-shadow-arrow:
+  1px -1px 0 0 rgba(5, 60, 99, .70);
 @btn-primary-active-bg: #0079c3;
 @btn-primary-active-shadow:
   0 0 0 1px rgba(10, 63, 99, .75),
   0 -1px 0 0 rgba(8, 45, 96, .50),
   inset 0 1px 2px 0 rgba(0, 0, 0, .20);
+@btn-primary-active-shadow-arrow:
+  1px -1px 0 0 rgba(10, 63, 99, 0.75),
+  0 -2px 0 -1px rgba(8, 45, 96, 0.5),
+  inset 0 4px 5px -4px rgba(0, 0, 0, 0.2);
+
+// use danger
+@btn-danger-bg: #e14c30;
+@btn-danger-bg-start: #EC5438;
+@btn-danger-bg-end: #D44327;
+@btn-danger-shadow:
+  0 0 0 1px rgba(173, 15, 0, .70),
+  0 1px 0 0 rgba(0, 0, 0, .40);
+@btn-danger-shadow-arrow:
+  1px -1px 0 0 rgba(173, 15, 0, .70);
+@btn-danger-hover-bg-start: #D44227;
+@btn-danger-hover-bg-end: #C73013;
+@btn-danger-hover-shadow:
+  0 0 0 1px rgba(145, 0, 0, .70),
+  0 1px 0 0 rgba(90, 3, 3, .40);
+@btn-danger-hover-shadow-arrow:
+  1px -1px 0 0 rgba(145, 0, 0, .70);
+@btn-danger-active-bg: #CD381B;
+@btn-danger-active-shadow:
+  0 0 0 1px rgba(108, 7, 7, .75),
+  0 -1px 0 0 rgba(90, 3, 3, .40),
+  inset 0 1px 2px 0 rgba(0, 0, 0, .10);
+@btn-danger-active-shadow-arrow:
+  1px -1px 0 0 rgba(108, 7, 7, .75),
+  0 -2px 0 -1px rgba(90, 3, 3, .40),
+  inset 0 4px 5px -4px rgba(0, 0, 0, .10);
+
+// use pay
+@btn-pay-bg: #ffc943;
+@btn-pay-bg-start: #FFD54B;
+@btn-pay-bg-end: #FFBB39;
+@btn-pay-shadow:
+  0 0 0 1px rgba(238, 169, 34, .70),
+  0 1px 0 0 rgba(77, 16, 0, .56);
+@btn-pay-shadow-arrow:
+  1px -1px 0 0 rgba(238, 169, 34, .70);
+@btn-pay-hover-bg-start: #FFBD3A;
+@btn-pay-hover-bg-end: #F8A91D;
+@btn-pay-hover-shadow:
+  0 0 0 1px rgba(227, 142, 8, .70),
+  0 1px 0 0 rgba(93, 20, 3, .40);
+@btn-pay-hover-shadow-arrow:
+  1px -1px 0 0 rgba(227, 142, 8, .70);
+@btn-pay-active-bg: #FBB028;
+@btn-pay-active-shadow:
+  0 0 0 1px rgba(210, 144, 0, .70),
+  0 -1px 0 0 rgba(0, 0, 0, .44),
+  inset 0 1px 2px 0 rgba(0, 0, 0, .05);
+@btn-pay-active-shadow-arrow:
+  1px -1px 0 0 rgba(210, 144, 0, .70),
+  0 -2px 0 -1px rgba(0, 0, 0, .44),
+  inset 0 4px 5px -4px rgba(0, 0, 0, .05);
 
 // tooltip
 @tooltip-bg: @bg-default;
@@ -78,6 +168,9 @@
 // Dropdown`s menu
 @menu-item-padding-for-icon: 36px;
 
+@btn-shadow-checked-arrow:
+  1px -1px 0 0px rgba(0, 0, 0, 0.6),
+  inset 0 4px 2px -3px rgba(0, 0, 0, 0.3);
 
 @toggle-bg-checked: #3072c4;
 @toggle-bg-checked-disabled: rgba(48, 114, 196, 0.5);

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import Corners from '../Button/Corners';
 
@@ -12,7 +12,7 @@ import styles from './Group.less';
  */
 class Group extends React.Component {
   static propTypes = {
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   };
 
   render() {
@@ -40,11 +40,11 @@ class Group extends React.Component {
           var wrapCss = classNames({
             [styles.wrap]: true,
             [styles.fixed]: !child.props.mainInGroup,
-            [styles.stretch]: child.props.mainInGroup,
+            [styles.stretch]: child.props.mainInGroup
           });
           var itemCss = classNames({
             [styles.item]: true,
-            [styles.itemFirst]: child === first,
+            [styles.itemFirst]: child === first
           });
 
           let corners = 0;
@@ -55,7 +55,7 @@ class Group extends React.Component {
             corners |= Corners.TOP_RIGHT | Corners.BOTTOM_RIGHT;
           }
 
-          const childProps = {corners};
+          const childProps = { corners };
           if (child.props.mainInGroup) {
             childProps.width = '100%';
           }

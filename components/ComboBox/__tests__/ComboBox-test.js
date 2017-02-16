@@ -1,4 +1,4 @@
-import {mount} from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -22,12 +22,12 @@ describe('ComboBox', () => {
 
   /* No longer supporting this */
   it.skip('fetches items when opened by entering a char', async () => {
-    const source = jest.fn(() => Promise.resolve({values: []}));
+    const source = jest.fn(() => Promise.resolve({ values: [] }));
     const wrapper = mount(<ComboBox source={source} />);
 
     expect(source.mock.calls.length).toBe(0);
     wrapper.find('[tabIndex]').simulate('keypress', {
-      charCode: 'a'.charCodeAt(0),
+      charCode: 'a'.charCodeAt(0)
     });
 
     expect(source.mock.calls.length).toBe(1);
@@ -70,7 +70,7 @@ describe('ComboBox', () => {
     expect(render.mock.calls[1]).toEqual(['foo', 'FOO']);
 
     // Rerender with new value.
-    wrapper.setProps({value: 'bar'});
+    wrapper.setProps({ value: 'bar' });
     expect(render.mock.calls[2]).toEqual(['bar', null]);
 
     // New value promise resolved.
@@ -78,7 +78,7 @@ describe('ComboBox', () => {
     expect(render.mock.calls[3]).toEqual(['bar', 'BAR']);
 
     // Rerender with the same value.
-    wrapper.setProps({value: 'bar'});
+    wrapper.setProps({ value: 'bar' });
     expect(info.mock.calls.length).toBe(2);
     expect(render.mock.calls[4]).toEqual(['bar', 'BAR']);
   });

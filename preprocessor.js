@@ -18,10 +18,10 @@ module.exports = {
       return babel.transform(src, {
         filename: path,
         presets: ['jest', 'es2015', 'react', 'stage-0'],
-        retainLines: true,
+        retainLines: true
       }).code;
     }
 
     return src;
-  },
+  }
 };

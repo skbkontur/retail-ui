@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import styles from './Toggle.less';
 
@@ -14,17 +14,17 @@ class Toggle extends React.Component {
   static propTypes = {
     checked: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
-    onChange: PropTypes.func,
+    onChange: PropTypes.func
   };
 
   static defaultProps = {
-    disabled: false,
+    disabled: false
   };
 
   props: Props;
 
   handleClick = () => {
-    const {checked, disabled, onChange} = this.props;
+    const { checked, disabled, onChange } = this.props;
 
     if (!disabled && onChange) {
       onChange(!checked);
@@ -32,11 +32,11 @@ class Toggle extends React.Component {
   };
 
   render() {
-    const {checked, disabled} = this.props;
+    const { checked, disabled } = this.props;
 
     const containerClassName = classNames(styles.container, {
       [styles.isChecked]: checked,
-      [styles.isDisabled]: disabled,
+      [styles.isDisabled]: disabled
     });
 
     return (

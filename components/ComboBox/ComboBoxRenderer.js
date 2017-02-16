@@ -12,7 +12,7 @@ import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText/InputLikeText';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
-import type {MenuItemState} from '../MenuItem/MenuItem';
+import type { MenuItemState } from '../MenuItem/MenuItem';
 
 import styles from './ComboBoxRenderer.less';
 
@@ -22,6 +22,9 @@ const INPUT_PASS_PROPS = {
   warning: true,
   width: true,
   disabled: true,
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true
 };
 
 export type Value = any;
@@ -79,6 +82,10 @@ export type BaseProps = {
   alkoValueToText?: (value: Value) => string,
   onAlkoFocus?: () => void,
   onAlkoBlur?: () => void,
+
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
 };
 
 type Props = BaseProps & {
@@ -109,7 +116,7 @@ class ComboBoxRenderer extends React.Component {
     renderValue,
     placeholder: '',
     width: (250: number | string),
-    menuAlign: 'left',
+    menuAlign: 'left'
   };
 
   props: Props;
@@ -133,13 +140,13 @@ class ComboBoxRenderer extends React.Component {
       searchText: '',
       result: null,
       isEditing: false,
-      selected: -1,
+      selected: -1
     };
   }
 
   render() {
     return (
-      <label className={styles.root} style={{width: this.props.width}}>
+      <label className={styles.root} style={{ width: this.props.width }}>
         {this.state.isEditing ? this.renderInput() : this.renderValue()}
         {this.state.opened && (
           <div ref={this._refMenuHolder} className={styles.menuHolder}>
@@ -196,7 +203,7 @@ class ComboBoxRenderer extends React.Component {
   }
 
   renderMenu() {
-    const {result} = this.state;
+    const { result } = this.state;
     if (!result) {
       return null;
     }
@@ -227,13 +234,13 @@ class ComboBoxRenderer extends React.Component {
         const element = typeof value === 'function' ? value() : value;
         return React.cloneElement(element, {
           key: i,
-          onClick: (event) => this._handleItemClick(event, element.props),
+          onClick: (event) => this._handleItemClick(event, element.props)
         });
       }
       return (
         <MenuItem key={i}
           onClick={(event: Event) => {
-            this._handleItemClick(event, {value, info});
+            this._handleItemClick(event, { value, info });
           }}
         >
           {state => this.props.renderItem(value, info, state)}
@@ -243,14 +250,14 @@ class ComboBoxRenderer extends React.Component {
   }
 
   renderEmptyResults() {
-    const {renderNotFound} = this.props;
+    const { renderNotFound } = this.props;
 
     if (!renderNotFound) {
       return null;
     }
 
     const isFunction = typeof renderNotFound === 'function';
-    const {searchText} = this.state;
+    const { searchText } = this.state;
 
     return (
       <MenuItem disabled={!isFunction}>
@@ -260,7 +267,7 @@ class ComboBoxRenderer extends React.Component {
   }
 
   renderTotalCount(result: SourceResult) {
-    const {renderTotalCount} = this.props;
+    const { renderTotalCount } = this.props;
 
     if (!renderTotalCount || !result || !result.values || !result.total) {
       return null;
@@ -360,7 +367,7 @@ class ComboBoxRenderer extends React.Component {
 
     this.setState(() => ({
       searchText: newInputValue,
-      opened: true,
+      opened: true
     }));
     this._fetchList(newInputValue);
     this._ignoreRecover = false;
@@ -380,7 +387,7 @@ class ComboBoxRenderer extends React.Component {
         event.preventDefault();
 
         if (!this.state.opened) {
-          this.setState({opened: true});
+          this.setState({ opened: true });
           safelyCall(this.props.onOpen);
         }
 
@@ -390,7 +397,7 @@ class ComboBoxRenderer extends React.Component {
         event.preventDefault();
 
         if (!this.state.opened) {
-          this.setState({opened: true});
+          this.setState({ opened: true });
           safelyCall(this.props.onOpen);
         }
 
@@ -426,7 +433,7 @@ class ComboBoxRenderer extends React.Component {
     event: Event,
     options: {value?: Value, info?: Info, onClick?: () => void}
   ) {
-    this.setState({searchText: '', opened: false, isEditing: false});
+    this.setState({ searchText: '', opened: false, isEditing: false });
     this._change(options.value, options.info);
 
     safelyCall(options.onClick);
@@ -447,7 +454,7 @@ class ComboBoxRenderer extends React.Component {
     /* Allow blur happen only if focus occured */
     this._ignoreBlur = false;
 
-    this.setState({isEditing: true, opened: true});
+    this.setState({ isEditing: true, opened: true });
     safelyCall(this.props.onOpen);
 
     if (!safelyCall(this.props.onFocus)) {
@@ -472,7 +479,7 @@ class ComboBoxRenderer extends React.Component {
   };
 
   _close = (endEdit?: bool) => {
-    this.setState(() => ({isEditing: !endEdit, opened: false, result: null}));
+    this.setState(() => ({ isEditing: !endEdit, opened: false, result: null }));
     safelyCall(this.props.onClose);
   }
 
@@ -485,7 +492,7 @@ class ComboBoxRenderer extends React.Component {
 
       if (expectingId === this._fetchingId && this.state.opened) {
         this._menu && this._menu.reset();
-        this.setState(() => ({result}));
+        this.setState(() => ({ result }));
       }
     });
   }
@@ -506,7 +513,7 @@ class ComboBoxRenderer extends React.Component {
 
     if (!this.props.recover) {
       this._change(null);
-      this.setState({searchText: ''});
+      this.setState({ searchText: '' });
       return;
     }
 
@@ -516,7 +523,7 @@ class ComboBoxRenderer extends React.Component {
     if (typeof this.props.recover === 'function') {
       recovered = this.props.recover(searchText);
     } else if (this.props.recover === true) {
-      recovered = {value: searchText};
+      recovered = { value: searchText };
     }
 
     if (recovered) {
@@ -536,7 +543,7 @@ class ComboBoxRenderer extends React.Component {
   }
 
   _change(value: Value, info?: Info) {
-    safelyCall(this.props.onChange, {target: {value}}, value, info);
+    safelyCall(this.props.onChange, { target: { value } }, value, info);
     this._setError(null);
 
     /* No need in recovers after value changes */
@@ -552,10 +559,10 @@ class ComboBoxRenderer extends React.Component {
         ? valueToString(value, info)
         : this.state.searchText;
 
-      return this.setState({searchText}, this._focus);
+      return this.setState({ searchText }, this._focus);
     }
 
-    return this.setState({searchText: ''}, this._focus);
+    return this.setState({ searchText: '' }, this._focus);
   }
 }
 
