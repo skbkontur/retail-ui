@@ -18,10 +18,13 @@ type Props = {
   warning?: bool,
   width?: number | string,
   onChange?: (event: any, value: any) => void,
+  onMouseEnter?: Function,
+  onMouseLeave?: Function,
+  onMouseOver?: Function,
 };
 
 type State = {
-  focusedIndex: number,
+  focusedIndex: ?number,
 };
 
 class Prevent extends React.Component {
@@ -100,8 +103,12 @@ class RadioGroup extends React.Component {
     this.state = { focusedIndex: null };
   }
 
+  componentDidMount() {
+    events.addEventListener(window, 'keyup', this.focusHandler);
+  }
+
   componentWillUnmount() {
-    events.removeEventListener(window, 'keyup', this.focusHandler)
+    events.removeEventListener(window, 'keyup', this.focusHandler);
   }
 
   render() {
@@ -110,7 +117,7 @@ class RadioGroup extends React.Component {
       className: styles.input,
       disabled: this.props.disabled,
       onKeyDown: this.handleKey,
-      onFocus: this.handleFocus,
+      onFocus: this.focusHandler,
       onBlur: this.handleBlur
     };
 
@@ -169,8 +176,11 @@ class RadioGroup extends React.Component {
     }
 
     if (event.key === 'Enter') {
-      const value = this.props.items[focusedIndex];
-      this.props.onChange({ target: { value } }, value);
+      if (!this.props.onChange) {
+        return;
+      }
+      const value = [...this.props.items][focusedIndex];
+      this._select(value);
       return;
     }
 
@@ -183,18 +193,10 @@ class RadioGroup extends React.Component {
     }
   };
 
-  handleMouseUp = () => {
-    this.setState({ pressedIndex: null });
-  }
-
-  handleFocus = () => {
-    events.addEventListener(window, 'keyup', this.focusHandler);
-  };
-
-  focusHandler = (event) => {
-    if (event.key === 'Tab') {
+  focusHandler = (event: KeyboardEvent) => {
+    if (event.keyCode === 9) {
       const { value, items } = this.props;
-      const currentIndex = items.indexOf(value);
+      const currentIndex = [...items].indexOf(value);
       const index = currentIndex > -1 ? currentIndex : 0;
 
       this.setState({ focusedIndex: index });
