@@ -102,6 +102,10 @@ export default class Picker extends React.Component {
     }
     const target: Element = (event.target: any) || event.srcElement;
     if (!ReactDOM.findDOMNode(this).contains(target) && !isDetached(target)) {
+      const icon = this.props.iconRef;
+      if (icon && ReactDOM.findDOMNode(icon).contains(target)) {
+        return;
+      }
       this.props.onClose();
     }
   };
