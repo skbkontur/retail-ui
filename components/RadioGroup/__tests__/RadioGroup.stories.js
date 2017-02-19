@@ -1,9 +1,8 @@
+// @flow
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 
 import RadioGroup from '../RadioGroup';
-
-const items = ['One', 'Two', 'Three'];
 
 class Component extends React.Component {
   state = {
@@ -17,9 +16,10 @@ class Component extends React.Component {
   render() {
     return (
       <RadioGroup
-        items={items}
+        items={this.props.items}
         value={this.state.value}
         onChange={(el) => this.handleChange(el)}
+        renderItem={this.props.renderItem}
       />
     );
   }
@@ -27,5 +27,11 @@ class Component extends React.Component {
 
 storiesOf('RadioGroup', module)
   .add('playground', () => {
-    return <Component />;
-  });
+    return <Component items={['One', 'Two', 'Three']} />;
+  })
+  .add('With renderItem', () => (
+    <Component
+      items={[{ value: 'One' }, { value: 'Two' }]}
+      renderItem={x => <div>Value: {x.value}</div>}
+    />
+  ));

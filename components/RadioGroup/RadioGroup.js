@@ -160,7 +160,7 @@ class RadioGroup extends React.Component {
       return (
         <span {...itemProps}>
           <Radio {...radioProps} >
-              {renderItem(itemValue, data)}
+              {this.props.renderItem(itemValue, data)}
           </Radio>
         </span>
       );
