@@ -1,6 +1,7 @@
 import events from 'add-event-listener';
 import CROSS from '../internal/cross';
 import LayoutEvents from '../../lib/LayoutEvents';
+import { containsTargetOrTargetContainer } from '../../lib/listenFocusOutside';
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -73,7 +74,10 @@ export default class Box extends React.Component {
     }
 
     const target = event.target || event.srcElement;
-    if (!ReactDOM.findDOMNode(this).contains(target)) {
+    const containsTarget = containsTargetOrTargetContainer(target);
+    const rootNode = ReactDOM.findDOMNode(this);
+
+    if (!containsTarget(rootNode)) {
       this.props.onClose();
     }
   };
