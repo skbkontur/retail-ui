@@ -43,6 +43,8 @@ type Props = {
   placeholder?: string,
   size?: 'small' | 'medium' | 'large',
   value?: ?Date,
+  validationMsg?: string,
+  validationType?: 'text' | 'baloon',
   width?: number | string,
   onBlur?: () => void,
   onChange?: (e: {target: {value: ?Date}}, v: ?Date) => void,
@@ -54,7 +56,6 @@ type Props = {
   onMouseEnter?: (e: SyntheticMouseEvent) => void,
   onMouseLeave?: (e: SyntheticMouseEvent) => void,
   onMouseOver?: (e: SyntheticMouseEvent) => void,
-  onUnexpectedInput?: (value: string) => string | null,
 };
 
 type State = {
@@ -78,7 +79,11 @@ export default class DatePicker extends React.Component {
      */
     minYear: PropTypes.number,
 
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+    validationMsg: PropTypes.string,
+
+    validationType: PropTypes.oneOf(['text', 'balloon']),
+
+    value: PropTypes.instanceOf(Date),
 
     warning: PropTypes.bool,
 
@@ -107,33 +112,28 @@ export default class DatePicker extends React.Component {
 
     onMouseLeave: PropTypes.func,
 
-    onMouseOver: PropTypes.func,
-
-    /**
-     * Если не получилось распарсить дату,
-     * можно получить содержимое инпута
-     * (например, для валидации снаружи)
-     */
-    onUnexpectedInput: PropTypes.func
+    onMouseOver: PropTypes.func
   };
 
   static defaultProps = {
     minYear: 1900,
     maxYear: 2100,
     width: 120,
-    withMask: false,
-    onUnexpectedInput: () => null
+    withMask: false
   };
 
   props: Props;
   state: State;
 
+  _focused = false;
+  _cursorPosition = 0;
   input: Input;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
 
     this.state = {
+      textValue: formatDate(props.value),
       opened: false
     };
   }
@@ -149,14 +149,13 @@ export default class DatePicker extends React.Component {
           getParent={() => findDOMNode(this)}
           offsetY={1}
         >
-          <Picker
-            value={value}
-            minYear={this.props.minYear}
-            maxYear={this.props.maxYear}
-            onPick={this.handlePick}
-            onClose={this.handlePickerClose}
-            iconRef={this.icon}
-          />
+           <Picker
+             value={value}
+             minYear={this.props.minYear}
+             maxYear={this.props.maxYear}
+             onPick={this.handlePick}
+             onClose={this.handlePickerClose}
+           />
         </DropdownContainer>
       );
     }
@@ -169,37 +168,35 @@ export default class DatePicker extends React.Component {
       <span className={className} style={{ width: this.props.width }}>
         <DateInput
           {...filterProps(this.props, INPUT_PASS_PROPS)}
-          getIconRef={this.getIconRef}
-          getInputRef={this.getInputRef}
+          getRef={this.getInputRef}
           opened={opened}
-          value={this.getValue()}
+          value={this.state.textValue}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           onChange={this.handleChange}
-          onIconClick={this.toggleCalendar}
+          onIconClick={this.open}
         />
         {picker}
       </span>
     );
   }
 
-  getValue = () => {
-    const value = this.props.value
-    if (value instanceof Date) {
-      return formatDate(value);
+  componentWillReceiveProps(newProps: Props) {
+    const newTextValue = formatDate(newProps.value);
+    if (
+      !this._focused &&
+      !newProps.error &&
+      this.state.textValue !== newTextValue
+    ) {
+      this.setState({ textValue: newTextValue });
     }
-    if (typeof value === 'string') {
-      return value;
-    }
-    return '';
-  };
+  }
 
-  handleChange = (value: Date | string) => {
-    if (value === undefined) { return; }
-    const { onChange, onUnexpectedInput } = this.props;
-    if (!onChange) { return; }
-    const newDate = getDateValue(value, onUnexpectedInput);
-    onChange({ target: { value: newDate } }, newDate);
+  handleChange = (newDate: Date | string) => {
+    if (newDate === undefined) { return; }
+    this.setState({
+      textValue: newDate instanceof Date ? formatDate(newDate) : newDate
+    });
   };
 
   handleFocus = () => {
@@ -209,16 +206,24 @@ export default class DatePicker extends React.Component {
   };
 
   handleBlur = () => {
-    const value = this.props.value;
-    const date = parseDate(value);
+    this._focused = false;
+    this._cursorPosition = 0;
 
-    if (this.props.onChange) {
-      const newDate = date === null ? getDateValue(value, this.props.onUnexpectedInput) : date;
-      this.props.onChange({ target: { value: newDate } }, newDate);
+    const { textValue } =  this.state;
+    const date = parseDate(textValue);
+
+    if (this.props.onChange && textValue !== formatDate(this.props.value)) {
+      this.props.onChange({ target: { value: date } }, date);
     }
 
     if (this.props.onBlur) {
       this.props.onBlur();
+    }
+  };
+
+  handlePickerKey = (event: SyntheticKeyboardEvent) => {
+    if (event.key === 'Escape') {
+      this.close(true);
     }
   };
 
@@ -233,49 +238,28 @@ export default class DatePicker extends React.Component {
     this.close(false);
   };
 
-  toggleCalendar = e => {
-    if (this.props.disabled) {
-      return;
-    }
-    if (this.state.opened) {
-      e.preventDefault()
-      this.close(false);
-    } else {
+  open = () => {
+    if (!this.props.disabled) {
       this.setState({ opened: true });
     }
   };
 
   close(focus: bool) {
-    this.setState({ opened: false }, () => {
-      if (focus) {
-        this.input.focus();
-      }
-    });
+    this.setState({ opened: false });
+    if (focus) {
+      setTimeout(() => this.input.focus(), 0);
+    }
+  }
+
+  focus() {
+    this._focused = true;
+    this.input.focus();
   }
 
   getInputRef = (ref: Input) => {
     this.input = ref;
   };
-
-  getIconRef = (ref: Span) => {
-    this.icon = ref;
-  };
 }
-
-const getDateValue = (value, onUnexpectedInput) => {
-  if (value instanceof Date) {
-    return value;
-  }
-  if (typeof value === 'string') {
-    const newDate = parseDate(value, false);
-    if (newDate) {
-      return newDate;
-    } else {
-      return onUnexpectedInput(value);
-    }
-  }
-  return null;
-};
 
 function checkDate(date) {
   if (date instanceof Date && !isNaN(date.getTime())) {
@@ -294,8 +278,8 @@ function formatDate(date) {
   return `${day}.${month}.${date.getUTCFullYear()}`;
 }
 
-function parseDate(str, withCorrection) {
-  const date = dateParser(str, withCorrection);
+function parseDate(str) {
+  const date = dateParser(str);
   if (!date) {
     return null;
   }
