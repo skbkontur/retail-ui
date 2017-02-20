@@ -1,7 +1,14 @@
 // @flow
-export default function(str: string, withCorrection: bool = true): ?Date {
-  if (str === null) return str;
-  if (str instanceof Date) return str;
+export default function(
+  str: string | Date | null | void,
+  withCorrection: boolean = true
+): ?Date {
+  if (str == null) {
+    return str;
+  }
+  if (str instanceof Date) {
+    return str;
+  }
   const datePartsRegExp = /^(\d{1,2})\.?(\d{1,2})?\.?(\d{1,4})?$/;
   const parts = str.replace(/_/g, '').match(datePartsRegExp);
 
@@ -22,9 +29,11 @@ export default function(str: string, withCorrection: bool = true): ?Date {
       }
 
       // Handle short year version
-      if (year < 50) { // 20xx
+      if (year < 50) {
+        // 20xx
         year += 2000;
-      } else if (year < 100) { // 19xx
+      } else if (year < 100) {
+        // 19xx
         year += 1900;
       }
     }
@@ -38,7 +47,6 @@ export default function(str: string, withCorrection: bool = true): ?Date {
     ) {
       return dateObj;
     }
-
   }
 
   return null;

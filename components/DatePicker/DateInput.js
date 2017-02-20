@@ -52,6 +52,7 @@ export default class DateInput extends Component {
 
   props: Props;
   _input: Input;
+  _icon: HTMLSpanElement;
   _cursorPosition = 0;
 
   render() {

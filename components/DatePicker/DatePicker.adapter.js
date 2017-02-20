@@ -14,6 +14,9 @@ const DatePickerAdapter = {
 
   getStringValue(inst: DatePicker) {
     const value = inst.props.value;
+    if (typeof value === 'string') {
+      return value;
+    }
     return value ? value.toISOString() : null;
   },
 

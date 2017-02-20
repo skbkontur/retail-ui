@@ -6,6 +6,7 @@ import { findDOMNode } from 'react-dom';
 
 import filterProps from '../filterProps';
 import Input from '../Input';
+import Icon from '../Icon';
 import Picker from './Picker';
 import DateInput from './DateInput';
 import dateParser from './dateParser';
@@ -34,18 +35,21 @@ const INPUT_PASS_PROPS = {
 
 type Props = {
   className?: string, // legacy
-  disabled?: bool,
-  error?: bool,
-  warning?: bool,
-  withMask?: bool,
+  disabled?: boolean,
+  error?: boolean,
+  warning?: boolean,
+  withMask?: boolean,
   maxYear?: number,
   minYear?: number,
   placeholder?: string,
   size?: 'small' | 'medium' | 'large',
-  value?: ?Date,
+  value?: ?(Date | string),
   width?: number | string,
   onBlur?: () => void,
-  onChange?: (e: {target: {value: ?Date}}, v: ?Date) => void,
+  onChange?: (
+    e: { target: { value: Date | string | null } },
+    v: Date | string | null
+  ) => void,
   onFocus?: () => void,
   onInput?: (e: SyntheticInputEvent) => void,
   onKeyDown?: (e: SyntheticKeyboardEvent) => void,
@@ -54,12 +58,12 @@ type Props = {
   onMouseEnter?: (e: SyntheticMouseEvent) => void,
   onMouseLeave?: (e: SyntheticMouseEvent) => void,
   onMouseOver?: (e: SyntheticMouseEvent) => void,
-  onUnexpectedInput?: (value: string) => string | null,
+  onUnexpectedInput?: (value: string) => any
 };
 
 type State = {
-  opened: bool,
-  textValue: string,
+  opened: boolean,
+  textValue: string
 };
 
 export default class DatePicker extends React.Component {
@@ -121,20 +125,20 @@ export default class DatePicker extends React.Component {
     minYear: 1900,
     maxYear: 2100,
     width: 120,
-    withMask: false,
-    onUnexpectedInput: () => null
+    withMask: false
   };
 
   props: Props;
   state: State;
-
+  icon: Icon;
   input: Input;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
 
     this.state = {
-      opened: false
+      opened: false,
+      textValue: ''
     };
   }
 
@@ -145,10 +149,7 @@ export default class DatePicker extends React.Component {
     let picker = null;
     if (opened) {
       picker = (
-        <DropdownContainer
-          getParent={() => findDOMNode(this)}
-          offsetY={1}
-        >
+        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={0}>
           <Picker
             value={value}
             minYear={this.props.minYear}
@@ -184,7 +185,7 @@ export default class DatePicker extends React.Component {
   }
 
   getValue = () => {
-    const value = this.props.value
+    const value = this.props.value;
     if (value instanceof Date) {
       return formatDate(value);
     }
@@ -194,10 +195,11 @@ export default class DatePicker extends React.Component {
     return '';
   };
 
-  handleChange = (value: Date | string) => {
-    if (value === undefined) { return; }
+  handleChange = (value: string) => {
     const { onChange, onUnexpectedInput } = this.props;
-    if (!onChange) { return; }
+    if (!onChange) {
+      return;
+    }
     const newDate = getDateValue(value, onUnexpectedInput);
     onChange({ target: { value: newDate } }, newDate);
   };
@@ -213,7 +215,9 @@ export default class DatePicker extends React.Component {
     const date = parseDate(value);
 
     if (this.props.onChange) {
-      const newDate = date === null ? getDateValue(value, this.props.onUnexpectedInput) : date;
+      const newDate = date === null
+        ? getDateValue(value, this.props.onUnexpectedInput)
+        : date;
       this.props.onChange({ target: { value: newDate } }, newDate);
     }
 
@@ -233,19 +237,19 @@ export default class DatePicker extends React.Component {
     this.close(false);
   };
 
-  toggleCalendar = e => {
+  toggleCalendar = (e: Event) => {
     if (this.props.disabled) {
       return;
     }
     if (this.state.opened) {
-      e.preventDefault()
+      e.preventDefault();
       this.close(false);
     } else {
       this.setState({ opened: true });
     }
   };
 
-  close(focus: bool) {
+  close(focus: boolean) {
     this.setState({ opened: false }, () => {
       if (focus) {
         this.input.focus();
@@ -257,22 +261,24 @@ export default class DatePicker extends React.Component {
     this.input = ref;
   };
 
-  getIconRef = (ref: Span) => {
+  getIconRef = (ref: Icon) => {
     this.icon = ref;
   };
 }
 
 const getDateValue = (value, onUnexpectedInput) => {
+  if (value == null) {
+    return null;
+  }
   if (value instanceof Date) {
     return value;
   }
-  if (typeof value === 'string') {
-    const newDate = parseDate(value, false);
-    if (newDate) {
-      return newDate;
-    } else {
-      return onUnexpectedInput(value);
-    }
+  const newDate = parseDate(value, false);
+  if (newDate) {
+    return newDate;
+  }
+  if (onUnexpectedInput) {
+    return onUnexpectedInput(value);
   }
   return null;
 };

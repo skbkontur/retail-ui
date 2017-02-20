@@ -9,7 +9,7 @@ type Props = {
   align: 'left' | 'right',
   getParent: () => HTMLElement,
   children?: any,
-  disablePortal?: bool,
+  disablePortal?: boolean,
   offsetY?: number,
   offsetX?: number
 };
@@ -18,8 +18,8 @@ type State = {
   position: ?{
     top: number | 'auto',
     left: ?number,
-    right: ?number,
-  },
+    right: ?number
+  }
 };
 
 export default class DropdownContainer extends React.Component {
@@ -56,7 +56,7 @@ export default class DropdownContainer extends React.Component {
         ...this.state.position
       };
     }
-    if (this.props.disablePortal){
+    if (this.props.disablePortal) {
       style = {
         ...style,
         ...{
@@ -66,13 +66,15 @@ export default class DropdownContainer extends React.Component {
       };
     }
 
-    const content = <div ref={this._ref} style={style}>
-      {this.props.children}
-    </div>;
+    const content = (
+      <div ref={this._ref} style={style}>
+        {this.props.children}
+      </div>
+    );
 
     return this.props.disablePortal
       ? content
-      : (<RenderContainer>{content}</RenderContainer>);
+      : <RenderContainer>{content}</RenderContainer>;
   }
 
   _ref = (dom: ?HTMLElement) => {
@@ -80,14 +82,14 @@ export default class DropdownContainer extends React.Component {
   };
 
   componentDidMount() {
-    if (!this.props.disablePortal){
+    if (!this.props.disablePortal) {
       this._position();
       this._layoutSub = LayoutEvents.addListener(this._position);
     }
   }
 
   componentWillUnmount() {
-    if (!this.props.disablePortal){
+    if (!this.props.disablePortal) {
       this._layoutSub.remove();
     }
   }
@@ -118,9 +120,11 @@ export default class DropdownContainer extends React.Component {
       const { offsetY = 0 } = this.props;
       let top = targetRect.bottom + scrollY + offsetY;
 
-      const distanceToBottom =
-        docEl.clientHeight - targetRect.bottom;
-      if (distanceToBottom < this._getHeight()) {
+      const distanceToBottom = docEl.clientHeight - targetRect.bottom;
+      const distanceToTop = targetRect.top;
+      const dropdownHeight = this._getHeight();
+
+      if (distanceToBottom < dropdownHeight && distanceToTop > dropdownHeight) {
         top = targetRect.top - this._getHeight() + scrollY - offsetY;
       }
 
@@ -143,8 +147,6 @@ export default class DropdownContainer extends React.Component {
       return 0;
     }
     const rect = child.getBoundingClientRect();
-    return rect.height
-      ? rect.height
-      : rect.bottom - rect.top;
-  }
+    return rect.height ? rect.height : rect.bottom - rect.top;
+  };
 }

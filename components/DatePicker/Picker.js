@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import Calendar from './Calendar';
 import DateSelect from '../DateSelect';
 import Gapped from '../Gapped';
+import Icon from '../Icon';
 
 import styles from './Picker.less';
 
@@ -14,19 +15,20 @@ type Props = {
   maxYear: number,
   minYear: number,
   value: ?Date,
+  iconRef: ?Icon,
   onClose: () => void,
-  onPick: (date: Date) => void,
+  onPick: (date: Date) => void
 };
 
 type State = {
-  date: Date,
+  date: Date
 };
 
 export default class Picker extends React.Component {
   props: Props;
   state: State;
 
-  _mounted: bool;
+  _mounted: boolean;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -62,7 +64,7 @@ export default class Picker extends React.Component {
           ref="calendar"
           {...this.props}
           initialDate={date}
-          onNav={(date) => this.setState({date})}
+          onNav={date => this.setState({ date })}
         />
       </div>
     );
