@@ -27,7 +27,8 @@ type Props = {
   value: string,
   placeholder?: string,
   size: 'small' | 'medium' | 'large',
-  getRef?: (ref: any) => void,
+  getIconRef?: (ref: any) => void,
+  getInputRef?: (ref: any) => void,
   onFocus?: () => void,
   onBlur?: () => void,
   onIconClick: Function,
@@ -37,7 +38,8 @@ type Props = {
 
 export default class DateInput extends Component {
   static propTypes = {
-    getRef: PropTypes.func,
+    getIconRef: PropTypes.func,
+    getInputRef: PropTypes.func,
     opened: PropTypes.bool.isRequired,
     placeholder: PropTypes.string,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
@@ -78,7 +80,11 @@ export default class DateInput extends Component {
           ref={this.getInputRef}
           rightIcon={
             (
-              <span className={openClassName} onClick={this.props.onIconClick}>
+              <span
+                className={openClassName}
+                onClick={this.props.onIconClick}
+                ref={this.getIconRef}
+              >
                 <Icon name="calendar" size={iconSize} />
               </span>
             )
@@ -89,8 +95,11 @@ export default class DateInput extends Component {
   }
 
   componentDidMount() {
-    if (this.props.getRef && this._input) {
-      this.props.getRef(this._input);
+    if (this.props.getInputRef && this._input) {
+      this.props.getInputRef(this._input);
+    }
+    if (this.props.getIconRef && this._icon) {
+      this.props.getIconRef(this._icon);
     }
   }
 
@@ -228,6 +237,10 @@ export default class DateInput extends Component {
 
   getInputRef = (ref: any) => {
     this._input = ref;
+  };
+
+  getIconRef = (ref: any) => {
+    this._icon = ref;
   };
 }
 

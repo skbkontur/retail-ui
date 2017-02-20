@@ -11,6 +11,7 @@ class Comp extends React.Component {
       <DatePicker
         value={this.state.date}
         onChange={(_, date) => this.setState({ date })}
+        onUnexpectedInput={x => x.length ? x : null}
       />
     );
   }
