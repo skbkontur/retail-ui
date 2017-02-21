@@ -8,6 +8,7 @@ import getScrollWidth from '../../lib/dom/getScrollWidth';
 import styles from './ScrollContainer.less';
 
 const PADDING_RIGHT = 30;
+const MIN_SCROLL_SIZE = 20;
 
 export default class ScrollContainer extends React.Component {
   constructor(props) {
@@ -118,7 +119,12 @@ export default class ScrollContainer extends React.Component {
     }
 
     if (scrollActive) {
-      const scrollSize = containerHeight / contentHeight * containerHeight;
+      let scrollSize = containerHeight / contentHeight * containerHeight;
+
+      if (scrollSize < MIN_SCROLL_SIZE) {
+        scrollSize = MIN_SCROLL_SIZE;
+      }
+
       const scrollPos = scrollTop / (contentHeight - containerHeight) *
         (containerHeight - scrollSize);
 
