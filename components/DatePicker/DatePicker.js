@@ -243,7 +243,6 @@ export default class DatePicker extends React.Component {
   };
 
   _handleNativeDocClick = (e) => {
-    e.stopPropagation();
     const containsTarget = containsTargetOrRenderContainer(e.target);
 
     if (!containsTarget(findDOMNode(this))) {

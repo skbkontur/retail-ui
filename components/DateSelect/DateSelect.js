@@ -56,10 +56,6 @@ export default class DateSelect extends React.Component {
   props: Props;
   state: State;
 
-  _focusSubscribtion: ?{
-    remove(): void
-  };
-
   constructor(props: Props, context: mixed) {
     super(props, context);
 
@@ -119,7 +115,7 @@ export default class DateSelect extends React.Component {
           className={className}
           onMouseEnter={() => this.setState({ current: i })}
           onMouseLeave={() => this.setState({ current: null })}
-          onMouseDown={this.handleItemClick(i)}
+          onClick={this.handleItemClick(i)}
         >
           {this.getItem(i)}
         </div>
@@ -192,6 +188,7 @@ export default class DateSelect extends React.Component {
       if (this.props.onChange) {
         this.props.onChange(value);
       }
+      this.setState({ opened: false });
     };
   };
 
@@ -269,7 +266,7 @@ export default class DateSelect extends React.Component {
       return;
     }
 
-    this.setState(() => ({ opened: false }));
+    this.setState({ opened: false });
   };
 
   resetSize(pos: number) {

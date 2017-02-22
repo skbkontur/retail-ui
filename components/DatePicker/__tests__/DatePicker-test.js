@@ -15,6 +15,8 @@ describe('DatePicker', () => {
     input.simulate('change', { target: { value: '4.12.13' } });
     input.simulate('blur');
 
+    expect(onChange).toHaveBeenCalledTimes(1);
+
     const value = onChange.mock.calls[0][1];
 
     expect(value.getUTCDate()).toBe(4);
