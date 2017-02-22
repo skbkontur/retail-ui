@@ -18,13 +18,13 @@ export default class RenderContainer extends React.Component {
 
     this._domContainer = document.createElement('div');
 
-    if (global.ReactTesting) {
-      this._testID = nextID();
-      this._domContainer.setAttribute(
-        'data-rendered-container-id',
-        this._testID.toString()
-      );
+    this._testID = nextID();
+    this._domContainer.setAttribute(
+      'data-rendered-container-id',
+      this._testID.toString()
+    );
 
+    if (global.ReactTesting) {
       global.ReactTesting.addRenderContainer(this._testID, this);
     }
   }

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf, action } from '@kadira/storybook';
 import DatePicker from '../DatePicker';
 
 class DatePickerWithError extends React.Component {
@@ -30,9 +30,13 @@ class DatePickerWithError extends React.Component {
 
 storiesOf('DatePicker', module)
   .add('with mouseevent handlers', () => (
-    <DatePicker
-      onMouseEnter={() => console.count('enter')}
-      onMouseLeave={() => console.count('leave')}
-    />
+    <div>
+      <DatePicker
+        onMouseEnter={() => console.count('enter')}
+        onMouseLeave={() => console.count('leave')}
+        onChange={action('change')}
+      />
+      <button>ok</button>
+    </div>
   ))
   .add('DatePickerWithError', () => <DatePickerWithError />);

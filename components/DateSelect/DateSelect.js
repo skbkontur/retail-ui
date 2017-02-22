@@ -56,6 +56,10 @@ export default class DateSelect extends React.Component {
   props: Props;
   state: State;
 
+  _focusSubscribtion: ?{
+    remove(): void
+  };
+
   constructor(props: Props, context: mixed) {
     super(props, context);
 
@@ -110,7 +114,13 @@ export default class DateSelect extends React.Component {
         [styles.menuItemSelected]: i === 0
       });
       items.push(
-        <div key={i} className={className}>
+        <div
+          key={i}
+          className={className}
+          onMouseEnter={() => this.setState({ current: i })}
+          onMouseLeave={() => this.setState({ current: null })}
+          onMouseDown={this.handleItemClick(i)}
+        >
           {this.getItem(i)}
         </div>
       );
@@ -147,13 +157,12 @@ export default class DateSelect extends React.Component {
           </div>
         )}
         <div className={styles.itemsHolder} style={{ height }}>
-          <div style={shiftStyle}>{items}</div>
-          <div className={styles.menuOverlay}
-            onMouseDown={this.handleItemClick}
-            onMouseMove={this.handleMouseMove}
-            onMouseLeave={this.handleMouseLeave}
+          <div
+            style={shiftStyle}
             onWheel={this.handleWheel}
-          />
+          >
+            {items}
+          </div>
         </div>
         {!this.state.botCapped && (
           <div className={styles.menuDown} onMouseDown={this.handleDown}>
@@ -177,33 +186,13 @@ export default class DateSelect extends React.Component {
     this.resetSize(pos);
   };
 
-  handleMouseMove = (event: SyntheticMouseEvent) => {
-    const currentTarget: HTMLElement = (event.currentTarget: any);
-    const rect = currentTarget.getBoundingClientRect();
-    const y = event.clientY - rect.top + this.state.top + this.state.pos;
-    const current = Math.floor(y / HEIGHT);
-    this.setState({ current });
-  };
-
-  handleMouseLeave = () => {
-    this.setState({ current: null });
-  };
-
-  handleItemClick = (event: SyntheticMouseEvent) => {
-    if (event.button !== 0) {
-      return;
-    }
-
-    const currentTarget: HTMLElement = (event.currentTarget: any);
-    const rect = currentTarget.getBoundingClientRect();
-    const y = event.clientY - rect.top + this.state.top + this.state.pos;
-    const value = this.props.value + Math.floor(y / HEIGHT);
-
-    this.close();
-
-    if (this.props.onChange) {
-      this.props.onChange(value);
-    }
+  handleItemClick = (shift: number) => {
+    return (e: SyntheticMouseEvent) => {
+      const value = this.props.value + shift;
+      if (this.props.onChange) {
+        this.props.onChange(value);
+      }
+    };
   };
 
   handleKey = (event: SyntheticKeyboardEvent) => {
@@ -280,7 +269,7 @@ export default class DateSelect extends React.Component {
       return;
     }
 
-    this.setState({ opened: false });
+    this.setState(() => ({ opened: false }));
   };
 
   resetSize(pos: number) {

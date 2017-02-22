@@ -1,8 +1,13 @@
 // @flow
 
+import events from 'add-event-listener';
 import classNames from 'classnames';
 import React, { PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
+
+import listenFocusOutside, {
+  containsTargetOrRenderContainer
+} from '../../lib/listenFocusOutside';
 
 import filterProps from '../filterProps';
 import Input from '../Input';
@@ -133,6 +138,9 @@ export default class DatePicker extends React.Component {
   icon: Icon;
   input: Input;
 
+  _focusSubscribtion: any;
+  _focused: boolean;
+
   constructor(props: Props, context: mixed) {
     super(props, context);
 
@@ -149,13 +157,15 @@ export default class DatePicker extends React.Component {
     let picker = null;
     if (opened) {
       picker = (
-        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={0}>
+        <DropdownContainer
+          getParent={() => findDOMNode(this)}
+          offsetY={0}
+        >
           <Picker
             value={value}
             minYear={this.props.minYear}
             maxYear={this.props.maxYear}
             onPick={this.handlePick}
-            onClose={this.handlePickerClose}
             iconRef={this.icon}
           />
         </DropdownContainer>
@@ -167,22 +177,60 @@ export default class DatePicker extends React.Component {
       [this.props.className || '']: true
     });
     return (
-      <span className={className} style={{ width: this.props.width }}>
+      <label
+        className={className}
+        style={{ width: this.props.width }}
+        ref={this._ref}
+      >
         <DateInput
           {...filterProps(this.props, INPUT_PASS_PROPS)}
           getIconRef={this.getIconRef}
           getInputRef={this.getInputRef}
           opened={opened}
-          value={this.getValue()}
-          onBlur={this.handleBlur}
+          value={this.state.textValue}
           onFocus={this.handleFocus}
           onChange={this.handleChange}
           onIconClick={this.toggleCalendar}
         />
         {picker}
-      </span>
+      </label>
     );
   }
+
+  _ref = (el: HTMLElement) => {
+    if (this._focusSubscribtion) {
+      this._focusSubscribtion.remove();
+      this._focusSubscribtion = null;
+
+      events.removeEventListener(
+        document,
+        'mousedown',
+        this._handleNativeDocClick
+      );
+    }
+
+    if (el) {
+      this._focusSubscribtion = listenFocusOutside(
+        [findDOMNode(this)],
+        this.handleBlur
+      );
+      events.addEventListener(
+        document,
+        'mousedown',
+        this._handleNativeDocClick
+      );
+    }
+  };
+
+  _handleNativeDocClick = ({ target }) => {
+    const containsTarget = containsTargetOrRenderContainer(target);
+
+    if (!containsTarget(findDOMNode(this))) {
+      this.handleBlur();
+    } else {
+      this.input.focus();
+    }
+  };
 
   getValue = () => {
     const value = this.props.value;
@@ -196,24 +244,34 @@ export default class DatePicker extends React.Component {
   };
 
   handleChange = (value: string) => {
-    const { onChange, onUnexpectedInput } = this.props;
-    if (!onChange) {
-      return;
-    }
-    const newDate = getDateValue(value, onUnexpectedInput);
-    onChange({ target: { value: newDate } }, newDate);
+    this.setState({ textValue: value });
   };
 
   handleFocus = () => {
+    if (this._focused) {
+      return;
+    }
+
+    this._focused = true;
     if (this.props.onFocus) {
       this.props.onFocus();
     }
   };
 
   handleBlur = () => {
-    const value = this.props.value;
-    const date = parseDate(value);
+    if (!this._focused) {
+      return;
+    }
 
+    this._focused = false;
+
+    this.close(false);
+
+    const value = this.state.textValue;
+    const date = parseDate(value);
+    if (date) {
+      this.setState({ textValue: formatDate(date) });
+    }
     if (this.props.onChange) {
       const newDate = date === null
         ? getDateValue(value, this.props.onUnexpectedInput)
@@ -230,7 +288,8 @@ export default class DatePicker extends React.Component {
     if (this.props.onChange) {
       this.props.onChange({ target: { value: date } }, date);
     }
-    this.close(true);
+    this._focused = false;
+    this.close(false);
   };
 
   handlePickerClose = () => {

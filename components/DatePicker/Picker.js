@@ -1,12 +1,9 @@
 // @flow
 
-import events from 'add-event-listener';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import Calendar from './Calendar';
 import DateSelect from '../DateSelect';
-import Gapped from '../Gapped';
 import Icon from '../Icon';
 
 import styles from './Picker.less';
@@ -16,7 +13,6 @@ type Props = {
   minYear: number,
   value: ?Date,
   iconRef: ?Icon,
-  onClose: () => void,
   onPick: (date: Date) => void
 };
 
@@ -43,22 +39,21 @@ export default class Picker extends React.Component {
     return (
       <div className={styles.root}>
         <div className={styles.monthYear}>
-          <Gapped gap={4}>
-            <DateSelect
-              type="year"
-              value={this.state.date.getUTCFullYear()}
-              minYear={this.props.minYear}
-              maxYear={this.props.maxYear}
-              width={50}
-              onChange={this.handleYearChange}
-            />
-            <DateSelect
-              type="month"
-              value={this.state.date.getUTCMonth()}
-              width={80}
-              onChange={this.handleMonthChange}
-            />
-          </Gapped>
+          <DateSelect
+            type="year"
+            value={this.state.date.getUTCFullYear()}
+            minYear={this.props.minYear}
+            maxYear={this.props.maxYear}
+            width={50}
+            onChange={this.handleYearChange}
+          />
+          <div style={{ display: 'inline-block', width: 4 }} />
+          <DateSelect
+            type="month"
+            value={this.state.date.getUTCMonth()}
+            width={80}
+            onChange={this.handleMonthChange}
+          />
         </div>
         <Calendar
           ref="calendar"
@@ -72,14 +67,10 @@ export default class Picker extends React.Component {
 
   componentDidMount() {
     this._mounted = true;
-
-    events.addEventListener(document, 'mousedown', this.handleDocClick);
   }
 
   componentWillUnmount() {
     this._mounted = false;
-
-    events.removeEventListener(document, 'mousedown', this.handleDocClick);
   }
 
   handleMonthChange = (month: number) => {
@@ -95,32 +86,4 @@ export default class Picker extends React.Component {
 
     this.refs.calendar.moveToDate(this.state.date);
   };
-
-  handleDocClick = (event: MouseEvent) => {
-    // For some reason mousedown handler is still being called after
-    // `componentWillUnmount` was called in IE11.
-    if (!this._mounted) {
-      return;
-    }
-    const target: Element = (event.target: any) || event.srcElement;
-    if (!ReactDOM.findDOMNode(this).contains(target) && !isDetached(target)) {
-      const icon = this.props.iconRef;
-      if (icon && ReactDOM.findDOMNode(icon).contains(target)) {
-        return;
-      }
-      this.props.onClose();
-    }
-  };
-}
-
-function isDetached(element) {
-  const body = document.body;
-  do {
-    if (element === body) {
-      return false;
-    }
-    element = element && element.parentElement;
-  } while (element);
-
-  return true;
 }
