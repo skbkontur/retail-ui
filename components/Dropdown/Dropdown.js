@@ -11,6 +11,7 @@ const PASS_PROPS = {
   error: true,
   menuAlign: true,
   menuWidth: true,
+  maxMenuHeight: true,
   use: true,
   size: true,
   warning: true,
@@ -44,6 +45,8 @@ export default class Dropdown extends React.Component {
      * Иконка слева от текста кнопки
      */
     icon: PropTypes.string,
+
+    maxMenuHeight: PropTypes.number,
 
     menuAlign: PropTypes.oneOf(['left', 'right']),
 

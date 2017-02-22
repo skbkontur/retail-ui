@@ -74,6 +74,8 @@ class Select extends React.Component {
      */
     items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 
+    maxMenuHeight: PropTypes.number,
+
     maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     placeholder: PropTypes.node,
@@ -264,6 +266,7 @@ class Select extends React.Component {
           ref={this._refMenu}
           width={this.props.menuWidth}
           onItemClick={this._close}
+          maxHeight={this.props.maxMenuHeight}
         >
           {search}
           {this.mapItems((iValue, item, i, comment) => {
