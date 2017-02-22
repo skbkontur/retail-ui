@@ -1,5 +1,12 @@
 # Changelog
 
+### 0.6.12 -> 0.6.13
+- DatePicker - добавлен пропс onUnexpectedInput и оптимизированы вызовы onFocus, onBlur и onChange
+- RadioGroup - поправлена работа пропса renderItem
+- Dropdown, Select - добавлены пропсы maxMenuHeight, disablePortal
+- ScrollContainer - установлена минимальная высота ползунка скролбара
+- Tooltip - учитывает клики по элементам портала
+
 ### 0.6.11 -> 0.6.12
 Поправлена ошибка при деплое
 
