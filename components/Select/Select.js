@@ -39,6 +39,11 @@ class Select extends React.Component {
   static propTypes = {
     defaultValue: PropTypes.any,
 
+    /**
+     * Отключает использование портала
+     */
+    disablePortal: PropTypes.bool,
+
     disabled: PropTypes.bool,
 
     /**
@@ -261,6 +266,7 @@ class Select extends React.Component {
         offsetY={-1}
         ref={this._refMenuContainer}
         align={this.props.menuAlign}
+        disablePortal={this.props.disablePortal}
       >
         <Menu
           ref={this._refMenu}
