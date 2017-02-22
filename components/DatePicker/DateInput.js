@@ -83,7 +83,7 @@ export default class DateInput extends Component {
             (
               <span
                 className={openClassName}
-                onClick={this.props.onIconClick}
+                onMouseDown={this.props.onIconClick}
                 ref={this.getIconRef}
               >
                 <Icon name="calendar" size={iconSize} />

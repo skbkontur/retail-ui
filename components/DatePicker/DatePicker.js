@@ -63,7 +63,7 @@ type Props = {
   onMouseEnter?: (e: SyntheticMouseEvent) => void,
   onMouseLeave?: (e: SyntheticMouseEvent) => void,
   onMouseOver?: (e: SyntheticMouseEvent) => void,
-  onUnexpectedInput?: (value: string) => any
+  onUnexpectedInput: (value: string) => any
 };
 
 type State = {
@@ -130,7 +130,10 @@ export default class DatePicker extends React.Component {
     minYear: 1900,
     maxYear: 2100,
     width: 120,
-    withMask: false
+    withMask: false,
+
+    // Flow type inheritance problem
+    onUnexpectedInput: ((() => null): (x: string) => any)
   };
 
   props: Props;
@@ -138,15 +141,20 @@ export default class DatePicker extends React.Component {
   icon: Icon;
   input: Input;
 
-  _focusSubscribtion: any;
+  _focusSubscription: any;
   _focused: boolean;
+  _ignoreBlur: boolean;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
 
+    const textValue = typeof props.value === 'string'
+      ? props.value
+      : formatDate(props.value);
+
     this.state = {
       opened: false,
-      textValue: ''
+      textValue
     };
   }
 
@@ -189,6 +197,7 @@ export default class DatePicker extends React.Component {
           opened={opened}
           value={this.state.textValue}
           onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
           onChange={this.handleChange}
           onIconClick={this.toggleCalendar}
         />
@@ -197,10 +206,21 @@ export default class DatePicker extends React.Component {
     );
   }
 
+  componentDidUpdate({ value: oldValue }: Props) {
+    const { value: newValue } = this.props;
+    if (newValue !== oldValue) {
+      const textValue = typeof newValue === 'string'
+        ? newValue
+        : formatDate(newValue);
+
+      this.setState({ textValue });
+    }
+  }
+
   _ref = (el: HTMLElement) => {
-    if (this._focusSubscribtion) {
-      this._focusSubscribtion.remove();
-      this._focusSubscribtion = null;
+    if (this._focusSubscription) {
+      this._focusSubscription.remove();
+      this._focusSubscription = null;
 
       events.removeEventListener(
         document,
@@ -210,7 +230,7 @@ export default class DatePicker extends React.Component {
     }
 
     if (el) {
-      this._focusSubscribtion = listenFocusOutside(
+      this._focusSubscription = listenFocusOutside(
         [findDOMNode(this)],
         this.handleBlur
       );
@@ -222,13 +242,12 @@ export default class DatePicker extends React.Component {
     }
   };
 
-  _handleNativeDocClick = ({ target }) => {
-    const containsTarget = containsTargetOrRenderContainer(target);
+  _handleNativeDocClick = (e) => {
+    e.stopPropagation();
+    const containsTarget = containsTargetOrRenderContainer(e.target);
 
     if (!containsTarget(findDOMNode(this))) {
       this.handleBlur();
-    } else {
-      this.input.focus();
     }
   };
 
@@ -259,6 +278,11 @@ export default class DatePicker extends React.Component {
   };
 
   handleBlur = () => {
+    if (this._ignoreBlur) {
+      this._ignoreBlur = false;
+      return;
+    }
+
     if (!this._focused) {
       return;
     }
@@ -269,13 +293,13 @@ export default class DatePicker extends React.Component {
 
     const value = this.state.textValue;
     const date = parseDate(value);
-    if (date) {
-      this.setState({ textValue: formatDate(date) });
-    }
+    const newDate = date === null
+      ? getDateValue(value, this.props.onUnexpectedInput)
+      : date;
+
+    this.setState({ textValue: formatDate(newDate) });
+
     if (this.props.onChange) {
-      const newDate = date === null
-        ? getDateValue(value, this.props.onUnexpectedInput)
-        : date;
       this.props.onChange({ target: { value: newDate } }, newDate);
     }
 
@@ -300,8 +324,10 @@ export default class DatePicker extends React.Component {
     if (this.props.disabled) {
       return;
     }
+
+    this._ignoreBlur = true;
+
     if (this.state.opened) {
-      e.preventDefault();
       this.close(false);
     } else {
       this.setState({ opened: true });
