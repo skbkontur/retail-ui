@@ -134,7 +134,8 @@ export default class ValidationWrapper extends React.Component {
                     { ...validationState, visible: true },
                     ...this.state.validationStates.slice(index + 1),
                 ];
-            } else {
+            }
+            else {
                 validationStates = [
                     ...this.state.validationStates.slice(0, index),
                     { ...validationState, visible: false },

@@ -32,20 +32,20 @@ export default class ValidationContext extends React.Component {
     }
 
     onValidationUpdated(wrapper: ValidationWrapper, isValid?: boolean) {
-        const {onValidationUpdated} = this.props;
+        const { onValidationUpdated } = this.props;
         if (onValidationUpdated) {
             const isValidResult = !this.childWrappers.find(x => {
-                    if (x === wrapper) {
-                        return !isValid;
-                    }
-                    return x.hasError()
-                });
+                if (x === wrapper) {
+                    return !isValid;
+                }
+                return x.hasError();
+            });
             onValidationUpdated(isValidResult);
         }
     }
 
     onValidationRemoved() {
-        const {onValidationUpdated} = this.props;
+        const { onValidationUpdated } = this.props;
         if (onValidationUpdated) {
             const isValidResult = !this.childWrappers.find(x => x.hasError());
             onValidationUpdated(isValidResult);
