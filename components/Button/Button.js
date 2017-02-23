@@ -30,7 +30,7 @@ type Props = {
   narrow?: boolean,
   size: 'small' | 'medium' | 'large',
   type: 'button' | 'submit' | 'reset',
-  use: 'default' | 'primary' | 'success' | 'danger' | 'pay',
+  use: 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link',
   width?: number | string,
   onClick?: (e: SyntheticMouseEvent) => void,
   onKeyDown?: (e: SyntheticKeyboardEvent) => void,
