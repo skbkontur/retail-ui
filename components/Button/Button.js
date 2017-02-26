@@ -113,9 +113,9 @@ class Button extends React.Component {
   };
 
   props: Props;
-  state: {|
+  state: {
     focusedByTab: boolean
-  |} = {
+  } = {
     focusedByTab: false
   };
 
