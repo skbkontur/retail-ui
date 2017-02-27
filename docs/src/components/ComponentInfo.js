@@ -2,7 +2,7 @@ import React from 'react';
 
 import CodeMirror from 'react-codemirror';
 import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/monokai.css';
+// import 'codemirror/theme/panda-syntax.css';
 import 'codemirror/mode/jsx/jsx';
 
 import components from '../components';
@@ -13,7 +13,7 @@ import PropsDoc from './PropsDoc';
 import styles from './ComponentInfo.less';
 
 const editorOptions = {
-  theme: 'monokai',
+  // theme: 'panda-syntax',
   lineWrapping: true,
   lineNumbers: true,
   mode: 'jsx',
@@ -33,17 +33,20 @@ var Component = React.createClass({
     return (
       <div className={styles.root}>
         <h2 className={styles.name}>{component.name}</h2>
-        <div><CodeRunner src={this.state.src} /></div>
+        <div className={styles.codeRunner}>
+          <CodeRunner src={this.state.src} />
+        </div>
 
         <div className={styles.code}>
           <div className={styles.codeTitle} onClick={this._triggerCode}>
-            Code
+            Source code
           </div>
-          {this.state.showCode && (
-            <CodeMirror value={this.state.src} onChange={this.handleCodeChange}
+          {this.state.showCode &&
+            <CodeMirror
+              value={this.state.src}
+              onChange={this.handleCodeChange}
               options={editorOptions}
-            />
-          )}
+            />}
         </div>
 
         <div className={styles.docs}>
@@ -72,7 +75,7 @@ var Component = React.createClass({
   },
 
   _getComponent(name = this.props.params.component) {
-    return components.find((c) => c.name === name);
+    return components.find(c => c.name === name);
   }
 });
 

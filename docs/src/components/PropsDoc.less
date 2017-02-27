@@ -1,21 +1,33 @@
 :local {
   .title {
     font-size: 24px;
-    margin: 40px 0 20px;
-    padding: 5px;
+    margin: 40px 0 10px;
+    padding: 4px 10px;
+    font-weight: 300;
   }
 
   .desc {
-    margin: 20px 5px;
+    margin: 10px 0;
+    padding: 10px;
   }
 
   .prop {
-    background: #f0f0f0;
+    // background: #f0f0f0;
     overflow: hidden;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.2s ease-in;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: #fafafa;
+    }
   }
 
   .propOdd {
-    background: #fafafa;
+    // background: #fafafa;
   }
 
   .propTitle {

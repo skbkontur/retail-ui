@@ -28,7 +28,7 @@ var PropsDoc = React.createClass({
 
         {info.props && (
           <div>
-            <div className={styles.title}>Props</div>
+            <div className={styles.title}>Properties</div>
             <div>
               {Object.keys(info.props).map((name, i) => {
                 var prop = info.props[name];
@@ -57,7 +57,7 @@ var PropsDoc = React.createClass({
                       {required}
                       {defaultValue}
                     </div>
-                    {prop.description && (
+                    {prop.description && prop.description.description && (
                       <div className={propDescClassName}
                         dangerouslySetInnerHTML={{
                           __html: prop.description.description
@@ -103,7 +103,8 @@ var PropsDoc = React.createClass({
                       {prop.args.join(', ')}
                     </span>
                   </div>
-                  <div className={styles.propDesc}>{prop.desc}</div>
+                  {prop.desc &&
+                  <div className={styles.propDesc}>{prop.desc}</div>}
                 </div>
               ))}
             </div>
