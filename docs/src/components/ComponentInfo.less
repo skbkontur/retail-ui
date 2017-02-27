@@ -1,32 +1,41 @@
 :local {
-  .root:after {
+  .root::after {
     content: '';
     clear: both;
     display: block;
   }
 
   .name {
-    border-bottom: 1px solid #555;
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 300;
     margin: 0 0 20px;
+    padding-left: 10px;
   }
 
   .code {
     margin: 15px 0;
   }
 
+  .codeRunner {
+    padding-left: 10px;
+  }
+
   .codeTitle {
-    background: #cfd0c8;
-    font-size: 18px;
-    padding: 4px;
+    // background: #cfd0c8;
+    font-size: 24px;
+    font-weight: 300;
+    padding: 4px 10px;
+    cursor: pointer;
+    display: inline-block;
+    transition: background 0.2s ease-in;
+
+    &:hover {
+      background: #f0f0f0;
+    }
   }
 
   .docs {
     margin-top: 20px;
-  }
-
-  .root :global(.CodeMirror-gutter) {
-    background: #494a3f;
+    margin-bottom: 60px;
   }
 }

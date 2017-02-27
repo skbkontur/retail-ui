@@ -1,4 +1,4 @@
-const items = ['One', 'Two', 'Three'];
+var items = ['One', 'Two', 'Three'];
 
 class Component extends React.Component {
   constructor(props) {

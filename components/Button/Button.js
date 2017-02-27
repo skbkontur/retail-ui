@@ -1,14 +1,27 @@
 // @flow
-
+import events from 'add-event-listener';
 import classNames from 'classnames';
 import React, { PropTypes } from 'react';
 
 import Corners from './Corners';
 import Icon from '../Icon';
-import browser from '../../lib/browserNormalizer';
 
 import '../ensureOldIEClassName';
 import styles from './Button.less';
+
+const KEYCODE_TAB = 9;
+
+let isListening: boolean;
+let tabPressed: boolean;
+
+function listenTabPresses() {
+  if (!isListening) {
+    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
+      tabPressed = event.keyCode === KEYCODE_TAB;
+    });
+    isListening = true;
+  }
+}
 
 const SIZE_CLASSES = {
   small: styles.sizeSmall,
@@ -100,7 +113,32 @@ class Button extends React.Component {
   };
 
   props: Props;
-  state: null;
+  state: {
+    focusedByTab: boolean
+  } = {
+    focusedByTab: false
+  };
+
+  componentDidMount() {
+    listenTabPresses();
+  }
+
+  handleFocus = (e: SyntheticFocusEvent) => {
+    if (!this.props.disabled) {
+      // focus event fires before keyDown eventlistener
+      // so we should check tabPressed in async way
+      process.nextTick(() => {
+        if (tabPressed) {
+          this.setState({ focusedByTab: true });
+          tabPressed = false;
+        }
+      });
+    }
+  };
+
+  handleBlur = () => {
+    this.setState({ focusedByTab: false });
+  }
 
   render() {
     const { corners = 0 } = this.props;
@@ -122,20 +160,20 @@ class Button extends React.Component {
         [styles.noRightPadding]: this.props._noRightPadding,
         [styles.buttonWithIcon]: !!this.props.icon,
         [styles.arrowButton]: this.props.arrow,
-        [SIZE_CLASSES[this.props.size]]: true
+        [SIZE_CLASSES[this.props.size]]: true,
+        [styles.focus]: this.state.focusedByTab
       }),
       style: {
-        borderRadius: (
-          `${corners & Corners.TOP_LEFT ? 0 : radius}` +
-            ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
-            ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
-            ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`
-        )
+        borderRadius: `${corners & Corners.TOP_LEFT ? 0 : radius}` +
+          ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
+          ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
+          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`
       },
       disabled: this.props.disabled || this.props.loading,
       onClick: this.props.onClick,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
       onKeyDown: this.props.onKeyDown,
-      onMouseDown: this._handleMouseDown, // to prevent focus on click
       onMouseEnter: this.props.onMouseEnter,
       onMouseLeave: this.props.onMouseLeave,
       onMouseOver: this.props.onMouseOver
@@ -201,12 +239,6 @@ class Button extends React.Component {
       </span>
     );
   }
-
-  _handleMouseDown = e => {
-    if (browser.hasFocusOnButtonClick) {
-      e.preventDefault();
-    }
-  };
 }
 
 export default Button;
