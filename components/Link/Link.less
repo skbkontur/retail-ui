@@ -8,7 +8,7 @@
   }
 
   .root:hover,
-  .root:focus {
+  .root.focus {
     text-decoration: @link-hover-text-decoration;
   }
 
@@ -16,7 +16,7 @@
     color: @link-color;
 
     &:hover,
-    &:focus {
+    &.focus {
       color: @link-hover-color;
     }
 
@@ -40,7 +40,7 @@
   .useDanger {
     &,
     &:hover,
-    &:focus {
+    &.focus {
       color: #e3071c;
     }
 
@@ -52,7 +52,7 @@
   .useGrayed {
     &,
     &:hover,
-    &:focus,
+    &.focus,
     &:active {
       color: @link-disabled-color;
     }

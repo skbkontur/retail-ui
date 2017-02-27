@@ -37,7 +37,7 @@
     position: relative;
     width: 100%;
 
-    &::-moz-focus-inner {
+    &:-moz-focus-inner {
       border: 0;
       padding: 0;
     }
@@ -75,7 +75,7 @@
       .arrow.arrow_loading {
         overflow: hidden;
 
-        &::before {
+        &:before {
           background: @arrow_loading;
           content: '';
           height: @arrow_loading_height;
@@ -231,7 +231,7 @@
       .@{className}.focus {
         box-shadow: none;
 
-        &::before {
+        &:before {
           border: 1px solid #fff;
           bottom: 0;
           content: '';
@@ -485,7 +485,7 @@
     overflow: hidden;
   }
 
-  .loading::before {
+  .loading:before {
     content: '';
     height: 100%;
     position: absolute;

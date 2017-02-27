@@ -1,9 +1,9 @@
 // @flow
+import events from 'add-event-listener';
 import classNames from 'classnames';
 import React, { PropTypes } from 'react';
 
 import Icon from '../Icon';
-import browser from '../../lib/browserNormalizer';
 
 import styles from './Link.less';
 
@@ -13,6 +13,21 @@ const useClasses = {
   danger: styles.useDanger,
   grayed: styles.useGrayed
 };
+
+const KEYCODE_TAB = 9;
+
+let isListening: boolean;
+let tabPressed: boolean;
+
+function listenTabPresses() {
+  if (!isListening) {
+    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
+      tabPressed = event.keyCode === KEYCODE_TAB;
+    });
+    isListening = true;
+  }
+}
+
 
 /**
  * Стандартная ссылка.
@@ -34,6 +49,16 @@ class Link extends React.Component {
     href: 'javascript:',
     use: 'default'
   };
+
+  state: {
+    focusedByTab: boolean
+  } = {
+    focusedByTab: false
+  }
+
+  componentDidMount() {
+    listenTabPresses();
+  }
 
   render() {
     const {
@@ -62,11 +87,13 @@ class Link extends React.Component {
         [useClasses[use]]: true,
         [styles.disabled]: disabled,
         [styles.button]: _button,
-        [styles.buttonOpened]: _buttonOpened
+        [styles.buttonOpened]: _buttonOpened,
+        [styles.focus]: !disabled && this.state.focusedByTab
       }),
       href,
       onClick: this._handleClick,
-      onMouseDown: this._handleMouseDown //to prevent focus on click
+      onFocus: this._handleFocus,
+      onBlur: this._handleBlur
     };
     if (disabled) {
       props.tabIndex = '-1';
@@ -81,11 +108,22 @@ class Link extends React.Component {
     );
   }
 
-  _handleMouseDown = e => {
-    if (browser.hasFocusOnLinkClick) {
-      e.preventDefault();
+  _handleFocus = (e: SyntheticFocusEvent) => {
+    if (!this.props.disabled) {
+      // focus event fires before keyDown eventlistener
+      // so we should check tabPressed in async way
+      process.nextTick(() => {
+        if (tabPressed) {
+          this.setState({ focusedByTab: true });
+          tabPressed = false;
+        }
+      });
     }
   };
+
+  _handleBlur = () => {
+    this.setState({ focusedByTab: false });
+  }
 
   _handleClick = event => {
     if (this.props.onClick && !this.props.disabled) {
