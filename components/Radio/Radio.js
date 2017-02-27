@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React, { PropTypes } from 'react';
 
+import '../ensureOldIEClassName';
+
 import styles from './Radio.less';
 
 /**
