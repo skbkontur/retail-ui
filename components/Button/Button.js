@@ -90,7 +90,14 @@ class Button extends React.Component {
     /**
      * Вариант использования. Влияет на цвет кнопки.
      */
-    use: PropTypes.oneOf(['default', 'primary', 'success', 'danger', 'pay']),
+    use: PropTypes.oneOf([
+      'default',
+      'primary',
+      'success',
+      'danger',
+      'pay',
+      'link'
+    ]),
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
@@ -182,9 +189,12 @@ class Button extends React.Component {
       rootProps.style.textAlign = this.props.align;
     }
 
-    const wrapStyle = {};
+    const wrapProps = {
+      className: this.props.arrow ? styles.wrap_arrow : styles.wrap,
+      style: {}
+    };
     if (this.props.width) {
-      wrapStyle.width = this.props.width;
+      wrapProps.style.width = this.props.width;
     }
 
     let error = null;
@@ -222,11 +232,26 @@ class Button extends React.Component {
       );
     }
 
+    // Force disable all props and features, that cannot be use with Link
+    if (this.props.use === 'link'){
+      rootProps.className = classNames({
+        [styles.root]: true,
+        [styles['use-link']]: true,
+        [styles.disabled]: this.props.disabled,
+        [styles.buttonWithIcon]: !!this.props.icon
+      });
+      Object.assign(wrapProps, {
+        className: styles.wrap,
+        style: null
+      });
+      rootProps.style.textAlign = null;
+      error = null;
+      loading = null;
+      arrow = null;
+    }
+
     return (
-      <span
-        className={this.props.arrow ? styles.wrap_arrow : styles.wrap}
-        style={wrapStyle}
-      >
+      <span {...wrapProps}>
         <button {...rootProps}>
           {loading}
           {arrow}
