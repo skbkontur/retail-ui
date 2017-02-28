@@ -13,7 +13,7 @@ export type Validation = {
 export interface IValidationContext {
     register(wrapper: ValidationWrapper): void;
     unregister(wrapper: ValidationWrapper): void;
-    onValidationUpdated(index: number, isValid: boolean): void;
+    onValidationUpdated(wrapper: ValidationWrapper, isValid: boolean): void;
 }
 
 export type RenderErrorMessage =
@@ -127,25 +127,26 @@ export default class ValidationWrapper extends React.Component {
     processBlur(validation: Validation, validationState: ValidationState, index: number) {
         this.isChanging = false;
         if (validation.behaviour === 'lostfocus') {
+            let validationStates;
             if (validation.error) {
-                this.setState({
-                    validationStates: [
-                        ...this.state.validationStates.slice(0, index),
-                        { ...validationState, visible: true },
-                        ...this.state.validationStates.slice(index + 1),
-                    ],
-                });
+                validationStates = [
+                    ...this.state.validationStates.slice(0, index),
+                    { ...validationState, visible: true },
+                    ...this.state.validationStates.slice(index + 1),
+                ];
             }
-            if (!validation.error) {
-                this.setState({
-                    validationStates: [
-                        ...this.state.validationStates.slice(0, index),
-                        { ...validationState, visible: false },
-                        ...this.state.validationStates.slice(index + 1),
-                    ],
-                });
+            else {
+                validationStates = [
+                    ...this.state.validationStates.slice(0, index),
+                    { ...validationState, visible: false },
+                    ...this.state.validationStates.slice(index + 1),
+                ];
             }
-            this.context.validationContext.onValidationUpdated(index, !validation.error);
+            this.setState({
+                validationStates,
+            });
+            const isValid = !validationStates.find(x => x.visible);
+            this.context.validationContext.onValidationUpdated(this, isValid);
         }
     }
 

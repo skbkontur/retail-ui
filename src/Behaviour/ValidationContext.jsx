@@ -28,19 +28,27 @@ export default class ValidationContext extends React.Component {
 
     unregister(wrapper: ValidationWrapper) {
         this.childWrappers.splice(this.childWrappers.indexOf(wrapper), 1);
+        this.onValidationRemoved();
     }
 
-    onValidationUpdated(index?: number, isValid?: boolean) {
-        if (this.props.onValidationUpdated) {
-            let isValidResult;
-            if (index !== undefined && isValid !== undefined) {
-                isValidResult = !this.childWrappers
-                    .filter((_value, i) => i !== index).find(x => x.hasError()) && isValid;
-            }
-            else {
-                isValidResult = !this.childWrappers.find(x => x.hasError());
-            }
-            this.props.onValidationUpdated(isValidResult);
+    onValidationUpdated(wrapper: ValidationWrapper, isValid?: boolean) {
+        const { onValidationUpdated } = this.props;
+        if (onValidationUpdated) {
+            const isValidResult = !this.childWrappers.find(x => {
+                if (x === wrapper) {
+                    return !isValid;
+                }
+                return x.hasError();
+            });
+            onValidationUpdated(isValidResult);
+        }
+    }
+
+    onValidationRemoved() {
+        const { onValidationUpdated } = this.props;
+        if (onValidationUpdated) {
+            const isValidResult = !this.childWrappers.find(x => x.hasError());
+            onValidationUpdated(isValidResult);
         }
     }
 
@@ -53,7 +61,11 @@ export default class ValidationContext extends React.Component {
             }
             firstInvalid.activateValidationMessageIfNeed();
         }
-        this.onValidationUpdated();
+
+        if (this.props.onValidationUpdated) {
+            this.props.onValidationUpdated(!firstInvalid);
+        }
+
         return !firstInvalid;
     }
 
