@@ -1,5 +1,7 @@
 @import '../variables.less';
 
+@linkIconPadding: 3px;
+
 .linkMixin(@className, @color, @hoverColor, @focusColor, @activeColor){
   .@{className} {
     border-radius: 1px;
@@ -60,7 +62,7 @@
 
   .icon {
     display: inline-block;
-    margin-right: 3px;
+    margin-right: @linkIconPadding;
   }
 
   // For being used instead of button
