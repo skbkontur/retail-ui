@@ -1,4 +1,5 @@
 // @flow
+import Events from 'add-event-listener';
 import React from 'react';
 import ValidationTooltip from './ValidationTooltip';
 
@@ -23,11 +24,11 @@ export default class ValidationTooltipContext extends React.Component {
     validationTooltips: ValidationTooltip[] = [];
 
     componentDidMount() {
-        document.addEventListener('mousedown', this.handleFocusOutside);
+        Events.addEventListener(document, 'mousedown', this.handleFocusOutside);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('mousedown', this.handleFocusOutside);
+        Events.removeEventListener(document, 'mousedown', this.handleFocusOutside);
     }
 
     handleFocusOutside = (_event: Event) => {
