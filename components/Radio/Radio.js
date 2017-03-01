@@ -51,7 +51,7 @@ class Radio extends React.Component {
   renderLabel() {
     const labelClassNames = classNames({
       [styles.label]: true,
-      [styles.disabled]: this.props.disabled
+      [styles.labelDisabled]: this.props.disabled
     });
 
     return (
