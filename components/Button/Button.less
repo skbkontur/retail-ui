@@ -1,4 +1,5 @@
 @import '../variables.less';
+@import (reference) '../Link/Link.less';
 
 :local {
   @focus-shadow: 0 0 0 1px @border-color-focus,
@@ -401,6 +402,38 @@
     @btn-pay-bg,
     none
   );
+
+  // Use Link
+
+  .root.use-link {
+    display: inline;
+    height: inherit;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    line-height: inherit;
+
+    &:active {
+      vertical-align: 0;
+    }
+
+    &.disabled {
+      box-shadow: none;
+      background: none;
+    }
+
+    icon {
+      padding-right: @linkIconPadding;
+    }
+  }
+
+  .linkMixin(use-link,
+    @link-color,
+    @link-hover-color,
+    @link-hover-color,
+    @link-active-color);
 
   // End Use
 
