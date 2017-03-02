@@ -15,7 +15,7 @@ class SearchSelectAdapter {
 
   setValue(value: any) {
     if (this._searchSelect.props.onChange) {
-      this._searchSelect.props.onChange({target: {value}}, value);
+      this._searchSelect.props.onChange({ target: { value } }, value);
     }
   }
 }

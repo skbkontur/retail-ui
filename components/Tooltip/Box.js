@@ -1,7 +1,8 @@
 import events from 'add-event-listener';
 import CROSS from '../internal/cross';
 import LayoutEvents from '../../lib/LayoutEvents';
-import React, {PropTypes} from 'react';
+import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
+import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
 import position from './position';
@@ -12,19 +13,19 @@ import styles from './Box.less';
 export default class Box extends React.Component {
   static contextTypes = {
     insideFixedContainer: PropTypes.bool,
-    rt_inModal: PropTypes.bool,
+    rt_inModal: PropTypes.bool
   };
 
   state = {
-    pos: null,
+    pos: null
   };
 
   _mounted = false;
 
   render() {
     const style = {
-      ...(this.state.pos ? this.state.pos.boxStyle : {left: 0}),
-      zIndex: this.context.rt_inModal ? 1100 : 900,
+      ...(this.state.pos ? this.state.pos.boxStyle : { left: 0 }),
+      zIndex: this.context.rt_inModal ? 1100 : 900
     };
 
     return (
@@ -73,7 +74,10 @@ export default class Box extends React.Component {
     }
 
     const target = event.target || event.srcElement;
-    if (!ReactDOM.findDOMNode(this).contains(target)) {
+    const containsTarget = containsTargetOrRenderContainer(target);
+    const rootNode = ReactDOM.findDOMNode(this);
+
+    if (!containsTarget(rootNode)) {
       this.props.onClose();
     }
   };
@@ -88,12 +92,12 @@ export default class Box extends React.Component {
     }
 
     this.updating_ = true;
-    this.setState({pos: null}, () => {
+    this.setState({ pos: null }, () => {
       const of = this.props.getTarget();
       const el = ReactDOM.findDOMNode(this);
       const fixed = this.context.insideFixedContainer === true;
       const pos = position(el, of, this.props.pos, fixed);
-      this.setState({pos}, () => {
+      this.setState({ pos }, () => {
         this.updating_ = false;
       });
     });

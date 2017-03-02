@@ -1,79 +1,82 @@
 @import '../variables.less';
 
 :local {
-  @day-side: 25px;
+  @cell-height: 31px;
+  @cell-width: 26px;
+  @day-side: 24px;
 
   .root {
     background: @bg-default;
-    border-radius: 0 0 2px 2px;
     height: 220px;
+    width: 280px;
     outline: none;
     overflow: hidden;
     position: relative;
-    width: 220px;
     z-index: 900;
   }
 
-  .mask {
-    // With transparent background on IE8 underlying text appears over the mask.
-    background: @bg-default;
-    bottom: 0;
-    box-shadow: inset 0 5px 6px -5px rgba(0, 0, 0, .2);
-    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
-    left: 0;
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-
   .grey {
-    background: @dropdown-menu-selected-bg;
+    background: #ececec;
   }
 
   .month {
     box-sizing: border-box;
-    font-size: 12px;
-    left: @day-side * 7;
+    font-size: 14px;
+    line-height: @cell-height;
+    left: 191px;
     overflow: hidden;
-    padding: 6px 0 0 0;
+    padding-left: 7px;
     position: absolute;
-    text-align: center;
-    width: 45px;
+    width: 89px;
   }
 
   .year {
-    color: #888;
+    display: none;
+  }
+
+  .month.first .year {
+    display: block;
+    line-height: 10px;
   }
 
   .cell {
     position: absolute;
+
+    &:nth-child(7n + 1) .cellInner {
+      margin-left: 6px;
+    }
+
+    &:nth-child(7n + 6) .cellInner {
+      margin-left: 3px;
+    }
+
+    &:hover .cellInner {
+      background: @border-color-focus;
+      color: @text-color-invert;
+    }
   }
 
   .cellInner {
-    border-radius: 2px;
-    font-size: 11px;
+    font-size: 14px;
     height: @day-side;
     line-height: @day-side;
-    text-align: center;
     width: @day-side;
-  }
-
-  .cellActive .cellInner {
-    background: #ddd;
+    cursor: pointer;
+    margin: (@cell-height - @day-side) / 2 auto;
+    text-align: center;
   }
 
   .cellToday .cellInner {
-    background: @bg-active;
-    color: @text-color-invert;
+    font-weight: bold;
   }
 
-  .cellCurrent .cellInner {
-    background: #808080;
-    color: @text-color-invert;
+  .cellCurrent .cellInner,
+  .cellCurrent:hover .cellInner {
+    color: @text-color-default;
+    background: rgba(0,0,0,0.09);
   }
 
   .cellHoly {
-    color: #c22;
+    color: @text-color-disabled;
   }
 }

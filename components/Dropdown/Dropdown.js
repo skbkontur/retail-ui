@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import filterProps from '../filterProps';
 import MenuHeader from '../MenuHeader/MenuHeader';
@@ -9,16 +9,22 @@ import Select from '../Select';
 const PASS_PROPS = {
   _renderButton: true,
   error: true,
+  disablePortal: true,
   menuAlign: true,
   menuWidth: true,
+  maxMenuHeight: true,
   use: true,
   size: true,
   warning: true,
   width: true,
   onOpen: true,
 
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true,
+
   diadocLink: true,
-  diadocLinkIcon: true,
+  diadocLinkIcon: true
 };
 
 /**
@@ -32,6 +38,11 @@ export default class Dropdown extends React.Component {
     caption: PropTypes.node.isRequired,
 
     /**
+     * Отключает использование портала
+     */
+    disablePortal: PropTypes.bool,
+
+    /**
      * Визуально показать наличие ошибки.
      */
     error: PropTypes.bool,
@@ -41,11 +52,13 @@ export default class Dropdown extends React.Component {
      */
     icon: PropTypes.string,
 
+    maxMenuHeight: PropTypes.number,
+
     menuAlign: PropTypes.oneOf(['left', 'right']),
 
     menuWidth: PropTypes.oneOfType([
       PropTypes.number,
-      PropTypes.string,
+      PropTypes.string
     ]),
 
     size: PropTypes.oneOf(['small', 'medium', 'large']),
@@ -62,10 +75,16 @@ export default class Dropdown extends React.Component {
 
     width: PropTypes.number,
 
+    onMouseEnter: PropTypes.func,
+
+    onMouseLeave: PropTypes.func,
+
+    onMouseOver: PropTypes.func,
+
     /**
      * Вызывается при открытии меню.
      */
-    onOpen: PropTypes.func,
+    onOpen: PropTypes.func
   };
 
   constructor(props) {

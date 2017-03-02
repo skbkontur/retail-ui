@@ -1,0 +1,10 @@
+{
+  "rules": {
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {"ignorePseudoClasses": ["local", "global"]}
+    ],
+    "selector-pseudo-element-colon-notation": "single"
+
+  }
+}

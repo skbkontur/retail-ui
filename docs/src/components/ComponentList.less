@@ -1,24 +1,32 @@
 :local {
   .root {
-    border-right: 1px solid #444;
+    // border-right: 1px solid #444;
   }
 
   .link {
     color: #444;
     display: block;
     padding: 4px 10px;
+    text-decoration: none;
   }
 
   .link:hover {
-    background: #eee;
+    // background: #eee;
+    text-decoration: underline;
   }
 
   .link.linkActive {
-    background: #ddd;
+    // background: #ddd;
+    font-weight: bold;
+
+    &:hover {
+      cursor: default;
+      text-decoration: none;
+    }
   }
 
   .draft {
-    background: #5F94FF;
+    background: #5f94ff;
     border-radius: 2px;
     color: #fff;
     display: inline-block;

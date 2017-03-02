@@ -12,11 +12,8 @@ addons:
       - g++-4.8
       - graphicsmagick
 before_script:
-- cd docs
-- yarn
-- yarn run storybook &
+- yarn storybook &
 - sleep 2
-- cd ..
 before_deploy:
 - nvm install stable
 - npm prune

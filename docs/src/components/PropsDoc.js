@@ -13,22 +13,22 @@ var PropsDoc = React.createClass({
 
     var descClassName = classNames({
       [styles.desc]: true,
-      [styles.md]: true,
+      [styles.md]: true
     });
     var propDescClassName = classNames({
       [styles.propDesc]: true,
-      [styles.md]: true,
+      [styles.md]: true
     });
 
     return (
       <div>
         <div className={descClassName}
-          dangerouslySetInnerHTML={{__html: info.description.description}}
+          dangerouslySetInnerHTML={{ __html: info.description.description }}
         />
 
         {info.props && (
           <div>
-            <div className={styles.title}>Props</div>
+            <div className={styles.title}>Properties</div>
             <div>
               {Object.keys(info.props).map((name, i) => {
                 var prop = info.props[name];
@@ -44,7 +44,7 @@ var PropsDoc = React.createClass({
 
                 const className = classNames({
                   [styles.prop]: true,
-                  [styles.propOdd]: i % 2,
+                  [styles.propOdd]: i % 2
                 });
                 return (
                   <div key={name} className={className}>
@@ -57,10 +57,10 @@ var PropsDoc = React.createClass({
                       {required}
                       {defaultValue}
                     </div>
-                    {prop.description && (
+                    {prop.description && prop.description.description && (
                       <div className={propDescClassName}
                         dangerouslySetInnerHTML={{
-                          __html: prop.description.description,
+                          __html: prop.description.description
                         }}
                       />
                     )}
@@ -103,7 +103,8 @@ var PropsDoc = React.createClass({
                       {prop.args.join(', ')}
                     </span>
                   </div>
-                  <div className={styles.propDesc}>{prop.desc}</div>
+                  {prop.desc &&
+                  <div className={styles.propDesc}>{prop.desc}</div>}
                 </div>
               ))}
             </div>
@@ -127,7 +128,7 @@ var PropsDoc = React.createClass({
         )}
       </div>
     );
-  },
+  }
 });
 
 function formatType(prop) {

@@ -1,73 +1,68 @@
 @import '../variables.less';
 
-:local {
-  .root {
+@linkIconPadding: 3px;
+
+.linkMixin(@className, @color, @hoverColor, @focusColor, @activeColor){
+  .@{className} {
     border-radius: 1px;
     outline: none;
     text-decoration: none;
+    color: @color;
+
+    &:hover {
+      color: @hoverColor;
+    }
+
+    &.focus {
+      color: @focusColor;
+    }
+
+    &:active {
+      color: @activeColor;
+    }
   }
 
-  .root:hover,
-  .root:focus {
+  .@{className}:hover,
+  .@{className}.focus {
     text-decoration: @link-hover-text-decoration;
   }
 
-  .useDefault {
-    color: @link-color;
-
-    &:hover,
-    &:focus {
-      color: @link-hover-color;
-    }
-
-    &:active {
-      color: @link-active-color;
-    }
-  }
-
-  .useSuccess {
-    &,
-    &:hover,
-    &:active {
-      color: #3f9726;
-    }
-
-    &:active {
-      color: #24760d;
-    }
-  }
-
-  .useDanger {
-    &,
-    &:hover,
-    &:focus {
-      color: #e3071c;
-    }
-
-    &:active {
-      color: #b00616;
-    }
-  }
-
-  .useGrayed {
-    &,
-    &:hover,
-    &:focus,
-    &:active {
-      color: @link-disabled-color;
-    }
-  }
-
-  .root.disabled {
+  .@{className}.disabled {
     box-shadow: none;
     color: @link-disabled-color;
     cursor: default;
     text-decoration: none;
   }
+}
+
+:local {
+  .linkMixin(useDefault,
+    @link-color,
+    @link-hover-color,
+    @link-hover-color,
+    @link-active-color);
+
+  .linkMixin(useSuccess,
+    #3f9726,
+    #3f9726,
+    #3f9726,
+    #24760d);
+
+  .linkMixin(useDanger,
+    #e3071c,
+    #e3071c,
+    #e3071c,
+    #b00616);
+
+  .linkMixin(useGrayed,
+    @link-disabled-color,
+    @link-disabled-color,
+    @link-disabled-color,
+    @link-disabled-color);
 
   .icon {
     display: inline-block;
-    margin-right: 3px;
+    margin-right: @linkIconPadding;
   }
 
   // For being used instead of button

@@ -5,6 +5,7 @@ ReactDOM.render(
     <Button use="success">Success</Button>
     <Button use="danger">Danger</Button>
     <Button use="pay">Pay</Button>
+    <Button use="link">Link</Button>
   </Gapped>,
   mountNode
 );

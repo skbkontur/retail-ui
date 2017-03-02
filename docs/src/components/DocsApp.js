@@ -1,5 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router';
+
+import GitHubHeaderLink from './GitHubHeaderLink';
 
 import styles from './DocsApp.less';
 
@@ -11,18 +12,9 @@ var DocsApp = React.createClass({
           <div className={styles.headIn}>
             <div className={styles.title}>ReactUI</div>
             <div className={styles.links}>
-              <Link to="/gettingStarted" className={styles.link}
-                activeClassName={styles.linkActive}
-              >
-                Getting Started
-              </Link>
-              <Link to="/components" className={styles.link}
-                activeClassName={styles.linkActive}
-              >
-                Components
-              </Link>
+              <GitHubHeaderLink href="https://github.com/skbkontur/retail-ui" />
             </div>
-            <div style={{clear: 'both'}} />
+            <div style={{ clear: 'both' }} />
           </div>
         </div>
         <div className={styles.content}>
@@ -30,7 +22,7 @@ var DocsApp = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 });
 
 export default DocsApp;

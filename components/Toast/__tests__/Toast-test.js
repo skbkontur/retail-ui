@@ -1,6 +1,6 @@
 // @flow
 /* global Lookup */
-import {mount} from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -63,22 +63,22 @@ describe('Toast', () => {
 
   it('support actions in tosts', () => {
     const wrapper = mount(<Toast />);
-    wrapper.instance().push('message', {label: 'action', handler: () => {}});
+    wrapper.instance().push('message', { label: 'action', handler: () => {} });
 
     const toast = wrapper.instance()._toast;
-    const link = ReactDOM.
-      findDOMNode(toast).
-      querySelector('.link');
+    const link = ReactDOM
+      .findDOMNode(toast)
+      .querySelector('.link');
     expect(link).toBeTruthy();
   });
 
   it('passes right actions in tosts', () => {
     const wrapper = mount(<Toast />);
     const handler = jest.fn();
-    wrapper.instance().push('message', {label: 'action', handler});
+    wrapper.instance().push('message', { label: 'action', handler });
 
     const toast = wrapper.instance()._toast;
 
-    expect(toast.props.action).toEqual({label: 'action', handler});
+    expect(toast.props.action).toEqual({ label: 'action', handler });
   });
 });

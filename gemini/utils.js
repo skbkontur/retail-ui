@@ -5,5 +5,5 @@ function pathTo(kind, story) {
 }
 
 module.exports = {
-  pathTo,
+  pathTo
 };

@@ -1,12 +1,10 @@
 // @flow
 
-import events from 'add-event-listener';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import Calendar from './Calendar';
 import DateSelect from '../DateSelect';
-import Gapped from '../Gapped';
+import Icon from '../Icon';
 
 import styles from './Picker.less';
 
@@ -14,45 +12,54 @@ type Props = {
   maxYear: number,
   minYear: number,
   value: ?Date,
-  onClose: () => void,
-  onPick: (date: Date) => void,
+  iconRef: ?Icon,
+  onPick: (date: Date) => void
 };
 
 type State = {
-  date: Date,
+  date: Date
 };
 
 export default class Picker extends React.Component {
   props: Props;
   state: State;
 
-  _mounted: bool;
+  _mounted: boolean;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
 
     this.state = {
-      date: props.value ? new Date(props.value.getTime()) : new Date(),
+      date: props.value ? new Date(props.value.getTime()) : new Date()
     };
   }
 
   render() {
-    const {date} = this.state;
+    const { date } = this.state;
     return (
       <div className={styles.root}>
         <div className={styles.monthYear}>
-          <Gapped gap={5}>
-            <DateSelect type="month" value={this.state.date.getUTCMonth()}
-              width={100} onChange={this.handleMonthChange}
-            />
-            <DateSelect type="year" value={this.state.date.getUTCFullYear()}
-              minYear={this.props.minYear} maxYear={this.props.maxYear}
-              width={70} onChange={this.handleYearChange}
-            />
-          </Gapped>
+          <DateSelect
+            type="year"
+            value={this.state.date.getUTCFullYear()}
+            minYear={this.props.minYear}
+            maxYear={this.props.maxYear}
+            width={50}
+            onChange={this.handleYearChange}
+          />
+          <div style={{ display: 'inline-block', width: 4 }} />
+          <DateSelect
+            type="month"
+            value={this.state.date.getUTCMonth()}
+            width={80}
+            onChange={this.handleMonthChange}
+          />
         </div>
-        <Calendar ref="calendar" {...this.props} initialDate={date}
-          onNav={(date) => this.setState({date})}
+        <Calendar
+          ref="calendar"
+          {...this.props}
+          initialDate={date}
+          onNav={date => this.setState({ date })}
         />
       </div>
     );
@@ -60,14 +67,10 @@ export default class Picker extends React.Component {
 
   componentDidMount() {
     this._mounted = true;
-
-    events.addEventListener(document, 'mousedown', this.handleDocClick);
   }
 
   componentWillUnmount() {
     this._mounted = false;
-
-    events.removeEventListener(document, 'mousedown', this.handleDocClick);
   }
 
   handleMonthChange = (month: number) => {
@@ -83,29 +86,4 @@ export default class Picker extends React.Component {
 
     this.refs.calendar.moveToDate(this.state.date);
   };
-
-  handleDocClick = (event: MouseEvent) => {
-    // For some reason mousedown handler is still being called after
-    // `componentWillUnmount` was called in IE11.
-    if (!this._mounted) {
-      return;
-    }
-
-    const target: Element = (event.target: any) || event.srcElement;
-    if (!ReactDOM.findDOMNode(this).contains(target) && !isDetached(target)) {
-      this.props.onClose();
-    }
-  };
-}
-
-function isDetached(element) {
-  const body = document.body;
-  do {
-    if (element === body) {
-      return false;
-    }
-    element = element && element.parentElement;
-  } while (element);
-
-  return true;
 }

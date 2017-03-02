@@ -1,10 +1,10 @@
-import {transform} from 'babel-core';
+import { transform } from 'babel-core';
 import jsxSyntaxPlugin from 'babel-plugin-syntax-jsx';
 import testingPugin from '../testing.js';
 
 function compile(input) {
   return transform(input, {
-    plugins: [jsxSyntaxPlugin, testingPugin],
+    plugins: [jsxSyntaxPlugin, testingPugin]
   }).code;
 }
 

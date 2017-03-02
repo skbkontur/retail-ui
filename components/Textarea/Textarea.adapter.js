@@ -8,11 +8,11 @@ const TextareaAdapter = {
   },
 
   setValue(inst: Textarea, value: string) {
-    inst.handleChange({target: {value}});
-  },
+    inst.handleChange({ target: { value } });
+  }
 };
 
 (Textarea: any).__ADAPTER__ = TextareaAdapter;
 
-export {TextareaAdapter};
+export { TextareaAdapter };
 export default Textarea;

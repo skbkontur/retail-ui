@@ -3,7 +3,7 @@ var items = [
   'Grey Space',
   'Kappa',
   'Keepo',
-  'Resident Sleeper',
+  'Resident Sleeper'
 ];
 
 ReactDOM.render(unc(<Autocomplete source={items} />, ''), mountNode);
