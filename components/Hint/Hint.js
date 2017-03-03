@@ -8,21 +8,33 @@ type Props = {
   children: any,
   pos: 'top' | 'right' | 'bottom' | 'left',
   text: string,
+  use: 'hover' | 'manual',
 };
 
 export default class Hint extends React.Component {
   static defaultProps = {
-    pos: 'top'
+    pos: 'top',
+    use: 'hover',
   };
 
   props: Props;
 
-  state = {
-    opened: false
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      opened: props.use === 'manual' ? props.opened : false,
+    }
+  }
 
   _timer: number = 0;
   _dom: ?HTMLElement;
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.use === 'manual' && this.props.opened !== nextProps.opened) {
+      this.setState({opened: nextProps.opened});
+    }
+  }
 
   render() {
     return (
@@ -52,12 +64,16 @@ export default class Hint extends React.Component {
   };
 
   _handleMouseEnter = () => {
-    this._timer = setTimeout(this._open, 400);
+    if (this.props.use === 'hover') {
+      this._timer = setTimeout(this._open, 400);
+    }
   };
 
   _handleMouseLeave = () => {
-    clearTimeout(this._timer);
-    this.setState({ opened: false });
+    if (this.props.use === 'hover') {
+      clearTimeout(this._timer);
+      this.setState({opened: false});
+    }
   };
 
   _open = () => {
