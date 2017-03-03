@@ -101,7 +101,7 @@ export function text(pos: string = 'right'): RenderErrorMessage {
         // eslint-disable-next-line react/display-name
         return (control, hasError, validation) =>
             (
-                <span>
+                <span style={{ display: 'inline-block' }}>
                     {control}
                     <span style={{ marginLeft: '10px', color: '#d43517' }}>
                         {validation && validation.message || ''}
