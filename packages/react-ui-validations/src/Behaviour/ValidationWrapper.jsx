@@ -156,13 +156,31 @@ export default class ValidationWrapper extends React.Component {
         }
     }
 
+    getWindowRect(): { width: number; height: number } {
+        const result = { width: 0, height: 0 };
+        if (window.innerHeight) {
+            result.height = window.innerHeight;
+        }
+        else if (document.documentElement) {
+            result.height = document.documentElement.clientHeight;
+        }
+        if (window.innerWidth) {
+            result.width = window.innerWidth;
+        }
+        else if (document.documentElement) {
+            result.width = document.documentElement.clientWidth;
+        }
+        return result;
+    }
+
     isElementInViewport(domElement: Element): boolean {
-        const rect = domElement.getBoundingClientRect();
+        const elementRect = domElement.getBoundingClientRect();
+        const windowRect = this.getWindowRect();
         return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            elementRect.top >= 0 &&
+            elementRect.left >= 0 &&
+            elementRect.bottom <= windowRect.height &&
+            elementRect.right <= windowRect.width
         );
     }
 
