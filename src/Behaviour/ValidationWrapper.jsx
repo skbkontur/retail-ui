@@ -156,9 +156,22 @@ export default class ValidationWrapper extends React.Component {
         }
     }
 
+    isElementInViewport(domElement: Element): boolean {
+        const rect = domElement.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+
     focus() {
         if (this.child && (typeof this.child.focus === 'function')) {
-            ReactDom.findDOMNode(this.child).scrollIntoView({ behavior: 'smooth' });
+            const childDomElement = ReactDom.findDOMNode(this.child);
+            if (!this.isElementInViewport(childDomElement)) {
+                ReactDom.findDOMNode(this.child).scrollIntoView({ behavior: 'smooth' });
+            }
             if (typeof this.child.focus === 'function') {
                 this.child.focus();
             }
