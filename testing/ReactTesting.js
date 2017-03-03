@@ -25,7 +25,7 @@ function ref(tid, existingRef) {
         node.setAttribute('react-testing-id', id);
       }
       map[id] = { el, node, tid };
-    } else {
+    } else if (map[id]) {
       const node = map[id].node;
       if (node) {
         node.removeAttribute('tid');
