@@ -1,14 +1,29 @@
 :local {
-  .root::after {
+  .root:after {
     content: '';
     clear: both;
     display: block;
   }
 
+  .showCase {
+    border-radius: 3px;
+    background: #fafafa;
+    border: 1px solid #dfdede;
+    padding: 20px 10px;
+  }
+
+  .head {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
   .name {
     font-size: 30px;
     font-weight: 300;
-    margin: 0 0 20px;
+    margin: 0;
     padding-left: 10px;
   }
 
@@ -22,16 +37,11 @@
 
   .codeTitle {
     // background: #cfd0c8;
-    font-size: 24px;
-    font-weight: 300;
+    margin-top: 20px;
+    font-size: 14px;
     padding: 4px 10px;
     cursor: pointer;
     display: inline-block;
-    transition: background 0.2s ease-in;
-
-    &:hover {
-      background: #f0f0f0;
-    }
   }
 
   .docs {
