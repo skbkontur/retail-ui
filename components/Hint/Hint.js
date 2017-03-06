@@ -5,35 +5,54 @@ import React from 'react';
 import HintBox from './HintBox';
 
 type Props = {
-  children: any,
+  children?: any,
   pos: 'top' | 'right' | 'bottom' | 'left',
   text: string,
-  use: 'hover' | 'manual',
+  manual: boolean,
+  maxWidth: string | number,
+  opened: boolean,
+  onMouseEnter: (e: SyntheticMouseEvent) => void,
+  onMouseLeave: (e: SyntheticMouseEvent) => void
 };
 
 export default class Hint extends React.Component {
   static defaultProps = {
     pos: 'top',
-    use: 'hover',
+    manual: false,
+    opened: false,
+    maxWidth: (200: string | number),
+    onMouseEnter: (e: SyntheticMouseEvent) => {},
+    onMouseLeave: (e: SyntheticMouseEvent) => {}
   };
 
   props: Props;
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      opened: props.use === 'manual' ? props.opened : false,
-    }
-  }
+  state: {
+    opened: boolean
+  } = {
+    opened: false
+  };
 
   _timer: number = 0;
   _dom: ?HTMLElement;
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.use === 'manual' && this.props.opened !== nextProps.opened) {
-      this.setState({opened: nextProps.opened});
+  componentDidMount() {
+    this.setState({
+      opened: this.props.manual ? this.props.opened : false
+    });
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    if (!nextProps.manual) {
+      return;
     }
+
+    if (nextProps.opened !== this.props.opened) {
+      this.setState({ opened: nextProps.opened });
+    }
+  }
+
+  isOpened() {
+    return this.state.opened;
   }
 
   render() {
@@ -44,13 +63,13 @@ export default class Hint extends React.Component {
         onMouseLeave={this._handleMouseLeave}
       >
         {this.props.children}
-        {this.state.opened && (
+        {this.isOpened() &&
           <HintBox
             getTarget={this._getDOM}
             text={this.props.text}
             pos={this.props.pos}
-          />
-        )}
+            maxWidth={this.props.maxWidth}
+          />}
       </span>
     );
   }
@@ -63,17 +82,19 @@ export default class Hint extends React.Component {
     return this._dom;
   };
 
-  _handleMouseEnter = () => {
-    if (this.props.use === 'hover') {
+  _handleMouseEnter = e => {
+    if (!this.props.manual) {
       this._timer = setTimeout(this._open, 400);
     }
+    this.props.onMouseEnter(e);
   };
 
-  _handleMouseLeave = () => {
-    if (this.props.use === 'hover') {
+  _handleMouseLeave = e => {
+    if (!this.props.manual) {
       clearTimeout(this._timer);
-      this.setState({opened: false});
+      this.setState({ opened: false });
     }
+    this.props.onMouseLeave(e);
   };
 
   _open = () => {

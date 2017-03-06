@@ -10,7 +10,7 @@ import renderPin from '../Tooltip/renderPin';
 import styles from './HintBox.less';
 
 type State = {
-  pos: ?Result,
+  pos: ?Result
 };
 
 export default class HintBox extends React.Component {
@@ -23,6 +23,7 @@ export default class HintBox extends React.Component {
     getTarget: () => ?HTMLElement,
     pos: 'top' | 'right' | 'bottom' | 'left',
     text: string,
+    maxWidth: string | number
   };
 
   state: State = {
@@ -34,7 +35,8 @@ export default class HintBox extends React.Component {
 
   render() {
     let style = {
-      zIndex: this.context.rt_inModal ? 1100 : 900
+      zIndex: this.context.rt_inModal ? 1100 : 900,
+      maxWidth: this.props.maxWidth
     };
     let className = styles.root;
     if (this.state.pos) {
@@ -75,11 +77,20 @@ export default class HintBox extends React.Component {
 
     let posStr;
     switch (this.props.pos) {
-      case 'top': posStr = 'top center'; break;
-      case 'right': posStr = 'right middle'; break;
-      case 'bottom': posStr = 'bottom center'; break;
-      case 'left': posStr = 'left middle'; break;
-      default: throw new Error('Should never happen.');
+      case 'top':
+        posStr = 'top center';
+        break;
+      case 'right':
+        posStr = 'right middle';
+        break;
+      case 'bottom':
+        posStr = 'bottom center';
+        break;
+      case 'left':
+        posStr = 'left middle';
+        break;
+      default:
+        throw new Error('Should never happen.');
     }
 
     const target = this.props.getTarget();
