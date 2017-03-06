@@ -134,6 +134,7 @@ class ComboBoxRenderer extends React.Component {
   _ignoreRecover = true;
   _ignoreBlur = true;
   _fetchingId = 0;
+  _debouncedFetchList: Function;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -145,6 +146,11 @@ class ComboBoxRenderer extends React.Component {
       isEditing: false,
       selected: -1
     };
+
+    const { debounceInterval } = this.props;
+    this._debouncedFetchList = debounceInterval > 0
+      ? debounce(this._fetchList, debounceInterval)
+      : this._fetchList;
   }
 
   render() {
@@ -376,7 +382,7 @@ class ComboBoxRenderer extends React.Component {
       searchText: newInputValue,
       opened: true
     }));
-    this._fetchList(newInputValue);
+    this._debouncedFetchList(newInputValue);
     this._ignoreRecover = false;
   };
 
@@ -489,22 +495,19 @@ class ComboBoxRenderer extends React.Component {
     safelyCall(this.props.onClose);
   };
 
-  _fetchList = debounce(
-    (pattern: string) => {
-      const expectingId = ++this._fetchingId;
-      this.props.source(pattern).then(result => {
-        if (!this._mounted) {
-          return;
-        }
+  _fetchList = (pattern: string) => {
+    const expectingId = ++this._fetchingId;
+    this.props.source(pattern).then(result => {
+      if (!this._mounted) {
+        return;
+      }
 
-        if (expectingId === this._fetchingId && this.state.opened) {
-          this._menu && this._menu.reset();
-          this.setState(() => ({ result }));
-        }
-      });
-    },
-    this.props.debounceInterval
-  );
+      if (expectingId === this._fetchingId && this.state.opened) {
+        this._menu && this._menu.reset();
+        this.setState(() => ({ result }));
+      }
+    });
+  };
 
   _focus = () => {
     if (this._focusable && this._focusable.setSelectionRange) {

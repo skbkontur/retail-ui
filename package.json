@@ -74,7 +74,7 @@
       "\\.*": "<rootDir>/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*(test|spec))\\.(ts|tsx|js)$",
-    "testPathDirs": [
+    "roots": [
       "<rootDir>/components",
       "<rootDir>/lib",
       "<rootDir>/scripts",

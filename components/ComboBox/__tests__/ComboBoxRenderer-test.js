@@ -10,18 +10,14 @@ describe('ComboBoxRenderer', () => {
     const valueElement = wrapper.find('[tabIndex]');
     valueElement.simulate('click');
 
-    wrapper.find('input')
+    wrapper
+      .find('input')
       .simulate('change', { target: { value: text } })
       .simulate('keydown', { key: 'Enter' });
   }
 
   it('opens on click', () => {
-    const wrapper = mount(
-      <ComboBoxRenderer
-        value={null}
-        source={source}
-      />
-    );
+    const wrapper = mount(<ComboBoxRenderer value={null} source={source} />);
     wrapper.find('[tabIndex]').simulate('click');
     expect(wrapper.state().opened).toBeTruthy();
     expect(wrapper.state().isEditing).toBeTruthy();
@@ -31,11 +27,7 @@ describe('ComboBoxRenderer', () => {
   it('closes if not recovered', () => {
     const onChange = jest.fn();
     const wrapper = mount(
-      <ComboBoxRenderer
-        value={null}
-        source={source}
-        onChange={onChange}
-      />
+      <ComboBoxRenderer value={null} source={source} onChange={onChange} />
     );
 
     editAndBlur(wrapper);
@@ -73,7 +65,7 @@ describe('ComboBoxRenderer', () => {
       <ComboBoxRenderer
         value={null}
         source={source}
-        recover={text => (text === 'bar') ? { value: 'bar' } : null}
+        recover={text => text === 'bar' ? { value: 'bar' } : null}
         onError={onError}
       />
     );
@@ -96,7 +88,8 @@ describe('ComboBoxRenderer', () => {
     );
 
     wrapper.find('[tabIndex]').simulate('click');
-    wrapper.find('input')
+    wrapper
+      .find('input')
       .simulate('change', { target: { value: '123' } })
       .simulate('keydown', { key: 'Escape' });
 
@@ -115,7 +108,8 @@ describe('ComboBoxRenderer', () => {
 
     wrapper.find('[tabIndex]').simulate('click');
     await promise;
-    wrapper.find('input')
+    wrapper
+      .find('input')
       .simulate('change', { target: { value: 'baz' } })
       .simulate('keydown', { key: 'ArrowDown' })
       .simulate('keydown', { key: 'Enter' });
@@ -168,7 +162,8 @@ describe('ComboBoxRenderer', () => {
       />
     );
 
-    wrapper.find('[tabIndex]')
+    wrapper
+      .find('[tabIndex]')
       .simulate('keypress', { charCode: 'a'.charCodeAt(0) });
 
     expect(source.mock.calls.length).toBe(1);
@@ -195,7 +190,8 @@ describe('ComboBoxRenderer', () => {
     wrapper.find('[tabIndex]').simulate('click');
     expect(onOpen.mock.calls.length).toBe(1);
 
-    wrapper.find('input')
+    wrapper
+      .find('input')
       .simulate('keydown', { key: 'Escape' })
       .simulate('keydown', { key: 'ArrowDown' });
     expect(onOpen.mock.calls.length).toBe(2);
@@ -212,8 +208,7 @@ describe('ComboBoxRenderer', () => {
     wrapper.find('[tabIndex]').simulate('click');
     expect(onClose.mock.calls.length).toBe(0);
 
-    wrapper.find('input')
-      .simulate('keydown', { key: 'Escape' });
+    wrapper.find('input').simulate('keydown', { key: 'Escape' });
     expect(onClose.mock.calls.length).toBe(1);
   });
 
@@ -228,7 +223,8 @@ describe('ComboBoxRenderer', () => {
     wrapper.find('[tabIndex]').simulate('click');
     expect(onFocus.mock.calls.length).toBe(1);
 
-    wrapper.find('input')
+    wrapper
+      .find('input')
       .simulate('keydown', { key: 'ArrowDown' })
       .simulate('keydown', { key: 'Enter' });
 
@@ -245,7 +241,8 @@ describe('ComboBoxRenderer', () => {
 
     wrapper.find('[tabIndex]').simulate('click');
     await promise;
-    wrapper.find('input')
+    wrapper
+      .find('input')
       .simulate('keydown', { key: 'ArrowDown' })
       .simulate('keydown', { key: 'Enter' });
 
@@ -323,8 +320,7 @@ describe('ComboBoxRenderer', () => {
     );
 
     wrapper.find('[tabIndex]').simulate('click');
-    wrapper.find('input')
-      .simulate('keydown', { key: 'Escape' });
+    wrapper.find('input').simulate('keydown', { key: 'Escape' });
     expect(wrapper.find('input').length).toBe(1);
   });
 });
