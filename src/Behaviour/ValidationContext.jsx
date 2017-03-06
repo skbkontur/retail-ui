@@ -1,11 +1,13 @@
 // @flow
 import React from 'react';
-import type { IValidationContext } from './ValidationWrapper';
+import type { IValidationContext, IValidationContextSettings } from './ValidationWrapper';
 import ValidationWrapper from './ValidationWrapper';
 
 type ValidationContextProps = {
     children?: any;
     onValidationUpdated?: (isValid?: boolean) => void;
+    horizontalSpan?: number;
+    verticalSpan?: number;
 };
 
 export default class ValidationContext extends React.Component {
@@ -19,6 +21,15 @@ export default class ValidationContext extends React.Component {
     getChildContext(): { validationContext: IValidationContext } {
         return {
             validationContext: this,
+        };
+    }
+
+    getSettings(): IValidationContextSettings {
+        return {
+            scroll: {
+                horizontalSpan: this.props.horizontalSpan || 0,
+                verticalSpan: this.props.verticalSpan || 0,
+            },
         };
     }
 

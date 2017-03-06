@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import isEqual from 'lodash.isequal';
+import Events from 'add-event-listener';
 
 require('smoothscroll-polyfill').polyfill();
 
@@ -10,10 +11,15 @@ export type Validation = {
     behaviour: 'immediate' | 'lostfocus' | 'submit';
 };
 
+export interface IValidationContextSettings {
+    scroll: { horizontalSpan: number; verticalSpan: number };
+}
+
 export interface IValidationContext {
     register(wrapper: ValidationWrapper): void;
     unregister(wrapper: ValidationWrapper): void;
     onValidationUpdated(wrapper: ValidationWrapper, isValid: boolean): void;
+    getSettings(): IValidationContextSettings;
 }
 
 export type RenderErrorMessage =
@@ -173,28 +179,68 @@ export default class ValidationWrapper extends React.Component {
         return result;
     }
 
-    isElementInViewport(domElement: Element): boolean {
+    getScrollDirection(domElement: Element): ?{ top: number; left: number } {
         const elementRect = domElement.getBoundingClientRect();
-        const windowRect = this.getWindowRect();
-        return (
-            elementRect.top >= 0 &&
-            elementRect.left >= 0 &&
-            elementRect.bottom <= windowRect.height &&
-            elementRect.right <= windowRect.width
-        );
+        const windowReact = this.getWindowRect();
+        const scrollSettings = this.context.validationContext.getSettings().scroll;
+        let top = 0;
+        let left = 0;
+
+        if (elementRect.top < scrollSettings.horizontalSpan) {
+            top = elementRect.top - scrollSettings.horizontalSpan;
+        }
+        else if (elementRect.bottom > windowReact.height - scrollSettings.horizontalSpan) {
+            top = elementRect.bottom - windowReact.height + scrollSettings.horizontalSpan;
+        }
+
+        if (elementRect.left < scrollSettings.verticalSpan) {
+            left = elementRect.left - scrollSettings.verticalSpan;
+        }
+        else if (elementRect.right > windowReact.width - scrollSettings.verticalSpan) {
+            left = elementRect.right - windowReact.width + scrollSettings.verticalSpan;
+        }
+
+        if (!top && !left) {
+            return null;
+        }
+
+        return {
+            top,
+            left,
+        };
     }
 
     focus() {
         if (this.child && (typeof this.child.focus === 'function')) {
             const childDomElement = ReactDom.findDOMNode(this.child);
-            if (!this.isElementInViewport(childDomElement)) {
-                ReactDom.findDOMNode(this.child).scrollIntoView({ behavior: 'smooth' });
+            const scrollByDirections = this.getScrollDirection(childDomElement);
+            if (scrollByDirections) {
+                Events.addEventListener(window, 'scroll', this._handleScroll);
+                window.scrollBy({ ...scrollByDirections, behavior: 'smooth' });
             }
-            if (typeof this.child.focus === 'function') {
-                this.child.focus();
+            else {
+                this._handleFocus();
             }
-            this.isChanging = false;
         }
+    }
+
+    _scrollTimer = null;
+
+    _handleScroll = () => {
+        if (this._scrollTimer !== null) {
+            clearTimeout(this._scrollTimer);
+        }
+        this._scrollTimer = setTimeout(() => {
+            this._handleFocus();
+            Events.removeEventListener(window, 'scroll', this._handleScroll);
+        }, 500);
+    };
+
+    _handleFocus() {
+        if (typeof this.child.focus === 'function') {
+            this.child.focus();
+        }
+        this.isChanging = false;
     }
 
     isError(validation: Validation, index: number): boolean {
