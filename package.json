@@ -26,6 +26,7 @@
     "fbemitter": "^2.0.2",
     "fbjs": "^0.8.9",
     "invariant": "2.2.2",
+    "lodash.debounce": "^4.0.8",
     "object-assign": "^4.1.1",
     "react-input-mask": "0.7.3",
     "warning": "^3.0.0"
