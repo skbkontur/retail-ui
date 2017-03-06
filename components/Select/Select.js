@@ -9,18 +9,19 @@ import filterProps from '../filterProps';
 import Input from '../Input';
 import invariant from 'invariant';
 import Link from '../Link';
-import listenFocusOutside from '../../lib/listenFocusOutside';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 
+import withFocusOutside from '../internal/withFocusOutside';
+
 import styles from './Select.less';
 
 export type ButtonParams = {
-  opened: bool;
-  label: React.Element;
-  onClick: () => void;
-  onKeyDown: (event: SyntheticKeyboardEvent) => void;
+  opened: boolean,
+  label: React.Element,
+  onClick: () => void,
+  onKeyDown: (event: SyntheticKeyboardEvent) => void
 };
 
 const PASS_BUTTON_PROPS = {
@@ -121,15 +122,6 @@ class Select extends React.Component {
     filterItem
   };
 
-  static static(element) {
-    invariant(
-      React.isValidElement(element) || typeof element === 'function',
-      'Select.static(element) expects element to be a valid react element.'
-    );
-
-    return element;
-  }
-
   constructor(props, context) {
     super(props, context);
 
@@ -137,8 +129,6 @@ class Select extends React.Component {
       opened: false,
       value: props.defaultValue
     };
-
-    this._focusSubscribtion = null;
   }
 
   render() {
@@ -214,7 +204,7 @@ class Select extends React.Component {
         [styles.labelIsOpened]: params.opened
       }),
       style: {
-        paddingRight: buttonProps.size === 'large'? '41px': '38px'
+        paddingRight: buttonProps.size === 'large' ? '41px' : '38px'
       }
     };
 
@@ -241,9 +231,7 @@ class Select extends React.Component {
       onKeyDown: params.onKeyDown
     };
 
-    return (
-      <Link {...linkProps}>{params.label}</Link>
-    );
+    return <Link {...linkProps}>{params.label}</Link>;
   }
 
   renderMenu() {
@@ -251,7 +239,8 @@ class Select extends React.Component {
     if (this.props.search) {
       search = (
         <div className={styles.search}>
-          <Input ref={(c) => c && ReactDOM.findDOMNode(c).focus()}
+          <Input
+            ref={c => c && ReactDOM.findDOMNode(c).focus()}
             onChange={this.handleSearch}
           />
         </div>
@@ -276,18 +265,16 @@ class Select extends React.Component {
         >
           {search}
           {this.mapItems((iValue, item, i, comment) => {
-            if (
-              typeof item === 'function' ||
-              React.isValidElement(item)
-            ) {
+            if (typeof item === 'function' || React.isValidElement(item)) {
               return React.cloneElement(
                 typeof item === 'function' ? item() : item,
-                { key: i },
+                { key: i }
               );
             }
 
             return (
-              <MenuItem key={i}
+              <MenuItem
+                key={i}
                 state={iValue === value ? 'selected' : null}
                 onClick={this._select.bind(this, iValue)}
                 comment={comment}
@@ -301,30 +288,25 @@ class Select extends React.Component {
     );
   }
 
-  _refMenuContainer = (el) => {
-    if (this._focusSubscribtion) {
-      this._focusSubscribtion.remove();
-      this._focusSubscribtion = null;
+  componentDidMount() {
+    this.unsibscribeFocusOutside = this.props.focusOutsideSource(this._close);
+    this.unsibscribeClickOutside = this.props.clickOutsideSource(this._close);
+  }
 
-      events.removeEventListener(
-        document, 'mousedown', this._handleNativeDocClick
-      );
-    }
+  componentWillUnmount() {
+    this.unsibscribeFocusOutside();
+    this.unsibscribeClickOutside();
+  }
+
+  _refMenuContainer = el => {
+    events.removeEventListener(window, 'popstate', this._close);
 
     if (el) {
-      this._focusSubscribtion = listenFocusOutside(
-        this._getDomNodes(), this._close
-      );
-
-      events.addEventListener(
-        document, 'mousedown', this._handleNativeDocClick
-      );
-
       events.addEventListener(window, 'popstate', this._close);
     }
   };
 
-  _refMenu = (menu) => {
+  _refMenu = menu => {
     this._menu = menu;
   };
 
@@ -335,10 +317,10 @@ class Select extends React.Component {
     this._open();
   }
 
-  _handleNativeDocClick = (event) => {
+  _handleNativeDocClick = event => {
     const target = event.target || event.srcElement;
     const nodes = this._getDomNodes();
-    if (nodes.some((node) => node.contains(target))) {
+    if (nodes.some(node => node.contains(target))) {
       return;
     }
     this._close();
@@ -378,7 +360,7 @@ class Select extends React.Component {
     events.removeEventListener(window, 'popstate', this._close);
   };
 
-  handleKey = (e) => {
+  handleKey = e => {
     var key = e.key;
     if (!this.state.opened) {
       if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
@@ -454,6 +436,15 @@ Select.Item = class Item extends React.Component {
   }
 };
 
+Select.static = function(element) {
+  invariant(
+    React.isValidElement(element) || typeof element === 'function',
+    'Select.static(element) expects element to be a valid react element.'
+  );
+
+  return element;
+};
+
 function renderValue(value, item) {
   return item;
 }
@@ -484,4 +475,4 @@ function filterItem(value, item, pattern) {
   return item.toLowerCase().indexOf(pattern) !== -1;
 }
 
-export default Select;
+export default withFocusOutside(Select);

@@ -1,13 +1,10 @@
 // @flow
 
-import events from 'add-event-listener';
 import classNames from 'classnames';
 import React, { PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 
-import listenFocusOutside, {
-  containsTargetOrRenderContainer
-} from '../../lib/listenFocusOutside';
+import withFocusOutside from '../internal/withFocusOutside';
 
 import filterProps from '../filterProps';
 import Input from '../Input';
@@ -63,7 +60,9 @@ type Props = {
   onMouseEnter?: (e: SyntheticMouseEvent) => void,
   onMouseLeave?: (e: SyntheticMouseEvent) => void,
   onMouseOver?: (e: SyntheticMouseEvent) => void,
-  onUnexpectedInput: (value: string) => any
+  onUnexpectedInput: (value: string) => any,
+  focusOutsideSource: (fn: (e: Event) => any) => any,
+  clickOutsideSource: (fn: (e: Event) => any) => any
 };
 
 type State = {
@@ -71,7 +70,7 @@ type State = {
   textValue: string
 };
 
-export default class DatePicker extends React.Component {
+class DatePicker extends React.Component {
   static propTypes = {
     disabled: PropTypes.bool,
 
@@ -144,6 +143,8 @@ export default class DatePicker extends React.Component {
   _focusSubscription: any;
   _focused: boolean;
   _ignoreBlur: boolean;
+  unsibscribeFocusOutside: Function;
+  unsibscribeClickOutside: Function;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -188,7 +189,6 @@ export default class DatePicker extends React.Component {
       <label
         className={className}
         style={{ width: this.props.width }}
-        ref={this._ref}
       >
         <DateInput
           {...filterProps(this.props, INPUT_PASS_PROPS)}
@@ -217,38 +217,19 @@ export default class DatePicker extends React.Component {
     }
   }
 
-  _ref = (el: HTMLElement) => {
-    if (this._focusSubscription) {
-      this._focusSubscription.remove();
-      this._focusSubscription = null;
+  componentDidMount() {
+    this.unsibscribeFocusOutside = this.props.focusOutsideSource(
+      this.handleBlur
+    );
+    this.unsibscribeClickOutside = this.props.clickOutsideSource(
+      this.handleBlur
+    );
+  }
 
-      events.removeEventListener(
-        document,
-        'mousedown',
-        this._handleNativeDocClick
-      );
-    }
-
-    if (el) {
-      this._focusSubscription = listenFocusOutside(
-        [findDOMNode(this)],
-        this.handleBlur
-      );
-      events.addEventListener(
-        document,
-        'mousedown',
-        this._handleNativeDocClick
-      );
-    }
-  };
-
-  _handleNativeDocClick = (e) => {
-    const containsTarget = containsTargetOrRenderContainer(e.target);
-
-    if (!containsTarget(findDOMNode(this))) {
-      this.handleBlur();
-    }
-  };
+  componentWillUnmount() {
+    this.unsibscribeFocusOutside();
+    this.unsibscribeClickOutside();
+  }
 
   getValue = () => {
     const value = this.props.value;
@@ -391,3 +372,5 @@ function parseDate(str, withCorrection) {
   }
   return checkDate(date);
 }
+
+export default withFocusOutside(DatePicker);
