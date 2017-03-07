@@ -63,11 +63,11 @@ export default class DateInput extends Component {
       [styles.openButtonDisabled]: this.props.disabled
     });
     return (
-      <div
-        onMouseDown={this.preventSelection}
-        onClick={this.getCursorPosition}
-        onDoubleClick={this.createSelection}
-      >
+      <div>{/*
+        // onMouseDown={this.preventSelection}
+        // onClick={this.getCursorPosition}
+        // onDoubleClick={this.createSelection}
+      // >*/}
         <Input
           {...filterProps(this.props, INPUT_PASS_PROPS)}
           mask={mask}
@@ -77,7 +77,7 @@ export default class DateInput extends Component {
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           onChange={this.handleDateChange}
-          onKeyDown={this.handleDateComponentChange}
+          // onKeyDown={this.handleDateComponentChange}
           ref={this.getInputRef}
           rightIcon={
             (

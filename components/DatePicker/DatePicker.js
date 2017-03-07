@@ -139,7 +139,6 @@ class DatePicker extends React.Component {
 
   _focusSubscription: any;
   _focused: boolean;
-  _ignoreBlur: boolean;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -196,7 +195,6 @@ class DatePicker extends React.Component {
             opened={opened}
             value={this.state.textValue}
             onFocus={this.handleFocus}
-            onBlur={this.handleBlur}
             onChange={this.handleChange}
             onIconClick={this.toggleCalendar}
           />
@@ -244,11 +242,6 @@ class DatePicker extends React.Component {
   };
 
   handleBlur = () => {
-    if (this._ignoreBlur) {
-      this._ignoreBlur = false;
-      return;
-    }
-
     if (!this._focused) {
       return;
     }
@@ -290,8 +283,6 @@ class DatePicker extends React.Component {
     if (this.props.disabled) {
       return;
     }
-
-    this._ignoreBlur = true;
 
     if (this.state.opened) {
       this.close(false);
