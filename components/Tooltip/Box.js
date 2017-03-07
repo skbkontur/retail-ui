@@ -2,6 +2,8 @@ import CROSS from '../internal/cross';
 import LayoutEvents from '../../lib/LayoutEvents';
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+import shallowEqual from 'fbjs/lib/shallowEqual';
+import throttle from 'lodash.throttle';
 
 import position from './position';
 import renderPin from './renderPin';
@@ -54,30 +56,27 @@ class Box extends React.Component {
     this._mounted = false;
   }
 
-  componentDidUpdate() {
-    this.reflow();
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.pos && this.state.pos &&
+      !shallowEqual(prevState.pos.boxStyle, this.state.pos.boxStyle)
+    ) {
+      this.reflow();
+    }
   }
 
   _handleCrossClick = () => {
     this.props.onClose();
   };
 
-  reflow = () => {
-    if (this.updating_) {
-      return;
-    }
-
-    this.updating_ = true;
-    this.setState({ pos: null }, () => {
-      const of = this.props.getTarget();
-      const el = ReactDOM.findDOMNode(this);
-      const fixed = this.context.insideFixedContainer === true;
-      const pos = position(el, of, this.props.pos, fixed);
-      this.setState({ pos }, () => {
-        this.updating_ = false;
-      });
+  reflow = throttle(() => {
+    const of = this.props.getTarget();
+    const el = ReactDOM.findDOMNode(this);
+    const fixed = this.context.insideFixedContainer === true;
+    const pos = position(el, of, this.props.pos, fixed);
+    this.setState({ pos }, () => {
+      this.updating_ = false;
     });
-  };
+  }, 100);
 }
 
 export default Box;
