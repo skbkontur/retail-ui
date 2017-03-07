@@ -115,6 +115,7 @@ export default class DateSelect extends React.Component {
           className={className}
           onMouseEnter={() => this.setState({ current: i })}
           onMouseLeave={() => this.setState({ current: null })}
+          onMouseDown={e => e.preventDefault()}
           onClick={this.handleItemClick(i)}
         >
           {this.getItem(i)}

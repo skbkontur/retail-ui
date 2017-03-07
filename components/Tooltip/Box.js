@@ -1,5 +1,4 @@
 import CROSS from '../internal/cross';
-import withFocusOutside from '../internal/withFocusOutside';
 import LayoutEvents from '../../lib/LayoutEvents';
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
@@ -48,22 +47,9 @@ class Box extends React.Component {
     this.reflow();
 
     this._layoutEventsToken = LayoutEvents.addListener(this.reflow);
-
-    if (this.props.trigger === 'click') {
-      this.unsibscribeFocusOutside = this.props.focusOutsideSource(
-        this.props.onClose
-      );
-      this.unsibscribeClickOutside = this.props.clickOutsideSource(
-        this.props.onClose
-      );
-    }
   }
 
   componentWillUnmount() {
-    if (this.props.trigger === 'click') {
-      this.unsibscribeFocusOutside();
-      this.unsibscribeClickOutside();
-    }
     this._layoutEventsToken.remove();
     this._mounted = false;
   }
@@ -94,4 +80,4 @@ class Box extends React.Component {
   };
 }
 
-export default withFocusOutside(Box);
+export default Box;

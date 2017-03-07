@@ -1,5 +1,5 @@
 // @flow
-/* global Class, React$Element, React$Component */
+/* global Class, React$Element, React$Component, $Diff */
 import React from 'react';
 import events from 'add-event-listener';
 import { findDOMNode } from 'react-dom';
@@ -11,18 +11,14 @@ import listenFocusOutside, {
 type FunctionComponent<P> = (props: P) => ?React$Element<any>;
 type ClassComponent<D, P, S> = Class<React$Component<D, P, S>>;
 
-// TODO: replace return type with
-// ClassComponent<void, $Diff<P, PassingProps>, S>
-/*
 type PassingProps = {
-  focusOutsideSource: ((e: Event) => any) => void,
-  clickOutsideSource: ((e: Event) => any) => void
+  subscribeToOutsideFocus: ((e: Event) => any) => void,
+  subscribeToOutsideClicks: ((e: Event) => any) => void
 };
-*/
 
 function withFocusOutside<P, S>(
   WrappingComponent: ClassComponent<void, P, S> | FunctionComponent<P>
-): ClassComponent<void, P, S> {
+): ClassComponent<void, $Diff<P, PassingProps>, S> {
   class WrappedComponent extends React.Component {
     props: any;
     state: any;
@@ -33,26 +29,6 @@ function withFocusOutside<P, S>(
     _focusSubscribtion: any;
 
     component: any;
-
-    componentWillUnmount() {
-      if (this._focusSubscribtion) {
-        this._flush();
-      }
-    }
-
-    focusOutsideSource = (fn: (e: Event) => any) => {
-      const index = this._focusHandlers.push(fn);
-      return () => {
-        this._focusHandlers.splice(index, 1);
-      };
-    };
-
-    clickOutsideSource = (fn: (e: Event) => any) => {
-      const index = this._clickHandlers.push(fn);
-      return () => {
-        this._clickHandlers.splice(index, 1);
-      };
-    };
 
     _ref = el => {
 
@@ -70,7 +46,7 @@ function withFocusOutside<P, S>(
 
         events.addEventListener(
           document,
-          'mouseup',
+          'mousedown', // check just before click event
           this._handleNativeDocClick
         );
       }
@@ -82,10 +58,24 @@ function withFocusOutside<P, S>(
 
       events.removeEventListener(
         document,
-        'mouseup', // check just before click event
+        'mousedown',
         this._handleNativeDocClick
       );
     }
+
+    subscribeToOutsideFocus = (fn: (e: Event) => any) => {
+      const index = this._focusHandlers.push(fn);
+      return () => {
+        this._focusHandlers.splice(index, 1);
+      };
+    };
+
+    subscribeToOutsideClicks = (fn: (e: Event) => any) => {
+      const index = this._clickHandlers.push(fn);
+      return () => {
+        this._clickHandlers.splice(index, 1);
+      };
+    };
 
     _handleNativeDocClick = event => {
       const target = event.target || event.srcElement;
@@ -108,22 +98,24 @@ function withFocusOutside<P, S>(
       this._clickHandlers.forEach(fn => fn(event));
     };
 
+    componentWillUnmount() {
+      if (this._focusSubscribtion) {
+        this._flush();
+      }
+    }
+
     render() {
       return (
         <WrappingComponent
           ref={this._ref}
           {...this.props}
           innerRef={this.props.innerRef}
-          focusOutsideSource={this.focusOutsideSource}
-          clickOutsideSource={this.clickOutsideSource}
+          subscribeToOutsideFocus={this.subscribeToOutsideFocus}
+          subscribeToOutsideClicks={this.subscribeToOutsideClicks}
         />
       );
     }
   }
-
-  // inheritting static fields
-  // $FlowIssue
-  Object.assign(WrappedComponent, WrappingComponent);
 
   return WrappedComponent;
 }

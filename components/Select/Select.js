@@ -12,8 +12,7 @@ import Link from '../Link';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
-
-import withFocusOutside from '../internal/withFocusOutside';
+import RenderLayer from '../RenderLayer';
 
 import styles from './Select.less';
 
@@ -161,12 +160,17 @@ class Select extends React.Component {
     }
 
     return (
-      <span className={styles.root} style={style}>
-        {this.props._renderButton
-          ? this.props._renderButton(buttonParams)
-          : this.renderDefaultButton(buttonParams)}
-        {!this.props.disabled && this.state.opened && this.renderMenu()}
-      </span>
+      <RenderLayer
+        onClickOutside={this._close}
+        onFocusOutside={this._close}
+      >
+        <span className={styles.root} style={style}>
+          {this.props._renderButton
+            ? this.props._renderButton(buttonParams)
+            : this.renderDefaultButton(buttonParams)}
+          {!this.props.disabled && this.state.opened && this.renderMenu()}
+        </span>
+      </RenderLayer>
     );
   }
 
@@ -286,16 +290,6 @@ class Select extends React.Component {
         </Menu>
       </DropdownContainer>
     );
-  }
-
-  componentDidMount() {
-    this.unsibscribeFocusOutside = this.props.focusOutsideSource(this._close);
-    this.unsibscribeClickOutside = this.props.clickOutsideSource(this._close);
-  }
-
-  componentWillUnmount() {
-    this.unsibscribeFocusOutside();
-    this.unsibscribeClickOutside();
   }
 
   _refMenuContainer = el => {
@@ -475,4 +469,4 @@ function filterItem(value, item, pattern) {
   return item.toLowerCase().indexOf(pattern) !== -1;
 }
 
-export default withFocusOutside(Select);
+export default Select;

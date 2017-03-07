@@ -2,6 +2,7 @@
 
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+import RenderLayer from '../RenderLayer';
 
 import Box from './Box';
 import RenderContainer from '../RenderContainer';
@@ -149,10 +150,15 @@ export default class Tooltip extends React.Component {
     }
 
     return (
-      <span {...props} className={className}>
-        {child}
-        {this._renderBox()}
-      </span>
+      <RenderLayer
+        onClickOutside={this._handleBoxClose}
+        onFocusOutside={this._handleBoxClose}
+      >
+        <span {...props} className={className}>
+          {child}
+          {this._renderBox()}
+        </span>
+      </RenderLayer>
     );
   }
 

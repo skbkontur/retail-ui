@@ -4,7 +4,7 @@ import Select from './Select.js';
 
 const SelectAdapter = {
   getValue(inst) {
-    return inst.component._getValue();
+    return inst._getValue();
   },
 
   setValue(inst, value) {
@@ -14,9 +14,9 @@ const SelectAdapter = {
   },
 
   getItemValues(inst) {
-    inst.component._open();
-    inst.component._close();
-    return inst.component.mapItems((value) => value);
+    inst._open();
+    inst._close();
+    return inst.mapItems((value) => value);
   }
 };
 
