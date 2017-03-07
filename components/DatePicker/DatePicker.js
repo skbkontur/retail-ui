@@ -140,8 +140,6 @@ class DatePicker extends React.Component {
   _focusSubscription: any;
   _focused: boolean;
   _ignoreBlur: boolean;
-  unsibscribeFocusOutside: Function;
-  unsibscribeClickOutside: Function;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
