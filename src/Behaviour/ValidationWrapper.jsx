@@ -12,7 +12,7 @@ export type Validation = {
 };
 
 export interface IValidationContextSettings {
-    scroll: { horizontalSpan: number; verticalSpan: number };
+    scroll: { horizontalOffset: number; verticalOffset: number };
 }
 
 export interface IValidationContext {
@@ -56,6 +56,8 @@ export default class ValidationWrapper extends React.Component {
 
     child: React.Component<*, *, *>;
     isChanging: boolean = false;
+
+    _scrollTimer = null;
 
     componentWillMount() {
         this.syncWithState(this.props);
@@ -179,25 +181,25 @@ export default class ValidationWrapper extends React.Component {
         return result;
     }
 
-    getScrollDirection(domElement: Element): ?{ top: number; left: number } {
+    getScrollOffsets(domElement: Element): ?{ top: number; left: number } {
         const elementRect = domElement.getBoundingClientRect();
         const windowReact = this.getWindowRect();
         const scrollSettings = this.context.validationContext.getSettings().scroll;
         let top = 0;
         let left = 0;
 
-        if (elementRect.top < scrollSettings.horizontalSpan) {
-            top = elementRect.top - scrollSettings.horizontalSpan;
+        if (elementRect.top < scrollSettings.horizontalOffset) {
+            top = elementRect.top - scrollSettings.horizontalOffset;
         }
-        else if (elementRect.bottom > windowReact.height - scrollSettings.horizontalSpan) {
-            top = elementRect.bottom - windowReact.height + scrollSettings.horizontalSpan;
+        else if (elementRect.bottom > windowReact.height - scrollSettings.horizontalOffset) {
+            top = elementRect.bottom - windowReact.height + scrollSettings.horizontalOffset;
         }
 
-        if (elementRect.left < scrollSettings.verticalSpan) {
-            left = elementRect.left - scrollSettings.verticalSpan;
+        if (elementRect.left < scrollSettings.verticalOffset) {
+            left = elementRect.left - scrollSettings.verticalOffset;
         }
-        else if (elementRect.right > windowReact.width - scrollSettings.verticalSpan) {
-            left = elementRect.right - windowReact.width + scrollSettings.verticalSpan;
+        else if (elementRect.right > windowReact.width - scrollSettings.verticalOffset) {
+            left = elementRect.right - windowReact.width + scrollSettings.verticalOffset;
         }
 
         if (!top && !left) {
@@ -210,37 +212,36 @@ export default class ValidationWrapper extends React.Component {
         };
     }
 
-    focus() {
+    async focus(): Promise<void> {
         if (this.child && (typeof this.child.focus === 'function')) {
             const childDomElement = ReactDom.findDOMNode(this.child);
-            const scrollByDirections = this.getScrollDirection(childDomElement);
-            if (scrollByDirections) {
-                Events.addEventListener(window, 'scroll', this._handleScroll);
-                window.scrollBy({ ...scrollByDirections, behavior: 'smooth' });
+            const scrollOffsets = this.getScrollOffsets(childDomElement);
+            if (scrollOffsets) {
+                await this.smoothScrollBy(scrollOffsets);
             }
-            else {
-                this._handleFocus();
+            if (typeof this.child.focus === 'function') {
+                this.child.focus();
             }
+            this.isChanging = false;
         }
     }
 
-    _scrollTimer = null;
+    smoothScrollBy(scrollOffsets: { top: number; left: number }): Promise<void> {
+        // используем EventListener'ы, т.к. в Firefox скролл асинхронный, и идующий за ним фокус сам прокручивает страницу по какой-то своей логике
+        return new Promise(resolve => {
+            const _handleScroll = () => {
+                if (this._scrollTimer !== null) {
+                    clearTimeout(this._scrollTimer);
+                }
+                this._scrollTimer = setTimeout(() => {
+                    Events.removeEventListener(window, 'scroll', _handleScroll);
+                    resolve();
+                }, 300);
+            };
 
-    _handleScroll = () => {
-        if (this._scrollTimer !== null) {
-            clearTimeout(this._scrollTimer);
-        }
-        this._scrollTimer = setTimeout(() => {
-            this._handleFocus();
-            Events.removeEventListener(window, 'scroll', this._handleScroll);
-        }, 500);
-    };
-
-    _handleFocus() {
-        if (typeof this.child.focus === 'function') {
-            this.child.focus();
-        }
-        this.isChanging = false;
+            Events.addEventListener(window, 'scroll', _handleScroll);
+            window.scrollBy({ ...scrollOffsets, behavior: 'smooth' });
+        });
     }
 
     isError(validation: Validation, index: number): boolean {

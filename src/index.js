@@ -19,7 +19,7 @@ import type { RenderErrorMessage } from './Behaviour/ValidationWrapper';
 type ValidationContainerProps = {
     children?: any;
     onValidationUpdated?: (isValid?: ?boolean) => void;
-    scrollSpan?: number;
+    scrollOffset?: number;
 };
 
 export class ValidationContainer extends React.Component {
@@ -39,7 +39,7 @@ export class ValidationContainer extends React.Component {
         if (this.props.onValidationUpdated) {
             contextProps.onValidationUpdated = this.props.onValidationUpdated;
         }
-        contextProps.horizontalSpan = this.props.scrollSpan || 50;
+        contextProps.horizontalOffset = this.props.scrollOffset || 50;
         return (
             <ValidationContext ref='childContext' {...contextProps}>
                 <ValidationTooltipContext ref='childTooltipContext'>

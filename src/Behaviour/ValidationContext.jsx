@@ -6,8 +6,8 @@ import ValidationWrapper from './ValidationWrapper';
 type ValidationContextProps = {
     children?: any;
     onValidationUpdated?: (isValid?: boolean) => void;
-    horizontalSpan?: number;
-    verticalSpan?: number;
+    horizontalOffset?: number;
+    verticalOffset?: number;
 };
 
 export default class ValidationContext extends React.Component {
@@ -27,8 +27,8 @@ export default class ValidationContext extends React.Component {
     getSettings(): IValidationContextSettings {
         return {
             scroll: {
-                horizontalSpan: this.props.horizontalSpan || 0,
-                verticalSpan: this.props.verticalSpan || 0,
+                horizontalOffset: this.props.horizontalOffset || 0,
+                verticalOffset: this.props.verticalOffset || 0,
             },
         };
     }
