@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import isEqual from 'lodash.isequal';
+import Events from 'add-event-listener';
 
 require('smoothscroll-polyfill').polyfill();
 
@@ -10,10 +11,15 @@ export type Validation = {
     behaviour: 'immediate' | 'lostfocus' | 'submit';
 };
 
+export interface IValidationContextSettings {
+    scroll: { horizontalOffset: number; verticalOffset: number };
+}
+
 export interface IValidationContext {
     register(wrapper: ValidationWrapper): void;
     unregister(wrapper: ValidationWrapper): void;
     onValidationUpdated(wrapper: ValidationWrapper, isValid: boolean): void;
+    getSettings(): IValidationContextSettings;
 }
 
 export type RenderErrorMessage =
@@ -50,6 +56,8 @@ export default class ValidationWrapper extends React.Component {
 
     child: React.Component<*, *, *>;
     isChanging: boolean = false;
+
+    _scrollTimer = null;
 
     componentWillMount() {
         this.syncWithState(this.props);
@@ -173,28 +181,67 @@ export default class ValidationWrapper extends React.Component {
         return result;
     }
 
-    isElementInViewport(domElement: Element): boolean {
+    getScrollOffsets(domElement: Element): ?{ top: number; left: number } {
         const elementRect = domElement.getBoundingClientRect();
-        const windowRect = this.getWindowRect();
-        return (
-            elementRect.top >= 0 &&
-            elementRect.left >= 0 &&
-            elementRect.bottom <= windowRect.height &&
-            elementRect.right <= windowRect.width
-        );
+        const windowReact = this.getWindowRect();
+        const scrollSettings = this.context.validationContext.getSettings().scroll;
+        let top = 0;
+        let left = 0;
+
+        if (elementRect.top < scrollSettings.horizontalOffset) {
+            top = elementRect.top - scrollSettings.horizontalOffset;
+        }
+        else if (elementRect.bottom > windowReact.height - scrollSettings.horizontalOffset) {
+            top = elementRect.bottom - windowReact.height + scrollSettings.horizontalOffset;
+        }
+
+        if (elementRect.left < scrollSettings.verticalOffset) {
+            left = elementRect.left - scrollSettings.verticalOffset;
+        }
+        else if (elementRect.right > windowReact.width - scrollSettings.verticalOffset) {
+            left = elementRect.right - windowReact.width + scrollSettings.verticalOffset;
+        }
+
+        if (!top && !left) {
+            return null;
+        }
+
+        return {
+            top,
+            left,
+        };
     }
 
-    focus() {
+    async focus(): Promise<void> {
         if (this.child && (typeof this.child.focus === 'function')) {
             const childDomElement = ReactDom.findDOMNode(this.child);
-            if (!this.isElementInViewport(childDomElement)) {
-                ReactDom.findDOMNode(this.child).scrollIntoView({ behavior: 'smooth' });
+            const scrollOffsets = this.getScrollOffsets(childDomElement);
+            if (scrollOffsets) {
+                await this.smoothScrollBy(scrollOffsets);
             }
             if (typeof this.child.focus === 'function') {
                 this.child.focus();
             }
             this.isChanging = false;
         }
+    }
+
+    smoothScrollBy(scrollOffsets: { top: number; left: number }): Promise<void> {
+        // используем EventListener'ы, т.к. в Firefox скролл асинхронный, и идующий за ним фокус сам прокручивает страницу по какой-то своей логике
+        return new Promise(resolve => {
+            const _handleScroll = () => {
+                if (this._scrollTimer !== null) {
+                    clearTimeout(this._scrollTimer);
+                }
+                this._scrollTimer = setTimeout(() => {
+                    Events.removeEventListener(window, 'scroll', _handleScroll);
+                    resolve();
+                }, 300);
+            };
+
+            Events.addEventListener(window, 'scroll', _handleScroll);
+            window.scrollBy({ ...scrollOffsets, behavior: 'smooth' });
+        });
     }
 
     isError(validation: Validation, index: number): boolean {
