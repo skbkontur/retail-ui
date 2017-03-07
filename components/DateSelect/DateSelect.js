@@ -31,7 +31,7 @@ type State = {
   topCapped: bool,
 };
 
-const isIE8 = 'attachEvent' in document;
+const isIE8 = ~window.navigator.userAgent.indexOf('MSIE 8.0');
 
 export default class DateSelect extends React.Component {
   static propTypes = {
