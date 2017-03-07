@@ -1,13 +1,8 @@
 // @flow
 
-import events from 'add-event-listener';
 import classNames from 'classnames';
 import React, { PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
-
-import listenFocusOutside, {
-  containsTargetOrRenderContainer
-} from '../../lib/listenFocusOutside';
 
 import filterProps from '../filterProps';
 import Input from '../Input';
@@ -16,6 +11,7 @@ import Picker from './Picker';
 import DateInput from './DateInput';
 import dateParser from './dateParser';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
+import RenderLayer from '../RenderLayer';
 
 import styles from './DatePicker.less';
 
@@ -71,7 +67,7 @@ type State = {
   textValue: string
 };
 
-export default class DatePicker extends React.Component {
+class DatePicker extends React.Component {
   static propTypes = {
     disabled: PropTypes.bool,
 
@@ -143,7 +139,6 @@ export default class DatePicker extends React.Component {
 
   _focusSubscription: any;
   _focused: boolean;
-  _ignoreBlur: boolean;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -185,24 +180,27 @@ export default class DatePicker extends React.Component {
       [this.props.className || '']: true
     });
     return (
-      <label
-        className={className}
-        style={{ width: this.props.width }}
-        ref={this._ref}
+      <RenderLayer
+        onClickOutside={this.handleBlur}
+        onFocusOutside={this.handleBlur}
       >
-        <DateInput
-          {...filterProps(this.props, INPUT_PASS_PROPS)}
-          getIconRef={this.getIconRef}
-          getInputRef={this.getInputRef}
-          opened={opened}
-          value={this.state.textValue}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          onChange={this.handleChange}
-          onIconClick={this.toggleCalendar}
-        />
-        {picker}
-      </label>
+        <label
+          className={className}
+          style={{ width: this.props.width }}
+        >
+          <DateInput
+            {...filterProps(this.props, INPUT_PASS_PROPS)}
+            getIconRef={this.getIconRef}
+            getInputRef={this.getInputRef}
+            opened={opened}
+            value={this.state.textValue}
+            onFocus={this.handleFocus}
+            onChange={this.handleChange}
+            onIconClick={this.toggleCalendar}
+          />
+          {picker}
+        </label>
+      </RenderLayer>
     );
   }
 
@@ -216,39 +214,6 @@ export default class DatePicker extends React.Component {
       this.setState({ textValue });
     }
   }
-
-  _ref = (el: HTMLElement) => {
-    if (this._focusSubscription) {
-      this._focusSubscription.remove();
-      this._focusSubscription = null;
-
-      events.removeEventListener(
-        document,
-        'mousedown',
-        this._handleNativeDocClick
-      );
-    }
-
-    if (el) {
-      this._focusSubscription = listenFocusOutside(
-        [findDOMNode(this)],
-        this.handleBlur
-      );
-      events.addEventListener(
-        document,
-        'mousedown',
-        this._handleNativeDocClick
-      );
-    }
-  };
-
-  _handleNativeDocClick = (e) => {
-    const containsTarget = containsTargetOrRenderContainer(e.target);
-
-    if (!containsTarget(findDOMNode(this))) {
-      this.handleBlur();
-    }
-  };
 
   getValue = () => {
     const value = this.props.value;
@@ -277,11 +242,6 @@ export default class DatePicker extends React.Component {
   };
 
   handleBlur = () => {
-    if (this._ignoreBlur) {
-      this._ignoreBlur = false;
-      return;
-    }
-
     if (!this._focused) {
       return;
     }
@@ -323,8 +283,6 @@ export default class DatePicker extends React.Component {
     if (this.props.disabled) {
       return;
     }
-
-    this._ignoreBlur = true;
 
     if (this.state.opened) {
       this.close(false);
@@ -391,3 +349,5 @@ function parseDate(str, withCorrection) {
   }
   return checkDate(date);
 }
+
+export default DatePicker;

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import styles from './Calendar.less';
 
@@ -15,7 +15,7 @@ export default class CalendarCell extends Component {
   }
 
   render() {
-    const {date, weekIdx, offset, value} = this.props;
+    const { date, weekIdx, offset, value } = this.props;
 
     const day = getDay(date);
     const isHolyday = date.getUTCDay() === 0 || date.getUTCDay() === 6;
@@ -33,14 +33,14 @@ export default class CalendarCell extends Component {
     if (day === 6) {
       x += HOLIDAYS_OFFSET;
     }
-    const style = {left: x, top: y, width, height: DAY_HEIGHT};
+    const style = { left: x, top: y, width, height: DAY_HEIGHT };
 
     const cellClass = classNames({
       [styles.cell]: true,
       [styles.cellToday]: this._isToday(date),
       [styles.cellCurrent]: isSameDate(value, date),
       [styles.grey]: date.getUTCMonth() % 2,
-      [styles.cellHoly]: isHolyday,
+      [styles.cellHoly]: isHolyday
     });
 
     return (
@@ -49,7 +49,7 @@ export default class CalendarCell extends Component {
           className={styles.cellInner}
           onMouseOver={this.activate}
           onMouseLeave={this.deactivate}
-          onMouseDown={this.pick}
+          onClick={this.pick}
         >
           {date.getUTCDate()}
         </div>
