@@ -13,28 +13,30 @@ import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 
 type Props<T> = {
-  editing: boolean,
-  error: boolean,
-  items: T[],
-  loading: boolean,
-  opened: boolean,
-  placeholder: string,
-  textValue: string,
-  totalCount: number,
-  value: T,
+  editing?: boolean,
+  error?: boolean,
+  items?: ?T[],
+  loading?: boolean,
+  opened?: boolean,
+  placeholder?: string,
+  textValue?: string,
+  totalCount?: number,
+  value?: ?T,
 
-  menuRef: (menu: Menu) => void,
-  onActivate: () => void,
   onChange: Function,
   onClickOutside: () => void,
-  onFocus: () => void,
+  onFocus?: () => void,
   onFocusOutside: () => void,
-  onInputChange: Function,
-  onInputKeyDown: (e: SyntheticKeyboardEvent) => void,
+  onInputChange?: Function,
+  onInputKeyDown?: (e: SyntheticKeyboardEvent) => void,
   renderItem: (item: T) => string | React$Element<*>,
-  renderNotFound: () => string | React$Element<*>,
-  renderTotalCount: (found: number, total: number) => string | React$Element<*>,
-  renderValue: (item: T) => string | React$Element<*>
+  renderNotFound?: () => string | React$Element<*>,
+  renderTotalCount?: (found: number, total: number) =>
+    | string
+    | React$Element<*>,
+  renderValue: (item: T) => string | React$Element<*>,
+  refInput?: (input: Input) => void,
+  refMenu?: (menu: Menu) => void,
 };
 
 class ComboBoxView extends Component {
@@ -42,7 +44,8 @@ class ComboBoxView extends Component {
     renderItem: x => x,
     renderValue: x => x,
     onClickOutside: () => {},
-    onFocusOutside: () => {}
+    onFocusOutside: () => {},
+    onChange: () => {}
   };
 
   props: Props<*>;
@@ -73,7 +76,7 @@ class ComboBoxView extends Component {
       items,
       totalCount,
       loading,
-      menuRef,
+      refMenu,
       renderNotFound,
       renderTotalCount
     } = this.props;
@@ -84,19 +87,19 @@ class ComboBoxView extends Component {
 
     if (loading) {
       return (
-        <Menu ref={menuRef}>
+        <Menu ref={refMenu}>
           <MenuItem disabled>
-            <Spinner type="mini" />
+            <div style={{ margin: '-2px 0 -1px' }}>
+              <Spinner type="mini" />
+            </div>
           </MenuItem>
         </Menu>
       );
     }
 
-    const isItems = items != null && items.length !== 0;
-
-    if (!isItems && renderNotFound) {
+    if ((items == null || items.length === 0) && renderNotFound) {
       return (
-        <Menu ref={menuRef}>
+        <Menu ref={refMenu}>
           <MenuItem disabled>
             {renderNotFound()}
           </MenuItem>
@@ -105,7 +108,7 @@ class ComboBoxView extends Component {
     }
 
     let total = null;
-    if (isItems && renderTotalCount) {
+    if (items && renderTotalCount && totalCount && items.length < totalCount) {
       total = (
         <MenuItem disabled>
           {renderTotalCount(items.length, totalCount)}
@@ -114,8 +117,8 @@ class ComboBoxView extends Component {
     }
 
     return (
-      <Menu ref={menuRef}>
-        {items.map(this.renderItem)}
+      <Menu ref={refMenu}>
+        {items && items.map(this.renderItem)}
         {total}
       </Menu>
     );
@@ -133,12 +136,12 @@ class ComboBoxView extends Component {
     const {
       editing,
       error,
-      onActivate,
       onFocus,
       onInputChange,
       onInputKeyDown,
       placeholder,
       renderValue,
+      refInput,
       textValue,
       value
     } = this.props;
@@ -148,23 +151,21 @@ class ComboBoxView extends Component {
         <Input
           error={error}
           onChange={onInputChange}
+          onFocus={onFocus}
           value={textValue}
           onKeyDown={onInputKeyDown}
           placeholder={placeholder}
           width="100%"
+          ref={refInput}
         />
       );
     }
 
     return (
-      <InputLikeText
-        error={error}
-        onFocus={onFocus}
-        onMouseDown={onActivate}
-      >
-        {value ? renderValue(value) : (
-          <span style={{ color: 'gray' }}>{placeholder}</span>
-        )}
+      <InputLikeText error={error} onFocus={onFocus}>
+        {value
+          ? renderValue(value)
+          : <span style={{ color: 'gray' }}>{placeholder}</span>}
       </InputLikeText>
     );
   }

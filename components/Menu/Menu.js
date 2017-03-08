@@ -10,18 +10,19 @@ import styles from './Menu.less';
 
 export default class Menu extends React.Component {
   static defaultProps = {
-    width: 'auto'
+    width: 'auto',
+    maxHeight: 300
   };
 
   props: {
-    maxHeight?: number,
+    maxHeight: number,
     width?: number | string,
     children?: any,
-    onItemClick?: () => void,
+    onItemClick?: () => void
   };
 
   state: {
-    highlightedIndex: number,
+    highlightedIndex: number
   } = {
     highlightedIndex: -1
   };
@@ -39,8 +40,12 @@ export default class Menu extends React.Component {
     }
 
     return (
-      <div className={styles.root} style={{ width: this.props.width }}>
-        <ScrollContainer ref={this._refScrollContainer}
+      <div
+        className={styles.root}
+        style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
+      >
+        <ScrollContainer
+          ref={this._refScrollContainer}
           maxHeight={this.props.maxHeight}
         >
           {React.Children.map(this.props.children, (child, index) => {
@@ -104,7 +109,7 @@ export default class Menu extends React.Component {
     this._scrollContainer.scrollTo(ReactDOM.findDOMNode(this._highlighted));
   };
 
-  _select(index: number, shouldHandleHref: bool) {
+  _select(index: number, shouldHandleHref: boolean) {
     const item = childrenToArray(this.props.children)[index];
     if (isActiveElement(item)) {
       if (shouldHandleHref && item.props.href) {
@@ -153,8 +158,7 @@ export default class Menu extends React.Component {
 
   _isEmpty() {
     const { children } = this.props;
-    return !children ||
-           !childrenToArray(children).filter(isExist).length;
+    return !children || !childrenToArray(children).filter(isExist).length;
   }
 }
 
