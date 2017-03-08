@@ -18,6 +18,7 @@ type Props<T> = {
   items: T[],
   loading: boolean,
   opened: boolean,
+  placeholder: string,
   textValue: string,
   totalCount: number,
   value: T,
@@ -36,10 +37,12 @@ type Props<T> = {
   renderValue: (item: T) => string | React$Element<*>
 };
 
-class View extends Component {
+class ComboBoxView extends Component {
   static defaultProps = {
     renderItem: x => x,
-    renderValue: x => x
+    renderValue: x => x,
+    onClickOutside: () => {},
+    onFocusOutside: () => {}
   };
 
   props: Props<*>;
@@ -54,9 +57,9 @@ class View extends Component {
         onClickOutside={onClickOutside}
         onFocusOutside={onFocusOutside}
       >
-        <label>
+        <label style={{ width: 200, display: 'inline-block' }}>
           {input}
-          <DropdownContainer getParent={findDOMNode(this)} offsetY={1}>
+          <DropdownContainer getParent={() => findDOMNode(this)} offsetY={1}>
             {menu}
           </DropdownContainer>
         </label>
@@ -79,6 +82,16 @@ class View extends Component {
       return null;
     }
 
+    if (loading) {
+      return (
+        <Menu ref={menuRef}>
+          <MenuItem disabled>
+            <Spinner type="mini" />
+          </MenuItem>
+        </Menu>
+      );
+    }
+
     const isItems = items != null && items.length !== 0;
 
     if (!isItems && renderNotFound) {
@@ -86,16 +99,6 @@ class View extends Component {
         <Menu ref={menuRef}>
           <MenuItem disabled>
             {renderNotFound()}
-          </MenuItem>
-        </Menu>
-      );
-    }
-
-    if (loading) {
-      return (
-        <Menu ref={menuRef}>
-          <MenuItem disabled>
-            <Spinner size="small" />
           </MenuItem>
         </Menu>
       );
@@ -134,6 +137,7 @@ class View extends Component {
       onFocus,
       onInputChange,
       onInputKeyDown,
+      placeholder,
       renderValue,
       textValue,
       value
@@ -146,16 +150,24 @@ class View extends Component {
           onChange={onInputChange}
           value={textValue}
           onKeyDown={onInputKeyDown}
+          placeholder={placeholder}
+          width="100%"
         />
       );
     }
 
     return (
-      <InputLikeText error={error} onFocus={onFocus} onMouseDown={onActivate}>
-        {renderValue(value)}
+      <InputLikeText
+        error={error}
+        onFocus={onFocus}
+        onMouseDown={onActivate}
+      >
+        {value ? renderValue(value) : (
+          <span style={{ color: 'gray' }}>{placeholder}</span>
+        )}
       </InputLikeText>
     );
   }
 }
 
-export default View;
+export default ComboBoxView;
