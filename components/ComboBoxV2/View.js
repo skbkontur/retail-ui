@@ -15,7 +15,7 @@ import Spinner from '../Spinner';
 type Props<T> = {|
   editing?: boolean,
   error?: boolean,
-  items?: ?T[],
+  items?: ?(T[]),
   loading?: boolean,
   opened?: boolean,
   placeholder?: string,
@@ -37,7 +37,7 @@ type Props<T> = {|
     | React$Element<*>,
   renderValue: (item: T) => string | React$Element<*>,
   refInput?: (input: Input) => void,
-  refMenu?: (menu: Menu) => void,
+  refMenu?: (menu: Menu) => void
 |};
 
 class ComboBoxView extends Component {
@@ -126,6 +126,13 @@ class ComboBoxView extends Component {
   }
 
   renderItem = (item: *, index: number) => {
+    if (typeof item === 'function' || React.isValidElement(item)) {
+      const element = typeof item === 'function' ? item() : item;
+      return React.cloneElement(element, {
+        key: index,
+        onClick: () => this.props.onChange(item)
+      });
+    }
     return (
       <MenuItem onClick={() => this.props.onChange(item)} key={index}>
         {this.props.renderItem(item)}

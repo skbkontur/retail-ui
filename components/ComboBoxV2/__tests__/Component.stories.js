@@ -5,13 +5,18 @@ import { storiesOf } from '@kadira/storybook';
 
 import ComboBox from '../Component';
 import Button from '../../Button';
+import MenuItem from '../../MenuItem';
+import MenuSeparator from '../../MenuSeparator';
 
 storiesOf('ComboBox v2', module)
   .add('simple', () => (
-    <TestComboBox onSearch={search} renderItem={renderValue} />
+    <TestComboBox onSearch={search} renderItem={renderValue} totalCount={12}/>
   ))
   .add('with rejections', () => (
     <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />
+  ))
+  .add('with custom elements', () => (
+    <TestComboBox onSearch={searchWithCustomElements} renderItem={renderValue}/>
   ));
 
 class TestComboBox extends React.Component {
@@ -41,12 +46,13 @@ class TestComboBox extends React.Component {
             x && this.setState({ error: true });
           }}
           renderNotFound={() => 'Not found'}
-          totalCount={12}
+          totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Found ${found} of ${total}`}
         />
+        <button>Ok</button>
         {this.state.error &&
           <div style={{ color: 'red' }}>Необходимо выбрать значение</div>}
-        <button>Ok</button>
+
       </div>
     );
   }
@@ -88,6 +94,36 @@ function searchWithRejections(query: string) {
   return Promise.resolve()
     .then(delay)
     .then(() => Promise.reject({ error: 'error' }));
+}
+
+function searchWithCustomElements(query: string) {
+  const items = [
+    { id: 1, name: 'one' },
+    { id: 2, name: 'two' },
+    { id: 3, name: 'three' },
+    { id: 4, name: 'four' },
+    { id: 5, name: 'five' },
+    { id: 6, name: 'six' },
+    { id: 7, name: 'seven' },
+    { id: 8, name: 'eight' },
+    { id: 9, name: 'nine' },
+    { id: 10, name: 'ten' },
+    { id: 11, name: 'eleven' },
+    { id: 12, name: 'twelve' },
+    { id: 13, name: 'very long long long long long long name' }
+  ];
+
+  return Promise.resolve([
+    <MenuItem disabled icon="child">
+      Ohhhh
+    </MenuItem>,
+    <MenuSeparator />,
+    ...items.filter(x => x.name.includes(query.toLowerCase())),
+    <MenuSeparator />,
+    <MenuItem alkoLink disabled>
+      <Button use="link" onClick={() => alert('Clicked')}>Ha ha</Button>
+    </MenuItem>
+  ]);
 }
 
 function renderValue({ id, name }) {
