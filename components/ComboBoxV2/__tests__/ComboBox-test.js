@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
   event.initEvent('mousedown', true, true);
-  document.body.dispatchEvent(event);
+  (document.body: any).dispatchEvent(event);
 }
 
 function delay(ms) {
@@ -49,8 +49,6 @@ describe('ComboBox V2', () => {
     const wrapper = mount(
       <ComboBox
         onSearchRequest={search}
-        renderItem={x => x}
-        renderValue={x => x}
       />
     );
 
@@ -71,8 +69,6 @@ describe('ComboBox V2', () => {
     const wrapper = mount(
       <ComboBox
         onSearchRequest={search}
-        renderItem={x => x}
-        renderValue={x => x}
       />
     );
 
@@ -98,8 +94,6 @@ describe('ComboBox V2', () => {
     const wrapper = mount(
       <ComboBox
         onSearchRequest={search}
-        renderItem={x => x}
-        renderValue={x => x}
         onChange={onChange}
       />
     );
@@ -125,8 +119,6 @@ describe('ComboBox V2', () => {
     const wrapper = mount(
       <ComboBox
         onSearchRequest={search}
-        renderItem={x => x}
-        renderValue={x => x}
         onChange={onChange}
       />
     );

@@ -33,9 +33,8 @@ type Props<T> = {|
   onInputKeyDown?: (e: SyntheticKeyboardEvent) => void,
   renderItem: (item: T) => string | React$Element<*>,
   renderNotFound?: () => string | React$Element<*>,
-  renderTotalCount?: (found: number, total: number) =>
-    | string
-    | React$Element<*>,
+  renderTotalCount?:
+    (found: number, total: number) => string | React$Element<*>,
   renderValue: (item: T) => string | React$Element<*>,
   refInput?: (input: Input) => void,
   refMenu?: (menu: Menu) => void

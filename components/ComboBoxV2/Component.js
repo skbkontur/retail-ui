@@ -23,14 +23,14 @@ type Props<T> = {|
   debounceInterval: number,
   error?: boolean,
   onBlur?: () => void,
-  onChange: (T) => void,
+  onChange?: (T) => void,
   onFocus?: () => void,
-  onSearchRequest: (query: string) => Promise<T[]>,
+  onSearchRequest?: (query: string) => Promise<T[]>,
   onUnexpectedInput?: (query: string) => void,
   placeholder?: string,
-  renderItem: (item: T, index: number) => string | React$Element<any>,
-  renderNotFound: () => string | React$Element<*>,
-  renderValue: (T) => string | React$Element<*>,
+  renderItem?: (item: T, index: number) => string | React$Element<any>,
+  renderNotFound?: () => string | React$Element<*>,
+  renderValue?: (T) => string | React$Element<*>,
   value?: T,
   valueToString: (T) => string,
   totalCount?: number,
@@ -39,7 +39,8 @@ type Props<T> = {|
 
 class ComboBoxComponent extends Component {
   static defaultProps = {
-    debounceInterval: 150
+    debounceInterval: 150,
+    valueToString: ((x => x): (item: *) => string)
   };
 
   props: Props<*>;
@@ -221,6 +222,9 @@ class ComboBoxComponent extends Component {
 
   _handleSearch = (query: string) => {
     const { onSearchRequest } = this.props;
+    if (!onSearchRequest) {
+      return;
+    }
     const expectingId = ++this._requestId;
 
     this.setState({ loading: true, items: null, opened: true });
@@ -253,9 +257,9 @@ class ComboBoxComponent extends Component {
       </MenuItem>
     ];
     this._handleSetItems(items);
-  }
+  };
 
-  _handleSetItems = (items?: *[]) => {
+  _handleSetItems = (items?: any[]) => {
     const { value } = this.props;
     this.setState({ items, loading: false }, () => {
       if (!this.menu) {
