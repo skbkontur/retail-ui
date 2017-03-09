@@ -9,16 +9,18 @@ storiesOf('ComboBox v2', module).add('simple', () => <TestComboBox />);
 
 class TestComboBox extends React.Component {
   state = {
-    value: null
+    value: null,
+    error: false
   };
 
   handleChange = value => {
-    this.setState({ value });
+    this.setState({ value, error: false });
   };
 
   render() {
     return (
       <Component
+        error={this.state.error}
         value={this.state.value}
         onSearchRequest={search}
         renderItem={renderValue}
@@ -26,7 +28,12 @@ class TestComboBox extends React.Component {
         valueToString={x => x.name}
         placeholder="number"
         onChange={this.handleChange}
+        onUnexpectedInput={x => {
+          x && this.setState({ error: true, value: null });
+        }}
         renderNotFound={() => 'Not found'}
+        totalCount={12}
+        renderTotalCount={(found, total) => `Found ${found} of ${total}`}
       />
     );
   }

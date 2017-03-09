@@ -12,7 +12,7 @@ import MenuItem from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 
-type Props<T> = {
+type Props<T> = {|
   editing?: boolean,
   error?: boolean,
   items?: ?T[],
@@ -37,7 +37,7 @@ type Props<T> = {
   renderValue: (item: T) => string | React$Element<*>,
   refInput?: (input: Input) => void,
   refMenu?: (menu: Menu) => void,
-};
+|};
 
 class ComboBoxView extends Component {
   static defaultProps = {
