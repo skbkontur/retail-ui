@@ -14,17 +14,20 @@ type State<T> = {|
   items: ?(T[]),
   loading: boolean,
   opened: boolean,
-  textValue: string
+  textValue: string,
+  requestError: ?any
 |};
 
 type Props<T> = {|
   debounceInterval: number,
   error?: boolean,
+  onBlur?: () => void,
   onChange: (T) => void,
+  onFocus?: () => void,
   onSearchRequest: (query: string) => Promise<T[]>,
   onUnexpectedInput?: (query: string) => void,
   placeholder?: string,
-  renderItem: (T) => string | React$Element<*>,
+  renderItem: (item: T, index: number) => string | React$Element<any>,
   renderNotFound: () => string | React$Element<*>,
   renderValue: (T) => string | React$Element<*>,
   value?: T,
@@ -35,8 +38,7 @@ type Props<T> = {|
 
 class ComboBoxComponent extends Component {
   static defaultProps = {
-    debounceInterval: 150,
-    valueToString: x => x
+    debounceInterval: 150
   };
 
   props: Props<*>;
@@ -47,14 +49,15 @@ class ComboBoxComponent extends Component {
     items: null,
     loading: false,
     opened: false,
-    textValue: ''
+    textValue: '',
+    requestError: null
   };
 
   input: Input;
   menu: Menu;
   _requestId = 0;
   _debouncedHandleSearch: Function;
-  _promise: ?Promise<any>;
+  _focused: boolean = false;
 
   constructor(props: Props<*>) {
     super(props);
@@ -65,12 +68,15 @@ class ComboBoxComponent extends Component {
     );
   }
 
-  focus() {
+  focus = () => {
     if (this.input) {
       this.input.focus();
       this.input.setSelectionRange(0, this.state.textValue.length);
     }
-  }
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
+  };
 
   render() {
     const viewProps = {
@@ -89,6 +95,7 @@ class ComboBoxComponent extends Component {
       onFocus: this._handleActivate,
       onFocusOutside: this._handleBlur,
       onInputChange: this._handleInputChange,
+      onInputFocus: this._handleInputFocus,
       renderItem: this.props.renderItem,
       renderNotFound: this.props.renderNotFound,
       renderValue: this.props.renderValue,
@@ -110,11 +117,6 @@ class ComboBoxComponent extends Component {
   };
 
   _handleActivate = () => {
-    if (this.state.editing) {
-      this.focus();
-      return;
-    }
-
     const { valueToString, value } = this.props;
 
     let textValue = '';
@@ -126,6 +128,12 @@ class ComboBoxComponent extends Component {
     this._handleSearch('');
   };
 
+  _handleInputFocus = () => {
+    if (this.state.inputChanged) {
+      this._handleSearch(this.state.textValue);
+    }
+  };
+
   _handleInputChange = (_, textValue) => {
     this.setState({ textValue, inputChanged: true });
     this._debouncedHandleSearch(textValue);
@@ -133,27 +141,20 @@ class ComboBoxComponent extends Component {
 
   _handleBlur = () => {
     this.setState({ opened: false });
-    if (this._promise) {
-      this._promise.then(this._checkInput);
-    } else {
-      this._checkInput();
-    }
-  };
 
-  _checkInput = () => {
-    const { items, textValue } = this.state;
-    if (items && items.length) {
-      const item = items.find(x => this.props.valueToString(x) === textValue);
-      if (item) {
-        this._handleSelect(item);
-        return;
-      }
-    }
     this._handleUnexpectedInput();
+
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
   };
 
   _handleUnexpectedInput() {
-    const { textValue } = this.state;
+    const { textValue, inputChanged } = this.state;
+    if (!inputChanged) {
+      this._close();
+      return;
+    }
     if (this.props.onUnexpectedInput) {
       this.props.onUnexpectedInput(textValue);
     }
@@ -169,38 +170,40 @@ class ComboBoxComponent extends Component {
 
     this.setState({ loading: true, items: null, opened: true });
 
-    this._promise = onSearchRequest(query)
+    onSearchRequest(query)
       .then(items => {
         if (this._requestId !== expectingId) {
           return;
         }
         this._handleSetItems(items);
       })
-      .then(() => {
-        this._promise = null;
+      .catch(error => {
+        this.setState({ requestError: error, loading: false });
       });
   };
 
   _handleSetItems(items?: *[]) {
     const { value } = this.props;
-    this.setState(
-      { items, loading: false, inputChanged: false, opened: true },
-      () => {
-        if (!this.menu) {
-          return;
-        }
-        if (value && items && items.length) {
-          let index = items.findIndex(x => shallowEqual(x, value));
-          this.menu._highlightItem(index);
-          process.nextTick(this.menu._scrollToSelected);
-        } else {
-          this.menu._highlightItem(0);
-        }
+    this.setState({ items, loading: false }, () => {
+      if (!this.menu) {
+        return;
       }
-    );
+      if (value && items && items.length) {
+        let index = items.findIndex(x => shallowEqual(x, value));
+        if (index < 0) {
+          index = 0;
+        }
+        this.menu._highlightItem(index);
+        // _highlightItem can be async
+        process.nextTick(this.menu._scrollToSelected);
+      } else {
+        this.menu._highlightItem(0);
+      }
+    });
   }
 
   _handleSelect = (item: *) => {
+    this.setState({ inputChanged: false, textValue: '' });
     if (this.props.onChange) {
       this.props.onChange(item);
     }

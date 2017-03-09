@@ -28,6 +28,7 @@ type Props<T> = {|
   onFocus?: () => void,
   onFocusOutside: () => void,
   onInputChange?: Function,
+  onInputFocus?: () => void,
   onInputKeyDown?: (e: SyntheticKeyboardEvent) => void,
   renderItem: (item: T) => string | React$Element<*>,
   renderNotFound?: () => string | React$Element<*>,
@@ -41,7 +42,7 @@ type Props<T> = {|
 
 class ComboBoxView extends Component {
   static defaultProps = {
-    renderItem: x => x,
+    renderItem: (x, i) => x,
     renderValue: x => x,
     onClickOutside: () => {},
     onFocusOutside: () => {},
@@ -138,6 +139,7 @@ class ComboBoxView extends Component {
       error,
       onFocus,
       onInputChange,
+      onInputFocus,
       onInputKeyDown,
       placeholder,
       renderValue,
@@ -151,7 +153,7 @@ class ComboBoxView extends Component {
         <Input
           error={error}
           onChange={onInputChange}
-          onFocus={onFocus}
+          onFocus={onInputFocus}
           value={textValue}
           onKeyDown={onInputKeyDown}
           placeholder={placeholder}

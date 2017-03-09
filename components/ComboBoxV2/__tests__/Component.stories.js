@@ -3,9 +3,16 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 
-import Component from '../Component';
+import ComboBox from '../Component';
+import Button from '../../Button';
 
-storiesOf('ComboBox v2', module).add('simple', () => <TestComboBox />);
+storiesOf('ComboBox v2', module)
+  .add('simple', () => (
+    <TestComboBox onSearch={search} renderItem={renderValue} />
+  ))
+  .add('with rejections', () => (
+    <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />
+  ));
 
 class TestComboBox extends React.Component {
   state = {
@@ -19,22 +26,28 @@ class TestComboBox extends React.Component {
 
   render() {
     return (
-      <Component
-        error={this.state.error}
-        value={this.state.value}
-        onSearchRequest={search}
-        renderItem={renderValue}
-        renderValue={renderValue}
-        valueToString={x => x.name}
-        placeholder="number"
-        onChange={this.handleChange}
-        onUnexpectedInput={x => {
-          x && this.setState({ error: true, value: null });
-        }}
-        renderNotFound={() => 'Not found'}
-        totalCount={12}
-        renderTotalCount={(found, total) => `Found ${found} of ${total}`}
-      />
+      <div>
+        <ComboBox
+          error={this.state.error}
+          value={this.state.value}
+          onFocus={() => this.setState({ error: false })}
+          onSearchRequest={this.props.onSearch}
+          renderItem={this.props.renderItem}
+          renderValue={renderValue}
+          valueToString={x => x.name}
+          placeholder="number"
+          onChange={this.handleChange}
+          onUnexpectedInput={x => {
+            x && this.setState({ error: true });
+          }}
+          renderNotFound={() => 'Not found'}
+          totalCount={12}
+          renderTotalCount={(found, total) => `Found ${found} of ${total}`}
+        />
+        {this.state.error &&
+          <div style={{ color: 'red' }}>Необходимо выбрать значение</div>}
+        <button>Ok</button>
+      </div>
     );
   }
 }
@@ -52,7 +65,8 @@ function search(query: string) {
     { id: 9, name: 'nine' },
     { id: 10, name: 'ten' },
     { id: 11, name: 'eleven' },
-    { id: 12, name: 'twelve' }
+    { id: 12, name: 'twelve' },
+    { id: 13, name: 'very long long long long long long name' }
   ];
 
   const random = v => Math.random() * v;
@@ -65,11 +79,45 @@ function search(query: string) {
   ).then(delay);
 }
 
+function searchWithRejections(query: string) {
+  const random = v => Math.random() * v;
+
+  const delay = v =>
+    new Promise(resolve => setTimeout(resolve, random(5) * 100, v));
+
+  return Promise.resolve()
+    .then(delay)
+    .then(() => Promise.reject({ error: 'error' }));
+}
+
 function renderValue({ id, name }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <span>{name}</span>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        maxWidth: 250
+      }}
+    >
+      <span
+        style={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          marginRight: 20
+        }}
+      >
+        {name}
+      </span>
       <span>{id}</span>
+    </div>
+  );
+}
+
+function renderError(errorItem, index, search, input) {
+  return (
+    <div>
+      <div>Не удалось получить данные с сервера </div>
+      <Button use="link" onClick={() => search(input)}>Повторить запрос</Button>
     </div>
   );
 }
