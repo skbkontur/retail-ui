@@ -3,7 +3,7 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 
-import ComboBox from '../Component';
+import ComboBoxV2 from '../ComboBox';
 import Button from '../../Button';
 import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
@@ -35,7 +35,7 @@ class TestComboBox extends React.Component {
   render() {
     return (
       <div>
-        <ComboBox
+        <ComboBoxV2
           error={this.state.error}
           value={this.state.value}
           onFocus={() => this.setState({ error: false })}

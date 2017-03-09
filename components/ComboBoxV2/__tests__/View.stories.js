@@ -2,7 +2,7 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 
-import View from '../View';
+import View from '../ComboBoxView';
 
 storiesOf('ComboBoxV2 View', module)
   .add('idle input', () => (

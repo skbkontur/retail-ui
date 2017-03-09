@@ -7,7 +7,7 @@ import shallowEqual from 'fbjs/lib/shallowEqual';
 import type Input from '../Input/Input';
 import type Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem';
-import View from './View';
+import View from './ComboBoxView';
 
 type State<T> = {|
   editing: boolean,
@@ -37,7 +37,7 @@ type Props<T> = {|
   renderTotalCount?: (found: number, total: number) => string | React$Element<*>
 |};
 
-class ComboBoxComponent extends Component {
+class ComboBoxV2 extends Component {
   static defaultProps = {
     debounceInterval: 150,
     valueToString: ((x => x): (item: *) => string)
@@ -281,4 +281,4 @@ class ComboBoxComponent extends Component {
   }
 }
 
-export default ComboBoxComponent;
+export default ComboBoxV2;
