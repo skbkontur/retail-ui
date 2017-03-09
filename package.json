@@ -71,10 +71,13 @@
     "react-dom": "^0.14.0 || ^15.0.0-0"
   },
   "jest": {
-    "transform": {
-      "\\.*": "<rootDir>/preprocessor.js"
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/flow/StringStub.js"
     },
-    "testRegex": "(/__tests__/.*(test|spec))\\.(ts|tsx|js)$",
+    "transform": {
+      "\\.(less|js)": "<rootDir>/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*(test|spec))\\.(js|jsx)$",
     "roots": [
       "<rootDir>/components",
       "<rootDir>/lib",
