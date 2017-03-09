@@ -10,13 +10,16 @@ import MenuSeparator from '../../MenuSeparator';
 
 storiesOf('ComboBox v2', module)
   .add('simple', () => (
-    <TestComboBox onSearch={search} renderItem={renderValue} totalCount={12}/>
+    <TestComboBox onSearch={search} renderItem={renderValue} totalCount={12} />
   ))
   .add('with rejections', () => (
     <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />
   ))
   .add('with custom elements', () => (
-    <TestComboBox onSearch={searchWithCustomElements} renderItem={renderValue}/>
+    <TestComboBox
+      onSearch={searchWithCustomElements}
+      renderItem={renderValue}
+    />
   ));
 
 class TestComboBox extends React.Component {
@@ -91,9 +94,13 @@ function searchWithRejections(query: string) {
   const delay = v =>
     new Promise(resolve => setTimeout(resolve, random(5) * 100, v));
 
-  return Promise.resolve()
-    .then(delay)
-    .then(() => Promise.reject({ error: 'error' }));
+  return Promise.reject().then(delay).then(
+    () => [],
+    () => [
+      <MenuItem disabled>
+        <div color="red">Запрос не выполнился</div>
+      </MenuItem>
+    ]);
 }
 
 function searchWithCustomElements(query: string) {
@@ -114,15 +121,19 @@ function searchWithCustomElements(query: string) {
   ];
 
   return Promise.resolve([
+    (
     <MenuItem disabled icon="child">
-      Ohhhh
-    </MenuItem>,
+        Ohhhh
+      </MenuItem>
+    ),
     <MenuSeparator />,
     ...items.filter(x => x.name.includes(query.toLowerCase())),
     <MenuSeparator />,
+    (
     <MenuItem alkoLink disabled>
-      <Button use="link" onClick={() => alert('Clicked')}>Ha ha</Button>
-    </MenuItem>
+        <Button use="link" onClick={() => alert('Clicked')}>Ha ha</Button>
+      </MenuItem>
+    )
   ]);
 }
 
@@ -145,15 +156,6 @@ function renderValue({ id, name }) {
         {name}
       </span>
       <span>{id}</span>
-    </div>
-  );
-}
-
-function renderError(errorItem, index, search, input) {
-  return (
-    <div>
-      <div>Не удалось получить данные с сервера </div>
-      <Button use="link" onClick={() => search(input)}>Повторить запрос</Button>
     </div>
   );
 }
