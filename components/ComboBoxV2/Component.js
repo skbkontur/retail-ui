@@ -124,6 +124,14 @@ class ComboBoxComponent extends Component {
     this.menu = menu;
   };
 
+  _handleSelect = (item: *) => {
+    this.setState({ inputChanged: false, textValue: '' });
+    if (this.props.onChange) {
+      this.props.onChange(item);
+    }
+    this._close();
+  };
+
   _handleActivate = () => {
     const { valueToString, value } = this.props;
 
@@ -218,13 +226,15 @@ class ComboBoxComponent extends Component {
     this.setState({ loading: true, items: null, opened: true });
 
     onSearchRequest(query)
-      .then(items => {
-        if (this._requestId !== expectingId) {
-          return;
-        }
-        this._handleSetItems(items);
-      })
-      .catch(this._handleRequestError);
+      .then(
+        items => {
+          if (this._requestId !== expectingId) {
+            return;
+          }
+          this._handleSetItems(items);
+        },
+        this._handleRequestError
+      );
   };
 
   _handleRequestError = () => {
@@ -265,14 +275,6 @@ class ComboBoxComponent extends Component {
       }
     });
   }
-
-  _handleSelect = (item: *) => {
-    this.setState({ inputChanged: false, textValue: '' });
-    if (this.props.onChange) {
-      this.props.onChange(item);
-    }
-    this._close();
-  };
 }
 
 export default ComboBoxComponent;

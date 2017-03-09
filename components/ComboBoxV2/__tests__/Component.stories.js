@@ -90,13 +90,21 @@ function search(query: string) {
   ).then(delay);
 }
 
+let searchCount = 0;
 function searchWithRejections(query: string) {
   const random = v => Math.random() * v;
 
   const delay = v =>
     new Promise(resolve => setTimeout(resolve, random(5) * 100, v));
 
-  return Promise.resolve().then(delay).then(Promise.reject);
+  searchCount++;
+  return Promise.resolve()
+    .then(delay)
+    .then(() => searchCount % 2 ? Promise.reject() : [
+      { id: 1, name: 'one' },
+      { id: 2, name: 'two' },
+      { id: 3, name: 'three' }
+    ]);
 }
 
 function searchWithCustomElements(query: string) {

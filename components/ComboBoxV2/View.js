@@ -113,7 +113,9 @@ class ComboBoxView extends Component {
     if (items && renderTotalCount && totalCount && items.length < totalCount) {
       total = (
         <MenuItem disabled>
-          {renderTotalCount(items.length, totalCount)}
+          <div style={{ fontSize: 12 }}>
+            {renderTotalCount(items.length, totalCount)}
+          </div>
         </MenuItem>
       );
     }
@@ -129,11 +131,11 @@ class ComboBoxView extends Component {
   renderItem = (item: *, index: number) => {
     if (typeof item === 'function' || React.isValidElement(item)) {
       const element = typeof item === 'function' ? item() : item;
-      const onClick = element.props.onClick;
-      return React.cloneElement(element, {
+      const props = Object.assign({
         key: index,
-        onClick: onClick || (() => this.props.onChange(item))
-      });
+        onClick: () => this.props.onChange(item)
+      }, element.props);
+      return React.cloneElement(element, props);
     }
     return (
       <MenuItem onClick={() => this.props.onChange(item)} key={index}>
