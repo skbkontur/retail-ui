@@ -52,7 +52,9 @@ class TestComboBox extends React.Component {
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Found ${found} of ${total}`}
         />
+
         <button>Ok</button>
+
         {this.state.error &&
           <div style={{ color: 'red' }}>Необходимо выбрать значение</div>}
 
@@ -94,13 +96,7 @@ function searchWithRejections(query: string) {
   const delay = v =>
     new Promise(resolve => setTimeout(resolve, random(5) * 100, v));
 
-  return Promise.reject().then(delay).then(
-    () => [],
-    () => [
-      <MenuItem disabled>
-        <div color="red">Запрос не выполнился</div>
-      </MenuItem>
-    ]);
+  return Promise.resolve().then(delay).then(Promise.reject);
 }
 
 function searchWithCustomElements(query: string) {
@@ -118,22 +114,23 @@ function searchWithCustomElements(query: string) {
     { id: 11, name: 'eleven' },
     { id: 12, name: 'twelve' },
     { id: 13, name: 'very long long long long long long name' }
-  ];
+  ].filter(x => x.name.includes(query.toLowerCase()));
 
   return Promise.resolve([
-    (
     <MenuItem disabled icon="child">
-        Ohhhh
-      </MenuItem>
+      Ohhhh
+    </MenuItem>,
+    <MenuSeparator />,
+    ...(items.length
+      ? items
+      : [<MenuItem disabled>
+           Nothing was found
+         </MenuItem>]
     ),
     <MenuSeparator />,
-    ...items.filter(x => x.name.includes(query.toLowerCase())),
-    <MenuSeparator />,
-    (
     <MenuItem alkoLink disabled>
-        <Button use="link" onClick={() => alert('Clicked')}>Ha ha</Button>
-      </MenuItem>
-    )
+      <Button use="link" onClick={() => alert('Clicked')}>Ha ha</Button>
+    </MenuItem>
   ]);
 }
 

@@ -6,6 +6,7 @@ import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import type Input from '../Input/Input';
 import type Menu from '../Menu/Menu';
+import MenuItem from '../MenuItem';
 import View from './View';
 
 type State<T> = {|
@@ -133,7 +134,6 @@ class ComboBoxComponent extends Component {
 
     this.setState({ editing: true, textValue }, this.focus);
     this._handleSearch('');
-
   };
 
   _handleInputFocus = () => {
@@ -155,8 +155,6 @@ class ComboBoxComponent extends Component {
       case 'Enter':
         if (menu && menu._highlighted != null) {
           menu.enter();
-        } else {
-          this._handleBlur();
         }
         break;
       case 'ArrowUp':
@@ -226,27 +224,44 @@ class ComboBoxComponent extends Component {
         }
         this._handleSetItems(items);
       })
-      .catch(error => {
-        this.setState({ requestError: error, loading: false });
-      });
+      .catch(this._handleRequestError);
   };
 
-  _handleSetItems(items?: *[]) {
+  _handleRequestError = () => {
+    const items = [
+      <MenuItem disabled>
+        <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>
+          Что-то пошло не так. Проверьте соединение{' '}
+          с интернетом и попробуйте еще раз
+        </div>
+      </MenuItem>,
+      <MenuItem
+        alkoLink
+        onClick={() => this._handleSearch(this.state.textValue)}
+      >
+        Обновить
+      </MenuItem>
+    ];
+    this._handleSetItems(items);
+  }
+
+  _handleSetItems = (items?: *[]) => {
     const { value } = this.props;
     this.setState({ items, loading: false }, () => {
       if (!this.menu) {
         return;
       }
+
+      let index = -1;
       if (value && items && items.length) {
-        let index = items.findIndex(x => shallowEqual(x, value));
-        if (index < 0) {
-          index = 0;
-        }
+        index = items.findIndex(x => shallowEqual(x, value));
+      }
+
+      if (index >= 0) {
         this.menu._highlightItem(index);
-        // _highlightItem can be async
         process.nextTick(this.menu._scrollToSelected);
       } else {
-        this.menu._highlightItem(0);
+        this.menu.down();
       }
     });
   }

@@ -13,6 +13,7 @@ import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 
 type Props<T> = {|
+  disabled?: boolean,
   editing?: boolean,
   error?: boolean,
   items?: ?(T[]),
@@ -128,9 +129,10 @@ class ComboBoxView extends Component {
   renderItem = (item: *, index: number) => {
     if (typeof item === 'function' || React.isValidElement(item)) {
       const element = typeof item === 'function' ? item() : item;
+      const onClick = element.props.onClick;
       return React.cloneElement(element, {
         key: index,
-        onClick: () => this.props.onChange(item)
+        onClick: onClick || (() => this.props.onChange(item))
       });
     }
     return (
@@ -142,6 +144,7 @@ class ComboBoxView extends Component {
 
   renderInput() {
     const {
+      disabled,
       editing,
       error,
       onFocus,
@@ -158,6 +161,7 @@ class ComboBoxView extends Component {
     if (editing) {
       return (
         <Input
+          disabled={disabled}
           error={error}
           onChange={onInputChange}
           onFocus={onInputFocus}
@@ -171,7 +175,7 @@ class ComboBoxView extends Component {
     }
 
     return (
-      <InputLikeText error={error} onFocus={onFocus}>
+      <InputLikeText error={error} onFocus={onFocus} disabled={disabled}>
         {value
           ? renderValue(value)
           : <span style={{ color: 'gray' }}>{placeholder}</span>}
