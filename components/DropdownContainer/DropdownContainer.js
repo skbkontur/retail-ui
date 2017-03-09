@@ -7,7 +7,7 @@ import RenderContainer from '../RenderContainer/RenderContainer';
 
 type Props = {
   align: 'left' | 'right',
-  getParent: () => HTMLElement,
+  getParent: () => null | Element | Text,
   children?: any,
   disablePortal?: boolean,
   offsetY?: number,
@@ -95,7 +95,7 @@ export default class DropdownContainer extends React.Component {
   }
 
   _position = () => {
-    const target = this.props.getParent();
+    const target: Element = (this.props.getParent(): any);
     const dom = this._dom;
     if (target && dom) {
       const targetRect = target.getBoundingClientRect();

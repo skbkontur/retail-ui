@@ -54,6 +54,6 @@ export default class InputLikeText extends React.Component {
   }
 
   focus() {
-    ReactDOM.findDOMNode(this).focus();
+    (ReactDOM.findDOMNode(this): any).focus();
   }
 }

@@ -86,8 +86,8 @@ function withFocusOutside<P, S>(
       }
     };
 
-    _getDomNode = () => {
-      return findDOMNode(this);
+    _getDomNode = (): HTMLElement => {
+      return (findDOMNode(this): any);
     };
 
     _handleFocusOutside = event => {
