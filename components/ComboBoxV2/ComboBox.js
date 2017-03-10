@@ -367,7 +367,7 @@ class ComboBoxV2 extends Component {
       return;
     }
 
-    this.setState({ items }, this._highlightItem);
+    this.setState({ items });
   };
 
   _highlightItem = () => {

@@ -75,6 +75,7 @@ describe('ComboBox V2', () => {
     wrapper.find('InputLikeText').simulate('focus');
 
     await search;
+    await delay(0); // awaiting all batched updates
 
     const dropdownContainer = wrapper.find('DropdownContainer');
     const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
@@ -101,6 +102,7 @@ describe('ComboBox V2', () => {
     wrapper.find('InputLikeText').simulate('focus');
 
     await search;
+    await delay(0); // awaiting all batched updates
 
     const dropdownContainer = wrapper.find('DropdownContainer');
     const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
@@ -126,6 +128,7 @@ describe('ComboBox V2', () => {
     wrapper.find('InputLikeText').simulate('focus');
 
     await search;
+    await delay(0); // awaiting all batched updates
 
     wrapper.find('input').simulate('keydown', { key: 'Enter' });
 
@@ -144,6 +147,7 @@ describe('ComboBox V2', () => {
     wrapper.find('InputLikeText').simulate('focus');
 
     await search;
+    await delay(0); // awaiting all batched updates
 
     wrapper.find('input').simulate('keydown', { key: 'Enter' });
 
@@ -217,6 +221,7 @@ describe('ComboBox V2', () => {
     wrapper.find('InputLikeText').simulate('focus');
 
     await search;
+    await delay(0); // awaiting all batched updates
 
     const dropdownContainer = wrapper.find('DropdownContainer');
     const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
@@ -242,6 +247,7 @@ describe('ComboBox V2', () => {
     wrapper.find('InputLikeText').simulate('focus');
 
     await search;
+    await delay(0); // awaiting all batched updates
 
     const dropdownContainer = wrapper.find('DropdownContainer');
     const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
@@ -273,6 +279,7 @@ describe('ComboBox V2', () => {
     wrapper.find('InputLikeText').simulate('focus');
 
     await search;
+    await delay(0); // awaiting all batched updates
 
     const dropdownContainer = wrapper.find('DropdownContainer');
     const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
