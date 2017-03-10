@@ -9,32 +9,81 @@ import type Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem';
 import View from './ComboBoxView';
 
-type State<T> = {|
-  editing: boolean,
-  inputChanged: boolean,
-  items: ?(T[]),
-  loading: boolean,
-  opened: boolean,
-  textValue: string,
-  requestError: ?any
-|};
-
 type Props<T> = {|
   debounceInterval: number,
+
+  disabled?: boolean,
+
   error?: boolean,
+
   onBlur?: () => void,
+
   onChange?: (T) => void,
+
   onFocus?: () => void,
-  onSearchRequest?: (query: string) => Promise<T[]>,
+
+  /**
+   * Функция должна возвращать Promise с массивом элементов.
+   * Элементы могут быть любого типа.
+   */
+    onSearchRequest?: (query: string) => Promise<T[]>,
+
+  /**
+   * Функция для обработки ситуации, когда было введена
+   * строка в инпут и был потерян фокус с элемента
+   */
   onUnexpectedInput?: (query: string) => void,
+
   placeholder?: string,
+
+  /**
+   * Функция отрисовки элементов результата поиска.
+   * Не применяется если элемент является функцией или React-элементом.
+   * По умолчанию `x => x`
+   */
   renderItem?: (item: T, index: number) => string | React$Element<any>,
+
+  /**
+   * Функция для отрисовки сообщения о пустом результате поиска
+   */
   renderNotFound?: () => string | React$Element<*>,
+
+  /**
+   * Функция отрисовки выбранного значения
+   */
   renderValue?: (T) => string | React$Element<*>,
+
+  /**
+   * Выбранное значение
+   */
   value?: T,
+
+  /**
+   * Необходим, в случае если `onSearchRequest` возвращает элементы,
+   * у которых тип отличается от `value`, для сравнения полученных
+   * результатов с `value`
+   */
+  valueToItem?: (T) => any,
+
+  /**
+   * Необходим для преобразования `value` в строку при фокусировке
+   */
   valueToString: (T) => string,
+
+  /**
+   * Необходим для работы `renderTotalCount`
+   */
   totalCount?: number,
-  renderTotalCount?: (found: number, total: number) => string | React$Element<*>
+
+  /**
+   * Функция отображающаяя сообщение об общем количестве элементе
+   */
+  renderTotalCount?:
+    (found: number, total: number) => string | React$Element<*>,
+
+  warning?: boolean,
+
+  width?: string | number
 |};
 
 class ComboBoxV2 extends Component {
@@ -45,7 +94,15 @@ class ComboBoxV2 extends Component {
 
   props: Props<*>;
 
-  state: State<*> = {
+  state: {|
+    editing: boolean,
+    inputChanged: boolean,
+    items: ?Array<*>,
+    loading: boolean,
+    opened: boolean,
+    textValue: string,
+    requestError: ?any
+  |} = {
     editing: false,
     inputChanged: false,
     items: null,
@@ -71,6 +128,10 @@ class ComboBoxV2 extends Component {
   }
 
   focus = () => {
+    if (this.props.disabled) {
+      return;
+    }
+
     if (this.input) {
       this.input.focus();
       this.input.setSelectionRange(0, this.state.textValue.length);
@@ -88,6 +149,7 @@ class ComboBoxV2 extends Component {
 
   render() {
     const viewProps = {
+      disabled: this.props.disabled,
       editing: this.state.editing,
       error: this.props.error,
       items: this.state.items,
@@ -97,6 +159,8 @@ class ComboBoxV2 extends Component {
       textValue: this.state.textValue,
       totalCount: this.props.totalCount,
       value: this.props.value,
+      warning: this.props.warning,
+      width: this.props.width,
 
       onChange: this._handleSelect,
       onClickOutside: this._handleBlur,
@@ -134,7 +198,11 @@ class ComboBoxV2 extends Component {
   };
 
   _handleActivate = () => {
-    const { valueToString, value } = this.props;
+    const { valueToString, value, disabled } = this.props;
+
+    if (disabled) {
+      return;
+    }
 
     let textValue = '';
     if (valueToString && value) {
@@ -162,6 +230,7 @@ class ComboBoxV2 extends Component {
 
     switch (event.key) {
       case 'Enter':
+        event.preventDefault();
         if (menu && menu._highlighted != null) {
           menu.enter();
         }
@@ -268,17 +337,26 @@ class ComboBoxV2 extends Component {
 
       let index = -1;
       if (value && items && items.length) {
-        index = items.findIndex(x => shallowEqual(x, value));
+        index = items.findIndex(x => is(x, value, this.props.valueToItem));
       }
 
+      this.menu._highlightItem(index);
       if (index >= 0) {
-        this.menu._highlightItem(index);
         process.nextTick(this.menu._scrollToSelected);
       } else {
-        this.menu.down();
+        /* highlight first available element */
+        process.nextTick(() => this.menu.down());
       }
     });
   }
+}
+
+function is(value, item, valueToItem = x => x) {
+  if (typeof item === 'function' || React.isValidElement(item)) {
+    const element = typeof item === 'function' ? item() : item;
+    return shallowEqual(valueToItem(value), element.props);
+  }
+  return shallowEqual(valueToItem(value), item);
 }
 
 export default ComboBoxV2;

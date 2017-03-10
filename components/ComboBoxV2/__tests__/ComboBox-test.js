@@ -175,4 +175,113 @@ describe('ComboBox V2', () => {
     expect(onUnexpectedInput).toHaveBeenCalledTimes(1);
   });
 
+  it('calls onFocus on focus', async () => {
+    const onFocus = jest.fn();
+    const wrapper = mount(
+      <ComboBoxV2
+        onFocus={onFocus}
+      />
+    );
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    expect(onFocus).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls onBlur on click outside', async () => {
+    const onBlur = jest.fn();
+    const wrapper = mount(
+      <ComboBoxV2
+        onBlur={onBlur}
+      />
+    );
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    clickOutside();
+
+    expect(onBlur).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders custom elements in menu', async () => {
+    const items = [
+      <div>Hello, world</div>
+    ];
+    const search = jest.fn(() => Promise.resolve(items));
+    const wrapper = mount(
+      <ComboBoxV2
+        onSearchRequest={search}
+      />
+    );
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    await search;
+
+    const dropdownContainer = wrapper.find('DropdownContainer');
+    const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
+
+    expect(menu.containsAllMatchingElements(items)).toBeTruthy();
+  });
+
+  it('calls default onClick on custom element select', async () => {
+    const items = [
+      <div id="hello" name="world">
+        Hello, world
+      </div>
+    ];
+    const search = jest.fn(() => Promise.resolve(items));
+    const onChange = jest.fn();
+    const wrapper = mount(
+      <ComboBoxV2
+        onSearchRequest={search}
+        onChange={onChange}
+      />
+    );
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    await search;
+
+    const dropdownContainer = wrapper.find('DropdownContainer');
+    const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
+    menu.children()
+      .findWhere(x => x.matchesElement(<div>Hello, world</div>))
+      .tap(x => { expect(x.prop('onClick')).toBeInstanceOf(Function); })
+      .simulate('click');
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange)
+      .toBeCalledWith({ id: 'hello', name: 'world', children: 'Hello, world' });
+  });
+
+  it('calls element onClick on custom element select', async () => {
+    const onClick = jest.fn();
+    const items = [
+      <div onClick={onClick}>
+        Hello, world
+      </div>
+    ];
+    const search = jest.fn(() => Promise.resolve(items));
+
+    const wrapper = mount(
+      <ComboBoxV2
+        onSearchRequest={search}
+      />
+    );
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    await search;
+
+    const dropdownContainer = wrapper.find('DropdownContainer');
+    const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
+    menu.children()
+      .findWhere(x => x.matchesElement(<div>Hello, world</div>))
+      .simulate('click');
+
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+
 });

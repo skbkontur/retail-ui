@@ -46,9 +46,8 @@ class TestComboBox extends React.Component {
           placeholder="number"
           onChange={this.handleChange}
           onUnexpectedInput={x => {
-            x && this.setState({ error: true });
+            x && this.setState({ error: true, value: null });
           }}
-          renderNotFound={() => 'Not found'}
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Found ${found} of ${total}`}
         />
@@ -63,22 +62,23 @@ class TestComboBox extends React.Component {
   }
 }
 
+const items = [
+  { id: 1, name: 'one' },
+  { id: 2, name: 'two' },
+  { id: 3, name: 'three' },
+  { id: 4, name: 'four' },
+  { id: 5, name: 'five' },
+  { id: 6, name: 'six' },
+  { id: 7, name: 'seven' },
+  { id: 8, name: 'eight' },
+  { id: 9, name: 'nine' },
+  { id: 10, name: 'ten' },
+  { id: 11, name: 'eleven' },
+  { id: 12, name: 'twelve' },
+  { id: 13, name: 'very long long long long long long name' }
+];
+
 function search(query: string) {
-  const items = [
-    { id: 1, name: 'one' },
-    { id: 2, name: 'two' },
-    { id: 3, name: 'three' },
-    { id: 4, name: 'four' },
-    { id: 5, name: 'five' },
-    { id: 6, name: 'six' },
-    { id: 7, name: 'seven' },
-    { id: 8, name: 'eight' },
-    { id: 9, name: 'nine' },
-    { id: 10, name: 'ten' },
-    { id: 11, name: 'eleven' },
-    { id: 12, name: 'twelve' },
-    { id: 13, name: 'very long long long long long long name' }
-  ];
 
   const random = v => Math.random() * v;
 
@@ -108,36 +108,20 @@ function searchWithRejections(query: string) {
 }
 
 function searchWithCustomElements(query: string) {
-  const items = [
-    { id: 1, name: 'one' },
-    { id: 2, name: 'two' },
-    { id: 3, name: 'three' },
-    { id: 4, name: 'four' },
-    { id: 5, name: 'five' },
-    { id: 6, name: 'six' },
-    { id: 7, name: 'seven' },
-    { id: 8, name: 'eight' },
-    { id: 9, name: 'nine' },
-    { id: 10, name: 'ten' },
-    { id: 11, name: 'eleven' },
-    { id: 12, name: 'twelve' },
-    { id: 13, name: 'very long long long long long long name' }
-  ].filter(x => x.name.includes(query.toLowerCase()));
+  const _items = items.filter(x => x.name.includes(query.toLowerCase()));
 
   return Promise.resolve([
-    <MenuItem disabled icon="child">
-      Ohhhh
-    </MenuItem>,
-    <MenuSeparator />,
-    ...(items.length
-      ? items
+    ..._items.slice(0, 3),
+    ...(_items.slice(0, 3).length ? [<MenuSeparator />] : []),
+    ...(_items.slice(3).length
+      ? _items.slice(3)
       : [<MenuItem disabled>
            Nothing was found
          </MenuItem>]
     ),
     <MenuSeparator />,
-    <MenuItem alkoLink disabled>
-      <Button use="link" onClick={() => alert('Clicked')}>Ha ha</Button>
+    <MenuItem alkoLink onClick={() => alert('Clicked')}>
+      Ha ha
     </MenuItem>
   ]);
 }

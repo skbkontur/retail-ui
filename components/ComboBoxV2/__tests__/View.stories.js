@@ -86,6 +86,19 @@ storiesOf('ComboBoxV2 View', module)
       editing
       placeholder="placeholder"
     />
+  ))
+  .add('idle disabled', () => (
+    <View
+      placeholder="placeholder"
+      disabled
+    />
+  ))
+  .add('active disabled', () => (
+    <View
+      editing
+      placeholder="placeholder"
+      disabled
+    />
   ));
 
 function renderValue({ id, name }) {
