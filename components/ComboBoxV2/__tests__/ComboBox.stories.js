@@ -4,13 +4,33 @@ import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 
 import ComboBoxV2 from '../ComboBox';
-import Button from '../../Button';
 import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
 
 storiesOf('ComboBox v2', module)
-  .add('simple', () => (
-    <TestComboBox onSearch={search} renderItem={renderValue} totalCount={12} />
+  .add('with error handling', () => (
+    <TestComboBox
+      onSearch={search}
+      renderItem={renderValue}
+      totalCount={12}
+      onUnexpectedInput={errorStrategy}
+    />
+  ))
+  .add('with error skipping', () => (
+    <TestComboBox
+      onSearch={search}
+      renderItem={renderValue}
+      totalCount={12}
+      onUnexpectedInput={nullStrategy}
+    />
+  ))
+  .add('with warning', () => (
+    <TestComboBox
+      onSearch={search}
+      renderItem={renderValue}
+      totalCount={12}
+      onUnexpectedInput={warningStrategy}
+    />
   ))
   .add('with rejections', () => (
     <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />
@@ -19,13 +39,15 @@ storiesOf('ComboBox v2', module)
     <TestComboBox
       onSearch={searchWithCustomElements}
       renderItem={renderValue}
+      onUnexpectedInput={errorStrategy}
     />
   ));
 
 class TestComboBox extends React.Component {
   state = {
     value: null,
-    error: false
+    error: false,
+    warning: false
   };
 
   handleChange = value => {
@@ -37,17 +59,20 @@ class TestComboBox extends React.Component {
       <div>
         <ComboBoxV2
           error={this.state.error}
+          warning={this.state.warning}
           value={this.state.value}
-          onFocus={() => this.setState({ error: false })}
+          onFocus={() => this.setState({ error: false, warning: false })}
           onSearchRequest={this.props.onSearch}
           renderItem={this.props.renderItem}
           renderValue={renderValue}
           valueToString={x => x.name}
           placeholder="number"
           onChange={this.handleChange}
-          onUnexpectedInput={x => {
-            x && this.setState({ error: true, value: null });
-          }}
+          onUnexpectedInput={
+            this.props.onUnexpectedInput
+              ? this.props.onUnexpectedInput(this.setState.bind(this))
+              : undefined
+          }
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Found ${found} of ${total}`}
         />
@@ -57,9 +82,31 @@ class TestComboBox extends React.Component {
         {this.state.error &&
           <div style={{ color: 'red' }}>Необходимо выбрать значение</div>}
 
+        {this.state.warning &&
+          <div style={{ color: '#f50' }}>Вы не выбрали значение</div>}
+
       </div>
     );
   }
+}
+
+function errorStrategy(setState) {
+  return x => {
+    x && setState({ error: true, value: null });
+  };
+}
+
+function nullStrategy(setState) {
+  return x => {
+    x && setState({ value: null });
+    return true;
+  };
+}
+
+function warningStrategy(setState) {
+  return x => {
+    x && setState({ value: null, warning: true });
+  };
 }
 
 const items = [
@@ -100,11 +147,10 @@ function searchWithRejections(query: string) {
   searchCount++;
   return Promise.resolve()
     .then(delay)
-    .then(() => searchCount % 2 ? Promise.reject() : [
-      { id: 1, name: 'one' },
-      { id: 2, name: 'two' },
-      { id: 3, name: 'three' }
-    ]);
+    .then(() => searchCount % 2
+      ? Promise.reject()
+      : items.filter(x => ~x.name.indexOf(query.toLowerCase()))
+    );
 }
 
 function searchWithCustomElements(query: string) {

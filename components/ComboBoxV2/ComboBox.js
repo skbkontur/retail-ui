@@ -26,13 +26,13 @@ type Props<T> = {|
    * Функция должна возвращать Promise с массивом элементов.
    * Элементы могут быть любого типа.
    */
-    onSearchRequest?: (query: string) => Promise<T[]>,
+  onSearchRequest?: (query: string) => Promise<T[]>,
 
   /**
    * Функция для обработки ситуации, когда было введена
    * строка в инпут и был потерян фокус с элемента
    */
-  onUnexpectedInput?: (query: string) => void,
+  onUnexpectedInput?: (query: string) => ?boolean,
 
   placeholder?: string,
 
@@ -117,6 +117,7 @@ class ComboBoxV2 extends Component {
   _requestId = 0;
   _debouncedHandleSearch: Function;
   _focused: boolean = false;
+  _mounted: boolean;
 
   constructor(props: Props<*>) {
     super(props);
@@ -179,6 +180,14 @@ class ComboBoxV2 extends Component {
     };
 
     return <View {...viewProps} />;
+  }
+
+  componentDidMount() {
+    this._mounted = true;
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   _refInput = (input: Input) => {
@@ -271,13 +280,21 @@ class ComboBoxV2 extends Component {
   };
 
   _handleUnexpectedInput() {
-    const { textValue, inputChanged } = this.state;
+    const { textValue, inputChanged, items } = this.state;
+    if (items && items.length === 1) {
+      this._handleSelect(items[0]);
+      return;
+    }
+
     if (!inputChanged) {
       this._close();
       return;
     }
+
     if (this.props.onUnexpectedInput) {
-      this.props.onUnexpectedInput(textValue);
+      if (this.props.onUnexpectedInput(textValue)) {
+        this.setState({ editing: false });
+      }
     }
   }
 
@@ -296,7 +313,7 @@ class ComboBoxV2 extends Component {
     }
     const expectingId = ++this._requestId;
 
-    this.setState({ loading: true, items: null, opened: true });
+    this._handleStartLoading();
 
     onSearchRequest(query)
       .then(
@@ -307,10 +324,27 @@ class ComboBoxV2 extends Component {
           this._handleSetItems(items);
         },
         this._handleRequestError
-      );
+      )
+      .then(this._handleEndLoading);
+  };
+
+  _handleStartLoading = () => {
+    this.setState({ loading: true, opened: true, items: null });
+  };
+
+  _handleEndLoading = () => {
+    if (!this._mounted) {
+      return;
+    }
+
+    this.setState({ loading: false }, this._highlightItem);
   };
 
   _handleRequestError = () => {
+    if (!this._mounted) {
+      return;
+    }
+
     const items = [
       <MenuItem disabled>
         <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>
@@ -329,25 +363,36 @@ class ComboBoxV2 extends Component {
   };
 
   _handleSetItems = (items?: any[]) => {
+    if (!this._mounted) {
+      return;
+    }
+
+    this.setState({ items }, this._highlightItem);
+  };
+
+  _highlightItem = () => {
+    if (!this._mounted) {
+      return;
+    }
+
     const { value } = this.props;
-    this.setState({ items, loading: false }, () => {
-      if (!this.menu) {
-        return;
-      }
+    const { items } = this.state;
+    if (!this.menu) {
+      return;
+    }
 
-      let index = -1;
-      if (value && items && items.length) {
-        index = items.findIndex(x => is(x, value, this.props.valueToItem));
-      }
+    let index = -1;
+    if (value && items && items.length) {
+      index = items.findIndex(x => is(x, value, this.props.valueToItem));
+    }
 
-      this.menu._highlightItem(index);
-      if (index >= 0) {
-        process.nextTick(this.menu._scrollToSelected);
-      } else {
-        /* highlight first available element */
-        process.nextTick(() => this.menu.down());
-      }
-    });
+    this.menu._highlightItem(index);
+    if (index >= 0) {
+      process.nextTick(() => this.menu && this.menu._scrollToSelected());
+    } else {
+      /* highlight first available element */
+      process.nextTick(() => this.menu && this.menu.down());
+    }
   }
 }
 
