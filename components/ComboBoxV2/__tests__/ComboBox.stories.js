@@ -74,7 +74,7 @@ class TestComboBox extends React.Component {
               : undefined
           }
           totalCount={this.props.totalCount}
-          renderTotalCount={(found, total) => `Found ${found} of ${total}`}
+          renderTotalCount={(found, total) => `Найдено ${found} из ${total}`}
         />
 
         <button>Ok</button>
@@ -130,7 +130,7 @@ function search(query: string) {
   const random = v => Math.random() * v;
 
   const delay = v =>
-    new Promise(resolve => setTimeout(resolve, random(5) * 100, v));
+    new Promise(resolve => setTimeout(resolve, random(10) * 100, v));
 
   return Promise.resolve(
     items.filter(x => ~x.name.indexOf(query.toLowerCase()))
@@ -157,6 +157,10 @@ function searchWithCustomElements(query: string) {
   const _items = items.filter(x => x.name.includes(query.toLowerCase()));
 
   return Promise.resolve([
+    <MenuItem comment="Hello" icon="child" disabled>
+      World
+    </MenuItem>,
+    <MenuSeparator />,
     ..._items.slice(0, 3),
     ...(_items.slice(0, 3).length ? [<MenuSeparator />] : []),
     ...(_items.slice(3).length

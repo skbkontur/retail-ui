@@ -88,7 +88,7 @@ type Props<T> = {|
 
 class ComboBoxV2 extends Component {
   static defaultProps = {
-    debounceInterval: 150,
+    debounceInterval: 300,
     valueToString: ((x => x): (item: *) => string)
   };
 
@@ -97,19 +97,17 @@ class ComboBoxV2 extends Component {
   state: {|
     editing: boolean,
     inputChanged: boolean,
-    items: ?Array<*>,
+    items: ?Array<any>,
     loading: boolean,
     opened: boolean,
-    textValue: string,
-    requestError: ?any
+    textValue: string
   |} = {
     editing: false,
     inputChanged: false,
     items: null,
     loading: false,
     opened: false,
-    textValue: '',
-    requestError: null
+    textValue: ''
   };
 
   input: Input;
@@ -213,6 +211,8 @@ class ComboBoxV2 extends Component {
       return;
     }
 
+    this._focused = true;
+
     let textValue = '';
     if (valueToString && value) {
       textValue = valueToString(value);
@@ -307,6 +307,10 @@ class ComboBoxV2 extends Component {
   };
 
   _handleSearch = (query: string) => {
+    if (!this._focused) {
+      return;
+    }
+
     const { onSearchRequest } = this.props;
     if (!onSearchRequest) {
       return;
@@ -325,15 +329,19 @@ class ComboBoxV2 extends Component {
         },
         this._handleRequestError
       )
-      .then(this._handleEndLoading);
+      .then(() => this._handleEndLoading(expectingId));
   };
 
   _handleStartLoading = () => {
     this.setState({ loading: true, opened: true, items: null });
   };
 
-  _handleEndLoading = () => {
+  _handleEndLoading = (expectingId) => {
     if (!this._mounted) {
+      return;
+    }
+
+    if (this._requestId !== expectingId) {
       return;
     }
 
