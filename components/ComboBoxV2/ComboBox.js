@@ -120,10 +120,12 @@ class ComboBoxV2 extends Component {
   constructor(props: Props<*>) {
     super(props);
 
-    this._debouncedHandleSearch = debounce(
-      this._handleSearch,
-      this.props.debounceInterval
-    );
+    this._debouncedHandleSearch = debounce(x => {
+      if (!this._focused) {
+        return;
+      }
+      this._handleSearch(x);
+    }, this.props.debounceInterval);
   }
 
   focus = () => {
@@ -210,8 +212,6 @@ class ComboBoxV2 extends Component {
     if (disabled) {
       return;
     }
-
-    this._focused = true;
 
     let textValue = '';
     if (valueToString && value) {
@@ -307,10 +307,6 @@ class ComboBoxV2 extends Component {
   };
 
   _handleSearch = (query: string) => {
-    if (!this._focused) {
-      return;
-    }
-
     const { onSearchRequest } = this.props;
     if (!onSearchRequest) {
       return;
