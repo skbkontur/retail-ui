@@ -77,11 +77,7 @@ describe('ComboBox-adapter', () => {
   });
 
   testAdapter('search and getResult', async mount => {
-    const values = [
-      1,
-      <span>2</span>,
-      <MenuItem value={3}>3</MenuItem>
-    ];
+    const values = [1, <span>2</span>, <MenuItem value={3}>3</MenuItem>];
     const source = jest.fn(() => Promise.resolve({ values }));
     const adapter = mount(<ComboBox source={source} />);
 
@@ -98,11 +94,7 @@ describe('ComboBox-adapter', () => {
   });
 
   testAdapter('get null result of closed', async mount => {
-    const values = [
-      1,
-      <span>2</span>,
-      <MenuItem value={3}>3</MenuItem>
-    ];
+    const values = [1, <span>2</span>, <MenuItem value={3}>3</MenuItem>];
     const source = jest.fn(() => Promise.resolve({ values }));
     const adapter = mount(<ComboBox source={source} />);
 

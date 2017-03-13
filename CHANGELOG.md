@@ -1,5 +1,15 @@
 # Changelog
 
+### 0.6.17 -> 0.6.18
+#### 7.03.2017
+- RenderLayer - компонент слушающий клики на элементе и всех вложенных порталах
+- ComboBox, DatePicker, Select, Dropdown, Tooltip - теперь используют RenderLayer
+
+### 0.6.15 -> 0.6.17
+- Combobox - добавлено свойство `debounceInterval`
+- Hint - добавлено свойство `maxWidth`
+- Hint - теперь может быть контроллируемым при помощи свойств `manual` и `opened`
+
 ### 0.6.14 -> 0.6.15
 - Button - добавлен пропс линк
 - Modal - поправлена иконка закрытия в IE8

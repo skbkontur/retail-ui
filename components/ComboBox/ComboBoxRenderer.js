@@ -4,9 +4,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import filterProps from '../filterProps';
-import listenFocusOutside from '../../lib/listenFocusOutside';
-import events from 'add-event-listener';
 
+import debounce from 'lodash.debounce';
+
+import RenderLayer from '../RenderLayer';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText/InputLikeText';
@@ -33,12 +34,12 @@ export type Info = any;
 type SourceResult = {
   values: Array<Value | React.Element<any> | (() => React.Element<any>)>,
   infos?: Array<Info>,
-  total?: number,
+  total?: number
 };
 
 type RecoverResult = {
   value: Value,
-  info?: Info,
+  info?: Info
 };
 
 type ErrorKind = null | 'not_recovered';
@@ -46,32 +47,33 @@ type ErrorKind = null | 'not_recovered';
 type RecoverFunc = (searchString: string) => RecoverResult;
 
 export type BaseProps = {
-  autoFocus?: bool,
-  borderless?: bool,
-  disabled?: bool,
-  error?: bool,
-  info?: Info | (v: Value) => Promise<Info>,
+  autoFocus?: boolean,
+  borderless?: boolean,
+  disabled?: boolean,
+  error?: boolean,
+  info?: Info | ((v: Value) => Promise<Info>),
   menuAlign: 'left' | 'right',
-  disablePortal?: bool,
-  openButton?: bool,
+  disablePortal?: boolean,
+  debounceInterval?: number,
+  openButton?: boolean,
   placeholder: string,
-  recover?: (RecoverFunc | bool),
+  recover?: RecoverFunc | boolean,
   renderItem: (
     value: Value,
     info: Info,
     state: MenuItemState
   ) => React.Element<any>,
   renderValue: (value: Value, info: ?Info) => React.Element<any>,
-  renderNotFound?: string | (searchText: string) => React$Element<*> | string,
+  renderNotFound?: string | ((searchText: string) => React$Element<*> | string),
   renderTotalCount?: (searchText: string) => React$Element<*> | string,
   source: (searchText: string) => Promise<SourceResult>,
-  warning?: bool,
+  warning?: boolean,
   value: Value | null,
   valueToString?: (value: Value, info: ?Info) => string,
-  width: (number | string),
+  width: number | string,
 
   onBlur?: () => void,
-  onChange?: (event: {target: {value: Value}}, value: Value) => void,
+  onChange?: (event: { target: { value: Value } }, value: Value) => void,
   onClose?: () => void,
   onError?: (kind: ErrorKind) => void,
   onFocus?: () => void,
@@ -85,19 +87,19 @@ export type BaseProps = {
 
   onMouseEnter?: (e: SyntheticMouseEvent) => void,
   onMouseLeave?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void
 };
 
 type Props = BaseProps & {
-  info: Info,
+  info: Info
 };
 
 type State = {
-  opened: bool,
+  opened: boolean,
   searchText: string,
-  isEditing: bool,
+  isEditing: boolean,
   result: ?SourceResult,
-  selected: number,
+  selected: number
 };
 
 class ComboBoxRenderer extends React.Component {
@@ -107,7 +109,7 @@ class ComboBoxRenderer extends React.Component {
     }
   };
 
-  static static(element: ((() => React.Element<any>) | React.Element<any>)) {
+  static static(element: (() => React.Element<any>) | React.Element<any>) {
     return element;
   }
 
@@ -116,7 +118,8 @@ class ComboBoxRenderer extends React.Component {
     renderValue,
     placeholder: '',
     width: (250: number | string),
-    menuAlign: 'left'
+    menuAlign: 'left',
+    debounceInterval: 0
   };
 
   props: Props;
@@ -125,12 +128,13 @@ class ComboBoxRenderer extends React.Component {
   _mounted = false;
   _focusable: ?HTMLInputElement = null;
   _menu: ?Menu = null;
-  _focusSubscribtion: ?{remove: () => void} = null;
+  _focusSubscribtion: ?{ remove: () => void } = null;
   _lastError: ErrorKind = null;
   _error: ErrorKind = null;
   _ignoreRecover = true;
   _ignoreBlur = true;
   _fetchingId = 0;
+  _debouncedFetchList: Function;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -142,25 +146,33 @@ class ComboBoxRenderer extends React.Component {
       isEditing: false,
       selected: -1
     };
+
+    const { debounceInterval } = this.props;
+    this._debouncedFetchList = debounceInterval > 0
+      ? debounce(this._fetchList, debounceInterval)
+      : this._fetchList;
   }
 
   render() {
     return (
-      <label className={styles.root} style={{ width: this.props.width }}>
-        {this.state.isEditing ? this.renderInput() : this.renderValue()}
-        {this.state.opened && (
-          <div ref={this._refMenuHolder} className={styles.menuHolder}>
-            {this.renderMenu()}
-          </div>
-        )}
-        {this.props.openButton && (
-          <div
-            className={styles.arrow}
-            onClick={this._handleArrowClick}
-            onMouseDown={this._handleArrowMouseDown}
-          />
-        )}
-      </label>
+      <RenderLayer
+        onFocusOutside={this._handleBlur}
+        onClickOutside={this._handleBlur}
+      >
+        <label className={styles.root} style={{ width: this.props.width }}>
+          {this.state.isEditing ? this.renderInput() : this.renderValue()}
+          {this.state.opened &&
+            <div className={styles.menuHolder}>
+              {this.renderMenu()}
+            </div>}
+          {this.props.openButton &&
+            <div
+              className={styles.arrow}
+              onClick={this._handleArrowClick}
+              onMouseDown={this._handleArrowMouseDown}
+            />}
+        </label>
+      </RenderLayer>
     );
   }
 
@@ -169,7 +181,9 @@ class ComboBoxRenderer extends React.Component {
 
     return (
       <div className={styles.input}>
-        <Input ref={this._refFocusable} {...inputProps}
+        <Input
+          ref={this._refFocusable}
+          {...inputProps}
           value={this.state.searchText}
           rightIcon={this.props.openButton && <span />}
           onChange={this._handleInputChange}
@@ -191,7 +205,9 @@ class ComboBoxRenderer extends React.Component {
     const isNotRecovered = !!this._error;
 
     return (
-      <InputLikeText ref={this._refFocusable} {...inputProps}
+      <InputLikeText
+        ref={this._refFocusable}
+        {...inputProps}
         padRight={this.props.openButton}
         onClick={this._handleValueClick}
         onFocus={this._handleValueClick}
@@ -220,8 +236,7 @@ class ComboBoxRenderer extends React.Component {
         <Menu ref={this._refMenu} maxHeight={200}>
           {isEmptyResults
             ? this.renderEmptyResults()
-            : this.renderResults(result)
-          }
+            : this.renderResults(result)}
           {this.renderTotalCount(result)}
         </Menu>
       </DropdownContainer>
@@ -234,11 +249,12 @@ class ComboBoxRenderer extends React.Component {
         const element = typeof value === 'function' ? value() : value;
         return React.cloneElement(element, {
           key: i,
-          onClick: (event) => this._handleItemClick(event, element.props)
+          onClick: event => this._handleItemClick(event, element.props)
         });
       }
       return (
-        <MenuItem key={i}
+        <MenuItem
+          key={i}
           onClick={(event: Event) => {
             this._handleItemClick(event, { value, info });
           }}
@@ -291,69 +307,23 @@ class ComboBoxRenderer extends React.Component {
     if (this.props.autoFocus) {
       this._focus();
     }
-
-    /* Needs to handle clicks in menu */
-    events.addEventListener(document, 'click', this._blurIfNeeded);
-  }
-
-  _blurIfNeeded = (event: Event) => {
-    const domNodes = this.getDomNodes();
-    const containsTarget =
-      node => node.contains(event.target || event.srcElement);
-
-    if (domNodes.some(containsTarget)) {
-      return;
-    }
-
-    this._handleBlur();
-  }
-
-  /**
-   * returns dom nodes of input and menu
-   */
-  getDomNodes = () => {
-    const ret = [ReactDOM.findDOMNode(this)];
-    if (this._menu) {
-      // flow needs this for some reasons
-      const menu = this._menu;
-
-      // will be null if menu is empty
-      const menuNode = ReactDOM.findDOMNode(menu);
-      if (menuNode) {
-        ret.push(ReactDOM.findDOMNode(menu));
-      }
-    }
-    return ret;
   }
 
   componentWillUnmount() {
     this._mounted = false;
-    events.removeEventListener(document, 'click', this._blurIfNeeded);
   }
 
   _refFocusable = (el: ?HTMLInputElement) => {
     this._focusable = el && (el.focus ? el : ReactDOM.findDOMNode(el));
   };
 
-  _refMenuHolder = (menuHolder: any) => {
-    if (this._focusSubscribtion) {
-      this._focusSubscribtion.remove();
-      this._focusSubscribtion = null;
-    }
-
-    if (menuHolder) {
-      this._focusSubscribtion = listenFocusOutside(
-        this.getDomNodes,
-        this._handleBlur
-      );
-    }
-  };
-
   _refMenu = (menu: Menu) => {
     this._menu = menu;
   };
 
-  _handleInputChange = (event: SyntheticEvent & {target: HTMLInputElement}) => {
+  _handleInputChange = (
+    event: SyntheticEvent & { target: HTMLInputElement }
+  ) => {
     let newInputValue = event.target.value;
 
     const inputValueChanged = this.state.searchText !== event.target.value;
@@ -369,12 +339,11 @@ class ComboBoxRenderer extends React.Component {
       searchText: newInputValue,
       opened: true
     }));
-    this._fetchList(newInputValue);
+    this._debouncedFetchList(newInputValue);
     this._ignoreRecover = false;
   };
 
   _handleInputKey = (event: SyntheticKeyboardEvent) => {
-
     if (typeof this.props.onInputKeyDown === 'function') {
       this.props.onInputKeyDown(event);
       if (event.defaultPrevented) {
@@ -431,7 +400,7 @@ class ComboBoxRenderer extends React.Component {
 
   _handleItemClick(
     event: Event,
-    options: {value?: Value, info?: Info, onClick?: () => void}
+    options: { value?: Value, info?: Info, onClick?: () => void }
   ) {
     this.setState({ searchText: '', opened: false, isEditing: false });
     this._change(options.value, options.info);
@@ -478,14 +447,14 @@ class ComboBoxRenderer extends React.Component {
     this._ignoreBlur = true;
   };
 
-  _close = (endEdit?: bool) => {
+  _close = (endEdit?: boolean) => {
     this.setState(() => ({ isEditing: !endEdit, opened: false, result: null }));
     safelyCall(this.props.onClose);
-  }
+  };
 
-  _fetchList(pattern: string) {
+  _fetchList = (pattern: string) => {
     const expectingId = ++this._fetchingId;
-    this.props.source(pattern).then((result) => {
+    this.props.source(pattern).then(result => {
       if (!this._mounted) {
         return;
       }
@@ -495,7 +464,7 @@ class ComboBoxRenderer extends React.Component {
         this.setState(() => ({ result }));
       }
     });
-  }
+  };
 
   _focus = () => {
     if (this._focusable && this._focusable.setSelectionRange) {

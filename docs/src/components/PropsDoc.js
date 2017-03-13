@@ -22,25 +22,26 @@ var PropsDoc = React.createClass({
 
     return (
       <div>
-        <div className={descClassName}
-          dangerouslySetInnerHTML={{ __html: info.description.description }}
-        />
+        {info.description.description &&
+          <div
+            className={descClassName}
+            dangerouslySetInnerHTML={{ __html: info.description.description }}
+          />}
 
-        {info.props && (
+        {info.props &&
           <div>
             <div className={styles.title}>Properties</div>
             <div>
               {Object.keys(info.props).map((name, i) => {
                 var prop = info.props[name];
-                var required = (prop.required && !prop.defaultValue) ?
-                  <span className={styles.propRequired}>required</span> : null;
-                var defaultValue = prop.defaultValue ?
-                  (
-                    <span className={styles.propDefaultValue}>
+                var required = prop.required && !prop.defaultValue
+                  ? <span className={styles.propRequired}>required</span>
+                  : null;
+                var defaultValue = prop.defaultValue
+                  ? <span className={styles.propDefaultValue}>
                       = {prop.defaultValue.value}
                     </span>
-                  ) :
-                  null;
+                  : null;
 
                 const className = classNames({
                   [styles.prop]: true,
@@ -57,42 +58,43 @@ var PropsDoc = React.createClass({
                       {required}
                       {defaultValue}
                     </div>
-                    {prop.description && prop.description.description && (
-                      <div className={propDescClassName}
+                    {prop.description &&
+                      prop.description.description &&
+                      <div
+                        className={propDescClassName}
                         dangerouslySetInnerHTML={{
                           __html: prop.description.description
                         }}
-                      />
-                    )}
+                      />}
                   </div>
                 );
               })}
             </div>
-          </div>
-        )}
+          </div>}
 
-        {methods.length > 0 && (
+        {methods.length > 0 &&
           <div>
             <div className={styles.title}>Methods</div>
             <div>
               {methods.map((method, i) => (
-                <div key={i}
-                  className={classNames(styles.prop, (i % 2) && styles.propOdd)}
+                <div
+                  key={i}
+                  className={classNames(styles.prop, i % 2 && styles.propOdd)}
                 >
                   {this._renderMethod(method)}
                 </div>
               ))}
             </div>
-          </div>
-        )}
+          </div>}
 
-        {info.adapterProps && (
+        {info.adapterProps &&
           <div>
             <div className={styles.title}>Adapter</div>
             <div>
               {info.adapterProps.map((prop, i) => (
-                <div key={i}
-                  className={classNames(styles.prop, (i % 2) && styles.propOdd)}
+                <div
+                  key={i}
+                  className={classNames(styles.prop, i % 2 && styles.propOdd)}
                 >
                   <div className={styles.propTitle}>
                     <span className={styles.propName}>
@@ -104,12 +106,11 @@ var PropsDoc = React.createClass({
                     </span>
                   </div>
                   {prop.desc &&
-                  <div className={styles.propDesc}>{prop.desc}</div>}
+                    <div className={styles.propDesc}>{prop.desc}</div>}
                 </div>
               ))}
             </div>
-          </div>
-        )}
+          </div>}
       </div>
     );
   },
@@ -123,9 +124,8 @@ var PropsDoc = React.createClass({
             ({method.params.map(param => param.name).join(', ')})
           </div>
         </div>
-        {method.description && (
-          <div className={styles.propDesc}>{method.description}</div>
-        )}
+        {method.description &&
+          <div className={styles.propDesc}>{method.description}</div>}
       </div>
     );
   }
@@ -150,16 +150,20 @@ function formatLegacyType(type) {
   }
 
   if (type.name === 'shape') {
-    return '{' + Object.keys(type.value).map((key) => {
-      return `${key}: ${formatLegacyType(type.value[key])}`;
-    }).join(', ') + '}';
+    return '{' +
+      Object.keys(type.value)
+        .map(key => {
+          return `${key}: ${formatLegacyType(type.value[key])}`;
+        })
+        .join(', ') +
+      '}';
   }
 
   var str = type.name;
 
   if (type.name === 'enum') {
     if (Array.isArray(type.value)) {
-      const value = type.value.map((value) => value.value).join(', ');
+      const value = type.value.map(value => value.value).join(', ');
       str += ` (${value})`;
     }
   }

@@ -10,17 +10,17 @@ class Hint extends React.Component {
     text: string,
     pos?: 'top' | 'right' | 'bottom' | 'left',
     children?: any
-  }
+  };
 
   static defaultProps = {
     pos: 'top'
-  }
+  };
 
   state: {
-    dom: ?HTMLElement;
+    dom: ?HTMLElement
   } = {
     dom: null
-  }
+  };
 
   _ref = (el: ?HTMLElement) => {
     this.setState({ dom: el });
@@ -38,6 +38,7 @@ class Hint extends React.Component {
           getTarget={this._getDOM}
           text={this.props.text}
           pos={this.props.pos}
+          maxWidth={200}
         />
       </span>
     );

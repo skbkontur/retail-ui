@@ -6,7 +6,7 @@ import ComboBoxRenderer from './ComboBoxRenderer';
 import type { BaseProps, Info, Value } from './ComboBoxRenderer';
 
 type Props = BaseProps & {
-  info?: Info | (v: Value) => Promise<Info>,
+  info?: Info | ((v: Value) => Promise<Info>)
 };
 
 export default class ComboBox extends React.Component {
@@ -14,6 +14,8 @@ export default class ComboBox extends React.Component {
     autoFocus: PropTypes.bool,
 
     borderless: PropTypes.bool,
+
+    debounceInterval: PropTypes.number,
 
     /**
      * Не использовать Portal для рендеринга меню.
@@ -33,10 +35,7 @@ export default class ComboBox extends React.Component {
      * Данные, которые будут переданы в функции для отрисовки значений
      * (`renderValue` и `renderItem`).
      */
-    info: PropTypes.oneOfType([
-      PropTypes.any,
-      PropTypes.func
-    ]),
+    info: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
 
     menuAlign: PropTypes.oneOf(['left', 'right']),
 
@@ -59,10 +58,7 @@ export default class ComboBox extends React.Component {
      * Если задать это поле в `true`, то будет использована такая функция:
      * `(searchText) => searchText`.
      */
-    recover: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.func
-    ]),
+    recover: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
 
     renderItem: PropTypes.func,
 
@@ -71,10 +67,7 @@ export default class ComboBox extends React.Component {
      *
      * `string | (searchText: string) => React$Element<*> | string`
      */
-    renderNotFound: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func
-    ]),
+    renderNotFound: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
     /**
      * Общее количество найденных элементов
@@ -128,14 +121,13 @@ export default class ComboBox extends React.Component {
     onMouseOver: PropTypes.func,
 
     onOpen: PropTypes.func
-
   };
 
   static defaultProps = {
     menuAlign: 'left',
     placeholder: '',
     width: 250
-  }
+  };
 
   props: Props;
 
@@ -207,12 +199,10 @@ export default class ComboBox extends React.Component {
     const promise = info(value);
     this._infoPromise = promise;
 
-    promise.then(
-      info => {
-        if (this._mounted && this._infoPromise === promise) {
-          this.setState({ info });
-        }
+    promise.then(info => {
+      if (this._mounted && this._infoPromise === promise) {
+        this.setState({ info });
       }
-    );
+    });
   }
 }

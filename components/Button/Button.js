@@ -145,7 +145,7 @@ class Button extends React.Component {
 
   handleBlur = () => {
     this.setState({ focusedByTab: false });
-  }
+  };
 
   render() {
     const { corners = 0 } = this.props;
@@ -191,7 +191,7 @@ class Button extends React.Component {
 
     const wrapProps = {
       className: this.props.arrow ? styles.wrap_arrow : styles.wrap,
-      style: {}
+      style: ({}: Object)
     };
     if (this.props.width) {
       wrapProps.style.width = this.props.width;
@@ -233,7 +233,7 @@ class Button extends React.Component {
     }
 
     // Force disable all props and features, that cannot be use with Link
-    if (this.props.use === 'link'){
+    if (this.props.use === 'link') {
       rootProps.className = classNames({
         [styles.root]: true,
         [styles['use-link']]: true,
@@ -242,7 +242,7 @@ class Button extends React.Component {
       });
       Object.assign(wrapProps, {
         className: styles.wrap,
-        style: null
+        style: {}
       });
       rootProps.style.textAlign = null;
       error = null;

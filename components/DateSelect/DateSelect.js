@@ -31,6 +31,8 @@ type State = {
   topCapped: bool,
 };
 
+const isIE8 = ~window.navigator.userAgent.indexOf('MSIE 8.0');
+
 export default class DateSelect extends React.Component {
   static propTypes = {
     maxYear: PropTypes.number,
@@ -109,13 +111,19 @@ export default class DateSelect extends React.Component {
         [styles.menuItemActive]: i === this.state.current,
         [styles.menuItemSelected]: i === 0
       });
+      const clickHandler = isIE8 ? {
+        onMouseDown: this.handleItemClick(i)
+      } : {
+        onMouseDown: e => e.preventDefault(),
+        onClick: this.handleItemClick(i)
+      };
       items.push(
         <div
           key={i}
           className={className}
           onMouseEnter={() => this.setState({ current: i })}
           onMouseLeave={() => this.setState({ current: null })}
-          onClick={this.handleItemClick(i)}
+          {...clickHandler}
         >
           {this.getItem(i)}
         </div>

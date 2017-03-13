@@ -11,6 +11,7 @@ import CodeRunner from './CodeRunner';
 import PropsDoc from './PropsDoc';
 
 import styles from './ComponentInfo.less';
+import Link from '../../../components/Link';
 
 const editorOptions = {
   // theme: 'panda-syntax',
@@ -32,21 +33,30 @@ var Component = React.createClass({
     var component = this._getComponent();
     return (
       <div className={styles.root}>
-        <h2 className={styles.name}>{component.name}</h2>
-        <div className={styles.codeRunner}>
-          <CodeRunner src={this.state.src} />
-        </div>
-
-        <div className={styles.code}>
-          <div className={styles.codeTitle} onClick={this._triggerCode}>
-            Source code
+        <div className={styles.showCase}>
+          <div className={styles.head}>
+            <h2 className={styles.name}>{component.name}</h2>
+            <span />
           </div>
-          {this.state.showCode &&
-            <CodeMirror
-              value={this.state.src}
-              onChange={this.handleCodeChange}
-              options={editorOptions}
-            />}
+          <div className={styles.codeRunner}>
+            <CodeRunner src={this.state.src} />
+          </div>
+          <div className={styles.codeTitle}>
+            <Link
+              onClick={this._triggerCode}
+              icon={this.state.showCode ? 'angle-top' : 'edit'}
+            >
+              {this.state.showCode ? 'Hide' : 'Edit'} source code
+            </Link>
+          </div>
+          <div className={styles.code}>
+            {this.state.showCode &&
+              <CodeMirror
+                value={this.state.src}
+                onChange={this.handleCodeChange}
+                options={editorOptions}
+              />}
+          </div>
         </div>
 
         <div className={styles.docs}>

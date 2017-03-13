@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "0.6.15",
+  "version": "0.6.19-0",
   "description": "UI Components",
   "repository": {
     "type": "git",
@@ -26,6 +26,8 @@
     "fbemitter": "^2.0.2",
     "fbjs": "^0.8.9",
     "invariant": "2.2.2",
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1",
     "object-assign": "^4.1.1",
     "react-input-mask": "0.7.3",
     "warning": "^3.0.0"
@@ -73,7 +75,7 @@
       "\\.*": "<rootDir>/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*(test|spec))\\.(ts|tsx|js)$",
-    "testPathDirs": [
+    "roots": [
       "<rootDir>/components",
       "<rootDir>/lib",
       "<rootDir>/scripts",
