@@ -30,6 +30,7 @@ type Props<T> = {|
   onClickOutside: () => void,
   onFocus?: () => void,
   onFocusOutside: () => void,
+  onInputBlur?: () => void,
   onInputChange?: Function,
   onInputFocus?: () => void,
   onInputKeyDown?: (e: SyntheticKeyboardEvent) => void,
@@ -90,7 +91,7 @@ class ComboBoxView extends Component {
       return null;
     }
 
-    if (loading) {
+    if (loading && (!items || !items.length)) {
       return (
         <Menu ref={refMenu}>
           <MenuItem disabled>
@@ -153,6 +154,7 @@ class ComboBoxView extends Component {
       editing,
       error,
       onFocus,
+      onInputBlur,
       onInputChange,
       onInputFocus,
       onInputKeyDown,
@@ -169,6 +171,7 @@ class ComboBoxView extends Component {
         <Input
           disabled={disabled}
           error={error}
+          onBlur={onInputBlur}
           onChange={onInputChange}
           onFocus={onInputFocus}
           value={textValue}

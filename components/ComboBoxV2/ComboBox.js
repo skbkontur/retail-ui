@@ -23,6 +23,19 @@ type Props<T> = {|
   onFocus?: () => void,
 
   /**
+   * Вызывается при изменении текста в поле ввода,
+   * если результатом функции будет строка,
+   * то она станет следующим состояним полем ввода
+   */
+  onInputChange?: () => any,
+
+  /**
+   * Позволяет обработать нажатия клавиш.
+   * Можно отменить стандартное поведение, используя `event.preventDefault()`
+   */
+  onInputKeyDown?: () => void,
+
+  /**
    * Функция должна возвращать Promise с массивом элементов.
    * Элементы могут быть любого типа.
    */
@@ -148,6 +161,10 @@ class ComboBoxV2 extends Component {
     }
   };
 
+  blur = () => {
+    this._handleBlur();
+  }
+
   render() {
     const viewProps = {
       disabled: this.props.disabled,
@@ -230,11 +247,29 @@ class ComboBoxV2 extends Component {
   };
 
   _handleInputChange = (_, textValue) => {
-    this.setState({ textValue, inputChanged: true });
-    this._debouncedHandleSearch(textValue);
+    let newInputValue = textValue;
+
+    const inputValueChanged = this.state.textValue !== newInputValue;
+    if (inputValueChanged && this.props.onInputChange) {
+      const nextInputState = this.props.onInputChange(newInputValue);
+
+      if (typeof nextInputState === 'string') {
+        newInputValue = '' + nextInputState;
+      }
+    }
+
+    this.setState({ textValue: newInputValue, inputChanged: true });
+    this._debouncedHandleSearch(newInputValue);
   };
 
   _handleInputKeyDown = (event: SyntheticKeyboardEvent) => {
+    if (typeof this.props.onInputKeyDown === 'function') {
+      this.props.onInputKeyDown(event);
+      if (event.defaultPrevented) {
+        return;
+      }
+    }
+
     const menu = this.menu;
 
     switch (event.key) {
@@ -299,6 +334,7 @@ class ComboBoxV2 extends Component {
   }
 
   _close = () => {
+    this._focused = false;
     this.setState({ opened: false, editing: false });
   };
 
@@ -329,7 +365,7 @@ class ComboBoxV2 extends Component {
   };
 
   _handleStartLoading = () => {
-    this.setState({ loading: true, opened: true, items: null });
+    this.setState({ loading: true, opened: true });
   };
 
   _handleEndLoading = (expectingId) => {
@@ -400,9 +436,10 @@ class ComboBoxV2 extends Component {
   }
 }
 
-function is(value, item, valueToItem = x => x) {
+function is(value, item: any, valueToItem = x => x) {
   if (typeof item === 'function' || React.isValidElement(item)) {
-    const element = typeof item === 'function' ? item() : item;
+    const element: React$Element<*> =
+      typeof item === 'function' ? item() : item;
     return shallowEqual(valueToItem(value), element.props);
   }
   return shallowEqual(valueToItem(value), item);

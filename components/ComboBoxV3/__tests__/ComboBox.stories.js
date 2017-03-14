@@ -3,11 +3,11 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 
-import ComboBoxV2 from '../ComboBox';
+import ComboBoxV3 from '../ComboBox';
 import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
 
-storiesOf('ComboBox v2', module)
+storiesOf('ComboBox v3', module)
   .add('with error handling', () => (
     <TestComboBox
       onSearch={search}
@@ -60,7 +60,7 @@ class TestComboBox extends React.Component {
   render() {
     return (
       <div>
-        <ComboBoxV2
+        <ComboBoxV3
           error={this.state.error}
           warning={this.state.warning}
           value={this.state.value}
@@ -123,7 +123,7 @@ class ScannerInput extends React.Component {
   render() {
     return (
       <div>
-        <ComboBoxV2
+        <ComboBoxV3
           ref="input"
           error={this.state.error}
           placeholder="Enter name or code"
