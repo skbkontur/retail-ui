@@ -19,7 +19,7 @@ class Gapped extends React.Component {
     /**
      * Вертикальное выравнивание элементов.
      */
-    verticalAlign: PropTypes.oneOf(['top', 'middle', 'bottom'])
+    verticalAlign: PropTypes.oneOf(['top', 'middle', 'baseline', 'bottom'])
   };
 
   static defaultProps = {
