@@ -98,7 +98,7 @@ describe('ComboBox V2', () => {
     const menuItems = menu.find('MenuItem');
     menuItems.first().simulate('click');
 
-    expect(onChange).toBeCalledWith('one');
+    expect(onChange).toBeCalledWith({ target: { value: 'one' } }, 'one');
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
@@ -117,7 +117,7 @@ describe('ComboBox V2', () => {
 
     wrapper.find('input').simulate('keydown', { key: 'Enter' });
 
-    expect(onChange).toBeCalledWith('one');
+    expect(onChange).toBeCalledWith({ target: { value: 'one' } }, 'one');
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
@@ -151,7 +151,7 @@ describe('ComboBox V2', () => {
 
     wrapper.find('input').simulate('change', { target: { value: 'one' } });
 
-    await delay(200); // w8 debounce
+    await delay(300); // w8 debounce
     await search;
 
     clickOutside();
@@ -224,11 +224,22 @@ describe('ComboBox V2', () => {
       .simulate('click');
 
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toBeCalledWith({
-      id: 'hello',
-      name: 'world',
-      children: 'Hello, world'
-    });
+    expect(onChange).toBeCalledWith(
+      {
+        target: {
+          value: {
+            id: 'hello',
+            name: 'world',
+            children: 'Hello, world'
+          }
+        }
+      },
+      {
+        id: 'hello',
+        name: 'world',
+        children: 'Hello, world'
+      }
+    );
   });
 
   it('calls element onClick on custom element select', async () => {

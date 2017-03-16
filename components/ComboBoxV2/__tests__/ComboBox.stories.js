@@ -3,16 +3,15 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 
-import ComboBoxV2 from '../ComboBox';
+import ComboBoxV3 from '../ComboBox';
 import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
 
-storiesOf('ComboBox v2', module)
+storiesOf('ComboBox v3', module)
   .add('with error handling', () => (
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
-      totalCount={12}
       onUnexpectedInput={errorStrategy}
     />
   ))
@@ -20,7 +19,6 @@ storiesOf('ComboBox v2', module)
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
-      totalCount={12}
       onUnexpectedInput={nullStrategy}
     />
   ))
@@ -28,7 +26,6 @@ storiesOf('ComboBox v2', module)
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
-      totalCount={12}
       onUnexpectedInput={warningStrategy}
     />
   ))
@@ -42,8 +39,14 @@ storiesOf('ComboBox v2', module)
       onUnexpectedInput={errorStrategy}
     />
   ))
-  .add('scanner', () => (
-    <ScannerInput />
+  .add('autocomplete', () => (
+    <TestComboBox
+      autocomplete
+      onSearch={search}
+      renderItem={renderValue}
+      totalCount={12}
+      onUnexpectedInput={errorStrategy}
+    />
   ));
 
 class TestComboBox extends React.Component {
@@ -60,7 +63,9 @@ class TestComboBox extends React.Component {
   render() {
     return (
       <div>
-        <ComboBoxV2
+        <ComboBoxV3
+          autocomplete={this.props.autocomplete}
+          itemToValue={x => x.id}
           error={this.state.error}
           warning={this.state.warning}
           value={this.state.value}
@@ -93,75 +98,21 @@ class TestComboBox extends React.Component {
   }
 }
 
-class ScannerInput extends React.Component {
-  state = {
-    loading: false,
-    value: null,
-    error: false
-  };
-
-  checkSum = textValue => {
-    if (textValue && textValue === '0000000000') {
-      this.setState({ loading: true });
-      this.handleCodeSearch(textValue);
-      return true;
-    }
-    this.setState({ error: true });
-    return false;
-  };
-
-  handleCodeSearch = code => {
-    const delay = v => new Promise(resolve => setTimeout(resolve, 2000, v));
-    Promise.resolve({ id: 99, name: 'Putinka' })
-      .then(delay)
-      .then((value) => {
-        console.log('setting', value);
-        this.setState({ loading: false, value }, this.refs.input.blur);
-      });
-  };
-
-  render() {
-    return (
-      <div>
-        <ComboBoxV2
-          ref="input"
-          error={this.state.error}
-          placeholder="Enter name or code"
-          value={this.state.value}
-          onChange={value => {
-            this.setState({ value });
-            this.props.onChange(value.id);
-          }}
-          onFocus={() => this.setState({ error: false })}
-          onSearchRequest={search}
-          onInputChange={this.checkSum}
-          onUnexpectedInput={this.checkSum}
-          disabled={this.state.loading}
-          renderItem={renderValue}
-          renderValue={renderValue}
-          valueToString={x => x.name}
-        />
-      </div>
-    );
-  }
-}
-
 function errorStrategy(setState) {
   return x => {
-    x && setState({ error: true, value: null });
+    x && setState({ error: true });
   };
 }
 
 function nullStrategy(setState) {
   return x => {
     x && setState({ value: null });
-    return true;
   };
 }
 
 function warningStrategy(setState) {
   return x => {
-    x && setState({ value: null, warning: true });
+    x && setState({ warning: true });
   };
 }
 

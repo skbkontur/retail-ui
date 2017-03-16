@@ -424,16 +424,18 @@
       background: none;
     }
 
-    icon {
+    .icon {
       padding-right: @linkIconPadding;
     }
   }
 
-  .linkMixin(use-link,
+  .linkMixin(
+    use-link,
     @link-color,
     @link-hover-color,
     @link-hover-color,
-    @link-active-color);
+    @link-active-color
+  );
 
   // End Use
 

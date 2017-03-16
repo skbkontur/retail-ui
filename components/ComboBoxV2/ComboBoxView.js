@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
+import Icon from '../Icon';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Menu from '../Menu/Menu';
@@ -19,6 +20,7 @@ type Props<T> = {|
   items?: ?(T[]),
   loading?: boolean,
   opened?: boolean,
+  openButton?: boolean,
   placeholder?: string,
   textValue?: string,
   totalCount?: number,
@@ -36,17 +38,18 @@ type Props<T> = {|
   onInputKeyDown?: (e: SyntheticKeyboardEvent) => void,
   renderItem: (item: T) => string | React$Element<*>,
   renderNotFound: () => string | React$Element<*>,
-  renderTotalCount?:
-    (found: number, total: number) => string | React$Element<*>,
+  renderTotalCount?: (found: number, total: number) =>
+    | string
+    | React$Element<*>,
   renderValue: (item: T) => string | React$Element<*>,
-  refInput?: (input: Input) => void,
-  refMenu?: (menu: Menu) => void
+  refInput?: (input: Input) => any,
+  refMenu?: (menu: Menu) => any
 |};
 
 class ComboBoxView extends Component {
   static defaultProps = {
     renderItem: (x, i) => x,
-    renderNotFound: ((() => 'Не найдено'): () => string | React$Element<*>),
+    renderNotFound: (() => 'Не найдено': () => string | React$Element<*>),
     renderValue: x => x,
     onClickOutside: () => {},
     onFocusOutside: () => {},
@@ -54,10 +57,24 @@ class ComboBoxView extends Component {
     width: (250: string | number)
   };
 
+  componentDidMount() {
+    if (this.props.autoFocus) {
+      this.props.onFocus && this.props.onFocus();
+    }
+  }
+
+  componentDidUpdate(prevProps: Props<any>) {
+    if (this.props.editing && !prevProps.editing && this.input) {
+      this.input.focus();
+      this.input.setSelectionRange(0, (this.props.textValue || '').length);
+    }
+  }
+
   props: Props<*>;
+  input: Input;
 
   render() {
-    const { onClickOutside, onFocusOutside, width } = this.props;
+    const { onClickOutside, onFocusOutside, width, openButton } = this.props;
     const input = this.renderInput();
     const menu = this.renderMenu();
 
@@ -66,8 +83,14 @@ class ComboBoxView extends Component {
         onClickOutside={onClickOutside}
         onFocusOutside={onFocusOutside}
       >
-        <label style={{ width, display: 'inline-block' }}>
+        <label style={{ width, display: 'inline-block', position: 'relative' }}>
           {input}
+          {openButton &&
+            <span
+              style={{ position: 'absolute', top: 6, right: 5, zIndex: 10 }}
+            >
+              <Icon size="12" name="caret-bottom" color="#a6a6a6" />
+            </span>}
           <DropdownContainer getParent={() => findDOMNode(this)} offsetY={1}>
             {menu}
           </DropdownContainer>
@@ -135,10 +158,13 @@ class ComboBoxView extends Component {
   renderItem = (item: *, index: number) => {
     if (typeof item === 'function' || React.isValidElement(item)) {
       const element = typeof item === 'function' ? item() : item;
-      const props = Object.assign({
-        key: index,
-        onClick: () => this.props.onChange(element.props)
-      }, element.props);
+      const props = Object.assign(
+        {
+          key: index,
+          onClick: () => this.props.onChange(element.props)
+        },
+        element.props
+      );
       return React.cloneElement(element, props);
     }
     return (
@@ -158,9 +184,9 @@ class ComboBoxView extends Component {
       onInputChange,
       onInputFocus,
       onInputKeyDown,
+      openButton,
       placeholder,
       renderValue,
-      refInput,
       textValue,
       value,
       warning
@@ -174,11 +200,12 @@ class ComboBoxView extends Component {
           onBlur={onInputBlur}
           onChange={onInputChange}
           onFocus={onInputFocus}
+          rightIcon={openButton && <span />}
           value={textValue}
           onKeyDown={onInputKeyDown}
           placeholder={placeholder}
           width="100%"
-          ref={refInput}
+          ref={this.refInput}
           warning={warning}
         />
       );
@@ -188,6 +215,7 @@ class ComboBoxView extends Component {
       <InputLikeText
         error={error}
         onFocus={onFocus}
+        padRight={openButton}
         disabled={disabled}
         warning={warning}
       >
@@ -197,6 +225,13 @@ class ComboBoxView extends Component {
       </InputLikeText>
     );
   }
+
+  refInput = (input: Input) => {
+    if (this.props.refInput) {
+      this.props.refInput(input);
+    }
+    this.input = input;
+  };
 }
 
 export default ComboBoxView;
