@@ -49,7 +49,7 @@ type Props<T> = {|
 class ComboBoxView extends Component {
   static defaultProps = {
     renderItem: (x, i) => x,
-    renderNotFound: (() => 'Не найдено': () => string | React$Element<*>),
+    renderNotFound: (() => 'Не найдено': () => string | React$Element<any>),
     renderValue: x => x,
     onClickOutside: () => {},
     onFocusOutside: () => {},

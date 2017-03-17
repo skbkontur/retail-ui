@@ -1,27 +1,71 @@
 /* @flow */
-/* global $Subtype */
+/* global React$Element */
 import React from 'react';
 import shallow from 'fbjs/lib/shallowEqual';
-
-import { defaultState } from './reducer/default';
 
 import ComboBoxView from '../ComboBoxV2/ComboBoxView';
 import type Input from '../Input';
 import type Menu from '../Menu/Menu';
 
-type Action = $Subtype<{ type: string }>;
+type Action = { type: string };
 
-import type { ExternalProps } from '../ComboBoxV2';
+type ReactElement = React$Element<any> | string;
+
+export type CustomComboBoxProps<T> = {
+  disabled?: boolean,
+  error?: boolean,
+  openButton?: boolean,
+  placeholder?: string,
+  totalCount?: number,
+  value?: ?T,
+  warning?: boolean,
+  width?: string | number,
+  renderItem?: (T, number) => ReactElement,
+  renderNotFound?: () => ReactElement,
+  renderValue?: (T) => ReactElement,
+  renderTotalCount?: (number, number) => ReactElement
+}
+
+export type CustomComboBoxState<T> = {
+  editing: boolean,
+  loading: boolean,
+  opened: boolean,
+  textValue: string,
+  items: ?Array<T>
+}
+
+export type Effect<T> = (
+  dispatch: (Action) => void,
+  getState: () => CustomComboBoxState<T>,
+  getProps: () => CustomComboBoxProps<T>,
+  getInstance: () => CustomComboBox
+) => void
+
+export type Reducer<T> = (
+  state: CustomComboBoxState<T>,
+  props: CustomComboBoxProps<T>,
+  action: Action
+) => CustomComboBoxState<T> | [
+  CustomComboBoxState<T>,
+  Array<Effect<T>>
+]
 
 export type Props<T> = {
-  reducer: Function,
-  openButton?: boolean
-} & ExternalProps<T>;
+  reducer: Reducer<T>
+} & CustomComboBoxProps<T>;
+
+export const DefaultState = {
+  editing: false,
+  items: null,
+  loading: false,
+  opened: false,
+  textValue: ''
+};
 
 class CustomComboBox extends React.Component {
 
-  state = defaultState;
-  props: Props<any>;
+  state: CustomComboBoxState<*> = DefaultState;
+  props: Props<*>;
   input: Input;
   menu: Menu;
   focused: boolean = false;

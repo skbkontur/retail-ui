@@ -3,11 +3,43 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 
-import ComboBoxV3 from '../ComboBox';
+import ComboBoxV2 from '../ComboBox';
 import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
 
-storiesOf('ComboBox v3', module)
+storiesOf('ComboBox v2', module)
+  .add('simple combobox', () => {
+    const getItems = q =>
+      Promise.resolve(
+        [
+          { value: 1, label: 'First' },
+          { value: 2, label: 'Second' },
+          { value: 3, label: 'Third' },
+          { value: 4, label: 'Fourth' },
+          { value: 5, label: 'Fifth' },
+          { value: 6, label: 'Sixth' }
+        ].filter(
+          x =>
+            x.label.toLowerCase().includes(q.toLowerCase()) ||
+            x.value.toString(10) === q
+        )
+      );
+
+    class SimpleCombobox extends React.Component {
+      state = { value: { value: 1, label: 'First' } };
+      render() {
+        return (
+          <ComboBoxV2
+            value={this.state.value}
+            getItems={getItems}
+            onChange={(_, value) => this.setState(() => ({ value }))}
+          />
+        );
+      }
+    }
+
+    return <SimpleCombobox />;
+  })
   .add('with error handling', () => (
     <TestComboBox
       onSearch={search}
@@ -56,21 +88,21 @@ class TestComboBox extends React.Component {
     warning: false
   };
 
-  handleChange = value => {
+  handleChange = (_, value) => {
     this.setState({ value, error: false });
   };
 
   render() {
     return (
       <div>
-        <ComboBoxV3
+        <ComboBoxV2
           autocomplete={this.props.autocomplete}
           itemToValue={x => x.id}
           error={this.state.error}
           warning={this.state.warning}
           value={this.state.value}
           onFocus={() => this.setState({ error: false, warning: false })}
-          onSearchRequest={this.props.onSearch}
+          getItems={this.props.onSearch}
           renderItem={this.props.renderItem}
           renderValue={renderValue}
           valueToString={x => x.name}
@@ -176,8 +208,8 @@ function searchWithCustomElements(query: string) {
       ? _items.slice(3)
       : [
         <MenuItem disabled>
-          Nothing was found
-        </MenuItem>
+            Nothing was found
+          </MenuItem>
       ]),
     <MenuSeparator />,
     <MenuItem alkoLink onClick={() => alert('Clicked')}>

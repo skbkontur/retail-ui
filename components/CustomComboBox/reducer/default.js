@@ -5,62 +5,55 @@ import debounce from 'lodash.debounce';
 
 import MenuItem from '../../MenuItem';
 import type Menu from '../../Menu/Menu';
-import type CustomComboBox from '../CustomComboBox';
+import { DefaultState } from '../CustomComboBox';
+import type CustomComboBox, {
+  CustomComboBoxProps,
+  CustomComboBoxState
+} from '../CustomComboBox';
 
 type Action = $Subtype<{ type: string }>;
 
-type Props = {
-  itemToValue: (any) => string,
-  onBlur?: () => {},
-  onChange?: () => {},
-  onFocus?: () => {},
-  onInputChange?: (textValue: string) => any,
-  onSearchRequest: (query: string) => Promise<any[]>,
-  onUnexpectedInput?: (query: string) => ?boolean,
-  value?: any,
-  valueToString: (any) => string
-};
+export type Props =
+  & {
+    itemToValue?: (any) => string,
+    valueToString?: (any) => string,
+    onBlur?: () => {},
+    onChange?: () => {},
+    onFocus?: () => {},
+    onInputChange?: (textValue: string) => any,
+    getItems: (query: string) => Promise<any[]>,
+    onUnexpectedInput?: (query: string) => ?boolean
+  }
+  & CustomComboBoxProps<any>;
 
-type State = {
-  editing: boolean,
-  inputChanged: boolean,
-  items: ?Array<any>,
-  loading: boolean,
-  opened: boolean,
-  textValue: string
-};
+export type State =
+  & {
+    inputChanged?: boolean
+  }
+  & CustomComboBoxState<any>;
 
-type Reducer = (state: State, props: Props, action: Action) =>
-  | State
-  | [State, Function[]];
-
-const defaultState = {
-  editing: false,
-  inputChanged: false,
-  items: null,
-  loading: false,
-  opened: false,
-  textValue: ''
-};
-
-type EffectType = (
-  dispatch: (action: Action) => any,
+export type EffectType = (
+  dispatch: (action: Action) => void,
   getState: () => State,
   getProps: () => Props,
   getInstance: () => CustomComboBox
-) => any;
+) => void;
+
+export type Reducer = (state: State, props: Props, action: Action) =>
+  | State
+  | [State, EffectType[]];
 
 let requestId = 0;
 const searchFactory = (isEmpty: boolean): EffectType =>
   (dispatch, getState, getProps) => {
     async function makeRequest() {
       dispatch({ type: 'RequestItems' });
-      const { onSearchRequest } = getProps();
+      const { getItems } = getProps();
       const searchValue = isEmpty ? '' : getState().textValue;
       let expectingId = ++requestId;
 
       try {
-        const items = await onSearchRequest(searchValue);
+        const items = await getItems(searchValue);
         if (expectingId === requestId) {
           dispatch({ type: 'ReceiveItems', items });
         }
@@ -114,7 +107,7 @@ const Effect = {
     }
 
     let index = -1;
-    if (items && items.length && value) {
+    if (items && items.length && value && itemToValue) {
       index = items.findIndex(x => itemToValue(x) === itemToValue(value));
     }
     menu._highlightItem(index);
@@ -136,7 +129,7 @@ const Effect = {
 };
 
 const reducers: { [type: string]: Reducer } = {
-  Mount: () => defaultState,
+  Mount: () => ({ ...DefaultState, inputChanged: false }),
   DidUpdate(state, props, action) {
     if (props.value === action.prevProps.value) {
       return state;
@@ -149,15 +142,12 @@ const reducers: { [type: string]: Reducer } = {
   },
   Blur(state, props, action) {
     const { items, inputChanged } = state;
-    const nextState = {
-      ...state,
-      opened: false,
-      items: null
-    };
     if (!inputChanged) {
       return [
         {
-          ...nextState,
+          ...state,
+          opened: false,
+          items: null,
           editing: false
         },
         [Effect.Blur]
@@ -167,14 +157,23 @@ const reducers: { [type: string]: Reducer } = {
     if (items && items.length === 1) {
       return [
         {
-          ...nextState,
+          ...state,
+          opened: false,
+          items: null,
           editing: false
         },
         [Effect.Blur, Effect.Change(items[0])]
       ];
     }
 
-    return [nextState, [Effect.Blur, Effect.UnexpectedInput(state.textValue)]];
+    return [
+      {
+        ...state,
+        opened: false,
+        items: null
+      },
+      [Effect.Blur, Effect.UnexpectedInput(state.textValue)]
+    ];
   },
   Focus(state, props, action) {
     if (state.editing) {
@@ -187,7 +186,12 @@ const reducers: { [type: string]: Reducer } = {
       ];
     }
 
-    const textValue = props.value ? props.valueToString(props.value) : '';
+    let textValue = '';
+    if (props.value) {
+      textValue = props.valueToString
+        ? props.valueToString(props.value)
+        : props.value;
+    }
     return [
       {
         ...state,
@@ -287,4 +291,4 @@ const reducers: { [type: string]: Reducer } = {
   }
 };
 
-export { reducers, defaultState, Effect };
+export { reducers, Effect };

@@ -1,13 +1,14 @@
 // @flow
 import {
   reducers as defaultReducers,
-  defaultState,
   Effect as DefaultEffect
 } from './default';
 
 import debounce from 'lodash.debounce';
 
-const Effect = {};
+const Effect = {
+  ...DefaultEffect
+};
 
 Effect.Search = (dispatch, getState, getProps, getInstance) => {
   DefaultEffect.Search(false)(dispatch, getState, getProps, getInstance);
@@ -28,7 +29,7 @@ const reducers = {
           opened: false,
           items: null
         },
-        [DefaultEffect.Focus]
+        [Effect.Focus]
       ];
     }
 
@@ -39,7 +40,7 @@ const reducers = {
         opened: true,
         items: null
       },
-      [Effect.Search, DefaultEffect.Focus]
+      [Effect.Search, Effect.Focus]
     ];
   },
   TextChange: (state, props, action) => {
@@ -51,7 +52,7 @@ const reducers = {
           opened: false,
           items: null
         },
-        [DefaultEffect.InputChange]
+        [Effect.InputChange]
       ];
     }
     return [
@@ -73,4 +74,4 @@ const reducers = {
   }
 };
 
-export { reducers, defaultState };
+export { reducers };

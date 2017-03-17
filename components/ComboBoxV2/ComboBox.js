@@ -1,6 +1,7 @@
 // @flow
 /* global React$Element */
 import React from 'react';
+
 import createReducer from '../CustomComboBox/reducer';
 import { reducers as defaultReducers } from '../CustomComboBox/reducer/default';
 import {
@@ -9,10 +10,9 @@ import {
 
 import CustomComboBox from '../CustomComboBox';
 
-const defaltReducer = createReducer(defaultReducers);
-const autocompleteReducer = createReducer(autocompleteReducers);
+type Item<T> = T;
 
-export type ExternalProps<T> = {
+export type ExternalProps<T> = {|
   autocomplete?: boolean,
 
   disabled?: boolean,
@@ -20,39 +20,36 @@ export type ExternalProps<T> = {
   error?: boolean,
 
   /**
-     * Необходим для сравнения полученных результатов с `value`
-     */
+   * Функция поиска эелементов, должна возвращать Promise с массивом элементов.
+   * По умолчанию ожидаются объекты с типом `{ value: string, label: string }`.
+   *
+   * Элементы могут быть любого типа. В этом случае необходимо определить
+   * свойства `itemToValue`, `renderValue`, `renderItem`
+   */
+  getItems?: (query: string) => Promise<Item<T>[]>,
+
+  /**
+   * Необходим для сравнения полученных результатов с `value`
+   */
   itemToValue: (T) => string,
 
   onBlur?: () => void,
 
-  onChange?: (T) => void,
+  onChange?: ({ target: { value: T } }, T) => void,
 
   onFocus?: () => void,
 
   /**
-     * Вызывается при изменении текста в поле ввода,
-     * если результатом функции будет строка,
-     * то она станет следующим состояним полем ввода
-     */
+   * Вызывается при изменении текста в поле ввода,
+   * если результатом функции будет строка,
+   * то она станет следующим состояним полем ввода
+   */
   onInputChange?: () => any,
 
   /**
-     * Позволяет обработать нажатия клавиш.
-     * Можно отменить стандартное поведение, используя `event.preventDefault()`
-     */
-  onInputKeyDown?: () => void,
-
-  /**
-     * Функция должна возвращать Promise с массивом элементов.
-     * Элементы могут быть любого типа.
-     */
-  onSearchRequest?: (query: string) => Promise<T[]>,
-
-  /**
-     * Функция для обработки ситуации, когда было введена
-     * строка в инпут и был потерян фокус с элемента
-     */
+   * Функция для обработки ситуации, когда было введена
+   * строка в инпут и был потерян фокус с элемента
+   */
   onUnexpectedInput?: (query: string) => ?boolean,
 
   placeholder?: string,
@@ -99,12 +96,17 @@ export type ExternalProps<T> = {
   warning?: boolean,
 
   width?: string | number
-};
+|};
+
+const defaltReducer = createReducer(defaultReducers);
+const autocompleteReducer = createReducer(autocompleteReducers);
 
 class ComboBox extends React.Component {
   static defaultProps = {
     itemToValue: x => x.value,
-    valueToString: x => x.label
+    valueToString: x => x.label,
+    renderValue: x => x.label,
+    renderItem: x => x.label
   };
 
   props: ExternalProps<*>;
