@@ -7,7 +7,16 @@ import ComboBoxView from '../ComboBoxV2/ComboBoxView';
 import type Input from '../Input';
 import type Menu from '../Menu/Menu';
 
-type Action = { type: string };
+export type Action<T> =
+  | { type: 'ValueChange', value: T }
+  | { type: 'TextChange', value: string }
+  | { type: 'KeyPress', event: SyntheticKeyboardEvent }
+  | { type: 'DidUpdate',
+      prevProps: CustomComboBoxProps<T>,
+      prevState: CustomComboBoxState<T> }
+  | { type: 'Mount' }
+  | { type: 'Focus' }
+  | { type: 'Blur' };
 
 type ReactElement = React$Element<any> | string;
 
@@ -35,7 +44,7 @@ export type CustomComboBoxState<T> = {
 }
 
 export type Effect<T> = (
-  dispatch: (Action) => void,
+  dispatch: (Action<T>) => void,
   getState: () => CustomComboBoxState<T>,
   getProps: () => CustomComboBoxProps<T>,
   getInstance: () => CustomComboBox
@@ -44,7 +53,7 @@ export type Effect<T> = (
 export type Reducer<T> = (
   state: CustomComboBoxState<T>,
   props: CustomComboBoxProps<T>,
-  action: Action
+  action: Action<T>
 ) => CustomComboBoxState<T> | [
   CustomComboBoxState<T>,
   Array<Effect<T>>
@@ -70,7 +79,7 @@ class CustomComboBox extends React.Component {
   menu: Menu;
   focused: boolean = false;
 
-  dispatch = (action: Action) => {
+  dispatch = (action: Action<*>) => {
     let effects;
     this.setState(
       state => {
