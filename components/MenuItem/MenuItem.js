@@ -39,7 +39,7 @@ export default class MenuItem extends React.Component {
   props: {
     _enableIconPadding?: bool,
     alkoLink?: bool,
-    comment?: string,
+    comment?: any,
     disabled?: bool,
     href?: string,
     icon?: string,

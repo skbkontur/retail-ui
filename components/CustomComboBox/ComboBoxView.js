@@ -223,7 +223,7 @@ class ComboBoxView extends Component {
           onBlur={onInputBlur}
           onChange={onInputChange}
           onFocus={onInputFocus}
-          rightIcon={openButton && <span />}
+          rightIcon={openButton ? <span /> : null}
           value={textValue}
           onKeyDown={onInputKeyDown}
           placeholder={placeholder}
