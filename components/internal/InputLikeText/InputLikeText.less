@@ -13,12 +13,19 @@
     height: 34px;
     line-height: 32px;
     outline: none;
-    // overflow: hidden;
+    overflow: hidden;
     padding: 0 8px;
     text-overflow: ellipsis;
-    vertical-align: baseline;
+    vertical-align: -12px;
     white-space: nowrap;
     width: 100%;
+
+    &:after {
+      content: '';
+      width: 0;
+      display: inline-block;
+      line-height: 32px;
+    }
   }
 
   .deprecated_oldSize {
