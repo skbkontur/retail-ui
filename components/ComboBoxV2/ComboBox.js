@@ -70,7 +70,7 @@ export type ExternalProps<T> = {|
      * Функция отображающаяя сообщение об общем количестве элементе
      */
   renderTotalCount?: (found: number, total: number) =>
-    | string
+    string
     | React$Element<*>,
 
   /**
