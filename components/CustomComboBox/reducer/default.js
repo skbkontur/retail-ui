@@ -15,14 +15,14 @@ type Action = $Subtype<{ type: string }>;
 
 export type Props =
   & {
+    getItems: (query: string) => Promise<any[]>,
     itemToValue?: (any) => string,
-    valueToString?: (any) => string,
     onBlur?: () => {},
     onChange?: () => {},
     onFocus?: () => {},
     onInputChange?: (textValue: string) => any,
-    getItems: (query: string) => Promise<any[]>,
-    onUnexpectedInput?: (query: string) => ?boolean
+    onUnexpectedInput?: (query: string) => ?boolean,
+    valueToString?: (any) => string
   }
   & CustomComboBoxProps<any>;
 
@@ -137,7 +137,7 @@ const reducers: { [type: string]: Reducer } = {
     return {
       ...state,
       opened: false,
-      editing: false
+      editing: props.error
     };
   },
   Blur(state, props, action) {
