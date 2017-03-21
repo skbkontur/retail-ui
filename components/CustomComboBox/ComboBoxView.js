@@ -90,7 +90,7 @@ class ComboBoxView extends Component {
       <span
         style={{ position: 'absolute', top: 6, right: 5, zIndex: 10 }}
       >
-        <Spinner type="mini" caption="" />
+        <Spinner type="mini" caption="" dimmed />
       </span>
     );
 
@@ -142,7 +142,7 @@ class ComboBoxView extends Component {
         <Menu ref={refMenu}>
           <MenuItem disabled>
             <div style={{ margin: '-2px 0 -1px' }}>
-              <Spinner type="mini" />
+              <Spinner type="mini" dimmed />
             </div>
           </MenuItem>
         </Menu>

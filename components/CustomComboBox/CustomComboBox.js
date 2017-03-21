@@ -3,7 +3,7 @@
 import React from 'react';
 import shallow from 'fbjs/lib/shallowEqual';
 
-import ComboBoxView from '../ComboBoxV2/ComboBoxView';
+import ComboBoxView from './ComboBoxView';
 import type Input from '../Input';
 import type Menu from '../Menu/Menu';
 

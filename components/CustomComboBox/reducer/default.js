@@ -274,6 +274,7 @@ const reducers: { [type: string]: Reducer } = {
     return [
       {
         ...state,
+        loading: false,
         items: [
           <MenuItem disabled>
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>

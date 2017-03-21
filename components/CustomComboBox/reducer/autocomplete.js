@@ -36,6 +36,7 @@ const reducers = {
     return [
       {
         ...state,
+        textValue,
         editing: true,
         opened: true,
         items: null
