@@ -201,7 +201,7 @@ class SearchSelect extends React.Component {
   }
 
   _refFocusable = (el: ?HTMLElement) => {
-    this._focusable = el && (el.focus ? el : ReactDOM.findDOMNode(el));
+    this._focusable = el && (el.focus ? el : (ReactDOM.findDOMNode(el): any));
   };
 
   _handleInputChange = (event: any) => {

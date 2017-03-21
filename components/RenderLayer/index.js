@@ -8,12 +8,12 @@ class RenderLayer extends Component {
     children?: any,
     onClickOutside: (e: Event) => any,
     onFocusOutside: (e: Event) => any,
-    subscribeToOutsideFocus: ((e: Event) => any) => any,
-    subscribeToOutsideClicks: ((e: Event) => any) => any
-  }
+    subscribeToOutsideFocus: (fn: (e: Event) => any) => any,
+    subscribeToOutsideClicks: (fn: (e: Event) => any) => any
+  };
 
-  unsibscribeFocusOutside: Function
-  unsibscribeClickOutside: Function
+  unsibscribeFocusOutside: Function;
+  unsibscribeClickOutside: Function;
 
   componentDidMount() {
     this.unsibscribeFocusOutside = this.props.subscribeToOutsideFocus(
@@ -25,8 +25,12 @@ class RenderLayer extends Component {
   }
 
   componentWillUnmount() {
-    this.unsibscribeFocusOutside();
-    this.unsibscribeClickOutside();
+    if (this.unsibscribeFocusOutside) {
+      this.unsibscribeFocusOutside();
+    }
+    if (this.unsibscribeClickOutside) {
+      this.unsibscribeClickOutside();
+    }
   }
 
   render() {

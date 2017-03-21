@@ -207,7 +207,7 @@ export default class Tooltip extends React.Component {
     if (typeof childRef === 'function') {
       childRef(el);
     }
-    this._hotspotDOM = el && ReactDOM.findDOMNode(el);
+    this._hotspotDOM = el && (ReactDOM.findDOMNode(el): any);
   }
 
   _getHotspotRef(childRef: any) {

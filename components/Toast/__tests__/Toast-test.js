@@ -30,7 +30,7 @@ describe('Toast', () => {
 
     const toast = wrapper.instance()._toast;
     expect(toast).toBeTruthy();
-    expect(ReactDOM.findDOMNode(toast).innerHTML).toContain('message');
+    expect((ReactDOM.findDOMNode(toast): any).innerHTML).toContain('message');
   });
 
   it('hides message after interval', () => {
@@ -66,8 +66,8 @@ describe('Toast', () => {
     wrapper.instance().push('message', { label: 'action', handler: () => {} });
 
     const toast = wrapper.instance()._toast;
-    const link = ReactDOM
-      .findDOMNode(toast)
+    const link = (ReactDOM
+      .findDOMNode(toast): any)
       .querySelector('.link');
     expect(link).toBeTruthy();
   });

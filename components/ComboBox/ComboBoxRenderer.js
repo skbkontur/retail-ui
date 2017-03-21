@@ -314,7 +314,7 @@ class ComboBoxRenderer extends React.Component {
   }
 
   _refFocusable = (el: ?HTMLInputElement) => {
-    this._focusable = el && (el.focus ? el : ReactDOM.findDOMNode(el));
+    this._focusable = el && (el.focus ? el : (ReactDOM.findDOMNode(el): any));
   };
 
   _refMenu = (menu: Menu) => {
