@@ -50,6 +50,7 @@ const reducers = {
         {
           ...state,
           textValue: '',
+          inputChanged: true,
           opened: false,
           items: null
         },
@@ -59,11 +60,12 @@ const reducers = {
     return [
       {
         ...state,
+        inputChanged: true,
         textValue: action.value
       },
       [
         Effect.DebouncedSearch,
-        DefaultEffect.InputChange
+        Effect.InputChange
       ]
     ];
   },
