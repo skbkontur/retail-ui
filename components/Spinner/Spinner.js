@@ -89,8 +89,8 @@ class Spinner extends React.Component {
           cx="8"
           cy="8"
           r="6"
-          stroke-miterlimit="10"
-          stroke-dashoffset="0"
+          strokeMiterlimit="10"
+          strokeDashoffset="0"
           className={styles.path}
           strokeWidth={params.strokeWidth}
         />
