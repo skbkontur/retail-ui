@@ -63,6 +63,7 @@ export default class Autocomplete extends React.Component {
     selected: -1
   };
   _opened: bool = false;
+  _input: Input = null;
 
   render() {
     var inputProps = {
@@ -71,7 +72,8 @@ export default class Autocomplete extends React.Component {
       onKeyDown: this.handleKey,
       onMouseEnter: this.props.onMouseEnter,
       onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver
+      onMouseOver: this.props.onMouseOver,
+      ref: this._refInput,
     };
     return (
       <span className={styles.root}>
@@ -225,6 +227,16 @@ export default class Autocomplete extends React.Component {
       this.props.onChange({ target: { value } }, value);
     }
   }
+
+  focus() {
+    if (this._input) {
+      this._input.focus();
+    }
+  }
+
+  _refInput = (el) => {
+    this._input = el;
+  };
 }
 
 function match(pattern, items) {
