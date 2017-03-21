@@ -25,8 +25,12 @@ class RenderLayer extends Component {
   }
 
   componentWillUnmount() {
-    this.unsibscribeFocusOutside();
-    this.unsibscribeClickOutside();
+    if (this.unsibscribeFocusOutside) {
+      this.unsibscribeFocusOutside();
+    }
+    if (this.unsibscribeClickOutside) {
+      this.unsibscribeClickOutside();
+    }
   }
 
   render() {

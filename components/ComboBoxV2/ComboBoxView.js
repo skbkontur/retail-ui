@@ -74,9 +74,36 @@ class ComboBoxView extends Component {
   input: Input;
 
   render() {
-    const { onClickOutside, onFocusOutside, width, openButton } = this.props;
+    const {
+      onClickOutside,
+      onFocusOutside,
+      width,
+      openButton,
+      items,
+      loading
+    } = this.props;
+
     const input = this.renderInput();
     const menu = this.renderMenu();
+
+    const spinner = (
+      <span
+        style={{ position: 'absolute', top: 6, right: 5, zIndex: 10 }}
+      >
+        <Spinner type="mini" caption="" />
+      </span>
+    );
+
+    const icon = (
+      <span
+        style={{ position: 'absolute', top: 6, right: 5, zIndex: 10 }}
+      >
+        <Icon size="12" name="caret-bottom" color="#a6a6a6"/>
+      </span>
+    );
+
+    const spinnerIsShown = loading && items && items.length;
+    const iconIsShown = !spinnerIsShown && openButton;
 
     return (
       <RenderLayer
@@ -85,12 +112,8 @@ class ComboBoxView extends Component {
       >
         <label style={{ width, display: 'inline-block', position: 'relative' }}>
           {input}
-          {openButton &&
-            <span
-              style={{ position: 'absolute', top: 6, right: 5, zIndex: 10 }}
-            >
-              <Icon size="12" name="caret-bottom" color="#a6a6a6" />
-            </span>}
+          {spinnerIsShown && spinner}
+          {iconIsShown && icon}
           <DropdownContainer getParent={() => findDOMNode(this)} offsetY={1}>
             {menu}
           </DropdownContainer>

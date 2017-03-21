@@ -169,7 +169,7 @@ describe('ComboBox V2', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onBlur on click outside', async () => {
+  it('calls onBlur on click outside', () => {
     const onBlur = jest.fn();
     const wrapper = mount(<ComboBoxV2 onBlur={onBlur} />);
 

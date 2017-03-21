@@ -53,6 +53,19 @@ storiesOf('ComboBoxV2 View', module)
       textValue="loading"
     />
   ))
+  .add('loading with items', () => (
+    <View
+      editing
+      loading
+      opened
+      textValue="loading"
+      items={[
+        { id: 2, name: 'two' },
+        { id: 3, name: 'three' }
+      ]}
+      renderItem={renderValue}
+    />
+  ))
   .add('not found', () => (
     <View
       editing
@@ -76,6 +89,7 @@ storiesOf('ComboBoxV2 View', module)
       renderTotalCount={(found, total) => `Показано ${found} из ${total}`}
     />
   ))
+
   .add('idle with placeholder', () => (
     <View
       placeholder="placeholder"
