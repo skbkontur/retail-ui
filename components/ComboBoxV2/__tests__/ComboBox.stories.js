@@ -64,6 +64,14 @@ storiesOf('ComboBox v2', module)
   .add('with rejections', () => (
     <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />
   ))
+  .add('disabled', () => (
+    <TestComboBox
+      autoFocus
+      disabled
+      onSearch={search}
+      renderItem={renderValue}
+    />
+  ))
   .add('with custom elements', () => (
     <TestComboBox
       onSearch={searchWithCustomElements}
@@ -109,6 +117,7 @@ class TestComboBox extends React.Component {
           autocomplete={this.props.autocomplete}
           autoFocus={this.props.autoFocus}
           itemToValue={x => x.id}
+          disabled={this.props.disabled}
           error={this.state.error}
           warning={this.state.warning}
           value={this.state.value}
@@ -126,9 +135,10 @@ class TestComboBox extends React.Component {
           }
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Найдено ${found} из ${total}`}
+          ref="cb"
         />
-
-        <button>Ok</button>
+        {' '}
+        <button onClick={() => this.refs.cb.focus()}>Focus</button>
 
         {this.state.error &&
           <div style={{ color: 'red' }}>Необходимо выбрать значение</div>}

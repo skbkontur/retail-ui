@@ -117,7 +117,7 @@ class ComboBox extends React.Component {
 
   focus() {
     if (this._cb) {
-      this._cb.focus;
+      this._cb.focus();
     }
   }
 

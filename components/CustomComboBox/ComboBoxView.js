@@ -102,7 +102,7 @@ class ComboBoxView extends Component {
       </span>
     );
 
-    const spinnerIsShown = loading && items && items.length;
+    const spinnerIsShown = loading && items && !!items.length;
     const iconIsShown = !spinnerIsShown && openButton;
 
     return (

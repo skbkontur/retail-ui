@@ -167,7 +167,7 @@ class CustomComboBox extends React.Component {
   componentDidMount() {
     this.dispatch({ type: 'Mount' });
     if (this.props.autoFocus) {
-      this.handleFocus();
+      this.focus();
     }
   }
 
