@@ -36,6 +36,9 @@ type Props<T> = {|
   onInputChange?: Function,
   onInputFocus?: () => void,
   onInputKeyDown?: (e: SyntheticKeyboardEvent) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
   renderItem: (item: T) => string | React$Element<*>,
   renderNotFound: () => string | React$Element<*>,
   renderTotalCount?: (found: number, total: number) =>
@@ -75,12 +78,15 @@ class ComboBoxView extends Component {
 
   render() {
     const {
+      items,
+      loading,
       onClickOutside,
       onFocusOutside,
-      width,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
       openButton,
-      items,
-      loading
+      width
     } = this.props;
 
     const input = this.renderInput();
@@ -110,7 +116,12 @@ class ComboBoxView extends Component {
         onClickOutside={onClickOutside}
         onFocusOutside={onFocusOutside}
       >
-        <label style={{ width, display: 'inline-block', position: 'relative' }}>
+        <label
+          style={{ width, display: 'inline-block', position: 'relative' }}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onMouseOver={onMouseOver}
+        >
           {input}
           {spinnerIsShown && spinner}
           {iconIsShown && icon}

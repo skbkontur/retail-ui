@@ -25,6 +25,9 @@ export type CustomComboBoxProps<T> = {
   disabled?: boolean,
   error?: boolean,
   openButton?: boolean,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
   placeholder?: string,
   totalCount?: number,
   value?: ?T,
@@ -148,6 +151,9 @@ class CustomComboBox extends React.Component {
         event.persist();
         this.dispatch({ type: 'KeyPress', event });
       },
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseOver: this.props.onMouseOver,
+      onMouseLeave: this.props.onMouseLeave,
       renderItem: this.props.renderItem,
       renderNotFound: this.props.renderNotFound,
       renderValue: this.props.renderValue,
