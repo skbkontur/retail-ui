@@ -29,9 +29,7 @@ type State = {
 
 class Prevent extends React.Component {
   render() {
-    return (
-      <span onClick={this._prevent}>{this.props.children}</span>
-    );
+    return <span onClick={this._prevent}>{this.props.children}</span>;
   }
 
   _prevent = (event) => {
@@ -103,13 +101,7 @@ class RadioGroup extends React.Component {
     this.state = { focusedIndex: null };
   }
 
-  componentDidMount() {
-    events.addEventListener(window, 'keyup', this.focusHandler);
-  }
 
-  componentWillUnmount() {
-    events.removeEventListener(window, 'keyup', this.focusHandler);
-  }
 
   render() {
     const inputProps = {
@@ -194,13 +186,11 @@ class RadioGroup extends React.Component {
   };
 
   focusHandler = (event: KeyboardEvent) => {
-    if (event.keyCode === 9) {
-      const { value, items } = this.props;
-      const currentIndex = [...items].indexOf(value);
-      const index = currentIndex > -1 ? currentIndex : 0;
+    const { value, items } = this.props;
+    const currentIndex = [...items].indexOf(value);
+    const index = currentIndex > -1 ? currentIndex : 0;
 
-      this.setState({ focusedIndex: index });
-    }
+    this.setState({ focusedIndex: index });
   }
 
   handleBlur = () => {
