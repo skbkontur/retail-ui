@@ -79,6 +79,16 @@ storiesOf('ComboBox v2', module)
       totalCount={12}
       onUnexpectedInput={errorStrategy}
     />
+  ))
+  .add('with autoFocus', () => (
+    <TestComboBox
+      autocomplete
+      autoFocus
+      onSearch={search}
+      renderItem={renderValue}
+      totalCount={12}
+      onUnexpectedInput={errorStrategy}
+    />
   ));
 
 class TestComboBox extends React.Component {
@@ -97,6 +107,7 @@ class TestComboBox extends React.Component {
       <div>
         <ComboBoxV2
           autocomplete={this.props.autocomplete}
+          autoFocus={this.props.autoFocus}
           itemToValue={x => x.id}
           error={this.state.error}
           warning={this.state.warning}

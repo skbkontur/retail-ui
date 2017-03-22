@@ -15,6 +15,8 @@ type Item<T> = T;
 export type ExternalProps<T> = {|
   autocomplete?: boolean,
 
+  autoFocus?: boolean,
+
   disabled?: boolean,
 
   error?: boolean,
@@ -111,6 +113,14 @@ class ComboBox extends React.Component {
 
   props: ExternalProps<*>;
 
+  _cb: ?CustomComboBox = null;
+
+  focus() {
+    if (this._cb) {
+      this._cb.focus;
+    }
+  }
+
   render() {
     const { autocomplete, ...rest } = this.props;
     const props = {
@@ -118,7 +128,7 @@ class ComboBox extends React.Component {
       openButton: !autocomplete,
       reducer: autocomplete ? autocompleteReducer : defaltReducer
     };
-    return <CustomComboBox {...props} />;
+    return <CustomComboBox {...props} ref={(cb) => this._cb = cb}/>;
   }
 }
 

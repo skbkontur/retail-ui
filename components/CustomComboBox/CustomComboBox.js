@@ -21,6 +21,7 @@ export type Action<T> =
 type ReactElement = React$Element<any> | string;
 
 export type CustomComboBoxProps<T> = {
+  autoFocus?: boolean,
   disabled?: boolean,
   error?: boolean,
   openButton?: boolean,
@@ -165,6 +166,9 @@ class CustomComboBox extends React.Component {
 
   componentDidMount() {
     this.dispatch({ type: 'Mount' });
+    if (this.props.autoFocus) {
+      this.handleFocus();
+    }
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
