@@ -7,22 +7,9 @@ import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 
 import filterProps from '../filterProps';
-
+import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import styles from './Input.less';
-
-let polyfillPlaceholder = false;
-if (typeof window !== 'undefined' && window.document
-    && window.document.createElement) {
-
-  const sAgent = window.navigator.userAgent;
-
-  if (!('placeholder' in document.createElement('input'))
-      || !!navigator.userAgent.match(/Trident\/7\./)
-      || sAgent.indexOf('MSIE') > 0) {
-    polyfillPlaceholder = true;
-  }
-}
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,

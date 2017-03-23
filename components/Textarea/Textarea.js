@@ -2,8 +2,9 @@ import classNames from 'classnames';
 import React, { PropTypes } from 'react';
 
 import filterProps from '../filterProps';
-
+import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
+
 import styles from './Textarea.less';
 
 const PASS_PROPS = {
@@ -11,7 +12,7 @@ const PASS_PROPS = {
   defaultValue: true,
   disabled: true,
   maxLength: true,
-  placeholder: true,
+  placeholder: !polyfillPlaceholder,
   rows: true,
   title: true,
   value: true,
@@ -71,12 +72,16 @@ class Textarea extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+
+    this.state = {
+      polyfillPlaceholder: false
+    };
   }
 
   render() {
     const props = filterProps(this.props, PASS_PROPS);
     props.className = classNames({
-      [styles.root]: true,
+      [styles.textarea]: true,
       [styles.error]: this.props.error
     });
     props.style = {};
@@ -85,16 +90,45 @@ class Textarea extends React.Component {
       props.style.width = this.props.width;
     }
 
+    let placeholder = null;
+
+    if (this.state.polyfillPlaceholder && !this.props.value) {
+      placeholder = (
+        <span className={styles.placeholder}>
+          {this.props.placeholder}
+        </span>
+      );
+    }
+
     return (
-      <textarea {...props} ref={this._ref} onChange={this.handleChange} />
+      <label className={styles.root}>
+        {placeholder}
+        <textarea {...props} ref={this._ref} onChange={this._handleChange} />
+      </label>
     );
   }
 
-  handleChange = event => {
+  componentDidMount() {
+    if (polyfillPlaceholder) {
+      this.setState({
+        polyfillPlaceholder: true
+      });
+    }
+  }
+
+  _handleChange = event => {
+    if (polyfillPlaceholder) {
+      const fieldIsEmpty = event.target.value === '';
+
+      if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
+        this.setState({ polyfillPlaceholder: fieldIsEmpty });
+      }
+    }
+
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
-  };
+  }
 
   focus() {
     if (this._node) {
