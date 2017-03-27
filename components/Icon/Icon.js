@@ -201,7 +201,24 @@ var MAP = {
   'shutter': '\ue0cb',
   'smartphone-slash': '\ue0cc',
   'telegram': '\ue0cd',
-  'telegram-o': '\ue0ce'
+  'telegram-o': '\ue0ce',
+
+  // 16.11.2016
+  'heart-o': '\ue0cf',
+  'office': '\ue0d0',
+
+  // 2.12.2016
+  'arrows-h-aside': '\ue0d1',
+  'arrows-h-inside': '\ue0d2',
+  'tree-structure': '\ue0d3',
+  'calculator': '\ue0d4',
+
+  // 3.02.2017
+  'key': '\ue0d6',
+  'ok-double': '\ue0d5',
+
+  // 24.03.2017
+  'flash-drive': '\ue0d7'
 };
 
 class Icon extends React.Component {
