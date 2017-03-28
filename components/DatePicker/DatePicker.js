@@ -299,6 +299,11 @@ class DatePicker extends React.Component {
     });
   }
 
+  focus() {
+    this._focused = true;
+    this.input.focus();
+  }
+
   getInputRef = (ref: Input) => {
     this.input = ref;
   };
