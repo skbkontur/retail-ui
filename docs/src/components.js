@@ -30,6 +30,12 @@ module.exports = [
     src: require('!raw!./snippets/ComboBox-snip.js')
   },
   {
+    name: 'ComboBoxOld',
+    component: require('ui/ComboBoxOld'),
+    info: require('!docgen!ui/ComboBoxOld/ComboBox.js'),
+    src: require('!raw!./snippets/ComboBoxOld-snip.js')
+  },
+  {
     name: 'DatePicker',
     component: require('ui/DatePicker'),
     info: require('!docgen!ui/DatePicker/DatePicker.js'),

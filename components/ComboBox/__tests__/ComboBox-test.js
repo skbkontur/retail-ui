@@ -1,85 +1,270 @@
-import { mount } from 'enzyme';
+// @flow
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ComboBoxV2 from '../ComboBox';
+import { mount } from 'enzyme';
 
-import ComboBox from '../ComboBox.js';
+function clickOutside() {
+  const event = document.createEvent('HTMLEvents');
+  event.initEvent('mousedown', true, true);
+  (document.body: any).dispatchEvent(event);
+}
 
-describe('ComboBox', () => {
-  it('autoFocus', () => {
-    const wrapper = mount(<ComboBox autoFocus source={() => null} />);
-    const focusable = ReactDOM.findDOMNode(wrapper.get(0).renderer._focusable);
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-    expect(focusable.ownerDocument.activeElement).toBe(focusable);
+describe('ComboBox V2', () => {
+  it('renders', () => {
+    mount(<ComboBoxV2 />);
   });
 
-  it('handles focus', () => {
-    const wrapper = mount(<ComboBox source={() => null} />);
-    wrapper.instance().focus();
+  it('fetches item when focused', async () => {
+    const search = jest.fn(() => Promise.resolve());
+    const wrapper = mount(<ComboBoxV2 getItems={search} />);
 
-    const focusable = ReactDOM.findDOMNode(wrapper.get(0).renderer._focusable);
-    expect(focusable.ownerDocument.activeElement).toBe(focusable);
+    wrapper.find('InputLikeText').simulate('focus');
+    await search;
+    expect(search).toBeCalledWith('');
   });
 
-  /* No longer supporting this */
-  it.skip('fetches items when opened by entering a char', async () => {
-    const source = jest.fn(() => Promise.resolve({ values: [] }));
-    const wrapper = mount(<ComboBox source={source} />);
+  it('fetches items on input', async () => {
+    const search = jest.fn(() => Promise.resolve());
+    const wrapper = mount(<ComboBoxV2 getItems={search} />);
 
-    expect(source.mock.calls.length).toBe(0);
-    wrapper.find('[tabIndex]').simulate('keypress', {
-      charCode: 'a'.charCodeAt(0)
+    wrapper.find('InputLikeText').simulate('focus'); // called search 1 time
+    wrapper.find('input').simulate('change', { target: { value: 'world' } });
+
+    await delay(300); // waiting for debounce
+
+    await search;
+
+    expect(search).toBeCalled();
+    expect(search).toHaveBeenCalledTimes(2);
+    expect(search.mock.calls[1][0]).toBe('world');
+  });
+
+  it('opens menu in dropdown container on search resolve', async () => {
+    const search = jest.fn(() => Promise.resolve(['one', 'two']));
+    const wrapper = mount(<ComboBoxV2 getItems={search} />);
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    await search;
+
+    const dropdownContainer = wrapper.find('DropdownContainer');
+    expect(dropdownContainer.length).toBe(1);
+
+    const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
+    expect(menu.length).toBe(1);
+  });
+
+  it('sets items on search resolve', async () => {
+    const items = ['one', 'two', 'three'];
+    const search = jest.fn(() => Promise.resolve(items));
+    const wrapper = mount(<ComboBoxV2 getItems={search} renderItem={x => x} />);
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    await search;
+    await delay(0); // awaiting all batched updates
+
+    const dropdownContainer = wrapper.find('DropdownContainer');
+    const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
+
+    const menuItems = menu.find('MenuItem');
+    expect(menuItems.length).toBe(items.length);
+
+    menuItems.forEach((item, index) => {
+      expect(item.text()).toBe(items[index]);
     });
-
-    expect(source.mock.calls.length).toBe(1);
-    expect(source.mock.calls[0][0]).toBe('a');
   });
 
-  it('uses static info', () => {
-    const render = jest.fn();
-    mount(
-      <ComboBox
-        value="foo"
-        info="bar"
-        source={jest.fn()}
-        renderValue={render}
-      />
-    );
-
-    expect(render.mock.calls[0][1]).toBe('bar');
-  });
-
-  it('uses promise info', async () => {
-    const info = jest.fn(val => Promise.resolve(val.toUpperCase()));
-    const render = jest.fn();
+  it('calls onChange if clicked on item', async () => {
+    const items = ['one', 'two', 'three'];
+    const search = jest.fn(() => Promise.resolve(items));
+    const onChange = jest.fn();
     const wrapper = mount(
-      <ComboBox
-        value="foo"
-        info={info}
-        source={jest.fn()}
-        renderValue={render}
+      <ComboBoxV2 getItems={search} onChange={onChange} />
+    );
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    await search;
+    await delay(0); // awaiting all batched updates
+
+    const dropdownContainer = wrapper.find('DropdownContainer');
+    const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
+
+    const menuItems = menu.find('MenuItem');
+    menuItems.first().simulate('click');
+
+    expect(onChange).toBeCalledWith({ target: { value: 'one' } }, 'one');
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('selects first item on Enter', async () => {
+    const items = ['one', 'two', 'three'];
+    const search = jest.fn(() => Promise.resolve(items));
+    const onChange = jest.fn();
+    const wrapper = mount(
+      <ComboBoxV2 getItems={search} onChange={onChange} />
+    );
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    await search;
+    await delay(0); // awaiting all batched updates
+
+    wrapper.find('input').simulate('keydown', { key: 'Enter' });
+
+    expect(onChange).toBeCalledWith({ target: { value: 'one' } }, 'one');
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('retries request on Enter if rejected', async () => {
+    const search = jest.fn(() => Promise.reject());
+    const wrapper = mount(<ComboBoxV2 getItems={search} />);
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    await search;
+    await delay(0); // awaiting all batched updates
+
+    wrapper.find('input').simulate('keydown', { key: 'Enter' });
+
+    expect(search).toBeCalledWith('');
+    expect(search).toHaveBeenCalledTimes(2);
+  });
+
+  it('calls onUnexpectedInput on click outside', async () => {
+    const search = jest.fn(() => Promise.reject());
+    const onUnexpectedInput = jest.fn();
+    const wrapper = mount(
+      <ComboBoxV2
+        getItems={search}
+        onUnexpectedInput={onUnexpectedInput}
       />
     );
 
-    // Initial render.
-    expect(info.mock.calls[0]).toEqual(['foo']);
-    expect(render.mock.calls.length).toBe(1);
-    expect(render.mock.calls[0]).toEqual(['foo', null]);
+    wrapper.find('InputLikeText').simulate('focus');
+    await search;
 
-    // Info promise resolved.
-    await info.mock.instances[0];
-    expect(render.mock.calls[1]).toEqual(['foo', 'FOO']);
+    wrapper.find('input').simulate('change', { target: { value: 'one' } });
 
-    // Rerender with new value.
-    wrapper.setProps({ value: 'bar' });
-    expect(render.mock.calls[2]).toEqual(['bar', null]);
+    await delay(300); // w8 debounce
+    await search;
 
-    // New value promise resolved.
-    await info.mock.instances[1];
-    expect(render.mock.calls[3]).toEqual(['bar', 'BAR']);
+    clickOutside();
 
-    // Rerender with the same value.
-    wrapper.setProps({ value: 'bar' });
-    expect(info.mock.calls.length).toBe(2);
-    expect(render.mock.calls[4]).toEqual(['bar', 'BAR']);
+    expect(onUnexpectedInput).toBeCalledWith('one');
+    expect(onUnexpectedInput).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls onFocus on focus', async () => {
+    const onFocus = jest.fn();
+    const wrapper = mount(<ComboBoxV2 onFocus={onFocus} />);
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    expect(onFocus).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls onBlur on click outside', () => {
+    const onBlur = jest.fn();
+    const wrapper = mount(<ComboBoxV2 onBlur={onBlur} />);
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    clickOutside();
+
+    expect(onBlur).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders custom elements in menu', async () => {
+    const items = [<div>Hello, world</div>];
+    const search = jest.fn(() => Promise.resolve(items));
+    const wrapper = mount(<ComboBoxV2 getItems={search} />);
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    await search;
+    await delay(0); // awaiting all batched updates
+
+    const dropdownContainer = wrapper.find('DropdownContainer');
+    const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
+
+    expect(menu.containsAllMatchingElements(items)).toBeTruthy();
+  });
+
+  it('calls default onClick on custom element select', async () => {
+    const items = [
+      <div id="hello" name="world">
+        Hello, world
+      </div>
+    ];
+    const search = jest.fn(() => Promise.resolve(items));
+    const onChange = jest.fn();
+    const wrapper = mount(
+      <ComboBoxV2 getItems={search} onChange={onChange} />
+    );
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    await search;
+    await delay(0); // awaiting all batched updates
+
+    const dropdownContainer = wrapper.find('DropdownContainer');
+    const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
+    menu
+      .children()
+      .findWhere(x => x.matchesElement(<div>Hello, world</div>))
+      .tap(x => {
+        expect(x.prop('onClick')).toBeInstanceOf(Function);
+      })
+      .simulate('click');
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toBeCalledWith(
+      {
+        target: {
+          value: {
+            id: 'hello',
+            name: 'world',
+            children: 'Hello, world'
+          }
+        }
+      },
+      {
+        id: 'hello',
+        name: 'world',
+        children: 'Hello, world'
+      }
+    );
+  });
+
+  it('calls element onClick on custom element select', async () => {
+    const onClick = jest.fn();
+    const items = [
+      <div onClick={onClick}>
+        Hello, world
+      </div>
+    ];
+    const search = jest.fn(() => Promise.resolve(items));
+
+    const wrapper = mount(<ComboBoxV2 getItems={search} />);
+
+    wrapper.find('InputLikeText').simulate('focus');
+
+    await search;
+    await delay(0); // awaiting all batched updates
+
+    const dropdownContainer = wrapper.find('DropdownContainer');
+    const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
+    menu
+      .children()
+      .findWhere(x => x.matchesElement(<div>Hello, world</div>))
+      .simulate('click');
+
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 });

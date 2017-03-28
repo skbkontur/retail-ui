@@ -19,6 +19,8 @@ class Spinner extends React.Component {
      */
     caption: PropTypes.string,
 
+    dimmed: PropTypes.bool,
+
     /**
      * Тип спиннера: mini, normal, big
      *
@@ -38,7 +40,7 @@ class Spinner extends React.Component {
     super(props);
   }
 
-  _renderCloud = (type) => {
+  _renderCloud = type => {
     const params = sizeMaps[type];
 
     const svgPath = `M32.0297086,9.1495774 L31.5978628,8.5870774 C29.3570968,
@@ -71,17 +73,24 @@ class Spinner extends React.Component {
     );
   };
 
-  _renderCircle = (type) => {
+  _renderCircle = type => {
     const params = sizeMaps[type];
 
     return (
       <svg
-        className={styles.circle}
+        className={classnames(
+          styles.circle,
+          this.props.dimmed && styles.dimmed
+        )}
         width={params.width}
         height={params.height}
       >
-        <circle cx="8" cy="8" r="6" stroke-miterlimit="10"
-          stroke-dashoffset="0"
+        <circle
+          cx="8"
+          cy="8"
+          r="6"
+          strokeMiterlimit="10"
+          strokeDashoffset="0"
           className={styles.path}
           strokeWidth={params.strokeWidth}
         />
@@ -89,7 +98,7 @@ class Spinner extends React.Component {
     );
   };
 
-  _renderSpinner = (type) => {
+  _renderSpinner = type => {
     if (type === types.mini) {
       return this._renderCircle(type);
     }
@@ -105,7 +114,7 @@ class Spinner extends React.Component {
 
     return (
       <span className={spanClassName}>
-          {caption}
+        {caption}
       </span>
     );
   };

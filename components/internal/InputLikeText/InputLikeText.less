@@ -16,9 +16,16 @@
     overflow: hidden;
     padding: 0 8px;
     text-overflow: ellipsis;
-    vertical-align: bottom;
+    vertical-align: -12px;
     white-space: nowrap;
     width: 100%;
+
+    &:after {
+      content: '';
+      width: 0;
+      display: inline-block;
+      line-height: 32px;
+    }
   }
 
   .deprecated_oldSize {

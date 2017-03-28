@@ -1,208 +1,145 @@
 // @flow
+/* global React$Element */
+import React from 'react';
 
-import React, { PropTypes } from 'react';
+import createReducer from '../CustomComboBox/reducer';
+import { reducers as defaultReducers } from '../CustomComboBox/reducer/default';
+import {
+  reducers as autocompleteReducers
+} from '../CustomComboBox/reducer/autocomplete';
 
-import ComboBoxRenderer from './ComboBoxRenderer';
-import type { BaseProps, Info, Value } from './ComboBoxRenderer';
+import CustomComboBox from '../CustomComboBox';
 
-type Props = BaseProps & {
-  info?: Info | ((v: Value) => Promise<Info>)
+type Item<T> = T;
+
+export type ExternalProps<T> = {
+  /**
+   * Включает режим автокомплита
+   */
+  autocomplete?: boolean,
+
+  autoFocus?: boolean,
+
+  disabled?: boolean,
+
+  error?: boolean,
+
+  /**
+   * Функция поиска эелементов, должна возвращать Promise с массивом элементов.
+   * По умолчанию ожидаются объекты с типом `{ value: string, label: string }`.
+   *
+   * Элементы могут быть любого типа. В этом случае необходимо определить
+   * свойства `itemToValue`, `renderValue`, `renderItem`, `valueToString`
+   */
+  getItems?: (query: string) => Promise<Item<T>[]>,
+
+  /**
+   * Необходим для сравнения полученных результатов с `value`
+   */
+  itemToValue: (item: T) => string,
+
+  onBlur?: () => void,
+
+  onChange?: (event: { target: { value: T } }, item: T) => void,
+
+  onFocus?: () => void,
+
+  /**
+   * Вызывается при изменении текста в поле ввода,
+   * если результатом функции будет строка,
+   * то она станет следующим состояним полем ввода
+   */
+  onInputChange?: (query: string) => any,
+
+  /**
+   * Функция для обработки ситуации, когда была введена
+   * строка в инпут и был потерян фокус с элемента.
+   *
+   * Если при потере фокуса в выпадающем списке будет только один
+   * элемент, то сработает onChange со значением данного элемента
+   */
+  onUnexpectedInput?: (query: string) => ?boolean,
+
+  placeholder?: string,
+
+  /**
+   * Функция отрисовки элементов результата поиска.
+   * Не применяется если элемент является функцией или React-элементом
+   */
+  renderItem?: (item: T, index: number) => string | React$Element<any>,
+
+  /**
+   * Функция для отрисовки сообщения о пустом результате поиска
+   */
+  renderNotFound?: () => string | React$Element<any>,
+
+  /**
+   * Функция отображающаяя сообщение об общем количестве элементе
+   */
+  renderTotalCount?:
+    (found: number, total: number) => string | React$Element<any>,
+
+  /**
+   * Функция отрисовки выбранного значения
+   */
+  renderValue?: (item: T) => string | React$Element<any>,
+
+  /**
+   * Общее количество элементов.
+   * Необходим для работы `renderTotalCount`
+   */
+  totalCount?: number,
+
+  /**
+   * Выбранное значение
+   * Ожидается, что `value` того же типа что и элементы в массиве,
+   * возвращаемом в `getItems`
+   */
+  value?: T,
+
+  /**
+   * Необходим для преобразования `value` в строку при фокусировке
+   */
+  valueToString: (item: T) => string,
+
+  warning?: boolean,
+
+  width?: string | number
 };
 
-export default class ComboBox extends React.Component {
-  static propTypes = {
-    autoFocus: PropTypes.bool,
+const defaltReducer = createReducer(defaultReducers);
+const autocompleteReducer = createReducer(autocompleteReducers);
 
-    borderless: PropTypes.bool,
-
-    debounceInterval: PropTypes.number,
-
-    /**
-     * Не использовать Portal для рендеринга меню.
-     * По-умолчанию `false`.
-     * См. https://github.com/skbkontur/retail-ui/issues/15
-     */
-    disablePortal: PropTypes.bool,
-
-    disabled: PropTypes.bool,
-
-    /**
-     * Визуально показать наличие ошибки.
-     */
-    error: PropTypes.bool,
-
-    /**
-     * Данные, которые будут переданы в функции для отрисовки значений
-     * (`renderValue` и `renderItem`).
-     */
-    info: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
-
-    menuAlign: PropTypes.oneOf(['left', 'right']),
-
-    /**
-     * Показывать кнопку-треугольник для показа резаультатов.
-     */
-    openButton: PropTypes.bool,
-
-    placeholder: PropTypes.string,
-
-    /**
-     * Функция для обработки неожиданного ввода. Если пользователь ввел что-то в
-     * строку поиска и нажал Enter или ушел из поля, не выбрав значение, то
-     * будет вызвана эта функция, которая может вернуть значение, которое будет
-     * использовано как будто оно было выбрано.
-     *
-     * Возвращаемое значение может быть `null`, либо объектом такой формы:
-     * `{value: any, info?: any}`.
-     *
-     * Если задать это поле в `true`, то будет использована такая функция:
-     * `(searchText) => searchText`.
-     */
-    recover: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-
-    renderItem: PropTypes.func,
-
-    /**
-     * Сообщение при отсутствии результатов
-     *
-     * `string | (searchText: string) => React$Element<*> | string`
-     */
-    renderNotFound: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-
-    /**
-     * Общее количество найденных элементов
-     *
-     * `(foundCount: number, totalCount: number) => React$Element<*> | string`
-     */
-    renderTotalCount: PropTypes.func,
-
-    renderValue: PropTypes.func,
-
-    source: PropTypes.func.isRequired,
-
-    value: PropTypes.any,
-
-    /**
-     * Визуально показать наличие предупреждения.
-     */
-    warning: PropTypes.bool,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    onBlur: PropTypes.func,
-
-    onChange: PropTypes.func,
-
-    onClose: PropTypes.func,
-
-    onFocus: PropTypes.func,
-
-    /**
-     * Вызывается при изменении текста в поле ввода,
-     * если результатом функции будет строка,
-     * то она станет следующим состояним полем ввода
-     *
-     * `(value: string) => any`
-     */
-    onInputChange: PropTypes.func,
-
-    /**
-     * Позволяет обработать нажатия клавиш.
-     * Можно отменить стандартное поведение, используя `event.preventDefault()`
-     *
-     * `(event: KeyboardSyntheticEvent) => void`
-     */
-    onInputKeyDown: PropTypes.func,
-
-    onMouseEnter: PropTypes.func,
-
-    onMouseLeave: PropTypes.func,
-
-    onMouseOver: PropTypes.func,
-
-    onOpen: PropTypes.func
-  };
-
+class ComboBox extends React.Component {
   static defaultProps = {
-    menuAlign: 'left',
-    placeholder: '',
-    width: 250
+    itemToValue: x => x.value,
+    valueToString: x => x.label,
+    renderValue: x => x.label,
+    renderItem: x => x.label
   };
 
-  props: Props;
+  props: ExternalProps<any>;
 
-  state = {
-    info: null
-  };
+  _cb: ?CustomComboBox = null;
 
-  renderer: ComboBoxRenderer;
-
-  _mounted = false;
-  _infoPromise: ?Promise<any>;
+  /**
+   * @api
+   */
+  focus() {
+    if (this._cb) {
+      this._cb.focus();
+    }
+  }
 
   render() {
-    let info = this.props.info;
-    if (typeof info === 'function') {
-      info = this.state.info;
-    }
-
-    // Flow needs this for some reason.
-    const spread: BaseProps = this.props;
-
-    return <ComboBoxRenderer ref={this._ref} {...spread} info={info} />;
-  }
-
-  focus() {
-    if (this.renderer) {
-      this.renderer._focus();
-    }
-  }
-
-  _ref = (renderer: ComboBoxRenderer) => {
-    this.renderer = renderer;
-  };
-
-  componentDidMount() {
-    this._mounted = true;
-    const { value, info } = this.props;
-    if (typeof info === 'function') {
-      this._fetchInfo(value, info);
-    }
-  }
-
-  componentWillUnmount() {
-    this._mounted = false;
-  }
-
-  componentWillReceiveProps(newProps: Props) {
-    this._maybeRefetchInfo(newProps.value, newProps.info);
-  }
-
-  _maybeRefetchInfo(value: Value, info: Info) {
-    if (typeof info !== 'function') {
-      return;
-    }
-
-    const props = this.props;
-
-    if (value === props.value && typeof props.info === 'function') {
-      // Values hasn't changed and info is still a function. So we are already
-      // fetching info.
-      return;
-    }
-
-    this.setState({ info: null });
-    this._fetchInfo(value, info);
-  }
-
-  _fetchInfo(value: Value, info: Info) {
-    const promise = info(value);
-    this._infoPromise = promise;
-
-    promise.then(info => {
-      if (this._mounted && this._infoPromise === promise) {
-        this.setState({ info });
-      }
-    });
+    const { autocomplete, ...rest } = this.props;
+    const props = {
+      ...rest,
+      openButton: !autocomplete,
+      reducer: autocomplete ? autocompleteReducer : defaltReducer
+    };
+    return <CustomComboBox {...props} ref={(cb) => this._cb = cb}/>;
   }
 }
+
+export default ComboBox;

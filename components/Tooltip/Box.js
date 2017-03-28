@@ -8,6 +8,7 @@ import throttle from 'lodash.throttle';
 import position from './position';
 import renderPin from './renderPin';
 
+import '../ensureOldIEClassName';
 import styles from './Box.less';
 
 class Box extends React.Component {
