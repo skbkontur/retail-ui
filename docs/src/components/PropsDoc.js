@@ -181,6 +181,7 @@ function formatLegacyType(type) {
 
 function formatFlowType(type) {
   switch (type.name) {
+    case 'signature':
     case 'union':
       return type.raw;
 

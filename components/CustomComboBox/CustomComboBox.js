@@ -3,7 +3,7 @@
 import React from 'react';
 import shallow from 'fbjs/lib/shallowEqual';
 
-import ComboBoxView from '../ComboBoxV2/ComboBoxView';
+import ComboBoxView from './ComboBoxView';
 import type Input from '../Input';
 import type Menu from '../Menu/Menu';
 
@@ -21,9 +21,13 @@ export type Action<T> =
 type ReactElement = React$Element<any> | string;
 
 export type CustomComboBoxProps<T> = {
+  autoFocus?: boolean,
   disabled?: boolean,
   error?: boolean,
   openButton?: boolean,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
   placeholder?: string,
   totalCount?: number,
   value?: ?T,
@@ -147,6 +151,9 @@ class CustomComboBox extends React.Component {
         event.persist();
         this.dispatch({ type: 'KeyPress', event });
       },
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseOver: this.props.onMouseOver,
+      onMouseLeave: this.props.onMouseLeave,
       renderItem: this.props.renderItem,
       renderNotFound: this.props.renderNotFound,
       renderValue: this.props.renderValue,
@@ -165,6 +172,9 @@ class CustomComboBox extends React.Component {
 
   componentDidMount() {
     this.dispatch({ type: 'Mount' });
+    if (this.props.autoFocus) {
+      this.focus();
+    }
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {

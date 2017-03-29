@@ -13,12 +13,27 @@
     height: 34px;
     line-height: 32px;
     outline: none;
-    // overflow: hidden;
-    padding: 0 8px;
     text-overflow: ellipsis;
-    vertical-align: baseline;
     white-space: nowrap;
     width: 100%;
+    position: relative;
+
+    &:after {
+      content: '';
+      width: 0;
+      display: inline-block;
+      line-height: 32px;
+    }
+  }
+
+  .inner {
+    position: absolute;
+    display: block;
+    width: 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .deprecated_oldSize {
@@ -53,7 +68,8 @@
     }
   }
 
-  .padRight {
+  .padRight,
+  .padRight .inner {
     padding-right: 20px;
   }
 

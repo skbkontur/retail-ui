@@ -1,71 +1,63 @@
-var items = [
-  { id: 1, name: 'Kappa' },
-  { id: 2, name: 'Keepo' },
-  { id: 3, name: 'ResidentSleeper' },
-  { id: 4, name: 'Kestrel' },
-  { id: 5, name: 'Kats' },
-  { id: 6, name: 'Junior' }
-];
+var delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
-function info(id) {
-  return Promise.resolve(items.find(item => item.id === id));
-}
+var maybeReject = x =>
+  Math.random() * 3 < 1 ? Promise.reject() : Promise.resolve(x);
 
-function search(query) {
-  query = query.toLowerCase();
-  var results = items.filter(item => (
-    item.name.toLowerCase().indexOf(query) !== -1
-  ));
-  return Promise.resolve({
-    values: results.map((d) => d.id).slice(0, 3),
-    infos: results,
-    total: results.length
-  });
-}
-
-function recover(query) {
-  var found = items.find(x => x.name.toLowerCase() === query.toLowerCase());
-  if (found) {
-    return { value: found.id };
-  }
-  return null;
-}
-
-function renderValue(value, info) {
-  return <span>{info ? info.name : 'Loading'}</span>;
-}
-
-function renderItem(value, info) {
-  return <span>{value}: {info.name}</span>;
-}
-
-function valueToString(id) {
-  var info = items.find(x => x.id === id);
-  return info ? info.name : '';
-}
-
-function renderTotalCount(found, total) {
-  return <div style={{ maxWidth: 220 }}>Displayed {found} from {total}</div>;
-}
+var getItems = q =>
+  Promise.resolve(
+    [
+      { value: 1, label: 'First' },
+      { value: 2, label: 'Second' },
+      { value: 3, label: 'Third' },
+      { value: 4, label: 'Fourth' },
+      { value: 5, label: 'Fifth' },
+      { value: 6, label: 'Sixth' }
+    ].filter(
+      x =>
+        x.label.toLowerCase().includes(q.toLowerCase()) ||
+        x.value.toString(10) === q
+    )
+  )
+    .then(delay(500))
+    .then(maybeReject);
 
 var Comp = React.createClass({
-  getInitialState() { return { value: 3 }; },
+  getInitialState() {
+    return {
+      selected: { value: 3, label: 'Third' },
+      error: false
+    };
+  },
+
+  handleChange(_, item) {
+    this.setState({ selected: item, error: false });
+  },
+
+  handleUnexpectedInput() {
+    this.setState({ error: true, selected: null });
+  },
+
+  handleFocus() {
+    this.setState({ error: false });
+  },
 
   render() {
     return (
-      <ComboBox
-        autoFocus
-        info={info}
-        source={search}
-        value={this.state.value}
-        recover={recover}
-        renderValue={renderValue}
-        renderItem={renderItem}
-        renderNotFound="Nothing here"
-        renderTotalCount={renderTotalCount}
-        valueToString={valueToString}
-        onChange={e => this.setState({ value: e.target.value })}
-      />
+      <Tooltip
+        closeButton={false}
+        render={() => 'Item must be selected!'}
+        trigger={this.state.error ? 'opened' : 'closed'}
+      >
+        <ComboBox
+          error={this.state.error}
+          getItems={getItems}
+          onChange={this.handleChange}
+          onFocus={this.handleFocus}
+          onUnexpectedInput={this.handleUnexpectedInput}
+          placeholder="Enter number"
+          value={this.state.selected}
+        />
+      </Tooltip>
     );
   }
 });

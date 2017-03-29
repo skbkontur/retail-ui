@@ -8,6 +8,8 @@ import styles from './MenuItem.less';
 
 export type MenuItemState = null | 'hover' | 'selected';
 
+const tagName = disabled => disabled ? 'span' : 'a';
+
 /**
  * Элемент меню.
  */
@@ -39,7 +41,7 @@ export default class MenuItem extends React.Component {
   props: {
     _enableIconPadding?: bool,
     alkoLink?: bool,
-    comment?: string,
+    comment?: any,
     disabled?: bool,
     href?: string,
     icon?: string,
@@ -89,8 +91,10 @@ export default class MenuItem extends React.Component {
       children = children(this.props.state);
     }
 
+    const tag = tagName(disabled);
+
     return (
-      <a
+      <tag
         {...rest}
         className={className}
         tabIndex="-1"
@@ -108,7 +112,7 @@ export default class MenuItem extends React.Component {
             {comment}
           </div>
         )}
-      </a>
+      </tag>
     );
   }
 }

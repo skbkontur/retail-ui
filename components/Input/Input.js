@@ -296,6 +296,12 @@ export default class Input extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps: Props) {
+    if (!nextProps.value) {
+      this.setState({ polyfillPlaceholder: true });
+    }
+  }
+
   getInputFromRef = (ref: any) => {
     const elem: Element = (ReactDOM.findDOMNode(this): any);
     this.input = this.props.mask

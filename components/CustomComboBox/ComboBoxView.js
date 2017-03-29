@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
-import Icon from '../Icon';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Menu from '../Menu/Menu';
@@ -36,6 +35,9 @@ type Props<T> = {|
   onInputChange?: Function,
   onInputFocus?: () => void,
   onInputKeyDown?: (e: SyntheticKeyboardEvent) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
   renderItem: (item: T) => string | React$Element<*>,
   renderNotFound: () => string | React$Element<*>,
   renderTotalCount?: (found: number, total: number) =>
@@ -75,12 +77,15 @@ class ComboBoxView extends Component {
 
   render() {
     const {
+      items,
+      loading,
       onClickOutside,
       onFocusOutside,
-      width,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
       openButton,
-      items,
-      loading
+      width
     } = this.props;
 
     const input = this.renderInput();
@@ -90,30 +95,42 @@ class ComboBoxView extends Component {
       <span
         style={{ position: 'absolute', top: 6, right: 5, zIndex: 10 }}
       >
-        <Spinner type="mini" caption="" />
+        <Spinner type="mini" caption="" dimmed />
       </span>
     );
 
-    const icon = (
+    const arrow = (
       <span
-        style={{ position: 'absolute', top: 6, right: 5, zIndex: 10 }}
-      >
-        <Icon size="12" name="caret-bottom" color="#a6a6a6"/>
-      </span>
+        style={{
+          border: '4px solid transparent',
+          borderBottomWidth: 0,
+          borderTopColor: '#a6a6a6',
+          position: 'absolute',
+          right: 8,
+          top: 15,
+          zIndex: 2,
+          pointerEvents: 'none'
+        }}
+      />
     );
 
-    const spinnerIsShown = loading && items && items.length;
-    const iconIsShown = !spinnerIsShown && openButton;
+    const spinnerIsShown = loading && items && !!items.length;
+    const arrowIsShown = !spinnerIsShown && openButton;
 
     return (
       <RenderLayer
         onClickOutside={onClickOutside}
         onFocusOutside={onFocusOutside}
       >
-        <label style={{ width, display: 'inline-block', position: 'relative' }}>
+        <label
+          style={{ width, display: 'inline-block', position: 'relative' }}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onMouseOver={onMouseOver}
+        >
           {input}
           {spinnerIsShown && spinner}
-          {iconIsShown && icon}
+          {arrowIsShown && arrow}
           <DropdownContainer getParent={() => findDOMNode(this)} offsetY={1}>
             {menu}
           </DropdownContainer>
@@ -142,7 +159,7 @@ class ComboBoxView extends Component {
         <Menu ref={refMenu}>
           <MenuItem disabled>
             <div style={{ margin: '-2px 0 -1px' }}>
-              <Spinner type="mini" />
+              <Spinner type="mini" dimmed />
             </div>
           </MenuItem>
         </Menu>
@@ -223,7 +240,7 @@ class ComboBoxView extends Component {
           onBlur={onInputBlur}
           onChange={onInputChange}
           onFocus={onInputFocus}
-          rightIcon={openButton && <span />}
+          rightIcon={openButton ? <span /> : null}
           value={textValue}
           onKeyDown={onInputKeyDown}
           placeholder={placeholder}

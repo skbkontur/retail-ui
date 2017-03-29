@@ -2,6 +2,7 @@
 @blue: #1e79be;
 @red: #d70c17;
 @yellow: #f8982d;
+@gray: #9b9b9b;
 
 :local {
   .spinner {
@@ -45,9 +46,10 @@
     stroke-dashoffset: 15;
 
     :global {
-      animation: rt_cloud_offset 1s cubic-bezier(.50, .20, .50, .80) infinite,
-      rt_cloud_length 2s cubic-bezier(.36, .14, .38, .69) infinite,
-      rt_color 6s ease-in-out infinite;
+      animation:
+        rt_cloud_offset 1s cubic-bezier(.50, .20, .50, .80) infinite,
+        rt_cloud_length 2s cubic-bezier(.36, .14, .38, .69) infinite,
+        rt_color 6s ease-in-out infinite;
     }
   }
 
@@ -57,13 +59,25 @@
     stroke-dasharray: 10, 27;
     stroke-dashoffset: -37;
     stroke-width: 1.5px;
-    top: 2px;
+    top: 3px;
 
     :global {
-      animation: rt_circle_offset 1s cubic-bezier(.50, .20, .50, .80) infinite,
-      rt_circle_length 2s cubic-bezier(.36, .14, .38, .69) infinite,
-      rt_rotate 2s linear infinite,
-      rt_color 6s ease-in-out infinite;
+      animation:
+        rt_circle_offset 1s cubic-bezier(.50, .20, .50, .80) infinite,
+        rt_circle_length 2s cubic-bezier(.36, .14, .38, .69) infinite,
+        rt_rotate 2s linear infinite,
+        rt_color 6s ease-in-out infinite;
+    }
+
+    &.dimmed {
+      stroke: @gray;
+
+      :global {
+        animation:
+          rt_circle_offset 1s cubic-bezier(.50, .20, .50, .80) infinite,
+          rt_circle_length 2s cubic-bezier(.36, .14, .38, .69) infinite,
+          rt_rotate 2s linear infinite;
+      }
     }
   }
 }

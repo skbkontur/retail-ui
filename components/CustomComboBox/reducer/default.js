@@ -15,20 +15,21 @@ type Action = $Subtype<{ type: string }>;
 
 export type Props =
   & {
+    getItems: (query: string) => Promise<any[]>,
     itemToValue?: (any) => string,
-    valueToString?: (any) => string,
     onBlur?: () => {},
     onChange?: () => {},
     onFocus?: () => {},
     onInputChange?: (textValue: string) => any,
-    getItems: (query: string) => Promise<any[]>,
-    onUnexpectedInput?: (query: string) => ?boolean
+    onUnexpectedInput?: (query: string) => ?boolean,
+    valueToString?: (any) => string
   }
   & CustomComboBoxProps<any>;
 
 export type State =
   & {
-    inputChanged?: boolean
+    inputChanged?: boolean,
+    focused?: boolean
   }
   & CustomComboBoxState<any>;
 
@@ -99,10 +100,14 @@ const Effect = {
   }: EffectType),
   HighlightMenuItem: ((dispatch, getState, getProps, getInstance) => {
     const { value, itemToValue } = getProps();
-    const { items } = getState();
+    const { items, focused } = getState();
     const { menu }: { menu: Menu } = getInstance();
 
     if (!menu) {
+      return;
+    }
+
+    if (!focused) {
       return;
     }
 
@@ -137,32 +142,21 @@ const reducers: { [type: string]: Reducer } = {
     return {
       ...state,
       opened: false,
-      editing: false
+      editing: props.error
     };
   },
   Blur(state, props, action) {
-    const { items, inputChanged } = state;
+    const { inputChanged } = state;
     if (!inputChanged) {
       return [
         {
           ...state,
+          focused: false,
           opened: false,
           items: null,
           editing: false
         },
         [Effect.Blur]
-      ];
-    }
-
-    if (items && items.length === 1) {
-      return [
-        {
-          ...state,
-          opened: false,
-          items: null,
-          editing: false
-        },
-        [Effect.Blur, Effect.Change(items[0])]
       ];
     }
 
@@ -180,6 +174,7 @@ const reducers: { [type: string]: Reducer } = {
       return [
         {
           ...state,
+          focused: true,
           opened: true
         },
         [Effect.Search(false), Effect.Focus]
@@ -195,6 +190,7 @@ const reducers: { [type: string]: Reducer } = {
     return [
       {
         ...state,
+        focused: true,
         opened: true,
         editing: true,
         textValue
@@ -274,6 +270,7 @@ const reducers: { [type: string]: Reducer } = {
     return [
       {
         ...state,
+        loading: false,
         items: [
           <MenuItem disabled>
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>
