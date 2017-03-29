@@ -126,7 +126,7 @@ class TestComboBox extends React.Component {
           renderItem={this.props.renderItem}
           renderValue={renderValue}
           valueToString={x => x.name}
-          placeholder="number"
+          placeholder="numbers"
           onChange={this.handleChange}
           onUnexpectedInput={
             this.props.onUnexpectedInput
