@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
-import Icon from '../Icon';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Menu from '../Menu/Menu';
@@ -100,16 +99,23 @@ class ComboBoxView extends Component {
       </span>
     );
 
-    const icon = (
+    const arrow = (
       <span
-        style={{ position: 'absolute', top: 6, right: 5, zIndex: 10 }}
-      >
-        <Icon size="12" name="caret-bottom" color="#a6a6a6"/>
-      </span>
+        style={{
+          border: '4px solid transparent',
+          borderBottomWidth: 0,
+          borderTopColor: '#a6a6a6',
+          position: 'absolute',
+          right: 8,
+          top: 15,
+          zIndex: 2,
+          pointerEvents: 'none'
+        }}
+      />
     );
 
     const spinnerIsShown = loading && items && !!items.length;
-    const iconIsShown = !spinnerIsShown && openButton;
+    const arrowIsShown = !spinnerIsShown && openButton;
 
     return (
       <RenderLayer
@@ -124,7 +130,7 @@ class ComboBoxView extends Component {
         >
           {input}
           {spinnerIsShown && spinner}
-          {iconIsShown && icon}
+          {arrowIsShown && arrow}
           <DropdownContainer getParent={() => findDOMNode(this)} offsetY={1}>
             {menu}
           </DropdownContainer>
