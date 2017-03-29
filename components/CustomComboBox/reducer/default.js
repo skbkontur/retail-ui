@@ -28,7 +28,8 @@ export type Props =
 
 export type State =
   & {
-    inputChanged?: boolean
+    inputChanged?: boolean,
+    focused?: boolean
   }
   & CustomComboBoxState<any>;
 
@@ -99,10 +100,14 @@ const Effect = {
   }: EffectType),
   HighlightMenuItem: ((dispatch, getState, getProps, getInstance) => {
     const { value, itemToValue } = getProps();
-    const { items } = getState();
+    const { items, focused } = getState();
     const { menu }: { menu: Menu } = getInstance();
 
     if (!menu) {
+      return;
+    }
+
+    if (!focused) {
       return;
     }
 
@@ -146,6 +151,7 @@ const reducers: { [type: string]: Reducer } = {
       return [
         {
           ...state,
+          focused: false,
           opened: false,
           items: null,
           editing: false
@@ -168,6 +174,7 @@ const reducers: { [type: string]: Reducer } = {
       return [
         {
           ...state,
+          focused: true,
           opened: true
         },
         [Effect.Search(false), Effect.Focus]
