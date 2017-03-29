@@ -1,3 +1,4 @@
+// @flow
 let polyfillPlaceholder = false;
 
 if (typeof window !== 'undefined' && window.document

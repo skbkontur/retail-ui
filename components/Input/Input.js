@@ -297,7 +297,7 @@ export default class Input extends React.Component {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (!nextProps.value) {
+    if (polyfillPlaceholder && !nextProps.value) {
       this.setState({ polyfillPlaceholder: true });
     }
   }

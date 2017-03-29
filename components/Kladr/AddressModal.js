@@ -3,7 +3,7 @@
 import React from 'react';
 
 import Button from '../Button';
-import ComboBox from '../ComboBox';
+import ComboBox from '../ComboBoxOld';
 import Gapped from '../Gapped';
 import Input from '../Input';
 import Modal from '../Modal';
