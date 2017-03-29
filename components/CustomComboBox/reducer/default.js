@@ -190,6 +190,7 @@ const reducers: { [type: string]: Reducer } = {
     return [
       {
         ...state,
+        focused: true,
         opened: true,
         editing: true,
         textValue
