@@ -41,7 +41,7 @@ export type EffectType = (
 ) => void;
 
 export type Reducer = (state: State, props: Props, action: Action) =>
-  | State
+  State
   | [State, EffectType[]];
 
 let requestId = 0;

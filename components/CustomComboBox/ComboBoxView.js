@@ -41,7 +41,7 @@ type Props<T> = {|
   renderItem: (item: T) => string | React$Element<*>,
   renderNotFound: () => string | React$Element<*>,
   renderTotalCount?: (found: number, total: number) =>
-    | string
+    string
     | React$Element<*>,
   renderValue: (item: T) => string | React$Element<*>,
   refInput?: (input: Input) => any,

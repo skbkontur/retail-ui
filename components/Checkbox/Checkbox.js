@@ -61,7 +61,7 @@ class Checkbox extends React.Component {
     const rootClass = classNames({
       [styles.root]: true,
       [styles.isChecked]: this.props.checked,
-      [styles.isDisabled]: this.props.disabled,
+      [styles.disabled]: this.props.disabled,
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,
       [styles.focus]: this.state.focusedByTab
