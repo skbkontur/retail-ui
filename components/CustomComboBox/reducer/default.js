@@ -141,7 +141,7 @@ const reducers: { [type: string]: Reducer } = {
     };
   },
   Blur(state, props, action) {
-    const { items, inputChanged } = state;
+    const { inputChanged } = state;
     if (!inputChanged) {
       return [
         {
@@ -151,18 +151,6 @@ const reducers: { [type: string]: Reducer } = {
           editing: false
         },
         [Effect.Blur]
-      ];
-    }
-
-    if (items && items.length === 1) {
-      return [
-        {
-          ...state,
-          opened: false,
-          items: null,
-          editing: false
-        },
-        [Effect.Blur, Effect.Change(items[0])]
       ];
     }
 
