@@ -2,6 +2,11 @@
 
 :local {
   .root {
+    position: relative;
+    display: inline-block;
+  }
+
+  .textarea {
     border: 1px solid @border-color-gray-light;
     border-top-color: @border-color-gray-dark;
     box-sizing: border-box;
@@ -12,17 +17,13 @@
     outline: none;
     padding: 8px;
     width: 250px;
-
-    &:-ms-input-placeholder {
-      color: #aaa;
-    }
   }
 
   .deprecated_oldSize {
     padding: 6px 8px;
   }
 
-  .root:focus {
+  .textarea:focus {
     border-color: @border-color-focus;
     border-radius: 1px;
     box-shadow: 0 0 0 1px @border-color-focus;
@@ -31,15 +32,30 @@
   }
 
   :global(.rt-ie8) {
-    .root:focus {
+    .textarea:focus {
       outline: 1px solid @border-color-focus;
     }
   }
 
-  .root[disabled] {
+  .textarea[disabled] {
     background: @bg-disabled;
     border-color: @border-color-gray-light;
     color: @text-color-disabled;
+  }
+
+  .placeholder {
+    position: absolute;
+    z-index: 3;
+    top: 1px;
+    right: 24px;
+    left: 9px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px;
+    color: #aaa;
+    overflow: hidden;
+    user-select: none;
+    -ms-user-select: none;
   }
 
   .error,

@@ -22,7 +22,7 @@
     }
   }
 
-  .isDisabled {
+  .disabled {
     color: @text-color-disabled;
     cursor: default;
   }
@@ -49,7 +49,7 @@
     line-height: 20px;
   }
 
-  input[type="checkbox"]:focus ~ .box {
+  .focus .box {
     box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px @border-color-focus;
   }
 
@@ -67,7 +67,7 @@
       border: 1px solid #ededed;
     }
 
-    input[type="checkbox"]:focus ~ .box {
+    .focus .box {
       outline: 1px solid @border-color-focus;
     }
 
@@ -80,9 +80,9 @@
     }
   }
 
-  .isDisabled .box {
-    background: @bg-disabled;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+  .disabled .box {
+    background: @bg-disabled !important; // to overide hover and active
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) !important;
     color: @text-color-disabled;
   }
 

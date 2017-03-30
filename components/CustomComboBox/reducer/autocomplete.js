@@ -25,6 +25,7 @@ const reducers = {
       return [
         {
           ...state,
+          focused: true,
           editing: true,
           opened: false,
           items: null
@@ -37,6 +38,7 @@ const reducers = {
       {
         ...state,
         textValue,
+        focused: true,
         editing: true,
         opened: true,
         items: null

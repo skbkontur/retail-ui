@@ -8,7 +8,7 @@ const TextareaAdapter = {
   },
 
   setValue(inst: Textarea, value: string) {
-    inst.handleChange({ target: { value } });
+    inst._handleChange({ target: { value } });
   }
 };
 

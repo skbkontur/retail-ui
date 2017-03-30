@@ -28,7 +28,8 @@ export type Props =
 
 export type State =
   & {
-    inputChanged?: boolean
+    inputChanged?: boolean,
+    focused?: boolean
   }
   & CustomComboBoxState<any>;
 
@@ -40,7 +41,7 @@ export type EffectType = (
 ) => void;
 
 export type Reducer = (state: State, props: Props, action: Action) =>
-  | State
+  State
   | [State, EffectType[]];
 
 let requestId = 0;
@@ -99,10 +100,14 @@ const Effect = {
   }: EffectType),
   HighlightMenuItem: ((dispatch, getState, getProps, getInstance) => {
     const { value, itemToValue } = getProps();
-    const { items } = getState();
+    const { items, focused } = getState();
     const { menu }: { menu: Menu } = getInstance();
 
     if (!menu) {
+      return;
+    }
+
+    if (!focused) {
       return;
     }
 
@@ -141,28 +146,17 @@ const reducers: { [type: string]: Reducer } = {
     };
   },
   Blur(state, props, action) {
-    const { items, inputChanged } = state;
+    const { inputChanged } = state;
     if (!inputChanged) {
       return [
         {
           ...state,
+          focused: false,
           opened: false,
           items: null,
           editing: false
         },
         [Effect.Blur]
-      ];
-    }
-
-    if (items && items.length === 1) {
-      return [
-        {
-          ...state,
-          opened: false,
-          items: null,
-          editing: false
-        },
-        [Effect.Blur, Effect.Change(items[0])]
       ];
     }
 
@@ -180,6 +174,7 @@ const reducers: { [type: string]: Reducer } = {
       return [
         {
           ...state,
+          focused: true,
           opened: true
         },
         [Effect.Search(false), Effect.Focus]
@@ -195,6 +190,7 @@ const reducers: { [type: string]: Reducer } = {
     return [
       {
         ...state,
+        focused: true,
         opened: true,
         editing: true,
         textValue

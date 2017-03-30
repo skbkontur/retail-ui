@@ -1,9 +1,24 @@
 // @flow
 
+import events from 'add-event-listener';
 import classNames from 'classnames';
 import React, { PropTypes } from 'react';
 
 import Icon from '../Icon';
+
+const KEYCODE_TAB = 9;
+
+let isListening: boolean;
+let tabPressed: boolean;
+
+function listenTabPresses() {
+  if (!isListening) {
+    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
+      tabPressed = event.keyCode === KEYCODE_TAB;
+    });
+    isListening = true;
+  }
+}
 
 import '../ensureOldIEClassName';
 import styles from './Checkbox.less';
@@ -34,6 +49,11 @@ class Checkbox extends React.Component {
 
   props: Props;
   input: ?HTMLInputElement;
+  state: {
+    focusedByTab: boolean
+  } = {
+    focusedByTab: false
+  }
 
   _wasFocused = false;
 
@@ -41,9 +61,10 @@ class Checkbox extends React.Component {
     const rootClass = classNames({
       [styles.root]: true,
       [styles.isChecked]: this.props.checked,
-      [styles.isDisabled]: this.props.disabled,
+      [styles.disabled]: this.props.disabled,
       [styles.error]: this.props.error,
-      [styles.warning]: this.props.warning
+      [styles.warning]: this.props.warning,
+      [styles.focus]: this.state.focusedByTab
     });
 
     const inputProps: Object = {
@@ -52,7 +73,9 @@ class Checkbox extends React.Component {
       checked: this.props.checked,
       disabled: this.props.disabled,
       onChange: this.handleChange,
-      ref: this._inputRef
+      ref: this._inputRef,
+      onFocus: this._handleFocus,
+      onBlur: this._handleBlur
     };
     if (this.props.tabIndex) {
       inputProps.tabIndex = this.props.tabIndex;
@@ -61,8 +84,6 @@ class Checkbox extends React.Component {
     return (
       <label
         className={rootClass}
-        onClick={this._preventFocus}
-        onMouseDown={this._checkFocus}
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}
@@ -79,15 +100,26 @@ class Checkbox extends React.Component {
     );
   }
 
-  _preventFocus = () => {
-    if (this.input && !this._wasFocused) {
-      this.input.blur();
+  componentDidMount() {
+    listenTabPresses();
+  }
+
+  _handleFocus = (e: SyntheticFocusEvent) => {
+    if (!this.props.disabled) {
+      // focus event fires before keyDown eventlistener
+      // so we should check tabPressed in async way
+      process.nextTick(() => {
+        if (tabPressed) {
+          this.setState({ focusedByTab: true });
+          tabPressed = false;
+        }
+      });
     }
   };
 
-  _checkFocus = () => {
-    this._wasFocused = this.input && document.activeElement === this.input;
-  };
+  _handleBlur = () => {
+    this.setState({ focusedByTab: false });
+  }
 
   _inputRef = (ref: HTMLInputElement) => {
     this.input = ref;
