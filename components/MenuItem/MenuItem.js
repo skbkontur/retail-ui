@@ -91,10 +91,10 @@ export default class MenuItem extends React.Component {
       children = children(this.props.state);
     }
 
-    const tag = tagName(disabled);
+    const Tag = tagName(disabled);
 
     return (
-      <tag
+      <Tag
         {...rest}
         className={className}
         tabIndex="-1"
@@ -112,7 +112,7 @@ export default class MenuItem extends React.Component {
             {comment}
           </div>
         )}
-      </tag>
+      </Tag>
     );
   }
 }
