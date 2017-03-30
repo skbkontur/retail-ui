@@ -107,16 +107,18 @@ class Modal extends React.Component {
       <RenderContainer containerClassName="rt_modal">
         <div className={styles.root}>
           {!this.state.shadowed && <div className={styles.bg} />}
-          <Center
-            ref={this._refCenter}
-            className={styles.container}
-            onClick={this._handleContainerClick}
-          >
-            <div className={styles.window} style={style}>
-              {!hasHeader && close}
-              {children}
+            <div
+              ref={this._refCenter}
+              className={styles.container}
+              onClick={this._handleContainerClick}
+            >
+              <div className={styles.centerContainer}>
+                <div className={styles.window} style={style}>
+                  {!hasHeader && close}
+                  {children}
+                </div>
+              </div>
             </div>
-          </Center>
         </div>
       </RenderContainer>
     );
