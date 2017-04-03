@@ -79,15 +79,16 @@ class Textarea extends React.Component {
   }
 
   render() {
+    const rootProps = {};
     const props = filterProps(this.props, PASS_PROPS);
     props.className = classNames({
       [styles.textarea]: true,
       [styles.error]: this.props.error
     });
-    props.style = {};
+    rootProps.style = {};
 
     if (this.props.width) {
-      props.style.width = this.props.width;
+      rootProps.style.width = this.props.width;
     }
 
     let placeholder = null;
@@ -101,7 +102,7 @@ class Textarea extends React.Component {
     }
 
     return (
-      <label className={styles.root}>
+      <label {...rootProps} className={styles.root}>
         {placeholder}
         <textarea {...props} ref={this._ref} onChange={this._handleChange} />
       </label>
