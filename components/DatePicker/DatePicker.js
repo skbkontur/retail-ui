@@ -256,7 +256,11 @@ class DatePicker extends React.Component {
       ? getDateValue(value, this.props.onUnexpectedInput)
       : date;
 
-    this.setState({ textValue: formatDate(newDate) });
+    const textValue = typeof newDate === 'string'
+      ? newDate
+      : formatDate(newDate);
+
+    this.setState({ textValue });
 
     if (this.props.onChange) {
       this.props.onChange({ target: { value: newDate } }, newDate);
