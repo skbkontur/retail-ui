@@ -70,6 +70,9 @@ class Box extends React.Component {
   };
 
   reflow = throttle(() => {
+    if (!this._mounted) {
+      return
+    }
     const of = this.props.getTarget();
     const el = ReactDOM.findDOMNode(this);
     const fixed = this.context.insideFixedContainer === true;
