@@ -186,7 +186,10 @@ class RadioGroup extends React.Component {
   };
 
   focusHandler = (event: KeyboardEvent) => {
-    const { value, items } = this.props;
+    const { value } = this.props;
+    const items = this._mapItems((value: any, data: any, i: number) => {
+      return value;
+    });
     const currentIndex = [...items].indexOf(value);
     const index = currentIndex > -1 ? currentIndex : 0;
 
