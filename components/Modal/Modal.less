@@ -26,12 +26,26 @@
   }
 
   .container {
+    position: relative;
     box-sizing: border-box;
     white-space: nowrap;
+    text-align: center;
     height: 100%;
     overflow-y: auto;
     padding: 20px 0;
-    position: relative;
+  }
+
+  .container:before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 80%; // to vertical align modal 40%/60% of screen height
+  }
+
+  .centerContainer {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
   }
 
   .window {
@@ -39,6 +53,7 @@
     white-space: normal;
     background: @bg-default;
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    margin: 0 20px;
   }
 
   .close {
