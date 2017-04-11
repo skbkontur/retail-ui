@@ -2,7 +2,6 @@
 
 import classNames from 'classnames';
 import React, { PropTypes } from 'react';
-import events from 'add-event-listener';
 
 import Radio from '../Radio';
 
