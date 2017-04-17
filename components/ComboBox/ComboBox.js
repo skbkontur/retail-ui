@@ -38,6 +38,8 @@ export type ExternalProps<T> = {
    */
   itemToValue: (item: T) => string,
 
+  menuAlign: 'left' | 'right',
+
   onBlur?: () => void,
 
   onChange?: (event: { target: { value: T } }, item: T) => void,
@@ -115,7 +117,8 @@ class ComboBox extends React.Component {
     itemToValue: x => x.value,
     valueToString: x => x.label,
     renderValue: x => x.label,
-    renderItem: x => x.label
+    renderItem: x => x.label,
+    menuAlign: 'left'
   };
 
   props: ExternalProps<any>;
