@@ -562,7 +562,7 @@ function renderItem(value, info, state) {
   return info;
 }
 
-function isFunction(fn): boolean %checks {
+function isFunction(fn) /*: boolean %checks */ {
   return typeof fn === 'function';
 }
 
