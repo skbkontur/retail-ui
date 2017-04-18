@@ -9,6 +9,7 @@ import Select from '../Select';
 const PASS_PROPS = {
   _renderButton: true,
   error: true,
+  disabled: true,
   disablePortal: true,
   menuAlign: true,
   menuWidth: true,
@@ -36,6 +37,11 @@ export default class Dropdown extends React.Component {
      * Подпись на кнопке.
      */
     caption: PropTypes.node.isRequired,
+
+    /**
+     * Визуально отключает Dropdown
+     */
+    disabled: PropTypes.bool,
 
     /**
      * Отключает использование портала
