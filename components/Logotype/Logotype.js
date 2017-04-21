@@ -29,7 +29,7 @@ const createPngCloud = backgroundColor => (
 type LogotypeType = {
   color?: string,
   textColor?: string,
-  suffix: string,
+  suffix?: string,
   href?: string,
 };
 
@@ -48,7 +48,7 @@ const Logotype = ({
       }
     </span>
     <span style={{ color: textColor }}>нтур{ suffix && '.' }</span>
-    <span style={{ color }}>{suffix}</span>
+    { suffix && <span style={{ color }}>{suffix}</span> }
   </a>
 );
 
