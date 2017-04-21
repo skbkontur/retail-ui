@@ -47,7 +47,7 @@ const Logotype = ({
         : createPngCloud(color)
       }
     </span>
-    <span style={{ color: textColor }}>нтур.</span>
+    <span style={{ color: textColor }}>нтур{ suffix && "." }</span>
     <span style={{ color }}>{suffix}</span>
   </a>
 );
