@@ -4,7 +4,17 @@ import { storiesOf } from '@kadira/storybook';
 
 import Modal from '../';
 import Button from '../../Button';
+import Input from '../../Input';
+import Textarea from '../../Textarea';
 import Toggle from '../../Toggle';
+
+storiesOf('Modal', module)
+  .add('With scrollable parent content', () => (
+    <ModalWithScrollableContent />
+  ))
+  .add('With Input in header', () => (
+    <ModalWithInputInHeader />
+  ));
 
 class ModalWithScrollableContent extends React.Component {
   state = {
@@ -88,7 +98,45 @@ class ModalWithScrollableContent extends React.Component {
   }
 }
 
-storiesOf('Modal', module)
-  .add('With scrollable parent content', () => (
-    <ModalWithScrollableContent />
-  ));
+class ModalWithInputInHeader extends React.Component {
+  state = {
+    opened: false
+  }
+
+  renderModal() {
+    return (
+      <Modal onClose={this.close}>
+        <Modal.Header>
+          <Input placeholder="Some input placeholder..." />
+          {' '}
+          <Input size="large" placeholder="Some large input placeholder..." />
+          <br />
+          <Textarea placeholder="Some textarea placeholder" />
+        </Modal.Header>
+        <Modal.Body>
+          <p>
+            A lotta people ask me where the
+            fuck I've been at the last few years.
+          </p>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
+  render() {
+    return (
+      <div style={{ width: '300px' }}>
+        {this.state.opened && this.renderModal()}
+        <Button onClick={this.open}>Open modal</Button>
+      </div>
+    );
+  }
+
+  open = () => {
+    this.setState({ opened: true });
+  }
+
+  close = () => {
+    this.setState({ opened: false });
+  }
+}
