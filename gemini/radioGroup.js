@@ -7,12 +7,12 @@ gemini.suite('RadioGroup', (suite) => {
     .setCaptureElements('#test-element')
     .capture('plain')
     .capture('hovered', (actions, find) => {
-      actions.mouseMove(find('label span'));
+      actions.mouseMove(find('span'));
     })
     .capture('pressed', (actions, find) => {
-      actions.mouseDown(find('label span'));
+      actions.mouseDown(find('span'));
     })
     .capture('unpressed', (actions, find) => {
-      actions.mouseUp(find('label span'));
+      actions.mouseUp(find('span'));
     });
 });

@@ -25,4 +25,9 @@ storiesOf('Tooltip', module)
     <TestTooltip trigger="opened">
       <div>Look bottom</div>
     </TestTooltip>
+  ))
+  .add('clickable tooltip', () => (
+    <TestTooltip trigger="click">
+      <Button>Click me</Button>
+    </TestTooltip>
   ));

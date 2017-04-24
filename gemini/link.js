@@ -20,8 +20,8 @@ gemini.suite('link', (suite) => {
     });
 });
 
-gemini.suite('link with icon', (suite) => {
-  suite.setUrl(pathTo('Link', 'With icon'))
+gemini.suite('link with Icon', (suite) => {
+  suite.setUrl(pathTo('Link', 'With Icon'))
 	.setCaptureElements('#test-element')
 	.capture('idle')
     .capture('hover', (actions, find) => {
