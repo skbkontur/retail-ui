@@ -16,20 +16,25 @@ class Component extends React.Component {
   render() {
     return (
       <RadioGroup
-        items={this.props.items}
         value={this.state.value}
         onChange={el => this.handleChange(el)}
-        renderItem={this.props.renderItem}
+        {...this.props}
       />
     );
   }
 }
 
 storiesOf('RadioGroup', module)
-  .add('playground', () => {
+  .add('vertical', () => {
     return <Component items={['One', 'Two', 'Three']} />;
   })
-  .add('With renderItem', () => (
+  .add('inline', () => (
+    <Component
+      inline
+      items={['One', 'Two', 'Three']}
+    />
+  ))
+  .add('with renderItem', () => (
     <Component
       items={[{ value: 'One' }, { value: 'Two' }]}
       renderItem={x => <div>Value: {x.value}</div>}
