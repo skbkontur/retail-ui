@@ -60,6 +60,7 @@
     "less-loader": "^4.0.3",
     "react": "0.14.9",
     "react-addons-css-transition-group": "^0.14.8",
+    "react-addons-test-utils": "0.14",
     "react-dom": "0.14.9",
     "style-loader": "^0.16.1",
     "url-loader": "^0.5.8"
