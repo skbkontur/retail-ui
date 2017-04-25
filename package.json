@@ -8,7 +8,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "prettier --write",
+      "prettier --single-quote --write",
       "eslint",
       "git add"
     ]
