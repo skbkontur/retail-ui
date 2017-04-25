@@ -1,23 +1,33 @@
 // @flow
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import RenderLayer from '../RenderLayer';
 
 import Box from './Box';
 import RenderContainer from '../RenderContainer';
 
-type Pos = 'top left' | 'top center' | 'top right'
-  | 'bottom left' | 'bottom center' | 'bottom right'
-  | 'left top' | 'left middle' | 'left bottom'
-  | 'right top' | 'right middle' | 'right bottom';
+type Pos =
+  | 'top left'
+  | 'top center'
+  | 'top right'
+  | 'bottom left'
+  | 'bottom center'
+  | 'bottom right'
+  | 'left top'
+  | 'left middle'
+  | 'left bottom'
+  | 'right top'
+  | 'right middle'
+  | 'right bottom';
 
 type Props = {
   children?: React.Element<any>,
 
   className?: string,
 
-  closeButton?: bool,
+  closeButton?: boolean,
 
   render: () => ?React.Element<any>,
 
@@ -25,11 +35,11 @@ type Props = {
 
   trigger: 'hover' | 'click' | 'focus' | 'opened' | 'closed',
 
-  onCloseClick?: () => void,
+  onCloseClick?: () => void
 };
 
 type State = {
-  opened: bool,
+  opened: boolean
 };
 
 /**
@@ -68,10 +78,18 @@ export default class Tooltip extends React.Component {
     closeButton: PropTypes.bool,
 
     pos: PropTypes.oneOf([
-      'top left', 'top center', 'top right',
-      'bottom left', 'bottom center', 'bottom right',
-      'left top', 'left middle', 'left bottom',
-      'right top', 'right middle', 'right bottom'
+      'top left',
+      'top center',
+      'top right',
+      'bottom left',
+      'bottom center',
+      'bottom right',
+      'left top',
+      'left middle',
+      'left bottom',
+      'right top',
+      'right middle',
+      'right bottom'
     ]),
 
     /**
@@ -100,7 +118,7 @@ export default class Tooltip extends React.Component {
   _lastOnBlur: ((event: any) => void) | null;
 
   _childRef: ((el: ?React.Element<any>) => void) | string | null = null;
-  _cachedRef: ?((el: any, childRef: any) => void);
+  _cachedRef: ?(el: any, childRef: any) => void;
 
   constructor(props: Props, context: any) {
     super(props, context);
@@ -183,8 +201,11 @@ export default class Tooltip extends React.Component {
 
     return (
       <RenderContainer>
-        <Box trigger={trigger} getTarget={this._getTarget}
-          pos={this.props.pos} close={close}
+        <Box
+          trigger={trigger}
+          getTarget={this._getTarget}
+          pos={this.props.pos}
+          close={close}
           onClose={this._handleBoxClose}
         >
           {content}
@@ -274,7 +295,7 @@ export default class Tooltip extends React.Component {
     }
   };
 
-  _setOpened(opened: bool) {
+  _setOpened(opened: boolean) {
     if (this.state.opened !== opened) {
       this.setState({ opened });
     }

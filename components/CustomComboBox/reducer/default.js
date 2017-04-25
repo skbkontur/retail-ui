@@ -13,25 +13,21 @@ import type CustomComboBox, {
 
 type Action = $Subtype<{ type: string }>;
 
-export type Props =
-  & {
-    getItems: (query: string) => Promise<any[]>,
-    itemToValue?: (any) => string,
-    onBlur?: () => {},
-    onChange?: () => {},
-    onFocus?: () => {},
-    onInputChange?: (textValue: string) => any,
-    onUnexpectedInput?: (query: string) => ?boolean,
-    valueToString?: (any) => string
-  }
-  & CustomComboBoxProps<any>;
+export type Props = {
+  getItems: (query: string) => Promise<any[]>,
+  itemToValue?: any => string,
+  onBlur?: () => {},
+  onChange?: () => {},
+  onFocus?: () => {},
+  onInputChange?: (textValue: string) => any,
+  onUnexpectedInput?: (query: string) => ?boolean,
+  valueToString?: any => string
+} & CustomComboBoxProps<any>;
 
-export type State =
-  & {
-    inputChanged?: boolean,
-    focused?: boolean
-  }
-  & CustomComboBoxState<any>;
+export type State = {
+  inputChanged?: boolean,
+  focused?: boolean
+} & CustomComboBoxState<any>;
 
 export type EffectType = (
   dispatch: (action: Action) => void,
@@ -40,32 +36,37 @@ export type EffectType = (
   getInstance: () => CustomComboBox
 ) => void;
 
-export type Reducer = (state: State, props: Props, action: Action) =>
-  State
-  | [State, EffectType[]];
+export type Reducer = (
+  state: State,
+  props: Props,
+  action: Action
+) => State | [State, EffectType[]];
 
 let requestId = 0;
-const searchFactory = (isEmpty: boolean): EffectType =>
-  (dispatch, getState, getProps) => {
-    async function makeRequest() {
-      dispatch({ type: 'RequestItems' });
-      const { getItems } = getProps();
-      const searchValue = isEmpty ? '' : getState().textValue;
-      let expectingId = ++requestId;
+const searchFactory = (isEmpty: boolean): EffectType => (
+  dispatch,
+  getState,
+  getProps
+) => {
+  async function makeRequest() {
+    dispatch({ type: 'RequestItems' });
+    const { getItems } = getProps();
+    const searchValue = isEmpty ? '' : getState().textValue;
+    let expectingId = ++requestId;
 
-      try {
-        const items = await getItems(searchValue);
-        if (expectingId === requestId) {
-          dispatch({ type: 'ReceiveItems', items });
-        }
-      } catch (e) {
-        if (expectingId === requestId) {
-          dispatch({ type: 'RequestFailure', repeatRequest: makeRequest });
-        }
+    try {
+      const items = await getItems(searchValue);
+      if (expectingId === requestId) {
+        dispatch({ type: 'ReceiveItems', items });
+      }
+    } catch (e) {
+      if (expectingId === requestId) {
+        dispatch({ type: 'RequestFailure', repeatRequest: makeRequest });
       }
     }
-    makeRequest();
-  };
+  }
+  makeRequest();
+};
 
 const Effect = {
   Search: searchFactory,
@@ -78,16 +79,18 @@ const Effect = {
     const { onFocus } = getProps();
     onFocus && onFocus();
   }: EffectType),
-  Change: (value: any): EffectType =>
-    (dispatch, getState, getProps) => {
-      const { onChange } = getProps();
-      onChange && onChange({ target: { value } }, value);
-    },
-  UnexpectedInput: (textValue: string): EffectType =>
-    (dispatch, getState, getProps) => {
-      const { onUnexpectedInput } = getProps();
-      onUnexpectedInput && onUnexpectedInput(textValue);
-    },
+  Change: (value: any): EffectType => (dispatch, getState, getProps) => {
+    const { onChange } = getProps();
+    onChange && onChange({ target: { value } }, value);
+  },
+  UnexpectedInput: (textValue: string): EffectType => (
+    dispatch,
+    getState,
+    getProps
+  ) => {
+    const { onUnexpectedInput } = getProps();
+    onUnexpectedInput && onUnexpectedInput(textValue);
+  },
   InputChange: ((dispatch, getState, getProps) => {
     const { onInputChange } = getProps();
     const { textValue } = getState();
@@ -126,11 +129,15 @@ const Effect = {
     const { menu }: { menu: Menu } = getInstance();
     menu && menu.enter();
   }: EffectType),
-  MoveMenuHighlight: (direction: 1 | -1): EffectType =>
-    (dispatch, getState, getProps, getInstance) => {
-      const { menu }: { menu: Menu } = getInstance();
-      menu && menu._move(direction);
-    }
+  MoveMenuHighlight: (direction: 1 | -1): EffectType => (
+    dispatch,
+    getState,
+    getProps,
+    getInstance
+  ) => {
+    const { menu }: { menu: Menu } = getInstance();
+    menu && menu._move(direction);
+  }
 };
 
 const reducers: { [type: string]: Reducer } = {

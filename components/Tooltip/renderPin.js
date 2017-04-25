@@ -7,7 +7,7 @@ import type { Result } from './position';
 export default function renderPin(
   pos: ?Result,
   rootClass: string,
-  innerClass: string,
+  innerClass: string
 ) {
   if (!pos) {
     return null;

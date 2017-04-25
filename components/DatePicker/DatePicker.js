@@ -129,7 +129,7 @@ class DatePicker extends React.Component {
     withMask: false,
 
     // Flow type inheritance problem
-    onUnexpectedInput: ((() => null): (x: string) => any)
+    onUnexpectedInput: (() => null: (x: string) => any)
   };
 
   props: Props;
@@ -160,10 +160,7 @@ class DatePicker extends React.Component {
     let picker = null;
     if (opened) {
       picker = (
-        <DropdownContainer
-          getParent={() => findDOMNode(this)}
-          offsetY={0}
-        >
+        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={0}>
           <Picker
             value={value}
             minYear={this.props.minYear}
@@ -184,10 +181,7 @@ class DatePicker extends React.Component {
         onClickOutside={this.handleBlur}
         onFocusOutside={this.handleBlur}
       >
-        <label
-          className={className}
-          style={{ width: this.props.width }}
-        >
+        <label className={className} style={{ width: this.props.width }}>
           <DateInput
             {...filterProps(this.props, INPUT_PASS_PROPS)}
             getIconRef={this.getIconRef}

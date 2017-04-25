@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import styles from './Center.less';
 
@@ -19,14 +21,14 @@ export default class Center extends React.Component {
   };
 
   render() {
-    const {
-      align,
-      ...rest
-    } = this.props;
+    const { align, ...rest } = this.props;
 
-    const style = Object.assign({
-      textAlign: align
-    }, this.props.style);
+    const style = Object.assign(
+      {
+        textAlign: align
+      },
+      this.props.style
+    );
 
     return (
       <div className={styles.root} {...rest} style={style}>

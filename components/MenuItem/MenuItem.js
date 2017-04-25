@@ -1,14 +1,15 @@
 // @flow
 
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../Icon';
 
 import styles from './MenuItem.less';
 
 export type MenuItemState = null | 'hover' | 'selected';
 
-const tagName = disabled => disabled ? 'span' : 'a';
+const tagName = disabled => (disabled ? 'span' : 'a');
 
 /**
  * Элемент меню.
@@ -36,21 +37,21 @@ export default class MenuItem extends React.Component {
     target: PropTypes.string,
 
     onClick: PropTypes.func
-  }
+  };
 
   props: {
-    _enableIconPadding?: bool,
-    alkoLink?: bool,
+    _enableIconPadding?: boolean,
+    alkoLink?: boolean,
     comment?: any,
-    disabled?: bool,
+    disabled?: boolean,
     href?: string,
     icon?: string,
-    loose?: bool,
+    loose?: boolean,
     state?: MenuItemState,
     target?: string,
     onClick?: (event: Event) => void,
     onMouseDown?: (event: Event) => void,
-    children?: any,
+    children?: any
   };
 
   render() {
@@ -66,17 +67,16 @@ export default class MenuItem extends React.Component {
 
       ...rest
     } = this.props;
-    let {
-      _enableIconPadding,
-      children
-    } = this.props;
+    let { _enableIconPadding, children } = this.props;
     const hover = state === 'hover' && !disabled;
     let $icon = null;
-    if (icon){
+    if (icon) {
       _enableIconPadding = true;
-      $icon = <div className={styles.icon}>
-        <Icon name={icon} />
-      </div>;
+      $icon = (
+        <div className={styles.icon}>
+          <Icon name={icon} />
+        </div>
+      );
     }
     const className = classNames({
       [styles.root]: true,
@@ -102,7 +102,7 @@ export default class MenuItem extends React.Component {
       >
         {$icon}
         {children}
-        {this.props.comment && (
+        {this.props.comment &&
           <div
             className={classNames({
               [styles.comment]: true,
@@ -110,8 +110,7 @@ export default class MenuItem extends React.Component {
             })}
           >
             {comment}
-          </div>
-        )}
+          </div>}
       </Tag>
     );
   }

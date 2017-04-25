@@ -14,7 +14,7 @@ class DatePickerWithError extends React.Component {
 
   handleChange = (_, value) => {
     this.setState({ value, error: typeof value === 'string' });
-  }
+  };
 
   render() {
     return (
@@ -22,7 +22,7 @@ class DatePickerWithError extends React.Component {
         error={this.state.error}
         value={this.state.value}
         onChange={this.handleChange}
-        onUnexpectedInput={(x) => x.length ? x : null}
+        onUnexpectedInput={x => (x.length ? x : null)}
       />
     );
   }

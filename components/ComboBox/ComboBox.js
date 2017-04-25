@@ -38,6 +38,8 @@ export type ExternalProps<T> = {
    */
   itemToValue: (item: T) => string,
 
+  menuAlign: 'left' | 'right',
+
   onBlur?: () => void,
 
   onChange?: (event: { target: { value: T } }, item: T) => void,
@@ -76,8 +78,10 @@ export type ExternalProps<T> = {
   /**
    * Функция отображающаяя сообщение об общем количестве элементе
    */
-  renderTotalCount?:
-    (found: number, total: number) => string | React$Element<any>,
+  renderTotalCount?: (
+    found: number,
+    total: number
+  ) => string | React$Element<any>,
 
   /**
    * Функция отрисовки выбранного значения
@@ -115,7 +119,8 @@ class ComboBox extends React.Component {
     itemToValue: x => x.value,
     valueToString: x => x.label,
     renderValue: x => x.label,
-    renderItem: x => x.label
+    renderItem: x => x.label,
+    menuAlign: 'left'
   };
 
   props: ExternalProps<any>;
@@ -138,7 +143,7 @@ class ComboBox extends React.Component {
       openButton: !autocomplete,
       reducer: autocomplete ? autocompleteReducer : defaltReducer
     };
-    return <CustomComboBox {...props} ref={(cb) => this._cb = cb}/>;
+    return <CustomComboBox {...props} ref={cb => this._cb = cb} />;
   }
 }
 

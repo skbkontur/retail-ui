@@ -12,9 +12,7 @@ function clickOutside() {
 describe('DatePicker', () => {
   it('parses input correctly', () => {
     const onChange = jest.fn();
-    const wrapper = mount(
-      <DatePicker onChange={onChange} />
-    );
+    const wrapper = mount(<DatePicker onChange={onChange} />);
 
     const input = wrapper.find('input');
     input.simulate('focus');
@@ -31,9 +29,7 @@ describe('DatePicker', () => {
   });
 
   it('set input value if new props come while editing', () => {
-    const wrapper = mount(
-      <DatePicker value={new Date()} />
-    );
+    const wrapper = mount(<DatePicker value={new Date()} />);
     const input = wrapper.find('input');
 
     input.simulate('focus');

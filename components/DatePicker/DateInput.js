@@ -1,7 +1,9 @@
 // @flow
 
 import classNames from 'classnames';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+
+import PropTypes from 'prop-types';
 
 import Input from '../Input';
 import Icon from '../Icon';
@@ -63,7 +65,8 @@ export default class DateInput extends Component {
       [styles.openButtonDisabled]: this.props.disabled
     });
     return (
-      <div>{/*
+      <div>
+        {/*
         // onMouseDown={this.preventSelection}
         // onClick={this.getCursorPosition}
         // onDoubleClick={this.createSelection}
@@ -80,15 +83,13 @@ export default class DateInput extends Component {
           // onKeyDown={this.handleDateComponentChange}
           ref={this.getInputRef}
           rightIcon={
-            (
-              <span
-                className={openClassName}
-                onMouseDown={this.props.onIconClick}
-                ref={this.getIconRef}
-              >
-                <Icon name="calendar" size={iconSize} />
-              </span>
-            )
+            <span
+              className={openClassName}
+              onMouseDown={this.props.onIconClick}
+              ref={this.getIconRef}
+            >
+              <Icon name="calendar" size={iconSize} />
+            </span>
           }
         />
       </div>
@@ -157,11 +158,13 @@ export default class DateInput extends Component {
   checkIfBadKeyDownEvent = (
     event: SyntheticKeyboardEvent & { target: HTMLInputElement }
   ) => {
-    return event.target.value.match(/_/) ||
-      event.key !== 'ArrowUp' && event.key !== 'ArrowDown' ||
+    return (
+      event.target.value.match(/_/) ||
+      (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') ||
       event.target.selectionStart !== event.target.selectionEnd ||
       event.target.selectionStart === 0 ||
-      event.target.selectionStart === 10;
+      event.target.selectionStart === 10
+    );
   };
 
   handleDateChange = (event: any) => {

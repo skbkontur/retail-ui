@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import events from 'add-event-listener';
 import { EventEmitter } from 'fbemitter';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 import addClass from '../../lib/dom/addClass';
@@ -70,8 +71,10 @@ class Modal extends React.Component {
     super(props, context);
 
     stack.mounted.push(this);
-    this._stackSubscribtion =
-      stack.emitter.addListener('change', this._handleStackChange);
+    this._stackSubscribtion = stack.emitter.addListener(
+      'change',
+      this._handleStackChange
+    );
   }
 
   getChildContext() {
@@ -82,10 +85,12 @@ class Modal extends React.Component {
     var close = null;
     if (!this.props.noClose) {
       close = (
-        <a href="javascript:" className={styles.close}
+        <a
+          href="javascript:"
+          className={styles.close}
           onClick={this._handleClose}
         >
-          &times;
+          ×
         </a>
       );
     }
@@ -107,18 +112,18 @@ class Modal extends React.Component {
       <RenderContainer containerClassName="rt_modal">
         <div className={styles.root}>
           {!this.state.shadowed && <div className={styles.bg} />}
-            <div
-              ref={this._refCenter}
-              className={styles.container}
-              onClick={this._handleContainerClick}
-            >
-              <div className={styles.centerContainer}>
-                <div className={styles.window} style={style}>
-                  {!hasHeader && close}
-                  {children}
-                </div>
+          <div
+            ref={this._refCenter}
+            className={styles.container}
+            onClick={this._handleContainerClick}
+          >
+            <div className={styles.centerContainer}>
+              <div className={styles.window} style={style}>
+                {!hasHeader && close}
+                {children}
               </div>
             </div>
+          </div>
         </div>
       </RenderContainer>
     );
@@ -179,13 +184,11 @@ class Modal extends React.Component {
         getComputedStyle(document.documentElement).marginRight
       );
       addClass(document.documentElement, styles.bodyClass);
-      document.documentElement.style.marginRight = `${
-        marginRight + scrollbarWidth
-      }px`;
+      document.documentElement.style.marginRight = `${marginRight + scrollbarWidth}px`;
     } else if (style.marginRight !== prevMarginRight) {
       style.marginRight = prevMarginRight;
     }
-  }
+  };
 
   _handleStackChange = () => {
     const shadowed = stack.mounted[stack.mounted.length - 1] !== this;
@@ -194,10 +197,9 @@ class Modal extends React.Component {
     }
   };
 
-  _handleContainerClick = (event) => {
+  _handleContainerClick = event => {
     if (
-      event.target === event.currentTarget &&
-      !this.props.ignoreBackgroundClick
+      event.target === event.currentTarget && !this.props.ignoreBackgroundClick
     ) {
       this._handleClose();
     }
@@ -209,7 +211,7 @@ class Modal extends React.Component {
     }
   };
 
-  _handleNativeKey = (nativeEvent) => {
+  _handleNativeKey = nativeEvent => {
     if (nativeEvent.keyCode === 27 && this.props.onClose) {
       stopPropagation(nativeEvent);
       this.props.onClose();
@@ -221,7 +223,7 @@ class Header extends React.Component {
   render() {
     return (
       <Sticky side="top">
-        {fixed =>
+        {fixed => (
           <div
             className={classNames(styles.header, fixed && styles.fixedHeader)}
           >
@@ -229,7 +231,7 @@ class Header extends React.Component {
               <div className={styles.absoluteClose}>{this.props.close}</div>}
             {this.props.children}
           </div>
-        }
+        )}
       </Sticky>
     );
   }
@@ -248,7 +250,7 @@ class Footer extends React.Component {
   static propTypes = {
     /** Включает серый цвет в футере */
     panel: PropTypes.bool
-  }
+  };
 
   render() {
     var names = classNames({
@@ -258,11 +260,11 @@ class Footer extends React.Component {
 
     return (
       <Sticky side="bottom">
-        {fixed =>
+        {fixed => (
           <div className={classNames(names, fixed && styles.fixedFooter)}>
             {this.props.children}
           </div>
-        }
+        )}
       </Sticky>
     );
   }

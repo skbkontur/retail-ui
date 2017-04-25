@@ -7,7 +7,7 @@ import RadioGroup from '../RadioGroup';
 class Component extends React.Component {
   state = {
     value: ''
-  }
+  };
 
   handleChange(el) {
     this.setState({ value: el.target.value });
@@ -18,7 +18,7 @@ class Component extends React.Component {
       <RadioGroup
         items={this.props.items}
         value={this.state.value}
-        onChange={(el) => this.handleChange(el)}
+        onChange={el => this.handleChange(el)}
         renderItem={this.props.renderItem}
       />
     );

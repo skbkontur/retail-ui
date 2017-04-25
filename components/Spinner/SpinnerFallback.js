@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import { types, sizeMaps } from './settings';
 
@@ -67,8 +69,6 @@ export default class SpinnerFallback extends React.Component {
       width: size.width
     };
 
-    return (
-      <span style={cssSet} />
-    );
+    return <span style={cssSet} />;
   }
 }

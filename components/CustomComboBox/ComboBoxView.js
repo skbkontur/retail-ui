@@ -18,6 +18,7 @@ type Props<T> = {|
   error?: boolean,
   items?: ?(T[]),
   loading?: boolean,
+  menuAlign?: 'left' | 'right',
   opened?: boolean,
   openButton?: boolean,
   placeholder?: string,
@@ -40,9 +41,10 @@ type Props<T> = {|
   onMouseLeave?: (e: SyntheticMouseEvent) => void,
   renderItem: (item: T) => string | React$Element<*>,
   renderNotFound: () => string | React$Element<*>,
-  renderTotalCount?: (found: number, total: number) =>
-    string
-    | React$Element<*>,
+  renderTotalCount?: (
+    found: number,
+    total: number
+  ) => string | React$Element<*>,
   renderValue: (item: T) => string | React$Element<*>,
   refInput?: (input: Input) => any,
   refMenu?: (menu: Menu) => any
@@ -79,12 +81,14 @@ class ComboBoxView extends Component {
     const {
       items,
       loading,
+      menuAlign,
       onClickOutside,
       onFocusOutside,
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
       openButton,
+      opened,
       width
     } = this.props;
 
@@ -92,9 +96,7 @@ class ComboBoxView extends Component {
     const menu = this.renderMenu();
 
     const spinner = (
-      <span
-        style={{ position: 'absolute', top: 6, right: 5, zIndex: 10 }}
-      >
+      <span style={{ position: 'absolute', top: 6, right: 5, zIndex: 10 }}>
         <Spinner type="mini" caption="" dimmed />
       </span>
     );
@@ -131,9 +133,14 @@ class ComboBoxView extends Component {
           {input}
           {spinnerIsShown && spinner}
           {arrowIsShown && arrow}
-          <DropdownContainer getParent={() => findDOMNode(this)} offsetY={1}>
-            {menu}
-          </DropdownContainer>
+          {opened &&
+            <DropdownContainer
+              align={menuAlign}
+              getParent={() => findDOMNode(this)}
+              offsetY={1}
+            >
+              {menu}
+            </DropdownContainer>}
         </label>
       </RenderLayer>
     );

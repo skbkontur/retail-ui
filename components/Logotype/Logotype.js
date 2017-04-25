@@ -29,8 +29,8 @@ const createPngCloud = backgroundColor => (
 type LogotypeType = {
   color?: string,
   textColor?: string,
-  suffix: string,
-  href?: string,
+  suffix?: string,
+  href?: string
 };
 
 const Logotype = ({
@@ -42,13 +42,10 @@ const Logotype = ({
   <a href={href} tabIndex="-1" className={styles.root}>
     <span style={{ color: textColor }}>к</span>
     <span style={{ color }}>
-      {hasSVGSupport()
-        ? createCloud(color)
-        : createPngCloud(color)
-      }
+      {hasSVGSupport() ? createCloud(color) : createPngCloud(color)}
     </span>
-    <span style={{ color: textColor }}>нтур.</span>
-    <span style={{ color }}>{suffix}</span>
+    <span style={{ color: textColor }}>нтур{suffix && '.'}</span>
+    {suffix && <span style={{ color }}>{suffix}</span>}
   </a>
 );
 

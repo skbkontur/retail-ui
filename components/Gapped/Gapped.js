@@ -1,5 +1,7 @@
 // @flow
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
@@ -39,7 +41,7 @@ class Gapped extends React.Component {
       paddingTop: this.props.gap
     };
     let isFirst = true;
-    var children = React.Children.map(this.props.children, (child) => {
+    var children = React.Children.map(this.props.children, child => {
       if (!child) {
         return child;
       }
@@ -60,7 +62,7 @@ class Gapped extends React.Component {
       marginTop: this.props.gap,
       verticalAlign: this.props.verticalAlign
     };
-    var children = React.Children.map(this.props.children, (child) => {
+    var children = React.Children.map(this.props.children, child => {
       if (!child) {
         return child;
       }

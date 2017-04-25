@@ -35,7 +35,8 @@ storiesOf('Combobox OLD', module)
         value={1}
         renderValue={renderValue}
         renderItem={renderItem}
-      />{' '}
+      />
+      {' '}
       Some text here
     </div>
   ));

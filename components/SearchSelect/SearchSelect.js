@@ -2,7 +2,8 @@
 /* eslint-disable */
 
 import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import warning from 'warning';
 
@@ -13,7 +14,7 @@ import Input from '../Input';
 import styles from './SearchSelect.less';
 
 const INPUT_PASS_PROPS = {
-  width: true,
+  width: true
 };
 
 type Value = any;
@@ -21,24 +22,24 @@ type Data = any;
 
 type Props = {
   value: ?Value,
-  disabled?: bool,
+  disabled?: boolean,
   placeholder?: string,
   source: (searchString: string) => Promise<Array<Data>>,
-  loader: {load: (id: Value) => Promise<Data>},
+  loader: { load: (id: Value) => Promise<Data> },
   getValue: (data: Data) => Value,
   renderValue: (value: Value, data: ?Data) => any,
   renderItem: (value: Value, data: Data) => any,
-  width: (number | string),
-  onChange: (event: {target: {value: Value}}, value: Value) => void,
+  width: number | string,
+  onChange: (event: { target: { value: Value } }, value: Value) => void
 };
 
 type State = {
-  opened: bool,
+  opened: boolean,
   searchText: string,
   value: any,
   item: any,
   results: ?Array<Data>,
-  selected: number,
+  selected: number
 };
 
 warning(false, 'Component SearchSelect is deprecated use ComboBox instead.');
@@ -57,7 +58,7 @@ class SearchSelect extends React.Component {
     source: PropTypes.func.isRequired,
 
     loader: PropTypes.shape({
-      load: PropTypes.func,
+      load: PropTypes.func
     }),
 
     getValue: PropTypes.func,
@@ -68,7 +69,7 @@ class SearchSelect extends React.Component {
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
-    onChange: PropTypes.func,
+    onChange: PropTypes.func
   };
 
   static defaultProps = {
@@ -76,7 +77,7 @@ class SearchSelect extends React.Component {
     renderItem,
     renderValue,
     placeholder: 'Пусто',
-    width: 250,
+    width: 250
   };
 
   props: Props;
@@ -93,7 +94,7 @@ class SearchSelect extends React.Component {
       value: props.value !== undefined ? props.value : null,
       item: null,
       results: null,
-      selected: -1,
+      selected: -1
     };
     this._focusable = null;
   }
@@ -106,7 +107,7 @@ class SearchSelect extends React.Component {
       valueEl = this.renderClosedValue();
     }
     return (
-      <label className={styles.root} style={{width: this.props.width}}>
+      <label className={styles.root} style={{ width: this.props.width }}>
         {valueEl}
         {this.state.opened && this.renderMenu()}
         <div className={styles.arrow} />
@@ -118,13 +119,18 @@ class SearchSelect extends React.Component {
     const inputProps = filterProps(this.props, INPUT_PASS_PROPS);
     return (
       <div className={styles.input}>
-        <Input ref={this._refFocusable} {...inputProps}
-          value={this.state.searchText} rightIcon={<span />}
+        <Input
+          ref={this._refFocusable}
+          {...inputProps}
+          value={this.state.searchText}
+          rightIcon={<span />}
           disabled={this.props.disabled}
-          onChange={this._handleInputChange} onKeyDown={this._handleInputKey}
+          onChange={this._handleInputChange}
+          onKeyDown={this._handleInputKey}
           onBlur={this._handleInputBlur}
         />
-        <span className={styles.openArrow}
+        <span
+          className={styles.openArrow}
           onMouseDown={this._handleOpenClick}
         />
       </div>
@@ -148,8 +154,11 @@ class SearchSelect extends React.Component {
     }
 
     return (
-      <div ref={this._refFocusable} className={styles.value}
-        tabIndex="0" onClick={this._handleValueClick}
+      <div
+        ref={this._refFocusable}
+        className={styles.value}
+        tabIndex="0"
+        onClick={this._handleValueClick}
         onKeyDown={this._handleValueKey}
         onKeyPress={this._handleValueKeyPress}
       >
@@ -160,7 +169,7 @@ class SearchSelect extends React.Component {
   }
 
   renderMenu() {
-    const {results} = this.state;
+    const { results } = this.state;
     if (!results || results.length === 0) {
       return null;
     }
@@ -170,13 +179,15 @@ class SearchSelect extends React.Component {
           {results.map((item, i) => {
             const className = classNames({
               [styles.menuItem]: true,
-              [styles.menuItemSelected]: this.state.selected === i,
+              [styles.menuItemSelected]: this.state.selected === i
             });
             return (
-              <div key={i} className={className}
-                onMouseDown={(e) => this._handleItemClick(e, item)}
-                onMouseEnter={(e) => this.setState({selected: i})}
-                onMouseLeave={(e) => this.setState({selected: -1})}
+              <div
+                key={i}
+                className={className}
+                onMouseDown={e => this._handleItemClick(e, item)}
+                onMouseEnter={e => this.setState({ selected: i })}
+                onMouseLeave={e => this.setState({ selected: -1 })}
               >
                 {this.props.renderItem(this.props.getValue(item), item)}
               </div>
@@ -195,7 +206,7 @@ class SearchSelect extends React.Component {
 
   componentWillReceiveProps(newProps: Props) {
     if (newProps.value !== undefined) {
-      this.setState({value: newProps.value});
+      this.setState({ value: newProps.value });
       this._resetItem(newProps.value);
     }
   }
@@ -208,12 +219,12 @@ class SearchSelect extends React.Component {
     const pattern = event.target.value;
     this.setState({
       opened: true,
-      searchText: pattern,
+      searchText: pattern
     });
     this._fetchList(pattern);
   };
 
-  _handleInputKey = (event) => {
+  _handleInputKey = event => {
     switch (event.key) {
       case 'ArrowUp':
         event.preventDefault();
@@ -224,8 +235,8 @@ class SearchSelect extends React.Component {
         this._moveSelection(1);
         break;
       case 'Enter':
-        const item = this.state.results &&
-          this.state.results[this.state.selected];
+        const item =
+          this.state.results && this.state.results[this.state.selected];
         if (item) {
           event.preventDefault();
           this._close(() => {
@@ -243,18 +254,18 @@ class SearchSelect extends React.Component {
   };
 
   _handleInputBlur = () => {
-    const {searchText} = this.state;
+    const { searchText } = this.state;
     const item = this._findItemByValue(searchText);
-    this.setState({opened: false});
+    this.setState({ opened: false });
     if (item) {
       this._change(item);
     } else {
-      this.setState({searchText: this.state.value});
+      this.setState({ searchText: this.state.value });
     }
   };
 
   _handleOpenClick = () => {
-    this.setState({opened: true});
+    this.setState({ opened: true });
     this._focus();
   };
 
@@ -262,7 +273,7 @@ class SearchSelect extends React.Component {
     this.setState({
       opened: true,
       searchText: '',
-      results: null,
+      results: null
     });
     this._focusAsync();
     this._fetchList('');
@@ -274,7 +285,7 @@ class SearchSelect extends React.Component {
     this.setState(
       {
         opened: true,
-        searchText: '',
+        searchText: ''
       },
       () => {
         if (this._focusable) {
@@ -291,12 +302,15 @@ class SearchSelect extends React.Component {
       case 'ArrowUp':
       case 'ArrowDown':
         event.preventDefault();
-        this.setState({
-          opened: true,
-          searchText: '',
-        }, () => {
-          this._focus();
-        });
+        this.setState(
+          {
+            opened: true,
+            searchText: ''
+          },
+          () => {
+            this._focus();
+          }
+        );
         this._fetchList('');
         break;
     }
@@ -318,26 +332,26 @@ class SearchSelect extends React.Component {
     }
 
     const item = this._findItemByValue(value);
-    this.setState({item});
+    this.setState({ item });
     if (!item && this.props.loader) {
       this._loadItem(value);
     }
   }
 
   _loadItem(value: any) {
-    this.props.loader.load(value).then((item) => {
+    this.props.loader.load(value).then(item => {
       if (value === this.state.value) {
-        this.setState({item});
+        this.setState({ item });
       }
     });
   }
 
   _fetchList(pattern: string) {
-    this.props.source(pattern).then((results) => {
+    this.props.source(pattern).then(results => {
       if (this.state.searchText === pattern) {
         this.setState({
           selected: -1,
-          results,
+          results
         });
       }
     });
@@ -365,32 +379,33 @@ class SearchSelect extends React.Component {
     if (selected >= this.state.results.length) {
       selected = 0;
     }
-    this.setState({selected});
+    this.setState({ selected });
   }
 
   _change(item: any) {
     const value = this.props.getValue(item);
     if (this.props.value === undefined) {
-      this.setState({value});
+      this.setState({ value });
       this._resetItem(value);
     }
     if (this.props.onChange) {
-      this.props.onChange({target: {value}}, value);
+      this.props.onChange({ target: { value } }, value);
     }
   }
 
   _close(callback: any) {
-    this.setState({
-      opened: false,
-      results: null,
-    }, callback);
+    this.setState(
+      {
+        opened: false,
+        results: null
+      },
+      callback
+    );
   }
 
   _findItemByValue(value: any): any {
-    const {results} = this.state;
-    return results && results.find(
-      (item) => this.props.getValue(item) === value
-    );
+    const { results } = this.state;
+    return results && results.find(item => this.props.getValue(item) === value);
   }
 }
 

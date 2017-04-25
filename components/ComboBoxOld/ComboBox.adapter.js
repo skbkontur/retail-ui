@@ -27,13 +27,16 @@ const ComboBoxAdapter = {
 
   getResult({ renderer }) {
     const { result } = renderer.state;
-    return result && result.values.map(value => {
-      let val = typeof value === 'function' ? value() : value;
-      if (React.isValidElement(val)) {
-        return isActiveElement(val) ? (val.props && val.props.value) : null;
-      }
-      return val;
-    });
+    return (
+      result &&
+      result.values.map(value => {
+        let val = typeof value === 'function' ? value() : value;
+        if (React.isValidElement(val)) {
+          return isActiveElement(val) ? val.props && val.props.value : null;
+        }
+        return val;
+      })
+    );
   }
 };
 

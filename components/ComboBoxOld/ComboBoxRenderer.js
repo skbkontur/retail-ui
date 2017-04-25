@@ -65,7 +65,7 @@ export type BaseProps = {
   ) => React.Element<any>,
   renderValue: (value: Value, info: ?Info) => React.Element<any>,
   renderNotFound?: string | ((searchText: string) => React$Element<*> | string),
-  renderTotalCount?: (searchText: string) => React$Element<*> | string,
+  renderTotalCount?: (f: number, total: number) => React$Element<*> | string,
   source: (searchText: string) => Promise<SourceResult>,
   warning?: boolean,
   value: Value | null,
@@ -148,7 +148,7 @@ class ComboBoxRenderer extends React.Component {
     };
 
     const { debounceInterval } = this.props;
-    this._debouncedFetchList = debounceInterval > 0
+    this._debouncedFetchList = debounceInterval && debounceInterval > 0
       ? debounce(this._fetchList, debounceInterval)
       : this._fetchList;
   }
@@ -161,10 +161,7 @@ class ComboBoxRenderer extends React.Component {
       >
         <label className={styles.root} style={{ width: this.props.width }}>
           {this.state.isEditing ? this.renderInput() : this.renderValue()}
-          {this.state.opened &&
-            <div className={styles.menuHolder}>
-              {this.renderMenu()}
-            </div>}
+          {this.state.opened && this.renderMenu()}
           {this.props.openButton &&
             <div
               className={styles.arrow}
@@ -272,12 +269,13 @@ class ComboBoxRenderer extends React.Component {
       return null;
     }
 
-    const isFunction = typeof renderNotFound === 'function';
     const { searchText } = this.state;
 
     return (
-      <MenuItem disabled={!isFunction}>
-        {isFunction ? renderNotFound(searchText) : renderNotFound}
+      <MenuItem disabled={!isFunction(renderNotFound)}>
+        {isFunction(renderNotFound)
+          ? renderNotFound(searchText)
+          : renderNotFound}
       </MenuItem>
     );
   }
@@ -520,8 +518,8 @@ class ComboBoxRenderer extends React.Component {
   }
 
   _setCurrentSearchText(value: Value, info: ?Info) {
-    const valueToString = this.props.valueToString ||
-      this.props.alkoValueToText;
+    const valueToString =
+      this.props.valueToString || this.props.alkoValueToText;
 
     if (valueToString) {
       const searchText = value
@@ -559,6 +557,10 @@ function renderValue(value, info) {
 
 function renderItem(value, info, state) {
   return info;
+}
+
+function isFunction(fn) /*: boolean %checks */ {
+  return typeof fn === 'function';
 }
 
 export default ComboBoxRenderer;

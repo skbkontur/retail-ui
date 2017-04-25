@@ -209,9 +209,9 @@ function searchWithRejections(query: string) {
     .then(delay)
     .then(
       () =>
-        searchCount % 2
+        (searchCount % 2
           ? Promise.reject()
-          : items.filter(x => ~x.name.indexOf(query.toLowerCase()))
+          : items.filter(x => ~x.name.indexOf(query.toLowerCase())))
     );
 }
 
@@ -228,10 +228,10 @@ function searchWithCustomElements(query: string) {
     ...(_items.slice(3).length
       ? _items.slice(3)
       : [
-        <MenuItem disabled>
+          <MenuItem disabled>
             Nothing was found
           </MenuItem>
-      ]),
+        ]),
     <MenuSeparator />,
     <MenuItem alkoLink onClick={() => alert('Clicked')}>
       Ha ha

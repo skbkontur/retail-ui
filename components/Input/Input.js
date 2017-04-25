@@ -2,7 +2,8 @@
 
 import classNames from 'classnames';
 import MaskedInput from 'react-input-mask';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 
@@ -38,11 +39,11 @@ const SIZE_CLASS_NAMES = {
 
 export type Props = {
   align?: 'left' | 'center' | 'right',
-  alwaysShowMask?: bool,
-  borderless?: bool,
+  alwaysShowMask?: boolean,
+  borderless?: boolean,
   className?: string, // TODO: kill it
-  disabled?: bool,
-  error?: bool,
+  disabled?: boolean,
+  error?: boolean,
   id?: string,
   leftIcon?: React.Element<mixed>,
   mask?: string,
@@ -54,10 +55,10 @@ export type Props = {
   title?: string,
   type?: 'password' | 'text',
   value: string,
-  warning?: bool,
+  warning?: boolean,
   width?: number | string,
   onBlur?: (e: SyntheticFocusEvent) => void,
-  onChange?: (e: {target: {value: string}}, v: string) => void,
+  onChange?: (e: { target: { value: string } }, v: string) => void,
   onCopy?: (e: SyntheticClipboardEvent) => void,
   onCut?: (e: SyntheticClipboardEvent) => void,
   onFocus?: (e: SyntheticFocusEvent) => void,
@@ -68,11 +69,11 @@ export type Props = {
   onPaste?: (e: SyntheticFocusEvent) => void,
   onMouseEnter?: (e: SyntheticMouseEvent) => void,
   onMouseLeave?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void
 };
 
 type State = {
-  polyfillPlaceholder: bool,
+  polyfillPlaceholder: boolean
 };
 
 export default class Input extends React.Component {
@@ -181,7 +182,7 @@ export default class Input extends React.Component {
 
   static defaultProps = {
     size: 'small'
-  }
+  };
 
   props: Props;
   state: State = {
@@ -192,8 +193,9 @@ export default class Input extends React.Component {
 
   render() {
     const className: string = this.props.className || '';
-    const sizeClassName = SIZE_CLASS_NAMES[this.props.size] ||
-                          SIZE_CLASS_NAMES[Input.defaultProps.size];
+    const sizeClassName =
+      SIZE_CLASS_NAMES[this.props.size] ||
+      SIZE_CLASS_NAMES[Input.defaultProps.size];
     var labelProps = {
       className: classNames({
         [styles.root]: true,
@@ -216,8 +218,12 @@ export default class Input extends React.Component {
 
     var placeholder = null;
 
-    if (this.state.polyfillPlaceholder && this.props.placeholder
-        && !this.props.mask && !this.props.value) {
+    if (
+      this.state.polyfillPlaceholder &&
+      this.props.placeholder &&
+      !this.props.mask &&
+      !this.props.value
+    ) {
       placeholder = (
         <div
           className={styles.placeholder}
@@ -246,7 +252,7 @@ export default class Input extends React.Component {
         [styles.borderless]: this.props.borderless
       }),
       value: this.props.value,
-      onChange: (e) => this._handleChange(e),
+      onChange: e => this._handleChange(e),
       style: {},
       ref: this.getInputFromRef
     };
@@ -273,11 +279,7 @@ export default class Input extends React.Component {
         />
       );
     } else {
-      input = (
-        <input
-          {...inputProps}
-        />
-      );
+      input = <input {...inputProps} />;
     }
 
     return (
@@ -304,9 +306,7 @@ export default class Input extends React.Component {
 
   getInputFromRef = (ref: any) => {
     const elem: Element = (ReactDOM.findDOMNode(this): any);
-    this.input = this.props.mask
-      ? elem.querySelector('input')
-      : ref;
+    this.input = this.props.mask ? elem.querySelector('input') : ref;
   };
 
   /**

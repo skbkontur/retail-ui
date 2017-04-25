@@ -14,7 +14,7 @@ const RadioGroupAdapter = {
   },
 
   getItemValues(inst: RadioGroup) {
-    return inst._mapItems((value) => value);
+    return inst._mapItems(value => value);
   }
 };
 
