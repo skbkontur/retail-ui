@@ -118,10 +118,10 @@ class RadioGroup extends React.Component {
     }
 
     return (
-      <label className={styles.root} style={style}>
+      <span className={styles.root} style={style}>
         <input {...inputProps} />
         {this.renderItems()}
-      </label>
+      </span>
     );
   }
 

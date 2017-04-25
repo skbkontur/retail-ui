@@ -16,6 +16,7 @@
     box-sizing: border-box;
     font-family: inherit;
     font-size: 14px;
+    line-height: 16px;
     margin: 0; // For Safari.
     outline: none;
     padding: 0 @side-padding;
@@ -34,9 +35,16 @@
     line-height: 38px;
   }
 
-  .sizeLarge .input {
-    line-height: 42px;
-    font-size: 16px;
+  .sizeLarge {
+    .input {
+      line-height: 42px;
+      font-size: 16px;
+    }
+
+    .placeholder {
+      font-size: 16px;
+      height: 21px;
+    }
   }
 
   :global(.rt-ie-any) {
@@ -110,7 +118,8 @@
   .placeholder {
     bottom: 1px;
     color: #aaa;
-    font-size: inherit;
+    font-size: 14px;
+    line-height: normal;
     left: @side-padding + 1;
     overflow: hidden;
     position: absolute;
