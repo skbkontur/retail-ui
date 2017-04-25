@@ -11,9 +11,11 @@ export type Action<T> =
   | { type: 'ValueChange', value: T }
   | { type: 'TextChange', value: string }
   | { type: 'KeyPress', event: SyntheticKeyboardEvent }
-  | { type: 'DidUpdate',
+  | {
+      type: 'DidUpdate',
       prevProps: CustomComboBoxProps<T>,
-      prevState: CustomComboBoxState<T> }
+      prevState: CustomComboBoxState<T>
+    }
   | { type: 'Mount' }
   | { type: 'Focus' }
   | { type: 'Blur' };
@@ -36,9 +38,9 @@ export type CustomComboBoxProps<T> = {
   width?: string | number,
   renderItem?: (T, number) => ReactElement,
   renderNotFound?: () => ReactElement,
-  renderValue?: (T) => ReactElement,
+  renderValue?: T => ReactElement,
   renderTotalCount?: (number, number) => ReactElement
-}
+};
 
 export type CustomComboBoxState<T> = {
   editing: boolean,
@@ -46,23 +48,20 @@ export type CustomComboBoxState<T> = {
   opened: boolean,
   textValue: string,
   items: ?Array<T>
-}
+};
 
 export type Effect<T> = (
   dispatch: (Action<T>) => void,
   getState: () => CustomComboBoxState<T>,
   getProps: () => CustomComboBoxProps<T>,
   getInstance: () => CustomComboBox
-) => void
+) => void;
 
 export type Reducer<T> = (
   state: CustomComboBoxState<T>,
   props: CustomComboBoxProps<T>,
   action: Action<T>
-) => CustomComboBoxState<T> | [
-  CustomComboBoxState<T>,
-  Array<Effect<T>>
-]
+) => CustomComboBoxState<T> | [CustomComboBoxState<T>, Array<Effect<T>>];
 
 export type Props<T> = {
   reducer: Reducer<T>
@@ -77,7 +76,6 @@ export const DefaultState = {
 };
 
 class CustomComboBox extends React.Component {
-
   state: CustomComboBoxState<*> = DefaultState;
   props: Props<*>;
   input: Input;
@@ -149,7 +147,7 @@ class CustomComboBox extends React.Component {
       onFocusOutside: this.handleBlur,
       onInputChange: (_, value) => this.dispatch({ type: 'TextChange', value }),
       onInputFocus: this.handleFocus,
-      onInputKeyDown: (event) => {
+      onInputKeyDown: event => {
         event.persist();
         this.dispatch({ type: 'KeyPress', event });
       },

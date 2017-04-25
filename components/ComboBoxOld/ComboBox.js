@@ -1,6 +1,8 @@
 // @flow
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import ComboBoxRenderer from './ComboBoxRenderer';
 import type { BaseProps, Info, Value } from './ComboBoxRenderer';

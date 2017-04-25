@@ -1,7 +1,8 @@
 // @flow
 
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import events from 'add-event-listener';
 
 import Dropdown from '../Dropdown';
@@ -340,18 +341,15 @@ class TopBar extends React.Component {
 
     const _rightItems = [].concat(rightItems);
     if (this.props.userName) {
-      _rightItems.push(
-        <User userName={userName} />,
-        <Divider />
-      );
+      _rightItems.push(<User userName={userName} />, <Divider />);
     }
 
     if (this.props.onLogout) {
-      _rightItems.push((
+      _rightItems.push(
         <ButtonItem onClick={onLogout}>
           Выйти
         </ButtonItem>
-      ));
+      );
     }
 
     return (
@@ -439,7 +437,8 @@ class TopBar extends React.Component {
       calledLoad = true;
 
       const script = document.createElement('script');
-      script.src = 'https://widget-product.kontur.ru/widget/loader?' +
+      script.src =
+        'https://widget-product.kontur.ru/widget/loader?' +
         'product=&type=service';
       document.getElementsByTagName('head')[0].appendChild(script);
     };

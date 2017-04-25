@@ -12,6 +12,4 @@ storiesOf('Select', module)
       {story()}
     </div>
   ))
-  .add('Simple', () =>
-    <Select items={['one', 'two', 'three']} />
-  );
+  .add('Simple', () => <Select items={['one', 'two', 'three']} />);

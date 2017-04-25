@@ -5,7 +5,7 @@ export type PlaceDescription = {
   fiasGuid: string,
   name: string,
   abbreviation: string,
-  isError: bool,
+  isError: boolean
 };
 
 export type Address = {
@@ -18,23 +18,23 @@ export type Address = {
   okato: string,
   house: string,
   building: string,
-  room: string,
+  room: string
 };
 
 export type Place =
-  'region' |
-  'district' |
-  'city' |
-  'settlement' |
-  'street' |
-  'index' |
-  'okato' |
-  'house' |
-  'building' |
-  'room';
+  | 'region'
+  | 'district'
+  | 'city'
+  | 'settlement'
+  | 'street'
+  | 'index'
+  | 'okato'
+  | 'house'
+  | 'building'
+  | 'room';
 
 export type VerifyResult = {
   address: Address,
   invalidItem: number,
-  isKladrAddress: bool,
+  isKladrAddress: boolean
 };

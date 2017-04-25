@@ -1,13 +1,14 @@
 /* @flow */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import styles from './Toggle.less';
 
 type Props = {
-  checked: bool,
-  disabled?: bool,
-  onChange?: (value: bool) => void,
+  checked: boolean,
+  disabled?: boolean,
+  onChange?: (value: boolean) => void
 };
 
 class Toggle extends React.Component {

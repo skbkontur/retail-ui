@@ -13,7 +13,7 @@ describe('Toast', () => {
     mount(<Toast />);
   });
 
-  it('doesn\'t throw on push', () => {
+  it("doesn't throw on push", () => {
     const wrapper = mount(<Toast />);
     wrapper.instance().push('message');
   });
@@ -66,9 +66,7 @@ describe('Toast', () => {
     wrapper.instance().push('message', { label: 'action', handler: () => {} });
 
     const toast = wrapper.instance()._toast;
-    const link = (ReactDOM
-      .findDOMNode(toast): any)
-      .querySelector('.link');
+    const link = (ReactDOM.findDOMNode(toast): any).querySelector('.link');
     expect(link).toBeTruthy();
   });
 

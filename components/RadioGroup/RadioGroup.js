@@ -1,7 +1,8 @@
 // @flow
 
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import events from 'add-event-listener';
 
 import Radio from '../Radio';
@@ -9,22 +10,22 @@ import Radio from '../Radio';
 import styles from './RadioGroup.less';
 
 type Props = {
-  disabled?: bool,
-  error?: bool,
-  inline?: bool,
+  disabled?: boolean,
+  error?: boolean,
+  inline?: boolean,
   items: Iterable<any>,
   renderItem: (value: any, data: any) => React.Element<any>,
   value: any,
-  warning?: bool,
+  warning?: boolean,
   width?: number | string,
   onChange?: (event: any, value: any) => void,
   onMouseEnter?: Function,
   onMouseLeave?: Function,
-  onMouseOver?: Function,
+  onMouseOver?: Function
 };
 
 type State = {
-  focusedIndex: ?number,
+  focusedIndex: ?number
 };
 
 class Prevent extends React.Component {
@@ -32,7 +33,7 @@ class Prevent extends React.Component {
     return <span onClick={this._prevent}>{this.props.children}</span>;
   }
 
-  _prevent = (event) => {
+  _prevent = event => {
     event.stopPropagation();
   };
 }
@@ -101,8 +102,6 @@ class RadioGroup extends React.Component {
     this.state = { focusedIndex: null };
   }
 
-
-
   render() {
     const inputProps = {
       type: 'checkbox',
@@ -151,8 +150,8 @@ class RadioGroup extends React.Component {
 
       return (
         <span {...itemProps}>
-          <Radio {...radioProps} >
-              {this.props.renderItem(itemValue, data)}
+          <Radio {...radioProps}>
+            {this.props.renderItem(itemValue, data)}
           </Radio>
         </span>
       );
@@ -194,7 +193,7 @@ class RadioGroup extends React.Component {
     const index = currentIndex > -1 ? currentIndex : 0;
 
     this.setState({ focusedIndex: index });
-  }
+  };
 
   handleBlur = () => {
     this.setState({ focusedIndex: null });

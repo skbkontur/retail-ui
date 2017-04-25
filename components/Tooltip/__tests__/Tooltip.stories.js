@@ -11,7 +11,9 @@ class TestTooltip extends React.Component {
         <Tooltip
           render={() => <div>Hey there!</div>}
           trigger={this.props.trigger}
-        >{this.props.children}</Tooltip>
+        >
+          {this.props.children}
+        </Tooltip>
       </div>
     );
   }

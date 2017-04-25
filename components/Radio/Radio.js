@@ -1,5 +1,7 @@
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import '../ensureOldIEClassName';
 
@@ -23,7 +25,7 @@ class Radio extends React.Component {
     hovered: PropTypes.bool,
     pressed: PropTypes.bool,
     warning: PropTypes.bool
-  }
+  };
 
   render() {
     const radioClassNames = classNames({
@@ -40,7 +42,7 @@ class Radio extends React.Component {
 
     return (
       <div className={styles.root}>
-        <div className={this.props.children && [styles.radioWrap]} >
+        <div className={this.props.children && [styles.radioWrap]}>
           <span className={radioClassNames} />
         </div>
         {this.props.children && this.renderLabel()}

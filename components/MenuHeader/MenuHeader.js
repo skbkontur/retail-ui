@@ -7,7 +7,7 @@ import styles from './MenuHeader.less';
 
 type Props = {
   children: mixed,
-  _enableIconPadding: ?bool,
+  _enableIconPadding: ?boolean
 };
 
 /**
@@ -17,7 +17,7 @@ export default class MenuHeader extends React.Component {
   static __MENU_HEADER__ = true;
   static defaultProps = {
     _enableIconPadding: false
-  }
+  };
 
   props: Props;
 

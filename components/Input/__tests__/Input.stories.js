@@ -53,7 +53,7 @@ storiesOf('Input', module)
 
       <div>
         <div style={styles}>
-          Disabled<br/> (with text)
+          Disabled<br /> (with text)
         </div>
         <div id="disabled-text-small-input-wrapper" style={styles}>
           <Input size="small" value="Some text" disabled />
@@ -133,7 +133,7 @@ storiesOf('Input', module)
         <Input size="medium" />
       </div>
       <div id="large-input-wrapper" style={styles}>
-        <Input  size="large" />
+        <Input size="large" />
       </div>
     </div>
   ));

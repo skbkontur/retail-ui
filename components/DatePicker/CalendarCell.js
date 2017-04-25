@@ -69,14 +69,17 @@ export default class CalendarCell extends Component {
     if (this.props.onPick) {
       this.props.onPick(this.props.date);
     }
-  }
+  };
 }
 
 function isSameDate(a, b) {
-  return a && b &&
+  return (
+    a &&
+    b &&
     a.getUTCFullYear() === b.getUTCFullYear() &&
     a.getUTCMonth() === b.getUTCMonth() &&
-    a.getUTCDate() === b.getUTCDate();
+    a.getUTCDate() === b.getUTCDate()
+  );
 }
 
 function getDay(date) {
