@@ -26,7 +26,7 @@ class Box extends React.Component {
 
   render() {
     const style = {
-      ...(this.state.pos ? this.state.pos.boxStyle : { left: 0 }),
+      ...(this.state.pos ? this.state.pos.boxStyle : { left: 0, top: 0 }),
       zIndex: this.context.rt_inModal ? 1100 : 900
     };
 
