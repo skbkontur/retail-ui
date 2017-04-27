@@ -136,4 +136,12 @@ storiesOf('Input', module)
         <Input size="large" />
       </div>
     </div>
+  ))
+  .add('Input with phone mask', () => (
+    <Input
+      width="150"
+      mask="+7 999 999-99-99"
+      maskChar={null}
+      placeholder="+7"
+    />
   ));

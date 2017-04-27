@@ -1,18 +1,14 @@
 // @flow
-import React from "react";
-import { storiesOf } from "@kadira/storybook";
+import React, { Component } from 'react';
+import { storiesOf } from '@kadira/storybook';
 
-import Modal from "../";
-import Button from "../../Button";
-import Input from "../../Input";
-import Textarea from "../../Textarea";
-import Toggle from "../../Toggle";
+import Modal from '../';
+import Button from '../../Button';
+import Input from '../../Input';
+import Textarea from '../../Textarea';
+import Toggle from '../../Toggle';
 
-storiesOf("Modal", module)
-  .add("With scrollable parent content", () => <ModalWithScrollableContent />)
-  .add("With Input in header", () => <ModalWithInputInHeader />);
-
-class ModalWithScrollableContent extends React.Component {
+class ModalWithScrollableContent extends Component {
   state = {
     opened: false,
     panel: false
@@ -20,10 +16,10 @@ class ModalWithScrollableContent extends React.Component {
 
   render() {
     return (
-      <div style={{ width: "300px" }}>
+      <div style={{ width: '300px' }}>
         {this.state.opened && this.renderModal()}
         <Button onClick={this.open}>Open modal</Button>
-        <p style={{ marginBottom: "100px" }}>
+        <p style={{ marginBottom: '100px' }}>
           On the other hand, we denounce with righteous indignation and dislike
           men who are so beguiled and demoralized by the charms of pleasure of
           the moment, so blinded by desire, that they cannot foresee the pain
@@ -76,10 +72,10 @@ class ModalWithScrollableContent extends React.Component {
               checked={this.state.panel}
               onChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
             />
-            {" "}
+            {' '}
             Panel
-            {" "}
-            {this.state.panel ? "enabled" : "disabled"}
+            {' '}
+            {this.state.panel ? 'enabled' : 'disabled'}
           </div>
 
         </Modal.Body>
@@ -99,7 +95,7 @@ class ModalWithScrollableContent extends React.Component {
   };
 }
 
-class ModalWithInputInHeader extends React.Component {
+class ModalWithInputInHeader extends Component {
   state = {
     opened: false
   };
@@ -109,7 +105,7 @@ class ModalWithInputInHeader extends React.Component {
       <Modal onClose={this.close}>
         <Modal.Header>
           <Input placeholder="Some input placeholder..." />
-          {" "}
+          {' '}
           <Input size="large" placeholder="Some large input placeholder..." />
           <br />
           <Textarea placeholder="Some textarea placeholder" />
@@ -126,7 +122,7 @@ class ModalWithInputInHeader extends React.Component {
 
   render() {
     return (
-      <div style={{ width: "300px" }}>
+      <div style={{ width: '300px' }}>
         {this.state.opened && this.renderModal()}
         <Button onClick={this.open}>Open modal</Button>
       </div>
@@ -141,3 +137,49 @@ class ModalWithInputInHeader extends React.Component {
     this.setState({ opened: false });
   };
 }
+
+class ModalOverAnotherModal extends Component {
+  state = {
+    firstModalOpened: false,
+    secondModalOpened: false
+  };
+
+  renderModal(name, width) {
+    return (
+      <Modal width={width} onClose={this.close.bind(this, name)}>
+        <Modal.Header>
+          Модалка #{name === 'firstModalOpened' ? '1' : '2'}
+        </Modal.Header>
+        <Modal.Body>
+          {name === 'firstModalOpened' &&
+            <Button onClick={() => this.setState({ secondModalOpened: true })}>
+              Open second modal
+            </Button>}
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
+  render() {
+    const { firstModalOpened, secondModalOpened } = this.state;
+
+    return (
+      <div>
+        {firstModalOpened && this.renderModal('firstModalOpened', 500)}
+        {secondModalOpened && this.renderModal('secondModalOpened', 300)}
+        <Button onClick={() => this.setState({ firstModalOpened: true })}>
+          Open first modal
+        </Button>
+      </div>
+    );
+  }
+
+  close(name) {
+    this.setState({ [name]: false });
+  }
+}
+
+storiesOf('Modal', module)
+  .add('With scrollable parent content', () => <ModalWithScrollableContent />)
+  .add('With Input in header', () => <ModalWithInputInHeader />)
+  .add('Modal over another modal', () => <ModalOverAnotherModal />);
