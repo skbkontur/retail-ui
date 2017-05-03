@@ -2,8 +2,9 @@
 
 var pathTo = require('./utils').pathTo;
 
-gemini.suite('RadioGroup', (suite) => {
-  suite.setUrl(pathTo('RadioGroup', 'playground'))
+gemini.suite('RadioGroup', suite => {
+  suite
+    .setUrl(pathTo('RadioGroup', 'vertical'))
     .setCaptureElements('#test-element')
     .capture('plain')
     .capture('hovered', (actions, find) => {

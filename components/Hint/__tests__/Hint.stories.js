@@ -1,12 +1,7 @@
 // @flow
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import {
-  withKnobs,
-  select,
-  text,
-  boolean
-} from '@kadira/storybook-addon-knobs';
+import { withKnobs, select, text } from '@kadira/storybook-addon-knobs';
 
 import Hint from '../Hint';
 import HintBox from '../HintBox';
