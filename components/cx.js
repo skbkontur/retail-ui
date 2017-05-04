@@ -11,15 +11,18 @@ module.exports = function(prefix) {
     }
 
     if (typeof classNames === 'object') {
-      return Object.keys(classNames).filter(function(className) {
-        return classNames[className];
-      }).map(doPrefix).join(' ');
+      return Object.keys(classNames)
+        .filter(function(className) {
+          return classNames[className];
+        })
+        .map(doPrefix)
+        .join(' ');
     } else {
       return Array.prototype.map.call(classNames, doPrefix).join(' ');
     }
   };
 
   function doPrefix(className) {
-    return className ? (prefix + '-' + className) : prefix;
+    return className ? prefix + '-' + className : prefix;
   }
 };

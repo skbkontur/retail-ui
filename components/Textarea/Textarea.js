@@ -1,5 +1,7 @@
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import filterProps from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
@@ -129,7 +131,7 @@ class Textarea extends React.Component {
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
-  }
+  };
 
   focus() {
     if (this._node) {
@@ -137,9 +139,9 @@ class Textarea extends React.Component {
     }
   }
 
-  _ref = (el) => {
+  _ref = el => {
     this._node = el;
-  }
+  };
 }
 
 export default Textarea;

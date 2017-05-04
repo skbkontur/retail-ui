@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import filterProps from '../filterProps';
 import MenuHeader from '../MenuHeader/MenuHeader';
@@ -62,10 +64,7 @@ export default class Dropdown extends React.Component {
 
     menuAlign: PropTypes.oneOf(['left', 'right']),
 
-    menuWidth: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string
-    ]),
+    menuWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     size: PropTypes.oneOf(['small', 'medium', 'large']),
 

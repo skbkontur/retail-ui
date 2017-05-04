@@ -1,6 +1,6 @@
 // @flow
 
-function createReducer(reducers: {[string]: Function}) {
+function createReducer(reducers: { [string]: Function }) {
   return (state: *, props: *, action: *) => {
     const { type } = action;
     const reducer = reducers[type] || (() => state);

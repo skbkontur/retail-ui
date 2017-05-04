@@ -2,17 +2,24 @@
 
 var pathTo = require('./utils').pathTo;
 
-gemini.suite('RadioGroup', (suite) => {
+gemini.suite('RadioGroup', suite => {
   suite.setUrl(pathTo('RadioGroup', 'playground'))
+    .setUrl(pathTo('RadioGroup', 'vertical'))
     .setCaptureElements('#test-element')
     .capture('plain')
     .capture('hovered', (actions, find) => {
-      actions.mouseMove(find('label span'));
+      actions.mouseMove(find('span'));
     })
     .capture('pressed', (actions, find) => {
-      actions.mouseDown(find('label span'));
+      actions.mouseDown(find('span'));
     })
     .capture('unpressed', (actions, find) => {
-      actions.mouseUp(find('label span'));
+      actions.mouseUp(find('span'));
     });
+});
+
+gemini.suite('RadioGroup inline', (suite) => {
+  suite.setUrl(pathTo('RadioGroup', 'inline'))
+    .setCaptureElements('#test-element')
+	.capture('RadioGroup inline');
 });

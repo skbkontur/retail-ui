@@ -3,7 +3,6 @@ import { Children, Component } from 'react';
 import withFocusOutside from '../internal/withFocusOutside';
 
 class RenderLayer extends Component {
-
   props: {
     children?: any,
     onClickOutside: (e: Event) => any,

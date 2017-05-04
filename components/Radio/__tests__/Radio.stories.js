@@ -26,7 +26,7 @@ storiesOf('Radio', module)
         hovered: false,
         checked: false,
         active: false
-      }
+      };
 
       handleClick() {
         this.setState({ checked: !this.state.checked });
@@ -35,7 +35,7 @@ storiesOf('Radio', module)
       render() {
         return (
           <div>
-            <div onClick={this.handleClick.bind(this)} >
+            <div onClick={this.handleClick.bind(this)}>
               <span style={{ display: 'inline-block', verticalAlign: 'sub' }}>
                 <Radio {...this.state} />
               </span>

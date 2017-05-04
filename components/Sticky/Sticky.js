@@ -1,6 +1,8 @@
 /* @flow */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 
@@ -9,20 +11,19 @@ type Props = {
   offset: number,
   getStop?: () => ?HTMLElement,
   children?: any
-}
+};
 
 type State = {
-  fixed: bool,
+  fixed: boolean,
   height: number,
-  left: (number | string),
-  width: (number | string),
+  left: number | string,
+  width: number | string,
 
-  stopped: bool,
-  relativeTop: number,
+  stopped: boolean,
+  relativeTop: number
 };
 
 export default class Sticky extends React.Component {
-
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
@@ -39,7 +40,7 @@ export default class Sticky extends React.Component {
     side: PropTypes.oneOf(['top', 'bottom']).isRequired
   };
 
-  static defaultProps: {offset: number} = {
+  static defaultProps: { offset: number } = {
     offset: 0
   };
 
@@ -50,10 +51,10 @@ export default class Sticky extends React.Component {
   _wrapper: HTMLElement;
   _inner: HTMLElement;
 
-  _scheduled: bool = false;
-  _reflowing: bool = false;
+  _scheduled: boolean = false;
+  _reflowing: boolean = false;
   _lastInnerHeight: number = -1;
-  _layoutSubscription: {remove: () => void};
+  _layoutSubscription: { remove: () => void };
 
   constructor(props: Props, context: any) {
     super(props, context);
@@ -164,8 +165,7 @@ export default class Sticky extends React.Component {
       throw Error('There is no "documentElement" in document');
     }
 
-    const windowHeight = window.innerHeight ||
-      documentElement.clientHeight;
+    const windowHeight = window.innerHeight || documentElement.clientHeight;
     const wrapRect = this._wrapper.getBoundingClientRect();
     const wrapLeft = wrapRect.left;
     const wrapTop = wrapRect.top;

@@ -55,8 +55,8 @@ export default class Calendar extends React.Component {
     if (offset < 0) {
       offset += DAY_HEIGHT;
     }
-    const from = (this.state.pos - offset) / DAY_HEIGHT * WEEK -
-      FIRST_WEEK_SHIFT;
+    const from =
+      (this.state.pos - offset) / DAY_HEIGHT * WEEK - FIRST_WEEK_SHIFT;
     const week = getWeek(from);
 
     const months = [];

@@ -1,7 +1,9 @@
 // @flow
 import events from 'add-event-listener';
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import Corners from './Corners';
 import Icon from '../Icon';

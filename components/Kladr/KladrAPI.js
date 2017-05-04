@@ -28,18 +28,21 @@ export function searchIndex(code: string, house: ?string) {
     house: house || ''
   });
 
-  return fetch(`${kladrUrl}kladr/index?${data}`)
-    .then(response => response.text());
+  return fetch(`${kladrUrl}kladr/index?${data}`).then(response =>
+    response.text()
+  );
 }
 
 export function verify(req: Address): Promise<VerifyResult> {
   return fetch(`${kladrUrl}verify/`, {
     method: 'POST',
     body: JSON.stringify(toJSON({ address: req }))
-  }).then(res => res.json()).then(toJS);
+  })
+    .then(res => res.json())
+    .then(toJS);
 }
 
-function createQuery(data){
+function createQuery(data) {
   const params = [];
   for (const key in data) {
     if (data.hasOwnProperty) {

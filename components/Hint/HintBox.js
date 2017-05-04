@@ -1,6 +1,8 @@
 // @flow
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import RenderContainer from '../RenderContainer/RenderContainer';
 import position from '../Tooltip/position';
