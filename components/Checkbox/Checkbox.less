@@ -42,6 +42,7 @@
     width: 0;
     height: 0;
     position: absolute;
+    z-index: -1;
   }
 
   .boxWrapper {
@@ -77,7 +78,12 @@
   :global(.rt-ie8) {
     .box {
       background-color: #fdfdfd;
-      border: 1px solid #ededed;
+      border: 1px solid #b9b9b9;
+    }
+
+    .root:hover .box {
+      background-color: #f1f1f1;
+      border: 1px solid #aeaeae;
     }
 
     .focus .box {
@@ -96,6 +102,10 @@
   :global(.rt-ie9) {
     .box {
       background-color: #fdfdfd;
+    }
+
+    .root:hover .box {
+      background-color: #f1f1f1;
     }
   }
 
