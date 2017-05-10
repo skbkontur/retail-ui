@@ -41,14 +41,14 @@ export default class Dropdown extends React.Component {
     caption: PropTypes.node.isRequired,
 
     /**
-     * Визуально отключает Dropdown
-     */
-    disabled: PropTypes.bool,
-
-    /**
      * Отключает использование портала
      */
     disablePortal: PropTypes.bool,
+
+    /**
+     * Визуально отключает Dropdown
+     */
+    disabled: PropTypes.bool,
 
     /**
      * Визуально показать наличие ошибки.

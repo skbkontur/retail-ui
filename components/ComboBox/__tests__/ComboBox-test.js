@@ -75,6 +75,7 @@ describe('ComboBox V2', () => {
     expect(menuItems.length).toBe(items.length);
 
     menuItems.forEach((item, index) => {
+      // $FlowIssue input length already checked
       expect(item.text()).toBe(items[index]);
     });
   });

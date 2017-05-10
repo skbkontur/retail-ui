@@ -3,7 +3,8 @@
 var pathTo = require('./utils').pathTo;
 
 gemini.suite('RadioGroup', suite => {
-  suite.setUrl(pathTo('RadioGroup', 'playground'))
+  suite
+    .setUrl(pathTo('RadioGroup', 'playground'))
     .setUrl(pathTo('RadioGroup', 'vertical'))
     .setCaptureElements('#test-element')
     .capture('plain')
@@ -18,8 +19,9 @@ gemini.suite('RadioGroup', suite => {
     });
 });
 
-gemini.suite('RadioGroup inline', (suite) => {
-  suite.setUrl(pathTo('RadioGroup', 'inline'))
+gemini.suite('RadioGroup inline', suite => {
+  suite
+    .setUrl(pathTo('RadioGroup', 'inline'))
     .setCaptureElements('#test-element')
-	.capture('RadioGroup inline');
+    .capture('RadioGroup inline');
 });
