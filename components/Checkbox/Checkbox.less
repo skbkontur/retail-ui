@@ -20,6 +20,15 @@
         0 0 0 1px rgba(0, 0, 0, 0.2),
         inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
     }
+
+    &:before, &:after {
+      content: '';
+      display: table;
+    }
+
+    &:after {
+      clear: both;
+    }
   }
 
   .disabled {
@@ -33,6 +42,10 @@
     width: 0;
     height: 0;
     position: absolute;
+  }
+
+  .boxWrapper {
+    float: left;
   }
 
   .box {
