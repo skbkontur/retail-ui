@@ -91,15 +91,13 @@ class Checkbox extends React.Component {
         onMouseOver={this.props.onMouseOver}
       >
         <input {...inputProps} />
-        <span className={styles.boxWrapper}>
-          <span className={styles.box}>
-            {this.props.checked &&
-              <div className={styles.ok}>
-                <Icon name="ok" />
-              </div>}
-          </span>
+        <span className={styles.box}>
+          {this.props.checked &&
+            <div className={styles.ok}>
+              <Icon name="ok" />
+            </div>}
         </span>
-        <span className={styles.caption}>{this.props.children}</span>
+        <div className={styles.caption}>{this.props.children}</div>
       </label>
     );
   }
