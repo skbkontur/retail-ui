@@ -175,16 +175,15 @@ class Modal extends React.Component {
   }
 
   _handleWindowResize = () => {
-    const { clientHeight, scrollHeight, style } = document.documentElement;
+    const docEl = document.documentElement;
+    const { clientHeight, scrollHeight, style } = docEl;
     if (clientHeight < scrollHeight) {
       const scrollbarWidth = getScrollWidth();
-      document.documentElement.style.marginRight = prevMarginRight;
-      removeClass(document.documentElement, styles.bodyClass);
-      const marginRight = parseFloat(
-        getComputedStyle(document.documentElement).marginRight
-      );
-      addClass(document.documentElement, styles.bodyClass);
-      document.documentElement.style.marginRight = `${marginRight + scrollbarWidth}px`;
+      docEl.style.marginRight = prevMarginRight;
+      removeClass(docEl, styles.bodyClass);
+      const marginRight = parseFloat(getComputedStyle(docEl).marginRight);
+      addClass(docEl, styles.bodyClass);
+      docEl.style.marginRight = `${marginRight + scrollbarWidth}px`;
     } else if (style.marginRight !== prevMarginRight) {
       style.marginRight = prevMarginRight;
     }

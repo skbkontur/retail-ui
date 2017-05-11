@@ -1,3 +1,4 @@
+// @flow
 import classnames from 'classnames';
 import React from 'react';
 
@@ -38,9 +39,7 @@ class Spinner extends React.Component {
     caption: 'Загрузка'
   };
 
-  constructor(props) {
-    super(props);
-  }
+  static Types: typeof types;
 
   _renderCloud = type => {
     const params = sizeMaps[type];

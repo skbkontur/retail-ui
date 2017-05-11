@@ -61,7 +61,7 @@ export default class Autocomplete extends React.Component {
     selected: -1
   };
   _opened: boolean = false;
-  _input: Input = null;
+  _input: ?Input = null;
 
   render() {
     var inputProps = {

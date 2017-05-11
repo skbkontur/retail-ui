@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -9,6 +10,38 @@ import styles from './Loader.less';
  * DRAFT - лоадер-контейнер
  */
 class Loader extends React.Component {
+  static defaultProps = {
+    type: Spinner.Types.normal
+  };
+
+  static propTypes = {
+    /**
+     * показываем лоадер или нет
+     */
+    active: PropTypes.bool.isRequired,
+
+    /**
+     * Текст рядом с лоадером.
+     *
+     * "Загрузка" - значение по-умолчанию
+     */
+    caption: PropTypes.string,
+
+    /**
+     * Класс для обертки
+     */
+    className: PropTypes.string,
+
+    /**
+     * Тип спиннера: mini, normal, big
+     *
+     * Значение по-умолчанию - normal
+     *
+     * Spinner.types - все доступные типы
+     */
+    type: PropTypes.oneOf(Object.keys(Spinner.Types))
+  };
+
   _renderSpinner(type, caption) {
     return (
       <span className={styles.spinnerContainerCenter}>
@@ -32,37 +65,5 @@ class Loader extends React.Component {
     );
   }
 }
-
-Loader.propTypes = {
-  /**
-   * показываем лоадер или нет
-   */
-  active: PropTypes.bool.isRequired,
-
-  /**
-   * Текст рядом с лоадером.
-   *
-   * "Загрузка" - значение по-умолчанию
-   */
-  caption: PropTypes.string,
-
-  /**
-   * Класс для обертки
-   */
-  className: PropTypes.string,
-
-  /**
-   * Тип спиннера: mini, normal, big
-   *
-   * Значение по-умолчанию - normal
-   *
-   * Spinner.types - все доступные типы
-   */
-  type: PropTypes.oneOf(Object.keys(Spinner.Types))
-};
-
-Loader.defaultProps = {
-  type: Spinner.Types.normal
-};
 
 export default Loader;
