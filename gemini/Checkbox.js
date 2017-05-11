@@ -38,3 +38,10 @@ gemini.suite('Checkbox error', suite => {
     .setCaptureElements('#test-element')
     .capture('Checkbox error');
 });
+
+gemini.suite('Checkbox with a long label', suite => {
+  suite
+    .setUrl(pathTo('Checkbox', 'with a long label'))
+    .setCaptureElements('#test-element')
+    .capture('plain');
+});
