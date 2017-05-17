@@ -9,7 +9,7 @@ const config = require('./config.js');
 
 const FoldersToTransform = ['components', 'lib'];
 const IgnoreTemplates = [/__tests__/, /\.stories.js$/];
-const outDir = path.resolve(process.cwd(), 'dist');
+const OutDir = path.resolve(process.cwd(), 'dist');
 
 function transform(filename, code, opts) {
   const result = babel.transform(code, {
@@ -38,7 +38,7 @@ function compileLess(src, relative) {
       return;
     }
 
-    const dest = path.join(outDir, relative).replace(/.less$/, '.css');
+    const dest = path.join(OutDir, relative).replace(/.less$/, '.css');
 
     less
       .render(data, {
@@ -74,7 +74,7 @@ function write(src, relative) {
   // remove extension and then append back on .js
   relative = relative.replace(/\.(\w*?)$/, '') + '.js';
 
-  const dest = path.join(outDir, relative);
+  const dest = path.join(OutDir, relative);
 
   const data = compile(src, {
     sourceFileName: path.relative(dest + '/..', src),
@@ -101,7 +101,7 @@ function handleFile(src, filename) {
   } else if (isLess(filename)) {
     compileLess(src, filename);
   } else {
-    const dest = path.join(outDir, filename);
+    const dest = path.join(OutDir, filename);
     outputFileSync(dest, fs.readFileSync(src));
     chmod(src, dest);
   }
