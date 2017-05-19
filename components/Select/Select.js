@@ -281,7 +281,7 @@ class Select extends React.Component {
                 onClick={this._select.bind(this, iValue)}
                 comment={comment}
               >
-                {this.props.renderItem(iValue, item)}
+                {state => this.props.renderItem(iValue, item, state)}
               </MenuItem>
             );
           })}
