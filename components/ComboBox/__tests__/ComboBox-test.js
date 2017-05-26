@@ -210,9 +210,6 @@ describe('ComboBox V2', () => {
     menu
       .children()
       .findWhere(x => x.matchesElement(<div>Hello, world</div>))
-      .tap(x => {
-        expect(x.prop('onClick')).toBeInstanceOf(Function);
-      })
       .simulate('click');
 
     expect(onChange).toHaveBeenCalledTimes(1);
