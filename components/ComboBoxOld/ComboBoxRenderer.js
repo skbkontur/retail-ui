@@ -518,8 +518,7 @@ class ComboBoxRenderer extends React.Component {
   }
 
   _setCurrentSearchText(value: Value, info: ?Info) {
-    const valueToString =
-      this.props.valueToString || this.props.alkoValueToText;
+    const valueToString = this.props.valueToString;
 
     if (valueToString) {
       const searchText = value

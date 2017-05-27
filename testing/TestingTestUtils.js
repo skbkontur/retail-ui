@@ -21,6 +21,7 @@ export function mountTest(reactElement: React.Element<any>): ReturnType {
   const wrapper = mount(<Wrap>{reactElement}</Wrap>);
 
   return {
+    // $FlowIssue needs better enzyme typings
     node: ReactTesting.findDOMNodes('a', wrapper.node)[0],
     unmount: wrapper.unmount.bind(wrapper),
     setProps: wrapper.setProps.bind(wrapper)
