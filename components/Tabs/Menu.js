@@ -19,6 +19,15 @@ class Menu extends React.Component {
 
   context: Context;
 
+  state: {
+    border: ?{
+      left: number,
+      width: number
+    }
+  } = {
+    border: null
+  };
+
   componentWillMount() {
     invariant(
       typeof this.context.switchTab === 'function',
@@ -26,11 +35,21 @@ class Menu extends React.Component {
     );
   }
 
+  componentDidMount() {
+    this._reflow();
+  }
+
+  componentDidUpdate() {
+    if (this._lastActiveTab !== this.context.activeTab) {
+      this._reflow();
+    }
+  }
+
   render() {
     const { tabs, activeTab, switchTab } = this.context;
     const border = this._renderBorder();
     return (
-      <ul className={styles.root} ref="root">
+      <ul className={styles.root} ref={el => (this._root = el)}>
         {tabs.map(({ id, label }) => (
           <li
             key={id}
@@ -49,31 +68,50 @@ class Menu extends React.Component {
     );
   }
 
+  _root: ?HTMLElement = null;
+  _lastActiveTab: ?string = null;
+
   _renderBorder() {
-    const rootNode = this.refs.root;
-    if (!rootNode || !(rootNode instanceof Node)) {
+    if (!this.state.border) {
       return null;
     }
-
-    const rootRect = rootNode.getBoundingClientRect();
-
-    const { activeTab } = this.context;
-    const labelNode = this.refs[activeTab];
-    if (!labelNode || !(labelNode instanceof Node)) {
-      return null;
-    }
-
-    const { left, right } = labelNode.getBoundingClientRect();
 
     return (
       <div
         className={styles.border}
         style={{
-          left: left - rootRect.left,
-          width: right - left
+          left: this.state.border.left,
+          width: this.state.border.width
         }}
       />
     );
+  }
+
+  _reflow() {
+    if (!this._root) {
+      return;
+    }
+
+    const rootRect = this._root.getBoundingClientRect();
+
+    const { activeTab } = this.context;
+
+    const labelNode = this.refs[activeTab];
+
+    if (!labelNode || !(labelNode instanceof Node)) {
+      return;
+    }
+
+    this._lastActiveTab = activeTab;
+
+    const { left, right } = labelNode.getBoundingClientRect();
+
+    this.setState({
+      border: {
+        left: left - rootRect.left,
+        width: right - left
+      }
+    });
   }
 }
 

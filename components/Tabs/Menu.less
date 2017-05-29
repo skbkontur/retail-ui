@@ -1,5 +1,7 @@
 @import '../variables.less';
 
+@easing: 0.2s ease-out;
+
 :local {
   .root {
     margin: 0;
@@ -16,7 +18,7 @@
     padding-bottom: 10px;
     font-size: 16px;
     border-bottom: 3px solid transparent;
-    transition: border-bottom 0.2s ease-out;
+    transition: border-bottom @easing;
     cursor: pointer;
   }
 
@@ -40,6 +42,6 @@
     position: relative;
     height: 3px;
     background: @border-color-focus;
-    transition: all 0.2s ease-out;
+    transition: all @easing;
   }
 }
