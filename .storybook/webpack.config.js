@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('path');
 // you can use this file to add your custom webpack plugins, loaders and anything you like.
 // This is just the basic way to add addional webpack configurations.
 // For more information refer the docs: https://goo.gl/qPbSyX
@@ -21,29 +21,22 @@ module.exports = {
           presets: [
             require.resolve('babel-preset-es2015'),
             require.resolve('babel-preset-stage-0'),
-            require.resolve('babel-preset-react'),
-          ],
+            require.resolve('babel-preset-react')
+          ]
         },
         include: [
           path.resolve(__dirname, '..', 'components'),
-          path.resolve(__dirname, '..', 'lib'),
-          path.resolve(__dirname, '..', 'testing'),
-        ],
+          path.resolve(__dirname, '..', 'lib')
+        ]
       },
       {
         test: /\.(css|less)$/,
         loaders: ['style', 'css?localIdentName=[name]-[local]-[hash:base64:4]']
       },
-      {test: /\.less$/, loader: 'less-loader'},
-      {test: /\.(woff|woff2|eot)$/, loader: 'file-loader'},
-      {test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader'},
-      {test: /\.json/, loader: 'json-loader'}
-    ],
-  },
-  resolve: {
-    alias: {
-      ui: path.resolve(__dirname, '..', 'components'),
-    },
-    extensions: ['', '.adapter.js', '.js', '.jsx', '.json'],
+      { test: /\.less$/, loader: 'less-loader' },
+      { test: /\.(woff|woff2|eot)$/, loader: 'file-loader' },
+      { test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader' },
+      { test: /\.json/, loader: 'json-loader' }
+    ]
   }
 };

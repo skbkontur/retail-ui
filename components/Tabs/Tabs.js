@@ -1,13 +1,24 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import styles from './Tabs.less';
 
 type Props = {
+  /**
+   * Активная вкладка
+   */
   activeTab?: string,
+  /**
+   * Если нужен неконтроллируемые табы, то
+   * defaultTab задает изначально активный таб
+   */
+  defaultTab?: string,
+  /**
+   * Событие при изменении вкладки
+   */
   onTabChange?: string => void,
+
   children?: any
 };
 
@@ -28,7 +39,7 @@ class Tabs extends React.Component {
 
     this.state = {
       tabs: [],
-      activeTab: props.activeTab
+      activeTab: props.defaultTab
     };
   }
 
@@ -36,51 +47,27 @@ class Tabs extends React.Component {
     return {
       injectTab: this._injectTab,
       ejectTab: this._ejectTab,
-      activeTab: this._getActiveTab()
+      activeTab: this._getActiveTab(),
+      tabs: this.state.tabs,
+      switchTab: this._switchTab
     };
   }
 
   render() {
     return (
       <div className={styles.root}>
-        {this._renderNav()}
-        <div className={styles.content}>
-          {this.props.children}
-        </div>
+        {this.props.children}
       </div>
     );
   }
 
-  _getActiveTab = () => {
-    return this.props.onTabChange ? this.props.activeTab : this.state.activeTab;
-  };
+  _getActiveTab = () => this.props.activeTab || this.state.activeTab;
 
-  _renderNav() {
-    const { tabs } = this.state;
+  _switchTab = (id: string) => {
+    const { onTabChange } = this.props;
     const activeTab = this._getActiveTab();
-    return (
-      <ul className={styles.nav}>
-        {tabs.map(({ id, label }) => (
-          <li
-            key={id}
-            className={cn({
-              [styles.label]: true,
-              [styles.active]: id === activeTab
-            })}
-            onClick={() => this._switchTab(id)}
-          >
-            {label}
-          </li>
-        ))}
-      </ul>
-    );
-  }
-
-  _switchTab = id => {
-    const { onTabChange, activeTab } = this.props;
     if (onTabChange && id !== activeTab) {
       onTabChange(id);
-      return;
     }
     this.setState({ activeTab: id });
   };
@@ -95,24 +82,30 @@ class Tabs extends React.Component {
   _ejectTab = (id: string) => {
     this.setState((state: State) => {
       const tabs = state.tabs.filter(tab => tab.id !== id);
-      let activeTab = state.activeTab;
+      let { activeTab } = state;
       if (tabs.length && id === activeTab) {
         activeTab = tabs[0].label;
       }
-      return {
-        tabs,
-        activeTab
-      };
+      return { tabs, activeTab };
     });
   };
 }
 
-const { func, string } = PropTypes;
+const { func, string, array, node } = PropTypes;
+
+Tabs.propTypes = {
+  activeTab: string,
+  children: node,
+  defaultTab: string,
+  onTabChange: func
+};
 
 Tabs.childContextTypes = {
   injectTab: func.isRequired,
   ejectTab: func.isRequired,
-  activeTab: string
+  activeTab: string,
+  tabs: array.isRequired,
+  switchTab: func.isRequired
 };
 
 export default Tabs;

@@ -1,0 +1,45 @@
+@import '../variables.less';
+
+:local {
+  .root {
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  .label {
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: -3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+    border-bottom: 3px solid transparent;
+    transition: border-bottom 0.2s ease-out;
+    cursor: pointer;
+  }
+
+  .label:hover {
+    border-bottom: 3px solid @border-color-focus-light;
+  }
+
+  .label:first-child {
+    margin-left: 40px;
+  }
+
+  .label:last-child {
+    margin-right: 40px;
+  }
+
+  .active {
+    cursor: default;
+  }
+
+  .border {
+    position: relative;
+    height: 3px;
+    background: @border-color-focus;
+    transition: all 0.2s ease-out;
+  }
+}

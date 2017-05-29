@@ -60,7 +60,13 @@ class Tab extends React.Component {
   }
 }
 
-const { func, string } = PropTypes;
+const { func, string, node } = PropTypes;
+
+Tab.propTypes = {
+  children: node,
+  id: string.isRequired,
+  label: string.isRequired
+};
 
 Tab.contextTypes = {
   injectTab: func.isRequired,
