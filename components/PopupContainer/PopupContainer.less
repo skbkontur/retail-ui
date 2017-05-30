@@ -1,0 +1,165 @@
+:local {
+	.popup {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+		min-width: 100px;
+		max-width: 500px;
+		background: #fff;
+		border-radius: 2px;
+		box-shadow: 0 0 0 1px rgba(0,0,0,0.10), 0 3px 10px 0 rgba(0,0,0,0.20);
+	}
+
+	/*=== PIN AT TOP ===*/
+	//   \/  \/  \/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	.top:before, .top:after {
+		content: '';
+		position: absolute;
+		top: 5px;
+		border-bottom: 6px solid transparent;
+		border-top: 6px solid transparent;
+	}
+	/*=== END PIN AT TOP ===*/
+
+
+	/*=== PIN AT MIDDLE ===*/
+	//  [ ] [ ] [ ]
+	// >[ ] [ ] [ ]<
+	//  [ ] [ ] [ ]
+	.middle:before, .middle:after {
+		content: '';
+		position: absolute;
+		top: 45%;
+		border-bottom: 6px solid transparent;
+		border-top: 6px solid transparent;
+	}
+	/*=== END AT MIDDLE ===*/
+
+
+	/*=== PIN AT BOTTOM ===*/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//   ^   ^   ^
+	.bottom:before, .bottom:after {
+		content: '';
+		position: absolute;
+		bottom: 5px;
+		border-bottom: 6px solid transparent;
+		border-top: 6px solid transparent;
+	}
+	/*=== END PIN AT BOTTOM ===*/
+
+
+	/*=== PIN AT LEFT ===*/
+	//   \/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//   ^
+	.left:after, .left:before {
+		content: '';
+		position: absolute;
+		left: 5px;
+		border-right: 6px solid transparent;
+		border-left: 6px solid transparent;
+	}
+	/*=== END PIN AT LEFT ===*/
+
+
+	/*=== PIN AT CENTER ===*/
+	//       \/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//       ^
+	.center:after, .center:before {
+		content: '';
+		position: absolute;
+		right: 45%;
+		border-right: 6px solid transparent;
+		border-left: 6px solid transparent;
+	}
+	/*=== END PIN AT CENTER ===*/
+
+
+	/*=== PIN AT RIGHT ===*/
+	//           \/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//           ^
+	.right:after, .right:before {
+		content: '';
+		position: absolute;
+		right: 5px;
+		border-right: 6px solid transparent;
+		border-left: 6px solid transparent;
+	}
+	/*=== END PIN AT RIGHT ===*/
+
+
+	/*=== PIN DIRECTED TO RIGHT===*/
+	//  >[ ] [ ] [ ]
+	//  >[ ] [ ] [ ]
+	//  >[ ] [ ] [ ]
+	.onleft:before {
+		right: -6px;
+		border-left: 6px solid rgba(0, 0, 0, 0.2);
+	}
+	.onleft:after {
+		right: -5px;
+		border-left: 6px solid #fff;
+	}
+	/*=== END PIN DIRECTED TO RIGHT===*/
+
+
+	/*=== PIN DIRECTED TO LEFT ===*/
+	//  [ ] [ ] [ ] <
+	//  [ ] [ ] [ ] <
+	//  [ ] [ ] [ ] <
+	.onright:before {
+		left: -6px;
+		border-right: 6px solid rgba(0, 0, 0, 0.2);
+	}
+	.onright:after {
+		left: -5px;
+		border-right: 6px solid #fff;
+	}
+	/*=== END PIN DIRECTED TO LEFT ===*/
+
+
+	/*=== PIN DIRECTED TO BOTTOM ===*/
+	//   \/  \/  \/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	.ontop:before {
+		bottom: -6px;
+		border-top: 6px solid rgba(0, 0, 0, 0.2);
+	}
+	.ontop:after {
+		bottom: -5px;
+		border-top: 6px solid #fff;
+	}
+	/*=== END PIN DIRECTED TO BOTTOM ===*/
+
+
+	/*=== PIN DIRECTED TO TOP ===*/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//   ^   ^   ^
+	.onbottom:before{
+		top: -6px;
+		border-bottom: 6px solid rgba(0, 0, 0, 0.2);
+	}
+	.onbottom:after {
+		top: -5px;
+		border-bottom: 6px solid #fff;   
+	}
+	/*=== END PIN DIRECTED TO TOP ===*/
+}
