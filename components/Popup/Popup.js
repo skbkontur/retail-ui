@@ -22,9 +22,7 @@ export default class Popup extends Component {
   handleClick(e) {
     this.getSelfCoordinates(e);
 
-    this.setState({
-      visible: !this.state.visible
-    });
+    this.togleVisibility();
   }
 
   handleHover(e) {
@@ -41,8 +39,14 @@ export default class Popup extends Component {
     });
   }
 
+  togleVisibility() {
+    this.setState({
+      visible: !this.state.visible
+    });
+  }
+
   render() {
-    let { children, trigger, ...props } = this.props;
+    let { children, trigger, enableCloseButton, ...props } = this.props;
 
     return (
     <PopupContainer
@@ -51,12 +55,14 @@ export default class Popup extends Component {
       bottom={this.state.bottom}
       left={this.state.left}
       visible={this.state.visible}
+      enableCloseButton={enableCloseButton}
+      togleVisibility={this.togleVisibility.bind(this)}
       {...props}
     >
         <div
           onClick={trigger === 'click' ? e => this.handleClick(e) : null}
           onMouseOver={trigger === 'hover' ? e => this.handleHover(e) : null}
-          onMouseLeave={trigger === 'hover' ? e => this.handleBlur(e) : null}
+          onMouseLeave={trigger === 'hover' ? e => this.handleBlur() : null}
         >
             {children}
         </div>
