@@ -3,15 +3,15 @@ import { storiesOf } from '@kadira/storybook';
 import Popup from '../Popup';
 
 storiesOf('Popup', module)
-	.add('клик по строке', () => (
+	.add('Click on me', () => (
 		<div style={{ border: "1px solid black"}}>
-			<Popup pos="right top" trigger={"click"} render={renderMenu}>Кликни по строке</Popup>
+			<Popup pos="bottom left" trigger={"click"} render={renderMenu}>Кликни по строке</Popup>
 		</div>
 	))
-	.add('ховер/блюр', () => (
+	.add('Hover on me', () => (
 		<div style={{ border: "1px solid black"}}>
-			<Popup pos="right top" trigger={"hover"} render={renderMenu}>
-				<div >Наевди мышкой на блок</div>
+			<Popup pos="bottom left" trigger={"hover"} render={renderMenu}>
+				<div >Наведи мышкой на блок</div>
 			</Popup>
 		</div>
 	))

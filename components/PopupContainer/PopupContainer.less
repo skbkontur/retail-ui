@@ -1,3 +1,10 @@
+@import '../variables.less';
+
+@pin-border-side: 8px;
+@pin-inner-offdet: @pin-border-side;
+@pin-outer-offset: @pin-border-side + 1;
+
+
 :local {
 	.popup {
 		position: absolute;
@@ -64,8 +71,8 @@
 		content: '';
 		position: absolute;
 		left: 5px;
-		border-right: 6px solid transparent;
-		border-left: 6px solid transparent;
+		border-right: @pin-border-side solid transparent;
+		border-left: @pin-border-side solid transparent;
 	}
 	/*=== END PIN AT LEFT ===*/
 
@@ -154,12 +161,13 @@
 	//  [ ] [ ] [ ]
 	//   ^   ^   ^
 	.onbottom:before{
-		top: -6px;
-		border-bottom: 6px solid rgba(0, 0, 0, 0.2);
+		top: -@pin-outer-offset;
+		border-bottom: @pin-border-side solid rgba(0, 0, 0, 0.2);
 	}
 	.onbottom:after {
-		top: -5px;
-		border-bottom: 6px solid #fff;   
+		top: -@pin-inner-offdet;
+		border-bottom: @pin-border-side solid #fff;   
 	}
 	/*=== END PIN DIRECTED TO TOP ===*/
+
 }
