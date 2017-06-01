@@ -11,6 +11,24 @@
 @popup-box-shadow: 0 0 0 1px rgba(0,0,0,0.10), 0 3px 10px 0 rgba(0,0,0,0.20);
 
 :local {
+
+	.popupWrapper {
+		position: absolute;
+		padding: 0;
+		margin: 0;
+		border: 1px solid black;
+		box-sizing: border-box;
+		visibility: hidden;
+		opacity: 0;
+		transition: all ease 0.1s;
+	}
+
+	.popupWrapperVisible {
+		visibility: visible;
+		opacity: 1;
+	}
+
+
 	.popup {
 		position: absolute;
 		top: -9999px;
@@ -20,22 +38,6 @@
 		background: @bg-default;
 		border-radius: 2px;
 		box-shadow: @popup-box-shadow;
-	}
-	.close_button_container {
-		display: block;
-		position: relative;
-		padding: 25px 0 0;
-	}
-	.close_button {
-		position: absolute;
-		top: 0px;
-		right: 0px;
-		cursor: pointer;
-		width: 27px;
-		height: 27px;
-		line-height: 27px;
-		text-align: center;
-		user-select: none;
 	}
 
 	/*=== PIN AT TOP ===*/

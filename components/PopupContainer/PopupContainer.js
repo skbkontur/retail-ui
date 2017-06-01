@@ -1,19 +1,108 @@
+// @flow
+
 import React, { Component } from 'react';
-import { render } from 'react-dom';
-import Icon from '../Icon';
+import PropTypes from 'prop-types';
+
+import RenderContainer from '../RenderContainer';
 
 import styles from './PopupContainer.less';
+
+type Props = {
+  children: React.Element<any>,
+  position: Object,
+  reportSelfSize: (element: HTMLElement) => void,
+}
+
+type State = {
+
+}
+
+export default class PopupContainer extends Component {
+  static defaultProps = {
+    position: {}
+  };
+
+  props: Props;
+  state: State;
+  self: HTMLElement;
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.reportSelfSize(this.self);
+      this.self.classList.toggle(styles.popupWrapperVisible);
+    }, 0);
+
+  }
+
+  render() {
+    let { position, children } = this.props;
+    let { left, top } = position;
+
+    let style = {
+      'left': left + 'px',
+      'top': top + 'px'
+    };
+
+    return (
+      <div>
+        <RenderContainer>
+          <div
+            ref={el => this.self = el}
+            className={styles.popupWrapper}
+            style={style}
+          >
+          {children}
+          </div>
+        </RenderContainer>
+      </div>
+    );
+  }
+}
+
+PopupContainer.propTypes = {
+  children: PropTypes.node,
+
+/*
+Позиция для попап контейнера
+*/
+  position: PropTypes.object,
+
+  reportSelfSize: PropTypes.func
+};
+
+
+/*
+type State = {
+  offsetHeight: number,
+  offsetWidth: number
+}
+
+type Props = {
+      children?: any,
+      visible?: boolean,
+      pos?: Array<string>,
+      top?: any,
+      right?: any,
+      bottom?: any,
+      left?: any,
+      render?: any,
+      enableCloseButton?: boolean,
+      togleVisibility?: any
+};
 
 const MARGIN = 15;
 
 export default class PopupContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  static PropTypes = {
+
+    togleVisibility: PropTypes.func
+  };
+
+  props: Props;
+  state: State = {
       offsetHeight: 0,
       offsetWidth: 0
     };
-  }
 
   componentDidMount() {
         //получаем размер эелемента, на котором вызывем модальное окно
@@ -35,12 +124,12 @@ export default class PopupContainer extends Component {
       enableCloseButton,
       togleVisibility } = this.props;
 
-    if (this.portal && this.portal.child) { //определение высоты попапа
+    if (this.portal && this.portal.child) {
       var modalHeight = this.portal.child.offsetHeight;
       var modalWidth = this.portal.child.offsetWidth;
     }
 
-    if (!pos) {return null;} //ничего не рисуем, если позиция не указана
+    if (!pos) {return null;}
 
     let position = pos.split(' ');
 
@@ -48,28 +137,27 @@ export default class PopupContainer extends Component {
 
     let style = {};
 
-        //placing popup
     switch (position[0]) {
       case 'top':
-        style = { ...style,
+        style = {
           'top': top - modalHeight - MARGIN + 'px',
           'left': left + (right - left) / 2 - modalWidth / 2 + 'px' };
         className += ` ${styles.ontop}`;
         break;
       case 'bottom':
-        style = { ...style,
+        style = {
           'top': bottom + MARGIN + 'px',
           'left': left + (right - left) / 2 - modalWidth / 2 + 'px' };
         className += ` ${styles.onbottom}`;
         break;
       case 'right':
-        style = { ...style,
+        style = {
           'left': right + MARGIN  + 'px',
           'top': top + (bottom - top) / 2 - modalHeight / 2 + 'px' };
         className += ` ${styles.onright}`;
         break;
       case 'left':
-        style = { ...style,
+        style = {
           'left': left - modalWidth - MARGIN  + 'px',
           'top': top + (bottom - top) / 2 - modalHeight / 2 + 'px' };
         className += ` ${styles.onleft}`;
@@ -77,7 +165,6 @@ export default class PopupContainer extends Component {
       default: console.warn('не указана позиция попапа');
     }
 
-        //placing pin
     switch (position[1]) {
       case 'middle':
         className += ` ${styles.middle}`;
@@ -110,37 +197,13 @@ export default class PopupContainer extends Component {
           <Portal
             className = {className}
             style = {{ 'visibility':visible?'visible':'hidden', ...style }}
-            ref = {portal => this.portal = portal
-          }
+            ref = {portal => this.portal = portal}
           >
-          <CloseButton
-            enableCloseButton={enableCloseButton}
-            handleClick={togleVisibility}
-          />
+          {
+            enableCloseButton && <CloseButton handleClick={togleVisibility} />
+          }
             {render()}
           </Portal>
-      </div>
-    );
-  }
-}
-
-class CloseButton extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    let { enableCloseButton, handleClick } = this.props;
-
-    return (
-      <div
-        className={styles.close_button_container}
-        style={{ display: enableCloseButton ? 'block' : 'none' }}
-        onClick={() => handleClick()}
-      >
-        <div className={styles.close_button}>
-          <Icon name="remove" color="#a0a0a0" size="14px"/>
-        </div>
       </div>
     );
   }
@@ -168,3 +231,4 @@ class Portal extends Component {
     document.body.removeChild(this.node);
   }
 }
+*/

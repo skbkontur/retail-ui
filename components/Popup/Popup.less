@@ -1,0 +1,34 @@
+@import '../variables.less';
+
+@pin-border-size: 8px;
+@pin-inner-offdet: @pin-border-size;
+@pin-outer-offset: @pin-border-size + 1;
+
+@pin-inner-color: @bg-default;
+@pin-outer-color: rgba(0, 0, 0, 0.2);
+
+@popup-border-radius: 2px;
+@popup-box-shadow: 0 0 0 1px rgba(0,0,0,0.10), 0 3px 10px 0 rgba(0,0,0,0.20);
+
+:local {
+	.popup {
+		color: green
+	}
+
+	.pin {
+		color: red;	
+	}
+	/*=== PIN AT TOP ===*/
+	//   \/  \/  \/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	.top:before, .top:after {
+		content: '';
+		position: absolute;
+		top: 5px;
+		border-bottom: @pin-border-size solid transparent;
+		border-top: @pin-border-size solid transparent;
+	}
+	/*=== END PIN AT TOP ===*/
+}
