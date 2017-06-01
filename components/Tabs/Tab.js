@@ -1,26 +1,30 @@
 // @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
+import cn from 'classnames';
 
 import styles from './Tab.less';
 
 type Props = {
-  label: string,
   id: string,
   children?: any
 };
 
 type Context = {
-  injectTab: (id: string, label: string) => void,
+  injectTab: (id: string, getNode: () => ?Element) => void,
   ejectTab: (id: string) => void,
-  activeTab: string
+  activeTab: string,
+  switchTab: (id: string) => void
 };
 
 class Tab extends React.Component {
   props: Props;
 
   context: Context;
+
+  _node: ?Element;
 
   componentWillMount() {
     invariant(
@@ -30,7 +34,6 @@ class Tab extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.id);
     this._injectTab();
   }
 
@@ -39,39 +42,49 @@ class Tab extends React.Component {
   }
 
   render() {
-    if (this.context.activeTab !== this.props.id) {
-      return null;
-    }
+    const isActive = this.context.activeTab === this.props.id;
     return (
-      <div className={styles.root}>
+      <div
+        className={cn(styles.root, isActive && styles.active)}
+        onClick={this._switchTab}
+        ref={this._refNode}
+      >
         {this.props.children}
       </div>
     );
   }
 
+  _refNode = el => {
+    this._node = el;
+  };
+
+  _getNode = () => this._node;
+
+  _switchTab = () => {
+    this.context.switchTab(this.props.id);
+  };
+
   _injectTab() {
-    const { id, label } = this.props;
-    this.context.injectTab(id, label);
+    this.context.injectTab(this.props.id, this._getNode);
   }
 
   _ejectTab() {
-    const { id } = this.props;
-    this.context.ejectTab(id);
+    this.context.ejectTab(this.props.id);
   }
 }
 
-const { func, string, node } = PropTypes;
+const { string, node, func } = PropTypes;
 
 Tab.propTypes = {
   children: node,
-  id: string.isRequired,
-  label: string.isRequired
+  id: string.isRequired
 };
 
 Tab.contextTypes = {
   injectTab: func.isRequired,
   ejectTab: func.isRequired,
-  activeTab: string
+  activeTab: string.isRequired,
+  switchTab: func.isRequired
 };
 
 export default Tab;

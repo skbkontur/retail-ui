@@ -1,110 +1,94 @@
 // @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import Indicator from './Indicator';
 
 import styles from './Tabs.less';
 
 type Props = {
-  /**
-   * Активная вкладка
-   */
-  activeTab?: string,
-  /**
-   * Если нужен неконтроллируемые табы, то
-   * defaultTab задает изначально активный таб
-   */
-  defaultTab?: string,
-  /**
-   * Событие при изменении вкладки
-   */
-  onTabChange?: string => void,
-
+  value: string,
+  onChange: (ev: { target: { value: string } }, value: string) => void,
   children?: any
 };
 
-type TabType = { id: string, label: string };
+type Tab = {
+  id: string,
+  getNode: () => ?Element
+};
 
 type State = {
-  tabs: TabType[],
-  activeTab: ?string
+  tabs: Tab[]
 };
 
 class Tabs extends React.Component {
   props: Props;
 
-  state: State;
-
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      tabs: [],
-      activeTab: props.defaultTab
-    };
-  }
+  state: State = {
+    tabs: []
+  };
 
   getChildContext() {
     return {
       injectTab: this._injectTab,
       ejectTab: this._ejectTab,
-      activeTab: this._getActiveTab(),
-      tabs: this.state.tabs,
+      activeTab: this.props.value,
       switchTab: this._switchTab
     };
   }
 
   render() {
+    const activeTab = this.state.tabs.find(x => x.id === this.props.value);
     return (
       <div className={styles.root}>
         {this.props.children}
+        <Indicator getAnchorNode={activeTab ? activeTab.getNode : () => null} />
       </div>
     );
   }
 
-  _getActiveTab = () => this.props.activeTab || this.state.activeTab;
-
   _switchTab = (id: string) => {
-    const { onTabChange } = this.props;
-    const activeTab = this._getActiveTab();
-    if (onTabChange && id !== activeTab) {
-      onTabChange(id);
-    }
-    this.setState({ activeTab: id });
+    this.props.onChange(this._createEvent(id), id);
   };
 
-  _injectTab = (id: string, label: string) => {
-    this.setState(({ tabs, activeTab }: State) => ({
-      tabs: tabs.concat({ id, label }),
-      activeTab: activeTab || id
+  _injectTab = (id: string, getNode: () => ?Element) => {
+    this.setState(({ tabs }: State) => ({
+      tabs: tabs.concat({ id, getNode })
     }));
   };
 
   _ejectTab = (id: string) => {
-    this.setState((state: State) => {
-      const tabs = state.tabs.filter(tab => tab.id !== id);
-      let { activeTab } = state;
-      if (tabs.length && id === activeTab) {
-        activeTab = tabs[0].label;
+    this.setState(
+      (state: State) => {
+        const tabs = state.tabs.filter(tab => tab !== id);
+        return { tabs };
+      },
+      () => {
+        const { tabs } = this.state;
+        if (id === this.props.value && tabs.length) {
+          this.props.onChange(this._createEvent(tabs[0].id), tabs[0].id);
+        }
       }
-      return { tabs, activeTab };
-    });
+    );
   };
+
+  _createEvent(value) {
+    return { target: { value } };
+  }
 }
 
-const { func, string, array, node } = PropTypes;
+const { string, func } = PropTypes;
 
 Tabs.propTypes = {
-  activeTab: string,
-  children: node,
-  defaultTab: string,
-  onTabChange: func
+  value: string.isRequired,
+  onChange: func.isRequired
 };
 
 Tabs.childContextTypes = {
   injectTab: func.isRequired,
   ejectTab: func.isRequired,
-  activeTab: string,
-  tabs: array.isRequired,
+  activeTab: string.isRequired,
   switchTab: func.isRequired
 };
 
