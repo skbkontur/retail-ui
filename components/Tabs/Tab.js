@@ -1,5 +1,6 @@
 // @flow
 
+import events from 'add-event-listener';
 import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
@@ -14,6 +15,11 @@ type Props = {
   id: string,
 
   /**
+   * Click event
+   */
+  onClick?: (e: SyntheticEvent) => void,
+
+  /**
    * Tab content
    */
   children?: any
@@ -24,6 +30,10 @@ type Context = {
   ejectTab: (id: string) => void,
   activeTab: string,
   switchTab: (id: string) => void
+};
+
+type State = {
+  focusedByTab: boolean
 };
 
 /**
@@ -45,6 +55,10 @@ class Tab extends React.Component {
 
   context: Context;
 
+  state: State = {
+    focusedByTab: false
+  };
+
   _node: ?Element;
 
   componentWillMount() {
@@ -56,6 +70,7 @@ class Tab extends React.Component {
 
   componentDidMount() {
     this._injectTab();
+    listenTabPresses();
   }
 
   componentWillUnmount() {
@@ -71,6 +86,15 @@ class Tab extends React.Component {
         ref={this._refNode}
       >
         {this.props.children}
+        {/* For native focus handling */}
+        <input
+          className={styles.input}
+          type="checkbox"
+          onFocus={this._handleFocus}
+          onBlur={this._handleBlur}
+          onKeyDown={this._handleKeyDown}
+        />
+        {this.state.focusedByTab && <div className={styles.focus} />}
       </div>
     );
   }
@@ -81,8 +105,13 @@ class Tab extends React.Component {
 
   _getNode = () => this._node;
 
-  _switchTab = () => {
-    this.context.switchTab(this.props.id);
+  _switchTab = e => {
+    const { onClick, id } = this.props;
+    if (onClick) {
+      onClick(e);
+    } else {
+      this.context.switchTab(id);
+    }
   };
 
   _injectTab() {
@@ -92,13 +121,40 @@ class Tab extends React.Component {
   _ejectTab() {
     this.context.ejectTab(this.props.id);
   }
+
+  _handleKeyDown = (e: SyntheticKeyboardEvent) => {
+    switch (e.key) {
+      case 'Enter':
+        e.preventDefault();
+        this._switchTab(e);
+        break;
+      default:
+        return;
+    }
+  };
+
+  _handleFocus = e => {
+    // focus event fires before keyDown eventlistener
+    // so we should check tabPressed in async way
+    process.nextTick(() => {
+      if (tabPressed) {
+        this.setState({ focusedByTab: true });
+        tabPressed = false;
+      }
+    });
+  };
+
+  _handleBlur = e => {
+    this.setState({ focusedByTab: false });
+  };
 }
 
 const { string, node, func } = PropTypes;
 
 Tab.propTypes = {
   children: node,
-  id: string.isRequired
+  id: string.isRequired,
+  onClick: func
 };
 
 Tab.contextTypes = {
@@ -107,5 +163,19 @@ Tab.contextTypes = {
   activeTab: string.isRequired,
   switchTab: func.isRequired
 };
+
+const KEYCODE_TAB = 9;
+
+let isListening: boolean;
+let tabPressed: boolean;
+
+function listenTabPresses() {
+  if (!isListening) {
+    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
+      tabPressed = event.keyCode === KEYCODE_TAB;
+    });
+    isListening = true;
+  }
+}
 
 export default Tab;

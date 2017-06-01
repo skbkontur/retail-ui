@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -89,11 +88,12 @@ class Tabs extends React.Component {
   _ejectTab = (id: string) => {
     this.setState(
       (state: State) => {
-        const tabs = state.tabs.filter(tab => tab !== id);
+        const tabs = state.tabs.filter(tab => tab.id !== id);
         return { tabs };
       },
       () => {
         const { tabs } = this.state;
+        console.log(tabs);
         if (id === this.props.value && tabs.length) {
           this._switchTab(tabs[0].id);
         }

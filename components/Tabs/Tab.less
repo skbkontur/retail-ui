@@ -13,7 +13,7 @@
     border-bottom: 3px solid transparent;
     transition: border-bottom @easing;
     cursor: pointer;
-    z-index: 1;
+    position: relative;
   }
 
   .root:hover {
@@ -22,5 +22,22 @@
 
   .active {
     cursor: default;
+  }
+
+  .focus {
+    position: absolute;
+    top: 0;
+    left: -20px;
+    right: -20px;
+    bottom: -3px;
+    border: 2px solid @border-color-focus;
+  }
+
+  .input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    z-index: -1;
   }
 }

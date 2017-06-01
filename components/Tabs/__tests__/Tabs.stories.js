@@ -24,13 +24,8 @@ class UncTabs extends React.Component {
 }
 
 const RouteTab = props => (
-  <Tabs.Tab id={props.to}>
-    <span
-      style={{ display: 'inline-block' }}
-      onClick={linkTo('Tabs', props.to)}
-    >
-      {props.children}
-    </span>
+  <Tabs.Tab id={props.to} onClick={linkTo('Tabs', props.to)}>
+    {props.children}
   </Tabs.Tab>
 );
 
