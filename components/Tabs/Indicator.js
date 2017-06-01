@@ -1,15 +1,33 @@
 // @flow
 
 import React from 'react';
+import cn from 'classnames';
+import LayoutEvents from '../../lib/LayoutEvents';
+import throttle from 'lodash.throttle';
 
 import styles from './Indicator.less';
 
 type Props = {
-  getAnchorNode: () => ?Element
+  getAnchorNode: () => ?Element,
+  className?: string
 };
 
 class Indicator extends React.Component {
   props: Props;
+
+  _eventListener: {
+    remove: () => void
+  };
+
+  componentDidMount() {
+    this._eventListener = LayoutEvents.addListener(
+      throttle(() => this.forceUpdate(), 100)
+    );
+  }
+
+  componentWillUnmount() {
+    this._eventListener.remove();
+  }
 
   render() {
     const node = this.props.getAnchorNode();
@@ -18,7 +36,12 @@ class Indicator extends React.Component {
       return null;
     }
 
-    return <div className={styles.root} style={this._getStyles(node)} />;
+    return (
+      <div
+        className={cn(styles.root, styles.className)}
+        style={this._getStyles(node)}
+      />
+    );
   }
 
   _getStyles(node) {
@@ -31,7 +54,6 @@ class Indicator extends React.Component {
     return {
       left,
       top,
-      height: 3,
       width: rect.right - rect.left
     };
   }

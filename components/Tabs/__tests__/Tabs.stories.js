@@ -1,9 +1,8 @@
 // @flow
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf, linkTo } from '@kadira/storybook';
 
 import Tabs from '../Tabs';
-import Tab from '../Tab';
 
 class UncTabs extends React.Component {
   state = {
@@ -16,12 +15,40 @@ class UncTabs extends React.Component {
         value={this.state.active}
         onChange={(_, v) => this.setState({ active: v })}
       >
-        <Tab id="fuji">🌋&nbsp;&nbsp;Fuji</Tab>
-        <Tab id="tahat">⛰&nbsp;&nbsp;Tahat</Tab>
-        <Tab id="alps">🗻&nbsp;&nbsp;Alps</Tab>
+        <Tabs.Tab id="fuji">🌋&nbsp;&nbsp;Fuji</Tabs.Tab>
+        <Tabs.Tab id="tahat">⛰&nbsp;&nbsp;Tahat</Tabs.Tab>
+        <Tabs.Tab id="alps">🗻&nbsp;&nbsp;Alps</Tabs.Tab>
       </Tabs>
     );
   }
 }
 
-storiesOf('TabsV2', module).add('simple', () => <UncTabs />);
+const RouteTab = props => (
+  <Tabs.Tab id={props.to}>
+    <span
+      style={{ display: 'inline-block' }}
+      onClick={linkTo('Tabs', props.to)}
+    >
+      {props.children}
+    </span>
+  </Tabs.Tab>
+);
+
+class RouterTabs extends React.Component {
+  render() {
+    return (
+      <div>
+        <h2>Router Tabs</h2>
+        <Tabs value={this.props.value}>
+          <RouteTab to="first">First Page</RouteTab>
+          <RouteTab to="another">Another</RouteTab>
+        </Tabs>
+      </div>
+    );
+  }
+}
+
+storiesOf('Tabs', module)
+  .add('simple', () => <UncTabs />)
+  .add('first', () => <RouterTabs value="first" />)
+  .add('another', () => <RouterTabs value="another" />);

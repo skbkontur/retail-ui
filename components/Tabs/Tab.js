@@ -7,8 +7,27 @@ import cn from 'classnames';
 
 import styles from './Tab.less';
 
+/**
+ * Tab element of Tabs component
+ *
+ * Can be used for creating custom tabs
+ * ```js
+ * const LinkTab = (props) => <Tab id={props.href}><Link {...props} /></Tab>
+ *
+ * const RouteTab = (props) => <Tab id={props.to}><Link {...props} /></Tab>
+ *
+ * const MyAwesomeTab = (props) => <Tab id={props.id}>8) {props.children}</Tab>
+ * ```
+ */
 type Props = {
+  /**
+   * Tab identifier
+   */
   id: string,
+
+  /**
+   * Tab content
+   */
   children?: any
 };
 

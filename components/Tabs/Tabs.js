@@ -4,25 +4,42 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Indicator from './Indicator';
+import Tab from './Tab';
 
 import styles from './Tabs.less';
 
 type Props = {
+  /**
+   * Active tab identifier
+   */
   value: string,
-  onChange: (ev: { target: { value: string } }, value: string) => void,
-  children?: any
-};
 
-type Tab = {
-  id: string,
-  getNode: () => ?Element
+  /**
+   * Tabs change event
+   */
+  onChange?: (ev: { target: { value: string } }, value: string) => void,
+
+  /**
+   * Tab component should be child of Tabs component
+   */
+  children?: any,
+
+  /**
+   * Classname of indicator
+   */
+  indicatorClassName?: string
 };
 
 type State = {
-  tabs: Tab[]
+  tabs: Array<{
+    id: string,
+    getNode: () => ?Element
+  }>
 };
 
 class Tabs extends React.Component {
+  static Tab = Tab;
+
   props: Props;
 
   state: State = {
@@ -43,13 +60,19 @@ class Tabs extends React.Component {
     return (
       <div className={styles.root}>
         {this.props.children}
-        <Indicator getAnchorNode={activeTab ? activeTab.getNode : () => null} />
+        <Indicator
+          className={this.props.indicatorClassName}
+          getAnchorNode={activeTab ? activeTab.getNode : () => null}
+        />
       </div>
     );
   }
 
   _switchTab = (id: string) => {
-    this.props.onChange(this._createEvent(id), id);
+    const { onChange } = this.props;
+    if (onChange) {
+      onChange(this._createEvent(id), id);
+    }
   };
 
   _injectTab = (id: string, getNode: () => ?Element) => {
@@ -67,7 +90,7 @@ class Tabs extends React.Component {
       () => {
         const { tabs } = this.state;
         if (id === this.props.value && tabs.length) {
-          this.props.onChange(this._createEvent(tabs[0].id), tabs[0].id);
+          this._switchTab(tabs[0].id);
         }
       }
     );
@@ -82,7 +105,7 @@ const { string, func } = PropTypes;
 
 Tabs.propTypes = {
   value: string.isRequired,
-  onChange: func.isRequired
+  onChange: func
 };
 
 Tabs.childContextTypes = {
