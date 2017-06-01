@@ -37,6 +37,11 @@ type State = {
   }>
 };
 
+/**
+ * Tabs wrapper
+ *
+ * contains static property `Tab`
+ */
 class Tabs extends React.Component {
   static Tab = Tab;
 
