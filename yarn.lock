@@ -3086,9 +3086,9 @@ gemini-sauce@^1.0.1:
     sauce-connect-launcher "^1.2.0"
     uuid "^2.0.1"
 
-gemini@^4.18.1:
-  version "4.18.1"
-  resolved "https://registry.yarnpkg.com/gemini/-/gemini-4.18.1.tgz#0a98cd1ea078daf56aa3c01e50ded7b8ad042777"
+gemini@^4.19.3:
+  version "4.19.3"
+  resolved "https://registry.yarnpkg.com/gemini/-/gemini-4.19.3.tgz#c66fa3373ff745597035fb2977b4fb04e8b663fe"
   dependencies:
     aliasify "^1.7.2"
     bluebird "^3.4.6"
@@ -3103,6 +3103,7 @@ gemini@^4.18.1:
     gemini-configparser "^0.1.1"
     gemini-core "^1.0.0"
     gemini-coverage "^1.0.0"
+    graceful-fs "^4.1.11"
     handlebars "^4.0.5"
     inherit "~2.2.1"
     js-yaml "^3.2.5"
@@ -6060,15 +6061,15 @@ resolve@1.1.7:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
 
-resolve@^1.1.0, resolve@^1.1.3, resolve@^1.1.4, resolve@^1.1.6:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.2.0.tgz#9589c3f2f6149d1417a40becc1663db6ec6bc26c"
-
-resolve@^1.3.2:
+resolve@^1.1.0, resolve@^1.1.3, resolve@^1.1.4, resolve@^1.3.2:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.3.3.tgz#655907c3469a8680dc2de3a275a8fdd69691f0e5"
   dependencies:
     path-parse "^1.0.5"
+
+resolve@^1.1.6:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.2.0.tgz#9589c3f2f6149d1417a40becc1663db6ec6bc26c"
 
 restore-cursor@^1.0.1:
   version "1.0.1"
