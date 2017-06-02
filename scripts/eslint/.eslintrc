@@ -373,30 +373,58 @@ rules:
   sort-class-members/sort-class-members:
   - 2
   - order:
-    - "[static-properties]"
-    - "[properties]"
-    - "[conventional-private-properties]"
+    - displayName
+    - propTypes
+    - contextTypes
+    - childContextTypes
+    - defaultProps
+    - "[static-props]"
+    - "[private-static-props]"
+    - props
+    - state
+    - "[props]"
+    - "[private-props]"
     - constructor
-    - "[static-methods]"
-    - "[lyfecycle-method]"
-    - "[render-method]"
-    - "[methods]"
-    - "[arrow-function-properties]"
-    - "[conventional-private-methods]"
-    - "[conventional-private-arrow-function-properties]"
-    - "[event-handlers]"
+    - "[static]"
+    - getChildContext
+    - componentWillMount
+    - componentDidMount
+    - componentWillReceiveProps
+    - shouldComponentUpdate
+    - componentWillUpdate
+    - componentDidUpdate
+    - componentWillUnmount
+    - render
+    - "[public]"
+    - "[private-non-handlers]"
+    - "[private-handlers]"
     groups:
-      lyfecycle-method:
-        - name: "/component.+/"
-          type: method
-      render-method:
-        - name: "render"
-          type: method
-      event-handlers:
-        - name: "/_handle.+/"
-          type: method
-      conventional-private-arrow-function-properties:
+      static-props:
+        - name: "/(?!_).+/"
+          type: property
+          propertyType: Literal
+          static: true
+      private-static-props:
         - name: "/_.+/"
           type: property
-          propertyType: ArrowFunctionExpression
+          propertyType: Literal
+          static: true
+      props:
+        - name: "/(?!_).+/"
+          type: property
+          propertyType: Literal
+      private-props:
+        - name: "/_.+/"
+          type: property
+          propertyType: Literal
+      static:
+        - static: true
+      private-render-method:
+        - name: "/_render.+/"
+      public:
+        - name: "/(?!_).+/"
+      private-non-handlers:
+        - name: "/_(?!handle).+/"
+      private-handlers:
+        - name: "/_handle.+/"
     accessorPairPositioning: getThenSet
