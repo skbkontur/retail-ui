@@ -374,10 +374,10 @@ rules:
   - 2
   - order:
     - "[static-properties]"
-    - "[static-methods]"
     - "[properties]"
     - "[conventional-private-properties]"
     - constructor
+    - "[static-methods]"
     - "[lyfecycle-method]"
     - "[render-method]"
     - "[methods]"
