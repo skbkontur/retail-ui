@@ -12,18 +12,19 @@
 
 :local {
 	.popup {
-		color: green
+		min-width: 100px;
+		max-width: 500px;
+		background: @bg-default;
+		border-radius: 2px;
+		box-shadow: @popup-box-shadow;
 	}
 
-	.pin {
-		color: red;	
-	}
 	/*=== PIN AT TOP ===*/
 	//   \/  \/  \/
 	//  [ ] [ ] [ ]
 	//  [ ] [ ] [ ]
 	//  [ ] [ ] [ ]
-	.top:before, .top:after {
+	.pin.top:before, .pin.top:after {
 		content: '';
 		position: absolute;
 		top: 5px;
@@ -31,4 +32,144 @@
 		border-top: @pin-border-size solid transparent;
 	}
 	/*=== END PIN AT TOP ===*/
+
+
+	/*=== PIN AT MIDDLE ===*/
+	//  [ ] [ ] [ ]
+	// >[ ] [ ] [ ]<
+	//  [ ] [ ] [ ]
+	.pin.middle:before, .pin.middle:after {
+		content: '';
+		position: absolute;
+		top: 50%;
+    	transform: translateY(-50%);
+		border-bottom: @pin-border-size solid transparent;
+		border-top: @pin-border-size solid transparent;
+	}
+	/*=== END AT MIDDLE ===*/
+
+
+	/*=== PIN AT BOTTOM ===*/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//   ^   ^   ^
+	.pin.bottom:before, .pin.bottom:after {
+		content: '';
+		position: absolute;
+		bottom: 5px;
+		border-bottom: @pin-border-size solid transparent;
+		border-top: @pin-border-size solid transparent;
+	}
+	/*=== END PIN AT BOTTOM ===*/
+
+
+	/*=== PIN AT LEFT ===*/
+	//   \/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//   ^
+	.pin.left:after, .pin.left:before {
+		content: '';
+		position: absolute;
+		left: 5px;
+		border-right: @pin-border-size solid transparent;
+		border-left: @pin-border-size solid transparent;
+	}
+	/*=== END PIN AT LEFT ===*/
+
+
+	/*=== PIN AT CENTER ===*/
+	//       \/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//       ^
+	.pin.center:after, .pin.center:before {
+		content: '';
+		position: absolute;
+		right: 45%;
+		border-right: @pin-border-size solid transparent;
+		border-left: @pin-border-size solid transparent;
+	}
+	/*=== END PIN AT CENTER ===*/
+
+
+	/*=== PIN AT RIGHT ===*/
+	//           \/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//           ^
+	.pin.right:after, .pin.right:before {
+		content: '';
+		position: absolute;
+		right: 5px;
+		border-right: @pin-border-size solid transparent;
+		border-left: @pin-border-size solid transparent;
+	}
+	/*=== END PIN AT RIGHT ===*/
+
+
+	/*=== PIN DIRECTED TO RIGHT===*/
+	//  >[ ] [ ] [ ]
+	//  >[ ] [ ] [ ]
+	//  >[ ] [ ] [ ]
+	.onleft:before {
+		right: -@pin-outer-offset;
+		border-left: @pin-border-size solid @pin-outer-color;
+	}
+	.onleft:after {
+		right: -@pin-inner-offdet;
+		border-left: @pin-border-size solid @pin-inner-color;
+	}
+	/*=== END PIN DIRECTED TO RIGHT===*/
+
+
+	/*=== PIN DIRECTED TO LEFT ===*/
+	//  [ ] [ ] [ ] <
+	//  [ ] [ ] [ ] <
+	//  [ ] [ ] [ ] <
+	.onright:before {
+		left: -@pin-outer-offset;
+		border-right: @pin-border-size solid @pin-outer-color;
+	}
+	.onright:after {
+		left: -@pin-inner-offdet;
+		border-right: @pin-border-size solid @pin-inner-color;
+	}
+	/*=== END PIN DIRECTED TO LEFT ===*/
+
+
+	/*=== PIN DIRECTED TO BOTTOM ===*/
+	//   \/  \/  \/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	.ontop:before {
+		bottom: -@pin-outer-offset;
+		border-top: @pin-border-size solid @pin-outer-color;
+	}
+	.ontop:after {
+		bottom: -@pin-inner-offdet;
+		border-top: @pin-border-size solid @pin-inner-color;
+	}
+	/*=== END PIN DIRECTED TO BOTTOM ===*/
+
+
+	/*=== PIN DIRECTED TO TOP ===*/
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//  [ ] [ ] [ ]
+	//   ^   ^   ^
+	.onbottom:before{
+		top: -@pin-outer-offset;
+		border-bottom: @pin-border-size solid @pin-outer-color;
+	}
+	.onbottom:after {
+		top: -@pin-inner-offdet;
+		border-bottom: @pin-border-size solid @pin-inner-color;   
+	}
+	/*=== END PIN DIRECTED TO TOP ===*/
 }

@@ -17,7 +17,6 @@ type Props = {
 }
 
 type State = {
-  className: string,
   position: {
     left: number,
     top: number
@@ -38,9 +37,12 @@ export default class Popup extends Component {
   props: Props;
   state: State;
   popupContainer: HTMLElement;
+  popupClasses: Array<string>;
 
   constructor(props: Props) {
     super(props);
+
+    this.popupClasses = [];
 
     this.state = {
       visible: false,
@@ -55,18 +57,15 @@ export default class Popup extends Component {
       popupContainer: {
         popupHeight: 0,
         popupWidth: 0
-      },
-      className: styles.popup
+      }
     };
   }
-
 
   render() {
     let { children, render, side, enableCloseButton, ...props } = this.props;
 
-    let className = side ?
-    `${this.state.className} ${styles.pin}`
-     : this.state.className;
+    let className = side ? `${styles.popup} ${styles.pin}` : styles.popup;
+    className += ` ${this.popupClasses.join(' ')}`;
 
     return (
       <div onClick={e => this._handleClick(e)}
@@ -97,66 +96,6 @@ export default class Popup extends Component {
   }
 
   passPositionToContainer() {
-    //let { width = 0, height = 0 } = this.self.getBoundingClientRect();
-/*
-    switch (side[0]) {
-      case 'top':
-        style = {
-          'top': top - height - MARGIN + 'px'
-        };
-        break;
-      case 'bottom':
-        style = {
-          'top': top + height + MARGIN + 'px',
-          'left': left + 'px' };
-
-        break;
-      case 'right':
-        style = {
-          'left': left + MARGIN  + 'px',
-          'top': top + 'px' };
-
-        break;
-      case 'left':
-        style = {
-          'left': MARGIN  + 'px',
-          'top': top + 'px' };
-
-        break;
-      default: console.warn('не указана позиция попапа');
-    }
-
-    switch (side[1]) {
-      case 'middle':
-
-        break;
-
-      case 'center':
-        style = { ...style,
-          'left': left - width/2 + 'px'
-        };
-        break;
-
-      case 'top':
-
-        style = { ...style, 'top': top + 'px' };
-        break;
-      case 'bottom':
-
-        style = { ...style, 'top': top + 'px' };
-        break;
-      case 'right':
-
-        style = { ...style, 'left': left + 'px' };
-        break;
-
-      case 'left':
-        style = { ...style, 'left': left   + 'px' };
-        break;
-
-      default: console.warn('не указана позиция пина');
-    }
-*/
     let { popupHeight, popupWidth } = this.state.popupContainer;
     let { width, height } = this.state.size;
     let { top, left } = this.state.position;
@@ -168,18 +107,38 @@ export default class Popup extends Component {
       case 'top':
         top = top - popupHeight - offset;
         left = left - popupWidth/2 + width/2;
+
+        this.popupClasses = Array.from(new Set([
+          styles.ontop,
+          ...this.popupClasses])
+        );
         break;
       case 'right':
         top = top - popupHeight/2 + height/2;
         left = left + width + offset;
+
+        this.popupClasses = Array.from(new Set([
+          styles.onright,
+          ...this.popupClasses])
+        );
         break;
       case 'bottom':
         top = top + height + offset;
         left = left - popupWidth/2 + width/2;
+
+        this.popupClasses = Array.from(new Set([
+          styles.onbottom,
+          ...this.popupClasses])
+        );
         break;
       case 'left':
         top = top - popupHeight/2 + height/2;
         left = left - popupWidth - offset;
+
+        this.popupClasses = Array.from(new Set([
+          styles.onleft,
+          ...this.popupClasses])
+        );
         break;
 
       default: console.warn('не указана позиция попапа');
@@ -187,10 +146,52 @@ export default class Popup extends Component {
 
     switch (side[1]) {
       case 'center':
+        this.popupClasses = Array.from(new Set([
+          styles.center,
+          ...this.popupClasses])
+        );
+        break;
+      case 'middle':
+        this.popupClasses = Array.from(new Set([
+          styles.middle,
+          ...this.popupClasses])
+        );
+        break;
+      case 'top':
+        top += (popupHeight/2 + height/2 - height);
 
+        this.popupClasses = Array.from(new Set([
+          styles.top,
+          ...this.popupClasses])
+        );
+        break;
+      case 'right':
+        left += (popupWidth/2 + width/2 - popupWidth);
+
+        this.popupClasses = Array.from(new Set([
+          styles.right,
+          ...this.popupClasses])
+        );
+        break;
+      case 'bottom':
+        top += (popupHeight/2 + height/2 - popupHeight);
+
+        this.popupClasses = Array.from(new Set([
+          styles.bottom,
+          ...this.popupClasses])
+        );
+        break;
+      case 'left':
+        left = left + popupWidth/2 - width/2;
+
+        this.popupClasses = Array.from(new Set([
+          styles.left,
+          ...this.popupClasses])
+        );
         break;
       default: console.warn('не указана позиция пина');
     }
+
     return {
       left,
       top
@@ -209,6 +210,7 @@ export default class Popup extends Component {
       visible: !this.state.visible
     });
   }
+
   _handleHover(e: any) {
     if (this.props.trigger !== 'hover') {return;}
 
@@ -221,6 +223,7 @@ export default class Popup extends Component {
       visible: true
     });
   }
+
   _handleBlur(e: any) {
     if (this.props.trigger !== 'hover') {return;}
 
@@ -228,6 +231,7 @@ export default class Popup extends Component {
       visible: false
     });
   }
+
   reportSelfSize(element: any) {
     let { height, width } = element.getBoundingClientRect();
 
@@ -262,136 +266,31 @@ export default class Popup extends Component {
 
 }
 
-
-
 Popup.propTypes = {
   children: PropTypes.node,
 
-/*
-Показывать ли крестик закрытия
-*/
+  /*
+    Показывать ли крестик закрытия
+  */
   enableCloseButton: PropTypes.bool,
 
-/*
-  Отступ попапа от вызывающего элемента
-*/
+  /*
+    Отступ попапа от вызывающего элемента
+  */
   offset: PropTypes.number,
 
-/*
-Компонент, который рендерится внутри попапа
-*/
+  /*
+    Компонент, который рендерится внутри попапа
+  */
   render: PropTypes.any,
 
-/*
-C какой стороны рендерить попап
-*/
+  /*
+    C какой стороны рендерить попап
+  */
   side: PropTypes.string,
 
-/*
-По какому событию открыть попап
-*/
-  trigger: PropTypes.string
-
-
-};
-
-
-
-
-
-/*
-type Props = {
-  children: React.Element<any>,
-  enableCloseButton?: boolean,
-  trigger?: string
-}
-
-type State = {
-  visible: boolean,
-  top: ?any,
-  right: ?any,
-  bottom: ?any,
-  left: ?any
-}
-
-export default class Popup extends Component {
-  state: State;
-  props: Props;
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      visible: false,
-      top: null,
-      right: null,
-      bottom: null,
-      left: null
-    };
-  }
-
-  render() {
-    let { children, trigger, enableCloseButton, ...props } = this.props;
-
-    return (
-    <PopupContainer
-      top={this.state.top}
-      right={this.state.right}
-      bottom={this.state.bottom}
-      left={this.state.left}
-      visible={this.state.visible}
-      enableCloseButton={enableCloseButton}
-      togleVisibility={this.togleVisibility.bind(this)}
-      {...props}
-    >
-        <div
-          onClick={trigger === 'click' ? e => this.handleClick(e) : null}
-          onMouseOver={trigger === 'hover' ? e => this.handleHover(e) : null}
-          onMouseLeave={trigger === 'hover' ? e => this.handleBlur() : null}
-        >
-            {children}
-        </div>
-    </PopupContainer>);
-  }
-
-  getSelfCoordinates(e: SyntheticEvent) {
-    let { top, right, bottom, left } = e.target.getBoundingClientRect();
-
-    this.setState({
-      top, right, bottom, left
-    });
-  }
-
-  handleClick(e: SyntheticMouseEvent) {
-    this.getSelfCoordinates(e);
-
-    this.togleVisibility();
-  }
-
-  handleHover(e: SyntheticMouseEvent) {
-    this.getSelfCoordinates(e);
-
-    this.setState({
-      visible: true
-    });
-  }
-
-  handleBlur() {
-    this.setState({
-      visible: false
-    });
-  }
-
-  togleVisibility() {
-    this.setState({
-      visible: !this.state.visible
-    });
-  }
-}
-
-Popup.propTypes = {
-  children: PropTypes.node,
-  enableCloseButton: PropTypes.bool,
+  /*
+    По какому событию открыть попап
+  */
   trigger: PropTypes.string
 };
-*/
-
