@@ -3,6 +3,7 @@ parser: babel-eslint
 
 plugins:
   - react
+  - sort-class-members
 
 env:
   browser: true
@@ -367,3 +368,35 @@ rules:
   react/jsx-sort-props: 0
   react/jsx-uses-react: 2
   react/jsx-uses-vars: 2
+
+  # sorting class members
+  sort-class-members/sort-class-members:
+  - 2
+  - order:
+    - "[static-properties]"
+    - "[static-methods]"
+    - "[properties]"
+    - "[conventional-private-properties]"
+    - constructor
+    - "[lyfecycle-method]"
+    - "[render-method]"
+    - "[methods]"
+    - "[arrow-function-properties]"
+    - "[conventional-private-methods]"
+    - "[conventional-private-arrow-function-properties]"
+    - "[event-handlers]"
+    groups:
+      lyfecycle-method:
+        - name: "/component.+/"
+          type: method
+      render-method:
+        - name: "render"
+          type: method
+      event-handlers:
+        - name: "/_handle.+/"
+          type: method
+      conventional-private-arrow-function-properties:
+        - name: "/_.+/"
+          type: property
+          propertyType: ArrowFunctionExpression
+    accessorPairPositioning: getThenSet
