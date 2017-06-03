@@ -52,8 +52,8 @@ class Tabs extends React.Component {
 
   getChildContext() {
     return {
-      injectTab: this._injectTab,
-      ejectTab: this._ejectTab,
+      addTab: this._addTab,
+      removeTab: this._removeTab,
       activeTab: this.props.value,
       switchTab: this._switchTab
     };
@@ -79,26 +79,17 @@ class Tabs extends React.Component {
     }
   };
 
-  _injectTab = (id: string, getNode: () => ?Element) => {
+  _addTab = (id: string, getNode: () => ?Element) => {
     this.setState(({ tabs }: State) => ({
       tabs: tabs.concat({ id, getNode })
     }));
   };
 
-  _ejectTab = (id: string) => {
-    this.setState(
-      (state: State) => {
-        const tabs = state.tabs.filter(tab => tab.id !== id);
-        return { tabs };
-      },
-      () => {
-        const { tabs } = this.state;
-        console.log(tabs);
-        if (id === this.props.value && tabs.length) {
-          this._switchTab(tabs[0].id);
-        }
-      }
-    );
+  _removeTab = (id: string) => {
+    this.setState((state: State) => {
+      const tabs = state.tabs.filter(tab => tab.id !== id);
+      return { tabs };
+    });
   };
 
   _createEvent(value) {
@@ -114,8 +105,8 @@ Tabs.propTypes = {
 };
 
 Tabs.childContextTypes = {
-  injectTab: func.isRequired,
-  ejectTab: func.isRequired,
+  addTab: func.isRequired,
+  removeTab: func.isRequired,
   activeTab: string.isRequired,
   switchTab: func.isRequired
 };

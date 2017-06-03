@@ -26,8 +26,8 @@ type Props = {
 };
 
 type Context = {
-  injectTab: (id: string, getNode: () => ?Element) => void,
-  ejectTab: (id: string) => void,
+  addTab: (id: string, getNode: () => ?Element) => void,
+  removeTab: (id: string) => void,
   activeTab: string,
   switchTab: (id: string) => void
 };
@@ -63,18 +63,18 @@ class Tab extends React.Component {
 
   componentWillMount() {
     invariant(
-      typeof this.context.injectTab === 'function',
+      typeof this.context.addTab === 'function',
       'Tab should be placed inside Tabs component'
     );
   }
 
   componentDidMount() {
-    this._injectTab();
+    this._addTab();
     listenTabPresses();
   }
 
   componentWillUnmount() {
-    this._ejectTab();
+    this._removeTab();
   }
 
   render() {
@@ -114,12 +114,12 @@ class Tab extends React.Component {
     }
   };
 
-  _injectTab() {
-    this.context.injectTab(this.props.id, this._getNode);
+  _addTab() {
+    this.context.addTab(this.props.id, this._getNode);
   }
 
-  _ejectTab() {
-    this.context.ejectTab(this.props.id);
+  _removeTab() {
+    this.context.removeTab(this.props.id);
   }
 
   _handleKeyDown = (e: SyntheticKeyboardEvent) => {
@@ -158,8 +158,8 @@ Tab.propTypes = {
 };
 
 Tab.contextTypes = {
-  injectTab: func.isRequired,
-  ejectTab: func.isRequired,
+  addTab: func.isRequired,
+  removeTab: func.isRequired,
   activeTab: string.isRequired,
   switchTab: func.isRequired
 };
