@@ -31,6 +31,7 @@
   "dependencies": {
     "add-event-listener": "0.0.1",
     "classnames": "^2.2.5",
+    "eslint-plugin-flowtype": "^2.34.0",
     "exenv": "^1.2.2",
     "fbemitter": "^2.0.2",
     "fbjs": "^0.8.12",
