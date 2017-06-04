@@ -421,6 +421,7 @@ rules:
     - defaultProps
     - "[static-props]"
     - "[private-static-props]"
+    - context
     - props
     - state
     - "[props]"

@@ -8,7 +8,15 @@ import cn from 'classnames';
 
 import styles from './Tab.less';
 
+import type { ReactNode } from '../internal/types';
+
 type Props = {
+
+  /**
+   * Tab content
+   */
+  children?: ReactNode,
+
   /**
    * Tab identifier
    */
@@ -17,18 +25,13 @@ type Props = {
   /**
    * Click event
    */
-  onClick?: (e: SyntheticEvent) => void,
-
-  /**
-   * Tab content
-   */
-  children?: any
+  onClick?: (e: SyntheticEvent) => void
 };
 
 type Context = {
+  activeTab: string,
   addTab: (id: string, getNode: () => ?Element) => void,
   removeTab: (id: string) => void,
-  activeTab: string,
   switchTab: (id: string) => void
 };
 
@@ -51,15 +54,16 @@ type State = {
  * Works only inside Tabs component, otherwise throws
  */
 class Tab extends React.Component {
-  props: Props;
 
   context: Context;
+
+  props: Props;
 
   state: State = {
     focusedByTab: false
   };
 
-  _node: ?Element;
+  _node: ?Element = null;
 
   componentWillMount() {
     invariant(

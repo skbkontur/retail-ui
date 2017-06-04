@@ -8,16 +8,14 @@ import throttle from 'lodash.throttle';
 import styles from './Indicator.less';
 
 type Props = {
-  getAnchorNode: () => ?Element,
-  className?: string
+  className?: string,
+  getAnchorNode: () => ?Element
 };
 
 class Indicator extends React.Component {
   props: Props;
 
-  _eventListener: {
-    remove: () => void
-  };
+  _eventListener = null;
 
   componentDidMount() {
     this._eventListener = LayoutEvents.addListener(
@@ -26,7 +24,9 @@ class Indicator extends React.Component {
   }
 
   componentWillUnmount() {
-    this._eventListener.remove();
+    if (this._eventListener) {
+      this._eventListener.remove();
+    }
   }
 
   render() {

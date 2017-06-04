@@ -7,11 +7,19 @@ import Tab from './Tab';
 
 import styles from './Tabs.less';
 
+import type { ReactNode } from '../internal/types';
+
 type Props = {
+
   /**
-   * Active tab identifier
+   * Tab component should be child of Tabs component
    */
-  value: string,
+  children?: ReactNode,
+
+  /**
+   * Classname of indicator
+   */
+  indicatorClassName?: string,
 
   /**
    * Tabs change event
@@ -19,20 +27,15 @@ type Props = {
   onChange?: (ev: { target: { value: string } }, value: string) => void,
 
   /**
-   * Tab component should be child of Tabs component
+   * Active tab identifier
    */
-  children?: any,
-
-  /**
-   * Classname of indicator
-   */
-  indicatorClassName?: string
+  value: string
 };
 
 type State = {
   tabs: Array<{
-    id: string,
-    getNode: () => ?Element
+    getNode: () => ?Element,
+    id: string
   }>
 };
 
