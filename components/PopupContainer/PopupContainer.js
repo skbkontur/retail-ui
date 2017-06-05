@@ -57,13 +57,13 @@ export default class PopupContainer extends Component {
 PopupContainer.propTypes = {
   children: PropTypes.node,
 
-  /*
-    Позиция для попап контейнера
-  */
+/**
+ * Позиция для попап контейнера
+ */
   position: PropTypes.object,
 
-  /*
-    Функция для отправки размера самого себя
-  */
+/**
+ * Функция для отправки размера самого себя
+ */
   reportSelfSize: PropTypes.func
 };

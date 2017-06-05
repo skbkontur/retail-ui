@@ -82,7 +82,7 @@ storiesOf('Popup', module)
 		<div style={{ border: '1px solid black', transform: 'translate(300%, 700%)' }}>
 			<Popup trigger={'click'} render={renderMenu} offset={15}>without pin</Popup>
 		</div>
-	))
+	));
 
 
 function renderMenu() {

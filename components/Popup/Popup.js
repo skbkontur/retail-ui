@@ -198,8 +198,12 @@ export default class Popup extends Component {
     };
   }
 
-  _handleClick(e: any) {//e: SyntheticMouseEvent?
+  _handleClick(e: SyntheticMouseEvent): void {
     if (this.props.trigger !== 'click') {return;}
+
+    if (!(e.target instanceof Element)) {
+      throw new Error("event target doesn't exist");
+    }
 
     let { width, height } = e.target.getBoundingClientRect();
     let { top, left } = this.getCoords(e.target);
@@ -246,14 +250,13 @@ export default class Popup extends Component {
   getCoords(elem: HTMLElement) {
     let box = elem.getBoundingClientRect();
 
-    let body: HTMLBodyElement = document.body;
-    let docEl: HTMLDocument = document.documentElement;
+    let element = document.documentElement || document.body;
 
-    let scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-    let scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+    let scrollTop = window.pageYOffset || element && element.scrollTop || 0;
+    let scrollLeft = window.pageXOffset || element && element.scrollLeft || 0;
 
-    let clientTop = docEl.clientTop || body.clientTop || 0;
-    let clientLeft = docEl.clientLeft || body.clientLeft || 0;
+    let clientTop = element && element.clientTop || 0;
+    let clientLeft = element && element.clientLeft || 0;
 
     let top = box.top + scrollTop - clientTop;
     let left = box.left + scrollLeft - clientLeft;
@@ -269,28 +272,28 @@ export default class Popup extends Component {
 Popup.propTypes = {
   children: PropTypes.node,
 
-  /*
-    Показывать ли крестик закрытия
-  */
+/**
+ * Показывать ли крестик закрытия
+ */
   enableCloseButton: PropTypes.bool,
 
-  /*
-    Отступ попапа от вызывающего элемента
-  */
+/**
+ * Отступ попапа от вызывающего элемента
+ */
   offset: PropTypes.number,
 
-  /*
-    Компонент, который рендерится внутри попапа
-  */
+/**
+ * Компонент, который рендерится внутри попапа
+ */
   render: PropTypes.any,
 
-  /*
-    C какой стороны рендерить попап
-  */
+/**
+ * C какой стороны рендерить попап
+ */
   side: PropTypes.string,
 
-  /*
-    По какому событию открыть попап
-  */
+/**
+ * По какому событию открыть попап
+ */
   trigger: PropTypes.string
 };
