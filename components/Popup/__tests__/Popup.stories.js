@@ -68,11 +68,6 @@ storiesOf('Popup', module)
 		</div>
 	))
 
-	.add('with close button', () => (
-		<div style={{ border: '1px solid black', transform: 'translate(300%, 700%)' }}>
-			<Popup side="top center" trigger={'click'} render={renderMenu} offset={15} enableCloseButton={true}>with close button</Popup>
-		</div>
-	))
 	.add('hover trigger', () => (
 		<div style={{ border: '1px solid black', transform: 'translate(300%, 700%)' }}>
 			<Popup side="top center" trigger={'hover'} render={renderMenu} offset={15}>hover trigger</Popup>

@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import PopupContainer from '../PopupContainer';
-import CloseButton from '../CloseButton/';
 
 import styles from './Popup.less';
 
@@ -12,7 +11,6 @@ type Props = {
   render: () => React.Element<any>,
   side: string,
   trigger: string,
-  enableCloseButton: boolean,
   offset: number
 }
 
@@ -62,7 +60,7 @@ export default class Popup extends Component {
   }
 
   render() {
-    let { children, render, side, enableCloseButton, ...props } = this.props;
+    let { children, render, side, ...props } = this.props;
 
     let className = side ? `${styles.popup} ${styles.pin}` : styles.popup;
     className += ` ${this.popupClasses.join(' ')}`;
@@ -82,10 +80,6 @@ export default class Popup extends Component {
             {...props}
           >
             <div className={className}>
-              {
-                enableCloseButton &&
-                <CloseButton onClick={e => this._handleClick(e)}/>
-              }
               {render()}
             </div>
           </PopupContainer>
@@ -94,6 +88,8 @@ export default class Popup extends Component {
       </div>
     );
   }
+
+
 
   passPositionToContainer() {
     let { popupHeight, popupWidth } = this.state.popupContainer;
@@ -271,11 +267,6 @@ export default class Popup extends Component {
 
 Popup.propTypes = {
   children: PropTypes.node,
-
-/**
- * Показывать ли крестик закрытия
- */
-  enableCloseButton: PropTypes.bool,
 
 /**
  * Отступ попапа от вызывающего элемента
