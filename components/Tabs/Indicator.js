@@ -9,7 +9,8 @@ import styles from './Indicator.less';
 
 type Props = {
   className?: string,
-  getAnchorNode: () => ?Element
+  getAnchorNode: () => ?Element,
+  vertical: boolean
 };
 
 class Indicator extends React.Component {
@@ -48,12 +49,19 @@ class Indicator extends React.Component {
     if (!(node instanceof HTMLElement)) {
       return {};
     }
+
     const rect = node.getBoundingClientRect();
-    const top = node.offsetHeight + node.offsetTop - 3;
-    const left = node.offsetLeft;
+    if (this.props.vertical) {
+      return {
+        width: 3,
+        left: node.offsetLeft,
+        top: node.offsetTop,
+        height: rect.bottom - rect.top
+      };
+    }
     return {
-      left,
-      top,
+      left: node.offsetLeft,
+      top: node.offsetHeight + node.offsetTop - 3,
       width: rect.right - rect.left
     };
   }

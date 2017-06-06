@@ -1,8 +1,10 @@
 // @flow
+/* eslint-disable react/no-multi-comp */
 import React from 'react';
 import { storiesOf, linkTo } from '@kadira/storybook';
 
 import Tabs from '../Tabs';
+const { Tab } = Tabs;
 
 class UncTabs extends React.Component {
   state = {
@@ -14,20 +16,20 @@ class UncTabs extends React.Component {
       <Tabs
         value={this.state.active}
         onChange={(_, v) => this.setState({ active: v })}
+        vertical={this.props.vertical}
       >
-        <Tabs.Tab id="fuji">🌋&nbsp;&nbsp;Fuji</Tabs.Tab>
-        <Tabs.Tab id="tahat">⛰&nbsp;&nbsp;Tahat</Tabs.Tab>
-        <Tabs.Tab id="alps">🗻&nbsp;&nbsp;Alps</Tabs.Tab>
+        <Tab id="fuji">🌋&nbsp;&nbsp;Fuji</Tab>
+        <Tab id="tahat">⛰&nbsp;&nbsp;Tahat</Tab>
+        <Tab id="alps">🗻&nbsp;&nbsp;Alps</Tab>
       </Tabs>
     );
   }
 }
 
-const RouteTab = props => (
-  <Tabs.Tab id={props.to} onClick={linkTo('Tabs', props.to)}>
+const RouteTab = props =>
+  <Tab id={props.to} onClick={linkTo('Tabs', props.to)}>
     {props.children}
-  </Tabs.Tab>
-);
+  </Tab>;
 
 class RouterTabs extends React.Component {
   render() {
@@ -46,4 +48,25 @@ class RouterTabs extends React.Component {
 storiesOf('Tabs', module)
   .add('simple', () => <UncTabs />)
   .add('first', () => <RouterTabs value="first" />)
-  .add('another', () => <RouterTabs value="another" />);
+  .add('another', () => <RouterTabs value="another" />)
+  .add('hrefs first', () =>
+    <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
+      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
+        Hrefs first
+      </Tab>
+      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
+        Hrefs second
+      </Tab>
+    </Tabs>
+  )
+  .add('hrefs second', () =>
+    <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
+      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
+        Hrefs first
+      </Tab>
+      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
+        Hrefs second
+      </Tab>
+    </Tabs>
+  )
+  .add('vertical', () => <UncTabs vertical />);

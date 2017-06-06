@@ -28,7 +28,12 @@ type Props = {
   /**
    * Active tab identifier
    */
-  value: string
+  value: string,
+
+  /**
+   * Vertical indicator
+   */
+  vertical: boolean
 };
 
 type State = {
@@ -44,6 +49,10 @@ type State = {
  * contains static property `Tab`
  */
 class Tabs extends React.Component {
+  static defaultProps = {
+    vertical: false
+  };
+
   static Tab = Tab;
 
   props: Props;
@@ -67,7 +76,8 @@ class Tabs extends React.Component {
       addTab: this._addTab,
       notifyUpdate: this._notifyUpdate,
       removeTab: this._removeTab,
-      switchTab: this._switchTab
+      switchTab: this._switchTab,
+      vertical: this.props.vertical
     };
   }
 
@@ -80,6 +90,7 @@ class Tabs extends React.Component {
           className={this.props.indicatorClassName}
           getAnchorNode={activeTab ? activeTab.getNode : () => null}
           tabUpdates={this._tabUpdates}
+          vertical={this.props.vertical}
         />
       </div>
     );
@@ -114,10 +125,13 @@ class Tabs extends React.Component {
   }
 }
 
-const { string, func } = PropTypes;
+const { string, func, bool, node } = PropTypes;
 
 Tabs.propTypes = {
+  children: node,
+  indicatorClassName: string,
   value: string.isRequired,
+  vertical: bool,
   onChange: func
 };
 
@@ -126,7 +140,8 @@ Tabs.childContextTypes = {
   addTab: func.isRequired,
   notifyUpdate: func.isRequired,
   removeTab: func.isRequired,
-  switchTab: func.isRequired
+  switchTab: func.isRequired,
+  vertical: bool.isRequired
 };
 
 export default Tabs;

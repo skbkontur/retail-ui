@@ -14,10 +14,31 @@
     transition: border-bottom @easing;
     cursor: pointer;
     position: relative;
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  .root.vertical {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 17px;
+    padding-right: 20px;
+    border-bottom: none;
+    border-left: 3px solid transparent;
+  }
+
+  .root:focus {
+    outline: inherit;
   }
 
   .root:hover {
     border-bottom: 3px solid @border-color-focus-light;
+  }
+
+  .root.vertical:hover {
+    border-bottom: none;
+    border-left: 3px solid @border-color-focus-light;
   }
 
   .active {

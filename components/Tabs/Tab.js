@@ -17,9 +17,22 @@ type Props = {
   children?: ReactNode,
 
   /**
+   * Component to use as a tab
+   * @type {Object}
+   */
+  component: | string
+    | Class<React$Component<*, *, *>>
+    | (<T>(props: T) => React$Element<*>),
+
+  /**
+   * Link href
+   */
+  href: string,
+
+  /**
    * Tab identifier
    */
-  id: string,
+  id?: string,
 
   /**
    * Click event
@@ -32,7 +45,8 @@ type Context = {
   addTab: (id: string, getNode: () => ?Element) => void,
   notifyUpdate: () => void,
   removeTab: (id: string) => void,
-  switchTab: (id: string) => void
+  switchTab: (id: string) => void,
+  vertical: boolean
 };
 
 type State = {
@@ -54,6 +68,11 @@ type State = {
  * Works only inside Tabs component, otherwise throws
  */
 class Tab extends React.Component {
+  static defaultProps = {
+    component: 'a',
+    href: 'javascript:'
+  };
+
   context: Context;
 
   props: Props;
@@ -62,7 +81,7 @@ class Tab extends React.Component {
     focusedByTab: false
   };
 
-  _node: ?Element = null;
+  _node: ?HTMLLinkElement = null;
 
   componentWillMount() {
     invariant(
@@ -87,33 +106,37 @@ class Tab extends React.Component {
   }
 
   render() {
-    const isActive = this.context.activeTab === this.props.id;
+    const { id, component: Component, children, ...rest } = this.props;
+    const isActive = this.context.activeTab === this._getId();
+    const isVertical = this.context.vertical;
     return (
-      <div
-        className={cn(styles.root, isActive && styles.active)}
+      <Component
+        className={cn(
+          styles.root,
+          isActive && styles.active,
+          isVertical && styles.vertical
+        )}
+        onBlur={this._handleBlur}
         onClick={this._switchTab}
+        onFocus={this._handleFocus}
+        onKeyDown={this._handleKeyDown}
         ref={this._refNode}
+        {...rest}
       >
-        {this.props.children}
-        {/* For native focus handling */}
-        <input
-          className={styles.input}
-          type="checkbox"
-          onFocus={this._handleFocus}
-          onBlur={this._handleBlur}
-          onKeyDown={this._handleKeyDown}
-        />
+        {children}
         {this.state.focusedByTab && <div className={styles.focus} />}
-      </div>
+      </Component>
     );
   }
 
+  _getId = () => this.props.id || this.props.href;
+
   _addTab() {
-    this.context.addTab(this.props.id, this._getNode);
+    this.context.addTab(this._getId(), this._getNode);
   }
 
   _removeTab() {
-    this.context.removeTab(this.props.id);
+    this.context.removeTab(this._getId());
   }
 
   _refNode = el => {
@@ -123,11 +146,13 @@ class Tab extends React.Component {
   _getNode = () => this._node;
 
   _switchTab = e => {
-    const { onClick, id } = this.props;
-    if (onClick) {
-      onClick(e);
-    } else {
-      this.context.switchTab(id);
+    const id = this.props.id || this.props.href;
+    this.context.switchTab(id);
+  };
+
+  _select = () => {
+    if (this._node) {
+      this._node.click();
     }
   };
 
@@ -135,7 +160,7 @@ class Tab extends React.Component {
     switch (e.key) {
       case 'Enter':
         e.preventDefault();
-        this._switchTab(e);
+        this._select();
         break;
       default:
         return;
@@ -158,10 +183,12 @@ class Tab extends React.Component {
   };
 }
 
-const { string, node, func } = PropTypes;
+const { string, node, func, any, bool } = PropTypes;
 
 Tab.propTypes = {
   children: node,
+  component: any,
+  href: string,
   id: string.isRequired,
   onClick: func
 };
@@ -171,7 +198,8 @@ Tab.contextTypes = {
   addTab: func.isRequired,
   notifyUpdate: func.isRequired,
   removeTab: func.isRequired,
-  switchTab: func.isRequired
+  switchTab: func.isRequired,
+  vertical: bool.isRequired
 };
 
 const KEYCODE_TAB = 9;
