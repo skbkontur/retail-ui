@@ -359,16 +359,24 @@ rules:
   no-bitwise: 0
   no-plusplus: 0
 
-  react/jsx-closing-bracket-location: [1, tag-aligned]
+  react/jsx-closing-bracket-location: 2
   react/jsx-curly-spacing: 2
-  react/jsx-indent-props: [1, 2]
+  react/jsx-indent:
+  - 2
+  - 2
+  react/jsx-indent-props:
+  - 1
+  - 2
   react/jsx-no-undef: 2
   # should probably enable
-  react/sort-prop-types: [1, {callbacksLast: true}]
+  react/sort-prop-types:
+  - 1
+  - callbacksLast: true
   # don't use it atm
   react/jsx-sort-props: 0
   react/jsx-uses-react: 2
   react/jsx-uses-vars: 2
+  react/no-multi-comp: 2
 
   # flowtype rules
   flowtype/boolean-style:
@@ -408,6 +416,7 @@ rules:
   - always
   flowtype/use-flow-type: 1
   flowtype/valid-syntax: 1
+<<<<<<< HEAD
 
 
   # sorting class members
@@ -470,3 +479,5 @@ rules:
       private-handlers:
         - name: "/_handle.+/"
     accessorPairPositioning: getThenSet
+=======
+>>>>>>> 01a42292d7dab696fe7c0606a599693def463bb0
