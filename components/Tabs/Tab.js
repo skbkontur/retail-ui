@@ -20,7 +20,7 @@ type Props = {
    * Component to use as a tab
    * @type {Object}
    */
-  component: | string
+  component: string
     | Class<React$Component<*, *, *>>
     | (<T>(props: T) => React$Element<*>),
 
@@ -60,7 +60,9 @@ type State = {
  * ```js
  * const LinkTab = (props) => <Tab id={props.href}><Link {...props} /></Tab>
  *
- * const RouteTab = (props) => <Tab id={props.to}><Link {...props} /></Tab>
+ * const RouteTab = (props) => (
+ *   <Tab id={props.to} component={RouteLink} {...props}/>
+ * )
  *
  * const MyAwesomeTab = (props) => <Tab id={props.id}>8) {props.children}</Tab>
  * ```
