@@ -19,14 +19,10 @@ export default class PopupContainer extends Component {
   };
 
   props: Props;
-  self: HTMLElement;
+  self_node: HTMLElement;
 
   componentDidMount() {
-    setTimeout(() => {
-      this.props.reportSelfSize(this.self);
-      this.self.classList.toggle(styles.popupWrapperVisible);
-    }, 0);
-
+    this.props.reportSelfSize(this.self_node);
   }
 
   render() {
@@ -39,17 +35,15 @@ export default class PopupContainer extends Component {
     };
 
     return (
-      <div>
         <RenderContainer>
           <div
-            ref={el => this.self = el}
+            ref={el => this.self_node = el}
             className={styles.popupWrapper}
             style={style}
           >
           {children}
           </div>
         </RenderContainer>
-      </div>
     );
   }
 }

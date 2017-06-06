@@ -30,7 +30,6 @@ type State = {
   }
 }
 
-
 export default class Popup extends Component {
   props: Props;
   state: State;
@@ -84,12 +83,9 @@ export default class Popup extends Component {
             </div>
           </PopupContainer>
         }
-
       </div>
     );
   }
-
-
 
   passPositionToContainer() {
     let { popupHeight, popupWidth } = this.state.popupContainer;
@@ -194,12 +190,8 @@ export default class Popup extends Component {
     };
   }
 
-  _handleClick(e: SyntheticMouseEvent): void {
+  _handleClick(e: any) {
     if (this.props.trigger !== 'click') {return;}
-
-    if (!(e.target instanceof Element)) {
-      throw new Error("event target doesn't exist");
-    }
 
     let { width, height } = e.target.getBoundingClientRect();
     let { top, left } = this.getCoords(e.target);
