@@ -10,7 +10,6 @@ import styles from './Tabs.less';
 import type { ReactNode } from '../internal/types';
 
 type Props = {
-
   /**
    * Tab component should be child of Tabs component
    */
@@ -53,11 +52,21 @@ class Tabs extends React.Component {
     tabs: []
   };
 
+  _tabUpdates = {
+    on(cb: () => void) {
+      const index = this._listeners.push(cb);
+      return () => this._listeners.splice(index, 1);
+    }
+  };
+
+  _listeners = [];
+
   getChildContext() {
     return {
-      addTab: this._addTab,
-      removeTab: this._removeTab,
       activeTab: this.props.value,
+      addTab: this._addTab,
+      notifyUpdate: this._notifyUpdate,
+      removeTab: this._removeTab,
       switchTab: this._switchTab
     };
   }
@@ -70,10 +79,15 @@ class Tabs extends React.Component {
         <Indicator
           className={this.props.indicatorClassName}
           getAnchorNode={activeTab ? activeTab.getNode : () => null}
+          tabUpdates={this._tabUpdates}
         />
       </div>
     );
   }
+
+  _notifyUpdate = () => {
+    this._listeners.forEach(cb => cb());
+  };
 
   _switchTab = (id: string) => {
     const { onChange } = this.props;
@@ -108,9 +122,10 @@ Tabs.propTypes = {
 };
 
 Tabs.childContextTypes = {
-  addTab: func.isRequired,
-  removeTab: func.isRequired,
   activeTab: string.isRequired,
+  addTab: func.isRequired,
+  notifyUpdate: func.isRequired,
+  removeTab: func.isRequired,
   switchTab: func.isRequired
 };
 

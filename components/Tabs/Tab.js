@@ -11,7 +11,6 @@ import styles from './Tab.less';
 import type { ReactNode } from '../internal/types';
 
 type Props = {
-
   /**
    * Tab content
    */
@@ -31,6 +30,7 @@ type Props = {
 type Context = {
   activeTab: string,
   addTab: (id: string, getNode: () => ?Element) => void,
+  notifyUpdate: () => void,
   removeTab: (id: string) => void,
   switchTab: (id: string) => void
 };
@@ -54,7 +54,6 @@ type State = {
  * Works only inside Tabs component, otherwise throws
  */
 class Tab extends React.Component {
-
   context: Context;
 
   props: Props;
@@ -75,6 +74,12 @@ class Tab extends React.Component {
   componentDidMount() {
     this._addTab();
     listenTabPresses();
+  }
+
+  componentDidUpdate() {
+    if (this.context.activeTab === this.props.id) {
+      this.context.notifyUpdate();
+    }
   }
 
   componentWillUnmount() {
@@ -103,6 +108,14 @@ class Tab extends React.Component {
     );
   }
 
+  _addTab() {
+    this.context.addTab(this.props.id, this._getNode);
+  }
+
+  _removeTab() {
+    this.context.removeTab(this.props.id);
+  }
+
   _refNode = el => {
     this._node = el;
   };
@@ -117,14 +130,6 @@ class Tab extends React.Component {
       this.context.switchTab(id);
     }
   };
-
-  _addTab() {
-    this.context.addTab(this.props.id, this._getNode);
-  }
-
-  _removeTab() {
-    this.context.removeTab(this.props.id);
-  }
 
   _handleKeyDown = (e: SyntheticKeyboardEvent) => {
     switch (e.key) {
@@ -162,9 +167,10 @@ Tab.propTypes = {
 };
 
 Tab.contextTypes = {
-  addTab: func.isRequired,
-  removeTab: func.isRequired,
   activeTab: string.isRequired,
+  addTab: func.isRequired,
+  notifyUpdate: func.isRequired,
+  removeTab: func.isRequired,
   switchTab: func.isRequired
 };
 
