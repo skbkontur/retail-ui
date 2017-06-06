@@ -7,9 +7,10 @@
     display: inline-block;
     margin-left: 20px;
     margin-right: 20px;
+    padding-top: 9px;
+    padding-bottom: 11px;
     box-sizing: border-box;
-    line-height: 41px;
-    font-size: 16px;
+    font-size: 18px;
     border-bottom: 3px solid transparent;
     transition: border-bottom @easing;
     cursor: pointer;
@@ -41,8 +42,13 @@
     border-left: 3px solid @border-color-focus-light;
   }
 
-  .active {
+  .active:hover {
     cursor: default;
+    border-bottom: 3px solid transparent;
+  }
+
+  .active.vertical:hover {
+    border-left: 3px solid transparent;
   }
 
   .focus {
