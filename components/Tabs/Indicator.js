@@ -80,22 +80,27 @@ class Indicator extends React.Component {
       node = findDOMNode(node);
     }
 
-    if (!(node instanceof HTMLElement)) {
+    if (!node) {
       return {};
     }
 
-    const rect = node.getBoundingClientRect();
+    // better to check node instanceof HTMLElement
+    // but it fails in ie8
+    // eslint-disable-next-line flowtype/no-weak-types
+    const _node: HTMLElement = (node: any);
+
+    const rect = _node.getBoundingClientRect();
     if (this.props.vertical) {
       return {
         width: 3,
-        left: node.offsetLeft,
-        top: node.offsetTop,
+        left: _node.offsetLeft,
+        top: _node.offsetTop,
         height: rect.bottom - rect.top
       };
     }
     return {
-      left: node.offsetLeft,
-      top: node.offsetHeight + node.offsetTop - 3,
+      left: _node.offsetLeft,
+      top: _node.offsetHeight + _node.offsetTop - 3,
       width: rect.right - rect.left
     };
   }
