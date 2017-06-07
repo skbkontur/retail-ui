@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 
 import Indicator from './Indicator';
@@ -38,7 +39,7 @@ type Props = {
 
 type State = {
   tabs: Array<{
-    getNode: () => ?Element,
+    getNode: () => Element | React$Component<*, *, *> | null,
     id: string
   }>
 };
@@ -76,6 +77,7 @@ class Tabs extends React.Component {
       addTab: this._addTab,
       notifyUpdate: this._notifyUpdate,
       removeTab: this._removeTab,
+      shiftFocus: this._shiftFocus,
       switchTab: this._switchTab,
       vertical: this.props.vertical
     };
@@ -83,6 +85,7 @@ class Tabs extends React.Component {
 
   render() {
     const activeTab = this.state.tabs.find(x => x.id === this.props.value);
+
     return (
       <div className={styles.root}>
         {this.props.children}
@@ -95,6 +98,20 @@ class Tabs extends React.Component {
       </div>
     );
   }
+
+  _shiftFocus = (fromTab: string, delta: number) => {
+    const { tabs } = this.state;
+    const index = tabs.findIndex(x => x.id === fromTab);
+    const newIndex = Math.max(0, Math.min(index + delta, tabs.length - 1));
+    const tab = tabs[newIndex];
+    let node = tab.getNode();
+    if (node instanceof React.Component) {
+      node = findDOMNode(node);
+    }
+    if (node && typeof node.focus === 'function') {
+      node.focus();
+    }
+  };
 
   _notifyUpdate = () => {
     this._listeners.forEach(cb => cb());
@@ -140,6 +157,7 @@ Tabs.childContextTypes = {
   addTab: func.isRequired,
   notifyUpdate: func.isRequired,
   removeTab: func.isRequired,
+  shiftFocus: func.isRequired,
   switchTab: func.isRequired,
   vertical: bool.isRequired
 };

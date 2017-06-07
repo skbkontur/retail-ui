@@ -10,6 +10,11 @@ import styles from './Tab.less';
 
 import type { ReactNode } from '../internal/types';
 
+type ComponentType =
+  | string
+  | Class<React$Component<*, *, *>>
+  | (<T>(props: T) => React$Element<*>);
+
 type Props = {
   /**
    * Tab content
@@ -18,11 +23,8 @@ type Props = {
 
   /**
    * Component to use as a tab
-   * @type {Object}
    */
-  component: string
-    | Class<React$Component<*, *, *>>
-    | (<T>(props: T) => React$Element<*>),
+  component: ComponentType,
 
   /**
    * Link href
@@ -37,7 +39,12 @@ type Props = {
   /**
    * Click event
    */
-  onClick?: (e: SyntheticEvent) => void
+  onClick?: (event: SyntheticEvent) => void
+};
+
+type DefaultProps = {
+  component: ComponentType,
+  href: string
 };
 
 type Context = {
@@ -45,12 +52,13 @@ type Context = {
   addTab: (id: string, getNode: () => ?Element) => void,
   notifyUpdate: () => void,
   removeTab: (id: string) => void,
+  shiftFocus: (fromTab: string, delta: number) => void,
   switchTab: (id: string) => void,
   vertical: boolean
 };
 
 type State = {
-  focusedByTab: boolean
+  focusedByKeyboard: boolean
 };
 
 /**
@@ -70,7 +78,7 @@ type State = {
  * Works only inside Tabs component, otherwise throws
  */
 class Tab extends React.Component {
-  static defaultProps = {
+  static defaultProps: DefaultProps = {
     component: 'a',
     href: 'javascript:'
   };
@@ -80,7 +88,7 @@ class Tab extends React.Component {
   props: Props;
 
   state: State = {
-    focusedByTab: false
+    focusedByKeyboard: false
   };
 
   _node: ?HTMLLinkElement = null;
@@ -126,7 +134,7 @@ class Tab extends React.Component {
         {...rest}
       >
         {children}
-        {this.state.focusedByTab && <div className={styles.focus} />}
+        {this.state.focusedByKeyboard && <div className={styles.focus} />}
       </Component>
     );
   }
@@ -141,8 +149,8 @@ class Tab extends React.Component {
     this.context.removeTab(this._getId());
   }
 
-  _refNode = el => {
-    this._node = el;
+  _refNode = element => {
+    this._node = element;
   };
 
   _getNode = () => this._node;
@@ -152,18 +160,18 @@ class Tab extends React.Component {
     this.context.switchTab(id);
   };
 
-  _select = () => {
-    if (this._node) {
-      this._node.click();
-    }
-  };
-
-  _handleKeyDown = (e: SyntheticKeyboardEvent) => {
-    switch (e.key) {
-      case 'Enter':
-        e.preventDefault();
-        this._select();
-        break;
+  _handleKeyDown = (event: SyntheticKeyboardEvent) => {
+    switch (event.keyCode) {
+      case KEYCODE_ARROW_LEFT:
+      case KEYCODE_ARROW_UP:
+        event.preventDefault();
+        this.context.shiftFocus(this._getId(), -1);
+        return;
+      case KEYCODE_ARROW_RIGHT:
+      case KEYCODE_ARROW_DOWN:
+        event.preventDefault();
+        this.context.shiftFocus(this._getId(), 1);
+        return;
       default:
         return;
     }
@@ -171,17 +179,17 @@ class Tab extends React.Component {
 
   _handleFocus = e => {
     // focus event fires before keyDown eventlistener
-    // so we should check tabPressed in async way
+    // so we should check focusKeyPressed in async way
     process.nextTick(() => {
-      if (tabPressed) {
-        this.setState({ focusedByTab: true });
-        tabPressed = false;
+      if (focusKeyPressed) {
+        this.setState({ focusedByKeyboard: true });
+        focusKeyPressed = false;
       }
     });
   };
 
   _handleBlur = e => {
-    this.setState({ focusedByTab: false });
+    this.setState({ focusedByKeyboard: false });
   };
 }
 
@@ -201,18 +209,29 @@ Tab.contextTypes = {
   notifyUpdate: func.isRequired,
   removeTab: func.isRequired,
   switchTab: func.isRequired,
+  shiftFocus: func.isRequired,
   vertical: bool.isRequired
 };
 
 const KEYCODE_TAB = 9;
+const KEYCODE_ARROW_LEFT = 37;
+const KEYCODE_ARROW_UP = 38;
+const KEYCODE_ARROW_RIGHT = 39;
+const KEYCODE_ARROW_DOWN = 40;
 
 let isListening: boolean;
-let tabPressed: boolean;
+let focusKeyPressed: boolean;
 
 function listenTabPresses() {
   if (!isListening) {
     events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
-      tabPressed = event.keyCode === KEYCODE_TAB;
+      focusKeyPressed = [
+        KEYCODE_TAB,
+        KEYCODE_ARROW_LEFT,
+        KEYCODE_ARROW_UP,
+        KEYCODE_ARROW_RIGHT,
+        KEYCODE_ARROW_DOWN
+      ].includes(event.keyCode);
     });
     isListening = true;
   }

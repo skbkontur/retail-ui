@@ -45,6 +45,34 @@ class RouterTabs extends React.Component {
   }
 }
 
+class MyLink extends React.Component {
+  render() {
+    return <a {...this.props} />;
+  }
+}
+
+const MyLinkTab = props => <Tab component={MyLink} {...props} />;
+
+class TabsWithMyLink extends React.Component {
+  state = {
+    active: 'fuji'
+  };
+
+  render() {
+    return (
+      <Tabs
+        value={this.state.active}
+        onChange={(_, v) => this.setState({ active: v })}
+        vertical={this.props.vertical}
+      >
+        <MyLinkTab id="fuji">🌋&nbsp;&nbsp;Fuji</MyLinkTab>
+        <MyLinkTab id="tahat">⛰&nbsp;&nbsp;Tahat</MyLinkTab>
+        <MyLinkTab id="alps">🗻&nbsp;&nbsp;Alps</MyLinkTab>
+      </Tabs>
+    );
+  }
+}
+
 storiesOf('Tabs', module)
   .add('simple', () => <UncTabs />)
   .add('first', () => <RouterTabs value="first" />)
@@ -69,4 +97,5 @@ storiesOf('Tabs', module)
       </Tab>
     </Tabs>
   )
-  .add('vertical', () => <UncTabs vertical />);
+  .add('vertical', () => <UncTabs vertical />)
+  .add('with component', () => <TabsWithMyLink />);
