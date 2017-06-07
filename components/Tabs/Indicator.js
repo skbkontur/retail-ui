@@ -11,9 +11,7 @@ import styles from './Indicator.less';
 type Props = {
   className?: string,
   getAnchorNode: () => Element | React$Component<*, *, *> | null,
-  tabUpdates: {
-    on: (fn: () => void) => () => void
-  },
+  tabUpdates: *,
   vertical: boolean
 };
 
@@ -36,15 +34,20 @@ class Indicator extends React.Component {
   };
 
   _eventListener = null;
+  _removeTabUpdatesListener = null;
 
   componentDidMount() {
     this._eventListener = LayoutEvents.addListener(throttle(this._reflow, 100));
+    this._removeTabUpdatesListener = this.props.tabUpdates.on(this._reflow);
     this._reflow();
   }
 
   componentWillUnmount() {
     if (this._eventListener) {
       this._eventListener.remove();
+    }
+    if (this._removeTabUpdatesListener) {
+      this._removeTabUpdatesListener();
     }
   }
 

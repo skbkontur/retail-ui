@@ -73,6 +73,50 @@ class TabsWithMyLink extends React.Component {
   }
 }
 
+class UnexpectedUpdatedTab extends React.Component {
+  state = {
+    updated: false
+  };
+
+  render() {
+    return (
+      <Tab {...this.props}>
+        {this.state.updated
+          ? ':P'
+          : <button onClick={() => this.setState({ updated: true })}>
+              Update me
+            </button>}
+      </Tab>
+    );
+  }
+}
+
+class OhMyTabs extends React.Component {
+  state = {
+    active: 'fuji'
+  };
+
+  render() {
+    return (
+      <Tabs
+        value={this.state.active}
+        onChange={(_, v) => this.setState({ active: v })}
+        vertical={this.props.vertical}
+      >
+        <UnexpectedUpdatedTab id="fuji">
+          🌋&nbsp;&nbsp;Fuji
+        </UnexpectedUpdatedTab>
+        <UnexpectedUpdatedTab id="tahat">
+          ⛰&nbsp;&nbsp;Tahat
+        </UnexpectedUpdatedTab>
+        <UnexpectedUpdatedTab id="alps">
+          🗻&nbsp;&nbsp;Alps
+        </UnexpectedUpdatedTab>
+      </Tabs>
+    );
+  }
+}
+
 storiesOf('Tabs', module)
   .add('simple', () => <UncTabs />)
   .add('first', () => <RouterTabs value="first" />)
@@ -98,4 +142,5 @@ storiesOf('Tabs', module)
     </Tabs>
   )
   .add('vertical', () => <UncTabs vertical />)
-  .add('with component', () => <TabsWithMyLink />);
+  .add('with component', () => <TabsWithMyLink />)
+  .add('with unexpected tab size change', () => <OhMyTabs />);

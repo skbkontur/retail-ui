@@ -63,7 +63,7 @@ class Tabs extends React.Component {
   };
 
   _tabUpdates = {
-    on(cb: () => void) {
+    on: (cb: () => void) => {
       const index = this._listeners.push(cb);
       return () => this._listeners.splice(index, 1);
     }
