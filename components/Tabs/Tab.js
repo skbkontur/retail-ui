@@ -66,7 +66,6 @@ type State = {
  *
  * Can be used for creating custom tabs
  * ```js
- * const LinkTab = (props) => <Tab id={props.href}><Link {...props} /></Tab>
  *
  * const RouteTab = (props) => (
  *   <Tab id={props.to} component={RouteLink} {...props}/>
@@ -116,6 +115,7 @@ class Tab extends React.Component {
   }
 
   render() {
+    // eslint-disable-next-line no-unused-vars
     const { id, component: Component, children, ...rest } = this.props;
     const isActive = this.context.activeTab === this._getId();
     const isVertical = this.context.vertical;

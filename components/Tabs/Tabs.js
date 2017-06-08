@@ -34,7 +34,12 @@ type Props = {
   /**
    * Vertical indicator
    */
-  vertical: boolean
+  vertical: boolean,
+
+  /**
+   * Width of tabs container
+   */
+  width?: number | string
 };
 
 type State = {
@@ -87,7 +92,7 @@ class Tabs extends React.Component {
     const activeTab = this.state.tabs.find(x => x.id === this.props.value);
 
     return (
-      <div className={styles.root}>
+      <div className={styles.root} style={{ width: this.props.width }}>
         {this.props.children}
         <Indicator
           className={this.props.indicatorClassName}
@@ -142,13 +147,14 @@ class Tabs extends React.Component {
   }
 }
 
-const { string, func, bool, node } = PropTypes;
+const { string, func, bool, node, oneOfType, number } = PropTypes;
 
 Tabs.propTypes = {
   children: node,
   indicatorClassName: string,
   value: string.isRequired,
   vertical: bool,
+  width: oneOfType([string, number]),
   onChange: func
 };
 
