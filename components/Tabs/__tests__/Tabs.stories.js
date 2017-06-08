@@ -18,9 +18,9 @@ class UncTabs extends React.Component {
         onChange={(_, v) => this.setState({ active: v })}
         vertical={this.props.vertical}
       >
-        <Tab id="fuji">🌋&nbsp;&nbsp;Fuji</Tab>
-        <Tab id="tahat">⛰&nbsp;&nbsp;Tahat</Tab>
-        <Tab id="alps">🗻&nbsp;&nbsp;Alps</Tab>
+        <Tab id="fuji">Fuji</Tab>
+        <Tab id="tahat">Tahat</Tab>
+        <Tab id="alps">Alps</Tab>
       </Tabs>
     );
   }
