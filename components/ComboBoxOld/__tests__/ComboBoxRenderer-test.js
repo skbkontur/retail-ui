@@ -65,7 +65,7 @@ describe('ComboBoxRenderer', () => {
       <ComboBoxRenderer
         value={null}
         source={source}
-        recover={text => text === 'bar' ? { value: 'bar' } : null}
+        recover={text => (text === 'bar' ? { value: 'bar' } : null)}
         onError={onError}
       />
     );

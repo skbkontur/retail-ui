@@ -16,7 +16,7 @@ const SelectAdapter = {
   getItemValues(inst) {
     inst._open();
     inst._close();
-    return inst.mapItems((value) => value);
+    return inst.mapItems(value => value);
   }
 };
 

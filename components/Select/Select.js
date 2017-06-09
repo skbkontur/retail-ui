@@ -1,6 +1,7 @@
 import events from 'add-event-listener';
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 import Button from '../Button';
@@ -160,10 +161,7 @@ class Select extends React.Component {
     }
 
     return (
-      <RenderLayer
-        onClickOutside={this._close}
-        onFocusOutside={this._close}
-      >
+      <RenderLayer onClickOutside={this._close} onFocusOutside={this._close}>
         <span className={styles.root} style={style}>
           {this.props._renderButton
             ? this.props._renderButton(buttonParams)
@@ -384,14 +382,17 @@ class Select extends React.Component {
   };
 
   _select(value) {
-    this.setState({
-      opened: false,
-      value
-    }, () => {
-      setTimeout(() => {
-        ReactDOM.findDOMNode(this).focus();
-      }, 0);
-    });
+    this.setState(
+      {
+        opened: false,
+        value
+      },
+      () => {
+        setTimeout(() => {
+          ReactDOM.findDOMNode(this).focus();
+        }, 0);
+      }
+    );
     if (this.props.onChange) {
       this.props.onChange({ target: { value } }, value);
     }
@@ -405,8 +406,8 @@ class Select extends React.Component {
   }
 
   mapItems(fn) {
-    const pattern = this.state.searchPattern &&
-      this.state.searchPattern.toLowerCase();
+    const pattern =
+      this.state.searchPattern && this.state.searchPattern.toLowerCase();
 
     const ret = [];
     let index = 0;

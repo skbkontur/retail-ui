@@ -1,7 +1,9 @@
 // @flow
 import events from 'add-event-listener';
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import Icon from '../Icon';
 
@@ -28,7 +30,6 @@ function listenTabPresses() {
   }
 }
 
-
 /**
  * Стандартная ссылка.
  *
@@ -54,7 +55,7 @@ class Link extends React.Component {
     focusedByTab: boolean
   } = {
     focusedByTab: false
-  }
+  };
 
   componentDidMount() {
     listenTabPresses();
@@ -123,7 +124,7 @@ class Link extends React.Component {
 
   _handleBlur = () => {
     this.setState({ focusedByTab: false });
-  }
+  };
 
   _handleClick = event => {
     if (this.props.onClick && !this.props.disabled) {

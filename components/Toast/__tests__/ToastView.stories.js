@@ -4,9 +4,7 @@ import { storiesOf, action } from '@kadira/storybook';
 import Toast from '../ToastView';
 
 storiesOf('ToastView', module)
-  .add('simple toast', () => (
-    <Toast>Changes saved</Toast>
-  ))
+  .add('simple toast', () => <Toast>Changes saved</Toast>)
   .add('with action', () => (
     <Toast
       action={{ label: 'Cancel', handler: action('action') }}

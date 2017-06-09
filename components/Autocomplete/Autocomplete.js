@@ -1,7 +1,8 @@
 // @flow
 
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 
 import Input from '../Input';
@@ -12,12 +13,12 @@ import styles from './Autocomplete.less';
 
 type Props = InputProps & {
   renderItem: any,
-  source: any,
+  source: any
 };
 
 type State = {
   items: ?Array<any>,
-  selected: number,
+  selected: number
 };
 
 /**
@@ -46,10 +47,7 @@ export default class Autocomplete extends React.Component {
      * }
      * ```
      */
-    source: PropTypes.oneOfType([
-      PropTypes.array,
-      PropTypes.func
-    ])
+    source: PropTypes.oneOfType([PropTypes.array, PropTypes.func])
   };
 
   static defaultProps = {
@@ -62,8 +60,8 @@ export default class Autocomplete extends React.Component {
     items: null,
     selected: -1
   };
-  _opened: bool = false;
-  _input: Input = null;
+  _opened: boolean = false;
+  _input: ?Input = null;
 
   render() {
     var inputProps = {
@@ -73,7 +71,7 @@ export default class Autocomplete extends React.Component {
       onMouseEnter: this.props.onMouseEnter,
       onMouseLeave: this.props.onMouseLeave,
       onMouseOver: this.props.onMouseOver,
-      ref: this._refInput,
+      ref: this._refInput
     };
     return (
       <span className={styles.root}>
@@ -99,10 +97,12 @@ export default class Autocomplete extends React.Component {
               [styles.itemPadLeft]: this.props.leftIcon
             });
             return (
-              <div key={i} className={rootClass}
-                onMouseDown={(e) => this.handleItemClick(e, i)}
-                onMouseEnter={(e) => this.setState({ selected: i })}
-                onMouseLeave={(e) => this.setState({ selected: -1 })}
+              <div
+                key={i}
+                className={rootClass}
+                onMouseDown={e => this.handleItemClick(e, i)}
+                onMouseEnter={e => this.setState({ selected: i })}
+                onMouseLeave={e => this.setState({ selected: -1 })}
               >
                 {this.props.renderItem(item)}
               </div>
@@ -212,7 +212,7 @@ export default class Autocomplete extends React.Component {
     } else {
       promise = match(pattern, source);
     }
-    promise.then((items) => {
+    promise.then(items => {
       if (this.props.value === value && this._opened) {
         this.setState({
           items,
@@ -234,7 +234,7 @@ export default class Autocomplete extends React.Component {
     }
   }
 
-  _refInput = (el) => {
+  _refInput = el => {
     this._input = el;
   };
 }
@@ -245,8 +245,8 @@ function match(pattern, items) {
   }
 
   pattern = pattern.toLowerCase();
-  const filteredItems = items.filter(
-    item => item.toLowerCase().includes(pattern)
+  const filteredItems = items.filter(item =>
+    item.toLowerCase().includes(pattern)
   );
   return Promise.resolve(filteredItems);
 }

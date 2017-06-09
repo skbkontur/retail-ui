@@ -6,17 +6,9 @@ import View from '../ComboBoxView';
 
 storiesOf('ComboBoxV2 View', module)
   .add('idle input', () => (
-    <View
-      value={{ id: 1, name: 'hello' }}
-      renderValue={renderValue}
-    />
+    <View value={{ id: 1, name: 'hello' }} renderValue={renderValue} />
   ))
-  .add('active input', () => (
-    <View
-      editing
-      textValue="hello"
-    />
-  ))
+  .add('active input', () => <View editing textValue="hello" />)
   .add('with items', () => (
     <View
       editing
@@ -38,31 +30,15 @@ storiesOf('ComboBoxV2 View', module)
       renderItem={renderValue}
     />
   ))
-  .add('with error', () => (
-    <View
-      editing
-      error
-      textValue="error"
-    />
-  ))
-  .add('loading', () => (
-    <View
-      editing
-      loading
-      opened
-      textValue="loading"
-    />
-  ))
+  .add('with error', () => <View editing error textValue="error" />)
+  .add('loading', () => <View editing loading opened textValue="loading" />)
   .add('loading with items', () => (
     <View
       editing
       loading
       opened
       textValue="loading"
-      items={[
-        { id: 2, name: 'two' },
-        { id: 3, name: 'three' }
-      ]}
+      items={[{ id: 2, name: 'two' }, { id: 3, name: 'three' }]}
       renderItem={renderValue}
     />
   ))
@@ -80,39 +56,19 @@ storiesOf('ComboBoxV2 View', module)
       editing
       textValue="one"
       opened
-      items={[
-        { id: 2, name: 'two' },
-        { id: 3, name: 'three' }
-      ]}
+      items={[{ id: 2, name: 'two' }, { id: 3, name: 'three' }]}
       renderItem={renderValue}
       totalCount={221}
       renderTotalCount={(found, total) => `Показано ${found} из ${total}`}
     />
   ))
-
-  .add('idle with placeholder', () => (
-    <View
-      placeholder="placeholder"
-    />
-  ))
+  .add('idle with placeholder', () => <View placeholder="placeholder" />)
   .add('active with placeholder', () => (
-    <View
-      editing
-      placeholder="placeholder"
-    />
+    <View editing placeholder="placeholder" />
   ))
-  .add('idle disabled', () => (
-    <View
-      placeholder="placeholder"
-      disabled
-    />
-  ))
+  .add('idle disabled', () => <View placeholder="placeholder" disabled />)
   .add('active disabled', () => (
-    <View
-      editing
-      placeholder="placeholder"
-      disabled
-    />
+    <View editing placeholder="placeholder" disabled />
   ));
 
 function renderValue({ id, name }) {

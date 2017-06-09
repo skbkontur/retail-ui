@@ -19,27 +19,27 @@ class ToastStatic {
       body.appendChild(ToastStatic.node);
 
       ReactDOM.render(
-        <Toast ref={el => ToastStatic.instance = el}/>,
+        <Toast ref={el => ToastStatic.instance = el} />,
         ToastStatic.node,
+        // $FlowIssue No definition for 3rd argument
         () => ToastStatic._push(notification, action)
       );
-
     } else {
       ToastStatic._push(notification, action);
     }
-  }
+  };
 
   static _push = function(notification, action) {
     if (ToastStatic.instance) {
       ToastStatic.instance.push(notification, action);
     }
-  }
+  };
 
   static close = function() {
     if (ToastStatic.instance) {
       ToastStatic.instance.close();
     }
-  }
+  };
 }
 
 export default ToastStatic;

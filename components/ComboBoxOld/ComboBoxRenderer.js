@@ -161,10 +161,7 @@ class ComboBoxRenderer extends React.Component {
       >
         <label className={styles.root} style={{ width: this.props.width }}>
           {this.state.isEditing ? this.renderInput() : this.renderValue()}
-          {this.state.opened &&
-            <div className={styles.menuHolder}>
-              {this.renderMenu()}
-            </div>}
+          {this.state.opened && this.renderMenu()}
           {this.props.openButton &&
             <div
               className={styles.arrow}
@@ -521,8 +518,7 @@ class ComboBoxRenderer extends React.Component {
   }
 
   _setCurrentSearchText(value: Value, info: ?Info) {
-    const valueToString =
-      this.props.valueToString || this.props.alkoValueToText;
+    const valueToString = this.props.valueToString;
 
     if (valueToString) {
       const searchText = value

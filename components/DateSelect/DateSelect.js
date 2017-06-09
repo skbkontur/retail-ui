@@ -1,14 +1,28 @@
 // @flow
 
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import styles from './DateSelect.less';
 
 import Icon from '../Icon/Icon.js';
 
-const MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
-  'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+const MONTHS = [
+  'Январь',
+  'Февраль',
+  'Март',
+  'Апрель',
+  'Май',
+  'Июнь',
+  'Июль',
+  'Август',
+  'Сентябрь',
+  'Октябрь',
+  'Ноябрь',
+  'Декабрь'
+];
 
 const HEIGHT = 24;
 
@@ -18,17 +32,17 @@ type Props = {
   type: 'month' | 'year',
   value: number,
   width: number | string,
-  onChange: (value: number) => void,
+  onChange: (value: number) => void
 };
 
 type State = {
-  botCapped: bool,
+  botCapped: boolean,
   current: ?number,
   height: number,
-  opened: bool,
+  opened: boolean,
   pos: number,
   top: number,
-  topCapped: bool,
+  topCapped: boolean
 };
 
 const isIE8 = ~window.navigator.userAgent.indexOf('MSIE 8.0');
@@ -111,12 +125,14 @@ export default class DateSelect extends React.Component {
         [styles.menuItemActive]: i === this.state.current,
         [styles.menuItemSelected]: i === 0
       });
-      const clickHandler = isIE8 ? {
-        onMouseDown: this.handleItemClick(i)
-      } : {
-        onMouseDown: e => e.preventDefault(),
-        onClick: this.handleItemClick(i)
-      };
+      const clickHandler = isIE8
+        ? {
+            onMouseDown: this.handleItemClick(i)
+          }
+        : {
+            onMouseDown: e => e.preventDefault(),
+            onClick: this.handleItemClick(i)
+          };
       items.push(
         <div
           key={i}
@@ -155,24 +171,19 @@ export default class DateSelect extends React.Component {
 
     return (
       <div className={holderClass} style={style} onKeyDown={this.handleKey}>
-        {!this.state.topCapped && (
+        {!this.state.topCapped &&
           <div className={styles.menuUp} onMouseDown={this.handleUp}>
             <span><Icon name={'caret-top'} /></span>
-          </div>
-        )}
+          </div>}
         <div className={styles.itemsHolder} style={{ height }}>
-          <div
-            style={shiftStyle}
-            onWheel={this.handleWheel}
-          >
+          <div style={shiftStyle} onWheel={this.handleWheel}>
             {items}
           </div>
         </div>
-        {!this.state.botCapped && (
+        {!this.state.botCapped &&
           <div className={styles.menuDown} onMouseDown={this.handleDown}>
             <span><Icon name={'caret-bottom'} /></span>
-          </div>
-        )}
+          </div>}
       </div>
     );
   }
@@ -186,7 +197,7 @@ export default class DateSelect extends React.Component {
     } else if (event.deltaMode === 2) {
       deltaY *= HEIGHT * 4;
     }
-    const pos = this.state.pos += deltaY;
+    const pos = (this.state.pos += deltaY);
     this.resetSize(pos);
   };
 

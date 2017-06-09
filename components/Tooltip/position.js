@@ -7,14 +7,14 @@ const SPACE = 13;
 export type Result = {
   boxStyle: Object,
   pinStyle: Object,
-  pinDirection: 'top' | 'right' | 'bottom' | 'left';
+  pinDirection: 'top' | 'right' | 'bottom' | 'left'
 };
 
 export default function(
   box: HTMLElement,
   target: HTMLElement,
   posStr: string,
-  fixed: bool,
+  fixed: boolean
 ): Result {
   const pos = extractPos(posStr);
 
@@ -27,10 +27,12 @@ export default function(
     throw Error('There is no "documentElement" in "document"');
   }
 
-  const pageXOffset = window.pageXOffset !== undefined ? window.pageXOffset
-      : docElem.scrollLeft;
-  const pageYOffset = window.pageYOffset !== undefined ? window.pageYOffset
-      : docElem.scrollTop;
+  const pageXOffset = window.pageXOffset !== undefined
+    ? window.pageXOffset
+    : docElem.scrollLeft;
+  const pageYOffset = window.pageYOffset !== undefined
+    ? window.pageYOffset
+    : docElem.scrollTop;
 
   const tRect = target.getBoundingClientRect();
   const tWidth = tRect.right - tRect.left;
@@ -49,8 +51,9 @@ export default function(
   if (pos.aside) {
     switch (pos.ver) {
       case 'top':
-        if (tRect.top + height > wndHeight
-            && tRect.top > wndHeight - tRect.bottom) {
+        if (
+          tRect.top + height > wndHeight && tRect.top > wndHeight - tRect.bottom
+        ) {
           pos.ver = 'bottom';
         }
         break;
@@ -62,8 +65,10 @@ export default function(
     }
     switch (pos.hor) {
       case 'left':
-        if (tRect.left - width - SPACE < 0
-            && wndWidth - tRect.right >= width + SPACE) {
+        if (
+          tRect.left - width - SPACE < 0 &&
+          wndWidth - tRect.right >= width + SPACE
+        ) {
           pos.hor = 'right';
         }
         break;
@@ -76,14 +81,17 @@ export default function(
   } else {
     switch (pos.ver) {
       case 'top':
-        if (tRect.top < height + SPACE
-            && tRect.top < wndHeight - tRect.bottom) {
+        if (
+          tRect.top < height + SPACE && tRect.top < wndHeight - tRect.bottom
+        ) {
           pos.ver = 'bottom';
         }
         break;
       case 'bottom':
-        if (wndHeight - tRect.bottom < height + SPACE
-            && wndHeight - tRect.bottom < tRect.top) {
+        if (
+          wndHeight - tRect.bottom < height + SPACE &&
+          wndHeight - tRect.bottom < tRect.top
+        ) {
           pos.ver = 'top';
         }
         break;
@@ -104,11 +112,20 @@ export default function(
 
   let pinDirection;
   switch (true) {
-    case pos.aside && pos.hor === 'left': pinDirection = 'right'; break;
-    case pos.aside && pos.hor === 'right': pinDirection = 'left'; break;
-    case !pos.aside && pos.ver === 'top': pinDirection = 'bottom'; break;
-    case !pos.aside && pos.ver === 'bottom': pinDirection = 'top'; break;
-    default: invariant(false, '');
+    case pos.aside && pos.hor === 'left':
+      pinDirection = 'right';
+      break;
+    case pos.aside && pos.hor === 'right':
+      pinDirection = 'left';
+      break;
+    case !pos.aside && pos.ver === 'top':
+      pinDirection = 'bottom';
+      break;
+    case !pos.aside && pos.ver === 'bottom':
+      pinDirection = 'top';
+      break;
+    default:
+      invariant(false, '');
   }
 
   const pinStyle = {};
@@ -118,18 +135,30 @@ export default function(
       pinOffset = height / 2;
     }
     switch (pos.ver) {
-      case 'top': pinStyle.top = pinOffset; break;
-      case 'middle': pinStyle.top = height / 2; break;
-      case 'bottom': pinStyle.top = height - pinOffset; break;
+      case 'top':
+        pinStyle.top = pinOffset;
+        break;
+      case 'middle':
+        pinStyle.top = height / 2;
+        break;
+      case 'bottom':
+        pinStyle.top = height - pinOffset;
+        break;
     }
   } else {
     if (pinOffset > width / 2) {
       pinOffset = width / 2;
     }
     switch (pos.hor) {
-      case 'left': pinStyle.left = pinOffset; break;
-      case 'center': pinStyle.left = width / 2; break;
-      case 'right': pinStyle.left = width - pinOffset; break;
+      case 'left':
+        pinStyle.left = pinOffset;
+        break;
+      case 'center':
+        pinStyle.left = width / 2;
+        break;
+      case 'right':
+        pinStyle.left = width - pinOffset;
+        break;
     }
   }
 
@@ -142,7 +171,9 @@ export default function(
           top += tHeight / 2 - pinOffset;
         }
         break;
-      case 'middle': top += tHeight / 2 - height / 2; break;
+      case 'middle':
+        top += tHeight / 2 - height / 2;
+        break;
       case 'bottom':
         top += tHeight - height;
         if (tHeight / 2 < pinOffset) {
@@ -151,13 +182,21 @@ export default function(
         break;
     }
     switch (pos.hor) {
-      case 'left': left -= width + SPACE; break;
-      case 'right': left += tWidth + SPACE; break;
+      case 'left':
+        left -= width + SPACE;
+        break;
+      case 'right':
+        left += tWidth + SPACE;
+        break;
     }
   } else {
     switch (pos.ver) {
-      case 'top': top -= height + SPACE; break;
-      case 'bottom': top += tHeight + SPACE; break;
+      case 'top':
+        top -= height + SPACE;
+        break;
+      case 'bottom':
+        top += tHeight + SPACE;
+        break;
     }
     switch (pos.hor) {
       case 'left':
@@ -165,7 +204,9 @@ export default function(
           left += tWidth / 2 - pinOffset;
         }
         break;
-      case 'center': left += tWidth / 2 - width / 2; break;
+      case 'center':
+        left += tWidth / 2 - width / 2;
+        break;
       case 'right':
         left += tWidth - width;
         if (tWidth / 2 < pinOffset) {

@@ -6,11 +6,7 @@ import React from 'react';
 
 import RadioGroup from '../RadioGroup.adapter.js';
 
-const items = [
-  ['one', 'One'],
-  ['two', 'Two'],
-  ['three', 'Three']
-];
+const items = [['one', 'One'], ['two', 'Two'], ['three', 'Three']];
 
 describe('RadioGroup-adapter', () => {
   testAdapter('getValue', mount => {
@@ -21,7 +17,7 @@ describe('RadioGroup-adapter', () => {
   testAdapter('setValue', mount => {
     const onChange = jest.fn();
     const adapter = mount(
-      <RadioGroup value={null} items={[]} onChange={onChange}/>
+      <RadioGroup value={null} items={[]} onChange={onChange} />
     );
 
     adapter.setValue('foo');

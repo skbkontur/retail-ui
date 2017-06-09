@@ -1,6 +1,7 @@
 // @flow
 
 import { mount } from 'enzyme';
+import type { ReactWrapper } from 'enzyme';
 import React from 'react';
 
 class Wrap extends React.Component {
@@ -12,16 +13,15 @@ class Wrap extends React.Component {
 
 type ReturnType = {
   node: HTMLElement,
-  unmount: () => void,
-  setProps: (props: {[_: string]: any}) => void,
+  unmount: () => ReactWrapper,
+  setProps: (props: Object) => ReactWrapper
 };
 
-export function mountTest(
-  reactElement: React.Element<any>
-): ReturnType {
+export function mountTest(reactElement: React.Element<any>): ReturnType {
   const wrapper = mount(<Wrap>{reactElement}</Wrap>);
 
   return {
+    // $FlowIssue needs better enzyme typings
     node: ReactTesting.findDOMNodes('a', wrapper.node)[0],
     unmount: wrapper.unmount.bind(wrapper),
     setProps: wrapper.setProps.bind(wrapper)

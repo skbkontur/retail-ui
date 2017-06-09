@@ -23,12 +23,12 @@ const PASS_PROPS = {
 
 export default class InputLikeText extends React.Component {
   props: {
-    borderless?: bool,
+    borderless?: boolean,
     children?: any,
-    error?: bool,
-    padRight?: bool,
-    warning?: bool,
-    disabled?: bool
+    error?: boolean,
+    padRight?: boolean,
+    warning?: boolean,
+    disabled?: boolean
   };
 
   render() {

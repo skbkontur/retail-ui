@@ -1,6 +1,8 @@
 import events from 'add-event-listener';
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
@@ -55,7 +57,9 @@ export default class ScrollContainer extends React.Component {
         height: this.state.scrollSize
       };
       scroll = (
-        <div className={scrollClass} style={scrollStyle}
+        <div
+          className={scrollClass}
+          style={scrollStyle}
           onMouseDown={this._handleScrollMouseDown}
           onWheel={this._handleScrollWheel}
         />
@@ -96,7 +100,7 @@ export default class ScrollContainer extends React.Component {
     events.removeEventListener(this._inner, 'scroll', this._handleNativeScroll);
   }
 
-  _refInner = (el) => {
+  _refInner = el => {
     this._inner = el;
   };
 
@@ -125,7 +129,9 @@ export default class ScrollContainer extends React.Component {
         scrollSize = MIN_SCROLL_SIZE;
       }
 
-      const scrollPos = scrollTop / (contentHeight - containerHeight) *
+      const scrollPos =
+        scrollTop /
+        (contentHeight - containerHeight) *
         (containerHeight - scrollSize);
 
       if (state.scrollSize !== scrollSize || state.scrollPos !== scrollPos) {
@@ -140,13 +146,14 @@ export default class ScrollContainer extends React.Component {
     }
   };
 
-  _handleScrollMouseDown = (event) => {
+  _handleScrollMouseDown = event => {
     const target = global.document;
     const initialY = event.clientY;
     const initialScrollTop = this._inner.scrollTop;
 
-    const mouseMove = (event) => {
-      const ratio = (this._inner.scrollHeight - this._inner.offsetHeight) /
+    const mouseMove = event => {
+      const ratio =
+        (this._inner.scrollHeight - this._inner.offsetHeight) /
         (this._inner.offsetHeight - this.state.scrollSize);
       const deltaY = (event.clientY - initialY) * ratio;
 
@@ -171,7 +178,7 @@ export default class ScrollContainer extends React.Component {
     event.preventDefault();
   };
 
-  _handleScrollWheel = (event) => {
+  _handleScrollWheel = event => {
     const inner = this._inner;
 
     if (
@@ -189,8 +196,8 @@ export default class ScrollContainer extends React.Component {
   };
 
   _handleMouseMove = event => {
-    const right = event.currentTarget.getBoundingClientRect().right -
-      event.pageX;
+    const right =
+      event.currentTarget.getBoundingClientRect().right - event.pageX;
     this._setHover(right <= 12);
   };
 

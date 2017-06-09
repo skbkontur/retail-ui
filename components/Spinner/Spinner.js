@@ -1,5 +1,8 @@
+// @flow
 import classnames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import styles from './Spinner.less';
 import SpinnerFallback from './SpinnerFallback';
@@ -36,9 +39,7 @@ class Spinner extends React.Component {
     caption: 'Загрузка'
   };
 
-  constructor(props) {
-    super(props);
-  }
+  static Types: typeof types;
 
   _renderCloud = type => {
     const params = sizeMaps[type];
@@ -89,8 +90,6 @@ class Spinner extends React.Component {
           cx="8"
           cy="8"
           r="6"
-          strokeMiterlimit="10"
-          strokeDashoffset="0"
           className={styles.path}
           strokeWidth={params.strokeWidth}
         />

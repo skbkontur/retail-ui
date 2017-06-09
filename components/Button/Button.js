@@ -1,7 +1,9 @@
 // @flow
 import events from 'add-event-listener';
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import Corners from './Corners';
 import Icon from '../Icon';
@@ -151,7 +153,7 @@ class Button extends React.Component {
     const { corners = 0 } = this.props;
     const radius = '2px';
 
-    const rootProps: any = {
+    const rootProps: Object = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.

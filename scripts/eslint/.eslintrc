@@ -3,6 +3,8 @@ parser: babel-eslint
 
 plugins:
   - react
+  - sort-class-members
+  - flowtype
 
 env:
   browser: true
@@ -357,13 +359,60 @@ rules:
   no-bitwise: 0
   no-plusplus: 0
 
-  react/jsx-closing-bracket-location: [1, tag-aligned]
+  react/jsx-closing-bracket-location: 2
   react/jsx-curly-spacing: 2
-  react/jsx-indent-props: [1, 2]
+  react/jsx-indent:
+  - 2
+  - 2
+  react/jsx-indent-props:
+  - 1
+  - 2
   react/jsx-no-undef: 2
   # should probably enable
-  react/sort-prop-types: [1, {callbacksLast: true}]
+  react/sort-prop-types:
+  - 1
+  - callbacksLast: true
   # don't use it atm
   react/jsx-sort-props: 0
   react/jsx-uses-react: 2
   react/jsx-uses-vars: 2
+  react/no-multi-comp: 2
+
+  # flowtype rules
+  flowtype/boolean-style:
+  - 2
+  - boolean
+  flowtype/define-flow-type: 1
+  flowtype/delimiter-dangle:
+  - 2
+  - never
+  flowtype/generic-spacing:
+  - 2
+  - never
+  flowtype/no-primitive-constructor-types: 2
+  flowtype/no-types-missing-file-annotation: 2
+  flowtype/no-weak-types: 2
+  flowtype/object-type-delimiter:
+  - 2
+  - comma
+  flowtype/require-valid-file-annotation: 2
+  flowtype/semi:
+  - 2
+  - always
+  flowtype/sort-keys:
+  - 2
+  - asc
+  flowtype/space-after-type-colon:
+  - 2
+  - always
+  flowtype/space-before-generic-bracket:
+  - 2
+  - never
+  flowtype/space-before-type-colon:
+  - 2
+  - never
+  flowtype/union-intersection-spacing:
+  - 2
+  - always
+  flowtype/use-flow-type: 1
+  flowtype/valid-syntax: 1

@@ -75,6 +75,7 @@ describe('ComboBox V2', () => {
     expect(menuItems.length).toBe(items.length);
 
     menuItems.forEach((item, index) => {
+      // $FlowIssue input length already checked
       expect(item.text()).toBe(items[index]);
     });
   });
@@ -83,9 +84,7 @@ describe('ComboBox V2', () => {
     const items = ['one', 'two', 'three'];
     const search = jest.fn(() => Promise.resolve(items));
     const onChange = jest.fn();
-    const wrapper = mount(
-      <ComboBoxV2 getItems={search} onChange={onChange} />
-    );
+    const wrapper = mount(<ComboBoxV2 getItems={search} onChange={onChange} />);
 
     wrapper.find('InputLikeText').simulate('focus');
 
@@ -106,9 +105,7 @@ describe('ComboBox V2', () => {
     const items = ['one', 'two', 'three'];
     const search = jest.fn(() => Promise.resolve(items));
     const onChange = jest.fn();
-    const wrapper = mount(
-      <ComboBoxV2 getItems={search} onChange={onChange} />
-    );
+    const wrapper = mount(<ComboBoxV2 getItems={search} onChange={onChange} />);
 
     wrapper.find('InputLikeText').simulate('focus');
 
@@ -140,10 +137,7 @@ describe('ComboBox V2', () => {
     const search = jest.fn(() => Promise.reject());
     const onUnexpectedInput = jest.fn();
     const wrapper = mount(
-      <ComboBoxV2
-        getItems={search}
-        onUnexpectedInput={onUnexpectedInput}
-      />
+      <ComboBoxV2 getItems={search} onUnexpectedInput={onUnexpectedInput} />
     );
 
     wrapper.find('InputLikeText').simulate('focus');
@@ -204,9 +198,7 @@ describe('ComboBox V2', () => {
     ];
     const search = jest.fn(() => Promise.resolve(items));
     const onChange = jest.fn();
-    const wrapper = mount(
-      <ComboBoxV2 getItems={search} onChange={onChange} />
-    );
+    const wrapper = mount(<ComboBoxV2 getItems={search} onChange={onChange} />);
 
     wrapper.find('InputLikeText').simulate('focus');
 
@@ -218,9 +210,6 @@ describe('ComboBox V2', () => {
     menu
       .children()
       .findWhere(x => x.matchesElement(<div>Hello, world</div>))
-      .tap(x => {
-        expect(x.prop('onClick')).toBeInstanceOf(Function);
-      })
       .simulate('click');
 
     expect(onChange).toHaveBeenCalledTimes(1);

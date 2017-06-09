@@ -31,7 +31,6 @@ function withFocusOutside<P, S>(
     component: any;
 
     _ref = el => {
-
       this.component = el;
 
       if (this._focusSubscribtion) {

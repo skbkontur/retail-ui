@@ -65,10 +65,7 @@ const reducers = {
         inputChanged: true,
         textValue: action.value
       },
-      [
-        Effect.DebouncedSearch,
-        Effect.InputChange
-      ]
+      [Effect.DebouncedSearch, Effect.InputChange]
     ];
   },
   Open: (state, props, action) => {

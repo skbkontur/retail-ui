@@ -2,7 +2,9 @@
 
 import events from 'add-event-listener';
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 
 import Icon from '../Icon';
 
@@ -53,7 +55,7 @@ class Checkbox extends React.Component {
     focusedByTab: boolean
   } = {
     focusedByTab: false
-  }
+  };
 
   _wasFocused = false;
 
@@ -95,7 +97,7 @@ class Checkbox extends React.Component {
               <Icon name="ok" />
             </div>}
         </span>
-        <span className={styles.caption}>{this.props.children}</span>
+        <div className={styles.caption}>{this.props.children}</div>
       </label>
     );
   }
@@ -119,7 +121,7 @@ class Checkbox extends React.Component {
 
   _handleBlur = () => {
     this.setState({ focusedByTab: false });
-  }
+  };
 
   _inputRef = (ref: HTMLInputElement) => {
     this.input = ref;

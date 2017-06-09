@@ -6,8 +6,8 @@ import ComboBox from '../ComboBox';
 
 function source() {
   return Promise.resolve({
-    values: [1, 2, 3],
-    infos: [1, 2, 3]
+    values: ['One', 'Two', 'Three'],
+    infos: ['One', 'Two', 'Three']
   });
 }
 
@@ -23,7 +23,7 @@ storiesOf('Combobox OLD', module)
   .add('Simple combobox', () => (
     <ComboBox
       source={source}
-      value={1}
+      value={'One'}
       renderValue={renderValue}
       renderItem={renderItem}
     />
@@ -32,10 +32,11 @@ storiesOf('Combobox OLD', module)
     <div>
       <ComboBox
         source={source}
-        value={1}
+        value={'One'}
         renderValue={renderValue}
         renderItem={renderItem}
-      />{' '}
+      />
+      {' '}
       Some text here
     </div>
   ));

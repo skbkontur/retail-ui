@@ -44,14 +44,14 @@ export default class Picker extends React.Component {
             value={this.state.date.getUTCFullYear()}
             minYear={this.props.minYear}
             maxYear={this.props.maxYear}
-            width={50}
+            width={'50px'}
             onChange={this.handleYearChange}
           />
           <div style={{ display: 'inline-block', width: 4 }} />
           <DateSelect
             type="month"
             value={this.state.date.getUTCMonth()}
-            width={80}
+            width={'80px'}
             onChange={this.handleMonthChange}
           />
         </div>

@@ -1,3 +1,4 @@
+// @flow
 export const types = {
   big: 'big',
   mini: 'mini',
@@ -31,7 +32,7 @@ export function svgAnimateSupport() {
     const element = document.createElementNS(namespaceURI, 'animate');
 
     if (element) {
-      return  /SVGAnimate/.test(element.toString());
+      return /SVGAnimate/.test(element.toString());
     }
   }
 
