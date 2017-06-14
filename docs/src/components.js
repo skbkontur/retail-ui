@@ -168,6 +168,18 @@ module.exports = [
     src: require('!raw!./snippets/Sticky-snip.js')
   },
   {
+    name: 'Tab',
+    component: require('ui/Tabs/Tab'),
+    info: require('!docgen!ui/Tabs/Tab.js'),
+    src: ''
+  },
+  {
+    name: 'Tabs',
+    component: require('ui/Tabs'),
+    info: require('!docgen!ui/Tabs/Tabs.js'),
+    src: require('!raw!./snippets/Tabs-snip.js')
+  },
+  {
     name: 'Textarea',
     component: require('ui/Textarea'),
     info: require('!docgen!ui/Textarea/Textarea.js'),

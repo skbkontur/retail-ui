@@ -12,6 +12,9 @@ module.exports = {
     publicPath: '/react-ui/dist/',
     filename: 'docs.js'
   },
+  devServer: {
+	disableHostCheck: true
+  },
   module: {
     loaders: [
       {

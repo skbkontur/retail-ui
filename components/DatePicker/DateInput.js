@@ -32,9 +32,9 @@ type Props = {
   getIconRef?: (ref: any) => void,
   getInputRef?: (ref: any) => void,
   onFocus?: () => void,
-  onBlur?: () => void,
+  onBlur?: (e: Event) => void,
   onIconClick: Function,
-  onChange: () => void,
+  onChange: (value: Date | string | void) => void,
   opened: boolean
 };
 

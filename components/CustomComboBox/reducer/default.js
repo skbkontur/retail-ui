@@ -13,16 +13,16 @@ import type CustomComboBox, {
 
 type Action = $Subtype<{ type: string }>;
 
-export type Props = {
+export type Props = CustomComboBoxProps<any> & {
   getItems: (query: string) => Promise<any[]>,
   itemToValue?: any => string,
   onBlur?: () => {},
-  onChange?: () => {},
+  onChange?: ({ target: { value: any } }, value: any) => {},
   onFocus?: () => {},
   onInputChange?: (textValue: string) => any,
   onUnexpectedInput?: (query: string) => ?boolean,
   valueToString?: any => string
-} & CustomComboBoxProps<any>;
+};
 
 export type State = {
   inputChanged?: boolean,

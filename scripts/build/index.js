@@ -114,7 +114,7 @@ function handle(filename, dirName) {
   console.log(filename);
   const stat = fs.statSync(filename);
 
-  if (stat.isDirectory(filename)) {
+  if (stat.isDirectory()) {
     const dirname = path.join(filename);
     readdir(filename).forEach(function(filename) {
       const src = path.join(dirname, filename);
