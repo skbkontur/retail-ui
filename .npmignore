@@ -1,0 +1,9 @@
+node_modules
+/docs/dist/
+.idea
+.vscode
+.DS_Store
+travis-deploy-key
+npm-debug.log
+coverage/
+gemini-report

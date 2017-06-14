@@ -18,6 +18,7 @@ before_deploy:
 - nvm install stable
 - npm prune
 - npm install
+- npm run build
 - openssl aes-256-cbc -k $travis_key_password -in travis-deploy-key.enc -out travis-deploy-key
   -d
 - chmod 600 travis-deploy-key
