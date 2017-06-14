@@ -15,10 +15,8 @@ before_script:
 - yarn storybook &
 - sleep 2
 before_deploy:
-- nvm install stable
-- npm prune
-- npm install
-- npm run build
+- yarn
+- yarn build
 - openssl aes-256-cbc -k $travis_key_password -in travis-deploy-key.enc -out travis-deploy-key
   -d
 - chmod 600 travis-deploy-key
@@ -27,7 +25,7 @@ before_deploy:
 - git config --global user.name "Travis CI"
 - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
 - cd docs
-- npm install
+- yarn
 - ./deploy.sh
 - cd ..
 deploy:
