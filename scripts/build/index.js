@@ -125,7 +125,69 @@ function handle(filename, dirName) {
   }
 }
 
+function collectExports(filename) {
+  if (!fs.existsSync(filename)) {
+    return;
+  }
+  console.log(filename);
+  const stat = fs.statSync(filename);
+
+  if (stat.isDirectory()) {
+    fs.readdir(filename, handleExports(filename));
+  } else {
+  }
+}
+
+function handleExports(dirPath) {
+  return (err, files) => {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+
+    const dirs = [];
+    files.forEach(filename => {
+      const componentDirPath = path.join(dirPath, filename);
+      const stat = fs.statSync(componentDirPath);
+      if (stat.isDirectory()) {
+        dirs.push(componentDirPath);
+      }
+    });
+
+    const components = [];
+    let dirsLeft = dirs.length;
+    dirs.forEach(dir => {
+      fs.readdir(dir, (err, files) => {
+        if (err) {
+          console.error(err);
+          process.exit(1);
+        }
+        if (files.includes('index.js')) {
+          components.push(dir.split(path.sep).slice(-1)[0]);
+        }
+        dirsLeft--;
+        if (dirsLeft === 0) {
+          next(components);
+        }
+      });
+    });
+
+    function next(components) {
+      const source = '// @flow\n'.concat(
+        components
+          .map(x => `export { default as ${x} } from './components/${x}';`)
+          .join('\n')
+      );
+
+      const outPath = path.join(OutDir, 'index.js');
+      outputFileSync(outPath, source);
+    }
+  };
+}
+
 FoldersToTransform.forEach(dirName => {
   const folderPath = path.resolve(process.cwd(), dirName);
   handle(folderPath, dirName);
 });
+
+collectExports(path.join(process.cwd(), 'components'));
