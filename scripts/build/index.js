@@ -30,7 +30,8 @@ function transform(filename, code, opts) {
   const result = babel.transform(code, {
     filename,
     plugins: config.plugins,
-    presets: config.presets
+    presets: config.presets,
+    sourceMaps: true
   });
   result.filename = filename;
   result.actual = code;
@@ -97,6 +98,7 @@ function write(src, relative) {
   });
 
   outputFileSync(dest, data.code);
+  outputFileSync(dest + '.map', JSON.stringify(data.map));
   chmod(src, dest);
   logTransform(src, dest);
 }
