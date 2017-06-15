@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
-cd ./build
+cd "./build"
 npm publish
-cd ../docs
+cd "../docs"
 yarn
 ./deploy.sh
-cd ..
+cd ".."
