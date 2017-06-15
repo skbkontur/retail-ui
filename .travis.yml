@@ -39,7 +39,6 @@ deploy:
   script: scripts/deploy.sh
   on:
     tags: true
-    branch: master
 env:
   global:
   - SAUCE_USERNAME=skbkontur_ife
