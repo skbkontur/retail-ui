@@ -22,6 +22,8 @@ function build() {
   collectExports(path.join(process.cwd(), 'components'));
 
   generatePackageJson();
+
+  copyNpmRc();
 }
 
 function transform(filename, code, opts) {
@@ -195,6 +197,11 @@ function handleExports(dirPath) {
       ].join('\n');
     }
   };
+}
+
+function copyNpmRc() {
+  const npmrc = fs.readFileSync(path.join(process.cwd(), '.npmrc.enc'));
+  outputFileSync(path.join(OutDir, '.npmrc.enc'), npmrc);
 }
 
 function generatePackageJson() {
