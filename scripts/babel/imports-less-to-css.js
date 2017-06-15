@@ -11,7 +11,6 @@
 module.exports = function(babel) {
   const { types: t } = babel;
   return {
-    name: 'ast-transform', // not required
     visitor: {
       ImportDeclaration: {
         enter(path) {
@@ -20,13 +19,9 @@ module.exports = function(babel) {
             return;
           }
 
-          if (!path.node.specifiers[0]) {
-            return;
-          }
-
           path.replaceWith(
             t.importDeclaration(
-              [t.importDefaultSpecifier(path.node.specifiers[0].local)],
+              path.node.specifiers,
               t.stringLiteral(source.value.replace(/\.less$/, '.css'))
             )
           );

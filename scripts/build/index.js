@@ -9,7 +9,20 @@ const config = require('./config.js');
 
 const FoldersToTransform = ['components', 'lib'];
 const IgnoreTemplates = [/__tests__/, /\.stories.js$/];
-const OutDir = path.resolve(process.cwd(), 'dist');
+const OutDir = path.resolve(process.cwd(), 'build');
+
+build();
+
+function build() {
+  FoldersToTransform.forEach(dirName => {
+    const folderPath = path.resolve(process.cwd(), dirName);
+    handle(folderPath, dirName);
+  });
+
+  collectExports(path.join(process.cwd(), 'components'));
+
+  generatePackageJson();
+}
 
 function transform(filename, code, opts) {
   const result = babel.transform(code, {
@@ -52,7 +65,7 @@ function compileLess(src, relative) {
       .then(output => {
         outputFileSync(dest, output.css);
         chmod(src, dest);
-        console.log(src + ' -> ' + dest);
+        logTransform(src, dest);
       }, handleError);
   });
 }
@@ -83,8 +96,16 @@ function write(src, relative) {
 
   outputFileSync(dest, data.code);
   chmod(src, dest);
+  logTransform(src, dest);
+}
 
-  console.log(src + ' -> ' + dest);
+function logTransform(src, dest) {
+  clearConsole();
+  console.log();
+  console.log('Transformed:');
+  console.log('From: ' + path.relative(process.cwd(), src));
+  console.log('  To: ' + path.relative(process.cwd(), dest));
+  console.log();
 }
 
 function shouldIgnore(loc) {
@@ -145,49 +166,52 @@ function handleExports(dirPath) {
       process.exit(1);
     }
 
-    const dirs = [];
-    files.forEach(filename => {
-      const componentDirPath = path.join(dirPath, filename);
-      const stat = fs.statSync(componentDirPath);
-      if (stat.isDirectory()) {
-        dirs.push(componentDirPath);
-      }
-    });
+    files
+      .map(x => path.join(dirPath, x))
+      .filter(x => fs.statSync(x).isDirectory())
+      .forEach(dir => fs.readdir(dir, handleReexport(dir)));
 
-    const components = [];
-    let dirsLeft = dirs.length;
-    dirs.forEach(dir => {
-      fs.readdir(dir, (err, files) => {
+    function handleReexport(dir) {
+      return (err, files) => {
         if (err) {
           console.error(err);
           process.exit(1);
         }
-        if (files.includes('index.js')) {
-          components.push(dir.split(path.sep).slice(-1)[0]);
+        if (!files.includes('index.js')) {
+          return;
         }
-        dirsLeft--;
-        if (dirsLeft === 0) {
-          next(components);
-        }
-      });
-    });
+        const name = dir.split(path.sep).slice(-1)[0];
+        const source = createReexportSource(name);
+        const outPath = path.join(OutDir, name + '.js');
+        outputFileSync(outPath, source);
+      };
+    }
 
-    function next(components) {
-      const source = '// @flow\n'.concat(
-        components
-          .map(x => `export { default as ${x} } from './components/${x}';`)
-          .join('\n')
-      );
-
-      const outPath = path.join(OutDir, 'index.js');
-      outputFileSync(outPath, source);
+    function createReexportSource(name) {
+      return [
+        '// @flow',
+        `module.exports = require('./components/${name}');`,
+        ''
+      ].join('\n');
     }
   };
 }
 
-FoldersToTransform.forEach(dirName => {
-  const folderPath = path.resolve(process.cwd(), dirName);
-  handle(folderPath, dirName);
-});
+function generatePackageJson() {
+  const packageJson = require('../../package.json');
+  const result = {
+    name: 'react-ui',
+    version: packageJson.version,
+    license: 'MIT',
+    dependencies: packageJson.dependencies,
+    peerDependencies: packageJson.peerDependencies
+  };
+  const source = JSON.stringify(result, null, 2);
+  outputFileSync(path.join(OutDir, 'package.json'), source);
+}
 
-collectExports(path.join(process.cwd(), 'components'));
+function clearConsole() {
+  process.stdout.write(
+    process.platform === 'win32' ? '\x1Bc' : '\x1B[2J\x1B[3J\x1B[H'
+  );
+}
