@@ -4,13 +4,13 @@ node_js:
 cache: yarn
 sudo: required
 dist: trusty
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - g++-4.8
-    - graphicsmagick
+# addons:
+#   apt:
+#     sources:
+#     - ubuntu-toolchain-r-test
+#     packages:
+#     - g++-4.8
+#     - graphicsmagick
 before_deploy:
 - yarn
 - yarn build
@@ -23,10 +23,6 @@ before_deploy:
 - ssh-add travis-deploy-key
 - git config --global user.name "Travis CI"
 - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
-- cd docs
-- yarn
-- ./deploy.sh
-- cd ..
 deploy:
 - provider: npm
   email: tihonov.ea@gmail.com
@@ -39,6 +35,7 @@ deploy:
   script: scripts/deploy.sh
   on:
     tags: true
+    branch: build-script
 env:
   global:
   - SAUCE_USERNAME=skbkontur_ife
