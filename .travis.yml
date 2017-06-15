@@ -11,6 +11,9 @@ addons:
     packages:
     - g++-4.8
     - graphicsmagick
+before_script:
+- yarn storybook &
+- sleep 2
 before_deploy:
 - yarn
 - yarn build
