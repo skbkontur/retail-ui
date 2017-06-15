@@ -1,7 +1,6 @@
 #!/bin/bash -e
-cd "$(dirname "$0")"
 
-cd ../../build
+cd ./build
 npm publish
 cd ../docs
 yarn
