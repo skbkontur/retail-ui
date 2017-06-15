@@ -1,0 +1,403 @@
+import classNames from 'classnames';
+import React from 'react';
+
+import PropTypes from 'prop-types';
+import Icon from '../Icon';
+
+import styles from './Pager.less';
+
+type Props = {
+  pagesCount: number,
+  currentPage: number,
+  onPageChange?: (event: any, pageNumber: number) => void,
+  renderHref?: (pageNumber: number) => string,
+  renderLabel?: (pageNumber: number) => Node | string,
+  renderNextPagelabel?: () => Node | string
+};
+
+type State = {
+  focusedPageNumber?: number
+};
+
+const ElementTypeEnum = {
+    pageLink: 1,
+    ellipsis: 2,
+    nextPageLink: 3
+}
+
+type PagerElement = {
+    pageNumber?: number,
+    disabled?: boolean,
+    elementType: ElementTypeEnum
+}
+
+//TODO тултип для перемещения по Ctrl
+
+/**
+ * Страничная навигация.
+ */
+export default class Pager extends React.Component {
+    static propTypes = {
+        /**
+         * Общее количество страниц.
+         */
+        pagesCount: PropTypes.number.isRequired,
+
+        /**
+         * Номер текущей страницы. {1, 2,  ..., pagesCount}
+         */
+        currentPage: PropTypes.number.isRequired,
+
+        /**
+         * Вызывается при клике на другую страницу или на ссылку "Дальше".
+         */
+        onPageChange: PropTypes.func,
+
+        /**
+         * Функция для рендера атрибута href, если он нам нужен
+         */
+        renderHref: PropTypes.func,
+
+        /**
+         * Функция для рендера текста, рисуемого на ссылке
+         */
+        renderLabel: PropTypes.func,
+
+        /**
+         * Аналогично предыдущему, только для ссылки "Дальше"
+         */
+        renderNextPagelabel: PropTypes.func
+    };
+
+    constructor(props: Props) {
+        super(props);
+
+        this.state = { focusedPageNumber: null };
+
+        this._handleKeyDown = this._handleKeyDown.bind(this);
+        this._handleFocus = this._handleFocus.bind(this);
+        this._handleBlur = this._handleBlur.bind(this);
+        this._handleLinkClick = this._handleLinkClick.bind(this);
+        this._handleNextPageLinkClick = this._handleNextPageLinkClick.bind(this);
+    }
+
+    static defaultProps = {
+        renderHref: (pageNumber: number) => "javascript:void(0)",
+        renderLabel: (pageNumber: number) => pageNumber.toString(),
+        renderNextPagelabel: () => (<div>Дальше <Icon name="angle-right" /></div>)
+    }
+
+    _moveFocus(right: boolean) {
+        const pagesCount = this.props.pagesCount;
+        const focusedPageNumber = this.state.focusedPageNumber;
+
+        if (focusedPageNumber === null)
+            return;
+
+        
+        const elements: PagerElement[] = this._getElements();
+
+        const focusedIndex = focusedPageNumber === 0 ?
+            elements.length - 1 : 
+            elements.findIndex((element: PagerElement) => element.pageNumber === focusedPageNumber);
+
+        var nextLinkIndex: number;
+        if (right) {
+            nextLinkIndex = focusedIndex === elements.length - 1 ?
+                0 : focusedIndex + 1;
+            while (elements[nextLinkIndex].disabled) {
+                nextLinkIndex = nextLinkIndex === elements.length - 1 ?
+                0 : nextLinkIndex + 1;
+            }
+        } else {
+            nextLinkIndex = focusedIndex === 0 ?
+                elements.length - 1 : focusedIndex - 1;
+            
+            while (elements[nextLinkIndex].disabled) {
+                nextLinkIndex = nextLinkIndex === 0 ?
+                    elements.length - 1 : nextLinkIndex - 1;
+            }
+        }
+
+        const focusedElement: PagerElement = elements[nextLinkIndex];
+
+        var newFocusedPageNumber =
+            focusedElement.elementType === ElementTypeEnum.nextPageLink ?
+                0 : focusedElement.pageNumber;
+
+        this.setState({focusedPageNumber: newFocusedPageNumber});
+    }
+
+    _handleKeyDown(event: SyntheticKeyboardEvent) {
+        const focusedPageNumber = this.state.focusedPageNumber;
+
+        if (focusedPageNumber === null) {
+            return;
+        }
+
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            if (this._focused)
+                this._focused.click();
+            return;
+        }
+        if (event.ctrlKey && event.key === 'ArrowRight') {
+            if (this._next)
+                this._next.click();
+            return;
+        }
+        if (event.ctrlKey && event.key === 'ArrowLeft') {
+            if (this._previous)
+                this._previous.click();
+            return;
+        }
+
+        if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            this._moveFocus(true);
+            return;
+        }
+        if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            this._moveFocus(false);
+            return;
+        }
+    }
+
+    _handleFocus() {
+        if (this.state.focusedPageNumber === null)
+            this.setState({focusedPageNumber: this.props.currentPage});
+    }
+
+    _handleBlur() {
+        this.setState({focusedPageNumber: null});
+    }
+
+    //Возвращает список видимых на экране ссылок на основе pagesCount и currentPage
+    //Требуется для навигации по ссылкам влево/вправо
+    //Список вида [1, -1, 10, 11, 12, 13, 14, -2, 30, 0], где -1 и -2 - элементы многоточия
+    //0 - ссылка "Дальше"
+    _getElements(): PagerElement[] {
+        const { pagesCount, currentPage } = this.props;
+        const isLastPage = this.props.currentPage === this.props.pagesCount;
+        
+        var elements: PagerElement[] = [];
+
+        if (currentPage < 6) {
+            for (let i = 1; i < currentPage; i++) {
+                elements.push({ pageNumber: i, elementType: ElementTypeEnum.pageLink });
+            }
+        } else {
+            elements.push({ pageNumber: 1, elementType: ElementTypeEnum.pageLink });
+            elements.push({ elementType: ElementTypeEnum.ellipsis, disabled: true });
+            let leftBorder = Math.min(currentPage - 2, pagesCount - 4);
+            for (let i = leftBorder; i < currentPage; i++) {
+                elements.push({ pageNumber: i, elementType: ElementTypeEnum.pageLink });
+            }
+        }
+
+        elements.push({ pageNumber: currentPage, elementType: ElementTypeEnum.pageLink });
+        
+        //Ссылки справа от текущей
+        if (currentPage > pagesCount - 5) {
+            for (let i = currentPage + 1; i <= pagesCount; i++) {
+                elements.push({ pageNumber: i, elementType: ElementTypeEnum.pageLink });
+            }
+        } else {
+            let rightBorder = Math.max(currentPage + 2, 5);
+            for (let i = currentPage + 1; i <= rightBorder; i++) {
+                elements.push({ pageNumber: i, elementType: ElementTypeEnum.pageLink });
+            }
+            elements.push({ elementType: ElementTypeEnum.ellipsis, disabled: true });
+            elements.push({ pageNumber: pagesCount, elementType: ElementTypeEnum.pageLink });
+        }
+
+        elements.push({ elementType: ElementTypeEnum.nextPageLink, disabled: isLastPage });
+
+        return elements;
+    }
+
+    _handlePageChange(newPageNumber: number) {
+        this.props.onPageChange({ target: {value: newPageNumber}}, newPageNumber);
+        this._input.focus();
+    }
+
+    _handleLinkClick(linkPageNumber: number) {
+        this._handlePageChange(linkPageNumber);
+        this.setState({focusedPageNumber: linkPageNumber});
+    }
+
+    _handleNextPageLinkClick() {
+        this._handlePageChange(this.props.currentPage + 1);
+        this.setState({focusedPageNumber: 0});
+    }
+
+    _renderLink(pageNumber: number, elementIndex: number, isFocused: boolean,
+        isCurrent: boolean, isNext: boolean, isPrevious: boolean) {
+        return (
+            <PagerLink
+                ref={link => {
+                    if (isFocused) {
+                        this._focused = link;
+                        return;
+                    }
+                    if (isNext) {
+                        this._next = link
+                        return;
+                    }
+                    if (isPrevious) {
+                        this._previous = link
+                        return;
+                    }
+                } }
+                focused={isFocused}
+                href={this.props.renderHref(pageNumber)}
+                current={isCurrent}
+                onClick={() => { this._handleLinkClick(pageNumber)} }
+                key={pageNumber}>
+                {this.props.renderLabel(pageNumber)}
+            </PagerLink>
+        );
+    }
+
+    render() {
+        const currentPage = this.props.currentPage;
+        const focusedPageNumber = this.state.focusedPageNumber;
+        const elements: PagerElement[] = this._getElements();
+
+        const items = elements.map((element: PagerElement, index: number, array: number[]) => {
+            let isFocused =
+                (element.elementType === ElementTypeEnum.nextPageLink && focusedPageNumber === 0) ||
+                (element.elementType === ElementTypeEnum.pageLink && focusedPageNumber === element.pageNumber);
+            if (element.elementType === ElementTypeEnum.pageLink) {
+                const isNext =
+                    (currentPage === this.props.pagesCount && element.pageNumber === 1) ||
+                    (element.pageNumber === currentPage + 1);
+                const isPrevious =
+                    (currentPage === 1 && element.pageNumber === this.props.pagesCount) ||
+                    (element.pageNumber === currentPage - 1);
+
+                let link = this._renderLink(
+                    element.pageNumber, 
+                    index,
+                    isFocused,
+                    element.pageNumber === currentPage,
+                    isNext,
+                    isPrevious
+                    );
+                return link;
+            } else if (element.elementType === ElementTypeEnum.ellipsis) {
+                return (
+                    <div
+                        className={styles.ellipsis}
+                        key={`el-${index}`}>
+                        <Icon name="ellipsis" />
+                    </div>);
+            } else {
+                let link = (
+                    <a
+                        ref={node => { if (isFocused) this._focused = node; } }
+                        href={this.props.renderHref(this.props.currentPage + 1)}
+                        className={classNames({
+                            [styles.nextPageLink]: true,
+                            [styles.nextPageLinkDisabled]: element.disabled,
+                            [styles.focusedNextPageLink]: isFocused,
+                        })}
+                        onClick={!element.disabled && this._handleNextPageLinkClick}
+                        key="nextPageLink">
+                        {this.props.renderNextPagelabel()}
+                    </a>);
+                return link;
+            }
+        });
+        
+        const inputProps = {
+            ref: (node) => { this._input = node},
+            type: 'checkbox',
+            className: styles.input,
+            onKeyDown: this._handleKeyDown,
+            onFocus: this._handleFocus,
+            onBlur: this._handleBlur
+        };
+
+        return (
+            <div className={styles.root}>
+                <input {...inputProps} />
+                {items}
+            </div>
+        );
+    }
+}
+
+type LinkProps = {
+    pageNumber: number,
+    current: boolean,
+    onClick: () => void,
+    focused: boolean,
+    onFocus: () => void,
+    onBlur: () => void,
+    onKeyDown: () => void,
+    href: string
+}
+
+/**
+ * Одна ссылка на страницу.
+ */
+class PagerLink extends React.Component {
+    static propTypes = {
+        /**
+         * Является ли ссылкой на текущую страницу. По умолчанию False
+         */
+        current: PropTypes.bool,
+
+        /**
+         * Вызывается при клике на ссылку, если она не является текущей
+         */
+        onClick: PropTypes.func,
+
+        /**
+         * Рисовать визуально фокус на ссылке
+         */
+        focused: PropTypes.bool,
+
+        /**
+         * Ссылка, на которую перейти при клике
+         */
+        href: PropTypes.string.isRequired
+    };
+
+    constructor(props: LinkProps) {
+        super(props);
+
+        this._handleClick = this._handleClick.bind(this);
+        this.click = this.click.bind(this);
+    }
+
+    _handleClick(e) {
+        this.props.onClick();
+    }
+
+    click() {
+        this._domNode.click();
+    }
+
+    render() {
+        const { current, onClick, href, focused, children, ...rest } = this.props
+        
+        const className = classNames({
+            [styles.link]: true,
+            [styles.currentLink]: current,
+            [styles.focusedLink]: focused
+        });
+        
+        return (
+        <a
+            ref={node => { this._domNode = node; } }
+            className={className}
+            href={href}
+            tabIndex={current ? "" : "-1"}
+            onClick={this._handleClick}>
+            {children}
+        </a>);
+    }
+}

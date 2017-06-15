@@ -1,0 +1,81 @@
+@import '../variables.less';
+
+@font-size: 18px;
+@vertical-padding: 3px;
+
+:local {
+  .root {
+    
+  }
+
+  .link {
+      cursor: pointer;
+      position: relative;
+      display: inline-block;
+      vertical-align: bottom;
+      border-radius: @font-size;
+
+      outline: none;
+
+      font-size: @font-size;
+      padding: @vertical-padding 10px;
+      border: solid 2px transparent;
+      text-decoration: none;
+
+      color: @link-color;
+      &.currentLink {
+        cursor: default;
+        color: black;
+        background: rgba(0, 0, 0, 0.09);
+      }
+      &:not(.currentLink):hover {
+          background: rgba(0, 0, 0, 0.05);
+      }
+  }
+
+  .focusedLink {
+    border-color: @border-color-focus;
+  }
+
+  .nextPageLink {
+    cursor: pointer;
+    border-radius: @font-size;
+    display: inline-block;
+    vertical-align: @vertical-padding;
+
+    font-size: @font-size;
+    color: @link-color;
+    margin-left: 8px;
+    padding: @vertical-padding 8px;
+    border: solid 2px transparent;
+      text-decoration: none;
+
+    &.nextPageLinkDisabled {
+      cursor: default;
+      pointer-events: none;
+      color: @link-disabled-color;
+    }
+    &:not(.nextPageLinkDisabled):hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  .focusedNextPageLink {
+    border-color: @border-color-focus;
+  }
+
+  .ellipsis {
+    display: inline-block;
+    cursor: default;
+  }
+
+  .input {
+    border: 0;
+    height: 0;
+    left: -10000px;
+    opacity: 0;
+    outline: 0;
+    position: absolute;
+    width: 0;
+  }
+}
