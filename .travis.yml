@@ -11,9 +11,9 @@ addons:
     packages:
       - g++-4.8
       - graphicsmagick
-before_script:
-- yarn storybook &
-- sleep 2
+# before_script:
+# - yarn storybook &
+# - sleep 2
 before_deploy:
 - yarn
 - yarn build
@@ -24,6 +24,9 @@ before_deploy:
 - ssh-add travis-deploy-key
 - git config --global user.name "Travis CI"
 - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
+- cd build
+- npm publish
+- cd ..
 - cd docs
 - yarn
 - ./deploy.sh

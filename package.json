@@ -25,7 +25,7 @@
     "precommit": "flow && lint-staged",
     "prepush": "npm run unit-test",
     "storybook": "start-storybook -p 6060",
-    "test": "jest --no-cache && gemini test --reporter vflat",
+    "test": "jest --no-cache",
     "typecheck": "flow",
     "unit-test": "jest"
   },

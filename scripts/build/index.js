@@ -200,7 +200,7 @@ function handleExports(dirPath) {
 function generatePackageJson() {
   const packageJson = require('../../package.json');
   const result = {
-    name: 'react-ui',
+    name: '@skbkontur/react-ui',
     version: packageJson.version,
     license: 'MIT',
     dependencies: packageJson.dependencies,
