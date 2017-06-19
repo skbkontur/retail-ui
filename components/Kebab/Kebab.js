@@ -67,12 +67,18 @@ export default class Kebab extends Component {
           pinSize={10}
           pinOffset={18}
         >
-          <Menu>
+          <Menu
+            onItemClick={this._handleMenuItemClick}
+          >
             {this.props.children}
           </Menu>
         </Popup>
       </div>
     );
+  }
+
+  _handleMenuItemClick = () => {
+    this._setPopupState(false);
   }
 
   _getOptions(size){
