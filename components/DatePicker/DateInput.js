@@ -20,22 +20,23 @@ const INPUT_PASS_PROPS = {
   placeholder: true,
 
   onInput: true,
+  onKeyDown: true,
   onKeyPress: true,
   onKeyUp: true
 };
 
 type Props = {
   disabled?: boolean,
-  value: string,
+  getIconRef?: (ref: HTMLElement) => void,
+  getInputRef?: (ref: Input) => void,
+  onBlur?: (e: Event) => void,
+  onChange: (value: Date | string | void) => void,
+  onFocus?: () => void,
+  onIconClick: () => void,
+  opened: boolean,
   placeholder?: string,
   size: 'small' | 'medium' | 'large',
-  getIconRef?: (ref: any) => void,
-  getInputRef?: (ref: any) => void,
-  onFocus?: () => void,
-  onBlur?: (e: Event) => void,
-  onIconClick: Function,
-  onChange: (value: Date | string | void) => void,
-  opened: boolean
+  value: string
 };
 
 export default class DateInput extends Component {
@@ -54,7 +55,7 @@ export default class DateInput extends Component {
 
   props: Props;
   _input: Input;
-  _icon: HTMLSpanElement;
+  _icon: HTMLElement;
   _cursorPosition = 0;
 
   render() {
@@ -117,7 +118,7 @@ export default class DateInput extends Component {
     }
   };
 
-  getCursorPosition = (event: any) => {
+  getCursorPosition = (event: SyntheticInputEvent) => {
     event.stopPropagation();
     const start = event.target.selectionStart;
     const end = event.target.selectionEnd;
@@ -167,7 +168,7 @@ export default class DateInput extends Component {
     );
   };
 
-  handleDateChange = (event: any) => {
+  handleDateChange = (event: SyntheticInputEvent) => {
     let value: string = event.target.value;
     if (!this.props.withMask) {
       value = value.replace(/[^\d\.]/g, '');
@@ -239,11 +240,11 @@ export default class DateInput extends Component {
     }
   };
 
-  getInputRef = (ref: any) => {
+  getInputRef = (ref: Input) => {
     this._input = ref;
   };
 
-  getIconRef = (ref: any) => {
+  getIconRef = (ref: HTMLElement) => {
     this._icon = ref;
   };
 }

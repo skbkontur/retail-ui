@@ -5,8 +5,8 @@ import DatePicker from '../DatePicker';
 
 class DatePickerWithError extends React.Component {
   state: {
-    value: string | Date | null,
-    error: boolean
+    error: boolean,
+    value: string | Date | null
   } = {
     value: new Date(),
     error: false
@@ -29,7 +29,7 @@ class DatePickerWithError extends React.Component {
 }
 
 storiesOf('DatePicker', module)
-  .add('with mouseevent handlers', () => (
+  .add('with mouseevent handlers', () =>
     <div>
       <DatePicker
         onMouseEnter={() => console.count('enter')}
@@ -38,5 +38,5 @@ storiesOf('DatePicker', module)
       />
       <button>ok</button>
     </div>
-  ))
+  )
   .add('DatePickerWithError', () => <DatePickerWithError />);
