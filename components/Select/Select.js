@@ -1,3 +1,4 @@
+// @flow
 import events from 'add-event-listener';
 import classNames from 'classnames';
 import React from 'react';
@@ -14,14 +15,16 @@ import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import RenderLayer from '../RenderLayer';
+import Item from './Item';
 
 import styles from './Select.less';
 
 export type ButtonParams = {
-  opened: boolean,
-  label: React.Element,
+  disabled?: boolean,
+  label: React$Element<*> | string,
   onClick: () => void,
-  onKeyDown: (event: SyntheticKeyboardEvent) => void
+  onKeyDown: (event: SyntheticKeyboardEvent) => void,
+  opened: boolean
 };
 
 const PASS_BUTTON_PROPS = {
@@ -34,6 +37,34 @@ const PASS_BUTTON_PROPS = {
   onMouseEnter: true,
   onMouseLeave: true,
   onMouseOver: true
+};
+
+type Props = {
+  _icon?: string,
+  _renderButton?: (params: ButtonParams) => React$Element<*>,
+  defaultValue?: mixed,
+  diadocLinkIcon?: string,
+  disablePortal?: boolean,
+  disabled?: boolean,
+  error?: boolean,
+  filterItem: (value: mixed, item: mixed, pattern: string) => boolean,
+  items?: $Iterable<*, *, *>,
+  maxMenuHeight?: number,
+  maxWidth?: number | string,
+  menuAlign?: 'left' | 'right',
+  menuWidth?: number | string,
+  onChange?: (e: { target: { value: mixed } }, value: mixed) => void,
+  onClose?: () => void,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
+  onOpen?: () => void,
+  placeholder?: React$Element<*> | string,
+  renderItem: (value: mixed, item: mixed) => React$Element<*> | string,
+  renderValue: (value: mixed, item: mixed) => React$Element<*> | string,
+  search?: boolean,
+  value?: mixed,
+  width?: number | string
 };
 
 class Select extends React.Component {
@@ -122,8 +153,20 @@ class Select extends React.Component {
     filterItem
   };
 
-  constructor(props, context) {
-    super(props, context);
+  static SEP = () => <MenuSeparator />;
+
+  static Item = Item;
+
+  state: {
+    opened: boolean,
+    searchPattern?: string,
+    value: mixed
+  };
+
+  _menu: Menu;
+
+  constructor(props: Props, context: mixed) {
+    super(props, (context: mixed));
 
     this.state = {
       opened: false,
@@ -146,7 +189,7 @@ class Select extends React.Component {
       );
     }
 
-    const buttonParams = {
+    const buttonParams: ButtonParams = {
       opened: this.state.opened,
       label,
       onClick: this._toggle,
@@ -154,7 +197,8 @@ class Select extends React.Component {
     };
 
     const style = {
-      width: this.props.width
+      width: this.props.width,
+      maxWidth: undefined
     };
     if (this.props.maxWidth) {
       style.maxWidth = this.props.maxWidth;
@@ -241,10 +285,7 @@ class Select extends React.Component {
     if (this.props.search) {
       search = (
         <div className={styles.search}>
-          <Input
-            ref={c => c && ReactDOM.findDOMNode(c).focus()}
-            onChange={this.handleSearch}
-          />
+          <Input ref={this._focusInput} onChange={this.handleSearch} />
         </div>
       );
     }
@@ -266,29 +307,53 @@ class Select extends React.Component {
           maxHeight={this.props.maxMenuHeight}
         >
           {search}
-          {this.mapItems((iValue, item, i, comment) => {
-            if (typeof item === 'function' || React.isValidElement(item)) {
-              return React.cloneElement(
-                typeof item === 'function' ? item() : item,
-                { key: i }
+          {this._mapItems(
+            (
+              iValue: mixed,
+              item: mixed | (() => React$Element<*>),
+              i: number,
+              comment: ?mixed
+            ) => {
+              if (typeof item === 'function' || React.isValidElement(item)) {
+                return React.cloneElement(
+                  // $FlowIssue React.isValidElement doesn't provide $checks
+                  typeof item === 'function' ? item() : item,
+                  { key: i }
+                );
+              }
+
+              return (
+                <MenuItem
+                  key={i}
+                  state={iValue === value ? 'selected' : null}
+                  onClick={this._select.bind(this, iValue)}
+                  comment={comment}
+                >
+                  {this.props.renderItem(iValue, item)}
+                </MenuItem>
               );
             }
-
-            return (
-              <MenuItem
-                key={i}
-                state={iValue === value ? 'selected' : null}
-                onClick={this._select.bind(this, iValue)}
-                comment={comment}
-              >
-                {this.props.renderItem(iValue, item)}
-              </MenuItem>
-            );
-          })}
+          )}
         </Menu>
       </DropdownContainer>
     );
   }
+
+  static static = element => {
+    invariant(
+      React.isValidElement(element) || typeof element === 'function',
+      'Select.static(element) expects element to be a valid react element.'
+    );
+    return element;
+  };
+
+  _focusInput = input => {
+    const node = input && ReactDOM.findDOMNode(input);
+    if (!node) {
+      return;
+    }
+    node.focus();
+  };
 
   _refMenuContainer = el => {
     events.removeEventListener(window, 'popstate', this._close);
@@ -309,10 +374,17 @@ class Select extends React.Component {
     this._open();
   }
 
+  /**
+   * @api
+   */
+  close() {
+    this._close();
+  }
+
   _handleNativeDocClick = event => {
     const target = event.target || event.srcElement;
     const nodes = this._getDomNodes();
-    if (nodes.some(node => node.contains(target))) {
+    if (nodes.some(node => node && node.contains(target))) {
       return;
     }
     this._close();
@@ -352,7 +424,7 @@ class Select extends React.Component {
     events.removeEventListener(window, 'popstate', this._close);
   };
 
-  handleKey = e => {
+  handleKey = (e: SyntheticKeyboardEvent) => {
     var key = e.key;
     if (!this.state.opened) {
       if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
@@ -361,9 +433,7 @@ class Select extends React.Component {
       }
     } else {
       if (key === 'Escape') {
-        this.setState({ opened: false }, () => {
-          ReactDOM.findDOMNode(this).focus();
-        });
+        this.setState({ opened: false }, this._focus);
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         this._menu && this._menu.up();
@@ -377,8 +447,16 @@ class Select extends React.Component {
     }
   };
 
-  handleSearch = event => {
+  handleSearch = (event: SyntheticInputEvent) => {
     this.setState({ searchPattern: event.target.value });
+  };
+
+  _focus = () => {
+    const node = ReactDOM.findDOMNode(this);
+    if (node) {
+      // $FlowIssue
+      node.focus();
+    }
   };
 
   _select(value) {
@@ -388,9 +466,7 @@ class Select extends React.Component {
         value
       },
       () => {
-        setTimeout(() => {
-          ReactDOM.findDOMNode(this).focus();
-        }, 0);
+        setTimeout(this._focus, 0);
       }
     );
     if (this.props.onChange) {
@@ -405,13 +481,17 @@ class Select extends React.Component {
     return this.state.value;
   }
 
-  mapItems(fn) {
+  _mapItems(fn) {
+    const { items } = this.props;
+    if (!items) {
+      return [];
+    }
     const pattern =
       this.state.searchPattern && this.state.searchPattern.toLowerCase();
 
     const ret = [];
     let index = 0;
-    for (const entry of this.props.items) {
+    for (const entry of items) {
       const [value, item, comment] = normalizeEntry(entry);
       if (!pattern || this.props.filterItem(value, item, pattern)) {
         ret.push(fn(value, item, index, comment));
@@ -423,23 +503,6 @@ class Select extends React.Component {
   }
 }
 
-Select.SEP = () => <MenuSeparator />;
-
-Select.Item = class Item extends React.Component {
-  render() {
-    return <MenuItem>{this.props.children}</MenuItem>;
-  }
-};
-
-Select.static = function(element) {
-  invariant(
-    React.isValidElement(element) || typeof element === 'function',
-    'Select.static(element) expects element to be a valid react element.'
-  );
-
-  return element;
-};
-
 function renderValue(value, item) {
   return item;
 }
@@ -449,6 +512,9 @@ function renderItem(value, item) {
 }
 
 function getItemByValue(items, value) {
+  if (!items) {
+    return null;
+  }
   for (let entry of items) {
     entry = normalizeEntry(entry);
     if (entry[0] === value) {
@@ -462,7 +528,7 @@ function normalizeEntry(entry) {
   if (Array.isArray(entry)) {
     return entry;
   } else {
-    return [entry, entry];
+    return [entry, entry, undefined];
   }
 }
 

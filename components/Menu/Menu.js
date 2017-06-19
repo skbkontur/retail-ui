@@ -6,19 +6,24 @@ import ReactDOM from 'react-dom';
 import isActiveElement from './isActiveElement';
 import ScrollContainer from '../ScrollContainer/ScrollContainer';
 
+import type MenuItem from '../MenuItem/MenuItem';
+
 import styles from './Menu.less';
 
 export default class Menu extends React.Component {
-  static defaultProps = {
+  static defaultProps: {
+    maxHeight: number,
+    width: number | string
+  } = {
     width: 'auto',
     maxHeight: 300
   };
 
   props: {
+    children?: React$Element<*> | React$Element<*>[],
     maxHeight: number,
-    width?: number | string,
-    children?: any,
-    onItemClick?: () => void
+    onItemClick?: () => void,
+    width?: number | string
   };
 
   state: {
@@ -28,7 +33,7 @@ export default class Menu extends React.Component {
   };
 
   _scrollContainer: ScrollContainer;
-  _highlighted: any;
+  _highlighted: MenuItem;
 
   render() {
     const enableIconPadding = React.Children
@@ -99,7 +104,7 @@ export default class Menu extends React.Component {
     this._scrollContainer = scrollContainer;
   };
 
-  _refHighlighted(originalRef: any, menuItem: any) {
+  _refHighlighted(originalRef, menuItem) {
     this._highlighted = menuItem;
 
     originalRef && originalRef(menuItem);
@@ -162,7 +167,7 @@ export default class Menu extends React.Component {
   }
 }
 
-function isExist(value: any) {
+function isExist(value) /* : boolean %checks */ {
   return value !== null && value !== undefined;
 }
 
