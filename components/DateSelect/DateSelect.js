@@ -29,10 +29,10 @@ const HEIGHT = 24;
 type Props = {
   maxYear: number,
   minYear: number,
+  onChange: (value: number) => void,
   type: 'month' | 'year',
   value: number,
-  width: number | string,
-  onChange: (value: number) => void
+  width: number | string
 };
 
 type State = {
@@ -127,12 +127,12 @@ export default class DateSelect extends React.Component {
       });
       const clickHandler = isIE8
         ? {
-            onMouseDown: this.handleItemClick(i)
-          }
+          onMouseDown: this.handleItemClick(i)
+        }
         : {
-            onMouseDown: e => e.preventDefault(),
-            onClick: this.handleItemClick(i)
-          };
+          onMouseDown: e => e.preventDefault(),
+          onClick: this.handleItemClick(i)
+        };
       items.push(
         <div
           key={i}
@@ -145,7 +145,12 @@ export default class DateSelect extends React.Component {
         </div>
       );
     }
-    const style: Object = {
+    const style: {
+      left?: number | string,
+      right?: number | string,
+      top: number,
+      width?: number | string
+    } = {
       top: top - 5
     };
     switch (type) {
