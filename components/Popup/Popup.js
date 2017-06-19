@@ -20,8 +20,7 @@ type Props = {
   onFocusOutside: () => void;
   opened: boolean;
   hasPin: boolean;
-  positions: [];
-  order: string;
+  positions: string[];
   hasShadow: boolean;
   pinSize: number;
 }
@@ -249,11 +248,6 @@ Popup.propTypes = {
    * С какой стороны показывать попап и край попапа, на котором будет отображаться пин
    */
   positions: PropTypes.array,
-
-  /**
-   * Стороны, на которые переместится попап при попадании за границу браузера
-   */
-  order: PropTypes.string,
 
   /**
    * Применять ли box-shadow на попапе. При false отключает границу на пине
