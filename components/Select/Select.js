@@ -374,6 +374,13 @@ class Select extends React.Component {
     this._open();
   }
 
+  /**
+   * @api
+   */
+  close() {
+    this._close();
+  }
+
   _handleNativeDocClick = event => {
     const target = event.target || event.srcElement;
     const nodes = this._getDomNodes();
