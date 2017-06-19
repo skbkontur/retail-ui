@@ -68,6 +68,7 @@ export default class Kebab extends Component {
           pinOffset={18}
         >
           <Menu
+            hasShadow={false}
             onItemClick={this._handleMenuItemClick}
           >
             {this.props.children}

@@ -26,6 +26,8 @@ class SomethingWithKebab extends Component {
         onClose={this._handleClose}
 			>
 				<MenuItem>123</MenuItem>
+				<MenuItem>456</MenuItem>
+				<MenuItem>789</MenuItem>
 			</Kebab>
     );
   }

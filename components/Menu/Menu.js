@@ -18,7 +18,8 @@ export default class Menu extends React.Component {
     maxHeight: number,
     width?: number | string,
     children?: any,
-    onItemClick?: () => void
+    onItemClick?: () => void,
+    hasShadow: boolean
   };
 
   state: {
@@ -39,9 +40,11 @@ export default class Menu extends React.Component {
       return null;
     }
 
+    let className = this.props.hasShadow ? styles.shadow : '';
+
     return (
       <div
-        className={styles.root}
+        className={styles.root + ' ' + className}
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
       >
         <ScrollContainer
