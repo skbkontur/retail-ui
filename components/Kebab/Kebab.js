@@ -6,14 +6,15 @@ import Icon20 from '../Icon/20px';
 import Icon from '../Icon';
 import Popup from '../Popup';
 import Menu from '../Menu/Menu.js';
+import RenderLayer from '../RenderLayer';
 
 import styles from './Kebab.less';
 
 type Props = {
   children: ?HTMLElement,
   size: string;
-  onClose: (e: SyntheticMouseEvent) => void;
-  onOpen: (e: SyntheticMouseEvent) => void;
+  onClose: () => void;
+  onOpen: () => void;
 }
 
 type State = {
@@ -29,52 +30,48 @@ export default class Kebab extends Component {
   };
   anchor: HTMLElement;
 
-
-  componentDidMount(){
-    /**
-     * It prevents mousdown handler from RenderLayer component at Popup and solves
-     * problem, when Popup will reopen after click(close) on kebab
-     */
-
-  }
-
   render() {
     let style = this.state.opened ? { backgroundColor:  'rgba(0, 0, 0, 0.09)' } : {};
     let options = this._getOptions(this.props.size);
 
     return (
-      <div>
-        <div
-          onClick={this._handleClick}
-          onKeyDown={this._handleKeyDown}
-          style={style}
-          className={styles.kebab + ' ' + options.className}
-          tabIndex={1}
-          ref={e => this.anchor = e}
-        >
-          {options.icon}
-        </div>
-        <Popup
-          anchorElement={this.anchor}
-          positions={['bottom left', 'bottom right', 'top left', 'top right']}
-          onClickOutside={this._handleClickOutside}
-          onFocusOutside={this._handleClickOutside}
-          popupOffset={options.popupOffset}
-          opened={this.state.opened}
-          backgroundColor={'#fff'}
-          hasShadow={true}
-          hasPin={true}
-          pinSize={10}
-          pinOffset={18}
-        >
-          <Menu
-            hasShadow={false}
-            onItemClick={this._handleMenuItemClick}
+      <RenderLayer
+        onClickOutside={this._handleClickOutside}
+        onFocusOutside={this._handleClickOutside}
+      >
+        <div>
+          <div
+            onClick={this._handleClick}
+            onKeyDown={this._handleKeyDown}
+            style={style}
+            className={styles.kebab + ' ' + options.className}
+            tabIndex={1}
+            ref={e => this.anchor = e}
           >
-            {this.props.children}
-          </Menu>
-        </Popup>
-      </div>
+            {options.icon}
+          </div>
+          <Popup
+            anchorElement={this.anchor}
+            positions={['bottom left', 'bottom right', 'top left', 'top right']}
+            onClickOutside={() => {}}
+            onFocusOutside={() => {}}
+            popupOffset={options.popupOffset}
+            opened={this.state.opened}
+            backgroundColor={'#fff'}
+            hasShadow={true}
+            hasPin={true}
+            pinSize={10}
+            pinOffset={18}
+          >
+            <Menu
+              hasShadow={false}
+              onItemClick={this._handleMenuItemClick}
+            >
+              {this.props.children}
+            </Menu>
+          </Popup>
+        </div>
+      </RenderLayer>
     );
   }
 
