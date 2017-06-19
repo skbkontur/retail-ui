@@ -137,7 +137,7 @@ Kebab.propTypes = {
   children: PropTypes.node,
 
   /**
-   * Размер кебаба small 14px | medium 20px
+   * Размер кебаба small 14px | large 20px
    */
   size: PropTypes.string,
 
