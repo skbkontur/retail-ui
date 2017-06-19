@@ -1,4 +1,5 @@
 // @flow
+/* global React$Element */
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -10,8 +11,10 @@ import RenderLayer from '../RenderLayer';
 
 import styles from './Kebab.less';
 
+type ReactNode = React$Element<any> | string;
+
 type Props = {
-  children: ?HTMLElement,
+  children: ?ReactNode | ReactNode[];
   size: string;
   onClose: () => void;
   onOpen: () => void;

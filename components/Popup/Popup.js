@@ -41,7 +41,7 @@ export default class Popup extends Component {
   state: State = {
     location: null
   };
-  popupElement: HTMLElement;
+  _popupElement: HTMLElement;
 
   componentDidUpdate() {
     if (!this.props.opened && this.state.location) {
@@ -49,10 +49,10 @@ export default class Popup extends Component {
       return;
     }
 
-    if (this.popupElement) {
+    if (this._popupElement) {
       let location = this._getLocation(
         this.props.anchorElement,
-        this.popupElement,
+        this._popupElement,
         this.props.positions,
         20,
         this.props.popupOffset);
@@ -86,12 +86,12 @@ export default class Popup extends Component {
       onFocusOutside={onFocusOutside}
     >
       <RenderConatiner>
-        <div ref={e => this.popupElement = e} className={styles.popup + ' ' + shadowClass} style={style}>
+        <div ref={e => this._popupElement = e} className={styles.popup + ' ' + shadowClass} style={style}>
           {children}
           {
             hasPin
              && <PopupPin
-                  popupElement={this.popupElement}
+                  popupElement={this._popupElement}
                   popupPosition={location.position}
                   size={pinSize}
                   offset={pinOffset}
