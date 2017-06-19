@@ -20,6 +20,7 @@ const SelectAdapter = {
   }
 };
 
-Select.__ADAPTER__ = SelectAdapter;
+// eslint-disable-next-line flowtype/no-weak-types
+(Select: any).__ADAPTER__ = SelectAdapter;
 
 export default Select;
