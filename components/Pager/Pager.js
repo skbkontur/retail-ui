@@ -248,17 +248,14 @@ export default class Pager extends React.Component {
 
     _handlePageChange(newPageNumber: number) {
         this.props.onPageChange({ target: {value: newPageNumber}}, newPageNumber);
-        this._input.focus();
     }
 
     _handleLinkClick(linkPageNumber: number) {
         this._handlePageChange(linkPageNumber);
-        this.setState({focusedPageNumber: linkPageNumber});
     }
 
     _handleNextPageLinkClick() {
         this._handlePageChange(this.props.currentPage + 1);
-        this.setState({focusedPageNumber: 0});
     }
 
     _renderLink(pageNumber: number, elementIndex: number, isFocused: boolean, isCurrent: boolean) {
@@ -316,17 +313,17 @@ export default class Pager extends React.Component {
                 let link = (
                     <a
                         href={this.props.renderHref(this.props.currentPage + 1)}
-                        className={classNames({
-                            [styles.nextPageLink]: true,
-                            [styles.nextPageLinkDisabled]: element.disabled,
-                            [styles.nextPageLinkFocused]: isFocused,
-                        })}
+                        className={styles.nextPageLinkLink}
                         tabIndex="-1"
                         onClick={!element.disabled && this._handleNextPageLinkClick}>
                         {this.props.renderNextPagelabel()}
                     </a>);
                 return (
-                    <div className={styles.nextPageLinkWrapper} key="nextPageLinkWrapper">
+                    <div className={classNames({
+                            [styles.nextPageLink]: true,
+                            [styles.nextPageLinkDisabled]: element.disabled,
+                            [styles.nextPageLinkFocused]: isFocused,
+                        })} key="nextPageLink">
                         {link}
                     </div>
                 );
