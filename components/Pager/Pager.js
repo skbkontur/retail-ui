@@ -6,7 +6,7 @@ import Icon from '../Icon';
 
 import styles from './Pager.less';
 
-type Props = {
+export type PagerProps = {
   pagesCount: number,
   currentPage: number,
   onPageChange?: (event: any, pageNumber: number) => void,
@@ -82,9 +82,10 @@ export default class Pager extends React.Component {
     }
 
     static defaultProps = {
+        onPageChange: () => {},
         renderHref: (pageNumber: number) => "javascript:void(0)",
         renderLabel: (pageNumber: number) => pageNumber.toString(),
-        renderNextPagelabel: () => (<div>Дальше <Icon name="angle-right" /></div>)
+        renderNextPagelabel: () => (<div>Дальше <span className={styles.nextPageArrow}><Icon name="angle-right" /></span></div>)
     }
 
     _moveFocus(right: boolean) {
@@ -128,8 +129,21 @@ export default class Pager extends React.Component {
         this.setState({focusedPageNumber: newFocusedPageNumber});
     }
 
+    _openLink(pageNumber: number) {
+        if (pageNumber === 0) {
+            if (this.props.currentPage === this.props.pagesCount)
+                return;
+            pageNumber = this.props.currentPage + 1;
+        }
+        const href = this.props.renderHref(pageNumber);
+        window.location = href;
+        this._handlePageChange(pageNumber);
+        this.setState({focusedPageNumber: pageNumber});
+    }
+
     _handleKeyDown(event: SyntheticKeyboardEvent) {
         const focusedPageNumber = this.state.focusedPageNumber;
+        const currentPageNumber = this.props.currentPage;
 
         if (focusedPageNumber === null) {
             return;
@@ -137,18 +151,17 @@ export default class Pager extends React.Component {
 
         if (event.key === 'Enter') {
             event.preventDefault();
-            if (this._focused)
-                this._focused.click();
+            this._openLink(focusedPageNumber);
             return;
         }
         if (event.ctrlKey && event.key === 'ArrowRight') {
-            if (this._next)
-                this._next.click();
+            if (currentPageNumber !== this.props.pagesCount)
+                this._openLink(currentPageNumber + 1);
             return;
         }
         if (event.ctrlKey && event.key === 'ArrowLeft') {
-            if (this._previous)
-                this._previous.click();
+            if (currentPageNumber !== 1)
+                this._openLink(currentPageNumber - 1);
             return;
         }
 
@@ -232,24 +245,9 @@ export default class Pager extends React.Component {
         this.setState({focusedPageNumber: 0});
     }
 
-    _renderLink(pageNumber: number, elementIndex: number, isFocused: boolean,
-        isCurrent: boolean, isNext: boolean, isPrevious: boolean) {
+    _renderLink(pageNumber: number, elementIndex: number, isFocused: boolean, isCurrent: boolean) {
         return (
             <PagerLink
-                ref={link => {
-                    if (isFocused) {
-                        this._focused = link;
-                        return;
-                    }
-                    if (isNext) {
-                        this._next = link
-                        return;
-                    }
-                    if (isPrevious) {
-                        this._previous = link
-                        return;
-                    }
-                } }
                 focused={isFocused}
                 href={this.props.renderHref(pageNumber)}
                 current={isCurrent}
@@ -296,13 +294,13 @@ export default class Pager extends React.Component {
             } else {
                 let link = (
                     <a
-                        ref={node => { if (isFocused) this._focused = node; } }
                         href={this.props.renderHref(this.props.currentPage + 1)}
                         className={classNames({
                             [styles.nextPageLink]: true,
                             [styles.nextPageLinkDisabled]: element.disabled,
-                            [styles.focusedNextPageLink]: isFocused,
+                            [styles.nextPageLinkFocused]: isFocused,
                         })}
+                        tabIndex="-1"
                         onClick={!element.disabled && this._handleNextPageLinkClick}
                         key="nextPageLink">
                         {this.props.renderNextPagelabel()}
@@ -321,7 +319,7 @@ export default class Pager extends React.Component {
         };
 
         return (
-            <div className={styles.root}>
+            <div>
                 <input {...inputProps} />
                 {items}
             </div>
@@ -386,8 +384,8 @@ class PagerLink extends React.Component {
         
         const className = classNames({
             [styles.link]: true,
-            [styles.currentLink]: current,
-            [styles.focusedLink]: focused
+            [styles.linkCurrent]: current,
+            [styles.linkFocused]: focused
         });
         
         return (
@@ -395,7 +393,7 @@ class PagerLink extends React.Component {
             ref={node => { this._domNode = node; } }
             className={className}
             href={href}
-            tabIndex={current ? "" : "-1"}
+            tabIndex="-1"
             onClick={this._handleClick}>
             {children}
         </a>);

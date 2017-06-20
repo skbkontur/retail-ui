@@ -4,10 +4,6 @@
 @vertical-padding: 3px;
 
 :local {
-  .root {
-    
-  }
-
   .link {
       cursor: pointer;
       position: relative;
@@ -23,17 +19,17 @@
       text-decoration: none;
 
       color: @link-color;
-      &.currentLink {
+      &.linkCurrent {
         cursor: default;
         color: black;
         background: rgba(0, 0, 0, 0.09);
       }
-      &:not(.currentLink):hover {
+      &:not(.linkCurrent):hover {
           background: rgba(0, 0, 0, 0.05);
       }
   }
 
-  .focusedLink {
+  .linkFocused {
     border-color: @border-color-focus;
   }
 
@@ -42,6 +38,8 @@
     border-radius: @font-size;
     display: inline-block;
     vertical-align: @vertical-padding;
+
+    outline: none;
 
     font-size: @font-size;
     color: @link-color;
@@ -58,11 +56,15 @@
     &:not(.nextPageLinkDisabled):hover {
         background: rgba(0, 0, 0, 0.05);
     }
+    .nextPageArrow {
+      vertical-align: -1px;
+    }
   }
 
-  .focusedNextPageLink {
+  .nextPageLinkFocused {
     border-color: @border-color-focus;
   }
+
 
   .ellipsis {
     display: inline-block;

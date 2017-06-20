@@ -2,10 +2,10 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 
-import Pager from '../Pager';
+import Pager, {PagerProps} from '../Pager';
 
 class Component extends React.Component {
-  constructor(props) {
+  constructor(props: PagerProps) {
     super(props);
 
     this._handleChange = this._handleChange.bind(this);
@@ -14,7 +14,7 @@ class Component extends React.Component {
     currentPage: 1
   };
 
-  _handleChange(e) {
+  _handleChange(e: any) {
     this.setState({currentPage: e.target.value});
   }
 
@@ -34,7 +34,7 @@ class Component extends React.Component {
 
 storiesOf('Pager', module)
   .add('5 pages', () => (
-    <Component pagesCount={5} renderHref={(pageNumber: number) => `http://kontur.ru/${pageNumber}`} />
+    <Component pagesCount={5} />
   )).add('30 pages', () => (
     <Component pagesCount={30} />
-  )); 
+  ));
