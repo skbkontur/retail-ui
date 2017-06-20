@@ -8,11 +8,11 @@ class Component extends React.Component {
   constructor(props: PagerProps) {
     super(props);
 
+    this.state = {
+      currentPage: this.props.startPage || 1
+    };
     this._handleChange = this._handleChange.bind(this);
-  }
-  state = {
-    currentPage: 1
-  };
+  }  
 
   _handleChange(e: any) {
     this.setState({currentPage: e.target.value});
@@ -33,8 +33,8 @@ class Component extends React.Component {
 }
 
 storiesOf('Pager', module)
-  .add('5 pages', () => (
-    <Component pagesCount={5} />
-  )).add('30 pages, no tooltip', () => (
-    <Component pagesCount={30} navTooltip={false} />
+  .add('5 pages, no tooltip', () => (
+    <Component pagesCount={5} navTooltip={false} />
+  )).add('30 pages', () => (
+    <Component pagesCount={30} startPage={2} />
   ));
