@@ -12,7 +12,8 @@ export type PagerProps = {
   onPageChange?: (event: any, pageNumber: number) => void,
   renderHref?: (pageNumber: number) => string,
   renderLabel?: (pageNumber: number) => Node | string,
-  renderNextPagelabel?: () => Node | string
+  renderNextPagelabel?: () => Node | string,
+  navTooltip?: boolean
 };
 
 type State = {
@@ -25,13 +26,17 @@ const ElementTypeEnum = {
     nextPageLink: 3
 }
 
+const NavTooltipTypeEnum = {
+    firstPage: 1,
+    intermediatePage: 2,
+    lastPage: 3
+}
+
 type PagerElement = {
     pageNumber?: number,
     disabled?: boolean,
     elementType: ElementTypeEnum
 }
-
-//TODO тултип для перемещения по Ctrl
 
 /**
  * Страничная навигация.
@@ -66,7 +71,12 @@ export default class Pager extends React.Component {
         /**
          * Аналогично предыдущему, только для ссылки "Дальше"
          */
-        renderNextPagelabel: PropTypes.func
+        renderNextPagelabel: PropTypes.func,
+
+        /**
+         * Рисовать ли тултип, о перемещении между страницами по Alt + →/←
+         */
+        navTooltip: PropTypes.bool
     };
 
     constructor(props: Props) {
@@ -85,7 +95,8 @@ export default class Pager extends React.Component {
         onPageChange: () => {},
         renderHref: (pageNumber: number) => "javascript:void(0)",
         renderLabel: (pageNumber: number) => pageNumber.toString(),
-        renderNextPagelabel: () => (<div>Дальше <span className={styles.nextPageArrow}><Icon name="angle-right" /></span></div>)
+        renderNextPagelabel: () => (<div>Дальше <span className={styles.nextPageArrow}><Icon name="angle-right" /></span></div>),
+        navTooltip: true
     }
 
     _moveFocus(right: boolean) {
@@ -154,12 +165,14 @@ export default class Pager extends React.Component {
             this._openLink(focusedPageNumber);
             return;
         }
-        if (event.ctrlKey && event.key === 'ArrowRight') {
+        if (event.altKey && event.key === 'ArrowRight') {
+            event.preventDefault();
             if (currentPageNumber !== this.props.pagesCount)
                 this._openLink(currentPageNumber + 1);
             return;
         }
-        if (event.ctrlKey && event.key === 'ArrowLeft') {
+        if (event.altKey && event.key === 'ArrowLeft') {
+            event.preventDefault();
             if (currentPageNumber !== 1)
                 this._openLink(currentPageNumber - 1);
             return;
@@ -186,10 +199,8 @@ export default class Pager extends React.Component {
         this.setState({focusedPageNumber: null});
     }
 
-    //Возвращает список видимых на экране ссылок на основе pagesCount и currentPage
+    //Возвращает список видимых на экране элементов на основе pagesCount и currentPage
     //Требуется для навигации по ссылкам влево/вправо
-    //Список вида [1, -1, 10, 11, 12, 13, 14, -2, 30, 0], где -1 и -2 - элементы многоточия
-    //0 - ссылка "Дальше"
     _getElements(): PagerElement[] {
         const { pagesCount, currentPage } = this.props;
         const isLastPage = this.props.currentPage === this.props.pagesCount;
@@ -252,6 +263,11 @@ export default class Pager extends React.Component {
                 href={this.props.renderHref(pageNumber)}
                 current={isCurrent}
                 onClick={() => { this._handleLinkClick(pageNumber)} }
+                navTooltip={
+                    (isCurrent && this.props.navTooltip) ?
+                    (pageNumber === 1 ? NavTooltipTypeEnum.firstPage :
+                    (pageNumber === this.props.pagesCount ? NavTooltipTypeEnum.lastPage :
+                    NavTooltipTypeEnum.intermediatePage)) : null }
                 key={pageNumber}>
                 {this.props.renderLabel(pageNumber)}
             </PagerLink>
@@ -301,11 +317,14 @@ export default class Pager extends React.Component {
                             [styles.nextPageLinkFocused]: isFocused,
                         })}
                         tabIndex="-1"
-                        onClick={!element.disabled && this._handleNextPageLinkClick}
-                        key="nextPageLink">
+                        onClick={!element.disabled && this._handleNextPageLinkClick}>
                         {this.props.renderNextPagelabel()}
                     </a>);
-                return link;
+                return (
+                    <div className={styles.nextPageLinkWrapper} key="nextPageLinkWrapper">
+                        {link}
+                    </div>
+                );
             }
         });
         
@@ -335,7 +354,8 @@ type LinkProps = {
     onFocus: () => void,
     onBlur: () => void,
     onKeyDown: () => void,
-    href: string
+    href: string,
+    navTooltip: NavTooltipTypeEnum
 }
 
 /**
@@ -354,29 +374,46 @@ class PagerLink extends React.Component {
         onClick: PropTypes.func,
 
         /**
-         * Рисовать визуально фокус на ссылке
+         * Рисовать визуально фокус на ссылке. По умолчанию False
          */
         focused: PropTypes.bool,
 
         /**
          * Ссылка, на которую перейти при клике
          */
-        href: PropTypes.string.isRequired
+        href: PropTypes.string.isRequired,
+
+        /**
+         * Тип тултипа, который рисовать под ссылкой:
+         * для первой страницы, для последней, и для всех остальных
+         */
+        navTooltip: PropTypes.number
     };
 
     constructor(props: LinkProps) {
         super(props);
 
         this._handleClick = this._handleClick.bind(this);
-        this.click = this.click.bind(this);
     }
 
     _handleClick(e) {
         this.props.onClick();
     }
 
-    click() {
-        this._domNode.click();
+    _renderNavTooltip(tooltipType: NavTooltipTypeEnum) {
+        return (
+            <div className={styles.navTooltip}>
+                <div className={classNames({
+                    [styles.navTooltipPart]: true,
+                    [styles.navTooltipPartHidden]: tooltipType === NavTooltipTypeEnum.firstPage
+                    })}>←</div>
+                <div className={styles.navTooltipPart}>Alt</div>
+                <div className={classNames({
+                    [styles.navTooltipPart]: true,
+                    [styles.navTooltipPartHidden]: tooltipType === NavTooltipTypeEnum.lastPage
+                    })}>→</div>
+            </div>
+        );
     }
 
     render() {
@@ -387,15 +424,17 @@ class PagerLink extends React.Component {
             [styles.linkCurrent]: current,
             [styles.linkFocused]: focused
         });
-        
         return (
-        <a
-            ref={node => { this._domNode = node; } }
-            className={className}
-            href={href}
-            tabIndex="-1"
-            onClick={this._handleClick}>
-            {children}
-        </a>);
+            <div className={className}>
+                <a
+                    href={href}
+                    className={styles.linkLink}
+                    tabIndex="-1"
+                    onClick={this._handleClick}>
+                    {children}
+                </a>
+                {this.props.navTooltip ? this._renderNavTooltip(this.props.navTooltip) : null}
+            </div>
+        );
     }
 }

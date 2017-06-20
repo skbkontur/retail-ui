@@ -2,42 +2,45 @@
 
 @font-size: 18px;
 @vertical-padding: 3px;
+@border-width: 2px;
 
 :local {
   .link {
-      cursor: pointer;
-      position: relative;
       display: inline-block;
-      vertical-align: bottom;
-      border-radius: @font-size;
+      vertical-align: top;
+      margin-top: 5px;
+      
+      & .linkLink {
+        cursor: pointer;
+        text-decoration: none;
+        outline: none;
+        font-size: @font-size;
+        color: @link-color;
+        border-radius: @font-size;
+        padding: @vertical-padding 10px;
+        border: solid @border-width transparent;
+      }
 
-      outline: none;
-
-      font-size: @font-size;
-      padding: @vertical-padding 10px;
-      border: solid 2px transparent;
-      text-decoration: none;
-
-      color: @link-color;
-      &.linkCurrent {
+      &.linkCurrent .linkLink {
         cursor: default;
         color: black;
         background: rgba(0, 0, 0, 0.09);
       }
-      &:not(.linkCurrent):hover {
-          background: rgba(0, 0, 0, 0.05);
-      }
-  }
 
-  .linkFocused {
-    border-color: @border-color-focus;
+      &:not(.linkCurrent) .linkLink:hover {
+        background: rgba(0, 0, 0, 0.05);
+      }
+
+      &.linkFocused .linkLink {
+        border-color: @border-color-focus;
+      }
   }
 
   .nextPageLink {
     cursor: pointer;
     border-radius: @font-size;
     display: inline-block;
-    vertical-align: @vertical-padding;
+    vertical-align: top;
 
     outline: none;
 
@@ -45,7 +48,7 @@
     color: @link-color;
     margin-left: 8px;
     padding: @vertical-padding 8px;
-    border: solid 2px transparent;
+    border: solid @border-width transparent;
       text-decoration: none;
 
     &.nextPageLinkDisabled {
@@ -65,10 +68,16 @@
     border-color: @border-color-focus;
   }
 
+  .nextPageLinkWrapper {
+      display: inline-block;
+      vertical-align: top;
+  }
+
 
   .ellipsis {
     display: inline-block;
     cursor: default;
+    margin-top: 13px;
   }
 
   .input {
@@ -79,5 +88,21 @@
     outline: 0;
     position: absolute;
     width: 0;
+  }
+
+  .navTooltip {
+    margin-top: 5px;
+    color: #bbb;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .navTooltipPart {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .navTooltipPartHidden {
+    visibility: hidden;
   }
 }

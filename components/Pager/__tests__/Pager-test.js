@@ -5,7 +5,7 @@ import Pager from '../Pager';
 import PagerStyles from '../Pager.less';
 
 function findLinkByNumber(wrapper, pageNumber) {
-    return wrapper.findWhere(n => n.is(`.${PagerStyles.link}`) && n.text() === pageNumber.toString());
+    return wrapper.findWhere(n => n.is(`.${PagerStyles.link}`) && n.find(`.${PagerStyles.linkLink}`).text() === pageNumber.toString());
 }
 
 function buildEventObject(value) {
@@ -43,7 +43,7 @@ describe('Pager', () => {
         const onPageChange = jest.fn();
         const wrapper = mount(<Pager pagesCount={5} currentPage={1} onPageChange={onPageChange}/>);
         
-        findLinkByNumber(wrapper, newPage).simulate('click');
+        findLinkByNumber(wrapper, newPage).find('a').simulate('click');
         expect(onPageChange).toBeCalledWith(buildEventObject(newPage), newPage);
     });
 
@@ -52,7 +52,7 @@ describe('Pager', () => {
         var renderHref = (pageNumber) => `http://kontur.ru/page-${pageNumber}`;
         const wrapper = mount(<Pager pagesCount={5} currentPage={1} renderHref={renderHref}/>);
 
-        expect(findLinkByNumber(wrapper, pageNumber).prop('href')).toBe(renderHref(pageNumber));
+        expect(findLinkByNumber(wrapper, pageNumber).find('a').prop('href')).toBe(renderHref(pageNumber));
     });
 
     it('focuses correct link on focus and on left/right navigation', () => {
@@ -84,7 +84,7 @@ describe('Pager', () => {
         expect(findLinkByNumber(wrapper, 5).is(`.${PagerStyles.linkFocused}`)).toBe(true);
     });
 
-    it('calls onPageChange correctly on Ctrl+left/right navigation', () => {
+    it('calls onPageChange correctly on Alt+left/right navigation', () => {
         const onPageChange = jest.fn();
         const wrapper = mount(<Pager pagesCount={5} currentPage={1} onPageChange={onPageChange}/>);
         const input = wrapper.find(`.${PagerStyles.input}`);
@@ -92,11 +92,11 @@ describe('Pager', () => {
         //① 2 3 4 5
         input.simulate('focus');
 
-        //Текущая страница в компоненте не меняется фактически по нажатию на Ctrl+→, т.к. он принимает её в качестве props
-        input.simulate('keydown', {ctrlKey: true, key: 'ArrowRight'});
+        //Текущая страница в компоненте не меняется фактически по нажатию на Alt+→, т.к. он принимает её в качестве props
+        input.simulate('keydown', {altKey: true, key: 'ArrowRight'});
         expect(onPageChange).lastCalledWith(buildEventObject(2), 2);
 
-        input.simulate('keydown', {ctrlKey: true, key: 'ArrowLeft'});
+        input.simulate('keydown', {altKey: true, key: 'ArrowLeft'});
         expect(onPageChange).toHaveBeenCalledTimes(1);
     });
 });

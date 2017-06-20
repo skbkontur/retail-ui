@@ -35,6 +35,6 @@ class Component extends React.Component {
 storiesOf('Pager', module)
   .add('5 pages', () => (
     <Component pagesCount={5} />
-  )).add('30 pages', () => (
-    <Component pagesCount={30} />
+  )).add('30 pages, no tooltip', () => (
+    <Component pagesCount={30} navTooltip={false} />
   ));
