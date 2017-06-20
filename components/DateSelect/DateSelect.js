@@ -155,11 +155,11 @@ export default class DateSelect extends React.Component {
     };
     switch (type) {
       case 'year':
-        style.width = width + 7;
+        style.width = width;
         style.left = '-10px';
         break;
       case 'month':
-        style.width = width + 12;
+        style.width = width;
         style.right = 0;
     }
 
