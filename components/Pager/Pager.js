@@ -149,7 +149,6 @@ export default class Pager extends React.Component {
         const href = this.props.renderHref(pageNumber);
         window.location = href;
         this._handlePageChange(pageNumber);
-        this.setState({focusedPageNumber: pageNumber});
     }
 
     _handleKeyDown(event: SyntheticKeyboardEvent) {
@@ -167,14 +166,20 @@ export default class Pager extends React.Component {
         }
         if (event.altKey && event.key === 'ArrowRight') {
             event.preventDefault();
-            if (currentPageNumber !== this.props.pagesCount)
-                this._openLink(currentPageNumber + 1);
+            if (currentPageNumber !== this.props.pagesCount) {
+                const nextPage = currentPageNumber + 1;
+                this._openLink(nextPage);
+                this.setState({focusedPageNumber: nextPage});
+            }
             return;
         }
         if (event.altKey && event.key === 'ArrowLeft') {
             event.preventDefault();
-            if (currentPageNumber !== 1)
-                this._openLink(currentPageNumber - 1);
+            if (currentPageNumber !== 1) {
+                const prevpage = currentPageNumber - 1
+                this._openLink(prevpage);
+                this.setState({focusedPageNumber: prevpage});
+            }
             return;
         }
 
