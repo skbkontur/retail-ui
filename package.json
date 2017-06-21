@@ -71,6 +71,7 @@
     "less": "2.7.2",
     "less-loader": "^4.0.3",
     "lint-staged": "^3.5.0",
+    "mockdate": "^2.0.1",
     "react": "0.14.9",
     "react-addons-css-transition-group": "0.14.8",
     "react-addons-test-utils": "0.14.8",
