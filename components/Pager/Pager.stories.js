@@ -36,5 +36,5 @@ storiesOf('Pager', module)
   .add('5 pages, no tooltip', () => (
     <Component pagesCount={5} navTooltip={false} />
   )).add('30 pages', () => (
-    <Component pagesCount={30} startPage={2} />
+    <Component pagesCount={30} startPage={2} renderLabel={(pageNumber) => `стр. ${pageNumber}`} />
   ));

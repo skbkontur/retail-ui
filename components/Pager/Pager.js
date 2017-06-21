@@ -12,7 +12,7 @@ export type PagerProps = {
   onPageChange?: (event: any, pageNumber: number) => void,
   renderHref?: (pageNumber: number) => string,
   renderLabel?: (pageNumber: number) => Node | string,
-  renderNextPagelabel?: () => Node | string,
+  nextPageLabel?: Node | string,
   navTooltip?: boolean
 };
 
@@ -69,9 +69,9 @@ export default class Pager extends React.Component {
         renderLabel: PropTypes.func,
 
         /**
-         * Аналогично предыдущему, только для ссылки "Дальше"
+         * надпись на кнопке следующей страницы
          */
-        renderNextPagelabel: PropTypes.func,
+        nextPageLabel: PropTypes.oneOf([PropTypes.node, PropTypes.string]),
 
         /**
          * Рисовать ли тултип, о перемещении между страницами по Alt + →/←
@@ -95,7 +95,7 @@ export default class Pager extends React.Component {
         onPageChange: () => {},
         renderHref: (pageNumber: number) => "javascript:void(0)",
         renderLabel: (pageNumber: number) => pageNumber.toString(),
-        renderNextPagelabel: () => (<div>Дальше <span className={styles.nextPageArrow}><Icon name="angle-right" /></span></div>),
+        nextPageLabel: (<div>Дальше <span className={styles.nextPageArrow}><Icon name="angle-right" /></span></div>),
         navTooltip: true
     }
 
@@ -316,7 +316,7 @@ export default class Pager extends React.Component {
                         className={styles.nextPageLinkLink}
                         tabIndex="-1"
                         onClick={!element.disabled && this._handleNextPageLinkClick}>
-                        {this.props.renderNextPagelabel()}
+                        {this.props.nextPageLabel}
                     </a>);
                 return (
                     <div className={classNames({
