@@ -161,17 +161,18 @@ const validate: Validate<ContactInfo, ContactInfoValidationInfo> = validation()
         .required()
         .satisfy(x => x.includes('@'), 'Почта указана неверно')
     .property(x => x.phone)
+        .required()
         .satisfy(
             phone => phone !== '' && /^[\s\d\-\+\(\)]*$/.test(phone),
             'Телефон должен состоять только из цифр, пробелов и знаков -,+,(,)')
     .property(x => x.sex).required()
     .property(x => x.city).required()
     .property(x => x.confession).required()
-    .property(x => x.confirmed).satisfy(x => x, 'Надо соглашаться')
-    .property(x => x.modalOpened).satisfy(x => x, 'Надо соглашаться')
+    .property(x => x.confirmed).satisfy(x => x, 'Надо соглашаться', 'submit')
+    .property(x => x.modalOpened).satisfy(x => x, 'Надо соглашаться', 'submit')
     .property(x => x.about).required()
     .property(x => x.born)
-        .satisfy(x => x, 'Заполни')
+        .satisfy(x => x, 'Заполни', 'submit')
     .build();
 
 

@@ -42,6 +42,12 @@ export default class ValidationContext extends React.Component {
         this.onValidationRemoved();
     }
 
+    instanceProcessBlur(instance: ValidationWrapper) {
+        for (const wrapper of this.childWrappers.filter(x => x !== instance)) {
+            wrapper.emulateBlur();
+        }
+    }
+
     onValidationUpdated(wrapper: ValidationWrapper, isValid?: boolean) {
         const { onValidationUpdated } = this.props;
         if (onValidationUpdated) {
@@ -53,6 +59,10 @@ export default class ValidationContext extends React.Component {
             });
             onValidationUpdated(isValidResult);
         }
+    }
+
+    isAnyWrapperInChangingMode(): boolean {
+        return this.childWrappers.some(x => x.isChanging);
     }
 
     onValidationRemoved() {

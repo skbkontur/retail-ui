@@ -52,6 +52,7 @@ export class ValidationContainer extends React.Component {
 
 export type ValidationInfo = {
     type?: 'immediate' | 'lostfocus' | 'submit';
+    level?: 'error' | 'warning';
     message: string;
 };
 
@@ -73,8 +74,9 @@ export class ValidationWrapperV1 extends React.Component {
                 validations={[
                     {
                         error: Boolean(validationInfo),
+                        level: validationInfo && validationInfo.level ? validationInfo.level : 'error',
                         behaviour: (validationInfo && validationInfo.type) || 'lostfocus',
-                        message: (validationInfo && validationInfo.message),
+                        message: validationInfo && validationInfo.message,
                     },
                 ]}>
                 {children}
@@ -87,14 +89,17 @@ export function tooltip(pos: string): RenderErrorMessage {
     // TODO так нормально писать вроде
     // eslint-disable-next-line react/display-name
     return (control, hasError, validation) =>
-        (
-            <ValidationTooltip
-                pos={pos}
-                error={hasError}
-                render={() => validation && validation.message || ''}>
-                {control}
-            </ValidationTooltip>
-        );
+        <ValidationTooltip
+            pos={pos}
+            error={hasError}
+            render={() => {
+                if (!validation || !validation.message) {
+                    return null;
+                }
+                return (validation && validation.message) || '';
+            }}>
+            {control}
+        </ValidationTooltip>;
 }
 
 export function text(pos: string = 'right'): RenderErrorMessage {
@@ -102,31 +107,30 @@ export function text(pos: string = 'right'): RenderErrorMessage {
         // TODO так нормально писать вроде
         // eslint-disable-next-line react/display-name
         return (control, hasError, validation) =>
-            (
-                <span style={{ display: 'inline-block' }}>
-                    {control}
-                    <span style={{ marginLeft: '10px', color: '#d43517' }}>
-                        {validation && validation.message || ''}
-                    </span>
+            <span style={{ display: 'inline-block' }}>
+                {control}
+                <span style={{ marginLeft: '10px', color: '#d43517' }}>
+                    {(validation && validation.message) || ''}
                 </span>
-            );
+            </span>;
     }
     // TODO так нормально писать вроде
     // eslint-disable-next-line react/display-name
     return (control, hasError, validation) =>
-        (
-            <span style={{ position: 'relative', display: 'inline-block' }}>
-                {control}
-                <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>
-                    <span style={{
+        <span style={{ position: 'relative', display: 'inline-block' }}>
+            {control}
+            <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>
+                <span
+                    style={{
                         color: '#d43517',
                         overflow: 'visible',
                         whiteSpace: 'nowrap',
                         position: 'absolute',
                         top: '2px',
                         left: 0,
-                    }}>{validation && validation.message || ''}</span>
+                    }}>
+                    {(validation && validation.message) || ''}
                 </span>
             </span>
-        );
+        </span>;
 }
