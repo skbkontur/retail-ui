@@ -8,6 +8,7 @@ require('smoothscroll-polyfill').polyfill();
 
 export type Validation = {
     error: boolean;
+    level: 'error' | 'warning';
     behaviour: 'immediate' | 'lostfocus' | 'submit';
 };
 
@@ -18,12 +19,17 @@ export interface IValidationContextSettings {
 export interface IValidationContext {
     register(wrapper: ValidationWrapper): void;
     unregister(wrapper: ValidationWrapper): void;
+    instanceProcessBlur(wrapper: ValidationWrapper): void;
     onValidationUpdated(wrapper: ValidationWrapper, isValid: boolean): void;
     getSettings(): IValidationContextSettings;
+    isAnyWrapperInChangingMode(): boolean;
 }
 
-export type RenderErrorMessage =
-    (control: React.Element<*>, hasError: boolean, validation: ?Validation) => React.Element<*>;
+export type RenderErrorMessage = (
+    control: React.Element<*>,
+    hasError: boolean,
+    validation: ?Validation
+) => React.Element<*>;
 
 type ValidationWrapperProps = {
     children?: any;
@@ -39,16 +45,14 @@ type ValidationWrapperState = {
     validationStates: ValidationState[];
 };
 
-type ValidationWrapperContext = {
-    validationContext: IValidationContext;
-};
-
 export default class ValidationWrapper extends React.Component {
     props: ValidationWrapperProps;
     state: ValidationWrapperState = {
         validationStates: [],
     };
-    context: ValidationWrapperContext;
+    context: {
+        validationContext: IValidationContext;
+    };
 
     static contextTypes = {
         validationContext: React.PropTypes.any,
@@ -92,7 +96,11 @@ export default class ValidationWrapper extends React.Component {
             return {};
         }
         else if (validation.behaviour === 'lostfocus') {
-            return { visible: false };
+            if (this.context.validationContext.isAnyWrapperInChangingMode()) {
+                return { visible: false };
+            }
+
+            return { visible: true };
         }
         else if (validation.behaviour === 'submit') {
             return { visible: false };
@@ -100,9 +108,16 @@ export default class ValidationWrapper extends React.Component {
         throw new Error(`Unknown behaviour: ${validation.behaviour}`);
     }
 
+    emulateBlur() {
+        const { validations } = this.props;
+        validations.forEach((x, i) => this.processBlur(x, this.state.validationStates[i], i));
+        this.isChanging = false;
+    }
+
     handleBlur() {
         const { validations } = this.props;
         validations.forEach((x, i) => this.processBlur(x, this.state.validationStates[i], i));
+        this.context.validationContext.instanceProcessBlur(this);
         this.isChanging = false;
     }
 
@@ -110,21 +125,27 @@ export default class ValidationWrapper extends React.Component {
         this.isChanging = false;
         const { validations } = this.props;
         await Promise.all(
-            validations.map(
-                (x, i) => this.processValidationSubmit(x, this.state.validationStates[i], i)));
+            validations.map((x, i) => this.processValidationSubmit(x, this.state.validationStates[i], i))
+        );
     }
 
     async processValidationSubmit(
-        validation: Validation, validationState: ValidationState, index: number): Promise<void> {
+        validation: Validation,
+        validationState: ValidationState,
+        index: number
+    ): Promise<void> {
         return new Promise(resolve => {
             if (validation.behaviour !== 'immediate') {
-                this.setState({
-                    validationStates: [
-                        ...this.state.validationStates.slice(0, index),
-                        { ...validationState, visible: true },
-                        ...this.state.validationStates.slice(index + 1),
-                    ],
-                }, resolve);
+                this.setState(
+                    {
+                        validationStates: [
+                            ...this.state.validationStates.slice(0, index),
+                            { ...validationState, visible: true },
+                            ...this.state.validationStates.slice(index + 1),
+                        ],
+                    },
+                    resolve
+                );
             }
             else {
                 resolve();
@@ -213,9 +234,10 @@ export default class ValidationWrapper extends React.Component {
     }
 
     async focus(): Promise<void> {
-        if (this.child && (typeof this.child.focus === 'function')) {
+        if (this.child && typeof this.child.focus === 'function') {
             const childDomElement = ReactDom.findDOMNode(this.child);
             const scrollOffsets = this.getScrollOffsets(childDomElement);
+
             if (scrollOffsets) {
                 await this.smoothScrollBy(scrollOffsets);
             }
@@ -226,29 +248,44 @@ export default class ValidationWrapper extends React.Component {
         }
     }
 
-    smoothScrollBy(scrollOffsets: { top: number; left: number }): Promise<void> {
+    async smoothScrollBy(scrollOffsets: { top: number; left: number }): Promise<void> {
         // используем EventListener'ы, т.к. в Firefox скролл асинхронный, и идующий за ним фокус сам прокручивает страницу по какой-то своей логике
-        return new Promise(resolve => {
-            const _handleScroll = () => {
-                if (this._scrollTimer !== null) {
-                    clearTimeout(this._scrollTimer);
-                }
-                this._scrollTimer = setTimeout(() => {
-                    Events.removeEventListener(window, 'scroll', _handleScroll);
-                    resolve();
-                }, 300);
-            };
+        this._scrollTimer = null;
+        const success = await Promise.race([
+            new Promise(resolve => {
+                const _handleScroll = () => {
+                    if (this._scrollTimer !== null) {
+                        clearTimeout(this._scrollTimer);
+                    }
+                    this._scrollTimer = setTimeout(() => {
+                        Events.removeEventListener(window, 'scroll', _handleScroll);
+                        resolve(true);
+                    }, 300);
+                };
 
-            Events.addEventListener(window, 'scroll', _handleScroll);
-            window.scrollBy({ ...scrollOffsets, behavior: 'smooth' });
-        });
+                Events.addEventListener(window, 'scroll', _handleScroll);
+                window.scrollBy({ ...scrollOffsets, behavior: 'smooth' });
+            }),
+            new Promise(resolve => setTimeout(() => resolve(false), 500)),
+        ]);
+        if (!success && this._scrollTimer === null) {
+            const childDomElement = ReactDom.findDOMNode(this.child);
+            childDomElement.scrollIntoView({ behavior: 'smooth' });
+        }
     }
 
-    isError(validation: Validation, index: number): boolean {
+    isErrorOrWarning(validation: Validation, index: number): boolean {
         if (validation.behaviour === 'immediate') {
             return validation.error;
         }
         return Boolean(validation.error && this.state.validationStates[index].visible);
+    }
+
+    isError(validation: Validation, index: number): boolean {
+        if (validation.behaviour === 'immediate') {
+            return validation.error && validation.level === 'error';
+        }
+        return Boolean(validation.error && validation.level === 'error' && this.state.validationStates[index].visible);
     }
 
     hasError(): boolean {
@@ -259,36 +296,40 @@ export default class ValidationWrapper extends React.Component {
 
     render(): React.Element<*> {
         const { children, validations, errorMessage } = this.props;
-        const validation = validations.find((x, i) => this.isError(x, i));
+        const validation = validations.find((x, i) => this.isErrorOrWarning(x, i));
 
-        const clonedChild =
-            children
-                ? React.cloneElement(
-                    children, {
-                        ref: x => {
-                            if (children && children.ref) {
-                                children.ref(x);
-                            }
-                            this.child = x;
-                        },
-                        error: this.isChanging ? false : Boolean(validation && validation.error),
-                        onBlur: () => {
-                            this.handleBlur();
-                            if (children && children.props && children.props.onBlur) {
-                                children.props.onBlur();
-                            }
-                        },
-                        onChange: (...args) => {
-                            this.isChanging = true;
-                            if (children && children.props && children.props.onChange) {
-                                children.props.onChange(...args);
-                            }
-                        },
-                    })
-                : <span />;
+        const clonedChild = children
+            ? React.cloneElement(children, {
+                ref: x => {
+                    if (children && children.ref) {
+                        children.ref(x);
+                    }
+                    this.child = x;
+                },
+                error: this.isChanging
+                      ? false
+                      : Boolean(validation && validation.error && validation.level === 'error'),
+                warning: this.isChanging
+                      ? false
+                      : Boolean(validation && validation.error && validation.level === 'warning'),
+                onBlur: () => {
+                    this.handleBlur();
+                    if (children && children.props && children.props.onBlur) {
+                        children.props.onBlur();
+                    }
+                },
+                onChange: (...args) => {
+                    this.isChanging = true;
+                    if (children && children.props && children.props.onChange) {
+                        children.props.onChange(...args);
+                    }
+                },
+            })
+            : <span />;
         const childWithError = React.cloneElement(
             errorMessage(clonedChild, Boolean(validation && validation.error), validation),
-            { ref: 'errorMessage' });
+            { ref: 'errorMessage' }
+        );
         return childWithError;
     }
 }
