@@ -1,4 +1,5 @@
 // @flow
+import cn from 'classnames';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
@@ -90,15 +91,19 @@ class Tabs extends React.Component {
 
   render() {
     const activeTab = this.state.tabs.find(x => x.id === this.props.value);
+    const { vertical } = this.props;
 
     return (
-      <div className={styles.root} style={{ width: this.props.width }}>
+      <div
+        className={cn(styles.root, vertical && styles.vertical)}
+        style={{ width: this.props.width }}
+      >
         {this.props.children}
         <Indicator
           className={this.props.indicatorClassName}
           getAnchorNode={activeTab ? activeTab.getNode : () => null}
           tabUpdates={this._tabUpdates}
-          vertical={this.props.vertical}
+          vertical={vertical}
         />
       </div>
     );
