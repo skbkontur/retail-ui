@@ -59,7 +59,7 @@ export default class Kebab extends Component {
         onClickOutside={this._handleClickOutside}
         onFocusOutside={this._handleClickOutside}
       >
-        <div>
+        <div className={styles.root}>
           <div
             onClick={this._handleClick}
             onKeyDown={this._handleKeyDown}
@@ -124,7 +124,7 @@ export default class Kebab extends Component {
           popupOffset: 18,
           icon: (
             <div className={styles.icon}>
-              <Icon name="kebab" size="14" color="#000" />
+              <Icon name="kebab" size="14" color="#757575" />
             </div>
           )
         };
@@ -134,7 +134,7 @@ export default class Kebab extends Component {
           popupOffset: 15,
           icon: (
             <div className={styles.icon}>
-              <Icon20 name="kebab" size="20" color="#000" />
+              <Icon20 name="kebab" size="20" color="#757575" />
             </div>
           )
         };
@@ -148,13 +148,20 @@ export default class Kebab extends Component {
   };
 
   _handleClick = e => {
-    this._setPopupState(!this.state.opened);
+	this._setPopupState(!this.state.opened);
   };
 
-  _handleKeyDown = e => {
-    if (e.keyCode === 13) {
-      this._setPopupState(true);
-    }
+  _handleKeyDown = (event) => {
+	switch (event.key) {
+	  case 'Escape':
+	    event.preventDefault();
+	    this._setPopupState(false);
+		break;
+	  case 'Enter':
+	    event.preventDefault();
+	    this._setPopupState(true);
+		break;
+	}
   };
 
   _setPopupState = (opened: boolean) => {

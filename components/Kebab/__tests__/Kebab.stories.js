@@ -8,7 +8,7 @@ storiesOf('Kebab', module)
   .addDecorator(story =>
     <div
       style={{
-        padding: 120,
+        padding: '120px 0',
         border: '1px solid #dfdede',
         overflow: 'hidden'
       }}
@@ -22,7 +22,9 @@ storiesOf('Kebab', module)
 class SomethingWithKebab extends Component {
   render() {
     return (
-      <Kebab
+      <div style={{width: 200, textAlign: 'center'}}>
+	  Pikachu{' '}
+	  <Kebab
         size={this.props.size}
         onOpen={action('open')}
         onClose={action('close')}
@@ -31,6 +33,7 @@ class SomethingWithKebab extends Component {
         <MenuItem onClick={action('Second')}>Second</MenuItem>
         <MenuItem onClick={action('Uno')}>Uno</MenuItem>
       </Kebab>
+	  </div>
     );
   }
 }

@@ -1,6 +1,11 @@
 @import '../variables.less';
 
 :local {
+  .root {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
   .kebab {
     display: inline-block;
     text-align: center;
@@ -11,6 +16,7 @@
     cursor: pointer;
     outline: 0;
     position: relative;
+	transition: background 0.2s ease-in;
 
     &:hover {
       background: rgba(0, 0, 0, 0.09);
