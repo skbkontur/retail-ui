@@ -72,11 +72,11 @@ export default class Kebab extends Component {
               focusedByTab && styles.focused
             )}
             tabIndex={0}
-            ref={node => (this._anchor = node)}
+            ref={node => this._anchor = node}
           >
             {options.icon}
           </div>
-        <Popup
+          <Popup
             anchorElement={this._anchor}
             positions={['bottom left', 'bottom right', 'top left', 'top right']}
             popupOffset={options.popupOffset}
