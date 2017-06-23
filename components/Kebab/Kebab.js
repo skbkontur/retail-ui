@@ -76,7 +76,7 @@ export default class Kebab extends Component {
           >
             {options.icon}
           </div>
-          <Popup
+        <Popup
             anchorElement={this._anchor}
             positions={['bottom left', 'bottom right', 'top left', 'top right']}
             popupOffset={options.popupOffset}
@@ -148,20 +148,20 @@ export default class Kebab extends Component {
   };
 
   _handleClick = e => {
-	this._setPopupState(!this.state.opened);
+    this._setPopupState(!this.state.opened);
   };
 
-  _handleKeyDown = (event) => {
-	switch (event.key) {
-	  case 'Escape':
-	    event.preventDefault();
-	    this._setPopupState(false);
-		break;
-	  case 'Enter':
-	    event.preventDefault();
-	    this._setPopupState(true);
-		break;
-	}
+  _handleKeyDown = event => {
+    switch (event.key) {
+      case 'Escape':
+        event.preventDefault();
+        this._setPopupState(false);
+        break;
+      case 'Enter':
+        event.preventDefault();
+        this._setPopupState(true);
+        break;
+    }
   };
 
   _setPopupState = (opened: boolean) => {

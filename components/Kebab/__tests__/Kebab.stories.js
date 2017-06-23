@@ -22,18 +22,18 @@ storiesOf('Kebab', module)
 class SomethingWithKebab extends Component {
   render() {
     return (
-      <div style={{width: 200, textAlign: 'center'}}>
-	  Pikachu{' '}
-	  <Kebab
-        size={this.props.size}
-        onOpen={action('open')}
-        onClose={action('close')}
-      >
-        <MenuItem onClick={action('First')}>First</MenuItem>
-        <MenuItem onClick={action('Second')}>Second</MenuItem>
-        <MenuItem onClick={action('Uno')}>Uno</MenuItem>
-      </Kebab>
-	  </div>
+      <div style={{ width: 200, textAlign: 'center' }}>
+        Pikachu{' '}
+        <Kebab
+          size={this.props.size}
+          onOpen={action('open')}
+          onClose={action('close')}
+        >
+          <MenuItem onClick={action('First')}>First</MenuItem>
+          <MenuItem onClick={action('Second')}>Second</MenuItem>
+          <MenuItem onClick={action('Uno')}>Uno</MenuItem>
+        </Kebab>
+      </div>
     );
   }
 }
