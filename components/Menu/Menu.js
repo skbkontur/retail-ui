@@ -1,5 +1,5 @@
 // @flow
-
+import cn from 'classnames';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -21,6 +21,7 @@ export default class Menu extends React.Component {
 
   props: {
     children?: React$Element<*> | React$Element<*>[],
+    hasShadow?: boolean,
     maxHeight: number,
     onItemClick?: () => void,
     width?: number | string
@@ -44,11 +45,9 @@ export default class Menu extends React.Component {
       return null;
     }
 
-    let className = this.props.hasShadow ? styles.shadow : '';
-
     return (
       <div
-        className={styles.root + ' ' + className}
+        className={cn(styles.root, this.props.hasShadow && styles.shadow)}
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
       >
         <ScrollContainer

@@ -6,14 +6,14 @@ import PropTypes from 'prop-types';
 import PopupHelper from './PopupHelper';
 
 type Props = {
-  backgroundColor: string;
-  borderColor: string;
-  borderWidth: number;
-  offset: number;
-  popupElement: ?HTMLElement;
-  popupPosition: string;
-  size: number;
-}
+  backgroundColor: string,
+  borderColor: string,
+  borderWidth: number,
+  offset: number,
+  popupElement: ?HTMLElement,
+  popupPosition: string,
+  size: number
+};
 
 export default class PopupPin extends Component {
   props: Props;
@@ -28,25 +28,28 @@ export default class PopupPin extends Component {
       PopupHelper.getPositionObject(this.props.popupPosition),
       this.props.size,
       this.props.offset,
-      this.props.borderWidth);
+      this.props.borderWidth
+    );
 
     let styleOuter = this._getStyle(
       options.outerTop,
       options.outerLeft,
       options.activeBorder,
       options.outerSize,
-      this.props.borderColor);
+      this.props.borderColor
+    );
 
     let styleInner = this._getStyle(
       options.innerTop,
       options.innerLeft,
       options.activeBorder,
       this.props.size,
-      this.props.backgroundColor);
+      this.props.backgroundColor
+    );
 
     return (
       <div style={styleOuter}>
-        <div style={styleInner}></div>
+        <div style={styleInner} />
       </div>
     );
   }
@@ -54,7 +57,7 @@ export default class PopupPin extends Component {
   _getStyle(top, left, activeBorder, borderWitdth, borderColor) {
     return {
       position: 'absolute',
-      top: top +'px',
+      top: top + 'px',
       left: left + 'px',
       borderWidth: borderWitdth + 'px',
       borderStyle: 'solid',
@@ -74,7 +77,13 @@ export default class PopupPin extends Component {
       case 'top':
         return {
           outerTop: popupRect.height,
-          outerLeft: this._getPinLeftCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
+          outerLeft:
+            this._getPinLeftCoordinate(
+              popupRect,
+              popupPosition.align,
+              pinSize,
+              pinOffset
+            ) - bordersDelta,
           innerTop: -outerSize,
           innerLeft: -outerSize + bordersDelta,
           activeBorder: 'Top',
@@ -82,8 +91,14 @@ export default class PopupPin extends Component {
         };
       case 'bottom':
         return {
-          outerTop:  -2 * outerSize,
-          outerLeft: this._getPinLeftCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
+          outerTop: -2 * outerSize,
+          outerLeft:
+            this._getPinLeftCoordinate(
+              popupRect,
+              popupPosition.align,
+              pinSize,
+              pinOffset
+            ) - bordersDelta,
           innerTop: -outerSize + 2 * bordersDelta,
           innerLeft: -outerSize + bordersDelta,
           activeBorder: 'Bottom',
@@ -91,7 +106,13 @@ export default class PopupPin extends Component {
         };
       case 'left':
         return {
-          outerTop: this._getPinTopCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
+          outerTop:
+            this._getPinTopCoordinate(
+              popupRect,
+              popupPosition.align,
+              pinSize,
+              pinOffset
+            ) - bordersDelta,
           outerLeft: popupRect.width,
           innerTop: -outerSize + bordersDelta,
           innerLeft: -outerSize,
@@ -100,13 +121,21 @@ export default class PopupPin extends Component {
         };
       case 'right':
         return {
-          outerTop: this._getPinTopCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
-          outerLeft: - 2 * outerSize,
+          outerTop:
+            this._getPinTopCoordinate(
+              popupRect,
+              popupPosition.align,
+              pinSize,
+              pinOffset
+            ) - bordersDelta,
+          outerLeft: -2 * outerSize,
           innerTop: -outerSize + bordersDelta,
           innerLeft: -outerSize + 2 * bordersDelta,
           activeBorder: 'Right',
           outerSize
         };
+      default:
+        throw new Error('Direction must be one of top, right, bottom, left');
     }
   }
 

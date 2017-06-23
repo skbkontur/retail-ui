@@ -1,6 +1,8 @@
 // @flow
 /* global React$Element */
 
+import cn from 'classnames';
+import events from 'add-event-listener';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Icon20 from '../Icon/20px';
@@ -11,32 +13,47 @@ import RenderLayer from '../RenderLayer';
 
 import styles from './Kebab.less';
 
-type ReactNode = React$Element<any> | string;
+type ReactNode = React$Element<*> | string;
 
 type Props = {
-  children: ?ReactNode | ReactNode[];
-  size: string;
-  onClose: () => void;
-  onOpen: () => void;
-}
+  children: ?ReactNode | ReactNode[],
+  onClose: () => void,
+  onOpen: () => void,
+  size: string
+};
 
 type State = {
-  anchor: ?HTMLElement;
-  opened: boolean;
-}
+  anchor: ?HTMLElement,
+  focusedByTab: boolean,
+  opened: boolean
+};
 
 export default class Kebab extends Component {
+  static defaultProps = {
+    onOpen: () => {},
+    onClose: () => {}
+  };
+
   props: Props;
+
   state: State = {
     opened: false,
-    anchor: this.anchor
+    focusedByTab: false,
+    anchor: null
   };
-  anchor: HTMLElement;
+
+  _anchor: HTMLElement;
+
+  componentDidMount() {
+    listenTabPresses();
+  }
 
   render() {
-    let style = this.state.opened ? { backgroundColor:  'rgba(0, 0, 0, 0.09)' } : {};
-    let options = this._getOptions(this.props.size);
-
+    const style = this.state.opened
+      ? { backgroundColor: 'rgba(0, 0, 0, 0.09)' }
+      : {};
+    const options = this._getOptions(this.props.size);
+    const { focusedByTab } = this.state;
     return (
       <RenderLayer
         onClickOutside={this._handleClickOutside}
@@ -46,30 +63,30 @@ export default class Kebab extends Component {
           <div
             onClick={this._handleClick}
             onKeyDown={this._handleKeyDown}
+            onFocus={this._handleFocus}
+            onBlur={this._handleBlur}
             style={style}
-            className={styles.kebab + ' ' + options.className}
-            tabIndex={1}
-            ref={e => this.anchor = e}
+            className={cn(
+              styles.kebab,
+              options.className,
+              focusedByTab && styles.focused
+            )}
+            tabIndex={0}
+            ref={node => (this._anchor = node)}
           >
             {options.icon}
           </div>
           <Popup
-            anchorElement={this.anchor}
+            anchorElement={this._anchor}
             positions={['bottom left', 'bottom right', 'top left', 'top right']}
-            onClickOutside={() => {}}
-            onFocusOutside={() => {}}
             popupOffset={options.popupOffset}
             opened={this.state.opened}
-            backgroundColor={'#fff'}
-            hasShadow={true}
-            hasPin={true}
-            pinSize={10}
-            pinOffset={18}
+            margin={8}
+            hasShadow
+            hasPin
+            pinOffset={20}
           >
-            <Menu
-              hasShadow={false}
-              onItemClick={this._handleMenuItemClick}
-            >
+            <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
               {this.props.children}
             </Menu>
           </Popup>
@@ -78,26 +95,45 @@ export default class Kebab extends Component {
     );
   }
 
+  _handleFocus = (e: SyntheticFocusEvent) => {
+    if (!this.props.disabled) {
+      // focus event fires before keyDown eventlistener
+      // so we should check tabPressed in async way
+      process.nextTick(() => {
+        if (tabPressed) {
+          this.setState({ focusedByTab: true });
+          tabPressed = false;
+        }
+      });
+    }
+  };
+
+  _handleBlur = () => {
+    this.setState({ focusedByTab: false });
+  };
+
   _handleMenuItemClick = () => {
     this._setPopupState(false);
-  }
+  };
 
-  _getOptions(size){
+  _getOptions(size) {
     switch (size) {
       case 'small':
         return {
           className: styles.small,
           popupOffset: 18,
-          icon: <Icon name="kebab" size="14" color="#000"/>
-        }
+          icon: <Icon name="kebab" size="14" color="#000" />
+        };
       case 'large':
         return {
-          className: styles.medium,
+          className: styles.large,
           popupOffset: 15,
-          icon: <div className={styles.prop}>
-                  <Icon20 name="kebab" size="20" color="#000"/>
-                </div>
-        }
+          icon: (
+            <div className={styles.prop}>
+              <Icon20 name="kebab" size="20" color="#000" />
+            </div>
+          )
+        };
       default:
         throw new Error(`Unexpected size '${size}'`);
     }
@@ -105,17 +141,17 @@ export default class Kebab extends Component {
 
   _handleClickOutside = () => {
     this._setPopupState(false);
-  }
+  };
 
-  _handleClick = (e) => {
+  _handleClick = e => {
     this._setPopupState(!this.state.opened);
-  }
+  };
 
   _handleKeyDown = e => {
     if (e.keyCode === 13) {
       this._setPopupState(true);
     }
-  }
+  };
 
   _setPopupState = (opened: boolean) => {
     if (this.state.opened === opened) {
@@ -123,14 +159,13 @@ export default class Kebab extends Component {
     }
 
     opened
-    ? this.props.onOpen && this.props.onOpen()
-    : this.props.onClose && this.props.onClose();
+      ? this.props.onOpen && this.props.onOpen()
+      : this.props.onClose && this.props.onClose();
 
     this.setState({
       opened
     });
-  }
-
+  };
 }
 
 Kebab.propTypes = {
@@ -151,3 +186,17 @@ Kebab.propTypes = {
    */
   onOpen: PropTypes.func
 };
+
+const KEYCODE_TAB = 9;
+
+let isListening: boolean;
+let tabPressed: boolean;
+
+function listenTabPresses() {
+  if (!isListening) {
+    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
+      tabPressed = event.keyCode === KEYCODE_TAB;
+    });
+    isListening = true;
+  }
+}

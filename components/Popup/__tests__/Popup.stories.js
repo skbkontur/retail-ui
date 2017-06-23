@@ -1,66 +1,70 @@
+// @flow
 import React, { Component } from 'react';
 import { storiesOf } from '@kadira/storybook';
 import Popup from '../Popup';
 
 storiesOf('Popup', module)
-  .add('All pin opened', () => (
+  .add('All pin opened', () =>
     <div style={{ transform: 'translate(50%, 20%)' }}>
       <table>
         <tbody>
           <tr>
-            <td></td>
-            <td><AlwaysOpened positions={["top left"]}/></td>
-            <td><AlwaysOpened positions={["top center"]}/></td>
-            <td><AlwaysOpened positions={["top right"]}/></td>
-            <td></td>
+            <td />
+            <td><AlwaysOpened positions={['top left']} /></td>
+            <td><AlwaysOpened positions={['top center']} /></td>
+            <td><AlwaysOpened positions={['top right']} /></td>
+            <td />
           </tr>
           <tr>
-            <td><AlwaysOpened positions={["left top"]}/></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><AlwaysOpened positions={["right top"]}/></td>
+            <td><AlwaysOpened positions={['left top']} /></td>
+            <td />
+            <td />
+            <td />
+            <td><AlwaysOpened positions={['right top']} /></td>
           </tr>
           <tr>
-            <td><AlwaysOpened positions={["left middle"]}/></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><AlwaysOpened positions={["right middle"]}/></td>
+            <td><AlwaysOpened positions={['left middle']} /></td>
+            <td />
+            <td />
+            <td />
+            <td><AlwaysOpened positions={['right middle']} /></td>
           </tr>
           <tr>
-            <td><AlwaysOpened positions={["left bottom"]}/></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><AlwaysOpened positions={["right bottom"]}/></td>
+            <td><AlwaysOpened positions={['left bottom']} /></td>
+            <td />
+            <td />
+            <td />
+            <td><AlwaysOpened positions={['right bottom']} /></td>
           </tr>
           <tr>
-            <td></td>
-            <td><AlwaysOpened positions={["bottom left"]}/></td>
-            <td><AlwaysOpened positions={["bottom center"]}/></td>
-            <td><AlwaysOpened positions={["bottom right"]}/></td>
-            <td></td>
+            <td />
+            <td><AlwaysOpened positions={['bottom left']} /></td>
+            <td><AlwaysOpened positions={['bottom center']} /></td>
+            <td><AlwaysOpened positions={['bottom right']} /></td>
+            <td />
           </tr>
         </tbody>
-       </table>
+      </table>
     </div>
-  ))
-  .add('Hint', () => (
+  )
+  .add('Hint', () =>
     <div style={{ transform: 'translate(250%, 200%)' }}>
-      <Hint positions={["top center", "right top", "bottom center", "left middle"]} margin={20}/>
+      <Hint
+        positions={['top center', 'right top', 'bottom center', 'left middle']}
+        margin={20}
+      />
     </div>
-  ))
-  .add('Toast', () => (
+  )
+  .add('Toast', () =>
     <div style={{ transform: 'translate(250%, 200%)' }}>
-      <Toast positions={["top center", "right top", "bottom center", "left middle"]}/>
+      <Toast
+        positions={['top center', 'right top', 'bottom center', 'left middle']}
+      />
     </div>
-  ))
-  ;
-
+  );
 
 class AlwaysOpened extends Component {
-  self_node: HTMLElement;
+  anchor: HTMLElement;
 
   constructor(props) {
     super(props);
@@ -76,7 +80,10 @@ class AlwaysOpened extends Component {
   render() {
     return (
       <div>
-        <div ref={e => this.anchor = e} style={{ width: "100px", height: "100px", border: "1px solid black"}}>
+        <div
+          ref={e => (this.anchor = e)}
+          style={{ width: '100px', height: '100px', border: '1px solid black' }}
+        >
           Hello
         </div>
         <Popup
@@ -93,22 +100,22 @@ class AlwaysOpened extends Component {
           pinSize={10}
           pinOffset={7}
         >
-          <span>World<br/>World<br/>World</span>
+          <span>World<br />World<br />World</span>
         </Popup>
       </div>
     );
   }
 
-  _handleRef = e=>{
-      this.anchor = e
-  }
+  _handleRef = e => {
+    this.anchor = e;
+  };
 
-  _clickHandler = (e) => {
-   }
+  _clickHandler = e => {};
 }
 
+// eslint-disable-next-line react/no-multi-comp
 class Hint extends Component {
-  self_node: HTMLElement;
+  anchor: HTMLElement;
 
   constructor(props) {
     super(props);
@@ -124,7 +131,10 @@ class Hint extends Component {
   render() {
     return (
       <div>
-        <div ref={e => this.anchor = e} style={{ width: "100px", height: "100px", border: "1px solid black"}}>
+        <div
+          ref={e => (this.anchor = e)}
+          style={{ width: '100px', height: '100px', border: '1px solid black' }}
+        >
           Hello
         </div>
         <Popup
@@ -141,16 +151,17 @@ class Hint extends Component {
           pinSize={10}
           pinOffset={7}
         >
-          <span style={{ color: "#fefefe"}}>WorldWorldWorldWorldWorld</span>
+          <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
         </Popup>
       </div>
     );
   }
-  _clickHandler = (e) => {}
+  _clickHandler = e => {};
 }
 
+// eslint-disable-next-line react/no-multi-comp
 class Toast extends Component {
-  self_node: HTMLElement;
+  anchor: HTMLElement;
 
   constructor(props) {
     super(props);
@@ -166,7 +177,10 @@ class Toast extends Component {
   render() {
     return (
       <div>
-        <div ref={e => this.anchor = e} style={{ width: "100px", height: "100px", border: "1px solid black"}}>
+        <div
+          ref={e => (this.anchor = e)}
+          style={{ width: '100px', height: '100px', border: '1px solid black' }}
+        >
           Hello
         </div>
         <Popup
@@ -181,10 +195,10 @@ class Toast extends Component {
           pinSize={10}
           pinOffset={7}
         >
-          <span style={{ color: "#fefefe"}}>WorldWorldWorldWorldWorld</span>
+          <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
         </Popup>
       </div>
     );
   }
-  _clickHandler = (e) => {}
+  _clickHandler = e => {};
 }

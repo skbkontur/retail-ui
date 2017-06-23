@@ -1,28 +1,9 @@
+@import '../variables.less';
+
 :local {
-  .kebabbb {
-    width: 26px;
-    height: 26px;
-    box-sizing: border-box;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 26px;
-    user-select: none;
-    outline: none;
-
-    &:hover {
-      background: rgba(0,0,0,0.09);
-    }
-
-    &:focus {
-      border: 1px solid #5199db;
-      line-height: 24px
-    }
-  }
-
   .kebab {
     display: inline-block;
     text-align: center;
-    vertical-align: middle;
     border: 1px solid transparent;
     box-sizing: border-box;
     border-radius: 50%;
@@ -31,12 +12,13 @@
     outline: 0;
 
     &:hover {
-      background: rgba(0,0,0,0.09);
+      background: rgba(0, 0, 0, 0.09);
     }
-    
-    &:focus {
-      border-color: #5199db;
-    }
+  }
+
+  .focused {
+    border-color: @border-color-focus;
+    background: rgba(0, 0, 0, 0.09);
   }
 
   .prop {
@@ -52,5 +34,4 @@
     width: 26px;
     height: 26px;
   }
-
 }

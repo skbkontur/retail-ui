@@ -9,17 +9,17 @@ function getPositionObject(position: string) {
   };
 }
 
-function getElementRect(element) {
+function getElementRect(element: HTMLElement) {
   let box = element.getBoundingClientRect();
   let { width, height } = box;
 
   let view = document.documentElement || document.body;
 
-  let scrollTop = window.pageYOffset || view && view.scrollTop || 0;
-  let scrollLeft = window.pageXOffset || view && view.scrollLeft || 0;
+  let scrollTop = window.pageYOffset || (view && view.scrollTop) || 0;
+  let scrollLeft = window.pageXOffset || (view && view.scrollLeft) || 0;
 
-  let clientTop = view && view.clientTop || 0;
-  let clientLeft = view && view.clientLeft || 0;
+  let clientTop = (view && view.clientTop) || 0;
+  let clientLeft = (view && view.clientLeft) || 0;
 
   let top = box.top + scrollTop - clientTop;
   let left = box.left + scrollLeft - clientLeft;
@@ -32,4 +32,4 @@ function getElementRect(element) {
   };
 }
 
-export default {getPositionObject, getElementRect};
+export default { getPositionObject, getElementRect };
