@@ -1,7 +1,10 @@
 // @flow
+import MockDate from 'mockdate'
 import React from 'react';
 import { storiesOf, action } from '@kadira/storybook';
 import DatePicker from '../DatePicker';
+
+MockDate.set(new Date('2017-01-02'))
 
 class DatePickerWithError extends React.Component {
   state: {
@@ -30,8 +33,9 @@ class DatePickerWithError extends React.Component {
 
 storiesOf('DatePicker', module)
   .add('with mouseevent handlers', () =>
-    <div>
+    <div style={{ paddingTop: 200 }}>
       <DatePicker
+		value={new Date('2017-01-02')}
         onMouseEnter={() => console.count('enter')}
         onMouseLeave={() => console.count('leave')}
         onChange={action('change')}
