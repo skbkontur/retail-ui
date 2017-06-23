@@ -84,6 +84,12 @@ module.exports = [
     src: require('!raw!./snippets/Input-snip.js')
   },
   {
+    name: 'Kebab',
+    component: require('ui/Kebab'),
+    info: require('!docgen!ui/Kebab/Kebab.js'),
+    src: require('!raw!./snippets/Kebab-snip.js')
+  },
+  {
     name: 'Kladr',
     component: require('ui/Kladr'),
     info: require('!docgen!ui/Kladr/Kladr.js'),

@@ -1,5 +1,5 @@
 // @flow
-
+import cn from 'classnames';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -12,15 +12,18 @@ import styles from './Menu.less';
 
 export default class Menu extends React.Component {
   static defaultProps: {
+    hasShadow: boolean,
     maxHeight: number,
     width: number | string
   } = {
     width: 'auto',
-    maxHeight: 300
+    maxHeight: 300,
+    hasShadow: true
   };
 
   props: {
     children?: React$Element<*> | React$Element<*>[],
+    hasShadow: boolean,
     maxHeight: number,
     onItemClick?: () => void,
     width?: number | string
@@ -46,7 +49,7 @@ export default class Menu extends React.Component {
 
     return (
       <div
-        className={styles.root}
+        className={cn(styles.root, this.props.hasShadow && styles.shadow)}
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
       >
         <ScrollContainer
