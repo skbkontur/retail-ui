@@ -19,7 +19,7 @@ type Props = {
   children: ?ReactNode | ReactNode[],
   onClose: () => void,
   onOpen: () => void,
-  size: string
+  size: 'small' | 'large'
 };
 
 type State = {
@@ -31,7 +31,8 @@ type State = {
 export default class Kebab extends Component {
   static defaultProps = {
     onOpen: () => {},
-    onClose: () => {}
+    onClose: () => {},
+    size: 'small'
   };
 
   props: Props;
@@ -59,18 +60,14 @@ export default class Kebab extends Component {
         onClickOutside={this._handleClickOutside}
         onFocusOutside={this._handleClickOutside}
       >
-        <div className={styles.root}>
+        <div className={cn(styles.root, options.className)}>
           <div
             onClick={this._handleClick}
             onKeyDown={this._handleKeyDown}
             onFocus={this._handleFocus}
             onBlur={this._handleBlur}
             style={style}
-            className={cn(
-              styles.kebab,
-              options.className,
-              focusedByTab && styles.focused
-            )}
+            className={cn(styles.kebab, focusedByTab && styles.focused)}
             tabIndex={0}
             ref={node => this._anchor = node}
           >

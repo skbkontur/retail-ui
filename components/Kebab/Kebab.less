@@ -1,9 +1,19 @@
 @import '../variables.less';
 
+@smal-size: 20px;
+@large-size: 26px;
+
 :local {
   .root {
     display: inline-block;
-    vertical-align: middle;
+
+    &.small {
+      height: @smal-size;
+    }
+
+    &.large {
+      height: @large-size;
+    }
   }
 
   .kebab {
@@ -23,38 +33,31 @@
     }
   }
 
-  .focused {
-    border-color: @border-color-focus;
-    background: rgba(0, 0, 0, 0.09);
-  }
-
-  .icon {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    text-align: center;
-  }
-
   .small {
-    width: 20px;
-    height: 20px;
+    .kebab {
+      width: @smal-size;
+      height: @smal-size;
+    }
 
     .icon {
-      width: 14px;
-      height: 20px;
+      margin-top: -2px;
     }
   }
 
   .large {
-    width: 26px;
-    height: 26px;
+    .kebab {
+      width: @large-size;
+      height: @large-size;
+    }
 
     .icon {
-      width: 20px;
-      height: 32px;
+      margin-top: -4px;
+      margin-left: 1px;
     }
+  }
+
+  .focused {
+    border-color: @border-color-focus;
+    background: rgba(0, 0, 0, 0.09);
   }
 }
