@@ -38,19 +38,10 @@ type Props = {
   className?: string, // legacy
   disabled?: boolean,
   error?: boolean,
-  warning?: boolean,
-  withMask?: boolean,
   maxYear?: number,
   minYear?: number,
-  placeholder?: string,
-  size?: 'small' | 'medium' | 'large',
-  value?: ?(Date | string),
-  width?: number | string,
   onBlur?: () => void,
-  onChange?: (
-    e: { target: { value: Date | string | null } },
-    v: Date | string | null
-  ) => void,
+  onChange?: (e: { target: { value: mixed } }, v: mixed) => void,
   onFocus?: () => void,
   onInput?: (e: SyntheticInputEvent) => void,
   onKeyDown?: (e: SyntheticKeyboardEvent) => void,
@@ -59,7 +50,13 @@ type Props = {
   onMouseEnter?: (e: SyntheticMouseEvent) => void,
   onMouseLeave?: (e: SyntheticMouseEvent) => void,
   onMouseOver?: (e: SyntheticMouseEvent) => void,
-  onUnexpectedInput: (value: string) => any
+  onUnexpectedInput: (value: string) => mixed,
+  placeholder?: string,
+  size?: 'small' | 'medium' | 'large',
+  value?: ?(Date | string),
+  warning?: boolean,
+  width?: number | string,
+  withMask?: boolean
 };
 
 type State = {
@@ -128,8 +125,7 @@ class DatePicker extends React.Component {
     width: 120,
     withMask: false,
 
-    // Flow type inheritance problem
-    onUnexpectedInput: (() => null: (x: string) => any)
+    onUnexpectedInput: (() => null: (x: string) => mixed)
   };
 
   props: Props;
@@ -137,7 +133,7 @@ class DatePicker extends React.Component {
   icon: Icon;
   input: Input;
 
-  _focusSubscription: any;
+  _focusSubscription: *;
   _focused: boolean;
 
   constructor(props: Props, context: mixed) {
@@ -153,16 +149,33 @@ class DatePicker extends React.Component {
     };
   }
 
+  /**
+   * @api
+   */
+  blur() {
+    this.input.blur();
+    this.handleBlur();
+  }
+
+  /**
+   * @api
+   */
+  focus() {
+    this._focused = true;
+    this.input.focus();
+  }
+
   render() {
     const { opened } = this.state;
+    const { value } = this.props;
 
-    const value = checkDate(this.props.value);
+    const date = isDate(value) ? value : null;
     let picker = null;
     if (opened) {
       picker = (
         <DropdownContainer getParent={() => findDOMNode(this)} offsetY={0}>
           <Picker
-            value={value}
+            value={date}
             minYear={this.props.minYear}
             maxYear={this.props.maxYear}
             onPick={this.handlePick}
@@ -297,11 +310,6 @@ class DatePicker extends React.Component {
     });
   }
 
-  focus() {
-    this._focused = true;
-    this.input.focus();
-  }
-
   getInputRef = (ref: Input) => {
     this.input = ref;
   };
@@ -328,15 +336,12 @@ const getDateValue = (value, onUnexpectedInput) => {
   return null;
 };
 
-function checkDate(date) {
-  if (date instanceof Date && !isNaN(date.getTime())) {
-    return date;
-  }
-  return null;
+function isDate(date) /* : boolean %checks */ {
+  return date instanceof Date && !isNaN(date.getTime());
 }
 
 function formatDate(date) {
-  if (!date || !checkDate(date)) {
+  if (!date || !isDate(date)) {
     return '';
   }
 
@@ -350,7 +355,7 @@ function parseDate(str, withCorrection) {
   if (!date) {
     return null;
   }
-  return checkDate(date);
+  return isDate(date) ? date : null;
 }
 
 export default DatePicker;

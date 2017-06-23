@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "0.7.6",
+  "version": "0.7.7",
   "description": "UI Components",
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
   "dependencies": {
     "add-event-listener": "0.0.1",
     "classnames": "^2.2.5",
+    "eslint-plugin-flowtype": "^2.34.0",
     "exenv": "^1.2.2",
     "fbemitter": "^2.0.2",
     "fbjs": "^0.8.12",
@@ -59,9 +60,10 @@
     "enzyme": "^2.8.2",
     "eslint": "^3.19.0",
     "eslint-plugin-react": "^7.0.1",
+    "eslint-plugin-sort-class-members": "^1.1.1",
     "file-loader": "^0.11.1",
     "flow-bin": "^0.47.0",
-    "gemini": "^4.18.1",
+    "gemini": "^4.19.3",
     "gemini-sauce": "^1.0.1",
     "husky": "^0.13.3",
     "jest": "^20.0.4",
@@ -77,6 +79,7 @@
     "url-loader": "^0.5.8"
   },
   "peerDependencies": {
+    "@types/react": "^0.14.9 || ^15.0.25",
     "react": "^0.14.9 || ^15.5.0",
     "react-addons-css-transition-group": "^0.14.9 || ^15.5.0",
     "react-dom": "^0.14.9 || ^15.5.0"

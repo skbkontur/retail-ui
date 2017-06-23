@@ -1,0 +1,12 @@
+@import '../variables.less';
+
+@easing: 0.2s ease-out;
+
+:local {
+  .root {
+    position: absolute;
+    height: 3px;
+    background: @border-color-focus;
+    transition: all @easing;
+  }
+}
