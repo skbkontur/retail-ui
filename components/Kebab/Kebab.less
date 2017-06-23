@@ -4,12 +4,13 @@
   .kebab {
     display: inline-block;
     text-align: center;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     box-sizing: border-box;
     border-radius: 50%;
     user-select: none;
     cursor: pointer;
     outline: 0;
+    position: relative;
 
     &:hover {
       background: rgba(0, 0, 0, 0.09);
@@ -21,17 +22,33 @@
     background: rgba(0, 0, 0, 0.09);
   }
 
-  .prop {
-    margin-top: -3px;
+  .icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
   }
 
   .small {
     width: 20px;
     height: 20px;
+
+    .icon {
+      width: 14px;
+      height: 20px;
+    }
   }
 
   .large {
     width: 26px;
     height: 26px;
+
+    .icon {
+      width: 20px;
+      height: 32px;
+    }
   }
 }

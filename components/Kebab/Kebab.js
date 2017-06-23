@@ -122,14 +122,18 @@ export default class Kebab extends Component {
         return {
           className: styles.small,
           popupOffset: 18,
-          icon: <Icon name="kebab" size="14" color="#000" />
+          icon: (
+            <div className={styles.icon}>
+              <Icon name="kebab" size="14" color="#000" />
+            </div>
+          )
         };
       case 'large':
         return {
           className: styles.large,
           popupOffset: 15,
           icon: (
-            <div className={styles.prop}>
+            <div className={styles.icon}>
               <Icon20 name="kebab" size="20" color="#000" />
             </div>
           )
