@@ -27,9 +27,9 @@ class SomethingWithKebab extends Component {
         onOpen={action('open')}
         onClose={action('close')}
       >
-        <MenuItem>123</MenuItem>
-        <MenuItem>456</MenuItem>
-        <MenuItem>789</MenuItem>
+        <MenuItem onClick={action('First')}>First</MenuItem>
+        <MenuItem onClick={action('Second')}>Second</MenuItem>
+        <MenuItem onClick={action('Uno')}>Uno</MenuItem>
       </Kebab>
     );
   }
