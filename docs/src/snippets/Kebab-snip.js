@@ -9,7 +9,7 @@ const style = {
   width: 250
 };
 
-const Card = ({ name, post }) => (
+const Card = ({ name, post }) =>
   <div style={style}>
     <div>
       <h3>{name}</h3>
@@ -24,8 +24,7 @@ const Card = ({ name, post }) => (
         Удалить
       </MenuItem>
     </Kebab>
-  </div>
-);
+  </div>;
 
 ReactDOM.render(
   <Gapped gap={-1}>

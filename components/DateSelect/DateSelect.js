@@ -127,12 +127,12 @@ export default class DateSelect extends React.Component {
       });
       const clickHandler = isIE8
         ? {
-          onMouseDown: this.handleItemClick(i)
-        }
+            onMouseDown: this.handleItemClick(i)
+          }
         : {
-          onMouseDown: e => e.preventDefault(),
-          onClick: this.handleItemClick(i)
-        };
+            onMouseDown: e => e.preventDefault(),
+            onClick: this.handleItemClick(i)
+          };
       items.push(
         <div
           key={i}

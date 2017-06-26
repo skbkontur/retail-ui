@@ -7,17 +7,18 @@ dist: trusty
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
-      - graphicsmagick
+    - g++-4.8
+    - graphicsmagick
 before_script:
 - yarn storybook &
 - sleep 2
 before_deploy:
-- nvm install stable
-- npm prune
-- npm install
+- yarn
+- yarn build
+- openssl aes-256-cbc -K $encrypted_86996ed187bd_key -iv $encrypted_86996ed187bd_iv
+  -in build/.npmrc.enc -out build/.npmrc -d
 - openssl aes-256-cbc -k $travis_key_password -in travis-deploy-key.enc -out travis-deploy-key
   -d
 - chmod 600 travis-deploy-key
@@ -26,19 +27,22 @@ before_deploy:
 - git config --global user.name "Travis CI"
 - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
 - cd docs
-- npm install
+- yarn
 - ./deploy.sh
 - cd ..
 deploy:
-  provider: npm
+- provider: npm
   email: tihonov.ea@gmail.com
   on:
     tags: true
     branch: master
   api_key:
     secure: q2UYmhnEgJMQT17qEUAmkuceiVJb7nPmnp55nTIqVsPUwI4dgKm0q1A/52p1rBfdplLiJqUH06bIMbBRg3XVUx49zniYj/JfYNSqxeC9VUfg/oxWpikJzCRJ7chHASV+EKl/LK7nbNQItcR2ecCe1cSEOkd7/2gZKNI3dflH4QsQOrNp8urA0T5J8Msd2JEvVAkes+3reJLUWDSSA1vSsv6u0yrUANgNwpeo/ZFz8etcy2EU/fodk2V4N3rIirYn0i3NQ+u3LI8cLK57x1krthfoorlRvtk/6k+U6VheHxjW057ED841pv/7uxZmWFi2dB11fEQyWjKGSYjHszG8MjIa/L3Sopi25yTqCOftMeHSkiTWtwNvp/0oTdkfVEqzwj0SdlCCEdP15e5JFtuFBtUSGuxLv7aFJ1ElIuzUMi89uG8szyvhm60MpbxGRxf/zUDeBNSJ4aI3DWkGOOw0nEj79Ymnr1TYtEaDq09GEVi/Utki+y6XKHHmIMEduEMVDPQyswIa++dpRISgCjfL4NU7sTse/XybhNcqSo4jJ7dlye+yW0CLRyxfzGGQTfx5YGqz0VnguhmW5+f199ftlROcHxuBEgqdS+mehvYK0c1t8bIGTpaLxAxX99XfHvSjGcxXsb2D1jPs1gsLZlzPTM3VPD62Kq1Ri61VFpQk5Ak=
+after_deploy:
+- cd build
+- npm publish
 env:
   global:
-    - SAUCE_USERNAME=skbkontur_ife
-    - secure: z3KyUQyIjbHQ8RCfxfgEZdOc0w0jvpOgwPGfdB1ZcXTaToP7Pzlnf2r6He9Hzlz4gN42dMk2kaXwTRFciLWVstD8PTMZ2GWiy32FxqfATNIXRuMtsn0iqIR1zwSklaV+ESJn3oqoklYQjlYqbB//jGfslroKJ2fOihbtZjIEfAQCMKXic+O9i/QRwugXuCpdRMNn1zqStrpTKPTT26WjzIYQ7K5NAVFOx98tgJ3BCe+iDOG8FW6thu2Vz34pw/TLIBLJuPU4QXu6Hnex1GE4HIC5xRAtU5c9X95Wz5CWSjUJAJegazv+UYJRlN13ljxUYF4BvtRjqvb5ZmC6aANkk5wUHk657uJSmajaDnWuB9J0WuxaTScr0snMbGQWwlVUxUDi1med+3+TrH0PEjVRdBa4wH1ims4T6Wu9WjJHrxwyk2HSPOonKJFacCntrlXMq6En6X9ljtIiNWIg27CmBk/grxMtur5kQEf/mKDDd3wXZq+V8B4JLhxsXjyO2MH0DrYVeVJXWF8sz1ZG+UhkaZPJcqhNUm0KOpS82NNSn1E/YWD7QrCGbs+tR90sgLLEZGjGpMFeU3I5LcB0+wrqxVDzYoCSS733F1uKUNE4ZDqlQV4bPnE67jgWd9J7IO42m/a1S1Fc43JW8Qpw4hcSgTdahYuDcn39LtD34nEC4iI=
-    - secure: VBz+uWg6WMtF53plpsti/PjGp7Zk3fvrKnMIPbPIXSf+ujKsupU1kKZGDQ0XY+K8UW8jjzQNX60Tz4u54bzKMBmVMatqpMkcu2ihtTvFwnYi76eLv+iZYgADQ8GhkDL6gtzwvi9Z+JoUAlUyxyjbXkb6VjAKP11H0uHi6aZ4/xBT+jVj59nq2jXaL98uOH4O0tFda8dJxx+4G+qwMXfitlpjYUsBCcNrvGY7jAnqNSupuv7CqYoRiOQ0HWeC32iNPgC6aGgHThIBc01hdY0xNkBPU6/b+B2fVmUQ262Y4weRbN//IRnaoEU+w5/WPfOuWOF6JFj7jdr34XBqgmkFi5kjXRvXlbe/jzlUMdLw9HXD6+1tc63QEHfOadI7MADfHGQlCAYHN8/tO/7z2LHOM93ds3EbdYcpfvA58aHHnZMf09KIYQ/MZHtabw/WQhaV+Kf0tnLZ/mgwQXzuQB8HeMAq8Hs72c7Z9hB+kDLsVymyoYtEdsCpfQURy1psoOC0XsXhZn9HJT0kdic5kDeu/+vCgiT7NAT97hQyG/h4V9UU1A+scEEdy2bL6KRYqaoEMnWj5kXvoqGjMTCZGPimjSyhPBjrmJusUsE9Ci7Oc07AM59FoTtb34K/aMejx5bD6uvzog54kqBiHsbergrga8RmBFO5hmoqjXhvNlVAh/s=
+  - SAUCE_USERNAME=skbkontur_ife
+  - secure: z3KyUQyIjbHQ8RCfxfgEZdOc0w0jvpOgwPGfdB1ZcXTaToP7Pzlnf2r6He9Hzlz4gN42dMk2kaXwTRFciLWVstD8PTMZ2GWiy32FxqfATNIXRuMtsn0iqIR1zwSklaV+ESJn3oqoklYQjlYqbB//jGfslroKJ2fOihbtZjIEfAQCMKXic+O9i/QRwugXuCpdRMNn1zqStrpTKPTT26WjzIYQ7K5NAVFOx98tgJ3BCe+iDOG8FW6thu2Vz34pw/TLIBLJuPU4QXu6Hnex1GE4HIC5xRAtU5c9X95Wz5CWSjUJAJegazv+UYJRlN13ljxUYF4BvtRjqvb5ZmC6aANkk5wUHk657uJSmajaDnWuB9J0WuxaTScr0snMbGQWwlVUxUDi1med+3+TrH0PEjVRdBa4wH1ims4T6Wu9WjJHrxwyk2HSPOonKJFacCntrlXMq6En6X9ljtIiNWIg27CmBk/grxMtur5kQEf/mKDDd3wXZq+V8B4JLhxsXjyO2MH0DrYVeVJXWF8sz1ZG+UhkaZPJcqhNUm0KOpS82NNSn1E/YWD7QrCGbs+tR90sgLLEZGjGpMFeU3I5LcB0+wrqxVDzYoCSS733F1uKUNE4ZDqlQV4bPnE67jgWd9J7IO42m/a1S1Fc43JW8Qpw4hcSgTdahYuDcn39LtD34nEC4iI=
+  - secure: VBz+uWg6WMtF53plpsti/PjGp7Zk3fvrKnMIPbPIXSf+ujKsupU1kKZGDQ0XY+K8UW8jjzQNX60Tz4u54bzKMBmVMatqpMkcu2ihtTvFwnYi76eLv+iZYgADQ8GhkDL6gtzwvi9Z+JoUAlUyxyjbXkb6VjAKP11H0uHi6aZ4/xBT+jVj59nq2jXaL98uOH4O0tFda8dJxx+4G+qwMXfitlpjYUsBCcNrvGY7jAnqNSupuv7CqYoRiOQ0HWeC32iNPgC6aGgHThIBc01hdY0xNkBPU6/b+B2fVmUQ262Y4weRbN//IRnaoEU+w5/WPfOuWOF6JFj7jdr34XBqgmkFi5kjXRvXlbe/jzlUMdLw9HXD6+1tc63QEHfOadI7MADfHGQlCAYHN8/tO/7z2LHOM93ds3EbdYcpfvA58aHHnZMf09KIYQ/MZHtabw/WQhaV+Kf0tnLZ/mgwQXzuQB8HeMAq8Hs72c7Z9hB+kDLsVymyoYtEdsCpfQURy1psoOC0XsXhZn9HJT0kdic5kDeu/+vCgiT7NAT97hQyG/h4V9UU1A+scEEdy2bL6KRYqaoEMnWj5kXvoqGjMTCZGPimjSyhPBjrmJusUsE9Ci7Oc07AM59FoTtb34K/aMejx5bD6uvzog54kqBiHsbergrga8RmBFO5hmoqjXhvNlVAh/s=

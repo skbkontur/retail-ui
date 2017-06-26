@@ -69,7 +69,7 @@ export default class Kebab extends Component {
             style={style}
             className={cn(styles.kebab, focusedByTab && styles.focused)}
             tabIndex={0}
-            ref={node => this._anchor = node}
+            ref={node => (this._anchor = node)}
           >
             {options.icon}
           </div>
