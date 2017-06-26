@@ -54,3 +54,10 @@ gemini.suite('Checkbox with a long label', suite => {
     .setCaptureElements('#test-element')
     .capture('plain');
 });
+
+gemini.suite('Checkbox without label', suite => {
+  suite
+    .setUrl(pathTo('Checkbox', 'w/o label'))
+    .setCaptureElements('#test-element')
+    .capture('plain');
+});
