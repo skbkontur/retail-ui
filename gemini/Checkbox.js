@@ -15,6 +15,15 @@ gemini.suite('Checkbox plain', suite => {
     })
     .capture('unpressed', (actions, find) => {
       actions.mouseUp(find('span'));
+    })
+    .capture('mouseLeave', (actions, find) => {
+      actions.click(find('body'), 0, [0, 0]);
+    })
+    .capture('tabPress', (actions, find) => {
+      actions.sendKeys(gemini.TAB);
+    })
+    .capture('spacePress', (actions, find) => {
+      actions.sendKeys(gemini.SPACE);
     });
 });
 

@@ -1,0 +1,19 @@
+@import '../variables.less';
+
+@popup-border-radius: 2px;
+@popup-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),
+  0 3px 10px 0 rgba(0, 0, 0, 0.2);
+
+:local {
+  .popup {
+    position: absolute;
+    min-width: 100px;
+    max-width: 500px;
+    background: @bg-default;
+    border-radius: @popup-border-radius;
+  }
+
+  .shadow {
+    box-shadow: @popup-box-shadow;
+  }
+}

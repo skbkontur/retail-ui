@@ -121,6 +121,13 @@ export default class Dropdown extends React.Component {
   open() {
     this._select.open();
   }
+
+  /**
+   * @api
+   */
+  close() {
+    this._select.close();
+  }
 }
 
 function renderValue(value) {

@@ -1,0 +1,63 @@
+@import '../variables.less';
+
+@smal-size: 20px;
+@large-size: 26px;
+
+:local {
+  .root {
+    display: inline-block;
+
+    &.small {
+      height: @smal-size;
+    }
+
+    &.large {
+      height: @large-size;
+    }
+  }
+
+  .kebab {
+    display: inline-block;
+    text-align: center;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    border-radius: 50%;
+    user-select: none;
+    cursor: pointer;
+    outline: 0;
+    position: relative;
+    transition: background 0.2s ease-in;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.09);
+    }
+  }
+
+  .small {
+    .kebab {
+      width: @smal-size;
+      height: @smal-size;
+    }
+
+    .icon {
+      margin-top: -2px;
+    }
+  }
+
+  .large {
+    .kebab {
+      width: @large-size;
+      height: @large-size;
+    }
+
+    .icon {
+      margin-top: -4px;
+      margin-left: 1px;
+    }
+  }
+
+  .focused {
+    border-color: @border-color-focus;
+    background: rgba(0, 0, 0, 0.09);
+  }
+}

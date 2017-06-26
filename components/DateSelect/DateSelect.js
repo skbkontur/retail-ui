@@ -29,10 +29,10 @@ const HEIGHT = 24;
 type Props = {
   maxYear: number,
   minYear: number,
+  onChange: (value: number) => void,
   type: 'month' | 'year',
   value: number,
-  width: number | string,
-  onChange: (value: number) => void
+  width: number | string
 };
 
 type State = {
@@ -145,16 +145,21 @@ export default class DateSelect extends React.Component {
         </div>
       );
     }
-    const style: Object = {
+    const style: {
+      left?: number | string,
+      right?: number | string,
+      top: number,
+      width?: number | string
+    } = {
       top: top - 5
     };
     switch (type) {
       case 'year':
-        style.width = width + 7;
+        style.width = width;
         style.left = '-10px';
         break;
       case 'month':
-        style.width = width + 12;
+        style.width = width;
         style.right = 0;
     }
 
