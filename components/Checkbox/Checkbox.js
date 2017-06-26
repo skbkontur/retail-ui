@@ -60,8 +60,11 @@ class Checkbox extends React.Component {
   _wasFocused = false;
 
   render() {
+    const hasCaption = !!this.props.children;
+
     const rootClass = classNames({
       [styles.root]: true,
+      [styles.withoutCaption]: !hasCaption,
       [styles.isChecked]: this.props.checked,
       [styles.disabled]: this.props.disabled,
       [styles.error]: this.props.error,
@@ -80,8 +83,18 @@ class Checkbox extends React.Component {
       onBlur: this._handleBlur,
       tabIndex: undefined
     };
+
     if (this.props.tabIndex) {
       inputProps.tabIndex = this.props.tabIndex;
+    }
+
+    let caption = null;
+    if (hasCaption) {
+      caption = (
+        <div className={styles.caption}>
+          {this.props.children}
+        </div>
+      );
     }
 
     return (
@@ -98,7 +111,7 @@ class Checkbox extends React.Component {
               <Icon name="ok" />
             </div>}
         </span>
-        <div className={styles.caption}>{this.props.children}</div>
+        {caption}
       </label>
     );
   }
