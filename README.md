@@ -20,7 +20,7 @@ const MyApp = () => (
 )
 ```
 Если ругается, что `regeneratorRuntime` не определен,
-то необходимо подключить `regenerator-runtime` или `babel-polifyll`,
+то необходимо подключить `regenerator-runtime` или `babel-polyfill`,
 например в `index.html`
 
 
