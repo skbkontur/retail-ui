@@ -62,10 +62,11 @@ export default class Popup extends Component {
 
   _popupElement: HTMLElement;
   _inQueue: boolean = false;
+  _containerDidMount: boolean = false;
 
   render() {
     const { onClickOutside, onFocusOutside, opened } = this.props;
-    if (!opened) {
+    if (!opened && !this._containerDidMount) {
       return null;
     }
     return (
@@ -73,7 +74,7 @@ export default class Popup extends Component {
         onClickOutside={opened ? onClickOutside : noop}
         onFocusOutside={opened ? onFocusOutside : noop}
       >
-        <RenderConatiner>
+        <RenderConatiner ref={this._refContainer}>
           <Transition
             transitionName="shift-fade-in-out"
             transitionAppear={true}
@@ -136,6 +137,10 @@ export default class Popup extends Component {
       </div>
     );
   }
+
+  _refContainer = () => {
+    this._containerDidMount = true;
+  };
 
   _getDummyLocation() {
     return {
