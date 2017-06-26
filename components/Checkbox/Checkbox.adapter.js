@@ -8,10 +8,11 @@ const CheckboxAdapter = {
   },
 
   setChecked(inst: Checkbox, checked) {
-    inst.handleChange({ target: { checked } });
+    inst._handleChange({ target: { checked } });
   }
 };
 
+// eslint-disable-next-line flowtype/no-weak-types
 (Checkbox: any).__ADAPTER__ = CheckboxAdapter;
 
 export default Checkbox;
