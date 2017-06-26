@@ -11,7 +11,10 @@ function getPositionObject(position: string) {
 
 function getElementRect(element: HTMLElement) {
   let box = element.getBoundingClientRect();
-  let { width, height } = box;
+  let { width, height } = {
+    width: box.right - box.left,
+    height: box.bottom - box.top
+  };
 
   let view = document.documentElement || document.body;
 

@@ -1,4 +1,4 @@
-const style = {
+var style = {
   alignItems: 'center',
   background: 'white',
   border: '1px solid #dfdede',
@@ -9,7 +9,7 @@ const style = {
   width: 250
 };
 
-const Card = ({ name, post }) =>
+var Card = ({ name, post }) =>
   <div style={style}>
     <div>
       <h3>{name}</h3>

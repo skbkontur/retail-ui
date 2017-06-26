@@ -1,9 +1,5 @@
 @import '../variables.less';
 
-@popup-border-radius: 2px;
-@popup-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),
-  0 3px 10px 0 rgba(0, 0, 0, 0.2);
-
 :local {
   .popup {
     position: absolute;
@@ -11,6 +7,12 @@
     max-width: 500px;
     background: @bg-default;
     border-radius: @popup-border-radius;
+  }
+
+  :global(.rt-ie8) {
+    .popup {
+      border: 1px solid @tooltip-border;
+    }
   }
 
   .shadow {

@@ -10,6 +10,8 @@ import PopupPin from './PopupPin';
 
 import styles from './Popup.less';
 
+import '../ensureOldIEClassName';
+
 type Props = {
   anchorElement: HTMLElement,
   backgroundColor: string,
@@ -121,7 +123,7 @@ export default class Popup extends Component {
                 offset={pinOffset}
                 borderWidth={hasShadow ? 1 : 0}
                 backgroundColor={backgroundColor}
-                borderColor={'rgba(0, 0, 0, 0.09)'}
+                borderColor="#d0d0d0"
               />}
           </div>
         </RenderConatiner>

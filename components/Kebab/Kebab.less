@@ -26,10 +26,22 @@
     cursor: pointer;
     outline: 0;
     position: relative;
-    transition: background 0.2s ease-in;
+    transition: background 0.2s ease-out;
 
-    &:hover {
+    &:hover,
+    &.opened,
+    &.focused {
       background: rgba(0, 0, 0, 0.09);
+    }
+  }
+
+  :global(.rt-ie8) {
+    .kebab {
+      &:hover,
+      &.opened,
+      &.focused {
+        background: #e5e5e5;
+      }
     }
   }
 
@@ -57,6 +69,10 @@
 
   .focused {
     border-color: @border-color-focus;
-    background: rgba(0, 0, 0, 0.09);
+  }
+
+  .menu {
+    overflow: hidden;
+    border-radius: @popup-border-radius;
   }
 }

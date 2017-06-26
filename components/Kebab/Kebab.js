@@ -50,11 +50,8 @@ export default class Kebab extends Component {
   }
 
   render() {
-    const style = this.state.opened
-      ? { backgroundColor: 'rgba(0, 0, 0, 0.09)' }
-      : {};
     const options = this._getOptions(this.props.size);
-    const { focusedByTab } = this.state;
+    const { focusedByTab, opened } = this.state;
     return (
       <RenderLayer
         onClickOutside={this._handleClickOutside}
@@ -66,8 +63,11 @@ export default class Kebab extends Component {
             onKeyDown={this._handleKeyDown}
             onFocus={this._handleFocus}
             onBlur={this._handleBlur}
-            style={style}
-            className={cn(styles.kebab, focusedByTab && styles.focused)}
+            className={cn(
+              styles.kebab,
+              opened && styles.opened,
+              focusedByTab && styles.focused
+            )}
             tabIndex={0}
             ref={node => (this._anchor = node)}
           >
@@ -83,9 +83,11 @@ export default class Kebab extends Component {
             hasPin
             pinOffset={20}
           >
-            <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
-              {this.props.children}
-            </Menu>
+            <div className={styles.menu}>
+              <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
+                {this.props.children}
+              </Menu>
+            </div>
           </Popup>
         </div>
       </RenderLayer>
