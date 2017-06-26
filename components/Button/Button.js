@@ -36,6 +36,7 @@ type Props = {
   _noRightPadding?: boolean,
   active?: boolean,
   arrow?: boolean,
+  autoFocus?: boolean,
   checked?: boolean,
   children?: string,
   corners?: number, // internal
@@ -71,6 +72,11 @@ class Button extends React.Component {
      * Кнопка со стрелкой.
      */
     arrow: PropTypes.bool,
+
+    /**
+     * Автофокус
+     */
+    autoFocus: PropTypes.bool,
 
     checked: PropTypes.bool,
 
@@ -128,8 +134,33 @@ class Button extends React.Component {
     focusedByTab: false
   };
 
+  _node: ?HTMLButtonElement = null;
+
   componentDidMount() {
     listenTabPresses();
+
+    if (this.props.autoFocus) {
+      tabPressed = true;
+      this.focus();
+    }
+  }
+
+  /**
+   * @api
+   */
+  focus() {
+    if (this._node) {
+      this._node.focus();
+    }
+  }
+
+  /**
+   * @api
+   */
+  blur() {
+    if (this._node) {
+      this._node.blur();
+    }
   }
 
   handleFocus = (e: SyntheticFocusEvent) => {
@@ -258,7 +289,7 @@ class Button extends React.Component {
 
     return (
       <span {...wrapProps}>
-        <button {...rootProps}>
+        <button ref={this._ref} {...rootProps}>
           {loading}
           {arrow}
           <div className={styles.caption}>
@@ -270,6 +301,10 @@ class Button extends React.Component {
       </span>
     );
   }
+
+  _ref = node => {
+    this._node = node;
+  };
 }
 
 export default Button;
