@@ -81,7 +81,7 @@ export default class Kebab extends Component {
             margin={8}
             hasShadow
             hasPin
-            pinOffset={20}
+            pinOffset={21}
           >
             <div className={styles.menu}>
               <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
