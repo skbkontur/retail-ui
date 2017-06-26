@@ -12,6 +12,11 @@
       "prettier --single-quote --write",
       "eslint",
       "git add"
+    ],
+    "*.{css,less}": [
+      "prettier --write",
+      "stylelint",
+      "git add"
     ]
   },
   "bugs": {
@@ -89,6 +94,8 @@
     "react-addons-test-utils": "0.14.8",
     "react-dom": "0.14.9",
     "style-loader": "^0.18.1",
+    "stylelint": "^7.11.1",
+    "stylelint-config-standard": "^16.0.0",
     "url-loader": "^0.5.8"
   },
   "peerDependencies": {
