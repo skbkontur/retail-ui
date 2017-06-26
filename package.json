@@ -17,6 +17,10 @@
       "prettier --write",
       "stylelint",
       "git add"
+    ],
+    "*.ts": [
+      "prettier --single-quote --write",
+      "git add"
     ]
   },
   "bugs": {
