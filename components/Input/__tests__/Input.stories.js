@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 
 import Input from '../Input';
 import Icon from '../../Icon';
@@ -13,7 +13,7 @@ const styles = {
 };
 
 storiesOf('Input', module)
-  .add('Inputs with different states', () => (
+  .add('Inputs with different states', () =>
     <div>
       <div>
         <div style={styles}>
@@ -123,8 +123,8 @@ storiesOf('Input', module)
         </div>
       </div>
     </div>
-  ))
-  .add('Inputs with different sizes', () => (
+  )
+  .add('Inputs with different sizes', () =>
     <div>
       <div id="small-input-wrapper" style={styles}>
         <Input size="small" />
@@ -136,12 +136,12 @@ storiesOf('Input', module)
         <Input size="large" />
       </div>
     </div>
-  ))
-  .add('Input with phone mask', () => (
+  )
+  .add('Input with phone mask', () =>
     <Input
       width="150"
       mask="+7 999 999-99-99"
       maskChar={null}
       placeholder="+7"
     />
-  ));
+  );

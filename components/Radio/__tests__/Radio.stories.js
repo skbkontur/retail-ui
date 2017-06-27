@@ -1,12 +1,12 @@
 // @flow
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 
 import Gapped from '../../Gapped';
 import Radio from '../Radio';
 
 storiesOf('Radio', module)
-  .add('Radio with different states', () => (
+  .add('Radio with different states', () =>
     <div style={{ margin: '5px' }}>
       <Gapped gap={20}>
         <Radio />
@@ -19,7 +19,7 @@ storiesOf('Radio', module)
         <Radio warning />
       </Gapped>
     </div>
-  ))
+  )
   .add('Playground', () => {
     class Comp extends React.Component {
       state = {

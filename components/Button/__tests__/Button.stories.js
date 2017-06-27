@@ -1,12 +1,12 @@
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 import {
   withKnobs,
   text,
   boolean,
   select,
   number
-} from '@kadira/storybook-addon-knobs';
+} from '@storybook/addon-knobs';
 import Button from '../../Button';
 import Gapped from '../../Gapped';
 import Icon from '../../Icon';
@@ -37,7 +37,7 @@ storiesOf('Button', module)
       </Button>
     );
   })
-  .add('different use', () => (
+  .add('different use', () =>
     <Gapped>
       <Button>Default</Button>
       <Button use="primary">Primary</Button>
@@ -45,14 +45,14 @@ storiesOf('Button', module)
       <Button use="danger">Danger</Button>
       <Button use="pay">Pay</Button>
     </Gapped>
-  ))
-  .add('different sizes', () => (
+  )
+  .add('different sizes', () =>
     <Gapped>
       <Button>Small</Button>
       <Button size="medium">Medium</Button>
       <Button size="large">Large</Button>
     </Gapped>
-  ))
+  )
   .add('with icons', () => {
     const icon = select('icon', Icon.getAllNames(), 'ok');
     return (

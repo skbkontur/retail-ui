@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 import Tooltip from '../Tooltip';
 import Button from '../../Button';
 
@@ -20,16 +20,16 @@ class TestTooltip extends React.Component {
 }
 
 storiesOf('Tooltip', module)
-  .add('simple tooltip', () => (
+  .add('simple tooltip', () =>
     <TestTooltip><Button>Hover me!</Button></TestTooltip>
-  ))
-  .add('static tooltip', () => (
+  )
+  .add('static tooltip', () =>
     <TestTooltip trigger="opened">
       <div>Look bottom</div>
     </TestTooltip>
-  ))
-  .add('clickable tooltip', () => (
+  )
+  .add('clickable tooltip', () =>
     <TestTooltip trigger="click">
       <Button>Click me</Button>
     </TestTooltip>
-  ));
+  );

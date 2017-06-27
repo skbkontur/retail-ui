@@ -1,6 +1,7 @@
 // @flow
+/* eslint-disable react/no-multi-comp */
 import React, { Component } from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 
 import Modal from '../';
 import Button from '../../Button';

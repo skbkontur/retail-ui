@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { storiesOf, action } from '@kadira/storybook';
+import { storiesOf, action } from '@storybook/react';
 import Kebab from '../Kebab';
 import MenuItem from '../../MenuItem';
 

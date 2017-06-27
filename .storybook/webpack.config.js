@@ -12,12 +12,12 @@ module.exports = {
     // your custom plugins
   ],
   module: {
-    loaders: [
+    rules: [
       // add your custom loaders.
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        query: {
+        options: {
           presets: [
             require.resolve('babel-preset-es2015'),
             require.resolve('babel-preset-stage-0'),
@@ -31,7 +31,10 @@ module.exports = {
       },
       {
         test: /\.(css|less)$/,
-        loaders: ['style', 'css?localIdentName=[name]-[local]-[hash:base64:4]']
+        loaders: [
+          'style-loader',
+          'css-loader?localIdentName=[name]-[local]-[hash:base64:4]'
+        ]
       },
       { test: /\.less$/, loader: 'less-loader' },
       { test: /\.(woff|woff2|eot)$/, loader: 'file-loader' },
