@@ -105,7 +105,7 @@
   "peerDependencies": {
     "@types/react": "^0.14.9 || ^15.0.25",
     "react": "^0.14.9 || ^15.5.0",
-    "react-addons-css-transition-group": "^0.14.9 || ^15.5.0",
+    "react-addons-css-transition-group": "^0.14.8 || ^15.5.0",
     "react-dom": "^0.14.9 || ^15.5.0"
   },
   "jest": {
