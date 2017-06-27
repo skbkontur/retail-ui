@@ -1,5 +1,18 @@
 # Changelog
 
+### 0.7.6 -> 0.8.0
+#### 26.06.2017
+- **BREAKING**: удалили папку *web_modules* и чуть изменили способ [темизации](https://github.com/skbkontur/retail-ui#Хотим-другой-цвет-кнопки) библиотечки
+- Научились собирать библиотечку, собранная версия доступна в **npm** под именем **@skbkontur/react-ui**
+- Добавили компоненты
+  - [Tabs](http://tech.skbkontur.ru/react-ui/#/components/Tabs)
+  - [Kebab](http://tech.skbkontur.ru/react-ui/#/components/Kebab)
+- Checkbox - поправили выравнивание текста при нескольких строках, поправлен цвет в IE8
+- Spinner - поправили совместимость с react@15
+- Button - добавили TypeScript дефинишены, методы `focus` и `blur`, а также пропс `autoFocus`
+- DatePicker - добавили метод `blur`
+- Select/Dropdown - добавили метод `close`
+
 ### 0.7.5 -> 0.7.6
 #### 5.05.2017
 - **Перешли на использование пакета prop-types**. Требуется реакт 0.14.9 или 15.5.х
