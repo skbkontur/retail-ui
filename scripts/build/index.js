@@ -191,10 +191,9 @@ function handleExports(dirPath) {
       };
     }
 
-    function createReexportSource(name) {
+    function createReexportSource(componentName) {
       return [
-        '// @flow',
-        `module.exports = require('./components/${name}');`,
+        `module.exports = require('./components/${componentName}');`,
         ''
       ].join('\n');
     }
