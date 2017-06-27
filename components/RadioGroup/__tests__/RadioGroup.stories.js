@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 
 import RadioGroup from '../RadioGroup';
 
@@ -28,15 +28,10 @@ storiesOf('RadioGroup', module)
   .add('vertical', () => {
     return <Component items={['One', 'Two', 'Three']} />;
   })
-  .add('inline', () => (
-    <Component
-      inline
-      items={['One', 'Two', 'Three']}
-    />
-  ))
-  .add('with renderItem', () => (
+  .add('inline', () => <Component inline items={['One', 'Two', 'Three']} />)
+  .add('with renderItem', () =>
     <Component
       items={[{ value: 'One' }, { value: 'Two' }]}
       renderItem={x => <div>Value: {x.value}</div>}
     />
-  ));
+  );

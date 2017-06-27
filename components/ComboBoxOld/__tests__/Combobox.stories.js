@@ -1,6 +1,7 @@
 // @flow
+/* eslint-disable react/no-multi-comp */
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 
 import ComboBox from '../ComboBox';
 
@@ -20,15 +21,15 @@ function renderItem(value) {
 }
 
 storiesOf('Combobox OLD', module)
-  .add('Simple combobox', () => (
+  .add('Simple combobox', () =>
     <ComboBox
       source={source}
       value={'One'}
       renderValue={renderValue}
       renderItem={renderItem}
     />
-  ))
-  .add('combobox with text', () => (
+  )
+  .add('combobox with text', () =>
     <div>
       <ComboBox
         source={source}
@@ -39,4 +40,4 @@ storiesOf('Combobox OLD', module)
       {' '}
       Some text here
     </div>
-  ));
+  );

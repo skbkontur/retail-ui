@@ -1,7 +1,7 @@
 // @flow
 import MockDate from 'mockdate';
 import React from 'react';
-import { storiesOf, action } from '@kadira/storybook';
+import { storiesOf, action } from '@storybook/react';
 import DatePicker from '../DatePicker';
 
 MockDate.set(new Date('2017-01-02'));

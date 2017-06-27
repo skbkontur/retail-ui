@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
-import { storiesOf, linkTo } from '@kadira/storybook';
+import { storiesOf, linkTo } from '@storybook/react';
 
 import Tabs from '../Tabs';
 const { Tab } = Tabs;

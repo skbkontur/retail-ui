@@ -1,12 +1,12 @@
 // @flow
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 
 import Textarea from '../Textarea';
 
 storiesOf('Textarea', module)
   .add('Simple', () => <Textarea />)
-  .add('Filled', () => (
+  .add('Filled', () =>
     <Textarea
       value={
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit.\
@@ -15,8 +15,8 @@ storiesOf('Textarea', module)
         officia alias aperiam eum quas.'
       }
     />
-  ))
-  .add('With error', () => (
+  )
+  .add('With error', () =>
     <Textarea
       error
       value={
@@ -26,8 +26,8 @@ storiesOf('Textarea', module)
         officia alias aperiam eum quas.'
       }
     />
-  ))
-  .add('Textarea in inline-flex and text', () => (
+  )
+  .add('Textarea in inline-flex and text', () =>
     <div>
       <div style={{ display: 'inline-flex' }}>
         <Textarea
@@ -41,4 +41,4 @@ storiesOf('Textarea', module)
       </div>
       Lorem text
     </div>
-  ));
+  );

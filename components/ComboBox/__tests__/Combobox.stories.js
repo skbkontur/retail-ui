@@ -1,7 +1,7 @@
 // @flow
-
+/* eslint-disable react/no-multi-comp */
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 
 import ComboBoxV2 from '../ComboBox';
 import MenuItem from '../../MenuItem';
@@ -40,46 +40,46 @@ storiesOf('ComboBox v2', module)
 
     return <SimpleCombobox />;
   })
-  .add('with error handling', () => (
+  .add('with error handling', () =>
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
       onUnexpectedInput={errorStrategy}
     />
-  ))
-  .add('with error skipping', () => (
+  )
+  .add('with error skipping', () =>
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
       onUnexpectedInput={nullStrategy}
     />
-  ))
-  .add('with warning', () => (
+  )
+  .add('with warning', () =>
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
       onUnexpectedInput={warningStrategy}
     />
-  ))
-  .add('with rejections', () => (
+  )
+  .add('with rejections', () =>
     <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />
-  ))
-  .add('disabled', () => (
+  )
+  .add('disabled', () =>
     <TestComboBox
       autoFocus
       disabled
       onSearch={search}
       renderItem={renderValue}
     />
-  ))
-  .add('with custom elements', () => (
+  )
+  .add('with custom elements', () =>
     <TestComboBox
       onSearch={searchWithCustomElements}
       renderItem={renderValue}
       onUnexpectedInput={errorStrategy}
     />
-  ))
-  .add('autocomplete', () => (
+  )
+  .add('autocomplete', () =>
     <TestComboBox
       autocomplete
       onSearch={search}
@@ -87,8 +87,8 @@ storiesOf('ComboBox v2', module)
       totalCount={12}
       onUnexpectedInput={errorStrategy}
     />
-  ))
-  .add('with autoFocus', () => (
+  )
+  .add('with autoFocus', () =>
     <TestComboBox
       autocomplete
       autoFocus
@@ -97,7 +97,7 @@ storiesOf('ComboBox v2', module)
       totalCount={12}
       onUnexpectedInput={errorStrategy}
     />
-  ));
+  );
 
 class TestComboBox extends React.Component {
   state = {
@@ -209,15 +209,19 @@ function searchWithRejections(query: string) {
     .then(delay)
     .then(
       () =>
-        (searchCount % 2
+        searchCount % 2
           ? Promise.reject()
-          : items.filter(x => ~x.name.indexOf(query.toLowerCase())))
+          : items.filter(x => ~x.name.indexOf(query.toLowerCase()))
     );
 }
 
 function searchWithCustomElements(query: string) {
   const _items = items.filter(x => x.name.includes(query.toLowerCase()));
-
+  const disabled = (
+    <MenuItem disabled>
+      Nothing was found
+    </MenuItem>
+  );
   return Promise.resolve([
     <MenuItem comment="Hello" icon="child" disabled>
       World
@@ -225,13 +229,7 @@ function searchWithCustomElements(query: string) {
     <MenuSeparator />,
     ..._items.slice(0, 3),
     ...(_items.slice(0, 3).length ? [<MenuSeparator />] : []),
-    ...(_items.slice(3).length
-      ? _items.slice(3)
-      : [
-          <MenuItem disabled>
-            Nothing was found
-          </MenuItem>
-        ]),
+    ...(_items.slice(3).length ? _items.slice(3) : [disabled]),
     <MenuSeparator />,
     <MenuItem alkoLink onClick={() => alert('Clicked')}>
       Ha ha
