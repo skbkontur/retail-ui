@@ -1,0 +1,70 @@
+@import '../variables.less';
+
+:local {
+  .paging {
+    user-select: none;
+    outline: 0;
+  }
+
+  .dots {
+    display: inline-block;
+    padding: 6px 10px 0;
+    font-size: 16px;
+    color: gray;
+  }
+
+  .forwardLink {
+    display: inline-block;
+    vertical-align: top;
+    margin: 2px 1px;
+    padding: 2px 10px 5px;
+    font-size: 16px;
+    color: @link-color;
+    cursor: pointer;
+
+    &.disabled {
+      color: @link-disabled-color;
+      cursor: default;
+    }
+
+    &.focused {
+      text-decoration: underline;
+    }
+  }
+
+  .pageLinkWrapper {
+    display: inline-block;
+    vertical-align: top;
+
+    & .pageLink {
+      display: inline-block;
+      margin: 2px 1px;
+      padding: 2px 10px 5px;
+      font-size: 16px;
+      color: @link-color;
+      border-radius: 16px;
+      cursor: pointer;
+
+      &.active {
+        background: rgba(0, 0, 0, 0.09);
+        color: black;
+        cursor: default;
+      }
+
+      &.focused {
+        margin: 0 -1px;
+        border: solid 2px @border-color-focus;
+      }
+
+      &:not(.active):hover {
+        background: rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    & .pageLinkHint {
+      display: block;
+      font-size: 8px;
+      color: #bbb;
+    }
+  }
+}
