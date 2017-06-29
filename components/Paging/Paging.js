@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import { number, func } from 'prop-types';
 import PagingHelper from './PagingHelper';
 import NavigationHelper from './NavigationHelper';
+import Icon from '../Icon';
 
 import styles from './Paging.less';
 
@@ -87,12 +88,14 @@ export default class Paging extends Component {
         onClick={!disabled && this._goForward}
       >
         Дальше
+        <span className={styles.forwardIcon}>
+          <Icon name="angle-right" size="18px" />
+        </span>
       </span>
     );
   };
 
   _renderPageLink = (key, pageNumber, active, focused) => {
-    let navigationHintText = active ? this._getNavigationHintText() : '';
     let classes = cn({
       [styles.pageLink]: true,
       [styles.focused]: focused,
@@ -103,20 +106,29 @@ export default class Paging extends Component {
         <span className={classes} onClick={() => this._goToPage(pageNumber)}>
           {pageNumber}
         </span>
-        {navigationHintText &&
-          <span className={styles.pageLinkHint}>
-            {navigationHintText}
-          </span>}
+        {active && this._renderNavigationHint()}
       </span>
     );
   };
 
-  _getNavigationHintText = () => {
-    let backward = this._canGoBackward() ? '←' : '';
-    let forward = this._canGoForward() ? '→' : '';
-    return backward || forward
-      ? `${backward}${NavigationHelper.getKeyName()}${forward}`
-      : '';
+  _renderNavigationHint = () => {
+    let canGoBackward = this._canGoBackward();
+    let canGoForward = this._canGoForward();
+
+    return (
+      (canGoBackward || canGoForward) &&
+      <span className={styles.pageLinkHint}>
+        <span className={canGoBackward ? '' : styles.transparent}>
+          {'←'}
+        </span>
+        <span>
+          {NavigationHelper.getKeyName()}
+        </span>
+        <span className={canGoForward ? '' : styles.transparent}>
+          {'→'}
+        </span>
+      </span>
+    );
   };
 
   _handleMouseDown = () => {
