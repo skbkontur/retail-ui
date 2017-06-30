@@ -1,36 +1,20 @@
 // @flow
 
-class NavigationHelper {
-  static _keyDescription = null;
+let keyDescription = null;
 
-  static checkKeyPressed(event: SyntheticKeyboardEvent): boolean {
-    return NavigationHelper._getKeyDescription().checkPressed(event);
+const getKeyDescription = () =>
+  keyDescription || (keyDescription = createKeyDescription());
+
+const createKeyDescription = () =>
+  navigator.platform.includes('Mac')
+    ? { name: 'Alt', checkPressed: event => event.altKey }
+    : { name: 'Ctrl', checkPressed: event => event.ctrlKey };
+
+export default {
+  getKeyName() {
+    return getKeyDescription().name;
+  },
+  checkKeyPressed(event: SyntheticKeyboardEvent) {
+    return getKeyDescription().checkPressed(event);
   }
-
-  static getKeyName(): string {
-    return NavigationHelper._getKeyDescription().name;
-  }
-
-  static _getKeyDescription() {
-    let helper = NavigationHelper;
-    return (
-      helper._keyDescription ||
-      (helper._keyDescription = helper._getKeyDescriptionInternal())
-    );
-  }
-
-  static _getKeyDescriptionInternal() {
-    const isMac = navigator.platform.includes('Mac');
-    return isMac
-      ? {
-          name: 'Alt',
-          checkPressed: (event: SyntheticKeyboardEvent) => event.altKey
-        }
-      : {
-          name: 'Ctrl',
-          checkPressed: (event: SyntheticKeyboardEvent) => event.ctrlKey
-        };
-  }
-}
-
-export default NavigationHelper;
+};
