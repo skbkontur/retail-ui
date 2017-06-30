@@ -4,7 +4,7 @@ export = RetailUI;
 
 declare namespace RetailUI {
     interface IconProps {
-        color: string;
+        color?: string;
         name: Array<string>;
     }
 

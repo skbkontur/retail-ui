@@ -4,8 +4,8 @@ export = RetailUI;
 
 declare namespace RetailUI {
     interface GappedProps {
-        gap: number;
-        vertical: boolean;
+        gap?: number;
+        vertical?: boolean;
         verticalAlign: "top" | "middle" | "baseline" | "bottom";
     }
 

@@ -4,9 +4,9 @@ export = RetailUI;
 
 declare namespace RetailUI {
     interface LinkProps {
-        disabled: boolean;
-        href: string;
-        icon: string;
+        disabled?: boolean;
+        href?: string;
+        icon?: string;
         use: "default" | "success" | "danger" | "graye";
     }
 
