@@ -5,297 +5,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import events from 'add-event-listener';
 
-import Dropdown from '../Dropdown';
-import Icon from '../Icon';
-import CapIcon from '../Icon/20px';
-import Logotype from '../Logotype';
-import MenuItem from '../MenuItem';
 import stopPropagation from '../../lib/events/stopPropagation';
+
+import Icon from '../Icon';
+import Logotype from '../Logotype';
+import ProductWidget from './ProductWidget';
+
+import ButtonItem from './ButtonItem';
+import Divider from './Divider';
+import Item from './Item';
+import Organizations from './Organizations';
+import TopBarDropdown from './TopBarDropdown';
+import User from './User';
 
 import '../ensureOldIEClassName';
 import styles from './TopBar.less';
 
-class Item extends React.Component {
-  props: {
-    active?: boolean,
-    children?: React.Element<any>,
-    _onClick?: (e: SyntheticMouseEvent) => void,
-    className: string,
-    iconOnly?: boolean,
-    icon?: string,
-    minWidth?: string | number,
-    use?: string
-  };
-
-  static propTypes = {
-    use: PropTypes.oneOf(['danger', 'pay'])
-  };
-
-  static defaultProps = {
-    className: ''
-  };
-
-  render() {
-    const {
-      active,
-      children,
-      _onClick,
-      className,
-      iconOnly,
-      icon,
-      minWidth,
-      use,
-      ...rest
-    } = this.props;
-
-    const classes = {
-      [styles.item]: true,
-      [styles.buttonActive]: active,
-      [className]: true,
-      [styles.iconOnly]: iconOnly
-    };
-    if (use) {
-      classes[styles['use-' + use]] = true;
-    }
-
-    return (
-      <div
-        {...rest}
-        className={classNames(classes)}
-        onClick={_onClick}
-        style={{ minWidth }}
-      >
-        {icon &&
-          <span className={styles.icon}>
-            <CapIcon color="#666" name={icon} />
-          </span>}
-        {children}
-      </div>
-    );
-  }
-}
-
-class ButtonItem extends React.Component {
-  render() {
-    const { onClick, children } = this.props;
-    return (
-      <Item {...this.props} className={styles.button} _onClick={onClick}>
-        {children}
-      </Item>
-    );
-  }
-}
-
-class Divider extends React.Component {
-  render() {
-    return <span className={styles.divider} />;
-  }
-}
-
-class Logo extends React.Component {
-  render() {
-    const { suffix, color } = this.props;
-    return (
-      <Item>
-        <Logotype suffix={suffix} color={color} />
-      </Item>
-    );
-  }
-}
-
-class TopBarDropdown extends React.Component {
-  _dropdown: Dropdown;
-
-  render() {
-    return (
-      <Dropdown
-        ref={this._ref}
-        _renderButton={this._renderButton}
-        {...this.props}
-      >
-        {this.props.children}
-      </Dropdown>
-    );
-  }
-
-  _renderButton = params => {
-    return (
-      <ButtonItem
-        active={params.opened}
-        icon={this.props.icon}
-        minWidth={this.props.minWidth}
-        tabIndex="0"
-        use={this.props.use}
-        onClick={params.onClick}
-        onKeyDown={params.onKeyDown}
-      >
-        {params.label}
-      </ButtonItem>
-    );
-  };
-
-  _ref = dropdown => {
-    this._dropdown = dropdown;
-  };
-
-  open() {
-    this._dropdown.open();
-  }
-}
-
-class User extends React.Component {
-  render() {
-    const { userName } = this.props;
-    return (
-      <TopBarDropdown icon="user" caption={userName}>
-        <div style={{ padding: '6px 18px 7px 15px' }}>
-          <b>Личный кабинет Контура</b>
-        </div>
-        <MenuItem loose href="https://cabinet.kontur.ru" target="_blank">
-          Настройка входа в сервисы
-        </MenuItem>
-        <MenuItem
-          loose
-          href="https://cabinet.kontur.ru#certificates"
-          target="_blank"
-        >
-          Сертификаты
-        </MenuItem>
-        <MenuItem
-          loose
-          href="https://cabinet.kontur.ru#services"
-          target="_blank"
-        >
-          Оплата сервисов
-        </MenuItem>
-      </TopBarDropdown>
-    );
-  }
-}
-
-class Organizations extends React.Component {
-  _caption: HTMLElement;
-  _comment: HTMLElement;
-
-  props: {
-    caption: string | React.Element<any>,
-    comment: ?string,
-    children: React.Element<any>
-  };
-
-  state: {
-    captionWhiteSpace: string,
-    minWidth: ?number
-  } = {
-    captionWhiteSpace: 'normal',
-    minWidth: null
-  };
-
-  componentDidMount() {
-    this._recalculateWidth();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.caption !== this.props.caption) {
-      this._recalculateWidth();
-    }
-  }
-
-  render() {
-    const { caption, comment } = this.props;
-
-    const title = (
-      <div>
-        <span
-          className={styles.organizationsTitle}
-          style={{
-            paddingRight: this._comment && this._comment.offsetWidth + 30
-          }}
-        >
-          <span
-            className={styles.organizationsCaption}
-            ref={this._getCaptionRef}
-          >
-            {caption}
-          </span>
-          {comment &&
-            <span
-              className={styles.organizationsComment}
-              ref={this._getCommentRef}
-            >
-              {comment}
-            </span>}
-          <span className={styles.organizationsArrow}>
-            <Icon color="#aaa" size={14} name="angle-bottom" />
-          </span>
-        </span>
-        <div
-          className={styles.organizationsTitleDummy}
-          style={{ whiteSpace: this.state.captionWhiteSpace }}
-        >
-          <span className={styles.organizationsCaption}>
-            {React.isValidElement(caption)
-              ? React.cloneElement((caption: any), { ref: null })
-              : caption}
-          </span>
-          {comment &&
-            <span className={styles.organizationsCommentDummy}>
-              {comment}
-            </span>}
-        </div>
-      </div>
-    );
-
-    return (
-      <TopBarDropdown
-        {...this.props}
-        caption={title}
-        minWidth={this.state.minWidth}
-      >
-        {this.props.children}
-      </TopBarDropdown>
-    );
-  }
-
-  _getCaptionRef = el => {
-    this._caption = el;
-  };
-
-  _getCommentRef = el => {
-    this._comment = el;
-  };
-
-  _recalculateWidth() {
-    const commentWidth = this._comment ? this._comment.offsetWidth : 0;
-
-    // 360 is minWidth from guides. Apply it when content is bigger.
-    // 315 is because of 15px left padding and 30px arrow.
-    if (this._caption.offsetWidth + commentWidth > 315) {
-      this.setState({
-        captionWhiteSpace: 'normal',
-        minWidth: 360
-      });
-    } else {
-      this.setState({
-        captionWhiteSpace: 'nowrap',
-        minWidth: null
-      });
-    }
-  }
-}
-
 type Props = {
-  children?: React.Element<any>,
-  leftItems?: React.Element<any>[],
-  rightItems: React.Element<any>[],
+  children?: React.Element<*> | string,
+  color?: string,
+  leftItems?: React.Element<*>[],
+  logoComponent: Class<React$Component<*, *, *>>,
+  logoHref?: string,
   maxWidth?: string | number,
+  noMargin?: boolean,
   noShadow?: boolean,
   noWidget?: boolean,
-  noMargin?: boolean,
+  onLogout?: () => void,
+  rightItems: React.Element<*>[],
   suffix: string,
-  color?: string,
-  userName?: string,
-  onLogout?: Function
+  userName?: string
 };
 
 type DefaultProps = {
@@ -316,7 +55,7 @@ type DefaultProps = {
 class TopBar extends React.Component {
   props: Props;
 
-  _logoWrapper: HTMLElement;
+  _logoWrapper: ?HTMLElement = null;
 
   static Divider = Divider;
   static Item = ButtonItem;
@@ -327,6 +66,12 @@ class TopBar extends React.Component {
     maxWidth: 1166,
     rightItems: []
   };
+
+  componentDidMount() {
+    if (!this.props.noWidget) {
+      ProductWidget.init();
+    }
+  }
 
   render() {
     const {
@@ -376,14 +121,26 @@ class TopBar extends React.Component {
   }
 
   _renderLogo() {
-    const { suffix, color } = this.props;
+    const {
+      suffix,
+      color,
+      logoHref: href,
+      logoComponent: component
+    } = this.props;
+    const logoProps = { suffix, color, href, component };
     if (this.props.noWidget) {
-      return <Logo suffix={suffix} color={color} />;
+      return (
+        <Item>
+          <Logotype {...logoProps} />
+        </Item>
+      );
     }
     return (
       <div id="spwDropdown" className={styles.spwDropdown}>
         <span ref={this._refLogoWrapper}>
-          <Logo suffix={suffix} color={color} />
+          <Item>
+            <Logotype {...logoProps} />
+          </Item>
           <Divider />
         </span>
         <ButtonItem iconOnly>
@@ -393,7 +150,7 @@ class TopBar extends React.Component {
     );
   }
 
-  _renderLeftItems(items: ?Array<React.Element<any>>) {
+  _renderLeftItems(items) {
     if (!items) {
       return null;
     }
@@ -408,7 +165,7 @@ class TopBar extends React.Component {
     });
   }
 
-  _renderRightItems(items: ?Array<React.Element<any>>) {
+  _renderRightItems(items) {
     if (!items) {
       return null;
     }
@@ -420,42 +177,6 @@ class TopBar extends React.Component {
         </span>
       );
     });
-  }
-
-  componentDidMount() {
-    if (!this.props.noWidget) {
-      this._loadWidget();
-    }
-  }
-
-  _loadWidget() {
-    let calledLoad = false;
-    const loadWidget = () => {
-      if (calledLoad) {
-        return;
-      }
-      calledLoad = true;
-
-      const script = document.createElement('script');
-      script.src =
-        'https://widget-product.kontur.ru/widget/loader?' +
-        'product=&type=service';
-      document.getElementsByTagName('head')[0].appendChild(script);
-    };
-
-    if (global.jQuery) {
-      loadWidget();
-    } else {
-      const jquery = document.createElement('script');
-      jquery.onload = loadWidget;
-      jquery.onreadystatechange = function() {
-        if (this.readyState === 'loaded' || this.readyState === 'complete') {
-          loadWidget();
-        }
-      };
-      jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
-      document.getElementsByTagName('head')[0].appendChild(jquery);
-    }
   }
 
   _refLogoWrapper = (el: HTMLElement) => {
@@ -481,36 +202,54 @@ class TopBar extends React.Component {
 
 TopBar.propTypes = {
   children: PropTypes.node,
+
   /**
    * Цвет логотипа
    */
   color: PropTypes.string,
+
   leftItems: PropTypes.arrayOf(PropTypes.element),
+
+  /**
+   * Компонент используемый для рендеринга ссылки.
+   * Нужно переопределить если вы хотите подставить ссылку для роутера
+   */
+  logoComponent: PropTypes.object,
+
+  logoHref: PropTypes.string,
+
   /**
    * Максимальная ширина контейнера в шапке
    */
   maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
   /**
    * Отключает отступ снизу
    */
   noMargin: PropTypes.bool,
+
   /**
    * Отключает тень
    */
   noShadow: PropTypes.bool,
+
   /**
    * Отключает виджет
    */
   noWidget: PropTypes.bool,
+
   rightItems: PropTypes.arrayOf(PropTypes.element),
+
   /**
    * Суффикс логотипа
    */
   suffix: PropTypes.string.isRequired,
+
   /**
    * Имя пользователя
    */
   userName: PropTypes.node,
+
   /**
    * Функция выхода
    */
