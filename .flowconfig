@@ -4,6 +4,7 @@
 .*/fbjs/lib/PromiseMap.js.flow
 .*/fbjs/lib/Deferred.js.flow
 .*/fbjs/lib/resolveImmediate.js.flow
+.*/node_modules/stylelint/.*
 
 [include]
 

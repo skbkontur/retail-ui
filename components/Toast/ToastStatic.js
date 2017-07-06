@@ -19,9 +19,8 @@ class ToastStatic {
       body.appendChild(ToastStatic.node);
 
       ReactDOM.render(
-        <Toast ref={el => ToastStatic.instance = el} />,
+        <Toast ref={el => (ToastStatic.instance = el)} />,
         ToastStatic.node,
-        // $FlowIssue No definition for 3rd argument
         () => ToastStatic._push(notification, action)
       );
     } else {

@@ -1,0 +1,6 @@
+.idea
+.vscode
+travis-deploy-key
+npm-debug.log
+coverage/
+gemini-report

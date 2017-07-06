@@ -1,0 +1,58 @@
+@import '../variables.less';
+
+:local {
+  .popup {
+    position: absolute;
+    min-width: 100px;
+    max-width: 500px;
+    background: @bg-default;
+    border-radius: @popup-border-radius;
+    z-index: 900;
+  }
+
+  :global(.rt-ie-any) {
+    .shadow {
+      box-shadow: @popup-box-shadow;
+    }
+  }
+
+  :global(.rt-ie8) {
+    .popup {
+      border: 1px solid @tooltip-border;
+    }
+  }
+
+  .shadow {
+    filter: @popup-drop-shadow;
+    -webkit-filter: @popup-drop-shadow;
+  }
+}
+
+@show-transtion:
+  transform 0.2s cubic-bezier(0.22, 0.61, 0.36, 1),
+  opacity 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+@hide-transition: opacity 0.15s ease-out;
+
+.shift-fade-in-out {
+  &-appear,
+  &-enter {
+    transform: translateY(-10px);
+    opacity: 0.01;
+  }
+
+  &-appear-active,
+  &-enter-active {
+    transition: @show-transtion;
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  &-leave {
+    opacity: 1;
+  }
+
+  &-leave-active {
+    opacity: 0.01;
+    transition: @hide-transition;
+  }
+}

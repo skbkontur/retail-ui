@@ -1,0 +1,83 @@
+@import '../variables.less';
+
+@smal-size: 20px;
+@large-size: 27px;
+
+:local {
+  .root {
+    display: inline-block;
+
+    &.small {
+      height: @smal-size;
+    }
+
+    &.large {
+      height: @large-size;
+    }
+  }
+
+  .kebab {
+    display: inline-block;
+    text-align: center;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    border-radius: 50%;
+    user-select: none;
+    cursor: pointer;
+    outline: 0;
+    position: relative;
+    transition: background 0.2s ease-out;
+    z-index: 1;
+
+    &.opened {
+      cursor: default;
+    }
+
+    &:hover,
+    &.opened,
+    &.focused {
+      background: rgba(0, 0, 0, 0.09);
+    }
+  }
+
+  :global(.rt-ie8) {
+    .kebab {
+      &:hover,
+      &.opened,
+      &.focused {
+        background: #e5e5e5;
+      }
+    }
+  }
+
+  .small {
+    .kebab {
+      width: @smal-size;
+      height: @smal-size;
+    }
+
+    .icon {
+      margin-top: -2px;
+    }
+  }
+
+  .large {
+    .kebab {
+      width: @large-size;
+      height: @large-size;
+    }
+
+    .icon {
+      margin-top: -4px;
+    }
+  }
+
+  .focused {
+    border-color: @border-color-focus;
+  }
+
+  .menu {
+    overflow: hidden;
+    border-radius: @popup-border-radius;
+  }
+}

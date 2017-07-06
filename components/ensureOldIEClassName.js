@@ -1,15 +1,18 @@
+let ieVerison;
+let isIE;
+
 if (global.document) {
   let classes = '';
 
   const div = document.createElement('div');
   div.innerHTML = '<!--[if IE 8]>8<![endif]--><!--[if IE 9]>9<![endif]-->';
-  const ieVerison = parseInt(div.innerHTML, 10);
+  ieVerison = parseInt(div.innerHTML, 10);
   if (ieVerison) {
     classes += ' rt-ie' + ieVerison;
   }
 
   const ua = global.navigator.userAgent;
-  const isIE = ieVerison || ua.includes('MSIE ') || ua.includes('Trident/');
+  isIE = ieVerison || ua.includes('MSIE ') || ua.includes('Trident/');
   if (isIE) {
     classes += ' rt-ie-any';
   }
@@ -18,3 +21,5 @@ if (global.document) {
     document.documentElement.className += classes;
   }
 }
+
+export { ieVerison, isIE };

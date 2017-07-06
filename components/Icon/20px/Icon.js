@@ -15,7 +15,8 @@ var MAP = {
   clear: '\ue030',
   grid: '\ue03e',
   money: '\ue046',
-  'help-circle': '\ue055'
+  'help-circle': '\ue055',
+  kebab: '\ue0c9'
 };
 
 class Icon extends React.Component {

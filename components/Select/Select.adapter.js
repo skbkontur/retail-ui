@@ -16,10 +16,11 @@ const SelectAdapter = {
   getItemValues(inst) {
     inst._open();
     inst._close();
-    return inst.mapItems(value => value);
+    return inst._mapItems(value => value);
   }
 };
 
-Select.__ADAPTER__ = SelectAdapter;
+// eslint-disable-next-line flowtype/no-weak-types
+(Select: any).__ADAPTER__ = SelectAdapter;
 
 export default Select;

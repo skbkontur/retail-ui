@@ -35,24 +35,25 @@ type Props = {
   _noPadding?: boolean,
   _noRightPadding?: boolean,
   active?: boolean,
+  arrow?: boolean,
+  autoFocus?: boolean,
   checked?: boolean,
-  children?: any,
+  children?: string,
   corners?: number, // internal
   disabled?: boolean,
   focused?: boolean,
   icon?: string,
   loading?: boolean,
   narrow?: boolean,
+  onClick?: (e: SyntheticMouseEvent) => void,
+  onKeyDown?: (e: SyntheticKeyboardEvent) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
   size: 'small' | 'medium' | 'large',
   type: 'button' | 'submit' | 'reset',
   use: 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link',
-  width?: number | string,
-  onClick?: (e: SyntheticMouseEvent) => void,
-  onKeyDown?: (e: SyntheticKeyboardEvent) => void,
-  arrow?: boolean,
-  onMouseEnter?: (e: SyntheticMouseEvent) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void
+  width?: number | string
 };
 
 class Button extends React.Component {
@@ -71,6 +72,11 @@ class Button extends React.Component {
      * Кнопка со стрелкой.
      */
     arrow: PropTypes.bool,
+
+    /**
+     * Автофокус
+     */
+    autoFocus: PropTypes.bool,
 
     checked: PropTypes.bool,
 
@@ -128,8 +134,33 @@ class Button extends React.Component {
     focusedByTab: false
   };
 
+  _node: ?HTMLButtonElement = null;
+
   componentDidMount() {
     listenTabPresses();
+
+    if (this.props.autoFocus) {
+      tabPressed = true;
+      this.focus();
+    }
+  }
+
+  /**
+   * @api
+   */
+  focus() {
+    if (this._node) {
+      this._node.focus();
+    }
+  }
+
+  /**
+   * @api
+   */
+  blur() {
+    if (this._node) {
+      this._node.blur();
+    }
   }
 
   handleFocus = (e: SyntheticFocusEvent) => {
@@ -153,7 +184,7 @@ class Button extends React.Component {
     const { corners = 0 } = this.props;
     const radius = '2px';
 
-    const rootProps: Object = {
+    const rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
@@ -173,10 +204,12 @@ class Button extends React.Component {
         [styles.focus]: this.state.focusedByTab
       }),
       style: {
-        borderRadius: `${corners & Corners.TOP_LEFT ? 0 : radius}` +
-          ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
-          ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
-          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`
+        borderRadius:
+          `${corners & Corners.TOP_LEFT ? 0 : radius}` +
+            ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
+            ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
+            ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
+        textAlign: undefined
       },
       disabled: this.props.disabled || this.props.loading,
       onClick: this.props.onClick,
@@ -193,7 +226,9 @@ class Button extends React.Component {
 
     const wrapProps = {
       className: this.props.arrow ? styles.wrap_arrow : styles.wrap,
-      style: ({}: Object)
+      style: {
+        width: undefined
+      }
     };
     if (this.props.width) {
       wrapProps.style.width = this.props.width;
@@ -244,7 +279,7 @@ class Button extends React.Component {
       });
       Object.assign(wrapProps, {
         className: styles.wrap,
-        style: {}
+        style: { width: wrapProps.style.width }
       });
       rootProps.style.textAlign = null;
       error = null;
@@ -254,7 +289,7 @@ class Button extends React.Component {
 
     return (
       <span {...wrapProps}>
-        <button {...rootProps}>
+        <button ref={this._ref} {...rootProps}>
           {loading}
           {arrow}
           <div className={styles.caption}>
@@ -266,6 +301,10 @@ class Button extends React.Component {
       </span>
     );
   }
+
+  _ref = node => {
+    this._node = node;
+  };
 }
 
 export default Button;

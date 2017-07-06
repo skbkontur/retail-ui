@@ -26,15 +26,15 @@ import '../ensureOldIEClassName';
 import styles from './Checkbox.less';
 
 type Props = {
-  children?: any,
   checked?: boolean,
+  children?: React.Element<*> | string,
   disabled?: boolean,
   error?: boolean,
-  warning?: boolean,
   onChange?: (event: { target: { value: boolean } }, value: boolean) => void,
   onMouseEnter?: (e: SyntheticMouseEvent) => void,
   onMouseLeave?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
+  warning?: boolean
 };
 
 class Checkbox extends React.Component {
@@ -60,8 +60,11 @@ class Checkbox extends React.Component {
   _wasFocused = false;
 
   render() {
+    const hasCaption = !!this.props.children;
+
     const rootClass = classNames({
       [styles.root]: true,
+      [styles.withoutCaption]: !hasCaption,
       [styles.isChecked]: this.props.checked,
       [styles.disabled]: this.props.disabled,
       [styles.error]: this.props.error,
@@ -69,18 +72,29 @@ class Checkbox extends React.Component {
       [styles.focus]: this.state.focusedByTab
     });
 
-    const inputProps: Object = {
+    const inputProps = {
       type: 'checkbox',
       className: styles.input,
       checked: this.props.checked,
       disabled: this.props.disabled,
-      onChange: this.handleChange,
+      onChange: this._handleChange,
       ref: this._inputRef,
       onFocus: this._handleFocus,
-      onBlur: this._handleBlur
+      onBlur: this._handleBlur,
+      tabIndex: undefined
     };
+
     if (this.props.tabIndex) {
       inputProps.tabIndex = this.props.tabIndex;
+    }
+
+    let caption = null;
+    if (hasCaption) {
+      caption = (
+        <div className={styles.caption}>
+          {this.props.children}
+        </div>
+      );
     }
 
     return (
@@ -97,7 +111,7 @@ class Checkbox extends React.Component {
               <Icon name="ok" />
             </div>}
         </span>
-        <div className={styles.caption}>{this.props.children}</div>
+        {caption}
       </label>
     );
   }
@@ -127,9 +141,9 @@ class Checkbox extends React.Component {
     this.input = ref;
   };
 
-  handleChange = (event: { target: { checked: boolean } }) => {
+  _handleChange = event => {
     const checked = event.target.checked;
-    this.props.onChange && this.props.onChange((event: any), checked);
+    this.props.onChange && this.props.onChange(event, checked);
   };
 }
 

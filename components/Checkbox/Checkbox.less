@@ -8,6 +8,11 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    line-height: 20px;
+
+    &.withoutCaption .box {
+      position: relative;
+    }
 
     &:hover .box {
       background: linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%);
@@ -19,15 +24,6 @@
         0 -1px 0 0 rgba(0, 0, 0, 0.1),
         0 0 0 1px rgba(0, 0, 0, 0.2),
         inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-    }
-
-    &:before, &:after {
-      content: '';
-      display: table;
-    }
-
-    &:after {
-      clear: both;
     }
   }
 
@@ -47,6 +43,7 @@
 
   .box {
     position: absolute;
+    display: inline-block;
     top: 2px;
     left: 0;
     background: linear-gradient(#fdfdfd, #ededed);
