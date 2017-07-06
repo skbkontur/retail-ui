@@ -1,3 +1,5 @@
+// @flow
+
 import { mount } from 'enzyme';
 import React from 'react';
 
@@ -45,6 +47,9 @@ describe('Pager', () => {
         
         findLinkByNumber(wrapper, newPage).find('a').simulate('click');
         expect(onPageChange).toBeCalledWith(buildEventObject(newPage), newPage);
+
+        wrapper.find(`.${PagerStyles.nextPageLink}`).find('a').simulate('click');
+        expect(onPageChange).lastCalledWith(buildEventObject(2), 2);
     });
 
     it('renders link with href', () => {
@@ -82,6 +87,29 @@ describe('Pager', () => {
         // ① 2 3 4 5 (Дальше) → 1 2 3 4 ⑤ Дальше
         input.simulate('keydown', {key: 'ArrowLeft'});
         expect(findLinkByNumber(wrapper, 5).is(`.${PagerStyles.linkFocused}`)).toBe(true);
+    });
+
+    
+
+    it('calls onPageChange correctly on enter key press', () => {
+        const onPageChange = jest.fn();
+        const wrapper = mount(<Pager pagesCount={5} currentPage={2} onPageChange={onPageChange}/>);
+        const input = wrapper.find(`.${PagerStyles.input}`);
+        
+        //1 ② 3 4 5
+        input.simulate('focus');
+
+        // 1 ② 3 4 5 → ① 2 3 4 5
+        input.simulate('keydown', {key: 'ArrowLeft'});
+
+        input.simulate('keydown', {key: 'Enter'});
+        expect(onPageChange).lastCalledWith(buildEventObject(1), 1);
+        
+        // ① 2 3 4 5 Дальше → 1 2 3 4 5 (Дальше)
+        input.simulate('keydown', {key: 'ArrowLeft'});
+        
+        input.simulate('keydown', {key: 'Enter'});
+        expect(onPageChange).lastCalledWith(buildEventObject(3), 3);
     });
 
     it('calls onPageChange correctly on Alt+left/right navigation', () => {

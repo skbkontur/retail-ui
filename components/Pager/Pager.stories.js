@@ -1,18 +1,14 @@
 // @flow
+
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 
 import Pager, {PagerProps} from '../Pager';
 
 class Component extends React.Component {
-  constructor(props: PagerProps) {
-    super(props);
-
-    this.state = {
-      currentPage: this.props.startPage || 1
-    };
-    this._handleChange = this._handleChange.bind(this);
-  }  
+  state = {
+    currentPage: this.props.startPage || 1
+  }
 
   _handleChange(e: any) {
     this.setState({currentPage: e.target.value});
@@ -23,7 +19,7 @@ class Component extends React.Component {
       <div>
         <Pager
           currentPage={this.state.currentPage}
-          onPageChange={this._handleChange}
+          onPageChange={e => this._handleChange(e)}
           {...this.props}
         />
         Текущая страница: {this.state.currentPage}
@@ -35,6 +31,6 @@ class Component extends React.Component {
 storiesOf('Pager', module)
   .add('5 pages, no tooltip', () => (
     <Component pagesCount={5} navTooltip={false} />
-  )).add('30 pages', () => (
+  )).add('30 pages, custom label', () => (
     <Component pagesCount={30} startPage={2} renderLabel={(pageNumber) => `стр. ${pageNumber}`} />
   ));

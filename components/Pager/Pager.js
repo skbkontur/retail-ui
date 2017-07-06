@@ -1,3 +1,5 @@
+// @flow
+
 import classNames from 'classnames';
 import React from 'react';
 
@@ -17,25 +19,29 @@ export type PagerProps = {
 };
 
 type State = {
-  focusedPageNumber?: number
+  focusedPageNumber: ?number
 };
 
-const ElementTypeEnum = {
+const elementTypes = {
     pageLink: 1,
     ellipsis: 2,
     nextPageLink: 3
 }
 
-const NavTooltipTypeEnum = {
+type ElementType = 1 | 2 | 3;
+
+const navTooltipTypes = {
     firstPage: 1,
     intermediatePage: 2,
     lastPage: 3
 }
 
+type NavTooltipType = 1 | 2 | 3;
+
 type PagerElement = {
     pageNumber?: number,
     disabled?: boolean,
-    elementType: ElementTypeEnum
+    elementType: ElementType
 }
 
 /**
@@ -71,25 +77,13 @@ export default class Pager extends React.Component {
         /**
          * надпись на кнопке следующей страницы
          */
-        nextPageLabel: PropTypes.oneOf([PropTypes.node, PropTypes.string]),
+        nextPageLabel: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
 
         /**
          * Рисовать ли тултип, о перемещении между страницами по Alt + →/←
          */
         navTooltip: PropTypes.bool
     };
-
-    constructor(props: Props) {
-        super(props);
-
-        this.state = { focusedPageNumber: null };
-
-        this._handleKeyDown = this._handleKeyDown.bind(this);
-        this._handleFocus = this._handleFocus.bind(this);
-        this._handleBlur = this._handleBlur.bind(this);
-        this._handleLinkClick = this._handleLinkClick.bind(this);
-        this._handleNextPageLinkClick = this._handleNextPageLinkClick.bind(this);
-    }
 
     static defaultProps = {
         onPageChange: () => {},
@@ -99,59 +93,60 @@ export default class Pager extends React.Component {
         navTooltip: true
     }
 
+    state: State = {
+        focusedPageNumber: null
+    };
+
     _moveFocus(right: boolean) {
         const pagesCount = this.props.pagesCount;
         const focusedPageNumber = this.state.focusedPageNumber;
 
-        if (focusedPageNumber === null)
+        if (focusedPageNumber === null) {
             return;
-
+        }
         
         const elements: PagerElement[] = this._getElements();
 
-        const focusedIndex = focusedPageNumber === 0 ?
-            elements.length - 1 : 
-            elements.findIndex((element: PagerElement) => element.pageNumber === focusedPageNumber);
+        const focusedIndex = focusedPageNumber === 0
+            ? elements.length - 1
+            : elements.findIndex((element: PagerElement) => element.pageNumber === focusedPageNumber);
 
-        var nextLinkIndex: number;
+        var nextLinkIndex: number = focusedIndex;
         if (right) {
-            nextLinkIndex = focusedIndex === elements.length - 1 ?
-                0 : focusedIndex + 1;
-            while (elements[nextLinkIndex].disabled) {
-                nextLinkIndex = nextLinkIndex === elements.length - 1 ?
-                0 : nextLinkIndex + 1;
-            }
+            do {
+                nextLinkIndex = (nextLinkIndex === elements.length - 1) ? 0 : nextLinkIndex + 1;
+            } while (elements[nextLinkIndex].disabled)
         } else {
-            nextLinkIndex = focusedIndex === 0 ?
-                elements.length - 1 : focusedIndex - 1;
-            
-            while (elements[nextLinkIndex].disabled) {
-                nextLinkIndex = nextLinkIndex === 0 ?
-                    elements.length - 1 : nextLinkIndex - 1;
-            }
+            do {
+                nextLinkIndex = nextLinkIndex === 0 ? elements.length - 1 : nextLinkIndex - 1;
+            } while (elements[nextLinkIndex].disabled)
         }
 
         const focusedElement: PagerElement = elements[nextLinkIndex];
 
         var newFocusedPageNumber =
-            focusedElement.elementType === ElementTypeEnum.nextPageLink ?
-                0 : focusedElement.pageNumber;
+            (focusedElement.elementType === elementTypes.nextPageLink)
+                ? 0
+                : focusedElement.pageNumber;
 
         this.setState({focusedPageNumber: newFocusedPageNumber});
     }
 
-    _openLink(pageNumber: number) {
-        if (pageNumber === 0) {
-            if (this.props.currentPage === this.props.pagesCount)
-                return;
-            pageNumber = this.props.currentPage + 1;
-        }
+    _moveFocusForward() {
+        this._moveFocus(true);
+    }
+
+    _moveFocusBackward() {
+        this._moveFocus(false);
+    }
+
+    _openLink(pageNumber: ?number) {
         const href = this.props.renderHref(pageNumber);
         window.location = href;
         this._handlePageChange(pageNumber);
     }
 
-    _handleKeyDown(event: SyntheticKeyboardEvent) {
+    _handleKeyDown = (event: SyntheticKeyboardEvent) => {
         const focusedPageNumber = this.state.focusedPageNumber;
         const currentPageNumber = this.props.currentPage;
 
@@ -161,7 +156,13 @@ export default class Pager extends React.Component {
 
         if (event.key === 'Enter') {
             event.preventDefault();
-            this._openLink(focusedPageNumber);
+            if (focusedPageNumber === 0) {
+                if (currentPageNumber !== this.props.pagesCount) {
+                    this._openLink(currentPageNumber + 1);
+                }
+            } else {
+                this._openLink(focusedPageNumber);
+            }
             return;
         }
         if (event.altKey && event.key === 'ArrowRight') {
@@ -185,22 +186,23 @@ export default class Pager extends React.Component {
 
         if (event.key === 'ArrowRight') {
             event.preventDefault();
-            this._moveFocus(true);
+            this._moveFocusForward();
             return;
         }
         if (event.key === 'ArrowLeft') {
             event.preventDefault();
-            this._moveFocus(false);
+            this._moveFocusBackward();
             return;
         }
     }
 
-    _handleFocus() {
-        if (this.state.focusedPageNumber === null)
+    _handleFocus = () => {
+        if (this.state.focusedPageNumber === null) {
             this.setState({focusedPageNumber: this.props.currentPage});
+        }
     }
 
-    _handleBlur() {
+    _handleBlur = () => {
         this.setState({focusedPageNumber: null});
     }
 
@@ -212,64 +214,65 @@ export default class Pager extends React.Component {
         
         var elements: PagerElement[] = [];
 
-        if (currentPage < 6) {
+        if (pagesCount <= 7 || currentPage <= 5) {
             for (let i = 1; i < currentPage; i++) {
-                elements.push({ pageNumber: i, elementType: ElementTypeEnum.pageLink });
+                const t: ElementType = 1;
+                elements.push({ pageNumber: i, elementType: elementTypes.pageLink });
             }
         } else {
-            elements.push({ pageNumber: 1, elementType: ElementTypeEnum.pageLink });
-            elements.push({ elementType: ElementTypeEnum.ellipsis, disabled: true });
+            elements.push({ pageNumber: 1, elementType: elementTypes.pageLink });
+            elements.push({ elementType: elementTypes.ellipsis, disabled: true });
             let leftBorder = Math.min(currentPage - 2, pagesCount - 4);
             for (let i = leftBorder; i < currentPage; i++) {
-                elements.push({ pageNumber: i, elementType: ElementTypeEnum.pageLink });
+                elements.push({ pageNumber: i, elementType: elementTypes.pageLink });
             }
         }
 
-        elements.push({ pageNumber: currentPage, elementType: ElementTypeEnum.pageLink });
+        elements.push({ pageNumber: currentPage, elementType: elementTypes.pageLink });
         
         //Ссылки справа от текущей
-        if (currentPage > pagesCount - 5) {
+        if (pagesCount <= 7 || currentPage > pagesCount - 5) {
             for (let i = currentPage + 1; i <= pagesCount; i++) {
-                elements.push({ pageNumber: i, elementType: ElementTypeEnum.pageLink });
+                elements.push({ pageNumber: i, elementType: elementTypes.pageLink });
             }
         } else {
             let rightBorder = Math.max(currentPage + 2, 5);
             for (let i = currentPage + 1; i <= rightBorder; i++) {
-                elements.push({ pageNumber: i, elementType: ElementTypeEnum.pageLink });
+                elements.push({ pageNumber: i, elementType: elementTypes.pageLink });
             }
-            elements.push({ elementType: ElementTypeEnum.ellipsis, disabled: true });
-            elements.push({ pageNumber: pagesCount, elementType: ElementTypeEnum.pageLink });
+            elements.push({ elementType: elementTypes.ellipsis, disabled: true });
+            elements.push({ pageNumber: pagesCount, elementType: elementTypes.pageLink });
         }
 
-        elements.push({ elementType: ElementTypeEnum.nextPageLink, disabled: isLastPage });
+        elements.push({ elementType: elementTypes.nextPageLink, disabled: isLastPage });
 
         return elements;
     }
 
-    _handlePageChange(newPageNumber: number) {
+    _handlePageChange(newPageNumber: ?number) {
         this.props.onPageChange({ target: {value: newPageNumber}}, newPageNumber);
     }
 
-    _handleLinkClick(linkPageNumber: number) {
+    _handleLinkClick = (linkPageNumber: ?number) => {
         this._handlePageChange(linkPageNumber);
     }
 
-    _handleNextPageLinkClick() {
+    _handleNextPageLinkClick = () => {
         this._handlePageChange(this.props.currentPage + 1);
     }
 
-    _renderLink(pageNumber: number, elementIndex: number, isFocused: boolean, isCurrent: boolean) {
+    _renderLink(pageNumber: ?number, focused: boolean, isCurrent: boolean) {
         return (
             <PagerLink
-                focused={isFocused}
+                focused={focused}
                 href={this.props.renderHref(pageNumber)}
                 current={isCurrent}
                 onClick={() => { this._handleLinkClick(pageNumber)} }
                 navTooltip={
                     (isCurrent && this.props.navTooltip) ?
-                    (pageNumber === 1 ? NavTooltipTypeEnum.firstPage :
-                    (pageNumber === this.props.pagesCount ? NavTooltipTypeEnum.lastPage :
-                    NavTooltipTypeEnum.intermediatePage)) : null }
+                    (pageNumber === 1 ? navTooltipTypes.firstPage :
+                    (pageNumber === this.props.pagesCount ? navTooltipTypes.lastPage :
+                    navTooltipTypes.intermediatePage)) : null }
                 key={pageNumber}>
                 {this.props.renderLabel(pageNumber)}
             </PagerLink>
@@ -281,57 +284,50 @@ export default class Pager extends React.Component {
         const focusedPageNumber = this.state.focusedPageNumber;
         const elements: PagerElement[] = this._getElements();
 
-        const items = elements.map((element: PagerElement, index: number, array: number[]) => {
-            let isFocused =
-                (element.elementType === ElementTypeEnum.nextPageLink && focusedPageNumber === 0) ||
-                (element.elementType === ElementTypeEnum.pageLink && focusedPageNumber === element.pageNumber);
-            if (element.elementType === ElementTypeEnum.pageLink) {
-                const isNext =
-                    (currentPage === this.props.pagesCount && element.pageNumber === 1) ||
-                    (element.pageNumber === currentPage + 1);
-                const isPrevious =
-                    (currentPage === 1 && element.pageNumber === this.props.pagesCount) ||
-                    (element.pageNumber === currentPage - 1);
-
-                let link = this._renderLink(
-                    element.pageNumber, 
-                    index,
-                    isFocused,
-                    element.pageNumber === currentPage,
-                    isNext,
-                    isPrevious
+        const items = elements.map((element: PagerElement, index: number, array: PagerElement[]) => {
+            let focused =
+                (element.elementType === elementTypes.nextPageLink && focusedPageNumber === 0) ||
+                (element.elementType === elementTypes.pageLink && focusedPageNumber === element.pageNumber);
+            
+            switch (element.elementType) {
+                case (elementTypes.pageLink): {
+                    return this._renderLink(
+                        element.pageNumber,
+                        focused,
+                        element.pageNumber === currentPage
                     );
-                return link;
-            } else if (element.elementType === ElementTypeEnum.ellipsis) {
-                return (
-                    <div
-                        className={styles.ellipsis}
-                        key={`el-${index}`}>
-                        <Icon name="ellipsis" />
-                    </div>);
-            } else {
-                let link = (
-                    <a
-                        href={this.props.renderHref(this.props.currentPage + 1)}
-                        className={styles.nextPageLinkLink}
-                        tabIndex="-1"
-                        onClick={!element.disabled && this._handleNextPageLinkClick}>
-                        {this.props.nextPageLabel}
-                    </a>);
-                return (
-                    <div className={classNames({
-                            [styles.nextPageLink]: true,
-                            [styles.nextPageLinkDisabled]: element.disabled,
-                            [styles.nextPageLinkFocused]: isFocused,
-                        })} key="nextPageLink">
-                        {link}
-                    </div>
-                );
+                }
+                case (elementTypes.ellipsis): {
+                    return (
+                        <div
+                            className={styles.ellipsis}
+                            key={`el-${index}`}>
+                            <Icon name="ellipsis" />
+                        </div>);
+                }
+                default: {
+                    let link = (
+                        <a
+                            href={this.props.renderHref(this.props.currentPage + 1)}
+                            className={styles.nextPageLinkLink}
+                            tabIndex="-1"
+                            onClick={!element.disabled && this._handleNextPageLinkClick}>
+                            {this.props.nextPageLabel}
+                        </a>);
+                    return (
+                        <div className={classNames({
+                                [styles.nextPageLink]: true,
+                                [styles.nextPageLinkDisabled]: element.disabled,
+                                [styles.nextPageLinkFocused]: focused,
+                            })} key="nextPageLink">
+                            {link}
+                        </div>
+                    );
+                }
             }
         });
         
         const inputProps = {
-            ref: (node) => { this._input = node},
             type: 'checkbox',
             className: styles.input,
             onKeyDown: this._handleKeyDown,
@@ -357,7 +353,8 @@ type LinkProps = {
     onBlur: () => void,
     onKeyDown: () => void,
     href: string,
-    navTooltip: NavTooltipTypeEnum
+    navTooltip: NavTooltipType,
+    children: React$Element<any>
 }
 
 /**
@@ -392,27 +389,21 @@ class PagerLink extends React.Component {
         navTooltip: PropTypes.number
     };
 
-    constructor(props: LinkProps) {
-        super(props);
-
-        this._handleClick = this._handleClick.bind(this);
-    }
-
     _handleClick(e) {
         this.props.onClick();
     }
 
-    _renderNavTooltip(tooltipType: NavTooltipTypeEnum) {
+    _renderNavTooltip(tooltipType: NavTooltipType) {
         return (
             <div className={styles.navTooltip}>
                 <div className={classNames({
                     [styles.navTooltipPart]: true,
-                    [styles.navTooltipPartHidden]: tooltipType === NavTooltipTypeEnum.firstPage
+                    [styles.navTooltipPartHidden]: tooltipType === navTooltipTypes.firstPage
                     })}>←</div>
                 <div className={styles.navTooltipPart}>Alt</div>
                 <div className={classNames({
                     [styles.navTooltipPart]: true,
-                    [styles.navTooltipPartHidden]: tooltipType === NavTooltipTypeEnum.lastPage
+                    [styles.navTooltipPartHidden]: tooltipType === navTooltipTypes.lastPage
                     })}>→</div>
             </div>
         );
@@ -432,7 +423,7 @@ class PagerLink extends React.Component {
                     href={href}
                     className={styles.linkLink}
                     tabIndex="-1"
-                    onClick={this._handleClick}>
+                    onClick={e => this._handleClick(e)}>
                     {children}
                 </a>
                 {this.props.navTooltip ? this._renderNavTooltip(this.props.navTooltip) : null}
