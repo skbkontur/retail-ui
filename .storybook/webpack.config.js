@@ -41,14 +41,5 @@ module.exports = {
       { test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader' },
       { test: /\.json/, loader: 'json-loader' }
     ]
-  },
-  resolve: {
-    alias: {
-      'retail-ui/components/react-theme-variables.less': path.resolve(
-        __dirname,
-        '..',
-        'components/react-theme-variables.less'
-      )
-    }
   }
 };
