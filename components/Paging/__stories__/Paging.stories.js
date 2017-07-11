@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable react/no-multi-comp */
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Paging from '../Paging';
@@ -19,7 +20,10 @@ storiesOf('Paging', module)
         <PagingWithState pagesCount={12} />
       </div>
     );
-  });
+  })
+  .add('PagingWithCustomComponent', () =>
+    <PagingWithCustomComponent pagesCount={12} />
+  );
 
 class GoToAbsensePage extends Component {
   state = {
@@ -49,7 +53,6 @@ class GoToAbsensePage extends Component {
   };
 }
 
-// eslint-disable-next-line react/no-multi-comp
 class PagingWithState extends Component {
   state = {
     activePage: 1
@@ -61,6 +64,32 @@ class PagingWithState extends Component {
           activePage={this.state.activePage}
           pagesCount={this.props.pagesCount}
           onPageChange={this._handlePageChange}
+        />
+      </div>
+    );
+  }
+  _handlePageChange = (pageNumber: number) => {
+    this.setState({ activePage: pageNumber });
+  };
+}
+
+const CustomComponent = props =>
+  Paging.isForward(props.pageNumber)
+    ? <a href={'#' + (props.pageNumber + 1)} {...props} />
+    : <a href={'#' + props.pageNumber} {...props} />;
+
+class PagingWithCustomComponent extends Component {
+  state = {
+    activePage: 1
+  };
+  render() {
+    return (
+      <div>
+        <Paging
+          activePage={this.state.activePage}
+          pagesCount={this.props.pagesCount}
+          onPageChange={this._handlePageChange}
+          component={CustomComponent}
         />
       </div>
     );

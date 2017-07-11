@@ -1,14 +1,16 @@
 // @flow
 import PagingHelper from '../PagingHelper';
 
-describe('PagingHelper.getItems', () => {
-  it('single page', () => {
-    const items = PagingHelper.getItems(1, 1);
-    expect(items).toEqual([1]);
-  });
+const cases = [
+  ['single page', [1, 1], [1]],
+  ['seven pages', [1, 7], [1, 2, 3, 4, 5, 6, 7]],
+  ['ten pages', [1, 10], [1, 2, 3, 4, 5, '.', 10]]
+];
 
-  it('seven pages', () => {
-    const items = PagingHelper.getItems(1, 7);
-    expect(items).toEqual([1, 2, 3, 4, 5, 6, 7]);
+describe('PagingHelper.getItems', () => {
+  cases.forEach(([name, args, expecting]) => {
+    it(name, () => {
+      expect(PagingHelper.getItems(...args)).toEqual(expecting);
+    });
   });
 });

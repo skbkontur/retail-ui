@@ -10,8 +10,23 @@ import Icon from '../Icon';
 
 import styles from './Paging.less';
 
+type ItemComponentProps = {
+  active: boolean,
+  children?: React.Element<*>,
+  className: string,
+  onClick: boolean | (() => void),
+  pageNumber: number | 'forward',
+  tabIndex: number
+};
+
+type ItemComponent =
+  | Class<React$Component<*, ItemComponentProps, *>>
+  | ((props: ItemComponentProps) => React.Element<*>)
+  | string;
+
 type Props = {
   activePage: number,
+  component: ItemComponent,
   onPageChange: (pageNumber: number) => void,
   pagesCount: number
 };
@@ -24,7 +39,16 @@ type State = {
 type ItemType = number | '.' | 'forward';
 
 export default class Paging extends Component {
-  static defaultProps = {};
+  static defaultProps: {
+    component: ItemComponent
+  } = {
+    component: ({ className, onClick, children }) =>
+      <span className={className} onClick={onClick} children={children} />
+  };
+
+  static isForward(pageNumber: number | 'forward'): boolean /* %checks */ {
+    return pageNumber === 'forward';
+  }
 
   props: Props;
 
@@ -81,17 +105,21 @@ export default class Paging extends Component {
       [styles.focused]: focused,
       [styles.disabled]: disabled
     });
+    const { component: Component } = this.props;
     return (
-      <span
+      <Component
         key={key}
+        active={false}
         className={classes}
         onClick={!disabled && this._goForward}
+        tabIndex={-1}
+        pageNumber={'forward'}
       >
         Дальше
         <span className={styles.forwardIcon}>
           <Icon name="angle-right" size="18px" />
         </span>
-      </span>
+      </Component>
     );
   };
 
@@ -101,11 +129,18 @@ export default class Paging extends Component {
       [styles.focused]: focused,
       [styles.active]: active
     });
+    const { component: Component } = this.props;
     return (
       <span key={key} className={styles.pageLinkWrapper}>
-        <span className={classes} onClick={() => this._goToPage(pageNumber)}>
+        <Component
+          active={active}
+          className={classes}
+          onClick={() => this._goToPage(pageNumber)}
+          tabIndex={-1}
+          pageNumber={pageNumber}
+        >
           {pageNumber}
-        </span>
+        </Component>
         {active && this._renderNavigationHint()}
       </span>
     );
@@ -198,7 +233,7 @@ export default class Paging extends Component {
       this._getItems().indexOf(focusedItem) !== -1 &&
       this._isItemFocusable(focusedItem)
     ) {
-      return this.state.focusedItem;
+      return focusedItem;
     }
 
     return this.props.activePage;
