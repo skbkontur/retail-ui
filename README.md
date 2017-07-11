@@ -59,7 +59,7 @@ module: {
 resolve: {
   /* ... */
   alias: {
-    'retail-ui/components/react-theme-variables.less': 'path-to-my-theme-variables.less'
+    'react-ui-theme': 'path-to-my-theme-variables.less'
   }
   /* ... */
 }
