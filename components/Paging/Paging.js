@@ -84,10 +84,10 @@ export default class Paging extends Component {
         return this._renderDots(key);
       case 'forward':
         let disabled = this._isItemDisabled(item);
-        return this._renderForwardLink(item, disabled, focused);
+        return this._renderForwardLink(disabled, focused);
       default:
         let active = this.props.activePage === item;
-        return this._renderPageLink(item.toString(), item, active, focused);
+        return this._renderPageLink(item, active, focused);
     }
   };
 
@@ -99,7 +99,7 @@ export default class Paging extends Component {
     );
   };
 
-  _renderForwardLink = (key, disabled, focused) => {
+  _renderForwardLink = (disabled, focused) => {
     let classes = cn({
       [styles.forwardLink]: true,
       [styles.focused]: focused,
@@ -108,7 +108,7 @@ export default class Paging extends Component {
     const { component: Component } = this.props;
     return (
       <Component
-        key={key}
+        key={'forward'}
         active={false}
         className={classes}
         onClick={!disabled && this._goForward}
@@ -123,7 +123,7 @@ export default class Paging extends Component {
     );
   };
 
-  _renderPageLink = (key, pageNumber, active, focused) => {
+  _renderPageLink = (pageNumber, active, focused) => {
     let classes = cn({
       [styles.pageLink]: true,
       [styles.focused]: focused,
@@ -131,7 +131,7 @@ export default class Paging extends Component {
     });
     const { component: Component } = this.props;
     return (
-      <span key={key} className={styles.pageLinkWrapper}>
+      <span key={pageNumber} className={styles.pageLinkWrapper}>
         <Component
           active={active}
           className={classes}
