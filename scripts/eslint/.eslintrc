@@ -399,9 +399,6 @@ rules:
   flowtype/semi:
   - 2
   - always
-  flowtype/sort-keys:
-  - 2
-  - asc
   flowtype/space-after-type-colon:
   - 2
   - always
