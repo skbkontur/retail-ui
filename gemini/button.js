@@ -2,8 +2,9 @@
 
 var pathTo = require('./utils').pathTo;
 
-gemini.suite('button', (suite) => {
-  suite.setUrl(pathTo('Button', 'playground'))
+gemini.suite('button', suite => {
+  suite
+    .setUrl(pathTo('Button', 'playground'))
     .setCaptureElements('#test-element')
     .capture('idle')
     .capture('hover', (actions, find) => {
@@ -17,5 +18,11 @@ gemini.suite('button', (suite) => {
     })
     .capture('clicked', (actions, find) => {
       actions.mouseUp(find('button'));
+    })
+    .capture('clickedOutside', (actions, find) => {
+      actions.click(find('body'), 0, [1, 1]);
+    })
+    .capture('tabPress', (actions, find) => {
+      actions.sendKeys(gemini.TAB);
     });
 });
