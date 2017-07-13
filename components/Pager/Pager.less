@@ -1,0 +1,107 @@
+@import '../variables.less';
+
+@padding: 1px 8px 3px;
+@border-radius: 14px;
+@border-width: 2px;
+
+:local {
+  .link {
+      display: inline-block;
+      vertical-align: top;
+      margin: 5px 1px 0px;
+      
+      & .linkLink {
+        cursor: pointer;
+        text-decoration: none;
+        outline: none;
+        font-size: 16px;
+        color: @link-color;
+        border-radius: @border-radius;
+        padding: @padding;
+        border: solid @border-width transparent;
+      }
+
+      &.linkCurrent .linkLink {
+        cursor: default;
+        color: black;
+        background: rgba(0, 0, 0, 0.09);
+      }
+
+      &:not(.linkCurrent) .linkLink:hover {
+        background: rgba(0, 0, 0, 0.05);
+      }
+
+      &.linkFocused .linkLink {
+        border-color: @border-color-focus;
+      }
+  }
+
+  .nextPageLink {
+      display: inline-block;
+      vertical-align: top;
+
+    .nextPageLinkLink {
+      cursor: pointer;
+      display: inline-block;
+      vertical-align: top;
+      text-decoration: none;
+      outline: none;
+      font-size: 16px;
+      color: @link-color;
+      padding: @padding;
+      border: solid @border-width transparent;
+
+      .nextPageArrow {
+        font-size: 18px;
+      }
+    }
+
+    .nextPageLinkLink:hover  {
+      text-decoration: underline;
+    }
+  }
+
+  .nextPageLink.nextPageLinkDisabled .nextPageLinkLink {
+    cursor: default;
+    pointer-events: none;
+    color: @link-disabled-color;
+  }
+
+  .nextPageLink.nextPageLinkFocused .nextPageLinkLink {
+    text-decoration: underline;
+  }
+
+
+  .ellipsis {
+    display: inline-block;
+    cursor: default;
+    color: gray;
+    margin-top: 11px;
+  }
+
+  .input {
+    border: 0;
+    height: 0;
+    left: -10000px;
+    opacity: 0;
+    outline: 0;
+    position: absolute;
+    width: 0;
+  }
+
+  .navTooltip {
+    margin-top: 5px;
+    color: #bbb;
+    font-size: 9px;
+    text-align: center;
+  }
+
+  .navTooltipPart {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .navTooltipPartHidden {
+    visibility: hidden;
+  }
+}
