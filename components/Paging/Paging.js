@@ -3,7 +3,7 @@
 import cn from 'classnames';
 import events from 'add-event-listener';
 import React, { Component } from 'react';
-import { number, func } from 'prop-types';
+import { number, func, object } from 'prop-types';
 import PagingHelper from './PagingHelper';
 import NavigationHelper from './NavigationHelper';
 import Icon from '../Icon';
@@ -309,8 +309,26 @@ export default class Paging extends Component {
 }
 
 Paging.propTypes = {
+  /**
+   * Current active page
+   */
   activePage: number.isRequired,
+
+  /**
+   * React component that would be used for rendering items
+   *
+   * Usefull for router integration
+   */
+  component: object,
+
+  /**
+   * Total page count
+   */
   pagesCount: number.isRequired,
+
+  /**
+   * Calls when page has been changed
+   */
   onPageChange: func.isRequired
 };
 

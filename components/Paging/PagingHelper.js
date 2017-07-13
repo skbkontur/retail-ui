@@ -12,6 +12,8 @@ function getItems(active: number, total: number): (number | '.')[] {
   let hasRightDots = right < total - 2;
   let to = hasRightDots ? right : total;
 
+  // let isFinite = total < Infinity
+
   if (hasLeftDots) {
     result.push(1, '.');
   }
@@ -21,7 +23,11 @@ function getItems(active: number, total: number): (number | '.')[] {
   }
 
   if (hasRightDots) {
-    result.push('.', total);
+    result.push('.');
+  }
+
+  if (hasRightDots && isFinite(total)) {
+    result.push(total);
   }
 
   return result;
