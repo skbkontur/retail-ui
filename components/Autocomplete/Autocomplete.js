@@ -8,16 +8,19 @@ import { findDOMNode } from 'react-dom';
 import Input from '../Input';
 import type { Props as InputProps } from '../Input/Input';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
+import RenderLayer from '../RenderLayer';
 
 import styles from './Autocomplete.less';
 
-type Props = InputProps & {
-  renderItem: any,
-  source: any
-};
+type Props = {
+  renderItem: (item: string) => React.Element<*>,
+  source: Array<string> | ((patter: string) => Promise<string[]>),
+  onChange?: (event: { target: { value: string } }, value: string) => void,
+  onBlur?: (event: Event) => void
+} & InputProps;
 
 type State = {
-  items: ?Array<any>,
+  items: ?Array<string>,
   selected: number
 };
 
@@ -63,25 +66,38 @@ export default class Autocomplete extends React.Component {
   _opened: boolean = false;
   _input: ?Input = null;
 
+  /**
+   * @api
+   */
+  focus() {
+    if (this._input) {
+      this._input.focus();
+    }
+  }
+
   render() {
     var inputProps = {
-      onChange: this.handleChange,
-      onBlur: this.handleBlur,
-      onKeyDown: this.handleKey,
+      onChange: this._handleChange,
+      onKeyDown: this._handleKey,
       onMouseEnter: this.props.onMouseEnter,
       onMouseLeave: this.props.onMouseLeave,
       onMouseOver: this.props.onMouseOver,
       ref: this._refInput
     };
     return (
-      <span className={styles.root}>
-        <Input {...this.props} {...inputProps} />
-        {this.renderMenu()}
-      </span>
+      <RenderLayer
+        onFocusOutside={this._handleBlur}
+        onClickOutside={this._handleBlur}
+      >
+        <span className={styles.root}>
+          <Input {...this.props} {...inputProps} />
+          {this._renderMenu()}
+        </span>
+      </RenderLayer>
     );
   }
 
-  renderMenu() {
+  _renderMenu() {
     var items = this.state.items;
     if (!items || items.length === 0) {
       return null;
@@ -100,7 +116,7 @@ export default class Autocomplete extends React.Component {
               <div
                 key={i}
                 className={rootClass}
-                onMouseDown={e => this.handleItemClick(e, i)}
+                onClick={e => this._handleItemClick(e, i)}
                 onMouseEnter={e => this.setState({ selected: i })}
                 onMouseLeave={e => this.setState({ selected: -1 })}
               >
@@ -114,20 +130,20 @@ export default class Autocomplete extends React.Component {
   }
 
   componentWillReceiveProps(props: Props) {
-    this.updateItems(props.value);
+    this._updateItems(props.value);
   }
 
-  handleChange = (event: any) => {
+  _handleChange = event => {
     this._opened = true;
 
     const value: string = event.target.value;
 
-    this.updateItems(value);
+    this._updateItems(value);
 
     this._fireChange(value);
   };
 
-  handleBlur = (event: SyntheticFocusEvent) => {
+  _handleBlur = (event: Event) => {
     this._opened = false;
     this.setState({ items: null });
 
@@ -136,7 +152,7 @@ export default class Autocomplete extends React.Component {
     }
   };
 
-  handleKey = (event: SyntheticKeyboardEvent) => {
+  _handleKey = (event: SyntheticKeyboardEvent) => {
     var items = this.state.items;
     var stop = false;
     if ((event.key === 'ArrowUp' || event.key === 'ArrowDown') && items) {
@@ -174,7 +190,7 @@ export default class Autocomplete extends React.Component {
     }
   };
 
-  handleItemClick(event: SyntheticMouseEvent, index: number) {
+  _handleItemClick(event: SyntheticMouseEvent, index: number) {
     if (event.button !== 0) {
       return;
     }
@@ -199,7 +215,7 @@ export default class Autocomplete extends React.Component {
     this._fireChange(value);
   }
 
-  updateItems(value: string) {
+  _updateItems(value) {
     if (!this._opened) {
       return;
     }
@@ -222,15 +238,9 @@ export default class Autocomplete extends React.Component {
     });
   }
 
-  _fireChange(value: string) {
+  _fireChange(value) {
     if (this.props.onChange) {
       this.props.onChange({ target: { value } }, value);
-    }
-  }
-
-  focus() {
-    if (this._input) {
-      this._input.focus();
     }
   }
 
@@ -241,7 +251,7 @@ export default class Autocomplete extends React.Component {
 
 function match(pattern, items) {
   if (!pattern || !items) {
-    return Promise.resolve(null);
+    return Promise.resolve([]);
   }
 
   pattern = pattern.toLowerCase();
