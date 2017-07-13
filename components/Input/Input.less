@@ -21,6 +21,7 @@
     outline: none;
     padding: 0 @side-padding;
     width: 100%;
+    -webkit-appearance: none;
   }
 
   .input::-ms-clear {
@@ -152,8 +153,7 @@
     right: @side-padding-padded + 1;
   }
 
-  .leftIcon,
-  .rightIcon {
+  .leftIcon, .rightIcon {
     color: #a9a9a9;
     cursor: text;
     line-height: 32px;
@@ -164,23 +164,20 @@
   }
 
   .sizeMedium {
-    .leftIcon,
-    .rightIcon {
+    .leftIcon, .rightIcon {
       line-height: 40px;
       height: 40px;
     }
   }
 
   .sizeLarge {
-    .leftIcon,
-    .rightIcon {
+    .leftIcon, .rightIcon {
       line-height: 44px;
       height: 44px;
     }
   }
 
-  .disabled .leftIcon,
-  .disabled .rightIcon {
+  .disabled .leftIcon, .disabled .rightIcon {
     cursor: default;
   }
 

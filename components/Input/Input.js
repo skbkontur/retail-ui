@@ -189,7 +189,7 @@ export default class Input extends React.Component {
     polyfillPlaceholder: false
   };
 
-  input = null;
+  input: ?HTMLInputElement = null;
 
   render() {
     const className: string = this.props.className || '';
@@ -304,8 +304,10 @@ export default class Input extends React.Component {
     }
   }
 
-  getInputFromRef = (ref: any) => {
-    const elem: Element = (ReactDOM.findDOMNode(this): any);
+  getInputFromRef = (ref: HTMLInputElement | MaskedInput) => {
+    // $FlowIssue
+    const elem: HTMLInputElement = ReactDOM.findDOMNode(this);
+    // $FlowIssue should return HTMLInputElement
     this.input = this.props.mask ? elem.querySelector('input') : ref;
   };
 
@@ -338,7 +340,7 @@ export default class Input extends React.Component {
       // $FlowIssue: suppressing the error of possibly null value of this.input
       this.input.setSelectionRange(start, end);
     } else if (this.input.createTextRange) {
-      const range = (this.input: any).createTextRange();
+      const range = this.input.createTextRange();
       range.collapse(true);
       range.moveEnd('character', end);
       range.moveStart('character', start);
