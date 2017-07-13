@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Radio from '../Radio';
+import Prevent from './Prevent';
 
 import styles from './RadioGroup.less';
 
@@ -12,30 +13,20 @@ type Props = {
   disabled?: boolean,
   error?: boolean,
   inline?: boolean,
-  items: Iterable<any>,
-  renderItem: (value: any, data: any) => React.Element<any>,
-  value: any,
+  items: Iterable<mixed>,
+  onChange?: (event: { target: { value: mixed } }, value: mixed) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseOver?: (e: SyntheticMouseEvent) => void,
+  renderItem: (value: mixed, data: mixed) => React.Element<*>,
+  value: mixed,
   warning?: boolean,
-  width?: number | string,
-  onChange?: (event: any, value: any) => void,
-  onMouseEnter?: Function,
-  onMouseLeave?: Function,
-  onMouseOver?: Function
+  width?: number | string
 };
 
 type State = {
   focusedIndex: ?number
 };
-
-class Prevent extends React.Component {
-  render() {
-    return <span onClick={this._prevent}>{this.props.children}</span>;
-  }
-
-  _prevent = event => {
-    event.stopPropagation();
-  };
-}
 
 class RadioGroup extends React.Component {
   static Prevent = Prevent;
@@ -125,7 +116,7 @@ class RadioGroup extends React.Component {
   }
 
   renderItems() {
-    const items = this._mapItems((itemValue: any, data: any, i: number) => {
+    const items = this._mapItems((itemValue: mixed, data: mixed, i: number) => {
       const itemProps = {
         key: i,
         onClick: () => this._select(itemValue),
@@ -169,7 +160,7 @@ class RadioGroup extends React.Component {
       if (!this.props.onChange) {
         return;
       }
-      const value = [...this.props.items][focusedIndex];
+      const [value] = normalizeEntry([...this.props.items][focusedIndex]);
       this._select(value);
       return;
     }
@@ -185,7 +176,7 @@ class RadioGroup extends React.Component {
 
   focusHandler = (event: KeyboardEvent) => {
     const { value } = this.props;
-    const items = this._mapItems((value: any, data: any, i: number) => {
+    const items = this._mapItems((value: mixed, data: mixed, i: number) => {
       return value;
     });
     const currentIndex = [...items].indexOf(value);
@@ -200,7 +191,7 @@ class RadioGroup extends React.Component {
 
   move_(step: number) {
     let selectedIndex = this.state.focusedIndex;
-    const items = this._mapItems((value: any, data: any, i: number) => {
+    const items = this._mapItems((value: mixed, data: mixed, i: number) => {
       return value;
     });
 
@@ -229,7 +220,7 @@ class RadioGroup extends React.Component {
     this.setState({ focusedIndex: index });
   }
 
-  _mapItems<T>(fn: (v: any, d: any, i: number) => T): Array<T> {
+  _mapItems<T>(fn: (v: mixed, d: mixed, i: number) => T): Array<T> {
     const items = [];
     let index = 0;
     for (const entry of this.props.items) {
