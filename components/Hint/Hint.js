@@ -46,7 +46,7 @@ export default class Hint extends React.Component {
       return;
     }
 
-    if (nextProps.opened !== this.props.opened) {
+    if (nextProps.opened !== this.state.opened) {
       this.setState({ opened: nextProps.opened });
     }
   }
