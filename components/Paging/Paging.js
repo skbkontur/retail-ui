@@ -3,7 +3,7 @@
 import cn from 'classnames';
 import events from 'add-event-listener';
 import React, { Component } from 'react';
-import { number, func, object } from 'prop-types';
+import { number, func } from 'prop-types';
 import PagingHelper from './PagingHelper';
 import NavigationHelper from './NavigationHelper';
 import Icon from '../Icon';
@@ -319,7 +319,7 @@ Paging.propTypes = {
    *
    * Usefull for router integration
    */
-  component: object,
+  component: func,
 
   /**
    * Total page count
