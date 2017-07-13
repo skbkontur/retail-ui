@@ -138,6 +138,12 @@ module.exports = [
     src: require('!raw!./snippets/Modal-snip.js')
   },
   {
+    name: 'Paging',
+    component: require('ui/Paging'),
+    info: require('!docgen!ui/Paging/Paging.js'),
+    src: require('!raw!./snippets/Paging-snip.js')
+  },
+  {
     name: 'Radio',
     component: require('ui/Radio'),
     info: require('!docgen!ui/Radio/Radio.js'),

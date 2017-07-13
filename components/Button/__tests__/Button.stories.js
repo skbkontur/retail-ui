@@ -1,39 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  text,
-  boolean,
-  select,
-  number
-} from '@storybook/addon-knobs';
 import Button from '../../Button';
 import Gapped from '../../Gapped';
-import Icon from '../../Icon';
-
-const getKnobs = () => ({
-  use: select(
-    'use',
-    ['default', 'primary', 'success', 'danger', 'pay'],
-    'default'
-  ),
-  size: select('size', ['small', 'medium', 'large'], 'small'),
-  children: text('children', 'Hello'),
-  loading: boolean('loading', false),
-  disabled: boolean('disabled', false),
-  active: boolean('active', false),
-  checked: boolean('checked', false),
-  width: number('width'),
-  icon: select('icon', [''].concat(Icon.getAllNames()), '')
-});
 
 storiesOf('Button', module)
-  .addDecorator(withKnobs)
   .add('playground', () => {
-    const { children, ...rest } = getKnobs();
     return (
-      <Button {...rest}>
-        {children}
+      <Button>
+        Hello
       </Button>
     );
   })
@@ -54,7 +28,7 @@ storiesOf('Button', module)
     </Gapped>
   )
   .add('with icons', () => {
-    const icon = select('icon', Icon.getAllNames(), 'ok');
+    const icon = 'ok';
     return (
       <Gapped>
         <Button icon={icon}>Small</Button>
