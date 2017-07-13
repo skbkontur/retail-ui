@@ -4,6 +4,13 @@ import Button from '../../Button';
 import Gapped from '../../Gapped';
 
 storiesOf('Button', module)
+  .add('playground', () => {
+    return (
+      <Button>
+        Hello
+      </Button>
+    );
+  })
   .add('different use', () =>
     <Gapped>
       <Button>Default</Button>
