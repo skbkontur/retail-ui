@@ -24,6 +24,7 @@
     cursor: pointer;
     text-decoration: none;
     outline: none;
+    user-select: none;
 
     &.disabled {
       color: @link-disabled-color;
@@ -46,6 +47,7 @@
     vertical-align: top;
     font-size: 0;
     text-align: center;
+    user-select: none;
 
     .pageLink {
       display: block;
@@ -83,6 +85,12 @@
       .transparent {
         color: transparent;
       }
+    }
+  }
+
+  :global(.rt-ie8) {
+    .pageLink.active {
+      background: #e8e8e8;
     }
   }
 }
