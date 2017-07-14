@@ -1,6 +1,9 @@
 # React UI
 [![Build Status](https://travis-ci.org/skbkontur/retail-ui.svg?branch=master)](https://travis-ci.org/skbkontur/retail-ui)
 
+
+- [Changelog](https://github.com/skbkontur/retail-ui/blob/master/CHANGELOG.md)
+
 ### Квик-старт
 ```bash
 yarn add @skbkontur/react-ui
