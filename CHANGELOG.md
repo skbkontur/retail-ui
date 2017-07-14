@@ -1,5 +1,17 @@
 # Changelog
 
+### 0.8.4 -> 0.8.5
+- **Paging** - зарелизили наконец (спасибо [BooleT37](https://github.com/BooleT37), [slawwan](https://github.com/slawwan))
+- Hint - поправили создание множественных таймеров
+- RadioGroup - поправили обработку нажатия Enter
+- Input - поправили внешний вид на iOS (спасибо [alatielle](https://github.com/alatielle))
+- Autocomplete - починили выбор элементов при работе с сенсорных устройств
+- Добавили TS дефинишены для Gapped, Icon, Input, Link, Select (спасибо [LakeVostok](https://github.com/LakeVostok))
+
+### 0.8.0 -> 0.8.4
+- TopBar - появилась возможность задать ссылку и компонент логотипу
+- Починили темизацию
+
 ### 0.7.6 -> 0.8.0
 #### 26.06.2017
 - **BREAKING**: удалили папку *web_modules* и чуть изменили способ [темизации](https://github.com/skbkontur/retail-ui#Хотим-другой-цвет-кнопки) библиотечки
