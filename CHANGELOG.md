@@ -1,12 +1,12 @@
 # Changelog
 
 ### 0.8.4 -> 0.8.5
-- **Paging** - зарелизили наконец (спасибо [BooleT37](https://github.com/BooleT37), [slawwan](https://github.com/slawwan))
+- **Paging** - зарелизили наконец (спасибо @BooleT37, @slawwan)
 - Hint - поправили создание множественных таймеров
 - RadioGroup - поправили обработку нажатия Enter
-- Input - поправили внешний вид на iOS (спасибо [alatielle](https://github.com/alatielle))
+- Input - поправили внешний вид на iOS (спасибо @alatielle)
 - Autocomplete - починили выбор элементов при работе с сенсорных устройств
-- Добавили TS дефинишены для Gapped, Icon, Input, Link, Select (спасибо [LakeVostok](https://github.com/LakeVostok))
+- Добавили TS дефинишены для Gapped, Icon, Input, Link, Select (спасибо @LakeVostok)
 
 ### 0.8.0 -> 0.8.4
 - TopBar - появилась возможность задать ссылку и компонент логотипу
