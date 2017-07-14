@@ -1,4 +1,4 @@
-var MAP = {
+module.exports = {
   Space: '\u0020',
   Hyphen: '\u002D',
   Underscore: '\u005F',
