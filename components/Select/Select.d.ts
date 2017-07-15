@@ -1,4 +1,5 @@
 import * as React from 'react';
+import MenuSeparator from '../MenuSeparator/MenuSeparator';
 
 export interface SelectProps {
   defaultValue?: any;
@@ -20,10 +21,10 @@ export interface SelectProps {
   search?: boolean;
   value?: any;
   width?: number | string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: any) => void;
-  onMouseEnter?: (event: React.MouseEvent<HTMLInputElement>) => void;
-  onMouseLeave?: (event: React.MouseEvent<HTMLInputElement>) => void;
-  onMouseOver?: (event: React.MouseEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLElement>, value: any) => void;
+  onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
+  onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
+  onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export interface SelectState {
@@ -32,4 +33,20 @@ export interface SelectState {
   value: any;
 }
 
-export default class Select extends React.Component<SelectProps, SelectState> {}
+export interface SelectItemProps {}
+
+export interface SelectItemState {}
+
+export class SelectItem extends React.Component<
+  SelectItemProps,
+  SelectItemState
+> {}
+
+export default class Select extends React.Component<SelectProps, SelectState> {
+  static SEP: () => MenuSeparator;
+  static Item: typeof SelectItem;
+  static static: (value: React.ReactElement<any>) => React.ReactElement<any>;
+  static static: (
+    value: () => React.ReactElement<any>
+  ) => () => React.ReactElement<any>;
+}
