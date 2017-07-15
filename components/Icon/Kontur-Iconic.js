@@ -221,4 +221,4 @@ module.exports = {
   Key: '\uE0D6',
   USB: '\uE0D7',
   DocumentTypeCsv: '\uE0D8'
-}
+};

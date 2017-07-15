@@ -44,7 +44,7 @@ var Component = React.createClass({
           <div className={styles.codeTitle}>
             <Link
               onClick={this._triggerCode}
-              icon={this.state.showCode ? 'angle-top' : 'edit'}
+              icon={this.state.showCode ? 'ArrowChevronUp' : 'Edit'}
             >
               {this.state.showCode ? 'Hide' : 'Edit'} source code
             </Link>

@@ -1,11 +1,13 @@
 // @flow
+import warning from 'warning';
 import React from 'react';
-
 import PropTypes from 'prop-types';
+
+import KonturIconic from './Kontur-Iconic';
 
 import styles from './Icon.less';
 
-var MAP = {
+const MAP = {
   error: '\ue004',
   warning: '\ue005',
   ok: '\ue006',
@@ -223,6 +225,12 @@ var MAP = {
   'flash-drive': '\ue0d7'
 };
 
+type Props = {
+  name: string,
+  color?: string,
+  size?: string | number
+};
+
 class Icon extends React.Component {
   static propTypes = {
     color: PropTypes.string,
@@ -230,24 +238,49 @@ class Icon extends React.Component {
     /**
      * Icon id.
      */
-    name: PropTypes.oneOf(Object.keys(MAP)),
+    name: PropTypes.oneOf(Object.keys(KonturIconic).concat(Object.keys(MAP))),
 
     size: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   };
 
   static getAllNames = function() {
-    return Object.keys(MAP);
+    return Object.keys(KonturIconic);
   };
 
+  constructor(props: Props) {
+    super(props);
+    // this._checkDeprecatedName(props);
+  }
+
+  componentWillReceiveProps(props: Props) {
+    // if (this.props.name !== props.name) {
+    //   this._checkDeprecatedName(props);
+    // }
+  }
+
   render() {
-    var style = {
-      color: this.props.color,
-      fontSize: this.props.size
+    const { name, color, size } = this.props;
+    const style = {
+      color,
+      fontSize: size
     };
-    return (
-      <span className={styles.root} style={style}>{MAP[this.props.name]}</span>
+    const icon = KonturIconic[name] || MAP[name];
+    return <span className={styles.root} style={style}>{icon}</span>;
+  }
+
+  _checkDeprecatedName(props) {
+    const newName = getNewIconName(props.name);
+    warning(
+      props.name in KonturIconic && !newName,
+      // $FlowIssue warning should provide %checks
+      `Icon name "${props.name}" is depricated, ` + `use "${newName}" instead`
     );
   }
 }
 
-module.exports = Icon;
+function getNewIconName(name) {
+  const newIcon = Object.entries(KonturIconic).find(x => x[1] === MAP[name]);
+  return newIcon ? newIcon[0] : null;
+}
+
+export default Icon;
