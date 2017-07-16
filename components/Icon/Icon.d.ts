@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export interface IconProps {
   color?: string;
-  name: Array<string>;
+  name: string;
   size?: number | string;
 }
 
