@@ -1,17 +1,3 @@
-import * as React from "react";
+import Gapped from './Gapped';
 
-export = RetailUI;
-
-declare namespace RetailUI {
-    interface GappedProps {
-        gap?: number;
-        vertical?: boolean;
-        verticalAlign: "top" | "middle" | "baseline" | "bottom";
-    }
-
-    interface GappedState{
-    }
-
-    class Gapped extends React.Component<GappedProps, GappedState> {
-    }
-}
+export = Gapped;

@@ -1,18 +1,3 @@
-import * as React from 'react';
+import Kebab from './Kebab';
 
-export = RetailUI;
-
-declare namespace RetailUI {
-  interface KebabProps {
-    size?: 'small' | 'large';
-    onClose: () => void;
-    onOpen: () => void;
-  }
-
-  interface KebabState {
-    anchor: HTMLElement;
-    opened: boolean;
-  }
-
-  class Kebab extends React.Component<KebabProps, KebabState> {}
-}
+export = Kebab;
