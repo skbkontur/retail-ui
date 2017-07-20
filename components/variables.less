@@ -28,6 +28,10 @@
 @dropdown-menu-hover-bg: #5199db;
 @dropdown-menu-selected-bg: #f1f1f1;
 
+// Tabs
+@tab-color-focus: @border-color-focus;
+@tab-color-hover: @border-color-focus-light;
+
 // Button
 
 // use default
@@ -44,11 +48,9 @@
 @btn-default-hover-shadow-arrow: 1px -1px 0 0 rgba(0, 0, 0, 0.2);
 @btn-default-active-bg: #e1e1e1;
 @btn-default-active-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1),
-  0 0 0 1px rgba(0, 0, 0, 0.2),
-  inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 @btn-default-active-shadow-arrow: 0 -2px 0 -1px rgba(0, 0, 0, 0.1),
-  1px -1px 0 0 rgba(0, 0, 0, 0.2),
-  inset 0 4px 5px -4px rgba(0, 0, 0, 0.1);
+  1px -1px 0 0 rgba(0, 0, 0, 0.2), inset 0 4px 5px -4px rgba(0, 0, 0, 0.1);
 
 // use success
 @btn-success-bg: #419d14;
@@ -64,11 +66,9 @@
 @btn-success-hover-shadow-arrow: 1px -1px 0 0 rgba(7, 73, 1, 0.7);
 @btn-success-active-bg: #35840e;
 @btn-success-active-shadow: 0 0 0 1px rgba(4, 63, 0, 0.75),
-  0 -1px 0 0 rgba(9, 32, 4, 0.6),
-  inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  0 -1px 0 0 rgba(9, 32, 4, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 @btn-success-active-shadow-arrow: 1px -1px 0 0 rgba(4, 63, 0, 0.75),
-  0 -2px 0 -1px rgba(9, 32, 4, 0.6),
-  inset 0 4px 5px -4px rgba(0, 0, 0, 0.1);
+  0 -2px 0 -1px rgba(9, 32, 4, 0.6), inset 0 4px 5px -4px rgba(0, 0, 0, 0.1);
 
 // use primary
 @btn-primary-bg: #1e8dd4;
@@ -84,11 +84,9 @@
 @btn-primary-hover-shadow-arrow: 1px -1px 0 0 rgba(5, 60, 99, 0.7);
 @btn-primary-active-bg: #0079c3;
 @btn-primary-active-shadow: 0 0 0 1px rgba(10, 63, 99, 0.75),
-  0 -1px 0 0 rgba(8, 45, 96, 0.5),
-  inset 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  0 -1px 0 0 rgba(8, 45, 96, 0.5), inset 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 @btn-primary-active-shadow-arrow: 1px -1px 0 0 rgba(10, 63, 99, 0.75),
-  0 -2px 0 -1px rgba(8, 45, 96, 0.5),
-  inset 0 4px 5px -4px rgba(0, 0, 0, 0.2);
+  0 -2px 0 -1px rgba(8, 45, 96, 0.5), inset 0 4px 5px -4px rgba(0, 0, 0, 0.2);
 
 // use danger
 @btn-danger-bg: #e14c30;
@@ -104,11 +102,9 @@
 @btn-danger-hover-shadow-arrow: 1px -1px 0 0 rgba(145, 0, 0, 0.7);
 @btn-danger-active-bg: #cd381b;
 @btn-danger-active-shadow: 0 0 0 1px rgba(108, 7, 7, 0.75),
-  0 -1px 0 0 rgba(90, 3, 3, 0.4),
-  inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  0 -1px 0 0 rgba(90, 3, 3, 0.4), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 @btn-danger-active-shadow-arrow: 1px -1px 0 0 rgba(108, 7, 7, 0.75),
-  0 -2px 0 -1px rgba(90, 3, 3, 0.4),
-  inset 0 4px 5px -4px rgba(0, 0, 0, 0.1);
+  0 -2px 0 -1px rgba(90, 3, 3, 0.4), inset 0 4px 5px -4px rgba(0, 0, 0, 0.1);
 
 // use pay
 @btn-pay-bg: #ffc943;
@@ -124,11 +120,9 @@
 @btn-pay-hover-shadow-arrow: 1px -1px 0 0 rgba(227, 142, 8, 0.7);
 @btn-pay-active-bg: #fbb028;
 @btn-pay-active-shadow: 0 0 0 1px rgba(210, 144, 0, 0.7),
-  0 -1px 0 0 rgba(0, 0, 0, 0.44),
-  inset 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  0 -1px 0 0 rgba(0, 0, 0, 0.44), inset 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 @btn-pay-active-shadow-arrow: 1px -1px 0 0 rgba(210, 144, 0, 0.7),
-  0 -2px 0 -1px rgba(0, 0, 0, 0.44),
-  inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
+  0 -2px 0 -1px rgba(0, 0, 0, 0.44), inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
 
 // tooltip
 @tooltip-bg: @bg-default;
@@ -149,7 +143,6 @@
 @popup-border-radius: 2px;
 @popup-drop-shadow: drop-shadow(0 0 1px rgba(0, 0, 0, 0.1))
   drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
-@popup-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),
-  0 3px 10px 0 rgba(0, 0, 0, 0.2);
+@popup-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
 
 @import (optional) '~react-ui-theme';
