@@ -39,7 +39,7 @@ export class ValidationContainer extends React.Component {
         if (this.props.onValidationUpdated) {
             contextProps.onValidationUpdated = this.props.onValidationUpdated;
         }
-        contextProps.horizontalOffset = this.props.scrollOffset || 50;
+        contextProps.verticalOffset = this.props.scrollOffset || 50;
         return (
             <ValidationContext ref='childContext' {...contextProps}>
                 <ValidationTooltipContext ref='childTooltipContext'>
@@ -86,8 +86,6 @@ export class ValidationWrapperV1 extends React.Component {
 }
 
 export function tooltip(pos: string): RenderErrorMessage {
-    // TODO так нормально писать вроде
-    // eslint-disable-next-line react/display-name
     return (control, hasError, validation) =>
         <ValidationTooltip
             pos={pos}
@@ -104,23 +102,20 @@ export function tooltip(pos: string): RenderErrorMessage {
 
 export function text(pos: string = 'right'): RenderErrorMessage {
     if (pos === 'right') {
-        // TODO так нормально писать вроде
-        // eslint-disable-next-line react/display-name
         return (control, hasError, validation) =>
             <span style={{ display: 'inline-block' }}>
                 {control}
-                <span style={{ marginLeft: '10px', color: '#d43517' }}>
+                <span data-validation-message='text' style={{ marginLeft: '10px', color: '#d43517' }}>
                     {(validation && validation.message) || ''}
                 </span>
             </span>;
     }
-    // TODO так нормально писать вроде
-    // eslint-disable-next-line react/display-name
     return (control, hasError, validation) =>
         <span style={{ position: 'relative', display: 'inline-block' }}>
             {control}
             <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>
                 <span
+                    data-validation-message='text'
                     style={{
                         color: '#d43517',
                         overflow: 'visible',

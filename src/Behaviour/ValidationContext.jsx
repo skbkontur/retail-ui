@@ -73,9 +73,34 @@ export default class ValidationContext extends React.Component {
         }
     }
 
+    getChildWrappersSortedByPosition(): ValidationWrapper[] {
+        const wrappersWithPosition = [...this.childWrappers].map(x => ({ target: x, position: x.getControlPosition() }));
+        wrappersWithPosition
+            .sort((x, y) => {
+                const xPosition = x.position;
+                const yPosition = y.position;
+                if (xPosition == null && yPosition == null) {
+                    return 0;
+                }
+                if (xPosition == null) {
+                    return 1;
+                }
+                if (yPosition == null) {
+                    return -1;
+                }
+                if (Math.sign(xPosition.x - yPosition.x) !== 0) {
+                    return Math.sign(xPosition.x - yPosition.x);
+                }
+                return Math.sign(xPosition.y - yPosition.y);
+            })
+        console.log(wrappersWithPosition.map(x => x.position));
+        return wrappersWithPosition.map(x => x.target);
+    }
+
     async validate(withoutFocus: boolean): Promise<boolean> {
         await Promise.all(this.childWrappers.map(x => x.processSubmit()));
-        const firstInvalid = this.childWrappers.find(x => x.hasError());
+        console.log(this.getChildWrappersSortedByPosition());
+        const firstInvalid = this.getChildWrappersSortedByPosition().find(x => x.hasError());
         if (firstInvalid) {
             if (!withoutFocus) {
                 firstInvalid.focus();
