@@ -1961,9 +1961,9 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-config-skbkontur-retail@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-skbkontur-retail/-/eslint-config-skbkontur-retail-2.1.2.tgz#3783cd6b1355131e15bf7ee5b294a757fff586cd"
+eslint-config-skbkontur-retail@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/eslint-config-skbkontur-retail/-/eslint-config-skbkontur-retail-2.1.5.tgz#6d9f99b6a04d677a9f99c41e44e16aeee53f1cf2"
   dependencies:
     babel-eslint "^6.0.4"
     eslint "^3.5.0"

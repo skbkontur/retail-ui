@@ -2,7 +2,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import isEqual from 'lodash.isequal';
-import Events from 'add-event-listener';
 import smothScrollIntoView from './smothScrollIntoView';
 
 export type Validation = {
@@ -205,7 +204,9 @@ export default class ValidationWrapper extends React.Component {
         if (this.child && typeof this.child.focus === 'function') {
             const childDomElement = ReactDom.findDOMNode(this.child);
             if (childDomElement != null && childDomElement instanceof HTMLElement) {
-                await smothScrollIntoView(childDomElement, this.context.validationContext.getSettings().scroll.verticalOffset || 50);
+                await smothScrollIntoView(
+                    childDomElement,
+                    this.context.validationContext.getSettings().scroll.verticalOffset || 50);
                 if (typeof this.child.focus === 'function') {
                     this.child.focus();
                 }
@@ -214,7 +215,7 @@ export default class ValidationWrapper extends React.Component {
         }
     }
 
-    getControlPosition(): ?{ x: number, y: number } {
+    getControlPosition(): ?{ x: number; y: number } {
         if (this.child) {
             const childDomElement = ReactDom.findDOMNode(this.child);
             if (childDomElement != null && childDomElement instanceof HTMLElement) {
@@ -251,7 +252,7 @@ export default class ValidationWrapper extends React.Component {
         const { children, validations, errorMessage } = this.props;
         const validation = validations.find((x, i) => this.isErrorOrWarning(x, i));
 
-        const clonedChild = children
+        const clonedChild: React.Element<any> = children
             ? React.cloneElement(children, {
                 ref: x => {
                     if (children && children.ref) {

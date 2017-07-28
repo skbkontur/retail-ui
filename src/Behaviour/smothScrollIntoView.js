@@ -1,9 +1,9 @@
 // @flow
 
 export default (async function smothScrollIntoView(element: HTMLElement, topOffset: number): Promise<void> {
-    var scrollableParent = findScrollableParent(element);
-    var parentRects = scrollableParent.getBoundingClientRect();
-    var clientRects = element.getBoundingClientRect();
+    const scrollableParent = findScrollableParent(element);
+    const parentRects = scrollableParent.getBoundingClientRect();
+    const clientRects = element.getBoundingClientRect();
 
     if (scrollableParent !== document.body) {
         if (clientRects.top - topOffset + 50 > parentRects.top && clientRects.bottom < parentRects.bottom) {
@@ -13,13 +13,14 @@ export default (async function smothScrollIntoView(element: HTMLElement, topOffs
         await smoothScroll(
             scrollableParent,
             scrollableParent.scrollLeft + clientRects.left - parentRects.left,
-            scrollableParent.scrollTop + clientRects.top - parentRects.top - topOffset,
+            scrollableParent.scrollTop + clientRects.top - parentRects.top - topOffset
         );
         await scrollBy({
             left: parentRects.left,
             top: parentRects.top,
         });
-    } else {
+    }
+    else {
         if (isElementInViewport(element)) {
             return;
         }
@@ -43,7 +44,8 @@ function smoothScroll(element: HTMLElement, x: number, y: number): Promise<void>
             x: x,
             y: y,
         };
-    } else {
+    }
+    else {
         context = {
             scrollable: element,
             startX: element.scrollLeft,
@@ -59,14 +61,14 @@ function smoothScroll(element: HTMLElement, x: number, y: number): Promise<void>
 }
 
 type StepContent = {
-    scrollable: HTMLElement,
-    startTime: number,
-    startX: number,
-    startY: number,
-    x: number,
-    y: number,
-    method: (element: Element, x: number, y: number) => void,
-    resolve: () => void,
+    scrollable: HTMLElement;
+    startTime: number;
+    startX: number;
+    startY: number;
+    x: number;
+    y: number;
+    method: (element: Element, x: number, y: number) => void;
+    resolve: () => void;
 };
 
 function step(context: StepContent) {
@@ -81,7 +83,8 @@ function step(context: StepContent) {
 
     if (currentX !== context.x || currentY !== context.y) {
         window.requestAnimationFrame(() => step(context));
-    } else {
+    }
+    else {
         context.resolve();
     }
 }
@@ -133,20 +136,20 @@ function findScrollableParent(el: HTMLElement): HTMLElement {
     return currentElement;
 }
 
-function scrollBy({ left, top }): Promise<void> {
+function scrollBy({ left, top }: { left: number; top: number }): Promise<void> {
     return smoothScroll(
         getDocumentBodyStrict(),
         ~~left + (window.scrollX || window.pageXOffset),
-        ~~top + (window.scrollY || window.pageYOffset),
+        ~~top + (window.scrollY || window.pageYOffset)
     );
 }
 
 function isElementInViewport(el: HTMLElement): boolean {
     let currentElement = el;
-    var top = currentElement.offsetTop;
-    var left = currentElement.offsetLeft;
-    var width = currentElement.offsetWidth;
-    var height = currentElement.offsetHeight;
+    let top = currentElement.offsetTop;
+    let left = currentElement.offsetLeft;
+    const width = currentElement.offsetWidth;
+    const height = currentElement.offsetHeight;
 
     while (currentElement.offsetParent) {
         const offsetParent = currentElement.offsetParent;
@@ -154,7 +157,8 @@ function isElementInViewport(el: HTMLElement): boolean {
             currentElement = offsetParent;
             top += currentElement.offsetTop;
             left += currentElement.offsetLeft;
-        } else {
+        }
+        else {
             break;
         }
     }
