@@ -42,11 +42,13 @@ export class SelectItem extends React.Component<
   SelectItemState
 > {}
 
+interface SelectStaticItem {
+  (value: React.ReactElement<any>): React.ReactElement<any>;
+  (value: () => React.ReactElement<any>): () => React.ReactElement<any>;
+}
+
 export default class Select extends React.Component<SelectProps, SelectState> {
   static SEP: () => MenuSeparator;
   static Item: typeof SelectItem;
-  static static: (value: React.ReactElement<any>) => React.ReactElement<any>;
-  static static: (
-    value: () => React.ReactElement<any>
-  ) => () => React.ReactElement<any>;
+  static static: SelectStaticItem;
 }
