@@ -92,6 +92,7 @@ function createConfig(publicPath, output) {
             }),
             new webpack.DefinePlugin({
                 'process.env.libraryVersion': JSON.stringify(libraryVersion),
+                'process.env.libraryVersionEscaped': JSON.stringify(libraryVersion.replace('-', '--')),
             }),
         ],
     };
