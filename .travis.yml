@@ -3,6 +3,7 @@ node_js:
 - '5'
 install: npm install
 script:
+- npm run lint
 - npm run flow.check
 before_deploy:
 - openssl aes-256-cbc -k "$travis_key_password" -in travis-react-ui-validations-deploy-key.enc -out travis-react-ui-validations-deploy-key -d

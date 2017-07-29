@@ -1,13 +1,13 @@
 // @flow
-import React from 'react';
-import type { IValidationContext, IValidationContextSettings } from './ValidationWrapper';
-import ValidationWrapper from './ValidationWrapper';
+import React from "react";
+import type { IValidationContext, IValidationContextSettings } from "./ValidationWrapper";
+import ValidationWrapper from "./ValidationWrapper";
 
 type ValidationContextProps = {
-    children?: any;
-    onValidationUpdated?: (isValid?: boolean) => void;
-    horizontalOffset?: number;
-    verticalOffset?: number;
+    children?: any,
+    onValidationUpdated?: (isValid?: boolean) => void,
+    horizontalOffset?: number,
+    verticalOffset?: number,
 };
 
 export default class ValidationContext extends React.Component {

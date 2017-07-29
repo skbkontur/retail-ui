@@ -1,14 +1,14 @@
 // @flow
-import Events from 'add-event-listener';
-import React from 'react';
-import ValidationTooltip from './ValidationTooltip';
+import Events from "add-event-listener";
+import React from "react";
+import ValidationTooltip from "./ValidationTooltip";
 
 type ValidationTooltipContextProps = {
-    children?: any;
+    children?: any,
 };
 
 type ValidationTooltipContextContext = {
-    validationTooltipContext: ValidationTooltipContext;
+    validationTooltipContext: ValidationTooltipContext,
 };
 
 export default class ValidationTooltipContext extends React.Component {
@@ -24,14 +24,14 @@ export default class ValidationTooltipContext extends React.Component {
     validationTooltips: ValidationTooltip[] = [];
 
     componentDidMount() {
-        Events.addEventListener(document, 'mousedown', this.handleFocusOutside);
+        Events.addEventListener(document, "mousedown", this.handleFocusOutside);
     }
 
     componentWillUnmount() {
-        Events.removeEventListener(document, 'mousedown', this.handleFocusOutside);
+        Events.removeEventListener(document, "mousedown", this.handleFocusOutside);
     }
 
-    handleFocusOutside = (_event: Event) => {
+    handleFocusOutside = () => {
         if (this.prevFocusedValidationTooltip !== null) {
             this.prevFocusedValidationTooltip.setOpened(false);
             this.prevFocusedValidationTooltip = null;
@@ -65,8 +65,10 @@ export default class ValidationTooltipContext extends React.Component {
     }
 
     errorStateUpdated(validationTooltip: ValidationTooltip, prevError: boolean, nextError: boolean) {
-        if (this.focusedValidationTooltip === validationTooltip ||
-            this.prevFocusedValidationTooltip === validationTooltip) {
+        if (
+            this.focusedValidationTooltip === validationTooltip ||
+            this.prevFocusedValidationTooltip === validationTooltip
+        ) {
             if (nextError) {
                 validationTooltip.setOpened(true);
             }
@@ -100,16 +102,17 @@ export default class ValidationTooltipContext extends React.Component {
 
     instanceMouseOver(validationTooltip: ValidationTooltip) {
         if (validationTooltip.props.error) {
-            if (this.focusedValidationTooltip !== validationTooltip &&
-                this.prevFocusedValidationTooltip !== validationTooltip) {
+            if (
+                this.focusedValidationTooltip !== validationTooltip &&
+                this.prevFocusedValidationTooltip !== validationTooltip
+            ) {
                 if (this.hoveredValidationTooltip !== null) {
                     this.hoveredValidationTooltip.setOpened(false);
                 }
                 this.hoveredValidationTooltip = validationTooltip;
                 this.hoveredValidationTooltip.setOpened(true);
                 this.makeVisibleLast();
-            }
-            else if (this.prevFocusedValidationTooltip && !this.prevFocusedValidationTooltip.state.opened) {
+            } else if (this.prevFocusedValidationTooltip && !this.prevFocusedValidationTooltip.state.opened) {
                 this.prevFocusedValidationTooltip = null;
                 if (this.hoveredValidationTooltip !== null) {
                     this.hoveredValidationTooltip.setOpened(false);
@@ -142,8 +145,7 @@ export default class ValidationTooltipContext extends React.Component {
             if (validationTooltip.props.error && !isFirstOpened) {
                 validationTooltip.setOpened(true);
                 isFirstOpened = true;
-            }
-            else {
+            } else {
                 validationTooltip.setOpened(false);
             }
         }

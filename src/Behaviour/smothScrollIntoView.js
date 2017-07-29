@@ -19,8 +19,7 @@ export default (async function smothScrollIntoView(element: HTMLElement, topOffs
             left: parentRects.left,
             top: parentRects.top,
         });
-    }
-    else {
+    } else {
         if (isElementInViewport(element)) {
             return;
         }
@@ -29,7 +28,6 @@ export default (async function smothScrollIntoView(element: HTMLElement, topOffs
             top: clientRects.top - topOffset,
         });
     }
-    return;
 });
 
 function smoothScroll(element: HTMLElement, x: number, y: number): Promise<void> {
@@ -44,8 +42,7 @@ function smoothScroll(element: HTMLElement, x: number, y: number): Promise<void>
             x: x,
             y: y,
         };
-    }
-    else {
+    } else {
         context = {
             scrollable: element,
             startX: element.scrollLeft,
@@ -61,14 +58,14 @@ function smoothScroll(element: HTMLElement, x: number, y: number): Promise<void>
 }
 
 type StepContent = {
-    scrollable: HTMLElement;
-    startTime: number;
-    startX: number;
-    startY: number;
-    x: number;
-    y: number;
-    method: (element: Element, x: number, y: number) => void;
-    resolve: () => void;
+    scrollable: HTMLElement,
+    startTime: number,
+    startX: number,
+    startY: number,
+    x: number,
+    y: number,
+    method: (element: Element, x: number, y: number) => void,
+    resolve: () => void,
 };
 
 function step(context: StepContent) {
@@ -83,8 +80,7 @@ function step(context: StepContent) {
 
     if (currentX !== context.x || currentY !== context.y) {
         window.requestAnimationFrame(() => step(context));
-    }
-    else {
+    } else {
         context.resolve();
     }
 }
@@ -92,7 +88,7 @@ function step(context: StepContent) {
 const ScrollTime = 468;
 
 const scrollWindow =
-    typeof window.scroll === 'function'
+    typeof window.scroll === "function"
         ? (x: number, y: number) => window.scroll(x, y)
         : (x: number, y: number) => window.scrollTo(x, y);
 
@@ -109,7 +105,7 @@ function ease(time: number): number {
 
 function getDocumentBodyStrict(): HTMLElement {
     if (document.body == null) {
-        throw new Error('Scrolling can be used only in browser');
+        throw new Error("Scrolling can be used only in browser");
     }
     return document.body;
 }
@@ -128,19 +124,21 @@ function findScrollableParent(el: HTMLElement): HTMLElement {
         hasScrollableSpace =
             currentElement.clientHeight < currentElement.scrollHeight ||
             currentElement.clientWidth < currentElement.scrollWidth;
-        hasVisibleOverflow = window.getComputedStyle(currentElement, null).overflow === 'visible';
+        hasVisibleOverflow = window.getComputedStyle(currentElement, null).overflow === "visible";
     } while (!isBody && !(hasScrollableSpace && !hasVisibleOverflow));
 
-    isBody = hasScrollableSpace = hasVisibleOverflow = null;
+    isBody = null;
+    hasScrollableSpace = null;
+    hasVisibleOverflow = null;
 
     return currentElement;
 }
 
-function scrollBy({ left, top }: { left: number; top: number }): Promise<void> {
+function scrollBy({ left, top }: { left: number, top: number }): Promise<void> {
     return smoothScroll(
         getDocumentBodyStrict(),
-        ~~left + (window.scrollX || window.pageXOffset),
-        ~~top + (window.scrollY || window.pageYOffset)
+        Math.floor(left) + (window.scrollX || window.pageXOffset),
+        Math.floor(top) + (window.scrollY || window.pageYOffset)
     );
 }
 
@@ -157,8 +155,7 @@ function isElementInViewport(el: HTMLElement): boolean {
             currentElement = offsetParent;
             top += currentElement.offsetTop;
             left += currentElement.offsetLeft;
-        }
-        else {
+        } else {
             break;
         }
     }

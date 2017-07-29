@@ -1,26 +1,26 @@
 // @flow
-import React from 'react';
-import ReactDom from 'react-dom';
-import isEqual from 'lodash.isequal';
-import smothScrollIntoView from './smothScrollIntoView';
+import React from "react";
+import ReactDom from "react-dom";
+import isEqual from "lodash.isequal";
+import smothScrollIntoView from "./smothScrollIntoView";
 
 export type Validation = {
-    error: boolean;
-    level: 'error' | 'warning';
-    behaviour: 'immediate' | 'lostfocus' | 'submit';
+    error: boolean,
+    level: "error" | "warning",
+    behaviour: "immediate" | "lostfocus" | "submit",
 };
 
 export interface IValidationContextSettings {
-    scroll: { horizontalOffset: number; verticalOffset: number };
+    scroll: { horizontalOffset: number, verticalOffset: number },
 }
 
 export interface IValidationContext {
-    register(wrapper: ValidationWrapper): void;
-    unregister(wrapper: ValidationWrapper): void;
-    instanceProcessBlur(wrapper: ValidationWrapper): void;
-    onValidationUpdated(wrapper: ValidationWrapper, isValid: boolean): void;
-    getSettings(): IValidationContextSettings;
-    isAnyWrapperInChangingMode(): boolean;
+    register(wrapper: ValidationWrapper): void,
+    unregister(wrapper: ValidationWrapper): void,
+    instanceProcessBlur(wrapper: ValidationWrapper): void,
+    onValidationUpdated(wrapper: ValidationWrapper, isValid: boolean): void,
+    getSettings(): IValidationContextSettings,
+    isAnyWrapperInChangingMode(): boolean,
 }
 
 export type RenderErrorMessage = (
@@ -30,17 +30,17 @@ export type RenderErrorMessage = (
 ) => React.Element<*>;
 
 type ValidationWrapperProps = {
-    children?: any;
-    validations: Validation[];
-    errorMessage: RenderErrorMessage;
+    children?: any,
+    validations: Validation[],
+    errorMessage: RenderErrorMessage,
 };
 
 type ValidationState = {
-    visible?: boolean;
+    visible?: boolean,
 };
 
 type ValidationWrapperState = {
-    validationStates: ValidationState[];
+    validationStates: ValidationState[],
 };
 
 export default class ValidationWrapper extends React.Component {
@@ -49,7 +49,7 @@ export default class ValidationWrapper extends React.Component {
         validationStates: [],
     };
     context: {
-        validationContext: IValidationContext;
+        validationContext: IValidationContext,
     };
 
     static contextTypes = {
@@ -90,17 +90,15 @@ export default class ValidationWrapper extends React.Component {
     }
 
     createState(validation: Validation): ValidationState {
-        if (validation.behaviour === 'immediate') {
+        if (validation.behaviour === "immediate") {
             return {};
-        }
-        else if (validation.behaviour === 'lostfocus') {
+        } else if (validation.behaviour === "lostfocus") {
             if (this.context.validationContext.isAnyWrapperInChangingMode()) {
                 return { visible: false };
             }
 
             return { visible: true };
-        }
-        else if (validation.behaviour === 'submit') {
+        } else if (validation.behaviour === "submit") {
             return { visible: false };
         }
         throw new Error(`Unknown behaviour: ${validation.behaviour}`);
@@ -127,13 +125,9 @@ export default class ValidationWrapper extends React.Component {
         );
     }
 
-    async processValidationSubmit(
-        validation: Validation,
-        validationState: ValidationState,
-        index: number
-    ): Promise<void> {
+    processValidationSubmit(validation: Validation, validationState: ValidationState, index: number): Promise<void> {
         return new Promise(resolve => {
-            if (validation.behaviour !== 'immediate') {
+            if (validation.behaviour !== "immediate") {
                 this.setState(
                     {
                         validationStates: [
@@ -144,8 +138,7 @@ export default class ValidationWrapper extends React.Component {
                     },
                     resolve
                 );
-            }
-            else {
+            } else {
                 resolve();
             }
         });
@@ -153,7 +146,7 @@ export default class ValidationWrapper extends React.Component {
 
     processBlur(validation: Validation, validationState: ValidationState, index: number) {
         this.isChanging = false;
-        if (validation.behaviour === 'lostfocus') {
+        if (validation.behaviour === "lostfocus") {
             let validationStates;
             if (validation.error) {
                 validationStates = [
@@ -161,8 +154,7 @@ export default class ValidationWrapper extends React.Component {
                     { ...validationState, visible: true },
                     ...this.state.validationStates.slice(index + 1),
                 ];
-            }
-            else {
+            } else {
                 validationStates = [
                     ...this.state.validationStates.slice(0, index),
                     { ...validationState, visible: false },
@@ -170,7 +162,7 @@ export default class ValidationWrapper extends React.Component {
                 ];
             }
             this.setState({
-                validationStates,
+                validationStates: validationStates,
             });
             const isValid = !validationStates.find(x => x.visible);
             this.context.validationContext.onValidationUpdated(this, isValid);
@@ -183,31 +175,15 @@ export default class ValidationWrapper extends React.Component {
         }
     }
 
-    getWindowRect(): { width: number; height: number } {
-        const result = { width: 0, height: 0 };
-        if (window.innerHeight) {
-            result.height = window.innerHeight;
-        }
-        else if (document.documentElement) {
-            result.height = document.documentElement.clientHeight;
-        }
-        if (window.innerWidth) {
-            result.width = window.innerWidth;
-        }
-        else if (document.documentElement) {
-            result.width = document.documentElement.clientWidth;
-        }
-        return result;
-    }
-
     async focus(): Promise<void> {
-        if (this.child && typeof this.child.focus === 'function') {
+        if (this.child && typeof this.child.focus === "function") {
             const childDomElement = ReactDom.findDOMNode(this.child);
             if (childDomElement != null && childDomElement instanceof HTMLElement) {
                 await smothScrollIntoView(
                     childDomElement,
-                    this.context.validationContext.getSettings().scroll.verticalOffset || 50);
-                if (typeof this.child.focus === 'function') {
+                    this.context.validationContext.getSettings().scroll.verticalOffset || 50
+                );
+                if (typeof this.child.focus === "function") {
                     this.child.focus();
                 }
             }
@@ -215,7 +191,7 @@ export default class ValidationWrapper extends React.Component {
         }
     }
 
-    getControlPosition(): ?{ x: number; y: number } {
+    getControlPosition(): ?{ x: number, y: number } {
         if (this.child) {
             const childDomElement = ReactDom.findDOMNode(this.child);
             if (childDomElement != null && childDomElement instanceof HTMLElement) {
@@ -229,17 +205,17 @@ export default class ValidationWrapper extends React.Component {
     }
 
     isErrorOrWarning(validation: Validation, index: number): boolean {
-        if (validation.behaviour === 'immediate') {
+        if (validation.behaviour === "immediate") {
             return validation.error;
         }
         return Boolean(validation.error && this.state.validationStates[index].visible);
     }
 
     isError(validation: Validation, index: number): boolean {
-        if (validation.behaviour === 'immediate') {
-            return validation.error && validation.level === 'error';
+        if (validation.behaviour === "immediate") {
+            return validation.error && validation.level === "error";
         }
-        return Boolean(validation.error && validation.level === 'error' && this.state.validationStates[index].visible);
+        return Boolean(validation.error && validation.level === "error" && this.state.validationStates[index].visible);
     }
 
     hasError(): boolean {
@@ -254,35 +230,35 @@ export default class ValidationWrapper extends React.Component {
 
         const clonedChild: React.Element<any> = children
             ? React.cloneElement(children, {
-                ref: x => {
-                    if (children && children.ref) {
-                        children.ref(x);
-                    }
-                    this.child = x;
-                },
-                error: this.isChanging
+                  ref: x => {
+                      if (children && children.ref) {
+                          children.ref(x);
+                      }
+                      this.child = x;
+                  },
+                  error: this.isChanging
                       ? false
-                      : Boolean(validation && validation.error && validation.level === 'error'),
-                warning: this.isChanging
+                      : Boolean(validation && validation.error && validation.level === "error"),
+                  warning: this.isChanging
                       ? false
-                      : Boolean(validation && validation.error && validation.level === 'warning'),
-                onBlur: () => {
-                    this.handleBlur();
-                    if (children && children.props && children.props.onBlur) {
-                        children.props.onBlur();
-                    }
-                },
-                onChange: (...args) => {
-                    this.isChanging = true;
-                    if (children && children.props && children.props.onChange) {
-                        children.props.onChange(...args);
-                    }
-                },
-            })
+                      : Boolean(validation && validation.error && validation.level === "warning"),
+                  onBlur: () => {
+                      this.handleBlur();
+                      if (children && children.props && children.props.onBlur) {
+                          children.props.onBlur();
+                      }
+                  },
+                  onChange: (...args) => {
+                      this.isChanging = true;
+                      if (children && children.props && children.props.onChange) {
+                          children.props.onChange(...args);
+                      }
+                  },
+              })
             : <span />;
         const childWithError = React.cloneElement(
             errorMessage(clonedChild, Boolean(validation && validation.error), validation),
-            { ref: 'errorMessage' }
+            { ref: "errorMessage" }
         );
         return childWithError;
     }

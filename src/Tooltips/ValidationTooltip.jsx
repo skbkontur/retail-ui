@@ -1,16 +1,16 @@
 // @flow
-import React from 'react';
-import Tooltip from 'retail-ui/components/Tooltip';
-import RadioGroup from 'retail-ui/components/RadioGroup';
+import React from "react";
+import Tooltip from "retail-ui/components/Tooltip";
+import RadioGroup from "retail-ui/components/RadioGroup";
 
 type ValidationTooltipProps = {
-    children?: any;
-    type?: 'simple' | 'lostfocus';
-    error: boolean;
+    children?: any,
+    type?: "simple" | "lostfocus",
+    error: boolean,
 };
 
 type ValidationTooltipState = {
-    opened: boolean;
+    opened: boolean,
 };
 
 export default class ValidationTooltip extends React.Component {
@@ -50,6 +50,7 @@ export default class ValidationTooltip extends React.Component {
     }
 
     getBoxDomElement(): Element {
+        // eslint-disable-next-line no-underscore-dangle
         return this.refs.tooltip._hotspotDOM;
     }
 
@@ -95,10 +96,10 @@ export default class ValidationTooltip extends React.Component {
                 if (items[0] === value) {
                     return (
                         <Tooltip
-                            ref='tooltip'
+                            ref="tooltip"
                             {...props}
                             closeButton={false}
-                            trigger={this.props.error && this.state.opened ? 'opened' : 'closed'}>
+                            trigger={this.props.error && this.state.opened ? "opened" : "closed"}>
                             {React.cloneElement(prevRenderItem(value, data, ...rest))}
                         </Tooltip>
                     );
@@ -109,10 +110,10 @@ export default class ValidationTooltip extends React.Component {
         }
         return (
             <Tooltip
-                ref='tooltip'
+                ref="tooltip"
                 {...props}
                 closeButton={false}
-                trigger={this.props.error && this.state.opened ? 'opened' : 'closed'}>
+                trigger={this.props.error && this.state.opened ? "opened" : "closed"}>
                 {React.cloneElement(onlyChild, childProps)}
             </Tooltip>
         );
