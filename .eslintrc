@@ -3,13 +3,7 @@
         "skbkontur-retail"
     ],
     "rules": {
-        "react/display-name": 0,
-        "no-use-before-define": ["off"],
-        "init-declarations": "off",
-        "react/prefer-stateless-function": "off",
-        "react/jsx-filename-extension": "off",
-        "no-shadow": "off",
-        "no-invalid-this": "off"
+        "react/display-name": 0
     },
     "settings": {
         "react": {
