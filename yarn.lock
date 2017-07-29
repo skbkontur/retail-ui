@@ -1911,7 +1911,7 @@ escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
-eslint-config-skbkontur-retail@3.0.3:
+eslint-config-skbkontur-retail@3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/eslint-config-skbkontur-retail/-/eslint-config-skbkontur-retail-3.0.2.tgz#2035d99922842f805be5dc3177031375a34d8a5a"
   dependencies:
