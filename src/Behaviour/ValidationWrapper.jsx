@@ -2,7 +2,7 @@
 import React from "react";
 import ReactDom from "react-dom";
 import isEqual from "lodash.isequal";
-import smothScrollIntoView from "./smothScrollIntoView";
+import smoothScrollIntoView from "./smoothScrollIntoView";
 
 export type Validation = {
     error: boolean,
@@ -179,7 +179,7 @@ export default class ValidationWrapper extends React.Component {
         if (this.child && typeof this.child.focus === "function") {
             const childDomElement = ReactDom.findDOMNode(this.child);
             if (childDomElement != null && childDomElement instanceof HTMLElement) {
-                await smothScrollIntoView(
+                await smoothScrollIntoView(
                     childDomElement,
                     this.context.validationContext.getSettings().scroll.verticalOffset || 50
                 );

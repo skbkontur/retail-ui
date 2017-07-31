@@ -1,6 +1,6 @@
 // @flow
 
-export default (async function smothScrollIntoView(element: HTMLElement, topOffset: number): Promise<void> {
+export default (async function smoothScrollIntoView(element: HTMLElement, topOffset: number): Promise<void> {
     const scrollableParent = findScrollableParent(element);
     const parentRects = scrollableParent.getBoundingClientRect();
     const clientRects = element.getBoundingClientRect();
@@ -161,9 +161,9 @@ function isElementInViewport(el: HTMLElement): boolean {
     }
 
     return (
-        top >= window.scrollTop &&
-        left >= window.scrollLeft &&
-        top + height <= window.scrollTop + window.innerHeight &&
-        left + width <= window.scrollLeft + window.innerWidth
+        top >= (window.scrollY || window.pageYOffset) &&
+        left >= (window.scrollX || window.pageXOffset) &&
+        top + height <= (window.scrollY || window.pageYOffset) + window.innerHeight &&
+        left + width <= (window.scrollX || window.pageXOffset) + window.innerWidth
     );
 }
