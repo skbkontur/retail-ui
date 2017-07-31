@@ -19,7 +19,7 @@ describe('Select', () => {
        items={objectItems}
        renderItem={x => x.name}
        renderValue={x => x.name}
-       compareValues={(x1, x2) => x1.id === x2.id}
+       areValuesEqual={(x1, x2) => x1.id === x2.id}
     />);
 
     wrapper.setState({ opened: true });
@@ -36,22 +36,3 @@ describe('Select', () => {
     expect(selectedMenuItem.text()).toBe(defaultValueText);
   });
 });
-
-
-
-  // testAdapter('getValue with complex syntax', mount => {
-  //   const objectItems = [
-  //     { value: 1, label: 'One' },
-  //     { value: 2, label: 'Two' },
-  //     { value: 3, label: 'Three' }
-  //   ];
-
-  //   const adapter = mount(<Select
-  //     value={{value: 2, label: 'Two'}}
-  //     items={objectItems}
-  //     renderItem={x => x.label}
-  //     renderValue={x => x.label}
-  //     compareValues={(x1, x2) => x1.value === x2.value}
-  //   />);
-  //   expect(adapter.getValue()).toEqual(objectItems[1]);
-  // });

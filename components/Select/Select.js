@@ -63,7 +63,7 @@ type Props = {
   placeholder?: React$Element<*> | string,
   renderItem: (value: mixed, item: mixed) => React$Element<*> | string,
   renderValue: (value: mixed, item: mixed) => React$Element<*> | string,
-  compareValues: (value1: mixed, value2: mixed) => boolean,
+  areValuesEqual: (value1: mixed, value2: mixed) => boolean,
   search?: boolean,
   value?: mixed,
   width?: number | string
@@ -131,10 +131,11 @@ class Select extends React.Component {
     renderValue: PropTypes.func,
 
     /**
-     * Функция для сравнения двух values друг между другом.
+     * Функция для сравнения двух значений
      * Нужна в случае, если они не являются простыми типами
+     * По умолчанию проверяет с помощью shallowEqual
      */
-    compareValues: PropTypes.func,
+    areValuesEqual: PropTypes.func,
 
     /**
      * Показывать строку поиска в списке.
@@ -158,7 +159,7 @@ class Select extends React.Component {
     placeholder: 'ничего не выбрано',
     renderValue,
     renderItem,
-    compareValues,
+    areValuesEqual,
     filterItem
   };
 
@@ -190,7 +191,7 @@ class Select extends React.Component {
     if (value != null) {
       label = this.props.renderValue(
         value,
-        getItemByValue(this.props.items, value, this.props.compareValues)
+        this._getItemByValue(this.props.items, value)
       );
     } else {
       label = (
@@ -334,7 +335,7 @@ class Select extends React.Component {
               return (
                 <MenuItem
                   key={i}
-                  state={this.props.compareValues(iValue, value) ? 'selected' : null}
+                  state={this.props.areValuesEqual(iValue, value) ? 'selected' : null}
                   onClick={this._select.bind(this, iValue)}
                   comment={comment}
                 >
@@ -510,6 +511,19 @@ class Select extends React.Component {
 
     return ret;
   }
+
+  _getItemByValue(items, value) {
+    if (!items) {
+      return null;
+    }
+    for (let entry of items) {
+      entry = normalizeEntry(entry);
+      if (this.props.areValuesEqual(entry[0], value)) {
+        return entry[1];
+      }
+    }
+    return null;
+  }
 }
 
 function renderValue(value, item) {
@@ -519,21 +533,9 @@ function renderValue(value, item) {
 function renderItem(value, item) {
   return item;
 }
-function compareValues(value1, value2) {
-  return shallow(value1, value2);
-}
 
-function getItemByValue(items, value, compareValuesFn) {
-  if (!items) {
-    return null;
-  }
-  for (let entry of items) {
-    entry = normalizeEntry(entry);
-    if (compareValuesFn(entry[0], value)) {
-      return entry[1];
-    }
-  }
-  return null;
+function areValuesEqual(value1, value2) {
+  return shallow(value1, value2);
 }
 
 function normalizeEntry(entry) {
