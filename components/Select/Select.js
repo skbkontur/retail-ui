@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
+import shallow from 'fbjs/lib/shallowEqual';
 
 import Button from '../Button';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
@@ -62,6 +63,7 @@ type Props = {
   placeholder?: React$Element<*> | string,
   renderItem: (value: mixed, item: mixed) => React$Element<*> | string,
   renderValue: (value: mixed, item: mixed) => React$Element<*> | string,
+  compareValues: (value1: mixed, value2: mixed) => boolean,
   search?: boolean,
   value?: mixed,
   width?: number | string
@@ -129,6 +131,12 @@ class Select extends React.Component {
     renderValue: PropTypes.func,
 
     /**
+     * Функция для сравнения двух values друг между другом.
+     * Нужна в случае, если они не являются простыми типами
+     */
+    compareValues: PropTypes.func,
+
+    /**
      * Показывать строку поиска в списке.
      */
     search: PropTypes.bool,
@@ -150,6 +158,7 @@ class Select extends React.Component {
     placeholder: 'ничего не выбрано',
     renderValue,
     renderItem,
+    compareValues,
     filterItem
   };
 
@@ -181,7 +190,7 @@ class Select extends React.Component {
     if (value != null) {
       label = this.props.renderValue(
         value,
-        getItemByValue(this.props.items, value)
+        getItemByValue(this.props.items, value, this.props.compareValues)
       );
     } else {
       label = (
@@ -325,7 +334,7 @@ class Select extends React.Component {
               return (
                 <MenuItem
                   key={i}
-                  state={iValue === value ? 'selected' : null}
+                  state={this.props.compareValues(iValue, value) ? 'selected' : null}
                   onClick={this._select.bind(this, iValue)}
                   comment={comment}
                 >
@@ -510,14 +519,17 @@ function renderValue(value, item) {
 function renderItem(value, item) {
   return item;
 }
+function compareValues(value1, value2) {
+  return shallow(value1, value2);
+}
 
-function getItemByValue(items, value) {
+function getItemByValue(items, value, compareValuesFn) {
   if (!items) {
     return null;
   }
   for (let entry of items) {
     entry = normalizeEntry(entry);
-    if (entry[0] === value) {
+    if (compareValuesFn(entry[0], value)) {
       return entry[1];
     }
   }
