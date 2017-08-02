@@ -13,13 +13,15 @@ type ClassComponent<D, P, S> = Class<React$Component<D, P, S>>;
 
 type PassingProps = {
   subscribeToOutsideFocus: ((e: Event) => any) => void,
-  subscribeToOutsideClicks: ((e: Event) => any) => void
+  subscribeToOutsideClicks: ((e: Event) => any) => void,
+  active: boolean
 };
 
 function withFocusOutside<P, S>(
   WrappingComponent: ClassComponent<void, P, S> | FunctionComponent<P>
 ): ClassComponent<void, $Diff<P, PassingProps>, S> {
   class WrappedComponent extends React.Component {
+    static defaultProps = { active: true };
     props: any;
     state: any;
 
@@ -30,6 +32,15 @@ function withFocusOutside<P, S>(
 
     component: any;
 
+    componentWillReceiveProps(nextProps) {
+      if (this.props.active && !nextProps.active && this._focusSubscribtion) {
+        this._flush();
+      }
+      if (!this.props.active && nextProps.active && !this._focusSubscribtion) {
+        this._listen();
+      }
+    }
+
     _ref = el => {
       this.component = el;
 
@@ -37,18 +48,22 @@ function withFocusOutside<P, S>(
         this._flush();
       }
 
-      if (el) {
-        this._focusSubscribtion = listenFocusOutside(
-          [this._getDomNode()],
-          this._handleFocusOutside
-        );
-
-        events.addEventListener(
-          document,
-          'mousedown', // check just before click event
-          this._handleNativeDocClick
-        );
+      if (el && this.props.active) {
+        this._listen();
       }
+    };
+
+    _listen = () => {
+      this._focusSubscribtion = listenFocusOutside(
+        [this._getDomNode()],
+        this._handleFocusOutside
+      );
+
+      events.addEventListener(
+        document,
+        'mousedown', // check just before click event
+        this._handleNativeDocClick
+      );
     };
 
     _flush() {
