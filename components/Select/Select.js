@@ -205,7 +205,11 @@ class Select extends React.Component {
     }
 
     return (
-      <RenderLayer onClickOutside={this._close} onFocusOutside={this._close}>
+      <RenderLayer
+        onClickOutside={this._close}
+        onFocusOutside={this._close}
+        active={this.state.opened}
+      >
         <span className={styles.root} style={style}>
           {this.props._renderButton
             ? this.props._renderButton(buttonParams)

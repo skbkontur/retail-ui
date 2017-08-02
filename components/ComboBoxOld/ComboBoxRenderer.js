@@ -158,7 +158,7 @@ class ComboBoxRenderer extends React.Component {
       <RenderLayer
         onFocusOutside={this._handleBlur}
         onClickOutside={this._handleBlur}
-        listen={this.state.opened}
+        active={this.state.opened}
       >
         <label className={styles.root} style={{ width: this.props.width }}>
           {this.state.isEditing ? this.renderInput() : this.renderValue()}

@@ -14,14 +14,14 @@ type ClassComponent<D, P, S> = Class<React$Component<D, P, S>>;
 type PassingProps = {
   subscribeToOutsideFocus: ((e: Event) => any) => void,
   subscribeToOutsideClicks: ((e: Event) => any) => void,
-  listen: boolean
+  active: boolean
 };
 
 function withFocusOutside<P, S>(
   WrappingComponent: ClassComponent<void, P, S> | FunctionComponent<P>
 ): ClassComponent<void, $Diff<P, PassingProps>, S> {
   class WrappedComponent extends React.Component {
-    static defaultProps = { listen: true };
+    static defaultProps = { active: true };
     props: any;
     state: any;
 
@@ -33,10 +33,10 @@ function withFocusOutside<P, S>(
     component: any;
 
     componentWillReceiveProps(nextProps) {
-      if (this.props.listen && !nextProps.listen && this._focusSubscribtion) {
+      if (this.props.active && !nextProps.active && this._focusSubscribtion) {
         this._flush();
       }
-      if (!this.props.listen && nextProps.listen && !this._focusSubscribtion) {
+      if (!this.props.active && nextProps.active && !this._focusSubscribtion) {
         this._listen();
       }
     }
@@ -48,7 +48,7 @@ function withFocusOutside<P, S>(
         this._flush();
       }
 
-      if (el && this.props.listen) {
+      if (el && this.props.active) {
         this._listen();
       }
     };
