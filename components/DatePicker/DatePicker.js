@@ -139,9 +139,8 @@ class DatePicker extends React.Component {
   constructor(props: Props, context: mixed) {
     super(props, context);
 
-    const textValue = typeof props.value === 'string'
-      ? props.value
-      : formatDate(props.value);
+    const textValue =
+      typeof props.value === 'string' ? props.value : formatDate(props.value);
 
     this.state = {
       opened: false,
@@ -193,7 +192,6 @@ class DatePicker extends React.Component {
       <RenderLayer
         onClickOutside={this.handleBlur}
         onFocusOutside={this.handleBlur}
-        active={opened}
       >
         <label className={className} style={{ width: this.props.width }}>
           <DateInput
@@ -215,9 +213,8 @@ class DatePicker extends React.Component {
   componentDidUpdate({ value: oldValue }: Props) {
     const { value: newValue } = this.props;
     if (newValue !== oldValue) {
-      const textValue = typeof newValue === 'string'
-        ? newValue
-        : formatDate(newValue);
+      const textValue =
+        typeof newValue === 'string' ? newValue : formatDate(newValue);
 
       this.setState({ textValue });
     }
@@ -260,13 +257,11 @@ class DatePicker extends React.Component {
 
     const value = this.state.textValue;
     const date = parseDate(value);
-    const newDate = date === null
-      ? getDateValue(value, this.props.onUnexpectedInput)
-      : date;
+    const newDate =
+      date === null ? getDateValue(value, this.props.onUnexpectedInput) : date;
 
-    const textValue = typeof newDate === 'string'
-      ? newDate
-      : formatDate(newDate);
+    const textValue =
+      typeof newDate === 'string' ? newDate : formatDate(newDate);
 
     this.setState({ textValue });
 

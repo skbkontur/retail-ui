@@ -1,5 +1,6 @@
 // @flow
 /* global Class, React$Element, React$Component, $Diff */
+/* eslint-disable flowtype/no-weak-types */
 import React from 'react';
 import events from 'add-event-listener';
 import { findDOMNode } from 'react-dom';
@@ -17,9 +18,11 @@ type PassingProps = {
   active: boolean
 };
 
+type DefaultProps = { active: boolean };
+
 function withFocusOutside<P, S>(
   WrappingComponent: ClassComponent<void, P, S> | FunctionComponent<P>
-): ClassComponent<void, $Diff<P, PassingProps>, S> {
+): ClassComponent<DefaultProps, $Diff<P, PassingProps>, S> {
   class WrappedComponent extends React.Component {
     static defaultProps = { active: true };
     props: any;
