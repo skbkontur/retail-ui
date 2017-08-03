@@ -1,5 +1,6 @@
 /* @flow */
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import styles from './Logotype.less';
 import cloudImage from './cloud.png';
@@ -46,8 +47,13 @@ const Logotype = ({
     <span style={{ color }}>
       {hasSVGSupport() ? createCloud(color) : createPngCloud(color)}
     </span>
-    <span style={{ color: textColor }}>нтур{suffix && '.'}</span>
-    {suffix && <span style={{ color }}>{suffix}</span>}
+    <span style={{ color: textColor }}>
+      нтур{suffix && '.'}
+    </span>
+    {suffix &&
+      <span style={{ color }}>
+        {suffix}
+      </span>}
   </Component>;
 
 Logotype.defaultProps = {
