@@ -5,7 +5,7 @@
 - Button - поправили цвет кнопке в состоянии checked при ховере в IE8 (спасибо @kholstinin)
 - Icon - запилили workaround, для коррекетной es3-фикации в бабеле (спасибо @wKich)
 - @slawwan починил тайпскриптовые дефинишены
-- Select - добавили пропс `areValuesEqual`
+- Select - добавили пропс `areValuesEqual` (спасибо @BooleT37)
 - @sorovlad оптимизировал большое количество подписок создаваемых в RenderLayer
 - обновили зависимости
 
