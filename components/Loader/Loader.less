@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 :local {
   .fillContainerPosition() {
     bottom: 0;
@@ -15,11 +17,11 @@
     z-index: inherit;
 
     &.active:after {
-      background: #fff;
+      background: @loader-bg;
       content: ' ';
       .fillContainerPosition;
       filter: alpha(opacity=80);
-      opacity: .8;
+      opacity: @loader-opacity;
       z-index: 1000;
     }
   }
