@@ -1,2 +1,2 @@
-import Dropdown from './Dropdown';
-module.exports = Dropdown;
+import PasswordInput from './PasswordInput';
+module.exports = PasswordInput;

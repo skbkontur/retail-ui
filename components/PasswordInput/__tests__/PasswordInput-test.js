@@ -5,6 +5,8 @@ import PasswordInput from '../PasswordInput';
 import Input from '../../Input';
 import Icon from '../../Icon';
 
+import styles from '../PasswordInput.less';
+
 const setup = props => {
   return mount(<PasswordInput value="" {...props} />);
 };
@@ -44,5 +46,35 @@ describe('PasswordInput', () => {
     const component = setup();
     component.find(Icon).simulate('click');
     expect(component.find(Input).props().type).toBe('text');
+  });
+
+  it('has not capsLockEnabled property in state', () => {
+    const component = setup();
+    expect(component.state().capsLockEnabled).toBe(undefined);
+  });
+
+  it('has capsLockEnabled = null if passed detectCapsLock prop', () => {
+    const component = setup({ detectCapsLock: true });
+    expect(component.state().capsLockEnabled).toBe(null);
+  });
+
+  it('should at first render CapsLock label then hide it', () => {
+    const component = setup({ detectCapsLock: true });
+    const input = component.find('input');
+    input.simulate('keyPress', { keyCode: 65 }); // key: a
+    input.simulate('keyPress', { keyCode: 20 }); // key: CapsLock
+
+    expect(component.find(`.${styles.capsLockDetector}`)).toHaveLength(1);
+
+    input.simulate('keydown', { keyCode: 20 }); // key: CapsLock
+
+    expect(component.find(`.${styles.capsLockDetector}`)).toHaveLength(0);
+  });
+
+  it('should set capsLockEnabled className for root component', () => {
+    const component = setup({ detectCapsLock: true });
+    component.setState({ capsLockEnabled: true });
+
+    expect(component.find(`.${styles.capsLockEnabled}`)).toHaveLength(1);
   });
 });

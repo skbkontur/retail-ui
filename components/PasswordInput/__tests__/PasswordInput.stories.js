@@ -1,4 +1,3 @@
-// @flow
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import { storiesOf } from '@storybook/react';
@@ -10,15 +9,22 @@ class Component extends React.Component {
     value: ''
   };
 
-  _handleChange = (e, value: string) => {
+  componentDidMount() {
+    if (this.props.capsLockEnabled) {
+      this.setState({ value: 'test' });
+      this._passwordInput.setState({ capsLockEnabled: true });
+    }
+  }
+
+  _handleChange = (e, value) => {
     this.setState({ value });
   };
 
   render() {
     return (
       <PasswordInput
+        ref={ref => (this._passwordInput = ref)}
         detectCapsLock
-        size="small"
         value={this.state.value}
         onChange={this._handleChange}
       />
@@ -26,4 +32,6 @@ class Component extends React.Component {
   }
 }
 
-storiesOf('PasswordInput', module).add('plain', () => <Component />);
+storiesOf('PasswordInput', module)
+  .add('Plain', () => <Component />)
+  .add('CapsLock label', () => <Component capsLockEnabled />);

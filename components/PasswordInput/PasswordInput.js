@@ -20,6 +20,12 @@ type State = {
 };
 
 export default class PasswordInput extends React.Component {
+  static defaultProps = {
+    size: 'small'
+  };
+
+  _input: HTMLInputElement;
+
   props: Props;
   state: State = {
     visible: false
@@ -32,15 +38,18 @@ export default class PasswordInput extends React.Component {
   }
 
   _handleKeyPress = (e: SyntheticKeyboardEvent) => {
-    if (this.props.onKeyPress) {
-      this.props.onKeyPress(e);
+    const { onKeyPress, detectCapsLock } = this.props;
+
+    if (onKeyPress) {
+      onKeyPress(e);
     }
 
-    if (!this.props.detectCapsLock) {
+    if (!detectCapsLock) {
       return;
     }
 
     const chr = getCharHelper(e);
+
     if (!chr) {
       return;
     }
@@ -57,23 +66,30 @@ export default class PasswordInput extends React.Component {
   };
 
   _handleKeydown = (e: SyntheticKeyboardEvent) => {
-    if (this.props.onKeyDown) {
-      this.props.onKeyDown(e);
+    const {
+      props: { detectCapsLock, onKeyDown },
+      state: { capsLockEnabled }
+    } = this;
+
+    if (onKeyDown) {
+      onKeyDown(e);
     }
 
-    if (!this.props.detectCapsLock) {
+    if (!detectCapsLock) {
       return;
     }
 
-    const { capsLockEnabled } = this.state;
-
     if (e.keyCode === 20 && capsLockEnabled != null) {
-      this.setState({ capsLockEnabled: !this.state.capsLockEnabled });
+      this.setState({ capsLockEnabled: !capsLockEnabled });
     }
   };
 
   _handleToggleVisibility = () => {
-    this.setState({ visible: !this.state.visible });
+    this.setState({ visible: !this.state.visible }, this._handleFocus);
+  };
+
+  _handleFocus = () => {
+    this._input.focus();
   };
 
   _renderEye = () => {
@@ -87,6 +103,10 @@ export default class PasswordInput extends React.Component {
     );
   };
 
+  _refInput = ref => {
+    this._input = ref.input;
+  };
+
   render() {
     const { capsLockEnabled, visible } = this.state;
 
@@ -96,6 +116,7 @@ export default class PasswordInput extends React.Component {
     });
 
     const inputProps = {
+      ref: this._refInput,
       type: visible ? 'text' : 'password',
       onKeyDown: this._handleKeydown,
       onKeyPress: this._handleKeyPress,
