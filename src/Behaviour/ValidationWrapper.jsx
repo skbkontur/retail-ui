@@ -176,7 +176,7 @@ export default class ValidationWrapper extends React.Component {
     }
 
     async focus(): Promise<void> {
-        if (this.child && typeof this.child.focus === "function") {
+        if (this.child) {
             const childDomElement = ReactDom.findDOMNode(this.child);
             if (childDomElement != null && childDomElement instanceof HTMLElement) {
                 await smoothScrollIntoView(
