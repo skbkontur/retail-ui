@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
 import ReactDom from "react-dom";
+import PropTypes from "prop-types";
 import isEqual from "lodash.isequal";
 import smoothScrollIntoView from "./smoothScrollIntoView";
 
@@ -53,7 +54,7 @@ export default class ValidationWrapper extends React.Component {
     };
 
     static contextTypes = {
-        validationContext: React.PropTypes.any,
+        validationContext: PropTypes.any,
     };
 
     child: React.Component<*, *, *>;

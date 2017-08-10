@@ -1,6 +1,7 @@
 // @flow
 import Events from "add-event-listener";
 import React from "react";
+import PropTypes from "prop-types";
 import ValidationTooltip from "./ValidationTooltip";
 
 type ValidationTooltipContextProps = {
@@ -15,7 +16,7 @@ export default class ValidationTooltipContext extends React.Component {
     props: ValidationTooltipContextProps;
 
     static childContextTypes = {
-        validationTooltipContext: React.PropTypes.any,
+        validationTooltipContext: PropTypes.any,
     };
 
     focusedValidationTooltip: ValidationTooltip | null = null;
