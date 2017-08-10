@@ -1,4 +1,5 @@
 // @flow
+import PropTypes from "prop-types";
 import React from "react";
 import type { IValidationContext, IValidationContextSettings } from "./ValidationWrapper";
 import ValidationWrapper from "./ValidationWrapper";
@@ -12,7 +13,7 @@ type ValidationContextProps = {
 
 export default class ValidationContext extends React.Component {
     static childContextTypes = {
-        validationContext: React.PropTypes.any,
+        validationContext: PropTypes.any,
     };
 
     props: ValidationContextProps;

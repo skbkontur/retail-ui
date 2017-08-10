@@ -1,4 +1,5 @@
 // @flow
+import PropTypes from "prop-types";
 import React from "react";
 import Tooltip from "retail-ui/components/Tooltip";
 import RadioGroup from "retail-ui/components/RadioGroup";
@@ -20,7 +21,7 @@ export default class ValidationTooltip extends React.Component {
     };
 
     static contextTypes = {
-        validationTooltipContext: React.PropTypes.any,
+        validationTooltipContext: PropTypes.any,
     };
 
     componentWillReceiveProps(nextProps: ValidationTooltipProps) {
