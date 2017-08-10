@@ -1,10 +1,8 @@
 // @flow
-import MockDate from 'mockdate';
+import MockDate from '../../internal/MockDate';
 import React from 'react';
 import { storiesOf, action } from '@storybook/react';
 import DatePicker from '../DatePicker';
-
-MockDate.set(new Date('2017-01-02'));
 
 class DatePickerWithError extends React.Component {
   state: {
@@ -32,6 +30,12 @@ class DatePickerWithError extends React.Component {
 }
 
 storiesOf('DatePicker', module)
+  .addDecorator(story =>
+    <div>
+      <MockDate date={new Date('2017-01-02')} />
+      {story()}
+    </div>
+  )
   .add('with mouseevent handlers', () =>
     <div style={{ paddingTop: 200 }}>
       <DatePicker

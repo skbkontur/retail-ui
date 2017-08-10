@@ -13,9 +13,6 @@ env:
   jasmine: true
   es6: true
 
-ecmaFeatures:
-  jsx: true
-
 globals:
   __DEV__: true
   # Built ins

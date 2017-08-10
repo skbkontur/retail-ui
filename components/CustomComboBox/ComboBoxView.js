@@ -123,6 +123,7 @@ class ComboBoxView extends Component {
       <RenderLayer
         onClickOutside={onClickOutside}
         onFocusOutside={onFocusOutside}
+        active={opened}
       >
         <label
           style={{ width, display: 'inline-block', position: 'relative' }}

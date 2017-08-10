@@ -225,6 +225,11 @@ const MAP = {
   'flash-drive': '\ue0d7'
 };
 
+function getNewIconName(name) {
+  const newIcon = Object.entries(KonturIconic).find(x => x[1] === MAP[name]);
+  return newIcon ? newIcon[0] : null;
+}
+
 type Props = {
   name: string,
   color?: string,
@@ -265,7 +270,11 @@ class Icon extends React.Component {
       fontSize: size
     };
     const icon = KonturIconic[name] || MAP[name];
-    return <span className={styles.root} style={style}>{icon}</span>;
+    return (
+      <span className={styles.root} style={style}>
+        {icon}
+      </span>
+    );
   }
 
   _checkDeprecatedName(props) {
@@ -276,11 +285,6 @@ class Icon extends React.Component {
       `Icon name "${props.name}" is depricated, ` + `use "${newName}" instead`
     );
   }
-}
-
-function getNewIconName(name) {
-  const newIcon = Object.entries(KonturIconic).find(x => x[1] === MAP[name]);
-  return newIcon ? newIcon[0] : null;
 }
 
 export default Icon;

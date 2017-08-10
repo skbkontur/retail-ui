@@ -2,67 +2,38 @@
 
 var pathTo = require('./utils').pathTo;
 
-gemini.suite('link', suite => {
+var applyTest = suite =>
   suite
-    .setUrl(pathTo('Link', 'Simple'))
     .setCaptureElements('#test-element')
     .capture('idle')
     .capture('hover', (actions, find) => {
-      actions.mouseMove(find('span'));
+      actions.mouseMove(find('a'));
     })
     .capture('mouseLeave', (actions, find) => {
       actions.mouseMove(find('body'), [0, 0]);
     });
+
+gemini.suite('link', suite => {
+  suite.setUrl(pathTo('Link', 'Simple'));
+  applyTest(suite);
 });
 
 gemini.suite('link with Icon', suite => {
-  suite
-    .setUrl(pathTo('Link', 'With Icon'))
-    .setCaptureElements('#test-element')
-    .capture('idle')
-    .capture('hover', (actions, find) => {
-      actions.mouseMove(find('span'));
-    })
-    .capture('mouseLeave', (actions, find) => {
-      actions.mouseMove(find('body'), [0, 0]);
-    });
+  suite.setUrl(pathTo('Link', 'With Icon'));
+  applyTest(suite);
 });
 
 gemini.suite('link danger', suite => {
-  suite
-    .setUrl(pathTo('Link', 'Danger'))
-    .setCaptureElements('#test-element')
-    .capture('idle')
-    .capture('hover', (actions, find) => {
-      actions.mouseMove(find('span'));
-    })
-    .capture('mouseLeave', (actions, find) => {
-      actions.mouseMove(find('body'), [0, 0]);
-    });
+  suite.setUrl(pathTo('Link', 'Danger'));
+  applyTest(suite);
 });
 
 gemini.suite('link Grayed', suite => {
-  suite
-    .setUrl(pathTo('Link', 'Grayed'))
-    .setCaptureElements('#test-element')
-    .capture('idle')
-    .capture('hover', (actions, find) => {
-      actions.mouseMove(find('a'));
-    })
-    .capture('mouseLeave', (actions, find) => {
-      actions.mouseMove(find('body'), [0, 0]);
-    });
+  suite.setUrl(pathTo('Link', 'Grayed'));
+  applyTest(suite);
 });
 
 gemini.suite('link Disabled', suite => {
-  suite
-    .setUrl(pathTo('Link', 'Disabled'))
-    .setCaptureElements('#test-element')
-    .capture('idle')
-    .capture('hover', (actions, find) => {
-      actions.mouseMove(find('a'));
-    })
-    .capture('mouseLeave', (actions, find) => {
-      actions.mouseMove(find('body'), [0, 0]);
-    });
+  suite.setUrl(pathTo('Link', 'Disabled'));
+  applyTest(suite);
 });

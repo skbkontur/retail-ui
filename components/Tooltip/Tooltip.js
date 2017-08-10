@@ -171,6 +171,7 @@ export default class Tooltip extends React.Component {
       <RenderLayer
         onClickOutside={this._handleBoxClose}
         onFocusOutside={this._handleBoxClose}
+        active={!this._isClosed()}
       >
         <span {...props} className={className}>
           {child}
@@ -191,21 +192,13 @@ export default class Tooltip extends React.Component {
       return null;
     }
 
-    const trigger = this.props.trigger;
-    let close;
-    if (this.props.closeButton !== undefined) {
-      close = this.props.closeButton;
-    } else {
-      close = trigger !== 'hover' && trigger !== 'focus';
-    }
-
     return (
       <RenderContainer>
         <Box
-          trigger={trigger}
+          trigger={this.props.trigger}
           getTarget={this._getTarget}
           pos={this.props.pos}
-          close={close}
+          close={this._isClosed()}
           onClose={this._handleBoxClose}
         >
           {content}
@@ -299,5 +292,14 @@ export default class Tooltip extends React.Component {
     if (this.state.opened !== opened) {
       this.setState({ opened });
     }
+  }
+
+  _isClosed = () => {
+    const trigger = this.props.trigger;
+    if (this.props.closeButton !== undefined) {
+      return this.props.closeButton;
+    }
+
+    return trigger !== 'hover' && trigger !== 'focus';
   }
 }

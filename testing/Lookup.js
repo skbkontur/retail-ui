@@ -1,3 +1,4 @@
+/* eslint-disable flowtype/no-types-missing-file-annotation */
 const injectGlobalHook = require('./react-devtools/backend/installGlobalHook');
 injectGlobalHook(global);
 
@@ -9,6 +10,7 @@ const TID_HIDDEN = 'data-tid-auto';
 
 const React = require('react');
 const oldCreateElement = React.createElement;
+// eslint-disable-next-line flowtype/no-weak-types
 (React: any).createElement = (type, props, ...children) => {
   if (!props) {
     return oldCreateElement(type, props, ...children);
@@ -28,7 +30,7 @@ const oldCreateElement = React.createElement;
 
 type Element = {
   _id: number,
-  node: Node,
+  node: Node
 };
 
 const hook = global.__REACT_DEVTOOLS_GLOBAL_HOOK__;
@@ -58,10 +60,12 @@ agent.on('unmount', id => {
 
 inject(hook, agent);
 
+// eslint-disable-next-line flowtype/no-weak-types
 const findOne = (path: string, tree: any) => {
   return findAll(path, tree)[0];
 };
 
+// eslint-disable-next-line flowtype/no-weak-types
 const findAll = (path: string, tree: any) => {
   const tokens = path.split(' ');
 
@@ -90,37 +94,40 @@ const search = (ids, tokens) => {
     return ids;
   }
 
-  return ids.map(id => {
-    const comp = mounted[id];
+  return ids
+    .map(id => {
+      const comp = mounted[id];
 
-    if (comp.props && comp.props.rt_rootID) {
-      const root = getDetachedRoot(comp.props.rt_rootID);
-      invariant(root, 'Detached react root not found.');
-      return search([root], tokens);
-    }
+      if (comp.props && comp.props.rt_rootID) {
+        const root = getDetachedRoot(comp.props.rt_rootID);
+        invariant(root, 'Detached react root not found.');
+        return search([root], tokens);
+      }
 
-    const tid = comp.props && comp.props[TID_HIDDEN];
-    if (tid === tokens[0]) {
-      return search([id], tokens.slice(1));
-    }
+      const tid = comp.props && comp.props[TID_HIDDEN];
+      if (tid === tokens[0]) {
+        return search([id], tokens.slice(1));
+      }
 
-    if (Array.isArray(comp.children)) {
-      return search(comp.children, tokens);
-    }
+      if (Array.isArray(comp.children)) {
+        return search(comp.children, tokens);
+      }
 
-    return [];
-  }).reduce((all, ids) => [...all, ...ids], []);
+      return [];
+    })
+    .reduce((all, ids) => [...all, ...ids], []);
 };
 
 const getRoots = () => {
   return roots.filter(id => !mounted[id].props.rt_portalID);
 };
 
-const getDetachedRoot = (portalID) => {
-  return roots.find(id => mounted[id].props.props.rt_portalID);
+const getDetachedRoot = portalID => {
+  return roots.find(id => mounted[id].props.child.props.rt_portalID);
 };
 
 /* eslint-disable consistent-return */
+// eslint-disable-next-line flowtype/no-weak-types
 function getAdapter(element: Element): any {
   const comp = mounted[element._id];
   invariant(comp, 'Cannot get adapter of unmounted component.');
@@ -147,7 +154,6 @@ export {
   findOne,
   findAll,
   getAdapter,
-
   // For debugging.
   roots,
   mounted
