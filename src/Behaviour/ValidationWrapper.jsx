@@ -52,6 +52,9 @@ export default class ValidationWrapper extends React.Component {
     context: {
         validationContext: IValidationContext,
     };
+    refs: {
+        errorMessage: ?mixed,
+    };
 
     static contextTypes = {
         validationContext: PropTypes.any,
@@ -171,7 +174,7 @@ export default class ValidationWrapper extends React.Component {
     }
 
     activateValidationMessageIfNeed() {
-        if (this.refs.errorMessage && this.refs.errorMessage.setOpened) {
+        if (this.refs.errorMessage && typeof this.refs.errorMessage.setOpened === "function") {
             this.refs.errorMessage.setOpened(true);
         }
     }

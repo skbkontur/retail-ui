@@ -1,0 +1,42 @@
+type $npm$propTypes$ReactPropsCheckType = (
+    props: any,
+    propName: string,
+    componentName: string,
+    href?: string
+) => ?Error;
+
+declare module 'prop-types' {
+    declare type ReactPropType<T> = {
+        isRequired: string,
+    } & string;
+
+    declare type ReactPropTypeOfSingle = <T>(ReactPropType<T>) => string;
+    declare type ReactPropTypeOfMany = <T>(ReactPropType<T>[]) => string;
+    declare type ReactPropTypeOfShape = <T>({ [key: string]: ReactPropType<T> }) => string;
+
+    declare export default class PropTypes {
+        static array: ReactPropType<Array<any>>;
+        static bool: ReactPropType<boolean>;
+        static func: ReactPropType<Function>;
+        static number: ReactPropType<number>;
+        static object: ReactPropType<Object>;
+        static string: ReactPropType<string>;
+        static any: ReactPropType<any>;
+        static arrayOf: ReactPropTypeArrayOf;
+        static element: ReactPropType<any>; /* TODO */
+        static instanceOf: ReactPropTypeArrayOf;
+        static node: ReactPropType<any>; /* TODO */
+        static objectOf: ReactPropTypeArrayOf;
+        static oneOf: ReactPropTypeOfMany;
+        static oneOfType: ReactPropTypeOfMany;
+        static shape: React$PropType$Shape;
+    }
+
+    declare function checkPropTypes<V>(
+        propTypes: $Subtype<{[_: $Keys<V>]: $npm$propTypes$ReactPropsCheckType}>,
+        values: V,
+        location: string,
+        componentName: string,
+        getStack: ?(() => ?string)
+    ): void;
+}

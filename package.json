@@ -48,7 +48,7 @@
     "css-loader": "^0.27.3",
     "eslint": "^4.3.0",
     "eslint-config-skbkontur-retail": "3.0.2",
-    "flow-bin": "^0.51.0",
+    "flow-bin": "^0.52.0",
     "less": "^2.7.2",
     "less-loader": "^2.2.3",
     "prettier": "^1.5.3",

@@ -1,0 +1,3 @@
+declare module "lodash.isequal" {
+    declare export default function isEqual<TL, TR>(left: TL, right: TR): boolean;
+}

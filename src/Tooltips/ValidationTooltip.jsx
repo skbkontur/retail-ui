@@ -1,6 +1,6 @@
 // @flow
-import PropTypes from "prop-types";
 import React from "react";
+import PropTypes from "prop-types";
 import Tooltip from "retail-ui/components/Tooltip";
 import RadioGroup from "retail-ui/components/RadioGroup";
 
