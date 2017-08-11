@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "0.8.7",
+  "version": "0.8.9",
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
@@ -36,7 +36,8 @@
     "storybook": "start-storybook -p 6060",
     "test": "jest --no-cache && gemini test --reporter vflat",
     "typecheck": "flow",
-    "unit-test": "jest"
+    "unit-test": "jest",
+    "unit-test:watch": "jest --watch"
   },
   "license": "MIT",
   "dependencies": {
