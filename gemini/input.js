@@ -2,21 +2,18 @@
 var pathTo = require('./utils').pathTo;
 
 function createPlainSuite(suiteName, selector) {
-  return (
-    gemini.suite(suiteName, childSuite => {
-      childSuite
-        .setCaptureElements(selector)
-        .capture('Plain');
-    })
-  );
+  return gemini.suite(suiteName, childSuite => {
+    childSuite.setCaptureElements(selector).capture('Plain');
+  });
 }
 
 // Small, medium and large inputs (plain, focused, typed)
-gemini.suite('Inputs with different sizes', (parentSuite) => {
-  parentSuite.setUrl(pathTo('Input', 'Inputs with different sizes'))
+gemini.suite('Inputs with different sizes', parentSuite => {
+  parentSuite
+    .setUrl(pathTo('Input', 'Inputs with different sizes'))
     .setCaptureElements('#test-element');
 
-  gemini.suite('Small', (childSuite) => {
+  gemini.suite('Small', childSuite => {
     childSuite
       .setCaptureElements('#small-input-wrapper')
       .capture('Plain')
@@ -28,34 +25,34 @@ gemini.suite('Inputs with different sizes', (parentSuite) => {
       });
   });
 
-  gemini.suite('Medium', (childSuite) => {
+  gemini.suite('Medium', childSuite => {
     childSuite
-    .setCaptureElements('#medium-input-wrapper')
-    .capture('Plain')
-    .capture('Focused', (actions, find) => {
-      actions.focus(find('#medium-input-wrapper input'));
-    })
-    .capture('With typed text', (actions, find) => {
-      actions.sendKeys(find('#medium-input-wrapper input'), 'Test...');
-    });
+      .setCaptureElements('#medium-input-wrapper')
+      .capture('Plain')
+      .capture('Focused', (actions, find) => {
+        actions.focus(find('#medium-input-wrapper input'));
+      })
+      .capture('With typed text', (actions, find) => {
+        actions.sendKeys(find('#medium-input-wrapper input'), 'Test...');
+      });
   });
 
-  gemini.suite('Large', (childSuite) => {
+  gemini.suite('Large', childSuite => {
     childSuite
-    .setCaptureElements('#large-input-wrapper')
-    .capture('Plain')
-    .capture('Focused', (actions, find) => {
-      actions.focus(find('#large-input-wrapper input'));
-    })
-    .capture('With typed text', (actions, find) => {
-      actions.sendKeys(find('#large-input-wrapper input'), 'Test...');
-    });
+      .setCaptureElements('#large-input-wrapper')
+      .capture('Plain')
+      .capture('Focused', (actions, find) => {
+        actions.focus(find('#large-input-wrapper input'));
+      })
+      .capture('With typed text', (actions, find) => {
+        actions.sendKeys(find('#large-input-wrapper input'), 'Test...');
+      });
   });
 });
 
 // Small and large inputs in next states: warning, error, disabled,
 // disabled with text, placeholder, password, borderless
-gemini.suite('Inputs with different states', (parentSuite) => {
+gemini.suite('Inputs with different states', parentSuite => {
   parentSuite
     .setUrl(pathTo('Input', 'Inputs with different states'))
     .setCaptureElements('#test-element');

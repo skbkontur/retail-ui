@@ -36,7 +36,8 @@
     "storybook": "start-storybook -p 6060",
     "test": "jest --no-cache && gemini test --reporter vflat",
     "typecheck": "flow",
-    "unit-test": "jest"
+    "unit-test": "jest",
+    "unit-test:watch": "jest --watch"
   },
   "license": "MIT",
   "dependencies": {
