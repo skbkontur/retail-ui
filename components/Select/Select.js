@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import shallow from 'fbjs/lib/shallowEqual';
 
 import Button from '../Button';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
@@ -71,6 +70,13 @@ type Props = {
 
 class Select extends React.Component {
   static propTypes = {
+    /**
+    * Функция для сравнения двух значений
+    * Нужна в случае, если они не являются простыми типами
+    * По умолчанию проверяет с помощью shallowEqual
+    */
+    areValuesEqual: PropTypes.func,
+
     defaultValue: PropTypes.any,
 
     /**
@@ -131,13 +137,6 @@ class Select extends React.Component {
     renderValue: PropTypes.func,
 
     /**
-     * Функция для сравнения двух значений
-     * Нужна в случае, если они не являются простыми типами
-     * По умолчанию проверяет с помощью shallowEqual
-     */
-    areValuesEqual: PropTypes.func,
-
-    /**
      * Показывать строку поиска в списке.
      */
     search: PropTypes.bool,
@@ -195,7 +194,9 @@ class Select extends React.Component {
       );
     } else {
       label = (
-        <span className={styles.placeholder}>{this.props.placeholder}</span>
+        <span className={styles.placeholder}>
+          {this.props.placeholder}
+        </span>
       );
     }
 
@@ -271,7 +272,9 @@ class Select extends React.Component {
     return (
       <Button {...buttonProps}>
         <span {...labelProps}>
-          <span className={styles.labelText}>{params.label}</span>
+          <span className={styles.labelText}>
+            {params.label}
+          </span>
           <div className={styles.arrowWrap}>
             <div className={styles.arrow} />
           </div>
@@ -291,7 +294,11 @@ class Select extends React.Component {
       onKeyDown: params.onKeyDown
     };
 
-    return <Link {...linkProps}>{params.label}</Link>;
+    return (
+      <Link {...linkProps}>
+        {params.label}
+      </Link>
+    );
   }
 
   renderMenu() {
@@ -339,7 +346,9 @@ class Select extends React.Component {
               return (
                 <MenuItem
                   key={i}
-                  state={this.props.areValuesEqual(iValue, value) ? 'selected' : null}
+                  state={
+                    this.props.areValuesEqual(iValue, value) ? 'selected' : null
+                  }
                   onClick={this._select.bind(this, iValue)}
                   comment={comment}
                 >
@@ -539,7 +548,7 @@ function renderItem(value, item) {
 }
 
 function areValuesEqual(value1, value2) {
-  return shallow(value1, value2);
+  return value1 === value2;
 }
 
 function normalizeEntry(entry) {
