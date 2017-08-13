@@ -1,3 +1,3 @@
-import MenuItem from './MenuItem';
+import Modal from './Modal';
 
-export = MenuItem;
+export = Modal;
