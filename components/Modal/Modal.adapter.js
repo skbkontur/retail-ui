@@ -8,6 +8,7 @@ const ModalAdapter = {
   }
 };
 
+// $FlowIssue
 Modal.__ADAPTER__ = ModalAdapter;
 
 export default Modal;

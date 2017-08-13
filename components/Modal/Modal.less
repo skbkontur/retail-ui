@@ -15,11 +15,11 @@
   }
 
   .bg {
-    background: #333333;
+    background: #333;
     bottom: 0;
     -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=60)';
     left: 0;
-    opacity: .6;
+    opacity: 0.6;
     position: absolute;
     right: 0;
     top: 0;
@@ -52,7 +52,7 @@
     position: relative;
     white-space: normal;
     background: @bg-default;
-    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     margin: 0 20px;
   }
 
@@ -67,6 +67,12 @@
     text-align: center;
     text-decoration: none;
     width: 76px;
+
+    &.disabled {
+      color: #8b8b8b;
+      pointer-events: none;
+      cursor: default;
+    }
   }
 
   .close:hover {
@@ -89,11 +95,13 @@
     padding: 20px 80px 15px 30px;
   }
 
-  .fixedHeader, .fixedFooter {
+  .fixedHeader,
+  .fixedFooter {
     background: #fff;
   }
 
-  .fixedHeader:after, .fixedFooter:before {
+  .fixedHeader:after,
+  .fixedFooter:before {
     content: '';
     position: absolute;
     height: 1px;
