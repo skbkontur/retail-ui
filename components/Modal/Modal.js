@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import events from 'add-event-listener';
 import { EventEmitter } from 'fbemitter';
 import React from 'react';
+import type { Node } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
@@ -28,7 +29,7 @@ let mountedModalsCount = 0;
 let prevMarginRight = 0;
 
 type Props = {
-  children?: mixed,
+  children?: Node,
   disableClose?: boolean,
   ignoreBackgroundClick?: boolean,
   noClose?: boolean,
