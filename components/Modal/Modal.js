@@ -114,7 +114,7 @@ class Modal extends React.Component {
             styles.close,
             this.props.disableClose && styles.disabled
           )}
-          onClick={this._handleClose}
+          onClick={this._requestClose}
         >
           ×
         </a>
@@ -265,11 +265,11 @@ class Modal extends React.Component {
       event.target === event.currentTarget &&
       !this.props.ignoreBackgroundClick
     ) {
-      this._handleClose();
+      this._requestClose();
     }
   };
 
-  _handleClose = () => {
+  _requestClose = () => {
     if (this.props.disableClose) {
       return;
     }
@@ -279,10 +279,9 @@ class Modal extends React.Component {
   };
 
   _handleKeyDown = event => {
-    const { onClose } = this.props;
-    if (event.key === 'Escape' && onClose) {
+    if (event.key === 'Escape') {
       stopPropagation(event);
-      onClose();
+      this._requestClose();
     }
   };
 }
