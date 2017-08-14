@@ -3,7 +3,6 @@ import cn from 'classnames';
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
-import RenderLayer from '../RenderLayer';
 import RenderConatiner from '../RenderContainer';
 import Transition from 'react-addons-css-transition-group';
 import shallowEqual from 'fbjs/lib/shallowEqual';
@@ -14,8 +13,6 @@ import PopupPin from './PopupPin';
 import styles from './Popup.less';
 
 import { isIE, ieVerison } from '../ensureOldIEClassName';
-
-const noop = () => {};
 
 let tempNode = null;
 function getTempNode() {
@@ -35,8 +32,6 @@ type Props = {
   hasPin: boolean,
   hasShadow: boolean,
   margin: number,
-  onClickOutside: () => void,
-  onFocusOutside: () => void,
   opened: boolean,
   pinOffset: number,
   pinSize: number,
@@ -62,9 +57,7 @@ export default class Popup extends Component {
     pinOffset: 16,
     hasPin: false,
     hasShadow: false,
-    backgroundColor: '#fff',
-    onClickOutside: () => {},
-    onFocusOutside: () => {}
+    backgroundColor: '#fff'
   };
 
   props: Props;
@@ -107,7 +100,7 @@ export default class Popup extends Component {
   }
 
   render() {
-    const { onClickOutside, onFocusOutside, opened } = this.props;
+    const { opened } = this.props;
     if (!opened && !this._containerDidMount) {
       return null;
     }
@@ -116,29 +109,24 @@ export default class Popup extends Component {
       ? location.position.split(' ')[0]
       : 'bottom';
     return (
-      <RenderLayer
-        onClickOutside={opened ? onClickOutside : noop}
-        onFocusOutside={opened ? onFocusOutside : noop}
-      >
-        <RenderConatiner ref={this._refContainer}>
-          <Transition
-            transitionName={{
-              enter: styles['transition-enter-' + directionClass],
-              enterActive: styles['transition-enter-active'],
-              leave: styles['transition-leave'],
-              leaveActive: styles['transition-leave-active'],
-              appear: styles['transition-appear-' + directionClass],
-              appearActive: styles['transition-appear-active']
-            }}
-            transitionAppear={true}
-            transitionAppearTimeout={200}
-            transitionEnterTimeout={200}
-            transitionLeaveTimeout={200}
-          >
-            {location ? this._renderContent(location) : null}
-          </Transition>
-        </RenderConatiner>
-      </RenderLayer>
+      <RenderConatiner ref={this._refContainer}>
+        <Transition
+          transitionName={{
+            enter: styles['transition-enter-' + directionClass],
+            enterActive: styles['transition-enter-active'],
+            leave: styles['transition-leave'],
+            leaveActive: styles['transition-leave-active'],
+            appear: styles['transition-appear-' + directionClass],
+            appearActive: styles['transition-appear-active']
+          }}
+          transitionAppear={true}
+          transitionAppearTimeout={200}
+          transitionEnterTimeout={200}
+          transitionLeaveTimeout={200}
+        >
+          {location ? this._renderContent(location) : null}
+        </Transition>
+      </RenderConatiner>
     );
   }
 
@@ -191,24 +179,12 @@ export default class Popup extends Component {
   _getDummyLocation() {
     return {
       coordinates: {
-        top: -999,
-        left: -999
+        top: -9999,
+        left: -9999
       },
       position: 'top left'
     };
   }
-
-  _batchUpdate = () => {
-    if (this._inQueue) {
-      return;
-    }
-    this._inQueue = true;
-    setTimeout(() => {
-      this.forceUpdate(() => {
-        this._inQueue = false;
-      });
-    }, 0);
-  };
 
   _getLocation(node) {
     if (!this.props.opened) {
@@ -390,15 +366,5 @@ Popup.propTypes = {
    * С какой стороны показывать попап и край попапа,
    * на котором будет отображаться пин
    */
-  positions: PropTypes.array,
-
-  /**
-   * Колбек для закрытия попапа при клике вне его области
-   */
-  onClickOutside: PropTypes.func,
-
-  /**
-   * Колбек для закрытия попапа при потери им фокуса
-   */
-  onFocusOutside: PropTypes.func
+  positions: PropTypes.array
 };

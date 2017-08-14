@@ -10,6 +10,7 @@ import Icon from '../Icon';
 import Popup from '../Popup';
 import Menu from '../Menu/Menu.js';
 import RenderLayer from '../RenderLayer';
+import LayoutEvents from '../../lib/LayoutEvents';
 
 import styles from './Kebab.less';
 
@@ -44,9 +45,15 @@ export default class Kebab extends Component {
   };
 
   _anchor: HTMLElement;
+  _listener;
 
   componentDidMount() {
+    this._listener = LayoutEvents.addListener(this._handleClickOutside);
     listenTabPresses();
+  }
+
+  componentWillUnmount() {
+    this._listener.remove();
   }
 
   render() {
@@ -56,6 +63,7 @@ export default class Kebab extends Component {
       <RenderLayer
         onClickOutside={this._handleClickOutside}
         onFocusOutside={this._handleClickOutside}
+        active={this.state.opened}
       >
         <div className={cn(styles.root, options.className)}>
           <div
