@@ -104,7 +104,7 @@ export default class PasswordInput extends React.Component {
   };
 
   _refInput = ref => {
-    this._input = ref.input;
+    this._input = ref;
   };
 
   render() {
