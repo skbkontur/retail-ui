@@ -1,10 +1,12 @@
 // @flow
 import cn from 'classnames';
 import React, { Component } from 'react';
+import { render } from 'react-dom';
 import PropTypes from 'prop-types';
 import RenderLayer from '../RenderLayer';
 import RenderConatiner from '../RenderContainer';
 import Transition from 'react-addons-css-transition-group';
+import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import PopupHelper from './PopupHelper';
 import PopupPin from './PopupPin';
@@ -14,6 +16,17 @@ import styles from './Popup.less';
 import { isIE, ieVerison } from '../ensureOldIEClassName';
 
 const noop = () => {};
+
+let tempNode = null;
+function getTempNode() {
+  if (!tempNode) {
+    tempNode = document.createElement('div');
+    tempNode.style.opacity = '0';
+    tempNode.style.position = 'absolute';
+    document.body && document.body.appendChild(tempNode);
+  }
+  return tempNode;
+}
 
 type Props = {
   anchorElement: HTMLElement,
@@ -63,12 +76,45 @@ export default class Popup extends Component {
   _popupElement: HTMLElement;
   _inQueue: boolean = false;
   _containerDidMount: boolean = false;
+  _tempNode: ?HTMLElement;
+
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.opened !== prevProps.opened) {
+      this._preRender();
+    }
+  }
+
+  _preRender() {
+    const tempNode = getTempNode();
+    render(this._renderContent(this._getDummyLocation()), tempNode, () => {
+      this._calculateLocation(tempNode);
+    });
+  }
+
+  _calculateLocation(node) {
+    if (!this.props.opened && this.state.location) {
+      this.setState({ location: null });
+    }
+    const location = this._getLocation(node);
+    if (
+      !this.state.location ||
+      !location ||
+      !location.position !== this.state.location.position ||
+      !shallowEqual(location.coordinates, this.state.location.coordinates)
+    ) {
+      this.setState({ location });
+    }
+  }
 
   render() {
     const { onClickOutside, onFocusOutside, opened } = this.props;
     if (!opened && !this._containerDidMount) {
       return null;
     }
+    const { location } = this.state;
+    const directionClass = location
+      ? location.position.split(' ')[0]
+      : 'bottom';
     return (
       <RenderLayer
         onClickOutside={opened ? onClickOutside : noop}
@@ -76,26 +122,27 @@ export default class Popup extends Component {
       >
         <RenderConatiner ref={this._refContainer}>
           <Transition
-            transitionName="shift-fade-in-out"
+            transitionName={{
+              enter: styles['transition-enter-' + directionClass],
+              enterActive: styles['transition-enter-active'],
+              leave: styles['transition-leave'],
+              leaveActive: styles['transition-leave-active'],
+              appear: styles['transition-appear-' + directionClass],
+              appearActive: styles['transition-appear-active']
+            }}
             transitionAppear={true}
             transitionAppearTimeout={200}
             transitionEnterTimeout={200}
             transitionLeaveTimeout={200}
           >
-            {this._renderContent()}
+            {location ? this._renderContent(location) : null}
           </Transition>
         </RenderConatiner>
       </RenderLayer>
     );
   }
 
-  _renderContent() {
-    if (!this.props.opened) {
-      return null;
-    }
-
-    let location = this._getLocation() || this._getDummyLocation();
-
+  _renderContent(location) {
     let {
       hasPin,
       children,
@@ -111,11 +158,10 @@ export default class Popup extends Component {
       backgroundColor
     };
 
-    // prettier-ignore
-    const pinBorder
-      = ieVerison === 8 ? '#e5e5e5'
-      : isIE ? 'rgba(0, 0, 0, 0.09)'
-      : 'transparent';
+    const pinBorder =
+      ieVerison === 8
+        ? '#e5e5e5'
+        : isIE ? 'rgba(0, 0, 0, 0.09)' : 'transparent';
 
     return (
       <div
@@ -164,19 +210,18 @@ export default class Popup extends Component {
     }, 0);
   };
 
-  _getLocation() {
-    if (!this._popupElement) {
-      this._batchUpdate();
+  _getLocation(node) {
+    if (!this.props.opened) {
       return null;
     }
 
     const { anchorElement, positions, margin, popupOffset } = this.props;
-    let anchorRect = PopupHelper.getElementRect(anchorElement);
-    let popupRect = PopupHelper.getElementRect(this._popupElement);
+    const anchorRect = PopupHelper.getElementRect(anchorElement);
+    const popupRect = PopupHelper.getElementRect(this._popupElement);
 
     for (var i = 0; i < positions.length; ++i) {
-      let position = PopupHelper.getPositionObject(positions[i]);
-      let coordinates = this._getCoordinates(
+      const position = PopupHelper.getPositionObject(positions[i]);
+      const coordinates = this._getCoordinates(
         anchorRect,
         popupRect,
         position,
@@ -194,7 +239,7 @@ export default class Popup extends Component {
         return { coordinates, position: positions[i] };
       }
     }
-    let coordinates = this._getCoordinates(
+    const coordinates = this._getCoordinates(
       anchorRect,
       popupRect,
       PopupHelper.getPositionObject(positions[0]),
