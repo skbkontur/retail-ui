@@ -71,9 +71,7 @@ type Props = {
 class Select extends React.Component {
   static propTypes = {
     /**
-    * Функция для сравнения двух значений
-    * Нужна в случае, если они не являются простыми типами
-    * По умолчанию проверяет с помощью shallowEqual
+    * Функция для сравнения `value` с элементом из `items`
     */
     areValuesEqual: PropTypes.func,
 

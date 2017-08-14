@@ -51,7 +51,7 @@ class Modal extends React.Component {
 
   static propTypes = {
     /**
-     * Отключает событие onClose
+     * Отключает событие onClose, также дизейблит кнопку закрытия модалки
      */
     disableClose: PropTypes.bool,
 
