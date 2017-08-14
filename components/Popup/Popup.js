@@ -14,19 +14,17 @@ import styles from './Popup.less';
 
 import { isIE, ieVerison } from '../ensureOldIEClassName';
 
-let tempNode = null;
 function getTempNode() {
-  if (!tempNode) {
-    tempNode = document.createElement('div');
-    tempNode.style.opacity = '0';
-    tempNode.style.position = 'absolute';
-    document.body && document.body.appendChild(tempNode);
-  }
+  let tempNode = document.createElement('div');
+  tempNode.style.opacity = '0';
+  tempNode.style.position = 'absolute';
+  document.body && document.body.appendChild(tempNode);
+
   return tempNode;
 }
 
 type Props = {
-  anchorElement: HTMLElement,
+  anchorElement: ?HTMLElement,
   backgroundColor: string,
   children: React.Element<*>,
   hasPin: boolean,
@@ -66,19 +64,34 @@ export default class Popup extends Component {
     location: null
   };
 
-  _popupElement: HTMLElement;
+  _popupElement: ?HTMLElement;
   _inQueue: boolean = false;
   _containerDidMount: boolean = false;
   _tempNode: ?HTMLElement;
 
+  componentDidMount() {
+    this._tempNode = getTempNode();
+    this._preRender();
+  }
+
   componentDidUpdate(prevProps: Props) {
-    if (this.props.opened !== prevProps.opened) {
+    if (
+      this.props.opened !== prevProps.opened ||
+      this.props.anchorElement !== prevProps.anchorElement
+    ) {
       this._preRender();
     }
   }
 
+  componentWillUnmount() {
+    if (this._tempNode) {
+      document.body && document.body.removeChild(this._tempNode);
+      this._tempNode = null;
+    }
+  }
+
   _preRender() {
-    const tempNode = getTempNode();
+    const tempNode = this._tempNode;
     render(this._renderContent(this._getDummyLocation()), tempNode, () => {
       this._calculateLocation(tempNode);
     });
@@ -191,9 +204,20 @@ export default class Popup extends Component {
       return null;
     }
 
+    const popupElement = this._popupElement;
+
+    if (!popupElement) {
+      return null;
+    }
+
     const { anchorElement, positions, margin, popupOffset } = this.props;
+
+    if (!anchorElement) {
+      return null;
+    }
+
     const anchorRect = PopupHelper.getElementRect(anchorElement);
-    const popupRect = PopupHelper.getElementRect(this._popupElement);
+    const popupRect = PopupHelper.getElementRect(popupElement);
 
     for (var i = 0; i < positions.length; ++i) {
       const position = PopupHelper.getPositionObject(positions[i]);
