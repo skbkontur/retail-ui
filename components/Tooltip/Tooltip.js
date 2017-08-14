@@ -1,6 +1,6 @@
 // @flow
-
-import React from 'react';
+/* eslint-disable flowtype/no-weak-types */
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import RenderLayer from '../RenderLayer';
@@ -23,13 +23,13 @@ type Pos =
   | 'right bottom';
 
 type Props = {
-  children?: React.Element<any>,
+  children?: React.Node,
 
   className?: string,
 
   closeButton?: boolean,
 
-  render: () => ?React.Element<any>,
+  render: () => ?React.Node,
 
   pos: Pos,
 
@@ -114,8 +114,8 @@ export default class Tooltip extends React.Component {
 
   _hotspotDOM: ?HTMLElement;
   _boxDOM: ?HTMLElement;
-  _lastOnFocus: ((event: any) => void) | null;
-  _lastOnBlur: ((event: any) => void) | null;
+  _lastOnFocus: ((event: SyntheticFocusEvent) => void) | null;
+  _lastOnBlur: ((event: SyntheticEvent) => void) | null;
 
   _childRef: ((el: ?React.Element<any>) => void) | string | null = null;
   _cachedRef: ?(el: any, childRef: any) => void;
@@ -155,7 +155,9 @@ export default class Tooltip extends React.Component {
     this._lastOnBlur = null;
     if (typeof child === 'string') {
       child = (
-        <span ref={this._getHotspotRef(null)} {...childProps}>{child}</span>
+        <span ref={this._getHotspotRef(null)} {...childProps}>
+          {child}
+        </span>
       );
     } else {
       const onlyChild = React.Children.only(child);
@@ -171,7 +173,6 @@ export default class Tooltip extends React.Component {
       <RenderLayer
         onClickOutside={this._handleBoxClose}
         onFocusOutside={this._handleBoxClose}
-        active={!this._isClosed()}
       >
         <span {...props} className={className}>
           {child}
@@ -301,5 +302,5 @@ export default class Tooltip extends React.Component {
     }
 
     return trigger !== 'hover' && trigger !== 'focus';
-  }
+  };
 }
