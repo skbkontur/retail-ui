@@ -2,6 +2,7 @@ import * as React from 'react';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 
 export interface SelectProps {
+  areValuesEqual: (value: any, item: any) => boolean;
   defaultValue?: any;
   diadocLinkIcon?: string;
   disablePortal?: boolean;

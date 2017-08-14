@@ -1,6 +1,8 @@
 import * as React from 'react';
 
 export interface ModalProps {
+  children?: React.ReactNode;
+  disableClose?: boolean;
   ignoreBackgroundClick?: boolean;
   noClose?: boolean;
   width?: number;
