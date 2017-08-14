@@ -142,6 +142,8 @@ class Modal extends React.Component {
             ref={this._refCenter}
             className={styles.container}
             onClick={this._handleContainerClick}
+            tabIndex={-1}
+            onKeyDown={this._handleKeyDown}
           >
             <div className={styles.centerContainer}>
               <div className={styles.window} style={style}>
@@ -171,8 +173,6 @@ class Modal extends React.Component {
   };
 
   componentDidMount() {
-    events.addEventListener(document, 'keydown', this._handleNativeKey);
-
     if (mountedModalsCount === 0) {
       const { documentElement } = document;
       if (documentElement) {
@@ -187,11 +187,10 @@ class Modal extends React.Component {
     mountedModalsCount++;
 
     stack.emitter.emit('change');
+    this._focusContent();
   }
 
   componentWillUnmount() {
-    events.removeEventListener(document, 'keydown', this._handleNativeKey);
-
     if (--mountedModalsCount === 0) {
       const { documentElement } = document;
       if (documentElement) {
@@ -209,6 +208,32 @@ class Modal extends React.Component {
     }
     stack.emitter.emit('change');
   }
+
+  componentDidUpdate() {
+    this._focusContent();
+  }
+
+  _focusContent = () => {
+    const node = this._centerDOM;
+    if (!node || this._hasFocus()) {
+      return;
+    }
+    const stackIndex = stack.mounted.findIndex(x => x === this);
+    if (stackIndex !== stack.mounted.length - 1) {
+      return;
+    }
+    node.focus();
+  };
+
+  _hasFocus = () => {
+    const node = this._centerDOM;
+    if (!node) {
+      return false;
+    }
+    return (
+      node === document.activeElement || node.contains(document.activeElement)
+    );
+  };
 
   _handleWindowResize = () => {
     const docEl = document.documentElement;
@@ -253,10 +278,10 @@ class Modal extends React.Component {
     }
   };
 
-  _handleNativeKey = nativeEvent => {
+  _handleKeyDown = event => {
     const { onClose } = this.props;
-    if (nativeEvent.keyCode === 27 && onClose) {
-      stopPropagation(nativeEvent);
+    if (event.key === 'Escape' && onClose) {
+      stopPropagation(event);
       onClose();
     }
   };
