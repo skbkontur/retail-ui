@@ -101,13 +101,11 @@ export default class PasswordInput extends React.Component {
 
   _renderEye = () => {
     return (
-      <span>
-        <span
-          className={styles.toggleVisibility}
-          onClick={this._handleToggleVisibility}
-        >
-          <Icon size={14} name={this.state.visible ? 'eye' : 'eye-slash'} />
-        </span>
+      <span
+        className={styles.toggleVisibility}
+        onClick={this._handleToggleVisibility}
+      >
+        <Icon size={14} name={this.state.visible ? 'eye' : 'eye-slash'} />
       </span>
     );
   };
