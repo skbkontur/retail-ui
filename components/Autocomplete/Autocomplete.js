@@ -129,8 +129,10 @@ export default class Autocomplete extends React.Component {
     );
   }
 
-  componentWillReceiveProps(props: Props) {
-    this._updateItems(props.value);
+  componentWillReceiveProps(nextProps: Props) {
+    if (this.props.value !== nextProps.value) {
+      this._updateItems(nextProps.value);
+    }
   }
 
   _handleChange = event => {
