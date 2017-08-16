@@ -25,6 +25,7 @@ export { default as MenuItem } from './MenuItem/MenuItem';
 export { default as MenuSeparator } from './MenuSeparator/MenuSeparator';
 export { default as Modal } from './Modal/Modal';
 export { default as Paging } from './Paging/Paging';
+export { default as PasswordInput } from './PasswordInput/PasswordInput';
 export { default as PhoneInput } from './PhoneInput/PhoneInput';
 export { default as Radio } from './Radio/Radio';
 export { default as RadioGroup } from './RadioGroup/RadioGroup';

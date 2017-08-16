@@ -8,19 +8,22 @@ import Input from '../Input';
 import type { Props as InputProps } from '../Input/Input';
 import Icon from '../Icon';
 import PasswordInputFallback from './PasswordInputFallback';
-import { ieVerison } from '../ensureOldIEClassName';
+import { ieVerison, isIE } from '../ensureOldIEClassName';
 
 import styles from './PasswordInput.less';
 
 export type Props = {
-  detectCapsLock?: boolean,
-  visible?: boolean
+  detectCapsLock?: boolean
 } & InputProps;
 
 type State = {
   visible: boolean,
   capsLockEnabled?: boolean | null
 };
+
+/**
+  * **DRAFT**
+**/
 
 export default class PasswordInput extends React.Component {
   static defaultProps = {
@@ -37,6 +40,11 @@ export default class PasswordInput extends React.Component {
   componentWillMount() {
     if (this.props.detectCapsLock) {
       this.setState({ capsLockEnabled: null });
+    }
+
+    if (isIE && !window.document.msCapsLockWarningOff) {
+      // turns off default ie capslock warning
+      window.document.msCapsLockWarningOff = true;
     }
   }
 
