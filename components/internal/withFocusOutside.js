@@ -32,6 +32,7 @@ function withFocusOutside<P, S>(
     _clickHandlers: Array<(e: Event) => any> = [];
 
     _focusSubscribtion: any;
+    _unmounted = false;
 
     component: any;
 
@@ -96,7 +97,7 @@ function withFocusOutside<P, S>(
 
     _handleNativeDocClick = event => {
       if (this._unmounted) {
-        return
+        return;
       }
       const target = event.target || event.srcElement;
       const node = this._getDomNode();
@@ -122,7 +123,7 @@ function withFocusOutside<P, S>(
       if (this._focusSubscribtion) {
         this._flush();
       }
-      this._unmounted = true
+      this._unmounted = true;
     }
 
     render() {
