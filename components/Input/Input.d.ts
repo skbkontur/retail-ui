@@ -14,17 +14,14 @@ export interface InputProps {
   maxLength?: number | string;
   placeholder?: string;
   rightIcon?: React.ReactElement<any>;
-  size: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large';
   title?: string;
   type?: 'password' | 'text';
   value: string;
   warning?: boolean;
   width?: number | string;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  onChange?: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    value: string
-  ) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
   onCopy?: (event: React.ClipboardEvent<HTMLInputElement>) => void;
   onCut?: (event: React.ClipboardEvent<HTMLInputElement>) => void;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
