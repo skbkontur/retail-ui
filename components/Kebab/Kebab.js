@@ -17,6 +17,7 @@ type ReactNode = React$Element<*> | string;
 
 type Props = {
   children: ?ReactNode | ReactNode[],
+  disabled?: boolean,
   onClose: () => void,
   onOpen: () => void,
   size: 'small' | 'large'
@@ -50,6 +51,7 @@ export default class Kebab extends Component {
   }
 
   render() {
+    const { disabled } = this.props;
     const options = this._getOptions(this.props.size);
     const { focusedByTab, opened } = this.state;
     return (
@@ -57,7 +59,13 @@ export default class Kebab extends Component {
         onClickOutside={this._handleClickOutside}
         onFocusOutside={this._handleClickOutside}
       >
-        <div className={cn(styles.root, options.className)}>
+        <div
+          className={cn(
+            styles.root,
+            options.className,
+            disabled && styles.disabled
+          )}
+        >
           <div
             onClick={this._handleClick}
             onKeyDown={this._handleKeyDown}
@@ -68,7 +76,7 @@ export default class Kebab extends Component {
               opened && styles.opened,
               focusedByTab && styles.focused
             )}
-            tabIndex={0}
+            tabIndex={disabled ? -1 : 0}
             ref={node => (this._anchor = node)}
           >
             {options.icon}
@@ -164,6 +172,10 @@ export default class Kebab extends Component {
   };
 
   _setPopupState = (opened: boolean) => {
+    if (this.props.disabled && opened) {
+      return;
+    }
+
     if (this.state.opened === opened) {
       return;
     }
@@ -180,6 +192,7 @@ export default class Kebab extends Component {
 
 Kebab.propTypes = {
   children: PropTypes.node,
+  disabled: PropTypes.bool,
 
   /**
    * Размер кебаба small 14px | large 20px
