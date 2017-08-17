@@ -26,7 +26,7 @@ const stack = {
 };
 
 let mountedModalsCount = 0;
-let prevMarginRight = 0;
+let prevMarginRight = '';
 
 type Props = {
   children?: Node,
@@ -195,7 +195,7 @@ class Modal extends React.Component {
     if (--mountedModalsCount === 0) {
       const { documentElement } = document;
       if (documentElement) {
-        documentElement.style.marginRight = prevMarginRight + 'px';
+        documentElement.style.marginRight = prevMarginRight;
         removeClass(documentElement, styles.bodyClass);
       }
       events.removeEventListener(window, 'resize', this._handleWindowResize);
@@ -218,13 +218,13 @@ class Modal extends React.Component {
     const { clientHeight, scrollHeight, style } = docEl;
     if (clientHeight < scrollHeight) {
       const scrollbarWidth = getScrollWidth();
-      docEl.style.marginRight = prevMarginRight + 'px';
+      docEl.style.marginRight = prevMarginRight;
       removeClass(docEl, styles.bodyClass);
       const marginRight = parseFloat(getComputedStyle(docEl).marginRight);
       addClass(docEl, styles.bodyClass);
       docEl.style.marginRight = `${marginRight + scrollbarWidth}px`;
     } else if (style.marginRight !== prevMarginRight) {
-      style.marginRight = prevMarginRight + 'px';
+      style.marginRight = prevMarginRight;
     }
   };
 
