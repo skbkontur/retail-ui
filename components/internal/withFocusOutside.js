@@ -95,6 +95,9 @@ function withFocusOutside<P, S>(
     };
 
     _handleNativeDocClick = event => {
+      if (this._unmounted) {
+        return
+      }
       const target = event.target || event.srcElement;
       const node = this._getDomNode();
 
@@ -119,6 +122,7 @@ function withFocusOutside<P, S>(
       if (this._focusSubscribtion) {
         this._flush();
       }
+      this._unmounted = true
     }
 
     render() {
