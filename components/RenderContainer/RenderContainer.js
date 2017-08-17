@@ -23,6 +23,7 @@ export default class RenderContainer extends React.Component {
       'data-rendered-container-id',
       this._testID.toString()
     );
+    this._domContainer.className = 'react-ui';
 
     if (global.ReactTesting) {
       global.ReactTesting.addRenderContainer(this._testID, this);
