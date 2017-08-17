@@ -5,7 +5,9 @@ import PasswordInputFallback from '../PasswordInputFallback';
 import Input from '../../Input';
 
 const setup = props => {
-  return mount(<PasswordInputFallback value="" {...props} />);
+  return mount(
+    <PasswordInputFallback value="" refInput={() => {}} {...props} />
+  );
 };
 
 describe('PasswordInputFallback', () => {
