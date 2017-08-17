@@ -51,7 +51,7 @@ export type Props = {
   maxLength?: number | string,
   placeholder?: string,
   rightIcon?: React.Element<mixed>,
-  size: 'small' | 'medium' | 'large',
+  size?: 'small' | 'medium' | 'large',
   title?: string,
   type?: 'password' | 'text',
   value: string,
@@ -193,9 +193,7 @@ export default class Input extends React.Component {
 
   render() {
     const className: string = this.props.className || '';
-    const sizeClassName =
-      SIZE_CLASS_NAMES[this.props.size] ||
-      SIZE_CLASS_NAMES[Input.defaultProps.size];
+    const sizeClassName = SIZE_CLASS_NAMES[this.props.size || Input.defaultProps.size];
     var labelProps = {
       className: classNames({
         [styles.root]: true,

@@ -26,7 +26,7 @@ const stack = {
 };
 
 let mountedModalsCount = 0;
-let prevMarginRight = 0;
+let prevMarginRight = '';
 
 type Props = {
   children?: Node,
@@ -114,7 +114,7 @@ class Modal extends React.Component {
             styles.close,
             this.props.disableClose && styles.disabled
           )}
-          onClick={this._handleClose}
+          onClick={this._requestClose}
         >
           ×
         </a>
@@ -142,6 +142,8 @@ class Modal extends React.Component {
             ref={this._refCenter}
             className={styles.container}
             onClick={this._handleContainerClick}
+            tabIndex={-1}
+            onKeyDown={this._handleKeyDown}
           >
             <div className={styles.centerContainer}>
               <div className={styles.window} style={style}>
@@ -171,8 +173,6 @@ class Modal extends React.Component {
   };
 
   componentDidMount() {
-    events.addEventListener(document, 'keydown', this._handleNativeKey);
-
     if (mountedModalsCount === 0) {
       const { documentElement } = document;
       if (documentElement) {
@@ -187,15 +187,14 @@ class Modal extends React.Component {
     mountedModalsCount++;
 
     stack.emitter.emit('change');
+    this._focusContent();
   }
 
   componentWillUnmount() {
-    events.removeEventListener(document, 'keydown', this._handleNativeKey);
-
     if (--mountedModalsCount === 0) {
       const { documentElement } = document;
       if (documentElement) {
-        documentElement.style.marginRight = prevMarginRight + 'px';
+        documentElement.style.marginRight = prevMarginRight;
         removeClass(documentElement, styles.bodyClass);
       }
       events.removeEventListener(window, 'resize', this._handleWindowResize);
@@ -210,6 +209,32 @@ class Modal extends React.Component {
     stack.emitter.emit('change');
   }
 
+  componentDidUpdate() {
+    this._focusContent();
+  }
+
+  _focusContent = () => {
+    const node = this._centerDOM;
+    if (!node || this._hasFocus()) {
+      return;
+    }
+    const stackIndex = stack.mounted.findIndex(x => x === this);
+    if (stackIndex !== stack.mounted.length - 1) {
+      return;
+    }
+    node.focus();
+  };
+
+  _hasFocus = () => {
+    const node = this._centerDOM;
+    if (!node) {
+      return false;
+    }
+    return (
+      node === document.activeElement || node.contains(document.activeElement)
+    );
+  };
+
   _handleWindowResize = () => {
     const docEl = document.documentElement;
     if (!docEl) {
@@ -218,13 +243,13 @@ class Modal extends React.Component {
     const { clientHeight, scrollHeight, style } = docEl;
     if (clientHeight < scrollHeight) {
       const scrollbarWidth = getScrollWidth();
-      docEl.style.marginRight = prevMarginRight + 'px';
+      docEl.style.marginRight = prevMarginRight;
       removeClass(docEl, styles.bodyClass);
       const marginRight = parseFloat(getComputedStyle(docEl).marginRight);
       addClass(docEl, styles.bodyClass);
       docEl.style.marginRight = `${marginRight + scrollbarWidth}px`;
     } else if (style.marginRight !== prevMarginRight) {
-      style.marginRight = prevMarginRight + 'px';
+      style.marginRight = prevMarginRight;
     }
   };
 
@@ -240,11 +265,11 @@ class Modal extends React.Component {
       event.target === event.currentTarget &&
       !this.props.ignoreBackgroundClick
     ) {
-      this._handleClose();
+      this._requestClose();
     }
   };
 
-  _handleClose = () => {
+  _requestClose = () => {
     if (this.props.disableClose) {
       return;
     }
@@ -253,11 +278,10 @@ class Modal extends React.Component {
     }
   };
 
-  _handleNativeKey = nativeEvent => {
-    const { onClose } = this.props;
-    if (nativeEvent.keyCode === 27 && onClose) {
-      stopPropagation(nativeEvent);
-      onClose();
+  _handleKeyDown = event => {
+    if (event.key === 'Escape') {
+      stopPropagation(event);
+      this._requestClose();
     }
   };
 }
