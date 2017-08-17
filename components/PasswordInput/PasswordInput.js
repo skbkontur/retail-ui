@@ -96,15 +96,7 @@ export default class PasswordInput extends React.Component {
   };
 
   _handleToggleVisibility = () => {
-    this.setState({ visible: !this.state.visible }, this._handleFocus);
-  };
-
-  _handleFocus = () => {
-    if (this._input) {
-      this._input.focus();
-
-      return;
-    }
+    this.setState({ visible: !this.state.visible }, this.focus);
   };
 
   _renderEye = () => {
@@ -118,8 +110,18 @@ export default class PasswordInput extends React.Component {
     );
   };
 
-  _refInput = ref => {
+  focus = () => {
+    if (this._input) {
+      this._input.focus();
+    }
+  };
+
+  refInput = (ref: HTMLInputElement, action: string) => {
     this._input = ref;
+
+    if (action === 'focus') {
+      this.focus();
+    }
   };
 
   _renderInput() {
@@ -130,15 +132,19 @@ export default class PasswordInput extends React.Component {
       rightIcon: this._renderEye()
     };
 
-    if (ieVerison === 8) {
+    if (isIE && ieVerison === 8) {
       return (
-        <PasswordInputFallback visible={this.state.visible} {...inputProps} />
+        <PasswordInputFallback
+          refInput={this.refInput}
+          visible={this.state.visible}
+          {...inputProps}
+        />
       );
     }
 
     return (
       <Input
-        ref={this._refInput}
+        ref={this.refInput}
         type={this.state.visible ? 'text' : 'password'}
         {...inputProps}
       />

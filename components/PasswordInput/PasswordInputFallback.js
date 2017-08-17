@@ -9,16 +9,19 @@ export default class PasswordInputFallback extends React.Component {
   _passwordInput = null;
   _textInput = null;
 
+  componentDidMount() {
+    this.props.refInput(this._passwordInput);
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.visible === this.props.visible) {
       return;
     }
 
-    if (this.props.visible) {
-      this._textInput.focus();
-    } else {
-      this._passwordInput.focus();
-    }
+    const { visible, refInput } = this.props;
+    const currentInput = visible ? this._textInput : this._passwordInput;
+
+    refInput(currentInput, 'focus');
   }
 
   // sad ie8 hack that move caret position to the end
@@ -38,7 +41,9 @@ export default class PasswordInputFallback extends React.Component {
           <Input
             type="password"
             onFocus={this._handleFocus}
-            ref={ref => (this._passwordInput = ref)}
+            ref={ref => {
+              this._passwordInput = ref;
+            }}
             {...this.props}
           />
         </span>
@@ -46,7 +51,9 @@ export default class PasswordInputFallback extends React.Component {
           <Input
             type="text"
             onFocus={this._handleFocus}
-            ref={ref => (this._textInput = ref)}
+            ref={ref => {
+              this._textInput = ref;
+            }}
             {...this.props}
           />
         </span>
