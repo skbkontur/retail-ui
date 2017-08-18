@@ -1,9 +1,10 @@
 import * as React from 'react';
 
 export interface KebabProps {
-  size?: 'small' | 'large';
+  disabled?: boolean,
   onClose?: () => void;
   onOpen?: () => void;
+  size?: 'small' | 'large';
 }
 
 export interface KebabState {
