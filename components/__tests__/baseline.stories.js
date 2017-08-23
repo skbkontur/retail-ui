@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Button from '../Button';
@@ -24,9 +24,7 @@ storiesOf('Baseline', module)
   )
   .add('Button and link', () =>
     <div>
-      <Button>Ok</Button>
-      {' '}
-      <Link>Ok</Link>
+      <Button>Ok</Button> <Link>Ok</Link>
     </div>
   )
   .add('Input and text', () =>

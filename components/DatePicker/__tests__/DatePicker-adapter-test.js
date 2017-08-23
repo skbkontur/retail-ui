@@ -2,7 +2,7 @@
 
 import { testAdapter } from '../../../testing/AdapterTestUtils';
 
-import React from 'react';
+import * as React from 'react';
 
 import DatePicker from '../DatePicker.adapter';
 
@@ -38,7 +38,9 @@ describe('DatePicker-adapter', () => {
 
     const time = new Date(Date.UTC(2016, 8, 29)).getTime();
     expect(onChange.mock.calls.length).toBe(1);
+    // $FlowIssue
     expect(onChange.mock.calls[0][0].target.value.getTime()).toBe(time);
+    // $FlowIssue
     expect(onChange.mock.calls[0][1].getTime()).toBe(time);
   });
 });

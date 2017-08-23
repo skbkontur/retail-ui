@@ -1,5 +1,5 @@
 // @flow
-
+/* eslint-disable flowtype/no-weak-types */
 import invariant from 'invariant';
 
 const SPACE = 13;
@@ -27,12 +27,10 @@ export default function(
     throw Error('There is no "documentElement" in "document"');
   }
 
-  const pageXOffset = window.pageXOffset !== undefined
-    ? window.pageXOffset
-    : docElem.scrollLeft;
-  const pageYOffset = window.pageYOffset !== undefined
-    ? window.pageYOffset
-    : docElem.scrollTop;
+  const pageXOffset =
+    window.pageXOffset !== undefined ? window.pageXOffset : docElem.scrollLeft;
+  const pageYOffset =
+    window.pageYOffset !== undefined ? window.pageYOffset : docElem.scrollTop;
 
   const tRect = target.getBoundingClientRect();
   const tWidth = tRect.right - tRect.left;
@@ -52,7 +50,8 @@ export default function(
     switch (pos.ver) {
       case 'top':
         if (
-          tRect.top + height > wndHeight && tRect.top > wndHeight - tRect.bottom
+          tRect.top + height > wndHeight &&
+          tRect.top > wndHeight - tRect.bottom
         ) {
           pos.ver = 'bottom';
         }
@@ -82,7 +81,8 @@ export default function(
     switch (pos.ver) {
       case 'top':
         if (
-          tRect.top < height + SPACE && tRect.top < wndHeight - tRect.bottom
+          tRect.top < height + SPACE &&
+          tRect.top < wndHeight - tRect.bottom
         ) {
           pos.ver = 'bottom';
         }

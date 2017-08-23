@@ -1,10 +1,14 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import MenuItem from '../MenuItem/MenuItem';
 
-class Item extends React.Component {
+class Item extends React.Component<{ children?: React.Node }> {
   render() {
-    return <MenuItem>{this.props.children}</MenuItem>;
+    return (
+      <MenuItem>
+        {this.props.children}
+      </MenuItem>
+    );
   }
 }
 

@@ -1,12 +1,19 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import PropTypes from 'prop-types';
+
+type Props = {
+  gap: number,
+  verticalAlign: 'top' | 'middle' | 'baseline' | 'bottom',
+  vertical?: boolean,
+  children: React.Node
+};
 
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
  */
-class Gapped extends React.Component {
+class Gapped extends React.Component<Props> {
   static propTypes = {
     /**
      * Расстояние между элементами.
@@ -49,10 +56,18 @@ class Gapped extends React.Component {
 
       isFirst = false;
 
-      return <div style={style}>{child}</div>;
+      return (
+        <div style={style}>
+          {child}
+        </div>
+      );
     });
 
-    return <div>{children}</div>;
+    return (
+      <div>
+        {children}
+      </div>
+    );
   }
 
   _renderHorizontal() {
@@ -66,7 +81,11 @@ class Gapped extends React.Component {
       if (!child) {
         return child;
       }
-      return <span style={itemStyle}>{child}</span>;
+      return (
+        <span style={itemStyle}>
+          {child}
+        </span>
+      );
     });
     const rootStyle = {
       paddingTop: 1
@@ -77,7 +96,9 @@ class Gapped extends React.Component {
     };
     return (
       <div style={rootStyle}>
-        <div style={contStyle}>{children}</div>
+        <div style={contStyle}>
+          {children}
+        </div>
       </div>
     );
   }

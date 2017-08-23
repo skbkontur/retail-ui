@@ -70,7 +70,7 @@ class Textarea extends React.Component {
     rows: '3'
   };
 
-  _node: HTMLTextAreaElement;
+  _node;
 
   constructor(props, context) {
     super(props, context);

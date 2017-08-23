@@ -15,9 +15,7 @@ type Props = {
   size: number
 };
 
-export default class PopupPin extends Component {
-  props: Props;
-
+export default class PopupPin extends Component<Props> {
   render() {
     if (!this.props.popupElement) {
       return null;

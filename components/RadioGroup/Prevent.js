@@ -1,9 +1,17 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
-class Prevent extends React.Component {
+type Props = {
+  children?: React.Node
+};
+
+class Prevent extends React.Component<Props> {
   render() {
-    return <span onClick={this._prevent}>{this.props.children}</span>;
+    return (
+      <span onClick={this._prevent}>
+        {this.props.children}
+      </span>
+    );
   }
 
   _prevent = event => {

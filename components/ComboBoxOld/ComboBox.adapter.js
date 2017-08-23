@@ -1,7 +1,7 @@
 // @flow
 
 import isActiveElement from '../Menu/isActiveElement';
-import React from 'react';
+import * as React from 'react';
 
 import ComboBox from './ComboBox.js';
 
@@ -39,7 +39,7 @@ const ComboBoxAdapter = {
     );
   }
 };
-
+// eslint-disable-next-line flowtype/no-weak-types
 (ComboBox: Object).__ADAPTER__ = ComboBoxAdapter;
 
 export default ComboBox;

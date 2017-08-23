@@ -2,7 +2,7 @@
 
 import { testAdapter } from '../../../testing/AdapterTestUtils';
 
-import React from 'react';
+import * as React from 'react';
 
 import Select from '../Select.adapter.js';
 

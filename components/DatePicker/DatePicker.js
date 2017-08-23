@@ -2,7 +2,7 @@
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
+import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 
 import filterProps from '../filterProps';
@@ -35,6 +35,8 @@ const INPUT_PASS_PROPS = {
   onMouseOver: true
 };
 
+type DatePickerValue = Date | string | null;
+
 type Props = {
   className?: string, // legacy
   disabled?: boolean,
@@ -42,19 +44,22 @@ type Props = {
   maxYear?: number,
   minYear?: number,
   onBlur?: () => void,
-  onChange?: (e: { target: { value: mixed } }, v: mixed) => void,
+  onChange?: (
+    e: { target: { value: DatePickerValue } },
+    v: DatePickerValue
+  ) => void,
   onFocus?: () => void,
-  onInput?: (e: SyntheticInputEvent) => void,
-  onKeyDown?: (e: SyntheticKeyboardEvent) => void,
-  onKeyPress?: (e: SyntheticKeyboardEvent) => void,
-  onKeyUp?: (e: SyntheticKeyboardEvent) => void,
-  onMouseEnter?: (e: SyntheticMouseEvent) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void,
-  onUnexpectedInput: (value: string) => mixed,
+  onInput?: (e: SyntheticInputEvent<>) => void,
+  onKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
+  onKeyPress?: (e: SyntheticKeyboardEvent<>) => void,
+  onKeyUp?: (e: SyntheticKeyboardEvent<>) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
+  onMouseOver?: (e: SyntheticMouseEvent<>) => void,
+  onUnexpectedInput: (value: string) => DatePickerValue,
   placeholder?: string,
   size?: 'small' | 'medium' | 'large',
-  value?: ?(Date | string),
+  value?: DatePickerValue,
   warning?: boolean,
   width?: number | string,
   withMask?: boolean
@@ -65,7 +70,7 @@ type State = {
   textValue: string
 };
 
-class DatePicker extends React.Component {
+class DatePicker extends React.Component<Props, State> {
   static propTypes = {
     disabled: PropTypes.bool,
 
@@ -125,12 +130,9 @@ class DatePicker extends React.Component {
     maxYear: 2100,
     width: 120,
     withMask: false,
-
-    onUnexpectedInput: (() => null: (x: string) => mixed)
+    onUnexpectedInput: () => null
   };
 
-  props: Props;
-  state: State;
   icon: Icon;
   input: Input;
 

@@ -8,6 +8,7 @@ const AutocompleteAdapter = {
   },
 
   setValue(inst: Autocomplete, value: mixed) {
+    // $FlowIssue
     inst._handleChange({ target: { value } });
   },
 

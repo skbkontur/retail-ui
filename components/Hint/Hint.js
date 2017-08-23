@@ -1,31 +1,34 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import HintBox from './HintBox';
 
 type Props = {
-  children?: string | React.Element<*>,
+  children?: React.Node,
   manual: boolean,
   maxWidth: string | number,
-  onMouseEnter: (e: SyntheticMouseEvent) => void,
-  onMouseLeave: (e: SyntheticMouseEvent) => void,
+  onMouseEnter: (e: SyntheticMouseEvent<>) => void,
+  onMouseLeave: (e: SyntheticMouseEvent<>) => void,
   opened: boolean,
   pos: 'top' | 'right' | 'bottom' | 'left',
   text: string
 };
 
-export default class Hint extends React.Component {
+type State = {
+  opened: boolean
+};
+
+export default class Hint extends React.Component<Props, State> {
   static defaultProps = {
     pos: 'top',
     manual: false,
     opened: false,
     maxWidth: (200: string | number),
-    onMouseEnter: (e: SyntheticMouseEvent) => {},
-    onMouseLeave: (e: SyntheticMouseEvent) => {}
+    onMouseEnter: (e: SyntheticMouseEvent<>) => {},
+    onMouseLeave: (e: SyntheticMouseEvent<>) => {}
   };
 
-  props: Props;
   state: {
     opened: boolean
   } = {

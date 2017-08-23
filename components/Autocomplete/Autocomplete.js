@@ -1,23 +1,54 @@
 // @flow
 
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 
 import Input from '../Input';
-import type { Props as InputProps } from '../Input/Input';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import RenderLayer from '../RenderLayer';
 
 import styles from './Autocomplete.less';
 
-type Props = {
-  renderItem: (item: string) => React.Element<*>,
+type InputProps = {
+  align?: 'left' | 'center' | 'right',
+  alwaysShowMask?: boolean,
+  borderless?: boolean,
+  disabled?: boolean,
+  error?: boolean,
+  id?: string,
+  leftIcon?: React.Element<React.ComponentType<mixed>>,
+  mask?: string,
+  maskChar?: string,
+  maxLength?: number | string,
+  placeholder?: string,
+  rightIcon?: React.Element<React.ComponentType<mixed>>,
+  size?: 'small' | 'medium' | 'large',
+  title?: string,
+  type?: 'password' | 'text',
+  value?: string,
+  warning?: boolean,
+  width?: number | string,
+  onBlur?: (e: Event) => void,
+  onCopy?: (e: SyntheticClipboardEvent<>) => void,
+  onCut?: (e: SyntheticClipboardEvent<>) => void,
+  onFocus?: (e: SyntheticFocusEvent<>) => void,
+  onInput?: (e: SyntheticInputEvent<>) => void,
+  onKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
+  onKeyPress?: (e: SyntheticKeyboardEvent<>) => void,
+  onKeyUp?: (e: SyntheticKeyboardEvent<>) => void,
+  onPaste?: (e: SyntheticFocusEvent<>) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
+  onMouseOver?: (e: SyntheticMouseEvent<>) => void
+};
+
+type Props = InputProps & {
+  renderItem: (item: string) => React.Node,
   source: Array<string> | ((patter: string) => Promise<string[]>),
-  onChange?: (event: { target: { value: string } }, value: string) => void,
-  onBlur?: (event: Event) => void
-} & InputProps;
+  onChange?: (event: { target: { value: string } }, value: string) => void
+};
 
 type State = {
   items: ?Array<string>,
@@ -29,7 +60,7 @@ type State = {
  *
  * Все свойства передаются во внутренний *Input*.
  */
-export default class Autocomplete extends React.Component {
+export default class Autocomplete extends React.Component<Props, State> {
   static propTypes = {
     /**
      * Функция для отрисовки элемента в выпадающем списке. Единственный аргумент
@@ -58,7 +89,6 @@ export default class Autocomplete extends React.Component {
     size: 'small'
   };
 
-  props: Props;
   state: State = {
     items: null,
     selected: -1
@@ -76,7 +106,7 @@ export default class Autocomplete extends React.Component {
   }
 
   render() {
-    var inputProps = {
+    const inputProps = {
       onChange: this._handleChange,
       onKeyDown: this._handleKey,
       onMouseEnter: this.props.onMouseEnter,
@@ -90,6 +120,7 @@ export default class Autocomplete extends React.Component {
         onClickOutside={this._handleBlur}
       >
         <span className={styles.root}>
+          {/* $FlowIssue inputProps overrides */}
           <Input {...this.props} {...inputProps} />
           {this._renderMenu()}
         </span>
@@ -130,12 +161,12 @@ export default class Autocomplete extends React.Component {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (this.props.value !== nextProps.value) {
+    if (nextProps.value && this.props.value !== nextProps.value) {
       this._updateItems(nextProps.value);
     }
   }
 
-  _handleChange = event => {
+  _handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this._opened = true;
 
     const value: string = event.target.value;
@@ -154,7 +185,7 @@ export default class Autocomplete extends React.Component {
     }
   };
 
-  _handleKey = (event: SyntheticKeyboardEvent) => {
+  _handleKey = (event: SyntheticKeyboardEvent<>) => {
     var items = this.state.items;
     var stop = false;
     if ((event.key === 'ArrowUp' || event.key === 'ArrowDown') && items) {
@@ -192,7 +223,7 @@ export default class Autocomplete extends React.Component {
     }
   };
 
-  _handleItemClick(event: SyntheticMouseEvent, index: number) {
+  _handleItemClick(event: SyntheticMouseEvent<>, index: number) {
     if (event.button !== 0) {
       return;
     }

@@ -1,7 +1,7 @@
 // @flow
 
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 
 import Select from '../Select';
 

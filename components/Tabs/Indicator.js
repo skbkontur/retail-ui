@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import cn from 'classnames';
 import LayoutEvents from '../../lib/LayoutEvents';
@@ -10,7 +10,7 @@ import styles from './Indicator.less';
 
 type Props = {
   className?: string,
-  getAnchorNode: () => Element | React$Component<*, *, *> | null,
+  getAnchorNode: () => Element | React.Component<*, *> | null,
   tabUpdates: *,
   vertical: boolean
 };
@@ -26,9 +26,7 @@ type State = {
   styles: Styles
 };
 
-class Indicator extends React.Component {
-  props: Props;
-
+class Indicator extends React.Component<Props, State> {
   state: State = {
     styles: {}
   };
