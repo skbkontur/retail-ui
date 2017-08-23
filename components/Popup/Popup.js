@@ -171,8 +171,8 @@ export default class Popup extends Component {
     }
 
     const { anchorElement, positions, margin, popupOffset } = this.props;
-    let anchorRect = PopupHelper.getElementRect(anchorElement);
-    let popupRect = PopupHelper.getElementRect(this._popupElement);
+    let anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
+    let popupRect = PopupHelper.getElementAbsoluteRect(this._popupElement);
 
     for (var i = 0; i < positions.length; ++i) {
       let position = PopupHelper.getPositionObject(positions[i]);
@@ -184,7 +184,7 @@ export default class Popup extends Component {
         popupOffset
       );
       if (
-        this._isRectAvaliable({
+        PopupHelper.isAbsoluteRectFullyVisible({
           top: coordinates.top,
           left: coordinates.left,
           height: popupRect.height,
@@ -202,15 +202,6 @@ export default class Popup extends Component {
       popupOffset
     );
     return { coordinates, position: positions[0] };
-  }
-
-  _isRectAvaliable(rect) {
-    return (
-      rect.top > 0 &&
-      rect.top + rect.height < window.innerHeight &&
-      rect.left > 0 &&
-      rect.left + rect.width < window.innerWidth
-    );
   }
 
   _getCoordinates(anchorRect, popupRect, position, margin, popupOffset) {
