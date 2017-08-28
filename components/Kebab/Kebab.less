@@ -1,40 +1,52 @@
 @import '../variables.less';
 
-@smal-size: 20px;
-@large-size: 27px;
-
 :local {
-  .root {
+  .container {
     display: inline-block;
 
-    &.small {
-      height: @smal-size;
-    }
+    .kebab {
+      display: inline-block;
+      text-align: center;
+      border: 2px solid transparent;
+      box-sizing: border-box;
+      border-radius: 50%;
+      user-select: none;
+      cursor: pointer;
+      outline: 0;
+      transition: background 0.12s ease-out;
+      width: 26px;
+      height: 26px;
 
-    &.large {
-      height: @large-size;
-    }
-  }
+      &:hover,
+      &.opened,
+      &.focused {
+        background: rgba(0, 0, 0, 0.09);
+      }
 
-  .kebab {
-    display: inline-block;
-    text-align: center;
-    border: 2px solid transparent;
-    box-sizing: border-box;
-    border-radius: 50%;
-    user-select: none;
-    cursor: pointer;
-    outline: 0;
-    transition: background 0.12s ease-out;
+      &.opened {
+        cursor: default;
+      }
 
-    &.opened {
-      cursor: default;
-    }
+      &.focused {
+        border-color: @border-color-focus;
+      }
 
-    &:hover,
-    &.opened,
-    &.focused {
-      background: rgba(0, 0, 0, 0.09);
+      &.disabled {
+        cursor: default;
+        &:hover {
+          background: none;
+        }
+      }
+
+      .iconsmall {
+        margin-top: 1px;
+        margin-left: 0.8124px;
+      }
+
+      .iconlarge {
+        margin-top: -5px;
+        margin-left: 0.5px;
+      }
     }
   }
 
@@ -46,39 +58,6 @@
         background: #e5e5e5;
       }
     }
-  }
-
-  .root.disabled .kebab {
-    cursor: default;
-    &:hover {
-      background: none;
-    }
-  }
-
-  .small {
-    .kebab {
-      width: @smal-size;
-      height: @smal-size;
-    }
-
-    .icon {
-      margin-top: -2px;
-    }
-  }
-
-  .large {
-    .kebab {
-      width: @large-size;
-      height: @large-size;
-    }
-
-    .icon {
-      margin-top: -4px;
-    }
-  }
-
-  .focused {
-    border-color: @border-color-focus;
   }
 
   .menu {
