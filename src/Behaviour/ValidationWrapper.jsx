@@ -77,6 +77,11 @@ export default class ValidationWrapper extends React.Component {
     componentDidMount() {
         if (this.context.validationContext) {
             this.context.validationContext.register(this);
+        } else {
+            console.error(
+                "ValidationWrapper should appears as child of ValidationContext.\n" +
+                    "http://tech.skbkontur.ru/react-ui-validations/#/getting-started"
+            );
         }
     }
 
