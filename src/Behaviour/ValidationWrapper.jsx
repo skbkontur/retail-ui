@@ -5,6 +5,10 @@ import PropTypes from "prop-types";
 import isEqual from "lodash.isequal";
 import smoothScrollIntoView from "./smoothScrollIntoView";
 
+if (typeof HTMLElement !== 'undefined') {
+    HTMLElement = window.Element;
+}
+
 export type Validation = {
     error: boolean,
     level: "error" | "warning",
