@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 import isEqual from "lodash.isequal";
 import smoothScrollIntoView from "./smoothScrollIntoView";
 
-if (typeof HTMLElement !== 'undefined') {
-    HTMLElement = window.Element;
+if (typeof HTMLElement !== "undefined") {
+    window.HTMLElement = window.Element;
 }
 
 export type Validation = {
