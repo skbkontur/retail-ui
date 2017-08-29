@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Validations for retail-ui",
   "main": "index.js",
   "scripts": {
