@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Tooltip from "retail-ui/components/Tooltip";
-import RadioGroup from "retail-ui/components/RadioGroup";
+import ReactUiDetection from "../ReactUiDetection";
 
 type ValidationTooltipProps = {
     children?: any,
@@ -90,7 +90,7 @@ export default class ValidationTooltip extends React.Component {
             onMouseEnter: () => this.handleMouseOver(),
             onMouseLeave: () => this.handleMouseOut(),
         };
-        if (onlyChild.type === RadioGroup) {
+        if (ReactUiDetection.isRadioGroup(onlyChild)) {
             const prevRenderItem = onlyChild.props.renderItem;
             const items = onlyChild.props.items;
             childProps.renderItem = (value, data, ...rest) => {

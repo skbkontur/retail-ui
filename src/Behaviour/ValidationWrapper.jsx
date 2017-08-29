@@ -3,6 +3,7 @@ import React from "react";
 import ReactDom from "react-dom";
 import PropTypes from "prop-types";
 import isEqual from "lodash.isequal";
+import ReactUiDetection from "../ReactUiDetection";
 import smoothScrollIntoView from "./smoothScrollIntoView";
 
 if (typeof HTMLElement !== "undefined") {
@@ -257,7 +258,17 @@ export default class ValidationWrapper extends React.Component {
                       }
                   },
                   onChange: (...args) => {
-                      this.isChanging = true;
+                      if (ReactUiDetection.isDatePicker(children)) {
+                          const nextValue = args[1];
+                          if (
+                              nextValue !== children.props.value &&
+                              !(nextValue == null && children.props.value == null)
+                          ) {
+                              this.isChanging = true;
+                          }
+                      } else {
+                          this.isChanging = true;
+                      }
                       if (children && children.props && children.props.onChange) {
                           children.props.onChange(...args);
                       }
