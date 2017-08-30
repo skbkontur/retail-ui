@@ -161,23 +161,26 @@ export default class ValidationWrapper extends React.Component {
     processBlur(validation: Validation, validationState: ValidationState, index: number) {
         this.isChanging = false;
         if (validation.behaviour === "lostfocus") {
-            let validationStates;
-            if (validation.error) {
+            let { validationStates } = this.state;
+            if (validation.error && (!validationStates[index] || validationStates[index].visible === false)) {
                 validationStates = [
-                    ...this.state.validationStates.slice(0, index),
+                    ...validationStates.slice(0, index),
                     { ...validationState, visible: true },
-                    ...this.state.validationStates.slice(index + 1),
+                    ...validationStates.slice(index + 1),
                 ];
-            } else {
+                this.setState({
+                    validationStates: validationStates,
+                });
+            } else if (!validation.error && (!validationStates[index] || validationStates[index].visible === true)) {
                 validationStates = [
-                    ...this.state.validationStates.slice(0, index),
+                    ...validationStates.slice(0, index),
                     { ...validationState, visible: false },
-                    ...this.state.validationStates.slice(index + 1),
+                    ...validationStates.slice(index + 1),
                 ];
+                this.setState({
+                    validationStates: validationStates,
+                });
             }
-            this.setState({
-                validationStates: validationStates,
-            });
             const isValid = !validationStates.find(x => x.visible);
             this.context.validationContext.onValidationUpdated(this, isValid);
         }
