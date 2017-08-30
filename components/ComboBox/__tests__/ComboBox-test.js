@@ -1,11 +1,12 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import ComboBoxV2 from '../ComboBox';
 import { mount } from 'enzyme';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
   event.initEvent('mousedown', true, true);
+  // eslint-disable-next-line
   (document.body: any).dispatchEvent(event);
 }
 
@@ -19,7 +20,7 @@ describe('ComboBox V2', () => {
   });
 
   it('fetches item when focused', async () => {
-    const search = jest.fn(() => Promise.resolve());
+    const search = jest.fn(() => Promise.resolve([]));
     const wrapper = mount(<ComboBoxV2 getItems={search} />);
 
     wrapper.find('InputLikeText').simulate('focus');
@@ -28,7 +29,7 @@ describe('ComboBox V2', () => {
   });
 
   it('fetches items on input', async () => {
-    const search = jest.fn(() => Promise.resolve());
+    const search = jest.fn(() => Promise.resolve([]));
     const wrapper = mount(<ComboBoxV2 getItems={search} />);
 
     wrapper.find('InputLikeText').simulate('focus'); // called search 1 time
@@ -75,7 +76,6 @@ describe('ComboBox V2', () => {
     expect(menuItems.length).toBe(items.length);
 
     menuItems.forEach((item, index) => {
-      // $FlowIssue input length already checked
       expect(item.text()).toBe(items[index]);
     });
   });
@@ -233,11 +233,7 @@ describe('ComboBox V2', () => {
 
   it('calls element onClick on custom element select', async () => {
     const onClick = jest.fn();
-    const items = [
-      <div onClick={onClick}>
-        Hello, world
-      </div>
-    ];
+    const items = [<div onClick={onClick}>Hello, world</div>];
     const search = jest.fn(() => Promise.resolve(items));
 
     const wrapper = mount(<ComboBoxV2 getItems={search} />);

@@ -61,7 +61,7 @@ export default class CalendarCell extends Component {
     return isSameDate(date, this._today);
   }
 
-  pick = (event: SyntheticMouseEvent) => {
+  pick = event => {
     if (event.button !== 0) {
       return;
     }

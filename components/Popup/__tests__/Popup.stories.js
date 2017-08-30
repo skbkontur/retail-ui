@@ -10,37 +10,61 @@ storiesOf('Popup', module)
         <tbody>
           <tr>
             <td />
-            <td><AlwaysOpened positions={['top left']} /></td>
-            <td><AlwaysOpened positions={['top center']} /></td>
-            <td><AlwaysOpened positions={['top right']} /></td>
+            <td>
+              <AlwaysOpened positions={['top left']} />
+            </td>
+            <td>
+              <AlwaysOpened positions={['top center']} />
+            </td>
+            <td>
+              <AlwaysOpened positions={['top right']} />
+            </td>
             <td />
           </tr>
           <tr>
-            <td><AlwaysOpened positions={['left top']} /></td>
+            <td>
+              <AlwaysOpened positions={['left top']} />
+            </td>
             <td />
             <td />
             <td />
-            <td><AlwaysOpened positions={['right top']} /></td>
+            <td>
+              <AlwaysOpened positions={['right top']} />
+            </td>
           </tr>
           <tr>
-            <td><AlwaysOpened positions={['left middle']} /></td>
+            <td>
+              <AlwaysOpened positions={['left middle']} />
+            </td>
             <td />
             <td />
             <td />
-            <td><AlwaysOpened positions={['right middle']} /></td>
+            <td>
+              <AlwaysOpened positions={['right middle']} />
+            </td>
           </tr>
           <tr>
-            <td><AlwaysOpened positions={['left bottom']} /></td>
+            <td>
+              <AlwaysOpened positions={['left bottom']} />
+            </td>
             <td />
             <td />
             <td />
-            <td><AlwaysOpened positions={['right bottom']} /></td>
+            <td>
+              <AlwaysOpened positions={['right bottom']} />
+            </td>
           </tr>
           <tr>
             <td />
-            <td><AlwaysOpened positions={['bottom left']} /></td>
-            <td><AlwaysOpened positions={['bottom center']} /></td>
-            <td><AlwaysOpened positions={['bottom right']} /></td>
+            <td>
+              <AlwaysOpened positions={['bottom left']} />
+            </td>
+            <td>
+              <AlwaysOpened positions={['bottom center']} />
+            </td>
+            <td>
+              <AlwaysOpened positions={['bottom right']} />
+            </td>
             <td />
           </tr>
         </tbody>
@@ -63,8 +87,8 @@ storiesOf('Popup', module)
     </div>
   );
 
-class AlwaysOpened extends Component {
-  anchor: HTMLElement;
+class AlwaysOpened extends Component<*, *> {
+  anchor: ?HTMLElement;
 
   constructor(props) {
     super(props);
@@ -86,22 +110,25 @@ class AlwaysOpened extends Component {
         >
           Hello
         </div>
-        <Popup
-          onClickOutside={this._clickHandler}
-          onFocusOutside={this._clickHandler}
-          anchorElement={this.state.anchor}
-          popupOffset={0}
-          opened={true}
-          margin={10}
-          positions={this.props.positions}
-          backgroundColor={'#fff'}
-          hasShadow={true}
-          hasPin={true}
-          pinSize={10}
-          pinOffset={7}
-        >
-          <span>World<br />World<br />World</span>
-        </Popup>
+        {this.state.anchor &&
+          <Popup
+            onClickOutside={this._clickHandler}
+            onFocusOutside={this._clickHandler}
+            anchorElement={this.state.anchor}
+            popupOffset={0}
+            opened={true}
+            margin={10}
+            positions={this.props.positions}
+            backgroundColor={'#fff'}
+            hasShadow={true}
+            hasPin={true}
+            pinSize={10}
+            pinOffset={7}
+          >
+            <span>
+              World<br />World<br />World
+            </span>
+          </Popup>}
       </div>
     );
   }
@@ -114,8 +141,8 @@ class AlwaysOpened extends Component {
 }
 
 // eslint-disable-next-line react/no-multi-comp
-class Hint extends Component {
-  anchor: HTMLElement;
+class Hint extends Component<*, *> {
+  anchor: ?HTMLElement;
 
   constructor(props) {
     super(props);
@@ -137,22 +164,23 @@ class Hint extends Component {
         >
           Hello
         </div>
-        <Popup
-          onClickOutside={this._clickHandler}
-          onFocusOutside={this._clickHandler}
-          anchorElement={this.state.anchor}
-          opened={true}
-          positions={this.props.positions}
-          margin={this.props.margin}
-          order={this.props.order}
-          backgroundColor={'rgba(0, 0, 0, 0.65)'}
-          hasShadow={false}
-          hasPin={true}
-          pinSize={10}
-          pinOffset={7}
-        >
-          <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
-        </Popup>
+        {this.state.anchor &&
+          <Popup
+            onClickOutside={this._clickHandler}
+            onFocusOutside={this._clickHandler}
+            anchorElement={this.state.anchor}
+            opened={true}
+            positions={this.props.positions}
+            margin={this.props.margin}
+            order={this.props.order}
+            backgroundColor={'rgba(0, 0, 0, 0.65)'}
+            hasShadow={false}
+            hasPin={true}
+            pinSize={10}
+            pinOffset={7}
+          >
+            <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
+          </Popup>}
       </div>
     );
   }
@@ -160,8 +188,8 @@ class Hint extends Component {
 }
 
 // eslint-disable-next-line react/no-multi-comp
-class Toast extends Component {
-  anchor: HTMLElement;
+class Toast extends Component<*, *> {
+  anchor: ?HTMLElement;
 
   constructor(props) {
     super(props);
@@ -183,20 +211,21 @@ class Toast extends Component {
         >
           Hello
         </div>
-        <Popup
-          onClickOutside={this._clickHandler}
-          onFocusOutside={this._clickHandler}
-          anchorElement={this.state.anchor}
-          opened={true}
-          positions={this.props.positions}
-          backgroundColor={'rgba(0, 0, 0, 0.65)'}
-          hasShadow={false}
-          hasPin={false}
-          pinSize={10}
-          pinOffset={7}
-        >
-          <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
-        </Popup>
+        {this.state.anchor &&
+          <Popup
+            onClickOutside={this._clickHandler}
+            onFocusOutside={this._clickHandler}
+            anchorElement={this.state.anchor}
+            opened={true}
+            positions={this.props.positions}
+            backgroundColor={'rgba(0, 0, 0, 0.65)'}
+            hasShadow={false}
+            hasPin={false}
+            pinSize={10}
+            pinOffset={7}
+          >
+            <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
+          </Popup>}
       </div>
     );
   }

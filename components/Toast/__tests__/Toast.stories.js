@@ -1,12 +1,12 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { storiesOf, action } from '@storybook/react';
 import Toast from '../../Toast';
 import Button from '../../Button';
 import Modal from '../../Modal';
 
-class TestNotifier extends React.Component {
-  notifier: Toast;
+class TestNotifier extends React.Component<*, *> {
+  notifier: ?Toast;
 
   state = {
     modal: false

@@ -1,6 +1,6 @@
 // @flow
 import classnames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -10,10 +10,16 @@ import { types, sizeMaps, svgAnimateSupport } from './settings';
 
 const hasSvgAnimationSupport = svgAnimateSupport();
 
+type Props = {
+  caption?: string,
+  dimmed?: boolean,
+  type: 'mini' | 'normal' | 'big'
+};
+
 /**
  * DRAFT - инлайн-лоадер
  */
-class Spinner extends React.Component {
+class Spinner extends React.Component<Props> {
   static propTypes = {
     /**
      * Текст рядом с мини-лоадером.

@@ -1,10 +1,17 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import Dropdown from '../Dropdown';
 import ButtonItem from './ButtonItem';
 
-class TopBarDropdown extends React.Component {
+type Props = {
+  children?: React.Node,
+  icon?: string,
+  minWidth?: string | number | null,
+  use?: 'danger' | 'pay'
+};
+
+class TopBarDropdown extends React.Component<Props> {
   _dropdown: Dropdown;
 
   render() {
@@ -24,7 +31,7 @@ class TopBarDropdown extends React.Component {
       <ButtonItem
         active={params.opened}
         icon={this.props.icon}
-        minWidth={this.props.minWidth}
+        minWidth={this.props.minWidth ? this.props.minWidth : undefined}
         tabIndex="0"
         use={this.props.use}
         onClick={params.onClick}

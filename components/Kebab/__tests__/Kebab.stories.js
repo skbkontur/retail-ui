@@ -19,7 +19,7 @@ storiesOf('Kebab', module)
   .add('14px', () => <SomethingWithKebab size="small" />)
   .add('20px', () => <SomethingWithKebab size="large" />);
 
-class SomethingWithKebab extends Component {
+class SomethingWithKebab extends Component<{ size: 'small' | 'large' }> {
   render() {
     return (
       <div style={{ width: 200, textAlign: 'center' }}>

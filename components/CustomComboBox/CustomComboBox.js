@@ -1,6 +1,6 @@
 /* @flow */
-/* global React$Element */
-import React from 'react';
+/* eslint-disable flowtype/no-weak-types */
+import * as React from 'react';
 import shallow from 'fbjs/lib/shallowEqual';
 
 import ComboBoxView from './ComboBoxView';
@@ -10,7 +10,7 @@ import type Menu from '../Menu/Menu';
 export type Action<T> =
   | { type: 'ValueChange', value: T }
   | { type: 'TextChange', value: string }
-  | { type: 'KeyPress', event: SyntheticKeyboardEvent }
+  | { type: 'KeyPress', event: SyntheticKeyboardEvent<> }
   | {
       type: 'DidUpdate',
       prevProps: CustomComboBoxProps<T>,
@@ -20,26 +20,24 @@ export type Action<T> =
   | { type: 'Focus' }
   | { type: 'Blur' };
 
-type ReactElement = React$Element<any> | string;
-
 export type CustomComboBoxProps<T> = {
   autoFocus?: boolean,
   disabled?: boolean,
   error?: boolean,
   menuAlign?: 'left' | 'right',
   openButton?: boolean,
-  onMouseEnter?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
+  onMouseOver?: (e: SyntheticMouseEvent<>) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
   placeholder?: string,
   totalCount?: number,
   value?: ?T,
   warning?: boolean,
   width?: string | number,
-  renderItem?: (T, number) => ReactElement,
-  renderNotFound?: () => ReactElement,
-  renderValue?: T => ReactElement,
-  renderTotalCount?: (number, number) => ReactElement
+  renderItem?: (T, index?: number) => React.Node,
+  renderNotFound?: () => React.Node,
+  renderValue?: T => React.Node,
+  renderTotalCount?: (number, number) => React.Node
 };
 
 export type CustomComboBoxState<T> = {
@@ -75,11 +73,10 @@ export const DefaultState = {
   textValue: ''
 };
 
-class CustomComboBox extends React.Component {
+class CustomComboBox extends React.Component<Props<*>, CustomComboBoxState<*>> {
   state: CustomComboBoxState<*> = DefaultState;
-  props: Props<*>;
-  input: Input;
-  menu: Menu;
+  input: ?Input;
+  menu: ?Menu;
   focused: boolean = false;
 
   dispatch = (action: Action<*>) => {

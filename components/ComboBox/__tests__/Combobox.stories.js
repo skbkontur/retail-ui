@@ -1,6 +1,6 @@
 // @flow
 /* eslint-disable react/no-multi-comp */
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import ComboBoxV2 from '../ComboBox';
@@ -25,7 +25,7 @@ storiesOf('ComboBox v2', module)
         )
       );
 
-    class SimpleCombobox extends React.Component {
+    class SimpleCombobox extends React.Component<{}, *> {
       state = { value: { value: 1, label: 'First' } };
       render() {
         return (
@@ -99,7 +99,13 @@ storiesOf('ComboBox v2', module)
     />
   );
 
-class TestComboBox extends React.Component {
+type State = {
+  value: ?{ id: number, name: string },
+  error: boolean,
+  warning: boolean
+};
+
+class TestComboBox extends React.Component<*, State> {
   state = {
     value: null,
     error: false,
@@ -136,16 +142,12 @@ class TestComboBox extends React.Component {
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Найдено ${found} из ${total}`}
           ref="cb"
-        />
-        {' '}
+        />{' '}
         <button onClick={() => this.refs.cb.focus()}>Focus</button>
-
         {this.state.error &&
           <div style={{ color: 'red' }}>Необходимо выбрать значение</div>}
-
         {this.state.warning &&
           <div style={{ color: '#f50' }}>Вы не выбрали значение</div>}
-
       </div>
     );
   }
@@ -217,11 +219,7 @@ function searchWithRejections(query: string) {
 
 function searchWithCustomElements(query: string) {
   const _items = items.filter(x => x.name.includes(query.toLowerCase()));
-  const disabled = (
-    <MenuItem disabled>
-      Nothing was found
-    </MenuItem>
-  );
+  const disabled = <MenuItem disabled>Nothing was found</MenuItem>;
   return Promise.resolve([
     <MenuItem comment="Hello" icon="child" disabled>
       World
@@ -255,7 +253,9 @@ function renderValue({ id, name }) {
       >
         {name}
       </span>
-      <span>{id}</span>
+      <span>
+        {id}
+      </span>
     </div>
   );
 }

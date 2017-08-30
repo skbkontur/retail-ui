@@ -1,6 +1,6 @@
 // @flow
 import cn from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 
@@ -9,13 +9,11 @@ import Tab from './Tab';
 
 import styles from './Tabs.less';
 
-import type { ReactNode } from '../internal/types';
-
 type Props = {
   /**
    * Tab component should be child of Tabs component
    */
-  children?: ReactNode,
+  children?: React.Node,
 
   /**
    * Classname of indicator
@@ -45,7 +43,7 @@ type Props = {
 
 type State = {
   tabs: Array<{
-    getNode: () => Element | React$Component<*, *, *> | null,
+    getNode: () => Element | React.Component<*, *> | null,
     id: string
   }>
 };
@@ -55,14 +53,12 @@ type State = {
  *
  * contains static property `Tab`
  */
-class Tabs extends React.Component {
+class Tabs extends React.Component<Props, State> {
   static defaultProps = {
     vertical: false
   };
 
   static Tab = Tab;
-
-  props: Props;
 
   state: State = {
     tabs: []
@@ -134,7 +130,7 @@ class Tabs extends React.Component {
     }
   };
 
-  _addTab = (id: string, getNode: () => ?Element) => {
+  _addTab = (id: string, getNode: () => *) => {
     this.setState(({ tabs }: State) => ({
       tabs: tabs.concat({ id, getNode })
     }));

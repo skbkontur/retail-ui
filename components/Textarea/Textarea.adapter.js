@@ -11,7 +11,7 @@ const TextareaAdapter = {
     inst._handleChange({ target: { value } });
   }
 };
-
+// eslint-disable-next-line flowtype/no-weak-types
 (Textarea: any).__ADAPTER__ = TextareaAdapter;
 
 export { TextareaAdapter };

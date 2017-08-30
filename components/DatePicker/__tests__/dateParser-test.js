@@ -1,4 +1,3 @@
-// @flow-weak
 import dateParser from '../dateParser';
 
 describe('DateParser', () => {

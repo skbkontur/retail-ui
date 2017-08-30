@@ -1,14 +1,12 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import TopBarDropdown from './TopBarDropdown';
 import MenuItem from '../MenuItem';
 
-class User extends React.Component {
-  props: {
-    userName: string
-  };
-
+class User extends React.Component<{
+  userName: string
+}> {
   render() {
     const { userName } = this.props;
     return (

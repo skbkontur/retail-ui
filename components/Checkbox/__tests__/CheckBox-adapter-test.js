@@ -2,7 +2,7 @@
 
 import { testAdapter } from '../../../testing/AdapterTestUtils';
 
-import React from 'react';
+import * as React from 'react';
 
 import Checkbox from '../Checkbox.adapter';
 

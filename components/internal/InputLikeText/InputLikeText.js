@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import filterProps from '../../filterProps';
@@ -21,16 +21,14 @@ const PASS_PROPS = {
   onMouseOver: true
 };
 
-export default class InputLikeText extends React.Component {
-  props: {
-    borderless?: boolean,
-    children?: any,
-    error?: boolean,
-    padRight?: boolean,
-    warning?: boolean,
-    disabled?: boolean
-  };
-
+export default class InputLikeText extends React.Component<{
+  borderless?: boolean,
+  children?: React.Node,
+  error?: boolean,
+  padRight?: boolean,
+  warning?: boolean,
+  disabled?: boolean
+}> {
   render() {
     const passProps = this.props.disabled
       ? {}
@@ -56,6 +54,7 @@ export default class InputLikeText extends React.Component {
   }
 
   focus() {
+    // eslint-disable-next-line flowtype/no-weak-types
     (ReactDOM.findDOMNode(this): any).focus();
   }
 }

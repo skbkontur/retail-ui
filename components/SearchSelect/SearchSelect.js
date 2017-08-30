@@ -1,8 +1,7 @@
-/* @flow weak */
 /* eslint-disable */
 
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import warning from 'warning';
@@ -47,7 +46,7 @@ warning(false, 'Component SearchSelect is deprecated use ComboBox instead.');
 /**
  * DEPRECATED. Use ComboBox instead.
  */
-class SearchSelect extends React.Component {
+class SearchSelect extends React.Component<Props, State> {
   static propTypes = {
     value: PropTypes.any,
 
@@ -79,9 +78,6 @@ class SearchSelect extends React.Component {
     placeholder: 'Пусто',
     width: 250
   };
-
-  props: Props;
-  state: State;
 
   _focusable: ?HTMLElement;
 
@@ -141,7 +137,9 @@ class SearchSelect extends React.Component {
     let value;
     if (this.state.value == null) {
       value = (
-        <span className={styles.placeholder}>{this.props.placeholder}</span>
+        <span className={styles.placeholder}>
+          {this.props.placeholder}
+        </span>
       );
     } else if (this.props.loader) {
       if (this.state.item) {

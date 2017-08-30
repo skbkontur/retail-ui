@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import Calendar from './Calendar';
 import DateSelect from '../DateSelect';
@@ -9,8 +9,8 @@ import Icon from '../Icon';
 import styles from './Picker.less';
 
 type Props = {
-  maxYear: number,
-  minYear: number,
+  maxYear?: number,
+  minYear?: number,
   value: ?Date,
   iconRef: ?Icon,
   onPick: (date: Date) => void
@@ -20,10 +20,7 @@ type State = {
   date: Date
 };
 
-export default class Picker extends React.Component {
-  props: Props;
-  state: State;
-
+export default class Picker extends React.Component<Props, State> {
   _mounted: boolean;
 
   constructor(props: Props, context: mixed) {

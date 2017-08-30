@@ -1,6 +1,6 @@
 // @flow
 import cn from 'classnames';
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import RenderLayer from '../RenderLayer';
 import RenderConatiner from '../RenderContainer';
@@ -18,7 +18,7 @@ const noop = () => {};
 type Props = {
   anchorElement: HTMLElement,
   backgroundColor: string,
-  children: React.Element<*>,
+  children: React.Node,
   hasPin: boolean,
   hasShadow: boolean,
   margin: number,
@@ -41,7 +41,7 @@ type State = {
   }
 };
 
-export default class Popup extends Component {
+export default class Popup extends React.Component<Props, State> {
   static defaultProps = {
     margin: 10,
     popupOffset: 0,
@@ -54,13 +54,11 @@ export default class Popup extends Component {
     onFocusOutside: () => {}
   };
 
-  props: Props;
-
   state: State = {
     location: null
   };
 
-  _popupElement: HTMLElement;
+  _popupElement: ?HTMLElement;
   _inQueue: boolean = false;
   _containerDidMount: boolean = false;
 
@@ -114,8 +112,8 @@ export default class Popup extends Component {
     // prettier-ignore
     const pinBorder
       = ieVerison === 8 ? '#e5e5e5'
-      : isIE ? 'rgba(0, 0, 0, 0.09)'
-      : 'transparent';
+        : isIE ? 'rgba(0, 0, 0, 0.09)'
+          : 'transparent';
 
     return (
       <div
@@ -165,14 +163,15 @@ export default class Popup extends Component {
   };
 
   _getLocation() {
-    if (!this._popupElement) {
+    const { _popupElement } = this;
+    if (!_popupElement) {
       this._batchUpdate();
       return null;
     }
 
     const { anchorElement, positions, margin, popupOffset } = this.props;
     let anchorRect = PopupHelper.getElementRect(anchorElement);
-    let popupRect = PopupHelper.getElementRect(this._popupElement);
+    let popupRect = PopupHelper.getElementRect(_popupElement);
 
     for (var i = 0; i < positions.length; ++i) {
       let position = PopupHelper.getPositionObject(positions[i]);

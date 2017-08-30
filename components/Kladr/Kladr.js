@@ -1,6 +1,7 @@
 /* @flow */
+/* eslint-disable flowtype/no-weak-types */
 
-import React from 'react';
+import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -25,7 +26,7 @@ type State = {
 /**
  * DRAFT
  */
-export default class Kladr extends React.Component {
+export default class Kladr extends React.Component<Props, State> {
   static propTypes = {
     error: PropTypes.string,
     title: PropTypes.string,
@@ -33,9 +34,6 @@ export default class Kladr extends React.Component {
     warning: PropTypes.string,
     onChange: PropTypes.func
   };
-
-  props: Props;
-  state: State;
 
   constructor(props: any) {
     super(props);
@@ -72,7 +70,9 @@ export default class Kladr extends React.Component {
             {this._renderAddress(value.address)}
           </div>}
         {validation}
-        <Link icon="edit" onClick={this._handleOpen}>{change}</Link>
+        <Link icon="edit" onClick={this._handleOpen}>
+          {change}
+        </Link>
         {this.state.opened && this._renderModal()}
       </span>
     );

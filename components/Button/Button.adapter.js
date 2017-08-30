@@ -13,7 +13,7 @@ const ButtonAdapter = {
     return !!inst.props.disabled;
   }
 };
-
+// eslint-disable-next-line flowtype/no-weak-types
 (Button: any).__ADAPTER__ = ButtonAdapter;
 
 export default Button;
