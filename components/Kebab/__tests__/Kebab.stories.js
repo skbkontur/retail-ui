@@ -17,7 +17,8 @@ storiesOf('Kebab', module)
     </div>
   )
   .add('14px', () => <SomethingWithKebab size="small" />)
-  .add('20px', () => <SomethingWithKebab size="large" />);
+  .add('20px', () => <SomethingWithKebab size="large" />)
+  .add('20px-disabled', () => <SomethingWithKebab size="large" disabled />);
 
 class SomethingWithKebab extends Component<{ size: 'small' | 'large' }> {
   render() {
@@ -28,6 +29,7 @@ class SomethingWithKebab extends Component<{ size: 'small' | 'large' }> {
           size={this.props.size}
           onOpen={action('open')}
           onClose={action('close')}
+          disabled={this.props.disabled}
         >
           <MenuItem onClick={action('First')}>First</MenuItem>
           <MenuItem onClick={action('Second')}>Second</MenuItem>

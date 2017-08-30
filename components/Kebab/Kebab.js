@@ -49,57 +49,45 @@ export default class Kebab extends React.Component<Props, State> {
 
   render() {
     const { disabled } = this.props;
-    const options = this._getOptions(this.props.size);
     const { focusedByTab, opened } = this.state;
     return (
       <RenderLayer
         onClickOutside={this._handleClickOutside}
         onFocusOutside={this._handleClickOutside}
       >
-        <div
-          className={cn(
-            styles.root,
-            options.className,
-            disabled && styles.disabled
-          )}
-        >
+        <div className={styles.container}>
           <div
             onClick={this._handleClick}
             onKeyDown={this._handleKeyDown}
             onFocus={this._handleFocus}
             onBlur={this._handleBlur}
+            tabIndex={disabled ? -1 : 0}
+            ref={node => (this._anchor = node)}
             className={cn(
               styles.kebab,
               opened && styles.opened,
+              disabled && styles.disabled,
               focusedByTab && styles.focused
             )}
-            tabIndex={disabled ? -1 : 0}
-            ref={node => (this._anchor = node)}
           >
-            {options.icon}
+            {this._renderIcon(this.props.size)}
           </div>
-          {this._anchor &&
-            <Popup
-              anchorElement={this._anchor}
-              positions={[
-                'bottom left',
-                'bottom right',
-                'top left',
-                'top right'
-              ]}
-              popupOffset={options.popupOffset}
-              opened={this.state.opened}
-              margin={8}
-              hasShadow
-              hasPin
-              pinOffset={21}
-            >
-              <div className={styles.menu}>
-                <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
-                  {this.props.children}
-                </Menu>
-              </div>
-            </Popup>}
+          <Popup
+            anchorElement={this._anchor}
+            positions={['bottom left', 'bottom right', 'top left', 'top right']}
+            popupOffset={10}
+            opened={this.state.opened}
+            margin={5}
+            hasShadow
+            hasPin
+            pinOffset={15}
+          >
+            <div className={styles.menu}>
+              <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
+                {this.props.children}
+              </Menu>
+            </div>
+          </Popup>
         </div>
       </RenderLayer>
     );
@@ -126,28 +114,20 @@ export default class Kebab extends React.Component<Props, State> {
     this._setPopupState(false);
   };
 
-  _getOptions(size) {
+  _renderIcon(size) {
     switch (size) {
       case 'small':
-        return {
-          className: styles.small,
-          popupOffset: 18,
-          icon: (
-            <div className={styles.icon}>
-              <Icon name="kebab" size="14" color="#757575" />
-            </div>
-          )
-        };
+        return (
+          <div className={styles.iconsmall}>
+            <Icon name="kebab" size="14" color="#757575" />
+          </div>
+        );
       case 'large':
-        return {
-          className: styles.large,
-          popupOffset: 15,
-          icon: (
-            <div className={styles.icon}>
-              <Icon20 name="kebab" size="20" color="#757575" />
-            </div>
-          )
-        };
+        return (
+          <div className={styles.iconlarge}>
+            <Icon20 name="kebab" size="20" color="#757575" />
+          </div>
+        );
       default:
         throw new Error(`Unexpected size '${size}'`);
     }
