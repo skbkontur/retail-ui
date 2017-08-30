@@ -129,6 +129,7 @@ export default class ValidationWrapper extends React.Component {
         validations.forEach((x, i) => this.processBlur(x, this.state.validationStates[i], i));
         this.context.validationContext.instanceProcessBlur(this);
         this.isChanging = false;
+        this.setState({});
     }
 
     async processSubmit(): Promise<void> {
@@ -168,18 +169,14 @@ export default class ValidationWrapper extends React.Component {
                     { ...validationState, visible: true },
                     ...validationStates.slice(index + 1),
                 ];
-                this.setState({
-                    validationStates: validationStates,
-                });
+                this.setState({ validationStates: validationStates });
             } else if (!validation.error && (!validationStates[index] || validationStates[index].visible === true)) {
                 validationStates = [
                     ...validationStates.slice(0, index),
                     { ...validationState, visible: false },
                     ...validationStates.slice(index + 1),
                 ];
-                this.setState({
-                    validationStates: validationStates,
-                });
+                this.setState({ validationStates: validationStates });
             }
             const isValid = !validationStates.find(x => x.visible);
             this.context.validationContext.onValidationUpdated(this, isValid);
@@ -265,6 +262,15 @@ export default class ValidationWrapper extends React.Component {
                         children.props.onBlur();
                     }
                 },
+                onInput: (...args) => {
+                    if (ReactUiDetection.isDatePicker(children)) {
+                        this.isChanging = true;
+                        this.setState({});
+                    }
+                    if (children && children.props && children.props.onInput) {
+                        children.props.onInput(...args);
+                    }
+                },
                 onChange: (...args) => {
                     if (ReactUiDetection.isDatePicker(children)) {
                         const nextValue = args[1];
@@ -273,6 +279,7 @@ export default class ValidationWrapper extends React.Component {
                             !(nextValue == null && children.props.value == null)
                         ) {
                             this.isChanging = true;
+                            this.handleBlur();
                         }
                     } else {
                         this.isChanging = true;
