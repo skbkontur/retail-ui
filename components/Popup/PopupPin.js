@@ -22,7 +22,7 @@ export default class PopupPin extends Component<Props> {
     }
 
     let options = this._getPinOptions(
-      PopupHelper.getElementRect(this.props.popupElement),
+      PopupHelper.getElementAbsoluteRect(this.props.popupElement),
       PopupHelper.getPositionObject(this.props.popupPosition),
       this.props.size,
       this.props.offset,
