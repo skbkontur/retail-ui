@@ -1,6 +1,6 @@
 // @flow
 /* eslint-disable react/no-multi-comp */
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, select, text } from '@storybook/addon-knobs';
 
@@ -8,20 +8,22 @@ import Hint from '../Hint';
 import HintBox from '../HintBox';
 import Gapped from '../../Gapped';
 
-class HintBoxComponent extends React.Component {
-  props: {
-    children?: mixed,
-    pos?: 'top' | 'right' | 'bottom' | 'left',
-    text: string
-  };
+type Props = {
+  children?: React.Node,
+  pos: 'top' | 'right' | 'bottom' | 'left',
+  text: string
+};
 
+type State = {
+  dom: ?HTMLElement
+};
+
+class HintBoxComponent extends React.Component<Props, State> {
   static defaultProps = {
     pos: 'top'
   };
 
-  state: {
-    dom: ?HTMLElement
-  } = {
+  state = {
     dom: null
   };
 
@@ -65,35 +67,29 @@ storiesOf('Hint', module)
   .add('too much hints', () =>
     <Gapped gap={5}>
       {[...Array(252)].map((el, i) =>
-        <Hint text="test" key={i}>Hover me!</Hint>
+        <Hint text="test" key={i}>
+          Hover me!
+        </Hint>
       )}
     </Gapped>
   )
   .add('default', () =>
     <HintBoxComponent text="Something will never be changed">
-      <span className="hint-content">
-        Ich Liebe dich
-      </span>
+      <span className="hint-content">Ich Liebe dich</span>
     </HintBoxComponent>
   )
   .add('left', () =>
     <HintBoxComponent pos="left" text="Something will never be changed">
-      <span className="hint-content">
-        Je t'aime
-      </span>
+      <span className="hint-content">Je t'aime</span>
     </HintBoxComponent>
   )
   .add('right', () =>
     <HintBoxComponent pos="right" text="Something will never be changed">
-      <span className="hint-content">
-        Ti voglio bene
-      </span>
+      <span className="hint-content">Ti voglio bene</span>
     </HintBoxComponent>
   )
   .add('bottom', () =>
     <HintBoxComponent pos="bottom" text="Something will never be changed">
-      <span className="hint-content">
-        Te amo
-      </span>
+      <span className="hint-content">Te amo</span>
     </HintBoxComponent>
   );

@@ -1,8 +1,7 @@
-// @flow
-
+/* eslint-disable flowtype/no-weak-types */
 import { testAdapter } from '../../../testing/AdapterTestUtils';
 
-import React from 'react';
+import * as React from 'react';
 
 import Autocomplete from '../Autocomplete.adapter.js';
 
@@ -35,7 +34,7 @@ describe('Autocomplete-adapter', () => {
     adapter.setProps({ value: 'foo' });
     adapter.setValue('foo');
 
-    await (source.mock.instances: any)[0];
+    await source.mock.instances[0];
 
     expect(adapter.getSuggestions()).toEqual([1, 2, 3]);
   });
@@ -49,7 +48,7 @@ describe('Autocomplete-adapter', () => {
 
     // Fetch suggestions.
     adapter.setValue('bar');
-    await (source.mock.instances: any)[0];
+    await source.mock.instances[0];
     adapter.setValueByIndex(0);
 
     expect(onChange.mock.calls.length).toBe(2);

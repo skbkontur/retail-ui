@@ -1,6 +1,6 @@
 // @flow
-/* global React$Element */
-import React from 'react';
+/* eslint-disable flowtype/no-weak-types */
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import filterProps from '../filterProps';
@@ -58,14 +58,12 @@ export type BaseProps = {
   openButton?: boolean,
   placeholder: string,
   recover?: RecoverFunc | boolean,
-  renderItem: (
-    value: Value,
-    info: Info,
-    state: MenuItemState
-  ) => React.Element<any>,
+  renderItem: (value: Value, info: Info, state: MenuItemState) => React.Node,
   renderValue: (value: Value, info: ?Info) => React.Element<any>,
-  renderNotFound?: string | ((searchText: string) => React$Element<*> | string),
-  renderTotalCount?: (f: number, total: number) => React$Element<*> | string,
+  renderNotFound?:
+    | string
+    | ((searchText: string) => React.Element<any> | string),
+  renderTotalCount?: (f: number, total: number) => React.Element<any> | string,
   source: (searchText: string) => Promise<SourceResult>,
   warning?: boolean,
   value: Value | null,
@@ -79,15 +77,15 @@ export type BaseProps = {
   onFocus?: () => void,
   onOpen?: () => void,
   onInputChange?: (value: string) => ?string,
-  onInputKeyDown?: (e: SyntheticKeyboardEvent) => void,
+  onInputKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
 
   alkoValueToText?: (value: Value) => string,
   onAlkoFocus?: () => void,
   onAlkoBlur?: () => void,
 
-  onMouseEnter?: (e: SyntheticMouseEvent) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void
+  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
+  onMouseOver?: (e: SyntheticMouseEvent<>) => void
 };
 
 type Props = BaseProps & {
@@ -102,10 +100,15 @@ type State = {
   selected: number
 };
 
-class ComboBoxRenderer extends React.Component {
-  static Item = class Item extends React.Component {
+class ComboBoxRenderer extends React.Component<Props, State> {
+  // eslint-disable-next-line react/no-multi-comp
+  static Item = class Item extends React.Component<{ children?: React.Node }> {
     render() {
-      return <MenuItem>{this.props.children}</MenuItem>;
+      return (
+        <MenuItem>
+          {this.props.children}
+        </MenuItem>
+      );
     }
   };
 
@@ -121,9 +124,6 @@ class ComboBoxRenderer extends React.Component {
     menuAlign: 'left',
     debounceInterval: 0
   };
-
-  props: Props;
-  state: State;
 
   _mounted = false;
   _focusable: ?HTMLInputElement = null;
@@ -148,9 +148,10 @@ class ComboBoxRenderer extends React.Component {
     };
 
     const { debounceInterval } = this.props;
-    this._debouncedFetchList = debounceInterval && debounceInterval > 0
-      ? debounce(this._fetchList, debounceInterval)
-      : this._fetchList;
+    this._debouncedFetchList =
+      debounceInterval && debounceInterval > 0
+        ? debounce(this._fetchList, debounceInterval)
+        : this._fetchList;
   }
 
   render() {
@@ -241,7 +242,7 @@ class ComboBoxRenderer extends React.Component {
     );
   }
 
-  renderResults(result: SourceResult) {
+  renderResults(result: SourceResult): Array<?React.Element<Class<MenuItem>>> {
     return mapResult(result, (value, info, i) => {
       if (typeof value === 'function' || React.isValidElement(value)) {
         const element = typeof value === 'function' ? value() : value;
@@ -253,7 +254,7 @@ class ComboBoxRenderer extends React.Component {
       return (
         <MenuItem
           key={i}
-          onClick={(event: Event) => {
+          onClick={(event: SyntheticEvent<*>) => {
             this._handleItemClick(event, { value, info });
           }}
         >
@@ -263,7 +264,7 @@ class ComboBoxRenderer extends React.Component {
     });
   }
 
-  renderEmptyResults() {
+  renderEmptyResults(): ?React.Element<typeof MenuItem> {
     const { renderNotFound } = this.props;
 
     if (!renderNotFound) {
@@ -316,12 +317,12 @@ class ComboBoxRenderer extends React.Component {
     this._focusable = el && (el.focus ? el : (ReactDOM.findDOMNode(el): any));
   };
 
-  _refMenu = (menu: Menu) => {
+  _refMenu = (menu: ?Menu) => {
     this._menu = menu;
   };
 
   _handleInputChange = (
-    event: SyntheticEvent & { target: HTMLInputElement }
+    event: SyntheticEvent<> & { target: HTMLInputElement }
   ) => {
     let newInputValue = event.target.value;
 
@@ -342,7 +343,7 @@ class ComboBoxRenderer extends React.Component {
     this._ignoreRecover = false;
   };
 
-  _handleInputKey = (event: SyntheticKeyboardEvent) => {
+  _handleInputKey = (event: SyntheticKeyboardEvent<>) => {
     if (typeof this.props.onInputKeyDown === 'function') {
       this.props.onInputKeyDown(event);
       if (event.defaultPrevented) {
@@ -373,7 +374,7 @@ class ComboBoxRenderer extends React.Component {
         break;
       case 'Enter':
         event.preventDefault();
-        const handled = this._menu && this._menu.enter();
+        const handled = this._menu && this._menu.enter(event);
         if (!handled) {
           this._tryRecover();
 
@@ -398,7 +399,7 @@ class ComboBoxRenderer extends React.Component {
   };
 
   _handleItemClick(
-    event: Event,
+    event: SyntheticEvent<*>,
     options: { value?: Value, info?: Info, onClick?: () => void }
   ) {
     this.setState({ searchText: '', opened: false, isEditing: false });
@@ -408,11 +409,11 @@ class ComboBoxRenderer extends React.Component {
     this._handleBlur();
   }
 
-  _handleArrowMouseDown = (event: SyntheticMouseEvent) => {
+  _handleArrowMouseDown = (event: SyntheticMouseEvent<>) => {
     event.preventDefault();
   };
 
-  _handleArrowClick = (event: SyntheticMouseEvent) => {
+  _handleArrowClick = (event: SyntheticMouseEvent<>) => {
     if (!this.state.opened) {
       this._handleValueClick();
     }

@@ -1,16 +1,12 @@
 // @flow
-/* global React$Element */
-import React from 'react';
+import * as React from 'react';
 
 import createReducer from '../CustomComboBox/reducer';
 import { reducers as defaultReducers } from '../CustomComboBox/reducer/default';
-import {
-  reducers as autocompleteReducers
-} from '../CustomComboBox/reducer/autocomplete';
+// eslint-disable-next-line max-len
+import { reducers as autocompleteReducers } from '../CustomComboBox/reducer/autocomplete';
 
 import CustomComboBox from '../CustomComboBox';
-
-type Item<T> = T;
 
 export type ExternalProps<T> = {
   /**
@@ -31,12 +27,12 @@ export type ExternalProps<T> = {
    * Элементы могут быть любого типа. В этом случае необходимо определить
    * свойства `itemToValue`, `renderValue`, `renderItem`, `valueToString`
    */
-  getItems?: (query: string) => Promise<Item<T>[]>,
+  getItems?: (query: string) => Promise<T[]>,
 
   /**
    * Необходим для сравнения полученных результатов с `value`
    */
-  itemToValue: (item: T) => string,
+  itemToValue: (item: T) => string | number,
 
   menuAlign: 'left' | 'right',
 
@@ -51,7 +47,7 @@ export type ExternalProps<T> = {
    * если результатом функции будет строка,
    * то она станет следующим состояним полем ввода
    */
-  onInputChange?: (query: string) => any,
+  onInputChange?: (query: string) => mixed,
 
   /**
    * Функция для обработки ситуации, когда была введена
@@ -68,25 +64,22 @@ export type ExternalProps<T> = {
    * Функция отрисовки элементов результата поиска.
    * Не применяется если элемент является функцией или React-элементом
    */
-  renderItem?: (item: T, index: number) => string | React$Element<any>,
+  renderItem?: (item: T, index?: number) => React.Node,
 
   /**
    * Функция для отрисовки сообщения о пустом результате поиска
    */
-  renderNotFound?: () => string | React$Element<any>,
+  renderNotFound?: () => React.Node,
 
   /**
    * Функция отображающаяя сообщение об общем количестве элементе
    */
-  renderTotalCount?: (
-    found: number,
-    total: number
-  ) => string | React$Element<any>,
+  renderTotalCount?: (found: number, total: number) => React.Node,
 
   /**
    * Функция отрисовки выбранного значения
    */
-  renderValue?: (item: T) => string | React$Element<any>,
+  renderValue?: (item: T) => React.Node,
 
   /**
    * Общее количество элементов.
@@ -99,7 +92,7 @@ export type ExternalProps<T> = {
    * Ожидается, что `value` того же типа что и элементы в массиве,
    * возвращаемом в `getItems`
    */
-  value?: T,
+  value?: ?T,
 
   /**
    * Необходим для преобразования `value` в строку при фокусировке
@@ -114,7 +107,7 @@ export type ExternalProps<T> = {
 const defaltReducer = createReducer(defaultReducers);
 const autocompleteReducer = createReducer(autocompleteReducers);
 
-class ComboBox extends React.Component {
+class ComboBox<T> extends React.Component<ExternalProps<T>> {
   static defaultProps = {
     itemToValue: x => x.value,
     valueToString: x => x.label,
@@ -123,13 +116,11 @@ class ComboBox extends React.Component {
     menuAlign: 'left'
   };
 
-  props: ExternalProps<any>;
-
   _cb: ?CustomComboBox = null;
 
   /**
-   * @api
-   */
+  * @api
+  */
   focus() {
     if (this._cb) {
       this._cb.focus();
@@ -143,7 +134,7 @@ class ComboBox extends React.Component {
       openButton: !autocomplete,
       reducer: autocomplete ? autocompleteReducer : defaltReducer
     };
-    return <CustomComboBox {...props} ref={cb => this._cb = cb} />;
+    return <CustomComboBox {...props} ref={cb => (this._cb = cb)} />;
   }
 }
 

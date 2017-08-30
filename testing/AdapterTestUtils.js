@@ -4,9 +4,9 @@
 import * as Lookup from './Lookup';
 
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 
-class Wrap extends React.Component {
+class Wrap extends React.Component<*> {
   render() {
     const { children, ...props } = this.props;
     return React.cloneElement(React.Children.only(children), props);
@@ -15,7 +15,8 @@ class Wrap extends React.Component {
 
 let nextID = 0;
 
-type MountFunc = (element: React.Element<any>) => any;
+// eslint-disable-next-line
+type MountFunc = (element: React.Element<*>) => any;
 
 export function testAdapter(
   testName: string,
@@ -24,7 +25,7 @@ export function testAdapter(
   it(testName, () => {
     let mounted = [];
     function mount_(element) {
-      const tid = 'tid_' + (++nextID);
+      const tid = 'tid_' + ++nextID;
       const wrapper = mount(
         <Wrap>
           {React.cloneElement(element, {

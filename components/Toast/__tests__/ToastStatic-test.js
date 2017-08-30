@@ -1,4 +1,3 @@
-// @flow-weak
 import ToastStatic from '../ToastStatic';
 
 describe('ToastStatic', () => {

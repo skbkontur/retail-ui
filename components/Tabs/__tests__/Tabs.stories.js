@@ -1,12 +1,12 @@
 // @flow
 /* eslint-disable react/no-multi-comp */
-import React from 'react';
+import * as React from 'react';
 import { storiesOf, linkTo } from '@storybook/react';
 
 import Tabs from '../Tabs';
 const { Tab } = Tabs;
 
-class UncTabs extends React.Component {
+class UncTabs extends React.Component<*, *> {
   state = {
     active: 'fuji'
   };
@@ -31,7 +31,7 @@ const RouteTab = props =>
     {props.children}
   </Tab>;
 
-class RouterTabs extends React.Component {
+class RouterTabs extends React.Component<*> {
   render() {
     return (
       <div>
@@ -45,7 +45,7 @@ class RouterTabs extends React.Component {
   }
 }
 
-class MyLink extends React.Component {
+class MyLink extends React.Component<*> {
   render() {
     return <a {...this.props} />;
   }
@@ -53,7 +53,7 @@ class MyLink extends React.Component {
 
 const MyLinkTab = props => <Tab component={MyLink} {...props} />;
 
-class TabsWithMyLink extends React.Component {
+class TabsWithMyLink extends React.Component<*, *> {
   state = {
     active: 'fuji'
   };
@@ -73,7 +73,7 @@ class TabsWithMyLink extends React.Component {
   }
 }
 
-class UnexpectedUpdatedTab extends React.Component {
+class UnexpectedUpdatedTab extends React.Component<*, *> {
   state = {
     updated: false
   };
@@ -91,7 +91,7 @@ class UnexpectedUpdatedTab extends React.Component {
   }
 }
 
-class OhMyTabs extends React.Component {
+class OhMyTabs extends React.Component<*, *> {
   state = {
     active: 'fuji'
   };

@@ -11,7 +11,7 @@ const InputAdapter = {
     inst._handleChange({ target: { value } });
   }
 };
-
+// eslint-disable-next-line flowtype/no-weak-types
 (Input: any).__ADAPTER__ = InputAdapter;
 
 export { InputAdapter };

@@ -25,7 +25,7 @@ storiesOf('Paging', module)
     <PagingWithCustomComponent pagesCount={12} />
   );
 
-class GoToAbsensePage extends Component {
+class GoToAbsensePage extends Component<{}, *> {
   state = {
     activePage: 3
   };
@@ -53,7 +53,7 @@ class GoToAbsensePage extends Component {
   };
 }
 
-class PagingWithState extends Component {
+class PagingWithState extends Component<*, *> {
   state = {
     activePage: 1
   };
@@ -78,7 +78,7 @@ const CustomComponent = props =>
     ? <a href={'#' + (props.pageNumber + 1)} {...props} />
     : <a href={'#' + props.pageNumber} {...props} />;
 
-class PagingWithCustomComponent extends Component {
+class PagingWithCustomComponent extends Component<*, *> {
   state = {
     activePage: 1
   };

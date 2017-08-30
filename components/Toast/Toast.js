@@ -33,10 +33,7 @@ type Props = {
  * Can be used like `Toast.push('message')` or
  * `Toast.push('message', {label: 'Cancel', handler: cancelHandler})`
  */
-class Toast extends Component {
-  state: State;
-  props: Props;
-
+class Toast extends Component<Props, State> {
   _timeout: number;
   _toast: ToastView;
 
@@ -108,6 +105,7 @@ class Toast extends Component {
       return null;
     }
 
+    // eslint-disable-next-line flowtype/no-weak-types
     const toastProps: Object = {
       key: id,
       onMouseEnter: this._clearTimer,
@@ -143,6 +141,7 @@ class Toast extends Component {
 
 export default Toast;
 
+// eslint-disable-next-line flowtype/no-weak-types
 function safelyCall(fn: ?Function, ...args: any[]) {
   if (fn) {
     fn(...args);

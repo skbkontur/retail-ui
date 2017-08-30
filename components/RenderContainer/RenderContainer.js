@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 let lastID = 0;
@@ -8,12 +8,12 @@ function nextID() {
   return ++lastID;
 }
 
-export default class RenderContainer extends React.Component {
+export default class RenderContainer extends React.Component<*> {
   _domContainer: HTMLElement;
 
   _testID: number;
 
-  constructor(props: any, context: any) {
+  constructor(props: {}, context: {}) {
     super(props, context);
 
     this._domContainer = document.createElement('div');
@@ -70,12 +70,13 @@ export default class RenderContainer extends React.Component {
   }
 }
 
-class Portal extends React.Component {
+// eslint-disable-next-line react/no-multi-comp
+class Portal extends React.Component<{ rt_rootID: number }> {
   render() {
     return <noscript data-render-container-id={this.props.rt_rootID} />;
   }
 }
 
-function RootContainer(props: { children?: React.Element<*> }) {
+function RootContainer(props: { children?: React.Node }) {
   return React.Children.only(props.children);
 }

@@ -1,6 +1,6 @@
 // @flow
-
-import React from 'react';
+/* eslint-disable flowtype/no-weak-types */
+import * as React from 'react';
 
 import Button from '../Button';
 import ComboBox from '../ComboBoxOld';
@@ -57,10 +57,7 @@ const PLACES = {
   '16': 'street'
 };
 
-export default class AddressModal extends React.Component {
-  props: Props;
-  state: State;
-
+export default class AddressModal extends React.Component<Props, State> {
   _regionProps: FieldProps;
   _districtProps: FieldProps;
   _cityProps: FieldProps;
@@ -212,7 +209,9 @@ export default class AddressModal extends React.Component {
   render() {
     return (
       <Modal width={520} onClose={this.props.onClose}>
-        <Modal.Header>{this.props.title}</Modal.Header>
+        <Modal.Header>
+          {this.props.title}
+        </Modal.Header>
         <Modal.Body>
           {this._renderForm()}
         </Modal.Body>
@@ -221,7 +220,9 @@ export default class AddressModal extends React.Component {
             <Button size="medium" use="primary" onClick={this._handleSave}>
               Сохранить
             </Button>
-            <Button size="medium" onClick={this.props.onClose}>Отмена</Button>
+            <Button size="medium" onClick={this.props.onClose}>
+              Отмена
+            </Button>
           </Gapped>
         </Modal.Footer>
       </Modal>
@@ -323,9 +324,7 @@ export default class AddressModal extends React.Component {
         </div>
 
         <div className={styles.row}>
-          <div className={styles.label}>
-            Квартира / офис
-          </div>
+          <div className={styles.label}>Квартира / офис</div>
           <div className={styles.field}>
             <Input
               value={this.state.address.room}

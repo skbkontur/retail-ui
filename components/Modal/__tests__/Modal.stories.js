@@ -9,7 +9,10 @@ import Input from '../../Input';
 import Textarea from '../../Textarea';
 import Toggle from '../../Toggle';
 
-class ModalWithScrollableContent extends Component {
+class ModalWithScrollableContent extends Component<
+  {},
+  { opened: boolean, panel: boolean }
+> {
   state = {
     opened: false,
     panel: false
@@ -92,7 +95,7 @@ class ModalWithScrollableContent extends Component {
   };
 }
 
-class ModalWithInputInHeader extends Component {
+class ModalWithInputInHeader extends Component<{}, { opened: boolean }> {
   state = {
     opened: false
   };
@@ -134,7 +137,7 @@ class ModalWithInputInHeader extends Component {
   };
 }
 
-class ModalOverAnotherModal extends Component {
+class ModalOverAnotherModal extends Component<{}, *> {
   state = {
     firstModalOpened: false,
     secondModalOpened: false

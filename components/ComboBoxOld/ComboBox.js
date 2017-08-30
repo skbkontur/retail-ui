@@ -1,6 +1,6 @@
-// @flow
-
-import React from 'react';
+/* eslint-disable flowtype/no-types-missing-file-annotation */
+/* eslint-disable flowtype/no-weak-types */
+import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -11,7 +11,7 @@ type Props = BaseProps & {
   info?: Info | ((v: Value) => Promise<Info>)
 };
 
-export default class ComboBox extends React.Component {
+export default class ComboBox extends React.Component<Props, $FlowFixMeState> {
   static propTypes = {
     autoFocus: PropTypes.bool,
 
@@ -130,8 +130,6 @@ export default class ComboBox extends React.Component {
     placeholder: '',
     width: 250
   };
-
-  props: Props;
 
   state = {
     info: null

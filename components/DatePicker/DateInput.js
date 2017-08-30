@@ -39,7 +39,7 @@ type Props = {
   value: string
 };
 
-export default class DateInput extends Component {
+export default class DateInput extends Component<Props> {
   static propTypes = {
     getIconRef: PropTypes.func,
     getInputRef: PropTypes.func,
@@ -53,9 +53,8 @@ export default class DateInput extends Component {
     onIconClick: PropTypes.func.isRequired
   };
 
-  props: Props;
-  _input: Input;
-  _icon: HTMLElement;
+  _input: ?Input;
+  _icon: ?HTMLElement;
   _cursorPosition = 0;
 
   render() {
@@ -108,17 +107,21 @@ export default class DateInput extends Component {
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.value !== this.props.value && this._cursorPosition) {
-      this._input.setSelectionRange(this._cursorPosition, this._cursorPosition);
+      this._input &&
+        this._input.setSelectionRange(
+          this._cursorPosition,
+          this._cursorPosition
+        );
     }
   }
 
-  preventSelection = (event: SyntheticMouseEvent) => {
+  preventSelection = (event: SyntheticMouseEvent<>) => {
     if (event.detail !== 1) {
       event.preventDefault();
     }
   };
 
-  getCursorPosition = (event: SyntheticInputEvent) => {
+  getCursorPosition = (event: SyntheticInputEvent<>) => {
     event.stopPropagation();
     const start = event.target.selectionStart;
     const end = event.target.selectionEnd;
@@ -142,11 +145,14 @@ export default class DateInput extends Component {
     } else {
       start = end = this._cursorPosition;
     }
-    setTimeout(() => this._input.setSelectionRange(start, end), 0);
+    setTimeout(
+      () => this._input && this._input.setSelectionRange(start, end),
+      0
+    );
   };
 
   handleDateComponentChange = (
-    event: SyntheticKeyboardEvent & { target: HTMLInputElement }
+    event: SyntheticKeyboardEvent<> & { target: HTMLInputElement }
   ) => {
     if (this.checkIfBadKeyDownEvent(event)) {
       return;
@@ -157,7 +163,7 @@ export default class DateInput extends Component {
   };
 
   checkIfBadKeyDownEvent = (
-    event: SyntheticKeyboardEvent & { target: HTMLInputElement }
+    event: SyntheticKeyboardEvent<> & { target: HTMLInputElement }
   ) => {
     return (
       event.target.value.match(/_/) ||
@@ -168,7 +174,7 @@ export default class DateInput extends Component {
     );
   };
 
-  handleDateChange = (event: SyntheticInputEvent) => {
+  handleDateChange = (event: SyntheticInputEvent<>) => {
     let value: string = event.target.value;
     if (!this.props.withMask) {
       value = value.replace(/[^\d\.]/g, '');
@@ -177,7 +183,7 @@ export default class DateInput extends Component {
   };
 
   createNewDate = (
-    event: SyntheticKeyboardEvent & { target: HTMLInputElement }
+    event: SyntheticKeyboardEvent<> & { target: HTMLInputElement }
   ) => {
     event.preventDefault();
 
@@ -240,11 +246,11 @@ export default class DateInput extends Component {
     }
   };
 
-  getInputRef = (ref: Input) => {
+  getInputRef = (ref: ?Input) => {
     this._input = ref;
   };
 
-  getIconRef = (ref: HTMLElement) => {
+  getIconRef = (ref: ?HTMLElement) => {
     this._icon = ref;
   };
 }

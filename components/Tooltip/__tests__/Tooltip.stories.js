@@ -1,10 +1,10 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Tooltip from '../Tooltip';
 import Button from '../../Button';
 
-class TestTooltip extends React.Component {
+class TestTooltip extends React.Component<*> {
   render() {
     return (
       <div>
@@ -21,7 +21,9 @@ class TestTooltip extends React.Component {
 
 storiesOf('Tooltip', module)
   .add('simple tooltip', () =>
-    <TestTooltip><Button>Hover me!</Button></TestTooltip>
+    <TestTooltip>
+      <Button>Hover me!</Button>
+    </TestTooltip>
   )
   .add('static tooltip', () =>
     <TestTooltip trigger="opened">

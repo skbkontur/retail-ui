@@ -1,9 +1,8 @@
 // @flow
-/* global React$Element */
 
 import cn from 'classnames';
 import events from 'add-event-listener';
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import Icon20 from '../Icon/20px';
 import Icon from '../Icon';
@@ -13,10 +12,10 @@ import RenderLayer from '../RenderLayer';
 
 import styles from './Kebab.less';
 
-type ReactNode = React$Element<*> | string;
+import type MenuItem from '../MenuItem/MenuItem';
 
 type Props = {
-  children: ?ReactNode | ReactNode[],
+  children?: React.ChildrenArray<?React.Element<Class<MenuItem>>>,
   disabled?: boolean,
   onClose: () => void,
   onOpen: () => void,
@@ -29,22 +28,20 @@ type State = {
   opened: boolean
 };
 
-export default class Kebab extends Component {
+export default class Kebab extends React.Component<Props, State> {
   static defaultProps = {
     onOpen: () => {},
     onClose: () => {},
     size: 'small'
   };
 
-  props: Props;
-
-  state: State = {
+  state = {
     opened: false,
     focusedByTab: false,
     anchor: null
   };
 
-  _anchor: HTMLElement;
+  _anchor: ?HTMLElement;
 
   componentDidMount() {
     listenTabPresses();
@@ -81,28 +78,34 @@ export default class Kebab extends Component {
           >
             {options.icon}
           </div>
-          <Popup
-            anchorElement={this._anchor}
-            positions={['bottom left', 'bottom right', 'top left', 'top right']}
-            popupOffset={options.popupOffset}
-            opened={this.state.opened}
-            margin={8}
-            hasShadow
-            hasPin
-            pinOffset={21}
-          >
-            <div className={styles.menu}>
-              <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
-                {this.props.children}
-              </Menu>
-            </div>
-          </Popup>
+          {this._anchor &&
+            <Popup
+              anchorElement={this._anchor}
+              positions={[
+                'bottom left',
+                'bottom right',
+                'top left',
+                'top right'
+              ]}
+              popupOffset={options.popupOffset}
+              opened={this.state.opened}
+              margin={8}
+              hasShadow
+              hasPin
+              pinOffset={21}
+            >
+              <div className={styles.menu}>
+                <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
+                  {this.props.children}
+                </Menu>
+              </div>
+            </Popup>}
         </div>
       </RenderLayer>
     );
   }
 
-  _handleFocus = (e: SyntheticFocusEvent) => {
+  _handleFocus = (e: SyntheticFocusEvent<>) => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way

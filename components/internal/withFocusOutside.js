@@ -1,7 +1,6 @@
 // @flow
-/* global Class, React$Element, React$Component, $Diff */
 /* eslint-disable flowtype/no-weak-types */
-import React from 'react';
+import * as React from 'react';
 import events from 'add-event-listener';
 import { findDOMNode } from 'react-dom';
 
@@ -9,24 +8,18 @@ import listenFocusOutside, {
   containsTargetOrRenderContainer
 } from '../../lib/listenFocusOutside';
 
-type FunctionComponent<P> = (props: P) => ?React$Element<any>;
-type ClassComponent<D, P, S> = Class<React$Component<D, P, S>>;
-
 type PassingProps = {
-  subscribeToOutsideFocus: ((e: Event) => any) => void,
-  subscribeToOutsideClicks: ((e: Event) => any) => void,
-  active: boolean
+  subscribeToOutsideFocus: (fn: (e: Event) => any) => any,
+  subscribeToOutsideClicks: (fn: (e: Event) => any) => any
 };
 
-type DefaultProps = { active: boolean };
+type ParamsProps = { active?: boolean, innerRef?: any };
 
-function withFocusOutside<P, S>(
-  WrappingComponent: ClassComponent<void, P, S> | FunctionComponent<P>
-): ClassComponent<DefaultProps, $Diff<P, PassingProps>, S> {
-  class WrappedComponent extends React.Component {
+function withFocusOutside<Props: ParamsProps>(
+  WrappingComponent: React.ComponentType<PassingProps & Props>
+) {
+  class WrappedComponent extends React.Component<Props> {
     static defaultProps = { active: true };
-    props: any;
-    state: any;
 
     _focusHandlers: Array<(e: Event) => any> = [];
     _clickHandlers: Array<(e: Event) => any> = [];
@@ -36,7 +29,7 @@ function withFocusOutside<P, S>(
 
     component: any;
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps: Props) {
       if (this.props.active && !nextProps.active && this._focusSubscribtion) {
         this._flush();
       }

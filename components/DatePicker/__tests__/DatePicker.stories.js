@@ -1,19 +1,21 @@
 // @flow
 import MockDate from '../../internal/MockDate';
-import React from 'react';
+import * as React from 'react';
 import { storiesOf, action } from '@storybook/react';
 import DatePicker from '../DatePicker';
 
-class DatePickerWithError extends React.Component {
-  state: {
-    error: boolean,
-    value: string | Date | null
-  } = {
+type State = {
+  error: boolean,
+  value: string | Date | null
+};
+
+class DatePickerWithError extends React.Component<{}, State> {
+  state = {
     value: new Date(),
     error: false
   };
 
-  handleChange = (_, value) => {
+  handleChange = (_, value: Date | string | null) => {
     this.setState({ value, error: typeof value === 'string' });
   };
 
