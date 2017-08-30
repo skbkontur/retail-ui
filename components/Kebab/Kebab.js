@@ -72,22 +72,28 @@ export default class Kebab extends React.Component<Props, State> {
           >
             {this._renderIcon(this.props.size)}
           </div>
-          <Popup
-            anchorElement={this._anchor}
-            positions={['bottom left', 'bottom right', 'top left', 'top right']}
-            popupOffset={10}
-            opened={this.state.opened}
-            margin={5}
-            hasShadow
-            hasPin
-            pinOffset={15}
-          >
-            <div className={styles.menu}>
-              <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
-                {this.props.children}
-              </Menu>
-            </div>
-          </Popup>
+          {this._anchor &&
+            <Popup
+              anchorElement={this._anchor}
+              positions={[
+                'bottom left',
+                'bottom right',
+                'top left',
+                'top right'
+              ]}
+              popupOffset={10}
+              opened={this.state.opened}
+              margin={5}
+              hasShadow
+              hasPin
+              pinOffset={15}
+            >
+              <div className={styles.menu}>
+                <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
+                  {this.props.children}
+                </Menu>
+              </div>
+            </Popup>}
         </div>
       </RenderLayer>
     );

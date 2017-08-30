@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable flowtype/no-weak-types */
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Popup from '../Popup';
@@ -77,20 +78,24 @@ storiesOf('Popup', module)
         <tbody>
           {new Array(6 * 5).fill(0).map((x, i) => {
             return Math.floor(i / 6) % 2
-              ? (
-                <tr>
-                  <td><div style={{ height: '40px' }}></div></td>
+              ? <tr>
+                  <td>
+                    <div style={{ height: '40px' }} />
+                  </td>
                 </tr>
-              )
-              : (
-                <tr>
-                  <td><PopupWithPositions/></td>
-                  <td style={{ width: '50%', minWidth: '300px' }}></td>
-                  <td><PopupWithPositions/></td>
-                  <td style={{ width: '50%', minWidth: '300px' }}></td>
-                  <td><PopupWithPositions/></td>
-                </tr>
-              );
+              : <tr>
+                  <td>
+                    <PopupWithPositions />
+                  </td>
+                  <td style={{ width: '50%', minWidth: '300px' }} />
+                  <td>
+                    <PopupWithPositions />
+                  </td>
+                  <td style={{ width: '50%', minWidth: '300px' }} />
+                  <td>
+                    <PopupWithPositions />
+                  </td>
+                </tr>;
           })}
         </tbody>
       </table>
@@ -137,26 +142,36 @@ class AlwaysOpened extends Component<*, *> {
             margin: '20px',
             border: '1px solid black',
             textAlign: 'center',
-            fontSize: '40px' }}
+            fontSize: '40px'
+          }}
         >
           x
         </div>
-        <Popup
-          onClickOutside={this._clickHandler}
-          onFocusOutside={this._clickHandler}
-          anchorElement={this.state.anchor}
-          popupOffset={0}
-          opened={true}
-          margin={10}
-          positions={this.props.positions}
-          backgroundColor={'#fff'}
-          hasShadow={true}
-          hasPin={true}
-          pinSize={10}
-          pinOffset={7}
-        >
-          <div style={{ textAlign: 'center', padding: '10px 20px', fontSize: '20px' }}>Text</div>
-        </Popup>
+        {this.state.anchor &&
+          <Popup
+            onClickOutside={this._clickHandler}
+            onFocusOutside={this._clickHandler}
+            anchorElement={this.state.anchor}
+            popupOffset={0}
+            opened={true}
+            margin={10}
+            positions={this.props.positions}
+            backgroundColor={'#fff'}
+            hasShadow={true}
+            hasPin={true}
+            pinSize={10}
+            pinOffset={7}
+          >
+            <div
+              style={{
+                textAlign: 'center',
+                padding: '10px 20px',
+                fontSize: '20px'
+              }}
+            >
+              Text
+            </div>
+          </Popup>}
       </div>
     );
   }
@@ -169,13 +184,14 @@ class AlwaysOpened extends Component<*, *> {
 }
 
 // eslint-disable-next-line react/no-multi-comp
-class PopupWithPositions extends Component {
-  anchor: HTMLElement;
+class PopupWithPositions extends Component<*, any> {
+  anchor: ?HTMLElement;
 
   constructor(props) {
     super(props);
     this.state = {
-      opened: false
+      opened: false,
+      anchor: null
     };
   }
 
@@ -190,26 +206,33 @@ class PopupWithPositions extends Component {
       <div>
         <div
           onClick={this._handleClick}
-          ref={e => (this.anchor = e)}
-          style={{ width: '34px', height: '34px', borderRadius: '17px', background: 'grey' }}
-        >
-        </div>
-        <Popup
-          onClickOutside={this._clickHandler}
-          onFocusOutside={this._clickHandler}
-          anchorElement={this.state.anchor}
-          popupOffset={0}
-          opened={this.state.opened}
-          margin={13}
-          positions={['bottom left', 'bottom right', 'top left', 'top right']}
-          backgroundColor={'#fff'}
-          hasShadow={true}
-          hasPin={true}
-          pinSize={10}
-          pinOffset={7}
-        >
-          <div style={{ padding: '10px 20px', fontSize: '30px' }}>Placeholder</div>
-        </Popup>
+          ref={this._handleRef}
+          style={{
+            width: '34px',
+            height: '34px',
+            borderRadius: '17px',
+            background: 'grey'
+          }}
+        />
+        {this.state.anchor &&
+          <Popup
+            onClickOutside={this._clickHandler}
+            onFocusOutside={this._clickHandler}
+            anchorElement={this.state.anchor}
+            popupOffset={0}
+            opened={this.state.opened}
+            margin={13}
+            positions={['bottom left', 'bottom right', 'top left', 'top right']}
+            backgroundColor={'#fff'}
+            hasShadow={true}
+            hasPin={true}
+            pinSize={10}
+            pinOffset={7}
+          >
+            <div style={{ padding: '10px 20px', fontSize: '30px' }}>
+              Placeholder
+            </div>
+          </Popup>}
       </div>
     );
   }
@@ -227,8 +250,8 @@ class PopupWithPositions extends Component {
   };
 }
 
-class Hint extends Component {
-  anchor: HTMLElement;
+class Hint extends Component<*, any> {
+  anchor: ?HTMLElement;
 
   constructor(props) {
     super(props);
