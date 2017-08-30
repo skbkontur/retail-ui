@@ -261,7 +261,6 @@ rules:
   # too noisy ATM
   func-style: [0, declaration]
   # we weren't enforcing this with jshint, so erroring would be too noisy
-  indent: [1, 2, {SwitchCase: 1}]
   jsx-quotes: [2, prefer-double]
   # we may use extra spaces for alignment
   key-spacing: [0, {beforeColon: false, afterColon: true}]
@@ -358,12 +357,6 @@ rules:
 
   react/jsx-closing-bracket-location: 2
   react/jsx-curly-spacing: 2
-  react/jsx-indent:
-  - 2
-  - 2
-  react/jsx-indent-props:
-  - 1
-  - 2
   react/jsx-no-undef: 2
   # should probably enable
   react/sort-prop-types:
@@ -373,7 +366,6 @@ rules:
   react/jsx-sort-props: 0
   react/jsx-uses-react: 2
   react/jsx-uses-vars: 2
-  react/no-multi-comp: 2
 
   # flowtype rules
   flowtype/boolean-style:
@@ -396,15 +388,6 @@ rules:
   flowtype/semi:
   - 2
   - always
-  flowtype/space-after-type-colon:
-  - 2
-  - always
-  flowtype/space-before-generic-bracket:
-  - 2
-  - never
-  flowtype/space-before-type-colon:
-  - 2
-  - never
   flowtype/union-intersection-spacing:
   - 2
   - always

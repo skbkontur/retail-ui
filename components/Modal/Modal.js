@@ -3,8 +3,7 @@
 import classNames from 'classnames';
 import events from 'add-event-listener';
 import { EventEmitter } from 'fbemitter';
-import React from 'react';
-import type { Node } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
@@ -28,13 +27,19 @@ const stack = {
 let mountedModalsCount = 0;
 let prevMarginRight = '';
 
+type ModalChild = React.Node;
+
 type Props = {
-  children?: Node,
+  children?: ModalChild,
   disableClose?: boolean,
   ignoreBackgroundClick?: boolean,
   noClose?: boolean,
   width?: number,
   onClose?: () => void
+};
+
+type State = {
+  shadowed: boolean
 };
 
 /**
@@ -46,9 +51,7 @@ type Props = {
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
-class Modal extends React.Component {
-  props: Props;
-
+class Modal extends React.Component<Props, State> {
   static propTypes = {
     /**
      * Отключает событие onClose, также дизейблит кнопку закрытия модалки
@@ -125,6 +128,7 @@ class Modal extends React.Component {
     const children = React.Children.map(this.props.children, child => {
       if (child && child.type === Header) {
         hasHeader = true;
+        // $FlowIssue child could be iterable
         return React.cloneElement(child, { close });
       }
       return child;
@@ -286,7 +290,12 @@ class Modal extends React.Component {
   };
 }
 
-class Header extends React.Component {
+type HeaderProps = {
+  children?: React.Node,
+  close?: boolean
+};
+
+class Header extends React.Component<HeaderProps> {
   render() {
     return (
       <Sticky side="top">
@@ -305,7 +314,11 @@ class Header extends React.Component {
   }
 }
 
-class Body extends React.Component {
+type BodyProps = {
+  children?: React.Node
+};
+
+class Body extends React.Component<BodyProps> {
   render() {
     return (
       <div className={styles.body}>
@@ -315,10 +328,15 @@ class Body extends React.Component {
   }
 }
 
+type FooterProps = {
+  children?: React.Node,
+  panel?: boolean
+};
+
 /**
  * Футер модального окна.
  */
-class Footer extends React.Component {
+class Footer extends React.Component<FooterProps> {
   static propTypes = {
     /** Включает серый цвет в футере */
     panel: PropTypes.bool

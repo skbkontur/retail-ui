@@ -1,16 +1,18 @@
 // @flow
+/* eslint-disable flowtype/no-weak-types */
 import { Children, Component } from 'react';
+import type { Node } from 'react';
 import withFocusOutside from '../internal/withFocusOutside';
 
-class RenderLayer extends Component {
-  props: {
-    children?: any,
-    onClickOutside: (e: Event) => any,
-    onFocusOutside: (e: Event) => any,
-    subscribeToOutsideFocus: (fn: (e: Event) => any) => any,
-    subscribeToOutsideClicks: (fn: (e: Event) => any) => any
-  };
-
+class RenderLayer extends Component<{
+  children?: Node,
+  onClickOutside: (e: Event) => any,
+  onFocusOutside: (e: Event) => any,
+  subscribeToOutsideFocus: (fn: (e: Event) => any) => any,
+  subscribeToOutsideClicks: (fn: (e: Event) => any) => any,
+  active?: boolean,
+  innerRef?: any
+}> {
   unsibscribeFocusOutside: Function;
   unsibscribeClickOutside: Function;
 

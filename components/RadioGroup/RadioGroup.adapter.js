@@ -17,7 +17,7 @@ const RadioGroupAdapter = {
     return inst._mapItems(value => value);
   }
 };
-
+// eslint-disable-next-line flowtype/no-weak-types
 (RadioGroup: any).__ADAPTER__ = RadioGroupAdapter;
 
 export default RadioGroup;

@@ -1,6 +1,6 @@
 // @flow
 
-export default function(e: SyntheticKeyboardEvent) {
+export default function(e: SyntheticKeyboardEvent<>) {
   if (e.which == null) {
     if (e.keyCode < 32) {
       return null;

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Toggle from '../Toggle';
 
-class Comp extends Component {
+class Comp extends Component<*, *> {
   constructor(props) {
     super(props);
     this.state = { checked: true };
@@ -19,8 +19,7 @@ class Comp extends Component {
         <Toggle
           checked={this.state.checked}
           onChange={this.toggle.bind(this)}
-        />
-        {' '}
+        />{' '}
         {this.state.checked ? 'On' : 'Off'}
       </div>
     );

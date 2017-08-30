@@ -20,7 +20,7 @@ storiesOf('Kebab', module)
   .add('20px', () => <SomethingWithKebab size="large" />)
   .add('20px-disabled', () => <SomethingWithKebab size="large" disabled />);
 
-class SomethingWithKebab extends Component {
+class SomethingWithKebab extends Component<{ size: 'small' | 'large' }> {
   render() {
     return (
       <div style={{ width: 200, textAlign: 'center' }}>

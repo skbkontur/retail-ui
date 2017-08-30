@@ -1,21 +1,39 @@
 // @flow
 
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
 
 import styles from './MenuItem.less';
 
-export type MenuItemState = null | 'hover' | 'selected';
+export type MenuItemState = null | 'hover' | 'selected' | void;
 
 const tagName = disabled => (disabled ? 'span' : 'a');
+
+type Props = {
+  _enableIconPadding?: boolean,
+  alkoLink?: boolean,
+  comment?: React.Node,
+  disabled?: boolean,
+  href?: string,
+  icon?: string,
+  loose?: boolean,
+  state?: MenuItemState,
+  target?: string,
+  onClick?: (event: SyntheticEvent<*>) => mixed,
+  onMouseDown?: (event: SyntheticEvent<*>) => void,
+  onMouseEnter?: (SyntheticMouseEvent<'span' | 'a'>) => void,
+  onMouseLeave?: (SyntheticMouseEvent<'span' | 'a'>) => void,
+  children?: React.Node | ((state: MenuItemState) => React.Node)
+};
 
 /**
  * Элемент меню.
  */
-export default class MenuItem extends React.Component {
+export default class MenuItem extends React.Component<Props> {
   static __MENU_ITEM__ = true;
+  static __MENU_HEADER__ = false;
 
   static propTypes = {
     alkoLink: PropTypes.bool,
@@ -37,21 +55,6 @@ export default class MenuItem extends React.Component {
     target: PropTypes.string,
 
     onClick: PropTypes.func
-  };
-
-  props: {
-    _enableIconPadding?: boolean,
-    alkoLink?: boolean,
-    comment?: any,
-    disabled?: boolean,
-    href?: string,
-    icon?: string,
-    loose?: boolean,
-    state?: MenuItemState,
-    target?: string,
-    onClick?: (event: Event) => void,
-    onMouseDown?: (event: Event) => void,
-    children?: any
   };
 
   render() {

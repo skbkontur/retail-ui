@@ -87,7 +87,7 @@ describe('ComboBox-adapter', () => {
     expect(source.mock.calls[0][0]).toBe('');
     expect(source.mock.calls[1][0]).toBe('test');
 
-    await (source.mock.instances: any)[1];
+    await source.mock.instances[1];
 
     const result = adapter.getResult();
     expect(result).toEqual([1, null, 3]);
@@ -100,7 +100,7 @@ describe('ComboBox-adapter', () => {
 
     adapter.search('test');
 
-    await (source.mock.instances: any)[1];
+    await source.mock.instances[1];
 
     adapter.setValue(2);
 

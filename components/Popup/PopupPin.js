@@ -15,16 +15,14 @@ type Props = {
   size: number
 };
 
-export default class PopupPin extends Component {
-  props: Props;
-
+export default class PopupPin extends Component<Props> {
   render() {
     if (!this.props.popupElement) {
       return null;
     }
 
     let options = this._getPinOptions(
-      PopupHelper.getElementRect(this.props.popupElement),
+      PopupHelper.getElementAbsoluteRect(this.props.popupElement),
       PopupHelper.getPositionObject(this.props.popupPosition),
       this.props.size,
       this.props.offset,

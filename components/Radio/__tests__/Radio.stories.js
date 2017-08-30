@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Gapped from '../../Gapped';
@@ -21,7 +21,7 @@ storiesOf('Radio', module)
     </div>
   )
   .add('Playground', () => {
-    class Comp extends React.Component {
+    class Comp extends React.Component<{}, *> {
       state = {
         hovered: false,
         checked: false,
