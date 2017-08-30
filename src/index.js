@@ -35,9 +35,7 @@ export class ValidationContainer extends React.Component {
         contextProps.verticalOffset = this.props.scrollOffset || 50;
         return (
             <ValidationContext ref="childContext" {...contextProps}>
-                <ValidationTooltipContext ref="childTooltipContext">
-                    {children}
-                </ValidationTooltipContext>
+                <ValidationTooltipContext ref="childTooltipContext">{children}</ValidationTooltipContext>
             </ValidationContext>
         );
     }
@@ -79,7 +77,7 @@ export class ValidationWrapperV1 extends React.Component {
 }
 
 export function tooltip(pos: string): RenderErrorMessage {
-    return (control, hasError, validation) =>
+    return (control, hasError, validation) => (
         <ValidationTooltip
             pos={pos}
             error={hasError}
@@ -90,20 +88,22 @@ export function tooltip(pos: string): RenderErrorMessage {
                 return (validation && validation.message) || "";
             }}>
             {control}
-        </ValidationTooltip>;
+        </ValidationTooltip>
+    );
 }
 
 export function text(pos: string = "right"): RenderErrorMessage {
     if (pos === "right") {
-        return (control, hasError, validation) =>
+        return (control, hasError, validation) => (
             <span style={{ display: "inline-block" }}>
                 {control}
                 <span data-validation-message="text" style={{ marginLeft: "10px", color: "#d43517" }}>
                     {(validation && validation.message) || ""}
                 </span>
-            </span>;
+            </span>
+        );
     }
-    return (control, hasError, validation) =>
+    return (control, hasError, validation) => (
         <span style={{ position: "relative", display: "inline-block" }}>
             {control}
             <span style={{ position: "absolute", bottom: 0, left: 0, height: 0 }}>
@@ -120,5 +120,6 @@ export function text(pos: string = "right"): RenderErrorMessage {
                     {(validation && validation.message) || ""}
                 </span>
             </span>
-        </span>;
+        </span>
+    );
 }

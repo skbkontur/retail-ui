@@ -154,10 +154,6 @@ export default class ValidationTooltipContext extends React.Component {
 
     render(): React.Element<*> {
         const { children } = this.props;
-        return (
-            <div>
-                {children}
-            </div>
-        );
+        return <div>{children}</div>;
     }
 }

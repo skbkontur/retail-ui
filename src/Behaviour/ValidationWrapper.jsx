@@ -242,44 +242,46 @@ export default class ValidationWrapper extends React.Component {
         const { children, validations, errorMessage } = this.props;
         const validation = validations.find((x, i) => this.isErrorOrWarning(x, i));
 
-        const clonedChild: React.Element<any> = children
-            ? React.cloneElement(children, {
-                  ref: x => {
-                      if (children && children.ref) {
-                          children.ref(x);
-                      }
-                      this.child = x;
-                  },
-                  error: this.isChanging
-                      ? false
-                      : Boolean(validation && validation.error && validation.level === "error"),
-                  warning: this.isChanging
-                      ? false
-                      : Boolean(validation && validation.error && validation.level === "warning"),
-                  onBlur: () => {
-                      this.handleBlur();
-                      if (children && children.props && children.props.onBlur) {
-                          children.props.onBlur();
-                      }
-                  },
-                  onChange: (...args) => {
-                      if (ReactUiDetection.isDatePicker(children)) {
-                          const nextValue = args[1];
-                          if (
-                              nextValue !== children.props.value &&
-                              !(nextValue == null && children.props.value == null)
-                          ) {
-                              this.isChanging = true;
-                          }
-                      } else {
-                          this.isChanging = true;
-                      }
-                      if (children && children.props && children.props.onChange) {
-                          children.props.onChange(...args);
-                      }
-                  },
-              })
-            : <span />;
+        const clonedChild: React.Element<any> = children ? (
+            React.cloneElement(children, {
+                ref: x => {
+                    if (children && children.ref) {
+                        children.ref(x);
+                    }
+                    this.child = x;
+                },
+                error: this.isChanging
+                    ? false
+                    : Boolean(validation && validation.error && validation.level === "error"),
+                warning: this.isChanging
+                    ? false
+                    : Boolean(validation && validation.error && validation.level === "warning"),
+                onBlur: () => {
+                    this.handleBlur();
+                    if (children && children.props && children.props.onBlur) {
+                        children.props.onBlur();
+                    }
+                },
+                onChange: (...args) => {
+                    if (ReactUiDetection.isDatePicker(children)) {
+                        const nextValue = args[1];
+                        if (
+                            nextValue !== children.props.value &&
+                            !(nextValue == null && children.props.value == null)
+                        ) {
+                            this.isChanging = true;
+                        }
+                    } else {
+                        this.isChanging = true;
+                    }
+                    if (children && children.props && children.props.onChange) {
+                        children.props.onChange(...args);
+                    }
+                },
+            })
+        ) : (
+            <span />
+        );
         const childWithError = React.cloneElement(
             errorMessage(clonedChild, Boolean(validation && validation.error), validation),
             { ref: "errorMessage" }

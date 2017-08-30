@@ -2204,7 +2204,7 @@ fbemitter@^2.0.2:
   dependencies:
     fbjs "^0.8.4"
 
-fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.7, fbjs@^0.8.9:
+fbjs@^0.8.11, fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.7, fbjs@^0.8.9:
   version "0.8.12"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.12.tgz#10b5d92f76d45575fd63a217d4ea02bea2f8ed04"
   dependencies:
@@ -4472,15 +4472,15 @@ ret@~0.1.10:
   version "0.1.14"
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.14.tgz#58c636837b12e161f8a380cf081c6a230fd1664e"
 
-retail-ui@^0.6.6:
-  version "0.6.18"
-  resolved "https://registry.yarnpkg.com/retail-ui/-/retail-ui-0.6.18.tgz#57c2600fedea095f7a12e05fd4f2d4890bbf8f58"
+retail-ui@0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/retail-ui/-/retail-ui-0.7.4.tgz#b727a65d99dadec2c132938bb36bb21b1254657a"
   dependencies:
     add-event-listener "0.0.1"
     classnames "^2.2.5"
     exenv "^1.2.1"
     fbemitter "^2.0.2"
-    fbjs "^0.8.9"
+    fbjs "^0.8.11"
     invariant "2.2.2"
     lodash.debounce "^4.0.8"
     lodash.throttle "^4.1.1"
