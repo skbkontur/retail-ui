@@ -170,6 +170,8 @@ export default class ValidationWrapper extends React.Component {
                     ...validationStates.slice(index + 1),
                 ];
                 this.setState({ validationStates: validationStates });
+                const isValid = !validationStates.find(x => x.visible);
+                this.context.validationContext.onValidationUpdated(this, isValid);
             } else if (!validation.error && (!validationStates[index] || validationStates[index].visible === true)) {
                 validationStates = [
                     ...validationStates.slice(0, index),
@@ -177,9 +179,9 @@ export default class ValidationWrapper extends React.Component {
                     ...validationStates.slice(index + 1),
                 ];
                 this.setState({ validationStates: validationStates });
+                const isValid = !validationStates.find(x => x.visible);
+                this.context.validationContext.onValidationUpdated(this, isValid);
             }
-            const isValid = !validationStates.find(x => x.visible);
-            this.context.validationContext.onValidationUpdated(this, isValid);
         }
     }
 
