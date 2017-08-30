@@ -1,1 +1,3 @@
-module.exports = require('./Kladr').default;
+// @flow
+import Kladr from './Kladr';
+export default Kladr;

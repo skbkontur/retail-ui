@@ -1,3 +1,3 @@
 // @flow
 import Gapped from './Gapped';
-module.exports = Gapped;
+export default Gapped;

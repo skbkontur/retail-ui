@@ -66,7 +66,9 @@ class Group extends React.Component {
 
           return (
             <div className={wrapCss}>
-              <div className={itemCss}>{child}</div>
+              <div className={itemCss}>
+                {child}
+              </div>
             </div>
           );
         })}
@@ -75,4 +77,4 @@ class Group extends React.Component {
   }
 }
 
-module.exports = Group;
+export default Group;

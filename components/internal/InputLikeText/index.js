@@ -1,3 +1,3 @@
 import InputLikeText from './InputLikeText';
 
-module.exports = InputLikeText;
+export default InputLikeText;

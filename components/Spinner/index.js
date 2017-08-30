@@ -1,3 +1,3 @@
 // @flow
 import Spinner from './Spinner';
-module.exports = Spinner;
+export default Spinner;

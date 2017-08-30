@@ -43,8 +43,7 @@ type Props = {
 };
 
 /**
- * Стандартная ссылка.
- *
+ * Стандартная ссылка.  
  * Все свойства передаются в элемент *<a>*.
  */
 class Link extends React.Component<Props, { focusedByTab: boolean }> {

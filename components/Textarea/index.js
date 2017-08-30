@@ -1,3 +1,3 @@
 // @flow
 import Textarea from './Textarea';
-module.exports = Textarea;
+export default Textarea;

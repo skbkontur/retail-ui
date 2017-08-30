@@ -1,3 +1,3 @@
 // @flow
 import Logotype from './Logotype';
-module.exports = Logotype;
+export default Logotype;

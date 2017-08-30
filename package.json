@@ -8,20 +8,9 @@
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --single-quote --write",
-      "eslint",
-      "git add"
-    ],
-    "*.{css,less}": [
-      "prettier --write",
-      "stylelint",
-      "git add"
-    ],
-    "*.ts": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "*.js": ["prettier --single-quote --write", "eslint", "git add"],
+    "*.{css,less}": ["prettier --write", "stylelint", "git add"],
+    "*.ts": ["prettier --single-quote --write", "git add"]
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
@@ -62,7 +51,7 @@
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
-    "babel-loader": "^7.1.1",
+    "babel-loader": "7.1.1",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
@@ -124,8 +113,6 @@
       "<rootDir>/scripts",
       "<rootDir>/testing"
     ],
-    "setupFiles": [
-      "<rootDir>/node_modules/babel-polyfill/lib/index.js"
-    ]
+    "setupFiles": ["<rootDir>/node_modules/babel-polyfill/lib/index.js"]
   }
 }

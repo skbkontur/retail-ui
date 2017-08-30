@@ -1,3 +1,3 @@
 // @flow
 import Input from './Input';
-module.exports = Input;
+export default Input;

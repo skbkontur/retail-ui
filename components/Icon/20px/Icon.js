@@ -38,9 +38,11 @@ class Icon extends React.Component {
       color: this.props.color
     };
     return (
-      <span className={styles.root} style={style}>{MAP[this.props.name]}</span>
+      <span className={styles.root} style={style}>
+        {MAP[this.props.name]}
+      </span>
     );
   }
 }
 
-module.exports = Icon;
+export default Icon;

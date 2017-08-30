@@ -1,3 +1,3 @@
 // @flow
 import DateSelect from './DateSelect';
-module.exports = DateSelect;
+export default DateSelect;

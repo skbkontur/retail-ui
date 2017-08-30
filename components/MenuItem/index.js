@@ -1,4 +1,4 @@
 // @flow
 
 import MenuItem from './MenuItem';
-module.exports = MenuItem;
+export default MenuItem;
