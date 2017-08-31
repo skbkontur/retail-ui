@@ -1,3 +1,3 @@
 import MenuSeparator from './MenuSeparator';
 
-export = MenuSeparator;
+export default MenuSeparator;

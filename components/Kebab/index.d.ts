@@ -1,3 +1,3 @@
 import Kebab from './Kebab';
 
-export = Kebab;
+export default Kebab;

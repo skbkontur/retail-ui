@@ -1,3 +1,3 @@
 import Center from './Center';
 
-export = Center;
+export default Center;

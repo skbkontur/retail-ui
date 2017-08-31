@@ -1,3 +1,3 @@
 import Gapped from './Gapped';
 
-export = Gapped;
+export default Gapped;

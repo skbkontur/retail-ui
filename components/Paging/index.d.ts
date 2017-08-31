@@ -1,3 +1,3 @@
 import Paging from './Paging';
 
-export = Paging;
+export default Paging;
