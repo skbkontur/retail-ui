@@ -1,3 +1,1 @@
-import Icon from './Icon';
-
-export default Icon;
+export { default, IconProps, IconState } from './Icon';

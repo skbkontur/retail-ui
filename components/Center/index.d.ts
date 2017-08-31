@@ -1,3 +1,1 @@
-import Center from './Center';
-
-export default Center;
+export { default, CenterProps, CenterState } from './Center';

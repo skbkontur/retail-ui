@@ -1,3 +1,1 @@
-import Spinner from './Spinner';
-
-export default Spinner;
+export { default, SpinnerProps, SpinnerState } from './Spinner';

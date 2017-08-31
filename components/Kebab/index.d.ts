@@ -1,3 +1,1 @@
-import Kebab from './Kebab';
-
-export default Kebab;
+export { default, KebabProps, KebabState } from './Kebab';

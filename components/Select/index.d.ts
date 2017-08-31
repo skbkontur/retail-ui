@@ -1,3 +1,1 @@
-import Select from './Select';
-
-export default Select;
+export { default, SelectProps, SelectState } from './Select';

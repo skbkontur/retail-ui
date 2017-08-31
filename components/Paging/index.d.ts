@@ -1,3 +1,1 @@
-import Paging from './Paging';
-
-export default Paging;
+export { default, PagingProps, PagingState } from './Paging';

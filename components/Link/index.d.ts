@@ -1,3 +1,1 @@
-import Link from './Link';
-
-export default Link;
+export { default, LinkProps, LinkState } from './Link';
