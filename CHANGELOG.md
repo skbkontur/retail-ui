@@ -3,33 +3,33 @@
 ### 0.8.7 -> 0.9.0
 #### 01.09.2017
 - **NOTE** Всюду заменили экспорт компонент на `export default`
-- Kebab - @slawwan сделал его красивым, аккуратно выровненным
-- Kebab - добавлен пропс `disabled` (by @slawwan)
-- Popup - починили метод определяющий помещается попап на экран или нет (by @slawwan)
+- Kebab - [@slawwan](https://github.com/slawwan) сделал его красивым, аккуратно выровненным
+- Kebab - добавлен пропс `disabled` (by [@slawwan](https://github.com/slawwan))
+- Popup - починили метод определяющий помещается попап на экран или нет (by [@slawwan](https://github.com/slawwan))
 - Flow - обновили до 0.53.1
-- TS - поправили экспорт компонент в дефинишенаx, добавлены дефинешены для Center & Spinner (by @slawwan)
+- TS - поправили экспорт компонент в дефинишенаx, добавлены дефинешены для Center & Spinner (by [@slawwan](https://github.com/slawwan))
 - Autocomplete - починили отправку лишних запрососв на сервер, если текст в поле не изменился
 - Modal - если открыты несколько модалок, то `Escape` теперь закрывает не все модалки сразу, а последовательно
 
 ### 0.8.6 -> 0.8.7
-- Tabs - вынесли цвет индикатора в отдельную переменную (@wKich - молодец)
-- Button - поправили цвет кнопке в состоянии checked при ховере в IE8 (спасибо @kholstinin)
-- Icon - запилили workaround, для коррекетной es3-фикации в бабеле (спасибо @wKich)
-- @slawwan починил тайпскриптовые дефинишены
-- Select - добавили пропс `areValuesEqual` (спасибо @BooleT37)
-- @sorovlad оптимизировал большое количество подписок создаваемых в RenderLayer
+- Tabs - вынесли цвет индикатора в отдельную переменную ([@wKich](https://github.com/wKich) - молодец)
+- Button - поправили цвет кнопке в состоянии checked при ховере в IE8 (спасибо [@kholstinin](https://github.com/kholstinin))
+- Icon - запилили workaround, для коррекетной es3-фикации в бабеле (спасибо [@wKich](https://github.com/wKich))
+- [@slawwan](https://github.com/slawwan) починил тайпскриптовые дефинишены
+- Select - добавили пропс `areValuesEqual` (спасибо [@BooleT37](https://github.com/BooleT37))
+- [@sorovlad](https://github.com/sorovlad) оптимизировал большое количество подписок создаваемых в RenderLayer
 - обновили зависимости
 
 ### 0.8.5 -> 0.8.6
 - Icon - нейминг в соответствии гайдам
 
 ### 0.8.4 -> 0.8.5
-- **Paging** - зарелизили наконец (спасибо @BooleT37, @slawwan)
+- **Paging** - зарелизили наконец (спасибо [@BooleT37](https://github.com/BooleT37), [@slawwan](https://github.com/slawwan))
 - Hint - поправили создание множественных таймеров
 - RadioGroup - поправили обработку нажатия Enter
-- Input - поправили внешний вид на iOS (спасибо @alatielle)
+- Input - поправили внешний вид на iOS (спасибо [@alatielle](https://github.com/alatielle))
 - Autocomplete - починили выбор элементов при работе с сенсорных устройств
-- Добавили TS дефинишены для Gapped, Icon, Input, Link, Select (спасибо @LakeVostok)
+- Добавили TS дефинишены для Gapped, Icon, Input, Link, Select (спасибо [@LakeVostok](https://github.com/LakeVostok))
 
 ### 0.8.0 -> 0.8.4
 - TopBar - появилась возможность задать ссылку и компонент логотипу
