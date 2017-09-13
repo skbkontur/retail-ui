@@ -6,7 +6,7 @@ import isEqual from "lodash.isequal";
 import ReactUiDetection from "../ReactUiDetection";
 import smoothScrollIntoView from "./smoothScrollIntoView";
 
-if (typeof HTMLElement !== "undefined") {
+if (typeof HTMLElement === "undefined") {
     window.HTMLElement = window.Element;
 }
 
