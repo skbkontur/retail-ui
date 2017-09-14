@@ -5,7 +5,7 @@
 
 ### ``submit(): Promise<void>`` ###
 При вызове этой функции загораются все невалидные контролы. Необходимо для реализации
-сценария [валидаации при отправке формы](https://guides.kontur.ru/principles/validation/#07).
+сценария [валидации при отправке формы](https://guides.kontur.ru/principles/validation/#07).
 
     <ValidationContainer ref='container'>
         // ...
