@@ -29,22 +29,6 @@ export default class PopupPin extends Component<Props> {
       this.props.borderWidth
     );
 
-    /* let styleOuter = this._getStyle(
-      options.outerTop,
-      options.outerLeft,
-      options.activeBorder,
-      options.outerSize,
-      this.props.borderColor
-    );
-
-    let styleInner = this._getStyle(
-      options.innerTop,
-      options.innerLeft,
-      options.activeBorder,
-      this.props.size,
-      this.props.backgroundColor
-    ); */
-
     let styleOuter = this._getOuterStyle(
       options.activeBorder,
       options.outerSize,
