@@ -56,4 +56,15 @@ storiesOf('Tooltip', module)
     <TestTooltip trigger="opened" pos="bottom center">
       <span>Some label</span>
     </TestTooltip>
-  );
+  )
+  .add('tooltip with functional component child', () => {
+    function PureComp() {
+      return <div>Pure Component!</div>;
+    }
+
+    return (
+      <TestTooltip trigger="opened" pos="bottom center">
+        <PureComp />
+      </TestTooltip>
+    );
+  });
