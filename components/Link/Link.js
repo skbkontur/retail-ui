@@ -34,7 +34,7 @@ type Props = {
   disabled?: boolean,
   href?: string,
   icon?: string,
-  onClick?: (SyntheticMouseEvent<HTMLLinkElement>) => void,
+  onClick?: (event: SyntheticMouseEvent<HTMLLinkElement>) => void,
   use?: 'default' | 'success' | 'danger' | 'grayed',
   children?: React.Node,
   _button?: boolean,
@@ -42,11 +42,13 @@ type Props = {
   tabIndex?: number
 };
 
+type State = { focusedByTab: boolean };
+
 /**
- * Стандартная ссылка.  
+ * Стандартная ссылка.
  * Все свойства передаются в элемент *<a>*.
  */
-class Link extends React.Component<Props, { focusedByTab: boolean }> {
+class Link extends React.Component<Props, State> {
   static propTypes = {
     disabled: PropTypes.bool,
 
@@ -62,9 +64,7 @@ class Link extends React.Component<Props, { focusedByTab: boolean }> {
     use: 'default'
   };
 
-  state: {
-    focusedByTab: boolean
-  } = {
+  state = {
     focusedByTab: false
   };
 
@@ -127,7 +127,7 @@ class Link extends React.Component<Props, { focusedByTab: boolean }> {
     );
   }
 
-  _handleFocus = (e: SyntheticFocusEvent<>) => {
+  _handleFocus = (e: SyntheticFocusEvent<HTMLLinkElement>) => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way

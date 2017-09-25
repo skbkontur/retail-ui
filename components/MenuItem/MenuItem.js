@@ -12,19 +12,26 @@ export type MenuItemState = null | 'hover' | 'selected' | void;
 const tagName = disabled => (disabled ? 'span' : 'a');
 
 type Props = {
+  /** @internal */
   _enableIconPadding?: boolean,
+
+  /** @internal */
   alkoLink?: boolean,
   comment?: React.Node,
   disabled?: boolean,
   href?: string,
   icon?: string,
+
+  /** @internal */
   loose?: boolean,
+
+  /** @internal */
   state?: MenuItemState,
   target?: string,
-  onClick?: (event: SyntheticEvent<*>) => mixed,
-  onMouseDown?: (event: SyntheticEvent<*>) => void,
-  onMouseEnter?: (SyntheticMouseEvent<'span' | 'a'>) => void,
-  onMouseLeave?: (SyntheticMouseEvent<'span' | 'a'>) => void,
+  onClick?: (event: SyntheticEvent<HTMLElement>) => mixed,
+  onMouseDown?: (event: SyntheticEvent<HTMLElement>) => void,
+  onMouseEnter?: (event: SyntheticMouseEvent<HTMLElement>) => void,
+  onMouseLeave?: (event: SyntheticMouseEvent<HTMLElement>) => void,
   children?: React.Node | ((state: MenuItemState) => React.Node)
 };
 
@@ -46,10 +53,8 @@ export default class MenuItem extends React.Component<Props> {
 
     icon: PropTypes.string,
 
-    /** internal */
     loose: PropTypes.bool,
 
-    /** internal */
     state: PropTypes.string,
 
     target: PropTypes.string,
@@ -105,7 +110,7 @@ export default class MenuItem extends React.Component<Props> {
       >
         {$icon}
         {children}
-        {this.props.comment &&
+        {this.props.comment && (
           <div
             className={classNames({
               [styles.comment]: true,
@@ -113,7 +118,8 @@ export default class MenuItem extends React.Component<Props> {
             })}
           >
             {comment}
-          </div>}
+          </div>
+        )}
       </Tag>
     );
   }

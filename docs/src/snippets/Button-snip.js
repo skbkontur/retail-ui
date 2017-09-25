@@ -1,6 +1,6 @@
 ReactDOM.render(
   <Gapped gap={10}>
-    <Button autoFocus>Default</Button>
+    <Button>Default</Button>
     <Button use="primary">Primary</Button>
     <Button use="success">Success</Button>
     <Button use="danger">Danger</Button>

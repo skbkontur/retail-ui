@@ -32,14 +32,17 @@ const SIZE_CLASSES = {
 };
 
 type Props = {
+  /** @internal */
   _noPadding?: boolean,
+  /** @internal */
   _noRightPadding?: boolean,
   active?: boolean,
   arrow?: boolean,
   autoFocus?: boolean,
   checked?: boolean,
   children?: string,
-  corners?: number, // internal
+  /** @internal */
+  corners?: number,
   disabled?: boolean,
   focused?: boolean,
   icon?: string,
@@ -56,12 +59,11 @@ type Props = {
   width?: number | string
 };
 
-class Button extends React.Component<
-  Props,
-  {
-    focusedByTab: boolean
-  }
-> {
+type State = {
+  focusedByTab: boolean
+};
+
+class Button extends React.Component<Props, State> {
   static TOP_LEFT = Corners.TOP_LEFT;
   static TOP_RIGHT = Corners.TOP_RIGHT;
   static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
@@ -132,9 +134,7 @@ class Button extends React.Component<
     type: 'button'
   };
 
-  state: {
-    focusedByTab: boolean
-  } = {
+  state = {
     focusedByTab: false
   };
 
