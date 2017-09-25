@@ -6,7 +6,11 @@ import Tooltip from '../Tooltip.js';
 
 jest.mock('../../RenderContainer/RenderContainer.js', () => {
   return function RenderContainerMock(props) {
-    return <div>{props.children}</div>;
+    return (
+      <div>
+        {props.children}
+      </div>
+    );
   };
 });
 
@@ -15,7 +19,11 @@ describe('Tooltip', () => {
 
   it('keeps child ref', () => {
     const Comp = ({ refFn }) => {
-      return <Tooltip render={render}><div ref={refFn} /></Tooltip>;
+      return (
+        <Tooltip render={render}>
+          <div ref={refFn} />
+        </Tooltip>
+      );
     };
     const refFn1 = jest.fn();
     const refFn2 = jest.fn();
@@ -56,10 +64,14 @@ describe('Tooltip', () => {
     const wrapper = mount(
       <div>
         <div id="foo">
-          <Tooltip trigger="opened" render={render}>foo</Tooltip>
+          <Tooltip trigger="opened" render={render}>
+            foo
+          </Tooltip>
         </div>
         <div id="bar">
-          <Tooltip trigger="opened" render={() => null}>bar</Tooltip>
+          <Tooltip trigger="opened" render={() => null}>
+            bar
+          </Tooltip>
         </div>
       </div>
     );
@@ -78,5 +90,35 @@ describe('Tooltip', () => {
 
     wrapper.find('.cross').simulate('click');
     expect(onClose.mock.calls.length).toBe(1);
+  });
+
+  it('renders stateless children component without errors', () => {
+    function PureComponent() {
+      return <div>i'm pure component!</div>;
+    }
+
+    const wrapper = mount(
+      <Tooltip trigger="opened" render={render}>
+        <PureComponent />
+      </Tooltip>
+    );
+
+    expect(wrapper.find(PureComponent).length).toBe(1);
+  });
+
+  it('renders stateful children component without errors', () => {
+    class StatefulComponent extends React.Component {
+      render() {
+        return <div>Stateful Component!</div>;
+      }
+    }
+
+    const wrapper = mount(
+      <Tooltip trigger="opened" render={render}>
+        <StatefulComponent />
+      </Tooltip>
+    );
+
+    expect(wrapper.find(StatefulComponent).length).toBe(1);
   });
 });
