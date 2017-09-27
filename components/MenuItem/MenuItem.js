@@ -67,25 +67,26 @@ export default class MenuItem extends React.Component<Props> {
       alkoLink,
       comment,
       disabled,
-      icon,
+      icon: iconName,
       loose,
       state,
-
+      children,
       onClick,
-
+      _enableIconPadding,
       ...rest
     } = this.props;
-    let { _enableIconPadding, children } = this.props;
+
     const hover = state === 'hover' && !disabled;
-    let $icon = null;
-    if (icon) {
-      _enableIconPadding = true;
-      $icon = (
+
+    let icon = null;
+    if (iconName) {
+      icon = (
         <div className={styles.icon}>
-          <Icon name={icon} />
+          <Icon name={iconName} />
         </div>
       );
     }
+
     const className = classNames({
       [styles.root]: true,
       [styles.disabled]: disabled,
@@ -93,10 +94,12 @@ export default class MenuItem extends React.Component<Props> {
       [styles.loose]: loose,
       [styles.selected]: state === 'selected',
       [styles.link]: alkoLink,
-      [styles.withIcon]: _enableIconPadding
+      [styles.withIcon]: icon || _enableIconPadding
     });
+
+    let content = children;
     if (typeof children === 'function') {
-      children = children(this.props.state);
+      content = children(this.props.state);
     }
 
     const Tag = tagName(disabled);
@@ -108,8 +111,8 @@ export default class MenuItem extends React.Component<Props> {
         tabIndex="-1"
         onClick={disabled ? null : onClick}
       >
-        {$icon}
-        {children}
+        {icon}
+        {content}
         {this.props.comment && (
           <div
             className={classNames({

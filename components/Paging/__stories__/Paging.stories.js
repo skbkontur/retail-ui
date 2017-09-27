@@ -5,11 +5,7 @@ import { storiesOf } from '@storybook/react';
 import Paging from '../Paging';
 
 storiesOf('Paging', module)
-  .addDecorator(story =>
-    <div>
-      {story()}
-    </div>
-  )
+  .addDecorator(story => <div>{story()}</div>)
   .add('GoToAbsensePage', () => <GoToAbsensePage />)
   .add('SimpleSamples', () => {
     return (
@@ -21,9 +17,9 @@ storiesOf('Paging', module)
       </div>
     );
   })
-  .add('PagingWithCustomComponent', () =>
+  .add('PagingWithCustomComponent', () => (
     <PagingWithCustomComponent pagesCount={12} />
-  );
+  ));
 
 class GoToAbsensePage extends Component<{}, *> {
   state = {
@@ -73,15 +69,30 @@ class PagingWithState extends Component<*, *> {
   };
 }
 
-const CustomComponent = props =>
-  Paging.isForward(props.pageNumber)
-    ? <a href={'#' + (props.pageNumber + 1)} {...props} />
-    : <a href={'#' + props.pageNumber} {...props} />;
+const getPageFromHash = () => +document.location.hash.slice(1);
+
+const CustomComponent = ({ active, pageNumber, ...props }) =>
+  Paging.isForward(pageNumber) ? (
+    <a href={'#' + (getPageFromHash() + 1)} {...props} />
+  ) : (
+    <a href={'#' + pageNumber} {...props} />
+  );
 
 class PagingWithCustomComponent extends Component<*, *> {
   state = {
     activePage: 1
   };
+
+  componentDidMount() {
+    document.location.hash = '#1';
+    window.addEventListener('hashchange', this._handleHashChange);
+  }
+
+  componentWillUnmount() {
+    document.location.hash = '';
+    window.removeEventListener('hashchange', this._handleHashChange);
+  }
+
   render() {
     return (
       <div>
@@ -94,7 +105,12 @@ class PagingWithCustomComponent extends Component<*, *> {
       </div>
     );
   }
+
   _handlePageChange = (pageNumber: number) => {
-    this.setState({ activePage: pageNumber });
+    document.location.hash = '#' + pageNumber;
+  };
+
+  _handleHashChange = () => {
+    this.setState({ activePage: getPageFromHash() });
   };
 }

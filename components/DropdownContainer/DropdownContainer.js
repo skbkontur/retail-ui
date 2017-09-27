@@ -73,11 +73,11 @@ export default class DropdownContainer extends React.Component<Props, State> {
       </div>
     );
 
-    return this.props.disablePortal
-      ? content
-      : <RenderContainer>
-          {content}
-        </RenderContainer>;
+    return this.props.disablePortal ? (
+      content
+    ) : (
+      <RenderContainer>{content}</RenderContainer>
+    );
   }
 
   _ref = (dom: ?HTMLElement) => {
@@ -101,6 +101,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
     // $FlowIssue
     const target: ?Element = this.props.getParent();
     const dom = this._dom;
+
     if (target && dom) {
       const targetRect = target.getBoundingClientRect();
       const docEl = document.documentElement;
