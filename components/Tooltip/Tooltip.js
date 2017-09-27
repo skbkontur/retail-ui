@@ -172,6 +172,7 @@ export default class Tooltip extends React.Component<Props, State> {
       <RenderLayer
         onClickOutside={this._handleBoxClose}
         onFocusOutside={this._handleBoxClose}
+        active={this.state.opened}
       >
         <span {...props} className={className}>
           {child}
