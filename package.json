@@ -8,20 +8,9 @@
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --single-quote --write",
-      "eslint",
-      "git add"
-    ],
-    "*.{css,less}": [
-      "prettier --write",
-      "stylelint",
-      "git add"
-    ],
-    "*.ts": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "*.js": ["prettier --single-quote --write", "eslint", "git add"],
+    "*.{css,less}": ["prettier --write", "stylelint", "git add"],
+    "*.ts": ["prettier --single-quote --write", "git add"]
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
@@ -77,7 +66,6 @@
     "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^0.28.4",
     "enzyme": "^2.9.1",
-    "enzyme-adapter-react-16": "^1.0.0",
     "eslint": "^4.3.0",
     "eslint-plugin-flowtype": "^2.35.0",
     "eslint-plugin-react": "^7.1.0",
@@ -107,14 +95,15 @@
     "url-loader": "^0.5.9"
   },
   "peerDependencies": {
-    "@types/react": "^0.14.56 || ^15.0.25",
-    "react": "^0.14.9 || ^15.5.0",
-    "react-addons-css-transition-group": "^0.14.8 || ^15.5.0",
-    "react-dom": "^0.14.9 || ^15.5.0"
+    "@types/react": "*",
+    "react": ">0.14.9",
+    "react-addons-css-transition-group": ">0.14.8",
+    "react-dom": ">0.14.9"
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/flow/StringStub.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$":
+        "<rootDir>/flow/StringStub.js"
     },
     "transform": {
       "\\.(less|js)": "<rootDir>/preprocessor.js"
@@ -126,8 +115,6 @@
       "<rootDir>/scripts",
       "<rootDir>/testing"
     ],
-    "setupFiles": [
-      "<rootDir>/test-setup.js"
-    ]
+    "setupFiles": ["<rootDir>/test-setup.js"]
   }
 }
