@@ -9,6 +9,11 @@ import Toast from '../Toast';
 
 jest.useFakeTimers();
 
+jest.mock('../../RenderContainer', () => props => <div {...props} />);
+jest.mock('react-addons-css-transition-group', () => ({ children }) => (
+  <div>{children}</div>
+));
+
 describe('Toast', () => {
   it('renders', () => {
     mount(<Toast />);

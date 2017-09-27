@@ -213,9 +213,9 @@ class DatePicker extends React.Component<Props, State> {
     );
   }
 
-  componentDidUpdate({ value: oldValue }: Props) {
-    const { value: newValue } = this.props;
-    if (newValue !== oldValue) {
+  componentWillReceiveProps({ value: newValue }: Props) {
+    const { value: oldValue } = this.props;
+    if (+newValue !== +oldValue) {
       const textValue =
         typeof newValue === 'string' ? newValue : formatDate(newValue);
 
@@ -344,7 +344,10 @@ function formatDate(date) {
     return '';
   }
 
-  const day = date.getUTCDate().toString().padStart(2, '0');
+  const day = date
+    .getUTCDate()
+    .toString()
+    .padStart(2, '0');
   const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
   return `${day}.${month}.${date.getUTCFullYear()}`;
 }

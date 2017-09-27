@@ -12,7 +12,7 @@ describe('Menu', () => {
         <MenuItem ref={refItem} />
       </Menu>
     );
-    const menu = wrapper.component.getInstance();
+    const menu = wrapper.instance();
 
     // Highlight first item.
     menu.down();
@@ -28,7 +28,9 @@ describe('Menu', () => {
     const onClick = jest.fn();
     const wrapper = mount(
       <Menu>
-        <MenuItem onClick={onClick}><span data-click /></MenuItem>
+        <MenuItem onClick={onClick}>
+          <span data-click />
+        </MenuItem>
       </Menu>
     );
 
@@ -41,7 +43,9 @@ describe('Menu', () => {
     const onClick = jest.fn();
     const wrapper = mount(
       <Menu>
-        <MenuItem onClick={onClick} disabled><span data-click /></MenuItem>
+        <MenuItem onClick={onClick} disabled>
+          <span data-click />
+        </MenuItem>
       </Menu>
     );
 
