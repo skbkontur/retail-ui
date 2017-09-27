@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
@@ -8,9 +8,20 @@
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
   "lint-staged": {
-    "*.js": ["prettier --single-quote --write", "eslint", "git add"],
-    "*.{css,less}": ["prettier --write", "stylelint", "git add"],
-    "*.ts": ["prettier --single-quote --write", "git add"]
+    "*.js": [
+      "prettier --single-quote --write",
+      "eslint",
+      "git add"
+    ],
+    "*.{css,less}": [
+      "prettier --write",
+      "stylelint",
+      "git add"
+    ],
+    "*.ts": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
@@ -102,8 +113,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$":
-        "<rootDir>/flow/StringStub.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/flow/StringStub.js"
     },
     "transform": {
       "\\.(less|js)": "<rootDir>/preprocessor.js"
@@ -115,6 +125,8 @@
       "<rootDir>/scripts",
       "<rootDir>/testing"
     ],
-    "setupFiles": ["<rootDir>/test-setup.js"]
+    "setupFiles": [
+      "<rootDir>/test-setup.js"
+    ]
   }
 }
