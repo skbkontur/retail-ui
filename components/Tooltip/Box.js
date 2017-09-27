@@ -34,10 +34,11 @@ class Box extends React.Component {
       <div className={styles.root} style={style}>
         {renderPin(this.state.pos, styles.pin, styles.pinInner)}
         <div className={styles.inner}>
-          {this.props.close &&
+          {this.props.close && (
             <div className={styles.cross} onClick={this._handleCrossClick}>
               {CROSS}
-            </div>}
+            </div>
+          )}
           {this.props.children}
         </div>
       </div>
@@ -76,6 +77,9 @@ class Box extends React.Component {
       return;
     }
     const of = this.props.getTarget();
+    if (!of) {
+      return;
+    }
     const el = ReactDOM.findDOMNode(this);
     const fixed = this.context.insideFixedContainer === true;
     const pos = position(el, of, this.props.pos, fixed);
