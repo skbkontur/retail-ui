@@ -62,6 +62,8 @@ export default class PopupPin extends Component<Props> {
         return 'bottom'
       case 'bottom':
         return 'top'
+      default:
+        throw new TypeError('Unknown direction ' + popupDirection)
     }
   }
 

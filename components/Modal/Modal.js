@@ -35,7 +35,7 @@ type Props = {
   ignoreBackgroundClick?: boolean,
   noClose?: boolean,
   width?: number,
-  onClose?: (event) => void
+  onClose?: () => void
 };
 
 type State = {
@@ -273,12 +273,12 @@ class Modal extends React.Component<Props, State> {
     }
   };
 
-  _requestClose = event => {
+  _requestClose = () => {
     if (this.props.disableClose) {
       return;
     }
     if (this.props.onClose) {
-      this.props.onClose(event);
+      this.props.onClose();
     }
   };
 
