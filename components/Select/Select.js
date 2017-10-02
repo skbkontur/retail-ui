@@ -194,9 +194,7 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
       );
     } else {
       label = (
-        <span className={styles.placeholder}>
-          {this.props.placeholder}
-        </span>
+        <span className={styles.placeholder}>{this.props.placeholder}</span>
       );
     }
 
@@ -272,9 +270,7 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
     return (
       <Button {...buttonProps}>
         <span {...labelProps}>
-          <span className={styles.labelText}>
-            {params.label}
-          </span>
+          <span className={styles.labelText}>{params.label}</span>
           <div className={styles.arrowWrap}>
             <div className={styles.arrow} />
           </div>
@@ -294,11 +290,7 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
       onKeyDown: params.onKeyDown
     };
 
-    return (
-      <Link {...linkProps}>
-        {params.label}
-      </Link>
-    );
+    return <Link {...linkProps}>{params.label}</Link>;
   }
 
   renderMenu() {
@@ -563,6 +555,7 @@ function normalizeEntry(entry) {
 }
 
 function filterItem(value, item, pattern) {
+  // $FlowIssue
   return item.toLowerCase().indexOf(pattern) !== -1;
 }
 

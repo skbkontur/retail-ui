@@ -152,25 +152,25 @@ export default class DateInput extends Component<Props> {
   };
 
   handleDateComponentChange = (
-    event: SyntheticKeyboardEvent<> & { target: HTMLInputElement }
+    event: SyntheticKeyboardEvent<HTMLInputElement>
   ) => {
     if (this.checkIfBadKeyDownEvent(event)) {
       return;
     }
-    this._cursorPosition = event.target.selectionStart;
+    this._cursorPosition = event.currentTarget.selectionStart;
     const newDate = this.createNewDate(event);
     this.props.onChange(newDate);
   };
 
   checkIfBadKeyDownEvent = (
-    event: SyntheticKeyboardEvent<> & { target: HTMLInputElement }
+    event: SyntheticKeyboardEvent<HTMLInputElement>
   ) => {
     return (
-      event.target.value.match(/_/) ||
+      event.currentTarget.value.match(/_/) ||
       (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') ||
-      event.target.selectionStart !== event.target.selectionEnd ||
-      event.target.selectionStart === 0 ||
-      event.target.selectionStart === 10
+      event.currentTarget.selectionStart !== event.currentTarget.selectionEnd ||
+      event.currentTarget.selectionStart === 0 ||
+      event.currentTarget.selectionStart === 10
     );
   };
 
@@ -182,13 +182,11 @@ export default class DateInput extends Component<Props> {
     this.props.onChange(value);
   };
 
-  createNewDate = (
-    event: SyntheticKeyboardEvent<> & { target: HTMLInputElement }
-  ) => {
+  createNewDate = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     event.preventDefault();
 
-    const dateValue = event.target.value;
-    const cursorPosition = event.target.selectionStart;
+    const dateValue = event.currentTarget.value;
+    const cursorPosition = event.currentTarget.selectionStart;
 
     let step = 0;
     if (event.key === 'ArrowUp') {

@@ -30,10 +30,13 @@ type Props = {
   children?: React.Node,
   disabled?: boolean,
   error?: boolean,
-  onChange?: (event: { target: { value: boolean } }, value: boolean) => void,
-  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
-  onMouseOver?: (e: SyntheticMouseEvent<>) => void,
+  onChange?: (
+    event: SyntheticMouseEvent<HTMLInputElement>,
+    value: boolean
+  ) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
+  onMouseOver?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
   warning?: boolean
 };
 
@@ -94,11 +97,7 @@ class Checkbox extends React.Component<
 
     let caption = null;
     if (hasCaption) {
-      caption = (
-        <div className={styles.caption}>
-          {this.props.children}
-        </div>
-      );
+      caption = <div className={styles.caption}>{this.props.children}</div>;
     }
 
     return (
@@ -110,10 +109,11 @@ class Checkbox extends React.Component<
       >
         <input {...inputProps} />
         <span className={styles.box}>
-          {this.props.checked &&
+          {this.props.checked && (
             <div className={styles.ok}>
               <Icon name="ok" />
-            </div>}
+            </div>
+          )}
         </span>
         {caption}
       </label>
@@ -145,8 +145,8 @@ class Checkbox extends React.Component<
     this.input = ref;
   };
 
-  _handleChange = event => {
-    const checked = event.target.checked;
+  _handleChange = (event: SyntheticMouseEvent<HTMLInputElement>) => {
+    const checked = event.currentTarget.checked;
     this.props.onChange && this.props.onChange(event, checked);
   };
 }

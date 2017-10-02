@@ -4,17 +4,19 @@ import { Children, Component } from 'react';
 import type { Node } from 'react';
 import withFocusOutside from '../internal/withFocusOutside';
 
-class RenderLayer extends Component<{
+type Props = {
   children?: Node,
-  onClickOutside: (e: Event) => any,
-  onFocusOutside: (e: Event) => any,
-  subscribeToOutsideFocus: (fn: (e: Event) => any) => any,
-  subscribeToOutsideClicks: (fn: (e: Event) => any) => any,
+  onClickOutside: (e: Event) => mixed,
+  onFocusOutside: (e: Event) => mixed,
+  subscribeToOutsideFocus: (fn: (e: Event) => mixed) => () => void,
+  subscribeToOutsideClicks: (fn: (e: Event) => mixed) => () => void,
   active?: boolean,
-  innerRef?: any
-}> {
-  unsibscribeFocusOutside: Function;
-  unsibscribeClickOutside: Function;
+  innerRef?: void
+};
+
+class RenderLayer extends Component<Props> {
+  unsibscribeFocusOutside: () => void;
+  unsibscribeClickOutside: () => void;
 
   componentDidMount() {
     this.unsibscribeFocusOutside = this.props.subscribeToOutsideFocus(
@@ -40,4 +42,12 @@ class RenderLayer extends Component<{
   }
 }
 
-export default withFocusOutside(RenderLayer);
+const EnhencedComponent: React.ComponentType<{
+  children?: Node,
+  onClickOutside: (e: Event) => mixed,
+  onFocusOutside: (e: Event) => mixed,
+  active?: boolean,
+  innerRef?: void
+}> = withFocusOutside(RenderLayer);
+
+export default EnhencedComponent;
