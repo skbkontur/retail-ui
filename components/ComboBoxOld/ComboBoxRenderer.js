@@ -174,7 +174,6 @@ class ComboBoxRenderer extends React.Component<Props, State> {
 
   renderInput() {
     const inputProps = filterProps(this.props, INPUT_PASS_PROPS);
-
     return (
       <div className={styles.input}>
         <Input
@@ -318,8 +317,11 @@ class ComboBoxRenderer extends React.Component<Props, State> {
     this._menu = menu;
   };
 
-  _handleInputChange = (event: SyntheticEvent<HTMLInputElement>) => {
-    let newInputValue = event.currentTarget.value;
+  _handleInputChange = (
+    event: SyntheticInputEvent<HTMLInputElement>,
+    value: string
+  ) => {
+    let newInputValue = value;
 
     const inputValueChanged = this.state.searchText !== newInputValue;
     if (inputValueChanged && this.props.onInputChange) {

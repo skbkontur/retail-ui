@@ -234,18 +234,12 @@ export default class Input extends React.Component<Props, State> {
 
     var leftIcon = null;
     if (this.props.leftIcon) {
-      leftIcon = (
-        <div className={styles.leftIcon}>
-          {this.props.leftIcon}
-        </div>
-      );
+      leftIcon = <div className={styles.leftIcon}>{this.props.leftIcon}</div>;
     }
     var rightIcon = null;
     if (this.props.rightIcon) {
       rightIcon = (
-        <div className={styles.rightIcon}>
-          {this.props.rightIcon}
-        </div>
+        <div className={styles.rightIcon}>{this.props.rightIcon}</div>
       );
     }
 
@@ -256,7 +250,7 @@ export default class Input extends React.Component<Props, State> {
         [styles.borderless]: this.props.borderless
       }),
       value: this.props.value,
-      onChange: e => this._handleChange(e),
+      onChange: this._handleChange,
       style: {},
       ref: this.getInputFromRef
     };
@@ -352,9 +346,9 @@ export default class Input extends React.Component<Props, State> {
     }
   }
 
-  _handleChange(event) {
+  _handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     if (polyfillPlaceholder) {
-      const fieldIsEmpty = event.target.value === '';
+      const fieldIsEmpty = event.currentTarget.value === '';
       if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
         this.setState({ polyfillPlaceholder: fieldIsEmpty });
       }
@@ -363,5 +357,5 @@ export default class Input extends React.Component<Props, State> {
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
-  }
+  };
 }

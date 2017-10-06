@@ -9,7 +9,7 @@ describe('ComboBoxRenderer', () => {
   function editAndBlur(wrapper, text = 'foo') {
     const valueElement = wrapper.find('[tabIndex]');
     valueElement.simulate('click');
-
+    wrapper.update();
     wrapper
       .find('input')
       .simulate('change', { target: { value: text } })
@@ -90,7 +90,7 @@ describe('ComboBoxRenderer', () => {
     wrapper.find('[tabIndex]').simulate('click');
     wrapper
       .find('input')
-      .simulate('change', { target: { value: '123' } })
+      .simulate('change', { currentTarget: { value: '123' } })
       .simulate('keydown', { key: 'Escape' });
 
     expect(wrapper.state().opened).toBeFalsy();
@@ -110,7 +110,7 @@ describe('ComboBoxRenderer', () => {
     await promise;
     wrapper
       .find('input')
-      .simulate('change', { target: { value: 'baz' } })
+      .simulate('change', { currentTarget: { value: 'baz' } })
       .simulate('keydown', { key: 'ArrowDown' })
       .simulate('keydown', { key: 'Enter' });
 

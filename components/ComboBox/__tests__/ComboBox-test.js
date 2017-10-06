@@ -34,7 +34,9 @@ xdescribe('ComboBox V2', () => {
     const wrapper = mount(<ComboBoxV2 getItems={search} />);
 
     wrapper.find('InputLikeText').simulate('focus'); // called search 1 time
-    wrapper.find('input').simulate('change', { target: { value: 'world' } });
+    wrapper
+      .find('input')
+      .simulate('change', { currentTarget: { value: 'world' } });
 
     await delay(300); // waiting for debounce
 
@@ -98,7 +100,7 @@ xdescribe('ComboBox V2', () => {
     const menuItems = menu.find('MenuItem');
     menuItems.first().simulate('click');
 
-    expect(onChange).toBeCalledWith({ target: { value: 'one' } }, 'one');
+    expect(onChange).toBeCalledWith({ currentTarget: { value: 'one' } }, 'one');
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
@@ -115,7 +117,7 @@ xdescribe('ComboBox V2', () => {
 
     wrapper.find('input').simulate('keydown', { key: 'Enter' });
 
-    expect(onChange).toBeCalledWith({ target: { value: 'one' } }, 'one');
+    expect(onChange).toBeCalledWith({ currentTarget: { value: 'one' } }, 'one');
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
@@ -144,7 +146,9 @@ xdescribe('ComboBox V2', () => {
     wrapper.find('InputLikeText').simulate('focus');
     await search;
 
-    wrapper.find('input').simulate('change', { target: { value: 'one' } });
+    wrapper
+      .find('input')
+      .simulate('change', { currentTarget: { value: 'one' } });
 
     await delay(300); // w8 debounce
     await search;
