@@ -94,7 +94,7 @@ function withFocusOutside<Props: ParamsProps>(
       if (this._unmounted) {
         return;
       }
-      const target: HTMLElement = event.currentTarget || event.srcElement;
+      const target: HTMLElement = event.target || event.srcElement;
       const node = this._getDomNode();
 
       if (!containsTargetOrRenderContainer(target)(node)) {
