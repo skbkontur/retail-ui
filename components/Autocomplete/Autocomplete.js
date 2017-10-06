@@ -169,7 +169,7 @@ export default class Autocomplete extends React.Component<Props, State> {
   _handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this._opened = true;
 
-    const value: string = event.target.value;
+    const value = event.currentTarget.value;
 
     this._updateItems(value);
 
@@ -185,7 +185,7 @@ export default class Autocomplete extends React.Component<Props, State> {
     }
   };
 
-  _handleKey = (event: SyntheticKeyboardEvent<>) => {
+  _handleKey = (event: SyntheticKeyboardEvent<*>) => {
     var items = this.state.items;
     var stop = false;
     if ((event.key === 'ArrowUp' || event.key === 'ArrowDown') && items) {

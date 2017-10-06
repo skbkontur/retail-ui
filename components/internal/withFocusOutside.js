@@ -9,25 +9,25 @@ import listenFocusOutside, {
 } from '../../lib/listenFocusOutside';
 
 type PassingProps = {
-  subscribeToOutsideFocus: (fn: (e: Event) => any) => any,
-  subscribeToOutsideClicks: (fn: (e: Event) => any) => any
+  subscribeToOutsideFocus: (fn: (e: Event) => mixed) => () => void,
+  subscribeToOutsideClicks: (fn: (e: Event) => mixed) => () => void
 };
 
-type ParamsProps = { active?: boolean, innerRef?: any };
+type ParamsProps = { active?: boolean, innerRef?: void };
 
 function withFocusOutside<Props: ParamsProps>(
-  WrappingComponent: React.ComponentType<PassingProps & Props>
-) {
+  Component: React.ComponentType<PassingProps & Props>
+): React.ComponentType<Props> {
   class WrappedComponent extends React.Component<Props> {
     static defaultProps = { active: true };
 
-    _focusHandlers: Array<(e: Event) => any> = [];
-    _clickHandlers: Array<(e: Event) => any> = [];
+    _focusHandlers: Array<(e: Event) => mixed> = [];
+    _clickHandlers: Array<(e: Event) => mixed> = [];
 
-    _focusSubscribtion: any;
+    _focusSubscribtion: ?{ remove: () => void } = null;
     _unmounted = false;
 
-    component: any;
+    _component;
 
     componentWillReceiveProps(nextProps: Props) {
       if (this.props.active && !nextProps.active && this._focusSubscribtion) {
@@ -39,7 +39,7 @@ function withFocusOutside<Props: ParamsProps>(
     }
 
     _ref = el => {
-      this.component = el;
+      this._component = el;
 
       if (this._focusSubscribtion) {
         this._flush();
@@ -64,8 +64,10 @@ function withFocusOutside<Props: ParamsProps>(
     };
 
     _flush() {
-      this._focusSubscribtion.remove();
-      this._focusSubscribtion = null;
+      if (this._focusSubscribtion) {
+        this._focusSubscribtion.remove();
+        this._focusSubscribtion = null;
+      }
 
       events.removeEventListener(
         document,
@@ -74,14 +76,14 @@ function withFocusOutside<Props: ParamsProps>(
       );
     }
 
-    subscribeToOutsideFocus = (fn: (e: Event) => any) => {
+    _subscribeToOutsideFocus = fn => {
       const index = this._focusHandlers.push(fn);
       return () => {
         this._focusHandlers.splice(index, 1);
       };
     };
 
-    subscribeToOutsideClicks = (fn: (e: Event) => any) => {
+    _subscribeToOutsideClicks = fn => {
       const index = this._clickHandlers.push(fn);
       return () => {
         this._clickHandlers.splice(index, 1);
@@ -92,7 +94,7 @@ function withFocusOutside<Props: ParamsProps>(
       if (this._unmounted) {
         return;
       }
-      const target = event.target || event.srcElement;
+      const target: HTMLElement = event.currentTarget || event.srcElement;
       const node = this._getDomNode();
 
       if (!containsTargetOrRenderContainer(target)(node)) {
@@ -121,12 +123,12 @@ function withFocusOutside<Props: ParamsProps>(
 
     render() {
       return (
-        <WrappingComponent
-          ref={this._ref}
+        <Component
           {...this.props}
+          ref={this._ref}
           innerRef={this.props.innerRef}
-          subscribeToOutsideFocus={this.subscribeToOutsideFocus}
-          subscribeToOutsideClicks={this.subscribeToOutsideClicks}
+          subscribeToOutsideFocus={this._subscribeToOutsideFocus}
+          subscribeToOutsideClicks={this._subscribeToOutsideClicks}
         />
       );
     }
