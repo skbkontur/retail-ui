@@ -3937,7 +3937,7 @@ gemini-sauce@^1.0.1:
     sauce-connect-launcher "^1.2.0"
     uuid "^2.0.1"
 
-gemini@^4.19.3:
+gemini@4.19.3:
   version "4.19.3"
   resolved "https://registry.yarnpkg.com/gemini/-/gemini-4.19.3.tgz#c66fa3373ff745597035fb2977b4fb04e8b663fe"
   dependencies:
