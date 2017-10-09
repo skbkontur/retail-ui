@@ -5,7 +5,6 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import filterProps from '../../filterProps';
-import Upgrades from '../../../lib/Upgrades';
 
 import '../../ensureOldIEClassName';
 import styles from './InputLikeText.less';
@@ -27,8 +26,13 @@ export default class InputLikeText extends React.Component<{
   error?: boolean,
   padRight?: boolean,
   warning?: boolean,
-  disabled?: boolean
+  disabled?: boolean,
+  size: 'small' | 'medium' | 'large'
 }> {
+  static defaultProps = {
+    size: 'small'
+  };
+
   render() {
     const passProps = this.props.disabled
       ? {}
@@ -41,14 +45,12 @@ export default class InputLikeText extends React.Component<{
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,
       [styles.disabled]: this.props.disabled,
-      [styles.deprecated_oldSize]: !Upgrades.isHeight34Enabled()
+      [styles[`size-${this.props.size}`]]: this.props.size
     });
 
     return (
       <span tabIndex="0" className={className} {...passProps}>
-        <span className={styles.inner}>
-          {this.props.children}
-        </span>
+        <span className={styles.inner}>{this.props.children}</span>
       </span>
     );
   }

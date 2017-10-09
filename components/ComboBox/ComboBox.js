@@ -99,6 +99,8 @@ export type ExternalProps<T> = {
    */
   valueToString: (item: T) => string,
 
+  size?: 'small' | 'medium' | 'large',
+
   warning?: boolean,
 
   width?: string | number
