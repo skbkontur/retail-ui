@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export interface LinkProps {
+export interface LinkProps extends React.LinkHTMLAttributes<any> {
   disabled?: boolean;
   href?: string;
   icon?: string;
