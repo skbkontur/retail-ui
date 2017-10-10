@@ -1,2 +1,2 @@
 import PasswordInput from './PasswordInput';
-module.exports = PasswordInput;
+export default PasswordInput;

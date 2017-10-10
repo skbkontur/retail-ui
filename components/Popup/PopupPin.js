@@ -15,50 +15,76 @@ type Props = {
   size: number
 };
 
-export default class PopupPin extends Component {
-  props: Props;
-
+export default class PopupPin extends Component<Props> {
   render() {
     if (!this.props.popupElement) {
       return null;
     }
 
     let options = this._getPinOptions(
-      PopupHelper.getElementRect(this.props.popupElement),
+      PopupHelper.getElementAbsoluteRect(this.props.popupElement),
       PopupHelper.getPositionObject(this.props.popupPosition),
       this.props.size,
       this.props.offset,
       this.props.borderWidth
     );
 
-    let styleOuter = this._getStyle(
-      options.outerTop,
-      options.outerLeft,
+    let styleOuter = this._getOuterStyle(
       options.activeBorder,
       options.outerSize,
       this.props.borderColor
     );
 
-    let styleInner = this._getStyle(
-      options.innerTop,
-      options.innerLeft,
+    let styleInner = this._getInnerStyle(
       options.activeBorder,
       this.props.size,
       this.props.backgroundColor
     );
 
+    let styleWrapper = this._getWrapperStyle(
+      options.outerLeft,
+      options.outerSize,
+    )
+
     return (
-      <div style={styleOuter}>
-        <div style={styleInner} />
+      <div style={styleWrapper}> 
+        <div style={styleOuter}>
+          <div style={styleInner} />
+        </div>
       </div>
     );
   }
 
-  _getStyle(top, left, activeBorder, borderWitdth, borderColor) {
+  _getPopupOppositeDirection() {
+    let popupDirection = PopupHelper.getPositionObject(this.props.popupPosition).direction;
+    switch(popupDirection) {
+      case 'top':
+        return 'bottom'
+      case 'bottom':
+        return 'top'
+      default:
+        throw new TypeError('Unknown direction ' + popupDirection)
+    }
+  }
+
+  _getWrapperStyle(size, borderWitdth) {
+    let direction = this._getPopupOppositeDirection();
     return {
       position: 'absolute',
-      top: top + 'px',
-      left: left + 'px',
+      [direction]: -borderWitdth + 'px',
+      left: size + 'px',
+      width: borderWitdth * 2 + 'px',
+      height: borderWitdth + 'px',
+      overflow: 'hidden'
+    }
+  }
+
+  _getOuterStyle(activeBorder, borderWitdth, borderColor) {
+    let direction = this._getPopupOppositeDirection();
+    return {
+      position: 'absolute',
+      [direction]: -borderWitdth + 'px',
+      left: '0px',
       borderWidth: borderWitdth + 'px',
       borderStyle: 'solid',
       borderTopColor: 'transparent',
@@ -66,7 +92,23 @@ export default class PopupPin extends Component {
       borderLeftColor: 'transparent',
       borderRightColor: 'transparent',
       ['border' + activeBorder + 'Color']: borderColor
-    };
+    }
+  }
+
+  _getInnerStyle(activeBorder, borderWitdth, borderColor) {
+    let direction = this._getPopupOppositeDirection();
+    return {
+      position: 'absolute',
+      [direction]: -borderWitdth + 2 + 'px',
+      left: -borderWitdth + 'px',
+      borderWidth: borderWitdth + 'px',
+      borderStyle: 'solid',
+      borderTopColor: 'transparent',
+      borderBottomColor: 'transparent',
+      borderLeftColor: 'transparent',
+      borderRightColor: 'transparent',
+      ['border' + activeBorder + 'Color']: borderColor
+    }
   }
 
   _getPinOptions(popupRect, popupPosition, pinSize, pinOffset, borderWidth) {

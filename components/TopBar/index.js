@@ -1,3 +1,3 @@
 // @flow
 import TopBar from './TopBar';
-module.exports = TopBar;
+export default TopBar;

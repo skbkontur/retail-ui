@@ -2,7 +2,7 @@
 
 import classNames from 'classnames';
 import MaskedInput from 'react-input-mask';
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
@@ -45,38 +45,38 @@ export type Props = {
   disabled?: boolean,
   error?: boolean,
   id?: string,
-  leftIcon?: React.Element<mixed>,
+  leftIcon?: React.Node,
   mask?: string,
-  maskChar?: string,
+  maskChar?: ?string,
   maxLength?: number | string,
   placeholder?: string,
-  rightIcon?: React.Element<mixed>,
-  size: 'small' | 'medium' | 'large',
+  rightIcon?: React.Node,
+  size?: 'small' | 'medium' | 'large',
   title?: string,
   type?: 'password' | 'text',
-  value: string,
+  value?: string,
   warning?: boolean,
   width?: number | string,
-  onBlur?: (e: SyntheticFocusEvent) => void,
-  onChange?: (e: { target: { value: string } }, v: string) => void,
-  onCopy?: (e: SyntheticClipboardEvent) => void,
-  onCut?: (e: SyntheticClipboardEvent) => void,
-  onFocus?: (e: SyntheticFocusEvent) => void,
-  onInput?: (e: SyntheticInputEvent) => void,
-  onKeyDown?: (e: SyntheticKeyboardEvent) => void,
-  onKeyPress?: (e: SyntheticKeyboardEvent) => void,
-  onKeyUp?: (e: SyntheticKeyboardEvent) => void,
-  onPaste?: (e: SyntheticFocusEvent) => void,
-  onMouseEnter?: (e: SyntheticMouseEvent) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void
+  onBlur?: (e: Event) => void,
+  onChange?: (e: SyntheticInputEvent<HTMLInputElement>, v: string) => void,
+  onCopy?: (e: SyntheticClipboardEvent<>) => void,
+  onCut?: (e: SyntheticClipboardEvent<>) => void,
+  onFocus?: (e: SyntheticFocusEvent<>) => void,
+  onInput?: (e: SyntheticInputEvent<>) => void,
+  onKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
+  onKeyPress?: (e: SyntheticKeyboardEvent<>) => void,
+  onKeyUp?: (e: SyntheticKeyboardEvent<>) => void,
+  onPaste?: (e: SyntheticFocusEvent<>) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
+  onMouseOver?: (e: SyntheticMouseEvent<>) => void
 };
 
 type State = {
   polyfillPlaceholder: boolean
 };
 
-export default class Input extends React.Component {
+export default class Input extends React.Component<Props, State> {
   static propTypes = {
     align: PropTypes.oneOf(['left', 'center', 'right']),
 
@@ -184,7 +184,6 @@ export default class Input extends React.Component {
     size: 'small'
   };
 
-  props: Props;
   state: State = {
     polyfillPlaceholder: false
   };
@@ -194,8 +193,7 @@ export default class Input extends React.Component {
   render() {
     const className: string = this.props.className || '';
     const sizeClassName =
-      SIZE_CLASS_NAMES[this.props.size] ||
-      SIZE_CLASS_NAMES[Input.defaultProps.size];
+      SIZE_CLASS_NAMES[this.props.size || Input.defaultProps.size];
     var labelProps = {
       className: classNames({
         [styles.root]: true,
@@ -252,7 +250,7 @@ export default class Input extends React.Component {
         [styles.borderless]: this.props.borderless
       }),
       value: this.props.value,
-      onChange: e => this._handleChange(e),
+      onChange: this._handleChange,
       style: {},
       ref: this.getInputFromRef
     };
@@ -348,9 +346,9 @@ export default class Input extends React.Component {
     }
   }
 
-  _handleChange(event) {
+  _handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     if (polyfillPlaceholder) {
-      const fieldIsEmpty = event.target.value === '';
+      const fieldIsEmpty = event.currentTarget.value === '';
       if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
         this.setState({ polyfillPlaceholder: fieldIsEmpty });
       }
@@ -359,5 +357,5 @@ export default class Input extends React.Component {
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
-  }
+  };
 }

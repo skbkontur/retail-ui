@@ -1,7 +1,7 @@
 // @flow
 import events from 'add-event-listener';
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
@@ -21,9 +21,9 @@ import styles from './Select.less';
 
 export type ButtonParams = {
   disabled?: boolean,
-  label: React$Element<*> | string,
+  label: React.Node,
   onClick: () => void,
-  onKeyDown: (event: SyntheticKeyboardEvent) => void,
+  onKeyDown: (event: SyntheticKeyboardEvent<>) => void,
   opened: boolean
 };
 
@@ -39,36 +39,42 @@ const PASS_BUTTON_PROPS = {
   onMouseOver: true
 };
 
-type Props = {
+type Props<V, I> = {
   _icon?: string,
-  _renderButton?: (params: ButtonParams) => React$Element<*>,
-  defaultValue?: mixed,
+  _renderButton?: (params: ButtonParams) => React.Node,
+  defaultValue?: V,
   diadocLinkIcon?: string,
   disablePortal?: boolean,
   disabled?: boolean,
   error?: boolean,
-  filterItem: (value: mixed, item: mixed, pattern: string) => boolean,
-  items?: $Iterable<*, *, *>,
+  filterItem: (value: V, item: I, pattern: string) => boolean,
+  items?: I[],
   maxMenuHeight?: number,
   maxWidth?: number | string,
   menuAlign?: 'left' | 'right',
   menuWidth?: number | string,
-  onChange?: (e: { target: { value: mixed } }, value: mixed) => void,
+  onChange?: (e: { target: { value: V } }, value: V) => void,
   onClose?: () => void,
-  onMouseEnter?: (e: SyntheticMouseEvent) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
+  onMouseOver?: (e: SyntheticMouseEvent<>) => void,
   onOpen?: () => void,
-  placeholder?: React$Element<*> | string,
-  renderItem: (value: mixed, item: mixed) => React$Element<*> | string,
-  renderValue: (value: mixed, item: mixed) => React$Element<*> | string,
-  areValuesEqual: (value1: mixed, value2: mixed) => boolean,
+  placeholder?: React.Node,
+  renderItem: (value: V, item: I) => React.Node,
+  renderValue: (value: V, item: I) => React.Node,
+  areValuesEqual: (value1: V, value2: V) => boolean,
   search?: boolean,
-  value?: mixed,
+  value?: ?V,
   width?: number | string
 };
 
-class Select extends React.Component {
+type State = {
+  opened: boolean,
+  searchPattern?: string,
+  value: mixed
+};
+
+class Select<V, I> extends React.Component<Props<V, I>, State> {
   static propTypes = {
     /**
     * Функция для сравнения `value` с элементом из `items`
@@ -164,15 +170,9 @@ class Select extends React.Component {
 
   static Item = Item;
 
-  state: {
-    opened: boolean,
-    searchPattern?: string,
-    value: mixed
-  };
+  _menu: ?Menu;
 
-  _menu: Menu;
-
-  constructor(props: Props, context: mixed) {
+  constructor(props: Props<V, I>, context: mixed) {
     super(props, (context: mixed));
 
     this.state = {
@@ -187,14 +187,14 @@ class Select extends React.Component {
     var label;
     if (value != null) {
       label = this.props.renderValue(
+        // $FlowIssue
         value,
+        // $FlowIssue
         this._getItemByValue(this.props.items, value)
       );
     } else {
       label = (
-        <span className={styles.placeholder}>
-          {this.props.placeholder}
-        </span>
+        <span className={styles.placeholder}>{this.props.placeholder}</span>
       );
     }
 
@@ -270,9 +270,7 @@ class Select extends React.Component {
     return (
       <Button {...buttonProps}>
         <span {...labelProps}>
-          <span className={styles.labelText}>
-            {params.label}
-          </span>
+          <span className={styles.labelText}>{params.label}</span>
           <div className={styles.arrowWrap}>
             <div className={styles.arrow} />
           </div>
@@ -292,11 +290,7 @@ class Select extends React.Component {
       onKeyDown: params.onKeyDown
     };
 
-    return (
-      <Link {...linkProps}>
-        {params.label}
-      </Link>
-    );
+    return <Link {...linkProps}>{params.label}</Link>;
   }
 
   renderMenu() {
@@ -319,6 +313,7 @@ class Select extends React.Component {
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
       >
+        {/* $FlowIssue */}
         <Menu
           ref={this._refMenu}
           width={this.props.menuWidth}
@@ -328,10 +323,10 @@ class Select extends React.Component {
           {search}
           {this._mapItems(
             (
-              iValue: mixed,
-              item: mixed | (() => React$Element<*>),
+              iValue: V,
+              item: I | (() => React.Node),
               i: number,
-              comment: ?mixed
+              comment: ?React.Node
             ) => {
               if (typeof item === 'function' || React.isValidElement(item)) {
                 return React.cloneElement(
@@ -345,6 +340,7 @@ class Select extends React.Component {
                 <MenuItem
                   key={i}
                   state={
+                    /* $FlowIssue */
                     this.props.areValuesEqual(iValue, value) ? 'selected' : null
                   }
                   onClick={this._select.bind(this, iValue)}
@@ -369,11 +365,9 @@ class Select extends React.Component {
   };
 
   _focusInput = input => {
-    const node = input && ReactDOM.findDOMNode(input);
-    if (!node) {
-      return;
+    if (input) {
+      input.focus();
     }
-    node.focus();
   };
 
   _refMenuContainer = el => {
@@ -445,7 +439,7 @@ class Select extends React.Component {
     events.removeEventListener(window, 'popstate', this._close);
   };
 
-  handleKey = (e: SyntheticKeyboardEvent) => {
+  handleKey = (e: SyntheticKeyboardEvent<>) => {
     var key = e.key;
     if (!this.state.opened) {
       if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
@@ -463,12 +457,12 @@ class Select extends React.Component {
         this._menu && this._menu.down();
       } else if (e.key === 'Enter') {
         e.preventDefault(); // To prevent form submission.
-        this._menu && this._menu.enter();
+        this._menu && this._menu.enter(e);
       }
     }
   };
 
-  handleSearch = (event: SyntheticInputEvent) => {
+  handleSearch = (event: SyntheticInputEvent<>) => {
     this.setState({ searchPattern: event.target.value });
   };
 
@@ -480,7 +474,7 @@ class Select extends React.Component {
     }
   };
 
-  _select(value) {
+  _select(value: V) {
     this.setState(
       {
         opened: false,
@@ -514,7 +508,9 @@ class Select extends React.Component {
     let index = 0;
     for (const entry of items) {
       const [value, item, comment] = normalizeEntry(entry);
+      // $FlowIssue
       if (!pattern || this.props.filterItem(value, item, pattern)) {
+        // $FlowIssue
         ret.push(fn(value, item, index, comment));
         ++index;
       }
@@ -523,14 +519,15 @@ class Select extends React.Component {
     return ret;
   }
 
-  _getItemByValue(items, value) {
+  _getItemByValue(items: ?(I[]), value: V) {
     if (!items) {
       return null;
     }
     for (let entry of items) {
-      entry = normalizeEntry(entry);
-      if (this.props.areValuesEqual(entry[0], value)) {
-        return entry[1];
+      const [itemValue, item] = normalizeEntry(entry);
+      // $FlowIssue
+      if (this.props.areValuesEqual(itemValue, value)) {
+        return item;
       }
     }
     return null;
@@ -558,6 +555,7 @@ function normalizeEntry(entry) {
 }
 
 function filterItem(value, item, pattern) {
+  // $FlowIssue
   return item.toLowerCase().indexOf(pattern) !== -1;
 }
 

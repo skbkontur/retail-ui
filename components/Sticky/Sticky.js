@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react';
+import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -10,7 +10,7 @@ type Props = {
   side: 'top' | 'bottom',
   offset: number,
   getStop?: () => ?HTMLElement,
-  children?: any
+  children?: React.Node | ((fixed: boolean) => React.Node)
 };
 
 type State = {
@@ -23,7 +23,7 @@ type State = {
   relativeTop: number
 };
 
-export default class Sticky extends React.Component {
+export default class Sticky extends React.Component<Props, State> {
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
@@ -44,19 +44,15 @@ export default class Sticky extends React.Component {
     offset: 0
   };
 
-  props: Props;
-
-  state: State;
-
-  _wrapper: HTMLElement;
-  _inner: HTMLElement;
+  _wrapper: ?HTMLElement;
+  _inner: ?HTMLElement;
 
   _scheduled: boolean = false;
   _reflowing: boolean = false;
   _lastInnerHeight: number = -1;
   _layoutSubscription: { remove: () => void };
 
-  constructor(props: Props, context: any) {
+  constructor(props: Props, context: mixed) {
     super(props, context);
 
     this.state = {
@@ -89,7 +85,7 @@ export default class Sticky extends React.Component {
           position: 'fixed',
           width: this.state.width,
           zIndex: 100
-        }: Object);
+        }: Object); // eslint-disable-line flowtype/no-weak-types
 
         if (this.props.side === 'top') {
           innerStyle.top = this.props.offset;
@@ -113,11 +109,11 @@ export default class Sticky extends React.Component {
     );
   }
 
-  _refWrapper = (ref: HTMLElement) => {
+  _refWrapper = (ref: ?HTMLElement) => {
     this._wrapper = ref;
   };
 
-  _refInner = (ref: HTMLElement) => {
+  _refInner = (ref: ?HTMLElement) => {
     this._inner = ref;
   };
 
@@ -166,29 +162,36 @@ export default class Sticky extends React.Component {
     }
 
     const windowHeight = window.innerHeight || documentElement.clientHeight;
+    if (!this._wrapper) {
+      return;
+    }
     const wrapRect = this._wrapper.getBoundingClientRect();
     const wrapLeft = wrapRect.left;
     const wrapTop = wrapRect.top;
-    const fixed = this.props.side === 'top'
-      ? wrapTop < this.props.offset
-      : wrapRect.bottom > windowHeight - this.props.offset;
+    const fixed =
+      this.props.side === 'top'
+        ? wrapTop < this.props.offset
+        : wrapRect.bottom > windowHeight - this.props.offset;
 
     const wasFixed = this.state.fixed;
 
     if (fixed) {
       const width = Math.floor(wrapRect.right - wrapRect.left);
-
+      const inner = this._inner;
       let height = this.state.height;
+      if (!inner) {
+        return;
+      }
       if (
         !wasFixed ||
         this.state.width !== width ||
-        this._lastInnerHeight !== this._inner.offsetHeight
+        this._lastInnerHeight !== inner.offsetHeight
       ) {
         yield {
           fixed: false,
           height
         };
-        height = this._inner.offsetHeight;
+        height = inner.offsetHeight;
       }
 
       yield {
@@ -198,7 +201,7 @@ export default class Sticky extends React.Component {
         left: wrapLeft
       };
 
-      this._lastInnerHeight = this._inner.offsetHeight;
+      this._lastInnerHeight = inner.offsetHeight;
 
       const stop = this.props.getStop && this.props.getStop();
       if (stop) {

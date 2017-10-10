@@ -1,3 +1,3 @@
 // @flow
 import RenderContainer from './RenderContainer';
-module.exports = RenderContainer;
+export default RenderContainer;

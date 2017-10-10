@@ -1,3 +1,3 @@
 // @flow
 import Center from './Center';
-module.exports = Center;
+export default Center;

@@ -1,6 +1,6 @@
 /* @flow */
 import PropTypes from 'prop-types';
-import React from 'react';
+import * as React from 'react';
 
 import styles from './Logotype.less';
 import cloudImage from './cloud.png';
@@ -28,7 +28,7 @@ const createPngCloud = backgroundColor =>
 
 type Props = {
   color?: string,
-  component: ReactClass<*> | string,
+  component: React.ComponentType<*> | string,
   href?: string,
   suffix?: string,
   textColor?: string

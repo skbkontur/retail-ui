@@ -1,4 +1,4 @@
 // @flow
 
 import MenuSeparator from './MenuSeparator';
-module.exports = MenuSeparator;
+export default MenuSeparator;

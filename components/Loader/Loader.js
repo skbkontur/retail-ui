@@ -1,15 +1,23 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import Spinner from '../Spinner';
 import styles from './Loader.less';
 
+type Props = {
+  children?: React.Node,
+  active: boolean,
+  caption?: string,
+  className?: string,
+  type?: 'mini' | 'normal' | 'big'
+};
+
 /**
  * DRAFT - лоадер-контейнер
  */
-class Loader extends React.Component {
+class Loader extends React.Component<Props> {
   static defaultProps = {
     type: Spinner.Types.normal
   };

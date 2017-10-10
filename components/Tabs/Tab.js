@@ -1,30 +1,23 @@
 // @flow
 
 import events from 'add-event-listener';
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 import cn from 'classnames';
 
 import styles from './Tab.less';
 
-import type { ReactNode } from '../internal/types';
-
-type ComponentType =
-  | string
-  | Class<React$Component<*, *, *>>
-  | (<T>(props: T) => React$Element<*>);
-
 type Props = {
   /**
    * Tab content
    */
-  children?: ReactNode,
+  children?: React.Node,
 
   /**
    * Component to use as a tab
    */
-  component: ComponentType,
+  component: React.ComponentType<*> | string,
 
   /**
    * Link href
@@ -39,17 +32,12 @@ type Props = {
   /**
    * Click event
    */
-  onClick?: (event: SyntheticEvent) => void
-};
-
-type DefaultProps = {
-  component: ComponentType,
-  href: string
+  onClick?: (event: SyntheticEvent<>) => void
 };
 
 type Context = {
   activeTab: string,
-  addTab: (id: string, getNode: () => ?Element) => void,
+  addTab: (id: string, getNode: () => *) => void,
   notifyUpdate: () => void,
   removeTab: (id: string) => void,
   shiftFocus: (fromTab: string, delta: number) => void,
@@ -76,21 +64,19 @@ type State = {
  *
  * Works only inside Tabs component, otherwise throws
  */
-class Tab extends React.Component {
-  static defaultProps: DefaultProps = {
+class Tab extends React.Component<Props, State> {
+  static defaultProps = {
     component: 'a',
     href: 'javascript:'
   };
 
   context: Context;
 
-  props: Props;
-
   state: State = {
     focusedByKeyboard: false
   };
 
-  _node: ?HTMLLinkElement = null;
+  _node = null;
 
   componentWillMount() {
     invariant(
@@ -160,7 +146,7 @@ class Tab extends React.Component {
     this.context.switchTab(id);
   };
 
-  _handleKeyDown = (event: SyntheticKeyboardEvent) => {
+  _handleKeyDown = (event: SyntheticKeyboardEvent<>) => {
     switch (event.keyCode) {
       case KEYCODE_ARROW_LEFT:
       case KEYCODE_ARROW_UP:

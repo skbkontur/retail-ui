@@ -1,4 +1,4 @@
 // @flow
 
 import MenuHeader from './MenuHeader';
-module.exports = MenuHeader;
+export default MenuHeader;

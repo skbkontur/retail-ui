@@ -1,23 +1,21 @@
 // @flow
 import cn from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import CapIcon from '../Icon/20px';
 
 import styles from './TopBar.less';
 
-class Item extends React.Component {
-  props: {
-    _onClick?: (e: SyntheticMouseEvent) => void,
-    active?: boolean,
-    children?: React.Element<mixed> | string,
-    className: string,
-    icon?: string,
-    iconOnly?: boolean,
-    minWidth?: string | number,
-    use?: 'danger' | 'pay'
-  };
-
+class Item extends React.Component<{
+  _onClick?: (e: SyntheticMouseEvent<>) => void,
+  active?: boolean,
+  children?: React.Element<*> | string,
+  className: string,
+  icon?: string,
+  iconOnly?: boolean,
+  minWidth?: string | number,
+  use?: 'danger' | 'pay'
+}> {
   static propTypes = {
     use: PropTypes.oneOf(['danger', 'pay'])
   };

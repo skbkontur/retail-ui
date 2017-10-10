@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Checkbox from '../Checkbox';
 
-class PlainCheckbox extends Component {
+class PlainCheckbox extends Component<*, *> {
   state = {
     checked: false
   };
@@ -27,7 +27,9 @@ storiesOf('Checkbox', module)
   .add('checked', () => <Checkbox checked>Checked</Checkbox>)
   .add('disabled', () => <Checkbox disabled>Disabled</Checkbox>)
   .add('disabled checked', () =>
-    <Checkbox disabled checked>Disabled and checked</Checkbox>
+    <Checkbox disabled checked>
+      Disabled and checked
+    </Checkbox>
   )
   .add('error', () => <Checkbox error>Error</Checkbox>)
   .add('with mouse enter/leave handlers', () =>
@@ -51,7 +53,11 @@ storiesOf('Checkbox', module)
   )
   .add('w/o label', () =>
     <div>
-      <div>Some text <Checkbox /></div>
-      <div>Some text <Checkbox>Label</Checkbox></div>
+      <div>
+        Some text <Checkbox />
+      </div>
+      <div>
+        Some text <Checkbox>Label</Checkbox>
+      </div>
     </div>
   );

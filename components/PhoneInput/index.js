@@ -1,3 +1,3 @@
 // @flow
 import PhoneInput from './PhoneInput';
-module.exports = PhoneInput;
+export default PhoneInput;

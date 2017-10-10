@@ -3,8 +3,7 @@
 import classNames from 'classnames';
 import events from 'add-event-listener';
 import { EventEmitter } from 'fbemitter';
-import React from 'react';
-import type { Node } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
@@ -26,15 +25,21 @@ const stack = {
 };
 
 let mountedModalsCount = 0;
-let prevMarginRight = 0;
+let prevMarginRight = '';
+
+type ModalChild = React.Node;
 
 type Props = {
-  children?: Node,
+  children?: ModalChild,
   disableClose?: boolean,
   ignoreBackgroundClick?: boolean,
   noClose?: boolean,
   width?: number,
   onClose?: () => void
+};
+
+type State = {
+  shadowed: boolean
 };
 
 /**
@@ -46,9 +51,7 @@ type Props = {
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
-class Modal extends React.Component {
-  props: Props;
-
+class Modal extends React.Component<Props, State> {
   static propTypes = {
     /**
      * Отключает событие onClose, также дизейблит кнопку закрытия модалки
@@ -114,7 +117,7 @@ class Modal extends React.Component {
             styles.close,
             this.props.disableClose && styles.disabled
           )}
-          onClick={this._handleClose}
+          onClick={this._requestClose}
         >
           ×
         </a>
@@ -125,6 +128,7 @@ class Modal extends React.Component {
     const children = React.Children.map(this.props.children, child => {
       if (child && child.type === Header) {
         hasHeader = true;
+        // $FlowIssue child could be iterable
         return React.cloneElement(child, { close });
       }
       return child;
@@ -142,6 +146,8 @@ class Modal extends React.Component {
             ref={this._refCenter}
             className={styles.container}
             onClick={this._handleContainerClick}
+            tabIndex={-1}
+            onKeyDown={this._handleKeyDown}
           >
             <div className={styles.centerContainer}>
               <div className={styles.window} style={style}>
@@ -171,8 +177,6 @@ class Modal extends React.Component {
   };
 
   componentDidMount() {
-    events.addEventListener(document, 'keydown', this._handleNativeKey);
-
     if (mountedModalsCount === 0) {
       const { documentElement } = document;
       if (documentElement) {
@@ -187,15 +191,14 @@ class Modal extends React.Component {
     mountedModalsCount++;
 
     stack.emitter.emit('change');
+    this._focusContent();
   }
 
   componentWillUnmount() {
-    events.removeEventListener(document, 'keydown', this._handleNativeKey);
-
     if (--mountedModalsCount === 0) {
       const { documentElement } = document;
       if (documentElement) {
-        documentElement.style.marginRight = prevMarginRight + 'px';
+        documentElement.style.marginRight = prevMarginRight;
         removeClass(documentElement, styles.bodyClass);
       }
       events.removeEventListener(window, 'resize', this._handleWindowResize);
@@ -210,6 +213,32 @@ class Modal extends React.Component {
     stack.emitter.emit('change');
   }
 
+  componentDidUpdate() {
+    this._focusContent();
+  }
+
+  _focusContent = () => {
+    const node = this._centerDOM;
+    if (!node || this._hasFocus()) {
+      return;
+    }
+    const stackIndex = stack.mounted.findIndex(x => x === this);
+    if (stackIndex !== stack.mounted.length - 1) {
+      return;
+    }
+    node.focus();
+  };
+
+  _hasFocus = () => {
+    const node = this._centerDOM;
+    if (!node) {
+      return false;
+    }
+    return (
+      node === document.activeElement || node.contains(document.activeElement)
+    );
+  };
+
   _handleWindowResize = () => {
     const docEl = document.documentElement;
     if (!docEl) {
@@ -218,13 +247,13 @@ class Modal extends React.Component {
     const { clientHeight, scrollHeight, style } = docEl;
     if (clientHeight < scrollHeight) {
       const scrollbarWidth = getScrollWidth();
-      docEl.style.marginRight = prevMarginRight + 'px';
+      docEl.style.marginRight = prevMarginRight;
       removeClass(docEl, styles.bodyClass);
       const marginRight = parseFloat(getComputedStyle(docEl).marginRight);
       addClass(docEl, styles.bodyClass);
       docEl.style.marginRight = `${marginRight + scrollbarWidth}px`;
     } else if (style.marginRight !== prevMarginRight) {
-      style.marginRight = prevMarginRight + 'px';
+      style.marginRight = prevMarginRight;
     }
   };
 
@@ -240,11 +269,11 @@ class Modal extends React.Component {
       event.target === event.currentTarget &&
       !this.props.ignoreBackgroundClick
     ) {
-      this._handleClose();
+      this._requestClose();
     }
   };
 
-  _handleClose = () => {
+  _requestClose = () => {
     if (this.props.disableClose) {
       return;
     }
@@ -253,16 +282,20 @@ class Modal extends React.Component {
     }
   };
 
-  _handleNativeKey = nativeEvent => {
-    const { onClose } = this.props;
-    if (nativeEvent.keyCode === 27 && onClose) {
-      stopPropagation(nativeEvent);
-      onClose();
+  _handleKeyDown = event => {
+    if (event.key === 'Escape') {
+      stopPropagation(event);
+      this._requestClose();
     }
   };
 }
 
-class Header extends React.Component {
+type HeaderProps = {
+  children?: React.Node,
+  close?: boolean
+};
+
+class Header extends React.Component<HeaderProps> {
   render() {
     return (
       <Sticky side="top">
@@ -281,7 +314,11 @@ class Header extends React.Component {
   }
 }
 
-class Body extends React.Component {
+type BodyProps = {
+  children?: React.Node
+};
+
+class Body extends React.Component<BodyProps> {
   render() {
     return (
       <div className={styles.body}>
@@ -291,10 +328,15 @@ class Body extends React.Component {
   }
 }
 
+type FooterProps = {
+  children?: React.Node,
+  panel?: boolean
+};
+
 /**
  * Футер модального окна.
  */
-class Footer extends React.Component {
+class Footer extends React.Component<FooterProps> {
   static propTypes = {
     /** Включает серый цвет в футере */
     panel: PropTypes.bool
@@ -321,4 +363,4 @@ Modal.Header = Header;
 Modal.Body = Body;
 Modal.Footer = Footer;
 
-module.exports = Modal;
+export default Modal;

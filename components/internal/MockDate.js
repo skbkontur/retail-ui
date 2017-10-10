@@ -1,19 +1,15 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import MockDate from 'mockdate';
 
-class MockDateComponent extends React.Component {
-  props: {
-    date: Date
-  };
-
+class MockDateComponent extends React.Component<{ date: Date }> {
   componentDidMount() {
     MockDate.set(this.props.date);
   }
 
   componentWillUnmount() {
-    MockDate.clear();
+    MockDate.reset();
   }
 
   render() {

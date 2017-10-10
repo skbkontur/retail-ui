@@ -1,9 +1,8 @@
 // @flow
-/* global React$Element */
 
 import cn from 'classnames';
 import events from 'add-event-listener';
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import Icon20 from '../Icon/20px';
 import Icon from '../Icon';
@@ -14,10 +13,11 @@ import LayoutEvents from '../../lib/LayoutEvents';
 
 import styles from './Kebab.less';
 
-type ReactNode = React$Element<*> | string;
+import type MenuItem from '../MenuItem/MenuItem';
 
 type Props = {
-  children: ?ReactNode | ReactNode[],
+  children?: React.ChildrenArray<?React.Element<Class<MenuItem>>>,
+  disabled?: boolean,
   onClose: () => void,
   onOpen: () => void,
   size: 'small' | 'large'
@@ -29,22 +29,20 @@ type State = {
   opened: boolean
 };
 
-export default class Kebab extends Component {
+export default class Kebab extends React.Component<Props, State> {
   static defaultProps = {
     onOpen: () => {},
     onClose: () => {},
     size: 'small'
   };
 
-  props: Props;
-
-  state: State = {
+  state = {
     opened: false,
     focusedByTab: false,
     anchor: null
   };
 
-  _anchor: HTMLElement;
+  _anchor: ?HTMLElement;
   _listener;
 
   componentDidMount() {
@@ -57,7 +55,7 @@ export default class Kebab extends Component {
   }
 
   render() {
-    const options = this._getOptions(this.props.size);
+    const { disabled } = this.props;
     const { focusedByTab, opened } = this.state;
     return (
       <RenderLayer
@@ -65,44 +63,51 @@ export default class Kebab extends Component {
         onFocusOutside={this._handleClickOutside}
         active={this.state.opened}
       >
-        <div className={cn(styles.root, options.className)}>
+        <div className={styles.container}>
           <div
             onClick={this._handleClick}
             onKeyDown={this._handleKeyDown}
             onFocus={this._handleFocus}
             onBlur={this._handleBlur}
+            tabIndex={disabled ? -1 : 0}
+            ref={node => (this._anchor = node)}
             className={cn(
               styles.kebab,
               opened && styles.opened,
+              disabled && styles.disabled,
               focusedByTab && styles.focused
             )}
-            tabIndex={0}
-            ref={node => (this._anchor = node)}
           >
-            {options.icon}
+            {this._renderIcon(this.props.size)}
           </div>
-          <Popup
-            anchorElement={this._anchor}
-            positions={['bottom left', 'bottom right', 'top left', 'top right']}
-            popupOffset={options.popupOffset}
-            opened={this.state.opened}
-            margin={8}
-            hasShadow
-            hasPin
-            pinOffset={21}
-          >
-            <div className={styles.menu}>
-              <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
-                {this.props.children}
-              </Menu>
-            </div>
-          </Popup>
+          {this._anchor &&
+            <Popup
+              anchorElement={this._anchor}
+              positions={[
+                'bottom left',
+                'bottom right',
+                'top left',
+                'top right'
+              ]}
+              popupOffset={10}
+              opened={this.state.opened}
+              margin={5}
+              hasShadow
+              hasPin
+              pinOffset={15}
+            >
+              <div className={styles.menu}>
+                <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
+                  {this.props.children}
+                </Menu>
+              </div>
+            </Popup>}
         </div>
       </RenderLayer>
     );
   }
 
-  _handleFocus = (e: SyntheticFocusEvent) => {
+  _handleFocus = (e: SyntheticFocusEvent<>) => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -123,28 +128,20 @@ export default class Kebab extends Component {
     this._setPopupState(false);
   };
 
-  _getOptions(size) {
+  _renderIcon(size) {
     switch (size) {
       case 'small':
-        return {
-          className: styles.small,
-          popupOffset: 18,
-          icon: (
-            <div className={styles.icon}>
-              <Icon name="kebab" size="14" color="#757575" />
-            </div>
-          )
-        };
+        return (
+          <div className={styles.iconsmall}>
+            <Icon name="kebab" size="14" color="#757575" />
+          </div>
+        );
       case 'large':
-        return {
-          className: styles.large,
-          popupOffset: 15,
-          icon: (
-            <div className={styles.icon}>
-              <Icon20 name="kebab" size="20" color="#757575" />
-            </div>
-          )
-        };
+        return (
+          <div className={styles.iconlarge}>
+            <Icon20 name="kebab" size="20" color="#757575" />
+          </div>
+        );
       default:
         throw new Error(`Unexpected size '${size}'`);
     }
@@ -172,6 +169,10 @@ export default class Kebab extends Component {
   };
 
   _setPopupState = (opened: boolean) => {
+    if (this.props.disabled && opened) {
+      return;
+    }
+
     if (this.state.opened === opened) {
       return;
     }
@@ -188,6 +189,7 @@ export default class Kebab extends Component {
 
 Kebab.propTypes = {
   children: PropTypes.node,
+  disabled: PropTypes.bool,
 
   /**
    * Размер кебаба small 14px | large 20px

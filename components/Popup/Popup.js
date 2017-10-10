@@ -1,6 +1,6 @@
 // @flow
 import cn from 'classnames';
-import React, { Component } from 'react';
+import * as React from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
 import RenderConatiner from '../RenderContainer';
@@ -26,7 +26,7 @@ function getTempNode() {
 type Props = {
   anchorElement: ?HTMLElement,
   backgroundColor: string,
-  children: React.Element<*>,
+  children: React.Node,
   hasPin: boolean,
   hasShadow: boolean,
   margin: number,
@@ -47,7 +47,7 @@ type State = {
   }
 };
 
-export default class Popup extends Component {
+export default class Popup extends React.Component<Props, State> {
   static defaultProps = {
     margin: 10,
     popupOffset: 0,
@@ -57,8 +57,6 @@ export default class Popup extends Component {
     hasShadow: false,
     backgroundColor: '#fff'
   };
-
-  props: Props;
 
   state: State = {
     location: null
@@ -159,10 +157,11 @@ export default class Popup extends Component {
       backgroundColor
     };
 
-    const pinBorder =
-      ieVerison === 8
-        ? '#e5e5e5'
-        : isIE ? 'rgba(0, 0, 0, 0.09)' : 'transparent';
+    // prettier-ignore
+    const pinBorder
+      = ieVerison === 8 ? '#e5e5e5'
+        : isIE ? 'rgba(0, 0, 0, 0.09)'
+          : 'transparent';
 
     return (
       <div
@@ -216,8 +215,8 @@ export default class Popup extends Component {
       return null;
     }
 
-    const anchorRect = PopupHelper.getElementRect(anchorElement);
-    const popupRect = PopupHelper.getElementRect(popupElement);
+    const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
+    const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
 
     for (var i = 0; i < positions.length; ++i) {
       const position = PopupHelper.getPositionObject(positions[i]);
@@ -229,7 +228,7 @@ export default class Popup extends Component {
         popupOffset
       );
       if (
-        this._isRectAvaliable({
+        PopupHelper.isAbsoluteRectFullyVisible({
           top: coordinates.top,
           left: coordinates.left,
           height: popupRect.height,
@@ -247,15 +246,6 @@ export default class Popup extends Component {
       popupOffset
     );
     return { coordinates, position: positions[0] };
-  }
-
-  _isRectAvaliable(rect) {
-    return (
-      rect.top > 0 &&
-      rect.top + rect.height < window.innerHeight &&
-      rect.left > 0 &&
-      rect.left + rect.width < window.innerWidth
-    );
   }
 
   _getCoordinates(anchorRect, popupRect, position, margin, popupOffset) {

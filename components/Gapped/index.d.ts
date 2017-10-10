@@ -1,3 +1,1 @@
-import Gapped from './Gapped';
-
-export = Gapped;
+export { default, GappedProps, GappedState } from './Gapped';

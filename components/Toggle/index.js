@@ -1,3 +1,3 @@
 // @flow
 import Toggle from './Toggle';
-module.exports = Toggle;
+export default Toggle;

@@ -1,4 +1,4 @@
 // @flow
 
 import Tabs from './Tabs';
-module.exports = Tabs;
+export default Tabs;

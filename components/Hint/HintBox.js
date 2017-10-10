@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -11,21 +11,21 @@ import renderPin from '../Tooltip/renderPin';
 
 import styles from './HintBox.less';
 
+type Props = {
+  getTarget: () => ?HTMLElement,
+  pos: 'top' | 'right' | 'bottom' | 'left',
+  text: string,
+  maxWidth: string | number
+};
+
 type State = {
   pos: ?Result
 };
 
-export default class HintBox extends React.Component {
+export default class HintBox extends React.Component<Props, State> {
   static contextTypes = {
     insideFixedContainer: PropTypes.bool,
     rt_inModal: PropTypes.bool
-  };
-
-  props: {
-    getTarget: () => ?HTMLElement,
-    pos: 'top' | 'right' | 'bottom' | 'left',
-    text: string,
-    maxWidth: string | number
   };
 
   state: State = {

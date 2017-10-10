@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import cn from 'classnames';
 import LayoutEvents from '../../lib/LayoutEvents';
@@ -10,8 +10,10 @@ import styles from './Indicator.less';
 
 type Props = {
   className?: string,
-  getAnchorNode: () => Element | React$Component<*, *, *> | null,
-  tabUpdates: *,
+  getAnchorNode: () => Element | React.Component<*, *> | null,
+  tabUpdates: {
+    on: (() => void) => () => void
+  },
   vertical: boolean
 };
 
@@ -26,15 +28,13 @@ type State = {
   styles: Styles
 };
 
-class Indicator extends React.Component {
-  props: Props;
-
+class Indicator extends React.Component<Props, State> {
   state: State = {
     styles: {}
   };
 
   _eventListener = null;
-  _removeTabUpdatesListener = null;
+  _removeTabUpdatesListener: ?() => void = null;
 
   componentDidMount() {
     this._eventListener = LayoutEvents.addListener(throttle(this._reflow, 100));

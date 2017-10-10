@@ -1,2 +1,2 @@
 import SearchSelect from './SearchSelect';
-module.exports = SearchSelect;
+export default SearchSelect;

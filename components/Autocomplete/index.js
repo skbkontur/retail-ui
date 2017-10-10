@@ -1,4 +1,4 @@
 // @flow
 
 import Autocomplete from './Autocomplete';
-module.exports = Autocomplete;
+export default Autocomplete;

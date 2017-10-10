@@ -1,2 +1,2 @@
 import ScrollContainer from './ScrollContainer';
-module.exports = ScrollContainer;
+export default ScrollContainer;

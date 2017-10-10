@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -10,7 +10,7 @@ import RenderContainer from '../RenderContainer/RenderContainer';
 type Props = {
   align: 'left' | 'right',
   getParent: () => null | Element | Text,
-  children?: any,
+  children?: React.Node,
   disablePortal?: boolean,
   offsetY?: number,
   offsetX?: number
@@ -24,7 +24,7 @@ type State = {
   }
 };
 
-export default class DropdownContainer extends React.Component {
+export default class DropdownContainer extends React.Component<Props, State> {
   static contextTypes = {
     rt_inModal: PropTypes.bool
   };
@@ -36,7 +36,6 @@ export default class DropdownContainer extends React.Component {
     offsetY: -1
   };
 
-  props: Props;
   state: State = {
     position: null
   };
@@ -74,9 +73,11 @@ export default class DropdownContainer extends React.Component {
       </div>
     );
 
-    return this.props.disablePortal
-      ? content
-      : <RenderContainer>{content}</RenderContainer>;
+    return this.props.disablePortal ? (
+      content
+    ) : (
+      <RenderContainer>{content}</RenderContainer>
+    );
   }
 
   _ref = (dom: ?HTMLElement) => {
@@ -97,8 +98,10 @@ export default class DropdownContainer extends React.Component {
   }
 
   _position = () => {
-    const target: Element = (this.props.getParent(): any);
+    // $FlowIssue
+    const target: ?Element = this.props.getParent();
     const dom = this._dom;
+
     if (target && dom) {
       const targetRect = target.getBoundingClientRect();
       const docEl = document.documentElement;

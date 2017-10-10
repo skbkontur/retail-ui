@@ -1,7 +1,6 @@
 // @flow
-/* global React$Element */
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
@@ -12,7 +11,7 @@ import MenuItem from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 
-type Props<T> = {|
+type Props<T> = {
   disabled?: boolean,
   editing?: boolean,
   error?: boolean,
@@ -22,42 +21,41 @@ type Props<T> = {|
   opened?: boolean,
   openButton?: boolean,
   placeholder?: string,
+  size: 'small' | 'medium' | 'large',
   textValue?: string,
   totalCount?: number,
   value?: ?T,
   warning?: boolean,
   width: string | number,
 
-  onChange: Function,
+  onChange: T => mixed,
   onClickOutside: () => void,
   onFocus?: () => void,
   onFocusOutside: () => void,
   onInputBlur?: () => void,
-  onInputChange?: Function,
+  onInputChange?: (SyntheticEvent<HTMLInputElement>, string) => void,
   onInputFocus?: () => void,
-  onInputKeyDown?: (e: SyntheticKeyboardEvent) => void,
-  onMouseEnter?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent) => void,
-  renderItem: (item: T) => string | React$Element<*>,
-  renderNotFound: () => string | React$Element<*>,
-  renderTotalCount?: (
-    found: number,
-    total: number
-  ) => string | React$Element<*>,
-  renderValue: (item: T) => string | React$Element<*>,
-  refInput?: (input: Input) => any,
-  refMenu?: (menu: Menu) => any
-|};
+  onInputKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
+  onMouseOver?: (e: SyntheticMouseEvent<>) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
+  renderItem: (item: T) => React.Node,
+  renderNotFound: () => React.Node,
+  renderTotalCount?: (found: number, total: number) => React.Node,
+  renderValue: (item: T) => React.Node,
+  refInput?: (input: ?Input) => void,
+  refMenu?: (menu: ?Menu) => void
+};
 
-class ComboBoxView extends Component {
+class ComboBoxView<T> extends React.Component<Props<T>> {
   static defaultProps = {
     renderItem: (x, i) => x,
-    renderNotFound: (() => 'Не найдено': () => string | React$Element<any>),
+    renderNotFound: () => 'Не найдено',
     renderValue: x => x,
     onClickOutside: () => {},
     onFocusOutside: () => {},
     onChange: () => {},
+    size: 'small',
     width: (250: string | number)
   };
 
@@ -67,15 +65,15 @@ class ComboBoxView extends Component {
     }
   }
 
-  componentDidUpdate(prevProps: Props<any>) {
-    if (this.props.editing && !prevProps.editing && this.input) {
-      this.input.focus();
-      this.input.setSelectionRange(0, (this.props.textValue || '').length);
+  componentDidUpdate(prevProps: Props<T>) {
+    const { input, props } = this;
+    if (props.editing && !prevProps.editing && input) {
+      input.focus();
+      input.setSelectionRange(0, (props.textValue || '').length);
     }
   }
 
-  props: Props<*>;
-  input: Input;
+  input: ?Input;
 
   render() {
     const {
@@ -89,14 +87,35 @@ class ComboBoxView extends Component {
       onMouseOver,
       openButton,
       opened,
+      size,
       width
     } = this.props;
 
     const input = this.renderInput();
     const menu = this.renderMenu();
 
+    const topOffsets = {
+      spinner: 6,
+      arrow: 15
+    };
+    if (size === 'medium') {
+      topOffsets.spinner += 2;
+      topOffsets.arrow += 2;
+    }
+    if (size === 'large') {
+      topOffsets.spinner += 4;
+      topOffsets.arrow += 4;
+    }
+
     const spinner = (
-      <span style={{ position: 'absolute', top: 6, right: 5, zIndex: 10 }}>
+      <span
+        style={{
+          position: 'absolute',
+          top: topOffsets.spinner,
+          right: 5,
+          zIndex: 10
+        }}
+      >
         <Spinner type="mini" caption="" dimmed />
       </span>
     );
@@ -109,7 +128,7 @@ class ComboBoxView extends Component {
           borderTopColor: '#a6a6a6',
           position: 'absolute',
           right: 8,
-          top: 15,
+          top: topOffsets.arrow,
           zIndex: 2,
           pointerEvents: 'none'
         }}
@@ -134,14 +153,15 @@ class ComboBoxView extends Component {
           {input}
           {spinnerIsShown && spinner}
           {arrowIsShown && arrow}
-          {opened &&
+          {opened && (
             <DropdownContainer
               align={menuAlign}
               getParent={() => findDOMNode(this)}
               offsetY={1}
             >
               {menu}
-            </DropdownContainer>}
+            </DropdownContainer>
+          )}
         </label>
       </RenderLayer>
     );
@@ -177,9 +197,7 @@ class ComboBoxView extends Component {
     if ((items == null || items.length === 0) && renderNotFound) {
       return (
         <Menu ref={refMenu}>
-          <MenuItem disabled>
-            {renderNotFound()}
-          </MenuItem>
+          <MenuItem disabled>{renderNotFound()}</MenuItem>
         </Menu>
       );
     }
@@ -203,7 +221,10 @@ class ComboBoxView extends Component {
     );
   }
 
-  renderItem = (item: *, index: number) => {
+  // eslint-disable-next-line flowtype/no-weak-types
+  renderItem = (item: any, index: number) => {
+    // NOTE this is undesireable feature, better
+    // to remove it from further versions
     if (typeof item === 'function' || React.isValidElement(item)) {
       const element = typeof item === 'function' ? item() : item;
       const props = Object.assign(
@@ -235,6 +256,7 @@ class ComboBoxView extends Component {
       openButton,
       placeholder,
       renderValue,
+      size,
       textValue,
       value,
       warning
@@ -249,10 +271,11 @@ class ComboBoxView extends Component {
           onChange={onInputChange}
           onFocus={onInputFocus}
           rightIcon={openButton ? <span /> : null}
-          value={textValue}
+          value={textValue || ''}
           onKeyDown={onInputKeyDown}
           placeholder={placeholder}
           width="100%"
+          size={size}
           ref={this.refInput}
           warning={warning}
         />
@@ -266,15 +289,18 @@ class ComboBoxView extends Component {
         padRight={openButton}
         disabled={disabled}
         warning={warning}
+        size={size}
       >
-        {value
-          ? renderValue(value)
-          : <span style={{ color: 'gray' }}>{placeholder}</span>}
+        {value ? (
+          renderValue(value)
+        ) : (
+          <span style={{ color: 'gray' }}>{placeholder}</span>
+        )}
       </InputLikeText>
     );
   }
 
-  refInput = (input: Input) => {
+  refInput = (input: ?Input) => {
     if (this.props.refInput) {
       this.props.refInput(input);
     }

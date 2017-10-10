@@ -1,6 +1,6 @@
 // @flow
 import warning from 'warning';
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import KonturIconic from './Kontur-Iconic';
@@ -236,7 +236,7 @@ type Props = {
   size?: string | number
 };
 
-class Icon extends React.Component {
+class Icon extends React.Component<Props> {
   static propTypes = {
     color: PropTypes.string,
 

@@ -1,7 +1,7 @@
 // @flow
 import events from 'add-event-listener';
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -32,31 +32,38 @@ const SIZE_CLASSES = {
 };
 
 type Props = {
+  /** @internal */
   _noPadding?: boolean,
+  /** @internal */
   _noRightPadding?: boolean,
   active?: boolean,
   arrow?: boolean,
   autoFocus?: boolean,
   checked?: boolean,
   children?: string,
-  corners?: number, // internal
+  /** @internal */
+  corners?: number,
   disabled?: boolean,
   focused?: boolean,
   icon?: string,
   loading?: boolean,
   narrow?: boolean,
-  onClick?: (e: SyntheticMouseEvent) => void,
-  onKeyDown?: (e: SyntheticKeyboardEvent) => void,
-  onMouseEnter?: (e: SyntheticMouseEvent) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void,
+  onClick?: (e: SyntheticMouseEvent<>) => void,
+  onKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
+  onMouseOver?: (e: SyntheticMouseEvent<>) => void,
   size: 'small' | 'medium' | 'large',
   type: 'button' | 'submit' | 'reset',
   use: 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link',
   width?: number | string
 };
 
-class Button extends React.Component {
+type State = {
+  focusedByTab: boolean
+};
+
+class Button extends React.Component<Props, State> {
   static TOP_LEFT = Corners.TOP_LEFT;
   static TOP_RIGHT = Corners.TOP_RIGHT;
   static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
@@ -127,10 +134,7 @@ class Button extends React.Component {
     type: 'button'
   };
 
-  props: Props;
-  state: {
-    focusedByTab: boolean
-  } = {
+  state = {
     focusedByTab: false
   };
 
@@ -163,7 +167,7 @@ class Button extends React.Component {
     }
   }
 
-  handleFocus = (e: SyntheticFocusEvent) => {
+  handleFocus = (e: SyntheticFocusEvent<>) => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -206,9 +210,9 @@ class Button extends React.Component {
       style: {
         borderRadius:
           `${corners & Corners.TOP_LEFT ? 0 : radius}` +
-            ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
-            ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
-            ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
+          ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
+          ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
+          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
         textAlign: undefined
       },
       disabled: this.props.disabled || this.props.loading,

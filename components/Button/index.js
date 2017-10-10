@@ -1,4 +1,4 @@
 // @flow
 
 import Button from './Button';
-module.exports = Button;
+export default Button;

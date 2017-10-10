@@ -23,7 +23,7 @@ type Pos =
   | 'right bottom';
 
 type Props = {
-  children?: React.Node,
+  children?: React.Element<*> | string,
 
   className?: string,
 
@@ -69,7 +69,7 @@ type State = {
  * }
  * ```
  */
-export default class Tooltip extends React.Component {
+export default class Tooltip extends React.Component<Props, State> {
   static propTypes = {
     /**
      * Показывать крестик для закрытия тултипа. По-умолчанию крестик
@@ -109,13 +109,10 @@ export default class Tooltip extends React.Component {
     trigger: 'hover'
   };
 
-  props: Props;
-  state: State;
-
   _hotspotDOM: ?HTMLElement;
   _boxDOM: ?HTMLElement;
-  _lastOnFocus: ((event: SyntheticFocusEvent) => void) | null;
-  _lastOnBlur: ((event: SyntheticEvent) => void) | null;
+  _lastOnFocus: ((event: SyntheticFocusEvent<>) => void) | null;
+  _lastOnBlur: ((event: SyntheticEvent<>) => void) | null;
 
   _childRef: ((el: ?React.Element<any>) => void) | string | null = null;
   _cachedRef: ?(el: any, childRef: any) => void;
@@ -150,10 +147,12 @@ export default class Tooltip extends React.Component {
       childProps.onBlur = this._handleBlur;
     }
 
-    let child = this.props.children;
+    let child: any = this.props.children;
     this._lastOnFocus = null;
     this._lastOnBlur = null;
-    if (typeof child === 'string') {
+
+    const isStatefulChild = React.Component.isPrototypeOf(child.type);
+    if (typeof child === 'string' || !isStatefulChild) {
       child = (
         <span ref={this._getHotspotRef(null)} {...childProps}>
           {child}
@@ -173,6 +172,7 @@ export default class Tooltip extends React.Component {
       <RenderLayer
         onClickOutside={this._handleBoxClose}
         onFocusOutside={this._handleBoxClose}
+        active={this.state.opened}
       >
         <span {...props} className={className}>
           {child}
@@ -237,7 +237,7 @@ export default class Tooltip extends React.Component {
     return this._hotspotDOM;
   };
 
-  _handleMouseOver = (event: SyntheticMouseEvent) => {
+  _handleMouseOver = (event: SyntheticMouseEvent<>) => {
     const target: HTMLElement = (event.target: any);
     if (this._hotspotDOM) {
       const opened = this._hotspotDOM.contains(target);
@@ -251,7 +251,7 @@ export default class Tooltip extends React.Component {
     this._setOpened(false);
   };
 
-  _handleClick = (event: SyntheticMouseEvent) => {
+  _handleClick = (event: SyntheticMouseEvent<>) => {
     event.stopPropagation();
     const target: HTMLElement = (event.target: any);
     if (this._hotspotDOM) {
@@ -271,7 +271,7 @@ export default class Tooltip extends React.Component {
     }
   };
 
-  _handleFocus = (event: SyntheticFocusEvent) => {
+  _handleFocus = (event: SyntheticFocusEvent<>) => {
     this._setOpened(true);
 
     const onFocus = this._lastOnFocus;
@@ -280,7 +280,7 @@ export default class Tooltip extends React.Component {
     }
   };
 
-  _handleBlur = (event: SyntheticFocusEvent) => {
+  _handleBlur = (event: SyntheticFocusEvent<>) => {
     this._setOpened(false);
 
     const onBlur = this._lastOnBlur;

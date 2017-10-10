@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 
 import ComboBox from '../ComboBox.js';
 
+jest.mock('../../RenderContainer', () => props => <div {...props} />);
+
 describe('ComboBox', () => {
   it('autoFocus', () => {
     const wrapper = mount(<ComboBox autoFocus source={() => null} />);

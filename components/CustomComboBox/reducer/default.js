@@ -1,6 +1,7 @@
 // @flow
+/* eslint-disable flowtype/no-weak-types */
 /* global $Subtype */
-import React from 'react';
+import * as React from 'react';
 import debounce from 'lodash.debounce';
 
 import MenuItem from '../../MenuItem';
@@ -104,7 +105,7 @@ const Effect = {
   HighlightMenuItem: ((dispatch, getState, getProps, getInstance) => {
     const { value, itemToValue } = getProps();
     const { items, focused } = getState();
-    const { menu }: { menu: Menu } = getInstance();
+    const { menu }: { menu: ?Menu } = getInstance();
 
     if (!menu) {
       return;
@@ -125,17 +126,18 @@ const Effect = {
       process.nextTick(() => menu && menu.down());
     }
   }: EffectType),
-  SelectMenuItem: ((dispatch, getState, getProps, getInstance) => {
-    const { menu }: { menu: Menu } = getInstance();
-    menu && menu.enter();
-  }: EffectType),
+  SelectMenuItem: (event: SyntheticEvent<*>) =>
+    ((dispatch, getState, getProps, getInstance) => {
+      const { menu }: { menu: ?Menu } = getInstance();
+      menu && menu.enter(event);
+    }: EffectType),
   MoveMenuHighlight: (direction: 1 | -1): EffectType => (
     dispatch,
     getState,
     getProps,
     getInstance
   ) => {
-    const { menu }: { menu: Menu } = getInstance();
+    const { menu }: { menu: ?Menu } = getInstance();
     menu && menu._move(direction);
   }
 };
@@ -230,7 +232,7 @@ const reducers: { [type: string]: Reducer } = {
     switch (event.key) {
       case 'Enter':
         event.preventDefault();
-        return [state, [Effect.SelectMenuItem]];
+        return [state, [Effect.SelectMenuItem(event)]];
       case 'ArrowUp':
       case 'ArrowDown':
         event.preventDefault();
@@ -281,8 +283,8 @@ const reducers: { [type: string]: Reducer } = {
         items: [
           <MenuItem disabled>
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>
-              Что-то пошло не так. Проверьте соединение{' '}
-              с интернетом и попробуйте еще раз
+              Что-то пошло не так. Проверьте соединение с интернетом и
+              попробуйте еще раз
             </div>
           </MenuItem>,
           <MenuItem alkoLink onClick={action.repeatRequest}>

@@ -1,21 +1,19 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Item from './Item';
 
 import styles from './TopBar.less';
 
-class ButtonItem extends React.Component {
-  props: {
-    active?: boolean,
-    children?: React.Element<mixed> | string,
-    className?: string,
-    icon?: string,
-    iconOnly?: boolean,
-    minWidth?: string | number,
-    onClick?: () => void,
-    use?: 'danger' | 'pay'
-  };
-
+class ButtonItem extends React.Component<{
+  active?: boolean,
+  children?: React.Element<*> | string,
+  className?: string,
+  icon?: string,
+  iconOnly?: boolean,
+  minWidth?: string | number,
+  onClick?: () => void,
+  use?: 'danger' | 'pay'
+}> {
   render() {
     const { onClick, children } = this.props;
     return (

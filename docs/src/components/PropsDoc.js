@@ -3,6 +3,8 @@ import React from 'react';
 
 import styles from './PropsDoc.less';
 
+const TAG_TITLE_INTERNAL = 'internal';
+
 var PropsDoc = React.createClass({
   render() {
     var info = this.props.component.info;
@@ -22,57 +24,56 @@ var PropsDoc = React.createClass({
 
     return (
       <div>
-        {info.description.description &&
+        {info.description.description && (
           <div
             className={descClassName}
             dangerouslySetInnerHTML={{ __html: info.description.description }}
-          />}
-
-        {info.props &&
+          />
+        )}
+        {info.props && (
           <div>
             <div className={styles.title}>Properties</div>
             <div>
-              {Object.keys(info.props).map((name, i) => {
-                var prop = info.props[name];
-                var required = prop.required && !prop.defaultValue
-                  ? <span className={styles.propRequired}>required</span>
-                  : null;
-                var defaultValue = prop.defaultValue
-                  ? <span className={styles.propDefaultValue}>
-                      = {prop.defaultValue.value}
-                    </span>
-                  : null;
+              {Object.keys(info.props)
+                .filter(notInternal(info.props))
+                .map((name, i) => {
+                  var prop = info.props[name];
+                  var required =
+                    prop.required && !prop.defaultValue ? 'required' : null;
+                  var defaultValue = prop.defaultValue
+                    ? `= ${prop.defaultValue.value}`
+                    : null;
 
-                const className = classNames({
-                  [styles.prop]: true,
-                  [styles.propOdd]: i % 2
-                });
-                return (
-                  <div key={name} className={className}>
-                    <div className={styles.propTitle}>
-                      <span className={styles.propName}>{name}</span>
-                      <span className={styles.propTypeColon}>:</span>
-                      <span className={styles.propType}>
-                        {formatType(prop)}
-                      </span>
-                      {required}
-                      {defaultValue}
+                  return (
+                    <div key={name} className={styles.prop}>
+                      <div className={styles.propTitle}>
+                        <span className={styles.propName}>{name}</span>
+                        <pre className={styles.propType}>
+                          <code>{formatType(prop)}</code>
+                        </pre>
+                      </div>
+                      <div className={styles.propAttrs}>
+                        <span className={styles.propRequired}>{required}</span>
+                        <code className={styles.propDefaultValue}>
+                          {defaultValue}
+                        </code>
+                      </div>
+                      {prop.description &&
+                        prop.description.description && (
+                          <div
+                            className={propDescClassName}
+                            dangerouslySetInnerHTML={{
+                              __html: prop.description.description
+                            }}
+                          />
+                        )}
                     </div>
-                    {prop.description &&
-                      prop.description.description &&
-                      <div
-                        className={propDescClassName}
-                        dangerouslySetInnerHTML={{
-                          __html: prop.description.description
-                        }}
-                      />}
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
-          </div>}
-
-        {methods.length > 0 &&
+          </div>
+        )}
+        {methods.length > 0 && (
           <div>
             <div className={styles.title}>Methods</div>
             <div>
@@ -85,32 +86,8 @@ var PropsDoc = React.createClass({
                 </div>
               ))}
             </div>
-          </div>}
-
-        {info.adapterProps &&
-          <div>
-            <div className={styles.title}>Adapter</div>
-            <div>
-              {info.adapterProps.map((prop, i) => (
-                <div
-                  key={i}
-                  className={classNames(styles.prop, i % 2 && styles.propOdd)}
-                >
-                  <div className={styles.propTitle}>
-                    <span className={styles.propName}>
-                      {prop.name}
-                    </span>
-                    <span className={styles.propTypeColon}>:</span>
-                    <span className={styles.propType}>
-                      {prop.args.join(', ')}
-                    </span>
-                  </div>
-                  {prop.desc &&
-                    <div className={styles.propDesc}>{prop.desc}</div>}
-                </div>
-              ))}
-            </div>
-          </div>}
+          </div>
+        )}
       </div>
     );
   },
@@ -124,18 +101,19 @@ var PropsDoc = React.createClass({
             ({method.params.map(param => param.name).join(', ')})
           </div>
         </div>
-        {method.description &&
-          <div className={styles.propDesc}>{method.description}</div>}
+        {method.description && (
+          <div className={styles.propDesc}>{method.description}</div>
+        )}
       </div>
     );
   }
 });
 
 function formatType(prop) {
-  if (prop.type) {
-    return formatLegacyType(prop.type);
-  } else if (prop.flowType) {
+  if (prop.flowType) {
     return formatFlowType(prop.flowType);
+  } else if (prop.type) {
+    return formatLegacyType(prop.type);
   }
   return '?';
 }
@@ -150,13 +128,15 @@ function formatLegacyType(type) {
   }
 
   if (type.name === 'shape') {
-    return '{' +
+    return (
+      '{' +
       Object.keys(type.value)
         .map(key => {
           return `${key}: ${formatLegacyType(type.value[key])}`;
         })
         .join(', ') +
-      '}';
+      '}'
+    );
   }
 
   var str = type.name;
@@ -188,6 +168,14 @@ function formatFlowType(type) {
     default:
       return type.name;
   }
+}
+
+function notInternal(props) {
+  return name => {
+    const prop = props[name];
+    const { tags } = prop.description;
+    return tags.every(x => x.title !== TAG_TITLE_INTERNAL);
+  };
 }
 
 export default PropsDoc;

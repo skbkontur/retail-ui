@@ -1,9 +1,9 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import styles from './TopBar.less';
 
-class Divider extends React.Component {
+class Divider extends React.Component<{}> {
   render() {
     return <span className={styles.divider} />;
   }

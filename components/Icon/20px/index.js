@@ -1,1 +1,3 @@
-module.exports = require('./Icon');
+// @flow
+import Icon from './Icon';
+export default Icon;

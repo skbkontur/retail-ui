@@ -152,4 +152,20 @@
   drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 @popup-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
 
+// specificity
+@specificity-level: 0;
+
+.add-specificity (@rules, @times) when (@times > 0) {
+  &.react-ui {
+    .add-specificity(@rules, @times - 1);
+  }
+}
+.add-specificity (@rules, @times) when (default()) {
+  @rules();
+}
+
+.with-specificity(@rules) {
+  .add-specificity(@rules, @specificity-level);
+}
+
 @import (optional) '~react-ui-theme';

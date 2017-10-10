@@ -64,7 +64,7 @@ function toJSON(obj) {
   }
   return obj;
 }
-
+// eslint-disable-next-line flowtype/no-weak-types
 function toJS(obj): any {
   if (Array.isArray(obj)) {
     return obj.map(toJS);

@@ -31,10 +31,13 @@
   }
 
   .propTitle {
-    padding: 10px;
+    display: flex;
+    padding: 10px 10px 0;
+    align-items: baseline;
   }
 
   .propName {
+    flex: 1;
     font-weight: 600;
   }
 
@@ -44,15 +47,22 @@
   }
 
   .propType {
+    flex: 5;
     color: #5eba57;
   }
 
+  .propAttrs {
+    padding: 0 10px 10px;
+    display: flex;
+  }
+
   .propRequired {
+    flex: 1;
     color: #ff5050;
-    margin-left: 5px;
   }
 
   .propDefaultValue {
+    flex: 5;
     color: #ff5050;
     margin-left: 5px;
   }

@@ -1,19 +1,21 @@
 // @flow
 import MockDate from '../../internal/MockDate';
-import React from 'react';
+import * as React from 'react';
 import { storiesOf, action } from '@storybook/react';
 import DatePicker from '../DatePicker';
 
-class DatePickerWithError extends React.Component {
-  state: {
-    error: boolean,
-    value: string | Date | null
-  } = {
+type State = {
+  error: boolean,
+  value: string | Date | null
+};
+
+class DatePickerWithError extends React.Component<{}, State> {
+  state = {
     value: new Date(),
     error: false
   };
 
-  handleChange = (_, value) => {
+  handleChange = (_, value: Date | string | null) => {
     this.setState({ value, error: typeof value === 'string' });
   };
 
@@ -30,13 +32,13 @@ class DatePickerWithError extends React.Component {
 }
 
 storiesOf('DatePicker', module)
-  .addDecorator(story =>
+  .addDecorator(story => (
     <div>
       <MockDate date={new Date('2017-01-02')} />
       {story()}
     </div>
-  )
-  .add('with mouseevent handlers', () =>
+  ))
+  .add('with mouseevent handlers', () => (
     <div style={{ paddingTop: 200 }}>
       <DatePicker
         value={new Date('2017-01-02')}
@@ -46,5 +48,5 @@ storiesOf('DatePicker', module)
       />
       <button>ok</button>
     </div>
-  )
+  ))
   .add('DatePickerWithError', () => <DatePickerWithError />);

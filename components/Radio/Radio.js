@@ -64,4 +64,4 @@ class Radio extends React.Component {
   }
 }
 
-module.exports = Radio;
+export default Radio;
