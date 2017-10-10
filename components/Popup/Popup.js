@@ -3,7 +3,8 @@ import cn from 'classnames';
 import * as React from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
-import RenderConatiner from '../RenderContainer';
+import RenderContainer from '../RenderContainer';
+import RenderLayer from '../RenderLayer';
 import Transition from 'react-addons-css-transition-group';
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
@@ -34,7 +35,8 @@ type Props = {
   pinOffset: number,
   pinSize: number,
   popupOffset: number,
-  positions: string[]
+  positions: string[],
+  onCloseRequest?: () => void
 };
 
 type State = {
@@ -103,7 +105,7 @@ export default class Popup extends React.Component<Props, State> {
     if (
       !this.state.location ||
       !location ||
-      !location.position !== this.state.location.position ||
+      location.position !== this.state.location.position ||
       !shallowEqual(location.coordinates, this.state.location.coordinates)
     ) {
       this.setState({ location });
@@ -120,24 +122,30 @@ export default class Popup extends React.Component<Props, State> {
       ? location.position.split(' ')[0]
       : 'bottom';
     return (
-      <RenderConatiner ref={this._refContainer}>
-        <Transition
-          transitionName={{
-            enter: styles['transition-enter-' + directionClass],
-            enterActive: styles['transition-enter-active'],
-            leave: styles['transition-leave'],
-            leaveActive: styles['transition-leave-active'],
-            appear: styles['transition-appear-' + directionClass],
-            appearActive: styles['transition-appear-active']
-          }}
-          transitionAppear={true}
-          transitionAppearTimeout={200}
-          transitionEnterTimeout={200}
-          transitionLeaveTimeout={200}
-        >
-          {location ? this._renderContent(location) : null}
-        </Transition>
-      </RenderConatiner>
+      <RenderLayer
+        onClickOutside={this._handleClickOutside}
+        onFocusOutside={this._handleFocusOutside}
+        active={this.props.opened}
+      >
+        <RenderContainer ref={this._refContainer}>
+          <Transition
+            transitionName={{
+              enter: styles['transition-enter-' + directionClass],
+              enterActive: styles['transition-enter-active'],
+              leave: styles['transition-leave'],
+              leaveActive: styles['transition-leave-active'],
+              appear: styles['transition-appear-' + directionClass],
+              appearActive: styles['transition-appear-active']
+            }}
+            transitionAppear={true}
+            transitionAppearTimeout={200}
+            transitionEnterTimeout={200}
+            transitionLeaveTimeout={200}
+          >
+            {location ? this._renderContent(location) : null}
+          </Transition>
+        </RenderContainer>
+      </RenderLayer>
     );
   }
 
@@ -170,7 +178,7 @@ export default class Popup extends React.Component<Props, State> {
         style={style}
       >
         {children}
-        {hasPin &&
+        {hasPin && (
           <PopupPin
             popupElement={this._popupElement}
             popupPosition={location.position}
@@ -179,10 +187,25 @@ export default class Popup extends React.Component<Props, State> {
             borderWidth={hasShadow ? 1 : 0}
             backgroundColor={backgroundColor}
             borderColor={pinBorder}
-          />}
+          />
+        )}
       </div>
     );
   }
+
+  _handleClickOutside = () => {
+    this._requestClose();
+  };
+
+  _handleFocusOutside = () => {
+    this._requestClose();
+  };
+
+  _requestClose = () => {
+    if (this.props.onCloseRequest) {
+      this.props.onCloseRequest();
+    }
+  };
 
   _refContainer = () => {
     this._containerDidMount = true;

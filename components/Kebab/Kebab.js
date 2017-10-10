@@ -8,7 +8,6 @@ import Icon20 from '../Icon/20px';
 import Icon from '../Icon';
 import Popup from '../Popup';
 import Menu from '../Menu/Menu.js';
-import RenderLayer from '../RenderLayer';
 import LayoutEvents from '../../lib/LayoutEvents';
 
 import styles from './Kebab.less';
@@ -46,7 +45,7 @@ export default class Kebab extends React.Component<Props, State> {
   _listener;
 
   componentDidMount() {
-    this._listener = LayoutEvents.addListener(this._handleClickOutside);
+    this._listener = LayoutEvents.addListener(this._handleCloseRequest);
     listenTabPresses();
   }
 
@@ -58,52 +57,43 @@ export default class Kebab extends React.Component<Props, State> {
     const { disabled } = this.props;
     const { focusedByTab, opened } = this.state;
     return (
-      <RenderLayer
-        onClickOutside={this._handleClickOutside}
-        onFocusOutside={this._handleClickOutside}
-        active={this.state.opened}
-      >
-        <div className={styles.container}>
-          <div
-            onClick={this._handleClick}
-            onKeyDown={this._handleKeyDown}
-            onFocus={this._handleFocus}
-            onBlur={this._handleBlur}
-            tabIndex={disabled ? -1 : 0}
-            ref={node => (this._anchor = node)}
-            className={cn(
-              styles.kebab,
-              opened && styles.opened,
-              disabled && styles.disabled,
-              focusedByTab && styles.focused
-            )}
-          >
-            {this._renderIcon(this.props.size)}
-          </div>
-          {this._anchor &&
-            <Popup
-              anchorElement={this._anchor}
-              positions={[
-                'bottom left',
-                'bottom right',
-                'top left',
-                'top right'
-              ]}
-              popupOffset={10}
-              opened={this.state.opened}
-              margin={5}
-              hasShadow
-              hasPin
-              pinOffset={15}
-            >
-              <div className={styles.menu}>
-                <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
-                  {this.props.children}
-                </Menu>
-              </div>
-            </Popup>}
+      <div className={styles.container}>
+        <div
+          onClick={this._handleClick}
+          onKeyDown={this._handleKeyDown}
+          onFocus={this._handleFocus}
+          onBlur={this._handleBlur}
+          tabIndex={disabled ? -1 : 0}
+          ref={node => (this._anchor = node)}
+          className={cn(
+            styles.kebab,
+            opened && styles.opened,
+            disabled && styles.disabled,
+            focusedByTab && styles.focused
+          )}
+        >
+          {this._renderIcon(this.props.size)}
         </div>
-      </RenderLayer>
+        {this._anchor && (
+          <Popup
+            anchorElement={this._anchor}
+            positions={['bottom left', 'bottom right', 'top left', 'top right']}
+            popupOffset={10}
+            opened={this.state.opened}
+            margin={5}
+            hasShadow
+            hasPin
+            pinOffset={15}
+            onCloseRequest={this._handleCloseRequest}
+          >
+            <div className={styles.menu}>
+              <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
+                {this.props.children}
+              </Menu>
+            </div>
+          </Popup>
+        )}
+      </div>
     );
   }
 
@@ -147,7 +137,7 @@ export default class Kebab extends React.Component<Props, State> {
     }
   }
 
-  _handleClickOutside = () => {
+  _handleCloseRequest = () => {
     this._setPopupState(false);
   };
 
