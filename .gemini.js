@@ -4,7 +4,7 @@ module.exports = {
     chrome: {
       desiredCapabilities: {
         browserName: 'chrome',
-        version: '50'
+        version: '56'
       },
       retry: 2
     },
