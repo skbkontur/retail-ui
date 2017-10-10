@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 export interface DatePickerProps {
+  autoFocus?: boolean;
   className?: string;
   disabled?: boolean;
   error?: boolean;
