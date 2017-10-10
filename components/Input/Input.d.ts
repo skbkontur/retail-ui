@@ -3,6 +3,7 @@ import * as React from 'react';
 export interface InputProps {
   align?: 'left' | 'center' | 'right';
   alwaysShowMask?: boolean;
+  autoFocus?: boolean;
   borderless?: boolean;
   className?: string;
   disabled?: boolean;
@@ -21,7 +22,10 @@ export interface InputProps {
   warning?: boolean;
   width?: number | string;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+  onChange?: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ) => void;
   onCopy?: (event: React.ClipboardEvent<HTMLInputElement>) => void;
   onCut?: (event: React.ClipboardEvent<HTMLInputElement>) => void;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
