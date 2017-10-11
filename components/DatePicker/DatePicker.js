@@ -129,7 +129,7 @@ class DatePicker extends React.Component<Props, State> {
     minYear: 1900,
     maxYear: 2100,
     width: 120,
-    withMask: false,
+    withMask: true,
     onUnexpectedInput: () => null
   };
 

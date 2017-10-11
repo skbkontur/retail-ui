@@ -68,7 +68,7 @@ export default class DateInput extends Component<Props> {
     return (
       <div
         onMouseDown={this.preventSelection}
-        onClick={this.getCursorPosition}
+        onClick={this._handleClick}
         onDoubleClick={this.createSelection}
       >
         <Input
@@ -122,7 +122,7 @@ export default class DateInput extends Component<Props> {
     }
   };
 
-  getCursorPosition = (event: SyntheticInputEvent<>) => {
+  _handleClick = (event: SyntheticInputEvent<>) => {
     event.stopPropagation();
     const start = event.target.selectionStart;
     const end = event.target.selectionEnd;
@@ -158,7 +158,7 @@ export default class DateInput extends Component<Props> {
     event.preventDefault();
     this._cursorPosition = event.currentTarget.selectionStart;
     if (this.isVerticalArrows(event)) {
-      const newDate = this.createNewDate(event);
+      const newDate = this._handleVerticalKey(event);
       this.props.onChange(newDate);
       this.createSelection();
     }
@@ -248,14 +248,26 @@ export default class DateInput extends Component<Props> {
     return cursorPosition < 3 ? 0 : cursorPosition < 6 ? 1 : 2;
   };
 
-  handleDateChange = (event: SyntheticInputEvent<>, value: string) => {
-    if (!this.props.withMask) {
-      value = value.replace(/[^\d\.]/g, '');
-    }
+  handleDateChange = (
+    event: SyntheticInputEvent<HTMLInputElement>,
+    value: string
+  ) => {
+    const isBackspace = trim(this.props.value).length > trim(value).length;
+
     this.props.onChange(value);
+
+    const { currentTarget } = event;
+    if (!isBackspace) {
+      setTimeout(() => {
+        const start = currentTarget.selectionEnd;
+        if (start === 3 || start === 6) {
+          this._selectBlock(this._getSelectedBlock(start));
+        }
+      }, 10);
+    }
   };
 
-  createNewDate = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
+  _handleVerticalKey = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     event.preventDefault();
 
     const dateValue = event.currentTarget.value;
@@ -288,7 +300,11 @@ export default class DateInput extends Component<Props> {
     const newDay = date.getUTCDate();
     const newMonth = date.getUTCMonth() + 1;
     const newYear = date.getUTCFullYear();
-    return `${pad2(newDay)}.${pad2(newMonth)}.${newYear}`;
+
+    return [newDay, newMonth, newYear]
+      .filter(Boolean)
+      .map(pad2)
+      .join('.');
   };
 
   handleFocus = () => {
@@ -316,7 +332,6 @@ export default class DateInput extends Component<Props> {
 
 const pad2 = v => v.toString().padStart(2, '0');
 
-function getDaysAmount(year, month) {
-  const date = new Date(Date.UTC(year, month, 0));
-  return date.getUTCDate();
+function trim(str) {
+  return str.replace(/[\_\.]/g, '');
 }
