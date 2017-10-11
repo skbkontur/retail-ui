@@ -205,6 +205,7 @@ class DatePicker extends React.Component<Props, State> {
             value={this.state.textValue}
             onFocus={this.handleFocus}
             onChange={this.handleChange}
+            onSubmit={this.handleBlur}
             onIconClick={this.toggleCalendar}
           />
           {picker}

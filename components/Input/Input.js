@@ -265,6 +265,7 @@ export default class Input extends React.Component<Props, State> {
     }
 
     let input = null;
+
     if (this.props.mask) {
       input = (
         <MaskedInput
@@ -348,7 +349,7 @@ export default class Input extends React.Component<Props, State> {
 
   _handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     if (polyfillPlaceholder) {
-      const fieldIsEmpty = event.currentTarget.value === '';
+      const fieldIsEmpty = event.target.value === '';
       if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
         this.setState({ polyfillPlaceholder: fieldIsEmpty });
       }

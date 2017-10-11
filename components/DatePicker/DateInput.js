@@ -30,6 +30,7 @@ type Props = {
   getIconRef?: (ref: HTMLElement) => void,
   getInputRef?: (ref: Input) => void,
   onBlur?: (e: Event) => void,
+  onSubmit?: () => void,
   onChange: (value: Date | string | void) => void,
   onFocus?: () => void,
   onIconClick: () => void,
@@ -58,29 +59,29 @@ export default class DateInput extends Component<Props> {
   _cursorPosition = 0;
 
   render() {
-    const mask = this.props.withMask ? '99.99.9999' : null;
+    const maskChar = this.props.withMask ? '_' : null;
     const iconSize = this.props.size === 'large' ? 16 : 14;
     const openClassName = classNames({
       [styles.openButton]: true,
       [styles.openButtonDisabled]: this.props.disabled
     });
     return (
-      <div>
-        {/*
-        // onMouseDown={this.preventSelection}
-        // onClick={this.getCursorPosition}
-        // onDoubleClick={this.createSelection}
-      // >*/}
+      <div
+        onMouseDown={this.preventSelection}
+        onClick={this.getCursorPosition}
+        onDoubleClick={this.createSelection}
+      >
         <Input
           {...filterProps(this.props, INPUT_PASS_PROPS)}
-          mask={mask}
+          mask="99.99.9999"
+          maskChar={maskChar}
           maxLength={10}
           value={this.props.value}
           width="100%"
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           onChange={this.handleDateChange}
-          // onKeyDown={this.handleDateComponentChange}
+          onKeyDown={this._handleKeyDown}
           ref={this.getInputRef}
           rightIcon={
             <span
@@ -129,53 +130,125 @@ export default class DateInput extends Component<Props> {
       return;
     }
     this._cursorPosition = start;
+    const selectedBlock = this._getSelectedBlock(start);
+    this._selectBlock(selectedBlock);
   };
 
   createSelection = () => {
     let start, end;
-    if (this._cursorPosition === 1) {
+    if (this._cursorPosition < 3) {
       start = 0;
       end = 2;
-    } else if (this._cursorPosition === 4) {
+    } else if (this._cursorPosition < 6) {
       start = 3;
       end = 5;
-    } else if (this._cursorPosition > 6 && this._cursorPosition < 10) {
+    } else {
       start = 6;
       end = 10;
-    } else {
-      start = end = this._cursorPosition;
     }
-    setTimeout(
-      () => this._input && this._input.setSelectionRange(start, end),
-      0
-    );
+    process.nextTick(() => {
+      this._input && this._input.setSelectionRange(start, end);
+    });
   };
 
-  handleDateComponentChange = (
-    event: SyntheticKeyboardEvent<HTMLInputElement>
-  ) => {
+  _handleKeyDown = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (this.checkIfBadKeyDownEvent(event)) {
       return;
     }
+    event.preventDefault();
     this._cursorPosition = event.currentTarget.selectionStart;
-    const newDate = this.createNewDate(event);
-    this.props.onChange(newDate);
+    if (this.isVerticalArrows(event)) {
+      const newDate = this.createNewDate(event);
+      this.props.onChange(newDate);
+      this.createSelection();
+    }
+    if (this.isHorizontalArrows(event)) {
+      this._moveSelectionBlock(event);
+    }
+    if (this.isSeparatorKey(event)) {
+      this._handleSeparatorKey(event);
+    }
+    if (event.key === 'Enter') {
+      this.props.onSubmit && this.props.onSubmit();
+    }
   };
 
   checkIfBadKeyDownEvent = (
     event: SyntheticKeyboardEvent<HTMLInputElement>
   ) => {
-    return (
-      event.currentTarget.value.match(/_/) ||
-      (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') ||
-      event.currentTarget.selectionStart !== event.currentTarget.selectionEnd ||
-      event.currentTarget.selectionStart === 0 ||
-      event.currentTarget.selectionStart === 10
-    );
+    const AllowedKeys = [
+      'Enter',
+      'ArrowUp',
+      'ArrowDown',
+      'ArrowLeft',
+      'ArrowRight',
+      '.',
+      ',',
+      ' '
+    ];
+    return !AllowedKeys.includes(event.key);
   };
 
-  handleDateChange = (event: SyntheticInputEvent<>) => {
-    let value: string = event.target.value;
+  isVerticalArrows = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
+    return event.key === 'ArrowUp' || event.key === 'ArrowDown';
+  };
+
+  isHorizontalArrows = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
+    return event.key === 'ArrowLeft' || event.key === 'ArrowRight';
+  };
+
+  isSeparatorKey = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
+    return [' ', ',', '.'].includes(event.key);
+  };
+
+  _moveSelectionBlock = event => {
+    const currentSelectedBlock = this._getSelectedBlock(this._cursorPosition);
+    const step = event.key === 'ArrowLeft' ? -1 : 1;
+    const nextSelectedBlock = Math.max(
+      Math.min(currentSelectedBlock + step, 2),
+      0
+    );
+    this._selectBlock(nextSelectedBlock);
+  };
+
+  _selectBlock = index => {
+    const ranges = [[0, 2], [3, 5], [6, 10]];
+    const [start, end] = ranges[index];
+    setTimeout(() => {
+      this._input && this._input.setSelectionRange(start, end);
+      this._cursorPosition = start;
+    }, 10);
+  };
+
+  _handleSeparatorKey = event => {
+    const re = /([\d\_]{0,2}).?([\d\_]{0,2}).?([\d\_]{0,4})/;
+    if (this._cursorPosition !== 1 && this._cursorPosition !== 4) {
+      return;
+    }
+    const [, day = '', month = '', year = ''] = re.exec(
+      this.props.value.replace('_', '')
+    );
+
+    let nextValue = [day, month, year]
+      .filter(Boolean)
+      .map(pad2)
+      .join('.');
+
+    if (nextValue.length < 7) {
+      nextValue += '.';
+    }
+
+    if (this.props.onChange) {
+      this.props.onChange(nextValue);
+    }
+    this._moveSelectionBlock(event);
+  };
+
+  _getSelectedBlock = cursorPosition => {
+    return cursorPosition < 3 ? 0 : cursorPosition < 6 ? 1 : 2;
+  };
+
+  handleDateChange = (event: SyntheticInputEvent<>, value: string) => {
     if (!this.props.withMask) {
       value = value.replace(/[^\d\.]/g, '');
     }
@@ -198,36 +271,24 @@ export default class DateInput extends Component<Props> {
 
     let [day, month, year] = dateValue.split('.');
     day = Number(day);
-    month = Number(month);
+    month = Number(month) - 1;
     year = Number(year);
 
-    let newDate;
-
-    if (cursorPosition === 1) {
+    let date;
+    if (cursorPosition < 3) {
       // day
-      newDate = new Date(Date.UTC(year, month - 1, day + step));
-    } else if (cursorPosition === 4) {
+      date = new Date(Date.UTC(year, month, day + step));
+    } else if (cursorPosition < 6) {
       // month
-      let newMonth = month + step;
-      let newYear = newMonth > 12 || newMonth < 1 ? year + step : year;
-      if (newMonth > 12) {
-        newMonth -= 12;
-      }
-      if (newMonth < 1) {
-        newMonth += 12;
-      }
-      const newMonthDaysAmount = getDaysAmount(newYear, newMonth);
-      let newDay = Math.min(day, newMonthDaysAmount);
-      newDate = new Date(Date.UTC(newYear, newMonth - 1, newDay));
-    } else if (cursorPosition > 6 && cursorPosition < 10) {
+      date = new Date(Date.UTC(year, month + step, day));
+    } else {
       // year
-      let newYear = year + step;
-      const newMonthDaysAmount = getDaysAmount(newYear, month);
-      let newDay = Math.min(day, newMonthDaysAmount);
-      newDate = new Date(Date.UTC(newYear, month - 1, newDay));
+      date = new Date(Date.UTC(year + step, month, day));
     }
-
-    return newDate;
+    const newDay = date.getUTCDate();
+    const newMonth = date.getUTCMonth() + 1;
+    const newYear = date.getUTCFullYear();
+    return `${pad2(newDay)}.${pad2(newMonth)}.${newYear}`;
   };
 
   handleFocus = () => {
@@ -252,6 +313,8 @@ export default class DateInput extends Component<Props> {
     this._icon = ref;
   };
 }
+
+const pad2 = v => v.toString().padStart(2, '0');
 
 function getDaysAmount(year, month) {
   const date = new Date(Date.UTC(year, month, 0));
