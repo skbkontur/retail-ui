@@ -18,7 +18,8 @@ type Props = {
 
 type State = {
   position: ?{
-    top: number | 'auto',
+    top: ?number,
+    bottom: ?number,
     left: ?number,
     right: ?number
   }
@@ -62,6 +63,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
         ...style,
         ...{
           top: null,
+          bottom: null,
           minWidth: '100%'
         }
       };
@@ -123,6 +125,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
       }
 
       const { offsetY = 0 } = this.props;
+      let bottom = null;
       let top = targetRect.bottom + scrollY + offsetY;
 
       const distanceToBottom = docEl.clientHeight - targetRect.bottom;
@@ -130,13 +133,20 @@ export default class DropdownContainer extends React.Component<Props, State> {
       const dropdownHeight = this._getHeight();
 
       if (distanceToBottom < dropdownHeight && distanceToTop > dropdownHeight) {
-        top = targetRect.top - this._getHeight() + scrollY - offsetY;
+        top = null;
+        bottom =
+          distanceToBottom -
+          scrollY +
+          offsetY +
+          targetRect.bottom -
+          targetRect.top;
       }
 
       const position = {
         top,
         left,
         right,
+        bottom,
         minWidth: targetRect.right - targetRect.left
       };
       this.setState({ position });
