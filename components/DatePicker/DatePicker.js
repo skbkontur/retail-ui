@@ -141,7 +141,6 @@ class DatePicker extends React.Component<Props, State> {
 
   constructor(props: Props, context: mixed) {
     super(props, context);
-
     const textValue =
       typeof props.value === 'string' ? props.value : formatDate(props.value);
 

@@ -124,8 +124,7 @@ export default class DateInput extends Component<Props> {
 
   _handleClick = (event: SyntheticInputEvent<>) => {
     event.stopPropagation();
-    const start = event.target.selectionStart;
-    const end = event.target.selectionEnd;
+    const { start, end } = getInputSelection(event.target);
     if (start !== end) {
       return;
     }
@@ -156,7 +155,7 @@ export default class DateInput extends Component<Props> {
       return;
     }
     event.preventDefault();
-    this._cursorPosition = event.currentTarget.selectionStart;
+    this._cursorPosition = getInputSelection(event.currentTarget).start;
     if (this.isVerticalArrows(event)) {
       const newDate = this._handleVerticalKey(event);
       this.props.onChange(newDate);
@@ -271,7 +270,7 @@ export default class DateInput extends Component<Props> {
     event.preventDefault();
 
     const dateValue = event.currentTarget.value;
-    const cursorPosition = event.currentTarget.selectionStart;
+    const cursorPosition = getInputSelection(event.currentTarget).start;
 
     let step = 0;
     if (event.key === 'ArrowUp') {
@@ -334,4 +333,62 @@ const pad2 = v => v.toString().padStart(2, '0');
 
 function trim(str) {
   return str.replace(/[\_\.]/g, '');
+}
+
+/**
+ * imported from http://stackoverflow.com/questions/4928586/ddg#4931963
+ */
+function getInputSelection(el) {
+  let start = 0;
+  let end = 0;
+  let normalizedValue;
+  let range;
+  let textInputRange;
+  let len;
+  let endRange;
+
+  if (
+    typeof el.selectionStart === 'number' &&
+    typeof el.selectionEnd === 'number'
+  ) {
+    start = el.selectionStart;
+    end = el.selectionEnd;
+  } else {
+    // eslint-disable-next-line flowtype/no-weak-types
+    range = (document: any).selection.createRange();
+
+    if (range && range.parentElement() === el) {
+      len = el.value.length;
+      normalizedValue = el.value.replace(/\r\n/g, '\n');
+
+      // Create a working TextRange that lives only in the input
+      textInputRange = el.createTextRange();
+      textInputRange.moveToBookmark(range.getBookmark());
+
+      // Check if the start and end of the selection are at the very end
+      // of the input, since moveStart/moveEnd doesn't return what we want
+      // in those cases
+      endRange = el.createTextRange();
+      endRange.collapse(false);
+
+      if (textInputRange.compareEndPoints('StartToEnd', endRange) > -1) {
+        start = end = len;
+      } else {
+        start = -textInputRange.moveStart('character', -len);
+        start += normalizedValue.slice(0, start).split('\n').length - 1;
+
+        if (textInputRange.compareEndPoints('EndToEnd', endRange) > -1) {
+          end = len;
+        } else {
+          end = -textInputRange.moveEnd('character', -len);
+          end += normalizedValue.slice(0, end).split('\n').length - 1;
+        }
+      }
+    }
+  }
+
+  return {
+    start,
+    end
+  };
 }
