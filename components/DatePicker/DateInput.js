@@ -75,7 +75,7 @@ export default class DateInput extends Component<Props> {
           {...filterProps(this.props, INPUT_PASS_PROPS)}
           mask="99.99.9999"
           maskChar={maskChar}
-          maxLength={10}
+          maxLength={12}
           value={this.props.value}
           width="100%"
           onBlur={this.handleBlur}
@@ -296,6 +296,7 @@ export default class DateInput extends Component<Props> {
       // year
       date = new Date(Date.UTC(year + step, month, day));
     }
+
     const newDay = date.getUTCDate();
     const newMonth = date.getUTCMonth() + 1;
     const newYear = date.getUTCFullYear();
@@ -353,7 +354,7 @@ function getInputSelection(el) {
   ) {
     start = el.selectionStart;
     end = el.selectionEnd;
-  } else {
+  } else if (document.selection) {
     // eslint-disable-next-line flowtype/no-weak-types
     range = (document: any).selection.createRange();
 
