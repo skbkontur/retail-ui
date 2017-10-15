@@ -71,6 +71,7 @@ export default class DateInput extends Component<Props> {
         onChange={this._handleChange}
         onMouseUp={this._handleClick}
         onKeyDown={this._handleKeyDown}
+        onPaste={this._handleInputPaste}
         ref={this.getInputRef}
       />
     );
@@ -120,6 +121,27 @@ export default class DateInput extends Component<Props> {
     if (event.key === 'Enter') {
       this.props.onSubmit && this.props.onSubmit();
     }
+  };
+
+  _handleInputPaste = (event: SyntheticClipboardEvent<HTMLInputElement>) => {
+    const text = event.clipboardData.getData('text').trim();
+    const re = /([\d\_]{1,2}).([\d\_]{1,2}).([\d\_]{4})/;
+    const execData = re.exec(text);
+    if (!execData) {
+      return;
+    }
+    const [, day, month, year] = execData;
+    const nextValue = [day, month, year]
+      .filter(Boolean)
+      .map(pad2)
+      .join('.');
+
+    if (this.props.onChange) {
+      this.props.onChange(nextValue);
+    }
+    setTimeout(() => {
+      this._input && this._input.setSelectionRange(0, 12);
+    }, 100);
   };
 
   _checkIfBadKeyDownEvent = (
