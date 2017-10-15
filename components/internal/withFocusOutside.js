@@ -56,6 +56,8 @@ function withFocusOutside<Props: ParamsProps>(
         this._handleFocusOutside
       );
 
+      events.addEventListener(window, 'blur', this._handleFocusOutside);
+
       events.addEventListener(
         document,
         'mousedown', // check just before click event
@@ -68,6 +70,8 @@ function withFocusOutside<Props: ParamsProps>(
         this._focusSubscribtion.remove();
         this._focusSubscribtion = null;
       }
+
+      events.removeEventListener(window, 'blur', this._handleFocusOutside);
 
       events.removeEventListener(
         document,

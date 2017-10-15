@@ -10,4 +10,19 @@
     position: relative;
     top: -1px;
   }
+
+  .openButton {
+    color: #333;
+    user-select: none;
+    pointer-events: none;
+    position: absolute;
+    right: 10px;
+    z-index: 3;
+    top: 0;
+    bottom: 2px;
+  }
+
+  .openButtonDisabled {
+    color: @link-disabled-color;
+  }
 }
