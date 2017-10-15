@@ -202,19 +202,18 @@ export default class DateInput extends Component<Props> {
     event: SyntheticInputEvent<HTMLInputElement>,
     value: string
   ) => {
-    const isBackspace = trim(this.props.value).length > trim(value).length;
+    const isBackspace = trim(this.props.value).length >= trim(value).length;
 
     this.props.onChange(value);
 
     const { currentTarget } = event;
-    if (!isBackspace) {
-      setTimeout(() => {
-        const start = getInputSelection(currentTarget).start;
-        if (start === 3 || start === 6) {
-          this._selectBlock(this._getSelectedBlock(start));
-        }
-      }, 100);
-    }
+    setTimeout(() => {
+      const start = getInputSelection(currentTarget).start;
+      const delta = isBackspace ? -1 : 0;
+      if (start === 3 || start === 6) {
+        this._selectBlock(this._getSelectedBlock(start + delta));
+      }
+    }, 100);
   };
 
   _handleVerticalKey = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
