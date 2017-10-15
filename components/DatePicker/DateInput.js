@@ -88,12 +88,15 @@ export default class DateInput extends Component<Props> {
   };
 
   _selectCurrentBlock = (input: HTMLInputElement) => {
+    if (trim(this.props.value) === '') {
+      this._selectBlock(this._getSelectedBlock(0));
+      return;
+    }
     const { start, end } = getInputSelection(input);
     if (start !== end) {
       return;
     }
-    const selectedBlock = this._getSelectedBlock(start);
-    this._selectBlock(selectedBlock);
+    this._selectBlock(this._getSelectedBlock(start));
   };
 
   _handleClick = (event: SyntheticInputEvent<HTMLInputElement>) => {
