@@ -65,7 +65,7 @@ export default class Picker extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (this.props.value && prevProps.value !== this.props.value) {
+    if (this.props.value && +prevProps.value !== +this.props.value) {
       this.setState({ date: this.props.value });
       this.refs.calendar.moveToDate(this.props.value);
     }
