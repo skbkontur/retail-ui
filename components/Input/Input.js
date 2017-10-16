@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames';
-import MaskedInput from 'react-input-mask';
+import MaskedInput from 'react-input-mask/dist/react-input-mask';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
