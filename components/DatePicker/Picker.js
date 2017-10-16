@@ -36,21 +36,24 @@ export default class Picker extends React.Component<Props, State> {
     return (
       <div className={styles.root}>
         <div className={styles.monthYear}>
-          <DateSelect
-            type="year"
-            value={this.state.date.getUTCFullYear()}
-            minYear={this.props.minYear}
-            maxYear={this.props.maxYear}
-            width={'50px'}
-            onChange={this.handleYearChange}
-          />
-          <div style={{ display: 'inline-block', width: 4 }} />
-          <DateSelect
-            type="month"
-            value={this.state.date.getUTCMonth()}
-            width={'80px'}
-            onChange={this.handleMonthChange}
-          />
+          <div className={styles.month}>
+            <DateSelect
+              type="month"
+              value={date.getUTCMonth()}
+              width={'90px'}
+              onChange={this.handleMonthChange}
+            />
+          </div>
+          <div className={styles.year}>
+            <DateSelect
+              type="year"
+              value={date.getUTCFullYear()}
+              minYear={this.props.minYear}
+              maxYear={this.props.maxYear}
+              width={'56px'}
+              onChange={this.handleYearChange}
+            />
+          </div>
         </div>
         <Calendar
           ref="calendar"

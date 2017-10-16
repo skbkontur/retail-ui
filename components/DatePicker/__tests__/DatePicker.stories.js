@@ -42,6 +42,7 @@ storiesOf('DatePicker', module)
     <div style={{ paddingTop: 200 }}>
       <DatePicker
         value={new Date('2017-01-02')}
+        minYear={2016}
         onMouseEnter={() => console.count('enter')}
         onMouseLeave={() => console.count('leave')}
         onChange={action('change')}

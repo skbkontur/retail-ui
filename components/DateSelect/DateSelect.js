@@ -84,10 +84,8 @@ export default class DateSelect extends React.Component<Props, State> {
   }
 
   render() {
-    const { width } = this.props;
     const rootProps = {
       className: styles.root,
-      style: { width },
       tabIndex: '0',
       onBlur: this.close,
       onKeyDown: this.handleKey
@@ -96,9 +94,9 @@ export default class DateSelect extends React.Component<Props, State> {
       <span {...rootProps}>
         <div className={styles.caption} onClick={this.open}>
           {this.getItem(0)}
-          <div className={styles.arrow}>
+          <span className={styles.arrow}>
             <Icon name="sort" />
-          </div>
+          </span>
         </div>
         {this.state.opened && this.renderMenu()}
       </span>
@@ -106,7 +104,7 @@ export default class DateSelect extends React.Component<Props, State> {
   }
 
   renderMenu() {
-    const { top, height } = this.state;
+    const { top, height, topCapped, botCapped } = this.state;
     const { width, type } = this.props;
 
     let shift = this.state.pos % HEIGHT;
@@ -143,22 +141,12 @@ export default class DateSelect extends React.Component<Props, State> {
       );
     }
     const style: {
-      left?: number | string,
-      right?: number | string,
       top: number,
       width?: number | string
     } = {
-      top: top - 5
+      top: topCapped ? top - 3 : top - 16,
+      width
     };
-    switch (type) {
-      case 'year':
-        style.width = width;
-        style.left = '-10px';
-        break;
-      case 'month':
-        style.width = width;
-        style.right = 0;
-    }
 
     const shiftStyle = {
       position: 'relative',
@@ -167,13 +155,15 @@ export default class DateSelect extends React.Component<Props, State> {
 
     const holderClass = classNames({
       [styles.menuHolder]: true,
-      [styles.isTopCapped]: this.state.topCapped,
-      [styles.isBotCapped]: this.state.botCapped
+      [styles.isTopCapped]: topCapped,
+      [styles.isBotCapped]: botCapped,
+      [styles.isMonth]: type === 'month',
+      [styles.isYear]: type === 'year'
     });
 
     return (
       <div className={holderClass} style={style} onKeyDown={this.handleKey}>
-        {!this.state.topCapped &&
+        {!topCapped &&
           <div className={styles.menuUp} onMouseDown={this.handleUp}>
             <span>
               <Icon name={'caret-top'} />
@@ -184,7 +174,7 @@ export default class DateSelect extends React.Component<Props, State> {
             {items}
           </div>
         </div>
-        {!this.state.botCapped &&
+        {!botCapped &&
           <div className={styles.menuDown} onMouseDown={this.handleDown}>
             <span>
               <Icon name={'caret-bottom'} />

@@ -1,64 +1,44 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import styles from './Calendar.less';
+import styles from './CalendarCell.less';
 
-const DAY_WIDTH = 26;
-const DAY_HEIGHT = 31;
-const FIRST_CELL_OFFSET = 6;
-const HOLIDAYS_OFFSET = 3;
+const DAY_WIDTH = 30;
+const DAY_HEIGHT = 30;
+const LEFT_OFFSET = 15;
 
 export default class CalendarCell extends Component {
-  constructor(props) {
-    super(props);
-
-    this._today = new Date();
-  }
-
   render() {
-    const { date, weekIdx, offset, value } = this.props;
+    const { date, weekIdx, offset, value, minYear, maxYear } = this.props;
 
     const day = getDay(date);
-    const isHolyday = date.getUTCDay() === 0 || date.getUTCDay() === 6;
+    const isHoliday = date.getUTCDay() === 0 || date.getUTCDay() === 6;
+    const isDisabled = isOutOfRange(date, minYear, maxYear);
 
     const y = weekIdx * DAY_HEIGHT - offset;
-    let x = day * DAY_WIDTH + FIRST_CELL_OFFSET;
-    let width = DAY_WIDTH;
-    if (day === 0) {
-      x = 0;
-      width += FIRST_CELL_OFFSET;
-    }
-    if (day === 5) {
-      width += HOLIDAYS_OFFSET;
-    }
-    if (day === 6) {
-      x += HOLIDAYS_OFFSET;
-    }
-    const style = { left: x, top: y, width, height: DAY_HEIGHT };
+    let x = day * DAY_WIDTH + LEFT_OFFSET;
+    const style = { left: x, top: y, width: DAY_WIDTH, height: DAY_HEIGHT };
 
     const cellClass = classNames({
       [styles.cell]: true,
-      [styles.cellToday]: this._isToday(date),
-      [styles.cellCurrent]: isSameDate(value, date),
-      [styles.grey]: date.getUTCMonth() % 2,
-      [styles.cellHoly]: isHolyday
+      [styles.today]: this._isToday(date),
+      [styles.current]: isSameDate(value, date),
+      [styles.holiday]: isHoliday,
+      [styles.disabled]: isDisabled
     });
 
     return (
-      <span className={cellClass} style={style}>
-        <div
-          className={styles.cellInner}
-          onMouseOver={this.activate}
-          onMouseLeave={this.deactivate}
-          onClick={this.pick}
-        >
+      <span
+        className={cellClass}
+        style={style}
+        onClick={isDisabled ? null : this.pick}
+      >
           {date.getUTCDate()}
-        </div>
       </span>
     );
   }
 
   _isToday(date) {
-    return isSameDate(date, this._today);
+    return isSameDate(date, new Date());
   }
 
   pick = event => {
@@ -80,6 +60,11 @@ function isSameDate(a, b) {
     a.getUTCMonth() === b.getUTCMonth() &&
     a.getUTCDate() === b.getUTCDate()
   );
+}
+
+function isOutOfRange(date, minYear, maxYear) {
+  const year = date.getUTCFullYear();
+  return (minYear && year < minYear) || (maxYear && year > maxYear);
 }
 
 function getDay(date) {

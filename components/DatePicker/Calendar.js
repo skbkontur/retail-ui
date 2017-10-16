@@ -6,6 +6,7 @@ import * as React from 'react';
 import styles from './Calendar.less';
 
 import Cell from './CalendarCell';
+import { formatDate } from './utils';
 
 const MONTH_NAMES = [
   'Январь',
@@ -24,8 +25,8 @@ const MONTH_NAMES = [
 const DAY = 24 * 60 * 60 * 1000;
 const WEEK = 7 * DAY;
 const FIRST_WEEK_SHIFT = (new Date(0).getUTCDay() - 1) * DAY;
-const DAY_HEIGHT = 31;
-const CALENDAR_HEIGHT = 220;
+const DAY_HEIGHT = 30;
+const CALENDAR_HEIGHT = 331;
 
 type Props = {
   initialDate: Date,
@@ -48,53 +49,54 @@ export default class Calendar extends React.Component<Props, State> {
   }
 
   render() {
+    const { value, onPick, minYear, maxYear } = this.props;
+
     let offset = this.state.pos % DAY_HEIGHT;
     if (offset < 0) {
       offset += DAY_HEIGHT;
     }
-    const from =
-      (this.state.pos - offset) / DAY_HEIGHT * WEEK - FIRST_WEEK_SHIFT;
+    const from = (this.state.pos - offset) / DAY_HEIGHT * WEEK - FIRST_WEEK_SHIFT;
     const week = getWeek(from);
 
-    const months = [];
-    let monthStart = new Date(from);
-    monthStart.setUTCDate(1);
-    for (let i = 0; i < 4; ++i) {
-      const monthEnd = new Date(monthStart.getTime());
-      monthEnd.setUTCMonth(monthEnd.getUTCMonth() + 1);
-      const y = getDayTop(week, offset, +monthStart);
-      const height = getDayTop(week, offset, +monthEnd) - y;
-      const style = {
-        top: y,
-        height
-      };
-      const monthClass = classNames({
-        [styles.month]: true,
-        [styles.first]: monthStart.getUTCMonth() === 0,
-        [styles.grey]: monthStart.getUTCMonth() % 2
-      });
-      const top = Math.max(0, -y);
-      const wrapperStyle = {
-        position: 'relative',
-        top,
-        display: top > height ? 'none' : 'block',
-        opacity: top > height / 3 ? 0 : 1,
-        transition: 'opacity 0.2s ease-out'
-      };
-      months.push(
-        <div key={+monthStart} className={monthClass} style={style}>
-          <div style={wrapperStyle}>
-            {MONTH_NAMES[monthStart.getUTCMonth()]}
-            <div className={styles.year}>
-              {monthStart.getUTCFullYear()}
-            </div>
-          </div>
-        </div>
-      );
-
-      monthStart = monthEnd;
-    }
-
+    // const months = [];
+    // let monthStart = new Date(from);
+    // monthStart.setUTCDate(1);
+    //
+    // for (let i = 0; i < 4; ++i) {
+    //   const monthEnd = new Date(monthStart.getTime());
+    //   monthEnd.setUTCMonth(monthEnd.getUTCMonth() + 1);
+    //   const y = getDayTop(week, offset, +monthStart);
+    //   const height = getDayTop(week, offset, +monthEnd) - y;
+    //   const style = {
+    //     top: y,
+    //     height
+    //   };
+    //   const monthClass = classNames({
+    //     [styles.month]: true,
+    //     [styles.first]: monthStart.getUTCMonth() === 0
+    //   });
+    //   const top = Math.max(0, -y);
+    //   const wrapperStyle = {
+    //     position: 'relative',
+    //     top,
+    //     display: top > height ? 'none' : 'block',
+    //     opacity: top > height / 3 ? 0 : 1,
+    //     transition: 'opacity 0.2s ease-out'
+    //   };
+    //   months.push(
+    //     <div key={+monthStart} className={monthClass} style={style}>
+    //       <div style={wrapperStyle}>
+    //         {MONTH_NAMES[monthStart.getUTCMonth()]}
+    //         <div className={styles.year}>
+    //           {monthStart.getUTCFullYear()}
+    //         </div>
+    //       </div>
+    //     </div>
+    //   );
+    //
+    //   monthStart = monthEnd;
+    // }
+    //
     const cells = [];
     const cellCount = Math.ceil((CALENDAR_HEIGHT + offset) / DAY_HEIGHT) * 7;
     for (let i = 0; i < cellCount; ++i) {
@@ -106,15 +108,22 @@ export default class Calendar extends React.Component<Props, State> {
         date,
         weekIdx: curWeek - week,
         offset,
-        value: this.props.value
+        value,
+        onPick,
+        minYear,
+        maxYear
       };
-      cells.push(<Cell key={cur} {...cellProps} onPick={this.props.onPick} />);
+      cells.push(<Cell key={cur} {...cellProps} />);
     }
+
+    const now = new Date();
+    const today = <button className={styles.today} onClick={() => this.moveToDate(now)}>Сегодня {formatDate(now)}</button>;
 
     return (
       <div className={styles.root} tabIndex="0" onWheel={this.handleWheel}>
         {cells}
-        {months}
+        {/*{months}*/}
+        {today}
       </div>
     );
   }

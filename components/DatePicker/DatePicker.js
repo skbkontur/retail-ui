@@ -10,7 +10,7 @@ import Input from '../Input';
 import Icon from '../Icon';
 import Picker from './Picker';
 import DateInput from './DateInput';
-import dateParser from './dateParser';
+import { formatDate, isDate, dateParser } from './utils';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import RenderLayer from '../RenderLayer';
 
@@ -175,7 +175,7 @@ class DatePicker extends React.Component<Props, State> {
     let picker = null;
     if (opened) {
       picker = (
-        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={0}>
+        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2}>
           <Picker
             value={date}
             minYear={this.props.minYear}
@@ -336,22 +336,6 @@ const getDateValue = (value, onUnexpectedInput) => {
   return null;
 };
 
-function isDate(date) /* : boolean %checks */ {
-  return date instanceof Date && !isNaN(date.getTime());
-}
-
-function formatDate(date) {
-  if (!date || !isDate(date)) {
-    return '';
-  }
-
-  const day = date
-    .getUTCDate()
-    .toString()
-    .padStart(2, '0');
-  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
-  return `${day}.${month}.${date.getUTCFullYear()}`;
-}
 
 function parseDate(str, withCorrection) {
   const date = dateParser(str, withCorrection);
