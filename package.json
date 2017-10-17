@@ -107,9 +107,9 @@
   },
   "peerDependencies": {
     "@types/react": "*",
-    "react": ">0.14.9",
-    "react-addons-css-transition-group": ">0.14.8",
-    "react-dom": ">0.14.9"
+    "react": ">=0.14.9",
+    "react-addons-css-transition-group": ">=0.14.8",
+    "react-dom": ">=0.14.9"
   },
   "jest": {
     "moduleNameMapper": {
