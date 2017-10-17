@@ -125,7 +125,7 @@ export default class Popup extends React.Component<Props, State> {
       <RenderLayer
         onClickOutside={this._handleClickOutside}
         onFocusOutside={this._handleFocusOutside}
-        active={this.props.opened}
+        active={this.props.onCloseRequest && this.props.opened}
       >
         <RenderContainer ref={this._refContainer}>
           <Transition
