@@ -140,6 +140,10 @@ export default class DropdownContainer extends React.Component<Props, State> {
       const { offsetY = 0 } = this.props;
       let bottom = null;
       let top = targetRect.bottom + scrollY + offsetY;
+      let bodyScrollHeight = 0;
+      if (document.body) {
+        bodyScrollHeight = document.body.scrollHeight;
+      }
 
       const distanceToBottom = docEl.clientHeight - targetRect.bottom;
       const distanceToTop = targetRect.top;
@@ -158,7 +162,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
             targetRect.top;
         } else {
           bottom =
-            document.body.scrollHeight -
+            bodyScrollHeight -
             docEl.clientHeight -
             scrollY +
             distanceToBottom +
