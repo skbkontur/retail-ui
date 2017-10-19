@@ -10,7 +10,6 @@ import ReactDOM from 'react-dom';
 import addClass from '../../lib/dom/addClass';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
 import getComputedStyle from '../../lib/dom/getComputedStyle';
-import Center from '../Center';
 import LayoutEvents from '../../lib/LayoutEvents';
 import removeClass from '../../lib/dom/removeClass';
 import RenderContainer from '../RenderContainer';
@@ -161,7 +160,7 @@ class Modal extends React.Component<Props, State> {
     );
   }
 
-  _refCenter = (center: ?Center) => {
+  _refCenter = (center: ?HTMLElement) => {
     if (this._centerDOM) {
       events.removeEventListener(this._centerDOM, 'scroll', LayoutEvents.emit);
     }
