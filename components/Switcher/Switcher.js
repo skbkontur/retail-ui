@@ -126,7 +126,6 @@ class Switcher extends React.Component<Props, State> {
       const buttonProps = {
         checked: this.props.value === value,
         visuallyFocused: this.state.focusedIndex === i,
-        ref: button => {this[`button-${i}`] = button;},
         onClick: () => {this._selectItem(value);},
         disableFocus: true
       };
