@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Input from '../Input';
 
 import filterProps from '../filterProps';
+import { ieVerison } from '../ensureOldIEClassName';
 
 const DateBlocks = [
   { index: 0, start: 0, end: 2 },
@@ -39,6 +40,8 @@ type Props = {
   size: 'small' | 'medium' | 'large',
   value: string
 };
+
+const isIE8 = ieVerison === 8;
 
 export default class DateInput extends Component<Props> {
   static propTypes = {
@@ -108,17 +111,20 @@ export default class DateInput extends Component<Props> {
     if (this._checkIfBadKeyDownEvent(event)) {
       return;
     }
-    event.preventDefault();
     if (this._isVerticalArrows(event)) {
+      event.preventDefault();
       this._handleVerticalKey(event);
     }
-    if (this._isHorizontalArrows(event)) {
+    if (!isIE8 && this._isHorizontalArrows(event)) {
+      event.preventDefault();
       this._moveSelectionBlock(event);
     }
     if (this._isSeparatorKey(event)) {
+      event.preventDefault();
       this._handleSeparatorKey(event);
     }
     if (event.key === 'Enter') {
+      event.preventDefault();
       this.props.onSubmit && this.props.onSubmit();
     }
   };
@@ -229,7 +235,7 @@ export default class DateInput extends Component<Props> {
     this.props.onChange(value);
 
     const { currentTarget } = event;
-    if (!isBackspace) {
+    if (!isBackspace && !isIE8) {
       setTimeout(() => {
         const start = getInputSelection(currentTarget).start;
         if (start === 3 || start === 6) {
@@ -243,6 +249,12 @@ export default class DateInput extends Component<Props> {
     event.preventDefault();
 
     const dateValue = event.currentTarget.value;
+
+    const isValid = /\d{2}.\d{2}.\d{4}/.test(dateValue);
+    if (!isValid) {
+      return;
+    }
+
     const { start } = getInputSelection(event.currentTarget);
     const selectedBlock = this._getSelectedBlock(start);
 
@@ -319,11 +331,6 @@ function trim(str) {
 function getInputSelection(el) {
   let start = 0;
   let end = 0;
-  let normalizedValue;
-  let range;
-  let textInputRange;
-  let len;
-  let endRange;
 
   if (
     typeof el.selectionStart === 'number' &&
@@ -333,20 +340,20 @@ function getInputSelection(el) {
     end = el.selectionEnd;
   } else if (document.selection) {
     // eslint-disable-next-line flowtype/no-weak-types
-    range = (document: any).selection.createRange();
+    const range = (document: any).selection.createRange();
 
     if (range && range.parentElement() === el) {
-      len = el.value.length;
-      normalizedValue = el.value.replace(/\r\n/g, '\n');
+      const len = el.value.length;
+      const normalizedValue = el.value.replace(/\r\n/g, '\n');
 
       // Create a working TextRange that lives only in the input
-      textInputRange = el.createTextRange();
+      const textInputRange = el.createTextRange();
       textInputRange.moveToBookmark(range.getBookmark());
 
       // Check if the start and end of the selection are at the very end
       // of the input, since moveStart/moveEnd doesn't return what we want
       // in those cases
-      endRange = el.createTextRange();
+      const endRange = el.createTextRange();
       endRange.collapse(false);
 
       if (textInputRange.compareEndPoints('StartToEnd', endRange) > -1) {

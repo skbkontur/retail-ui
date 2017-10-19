@@ -24,6 +24,8 @@ const stack = {
   mounted: []
 };
 
+const KEY_CODE_ESCAPE = 27;
+
 let mountedModalsCount = 0;
 let prevMarginRight = '';
 
@@ -146,8 +148,6 @@ class Modal extends React.Component<Props, State> {
             ref={this._refCenter}
             className={styles.container}
             onClick={this._handleContainerClick}
-            tabIndex={-1}
-            onKeyDown={this._handleKeyDown}
           >
             <div className={styles.centerContainer}>
               <div className={styles.window} style={style}>
@@ -189,9 +189,8 @@ class Modal extends React.Component<Props, State> {
       LayoutEvents.emit();
     }
     mountedModalsCount++;
-
+    events.addEventListener(window, 'keydown', this._handleKeyDown);
     stack.emitter.emit('change');
-    this._focusContent();
   }
 
   componentWillUnmount() {
@@ -212,32 +211,6 @@ class Modal extends React.Component<Props, State> {
     }
     stack.emitter.emit('change');
   }
-
-  componentDidUpdate() {
-    this._focusContent();
-  }
-
-  _focusContent = () => {
-    const node = this._centerDOM;
-    if (!node || this._hasFocus()) {
-      return;
-    }
-    const stackIndex = stack.mounted.findIndex(x => x === this);
-    if (stackIndex !== stack.mounted.length - 1) {
-      return;
-    }
-    node.focus();
-  };
-
-  _hasFocus = () => {
-    const node = this._centerDOM;
-    if (!node) {
-      return false;
-    }
-    return (
-      node === document.activeElement || node.contains(document.activeElement)
-    );
-  };
 
   _handleWindowResize = () => {
     const docEl = document.documentElement;
@@ -283,7 +256,10 @@ class Modal extends React.Component<Props, State> {
   };
 
   _handleKeyDown = event => {
-    if (event.key === 'Escape') {
+    if (stack.mounted[stack.mounted.length - 1] !== this) {
+      return;
+    }
+    if (event.keyCode === KEY_CODE_ESCAPE) {
       stopPropagation(event);
       this._requestClose();
     }
@@ -299,16 +275,16 @@ class Header extends React.Component<HeaderProps> {
   render() {
     return (
       <Sticky side="top">
-        {fixed =>
+        {fixed => (
           <div
             className={classNames(styles.header, fixed && styles.fixedHeader)}
           >
-            {this.props.close &&
-              <div className={styles.absoluteClose}>
-                {this.props.close}
-              </div>}
+            {this.props.close && (
+              <div className={styles.absoluteClose}>{this.props.close}</div>
+            )}
             {this.props.children}
-          </div>}
+          </div>
+        )}
       </Sticky>
     );
   }
@@ -320,11 +296,7 @@ type BodyProps = {
 
 class Body extends React.Component<BodyProps> {
   render() {
-    return (
-      <div className={styles.body}>
-        {this.props.children}
-      </div>
-    );
+    return <div className={styles.body}>{this.props.children}</div>;
   }
 }
 
@@ -350,10 +322,11 @@ class Footer extends React.Component<FooterProps> {
 
     return (
       <Sticky side="bottom">
-        {fixed =>
+        {fixed => (
           <div className={classNames(names, fixed && styles.fixedFooter)}>
             {this.props.children}
-          </div>}
+          </div>
+        )}
       </Sticky>
     );
   }
