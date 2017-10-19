@@ -174,7 +174,7 @@ class DatePicker extends React.Component<Props, State> {
     let picker = null;
     if (opened) {
       picker = (
-        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={0}>
+        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2}>
           <Picker
             value={date}
             minYear={this.props.minYear}
