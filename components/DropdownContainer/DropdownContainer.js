@@ -5,6 +5,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import LayoutEvents from '../../lib/LayoutEvents';
+import getComputedStyle from '../../lib/dom/getComputedStyle';
 import RenderContainer from '../RenderContainer/RenderContainer';
 
 type Props = {
@@ -22,7 +23,8 @@ type State = {
     bottom: ?number,
     left: ?number,
     right: ?number
-  }
+  },
+  hasStaticRoot?: boolean
 };
 
 export default class DropdownContainer extends React.Component<Props, State> {
@@ -38,7 +40,8 @@ export default class DropdownContainer extends React.Component<Props, State> {
   };
 
   state: State = {
-    position: null
+    position: null,
+    hasStaticRoot: true
   };
 
   _dom;
@@ -93,6 +96,15 @@ export default class DropdownContainer extends React.Component<Props, State> {
     }
   }
 
+  componentWillMount() {
+    let htmlPosition = getComputedStyle(document.documentElement).position;
+    let bodyPosition = getComputedStyle(document.body).position;
+
+    if (htmlPosition !== 'static' || bodyPosition !== 'static') {
+      this.setState({hasStaticRoot: false})
+    }
+  }
+
   componentWillUnmount() {
     if (!this.props.disablePortal && this._layoutSub) {
       this._layoutSub.remove();
@@ -117,6 +129,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
 
       let left = null;
       let right = null;
+
       if (this.props.align === 'right') {
         const docWidth = docEl.offsetWidth || 0;
         right = docWidth - (targetRect.right + scrollX) + this.props.offsetX;
@@ -133,13 +146,26 @@ export default class DropdownContainer extends React.Component<Props, State> {
       const dropdownHeight = this._getHeight();
 
       if (distanceToBottom < dropdownHeight && distanceToTop > dropdownHeight) {
+
         top = null;
-        bottom =
-          distanceToBottom -
-          scrollY +
-          offsetY +
-          targetRect.bottom -
-          targetRect.top;
+
+        if (this.state.hasStaticRoot) {
+          bottom =
+            distanceToBottom -
+            scrollY +
+            offsetY +
+            targetRect.bottom -
+            targetRect.top;
+        } else {
+          bottom =
+            document.body.scrollHeight -
+            docEl.clientHeight -
+            scrollY +
+            distanceToBottom +
+            targetRect.bottom -
+            targetRect.top +
+            offsetY;
+        }
       }
 
       const position = {
