@@ -44,7 +44,8 @@ type Props = {
   /** @internal */
   corners?: number,
   disabled?: boolean,
-  disableFocus: boolean,
+  /** @internal */
+  disableFocus?: boolean,
   focused?: boolean,
   icon?: string,
   loading?: boolean,
@@ -57,7 +58,8 @@ type Props = {
   size: 'small' | 'medium' | 'large',
   type: 'button' | 'submit' | 'reset',
   use: 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link',
-  visuallyFocused: boolean,
+  /** @internal */
+  visuallyFocused?: boolean,
   width?: number | string
 };
 
