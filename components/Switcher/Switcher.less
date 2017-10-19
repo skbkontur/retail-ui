@@ -1,54 +1,9 @@
 @import '../variables.less';
 
 :local {
-  @borderRadius: 1px;
-
-  .root {
-  }
-
   .wrap {
     display: inline-block;
     vertical-align: middle;
-  }
-
-  .list {
-    display: table;
-  }
-
-  .item {
-    display: table-cell;
-    vertical-align: middle;
-    background-image: linear-gradient(@btn-default-bg-start, @btn-default-bg-end);
-    border: 0;
-    padding: 7px 8px;
-    font-size: 14px;
-    line-height: 20px;
-    box-shadow: @btn-default-shadow;
-    cursor: pointer;
-    position: relative;
-
-    &:first-child {
-      border-top-left-radius: @borderRadius;
-      border-bottom-left-radius: @borderRadius;
-    }
-
-    &:last-child {
-      border-top-right-radius: @borderRadius;
-      border-bottom-right-radius: @borderRadius;
-    }
-
-    &:not(.itemActive):hover {
-      background-image: linear-gradient(@btn-default-hover-bg-start, @btn-default-hover-bg-end);
-      box-shadow: @btn-default-hover-shadow;
-    }
-  }
-
-  .itemActive {
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.60), inset 0 1px 2px 0 rgba(0,0,0,0.30);
-    background: @btn-checked-bg;
-    color: #ffffff;
-    outline: none;
-    z-index: 1;
   }
 
   .input {
@@ -58,15 +13,9 @@
     height: 0;
   }
 
-  .focus {
-    position: relative;
-    z-index: 2;
-    box-shadow: inset 0 0 0 1px @border-color-focus, inset 0 0 0 2px #fff, 0 0 0 1px @border-color-focus;
-  }
-
   .error {
     box-shadow: 0 0 0 2px @border-color-error;
-    border-radius: 1px;
+    border-radius: 2px;
   }
 
   .label {

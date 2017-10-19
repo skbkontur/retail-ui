@@ -3,11 +3,13 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import Group from '../Group';
+import Button from '../Button';
 
 import styles from './Switcher.less';
 
 type Props = {
-  items: Iterable<mixed>,
+  items: string[] | SwitcherItem[],
   value?: string,
   onChange?: (event: { target: { value: mixed } }, value: mixed) => void,
   label?: string,
@@ -18,15 +20,22 @@ type State = {
   focusedIndex: number
 };
 
-export const SwitcherItem = {
-  title: PropTypes.string,
-  value: PropTypes.string
+type SwitcherItem = {
+  label: string,
+  value: string
 };
 
 class Switcher extends React.Component<Props, State> {
   static propTypes = {
     error: PropTypes.bool,
-    items: PropTypes.oneOf(PropTypes.arrayOf(PropTypes.string), PropTypes.arrayOf(SwitcherItem)).isRequired,
+    items: PropTypes.oneOf(
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string
+      }))
+    ).isRequired,
+    label: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func
   };
@@ -39,18 +48,18 @@ class Switcher extends React.Component<Props, State> {
 
   _selectItem = (value: string) => {
     if (this.props.onChange) {
-      this.props.onChange({ target: { value } }, value)
+      this.props.onChange({ target: { value } }, value);
     }
   };
 
   _extractPropsFromItem = (item: string | SwitcherItem): SwitcherItem => {
-    return typeof item === 'object' ? item : {title: item, value: item}
+    return typeof item === 'object' ? item : { label: item, value: item };
   };
 
   _extractValuesFromItems = (): Array<string> => {
     return this.props.items.map(item => {
-      const {value} = this._extractPropsFromItem(item);
-      return value
+      const { value } = this._extractPropsFromItem(item);
+      return value;
     });
   };
 
@@ -81,7 +90,9 @@ class Switcher extends React.Component<Props, State> {
 
     if (event.key === 'Enter') {
       if (this.props.onChange) {
-        const {value} = this._extractPropsFromItem(this.props.items[focusedIndex]);
+        const { value } = this._extractPropsFromItem(
+          this.props.items[focusedIndex]
+        );
         this._selectItem(value);
       }
       return;
@@ -90,8 +101,7 @@ class Switcher extends React.Component<Props, State> {
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
       this._move(-1);
-    }
-    else if (event.key === 'ArrowRight') {
+    } else if (event.key === 'ArrowRight') {
       event.preventDefault();
       this._move(1);
     }
@@ -112,24 +122,20 @@ class Switcher extends React.Component<Props, State> {
 
   _renderItems = () => {
     return this.props.items.map((item, i) => {
-      const {title, value} = this._extractPropsFromItem(item);
-      const itemClassNames = classNames({
-        [styles.item]: true,
-        [styles.focus]: this.state.focusedIndex === i,
-        [styles.itemActive]: this.props.value === value
-      });
-      const itemProps = {
-        key: value,
-        className: itemClassNames,
-        onClick: () => {this._selectItem(value)}
+      const { label, value } = this._extractPropsFromItem(item);
+      const buttonProps = {
+        checked: this.props.value === value,
+        visuallyFocused: this.state.focusedIndex === i,
+        ref: button => {this[`button-${i}`] = button;},
+        onClick: () => {this._selectItem(value);},
+        disableFocus: true
       };
-
       return (
-        <div {...itemProps}>
-          {title}
-        </div>
-      )
-    })
+        <Button {...buttonProps}>
+          {label}
+        </Button>
+      );
+    });
   };
 
   render() {
@@ -147,7 +153,7 @@ class Switcher extends React.Component<Props, State> {
     };
 
     return (
-      <div className={styles.root}>
+      <div>
         {
           this.props.label ?
             <div className={styles.label}>
@@ -158,11 +164,13 @@ class Switcher extends React.Component<Props, State> {
         <div className={styles.wrap}>
           <input {...inputProps} />
           <div className={listClassNames}>
-            {this._renderItems()}
+            <Group>
+              {this._renderItems()}
+            </Group>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

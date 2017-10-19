@@ -44,6 +44,7 @@ type Props = {
   /** @internal */
   corners?: number,
   disabled?: boolean,
+  disableFocus: boolean,
   focused?: boolean,
   icon?: string,
   loading?: boolean,
@@ -56,6 +57,7 @@ type Props = {
   size: 'small' | 'medium' | 'large',
   type: 'button' | 'submit' | 'reset',
   use: 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link',
+  visuallyFocused: boolean,
   width?: number | string
 };
 
@@ -87,6 +89,8 @@ class Button extends React.Component<Props, State> {
 
     checked: PropTypes.bool,
 
+    disableFocus: PropTypes.bool,
+
     disabled: PropTypes.bool,
 
     focused: PropTypes.bool,
@@ -113,6 +117,8 @@ class Button extends React.Component<Props, State> {
       'pay',
       'link'
     ]),
+
+    visuallyFocused: PropTypes.bool,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
@@ -168,7 +174,7 @@ class Button extends React.Component<Props, State> {
   }
 
   handleFocus = (e: SyntheticFocusEvent<>) => {
-    if (!this.props.disabled) {
+    if (!this.props.disabled && !this.props.disableFocus) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       process.nextTick(() => {
@@ -205,7 +211,7 @@ class Button extends React.Component<Props, State> {
         [styles.buttonWithIcon]: !!this.props.icon,
         [styles.arrowButton]: this.props.arrow,
         [SIZE_CLASSES[this.props.size]]: true,
-        [styles.focus]: this.state.focusedByTab
+        [styles.focus]: this.state.focusedByTab || this.props.visuallyFocused
       }),
       style: {
         borderRadius:
@@ -222,7 +228,8 @@ class Button extends React.Component<Props, State> {
       onKeyDown: this.props.onKeyDown,
       onMouseEnter: this.props.onMouseEnter,
       onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver
+      onMouseOver: this.props.onMouseOver,
+      tabIndex: this.props.disableFocus ? '-1' : '0'
     };
     if (this.props.align) {
       rootProps.style.textAlign = this.props.align;
