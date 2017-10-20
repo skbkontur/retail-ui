@@ -67,7 +67,7 @@ export default class Popup extends React.Component<Props, State> {
   _popupElement: ?HTMLElement;
   _inQueue: boolean = false;
   _containerDidMount: boolean = false;
-  _tempNode: ?HTMLElement;
+  _tempNode: HTMLElement;
 
   componentDidMount() {
     this._tempNode = getTempNode();
@@ -86,7 +86,6 @@ export default class Popup extends React.Component<Props, State> {
   componentWillUnmount() {
     if (this._tempNode) {
       document.body && document.body.removeChild(this._tempNode);
-      this._tempNode = null;
     }
   }
 
