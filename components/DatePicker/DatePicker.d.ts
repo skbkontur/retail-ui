@@ -7,6 +7,7 @@ export interface DatePickerProps {
   error?: boolean;
   maxYear?: number;
   minYear?: number;
+  menuAlign?: 'left' | 'right';
   onBlur?: () => void;
   onChange?: (e: { target: { value: Date } }, value: Date) => void;
   onFocus?: () => void;

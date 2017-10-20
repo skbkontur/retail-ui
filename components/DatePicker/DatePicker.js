@@ -44,6 +44,7 @@ type Props = {
   error?: boolean,
   maxYear?: number,
   minYear?: number,
+  menuAlign?: 'left' | 'right',
   onBlur?: () => void,
   onChange?: (
     e: { target: { value: DatePickerValue } },
@@ -86,6 +87,8 @@ class DatePicker extends React.Component<Props, State> {
      * Минимальный год в селекте для года.
      */
     minYear: PropTypes.number,
+
+    menuAlign: PropTypes.oneOf(['left', 'right']),
 
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
 
@@ -168,13 +171,17 @@ class DatePicker extends React.Component<Props, State> {
 
   render() {
     const { opened } = this.state;
-    const { value } = this.props;
+    const { value, menuAlign } = this.props;
 
     const date = isDate(value) ? value : null;
     let picker = null;
     if (opened) {
       picker = (
-        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2}>
+        <DropdownContainer
+          getParent={() => findDOMNode(this)}
+          offsetY={2}
+          align={menuAlign}
+        >
           <Picker
             value={date}
             minYear={this.props.minYear}
