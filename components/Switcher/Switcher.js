@@ -35,7 +35,7 @@ type SwitcherItem = {
 class Switcher extends React.Component<Props, State> {
   static propTypes = {
     error: PropTypes.bool,
-    items: PropTypes.oneOf([
+    items: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.arrayOf(
         PropTypes.shape({
