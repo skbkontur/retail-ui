@@ -9,10 +9,17 @@ import Button from '../Button';
 import styles from './Switcher.less';
 
 type Props = {
+  /**
+   * Список строк или список элементов типа `{ label: string, value: string }`
+   */
   items: Array<string | SwitcherItem>,
+
   value?: string,
+
   onChange?: (event: { target: { value: string } }, value: string) => void,
+
   label?: string,
+
   error?: boolean
 };
 

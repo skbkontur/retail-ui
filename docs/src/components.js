@@ -180,6 +180,12 @@ module.exports = [
     src: require('!raw!./snippets/Sticky-snip.js')
   },
   {
+    name: 'Switcher',
+    component: require('ui/Switcher').default,
+    info: require('!docgen!ui/Switcher/Switcher.js'),
+    src: require('!raw!./snippets/Switcher-snip.js')
+  },
+  {
     name: 'Tab',
     component: require('ui/Tabs/Tab').default,
     info: require('!docgen!ui/Tabs/Tab.js'),
