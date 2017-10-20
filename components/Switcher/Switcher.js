@@ -133,6 +133,7 @@ class Switcher extends React.Component<Props, State> {
     return this.props.items.map((item, i) => {
       const { label, value } = this._extractPropsFromItem(item);
       const buttonProps = {
+        key: value,
         checked: this.props.value === value,
         visuallyFocused: this.state.focusedIndex === i,
         onClick: () => {
