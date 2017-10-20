@@ -25,8 +25,10 @@ class Component extends React.Component<*, *> {
   }
 }
 
-
 storiesOf('Switcher', module)
   .add('horizontal', () => {
     return <Component items={['One', 'Two', 'Three']} />;
+  })
+  .add('errored', () => {
+    return <Component error items={['One', 'Two', 'Three']} />;
   });

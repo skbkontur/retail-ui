@@ -9,15 +9,15 @@ import Button from '../Button';
 import styles from './Switcher.less';
 
 type Props = {
-  items: string[] | SwitcherItem[],
+  items: Array<string | SwitcherItem>,
   value?: string,
-  onChange?: (event: { target: { value: mixed } }, value: mixed) => void,
+  onChange?: (event: { target: { value: string } }, value: string) => void,
   label?: string,
   error?: boolean
 };
 
 type State = {
-  focusedIndex: number
+  focusedIndex: ?number
 };
 
 type SwitcherItem = {
@@ -28,13 +28,15 @@ type SwitcherItem = {
 class Switcher extends React.Component<Props, State> {
   static propTypes = {
     error: PropTypes.bool,
-    items: PropTypes.oneOf(
+    items: PropTypes.oneOf([
       PropTypes.arrayOf(PropTypes.string),
-      PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string,
-        value: PropTypes.string
-      }))
-    ).isRequired,
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          label: PropTypes.string,
+          value: PropTypes.string
+        })
+      )
+    ]).isRequired,
     label: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func
@@ -82,7 +84,7 @@ class Switcher extends React.Component<Props, State> {
     this.setState({ focusedIndex: index });
   };
 
-  _handleKey = (event) => {
+  _handleKey = event => {
     const focusedIndex = this.state.focusedIndex;
     if (typeof focusedIndex !== 'number') {
       return;
@@ -109,7 +111,7 @@ class Switcher extends React.Component<Props, State> {
 
   _handleFocus = () => {
     const { value } = this.props;
-    const items =  this._extractValuesFromItems();
+    const items = this._extractValuesFromItems();
     const currentIndex = [...items].indexOf(value);
     const index = currentIndex > -1 ? currentIndex : 0;
 
@@ -126,14 +128,12 @@ class Switcher extends React.Component<Props, State> {
       const buttonProps = {
         checked: this.props.value === value,
         visuallyFocused: this.state.focusedIndex === i,
-        onClick: () => {this._selectItem(value);},
+        onClick: () => {
+          this._selectItem(value);
+        },
         disableFocus: true
       };
-      return (
-        <Button {...buttonProps}>
-          {label}
-        </Button>
-      );
+      return <Button {...buttonProps}>{label}</Button>;
     });
   };
 
@@ -153,19 +153,13 @@ class Switcher extends React.Component<Props, State> {
 
     return (
       <div>
-        {
-          this.props.label ?
-            <div className={styles.label}>
-              {this.props.label}
-            </div>
-            : null
-        }
+        {this.props.label ? (
+          <div className={styles.label}>{this.props.label}</div>
+        ) : null}
         <div className={styles.wrap}>
           <input {...inputProps} />
           <div className={listClassNames}>
-            <Group>
-              {this._renderItems()}
-            </Group>
+            <Group>{this._renderItems()}</Group>
           </div>
         </div>
       </div>
