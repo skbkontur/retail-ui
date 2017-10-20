@@ -217,7 +217,10 @@ class DatePicker extends React.Component<Props, State> {
             onSubmit={this._handleSubmit}
           />
           {picker}
-          <Center className={openClassName}>
+          <Center
+            className={openClassName}
+            onMouseDown={e => e.preventDefault()}
+          >
             <Icon name="calendar" size={iconSize} />
           </Center>
         </label>
