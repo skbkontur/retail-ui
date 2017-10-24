@@ -73,6 +73,8 @@ type State = {
 };
 
 class DatePicker extends React.Component<Props, State> {
+  static __REACT_UI_COMPONENT_NAME__ = 'DatePicker';
+
   static propTypes = {
     disabled: PropTypes.bool,
 
@@ -83,12 +85,12 @@ class DatePicker extends React.Component<Props, State> {
      */
     maxYear: PropTypes.number,
 
+    menuAlign: PropTypes.oneOf(['left', 'right']),
+
     /**
      * Минимальный год в селекте для года.
      */
     minYear: PropTypes.number,
-
-    menuAlign: PropTypes.oneOf(['left', 'right']),
 
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
 
