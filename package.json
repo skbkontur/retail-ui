@@ -15,7 +15,6 @@
     ],
     "*.{css,less}": [
       "prettier --write",
-      "stylelint",
       "git add"
     ],
     "*.ts": [
