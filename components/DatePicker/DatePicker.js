@@ -167,8 +167,8 @@ class DatePicker extends React.Component<Props, State> {
    * @api
    */
   focus() {
-    this._focused = true;
     this.input.focus();
+    this.handleFocus();
   }
 
   render() {
