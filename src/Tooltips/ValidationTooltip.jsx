@@ -1,8 +1,11 @@
 // @flow
+/* global REACT_UI_PACKAGE */
+/* eslint-disable import/no-dynamic-require, prefer-template */
 import React from "react";
 import PropTypes from "prop-types";
-import Tooltip from "retail-ui/components/Tooltip";
 import ReactUiDetection from "../ReactUiDetection";
+
+const Tooltip = require(REACT_UI_PACKAGE + "/components/Tooltip");
 
 type ValidationTooltipProps = {
     children?: any,

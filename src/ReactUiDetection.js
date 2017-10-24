@@ -1,6 +1,8 @@
 // @flow
-import DatePicker from "retail-ui/components/DatePicker";
-import RadioGroup from "retail-ui/components/RadioGroup";
+/* global REACT_UI_PACKAGE */
+/* eslint-disable import/no-dynamic-require, prefer-template */
+const DatePicker = require(REACT_UI_PACKAGE + "/components/DatePicker");
+const RadioGroup = require(REACT_UI_PACKAGE + "/components/RadioGroup");
 
 export default class ReactUiDetection {
     static isDatePicker(childrenArray: any): boolean {
