@@ -3,7 +3,6 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Button from '../Button';
-import Select from '../Select';
 import Link from '../Link';
 import Input from '../Input';
 
