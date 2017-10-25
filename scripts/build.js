@@ -40,16 +40,14 @@ function build(src, filesToCopy, config) {
 }
 
 function transform(filename, code, opts) {
-    const result = babel.transform(
-        code,
-        Object.assign(
-            {
-                filename: filename,
-                sourceMaps: true,
-            },
-            opts
-        )
-    );
+    const result = babel.transform(code, {
+        filename: filename,
+        sourceMaps: true,
+        sourceFileName: opts.sourceFileName,
+        sourceMapTarget: opts.sourceMapTarget,
+        plugins: opts.plugins,
+        presets: opts.presets,
+    });
     result.filename = filename;
     result.actual = code;
     return result;
@@ -128,7 +126,7 @@ function handle(filename, outDir, config) {
             handleFile(src, path.join(filename), outDir, config);
         });
     } else {
-        write(filename, filename);
+        write(filename, filename, outDir, config);
     }
 }
 

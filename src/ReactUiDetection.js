@@ -1,7 +1,9 @@
 // @flow
 /* global REACT_UI_PACKAGE */
 /* eslint-disable import/no-dynamic-require, prefer-template */
+// $FlowFixMe we use define plugin
 const DatePicker = require(REACT_UI_PACKAGE + "/components/DatePicker");
+// $FlowFixMe we use define plugin
 const RadioGroup = require(REACT_UI_PACKAGE + "/components/RadioGroup");
 
 export default class ReactUiDetection {

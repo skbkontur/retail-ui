@@ -5,6 +5,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReactUiDetection from "../ReactUiDetection";
 
+// $FlowFixMe we use define plugin
 const Tooltip = require(REACT_UI_PACKAGE + "/components/Tooltip");
 
 type ValidationTooltipProps = {
