@@ -32,7 +32,7 @@ export default class Picker extends React.Component<Props, State> {
   render() {
     const { date } = this.state;
     return (
-      <div className={styles.root}>
+      <div className={styles.root} onMouseDown={e => e.preventDefault()}>
         <div className={styles.monthYear}>
           <DateSelect
             type="year"
