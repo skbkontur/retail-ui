@@ -1,13 +1,12 @@
-@import '../variables.less';
+@import "../variables.less";
 
 :local {
   .root {
     width: 240px;
     background: @bg-default;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
-    position: absolute;
     z-index: 1000;
-    font-family: 'Segoe UI', 'Helvetica Neue', Arial, Tahoma, sans-serif;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, Tahoma, sans-serif;
   }
 
   .wrapper {
@@ -60,6 +59,12 @@
     &:hover {
       cursor: pointer;
       text-decoration: underline;
+    }
+  }
+
+  :global(.rt-ie8) {
+    .root {
+      border: 1px solid #d5d5d5;
     }
   }
 }

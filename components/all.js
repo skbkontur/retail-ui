@@ -33,6 +33,7 @@ export { default as ScrollContainer } from './ScrollContainer/ScrollContainer';
 export { default as Select } from './Select/Select';
 export { default as Spinner } from './Spinner/Spinner';
 export { default as Sticky } from './Sticky/Sticky';
+export { default as Switcher } from './Switcher/Switcher';
 export { default as Textarea } from './Textarea/Textarea';
 export { default as Tooltip } from './Tooltip/Tooltip';
 export { default as TopBar } from './TopBar/TopBar';

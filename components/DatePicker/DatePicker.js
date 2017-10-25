@@ -7,12 +7,13 @@ import { findDOMNode } from 'react-dom';
 
 import filterProps from '../filterProps';
 import Input from '../Input';
-import Icon from '../Icon';
 import Picker from './Picker';
 import DateInput from './DateInput';
 import { formatDate, isDate, dateParser } from './utils';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import RenderLayer from '../RenderLayer';
+import Icon from '../Icon';
+import Center from '../Center';
 
 import styles from './DatePicker.less';
 
@@ -43,6 +44,7 @@ type Props = {
   error?: boolean,
   maxYear?: number,
   minYear?: number,
+  menuAlign?: 'left' | 'right',
   noTodayButton?: boolean,
   onBlur?: () => void,
   onChange?: (
@@ -72,6 +74,8 @@ type State = {
 };
 
 class DatePicker extends React.Component<Props, State> {
+  static __REACT_UI_COMPONENT_NAME__ = 'DatePicker';
+
   static propTypes = {
     disabled: PropTypes.bool,
 
@@ -81,6 +85,8 @@ class DatePicker extends React.Component<Props, State> {
      * Максимальный год.
      */
     maxYear: PropTypes.number,
+
+    menuAlign: PropTypes.oneOf(['left', 'right']),
 
     /**
      * Минимальный год.
@@ -139,7 +145,6 @@ class DatePicker extends React.Component<Props, State> {
     onUnexpectedInput: () => null
   };
 
-  icon: Icon;
   input: Input;
 
   _focusSubscription: *;
@@ -147,7 +152,6 @@ class DatePicker extends React.Component<Props, State> {
 
   constructor(props: Props, context: mixed) {
     super(props, context);
-
     const textValue =
       typeof props.value === 'string' ? props.value : formatDate(props.value);
 
@@ -169,26 +173,29 @@ class DatePicker extends React.Component<Props, State> {
    * @api
    */
   focus() {
-    this._focused = true;
     this.input.focus();
+    this.handleFocus();
   }
 
   render() {
     const { opened } = this.state;
-    const { value } = this.props;
+    const { value, menuAlign } = this.props;
 
     const date = isDate(value) ? value : null;
     let picker = null;
     if (opened) {
       picker = (
-        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2}>
+        <DropdownContainer
+          getParent={() => findDOMNode(this)}
+          offsetY={2}
+          align={menuAlign}
+        >
           <Picker
             chosenDate={date}
             minYear={this.props.minYear}
             maxYear={this.props.maxYear}
             noTodayButton={this.props.noTodayButton}
             onPick={this.handlePick}
-            iconRef={this.icon}
           />
         </DropdownContainer>
       );
@@ -198,6 +205,11 @@ class DatePicker extends React.Component<Props, State> {
       [styles.root]: true,
       [this.props.className || '']: true
     });
+    const iconSize = this.props.size === 'large' ? 16 : 14;
+    const openClassName = classNames({
+      [styles.openButton]: true,
+      [styles.openButtonDisabled]: this.props.disabled
+    });
     return (
       <RenderLayer
         onClickOutside={this.handleBlur}
@@ -206,16 +218,20 @@ class DatePicker extends React.Component<Props, State> {
         <label className={className} style={{ width: this.props.width }}>
           <DateInput
             {...filterProps(this.props, INPUT_PASS_PROPS)}
-            getIconRef={this.getIconRef}
             getInputRef={this.getInputRef}
             opened={opened}
             value={this.state.textValue}
             onFocus={this.handleFocus}
             onChange={this.handleChange}
-            onSubmit={this.handleBlur}
-            onIconClick={this.toggleCalendar}
+            onSubmit={this._handleSubmit}
           />
           {picker}
+          <Center
+            className={openClassName}
+            onMouseDown={e => e.preventDefault()}
+          >
+            <Icon name="calendar" size={iconSize} />
+          </Center>
         </label>
       </RenderLayer>
     );
@@ -252,6 +268,9 @@ class DatePicker extends React.Component<Props, State> {
     }
 
     this._focused = true;
+
+    this.setState({ opened: true });
+
     if (this.props.onFocus) {
       this.props.onFocus();
     }
@@ -266,6 +285,14 @@ class DatePicker extends React.Component<Props, State> {
 
     this.close(false);
 
+    this._handleSubmit();
+
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
+  };
+
+  _handleSubmit = () => {
     const value = this.state.textValue;
     const date = parseDate(value);
     const newDate =
@@ -278,10 +305,6 @@ class DatePicker extends React.Component<Props, State> {
 
     if (this.props.onChange) {
       this.props.onChange({ target: { value: newDate } }, newDate);
-    }
-
-    if (this.props.onBlur) {
-      this.props.onBlur();
     }
   };
 
@@ -297,18 +320,6 @@ class DatePicker extends React.Component<Props, State> {
     this.close(false);
   };
 
-  toggleCalendar = (e: Event) => {
-    if (this.props.disabled) {
-      return;
-    }
-
-    if (this.state.opened) {
-      this.close(false);
-    } else {
-      this.setState({ opened: true });
-    }
-  };
-
   close(focus: boolean) {
     this.setState({ opened: false }, () => {
       if (focus) {
@@ -319,10 +330,6 @@ class DatePicker extends React.Component<Props, State> {
 
   getInputRef = (ref: Input) => {
     this.input = ref;
-  };
-
-  getIconRef = (ref: Icon) => {
-    this.icon = ref;
   };
 }
 
@@ -346,9 +353,6 @@ const getDateValue = (value, onUnexpectedInput) => {
 
 function parseDate(str, withCorrection) {
   const date = dateParser(str, withCorrection);
-  if (!date) {
-    return null;
-  }
   return isDate(date) ? date : null;
 }
 

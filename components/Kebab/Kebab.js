@@ -9,6 +9,7 @@ import Icon from '../Icon';
 import Popup from '../Popup';
 import Menu from '../Menu/Menu.js';
 import LayoutEvents from '../../lib/LayoutEvents';
+import RenderLayer from '../RenderLayer';
 
 import styles from './Kebab.less';
 
@@ -57,43 +58,53 @@ export default class Kebab extends React.Component<Props, State> {
     const { disabled } = this.props;
     const { focusedByTab, opened } = this.state;
     return (
-      <div className={styles.container}>
-        <div
-          onClick={this._handleClick}
-          onKeyDown={this._handleKeyDown}
-          onFocus={this._handleFocus}
-          onBlur={this._handleBlur}
-          tabIndex={disabled ? -1 : 0}
-          ref={node => (this._anchor = node)}
-          className={cn(
-            styles.kebab,
-            opened && styles.opened,
-            disabled && styles.disabled,
-            focusedByTab && styles.focused
-          )}
-        >
-          {this._renderIcon(this.props.size)}
-        </div>
-        {this._anchor && (
-          <Popup
-            anchorElement={this._anchor}
-            positions={['bottom left', 'bottom right', 'top left', 'top right']}
-            popupOffset={10}
-            opened={this.state.opened}
-            margin={5}
-            hasShadow
-            hasPin
-            pinOffset={15}
-            onCloseRequest={this._handleCloseRequest}
+      <RenderLayer
+        onClickOutside={this._handleCloseRequest}
+        onFocusOutside={this._handleCloseRequest}
+        active={this.state.opened}
+      >
+        <div className={styles.container}>
+          <div
+            onClick={this._handleClick}
+            onKeyDown={this._handleKeyDown}
+            onFocus={this._handleFocus}
+            onBlur={this._handleBlur}
+            tabIndex={disabled ? -1 : 0}
+            ref={node => (this._anchor = node)}
+            className={cn(
+              styles.kebab,
+              opened && styles.opened,
+              disabled && styles.disabled,
+              focusedByTab && styles.focused
+            )}
           >
-            <div className={styles.menu}>
-              <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
-                {this.props.children}
-              </Menu>
-            </div>
-          </Popup>
-        )}
-      </div>
+            {this._renderIcon(this.props.size)}
+          </div>
+          {this._anchor && (
+            <Popup
+              anchorElement={this._anchor}
+              positions={[
+                'bottom left',
+                'bottom right',
+                'top left',
+                'top right'
+              ]}
+              popupOffset={10}
+              opened={this.state.opened}
+              margin={5}
+              hasShadow
+              hasPin
+              pinOffset={15}
+            >
+              <div className={styles.menu}>
+                <Menu hasShadow={false} onItemClick={this._handleMenuItemClick}>
+                  {this.props.children}
+                </Menu>
+              </div>
+            </Popup>
+          )}
+        </div>
+      </RenderLayer>
     );
   }
 

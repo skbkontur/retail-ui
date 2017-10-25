@@ -4,7 +4,6 @@ import * as React from 'react';
 
 import Calendar from './Calendar';
 import DateSelect from '../DateSelect';
-import Icon from '../Icon';
 
 import { formatDate } from './utils';
 
@@ -96,6 +95,13 @@ export default class Picker extends React.Component<Props, State> {
 
   componentDidMount() {
     this._mounted = true;
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.value && +prevProps.value !== +this.props.value) {
+      this.setState({ date: this.props.value });
+      this.refs.calendar.moveToDate(this.props.value);
+    }
   }
 
   componentWillUnmount() {
