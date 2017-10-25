@@ -15,7 +15,7 @@ const rimraf = require("rimraf");
 const config = require("./config.js");
 
 const IgnoreTemplates = [/__tests__/, /\.stories.js$/];
-const FilesToCopy = ["travis-react-ui-validations-deploy-key.enc", "README.md", "CHANGELOG.md"];
+const FilesToCopy = ["README.md", "CHANGELOG.md"];
 const SrcPath = "src";
 
 Promise.resolve()
@@ -143,7 +143,7 @@ function generatePackageJson(name, peerDeps, outDir) {
     const result = {
         name: name,
         version: packageJson.version,
-        main: packageJson.main,
+        main: "index.js",
         description: packageJson.description,
         license: "MIT",
         dependencies: packageJson.dependencies,

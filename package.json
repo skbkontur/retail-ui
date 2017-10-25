@@ -5,6 +5,8 @@
     "scripts": {
         "build": "node ./scripts/build",
         "prepublish": "npm run build",
+        "publish":
+            "npm publish dist/react-ui --access public && npm publish dist/retail-ui --access public",
         "lint": "eslint src --ext .js,.jsx",
         "flow.check": "flow check",
         "storybook": "start-storybook -p 8081 -c .storybook"
@@ -23,8 +25,7 @@
         "react": "^0.14.0 || ^15.0.0-0",
         "react-addons-css-transition-group": "^0.14.0 || ^15.0.0-0",
         "react-addons-test-utils": "^0.14.0 || ^15.0.0-0",
-        "react-dom": "^0.14.0 || ^15.0.0-0",
-        "retail-ui": "<1.0.0"
+        "react-dom": "^0.14.0 || ^15.0.0-0"
     },
     "dependencies": {
         "add-event-listener": "^0.0.1",
@@ -33,6 +34,7 @@
         "smoothscroll-polyfill": "^0.3.4"
     },
     "devDependencies": {
+        "retail-ui": "<1.0.0",
         "@kadira/storybook": "^2.35.3",
         "@types/react": "@^0.14.9 || ^15.0.25",
         "babel-cli": "^6.22.2",
