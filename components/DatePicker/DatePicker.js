@@ -43,6 +43,7 @@ type Props = {
   error?: boolean,
   maxYear?: number,
   minYear?: number,
+  noTodayButton?: boolean,
   onBlur?: () => void,
   onChange?: (
     e: { target: { value: DatePickerValue } },
@@ -77,14 +78,19 @@ class DatePicker extends React.Component<Props, State> {
     error: PropTypes.bool,
 
     /**
-     * Максимальный год в селекте для года.
+     * Максимальный год.
      */
     maxYear: PropTypes.number,
 
     /**
-     * Минимальный год в селекте для года.
+     * Минимальный год.
      */
     minYear: PropTypes.number,
+
+    /**
+     * Не рисовать кнопку выбора сегодняшнего дня.
+     */
+    noTodayButton: PropTypes.bool,
 
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
 
@@ -177,9 +183,10 @@ class DatePicker extends React.Component<Props, State> {
       picker = (
         <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2}>
           <Picker
-            value={date}
+            chosenDate={date}
             minYear={this.props.minYear}
             maxYear={this.props.maxYear}
+            noTodayButton={this.props.noTodayButton}
             onPick={this.handlePick}
             iconRef={this.icon}
           />

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getDay } from './utils';
 import classNames from 'classnames';
 import styles from './CalendarCell.less';
 
@@ -8,31 +9,34 @@ const LEFT_OFFSET = 15;
 
 export default class CalendarCell extends Component {
   render() {
-    const { date, weekIdx, offset, value, minYear, maxYear } = this.props;
+    const { rowIdx, ownDate, chosenDate, minYear, maxYear } = this.props;
 
-    const day = getDay(date);
-    const isHoliday = date.getUTCDay() === 0 || date.getUTCDay() === 6;
-    const isDisabled = isOutOfRange(date, minYear, maxYear);
-
-    const y = weekIdx * DAY_HEIGHT - offset;
-    let x = day * DAY_WIDTH + LEFT_OFFSET;
-    const style = { left: x, top: y, width: DAY_WIDTH, height: DAY_HEIGHT };
+    const isHoliday = ownDate.getUTCDay() === 0 || ownDate.getUTCDay() === 6;
+    const isDisabled = isOutOfRange(ownDate, minYear, maxYear);
 
     const cellClass = classNames({
       [styles.cell]: true,
-      [styles.today]: this._isToday(date),
-      [styles.current]: isSameDate(value, date),
+      [styles.today]: this._isToday(ownDate),
+      [styles.current]: isSameDate(chosenDate, ownDate),
       [styles.holiday]: isHoliday,
       [styles.disabled]: isDisabled
     });
 
+    const y = rowIdx * DAY_HEIGHT;
+    let x = getDay(ownDate) * DAY_WIDTH + LEFT_OFFSET;
+    const cellStyle = { left: x, top: y, width: DAY_WIDTH, height: DAY_HEIGHT };
+
+    const cellProps = {
+      className: cellClass,
+      style: cellStyle
+    };
+    if (!isDisabled) {
+      cellProps.onClick = this.pick;
+    }
+
     return (
-      <span
-        className={cellClass}
-        style={style}
-        onClick={isDisabled ? null : this.pick}
-      >
-          {date.getUTCDate()}
+      <span {...cellProps}>
+        {ownDate.getUTCDate()}
       </span>
     );
   }
@@ -47,7 +51,7 @@ export default class CalendarCell extends Component {
     }
 
     if (this.props.onPick) {
-      this.props.onPick(this.props.date);
+      this.props.onPick(this.props.ownDate);
     }
   };
 }
@@ -65,9 +69,4 @@ function isSameDate(a, b) {
 function isOutOfRange(date, minYear, maxYear) {
   const year = date.getUTCFullYear();
   return (minYear && year < minYear) || (maxYear && year > maxYear);
-}
-
-function getDay(date) {
-  const day = date.getUTCDay();
-  return day ? day - 1 : 6;
 }

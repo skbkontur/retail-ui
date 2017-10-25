@@ -3,10 +3,14 @@
 import classNames from 'classnames';
 import * as React from 'react';
 
-import styles from './Calendar.less';
-
+import ReactList from 'react-list';
 import Cell from './CalendarCell';
-import { formatDate } from './utils';
+
+import { getDay, getLastDayOfMonth } from './utils';
+import getScrollWidth from '../../lib/dom/getScrollWidth';
+import throttle from 'lodash.throttle';
+
+import styles from './Calendar.less';
 
 const MONTH_NAMES = [
   'Январь',
@@ -22,149 +26,144 @@ const MONTH_NAMES = [
   'Ноябрь',
   'Декабрь'
 ];
-const DAY = 24 * 60 * 60 * 1000;
-const WEEK = 7 * DAY;
-const FIRST_WEEK_SHIFT = (new Date(0).getUTCDay() - 1) * DAY;
 const DAY_HEIGHT = 30;
-const CALENDAR_HEIGHT = 331;
+const MONTH_NAME_HEIGHT = 39;
+const MONTH_BOTTOM_OFFSET = 17;
 
 type Props = {
   initialDate: Date,
+  maxYear: number,
+  minYear: number,
   value: ?Date,
   onNav: (date: Date) => void,
   onPick: (date: Date) => void
 };
 
-type State = {
-  pos: number
-};
-
 export default class Calendar extends React.Component<Props, State> {
-  constructor(props: Props, context: mixed) {
-    super(props, context);
-
-    this.state = {
-      pos: dateToPos(props.initialDate)
-    };
-  }
-
   render() {
-    const { value, onPick, minYear, maxYear } = this.props;
+    const { initialDate, minYear, maxYear } = this.props;
 
-    let offset = this.state.pos % DAY_HEIGHT;
-    if (offset < 0) {
-      offset += DAY_HEIGHT;
-    }
-    const from = (this.state.pos - offset) / DAY_HEIGHT * WEEK - FIRST_WEEK_SHIFT;
-    const week = getWeek(from);
-
-    // const months = [];
-    // let monthStart = new Date(from);
-    // monthStart.setUTCDate(1);
-    //
-    // for (let i = 0; i < 4; ++i) {
-    //   const monthEnd = new Date(monthStart.getTime());
-    //   monthEnd.setUTCMonth(monthEnd.getUTCMonth() + 1);
-    //   const y = getDayTop(week, offset, +monthStart);
-    //   const height = getDayTop(week, offset, +monthEnd) - y;
-    //   const style = {
-    //     top: y,
-    //     height
-    //   };
-    //   const monthClass = classNames({
-    //     [styles.month]: true,
-    //     [styles.first]: monthStart.getUTCMonth() === 0
-    //   });
-    //   const top = Math.max(0, -y);
-    //   const wrapperStyle = {
-    //     position: 'relative',
-    //     top,
-    //     display: top > height ? 'none' : 'block',
-    //     opacity: top > height / 3 ? 0 : 1,
-    //     transition: 'opacity 0.2s ease-out'
-    //   };
-    //   months.push(
-    //     <div key={+monthStart} className={monthClass} style={style}>
-    //       <div style={wrapperStyle}>
-    //         {MONTH_NAMES[monthStart.getUTCMonth()]}
-    //         <div className={styles.year}>
-    //           {monthStart.getUTCFullYear()}
-    //         </div>
-    //       </div>
-    //     </div>
-    //   );
-    //
-    //   monthStart = monthEnd;
-    // }
-    //
-    const cells = [];
-    const cellCount = Math.ceil((CALENDAR_HEIGHT + offset) / DAY_HEIGHT) * 7;
-    for (let i = 0; i < cellCount; ++i) {
-      const cur = from + i * DAY;
-      const curWeek = getWeek(cur);
-      const date = new Date(cur);
-
-      const cellProps = {
-        date,
-        weekIdx: curWeek - week,
-        offset,
-        value,
-        onPick,
-        minYear,
-        maxYear
-      };
-      cells.push(<Cell key={cur} {...cellProps} />);
-    }
-
-    const now = new Date();
-    const today = <button className={styles.today} onClick={() => this.moveToDate(now)}>Сегодня {formatDate(now)}</button>;
+    const hidingScrollBar = {
+      paddingRight: 30,
+      marginRight: -(30 + getScrollWidth())
+    };
 
     return (
-      <div className={styles.root} tabIndex="0" onWheel={this.handleWheel}>
-        {cells}
-        {/*{months}*/}
-        {today}
+      <div className={styles.root} tabIndex="0">
+        <div
+          className={styles.inner}
+          style={hidingScrollBar}
+          onScroll={this.handleScroll}
+        >
+          <ReactList
+            initialIndex={this.dateToIndex(initialDate)}
+            itemRenderer={this.renderItem}
+            itemSizeGetter={this.getItemSize}
+            length={12 * (maxYear - minYear)}
+            ref={this.getListRef}
+            type="variable"
+          />
+        </div>
       </div>
     );
   }
 
-  moveToDate(date: Date) {
-    const newDate = new Date(0);
-    newDate.setUTCFullYear(date.getUTCFullYear());
-    newDate.setUTCMonth(date.getUTCMonth());
-    this.setState({ pos: dateToPos(newDate) });
+  renderMonth = monthStart => {
+    const year = monthStart.getUTCFullYear();
+    const month = monthStart.getUTCMonth();
+
+    const monthClass = classNames({
+      [styles.month]: true,
+      [styles.first]: month === 0
+    });
+
+    const monthCellsStyle = {
+      height: getMonthHeight(monthStart)
+    };
+
+    return (
+      <div key={`${month}_${year}`} className={monthClass}>
+        <div className={styles.monthName}>
+          {MONTH_NAMES[month]}
+          <span className={styles.year}>{year}</span>
+        </div>
+        <div className={styles.monthCells} style={monthCellsStyle}>
+          {this.renderCells(year, month)}
+        </div>
+      </div>
+    );
   }
 
-  handleWheel = (event: SyntheticWheelEvent<>) => {
-    event.preventDefault();
-    let deltaY = event.deltaY;
-    if (event.deltaMode === 1) {
-      deltaY *= DAY_HEIGHT;
-    } else if (event.deltaMode === 2) {
-      deltaY *= DAY_HEIGHT * 4;
+  renderCells = (year, month) => {
+    const { chosenDate, onPick, minYear, maxYear } = this.props;
+
+    const daysAmount = getLastDayOfMonth(year, month);
+    const firstDay = new Date(Date.UTC(year, month, 1));
+    const firstWeekOffset = getDay(firstDay);
+
+    const cells = [];
+    for (let i = 1; i < daysAmount + 1; ++i) {
+      const ownDate = new Date(Date.UTC(year, month, i));
+      const cellProps = {
+        key: Number(ownDate),
+        rowIdx: Math.floor((firstWeekOffset + i - 1) / 7),
+        ownDate,
+        chosenDate,
+        onPick,
+        minYear,
+        maxYear
+      };
+      cells.push(<Cell {...cellProps} />);
     }
+    return cells;
+  }
 
-    const pos = this.state.pos + deltaY;
-    this.setState({ pos });
+  renderItem = index => {
+    const monthStart = this.indexToDate(index);
+    return this.renderMonth(monthStart);
+  }
 
-    const date = posToDate(pos);
-    date.setUTCDate(date.getUTCDate() + 6);
-    this.props.onNav(date);
-  };
+  getItemSize = index => {
+    const firstDay = this.indexToDate(index);
+    return getMonthHeight(firstDay) + MONTH_NAME_HEIGHT + MONTH_BOTTOM_OFFSET;
+  }
+
+  handleScroll = throttle(() => {
+    if (!this.props.onNav || !this.list) {
+      return;
+    }
+    const [firstIndex] = this.list.getVisibleRange();
+    if (!firstIndex) {
+      return;
+    }
+    this.props.onNav(this.indexToDate(firstIndex));
+  }, 200)
+
+  moveToDate = date => {
+    this.refs.list.scrollTo(this.dateToIndex(date));
+  }
+
+  dateToIndex(date) {
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth();
+    return (year - this.props.minYear) * 12 + month;
+  }
+
+  indexToDate(index) {
+    const month = index % 12;
+    const year = this.props.minYear + Math.floor(index / 12);
+    return new Date(Date.UTC(year, month, 1));
+  }
+
+  getListRef = ref => {
+    this.list = ref;
+  }
 }
 
-function dateToPos(date) {
-  return (Math.floor((+date - FIRST_WEEK_SHIFT - DAY) / WEEK) - 1) * DAY_HEIGHT;
-}
-
-function posToDate(pos) {
-  return new Date(Math.floor(pos / DAY_HEIGHT + 2) * WEEK - FIRST_WEEK_SHIFT);
-}
-
-function getWeek(time) {
-  return Math.floor((FIRST_WEEK_SHIFT + time) / WEEK);
-}
-
-function getDayTop(fromWeek, offset, time) {
-  return (getWeek(time) - fromWeek) * DAY_HEIGHT - offset;
+function getMonthHeight(firstDay) {
+  const firstWeekOffset = getDay(firstDay);
+  const lastDayOfMonth = new Date(firstDay.getUTCFullYear(), firstDay.getUTCMonth() + 1, 0);
+  const daysInMonth = lastDayOfMonth.getDate();
+  const rowsAmount = Math.ceil((daysInMonth + firstWeekOffset) / 7);
+  return rowsAmount * DAY_HEIGHT;
 }

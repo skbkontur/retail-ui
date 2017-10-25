@@ -69,4 +69,14 @@ function dateParser(
   return null;
 }
 
-export {isDate, formatDate, dateParser};
+function getDay(date) {
+  const day = date.getUTCDay();
+  return day ? day - 1 : 6;
+}
+
+function getLastDayOfMonth(year, month) {
+  const date = new Date(year, month + 1, 0);
+  return date.getDate();
+}
+
+export { isDate, formatDate, dateParser, getDay, getLastDayOfMonth };
