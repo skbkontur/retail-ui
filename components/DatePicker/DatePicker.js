@@ -314,6 +314,7 @@ class DatePicker extends React.Component<Props, State> {
     }
     this._focused = false;
     this.close(false);
+    this.blur()    
   };
 
   handlePickerClose = () => {
