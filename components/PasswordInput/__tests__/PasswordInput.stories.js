@@ -38,4 +38,4 @@ class Component extends React.Component {
 
 storiesOf('PasswordInput', module)
   .add('Plain', () => <Component />)
-  .add('CapsLock label', () => <Component detectCapsLock />);
+  .add('CapsLock label', () => <Component capsLockEnabled />);
