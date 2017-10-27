@@ -140,7 +140,7 @@ export default class Calendar extends React.Component<Props, State> {
   }, 200)
 
   moveToDate = date => {
-    this.refs.list.scrollTo(this.dateToIndex(date));
+    this.list.scrollTo(this.dateToIndex(date));
   }
 
   dateToIndex(date) {

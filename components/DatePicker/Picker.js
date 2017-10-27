@@ -19,7 +19,7 @@ type Props = {
 };
 
 type State = {
-  date: Date,
+  date: Date
 };
 
 export default class Picker extends React.Component<Props, State> {
@@ -37,7 +37,7 @@ export default class Picker extends React.Component<Props, State> {
     }
 
     this.state = {
-      date: new Date(Date.UTC(year, month, 1)),
+      date: new Date(Date.UTC(year, month, 1))
     };
   }
 
@@ -98,9 +98,10 @@ export default class Picker extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (this.props.value && +prevProps.value !== +this.props.value) {
-      this.setState({ date: this.props.value });
-      this.refs.calendar.moveToDate(this.props.value);
+    const { value } = this.props;
+    if (value && Number(prevProps.value) !== Number(value)) {
+      this.setState({ date: value });
+      this.refs.calendar.moveToDate(value);
     }
   }
 
