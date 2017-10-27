@@ -3,6 +3,8 @@
 import classNames from 'classnames';
 import * as React from 'react';
 
+import RenderLayer from '../RenderLayer';
+
 import PropTypes from 'prop-types';
 
 import styles from './DateSelect.less';
@@ -172,28 +174,31 @@ export default class DateSelect extends React.Component<Props, State> {
     });
 
     return (
-      <RenderLayer 
+      <RenderLayer
         onClickOutside={this.close}
         onFocusOutside={this.close}
-        >
+        active={this.state.opened}
+      >
         <div className={holderClass} style={style} onKeyDown={this.handleKey}>
-          {!this.state.topCapped &&
+          {!this.state.topCapped && (
             <div className={styles.menuUp} onMouseDown={this.handleUp}>
               <span>
                 <Icon name={'caret-top'} />
               </span>
-            </div>}
+            </div>
+          )}
           <div className={styles.itemsHolder} style={{ height }}>
             <div style={shiftStyle} onWheel={this.handleWheel}>
               {items}
             </div>
           </div>
-          {!this.state.botCapped &&
+          {!this.state.botCapped && (
             <div className={styles.menuDown} onMouseDown={this.handleDown}>
               <span>
                 <Icon name={'caret-bottom'} />
               </span>
-            </div>}
+            </div>
+          )}
         </div>
       </RenderLayer>
     );
