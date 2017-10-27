@@ -34,7 +34,7 @@ export default class Picker extends React.Component<Props, State> {
     return (
       <div className={styles.root} onMouseDown={e => e.preventDefault()}>
         <div className={styles.monthYear}>
-          <DateSelect            
+          <DateSelect
             type="year"
             value={this.state.date.getUTCFullYear()}
             minYear={this.props.minYear}
@@ -43,7 +43,7 @@ export default class Picker extends React.Component<Props, State> {
             onChange={this.handleYearChange}
           />
           <div style={{ display: 'inline-block', width: 4 }} />
-          <DateSelect            
+          <DateSelect
             type="month"
             value={this.state.date.getUTCMonth()}
             width={'80px'}
