@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var autoprefixer = require('autoprefixer');
+var Es3ifyPlugin = require('es3ify-webpack-plugin');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -17,11 +18,6 @@ module.exports = {
   },
   module: {
     loaders: [
-      {
-        test: /\.jsx?$/,
-        loader: 'es3ify',
-        exclude: [/react-input-mask/]
-      },
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
@@ -70,6 +66,7 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin('docs.css'),
-    new webpack.PrefetchPlugin('react')
+    new webpack.PrefetchPlugin('react'),
+    new Es3ifyPlugin()
   ]
 };
