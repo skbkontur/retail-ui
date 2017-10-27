@@ -42,6 +42,8 @@ class Textarea extends React.Component {
 
     placeholder: PropTypes.string,
 
+    resize: PropTypes.string,
+
     /**
      * Количество строк
      */
@@ -70,7 +72,7 @@ class Textarea extends React.Component {
     rows: '3'
   };
 
-  _node: HTMLTextAreaElement;
+  _node;
 
   constructor(props, context) {
     super(props, context);
@@ -87,10 +89,13 @@ class Textarea extends React.Component {
       [styles.textarea]: true,
       [styles.error]: this.props.error
     });
-    rootProps.style = {};
 
     if (this.props.width) {
-      rootProps.style.width = this.props.width;
+      rootProps.style = { width: this.props.width };
+    }
+
+    if (this.props.resize) {
+      props.style = { resize: this.props.resize };
     }
 
     let placeholder = null;

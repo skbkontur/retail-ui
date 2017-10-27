@@ -1,70 +1,126 @@
 // @flow
+/* eslint-disable flowtype/no-weak-types */
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Popup from '../Popup';
 
 storiesOf('Popup', module)
-  .add('All pin opened', () =>
-    <div style={{ transform: 'translate(50%, 20%)' }}>
+  .add('All pin opened', () => (
+    <div style={{ transform: 'translate(50%, 15%)' }}>
       <table>
         <tbody>
           <tr>
             <td />
-            <td><AlwaysOpened positions={['top left']} /></td>
-            <td><AlwaysOpened positions={['top center']} /></td>
-            <td><AlwaysOpened positions={['top right']} /></td>
+            <td>
+              <AlwaysOpened positions={['top left']} />
+            </td>
+            <td>
+              <AlwaysOpened positions={['top center']} />
+            </td>
+            <td>
+              <AlwaysOpened positions={['top right']} />
+            </td>
             <td />
           </tr>
           <tr>
-            <td><AlwaysOpened positions={['left top']} /></td>
+            <td>
+              <AlwaysOpened positions={['left top']} />
+            </td>
             <td />
             <td />
             <td />
-            <td><AlwaysOpened positions={['right top']} /></td>
+            <td>
+              <AlwaysOpened positions={['right top']} />
+            </td>
           </tr>
           <tr>
-            <td><AlwaysOpened positions={['left middle']} /></td>
+            <td>
+              <AlwaysOpened positions={['left middle']} />
+            </td>
             <td />
             <td />
             <td />
-            <td><AlwaysOpened positions={['right middle']} /></td>
+            <td>
+              <AlwaysOpened positions={['right middle']} />
+            </td>
           </tr>
           <tr>
-            <td><AlwaysOpened positions={['left bottom']} /></td>
+            <td>
+              <AlwaysOpened positions={['left bottom']} />
+            </td>
             <td />
             <td />
             <td />
-            <td><AlwaysOpened positions={['right bottom']} /></td>
+            <td>
+              <AlwaysOpened positions={['right bottom']} />
+            </td>
           </tr>
           <tr>
             <td />
-            <td><AlwaysOpened positions={['bottom left']} /></td>
-            <td><AlwaysOpened positions={['bottom center']} /></td>
-            <td><AlwaysOpened positions={['bottom right']} /></td>
+            <td>
+              <AlwaysOpened positions={['bottom left']} />
+            </td>
+            <td>
+              <AlwaysOpened positions={['bottom center']} />
+            </td>
+            <td>
+              <AlwaysOpened positions={['bottom right']} />
+            </td>
             <td />
           </tr>
         </tbody>
       </table>
     </div>
-  )
-  .add('Hint', () =>
+  ))
+  .add('Positioning', () => (
+    <div>
+      <table>
+        <tbody>
+          {new Array(6 * 5).fill(0).map((x, i) => {
+            return Math.floor(i / 6) % 2 ? (
+              <tr>
+                <td>
+                  <div style={{ height: '40px' }} />
+                </td>
+              </tr>
+            ) : (
+              <tr>
+                <td>
+                  <PopupWithPositions />
+                </td>
+                <td style={{ width: '50%', minWidth: '300px' }} />
+                <td>
+                  <PopupWithPositions />
+                </td>
+                <td style={{ width: '50%', minWidth: '300px' }} />
+                <td>
+                  <PopupWithPositions />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  ))
+  .add('Hint', () => (
     <div style={{ transform: 'translate(250%, 200%)' }}>
       <Hint
         positions={['top center', 'right top', 'bottom center', 'left middle']}
         margin={20}
       />
     </div>
-  )
-  .add('Toast', () =>
+  ))
+  .add('Toast', () => (
     <div style={{ transform: 'translate(250%, 200%)' }}>
       <Toast
         positions={['top center', 'right top', 'bottom center', 'left middle']}
       />
     </div>
-  );
+  ));
 
-class AlwaysOpened extends Component {
-  anchor: HTMLElement;
+class AlwaysOpened extends Component<*, *> {
+  anchor: ?HTMLElement;
 
   constructor(props) {
     super(props);
@@ -82,26 +138,43 @@ class AlwaysOpened extends Component {
       <div>
         <div
           ref={e => (this.anchor = e)}
-          style={{ width: '100px', height: '100px', border: '1px solid black' }}
+          style={{
+            width: '80px',
+            height: '80px',
+            margin: '20px',
+            border: '1px solid black',
+            textAlign: 'center',
+            fontSize: '40px'
+          }}
         >
-          Hello
+          x
         </div>
-        <Popup
-          onClickOutside={this._clickHandler}
-          onFocusOutside={this._clickHandler}
-          anchorElement={this.state.anchor}
-          popupOffset={0}
-          opened={true}
-          margin={10}
-          positions={this.props.positions}
-          backgroundColor={'#fff'}
-          hasShadow={true}
-          hasPin={true}
-          pinSize={10}
-          pinOffset={7}
-        >
-          <span>World<br />World<br />World</span>
-        </Popup>
+        {this.state.anchor && (
+          <Popup
+            onClickOutside={this._clickHandler}
+            onFocusOutside={this._clickHandler}
+            anchorElement={this.state.anchor}
+            popupOffset={0}
+            opened={true}
+            margin={10}
+            positions={this.props.positions}
+            backgroundColor={'#fff'}
+            hasShadow={true}
+            hasPin={true}
+            pinSize={10}
+            pinOffset={7}
+          >
+            <div
+              style={{
+                textAlign: 'center',
+                padding: '10px 20px',
+                fontSize: '20px'
+              }}
+            >
+              Text
+            </div>
+          </Popup>
+        )}
       </div>
     );
   }
@@ -114,8 +187,74 @@ class AlwaysOpened extends Component {
 }
 
 // eslint-disable-next-line react/no-multi-comp
-class Hint extends Component {
-  anchor: HTMLElement;
+class PopupWithPositions extends Component<*, any> {
+  anchor: ?HTMLElement;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      opened: false,
+      anchor: null
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      anchor: this.anchor
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <div
+          onClick={this._handleClick}
+          ref={this._handleRef}
+          style={{
+            width: '34px',
+            height: '34px',
+            borderRadius: '17px',
+            background: 'grey'
+          }}
+        />
+        {this.state.anchor && (
+          <Popup
+            onCloseRequest={this._clickHandler}
+            anchorElement={this.state.anchor}
+            popupOffset={0}
+            opened={this.state.opened}
+            margin={13}
+            positions={['bottom left', 'bottom right', 'top left', 'top right']}
+            backgroundColor={'#fff'}
+            hasShadow={true}
+            hasPin={true}
+            pinSize={10}
+            pinOffset={7}
+          >
+            <div style={{ padding: '10px 20px', fontSize: '30px' }}>
+              Placeholder
+            </div>
+          </Popup>
+        )}
+      </div>
+    );
+  }
+
+  _handleRef = e => {
+    this.anchor = e;
+  };
+
+  _handleClick = () => {
+    this.setState(state => ({ opened: !state.opened }));
+  };
+
+  _clickHandler = e => {
+    this.setState({ opened: false });
+  };
+}
+
+class Hint extends Component<*, any> {
+  anchor: ?HTMLElement;
 
   constructor(props) {
     super(props);
@@ -137,22 +276,24 @@ class Hint extends Component {
         >
           Hello
         </div>
-        <Popup
-          onClickOutside={this._clickHandler}
-          onFocusOutside={this._clickHandler}
-          anchorElement={this.state.anchor}
-          opened={true}
-          positions={this.props.positions}
-          margin={this.props.margin}
-          order={this.props.order}
-          backgroundColor={'rgba(0, 0, 0, 0.65)'}
-          hasShadow={false}
-          hasPin={true}
-          pinSize={10}
-          pinOffset={7}
-        >
-          <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
-        </Popup>
+        {this.state.anchor && (
+          <Popup
+            onClickOutside={this._clickHandler}
+            onFocusOutside={this._clickHandler}
+            anchorElement={this.state.anchor}
+            opened={true}
+            positions={this.props.positions}
+            margin={this.props.margin}
+            order={this.props.order}
+            backgroundColor={'rgba(0, 0, 0, 0.65)'}
+            hasShadow={false}
+            hasPin={true}
+            pinSize={10}
+            pinOffset={7}
+          >
+            <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
+          </Popup>
+        )}
       </div>
     );
   }
@@ -160,8 +301,8 @@ class Hint extends Component {
 }
 
 // eslint-disable-next-line react/no-multi-comp
-class Toast extends Component {
-  anchor: HTMLElement;
+class Toast extends Component<*, *> {
+  anchor: ?HTMLElement;
 
   constructor(props) {
     super(props);
@@ -183,20 +324,22 @@ class Toast extends Component {
         >
           Hello
         </div>
-        <Popup
-          onClickOutside={this._clickHandler}
-          onFocusOutside={this._clickHandler}
-          anchorElement={this.state.anchor}
-          opened={true}
-          positions={this.props.positions}
-          backgroundColor={'rgba(0, 0, 0, 0.65)'}
-          hasShadow={false}
-          hasPin={false}
-          pinSize={10}
-          pinOffset={7}
-        >
-          <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
-        </Popup>
+        {this.state.anchor && (
+          <Popup
+            onClickOutside={this._clickHandler}
+            onFocusOutside={this._clickHandler}
+            anchorElement={this.state.anchor}
+            opened={true}
+            positions={this.props.positions}
+            backgroundColor={'rgba(0, 0, 0, 0.65)'}
+            hasShadow={false}
+            hasPin={false}
+            pinSize={10}
+            pinOffset={7}
+          >
+            <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
+          </Popup>
+        )}
       </div>
     );
   }

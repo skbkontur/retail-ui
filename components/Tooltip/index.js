@@ -1,3 +1,3 @@
 // @flow
 import Tooltip from './Tooltip';
-module.exports = Tooltip;
+export default Tooltip;

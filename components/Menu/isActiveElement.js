@@ -1,7 +1,15 @@
 // @flow
 
-import type React from 'react';
+import type { Element } from 'react';
+import type MenuItem from '../MenuItem/MenuItem';
 
-export default function isActiveElement(element: ?React.Element<any>) {
-  return element && element.type.__MENU_ITEM__ && !element.props.disabled;
+export default function isActiveElement(
+  element: ?Element<Class<MenuItem>>
+): %checks {
+  return (
+    element &&
+    element.type &&
+    element.type.__MENU_ITEM__ &&
+    !element.props.disabled
+  );
 }

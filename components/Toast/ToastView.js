@@ -14,9 +14,7 @@ type Props = {
   onClose?: () => void
 };
 
-class ToastView extends Component {
-  props: Props;
-
+class ToastView extends Component<Props> {
   static propTypes = {
     /**
      * Adds action handling and close icon fot tost

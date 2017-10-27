@@ -1,18 +1,16 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import Calendar from './Calendar';
 import DateSelect from '../DateSelect';
-import Icon from '../Icon';
 
 import styles from './Picker.less';
 
 type Props = {
-  maxYear: number,
-  minYear: number,
+  maxYear?: number,
+  minYear?: number,
   value: ?Date,
-  iconRef: ?Icon,
   onPick: (date: Date) => void
 };
 
@@ -20,10 +18,7 @@ type State = {
   date: Date
 };
 
-export default class Picker extends React.Component {
-  props: Props;
-  state: State;
-
+export default class Picker extends React.Component<Props, State> {
   _mounted: boolean;
 
   constructor(props: Props, context: mixed) {
@@ -37,9 +32,9 @@ export default class Picker extends React.Component {
   render() {
     const { date } = this.state;
     return (
-      <div className={styles.root}>
+      <div className={styles.root} onMouseDown={e => e.preventDefault()}>
         <div className={styles.monthYear}>
-          <DateSelect
+          <DateSelect            
             type="year"
             value={this.state.date.getUTCFullYear()}
             minYear={this.props.minYear}
@@ -48,7 +43,7 @@ export default class Picker extends React.Component {
             onChange={this.handleYearChange}
           />
           <div style={{ display: 'inline-block', width: 4 }} />
-          <DateSelect
+          <DateSelect            
             type="month"
             value={this.state.date.getUTCMonth()}
             width={'80px'}
@@ -67,6 +62,13 @@ export default class Picker extends React.Component {
 
   componentDidMount() {
     this._mounted = true;
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.value && +prevProps.value !== +this.props.value) {
+      this.setState({ date: this.props.value });
+      this.refs.calendar.moveToDate(this.props.value);
+    }
   }
 
   componentWillUnmount() {

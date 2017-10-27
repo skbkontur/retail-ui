@@ -1,4 +1,4 @@
-@import '../../variables.less';
+@import "../../variables.less";
 
 :local {
   .root {
@@ -10,8 +10,6 @@
     display: inline-block;
     font-family: inherit;
     font-size: 14px;
-    height: 34px;
-    line-height: 32px;
     outline: none;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -19,7 +17,7 @@
     position: relative;
 
     &:after {
-      content: '';
+      content: "";
       width: 0;
       display: inline-block;
       line-height: 32px;
@@ -30,15 +28,10 @@
     position: absolute;
     display: block;
     width: 100%;
-    padding: 0 8px;
+    padding: 0 10px;
     box-sizing: border-box;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .deprecated_oldSize {
-    height: 30px;
-    line-height: 28px;
   }
 
   .root:focus {
@@ -91,6 +84,22 @@
     box-shadow: 0 0 0 1px @border-color-error;
     position: relative;
     z-index: 2;
+  }
+
+  .size-small {
+    height: 34px;
+    line-height: 32px;
+  }
+
+  .size-medium {
+    height: 40px;
+    line-height: 38px;
+  }
+
+  .size-large {
+    height: 44px;
+    line-height: 42px;
+    font-size: 16px;
   }
 
   :global(.rt-ie8) {

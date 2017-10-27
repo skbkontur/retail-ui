@@ -1,5 +1,5 @@
 /* @flow weak */
-
+/* eslint-disable flowtype/no-weak-types */
 import SearchSelect from './SearchSelect.js';
 
 class SearchSelectAdapter {

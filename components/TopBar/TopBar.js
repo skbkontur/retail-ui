@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import events from 'add-event-listener';
 
@@ -25,7 +25,7 @@ type Props = {
   children?: React.Element<*> | string,
   color?: string,
   leftItems?: React.Element<*>[],
-  logoComponent: Class<React$Component<*, *, *>>,
+  logoComponent: React.ComponentType<*> | string,
   logoHref?: string,
   maxWidth?: string | number,
   noMargin?: boolean,
@@ -52,9 +52,7 @@ type DefaultProps = {
  * `Divider()` – разделитель
  *
  **/
-class TopBar extends React.Component {
-  props: Props;
-
+class TopBar extends React.Component<Props> {
   _logoWrapper: ?HTMLElement = null;
 
   static Divider = Divider;
@@ -85,16 +83,12 @@ class TopBar extends React.Component {
     } = this.props;
 
     const _rightItems = [].concat(rightItems);
-    if (this.props.userName) {
+    if (userName) {
       _rightItems.push(<User userName={userName} />, <Divider />);
     }
 
     if (this.props.onLogout) {
-      _rightItems.push(
-        <ButtonItem onClick={onLogout}>
-          Выйти
-        </ButtonItem>
-      );
+      _rightItems.push(<ButtonItem onClick={onLogout}>Выйти</ButtonItem>);
     }
 
     return (
@@ -179,7 +173,7 @@ class TopBar extends React.Component {
     });
   }
 
-  _refLogoWrapper = (el: HTMLElement) => {
+  _refLogoWrapper = (el: ?HTMLElement) => {
     if (this._logoWrapper) {
       events.removeEventListener(
         this._logoWrapper,
@@ -214,7 +208,7 @@ TopBar.propTypes = {
    * Компонент используемый для рендеринга ссылки.
    * Нужно переопределить если вы хотите подставить ссылку для роутера
    */
-  logoComponent: PropTypes.object,
+  logoComponent: PropTypes.any,
 
   logoHref: PropTypes.string,
 

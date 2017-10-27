@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import View from '../ComboBoxView';
@@ -74,8 +74,12 @@ storiesOf('ComboBoxV2 View', module)
 function renderValue({ id, name }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <span>{name}</span>
-      <span>{id}</span>
+      <span>
+        {name}
+      </span>
+      <span>
+        {id}
+      </span>
     </div>
   );
 }

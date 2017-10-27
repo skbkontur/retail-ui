@@ -1,11 +1,10 @@
 // @flow
 
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import filterProps from '../../filterProps';
-import Upgrades from '../../../lib/Upgrades';
 
 import '../../ensureOldIEClassName';
 import styles from './InputLikeText.less';
@@ -21,14 +20,17 @@ const PASS_PROPS = {
   onMouseOver: true
 };
 
-export default class InputLikeText extends React.Component {
-  props: {
-    borderless?: boolean,
-    children?: any,
-    error?: boolean,
-    padRight?: boolean,
-    warning?: boolean,
-    disabled?: boolean
+export default class InputLikeText extends React.Component<{
+  borderless?: boolean,
+  children?: React.Node,
+  error?: boolean,
+  padRight?: boolean,
+  warning?: boolean,
+  disabled?: boolean,
+  size: 'small' | 'medium' | 'large'
+}> {
+  static defaultProps = {
+    size: 'small'
   };
 
   render() {
@@ -43,19 +45,18 @@ export default class InputLikeText extends React.Component {
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,
       [styles.disabled]: this.props.disabled,
-      [styles.deprecated_oldSize]: !Upgrades.isHeight34Enabled()
+      [styles[`size-${this.props.size}`]]: this.props.size
     });
 
     return (
       <span tabIndex="0" className={className} {...passProps}>
-        <span className={styles.inner}>
-          {this.props.children}
-        </span>
+        <span className={styles.inner}>{this.props.children}</span>
       </span>
     );
   }
 
   focus() {
+    // eslint-disable-next-line flowtype/no-weak-types
     (ReactDOM.findDOMNode(this): any).focus();
   }
 }

@@ -1,25 +1,23 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import classNames from 'classnames';
 
 import styles from './MenuHeader.less';
 
 type Props = {
-  children: mixed,
+  children: React.Node,
   _enableIconPadding: ?boolean
 };
 
 /**
  * Заголовок в меню.
  */
-export default class MenuHeader extends React.Component {
+export default class MenuHeader extends React.Component<Props> {
   static __MENU_HEADER__ = true;
   static defaultProps = {
     _enableIconPadding: false
   };
-
-  props: Props;
 
   render() {
     const { children, _enableIconPadding } = this.props;
@@ -27,6 +25,10 @@ export default class MenuHeader extends React.Component {
       [styles.root]: true,
       [styles.withLeftPadding]: _enableIconPadding
     });
-    return <div className={classnames}>{children}</div>;
+    return (
+      <div className={classnames}>
+        {children}
+      </div>
+    );
   }
 }

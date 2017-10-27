@@ -1,2 +1,2 @@
 import DatePicker from './DatePicker';
-module.exports = DatePicker;
+export default DatePicker;

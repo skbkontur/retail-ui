@@ -4,7 +4,7 @@ if (global.console && console.error) {
   );
 }
 
-module.exports = function(prefix) {
+export default function(prefix) {
   return function(classNames) {
     if (typeof classNames === 'string' && arguments.length === 1) {
       return doPrefix(classNames);
@@ -25,4 +25,4 @@ module.exports = function(prefix) {
   function doPrefix(className) {
     return className ? prefix + '-' + className : prefix;
   }
-};
+}

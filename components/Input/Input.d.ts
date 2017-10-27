@@ -3,6 +3,7 @@ import * as React from 'react';
 export interface InputProps {
   align?: 'left' | 'center' | 'right';
   alwaysShowMask?: boolean;
+  autoFocus?: boolean;
   borderless?: boolean;
   className?: string;
   disabled?: boolean;
@@ -14,7 +15,7 @@ export interface InputProps {
   maxLength?: number | string;
   placeholder?: string;
   rightIcon?: React.ReactElement<any>;
-  size: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large';
   title?: string;
   type?: 'password' | 'text';
   value: string;

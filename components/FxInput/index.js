@@ -1,2 +1,2 @@
 import FxInput from './FxInput';
-module.exports = FxInput;
+export default FxInput;

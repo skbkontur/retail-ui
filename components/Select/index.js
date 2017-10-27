@@ -1,2 +1,2 @@
 import Select from './Select';
-module.exports = Select;
+export default Select;

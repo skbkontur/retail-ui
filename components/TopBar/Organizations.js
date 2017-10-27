@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import Icon from '../Icon';
 import TopBarDropdown from './TopBarDropdown';
@@ -7,8 +7,8 @@ import TopBarDropdown from './TopBarDropdown';
 import styles from './TopBar.less';
 
 type Props = {
-  caption: string | React.Element<mixed>,
-  children: React.Element<mixed>,
+  caption: string | React.Element<React.ComponentType<mixed>>,
+  children: React.Element<React.ComponentType<mixed>>,
   comment: ?string
 };
 
@@ -17,13 +17,11 @@ type State = {
   minWidth: ?number
 };
 
-class Organizations extends React.Component {
-  _caption: HTMLElement;
-  _comment: HTMLElement;
+class Organizations extends React.Component<Props, State> {
+  _caption: ?HTMLElement;
+  _comment: ?HTMLElement;
 
-  props: Props;
-
-  state: State = {
+  state = {
     captionWhiteSpace: 'normal',
     minWidth: null
   };
@@ -105,7 +103,9 @@ class Organizations extends React.Component {
 
   _recalculateWidth() {
     const commentWidth = this._comment ? this._comment.offsetWidth : 0;
-
+    if (!this._caption) {
+      return;
+    }
     // 360 is minWidth from guides. Apply it when content is bigger.
     // 315 is because of 15px left padding and 30px arrow.
     if (this._caption.offsetWidth + commentWidth > 315) {

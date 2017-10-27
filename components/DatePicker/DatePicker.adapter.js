@@ -1,5 +1,5 @@
 // @flow
-
+/* eslint-disable flowtype/no-weak-types */
 import DatePicker from './DatePicker.js';
 
 const DatePickerAdapter = {

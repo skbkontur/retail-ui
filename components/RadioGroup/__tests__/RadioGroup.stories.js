@@ -1,10 +1,10 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import RadioGroup from '../RadioGroup';
 
-class Component extends React.Component {
+class Component extends React.Component<*, *> {
   state = {
     value: ''
   };
@@ -32,6 +32,9 @@ storiesOf('RadioGroup', module)
   .add('with renderItem', () =>
     <Component
       items={[{ value: 'One' }, { value: 'Two' }]}
-      renderItem={x => <div>Value: {x.value}</div>}
+      renderItem={x =>
+        <div>
+          Value: {x.value}
+        </div>}
     />
   );

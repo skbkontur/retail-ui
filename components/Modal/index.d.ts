@@ -1,3 +1,1 @@
-import Modal from './Modal';
-
-export = Modal;
+export { default, ModalProps, ModalState } from './Modal';

@@ -1,3 +1,1 @@
-import Input from './Input';
-
-export = Input;
+export { default, InputProps, InputState } from './Input';

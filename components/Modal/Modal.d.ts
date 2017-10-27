@@ -27,17 +27,17 @@ export interface ModalFooterProps {
 
 export interface ModalFooterState {}
 
-export class ModalHeader extends React.Component<
+declare class ModalHeader extends React.Component<
   ModalHeaderProps,
   ModalHeaderState
 > {}
 
-export class ModalBody extends React.Component<
+declare class ModalBody extends React.Component<
   ModalBodyProps,
   ModalBodyState
 > {}
 
-export class ModalFooter extends React.Component<
+declare class ModalFooter extends React.Component<
   ModalFooterProps,
   ModalFooterState
 > {}

@@ -1,3 +1,5 @@
-import MenuSeparator from './MenuSeparator';
-
-export = MenuSeparator;
+export {
+  default,
+  MenuSeparatorProps,
+  MenuSeparatorState
+} from './MenuSeparator';

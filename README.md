@@ -62,7 +62,7 @@ module: {
 resolve: {
   /* ... */
   alias: {
-    'react-ui-theme': 'path-to-my-theme-variables.less'
+    'react-ui-theme.less': 'path-to-my-theme-variables.less'
   }
   /* ... */
 }

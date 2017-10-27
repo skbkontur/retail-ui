@@ -1,12 +1,18 @@
 // @flow
+/* eslint-disable flowtype/no-weak-types */
 /* global Lookup */
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import Toast from '../Toast';
 
 jest.useFakeTimers();
+
+jest.mock('../../RenderContainer', () => props => <div {...props} />);
+jest.mock('react-addons-css-transition-group', () => ({ children }) => (
+  <div>{children}</div>
+));
 
 describe('Toast', () => {
   it('renders', () => {

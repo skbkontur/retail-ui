@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { bool } from 'prop-types';
 import cn from 'classnames';
 import getCharHelper from './getCharHelper';
@@ -25,14 +25,13 @@ type State = {
   * **DRAFT**
 **/
 
-export default class PasswordInput extends React.Component {
+export default class PasswordInput extends React.Component<Props, State> {
   static defaultProps = {
     size: 'small'
   };
 
-  _input: HTMLInputElement;
+  _input: ?Input;
 
-  props: Props;
   state: State = {
     visible: false
   };
@@ -48,7 +47,7 @@ export default class PasswordInput extends React.Component {
     }
   }
 
-  _handleKeyPress = (e: SyntheticKeyboardEvent) => {
+  _handleKeyPress = (e: SyntheticKeyboardEvent<>) => {
     const { onKeyPress, detectCapsLock } = this.props;
 
     if (onKeyPress) {
@@ -76,7 +75,7 @@ export default class PasswordInput extends React.Component {
     this.setState({ capsLockEnabled });
   };
 
-  _handleKeydown = (e: SyntheticKeyboardEvent) => {
+  _handleKeydown = (e: SyntheticKeyboardEvent<>) => {
     const {
       props: { detectCapsLock, onKeyDown },
       state: { capsLockEnabled }
@@ -96,7 +95,11 @@ export default class PasswordInput extends React.Component {
   };
 
   _handleToggleVisibility = () => {
-    this.setState({ visible: !this.state.visible }, this.focus);
+    this.setState({ visible: !this.state.visible }, this._handleFocus);
+  };
+
+  _handleFocus = () => {
+    this._input && this._input.focus();
   };
 
   _renderEye = () => {

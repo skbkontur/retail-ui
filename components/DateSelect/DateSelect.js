@@ -1,7 +1,9 @@
 // @flow
 
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
+
+import RenderLayer from '../RenderLayer';
 
 import PropTypes from 'prop-types';
 
@@ -47,7 +49,7 @@ type State = {
 
 const isIE8 = ~window.navigator.userAgent.indexOf('MSIE 8.0');
 
-export default class DateSelect extends React.Component {
+export default class DateSelect extends React.Component<Props, State> {
   static propTypes = {
     maxYear: PropTypes.number,
 
@@ -68,9 +70,6 @@ export default class DateSelect extends React.Component {
     maxYear: 2100,
     width: 'auto'
   };
-
-  props: Props;
-  state: State;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -175,29 +174,37 @@ export default class DateSelect extends React.Component {
     });
 
     return (
-      <div className={holderClass} style={style} onKeyDown={this.handleKey}>
-        {!this.state.topCapped &&
-          <div className={styles.menuUp} onMouseDown={this.handleUp}>
-            <span>
-              <Icon name={'caret-top'} />
-            </span>
-          </div>}
-        <div className={styles.itemsHolder} style={{ height }}>
-          <div style={shiftStyle} onWheel={this.handleWheel}>
-            {items}
+      <RenderLayer
+        onClickOutside={this.close}
+        onFocusOutside={this.close}
+        active={this.state.opened}
+      >
+        <div className={holderClass} style={style} onKeyDown={this.handleKey}>
+          {!this.state.topCapped && (
+            <div className={styles.menuUp} onMouseDown={this.handleUp}>
+              <span>
+                <Icon name={'caret-top'} />
+              </span>
+            </div>
+          )}
+          <div className={styles.itemsHolder} style={{ height }}>
+            <div style={shiftStyle} onWheel={this.handleWheel}>
+              {items}
+            </div>
           </div>
+          {!this.state.botCapped && (
+            <div className={styles.menuDown} onMouseDown={this.handleDown}>
+              <span>
+                <Icon name={'caret-bottom'} />
+              </span>
+            </div>
+          )}
         </div>
-        {!this.state.botCapped &&
-          <div className={styles.menuDown} onMouseDown={this.handleDown}>
-            <span>
-              <Icon name={'caret-bottom'} />
-            </span>
-          </div>}
-      </div>
+      </RenderLayer>
     );
   }
 
-  handleWheel = (event: SyntheticWheelEvent) => {
+  handleWheel = (event: SyntheticWheelEvent<>) => {
     event.preventDefault();
 
     let deltaY = event.deltaY;
@@ -211,7 +218,7 @@ export default class DateSelect extends React.Component {
   };
 
   handleItemClick = (shift: number) => {
-    return (e: SyntheticMouseEvent) => {
+    return (e: SyntheticMouseEvent<>) => {
       const value = this.props.value + shift;
       if (this.props.onChange) {
         this.props.onChange(value);
@@ -220,7 +227,7 @@ export default class DateSelect extends React.Component {
     };
   };
 
-  handleKey = (event: SyntheticKeyboardEvent) => {
+  handleKey = (event: SyntheticKeyboardEvent<>) => {
     if (this.state.opened) {
       switch (event.key) {
         case 'Enter':

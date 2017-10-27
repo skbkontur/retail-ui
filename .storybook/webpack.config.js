@@ -13,22 +13,6 @@ module.exports = {
   ],
   module: {
     rules: [
-      // add your custom loaders.
-      {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            require.resolve('babel-preset-es2015'),
-            require.resolve('babel-preset-stage-0'),
-            require.resolve('babel-preset-react')
-          ]
-        },
-        include: [
-          path.resolve(__dirname, '..', 'components'),
-          path.resolve(__dirname, '..', 'lib')
-        ]
-      },
       {
         test: /\.(css|less)$/,
         loaders: [

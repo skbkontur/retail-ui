@@ -3,6 +3,7 @@ import * as React from 'react';
 export interface ButtonProps {
   active?: boolean;
   arrow?: boolean;
+  autoFocus?: boolean;
   checked?: boolean;
   children?: any;
   disabled?: boolean;

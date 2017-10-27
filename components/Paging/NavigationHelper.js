@@ -14,7 +14,7 @@ export default {
   getKeyName() {
     return getKeyDescription().name;
   },
-  checkKeyPressed(event: SyntheticKeyboardEvent) {
+  checkKeyPressed(event: SyntheticKeyboardEvent<>) {
     return getKeyDescription().checkPressed(event);
   }
 };

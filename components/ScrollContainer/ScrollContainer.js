@@ -142,7 +142,11 @@ export default class ScrollContainer extends React.Component {
         });
       }
     } else {
-      this.setState({ scrollActive: false });
+      this.setState({
+        scrollActive: false,
+        scrollSize: 0,
+        scrollPos: 0
+      });
     }
   };
 

@@ -1,12 +1,12 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import Toast from './Toast';
 import type { Action } from './Toast';
 
 class ToastStatic {
-  static node: ?HTMLDivElement = null;
+  static node: HTMLDivElement;
   static instance: ?Toast = null;
 
   static push = function(notification: string, action?: Action) {

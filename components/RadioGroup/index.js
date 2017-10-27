@@ -1,3 +1,3 @@
 // @flow
 import RadioGroup from './RadioGroup';
-module.exports = RadioGroup;
+export default RadioGroup;

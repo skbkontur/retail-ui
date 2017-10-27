@@ -9,7 +9,8 @@ function noop() {
   return Promise.resolve([]);
 }
 
-describe('ComboBox-adapter', () => {
+// Not supporting React 16
+xdescribe('ComboBox-adapter', () => {
   testAdapter('getValue', mount => {
     const adapter = mount(<ComboBox value="foo" source={noop} />);
     expect(adapter.getValue()).toBe('foo');
@@ -87,7 +88,7 @@ describe('ComboBox-adapter', () => {
     expect(source.mock.calls[0][0]).toBe('');
     expect(source.mock.calls[1][0]).toBe('test');
 
-    await (source.mock.instances: any)[1];
+    await source.mock.instances[1];
 
     const result = adapter.getResult();
     expect(result).toEqual([1, null, 3]);
@@ -100,7 +101,7 @@ describe('ComboBox-adapter', () => {
 
     adapter.search('test');
 
-    await (source.mock.instances: any)[1];
+    await source.mock.instances[1];
 
     adapter.setValue(2);
 

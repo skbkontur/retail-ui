@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export type MenuItemState = null | 'hover' | 'selected';
+export type MenuItemStateType = null | 'hover' | 'selected';
 
 export interface MenuItemProps {
   _enableIconPadding?: boolean;
@@ -10,7 +10,7 @@ export interface MenuItemProps {
   href?: string;
   icon?: string;
   loose?: boolean;
-  state?: MenuItemState;
+  state?: MenuItemStateType;
   target?: string;
   onClick?: React.MouseEventHandler<any>;
   onMouseDown?: React.MouseEventHandler<any>;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 
 export interface SelectProps {
-  areValuesEqual: (value: any, item: any) => boolean;
+  areValuesEqual?: (value: any, item: any) => boolean;
   defaultValue?: any;
   diadocLinkIcon?: string;
   disablePortal?: boolean;
@@ -22,7 +22,7 @@ export interface SelectProps {
   search?: boolean;
   value?: any;
   width?: number | string;
-  onChange?: (event: React.ChangeEvent<HTMLElement>, value: any) => void;
+  onChange?: (event: { target: { value: any } }, value: any) => void;
   onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
   onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
   onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;

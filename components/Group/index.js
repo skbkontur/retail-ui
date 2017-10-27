@@ -1,2 +1,3 @@
 // @flow
-module.exports = require('./Group');
+import Group from './Group';
+export default Group;

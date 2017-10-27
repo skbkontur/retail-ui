@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import Radio from '../Radio';
@@ -15,10 +15,10 @@ type Props = {
   inline?: boolean,
   items: Iterable<mixed>,
   onChange?: (event: { target: { value: mixed } }, value: mixed) => void,
-  onMouseEnter?: (e: SyntheticMouseEvent) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent) => void,
-  onMouseOver?: (e: SyntheticMouseEvent) => void,
-  renderItem: (value: mixed, data: mixed) => React.Element<*>,
+  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
+  onMouseOver?: (e: SyntheticMouseEvent<>) => void,
+  renderItem: (value: mixed, data: mixed) => React.Node,
   value: mixed,
   warning?: boolean,
   width?: number | string
@@ -28,7 +28,9 @@ type State = {
   focusedIndex: ?number
 };
 
-class RadioGroup extends React.Component {
+class RadioGroup extends React.Component<Props, State> {
+  static __REACT_UI_COMPONENT_NAME__ = 'RadioGroup';
+
   static Prevent = Prevent;
 
   static propTypes = {
@@ -82,9 +84,6 @@ class RadioGroup extends React.Component {
   static defaultProps = {
     renderItem
   };
-
-  props: Props;
-  state: State;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -150,7 +149,7 @@ class RadioGroup extends React.Component {
     return items;
   }
 
-  handleKey = (event: SyntheticKeyboardEvent) => {
+  handleKey = (event: SyntheticKeyboardEvent<>) => {
     const focusedIndex = this.state.focusedIndex;
     if (typeof focusedIndex !== 'number') {
       return;

@@ -3,15 +3,13 @@
 import classNames from 'classnames';
 import events from 'add-event-listener';
 import { EventEmitter } from 'fbemitter';
-import React from 'react';
-import type { Node } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 import addClass from '../../lib/dom/addClass';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
 import getComputedStyle from '../../lib/dom/getComputedStyle';
-import Center from '../Center';
 import LayoutEvents from '../../lib/LayoutEvents';
 import removeClass from '../../lib/dom/removeClass';
 import RenderContainer from '../RenderContainer';
@@ -25,16 +23,24 @@ const stack = {
   mounted: []
 };
 
+const KEY_CODE_ESCAPE = 27;
+
 let mountedModalsCount = 0;
-let prevMarginRight = 0;
+let prevMarginRight = '';
+
+type ModalChild = React.Node;
 
 type Props = {
-  children?: Node,
+  children?: ModalChild,
   disableClose?: boolean,
   ignoreBackgroundClick?: boolean,
   noClose?: boolean,
   width?: number,
   onClose?: () => void
+};
+
+type State = {
+  shadowed: boolean
 };
 
 /**
@@ -46,9 +52,7 @@ type Props = {
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
-class Modal extends React.Component {
-  props: Props;
-
+class Modal extends React.Component<Props, State> {
   static propTypes = {
     /**
      * Отключает событие onClose, также дизейблит кнопку закрытия модалки
@@ -114,7 +118,7 @@ class Modal extends React.Component {
             styles.close,
             this.props.disableClose && styles.disabled
           )}
-          onClick={this._handleClose}
+          onClick={this._requestClose}
         >
           ×
         </a>
@@ -125,6 +129,7 @@ class Modal extends React.Component {
     const children = React.Children.map(this.props.children, child => {
       if (child && child.type === Header) {
         hasHeader = true;
+        // $FlowIssue child could be iterable
         return React.cloneElement(child, { close });
       }
       return child;
@@ -155,7 +160,7 @@ class Modal extends React.Component {
     );
   }
 
-  _refCenter = (center: ?Center) => {
+  _refCenter = (center: ?HTMLElement) => {
     if (this._centerDOM) {
       events.removeEventListener(this._centerDOM, 'scroll', LayoutEvents.emit);
     }
@@ -171,8 +176,6 @@ class Modal extends React.Component {
   };
 
   componentDidMount() {
-    events.addEventListener(document, 'keydown', this._handleNativeKey);
-
     if (mountedModalsCount === 0) {
       const { documentElement } = document;
       if (documentElement) {
@@ -185,17 +188,15 @@ class Modal extends React.Component {
       LayoutEvents.emit();
     }
     mountedModalsCount++;
-
+    events.addEventListener(window, 'keydown', this._handleKeyDown);
     stack.emitter.emit('change');
   }
 
   componentWillUnmount() {
-    events.removeEventListener(document, 'keydown', this._handleNativeKey);
-
     if (--mountedModalsCount === 0) {
       const { documentElement } = document;
       if (documentElement) {
-        documentElement.style.marginRight = prevMarginRight + 'px';
+        documentElement.style.marginRight = prevMarginRight;
         removeClass(documentElement, styles.bodyClass);
       }
       events.removeEventListener(window, 'resize', this._handleWindowResize);
@@ -218,13 +219,13 @@ class Modal extends React.Component {
     const { clientHeight, scrollHeight, style } = docEl;
     if (clientHeight < scrollHeight) {
       const scrollbarWidth = getScrollWidth();
-      docEl.style.marginRight = prevMarginRight + 'px';
+      docEl.style.marginRight = prevMarginRight;
       removeClass(docEl, styles.bodyClass);
       const marginRight = parseFloat(getComputedStyle(docEl).marginRight);
       addClass(docEl, styles.bodyClass);
       docEl.style.marginRight = `${marginRight + scrollbarWidth}px`;
     } else if (style.marginRight !== prevMarginRight) {
-      style.marginRight = prevMarginRight + 'px';
+      style.marginRight = prevMarginRight;
     }
   };
 
@@ -240,11 +241,11 @@ class Modal extends React.Component {
       event.target === event.currentTarget &&
       !this.props.ignoreBackgroundClick
     ) {
-      this._handleClose();
+      this._requestClose();
     }
   };
 
-  _handleClose = () => {
+  _requestClose = () => {
     if (this.props.disableClose) {
       return;
     }
@@ -253,48 +254,60 @@ class Modal extends React.Component {
     }
   };
 
-  _handleNativeKey = nativeEvent => {
-    const { onClose } = this.props;
-    if (nativeEvent.keyCode === 27 && onClose) {
-      stopPropagation(nativeEvent);
-      onClose();
+  _handleKeyDown = event => {
+    if (stack.mounted[stack.mounted.length - 1] !== this) {
+      return;
+    }
+    if (event.keyCode === KEY_CODE_ESCAPE) {
+      stopPropagation(event);
+      this._requestClose();
     }
   };
 }
 
-class Header extends React.Component {
+type HeaderProps = {
+  children?: React.Node,
+  close?: boolean
+};
+
+class Header extends React.Component<HeaderProps> {
   render() {
     return (
       <Sticky side="top">
-        {fixed =>
+        {fixed => (
           <div
             className={classNames(styles.header, fixed && styles.fixedHeader)}
           >
-            {this.props.close &&
-              <div className={styles.absoluteClose}>
-                {this.props.close}
-              </div>}
+            {this.props.close && (
+              <div className={styles.absoluteClose}>{this.props.close}</div>
+            )}
             {this.props.children}
-          </div>}
+          </div>
+        )}
       </Sticky>
     );
   }
 }
 
-class Body extends React.Component {
+type BodyProps = {
+  children?: React.Node
+};
+
+class Body extends React.Component<BodyProps> {
   render() {
-    return (
-      <div className={styles.body}>
-        {this.props.children}
-      </div>
-    );
+    return <div className={styles.body}>{this.props.children}</div>;
   }
 }
+
+type FooterProps = {
+  children?: React.Node,
+  panel?: boolean
+};
 
 /**
  * Футер модального окна.
  */
-class Footer extends React.Component {
+class Footer extends React.Component<FooterProps> {
   static propTypes = {
     /** Включает серый цвет в футере */
     panel: PropTypes.bool
@@ -308,10 +321,11 @@ class Footer extends React.Component {
 
     return (
       <Sticky side="bottom">
-        {fixed =>
+        {fixed => (
           <div className={classNames(names, fixed && styles.fixedFooter)}>
             {this.props.children}
-          </div>}
+          </div>
+        )}
       </Sticky>
     );
   }
@@ -321,4 +335,4 @@ Modal.Header = Header;
 Modal.Body = Body;
 Modal.Footer = Footer;
 
-module.exports = Modal;
+export default Modal;
