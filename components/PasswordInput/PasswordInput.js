@@ -30,7 +30,7 @@ export default class PasswordInput extends React.Component<Props, State> {
     size: 'small'
   };
 
-  _input: ?Input;
+  _input: ?Input | PasswordInputFallback;
 
   state: State = {
     visible: false
@@ -119,12 +119,8 @@ export default class PasswordInput extends React.Component<Props, State> {
     }
   };
 
-  refInput = (ref: HTMLInputElement, action: string) => {
+  _refInput = (ref: Input | PasswordInputFallback) => {
     this._input = ref;
-
-    if (action === 'focus') {
-      this.focus();
-    }
   };
 
   _renderInput() {
@@ -138,7 +134,7 @@ export default class PasswordInput extends React.Component<Props, State> {
     if (isIE && ieVerison === 8) {
       return (
         <PasswordInputFallback
-          refInput={this.refInput}
+          refInput={this._refInput}
           visible={this.state.visible}
           {...inputProps}
         />
@@ -147,7 +143,7 @@ export default class PasswordInput extends React.Component<Props, State> {
 
     return (
       <Input
-        ref={this.refInput}
+        ref={this._refInput}
         type={this.state.visible ? 'text' : 'password'}
         {...inputProps}
       />
