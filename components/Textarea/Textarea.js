@@ -1,11 +1,13 @@
 import classNames from 'classnames';
 import React from 'react';
+import ReactDOM from 'react-dom'
 
 import PropTypes from 'prop-types';
 
 import filterProps from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
+import throttle from 'lodash/throttle';
 
 import styles from './Textarea.less';
 
@@ -18,6 +20,7 @@ const PASS_PROPS = {
   rows: true,
   title: true,
   value: true,
+  id: true,
 
   onFocus: true,
   onBlur: true,
@@ -29,6 +32,10 @@ const PASS_PROPS = {
 
 class Textarea extends React.Component {
   static propTypes = {
+    autoFocus: PropTypes.bool,
+
+    autoResize: PropTypes.bool,
+
     defaultValue: PropTypes.string,
 
     disabled: PropTypes.bool,
@@ -37,6 +44,8 @@ class Textarea extends React.Component {
      * Визуально показать наличие ошибки.
      */
     error: PropTypes.bool,
+
+    id: PropTypes.string,
 
     maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
@@ -108,6 +117,11 @@ class Textarea extends React.Component {
       );
     }
 
+    if (this.props.autoResize) {
+      props.onCut = this.autoresize;
+      props.onPaste = this.autoresize;
+    }
+
     return (
       <label {...rootProps} className={styles.root}>
         {placeholder}
@@ -118,11 +132,37 @@ class Textarea extends React.Component {
 
   componentDidMount() {
     if (polyfillPlaceholder) {
-      this.setState({
-        polyfillPlaceholder: true
-      });
+      this.setState({ polyfillPlaceholder: true });
     }
+    if (!this.props.autoResize) {
+      return;
+    }
+    this.autoresize();
+    window.addEventListener('resize', this.autoresize);
   }
+
+  componentWillUnmount() {
+    if (!this.props.autoResize) {
+      return;
+    }
+    window.removeEventListener('resize', this.autoresize);
+  }
+
+  autoresize = throttle(() => {
+    const node = ReactDOM.findDOMNode(this._node);
+    const style = getComputedStyle(node);
+
+    const lineHeight = parseInt(style.lineHeight, 10);
+    const paddingTop = parseInt(style.paddingTop, 10);
+    const paddingBottom = parseInt(style.paddingBottom, 10);
+
+    const minHeight = this.props.rows * lineHeight + paddingTop + paddingBottom;
+    const bordersHeight = node.offsetHeight - node.clientHeight;
+    const height = Math.max(node.scrollHeight + lineHeight, minHeight) + bordersHeight;
+
+    node.style.height = 0;
+    node.style.height = `${height}px`;
+  }, 100)
 
   _handleChange = event => {
     if (polyfillPlaceholder) {
@@ -135,6 +175,10 @@ class Textarea extends React.Component {
 
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
+    }
+
+    if (this.props.autoResize) {
+      this.autoresize();
     }
   };
 
