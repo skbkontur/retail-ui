@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import filterProps from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
-import throttle from 'lodash/throttle';
+import throttle from 'lodash.throttle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import getComputedStyle from '../../lib/dom/getComputedStyle';
 
