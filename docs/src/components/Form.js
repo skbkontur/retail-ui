@@ -35,9 +35,9 @@ const Title = styled.span`
 
 const Content = styled.span`
     display: inline-flex;
-    > span {
+    ${'' /* > span {
         display: inline-flex;
-    }
+    } */};
 `;
 
 function FormLine({ children, title }: FormLineProps): React.Element<*> {

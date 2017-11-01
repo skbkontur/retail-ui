@@ -5,8 +5,7 @@
     "scripts": {
         "build": "node ./scripts/build",
         "prepublish": "npm run build",
-        "publish":
-            "npm publish dist/react-ui --access public && npm publish dist/retail-ui --access public",
+        "publish": "npm publish dist/react-ui --access public && npm publish dist/retail-ui --access public",
         "lint": "eslint src --ext .js,.jsx",
         "flow.check": "flow check",
         "storybook": "start-storybook -p 8081 -c .storybook"
