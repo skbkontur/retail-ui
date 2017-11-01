@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React from 'react';
-import ReactDOM from 'react-dom'
 
 import PropTypes from 'prop-types';
 
@@ -8,6 +7,8 @@ import filterProps from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import throttle from 'lodash/throttle';
+import LayoutEvents from '../../lib/LayoutEvents';
+import getComputedStyle from '../../lib/dom/getComputedStyle';
 
 import styles from './Textarea.less';
 
@@ -49,6 +50,8 @@ class Textarea extends React.Component {
 
     maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
+    maxRows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
     placeholder: PropTypes.string,
 
     resize: PropTypes.string,
@@ -78,10 +81,13 @@ class Textarea extends React.Component {
   };
 
   static defaultProps = {
-    rows: '3'
+    rows: '3',
+    maxRows: '15'
   };
 
   _node;
+
+  _layoutEvents;
 
   constructor(props, context) {
     super(props, context);
@@ -111,15 +117,14 @@ class Textarea extends React.Component {
 
     if (this.state.polyfillPlaceholder && !this.props.value) {
       placeholder = (
-        <span className={styles.placeholder}>
-          {this.props.placeholder}
-        </span>
+        <span className={styles.placeholder}>{this.props.placeholder}</span>
       );
     }
 
     if (this.props.autoResize) {
-      props.onCut = this.autoresize;
-      props.onPaste = this.autoresize;
+      props.onCut = this._autoresize;
+      props.onPaste = this._autoresize;
+      Object.assign(props.style, { resize: 'none' });
     }
 
     return (
@@ -134,35 +139,38 @@ class Textarea extends React.Component {
     if (polyfillPlaceholder) {
       this.setState({ polyfillPlaceholder: true });
     }
-    if (!this.props.autoResize) {
-      return;
+    if (this.props.autoResize) {
+      this._autoresize();
+      this._layoutEvents = LayoutEvents.addListener(this._autoresize);
     }
-    this.autoresize();
-    window.addEventListener('resize', this.autoresize);
   }
 
   componentWillUnmount() {
-    if (!this.props.autoResize) {
-      return;
+    if (this._layoutEvents) {
+      this._layoutEvents.remove();
     }
-    window.removeEventListener('resize', this.autoresize);
   }
 
-  autoresize = throttle(() => {
-    const node = ReactDOM.findDOMNode(this._node);
+  _autoresize = throttle(() => {
+    const node = this._node;
+    const { rows, maxRows } = this.props;
     const style = getComputedStyle(node);
-
     const lineHeight = parseInt(style.lineHeight, 10);
     const paddingTop = parseInt(style.paddingTop, 10);
     const paddingBottom = parseInt(style.paddingBottom, 10);
-
-    const minHeight = this.props.rows * lineHeight + paddingTop + paddingBottom;
+    const minInnerHeight = rows * lineHeight + paddingTop + paddingBottom;
+    const maxInnerHeight = maxRows * lineHeight + paddingTop + paddingBottom;
     const bordersHeight = node.offsetHeight - node.clientHeight;
-    const height = Math.max(node.scrollHeight + lineHeight, minHeight) + bordersHeight;
 
     node.style.height = 0;
-    node.style.height = `${height}px`;
-  }, 100)
+
+    const expectedHeight = Math.min(
+      Math.max(node.scrollHeight + lineHeight, minInnerHeight),
+      maxInnerHeight
+    );
+
+    node.style.height = expectedHeight + bordersHeight + 'px';
+  }, 100);
 
   _handleChange = event => {
     if (polyfillPlaceholder) {
@@ -178,13 +186,25 @@ class Textarea extends React.Component {
     }
 
     if (this.props.autoResize) {
-      this.autoresize();
+      this._autoresize();
     }
   };
 
+  /**
+   * @api
+   **/
   focus() {
     if (this._node) {
       this._node.focus();
+    }
+  }
+
+  /**
+   * @api
+   **/
+  blur() {
+    if (this._node) {
+      this._node.blur();
     }
   }
 
