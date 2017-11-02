@@ -8,7 +8,7 @@ import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import throttle from 'lodash.throttle';
 import LayoutEvents from '../../lib/LayoutEvents';
-import getComputedStyle from '../../lib/dom/getComputedStyle';
+import { getTextAreaHeight } from './TextareaHelpers';
 
 import styles from './Textarea.less';
 
@@ -87,6 +87,8 @@ class Textarea extends React.Component {
 
   _node;
 
+  _fakeNode;
+
   _layoutEvents;
 
   constructor(props, context) {
@@ -95,44 +97,6 @@ class Textarea extends React.Component {
     this.state = {
       polyfillPlaceholder: false
     };
-  }
-
-  render() {
-    const rootProps = {};
-    const props = filterProps(this.props, PASS_PROPS);
-    props.className = classNames({
-      [styles.textarea]: true,
-      [styles.error]: this.props.error
-    });
-
-    if (this.props.width) {
-      rootProps.style = { width: this.props.width };
-    }
-
-    if (this.props.resize) {
-      props.style = { resize: this.props.resize };
-    }
-
-    let placeholder = null;
-
-    if (this.state.polyfillPlaceholder && !this.props.value) {
-      placeholder = (
-        <span className={styles.placeholder}>{this.props.placeholder}</span>
-      );
-    }
-
-    if (this.props.autoResize) {
-      props.onCut = this._autoresize;
-      props.onPaste = this._autoresize;
-      Object.assign(props.style, { resize: 'none' });
-    }
-
-    return (
-      <label {...rootProps} className={styles.root}>
-        {placeholder}
-        <textarea {...props} ref={this._ref} onChange={this._handleChange} />
-      </label>
-    );
   }
 
   componentDidMount() {
@@ -151,25 +115,83 @@ class Textarea extends React.Component {
     }
   }
 
-  _autoresize = throttle(() => {
-    const node = this._node;
-    const { rows, maxRows } = this.props;
-    const style = getComputedStyle(node);
-    const lineHeight = parseInt(style.lineHeight, 10);
-    const paddingTop = parseInt(style.paddingTop, 10);
-    const paddingBottom = parseInt(style.paddingBottom, 10);
-    const minInnerHeight = rows * lineHeight + paddingTop + paddingBottom;
-    const maxInnerHeight = maxRows * lineHeight + paddingTop + paddingBottom;
-    const bordersHeight = node.offsetHeight - node.clientHeight;
+  componentDidUpdate(prevProps) {
+    if (
+      (this.props.autoResize && this.props.rows > this.state.rows) ||
+      this.props.value !== prevProps.value
+    ) {
+      this._autoresize();
+    }
+  }
 
-    node.style.height = 0;
+  render() {
+    const rootProps = {};
+    const props = filterProps(this.props, PASS_PROPS);
+    props.className = classNames({
+      [styles.textarea]: true,
+      [styles.error]: this.props.error
+    });
+    props.style = {};
 
-    const expectedHeight = Math.min(
-      Math.max(node.scrollHeight + lineHeight, minInnerHeight),
-      maxInnerHeight
+    if (this.props.width) {
+      rootProps.style = { width: this.props.width };
+    }
+
+    if (this.props.resize) {
+      Object.assign(props.style, { resize: this.props.resize });
+    }
+
+    let placeholder = null;
+
+    if (this.state.polyfillPlaceholder && !this.props.value) {
+      placeholder = (
+        <span className={styles.placeholder}>{this.props.placeholder}</span>
+      );
+    }
+
+    let fakeTextarea = null;
+    if (this.props.autoResize) {
+      props.onCut = this._autoresize;
+      props.onPaste = this._autoresize;
+      Object.assign(props.style, { resize: 'none' });
+      const fakeProps = {
+        value: props.value,
+        defaultValue: props.defaultValue,
+        className: classNames(props.className, styles.fake)
+      };
+      fakeTextarea = <textarea {...fakeProps} ref={this._refFake} />;
+    }
+
+    return (
+      <label {...rootProps} className={styles.root}>
+        {placeholder}
+        <textarea {...props} ref={this._ref} onChange={this._handleChange} />
+        {fakeTextarea}
+      </label>
     );
+  }
 
-    node.style.height = expectedHeight + bordersHeight + 'px';
+  _autoresize = throttle(() => {
+    const fakeNode = this._fakeNode;
+    if (!fakeNode) {
+      return;
+    }
+    const node = this._node;
+    if (!node) {
+      return;
+    }
+    if (this.props.value === undefined) {
+      fakeNode.value = node.value;
+    }
+    const { rows, maxRows } = this.props;
+    const { height, exceededMaxHeight } = getTextAreaHeight(
+      fakeNode,
+      rows,
+      maxRows
+    );
+    node.style.height = height + 'px';
+    node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
+    fakeNode.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
   }, 100);
 
   _handleChange = event => {
@@ -210,6 +232,10 @@ class Textarea extends React.Component {
 
   _ref = el => {
     this._node = el;
+  };
+
+  _refFake = el => {
+    this._fakeNode = el;
   };
 }
 

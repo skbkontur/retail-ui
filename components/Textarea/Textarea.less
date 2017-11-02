@@ -19,6 +19,15 @@
     padding: 8px;
     width: 100%;
     -webkit-appearance: none;
+    transition: all 0.2s ease-out;
+  }
+
+  .fake {
+    position: absolute;
+    height: 0;
+    width: 100%;
+    top: 0;
+    visibility: hidden;
   }
 
   .deprecated_oldSize {
@@ -53,11 +62,10 @@
   .placeholder {
     position: absolute;
     z-index: 3;
-    top: 1px;
+    top: 9px;
     right: 24px;
     left: 9px;
-    height: 32px;
-    line-height: 32px;
+    line-height: 16px;
     font-size: 14px;
     color: #aaa;
     overflow: hidden;
