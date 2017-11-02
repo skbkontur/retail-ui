@@ -1,11 +1,12 @@
 {
     "name": "react-ui-validations",
-    "version": "0.2.10",
+    "main": "dist/retail-ui/index.js",
+    "version": "0.2.12",
     "description": "Validations for retail-ui",
     "scripts": {
         "build": "node ./scripts/build",
         "prepublish": "npm run build",
-        "publish": "npm publish dist/react-ui --access public && npm publish dist/retail-ui --access public",
+        "publish": "npm publish dist/react-ui --access public",
         "lint": "eslint src --ext .js,.jsx",
         "flow.check": "flow check",
         "storybook": "start-storybook -p 8081 -c .storybook"
@@ -19,12 +20,17 @@
     "bugs": {
         "url": "https://github.com/skbkontur/react-ui-validations/issues"
     },
-    "files": ["dist/", "src/", "index.js"],
+    "files": [
+        "dist/retail-ui",
+        "src/",
+        "index.js"
+    ],
     "peerDependencies": {
         "react": "^0.14.0 || ^15.0.0-0",
         "react-addons-css-transition-group": "^0.14.0 || ^15.0.0-0",
         "react-addons-test-utils": "^0.14.0 || ^15.0.0-0",
-        "react-dom": "^0.14.0 || ^15.0.0-0"
+        "react-dom": "^0.14.0 || ^15.0.0-0",
+        "retail-ui": "<1.0.0"
     },
     "dependencies": {
         "add-event-listener": "^0.0.1",
@@ -33,7 +39,6 @@
         "smoothscroll-polyfill": "^0.3.4"
     },
     "devDependencies": {
-        "retail-ui": "<1.0.0",
         "@kadira/storybook": "^2.35.3",
         "@types/react": "@^0.14.9 || ^15.0.25",
         "babel-cli": "^6.22.2",
@@ -57,7 +62,6 @@
         "react-addons-test-utils": "^15.4.2",
         "react-dom": "^15.4.2",
         "react-hot-loader": "^1.3.1",
-        "retail-ui": "^0.7.0",
         "rimraf": "^2.5.4",
         "style-loader": "^0.16.0"
     }
