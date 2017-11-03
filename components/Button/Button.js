@@ -2,6 +2,7 @@
 import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
+import withStyles from '../internal/withStyles';
 
 import PropTypes from 'prop-types';
 
@@ -9,7 +10,14 @@ import Corners from './Corners';
 import Icon from '../Icon';
 
 import '../ensureOldIEClassName';
-import styles from './Button.less';
+
+let cssStyles = {};
+let jssStyles = {};
+if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+  jssStyles = require('./Button.styles').default;
+} else {
+  cssStyles = require('./Button.less').default;
+}
 
 const KEYCODE_TAB = 9;
 
@@ -25,12 +33,6 @@ function listenTabPresses() {
   }
 }
 
-const SIZE_CLASSES = {
-  small: styles.sizeSmall,
-  medium: styles.sizeMedium,
-  large: styles.sizeLarge
-};
-
 type Props = {
   /** @internal */
   _noPadding?: boolean,
@@ -39,6 +41,7 @@ type Props = {
   active?: boolean,
   arrow?: boolean,
   autoFocus?: boolean,
+  classes: { [string]: string },
   checked?: boolean,
   children?: string,
   /** @internal */
@@ -193,8 +196,14 @@ class Button extends React.Component<Props, State> {
   };
 
   render() {
-    const { corners = 0 } = this.props;
+    const { corners = 0, classes } = this.props;
     const radius = '2px';
+
+    const SIZE_CLASSES = {
+      small: classes.sizeSmall,
+      medium: classes.sizeMedium,
+      large: classes.sizeLarge
+    };
 
     const rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
@@ -202,18 +211,18 @@ class Button extends React.Component<Props, State> {
       // input is focused. So we set type to 'button' by default.
       type: this.props.type,
       className: classNames({
-        [styles.root]: true,
-        [styles['use-' + this.props.use]]: true,
-        [styles.active]: this.props.active,
-        [styles.checked]: this.props.checked,
-        [styles.disabled]: this.props.disabled || this.props.loading,
-        [styles.narrow]: this.props.narrow,
-        [styles.noPadding]: this.props._noPadding,
-        [styles.noRightPadding]: this.props._noRightPadding,
-        [styles.buttonWithIcon]: !!this.props.icon,
-        [styles.arrowButton]: this.props.arrow,
+        [classes.root]: true,
+        [classes['use-' + this.props.use]]: true,
+        [classes.active]: this.props.active,
+        [classes.checked]: this.props.checked,
+        [classes.disabled]: this.props.disabled || this.props.loading,
+        [classes.narrow]: this.props.narrow,
+        [classes.noPadding]: this.props._noPadding,
+        [classes.noRightPadding]: this.props._noRightPadding,
+        [classes.buttonWithIcon]: !!this.props.icon,
+        [classes.arrowButton]: this.props.arrow,
         [SIZE_CLASSES[this.props.size]]: true,
-        [styles.focus]: this.state.focusedByTab || this.props.visuallyFocused
+        [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused
       }),
       style: {
         borderRadius:
@@ -238,7 +247,7 @@ class Button extends React.Component<Props, State> {
     }
 
     const wrapProps = {
-      className: this.props.arrow ? styles.wrap_arrow : styles.wrap,
+      className: this.props.arrow ? classes.wrap_arrow : classes.wrap,
       style: {
         width: undefined
       }
@@ -249,20 +258,20 @@ class Button extends React.Component<Props, State> {
 
     let error = null;
     if (this.props.error) {
-      error = <div className={styles.error} />;
+      error = <div className={classes.error} />;
     } else if (this.props.warning) {
-      error = <div className={styles.warning} />;
+      error = <div className={classes.warning} />;
     }
 
     let loading = null;
     if (this.props.loading) {
-      loading = <div className={styles.loading} />;
+      loading = <div className={classes.loading} />;
     }
 
     let icon = null;
     if (this.props.icon) {
       icon = (
-        <span className={styles.icon}>
+        <span className={classes.icon}>
           <Icon name={this.props.icon} />
         </span>
       );
@@ -273,10 +282,10 @@ class Button extends React.Component<Props, State> {
       arrow = (
         <div
           className={classNames(
-            styles.arrow,
-            this.props.loading ? styles.arrow_loading : '',
-            this.props.error ? styles.arrow_error : '',
-            this.props.warning ? styles.arrow_warning : ''
+            classes.arrow,
+            this.props.loading ? classes.arrow_loading : '',
+            this.props.error ? classes.arrow_error : '',
+            this.props.warning ? classes.arrow_warning : ''
           )}
         />
       );
@@ -285,13 +294,13 @@ class Button extends React.Component<Props, State> {
     // Force disable all props and features, that cannot be use with Link
     if (this.props.use === 'link') {
       rootProps.className = classNames({
-        [styles.root]: true,
-        [styles['use-link']]: true,
-        [styles.disabled]: this.props.disabled,
-        [styles.buttonWithIcon]: !!this.props.icon
+        [classes.root]: true,
+        [classes['use-link']]: true,
+        [classes.disabled]: this.props.disabled,
+        [classes.buttonWithIcon]: !!this.props.icon
       });
       Object.assign(wrapProps, {
-        className: styles.wrap,
+        className: classes.wrap,
         style: { width: wrapProps.style.width }
       });
       rootProps.style.textAlign = null;
@@ -305,7 +314,7 @@ class Button extends React.Component<Props, State> {
         <button ref={this._ref} {...rootProps}>
           {loading}
           {arrow}
-          <div className={styles.caption}>
+          <div className={classes.caption}>
             {icon}
             {this.props.children}
           </div>
@@ -320,4 +329,4 @@ class Button extends React.Component<Props, State> {
   };
 }
 
-export default Button;
+export default withStyles(cssStyles, jssStyles)(Button);

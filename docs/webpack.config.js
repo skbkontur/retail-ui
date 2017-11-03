@@ -70,6 +70,12 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin('docs.css'),
-    new webpack.PrefetchPlugin('react')
+    new webpack.PrefetchPlugin('react'),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: process.env.NODE_ENV,
+        EXPERIMENTAL_CSS_IN_JS: process.env.EXPERIMENTAL_CSS_IN_JS
+      }
+    })
   ]
 };

@@ -51,6 +51,7 @@
     "object-assign": "^4.1.1",
     "prop-types": "^15.5.10",
     "react-input-mask": "1.0.7",
+    "react-jss": "^7.2.0",
     "warning": "^3.0.0"
   },
   "devDependencies": {
@@ -81,7 +82,7 @@
     "eslint-plugin-react": "^7.1.0",
     "eslint-plugin-sort-class-members": "^1.1.1",
     "file-loader": "^0.11.2",
-    "flow-bin": "^0.57.3",
+    "flow-bin": "0.58.0",
     "fs-readdir-recursive": "^1.0.0",
     "gemini": "4.19.3",
     "gemini-sauce": "^1.0.1",
