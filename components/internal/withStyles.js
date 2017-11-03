@@ -1,12 +1,8 @@
-// @flow
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-function withStyles(
-  cssStyles: { [string]: string },
-  jssStyles: { [string]: mixed } | (mixed => { [string]: mixed })
-) {
-  return (Component: React.ComponentType<*>) => {
+function withStyles(cssStyles, jssStyles) {
+  return function(Component) {
     if (process.env.EXPERIMENTAL_CSS_IN_JS) {
       const theming = require('theming').default;
       const injectSheet = require('react-jss').default;
@@ -24,15 +20,41 @@ function withStyles(
             passingStyles = jssStyles(DefaultTheme);
           }
           const RenderingComponent = injectSheet(passingStyles)(Component);
-          return <RenderingComponent {...this.props} />;
+          return <RenderingComponent {...this.props} innerRef={this._ref} />;
         }
+
+        _ref = inst => {
+          hoistNonReactProps(inst, this);
+        };
       }
 
       return WrappedComponent;
     }
 
-    return (props: *) => <Component {...props} classes={cssStyles} />;
+    return class WrappedComponent extends React.Component<*> {
+      render() {
+        return (
+          <Component {...this.props} classes={cssStyles} innerRef={this._ref} />
+        );
+      }
+
+      _ref = inst => {
+        hoistNonReactProps(inst, this);
+      };
+    };
   };
 }
 
 export default withStyles;
+
+function hoistNonReactProps(source, target) {
+  Object.getOwnPropertyNames(Object.getPrototypeOf(source)).forEach(key => {
+    if (key in target || key.startsWith('component')) {
+      return;
+    }
+    target[key] =
+      typeof source[key] === 'function'
+        ? source[key].bind(source)
+        : source[key];
+  });
+}

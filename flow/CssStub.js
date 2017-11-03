@@ -1,3 +1,3 @@
 /* @flow */
 
-export default ({}: {[_: string]: string});
+module.exports = ({}: { [_: string]: string });

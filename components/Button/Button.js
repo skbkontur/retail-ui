@@ -16,7 +16,7 @@ let jssStyles = {};
 if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Button.styles').default;
 } else {
-  cssStyles = require('./Button.less').default;
+  cssStyles = require('./Button.less');
 }
 
 const KEYCODE_TAB = 9;
@@ -41,7 +41,7 @@ type Props = {
   active?: boolean,
   arrow?: boolean,
   autoFocus?: boolean,
-  classes: { [string]: string },
+  classes?: { [string]: string },
   checked?: boolean,
   children?: string,
   /** @internal */
@@ -51,6 +51,8 @@ type Props = {
   disableFocus?: boolean,
   focused?: boolean,
   icon?: string,
+  /** @internal */
+  innerRef?: (comp: Button) => void,
   loading?: boolean,
   narrow?: boolean,
   onClick?: (e: SyntheticMouseEvent<>) => void,
@@ -151,6 +153,13 @@ class Button extends React.Component<Props, State> {
 
   _node: ?HTMLButtonElement = null;
 
+  constructor(props: Props) {
+    super(props);
+    if (props.innerRef) {
+      props.innerRef(this);
+    }
+  }
+
   componentDidMount() {
     listenTabPresses();
 
@@ -196,7 +205,7 @@ class Button extends React.Component<Props, State> {
   };
 
   render() {
-    const { corners = 0, classes } = this.props;
+    const { corners = 0, classes = {} } = this.props;
     const radius = '2px';
 
     const SIZE_CLASSES = {
