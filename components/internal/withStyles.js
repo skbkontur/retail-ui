@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import PropTypes from 'prop-types';
 
 function withStyles(
   cssStyles: { [string]: string },
@@ -12,7 +13,9 @@ function withStyles(
       const DefaultTheme = require('../theme').default;
 
       class WrappedComponent extends React.Component<*> {
-        static contextTypes = theming.themeListener.contextTypes;
+        static contextTypes = {
+          [theming.channel]: PropTypes.object
+        };
 
         render() {
           const isInThemeProvider = !!this.context[theming.channel];
