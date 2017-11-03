@@ -1,8 +1,18 @@
 // @flow
+/* global REACT_UI_PACKAGE */
+/* eslint-disable import/no-dynamic-require, prefer-template */
 import React from "react";
 import PropTypes from "prop-types";
-import Tooltip from "retail-ui/components/Tooltip";
 import ReactUiDetection from "../ReactUiDetection";
+
+// $FlowFixMe we use define plugin
+const Tooltip2 = require(REACT_UI_PACKAGE + "/components/Tooltip");
+const Tooltip = requireDefault(Tooltip2);
+
+function requireDefault<T>(obj: T): T {
+    // $FlowFixMe default is a same module
+    return obj && obj.__esModule ? obj.default : obj // eslint-disable-line
+}
 
 type ValidationTooltipProps = {
     children?: any,
