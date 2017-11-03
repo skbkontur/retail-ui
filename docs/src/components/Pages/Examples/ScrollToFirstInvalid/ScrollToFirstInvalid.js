@@ -93,8 +93,8 @@ export default class DifferentMessages extends React.Component {
     render(): React.Element<*> {
         return (
             <div>
-                <Helmet title='Прокрутка к первому невадному контролу' />
-                <h1>Прокрутка к первому невадному контролу</h1>
+                <Helmet title='Прокрутка к первому невалидному контролу' />
+                <h1>Прокрутка к первому невалидному контролу</h1>
                 <h4>Демо 1.</h4>
                 <p>
                     На этой форме есть валидации по потере фокуса.
