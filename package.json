@@ -51,6 +51,7 @@
     "object-assign": "^4.1.1",
     "prop-types": "^15.5.10",
     "react-input-mask": "1.0.7",
+    "react-list": "^0.8.8",
     "warning": "^3.0.0"
   },
   "devDependencies": {

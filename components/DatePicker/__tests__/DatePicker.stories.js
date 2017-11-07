@@ -32,21 +32,20 @@ class DatePickerWithError extends React.Component<{}, State> {
 }
 
 storiesOf('DatePicker', module)
-  .addDecorator(story => (
+  // Throttle не работает в сторибуке из-за MockDate:
+  // Date.now() возвращает одно и то же число.
+  .add('with mouseevent handlers', () => (
     <div>
       <MockDate date={new Date('2017-01-02')} />
-      {story()}
-    </div>
-  ))
-  .add('with mouseevent handlers', () => (
-    <div style={{ paddingTop: 200 }}>
-      <DatePicker
-        value={new Date('2017-01-02')}
-        onMouseEnter={() => console.count('enter')}
-        onMouseLeave={() => console.count('leave')}
-        onChange={action('change')}
-      />
-      <button>ok</button>
+      <div style={{ paddingTop: 200 }}>
+        <DatePicker
+          value={new Date('2017-01-02')}
+          onMouseEnter={() => console.count('enter')}
+          onMouseLeave={() => console.count('leave')}
+          onChange={action('change')}
+        />
+        <button>ok</button>
+      </div>
     </div>
   ))
   .add('DatePickerWithError', () => <DatePickerWithError />);

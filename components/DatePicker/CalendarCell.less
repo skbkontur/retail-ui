@@ -1,0 +1,42 @@
+@import '../variables';
+
+:local {
+  @cell-height: 30px;
+  @cell-width: 30px;
+
+  .cell {
+    position: absolute;
+    width: @cell-width;
+    height: @cell-height;
+    box-sizing: border-box;
+    font-size: 14px;
+    line-height: @cell-height - 2;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid transparent;
+
+    &.today {
+      border-color: @border-color-gray-darker;
+    }
+
+    &.current {
+      background: #e9e9e9;
+    }
+
+    &.holiday {
+      color: #e3071c;
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    &:hover:not(.disabled) {
+      background: @border-color-focus;
+      border-color: @border-color-focus;
+      color: @text-color-invert;
+    }
+  }
+}

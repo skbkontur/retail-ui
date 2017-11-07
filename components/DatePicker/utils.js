@@ -1,5 +1,22 @@
 // @flow
-export default function(
+
+function isDate(date) /* : boolean %checks */ {
+  return date instanceof Date && !isNaN(date.getTime());
+}
+
+function formatDate(date) {
+  if (!date || !isDate(date)) {
+    return '';
+  }
+  const day = date
+    .getUTCDate()
+    .toString()
+    .padStart(2, '0');
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+  return `${day}.${month}.${date.getUTCFullYear()}`;
+}
+
+function dateParser(
   str: string | Date | null | void,
   withCorrection: boolean = true
 ): ?Date {
@@ -51,3 +68,15 @@ export default function(
 
   return null;
 }
+
+function getDay(date) {
+  const day = date.getUTCDay();
+  return day ? day - 1 : 6;
+}
+
+function getLastDayOfMonth(year, month) {
+  const date = new Date(year, month + 1, 0);
+  return date.getDate();
+}
+
+export { isDate, formatDate, dateParser, getDay, getLastDayOfMonth };

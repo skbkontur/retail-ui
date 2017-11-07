@@ -1,4 +1,4 @@
-import dateParser from '../dateParser';
+import { dateParser } from '../utils';
 
 describe('DateParser', () => {
   it('should return Date object on valid string', () => {

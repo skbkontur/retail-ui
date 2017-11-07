@@ -9,7 +9,7 @@ import filterProps from '../filterProps';
 import Input from '../Input';
 import Picker from './Picker';
 import DateInput from './DateInput';
-import dateParser from './dateParser';
+import { formatDate, isDate, dateParser } from './utils';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import RenderLayer from '../RenderLayer';
 import Icon from '../Icon';
@@ -45,6 +45,7 @@ type Props = {
   maxYear?: number,
   minYear?: number,
   menuAlign?: 'left' | 'right',
+  noTodayButton?: boolean,
   onBlur?: () => void,
   onChange?: (
     e: { target: { value: DatePickerValue } },
@@ -81,16 +82,21 @@ class DatePicker extends React.Component<Props, State> {
     error: PropTypes.bool,
 
     /**
-     * Максимальный год в селекте для года.
+     * Максимальный год.
      */
     maxYear: PropTypes.number,
 
     menuAlign: PropTypes.oneOf(['left', 'right']),
 
     /**
-     * Минимальный год в селекте для года.
+     * Минимальный год.
      */
     minYear: PropTypes.number,
+
+    /**
+     * Не рисовать кнопку выбора сегодняшнего дня.
+     */
+    noTodayButton: PropTypes.bool,
 
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
 
@@ -185,9 +191,10 @@ class DatePicker extends React.Component<Props, State> {
           align={menuAlign}
         >
           <Picker
-            value={date}
+            chosenDate={date}
             minYear={this.props.minYear}
             maxYear={this.props.maxYear}
+            noTodayButton={this.props.noTodayButton}
             onPick={this.handlePick}
           />
         </DropdownContainer>
@@ -344,22 +351,6 @@ const getDateValue = (value, onUnexpectedInput) => {
   return null;
 };
 
-function isDate(date) /* : boolean %checks */ {
-  return date instanceof Date && !isNaN(date.getTime());
-}
-
-function formatDate(date) {
-  if (!date || !isDate(date)) {
-    return '';
-  }
-
-  const day = date
-    .getUTCDate()
-    .toString()
-    .padStart(2, '0');
-  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
-  return `${day}.${month}.${date.getUTCFullYear()}`;
-}
 
 function parseDate(str, withCorrection) {
   const date = dateParser(str, withCorrection);

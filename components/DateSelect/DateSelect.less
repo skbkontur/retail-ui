@@ -10,37 +10,53 @@
     text-align: left;
     font-size: 14px;
     line-height: 24px;
-    padding-right: 2px;
 
     &:hover {
       color: @link-color;
     }
   }
 
+  .caption {
+    font-weight: 600;
+  }
+
   .arrow {
-    padding-right: 4px;
-    line-height: 24px;
-    float: right;
+    padding-left: 5px;
+    font-weight: normal;
+    color: @text-color-disabled;
   }
 
   .menuHolder {
     background: #fff;
-    border-radius: 3px;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
     box-sizing: content-box;
-    margin-top: -11px;
     overflow: hidden;
     position: absolute;
     z-index: 1000;
-  }
 
-  .menuHolder.isTopCapped {
-    margin-top: 0;
-    padding-top: 5px;
-  }
+    &.isMonth {
+      left: -10px;
 
-  .menuHolder.isBotCapped {
-    padding-bottom: 5px;
+      .menuItem {
+        padding-left: 10px;
+      }
+    }
+
+    &.isYear {
+      left: -13px;
+
+      .menuItem {
+        padding-left: 13px;
+      }
+    }
+
+    &.isTopCapped {
+      padding-top: 3px;
+    }
+
+    &.isBotCapped {
+      padding-bottom: 2px;
+    }
   }
 
   .itemsHolder {
@@ -63,7 +79,6 @@
   .menuItem {
     height: 24px;
     line-height: 24px;
-    padding-left: 10px;
     white-space: nowrap;
     color: @text-color-default;
 
@@ -85,7 +100,7 @@
     color: @text-color-default;
     text-align: left;
     line-height: 0;
-    padding-left: 18px;
+    padding-left: 21px;
 
     &:hover {
       background: @border-color-focus;

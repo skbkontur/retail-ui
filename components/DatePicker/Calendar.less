@@ -1,33 +1,33 @@
 @import '../variables.less';
 
 :local {
-  @cell-height: 31px;
-  @cell-width: 26px;
-  @day-side: 24px;
-
   .root {
-    background: @bg-default;
-    height: 220px;
-    width: 280px;
     outline: none;
     overflow: hidden;
-    position: relative;
-    z-index: 900;
   }
 
-  .grey {
-    background: #ececec;
+  .inner {
+    background: @bg-default;
+    overflow: auto;
+    width: 240px;
+    height: 331px;
   }
 
   .month {
-    box-sizing: border-box;
-    font-size: 14px;
-    line-height: @cell-height;
-    left: 191px;
-    overflow: hidden;
-    padding-left: 7px;
-    position: absolute;
-    width: 89px;
+    padding-bottom: 17px;
+  }
+
+  .monthName {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 6px 0 8px;
+    margin: 0 20px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .monthCells {
+    position: relative;
+    top: 7px;
   }
 
   .year {
@@ -35,48 +35,7 @@
   }
 
   .month.first .year {
-    display: block;
-    line-height: 10px;
-  }
-
-  .cell {
-    position: absolute;
-
-    &:nth-child(7n + 1) .cellInner {
-      margin-left: 6px;
-    }
-
-    &:nth-child(7n + 6) .cellInner {
-      margin-left: 3px;
-    }
-
-    &:hover .cellInner {
-      background: @border-color-focus;
-      color: @text-color-invert;
-    }
-  }
-
-  .cellInner {
-    font-size: 14px;
-    height: @day-side;
-    line-height: @day-side;
-    width: @day-side;
-    cursor: pointer;
-    margin: (@cell-height - @day-side) / 2 auto;
-    text-align: center;
-  }
-
-  .cellToday .cellInner {
-    font-weight: bold;
-  }
-
-  .cellCurrent .cellInner,
-  .cellCurrent:hover .cellInner {
-    color: @text-color-default;
-    background: rgba(0,0,0,0.09);
-  }
-
-  .cellHoly {
-    color: @text-color-disabled;
+    display: inline-block;
+    padding-left: 5px;
   }
 }

@@ -1,64 +1,48 @@
 import React, { Component } from 'react';
+import { getDay } from './utils';
 import classNames from 'classnames';
-import styles from './Calendar.less';
+import styles from './CalendarCell.less';
 
-const DAY_WIDTH = 26;
-const DAY_HEIGHT = 31;
-const FIRST_CELL_OFFSET = 6;
-const HOLIDAYS_OFFSET = 3;
+const DAY_WIDTH = 30;
+const DAY_HEIGHT = 30;
+const LEFT_OFFSET = 15;
 
 export default class CalendarCell extends Component {
-  constructor(props) {
-    super(props);
-
-    this._today = new Date();
-  }
-
   render() {
-    const { date, weekIdx, offset, value } = this.props;
+    const { rowIdx, ownDate, chosenDate, minYear, maxYear } = this.props;
 
-    const day = getDay(date);
-    const isHolyday = date.getUTCDay() === 0 || date.getUTCDay() === 6;
-
-    const y = weekIdx * DAY_HEIGHT - offset;
-    let x = day * DAY_WIDTH + FIRST_CELL_OFFSET;
-    let width = DAY_WIDTH;
-    if (day === 0) {
-      x = 0;
-      width += FIRST_CELL_OFFSET;
-    }
-    if (day === 5) {
-      width += HOLIDAYS_OFFSET;
-    }
-    if (day === 6) {
-      x += HOLIDAYS_OFFSET;
-    }
-    const style = { left: x, top: y, width, height: DAY_HEIGHT };
+    const isHoliday = ownDate.getUTCDay() === 0 || ownDate.getUTCDay() === 6;
+    const isDisabled = isOutOfRange(ownDate, minYear, maxYear);
 
     const cellClass = classNames({
       [styles.cell]: true,
-      [styles.cellToday]: this._isToday(date),
-      [styles.cellCurrent]: isSameDate(value, date),
-      [styles.grey]: date.getUTCMonth() % 2,
-      [styles.cellHoly]: isHolyday
+      [styles.today]: this._isToday(ownDate),
+      [styles.current]: isSameDate(chosenDate, ownDate),
+      [styles.holiday]: isHoliday,
+      [styles.disabled]: isDisabled
     });
 
+    const y = rowIdx * DAY_HEIGHT;
+    let x = getDay(ownDate) * DAY_WIDTH + LEFT_OFFSET;
+    const cellStyle = { left: x, top: y, width: DAY_WIDTH, height: DAY_HEIGHT };
+
+    const cellProps = {
+      className: cellClass,
+      style: cellStyle
+    };
+    if (!isDisabled) {
+      cellProps.onClick = this.pick;
+    }
+
     return (
-      <span className={cellClass} style={style}>
-        <div
-          className={styles.cellInner}
-          onMouseOver={this.activate}
-          onMouseLeave={this.deactivate}
-          onClick={this.pick}
-        >
-          {date.getUTCDate()}
-        </div>
+      <span {...cellProps}>
+        {ownDate.getUTCDate()}
       </span>
     );
   }
 
   _isToday(date) {
-    return isSameDate(date, this._today);
+    return isSameDate(date, new Date());
   }
 
   pick = event => {
@@ -67,7 +51,7 @@ export default class CalendarCell extends Component {
     }
 
     if (this.props.onPick) {
-      this.props.onPick(this.props.date);
+      this.props.onPick(this.props.ownDate);
     }
   };
 }
@@ -82,7 +66,7 @@ function isSameDate(a, b) {
   );
 }
 
-function getDay(date) {
-  const day = date.getUTCDay();
-  return day ? day - 1 : 6;
+function isOutOfRange(date, minYear, maxYear) {
+  const year = date.getUTCFullYear();
+  return (minYear && year < minYear) || (maxYear && year > maxYear);
 }
