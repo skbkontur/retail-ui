@@ -12,19 +12,26 @@ export type MenuItemState = null | 'hover' | 'selected' | void;
 const tagName = disabled => (disabled ? 'span' : 'a');
 
 type Props = {
+  /** @internal */
   _enableIconPadding?: boolean,
+
+  /** @internal */
   alkoLink?: boolean,
   comment?: React.Node,
   disabled?: boolean,
   href?: string,
   icon?: string,
+
+  /** @internal */
   loose?: boolean,
+
+  /** @internal */
   state?: MenuItemState,
   target?: string,
-  onClick?: (event: SyntheticEvent<*>) => mixed,
-  onMouseDown?: (event: SyntheticEvent<*>) => void,
-  onMouseEnter?: (SyntheticMouseEvent<'span' | 'a'>) => void,
-  onMouseLeave?: (SyntheticMouseEvent<'span' | 'a'>) => void,
+  onClick?: (event: SyntheticEvent<HTMLElement>) => mixed,
+  onMouseDown?: (event: SyntheticEvent<HTMLElement>) => void,
+  onMouseEnter?: (event: SyntheticMouseEvent<HTMLElement>) => void,
+  onMouseLeave?: (event: SyntheticMouseEvent<HTMLElement>) => void,
   children?: React.Node | ((state: MenuItemState) => React.Node)
 };
 
@@ -46,10 +53,8 @@ export default class MenuItem extends React.Component<Props> {
 
     icon: PropTypes.string,
 
-    /** internal */
     loose: PropTypes.bool,
 
-    /** internal */
     state: PropTypes.string,
 
     target: PropTypes.string,
@@ -62,25 +67,26 @@ export default class MenuItem extends React.Component<Props> {
       alkoLink,
       comment,
       disabled,
-      icon,
+      icon: iconName,
       loose,
       state,
-
+      children,
       onClick,
-
+      _enableIconPadding,
       ...rest
     } = this.props;
-    let { _enableIconPadding, children } = this.props;
+
     const hover = state === 'hover' && !disabled;
-    let $icon = null;
-    if (icon) {
-      _enableIconPadding = true;
-      $icon = (
+
+    let icon = null;
+    if (iconName) {
+      icon = (
         <div className={styles.icon}>
-          <Icon name={icon} />
+          <Icon name={iconName} />
         </div>
       );
     }
+
     const className = classNames({
       [styles.root]: true,
       [styles.disabled]: disabled,
@@ -88,10 +94,12 @@ export default class MenuItem extends React.Component<Props> {
       [styles.loose]: loose,
       [styles.selected]: state === 'selected',
       [styles.link]: alkoLink,
-      [styles.withIcon]: _enableIconPadding
+      [styles.withIcon]: icon || _enableIconPadding
     });
+
+    let content = children;
     if (typeof children === 'function') {
-      children = children(this.props.state);
+      content = children(this.props.state);
     }
 
     const Tag = tagName(disabled);
@@ -103,9 +111,9 @@ export default class MenuItem extends React.Component<Props> {
         tabIndex="-1"
         onClick={disabled ? null : onClick}
       >
-        {$icon}
-        {children}
-        {this.props.comment &&
+        {icon}
+        {content}
+        {this.props.comment && (
           <div
             className={classNames({
               [styles.comment]: true,
@@ -113,7 +121,8 @@ export default class MenuItem extends React.Component<Props> {
             })}
           >
             {comment}
-          </div>}
+          </div>
+        )}
       </Tag>
     );
   }

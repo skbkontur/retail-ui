@@ -29,6 +29,8 @@ type State = {
 };
 
 class RadioGroup extends React.Component<Props, State> {
+  static __REACT_UI_COMPONENT_NAME__ = 'RadioGroup';
+
   static Prevent = Prevent;
 
   static propTypes = {

@@ -1,5 +1,6 @@
 node_modules
 /docs/dist/
+/docs/src/components/DemoPage.js
 /flow-typed/npm/
 /testing/react-devtools/
 coverage

@@ -32,15 +32,20 @@ const SIZE_CLASSES = {
 };
 
 type Props = {
+  /** @internal */
   _noPadding?: boolean,
+  /** @internal */
   _noRightPadding?: boolean,
   active?: boolean,
   arrow?: boolean,
   autoFocus?: boolean,
   checked?: boolean,
   children?: string,
-  corners?: number, // internal
+  /** @internal */
+  corners?: number,
   disabled?: boolean,
+  /** @internal */
+  disableFocus?: boolean,
   focused?: boolean,
   icon?: string,
   loading?: boolean,
@@ -53,15 +58,16 @@ type Props = {
   size: 'small' | 'medium' | 'large',
   type: 'button' | 'submit' | 'reset',
   use: 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link',
+  /** @internal */
+  visuallyFocused?: boolean,
   width?: number | string
 };
 
-class Button extends React.Component<
-  Props,
-  {
-    focusedByTab: boolean
-  }
-> {
+type State = {
+  focusedByTab: boolean
+};
+
+class Button extends React.Component<Props, State> {
   static TOP_LEFT = Corners.TOP_LEFT;
   static TOP_RIGHT = Corners.TOP_RIGHT;
   static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
@@ -84,6 +90,8 @@ class Button extends React.Component<
     autoFocus: PropTypes.bool,
 
     checked: PropTypes.bool,
+
+    disableFocus: PropTypes.bool,
 
     disabled: PropTypes.bool,
 
@@ -112,6 +120,8 @@ class Button extends React.Component<
       'link'
     ]),
 
+    visuallyFocused: PropTypes.bool,
+
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
@@ -132,9 +142,7 @@ class Button extends React.Component<
     type: 'button'
   };
 
-  state: {
-    focusedByTab: boolean
-  } = {
+  state = {
     focusedByTab: false
   };
 
@@ -168,7 +176,7 @@ class Button extends React.Component<
   }
 
   handleFocus = (e: SyntheticFocusEvent<>) => {
-    if (!this.props.disabled) {
+    if (!this.props.disabled && !this.props.disableFocus) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       process.nextTick(() => {
@@ -205,7 +213,7 @@ class Button extends React.Component<
         [styles.buttonWithIcon]: !!this.props.icon,
         [styles.arrowButton]: this.props.arrow,
         [SIZE_CLASSES[this.props.size]]: true,
-        [styles.focus]: this.state.focusedByTab
+        [styles.focus]: this.state.focusedByTab || this.props.visuallyFocused
       }),
       style: {
         borderRadius:
@@ -222,7 +230,8 @@ class Button extends React.Component<
       onKeyDown: this.props.onKeyDown,
       onMouseEnter: this.props.onMouseEnter,
       onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver
+      onMouseOver: this.props.onMouseOver,
+      tabIndex: this.props.disableFocus ? '-1' : '0'
     };
     if (this.props.align) {
       rootProps.style.textAlign = this.props.align;

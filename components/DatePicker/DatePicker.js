@@ -7,12 +7,13 @@ import { findDOMNode } from 'react-dom';
 
 import filterProps from '../filterProps';
 import Input from '../Input';
-import Icon from '../Icon';
 import Picker from './Picker';
 import DateInput from './DateInput';
 import dateParser from './dateParser';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import RenderLayer from '../RenderLayer';
+import Icon from '../Icon';
+import Center from '../Center';
 
 import styles from './DatePicker.less';
 
@@ -43,6 +44,7 @@ type Props = {
   error?: boolean,
   maxYear?: number,
   minYear?: number,
+  menuAlign?: 'left' | 'right',
   onBlur?: () => void,
   onChange?: (
     e: { target: { value: DatePickerValue } },
@@ -71,6 +73,8 @@ type State = {
 };
 
 class DatePicker extends React.Component<Props, State> {
+  static __REACT_UI_COMPONENT_NAME__ = 'DatePicker';
+
   static propTypes = {
     disabled: PropTypes.bool,
 
@@ -80,6 +84,8 @@ class DatePicker extends React.Component<Props, State> {
      * Максимальный год в селекте для года.
      */
     maxYear: PropTypes.number,
+
+    menuAlign: PropTypes.oneOf(['left', 'right']),
 
     /**
      * Минимальный год в селекте для года.
@@ -129,11 +135,10 @@ class DatePicker extends React.Component<Props, State> {
     minYear: 1900,
     maxYear: 2100,
     width: 120,
-    withMask: false,
+    withMask: true,
     onUnexpectedInput: () => null
   };
 
-  icon: Icon;
   input: Input;
 
   _focusSubscription: *;
@@ -141,7 +146,6 @@ class DatePicker extends React.Component<Props, State> {
 
   constructor(props: Props, context: mixed) {
     super(props, context);
-
     const textValue =
       typeof props.value === 'string' ? props.value : formatDate(props.value);
 
@@ -163,25 +167,28 @@ class DatePicker extends React.Component<Props, State> {
    * @api
    */
   focus() {
-    this._focused = true;
     this.input.focus();
+    this.handleFocus();
   }
 
   render() {
     const { opened } = this.state;
-    const { value } = this.props;
+    const { value, menuAlign } = this.props;
 
     const date = isDate(value) ? value : null;
     let picker = null;
     if (opened) {
       picker = (
-        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={0}>
+        <DropdownContainer
+          getParent={() => findDOMNode(this)}
+          offsetY={2}
+          align={menuAlign}
+        >
           <Picker
             value={date}
             minYear={this.props.minYear}
             maxYear={this.props.maxYear}
             onPick={this.handlePick}
-            iconRef={this.icon}
           />
         </DropdownContainer>
       );
@@ -191,6 +198,11 @@ class DatePicker extends React.Component<Props, State> {
       [styles.root]: true,
       [this.props.className || '']: true
     });
+    const iconSize = this.props.size === 'large' ? 16 : 14;
+    const openClassName = classNames({
+      [styles.openButton]: true,
+      [styles.openButtonDisabled]: this.props.disabled
+    });
     return (
       <RenderLayer
         onClickOutside={this.handleBlur}
@@ -199,23 +211,28 @@ class DatePicker extends React.Component<Props, State> {
         <label className={className} style={{ width: this.props.width }}>
           <DateInput
             {...filterProps(this.props, INPUT_PASS_PROPS)}
-            getIconRef={this.getIconRef}
             getInputRef={this.getInputRef}
             opened={opened}
             value={this.state.textValue}
             onFocus={this.handleFocus}
             onChange={this.handleChange}
-            onIconClick={this.toggleCalendar}
+            onSubmit={this._handleSubmit}
           />
           {picker}
+          <Center
+            className={openClassName}
+            onMouseDown={e => e.preventDefault()}
+          >
+            <Icon name="calendar" size={iconSize} />
+          </Center>
         </label>
       </RenderLayer>
     );
   }
 
-  componentDidUpdate({ value: oldValue }: Props) {
-    const { value: newValue } = this.props;
-    if (newValue !== oldValue) {
+  componentWillReceiveProps({ value: newValue }: Props) {
+    const { value: oldValue } = this.props;
+    if (+newValue !== +oldValue) {
       const textValue =
         typeof newValue === 'string' ? newValue : formatDate(newValue);
 
@@ -244,6 +261,9 @@ class DatePicker extends React.Component<Props, State> {
     }
 
     this._focused = true;
+
+    this.setState({ opened: true });
+
     if (this.props.onFocus) {
       this.props.onFocus();
     }
@@ -258,6 +278,14 @@ class DatePicker extends React.Component<Props, State> {
 
     this.close(false);
 
+    this._handleSubmit();
+
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
+  };
+
+  _handleSubmit = () => {
     const value = this.state.textValue;
     const date = parseDate(value);
     const newDate =
@@ -271,10 +299,6 @@ class DatePicker extends React.Component<Props, State> {
     if (this.props.onChange) {
       this.props.onChange({ target: { value: newDate } }, newDate);
     }
-
-    if (this.props.onBlur) {
-      this.props.onBlur();
-    }
   };
 
   handlePick = (date: Date) => {
@@ -283,22 +307,11 @@ class DatePicker extends React.Component<Props, State> {
     }
     this._focused = false;
     this.close(false);
+    this.blur();
   };
 
   handlePickerClose = () => {
     this.close(false);
-  };
-
-  toggleCalendar = (e: Event) => {
-    if (this.props.disabled) {
-      return;
-    }
-
-    if (this.state.opened) {
-      this.close(false);
-    } else {
-      this.setState({ opened: true });
-    }
   };
 
   close(focus: boolean) {
@@ -311,10 +324,6 @@ class DatePicker extends React.Component<Props, State> {
 
   getInputRef = (ref: Input) => {
     this.input = ref;
-  };
-
-  getIconRef = (ref: Icon) => {
-    this.icon = ref;
   };
 }
 
@@ -344,16 +353,16 @@ function formatDate(date) {
     return '';
   }
 
-  const day = date.getUTCDate().toString().padStart(2, '0');
+  const day = date
+    .getUTCDate()
+    .toString()
+    .padStart(2, '0');
   const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
   return `${day}.${month}.${date.getUTCFullYear()}`;
 }
 
 function parseDate(str, withCorrection) {
   const date = dateParser(str, withCorrection);
-  if (!date) {
-    return null;
-  }
   return isDate(date) ? date : null;
 }
 

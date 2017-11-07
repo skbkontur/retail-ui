@@ -6,7 +6,8 @@ import * as React from 'react';
 
 import Checkbox from '../Checkbox.adapter';
 
-describe('Checkbox-adapter', () => {
+// Not supporting React 16
+xdescribe('Checkbox-adapter', () => {
   testAdapter('isChecked', mount => {
     const adapter1 = mount(<Checkbox checked={false} />);
     expect(adapter1.isChecked()).toBe(false);

@@ -7,10 +7,12 @@ import getCharHelper from './getCharHelper';
 import Input from '../Input';
 import type { Props as InputProps } from '../Input/Input';
 import Icon from '../Icon';
+import PasswordInputFallback from './PasswordInputFallback';
+import { ieVerison, isIE } from '../ensureOldIEClassName';
 
 import styles from './PasswordInput.less';
 
-type Props = {
+export type Props = {
   detectCapsLock?: boolean
 } & InputProps;
 
@@ -19,12 +21,16 @@ type State = {
   capsLockEnabled?: boolean | null
 };
 
+/**
+  * **DRAFT**
+**/
+
 export default class PasswordInput extends React.Component<Props, State> {
   static defaultProps = {
     size: 'small'
   };
 
-  _input: ?Input;
+  _input: ?Input | PasswordInputFallback;
 
   state: State = {
     visible: false
@@ -33,6 +39,11 @@ export default class PasswordInput extends React.Component<Props, State> {
   componentWillMount() {
     if (this.props.detectCapsLock) {
       this.setState({ capsLockEnabled: null });
+    }
+
+    if (isIE && !window.document.msCapsLockWarningOff) {
+      // turns off default ie capslock warning
+      window.document.msCapsLockWarningOff = true;
     }
   }
 
@@ -102,29 +113,54 @@ export default class PasswordInput extends React.Component<Props, State> {
     );
   };
 
-  _refInput = ref => {
+  focus = () => {
+    if (this._input) {
+      this._input.focus();
+    }
+  };
+
+  _refInput = (ref: Input | PasswordInputFallback) => {
     this._input = ref;
   };
 
+  _renderInput() {
+    const inputProps = {
+      ...this.props,
+      onKeyDown: this._handleKeydown,
+      onKeyPress: this._handleKeyPress,
+      rightIcon: this._renderEye()
+    };
+
+    if (isIE && ieVerison === 8) {
+      return (
+        <PasswordInputFallback
+          refInput={this._refInput}
+          visible={this.state.visible}
+          {...inputProps}
+        />
+      );
+    }
+
+    return (
+      <Input
+        ref={this._refInput}
+        type={this.state.visible ? 'text' : 'password'}
+        {...inputProps}
+      />
+    );
+  }
+
   render() {
-    const { capsLockEnabled, visible } = this.state;
+    const { capsLockEnabled } = this.state;
 
     const rootClassNames = cn({
       [styles.root]: true,
       [styles.capsLockEnabled]: capsLockEnabled
     });
 
-    const inputProps = {
-      ref: this._refInput,
-      type: visible ? 'text' : 'password',
-      onKeyDown: this._handleKeydown,
-      onKeyPress: this._handleKeyPress,
-      rightIcon: this._renderEye()
-    };
-
     return (
       <div className={rootClassNames}>
-        <Input {...this.props} {...inputProps} />
+        {this._renderInput()}
         {capsLockEnabled && <span className={styles.capsLockDetector} />}
       </div>
     );

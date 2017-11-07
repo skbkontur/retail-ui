@@ -208,7 +208,7 @@ TopBar.propTypes = {
    * Компонент используемый для рендеринга ссылки.
    * Нужно переопределить если вы хотите подставить ссылку для роутера
    */
-  logoComponent: PropTypes.object,
+  logoComponent: PropTypes.any,
 
   logoHref: PropTypes.string,
 

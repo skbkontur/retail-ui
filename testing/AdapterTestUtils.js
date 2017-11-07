@@ -1,5 +1,3 @@
-// @flow
-
 // This import has to go before react import.
 import * as Lookup from './Lookup';
 
@@ -16,11 +14,11 @@ class Wrap extends React.Component<*> {
 let nextID = 0;
 
 // eslint-disable-next-line
-type MountFunc = (element: React.Element<*>) => any;
+/* type MountFunc = (element: React.Element<*>) => any; */
 
 export function testAdapter(
-  testName: string,
-  fn: (mount: MountFunc) => void | Promise<void>
+  testName /* string */,
+  fn /* (mount: MountFunc) => void | Promise<void> */
 ) {
   it(testName, () => {
     let mounted = [];

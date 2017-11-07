@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames';
-import MaskedInput from 'react-input-mask';
+import MaskedInput from 'react-input-mask/dist/react-input-mask';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
@@ -22,6 +22,9 @@ const INPUT_PASS_PROPS = {
 
   onBlur: true,
   onCopy: true,
+  onClick: true,
+  onMouseUp: true,
+  onMouseDown: true,
   onCut: true,
   onFocus: true,
   onInput: true,
@@ -58,6 +61,9 @@ export type Props = {
   warning?: boolean,
   width?: number | string,
   onBlur?: (e: Event) => void,
+  onClick?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
+  onMouseUp?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
+  onMouseDown?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
   onChange?: (e: SyntheticInputEvent<HTMLInputElement>, v: string) => void,
   onCopy?: (e: SyntheticClipboardEvent<>) => void,
   onCut?: (e: SyntheticClipboardEvent<>) => void,
@@ -66,7 +72,7 @@ export type Props = {
   onKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
   onKeyPress?: (e: SyntheticKeyboardEvent<>) => void,
   onKeyUp?: (e: SyntheticKeyboardEvent<>) => void,
-  onPaste?: (e: SyntheticFocusEvent<>) => void,
+  onPaste?: (e: SyntheticClipboardEvent<HTMLInputElement>) => void,
   onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
   onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
   onMouseOver?: (e: SyntheticMouseEvent<>) => void
@@ -234,18 +240,12 @@ export default class Input extends React.Component<Props, State> {
 
     var leftIcon = null;
     if (this.props.leftIcon) {
-      leftIcon = (
-        <div className={styles.leftIcon}>
-          {this.props.leftIcon}
-        </div>
-      );
+      leftIcon = <div className={styles.leftIcon}>{this.props.leftIcon}</div>;
     }
     var rightIcon = null;
     if (this.props.rightIcon) {
       rightIcon = (
-        <div className={styles.rightIcon}>
-          {this.props.rightIcon}
-        </div>
+        <div className={styles.rightIcon}>{this.props.rightIcon}</div>
       );
     }
 
@@ -256,7 +256,7 @@ export default class Input extends React.Component<Props, State> {
         [styles.borderless]: this.props.borderless
       }),
       value: this.props.value,
-      onChange: e => this._handleChange(e),
+      onChange: this._handleChange,
       style: {},
       ref: this.getInputFromRef
     };
@@ -271,6 +271,7 @@ export default class Input extends React.Component<Props, State> {
     }
 
     let input = null;
+
     if (this.props.mask) {
       input = (
         <MaskedInput
@@ -352,7 +353,7 @@ export default class Input extends React.Component<Props, State> {
     }
   }
 
-  _handleChange(event) {
+  _handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     if (polyfillPlaceholder) {
       const fieldIsEmpty = event.target.value === '';
       if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
@@ -363,5 +364,5 @@ export default class Input extends React.Component<Props, State> {
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
-  }
+  };
 }

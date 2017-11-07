@@ -5,6 +5,17 @@ import PropTypes from 'prop-types';
 
 import PopupHelper from './PopupHelper';
 
+import styles from './PopupPin.less';
+
+const borderStyles = {
+  position: 'absolute',
+  borderStyle: 'solid',
+  borderTopColor: 'transparent',
+  borderBottomColor: 'transparent',
+  borderLeftColor: 'transparent',
+  borderRightColor: 'transparent'
+};
+
 type Props = {
   backgroundColor: string,
   borderColor: string,
@@ -29,42 +40,124 @@ export default class PopupPin extends Component<Props> {
       this.props.borderWidth
     );
 
-    let styleOuter = this._getStyle(
-      options.outerTop,
-      options.outerLeft,
+    let styleOuter = this._getOuterStyle(
       options.activeBorder,
       options.outerSize,
       this.props.borderColor
     );
 
-    let styleInner = this._getStyle(
-      options.innerTop,
-      options.innerLeft,
+    let styleInner = this._getInnerStyle(
       options.activeBorder,
       this.props.size,
       this.props.backgroundColor
     );
 
+    let styleWrapper = this._getWrapperStyle(
+      options.outerLeft,
+      options.outerTop,
+      options.outerSize
+    );
+
     return (
-      <div style={styleOuter}>
-        <div style={styleInner} />
+      <div className={styles.wrapper} style={styleWrapper}>
+        <div style={styleOuter}>
+          <div style={styleInner} />
+        </div>
       </div>
     );
   }
 
-  _getStyle(top, left, activeBorder, borderWitdth, borderColor) {
-    return {
-      position: 'absolute',
-      top: top + 'px',
-      left: left + 'px',
-      borderWidth: borderWitdth + 'px',
-      borderStyle: 'solid',
-      borderTopColor: 'transparent',
-      borderBottomColor: 'transparent',
-      borderLeftColor: 'transparent',
-      borderRightColor: 'transparent',
-      ['border' + activeBorder + 'Color']: borderColor
-    };
+  _getPopupOppositeDirection() {
+    let popupDirection = PopupHelper.getPositionObject(this.props.popupPosition)
+      .direction;
+    switch (popupDirection) {
+      case 'top':
+        return 'bottom';
+      case 'bottom':
+        return 'top';
+      case 'left':
+        return 'right';
+      case 'right':
+        return 'left';
+      default:
+        throw new TypeError('Unknown direction ' + popupDirection);
+    }
+  }
+
+  _getWrapperStyle(left, top, borderWitdth) {
+    let direction = this._getPopupOppositeDirection();
+    switch (direction) {
+      case 'top':
+      case 'bottom':
+        return {
+          [direction]: -borderWitdth + 'px',
+          left: left + 'px',
+          width: borderWitdth * 2 + 'px',
+          height: borderWitdth + 'px'
+        };
+      case 'left':
+      case 'right':
+        return {
+          [direction]: -borderWitdth + 'px',
+          top: top + 'px',
+          height: borderWitdth * 2 + 'px',
+          width: borderWitdth + 'px'
+        };
+      default:
+        throw new TypeError('Unknown direction ' + direction);
+    }
+  }
+
+  _getOuterStyle(activeBorder, borderWitdth, borderColor) {
+    let direction = this._getPopupOppositeDirection();
+    switch (direction) {
+      case 'top':
+      case 'bottom':
+        return {
+          ...borderStyles,
+          [direction]: -borderWitdth + 'px',
+          left: '0px',
+          borderWidth: borderWitdth + 'px',
+          ['border' + activeBorder + 'Color']: borderColor
+        };
+      case 'left':
+      case 'right':
+        return {
+          ...borderStyles,
+          [direction]: -borderWitdth + 'px',
+          top: '0px',
+          borderWidth: borderWitdth + 'px',
+          ['border' + activeBorder + 'Color']: borderColor
+        };
+      default:
+        throw new TypeError('Unknown direction ' + direction);
+    }
+  }
+
+  _getInnerStyle(activeBorder, borderWitdth, borderColor) {
+    let direction = this._getPopupOppositeDirection();
+    switch (direction) {
+      case 'top':
+      case 'bottom':
+        return {
+          ...borderStyles,
+          [direction]: -borderWitdth + 2 + 'px',
+          left: -borderWitdth + 'px',
+          borderWidth: borderWitdth + 'px',
+          ['border' + activeBorder + 'Color']: borderColor
+        };
+      case 'left':
+      case 'right':
+        return {
+          ...borderStyles,
+          [direction]: -borderWitdth + 2 + 'px',
+          top: -borderWitdth + 'px',
+          borderWidth: borderWitdth + 'px',
+          ['border' + activeBorder + 'Color']: borderColor
+        };
+      default:
+        throw new TypeError('Unknown direction ' + direction);
+    }
   }
 
   _getPinOptions(popupRect, popupPosition, pinSize, pinOffset, borderWidth) {

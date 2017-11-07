@@ -13,7 +13,7 @@ module.exports = {
     filename: 'docs.js'
   },
   devServer: {
-	disableHostCheck: true
+    disableHostCheck: true
   },
   module: {
     loaders: [
@@ -30,7 +30,8 @@ module.exports = {
             require.resolve('babel-preset-es2015'),
             require.resolve('babel-preset-stage-0'),
             require.resolve('babel-preset-react')
-          ]
+          ],
+          cacheDirectory: true
         },
         include: [
           path.join(__dirname, 'src'),
@@ -54,9 +55,7 @@ module.exports = {
       { test: /\.json/, loader: 'json-loader' }
     ]
   },
-  postcss: [
-    autoprefixer({ browsers: ['last 2 versions', 'IE 8'] })
-  ],
+  postcss: [autoprefixer({ browsers: ['last 2 versions', 'IE 8'] })],
   resolve: {
     fallback: path.join(__dirname, 'node_modules'),
     alias: {

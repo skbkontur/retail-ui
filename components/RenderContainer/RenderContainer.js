@@ -8,6 +8,9 @@ function nextID() {
   return ++lastID;
 }
 
+// $FlowIssue no definitions for 16 react
+const REACT_16 = !!ReactDOM.createPortal;
+
 export default class RenderContainer extends React.Component<*> {
   _domContainer: HTMLElement;
 
@@ -25,31 +28,44 @@ export default class RenderContainer extends React.Component<*> {
     );
     this._domContainer.className = 'react-ui';
 
-    if (global.ReactTesting) {
-      global.ReactTesting.addRenderContainer(this._testID, this);
-    }
-  }
-
-  render() {
-    return <Portal rt_rootID={this._testID} />;
-  }
-
-  componentDidMount() {
     const { body } = document;
     if (!body) {
       throw Error('There is no "body" in "document"');
     }
     body.appendChild(this._domContainer);
 
-    this._renderChild();
+    if (global.ReactTesting) {
+      global.ReactTesting.addRenderContainer(this._testID, this);
+    }
+  }
+
+  render() {
+    if (REACT_16) {
+      return [
+        // $FlowIssue no definitions for 16 react
+        ReactDOM.createPortal(this.props.children, this._domContainer),
+        <Portal key="portal-ref" rt_rootID={this._testID} />
+      ];
+    }
+    return <Portal rt_rootID={this._testID} />;
+  }
+
+  componentDidMount() {
+    if (!REACT_16) {
+      this._renderChild();
+    }
   }
 
   componentDidUpdate() {
-    this._renderChild();
+    if (!REACT_16) {
+      this._renderChild();
+    }
   }
 
   componentWillUnmount() {
-    ReactDOM.unmountComponentAtNode(this._domContainer);
+    if (!REACT_16) {
+      ReactDOM.unmountComponentAtNode(this._domContainer);
+    }
     if (this._domContainer.parentNode) {
       this._domContainer.parentNode.removeChild(this._domContainer);
     }

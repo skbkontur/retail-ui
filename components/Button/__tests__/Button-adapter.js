@@ -6,7 +6,8 @@ import * as React from 'react';
 
 import Button from '../Button.adapter';
 
-describe('Button-adapter', () => {
+// Not supporting React 16
+xdescribe('Button-adapter', () => {
   testAdapter('click', mount => {
     const onClick = jest.fn();
     const adapter = mount(<Button onClick={onClick} />);

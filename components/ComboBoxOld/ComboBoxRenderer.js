@@ -104,11 +104,7 @@ class ComboBoxRenderer extends React.Component<Props, State> {
   // eslint-disable-next-line react/no-multi-comp
   static Item = class Item extends React.Component<{ children?: React.Node }> {
     render() {
-      return (
-        <MenuItem>
-          {this.props.children}
-        </MenuItem>
-      );
+      return <MenuItem>{this.props.children}</MenuItem>;
     }
   };
 
@@ -164,12 +160,13 @@ class ComboBoxRenderer extends React.Component<Props, State> {
         <label className={styles.root} style={{ width: this.props.width }}>
           {this.state.isEditing ? this.renderInput() : this.renderValue()}
           {this.state.opened && this.renderMenu()}
-          {this.props.openButton &&
+          {this.props.openButton && (
             <div
               className={styles.arrow}
               onClick={this._handleArrowClick}
               onMouseDown={this._handleArrowMouseDown}
-            />}
+            />
+          )}
         </label>
       </RenderLayer>
     );
@@ -177,7 +174,6 @@ class ComboBoxRenderer extends React.Component<Props, State> {
 
   renderInput() {
     const inputProps = filterProps(this.props, INPUT_PASS_PROPS);
-
     return (
       <div className={styles.input}>
         <Input
@@ -195,11 +191,11 @@ class ComboBoxRenderer extends React.Component<Props, State> {
   renderValue() {
     const inputProps = filterProps(this.props, INPUT_PASS_PROPS);
 
-    const value = this.props.value
-      ? this.props.renderValue(this.props.value, this.props.info)
-      : <span className={styles.placeholder}>
-          {this.props.placeholder}
-        </span>;
+    const value = this.props.value ? (
+      this.props.renderValue(this.props.value, this.props.info)
+    ) : (
+      <span className={styles.placeholder}>{this.props.placeholder}</span>
+    );
 
     const isNotRecovered = !!this._error;
 
@@ -322,11 +318,12 @@ class ComboBoxRenderer extends React.Component<Props, State> {
   };
 
   _handleInputChange = (
-    event: SyntheticEvent<> & { target: HTMLInputElement }
+    event: SyntheticInputEvent<HTMLInputElement>,
+    value: string
   ) => {
-    let newInputValue = event.target.value;
+    let newInputValue = value;
 
-    const inputValueChanged = this.state.searchText !== event.target.value;
+    const inputValueChanged = this.state.searchText !== newInputValue;
     if (inputValueChanged && this.props.onInputChange) {
       let nextState = this.props.onInputChange(newInputValue);
 

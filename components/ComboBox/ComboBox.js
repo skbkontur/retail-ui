@@ -99,6 +99,8 @@ export type ExternalProps<T> = {
    */
   valueToString: (item: T) => string,
 
+  size?: 'small' | 'medium' | 'large',
+
   warning?: boolean,
 
   width?: string | number
@@ -109,9 +111,13 @@ const autocompleteReducer = createReducer(autocompleteReducers);
 
 class ComboBox<T> extends React.Component<ExternalProps<T>> {
   static defaultProps = {
+    // $FlowIssue
     itemToValue: x => x.value,
+    // $FlowIssue
     valueToString: x => x.label,
+    // $FlowIssue
     renderValue: x => x.label,
+    // $FlowIssue
     renderItem: x => x.label,
     menuAlign: 'left'
   };

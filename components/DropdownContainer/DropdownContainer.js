@@ -5,6 +5,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import LayoutEvents from '../../lib/LayoutEvents';
+import getComputedStyle from '../../lib/dom/getComputedStyle';
 import RenderContainer from '../RenderContainer/RenderContainer';
 
 type Props = {
@@ -18,10 +19,12 @@ type Props = {
 
 type State = {
   position: ?{
-    top: number | 'auto',
+    top: ?number,
+    bottom: ?number,
     left: ?number,
     right: ?number
-  }
+  },
+  hasStaticRoot?: boolean
 };
 
 export default class DropdownContainer extends React.Component<Props, State> {
@@ -37,7 +40,8 @@ export default class DropdownContainer extends React.Component<Props, State> {
   };
 
   state: State = {
-    position: null
+    position: null,
+    hasStaticRoot: true
   };
 
   _dom;
@@ -62,6 +66,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
         ...style,
         ...{
           top: null,
+          bottom: null,
           minWidth: '100%'
         }
       };
@@ -73,11 +78,11 @@ export default class DropdownContainer extends React.Component<Props, State> {
       </div>
     );
 
-    return this.props.disablePortal
-      ? content
-      : <RenderContainer>
-          {content}
-        </RenderContainer>;
+    return this.props.disablePortal ? (
+      content
+    ) : (
+      <RenderContainer>{content}</RenderContainer>
+    );
   }
 
   _ref = (dom: ?HTMLElement) => {
@@ -91,6 +96,15 @@ export default class DropdownContainer extends React.Component<Props, State> {
     }
   }
 
+  componentWillMount() {
+    let htmlPosition = getComputedStyle(document.documentElement).position;
+    let bodyPosition = getComputedStyle(document.body).position;
+
+    if (htmlPosition !== 'static' || bodyPosition !== 'static') {
+      this.setState({hasStaticRoot: false})
+    }
+  }
+
   componentWillUnmount() {
     if (!this.props.disablePortal && this._layoutSub) {
       this._layoutSub.remove();
@@ -101,6 +115,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
     // $FlowIssue
     const target: ?Element = this.props.getParent();
     const dom = this._dom;
+
     if (target && dom) {
       const targetRect = target.getBoundingClientRect();
       const docEl = document.documentElement;
@@ -114,6 +129,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
 
       let left = null;
       let right = null;
+
       if (this.props.align === 'right') {
         const docWidth = docEl.offsetWidth || 0;
         right = docWidth - (targetRect.right + scrollX) + this.props.offsetX;
@@ -122,6 +138,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
       }
 
       const { offsetY = 0 } = this.props;
+      let bottom = null;
       let top = targetRect.bottom + scrollY + offsetY;
 
       const distanceToBottom = docEl.clientHeight - targetRect.bottom;
@@ -129,13 +146,39 @@ export default class DropdownContainer extends React.Component<Props, State> {
       const dropdownHeight = this._getHeight();
 
       if (distanceToBottom < dropdownHeight && distanceToTop > dropdownHeight) {
-        top = targetRect.top - this._getHeight() + scrollY - offsetY;
+
+        top = null;
+
+        if (this.state.hasStaticRoot) {
+          bottom =
+            distanceToBottom -
+            scrollY +
+            offsetY +
+            targetRect.bottom -
+            targetRect.top;
+        } else {
+
+          let bodyScrollHeight = 0;
+          if (document.body) {
+            bodyScrollHeight = document.body.scrollHeight;
+          }
+
+          bottom =
+            bodyScrollHeight -
+            docEl.clientHeight -
+            scrollY +
+            distanceToBottom +
+            targetRect.bottom -
+            targetRect.top +
+            offsetY;
+        }
       }
 
       const position = {
         top,
         left,
         right,
+        bottom,
         minWidth: targetRect.right - targetRect.left
       };
       this.setState({ position });

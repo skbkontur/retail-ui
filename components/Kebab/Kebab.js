@@ -8,6 +8,7 @@ import Icon20 from '../Icon/20px';
 import Icon from '../Icon';
 import Popup from '../Popup';
 import Menu from '../Menu/Menu.js';
+import LayoutEvents from '../../lib/LayoutEvents';
 import RenderLayer from '../RenderLayer';
 
 import styles from './Kebab.less';
@@ -42,9 +43,15 @@ export default class Kebab extends React.Component<Props, State> {
   };
 
   _anchor: ?HTMLElement;
+  _listener;
 
   componentDidMount() {
+    this._listener = LayoutEvents.addListener(this._handleCloseRequest);
     listenTabPresses();
+  }
+
+  componentWillUnmount() {
+    this._listener.remove();
   }
 
   render() {
@@ -52,8 +59,9 @@ export default class Kebab extends React.Component<Props, State> {
     const { focusedByTab, opened } = this.state;
     return (
       <RenderLayer
-        onClickOutside={this._handleClickOutside}
-        onFocusOutside={this._handleClickOutside}
+        onClickOutside={this._handleCloseRequest}
+        onFocusOutside={this._handleCloseRequest}
+        active={this.state.opened}
       >
         <div className={styles.container}>
           <div
@@ -72,7 +80,7 @@ export default class Kebab extends React.Component<Props, State> {
           >
             {this._renderIcon(this.props.size)}
           </div>
-          {this._anchor &&
+          {this._anchor && (
             <Popup
               anchorElement={this._anchor}
               positions={[
@@ -93,7 +101,8 @@ export default class Kebab extends React.Component<Props, State> {
                   {this.props.children}
                 </Menu>
               </div>
-            </Popup>}
+            </Popup>
+          )}
         </div>
       </RenderLayer>
     );
@@ -139,7 +148,7 @@ export default class Kebab extends React.Component<Props, State> {
     }
   }
 
-  _handleClickOutside = () => {
+  _handleCloseRequest = () => {
     this._setPopupState(false);
   };
 

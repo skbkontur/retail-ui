@@ -1,11 +1,13 @@
 import * as React from 'react';
 
 export interface DatePickerProps {
+  autoFocus?: boolean;
   className?: string;
   disabled?: boolean;
   error?: boolean;
   maxYear?: number;
   minYear?: number;
+  menuAlign?: 'left' | 'right';
   onBlur?: () => void;
   onChange?: (e: { target: { value: Date } }, value: Date) => void;
   onFocus?: () => void;

@@ -5,7 +5,8 @@ import * as React from 'react';
 
 import Autocomplete from '../Autocomplete.adapter.js';
 
-describe('Autocomplete-adapter', () => {
+// Not supporting React 16
+xdescribe('Autocomplete-adapter', () => {
   testAdapter('getValue', mount => {
     const adapter = mount(<Autocomplete value="foo" source={null} />);
     expect(adapter.getValue()).toBe('foo');
