@@ -14,6 +14,7 @@ type Props = {
   error?: boolean,
   inline?: boolean,
   items: Iterable<mixed>,
+  disabledItems?: Array<mixed>,
   onChange?: (event: { target: { value: mixed } }, value: mixed) => void,
   onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
   onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
@@ -116,6 +117,8 @@ class RadioGroup extends React.Component<Props, State> {
 
   renderItems() {
     const items = this._mapItems((itemValue: mixed, data: mixed, i: number) => {
+      const disabledItems = this.props.disabledItems || [];
+
       const itemProps = {
         key: i,
         onClick: () => this._select(itemValue),
@@ -130,7 +133,7 @@ class RadioGroup extends React.Component<Props, State> {
       };
 
       const radioProps = {
-        disabled: this.props.disabled,
+        disabled: this.props.disabled || disabledItems.indexOf(itemValue) !== -1,
         error: this.props.error,
         warning: this.props.warning,
         checked: this.props.value === itemValue,
@@ -206,7 +209,9 @@ class RadioGroup extends React.Component<Props, State> {
   }
 
   _select(value) {
-    if (this.props.disabled) {
+    const disabledItems = this.props.disabledItems || [];
+
+    if (this.props.disabled || disabledItems.indexOf(value) !== -1) {
       return;
     }
 
