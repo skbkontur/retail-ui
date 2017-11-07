@@ -1,14 +1,14 @@
 // @flow
 /* eslint-disable react/no-multi-comp */
-import * as React from 'react';
-import { storiesOf, linkTo } from '@storybook/react';
+import * as React from "react";
+import { storiesOf, linkTo } from "@storybook/react";
 
-import Tabs from '../Tabs';
+import Tabs from "../Tabs";
 const { Tab } = Tabs;
 
 class UncTabs extends React.Component<*, *> {
   state = {
-    active: 'fuji'
+    active: "fuji"
   };
 
   render() {
@@ -27,7 +27,7 @@ class UncTabs extends React.Component<*, *> {
 }
 
 const RouteTab = props =>
-  <Tab id={props.to} onClick={linkTo('Tabs', props.to)}>
+  <Tab id={props.to} onClick={linkTo("Tabs", props.to)}>
     {props.children}
   </Tab>;
 
@@ -55,7 +55,7 @@ const MyLinkTab = props => <Tab component={MyLink} {...props} />;
 
 class TabsWithMyLink extends React.Component<*, *> {
   state = {
-    active: 'fuji'
+    active: "fuji"
   };
 
   render() {
@@ -82,9 +82,9 @@ class UnexpectedUpdatedTab extends React.Component<*, *> {
     return (
       <Tab {...this.props}>
         {this.state.updated
-          ? ':P'
+          ? ":P"
           : <button onClick={() => this.setState({ updated: true })}>
-              Update me
+            Update me
             </button>}
       </Tab>
     );
@@ -93,7 +93,7 @@ class UnexpectedUpdatedTab extends React.Component<*, *> {
 
 class OhMyTabs extends React.Component<*, *> {
   state = {
-    active: 'fuji'
+    active: "fuji"
   };
 
   render() {
@@ -117,11 +117,32 @@ class OhMyTabs extends React.Component<*, *> {
   }
 }
 
-storiesOf('Tabs', module)
-  .add('simple', () => <UncTabs />)
-  .add('first', () => <RouterTabs value="first" />)
-  .add('another', () => <RouterTabs value="another" />)
-  .add('hrefs first', () =>
+class DisabledTab extends React.Component<*, *> {
+  state = {
+    active: "second"
+  };
+
+  render() {
+    return (
+      <Tabs
+        value={this.state.active}
+        onChange={(_, v) => this.setState({ active: v })}
+      >
+        <Tab id="first" disabled>
+          First (disabled)
+        </Tab>
+        <Tab id="second">Second</Tab>
+        <Tab id="third">Third</Tab>
+      </Tabs>
+    );
+  }
+}
+
+storiesOf("Tabs", module)
+  .add("simple", () => <UncTabs />)
+  .add("first", () => <RouterTabs value="first" />)
+  .add("another", () => <RouterTabs value="another" />)
+  .add("hrefs first", () =>
     <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
       <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
         Hrefs first
@@ -131,7 +152,7 @@ storiesOf('Tabs', module)
       </Tab>
     </Tabs>
   )
-  .add('hrefs second', () =>
+  .add("hrefs second", () =>
     <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
       <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
         Hrefs first
@@ -141,6 +162,7 @@ storiesOf('Tabs', module)
       </Tab>
     </Tabs>
   )
-  .add('vertical', () => <UncTabs vertical />)
-  .add('with component', () => <TabsWithMyLink />)
-  .add('with unexpected tab size change', () => <OhMyTabs />);
+  .add("vertical", () => <UncTabs vertical />)
+  .add("with component", () => <TabsWithMyLink />)
+  .add("with unexpected tab size change", () => <OhMyTabs />)
+  .add("with disabled tab", () => <DisabledTab />);
