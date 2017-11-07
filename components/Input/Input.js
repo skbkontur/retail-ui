@@ -53,8 +53,6 @@ export type Props = {
   disabled?: boolean,
   error?: boolean,
   id?: string,
-  /** @internal */
-  innerRef?: (comp: Input) => void,
   leftIcon?: React.Node,
   mask?: string,
   maskChar?: ?string,
@@ -199,9 +197,6 @@ class Input extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    if (props.innerRef) {
-      props.innerRef(this);
-    }
   }
 
   state: State = {

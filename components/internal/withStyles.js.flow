@@ -1,4 +1,6 @@
 // @flow
+// import type { HigherOrderComponent } from 'react-flow-types';
+
 declare function withStyles<T>(
   cssStyles: { [string]: string },
   jssStyles: { [string]: mixed } | (mixed => { [string]: mixed })

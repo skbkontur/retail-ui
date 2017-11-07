@@ -1,8 +1,8 @@
 // @flow
 
-import DefaultTheme, { type ITheme } from '../theme';
+import { type ITheme } from '../theme';
 
-export default (theme: ITheme = DefaultTheme) => ({
+export default (theme: ITheme) => ({
   wrap: {
     boxSizing: 'border-box',
     display: 'inline-block',
