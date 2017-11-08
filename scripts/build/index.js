@@ -211,7 +211,9 @@ function generatePackageJson() {
     name: '@skbkontur/react-ui',
     version: packageJson.version,
     license: 'MIT',
-    dependencies: packageJson.dependencies,
+    dependencies: Object.assign({}, packageJson.dependencies, {
+      'babel-runtime': '^6.26.0'
+    }),
     peerDependencies: packageJson.peerDependencies
   };
   const source = JSON.stringify(result, null, 2);
