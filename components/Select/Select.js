@@ -298,7 +298,7 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
     if (this.props.search) {
       search = (
         <div className={styles.search}>
-          <Input ref={this._focusInput} onChange={this.handleSearch} />
+          <Input innerRef={this._focusInput} onChange={this.handleSearch} />
         </div>
       );
     }

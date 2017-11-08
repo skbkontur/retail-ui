@@ -30,10 +30,11 @@ export default class PasswordInput extends React.Component<Props, State> {
     size: 'small'
   };
 
-  _input: ?Input | PasswordInputFallback;
+  _input;
 
-  state: State = {
-    visible: false
+  state = {
+    visible: false,
+    capsLockEnabled: false
   };
 
   componentWillMount() {
@@ -119,7 +120,7 @@ export default class PasswordInput extends React.Component<Props, State> {
     }
   };
 
-  _refInput = (ref: Input | PasswordInputFallback) => {
+  _refInput = ref => {
     this._input = ref;
   };
 
