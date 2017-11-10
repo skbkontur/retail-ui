@@ -2,7 +2,7 @@
 import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
-import withStyles from '../internal/withStyles';
+import Styled from '../internal/Styled';
 
 import PropTypes from 'prop-types';
 
@@ -41,7 +41,6 @@ type Props = {
   active?: boolean,
   arrow?: boolean,
   autoFocus?: boolean,
-  classes?: { [string]: string },
   checked?: boolean,
   children?: string,
   /** @internal */
@@ -51,8 +50,6 @@ type Props = {
   disableFocus?: boolean,
   focused?: boolean,
   icon?: string,
-  /** @internal */
-  innerRef?: (comp: Button) => void,
   loading?: boolean,
   narrow?: boolean,
   onClick?: (e: SyntheticMouseEvent<>) => void,
@@ -153,13 +150,6 @@ class Button extends React.Component<Props, State> {
 
   _node: ?HTMLButtonElement = null;
 
-  constructor(props: Props) {
-    super(props);
-    if (props.innerRef) {
-      props.innerRef(this);
-    }
-  }
-
   componentDidMount() {
     listenTabPresses();
 
@@ -205,7 +195,15 @@ class Button extends React.Component<Props, State> {
   };
 
   render() {
-    const { corners = 0, classes = {} } = this.props;
+    return Styled({
+      jssStyles,
+      cssStyles,
+      render: this._render
+    });
+  }
+
+  _render = classes => {
+    const { corners = 0 } = this.props;
     const radius = '2px';
 
     const SIZE_CLASSES = {
@@ -331,11 +329,11 @@ class Button extends React.Component<Props, State> {
         </button>
       </span>
     );
-  }
+  };
 
   _ref = node => {
     this._node = node;
   };
 }
 
-export default withStyles(cssStyles, jssStyles)(Button);
+export default Button;

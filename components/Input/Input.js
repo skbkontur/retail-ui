@@ -6,7 +6,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
-import withStyles from '../internal/withStyles';
+import Styled from '../internal/Styled';
 
 import filterProps from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
@@ -48,8 +48,6 @@ export type Props = {
   borderless?: boolean,
   /** @internal */
   className?: string, // TODO: kill it
-  /** @internal */
-  classes?: { [string]: string },
   disabled?: boolean,
   error?: boolean,
   id?: string,
@@ -206,8 +204,10 @@ class Input extends React.Component<Props, State> {
   input: ?HTMLInputElement = null;
 
   render() {
-    const { classes = {} } = this.props;
+    return Styled({ cssStyles, jssStyles, render: this._render });
+  }
 
+  _render = classes => {
     const SIZE_CLASS_NAMES = {
       small: classes.sizeSmall,
       medium: classes.sizeMedium,
@@ -312,7 +312,7 @@ class Input extends React.Component<Props, State> {
         {rightIcon}
       </label>
     );
-  }
+  };
 
   componentDidMount() {
     if (polyfillPlaceholder) {
@@ -384,4 +384,4 @@ class Input extends React.Component<Props, State> {
   };
 }
 
-export default withStyles(cssStyles, jssStyles)(Input);
+export default Input;

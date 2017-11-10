@@ -112,7 +112,7 @@ export default class Autocomplete extends React.Component<Props, State> {
       onMouseEnter: this.props.onMouseEnter,
       onMouseLeave: this.props.onMouseLeave,
       onMouseOver: this.props.onMouseOver,
-      innerRef: this._refInput
+      ref: this._refInput
     };
     return (
       <RenderLayer

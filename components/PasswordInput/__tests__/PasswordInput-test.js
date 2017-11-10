@@ -50,7 +50,7 @@ describe('PasswordInput', () => {
 
   it('has not capsLockEnabled property in state', () => {
     const component = setup();
-    expect(component.state().capsLockEnabled).toBe(undefined);
+    expect(component.state().capsLockEnabled).toBeFalsy();
   });
 
   it('has capsLockEnabled = null if passed detectCapsLock prop', () => {
