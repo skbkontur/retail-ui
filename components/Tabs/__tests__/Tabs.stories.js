@@ -119,7 +119,7 @@ class OhMyTabs extends React.Component<*, *> {
 
 class DisabledTab extends React.Component<*, *> {
   state = {
-    active: 'second'
+    active: 'first'
   };
 
   render() {
@@ -128,11 +128,10 @@ class DisabledTab extends React.Component<*, *> {
         value={this.state.active}
         onChange={(_, v) => this.setState({ active: v })}
       >
-        <Tab id="first" disabled>
-          First (disabled)
-        </Tab>
-        <Tab id="second">Second</Tab>
+        <Tab id="first">First</Tab>
+        <Tab id="second" disabled>Second (disabled)</Tab>
         <Tab id="third">Third</Tab>
+        <Tab id="fourth">Third</Tab>
       </Tabs>
     );
   }

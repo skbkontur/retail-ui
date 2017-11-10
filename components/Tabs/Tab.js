@@ -129,6 +129,7 @@ class Tab extends React.Component<Props, State> {
         onClick={!isDisabled && this._switchTab}
         onFocus={!isDisabled && this._handleFocus}
         onKeyDown={!isDisabled && this._handleKeyDown}
+        tabIndex={isDisabled ? -1 : 0}
         ref={this._refNode}
         {...rest}
       >
