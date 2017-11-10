@@ -33,7 +33,7 @@ class JssStyled extends React.Component<Props> {
   };
 
   _sheetsManager = new Map();
-  _unsubscribeId = null;
+  _unsubscribe = null;
   _theme = null;
   _broadcast = brcast();
   _stylesCreator;
@@ -60,7 +60,7 @@ class JssStyled extends React.Component<Props> {
     if (this._inThemeContext) {
       // TODO: replace `this.context[theming.channel].subscribe`
       // with custom themeListener.subscribe
-      this._unsubscribeId = this.context[theming.channel].subscribe(theme => {
+      this._unsubscribe = this.context[theming.channel].subscribe(theme => {
         const oldTheme = this._theme;
         this._theme = theme;
         this._attach(this._theme);
@@ -73,10 +73,10 @@ class JssStyled extends React.Component<Props> {
 
   componentWillUnmount() {
     this._detach(this._theme);
-    if (this._unsubscribeId !== null) {
+    if (this._unsubscribe !== null) {
       // TODO: replace `this.context[theming.channel].unsubscribe`
       // with custom themeListener.unsubscribe
-      this.context[theming.channel].unsubscribe(this._unsubscribeId);
+      this._unsubscribe();
     }
   }
 
