@@ -118,7 +118,7 @@ export default (theme: ITheme) => ({
     paddingLeft: 15
   },
 
-  default: generateColorStyles(
+  default: generateUseStyles(
     theme.button.defaultHoverBgStart,
     theme.button.defaultHoverBgEnd,
     theme.button.defaultHoverShadow,
@@ -130,7 +130,7 @@ export default (theme: ITheme) => ({
     'none'
   ),
 
-  primary: generateColorStyles(
+  primary: generateUseStyles(
     theme.button.primaryHoverBgStart,
     theme.button.primaryHoverBgEnd,
     theme.button.primaryHoverShadow,
@@ -142,7 +142,7 @@ export default (theme: ITheme) => ({
     '#fff'
   ),
 
-  success: generateColorStyles(
+  success: generateUseStyles(
     theme.button.successHoverBgStart,
     theme.button.successHoverBgEnd,
     theme.button.successHoverShadow,
@@ -154,7 +154,7 @@ export default (theme: ITheme) => ({
     '#fff'
   ),
 
-  danger: generateColorStyles(
+  danger: generateUseStyles(
     theme.button.dangerHoverBgStart,
     theme.button.dangerHoverBgEnd,
     theme.button.dangerHoverShadow,
@@ -166,7 +166,7 @@ export default (theme: ITheme) => ({
     '#fff'
   ),
 
-  pay: generateColorStyles(
+  pay: generateUseStyles(
     theme.button.payHoverBgStart,
     theme.button.payHoverBgEnd,
     theme.button.payHoverShadow,
@@ -281,20 +281,16 @@ export default (theme: ITheme) => ({
     paddingRight: 0
   },
 
+  // TODO: arrow styles
   arrow: {},
-
   arrowButton: {},
-
   wrap_arrow: {},
-
   arrow_loading: {},
-
   arrow_warning: {},
-
   arrow_error: {}
 });
 
-const generateColorStyles = (
+const generateUseStyles = (
   hoverColorStart,
   hoverColorEnd,
   hoverShadow,
