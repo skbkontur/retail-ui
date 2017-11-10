@@ -2,7 +2,7 @@
 import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
-import styled from '../internal/styled';
+import styled from '../internal/styledRender';
 
 import PropTypes from 'prop-types';
 
