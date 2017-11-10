@@ -2,7 +2,7 @@
 import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
-import Styled from '../internal/Styled';
+import styled from '../internal/styled';
 
 import PropTypes from 'prop-types';
 
@@ -194,15 +194,7 @@ class Button extends React.Component<Props, State> {
     this.setState({ focusedByTab: false });
   };
 
-  render() {
-    return Styled({
-      jssStyles,
-      cssStyles,
-      render: this._render
-    });
-  }
-
-  _render = classes => {
+  render = styled(cssStyles, jssStyles, classes => {
     const { corners = 0 } = this.props;
     const radius = '2px';
 
@@ -329,7 +321,7 @@ class Button extends React.Component<Props, State> {
         </button>
       </span>
     );
-  };
+  });
 
   _ref = node => {
     this._node = node;

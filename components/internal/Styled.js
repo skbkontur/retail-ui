@@ -2,13 +2,11 @@
 
 import * as React from 'react';
 
-type Props = {
-  jssStyles: { [string]: mixed },
+const styled = (
   cssStyles: { [string]: string },
-  render: (classes: { [string]: string }) => React.Node
-};
-
-const Styled = ({ jssStyles, cssStyles, render }: Props) => {
+  jssStyles: { [string]: mixed },
+  render: (classes: { [string]: string }) => React$Node
+) => () => {
   if (process.env.EXPERIMENTAL_CSS_IN_JS) {
     const JssStyled = require('./JssStyled').default;
     return <JssStyled styles={jssStyles} children={render} />;
@@ -17,4 +15,4 @@ const Styled = ({ jssStyles, cssStyles, render }: Props) => {
   }
 };
 
-export default Styled;
+export default styled;

@@ -6,7 +6,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
-import Styled from '../internal/Styled';
+import styled from '../internal/styled';
 
 import filterProps from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
@@ -203,11 +203,7 @@ class Input extends React.Component<Props, State> {
 
   input: ?HTMLInputElement = null;
 
-  render() {
-    return Styled({ cssStyles, jssStyles, render: this._render });
-  }
-
-  _render = classes => {
+  render = styled(cssStyles, jssStyles, classes => {
     const SIZE_CLASS_NAMES = {
       small: classes.sizeSmall,
       medium: classes.sizeMedium,
@@ -312,7 +308,7 @@ class Input extends React.Component<Props, State> {
         {rightIcon}
       </label>
     );
-  };
+  });
 
   componentDidMount() {
     if (polyfillPlaceholder) {
