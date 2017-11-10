@@ -58,8 +58,6 @@ class JssStyled extends React.Component<Props> {
 
   componentDidMount() {
     if (this._inThemeContext) {
-      // TODO: replace `this.context[theming.channel].subscribe`
-      // with custom themeListener.subscribe
       this._unsubscribe = this.context[theming.channel].subscribe(theme => {
         const oldTheme = this._theme;
         this._theme = theme;
@@ -74,8 +72,6 @@ class JssStyled extends React.Component<Props> {
   componentWillUnmount() {
     this._detach(this._theme);
     if (this._unsubscribe !== null) {
-      // TODO: replace `this.context[theming.channel].unsubscribe`
-      // with custom themeListener.unsubscribe
       this._unsubscribe();
     }
   }
