@@ -12,8 +12,8 @@ import filterProps from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 
-let cssStyles = {};
-let jssStyles = {};
+let cssStyles;
+let jssStyles;
 if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Input.styles').default;
 } else {

@@ -11,8 +11,8 @@ import Icon from '../Icon';
 
 import '../ensureOldIEClassName';
 
-let cssStyles = {};
-let jssStyles = {};
+let cssStyles;
+let jssStyles;
 if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Button.styles').default;
 } else {
@@ -211,7 +211,7 @@ class Button extends React.Component<Props, State> {
       type: this.props.type,
       className: classNames({
         [classes.root]: true,
-        [classes['use-' + this.props.use]]: true,
+        [classes[this.props.use]]: true,
         [classes.active]: this.props.active,
         [classes.checked]: this.props.checked,
         [classes.disabled]: this.props.disabled || this.props.loading,
@@ -294,7 +294,7 @@ class Button extends React.Component<Props, State> {
     if (this.props.use === 'link') {
       rootProps.className = classNames({
         [classes.root]: true,
-        [classes['use-link']]: true,
+        [classes.link]: true,
         [classes.disabled]: this.props.disabled,
         [classes.buttonWithIcon]: !!this.props.icon
       });

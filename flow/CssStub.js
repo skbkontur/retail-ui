@@ -1,3 +1,2 @@
 /* @flow */
-
-module.exports = ({}: { [_: string]: string });
+module.exports = ({}: any);

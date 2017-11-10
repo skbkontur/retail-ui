@@ -21,7 +21,7 @@ const getDefaultTheme = () => {
 
 type Props = {
   styles: Styles,
-  children: (classes: { [string]: string }) => React.Node
+  children: (classes: *) => React.Node
 };
 
 const createStylesCreator = (styles: Styles) =>

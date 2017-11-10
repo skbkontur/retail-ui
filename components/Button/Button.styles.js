@@ -76,6 +76,8 @@ export default (theme: ITheme) => ({
     }
   },
 
+  active: {},
+
   focus: {},
 
   checked: {},
@@ -116,7 +118,7 @@ export default (theme: ITheme) => ({
     paddingLeft: 15
   },
 
-  'use-default': generateColorStyles(
+  default: generateColorStyles(
     theme.button.defaultHoverBgStart,
     theme.button.defaultHoverBgEnd,
     theme.button.defaultHoverShadow,
@@ -128,7 +130,7 @@ export default (theme: ITheme) => ({
     'none'
   ),
 
-  'use-primary': generateColorStyles(
+  primary: generateColorStyles(
     theme.button.primaryHoverBgStart,
     theme.button.primaryHoverBgEnd,
     theme.button.primaryHoverShadow,
@@ -140,7 +142,7 @@ export default (theme: ITheme) => ({
     '#fff'
   ),
 
-  'use-success': generateColorStyles(
+  success: generateColorStyles(
     theme.button.successHoverBgStart,
     theme.button.successHoverBgEnd,
     theme.button.successHoverShadow,
@@ -152,7 +154,7 @@ export default (theme: ITheme) => ({
     '#fff'
   ),
 
-  'use-danger': generateColorStyles(
+  danger: generateColorStyles(
     theme.button.dangerHoverBgStart,
     theme.button.dangerHoverBgEnd,
     theme.button.dangerHoverShadow,
@@ -164,7 +166,7 @@ export default (theme: ITheme) => ({
     '#fff'
   ),
 
-  'use-pay': generateColorStyles(
+  pay: generateColorStyles(
     theme.button.payHoverBgStart,
     theme.button.payHoverBgEnd,
     theme.button.payHoverShadow,
@@ -176,7 +178,7 @@ export default (theme: ITheme) => ({
     'none'
   ),
 
-  'use-link': {
+  link: {
     display: 'inline',
     height: 'inherit',
     padding: '0',
@@ -277,7 +279,19 @@ export default (theme: ITheme) => ({
 
   noRightPadding: {
     paddingRight: 0
-  }
+  },
+
+  arrow: {},
+
+  arrowButton: {},
+
+  wrap_arrow: {},
+
+  arrow_loading: {},
+
+  arrow_warning: {},
+
+  arrow_error: {}
 });
 
 const generateColorStyles = (
@@ -305,7 +319,7 @@ const generateColorStyles = (
     boxShadow: activeShadow
   },
 
-  '&.active': {
+  '&$active': {
     background: activeColor,
     boxShadow: activeShadow
   }
