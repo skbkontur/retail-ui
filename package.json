@@ -1,7 +1,7 @@
 {
     "name": "react-ui-validations",
     "main": "dist/retail-ui/index.js",
-    "version": "0.2.12",
+    "version": "0.2.13",
     "description": "Validations for retail-ui",
     "scripts": {
         "build": "node ./scripts/build",
