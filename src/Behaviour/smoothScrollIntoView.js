@@ -142,28 +142,13 @@ function scrollBy({ left, top }: { left: number, top: number }): Promise<void> {
     );
 }
 
-function isElementInViewport(el: HTMLElement): boolean {
-    let currentElement = el;
-    let top = currentElement.offsetTop;
-    let left = currentElement.offsetLeft;
-    const width = currentElement.offsetWidth;
-    const height = currentElement.offsetHeight;
-
-    while (currentElement.offsetParent) {
-        const offsetParent = currentElement.offsetParent;
-        if (offsetParent instanceof HTMLElement) {
-            currentElement = offsetParent;
-            top += currentElement.offsetTop;
-            left += currentElement.offsetLeft;
-        } else {
-            break;
-        }
-    }
-
+function isElementInViewport(element: HTMLElement): boolean {
+    const rect = element.getBoundingClientRect();
+    const html = document.documentElement || { clientHeight: 0, clientWidth: 0 };
     return (
-        top >= (window.scrollY || window.pageYOffset) &&
-        left >= (window.scrollX || window.pageXOffset) &&
-        top + height <= (window.scrollY || window.pageYOffset) + window.innerHeight &&
-        left + width <= (window.scrollX || window.pageXOffset) + window.innerWidth
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || html.clientHeight) &&
+        rect.right <= (window.innerWidth || html.clientWidth)
     );
 }
