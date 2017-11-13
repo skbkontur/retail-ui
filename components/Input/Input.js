@@ -6,11 +6,19 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
+import styled from '../internal/styledRender';
 
 import filterProps from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
-import styles from './Input.less';
+
+let cssStyles;
+let jssStyles;
+if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+  jssStyles = require('./Input.styles').default;
+} else {
+  cssStyles = require('./Input.less');
+}
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -34,16 +42,11 @@ const INPUT_PASS_PROPS = {
   onPaste: true
 };
 
-const SIZE_CLASS_NAMES = {
-  small: styles.sizeSmall,
-  medium: styles.sizeMedium,
-  large: styles.sizeLarge
-};
-
 export type Props = {
   align?: 'left' | 'center' | 'right',
   alwaysShowMask?: boolean,
   borderless?: boolean,
+  /** @internal */
   className?: string, // TODO: kill it
   disabled?: boolean,
   error?: boolean,
@@ -82,7 +85,7 @@ type State = {
   polyfillPlaceholder: boolean
 };
 
-export default class Input extends React.Component<Props, State> {
+class Input extends React.Component<Props, State> {
   static propTypes = {
     align: PropTypes.oneOf(['left', 'center', 'right']),
 
@@ -190,25 +193,35 @@ export default class Input extends React.Component<Props, State> {
     size: 'small'
   };
 
+  constructor(props: Props) {
+    super(props);
+  }
+
   state: State = {
     polyfillPlaceholder: false
   };
 
   input: ?HTMLInputElement = null;
 
-  render() {
+  render = styled(cssStyles, jssStyles, classes => {
+    const SIZE_CLASS_NAMES = {
+      small: classes.sizeSmall,
+      medium: classes.sizeMedium,
+      large: classes.sizeLarge
+    };
+
     const className: string = this.props.className || '';
     const sizeClassName =
       SIZE_CLASS_NAMES[this.props.size || Input.defaultProps.size];
     var labelProps = {
       className: classNames({
-        [styles.root]: true,
+        [classes.root]: true,
         [className]: true,
-        [styles.disabled]: this.props.disabled,
-        [styles.error]: this.props.error,
-        [styles.warning]: this.props.warning,
-        [styles.padLeft]: this.props.leftIcon,
-        [styles.padRight]: this.props.rightIcon,
+        [classes.disabled]: this.props.disabled,
+        [classes.error]: this.props.error,
+        [classes.warning]: this.props.warning,
+        [classes.padLeft]: this.props.leftIcon,
+        [classes.padRight]: this.props.rightIcon,
         [sizeClassName]: true
       }),
       style: {},
@@ -230,7 +243,7 @@ export default class Input extends React.Component<Props, State> {
     ) {
       placeholder = (
         <div
-          className={styles.placeholder}
+          className={classes.placeholder}
           style={{ textAlign: this.props.align || 'inherit' }}
         >
           {this.props.placeholder}
@@ -240,20 +253,20 @@ export default class Input extends React.Component<Props, State> {
 
     var leftIcon = null;
     if (this.props.leftIcon) {
-      leftIcon = <div className={styles.leftIcon}>{this.props.leftIcon}</div>;
+      leftIcon = <div className={classes.leftIcon}>{this.props.leftIcon}</div>;
     }
     var rightIcon = null;
     if (this.props.rightIcon) {
       rightIcon = (
-        <div className={styles.rightIcon}>{this.props.rightIcon}</div>
+        <div className={classes.rightIcon}>{this.props.rightIcon}</div>
       );
     }
 
     const inputProps = {
       ...filterProps(this.props, INPUT_PASS_PROPS),
       className: classNames({
-        [styles.input]: true,
-        [styles.borderless]: this.props.borderless
+        [classes.input]: true,
+        [classes.borderless]: this.props.borderless
       }),
       value: this.props.value,
       onChange: this._handleChange,
@@ -295,7 +308,7 @@ export default class Input extends React.Component<Props, State> {
         {rightIcon}
       </label>
     );
-  }
+  });
 
   componentDidMount() {
     if (polyfillPlaceholder) {
@@ -366,3 +379,5 @@ export default class Input extends React.Component<Props, State> {
     }
   };
 }
+
+export default Input;
