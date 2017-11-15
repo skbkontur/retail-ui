@@ -1,7 +1,7 @@
 # Changelog
 
 ### 0.9.9 -> 0.9.10
-#### 2.11.2017
+#### 9.11.2017
 - Textarea - пофикшен отступ снизу
 - @skbkontur/react-ui - теперь использует babel-runtime
 
