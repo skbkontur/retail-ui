@@ -7,6 +7,9 @@ let lastID = 0;
 function nextID() {
   return ++lastID;
 }
+function setID(id) {
+  lastID = id
+}
 
 // $FlowIssue no definitions for 16 react
 const REACT_16 = !!ReactDOM.createPortal;
@@ -20,6 +23,7 @@ export default class RenderContainer extends React.Component<*> {
     super(props, context);
 
     this._domContainer = document.createElement('div');
+    this._hydrateId()
 
     this._testID = nextID();
     this._domContainer.setAttribute(
@@ -37,6 +41,16 @@ export default class RenderContainer extends React.Component<*> {
     if (global.ReactTesting) {
       global.ReactTesting.addRenderContainer(this._testID, this);
     }
+  }
+
+  _hydrateId() {
+    const nodes = document.querySelectorAll('[data-rendered-container-id]')
+    if (nodes.length === 0) {
+      return
+    }
+    const lastNode = nodes[nodes.length - 1]
+    const containerId = +lastNode.dataset.renderedContainerId
+    setID(containerId)
   }
 
   render() {

@@ -207,6 +207,7 @@ class DatePicker extends React.Component<Props, State> {
       <RenderLayer
         onClickOutside={this.handleBlur}
         onFocusOutside={this.handleBlur}
+        active={opened}
       >
         <label className={className} style={{ width: this.props.width }}>
           <DateInput
