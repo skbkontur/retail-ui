@@ -8,10 +8,9 @@ function nextID() {
   return ++lastID;
 }
 function setID(id) {
-  lastID = id
+  lastID = id;
 }
 
-// $FlowIssue no definitions for 16 react
 const REACT_16 = !!ReactDOM.createPortal;
 
 export default class RenderContainer extends React.Component<*> {
@@ -23,7 +22,7 @@ export default class RenderContainer extends React.Component<*> {
     super(props, context);
 
     this._domContainer = document.createElement('div');
-    this._hydrateId()
+    this._hydrateId();
 
     this._testID = nextID();
     this._domContainer.setAttribute(
@@ -44,19 +43,18 @@ export default class RenderContainer extends React.Component<*> {
   }
 
   _hydrateId() {
-    const nodes = document.querySelectorAll('[data-rendered-container-id]')
+    const nodes = document.querySelectorAll('[data-rendered-container-id]');
     if (nodes.length === 0) {
-      return
+      return;
     }
-    const lastNode = nodes[nodes.length - 1]
-    const containerId = +lastNode.dataset.renderedContainerId
-    setID(containerId)
+    const lastNode = nodes[nodes.length - 1];
+    const containerId = +lastNode.getAttribute('data-rendered-container-id');
+    setID(containerId);
   }
 
   render() {
     if (REACT_16) {
       return [
-        // $FlowIssue no definitions for 16 react
         ReactDOM.createPortal(this.props.children, this._domContainer),
         <Portal key="portal-ref" rt_rootID={this._testID} />
       ];
