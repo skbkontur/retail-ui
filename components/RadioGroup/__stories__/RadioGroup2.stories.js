@@ -108,31 +108,23 @@ storiesOf('RadioGroup2', module)
         <Radio value="Two" disabled>
           Second element
         </Radio>
-        <Radio value="Three">
+        <Radio value="Three">Third element</Radio>
+        <RadioGroup defaultValue="One">
           <Gapped gap={10} vertical>
-            <div>Third element</div>
+            <Radio value="One">First element</Radio>
+            <Radio value="Two">Second element</Radio>
             <RadioGroup defaultValue="One">
               <Gapped gap={10} vertical>
                 <Radio value="One">First element</Radio>
-                <Radio value="Two">
-                  <Gapped gap={10} vertical>
-                    <div>Second element</div>
-                    <RadioGroup defaultValue="One">
-                      <Gapped gap={10} vertical>
-                        <Radio value="One">First element</Radio>
-                        <Radio value="Two" disbaled>
-                          Second element
-                        </Radio>
-                        <Radio value="Three">Third element</Radio>
-                      </Gapped>
-                    </RadioGroup>
-                  </Gapped>
+                <Radio value="Two" disbaled>
+                  Second element
                 </Radio>
                 <Radio value="Three">Third element</Radio>
               </Gapped>
             </RadioGroup>
+            <Radio value="Three">Third element</Radio>
           </Gapped>
-        </Radio>
+        </RadioGroup>
         <Radio value="Four">Fourth element</Radio>
         <Radio value="Five">Fifth element</Radio>
       </Gapped>

@@ -91,7 +91,7 @@ class RadioGroup extends React.Component<Props, State> {
       onMouseLeave
     };
     return (
-      <span style={style} {...handlers}>
+      <span style={style} className={styles.root} {...handlers}>
         {this._renderChildren()}
       </span>
     );
