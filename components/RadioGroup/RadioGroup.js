@@ -15,8 +15,8 @@ type Props = {
   inline?: boolean,
   items: Iterable<mixed>,
   onChange?: (event: { target: { value: mixed } }, value: mixed) => void,
-  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent<>, value: mixed) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<>, value: mixed) => void,
   onMouseOver?: (e: SyntheticMouseEvent<>) => void,
   renderItem: (value: mixed, data: mixed) => React.Node,
   value: mixed,
@@ -119,8 +119,8 @@ class RadioGroup extends React.Component<Props, State> {
       const itemProps = {
         key: i,
         onClick: () => this._select(itemValue),
-        onMouseEnter: this.props.onMouseEnter,
-        onMouseLeave: this.props.onMouseLeave,
+        onMouseEnter: (event) => this.handleMouseEnter(event, itemValue),
+        onMouseLeave: (event) => this.handleMouseLeave(event, itemValue),
         onMouseOver: this.props.onMouseOver,
         className: classNames({
           [styles.item]: true,
@@ -186,6 +186,18 @@ class RadioGroup extends React.Component<Props, State> {
 
   handleBlur = () => {
     this.setState({ focusedIndex: null });
+  };
+
+  handleMouseEnter = (event: SyntheticMouseEvent<>, value: mixed) => {
+    if (this.props.onMouseEnter) {
+      this.props.onMouseEnter(event, value);
+    }
+  };
+
+  handleMouseLeave = (event: SyntheticMouseEvent<>, value: mixed) => {
+    if (this.props.onMouseLeave) {
+      this.props.onMouseLeave(event, value);
+    }
   };
 
   move_(step: number) {
