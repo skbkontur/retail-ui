@@ -32,7 +32,12 @@ type Props = {
   /**
    * Click event
    */
-  onClick?: (event: SyntheticEvent<>) => void
+  onClick?: (event: SyntheticEvent<>) => void,
+
+  /**
+   * Disabled indicator
+   */
+  disabled?: boolean
 };
 
 type Context = {
@@ -102,20 +107,29 @@ class Tab extends React.Component<Props, State> {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { id, component: Component, children, ...rest } = this.props;
+    const {
+      id,
+      component: Component,
+      children,
+      disabled,
+      ...rest
+    } = this.props;
     const isActive = this.context.activeTab === this._getId();
     const isVertical = this.context.vertical;
+    const isDisabled = typeof disabled === 'boolean' ? disabled : false;
     return (
       <Component
         className={cn(
           styles.root,
           isActive && styles.active,
-          isVertical && styles.vertical
+          isVertical && styles.vertical,
+          isDisabled && styles.disabled
         )}
-        onBlur={this._handleBlur}
-        onClick={this._switchTab}
-        onFocus={this._handleFocus}
-        onKeyDown={this._handleKeyDown}
+        onBlur={!isDisabled && this._handleBlur}
+        onClick={!isDisabled && this._switchTab}
+        onFocus={!isDisabled && this._handleFocus}
+        onKeyDown={!isDisabled && this._handleKeyDown}
+        tabIndex={isDisabled ? -1 : 0}
         ref={this._refNode}
         {...rest}
       >
@@ -184,6 +198,7 @@ const { string, node, func, any, bool } = PropTypes;
 Tab.propTypes = {
   children: node,
   component: any,
+  disabled: bool,
   href: string,
   id: string.isRequired,
   onClick: func

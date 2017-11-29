@@ -84,7 +84,7 @@ class UnexpectedUpdatedTab extends React.Component<*, *> {
         {this.state.updated
           ? ':P'
           : <button onClick={() => this.setState({ updated: true })}>
-              Update me
+            Update me
             </button>}
       </Tab>
     );
@@ -117,6 +117,26 @@ class OhMyTabs extends React.Component<*, *> {
   }
 }
 
+class DisabledTab extends React.Component<*, *> {
+  state = {
+    active: 'first'
+  };
+
+  render() {
+    return (
+      <Tabs
+        value={this.state.active}
+        onChange={(_, v) => this.setState({ active: v })}
+      >
+        <Tab id="first">First</Tab>
+        <Tab id="second" disabled>Second (disabled)</Tab>
+        <Tab id="third">Third</Tab>
+        <Tab id="fourth">Third</Tab>
+      </Tabs>
+    );
+  }
+}
+
 storiesOf('Tabs', module)
   .add('simple', () => <UncTabs />)
   .add('first', () => <RouterTabs value="first" />)
@@ -143,4 +163,5 @@ storiesOf('Tabs', module)
   )
   .add('vertical', () => <UncTabs vertical />)
   .add('with component', () => <TabsWithMyLink />)
-  .add('with unexpected tab size change', () => <OhMyTabs />);
+  .add('with unexpected tab size change', () => <OhMyTabs />)
+  .add('with disabled tab', () => <DisabledTab />);
