@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   Space: '\u0020',
   Hyphen: '\u002D',
   Underscore: '\u005F',
@@ -220,5 +220,7 @@ export default {
   OkDouble: '\uE0D5',
   Key: '\uE0D6',
   USB: '\uE0D7',
-  DocumentTypeCsv: '\uE0D8'
+  DocumentTypeCsv: '\uE0D8',
+  Pause: '\uE0D9',
+  LinkOff: '\uE0DA'
 };
