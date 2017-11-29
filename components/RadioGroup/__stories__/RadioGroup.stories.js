@@ -29,12 +29,9 @@ storiesOf('RadioGroup', module)
     return <Component items={['One', 'Two', 'Three']} />;
   })
   .add('inline', () => <Component inline items={['One', 'Two', 'Three']} />)
-  .add('with renderItem', () =>
+  .add('with renderItem', () => (
     <Component
       items={[{ value: 'One' }, { value: 'Two' }]}
-      renderItem={x =>
-        <div>
-          Value: {x.value}
-        </div>}
+      renderItem={x => <div>Value: {x.value}</div>}
     />
-  );
+  ));

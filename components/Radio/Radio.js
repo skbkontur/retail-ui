@@ -42,9 +42,7 @@ class Radio extends React.Component {
 
     return (
       <div className={styles.root}>
-        <div className={this.props.children && [styles.radioWrap]}>
-          <span className={radioClassNames} />
-        </div>
+        <span className={radioClassNames} />
         {this.props.children && this.renderLabel()}
       </div>
     );
@@ -56,11 +54,7 @@ class Radio extends React.Component {
       [styles.labelDisabled]: this.props.disabled
     });
 
-    return (
-      <div className={labelClassNames}>
-        {this.props.children}
-      </div>
-    );
+    return <div className={labelClassNames}>{this.props.children}</div>;
   }
 }
 

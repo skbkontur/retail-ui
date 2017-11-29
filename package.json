@@ -57,6 +57,7 @@
     "react-flow-types": "^0.2.0-beta.5",
     "react-input-mask": "1.0.7",
     "theming": "^1.1.0",
+    "uuid": "^3.1.0",
     "warning": "^3.0.0"
   },
   "devDependencies": {
