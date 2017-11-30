@@ -26,10 +26,11 @@ class UncTabs extends React.Component<*, *> {
   }
 }
 
-const RouteTab = props =>
+const RouteTab = props => (
   <Tab id={props.to} onClick={linkTo('Tabs', props.to)}>
     {props.children}
-  </Tab>;
+  </Tab>
+);
 
 class RouterTabs extends React.Component<*> {
   render() {
@@ -81,11 +82,13 @@ class UnexpectedUpdatedTab extends React.Component<*, *> {
   render() {
     return (
       <Tab {...this.props}>
-        {this.state.updated
-          ? ':P'
-          : <button onClick={() => this.setState({ updated: true })}>
-              Update me
-            </button>}
+        {this.state.updated ? (
+          ':P'
+        ) : (
+          <button onClick={() => this.setState({ updated: true })}>
+            Update me
+          </button>
+        )}
       </Tab>
     );
   }
@@ -117,11 +120,33 @@ class OhMyTabs extends React.Component<*, *> {
   }
 }
 
+class DisabledTab extends React.Component<*, *> {
+  state = {
+    active: 'first'
+  };
+
+  render() {
+    return (
+      <Tabs
+        value={this.state.active}
+        onChange={(_, v) => this.setState({ active: v })}
+      >
+        <Tab id="first">First</Tab>
+        <Tab id="second" disabled>
+          Second (disabled)
+        </Tab>
+        <Tab id="third">Third</Tab>
+        <Tab id="fourth">Third</Tab>
+      </Tabs>
+    );
+  }
+}
+
 storiesOf('Tabs', module)
   .add('simple', () => <UncTabs />)
   .add('first', () => <RouterTabs value="first" />)
   .add('another', () => <RouterTabs value="another" />)
-  .add('hrefs first', () =>
+  .add('hrefs first', () => (
     <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
       <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
         Hrefs first
@@ -130,8 +155,8 @@ storiesOf('Tabs', module)
         Hrefs second
       </Tab>
     </Tabs>
-  )
-  .add('hrefs second', () =>
+  ))
+  .add('hrefs second', () => (
     <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
       <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
         Hrefs first
@@ -140,7 +165,8 @@ storiesOf('Tabs', module)
         Hrefs second
       </Tab>
     </Tabs>
-  )
+  ))
   .add('vertical', () => <UncTabs vertical />)
   .add('with component', () => <TabsWithMyLink />)
-  .add('with unexpected tab size change', () => <OhMyTabs />);
+  .add('with unexpected tab size change', () => <OhMyTabs />)
+  .add('with disabled tab', () => <DisabledTab />);

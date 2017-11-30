@@ -1,4 +1,4 @@
-@import '../variables.less';
+@import "../variables.less";
 
 @easing: 0.2s ease-out;
 
@@ -72,5 +72,20 @@
     height: 0;
     opacity: 0;
     z-index: -1;
+  }
+
+  .disabled {
+    color: @text-color-disabled;
+    color: rgba(
+      red(@text-color-default),
+      green(@text-color-default),
+      blue(@text-color-default),
+      0.5
+    );
+    cursor: default;
+  }
+
+  .disabled:hover {
+    border-bottom-color: transparent;
   }
 }
