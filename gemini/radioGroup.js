@@ -2,23 +2,26 @@
 
 var pathTo = require('./utils').pathTo;
 
+const BUTTON_SELECTOR = '[class^="Button-root"]';
+const RADIO_SELECTOR = '[class^="Radio-root"]';
+
 gemini.suite('RadioGroup', suite => {
   suite
     .setUrl(pathTo('RadioGroup', 'playground'))
     .setUrl(pathTo('RadioGroup', 'vertical'))
-    .setCaptureElements('#test-element')
+    .setCaptureElements('#RadioGroup-wrap')
     .capture('plain')
     .capture('hovered', (actions, find) => {
-      actions.mouseMove(find('span'));
+      actions.mouseMove(find(RADIO_SELECTOR));
     })
     .capture('pressed', (actions, find) => {
-      actions.mouseDown(find('span'));
+      actions.mouseDown(find(RADIO_SELECTOR));
     })
     .capture('unpressed', (actions, find) => {
-      actions.mouseUp(find('span'));
+      actions.mouseUp(find(RADIO_SELECTOR));
     })
     .capture('mouseLeave', (actions, find) => {
-      actions.click(find('body'), 0, [0, 0]);
+      actions.click(find(BUTTON_SELECTOR), 0, [0, 0]);
     })
     .capture('tabPress', (actions, find) => {
       actions.sendKeys(gemini.TAB);
@@ -31,6 +34,6 @@ gemini.suite('RadioGroup', suite => {
 gemini.suite('RadioGroup inline', suite => {
   suite
     .setUrl(pathTo('RadioGroup', 'inline'))
-    .setCaptureElements('#test-element')
+    .setCaptureElements('#RadioGroup-wrap')
     .capture('RadioGroup inline');
 });

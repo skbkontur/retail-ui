@@ -19,12 +19,15 @@ class Component extends React.Component<*, *> {
   render() {
     return (
       <Gapped vertical>
-        <RadioGroup
-          ref="rg"
-          value={this.state.value}
-          onChange={el => this.handleChange(el)}
-          {...this.props}
-        />
+        <Button>Just button</Button>
+        <div id="RadioGroup-wrap" style={{ padding: 10 }}>
+          <RadioGroup
+            ref="rg"
+            value={this.state.value}
+            onChange={el => this.handleChange(el)}
+            {...this.props}
+          />
+        </div>
         <Button onClick={() => this.refs.rg.focus()}>Focus RadioGroup</Button>
       </Gapped>
     );
