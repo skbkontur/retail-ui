@@ -25,9 +25,6 @@ gemini.suite('RadioGroup', suite => {
     })
     .capture('arrow_down', (actions, find) => {
       actions.sendKeys(gemini.DOWN);
-    })
-    .capture('enterPress', (actions, find) => {
-      actions.sendKeys(gemini.ENTER);
     });
 });
 
