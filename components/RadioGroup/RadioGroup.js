@@ -9,13 +9,11 @@ import Radio from '../Radio';
 
 import styles from './RadioGroup.less';
 
-type RadioGroupEvent = SyntheticInputEvent<HTMLInputElement>;
-
 type Props = {
   disabled?: boolean,
   error?: boolean,
   inline?: boolean,
-  items?: $ReadOnlyArray<string | [string, mixed]>,
+  items?: Array<string | [string, mixed]>,
   name?: string,
   value?: string,
   defaultValue?: string,
@@ -23,7 +21,10 @@ type Props = {
   width?: number | string,
   children?: React.Node,
   renderItem: (value: string, data: mixed) => React.Node,
-  onChange?: (event: RadioGroupEvent, value: string) => void,
+  onChange?: (
+    event: SyntheticInputEvent<HTMLInputElement>,
+    value: string
+  ) => void,
   onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
   onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
   onMouseOver?: (e: SyntheticMouseEvent<>) => void
@@ -77,7 +78,7 @@ class RadioGroup extends React.Component<Props, State> {
     let radio = node.querySelector('input[type="radio"]:checked');
 
     // If no checked radios, try get first radio
-    if (!radio) {
+    if (!radio || radio.disabled) {
       radio = node.querySelector('input[type="radio"]');
     }
     radio && radio.focus();

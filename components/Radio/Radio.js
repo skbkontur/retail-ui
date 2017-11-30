@@ -30,8 +30,11 @@ type Props<T> = {
 };
 
 /**
- * Индикатор для радио-кнопок. Используется в RadioGroup. Может быть
- * использована для кастомных радио-кнопок.
+ * Радиокнопка.
+ *
+ * Если находится внутри компонента **RadioGroup**, то наследует
+ * параметры `checked`, `name` и `onChange`. Также наследует состояния
+ * `disabled`, `error` и `warning`
  */
 class Radio<T: Primitive> extends React.Component<Props<T>> {
   static contextTypes = {
@@ -116,7 +119,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
       onMouseLeave: this.props.onMouseLeave
     };
 
-    if (this._isInRadioGroup) {
+    if (this._isInRadioGroup()) {
       const checked = this.props.value === this.context.activeItem;
       inputProps.checked = checked;
       inputProps.name = this.context.name;
