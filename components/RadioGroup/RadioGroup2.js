@@ -48,6 +48,7 @@ class RadioGroup extends React.Component<Props, State> {
   };
 
   _name: string = uuidv1();
+  _node: ?HTMLElement = null;
 
   state = {
     activeItem: this.props.defaultValue
@@ -62,6 +63,21 @@ class RadioGroup extends React.Component<Props, State> {
       error: this.props.error,
       warning: this.props.warning
     };
+  }
+
+  /**
+   * @api
+   **/
+  focus() {
+    const node = this._node;
+    if (!node) {
+      return;
+    }
+    let radio = node.querySelector('input[type="radio"]:checked');
+    if (!radio) {
+      radio = node.querySelector('input[type="radio"]');
+    }
+    radio && radio.focus();
   }
 
   _getValue = () =>
@@ -91,7 +107,7 @@ class RadioGroup extends React.Component<Props, State> {
       onMouseLeave
     };
     return (
-      <span style={style} className={styles.root} {...handlers}>
+      <span ref={this._ref} style={style} className={styles.root} {...handlers}>
         {this._renderChildren()}
       </span>
     );
@@ -123,6 +139,10 @@ class RadioGroup extends React.Component<Props, State> {
         </Radio>
       </span>
     );
+  };
+
+  _ref = el => {
+    this._node = el;
   };
 }
 

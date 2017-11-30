@@ -54,7 +54,22 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     warning: PropTypes.bool
   };
 
+  _node: ?HTMLInputElement = null;
   _isInRadioGroup = () => Boolean(this.context.name);
+
+  /**
+   * @api
+   **/
+  focus() {
+    this._node && this._node.focus();
+  }
+
+  /**
+   * @api
+   **/
+  blur() {
+    this._node && this._node.blur();
+  }
 
   render() {
     const disabled = this.props.disabled || this.context.disabled;
@@ -82,7 +97,8 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
       disabled,
       onChange: this._handleChange,
       tabIndex: this.props.tabIndex,
-      value: this.props.value
+      value: this.props.value,
+      ref: this._ref
     };
 
     if (this._isInRadioGroup) {
@@ -108,6 +124,10 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
 
     return <div className={labelClassNames}>{this.props.children}</div>;
   }
+
+  _ref = el => {
+    this._node = el;
+  };
 
   _handleChange = event => {
     if (this.props.onChange) {

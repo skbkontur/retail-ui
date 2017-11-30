@@ -5,6 +5,7 @@ import { storiesOf } from '@storybook/react';
 import RadioGroup from '../RadioGroup2';
 import Radio from '../../Radio/Radio2';
 import Gapped from '../../Gapped';
+import Button from '../../Button';
 
 class Component extends React.Component<*, *> {
   state = {
@@ -17,11 +18,15 @@ class Component extends React.Component<*, *> {
 
   render() {
     return (
-      <RadioGroup
-        value={this.state.value}
-        onChange={el => this.handleChange(el)}
-        {...this.props}
-      />
+      <Gapped vertical>
+        <RadioGroup
+          ref="rg"
+          value={this.state.value}
+          onChange={el => this.handleChange(el)}
+          {...this.props}
+        />
+        <Button onClick={() => this.refs.rg.focus()}>Focus RadioGroup</Button>
+      </Gapped>
     );
   }
 }
