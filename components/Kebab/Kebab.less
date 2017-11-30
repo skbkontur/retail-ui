@@ -1,4 +1,4 @@
-@import '../variables.less';
+@import "../variables.less";
 
 :local {
   .container {
@@ -19,7 +19,7 @@
 
       &:hover,
       &.opened,
-      &.focused {
+      &:global(.focus-ring) {
         background: rgba(0, 0, 0, 0.09);
       }
 
@@ -27,7 +27,7 @@
         cursor: default;
       }
 
-      &.focused {
+      &:global(.focus-ring) {
         border-color: @border-color-focus;
       }
 
@@ -54,7 +54,7 @@
     .kebab {
       &:hover,
       &.opened,
-      &.focused {
+      &:global(.focus-ring) {
         background: #e5e5e5;
       }
     }

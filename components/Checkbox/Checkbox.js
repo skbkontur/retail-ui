@@ -1,26 +1,11 @@
 // @flow
 
-import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
 import Icon from '../Icon';
-
-const KEYCODE_TAB = 9;
-
-let isListening: boolean;
-let tabPressed: boolean;
-
-function listenTabPresses() {
-  if (!isListening) {
-    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
-      tabPressed = event.keyCode === KEYCODE_TAB;
-    });
-    isListening = true;
-  }
-}
 
 import '../ensureOldIEClassName';
 import styles from './Checkbox.less';
@@ -40,12 +25,7 @@ type Props = {
   warning?: boolean
 };
 
-class Checkbox extends React.Component<
-  Props,
-  {
-    focusedByTab: boolean
-  }
-> {
+class Checkbox extends React.Component<Props> {
   static propTypes = {
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -58,11 +38,6 @@ class Checkbox extends React.Component<
   };
 
   input: ?HTMLInputElement;
-  state: {
-    focusedByTab: boolean
-  } = {
-    focusedByTab: false
-  };
 
   _wasFocused = false;
 
@@ -75,8 +50,7 @@ class Checkbox extends React.Component<
       [styles.isChecked]: this.props.checked,
       [styles.disabled]: this.props.disabled,
       [styles.error]: this.props.error,
-      [styles.warning]: this.props.warning,
-      [styles.focus]: this.state.focusedByTab
+      [styles.warning]: this.props.warning
     });
 
     const inputProps = {
@@ -85,8 +59,6 @@ class Checkbox extends React.Component<
       checked: this.props.checked,
       disabled: this.props.disabled,
       onChange: this._handleChange,
-      onFocus: this._handleFocus,
-      onBlur: this._handleBlur,
       ref: this._inputRef,
       tabIndex: undefined
     };
@@ -119,27 +91,6 @@ class Checkbox extends React.Component<
       </label>
     );
   }
-
-  componentDidMount() {
-    listenTabPresses();
-  }
-
-  _handleFocus = (e: SyntheticFocusEvent<>) => {
-    if (!this.props.disabled) {
-      // focus event fires before keyDown eventlistener
-      // so we should check tabPressed in async way
-      process.nextTick(() => {
-        if (tabPressed) {
-          this.setState({ focusedByTab: true });
-          tabPressed = false;
-        }
-      });
-    }
-  };
-
-  _handleBlur = () => {
-    this.setState({ focusedByTab: false });
-  };
 
   _inputRef = ref => {
     this.input = ref;

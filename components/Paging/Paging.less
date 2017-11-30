@@ -1,4 +1,4 @@
-@import '../variables.less';
+@import "../variables.less";
 
 :local {
   .paging {
@@ -31,15 +31,20 @@
       cursor: default;
     }
 
-    &.focused {
-      text-decoration: underline;
-    }
-
     .forwardIcon {
       vertical-align: -2px;
       position: absolute;
       right: 0;
     }
+  }
+
+  .paging:global(.focus-ring) .forwardLink.focused {
+    text-decoration: underline;
+  }
+
+  .paging:global(.focus-ring) .pageLink.focused {
+    margin: 0 -1px;
+    border: solid 2px @border-color-focus;
   }
 
   .pageLinkWrapper {
@@ -64,11 +69,6 @@
         background: rgba(0, 0, 0, 0.09);
         color: black;
         cursor: default;
-      }
-
-      &.focused {
-        margin: 0 -1px;
-        border: solid 2px @border-color-focus;
       }
 
       &:not(.active):hover {

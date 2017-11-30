@@ -39,7 +39,7 @@ export default (theme: ITheme) => ({
       width: 0
     },
 
-    '&$focus': {
+    '&.focus-ring, &$focus': {
       boxShadow: [
         ['inset 0 0 0 1px #fff'],
         [`0 0 0 2px ${theme.common.borderColorFocus}`]
@@ -65,7 +65,7 @@ export default (theme: ITheme) => ({
         ]
       },
 
-      '&$focus': {
+      '&.focus-ring, &$focus': {
         boxShadow: [
           ['inset 0 0 0 1px #fff'],
           [`0 0 0 2px ${theme.common.borderColorFocus}`]
@@ -76,9 +76,9 @@ export default (theme: ITheme) => ({
     }
   },
 
-  active: {},
-
   focus: {},
+
+  active: {},
 
   checked: {},
 
@@ -331,7 +331,7 @@ const generateLinkStyles = (color, hoverColor, focusColor, activeColor) => ({
     color: hoverColor
   },
 
-  '&$focus': {
+  '&.focus-ring, &$focus': {
     color: focusColor
   },
 

@@ -1,8 +1,8 @@
-@import '../variables.less';
+@import "../variables.less";
 
 @linkIconPadding: 3px;
 
-.linkMixin(@className, @color, @hoverColor, @focusColor, @activeColor){
+.linkMixin(@className, @color, @hoverColor, @focusColor, @activeColor) {
   .@{className} {
     border-radius: 1px;
     outline: none;
@@ -13,7 +13,7 @@
       color: @hoverColor;
     }
 
-    &.focus {
+    &:global(.focus-ring) {
       color: @focusColor;
     }
 
@@ -23,7 +23,7 @@
   }
 
   .@{className}:hover,
-  .@{className}.focus {
+  .@{className}:global(.focus-ring) {
     text-decoration: @link-hover-text-decoration;
   }
 
