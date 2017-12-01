@@ -1,11 +1,11 @@
 // @flow
-
-import classNames from 'classnames';
 import * as React from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import invariant from 'invariant';
+import uuidv1 from 'uuid/v1';
 
 import Radio from '../Radio';
-import Prevent from './Prevent';
 
 import styles from './RadioGroup.less';
 
@@ -13,227 +13,158 @@ type Props = {
   disabled?: boolean,
   error?: boolean,
   inline?: boolean,
-  items: Iterable<mixed>,
-  onChange?: (event: { target: { value: mixed } }, value: mixed) => void,
+  items?: Array<string | [string, mixed]>,
+  name?: string,
+  value?: string,
+  defaultValue?: string,
+  warning?: boolean,
+  width?: number | string,
+  children?: React.Node,
+  renderItem: (value: string, data: mixed) => React.Node,
+  onChange?: (
+    event: SyntheticInputEvent<HTMLInputElement>,
+    value: string
+  ) => void,
   onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
   onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
-  onMouseOver?: (e: SyntheticMouseEvent<>) => void,
-  renderItem: (value: mixed, data: mixed) => React.Node,
-  value: mixed,
-  warning?: boolean,
-  width?: number | string
+  onMouseOver?: (e: SyntheticMouseEvent<>) => void
 };
 
 type State = {
-  focusedIndex: ?number
+  activeItem: ?string
 };
 
 class RadioGroup extends React.Component<Props, State> {
-  static __REACT_UI_COMPONENT_NAME__ = 'RadioGroup';
-
-  static Prevent = Prevent;
-
-  static propTypes = {
-    disabled: PropTypes.bool,
-
+  static childContextTypes = {
     error: PropTypes.bool,
-
-    inline: PropTypes.bool,
-
-    /**
-     * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
-     * `Array`, `Map`, `Immutable.Map`.
-     *
-     * Элементы воспринимаются следующим образом: если элемент — это массив, то
-     * первый элемент является значением, а второй — отображается в списке;
-     * если элемент не является массивом, то он используется и для отображения,
-     * и для значения.
-     */
-    items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-
-    /**
-     * Функция для отрисовки элемента (той части, которая находится справа от
-     * круглишка).
-     *
-     * Если внутри элемента используются ссылки, или другие активные элементы,
-     * по клику на которые элемент списка выбираться не должен, то нужно
-     * использовать компонент `RadioGroup.Prevent`:
-     *
-     * ```
-     * function renderItem(value, data) {
-     *   return (
-     *     <div>
-     *       {data}
-     *       <RadioGroup.Prevent><Link>...</Link></RadioGroup.Prevent>
-     *     </div>
-     *   );
-     * }
-     * ```
-     */
-    renderItem: PropTypes.func,
-
-    value: PropTypes.any,
-
+    name: PropTypes.string,
     warning: PropTypes.bool,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    onChange: PropTypes.func
+    disabled: PropTypes.bool,
+    activeItem: PropTypes.any,
+    onSelect: PropTypes.func
   };
 
   static defaultProps = {
     renderItem
   };
 
-  constructor(props: Props, context: mixed) {
-    super(props, context);
+  _name: string = uuidv1();
+  _node: ?HTMLElement = null;
 
-    this.state = { focusedIndex: null };
+  state = {
+    activeItem: this.props.defaultValue
+  };
+
+  getChildContext() {
+    return {
+      activeItem: this._getValue(),
+      onSelect: this._handleSelect,
+      name: this._getName(),
+      disabled: this.props.disabled,
+      error: this.props.error,
+      warning: this.props.warning
+    };
   }
 
-  render() {
-    const inputProps = {
-      type: 'checkbox',
-      className: styles.input,
-      disabled: this.props.disabled,
-      onKeyDown: this.handleKey,
-      onFocus: this.focusHandler,
-      onBlur: this.handleBlur
-    };
-
-    const style = {};
-    if (this.props.width) {
-      style.width = this.props.width;
+  /**
+   * @api
+   **/
+  focus() {
+    const node = this._node;
+    if (!node) {
+      return;
     }
 
+    let radio = node.querySelector('input[type="radio"]:checked');
+
+    // If no checked radios, try get first radio
+    if (!radio || radio.disabled) {
+      radio = node.querySelector('input[type="radio"]');
+    }
+    radio && radio.focus();
+  }
+
+  _getValue = () =>
+    this._isControlled() ? this.props.value : this.state.activeItem;
+
+  _getName = () => this.props.name || this._name;
+
+  _isControlled = () => this.props.value != null;
+
+  _handleSelect = (event: *, value: string) => {
+    if (!this._isControlled()) {
+      this.setState({ activeItem: value });
+    }
+    if (this.props.onChange) {
+      this.props.onChange(event, value);
+    }
+  };
+
+  render() {
+    const { width, onMouseLeave, onMouseOver, onMouseEnter } = this.props;
+    const style = {
+      width: width != null ? width : 'auto'
+    };
+    const handlers = {
+      onMouseOver,
+      onMouseEnter,
+      onMouseLeave
+    };
     return (
-      <span className={styles.root} style={style}>
-        <input {...inputProps} />
-        {this.renderItems()}
+      <span ref={this._ref} style={style} className={styles.root} {...handlers}>
+        {this._renderChildren()}
       </span>
     );
   }
 
-  renderItems() {
-    const items = this._mapItems((itemValue: mixed, data: mixed, i: number) => {
-      const itemProps = {
-        key: i,
-        onClick: () => this._select(itemValue),
-        onMouseEnter: this.props.onMouseEnter,
-        onMouseLeave: this.props.onMouseLeave,
-        onMouseOver: this.props.onMouseOver,
-        className: classNames({
-          [styles.item]: true,
-          [styles.itemFirst]: i === 0,
-          [styles.itemInline]: this.props.inline
-        })
-      };
-
-      const radioProps = {
-        disabled: this.props.disabled,
-        error: this.props.error,
-        warning: this.props.warning,
-        checked: this.props.value === itemValue,
-        focused: this.state.focusedIndex === i
-      };
-
-      return (
-        <span {...itemProps}>
-          <Radio {...radioProps}>
-            {this.props.renderItem(itemValue, data)}
-          </Radio>
-        </span>
-      );
-    });
-
-    return items;
+  _renderChildren() {
+    const { items, children } = this.props;
+    invariant(
+      !items || !children,
+      'Either items or children must be passed, not both'
+    );
+    return items ? mapItems(this._renderRadio, items) : children;
   }
 
-  handleKey = (event: SyntheticKeyboardEvent<>) => {
-    const focusedIndex = this.state.focusedIndex;
-    if (typeof focusedIndex !== 'number') {
-      return;
-    }
+  _renderRadio = (itemValue: string, data: mixed, i: number) => {
+    const itemProps = {
+      key: itemValue.toString(),
+      className: classNames({
+        [styles.item]: true,
+        [styles.itemFirst]: i === 0,
+        [styles.itemInline]: this.props.inline
+      })
+    };
 
-    if (event.key === 'Enter') {
-      if (!this.props.onChange) {
-        return;
-      }
-      const [value] = normalizeEntry([...this.props.items][focusedIndex]);
-      this._select(value);
-      return;
-    }
-
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
-      event.preventDefault();
-      this.move_(-1);
-    } else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
-      event.preventDefault();
-      this.move_(1);
-    }
+    return (
+      <span {...itemProps}>
+        <Radio value={itemValue}>
+          {this.props.renderItem(itemValue, data)}
+        </Radio>
+      </span>
+    );
   };
 
-  focusHandler = (event: KeyboardEvent) => {
-    const { value } = this.props;
-    const items = this._mapItems((value: mixed, data: mixed, i: number) => {
-      return value;
-    });
-    const currentIndex = [...items].indexOf(value);
-    const index = currentIndex > -1 ? currentIndex : 0;
-
-    this.setState({ focusedIndex: index });
+  _ref = el => {
+    this._node = el;
   };
-
-  handleBlur = () => {
-    this.setState({ focusedIndex: null });
-  };
-
-  move_(step: number) {
-    let selectedIndex = this.state.focusedIndex;
-    const items = this._mapItems((value: mixed, data: mixed, i: number) => {
-      return value;
-    });
-
-    selectedIndex += step;
-
-    if (selectedIndex < 0) {
-      selectedIndex = items.length - 1;
-    } else if (selectedIndex >= items.length) {
-      selectedIndex = 0;
-    }
-
-    this._focus(selectedIndex);
-  }
-
-  _select(value) {
-    if (this.props.disabled) {
-      return;
-    }
-
-    if (this.props.onChange) {
-      this.props.onChange({ target: { value } }, value);
-    }
-  }
-
-  _focus(index) {
-    this.setState({ focusedIndex: index });
-  }
-
-  _mapItems<T>(fn: (v: mixed, d: mixed, i: number) => T): Array<T> {
-    const items = [];
-    let index = 0;
-    for (const entry of this.props.items) {
-      const [value, data] = normalizeEntry(entry);
-      items.push(fn(value, data, index));
-      ++index;
-    }
-
-    return items;
-  }
 }
+
+export default RadioGroup;
 
 function renderItem(value, data) {
   return data;
+}
+
+function mapItems(fn, items) {
+  const result = [];
+  let index = 0;
+  for (const entry of items) {
+    const [value, data] = normalizeEntry(entry);
+    result.push(fn(value, data, index));
+    ++index;
+  }
+  return result;
 }
 
 function normalizeEntry(entry) {
@@ -242,5 +173,3 @@ function normalizeEntry(entry) {
   }
   return entry;
 }
-
-export default RadioGroup;

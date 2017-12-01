@@ -6,26 +6,27 @@ import Gapped from '../../Gapped';
 import Radio from '../Radio';
 
 storiesOf('Radio', module)
-  .add('Radio with different states', () =>
+  .add('Radio with different states', () => (
     <div style={{ margin: '5px' }}>
       <Gapped gap={20}>
-        <Radio />
-        <Radio disabled />
-        <Radio disabled checked />
-        <Radio checked />
-        <Radio focused />
-        <Radio focused checked />
-        <Radio error />
-        <Radio warning />
+        <Radio value="value" />
+        <Radio disabled value="value" />
+        <Radio disabled checked value="value" />
+        <Radio checked value="value" />
+        <Radio focused value="value" />
+        <Radio focused checked value="value" />
+        <Radio error value="value" />
+        <Radio warning value="value" />
       </Gapped>
     </div>
-  )
+  ))
   .add('Playground', () => {
     class Comp extends React.Component<{}, *> {
       state = {
         hovered: false,
         checked: false,
-        active: false
+        active: false,
+        value: 'value'
       };
 
       handleClick() {
