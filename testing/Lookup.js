@@ -123,7 +123,10 @@ const getRoots = () => {
 };
 
 const getDetachedRoot = portalID => {
-  return roots.find(id => mounted[id].props.child.props.rt_portalID);
+  return roots.find(id => {
+    const { props } = mounted[id].props.child || mounted[id].props
+    return props.rt_portalID === portalID
+  });
 };
 
 /* eslint-disable consistent-return */
