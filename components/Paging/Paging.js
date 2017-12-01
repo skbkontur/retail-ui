@@ -1,7 +1,6 @@
 // @flow
 
 import cn from 'classnames';
-import events from 'add-event-listener';
 import * as React from 'react';
 import { number, func } from 'prop-types';
 import PagingHelper from './PagingHelper';
@@ -27,7 +26,6 @@ type Props = {
 };
 
 type State = {
-  focusedByTab: boolean,
   focusedItem: ?ItemType
 };
 
@@ -45,13 +43,8 @@ export default class Paging extends React.Component<Props, State> {
   }
 
   state: State = {
-    focusedByTab: false,
     focusedItem: null
   };
-
-  componentDidMount() {
-    listenTabPresses();
-  }
 
   render() {
     return (
@@ -59,8 +52,6 @@ export default class Paging extends React.Component<Props, State> {
         tabIndex={0}
         className={styles.paging}
         onKeyDown={this._handleKeyDown}
-        onFocus={this._handleFocus}
-        onBlur={this._handleBlur}
         onMouseDown={this._handleMouseDown}
       >
         {this._getItems().map(this._renderItem)}
@@ -154,7 +145,7 @@ export default class Paging extends React.Component<Props, State> {
   };
 
   _handleMouseDown = () => {
-    this.setState({ focusedByTab: false, focusedItem: null });
+    this.setState({ focusedItem: null });
   };
 
   _handleKeyDown = (event: SyntheticKeyboardEvent<>) => {
@@ -170,12 +161,12 @@ export default class Paging extends React.Component<Props, State> {
     }
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
-      this.setState({ focusedByTab: true }, this._moveFocusLeft);
+      this._moveFocusLeft();
       return;
     }
     if (event.key === 'ArrowRight') {
       event.preventDefault();
-      this.setState({ focusedByTab: true }, this._moveFocusRight);
+      this._moveFocusRight();
       return;
     }
     if (event.key === 'Enter') {
@@ -183,23 +174,6 @@ export default class Paging extends React.Component<Props, State> {
       this._executeItemAction(this._getFocusedItem());
       return;
     }
-  };
-
-  _handleFocus = (e: SyntheticFocusEvent<>) => {
-    if (!this.props.disabled) {
-      // focus event fires before keyDown eventlistener
-      // so we should check tabPressed in async way
-      process.nextTick(() => {
-        if (tabPressed) {
-          this.setState({ focusedByTab: true });
-          tabPressed = false;
-        }
-      });
-    }
-  };
-
-  _handleBlur = () => {
-    this.setState({ focusedByTab: false });
   };
 
   _getItems = (): ItemType[] => {
@@ -210,10 +184,6 @@ export default class Paging extends React.Component<Props, State> {
   };
 
   _getFocusedItem = (): ?ItemType => {
-    if (!this.state.focusedByTab) {
-      return null;
-    }
-
     const { focusedItem } = this.state;
     if (
       focusedItem &&
@@ -318,19 +288,5 @@ Paging.propTypes = {
    */
   onPageChange: func.isRequired
 };
-
-const KEYCODE_TAB = 9;
-
-let isListening: boolean;
-let tabPressed: boolean;
-
-function listenTabPresses() {
-  if (!isListening) {
-    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
-      tabPressed = event.keyCode === KEYCODE_TAB;
-    });
-    isListening = true;
-  }
-}
 
 function noop() {}

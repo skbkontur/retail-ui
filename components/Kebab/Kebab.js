@@ -1,7 +1,6 @@
 // @flow
 
 import cn from 'classnames';
-import events from 'add-event-listener';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Icon20 from '../Icon/20px';
@@ -25,7 +24,6 @@ type Props = {
 
 type State = {
   anchor: ?HTMLElement,
-  focusedByTab: boolean,
   opened: boolean
 };
 
@@ -38,7 +36,6 @@ export default class Kebab extends React.Component<Props, State> {
 
   state = {
     opened: false,
-    focusedByTab: false,
     anchor: null
   };
 
@@ -47,7 +44,6 @@ export default class Kebab extends React.Component<Props, State> {
 
   componentDidMount() {
     this._listener = LayoutEvents.addListener(this._handleCloseRequest);
-    listenTabPresses();
   }
 
   componentWillUnmount() {
@@ -56,7 +52,7 @@ export default class Kebab extends React.Component<Props, State> {
 
   render() {
     const { disabled } = this.props;
-    const { focusedByTab, opened } = this.state;
+    const { opened } = this.state;
     return (
       <RenderLayer
         onClickOutside={this._handleCloseRequest}
@@ -67,15 +63,12 @@ export default class Kebab extends React.Component<Props, State> {
           <div
             onClick={this._handleClick}
             onKeyDown={this._handleKeyDown}
-            onFocus={this._handleFocus}
-            onBlur={this._handleBlur}
             tabIndex={disabled ? -1 : 0}
             ref={node => (this._anchor = node)}
             className={cn(
               styles.kebab,
               opened && styles.opened,
-              disabled && styles.disabled,
-              focusedByTab && styles.focused
+              disabled && styles.disabled
             )}
           >
             {this._renderIcon(this.props.size)}
@@ -107,23 +100,6 @@ export default class Kebab extends React.Component<Props, State> {
       </RenderLayer>
     );
   }
-
-  _handleFocus = (e: SyntheticFocusEvent<>) => {
-    if (!this.props.disabled) {
-      // focus event fires before keyDown eventlistener
-      // so we should check tabPressed in async way
-      process.nextTick(() => {
-        if (tabPressed) {
-          this.setState({ focusedByTab: true });
-          tabPressed = false;
-        }
-      });
-    }
-  };
-
-  _handleBlur = () => {
-    this.setState({ focusedByTab: false });
-  };
 
   _handleMenuItemClick = () => {
     this._setPopupState(false);
@@ -207,17 +183,3 @@ Kebab.propTypes = {
    */
   onOpen: PropTypes.func
 };
-
-const KEYCODE_TAB = 9;
-
-let isListening: boolean;
-let tabPressed: boolean;
-
-function listenTabPresses() {
-  if (!isListening) {
-    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
-      tabPressed = event.keyCode === KEYCODE_TAB;
-    });
-    isListening = true;
-  }
-}

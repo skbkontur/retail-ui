@@ -1,5 +1,4 @@
 // @flow
-import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
 import styled from '../internal/styledRender';
@@ -10,6 +9,7 @@ import Corners from './Corners';
 import Icon from '../Icon';
 
 import '../ensureOldIEClassName';
+import '../ensureFocusRingPolyfill';
 
 let cssStyles;
 let jssStyles;
@@ -17,20 +17,6 @@ if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Button.styles').default;
 } else {
   cssStyles = require('./Button.less');
-}
-
-const KEYCODE_TAB = 9;
-
-let isListening: boolean;
-let tabPressed: boolean;
-
-function listenTabPresses() {
-  if (!isListening) {
-    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
-      tabPressed = event.keyCode === KEYCODE_TAB;
-    });
-    isListening = true;
-  }
 }
 
 type Props = {
@@ -65,11 +51,7 @@ type Props = {
   width?: number | string
 };
 
-type State = {
-  focusedByTab: boolean
-};
-
-class Button extends React.Component<Props, State> {
+class Button extends React.Component<Props> {
   static TOP_LEFT = Corners.TOP_LEFT;
   static TOP_RIGHT = Corners.TOP_RIGHT;
   static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
@@ -144,17 +126,10 @@ class Button extends React.Component<Props, State> {
     type: 'button'
   };
 
-  state = {
-    focusedByTab: false
-  };
-
   _node: ?HTMLButtonElement = null;
 
   componentDidMount() {
-    listenTabPresses();
-
     if (this.props.autoFocus) {
-      tabPressed = true;
       this.focus();
     }
   }
@@ -176,23 +151,6 @@ class Button extends React.Component<Props, State> {
       this._node.blur();
     }
   }
-
-  handleFocus = (e: SyntheticFocusEvent<>) => {
-    if (!this.props.disabled && !this.props.disableFocus) {
-      // focus event fires before keyDown eventlistener
-      // so we should check tabPressed in async way
-      process.nextTick(() => {
-        if (tabPressed) {
-          this.setState({ focusedByTab: true });
-          tabPressed = false;
-        }
-      });
-    }
-  };
-
-  handleBlur = () => {
-    this.setState({ focusedByTab: false });
-  };
 
   render = styled(cssStyles, jssStyles, classes => {
     const { corners = 0 } = this.props;
@@ -221,7 +179,7 @@ class Button extends React.Component<Props, State> {
         [classes.buttonWithIcon]: !!this.props.icon,
         [classes.arrowButton]: this.props.arrow,
         [SIZE_CLASSES[this.props.size]]: true,
-        [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused
+        [classes.focus]: this.props.visuallyFocused
       }),
       style: {
         borderRadius:
@@ -233,8 +191,6 @@ class Button extends React.Component<Props, State> {
       },
       disabled: this.props.disabled || this.props.loading,
       onClick: this.props.onClick,
-      onFocus: this.handleFocus,
-      onBlur: this.handleBlur,
       onKeyDown: this.props.onKeyDown,
       onMouseEnter: this.props.onMouseEnter,
       onMouseLeave: this.props.onMouseLeave,

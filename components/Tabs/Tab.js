@@ -1,6 +1,5 @@
 // @flow
 
-import events from 'add-event-listener';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
@@ -50,10 +49,6 @@ type Context = {
   vertical: boolean
 };
 
-type State = {
-  focusedByKeyboard: boolean
-};
-
 /**
  * Tab element of Tabs component
  *
@@ -69,17 +64,13 @@ type State = {
  *
  * Works only inside Tabs component, otherwise throws
  */
-class Tab extends React.Component<Props, State> {
+class Tab extends React.Component<Props> {
   static defaultProps = {
     component: 'a',
     href: 'javascript:'
   };
 
   context: Context;
-
-  state: State = {
-    focusedByKeyboard: false
-  };
 
   _node = null;
 
@@ -92,7 +83,6 @@ class Tab extends React.Component<Props, State> {
 
   componentDidMount() {
     this._addTab();
-    listenTabPresses();
   }
 
   componentDidUpdate() {
@@ -125,16 +115,13 @@ class Tab extends React.Component<Props, State> {
           isVertical && styles.vertical,
           isDisabled && styles.disabled
         )}
-        onBlur={!isDisabled && this._handleBlur}
         onClick={!isDisabled && this._switchTab}
-        onFocus={!isDisabled && this._handleFocus}
         onKeyDown={!isDisabled && this._handleKeyDown}
         tabIndex={isDisabled ? -1 : 0}
         ref={this._refNode}
         {...rest}
       >
         {children}
-        {this.state.focusedByKeyboard && <div className={styles.focus} />}
       </Component>
     );
   }
@@ -176,21 +163,6 @@ class Tab extends React.Component<Props, State> {
         return;
     }
   };
-
-  _handleFocus = e => {
-    // focus event fires before keyDown eventlistener
-    // so we should check focusKeyPressed in async way
-    process.nextTick(() => {
-      if (focusKeyPressed) {
-        this.setState({ focusedByKeyboard: true });
-        focusKeyPressed = false;
-      }
-    });
-  };
-
-  _handleBlur = e => {
-    this.setState({ focusedByKeyboard: false });
-  };
 }
 
 const { string, node, func, any, bool } = PropTypes;
@@ -214,28 +186,9 @@ Tab.contextTypes = {
   vertical: bool.isRequired
 };
 
-const KEYCODE_TAB = 9;
 const KEYCODE_ARROW_LEFT = 37;
 const KEYCODE_ARROW_UP = 38;
 const KEYCODE_ARROW_RIGHT = 39;
 const KEYCODE_ARROW_DOWN = 40;
-
-let isListening: boolean;
-let focusKeyPressed: boolean;
-
-function listenTabPresses() {
-  if (!isListening) {
-    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
-      focusKeyPressed = [
-        KEYCODE_TAB,
-        KEYCODE_ARROW_LEFT,
-        KEYCODE_ARROW_UP,
-        KEYCODE_ARROW_RIGHT,
-        KEYCODE_ARROW_DOWN
-      ].includes(event.keyCode);
-    });
-    isListening = true;
-  }
-}
 
 export default Tab;

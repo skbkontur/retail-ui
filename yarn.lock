@@ -9113,6 +9113,10 @@ which@^1.2.10, which@^1.2.12, which@^1.2.9:
   dependencies:
     isexe "^1.1.1"
 
+wicg-focus-ring@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/wicg-focus-ring/-/wicg-focus-ring-3.0.2.tgz#e97a52c205b5ef7ba462333b6f2673a4428dae00"
+
 wide-align@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/wide-align/-/wide-align-1.1.0.tgz#40edde802a71fea1f070da3e62dcda2e7add96ad"

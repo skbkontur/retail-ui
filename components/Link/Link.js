@@ -1,11 +1,12 @@
 // @flow
-import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
 import Icon from '../Icon';
+
+import '../ensureFocusRingPolyfill';
 
 import styles from './Link.less';
 
@@ -15,20 +16,6 @@ const useClasses = {
   danger: styles.useDanger,
   grayed: styles.useGrayed
 };
-
-const KEYCODE_TAB = 9;
-
-let isListening: boolean;
-let tabPressed: boolean;
-
-function listenTabPresses() {
-  if (!isListening) {
-    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
-      tabPressed = event.keyCode === KEYCODE_TAB;
-    });
-    isListening = true;
-  }
-}
 
 type Props = {
   disabled?: boolean,
@@ -42,13 +29,11 @@ type Props = {
   tabIndex?: number
 };
 
-type State = { focusedByTab: boolean };
-
 /**
  * Стандартная ссылка.
  * Все свойства передаются в элемент *<a>*.
  */
-class Link extends React.Component<Props, State> {
+class Link extends React.Component<Props> {
   static propTypes = {
     disabled: PropTypes.bool,
 
@@ -63,14 +48,6 @@ class Link extends React.Component<Props, State> {
     href: 'javascript:',
     use: 'default'
   };
-
-  state = {
-    focusedByTab: false
-  };
-
-  componentDidMount() {
-    listenTabPresses();
-  }
 
   render() {
     const {
@@ -103,15 +80,12 @@ class Link extends React.Component<Props, State> {
           [styles.root]: true,
           [styles.disabled]: disabled,
           [styles.button]: _button,
-          [styles.buttonOpened]: _buttonOpened,
-          [styles.focus]: !disabled && this.state.focusedByTab
+          [styles.buttonOpened]: _buttonOpened
         },
         use && useClasses[use]
       ),
       href,
       onClick: this._handleClick,
-      onFocus: this._handleFocus,
-      onBlur: this._handleBlur,
       tabIndex: this.props.tabIndex
     };
     if (disabled) {
@@ -126,23 +100,6 @@ class Link extends React.Component<Props, State> {
       </a>
     );
   }
-
-  _handleFocus = (e: SyntheticFocusEvent<HTMLLinkElement>) => {
-    if (!this.props.disabled) {
-      // focus event fires before keyDown eventlistener
-      // so we should check tabPressed in async way
-      process.nextTick(() => {
-        if (tabPressed) {
-          this.setState({ focusedByTab: true });
-          tabPressed = false;
-        }
-      });
-    }
-  };
-
-  _handleBlur = () => {
-    this.setState({ focusedByTab: false });
-  };
 
   _handleClick = event => {
     if (this.props.onClick && !this.props.disabled) {
