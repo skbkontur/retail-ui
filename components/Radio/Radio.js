@@ -91,7 +91,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     const warning = this.props.warning || this.context.warning;
     const error = this.props.error || this.context.error;
 
-    const radioClassNames = classNames({
+    let radioClassNames = classNames({
       [styles.radio]: true,
       [styles.withLabel]: this.props.children,
       [styles.checked]: this.props.checked,
@@ -123,6 +123,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
       const checked = this.props.value === this.context.activeItem;
       inputProps.checked = checked;
       inputProps.name = this.context.name;
+      radioClassNames = classNames(radioClassNames, checked && styles.checked);
     }
 
     return (

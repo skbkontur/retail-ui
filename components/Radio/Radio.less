@@ -55,7 +55,7 @@
   .focus:after,
   .warning:after,
   .error:after {
-    content: "";
+    content: " ";
     position: absolute;
     left: -2px;
     top: -2px;
@@ -80,14 +80,12 @@
     border-color: @border-color-error;
   }
 
-  .input:checked + .radio,
   .checked {
     position: relative;
   }
 
-  .input:checked + .radio:before,
   .checked:before {
-    content: "";
+    content: " ";
     position: absolute;
     top: 0;
     right: 0;
@@ -105,7 +103,6 @@
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) !important;
   }
 
-  .input:disabled:checked + .radio:before,
   .disabled.checked:before {
     background: #808080;
   }
