@@ -59,6 +59,7 @@ type Props<V, I> = {
   onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
   onMouseOver?: (e: SyntheticMouseEvent<>) => void,
   onOpen?: () => void,
+  onClose?: () => void,
   placeholder?: React.Node,
   renderItem: (value: V, item: I) => React.Node,
   renderValue: (value: V, item: I) => React.Node,
@@ -434,6 +435,9 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
   _close = () => {
     if (this.state.opened) {
       this.setState({ opened: false });
+
+      const { onClose } = this.props;
+      onClose && onClose();
     }
 
     events.removeEventListener(window, 'popstate', this._close);
