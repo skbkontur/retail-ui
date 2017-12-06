@@ -59,6 +59,7 @@ storiesOf('Button', module)
           <tr>
             <th />
             <th>disabled</th>
+            <th>loading</th>
             <th>checked</th>
             {sizes.map((x, i) => <th key={i}>{x}</th>)}
           </tr>
@@ -69,6 +70,11 @@ storiesOf('Button', module)
               <td>{use}</td>
               <td>
                 <Button use={use} disabled>
+                  Button
+                </Button>
+              </td>
+              <td>
+                <Button use={use} loading>
                   Button
                 </Button>
               </td>
