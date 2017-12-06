@@ -3,7 +3,9 @@ import React from 'react';
 import { configure, addDecorator } from '@storybook/react';
 import Upgrades from '../lib/Upgrades';
 
-Upgrades.enableFlatDisign();
+if (process.env.STORYBOOK_FLAT_UI) {
+  Upgrades.enableFlatDisign();
+}
 
 addDecorator(story => (
   <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>

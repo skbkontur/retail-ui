@@ -65,7 +65,7 @@ storiesOf('Button', module)
         </thead>
         <tbody>
           {uses.map((use, i) => (
-            <tr>
+            <tr key={i}>
               <td>{use}</td>
               <td>
                 <Button use={use} disabled>
