@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 import uuidv1 from 'uuid/v1';
+import Prevent from './Prevent';
 
 import Radio from '../Radio';
 
@@ -47,6 +48,8 @@ class RadioGroup extends React.Component<Props, State> {
   static defaultProps = {
     renderItem
   };
+
+  static Prevent = Prevent;
 
   _name: string = uuidv1();
   _node: ?HTMLElement = null;
