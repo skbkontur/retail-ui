@@ -11,13 +11,18 @@ import styled from '../internal/styledRender';
 import filterProps from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
+import Upgrades from '../../lib/Upgrades';
+
+const isFlatDisign = Upgrades.ifFlatDisignEnabled();
 
 let cssStyles;
 let jssStyles;
 if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Input.styles').default;
 } else {
-  cssStyles = require('./Input.less');
+  cssStyles = isFlatDisign
+    ? require('./Input.flat.less')
+    : require('./Input.less');
 }
 
 const INPUT_PASS_PROPS = {
