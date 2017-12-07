@@ -8,6 +8,15 @@ import PropTypes from 'prop-types';
 
 import Icon from '../Icon';
 
+import '../ensureOldIEClassName';
+import Upgrades from '../../lib/Upgrades';
+
+const isFlatDisign = Upgrades.ifFlatDisignEnabled();
+
+const styles = isFlatDisign
+  ? require('./Checkbox.flat.less')
+  : require('./Checkbox.less');
+
 const KEYCODE_TAB = 9;
 
 let isListening: boolean;
@@ -21,9 +30,6 @@ function listenTabPresses() {
     isListening = true;
   }
 }
-
-import '../ensureOldIEClassName';
-import styles from './Checkbox.less';
 
 type Props = {
   checked?: boolean,
@@ -72,7 +78,7 @@ class Checkbox extends React.Component<
     const rootClass = classNames({
       [styles.root]: true,
       [styles.withoutCaption]: !hasCaption,
-      [styles.isChecked]: this.props.checked,
+      [styles.checked]: this.props.checked,
       [styles.disabled]: this.props.disabled,
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,

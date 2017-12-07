@@ -3,6 +3,7 @@ import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
 import styled from '../internal/styledRender';
+import Upgrades from '../../lib/Upgrades';
 
 import PropTypes from 'prop-types';
 
@@ -11,12 +12,16 @@ import Icon from '../Icon';
 
 import '../ensureOldIEClassName';
 
+const isFlatDisign = Upgrades.ifFlatDisignEnabled();
+
 let cssStyles;
 let jssStyles;
 if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Button.styles').default;
 } else {
-  cssStyles = require('./Button.less');
+  cssStyles = isFlatDisign
+    ? require('./Button.flat.less')
+    : require('./Button.less');
 }
 
 const KEYCODE_TAB = 9;

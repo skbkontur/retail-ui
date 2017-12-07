@@ -7,7 +7,13 @@ import ReactDOM from 'react-dom';
 import filterProps from '../../filterProps';
 
 import '../../ensureOldIEClassName';
-import styles from './InputLikeText.less';
+import Upgrades from '../../../lib/Upgrades';
+
+const isFlatDisign = Upgrades.ifFlatDisignEnabled();
+
+const styles = isFlatDisign
+  ? require('./InputLikeText.flat.less')
+  : require('./InputLikeText.less');
 
 const PASS_PROPS = {
   onBlur: true,

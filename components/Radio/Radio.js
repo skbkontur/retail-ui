@@ -5,8 +5,13 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import '../ensureOldIEClassName';
+import Upgrades from '../../lib/Upgrades';
 
-import styles from './Radio.less';
+const isFlatDisign = Upgrades.ifFlatDisignEnabled();
+
+const styles = isFlatDisign
+  ? require('./Radio.flat.less')
+  : require('./Radio.less');
 
 type Primitive = number | string;
 
