@@ -124,6 +124,13 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
       onMouseLeave: this.props.onMouseLeave
     };
 
+    const labelProps = {
+      className: styles.root,
+      onMouseOver: this._handleMouseOver,
+      onMouseEnter: this._handleMouseEnter,
+      onMouseLeave: this._handleMouseLeave
+    };
+
     if (this._isInRadioGroup()) {
       const checked = this.props.value === this.context.activeItem;
       inputProps.checked = checked;
@@ -132,7 +139,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     }
 
     return (
-      <label className={styles.root}>
+      <label {...labelProps} >
         <input {...inputProps} />
         <span className={radioClassNames} />
         {this.props.children && this.renderLabel()}
@@ -159,6 +166,27 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     }
     if (this._isInRadioGroup) {
       this.context.onSelect(event, event.target.value);
+    }
+  };
+
+  _handleMouseOver = event => {
+    if (this.props.onMouseOver) {
+      event.target = this._node;
+      this.props.onMouseOver(event);
+    }
+  };
+
+  _handleMouseEnter = event => {
+    if (this.props.onMouseEnter) {
+      event.target = this._node;
+      this.props.onMouseEnter(event);
+    }
+  };
+
+  _handleMouseLeave = event => {
+    if (this.props.onMouseLeave) {
+      event.target = this._node;
+      this.props.onMouseLeave(event);
     }
   };
 }
