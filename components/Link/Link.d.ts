@@ -5,7 +5,7 @@ export interface LinkProps extends React.LinkHTMLAttributes<any> {
   href?: string;
   icon?: string;
   onClick?: React.MouseEventHandler<HTMLLinkElement>;
-  use?: 'default' | 'success' | 'danger' | 'graye';
+  use?: 'default' | 'success' | 'danger' | 'grayed';
 }
 
 export interface LinkState {
