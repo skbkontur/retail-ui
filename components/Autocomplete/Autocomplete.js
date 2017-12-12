@@ -294,6 +294,6 @@ function match(pattern, items) {
   return Promise.resolve(filteredItems);
 }
 
-function renderItem(item) {
+function renderItem(item: mixed) {
   return item;
 }

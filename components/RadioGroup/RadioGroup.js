@@ -155,7 +155,7 @@ class RadioGroup extends React.Component<Props, State> {
 
 export default RadioGroup;
 
-function renderItem(value, data) {
+function renderItem(value: *, data: *) {
   return data;
 }
 

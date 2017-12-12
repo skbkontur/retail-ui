@@ -357,7 +357,7 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
     );
   }
 
-  static static = element => {
+  static static = (element: mixed) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
       'Select.static(element) expects element to be a valid react element.'
@@ -538,15 +538,15 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
   }
 }
 
-function renderValue(value, item) {
+function renderValue(value: *, item: *) {
   return item;
 }
 
-function renderItem(value, item) {
+function renderItem(value: *, item: *) {
   return item;
 }
 
-function areValuesEqual(value1, value2) {
+function areValuesEqual(value1: *, value2: *) {
   return value1 === value2;
 }
 
@@ -558,7 +558,7 @@ function normalizeEntry(entry) {
   }
 }
 
-function filterItem(value, item, pattern) {
+function filterItem(value: *, item: *, pattern: string) {
   // $FlowIssue
   return item.toLowerCase().indexOf(pattern) !== -1;
 }
