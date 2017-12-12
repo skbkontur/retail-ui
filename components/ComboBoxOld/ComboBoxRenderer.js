@@ -549,11 +549,11 @@ function mapResult(
   });
 }
 
-function renderValue(value, info) {
+function renderValue(value: *, info: *) {
   return info;
 }
 
-function renderItem(value, info, state) {
+function renderItem(value: *, info: *, state: *) {
   return info;
 }
 
