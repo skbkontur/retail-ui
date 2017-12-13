@@ -1,11 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import { storiesOf, action } from '@storybook/react';
+import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import Kebab from '../Kebab';
 import MenuItem from '../../MenuItem';
 
 storiesOf('Kebab', module)
-  .addDecorator(story =>
+  .addDecorator(story => (
     <div
       style={{
         padding: '120px 0',
@@ -15,7 +16,7 @@ storiesOf('Kebab', module)
     >
       {story()}
     </div>
-  )
+  ))
   .add('14px', () => <SomethingWithKebab size="small" />)
   .add('20px', () => <SomethingWithKebab size="large" />)
   .add('20px-disabled', () => <SomethingWithKebab size="large" disabled />);

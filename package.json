@@ -8,9 +8,19 @@
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
   "lint-staged": {
-    "*.js": ["prettier --single-quote --write", "eslint", "git add"],
-    "*.{css,less}": ["prettier --write", "git add"],
-    "*.ts": ["prettier --single-quote --write", "git add"]
+    "*.js": [
+      "prettier --single-quote --write",
+      "eslint",
+      "git add"
+    ],
+    "*.{css,less}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.ts": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
@@ -24,8 +34,7 @@
     "precommit": "flow && lint-staged",
     "prepush": "npm run unit-test",
     "storybook": "start-storybook -p 6060",
-    "test":
-      "jest --no-cache && concurrently 'npm run storybook' 'npm run gemini' -k -s first",
+    "test": "jest --no-cache && concurrently 'npm run storybook' 'npm run gemini' -k -s first",
     "typecheck": "flow",
     "unit-test": "jest",
     "unit-test:watch": "jest --watch"
@@ -53,9 +62,10 @@
     "warning": "^3.0.0"
   },
   "devDependencies": {
-    "@storybook/addon-knobs": "^3.2.17",
-    "@storybook/addons": "^3.2.17",
-    "@storybook/react": "^3.2.17",
+    "@storybook/addon-actions": "3.3.0-alpha.4",
+    "@storybook/addon-knobs": "3.3.0-alpha.4",
+    "@storybook/addons": "3.3.0-alpha.4",
+    "@storybook/react": "3.3.0-alpha.4",
     "@types/react": "^16.0.29",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
@@ -111,8 +121,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$":
-        "<rootDir>/testing/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/testing/__mocks__/fileMock.js",
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {
@@ -125,6 +134,8 @@
       "<rootDir>/scripts",
       "<rootDir>/testing"
     ],
-    "setupFiles": ["<rootDir>/test-setup.js"]
+    "setupFiles": [
+      "<rootDir>/test-setup.js"
+    ]
   }
 }
