@@ -6,11 +6,7 @@ import Tooltip from '../Tooltip.js';
 
 jest.mock('../../RenderContainer/RenderContainer.js', () => {
   return function RenderContainerMock(props) {
-    return (
-      <div>
-        {props.children}
-      </div>
-    );
+    return <div>{props.children}</div>;
   };
 });
 
@@ -87,8 +83,9 @@ describe('Tooltip', () => {
         <div />
       </Tooltip>
     );
-
-    wrapper.find('.cross').simulate('click');
+    getRenderContainer(wrapper)
+      .find('.cross')
+      .simulate('click');
     expect(onClose.mock.calls.length).toBe(1);
   });
 
@@ -122,3 +119,6 @@ describe('Tooltip', () => {
     expect(wrapper.find(StatefulComponent).length).toBe(1);
   });
 });
+
+const getRenderContainer = wrapper =>
+  mount(wrapper.find('RenderContainer').get(0).props.children);
