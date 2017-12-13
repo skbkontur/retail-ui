@@ -293,6 +293,6 @@ function match(pattern, items) {
   return Promise.resolve(filteredItems);
 }
 
-function renderItem(item: mixed) {
+function renderItem(item: *) {
   return item;
 }
