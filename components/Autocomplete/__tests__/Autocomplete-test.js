@@ -10,7 +10,7 @@ const render = props => mount(React.createElement(Autocomplete, props));
 const renderUnc = props =>
   mount(React.createElement(UncontrolledAutocomplete, props));
 
-describe.only('<Autocomplete />', () => {
+describe('<Autocomplete />', () => {
   it('renders with given value', () => {
     const onChange = jest.fn();
     const source = [];
