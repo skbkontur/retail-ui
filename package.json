@@ -62,10 +62,10 @@
     "warning": "^3.0.0"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "3.3.0-alpha.4",
-    "@storybook/addon-knobs": "3.3.0-alpha.4",
-    "@storybook/addons": "3.3.0-alpha.4",
-    "@storybook/react": "3.3.0-alpha.4",
+    "@storybook/addon-actions": "3.2.16",
+    "@storybook/addon-knobs": "3.2.16",
+    "@storybook/addons": "3.2.16",
+    "@storybook/react": "3.2.16",
     "@types/react": "^16.0.29",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
