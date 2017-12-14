@@ -6,7 +6,7 @@ const CheckboxAdapter = {
   },
 
   setChecked(inst, checked) {
-    inst._handleChange({ target: { checked } });
+    inst._handleChange({ currentTarget: { checked } });
   }
 };
 
