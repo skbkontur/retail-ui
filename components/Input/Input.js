@@ -50,6 +50,7 @@ const INPUT_PASS_PROPS = {
 export type Props = {
   align?: 'left' | 'center' | 'right',
   alwaysShowMask?: boolean,
+  autoFocus?: boolean,
   borderless?: boolean,
   /** @internal */
   className?: string, // TODO: kill it

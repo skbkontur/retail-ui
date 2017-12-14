@@ -8,9 +8,19 @@
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
   "lint-staged": {
-    "*.js": ["prettier --single-quote --write", "eslint", "git add"],
-    "*.{css,less}": ["prettier --write", "git add"],
-    "*.ts": ["prettier --single-quote --write", "git add"]
+    "*.js": [
+      "prettier --single-quote --write",
+      "eslint",
+      "git add"
+    ],
+    "*.{css,less}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.ts": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
@@ -19,11 +29,12 @@
     "build": "node scripts/build",
     "build-storybook": "build-storybook",
     "gemini:update": "gemini update",
+    "gemini": "wait-on http://localhost:6060 && gemini test --reporter vflat",
     "lint": "eslint . --ignore-pattern 'flow-typed/**/*.js'",
     "precommit": "flow && lint-staged",
     "prepush": "npm run unit-test",
     "storybook": "start-storybook -p 6060",
-    "test": "jest --no-cache && gemini test --reporter vflat",
+    "test": "jest --no-cache && concurrently 'npm run storybook' 'npm run gemini' -k -s first",
     "typecheck": "flow",
     "unit-test": "jest",
     "unit-test:watch": "jest --watch"
@@ -51,9 +62,10 @@
     "warning": "^3.0.0"
   },
   "devDependencies": {
-    "@storybook/addon-knobs": "^3.2.17",
-    "@storybook/addons": "^3.2.17",
-    "@storybook/react": "^3.2.17",
+    "@storybook/addon-actions": "3.2.16",
+    "@storybook/addon-knobs": "3.2.17",
+    "@storybook/addons": "3.2.17",
+    "@storybook/react": "3.2.17",
     "@types/react": "^16.0.29",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
@@ -68,6 +80,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "concurrently": "^3.5.1",
     "css-loader": "^0.28.7",
     "enzyme": "^2.9.1",
     "eslint": "^4.13.1",
@@ -97,7 +110,8 @@
     "style-loader": "^0.18.2",
     "stylelint": "^8.3.1",
     "stylelint-config-standard": "^18.0.0",
-    "url-loader": "^0.6.2"
+    "url-loader": "^0.6.2",
+    "wait-on": "^2.0.2"
   },
   "peerDependencies": {
     "@types/react": "*",
@@ -107,8 +121,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$":
-        "<rootDir>/testing/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/testing/__mocks__/fileMock.js",
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {
@@ -121,6 +134,8 @@
       "<rootDir>/scripts",
       "<rootDir>/testing"
     ],
-    "setupFiles": ["<rootDir>/test-setup.js"]
+    "setupFiles": [
+      "<rootDir>/test-setup.js"
+    ]
   }
 }
