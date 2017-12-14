@@ -139,7 +139,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     }
 
     return (
-      <label {...labelProps} >
+      <label {...labelProps}>
         <input {...inputProps} />
         <span className={radioClassNames} />
         {this.props.children && this.renderLabel()}
