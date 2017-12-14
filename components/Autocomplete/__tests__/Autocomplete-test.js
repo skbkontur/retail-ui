@@ -4,6 +4,7 @@ import React from 'react';
 import Autocomplete from '../Autocomplete';
 import Icon from '../../Icon';
 import { mount } from 'enzyme';
+import * as MountUtils from '../../../testing/enzyme-utils/mount-utils';
 
 const render = props => mount(React.createElement(Autocomplete, props));
 
@@ -50,7 +51,7 @@ describe('<Autocomplete />', () => {
     // wait for react batch updates
     await new Promise(resolve => setTimeout(resolve));
 
-    const menuItems = getDropdownContainer(wrapper).find('.item');
+    const menuItems = MountUtils.findWithRenderContainer('.item', wrapper);
 
     expect(menuItems).toHaveLength(2);
     expect(menuItems.first().text()).toBe('One');
