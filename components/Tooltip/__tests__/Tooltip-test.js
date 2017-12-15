@@ -1,6 +1,6 @@
 import { mount } from 'enzyme';
 import React from 'react';
-
+import * as MountUtils from '../../../testing/enzyme-utils/mount-utils';
 import RenderContainer from '../../RenderContainer';
 import Tooltip from '../Tooltip.js';
 
@@ -83,9 +83,7 @@ describe('Tooltip', () => {
         <div />
       </Tooltip>
     );
-    getRenderContainer(wrapper)
-      .find('.cross')
-      .simulate('click');
+    MountUtils.findWithRenderContainer('.cross', wrapper).simulate('click');
     expect(onClose.mock.calls.length).toBe(1);
   });
 
@@ -119,6 +117,3 @@ describe('Tooltip', () => {
     expect(wrapper.find(StatefulComponent).length).toBe(1);
   });
 });
-
-const getRenderContainer = wrapper =>
-  mount(wrapper.find('RenderContainer').get(0).props.children);
