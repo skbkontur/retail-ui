@@ -24,12 +24,12 @@ module.exports = {
       },
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader',
+        loader: require.resolve('babel-loader'),
         query: {
-          presets: [
-            require.resolve('babel-preset-es2015'),
-            require.resolve('babel-preset-stage-0'),
-            require.resolve('babel-preset-react')
+          presets: ['env', 'react'],
+          plugins: [
+            'transform-class-properties',
+            'transform-object-rest-spread'
           ],
           cacheDirectory: true
         },

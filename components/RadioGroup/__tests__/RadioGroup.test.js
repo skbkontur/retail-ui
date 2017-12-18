@@ -44,9 +44,7 @@ describe('<RadioGroup />', () => {
     const firstRadio = render({ items })
       .find(Radio)
       .at(0);
-    firstRadio
-      .find('input')
-      .simulate('change', { target: { checked: true, value: 'one' } });
+    firstRadio.find('input').simulate('change');
     expect(firstRadio.find('input').prop('checked')).toBeTruthy();
   });
 
@@ -57,7 +55,7 @@ describe('<RadioGroup />', () => {
       .find(Radio)
       .at(0)
       .find('input')
-      .simulate('change', { target: { checked: true, value: 'one' } });
+      .simulate('change');
     expect(onChange).toHaveBeenCalled();
     const [event, value] = onChange.mock.calls[0];
     expect(event.target.value).toBe('one');
@@ -122,9 +120,7 @@ describe('<RadioGroup />', () => {
     const firstRadio = render({ children })
       .find(Radio)
       .at(0);
-    firstRadio
-      .find('input')
-      .simulate('change', { target: { checked: true, value: 'one' } });
+    firstRadio.find('input').simulate('change');
     expect(firstRadio.find('input').prop('checked')).toBeTruthy();
   });
 
@@ -141,7 +137,7 @@ describe('<RadioGroup />', () => {
       .find(Radio)
       .at(0)
       .find('input')
-      .simulate('change', { target: { checked: true, value: 'one' } });
+      .simulate('change');
     expect(onChange).toHaveBeenCalled();
     const [event, value] = onChange.mock.calls[0];
     expect(event.target.value).toBe('one');
@@ -224,5 +220,15 @@ describe('<RadioGroup />', () => {
 
   it('has Prevent static prop', () => {
     expect(RadioGroup.Prevent).toBeDefined();
+  });
+
+  it('works with number values', () => {
+    const items = [1, 2, 3, 4];
+    const firstRadio = render({ items })
+      .find(Radio)
+      .at(0);
+    firstRadio.find('input').simulate('change');
+    console.log(firstRadio.debug());
+    expect(firstRadio.find('input').prop('checked')).toBeTruthy();
   });
 });

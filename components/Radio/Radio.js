@@ -15,6 +15,16 @@ const styles = isFlatDisign
 
 type Primitive = number | string;
 
+export type SyntheticRadioEvent<T> = {
+  target: {
+    id: ?string,
+    name: ?string,
+    checked: ?boolean,
+    disabled: ?boolean,
+    value: T
+  }
+};
+
 type Props<T> = {
   id?: string,
   name?: string,
@@ -28,10 +38,10 @@ type Props<T> = {
   warning?: boolean,
   children?: React.Node,
   value: T,
-  onChange?: (event: SyntheticInputEvent<HTMLInputElement>, value: T) => mixed,
-  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
-  onMouseOver?: (e: SyntheticMouseEvent<>) => void
+  onChange?: (event: SyntheticRadioEvent<T>, value: T) => mixed,
+  onMouseEnter?: (event: SyntheticRadioEvent<T>) => void,
+  onMouseLeave?: (event: SyntheticRadioEvent<T>) => void,
+  onMouseOver?: (event: SyntheticRadioEvent<T>) => void
 };
 
 /**
@@ -40,6 +50,18 @@ type Props<T> = {
  * Если находится внутри компонента **RadioGroup**, то наследует
  * параметры `checked`, `name` и `onChange`. Также наследует состояния
  * `disabled`, `error` и `warning`
+ *
+ * ```
+ * type SyntheticRadioEvent<T> = {
+   target: {
+     id: ?string,
+     name: ?string,
+     checked: ?boolean,
+     disabled: ?boolean,
+     value: T
+   }
+ };
+ * ```
  */
 class Radio<T: Primitive> extends React.Component<Props<T>> {
   static contextTypes = {
@@ -67,7 +89,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     pressed: PropTypes.bool,
     warning: PropTypes.bool,
     children: PropTypes.node,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    value: PropTypes.any.isRequired,
     onChange: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
@@ -161,6 +183,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
   };
 
   _handleChange = event => {
+    event = createSyntheticEvent(this.props);
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
@@ -170,25 +193,45 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
   };
 
   _handleMouseOver = event => {
+    event = createSyntheticEvent(this.props);
     if (this.props.onMouseOver) {
-      event.target = this._node;
       this.props.onMouseOver(event);
     }
   };
 
   _handleMouseEnter = event => {
+    event = createSyntheticEvent(this.props);
     if (this.props.onMouseEnter) {
-      event.target = this._node;
       this.props.onMouseEnter(event);
     }
   };
 
   _handleMouseLeave = event => {
+    event = createSyntheticEvent(this.props);
     if (this.props.onMouseLeave) {
-      event.target = this._node;
       this.props.onMouseLeave(event);
     }
   };
+}
+
+function createSyntheticEvent<T>({
+  value,
+  id,
+  name,
+  checked,
+  disabled
+}: Props<T>): SyntheticRadioEvent<T> {
+  const target = {
+    value,
+    id,
+    name,
+    checked,
+    disabled
+  };
+  const syntheticEvent = {
+    target
+  };
+  return syntheticEvent;
 }
 
 export default Radio;
