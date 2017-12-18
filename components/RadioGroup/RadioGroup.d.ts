@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { SyntheticRadioEvent } from '../Radio';
+
 export interface RadioGroupProps<Value, Data> {
   disabled?: boolean;
   error?: boolean;
@@ -12,13 +14,10 @@ export interface RadioGroupProps<Value, Data> {
   width?: number | string;
   children?: React.ReactChildren;
   renderItem?: (value: Value, data: Data) => React.ReactNode;
-  onChange?: (
-    event: React.SyntheticEvent<HTMLInputElement>,
-    value: Value
-  ) => void;
-  onMouseEnter?: (e: React.SyntheticEvent<HTMLSpanElement>) => void;
-  onMouseLeave?: (e: React.SyntheticEvent<HTMLSpanElement>) => void;
-  onMouseOver?: (e: React.SyntheticEvent<HTMLSpanElement>) => void;
+  onChange?: (event: SyntheticRadioEvent<Value>, value: Value) => void;
+  onMouseEnter?: (e: SyntheticRadioEvent<Value>) => void;
+  onMouseLeave?: (e: SyntheticRadioEvent<Value>) => void;
+  onMouseOver?: (e: SyntheticRadioEvent<Value>) => void;
 }
 
 export interface RadioGroupState<T> {

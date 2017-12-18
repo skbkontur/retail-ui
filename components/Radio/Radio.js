@@ -15,7 +15,7 @@ const styles = isFlatDisign
 
 type Primitive = number | string;
 
-type SyntheticRadioEvent<T> = {
+export type SyntheticRadioEvent<T> = {
   target: {
     id: ?string,
     name: ?string,
