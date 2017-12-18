@@ -10,7 +10,7 @@ export interface SyntheticRadioEvent<T> {
   };
 }
 
-export interface RadioProps<T, Data> {
+export interface RadioProps<T> {
   id?: string;
   name?: string;
   tabIndex?: number;
@@ -29,7 +29,6 @@ export interface RadioProps<T, Data> {
   onMouseOver?: (event: SyntheticRadioEvent<T>) => void;
 }
 
-export default class RadioGroup<
-  Value = any,
-  Data = any
-> extends React.Component<RadioProps<Value, Data>> {}
+export default class RadioGroup<Value = any> extends React.Component<
+  RadioProps<Value>
+> {}
