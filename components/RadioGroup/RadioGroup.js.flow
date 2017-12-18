@@ -1,0 +1,35 @@
+// @flow
+/* eslint-disable flowtype/no-weak-types */
+import * as React from 'react';
+
+export interface RadioGroupProps<Value, Data> {
+  disabled?: boolean,
+  error?: boolean,
+  inline?: boolean,
+  items?: Array<[Value, Data] | Value>,
+  name?: string,
+  value?: Value,
+  defaultValue?: Value,
+  warning?: boolean,
+  width?: number | string,
+  children?: React.Node,
+  renderItem?: (value: Value, data: Data) => React.Node,
+  onChange?: (
+    event: SyntheticInputEvent<HTMLInputElement>,
+    value: Value
+  ) => void,
+  onMouseEnter?: (e: SyntheticEvent<HTMLSpanElement>) => void,
+  onMouseLeave?: (e: SyntheticEvent<HTMLSpanElement>) => void,
+  onMouseOver?: (e: SyntheticEvent<HTMLSpanElement>) => void
+}
+
+export interface RadioGroupState<T> {
+  activeItem: ?T
+}
+
+export default class RadioGroup extends React.Component<
+  RadioGroupProps<any, any>,
+  RadioGroupState<any>
+> {
+  static Prevent: React.ComponentType<any>;
+}
