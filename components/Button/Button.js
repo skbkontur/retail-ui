@@ -42,7 +42,7 @@ type Props = {
   arrow?: boolean,
   autoFocus?: boolean,
   checked?: boolean,
-  children?: string,
+  children?: React.Node,
   /** @internal */
   corners?: number,
   disabled?: boolean,

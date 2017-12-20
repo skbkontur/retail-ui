@@ -5,7 +5,7 @@ export interface ButtonProps {
   arrow?: boolean;
   autoFocus?: boolean;
   checked?: boolean;
-  children?: any;
+  children?: React.ReactNode;
   disabled?: boolean;
   icon?: string;
   focused?: boolean;
