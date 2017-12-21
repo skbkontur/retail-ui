@@ -77,7 +77,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     focused: false
   };
 
-  static PropTypes = {
+  static propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
     tabIndex: PropTypes.number,
