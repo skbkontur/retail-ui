@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export interface MenuProps {
-  children?: React.ReactElement<any> | React.ReactElement<any>[];
+  children?: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number;
   onItemClick?: () => void;

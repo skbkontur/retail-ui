@@ -5,15 +5,16 @@ export type MenuItemStateType = null | 'hover' | 'selected';
 export interface MenuItemProps {
   _enableIconPadding?: boolean;
   alkoLink?: boolean;
-  comment?: React.ReactElement<any> | string;
+  comment?: React.ReactNode;
+  children?: React.ReactNode | ((state: MenuItemStateType) => React.ReactNode);
   disabled?: boolean;
   href?: string;
   icon?: string;
   loose?: boolean;
   state?: MenuItemStateType;
   target?: string;
-  onClick?: React.MouseEventHandler<any>;
-  onMouseDown?: React.MouseEventHandler<any>;
+  onClick?: React.MouseEventHandler<HTMLLinkElement>;
+  onMouseDown?: React.MouseEventHandler<HTMLLinkElement>;
 }
 
 export interface MenuItemState {}
