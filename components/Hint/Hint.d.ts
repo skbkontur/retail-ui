@@ -4,8 +4,8 @@ export interface HintProps {
   children?: React.ReactNode;
   manual?: boolean;
   maxWidth?: string | number;
-  onMouseEnter?: (e: React.MouseEvent<HTMLSpanElement>) => void;
-  onMouseLeave?: (e: React.MouseEvent<HTMLSpanElement>) => void;
+  onMouseEnter?: React.MouseEventHandler<HTMLSpanElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLSpanElement>;
   opened?: boolean;
   pos?: 'top' | 'right' | 'bottom' | 'left';
   text: string;

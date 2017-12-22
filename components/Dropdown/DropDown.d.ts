@@ -16,9 +16,9 @@ export interface DropdownProps {
   warning?: boolean;
   width?: number;
   onClose?: () => void;
-  onMouseEnter?: React.MouseEvent<HTMLButtonElement>;
-  onMouseLeave?: React.MouseEvent<HTMLButtonElement>;
-  onMouseOver?: React.MouseEvent<HTMLButtonElement>;
+  onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
+  onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
   onOpen?: () => void;
 }
 

@@ -9,9 +9,9 @@ export interface CheckboxProps {
     event: React.ChangeEvent<HTMLInputElement>,
     value: boolean
   ) => void;
-  onMouseEnter?: (e: React.MouseEvent<HTMLLabelElement>) => void;
-  onMouseLeave?: (e: React.MouseEvent<HTMLLabelElement>) => void;
-  onMouseOver?: (e: React.MouseEvent<HTMLLabelElement>) => void;
+  onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
   warning?: boolean;
 }
 
