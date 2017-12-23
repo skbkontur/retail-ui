@@ -14,4 +14,6 @@ export interface PasswordInputState {
 export default class PasswordInput extends React.Component<
   PasswordInputProps,
   PasswordInputState
-> {}
+> {
+  focus(): void;
+}

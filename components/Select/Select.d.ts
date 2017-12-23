@@ -55,4 +55,6 @@ export default class Select<Value = any, Item = Value> extends React.Component<
   static SEP: () => MenuSeparator;
   static Item: typeof SelectItem;
   static static: SelectStaticItem;
+  open(): void;
+  close(): void;
 }

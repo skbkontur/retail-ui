@@ -10,4 +10,6 @@ export interface ScrollContainerState {}
 export default class ScrollContainerGroup extends React.Component<
   ScrollContainerProps,
   ScrollContainerState
-> {}
+> {
+  scrollTo(el: HTMLElement): void;
+}

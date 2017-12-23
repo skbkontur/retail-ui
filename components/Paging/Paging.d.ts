@@ -28,4 +28,6 @@ export interface PagingState {
   focusedItem: ItemType;
 }
 
-export default class Paging extends React.Component<PagingProps, PagingState> {}
+export default class Paging extends React.Component<PagingProps, PagingState> {
+  static isForward(pageNumber: number | 'forward'): boolean;
+}

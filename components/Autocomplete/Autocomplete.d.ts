@@ -15,4 +15,6 @@ export interface AutocompleteState {
 export default class Autocomplete extends React.Component<
   AutocompleteProps,
   AutocompleteState
-> {}
+> {
+  focus(): void;
+}

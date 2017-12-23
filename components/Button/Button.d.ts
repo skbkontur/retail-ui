@@ -36,4 +36,7 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
-export default class Button extends React.Component<ButtonProps, ButtonState> {}
+export default class Button extends React.Component<ButtonProps, ButtonState> {
+  focus(): void;
+  blur(): void;
+}

@@ -49,4 +49,8 @@ export interface InputState {
   polyfillPlaceholder: boolean;
 }
 
-export default class Input extends React.Component<InputProps, InputState> {}
+export default class Input extends React.Component<InputProps, InputState> {
+  focus(): void;
+  blur(): void;
+  setSelectionRange(start: number, end: number): void;
+}

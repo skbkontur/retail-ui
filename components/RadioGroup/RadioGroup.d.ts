@@ -32,4 +32,5 @@ export default class RadioGroup<
   RadioGroupState<Value>
 > {
   static Prevent: React.ComponentType;
+  focus(): void;
 }
