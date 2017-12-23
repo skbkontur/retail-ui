@@ -11,15 +11,15 @@ export interface ComboBoxProps<T> {
   onBlur?: () => void;
   onChange?: (event: { target: { value: T } }, item: T) => void;
   onFocus?: () => void;
-  onInputChange?: (query: string) => string | null | undefined;
-  onUnexpectedInput?: (query: string) => boolean | null | undefined;
+  onInputChange?: (query: string) => string | null;
+  onUnexpectedInput?: (query: string) => boolean | null;
   placeholder?: string;
   renderItem?: (item: T, index?: number) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderValue?: (item: T) => React.ReactNode;
   totalCount?: number;
-  value?: T | null | undefined;
+  value?: T | null;
   valueToString: (item: T) => string;
   size?: 'small' | 'medium' | 'large';
   warning?: boolean;

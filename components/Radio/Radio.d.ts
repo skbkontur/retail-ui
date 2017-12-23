@@ -2,10 +2,10 @@ import * as React from 'react';
 
 export interface SyntheticRadioEvent<T> {
   target: {
-    id: string | undefined;
-    name: string | undefined;
-    checked: string | undefined;
-    disabled: string | undefined;
+    id?: string;
+    name?: string;
+    checked?: string;
+    disabled?: string;
     value: T;
   };
 }
