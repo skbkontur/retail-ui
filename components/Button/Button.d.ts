@@ -1,19 +1,30 @@
 import * as React from 'react';
+import IconNames from '../Icon/IconNames';
+
+export type ButtonSize = 'small' | 'medium' | 'large';
+export type ButtonType = 'button' | 'submit' | 'reset';
+export type ButtonUse =
+  | 'default'
+  | 'primary'
+  | 'success'
+  | 'danger'
+  | 'pay'
+  | 'link';
 
 export interface ButtonProps {
   active?: boolean;
   arrow?: boolean;
   autoFocus?: boolean;
   checked?: boolean;
-  children?: any;
+  children?: React.ReactNode;
   disabled?: boolean;
-  icon?: string;
+  icon?: keyof IconNames;
   focused?: boolean;
   loading?: boolean;
   narrow?: boolean;
-  size?: 'small' | 'medium' | 'large';
-  type?: 'button' | 'submit' | 'reset';
-  use?: 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
+  size?: ButtonSize;
+  type?: ButtonType;
+  use?: ButtonUse;
   width?: number | string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
@@ -26,4 +37,7 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
-export default class Button extends React.Component<ButtonProps, ButtonState> {}
+export default class Button extends React.Component<ButtonProps, ButtonState> {
+  focus(): void;
+  blur(): void;
+}

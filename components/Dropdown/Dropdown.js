@@ -80,6 +80,11 @@ export default class Dropdown extends React.Component {
 
     width: PropTypes.number,
 
+    /**
+     * Вызывается при закрытии меню.
+     */
+    onClose: PropTypes.func,
+
     onMouseEnter: PropTypes.func,
 
     onMouseLeave: PropTypes.func,
@@ -89,12 +94,7 @@ export default class Dropdown extends React.Component {
     /**
      * Вызывается при открытии меню.
      */
-    onOpen: PropTypes.func,
-
-    /**
-     * Вызывается при закрытии меню.
-     */
-    onClose: PropTypes.func
+    onOpen: PropTypes.func
   };
 
   constructor(props) {

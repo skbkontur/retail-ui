@@ -1,7 +1,13 @@
 import * as React from 'react';
 
+export type InputSize = 'small' | 'medium' | 'large';
+
+export type InputAlign = 'left' | 'center' | 'right';
+
+export type InputType = 'password' | 'text';
+
 export interface InputProps {
-  align?: 'left' | 'center' | 'right';
+  align?: InputAlign;
   alwaysShowMask?: boolean;
   autoFocus?: boolean;
   borderless?: boolean;
@@ -9,38 +15,42 @@ export interface InputProps {
   disabled?: boolean;
   error?: boolean;
   id?: string;
-  leftIcon?: React.ReactElement<any>;
+  leftIcon?: React.ReactNode;
   mask?: string;
   maskChar?: string;
   maxLength?: number | string;
   placeholder?: string;
-  rightIcon?: React.ReactElement<any>;
-  size?: 'small' | 'medium' | 'large';
+  rightIcon?: React.ReactNode;
+  size?: InputSize;
   title?: string;
-  type?: 'password' | 'text';
+  type?: InputType;
   value: string;
   warning?: boolean;
   width?: number | string;
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
   onChange?: (
     event: React.ChangeEvent<HTMLInputElement>,
     value: string
   ) => void;
-  onCopy?: (event: React.ClipboardEvent<HTMLInputElement>) => void;
-  onCut?: (event: React.ClipboardEvent<HTMLInputElement>) => void;
-  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  onInput?: (event: React.FormEvent<HTMLInputElement>) => void;
-  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  onKeyUp?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  onPaste?: (event: React.ClipboardEvent<HTMLInputElement>) => void;
-  onMouseEnter?: (event: React.MouseEvent<HTMLInputElement>) => void;
-  onMouseLeave?: (event: React.MouseEvent<HTMLInputElement>) => void;
-  onMouseOver?: (event: React.MouseEvent<HTMLInputElement>) => void;
+  onCopy?: React.ClipboardEventHandler<HTMLInputElement>;
+  onCut?: React.ClipboardEventHandler<HTMLInputElement>;
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
+  onInput?: React.FormEventHandler<HTMLInputElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+  onKeyPress?: React.KeyboardEventHandler<HTMLInputElement>;
+  onKeyUp?: React.KeyboardEventHandler<HTMLInputElement>;
+  onPaste?: React.ClipboardEventHandler<HTMLInputElement>;
+  onMouseEnter?: React.MouseEventHandler<HTMLInputElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLInputElement>;
+  onMouseOver?: React.MouseEventHandler<HTMLInputElement>;
 }
 
 export interface InputState {
   polyfillPlaceholder: boolean;
 }
 
-export default class Input extends React.Component<InputProps, InputState> {}
+export default class Input extends React.Component<InputProps, InputState> {
+  focus(): void;
+  blur(): void;
+  setSelectionRange(start: number, end: number): void;
+}

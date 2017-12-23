@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   Space: '\u0020',
   Hyphen: '\u002D',
   Underscore: '\u005F',
