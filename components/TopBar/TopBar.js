@@ -237,7 +237,7 @@ TopBar.propTypes = {
   /**
    * Суффикс логотипа
    */
-  suffix: PropTypes.string.isRequired,
+  suffix: PropTypes.string,
 
   /**
    * Имя пользователя
@@ -247,7 +247,7 @@ TopBar.propTypes = {
   /**
    * Функция выхода
    */
-  onLogout: PropTypes.func.isRequired
+  onLogout: PropTypes.func
 };
 
 export default TopBar;
