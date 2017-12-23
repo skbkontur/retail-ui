@@ -1,4 +1,5 @@
 import * as React from 'react';
+import IconNames from '../Icon/IconNames';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
@@ -17,7 +18,7 @@ export interface ButtonProps {
   checked?: boolean;
   children?: React.ReactNode;
   disabled?: boolean;
-  icon?: string;
+  icon?: keyof IconNames;
   focused?: boolean;
   loading?: boolean;
   narrow?: boolean;

@@ -1,13 +1,14 @@
 import * as React from 'react';
 
 import { ButtonUse, ButtonSize } from '../Button';
+import IconNames from '../Icon/IconNames';
 
 export interface DropdownProps {
   caption: React.ReactNode;
   disablePortal?: boolean;
   disabled?: boolean;
   error?: boolean;
-  icon?: string;
+  icon?: keyof IconNames;
   maxMenuHeight?: number;
   menuAlign?: 'left' | 'right';
   menuWidth?: number | string;
