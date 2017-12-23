@@ -2,9 +2,9 @@ import * as React from 'react';
 import { InputProps } from '../Input/Input';
 
 export interface AutocompleteProps extends InputProps {
-  renderItem: (item: string) => React.ReactNode;
+  renderItem?: (item: string) => React.ReactNode;
   source: Array<string> | ((pattern: string) => Promise<Array<string>>);
-  onChange: (event: { target: { value: string } }, value: string) => void;
+  onChange?: (event: { target: { value: string } }, value: string) => void;
 }
 
 export interface AutocompleteState {
