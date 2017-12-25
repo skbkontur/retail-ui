@@ -223,6 +223,7 @@ interface IconNames {
   DocumentTypeCsv: 'DocumentTypeCsv';
   Pause: 'Pause';
   LinkOff: 'LinkOff';
+  BarcodeScanner: 'BarcodeScanner';
 }
 
 export default IconNames;

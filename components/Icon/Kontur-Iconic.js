@@ -222,5 +222,6 @@ export default {
   USB: '\uE0D7',
   DocumentTypeCsv: '\uE0D8',
   Pause: '\uE0D9',
-  LinkOff: '\uE0DA'
+  LinkOff: '\uE0DA',
+  BarcodeScanner: '\uE0DB'
 };
