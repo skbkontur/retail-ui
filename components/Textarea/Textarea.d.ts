@@ -21,15 +21,15 @@ export interface TextareaProps {
   title?: string;
   value: string;
   width?: number | string;
-  onBlur: React.FocusEventHandler<HTMLTextAreaElement>;
-  onChange: (
+  onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
+  onChange?: (
     event: React.ChangeEvent<HTMLTextAreaElement>,
     value: string
   ) => void;
-  onFocus: React.FocusEventHandler<HTMLTextAreaElement>;
-  onMouseEnter: React.MouseEventHandler<HTMLTextAreaElement>;
-  onMouseLeave: React.MouseEventHandler<HTMLTextAreaElement>;
-  onMouseOver: React.MouseEventHandler<HTMLTextAreaElement>;
+  onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
+  onMouseEnter?: React.MouseEventHandler<HTMLTextAreaElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLTextAreaElement>;
+  onMouseOver?: React.MouseEventHandler<HTMLTextAreaElement>;
 }
 
 export interface TextareaState {}

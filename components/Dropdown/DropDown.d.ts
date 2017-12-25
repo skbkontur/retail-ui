@@ -3,6 +3,14 @@ import * as React from 'react';
 import { ButtonUse, ButtonSize } from '../Button';
 import IconNames from '../Icon/IconNames';
 
+export interface DropdownButtonParams {
+  disabled: boolean;
+  label: React.ReactNode;
+  onClick: () => void;
+  onKeyDown: (event: React.SyntheticEvent<HTMLElement>) => void;
+  opened: boolean;
+}
+
 export interface DropdownProps {
   caption: React.ReactNode;
   disablePortal?: boolean;
@@ -21,6 +29,10 @@ export interface DropdownProps {
   onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
   onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
   onOpen?: () => void;
+  /**
+   * Do not use this prop. It is only for @mshatikhin
+   */
+  _renderButton?: (params: DropdownButtonParams) => React.ReactNode;
 }
 
 export interface DropdownState {}
