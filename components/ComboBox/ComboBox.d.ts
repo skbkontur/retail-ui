@@ -7,12 +7,12 @@ export interface ComboBoxProps<T> {
   error?: boolean;
   getItems?: (query: string) => Promise<T[]>;
   itemToValue: (item: T) => string | number;
-  menuAlign: 'left' | 'right';
+  menuAlign?: 'left' | 'right';
   onBlur?: () => void;
   onChange?: (event: { target: { value: T } }, item: T) => void;
   onFocus?: () => void;
-  onInputChange?: (query: string) => string | null;
-  onUnexpectedInput?: (query: string) => boolean | null;
+  onInputChange?: (query: string) => string | null | void;
+  onUnexpectedInput?: (query: string) => boolean | null | void;
   placeholder?: string;
   renderItem?: (item: T, index?: number) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;

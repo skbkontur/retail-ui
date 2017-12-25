@@ -11,7 +11,7 @@ interface ISpinnerTypes {
 export interface SpinnerProps {
   caption?: string;
   dimmed?: boolean;
-  type?: keyof SpinnerTypes;
+  type?: SpinnerTypes;
 }
 
 export interface SpinnerState {}
