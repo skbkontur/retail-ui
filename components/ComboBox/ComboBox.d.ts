@@ -11,8 +11,8 @@ export interface ComboBoxProps<T> {
   onBlur?: () => void;
   onChange?: (event: { target: { value: T } }, item: T) => void;
   onFocus?: () => void;
-  onInputChange?: (query: string) => string | null | undefined;
-  onUnexpectedInput?: (query: string) => boolean | null | undefined;
+  onInputChange?: (query: string) => string | null | void;
+  onUnexpectedInput?: (query: string) => boolean | null | void;
   placeholder?: string;
   renderItem?: (item: T, index?: number) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;
