@@ -25,8 +25,8 @@ export interface TopBarProps {
 export interface TopBarState {}
 
 export default class TopBar extends React.Component<TopBarProps, TopBarState> {
-  static Divider: Divider;
-  static Item: TopBarButton;
-  static Dropdown: TopBarDropdown;
-  static OrganizationsDropdown: TopBarOrganizations;
+  static Divider: typeof Divider;
+  static Item: typeof TopBarButton;
+  static Dropdown: typeof TopBarDropdown;
+  static OrganizationsDropdown: typeof TopBarOrganizations;
 }
