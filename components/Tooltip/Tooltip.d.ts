@@ -19,8 +19,8 @@ export interface TooltipProps {
   className?: string;
   closeButton?: boolean;
   render: () => React.ReactNode | null;
-  pos: TooltipPos;
-  trigger: 'hover' | 'click' | 'focus' | 'opened' | 'closed';
+  pos?: TooltipPos;
+  trigger?: 'hover' | 'click' | 'focus' | 'opened' | 'closed';
   onCloseClick?: () => void;
 }
 
