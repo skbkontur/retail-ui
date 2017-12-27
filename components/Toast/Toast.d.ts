@@ -18,5 +18,7 @@ export interface ToastState {
 
 export default class Toast extends React.Component<ToastProps, ToastState> {
   static push(notification: string, action?: ToastAction): void;
+  static close(): void;
   push(notification: string, action?: ToastAction): void;
+  close(): void;
 }
