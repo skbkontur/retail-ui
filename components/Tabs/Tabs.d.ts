@@ -12,7 +12,7 @@ export interface TabsProps {
 }
 
 declare class Tabs extends React.Component<TabsProps, any> {
-  static Tab: Tab;
+  static Tab: typeof Tab;
 }
 
 export default Tabs;
