@@ -106,7 +106,7 @@ export type ExternalProps<T> = {
   width?: string | number
 };
 
-const defaltReducer = createReducer(defaultReducers);
+const defaultReducer = createReducer(defaultReducers);
 const autocompleteReducer = createReducer(autocompleteReducers);
 
 class ComboBox<T> extends React.Component<ExternalProps<T>> {
@@ -138,7 +138,7 @@ class ComboBox<T> extends React.Component<ExternalProps<T>> {
     const props = {
       ...rest,
       openButton: !autocomplete,
-      reducer: autocomplete ? autocompleteReducer : defaltReducer
+      reducer: autocomplete ? autocompleteReducer : defaultReducer
     };
     return <CustomComboBox {...props} ref={cb => (this._cb = cb)} />;
   }
