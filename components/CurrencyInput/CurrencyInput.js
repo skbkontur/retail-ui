@@ -81,10 +81,9 @@ export default class CurrencyInput extends Component<Props, State> {
     if (nextProps.value !== this.state.value) {
       this.setState({
         value: nextProps.value,
-        formatted: CurrencyHelper.format(
-          nextProps.value,
-          this.props.fractionDigits
-        ),
+        formatted: CurrencyHelper.format(nextProps.value, {
+          fractionDigits: this.props.fractionDigits
+        }),
         selection: SelectionHelper.fromPosition(0)
       });
     }
@@ -93,7 +92,9 @@ export default class CurrencyInput extends Component<Props, State> {
   render() {
     const placeholder =
       this.props.placeholder == null
-        ? CurrencyHelper.format(0, this.props.fractionDigits)
+        ? CurrencyHelper.format(0, {
+            fractionDigits: this.props.fractionDigits
+          })
         : this.props.placeholder;
 
     return (
@@ -334,7 +335,8 @@ export default class CurrencyInput extends Component<Props, State> {
   _handleBlur = (event: Event) => {
     this._focused = false;
     const value = CurrencyHelper.parse(this.state.formatted);
-    const formatted = CurrencyHelper.format(value, this.props.fractionDigits);
+    const options = { fractionDigits: this.props.fractionDigits };
+    const formatted = CurrencyHelper.format(value, options);
     this.setState({ value, formatted });
     if (this.props.onBlur) {
       this.props.onBlur(event);

@@ -35,8 +35,11 @@ describe('CurrencyHelper', () => {
       { value: 1.02, fractionDigits: 2, expected: '1,02' },
       { value: 1.02, fractionDigits: 4, expected: '1,0200' }
     ].forEach(x => {
-      it(`format(${x.value}, ${x.fractionDigits}) === '${x.expected}'`, () => {
-        const actual = CurrencyHelper.format(x.value, x.fractionDigits);
+      const options = { fractionDigits: x.fractionDigits };
+      it(`format(${x.value}, ${JSON.stringify(
+        options
+      )}) === '${x.expected}'`, () => {
+        const actual = CurrencyHelper.format(x.value, options);
         const expected = x.expected;
         expect(actual).toBe(expected);
       });
@@ -45,10 +48,9 @@ describe('CurrencyHelper', () => {
       { value: 1.1, fractionDigits: 0 },
       { value: 1.6789, fractionDigits: 3 }
     ].forEach(x => {
-      it(`format(${x.value}, ${x.fractionDigits}) throw`, () => {
-        expect(() =>
-          CurrencyHelper.format(x.value, x.fractionDigits)
-        ).toThrow();
+      const options = { fractionDigits: x.fractionDigits };
+      it(`format(${x.value}, ${JSON.stringify(options)}) throw`, () => {
+        expect(() => CurrencyHelper.format(x.value, options)).toThrow();
       });
     });
   });
@@ -104,8 +106,11 @@ describe('CurrencyHelper', () => {
       { value: '1.02', fractionDigits: 2, expected: '1,02' },
       { value: '1.02', fractionDigits: 4, expected: '1,0200' }
     ].forEach(x => {
-      it(`formatString('${x.value}', ${x.fractionDigits}) === '${x.expected}'`, () => {
-        const actual = CurrencyHelper.formatString(x.value, x.fractionDigits);
+      const options = { fractionDigits: x.fractionDigits };
+      it(`formatString('${x.value}', ${JSON.stringify(
+        options
+      )}) === '${x.expected}'`, () => {
+        const actual = CurrencyHelper.formatString(x.value, options);
         const expected = x.expected;
         expect(actual).toBe(expected);
       });
@@ -114,10 +119,9 @@ describe('CurrencyHelper', () => {
       { value: '1.1', fractionDigits: 0 },
       { value: '1.6789', fractionDigits: 3 }
     ].forEach(x => {
-      it(`formatString('${x.value}', ${x.fractionDigits}) throw`, () => {
-        expect(() =>
-          CurrencyHelper.format(x.value, x.fractionDigits)
-        ).toThrow();
+      const options = { fractionDigits: x.fractionDigits };
+      it(`formatString('${x.value}', ${JSON.stringify(options)}) throw`, () => {
+        expect(() => CurrencyHelper.format(x.value, options)).toThrow();
       });
     });
   });
