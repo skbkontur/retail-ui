@@ -46,12 +46,12 @@ export const getMonthOffset = (month: number, year: number) => {
 
 export const getMonth = (month: number, year: number): MonthConfig => {
   if (month < 0) {
-    month = 12 + month;
-    year -= 1;
+    year -= Math.ceil(-month / 12);
+    month = 12 + month % 12;
   }
   if (month > 11) {
-    month -= 12;
-    year += 1;
+    year += Math.floor(month / 12);
+    month %= 12;
   }
 
   const daysCount = getMonthsDays(month, year);
@@ -92,45 +92,47 @@ export const applyDelta = (deltaY: number) => ({
   months: MonthConfig[]
 }) => {
   let nextScrollPosition = scrollPosition - deltaY;
-  if (nextScrollPosition > config.WRAPPER_HEIGHT - months[2].height) {
-    let nextMonths;
+
+  if (
+    deltaY < 0 &&
+    months[1].height + nextScrollPosition > config.WRAPPER_HEIGHT
+  ) {
+    let nextMonths = months;
     do {
-      nextMonths = getMonths(months[0].date);
+      nextMonths = getMonths(nextMonths[0].date);
       nextScrollPosition -= nextMonths[1].height;
-    } while (nextScrollPosition > config.WRAPPER_HEIGHT - months[2].height);
+    } while (nextMonths[1].height + nextScrollPosition > config.WRAPPER_HEIGHT);
     return {
       scrollPosition: nextScrollPosition,
       months: nextMonths
     };
   }
-  if (nextScrollPosition < -months[0].height / 2) {
-    let nextMonths;
+
+  if (deltaY > 0 && nextScrollPosition < 0) {
+    let nextMonths = months;
     do {
-      nextMonths = getMonths(months[2].date);
+      nextMonths = getMonths(nextMonths[2].date);
       nextScrollPosition += nextMonths[0].height;
-    } while (nextScrollPosition < -months[0].height / 2);
+    } while (nextScrollPosition < 0);
     return {
       scrollPosition: nextScrollPosition,
       months: nextMonths
     };
   }
+
   return {
     scrollPosition: nextScrollPosition
   };
 };
 
-export const ease = (t: number) =>
-  t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+export const ease = (t: number) => --t * t * t + 1;
 
-export const isMonthVisible = ({
-  top,
-  daysCount,
-  offset
-}: {
+type IsMonthVisible = ({
   top: number,
   daysCount: number,
   offset: number
-}) => {
+}) => boolean;
+export const isMonthVisible: IsMonthVisible = ({ top, daysCount, offset }) => {
   if (top >= config.WRAPPER_HEIGHT) {
     return false;
   }
