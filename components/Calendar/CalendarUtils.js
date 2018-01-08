@@ -119,16 +119,8 @@ export const applyDelta = (deltaY: number) => ({
   };
 };
 
-export function easeOutCubic(
-  currentTime: number,
-  startValue: number,
-  changeInValue: number,
-  endTime: number
-) {
-  return (
-    changeInValue * (Math.pow(currentTime / endTime - 1, 3) + 1) + startValue
-  );
-}
+export const ease = (t: number) =>
+  t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
 
 export const isMonthVisible = ({
   top,

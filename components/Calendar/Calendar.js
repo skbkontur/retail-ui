@@ -104,24 +104,20 @@ class Calendar extends React.Component<Props, State> {
     this._scrollTo(0);
   };
 
-  _scrollTo = position => {
+  _scrollTo = pos => {
     const startTime = Date.now();
-    const duration = 1000;
+    const duration = 600;
     const scrollPos = this.state.scrollPosition;
+    const scrollAmmount = scrollPos - pos;
     this._animating = true;
 
     const animate = () => {
-      const elapsed = Date.now() - startTime;
-      const easing = CalendarUtils.easeOutCubic(
-        elapsed,
-        position,
-        scrollPos,
-        duration
-      );
+      const t = Math.min((Date.now() - startTime) / duration, 1);
+      const easing = CalendarUtils.ease(t) * scrollAmmount;
       const nextScrollPos = Math.round(scrollPos - easing);
 
       this.setState({ scrollPosition: nextScrollPos }, () => {
-        if (this._animating && nextScrollPos !== position) {
+        if (this._animating && nextScrollPos !== pos) {
           requestAnimationFrame(animate);
         } else {
           this._animating = false;
