@@ -8,7 +8,7 @@ import * as CalendarUtils from './CalendarUtils';
 import classes from './Calendar.less';
 
 type Props = {
-  date: Date
+  initialDate: Date
 };
 
 type State = {
@@ -18,7 +18,7 @@ type State = {
 
 class Calendar extends React.Component<Props, State> {
   static defaultProps = {
-    date: new Date()
+    initialDate: new Date()
   };
 
   _animating;
@@ -26,7 +26,7 @@ class Calendar extends React.Component<Props, State> {
 
   state = {
     scrollPosition: 0,
-    months: CalendarUtils.getMonths(this.props.date)
+    months: CalendarUtils.getMonths(this.props.initialDate)
   };
 
   /**
