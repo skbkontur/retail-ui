@@ -35,7 +35,7 @@ type ItemType = number | '.' | 'forward';
 
 export default class Paging extends React.Component<Props, State> {
   static defaultProps = {
-    component: ({ className, onClick, children }) => (
+    component: ({ className, onClick, children }: *) => (
       <span className={className} onClick={onClick} children={children} />
     )
   };

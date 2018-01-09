@@ -4,6 +4,7 @@ export interface GappedProps {
   gap?: number;
   vertical?: boolean;
   verticalAlign?: 'top' | 'middle' | 'baseline' | 'bottom';
+  children?: React.ReactNode;
 }
 
 export interface GappedState {}

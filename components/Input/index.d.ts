@@ -1,1 +1,7 @@
-export { default, InputProps, InputState } from './Input';
+export {
+  default,
+  InputProps,
+  InputState,
+  InputAlign,
+  InputSize
+} from './Input';

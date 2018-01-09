@@ -1,0 +1,114 @@
+@import "../../variables.less";
+
+:local {
+  .root {
+    background-color: @bg-default;
+    border: 1px solid #d9d9d9;
+    box-sizing: border-box;
+    cursor: default;
+    display: inline-block;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    position: relative;
+
+    &:after {
+      content: "";
+      width: 0;
+      display: inline-block;
+      line-height: 32px;
+    }
+  }
+
+  .inner {
+    position: absolute;
+    display: block;
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .root:focus {
+    border-color: @border-color-focus;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px @border-color-focus;
+    outline: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .disabled {
+    background: @bg-disabled;
+    border-color: @border-color-gray-light;
+    color: @text-color-disabled;
+
+    &:focus {
+      border-color: @border-color-gray-light;
+      box-shadow: none;
+      border-radius: 0;
+    }
+  }
+
+  :global(.rt-ie8) {
+    .root:focus {
+      outline: 1px solid @border-color-focus;
+    }
+  }
+
+  .padRight,
+  .padRight .inner {
+    padding-right: 20px;
+  }
+
+  .borderless {
+    border-color: transparent;
+  }
+
+  .root.warning {
+    border-color: @border-color-warning;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px @border-color-warning;
+    position: relative;
+    z-index: 2;
+  }
+
+  .root.error {
+    border-color: @border-color-error;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px @border-color-error;
+    position: relative;
+    z-index: 2;
+  }
+
+  .size-small {
+    height: 34px;
+    line-height: 32px;
+  }
+
+  .size-medium {
+    height: 40px;
+    font-size: 16px;
+    line-height: 38px;
+  }
+
+  .size-large {
+    height: 44px;
+    line-height: 42px;
+    font-size: 16px;
+  }
+
+  :global(.rt-ie8) {
+    .warning {
+      outline: 1px solid @border-color-warning;
+    }
+
+    .error {
+      outline: 1px solid @border-color-error;
+    }
+  }
+}

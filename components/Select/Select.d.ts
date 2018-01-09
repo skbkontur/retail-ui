@@ -1,37 +1,37 @@
 import * as React from 'react';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 
-export interface SelectProps {
-  areValuesEqual?: (value: any, item: any) => boolean;
-  defaultValue?: any;
+export interface SelectProps<Value, Item> {
+  areValuesEqual?: (value: Value, item: Item) => boolean;
+  defaultValue?: Value;
   diadocLinkIcon?: string;
   disablePortal?: boolean;
   disabled?: boolean;
   error?: boolean;
-  filterItem?: (value: any, item: any, pattern: string) => boolean;
-  items?: Array<any>;
+  filterItem?: (value: Value, item: Item, pattern: string) => boolean;
+  items?: Array<Value | [Value, Item] | [Value, Item, React.ReactNode]>;
   maxMenuHeight?: number;
   maxWidth?: number | string;
   menuAlign?: 'left' | 'right';
   menuWidth?: number | string;
   onClose?: () => void;
   onOpen?: () => void;
-  placeholder?: React.ReactElement<any> | string;
-  renderItem?: (value: any, item: any) => React.ReactElement<any> | string;
-  renderValue?: (value: any, item: any) => React.ReactElement<any> | string;
+  placeholder?: React.ReactNode;
+  renderItem?: (value: Value, item: Item) => React.ReactNode;
+  renderValue?: (value: Value, item: Item) => React.ReactNode;
   search?: boolean;
-  value?: any;
+  value?: Value;
   width?: number | string;
-  onChange?: (event: { target: { value: any } }, value: any) => void;
+  onChange?: (event: { target: { value: Value } }, value: Value) => void;
   onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
   onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
   onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-export interface SelectState {
+export interface SelectState<Value> {
   opened: boolean;
   searchPattern?: string;
-  value: any;
+  value: Value;
 }
 
 export interface SelectItemProps {}
@@ -44,12 +44,17 @@ export class SelectItem extends React.Component<
 > {}
 
 interface SelectStaticItem {
-  (value: React.ReactElement<any>): React.ReactElement<any>;
-  (value: () => React.ReactElement<any>): () => React.ReactElement<any>;
+  (value: React.ReactNode): React.ReactNode;
+  (value: () => React.ReactNode): () => React.ReactNode;
 }
 
-export default class Select extends React.Component<SelectProps, SelectState> {
+export default class Select<Value = any, Item = Value> extends React.Component<
+  SelectProps<Value, Item>,
+  SelectState<Value>
+> {
   static SEP: () => MenuSeparator;
   static Item: typeof SelectItem;
   static static: SelectStaticItem;
+  open(): void;
+  close(): void;
 }

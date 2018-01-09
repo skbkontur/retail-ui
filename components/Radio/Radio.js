@@ -5,10 +5,25 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import '../ensureOldIEClassName';
+import Upgrades from '../../lib/Upgrades';
 
-import styles from './Radio.less';
+const isFlatDisign = Upgrades.ifFlatDisignEnabled();
+
+const styles = isFlatDisign
+  ? require('./Radio.flat.less')
+  : require('./Radio.less');
 
 type Primitive = number | string;
+
+export type SyntheticRadioEvent<T> = {
+  target: {
+    id: ?string,
+    name: ?string,
+    checked: ?boolean,
+    disabled: ?boolean,
+    value: T
+  }
+};
 
 type Props<T> = {
   id?: string,
@@ -23,10 +38,10 @@ type Props<T> = {
   warning?: boolean,
   children?: React.Node,
   value: T,
-  onChange?: (event: SyntheticInputEvent<HTMLInputElement>, value: T) => mixed,
-  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
-  onMouseOver?: (e: SyntheticMouseEvent<>) => void
+  onChange?: (event: SyntheticRadioEvent<T>, value: T) => mixed,
+  onMouseEnter?: (event: SyntheticRadioEvent<T>) => void,
+  onMouseLeave?: (event: SyntheticRadioEvent<T>) => void,
+  onMouseOver?: (event: SyntheticRadioEvent<T>) => void
 };
 
 /**
@@ -35,6 +50,18 @@ type Props<T> = {
  * Если находится внутри компонента **RadioGroup**, то наследует
  * параметры `checked`, `name` и `onChange`. Также наследует состояния
  * `disabled`, `error` и `warning`
+ *
+ * ```
+ * type SyntheticRadioEvent<T> = {
+   target: {
+     id: ?string,
+     name: ?string,
+     checked: ?boolean,
+     disabled: ?boolean,
+     value: T
+   }
+ };
+ * ```
  */
 class Radio<T: Primitive> extends React.Component<Props<T>> {
   static contextTypes = {
@@ -50,7 +77,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     focused: false
   };
 
-  static PropTypes = {
+  static propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
     tabIndex: PropTypes.number,
@@ -62,7 +89,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     pressed: PropTypes.bool,
     warning: PropTypes.bool,
     children: PropTypes.node,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    value: PropTypes.any.isRequired,
     onChange: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
@@ -119,6 +146,13 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
       onMouseLeave: this.props.onMouseLeave
     };
 
+    const labelProps = {
+      className: styles.root,
+      onMouseOver: this._handleMouseOver,
+      onMouseEnter: this._handleMouseEnter,
+      onMouseLeave: this._handleMouseLeave
+    };
+
     if (this._isInRadioGroup()) {
       const checked = this.props.value === this.context.activeItem;
       inputProps.checked = checked;
@@ -127,7 +161,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     }
 
     return (
-      <label className={styles.root}>
+      <label {...labelProps}>
         <input {...inputProps} />
         <span className={radioClassNames} />
         {this.props.children && this.renderLabel()}
@@ -149,6 +183,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
   };
 
   _handleChange = event => {
+    event = createSyntheticEvent(this.props);
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
@@ -156,6 +191,47 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
       this.context.onSelect(event, event.target.value);
     }
   };
+
+  _handleMouseOver = event => {
+    event = createSyntheticEvent(this.props);
+    if (this.props.onMouseOver) {
+      this.props.onMouseOver(event);
+    }
+  };
+
+  _handleMouseEnter = event => {
+    event = createSyntheticEvent(this.props);
+    if (this.props.onMouseEnter) {
+      this.props.onMouseEnter(event);
+    }
+  };
+
+  _handleMouseLeave = event => {
+    event = createSyntheticEvent(this.props);
+    if (this.props.onMouseLeave) {
+      this.props.onMouseLeave(event);
+    }
+  };
+}
+
+function createSyntheticEvent<T>({
+  value,
+  id,
+  name,
+  checked,
+  disabled
+}: Props<T>): SyntheticRadioEvent<T> {
+  const target = {
+    value,
+    id,
+    name,
+    checked,
+    disabled
+  };
+  const syntheticEvent = {
+    target
+  };
+  return syntheticEvent;
 }
 
 export default Radio;

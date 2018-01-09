@@ -1,16 +1,12 @@
 import { mount } from 'enzyme';
 import React from 'react';
-
+import * as MountUtils from '../../../testing/enzyme-utils/mount-utils';
 import RenderContainer from '../../RenderContainer';
 import Tooltip from '../Tooltip.js';
 
 jest.mock('../../RenderContainer/RenderContainer.js', () => {
   return function RenderContainerMock(props) {
-    return (
-      <div>
-        {props.children}
-      </div>
-    );
+    return <div>{props.children}</div>;
   };
 });
 
@@ -87,8 +83,7 @@ describe('Tooltip', () => {
         <div />
       </Tooltip>
     );
-
-    wrapper.find('.cross').simulate('click');
+    MountUtils.findWithRenderContainer('.cross', wrapper).simulate('click');
     expect(onClose.mock.calls.length).toBe(1);
   });
 

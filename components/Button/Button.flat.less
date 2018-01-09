@@ -1,0 +1,333 @@
+@import "../variables.less";
+@import "../variables.flat.less";
+@import (reference) "../Link/Link.less";
+
+:local {
+  .wrap {
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 0;
+  }
+
+  .root {
+    border: 0;
+    color: @text-color-default;
+    cursor: pointer;
+    display: inline-block;
+    font-family: inherit;
+    font-size: 14px;
+    margin: 0; // Need for Safari.
+    outline: 0;
+    overflow: visible; // On IE it's hidden by default.
+    position: relative;
+    width: 100%;
+
+    &::-moz-focus-inner {
+      border: 0;
+      padding: 0;
+    }
+
+    &:active {
+      padding-top: 1px;
+      vertical-align: -1px;
+    }
+
+    &:after {
+      content: "";
+      display: inline-block;
+      vertical-align: baseline;
+      width: 0;
+    }
+  }
+
+  .caption {
+    position: relative;
+    white-space: nowrap;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .icon {
+    display: inline-block;
+    padding-right: 7px;
+  }
+
+  .buttonColorMixin(
+    @className,
+    @color,
+    @bgColor,
+    @bgHoverColor,
+    @bgActiveColor,
+    @bgDisabledColor,
+    @border
+  ) {
+    .@{className} {
+      background: @bgColor;
+      color: @color;
+      border: @border;
+
+      &:hover {
+        background: @bgHoverColor;
+      }
+
+      &.focus {
+        box-shadow: inset 0 0 0 1px #fff, 0 0 0 1px @flat-border-color-focus;
+        border: 1px solid @flat-border-color-focus;
+        position: relative;
+        z-index: 2;
+      }
+    }
+
+    .@{className}:active,
+    .@{className}.active {
+      background: @bgActiveColor;
+    }
+  }
+
+  .sizeSmall {
+    height: 34px;
+    line-height: 32px;
+    padding: 0 15px;
+  }
+
+  .sizeMedium {
+    font-size: 16px;
+    height: 40px;
+    line-height: 38px;
+    padding: 0 15px;
+  }
+
+  .sizeLarge {
+    font-size: 16px;
+    height: 44px;
+    line-height: 42px;
+    padding: 0 20px;
+  }
+
+  .buttonWithIcon {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  // Use Default
+
+  .buttonColorMixin(
+    default,
+    none,
+    @btn-flat-default-bg,
+    @btn-flat-default-hover-bg,
+    @btn-flat-default-active-bg,
+    @btn-flat-default-disabled-bg,
+    @btn-flat-default-border,
+  );
+
+  // Use Primary
+
+  .buttonColorMixin(
+    primary,
+    #fff,
+    @btn-flat-primary-bg,
+    @btn-flat-primary-hover-bg,
+    @btn-flat-primary-active-bg,
+    @btn-flat-primary-disabled-bg,
+    @btn-flat-primary-border
+  );
+
+  // Use Success
+
+  .buttonColorMixin(
+    success,
+    #fff,
+    @btn-flat-success-bg,
+    @btn-flat-success-hover-bg,
+    @btn-flat-success-active-bg,
+    @btn-flat-success-disabled-bg,
+    @btn-flat-success-border
+  );
+
+  // Use Danger
+
+  .buttonColorMixin(
+    danger,
+    #fff,
+    @btn-flat-danger-bg,
+    @btn-flat-danger-hover-bg,
+    @btn-flat-danger-active-bg,
+    @btn-flat-danger-disabled-bg,
+    @btn-flat-danger-border
+  );
+
+  // Use Pay
+
+  .buttonColorMixin(
+    pay,
+    none,
+    @btn-flat-pay-bg,
+    @btn-flat-pay-hover-bg,
+    @btn-flat-pay-active-bg,
+    @btn-flat-pay-disabled-bg,
+    @btn-flat-pay-border
+  );
+
+  // Use Link
+
+  .root.link {
+    display: inline;
+    height: inherit;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    line-height: inherit;
+
+    &:active {
+      vertical-align: 0;
+    }
+
+    &.disabled {
+      box-shadow: none;
+      background: none;
+    }
+
+    .icon {
+      padding-right: @linkIconPadding;
+    }
+  }
+
+  .linkMixin(
+    link,
+    @link-color,
+    @link-hover-color,
+    @link-hover-color,
+    @link-active-color
+  );
+
+  // End Use
+
+  .root.checked {
+    background: @btn-flat-checked-bg;
+    color: #fff;
+    padding-top: 1px;
+
+    &:hover {
+      background: @btn-flat-checked-bg;
+    }
+
+    &.focus {
+      box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px @border-color-focus;
+      position: relative;
+      z-index: 2;
+    }
+  }
+
+  .root.disabled {
+    background: @bg-disabled;
+    border-color: transparent;
+    box-shadow: 0 0 0 1px @border-color-gray-light;
+    color: #808080;
+    cursor: default;
+
+    &:active {
+      padding-top: 0;
+      vertical-align: 0;
+    }
+  }
+
+  .loading {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: inherit;
+    overflow: hidden;
+  }
+
+  .loading:before {
+    content: "";
+    height: 100%;
+    position: absolute;
+    opacity: 0.2;
+    background: linear-gradient(
+      -110deg,
+      #ccc 30%,
+      transparent 0,
+      transparent 60%,
+      #ccc 0
+    );
+    background-size: 30px 100%;
+    top: 0;
+    left: 0;
+    right: -30px;
+
+    :global {
+      animation: btn_loading 1s linear infinite;
+    }
+
+    transform: rotateY(180deg) skewX(0deg) skewY(0deg);
+  }
+
+  .warning,
+  .error {
+    border-radius: inherit;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .warning {
+    box-shadow: 0 0 0 2px @border-color-warning;
+  }
+
+  .error {
+    box-shadow: 0 0 0 2px @border-color-error;
+  }
+
+  :global(.rt-ie8) {
+    .warning {
+      outline: 2px solid @border-color-warning;
+    }
+
+    .error {
+      outline: 2px solid @border-color-error;
+    }
+  }
+
+  .narrow {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .noPadding {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .noRightPadding {
+    padding-right: 0;
+  }
+}
+
+@keyframes btn_loading {
+  0% {
+    transform: translateX(0) rotateY(180deg);
+  }
+
+  100% {
+    transform: translateX(-30px) rotateY(180deg);
+  }
+}
+
+@keyframes btn_loading_arrow {
+  0% {
+    transform: translateX(50px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
+  }
+
+  100% {
+    transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg)
+      skewY(0deg);
+  }
+}

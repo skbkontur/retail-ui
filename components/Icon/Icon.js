@@ -248,6 +248,11 @@ class Icon extends React.Component<Props> {
     size: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   };
 
+  static Names = Object.keys(KonturIconic).reduce(
+    (acc, x) => ({ ...acc, [x]: x }),
+    {}
+  );
+
   static getAllNames = function() {
     return Object.keys(KonturIconic);
   };

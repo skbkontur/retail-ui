@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   Space: '\u0020',
   Hyphen: '\u002D',
   Underscore: '\u005F',
@@ -222,5 +222,6 @@ module.exports = {
   USB: '\uE0D7',
   DocumentTypeCsv: '\uE0D8',
   Pause: '\uE0D9',
-  LinkOff: '\uE0DA'
+  LinkOff: '\uE0DA',
+  BarcodeScanner: '\uE0DB'
 };

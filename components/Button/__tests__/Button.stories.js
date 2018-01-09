@@ -49,4 +49,50 @@ storiesOf('Button', module)
   })
   .add('with arrow', () => {
     return <Button arrow>Arrow!</Button>;
+  })
+  .add('table', () => {
+    const uses = ['default', 'primary', 'success', 'danger', 'pay'];
+    const sizes = ['small', 'medium', 'large'];
+    return (
+      <table style={{ borderSpacing: 10 }}>
+        <thead>
+          <tr>
+            <th />
+            <th>disabled</th>
+            <th>loading</th>
+            <th>checked</th>
+            {sizes.map((x, i) => <th key={i}>{x}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {uses.map((use, i) => (
+            <tr key={i}>
+              <td>{use}</td>
+              <td>
+                <Button use={use} disabled>
+                  Button
+                </Button>
+              </td>
+              <td>
+                <Button use={use} loading>
+                  Button
+                </Button>
+              </td>
+              <td>
+                <Button use={use} checked>
+                  Button
+                </Button>
+              </td>
+              {sizes.map((size, i) => (
+                <td key={i}>
+                  <Button use={use} size={size}>
+                    Button
+                  </Button>
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
   });

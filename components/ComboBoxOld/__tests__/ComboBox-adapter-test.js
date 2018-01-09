@@ -10,7 +10,7 @@ function noop() {
 }
 
 // Not supporting React 16
-xdescribe('ComboBox-adapter', () => {
+describe('ComboBox-adapter', () => {
   testAdapter('getValue', mount => {
     const adapter = mount(<ComboBox value="foo" source={noop} />);
     expect(adapter.getValue()).toBe('foo');

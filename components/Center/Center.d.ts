@@ -1,8 +1,9 @@
 import * as React from 'react';
 
-export interface CenterProps {
-  align?: "left" | "center" | "right";
+export interface CenterProps extends React.HTMLAttributes<HTMLDivElement> {
+  align?: 'left' | 'center' | 'right';
   style?: React.CSSProperties;
+  children?: React.ReactNode;
 }
 
 export interface CenterState {}

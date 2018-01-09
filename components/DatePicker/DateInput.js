@@ -56,6 +56,7 @@ export default class DateInput extends Component<Props> {
   };
 
   _input: ?Input;
+  _focused: boolean = false;
   _icon: ?HTMLElement;
   _cursorPosition: number = 0;
 
@@ -104,7 +105,9 @@ export default class DateInput extends Component<Props> {
   };
 
   _handleClick = (event: SyntheticInputEvent<HTMLInputElement>) => {
-    this._selectCurrentBlock(event.target);
+    if (this._focused) {
+      this._selectCurrentBlock(event.target);
+    }
   };
 
   _handleKeyDown = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
@@ -299,12 +302,14 @@ export default class DateInput extends Component<Props> {
   };
 
   _handleFocus = event => {
+    this._focused = true;
     if (this.props.onFocus) {
       this.props.onFocus();
     }
   };
 
   _handleBlur = (e: Event) => {
+    this._focused = false;
     if (this.props.onBlur) {
       this.props.onBlur(e);
     }

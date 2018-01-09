@@ -1,11 +1,15 @@
 import * as React from 'react';
+import IconNames from '../Icon/IconNames';
 
-export interface LinkProps extends React.LinkHTMLAttributes<any> {
+export type LinkUse = 'default' | 'success' | 'danger' | 'grayed';
+
+export interface LinkProps extends React.LinkHTMLAttributes<HTMLLinkElement> {
   disabled?: boolean;
   href?: string;
-  icon?: string;
+  icon?: keyof IconNames;
   onClick?: React.MouseEventHandler<HTMLLinkElement>;
-  use?: 'default' | 'success' | 'danger' | 'graye';
+  use?: LinkUse;
+  children?: React.ReactNode;
 }
 
 export interface LinkState {

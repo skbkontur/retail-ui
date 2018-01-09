@@ -181,21 +181,30 @@ function handleExports(dirPath) {
           console.error(err);
           process.exit(1);
         }
-        if (!files.includes('index.js')) {
-          return;
+        if (files.includes('index.js')) {
+          handleJsReexport(dir);
         }
-        const name = dir.split(path.sep).slice(-1)[0];
-        const source = createReexportSource(name);
-        const outPath = path.join(OutDir, name + '.js');
-        outputFileSync(outPath, source);
+        if (files.includes('index.d.ts')) {
+          handleTsReexport(dir);
+        }
       };
     }
 
-    function createReexportSource(componentName) {
-      return [
-        `module.exports = require('./components/${componentName}');`,
-        ''
-      ].join('\n');
+    function handleJsReexport(dir) {
+      const name = dir.split(path.sep).slice(-1)[0];
+      const source = `module.exports = require('./components/${name}');\n`;
+      const outPath = path.join(OutDir, name + '.js');
+      outputFileSync(outPath, source);
+    }
+
+    function handleTsReexport(dir) {
+      const name = dir.split(path.sep).slice(-1)[0];
+      const source = `\
+export * from './components/${name}';
+export { default } from './components/${name}';
+`;
+      const outPath = path.join(OutDir, name + '.d.ts');
+      outputFileSync(outPath, source);
     }
   };
 }

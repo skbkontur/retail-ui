@@ -1,0 +1,214 @@
+@import "../variables.less";
+@import "../variables.flat.less";
+
+:local {
+  @side-padding: 10px;
+  @side-padding-padded: 25px;
+
+  .root {
+    display: inline-block;
+    position: relative;
+    width: 250px;
+  }
+
+  .input {
+    border: 1px solid @border-color-gray-light;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0; // For Safari.
+    outline: none;
+    padding: 0 @side-padding;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+
+  .input::-ms-clear {
+    display: none;
+  }
+
+  .sizeSmall .input {
+    line-height: 32px;
+  }
+
+  .sizeMedium .input {
+    line-height: 38px;
+    font-size: 16px;
+  }
+
+  .sizeLarge {
+    .input {
+      line-height: 42px;
+      font-size: 16px;
+    }
+
+    .placeholder {
+      font-size: 16px;
+      height: 21px;
+    }
+  }
+
+  :global(.rt-ie-any) {
+    // Set height for IE only since IE does not support line-height for inputs.
+    // On the other hand, Chrome renders text (Segoe UI) 1 pixel lower if input
+    // has height set.
+    .sizeSmall .input {
+      height: 34px;
+    }
+
+    .sizeMedium .input {
+      height: 40px;
+    }
+
+    .sizeLarge .input {
+      height: 44px;
+    }
+
+    .input {
+      box-shadow: none !important;
+    }
+
+    .input:focus {
+      outline: 1px solid @flat-border-color-focus;
+    }
+
+    .warning .input {
+      outline: 1px solid @border-color-warning;
+    }
+
+    .error .input {
+      outline: 1px solid @border-color-error;
+    }
+  }
+
+  .input:focus {
+    border-color: @flat-border-color-focus;
+    box-shadow: 0 0 0 1px @flat-border-color-focus;
+    position: relative;
+    z-index: 2;
+  }
+
+  .disabled .input {
+    background: @bg-disabled;
+    border-color: @border-color-gray-light;
+    color: @text-color-disabled;
+  }
+
+  .warning .input {
+    border-color: @border-color-warning;
+    box-shadow: 0 0 0 1px @border-color-warning;
+    position: relative;
+    z-index: 2;
+  }
+
+  .error .input {
+    border-color: @border-color-error;
+    box-shadow: 0 0 0 1px @border-color-error;
+    position: relative;
+    z-index: 2;
+  }
+
+  :global(.rt-ie8) {
+    .warning .input {
+      outline: 1px solid @border-color-warning;
+    }
+
+    .error .input {
+      outline: 1px solid @border-color-error;
+    }
+  }
+
+  .padLeft .input {
+    padding-left: @side-padding-padded;
+  }
+
+  .padRight .input {
+    padding-right: @side-padding-padded;
+  }
+
+  .placeholder {
+    bottom: 1px;
+    color: #aaa;
+    font-size: 14px;
+    line-height: normal;
+    left: @side-padding + 1;
+    overflow: hidden;
+    position: absolute;
+    right: @side-padding + 1;
+    top: 1px;
+    margin: auto;
+    white-space: nowrap;
+    z-index: 2;
+    user-select: none;
+    -ms-user-select: none;
+    cursor: text;
+    height: 18px;
+  }
+
+  .padLeft .placeholder {
+    left: @side-padding-padded + 1;
+  }
+
+  .padRight .placeholder {
+    right: @side-padding-padded + 1;
+  }
+
+  .leftIcon,
+  .rightIcon {
+    color: #a9a9a9;
+    cursor: text;
+    line-height: 34px;
+    height: 34px;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+  }
+
+  .sizeMedium {
+    .leftIcon,
+    .rightIcon {
+      line-height: 40px;
+      height: 40px;
+    }
+  }
+
+  .sizeLarge {
+    .leftIcon,
+    .rightIcon {
+      line-height: 44px;
+      height: 44px;
+    }
+  }
+
+  .disabled .leftIcon,
+  .disabled .rightIcon {
+    cursor: default;
+  }
+
+  .leftIcon {
+    left: 8px;
+  }
+
+  .rightIcon {
+    right: 8px;
+  }
+
+  .borderless {
+    border-color: transparent;
+  }
+
+  .searchLine {
+    font-size: 15px;
+    border-radius: 2px;
+
+    &.leftIcon {
+      font-size: 22px;
+    }
+
+    &:focus {
+      border-color: transparent;
+      box-shadow: none;
+    }
+  }
+}

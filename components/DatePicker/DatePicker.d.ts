@@ -32,4 +32,7 @@ export interface DatePickerState {}
 export default class DatePicker extends React.Component<
   DatePickerProps,
   DatePickerState
-> {}
+> {
+  focus(): void;
+  blur(): void;
+}
