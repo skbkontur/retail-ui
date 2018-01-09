@@ -21,7 +21,7 @@ export interface RadioProps<T> {
   hovered?: boolean;
   pressed?: boolean;
   warning?: boolean;
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
   value: T;
   onChange?: (event: SyntheticRadioEvent<T>, value: T) => any;
   onMouseEnter?: (event: SyntheticRadioEvent<T>) => void;

@@ -12,7 +12,7 @@ export interface RadioGroupProps<Value, Data> {
   defaultValue?: Value;
   warning?: boolean;
   width?: number | string;
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
   renderItem?: (value: Value, data: Data) => React.ReactNode;
   onChange?: (event: SyntheticRadioEvent<Value>, value: Value) => void;
   onMouseEnter?: (e: SyntheticRadioEvent<Value>) => void;
