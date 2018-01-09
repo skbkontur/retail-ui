@@ -5,6 +5,8 @@ import classNames from 'classnames';
 import config from './config';
 import * as CalendarUtils from './CalendarUtils';
 
+import DateSelect from '../DateSelect';
+
 import classes from './Calendar.less';
 
 type Props = {
@@ -40,7 +42,6 @@ class Calendar extends React.Component<Props, State> {
 
   render() {
     const { scrollPosition, months } = this.state;
-
     const positions = [scrollPosition - months[0].height];
 
     for (let i = 1; i < months.length; i++) {
@@ -80,9 +81,22 @@ class Calendar extends React.Component<Props, State> {
         style={{ ...styles.header, top, borderBottomColor }}
         className={classes.header}
       >
-        <div className={classes.headerMonth}>{month.title}</div>
+        <div className={classes.headerMonth}>
+          <DateSelect
+            width={85}
+            type="month"
+            value={month.month}
+            onChange={m => this.scrollToDate(new Date(month.year, m))}
+          />
+          {/* {month.title} */}
+        </div>
         <div style={{ top: headerTop }} className={classes.headerYear}>
-          {month.year}
+          <DateSelect
+            width={50}
+            type="year"
+            value={month.year}
+            onChange={y => this.scrollToDate(new Date(y, month.month))}
+          />
         </div>
       </div>
     );
@@ -109,7 +123,7 @@ class Calendar extends React.Component<Props, State> {
     if (this._animating) {
       this._animating = false;
     }
-    this._timeout = setTimeout(this._scrollToCurrentMonth, 100);
+    this._timeout = setTimeout(this._scrollToCurrentMonth, 300);
   };
 
   _scrollToCurrentMonth = () => {
@@ -121,43 +135,6 @@ class Calendar extends React.Component<Props, State> {
       months: CalendarUtils.getMonths(date),
       scrollPosition: 0
     });
-
-    // Animation is not properly working
-    // TODO: make animations
-    // if (this._animating) {
-    //   // this._animating = false
-    //   return;
-    // }
-    //
-    // const currentMonth = this.state.months[1].month;
-    // const currentYear = this.state.months[1].year;
-    //
-    // const dateMonth = date.getMonth();
-    // const dateYear = date.getFullYear();
-    //
-    // const monthsToScroll =
-    //   currentMonth + currentYear * 12 - dateMonth - dateYear * 12;
-    //
-    // if (monthsToScroll === 0) {
-    //   return;
-    // }
-    //
-    // const sign = monthsToScroll > 0 ? 1 : -1;
-    //
-    // const scrollAmount = Array.from(
-    //   { length: Math.abs(monthsToScroll) },
-    //   sign > 0 ? (_, i) => i : (_, i) => 1 - i
-    // )
-    //   .map(
-    //     delta =>
-    //       CalendarUtils.getMonth(
-    //         this.state.months[1].month + delta,
-    //         this.state.months[1].year
-    //       ).height
-    //   )
-    //   .reduce((a, b) => a + b, 0);
-    //
-    // this._scrollTo(sign * scrollAmount, () => this._scrollTo(0));
   };
 
   _scrollTo = (pos: number, cb?: () => void) => {
@@ -168,7 +145,6 @@ class Calendar extends React.Component<Props, State> {
 
   _scrollAmount = (scrollAmmount, cb) => {
     this._animating = true;
-
     const startTime = Date.now();
     const duration = 600;
 
@@ -177,9 +153,9 @@ class Calendar extends React.Component<Props, State> {
     const animate = () => {
       const t = Math.min((Date.now() - startTime) / duration, 1);
       const easing = CalendarUtils.ease(t) * scrollAmmount;
-      const deltaY = Math.round(lastEaseValue - easing);
-      this.setState(CalendarUtils.applyDelta(deltaY), onAnimateEnd);
+      const deltaY = lastEaseValue - easing;
       lastEaseValue = easing;
+      this.setState(CalendarUtils.applyDelta(deltaY), onAnimateEnd);
     };
 
     const onAnimateEnd = () => {
@@ -187,6 +163,9 @@ class Calendar extends React.Component<Props, State> {
         requestAnimationFrame(animate);
       } else {
         cb && cb();
+        this.setState(state => ({
+          scrollPosition: Math.round(state.scrollPosition)
+        }));
         this._animating = false;
       }
     };
@@ -198,8 +177,26 @@ class Calendar extends React.Component<Props, State> {
 const Month = ({ top, offset = 0, title, cells, year, month }) => (
   <div className={classes.month} style={{ top }} key={month + '-' + year}>
     <div style={styles.monthTitle} className={classes.monthTitle}>
-      <div className={classes.headerMonth}>{title}</div>
-      {month === 0 && <div className={classes.headerYear}>{year}</div>}
+      <div className={classes.headerMonth}>
+        <DateSelect
+          disabled={top > 25}
+          width={85}
+          type="month"
+          value={month}
+          onChange={() => {}}
+        />
+      </div>
+      {month === 0 && (
+        <div className={classes.headerYear}>
+          <DateSelect
+            disabled={top > 25}
+            width={50}
+            type="year"
+            value={year}
+            onChange={() => {}}
+          />
+        </div>
+      )}
     </div>
     <div
       style={{ width: offset * config.DAY_HEIGHT }}

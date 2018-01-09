@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import * as React from 'react';
 
 import RenderLayer from '../RenderLayer';
+import DropdownContainer from '../DropdownContainer/DropdownContainer';
+import LayoutEvents from '../../lib/LayoutEvents';
 
 import PropTypes from 'prop-types';
 
@@ -29,6 +31,7 @@ const MONTHS = [
 const HEIGHT = 24;
 
 type Props = {
+  disabled?: boolean,
   maxYear: number,
   minYear: number,
   onChange: (value: number) => void,
@@ -44,13 +47,16 @@ type State = {
   opened: boolean,
   pos: number,
   top: number,
-  topCapped: boolean
+  topCapped: boolean,
+  nodeTop: number
 };
 
 const isIE8 = ~window.navigator.userAgent.indexOf('MSIE 8.0');
 
 export default class DateSelect extends React.Component<Props, State> {
   static propTypes = {
+    disabled: PropTypes.bool,
+
     maxYear: PropTypes.number,
 
     minYear: PropTypes.number,
@@ -71,35 +77,64 @@ export default class DateSelect extends React.Component<Props, State> {
     width: 'auto'
   };
 
-  constructor(props: Props, context: mixed) {
-    super(props, context);
+  _node: HTMLElement | null = null;
 
-    this.state = {
-      botCapped: false,
-      current: 0,
-      height: 0,
-      opened: false,
-      pos: 0,
-      top: 0,
-      topCapped: false
-    };
+  _listener;
+  _timeout;
+
+  state = {
+    botCapped: false,
+    current: 0,
+    height: 0,
+    opened: false,
+    pos: 0,
+    top: 0,
+    topCapped: false,
+    nodeTop: Infinity
+  };
+
+  componentWillReceiveProps() {
+    this.close();
+  }
+
+  componentDidMount() {
+    this._listener = LayoutEvents.addListener(this._setNodeTop);
+    this._setNodeTop();
+  }
+
+  componentWillUnmount() {
+    if (this._listener) {
+      this._listener.remove();
+    }
+    if (this._timeout) {
+      clearTimeout(this._timeout);
+    }
   }
 
   render() {
-    const { width } = this.props;
+    const { width, disabled } = this.props;
     const rootProps = {
-      className: styles.root,
+      className: classNames({
+        [styles.root]: true,
+        [styles.disabled]: disabled
+      }),
       style: { width },
-      tabIndex: '0',
-      onBlur: this.close,
-      onKeyDown: this.handleKey
+      // tabIndex: '0',
+      // onBlur: this.close,
+      // onKeyDown: this.handleKey,
+      ref: this._ref
     };
     return (
       <span {...rootProps}>
         <div className={styles.caption} onClick={this.open}>
           {this.getItem(0)}
-          <div className={styles.arrow}>
-            <Icon name="sort" />
+          <div
+            className={classNames({
+              [styles.arrow]: true,
+              [styles.arrowDisabled]: disabled
+            })}
+          >
+            <Icon name="sort" size={12} />
           </div>
         </div>
         {this.state.opened && this.renderMenu()}
@@ -107,17 +142,37 @@ export default class DateSelect extends React.Component<Props, State> {
     );
   }
 
+  _ref = node => {
+    this._node = node;
+  };
+
+  _setNodeTop = () => {
+    const node = this._node;
+    if (!node) {
+      return;
+    }
+    if (this._timeout) {
+      clearTimeout(this._timeout);
+    }
+    this._timeout = setTimeout(() =>
+      this.setState({
+        nodeTop: node.getBoundingClientRect().top
+      })
+    );
+  };
+
   renderMenu() {
-    const { top, height } = this.state;
-    const { width, type } = this.props;
+    const { top, height, nodeTop } = this.state;
 
     let shift = this.state.pos % HEIGHT;
     if (shift < 0) {
       shift += HEIGHT;
     }
+
     const from = (this.state.pos - shift + top) / HEIGHT;
     const to = from + Math.ceil((height + shift) / HEIGHT);
     const items = [];
+
     for (let i = from; i < to; ++i) {
       const className = classNames({
         [styles.menuItem]: true,
@@ -150,17 +205,10 @@ export default class DateSelect extends React.Component<Props, State> {
       top: number,
       width?: number | string
     } = {
-      top: top - 5
+      top: top - 5,
+      left: 0,
+      right: 0
     };
-    switch (type) {
-      case 'year':
-        style.width = width;
-        style.left = '-10px';
-        break;
-      case 'month':
-        style.width = width;
-        style.right = 0;
-    }
 
     const shiftStyle = {
       position: 'relative',
@@ -173,32 +221,50 @@ export default class DateSelect extends React.Component<Props, State> {
       [styles.isBotCapped]: this.state.botCapped
     });
 
+    let dropdownOffset = -HEIGHT;
+    if (nodeTop < -top) {
+      const overflowOffsetDelta = this.state.topCapped ? 6 : 17;
+      dropdownOffset -= nodeTop + top - overflowOffsetDelta;
+    }
+
     return (
       <RenderLayer
         onClickOutside={this.close}
         onFocusOutside={this.close}
-        active={this.state.opened}
+        active
       >
-        <div className={holderClass} style={style} onKeyDown={this.handleKey}>
-          {!this.state.topCapped && (
-            <div className={styles.menuUp} onMouseDown={this.handleUp}>
-              <span>
-                <Icon name={'caret-top'} />
-              </span>
+        <div>
+          <DropdownContainer
+            getParent={() => this._node}
+            offsetY={dropdownOffset}
+            offsetX={-10}
+          >
+            <div
+              className={holderClass}
+              style={style}
+              onKeyDown={this.handleKey}
+            >
+              {!this.state.topCapped && (
+                <div className={styles.menuUp} onClick={this.handleUp}>
+                  <span>
+                    <Icon name={'caret-top'} />
+                  </span>
+                </div>
+              )}
+              <div className={styles.itemsHolder} style={{ height }}>
+                <div style={shiftStyle} onWheel={this.handleWheel}>
+                  {items}
+                </div>
+              </div>
+              {!this.state.botCapped && (
+                <div className={styles.menuDown} onClick={this.handleDown}>
+                  <span>
+                    <Icon name={'caret-bottom'} />
+                  </span>
+                </div>
+              )}
             </div>
-          )}
-          <div className={styles.itemsHolder} style={{ height }}>
-            <div style={shiftStyle} onWheel={this.handleWheel}>
-              {items}
-            </div>
-          </div>
-          {!this.state.botCapped && (
-            <div className={styles.menuDown} onMouseDown={this.handleDown}>
-              <span>
-                <Icon name={'caret-bottom'} />
-              </span>
-            </div>
-          )}
+          </DropdownContainer>
         </div>
       </RenderLayer>
     );
@@ -206,6 +272,7 @@ export default class DateSelect extends React.Component<Props, State> {
 
   handleWheel = (event: SyntheticWheelEvent<>) => {
     event.preventDefault();
+    event.stopPropagation();
 
     let deltaY = event.deltaY;
     if (event.deltaMode === 1) {
@@ -285,6 +352,10 @@ export default class DateSelect extends React.Component<Props, State> {
   }
 
   open = () => {
+    if (this.props.disabled) {
+      return;
+    }
+
     if (this.state.opened) {
       return;
     }
