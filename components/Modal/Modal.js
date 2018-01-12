@@ -81,8 +81,7 @@ class Modal extends React.Component<Props, State> {
 
   static childContextTypes = {
     rt_inModal: PropTypes.bool,
-    hasHorizontalScroll: PropTypes.bool,
-    scrollbarWidth: PropTypes.number
+    hasHorizontalScroll: PropTypes.bool
   };
 
   static Header: Class<Header>;
@@ -112,8 +111,7 @@ class Modal extends React.Component<Props, State> {
   getChildContext() {
     return {
       rt_inModal: true,
-      hasHorizontalScroll: this.state.hasHorizontalScroll,
-      scrollbarWidth: this._scrollbarWidth
+      hasHorizontalScroll: this.state.hasHorizontalScroll
     };
   }
 
@@ -199,7 +197,6 @@ class Modal extends React.Component<Props, State> {
     mountedModalsCount++;
     events.addEventListener(window, 'keydown', this._handleKeyDown);
     stack.emitter.emit('change');
-
     this._checkHorizontalScrollAppearance();
   }
 
@@ -281,7 +278,7 @@ class Modal extends React.Component<Props, State> {
     let containerClientWidth;
     let containerScrollWidth;
     let hasScroll;
-    //flow issue
+
     if (this._centerDOM) {
       containerClientWidth = this._centerDOM.clientWidth;
       containerScrollWidth = this._centerDOM.scrollWidth;
@@ -350,14 +347,15 @@ class Footer extends React.Component<FooterProps, FooterState> {
     panel: PropTypes.bool
   };
 
+  static contextTypes = {
+    hasHorizontalScroll: PropTypes.bool
+  };
+
   state = {
     offset: 0
   };
 
-  static contextTypes = {
-    hasHorizontalScroll: PropTypes.bool,
-    scrollbarWidth: PropTypes.number
-  };
+  _scrollbarWidth = getScrollWidth();
 
   render() {
     var names = classNames({
@@ -381,14 +379,13 @@ class Footer extends React.Component<FooterProps, FooterState> {
     if (newContext.hasHorizontalScroll !== this.context.hasHorizontalScroll) {
       if (newContext.hasHorizontalScroll) {
         !this.state.offset &&
-        this.setState({ offset: this.context.scrollbarWidth })
+        this.setState({ offset: this._scrollbarWidth })
       } else {
         this.state.offset &&
         this.setState({ offset: 0 })
       }
     }
   }
-
 }
 
 Modal.Header = Header;
