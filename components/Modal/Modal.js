@@ -40,7 +40,8 @@ type Props = {
 };
 
 type State = {
-  shadowed: boolean
+  shadowed: boolean,
+  hasHorizontalScroll: boolean
 };
 
 /**
@@ -79,7 +80,9 @@ class Modal extends React.Component<Props, State> {
   };
 
   static childContextTypes = {
-    rt_inModal: PropTypes.bool
+    rt_inModal: PropTypes.bool,
+    hasHorizontalScroll: PropTypes.bool,
+    scrollbarWidth: PropTypes.number
   };
 
   static Header: Class<Header>;
@@ -88,11 +91,13 @@ class Modal extends React.Component<Props, State> {
 
   state = {
     // Is shadowed by another modal that was rendered on top of this one.
-    shadowed: false
+    shadowed: false,
+    hasHorizontalScroll: false
   };
 
   _stackSubscribtion = null;
   _centerDOM: ?HTMLElement = null;
+  _scrollbarWidth = getScrollWidth();
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -105,7 +110,11 @@ class Modal extends React.Component<Props, State> {
   }
 
   getChildContext() {
-    return { rt_inModal: true };
+    return {
+      rt_inModal: true,
+      hasHorizontalScroll: this.state.hasHorizontalScroll,
+      scrollbarWidth: this._scrollbarWidth
+    };
   }
 
   render() {
@@ -190,6 +199,8 @@ class Modal extends React.Component<Props, State> {
     mountedModalsCount++;
     events.addEventListener(window, 'keydown', this._handleKeyDown);
     stack.emitter.emit('change');
+
+    this._checkHorizontalScrollAppearance();
   }
 
   componentWillUnmount() {
@@ -217,16 +228,18 @@ class Modal extends React.Component<Props, State> {
       return;
     }
     const { clientHeight, scrollHeight, style } = docEl;
+
     if (clientHeight < scrollHeight) {
-      const scrollbarWidth = getScrollWidth();
       docEl.style.marginRight = prevMarginRight;
       removeClass(docEl, styles.bodyClass);
       const marginRight = parseFloat(getComputedStyle(docEl).marginRight);
       addClass(docEl, styles.bodyClass);
-      docEl.style.marginRight = `${marginRight + scrollbarWidth}px`;
+      docEl.style.marginRight = `${marginRight + this._scrollbarWidth}px`;
     } else if (style.marginRight !== prevMarginRight) {
       style.marginRight = prevMarginRight;
     }
+
+    this._checkHorizontalScrollAppearance();
   };
 
   _handleStackChange = () => {
@@ -263,6 +276,26 @@ class Modal extends React.Component<Props, State> {
       this._requestClose();
     }
   };
+
+  _checkHorizontalScrollAppearance = () => {
+    let containerClientWidth;
+    let containerScrollWidth;
+    let hasScroll;
+    //flow issue
+    if (this._centerDOM) {
+      containerClientWidth = this._centerDOM.clientWidth;
+      containerScrollWidth = this._centerDOM.scrollWidth;
+      hasScroll = containerClientWidth < containerScrollWidth;
+    }
+
+    if (hasScroll) {
+      !this.state.hasHorizontalScroll &&
+      this.setState({ hasHorizontalScroll: true });
+    } else {
+      this.state.hasHorizontalScroll &&
+      this.setState({ hasHorizontalScroll: false });
+    }
+  }
 }
 
 type HeaderProps = {
@@ -304,13 +337,26 @@ type FooterProps = {
   panel?: boolean
 };
 
+type FooterState = {
+  offset: number
+}
+
 /**
  * Футер модального окна.
  */
-class Footer extends React.Component<FooterProps> {
+class Footer extends React.Component<FooterProps, FooterState> {
   static propTypes = {
     /** Включает серый цвет в футере */
     panel: PropTypes.bool
+  };
+
+  state = {
+    offset: 0
+  };
+
+  static contextTypes = {
+    hasHorizontalScroll: PropTypes.bool,
+    scrollbarWidth: PropTypes.number
   };
 
   render() {
@@ -320,15 +366,29 @@ class Footer extends React.Component<FooterProps> {
     });
 
     return (
-      <Sticky side="bottom">
+      <Sticky side="bottom" offset={this.state.offset}>
         {fixed => (
-          <div className={classNames(names, fixed && styles.fixedFooter)}>
-            {this.props.children}
-          </div>
-        )}
+            <div className={classNames(names, fixed && styles.fixedFooter)}>
+              {this.props.children}
+            </div>
+          )
+        }
       </Sticky>
     );
   }
+
+  componentWillReceiveProps(newProps, newContext) {
+    if (newContext.hasHorizontalScroll !== this.context.hasHorizontalScroll) {
+      if (newContext.hasHorizontalScroll) {
+        !this.state.offset &&
+        this.setState({ offset: this.context.scrollbarWidth })
+      } else {
+        this.state.offset &&
+        this.setState({ offset: 0 })
+      }
+    }
+  }
+
 }
 
 Modal.Header = Header;
