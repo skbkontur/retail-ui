@@ -8,7 +8,9 @@ export type MonthConfig = {
   month: number,
   year: number,
   height: number,
-  cells: CellConfig[]
+  cells: CellConfig[],
+  isLastInYear: boolean,
+  isFirstInYear: boolean
 };
 
 export type CellConfig = {
@@ -109,6 +111,8 @@ export const getMonth = (month: number, year: number): MonthConfig => {
     month,
     year,
     height: getMonthHeight(daysCount, offset),
+    isLastInYear: month === 11,
+    isFirstInYear: month === 0,
     cells: Array.from({ length: daysCount }, (_, i) => {
       const date = { date: i + 1, month, year };
       return {
