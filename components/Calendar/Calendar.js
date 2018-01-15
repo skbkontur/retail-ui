@@ -226,10 +226,12 @@ class Calendar extends React.Component<Props, State> {
       });
     };
 
+    // If scrolling upwards, prepend maximum 2 months
+    // and scroll to the first month
     if (diffInMonths > 0) {
-      const monthsToAppendCount = Math.min(Math.abs(diffInMonths) - 1, 2);
+      const monthsToPrependCount = Math.min(Math.abs(diffInMonths) - 1, 2);
       const monthsToPrepend = Array.from(
-        { length: monthsToAppendCount },
+        { length: monthsToPrependCount },
         (_, index) => CalendarUtils.getMonth(month + index, year)
       );
       this.setState(
@@ -238,12 +240,14 @@ class Calendar extends React.Component<Props, State> {
           scrollPosition: -CalendarUtils.getMonthsHeight(monthsToPrepend)
         }),
         () => {
-          const toPos = monthsToPrepend[0].height;
+          const toPos = this.state.months[0].height;
           this._scrollTo(toPos, onEnd);
         }
       );
     }
 
+    // If scrolling downwards, append maximum 2 month
+    // and scroll to the last but one month
     if (diffInMonths < 0) {
       const monthsToAppendCount = Math.min(Math.abs(diffInMonths), 2);
       const monthsToAppend = Array.from(

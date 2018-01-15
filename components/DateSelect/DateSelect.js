@@ -95,6 +95,7 @@ export default class DateSelect extends React.Component<Props, State> {
 
   componentWillReceiveProps() {
     this.close();
+    this._setNodeTop();
   }
 
   componentDidMount() {
