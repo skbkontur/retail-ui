@@ -41,7 +41,7 @@ type Props = {
 
 type State = {
   shadowed: boolean,
-  hasHorizontalScroll: boolean
+  horizontalScroll: boolean
 };
 
 /**
@@ -80,8 +80,7 @@ class Modal extends React.Component<Props, State> {
   };
 
   static childContextTypes = {
-    rt_inModal: PropTypes.bool,
-    hasHorizontalScroll: PropTypes.bool
+    rt_inModal: PropTypes.bool
   };
 
   static Header: Class<Header>;
@@ -91,7 +90,7 @@ class Modal extends React.Component<Props, State> {
   state = {
     // Is shadowed by another modal that was rendered on top of this one.
     shadowed: false,
-    hasHorizontalScroll: false
+    horizontalScroll: false
   };
 
   _stackSubscribtion = null;
@@ -110,13 +109,12 @@ class Modal extends React.Component<Props, State> {
 
   getChildContext() {
     return {
-      rt_inModal: true,
-      hasHorizontalScroll: this.state.hasHorizontalScroll
+      rt_inModal: true
     };
   }
 
   render() {
-    var close = null;
+    let close = null;
     if (!this.props.noClose) {
       close = (
         <a
@@ -134,12 +132,20 @@ class Modal extends React.Component<Props, State> {
 
     let hasHeader = false;
     const children = React.Children.map(this.props.children, child => {
-      if (child && child.type === Header) {
-        hasHeader = true;
-        // $FlowIssue child could be iterable
-        return React.cloneElement(child, { close });
+      if (child) {
+        switch (child.type) {
+          case Header:
+            hasHeader = true;
+            // $FlowIssue child could be iterable
+            return React.cloneElement(child, { close });
+          case Footer:
+            return React.cloneElement(child, {
+              horizontalScroll: this.state.horizontalScroll
+            });
+          default:
+            return child;
+        }
       }
-      return child;
     });
 
     const style = {};
@@ -286,11 +292,11 @@ class Modal extends React.Component<Props, State> {
     }
 
     if (hasScroll) {
-      !this.state.hasHorizontalScroll &&
-      this.setState({ hasHorizontalScroll: true });
+      !this.state.horizontalScroll &&
+      this.setState({ horizontalScroll: true });
     } else {
-      this.state.hasHorizontalScroll &&
-      this.setState({ hasHorizontalScroll: false });
+      this.state.horizontalScroll &&
+      this.setState({ horizontalScroll: false });
     }
   }
 }
@@ -334,37 +340,25 @@ type FooterProps = {
   panel?: boolean
 };
 
-type FooterState = {
-  offset: number
-}
-
 /**
  * Футер модального окна.
  */
-class Footer extends React.Component<FooterProps, FooterState> {
+class Footer extends React.Component<FooterProps> {
   static propTypes = {
     /** Включает серый цвет в футере */
     panel: PropTypes.bool
   };
 
-  static contextTypes = {
-    hasHorizontalScroll: PropTypes.bool
-  };
-
-  state = {
-    offset: 0
-  };
-
   _scrollbarWidth = getScrollWidth();
 
   render() {
-    var names = classNames({
+    const names = classNames({
       [styles.footer]: true,
       [styles.panel]: this.props.panel
     });
 
     return (
-      <Sticky side="bottom" offset={this.state.offset}>
+      <Sticky side="bottom" offset={this.props.horizontalScroll ? this._scrollbarWidth : 0}>
         {fixed => (
             <div className={classNames(names, fixed && styles.fixedFooter)}>
               {this.props.children}
@@ -373,18 +367,6 @@ class Footer extends React.Component<FooterProps, FooterState> {
         }
       </Sticky>
     );
-  }
-
-  componentWillReceiveProps(newProps, newContext) {
-    if (newContext.hasHorizontalScroll !== this.context.hasHorizontalScroll) {
-      if (newContext.hasHorizontalScroll) {
-        !this.state.offset &&
-        this.setState({ offset: this._scrollbarWidth })
-      } else {
-        this.state.offset &&
-        this.setState({ offset: 0 })
-      }
-    }
   }
 }
 
