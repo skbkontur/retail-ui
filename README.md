@@ -28,7 +28,7 @@ const MyApp = () => (
 
 
 ### Слоу-старт
-Необходимо в [конфиг webpack](http://webpack.github.io/docs/configuration.html#module-loaders) добавить следующие лоадеры:
+Необходимо в [конфиг webpack](https://webpack.js.org/configuration/) добавить следующие лоадеры:
 ```javascript
 /* ... */
 module: {
@@ -36,18 +36,25 @@ module: {
   loaders: [
     {
       test: /\.jsx?$/,
-      loader: 'babel-loader',
-      query: {
-        presets: ['es2015', 'stage-0', 'react']
-      },
+      use: [
+        {
+          loader: 'babel-loader',
+          options: {
+            presets: ['env', 'stage-0', 'react']
+          }
+        }
+      ],
       include: /retail-ui/
     },
     {
       test: /\.less$/,
-      loaders: ['style', 'css', 'less'],
+      use: ['style-loader', 'css-loader', 'less-loader'],
       include: /retail-ui/
     },
-    {test: /\.(png|woff|woff2|eot)$/, loader: "file-loader"}
+    {
+      test: /\.(png|woff|woff2|eot)$/,
+      use: ['file-loader']
+    }
   ]
   /* ... */
 }
