@@ -10,34 +10,55 @@ import DateSelect from '../DateSelect';
 import classes from './Calendar.less';
 
 type Props = {
-  initialDate: Date
+  initialMonth?: number,
+  initialYear?: number,
+  onSelect?: (date: CalendarUtils.CalendarDate) => void,
+  maxDate?: CalendarUtils.CalendarDate,
+  minDate?: CalendarUtils.CalendarDate
 };
 
 type State = {
   scrollPosition: number,
-  months: CalendarUtils.MonthConfig[]
+  months: CalendarUtils.MonthConfig[],
+  today: CalendarUtils.CalendarDate
+};
+
+const getTodayDate = () => {
+  const date = new Date();
+  return {
+    date: date.getDate(),
+    month: date.getMonth(),
+    year: date.getFullYear()
+  };
 };
 
 class Calendar extends React.Component<Props, State> {
-  static defaultProps = {
-    initialDate: new Date()
-  };
-
   _animating;
   _timeout;
 
-  state = {
-    scrollPosition: 0,
-    months: CalendarUtils.getMonths(this.props.initialDate)
-  };
+  constructor(props: Props) {
+    super(props);
+
+    const today = getTodayDate();
+
+    const initialMonth =
+      props.initialMonth == null ? today.month : props.initialMonth;
+    const initialYear =
+      props.initialYear == null ? today.year : props.initialYear;
+
+    this.state = {
+      scrollPosition: 0,
+      months: CalendarUtils.getMonths(initialMonth, initialYear),
+      today
+    };
+  }
 
   /**
    * @api
    * Scrolls calendar to given date
-   * @param {Date} date
    */
-  scrollToDate(date: Date) {
-    this._scrollMonths(date);
+  scrollToMonth(month: number, year: number) {
+    this._scrollToMonth(month, year);
   }
 
   render() {
@@ -52,67 +73,125 @@ class Calendar extends React.Component<Props, State> {
     return (
       <div className={classes.root} onWheel={this._handleWheel}>
         <div style={styles.wrapper} className={classes.wrapper}>
-          {this._renderHeader(positions)}
           {months
             .map((x, i) => ({ ...x, top: positions[i] }))
             .filter(CalendarUtils.isMonthVisible)
-            .map(Month)}
+            .map(this._renderMonth, this)}
         </div>
       </div>
     );
   }
 
-  _renderHeader(positions) {
-    const { months, scrollPosition } = this.state;
-    const monthIndex = positions.filter(x => x <= 0).length - 1;
-    const month = months[monthIndex];
-    const isScrollPositive = scrollPosition > 0;
-    const top = isScrollPositive
-      ? Math.min(scrollPosition, config.MONTH_TITLE_HEIGHT) -
-        config.MONTH_TITLE_HEIGHT
-      : 0;
-    const alpha = isScrollPositive
-      ? (scrollPosition - config.MONTH_TITLE_HEIGHT) / 10
-      : 1;
-    const borderBottomColor = `rgba(223, 222, 222, ${alpha})`;
-    const headerTop = month.month === 11 ? 0 : -top;
+  _renderCell({ isWeekend, day, date }) {
     return (
-      <div
-        style={{ ...styles.header, top, borderBottomColor }}
-        className={classes.header}
+      <button
+        key={day}
+        style={styles.cell}
+        tabIndex={-1}
+        disabled={
+          !CalendarUtils.isDateBetween(
+            date,
+            this.props.minDate,
+            this.props.maxDate
+          )
+        }
+        className={classNames({
+          [classes.cell]: true,
+          [classes.weekend]: isWeekend,
+          [classes.today]: CalendarUtils.isSameDate(date, this.state.today)
+        })}
+        onClick={() => this._handleSelect(date)}
       >
-        <div className={classes.headerMonth}>
-          <DateSelect
-            width={85}
-            type="month"
-            value={month.month}
-            onChange={m => this.scrollToDate(new Date(month.year, m))}
-          />
-          {/* {month.title} */}
+        {day}
+      </button>
+    );
+  }
+
+  _renderMonth({ top, offset = 0, title, cells, year, month, height }) {
+    const isTopNegative = top <= 0;
+    const isHeaderSticked = isTopNegative && height > -top;
+
+    const headerTop = isHeaderSticked
+      ? Math.min(-top, height - config.MONTH_TITLE_HEIGHT)
+      : 0;
+
+    const alpha = isHeaderSticked
+      ? (height + top - config.MONTH_TITLE_HEIGHT) / 10
+      : 1;
+
+    const borderBottomColor = `rgba(223, 222, 222, ${alpha})`;
+
+    const isJanuary = month === 0;
+    const isDecember = month === 11;
+    const isYearVisible = isJanuary || isHeaderSticked;
+    const yearTop = isHeaderSticked && !isDecember ? -headerTop - top : 0;
+
+    return (
+      <div className={classes.month} style={{ top }} key={month + '-' + year}>
+        <div
+          style={{ ...styles.monthTitle, top: headerTop, borderBottomColor }}
+          className={classNames({
+            [classes.monthTitle]: true,
+            [classes.headerSticked]: isHeaderSticked
+          })}
+        >
+          <div className={classes.headerMonth}>
+            <DateSelect
+              disabled={top > 25}
+              width={85}
+              type="month"
+              value={month}
+              onChange={m => this.scrollToMonth(m, year)}
+            />
+          </div>
+          {isYearVisible && (
+            <div className={classes.headerYear} style={{ top: yearTop }}>
+              <DateSelect
+                disabled={top > 25}
+                width={50}
+                type="year"
+                value={year}
+                minYear={
+                  this.props.minDate ? this.props.minDate.year : undefined
+                }
+                maxYear={
+                  this.props.maxDate ? this.props.maxDate.year : undefined
+                }
+                onChange={y => this.scrollToMonth(month, y)}
+              />
+            </div>
+          )}
         </div>
-        <div style={{ top: headerTop }} className={classes.headerYear}>
-          <DateSelect
-            width={50}
-            type="year"
-            value={month.year}
-            onChange={y => this.scrollToDate(new Date(y, month.month))}
-          />
-        </div>
+        <div
+          style={{ width: offset * config.DAY_HEIGHT }}
+          className={classes.placeholder}
+        />
+        {cells.map(this._renderCell, this)}
       </div>
     );
   }
+
+  _handleSelect = date => {
+    const { onSelect } = this.props;
+    if (onSelect) {
+      onSelect(date);
+    }
+  };
 
   _handleWheel = (event: SyntheticWheelEvent<HTMLDivElement>) => {
     event.preventDefault();
     let { deltaY, deltaMode } = event;
-    if (deltaMode === 1) {
-      deltaY *= config.DAY_HEIGHT;
-    } else if (deltaMode === 2) {
-      deltaY *= config.DAY_HEIGHT * 4;
-    }
+
     if (deltaY === 0) {
       return;
     }
+
+    if (deltaMode === 1 /* WheelEvent.DOM_DELTA_LINE */) {
+      deltaY *= config.DAY_HEIGHT;
+    } else if (deltaMode === 2 /* WheelEvent.DOM_DELTA_PAGE */) {
+      deltaY *= config.DAY_HEIGHT * 4;
+    }
+
     this.setState(CalendarUtils.applyDelta(deltaY), this._handleWheelEnd);
   };
 
@@ -127,14 +206,64 @@ class Calendar extends React.Component<Props, State> {
   };
 
   _scrollToCurrentMonth = () => {
-    this._scrollTo(0);
+    const firstMonth = this.state.months[0];
+    if (this.state.scrollPosition > firstMonth.height / 2) {
+      this._scrollTo(firstMonth.height);
+    } else {
+      this._scrollTo(0);
+    }
   };
 
-  _scrollMonths = (date: Date) => {
-    this.setState({
-      months: CalendarUtils.getMonths(date),
-      scrollPosition: 0
-    });
+  _scrollToMonth = (month: number, year: number) => {
+    const currentMonth = this.state.months[1];
+    const diffInMonths =
+      currentMonth.month + currentMonth.year * 12 - month - year * 12;
+
+    const onEnd = () => {
+      this.setState({
+        months: CalendarUtils.getMonths(month, year),
+        scrollPosition: 0
+      });
+    };
+
+    if (diffInMonths > 0) {
+      const monthsToAppendCount = Math.min(Math.abs(diffInMonths) - 1, 2);
+      const monthsToPrepend = Array.from(
+        { length: monthsToAppendCount },
+        (_, index) => CalendarUtils.getMonth(month + index, year)
+      );
+      this.setState(
+        state => ({
+          months: monthsToPrepend.concat(state.months),
+          scrollPosition: -CalendarUtils.getMonthsHeight(monthsToPrepend)
+        }),
+        () => {
+          const toPos = CalendarUtils.getMonthsHeight(
+            this.state.months.slice(0, monthsToAppendCount + 1)
+          );
+          this._scrollAmount(toPos, onEnd);
+        }
+      );
+    }
+
+    if (diffInMonths < 0) {
+      const monthsToAppendCount = Math.min(Math.abs(diffInMonths), 2);
+      const monthsToAppend = Array.from(
+        { length: monthsToAppendCount },
+        (_, index) =>
+          CalendarUtils.getMonth(month + index - monthsToAppendCount + 2, year)
+      );
+
+      this.setState(
+        state => ({ months: state.months.concat(monthsToAppend) }),
+        () => {
+          const toPos = CalendarUtils.getMonthsHeight(
+            this.state.months.slice(1, -2)
+          );
+          this._scrollTo(-toPos, onEnd);
+        }
+      );
+    }
   };
 
   _scrollTo = (pos: number, cb?: () => void) => {
@@ -144,9 +273,12 @@ class Calendar extends React.Component<Props, State> {
   };
 
   _scrollAmount = (scrollAmmount, cb) => {
+    if (this._animating) {
+      return;
+    }
     this._animating = true;
     const startTime = Date.now();
-    const duration = 600;
+    const duration = 500;
 
     let lastEaseValue = 0;
 
@@ -155,7 +287,12 @@ class Calendar extends React.Component<Props, State> {
       const easing = CalendarUtils.ease(t) * scrollAmmount;
       const deltaY = lastEaseValue - easing;
       lastEaseValue = easing;
-      this.setState(CalendarUtils.applyDelta(deltaY), onAnimateEnd);
+      this.setState(
+        state => ({
+          scrollPosition: state.scrollPosition - deltaY
+        }),
+        onAnimateEnd
+      );
     };
 
     const onAnimateEnd = () => {
@@ -173,53 +310,6 @@ class Calendar extends React.Component<Props, State> {
     animate();
   };
 }
-
-const Month = ({ top, offset = 0, title, cells, year, month }) => (
-  <div className={classes.month} style={{ top }} key={month + '-' + year}>
-    <div style={styles.monthTitle} className={classes.monthTitle}>
-      <div className={classes.headerMonth}>
-        <DateSelect
-          disabled={top > 25}
-          width={85}
-          type="month"
-          value={month}
-          onChange={() => {}}
-        />
-      </div>
-      {month === 0 && (
-        <div className={classes.headerYear}>
-          <DateSelect
-            disabled={top > 25}
-            width={50}
-            type="year"
-            value={year}
-            onChange={() => {}}
-          />
-        </div>
-      )}
-    </div>
-    <div
-      style={{ width: offset * config.DAY_HEIGHT }}
-      className={classes.placeholder}
-    />
-    {cells.map(Cell)}
-  </div>
-);
-
-const Cell = ({ isWeekend, isToday, day }) => (
-  <button
-    key={day}
-    style={styles.cell}
-    tabIndex={-1}
-    className={classNames({
-      [classes.cell]: true,
-      [classes.weekend]: isWeekend,
-      [classes.today]: isToday
-    })}
-  >
-    {day}
-  </button>
-);
 
 const styles = {
   wrapper: {

@@ -43,6 +43,7 @@
     font-size: 14px;
     padding: 0;
     background: white;
+    user-select: none;
 
     &:hover {
       background-color: @bg-active;
@@ -53,7 +54,7 @@
       opacity: 0.5;
       pointer-events: none;
     }
-    &:active {
+    &:active:hover {
       color: white;
     }
   }
@@ -71,10 +72,16 @@
     width: 210px;
   }
 
+  .headerSticked {
+    background-color: white;
+    z-index: 1;
+  }
+
   .monthTitle {
     font-weight: bold;
     border-bottom: 1px solid #dfdede;
     margin-bottom: 10px;
+    position: relative;
   }
 
   .placeholder {

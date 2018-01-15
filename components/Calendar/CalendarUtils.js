@@ -5,10 +5,8 @@ import config from './config';
 export type MonthConfig = {
   daysCount: number,
   offset: number,
-  title: string,
   month: number,
   year: number,
-  date: Date,
   height: number,
   cells: CellConfig[]
 };
@@ -16,16 +14,64 @@ export type MonthConfig = {
 export type CellConfig = {
   day: number,
   isWeekend: boolean,
-  date: Date,
-  isToday: boolean
+  date: CalendarDate
 };
 
-export const isSameDate = (a: Date, b: Date) => {
-  return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
-  );
+export type CalendarDate = {
+  date: number,
+  month: number,
+  year: number
+};
+
+export const isSameDate = (a: CalendarDate, b: CalendarDate) => {
+  return a.date === b.date && a.month === b.month && a.year === b.year;
+};
+
+export const compareDates = (a: CalendarDate, b: CalendarDate) => {
+  if (a.year < b.year) {
+    return -1;
+  } else if (a.year > b.year) {
+    return 1;
+  } else if (a.month < b.month) {
+    return -1;
+  } else if (a.month > b.month) {
+    return 1;
+  } else if (a.date < b.date) {
+    return -1;
+  } else if (a.date > b.date) {
+    return 1;
+  }
+  return 0;
+};
+
+export const isLess = (a: CalendarDate, b: CalendarDate) =>
+  compareDates(a, b) === -1;
+
+export const isGreater = (a: CalendarDate, b: CalendarDate) =>
+  compareDates(a, b) === 1;
+
+export const createCalendarDate = (
+  date: number,
+  month: number,
+  year: number
+): CalendarDate => ({
+  year,
+  month,
+  date
+});
+
+export const isDateBetween = (
+  date: CalendarDate,
+  minDate: ?CalendarDate,
+  maxDate: ?CalendarDate
+) => {
+  if (minDate && isLess(date, minDate)) {
+    return false;
+  }
+  if (maxDate && isGreater(date, maxDate)) {
+    return false;
+  }
+  return true;
 };
 
 export const getMonthHeight = (daysCount: number, offset: number): number =>
@@ -56,73 +102,70 @@ export const getMonth = (month: number, year: number): MonthConfig => {
 
   const daysCount = getMonthsDays(month, year);
   const offset = getMonthOffset(month, year);
-  const today = new Date();
 
   return {
-    title: config.MONTH_NAMES[month],
     daysCount,
     offset,
     month,
     year,
-    date: new Date(year, month),
     height: getMonthHeight(daysCount, offset),
     cells: Array.from({ length: daysCount }, (_, i) => {
-      const date = new Date(year, month, i + 1);
+      const date = { date: i + 1, month, year };
       return {
         day: i + 1,
         isWeekend: (i + offset) % 7 >= 5,
-        date,
-        isToday: isSameDate(date, today)
+        date
       };
     })
   };
 };
 
-export const getMonths = (date: Date): MonthConfig[] => {
-  const month = date.getMonth();
-  const year = date.getFullYear();
+export const getMonths = (month: number, year: number): MonthConfig[] => {
   return [-1, 0, 1].map(x => getMonth(month + x, year));
 };
 
-export const applyDelta = (deltaY: number) => ({
-  scrollPosition,
-  months
-}: {
-  scrollPosition: number,
-  months: MonthConfig[]
-}) => {
+const checkMinScrollOverflow = (minDate, { month, year }, nextScrollPosition) =>
+  minDate &&
+  nextScrollPosition > 0 &&
+  isLess(createCalendarDate(minDate.date, month, year), minDate);
+
+const checkMaxScrollOverflow = (maxDate, { month, year }, nextScrollPosition) =>
+  maxDate &&
+  nextScrollPosition < 0 &&
+  isGreater(createCalendarDate(maxDate.date, month, year), maxDate);
+
+export const applyDelta = (deltaY: number) => (
+  { scrollPosition, months }: { scrollPosition: number, months: MonthConfig[] },
+  { minDate, maxDate }: { minDate?: CalendarDate, maxDate?: CalendarDate }
+) => {
+  const firstMonth = months[0];
+  const lastMonth = months[months.length - 1];
+
   let nextScrollPosition = scrollPosition - deltaY;
+  let nextMonths = months;
 
   if (
-    deltaY < 0 &&
-    months[1].height + nextScrollPosition > config.WRAPPER_HEIGHT
+    checkMinScrollOverflow(minDate, firstMonth, nextScrollPosition) ||
+    checkMaxScrollOverflow(maxDate, months[2], nextScrollPosition)
   ) {
-    let nextMonths = months;
-    do {
-      nextMonths = getMonths(nextMonths[0].date);
-      nextScrollPosition -= nextMonths[1].height;
-    } while (nextMonths[1].height + nextScrollPosition > config.WRAPPER_HEIGHT);
-    return {
-      scrollPosition: nextScrollPosition,
-      months: nextMonths
-    };
+    return { scrollPosition: 0 };
+  }
+
+  if (deltaY < 0 && nextScrollPosition >= firstMonth.height) {
+    nextMonths = [getMonth(firstMonth.month - 1, firstMonth.year)].concat(
+      months.slice(0, -1)
+    );
+    nextScrollPosition -= firstMonth.height;
   }
 
   if (deltaY > 0 && nextScrollPosition < 0) {
-    let nextMonths = months;
-    do {
-      nextMonths = getMonths(nextMonths[2].date);
-      nextScrollPosition += nextMonths[0].height;
-    } while (nextScrollPosition < 0);
-    return {
-      scrollPosition: nextScrollPosition,
-      months: nextMonths
-    };
+    nextMonths = months
+      .slice(1)
+      .concat([getMonth(lastMonth.month + 1, lastMonth.year)]);
+    nextScrollPosition += months[1].height;
   }
 
-  return {
-    scrollPosition: nextScrollPosition
-  };
+  return { scrollPosition: nextScrollPosition, months: nextMonths };
 };
 
 export const ease = (t: number) => --t * t * t + 1;
@@ -142,3 +185,6 @@ export const isMonthVisible: IsMonthVisible = ({ top, daysCount, offset }) => {
   }
   return true;
 };
+
+export const getMonthsHeight = (months: MonthConfig[]) =>
+  months.map(x => x.height).reduce((a, b) => a + b, 0);
