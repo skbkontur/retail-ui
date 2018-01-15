@@ -238,10 +238,8 @@ class Calendar extends React.Component<Props, State> {
           scrollPosition: -CalendarUtils.getMonthsHeight(monthsToPrepend)
         }),
         () => {
-          const toPos = CalendarUtils.getMonthsHeight(
-            this.state.months.slice(0, monthsToAppendCount + 1)
-          );
-          this._scrollAmount(toPos, onEnd);
+          const toPos = monthsToPrepend[0].height;
+          this._scrollTo(toPos, onEnd);
         }
       );
     }
@@ -257,10 +255,10 @@ class Calendar extends React.Component<Props, State> {
       this.setState(
         state => ({ months: state.months.concat(monthsToAppend) }),
         () => {
-          const toPos = CalendarUtils.getMonthsHeight(
+          const toPos = -CalendarUtils.getMonthsHeight(
             this.state.months.slice(1, -2)
           );
-          this._scrollTo(-toPos, onEnd);
+          this._scrollTo(toPos, onEnd);
         }
       );
     }
@@ -278,7 +276,7 @@ class Calendar extends React.Component<Props, State> {
     }
     this._animating = true;
     const startTime = Date.now();
-    const duration = 500;
+    const duration = 300;
 
     let lastEaseValue = 0;
 
