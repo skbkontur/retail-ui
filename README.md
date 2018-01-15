@@ -41,7 +41,12 @@ module: {
         {
           loader: 'babel-loader',
           options: {
-            presets: ['env', 'stage-0', 'react']
+            presets: [
+              'env',
+              'babel-plugin-transform-object-rest-spread',
+              'babel-plugin-transform-class-properties',
+              'react'
+            ]
           }
         }
       ],
