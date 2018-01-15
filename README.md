@@ -26,6 +26,7 @@ const MyApp = () => (
 то необходимо подключить `regenerator-runtime` или `babel-polyfill`,
 например в `index.html`
 
+Квик-старт подойдёт, если вебпак настроен на сборку. Например, вы используете `create-react-app`. В противном случае добавьте в конфиг Вебпака `style-`, `css-` и `file-loader`.
 
 ### Слоу-старт
 Необходимо в [конфиг webpack](https://webpack.js.org/configuration/) добавить следующие лоадеры:
