@@ -210,7 +210,8 @@ class Calendar extends React.Component<Props, State> {
     if (this._animating) {
       this._animating = false;
     }
-    this._timeout = setTimeout(this._scrollToCurrentMonth, 300);
+
+    this._timeout = setTimeout(this._scrollToCurrentMonth, 500);
   };
 
   _scrollToCurrentMonth = () => {
@@ -249,8 +250,8 @@ class Calendar extends React.Component<Props, State> {
         state => {
           const yearChanges = isYearChanges(state);
 
-          // Mutating item here is safe as it was just created
           if (monthsToPrepend.length) {
+            // Mutating item here is safe as it was just created
             monthsToPrepend[monthsToPrepend.length - 1].isLastInYear =
               yearChanges ||
               monthsToPrepend[monthsToPrepend.length - 1].isLastInYear;
@@ -314,14 +315,16 @@ class Calendar extends React.Component<Props, State> {
   _scrollTo = (pos: number, cb?: () => void) => {
     const scrollPos = this.state.scrollPosition;
     const scrollAmmount = pos - scrollPos;
-    this._scrollAmount(scrollAmmount, cb);
+    return this._scrollAmount(scrollAmmount, cb);
   };
 
   _scrollAmount = (scrollAmmount, cb) => {
     if (this._animating) {
       return;
     }
+
     this._animating = true;
+
     const startTime = Date.now();
     const duration = 600;
 
@@ -333,23 +336,21 @@ class Calendar extends React.Component<Props, State> {
       const deltaY = lastEaseValue - easing;
       lastEaseValue = easing;
       this.setState(
-        state => ({
-          scrollPosition: state.scrollPosition - deltaY
-        }),
-        onAnimateEnd
+        state => ({ scrollPosition: state.scrollPosition - deltaY }),
+        onFrameEnd
       );
     };
 
-    const onAnimateEnd = () => {
+    const onFrameEnd = () => {
       if (this._animating && lastEaseValue !== scrollAmmount) {
         requestAnimationFrame(animate);
-      } else {
-        cb && cb();
-        this.setState(state => ({
-          scrollPosition: Math.round(state.scrollPosition)
-        }));
-        this._animating = false;
+        return;
       }
+      this.setState(
+        state => ({ scrollPosition: Math.round(state.scrollPosition) }),
+        cb
+      );
+      this._animating = false;
     };
 
     animate();

@@ -156,13 +156,17 @@ export const applyDelta = (deltaY: number) => (
   }
 
   if (deltaY < 0 && nextScrollPosition >= firstMonth.height) {
-    nextMonths = getMonths(firstMonth.month, firstMonth.year);
-    nextScrollPosition -= firstMonth.height;
+    do {
+      nextScrollPosition -= nextMonths[0].height;
+      nextMonths = getMonths(firstMonth.month, firstMonth.year);
+    } while (nextScrollPosition >= nextMonths[0].height);
   }
 
   if (deltaY > 0 && nextScrollPosition < 0) {
-    nextMonths = getMonths(lastMonth.month, lastMonth.year);
-    nextScrollPosition += months[1].height;
+    do {
+      nextScrollPosition += nextMonths[1].height;
+      nextMonths = getMonths(lastMonth.month, lastMonth.year);
+    } while (nextScrollPosition < 0);
   }
 
   return { scrollPosition: nextScrollPosition, months: nextMonths };
