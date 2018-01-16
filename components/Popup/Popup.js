@@ -1,10 +1,12 @@
 // @flow
+/* eslint-disable flowtype/no-weak-types */
 import cn from 'classnames';
 import * as React from 'react';
-import { render } from 'react-dom';
+import { render, findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import RenderContainer from '../RenderContainer';
 import RenderLayer from '../RenderLayer';
+import ZIndex from '../ZIndex';
 import Transition from 'react-addons-css-transition-group';
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
@@ -171,8 +173,9 @@ export default class Popup extends React.Component<Props, State> {
           : 'transparent';
 
     return (
-      <div
-        ref={e => (this._popupElement = e)}
+      <ZIndex
+        delta={1000}
+        ref={e => (this._popupElement = e && (findDOMNode(e): any))}
         className={cn(styles.popup, hasShadow && styles.shadow)}
         style={style}
       >
@@ -188,7 +191,7 @@ export default class Popup extends React.Component<Props, State> {
             borderColor={pinBorder}
           />
         )}
-      </div>
+      </ZIndex>
     );
   }
 
