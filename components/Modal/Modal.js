@@ -36,7 +36,7 @@ type Props = {
   disableClose?: boolean,
   ignoreBackgroundClick?: boolean,
   noClose?: boolean,
-  width?: number,
+  width?: number | string,
   onClose?: () => void
 };
 
@@ -71,7 +71,7 @@ class Modal extends React.Component<Props, State> {
      */
     noClose: PropTypes.bool,
 
-    width: PropTypes.number,
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
      * Вызывается, когда пользователь запросил закрытие окна (нажал на фон, на
@@ -140,8 +140,11 @@ class Modal extends React.Component<Props, State> {
     });
 
     const style = {};
+    const containerStyle = {};
     if (this.props.width) {
       style.width = this.props.width;
+    } else {
+      containerStyle.width = 'auto';
     }
     return (
       <RenderContainer>
@@ -152,7 +155,11 @@ class Modal extends React.Component<Props, State> {
             className={styles.container}
             onClick={this._handleContainerClick}
           >
-            <div className={styles.centerContainer}>
+            <div
+              className={styles.centerContainer}
+              onClick={this._handleContainerClick}
+              style={containerStyle}
+            >
               <div className={styles.window} style={style}>
                 {!hasHeader && close}
                 {children}
