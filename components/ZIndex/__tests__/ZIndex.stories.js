@@ -16,6 +16,7 @@ import ZIndex from '../ZIndex';
 import Button from '../../Button';
 import Toggle from '../../Toggle';
 import Popup from '../../Popup/Popup';
+import Toast from '../../Toast';
 
 class ZKebab extends React.Component<{}> {
   render() {
@@ -101,6 +102,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
   };
 
   popupAnchor: ?HTMLElement;
+  notifier: ?Toast;
 
   render() {
     const controls = (
@@ -119,6 +121,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
     const { total = 0, current = 0 } = this.props;
     return (
       <Gapped vertical>
+        <Toast ref={e => (this.notifier = e)} />
         {controls}
         <Gapped>
           <ZLoader size={150} />
@@ -144,10 +147,14 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
           )}
         </Gapped>
         {controls}
-
-        {current < total && (
-          <Button onClick={() => this.setState({ modal: true })}>OPEN</Button>
-        )}
+        <Gapped gap={10}>
+          <Button onClick={() => this.notify(current)}>TOAST</Button>
+          {current < total && (
+            <Button onClick={() => this.setState({ modal: true })}>
+              MODAL
+            </Button>
+          )}
+        </Gapped>
         {this.state.modal && (
           <Modal onClose={() => this.setState({ modal: false })}>
             <Modal.Header>M #{current}</Modal.Header>
@@ -160,6 +167,10 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
         )}
       </Gapped>
     );
+  }
+
+  notify(value: number) {
+    this.notifier && this.notifier.push('Message from #' + value);
   }
 
   renderBlock(content: React.Node, width: number, height?: number) {
