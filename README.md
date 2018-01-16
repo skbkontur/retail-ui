@@ -26,9 +26,10 @@ const MyApp = () => (
 то необходимо подключить `regenerator-runtime` или `babel-polyfill`,
 например в `index.html`
 
+Квик-старт подойдёт, если вебпак настроен на сборку. Например, вы используете `create-react-app`. В противном случае добавьте в конфиг Вебпака `style-`, `css-` и `file-loader`.
 
 ### Слоу-старт
-Необходимо в [конфиг webpack](http://webpack.github.io/docs/configuration.html#module-loaders) добавить следующие лоадеры:
+Необходимо в [конфиг webpack](https://webpack.js.org/configuration/) добавить следующие лоадеры:
 ```javascript
 /* ... */
 module: {
@@ -36,18 +37,32 @@ module: {
   loaders: [
     {
       test: /\.jsx?$/,
-      loader: 'babel-loader',
-      query: {
-        presets: ['es2015', 'stage-0', 'react']
-      },
+      use: [
+        {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              'env',
+              'react'
+            ],
+            plugins: [
+              'transform-object-rest-spread',
+              'transform-class-properties'
+            ]
+          }
+        }
+      ],
       include: /retail-ui/
     },
     {
       test: /\.less$/,
-      loaders: ['style', 'css', 'less'],
+      use: ['style-loader', 'css-loader', 'less-loader'],
       include: /retail-ui/
     },
-    {test: /\.(png|woff|woff2|eot)$/, loader: "file-loader"}
+    {
+      test: /\.(png|woff|woff2|eot)$/,
+      use: ['file-loader']
+    }
   ]
   /* ... */
 }

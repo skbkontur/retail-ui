@@ -41,7 +41,8 @@ type Props = {
 };
 
 type State = {
-  shadowed: boolean
+  shadowed: boolean,
+  horizontalScroll: boolean
 };
 
 /**
@@ -85,11 +86,13 @@ class Modal extends React.Component<Props, State> {
 
   state = {
     // Is shadowed by another modal that was rendered on top of this one.
-    shadowed: false
+    shadowed: false,
+    horizontalScroll: false
   };
 
   _stackSubscribtion = null;
   _centerDOM: ?HTMLElement = null;
+  _scrollbarWidth = getScrollWidth();
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -102,7 +105,7 @@ class Modal extends React.Component<Props, State> {
   }
 
   render() {
-    var close = null;
+    let close = null;
     if (!this.props.noClose) {
       close = (
         <a
@@ -120,12 +123,20 @@ class Modal extends React.Component<Props, State> {
 
     let hasHeader = false;
     const children = React.Children.map(this.props.children, child => {
-      if (child && child.type === Header) {
-        hasHeader = true;
-        // $FlowIssue child could be iterable
-        return React.cloneElement(child, { close });
+      if (child) {
+        switch (child.type) {
+          case Header:
+            hasHeader = true;
+            // $FlowIssue child could be iterable
+            return React.cloneElement(child, { close });
+          case Footer:
+            return React.cloneElement(child, {
+              horizontalScroll: this.state.horizontalScroll
+            });
+          default:
+            return child;
+        }
       }
-      return child;
     });
 
     const style = {};
@@ -183,6 +194,7 @@ class Modal extends React.Component<Props, State> {
     mountedModalsCount++;
     events.addEventListener(window, 'keydown', this._handleKeyDown);
     stack.emitter.emit('change');
+    this._checkHorizontalScrollAppearance();
   }
 
   componentWillUnmount() {
@@ -210,16 +222,18 @@ class Modal extends React.Component<Props, State> {
       return;
     }
     const { clientHeight, scrollHeight, style } = docEl;
+
     if (clientHeight < scrollHeight) {
-      const scrollbarWidth = getScrollWidth();
       docEl.style.marginRight = prevMarginRight;
       removeClass(docEl, styles.bodyClass);
       const marginRight = parseFloat(getComputedStyle(docEl).marginRight);
       addClass(docEl, styles.bodyClass);
-      docEl.style.marginRight = `${marginRight + scrollbarWidth}px`;
+      docEl.style.marginRight = `${marginRight + this._scrollbarWidth}px`;
     } else if (style.marginRight !== prevMarginRight) {
       style.marginRight = prevMarginRight;
     }
+
+    this._checkHorizontalScrollAppearance();
   };
 
   _handleStackChange = () => {
@@ -256,6 +270,26 @@ class Modal extends React.Component<Props, State> {
       this._requestClose();
     }
   };
+
+  _checkHorizontalScrollAppearance = () => {
+    let containerClientWidth;
+    let containerScrollWidth;
+    let hasScroll;
+
+    if (this._centerDOM) {
+      containerClientWidth = this._centerDOM.clientWidth;
+      containerScrollWidth = this._centerDOM.scrollWidth;
+      hasScroll = containerClientWidth < containerScrollWidth;
+    }
+
+    if (hasScroll) {
+      !this.state.horizontalScroll &&
+      this.setState({ horizontalScroll: true });
+    } else {
+      this.state.horizontalScroll &&
+      this.setState({ horizontalScroll: false });
+    }
+  }
 }
 
 type HeaderProps = {
@@ -306,19 +340,22 @@ class Footer extends React.Component<FooterProps> {
     panel: PropTypes.bool
   };
 
+  _scrollbarWidth = getScrollWidth();
+
   render() {
-    var names = classNames({
+    const names = classNames({
       [styles.footer]: true,
       [styles.panel]: this.props.panel
     });
 
     return (
-      <Sticky side="bottom">
+      <Sticky side="bottom" offset={this.props.horizontalScroll ? this._scrollbarWidth : 0}>
         {fixed => (
-          <div className={classNames(names, fixed && styles.fixedFooter)}>
-            {this.props.children}
-          </div>
-        )}
+            <div className={classNames(names, fixed && styles.fixedFooter)}>
+              {this.props.children}
+            </div>
+          )
+        }
       </Sticky>
     );
   }
