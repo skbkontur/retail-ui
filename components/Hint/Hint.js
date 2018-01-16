@@ -12,7 +12,7 @@ type Props = {
   onMouseLeave: (e: SyntheticMouseEvent<>) => void,
   opened: boolean,
   pos: 'top' | 'right' | 'bottom' | 'left',
-  text: string
+  text: React.Node
 };
 
 type State = {
@@ -73,13 +73,14 @@ export default class Hint extends React.Component<Props, State> {
         style={{ display: 'inline-block' }}
       >
         {this.props.children}
-        {this.isOpened() &&
+        {this.isOpened() && (
           <HintBox
             getTarget={this._getDOM}
             text={this.props.text}
             pos={this.props.pos}
             maxWidth={this.props.maxWidth}
-          />}
+          />
+        )}
       </span>
     );
   }

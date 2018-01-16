@@ -31,14 +31,14 @@ export default class Center extends React.Component<Props> {
   };
 
   render() {
-    const { align, style, ...rest } = this.props;
+    const { align, style, children, ...rest } = this.props;
 
     const styleJoined = Object.assign({ textAlign: align }, style);
 
     return (
       <div className={styles.root} {...rest} style={styleJoined}>
         <span className={styles.spring} />
-        <span className={styles.container}>{this.props.children}</span>
+        <span className={styles.container}>{children}</span>
       </div>
     );
   }

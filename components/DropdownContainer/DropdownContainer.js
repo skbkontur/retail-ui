@@ -1,12 +1,13 @@
 // @flow
+/* eslint-disable flowtype/no-weak-types */
 
 import * as React from 'react';
-
-import PropTypes from 'prop-types';
+import { findDOMNode } from 'react-dom';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 import getComputedStyle from '../../lib/dom/getComputedStyle';
 import RenderContainer from '../RenderContainer/RenderContainer';
+import ZIndex from '../ZIndex';
 
 type Props = {
   align: 'left' | 'right',
@@ -28,10 +29,6 @@ type State = {
 };
 
 export default class DropdownContainer extends React.Component<Props, State> {
-  static contextTypes = {
-    rt_inModal: PropTypes.bool
-  };
-
   static defaultProps = {
     align: 'left',
     disablePortal: false,
@@ -44,7 +41,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
     hasStaticRoot: true
   };
 
-  _dom;
+  _dom: ?HTMLElement;
   _layoutSub;
 
   render() {
@@ -52,8 +49,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
       position: 'absolute',
       top: '0',
       left: null,
-      right: null,
-      zIndex: this.context.rt_inModal ? 1100 : 900
+      right: null
     };
     if (this.state.position) {
       style = {
@@ -73,9 +69,9 @@ export default class DropdownContainer extends React.Component<Props, State> {
     }
 
     const content = (
-      <div ref={this._ref} style={style}>
+      <ZIndex delta={1000} ref={this._ref} style={style}>
         {this.props.children}
-      </div>
+      </ZIndex>
     );
 
     return this.props.disablePortal ? (
@@ -85,8 +81,8 @@ export default class DropdownContainer extends React.Component<Props, State> {
     );
   }
 
-  _ref = (dom: ?HTMLElement) => {
-    this._dom = dom;
+  _ref = e => {
+    this._dom = e && (findDOMNode(e): any);
   };
 
   componentDidMount() {
@@ -101,7 +97,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
     let bodyPosition = getComputedStyle(document.body).position;
 
     if (htmlPosition !== 'static' || bodyPosition !== 'static') {
-      this.setState({hasStaticRoot: false})
+      this.setState({ hasStaticRoot: false });
     }
   }
 
@@ -146,7 +142,6 @@ export default class DropdownContainer extends React.Component<Props, State> {
       const dropdownHeight = this._getHeight();
 
       if (distanceToBottom < dropdownHeight && distanceToTop > dropdownHeight) {
-
         top = null;
 
         if (this.state.hasStaticRoot) {
@@ -157,7 +152,6 @@ export default class DropdownContainer extends React.Component<Props, State> {
             targetRect.bottom -
             targetRect.top;
         } else {
-
           let bodyScrollHeight = 0;
           if (document.body) {
             bodyScrollHeight = document.body.scrollHeight;

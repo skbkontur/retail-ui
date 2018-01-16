@@ -13,6 +13,7 @@ import getComputedStyle from '../../lib/dom/getComputedStyle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import removeClass from '../../lib/dom/removeClass';
 import RenderContainer from '../RenderContainer';
+import ZIndex from '../ZIndex';
 import stopPropagation from '../../lib/events/stopPropagation';
 import Sticky from '../Sticky';
 
@@ -79,10 +80,6 @@ class Modal extends React.Component<Props, State> {
     onClose: PropTypes.func
   };
 
-  static childContextTypes = {
-    rt_inModal: PropTypes.bool
-  };
-
   static Header: Class<Header>;
   static Body: Class<Body>;
   static Footer: Class<Footer>;
@@ -105,12 +102,6 @@ class Modal extends React.Component<Props, State> {
       'change',
       this._handleStackChange
     );
-  }
-
-  getChildContext() {
-    return {
-      rt_inModal: true
-    };
   }
 
   render() {
@@ -153,8 +144,8 @@ class Modal extends React.Component<Props, State> {
       style.width = this.props.width;
     }
     return (
-      <RenderContainer containerClassName="rt_modal">
-        <div className={styles.root}>
+      <RenderContainer>
+        <ZIndex delta={1000} className={styles.root}>
           {!this.state.shadowed && <div className={styles.bg} />}
           <div
             ref={this._refCenter}
@@ -168,7 +159,7 @@ class Modal extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-        </div>
+        </ZIndex>
       </RenderContainer>
     );
   }
