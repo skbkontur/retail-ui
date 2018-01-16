@@ -43,9 +43,11 @@ module: {
           options: {
             presets: [
               'env',
-              'babel-plugin-transform-object-rest-spread',
-              'babel-plugin-transform-class-properties',
               'react'
+            ],
+            plugins: [
+              'transform-object-rest-spread',
+              'transform-class-properties'
             ]
           }
         }
