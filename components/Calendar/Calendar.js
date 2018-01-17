@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import config from './config';
 import * as CalendarUtils from './CalendarUtils';
+import { SmoothScrollFactory } from './SmoothScroll';
 
 import DateSelect from '../DateSelect';
 
@@ -35,6 +36,10 @@ const getTodayDate = () => {
 class Calendar extends React.Component<Props, State> {
   _animating;
   _timeout;
+
+  _smoothScroll = SmoothScrollFactory(12, deltaY => {
+    this.setState(CalendarUtils.applyDelta(deltaY), this._handleWheelEnd);
+  });
 
   constructor(props: Props) {
     super(props);
@@ -187,20 +192,7 @@ class Calendar extends React.Component<Props, State> {
   };
 
   _handleWheel = (event: SyntheticWheelEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    let { deltaY, deltaMode } = event;
-
-    if (deltaY === 0) {
-      return;
-    }
-
-    if (deltaMode === 1 /* WheelEvent.DOM_DELTA_LINE */) {
-      deltaY *= config.DAY_HEIGHT;
-    } else if (deltaMode === 2 /* WheelEvent.DOM_DELTA_PAGE */) {
-      deltaY *= config.DAY_HEIGHT * 4;
-    }
-
-    this.setState(CalendarUtils.applyDelta(deltaY), this._handleWheelEnd);
+    this._smoothScroll.handleWheel(event);
   };
 
   _handleWheelEnd = () => {
