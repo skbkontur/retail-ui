@@ -5,7 +5,6 @@ import events from 'add-event-listener';
 import { EventEmitter } from 'fbemitter';
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 
 import addClass from '../../lib/dom/addClass';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
@@ -13,56 +12,57 @@ import getComputedStyle from '../../lib/dom/getComputedStyle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import removeClass from '../../lib/dom/removeClass';
 import RenderContainer from '../RenderContainer';
-import ZIndex from '../ZIndex';
-import stopPropagation from '../../lib/events/stopPropagation';
+import ScrollContainer from '../ScrollContainer';
+import RenderLayer from '../RenderLayer';
 import Sticky from '../Sticky';
+import ZIndex from '../ZIndex';
 
-import styles from './Modal.less';
+import styles from './SidePage.less';
 
 const stack = {
   emitter: new EventEmitter(),
   mounted: []
 };
 
-const KEY_CODE_ESCAPE = 27;
-
-let mountedModalsCount = 0;
 let prevMarginRight = '';
 
-type ModalChild = React.Node;
-
 type Props = {
-  children?: ModalChild,
+  children?: React.Node,
+  blockBackground?: boolean,
   disableClose?: boolean,
   ignoreBackgroundClick?: boolean,
   noClose?: boolean,
-  width?: number | string,
+  width?: number,
   onClose?: () => void
 };
 
 type State = {
-  shadowed: boolean,
-  horizontalScroll: boolean
+  stackPosition: number
 };
 
 /**
- * Модальное окно
+ * Сайдпейдж
  *
- * Содержит в себе три компоненты: **Modal.Header**,
- * **Modal.Body** и **Modal.Footer**
+ * Содержит в себе три компоненты: **SidePage.Header**,
+ * **SidePage.Body** и **SidePage.Footer**
  *
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
-class Modal extends React.Component<Props, State> {
+class SidePage extends React.Component<Props, State> {
   static propTypes = {
     /**
-     * Отключает событие onClose, также дизейблит кнопку закрытия модалки
+     * Отключает событие onClose, также дизейблит кнопку закрытия сайдпейджа
      */
     disableClose: PropTypes.bool,
 
     /**
-     * Не закрывать окно при клике на фон.
+     * Добавить блокирующий фон, когда сайдпейдж открыт
+     */
+    blockBackground: PropTypes.bool,
+
+    /**
+     * Не закрывать сайдпейдж при клике на фон.
      */
     ignoreBackgroundClick: PropTypes.bool,
 
@@ -71,10 +71,13 @@ class Modal extends React.Component<Props, State> {
      */
     noClose: PropTypes.bool,
 
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    /**
+     * Задать ширину сайдпейджа
+     */
+    width: PropTypes.number,
 
     /**
-     * Вызывается, когда пользователь запросил закрытие окна (нажал на фон, на
+     * Вызывается, когда пользователь запросил закрытие сайдпейджа (нажал на фон, на
      * Escape или на крестик).
      */
     onClose: PropTypes.func
@@ -84,26 +87,20 @@ class Modal extends React.Component<Props, State> {
   static Body: Class<Body>;
   static Footer: Class<Footer>;
 
-  state = {
-    // Is shadowed by another modal that was rendered on top of this one.
-    shadowed: false,
-    horizontalScroll: false
-  };
-
-  _stackSubscribtion = null;
-  _centerDOM: ?HTMLElement = null;
-  _scrollbarWidth = getScrollWidth();
+  _stackSubscription = null;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
 
     stack.mounted.push(this);
-    this._stackSubscribtion = stack.emitter.addListener(
+    this._stackSubscription = stack.emitter.addListener(
       'change',
       this._handleStackChange
     );
+    this.state = {
+      stackPosition: stack.mounted.length - 1
+    };
   }
-
   renderClose() {
     return (
       <a
@@ -122,7 +119,7 @@ class Modal extends React.Component<Props, State> {
   render() {
     const close: React.Node = !this.props.noClose ? this.renderClose() : null;
 
-    let hasHeader = false;
+    let hasHeader: boolean = false;
     const children = React.Children.map(this.props.children, child => {
       if (child) {
         switch (child.type) {
@@ -130,83 +127,76 @@ class Modal extends React.Component<Props, State> {
             hasHeader = true;
             // $FlowIssue child could be iterable
             return React.cloneElement(child, { close });
-          case Footer:
-            return React.cloneElement(child, {
-              horizontalScroll: this.state.horizontalScroll
-            });
           default:
             return child;
         }
       }
     });
 
-    const style = {};
-    const containerStyle = {};
-    if (this.props.width) {
-      style.width = this.props.width;
-    } else {
-      containerStyle.width = 'auto';
-    }
+    const rootStyle = this.props.blockBackground ? { width: '100%' } : {};
+    const sidePageStyle = {
+      width: this.props.width || this.props.blockBackground ? 800 : 500,
+      marginRight:
+        this.state.stackPosition === 0 && stack.mounted.length > 1
+          ? 20
+          : undefined
+    };
+
     return (
-      <RenderContainer>
-        <ZIndex delta={1000} className={styles.root}>
-          {!this.state.shadowed && <div className={styles.bg} />}
-          <div
-            ref={this._refCenter}
-            className={styles.container}
-            onClick={this._handleContainerClick}
+      <RenderLayer
+        onClickOutside={this._handleClickOutside}
+        onFocusOutside={this._handleFocusOutside}
+        active={true}
+      >
+        <RenderContainer>
+          <ZIndex
+            delta={1000}
+            className={styles.root}
+            onScroll={LayoutEvents.emit}
+            style={rootStyle}
           >
+            {this.props.blockBackground && (
+              <div
+                className={classNames(
+                  styles.background,
+                  this.state.stackPosition === 0 && styles.gray
+                )}
+                onClick={this._handleBackgroundClick}
+              />
+            )}
             <div
-              className={styles.centerContainer}
-              onClick={this._handleContainerClick}
-              style={containerStyle}
+              className={classNames(
+                styles.container,
+                this.state.stackPosition < 2 && styles.shadow
+              )}
+              style={sidePageStyle}
             >
-              <div className={styles.window} style={style}>
+              <ScrollContainer>
                 {!hasHeader && close}
                 {children}
-              </div>
+              </ScrollContainer>
             </div>
-          </div>
-        </ZIndex>
-      </RenderContainer>
+          </ZIndex>
+        </RenderContainer>
+      </RenderLayer>
     );
   }
 
-  _refCenter = (center: ?HTMLElement) => {
-    if (this._centerDOM) {
-      events.removeEventListener(this._centerDOM, 'scroll', LayoutEvents.emit);
-    }
-    this._centerDOM = null;
-    if (center) {
-      const dom = ReactDOM.findDOMNode(center);
-      // should check if dom instanceof HTMLElement
-      // but it would break ie8
-      // $FlowIssue
-      this._centerDOM = dom;
-      events.addEventListener(this._centerDOM, 'scroll', LayoutEvents.emit);
-    }
-  };
-
   componentDidMount() {
-    if (mountedModalsCount === 0) {
+    if (this.state.stackPosition === 0) {
       const { documentElement } = document;
       if (documentElement) {
-        // NOTE This not covered case if somebody change
-        // style while modal is open
         prevMarginRight = documentElement.style.marginRight;
       }
       this._handleWindowResize();
       events.addEventListener(window, 'resize', this._handleWindowResize);
       LayoutEvents.emit();
     }
-    mountedModalsCount++;
-    events.addEventListener(window, 'keydown', this._handleKeyDown);
     stack.emitter.emit('change');
-    this._checkHorizontalScrollAppearance();
   }
 
   componentWillUnmount() {
-    if (--mountedModalsCount === 0) {
+    if (this.state.stackPosition === 0) {
       const { documentElement } = document;
       if (documentElement) {
         documentElement.style.marginRight = prevMarginRight;
@@ -216,7 +206,7 @@ class Modal extends React.Component<Props, State> {
       LayoutEvents.emit();
     }
 
-    this._stackSubscribtion && this._stackSubscribtion.remove();
+    this._stackSubscription && this._stackSubscription.remove();
     const inStackIndex = stack.mounted.findIndex(x => x === this);
     if (inStackIndex !== -1) {
       stack.mounted.splice(inStackIndex, 1);
@@ -230,28 +220,42 @@ class Modal extends React.Component<Props, State> {
       return;
     }
     const { clientHeight, scrollHeight, style } = docEl;
-
     if (clientHeight < scrollHeight) {
+      const scrollbarWidth = getScrollWidth();
       docEl.style.marginRight = prevMarginRight;
       removeClass(docEl, styles.bodyClass);
       const marginRight = parseFloat(getComputedStyle(docEl).marginRight);
       addClass(docEl, styles.bodyClass);
-      docEl.style.marginRight = `${marginRight + this._scrollbarWidth}px`;
+      docEl.style.marginRight = `${marginRight + scrollbarWidth}px`;
     } else if (style.marginRight !== prevMarginRight) {
       style.marginRight = prevMarginRight;
     }
-
-    this._checkHorizontalScrollAppearance();
   };
 
   _handleStackChange = () => {
-    const shadowed = stack.mounted[stack.mounted.length - 1] !== this;
-    if (this.state.shadowed !== shadowed) {
-      this.setState({ shadowed });
+    const stackPosition = stack.mounted.findIndex(x => x === this);
+    this.setState({ stackPosition });
+  };
+
+  _handleClickOutside = () => {
+    if (
+      this.state.stackPosition === stack.mounted.length - 1 &&
+      !this.props.ignoreBackgroundClick
+    ) {
+      this._requestClose();
     }
   };
 
-  _handleContainerClick = event => {
+  _handleFocusOutside = () => {
+    if (
+      this.state.stackPosition === stack.mounted.length - 1 &&
+      !this.props.ignoreBackgroundClick
+    ) {
+      this._requestClose();
+    }
+  };
+
+  _handleBackgroundClick = event => {
     if (
       event.target === event.currentTarget &&
       !this.props.ignoreBackgroundClick
@@ -266,34 +270,6 @@ class Modal extends React.Component<Props, State> {
     }
     if (this.props.onClose) {
       this.props.onClose();
-    }
-  };
-
-  _handleKeyDown = event => {
-    if (stack.mounted[stack.mounted.length - 1] !== this) {
-      return;
-    }
-    if (event.keyCode === KEY_CODE_ESCAPE) {
-      stopPropagation(event);
-      this._requestClose();
-    }
-  };
-
-  _checkHorizontalScrollAppearance = () => {
-    let containerClientWidth;
-    let containerScrollWidth;
-    let hasScroll;
-
-    if (this._centerDOM) {
-      containerClientWidth = this._centerDOM.clientWidth;
-      containerScrollWidth = this._centerDOM.scrollWidth;
-      hasScroll = containerClientWidth < containerScrollWidth;
-    }
-
-    if (hasScroll) {
-      !this.state.horizontalScroll && this.setState({ horizontalScroll: true });
-    } else {
-      this.state.horizontalScroll && this.setState({ horizontalScroll: false });
     }
   };
 }
@@ -355,10 +331,7 @@ class Footer extends React.Component<FooterProps> {
     });
 
     return (
-      <Sticky
-        side="bottom"
-        offset={this.props.horizontalScroll ? this._scrollbarWidth : 0}
-      >
+      <Sticky side="bottom">
         {fixed => (
           <div className={classNames(names, fixed && styles.fixedFooter)}>
             {this.props.children}
@@ -369,8 +342,8 @@ class Footer extends React.Component<FooterProps> {
   }
 }
 
-Modal.Header = Header;
-Modal.Body = Body;
-Modal.Footer = Footer;
+SidePage.Header = Header;
+SidePage.Body = Body;
+SidePage.Footer = Footer;
 
-export default Modal;
+export default SidePage;
