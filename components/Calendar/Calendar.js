@@ -216,6 +216,18 @@ class Calendar extends React.Component<Props, State> {
   };
 
   _scrollToMonth = (month: number, year: number) => {
+    const { minDate, maxDate } = this.props;
+    if (
+      minDate &&
+      CalendarUtils.isGreater(minDate, { date: 32, month, year })
+    ) {
+      this._scrollToMonth(minDate.month, minDate.year);
+      return;
+    }
+    if (maxDate && CalendarUtils.isLess(maxDate, { date: 0, month, year })) {
+      this._scrollToMonth(maxDate.month, maxDate.year);
+      return;
+    }
     const currentMonth = this.state.months[1];
     const diffInMonths =
       currentMonth.month + currentMonth.year * 12 - month - year * 12;
