@@ -52,7 +52,7 @@ export type Props = {
   alwaysShowMask?: boolean,
   autoFocus?: boolean,
   borderless?: boolean,
-  /** @internal */
+  /** @ignore */
   className?: string, // TODO: kill it
   disabled?: boolean,
   error?: boolean,

@@ -12,20 +12,20 @@ export type MenuItemState = null | 'hover' | 'selected' | void;
 const tagName = disabled => (disabled ? 'span' : 'a');
 
 type Props = {
-  /** @internal */
+  /** @ignore */
   _enableIconPadding?: boolean,
 
-  /** @internal */
+  /** @ignore */
   alkoLink?: boolean,
   comment?: React.Node,
   disabled?: boolean,
   href?: string,
   icon?: string,
 
-  /** @internal */
+  /** @ignore */
   loose?: boolean,
 
-  /** @internal */
+  /** @ignore */
   state?: MenuItemState,
   target?: string,
   onClick?: (event: SyntheticEvent<HTMLElement>) => mixed,
