@@ -15,11 +15,7 @@ module.exports = {
         ],
         'react'
       ],
-      plugins: [
-        'transform-class-properties',
-        'transform-object-rest-spread',
-        'rewire'
-      ],
+      plugins: ['transform-class-properties', 'transform-object-rest-spread'],
       retainLines: true
     }).code;
   }
