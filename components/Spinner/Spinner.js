@@ -1,4 +1,5 @@
 // @flow
+
 import classnames from 'classnames';
 import * as React from 'react';
 
@@ -117,21 +118,18 @@ class Spinner extends React.Component<Props> {
       [styles.captionBottom]: type !== types.mini
     });
 
-    return (
-      <span className={spanClassName}>
-        {caption}
-      </span>
-    );
+    return <span className={spanClassName}>{caption}</span>;
   };
 
   render() {
     const { type, caption } = this.props;
+    const verifiedType = sizeMaps[type] ? type : Spinner.defaultProps.type;
 
     return (
       <div className={styles.spinner}>
-        {hasSvgAnimationSupport && this._renderSpinner(type)}
-        {!hasSvgAnimationSupport && <SpinnerFallback type={type} />}
-        {caption && this._renderCaption(type, caption)}
+        {hasSvgAnimationSupport && this._renderSpinner(verifiedType)}
+        {!hasSvgAnimationSupport && <SpinnerFallback type={verifiedType} />}
+        {caption && this._renderCaption(verifiedType, caption)}
       </div>
     );
   }
