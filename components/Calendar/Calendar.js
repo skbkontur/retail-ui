@@ -203,12 +203,12 @@ class Calendar extends React.Component<Props, State> {
       this._animating = false;
     }
 
-    this._timeout = setTimeout(this._scrollToCurrentMonth, 500);
+    this._timeout = setTimeout(this._scrollToCurrentMonth, 300);
   };
 
   _scrollToCurrentMonth = () => {
     const firstMonth = this.state.months[0];
-    if (this.state.scrollPosition > firstMonth.height / 2) {
+    if (this.state.scrollPosition > config.WRAPPER_HEIGHT / 2) {
       this._scrollTo(firstMonth.height);
     } else {
       this._scrollTo(0);
@@ -228,6 +228,7 @@ class Calendar extends React.Component<Props, State> {
       this._scrollToMonth(maxDate.month, maxDate.year);
       return;
     }
+
     const currentMonth = this.state.months[1];
     const diffInMonths =
       currentMonth.month + currentMonth.year * 12 - month - year * 12;
@@ -240,7 +241,11 @@ class Calendar extends React.Component<Props, State> {
     };
 
     const isYearChanges = state =>
-      state.months[1].year !== year && Math.abs(diffInMonths) > 2;
+      state.months[1].year !== year &&
+      // if diff in months is 2 or less,
+      // either year is not changing either months already
+      // have right isFirstInYear/isLastInYear flags
+      Math.abs(diffInMonths) > 2;
 
     // If scrolling upwards, prepend maximum 2 months
     // and scroll to the first month
