@@ -40,9 +40,12 @@ const PASS_BUTTON_PROPS = {
 };
 
 type Props<V, I> = {
+  /** @ignore */
   _icon?: string,
+  /** @ignore */
   _renderButton?: (params: ButtonParams) => React.Node,
   defaultValue?: V,
+  /** @ignore */
   diadocLinkIcon?: string,
   disablePortal?: boolean,
   disabled?: boolean,

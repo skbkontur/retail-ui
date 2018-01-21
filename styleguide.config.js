@@ -15,7 +15,8 @@ module.exports = {
   styles: {
     StyleGuide: {
       '@global body': {
-        fontFamily: 'Segoe UI'
+        fontFamily: 'Segoe UI',
+        fontSize: 14
       },
       '@font-face': {
         fontFamily: 'Segoe UI',

@@ -51,7 +51,7 @@ type Props<T> = {
  * параметры `checked`, `name` и `onChange`. Также наследует состояния
  * `disabled`, `error` и `warning`
  *
- * ```
+ * ```js
  * type SyntheticRadioEvent<T> = {
    target: {
      id: ?string,
