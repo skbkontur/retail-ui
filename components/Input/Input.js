@@ -336,7 +336,7 @@ class Input extends React.Component<Props, State> {
   };
 
   /**
-   * @api
+   * @public
    */
   focus() {
     invariant(this.input, 'Cannot call "focus" because Input is not mounted');
@@ -344,7 +344,7 @@ class Input extends React.Component<Props, State> {
   }
 
   /**
-   * @api
+   * @public
    */
   blur() {
     invariant(this.input, 'Cannot call "blur" because Input is not mounted');
@@ -352,7 +352,7 @@ class Input extends React.Component<Props, State> {
   }
 
   /**
-   * @api
+   * @public
    */
   setSelectionRange(start: number, end: number) {
     invariant(

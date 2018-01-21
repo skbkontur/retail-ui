@@ -167,7 +167,7 @@ class Button extends React.Component<Props, State> {
   }
 
   /**
-   * @api
+   * @public
    */
   focus() {
     if (this._node) {
@@ -176,7 +176,7 @@ class Button extends React.Component<Props, State> {
   }
 
   /**
-   * @api
+   * @public
    */
   blur() {
     if (this._node) {

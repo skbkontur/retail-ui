@@ -12,7 +12,6 @@ function getComponentList() {
 module.exports = {
   components: getComponentList,
   skipComponentsWithoutExample: true,
-  // propsParser: require("react-docgen-typescript").withDefaultConfig().parse,
   styles: {
     StyleGuide: {
       '@global body': {

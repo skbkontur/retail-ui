@@ -132,7 +132,7 @@ class RadioGroup extends React.Component {
   }
 
   /**
-   * @api
+   * @public
    **/
   focus() {
     const node = this._node;

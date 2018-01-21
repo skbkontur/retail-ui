@@ -2873,9 +2873,9 @@ css-in-js-utils@^2.0.0:
   dependencies:
     hyphenate-style-name "^1.0.2"
 
-css-initials@^0.1.0:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/css-initials/-/css-initials-0.1.1.tgz#cc6dcdb70dc6038c6cf494dd4980f001b824a4ab"
+css-initials@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/css-initials/-/css-initials-0.2.0.tgz#14c225bd8656255a6baee07231ef82fa55aacaa3"
 
 css-loader@^0.28.7:
   version "0.28.7"
@@ -5884,11 +5884,11 @@ jss-global@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/jss-global/-/jss-global-3.0.0.tgz#e19e5c91ab2b96353c227e30aa2cbd938cdaafa2"
 
-jss-isolate@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/jss-isolate/-/jss-isolate-5.0.0.tgz#89069d58af0b086b4f989d9aff718733f0f7a8f7"
+jss-isolate@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/jss-isolate/-/jss-isolate-5.1.0.tgz#8eff1294c3659f86535852f4aeb79370743d890e"
   dependencies:
-    css-initials "^0.1.0"
+    css-initials "^0.2.0"
 
 jss-nested@^6.0.1:
   version "6.0.1"
@@ -6408,7 +6408,7 @@ markdown-table@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/markdown-table/-/markdown-table-1.1.1.tgz#4b3dd3a133d1518b8ef0dbc709bf2a1b4824bc8c"
 
-markdown-to-jsx@^6.2.2:
+markdown-to-jsx@^6.3.1:
   version "6.4.1"
   resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-6.4.1.tgz#95fe617b5790fec6f4e0399a296e3a2f10fffaad"
   dependencies:
@@ -8244,9 +8244,9 @@ react-style-proptype@^3.0.0:
   dependencies:
     prop-types "^15.5.4"
 
-react-styleguidist@^6.1.0:
+"react-styleguidist@git+ssh://git@github.com:nanot1m/react-styleguidist.git#better-flow-props":
   version "6.1.0"
-  resolved "https://registry.yarnpkg.com/react-styleguidist/-/react-styleguidist-6.1.0.tgz#08e097f75eae5f59c5bb93ee5301b9a507d729fd"
+  resolved "git+ssh://git@github.com:nanot1m/react-styleguidist.git#16e1465005e0e647150c9be2c64277aeaae07906"
   dependencies:
     ast-types "^0.10.1"
     buble "^0.18.0"
@@ -8276,14 +8276,14 @@ react-styleguidist@^6.1.0:
     jss-compose "^5.0.0"
     jss-default-unit "^8.0.0"
     jss-global "^3.0.0"
-    jss-isolate "5.0.0"
+    jss-isolate "^5.1.0"
     jss-nested "^6.0.1"
     leven "^2.1.0"
     listify "^1.0.0"
     loader-utils "^1.1.0"
     lodash "^4.17.4"
     lowercase-keys "^1.0.0"
-    markdown-to-jsx "^6.2.2"
+    markdown-to-jsx "^6.3.1"
     minimist "^1.2.0"
     ora "^1.3.0"
     prop-types "^15.6.0"
