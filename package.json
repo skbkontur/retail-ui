@@ -25,6 +25,7 @@
     "prepush": "npm run unit-test",
     "storybook": "start-storybook -p 6060",
     "styleguide": "styleguidist server",
+    "styleguide:build": "styleguidist build",
     "test":
       "jest --no-cache && concurrently 'npm run storybook' 'npm run gemini' -k -s first",
     "typecheck": "flow",
