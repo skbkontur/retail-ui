@@ -8244,9 +8244,9 @@ react-style-proptype@^3.0.0:
   dependencies:
     prop-types "^15.5.4"
 
-"react-styleguidist@git+ssh://git@github.com:nanot1m/react-styleguidist.git#better-flow-props":
+"react-styleguidist@git+https://github.com/nanot1m/react-styleguidist.git#better-flow-props":
   version "6.1.0"
-  resolved "git+ssh://git@github.com:nanot1m/react-styleguidist.git#16e1465005e0e647150c9be2c64277aeaae07906"
+  resolved "git+https://github.com/nanot1m/react-styleguidist.git#16e1465005e0e647150c9be2c64277aeaae07906"
   dependencies:
     ast-types "^0.10.1"
     buble "^0.18.0"

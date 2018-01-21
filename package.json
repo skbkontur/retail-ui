@@ -102,7 +102,7 @@
     "react-docgen-typescript": "^1.2.1",
     "react-dom": "^15.6.2",
     "react-styleguidist":
-      "git+ssh://git@github.com:nanot1m/react-styleguidist.git#better-flow-props",
+      "git+https://github.com/nanot1m/react-styleguidist.git#better-flow-props",
     "react-test-renderer": "15.6.2",
     "style-loader": "^0.18.2",
     "stylelint": "^8.3.1",
