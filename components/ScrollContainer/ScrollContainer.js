@@ -72,6 +72,14 @@ export default class ScrollContainer extends React.Component {
       paddingRight: PADDING_RIGHT
     };
 
+    const innerProps = {
+      ref: this._refInner, 
+      className: styles.inner, 
+      style: innerStyle,
+      onWheel: this.props.preventWindowScroll ? this._handleInnerScrollWheel : null,
+      onScroll: this._handleNativeScroll
+    };
+
     return (
       <div
         className={styles.root}
@@ -79,7 +87,7 @@ export default class ScrollContainer extends React.Component {
         onMouseLeave={this._handleMouseLeave}
       >
         {scroll}
-        <div ref={this._refInner} className={styles.inner} style={innerStyle}>
+        <div {...innerProps}>
           {this.props.children}
         </div>
       </div>
@@ -88,23 +96,10 @@ export default class ScrollContainer extends React.Component {
 
   componentDidMount() {
     this._reflow();
-
-    events.addEventListener(this._inner, 'scroll', this._handleNativeScroll);
-
-    if (this.props.preventWindowScroll) {
-      events.addEventListener(this._inner, 'mousewheel', this._handleInnerScrollWheel);
-    }
   }
 
   componentDidUpdate() {
     this._reflow();
-  }
-
-  componentWillUnmount() {
-    events.removeEventListener(this._inner, 'scroll', this._handleNativeScroll);
-    if (this.props.preventWindowScroll) {
-      events.removeEventListener(this._inner, 'mousewheel', this._handleInnerScrollWheel);
-    }
   }
 
   _refInner = el => {
