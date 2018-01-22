@@ -125,8 +125,8 @@ class ComboBox<T> extends React.Component<ExternalProps<T>> {
   _cb: ?CustomComboBox = null;
 
   /**
-  * @api
-  */
+   * @public
+   */
   focus() {
     if (this._cb) {
       this._cb.focus();

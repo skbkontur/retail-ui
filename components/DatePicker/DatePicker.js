@@ -156,7 +156,7 @@ class DatePicker extends React.Component<Props, State> {
   }
 
   /**
-   * @api
+   * @public
    */
   blur() {
     this.input.blur();
@@ -164,7 +164,7 @@ class DatePicker extends React.Component<Props, State> {
   }
 
   /**
-   * @api
+   * @public
    */
   focus() {
     this.input.focus();

@@ -39,10 +39,14 @@ const PASS_BUTTON_PROPS = {
   onMouseOver: true
 };
 
+
 type Props<TValue, TItem> = {
+  /** @ignore */
   _icon?: string,
+  /** @ignore */
   _renderButton?: (params: ButtonParams) => React.Node,
   defaultValue?: TValue,
+  /** @ignore */
   diadocLinkIcon?: string,
   disablePortal?: boolean,
   disabled?: boolean,
@@ -376,14 +380,14 @@ class Select<TValue, TItem> extends React.Component<
   };
 
   /**
-   * @api
+   * @public
    */
   open() {
     this._open();
   }
 
   /**
-   * @api
+   * @public
    */
   close() {
     this._close();

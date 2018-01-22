@@ -51,7 +51,7 @@ type State = {
  * в реактовском контексте задать `insideFixedContainer: true`, то у тултипа
  * будет `fixed`-позиционирование, и он не будет дергаться. Пример:
  *
- * ```
+ * ```js
  * class Container extends React.Component {
  *   static childContextTypes = {
  *     insideFixedContainer: React.PropTypes.bool,

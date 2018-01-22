@@ -213,7 +213,7 @@ class Textarea extends React.Component {
   };
 
   /**
-   * @api
+   * @public
    **/
   focus() {
     if (this._node) {
@@ -222,7 +222,7 @@ class Textarea extends React.Component {
   }
 
   /**
-   * @api
+   * @public
    **/
   blur() {
     if (this._node) {
