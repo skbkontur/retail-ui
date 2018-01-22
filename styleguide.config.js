@@ -27,6 +27,7 @@ module.exports = {
       }
     }
   },
+  title: 'React UI Style Guide',
   require: ['babel-polyfill'],
   webpackConfig: {
     module: {
