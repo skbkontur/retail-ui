@@ -18,10 +18,13 @@
   "scripts": {
     "build": "node scripts/build",
     "build-storybook": "build-storybook",
+    "deploy":
+      "gh-pages -d styleguide -r https://github.com/skbkontur/react-ui.git",
     "gemini:update": "gemini update",
     "gemini": "wait-on http://localhost:6060 && gemini test --reporter vflat",
     "lint": "eslint . --ignore-pattern 'flow-typed/**/*.js'",
     "precommit": "flow && lint-staged",
+    "predeploy": "npm run styleguide:build",
     "prepush": "npm run unit-test",
     "storybook": "start-storybook -p 6060",
     "styleguide": "styleguidist server",
@@ -86,6 +89,7 @@
     "fs-readdir-recursive": "^1.0.0",
     "gemini": "4.19.3",
     "gemini-sauce": "^1.0.1",
+    "gh-pages": "^1.1.0",
     "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "21.2.1",

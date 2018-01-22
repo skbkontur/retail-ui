@@ -27,12 +27,13 @@ module.exports = {
       }
     }
   },
+  require: ['babel-polyfill'],
   webpackConfig: {
     module: {
       rules: [
         {
           test: /\.jsx?$/,
-          exclude: /node_modules/,
+          exclude: /node_modules\/(?!buble)/,
           use: [
             {
               loader: 'babel-loader',
