@@ -8,7 +8,7 @@ export interface HintProps {
   onMouseLeave?: React.MouseEventHandler<HTMLSpanElement>;
   opened?: boolean;
   pos?: 'top' | 'right' | 'bottom' | 'left';
-  text: string;
+  text: React.ReactNode;
 }
 
 export interface HintState {}

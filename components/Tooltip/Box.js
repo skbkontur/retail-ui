@@ -8,14 +8,14 @@ import throttle from 'lodash.throttle';
 
 import position from './position';
 import renderPin from './renderPin';
+import ZIndex from '../ZIndex';
 
 import '../ensureOldIEClassName';
 import styles from './Box.less';
 
 class Box extends React.Component {
   static contextTypes = {
-    insideFixedContainer: PropTypes.bool,
-    rt_inModal: PropTypes.bool
+    insideFixedContainer: PropTypes.bool
   };
 
   state = {
@@ -26,12 +26,11 @@ class Box extends React.Component {
 
   render() {
     const style = {
-      ...(this.state.pos ? this.state.pos.boxStyle : { left: 0, top: 0 }),
-      zIndex: this.context.rt_inModal ? 1100 : 900
+      ...(this.state.pos ? this.state.pos.boxStyle : { left: 0, top: 0 })
     };
 
     return (
-      <div className={styles.root} style={style}>
+      <ZIndex delta={1000} className={styles.root} style={style}>
         {renderPin(this.state.pos, styles.pin, styles.pinInner)}
         <div className={styles.inner}>
           {this.props.close && (
@@ -41,7 +40,7 @@ class Box extends React.Component {
           )}
           {this.props.children}
         </div>
-      </div>
+      </ZIndex>
     );
   }
 

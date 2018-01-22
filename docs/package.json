@@ -48,7 +48,7 @@
     "react-dom": "0.14.9",
     "react-router": "~2.3.0",
     "react-tools": "^0.13.3",
-    "regenerator-runtime": "^0.11.0",
+    "regenerator-runtime": "^0.11.1",
     "url-loader": "^0.5.9"
   }
 }

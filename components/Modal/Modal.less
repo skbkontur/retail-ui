@@ -1,8 +1,8 @@
-@import '../variables.less';
+@import "../variables.less";
 
 :local {
   .bodyClass {
-    overflow-y: hidden !important;
+    overflow: hidden !important;
   }
 
   .root {
@@ -11,13 +11,12 @@
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 1000;
   }
 
   .bg {
     background: #333;
     bottom: 0;
-    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=60)';
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
     left: 0;
     opacity: 0.6;
     position: absolute;
@@ -37,7 +36,7 @@
   }
 
   .container:before {
-    content: '';
+    content: "";
     display: inline-block;
     vertical-align: middle;
     height: 80%; // to vertical align modal 40%/60% of screen height
@@ -47,6 +46,9 @@
     display: inline-block;
     text-align: left;
     vertical-align: middle;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .window {
@@ -54,7 +56,7 @@
     white-space: normal;
     background: @bg-default;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    margin: 0 20px;
+    margin: 0 auto;
   }
 
   .close {
@@ -103,7 +105,7 @@
 
   .fixedHeader:after,
   .fixedFooter:before {
-    content: '';
+    content: "";
     position: absolute;
     height: 1px;
     width: 100%;

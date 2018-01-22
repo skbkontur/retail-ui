@@ -23,10 +23,7 @@ before_deploy:
 - ssh-add travis-deploy-key
 - git config --global user.name "Travis CI"
 - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
-- cd docs
-- yarn
-- ./deploy.sh
-- cd ..
+- yarn deploy
 deploy:
 - provider: npm
   email: tihonov.ea@gmail.com

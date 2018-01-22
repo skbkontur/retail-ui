@@ -37,7 +37,9 @@ type Props = {
   onClick?: (event: SyntheticMouseEvent<HTMLLinkElement>) => void,
   use?: 'default' | 'success' | 'danger' | 'grayed',
   children?: React.Node,
+  /** @ignore */
   _button?: boolean,
+  /** @ignore */
   _buttonOpened?: boolean,
   tabIndex?: number
 };

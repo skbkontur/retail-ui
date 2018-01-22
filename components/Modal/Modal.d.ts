@@ -5,7 +5,7 @@ export interface ModalProps {
   disableClose?: boolean;
   ignoreBackgroundClick?: boolean;
   noClose?: boolean;
-  width?: number;
+  width?: number | string;
   onClose?: () => void;
 }
 

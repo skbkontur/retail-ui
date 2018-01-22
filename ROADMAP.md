@@ -1,0 +1,13 @@
+- [ ] Currency input
+- [ ] Calendar redisign
+- [ ] Sidepage
+- [ ] Integrate Popup into Tooltip
+- [ ] Integrate Popup into Hint
+- [ ] DropdownMenu
+- [ ] TipMenu
+- [ ] Migrate to typescript
+- [ ] Migrate to styleguidist
+- [ ] Migrate to jss
+- [ ] Component styles public api
+- [ ] Sticky Loader - always stays in center of visible part of elements
+- [ ] Integrate metrics

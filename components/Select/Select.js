@@ -39,21 +39,25 @@ const PASS_BUTTON_PROPS = {
   onMouseOver: true
 };
 
-type Props<V, I> = {
+
+type Props<TValue, TItem> = {
+  /** @ignore */
   _icon?: string,
+  /** @ignore */
   _renderButton?: (params: ButtonParams) => React.Node,
-  defaultValue?: V,
+  defaultValue?: TValue,
+  /** @ignore */
   diadocLinkIcon?: string,
   disablePortal?: boolean,
   disabled?: boolean,
   error?: boolean,
-  filterItem: (value: V, item: I, pattern: string) => boolean,
-  items?: I[],
+  filterItem: (value: TValue, item: TItem, pattern: string) => boolean,
+  items?: TItem[],
   maxMenuHeight?: number,
   maxWidth?: number | string,
   menuAlign?: 'left' | 'right',
   menuWidth?: number | string,
-  onChange?: (e: { target: { value: V } }, value: V) => void,
+  onChange?: (e: { target: { value: TValue } }, value: TValue) => void,
   onClose?: () => void,
   onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
   onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
@@ -61,11 +65,11 @@ type Props<V, I> = {
   onOpen?: () => void,
   onClose?: () => void,
   placeholder?: React.Node,
-  renderItem: (value: V, item: I) => React.Node,
-  renderValue: (value: V, item: I) => React.Node,
-  areValuesEqual: (value1: V, value2: V) => boolean,
+  renderItem: (value: TValue, item: TItem) => React.Node,
+  renderValue: (value: TValue, item: TItem) => React.Node,
+  areValuesEqual: (value1: TValue, value2: TValue) => boolean,
   search?: boolean,
-  value?: ?V,
+  value?: ?TValue,
   width?: number | string
 };
 
@@ -75,11 +79,14 @@ type State = {
   value: mixed
 };
 
-class Select<V, I> extends React.Component<Props<V, I>, State> {
+class Select<TValue, TItem> extends React.Component<
+  Props<TValue, TItem>,
+  State
+> {
   static propTypes = {
     /**
-    * Функция для сравнения `value` с элементом из `items`
-    */
+     * Функция для сравнения `value` с элементом из `items`
+     */
     areValuesEqual: PropTypes.func,
 
     defaultValue: PropTypes.any,
@@ -173,7 +180,7 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
 
   _menu: ?Menu;
 
-  constructor(props: Props<V, I>, context: mixed) {
+  constructor(props: Props<TValue, TItem>, context: mixed) {
     super(props, (context: mixed));
 
     this.state = {
@@ -183,21 +190,19 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
   }
 
   render() {
-    var value = this._getValue();
+    const value = this._getValue();
 
-    var label;
-    if (value != null) {
-      label = this.props.renderValue(
-        // $FlowIssue
-        value,
-        // $FlowIssue
-        this._getItemByValue(this.props.items, value)
-      );
-    } else {
-      label = (
+    const label =
+      value != null ? (
+        this.props.renderValue(
+          // $FlowIssue
+          value,
+          // $FlowIssue
+          this._getItemByValue(this.props.items, value)
+        )
+      ) : (
         <span className={styles.placeholder}>{this.props.placeholder}</span>
       );
-    }
 
     const buttonParams: ButtonParams = {
       opened: this.state.opened,
@@ -208,11 +213,8 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
 
     const style = {
       width: this.props.width,
-      maxWidth: undefined
+      maxWidth: this.props.maxWidth || undefined
     };
-    if (this.props.maxWidth) {
-      style.maxWidth = this.props.maxWidth;
-    }
 
     return (
       <RenderLayer
@@ -243,11 +245,9 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
       _noPadding: true,
       width: '100%',
       onClick: params.onClick,
-      onKeyDown: params.onKeyDown
+      onKeyDown: params.onKeyDown,
+      active: params.opened
     };
-    if (params.opened) {
-      buttonProps.active = true;
-    }
 
     if (this.props._icon) {
       Object.assign(buttonProps, {
@@ -257,11 +257,10 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
       });
     }
 
-    var labelProps = {
+    const labelProps = {
       className: classNames({
         [styles.label]: true,
-        [styles.labelWithLeftIcon]: !!this.props._icon,
-        [styles.labelIsOpened]: params.opened
+        [styles.labelWithLeftIcon]: !!this.props._icon
       }),
       style: {
         paddingRight: buttonProps.size === 'large' ? '41px' : '38px'
@@ -295,16 +294,13 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
   }
 
   renderMenu() {
-    var search = null;
-    if (this.props.search) {
-      search = (
-        <div className={styles.search}>
-          <Input ref={this._focusInput} onChange={this.handleSearch} />
-        </div>
-      );
-    }
+    const search = this.props.search ? (
+      <div className={styles.search}>
+        <Input ref={this._focusInput} onChange={this.handleSearch} />
+      </div>
+    ) : null;
 
-    var value = this._getValue();
+    const value = this._getValue();
 
     return (
       <DropdownContainer
@@ -324,8 +320,8 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
           {search}
           {this._mapItems(
             (
-              iValue: V,
-              item: I | (() => React.Node),
+              iValue: TValue,
+              item: TItem | (() => React.Node),
               i: number,
               comment: ?React.Node
             ) => {
@@ -384,35 +380,17 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
   };
 
   /**
-   * @api
+   * @public
    */
   open() {
     this._open();
   }
 
   /**
-   * @api
+   * @public
    */
   close() {
     this._close();
-  }
-
-  _handleNativeDocClick = event => {
-    const target = event.target || event.srcElement;
-    const nodes = this._getDomNodes();
-    if (nodes.some(node => node && node.contains(target))) {
-      return;
-    }
-    this._close();
-  };
-
-  _getDomNodes() {
-    const result = [];
-    result.push(ReactDOM.findDOMNode(this));
-    if (this._menu) {
-      result.push(ReactDOM.findDOMNode(this._menu));
-    }
-    return result;
   }
 
   _toggle = () => {
@@ -444,7 +422,7 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
   };
 
   handleKey = (e: SyntheticKeyboardEvent<>) => {
-    var key = e.key;
+    const key = e.key;
     if (!this.state.opened) {
       if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
         e.preventDefault();
@@ -478,7 +456,7 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
     }
   };
 
-  _select(value: V) {
+  _select(value: TValue) {
     this.setState(
       {
         opened: false,
@@ -508,22 +486,22 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
     const pattern =
       this.state.searchPattern && this.state.searchPattern.toLowerCase();
 
-    const ret = [];
+    const result = [];
     let index = 0;
     for (const entry of items) {
       const [value, item, comment] = normalizeEntry(entry);
       // $FlowIssue
       if (!pattern || this.props.filterItem(value, item, pattern)) {
         // $FlowIssue
-        ret.push(fn(value, item, index, comment));
+        result.push(fn(value, item, index, comment));
         ++index;
       }
     }
 
-    return ret;
+    return result;
   }
 
-  _getItemByValue(items: ?(I[]), value: V) {
+  _getItemByValue(items: ?(TItem[]), value: TValue) {
     if (!items) {
       return null;
     }
