@@ -15,7 +15,7 @@ type MenuItemElement = ?React.Element<Class<MenuItem>>;
 type Props = {
   children?: React.ChildrenArray<MenuItemElement>,
   hasShadow: boolean,
-  maxHeight: number,
+  maxHeight: number | string,
   onItemClick?: () => void,
   width?: number | string,
   preventWindowScroll?: boolean
@@ -41,9 +41,9 @@ export default class Menu extends React.Component<Props, State> {
   _highlighted: ?MenuItem;
 
   render() {
-    const enableIconPadding = React.Children
-      .toArray(this.props.children)
-      .some(x => x && x.props.icon);
+    const enableIconPadding = React.Children.toArray(this.props.children).some(
+      x => x && x.props.icon
+    );
 
     if (this._isEmpty()) {
       return null;
