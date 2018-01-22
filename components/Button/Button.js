@@ -39,33 +39,35 @@ function listenTabPresses() {
 }
 
 type Props = {
-  /** @internal */
+  /** @ignore */
   _noPadding?: boolean,
-  /** @internal */
+
+  /** @ignore */
   _noRightPadding?: boolean,
+
   active?: boolean,
   arrow?: boolean,
   autoFocus?: boolean,
   checked?: boolean,
   children?: React.Node,
-  /** @internal */
+  /** @ignore */
   corners?: number,
   disabled?: boolean,
-  /** @internal */
+  /** @ignore */
   disableFocus?: boolean,
   focused?: boolean,
   icon?: string,
   loading?: boolean,
   narrow?: boolean,
-  onClick?: (e: SyntheticMouseEvent<>) => void,
-  onKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
-  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
-  onMouseOver?: (e: SyntheticMouseEvent<>) => void,
+  onClick?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
+  onKeyDown?: (e: SyntheticKeyboardEvent<HTMLButtonElement>) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
+  onMouseOver?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
   size: 'small' | 'medium' | 'large',
   type: 'button' | 'submit' | 'reset',
   use: 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link',
-  /** @internal */
+  /** @ignore */
   visuallyFocused?: boolean,
   width?: number | string
 };
@@ -165,7 +167,7 @@ class Button extends React.Component<Props, State> {
   }
 
   /**
-   * @api
+   * @public
    */
   focus() {
     if (this._node) {
@@ -174,7 +176,7 @@ class Button extends React.Component<Props, State> {
   }
 
   /**
-   * @api
+   * @public
    */
   blur() {
     if (this._node) {

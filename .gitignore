@@ -9,3 +9,4 @@ coverage/
 gemini-report
 build
 .npmrc
+/styleguide

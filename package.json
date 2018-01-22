@@ -8,19 +8,9 @@
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --single-quote --write",
-      "eslint",
-      "git add"
-    ],
-    "*.{css,less}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.ts": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "*.js": ["prettier --single-quote --write", "eslint", "git add"],
+    "*.{css,less}": ["prettier --write", "git add"],
+    "*.ts": ["prettier --single-quote --write", "git add"]
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
@@ -28,13 +18,18 @@
   "scripts": {
     "build": "node scripts/build",
     "build-storybook": "build-storybook",
+    "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
     "gemini:update": "gemini update",
     "gemini": "wait-on http://localhost:6060 && gemini test --reporter vflat",
     "lint": "eslint . --ignore-pattern 'flow-typed/**/*.js'",
     "precommit": "flow && lint-staged",
+    "predeploy": "npm run styleguide:build",
     "prepush": "npm run unit-test",
     "storybook": "start-storybook -p 6060",
-    "test": "jest --no-cache && concurrently 'npm run storybook' 'npm run gemini' -k -s first",
+    "styleguide": "styleguidist server",
+    "styleguide:build": "styleguidist build",
+    "test":
+      "jest --no-cache && concurrently 'npm run storybook' 'npm run gemini' -k -s first",
     "typecheck": "flow",
     "unit-test": "jest",
     "unit-test:watch": "jest --watch"
@@ -93,6 +88,7 @@
     "fs-readdir-recursive": "^1.0.0",
     "gemini": "4.19.3",
     "gemini-sauce": "^1.0.1",
+    "gh-pages": "^1.1.0",
     "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "21.2.1",
@@ -106,13 +102,18 @@
     "raf": "^3.4.0",
     "react": "^15.6.2",
     "react-addons-css-transition-group": "^15.6.2",
+    "react-docgen-typescript": "^1.2.1",
     "react-dom": "^15.6.2",
+    "react-styleguidist":
+      "git+https://github.com/nanot1m/react-styleguidist.git#better-flow-props",
     "react-test-renderer": "15.6.2",
     "style-loader": "^0.18.2",
     "stylelint": "^8.3.1",
     "stylelint-config-standard": "^18.0.0",
+    "typescript": "^2.6.2",
     "url-loader": "^0.6.2",
-    "wait-on": "^2.0.2"
+    "wait-on": "^2.0.2",
+    "webpack": "^3.10.0"
   },
   "peerDependencies": {
     "@types/react": "*",
@@ -122,7 +123,8 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/testing/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$":
+        "<rootDir>/testing/__mocks__/fileMock.js",
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {
@@ -135,8 +137,6 @@
       "<rootDir>/scripts",
       "<rootDir>/testing"
     ],
-    "setupFiles": [
-      "<rootDir>/test-setup.js"
-    ]
+    "setupFiles": ["<rootDir>/test-setup.js"]
   }
 }

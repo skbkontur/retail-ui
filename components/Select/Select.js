@@ -40,9 +40,12 @@ const PASS_BUTTON_PROPS = {
 };
 
 type Props<V, I> = {
+  /** @ignore */
   _icon?: string,
+  /** @ignore */
   _renderButton?: (params: ButtonParams) => React.Node,
   defaultValue?: V,
+  /** @ignore */
   diadocLinkIcon?: string,
   disablePortal?: boolean,
   disabled?: boolean,
@@ -78,8 +81,8 @@ type State = {
 class Select<V, I> extends React.Component<Props<V, I>, State> {
   static propTypes = {
     /**
-    * Функция для сравнения `value` с элементом из `items`
-    */
+     * Функция для сравнения `value` с элементом из `items`
+     */
     areValuesEqual: PropTypes.func,
 
     defaultValue: PropTypes.any,
@@ -384,14 +387,14 @@ class Select<V, I> extends React.Component<Props<V, I>, State> {
   };
 
   /**
-   * @api
+   * @public
    */
   open() {
     this._open();
   }
 
   /**
-   * @api
+   * @public
    */
   close() {
     this._close();

@@ -121,14 +121,14 @@ export default class Dropdown extends React.Component {
   };
 
   /**
-   * @api
+   * @public
    */
   open() {
     this._select.open();
   }
 
   /**
-   * @api
+   * @public
    */
   close() {
     this._select.close();

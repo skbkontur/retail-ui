@@ -10,7 +10,7 @@ var PropsDoc = React.createClass({
     var info = this.props.component.info;
 
     var methods = info.methods.filter(
-      method => method.docblock && method.docblock.includes('@api')
+      method => method.docblock && method.docblock.includes('@public')
     );
 
     var descClassName = classNames({
