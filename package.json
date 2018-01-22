@@ -18,8 +18,7 @@
   "scripts": {
     "build": "node scripts/build",
     "build-storybook": "build-storybook",
-    "deploy":
-      "gh-pages -d styleguide -r https://github.com/skbkontur/react-ui.git",
+    "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
     "gemini:update": "gemini update",
     "gemini": "wait-on http://localhost:6060 && gemini test --reporter vflat",
     "lint": "eslint . --ignore-pattern 'flow-typed/**/*.js'",
