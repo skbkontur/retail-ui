@@ -2,7 +2,8 @@ import * as React from 'react';
 
 export interface ScrollContainerProps {
   invert?: boolean;
-  maxHeight?: number | string;
+  maxHeight?: number| string;
+  preventWindowScroll?: boolean;
 }
 
 export interface ScrollContainerState {}

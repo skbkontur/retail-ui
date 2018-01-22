@@ -6,6 +6,7 @@ export interface MenuProps {
   maxHeight?: number | string;
   onItemClick?: () => void;
   width?: number | string;
+  preventWindowScroll?: boolean;
 }
 
 export interface MenuState {
