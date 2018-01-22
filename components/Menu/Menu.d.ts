@@ -3,7 +3,7 @@ import * as React from 'react';
 export interface MenuProps {
   children?: React.ReactNode;
   hasShadow?: boolean;
-  maxHeight?: number;
+  maxHeight?: number | string;
   onItemClick?: () => void;
   width?: number | string;
 }

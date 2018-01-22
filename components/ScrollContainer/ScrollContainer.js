@@ -218,5 +218,8 @@ export default class ScrollContainer extends React.Component {
 
 ScrollContainer.propTypes = {
   invert: PropTypes.bool,
-  maxHeight: PropTypes.number
+  maxHeight: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ])
 };
