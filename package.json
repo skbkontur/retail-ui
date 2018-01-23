@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "0.10.9",
+  "version": "0.11.0",
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
@@ -8,9 +8,19 @@
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
   "lint-staged": {
-    "*.js": ["prettier --single-quote --write", "eslint", "git add"],
-    "*.{css,less}": ["prettier --write", "git add"],
-    "*.ts": ["prettier --single-quote --write", "git add"]
+    "*.js": [
+      "prettier --single-quote --write",
+      "eslint",
+      "git add"
+    ],
+    "*.{css,less}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.ts": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
@@ -28,8 +38,7 @@
     "storybook": "start-storybook -p 6060",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
-    "test":
-      "jest --no-cache && concurrently 'npm run storybook' 'npm run gemini' -k -s first",
+    "test": "jest --no-cache && concurrently 'npm run storybook' 'npm run gemini' -k -s first",
     "typecheck": "flow",
     "unit-test": "jest",
     "unit-test:watch": "jest --watch"
@@ -104,8 +113,7 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-docgen-typescript": "^1.2.1",
     "react-dom": "^15.6.2",
-    "react-styleguidist":
-      "git+https://github.com/nanot1m/react-styleguidist.git#better-flow-props",
+    "react-styleguidist": "git+https://github.com/nanot1m/react-styleguidist.git#better-flow-props",
     "react-test-renderer": "15.6.2",
     "style-loader": "^0.18.2",
     "stylelint": "^8.3.1",
@@ -123,8 +131,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$":
-        "<rootDir>/testing/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/testing/__mocks__/fileMock.js",
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {
@@ -137,6 +144,8 @@
       "<rootDir>/scripts",
       "<rootDir>/testing"
     ],
-    "setupFiles": ["<rootDir>/test-setup.js"]
+    "setupFiles": [
+      "<rootDir>/test-setup.js"
+    ]
   }
 }
