@@ -1,5 +1,15 @@
+v0.2.13
+* Добавлены тайпинги для Typescript
+* Сборка скриптов через rollup
+
+v0.2.13
+* [Fix] Исправление скроллинга в маленьких модальных окнах
+
 v0.2.10
-* [Fix] Mistype in HTMLElement polyfill
+* [Fix] Починен HTMLElement polyfill для IE8
+
+v0.2.9
+* [Fix] Удалены лишние onValidationUpdated 
 
 v0.2.7
 * [Fix] Корректная работа валидация для `DatePicker` (#12)
