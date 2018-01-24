@@ -1,57 +1,57 @@
 // @flow
-import React from 'react';
-import Helmet from 'react-helmet';
-import styled from 'styled-components';
+import React from "react";
+import Helmet from "react-helmet";
+import styled from "styled-components";
 
-import Input from 'retail-ui/components/Input';
-import Button from 'retail-ui/components/Button';
-import RadioGroup from 'retail-ui/components/RadioGroup';
-import ComboBox from 'retail-ui/components/ComboBoxOld';
-import Select from 'retail-ui/components/Select';
-import DatePicker from 'retail-ui/components/DatePicker';
-import Textarea from 'retail-ui/components/Textarea';
-import Checkbox from 'retail-ui/components/Checkbox';
-import Link from 'retail-ui/components/Link';
-import { validation } from './ValidationBuilder';
+import Input from "retail-ui/components/Input";
+import Button from "retail-ui/components/Button";
+import RadioGroup from "retail-ui/components/RadioGroup";
+import ComboBox from "retail-ui/components/ComboBoxOld";
+import Select from "retail-ui/components/Select";
+import DatePicker from "retail-ui/components/DatePicker";
+import Textarea from "retail-ui/components/Textarea";
+import Checkbox from "retail-ui/components/Checkbox";
+import Link from "retail-ui/components/Link";
+import { validation } from "./ValidationBuilder";
 
-import type { ContactInfo, ContactInfoValidationInfo, FormEditorProps } from '../../../../Domain/ContactInfo';
+import type { ContactInfo, ContactInfoValidationInfo, FormEditorProps } from "../../../../Domain/ContactInfo";
 
-import Demo from '../../../Demo';
-import Form from '../../../Form';
+import Demo from "../../../Demo";
+import Form from "../../../Form";
 
-import { ValidationContainer, ValidationWrapperV1, text } from 'react-ui-validations';
+import { ValidationContainer, ValidationWrapperV1, text } from "react-ui-validations";
 
-function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.Element<*> {
-    validationInfo = validationInfo || {};
+function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.Node {
+    const validationInfoValue = validationInfo || {};
     return (
         <Form>
-            <Form.Line title='Имя'>
-                <ValidationWrapperV1 renderMessage={text()} validationInfo={validationInfo.name}>
+            <Form.Line title="Имя">
+                <ValidationWrapperV1 renderMessage={text()} validationInfo={validationInfoValue.name}>
                     <Input value={data.name} onChange={(e, value) => onChange({ name: value })} />
                 </ValidationWrapperV1>
             </Form.Line>
-            <Form.Line title='Email'>
-                <ValidationWrapperV1 validationInfo={validationInfo.email}>
+            <Form.Line title="Email">
+                <ValidationWrapperV1 validationInfo={validationInfoValue.email}>
                     <Input value={data.email} onChange={(e, value) => onChange({ email: value })} />
                 </ValidationWrapperV1>
             </Form.Line>
-            <Form.Line title='Телефон'>
-                <ValidationWrapperV1 validationInfo={validationInfo.phone}>
+            <Form.Line title="Телефон">
+                <ValidationWrapperV1 validationInfo={validationInfoValue.phone}>
                     <Input value={data.phone} onChange={(e, value) => onChange({ phone: value })} />
                 </ValidationWrapperV1>
             </Form.Line>
-            <Form.Line title='Пол'>
-                <ValidationWrapperV1 validationInfo={validationInfo.sex}>
+            <Form.Line title="Пол">
+                <ValidationWrapperV1 validationInfo={validationInfoValue.sex}>
                     <RadioGroup
                         value={data.sex}
-                        items={['male', 'female']}
+                        items={["male", "female"]}
                         renderItem={x => <span>{x}</span>}
                         onChange={(e, value) => onChange({ sex: value })}
                     />
                 </ValidationWrapperV1>
             </Form.Line>
-            <Form.Line title='Город'>
-                <ValidationWrapperV1 validationInfo={validationInfo.city}>
+            <Form.Line title="Город">
+                <ValidationWrapperV1 validationInfo={validationInfoValue.city}>
                     <ComboBox
                         valueToString={x => x}
                         renderValue={x => x}
@@ -59,7 +59,7 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
                         info={async x => x}
                         value={data.city}
                         source={async query => {
-                            const cities = ['City 1', 'City 2', 'City 3'];
+                            const cities = ["City 1", "City 2", "City 3"];
                             const result = !query ? cities : cities.filter(x => x.includes(query));
                             return {
                                 values: result,
@@ -70,47 +70,47 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
                     />
                 </ValidationWrapperV1>
             </Form.Line>
-            <Form.Line title='Вероисповедание'>
-                <ValidationWrapperV1 validationInfo={validationInfo.confession}>
+            <Form.Line title="Вероисповедание">
+                <ValidationWrapperV1 validationInfo={validationInfoValue.confession}>
                     <Select
                         renderItem={x => x}
                         renderValue={x => x}
                         items={[
-                            ['Православие', 'Православие'],
-                            ['Католичество', 'Католичество'],
-                            ['Мормонизм', 'Мормонизм'],
+                            ["Православие", "Православие"],
+                            ["Католичество", "Католичество"],
+                            ["Мормонизм", "Мормонизм"],
                         ]}
                         value={data.confession}
                         onChange={(e, value) => onChange({ confession: value })}
                     />
                 </ValidationWrapperV1>
             </Form.Line>
-            <Form.Line title='Согласен'>
-                <ValidationWrapperV1 validationInfo={validationInfo.confirmed}>
+            <Form.Line title="Согласен">
+                <ValidationWrapperV1 validationInfo={validationInfoValue.confirmed}>
                     <Checkbox checked={data.confirmed} onChange={(e, value) => onChange({ confirmed: value })} />
                 </ValidationWrapperV1>
             </Form.Line>
 
-            <Form.Line title='О себе'>
-                <ValidationWrapperV1 validationInfo={validationInfo.about}>
+            <Form.Line title="О себе">
+                <ValidationWrapperV1 validationInfo={validationInfoValue.about}>
                     <Textarea
-                        placeholder='Введите текст'
+                        placeholder="Введите текст"
                         value={data.about}
                         onChange={(e, value) => onChange({ about: value })}
                     />
                 </ValidationWrapperV1>
             </Form.Line>
 
-            <Form.Line title='Дата рождения'>
-                <ValidationWrapperV1 validationInfo={validationInfo.born}>
+            <Form.Line title="Дата рождения">
+                <ValidationWrapperV1 validationInfo={validationInfoValue.born}>
                     <DatePicker value={data.born} onChange={(e, value) => onChange({ born: value })} />
                 </ValidationWrapperV1>
             </Form.Line>
-            <Form.Line title='Сcылка'>
-                <ValidationWrapperV1 validationInfo={validationInfo.modalOpened}>
+            <Form.Line title="Сcылка">
+                <ValidationWrapperV1 validationInfo={validationInfoValue.modalOpened}>
                     <LinkContainer>
                         <Link
-                            icon={data.modalOpened ? 'thumbs-up' : 'thumbs-down'}
+                            icon={data.modalOpened ? "thumbs-up" : "thumbs-down"}
                             onClick={() => onChange({ modalOpened: true })}>
                             Нажми меня
                         </Link>
@@ -122,7 +122,7 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
 }
 
 const LinkContainer = styled.span`
-    background-color: ${props => (props.error ? '#FDE8E8' : 'transparent')}
+    background-color: ${props => (props.error ? "#FDE8E8" : "transparent")}
     padding: 1px 5px;
     margin: -1px -5px;
 `;
@@ -132,15 +132,15 @@ type Validate<T, U> = (data: T) => U;
 const validate: Validate<ContactInfo, ContactInfoValidationInfo> = validation()
     .property(x => x.name)
     .required()
-    .satisfy(x => x.split(' ').length === 2, 'Имя должно состоять из двух слов')
+    .satisfy(x => x.split(" ").length === 2, "Имя должно состоять из двух слов")
     .property(x => x.email)
     .required()
-    .satisfy(x => x.includes('@'), 'Почта указана неверно')
+    .satisfy(x => x.includes("@"), "Почта указана неверно")
     .property(x => x.phone)
     .required()
     .satisfy(
-        phone => phone !== '' && /^[\s\d\-\+\(\)]*$/.test(phone),
-        'Телефон должен состоять только из цифр, пробелов и знаков -,+,(,)'
+        phone => phone !== "" && /^[\s\d\-\+\(\)]*$/.test(phone),
+        "Телефон должен состоять только из цифр, пробелов и знаков -,+,(,)"
     )
     .property(x => x.sex)
     .required()
@@ -149,22 +149,22 @@ const validate: Validate<ContactInfo, ContactInfoValidationInfo> = validation()
     .property(x => x.confession)
     .required()
     .property(x => x.confirmed)
-    .satisfy(x => x, 'Надо соглашаться', 'submit')
+    .satisfy(x => x, "Надо соглашаться", "submit")
     .property(x => x.modalOpened)
-    .satisfy(x => x, 'Надо соглашаться', 'submit')
+    .satisfy(x => x, "Надо соглашаться", "submit")
     .property(x => x.about)
     .required()
     .property(x => x.born)
-    .satisfy(x => x, 'Заполни', 'submit')
-    .satisfy(x => x <= new Date(), 'Дата рождения должна находится в прошлом')
+    .satisfy(x => x, "Заполни", "submit")
+    .satisfy(x => x <= new Date(), "Дата рождения должна находится в прошлом")
     .build();
 
 export default class Editors extends React.Component {
     state = {
         data: {
-            name: '',
-            email: '',
-            phone: '',
+            name: "",
+            email: "",
+            phone: "",
             sex: null,
         },
     };
@@ -173,20 +173,20 @@ export default class Editors extends React.Component {
         this.refs.container.submit();
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         return (
             <div>
-                <Helmet title='Редакторы' />
+                <Helmet title="Редакторы" />
                 <h1>Редакторы</h1>
                 <Demo>
-                    <ValidationContainer ref='container'>
+                    <ValidationContainer ref="container">
                         <FormEditor
                             data={this.state.data}
                             validationInfo={validate(this.state.data)}
                             onChange={update => this.setState({ data: { ...this.state.data, ...update } })}
                         />
                         <Form.ActionsBar>
-                            <Button use='primary' onClick={() => this.handleSubmit()}>
+                            <Button use="primary" onClick={() => this.handleSubmit()}>
                                 Сохранить
                             </Button>
                         </Form.ActionsBar>

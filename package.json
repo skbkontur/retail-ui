@@ -1,16 +1,17 @@
 {
     "name": "react-ui-validations",
-    "main": "dist/retail-ui/index.js",
-    "version": "0.2.13",
+    "version": "0.2.14-alpha12",
     "description": "Validations for retail-ui",
     "scripts": {
-        "build": "node ./scripts/build",
-        "prepublish": "npm run build",
-        "publish": "npm publish dist/react-ui --access public",
-        "lint": "eslint src --ext .js,.jsx",
+        "build:retail-ui": "rollup --config rollup.retail-ui.config.js",
+        "build:react-ui": "rollup --config rollup.react-ui.config.js",
+        "prepare-packages": "node scripts/prepare-packages.js",
+        "lint": "eslint src docs stories --ext .js,.jsx",
         "flow.check": "flow check",
-        "storybook": "start-storybook -p 8081 -c .storybook"
+        "storybook": "cross-env NODE_ENV=storybook start-storybook -p 8081 -c .storybook"
     },
+    "main": "./index.js",
+    "types": "./index.d.ts",
     "author": "exactlynosense <whois.ard@gmail.com>",
     "license": "ISC",
     "repository": {
@@ -21,15 +22,13 @@
         "url": "https://github.com/skbkontur/react-ui-validations/issues"
     },
     "files": [
-        "dist/retail-ui",
-        "src/",
-        "index.js"
+        "index.d.ts",
+        "index.js",
+        "src/*"
     ],
     "peerDependencies": {
-        "react": "^0.14.0 || ^15.0.0-0",
-        "react-addons-css-transition-group": "^0.14.0 || ^15.0.0-0",
-        "react-addons-test-utils": "^0.14.0 || ^15.0.0-0",
-        "react-dom": "^0.14.0 || ^15.0.0-0",
+        "react": "^0.14.0 || ^15.0.0-0 || ^16.0.0",
+        "react-dom": "^0.14.0 || ^15.0.0-0 || ^16.0.0",
         "retail-ui": "<1.0.0"
     },
     "dependencies": {
@@ -43,26 +42,39 @@
         "@types/react": "@^0.14.9 || ^15.0.25",
         "babel-cli": "^6.22.2",
         "babel-core": "^6.22.1",
+        "babel-eslint": "^8.2.1",
+        "babel-plugin-external-helpers": "^6.22.0",
         "babel-plugin-transform-define": "^1.3.0",
         "babel-preset-es2015": "^6.22.0",
         "babel-preset-react": "^6.22.0",
         "babel-preset-stage-0": "^6.22.0",
+        "cross-env": "^5.1.3",
         "css-loader": "^0.27.3",
-        "eslint": "^4.3.0",
+        "eslint": "^4.16.0",
         "eslint-config-skbkontur-retail": "3.0.2",
-        "flow-bin": "^0.52.0",
+        "eslint-plugin-babel": "^4.1.2",
+        "eslint-plugin-flowtype": "^2.41.0",
+        "eslint-plugin-import": "^2.8.0",
+        "eslint-plugin-prettier": "^2.5.0",
+        "eslint-plugin-react": "^7.5.1",
+        "flow-bin": "0.63.1",
         "fs-readdir-recursive": "^1.0.0",
         "less": "^2.7.2",
         "less-loader": "^2.2.3",
         "output-file-sync": "^2.0.0",
-        "prettier": "^1.5.3",
+        "prettier": "^1.10.2",
         "raw-loader": "^0.5.1",
         "react": "^15.4.2",
         "react-addons-css-transition-group": "^15.4.2",
         "react-addons-test-utils": "^15.4.2",
         "react-dom": "^15.4.2",
         "react-hot-loader": "^1.3.1",
+        "retail-ui": "^0.11.0",
         "rimraf": "^2.5.4",
+        "rollup": "^0.54.1",
+        "rollup-plugin-babel": "^3.0.3",
+        "rollup-plugin-node-resolve": "^3.0.2",
+        "shelljs": "^0.8.1",
         "style-loader": "^0.16.0"
     }
 }

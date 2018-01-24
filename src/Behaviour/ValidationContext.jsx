@@ -1,22 +1,20 @@
 // @flow
 import PropTypes from "prop-types";
-import React from "react";
+import * as React from "react";
 import type { IValidationContext, IValidationContextSettings } from "./ValidationWrapper";
 import ValidationWrapper from "./ValidationWrapper";
 
 type ValidationContextProps = {
-    children?: any,
+    children?: React.Node,
     onValidationUpdated?: (isValid?: boolean) => void,
     horizontalOffset?: number,
     verticalOffset?: number,
 };
 
-export default class ValidationContext extends React.Component {
+export default class ValidationContext extends React.Component<ValidationContextProps> {
     static childContextTypes = {
         validationContext: PropTypes.any,
     };
-
-    props: ValidationContextProps;
     childWrappers: ValidationWrapper[] = [];
 
     getChildContext(): { validationContext: IValidationContext } {
@@ -116,7 +114,7 @@ export default class ValidationContext extends React.Component {
         return !firstInvalid;
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { children } = this.props;
         return <span>{children}</span>;
     }

@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import * as React from "react";
 import ReactDom from "react-dom";
 import PropTypes from "prop-types";
 import isEqual from "lodash.isequal";
@@ -14,29 +14,30 @@ export type Validation = {
     error: boolean,
     level: "error" | "warning",
     behaviour: "immediate" | "lostfocus" | "submit",
+    message: React.Node,
 };
 
 export interface IValidationContextSettings {
-    scroll: { horizontalOffset: number, verticalOffset: number },
+    scroll: { horizontalOffset: number, verticalOffset: number };
 }
 
 export interface IValidationContext {
-    register(wrapper: ValidationWrapper): void,
-    unregister(wrapper: ValidationWrapper): void,
-    instanceProcessBlur(wrapper: ValidationWrapper): void,
-    onValidationUpdated(wrapper: ValidationWrapper, isValid: boolean): void,
-    getSettings(): IValidationContextSettings,
-    isAnyWrapperInChangingMode(): boolean,
+    register(wrapper: ValidationWrapper): void;
+    unregister(wrapper: ValidationWrapper): void;
+    instanceProcessBlur(wrapper: ValidationWrapper): void;
+    onValidationUpdated(wrapper: ValidationWrapper, isValid: boolean): void;
+    getSettings(): IValidationContextSettings;
+    isAnyWrapperInChangingMode(): boolean;
 }
 
 export type RenderErrorMessage = (
-    control: React.Element<*>,
+    control: React.Element<any>,
     hasError: boolean,
     validation: ?Validation
-) => React.Element<*>;
+) => React.Element<any>;
 
 type ValidationWrapperProps = {
-    children?: any,
+    children?: React.Element<*>,
     validations: Validation[],
     errorMessage: RenderErrorMessage,
 };
@@ -49,8 +50,7 @@ type ValidationWrapperState = {
     validationStates: ValidationState[],
 };
 
-export default class ValidationWrapper extends React.Component {
-    props: ValidationWrapperProps;
+export default class ValidationWrapper extends React.Component<ValidationWrapperProps, ValidationWrapperState> {
     state: ValidationWrapperState = {
         validationStates: [],
     };
@@ -65,7 +65,7 @@ export default class ValidationWrapper extends React.Component {
         validationContext: PropTypes.any,
     };
 
-    child: React.Component<*, *, *>;
+    child: ?React.Component<any, any>;
     isChanging: boolean = false;
 
     _scrollTimer = null;
@@ -199,7 +199,7 @@ export default class ValidationWrapper extends React.Component {
                     childDomElement,
                     this.context.validationContext.getSettings().scroll.verticalOffset || 50
                 );
-                if (typeof this.child.focus === "function") {
+                if (this.child != null && typeof this.child.focus === "function") {
                     this.child.focus();
                 }
             }
@@ -240,7 +240,7 @@ export default class ValidationWrapper extends React.Component {
         return Boolean(validation && validation.error);
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { children, validations, errorMessage } = this.props;
         const validation = validations.find((x, i) => this.isErrorOrWarning(x, i));
 

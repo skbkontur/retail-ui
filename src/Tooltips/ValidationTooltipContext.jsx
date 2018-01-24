@@ -1,7 +1,7 @@
 // @flow
-import Events from "add-event-listener";
-import React from "react";
+import * as React from "react";
 import PropTypes from "prop-types";
+import Events from "add-event-listener";
 import ValidationTooltip from "./ValidationTooltip";
 
 type ValidationTooltipContextProps = {
@@ -12,9 +12,7 @@ type ValidationTooltipContextContext = {
     validationTooltipContext: ValidationTooltipContext,
 };
 
-export default class ValidationTooltipContext extends React.Component {
-    props: ValidationTooltipContextProps;
-
+export default class ValidationTooltipContext extends React.Component<ValidationTooltipContextProps> {
     static childContextTypes = {
         validationTooltipContext: PropTypes.any,
     };
@@ -152,7 +150,7 @@ export default class ValidationTooltipContext extends React.Component {
         }
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { children } = this.props;
         return <div>{children}</div>;
     }

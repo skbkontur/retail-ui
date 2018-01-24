@@ -9,5 +9,5 @@
         "*.js": "javascript",
         "*.js.flow": "javascript"
     },
-    "typescript.check.tscVersion": false
+    "prettier.eslintIntegration": true
 }

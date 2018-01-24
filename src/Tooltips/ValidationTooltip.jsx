@@ -1,7 +1,6 @@
 // @flow
-/* global REACT_UI_PACKAGE */
 /* eslint-disable import/no-dynamic-require, prefer-template */
-import React from "react";
+import * as React from "react";
 import PropTypes from "prop-types";
 import ReactUiDetection from "../ReactUiDetection";
 
@@ -24,8 +23,7 @@ type ValidationTooltipState = {
     opened: boolean,
 };
 
-export default class ValidationTooltip extends React.Component {
-    props: ValidationTooltipProps;
+export default class ValidationTooltip extends React.Component<ValidationTooltipProps, ValidationTooltipState> {
     state: ValidationTooltipState = {
         opened: false,
     };
@@ -81,7 +79,7 @@ export default class ValidationTooltip extends React.Component {
         this.context.validationTooltipContext.instanceMouseOut(this);
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { children, ...props } = this.props;
         const onlyChild = React.Children.only(children);
         const childProps: any = {

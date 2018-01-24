@@ -1,15 +1,15 @@
-import React from 'react';
-import Input from 'retail-ui/components/Input';
-import DatePicker from 'retail-ui/components/DatePicker';
+import React from "react";
+import Input from "retail-ui/components/Input";
+import DatePicker from "retail-ui/components/DatePicker";
 
-import { ValidationWrapperV1 } from 'react-ui-validations';
+import { ValidationWrapperV1 } from "react-ui-validations";
 
 function prepareProps({ required, email, validations, renderErrorMessage, value, ...props }) {
     const conditions = (validations || []).map(x => () => x(value));
     if (required) {
         conditions.push(() => {
             if (!value) {
-                return { type: 'submit', message: 'Поле необходимо заполнить' };
+                return { type: "submit", message: "Поле необходимо заполнить" };
             }
             return undefined;
         });
@@ -17,8 +17,8 @@ function prepareProps({ required, email, validations, renderErrorMessage, value,
 
     if (email) {
         conditions.push(() => {
-            if (!value.includes('@')) {
-                return { message: 'Почта указана неверно' };
+            if (!value.includes("@")) {
+                return { message: "Почта указана неверно" };
             }
             return undefined;
         });
@@ -44,19 +44,19 @@ function prepareProps({ required, email, validations, renderErrorMessage, value,
 export function lessThan(value) {
     return actualValue => {
         if (!(actualValue < value)) {
-            return { message: 'Значение должно быть меньше чем ' + value.toString() };
+            return { message: "Значение должно быть меньше чем " + value.toString() };
         }
         return undefined;
     };
 }
 
 function wrapControl(Control) {
-    return props => {
+    return function WrappedControl(props) {
         const { controlProps, validationWrapperProps } = prepareProps(props);
 
         return (
             <ValidationWrapperV1 {...validationWrapperProps}>
-                <Control {...controlProps}/>
+                <Control {...controlProps} />
             </ValidationWrapperV1>
         );
     };
