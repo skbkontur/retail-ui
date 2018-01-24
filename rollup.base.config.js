@@ -24,7 +24,7 @@ export function buildConfig(outputDir, reactUiPackageName) {
                     ],
                 ],
                 exclude: "node_modules/**",
-                externalHelpers: true,
+                externalHelpers: false,
             }),
         ],
         external: ["lodash.isequal", "react-dom", "react", "prop-types", "add-event-listener"],

@@ -1,5 +1,12 @@
 import * as React from "react";
 
+export type Validation = {
+    error: boolean,
+    level: "error" | "warning",
+    behaviour: "immediate" | "lostfocus" | "submit",
+    message: React.ReactNode,
+};
+
 export type RenderErrorMessage =
     (
         control: React.ReactNode,
@@ -27,6 +34,15 @@ interface ValidationWrapperV1Props {
 }
 
 export class ValidationWrapperV1 extends React.Component<ValidationWrapperV1Props, {}> {
+}
+
+interface ValidationTooltipProps {
+    children: JSX.Element;
+    type?: "simple" | "lostfocus",
+    error: boolean,
+}
+
+export class ValidationTooltip extends React.Component<ValidationTooltipProps, {}> {
 }
 
 type TooltipPosition = "top left"
