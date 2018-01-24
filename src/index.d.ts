@@ -11,19 +11,19 @@ export type RenderErrorMessage =
     (
         control: React.ReactNode,
         hasError: boolean,
-        validation: ?Validation
+        validation?: Validation
     ) => React.ReactNode;
 
 export type ValidationInfo = {
-    type?: "immediate" | "lostfocus" | "submit";
-    level?: "error" | "warning";
-    message: string | JSX.Element;
+    type?: "immediate" | "lostfocus" | "submit",
+    level?: "error" | "warning",
+    message: string | JSX.Element,
 };
 
 interface ValidationContainerProps {}
 
 export class ValidationContainer extends React.Component<ValidationContainerProps, {}> {
-    validate(): Promise<bool>;
+    validate(): Promise<boolean>;
     submit(): Promise<void>;
 }
 
@@ -38,8 +38,10 @@ export class ValidationWrapperV1 extends React.Component<ValidationWrapperV1Prop
 
 interface ValidationTooltipProps {
     children: JSX.Element;
-    type?: "simple" | "lostfocus",
-    error: boolean,
+    type?: "simple" | "lostfocus";
+    error: boolean;
+    pos?: TooltipPosition;
+    render?: () => React.ReactNode;
 }
 
 export class ValidationTooltip extends React.Component<ValidationTooltipProps, {}> {
