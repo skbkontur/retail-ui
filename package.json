@@ -1,6 +1,6 @@
 {
     "name": "react-ui-validations",
-    "version": "0.2.14-alpha12",
+    "version": "0.2.14",
     "description": "Validations for retail-ui",
     "scripts": {
         "build:retail-ui": "rollup --config rollup.retail-ui.config.js",
