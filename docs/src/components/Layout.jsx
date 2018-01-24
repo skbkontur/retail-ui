@@ -1,68 +1,61 @@
 // @flow
-import React from 'react';
-import Helmet from 'react-helmet';
-import { Link } from 'react-router';
-import styled from 'styled-components';
-import Logotype from 'retail-ui/components/Logotype';
-import Examples from './Pages/Examples';
-import Concepts from './Pages/Concepts';
+import React from "react";
+import Helmet from "react-helmet";
+import { Link } from "react-router";
+import styled from "styled-components";
+import Logotype from "retail-ui/components/Logotype";
+import Examples from "./Pages/Examples";
+import Concepts from "./Pages/Concepts";
 
 type LayoutProps = {
-    children?: any;
+    children?: any,
 };
 
-export default function Layout({ children }: LayoutProps): React.Element<*> {
+export default function Layout({ children }: LayoutProps): React.Node {
     return (
         <Root>
-            <Helmet
-                defaultTitle='React-UI Validations'
-                titleTemplate='%s | React-UI Validations'
-            />
+            <Helmet defaultTitle="React-UI Validations" titleTemplate="%s | React-UI Validations" />
             <NavigationBar>
                 <LogoContainer>
-                    <Logotype suffix='ui-validations' href='#/' color='#fff' textColor='#fff' />
+                    <Logotype suffix="ui-validations" href="#/" color="#fff" textColor="#fff" />
                 </LogoContainer>
                 <div>
-                    <NavigationLink activeClassName={'active'} to='/getting-started'>Введение</NavigationLink>
-                    <NavigationLink activeClassName={'active'} to='/api'>API reference</NavigationLink>
+                    <NavigationLink activeClassName={"active"} to="/getting-started">
+                        Введение
+                    </NavigationLink>
+                    <NavigationLink activeClassName={"active"} to="/api">
+                        API reference
+                    </NavigationLink>
 
                     <Divider />
 
                     <Header>Примеры</Header>
                     {Examples.map(page => (
-                        <NavigationLink
-                            key={page.url}
-                            activeClassName={'active'}
-                            to={'/' + page.url}>
+                        <NavigationLink key={page.url} activeClassName={"active"} to={"/" + page.url}>
                             {page.caption}
                         </NavigationLink>
                     ))}
 
                     <Header>Концепции</Header>
                     {Concepts.map(page => (
-                        <NavigationLink
-                            key={page.url}
-                            activeClassName={'active'}
-                            to={'/' + page.url}>
+                        <NavigationLink key={page.url} activeClassName={"active"} to={"/" + page.url}>
                             {page.caption}
                         </NavigationLink>
                     ))}
                 </div>
             </NavigationBar>
             <Content>
-                <ContentWrapper>
-                    {children}
-                </ContentWrapper>
+                <ContentWrapper>{children}</ContentWrapper>
             </Content>
         </Root>
     );
 }
 
-const navigationBarSize = '290px';
-const sidebarColor = '#41464e';
-const sidebarTextColor = '#ffffff';
-const sidebarLinkActiveColor = 'rgba(0, 0, 0, 0.3)';
-const sidebarLinkFocusColor = 'rgba(0, 0, 0, 0.2)';
+const navigationBarSize = "290px";
+const sidebarColor = "#41464e";
+const sidebarTextColor = "#ffffff";
+const sidebarLinkActiveColor = "rgba(0, 0, 0, 0.3)";
+const sidebarLinkFocusColor = "rgba(0, 0, 0, 0.2)";
 
 const Divider = styled.div`
     height: 1px;
@@ -158,12 +151,14 @@ const NavigationLink = styled(Link)`
     &.active {
         background-color: ${sidebarLinkActiveColor};
 
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
             background-color: ${sidebarLinkFocusColor};
         }
     }
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
         background-color: ${sidebarLinkFocusColor};
     }
 `;

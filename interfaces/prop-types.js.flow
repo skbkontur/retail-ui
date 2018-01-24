@@ -1,3 +1,5 @@
+// @flow
+/* eslint-disable */
 type $npm$propTypes$ReactPropsCheckType = (
     props: any,
     propName: string,
@@ -5,7 +7,7 @@ type $npm$propTypes$ReactPropsCheckType = (
     href?: string
 ) => ?Error;
 
-declare module 'prop-types' {
+declare module "prop-types" {
     declare type ReactPropType<T> = {
         isRequired: string,
     } & string;
@@ -13,6 +15,7 @@ declare module 'prop-types' {
     declare type ReactPropTypeOfSingle = <T>(ReactPropType<T>) => string;
     declare type ReactPropTypeOfMany = <T>(ReactPropType<T>[]) => string;
     declare type ReactPropTypeOfShape = <T>({ [key: string]: ReactPropType<T> }) => string;
+    declare type ReactPropTypeArrayOf = any;
 
     declare export default class PropTypes {
         static array: ReactPropType<Array<any>>;
@@ -23,9 +26,9 @@ declare module 'prop-types' {
         static string: ReactPropType<string>;
         static any: ReactPropType<any>;
         static arrayOf: ReactPropTypeArrayOf;
-        static element: ReactPropType<any>; /* TODO */
+        static element: ReactPropType<any>;
         static instanceOf: ReactPropTypeArrayOf;
-        static node: ReactPropType<any>; /* TODO */
+        static node: ReactPropType<any>;
         static objectOf: ReactPropTypeArrayOf;
         static oneOf: ReactPropTypeOfMany;
         static oneOfType: ReactPropTypeOfMany;
@@ -33,10 +36,10 @@ declare module 'prop-types' {
     }
 
     declare function checkPropTypes<V>(
-        propTypes: $Subtype<{[_: $Keys<V>]: $npm$propTypes$ReactPropsCheckType}>,
+        propTypes: $Subtype<{ [_: $Keys<V>]: $npm$propTypes$ReactPropsCheckType }>,
         values: V,
         location: string,
         componentName: string,
-        getStack: ?(() => ?string)
+        getStack: ?() => ?string
     ): void;
 }
