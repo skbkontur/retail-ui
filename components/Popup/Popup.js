@@ -21,6 +21,7 @@ function getTempNode() {
   let tempNode = document.createElement('div');
   tempNode.style.opacity = '0';
   tempNode.style.position = 'absolute';
+  tempNode.className = 'react-ui';
   document.body && document.body.appendChild(tempNode);
 
   return tempNode;
