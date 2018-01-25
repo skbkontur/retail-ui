@@ -6,7 +6,7 @@ import CurrencyHelper from '../CurrencyInput/CurrencyHelper';
 type Props = {
   fractionDigits: number,
   value: number,
-  currencySymbol: React.Node
+  currencySymbol: React.Node | null
 };
 
 const CurrencyLabel = ({ value, fractionDigits, currencySymbol }: Props) => (
@@ -19,7 +19,7 @@ const CurrencyLabel = ({ value, fractionDigits, currencySymbol }: Props) => (
 
 CurrencyLabel.defaultProps = {
   fractionDigits: 2,
-  currencySymbol: '₽'
+  currencySymbol: null
 };
 
 export default CurrencyLabel;
