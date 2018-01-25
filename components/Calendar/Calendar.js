@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import classNames from 'classnames';
+import normalizeWheel from 'normalize-wheel';
 
 import config from './config';
 import * as CalendarUtils from './CalendarUtils';
@@ -192,7 +193,9 @@ class Calendar extends React.Component<Props, State> {
   };
 
   _handleWheel = (event: SyntheticWheelEvent<HTMLDivElement>) => {
-    this._smoothScroll.handleWheel(event);
+    event.preventDefault();
+    const { pixelY } = normalizeWheel(event);
+    this.setState(CalendarUtils.applyDelta(pixelY));
   };
 
   _handleWheelEnd = () => {
@@ -203,7 +206,7 @@ class Calendar extends React.Component<Props, State> {
       this._animating = false;
     }
 
-    this._timeout = setTimeout(this._scrollToCurrentMonth, 300);
+    // this._timeout = setTimeout(this._scrollToCurrentMonth, 300);
   };
 
   _scrollToCurrentMonth = () => {
@@ -250,7 +253,7 @@ class Calendar extends React.Component<Props, State> {
     // If scrolling upwards, prepend maximum 2 months
     // and scroll to the first month
     if (diffInMonths > 0) {
-      const monthsToPrependCount = Math.min(Math.abs(diffInMonths) - 1, 2);
+      const monthsToPrependCount = Math.min(Math.abs(diffInMonths) - 1, 5);
       const monthsToPrepend = Array.from(
         { length: monthsToPrependCount },
         (_, index) => CalendarUtils.getMonth(month + index, year)
@@ -289,7 +292,7 @@ class Calendar extends React.Component<Props, State> {
     // If scrolling downwards, append maximum 2 month
     // and scroll to the last but one month
     if (diffInMonths < 0) {
-      const monthsToAppendCount = Math.min(Math.abs(diffInMonths), 2);
+      const monthsToAppendCount = Math.min(Math.abs(diffInMonths), 5);
       const monthsToAppend = Array.from(
         { length: monthsToAppendCount },
         (_, index) =>
