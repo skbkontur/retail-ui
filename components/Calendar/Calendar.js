@@ -6,37 +6,42 @@ import normalizeWheel from 'normalize-wheel';
 import config from './config';
 import * as CalendarUtils from './CalendarUtils';
 import { SmoothScrollFactory } from './SmoothScroll';
+import { CalendarDate } from './CalendarDate';
+import { CalendarMonth } from './CalendarMonth';
 
 import DateSelect from '../DateSelect';
 
 import classes from './Calendar.less';
 
+export type CalendarDateShape = { year: number, month: number, date: number };
+
 type Props = {
   initialMonth?: number,
   initialYear?: number,
-  onSelect?: (date: CalendarUtils.CalendarDate) => void,
-  maxDate?: CalendarUtils.CalendarDate,
-  minDate?: CalendarUtils.CalendarDate
+  onSelect?: (date: CalendarDate) => void,
+  maxDate?: CalendarDateShape,
+  minDate?: CalendarDateShape
 };
 
 type State = {
   scrollPosition: number,
-  months: CalendarUtils.MonthConfig[],
-  today: CalendarUtils.CalendarDate
+  months: CalendarMonth[],
+  today: CalendarDate
 };
 
 const getTodayDate = () => {
   const date = new Date();
-  return {
-    date: date.getDate(),
-    month: date.getMonth(),
-    year: date.getFullYear()
-  };
+  return CalendarDate.create(
+    date.getDate(),
+    date.getMonth(),
+    date.getFullYear()
+  );
 };
 
 class Calendar extends React.Component<Props, State> {
   _animating;
   _timeout;
+  _unmounted;
 
   _smoothScroll = SmoothScrollFactory(12, deltaY => {
     this.setState(CalendarUtils.applyDelta(deltaY), this._handleWheelEnd);
@@ -57,6 +62,16 @@ class Calendar extends React.Component<Props, State> {
       months: CalendarUtils.getMonths(initialMonth, initialYear),
       today
     };
+  }
+
+  componentWillUnmount() {
+    if (this._timeout) {
+      clearTimeout(this._timeout);
+    }
+    if (this._animating) {
+      this._animating = false;
+      this._unmounted = true;
+    }
   }
 
   /**
@@ -80,68 +95,61 @@ class Calendar extends React.Component<Props, State> {
       <div className={classes.root} onWheel={this._handleWheel}>
         <div style={styles.wrapper} className={classes.wrapper}>
           {months
-            .map((x, i) => ({ ...x, top: positions[i] }))
-            .filter(CalendarUtils.isMonthVisible)
+            .map((x, i) => [positions[i], x])
+            .filter(tupple => CalendarUtils.isMonthVisible(...tupple))
             .map(this._renderMonth, this)}
         </div>
       </div>
     );
   }
 
-  _renderCell({ isWeekend, day, date }) {
+  _renderCell(date: CalendarDate) {
+    const minDate =
+      this.props.minDate && CalendarUtils.shapeToDate(this.props.minDate);
+    const maxDate =
+      this.props.maxDate && CalendarUtils.shapeToDate(this.props.maxDate);
     return (
       <button
-        key={day}
+        key={date.date}
         style={styles.cell}
         tabIndex={-1}
-        disabled={
-          !CalendarUtils.isDateBetween(
-            date,
-            this.props.minDate,
-            this.props.maxDate
-          )
-        }
+        disabled={!date.isBetween(minDate, maxDate)}
         className={classNames({
           [classes.cell]: true,
-          [classes.weekend]: isWeekend,
-          [classes.today]: CalendarUtils.isSameDate(date, this.state.today)
+          [classes.weekend]: date.isWeekend,
+          [classes.today]: date.isEqual(this.state.today)
         })}
         onClick={() => this._handleSelect(date)}
       >
-        {day}
+        {date.date}
       </button>
     );
   }
 
-  _renderMonth({
-    top,
-    offset = 0,
-    title,
-    cells,
-    year,
-    month,
-    height,
-    isFirstInYear,
-    isLastInYear
-  }) {
+  _renderMonth([top, month]) {
     const isTopNegative = top <= 0;
-    const isHeaderSticked = isTopNegative && height > -top;
+    const isHeaderSticked = isTopNegative && month.height > -top;
 
     const headerTop = isHeaderSticked
-      ? Math.min(-top, height - config.MONTH_TITLE_HEIGHT)
+      ? Math.min(-top, month.height - config.MONTH_TITLE_HEIGHT)
       : 0;
 
     const alpha = isHeaderSticked
-      ? (height + top - config.MONTH_TITLE_HEIGHT) / 10
+      ? (month.height + top - config.MONTH_TITLE_HEIGHT) / 10
       : 1;
 
     const borderBottomColor = `rgba(223, 222, 222, ${alpha})`;
 
-    const isYearVisible = isFirstInYear || isHeaderSticked;
-    const yearTop = isHeaderSticked && !isLastInYear ? -headerTop - top : 0;
+    const isYearVisible = month.isFirstInYear || isHeaderSticked;
+    const yearTop =
+      isHeaderSticked && !month.isLastInYear ? -headerTop - top : 0;
 
     return (
-      <div className={classes.month} style={{ top }} key={month + '-' + year}>
+      <div
+        className={classes.month}
+        style={{ top }}
+        key={month.month + '-' + month.year}
+      >
         <div
           style={{ ...styles.monthTitle, top: headerTop, borderBottomColor }}
           className={classNames({
@@ -154,8 +162,8 @@ class Calendar extends React.Component<Props, State> {
               disabled={top > 25}
               width={85}
               type="month"
-              value={month}
-              onChange={m => this.scrollToMonth(m, year)}
+              value={month.month}
+              onChange={m => this.scrollToMonth(m, month.year)}
             />
           </div>
           {isYearVisible && (
@@ -164,23 +172,23 @@ class Calendar extends React.Component<Props, State> {
                 disabled={top > 25}
                 width={50}
                 type="year"
-                value={year}
+                value={month.year}
                 minYear={
                   this.props.minDate ? this.props.minDate.year : undefined
                 }
                 maxYear={
                   this.props.maxDate ? this.props.maxDate.year : undefined
                 }
-                onChange={y => this.scrollToMonth(month, y)}
+                onChange={y => this.scrollToMonth(month.month, y)}
               />
             </div>
           )}
         </div>
         <div
-          style={{ width: offset * config.DAY_HEIGHT }}
+          style={{ width: month.offset * config.DAY_HEIGHT }}
           className={classes.placeholder}
         />
-        {cells.map(this._renderCell, this)}
+        {month.days.map(this._renderCell, this)}
       </div>
     );
   }
@@ -224,15 +232,16 @@ class Calendar extends React.Component<Props, State> {
   };
 
   _scrollToMonth = (month: number, year: number) => {
-    const { minDate, maxDate } = this.props;
-    if (
-      minDate &&
-      CalendarUtils.isGreater(minDate, { date: 32, month, year })
-    ) {
+    const minDate =
+      this.props.minDate && CalendarUtils.shapeToDate(this.props.minDate);
+    if (minDate && minDate.isGreater(CalendarDate.create(32, month, year))) {
       this._scrollToMonth(minDate.month, minDate.year);
       return;
     }
-    if (maxDate && CalendarUtils.isLess(maxDate, { date: 0, month, year })) {
+
+    const maxDate =
+      this.props.maxDate && CalendarUtils.shapeToDate(this.props.maxDate);
+    if (maxDate && maxDate.isLess(CalendarDate.create(0, month, year))) {
       this._scrollToMonth(maxDate.month, maxDate.year);
       return;
     }
@@ -257,7 +266,7 @@ class Calendar extends React.Component<Props, State> {
       // have right isFirstInYear/isLastInYear flags
       Math.abs(diffInMonths) > 2;
 
-    // If scrolling upwards, prepend maximum 2 months
+    // If scrolling upwards, prepend maximum maxMonthsToAdd months
     // and scroll to the first month
     if (diffInMonths > 0) {
       const monthsToPrependCount = Math.min(
@@ -266,29 +275,22 @@ class Calendar extends React.Component<Props, State> {
       );
       const monthsToPrepend = Array.from(
         { length: monthsToPrependCount },
-        (_, index) => CalendarUtils.getMonth(month + index, year)
+        (_, index) => CalendarMonth.create(month + index, year)
       );
       this.setState(
         state => {
           const yearChanges = isYearChanges(state);
-
-          if (monthsToPrepend.length) {
-            // Mutating item here is safe as it was just created
-            monthsToPrepend[monthsToPrepend.length - 1].isLastInYear =
-              yearChanges ||
-              monthsToPrepend[monthsToPrepend.length - 1].isLastInYear;
+          if (yearChanges) {
+            // Mutating here can lead to some unexpected bugs
+            // but we couldn't find any yet
+            state.months[0].isFirstInYear = true;
+            if (monthsToPrepend.length) {
+              // Mutating item here is safe as it was just created
+              monthsToPrepend[monthsToPrepend.length - 1].isLastInYear = true;
+            }
           }
-
-          const currentMonths = [
-            {
-              ...state.months[0],
-              isFirstInYear: yearChanges || state.months[0].isFirstInYear
-            },
-            ...state.months.slice(1)
-          ];
-
           return {
-            months: monthsToPrepend.concat(currentMonths),
+            months: monthsToPrepend.concat(state.months),
             scrollPosition: -CalendarUtils.getMonthsHeight(monthsToPrepend)
           };
         },
@@ -299,7 +301,7 @@ class Calendar extends React.Component<Props, State> {
       );
     }
 
-    // If scrolling downwards, append maximum 2 month
+    // If scrolling downwards, append maximum maxMonthsToAdd months
     // and scroll to the last but one month
     if (diffInMonths < 0) {
       const monthsToAppendCount = Math.min(
@@ -309,23 +311,18 @@ class Calendar extends React.Component<Props, State> {
       const monthsToAppend = Array.from(
         { length: monthsToAppendCount },
         (_, index) =>
-          CalendarUtils.getMonth(month + index - monthsToAppendCount + 2, year)
+          CalendarMonth.create(month + index - monthsToAppendCount + 2, year)
       );
       this.setState(
         state => {
-          const yearChanges = isYearChanges(state);
-
-          const currentMonths = state.months.slice(0, -1).concat({
-            ...state.months[state.months.length - 1],
-            isLastInYear:
-              yearChanges || state.months[state.months.length - 1].isLastInYear
-          });
-
-          // Mutating item here is safe as it was just created
-          monthsToAppend[0].isFirstInYear =
-            yearChanges || monthsToAppend[0].isFirstInYear;
-
-          return { months: currentMonths.concat(monthsToAppend) };
+          if (isYearChanges(state)) {
+            // Mutating here can lead to some unexpected bugs
+            // but we couldn't find any yet
+            state.months[state.months.length - 1].isLastInYear = true;
+            // Mutating item here is safe as it was just created
+            monthsToAppend[0] && (monthsToAppend[0].isFirstInYear = true);
+          }
+          return { months: state.months.concat(monthsToAppend) };
         },
         () => {
           const targetPosition =
@@ -354,6 +351,9 @@ class Calendar extends React.Component<Props, State> {
     let lastEaseValue = 0;
 
     const animate = () => {
+      if (this._unmounted) {
+        return;
+      }
       const t = Math.min((Date.now() - startTime) / duration, 1);
       const easing = CalendarUtils.ease(t) * scrollAmmount;
       const deltaY = lastEaseValue - easing;
