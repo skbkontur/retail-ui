@@ -224,7 +224,7 @@ class Select<TValue, TItem> extends React.Component<
     // $FlowIssue
     const item = this._getItemByValue(value);
 
-    if (item != null) {
+    if (item != null || value != null) {
       // $FlowIssue
       return this.props.renderValue(value, item);
     }
