@@ -168,7 +168,6 @@ export const applyDelta = (deltaY: number) => (
       nextMonths = getMonths(lastMonth.month, lastMonth.year);
     } while (nextScrollPosition < 0);
   }
-
   return { scrollPosition: nextScrollPosition, months: nextMonths };
 };
 

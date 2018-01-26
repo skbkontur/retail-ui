@@ -6,6 +6,7 @@ export default {
   MONTH_TITLE_OFFSET_HEIGHT: 51,
   WRAPPER_HEIGHT: 330,
   MONTH_BOTTOM_MARGIN: 10,
+  MAX_MONTHS_TO_APPEND_ON_SCROLL: 5,
   MONTH_NAMES: [
     'Январь',
     'Февраль',

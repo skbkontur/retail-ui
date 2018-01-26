@@ -195,7 +195,7 @@ class Calendar extends React.Component<Props, State> {
   _handleWheel = (event: SyntheticWheelEvent<HTMLDivElement>) => {
     event.preventDefault();
     const { pixelY } = normalizeWheel(event);
-    this.setState(CalendarUtils.applyDelta(pixelY));
+    this.setState(CalendarUtils.applyDelta(pixelY), this._handleWheelEnd);
   };
 
   _handleWheelEnd = () => {
@@ -206,15 +206,20 @@ class Calendar extends React.Component<Props, State> {
       this._animating = false;
     }
 
-    // this._timeout = setTimeout(this._scrollToCurrentMonth, 300);
+    this._timeout = setTimeout(this._scrollToNearestWeek, 300);
   };
 
-  _scrollToCurrentMonth = () => {
-    const firstMonth = this.state.months[0];
-    if (this.state.scrollPosition > config.WRAPPER_HEIGHT / 2) {
-      this._scrollTo(firstMonth.height);
-    } else {
+  _scrollToNearestWeek = () => {
+    const { scrollPosition } = this.state;
+    const offset = scrollPosition - config.MONTH_TITLE_OFFSET_HEIGHT;
+    const weeksCount = Math.max(Math.round(offset / config.DAY_HEIGHT), 1);
+    if (scrollPosition < config.MONTH_TITLE_OFFSET_HEIGHT / 2) {
       this._scrollTo(0);
+    } else {
+      this._scrollTo(
+        Math.abs(weeksCount) * config.DAY_HEIGHT +
+          config.MONTH_TITLE_OFFSET_HEIGHT
+      );
     }
   };
 
@@ -236,6 +241,8 @@ class Calendar extends React.Component<Props, State> {
     const diffInMonths =
       currentMonth.month + currentMonth.year * 12 - month - year * 12;
 
+    const maxMonthsToAdd = config.MAX_MONTHS_TO_APPEND_ON_SCROLL;
+
     const onEnd = () => {
       this.setState({
         months: CalendarUtils.getMonths(month, year),
@@ -253,7 +260,10 @@ class Calendar extends React.Component<Props, State> {
     // If scrolling upwards, prepend maximum 2 months
     // and scroll to the first month
     if (diffInMonths > 0) {
-      const monthsToPrependCount = Math.min(Math.abs(diffInMonths) - 1, 5);
+      const monthsToPrependCount = Math.min(
+        Math.abs(diffInMonths) - 1,
+        maxMonthsToAdd
+      );
       const monthsToPrepend = Array.from(
         { length: monthsToPrependCount },
         (_, index) => CalendarUtils.getMonth(month + index, year)
@@ -283,8 +293,8 @@ class Calendar extends React.Component<Props, State> {
           };
         },
         () => {
-          const toPos = this.state.months[0].height;
-          this._scrollTo(toPos, onEnd);
+          const targetPosition = this.state.months[0].height;
+          this._scrollTo(targetPosition, onEnd);
         }
       );
     }
@@ -292,7 +302,10 @@ class Calendar extends React.Component<Props, State> {
     // If scrolling downwards, append maximum 2 month
     // and scroll to the last but one month
     if (diffInMonths < 0) {
-      const monthsToAppendCount = Math.min(Math.abs(diffInMonths), 5);
+      const monthsToAppendCount = Math.min(
+        Math.abs(diffInMonths),
+        maxMonthsToAdd
+      );
       const monthsToAppend = Array.from(
         { length: monthsToAppendCount },
         (_, index) =>
@@ -315,18 +328,16 @@ class Calendar extends React.Component<Props, State> {
           return { months: currentMonths.concat(monthsToAppend) };
         },
         () => {
-          const toPos = -CalendarUtils.getMonthsHeight(
-            this.state.months.slice(1, -2)
-          );
-          this._scrollTo(toPos, onEnd);
+          const targetPosition =
+            -1 * CalendarUtils.getMonthsHeight(this.state.months.slice(1, -2));
+          this._scrollTo(targetPosition, onEnd);
         }
       );
     }
   };
 
   _scrollTo = (pos: number, cb?: () => void) => {
-    const scrollPos = this.state.scrollPosition;
-    const scrollAmmount = pos - scrollPos;
+    const scrollAmmount = pos - this.state.scrollPosition;
     return this._scrollAmount(scrollAmmount, cb);
   };
 
