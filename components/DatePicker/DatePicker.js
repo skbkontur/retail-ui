@@ -45,6 +45,12 @@ type Props = {
   maxYear?: number,
   minYear?: number,
   menuAlign?: 'left' | 'right',
+  placeholder?: string,
+  size?: 'small' | 'medium' | 'large',
+  value?: DatePickerValue,
+  warning?: boolean,
+  width?: number | string,
+  withMask?: boolean,
   onBlur?: () => void,
   onChange?: (
     e: { target: { value: DatePickerValue } },
@@ -58,13 +64,7 @@ type Props = {
   onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
   onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
   onMouseOver?: (e: SyntheticMouseEvent<>) => void,
-  onUnexpectedInput: (value: string) => DatePickerValue,
-  placeholder?: string,
-  size?: 'small' | 'medium' | 'large',
-  value?: DatePickerValue,
-  warning?: boolean,
-  width?: number | string,
-  withMask?: boolean
+  onUnexpectedInput: (value: string) => DatePickerValue
 };
 
 type State = {
