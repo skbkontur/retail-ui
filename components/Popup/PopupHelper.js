@@ -47,8 +47,8 @@ function _getWindowRelativeRect(): Rect {
   return {
     top: 0,
     left: 0,
-    width: window.innerWidth || _getViewProperty(x => x.clientWidth),
-    height: window.innerHeight || _getViewProperty(x => x.clientHeight)
+    width: _getViewProperty(x => x.clientWidth) || window.innerWidth,
+    height: _getViewProperty(x => x.clientHeight) || window.innerHeight
   };
 }
 
