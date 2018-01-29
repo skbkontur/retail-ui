@@ -3,13 +3,30 @@
 import { getMonthOffset } from './CalendarMonth';
 
 export class CalendarDate {
-  static comparator = compareDates;
+  static comparator(a: CalendarDate, b: CalendarDate) {
+    if (a.year < b.year) {
+      return -1;
+    } else if (a.year > b.year) {
+      return 1;
+    } else if (a.month < b.month) {
+      return -1;
+    } else if (a.month > b.month) {
+      return 1;
+    } else if (a.date < b.date) {
+      return -1;
+    } else if (a.date > b.date) {
+      return 1;
+    }
+    return 0;
+  }
 
   static create(date: number, month: number, year: number) {
     return new CalendarDate(date, month, year);
   }
 
-  static isSameDate = isSameDate;
+  static isSameDate(a: CalendarDate, b: CalendarDate) {
+    return a.date === b.date && a.month === b.month && a.year === b.year;
+  }
 
   date: number;
 
@@ -39,11 +56,11 @@ export class CalendarDate {
   }
 
   isEqual(right: CalendarDate) {
-    return isSameDate(this, right);
+    return CalendarDate.isSameDate(this, right);
   }
 
   isLess(right: CalendarDate) {
-    return compareDates(this, right) === -1;
+    return CalendarDate.comparator(this, right) === -1;
   }
 
   isLessOrEqual(right: CalendarDate) {
@@ -58,7 +75,7 @@ export class CalendarDate {
     return !this.isLess(right);
   }
 
-  isBetween(left?: CalendarDate, right?: CalendarDate) {
+  isBetween(left?: ?CalendarDate, right?: ?CalendarDate) {
     if (left && this.isLess(left)) {
       return false;
     }
@@ -68,27 +85,6 @@ export class CalendarDate {
     return true;
   }
 }
-
-const isSameDate = (a: CalendarDate, b: CalendarDate) => {
-  return a.date === b.date && a.month === b.month && a.year === b.year;
-};
-
-const compareDates = (a: CalendarDate, b: CalendarDate) => {
-  if (a.year < b.year) {
-    return -1;
-  } else if (a.year > b.year) {
-    return 1;
-  } else if (a.month < b.month) {
-    return -1;
-  } else if (a.month > b.month) {
-    return 1;
-  } else if (a.date < b.date) {
-    return -1;
-  } else if (a.date > b.date) {
-    return 1;
-  }
-  return 0;
-};
 
 const checkWeekend = (date, month, year) => {
   const offset = getMonthOffset(month, year);
