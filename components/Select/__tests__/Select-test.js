@@ -32,15 +32,10 @@ describe('Select', () => {
 
     const dropdownContainer = wrapper.find('DropdownContainer');
 
-    const defaultValueText = wrapper.prop('renderItem')(
-      currentValue,
-      currentValue
-    );
+    const defaultValueText = wrapper.prop('renderItem')(currentValue, currentValue);
 
     const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
-    var selectedMenuItem = menu.findWhere(
-      node => node.is('MenuItem') && node.prop('state') === 'selected'
-    );
+    var selectedMenuItem = menu.findWhere(node => node.is('MenuItem') && node.prop('state') === 'selected');
     expect(selectedMenuItem.length).toBe(1);
     expect(selectedMenuItem.text()).toBe(defaultValueText);
   });

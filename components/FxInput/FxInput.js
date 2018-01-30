@@ -36,13 +36,7 @@ class FxInput extends React.Component {
     return (
       <Group width={width}>
         {button}
-        <Input
-          ref={this._refInput}
-          mainInGroup
-          align="right"
-          {...this.props}
-          {...inputProps}
-        />
+        <Input ref={this._refInput} mainInGroup align="right" {...this.props} {...inputProps} />
       </Group>
     );
   }

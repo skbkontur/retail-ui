@@ -37,10 +37,7 @@ export interface DropdownProps {
 
 export interface DropdownState {}
 
-export default class Dropdown extends React.Component<
-  DropdownProps,
-  DropdownState
-> {
+export default class Dropdown extends React.Component<DropdownProps, DropdownState> {
   open(): void;
   close(): void;
 }

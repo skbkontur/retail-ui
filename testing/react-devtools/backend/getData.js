@@ -10,7 +10,7 @@
  */
 'use strict';
 
-import type {DataType} from './types';
+import type { DataType } from './types';
 var copyWithSet = require('./copyWithSet');
 
 /**
@@ -94,7 +94,7 @@ function getData(element: Object): DataType {
       forceUpdate: inst.forceUpdate && inst.forceUpdate.bind(inst),
       setInProps: inst.forceUpdate && setInProps.bind(null, element),
       setInState: inst.forceUpdate && setInState.bind(null, inst),
-      setInContext: inst.forceUpdate && setInContext.bind(null, inst),
+      setInContext: inst.forceUpdate && setInContext.bind(null, inst)
     };
     publicInstance = inst;
 
@@ -118,7 +118,7 @@ function getData(element: Object): DataType {
     children,
     text,
     updater,
-    publicInstance,
+    publicInstance
   };
 }
 
@@ -126,7 +126,7 @@ function setInProps(internalInst, path: Array<string | number>, value: any) {
   var element = internalInst._currentElement;
   internalInst._currentElement = {
     ...element,
-    props: copyWithSet(element.props, path, value),
+    props: copyWithSet(element.props, path, value)
   };
   internalInst._instance.forceUpdate();
 }
@@ -143,7 +143,7 @@ function setInContext(inst, path: Array<string | number>, value: any) {
 
 function setIn(obj: Object, path: Array<string | number>, value: any) {
   var last = path.pop();
-  var parent = path.reduce((obj_, attr) => obj_ ? obj_[attr] : null, obj);
+  var parent = path.reduce((obj_, attr) => (obj_ ? obj_[attr] : null), obj);
   if (parent) {
     parent[last] = value;
   }

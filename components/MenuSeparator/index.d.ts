@@ -1,5 +1,1 @@
-export {
-  default,
-  MenuSeparatorProps,
-  MenuSeparatorState
-} from './MenuSeparator';
+export { default, MenuSeparatorProps, MenuSeparatorState } from './MenuSeparator';

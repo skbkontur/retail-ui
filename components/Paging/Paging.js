@@ -203,10 +203,7 @@ export default class Paging extends React.Component<Props, State> {
   };
 
   _getItems = (): ItemType[] => {
-    return PagingHelper.getItems(
-      this.props.activePage,
-      this.props.pagesCount
-    ).concat('forward');
+    return PagingHelper.getItems(this.props.activePage, this.props.pagesCount).concat('forward');
   };
 
   _getFocusedItem = (): ?ItemType => {
@@ -215,11 +212,7 @@ export default class Paging extends React.Component<Props, State> {
     }
 
     const { focusedItem } = this.state;
-    if (
-      focusedItem &&
-      this._getItems().indexOf(focusedItem) !== -1 &&
-      this._isItemFocusable(focusedItem)
-    ) {
+    if (focusedItem && this._getItems().indexOf(focusedItem) !== -1 && this._isItemFocusable(focusedItem)) {
       return focusedItem;
     }
 
@@ -285,11 +278,7 @@ export default class Paging extends React.Component<Props, State> {
   };
 
   _goToPage = (pageNumber: number) => {
-    if (
-      1 <= pageNumber &&
-      pageNumber !== this.props.activePage &&
-      pageNumber <= this.props.pagesCount
-    ) {
+    if (1 <= pageNumber && pageNumber !== this.props.activePage && pageNumber <= this.props.pagesCount) {
       this.props.onPageChange(pageNumber);
     }
   };

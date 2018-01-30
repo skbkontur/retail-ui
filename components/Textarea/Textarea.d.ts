@@ -22,10 +22,7 @@ export interface TextareaProps {
   value: string;
   width?: number | string;
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
-  onChange?: (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-    value: string
-  ) => void;
+  onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>, value: string) => void;
   onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
   onMouseEnter?: React.MouseEventHandler<HTMLTextAreaElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLTextAreaElement>;
@@ -34,10 +31,7 @@ export interface TextareaProps {
 
 export interface TextareaState {}
 
-export default class Textarea extends React.Component<
-  TextareaProps,
-  TextareaState
-> {
+export default class Textarea extends React.Component<TextareaProps, TextareaState> {
   focus(): void;
   blur(): void;
 }

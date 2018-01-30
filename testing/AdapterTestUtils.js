@@ -16,10 +16,7 @@ let nextID = 0;
 // eslint-disable-next-line
 /* type MountFunc = (element: React.Element<*>) => any; */
 
-export function testAdapter(
-  testName /* string */,
-  fn /* (mount: MountFunc) => void | Promise<void> */
-) {
+export function testAdapter(testName /* string */, fn /* (mount: MountFunc) => void | Promise<void> */) {
   it(testName, () => {
     let mounted = [];
     function mount_(element) {

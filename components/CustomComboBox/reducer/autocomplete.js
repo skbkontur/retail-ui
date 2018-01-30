@@ -1,8 +1,5 @@
 // @flow
-import {
-  reducers as defaultReducers,
-  Effect as DefaultEffect
-} from './default';
+import { reducers as defaultReducers, Effect as DefaultEffect } from './default';
 
 import debounce from 'lodash.debounce';
 

@@ -11,20 +11,15 @@ import Toggle from '../../Toggle';
 
 const textSample = (
   <p style={{ marginBottom: '100px' }}>
-    On the other hand, we denounce with righteous indignation and dislike men
-    who are so beguiled and demoralized by the charms of pleasure of the moment,
-    so blinded by desire, that they cannot foresee the pain and trouble that are
-    bound to ensue; and equal blame belongs to those who fail in their duty
-    through weakness of will, which is the same as saying through shrinking from
-    toil and pain. These cases are perfectly simple and easy to distinguish. In
-    a free hour, when our power of choice is untrammelled and when nothing
-    prevents our being able to do what we like best, every pleasure is to be
-    welcomed and every pain avoided. But in certain circumstances and owing to
-    the claims of duty or the obligations of business it will frequently occur
-    that pleasures have to be repudiated and annoyances accepted. The wise man
-    therefore always holds in these matters to this principle of selection: he
-    rejects pleasures to secure other greater pleasures, or else he endures
-    pains to avoid worse pains.
+    On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the
+    charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound
+    to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as
+    saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free
+    hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best,
+    every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of
+    duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances
+    accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures
+    to secure other greater pleasures, or else he endures pains to avoid worse pains.
   </p>
 );
 
@@ -67,11 +62,8 @@ class Sample extends React.Component<SampleProps, SampleState> {
             />
           )}
         <div>
-          <Toggle
-            checked={this.state.panel}
-            onChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
-          />{' '}
-          Panel {this.state.panel ? 'enabled' : 'disabled'}
+          <Toggle checked={this.state.panel} onChange={() => this.setState(({ panel }) => ({ panel: !panel }))} /> Panel{' '}
+          {this.state.panel ? 'enabled' : 'disabled'}
         </div>
         {textSample}
         {textSample}
@@ -112,19 +104,12 @@ class SidePageWithInputInHeader extends Component<{}, { opened: boolean }> {
       <SidePage onClose={this.close}>
         <SidePage.Header>
           <Input placeholder="Some input placeholder..." value="" />{' '}
-          <Input
-            size="large"
-            placeholder="Some large input placeholder..."
-            value=""
-          />
+          <Input size="large" placeholder="Some large input placeholder..." value="" />
           <br />
           <Textarea placeholder="Some textarea placeholder" value="" />
         </SidePage.Header>
         <SidePage.Body>
-          <p>
-            A lotta people ask me where the fuck I've been at the last few
-            years.
-          </p>
+          <p>A lotta people ask me where the fuck I've been at the last few years.</p>
         </SidePage.Body>
       </SidePage>
     );
@@ -148,9 +133,7 @@ class SidePageWithInputInHeader extends Component<{}, { opened: boolean }> {
 
 class SidePageOverAnotherSidePage extends Component<{}, *> {
   render() {
-    return (
-      <Sample current={1} total={5} ignoreBackgroundClick blockBackground />
-    );
+    return <Sample current={1} total={5} ignoreBackgroundClick blockBackground />;
   }
 }
 
@@ -184,8 +167,7 @@ class SidePageWithCloseConfiguration extends Component<
               }))
             }
           />{' '}
-          ignoreBackgroundClick{' '}
-          {this.state.ignoreBackgroundClick ? 'enabled' : 'disabled'}
+          ignoreBackgroundClick {this.state.ignoreBackgroundClick ? 'enabled' : 'disabled'}
         </div>
         <div>
           <Toggle
@@ -204,9 +186,7 @@ class SidePageWithCloseConfiguration extends Component<
 }
 
 storiesOf('SidePage', module)
-  .add('With scrollable parent content', () => (
-    <SidePageWithScrollableContent />
-  ))
+  .add('With scrollable parent content', () => <SidePageWithScrollableContent />)
   .add('With Input in header', () => <SidePageWithInputInHeader />)
   .add('SidePage over another SidePage', () => <SidePageOverAnotherSidePage />)
   .add('SidePage with configuration', () => <SidePageWithCloseConfiguration />)

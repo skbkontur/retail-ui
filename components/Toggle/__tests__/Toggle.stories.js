@@ -16,11 +16,7 @@ class Comp extends Component<*, *> {
   render() {
     return (
       <div>
-        <Toggle
-          checked={this.state.checked}
-          onChange={this.toggle.bind(this)}
-        />{' '}
-        {this.state.checked ? 'On' : 'Off'}
+        <Toggle checked={this.state.checked} onChange={this.toggle.bind(this)} /> {this.state.checked ? 'On' : 'Off'}
       </div>
     );
   }

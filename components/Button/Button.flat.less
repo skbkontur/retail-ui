@@ -1,6 +1,6 @@
-@import "../variables.less";
-@import "../variables.flat.less";
-@import (reference) "../Link/Link.less";
+@import '../variables.less';
+@import '../variables.flat.less';
+@import (reference) '../Link/Link.less';
 
 :local {
   .wrap {
@@ -33,7 +33,7 @@
     }
 
     &:after {
-      content: "";
+      content: '';
       display: inline-block;
       vertical-align: baseline;
       width: 0;
@@ -245,17 +245,11 @@
   }
 
   .loading:before {
-    content: "";
+    content: '';
     height: 100%;
     position: absolute;
     opacity: 0.2;
-    background: linear-gradient(
-      -110deg,
-      #ccc 30%,
-      transparent 0,
-      transparent 60%,
-      #ccc 0
-    );
+    background: linear-gradient(-110deg, #ccc 30%, transparent 0, transparent 60%, #ccc 0);
     background-size: 30px 100%;
     top: 0;
     left: 0;
@@ -327,7 +321,6 @@
   }
 
   100% {
-    transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg)
-      skewY(0deg);
+    transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
   }
 }

@@ -10,7 +10,7 @@
  */
 'use strict';
 
-import type {Hook} from './types';
+import type { Hook } from './types';
 
 /**
  * NOTE: This file cannot `require` any other modules. We `.toString()` the
@@ -25,9 +25,11 @@ function installGlobalHook(window: Object) {
       _renderers: {},
       helpers: {},
       inject: function(renderer) {
-        var id = Math.random().toString(16).slice(2);
+        var id = Math.random()
+          .toString(16)
+          .slice(2);
         this._renderers[id] = renderer;
-        this.emit('renderer', {id, renderer});
+        this.emit('renderer', { id, renderer });
       },
       _listeners: {},
       sub: function(evt, fn) {
@@ -56,8 +58,8 @@ function installGlobalHook(window: Object) {
         if (this._listeners[evt]) {
           this._listeners[evt].map(fn => fn(data));
         }
-      },
-    }: Hook),
+      }
+    }: Hook)
   });
 }
 

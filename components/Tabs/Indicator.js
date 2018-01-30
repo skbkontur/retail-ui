@@ -56,20 +56,13 @@ class Indicator extends React.Component<Props, State> {
   }
 
   render() {
-    return (
-      <div
-        className={cn(styles.root, styles.className, this.props.className)}
-        style={this.state.styles}
-      />
-    );
+    return <div className={cn(styles.root, styles.className, this.props.className)} style={this.state.styles} />;
   }
 
   _reflow = () => {
     const node = this.props.getAnchorNode();
     const styles = this._getStyles(node);
-    const stylesUpdated = ['left', 'top', 'width', 'height'].some(
-      prop => styles[prop] !== this.state.styles[prop]
-    );
+    const stylesUpdated = ['left', 'top', 'width', 'height'].some(prop => styles[prop] !== this.state.styles[prop]);
     if (stylesUpdated) {
       this.setState({ styles });
     }

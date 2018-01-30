@@ -72,15 +72,7 @@ class TopBar extends React.Component<Props> {
   }
 
   render() {
-    const {
-      leftItems,
-      rightItems,
-      maxWidth,
-      noShadow,
-      noMargin,
-      userName,
-      onLogout
-    } = this.props;
+    const { leftItems, rightItems, maxWidth, noShadow, noMargin, userName, onLogout } = this.props;
 
     const _rightItems = [].concat(rightItems);
     if (userName) {
@@ -103,9 +95,7 @@ class TopBar extends React.Component<Props> {
           <div className={styles.containerWrap}>
             <div className={styles.container}>
               {this._renderLogo()}
-              <div className={styles.leftItems}>
-                {this._renderLeftItems(leftItems)}
-              </div>
+              <div className={styles.leftItems}>{this._renderLeftItems(leftItems)}</div>
               {this._renderRightItems(_rightItems)}
             </div>
           </div>
@@ -115,12 +105,7 @@ class TopBar extends React.Component<Props> {
   }
 
   _renderLogo() {
-    const {
-      suffix,
-      color,
-      logoHref: href,
-      logoComponent: component
-    } = this.props;
+    const { suffix, color, logoHref: href, logoComponent: component } = this.props;
     const logoProps = { suffix, color, href, component };
     if (this.props.noWidget) {
       return (
@@ -175,11 +160,7 @@ class TopBar extends React.Component<Props> {
 
   _refLogoWrapper = (el: ?HTMLElement) => {
     if (this._logoWrapper) {
-      events.removeEventListener(
-        this._logoWrapper,
-        'click',
-        this._handleNativeLogoClick
-      );
+      events.removeEventListener(this._logoWrapper, 'click', this._handleNativeLogoClick);
     }
 
     if (el) {

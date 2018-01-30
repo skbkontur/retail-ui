@@ -1,6 +1,6 @@
 ```js
-const { default: Gapped } = require("../Gapped");
-const { default: Tooltip } = require("../Tooltip");
+const { default: Gapped } = require('../Gapped');
+const { default: Tooltip } = require('../Tooltip');
 
 <Gapped vertical>
   <div>Имя показывается при наведении:</div>

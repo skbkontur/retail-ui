@@ -1,5 +1,1 @@
-export {
-  RenderContainerProps,
-  RenderContainerState,
-  default
-} from './RenderContainer';
+export { RenderContainerProps, RenderContainerState, default } from './RenderContainer';

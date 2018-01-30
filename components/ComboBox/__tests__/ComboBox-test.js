@@ -34,9 +34,7 @@ xdescribe('ComboBox V2', () => {
     const wrapper = mount(<ComboBoxV2 getItems={search} />);
 
     wrapper.find('InputLikeText').simulate('focus'); // called search 1 time
-    wrapper
-      .find('input')
-      .simulate('change', { currentTarget: { value: 'world' } });
+    wrapper.find('input').simulate('change', { currentTarget: { value: 'world' } });
 
     await delay(300); // waiting for debounce
 
@@ -139,16 +137,12 @@ xdescribe('ComboBox V2', () => {
   it('calls onUnexpectedInput on click outside', async () => {
     const search = jest.fn(() => Promise.reject());
     const onUnexpectedInput = jest.fn();
-    const wrapper = mount(
-      <ComboBoxV2 getItems={search} onUnexpectedInput={onUnexpectedInput} />
-    );
+    const wrapper = mount(<ComboBoxV2 getItems={search} onUnexpectedInput={onUnexpectedInput} />);
 
     wrapper.find('InputLikeText').simulate('focus');
     await search;
 
-    wrapper
-      .find('input')
-      .simulate('change', { currentTarget: { value: 'one' } });
+    wrapper.find('input').simulate('change', { currentTarget: { value: 'one' } });
 
     await delay(300); // w8 debounce
     await search;

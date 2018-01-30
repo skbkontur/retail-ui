@@ -2,8 +2,7 @@
 
 let keyDescription = null;
 
-const getKeyDescription = () =>
-  keyDescription || (keyDescription = createKeyDescription());
+const getKeyDescription = () => keyDescription || (keyDescription = createKeyDescription());
 
 const createKeyDescription = () =>
   navigator.platform.includes('Mac')

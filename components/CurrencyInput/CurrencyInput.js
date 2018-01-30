@@ -123,10 +123,7 @@ export default class CurrencyInput extends Component<Props, State> {
 
   _handleMouseUp = (event: SyntheticInputEvent<HTMLInputElement>) => {
     const selection = getInputSelection(event.target);
-    const normilized = CurrencyInputHelper.normalizeSelection(
-      this.state.formatted,
-      selection
-    );
+    const normilized = CurrencyInputHelper.normalizeSelection(this.state.formatted, selection);
     this.setState({ selection: normilized });
   };
 
@@ -151,18 +148,10 @@ export default class CurrencyInput extends Component<Props, State> {
         this._inputValue(selection.start, selection.end, ',');
         return;
       case Actions.Backspace:
-        this._inputValue(
-          CurrencyInputHelper.moveCursor(this.state.formatted, selection, -1),
-          selection.end,
-          ''
-        );
+        this._inputValue(CurrencyInputHelper.moveCursor(this.state.formatted, selection, -1), selection.end, '');
         return;
       case Actions.Delete:
-        this._inputValue(
-          selection.start,
-          CurrencyInputHelper.moveCursor(this.state.formatted, selection, +1),
-          ''
-        );
+        this._inputValue(selection.start, CurrencyInputHelper.moveCursor(this.state.formatted, selection, +1), '');
         return;
       case Actions.MoveCursorLeft:
         this._moveCursor(selection, -1);
@@ -198,31 +187,17 @@ export default class CurrencyInput extends Component<Props, State> {
   };
 
   _moveCursor = (selection: Selection, step: number) => {
-    const position = CurrencyInputHelper.moveCursor(
-      this.state.formatted,
-      selection,
-      step
-    );
+    const position = CurrencyInputHelper.moveCursor(this.state.formatted, selection, step);
     this.setState({ selection: SelectionHelper.fromPosition(position) });
   };
 
   _extendSelection = (selection: Selection, step: number) => {
-    const extended = CurrencyInputHelper.extendSelection(
-      this.state.formatted,
-      selection,
-      step
-    );
+    const extended = CurrencyInputHelper.extendSelection(this.state.formatted, selection, step);
     this.setState({ selection: extended });
   };
 
   _inputValue = (start: number, end: number, value: string) => {
-    const result = CurrencyInputHelper.safeInsert(
-      this.state.formatted,
-      start,
-      end,
-      value,
-      this.props.fractionDigits
-    );
+    const result = CurrencyInputHelper.safeInsert(this.state.formatted, start, end, value, this.props.fractionDigits);
     if (result) {
       const formatted = result.value;
       const value = CurrencyHelper.parse(formatted);
@@ -271,11 +246,7 @@ export default class CurrencyInput extends Component<Props, State> {
       },
       {
         type: Actions.Separator,
-        check: e =>
-          e.key === ',' ||
-          e.key === '.' ||
-          e.keyCode === 188 ||
-          e.keyCode === 190
+        check: e => e.key === ',' || e.key === '.' || e.keyCode === 188 || e.keyCode === 190
       },
       {
         type: Actions.Digit,
@@ -283,8 +254,7 @@ export default class CurrencyInput extends Component<Props, State> {
       },
       {
         type: Actions.Ignore,
-        check: e =>
-          e.shiftKey || e.metaKey || e.ctrlKey || e.altKey || e.key === 'Tab'
+        check: e => e.shiftKey || e.metaKey || e.ctrlKey || e.altKey || e.key === 'Tab'
       }
     ];
     const action = actions.find(x => x.check(event));
@@ -301,10 +271,7 @@ export default class CurrencyInput extends Component<Props, State> {
   _handleCopy = (event: SyntheticClipboardEvent<HTMLInputElement>) => {
     const selection = this._getSelection(event.target);
     if (selection.start !== selection.end) {
-      const substring = this.state.formatted.substring(
-        selection.start,
-        selection.end
-      );
+      const substring = this.state.formatted.substring(selection.start, selection.end);
       const data = CurrencyHelper.formatForClipboard(substring);
       event.clipboardData.setData('text/plain', data);
     }
@@ -314,10 +281,7 @@ export default class CurrencyInput extends Component<Props, State> {
   _handleCut = (event: SyntheticClipboardEvent<HTMLInputElement>) => {
     const selection = this._getSelection(event.target);
     if (selection.start !== selection.end) {
-      const substring = this.state.formatted.substring(
-        selection.start,
-        selection.end
-      );
+      const substring = this.state.formatted.substring(selection.start, selection.end);
       const data = CurrencyHelper.formatForClipboard(substring);
       event.clipboardData.setData('text/plain', data);
       this._inputValue(selection.start, selection.end, '');

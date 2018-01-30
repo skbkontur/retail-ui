@@ -159,14 +159,10 @@ describe('CurrencyInputHelper', () => {
         expected: { value: '888', position: 0 }
       }
     ].forEach(x => {
-      it(`insert('${x.value}', ${x.start}, ${x.end}, '${x.input}') === {'${x
-        .expected.value}' : ${x.expected.position}}`, () => {
-        const actual = CurrencyInputHelper.insert(
-          x.value,
-          x.start,
-          x.end,
-          x.input
-        );
+      it(`insert('${x.value}', ${x.start}, ${x.end}, '${x.input}') === {'${x.expected.value}' : ${
+        x.expected.position
+      }}`, () => {
+        const actual = CurrencyInputHelper.insert(x.value, x.start, x.end, x.input);
         const expected = x.expected;
         expect(actual).toEqual(expected);
       });

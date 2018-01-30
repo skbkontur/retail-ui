@@ -8,7 +8,4 @@ export interface TopBarOrganizationsProps {
 
 export interface TopBarOrganizationsState {}
 
-export default class TopBarOrganizations extends React.Component<
-  TopBarOrganizationsProps,
-  TopBarOrganizationsState
-> {}
+export default class TopBarOrganizations extends React.Component<TopBarOrganizationsProps, TopBarOrganizationsState> {}

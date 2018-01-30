@@ -13,11 +13,7 @@ class UncTabs extends React.Component<*, *> {
 
   render() {
     return (
-      <Tabs
-        value={this.state.active}
-        onChange={(_, v) => this.setState({ active: v })}
-        vertical={this.props.vertical}
-      >
+      <Tabs value={this.state.active} onChange={(_, v) => this.setState({ active: v })} vertical={this.props.vertical}>
         <Tab id="fuji">Fuji</Tab>
         <Tab id="tahat">Tahat</Tab>
         <Tab id="alps">Alps</Tab>
@@ -61,11 +57,7 @@ class TabsWithMyLink extends React.Component<*, *> {
 
   render() {
     return (
-      <Tabs
-        value={this.state.active}
-        onChange={(_, v) => this.setState({ active: v })}
-        vertical={this.props.vertical}
-      >
+      <Tabs value={this.state.active} onChange={(_, v) => this.setState({ active: v })} vertical={this.props.vertical}>
         <MyLinkTab id="fuji">🌋&nbsp;&nbsp;Fuji</MyLinkTab>
         <MyLinkTab id="tahat">⛰&nbsp;&nbsp;Tahat</MyLinkTab>
         <MyLinkTab id="alps">🗻&nbsp;&nbsp;Alps</MyLinkTab>
@@ -82,13 +74,7 @@ class UnexpectedUpdatedTab extends React.Component<*, *> {
   render() {
     return (
       <Tab {...this.props}>
-        {this.state.updated ? (
-          ':P'
-        ) : (
-          <button onClick={() => this.setState({ updated: true })}>
-            Update me
-          </button>
-        )}
+        {this.state.updated ? ':P' : <button onClick={() => this.setState({ updated: true })}>Update me</button>}
       </Tab>
     );
   }
@@ -101,20 +87,10 @@ class OhMyTabs extends React.Component<*, *> {
 
   render() {
     return (
-      <Tabs
-        value={this.state.active}
-        onChange={(_, v) => this.setState({ active: v })}
-        vertical={this.props.vertical}
-      >
-        <UnexpectedUpdatedTab id="fuji">
-          🌋&nbsp;&nbsp;Fuji
-        </UnexpectedUpdatedTab>
-        <UnexpectedUpdatedTab id="tahat">
-          ⛰&nbsp;&nbsp;Tahat
-        </UnexpectedUpdatedTab>
-        <UnexpectedUpdatedTab id="alps">
-          🗻&nbsp;&nbsp;Alps
-        </UnexpectedUpdatedTab>
+      <Tabs value={this.state.active} onChange={(_, v) => this.setState({ active: v })} vertical={this.props.vertical}>
+        <UnexpectedUpdatedTab id="fuji">🌋&nbsp;&nbsp;Fuji</UnexpectedUpdatedTab>
+        <UnexpectedUpdatedTab id="tahat">⛰&nbsp;&nbsp;Tahat</UnexpectedUpdatedTab>
+        <UnexpectedUpdatedTab id="alps">🗻&nbsp;&nbsp;Alps</UnexpectedUpdatedTab>
       </Tabs>
     );
   }
@@ -127,10 +103,7 @@ class DisabledTab extends React.Component<*, *> {
 
   render() {
     return (
-      <Tabs
-        value={this.state.active}
-        onChange={(_, v) => this.setState({ active: v })}
-      >
+      <Tabs value={this.state.active} onChange={(_, v) => this.setState({ active: v })}>
         <Tab id="first">First</Tab>
         <Tab id="second" disabled>
           Second (disabled)
@@ -148,22 +121,14 @@ storiesOf('Tabs', module)
   .add('another', () => <RouterTabs value="another" />)
   .add('hrefs first', () => (
     <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
-      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
-        Hrefs first
-      </Tab>
-      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
-        Hrefs second
-      </Tab>
+      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">Hrefs first</Tab>
+      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">Hrefs second</Tab>
     </Tabs>
   ))
   .add('hrefs second', () => (
     <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
-      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
-        Hrefs first
-      </Tab>
-      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
-        Hrefs second
-      </Tab>
+      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">Hrefs first</Tab>
+      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">Hrefs second</Tab>
     </Tabs>
   ))
   .add('vertical', () => <UncTabs vertical />)

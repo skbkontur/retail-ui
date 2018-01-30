@@ -78,36 +78,16 @@ export default class AddressModal extends React.Component<Props, State> {
     };
 
     this._regionProps = this.createFieldProps('region', [], 'Region');
-    this._districtProps = this.createFieldProps(
-      'district',
-      ['region'],
-      'District'
-    );
-    this._cityProps = this.createFieldProps(
-      'city',
-      ['region', 'district'],
-      'City'
-    );
-    this._settlementProps = this.createFieldProps(
-      'settlement',
-      ['region', 'district', 'city'],
-      'Settlement'
-    );
-    this._streetProps = this.createFieldProps(
-      'street',
-      ['region', 'district', 'city', 'settlement'],
-      'Street'
-    );
+    this._districtProps = this.createFieldProps('district', ['region'], 'District');
+    this._cityProps = this.createFieldProps('city', ['region', 'district'], 'City');
+    this._settlementProps = this.createFieldProps('settlement', ['region', 'district', 'city'], 'Settlement');
+    this._streetProps = this.createFieldProps('street', ['region', 'district', 'city', 'settlement'], 'Street');
     this._houseProps = this.createSimpleFieldProps('house');
     this._buildingProps = this.createSimpleFieldProps('building');
     this._roomProps = this.createSimpleFieldProps('room');
   }
 
-  createFieldProps(
-    field: Place,
-    parents: Array<Place>,
-    level: string
-  ): FieldProps {
+  createFieldProps(field: Place, parents: Array<Place>, level: string): FieldProps {
     return {
       source: this.createSource(field, parents, level),
       onChange: this.createHandler(field),
@@ -118,9 +98,7 @@ export default class AddressModal extends React.Component<Props, State> {
     };
   }
 
-  createSimpleFieldProps(
-    field: 'house' | 'room' | 'building'
-  ): SimpleFieldProps {
+  createSimpleFieldProps(field: 'house' | 'room' | 'building'): SimpleFieldProps {
     return {
       onChange: (event, value) => {
         const address: $Shape<Address> = {
@@ -209,12 +187,8 @@ export default class AddressModal extends React.Component<Props, State> {
   render() {
     return (
       <Modal width={520} onClose={this.props.onClose}>
-        <Modal.Header>
-          {this.props.title}
-        </Modal.Header>
-        <Modal.Body>
-          {this._renderForm()}
-        </Modal.Body>
+        <Modal.Header>{this.props.title}</Modal.Header>
+        <Modal.Body>{this._renderForm()}</Modal.Body>
         <Modal.Footer panel>
           <Gapped>
             <Button size="medium" use="primary" onClick={this._handleSave}>
@@ -305,44 +279,27 @@ export default class AddressModal extends React.Component<Props, State> {
         <div className={styles.row}>
           <div className={styles.label}>Дом</div>
           <div className={styles.field}>
-            <Input
-              value={this.state.address.house}
-              width={100}
-              {...this._houseProps}
-            />
+            <Input value={this.state.address.house} width={100} {...this._houseProps} />
           </div>
         </div>
         <div className={styles.row}>
           <div className={styles.label}>Корпус</div>
           <div className={styles.field}>
-            <Input
-              value={this.state.address.building || ''}
-              width={100}
-              {...this._buildingProps}
-            />
+            <Input value={this.state.address.building || ''} width={100} {...this._buildingProps} />
           </div>
         </div>
 
         <div className={styles.row}>
           <div className={styles.label}>Квартира / офис</div>
           <div className={styles.field}>
-            <Input
-              value={this.state.address.room}
-              width="100px"
-              {...this._roomProps}
-            />
+            <Input value={this.state.address.room} width="100px" {...this._roomProps} />
           </div>
         </div>
       </Gapped>
     );
   }
 
-  _renderItem(
-    field: Place,
-    parents: Array<Place>,
-    place: PlaceDescription,
-    info: Info
-  ) {
+  _renderItem(field: Place, parents: Array<Place>, place: PlaceDescription, info: Info) {
     const parentNames = [];
     for (let i = parents.length - 1; i >= 0; --i) {
       const parentField = parents[i];
@@ -362,10 +319,7 @@ export default class AddressModal extends React.Component<Props, State> {
     return (
       <div>
         {util.placeName(place, field)}
-        {parentNames.length > 0 &&
-          <div className={styles.menuItemParents}>
-            {parentNames.join(', ')}
-          </div>}
+        {parentNames.length > 0 && <div className={styles.menuItemParents}>{parentNames.join(', ')}</div>}
       </div>
     );
   }

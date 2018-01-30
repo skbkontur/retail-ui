@@ -21,13 +21,7 @@ const wrapperStyle = {
 storiesOf('ScrollContainer', module).add('with large content height', () => {
   return (
     <div style={wrapperStyle}>
-      <ScrollContainer>
-        {items(1000).map(i =>
-          <div key={i}>
-            {i}
-          </div>
-        )}
-      </ScrollContainer>
+      <ScrollContainer>{items(1000).map(i => <div key={i}>{i}</div>)}</ScrollContainer>
     </div>
   );
 });

@@ -10,12 +10,12 @@
  */
 'use strict';
 
-var {EventEmitter} = require('events');
+var { EventEmitter } = require('events');
 
 var assign = require('object-assign');
 var guid = require('../utils/guid');
 
-import type {RendererID, DataType, OpaqueNodeHandle, NativeType, Helpers} from '../backend/types';
+import type { RendererID, DataType, OpaqueNodeHandle, NativeType, Helpers } from '../backend/types';
 
 type ElementID = string;
 
@@ -87,8 +87,8 @@ class Agent extends EventEmitter {
   ids: WeakMap<OpaqueNodeHandle, ElementID>;
   elementData: Map<ElementID, DataType>;
   roots: Set<ElementID>;
-  reactInternals: {[key: RendererID]: Helpers};
-  capabilities: {[key: string]: boolean};
+  reactInternals: { [key: RendererID]: Helpers };
+  capabilities: { [key: string]: boolean };
   renderers: Map<ElementID, RendererID>;
   _prevSelected: ?NativeType;
 
@@ -109,11 +109,14 @@ class Agent extends EventEmitter {
     });
     this._prevSelected = null;
     var isReactDOM = window.document && typeof window.document.createElement === 'function';
-    this.capabilities = assign({
-      scroll: isReactDOM && typeof window.document.body.scrollIntoView === 'function',
-      dom: isReactDOM,
-      editTextContent: false,
-    }, capabilities);
+    this.capabilities = assign(
+      {
+        scroll: isReactDOM && typeof window.document.body.scrollIntoView === 'function',
+        dom: isReactDOM,
+        editTextContent: false
+      },
+      capabilities
+    );
   }
 
   // returns an "unsubscribe" function
@@ -146,7 +149,7 @@ class Agent extends EventEmitter {
     bridge.on('stopInspecting', () => this.emit('stopInspecting'));
     bridge.on('selected', id => this.emit('selected', id));
     bridge.on('shutdown', () => this.emit('shutdown'));
-    bridge.on('changeTextContent', ({id, text}) => {
+    bridge.on('changeTextContent', ({ id, text }) => {
       var node = this.getNodeForID(id);
       if (!node) {
         return;
@@ -211,7 +214,7 @@ class Agent extends EventEmitter {
     var data = this.elementData.get(id);
     var node = this.getNodeForID(id);
     if (data && node) {
-      this.emit('highlight', {node, name: data.name, props: data.props});
+      this.emit('highlight', { node, name: data.name, props: data.props });
     }
   }
 
@@ -245,7 +248,7 @@ class Agent extends EventEmitter {
     if (!id) {
       return;
     }
-    this.emit('setSelection', {id, quiet});
+    this.emit('setSelection', { id, quiet });
   }
 
   selectFromReactInstance(instance: OpaqueNodeHandle, quiet?: boolean) {
@@ -254,7 +257,7 @@ class Agent extends EventEmitter {
       console.log('no instance id', instance);
       return;
     }
-    this.emit('setSelection', {id, quiet});
+    this.emit('setSelection', { id, quiet });
   }
 
   getIDForNode(node: Object): ?ElementID {
@@ -275,7 +278,7 @@ class Agent extends EventEmitter {
     return null;
   }
 
-  _setProps({id, path, value}: {id: ElementID, path: Array<string>, value: any}) {
+  _setProps({ id, path, value }: { id: ElementID, path: Array<string>, value: any }) {
     var data = this.elementData.get(id);
     if (data && data.updater && data.updater.setInProps) {
       data.updater.setInProps(path, value);
@@ -284,7 +287,7 @@ class Agent extends EventEmitter {
     }
   }
 
-  _setState({id, path, value}: {id: ElementID, path: Array<string>, value: any}) {
+  _setState({ id, path, value }: { id: ElementID, path: Array<string>, value: any }) {
     var data = this.elementData.get(id);
     if (data && data.updater && data.updater.setInState) {
       data.updater.setInState(path, value);
@@ -293,7 +296,7 @@ class Agent extends EventEmitter {
     }
   }
 
-  _setContext({id, path, value}: {id: ElementID, path: Array<string>, value: any}) {
+  _setContext({ id, path, value }: { id: ElementID, path: Array<string>, value: any }) {
     var data = this.elementData.get(id);
     if (data && data.updater && data.updater.setInContext) {
       data.updater.setInContext(path, value);
@@ -302,7 +305,7 @@ class Agent extends EventEmitter {
     }
   }
 
-  _makeGlobal({id, path}: {id: ElementID, path: Array<string>}) {
+  _makeGlobal({ id, path }: { id: ElementID, path: Array<string> }) {
     var data = this.elementData.get(id);
     if (!data) {
       return;

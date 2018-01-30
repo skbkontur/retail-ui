@@ -1,7 +1,7 @@
 ```js
-const { default: Icon } = require("../Icon");
-const { default: Button } = require("../Button");
-const { default: Input } = require("../Input");
+const { default: Icon } = require('../Icon');
+const { default: Button } = require('../Button');
+const { default: Input } = require('../Input');
 
 let initialState = { auto: false };
 
@@ -19,11 +19,7 @@ if (!state.auto) {
 
 <Group width={300}>
   {auto}
-  <Input
-    mainInGroup
-    leftIcon={icon}
-    onChange={e => setState({ auto: false })}
-  />
+  <Input mainInGroup leftIcon={icon} onChange={e => setState({ auto: false })} />
   <Button>Hey</Button>
   <Button>Ma</Button>
 </Group>;

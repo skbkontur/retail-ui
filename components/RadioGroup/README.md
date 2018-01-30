@@ -1,8 +1,8 @@
 ```js
-const { default: Gapped } = require("../Gapped");
-const { default: Radio } = require("../Radio");
+const { default: Gapped } = require('../Gapped');
+const { default: Radio } = require('../Radio');
 
-let items = ["One", "Two", "Three", "Four"];
+let items = ['One', 'Two', 'Three', 'Four'];
 
 let simpleRadioGroup = (
   <div>

@@ -3,13 +3,7 @@ import IconNames from '../Icon/IconNames';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
-export type ButtonUse =
-  | 'default'
-  | 'primary'
-  | 'success'
-  | 'danger'
-  | 'pay'
-  | 'link';
+export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
 export interface ButtonProps {
   active?: boolean;

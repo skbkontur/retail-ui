@@ -39,15 +39,9 @@ class TestNotifier extends React.Component<*, *> {
   render() {
     return (
       <div>
-        <Toast
-          ref={el => (this.notifier = el)}
-          onClose={action('close')}
-          onPush={action('push')}
-        />
+        <Toast ref={el => (this.notifier = el)} onClose={action('close')} onPush={action('push')} />
         <Button onClick={this.showNotification}>Show notification</Button>
-        <Button onClick={() => this.setState({ modal: true })}>
-          Show Modal
-        </Button>
+        <Button onClick={() => this.setState({ modal: true })}>Show Modal</Button>
         {this.state.modal && this.renderModal()}
       </div>
     );
@@ -61,9 +55,7 @@ class TestNotifier extends React.Component<*, *> {
           <Button onClick={this.showNotification}>Show notification</Button>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => this.setState({ modal: false })}>
-            Close Modal
-          </Button>
+          <Button onClick={() => this.setState({ modal: false })}>Close Modal</Button>
         </Modal.Footer>
       </Modal>
     );
@@ -73,8 +65,4 @@ class TestNotifier extends React.Component<*, *> {
 storiesOf('Toast', module)
   .add('simple notifiacation', () => <TestNotifier />)
   .add('complex notifiacation', () => <TestNotifier complex />)
-  .add('static method', () => (
-    <Button onClick={() => Toast.push('Static method call')}>
-      Show static
-    </Button>
-  ));
+  .add('static method', () => <Button onClick={() => Toast.push('Static method call')}>Show static</Button>);

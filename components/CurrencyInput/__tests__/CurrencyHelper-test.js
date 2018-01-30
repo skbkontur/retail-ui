@@ -36,18 +36,13 @@ describe('CurrencyHelper', () => {
       { value: 1.02, fractionDigits: 4, expected: '1,0200' }
     ].forEach(x => {
       const options = { fractionDigits: x.fractionDigits };
-      it(`format(${x.value}, ${JSON.stringify(
-        options
-      )}) === '${x.expected}'`, () => {
+      it(`format(${x.value}, ${JSON.stringify(options)}) === '${x.expected}'`, () => {
         const actual = CurrencyHelper.format(x.value, options);
         const expected = x.expected;
         expect(actual).toBe(expected);
       });
     });
-    [
-      { value: 1.1, fractionDigits: 0 },
-      { value: 1.6789, fractionDigits: 3 }
-    ].forEach(x => {
+    [{ value: 1.1, fractionDigits: 0 }, { value: 1.6789, fractionDigits: 3 }].forEach(x => {
       const options = { fractionDigits: x.fractionDigits };
       it(`format(${x.value}, ${JSON.stringify(options)}) throw`, () => {
         expect(() => CurrencyHelper.format(x.value, options)).toThrow();
@@ -107,18 +102,13 @@ describe('CurrencyHelper', () => {
       { value: '1.02', fractionDigits: 4, expected: '1,0200' }
     ].forEach(x => {
       const options = { fractionDigits: x.fractionDigits };
-      it(`formatString('${x.value}', ${JSON.stringify(
-        options
-      )}) === '${x.expected}'`, () => {
+      it(`formatString('${x.value}', ${JSON.stringify(options)}) === '${x.expected}'`, () => {
         const actual = CurrencyHelper.formatString(x.value, options);
         const expected = x.expected;
         expect(actual).toBe(expected);
       });
     });
-    [
-      { value: '1.1', fractionDigits: 0 },
-      { value: '1.6789', fractionDigits: 3 }
-    ].forEach(x => {
+    [{ value: '1.1', fractionDigits: 0 }, { value: '1.6789', fractionDigits: 3 }].forEach(x => {
       const options = { fractionDigits: x.fractionDigits };
       it(`formatString('${x.value}', ${JSON.stringify(options)}) throw`, () => {
         expect(() => CurrencyHelper.format(x.value, options)).toThrow();

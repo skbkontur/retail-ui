@@ -11,10 +11,7 @@ export default class CursorHelper {
 
   static calculatePosition(map: CursorMap, position: number, step: number) {
     if (position < 0 || map.length <= position) {
-      throw new Error(
-        `position out of range [${0} .. ${map.length -
-          1}], actual value: ${position}`
-      );
+      throw new Error(`position out of range [${0} .. ${map.length - 1}], actual value: ${position}`);
     }
     const raw = CursorHelper.toRawPosition(map, position);
     return CursorHelper.toFormattedPosition(map, raw + step);

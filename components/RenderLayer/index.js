@@ -19,12 +19,8 @@ class RenderLayer extends Component<Props> {
   unsibscribeClickOutside: () => void;
 
   componentDidMount() {
-    this.unsibscribeFocusOutside = this.props.subscribeToOutsideFocus(
-      this.props.onFocusOutside
-    );
-    this.unsibscribeClickOutside = this.props.subscribeToOutsideClicks(
-      this.props.onClickOutside
-    );
+    this.unsibscribeFocusOutside = this.props.subscribeToOutsideFocus(this.props.onFocusOutside);
+    this.unsibscribeClickOutside = this.props.subscribeToOutsideClicks(this.props.onClickOutside);
   }
 
   componentWillUnmount() {

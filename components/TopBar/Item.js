@@ -25,17 +25,7 @@ class Item extends React.Component<{
   };
 
   render() {
-    const {
-      active,
-      children,
-      _onClick,
-      className,
-      iconOnly,
-      icon,
-      minWidth,
-      use,
-      ...rest
-    } = this.props;
+    const { active, children, _onClick, className, iconOnly, icon, minWidth, use, ...rest } = this.props;
 
     const classes = {
       [styles.item]: true,
@@ -48,16 +38,12 @@ class Item extends React.Component<{
     }
 
     return (
-      <div
-        {...rest}
-        className={cn(classes)}
-        onClick={_onClick}
-        style={{ minWidth }}
-      >
-        {icon &&
+      <div {...rest} className={cn(classes)} onClick={_onClick} style={{ minWidth }}>
+        {icon && (
           <span className={styles.icon}>
             <CapIcon color="#666" name={icon} />
-          </span>}
+          </span>
+        )}
         {children}
       </div>
     );

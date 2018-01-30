@@ -61,22 +61,9 @@ class Spinner extends React.Component<Props> {
       9.19661922 L32.0297086,9.1495774 Z`;
 
     return (
-      <svg
-        className={styles.cloud}
-        width={params.width}
-        height={params.height}
-        viewBox={params.viewBox}
-      >
-        <path
-          className={styles.bg}
-          strokeWidth={params.strokeWidth}
-          d={svgPath}
-        />
-        <path
-          className={styles.path}
-          strokeWidth={params.strokeWidth}
-          d={svgPath}
-        />
+      <svg className={styles.cloud} width={params.width} height={params.height} viewBox={params.viewBox}>
+        <path className={styles.bg} strokeWidth={params.strokeWidth} d={svgPath} />
+        <path className={styles.path} strokeWidth={params.strokeWidth} d={svgPath} />
       </svg>
     );
   };
@@ -86,20 +73,11 @@ class Spinner extends React.Component<Props> {
 
     return (
       <svg
-        className={classnames(
-          styles.circle,
-          this.props.dimmed && styles.dimmed
-        )}
+        className={classnames(styles.circle, this.props.dimmed && styles.dimmed)}
         width={params.width}
         height={params.height}
       >
-        <circle
-          cx="8"
-          cy="8"
-          r="6"
-          className={styles.path}
-          strokeWidth={params.strokeWidth}
-        />
+        <circle cx="8" cy="8" r="6" className={styles.path} strokeWidth={params.strokeWidth} />
       </svg>
     );
   };

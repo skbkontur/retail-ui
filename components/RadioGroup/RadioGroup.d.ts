@@ -24,10 +24,7 @@ export interface RadioGroupState<T> {
   activeItem: T | null;
 }
 
-export default class RadioGroup<
-  Value = any,
-  Data = Value
-> extends React.Component<
+export default class RadioGroup<Value = any, Data = Value> extends React.Component<
   RadioGroupProps<Value, Data>,
   RadioGroupState<Value>
 > {

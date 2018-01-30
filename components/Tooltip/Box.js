@@ -58,11 +58,7 @@ class Box extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.pos &&
-      this.state.pos &&
-      !shallowEqual(prevState.pos.boxStyle, this.state.pos.boxStyle)
-    ) {
+    if (prevState.pos && this.state.pos && !shallowEqual(prevState.pos.boxStyle, this.state.pos.boxStyle)) {
       this.reflow();
     }
   }

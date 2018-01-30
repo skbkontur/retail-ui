@@ -13,7 +13,4 @@ export interface TopBarButtonProps {
 
 export interface TopBarButtonState {}
 
-export default class TopBarButton extends React.Component<
-  TopBarButtonProps,
-  TopBarButtonState
-> {}
+export default class TopBarButton extends React.Component<TopBarButtonProps, TopBarButtonState> {}

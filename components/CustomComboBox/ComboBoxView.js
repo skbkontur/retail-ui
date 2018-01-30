@@ -139,11 +139,7 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
     const arrowIsShown = !spinnerIsShown && openButton;
 
     return (
-      <RenderLayer
-        onClickOutside={onClickOutside}
-        onFocusOutside={onFocusOutside}
-        active={opened}
-      >
+      <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
         <label
           style={{ width, display: 'inline-block', position: 'relative' }}
           onMouseEnter={onMouseEnter}
@@ -154,11 +150,7 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
           {spinnerIsShown && spinner}
           {arrowIsShown && arrow}
           {opened && (
-            <DropdownContainer
-              align={menuAlign}
-              getParent={() => findDOMNode(this)}
-              offsetY={1}
-            >
+            <DropdownContainer align={menuAlign} getParent={() => findDOMNode(this)} offsetY={1}>
               {menu}
             </DropdownContainer>
           )}
@@ -168,15 +160,7 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
   }
 
   renderMenu() {
-    const {
-      opened,
-      items,
-      totalCount,
-      loading,
-      refMenu,
-      renderNotFound,
-      renderTotalCount
-    } = this.props;
+    const { opened, items, totalCount, loading, refMenu, renderNotFound, renderTotalCount } = this.props;
 
     if (!opened) {
       return null;
@@ -206,9 +190,7 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
     if (items && renderTotalCount && totalCount && items.length < totalCount) {
       total = (
         <MenuItem disabled>
-          <div style={{ fontSize: 12 }}>
-            {renderTotalCount(items.length, totalCount)}
-          </div>
+          <div style={{ fontSize: 12 }}>{renderTotalCount(items.length, totalCount)}</div>
         </MenuItem>
       );
     }
@@ -291,11 +273,7 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
         warning={warning}
         size={size}
       >
-        {value ? (
-          renderValue(value)
-        ) : (
-          <span style={{ color: 'gray' }}>{placeholder}</span>
-        )}
+        {value ? renderValue(value) : <span style={{ color: 'gray' }}>{placeholder}</span>}
       </InputLikeText>
     );
   }

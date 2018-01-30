@@ -79,11 +79,7 @@ describe('CursorHelper', () => {
       { value: [0, 2, 2, 3], position: 2, step: -1, expected: 0 }
     ].forEach(x => {
       it(`calculatePosition([${x.value}], ${x.position}, ${x.step}) === ${x.expected}`, () => {
-        const actual = CursorHelper.calculatePosition(
-          x.value,
-          x.position,
-          x.step
-        );
+        const actual = CursorHelper.calculatePosition(x.value, x.position, x.step);
         const expected = x.expected;
         expect(actual).toBe(expected);
       });
@@ -148,9 +144,7 @@ describe('CursorHelper', () => {
         expected: { start: 0, end: 2, direction: 'backward' }
       }
     ].forEach(x => {
-      it(`normalizeSelection([${x.map}], ${JSON.stringify(
-        x.selection
-      )}) === ${JSON.stringify(x.expected)}`, () => {
+      it(`normalizeSelection([${x.map}], ${JSON.stringify(x.selection)}) === ${JSON.stringify(x.expected)}`, () => {
         const actual = CursorHelper.normalizeSelection(x.map, x.selection);
         const expected = x.expected;
         expect(actual).toEqual(expected);
@@ -310,14 +304,10 @@ describe('CursorHelper', () => {
         expected: { start: 2, end: 4, direction: 'backward' }
       }
     ].forEach(x => {
-      it(`extendSelection('[${x.value}]', ${JSON.stringify(
-        x.selection
-      )}, '${x.step}') === '${JSON.stringify(x.expected)}`, () => {
-        const actual = CursorHelper.extendSelection(
-          x.value,
-          x.selection,
-          x.step
-        );
+      it(`extendSelection('[${x.value}]', ${JSON.stringify(x.selection)}, '${x.step}') === '${JSON.stringify(
+        x.expected
+      )}`, () => {
+        const actual = CursorHelper.extendSelection(x.value, x.selection, x.step);
         const expected = x.expected;
         expect(actual).toEqual(expected);
       });

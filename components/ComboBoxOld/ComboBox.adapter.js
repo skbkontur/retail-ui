@@ -22,10 +22,7 @@ const ComboBoxAdapter = {
 
   search({ renderer }, searchString: string) {
     renderer._handleValueClick();
-    renderer._handleInputChange(
-      { target: { value: searchString } },
-      searchString
-    );
+    renderer._handleInputChange({ target: { value: searchString } }, searchString);
   },
 
   getResult({ renderer }) {

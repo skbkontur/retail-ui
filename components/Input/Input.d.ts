@@ -28,10 +28,7 @@ export interface InputProps {
   warning?: boolean;
   width?: number | string;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
-  onChange?: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    value: string
-  ) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
   onCopy?: React.ClipboardEventHandler<HTMLInputElement>;
   onCut?: React.ClipboardEventHandler<HTMLInputElement>;
   onFocus?: React.FocusEventHandler<HTMLInputElement>;

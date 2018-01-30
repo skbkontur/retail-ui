@@ -37,7 +37,7 @@ function dehydrate(data: Object, cleaned: Array<Array<string>>, path?: Array<str
     cleaned.push(path);
     return {
       name: data.name,
-      type: 'function',
+      type: 'function'
     };
   }
   if (!data || typeof data !== 'object') {
@@ -51,7 +51,7 @@ function dehydrate(data: Object, cleaned: Array<Array<string>>, path?: Array<str
       cleaned.push(path);
       return {
         type: 'symbol',
-        name: data.toString(),
+        name: data.toString()
       };
     }
     return data;
@@ -65,9 +65,11 @@ function dehydrate(data: Object, cleaned: Array<Array<string>>, path?: Array<str
     return {
       type: Array.isArray(data) ? 'array' : 'object',
       name: !data.constructor || data.constructor.name === 'Object' ? '' : data.constructor.name,
-      meta: Array.isArray(data) ? {
-        length: data.length,
-      } : null,
+      meta: Array.isArray(data)
+        ? {
+            length: data.length
+          }
+        : null
     };
   }
   if (Array.isArray(data)) {
@@ -79,7 +81,7 @@ function dehydrate(data: Object, cleaned: Array<Array<string>>, path?: Array<str
     cleaned.push(path);
     return {
       name: data.constructor.name,
-      type: 'object',
+      type: 'object'
     };
   }
   var res = {};

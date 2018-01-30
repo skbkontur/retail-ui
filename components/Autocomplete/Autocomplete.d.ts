@@ -12,9 +12,6 @@ export interface AutocompleteState {
   selected: number;
 }
 
-export default class Autocomplete extends React.Component<
-  AutocompleteProps,
-  AutocompleteState
-> {
+export default class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   focus(): void;
 }

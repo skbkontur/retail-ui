@@ -16,7 +16,4 @@ export interface LogotypeProps {
 
 export interface LogotypeState {}
 
-export default class Logotype extends React.Component<
-  LogotypeProps,
-  LogotypeState
-> {}
+export default class Logotype extends React.Component<LogotypeProps, LogotypeState> {}

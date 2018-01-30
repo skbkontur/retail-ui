@@ -7,11 +7,7 @@ import type { Address, VerifyResult } from './Types';
 const kladrUrl = 'https://kladr.kontur.ru/v1/';
 const LIMIT = 50;
 
-export function search(
-  searchText: string,
-  levels: string,
-  parentCode: ?string
-): Promise<Array<Address>> {
+export function search(searchText: string, levels: string, parentCode: ?string): Promise<Array<Address>> {
   const data = createQuery({
     prefix: searchText,
     parentKladr: parentCode || '',
@@ -19,7 +15,9 @@ export function search(
     desiredAoLevels: levels,
     strictSubordination: 'false'
   });
-  return fetch(`${kladrUrl}suggest?${data}`).then(res => res.json()).then(toJS);
+  return fetch(`${kladrUrl}suggest?${data}`)
+    .then(res => res.json())
+    .then(toJS);
 }
 
 export function searchIndex(code: string, house: ?string) {
@@ -28,9 +26,7 @@ export function searchIndex(code: string, house: ?string) {
     house: house || ''
   });
 
-  return fetch(`${kladrUrl}kladr/index?${data}`).then(response =>
-    response.text()
-  );
+  return fetch(`${kladrUrl}kladr/index?${data}`).then(response => response.text());
 }
 
 export function verify(req: Address): Promise<VerifyResult> {

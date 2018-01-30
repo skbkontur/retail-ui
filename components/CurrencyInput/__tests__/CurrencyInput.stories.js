@@ -30,11 +30,7 @@ class CurrencyInputDemo extends React.Component<{}, CurrencyInputDemoState> {
             Set <b>rand</b>
           </Button>
         </Gapped>
-        <CurrencyInput
-          value={this.state.value}
-          fractionDigits={this.state.digits}
-          onChange={this._handleChange}
-        />
+        <CurrencyInput value={this.state.value} fractionDigits={this.state.digits} onChange={this._handleChange} />
         <div>
           value: <b>{this._formatValue(this.state.value)}</b>
         </div>
@@ -67,8 +63,7 @@ class CurrencyInputDemo extends React.Component<{}, CurrencyInputDemoState> {
   _handleDigits = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this.setState({
       value: null,
-      digits:
-        event.target.value === '15' ? null : parseInt(event.target.value, 10)
+      digits: event.target.value === '15' ? null : parseInt(event.target.value, 10)
     });
   };
 

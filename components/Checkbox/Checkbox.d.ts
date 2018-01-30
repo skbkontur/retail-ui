@@ -5,10 +5,7 @@ export interface CheckboxProps {
   children?: React.ReactNode;
   disabled?: boolean;
   error?: boolean;
-  onChange?: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    value: boolean
-  ) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: boolean) => void;
   onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
   onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
@@ -19,7 +16,4 @@ export interface CheckboxState {
   focusedByTab: boolean;
 }
 
-export default class Checkbox extends React.Component<
-  CheckboxProps,
-  CheckboxState
-> {}
+export default class Checkbox extends React.Component<CheckboxProps, CheckboxState> {}

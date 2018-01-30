@@ -19,11 +19,7 @@ type ReturnType = {
 };
 
 export function mountTest(reactElement: React.Element<*>): ReturnType {
-  const wrapper = mount(
-    <Wrap>
-      {reactElement}
-    </Wrap>
-  );
+  const wrapper = mount(<Wrap>{reactElement}</Wrap>);
 
   return {
     // $FlowIssue needs better enzyme typings

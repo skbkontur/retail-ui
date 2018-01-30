@@ -7,13 +7,7 @@ class Paginator3000 extends React.Component {
   }
 
   render() {
-    return (
-      <Paging
-        activePage={this.state.active}
-        onPageChange={this._handlePageChange}
-        pagesCount={12}
-      />
-    );
+    return <Paging activePage={this.state.active} onPageChange={this._handlePageChange} pagesCount={12} />;
   }
 
   _handlePageChange(pageNumber) {

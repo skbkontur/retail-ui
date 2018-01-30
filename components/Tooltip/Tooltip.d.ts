@@ -26,7 +26,4 @@ export interface TooltipProps {
 
 export interface TooltipState {}
 
-export default class Tooltip extends React.Component<
-  TooltipProps,
-  TooltipState
-> {}
+export default class Tooltip extends React.Component<TooltipProps, TooltipState> {}

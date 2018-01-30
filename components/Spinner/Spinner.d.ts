@@ -16,9 +16,6 @@ export interface SpinnerProps {
 
 export interface SpinnerState {}
 
-export default class Spinner extends React.Component<
-  SpinnerProps,
-  SpinnerState
-> {
+export default class Spinner extends React.Component<SpinnerProps, SpinnerState> {
   static Types: ISpinnerTypes;
 }

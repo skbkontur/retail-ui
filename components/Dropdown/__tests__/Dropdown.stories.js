@@ -7,10 +7,7 @@ import MenuItem from '../../MenuItem';
 
 storiesOf('Dropdown', module)
   .addDecorator(story => (
-    <div
-      className="dropdown-test-container"
-      style={{ height: 150, width: 400, padding: 4 }}
-    >
+    <div className="dropdown-test-container" style={{ height: 150, width: 400, padding: 4 }}>
       {story()}
     </div>
   ))
@@ -41,11 +38,7 @@ storiesOf('Dropdown', module)
     </Dropdown>
   ))
   .add('With icon and overflow', () => (
-    <Dropdown
-      icon="add"
-      caption="Lorem ipsum dollar all mubarak ibn ahmed"
-      width="100"
-    >
+    <Dropdown icon="add" caption="Lorem ipsum dollar all mubarak ibn ahmed" width="100">
       <MenuItem>Menu item</MenuItem>
     </Dropdown>
   ));

@@ -22,8 +22,8 @@ type State = {
 };
 
 /**
-  * **DRAFT**
-**/
+ * **DRAFT**
+ **/
 
 export default class PasswordInput extends React.Component<Props, State> {
   static defaultProps = {
@@ -69,18 +69,13 @@ export default class PasswordInput extends React.Component<Props, State> {
       return;
     }
 
-    const capsLockEnabled =
-      (chr.toLowerCase() === chr && e.shiftKey) ||
-      (chr.toUpperCase() === chr && !e.shiftKey);
+    const capsLockEnabled = (chr.toLowerCase() === chr && e.shiftKey) || (chr.toUpperCase() === chr && !e.shiftKey);
 
     this.setState({ capsLockEnabled });
   };
 
   _handleKeydown = (e: SyntheticKeyboardEvent<>) => {
-    const {
-      props: { detectCapsLock, onKeyDown },
-      state: { capsLockEnabled }
-    } = this;
+    const { props: { detectCapsLock, onKeyDown }, state: { capsLockEnabled } } = this;
 
     if (onKeyDown) {
       onKeyDown(e);
@@ -105,10 +100,7 @@ export default class PasswordInput extends React.Component<Props, State> {
 
   _renderEye = () => {
     return (
-      <span
-        className={styles.toggleVisibility}
-        onClick={this._handleToggleVisibility}
-      >
+      <span className={styles.toggleVisibility} onClick={this._handleToggleVisibility}>
         <Icon size={14} name={this.state.visible ? 'eye' : 'eye-slash'} />
       </span>
     );
@@ -133,22 +125,10 @@ export default class PasswordInput extends React.Component<Props, State> {
     };
 
     if (isIE && ieVerison === 8) {
-      return (
-        <PasswordInputFallback
-          refInput={this._refInput}
-          visible={this.state.visible}
-          {...inputProps}
-        />
-      );
+      return <PasswordInputFallback refInput={this._refInput} visible={this.state.visible} {...inputProps} />;
     }
 
-    return (
-      <Input
-        ref={this._refInput}
-        type={this.state.visible ? 'text' : 'password'}
-        {...inputProps}
-      />
-    );
+    return <Input ref={this._refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />;
   }
 
   render() {

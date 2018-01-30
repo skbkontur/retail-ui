@@ -8,7 +8,4 @@ export interface FxInputProps extends InputProps {
 
 export interface FxInputState {}
 
-export default class FxInput extends React.Component<
-  FxInputProps,
-  FxInputState
-> {}
+export default class FxInput extends React.Component<FxInputProps, FxInputState> {}

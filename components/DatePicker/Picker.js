@@ -50,12 +50,7 @@ export default class Picker extends React.Component<Props, State> {
             onChange={this.handleMonthChange}
           />
         </div>
-        <Calendar
-          ref="calendar"
-          {...this.props}
-          initialDate={date}
-          onNav={date => this.setState({ date })}
-        />
+        <Calendar ref="calendar" {...this.props} initialDate={date} onNav={date => this.setState({ date })} />
       </div>
     );
   }

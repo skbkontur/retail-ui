@@ -1,18 +1,18 @@
 ```js
-const { default: Loader } = require("../Loader");
-const { default: Icon } = require("../Icon");
+const { default: Loader } = require('../Loader');
+const { default: Icon } = require('../Icon');
 
 let Item = TopBar.Item;
 
 let pageStyle = {
-  background: "#e6e6e6",
+  background: '#e6e6e6',
   height: 400,
-  border: "1px solid #dedfdf",
-  overflow: "hidden"
+  border: '1px solid #dedfdf',
+  overflow: 'hidden'
 };
 
 let contentStyle = {
-  background: "white",
+  background: 'white',
   padding: 15,
   height: 280
 };
@@ -21,7 +21,7 @@ let contentStyle = {
   <TopBar
     userName="Alexander The Great"
     suffix="ui"
-    onLogout={() => alert("Logout!")}
+    onLogout={() => alert('Logout!')}
     leftItems={[
       <Item>
         <Icon name="child" color="#666" />

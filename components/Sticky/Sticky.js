@@ -169,9 +169,7 @@ export default class Sticky extends React.Component<Props, State> {
     const wrapLeft = wrapRect.left;
     const wrapTop = wrapRect.top;
     const fixed =
-      this.props.side === 'top'
-        ? wrapTop < this.props.offset
-        : wrapRect.bottom > windowHeight - this.props.offset;
+      this.props.side === 'top' ? wrapTop < this.props.offset : wrapRect.bottom > windowHeight - this.props.offset;
 
     const wasFixed = this.state.fixed;
 
@@ -182,11 +180,7 @@ export default class Sticky extends React.Component<Props, State> {
       if (!inner) {
         return;
       }
-      if (
-        !wasFixed ||
-        this.state.width !== width ||
-        this._lastInnerHeight !== inner.offsetHeight
-      ) {
+      if (!wasFixed || this.state.width !== width || this._lastInnerHeight !== inner.offsetHeight) {
         yield {
           fixed: false,
           height

@@ -1,4 +1,4 @@
-@import "../variables.less";
+@import '../variables.less';
 
 :local {
   .fillContainerPosition() {
@@ -18,8 +18,8 @@
 
     &.active:after {
       background: @loader-bg;
-      content: " ";
-      filter: ~`"alpha(opacity = (" + @{loader-opacity} * 100 + "))"`;
+      content: ' ';
+      filter: ~`'alpha(opacity = (' + @{loader-opacity} * 100 + '))'`;
       opacity: @loader-opacity;
       z-index: 25;
       .fillContainerPosition;
@@ -38,7 +38,7 @@
     .fillContainerPosition;
 
     &:before {
-      content: " ";
+      content: ' ';
       display: inline-block;
       height: 100%;
       min-height: 100%;

@@ -1,5 +1,5 @@
 ```js
-let initialState = { value: "" };
+let initialState = { value: '' };
 <Textarea
   value={state.value}
   onChange={(_, value) => setState({ value })}

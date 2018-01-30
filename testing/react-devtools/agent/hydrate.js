@@ -15,11 +15,11 @@ var consts = require('./consts');
 function hydrate(data: Object, cleaned: Array<Array<string>>): void {
   cleaned.forEach(path => {
     var last = path.pop();
-    var obj = path.reduce((obj_, attr) => obj_ ? obj_[attr] : null, data);
+    var obj = path.reduce((obj_, attr) => (obj_ ? obj_[attr] : null), data);
     if (!obj || !obj[last]) {
       return;
     }
-    var replace: {[key: Symbol]: boolean | string} = {};
+    var replace: { [key: Symbol]: boolean | string } = {};
     replace[consts.name] = obj[last].name;
     replace[consts.type] = obj[last].type;
     replace[consts.meta] = obj[last].meta;

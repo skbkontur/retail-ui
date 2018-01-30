@@ -6,7 +6,4 @@ export interface MenuHeaderProps {
 
 export interface MenuHeaderState {}
 
-export default class MenuHeader extends React.Component<
-  MenuHeaderProps,
-  MenuHeaderState
-> {}
+export default class MenuHeader extends React.Component<MenuHeaderProps, MenuHeaderState> {}

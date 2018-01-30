@@ -15,9 +15,7 @@ xdescribe('Autocomplete-adapter', () => {
   testAdapter('setValue', mount => {
     const source = jest.fn(() => Promise.resolve([]));
     const onChange = jest.fn();
-    const adapter = mount(
-      <Autocomplete value="" source={source} onChange={onChange} />
-    );
+    const adapter = mount(<Autocomplete value="" source={source} onChange={onChange} />);
 
     adapter.setValue('foo');
 
@@ -43,9 +41,7 @@ xdescribe('Autocomplete-adapter', () => {
   testAdapter('setValueByIndex', async mount => {
     const source = jest.fn(() => Promise.resolve(['foo']));
     const onChange = jest.fn((e, value) => adapter.setProps({ value }));
-    const adapter = mount(
-      <Autocomplete value="" source={source} onChange={onChange} />
-    );
+    const adapter = mount(<Autocomplete value="" source={source} onChange={onChange} />);
 
     // Fetch suggestions.
     adapter.setValue('bar');

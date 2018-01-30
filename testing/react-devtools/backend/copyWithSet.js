@@ -15,7 +15,7 @@ function copyWithSetImpl(obj, path, idx, value) {
     return value;
   }
   var key = path[idx];
-  var updated = Array.isArray(obj) ? obj.slice() : {...obj};
+  var updated = Array.isArray(obj) ? obj.slice() : { ...obj };
   // $FlowFixMe number or string is fine here
   updated[key] = copyWithSetImpl(obj[key], path, idx + 1, value);
   return updated;

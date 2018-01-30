@@ -14,11 +14,7 @@ class TestTooltip extends React.Component<*> {
 
     return (
       <div style={{ padding: '150px' }}>
-        <Tooltip
-          pos={pos}
-          render={() => <div>Hey there!</div>}
-          trigger={trigger}
-        >
+        <Tooltip pos={pos} render={() => <div>Hey there!</div>} trigger={trigger}>
           {children}
         </Tooltip>
       </div>

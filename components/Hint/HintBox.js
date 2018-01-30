@@ -52,12 +52,7 @@ export default class HintBox extends React.Component<Props, State> {
 
     return (
       <RenderContainer>
-        <ZIndex
-          delta={1000}
-          ref={this._ref}
-          style={style}
-          className={className}
-        >
+        <ZIndex delta={1000} ref={this._ref} style={style} className={className}>
           {this.props.text}
           {renderPin(this.state.pos, styles.pin, styles.pinInner)}
         </ZIndex>

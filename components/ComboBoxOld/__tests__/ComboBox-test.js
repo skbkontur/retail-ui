@@ -38,14 +38,7 @@ describe('ComboBox', () => {
 
   it('uses static info', () => {
     const render = jest.fn();
-    mount(
-      <ComboBox
-        value="foo"
-        info="bar"
-        source={jest.fn()}
-        renderValue={render}
-      />
-    );
+    mount(<ComboBox value="foo" info="bar" source={jest.fn()} renderValue={render} />);
 
     expect(render.mock.calls[0][1]).toBe('bar');
   });
@@ -53,14 +46,7 @@ describe('ComboBox', () => {
   it('uses promise info', async () => {
     const info = jest.fn(val => Promise.resolve(val.toUpperCase()));
     const render = jest.fn();
-    const wrapper = mount(
-      <ComboBox
-        value="foo"
-        info={info}
-        source={jest.fn()}
-        renderValue={render}
-      />
-    );
+    const wrapper = mount(<ComboBox value="foo" info={info} source={jest.fn()} renderValue={render} />);
 
     // Initial render.
     expect(info.mock.calls[0]).toEqual(['foo']);

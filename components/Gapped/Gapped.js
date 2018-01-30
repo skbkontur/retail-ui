@@ -56,18 +56,10 @@ class Gapped extends React.Component<Props> {
 
       isFirst = false;
 
-      return (
-        <div style={style}>
-          {child}
-        </div>
-      );
+      return <div style={style}>{child}</div>;
     });
 
-    return (
-      <div>
-        {children}
-      </div>
-    );
+    return <div>{children}</div>;
   }
 
   _renderHorizontal() {
@@ -81,11 +73,7 @@ class Gapped extends React.Component<Props> {
       if (!child) {
         return child;
       }
-      return (
-        <span style={itemStyle}>
-          {child}
-        </span>
-      );
+      return <span style={itemStyle}>{child}</span>;
     });
     const rootStyle = {
       paddingTop: 1
@@ -96,9 +84,7 @@ class Gapped extends React.Component<Props> {
     };
     return (
       <div style={rootStyle}>
-        <div style={contStyle}>
-          {children}
-        </div>
+        <div style={contStyle}>{children}</div>
       </div>
     );
   }

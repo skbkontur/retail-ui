@@ -29,18 +29,14 @@ describe('Spinner', () => {
 
   it('renders correct default Spinner caption text', () => {
     const component = render();
-    const captionText = component
-      .find(generateSelector('captionBottom'))
-      .text();
+    const captionText = component.find(generateSelector('captionBottom')).text();
 
     expect(captionText).toEqual('Загрузка');
   });
 
   it('prints correct caption text', () => {
     const component = render({ caption: 'test' });
-    const captionText = component
-      .find(generateSelector('captionBottom'))
-      .text();
+    const captionText = component.find(generateSelector('captionBottom')).text();
 
     expect(captionText).toEqual('test');
   });

@@ -125,10 +125,7 @@ class SearchSelect extends React.Component<Props, State> {
           onKeyDown={this._handleInputKey}
           onBlur={this._handleInputBlur}
         />
-        <span
-          className={styles.openArrow}
-          onMouseDown={this._handleOpenClick}
-        />
+        <span className={styles.openArrow} onMouseDown={this._handleOpenClick} />
       </div>
     );
   }
@@ -136,11 +133,7 @@ class SearchSelect extends React.Component<Props, State> {
   renderClosedValue() {
     let value;
     if (this.state.value == null) {
-      value = (
-        <span className={styles.placeholder}>
-          {this.props.placeholder}
-        </span>
-      );
+      value = <span className={styles.placeholder}>{this.props.placeholder}</span>;
     } else if (this.props.loader) {
       if (this.state.item) {
         value = this.props.renderValue(this.state.value, this.state.item);
@@ -233,8 +226,7 @@ class SearchSelect extends React.Component<Props, State> {
         this._moveSelection(1);
         break;
       case 'Enter':
-        const item =
-          this.state.results && this.state.results[this.state.selected];
+        const item = this.state.results && this.state.results[this.state.selected];
         if (item) {
           event.preventDefault();
           this._close(() => {

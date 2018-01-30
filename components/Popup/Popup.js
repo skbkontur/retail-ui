@@ -78,10 +78,7 @@ export default class Popup extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (
-      this.props.opened !== prevProps.opened ||
-      this.props.anchorElement !== prevProps.anchorElement
-    ) {
+    if (this.props.opened !== prevProps.opened || this.props.anchorElement !== prevProps.anchorElement) {
       this._preRender();
     }
   }
@@ -120,9 +117,7 @@ export default class Popup extends React.Component<Props, State> {
       return null;
     }
     const { location } = this.state;
-    const directionClass = location
-      ? location.position.split(' ')[0]
-      : 'bottom';
+    const directionClass = location ? location.position.split(' ')[0] : 'bottom';
     return (
       <RenderLayer
         onClickOutside={this._handleClickOutside}
@@ -152,14 +147,7 @@ export default class Popup extends React.Component<Props, State> {
   }
 
   _renderContent(location) {
-    let {
-      hasPin,
-      children,
-      pinSize,
-      pinOffset,
-      backgroundColor,
-      hasShadow
-    } = this.props;
+    let { hasPin, children, pinSize, pinOffset, backgroundColor, hasShadow } = this.props;
 
     const style = {
       top: location.coordinates.top,
@@ -246,13 +234,7 @@ export default class Popup extends React.Component<Props, State> {
 
     for (var i = 0; i < positions.length; ++i) {
       const position = PopupHelper.getPositionObject(positions[i]);
-      const coordinates = this._getCoordinates(
-        anchorRect,
-        popupRect,
-        position,
-        margin,
-        popupOffset
-      );
+      const coordinates = this._getCoordinates(anchorRect, popupRect, position, margin, popupOffset);
       if (
         PopupHelper.isAbsoluteRectFullyVisible({
           top: coordinates.top,
@@ -279,41 +261,21 @@ export default class Popup extends React.Component<Props, State> {
       case 'top':
         return {
           top: anchorRect.top - popupRect.height - margin,
-          left: this._getHorisontalPosition(
-            anchorRect,
-            popupRect,
-            position.align,
-            popupOffset
-          )
+          left: this._getHorisontalPosition(anchorRect, popupRect, position.align, popupOffset)
         };
       case 'bottom':
         return {
           top: anchorRect.top + anchorRect.height + margin,
-          left: this._getHorisontalPosition(
-            anchorRect,
-            popupRect,
-            position.align,
-            popupOffset
-          )
+          left: this._getHorisontalPosition(anchorRect, popupRect, position.align, popupOffset)
         };
       case 'left':
         return {
-          top: this._getVerticalPosition(
-            anchorRect,
-            popupRect,
-            position.align,
-            popupOffset
-          ),
+          top: this._getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
           left: anchorRect.left - popupRect.width - margin
         };
       case 'right':
         return {
-          top: this._getVerticalPosition(
-            anchorRect,
-            popupRect,
-            position.align,
-            popupOffset
-          ),
+          top: this._getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
           left: anchorRect.left + anchorRect.width + margin
         };
       default:
@@ -328,9 +290,7 @@ export default class Popup extends React.Component<Props, State> {
       case 'center':
         return anchorRect.left - (popupRect.width - anchorRect.width) / 2;
       case 'right':
-        return (
-          anchorRect.left - (popupRect.width - anchorRect.width) + popupOffset
-        );
+        return anchorRect.left - (popupRect.width - anchorRect.width) + popupOffset;
       default:
         throw new Error(`Unxpected align '${align}'`);
     }
@@ -343,9 +303,7 @@ export default class Popup extends React.Component<Props, State> {
       case 'middle':
         return anchorRect.top - (popupRect.height - anchorRect.height) / 2;
       case 'bottom':
-        return (
-          anchorRect.top - (popupRect.height - anchorRect.height) + popupOffset
-        );
+        return anchorRect.top - (popupRect.height - anchorRect.height) + popupOffset;
       default:
         throw new Error(`Unxpected align '${align}'`);
     }

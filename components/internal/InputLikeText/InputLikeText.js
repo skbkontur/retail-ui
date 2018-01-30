@@ -11,9 +11,7 @@ import Upgrades from '../../../lib/Upgrades';
 
 const isFlatDisign = Upgrades.ifFlatDisignEnabled();
 
-const styles = isFlatDisign
-  ? require('./InputLikeText.flat.less')
-  : require('./InputLikeText.less');
+const styles = isFlatDisign ? require('./InputLikeText.flat.less') : require('./InputLikeText.less');
 
 const PASS_PROPS = {
   onBlur: true,
@@ -40,9 +38,7 @@ export default class InputLikeText extends React.Component<{
   };
 
   render() {
-    const passProps = this.props.disabled
-      ? {}
-      : filterProps(this.props, PASS_PROPS);
+    const passProps = this.props.disabled ? {} : filterProps(this.props, PASS_PROPS);
 
     const className = classNames({
       [styles.root]: true,

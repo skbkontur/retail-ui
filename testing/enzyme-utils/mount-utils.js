@@ -8,10 +8,7 @@ import compact from 'lodash/compact';
 export const findRenderContainer = (wrapper: ReactWrapper) =>
   mount(wrapper.find('RenderContainer').get(0).props.children);
 
-export const findWithRenderContainer = (
-  selector: any,
-  wrapper: ReactWrapper
-): ReactWrapper => {
+export const findWithRenderContainer = (selector: any, wrapper: ReactWrapper): ReactWrapper => {
   const wrapperFinds = wrapper.find(selector);
   const containerFinds = findRenderContainer(wrapper).find(selector);
   const nodes = [...wrapperFinds.getNodes(), ...containerFinds.getNodes()];

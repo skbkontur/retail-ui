@@ -105,17 +105,12 @@ storiesOf('Popup', module)
   ))
   .add('Hint', () => (
     <div style={{ transform: 'translate(250%, 200%)' }}>
-      <Hint
-        positions={['top center', 'right top', 'bottom center', 'left middle']}
-        margin={20}
-      />
+      <Hint positions={['top center', 'right top', 'bottom center', 'left middle']} margin={20} />
     </div>
   ))
   .add('Toast', () => (
     <div style={{ transform: 'translate(250%, 200%)' }}>
-      <Toast
-        positions={['top center', 'right top', 'bottom center', 'left middle']}
-      />
+      <Toast positions={['top center', 'right top', 'bottom center', 'left middle']} />
     </div>
   ));
 
@@ -231,9 +226,7 @@ class PopupWithPositions extends Component<*, any> {
             pinSize={10}
             pinOffset={7}
           >
-            <div style={{ padding: '10px 20px', fontSize: '30px' }}>
-              Placeholder
-            </div>
+            <div style={{ padding: '10px 20px', fontSize: '30px' }}>Placeholder</div>
           </Popup>
         )}
       </div>
@@ -270,10 +263,7 @@ class Hint extends Component<*, any> {
   render() {
     return (
       <div>
-        <div
-          ref={e => (this.anchor = e)}
-          style={{ width: '100px', height: '100px', border: '1px solid black' }}
-        >
+        <div ref={e => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
           Hello
         </div>
         {this.state.anchor && (
@@ -318,10 +308,7 @@ class Toast extends Component<*, *> {
   render() {
     return (
       <div>
-        <div
-          ref={e => (this.anchor = e)}
-          style={{ width: '100px', height: '100px', border: '1px solid black' }}
-        >
+        <div ref={e => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
           Hello
         </div>
         {this.state.anchor && (

@@ -13,9 +13,7 @@ import Upgrades from '../../lib/Upgrades';
 
 const isFlatDisign = Upgrades.ifFlatDisignEnabled();
 
-const styles = isFlatDisign
-  ? require('./Checkbox.flat.less')
-  : require('./Checkbox.less');
+const styles = isFlatDisign ? require('./Checkbox.flat.less') : require('./Checkbox.less');
 
 const KEYCODE_TAB = 9;
 
@@ -36,10 +34,7 @@ type Props = {
   children?: React.Node,
   disabled?: boolean,
   error?: boolean,
-  onChange?: (
-    event: SyntheticMouseEvent<HTMLInputElement>,
-    value: boolean
-  ) => void,
+  onChange?: (event: SyntheticMouseEvent<HTMLInputElement>, value: boolean) => void,
   onMouseEnter?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
   onMouseLeave?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
   onMouseOver?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,

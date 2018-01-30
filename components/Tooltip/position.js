@@ -10,12 +10,7 @@ export type Result = {
   pinDirection: 'top' | 'right' | 'bottom' | 'left'
 };
 
-export default function(
-  box: HTMLElement,
-  target: HTMLElement,
-  posStr: string,
-  fixed: boolean
-): Result {
+export default function(box: HTMLElement, target: HTMLElement, posStr: string, fixed: boolean): Result {
   const pos = extractPos(posStr);
 
   const width = box.offsetWidth;
@@ -27,10 +22,8 @@ export default function(
     throw Error('There is no "documentElement" in "document"');
   }
 
-  const pageXOffset =
-    window.pageXOffset !== undefined ? window.pageXOffset : docElem.scrollLeft;
-  const pageYOffset =
-    window.pageYOffset !== undefined ? window.pageYOffset : docElem.scrollTop;
+  const pageXOffset = window.pageXOffset !== undefined ? window.pageXOffset : docElem.scrollLeft;
+  const pageYOffset = window.pageYOffset !== undefined ? window.pageYOffset : docElem.scrollTop;
 
   const tRect = target.getBoundingClientRect();
   const tWidth = tRect.right - tRect.left;
@@ -49,10 +42,7 @@ export default function(
   if (pos.aside) {
     switch (pos.ver) {
       case 'top':
-        if (
-          tRect.top + height > wndHeight &&
-          tRect.top > wndHeight - tRect.bottom
-        ) {
+        if (tRect.top + height > wndHeight && tRect.top > wndHeight - tRect.bottom) {
           pos.ver = 'bottom';
         }
         break;
@@ -64,10 +54,7 @@ export default function(
     }
     switch (pos.hor) {
       case 'left':
-        if (
-          tRect.left - width - SPACE < 0 &&
-          wndWidth - tRect.right >= width + SPACE
-        ) {
+        if (tRect.left - width - SPACE < 0 && wndWidth - tRect.right >= width + SPACE) {
           pos.hor = 'right';
         }
         break;
@@ -80,18 +67,12 @@ export default function(
   } else {
     switch (pos.ver) {
       case 'top':
-        if (
-          tRect.top < height + SPACE &&
-          tRect.top < wndHeight - tRect.bottom
-        ) {
+        if (tRect.top < height + SPACE && tRect.top < wndHeight - tRect.bottom) {
           pos.ver = 'bottom';
         }
         break;
       case 'bottom':
-        if (
-          wndHeight - tRect.bottom < height + SPACE &&
-          wndHeight - tRect.bottom < tRect.top
-        ) {
+        if (wndHeight - tRect.bottom < height + SPACE && wndHeight - tRect.bottom < tRect.top) {
           pos.ver = 'top';
         }
         break;

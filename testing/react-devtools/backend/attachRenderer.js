@@ -10,7 +10,7 @@
  */
 'use strict';
 
-import type {DataType, OpaqueNodeHandle, Hook, ReactRenderer, Helpers} from './types';
+import type { DataType, OpaqueNodeHandle, Hook, ReactRenderer, Helpers } from './types';
 var getData = require('./getData');
 var getData012 = require('./getData012');
 
@@ -36,7 +36,7 @@ function attachRenderer(hook: Hook, rid: string, renderer: ReactRenderer): Helpe
       var id = renderer.Mount.nativeTagToRootNodeID(nativeTag);
       return rootNodeIDMap.get(id);
     };
-  // React DOM 15+
+    // React DOM 15+
   } else if (renderer.ComponentTree) {
     extras.getNativeFromReactElement = function(component) {
       return renderer.ComponentTree.getNodeFromInstance(component);
@@ -45,7 +45,7 @@ function attachRenderer(hook: Hook, rid: string, renderer: ReactRenderer): Helpe
     extras.getReactElementFromNative = function(node) {
       return renderer.ComponentTree.getClosestInstanceFromNode(node);
     };
-  // React DOM
+    // React DOM
   } else if (renderer.Mount.getID && renderer.Mount.getNode) {
     extras.getNativeFromReactElement = function(component) {
       try {
@@ -73,18 +73,20 @@ function attachRenderer(hook: Hook, rid: string, renderer: ReactRenderer): Helpe
 
   // React DOM
   if (renderer.Mount._renderNewRootComponent) {
-    oldRenderRoot = decorateResult(renderer.Mount, '_renderNewRootComponent', (element) => {
-      hook.emit('root', {renderer: rid, element});
+    oldRenderRoot = decorateResult(renderer.Mount, '_renderNewRootComponent', element => {
+      hook.emit('root', { renderer: rid, element });
     });
-  // React Native
+    // React Native
   } else if (renderer.Mount.renderComponent) {
     oldRenderComponent = decorateResult(renderer.Mount, 'renderComponent', element => {
-      hook.emit('root', {renderer: rid, element: element._reactInternalInstance});
+      hook.emit('root', { renderer: rid, element: element._reactInternalInstance });
     });
   }
 
   if (renderer.Component) {
-    console.error('You are using a version of React with limited support in this version of the devtools.\nPlease upgrade to use at least 0.13, or you can downgrade to use the old version of the devtools:\ninstructions here https://github.com/facebook/react-devtools/tree/devtools-next#how-do-i-use-this-for-react--013');
+    console.error(
+      'You are using a version of React with limited support in this version of the devtools.\nPlease upgrade to use at least 0.13, or you can downgrade to use the old version of the devtools:\ninstructions here https://github.com/facebook/react-devtools/tree/devtools-next#how-do-i-use-this-for-react--013'
+    );
     // 0.11 - 0.12
     // $FlowFixMe renderer.Component is not "possibly undefined"
     oldMethods = decorateMany(renderer.Component.Mixin, {
@@ -96,45 +98,53 @@ function attachRenderer(hook: Hook, rid: string, renderer: ReactRenderer): Helpe
         // (do we have access to DOMComponent here?) so that we don't have to
         // setTimeout.
         setTimeout(() => {
-          hook.emit('mount', {element: this, data: getData012(this), renderer: rid});
+          hook.emit('mount', { element: this, data: getData012(this), renderer: rid });
         }, 0);
       },
       updateComponent() {
         setTimeout(() => {
-          hook.emit('update', {element: this, data: getData012(this), renderer: rid});
+          hook.emit('update', { element: this, data: getData012(this), renderer: rid });
         }, 0);
       },
       unmountComponent() {
-        hook.emit('unmount', {element: this, renderer: rid});
+        hook.emit('unmount', { element: this, renderer: rid });
         rootNodeIDMap.delete(this._rootNodeID, this);
-      },
+      }
     });
   } else if (renderer.Reconciler) {
     oldMethods = decorateMany(renderer.Reconciler, {
       mountComponent(element, rootID, transaction, context) {
         var data = getData(element);
         rootNodeIDMap.set(element._rootNodeID, element);
-        hook.emit('mount', {element, data, renderer: rid});
+        hook.emit('mount', { element, data, renderer: rid });
       },
       performUpdateIfNecessary(element, nextChild, transaction, context) {
-        hook.emit('update', {element, data: getData(element), renderer: rid});
+        hook.emit('update', { element, data: getData(element), renderer: rid });
       },
       receiveComponent(element, nextChild, transaction, context) {
-        hook.emit('update', {element, data: getData(element), renderer: rid});
+        hook.emit('update', { element, data: getData(element), renderer: rid });
       },
       unmountComponent(element) {
-        hook.emit('unmount', {element, renderer: rid});
+        hook.emit('unmount', { element, renderer: rid });
         rootNodeIDMap.delete(element._rootNodeID, element);
-      },
+      }
     });
   }
 
-  extras.walkTree = function(visit: (component: OpaqueNodeHandle, data: DataType) => void, visitRoot: (element: OpaqueNodeHandle) => void) {
+  extras.walkTree = function(
+    visit: (component: OpaqueNodeHandle, data: DataType) => void,
+    visitRoot: (element: OpaqueNodeHandle) => void
+  ) {
     var onMount = (component, data) => {
       rootNodeIDMap.set(component._rootNodeID, component);
       visit(component, data);
     };
-    walkRoots(renderer.Mount._instancesByReactRootID || renderer.Mount._instancesByContainerID, onMount, visitRoot, isPre013);
+    walkRoots(
+      renderer.Mount._instancesByReactRootID || renderer.Mount._instancesByContainerID,
+      onMount,
+      visitRoot,
+      isPre013
+    );
   };
 
   extras.cleanup = function() {
