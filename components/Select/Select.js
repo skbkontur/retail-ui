@@ -39,7 +39,6 @@ const PASS_BUTTON_PROPS = {
   onMouseOver: true
 };
 
-
 type Props<TValue, TItem> = {
   /** @ignore */
   _icon?: string,
@@ -190,19 +189,7 @@ class Select<TValue, TItem> extends React.Component<
   }
 
   render() {
-    const value = this._getValue();
-
-    const label =
-      value != null ? (
-        this.props.renderValue(
-          // $FlowIssue
-          value,
-          // $FlowIssue
-          this._getItemByValue(this.props.items, value)
-        )
-      ) : (
-        <span className={styles.placeholder}>{this.props.placeholder}</span>
-      );
+    const label = this.renderLabel();
 
     const buttonParams: ButtonParams = {
       opened: this.state.opened,
@@ -230,6 +217,19 @@ class Select<TValue, TItem> extends React.Component<
         </span>
       </RenderLayer>
     );
+  }
+
+  renderLabel() {
+    const value = this._getValue();
+    // $FlowIssue
+    const item = this._getItemByValue(value);
+
+    if (item != null || value != null) {
+      // $FlowIssue
+      return this.props.renderValue(value, item);
+    }
+
+    return <span className={styles.placeholder}>{this.props.placeholder}</span>;
   }
 
   renderDefaultButton(params: ButtonParams) {
@@ -501,10 +501,9 @@ class Select<TValue, TItem> extends React.Component<
     return result;
   }
 
-  _getItemByValue(items: ?(TItem[]), value: TValue) {
-    if (!items) {
-      return null;
-    }
+  _getItemByValue(value: TValue) {
+    const items = this.props.items || [];
+
     for (let entry of items) {
       const [itemValue, item] = normalizeEntry(entry);
       // $FlowIssue
