@@ -5,7 +5,7 @@ import normalizeWheel from 'normalize-wheel';
 
 import config from './config';
 import * as CalendarUtils from './CalendarUtils';
-import { SmoothScrollFactory } from './SmoothScroll';
+import { Animation } from './Animation';
 import { CalendarDate } from './CalendarDate';
 import { CalendarMonth } from './CalendarMonth';
 
@@ -43,9 +43,7 @@ class Calendar extends React.Component<Props, State> {
   _timeout;
   _unmounted;
 
-  _smoothScroll = SmoothScrollFactory(12, deltaY => {
-    this.setState(CalendarUtils.applyDelta(deltaY), this._handleWheelEnd);
-  });
+  _animation = Animation();
 
   constructor(props: Props) {
     super(props);
@@ -339,44 +337,25 @@ class Calendar extends React.Component<Props, State> {
   };
 
   _scrollAmount = (scrollAmmount, cb) => {
-    if (this._animating) {
-      return;
+    if (this._animation.isAnimating()) {
+      return this._animation.animationPromise();
     }
-
-    this._animating = true;
-
-    const startTime = Date.now();
-    const duration = 600;
-
-    let lastEaseValue = 0;
-
-    const animate = () => {
-      if (this._unmounted) {
-        return;
-      }
-      const t = Math.min((Date.now() - startTime) / duration, 1);
-      const easing = CalendarUtils.ease(t) * scrollAmmount;
-      const deltaY = lastEaseValue - easing;
-      lastEaseValue = easing;
-      this.setState(
-        state => ({ scrollPosition: state.scrollPosition - deltaY }),
-        onFrameEnd
-      );
-    };
-
-    const onFrameEnd = () => {
-      if (this._animating && lastEaseValue !== scrollAmmount) {
-        requestAnimationFrame(animate);
-        return;
-      }
+    const onFrameEnd = resolve =>
       this.setState(
         state => ({ scrollPosition: Math.round(state.scrollPosition) }),
-        cb
+        resolve
       );
-      this._animating = false;
-    };
-
-    animate();
+    return this._animation.animate(
+      scrollAmmount,
+      deltaY =>
+        new Promise(resolve =>
+          this.setState(
+            state => ({ scrollPosition: state.scrollPosition + deltaY }),
+            () => onFrameEnd(resolve)
+          )
+        ),
+      { onFinish: cb }
+    );
   };
 }
 
