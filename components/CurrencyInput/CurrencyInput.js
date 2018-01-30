@@ -292,7 +292,7 @@ export default class CurrencyInput extends Component<Props, State> {
   };
 
   _handlePaste = (event: SyntheticClipboardEvent<HTMLInputElement>) => {
-    const data = event.clipboardData.getData('text/plain');
+    const data = event.clipboardData.getData('text');
     const selection = this._getSelection(event.target);
     this._inputValue(selection.start, selection.end, data);
     event.preventDefault();
@@ -306,7 +306,7 @@ export default class CurrencyInput extends Component<Props, State> {
         selection.end
       );
       const data = CurrencyHelper.formatForClipboard(substring);
-      event.clipboardData.setData('text/plain', data);
+      event.clipboardData.setData('text', data);
     }
     event.preventDefault();
   };
@@ -319,7 +319,7 @@ export default class CurrencyInput extends Component<Props, State> {
         selection.end
       );
       const data = CurrencyHelper.formatForClipboard(substring);
-      event.clipboardData.setData('text/plain', data);
+      event.clipboardData.setData('text', data);
       this._inputValue(selection.start, selection.end, '');
     }
     event.preventDefault();
