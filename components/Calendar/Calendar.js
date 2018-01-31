@@ -73,7 +73,7 @@ class Calendar extends React.Component<Props, State> {
   }
 
   /**
-   * @api
+   * @public
    * Scrolls calendar to given date
    */
   scrollToMonth(month: number, year: number) {
@@ -230,6 +230,13 @@ class Calendar extends React.Component<Props, State> {
   };
 
   _scrollToMonth = (month: number, year: number) => {
+    if (this._animation.isAnimating()) {
+      this._animation
+        .animationPromise()
+        .then(() => this._scrollToMonth(month, year));
+      return;
+    }
+
     const minDate =
       this.props.minDate && CalendarUtils.shapeToDate(this.props.minDate);
     if (minDate && minDate.isGreater(CalendarDate.create(32, month, year))) {
@@ -250,12 +257,16 @@ class Calendar extends React.Component<Props, State> {
 
     const maxMonthsToAdd = config.MAX_MONTHS_TO_APPEND_ON_SCROLL;
 
-    const onEnd = () => {
-      this.setState({
-        months: CalendarUtils.getMonths(month, year),
-        scrollPosition: 0
-      });
-    };
+    const onEnd = () =>
+      new Promise(resolve =>
+        this.setState(
+          {
+            months: CalendarUtils.getMonths(month, year),
+            scrollPosition: 0
+          },
+          resolve
+        )
+      );
 
     const isYearChanges = state =>
       state.months[1].year !== year &&
@@ -331,30 +342,27 @@ class Calendar extends React.Component<Props, State> {
     }
   };
 
-  _scrollTo = (pos: number, cb?: () => void) => {
+  _scrollTo = (pos: number, cb?: () => Promise<void>) => {
     const scrollAmmount = pos - this.state.scrollPosition;
     return this._scrollAmount(scrollAmmount, cb);
   };
 
   _scrollAmount = (scrollAmmount, cb) => {
-    if (this._animation.isAnimating()) {
-      return this._animation.animationPromise();
-    }
     const onFrameEnd = resolve =>
       this.setState(
         state => ({ scrollPosition: Math.round(state.scrollPosition) }),
         resolve
       );
+    const applyDelta = deltaY => state => ({
+      scrollPosition: state.scrollPosition + deltaY
+    });
     return this._animation.animate(
       scrollAmmount,
       deltaY =>
         new Promise(resolve =>
-          this.setState(
-            state => ({ scrollPosition: state.scrollPosition + deltaY }),
-            () => onFrameEnd(resolve)
-          )
+          this.setState(applyDelta(deltaY), () => onFrameEnd(resolve))
         ),
-      { onFinish: cb }
+      { onFinish: cb, duration: 400 }
     );
   };
 }

@@ -2,7 +2,7 @@
 
 type AnimateParams = {
   ease?: number => number,
-  onFinish?: () => void,
+  onFinish?: () => Promise<void>,
   duration?: number
 };
 
@@ -12,12 +12,14 @@ export const Animation = () => {
   let endTime = 0;
   let lastEaseValue = 0;
   let promise: Promise<void> = Promise.resolve();
+  let target = 0;
 
   const reset = () => {
     animating = false;
     startTime = 0;
     endTime = 0;
     lastEaseValue = 0;
+    target = 0;
   };
 
   return {
@@ -36,27 +38,29 @@ export const Animation = () => {
       onDelta: number => Promise<void>,
       {
         ease = t => --t * t * t + 1,
-        onFinish = () => {},
+        onFinish = () => Promise.resolve(),
         duration = 600
       }: AnimateParams
     ) {
       animating = true;
-      startTime = startTime || Date.now();
-      endTime = (endTime || Date.now()) + duration;
+      startTime = Date.now();
+      endTime = Date.now() + duration;
+      target += value;
+      console.log('Animation started');
 
       const animateInternal = async () => {
         const now = Date.now();
 
         if (now >= endTime || !animating) {
-          onFinish();
+          console.log('Animation ended');
           reset();
-          return Promise.resolve();
+          return onFinish();
         }
 
         const elapsed = now - startTime;
         const relativeTarget = endTime - startTime;
         const easeFactor = ease(elapsed / relativeTarget);
-        const easedValue = easeFactor * value;
+        const easedValue = easeFactor * target;
         const delta = easedValue - lastEaseValue;
         await onDelta(delta);
 
@@ -67,6 +71,7 @@ export const Animation = () => {
           })
         );
       };
+
       promise = animateInternal();
       return promise;
     }
