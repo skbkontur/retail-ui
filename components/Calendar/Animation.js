@@ -46,13 +46,11 @@ export const Animation = () => {
       startTime = Date.now();
       endTime = Date.now() + duration;
       target += value;
-      console.log('Animation started');
 
       const animateInternal = async () => {
         const now = Date.now();
 
         if (now >= endTime || !animating) {
-          console.log('Animation ended');
           reset();
           return onFinish();
         }

@@ -18,7 +18,8 @@ export type CalendarDateShape = { year: number, month: number, date: number };
 type Props = {
   initialMonth?: number,
   initialYear?: number,
-  onSelect?: (date: CalendarDate) => void,
+  onSelect?: (date: CalendarDateShape) => void,
+  value?: ?CalendarDateShape,
   maxDate?: CalendarDateShape,
   minDate?: CalendarDateShape
 };
@@ -106,6 +107,9 @@ class Calendar extends React.Component<Props, State> {
       this.props.minDate && CalendarUtils.shapeToDate(this.props.minDate);
     const maxDate =
       this.props.maxDate && CalendarUtils.shapeToDate(this.props.maxDate);
+    const isSelected =
+      this.props.value &&
+      date.isEqual(CalendarUtils.shapeToDate(this.props.value));
     return (
       <button
         key={date.date}
@@ -115,7 +119,8 @@ class Calendar extends React.Component<Props, State> {
         className={classNames({
           [classes.cell]: true,
           [classes.weekend]: date.isWeekend,
-          [classes.today]: date.isEqual(this.state.today)
+          [classes.today]: date.isEqual(this.state.today),
+          [classes.selected]: isSelected
         })}
         onClick={() => this._handleSelect(date)}
       >
@@ -212,7 +217,7 @@ class Calendar extends React.Component<Props, State> {
       this._animating = false;
     }
 
-    this._timeout = setTimeout(this._scrollToNearestWeek, 300);
+    this._timeout = setTimeout(this._scrollToNearestWeek, 100);
   };
 
   _scrollToNearestWeek = () => {
@@ -362,7 +367,7 @@ class Calendar extends React.Component<Props, State> {
         new Promise(resolve =>
           this.setState(applyDelta(deltaY), () => onFrameEnd(resolve))
         ),
-      { onFinish: cb, duration: 400 }
+      { onFinish: cb, duration: 600 }
     );
   };
 }
