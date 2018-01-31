@@ -40,8 +40,8 @@ const getTodayDate = () => {
 };
 
 class Calendar extends React.Component<Props, State> {
-  _animating;
   _timeout;
+
   _unmounted;
 
   _animation = Animation();
@@ -67,10 +67,10 @@ class Calendar extends React.Component<Props, State> {
     if (this._timeout) {
       clearTimeout(this._timeout);
     }
-    if (this._animating) {
-      this._animating = false;
-      this._unmounted = true;
+    if (this._animation.isAnimating()) {
+      this._animation.cancel();
     }
+    this._unmounted = true;
   }
 
   /**
@@ -213,11 +213,11 @@ class Calendar extends React.Component<Props, State> {
     if (this._timeout) {
       clearTimeout(this._timeout);
     }
-    if (this._animating) {
-      this._animating = false;
+    if (this._animation.isAnimating()) {
+      this._animation.cancel();
     }
 
-    this._timeout = setTimeout(this._scrollToNearestWeek, 100);
+    this._timeout = setTimeout(this._scrollToNearestWeek, 300);
   };
 
   _scrollToNearestWeek = () => {

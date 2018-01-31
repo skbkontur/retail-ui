@@ -1,4 +1,5 @@
 // @flow
+import requestAnimationFrame from 'raf';
 
 type AnimateParams = {
   ease?: number => number,
