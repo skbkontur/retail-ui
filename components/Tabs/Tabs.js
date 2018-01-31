@@ -126,8 +126,8 @@ class Tabs extends React.Component<Props, State> {
   };
 
   _switchTab = (id: string) => {
-    const { onChange } = this.props;
-    if (onChange) {
+    const { onChange, value } = this.props;
+    if (id !== value && onChange) {
       onChange(this._createEvent(id), id);
     }
   };
