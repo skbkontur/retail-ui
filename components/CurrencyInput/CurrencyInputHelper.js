@@ -32,17 +32,14 @@ export default class CurrencyInputHelper {
     input: string,
     fractionDigits?: ?number
   ) {
-    if (!input) {
-      return CurrencyInputHelper.insert(value, start, end, '');
-    }
     const extracted = CurrencyInputHelper.getMaximumValidSubstring(
       value,
       start,
       end,
-      input,
+      input || '',
       fractionDigits
     );
-    if (extracted) {
+    if (extracted != null) {
       return CurrencyInputHelper.insert(value, start, end, extracted);
     }
     return null;
@@ -67,7 +64,7 @@ export default class CurrencyInputHelper {
         return result;
       }
     }
-    return '';
+    return null;
   }
 
   static insert(value: string, start: number, end: number, input: string) {
