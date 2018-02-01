@@ -13,7 +13,7 @@ import RenderContainer from '../RenderContainer';
 import ZIndex from '../ZIndex';
 import stopPropagation from '../../lib/events/stopPropagation';
 import Sticky from '../Sticky';
-import ScrollController from '../../lib/ScrollController';
+import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
 
 import styles from './Modal.less';
 
@@ -144,27 +144,29 @@ class Modal extends React.Component<Props, State> {
       containerStyle.width = 'auto';
     }
     return (
-      <RenderContainer>
-        <ZIndex delta={1000} className={styles.root}>
-          {!this.state.shadowed && <div className={styles.bg} />}
-          <div
-            ref={this._refCenter}
-            className={styles.container}
-            onClick={this._handleContainerClick}
-          >
+      <HideBodyVerticalScroll>
+        <RenderContainer>
+          <ZIndex delta={1000} className={styles.root}>
+            {!this.state.shadowed && <div className={styles.bg} />}
             <div
-              className={styles.centerContainer}
+              ref={this._refCenter}
+              className={styles.container}
               onClick={this._handleContainerClick}
-              style={containerStyle}
             >
-              <div className={styles.window} style={style}>
-                {!hasHeader && close}
-                {children}
+              <div
+                className={styles.centerContainer}
+                onClick={this._handleContainerClick}
+                style={containerStyle}
+              >
+                <div className={styles.window} style={style}>
+                  {!hasHeader && close}
+                  {children}
+                </div>
               </div>
             </div>
-          </div>
-        </ZIndex>
-      </RenderContainer>
+          </ZIndex>
+        </RenderContainer>
+      </HideBodyVerticalScroll>
     );
   }
 
@@ -184,7 +186,6 @@ class Modal extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    ScrollController.hideScrollIfPossible();
     if (mountedModalsCount === 0) {
       events.addEventListener(
         window,
@@ -199,7 +200,6 @@ class Modal extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    ScrollController.showScrollIfPossible();
     if (--mountedModalsCount === 0) {
       events.removeEventListener(
         window,
