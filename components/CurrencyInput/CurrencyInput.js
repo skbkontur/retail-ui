@@ -175,6 +175,13 @@ export default class CurrencyInput extends Component<Props, State> {
       case Actions.MoveCursorRight:
         this._moveCursor(selection, +1);
         return;
+      case Actions.Home:
+        this.setState({ selection: SelectionHelper.fromPosition(0) });
+        return;
+      case Actions.End:
+        let position = this.state.formatted.length;
+        this.setState({ selection: SelectionHelper.fromPosition(position) });
+        return;
       case Actions.ExtendSelectionLeft:
         this._extendSelection(selection, -1);
         return;
@@ -266,6 +273,14 @@ export default class CurrencyInput extends Component<Props, State> {
       {
         type: Actions.MoveCursorRight,
         check: e => e.key === 'ArrowRight'
+      },
+      {
+        type: Actions.Home,
+        check: e => e.key === 'Home'
+      },
+      {
+        type: Actions.End,
+        check: e => e.key === 'End'
       },
       {
         type: Actions.Backspace,
@@ -372,15 +387,21 @@ function getInputSelection(input): Selection {
 const Actions = {
   Unknown: 0,
   Ignore: 1,
-  ExtendSelectionLeft: 2,
-  ExtendSelectionRight: 3,
-  MoveCursorLeft: 4,
-  MoveCursorRight: 5,
-  Backspace: 6,
-  Delete: 7,
-  Separator: 8,
-  Digit: 9,
-  Submit: 10,
-  FullSelection: 11,
-  Minus: 12
+
+  MoveCursorLeft: 11,
+  MoveCursorRight: 12,
+  Home: 13,
+  End: 14,
+
+  ExtendSelectionLeft: 21,
+  ExtendSelectionRight: 22,
+  FullSelection: 23,
+
+  Backspace: 31,
+  Delete: 32,
+  Submit: 33,
+
+  Digit: 101,
+  Minus: 102,
+  Separator: 103
 };
