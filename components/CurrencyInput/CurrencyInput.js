@@ -28,6 +28,7 @@ type Props = {
   error?: boolean,
   fractionDigits?: ?number,
   placeholder?: string,
+  signed?: boolean,
   size?: 'small' | 'medium' | 'large',
   value: ?number,
   warning?: boolean,
@@ -52,6 +53,7 @@ export default class CurrencyInput extends Component<Props, State> {
     error: PropTypes.bool,
     fractionDigits: PropTypes.number,
     placeholder: PropTypes.string,
+    signed: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     value: PropTypes.number,
     warning: PropTypes.bool,
@@ -150,6 +152,9 @@ export default class CurrencyInput extends Component<Props, State> {
       case Actions.Separator:
         this._inputValue(selection.start, selection.end, ',');
         return;
+      case Actions.Minus:
+        this._inputValue(selection.start, selection.end, '-');
+        return;
       case Actions.Backspace:
         this._inputValue(
           CurrencyInputHelper.moveCursor(this.state.formatted, selection, -1),
@@ -221,7 +226,8 @@ export default class CurrencyInput extends Component<Props, State> {
       start,
       end,
       value,
-      this.props.fractionDigits
+      this.props.fractionDigits,
+      !this.props.signed
     );
     if (result) {
       const formatted = result.value;
@@ -268,6 +274,10 @@ export default class CurrencyInput extends Component<Props, State> {
       {
         type: Actions.Delete,
         check: e => e.key === 'Delete'
+      },
+      {
+        type: Actions.Minus,
+        check: e => e.key === '-'
       },
       {
         type: Actions.Separator,
@@ -371,5 +381,6 @@ const Actions = {
   Separator: 8,
   Digit: 9,
   Submit: 10,
-  FullSelection: 11
+  FullSelection: 11,
+  Minus: 12
 };
