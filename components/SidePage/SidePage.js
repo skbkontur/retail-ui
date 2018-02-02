@@ -9,7 +9,6 @@ import getComputedStyle from '../../lib/dom/getComputedStyle';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer';
-import ScrollContainer from '../ScrollContainer';
 import RenderLayer from '../RenderLayer';
 import Sticky from '../Sticky';
 import ZIndex from '../ZIndex';
@@ -141,46 +140,43 @@ class SidePage extends React.Component<Props, State> {
     };
 
     return (
-      <HideBodyVerticalScroll
-        onVisibilityChanged={this._restoreOriginalBodyStyle}
+      <RenderLayer
+        onClickOutside={this._handleClickOutside}
+        onFocusOutside={this._handleFocusOutside}
+        active={true}
       >
-        <RenderLayer
-          onClickOutside={this._handleClickOutside}
-          onFocusOutside={this._handleFocusOutside}
-          active={true}
-        >
-          <RenderContainer>
-            <ZIndex
-              delta={1000}
-              className={styles.root}
-              onScroll={LayoutEvents.emit}
-              style={rootStyle}
-            >
-              {this.props.blockBackground && (
-                <div
-                  className={classNames(
-                    styles.background,
-                    this.state.stackPosition === 0 && styles.gray
-                  )}
-                  onClick={this._handleBackgroundClick}
-                />
-              )}
+        <RenderContainer>
+          <ZIndex
+            delta={1000}
+            className={styles.root}
+            onScroll={LayoutEvents.emit}
+            style={rootStyle}
+          >
+            <HideBodyVerticalScroll />
+            {this.props.blockBackground && (
               <div
                 className={classNames(
-                  styles.container,
-                  this.state.stackPosition < 2 && styles.shadow
+                  styles.background,
+                  this.state.stackPosition === 0 && styles.gray
                 )}
-                style={sidePageStyle}
-              >
-                <div>
-                  {!hasHeader && close}
-                  {children}
-                </div>
+                onClick={this._handleBackgroundClick}
+              />
+            )}
+            <div
+              className={classNames(
+                styles.container,
+                this.state.stackPosition < 2 && styles.shadow
+              )}
+              style={sidePageStyle}
+            >
+              <div>
+                {!hasHeader && close}
+                {children}
               </div>
-            </ZIndex>
-          </RenderContainer>
-        </RenderLayer>
-      </HideBodyVerticalScroll>
+            </div>
+          </ZIndex>
+        </RenderContainer>
+      </RenderLayer>
     );
   }
 

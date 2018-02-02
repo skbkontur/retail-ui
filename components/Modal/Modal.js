@@ -144,29 +144,28 @@ class Modal extends React.Component<Props, State> {
       containerStyle.width = 'auto';
     }
     return (
-      <HideBodyVerticalScroll>
-        <RenderContainer>
-          <ZIndex delta={1000} className={styles.root}>
-            {!this.state.shadowed && <div className={styles.bg} />}
+      <RenderContainer>
+        <ZIndex delta={1000} className={styles.root}>
+          <HideBodyVerticalScroll />
+          {!this.state.shadowed && <div className={styles.bg} />}
+          <div
+            ref={this._refCenter}
+            className={styles.container}
+            onClick={this._handleContainerClick}
+          >
             <div
-              ref={this._refCenter}
-              className={styles.container}
+              className={styles.centerContainer}
               onClick={this._handleContainerClick}
+              style={containerStyle}
             >
-              <div
-                className={styles.centerContainer}
-                onClick={this._handleContainerClick}
-                style={containerStyle}
-              >
-                <div className={styles.window} style={style}>
-                  {!hasHeader && close}
-                  {children}
-                </div>
+              <div className={styles.window} style={style}>
+                {!hasHeader && close}
+                {children}
               </div>
             </div>
-          </ZIndex>
-        </RenderContainer>
-      </HideBodyVerticalScroll>
+          </div>
+        </ZIndex>
+      </RenderContainer>
     );
   }
 
