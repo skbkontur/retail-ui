@@ -87,8 +87,6 @@ class SidePage extends React.Component<Props, State> {
 
   constructor(props: Props, context: mixed) {
     super(props, context);
-    this._restoreOriginalBodyStyle = this._restoreOriginalBodyStyle.bind(this);
-
     stack.mounted.push(this);
     this._stackSubscription = stack.emitter.addListener(
       'change',
@@ -152,7 +150,9 @@ class SidePage extends React.Component<Props, State> {
             onScroll={LayoutEvents.emit}
             style={rootStyle}
           >
-            <HideBodyVerticalScroll />
+            <HideBodyVerticalScroll
+              allowScrolling={!this.props.blockBackground}
+            />
             {this.props.blockBackground && (
               <div
                 className={classNames(
@@ -181,12 +181,10 @@ class SidePage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this._setScrollableBodyStyle();
     stack.emitter.emit('change');
   }
 
   componentWillUnmount() {
-    this._restoreOriginalBodyStyle();
     this._stackSubscription && this._stackSubscription.remove();
     const inStackIndex = stack.mounted.findIndex(x => x === this);
     if (inStackIndex !== -1) {
@@ -194,22 +192,6 @@ class SidePage extends React.Component<Props, State> {
     }
     stack.emitter.emit('change');
   }
-
-  _setScrollableBodyStyle = () => {
-    if (document.body) {
-      const { style } = document.body;
-      const computedStyle = getComputedStyle(document.body);
-      this._originalBodyOverflowY = computedStyle.overflowY;
-      style.overflowY = 'auto';
-    }
-  };
-
-  _restoreOriginalBodyStyle = () => {
-    if (this._originalBodyOverflowY && document.body) {
-      document.body.style.overflowY = this._originalBodyOverflowY;
-      this._originalBodyOverflowY = null;
-    }
-  };
 
   _handleStackChange = () => {
     const stackPosition = stack.mounted.findIndex(x => x === this);

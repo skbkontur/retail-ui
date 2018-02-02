@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export interface HideBodyVerticalScrollProps {
-  children?: React.ReactNode;
+  allowScrolling?: boolean;
 }
 
 export default class HideBodyVerticalScroll extends React.Component<

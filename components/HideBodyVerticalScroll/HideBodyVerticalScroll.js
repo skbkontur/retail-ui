@@ -5,8 +5,17 @@ import getScrollWidth from '../../lib/dom/getScrollWidth';
 import event from 'add-event-listener';
 import LayoutEvents from '../../lib/LayoutEvents';
 
-export default class HideBodyVerticalScroll extends React.Component<{}> {
-  _originalStyle: ?{ marginRight: string, overflowY: string };
+type Props = {
+  allowScrolling?: boolean
+};
+
+export default class HideBodyVerticalScroll extends React.Component<Props> {
+  _documentOriginalStyle: ?{ marginRight: string, overflow: string };
+  _bodyOriginalStyle: ?{
+    marginRight: string,
+    overflowY: string,
+    paddingRight: string
+  };
 
   componentDidMount() {
     const counter = VerticalScrollCounter.increment();
@@ -28,53 +37,111 @@ export default class HideBodyVerticalScroll extends React.Component<{}> {
     return null;
   }
 
-  _updateScrollVisibility = (): boolean => {
-    const { documentElement } = document;
-    if (!documentElement) {
-      return false;
+  _updateScrollVisibility = () => {
+    const { documentElement, body } = document;
+    if (documentElement && body) {
+      this._restoreOriginalData(documentElement, body);
+
+      const justRestore = VerticalScrollCounter.get() === 0;
+      const { clientHeight, scrollHeight } = documentElement;
+      const needHide = !justRestore && clientHeight < scrollHeight;
+
+      if (needHide) {
+        this._storeOriginalStyles(documentElement, body);
+        this._hideScroll(documentElement, body);
+      }
+
+      LayoutEvents.emit();
     }
-
-    this._restoreOriginalStyle(documentElement);
-
-    const justRestore = VerticalScrollCounter.get() === 0;
-    const { clientHeight, scrollHeight } = documentElement;
-    const needHide = !justRestore && clientHeight < scrollHeight;
-
-    if (needHide) {
-      this._storeOriginalStyle(documentElement);
-      this._hideScroll(documentElement);
-    }
-
-    LayoutEvents.emit();
-    return needHide;
   };
 
-  _storeOriginalStyle = (element: HTMLElement) => {
-    const computedStyle = getComputedStyle(element);
+  _storeOriginalStyles = (document: HTMLElement, body: HTMLElement) => {
+    const documentComputedStyle = getComputedStyle(document);
 
-    this._originalStyle = {
-      marginRight: computedStyle.marginRight,
-      overflowY: computedStyle.overflowY
+    this._documentOriginalStyle = {
+      overflow: documentComputedStyle.overflow,
+      marginRight: documentComputedStyle.marginRight
     };
-  };
 
-  _restoreOriginalStyle = (element: HTMLElement) => {
-    const originalStyle = this._originalStyle;
+    if (this.props.allowScrolling) {
+      const bodyComputedStyle = getComputedStyle(body);
 
-    if (originalStyle) {
-      element.style.marginRight = originalStyle.marginRight;
-      element.style.overflowY = originalStyle.overflowY;
-      this._originalStyle = null;
+      this._bodyOriginalStyle = {
+        overflowY: bodyComputedStyle.overflowY,
+        marginRight: bodyComputedStyle.marginRight,
+        paddingRight: bodyComputedStyle.paddingRight
+      };
     }
   };
 
-  _hideScroll = (element: HTMLElement) => {
-    const originalStyle = this._originalStyle;
+  _restoreOriginalData = (document: HTMLElement, body: HTMLElement) => {
+    const needRestore = this._documentOriginalStyle && this._bodyOriginalStyle;
 
+    if (needRestore && this.props.allowScrolling) {
+      const scrollTop = body.scrollTop;
+      this._restoreDocumentOriginalStyle(document);
+      document.scrollTop = scrollTop;
+      this._restoreBodyOriginalStyle(body);
+    } else if (needRestore) {
+      this._restoreDocumentOriginalStyle(document);
+    }
+  };
+
+  _restoreDocumentOriginalStyle = (document: HTMLElement) => {
+    const originalStyle = this._documentOriginalStyle;
+    if (originalStyle) {
+      document.style.overflow = originalStyle.overflow;
+      document.style.marginRight = originalStyle.marginRight;
+      this._documentOriginalStyle = null;
+    }
+  };
+
+  _restoreBodyOriginalStyle = (body: HTMLElement) => {
+    const originalStyle = this._bodyOriginalStyle;
+    if (originalStyle) {
+      body.style.overflowY = originalStyle.overflowY;
+      body.style.paddingRight = originalStyle.paddingRight;
+      body.style.marginRight = originalStyle.marginRight;
+      this._bodyOriginalStyle = null;
+    }
+  };
+
+  _hideScroll = (document: HTMLElement, body: HTMLElement) => {
+    if (this.props.allowScrolling) {
+      const scrollTop = document.scrollTop;
+      this._hideDocumentScroll(document);
+      this._hideBodyScroll(body);
+      body.scrollTop = scrollTop;
+    } else {
+      this._hideDocumentScroll(document);
+    }
+  };
+
+  _hideDocumentScroll = (document: HTMLElement) => {
+    const originalStyle = this._documentOriginalStyle;
     if (originalStyle) {
       const marginRight = parseFloat(originalStyle.marginRight);
-      element.style.marginRight = `${marginRight + getScrollWidth()}px`;
-      element.style.overflowY = 'hidden';
+      document.style.overflow = 'hidden';
+      if (!this.props.allowScrolling) {
+        document.style.marginRight = `${marginRight + getScrollWidth()}px`;
+      }
+    }
+  };
+
+  _hideBodyScroll = (body: HTMLElement) => {
+    const documentStyle = this._documentOriginalStyle;
+    const bodyOriginalStyle = this._bodyOriginalStyle;
+    if (documentStyle && bodyOriginalStyle) {
+      const documentMargin = parseFloat(documentStyle.marginRight);
+      const bodyMargin = parseFloat(bodyOriginalStyle.marginRight);
+      const bodyPadding = parseFloat(bodyOriginalStyle.paddingRight);
+      const scrollWidth = getScrollWidth();
+
+      const sumRightOffset = bodyMargin + bodyPadding + documentMargin;
+
+      body.style.overflowY = 'auto';
+      body.style.marginRight = `-${scrollWidth}px`;
+      body.style.paddingRight = `${2 * scrollWidth + sumRightOffset}px`;
     }
   };
 }
