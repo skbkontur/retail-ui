@@ -28,6 +28,7 @@ type Props = {
   error?: boolean,
   fractionDigits?: ?number,
   placeholder?: string,
+  signed?: boolean,
   size?: 'small' | 'medium' | 'large',
   value: ?number,
   warning?: boolean,
@@ -52,6 +53,7 @@ export default class CurrencyInput extends Component<Props, State> {
     error: PropTypes.bool,
     fractionDigits: PropTypes.number,
     placeholder: PropTypes.string,
+    signed: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     value: PropTypes.number,
     warning: PropTypes.bool,
@@ -150,6 +152,9 @@ export default class CurrencyInput extends Component<Props, State> {
       case Actions.Separator:
         this._inputValue(selection.start, selection.end, ',');
         return;
+      case Actions.Minus:
+        this._inputValue(selection.start, selection.end, '-');
+        return;
       case Actions.Backspace:
         this._inputValue(
           CurrencyInputHelper.moveCursor(this.state.formatted, selection, -1),
@@ -169,6 +174,13 @@ export default class CurrencyInput extends Component<Props, State> {
         return;
       case Actions.MoveCursorRight:
         this._moveCursor(selection, +1);
+        return;
+      case Actions.Home:
+        this.setState({ selection: SelectionHelper.fromPosition(0) });
+        return;
+      case Actions.End:
+        let position = this.state.formatted.length;
+        this.setState({ selection: SelectionHelper.fromPosition(position) });
         return;
       case Actions.ExtendSelectionLeft:
         this._extendSelection(selection, -1);
@@ -221,7 +233,8 @@ export default class CurrencyInput extends Component<Props, State> {
       start,
       end,
       value,
-      this.props.fractionDigits
+      this.props.fractionDigits,
+      !this.props.signed
     );
     if (result) {
       const formatted = result.value;
@@ -262,6 +275,14 @@ export default class CurrencyInput extends Component<Props, State> {
         check: e => e.key === 'ArrowRight'
       },
       {
+        type: Actions.Home,
+        check: e => e.key === 'Home'
+      },
+      {
+        type: Actions.End,
+        check: e => e.key === 'End'
+      },
+      {
         type: Actions.Backspace,
         check: e => e.key === 'Backspace'
       },
@@ -270,10 +291,15 @@ export default class CurrencyInput extends Component<Props, State> {
         check: e => e.key === 'Delete'
       },
       {
+        type: Actions.Minus,
+        check: e => e.key === '-' || e.key === 'Subtract'
+      },
+      {
         type: Actions.Separator,
         check: e =>
           e.key === ',' ||
           e.key === '.' ||
+          e.key === 'Decimal' ||
           e.keyCode === 188 ||
           e.keyCode === 190
       },
@@ -292,7 +318,7 @@ export default class CurrencyInput extends Component<Props, State> {
   };
 
   _handlePaste = (event: SyntheticClipboardEvent<HTMLInputElement>) => {
-    const data = event.clipboardData.getData('text/plain');
+    const data = event.clipboardData.getData('text');
     const selection = this._getSelection(event.target);
     this._inputValue(selection.start, selection.end, data);
     event.preventDefault();
@@ -306,7 +332,7 @@ export default class CurrencyInput extends Component<Props, State> {
         selection.end
       );
       const data = CurrencyHelper.formatForClipboard(substring);
-      event.clipboardData.setData('text/plain', data);
+      event.clipboardData.setData('text', data);
     }
     event.preventDefault();
   };
@@ -319,7 +345,7 @@ export default class CurrencyInput extends Component<Props, State> {
         selection.end
       );
       const data = CurrencyHelper.formatForClipboard(substring);
-      event.clipboardData.setData('text/plain', data);
+      event.clipboardData.setData('text', data);
       this._inputValue(selection.start, selection.end, '');
     }
     event.preventDefault();
@@ -362,14 +388,21 @@ function getInputSelection(input): Selection {
 const Actions = {
   Unknown: 0,
   Ignore: 1,
-  ExtendSelectionLeft: 2,
-  ExtendSelectionRight: 3,
-  MoveCursorLeft: 4,
-  MoveCursorRight: 5,
-  Backspace: 6,
-  Delete: 7,
-  Separator: 8,
-  Digit: 9,
-  Submit: 10,
-  FullSelection: 11
+
+  MoveCursorLeft: 11,
+  MoveCursorRight: 12,
+  Home: 13,
+  End: 14,
+
+  ExtendSelectionLeft: 21,
+  ExtendSelectionRight: 22,
+  FullSelection: 23,
+
+  Backspace: 31,
+  Delete: 32,
+  Submit: 33,
+
+  Digit: 101,
+  Minus: 102,
+  Separator: 103
 };

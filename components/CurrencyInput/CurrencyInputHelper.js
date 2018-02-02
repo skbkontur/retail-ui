@@ -30,19 +30,18 @@ export default class CurrencyInputHelper {
     start: number,
     end: number,
     input: string,
-    fractionDigits?: ?number
+    fractionDigits: ?number,
+    unsigned: ?boolean
   ) {
-    if (!input) {
-      return CurrencyInputHelper.insert(value, start, end, '');
-    }
     const extracted = CurrencyInputHelper.getMaximumValidSubstring(
       value,
       start,
       end,
-      input,
-      fractionDigits
+      input || '',
+      fractionDigits,
+      unsigned
     );
-    if (extracted) {
+    if (extracted != null) {
       return CurrencyInputHelper.insert(value, start, end, extracted);
     }
     return null;
@@ -53,21 +52,30 @@ export default class CurrencyInputHelper {
     start: number,
     end: number,
     input: string,
-    fractionDigits?: ?number
+    fractionDigits: ?number,
+    unsigned: ?boolean
   ) {
+    const extracted = CurrencyHelper.extractValid(
+      input,
+      fractionDigits,
+      unsigned
+    );
+
+    if (input && !extracted) {
+      return null;
+    }
+
     const prefix = value.substring(0, start);
     const suffix = value.substring(end);
-    input = CurrencyHelper.extractValid(input, fractionDigits);
 
-    for (let i = input.length; i >= 0; --i) {
-      const result = input.substr(0, i);
-      if (
-        CurrencyHelper.isValidString(prefix + result + suffix, fractionDigits)
-      ) {
+    for (let i = extracted.length; i >= 0; --i) {
+      const result = extracted.substr(0, i);
+      const combined = prefix + result + suffix;
+      if (CurrencyHelper.isValidString(combined, fractionDigits, unsigned)) {
         return result;
       }
     }
-    return '';
+    return null;
   }
 
   static insert(value: string, start: number, end: number, input: string) {
