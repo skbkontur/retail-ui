@@ -74,11 +74,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
       </ZIndex>
     );
 
-    return this.props.disablePortal ? (
-      content
-    ) : (
-      <RenderContainer>{content}</RenderContainer>
-    );
+    return this.props.disablePortal ? content : <RenderContainer>{content}</RenderContainer>;
   }
 
   _ref = e => {
@@ -145,12 +141,7 @@ export default class DropdownContainer extends React.Component<Props, State> {
         top = null;
 
         if (this.state.hasStaticRoot) {
-          bottom =
-            distanceToBottom -
-            scrollY +
-            offsetY +
-            targetRect.bottom -
-            targetRect.top;
+          bottom = distanceToBottom - scrollY + offsetY + targetRect.bottom - targetRect.top;
         } else {
           let bodyScrollHeight = 0;
           if (document.body) {

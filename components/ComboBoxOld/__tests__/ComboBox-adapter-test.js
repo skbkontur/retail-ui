@@ -66,9 +66,7 @@ describe('ComboBox-adapter', () => {
 
   testAdapter('getInfo of promise', async mount => {
     const promise = Promise.resolve('info');
-    const adapter = mount(
-      <ComboBox value="foo" info={() => promise} source={noop} />
-    );
+    const adapter = mount(<ComboBox value="foo" info={() => promise} source={noop} />);
 
     // Info is null until promise is resolved.
     expect(adapter.getInfo()).toBe(null);

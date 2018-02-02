@@ -39,12 +39,7 @@ class HintBoxComponent extends React.Component<Props, State> {
     return (
       <span ref={this._ref}>
         {this.props.children}
-        <HintBox
-          getTarget={this._getDOM}
-          text={this.props.text}
-          pos={this.props.pos}
-          maxWidth={200}
-        />
+        <HintBox getTarget={this._getDOM} text={this.props.text} pos={this.props.pos} maxWidth={200} />
       </span>
     );
   }
@@ -57,39 +52,35 @@ const getKnobs = () => ({
 });
 
 storiesOf('Hint', module)
-  .addDecorator(story =>
-    <div style={{ padding: '100px 300px' }}>
-      {story()}
-    </div>
-  )
+  .addDecorator(story => <div style={{ padding: '100px 300px' }}>{story()}</div>)
   .addDecorator(withKnobs)
   .add('playground', () => <Hint {...getKnobs()}>Plain hint with knobs</Hint>)
-  .add('too much hints', () =>
+  .add('too much hints', () => (
     <Gapped gap={5}>
-      {[...Array(252)].map((el, i) =>
+      {[...Array(252)].map((el, i) => (
         <Hint text="test" key={i}>
           Hover me!
         </Hint>
-      )}
+      ))}
     </Gapped>
-  )
-  .add('default', () =>
+  ))
+  .add('default', () => (
     <HintBoxComponent text="Something will never be changed">
       <span className="hint-content">Ich Liebe dich</span>
     </HintBoxComponent>
-  )
-  .add('left', () =>
+  ))
+  .add('left', () => (
     <HintBoxComponent pos="left" text="Something will never be changed">
       <span className="hint-content">Je t'aime</span>
     </HintBoxComponent>
-  )
-  .add('right', () =>
+  ))
+  .add('right', () => (
     <HintBoxComponent pos="right" text="Something will never be changed">
       <span className="hint-content">Ti voglio bene</span>
     </HintBoxComponent>
-  )
-  .add('bottom', () =>
+  ))
+  .add('bottom', () => (
     <HintBoxComponent pos="bottom" text="Something will never be changed">
       <span className="hint-content">Te amo</span>
     </HintBoxComponent>
-  );
+  ));

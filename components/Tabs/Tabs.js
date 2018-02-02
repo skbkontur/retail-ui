@@ -92,10 +92,7 @@ class Tabs extends React.Component<Props, State> {
     const { vertical } = this.props;
 
     return (
-      <div
-        className={cn(styles.root, vertical && styles.vertical)}
-        style={{ width: this.props.width }}
-      >
+      <div className={cn(styles.root, vertical && styles.vertical)} style={{ width: this.props.width }}>
         {this.props.children}
         <Indicator
           className={this.props.indicatorClassName}

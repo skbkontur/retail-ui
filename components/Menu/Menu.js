@@ -41,9 +41,7 @@ export default class Menu extends React.Component<Props, State> {
   _highlighted: ?MenuItem;
 
   render() {
-    const enableIconPadding = React.Children.toArray(this.props.children).some(
-      x => x && x.props.icon
-    );
+    const enableIconPadding = React.Children.toArray(this.props.children).some(x => x && x.props.icon);
 
     if (this._isEmpty()) {
       return null;

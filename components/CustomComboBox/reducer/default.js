@@ -7,10 +7,7 @@ import debounce from 'lodash.debounce';
 import MenuItem from '../../MenuItem';
 import type Menu from '../../Menu/Menu';
 import { DefaultState } from '../CustomComboBox';
-import type CustomComboBox, {
-  CustomComboBoxProps,
-  CustomComboBoxState
-} from '../CustomComboBox';
+import type CustomComboBox, { CustomComboBoxProps, CustomComboBoxState } from '../CustomComboBox';
 
 type Action = $Subtype<{ type: string }>;
 
@@ -37,18 +34,10 @@ export type EffectType = (
   getInstance: () => CustomComboBox
 ) => void;
 
-export type Reducer = (
-  state: State,
-  props: Props,
-  action: Action
-) => State | [State, EffectType[]];
+export type Reducer = (state: State, props: Props, action: Action) => State | [State, EffectType[]];
 
 let requestId = 0;
-const searchFactory = (isEmpty: boolean): EffectType => (
-  dispatch,
-  getState,
-  getProps
-) => {
+const searchFactory = (isEmpty: boolean): EffectType => (dispatch, getState, getProps) => {
   async function makeRequest() {
     dispatch({ type: 'RequestItems' });
     const { getItems } = getProps();
@@ -84,11 +73,7 @@ const Effect = {
     const { onChange } = getProps();
     onChange && onChange({ target: { value } }, value);
   },
-  UnexpectedInput: (textValue: string): EffectType => (
-    dispatch,
-    getState,
-    getProps
-  ) => {
+  UnexpectedInput: (textValue: string): EffectType => (dispatch, getState, getProps) => {
     const { onUnexpectedInput } = getProps();
     onUnexpectedInput && onUnexpectedInput(textValue);
   },
@@ -131,12 +116,7 @@ const Effect = {
       const { menu }: { menu: ?Menu } = getInstance();
       menu && menu.enter(event);
     }: EffectType),
-  MoveMenuHighlight: (direction: 1 | -1): EffectType => (
-    dispatch,
-    getState,
-    getProps,
-    getInstance
-  ) => {
+  MoveMenuHighlight: (direction: 1 | -1): EffectType => (dispatch, getState, getProps, getInstance) => {
     const { menu }: { menu: ?Menu } = getInstance();
     menu && menu._move(direction);
   }
@@ -192,9 +172,7 @@ const reducers: { [type: string]: Reducer } = {
 
     let textValue = '';
     if (props.value) {
-      textValue = props.valueToString
-        ? props.valueToString(props.value)
-        : props.value;
+      textValue = props.valueToString ? props.valueToString(props.value) : props.value;
     }
     return [
       {
@@ -236,9 +214,7 @@ const reducers: { [type: string]: Reducer } = {
       case 'ArrowUp':
       case 'ArrowDown':
         event.preventDefault();
-        const effects = [
-          Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? -1 : 1)
-        ];
+        const effects = [Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? -1 : 1)];
         if (!state.opened) {
           effects.push(Effect.Search(false));
         }
@@ -283,8 +259,7 @@ const reducers: { [type: string]: Reducer } = {
         items: [
           <MenuItem disabled>
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>
-              Что-то пошло не так. Проверьте соединение с интернетом и
-              попробуйте еще раз
+              Что-то пошло не так. Проверьте соединение с интернетом и попробуйте еще раз
             </div>
           </MenuItem>,
           <MenuItem alkoLink onClick={action.repeatRequest}>

@@ -64,10 +64,7 @@ class Toast extends Component<Props, State> {
 
     safelyCall(this.props.onPush, notification, action);
 
-    this.setState(
-      ({ id }) => ({ notification, action, id: id + 1 }),
-      this._setTimer
-    );
+    this.setState(({ id }) => ({ notification, action, id: id + 1 }), this._setTimer);
   }
 
   /**

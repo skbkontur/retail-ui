@@ -84,12 +84,7 @@ export default class Kebab extends React.Component<Props, State> {
           {this._anchor && (
             <Popup
               anchorElement={this._anchor}
-              positions={[
-                'bottom left',
-                'bottom right',
-                'top left',
-                'top right'
-              ]}
+              positions={['bottom left', 'bottom right', 'top left', 'top right']}
               popupOffset={10}
               opened={this.state.opened}
               margin={5}
@@ -183,9 +178,7 @@ export default class Kebab extends React.Component<Props, State> {
       return;
     }
 
-    opened
-      ? this.props.onOpen && this.props.onOpen()
-      : this.props.onClose && this.props.onClose();
+    opened ? this.props.onOpen && this.props.onOpen() : this.props.onClose && this.props.onClose();
 
     this.setState({
       opened
@@ -196,10 +189,7 @@ export default class Kebab extends React.Component<Props, State> {
 Kebab.propTypes = {
   children: PropTypes.node,
   disabled: PropTypes.bool,
-  menuMaxHeight: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  menuMaxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
   /**
    * Размер кебаба small 14px | large 20px

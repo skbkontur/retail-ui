@@ -66,9 +66,7 @@ class Group extends React.Component {
 
           return (
             <div className={wrapCss}>
-              <div className={itemCss}>
-                {child}
-              </div>
+              <div className={itemCss}>{child}</div>
             </div>
           );
         })}

@@ -16,11 +16,7 @@ class TopBarDropdown extends React.Component<Props> {
 
   render() {
     return (
-      <Dropdown
-        ref={this._ref}
-        _renderButton={this._renderButton}
-        {...this.props}
-      >
+      <Dropdown ref={this._ref} _renderButton={this._renderButton} {...this.props}>
         {this.props.children}
       </Dropdown>
     );

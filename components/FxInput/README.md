@@ -6,13 +6,8 @@ function handleChange(event) {
 }
 
 function handleRestore() {
-  setState({ auto: true, value: "auto" });
+  setState({ auto: true, value: 'auto' });
 }
 
-<FxInput
-  auto={state.auto}
-  value={state.value}
-  onChange={handleChange}
-  onRestore={handleRestore}
-/>;
+<FxInput auto={state.auto} value={state.value} onChange={handleChange} onRestore={handleRestore} />;
 ```

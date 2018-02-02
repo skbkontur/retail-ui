@@ -174,11 +174,7 @@ export default class DateSelect extends React.Component<Props, State> {
     });
 
     return (
-      <RenderLayer
-        onClickOutside={this.close}
-        onFocusOutside={this.close}
-        active={this.state.opened}
-      >
+      <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
         <div className={holderClass} style={style} onKeyDown={this.handleKey}>
           {!this.state.topCapped && (
             <div className={styles.menuUp} onMouseDown={this.handleUp}>

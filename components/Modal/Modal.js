@@ -98,20 +98,14 @@ class Modal extends React.Component<Props, State> {
     super(props, context);
 
     stack.mounted.push(this);
-    this._stackSubscribtion = stack.emitter.addListener(
-      'change',
-      this._handleStackChange
-    );
+    this._stackSubscribtion = stack.emitter.addListener('change', this._handleStackChange);
   }
 
   renderClose() {
     return (
       <a
         href="javascript:"
-        className={classNames(
-          styles.close,
-          this.props.disableClose && styles.disabled
-        )}
+        className={classNames(styles.close, this.props.disableClose && styles.disabled)}
         onClick={this._requestClose}
       >
         ×
@@ -151,16 +145,8 @@ class Modal extends React.Component<Props, State> {
       <RenderContainer>
         <ZIndex delta={1000} className={styles.root}>
           {!this.state.shadowed && <div className={styles.bg} />}
-          <div
-            ref={this._refCenter}
-            className={styles.container}
-            onClick={this._handleContainerClick}
-          >
-            <div
-              className={styles.centerContainer}
-              onClick={this._handleContainerClick}
-              style={containerStyle}
-            >
+          <div ref={this._refCenter} className={styles.container} onClick={this._handleContainerClick}>
+            <div className={styles.centerContainer} onClick={this._handleContainerClick} style={containerStyle}>
               <div className={styles.window} style={style}>
                 {!hasHeader && close}
                 {children}
@@ -252,10 +238,7 @@ class Modal extends React.Component<Props, State> {
   };
 
   _handleContainerClick = event => {
-    if (
-      event.target === event.currentTarget &&
-      !this.props.ignoreBackgroundClick
-    ) {
+    if (event.target === event.currentTarget && !this.props.ignoreBackgroundClick) {
       this._requestClose();
     }
   };
@@ -308,12 +291,8 @@ class Header extends React.Component<HeaderProps> {
     return (
       <Sticky side="top">
         {fixed => (
-          <div
-            className={classNames(styles.header, fixed && styles.fixedHeader)}
-          >
-            {this.props.close && (
-              <div className={styles.absoluteClose}>{this.props.close}</div>
-            )}
+          <div className={classNames(styles.header, fixed && styles.fixedHeader)}>
+            {this.props.close && <div className={styles.absoluteClose}>{this.props.close}</div>}
             {this.props.children}
           </div>
         )}
@@ -355,15 +334,8 @@ class Footer extends React.Component<FooterProps> {
     });
 
     return (
-      <Sticky
-        side="bottom"
-        offset={this.props.horizontalScroll ? this._scrollbarWidth : 0}
-      >
-        {fixed => (
-          <div className={classNames(names, fixed && styles.fixedFooter)}>
-            {this.props.children}
-          </div>
-        )}
+      <Sticky side="bottom" offset={this.props.horizontalScroll ? this._scrollbarWidth : 0}>
+        {fixed => <div className={classNames(names, fixed && styles.fixedFooter)}>{this.props.children}</div>}
       </Sticky>
     );
   }

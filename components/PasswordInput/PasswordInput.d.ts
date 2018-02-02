@@ -11,9 +11,6 @@ export interface PasswordInputState {
   capsLockEnabled?: boolean | null;
 }
 
-export default class PasswordInput extends React.Component<
-  PasswordInputProps,
-  PasswordInputState
-> {
+export default class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
   focus(): void;
 }

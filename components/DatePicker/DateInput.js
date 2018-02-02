@@ -8,11 +8,7 @@ import Input from '../Input';
 import filterProps from '../filterProps';
 import { ieVerison } from '../ensureOldIEClassName';
 
-const DateBlocks = [
-  { index: 0, start: 0, end: 2 },
-  { index: 1, start: 3, end: 5 },
-  { index: 2, start: 6, end: 10 }
-];
+const DateBlocks = [{ index: 0, start: 0, end: 2 }, { index: 1, start: 3, end: 5 }, { index: 2, start: 6, end: 10 }];
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -88,8 +84,7 @@ export default class DateInput extends Component<Props> {
   }
 
   _setCursorPosition = cursorPosition => {
-    this._input &&
-      this._input.setSelectionRange(cursorPosition, cursorPosition);
+    this._input && this._input.setSelectionRange(cursorPosition, cursorPosition);
   };
 
   _selectCurrentBlock = (input: HTMLInputElement) => {
@@ -153,19 +148,8 @@ export default class DateInput extends Component<Props> {
     }, 100);
   };
 
-  _checkIfBadKeyDownEvent = (
-    event: SyntheticKeyboardEvent<HTMLInputElement>
-  ) => {
-    const AllowedKeys = [
-      'Enter',
-      'ArrowUp',
-      'ArrowDown',
-      'ArrowLeft',
-      'ArrowRight',
-      '.',
-      ',',
-      ' '
-    ];
+  _checkIfBadKeyDownEvent = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
+    const AllowedKeys = ['Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', '.', ',', ' '];
     return !AllowedKeys.includes(event.key);
   };
 
@@ -185,10 +169,7 @@ export default class DateInput extends Component<Props> {
     const { start } = getInputSelection(event.currentTarget);
     const currentSelectedBlock = this._getSelectedBlock(start);
     const step = event.key === 'ArrowLeft' ? -1 : 1;
-    const nextSelectedBlockIndex = Math.max(
-      Math.min(currentSelectedBlock.index + step, 2),
-      0
-    );
+    const nextSelectedBlockIndex = Math.max(Math.min(currentSelectedBlock.index + step, 2), 0);
     this._selectBlock(DateBlocks[nextSelectedBlockIndex]);
   };
 
@@ -204,9 +185,7 @@ export default class DateInput extends Component<Props> {
     if (start !== 1 && start !== 4) {
       return;
     }
-    const [, day = '', month = '', year = ''] = re.exec(
-      this.props.value.replace('_', '')
-    );
+    const [, day = '', month = '', year = ''] = re.exec(this.props.value.replace('_', ''));
 
     let nextValue = [day, month, year]
       .filter(Boolean)
@@ -224,15 +203,10 @@ export default class DateInput extends Component<Props> {
   };
 
   _getSelectedBlock = cursorPosition => {
-    return cursorPosition < 3
-      ? DateBlocks[0]
-      : cursorPosition < 6 ? DateBlocks[1] : DateBlocks[2];
+    return cursorPosition < 3 ? DateBlocks[0] : cursorPosition < 6 ? DateBlocks[1] : DateBlocks[2];
   };
 
-  _handleChange = (
-    event: SyntheticInputEvent<HTMLInputElement>,
-    value: string
-  ) => {
+  _handleChange = (event: SyntheticInputEvent<HTMLInputElement>, value: string) => {
     const isBackspace = trim(this.props.value).length >= trim(value).length;
 
     this.props.onChange(value);
@@ -337,10 +311,7 @@ function getInputSelection(el) {
   let start = 0;
   let end = 0;
 
-  if (
-    typeof el.selectionStart === 'number' &&
-    typeof el.selectionEnd === 'number'
-  ) {
+  if (typeof el.selectionStart === 'number' && typeof el.selectionEnd === 'number') {
     start = el.selectionStart;
     end = el.selectionEnd;
   } else if (document.selection) {

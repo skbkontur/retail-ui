@@ -40,36 +40,24 @@ export default (theme: ITheme) => ({
     },
 
     '&$focus': {
-      boxShadow: [
-        ['inset 0 0 0 1px #fff'],
-        [`0 0 0 2px ${theme.common.borderColorFocus}`]
-      ],
+      boxShadow: [['inset 0 0 0 1px #fff'], [`0 0 0 2px ${theme.common.borderColorFocus}`]],
       position: 'relative',
       zIndex: 2
     },
 
     '&$checked': {
       background: theme.button.checkedBg,
-      boxShadow: [
-        ['0 0 0 1px rgba(0, 0, 0, 0.6)'],
-        ['inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)']
-      ],
+      boxShadow: [['0 0 0 1px rgba(0, 0, 0, 0.6)'], ['inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)']],
       color: '#fff',
       paddingTop: '1px',
 
       '&:hover': {
         background: theme.button.checkedBg,
-        boxShadow: [
-          ['0 0 0 1px rgba(0, 0, 0, 0.6)'],
-          ['inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)']
-        ]
+        boxShadow: [['0 0 0 1px rgba(0, 0, 0, 0.6)'], ['inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)']]
       },
 
       '&$focus': {
-        boxShadow: [
-          ['inset 0 0 0 1px #fff'],
-          [`0 0 0 2px ${theme.common.borderColorFocus}`]
-        ],
+        boxShadow: [['inset 0 0 0 1px #fff'], [`0 0 0 2px ${theme.common.borderColorFocus}`]],
         position: 'relative',
         zIndex: '2'
       }
@@ -197,12 +185,7 @@ export default (theme: ITheme) => ({
       paddingRight: theme.link.iconPadding
     },
 
-    ...generateLinkStyles(
-      theme.link.color,
-      theme.link.hoverColor,
-      theme.link.hoverColor,
-      theme.link.activeColor
-    )
+    ...generateLinkStyles(theme.link.color, theme.link.hoverColor, theme.link.hoverColor, theme.link.activeColor)
   },
 
   disabled: {

@@ -4,8 +4,9 @@ var pathTo = require('./utils').pathTo;
 var ROOT_SELECTOR = '[class^="Select-root"]';
 var MENU_ITEM_SELECTOR = '[class^="MenuItem-root"]';
 
-gemini.suite('Select', (suite) => {
-  suite.setUrl(pathTo('Select', 'Simple'))
+gemini.suite('Select', suite => {
+  suite
+    .setUrl(pathTo('Select', 'Simple'))
     .setCaptureElements('.dropdown-test-container')
     .capture('idle')
     .capture('clicked', (actions, find) => {

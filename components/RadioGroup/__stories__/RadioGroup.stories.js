@@ -21,12 +21,7 @@ class Component extends React.Component<*, *> {
       <Gapped vertical>
         <Button>Just button</Button>
         <div id="RadioGroup-wrap" style={{ padding: 10 }}>
-          <RadioGroup
-            ref="rg"
-            value={this.state.value}
-            onChange={el => this.handleChange(el)}
-            {...this.props}
-          />
+          <RadioGroup ref="rg" value={this.state.value} onChange={el => this.handleChange(el)} {...this.props} />
         </div>
         <Button onClick={() => this.refs.rg.focus()}>Focus RadioGroup</Button>
       </Gapped>
@@ -39,12 +34,7 @@ storiesOf('RadioGroup', module)
     return <Component items={['One', 'Two', 'Three']} />;
   })
   .add('inline', () => <Component inline items={['One', 'Two', 'Three']} />)
-  .add('with renderItem', () => (
-    <RadioGroup
-      items={['One', 'Two']}
-      renderItem={x => <div>Value: {x}</div>}
-    />
-  ))
+  .add('with renderItem', () => <RadioGroup items={['One', 'Two']} renderItem={x => <div>Value: {x}</div>} />)
   .add('multiple groups', () => (
     <div>
       <Component items={['One', 'Two', 'Three']} />
@@ -54,9 +44,7 @@ storiesOf('RadioGroup', module)
       <Component items={['One', 'Two', 'Three']} />
     </div>
   ))
-  .add('uncontrolled with defaultValue', () => (
-    <RadioGroup items={['One', 'Two', 'Three']} defaultValue="One" />
-  ))
+  .add('uncontrolled with defaultValue', () => <RadioGroup items={['One', 'Two', 'Three']} defaultValue="One" />)
   .add('uncontrolled with children and default value', () => (
     <RadioGroup defaultValue="One">
       <Gapped gap={10} vertical>

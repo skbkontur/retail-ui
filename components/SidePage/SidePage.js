@@ -93,10 +93,7 @@ class SidePage extends React.Component<Props, State> {
     super(props, context);
 
     stack.mounted.push(this);
-    this._stackSubscription = stack.emitter.addListener(
-      'change',
-      this._handleStackChange
-    );
+    this._stackSubscription = stack.emitter.addListener('change', this._handleStackChange);
     this.state = {
       stackPosition: stack.mounted.length - 1
     };
@@ -105,10 +102,7 @@ class SidePage extends React.Component<Props, State> {
     return (
       <a
         href="javascript:"
-        className={classNames(
-          styles.close,
-          this.props.disableClose && styles.disabled
-        )}
+        className={classNames(styles.close, this.props.disableClose && styles.disabled)}
         onClick={this._requestClose}
       >
         ×
@@ -136,39 +130,21 @@ class SidePage extends React.Component<Props, State> {
     const rootStyle = this.props.blockBackground ? { width: '100%' } : {};
     const sidePageStyle = {
       width: this.props.width || this.props.blockBackground ? 800 : 500,
-      marginRight:
-        this.state.stackPosition === 0 && stack.mounted.length > 1
-          ? 20
-          : undefined
+      marginRight: this.state.stackPosition === 0 && stack.mounted.length > 1 ? 20 : undefined
     };
 
     return (
-      <RenderLayer
-        onClickOutside={this._handleClickOutside}
-        onFocusOutside={this._handleFocusOutside}
-        active={true}
-      >
+      <RenderLayer onClickOutside={this._handleClickOutside} onFocusOutside={this._handleFocusOutside} active={true}>
         <RenderContainer>
-          <ZIndex
-            delta={1000}
-            className={styles.root}
-            onScroll={LayoutEvents.emit}
-            style={rootStyle}
-          >
+          <ZIndex delta={1000} className={styles.root} onScroll={LayoutEvents.emit} style={rootStyle}>
             {this.props.blockBackground && (
               <div
-                className={classNames(
-                  styles.background,
-                  this.state.stackPosition === 0 && styles.gray
-                )}
+                className={classNames(styles.background, this.state.stackPosition === 0 && styles.gray)}
                 onClick={this._handleBackgroundClick}
               />
             )}
             <div
-              className={classNames(
-                styles.container,
-                this.state.stackPosition < 2 && styles.shadow
-              )}
+              className={classNames(styles.container, this.state.stackPosition < 2 && styles.shadow)}
               style={sidePageStyle}
             >
               <ScrollContainer>
@@ -238,28 +214,19 @@ class SidePage extends React.Component<Props, State> {
   };
 
   _handleClickOutside = () => {
-    if (
-      this.state.stackPosition === stack.mounted.length - 1 &&
-      !this.props.ignoreBackgroundClick
-    ) {
+    if (this.state.stackPosition === stack.mounted.length - 1 && !this.props.ignoreBackgroundClick) {
       this._requestClose();
     }
   };
 
   _handleFocusOutside = () => {
-    if (
-      this.state.stackPosition === stack.mounted.length - 1 &&
-      !this.props.ignoreBackgroundClick
-    ) {
+    if (this.state.stackPosition === stack.mounted.length - 1 && !this.props.ignoreBackgroundClick) {
       this._requestClose();
     }
   };
 
   _handleBackgroundClick = event => {
-    if (
-      event.target === event.currentTarget &&
-      !this.props.ignoreBackgroundClick
-    ) {
+    if (event.target === event.currentTarget && !this.props.ignoreBackgroundClick) {
       this._requestClose();
     }
   };
@@ -284,12 +251,8 @@ class Header extends React.Component<HeaderProps> {
     return (
       <Sticky side="top">
         {fixed => (
-          <div
-            className={classNames(styles.header, fixed && styles.fixedHeader)}
-          >
-            {this.props.close && (
-              <div className={styles.absoluteClose}>{this.props.close}</div>
-            )}
+          <div className={classNames(styles.header, fixed && styles.fixedHeader)}>
+            {this.props.close && <div className={styles.absoluteClose}>{this.props.close}</div>}
             {this.props.children}
           </div>
         )}
@@ -332,11 +295,7 @@ class Footer extends React.Component<FooterProps> {
 
     return (
       <Sticky side="bottom">
-        {fixed => (
-          <div className={classNames(names, fixed && styles.fixedFooter)}>
-            {this.props.children}
-          </div>
-        )}
+        {fixed => <div className={classNames(names, fixed && styles.fixedFooter)}>{this.props.children}</div>}
       </Sticky>
     );
   }

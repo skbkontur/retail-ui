@@ -19,9 +19,7 @@ let jssStyles;
 if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Button.styles').default;
 } else {
-  cssStyles = isFlatDisign
-    ? require('./Button.flat.less')
-    : require('./Button.less');
+  cssStyles = isFlatDisign ? require('./Button.flat.less') : require('./Button.less');
 }
 
 const KEYCODE_TAB = 9;
@@ -120,14 +118,7 @@ class Button extends React.Component<Props, State> {
     /**
      * Вариант использования. Влияет на цвет кнопки.
      */
-    use: PropTypes.oneOf([
-      'default',
-      'primary',
-      'success',
-      'danger',
-      'pay',
-      'link'
-    ]),
+    use: PropTypes.oneOf(['default', 'primary', 'success', 'danger', 'pay', 'link']),
 
     visuallyFocused: PropTypes.bool,
 

@@ -18,11 +18,7 @@ storiesOf('ComboBox v2', module)
           { value: 4, label: 'Fourth' },
           { value: 5, label: 'Fifth' },
           { value: 6, label: 'Sixth' }
-        ].filter(
-          x =>
-            x.label.toLowerCase().includes(q.toLowerCase()) ||
-            x.value.toString(10) === q
-        )
+        ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q)
       );
 
     class SimpleCombobox extends React.Component<{}, *> {
@@ -40,46 +36,21 @@ storiesOf('ComboBox v2', module)
 
     return <SimpleCombobox />;
   })
-  .add('with error handling', () =>
-    <TestComboBox
-      onSearch={search}
-      renderItem={renderValue}
-      onUnexpectedInput={errorStrategy}
-    />
-  )
-  .add('with error skipping', () =>
-    <TestComboBox
-      onSearch={search}
-      renderItem={renderValue}
-      onUnexpectedInput={nullStrategy}
-    />
-  )
-  .add('with warning', () =>
-    <TestComboBox
-      onSearch={search}
-      renderItem={renderValue}
-      onUnexpectedInput={warningStrategy}
-    />
-  )
-  .add('with rejections', () =>
-    <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />
-  )
-  .add('disabled', () =>
-    <TestComboBox
-      autoFocus
-      disabled
-      onSearch={search}
-      renderItem={renderValue}
-    />
-  )
-  .add('with custom elements', () =>
-    <TestComboBox
-      onSearch={searchWithCustomElements}
-      renderItem={renderValue}
-      onUnexpectedInput={errorStrategy}
-    />
-  )
-  .add('autocomplete', () =>
+  .add('with error handling', () => (
+    <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={errorStrategy} />
+  ))
+  .add('with error skipping', () => (
+    <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={nullStrategy} />
+  ))
+  .add('with warning', () => (
+    <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={warningStrategy} />
+  ))
+  .add('with rejections', () => <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />)
+  .add('disabled', () => <TestComboBox autoFocus disabled onSearch={search} renderItem={renderValue} />)
+  .add('with custom elements', () => (
+    <TestComboBox onSearch={searchWithCustomElements} renderItem={renderValue} onUnexpectedInput={errorStrategy} />
+  ))
+  .add('autocomplete', () => (
     <TestComboBox
       autocomplete
       onSearch={search}
@@ -87,8 +58,8 @@ storiesOf('ComboBox v2', module)
       totalCount={12}
       onUnexpectedInput={errorStrategy}
     />
-  )
-  .add('with autoFocus', () =>
+  ))
+  .add('with autoFocus', () => (
     <TestComboBox
       autocomplete
       autoFocus
@@ -97,7 +68,7 @@ storiesOf('ComboBox v2', module)
       totalCount={12}
       onUnexpectedInput={errorStrategy}
     />
-  );
+  ));
 
 type State = {
   value: ?{ id: number, name: string },
@@ -135,19 +106,15 @@ class TestComboBox extends React.Component<*, State> {
           placeholder="numbers"
           onChange={this.handleChange}
           onUnexpectedInput={
-            this.props.onUnexpectedInput
-              ? this.props.onUnexpectedInput(this.setState.bind(this))
-              : undefined
+            this.props.onUnexpectedInput ? this.props.onUnexpectedInput(this.setState.bind(this)) : undefined
           }
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Найдено ${found} из ${total}`}
           ref="cb"
         />{' '}
         <button onClick={() => this.refs.cb.focus()}>Focus</button>
-        {this.state.error &&
-          <div style={{ color: 'red' }}>Необходимо выбрать значение</div>}
-        {this.state.warning &&
-          <div style={{ color: '#f50' }}>Вы не выбрали значение</div>}
+        {this.state.error && <div style={{ color: 'red' }}>Необходимо выбрать значение</div>}
+        {this.state.warning && <div style={{ color: '#f50' }}>Вы не выбрали значение</div>}
       </div>
     );
   }
@@ -191,30 +158,21 @@ const items = [
 function search(query: string) {
   const random = v => Math.random() * v;
 
-  const delay = v =>
-    new Promise(resolve => setTimeout(resolve, random(10) * 100, v));
+  const delay = v => new Promise(resolve => setTimeout(resolve, random(10) * 100, v));
 
-  return Promise.resolve(
-    items.filter(x => ~x.name.toLowerCase().indexOf(query.toLowerCase()))
-  ).then(delay);
+  return Promise.resolve(items.filter(x => ~x.name.toLowerCase().indexOf(query.toLowerCase()))).then(delay);
 }
 
 let searchCount = 0;
 function searchWithRejections(query: string) {
   const random = v => Math.random() * v;
 
-  const delay = v =>
-    new Promise(resolve => setTimeout(resolve, random(5) * 100, v));
+  const delay = v => new Promise(resolve => setTimeout(resolve, random(5) * 100, v));
 
   searchCount++;
   return Promise.resolve()
     .then(delay)
-    .then(
-      () =>
-        searchCount % 2
-          ? Promise.reject()
-          : items.filter(x => ~x.name.indexOf(query.toLowerCase()))
-    );
+    .then(() => (searchCount % 2 ? Promise.reject() : items.filter(x => ~x.name.indexOf(query.toLowerCase()))));
 }
 
 function searchWithCustomElements(query: string) {
@@ -253,9 +211,7 @@ function renderValue({ id, name }) {
       >
         {name}
       </span>
-      <span>
-        {id}
-      </span>
+      <span>{id}</span>
     </div>
   );
 }

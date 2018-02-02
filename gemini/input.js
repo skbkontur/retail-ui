@@ -9,9 +9,7 @@ function createPlainSuite(suiteName, selector) {
 
 // Small, medium and large inputs (plain, focused, typed)
 gemini.suite('Inputs with different sizes', parentSuite => {
-  parentSuite
-    .setUrl(pathTo('Input', 'Inputs with different sizes'))
-    .setCaptureElements('#test-element');
+  parentSuite.setUrl(pathTo('Input', 'Inputs with different sizes')).setCaptureElements('#test-element');
 
   gemini.suite('Small', childSuite => {
     childSuite
@@ -53,9 +51,7 @@ gemini.suite('Inputs with different sizes', parentSuite => {
 // Small and large inputs in next states: warning, error, disabled,
 // disabled with text, placeholder, password, borderless
 gemini.suite('Inputs with different states', parentSuite => {
-  parentSuite
-    .setUrl(pathTo('Input', 'Inputs with different states'))
-    .setCaptureElements('#test-element');
+  parentSuite.setUrl(pathTo('Input', 'Inputs with different states')).setCaptureElements('#test-element');
 
   const suites = [
     ['Warning Small', '#warning-small-input-wrapper'],

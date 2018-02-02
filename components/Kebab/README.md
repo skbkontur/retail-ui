@@ -1,16 +1,16 @@
 ```js
-const { default: Gapped } = require("../Gapped");
-const { default: MenuItem } = require("../MenuItem");
-const { default: Toast } = require("../Toast");
+const { default: Gapped } = require('../Gapped');
+const { default: MenuItem } = require('../MenuItem');
+const { default: Toast } = require('../Toast');
 
 let style = {
-  alignItems: "center",
-  background: "white",
-  border: "1px solid #dfdede",
-  color: "#333",
-  display: "flex",
-  justifyContent: "space-between",
-  padding: "0 20px",
+  alignItems: 'center',
+  background: 'white',
+  border: '1px solid #dfdede',
+  color: '#333',
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: '0 20px',
   width: 250
 };
 
@@ -18,14 +18,14 @@ let Card = ({ name, post }) => (
   <div style={style}>
     <div>
       <h3>{name}</h3>
-      <p style={{ color: "gray" }}>{post}</p>
+      <p style={{ color: 'gray' }}>{post}</p>
     </div>
 
     <Kebab size="large">
-      <MenuItem icon="edit" onClick={() => Toast.push("Nope")}>
+      <MenuItem icon="edit" onClick={() => Toast.push('Nope')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon="trash" onClick={() => Toast.push("Nope")}>
+      <MenuItem icon="trash" onClick={() => Toast.push('Nope')}>
         Удалить
       </MenuItem>
     </Kebab>

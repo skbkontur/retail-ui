@@ -24,8 +24,7 @@ type Props = {
   children: (classes: *) => React.Node
 };
 
-const createStylesCreator = (styles: Styles) =>
-  typeof styles === 'function' ? styles : (theme: mixed) => styles;
+const createStylesCreator = (styles: Styles) => (typeof styles === 'function' ? styles : (theme: mixed) => styles);
 
 class JssStyled extends React.Component<Props> {
   static contextTypes = {
@@ -76,8 +75,7 @@ class JssStyled extends React.Component<Props> {
     }
   }
 
-  _getThemeFromContext = () =>
-    this.context[theming.channel] && this.context[theming.channel].getState();
+  _getThemeFromContext = () => this.context[theming.channel] && this.context[theming.channel].getState();
 
   _attach = theme => {
     let sheetManager = this._sheetsManager.get(this._stylesCreator);

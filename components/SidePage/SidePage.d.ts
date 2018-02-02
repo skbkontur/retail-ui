@@ -34,25 +34,13 @@ export interface SidePageFooterProps {
 
 export interface SidePageFooterState {}
 
-declare class SidePageHeader extends React.Component<
-  SidePageHeaderProps,
-  SidePageHeaderState
-> {}
+declare class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {}
 
-declare class SidePageBody extends React.Component<
-  SidePageBodyProps,
-  SidePageBodyState
-> {}
+declare class SidePageBody extends React.Component<SidePageBodyProps, SidePageBodyState> {}
 
-declare class SidePageFooter extends React.Component<
-  SidePageFooterProps,
-  SidePageFooterState
-> {}
+declare class SidePageFooter extends React.Component<SidePageFooterProps, SidePageFooterState> {}
 
-export default class SidePage extends React.Component<
-  SidePageProps,
-  SidePageState
-> {
+export default class SidePage extends React.Component<SidePageProps, SidePageState> {
   static Header: typeof SidePageHeader;
   static Body: typeof SidePageBody;
   static Footer: typeof SidePageFooter;

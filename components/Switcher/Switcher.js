@@ -99,9 +99,7 @@ class Switcher extends React.Component<Props, State> {
 
     if (event.key === 'Enter') {
       if (this.props.onChange) {
-        const { value } = this._extractPropsFromItem(
-          this.props.items[focusedIndex]
-        );
+        const { value } = this._extractPropsFromItem(this.props.items[focusedIndex]);
         this._selectItem(value);
       }
       return;
@@ -161,9 +159,7 @@ class Switcher extends React.Component<Props, State> {
 
     return (
       <div>
-        {this.props.label ? (
-          <div className={styles.label}>{this.props.label}</div>
-        ) : null}
+        {this.props.label ? <div className={styles.label}>{this.props.label}</div> : null}
         <div className={styles.wrap}>
           <input {...inputProps} />
           <div className={listClassNames}>

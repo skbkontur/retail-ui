@@ -17,7 +17,4 @@ export interface SwitcherState {
   focusedIndex: number | null;
 }
 
-export default class Switcher extends React.Component<
-  SwitcherProps,
-  SwitcherState
-> {}
+export default class Switcher extends React.Component<SwitcherProps, SwitcherState> {}

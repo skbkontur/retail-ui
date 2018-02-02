@@ -46,10 +46,7 @@ type Props = {
   minYear?: number,
   menuAlign?: 'left' | 'right',
   onBlur?: () => void,
-  onChange?: (
-    e: { target: { value: DatePickerValue } },
-    v: DatePickerValue
-  ) => void,
+  onChange?: (e: { target: { value: DatePickerValue } }, v: DatePickerValue) => void,
   onFocus?: () => void,
   onInput?: (e: SyntheticInputEvent<>) => void,
   onKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
@@ -146,8 +143,7 @@ class DatePicker extends React.Component<Props, State> {
 
   constructor(props: Props, context: mixed) {
     super(props, context);
-    const textValue =
-      typeof props.value === 'string' ? props.value : formatDate(props.value);
+    const textValue = typeof props.value === 'string' ? props.value : formatDate(props.value);
 
     this.state = {
       opened: false,
@@ -179,17 +175,8 @@ class DatePicker extends React.Component<Props, State> {
     let picker = null;
     if (opened) {
       picker = (
-        <DropdownContainer
-          getParent={() => findDOMNode(this)}
-          offsetY={2}
-          align={menuAlign}
-        >
-          <Picker
-            value={date}
-            minYear={this.props.minYear}
-            maxYear={this.props.maxYear}
-            onPick={this.handlePick}
-          />
+        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2} align={menuAlign}>
+          <Picker value={date} minYear={this.props.minYear} maxYear={this.props.maxYear} onPick={this.handlePick} />
         </DropdownContainer>
       );
     }
@@ -204,11 +191,7 @@ class DatePicker extends React.Component<Props, State> {
       [styles.openButtonDisabled]: this.props.disabled
     });
     return (
-      <RenderLayer
-        onClickOutside={this.handleBlur}
-        onFocusOutside={this.handleBlur}
-        active={opened}
-      >
+      <RenderLayer onClickOutside={this.handleBlur} onFocusOutside={this.handleBlur} active={opened}>
         <label className={className} style={{ width: this.props.width }}>
           <DateInput
             {...filterProps(this.props, INPUT_PASS_PROPS)}
@@ -220,10 +203,7 @@ class DatePicker extends React.Component<Props, State> {
             onSubmit={this._handleSubmit}
           />
           {picker}
-          <Center
-            className={openClassName}
-            onMouseDown={e => e.preventDefault()}
-          >
+          <Center className={openClassName} onMouseDown={e => e.preventDefault()}>
             <Icon name="calendar" size={iconSize} />
           </Center>
         </label>
@@ -234,8 +214,7 @@ class DatePicker extends React.Component<Props, State> {
   componentWillReceiveProps({ value: newValue }: Props) {
     const { value: oldValue } = this.props;
     if (+newValue !== +oldValue) {
-      const textValue =
-        typeof newValue === 'string' ? newValue : formatDate(newValue);
+      const textValue = typeof newValue === 'string' ? newValue : formatDate(newValue);
 
       this.setState({ textValue });
     }
@@ -289,11 +268,9 @@ class DatePicker extends React.Component<Props, State> {
   _handleSubmit = () => {
     const value = this.state.textValue;
     const date = parseDate(value);
-    const newDate =
-      date === null ? getDateValue(value, this.props.onUnexpectedInput) : date;
+    const newDate = date === null ? getDateValue(value, this.props.onUnexpectedInput) : date;
 
-    const textValue =
-      typeof newDate === 'string' ? newDate : formatDate(newDate);
+    const textValue = typeof newDate === 'string' ? newDate : formatDate(newDate);
 
     this.setState({ textValue });
 

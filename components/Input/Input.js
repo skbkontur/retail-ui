@@ -20,9 +20,7 @@ let jssStyles;
 if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Input.styles').default;
 } else {
-  cssStyles = isFlatDisign
-    ? require('./Input.flat.less')
-    : require('./Input.less');
+  cssStyles = isFlatDisign ? require('./Input.flat.less') : require('./Input.less');
 }
 
 const INPUT_PASS_PROPS = {
@@ -217,8 +215,7 @@ class Input extends React.Component<Props, State> {
     };
 
     const className: string = this.props.className || '';
-    const sizeClassName =
-      SIZE_CLASS_NAMES[this.props.size || Input.defaultProps.size];
+    const sizeClassName = SIZE_CLASS_NAMES[this.props.size || Input.defaultProps.size];
     var labelProps = {
       className: classNames({
         [classes.root]: true,
@@ -241,17 +238,9 @@ class Input extends React.Component<Props, State> {
 
     var placeholder = null;
 
-    if (
-      this.state.polyfillPlaceholder &&
-      this.props.placeholder &&
-      !this.props.mask &&
-      !this.props.value
-    ) {
+    if (this.state.polyfillPlaceholder && this.props.placeholder && !this.props.mask && !this.props.value) {
       placeholder = (
-        <div
-          className={classes.placeholder}
-          style={{ textAlign: this.props.align || 'inherit' }}
-        >
+        <div className={classes.placeholder} style={{ textAlign: this.props.align || 'inherit' }}>
           {this.props.placeholder}
         </div>
       );
@@ -263,9 +252,7 @@ class Input extends React.Component<Props, State> {
     }
     var rightIcon = null;
     if (this.props.rightIcon) {
-      rightIcon = (
-        <div className={classes.rightIcon}>{this.props.rightIcon}</div>
-      );
+      rightIcon = <div className={classes.rightIcon}>{this.props.rightIcon}</div>;
     }
 
     const inputProps = {
@@ -296,9 +283,7 @@ class Input extends React.Component<Props, State> {
         <MaskedInput
           {...inputProps}
           mask={this.props.mask}
-          maskChar={
-            this.props.maskChar === undefined ? '_' : this.props.maskChar
-          }
+          maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
           alwaysShowMask={this.props.alwaysShowMask}
         />
       );
@@ -355,10 +340,7 @@ class Input extends React.Component<Props, State> {
    * @public
    */
   setSelectionRange(start: number, end: number) {
-    invariant(
-      this.input,
-      'Cannot call "setSelectionRange" because Input is not mounted'
-    );
+    invariant(this.input, 'Cannot call "setSelectionRange" because Input is not mounted');
     if (this.input.setSelectionRange) {
       this.input.focus();
       // $FlowIssue: suppressing the error of possibly null value of this.input

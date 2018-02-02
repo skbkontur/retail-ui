@@ -38,10 +38,7 @@ export interface SelectItemProps {}
 
 export interface SelectItemState {}
 
-export class SelectItem extends React.Component<
-  SelectItemProps,
-  SelectItemState
-> {}
+export class SelectItem extends React.Component<SelectItemProps, SelectItemState> {}
 
 interface SelectStaticItem {
   (value: React.ReactNode): React.ReactNode;

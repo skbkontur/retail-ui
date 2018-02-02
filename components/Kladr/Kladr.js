@@ -50,25 +50,14 @@ export default class Kladr extends React.Component<Props, State> {
 
     let validation = null;
     if (this.props.error) {
-      validation = (
-        <div style={{ color: Colors.ERROR, marginBottom: 5 }}>
-          {this.props.error}
-        </div>
-      );
+      validation = <div style={{ color: Colors.ERROR, marginBottom: 5 }}>{this.props.error}</div>;
     } else if (this.props.warning) {
-      validation = (
-        <div style={{ color: Colors.WARNING, marginBottom: 5 }}>
-          {this.props.warning}
-        </div>
-      );
+      validation = <div style={{ color: Colors.WARNING, marginBottom: 5 }}>{this.props.warning}</div>;
     }
 
     return (
       <span>
-        {!empty &&
-          <div style={{ marginBottom: 5 }}>
-            {this._renderAddress(value.address)}
-          </div>}
+        {!empty && <div style={{ marginBottom: 5 }}>{this._renderAddress(value.address)}</div>}
         {validation}
         <Link icon="edit" onClick={this._handleOpen}>
           {change}

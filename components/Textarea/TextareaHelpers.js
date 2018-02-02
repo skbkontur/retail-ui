@@ -1,11 +1,7 @@
 // @flow
 import getComputedStyle from '../../lib/dom/getComputedStyle';
 
-export function getTextAreaHeight(
-  node: HTMLTextAreaElement,
-  minRows: number,
-  maxRows: number
-) {
+export function getTextAreaHeight(node: HTMLTextAreaElement, minRows: number, maxRows: number) {
   const style = getComputedStyle(node);
   const lineHeight = parseInt(style.lineHeight, 10);
   const paddingTop = parseInt(style.paddingTop, 10);

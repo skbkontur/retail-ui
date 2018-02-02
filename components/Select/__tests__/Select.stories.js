@@ -12,11 +12,7 @@ class SelectWrapper extends React.Component<{}, *> {
     return (
       <div>
         <Select
-          items={[
-            { label: 'One', value: 1 },
-            { label: 'Two', value: 2 },
-            { label: 'Three', value: 3 }
-          ]}
+          items={[{ label: 'One', value: 1 }, { label: 'Two', value: 2 }, { label: 'Three', value: 3 }]}
           value={this.state.value}
           onChange={(_, value) => this.setState({ value })}
           renderItem={x => x.label}
@@ -39,13 +35,7 @@ class SelectWithNull extends React.Component<*, *> {
           value: <b>{JSON.stringify(this.state.value)}</b>
         </div>
         <Select
-          items={[
-            [null, 'Any'],
-            Select.SEP,
-            [1, 'First'],
-            [2, 'Second'],
-            [3, 'Third']
-          ]}
+          items={[[null, 'Any'], Select.SEP, [1, 'First'], [2, 'Second'], [3, 'Third']]}
           value={this.state.value}
           onChange={(_, value) => this.setState({ value })}
         />
@@ -56,10 +46,7 @@ class SelectWithNull extends React.Component<*, *> {
 
 storiesOf('Select', module)
   .addDecorator(story => (
-    <div
-      className="dropdown-test-container"
-      style={{ height: 150, width: 200, padding: 4 }}
-    >
+    <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
       {story()}
     </div>
   ))

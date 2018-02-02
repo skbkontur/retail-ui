@@ -116,10 +116,7 @@ class Textarea extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      (this.props.autoResize && this.props.rows > this.state.rows) ||
-      this.props.value !== prevProps.value
-    ) {
+    if ((this.props.autoResize && this.props.rows > this.state.rows) || this.props.value !== prevProps.value) {
       this._autoresize();
     }
   }
@@ -144,9 +141,7 @@ class Textarea extends React.Component {
     let placeholder = null;
 
     if (this.state.polyfillPlaceholder && !this.props.value) {
-      placeholder = (
-        <span className={styles.placeholder}>{this.props.placeholder}</span>
-      );
+      placeholder = <span className={styles.placeholder}>{this.props.placeholder}</span>;
     }
 
     let fakeTextarea = null;
@@ -184,11 +179,7 @@ class Textarea extends React.Component {
       fakeNode.value = node.value;
     }
     const { rows, maxRows } = this.props;
-    const { height, exceededMaxHeight } = getTextAreaHeight(
-      fakeNode,
-      rows,
-      maxRows
-    );
+    const { height, exceededMaxHeight } = getTextAreaHeight(fakeNode, rows, maxRows);
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
     fakeNode.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';

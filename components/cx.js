@@ -1,7 +1,5 @@
 if (global.console && console.error) {
-  console.error(
-    'The cx function is deprecated. Use webpack css-loader local scope.'
-  );
+  console.error('The cx function is deprecated. Use webpack css-loader local scope.');
 }
 
 export default function(prefix) {

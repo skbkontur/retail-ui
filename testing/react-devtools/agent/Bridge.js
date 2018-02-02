@@ -18,38 +18,45 @@ var performanceNow = require('fbjs/lib/performanceNow');
 type AnyFn = (...x: any) => any;
 export type Wall = {
   listen: (fn: (data: PayloadType) => void) => void,
-  send: (data: PayloadType) => void,
+  send: (data: PayloadType) => void
 };
 
 type EventPayload = {
   type: 'event',
   cleaned: ?Array<Array<string>>,
   evt: string,
-  data: any,
+  data: any
 };
 
-type PayloadType = {
-  type: 'inspect',
-  id: string,
-  path: Array<string>,
-  callback: number,
-} | {
-  type: 'many-events',
-  events: Array<EventPayload>,
-} | {
-  type: 'call',
-  name: string,
-  args: Array<any>,
-  callback: number,
-} | {
-  type: 'callback',
-  id: number,
-  args: Array<any>,
-} | {
-  type: 'pause',
-} | {
-  type: 'resume',
-} | EventPayload;
+type PayloadType =
+  | {
+      type: 'inspect',
+      id: string,
+      path: Array<string>,
+      callback: number
+    }
+  | {
+      type: 'many-events',
+      events: Array<EventPayload>
+    }
+  | {
+      type: 'call',
+      name: string,
+      args: Array<any>,
+      callback: number
+    }
+  | {
+      type: 'callback',
+      id: number,
+      args: Array<any>
+    }
+  | {
+      type: 'pause'
+    }
+  | {
+      type: 'resume'
+    }
+  | EventPayload;
 
 /**
  * The bridge is responsible for serializing requests between the Agent and
@@ -108,15 +115,15 @@ type PayloadType = {
  * up.
  */
 class Bridge {
-  _buffer: Array<{evt: string, data: any}>;
+  _buffer: Array<{ evt: string, data: any }>;
   _cbs: Map<any, any>;
   _cid: number;
   _inspectables: Map<any, any>;
   _lastTime: number;
-  _listeners: {[key: string]: Array<(data: any) => void>};
+  _listeners: { [key: string]: Array<(data: any) => void> };
   _waiting: ?number;
   _wall: Wall;
-  _callers: {[key: string]: AnyFn};
+  _callers: { [key: string]: AnyFn };
   _paused: boolean;
 
   constructor(wall: Wall) {
@@ -153,7 +160,7 @@ class Bridge {
       type: 'inspect',
       callback: _cid,
       path,
-      id,
+      id
     });
   }
 
@@ -165,7 +172,7 @@ class Bridge {
       type: 'call',
       callback: _cid,
       args,
-      name,
+      name
     });
   }
 
@@ -178,13 +185,13 @@ class Bridge {
 
   pause() {
     this._wall.send({
-      type: 'pause',
+      type: 'pause'
     });
   }
 
   resume() {
     this._wall.send({
-      type: 'resume',
+      type: 'resume'
     });
   }
 
@@ -194,7 +201,7 @@ class Bridge {
       this._inspectables.set(id, data);
       return;
     }
-    this._inspectables.set(id, {...prev, ...data});
+    this._inspectables.set(id, { ...prev, ...data });
   }
 
   sendOne(evt: string, data: any) {
@@ -203,7 +210,7 @@ class Bridge {
     if (cleaned.length) {
       this.setInspectable(data.id, data);
     }
-    this._wall.send({type: 'event', evt, data: san, cleaned});
+    this._wall.send({ type: 'event', evt, data: san, cleaned });
   }
 
   send(evt: string, data: any) {
@@ -219,20 +226,20 @@ class Bridge {
         this._waiting = null;
       }, nextTime);
     }
-    this._buffer.push({evt, data});
+    this._buffer.push({ evt, data });
   }
 
   flush() {
     var start = performanceNow();
-    var events = this._buffer.map(({evt, data}) => {
+    var events = this._buffer.map(({ evt, data }) => {
       var cleaned = [];
       var san = dehydrate(data, cleaned);
       if (cleaned.length) {
         this.setInspectable(data.id, data);
       }
-      return {type: 'event', evt, data: san, cleaned};
+      return { type: 'event', evt, data: san, cleaned };
     });
-    this._wall.send({type: 'many-events', events});
+    this._wall.send({ type: 'many-events', events });
     this._buffer = [];
     this._waiting = null;
     this._lastTime = performanceNow() - start;
@@ -345,7 +352,7 @@ class Bridge {
     this._wall.send({
       type: 'callback',
       id: callback,
-      args: [result],
+      args: [result]
     });
   }
 
@@ -388,7 +395,7 @@ class Bridge {
     this._wall.send({
       type: 'callback',
       id: callback,
-      args: [result, cleaned, proto, protoclean],
+      args: [result, cleaned, proto, protoclean]
     });
   }
 }

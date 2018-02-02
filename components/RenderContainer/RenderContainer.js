@@ -25,10 +25,7 @@ export default class RenderContainer extends React.Component<*> {
     this._hydrateId();
 
     this._testID = nextID();
-    this._domContainer.setAttribute(
-      'data-rendered-container-id',
-      this._testID.toString()
-    );
+    this._domContainer.setAttribute('data-rendered-container-id', this._testID.toString());
     this._domContainer.className = 'react-ui';
 
     const { body } = document;
@@ -90,9 +87,7 @@ export default class RenderContainer extends React.Component<*> {
   _renderChild() {
     ReactDOM.unstable_renderSubtreeIntoContainer(
       this,
-      <RootContainer rt_portalID={this._testID}>
-        {this.props.children}
-      </RootContainer>,
+      <RootContainer rt_portalID={this._testID}>{this.props.children}</RootContainer>,
       this._domContainer
     );
   }

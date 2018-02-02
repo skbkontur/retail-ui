@@ -1,6 +1,1 @@
-export {
-  default,
-  SwitcherProps,
-  SwitcherState,
-  SwitcherItem
-} from './Switcher';
+export { default, SwitcherProps, SwitcherState, SwitcherItem } from './Switcher';

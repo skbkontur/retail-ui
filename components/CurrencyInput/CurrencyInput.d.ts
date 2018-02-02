@@ -7,10 +7,7 @@ export interface CurrencyInputProps {
   error?: boolean;
   fractionDigits?: number | null;
   onBlur?: () => void;
-  onChange?: (
-    e: { target: { value: number | null } },
-    value: number | null
-  ) => void;
+  onChange?: (e: { target: { value: number | null } }, value: number | null) => void;
   onFocus?: () => void;
   onSubmit?: () => void;
   placeholder?: string;
@@ -22,7 +19,4 @@ export interface CurrencyInputProps {
 
 export interface CurrencyInputState {}
 
-export default class CurrencyInput extends React.Component<
-  CurrencyInputProps,
-  CurrencyInputState
-> {}
+export default class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyInputState> {}

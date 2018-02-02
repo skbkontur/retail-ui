@@ -23,16 +23,11 @@ export default class CurrencyHelper {
     thousandsDelimiter: String.fromCharCode(0x2009)
   };
 
-  static getOptions(
-    options?: ?DecimalFormattingOptions
-  ): DecimalFormattingOptionsInternal {
+  static getOptions(options?: ?DecimalFormattingOptions): DecimalFormattingOptionsInternal {
     return { ...CurrencyHelper.defaultOptions, ...options };
   }
 
-  static getInfo(
-    value: string,
-    options?: ?DecimalFormattingOptions
-  ): FormattingInfo {
+  static getInfo(value: string, options?: ?DecimalFormattingOptions): FormattingInfo {
     const raw = CurrencyHelper.unformatString(value);
     const formatted = CurrencyHelper.formatString(value, options);
     const cursorMap = CurrencyHelper.getCursorMap(formatted, options);
@@ -40,10 +35,7 @@ export default class CurrencyHelper {
     return { raw, formatted, cursorMap };
   }
 
-  static getCursorMap(
-    formatted: string,
-    formattingOptions?: ?DecimalFormattingOptions
-  ): CursorMap {
+  static getCursorMap(formatted: string, formattingOptions?: ?DecimalFormattingOptions): CursorMap {
     const options = CurrencyHelper.getOptions(formattingOptions);
     const regexp = new RegExp(options.thousandsDelimiter);
     const cursorMap: CursorMap = [];
@@ -91,16 +83,12 @@ export default class CurrencyHelper {
     return CurrencyHelper.unformatString(value).replace('.', ',');
   }
 
-  static formatString(
-    value: string,
-    formattingOptions?: ?DecimalFormattingOptions
-  ): string {
+  static formatString(value: string, formattingOptions?: ?DecimalFormattingOptions): string {
     const options = CurrencyHelper.getOptions(formattingOptions);
     value = CurrencyHelper.unformatString(value);
     const [integer = '', fraction = ''] = value.split('.');
 
-    const fractionDigits =
-      options.fractionDigits == null ? fraction.length : options.fractionDigits;
+    const fractionDigits = options.fractionDigits == null ? fraction.length : options.fractionDigits;
 
     if (fraction.length > fractionDigits) {
       throw new Error('Error');
@@ -152,11 +140,7 @@ export default class CurrencyHelper {
         return dotsCount <= 1;
       default:
         const [integer, fraction = ''] = value.split('.');
-        return (
-          dotsCount <= 1 &&
-          integer.length <= 15 - fractionDigits &&
-          fraction.length <= fractionDigits
-        );
+        return dotsCount <= 1 && integer.length <= 15 - fractionDigits && fraction.length <= fractionDigits;
     }
   }
 

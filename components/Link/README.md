@@ -1,5 +1,5 @@
 ```js
-const { default: Gapped } = require("../Gapped");
+const { default: Gapped } = require('../Gapped');
 
 <Gapped>
   <Link>Enabled</Link>

@@ -25,10 +25,6 @@ export default class MenuHeader extends React.Component<Props> {
       [styles.root]: true,
       [styles.withLeftPadding]: _enableIconPadding
     });
-    return (
-      <div className={classnames}>
-        {children}
-      </div>
-    );
+    return <div className={classnames}>{children}</div>;
   }
 }

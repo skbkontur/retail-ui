@@ -48,10 +48,8 @@
     stroke-dashoffset: 15;
 
     :global {
-      animation:
-        rt_cloud_offset 1s cubic-bezier(.50, .20, .50, .80) infinite,
-        rt_cloud_length 2s cubic-bezier(.36, .14, .38, .69) infinite,
-        rt_color 6s ease-in-out infinite;
+      animation: rt_cloud_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
+        rt_cloud_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite, rt_color 6s ease-in-out infinite;
     }
   }
 
@@ -64,10 +62,8 @@
     top: 3px;
 
     :global {
-      animation:
-        rt_circle_offset 1s cubic-bezier(.50, .20, .50, .80) infinite,
-        rt_circle_length 2s cubic-bezier(.36, .14, .38, .69) infinite,
-        rt_rotate 2s linear infinite,
+      animation: rt_circle_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
+        rt_circle_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite, rt_rotate 2s linear infinite,
         rt_color 6s ease-in-out infinite;
     }
 
@@ -75,10 +71,8 @@
       stroke: @gray;
 
       :global {
-        animation:
-          rt_circle_offset 1s cubic-bezier(.50, .20, .50, .80) infinite,
-          rt_circle_length 2s cubic-bezier(.36, .14, .38, .69) infinite,
-          rt_rotate 2s linear infinite;
+        animation: rt_circle_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
+          rt_circle_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite, rt_rotate 2s linear infinite;
       }
     }
   }

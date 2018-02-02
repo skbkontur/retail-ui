@@ -47,47 +47,32 @@ class Organizations extends React.Component<Props, State> {
             paddingRight: this._comment && this._comment.offsetWidth + 30
           }}
         >
-          <span
-            className={styles.organizationsCaption}
-            ref={this._getCaptionRef}
-          >
+          <span className={styles.organizationsCaption} ref={this._getCaptionRef}>
             {caption}
           </span>
-          {comment &&
-            <span
-              className={styles.organizationsComment}
-              ref={this._getCommentRef}
-            >
+          {comment && (
+            <span className={styles.organizationsComment} ref={this._getCommentRef}>
               {comment}
-            </span>}
+            </span>
+          )}
           <span className={styles.organizationsArrow}>
             <Icon color="#aaa" size={14} name="angle-bottom" />
           </span>
         </span>
-        <div
-          className={styles.organizationsTitleDummy}
-          style={{ whiteSpace: this.state.captionWhiteSpace }}
-        >
+        <div className={styles.organizationsTitleDummy} style={{ whiteSpace: this.state.captionWhiteSpace }}>
           <span className={styles.organizationsCaption}>
             {React.isValidElement(caption)
               ? // $FlowIssue isValidElement do not provides %checks
                 React.cloneElement(caption, { ref: null })
               : caption}
           </span>
-          {comment &&
-            <span className={styles.organizationsCommentDummy}>
-              {comment}
-            </span>}
+          {comment && <span className={styles.organizationsCommentDummy}>{comment}</span>}
         </div>
       </div>
     );
 
     return (
-      <TopBarDropdown
-        {...this.props}
-        caption={title}
-        minWidth={this.state.minWidth}
-      >
+      <TopBarDropdown {...this.props} caption={title} minWidth={this.state.minWidth}>
         {this.props.children}
       </TopBarDropdown>
     );

@@ -4,9 +4,7 @@ import * as React from 'react';
 import events from 'add-event-listener';
 import { findDOMNode } from 'react-dom';
 
-import listenFocusOutside, {
-  containsTargetOrRenderContainer
-} from '../../lib/listenFocusOutside';
+import listenFocusOutside, { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 
 type PassingProps = {
   subscribeToOutsideFocus: (fn: (e: Event) => mixed) => () => void,
@@ -51,10 +49,7 @@ function withFocusOutside<Props: ParamsProps>(
     };
 
     _listen = () => {
-      this._focusSubscribtion = listenFocusOutside(
-        [this._getDomNode()],
-        this._handleFocusOutside
-      );
+      this._focusSubscribtion = listenFocusOutside([this._getDomNode()], this._handleFocusOutside);
 
       events.addEventListener(window, 'blur', this._handleFocusOutside);
 
@@ -73,11 +68,7 @@ function withFocusOutside<Props: ParamsProps>(
 
       events.removeEventListener(window, 'blur', this._handleFocusOutside);
 
-      events.removeEventListener(
-        document,
-        'mousedown',
-        this._handleNativeDocClick
-      );
+      events.removeEventListener(document, 'mousedown', this._handleNativeDocClick);
     }
 
     _subscribeToOutsideFocus = fn => {

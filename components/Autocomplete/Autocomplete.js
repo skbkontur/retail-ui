@@ -112,10 +112,7 @@ export default class Autocomplete extends React.Component<Props, State> {
       ref: this._refInput
     };
     return (
-      <RenderLayer
-        onFocusOutside={this._handleBlur}
-        onClickOutside={this._handleBlur}
-      >
+      <RenderLayer onFocusOutside={this._handleBlur} onClickOutside={this._handleBlur}>
         <span className={styles.root}>
           {/* $FlowIssue inputProps overrides */}
           <Input {...this.props} {...inputProps} />
@@ -287,9 +284,7 @@ function match(pattern, items) {
   }
 
   pattern = pattern.toLowerCase();
-  const filteredItems = items.filter(item =>
-    item.toLowerCase().includes(pattern)
-  );
+  const filteredItems = items.filter(item => item.toLowerCase().includes(pattern));
   return Promise.resolve(filteredItems);
 }
 

@@ -17,18 +17,10 @@ class User extends React.Component<{
         <MenuItem loose href="https://cabinet.kontur.ru" target="_blank">
           Настройка входа в сервисы
         </MenuItem>
-        <MenuItem
-          loose
-          href="https://cabinet.kontur.ru#certificates"
-          target="_blank"
-        >
+        <MenuItem loose href="https://cabinet.kontur.ru#certificates" target="_blank">
           Сертификаты
         </MenuItem>
-        <MenuItem
-          loose
-          href="https://cabinet.kontur.ru#services"
-          target="_blank"
-        >
+        <MenuItem loose href="https://cabinet.kontur.ru#services" target="_blank">
           Оплата сервисов
         </MenuItem>
       </TopBarDropdown>

@@ -9,9 +9,7 @@ import Upgrades from '../../lib/Upgrades';
 
 const isFlatDisign = Upgrades.ifFlatDisignEnabled();
 
-const styles = isFlatDisign
-  ? require('./Radio.flat.less')
-  : require('./Radio.less');
+const styles = isFlatDisign ? require('./Radio.flat.less') : require('./Radio.less');
 
 type Primitive = number | string;
 
@@ -214,13 +212,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
   };
 }
 
-function createSyntheticEvent<T>({
-  value,
-  id,
-  name,
-  checked,
-  disabled
-}: Props<T>): SyntheticRadioEvent<T> {
+function createSyntheticEvent<T>({ value, id, name, checked, disabled }: Props<T>): SyntheticRadioEvent<T> {
   const target = {
     value,
     id,

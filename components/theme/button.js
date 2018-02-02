@@ -5,17 +5,11 @@ export default {
   defaultBg: '#f9f9f9',
   defaultBgStart: '#fff',
   defaultBgEnd: '#ebebeb',
-  defaultShadow: [
-    ['0 1px 0 0 rgba(0, 0, 0, 0.15)'],
-    ['0 0 0 1px rgba(0, 0, 0, 0.15)']
-  ],
+  defaultShadow: [['0 1px 0 0 rgba(0, 0, 0, 0.15)'], ['0 0 0 1px rgba(0, 0, 0, 0.15)']],
   defaultShadowArrow: '1px -1px 0 0 rgba(0, 0, 0, 0.15)',
   defaultHoverBgStart: '#f2f2f2',
   defaultHoverBgEnd: ' #dfdfdf',
-  defaultHoverShadow: [
-    ['0 1px 0 0 rgba(0, 0, 0, 0.15)'],
-    ['0 0 0 1px rgba(0, 0, 0, 0.2)']
-  ],
+  defaultHoverShadow: [['0 1px 0 0 rgba(0, 0, 0, 0.15)'], ['0 0 0 1px rgba(0, 0, 0, 0.2)']],
   defaultHoverShadowArrow: '1px -1px 0 0 rgba(0, 0, 0, 0.2)',
   defaultActiveBg: '#e1e1e1',
   defaultActiveShadow: [
@@ -33,17 +27,11 @@ export default {
   primaryBg: '#1e8dd4',
   primaryBgStart: '#2899ea',
   primaryBgEnd: '#167ac1',
-  primaryShadow: [
-    ['0 0 0 1px rgba(14, 81, 129, 0.7)'],
-    ['0 1px 0 0 rgba(7, 37, 80, 0.5)']
-  ],
+  primaryShadow: [['0 0 0 1px rgba(14, 81, 129, 0.7)'], ['0 1px 0 0 rgba(7, 37, 80, 0.5)']],
   primaryShadowArrow: '1px -1px 0 0 rgba(14, 81, 129, 0.7)',
   primaryHoverBgStart: '#0087d5',
   primaryHoverBgEnd: '#167ac1',
-  primaryHoverShadow: [
-    ['0 0 0 1px rgba(5, 60, 99, 0.7)'],
-    ['0 1px 0 0 rgba(7, 37, 80, 0.3)']
-  ],
+  primaryHoverShadow: [['0 0 0 1px rgba(5, 60, 99, 0.7)'], ['0 1px 0 0 rgba(7, 37, 80, 0.3)']],
   primaryHoverShadowArrow: '1px -1px 0 0 rgba(5, 60, 99, 0.7)',
   primaryActiveBg: '#0079c3',
   primaryActiveShadow: [
@@ -61,17 +49,11 @@ export default {
   successBg: '#419d14',
   successBgStart: '#4ba91d',
   successBgEnd: '#37910b',
-  successShadow: [
-    ['0 0 0 1px rgba(25, 103, 6, 0.7)'],
-    ['0 1px 0 0 rgba(21, 80, 7, 0.5)']
-  ],
+  successShadow: [['0 0 0 1px rgba(25, 103, 6, 0.7)'], ['0 1px 0 0 rgba(21, 80, 7, 0.5)']],
   successShadowArrow: '1px -1px 0 0 rgba(25, 103, 6, 0.7)',
   successHoverBgStart: '#3b8d13',
   successHoverBgEnd: '#317e0b',
-  successHoverShadow: [
-    ['0 0 0 1px rgba(7, 73, 1, 0.7)'],
-    ['0 1px 0 0 rgba(16, 70, 4, 0.3)']
-  ],
+  successHoverShadow: [['0 0 0 1px rgba(7, 73, 1, 0.7)'], ['0 1px 0 0 rgba(16, 70, 4, 0.3)']],
   successHoverShadowArrow: '1px -1px 0 0 rgba(7, 73, 1, 0.7)',
   successActiveBg: '#35840e',
   successActiveShadow: [
@@ -89,17 +71,11 @@ export default {
   dangerBg: '#e14c30',
   dangerBgStart: '#ec5438',
   dangerBgEnd: '#d44327',
-  dangerShadow: [
-    ['0 0 0 1px rgba(173, 15, 0, 0.7)'],
-    ['0 1px 0 0 rgba(0, 0, 0, 0.4)']
-  ],
+  dangerShadow: [['0 0 0 1px rgba(173, 15, 0, 0.7)'], ['0 1px 0 0 rgba(0, 0, 0, 0.4)']],
   dangerShadowArrow: '1px -1px 0 0 rgba(173, 15, 0, 0.7)',
   dangerHoverBgStart: '#d44227',
   dangerHoverBgEnd: '#c73013',
-  dangerHoverShadow: [
-    ['0 0 0 1px rgba(145, 0, 0, 0.7)'],
-    ['0 1px 0 0 rgba(90, 3, 3, 0.4)']
-  ],
+  dangerHoverShadow: [['0 0 0 1px rgba(145, 0, 0, 0.7)'], ['0 1px 0 0 rgba(90, 3, 3, 0.4)']],
   dangerHoverShadowArrow: '1px -1px 0 0 rgba(145, 0, 0, 0.7)',
   dangerActiveBg: '#cd381b',
   dangerActiveShadow: [
@@ -117,17 +93,11 @@ export default {
   payBg: '#ffc943',
   payBgStart: '#ffd54b',
   payBgEnd: '#ffbb39',
-  payShadow: [
-    ['0 0 0 1px rgba(238, 169, 34, 0.7)'],
-    ['0 1px 0 0 rgba(77, 16, 0, 0.56)']
-  ],
+  payShadow: [['0 0 0 1px rgba(238, 169, 34, 0.7)'], ['0 1px 0 0 rgba(77, 16, 0, 0.56)']],
   payShadowArrow: '1px -1px 0 0 rgba(238, 169, 34, 0.7)',
   payHoverBgStart: '#ffbd3a',
   payHoverBgEnd: '#f8a91d',
-  payHoverShadow: [
-    ['0 0 0 1px rgba(227, 142, 8, 0.7)'],
-    ['0 1px 0 0 rgba(93, 20, 3, 0.4)']
-  ],
+  payHoverShadow: [['0 0 0 1px rgba(227, 142, 8, 0.7)'], ['0 1px 0 0 rgba(93, 20, 3, 0.4)']],
   payHoverShadowArrow: '1px -1px 0 0 rgba(227, 142, 8, 0.7)',
   payActiveBg: '#fbb028',
   payActiveShadow: [

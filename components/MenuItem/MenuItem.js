@@ -105,12 +105,7 @@ export default class MenuItem extends React.Component<Props> {
     const Tag = tagName(disabled);
 
     return (
-      <Tag
-        {...rest}
-        className={className}
-        tabIndex="-1"
-        onClick={disabled ? null : onClick}
-      >
+      <Tag {...rest} className={className} tabIndex="-1" onClick={disabled ? null : onClick}>
         {icon}
         {content}
         {this.props.comment && (

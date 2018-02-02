@@ -149,8 +149,7 @@ class RadioGroup extends React.Component {
     radio && radio.focus();
   }
 
-  _getValue = () =>
-    this._isControlled() ? this.props.value : this.state.activeItem;
+  _getValue = () => (this._isControlled() ? this.props.value : this.state.activeItem);
 
   _getName = () => this.props.name || this._name;
 
@@ -184,10 +183,7 @@ class RadioGroup extends React.Component {
 
   _renderChildren() {
     const { items, children } = this.props;
-    invariant(
-      (!items && children) || (items && !children),
-      'Either items or children must be passed, not both'
-    );
+    invariant((!items && children) || (items && !children), 'Either items or children must be passed, not both');
     return items ? mapItems(this._renderRadio, items) : children;
   }
 
@@ -203,9 +199,7 @@ class RadioGroup extends React.Component {
 
     return (
       <span {...itemProps}>
-        <Radio value={itemValue}>
-          {this.props.renderItem(itemValue, data)}
-        </Radio>
+        <Radio value={itemValue}>{this.props.renderItem(itemValue, data)}</Radio>
       </span>
     );
   };

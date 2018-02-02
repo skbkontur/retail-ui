@@ -1,6 +1,1 @@
-export {
-  LogotypeProps,
-  LogotypeState,
-  LogoComponentProps,
-  default
-} from './Logotype';
+export { LogotypeProps, LogotypeState, LogoComponentProps, default } from './Logotype';

@@ -8,8 +8,7 @@ import * as MountUtils from '../../../testing/enzyme-utils/mount-utils';
 
 const render = props => mount(React.createElement(Autocomplete, props));
 
-const renderUnc = props =>
-  mount(React.createElement(UncontrolledAutocomplete, props));
+const renderUnc = props => mount(React.createElement(UncontrolledAutocomplete, props));
 
 describe('<Autocomplete />', () => {
   it('renders with given value', () => {
@@ -135,20 +134,13 @@ describe('<Autocomplete />', () => {
   });
 });
 
-const getDropdownContainer = wrapper =>
-  mount(wrapper.find('DropdownContainer').get(0).props.children);
+const getDropdownContainer = wrapper => mount(wrapper.find('DropdownContainer').get(0).props.children);
 
 class UncontrolledAutocomplete extends React.Component<*, *> {
   state = {
     value: ''
   };
   render() {
-    return (
-      <Autocomplete
-        {...this.props}
-        value={this.state.value}
-        onChange={(_, value) => this.setState({ value })}
-      />
-    );
+    return <Autocomplete {...this.props} value={this.state.value} onChange={(_, value) => this.setState({ value })} />;
   }
 }

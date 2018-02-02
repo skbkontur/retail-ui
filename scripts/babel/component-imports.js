@@ -27,9 +27,7 @@ module.exports = function(babel) {
         var imports = [];
         node.specifiers.forEach(function(specifier) {
           if (specifier.type !== 'ImportSpecifier') {
-            throw new Error(
-              'Default and namespace imports from `ui` are not supported'
-            );
+            throw new Error('Default and namespace imports from `ui` are not supported');
           }
 
           var imp = t.importDeclaration(

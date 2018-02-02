@@ -29,9 +29,7 @@ export interface RadioProps<T> {
   onMouseOver?: (event: SyntheticRadioEvent<T>) => void;
 }
 
-export default class RadioGroup<Value = any> extends React.Component<
-  RadioProps<Value>
-> {
+export default class RadioGroup<Value = any> extends React.Component<RadioProps<Value>> {
   focus(): void;
   blur(): void;
 }

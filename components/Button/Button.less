@@ -1,9 +1,8 @@
-@import "../variables.less";
-@import (reference) "../Link/Link.less";
+@import '../variables.less';
+@import (reference) '../Link/Link.less';
 
 :local {
-  @focus-shadow: 0 0 0 1px @border-color-focus,
-    inset 0 0 0 1px @border-color-gray-lighter;
+  @focus-shadow: 0 0 0 1px @border-color-focus, inset 0 0 0 1px @border-color-gray-lighter;
 
   .wrap {
     box-sizing: border-box;
@@ -49,7 +48,7 @@
     }
 
     &:after {
-      content: "";
+      content: '';
       display: inline-block;
       vertical-align: baseline;
       width: 0;
@@ -87,7 +86,7 @@
 
         &:before {
           background: @arrow_loading;
-          content: "";
+          content: '';
           height: @arrow_loading_height;
           position: absolute;
           opacity: 0.2;
@@ -138,11 +137,7 @@
       box-shadow: @shadow;
 
       .arrow {
-        background-image: linear-gradient(
-          to bottom right,
-          @colorStart,
-          @colorEnd
-        );
+        background-image: linear-gradient(to bottom right, @colorStart, @colorEnd);
         box-shadow: @shadowArrow;
       }
 
@@ -159,11 +154,7 @@
         box-shadow: @hoverShadow;
 
         .arrow {
-          background-image: linear-gradient(
-            to bottom right,
-            @hoverColorStart,
-            @hoverColorEnd
-          );
+          background-image: linear-gradient(to bottom right, @hoverColorStart, @hoverColorEnd);
           box-shadow: @hoverShadowArrow;
         }
 
@@ -186,8 +177,7 @@
         }
 
         .arrow.arrow_warning {
-          box-shadow: inset -1px 1px 0 0 #fff,
-            2px -2px 0 0 @border-color-warning;
+          box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-warning;
         }
 
         .arrow.arrow_error {
@@ -231,7 +221,7 @@
         &:before {
           border: 1px solid #fff;
           bottom: 0;
-          content: "";
+          content: '';
           left: 0;
           outline: 2px solid @border-color-focus;
           position: absolute;
@@ -437,8 +427,7 @@
 
   .root.checked {
     background: @btn-checked-bg;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6),
-      inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
     color: #fff;
     padding-top: 1px;
 
@@ -448,13 +437,11 @@
     }
 
     .arrow.arrow_error {
-      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
-        2px -2px 0 0 @border-color-error;
+      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3), 2px -2px 0 0 @border-color-error;
     }
 
     .arrow.arrow_warning {
-      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
-        2px -2px 0 0 @border-color-warning;
+      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3), 2px -2px 0 0 @border-color-warning;
     }
 
     &:hover {
@@ -516,17 +503,11 @@
   }
 
   .loading:before {
-    content: "";
+    content: '';
     height: 100%;
     position: absolute;
     opacity: 0.2;
-    background: linear-gradient(
-      -110deg,
-      #ccc 30%,
-      transparent 0,
-      transparent 60%,
-      #ccc 0
-    );
+    background: linear-gradient(-110deg, #ccc 30%, transparent 0, transparent 60%, #ccc 0);
     background-size: 30px 100%;
     top: 0;
     left: 0;
@@ -598,7 +579,6 @@
   }
 
   100% {
-    transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg)
-      skewY(0deg);
+    transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
   }
 }

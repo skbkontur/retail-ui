@@ -22,12 +22,7 @@ module.exports = function(babel) {
             return;
           }
 
-          path.replaceWith(
-            t.importDeclaration(
-              path.node.specifiers,
-              t.stringLiteral(lessToCss(source.value))
-            )
-          );
+          path.replaceWith(t.importDeclaration(path.node.specifiers, t.stringLiteral(lessToCss(source.value))));
         }
       },
       CallExpression: {

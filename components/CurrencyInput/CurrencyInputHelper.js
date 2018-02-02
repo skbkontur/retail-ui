@@ -7,11 +7,7 @@ import CursorHelper from './CursorHelper';
 export default class CurrencyInputHelper {
   static moveCursor(value: string, selection: Selection, step: number): number {
     return selection.start === selection.end
-      ? CursorHelper.calculatePosition(
-          CurrencyHelper.getInfo(value).cursorMap,
-          selection.start,
-          step
-        )
+      ? CursorHelper.calculatePosition(CurrencyHelper.getInfo(value).cursorMap, selection.start, step)
       : step < 0 ? selection.start : selection.end;
   }
 
@@ -25,45 +21,25 @@ export default class CurrencyInputHelper {
     return CursorHelper.normalizeSelection(info.cursorMap, selection);
   }
 
-  static safeInsert(
-    value: string,
-    start: number,
-    end: number,
-    input: string,
-    fractionDigits?: ?number
-  ) {
+  static safeInsert(value: string, start: number, end: number, input: string, fractionDigits?: ?number) {
     if (!input) {
       return CurrencyInputHelper.insert(value, start, end, '');
     }
-    const extracted = CurrencyInputHelper.getMaximumValidSubstring(
-      value,
-      start,
-      end,
-      input,
-      fractionDigits
-    );
+    const extracted = CurrencyInputHelper.getMaximumValidSubstring(value, start, end, input, fractionDigits);
     if (extracted) {
       return CurrencyInputHelper.insert(value, start, end, extracted);
     }
     return null;
   }
 
-  static getMaximumValidSubstring(
-    value: string,
-    start: number,
-    end: number,
-    input: string,
-    fractionDigits?: ?number
-  ) {
+  static getMaximumValidSubstring(value: string, start: number, end: number, input: string, fractionDigits?: ?number) {
     const prefix = value.substring(0, start);
     const suffix = value.substring(end);
     input = CurrencyHelper.extractValid(input, fractionDigits);
 
     for (let i = input.length; i >= 0; --i) {
       const result = input.substr(0, i);
-      if (
-        CurrencyHelper.isValidString(prefix + result + suffix, fractionDigits)
-      ) {
+      if (CurrencyHelper.isValidString(prefix + result + suffix, fractionDigits)) {
         return result;
       }
     }
@@ -77,10 +53,7 @@ export default class CurrencyInputHelper {
     const info = CurrencyHelper.getInfo(value);
     const raw = CursorHelper.toRawPosition(info.cursorMap, start);
     const info2 = CurrencyHelper.getInfo(prefix + input + suffix);
-    const formattedPosition = CursorHelper.toFormattedPosition(
-      info2.cursorMap,
-      raw + input.length
-    );
+    const formattedPosition = CursorHelper.toFormattedPosition(info2.cursorMap, raw + input.length);
 
     return { value: info2.formatted, position: formattedPosition };
   }

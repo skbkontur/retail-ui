@@ -28,9 +28,6 @@ export interface ComboBoxProps<T> {
 
 export interface ComboBoxState {}
 
-export default class ComboBox<T = any> extends React.Component<
-  ComboBoxProps<T>,
-  ComboBoxState
-> {
+export default class ComboBox<T = any> extends React.Component<ComboBoxProps<T>, ComboBoxState> {
   focus(): void;
 }

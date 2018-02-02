@@ -1,8 +1,5 @@
 // @flow
-export default function(
-  str: string | Date | null | void,
-  withCorrection: boolean = true
-): ?Date {
+export default function(str: string | Date | null | void, withCorrection: boolean = true): ?Date {
   if (str == null) {
     return str;
   }
@@ -40,11 +37,7 @@ export default function(
 
     // IE8 does't support `Date('yyyy-mm-dd')` constructor.
     const dateObj = new Date(Date.UTC(year, month, date));
-    if (
-      dateObj.getUTCFullYear() === year &&
-      dateObj.getUTCMonth() === month &&
-      dateObj.getUTCDate() === date
-    ) {
+    if (dateObj.getUTCFullYear() === year && dateObj.getUTCMonth() === month && dateObj.getUTCDate() === date) {
       return dateObj;
     }
   }

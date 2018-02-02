@@ -17,9 +17,7 @@ storiesOf('Paging', module)
       </div>
     );
   })
-  .add('PagingWithCustomComponent', () => (
-    <PagingWithCustomComponent pagesCount={12} />
-  ));
+  .add('PagingWithCustomComponent', () => <PagingWithCustomComponent pagesCount={12} />);
 
 class GoToAbsensePage extends Component<{}, *> {
   state = {
@@ -30,11 +28,7 @@ class GoToAbsensePage extends Component<{}, *> {
     return (
       <div>
         <div style={{ textAlign: 'center' }}>
-          <Paging
-            activePage={this.state.activePage}
-            pagesCount={pagesCount}
-            onPageChange={this._handlePageChange}
-          />
+          <Paging activePage={this.state.activePage} pagesCount={pagesCount} onPageChange={this._handlePageChange} />
         </div>
       </div>
     );

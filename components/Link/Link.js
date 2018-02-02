@@ -75,15 +75,7 @@ class Link extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      disabled,
-      href,
-      icon: iconName,
-      use,
-      _button,
-      _buttonOpened,
-      ...rest
-    } = this.props;
+    const { disabled, href, icon: iconName, use, _button, _buttonOpened, ...rest } = this.props;
 
     let icon = null;
     if (iconName) {

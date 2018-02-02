@@ -84,10 +84,7 @@ class Tab extends React.Component<Props, State> {
   _node = null;
 
   componentWillMount() {
-    invariant(
-      typeof this.context.addTab === 'function',
-      'Tab should be placed inside Tabs component'
-    );
+    invariant(typeof this.context.addTab === 'function', 'Tab should be placed inside Tabs component');
   }
 
   componentDidMount() {
@@ -107,13 +104,7 @@ class Tab extends React.Component<Props, State> {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const {
-      id,
-      component: Component,
-      children,
-      disabled,
-      ...rest
-    } = this.props;
+    const { id, component: Component, children, disabled, ...rest } = this.props;
     const isActive = this.context.activeTab === this._getId();
     const isVertical = this.context.vertical;
     const isDisabled = typeof disabled === 'boolean' ? disabled : false;

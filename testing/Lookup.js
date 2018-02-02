@@ -124,8 +124,8 @@ const getRoots = () => {
 
 const getDetachedRoot = portalID => {
   return roots.find(id => {
-    const { props } = mounted[id].props.child || mounted[id].props
-    return props.rt_portalID === portalID
+    const { props } = mounted[id].props.child || mounted[id].props;
+    return props.rt_portalID === portalID;
   });
 };
 

@@ -78,10 +78,7 @@ type State = {
   value: mixed
 };
 
-class Select<TValue, TItem> extends React.Component<
-  Props<TValue, TItem>,
-  State
-> {
+class Select<TValue, TItem> extends React.Component<Props<TValue, TItem>, State> {
   static propTypes = {
     /**
      * Функция для сравнения `value` с элементом из `items`
@@ -204,15 +201,9 @@ class Select<TValue, TItem> extends React.Component<
     };
 
     return (
-      <RenderLayer
-        onClickOutside={this._close}
-        onFocusOutside={this._close}
-        active={this.state.opened}
-      >
+      <RenderLayer onClickOutside={this._close} onFocusOutside={this._close} active={this.state.opened}>
         <span className={styles.root} style={style}>
-          {this.props._renderButton
-            ? this.props._renderButton(buttonParams)
-            : this.renderDefaultButton(buttonParams)}
+          {this.props._renderButton ? this.props._renderButton(buttonParams) : this.renderDefaultButton(buttonParams)}
           {!this.props.disabled && this.state.opened && this.renderMenu()}
         </span>
       </RenderLayer>
@@ -318,36 +309,29 @@ class Select<TValue, TItem> extends React.Component<
           maxHeight={this.props.maxMenuHeight}
         >
           {search}
-          {this._mapItems(
-            (
-              iValue: TValue,
-              item: TItem | (() => React.Node),
-              i: number,
-              comment: ?React.Node
-            ) => {
-              if (typeof item === 'function' || React.isValidElement(item)) {
-                return React.cloneElement(
-                  // $FlowIssue React.isValidElement doesn't provide $checks
-                  typeof item === 'function' ? item() : item,
-                  { key: i }
-                );
-              }
-
-              return (
-                <MenuItem
-                  key={i}
-                  state={
-                    /* $FlowIssue */
-                    this.props.areValuesEqual(iValue, value) ? 'selected' : null
-                  }
-                  onClick={this._select.bind(this, iValue)}
-                  comment={comment}
-                >
-                  {this.props.renderItem(iValue, item)}
-                </MenuItem>
+          {this._mapItems((iValue: TValue, item: TItem | (() => React.Node), i: number, comment: ?React.Node) => {
+            if (typeof item === 'function' || React.isValidElement(item)) {
+              return React.cloneElement(
+                // $FlowIssue React.isValidElement doesn't provide $checks
+                typeof item === 'function' ? item() : item,
+                { key: i }
               );
             }
-          )}
+
+            return (
+              <MenuItem
+                key={i}
+                state={
+                  /* $FlowIssue */
+                  this.props.areValuesEqual(iValue, value) ? 'selected' : null
+                }
+                onClick={this._select.bind(this, iValue)}
+                comment={comment}
+              >
+                {this.props.renderItem(iValue, item)}
+              </MenuItem>
+            );
+          })}
         </Menu>
       </DropdownContainer>
     );
@@ -483,8 +467,7 @@ class Select<TValue, TItem> extends React.Component<
     if (!items) {
       return [];
     }
-    const pattern =
-      this.state.searchPattern && this.state.searchPattern.toLowerCase();
+    const pattern = this.state.searchPattern && this.state.searchPattern.toLowerCase();
 
     const result = [];
     let index = 0;
