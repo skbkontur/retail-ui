@@ -7,15 +7,13 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
-import addClass from '../../lib/dom/addClass';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
-import getComputedStyle from '../../lib/dom/getComputedStyle';
 import LayoutEvents from '../../lib/LayoutEvents';
-import removeClass from '../../lib/dom/removeClass';
 import RenderContainer from '../RenderContainer';
 import ZIndex from '../ZIndex';
 import stopPropagation from '../../lib/events/stopPropagation';
 import Sticky from '../Sticky';
+import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
 
 import styles from './Modal.less';
 
@@ -27,7 +25,6 @@ const stack = {
 const KEY_CODE_ESCAPE = 27;
 
 let mountedModalsCount = 0;
-let prevMarginRight = '';
 
 type ModalChild = React.Node;
 
@@ -90,15 +87,14 @@ class Modal extends React.Component<Props, State> {
     horizontalScroll: false
   };
 
-  _stackSubscribtion = null;
+  _stackSubscription = null;
   _centerDOM: ?HTMLElement = null;
-  _scrollbarWidth = getScrollWidth();
 
   constructor(props: Props, context: mixed) {
     super(props, context);
 
     stack.mounted.push(this);
-    this._stackSubscribtion = stack.emitter.addListener(
+    this._stackSubscription = stack.emitter.addListener(
       'change',
       this._handleStackChange
     );
@@ -150,6 +146,7 @@ class Modal extends React.Component<Props, State> {
     return (
       <RenderContainer>
         <ZIndex delta={1000} className={styles.root}>
+          <HideBodyVerticalScroll />
           {!this.state.shadowed && <div className={styles.bg} />}
           <div
             ref={this._refCenter}
@@ -189,15 +186,11 @@ class Modal extends React.Component<Props, State> {
 
   componentDidMount() {
     if (mountedModalsCount === 0) {
-      const { documentElement } = document;
-      if (documentElement) {
-        // NOTE This not covered case if somebody change
-        // style while modal is open
-        prevMarginRight = documentElement.style.marginRight;
-      }
-      this._handleWindowResize();
-      events.addEventListener(window, 'resize', this._handleWindowResize);
-      LayoutEvents.emit();
+      events.addEventListener(
+        window,
+        'resize',
+        this._checkHorizontalScrollAppearance
+      );
     }
     mountedModalsCount++;
     events.addEventListener(window, 'keydown', this._handleKeyDown);
@@ -207,42 +200,21 @@ class Modal extends React.Component<Props, State> {
 
   componentWillUnmount() {
     if (--mountedModalsCount === 0) {
-      const { documentElement } = document;
-      if (documentElement) {
-        documentElement.style.marginRight = prevMarginRight;
-        removeClass(documentElement, styles.bodyClass);
-      }
-      events.removeEventListener(window, 'resize', this._handleWindowResize);
+      events.removeEventListener(
+        window,
+        'resize',
+        this._checkHorizontalScrollAppearance
+      );
       LayoutEvents.emit();
     }
 
-    this._stackSubscribtion && this._stackSubscribtion.remove();
+    this._stackSubscription && this._stackSubscription.remove();
     const inStackIndex = stack.mounted.findIndex(x => x === this);
     if (inStackIndex !== -1) {
       stack.mounted.splice(inStackIndex, 1);
     }
     stack.emitter.emit('change');
   }
-
-  _handleWindowResize = () => {
-    const docEl = document.documentElement;
-    if (!docEl) {
-      return;
-    }
-    const { clientHeight, scrollHeight, style } = docEl;
-
-    if (clientHeight < scrollHeight) {
-      docEl.style.marginRight = prevMarginRight;
-      removeClass(docEl, styles.bodyClass);
-      const marginRight = parseFloat(getComputedStyle(docEl).marginRight);
-      addClass(docEl, styles.bodyClass);
-      docEl.style.marginRight = `${marginRight + this._scrollbarWidth}px`;
-    } else if (style.marginRight !== prevMarginRight) {
-      style.marginRight = prevMarginRight;
-    }
-
-    this._checkHorizontalScrollAppearance();
-  };
 
   _handleStackChange = () => {
     const shadowed = stack.mounted[stack.mounted.length - 1] !== this;

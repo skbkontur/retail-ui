@@ -1,21 +1,18 @@
 // @flow
 /* eslint-disable react/no-multi-comp */
 import classNames from 'classnames';
-import events from 'add-event-listener';
 import { EventEmitter } from 'fbemitter';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-import addClass from '../../lib/dom/addClass';
-import getScrollWidth from '../../lib/dom/getScrollWidth';
 import getComputedStyle from '../../lib/dom/getComputedStyle';
+import getScrollWidth from '../../lib/dom/getScrollWidth';
 import LayoutEvents from '../../lib/LayoutEvents';
-import removeClass from '../../lib/dom/removeClass';
 import RenderContainer from '../RenderContainer';
-import ScrollContainer from '../ScrollContainer';
 import RenderLayer from '../RenderLayer';
 import Sticky from '../Sticky';
 import ZIndex from '../ZIndex';
+import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
 
 import styles from './SidePage.less';
 
@@ -23,8 +20,6 @@ const stack = {
   emitter: new EventEmitter(),
   mounted: []
 };
-
-let prevMarginRight = '';
 
 type Props = {
   children?: React.Node,
@@ -88,10 +83,10 @@ class SidePage extends React.Component<Props, State> {
   static Footer: Class<Footer>;
 
   _stackSubscription = null;
+  _originalBodyOverflowY = null;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
-
     stack.mounted.push(this);
     this._stackSubscription = stack.emitter.addListener(
       'change',
@@ -155,6 +150,9 @@ class SidePage extends React.Component<Props, State> {
             onScroll={LayoutEvents.emit}
             style={rootStyle}
           >
+            <HideBodyVerticalScroll
+              allowScrolling={!this.props.blockBackground}
+            />
             {this.props.blockBackground && (
               <div
                 className={classNames(
@@ -171,10 +169,10 @@ class SidePage extends React.Component<Props, State> {
               )}
               style={sidePageStyle}
             >
-              <ScrollContainer>
+              <div>
                 {!hasHeader && close}
                 {children}
-              </ScrollContainer>
+              </div>
             </div>
           </ZIndex>
         </RenderContainer>
@@ -183,29 +181,10 @@ class SidePage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    if (this.state.stackPosition === 0) {
-      const { documentElement } = document;
-      if (documentElement) {
-        prevMarginRight = documentElement.style.marginRight;
-      }
-      this._handleWindowResize();
-      events.addEventListener(window, 'resize', this._handleWindowResize);
-      LayoutEvents.emit();
-    }
     stack.emitter.emit('change');
   }
 
   componentWillUnmount() {
-    if (this.state.stackPosition === 0) {
-      const { documentElement } = document;
-      if (documentElement) {
-        documentElement.style.marginRight = prevMarginRight;
-        removeClass(documentElement, styles.bodyClass);
-      }
-      events.removeEventListener(window, 'resize', this._handleWindowResize);
-      LayoutEvents.emit();
-    }
-
     this._stackSubscription && this._stackSubscription.remove();
     const inStackIndex = stack.mounted.findIndex(x => x === this);
     if (inStackIndex !== -1) {
@@ -213,24 +192,6 @@ class SidePage extends React.Component<Props, State> {
     }
     stack.emitter.emit('change');
   }
-
-  _handleWindowResize = () => {
-    const docEl = document.documentElement;
-    if (!docEl) {
-      return;
-    }
-    const { clientHeight, scrollHeight, style } = docEl;
-    if (clientHeight < scrollHeight) {
-      const scrollbarWidth = getScrollWidth();
-      docEl.style.marginRight = prevMarginRight;
-      removeClass(docEl, styles.bodyClass);
-      const marginRight = parseFloat(getComputedStyle(docEl).marginRight);
-      addClass(docEl, styles.bodyClass);
-      docEl.style.marginRight = `${marginRight + scrollbarWidth}px`;
-    } else if (style.marginRight !== prevMarginRight) {
-      style.marginRight = prevMarginRight;
-    }
-  };
 
   _handleStackChange = () => {
     const stackPosition = stack.mounted.findIndex(x => x === this);
