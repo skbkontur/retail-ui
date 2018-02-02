@@ -8,6 +8,7 @@ import Button from '../../Button';
 import Input from '../../Input';
 import Textarea from '../../Textarea';
 import Toggle from '../../Toggle';
+import Modal from '../../Modal/Modal';
 
 const textSample = (
   <p style={{ marginBottom: '100px' }}>
@@ -203,6 +204,59 @@ class SidePageWithCloseConfiguration extends Component<
   }
 }
 
+class SidePageWithModalInside extends Component<
+  {},
+  {
+    isModalOpened: boolean,
+    isSidePageOpened: boolean
+  }
+> {
+  constructor(props: {}) {
+    super(props);
+
+    this.state = {
+      isModalOpened: false,
+      isSidePageOpened: false
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        {this.state.isModalOpened && this.renderModal()}
+        {this.state.isSidePageOpened && this.renderSidePage()}
+        <Button onClick={() => this.setState({ isSidePageOpened: true })}>
+          Открыть sidepage
+        </Button>
+        {textSample}
+        {textSample}
+      </div>
+    );
+  }
+
+  renderModal = () => (
+    <Modal
+      onClose={() => this.setState({ isModalOpened: false })}
+      ignoreBackgroundClick
+    >
+      <Modal.Header>Хедер</Modal.Header>
+    </Modal>
+  );
+
+  renderSidePage = () => (
+    <SidePage
+      onClose={() => this.setState({ isSidePageOpened: false })}
+      ignoreBackgroundClick
+    >
+      <SidePage.Body>
+        <Button onClick={() => this.setState({ isModalOpened: true })}>
+          Открыть modal
+        </Button>
+      </SidePage.Body>
+    </SidePage>
+  );
+}
+
 storiesOf('SidePage', module)
   .add('With scrollable parent content', () => (
     <SidePageWithScrollableContent />
@@ -210,6 +264,7 @@ storiesOf('SidePage', module)
   .add('With Input in header', () => <SidePageWithInputInHeader />)
   .add('SidePage over another SidePage', () => <SidePageOverAnotherSidePage />)
   .add('SidePage with configuration', () => <SidePageWithCloseConfiguration />)
+  .add('SidePage with Modal', () => <SidePageWithModalInside />)
   .add('Disabled SidePage', () => (
     <SidePage disableClose>
       <SidePage.Header>Disabled</SidePage.Header>
