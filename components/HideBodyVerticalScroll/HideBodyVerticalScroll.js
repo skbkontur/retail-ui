@@ -40,7 +40,7 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
   _updateScrollVisibility = () => {
     const { documentElement, body } = document;
     if (documentElement && body) {
-      this._restoreData(documentElement, body);
+      this._restoreStyles(documentElement, body);
 
       const justRestore = VerticalScrollCounter.get() === 0;
       const { clientHeight, scrollHeight } = documentElement;
@@ -48,7 +48,7 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
 
       if (needHide) {
         this._storeStyles(documentElement, body);
-        this._hideScroll(documentElement, body);
+        this._makeSomeMagicWithScroll(documentElement, body);
       }
 
       LayoutEvents.emit();
@@ -74,72 +74,51 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
     }
   };
 
-  _restoreData = (document: HTMLElement, body: HTMLElement) => {
-    if (this._documentStyle && this._bodyStyle && this.props.allowScrolling) {
-      const scrollTop = body.scrollTop;
-      this._restoreDocumentStyle(document);
-      document.scrollTop = scrollTop;
-      this._restoreBodyStyle(body);
-    } else if (this._documentStyle) {
-      this._restoreDocumentStyle(document);
-    }
-  };
+  _restoreStyles = (document: HTMLElement, body: HTMLElement) => {
+    const scrollTop = body.scrollTop;
 
-  _restoreDocumentStyle = (document: HTMLElement) => {
-    const style = this._documentStyle;
-    if (style) {
-      document.style.overflow = style.overflow;
-      document.style.marginRight = style.marginRight;
+    const documentStyle = this._documentStyle;
+    if (documentStyle) {
+      document.style.overflow = documentStyle.overflow;
+      document.style.marginRight = documentStyle.marginRight;
       this._documentStyle = null;
     }
-  };
 
-  _restoreBodyStyle = (body: HTMLElement) => {
-    const style = this._bodyStyle;
-    if (style) {
-      body.style.overflowY = style.overflowY;
-      body.style.paddingRight = style.paddingRight;
-      body.style.marginRight = style.marginRight;
-      this._bodyStyle = null;
-    }
-  };
-
-  _hideScroll = (document: HTMLElement, body: HTMLElement) => {
-    if (this.props.allowScrolling) {
-      const scrollTop = document.scrollTop;
-      this._hideDocumentScroll(document);
-      this._hideBodyScroll(body);
-      body.scrollTop = scrollTop;
-    } else {
-      this._hideDocumentScroll(document);
-    }
-  };
-
-  _hideDocumentScroll = (document: HTMLElement) => {
-    const style = this._documentStyle;
-    if (style) {
-      const marginRight = parseFloat(style.marginRight);
-      document.style.overflow = 'hidden';
-      if (!this.props.allowScrolling) {
-        document.style.marginRight = `${marginRight + getScrollWidth()}px`;
-      }
-    }
-  };
-
-  _hideBodyScroll = (body: HTMLElement) => {
-    const documentStyle = this._documentStyle;
     const bodyStyle = this._bodyStyle;
-    if (documentStyle && bodyStyle) {
-      const documentMargin = parseFloat(documentStyle.marginRight);
-      const bodyMargin = parseFloat(bodyStyle.marginRight);
-      const bodyPadding = parseFloat(bodyStyle.paddingRight);
-      const scrollWidth = getScrollWidth();
+    if (bodyStyle) {
+      body.style.overflowY = bodyStyle.overflowY;
+      body.style.paddingRight = bodyStyle.paddingRight;
+      body.style.marginRight = bodyStyle.marginRight;
+      this._bodyStyle = null;
 
-      const sumRightOffset = bodyMargin + bodyPadding + documentMargin;
+      document.scrollTop = scrollTop;
+    }
+  };
 
-      body.style.overflowY = 'auto';
-      body.style.marginRight = `-${scrollWidth}px`;
-      body.style.paddingRight = `${2 * scrollWidth + sumRightOffset}px`;
+  _makeSomeMagicWithScroll = (document: HTMLElement, body: HTMLElement) => {
+    const documentStyle = this._documentStyle;
+    if (documentStyle) {
+      const bodyStyle = this._bodyStyle;
+      if (bodyStyle) {
+        const documentMargin = parseFloat(documentStyle.marginRight);
+        const bodyMargin = parseFloat(bodyStyle.marginRight);
+        const bodyPadding = parseFloat(bodyStyle.paddingRight);
+        const scrollWidth = getScrollWidth();
+
+        const rightOffset = bodyMargin + bodyPadding + documentMargin;
+
+        const scrollTop = document.scrollTop;
+        document.style.overflow = 'hidden';
+        document.style.marginRight = `${documentMargin}px`;
+        body.style.overflowY = 'auto';
+        body.style.marginRight = `-${scrollWidth}px`;
+        body.style.paddingRight = `${2 * scrollWidth + rightOffset}px`;
+        body.scrollTop = scrollTop;
+      } else {
+        const marginRight = parseFloat(documentStyle.marginRight);
+        document.style.marginRight = `${marginRight + getScrollWidth()}px`;
+        document.style.overflow = 'hidden';
+      }
     }
   };
 }
