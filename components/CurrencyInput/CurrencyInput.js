@@ -292,13 +292,14 @@ export default class CurrencyInput extends Component<Props, State> {
       },
       {
         type: Actions.Minus,
-        check: e => e.key === '-'
+        check: e => e.key === '-' || e.key === 'Subtract'
       },
       {
         type: Actions.Separator,
         check: e =>
           e.key === ',' ||
           e.key === '.' ||
+          e.key === 'Decimal' ||
           e.keyCode === 188 ||
           e.keyCode === 190
       },
