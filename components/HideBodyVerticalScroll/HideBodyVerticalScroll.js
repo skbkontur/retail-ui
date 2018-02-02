@@ -10,8 +10,8 @@ type Props = {
 };
 
 export default class HideBodyVerticalScroll extends React.Component<Props> {
-  _documentOriginalStyle: ?{ marginRight: string, overflow: string };
-  _bodyOriginalStyle: ?{
+  _documentStyle: ?{ marginRight: string, overflow: string };
+  _bodyStyle: ?{
     marginRight: string,
     overflowY: string,
     paddingRight: string
@@ -40,14 +40,14 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
   _updateScrollVisibility = () => {
     const { documentElement, body } = document;
     if (documentElement && body) {
-      this._restoreOriginalData(documentElement, body);
+      this._restoreData(documentElement, body);
 
       const justRestore = VerticalScrollCounter.get() === 0;
       const { clientHeight, scrollHeight } = documentElement;
       const needHide = !justRestore && clientHeight < scrollHeight;
 
       if (needHide) {
-        this._storeOriginalStyles(documentElement, body);
+        this._storeStyles(documentElement, body);
         this._hideScroll(documentElement, body);
       }
 
@@ -55,10 +55,10 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
     }
   };
 
-  _storeOriginalStyles = (document: HTMLElement, body: HTMLElement) => {
+  _storeStyles = (document: HTMLElement, body: HTMLElement) => {
     const documentComputedStyle = getComputedStyle(document);
 
-    this._documentOriginalStyle = {
+    this._documentStyle = {
       overflow: documentComputedStyle.overflow,
       marginRight: documentComputedStyle.marginRight
     };
@@ -66,7 +66,7 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
     if (this.props.allowScrolling) {
       const bodyComputedStyle = getComputedStyle(body);
 
-      this._bodyOriginalStyle = {
+      this._bodyStyle = {
         overflowY: bodyComputedStyle.overflowY,
         marginRight: bodyComputedStyle.marginRight,
         paddingRight: bodyComputedStyle.paddingRight
@@ -74,35 +74,33 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
     }
   };
 
-  _restoreOriginalData = (document: HTMLElement, body: HTMLElement) => {
-    const needRestore = this._documentOriginalStyle && this._bodyOriginalStyle;
-
-    if (needRestore && this.props.allowScrolling) {
+  _restoreData = (document: HTMLElement, body: HTMLElement) => {
+    if (this._documentStyle && this._bodyStyle && this.props.allowScrolling) {
       const scrollTop = body.scrollTop;
-      this._restoreDocumentOriginalStyle(document);
+      this._restoreDocumentStyle(document);
       document.scrollTop = scrollTop;
-      this._restoreBodyOriginalStyle(body);
-    } else if (needRestore) {
-      this._restoreDocumentOriginalStyle(document);
+      this._restoreBodyStyle(body);
+    } else if (this._documentStyle) {
+      this._restoreDocumentStyle(document);
     }
   };
 
-  _restoreDocumentOriginalStyle = (document: HTMLElement) => {
-    const originalStyle = this._documentOriginalStyle;
-    if (originalStyle) {
-      document.style.overflow = originalStyle.overflow;
-      document.style.marginRight = originalStyle.marginRight;
-      this._documentOriginalStyle = null;
+  _restoreDocumentStyle = (document: HTMLElement) => {
+    const style = this._documentStyle;
+    if (style) {
+      document.style.overflow = style.overflow;
+      document.style.marginRight = style.marginRight;
+      this._documentStyle = null;
     }
   };
 
-  _restoreBodyOriginalStyle = (body: HTMLElement) => {
-    const originalStyle = this._bodyOriginalStyle;
-    if (originalStyle) {
-      body.style.overflowY = originalStyle.overflowY;
-      body.style.paddingRight = originalStyle.paddingRight;
-      body.style.marginRight = originalStyle.marginRight;
-      this._bodyOriginalStyle = null;
+  _restoreBodyStyle = (body: HTMLElement) => {
+    const style = this._bodyStyle;
+    if (style) {
+      body.style.overflowY = style.overflowY;
+      body.style.paddingRight = style.paddingRight;
+      body.style.marginRight = style.marginRight;
+      this._bodyStyle = null;
     }
   };
 
@@ -118,9 +116,9 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
   };
 
   _hideDocumentScroll = (document: HTMLElement) => {
-    const originalStyle = this._documentOriginalStyle;
-    if (originalStyle) {
-      const marginRight = parseFloat(originalStyle.marginRight);
+    const style = this._documentStyle;
+    if (style) {
+      const marginRight = parseFloat(style.marginRight);
       document.style.overflow = 'hidden';
       if (!this.props.allowScrolling) {
         document.style.marginRight = `${marginRight + getScrollWidth()}px`;
@@ -129,12 +127,12 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
   };
 
   _hideBodyScroll = (body: HTMLElement) => {
-    const documentStyle = this._documentOriginalStyle;
-    const bodyOriginalStyle = this._bodyOriginalStyle;
-    if (documentStyle && bodyOriginalStyle) {
+    const documentStyle = this._documentStyle;
+    const bodyStyle = this._bodyStyle;
+    if (documentStyle && bodyStyle) {
       const documentMargin = parseFloat(documentStyle.marginRight);
-      const bodyMargin = parseFloat(bodyOriginalStyle.marginRight);
-      const bodyPadding = parseFloat(bodyOriginalStyle.paddingRight);
+      const bodyMargin = parseFloat(bodyStyle.marginRight);
+      const bodyPadding = parseFloat(bodyStyle.paddingRight);
       const scrollWidth = getScrollWidth();
 
       const sumRightOffset = bodyMargin + bodyPadding + documentMargin;
