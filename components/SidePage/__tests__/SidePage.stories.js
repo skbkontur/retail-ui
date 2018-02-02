@@ -55,26 +55,30 @@ class Sample extends React.Component<SampleProps, SampleState> {
       ignoreBackgroundClick={this.props.ignoreBackgroundClick}
       blockBackground={this.props.blockBackground}
     >
-      <SidePage.Header>Title</SidePage.Header>
+      <SidePage.Header>
+        Входящий счет-фактура №123 от 22.01.2018
+      </SidePage.Header>
       <SidePage.Body>
-        {this.props.total &&
-          this.props.total > this.props.current && (
-            <Sample
-              current={this.props.current + 1}
-              total={this.props.total}
-              ignoreBackgroundClick={this.props.ignoreBackgroundClick}
-              blockBackground={this.props.blockBackground}
-            />
-          )}
-        <div>
-          <Toggle
-            checked={this.state.panel}
-            onChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
-          />{' '}
-          Panel {this.state.panel ? 'enabled' : 'disabled'}
+        <div style={{ padding: '0 35px 35px 35px' }}>
+          {this.props.total &&
+            this.props.total > this.props.current && (
+              <Sample
+                current={this.props.current + 1}
+                total={this.props.total}
+                ignoreBackgroundClick={this.props.ignoreBackgroundClick}
+                blockBackground={this.props.blockBackground}
+              />
+            )}
+          <div>
+            <Toggle
+              checked={this.state.panel}
+              onChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
+            />{' '}
+            Panel {this.state.panel ? 'enabled' : 'disabled'}
+          </div>
+          {textSample}
+          {textSample}
         </div>
-        {textSample}
-        {textSample}
       </SidePage.Body>
       <SidePage.Footer panel={this.state.panel}>
         <Button onClick={this.close}>Close</Button>
