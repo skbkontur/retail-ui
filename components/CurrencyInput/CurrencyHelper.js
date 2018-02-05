@@ -3,12 +3,14 @@ import type { CursorMap } from './CursorHelper';
 
 export type DecimalFormattingOptions = {
   fractionDigits?: ?number,
-  thousandsDelimiter?: string
+  thousandsDelimiter?: string,
+  minusSign?: string
 };
 
 type DecimalFormattingOptionsInternal = {
   fractionDigits: ?number,
-  thousandsDelimiter: string
+  thousandsDelimiter: string,
+  minusSign: string
 };
 
 export type FormattingInfo = {
@@ -20,7 +22,8 @@ export type FormattingInfo = {
 export default class CurrencyHelper {
   static defaultOptions: DecimalFormattingOptionsInternal = {
     fractionDigits: null,
-    thousandsDelimiter: String.fromCharCode(0x2009)
+    thousandsDelimiter: String.fromCharCode(0x2009),
+    minusSign: String.fromCharCode(0x2212)
   };
 
   static getOptions(
@@ -80,11 +83,26 @@ export default class CurrencyHelper {
     if (!cleaned) {
       return null;
     }
-    return parseFloat('0' + cleaned);
+
+    const destructed = CurrencyHelper.destructString(cleaned);
+    if (!destructed) {
+      return null;
+    }
+
+    const result =
+      destructed.sign +
+      (destructed.integer || '0') +
+      (destructed.delimiter || '.') +
+      (destructed.fraction || '0');
+
+    return parseFloat(result);
   }
 
   static unformatString(value: string): string {
-    return value.replace(/\s/g, '').replace(',', '.');
+    return value
+      .replace(/\s/g, '')
+      .replace(',', '.')
+      .replace(/[\u2212\u002D\uFE63\uFF0D\u2012\u2013\u2014\u2015]/g, '-');
   }
 
   static formatForClipboard(value: string): string {
@@ -97,7 +115,13 @@ export default class CurrencyHelper {
   ): string {
     const options = CurrencyHelper.getOptions(formattingOptions);
     value = CurrencyHelper.unformatString(value);
-    const [integer = '', fraction = ''] = value.split('.');
+    const destructed = CurrencyHelper.destructString(value);
+
+    if (!destructed) {
+      throw new Error('Error');
+    }
+
+    const { sign, integer, delimiter, fraction } = destructed;
 
     const fractionDigits =
       options.fractionDigits == null ? fraction.length : options.fractionDigits;
@@ -116,7 +140,7 @@ export default class CurrencyHelper {
 
     let result = parts.join(options.thousandsDelimiter);
 
-    if (value.includes('.') || fractionDigits) {
+    if (delimiter || fractionDigits) {
       result += ',';
     }
 
@@ -124,53 +148,73 @@ export default class CurrencyHelper {
       result += fraction.padEnd(fractionDigits, '0');
     }
 
+    if (sign) {
+      result = options.minusSign + result;
+    }
+
     return result;
   }
 
-  static isValidString(value: string, fractionDigits?: ?number) {
+  static isValidString(
+    value: string,
+    fractionDigits: ?number,
+    unsigned: ?boolean
+  ) {
     value = CurrencyHelper.unformatString(value);
+    const destructed = CurrencyHelper.destructString(value);
 
-    const onlyValidSymbols = !!/^[\d\.]*$/.exec(value);
-    if (!onlyValidSymbols) {
+    if (!destructed) {
       return false;
     }
 
-    const chars = Array.from(value);
+    const { sign, integer, delimiter, fraction } = destructed;
 
-    const digitsCount = chars.filter(x => CurrencyHelper.isDigit(x)).length;
-    if (digitsCount > 15) {
+    if (integer.length + fraction.length > 15) {
       return false;
     }
 
-    const dotsCount = chars.filter(x => x === '.').length;
+    if (unsigned && sign) {
+      return false;
+    }
 
     switch (fractionDigits) {
-      case 0:
-        return dotsCount === 0;
       case null:
       case undefined:
-        return dotsCount <= 1;
+        return true;
+      case 0:
+        return !delimiter;
       default:
-        const [integer, fraction = ''] = value.split('.');
         return (
-          dotsCount <= 1 &&
-          integer.length <= 15 - fractionDigits &&
-          fraction.length <= fractionDigits
+          fraction.length <= fractionDigits &&
+          integer.length <= 15 - fractionDigits
         );
     }
   }
 
-  static extractValid(value: string, fractionDigits?: ?number): string {
-    let match = /[\d\.,][\s\d\.,]*/.exec(value);
+  static extractValid(
+    value: string,
+    fractionDigits: ?number,
+    unsigned: ?boolean
+  ): string {
+    value = CurrencyHelper.unformatString(value);
+
+    const special = [
+      unsigned ? '' : '-',
+      fractionDigits === 0 ? '' : '\\.'
+    ].join('');
+
+    const regexp = new RegExp(`[${special}\\d]+`);
+    const match = regexp.exec(value);
+
     if (!match) {
       return '';
     }
 
-    const token = CurrencyHelper.unformatString(match[0]).substr(0, 16);
+    const token = match[0].substr(0, 17);
 
     for (let i = token.length; i >= 0; --i) {
       const result = token.substr(0, i);
-      if (CurrencyHelper.isValidString(result, fractionDigits)) {
+      if (CurrencyHelper.isValidString(result, fractionDigits, unsigned)) {
         return result;
       }
     }
@@ -178,7 +222,12 @@ export default class CurrencyHelper {
     return '';
   }
 
-  static isDigit(symbol: string) {
-    return /^\d$/.exec(symbol);
+  static destructString(value: string) {
+    const match = /^(-)?(\d*)?(\.)?(\d*)?$/.exec(value);
+    if (!match) {
+      return null;
+    }
+    const [_, sign = '', integer = '', delimiter = '', fraction = ''] = match;
+    return { sign, integer, delimiter, fraction };
   }
 }

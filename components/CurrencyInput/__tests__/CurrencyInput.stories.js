@@ -4,15 +4,18 @@ import { storiesOf } from '@storybook/react';
 import CurrencyInput from '../CurrencyInput';
 import Gapped from '../../Gapped';
 import Button from '../../Button';
+import Toggle from '../../Toggle';
 
 type CurrencyInputDemoState = {
   value: ?number,
+  signed: boolean,
   digits: ?number
 };
 
 class CurrencyInputDemo extends React.Component<{}, CurrencyInputDemoState> {
   state = {
     value: null,
+    signed: false,
     digits: 2
   };
 
@@ -33,10 +36,15 @@ class CurrencyInputDemo extends React.Component<{}, CurrencyInputDemoState> {
         <CurrencyInput
           value={this.state.value}
           fractionDigits={this.state.digits}
+          signed={this.state.signed}
           onChange={this._handleChange}
         />
         <div>
           value: <b>{this._formatValue(this.state.value)}</b>
+        </div>
+        <div>
+          <span>signed: </span>
+          <Toggle checked={this.state.signed} onChange={this._handleSigned} />
         </div>
         <input
           type="range"
@@ -69,6 +77,13 @@ class CurrencyInputDemo extends React.Component<{}, CurrencyInputDemoState> {
       value: null,
       digits:
         event.target.value === '15' ? null : parseInt(event.target.value, 10)
+    });
+  };
+
+  _handleSigned = (value: boolean) => {
+    this.setState({
+      value: null,
+      signed: value
     });
   };
 
