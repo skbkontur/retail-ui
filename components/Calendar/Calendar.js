@@ -27,7 +27,8 @@ type Props = {
 type State = {
   scrollPosition: number,
   months: CalendarMonth[],
-  today: CalendarDate
+  today: CalendarDate,
+  scrollDirection: 1 | -1
 };
 
 const getTodayDate = () => {
@@ -59,7 +60,8 @@ class Calendar extends React.Component<Props, State> {
     this.state = {
       scrollPosition: 0,
       months: CalendarUtils.getMonths(initialMonth, initialYear),
-      today
+      today,
+      scrollDirection: 1
     };
   }
 
@@ -217,20 +219,17 @@ class Calendar extends React.Component<Props, State> {
       this._animation.cancel();
     }
 
-    this._timeout = setTimeout(this._scrollToNearestWeek, 300);
+    this._timeout = setTimeout(this._scrollToNearestWeek, 100);
   };
 
   _scrollToNearestWeek = () => {
-    const { scrollPosition } = this.state;
-    const offset = scrollPosition - config.MONTH_TITLE_OFFSET_HEIGHT;
-    const weeksCount = Math.max(Math.round(offset / config.DAY_HEIGHT), 1);
-    if (scrollPosition < config.MONTH_TITLE_OFFSET_HEIGHT / 2) {
-      this._scrollTo(0);
-    } else {
-      this._scrollTo(
-        Math.abs(weeksCount) * config.DAY_HEIGHT +
-          config.MONTH_TITLE_OFFSET_HEIGHT
-      );
+    const { scrollPosition, scrollDirection } = this.state;
+    if (scrollPosition < config.MONTH_TITLE_OFFSET_HEIGHT + config.DAY_HEIGHT) {
+      let targetPosition = 0;
+      if (scrollDirection < 0) {
+        targetPosition = config.DAY_HEIGHT + config.MONTH_TITLE_OFFSET_HEIGHT;
+      }
+      this._scrollTo(targetPosition);
     }
   };
 

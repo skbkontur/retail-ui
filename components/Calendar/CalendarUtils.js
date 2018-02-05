@@ -6,14 +6,18 @@ import { CalendarDate } from './CalendarDate';
 import { CalendarMonth } from './CalendarMonth';
 import { type CalendarDateShape } from './Calendar';
 
-type State = { scrollPosition: number, months: CalendarMonth[] };
+type State = {
+  scrollPosition: number,
+  months: CalendarMonth[],
+  scrollDirection: 1 | -1
+};
 type Props = { minDate?: CalendarDateShape, maxDate?: CalendarDateShape };
 export const applyDelta = (deltaY: number) => (
   { scrollPosition, months }: State,
   { minDate, maxDate }: Props
 ) => {
   let nextScrollPosition = scrollPosition - deltaY;
-
+  let scrollDirection = deltaY > 0 ? 1 : -1;
   const isMinDateExceeded =
     minDate &&
     nextScrollPosition > 0 &&
@@ -25,7 +29,7 @@ export const applyDelta = (deltaY: number) => (
     maxDate.year * 12 + maxDate.month < months[2].year * 12 + months[2].month;
 
   if (isMinDateExceeded || isMaxDateExceeded) {
-    return { scrollPosition: 0 };
+    return { scrollPosition: 0, scrollDirection };
   }
 
   let nextMonths = months;
@@ -46,7 +50,11 @@ export const applyDelta = (deltaY: number) => (
     } while (nextScrollPosition < 0);
   }
 
-  return { scrollPosition: nextScrollPosition, months: nextMonths };
+  return {
+    scrollPosition: nextScrollPosition,
+    months: nextMonths,
+    scrollDirection
+  };
 };
 
 export const ease = (t: number) => --t * t * t + 1;

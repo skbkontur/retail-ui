@@ -41,7 +41,7 @@ export const Animation = () => {
         ease = t => --t * t * t + 1,
         onFinish = () => Promise.resolve(),
         duration = 600
-      }: AnimateParams
+      }: AnimateParams = {}
     ) {
       animating = true;
       startTime = Date.now();
