@@ -228,7 +228,6 @@ describe('<RadioGroup />', () => {
       .find(Radio)
       .at(0);
     firstRadio.find('input').simulate('change');
-    console.log(firstRadio.debug());
     expect(firstRadio.find('input').prop('checked')).toBeTruthy();
   });
 });

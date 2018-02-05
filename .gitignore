@@ -7,6 +7,6 @@ travis-deploy-key
 npm-debug.log
 coverage/
 gemini-report
-build
+/build
 .npmrc
 /styleguide

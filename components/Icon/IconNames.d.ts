@@ -224,6 +224,10 @@ interface IconNames {
   Pause: 'Pause';
   LinkOff: 'LinkOff';
   BarcodeScanner: 'BarcodeScanner';
+  Dot8LiteOff: 'Dot8LiteOff';
+  NotificationBellNone: 'NotificationBellNone';
+  NotificationBellOn: 'NotificationBellOn';
+  NotificationBellOff: 'NotificationBellOff';
 }
 
 export default IconNames;
