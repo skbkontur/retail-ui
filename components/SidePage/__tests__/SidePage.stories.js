@@ -51,13 +51,12 @@ class Sample extends React.Component<SampleProps, SampleState> {
 
   renderSidePage = () => (
     <SidePage
+      width={785}
       onClose={this.close}
       ignoreBackgroundClick={this.props.ignoreBackgroundClick}
       blockBackground={this.props.blockBackground}
     >
-      <SidePage.Header>
-        Входящий счет-фактура №123 от 22.01.2018
-      </SidePage.Header>
+      <SidePage.Header>Title</SidePage.Header>
       <SidePage.Body>
         <div style={{ padding: '0 35px 35px 35px' }}>
           {this.props.total &&
@@ -81,7 +80,9 @@ class Sample extends React.Component<SampleProps, SampleState> {
         </div>
       </SidePage.Body>
       <SidePage.Footer panel={this.state.panel}>
-        <Button onClick={this.close}>Close</Button>
+        <Button size="large" onClick={this.close}>
+          Close
+        </Button>
       </SidePage.Footer>
     </SidePage>
   );
@@ -125,7 +126,7 @@ class SidePageWithInputInHeader extends Component<{}, { opened: boolean }> {
           <Textarea placeholder="Some textarea placeholder" value="" />
         </SidePage.Header>
         <SidePage.Body>
-          <p>
+          <p style={{ marginLeft: 30 }}>
             A lotta people ask me where the fuck I've been at the last few
             years.
           </p>

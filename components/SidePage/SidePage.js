@@ -67,11 +67,6 @@ class SidePage extends React.Component<Props, State> {
     ignoreBackgroundClick: PropTypes.bool,
 
     /**
-     * Не показывать крестик для закрытия окна.
-     */
-    noClose: PropTypes.bool,
-
-    /**
      * Задать ширину сайдпейджа
      */
     width: PropTypes.number,
@@ -81,6 +76,10 @@ class SidePage extends React.Component<Props, State> {
      * Escape или на крестик).
      */
     onClose: PropTypes.func
+  };
+
+  static childContextTypes = {
+    requestClose: PropTypes.func.isRequired
   };
 
   static Header: Class<Header>;
@@ -101,38 +100,14 @@ class SidePage extends React.Component<Props, State> {
       stackPosition: stack.mounted.length - 1
     };
   }
-  renderClose() {
-    return (
-      <a
-        href="javascript:"
-        className={classNames(
-          styles.close,
-          this.props.disableClose && styles.disabled
-        )}
-        onClick={this._requestClose}
-      >
-        ×
-      </a>
-    );
+
+  getChildContext() {
+    return {
+      requestClose: this._requestClose
+    };
   }
 
   render() {
-    const close: React.Node = !this.props.noClose ? this.renderClose() : null;
-
-    let hasHeader: boolean = false;
-    const children = React.Children.map(this.props.children, child => {
-      if (child) {
-        switch (child.type) {
-          case Header:
-            hasHeader = true;
-            // $FlowIssue child could be iterable
-            return React.cloneElement(child, { close });
-          default:
-            return child;
-        }
-      }
-    });
-
     const rootStyle = this.props.blockBackground ? { width: '100%' } : {};
     const sidePageStyle = {
       width: this.props.width || this.props.blockBackground ? 800 : 500,
@@ -171,10 +146,7 @@ class SidePage extends React.Component<Props, State> {
               )}
               style={sidePageStyle}
             >
-              <ScrollContainer>
-                {!hasHeader && close}
-                {children}
-              </ScrollContainer>
+              <ScrollContainer>{this.props.children}</ScrollContainer>
             </div>
           </ZIndex>
         </RenderContainer>
@@ -275,25 +247,44 @@ class SidePage extends React.Component<Props, State> {
 }
 
 type HeaderProps = {
-  children?: React.Node,
-  close?: boolean
+  children?: React.Node
+};
+
+type HeaderContext = {
+  requestClose: () => void
 };
 
 class Header extends React.Component<HeaderProps> {
+  static contextTypes = {
+    requestClose: PropTypes.func.isRequired
+  };
+
+  context: HeaderContext;
+
   render() {
     return (
       <Sticky side="top">
         {fixed => (
-          <div
-            className={classNames(styles.header, fixed && styles.fixedHeader)}
-          >
-            {this.props.close && (
-              <div className={styles.absoluteClose}>{this.props.close}</div>
-            )}
-            {this.props.children}
+          <div className={classNames(styles.header, fixed && styles.fixed)}>
+            {this.renderClose()}
+            <div className={classNames(styles.title, fixed && styles.fixed)}>
+              {this.props.children}
+            </div>
           </div>
         )}
       </Sticky>
+    );
+  }
+
+  renderClose() {
+    return (
+      <a
+        href="javascript:"
+        className={styles.close}
+        onClick={this.context.requestClose}
+      >
+        <span className={styles.cross}>×</span>
+      </a>
     );
   }
 }
@@ -322,8 +313,6 @@ class Footer extends React.Component<FooterProps> {
     panel: PropTypes.bool
   };
 
-  _scrollbarWidth = getScrollWidth();
-
   render() {
     const names = classNames({
       [styles.footer]: true,
@@ -333,7 +322,7 @@ class Footer extends React.Component<FooterProps> {
     return (
       <Sticky side="bottom">
         {fixed => (
-          <div className={classNames(names, fixed && styles.fixedFooter)}>
+          <div className={classNames(names, fixed && styles.fixed)}>
             {this.props.children}
           </div>
         )}
