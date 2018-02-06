@@ -94,7 +94,6 @@ export default class DateSelect extends React.Component<Props, State> {
   };
 
   componentWillReceiveProps() {
-    this.close();
     this._setNodeTop();
   }
 
@@ -120,9 +119,6 @@ export default class DateSelect extends React.Component<Props, State> {
         [styles.disabled]: disabled
       }),
       style: { width },
-      // tabIndex: '0',
-      // onBlur: this.close,
-      // onKeyDown: this.handleKey,
       ref: this._ref
     };
     return (

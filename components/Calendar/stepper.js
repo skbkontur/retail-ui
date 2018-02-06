@@ -1,7 +1,7 @@
 // @flow
 import presets from './presets';
 
-const secondPerFrame = 1 / 60;
+const secondPerFrame = 1 / 45;
 
 const precision = 1e-1;
 const { springRatio, dampingRatio } = presets.noWobble;
