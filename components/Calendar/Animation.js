@@ -2,31 +2,41 @@
 import requestAnimationFrame, { cancel as cancelAnimationFrame } from 'raf';
 import { stepper } from './stepper';
 
+const noop = (...args) => {};
+
 export const Animation = () => {
-  let target = 0;
+  let animating = false;
   let currentPosition = 0;
   let currentVelocity = 0;
   let rafId = 0;
-  let animating = false;
-  let deltaHandler = x => {};
-  let animationEndHandler = () => {};
+  let target = 0;
 
-  const reset = () => {
+  let deltaHandler = noop;
+  let animationEndHandler = noop;
+
+  function reset() {
     currentVelocity = 0;
     currentPosition = 0;
     target = 0;
     animating = false;
-    deltaHandler = x => {};
-  };
+    deltaHandler = noop;
+    animationEndHandler = noop;
+  }
 
-  const inProgress = () => animating;
+  function inProgress() {
+    return animating;
+  }
 
-  const cancel = () => {
+  function cancel() {
     cancelAnimationFrame(rafId);
     reset();
-  };
+  }
 
-  function animate(amount: number, onDelta: number => void, onEnd: () => void) {
+  function animate(
+    amount: number,
+    onDelta: number => void,
+    onEnd: () => void = noop
+  ) {
     target += amount;
     deltaHandler = onDelta;
     animationEndHandler = onEnd;
@@ -43,8 +53,8 @@ export const Animation = () => {
       deltaHandler(delta);
 
       if (nextPosition === target && nextVelocity === 0) {
-        reset();
         animationEndHandler();
+        reset();
         return;
       }
 

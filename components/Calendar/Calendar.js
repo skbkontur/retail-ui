@@ -15,7 +15,7 @@ import classes from './Calendar.less';
 
 export type CalendarDateShape = { year: number, month: number, date: number };
 
-type Props = {
+export type Props = {
   initialMonth?: number,
   initialYear?: number,
   onSelect?: (date: CalendarDateShape) => void,
@@ -24,7 +24,7 @@ type Props = {
   minDate?: CalendarDateShape
 };
 
-type State = {
+export type State = {
   scrollPosition: number,
   months: CalendarMonth[],
   today: CalendarDate,
@@ -42,8 +42,6 @@ const getTodayDate = () => {
 
 class Calendar extends React.Component<Props, State> {
   _timeout;
-
-  _unmounted;
 
   _animation = Animation();
 
@@ -72,7 +70,6 @@ class Calendar extends React.Component<Props, State> {
     if (this._animation.inProgress()) {
       this._animation.cancel();
     }
-    this._unmounted = true;
   }
 
   /**
@@ -84,18 +81,11 @@ class Calendar extends React.Component<Props, State> {
   }
 
   render() {
-    const { scrollPosition, months } = this.state;
-    const positions = [scrollPosition - months[0].height];
-
-    for (let i = 1; i < months.length; i++) {
-      const position = positions[i - 1] + months[i - 1].height;
-      positions.push(position);
-    }
-
+    const positions = this._getMonthPositions();
     return (
       <div className={classes.root} onWheel={this._handleWheel}>
         <div style={styles.wrapper} className={classes.wrapper}>
-          {months
+          {this.state.months
             .map((x, i) => [positions[i], x])
             .filter(tupple => CalendarUtils.isMonthVisible(...tupple))
             .map(this._renderMonth, this)}
@@ -149,6 +139,7 @@ class Calendar extends React.Component<Props, State> {
     const yearTop =
       isHeaderSticked && !month.isLastInYear ? -headerTop - top : 0;
 
+    const { minDate, maxDate } = this.props;
     return (
       <div
         className={classes.month}
@@ -178,12 +169,8 @@ class Calendar extends React.Component<Props, State> {
                 width={50}
                 type="year"
                 value={month.year}
-                minYear={
-                  this.props.minDate ? this.props.minDate.year : undefined
-                }
-                maxYear={
-                  this.props.maxDate ? this.props.maxDate.year : undefined
-                }
+                minYear={minDate ? minDate.year : undefined}
+                maxYear={maxDate ? maxDate.year : undefined}
                 onChange={y => this.scrollToMonth(month.month, y)}
               />
             </div>
@@ -198,6 +185,16 @@ class Calendar extends React.Component<Props, State> {
     );
   }
 
+  _getMonthPositions() {
+    const { scrollPosition, months } = this.state;
+    const positions = [scrollPosition - months[0].height];
+    for (let i = 1; i < months.length; i++) {
+      const position = positions[i - 1] + months[i - 1].height;
+      positions.push(position);
+    }
+    return positions;
+  }
+
   _handleSelect = date => {
     const { onSelect } = this.props;
     if (onSelect) {
@@ -208,11 +205,9 @@ class Calendar extends React.Component<Props, State> {
   _handleWheel = (event: SyntheticWheelEvent<HTMLDivElement>) => {
     event.preventDefault();
     const { pixelY } = normalizeWheel(event);
-
     this._animation.animate(
       pixelY,
-      deltaY =>
-        this.setState(CalendarUtils.applyDelta(deltaY), this._handleWheelEnd),
+      deltaY => this.setState(CalendarUtils.applyDelta(deltaY)),
       this._handleWheelEnd
     );
   };
@@ -221,18 +216,16 @@ class Calendar extends React.Component<Props, State> {
     if (this._timeout) {
       clearTimeout(this._timeout);
     }
-
     this._timeout = setTimeout(this._scrollToNearestWeek, 300);
   };
 
   _scrollToNearestWeek = () => {
-    const { scrollPosition, scrollDirection } = this.state;
-    if (scrollPosition < config.MONTH_TITLE_OFFSET_HEIGHT + config.DAY_HEIGHT) {
+    const trasholdHeight = config.MONTH_TITLE_OFFSET_HEIGHT + config.DAY_HEIGHT;
+    if (this.state.scrollPosition < trasholdHeight) {
       let targetPosition = 0;
-      if (scrollDirection < 0) {
-        targetPosition = config.DAY_HEIGHT + config.MONTH_TITLE_OFFSET_HEIGHT;
+      if (this.state.scrollDirection < 0) {
+        targetPosition = trasholdHeight;
       }
-
       this._scrollTo(targetPosition);
     }
   };
@@ -338,23 +331,22 @@ class Calendar extends React.Component<Props, State> {
     }
   };
 
-  _scrollTo = (pos: number, cb?: () => void) => {
+  _scrollTo = (pos: number, onEnd?: () => void) => {
     const scrollAmmount = pos - this.state.scrollPosition;
-    return this._scrollAmount(scrollAmmount, cb);
+    return this._scrollAmount(scrollAmmount, onEnd);
   };
 
-  _scrollAmount = (scrollAmmount, cb = () => {}) => {
+  _scrollAmount = (scrollAmmount: number, onEnd?: () => void) => {
     return this._animation.animate(
       scrollAmmount,
-      deltaY => this.setState(applyDelta(deltaY)),
-      cb
+      deltaY =>
+        this.setState(({ scrollPosition }) => ({
+          scrollPosition: scrollPosition + deltaY
+        })),
+      onEnd
     );
   };
 }
-
-const applyDelta = deltaY => state => ({
-  scrollPosition: state.scrollPosition + deltaY
-});
 
 const styles = {
   wrapper: {

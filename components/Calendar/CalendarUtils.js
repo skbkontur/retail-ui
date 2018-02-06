@@ -4,20 +4,15 @@ import config from './config';
 
 import { CalendarDate } from './CalendarDate';
 import { CalendarMonth } from './CalendarMonth';
-import { type CalendarDateShape } from './Calendar';
+import type { CalendarDateShape, State, Props } from './Calendar';
 
-type State = {
-  scrollPosition: number,
-  months: CalendarMonth[],
-  scrollDirection: 1 | -1
-};
-type Props = { minDate?: CalendarDateShape, maxDate?: CalendarDateShape };
 export const applyDelta = (deltaY: number) => (
   { scrollPosition, months }: State,
   { minDate, maxDate }: Props
 ) => {
   let nextScrollPosition = scrollPosition - deltaY;
   let scrollDirection = deltaY > 0 ? 1 : -1;
+
   const isMinDateExceeded =
     minDate &&
     nextScrollPosition > 0 &&
@@ -56,8 +51,6 @@ export const applyDelta = (deltaY: number) => (
     scrollDirection
   };
 };
-
-export const ease = (t: number) => --t * t * t + 1;
 
 export const isMonthVisible = (top: number, month: CalendarMonth) => {
   return top < config.WRAPPER_HEIGHT && top > -month.height;

@@ -26,7 +26,7 @@ export class CalendarMonth {
   }
 }
 
-const getMonthHeight = (daysCount: number, offset: number): number =>
+const getMonthHeight = (daysCount: number, offset: number) =>
   Math.ceil((daysCount + offset) / 7) * config.DAY_HEIGHT +
   config.MONTH_TITLE_OFFSET_HEIGHT +
   config.MONTH_BOTTOM_MARGIN;
