@@ -1,78 +1,64 @@
 // @flow
-import requestAnimationFrame from 'raf';
-
-type AnimateParams = {
-  ease?: number => number,
-  onFinish?: () => Promise<void>,
-  duration?: number
-};
+import requestAnimationFrame, { cancel as cancelAnimationFrame } from 'raf';
+import { stepper } from './stepper';
 
 export const Animation = () => {
-  let animating = false;
-  let startTime = 0;
-  let endTime = 0;
-  let lastEaseValue = 0;
-  let promise: Promise<void> = Promise.resolve();
   let target = 0;
+  let currentPosition = 0;
+  let currentVelocity = 0;
+  let rafId = 0;
+  let animating = false;
+  let deltaHandler = x => {};
 
   const reset = () => {
-    animating = false;
-    startTime = 0;
-    endTime = 0;
-    lastEaseValue = 0;
+    currentVelocity = 0;
+    currentPosition = 0;
     target = 0;
+    animating = false;
+    deltaHandler = x => {};
   };
 
-  return {
-    cancel() {
-      animating = false;
-      return promise;
-    },
-    isAnimating() {
-      return animating;
-    },
-    animationPromise() {
-      return promise;
-    },
-    async animate(
-      value: number,
-      onDelta: number => Promise<void>,
-      {
-        ease = t => --t * t * t + 1,
-        onFinish = () => Promise.resolve(),
-        duration = 600
-      }: AnimateParams = {}
-    ) {
+  const inProgress = () => animating;
+
+  const cancel = () => {
+    cancelAnimationFrame(rafId);
+    reset();
+  };
+
+  function animate(amount: number, onDelta: number => void, onEnd: () => void) {
+    target += amount;
+    deltaHandler = onDelta;
+    const animateInternal = () => {
       animating = true;
-      startTime = Date.now();
-      endTime = Date.now() + duration;
-      target += value;
+      const [nextPosition, nextVelocity] = stepper(
+        currentPosition,
+        currentVelocity,
+        target
+      );
+      const delta = nextPosition - currentPosition;
 
-      const animateInternal = async () => {
-        const now = Date.now();
+      deltaHandler(delta);
 
-        if (now >= endTime || !animating) {
-          reset();
-          return onFinish();
-        }
+      if (nextPosition === target && nextVelocity === 0) {
+        reset();
+        onEnd();
+        return;
+      }
 
-        const elapsed = now - startTime;
-        const relativeTarget = endTime - startTime;
-        const easeFactor = ease(elapsed / relativeTarget);
-        const easedValue = easeFactor * target;
-        const delta = easedValue - lastEaseValue;
-        await onDelta(delta);
+      currentPosition = nextPosition;
+      currentVelocity = nextVelocity;
 
-        lastEaseValue = easedValue;
-        return new Promise(resolve =>
-          requestAnimationFrame(() => {
-            animateInternal().then(resolve);
-          })
-        );
-      };
+      rafId = requestAnimationFrame(animateInternal);
+    };
 
-      promise = animateInternal();
-      return promise;
+    if (!inProgress()) {
+      animateInternal();
     }
+  }
+
+  return {
+    animate,
+    inProgress,
+    cancel
   };
 };
