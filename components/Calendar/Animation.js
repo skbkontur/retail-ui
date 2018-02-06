@@ -9,6 +9,7 @@ export const Animation = () => {
   let rafId = 0;
   let animating = false;
   let deltaHandler = x => {};
+  let animationEndHandler = () => {};
 
   const reset = () => {
     currentVelocity = 0;
@@ -28,6 +29,8 @@ export const Animation = () => {
   function animate(amount: number, onDelta: number => void, onEnd: () => void) {
     target += amount;
     deltaHandler = onDelta;
+    animationEndHandler = onEnd;
+
     const animateInternal = () => {
       animating = true;
       const [nextPosition, nextVelocity] = stepper(
@@ -41,7 +44,7 @@ export const Animation = () => {
 
       if (nextPosition === target && nextVelocity === 0) {
         reset();
-        onEnd();
+        animationEndHandler();
         return;
       }
 
