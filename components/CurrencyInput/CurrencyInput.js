@@ -68,24 +68,22 @@ export default class CurrencyInput extends Component<Props, State> {
     value: null
   };
 
-  state: State = {
-    value: null,
-    formatted: '',
-    selection: SelectionHelper.fromPosition(0)
-  };
-
   _input: ?Input;
   _focused: boolean = false;
 
+  constructor(props: Props, context: *) {
+    super(props, context);
+    this.state = this._getState(props.value, props.fractionDigits);
+  }
+
   componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.value !== this.state.value) {
-      this.setState({
-        value: nextProps.value,
-        formatted: CurrencyHelper.format(nextProps.value, {
-          fractionDigits: this.props.fractionDigits
-        }),
-        selection: SelectionHelper.fromPosition(0)
-      });
+    const { value, fractionDigits } = nextProps;
+    if (
+      value !== this.state.value ||
+      fractionDigits !== this.props.fractionDigits
+    ) {
+      const state = this._getState(value, fractionDigits);
+      this.setState(state);
     }
   }
 
@@ -119,6 +117,14 @@ export default class CurrencyInput extends Component<Props, State> {
       const { start, end } = this.state.selection;
       this._input && this._input.setSelectionRange(start, end);
     }
+  }
+
+  _getState(value: ?number, fractionDigits: ?number) {
+    return {
+      value,
+      formatted: CurrencyHelper.format(value, { fractionDigits }),
+      selection: SelectionHelper.fromPosition(0)
+    };
   }
 
   _handleMouseUp = (event: SyntheticInputEvent<HTMLInputElement>) => {
@@ -335,9 +341,8 @@ export default class CurrencyInput extends Component<Props, State> {
   _handleBlur = (event: Event) => {
     this._focused = false;
     const value = CurrencyHelper.parse(this.state.formatted);
-    const options = { fractionDigits: this.props.fractionDigits };
-    const formatted = CurrencyHelper.format(value, options);
-    this.setState({ value, formatted });
+    const state = this._getState(value, this.props.fractionDigits);
+    this.setState(state);
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
