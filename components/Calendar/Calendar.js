@@ -234,6 +234,9 @@ class Calendar extends React.Component<Props, State> {
     if (this._animation.inProgress()) {
       this._animation.finish();
     }
+    if (this._timeout) {
+      clearTimeout(this._timeout);
+    }
     const minDate =
       this.props.minDate && CalendarUtils.shapeToDate(this.props.minDate);
     if (minDate && minDate.isGreater(CalendarDate.create(32, month, year))) {
