@@ -7,6 +7,7 @@ export type DateTransformer = {
   to: (date: CalendarDateShape) => Date
 };
 
+// TODO: test
 export const utcDateTransformer: DateTransformer = {
   from(date: Date): CalendarDateShape {
     return {
@@ -16,12 +17,11 @@ export const utcDateTransformer: DateTransformer = {
     };
   },
   to({ date, month, year }: CalendarDateShape): Date {
-    const d = new Date(0);
-    d.setUTCFullYear(year, month, date);
-    return d;
+    return new Date(Date.UTC(year, month, date, 0, 0, 0, 0));
   }
 };
 
+// TODO: test
 export const localDateTransformer: DateTransformer = {
   from(date: Date): CalendarDateShape {
     return {

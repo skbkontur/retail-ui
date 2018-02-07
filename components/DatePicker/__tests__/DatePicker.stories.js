@@ -34,6 +34,7 @@ class DatePickerWithError extends React.Component<{}, State> {
         value={this.state.value}
         onChange={this.handleChange}
         onUnexpectedInput={this.handleUnexpectedInput}
+        enableTodayLink
       />
     );
   }

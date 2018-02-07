@@ -1,7 +1,7 @@
 /* @flow */
 export default {
-  noWobble: { springRatio: 170, dampingRatio: 26 },
-  gentle: { springRatio: 120, dampingRatio: 14 },
-  wobbly: { springRatio: 180, dampingRatio: 12 },
-  stiff: { springRatio: 210, dampingRatio: 20 }
+  noWobble: { stiffness: 170, damping: 26 },
+  gentle: { stiffness: 120, damping: 14 },
+  wobbly: { stiffness: 180, damping: 12 },
+  stiff: { stiffness: 210, damping: 20 }
 };

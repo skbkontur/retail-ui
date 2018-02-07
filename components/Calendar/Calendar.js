@@ -15,14 +15,14 @@ import classes from './Calendar.less';
 
 export type CalendarDateShape = { year: number, month: number, date: number };
 
-export type Props = {
+export type Props = {|
   initialMonth?: number,
   initialYear?: number,
   onSelect?: (date: CalendarDateShape) => void,
   value?: ?CalendarDateShape,
   maxDate?: CalendarDateShape,
   minDate?: CalendarDateShape
-};
+|};
 
 export type State = {
   scrollPosition: number,
@@ -231,6 +231,9 @@ class Calendar extends React.Component<Props, State> {
   };
 
   _scrollToMonth = (month: number, year: number) => {
+    if (this._animation.inProgress()) {
+      this._animation.finish();
+    }
     const minDate =
       this.props.minDate && CalendarUtils.shapeToDate(this.props.minDate);
     if (minDate && minDate.isGreater(CalendarDate.create(32, month, year))) {

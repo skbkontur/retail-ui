@@ -32,6 +32,11 @@ export const Animation = () => {
     reset();
   }
 
+  function finish() {
+    animationEndHandler();
+    cancel();
+  }
+
   function animate(
     amount: number,
     onDelta: number => void,
@@ -72,6 +77,7 @@ export const Animation = () => {
   return {
     animate,
     inProgress,
-    cancel
+    cancel,
+    finish
   };
 };

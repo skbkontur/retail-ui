@@ -4,16 +4,19 @@ import presets from './presets';
 const secondPerFrame = 1 / 45;
 
 const precision = 1e-1;
-const { springRatio, dampingRatio } = presets.noWobble;
+const { stiffness, damping } = presets.noWobble;
 
+// imported from https://github.com/chenglou/react-motion/blob/master/src/stepper.js
+// and slightly simplified
 const reusedTuple: [number, number] = [0, 0];
 export const stepper = (
   currentX: number,
   currentV: number,
   targetX: number
 ) => {
-  const springForce = -springRatio * (currentX - targetX);
-  const dampingForce = -dampingRatio * currentV;
+  // https://en.wikipedia.org/wiki/Hooke%27s_law
+  const springForce = -stiffness * (currentX - targetX);
+  const dampingForce = -damping * currentV;
 
   const acceleration = springForce + dampingForce;
 

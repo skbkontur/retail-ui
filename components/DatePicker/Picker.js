@@ -1,20 +1,24 @@
 // @flow
 
 import * as React from 'react';
-import shallowEqual from 'fbjs/lib/shallowEqual';
 import Calendar, { type CalendarDateShape } from '../Calendar';
+
+import { dateFormat } from './dateFormat';
 
 import styles from './Picker.less';
 
-type Props = {
-  maxDate?: number,
-  minDate?: number,
+type Props = {|
+  maxDate?: CalendarDateShape,
+  minDate?: CalendarDateShape,
   value: ?CalendarDateShape,
-  onPick: (date: CalendarDateShape) => void
-};
+  onPick: (date: CalendarDateShape) => void,
+  onSelect?: (date: CalendarDateShape) => void,
+  enableTodayLink?: boolean
+|};
 
 type State = {
-  date: CalendarDateShape
+  date: CalendarDateShape,
+  today: CalendarDateShape
 };
 
 const getTodayCalendarDate = () => {
@@ -33,15 +37,11 @@ export default class Picker extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
+    const today = getTodayCalendarDate();
     this.state = {
-      date: this.props.value || getTodayCalendarDate()
+      date: this.props.value || today,
+      today
     };
-  }
-
-  componentWillUpdate({ value }: Props) {
-    if (value && !shallowEqual(this.props.value, value)) {
-      this._calendar && this._calendar.scrollToMonth(value.month, value.year);
-    }
   }
 
   render() {
@@ -54,8 +54,34 @@ export default class Picker extends React.Component<Props, State> {
           initialMonth={date.month}
           initialYear={date.year}
           onSelect={this.props.onPick}
+          minDate={this.props.minDate}
+          maxDate={this.props.maxDate}
         />
+        {this.props.enableTodayLink && this._renderTodayLink()}
       </div>
     );
   }
+
+  _renderTodayLink() {
+    return (
+      <button
+        className={styles.todayWrapper}
+        onClick={this._handleSelectToday}
+        tabIndex={-1}
+      >
+        Сегодня {dateFormat(this.state.today)}
+      </button>
+    );
+  }
+
+  _handleSelectToday = () => {
+    const { today } = this.state;
+    if (this.props.onSelect) {
+      this.props.onSelect(today);
+    }
+    if (this._calendar) {
+      const { month, year } = today;
+      this._calendar.scrollToMonth(month, year);
+    }
+  };
 }

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
+import warning from 'warning';
 
 import filterProps from '../filterProps';
 import Input from '../Input';
@@ -17,6 +18,7 @@ import Center from '../Center';
 
 import * as dateTransformers from './dateTransformers';
 import { InvalidDate } from './InvalidDate';
+import { dateFormat } from './dateFormat';
 import type { CalendarDateShape } from '../Calendar';
 
 import styles from './DatePicker.less';
@@ -46,7 +48,10 @@ type Props = {
   className?: string, // legacy
   dateTransformer: dateTransformers.DateTransformer,
   disabled?: boolean,
+  enableTodayLink?: boolean,
   error?: boolean,
+  minDate?: Date,
+  maxDate?: Date,
   maxYear?: number,
   minYear?: number,
   menuAlign?: 'left' | 'right',
@@ -192,9 +197,11 @@ class DatePicker extends React.Component<Props, State> {
         >
           <Picker
             value={date}
-            minYear={this.props.minYear}
-            maxYear={this.props.maxYear}
+            minDate={this._getMinDate()}
+            maxDate={this._getMaxDate()}
             onPick={this.handlePick}
+            onSelect={this._handleSelect}
+            enableTodayLink={this.props.enableTodayLink}
           />
         </DropdownContainer>
       );
@@ -248,6 +255,36 @@ class DatePicker extends React.Component<Props, State> {
     }
   }
 
+  _getMinDate = () => {
+    const { minDate, minYear, dateTransformer } = this.props;
+    if (minDate) {
+      return dateTransformer.from(minDate);
+    }
+    if (minYear) {
+      warning(
+        minYear,
+        'Property minYear is obsolete, please use minDate instead'
+      );
+      return { date: 1, month: 0, year: minYear };
+    }
+    return undefined;
+  };
+
+  _getMaxDate = () => {
+    const { maxDate, maxYear, dateTransformer } = this.props;
+    if (maxDate) {
+      return dateTransformer.from(maxDate);
+    }
+    if (maxYear) {
+      warning(
+        maxYear,
+        'Property minYear is obsolete, please use minDate instead'
+      );
+      return { date: 31, month: 12, year: maxYear };
+    }
+    return undefined;
+  };
+
   _getFormattedValue = () => {
     return this.props.value
       ? formatDate(this.props.value, this.props.dateTransformer)
@@ -296,6 +333,7 @@ class DatePicker extends React.Component<Props, State> {
       const date = newDate && this.props.dateTransformer.to(newDate);
       this.props.onChange({ target: { value: date } }, date);
     }
+    this.blur();
   };
 
   handlePick = (dateShape: CalendarDateShape) => {
@@ -306,6 +344,13 @@ class DatePicker extends React.Component<Props, State> {
     this._focused = false;
     this.close(false);
     this.blur();
+  };
+
+  _handleSelect = dateShape => {
+    const date = this.props.dateTransformer.to(dateShape);
+    if (this.props.onChange) {
+      this.props.onChange({ target: { value: date } }, date);
+    }
   };
 
   handlePickerClose = () => {
@@ -341,9 +386,7 @@ function trimMask(input) {
 
 function formatDate(date: Date, dateTransformer) {
   const dateShape = dateTransformer.from(date);
-  const day = dateShape.date.toString().padStart(2, '0');
-  const month = (dateShape.month + 1).toString().padStart(2, '0');
-  return `${day}.${month}.${dateShape.year}`;
+  return dateFormat(dateShape);
 }
 
 export default DatePicker;

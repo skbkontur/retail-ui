@@ -6,7 +6,29 @@
     background: #fff;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    font-family: 'Segoe UI', 'Helvetica Neue', Arial, Tahoma, sans-serif;
+    font-size: 0;
+  }
+
+  .todayWrapper {
+    border: none;
+    background-color: white;
+    border-top: 1px solid #dfdede;
+    padding-top: 5px;
+    padding-bottom: 6px;
+    color: @link-color;
+    font-size: inherit;
+    display: block;
+    width: 100%;
+    font-size: 14px;
+
+    &:hover {
+      background-color: #f5f5f5;
+      cursor: pointer;
+    }
+
+    &:active {
+      color: @link-active-color;
+    }
   }
 
   :global(.rt-ie8) {
