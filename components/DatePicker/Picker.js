@@ -1,20 +1,29 @@
 // @flow
 
 import * as React from 'react';
-
-import Calendar from '../Calendar';
+import shallowEqual from 'fbjs/lib/shallowEqual';
+import Calendar, { type CalendarDateShape } from '../Calendar';
 
 import styles from './Picker.less';
 
 type Props = {
   maxDate?: number,
   minDate?: number,
-  value: ?Date,
-  onPick: (date: Date) => void
+  value: ?CalendarDateShape,
+  onPick: (date: CalendarDateShape) => void
 };
 
 type State = {
-  date: Date
+  date: CalendarDateShape
+};
+
+const getTodayCalendarDate = () => {
+  const d = new Date();
+  return {
+    date: d.getDate(),
+    month: d.getMonth(),
+    year: d.getFullYear()
+  };
 };
 
 export default class Picker extends React.Component<Props, State> {
@@ -22,17 +31,16 @@ export default class Picker extends React.Component<Props, State> {
 
   _calendar;
 
-  state = {
-    date: this.props.value ? new Date(this.props.value.getTime()) : new Date()
-  };
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      date: this.props.value || getTodayCalendarDate()
+    };
+  }
 
   componentWillUpdate({ value }: Props) {
-    if (value && +value !== +this.props.value) {
-      this._calendar &&
-        this._calendar.scrollToMonth(
-          value.getUTCMonth(),
-          value.getUTCFullYear()
-        );
+    if (value && !shallowEqual(this.props.value, value)) {
+      this._calendar && this._calendar.scrollToMonth(value.month, value.year);
     }
   }
 
@@ -42,31 +50,12 @@ export default class Picker extends React.Component<Props, State> {
       <div className={styles.root} onMouseDown={e => e.preventDefault()}>
         <Calendar
           ref={c => (this._calendar = c)}
-          value={this._getDateShape(this.props.value)}
-          initialMonth={date.getUTCMonth()}
-          initialYear={date.getUTCFullYear()}
-          onSelect={this._handleDateSelect}
+          value={this.props.value}
+          initialMonth={date.month}
+          initialYear={date.year}
+          onSelect={this.props.onPick}
         />
       </div>
     );
   }
-
-  _getDateShape = date => {
-    if (!date) {
-      return null;
-    }
-    return {
-      date: date.getUTCDate(),
-      month: date.getUTCMonth(),
-      year: date.getUTCFullYear()
-    };
-  };
-
-  _handleDateSelect = ({ date, month, year }) => {
-    const d = new Date(0);
-    d.setUTCDate(date);
-    d.setUTCMonth(month);
-    d.setUTCFullYear(year);
-    this.props.onPick(d);
-  };
 }

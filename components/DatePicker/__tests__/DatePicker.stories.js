@@ -7,7 +7,7 @@ import DatePicker from '../DatePicker';
 
 type State = {
   error: boolean,
-  value: string | Date | null
+  value: Date | null
 };
 
 class DatePickerWithError extends React.Component<{}, State> {
@@ -16,17 +16,24 @@ class DatePickerWithError extends React.Component<{}, State> {
     error: false
   };
 
-  handleChange = (_, value: Date | string | null) => {
-    this.setState({ value, error: typeof value === 'string' });
+  handleChange = (_, value: Date | null) => {
+    this.setState({ value, error: false });
+  };
+
+  handleUnexpectedInput = input => {
+    if (input.length) {
+      this.setState({ error: true });
+    }
   };
 
   render() {
+    console.log('error', this.state.error);
     return (
       <DatePicker
         error={this.state.error}
         value={this.state.value}
         onChange={this.handleChange}
-        onUnexpectedInput={x => (x.length ? x : null)}
+        onUnexpectedInput={this.handleUnexpectedInput}
       />
     );
   }
@@ -35,7 +42,7 @@ class DatePickerWithError extends React.Component<{}, State> {
 storiesOf('DatePicker', module)
   .addDecorator(story => (
     <div>
-      {/* <MockDate date={new Date('2017-01-02')} /> */}
+      <MockDate date={new Date('2017-01-02')} />
       {story()}
     </div>
   ))

@@ -15,6 +15,10 @@ import RenderLayer from '../RenderLayer';
 import Icon from '../Icon';
 import Center from '../Center';
 
+import * as dateTransformers from './dateTransformers';
+import { InvalidDate } from './InvalidDate';
+import type { CalendarDateShape } from '../Calendar';
+
 import styles from './DatePicker.less';
 
 const INPUT_PASS_PROPS = {
@@ -36,10 +40,11 @@ const INPUT_PASS_PROPS = {
   onMouseOver: true
 };
 
-type DatePickerValue = Date | string | null;
+type DatePickerValue = Date | null;
 
 type Props = {
   className?: string, // legacy
+  dateTransformer: dateTransformers.DateTransformer,
   disabled?: boolean,
   error?: boolean,
   maxYear?: number,
@@ -64,7 +69,7 @@ type Props = {
   onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
   onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
   onMouseOver?: (e: SyntheticMouseEvent<>) => void,
-  onUnexpectedInput: (value: string) => DatePickerValue
+  onUnexpectedInput: (value: string) => void
 };
 
 type State = {
@@ -132,12 +137,15 @@ class DatePicker extends React.Component<Props, State> {
   };
 
   static defaultProps = {
+    dateTransformer: dateTransformers.utcDateTransformer,
     minYear: 1900,
     maxYear: 2100,
     width: 120,
     withMask: true,
-    onUnexpectedInput: () => null
+    onUnexpectedInput: () => {}
   };
+
+  static dateTransformers = dateTransformers;
 
   input: Input;
 
@@ -146,12 +154,10 @@ class DatePicker extends React.Component<Props, State> {
 
   constructor(props: Props, context: mixed) {
     super(props, context);
-    const textValue =
-      typeof props.value === 'string' ? props.value : formatDate(props.value);
 
     this.state = {
       opened: false,
-      textValue
+      textValue: this._getFormattedValue()
     };
   }
 
@@ -173,9 +179,9 @@ class DatePicker extends React.Component<Props, State> {
 
   render() {
     const { opened } = this.state;
-    const { value, menuAlign } = this.props;
+    const { value, menuAlign, dateTransformer } = this.props;
 
-    const date = isDate(value) ? value : null;
+    const date = value && dateTransformer.from(value);
     let picker = null;
     if (opened) {
       picker = (
@@ -233,23 +239,19 @@ class DatePicker extends React.Component<Props, State> {
 
   componentWillReceiveProps({ value: newValue }: Props) {
     const { value: oldValue } = this.props;
-    if (+newValue !== +oldValue) {
-      const textValue =
-        typeof newValue === 'string' ? newValue : formatDate(newValue);
+    if (newValue !== oldValue) {
+      const textValue = newValue
+        ? formatDate(newValue, this.props.dateTransformer)
+        : '';
 
       this.setState({ textValue });
     }
   }
 
-  getValue = () => {
-    const value = this.props.value;
-    if (value instanceof Date) {
-      return formatDate(value);
-    }
-    if (typeof value === 'string') {
-      return value;
-    }
-    return '';
+  _getFormattedValue = () => {
+    return this.props.value
+      ? formatDate(this.props.value, this.props.dateTransformer)
+      : '';
   };
 
   handleChange = (value: string) => {
@@ -287,22 +289,17 @@ class DatePicker extends React.Component<Props, State> {
   };
 
   _handleSubmit = () => {
-    const value = this.state.textValue;
-    const date = parseDate(value);
-    const newDate =
-      date === null ? getDateValue(value, this.props.onUnexpectedInput) : date;
-
-    const textValue =
-      typeof newDate === 'string' ? newDate : formatDate(newDate);
-
-    this.setState({ textValue });
-
-    if (this.props.onChange) {
-      this.props.onChange({ target: { value: newDate } }, newDate);
+    const newDate = parseTextValue(this.state.textValue);
+    if (newDate instanceof InvalidDate) {
+      this.props.onUnexpectedInput(trimMask(this.state.textValue));
+    } else if (this.props.onChange) {
+      const date = newDate && this.props.dateTransformer.to(newDate);
+      this.props.onChange({ target: { value: date } }, date);
     }
   };
 
-  handlePick = (date: Date) => {
+  handlePick = (dateShape: CalendarDateShape) => {
+    const date = this.props.dateTransformer.to(dateShape);
     if (this.props.onChange) {
       this.props.onChange({ target: { value: date } }, date);
     }
@@ -328,43 +325,25 @@ class DatePicker extends React.Component<Props, State> {
   };
 }
 
-const getDateValue = (value, onUnexpectedInput) => {
-  if (value == null) {
-    return null;
-  }
-  if (value instanceof Date) {
-    return value;
-  }
-  const newDate = parseDate(value, false);
-  if (newDate) {
-    return newDate;
-  }
-  if (onUnexpectedInput) {
-    return onUnexpectedInput(value);
-  }
-  return null;
-};
-
-function isDate(date) /* : boolean %checks */ {
-  return date instanceof Date && !isNaN(date.getTime());
+function parseTextValue(input) {
+  return dateParser(trimMask(input));
 }
 
-function formatDate(date) {
-  if (!date || !isDate(date)) {
-    return '';
-  }
-
-  const day = date
-    .getUTCDate()
-    .toString()
-    .padStart(2, '0');
-  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
-  return `${day}.${month}.${date.getUTCFullYear()}`;
+function trimMask(input) {
+  return input
+    .replace(/_/g, ' ')
+    .trim()
+    .split('.')
+    .filter(Boolean)
+    .join('.')
+    .trim();
 }
 
-function parseDate(str, withCorrection) {
-  const date = dateParser(str, withCorrection);
-  return isDate(date) ? date : null;
+function formatDate(date: Date, dateTransformer) {
+  const dateShape = dateTransformer.from(date);
+  const day = dateShape.date.toString().padStart(2, '0');
+  const month = (dateShape.month + 1).toString().padStart(2, '0');
+  return `${day}.${month}.${dateShape.year}`;
 }
 
 export default DatePicker;
