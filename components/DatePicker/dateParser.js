@@ -11,7 +11,7 @@ export default function(
     return null;
   }
 
-  const datePartsRegExp = /^(\d{1,2})\.?(\d{1,2})?\.?(\d{1,4})?$/;
+  const datePartsRegExp = /^([\d\s]{1,2})\.?([\d\s]{1,2})?\.?([\d\s]{1,4})?$/;
 
   const parts = str.replace(/_/g, '').match(datePartsRegExp);
 

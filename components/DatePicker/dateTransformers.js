@@ -31,8 +31,9 @@ export const localDateTransformer: DateTransformer = {
     };
   },
   to({ date, month, year }: CalendarDateShape): Date {
-    const d = new Date(0);
+    const d = new Date();
     d.setFullYear(year, month, date);
+    d.setHours(0, 0, 0, 0);
     return d;
   }
 };

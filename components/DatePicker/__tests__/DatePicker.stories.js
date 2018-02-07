@@ -27,7 +27,6 @@ class DatePickerWithError extends React.Component<{}, State> {
   };
 
   render() {
-    console.log('error', this.state.error);
     return (
       <DatePicker
         error={this.state.error}

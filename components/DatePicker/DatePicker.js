@@ -17,6 +17,7 @@ import Icon from '../Icon';
 import Center from '../Center';
 
 import * as dateTransformers from './dateTransformers';
+import type { DateTransformer } from './dateTransformers';
 import { InvalidDate } from './InvalidDate';
 import { dateFormat } from './dateFormat';
 import type { CalendarDateShape } from '../Calendar';
@@ -46,13 +47,15 @@ type DatePickerValue = Date | null;
 
 type Props = {
   className?: string, // legacy
-  dateTransformer: dateTransformers.DateTransformer,
+  dateTransformer: DateTransformer,
   disabled?: boolean,
   enableTodayLink?: boolean,
   error?: boolean,
   minDate?: Date,
   maxDate?: Date,
+  /** @ignore */
   maxYear?: number,
+  /** @ignore */
   minYear?: number,
   menuAlign?: 'left' | 'right',
   placeholder?: string,
@@ -83,26 +86,52 @@ type State = {
 };
 
 class DatePicker extends React.Component<Props, State> {
-  static __REACT_UI_COMPONENT_NAME__ = 'DatePicker';
-
   static propTypes = {
+    /**
+     * Объект с двумя методами: `to`, `from`.
+     *
+     * Метод `to` принимает на вход объект типа `{date: number, month: number, year: number}`,
+     * и возвразает объект даты который будет приходить в `onChange`
+     *
+     * Метод `from` принимает на вход объект даты,
+     * и возвразает объект типа `{date: number, month: number, year: number}`
+     *
+     * В `DatePicker.dateTransformers` содрежится два трансформера:
+     *
+     * `utcDateTransformer` - возвращает дату в UTC
+     *
+     * `localDateTransformer` - возвращает дату в локальном часовом поясе
+     */
+    dateTransformer: PropTypes.shape({
+      from: PropTypes.func,
+      to: PropTypes.func
+    }),
+
     disabled: PropTypes.bool,
+
+    /**
+     * Включает кнопку сегодня в календаре
+     */
+    enableTodayLink: PropTypes.bool,
 
     error: PropTypes.bool,
 
     /**
-     * Максимальный год в селекте для года.
+     * Максимальная дата в календаре.
      */
-    maxYear: PropTypes.number,
+    maxDate: PropTypes.object,
 
     menuAlign: PropTypes.oneOf(['left', 'right']),
 
     /**
-     * Минимальный год в селекте для года.
+     * Минимальная дата в календаре.
      */
-    minYear: PropTypes.number,
+    minDate: PropTypes.object,
 
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+    /**
+     * Объект даты или `null`
+     */
+    value: PropTypes.object,
 
     warning: PropTypes.bool,
 
@@ -134,17 +163,17 @@ class DatePicker extends React.Component<Props, State> {
     onMouseOver: PropTypes.func,
 
     /**
-     * Если не получилось распарсить дату,
-     * можно получить содержимое инпута
-     * (например, для валидации снаружи)
+     * Вызывается если в инпут была введена невалидная дата.
+     * Строка инпута передается в параметр функции.
+     * Может понадобится для валидации
      */
     onUnexpectedInput: PropTypes.func
   };
 
   static defaultProps = {
     dateTransformer: dateTransformers.utcDateTransformer,
-    minYear: 1900,
-    maxYear: 2100,
+    minDate: new Date(Date.UTC(1900, 0, 1)),
+    maxDate: new Date(Date.UTC(2100, 0, 1)),
     width: 120,
     withMask: true,
     onUnexpectedInput: () => {}
@@ -376,12 +405,10 @@ function parseTextValue(input) {
 
 function trimMask(input) {
   return input
-    .replace(/_/g, ' ')
-    .trim()
+    .replace(/_/g, '')
     .split('.')
     .filter(Boolean)
-    .join('.')
-    .trim();
+    .join('.');
 }
 
 function formatDate(date: Date, dateTransformer) {
