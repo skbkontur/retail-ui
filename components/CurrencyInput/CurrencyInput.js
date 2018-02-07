@@ -40,7 +40,6 @@ type Props = {
 };
 
 type State = {
-  value: ?number,
   formatted: string,
   selection: Selection
 };
@@ -81,7 +80,7 @@ export default class CurrencyInput extends Component<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     const { value, fractionDigits } = nextProps;
     if (
-      value !== this.state.value ||
+      value !== CurrencyHelper.parse(this.state.formatted) ||
       fractionDigits !== this.props.fractionDigits
     ) {
       const state = this._getState(value, fractionDigits);
@@ -123,7 +122,6 @@ export default class CurrencyInput extends Component<Props, State> {
 
   _getState(value: ?number, fractionDigits: ?number) {
     return {
-      value,
       formatted: CurrencyHelper.format(value, { fractionDigits }),
       selection: SelectionHelper.fromPosition(0)
     };
@@ -244,9 +242,9 @@ export default class CurrencyInput extends Component<Props, State> {
     );
     if (result) {
       const formatted = result.value;
-      const value = CurrencyHelper.parse(formatted);
       const selection = SelectionHelper.fromPosition(result.position);
-      this.setState({ value, formatted, selection }, () => {
+      this.setState({ formatted, selection }, () => {
+        const value = CurrencyHelper.parse(formatted);
         if (this.props.value !== value) {
           this.props.onChange({ target: { value } }, value);
         }
