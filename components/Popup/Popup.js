@@ -251,7 +251,7 @@ export default class Popup extends React.Component<Props, State> {
         popupRect,
         position,
         margin,
-        popupOffset
+        popupOffset + this._getPinnedPopupOffset(anchorRect, position)
       );
       if (
         PopupHelper.isAbsoluteRectFullyVisible({
@@ -264,14 +264,36 @@ export default class Popup extends React.Component<Props, State> {
         return { coordinates, position: positions[i] };
       }
     }
+    const position = PopupHelper.getPositionObject(positions[0]);
     const coordinates = this._getCoordinates(
       anchorRect,
       popupRect,
-      PopupHelper.getPositionObject(positions[0]),
+      position,
       margin,
-      popupOffset
+      popupOffset + this._getPinnedPopupOffset(anchorRect, position)
     );
     return { coordinates, position: positions[0] };
+  }
+
+  _getPinnedPopupOffset(anchorRect, position) {
+    const { direction, align } = position;
+    const { pinOffset, pinSize, hasPin } = this.props;
+
+    const anchorSize = /top|bottom/.test(direction)
+      ? anchorRect.width
+      : anchorRect.height;
+
+    const isAnchorLessThanPinOffset = anchorSize < (pinOffset + pinSize) * 2;
+
+    if (!hasPin) {
+      return 0;
+    }
+
+    if (!isAnchorLessThanPinOffset || /center|middle/.test(align)) {
+      return 0;
+    }
+
+    return pinOffset + pinSize - anchorSize / 2;
   }
 
   _getCoordinates(anchorRect, popupRect, position, margin, popupOffset) {

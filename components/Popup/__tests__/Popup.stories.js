@@ -4,74 +4,77 @@ import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Popup from '../Popup';
 
+const AllCases = ({ small }) => (
+  <div style={{ transform: 'translate(50%, 15%)' }}>
+    <table>
+      <tbody>
+        <tr>
+          <td />
+          <td>
+            <AlwaysOpened small={small} positions={['top left']} />
+          </td>
+          <td>
+            <AlwaysOpened small={small} positions={['top center']} />
+          </td>
+          <td>
+            <AlwaysOpened small={small} positions={['top right']} />
+          </td>
+          <td />
+        </tr>
+        <tr>
+          <td>
+            <AlwaysOpened small={small} positions={['left top']} />
+          </td>
+          <td />
+          <td />
+          <td />
+          <td>
+            <AlwaysOpened small={small} positions={['right top']} />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <AlwaysOpened small={small} positions={['left middle']} />
+          </td>
+          <td />
+          <td />
+          <td />
+          <td>
+            <AlwaysOpened small={small} positions={['right middle']} />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <AlwaysOpened small={small} positions={['left bottom']} />
+          </td>
+          <td />
+          <td />
+          <td />
+          <td>
+            <AlwaysOpened small={small} positions={['right bottom']} />
+          </td>
+        </tr>
+        <tr>
+          <td />
+          <td>
+            <AlwaysOpened small={small} positions={['bottom left']} />
+          </td>
+          <td>
+            <AlwaysOpened small={small} positions={['bottom center']} />
+          </td>
+          <td>
+            <AlwaysOpened small={small} positions={['bottom right']} />
+          </td>
+          <td />
+        </tr>
+      </tbody>
+    </table>
+  </div>
+);
+
 storiesOf('Popup', module)
-  .add('All pin opened', () => (
-    <div style={{ transform: 'translate(50%, 15%)' }}>
-      <table>
-        <tbody>
-          <tr>
-            <td />
-            <td>
-              <AlwaysOpened positions={['top left']} />
-            </td>
-            <td>
-              <AlwaysOpened positions={['top center']} />
-            </td>
-            <td>
-              <AlwaysOpened positions={['top right']} />
-            </td>
-            <td />
-          </tr>
-          <tr>
-            <td>
-              <AlwaysOpened positions={['left top']} />
-            </td>
-            <td />
-            <td />
-            <td />
-            <td>
-              <AlwaysOpened positions={['right top']} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <AlwaysOpened positions={['left middle']} />
-            </td>
-            <td />
-            <td />
-            <td />
-            <td>
-              <AlwaysOpened positions={['right middle']} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <AlwaysOpened positions={['left bottom']} />
-            </td>
-            <td />
-            <td />
-            <td />
-            <td>
-              <AlwaysOpened positions={['right bottom']} />
-            </td>
-          </tr>
-          <tr>
-            <td />
-            <td>
-              <AlwaysOpened positions={['bottom left']} />
-            </td>
-            <td>
-              <AlwaysOpened positions={['bottom center']} />
-            </td>
-            <td>
-              <AlwaysOpened positions={['bottom right']} />
-            </td>
-            <td />
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  ))
+  .add('All pin opened', () => <AllCases small={false} />)
+  .add('All pin opened on small elements', () => <AllCases small />)
   .add('Positioning', () => (
     <div>
       <table>
@@ -134,19 +137,27 @@ class AlwaysOpened extends Component<*, *> {
   }
 
   render() {
+    const defaultStyle = {
+      width: '80px',
+      height: '80px',
+      margin: '20px',
+      border: '1px solid black',
+      textAlign: 'center',
+      fontSize: '40px'
+    };
+
+    const style = this.props.small
+      ? {
+          ...defaultStyle,
+          width: '20',
+          height: '20',
+          margin: '50'
+        }
+      : defaultStyle;
+
     return (
       <div>
-        <div
-          ref={e => (this.anchor = e)}
-          style={{
-            width: '80px',
-            height: '80px',
-            margin: '20px',
-            border: '1px solid black',
-            textAlign: 'center',
-            fontSize: '40px'
-          }}
-        >
+        <div ref={e => (this.anchor = e)} style={style}>
           x
         </div>
         {this.state.anchor && (
