@@ -160,6 +160,7 @@ class Calendar extends React.Component<Props, State> {
               type="month"
               value={month.month}
               onChange={m => this.scrollToMonth(m, month.year)}
+              key={top}
             />
           </div>
           {isYearVisible && (
@@ -172,6 +173,7 @@ class Calendar extends React.Component<Props, State> {
                 minYear={minDate ? minDate.year : undefined}
                 maxYear={maxDate ? maxDate.year : undefined}
                 onChange={y => this.scrollToMonth(month.month, y)}
+                key={top}
               />
             </div>
           )}
