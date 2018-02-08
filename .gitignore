@@ -10,3 +10,4 @@ gemini-report
 /build
 .npmrc
 /styleguide
+/storybook-static

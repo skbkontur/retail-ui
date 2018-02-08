@@ -10,9 +10,13 @@ gemini.suite('DatePicker', suite => {
       actions.click(find('[class^="DatePicker-root"]'));
     })
     .capture('opened year', (actions, find) => {
-      actions.click(find('[class^="DateSelect-root"]'));
+      actions.click(
+        find('[class^="Calendar-headerYear"] [class^="DateSelect-root"]')
+      );
     })
     .capture('opened month', (actions, find) => {
-      actions.click(find('[class^="DateSelect-root"]:nth-child(3)'));
+      actions.click(
+        find('[class^="Calendar-headerMonth"] [class^="DateSelect-root"]')
+      );
     });
 });

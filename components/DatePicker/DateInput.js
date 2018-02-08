@@ -25,7 +25,10 @@ const INPUT_PASS_PROPS = {
   onInput: true,
   onKeyDown: true,
   onKeyPress: true,
-  onKeyUp: true
+  onKeyUp: true,
+  onMouseEnter: true,
+  onMouseLeave: true,
+  onMouseOver: true
 };
 
 type Props = {

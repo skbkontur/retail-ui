@@ -1,31 +1,46 @@
 // @flow
 
 import * as React from 'react';
+import Calendar, { type CalendarDateShape } from '../Calendar';
 
-import Calendar from './Calendar';
-import DateSelect from '../DateSelect';
+import { dateFormat } from './dateFormat';
 
 import styles from './Picker.less';
 
-type Props = {
-  maxYear?: number,
-  minYear?: number,
-  value: ?Date,
-  onPick: (date: Date) => void
-};
+type Props = {|
+  maxDate?: CalendarDateShape,
+  minDate?: CalendarDateShape,
+  value: ?CalendarDateShape,
+  onPick: (date: CalendarDateShape) => void,
+  onSelect?: (date: CalendarDateShape) => void,
+  enableTodayLink?: boolean
+|};
 
 type State = {
-  date: Date
+  date: CalendarDateShape,
+  today: CalendarDateShape
+};
+
+const getTodayCalendarDate = () => {
+  const d = new Date();
+  return {
+    date: d.getDate(),
+    month: d.getMonth(),
+    year: d.getFullYear()
+  };
 };
 
 export default class Picker extends React.Component<Props, State> {
   _mounted: boolean;
 
-  constructor(props: Props, context: mixed) {
-    super(props, context);
+  _calendar;
 
+  constructor(props: Props) {
+    super(props);
+    const today = getTodayCalendarDate();
     this.state = {
-      date: props.value ? new Date(props.value.getTime()) : new Date()
+      date: this.props.value || today,
+      today
     };
   }
 
@@ -33,59 +48,40 @@ export default class Picker extends React.Component<Props, State> {
     const { date } = this.state;
     return (
       <div className={styles.root} onMouseDown={e => e.preventDefault()}>
-        <div className={styles.monthYear}>
-          <DateSelect
-            type="year"
-            value={this.state.date.getUTCFullYear()}
-            minYear={this.props.minYear}
-            maxYear={this.props.maxYear}
-            width={'50px'}
-            onChange={this.handleYearChange}
-          />
-          <div style={{ display: 'inline-block', width: 4 }} />
-          <DateSelect
-            type="month"
-            value={this.state.date.getUTCMonth()}
-            width={'80px'}
-            onChange={this.handleMonthChange}
-          />
-        </div>
         <Calendar
-          ref="calendar"
-          {...this.props}
-          initialDate={date}
-          onNav={date => this.setState({ date })}
+          ref={c => (this._calendar = c)}
+          value={this.props.value}
+          initialMonth={date.month}
+          initialYear={date.year}
+          onSelect={this.props.onPick}
+          minDate={this.props.minDate}
+          maxDate={this.props.maxDate}
         />
+        {this.props.enableTodayLink && this._renderTodayLink()}
       </div>
     );
   }
 
-  componentDidMount() {
-    this._mounted = true;
+  _renderTodayLink() {
+    return (
+      <button
+        className={styles.todayWrapper}
+        onClick={this._handleSelectToday}
+        tabIndex={-1}
+      >
+        Сегодня {dateFormat(this.state.today)}
+      </button>
+    );
   }
 
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.value && +prevProps.value !== +this.props.value) {
-      this.setState({ date: this.props.value });
-      this.refs.calendar.moveToDate(this.props.value);
+  _handleSelectToday = () => {
+    const { today } = this.state;
+    if (this.props.onSelect) {
+      this.props.onSelect(today);
     }
-  }
-
-  componentWillUnmount() {
-    this._mounted = false;
-  }
-
-  handleMonthChange = (month: number) => {
-    this.state.date.setUTCMonth(month);
-    this.setState({});
-
-    this.refs.calendar.moveToDate(this.state.date);
-  };
-
-  handleYearChange = (year: number) => {
-    this.state.date.setUTCFullYear(year);
-    this.setState({});
-
-    this.refs.calendar.moveToDate(this.state.date);
+    if (this._calendar) {
+      const { month, year } = today;
+      this._calendar.scrollToMonth(month, year);
+    }
   };
 }
