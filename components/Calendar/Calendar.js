@@ -28,7 +28,8 @@ export type State = {
   scrollPosition: number,
   months: CalendarMonth[],
   today: CalendarDate,
-  scrollDirection: 1 | -1
+  scrollDirection: 1 | -1,
+  scrollTarget: number
 };
 
 const getTodayDate = () => {
@@ -41,7 +42,13 @@ const getTodayDate = () => {
 };
 
 class Calendar extends React.Component<Props, State> {
-  _timeout;
+  _scrollAnimationTimeout;
+
+  _wheelEndTimeout;
+
+  _monthSelect;
+
+  _yearSelect;
 
   _animation = Animation();
 
@@ -59,13 +66,14 @@ class Calendar extends React.Component<Props, State> {
       scrollPosition: 0,
       months: CalendarUtils.getMonths(initialMonth, initialYear),
       today,
-      scrollDirection: 1
+      scrollDirection: 1,
+      scrollTarget: 0
     };
   }
 
   componentWillUnmount() {
-    if (this._timeout) {
-      clearTimeout(this._timeout);
+    if (this._scrollAnimationTimeout) {
+      clearTimeout(this._scrollAnimationTimeout);
     }
     if (this._animation.inProgress()) {
       this._animation.cancel();
@@ -123,7 +131,7 @@ class Calendar extends React.Component<Props, State> {
 
   _renderMonth([top, month]) {
     const isTopNegative = top <= 0;
-    const isHeaderSticked = isTopNegative && month.height > -top;
+    const isHeaderSticked = isTopNegative && month.height >= -top;
 
     const headerTop = isHeaderSticked
       ? Math.min(-top, month.height - config.MONTH_TITLE_HEIGHT)
@@ -138,6 +146,15 @@ class Calendar extends React.Component<Props, State> {
     const isYearVisible = month.isFirstInYear || isHeaderSticked;
     const yearTop =
       isHeaderSticked && !month.isLastInYear ? -headerTop - top : 0;
+
+    const monthSelectDisabled =
+      top > 40 ||
+      headerTop < 0 ||
+      headerTop >= month.height - config.MONTH_TITLE_HEIGHT;
+
+    const yearSelectDisabled =
+      top > 40 ||
+      (month.isLastInYear && top < -month.height + config.MONTH_TITLE_HEIGHT);
 
     const { minDate, maxDate } = this.props;
     return (
@@ -155,25 +172,25 @@ class Calendar extends React.Component<Props, State> {
         >
           <div className={classes.headerMonth}>
             <DateSelect
-              disabled={top > 25}
+              disabled={monthSelectDisabled}
               width={85}
               type="month"
               value={month.month}
               onChange={m => this.scrollToMonth(m, month.year)}
-              key={top}
+              ref={!monthSelectDisabled ? m => (this._monthSelect = m) : null}
             />
           </div>
           {isYearVisible && (
             <div className={classes.headerYear} style={{ top: yearTop }}>
               <DateSelect
-                disabled={top > 25}
+                disabled={yearSelectDisabled}
                 width={50}
                 type="year"
                 value={month.year}
                 minYear={minDate ? minDate.year : undefined}
                 maxYear={maxDate ? maxDate.year : undefined}
                 onChange={y => this.scrollToMonth(month.month, y)}
-                key={top}
+                ref={!yearSelectDisabled ? y => (this._yearSelect = y) : null}
               />
             </div>
           )}
@@ -207,28 +224,63 @@ class Calendar extends React.Component<Props, State> {
   _handleWheel = (event: SyntheticWheelEvent<HTMLDivElement>) => {
     event.preventDefault();
     const { pixelY } = normalizeWheel(event);
-    this._animation.animate(
-      pixelY,
-      deltaY => this.setState(CalendarUtils.applyDelta(deltaY)),
-      this._handleWheelEnd
+
+    this.setState(({ months, scrollPosition, scrollTarget }) => {
+      const targetPosition = CalendarUtils.calculateScrollPosition(
+        months,
+        scrollPosition,
+        pixelY
+      ).scrollPosition;
+      return { scrollTarget: targetPosition };
+    }, this._handleWheelEnd);
+
+    this._animation.animate(pixelY, deltaY =>
+      this.setState(CalendarUtils.applyDelta(deltaY))
     );
+
+    this._closeSelects();
   };
 
   _handleWheelEnd = () => {
-    if (this._timeout) {
-      clearTimeout(this._timeout);
+    if (this._wheelEndTimeout) {
+      clearTimeout(this._wheelEndTimeout);
     }
-    this._timeout = setTimeout(this._scrollToNearestWeek, 300);
+    this._wheelEndTimeout = setTimeout(this._scrollToNearestWeek, 300);
+  };
+
+  _handleScrollAnimationEnd = () => {
+    if (this._scrollAnimationTimeout) {
+      clearTimeout(this._scrollAnimationTimeout);
+    }
+    this._scrollAnimationTimeout = setTimeout(this._scrollToNearestWeek, 300);
+  };
+
+  _closeSelects = () => {
+    if (this._monthSelect) {
+      this._monthSelect.close();
+    }
+    if (this._yearSelect) {
+      this._yearSelect.close();
+    }
   };
 
   _scrollToNearestWeek = () => {
+    const { scrollTarget, scrollDirection } = this.state;
+
     const trasholdHeight = config.MONTH_TITLE_OFFSET_HEIGHT + config.DAY_HEIGHT;
-    if (this.state.scrollPosition < trasholdHeight) {
+
+    if (scrollTarget < trasholdHeight) {
       let targetPosition = 0;
-      if (this.state.scrollDirection < 0) {
+      if (scrollDirection < 0) {
         targetPosition = trasholdHeight;
       }
-      this._scrollTo(targetPosition);
+
+      this.setState({ scrollTarget: targetPosition }, () => {
+        const amount = scrollTarget - targetPosition;
+        this._animation.animate(amount, deltaY =>
+          this.setState(CalendarUtils.applyDelta(deltaY))
+        );
+      });
     }
   };
 
@@ -236,10 +288,10 @@ class Calendar extends React.Component<Props, State> {
     if (this._animation.inProgress()) {
       this._animation.finish();
     }
-    // After animation finish there could be _handleWheelEnd _timeout
+    // After animation finish there could be _handleScrollAnimationEnd _scrollAnimationTimeout
     // we have to remove it after _animation.finish
-    if (this._timeout) {
-      clearTimeout(this._timeout);
+    if (this._scrollAnimationTimeout) {
+      clearTimeout(this._scrollAnimationTimeout);
     }
 
     const minDate =
@@ -259,6 +311,11 @@ class Calendar extends React.Component<Props, State> {
     const currentMonth = this.state.months[1];
     const diffInMonths =
       currentMonth.month + currentMonth.year * 12 - month - year * 12;
+
+    if (diffInMonths === 0) {
+      this._scrollTo(0);
+      return;
+    }
 
     const maxMonthsToAdd = config.MAX_MONTHS_TO_APPEND_ON_SCROLL;
 

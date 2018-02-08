@@ -6,27 +6,14 @@ import { CalendarDate } from './CalendarDate';
 import { CalendarMonth } from './CalendarMonth';
 import type { CalendarDateShape, State, Props } from './Calendar';
 
-export const applyDelta = (deltaY: number) => (
-  { scrollPosition, months }: State,
-  { minDate, maxDate }: Props
+export const calculateScrollPosition = (
+  months: CalendarMonth[],
+  scrollPosition: number,
+  deltaY: number
 ) => {
-  let nextScrollPosition = scrollPosition - deltaY;
   let scrollDirection = deltaY > 0 ? 1 : -1;
 
-  const isMinDateExceeded =
-    minDate &&
-    nextScrollPosition > 0 &&
-    minDate.year * 12 + minDate.month > months[0].year * 12 + months[0].month;
-
-  const isMaxDateExceeded =
-    maxDate &&
-    nextScrollPosition < 0 &&
-    maxDate.year * 12 + maxDate.month < months[2].year * 12 + months[2].month;
-
-  if (isMinDateExceeded || isMaxDateExceeded) {
-    return { scrollPosition: 0, scrollDirection };
-  }
-
+  let nextScrollPosition = scrollPosition - deltaY;
   let nextMonths = months;
 
   const firstMonth = months[0];
@@ -50,6 +37,28 @@ export const applyDelta = (deltaY: number) => (
     months: nextMonths,
     scrollDirection
   };
+};
+
+export const applyDelta = (deltaY: number) => (
+  { scrollPosition, months }: State,
+  { minDate, maxDate }: Props
+) => {
+  let scrollDirection = deltaY > 0 ? 1 : -1;
+  const isMinDateExceeded =
+    minDate &&
+    scrollDirection < 0 &&
+    minDate.year * 12 + minDate.month > months[0].year * 12 + months[0].month;
+
+  const isMaxDateExceeded =
+    maxDate &&
+    scrollDirection > 0 &&
+    maxDate.year * 12 + maxDate.month < months[2].year * 12 + months[2].month;
+
+  if (isMinDateExceeded || isMaxDateExceeded) {
+    return { scrollPosition: 0, scrollDirection };
+  }
+
+  return calculateScrollPosition(months, scrollPosition, deltaY);
 };
 
 export const isMonthVisible = (top: number, month: CalendarMonth) => {
