@@ -25,7 +25,9 @@ export interface SidePageBodyProps {
   children?: React.ReactNode;
 }
 
-export interface SidePageBodyState {}
+export interface SidePageBodyState {
+  left: number;
+}
 
 export interface SidePageFooterProps {
   children?: React.ReactNode;

@@ -4,9 +4,6 @@ import classNames from 'classnames';
 import { EventEmitter } from 'fbemitter';
 import * as React from 'react';
 import PropTypes from 'prop-types';
-
-import getComputedStyle from '../../lib/dom/getComputedStyle';
-import getScrollWidth from '../../lib/dom/getScrollWidth';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer';
 import RenderLayer from '../RenderLayer';
@@ -80,7 +77,8 @@ class SidePage extends React.Component<Props, State> {
   };
 
   static childContextTypes = {
-    requestClose: PropTypes.func.isRequired
+    requestClose: PropTypes.func.isRequired,
+    width: PropTypes.number.isRequired
   };
 
   static Header: Class<Header>;
@@ -103,14 +101,19 @@ class SidePage extends React.Component<Props, State> {
 
   getChildContext() {
     return {
-      requestClose: this._requestClose
+      requestClose: this._requestClose,
+      width: this._getWidth()
     };
+  }
+
+  _getWidth(): number {
+    return this.props.width || this.props.blockBackground ? 800 : 500;
   }
 
   render() {
     const rootStyle = this.props.blockBackground ? { width: '100%' } : {};
     const sidePageStyle = {
-      width: this.props.width || this.props.blockBackground ? 800 : 500,
+      width: this._getWidth(),
       marginRight:
         this.state.stackPosition === 0 && stack.mounted.length > 1
           ? 20
@@ -261,7 +264,7 @@ type BodyProps = {
 
 class Body extends React.Component<BodyProps> {
   render() {
-    return <div className={styles.body}>{this.props.children}</div>;
+    return this.props.children;
   }
 }
 
@@ -270,14 +273,49 @@ type FooterProps = {
   panel?: boolean
 };
 
+type FooterState = {
+  left: number
+};
+
+type FooterContext = {
+  width: number
+};
+
 /**
  * Футер модального окна.
  */
-class Footer extends React.Component<FooterProps> {
+class Footer extends React.Component<FooterProps, FooterState> {
   static propTypes = {
     /** Включает серый цвет в футере */
     panel: PropTypes.bool
   };
+
+  static contextTypes = {
+    width: PropTypes.number.isRequired
+  };
+
+  _layoutSubscription;
+  context: FooterContext;
+
+  constructor(props: FooterProps, context: mixed) {
+    super(props, context);
+
+    this.state = {
+      left: this._getLeft()
+    };
+  }
+
+  componentDidMount() {
+    this._layoutSubscription = LayoutEvents.addListener(() =>
+      this.setState({ left: this._getLeft() })
+    );
+  }
+
+  componentWillUnmount() {
+    if (this._layoutSubscription) {
+      this._layoutSubscription.remove();
+    }
+  }
 
   render() {
     const names = classNames({
@@ -288,12 +326,22 @@ class Footer extends React.Component<FooterProps> {
     return (
       <Sticky side="bottom">
         {fixed => (
-          <div className={classNames(names, fixed && styles.fixed)}>
+          <div
+            className={classNames(names, fixed && styles.fixed)}
+            style={{ left: this.state.left }}
+          >
             {this.props.children}
           </div>
         )}
       </Sticky>
     );
+  }
+
+  _getLeft(): number {
+    const { documentElement } = document;
+    return documentElement
+      ? documentElement.clientWidth - this.context.width
+      : 0;
   }
 }
 

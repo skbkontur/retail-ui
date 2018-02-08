@@ -72,13 +72,11 @@
     }
   }
 
-  .body {
-    margin-bottom: 100px;
-  }
-
   .footer {
     bottom: 0;
     padding: 20px 30px 20px 30px;
+    position: fixed;
+    right: 0;
 
     &.panel {
       background: #e9e9e9;
@@ -87,6 +85,7 @@
     &.fixed {
       background: #fff;
       border-top: @border-color-gray-light solid 1px;
+      position: static;
 
       &.panel {
         border-top: 0;

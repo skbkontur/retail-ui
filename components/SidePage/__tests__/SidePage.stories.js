@@ -69,6 +69,8 @@ class Sample extends React.Component<SampleProps, SampleState> {
                 current={this.props.current + 1}
                 total={this.props.total}
                 ignoreBackgroundClick={this.props.ignoreBackgroundClick}
+                ignoreFocusOut={this.props.ignoreFocusOut}
+                withContent={this.props.withContent}
                 blockBackground={this.props.blockBackground}
               />
             )}
@@ -107,7 +109,13 @@ class SidePageWithScrollableContent extends Component<{}, {}> {
   render() {
     return (
       <div style={{ width: '300px' }}>
-        <Sample total={1} current={1} ignoreBackgroundClick withContent />
+        <Sample
+          total={1}
+          current={1}
+          ignoreBackgroundClick
+          ignoreFocusOut
+          withContent
+        />
         {textSample}
         {textSample}
       </div>
@@ -162,7 +170,14 @@ class SidePageWithInputInHeader extends Component<{}, { opened: boolean }> {
 class SidePageOverAnotherSidePage extends Component<{}, *> {
   render() {
     return (
-      <Sample current={1} total={5} ignoreBackgroundClick blockBackground />
+      <Sample
+        current={1}
+        total={5}
+        ignoreBackgroundClick
+        ignoreFocusOut
+        blockBackground
+        withContent
+      />
     );
   }
 }
