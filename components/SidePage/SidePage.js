@@ -26,6 +26,7 @@ type Props = {
   blockBackground?: boolean,
   disableClose?: boolean,
   ignoreBackgroundClick?: boolean,
+  ignoreFocusOut?: boolean,
   noClose?: boolean,
   width?: number,
   onClose?: () => void
@@ -62,6 +63,11 @@ class SidePage extends React.Component<Props, State> {
     ignoreBackgroundClick: PropTypes.bool,
 
     /**
+     * Не закрывать сайдпедж при потере фокуса
+     */
+    ignoreFocusOut: PropTypes.bool,
+
+    /**
      * Задать ширину сайдпейджа
      */
     width: PropTypes.number,
@@ -82,7 +88,6 @@ class SidePage extends React.Component<Props, State> {
   static Footer: Class<Footer>;
 
   _stackSubscription = null;
-  _originalBodyOverflowY = null;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -182,7 +187,7 @@ class SidePage extends React.Component<Props, State> {
   _handleFocusOutside = () => {
     if (
       this.state.stackPosition === stack.mounted.length - 1 &&
-      !this.props.ignoreBackgroundClick
+      !this.props.ignoreFocusOut
     ) {
       this._requestClose();
     }

@@ -33,7 +33,9 @@ type SampleProps = {
   total?: number,
   current: number,
   ignoreBackgroundClick?: boolean,
-  blockBackground?: boolean
+  ignoreFocusOut?: boolean,
+  blockBackground?: boolean,
+  withContent?: boolean
 };
 
 type SampleState = {
@@ -55,6 +57,7 @@ class Sample extends React.Component<SampleProps, SampleState> {
       width={785}
       onClose={this.close}
       ignoreBackgroundClick={this.props.ignoreBackgroundClick}
+      ignoreFocusOut={this.props.ignoreFocusOut}
       blockBackground={this.props.blockBackground}
     >
       <SidePage.Header>Title</SidePage.Header>
@@ -76,8 +79,12 @@ class Sample extends React.Component<SampleProps, SampleState> {
             />{' '}
             Panel {this.state.panel ? 'enabled' : 'disabled'}
           </div>
-          {textSample}
-          {textSample}
+          {this.props.withContent && (
+            <div>
+              {textSample}
+              {textSample}
+            </div>
+          )}
         </div>
       </SidePage.Body>
       <SidePage.Footer panel={this.state.panel}>
@@ -100,7 +107,7 @@ class SidePageWithScrollableContent extends Component<{}, {}> {
   render() {
     return (
       <div style={{ width: '300px' }}>
-        <Sample total={1} current={1} ignoreBackgroundClick />
+        <Sample total={1} current={1} ignoreBackgroundClick withContent />
         {textSample}
         {textSample}
       </div>
@@ -164,12 +171,16 @@ class SidePageWithCloseConfiguration extends Component<
   {},
   {
     ignoreBackgroundClick: boolean,
-    blockBackground: boolean
+    ignoreFocusOut: boolean,
+    blockBackground: boolean,
+    withContent: boolean
   }
 > {
   state = {
     ignoreBackgroundClick: false,
-    blockBackground: false
+    ignoreFocusOut: false,
+    blockBackground: false,
+    withContent: false
   };
 
   render() {
@@ -179,7 +190,9 @@ class SidePageWithCloseConfiguration extends Component<
           total={1}
           current={1}
           ignoreBackgroundClick={this.state.ignoreBackgroundClick}
+          ignoreFocusOut={this.state.ignoreFocusOut}
           blockBackground={this.state.blockBackground}
+          withContent={this.state.withContent}
         />
         <div>
           <Toggle
@@ -195,6 +208,17 @@ class SidePageWithCloseConfiguration extends Component<
         </div>
         <div>
           <Toggle
+            checked={this.state.ignoreFocusOut}
+            onChange={() =>
+              this.setState(({ ignoreFocusOut }) => ({
+                ignoreFocusOut: !ignoreFocusOut
+              }))
+            }
+          />{' '}
+          ignoreFocusOut {this.state.ignoreFocusOut ? 'enabled' : 'disabled'}
+        </div>
+        <div>
+          <Toggle
             checked={this.state.blockBackground}
             onChange={() =>
               this.setState(({ blockBackground }) => ({
@@ -203,6 +227,17 @@ class SidePageWithCloseConfiguration extends Component<
             }
           />{' '}
           blockBackground {this.state.blockBackground ? 'enabled' : 'disabled'}
+        </div>
+        <div>
+          <Toggle
+            checked={this.state.withContent}
+            onChange={() =>
+              this.setState(({ withContent }) => ({
+                withContent: !withContent
+              }))
+            }
+          />{' '}
+          withContent {this.state.withContent ? 'enabled' : 'disabled'}
         </div>
       </div>
     );

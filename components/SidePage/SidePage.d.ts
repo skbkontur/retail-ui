@@ -5,6 +5,7 @@ export interface SidePageProps {
   blockBackground?: boolean;
   disableClose?: boolean;
   ignoreBackgroundClick?: boolean;
+  ignoreFocusOut?: boolean;
   width?: number;
   onClose?: () => void;
 }
