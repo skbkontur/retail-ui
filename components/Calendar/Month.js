@@ -6,6 +6,7 @@ import config from './config';
 
 import * as CDS from './CalendarDateShape';
 import { CalendarMonth } from './CalendarMonth';
+import { CalendarDate } from './CalendarDate';
 
 import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
@@ -111,7 +112,7 @@ export class Month extends React.Component<MonthProps> {
 }
 
 type MonthDayGridProps = {
-  days: *,
+  days: CalendarDate[],
   offset: number,
   minDate?: CDS.CalendarDateShape,
   maxDate?: CDS.CalendarDateShape,

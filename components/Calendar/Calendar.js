@@ -105,6 +105,7 @@ class Calendar extends React.Component<Props, State> {
   _renderMonth([top, month]) {
     return (
       <Month
+        key={month.month + '-' + month.year}
         top={top}
         month={month}
         maxDate={this.props.maxDate}

@@ -26,23 +26,26 @@ export class CalendarMonth {
   }
 }
 
-const getMonthHeight = (daysCount: number, offset: number) =>
-  Math.ceil((daysCount + offset) / 7) * config.DAY_HEIGHT +
-  config.MONTH_TITLE_OFFSET_HEIGHT +
-  config.MONTH_BOTTOM_MARGIN;
+const getMonthHeight = memo(
+  (daysCount: number, offset: number) =>
+    Math.ceil((daysCount + offset) / 7) * config.DAY_HEIGHT +
+    config.MONTH_TITLE_OFFSET_HEIGHT +
+    config.MONTH_BOTTOM_MARGIN
+);
 
-const getMonthsDays = (month: number, year: number) =>
-  new Date(year, month + 1, 0).getDate();
+const getMonthsDays = memo((month: number, year: number) =>
+  new Date(year, month + 1, 0).getDate()
+);
 
-export const getMonthOffset = (month: number, year: number) => {
+export const getMonthOffset = memo((month: number, year: number) => {
   const day = new Date(year, month, 1).getDay() - 1;
   if (day === -1) {
     return 6;
   }
   return day;
-};
+});
 
-const createMonth = (month: number, year: number): CalendarMonth => {
+const createMonth = memo((month: number, year: number): CalendarMonth => {
   if (month < 0) {
     year -= Math.ceil(-month / 12);
     month = 12 + month % 12;
@@ -65,4 +68,32 @@ const createMonth = (month: number, year: number): CalendarMonth => {
     CalendarDate.create(i + 1, month, year)
   );
   return calendarMonth;
-};
+});
+
+function memo<T>(fn: T): T {
+  let cache = {};
+  const getHash = args => args.reduce((acc, x) => acc + x, '');
+  let keysCount = 0;
+  const limit = 1e4;
+
+  // $FlowIgnore
+  return function(...args) {
+    try {
+      const hash = getHash(args);
+      const fromCache = cache[hash];
+      if (fromCache) {
+        return fromCache;
+      }
+      // $FlowIgnore
+      const result = fn(...args);
+      cache[hash] = result;
+      keysCount++;
+      return result;
+    } finally {
+      if (keysCount > limit) {
+        cache = {};
+        keysCount = 0;
+      }
+    }
+  };
+}
