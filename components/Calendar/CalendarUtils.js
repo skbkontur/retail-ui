@@ -2,12 +2,11 @@
 
 import config from './config';
 
-import { CalendarDate } from './CalendarDate';
-import { CalendarMonth } from './CalendarMonth';
-import type { CalendarDateShape, State, Props } from './Calendar';
+import { MonthViewModel } from './MonthViewModel';
+import type { State, Props } from './Calendar';
 
 export const calculateScrollPosition = (
-  months: CalendarMonth[],
+  months: MonthViewModel[],
   scrollPosition: number,
   deltaY: number
 ) => {
@@ -61,16 +60,13 @@ export const applyDelta = (deltaY: number) => (
   return calculateScrollPosition(months, scrollPosition, deltaY);
 };
 
-export const isMonthVisible = (top: number, month: CalendarMonth) => {
+export const isMonthVisible = (top: number, month: MonthViewModel) => {
   return top < config.WRAPPER_HEIGHT && top > -month.height;
 };
 
-export const getMonthsHeight = (months: CalendarMonth[]) =>
+export const getMonthsHeight = (months: MonthViewModel[]) =>
   months.reduce((a, b) => a + b.height, 0);
 
-export const getMonths = (month: number, year: number): CalendarMonth[] => {
-  return [-1, 0, 1].map(x => CalendarMonth.create(month + x, year));
+export const getMonths = (month: number, year: number): MonthViewModel[] => {
+  return [-1, 0, 1].map(x => MonthViewModel.create(month + x, year));
 };
-
-export const shapeToDate = ({ date, month, year }: CalendarDateShape) =>
-  CalendarDate.create(date, month, year);
