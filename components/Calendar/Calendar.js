@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import classNames from 'classnames';
+
 import normalizeWheel from 'normalize-wheel';
 
 import config from './config';
@@ -9,7 +9,7 @@ import { Animation } from './Animation';
 import { CalendarDate } from './CalendarDate';
 import { CalendarMonth } from './CalendarMonth';
 
-import DateSelect from '../DateSelect';
+import { Month } from './Month';
 
 import classes from './Calendar.less';
 
@@ -102,107 +102,24 @@ class Calendar extends React.Component<Props, State> {
     );
   }
 
-  _renderCell(date: CalendarDate) {
-    const minDate =
-      this.props.minDate && CalendarUtils.shapeToDate(this.props.minDate);
-    const maxDate =
-      this.props.maxDate && CalendarUtils.shapeToDate(this.props.maxDate);
-    const isSelected =
-      this.props.value &&
-      date.isEqual(CalendarUtils.shapeToDate(this.props.value));
-    return (
-      <button
-        key={date.date}
-        style={styles.cell}
-        tabIndex={-1}
-        disabled={!date.isBetween(minDate, maxDate)}
-        className={classNames({
-          [classes.cell]: true,
-          [classes.weekend]: date.isWeekend,
-          [classes.today]: date.isEqual(this.state.today),
-          [classes.selected]: isSelected
-        })}
-        onClick={() => this._handleSelect(date)}
-      >
-        {date.date}
-      </button>
-    );
-  }
-
   _renderMonth([top, month]) {
-    const isTopNegative = top <= 0;
-    const isHeaderSticked = isTopNegative && month.height >= -top;
-
-    const headerTop = isHeaderSticked
-      ? Math.min(-top, month.height - config.MONTH_TITLE_HEIGHT)
-      : 0;
-
-    const alpha = isHeaderSticked
-      ? (month.height + top - config.MONTH_TITLE_HEIGHT) / 10
-      : 1;
-
-    const borderBottomColor = `rgba(223, 222, 222, ${alpha})`;
-
-    const isYearVisible = month.isFirstInYear || isHeaderSticked;
-    const yearTop =
-      isHeaderSticked && !month.isLastInYear ? -headerTop - top : 0;
-
-    const monthSelectDisabled =
-      top > 40 ||
-      headerTop < 0 ||
-      headerTop >= month.height - config.MONTH_TITLE_HEIGHT;
-
-    const yearSelectDisabled =
-      top > 40 ||
-      (month.isLastInYear && top < -month.height + config.MONTH_TITLE_HEIGHT);
-
-    const { minDate, maxDate } = this.props;
     return (
-      <div
-        className={classes.month}
-        style={{ top }}
-        key={month.month + '-' + month.year}
-      >
-        <div
-          style={{ ...styles.monthTitle, top: headerTop, borderBottomColor }}
-          className={classNames({
-            [classes.monthTitle]: true,
-            [classes.headerSticked]: isHeaderSticked
-          })}
-        >
-          <div className={classes.headerMonth}>
-            <DateSelect
-              disabled={monthSelectDisabled}
-              width={85}
-              type="month"
-              value={month.month}
-              onChange={m => this.scrollToMonth(m, month.year)}
-              ref={!monthSelectDisabled ? m => (this._monthSelect = m) : null}
-            />
-          </div>
-          {isYearVisible && (
-            <div className={classes.headerYear} style={{ top: yearTop }}>
-              <DateSelect
-                disabled={yearSelectDisabled}
-                width={50}
-                type="year"
-                value={month.year}
-                minYear={minDate ? minDate.year : undefined}
-                maxYear={maxDate ? maxDate.year : undefined}
-                onChange={y => this.scrollToMonth(month.month, y)}
-                ref={!yearSelectDisabled ? y => (this._yearSelect = y) : null}
-              />
-            </div>
-          )}
-        </div>
-        <div
-          style={{ width: month.offset * config.DAY_HEIGHT }}
-          className={classes.placeholder}
-        />
-        {month.days.map(this._renderCell, this)}
-      </div>
+      <Month
+        top={top}
+        month={month}
+        maxDate={this.props.maxDate}
+        minDate={this.props.minDate}
+        today={this.state.today}
+        value={this.props.value}
+        onDateClick={this.props.onSelect}
+        onMonthYearChange={this._handleMonthYearChange}
+      />
     );
   }
+
+  _handleMonthYearChange = (month, year) => {
+    this.scrollToMonth(month, year);
+  };
 
   _getMonthPositions() {
     const { scrollPosition, months } = this.state;
@@ -419,18 +336,6 @@ class Calendar extends React.Component<Props, State> {
 const styles = {
   wrapper: {
     height: config.WRAPPER_HEIGHT
-  },
-  header: {
-    lineHeight: config.MONTH_TITLE_HEIGHT + 'px'
-  },
-  cell: {
-    width: config.DAY_HEIGHT,
-    height: config.DAY_HEIGHT,
-    lineHeight: config.DAY_HEIGHT - 2 + 'px',
-    borderRadius: config.DAY_HEIGHT / 2
-  },
-  monthTitle: {
-    lineHeight: config.MONTH_TITLE_HEIGHT + 'px'
   }
 };
 

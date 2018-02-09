@@ -2,6 +2,7 @@
 
 import classNames from 'classnames';
 import * as React from 'react';
+import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import RenderLayer from '../RenderLayer';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';

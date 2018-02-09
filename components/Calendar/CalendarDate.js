@@ -1,32 +1,16 @@
 // @flow
 
 import { getMonthOffset } from './CalendarMonth';
+import * as CDS from './CalendarDateShape';
 
 export class CalendarDate {
-  static comparator(a: CalendarDate, b: CalendarDate) {
-    if (a.year < b.year) {
-      return -1;
-    } else if (a.year > b.year) {
-      return 1;
-    } else if (a.month < b.month) {
-      return -1;
-    } else if (a.month > b.month) {
-      return 1;
-    } else if (a.date < b.date) {
-      return -1;
-    } else if (a.date > b.date) {
-      return 1;
-    }
-    return 0;
-  }
+  static comparator = CDS.comparator;
 
   static create(date: number, month: number, year: number) {
     return new CalendarDate(date, month, year);
   }
 
-  static isSameDate(a: CalendarDate, b: CalendarDate) {
-    return a.date === b.date && a.month === b.month && a.year === b.year;
-  }
+  static isSameDate = CDS.isEqual;
 
   date: number;
 
@@ -76,13 +60,7 @@ export class CalendarDate {
   }
 
   isBetween(left?: ?CalendarDate, right?: ?CalendarDate) {
-    if (left && this.isLess(left)) {
-      return false;
-    }
-    if (right && this.isGreater(right)) {
-      return false;
-    }
-    return true;
+    return CDS.isBetween(this, left, right);
   }
 }
 
