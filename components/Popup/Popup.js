@@ -12,6 +12,8 @@ import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import PopupHelper from './PopupHelper';
 import PopupPin from './PopupPin';
+import LayoutEvents from '../../lib/LayoutEvents';
+import throttle from 'lodash.throttle';
 
 import styles from './Popup.less';
 
@@ -67,6 +69,7 @@ export default class Popup extends React.Component<Props, State> {
     location: null
   };
 
+  _layoutEventsToken;
   _popupElement: ?HTMLElement;
   _inQueue: boolean = false;
   _containerDidMount: boolean = false;
@@ -74,7 +77,9 @@ export default class Popup extends React.Component<Props, State> {
 
   componentDidMount() {
     this._tempNode = getTempNode();
+
     this._preRender();
+    this._layoutEventsToken = LayoutEvents.addListener(this._calculateLocation);
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -87,6 +92,7 @@ export default class Popup extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
+    this._layoutEventsToken.remove();
     if (this._tempNode) {
       document.body && document.body.removeChild(this._tempNode);
     }
@@ -95,15 +101,15 @@ export default class Popup extends React.Component<Props, State> {
   _preRender() {
     const tempNode = this._tempNode;
     render(this._renderContent(this._getDummyLocation()), tempNode, () => {
-      this._calculateLocation(tempNode);
+      this._calculateLocation();
     });
   }
 
-  _calculateLocation(node) {
+  _calculateLocation = throttle(() => {
     if (!this.props.opened && this.state.location) {
       this.setState({ location: null });
     }
-    const location = this._getLocation(node);
+    const location = this._getLocation();
     if (
       !this.state.location ||
       !location ||
@@ -112,7 +118,7 @@ export default class Popup extends React.Component<Props, State> {
     ) {
       this.setState({ location });
     }
-  }
+  }, 50);
 
   render() {
     const { opened } = this.props;
@@ -224,7 +230,7 @@ export default class Popup extends React.Component<Props, State> {
     };
   }
 
-  _getLocation(node) {
+  _getLocation() {
     if (!this.props.opened) {
       return null;
     }
@@ -251,7 +257,7 @@ export default class Popup extends React.Component<Props, State> {
         popupRect,
         position,
         margin,
-        popupOffset
+        popupOffset + this._getPinnedPopupOffset(anchorRect, position)
       );
       if (
         PopupHelper.isAbsoluteRectFullyVisible({
@@ -264,14 +270,36 @@ export default class Popup extends React.Component<Props, State> {
         return { coordinates, position: positions[i] };
       }
     }
+    const position = PopupHelper.getPositionObject(positions[0]);
     const coordinates = this._getCoordinates(
       anchorRect,
       popupRect,
-      PopupHelper.getPositionObject(positions[0]),
+      position,
       margin,
-      popupOffset
+      popupOffset + this._getPinnedPopupOffset(anchorRect, position)
     );
     return { coordinates, position: positions[0] };
+  }
+
+  _getPinnedPopupOffset(anchorRect, position) {
+    const { direction, align } = position;
+    const { pinOffset, pinSize, hasPin } = this.props;
+
+    const anchorSize = /top|bottom/.test(direction)
+      ? anchorRect.width
+      : anchorRect.height;
+
+    const isAnchorLessThanPinOffset = anchorSize < (pinOffset + pinSize) * 2;
+
+    if (!hasPin) {
+      return 0;
+    }
+
+    if (!isAnchorLessThanPinOffset || /center|middle/.test(align)) {
+      return 0;
+    }
+
+    return pinOffset + pinSize - anchorSize / 2;
   }
 
   _getCoordinates(anchorRect, popupRect, position, margin, popupOffset) {

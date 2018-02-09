@@ -90,7 +90,6 @@ export default class Kebab extends React.Component<Props, State> {
                 'top left',
                 'top right'
               ]}
-              popupOffset={10}
               opened={this.state.opened}
               margin={5}
               hasShadow
@@ -196,10 +195,7 @@ export default class Kebab extends React.Component<Props, State> {
 Kebab.propTypes = {
   children: PropTypes.node,
   disabled: PropTypes.bool,
-  menuMaxHeight: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  menuMaxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
   /**
    * Размер кебаба small 14px | large 20px
