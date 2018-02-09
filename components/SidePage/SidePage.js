@@ -135,7 +135,7 @@ class SidePage extends React.Component<Props, State> {
               )}
               style={sidePageStyle}
             >
-              <table>
+              <table className={styles.layout}>
                 <tbody>{this.props.children}</tbody>
               </table>
             </div>
@@ -200,7 +200,7 @@ class Header extends React.Component<HeaderProps> {
   render() {
     return (
       <tr>
-        <td>
+        <td className={styles.layoutItem}>
           <Sticky side="top">
             {fixed => (
               <div className={classNames(styles.header, fixed && styles.fixed)}>
@@ -239,7 +239,7 @@ class Body extends React.Component<BodyProps> {
   render() {
     return (
       <tr className={styles.body}>
-        <td>{this.props.children}</td>
+        <td className={styles.layoutItem}>{this.props.children}</td>
       </tr>
     );
   }
@@ -262,7 +262,7 @@ class Footer extends React.Component<FooterProps> {
   render() {
     return (
       <tr>
-        <td>
+        <td className={styles.layoutItem}>
           <Sticky side="bottom">
             {fixed => {
               const names = classNames({
