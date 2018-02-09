@@ -23,7 +23,6 @@ type Props = {
   blockBackground?: boolean,
   disableClose?: boolean,
   ignoreBackgroundClick?: boolean,
-  ignoreFocusOut?: boolean,
   noClose?: boolean,
   width?: number,
   onClose?: () => void
@@ -60,11 +59,6 @@ class SidePage extends React.Component<Props, State> {
     ignoreBackgroundClick: PropTypes.bool,
 
     /**
-     * Не закрывать сайдпедж при потере фокуса
-     */
-    ignoreFocusOut: PropTypes.bool,
-
-    /**
      * Задать ширину сайдпейджа
      */
     width: PropTypes.number,
@@ -77,8 +71,7 @@ class SidePage extends React.Component<Props, State> {
   };
 
   static childContextTypes = {
-    requestClose: PropTypes.func.isRequired,
-    width: PropTypes.number.isRequired
+    requestClose: PropTypes.func.isRequired
   };
 
   static Header: Class<Header>;
@@ -101,19 +94,14 @@ class SidePage extends React.Component<Props, State> {
 
   getChildContext() {
     return {
-      requestClose: this._requestClose,
-      width: this._getWidth()
+      requestClose: this._requestClose
     };
-  }
-
-  _getWidth(): number {
-    return this.props.width || this.props.blockBackground ? 800 : 500;
   }
 
   render() {
     const rootStyle = this.props.blockBackground ? { width: '100%' } : {};
     const sidePageStyle = {
-      width: this._getWidth(),
+      width: this.props.width || this.props.blockBackground ? 800 : 500,
       marginRight:
         this.state.stackPosition === 0 && stack.mounted.length > 1
           ? 20
@@ -147,7 +135,9 @@ class SidePage extends React.Component<Props, State> {
               )}
               style={sidePageStyle}
             >
-              {this.props.children}
+              <table>
+                <tbody>{this.props.children}</tbody>
+              </table>
             </div>
           </RenderLayer>
         </ZIndex>
@@ -209,16 +199,22 @@ class Header extends React.Component<HeaderProps> {
 
   render() {
     return (
-      <Sticky side="top">
-        {fixed => (
-          <div className={classNames(styles.header, fixed && styles.fixed)}>
-            {this.renderClose()}
-            <div className={classNames(styles.title, fixed && styles.fixed)}>
-              {this.props.children}
-            </div>
-          </div>
-        )}
-      </Sticky>
+      <tr>
+        <td>
+          <Sticky side="top">
+            {fixed => (
+              <div className={classNames(styles.header, fixed && styles.fixed)}>
+                {this.renderClose()}
+                <div
+                  className={classNames(styles.title, fixed && styles.fixed)}
+                >
+                  {this.props.children}
+                </div>
+              </div>
+            )}
+          </Sticky>
+        </td>
+      </tr>
     );
   }
 
@@ -241,7 +237,11 @@ type BodyProps = {
 
 class Body extends React.Component<BodyProps> {
   render() {
-    return this.props.children;
+    return (
+      <tr className={styles.body}>
+        <td>{this.props.children}</td>
+      </tr>
+    );
   }
 }
 
@@ -250,75 +250,33 @@ type FooterProps = {
   panel?: boolean
 };
 
-type FooterState = {
-  left: number
-};
-
-type FooterContext = {
-  width: number
-};
-
 /**
  * Футер модального окна.
  */
-class Footer extends React.Component<FooterProps, FooterState> {
+class Footer extends React.Component<FooterProps> {
   static propTypes = {
     /** Включает серый цвет в футере */
     panel: PropTypes.bool
   };
 
-  static contextTypes = {
-    width: PropTypes.number.isRequired
-  };
-
-  _layoutSubscription;
-  context: FooterContext;
-
-  constructor(props: FooterProps, context: mixed) {
-    super(props, context);
-
-    this.state = {
-      left: this._getLeft()
-    };
-  }
-
-  componentDidMount() {
-    this._layoutSubscription = LayoutEvents.addListener(() =>
-      this.setState({ left: this._getLeft() })
-    );
-  }
-
-  componentWillUnmount() {
-    if (this._layoutSubscription) {
-      this._layoutSubscription.remove();
-    }
-  }
-
   render() {
     return (
-      <Sticky side="bottom">
-        {fixed => {
-          const names = classNames({
-            [styles.footer]: true,
-            [styles.panel]: this.props.panel,
-            [styles.fixed]: fixed
-          });
+      <tr>
+        <td>
+          <Sticky side="bottom">
+            {fixed => {
+              const names = classNames({
+                [styles.footer]: true,
+                [styles.panel]: this.props.panel,
+                [styles.fixed]: fixed
+              });
 
-          return (
-            <div className={names} style={{ left: this.state.left }}>
-              {this.props.children}
-            </div>
-          );
-        }}
-      </Sticky>
+              return <div className={names}>{this.props.children}</div>;
+            }}
+          </Sticky>
+        </td>
+      </tr>
     );
-  }
-
-  _getLeft(): number {
-    const { documentElement } = document;
-    return documentElement
-      ? documentElement.clientWidth - this.context.width
-      : 0;
   }
 }
 
