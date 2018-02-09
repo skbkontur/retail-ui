@@ -5,7 +5,6 @@ export interface SidePageProps {
   blockBackground?: boolean;
   disableClose?: boolean;
   ignoreBackgroundClick?: boolean;
-  ignoreFocusOut?: boolean;
   width?: number;
   onClose?: () => void;
 }
@@ -25,9 +24,7 @@ export interface SidePageBodyProps {
   children?: React.ReactNode;
 }
 
-export interface SidePageBodyState {
-  left: number;
-}
+export interface SidePageBodyState {}
 
 export interface SidePageFooterProps {
   children?: React.ReactNode;
