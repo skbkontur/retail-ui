@@ -33,7 +33,8 @@ type SampleProps = {
   total?: number,
   current: number,
   ignoreBackgroundClick?: boolean,
-  blockBackground?: boolean
+  blockBackground?: boolean,
+  withContent?: boolean
 };
 
 type SampleState = {
@@ -66,6 +67,7 @@ class Sample extends React.Component<SampleProps, SampleState> {
                 current={this.props.current + 1}
                 total={this.props.total}
                 ignoreBackgroundClick={this.props.ignoreBackgroundClick}
+                withContent={this.props.withContent}
                 blockBackground={this.props.blockBackground}
               />
             )}
@@ -76,8 +78,12 @@ class Sample extends React.Component<SampleProps, SampleState> {
             />{' '}
             Panel {this.state.panel ? 'enabled' : 'disabled'}
           </div>
-          {textSample}
-          {textSample}
+          {this.props.withContent && (
+            <div>
+              {textSample}
+              {textSample}
+            </div>
+          )}
         </div>
       </SidePage.Body>
       <SidePage.Footer panel={this.state.panel}>
@@ -100,7 +106,7 @@ class SidePageWithScrollableContent extends Component<{}, {}> {
   render() {
     return (
       <div style={{ width: '300px' }}>
-        <Sample total={1} current={1} ignoreBackgroundClick />
+        <Sample total={1} current={1} ignoreBackgroundClick withContent />
         {textSample}
         {textSample}
       </div>
@@ -155,7 +161,13 @@ class SidePageWithInputInHeader extends Component<{}, { opened: boolean }> {
 class SidePageOverAnotherSidePage extends Component<{}, *> {
   render() {
     return (
-      <Sample current={1} total={5} ignoreBackgroundClick blockBackground />
+      <Sample
+        current={1}
+        total={5}
+        ignoreBackgroundClick
+        blockBackground
+        withContent
+      />
     );
   }
 }
@@ -164,12 +176,14 @@ class SidePageWithCloseConfiguration extends Component<
   {},
   {
     ignoreBackgroundClick: boolean,
-    blockBackground: boolean
+    blockBackground: boolean,
+    withContent: boolean
   }
 > {
   state = {
     ignoreBackgroundClick: false,
-    blockBackground: false
+    blockBackground: false,
+    withContent: false
   };
 
   render() {
@@ -180,6 +194,7 @@ class SidePageWithCloseConfiguration extends Component<
           current={1}
           ignoreBackgroundClick={this.state.ignoreBackgroundClick}
           blockBackground={this.state.blockBackground}
+          withContent={this.state.withContent}
         />
         <div>
           <Toggle
@@ -203,6 +218,17 @@ class SidePageWithCloseConfiguration extends Component<
             }
           />{' '}
           blockBackground {this.state.blockBackground ? 'enabled' : 'disabled'}
+        </div>
+        <div>
+          <Toggle
+            checked={this.state.withContent}
+            onChange={() =>
+              this.setState(({ withContent }) => ({
+                withContent: !withContent
+              }))
+            }
+          />{' '}
+          withContent {this.state.withContent ? 'enabled' : 'disabled'}
         </div>
       </div>
     );

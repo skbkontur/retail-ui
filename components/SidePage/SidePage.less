@@ -1,6 +1,17 @@
 @import "../variables.less";
 
 :local {
+  table {
+    border-spacing: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  td {
+    padding: 0;
+    vertical-align: text-bottom;
+  }
+
   .root {
     position: fixed;
     right: 0;
@@ -73,11 +84,10 @@
   }
 
   .body {
-    margin-bottom: 100px;
+    height: 100%;
   }
 
   .footer {
-    bottom: 0;
     padding: 20px 30px 20px 30px;
 
     &.panel {

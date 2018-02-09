@@ -4,9 +4,6 @@ import classNames from 'classnames';
 import { EventEmitter } from 'fbemitter';
 import * as React from 'react';
 import PropTypes from 'prop-types';
-
-import getComputedStyle from '../../lib/dom/getComputedStyle';
-import getScrollWidth from '../../lib/dom/getScrollWidth';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer';
 import RenderLayer from '../RenderLayer';
@@ -82,7 +79,6 @@ class SidePage extends React.Component<Props, State> {
   static Footer: Class<Footer>;
 
   _stackSubscription = null;
-  _originalBodyOverflowY = null;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
@@ -113,30 +109,25 @@ class SidePage extends React.Component<Props, State> {
     };
 
     return (
-      <RenderLayer
-        onClickOutside={this._handleClickOutside}
-        onFocusOutside={this._handleFocusOutside}
-        active={true}
-      >
-        <RenderContainer>
-          <ZIndex
-            delta={1000}
-            className={styles.root}
-            onScroll={LayoutEvents.emit}
-            style={rootStyle}
-          >
-            <HideBodyVerticalScroll
-              allowScrolling={!this.props.blockBackground}
+      <RenderContainer>
+        <ZIndex
+          delta={1000}
+          className={styles.root}
+          onScroll={LayoutEvents.emit}
+          style={rootStyle}
+        >
+          <HideBodyVerticalScroll
+            allowScrolling={!this.props.blockBackground}
+          />
+          {this.props.blockBackground && (
+            <div
+              className={classNames(
+                styles.background,
+                this.state.stackPosition === 0 && styles.gray
+              )}
             />
-            {this.props.blockBackground && (
-              <div
-                className={classNames(
-                  styles.background,
-                  this.state.stackPosition === 0 && styles.gray
-                )}
-                onClick={this._handleBackgroundClick}
-              />
-            )}
+          )}
+          <RenderLayer onClickOutside={this._handleClickOutside} active={true}>
             <div
               className={classNames(
                 styles.container,
@@ -144,11 +135,13 @@ class SidePage extends React.Component<Props, State> {
               )}
               style={sidePageStyle}
             >
-              <div>{this.props.children}</div>
+              <table>
+                <tbody>{this.props.children}</tbody>
+              </table>
             </div>
-          </ZIndex>
-        </RenderContainer>
-      </RenderLayer>
+          </RenderLayer>
+        </ZIndex>
+      </RenderContainer>
     );
   }
 
@@ -173,24 +166,6 @@ class SidePage extends React.Component<Props, State> {
   _handleClickOutside = () => {
     if (
       this.state.stackPosition === stack.mounted.length - 1 &&
-      !this.props.ignoreBackgroundClick
-    ) {
-      this._requestClose();
-    }
-  };
-
-  _handleFocusOutside = () => {
-    if (
-      this.state.stackPosition === stack.mounted.length - 1 &&
-      !this.props.ignoreBackgroundClick
-    ) {
-      this._requestClose();
-    }
-  };
-
-  _handleBackgroundClick = event => {
-    if (
-      event.target === event.currentTarget &&
       !this.props.ignoreBackgroundClick
     ) {
       this._requestClose();
@@ -224,16 +199,22 @@ class Header extends React.Component<HeaderProps> {
 
   render() {
     return (
-      <Sticky side="top">
-        {fixed => (
-          <div className={classNames(styles.header, fixed && styles.fixed)}>
-            {this.renderClose()}
-            <div className={classNames(styles.title, fixed && styles.fixed)}>
-              {this.props.children}
-            </div>
-          </div>
-        )}
-      </Sticky>
+      <tr>
+        <td>
+          <Sticky side="top">
+            {fixed => (
+              <div className={classNames(styles.header, fixed && styles.fixed)}>
+                {this.renderClose()}
+                <div
+                  className={classNames(styles.title, fixed && styles.fixed)}
+                >
+                  {this.props.children}
+                </div>
+              </div>
+            )}
+          </Sticky>
+        </td>
+      </tr>
     );
   }
 
@@ -256,7 +237,11 @@ type BodyProps = {
 
 class Body extends React.Component<BodyProps> {
   render() {
-    return <div className={styles.body}>{this.props.children}</div>;
+    return (
+      <tr className={styles.body}>
+        <td>{this.props.children}</td>
+      </tr>
+    );
   }
 }
 
@@ -275,19 +260,22 @@ class Footer extends React.Component<FooterProps> {
   };
 
   render() {
-    const names = classNames({
-      [styles.footer]: true,
-      [styles.panel]: this.props.panel
-    });
-
     return (
-      <Sticky side="bottom">
-        {fixed => (
-          <div className={classNames(names, fixed && styles.fixed)}>
-            {this.props.children}
-          </div>
-        )}
-      </Sticky>
+      <tr>
+        <td>
+          <Sticky side="bottom">
+            {fixed => {
+              const names = classNames({
+                [styles.footer]: true,
+                [styles.panel]: this.props.panel,
+                [styles.fixed]: fixed
+              });
+
+              return <div className={names}>{this.props.children}</div>;
+            }}
+          </Sticky>
+        </td>
+      </tr>
     );
   }
 }
