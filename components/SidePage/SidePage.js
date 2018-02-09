@@ -121,30 +121,25 @@ class SidePage extends React.Component<Props, State> {
     };
 
     return (
-      <RenderLayer
-        onClickOutside={this._handleClickOutside}
-        onFocusOutside={this._handleFocusOutside}
-        active={true}
-      >
-        <RenderContainer>
-          <ZIndex
-            delta={1000}
-            className={styles.root}
-            onScroll={LayoutEvents.emit}
-            style={rootStyle}
-          >
-            <HideBodyVerticalScroll
-              allowScrolling={!this.props.blockBackground}
+      <RenderContainer>
+        <ZIndex
+          delta={1000}
+          className={styles.root}
+          onScroll={LayoutEvents.emit}
+          style={rootStyle}
+        >
+          <HideBodyVerticalScroll
+            allowScrolling={!this.props.blockBackground}
+          />
+          {this.props.blockBackground && (
+            <div
+              className={classNames(
+                styles.background,
+                this.state.stackPosition === 0 && styles.gray
+              )}
             />
-            {this.props.blockBackground && (
-              <div
-                className={classNames(
-                  styles.background,
-                  this.state.stackPosition === 0 && styles.gray
-                )}
-                onClick={this._handleBackgroundClick}
-              />
-            )}
+          )}
+          <RenderLayer onClickOutside={this._handleClickOutside} active={true}>
             <div
               className={classNames(
                 styles.container,
@@ -152,11 +147,11 @@ class SidePage extends React.Component<Props, State> {
               )}
               style={sidePageStyle}
             >
-              <div>{this.props.children}</div>
+              {this.props.children}
             </div>
-          </ZIndex>
-        </RenderContainer>
-      </RenderLayer>
+          </RenderLayer>
+        </ZIndex>
+      </RenderContainer>
     );
   }
 
@@ -181,24 +176,6 @@ class SidePage extends React.Component<Props, State> {
   _handleClickOutside = () => {
     if (
       this.state.stackPosition === stack.mounted.length - 1 &&
-      !this.props.ignoreBackgroundClick
-    ) {
-      this._requestClose();
-    }
-  };
-
-  _handleFocusOutside = () => {
-    if (
-      this.state.stackPosition === stack.mounted.length - 1 &&
-      !this.props.ignoreFocusOut
-    ) {
-      this._requestClose();
-    }
-  };
-
-  _handleBackgroundClick = event => {
-    if (
-      event.target === event.currentTarget &&
       !this.props.ignoreBackgroundClick
     ) {
       this._requestClose();
@@ -318,21 +295,21 @@ class Footer extends React.Component<FooterProps, FooterState> {
   }
 
   render() {
-    const names = classNames({
-      [styles.footer]: true,
-      [styles.panel]: this.props.panel
-    });
-
     return (
       <Sticky side="bottom">
-        {fixed => (
-          <div
-            className={classNames(names, fixed && styles.fixed)}
-            style={{ left: this.state.left }}
-          >
-            {this.props.children}
-          </div>
-        )}
+        {fixed => {
+          const names = classNames({
+            [styles.footer]: true,
+            [styles.panel]: this.props.panel,
+            [styles.fixed]: fixed
+          });
+
+          return (
+            <div className={names} style={{ left: this.state.left }}>
+              {this.props.children}
+            </div>
+          );
+        }}
       </Sticky>
     );
   }
