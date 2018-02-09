@@ -11,12 +11,12 @@ gemini.suite('DatePicker', suite => {
     })
     .capture('opened year', (actions, find) => {
       actions.click(
-        find('[class^="Calendar-headerYear"] [class^="DateSelect-root"]')
+        find('[class^="MonthView-headerYear"] [class^="DateSelect-root"]')
       );
     })
     .capture('opened month', (actions, find) => {
       actions.click(
-        find('[class^="Calendar-headerMonth"] [class^="DateSelect-root"]')
+        find('[class^="MonthView-headerMonth"] [class^="DateSelect-root"]')
       );
     });
 });
