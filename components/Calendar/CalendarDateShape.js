@@ -23,6 +23,12 @@ export const comparator = (a: CalendarDateShape, b: CalendarDateShape) => {
   return 0;
 };
 
+export const create = (
+  date: number,
+  month: number,
+  year: number
+): CalendarDateShape => ({ date, month, year });
+
 export const isLess = (left: CalendarDateShape, right: CalendarDateShape) =>
   comparator(left, right) === -1;
 

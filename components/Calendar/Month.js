@@ -5,15 +5,16 @@ import * as React from 'react';
 import config from './config';
 
 import * as CDS from './CalendarDateShape';
-import { CalendarMonth } from './CalendarMonth';
-import { CalendarDate } from './CalendarDate';
+import { MonthViewModel } from './MonthViewModel';
+import { DayCellViewModel } from './DayCellViewModel';
 
 import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
+import CalendarScrollEvents from './CalendarScrollEvents';
 
 type MonthProps = {
   top: number,
-  month: CalendarMonth,
+  month: MonthViewModel,
   maxDate?: CDS.CalendarDateShape,
   minDate?: CDS.CalendarDateShape,
   today?: CDS.CalendarDateShape,
@@ -45,16 +46,8 @@ export class Month extends React.Component<MonthProps> {
     return this.props.month !== nextProps.month;
   }
 
-  /**
-   * @public
-   */
-  closeSelects() {
-    if (this._monthSelect) {
-      this._monthSelect.close();
-    }
-    if (this._yearSelect) {
-      this._yearSelect.close();
-    }
+  componentDidMount() {
+    CalendarScrollEvents.addListener(this._closeSelects);
   }
 
   render() {
@@ -94,6 +87,15 @@ export class Month extends React.Component<MonthProps> {
     );
   }
 
+  _closeSelects = () => {
+    if (this._monthSelect) {
+      this._monthSelect.close();
+    }
+    if (this._yearSelect) {
+      this._yearSelect.close();
+    }
+  };
+
   _monthRef = monthSelect => {
     this._monthSelect = monthSelect;
   };
@@ -112,7 +114,7 @@ export class Month extends React.Component<MonthProps> {
 }
 
 type MonthDayGridProps = {
-  days: CalendarDate[],
+  days: DayCellViewModel[],
   offset: number,
   minDate?: CDS.CalendarDateShape,
   maxDate?: CDS.CalendarDateShape,

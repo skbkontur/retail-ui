@@ -6,14 +6,15 @@ import normalizeWheel from 'normalize-wheel';
 import config from './config';
 import * as CalendarUtils from './CalendarUtils';
 import { Animation } from './Animation';
-import { CalendarDate } from './CalendarDate';
-import { CalendarMonth } from './CalendarMonth';
+import * as CDS from './CalendarDateShape';
+import { MonthViewModel } from './MonthViewModel';
+import CalendarScrollEvents from './CalendarScrollEvents';
 
 import { Month } from './Month';
 
 import classes from './Calendar.less';
 
-export type CalendarDateShape = { year: number, month: number, date: number };
+export type CalendarDateShape = CDS.CalendarDateShape;
 
 export type Props = {|
   initialMonth?: number,
@@ -26,29 +27,23 @@ export type Props = {|
 
 export type State = {
   scrollPosition: number,
-  months: CalendarMonth[],
-  today: CalendarDate,
+  months: MonthViewModel[],
+  today: CalendarDateShape,
   scrollDirection: 1 | -1,
   scrollTarget: number
 };
 
 const getTodayDate = () => {
   const date = new Date();
-  return CalendarDate.create(
-    date.getDate(),
-    date.getMonth(),
-    date.getFullYear()
-  );
+  return {
+    date: date.getDate(),
+    month: date.getMonth(),
+    year: date.getFullYear()
+  };
 };
 
 class Calendar extends React.Component<Props, State> {
-  _scrollAnimationTimeout;
-
   _wheelEndTimeout;
-
-  _monthSelect;
-
-  _yearSelect;
 
   _animation = Animation();
 
@@ -118,10 +113,6 @@ class Calendar extends React.Component<Props, State> {
     );
   }
 
-  _handleMonthYearChange = (month, year) => {
-    this.scrollToMonth(month, year);
-  };
-
   _getMonthPositions() {
     const { scrollPosition, months } = this.state;
     const positions = [scrollPosition - months[0].height];
@@ -131,6 +122,10 @@ class Calendar extends React.Component<Props, State> {
     }
     return positions;
   }
+
+  _handleMonthYearChange = (month, year) => {
+    this.scrollToMonth(month, year);
+  };
 
   _handleSelect = date => {
     const { onSelect } = this.props;
@@ -156,7 +151,7 @@ class Calendar extends React.Component<Props, State> {
       this.setState(CalendarUtils.applyDelta(deltaY))
     );
 
-    this._closeSelects();
+    CalendarScrollEvents.emit();
   };
 
   _handleWheelEnd = () => {
@@ -164,22 +159,6 @@ class Calendar extends React.Component<Props, State> {
       clearTimeout(this._wheelEndTimeout);
     }
     this._wheelEndTimeout = setTimeout(this._scrollToNearestWeek, 300);
-  };
-
-  _handleScrollAnimationEnd = () => {
-    if (this._scrollAnimationTimeout) {
-      clearTimeout(this._scrollAnimationTimeout);
-    }
-    this._scrollAnimationTimeout = setTimeout(this._scrollToNearestWeek, 300);
-  };
-
-  _closeSelects = () => {
-    if (this._monthSelect) {
-      this._monthSelect.close();
-    }
-    if (this._yearSelect) {
-      this._yearSelect.close();
-    }
   };
 
   _scrollToNearestWeek = () => {
@@ -212,16 +191,14 @@ class Calendar extends React.Component<Props, State> {
       clearTimeout(this._scrollAnimationTimeout);
     }
 
-    const minDate =
-      this.props.minDate && CalendarUtils.shapeToDate(this.props.minDate);
-    if (minDate && minDate.isGreater(CalendarDate.create(32, month, year))) {
+    const { minDate, maxDate } = this.props;
+
+    if (minDate && CDS.isGreater(minDate, CDS.create(32, month, year))) {
       this._scrollToMonth(minDate.month, minDate.year);
       return;
     }
 
-    const maxDate =
-      this.props.maxDate && CalendarUtils.shapeToDate(this.props.maxDate);
-    if (maxDate && maxDate.isLess(CalendarDate.create(0, month, year))) {
+    if (maxDate && CDS.isLess(maxDate, CDS.create(0, month, year))) {
       this._scrollToMonth(maxDate.month, maxDate.year);
       return;
     }
@@ -259,7 +236,7 @@ class Calendar extends React.Component<Props, State> {
       );
       const monthsToPrepend = Array.from(
         { length: monthsToPrependCount },
-        (_, index) => CalendarMonth.create(month + index, year)
+        (_, index) => MonthViewModel.create(month + index, year)
       );
       this.setState(
         state => {
@@ -295,7 +272,7 @@ class Calendar extends React.Component<Props, State> {
       const monthsToAppend = Array.from(
         { length: monthsToAppendCount },
         (_, index) =>
-          CalendarMonth.create(month + index - monthsToAppendCount + 2, year)
+          MonthViewModel.create(month + index - monthsToAppendCount + 2, year)
       );
       this.setState(
         state => {

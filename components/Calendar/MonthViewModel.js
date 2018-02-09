@@ -2,9 +2,10 @@
 
 import config from './config';
 
-import { CalendarDate } from './CalendarDate';
+import { DayCellViewModel } from './DayCellViewModel';
+import { memo } from './utils';
 
-export class CalendarMonth {
+export class MonthViewModel {
   daysCount: number;
 
   offset: number;
@@ -15,13 +16,13 @@ export class CalendarMonth {
 
   height: number;
 
-  days: CalendarDate[];
+  days: DayCellViewModel[];
 
   isLastInYear: boolean;
 
   isFirstInYear: boolean;
 
-  static create(month: number, year: number): CalendarMonth {
+  static create(month: number, year: number): MonthViewModel {
     return createMonth(month, year);
   }
 }
@@ -37,7 +38,7 @@ const getMonthsDays = memo((month: number, year: number) =>
   new Date(year, month + 1, 0).getDate()
 );
 
-export const getMonthOffset = memo((month: number, year: number) => {
+const getMonthOffset = memo((month: number, year: number) => {
   const day = new Date(year, month, 1).getDay() - 1;
   if (day === -1) {
     return 6;
@@ -45,7 +46,7 @@ export const getMonthOffset = memo((month: number, year: number) => {
   return day;
 });
 
-const createMonth = memo((month: number, year: number): CalendarMonth => {
+const createMonth = memo((month: number, year: number): MonthViewModel => {
   if (month < 0) {
     year -= Math.ceil(-month / 12);
     month = 12 + month % 12;
@@ -56,7 +57,7 @@ const createMonth = memo((month: number, year: number): CalendarMonth => {
   }
   const daysCount = getMonthsDays(month, year);
   const offset = getMonthOffset(month, year);
-  const calendarMonth = new CalendarMonth();
+  const calendarMonth = new MonthViewModel();
   calendarMonth.daysCount = daysCount;
   calendarMonth.offset = offset;
   calendarMonth.month = month;
@@ -64,36 +65,9 @@ const createMonth = memo((month: number, year: number): CalendarMonth => {
   calendarMonth.height = getMonthHeight(daysCount, offset);
   calendarMonth.isLastInYear = month === 11;
   calendarMonth.isFirstInYear = month === 0;
-  calendarMonth.days = Array.from({ length: daysCount }, (_, i) =>
-    CalendarDate.create(i + 1, month, year)
-  );
+  calendarMonth.days = Array.from({ length: daysCount }, (_, i) => {
+    const isWeekend = (i + getMonthOffset(month, year)) % 7 >= 5;
+    return DayCellViewModel.create(i + 1, month, year, isWeekend);
+  });
   return calendarMonth;
 });
-
-function memo<T>(fn: T): T {
-  let cache = {};
-  const getHash = args => args.reduce((acc, x) => acc + x, '');
-  let keysCount = 0;
-  const limit = 1e4;
-
-  // $FlowIgnore
-  return function(...args) {
-    try {
-      const hash = getHash(args);
-      const fromCache = cache[hash];
-      if (fromCache) {
-        return fromCache;
-      }
-      // $FlowIgnore
-      const result = fn(...args);
-      cache[hash] = result;
-      keysCount++;
-      return result;
-    } finally {
-      if (keysCount > limit) {
-        cache = {};
-        keysCount = 0;
-      }
-    }
-  };
-}
