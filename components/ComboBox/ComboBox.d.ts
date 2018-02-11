@@ -24,6 +24,7 @@ export interface ComboBoxProps<T> {
   size?: 'small' | 'medium' | 'large';
   warning?: boolean;
   width?: string | number;
+  maxMenuHeight?: string | number;
 }
 
 export interface ComboBoxState {}

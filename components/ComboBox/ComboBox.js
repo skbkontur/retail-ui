@@ -103,7 +103,9 @@ export type ExternalProps<T> = {
 
   warning?: boolean,
 
-  width?: string | number
+  width?: string | number,
+
+  maxMenuHeight?: number | string
 };
 
 const defaultReducer = createReducer(defaultReducers);
