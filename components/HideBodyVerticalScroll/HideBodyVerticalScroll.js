@@ -141,8 +141,8 @@ function getDocumentStyles(documentMargin) {
   const className = getClassName('document');
   const css = `\
 .${className} {
-  overflow: hidden;
-  margin-right: ${documentMargin}px;
+  overflow: hidden !important;
+  margin-right: ${documentMargin}px !important;
 }
 `;
   return { className, css };
@@ -152,9 +152,9 @@ function getBodyStyles(scrollWidth, rightOffset) {
   const className = getClassName('body');
   const css = `\
 .${className} {
-  overflow-y: auto;
-  margin-right: -${scrollWidth}px;
-  padding-right = ${2 * scrollWidth + rightOffset}px;
+  overflow-y: auto !important;
+  margin-right: -${scrollWidth}px !important;
+  padding-right = ${2 * scrollWidth + rightOffset}px !important;
 }
 `;
   return { className, css };
