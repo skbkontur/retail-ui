@@ -12,7 +12,7 @@ import Icon from '../Icon';
 
 import '../ensureOldIEClassName';
 
-const isFlatDisign = Upgrades.ifFlatDisignEnabled();
+const isFlatDisign = Upgrades.ifFlatDesignEnabled();
 
 let cssStyles;
 let jssStyles;
