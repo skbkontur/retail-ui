@@ -13,14 +13,14 @@ import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
-const isFlatDisign = Upgrades.ifFlatDesignEnabled();
+const isFlatDesign = Upgrades.ifFlatDesignEnabled();
 
 let cssStyles;
 let jssStyles;
 if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Input.styles').default;
 } else {
-  cssStyles = isFlatDisign
+  cssStyles = isFlatDesign
     ? require('./Input.flat.less')
     : require('./Input.less');
 }

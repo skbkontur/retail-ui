@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
-const isFlatDisign = Upgrades.ifFlatDesignEnabled();
+const isFlatDesign = Upgrades.ifFlatDesignEnabled();
 
-const styles = isFlatDisign
+const styles = isFlatDesign
   ? require('./Radio.flat.less')
   : require('./Radio.less');
 
