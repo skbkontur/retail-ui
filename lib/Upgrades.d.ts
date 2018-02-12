@@ -1,6 +1,6 @@
 declare const Upgrades: {
-  enableFlatDisign: () => void;
-  ifFlatDisignEnabled: () => boolean;
+  enableFlatDesign: () => void;
+  ifFlatDesignEnabled: () => boolean;
 };
 
 export default Upgrades;
