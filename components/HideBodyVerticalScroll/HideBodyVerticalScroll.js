@@ -4,18 +4,17 @@ import getComputedStyle from '../../lib/dom/getComputedStyle';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
 import event from 'add-event-listener';
 import LayoutEvents from '../../lib/LayoutEvents';
+import addClass from '../../lib/dom/addClass';
+import removeClass from '../../lib/dom/removeClass';
 
 type Props = {
   allowScrolling?: boolean
 };
 
 export default class HideBodyVerticalScroll extends React.Component<Props> {
-  _documentStyle: ?{ marginRight: string, overflow: string };
-  _bodyStyle: ?{
-    marginRight: string,
-    overflowY: string,
-    paddingRight: string
-  };
+  _documentStyle: ?{ css: string, className: string };
+  _bodyStyle: ?{ css: string, className: string };
+  _removeStyles: Array<() => void> = [];
 
   componentDidMount() {
     const counter = VerticalScrollCounter.increment();
@@ -47,7 +46,6 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
       const needHide = !justRestore && clientHeight < scrollHeight;
 
       if (needHide) {
-        this._storeStyles(documentElement, body);
         this._makeSomeMagicWithScroll(documentElement, body);
       }
 
@@ -55,50 +53,10 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
     }
   };
 
-  _storeStyles = (document: HTMLElement, body: HTMLElement) => {
-    const documentComputedStyle = getComputedStyle(document);
-
-    this._documentStyle = {
-      overflow: documentComputedStyle.overflow,
-      marginRight: documentComputedStyle.marginRight
-    };
-
-    if (this.props.allowScrolling) {
-      const bodyComputedStyle = getComputedStyle(body);
-
-      this._bodyStyle = {
-        overflowY: bodyComputedStyle.overflowY,
-        marginRight: bodyComputedStyle.marginRight,
-        paddingRight: bodyComputedStyle.paddingRight
-      };
-    }
-  };
-
-  _restoreStyles = (document: HTMLElement, body: HTMLElement) => {
-    const scrollTop = body.scrollTop;
-
-    const documentStyle = this._documentStyle;
-    if (documentStyle) {
-      document.style.overflow = documentStyle.overflow;
-      document.style.marginRight = documentStyle.marginRight;
-      this._documentStyle = null;
-    }
-
-    const bodyStyle = this._bodyStyle;
-    if (bodyStyle) {
-      body.style.overflowY = bodyStyle.overflowY;
-      body.style.paddingRight = bodyStyle.paddingRight;
-      body.style.marginRight = bodyStyle.marginRight;
-      this._bodyStyle = null;
-
-      document.scrollTop = scrollTop;
-    }
-  };
-
   _makeSomeMagicWithScroll = (document: HTMLElement, body: HTMLElement) => {
-    const documentStyle = this._documentStyle;
+    const documentStyle = getComputedStyle(document);
     if (documentStyle) {
-      const bodyStyle = this._bodyStyle;
+      const bodyStyle = getComputedStyle(body);
       if (bodyStyle) {
         const documentMargin = parseFloat(documentStyle.marginRight);
         const bodyMargin = parseFloat(bodyStyle.marginRight);
@@ -108,17 +66,48 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
         const rightOffset = bodyMargin + bodyPadding + documentMargin;
 
         const scrollTop = document.scrollTop;
-        document.style.overflow = 'hidden';
-        document.style.marginRight = `${documentMargin}px`;
-        body.style.overflowY = 'auto';
-        body.style.marginRight = `-${scrollWidth}px`;
-        body.style.paddingRight = `${2 * scrollWidth + rightOffset}px`;
+        this._documentStyle = getDocumentStyles(documentMargin);
+        this._bodyStyle = getBodyStyles(scrollWidth, rightOffset);
         body.scrollTop = scrollTop;
       } else {
         const marginRight = parseFloat(documentStyle.marginRight);
-        document.style.marginRight = `${marginRight + getScrollWidth()}px`;
-        document.style.overflow = 'hidden';
+        this._documentStyle = getDocumentStyles(marginRight + getScrollWidth());
       }
+
+      this._attachStyles(document, body);
+    }
+  };
+
+  _attachStyles = (document, body) => {
+    const { _bodyStyle, _documentStyle } = this;
+
+    if (_documentStyle) {
+      addClass(document, _documentStyle.className);
+      this._removeStyles.push(attachStylesheet(_documentStyle.css));
+    }
+
+    if (_bodyStyle) {
+      addClass(body, _bodyStyle.className);
+      this._removeStyles.push(attachStylesheet(_bodyStyle.css));
+    }
+  };
+
+  _restoreStyles = (document: HTMLElement, body: HTMLElement) => {
+    this._removeStyles.forEach(x => x());
+
+    const { _bodyStyle, _documentStyle } = this;
+
+    const scrollTop = body.scrollTop;
+
+    if (_documentStyle) {
+      removeClass(document, _documentStyle.className);
+      this._documentStyle = null;
+    }
+
+    if (_bodyStyle) {
+      removeClass(body, _bodyStyle.className);
+      this._bodyStyle = null;
+      document.scrollTop = scrollTop;
     }
   };
 }
@@ -136,5 +125,53 @@ class VerticalScrollCounter {
 
   static get = (): number => {
     return global.RetailUIVerticalScrollCounter || 0;
+  };
+}
+
+function getClassName(cn) {
+  const compName = HideBodyVerticalScroll.name;
+  const hash = Math.random()
+    .toString(16)
+    .slice(2, 6);
+  return `${compName}-${cn}-${hash}`;
+}
+
+function getDocumentStyles(documentMargin) {
+  const className = getClassName('document');
+  const css = `\
+.${className} {
+  overflow: hidden;
+  margin-right: ${documentMargin}px;
+}
+`;
+  return { className, css };
+}
+
+function getBodyStyles(scrollWidth, rightOffset) {
+  const className = getClassName('body');
+  const css = `\
+.${className} {
+  overflow-y: auto;
+  margin-right: -${scrollWidth}px;
+  padding-right = ${2 * scrollWidth + rightOffset}px;
+}
+`;
+  return { className, css };
+}
+
+function attachStylesheet(sheet: string) {
+  const style = document.createElement('style');
+  style.setAttribute('type', 'text/css');
+  if (style.styleSheet) {
+    // $FlowIgnore IE specific api
+    style.styleSheet.cssText = sheet;
+  } else {
+    const textnode = document.createTextNode(sheet);
+    style.appendChild(textnode);
+  }
+  const head = document.getElementsByTagName('head')[0];
+  head.appendChild(style);
+  return () => {
+    head.removeChild(style);
   };
 }
