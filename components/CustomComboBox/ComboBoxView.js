@@ -27,6 +27,7 @@ type Props<T> = {
   value?: ?T,
   warning?: boolean,
   width: string | number,
+  maxMenuHeight?: number | string,
 
   onChange: T => mixed,
   onClickOutside: () => void,
@@ -175,7 +176,8 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
       loading,
       refMenu,
       renderNotFound,
-      renderTotalCount
+      renderTotalCount,
+      maxMenuHeight
     } = this.props;
 
     if (!opened) {
@@ -214,7 +216,7 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
     }
 
     return (
-      <Menu ref={refMenu}>
+      <Menu ref={refMenu} maxHeight={maxMenuHeight}>
         {items && items.map(this.renderItem)}
         {total}
       </Menu>
