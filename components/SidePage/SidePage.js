@@ -101,7 +101,7 @@ class SidePage extends React.Component<Props, State> {
   render() {
     const rootStyle = this.props.blockBackground ? { width: '100%' } : {};
     const sidePageStyle = {
-      width: this.props.width || this.props.blockBackground ? 800 : 500,
+      width: this.props.width || (this.props.blockBackground ? 800 : 500),
       marginRight:
         this.state.stackPosition === 0 && stack.mounted.length > 1
           ? 20
