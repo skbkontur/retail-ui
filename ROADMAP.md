@@ -1,13 +1,28 @@
-- [ ] Currency input
-- [ ] Calendar redisign
-- [ ] Sidepage
+
+### Far-far away
+
+- [ ] Component styles public api
+
+### Future
+
 - [ ] Integrate Popup into Tooltip
 - [ ] Integrate Popup into Hint
 - [ ] DropdownMenu
 - [ ] TipMenu
-- [ ] Migrate to typescript
-- [ ] Migrate to styleguidist
+- [ ] Menu: handle keyboard
+
+
+### Present
+
 - [ ] Migrate to jss
-- [ ] Component styles public api
-- [ ] Sticky Loader - always stays in center of visible part of elements
+- [ ] Migrate Button to typescript 
 - [ ] Integrate metrics
+- [ ] Sticky Loader - always stays in center of visible part of elements
+- [ ] FIAS
+
+### Past
+
+- [x] Sidepage
+- [x] Calendar redisign
+- [x] Migrate to styleguidist
+- [x] Currency input
