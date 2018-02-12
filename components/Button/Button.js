@@ -12,14 +12,14 @@ import Icon from '../Icon';
 
 import '../ensureOldIEClassName';
 
-const isFlatDisign = Upgrades.ifFlatDesignEnabled();
+const isFlatDesign = Upgrades.ifFlatDesignEnabled();
 
 let cssStyles;
 let jssStyles;
 if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Button.styles').default;
 } else {
-  cssStyles = isFlatDisign
+  cssStyles = isFlatDesign
     ? require('./Button.flat.less')
     : require('./Button.less');
 }
