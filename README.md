@@ -2,7 +2,8 @@
 [![Build Status](https://travis-ci.org/skbkontur/retail-ui.svg?branch=master)](https://travis-ci.org/skbkontur/retail-ui)
 
 
-- [Changelog](https://github.com/skbkontur/retail-ui/blob/master/CHANGELOG.md)
+- [Changelog](/CHANGELOG.md)
+- [Roadmap](/ROADMAP.md)
 
 ### Квик-старт
 ```bash
