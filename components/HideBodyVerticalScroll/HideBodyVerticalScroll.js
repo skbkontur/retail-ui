@@ -94,6 +94,7 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
 
   _restoreStyles = (document: HTMLElement, body: HTMLElement) => {
     this._removeStyles.forEach(x => x());
+    this._removeStyles = [];
 
     const { _bodyStyle, _documentStyle } = this;
 
