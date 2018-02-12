@@ -55,27 +55,26 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
 
   _makeSomeMagicWithScroll = (document: HTMLElement, body: HTMLElement) => {
     const documentStyle = getComputedStyle(document);
-    if (documentStyle) {
-      const bodyStyle = getComputedStyle(body);
-      if (bodyStyle) {
-        const documentMargin = parseFloat(documentStyle.marginRight);
-        const bodyMargin = parseFloat(bodyStyle.marginRight);
-        const bodyPadding = parseFloat(bodyStyle.paddingRight);
-        const scrollWidth = getScrollWidth();
+    const bodyStyle = getComputedStyle(body);
 
-        const rightOffset = bodyMargin + bodyPadding + documentMargin;
+    if (this.props.allowScrolling) {
+      const documentMargin = parseFloat(documentStyle.marginRight);
+      const bodyMargin = parseFloat(bodyStyle.marginRight);
+      const bodyPadding = parseFloat(bodyStyle.paddingRight);
+      const scrollWidth = getScrollWidth();
 
-        const scrollTop = document.scrollTop;
-        this._documentStyle = getDocumentStyles(documentMargin);
-        this._bodyStyle = getBodyStyles(scrollWidth, rightOffset);
-        body.scrollTop = scrollTop;
-      } else {
-        const marginRight = parseFloat(documentStyle.marginRight);
-        this._documentStyle = getDocumentStyles(marginRight + getScrollWidth());
-      }
+      const rightOffset = bodyMargin + bodyPadding + documentMargin;
 
-      this._attachStyles(document, body);
+      const scrollTop = document.scrollTop;
+      this._documentStyle = getDocumentStyles(documentMargin);
+      this._bodyStyle = getBodyStyles(scrollWidth, rightOffset);
+      body.scrollTop = scrollTop;
+    } else {
+      const marginRight = parseFloat(documentStyle.marginRight);
+      this._documentStyle = getDocumentStyles(marginRight + getScrollWidth());
     }
+
+    this._attachStyles(document, body);
   };
 
   _attachStyles = (document, body) => {
