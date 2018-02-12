@@ -13,7 +13,7 @@ import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
-const isFlatDisign = Upgrades.ifFlatDisignEnabled();
+const isFlatDisign = Upgrades.ifFlatDesignEnabled();
 
 let cssStyles;
 let jssStyles;
