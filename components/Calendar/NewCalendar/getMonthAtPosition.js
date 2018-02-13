@@ -1,19 +1,36 @@
 // @flow
 import { type Month, createMonth, getMonthIndex, getYear } from './Month';
-import { getMonthHeight } from './MonthExtensions';
+import { getMonthHeight as defaultGetMonthHeight } from './MonthExtensions';
 
 /**
  * Maximum 3 months can be displayed at once on the screen
  * (depends on calendar height)
  *
- *  ------ P-Month ------
- * |======================| <- CurrentPosition
- * |------ M-Month -------|
- * |    // Screen //      |
- * |------ N-Month -------|
+ *  -P-Month -------------
+ *  -[]-[]-[]-[]-[]-[]-[]-
+ *  -[]-[]-[]-[]-[]-[]-[]-
+ *  -[]-[]-[]-[]-[]-[]-[]-
+ *  -[]-[]-[]-[]-[]-[]-[]-
+ * |=====// Screen //=====| <- CurrentPosition
+ * |-[]-[]-[]-------------|
+ * |----------------------|
+ * |-M-Month -------------|
+ * |----------[]-[]-[]-[]-|
+ * |-[]-[]-[]-[]-[]-[]-[]-|
+ * |-[]-[]-[]-[]-[]-[]-[]-|
+ * |-[]-[]-[]-[]-[]-[]-[]-|
+ * |-[]-[]-[]-------------|
+ * |----------------------|
+ * |- N-Month ------------|
+ * |----------[]-[]-[]-[]-|
+ * |-[]-[]-[]-[]-[]-[]-[]-|
  * |======================|
+ *  -[]-[]-[]-[]-[]-[]-[]-
+ *  -[]-[]-[]-[]-[]-[]-[]-
+ *  -[]-[]-[]-[]-[]-[]----
  *
  *  ----- Init Month -----  <- Zero
+ *
  *
  * If screen before P-Month (CurrentPosition <= PrevMonthY):
  *  - N-Months removes
@@ -31,21 +48,22 @@ import { getMonthHeight } from './MonthExtensions';
  * MonthY = range (InitMonth, Month) |> map GetMonthHeight |> sum
  */
 
+// TODO: not working, fix implementation
 export function getMonthAtPosition(
   currentPosition: number,
   initialMonth: Month,
-  getMonthHeight: (month: Month) => number = getMonthHeight
+  getMonthHeight: (month: Month) => number = defaultGetMonthHeight
 ) {
   let currentMonth = initialMonth;
   let accumulate = 0;
   if (currentPosition > 0) {
-    do {
+    while (accumulate < currentPosition) {
       accumulate += getMonthHeight(currentMonth);
       currentMonth = createMonth(
         getMonthIndex(currentMonth) + 1,
         getYear(currentMonth)
       );
-    } while (accumulate < currentPosition);
+    }
   }
 
   if (currentPosition < 0) {
