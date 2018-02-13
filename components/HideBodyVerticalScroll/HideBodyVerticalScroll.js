@@ -91,13 +91,16 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
   };
 
   _restoreStyles = (document: HTMLElement, body: HTMLElement) => {
+    // Must be before _disposeDocumentStyle
+    // as it would change after dispose
+    const scrollTop = body.scrollTop;
+
     if (this._disposeDocumentStyle) {
       this._disposeDocumentStyle();
       this._disposeDocumentStyle = null;
     }
 
     if (this._disposeBodyStyle) {
-      const scrollTop = body.scrollTop;
       this._disposeBodyStyle();
       this._disposeBodyStyle = null;
       document.scrollTop = scrollTop;
