@@ -12,9 +12,8 @@ type Props = {
 };
 
 export default class HideBodyVerticalScroll extends React.Component<Props> {
-  _documentStyle: ?{ css: string, className: string };
-  _bodyStyle: ?{ css: string, className: string };
-  _removeStyles: Array<() => void> = [];
+  _documentStyle: ?{ removeStyle: () => void };
+  _bodyStyle: ?{ removeStyle: () => void };
 
   componentDidMount() {
     const counter = VerticalScrollCounter.increment();
@@ -54,58 +53,54 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
   };
 
   _makeSomeMagicWithScroll = (document: HTMLElement, body: HTMLElement) => {
-    const documentStyle = getComputedStyle(document);
-    const bodyStyle = getComputedStyle(body);
+    const documentComputedStyle = getComputedStyle(document);
+    const bodyComputedStyle = getComputedStyle(body);
 
     if (this.props.allowScrolling) {
-      const documentMargin = parseFloat(documentStyle.marginRight);
-      const bodyMargin = parseFloat(bodyStyle.marginRight);
-      const bodyPadding = parseFloat(bodyStyle.paddingRight);
+      const documentMargin = parseFloat(documentComputedStyle.marginRight);
+      const bodyMargin = parseFloat(bodyComputedStyle.marginRight);
+      const bodyPadding = parseFloat(bodyComputedStyle.paddingRight);
       const scrollWidth = getScrollWidth();
 
       const rightOffset = bodyMargin + bodyPadding + documentMargin;
 
       const scrollTop = document.scrollTop;
-      this._documentStyle = getDocumentStyles(documentMargin);
-      this._bodyStyle = getBodyStyles(scrollWidth, rightOffset);
+      const documentStyle = generateDocumentStyle(documentMargin);
+      this._documentStyle = this._attachStyle(document, documentStyle);
+      const bodyStyle = generateBodyStyle(scrollWidth, rightOffset);
+      this._bodyStyle = this._attachStyle(body, bodyStyle);
       body.scrollTop = scrollTop;
     } else {
-      const marginRight = parseFloat(documentStyle.marginRight);
-      this._documentStyle = getDocumentStyles(marginRight + getScrollWidth());
+      const documentStyle = generateDocumentStyle(
+        parseFloat(documentComputedStyle.marginRight) + getScrollWidth()
+      );
+      this._documentStyle = this._attachStyle(document, documentStyle);
     }
-
-    this._attachStyles(document, body);
   };
 
-  _attachStyles = (document, body) => {
-    const { _bodyStyle, _documentStyle } = this;
-
-    if (_documentStyle) {
-      addClass(document, _documentStyle.className);
-      this._removeStyles.push(attachStylesheet(_documentStyle.css));
-    }
-
-    if (_bodyStyle) {
-      addClass(body, _bodyStyle.className);
-      this._removeStyles.push(attachStylesheet(_bodyStyle.css));
-    }
+  _attachStyle = (
+    element: HTMLElement,
+    style: { css: string, className: string }
+  ) => {
+    addClass(element, style.className);
+    const removeStyleNode = attachStylesheet(style.css);
+    return {
+      removeStyle: () => {
+        removeStyleNode();
+        removeClass(element, style.className);
+      }
+    };
   };
 
   _restoreStyles = (document: HTMLElement, body: HTMLElement) => {
-    this._removeStyles.forEach(x => x());
-    this._removeStyles = [];
-
-    const { _bodyStyle, _documentStyle } = this;
-
-    const scrollTop = body.scrollTop;
-
-    if (_documentStyle) {
-      removeClass(document, _documentStyle.className);
+    if (this._documentStyle) {
+      this._documentStyle.removeStyle();
       this._documentStyle = null;
     }
 
-    if (_bodyStyle) {
-      removeClass(body, _bodyStyle.className);
+    if (this._bodyStyle) {
+      const scrollTop = body.scrollTop;
+      this._bodyStyle.removeStyle();
       this._bodyStyle = null;
       document.scrollTop = scrollTop;
     }
@@ -128,16 +123,16 @@ class VerticalScrollCounter {
   };
 }
 
-function getClassName(cn) {
+function generateClassName(className) {
   const compName = HideBodyVerticalScroll.name;
   const hash = Math.random()
     .toString(16)
     .slice(2, 6);
-  return `${compName}-${cn}-${hash}`;
+  return `${compName}-${className}-${hash}`;
 }
 
-function getDocumentStyles(documentMargin) {
-  const className = getClassName('document');
+function generateDocumentStyle(documentMargin) {
+  const className = generateClassName('document');
   const css = `\
 .${className} {
   overflow: hidden !important;
@@ -147,8 +142,8 @@ function getDocumentStyles(documentMargin) {
   return { className, css };
 }
 
-function getBodyStyles(scrollWidth, rightOffset) {
-  const className = getClassName('body');
+function generateBodyStyle(scrollWidth, rightOffset) {
+  const className = generateClassName('body');
   const css = `\
 .${className} {
   overflow-y: auto !important;
