@@ -12,8 +12,8 @@ type Props = {
 };
 
 export default class HideBodyVerticalScroll extends React.Component<Props> {
-  _documentStyle: ?{ removeStyle: () => void };
-  _bodyStyle: ?{ removeStyle: () => void };
+  _disposeDocumentStyle: (() => void) | null = null;
+  _disposeBodyStyle: (() => void) | null = null;
 
   componentDidMount() {
     const counter = VerticalScrollCounter.increment();
@@ -66,15 +66,15 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
 
       const scrollTop = document.scrollTop;
       const documentStyle = generateDocumentStyle(documentMargin);
-      this._documentStyle = this._attachStyle(document, documentStyle);
+      this._disposeDocumentStyle = this._attachStyle(document, documentStyle);
       const bodyStyle = generateBodyStyle(scrollWidth, rightOffset);
-      this._bodyStyle = this._attachStyle(body, bodyStyle);
+      this._disposeBodyStyle = this._attachStyle(body, bodyStyle);
       body.scrollTop = scrollTop;
     } else {
       const documentStyle = generateDocumentStyle(
         parseFloat(documentComputedStyle.marginRight) + getScrollWidth()
       );
-      this._documentStyle = this._attachStyle(document, documentStyle);
+      this._disposeDocumentStyle = this._attachStyle(document, documentStyle);
     }
   };
 
@@ -84,24 +84,22 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
   ) => {
     addClass(element, style.className);
     const removeStyleNode = attachStylesheet(style.css);
-    return {
-      removeStyle: () => {
-        removeStyleNode();
-        removeClass(element, style.className);
-      }
+    return () => {
+      removeStyleNode();
+      removeClass(element, style.className);
     };
   };
 
   _restoreStyles = (document: HTMLElement, body: HTMLElement) => {
-    if (this._documentStyle) {
-      this._documentStyle.removeStyle();
-      this._documentStyle = null;
+    if (this._disposeDocumentStyle) {
+      this._disposeDocumentStyle();
+      this._disposeDocumentStyle = null;
     }
 
-    if (this._bodyStyle) {
+    if (this._disposeBodyStyle) {
       const scrollTop = body.scrollTop;
-      this._bodyStyle.removeStyle();
-      this._bodyStyle = null;
+      this._disposeBodyStyle();
+      this._disposeBodyStyle = null;
       document.scrollTop = scrollTop;
     }
   };
