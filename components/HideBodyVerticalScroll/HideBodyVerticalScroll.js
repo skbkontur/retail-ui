@@ -4,18 +4,16 @@ import getComputedStyle from '../../lib/dom/getComputedStyle';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
 import event from 'add-event-listener';
 import LayoutEvents from '../../lib/LayoutEvents';
+import addClass from '../../lib/dom/addClass';
+import removeClass from '../../lib/dom/removeClass';
 
 type Props = {
   allowScrolling?: boolean
 };
 
 export default class HideBodyVerticalScroll extends React.Component<Props> {
-  _documentStyle: ?{ marginRight: string, overflow: string };
-  _bodyStyle: ?{
-    marginRight: string,
-    overflowY: string,
-    paddingRight: string
-  };
+  _disposeDocumentStyle: (() => void) | null = null;
+  _disposeBodyStyle: (() => void) | null = null;
 
   componentDidMount() {
     const counter = VerticalScrollCounter.increment();
@@ -47,7 +45,6 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
       const needHide = !justRestore && clientHeight < scrollHeight;
 
       if (needHide) {
-        this._storeStyles(documentElement, body);
         this._makeSomeMagicWithScroll(documentElement, body);
       }
 
@@ -55,70 +52,55 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
     }
   };
 
-  _storeStyles = (document: HTMLElement, body: HTMLElement) => {
+  _makeSomeMagicWithScroll = (document: HTMLElement, body: HTMLElement) => {
     const documentComputedStyle = getComputedStyle(document);
-
-    this._documentStyle = {
-      overflow: documentComputedStyle.overflow,
-      marginRight: documentComputedStyle.marginRight
-    };
+    const bodyComputedStyle = getComputedStyle(body);
 
     if (this.props.allowScrolling) {
-      const bodyComputedStyle = getComputedStyle(body);
+      const documentMargin = parseFloat(documentComputedStyle.marginRight);
+      const bodyMargin = parseFloat(bodyComputedStyle.marginRight);
+      const bodyPadding = parseFloat(bodyComputedStyle.paddingRight);
+      const scrollWidth = getScrollWidth();
 
-      this._bodyStyle = {
-        overflowY: bodyComputedStyle.overflowY,
-        marginRight: bodyComputedStyle.marginRight,
-        paddingRight: bodyComputedStyle.paddingRight
-      };
+      const rightOffset = bodyMargin + bodyPadding + documentMargin;
+
+      const scrollTop = document.scrollTop;
+      const documentStyle = generateDocumentStyle(documentMargin);
+      this._disposeDocumentStyle = this._attachStyle(document, documentStyle);
+      const bodyStyle = generateBodyStyle(scrollWidth, rightOffset);
+      this._disposeBodyStyle = this._attachStyle(body, bodyStyle);
+      body.scrollTop = scrollTop;
+    } else {
+      const documentStyle = generateDocumentStyle(
+        parseFloat(documentComputedStyle.marginRight) + getScrollWidth()
+      );
+      this._disposeDocumentStyle = this._attachStyle(document, documentStyle);
     }
+  };
+
+  _attachStyle = (
+    element: HTMLElement,
+    style: { css: string, className: string }
+  ) => {
+    addClass(element, style.className);
+    const removeStyleNode = attachStylesheet(style.css);
+    return () => {
+      removeStyleNode();
+      removeClass(element, style.className);
+    };
   };
 
   _restoreStyles = (document: HTMLElement, body: HTMLElement) => {
-    const scrollTop = body.scrollTop;
-
-    const documentStyle = this._documentStyle;
-    if (documentStyle) {
-      document.style.overflow = documentStyle.overflow;
-      document.style.marginRight = documentStyle.marginRight;
-      this._documentStyle = null;
+    if (this._disposeDocumentStyle) {
+      this._disposeDocumentStyle();
+      this._disposeDocumentStyle = null;
     }
 
-    const bodyStyle = this._bodyStyle;
-    if (bodyStyle) {
-      body.style.overflowY = bodyStyle.overflowY;
-      body.style.paddingRight = bodyStyle.paddingRight;
-      body.style.marginRight = bodyStyle.marginRight;
-      this._bodyStyle = null;
-
+    if (this._disposeBodyStyle) {
+      const scrollTop = body.scrollTop;
+      this._disposeBodyStyle();
+      this._disposeBodyStyle = null;
       document.scrollTop = scrollTop;
-    }
-  };
-
-  _makeSomeMagicWithScroll = (document: HTMLElement, body: HTMLElement) => {
-    const documentStyle = this._documentStyle;
-    if (documentStyle) {
-      const bodyStyle = this._bodyStyle;
-      if (bodyStyle) {
-        const documentMargin = parseFloat(documentStyle.marginRight);
-        const bodyMargin = parseFloat(bodyStyle.marginRight);
-        const bodyPadding = parseFloat(bodyStyle.paddingRight);
-        const scrollWidth = getScrollWidth();
-
-        const rightOffset = bodyMargin + bodyPadding + documentMargin;
-
-        const scrollTop = document.scrollTop;
-        document.style.overflow = 'hidden';
-        document.style.marginRight = `${documentMargin}px`;
-        body.style.overflowY = 'auto';
-        body.style.marginRight = `-${scrollWidth}px`;
-        body.style.paddingRight = `${2 * scrollWidth + rightOffset}px`;
-        body.scrollTop = scrollTop;
-      } else {
-        const marginRight = parseFloat(documentStyle.marginRight);
-        document.style.marginRight = `${marginRight + getScrollWidth()}px`;
-        document.style.overflow = 'hidden';
-      }
     }
   };
 }
@@ -136,5 +118,53 @@ class VerticalScrollCounter {
 
   static get = (): number => {
     return global.RetailUIVerticalScrollCounter || 0;
+  };
+}
+
+function generateClassName(className) {
+  const compName = HideBodyVerticalScroll.name;
+  const hash = Math.random()
+    .toString(16)
+    .slice(2, 6);
+  return `${compName}-${className}-${hash}`;
+}
+
+function generateDocumentStyle(documentMargin) {
+  const className = generateClassName('document');
+  const css = `\
+.${className} {
+  overflow: hidden !important;
+  margin-right: ${documentMargin}px !important;
+}
+`;
+  return { className, css };
+}
+
+function generateBodyStyle(scrollWidth, rightOffset) {
+  const className = generateClassName('body');
+  const css = `\
+.${className} {
+  overflow-y: auto !important;
+  margin-right: -${scrollWidth}px !important;
+  padding-right = ${2 * scrollWidth + rightOffset}px !important;
+}
+`;
+  return { className, css };
+}
+
+function attachStylesheet(sheet: string) {
+  const style = document.createElement('style');
+  style.setAttribute('type', 'text/css');
+  if (style.styleSheet) {
+    // $FlowIgnore IE specific api
+    style.styleSheet.cssText = sheet;
+  } else {
+    const textnode = document.createTextNode(sheet);
+    style.appendChild(textnode);
+  }
+  const head = document.getElementsByTagName('head')[0];
+  head.appendChild(style);
+  return () => {
+    head.removeChild(style);
   };
 }
