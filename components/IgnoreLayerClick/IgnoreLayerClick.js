@@ -11,11 +11,11 @@ type Props = {
 
 export default class IgnoreLayerClick extends React.Component<Props> {
   render() {
-    const children = React.Children.only(this.props.children);
+    const child = React.Children.only(this.props.children);
     return this.props.active ? (
-      <IgnoreLayerClickWrapper>{children}</IgnoreLayerClickWrapper>
+      <IgnoreLayerClickWrapper>{child}</IgnoreLayerClickWrapper>
     ) : (
-      children
+      child
     );
   }
 }
@@ -28,25 +28,14 @@ class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
   _element: ?Element | Text;
 
   componentDidMount() {
-    this._subscribe(findDOMNode(this));
-  }
-
-  componentWillUnmount() {
-    this._unsubscribe();
-  }
-
-  render() {
-    return this.props.children;
-  }
-
-  _subscribe(element: ?Element | Text) {
+    const element = findDOMNode(this);
     if (element) {
       events.addEventListener(element, 'mousedown', this._handleMouseDown);
       this._element = element;
     }
   }
 
-  _unsubscribe() {
+  componentWillUnmount() {
     if (this._element) {
       events.removeEventListener(
         this._element,
@@ -55,6 +44,10 @@ class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
       );
       this._element = null;
     }
+  }
+
+  render() {
+    return this.props.children;
   }
 
   _handleMouseDown = (event: MouseEvent) => {
