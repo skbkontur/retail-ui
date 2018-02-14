@@ -49,7 +49,8 @@ const getMonthOffset = memo((month: number, year: number) => {
 const createMonth = memo((month: number, year: number): MonthViewModel => {
   if (month < 0) {
     year -= Math.ceil(-month / 12);
-    month = 12 + month % 12;
+    let mod = month % 12;
+    month = mod < 0 ? 12 + mod : mod;
   }
   if (month > 11) {
     year += Math.floor(month / 12);

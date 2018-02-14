@@ -212,86 +212,25 @@ class Calendar extends React.Component<Props, State> {
       return;
     }
 
-    const maxMonthsToAdd = config.MAX_MONTHS_TO_APPEND_ON_SCROLL;
-
-    const onEnd = () =>
-      this.setState({
-        months: CalendarUtils.getMonths(month, year),
-        scrollPosition: 0
-      });
-
-    const isYearChanges = state =>
-      state.months[1].year !== year &&
-      // if diff in months is 2 or less,
-      // either year is not changing either months already
-      // have right isFirstInYear/isLastInYear flags
-      Math.abs(diffInMonths) > 2;
-
-    // If scrolling upwards, prepend maximum maxMonthsToAdd months
-    // and scroll to the first month
-    if (diffInMonths > 0) {
-      const monthsToPrependCount = Math.min(
-        Math.abs(diffInMonths) - 1,
-        maxMonthsToAdd
-      );
-      const monthsToPrepend = Array.from(
-        { length: monthsToPrependCount },
-        (_, index) => MonthViewModel.create(month + index, year)
-      );
-      this.setState(
-        state => {
-          const yearChanges = isYearChanges(state);
-          if (yearChanges) {
-            // Mutating here can lead to some unexpected bugs
-            // but we couldn't find any yet
-            state.months[0].isFirstInYear = true;
-            if (monthsToPrepend.length) {
-              // Mutating item here is safe as it was just created
-              monthsToPrepend[monthsToPrepend.length - 1].isLastInYear = true;
-            }
-          }
-          return {
-            months: monthsToPrepend.concat(state.months),
-            scrollPosition: -CalendarUtils.getMonthsHeight(monthsToPrepend)
-          };
-        },
-        () => {
-          const targetPosition = this.state.months[0].height;
-          this._scrollTo(targetPosition, onEnd);
+    const amount = Array.from(
+      { length: Math.abs(diffInMonths) },
+      (_, index) => {
+        if (diffInMonths < 0) {
+          return -MonthViewModel.create(
+            currentMonth.month + index - diffInMonths - 1,
+            currentMonth.year
+          ).height;
         }
-      );
-    }
+        return MonthViewModel.create(
+          currentMonth.month + index,
+          currentMonth.year
+        ).height;
+      }
+    ).reduce((a, b) => a + b, 0);
 
-    // If scrolling downwards, append maximum maxMonthsToAdd months
-    // and scroll to the last but one month
-    if (diffInMonths < 0) {
-      const monthsToAppendCount = Math.min(
-        Math.abs(diffInMonths),
-        maxMonthsToAdd
-      );
-      const monthsToAppend = Array.from(
-        { length: monthsToAppendCount },
-        (_, index) =>
-          MonthViewModel.create(month + index - monthsToAppendCount + 2, year)
-      );
-      this.setState(
-        state => {
-          if (isYearChanges(state)) {
-            // Mutating here can lead to some unexpected bugs
-            // but we couldn't find any yet
-            state.months[state.months.length - 1].isLastInYear = true;
-            // Mutating item here is safe as it was just created
-            monthsToAppend[0] && (monthsToAppend[0].isFirstInYear = true);
-          }
-          return { months: state.months.concat(monthsToAppend) };
-        },
-        () => {
-          const targetPosition =
-            -1 * CalendarUtils.getMonthsHeight(this.state.months.slice(1, -2));
-          this._scrollTo(targetPosition, onEnd);
-        }
-      );
-    }
+    this._scrollTo(amount);
+
+    return;
   };
 
   _scrollTo = (pos: number, onEnd?: () => void) => {
@@ -302,10 +241,7 @@ class Calendar extends React.Component<Props, State> {
   _scrollAmount = (scrollAmmount: number, onEnd?: () => void) => {
     return this._animation.animate(
       scrollAmmount,
-      deltaY =>
-        this.setState(({ scrollPosition }) => ({
-          scrollPosition: scrollPosition + deltaY
-        })),
+      deltaY => this.setState(CalendarUtils.applyDelta(-deltaY)),
       onEnd
     );
   };

@@ -3,6 +3,7 @@
 import config from './config';
 
 import { MonthViewModel } from './MonthViewModel';
+import * as CDS from './CalendarDateShape';
 import type { State, Props } from './Calendar';
 
 export const calculateScrollPosition = (
@@ -15,17 +16,17 @@ export const calculateScrollPosition = (
   let nextScrollPosition = scrollPosition - deltaY;
   let nextMonths = months;
 
-  const firstMonth = months[0];
-  if (deltaY < 0 && nextScrollPosition >= firstMonth.height) {
+  if (deltaY < 0 && nextScrollPosition >= months[0].height) {
     do {
+      const firstMonth = nextMonths[0];
       nextScrollPosition -= nextMonths[0].height;
       nextMonths = getMonths(firstMonth.month, firstMonth.year);
     } while (nextScrollPosition >= nextMonths[0].height);
   }
 
-  const lastMonth = months[months.length - 1];
   if (deltaY > 0 && nextScrollPosition < 0) {
     do {
+      const lastMonth = nextMonths[months.length - 1];
       nextScrollPosition += nextMonths[1].height;
       nextMonths = getMonths(lastMonth.month, lastMonth.year);
     } while (nextScrollPosition < 0);
@@ -46,15 +47,18 @@ export const applyDelta = (deltaY: number) => (
   const isMinDateExceeded =
     minDate &&
     scrollDirection < 0 &&
-    minDate.year * 12 + minDate.month > months[0].year * 12 + months[0].month;
+    CDS.isGreater(minDate, CDS.create(31, months[0].month, months[0].year));
 
   const isMaxDateExceeded =
     maxDate &&
     scrollDirection > 0 &&
-    maxDate.year * 12 + maxDate.month < months[2].year * 12 + months[2].month;
+    CDS.isLess(maxDate, CDS.create(1, months[1].month, months[1].year));
 
   if (isMinDateExceeded || isMaxDateExceeded) {
-    return { scrollPosition: 0, scrollDirection };
+    return {
+      scrollPosition: scrollDirection > 0 ? months[0].height : 0,
+      scrollDirection
+    };
   }
 
   return calculateScrollPosition(months, scrollPosition, deltaY);
