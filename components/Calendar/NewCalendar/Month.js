@@ -1,6 +1,15 @@
 // @flow
+
 export opaque type Year: number = number;
+
+/**
+ * Number from 0 to 11
+ */
 export opaque type MonthIndex: number = number;
+
+/**
+ * Valid (month, year) pair
+ */
 export opaque type Month = [MonthIndex, Year];
 
 export function createMonth(monthIndex: number, year: number): Month {
