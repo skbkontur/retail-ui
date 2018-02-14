@@ -257,6 +257,7 @@ class DatePicker extends React.Component<Props, State> {
             getInputRef={this.getInputRef}
             opened={opened}
             value={this.state.textValue}
+            onBlur={this.handleBlur}
             onFocus={this.handleFocus}
             onChange={this.handleChange}
             onSubmit={this._handleSubmit}
@@ -380,10 +381,6 @@ class DatePicker extends React.Component<Props, State> {
     if (this.props.onChange) {
       this.props.onChange({ target: { value: date } }, date);
     }
-  };
-
-  handlePickerClose = () => {
-    this.close(false);
   };
 
   close(focus: boolean) {
