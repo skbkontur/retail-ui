@@ -13,6 +13,14 @@ test('getMonthsAtPosition', () => {
 
   let cases = [
     {
+      args: [-110, initialMonth],
+      expected: { relativePosition: -40, month: createMonth(10, 2017) }
+    },
+    {
+      args: [-100, initialMonth],
+      expected: { relativePosition: 0, month: createMonth(11, 2017) }
+    },
+    {
       args: [-50, initialMonth],
       expected: { relativePosition: 0, month: createMonth(0, 2018) }
     },
@@ -35,6 +43,10 @@ test('getMonthsAtPosition', () => {
     {
       args: [110, initialMonth],
       expected: { relativePosition: -10, month: createMonth(3, 2018) }
+    },
+    {
+      args: [180, initialMonth],
+      expected: { relativePosition: -20, month: createMonth(4, 2018) }
     }
   ];
 

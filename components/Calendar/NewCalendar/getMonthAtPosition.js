@@ -56,8 +56,10 @@ export function getMonthAtPosition(
 ) {
   let currentMonth = initialMonth;
   let accumulate = 0;
-  if (currentPosition > 0) {
-    while (accumulate < currentPosition) {
+
+  let offset = currentPosition - getMonthHeight(initialMonth);
+  if (offset >= 0) {
+    while (accumulate <= offset) {
       accumulate += getMonthHeight(currentMonth);
       currentMonth = createMonth(
         getMonthIndex(currentMonth) + 1,
