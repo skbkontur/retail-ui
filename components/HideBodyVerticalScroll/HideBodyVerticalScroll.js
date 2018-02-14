@@ -105,6 +105,9 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
       this._disposeBodyStyle = null;
       document.scrollTop = scrollTop;
     }
+
+    // Forcing reflow for Firefix
+    attachStylesheet('html, body { height: auto; }')();
   };
 }
 
