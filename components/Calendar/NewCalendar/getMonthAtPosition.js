@@ -48,7 +48,6 @@ import { getMonthHeight as defaultGetMonthHeight } from './MonthExtensions';
  * MonthY = range (InitMonth, Month) |> map GetMonthHeight |> sum
  */
 
-// TODO: not working, fix implementation
 export function getMonthAtPosition(
   currentPosition: number,
   initialMonth: Month,
