@@ -1,5 +1,11 @@
 # Changelog
 
+### 0.14.1 -> 0.14.2
+
+#### 14.02.2018
+
+* [HideBodyVerticalScroll] — исправлено восстановления стилей в Firefox
+
 ### 0.14.0 -> 0.14.1
 
 #### 13.02.2018
@@ -12,7 +18,7 @@
 
 * [ComboBox] — пересчитывает позицию выпадающего списка при получении новых элементов
 * [ComboBox] — добавили свойство `maxMenuHeight`
-* [Upgrades] — __breaking__ `enableFlatDisign` исправили на `enableFlatDesign`
+* [Upgrades] — **breaking** `enableFlatDisign` исправили на `enableFlatDesign`
 * [HideBodyVerticalScroll] — больше не вставляет инлайн стили в разметку
 
 ### 0.13.1 -> 0.13.2
