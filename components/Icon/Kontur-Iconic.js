@@ -223,5 +223,9 @@ export default {
   DocumentTypeCsv: '\uE0D8',
   Pause: '\uE0D9',
   LinkOff: '\uE0DA',
-  BarcodeScanner: '\uE0DB'
+  BarcodeScanner: '\uE0DB',
+  Dot8LiteOff: '\uE0DC',
+  NotificationBellNone: '\uE0DD',
+  NotificationBellOn: '\uE0DE',
+  NotificationBellOff: '\uE0DF'
 };

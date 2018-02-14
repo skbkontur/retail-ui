@@ -42,7 +42,8 @@ export default (theme: ITheme) => ({
   },
   sizeMedium: {
     '& $input': {
-      lineHeight: '38px'
+      lineHeight: '38px',
+      fontSize: '16px'
     },
     '& $leftIcon': {
       lineHeight: '40px',

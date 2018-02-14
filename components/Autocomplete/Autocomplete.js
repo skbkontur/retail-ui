@@ -97,7 +97,7 @@ export default class Autocomplete extends React.Component<Props, State> {
   _input: ?Input = null;
 
   /**
-   * @api
+   * @public
    */
   focus() {
     if (this._input) {

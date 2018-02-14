@@ -13,14 +13,14 @@ import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
-const isFlatDisign = Upgrades.ifFlatDisignEnabled();
+const isFlatDesign = Upgrades.ifFlatDesignEnabled();
 
 let cssStyles;
 let jssStyles;
 if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Input.styles').default;
 } else {
-  cssStyles = isFlatDisign
+  cssStyles = isFlatDesign
     ? require('./Input.flat.less')
     : require('./Input.less');
 }
@@ -52,7 +52,7 @@ export type Props = {
   alwaysShowMask?: boolean,
   autoFocus?: boolean,
   borderless?: boolean,
-  /** @internal */
+  /** @ignore */
   className?: string, // TODO: kill it
   disabled?: boolean,
   error?: boolean,
@@ -336,7 +336,7 @@ class Input extends React.Component<Props, State> {
   };
 
   /**
-   * @api
+   * @public
    */
   focus() {
     invariant(this.input, 'Cannot call "focus" because Input is not mounted');
@@ -344,7 +344,7 @@ class Input extends React.Component<Props, State> {
   }
 
   /**
-   * @api
+   * @public
    */
   blur() {
     invariant(this.input, 'Cannot call "blur" because Input is not mounted');
@@ -352,7 +352,7 @@ class Input extends React.Component<Props, State> {
   }
 
   /**
-   * @api
+   * @public
    */
   setSelectionRange(start: number, end: number) {
     invariant(

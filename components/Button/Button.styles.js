@@ -101,6 +101,7 @@ export default (theme: ITheme) => ({
   },
 
   sizeMedium: {
+    fontSize: 16,
     height: '38px',
     lineHeight: '38px',
     padding: '0 15px'

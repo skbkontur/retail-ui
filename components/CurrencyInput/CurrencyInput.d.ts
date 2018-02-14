@@ -14,6 +14,7 @@ export interface CurrencyInputProps {
   onFocus?: () => void;
   onSubmit?: () => void;
   placeholder?: string;
+  signed?: boolean;
   size?: 'small' | 'medium' | 'large';
   value?: number | null;
   warning?: boolean;

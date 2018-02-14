@@ -11,9 +11,9 @@ import Icon from '../Icon';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
-const isFlatDisign = Upgrades.ifFlatDisignEnabled();
+const isFlatDesign = Upgrades.ifFlatDesignEnabled();
 
-const styles = isFlatDisign
+const styles = isFlatDesign
   ? require('./Checkbox.flat.less')
   : require('./Checkbox.less');
 

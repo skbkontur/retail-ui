@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
-const isFlatDisign = Upgrades.ifFlatDisignEnabled();
+const isFlatDesign = Upgrades.ifFlatDesignEnabled();
 
-const styles = isFlatDisign
+const styles = isFlatDesign
   ? require('./Radio.flat.less')
   : require('./Radio.less');
 
@@ -51,7 +51,7 @@ type Props<T> = {
  * параметры `checked`, `name` и `onChange`. Также наследует состояния
  * `disabled`, `error` и `warning`
  *
- * ```
+ * ```js
  * type SyntheticRadioEvent<T> = {
    target: {
      id: ?string,
@@ -100,14 +100,14 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
   _isInRadioGroup = () => Boolean(this.context.name);
 
   /**
-   * @api
+   * @public
    **/
   focus() {
     this._node && this._node.focus();
   }
 
   /**
-   * @api
+   * @public
    **/
   blur() {
     this._node && this._node.blur();

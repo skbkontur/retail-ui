@@ -40,46 +40,46 @@ storiesOf('ComboBox v2', module)
 
     return <SimpleCombobox />;
   })
-  .add('with error handling', () =>
+  .add('with error handling', () => (
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
       onUnexpectedInput={errorStrategy}
     />
-  )
-  .add('with error skipping', () =>
+  ))
+  .add('with error skipping', () => (
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
       onUnexpectedInput={nullStrategy}
     />
-  )
-  .add('with warning', () =>
+  ))
+  .add('with warning', () => (
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
       onUnexpectedInput={warningStrategy}
     />
-  )
-  .add('with rejections', () =>
+  ))
+  .add('with rejections', () => (
     <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />
-  )
-  .add('disabled', () =>
+  ))
+  .add('disabled', () => (
     <TestComboBox
       autoFocus
       disabled
       onSearch={search}
       renderItem={renderValue}
     />
-  )
-  .add('with custom elements', () =>
+  ))
+  .add('with custom elements', () => (
     <TestComboBox
       onSearch={searchWithCustomElements}
       renderItem={renderValue}
       onUnexpectedInput={errorStrategy}
     />
-  )
-  .add('autocomplete', () =>
+  ))
+  .add('autocomplete', () => (
     <TestComboBox
       autocomplete
       onSearch={search}
@@ -87,8 +87,8 @@ storiesOf('ComboBox v2', module)
       totalCount={12}
       onUnexpectedInput={errorStrategy}
     />
-  )
-  .add('with autoFocus', () =>
+  ))
+  .add('with autoFocus', () => (
     <TestComboBox
       autocomplete
       autoFocus
@@ -97,7 +97,14 @@ storiesOf('ComboBox v2', module)
       totalCount={12}
       onUnexpectedInput={errorStrategy}
     />
-  );
+  ))
+  .add('with maxMenuHeight', () => (
+    <TestComboBox
+      onSearch={search}
+      renderItem={renderValue}
+      maxMenuHeight={200}
+    />
+  ));
 
 type State = {
   value: ?{ id: number, name: string },
@@ -127,6 +134,7 @@ class TestComboBox extends React.Component<*, State> {
           error={this.state.error}
           warning={this.state.warning}
           value={this.state.value}
+          maxMenuHeight={this.props.maxMenuHeight}
           onFocus={() => this.setState({ error: false, warning: false })}
           getItems={this.props.onSearch}
           renderItem={this.props.renderItem}
@@ -144,10 +152,12 @@ class TestComboBox extends React.Component<*, State> {
           ref="cb"
         />{' '}
         <button onClick={() => this.refs.cb.focus()}>Focus</button>
-        {this.state.error &&
-          <div style={{ color: 'red' }}>Необходимо выбрать значение</div>}
-        {this.state.warning &&
-          <div style={{ color: '#f50' }}>Вы не выбрали значение</div>}
+        {this.state.error && (
+          <div style={{ color: 'red' }}>Необходимо выбрать значение</div>
+        )}
+        {this.state.warning && (
+          <div style={{ color: '#f50' }}>Вы не выбрали значение</div>
+        )}
       </div>
     );
   }
@@ -253,9 +263,7 @@ function renderValue({ id, name }) {
       >
         {name}
       </span>
-      <span>
-        {id}
-      </span>
+      <span>{id}</span>
     </div>
   );
 }

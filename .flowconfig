@@ -3,6 +3,7 @@
 .*/node_modules/stylelint/.*
 .*/node_modules/immutable/.*
 .*/node_modules/radium/src/.*
+.*/node_modules/findup/test/.*
 .*/docs/node_modules/fbjs/.*
 
 [include]

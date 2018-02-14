@@ -7,14 +7,13 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
-import addClass from '../../lib/dom/addClass';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
-import getComputedStyle from '../../lib/dom/getComputedStyle';
 import LayoutEvents from '../../lib/LayoutEvents';
-import removeClass from '../../lib/dom/removeClass';
 import RenderContainer from '../RenderContainer';
+import ZIndex from '../ZIndex';
 import stopPropagation from '../../lib/events/stopPropagation';
 import Sticky from '../Sticky';
+import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
 
 import styles from './Modal.less';
 
@@ -26,7 +25,6 @@ const stack = {
 const KEY_CODE_ESCAPE = 27;
 
 let mountedModalsCount = 0;
-let prevMarginRight = '';
 
 type ModalChild = React.Node;
 
@@ -35,12 +33,13 @@ type Props = {
   disableClose?: boolean,
   ignoreBackgroundClick?: boolean,
   noClose?: boolean,
-  width?: number,
+  width?: number | string,
   onClose?: () => void
 };
 
 type State = {
-  shadowed: boolean
+  shadowed: boolean,
+  horizontalScroll: boolean
 };
 
 /**
@@ -69,7 +68,7 @@ class Modal extends React.Component<Props, State> {
      */
     noClose: PropTypes.bool,
 
-    width: PropTypes.number,
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
      * Вызывается, когда пользователь запросил закрытие окна (нажал на фон, на
@@ -78,84 +77,94 @@ class Modal extends React.Component<Props, State> {
     onClose: PropTypes.func
   };
 
-  static childContextTypes = {
-    rt_inModal: PropTypes.bool
-  };
-
   static Header: Class<Header>;
   static Body: Class<Body>;
   static Footer: Class<Footer>;
 
   state = {
     // Is shadowed by another modal that was rendered on top of this one.
-    shadowed: false
+    shadowed: false,
+    horizontalScroll: false
   };
 
-  _stackSubscribtion = null;
+  _stackSubscription = null;
   _centerDOM: ?HTMLElement = null;
 
   constructor(props: Props, context: mixed) {
     super(props, context);
 
     stack.mounted.push(this);
-    this._stackSubscribtion = stack.emitter.addListener(
+    this._stackSubscription = stack.emitter.addListener(
       'change',
       this._handleStackChange
     );
   }
 
-  getChildContext() {
-    return { rt_inModal: true };
+  renderClose() {
+    return (
+      <a
+        href="javascript:"
+        className={classNames(
+          styles.close,
+          this.props.disableClose && styles.disabled
+        )}
+        onClick={this._requestClose}
+      >
+        ×
+      </a>
+    );
   }
 
   render() {
-    var close = null;
-    if (!this.props.noClose) {
-      close = (
-        <a
-          href="javascript:"
-          className={classNames(
-            styles.close,
-            this.props.disableClose && styles.disabled
-          )}
-          onClick={this._requestClose}
-        >
-          ×
-        </a>
-      );
-    }
+    const close: React.Node = !this.props.noClose ? this.renderClose() : null;
 
     let hasHeader = false;
     const children = React.Children.map(this.props.children, child => {
-      if (child && child.type === Header) {
-        hasHeader = true;
-        // $FlowIssue child could be iterable
-        return React.cloneElement(child, { close });
+      if (child) {
+        switch (child.type) {
+          case Header:
+            hasHeader = true;
+            // $FlowIssue child could be iterable
+            return React.cloneElement(child, { close });
+          case Footer:
+            return React.cloneElement(child, {
+              horizontalScroll: this.state.horizontalScroll
+            });
+          default:
+            return child;
+        }
       }
-      return child;
     });
 
     const style = {};
+    const containerStyle = {};
     if (this.props.width) {
       style.width = this.props.width;
+    } else {
+      containerStyle.width = 'auto';
     }
     return (
-      <RenderContainer containerClassName="rt_modal">
-        <div className={styles.root}>
+      <RenderContainer>
+        <ZIndex delta={1000} className={styles.root}>
+          <HideBodyVerticalScroll />
           {!this.state.shadowed && <div className={styles.bg} />}
           <div
             ref={this._refCenter}
             className={styles.container}
             onClick={this._handleContainerClick}
           >
-            <div className={styles.centerContainer}>
+            <div
+              className={styles.centerContainer}
+              onClick={this._handleContainerClick}
+              style={containerStyle}
+            >
               <div className={styles.window} style={style}>
                 {!hasHeader && close}
                 {children}
               </div>
             </div>
           </div>
-        </div>
+        </ZIndex>
       </RenderContainer>
     );
   }
@@ -177,57 +186,35 @@ class Modal extends React.Component<Props, State> {
 
   componentDidMount() {
     if (mountedModalsCount === 0) {
-      const { documentElement } = document;
-      if (documentElement) {
-        // NOTE This not covered case if somebody change
-        // style while modal is open
-        prevMarginRight = documentElement.style.marginRight;
-      }
-      this._handleWindowResize();
-      events.addEventListener(window, 'resize', this._handleWindowResize);
-      LayoutEvents.emit();
+      events.addEventListener(
+        window,
+        'resize',
+        this._checkHorizontalScrollAppearance
+      );
     }
     mountedModalsCount++;
     events.addEventListener(window, 'keydown', this._handleKeyDown);
     stack.emitter.emit('change');
+    this._checkHorizontalScrollAppearance();
   }
 
   componentWillUnmount() {
     if (--mountedModalsCount === 0) {
-      const { documentElement } = document;
-      if (documentElement) {
-        documentElement.style.marginRight = prevMarginRight;
-        removeClass(documentElement, styles.bodyClass);
-      }
-      events.removeEventListener(window, 'resize', this._handleWindowResize);
+      events.removeEventListener(
+        window,
+        'resize',
+        this._checkHorizontalScrollAppearance
+      );
       LayoutEvents.emit();
     }
 
-    this._stackSubscribtion && this._stackSubscribtion.remove();
+    this._stackSubscription && this._stackSubscription.remove();
     const inStackIndex = stack.mounted.findIndex(x => x === this);
     if (inStackIndex !== -1) {
       stack.mounted.splice(inStackIndex, 1);
     }
     stack.emitter.emit('change');
   }
-
-  _handleWindowResize = () => {
-    const docEl = document.documentElement;
-    if (!docEl) {
-      return;
-    }
-    const { clientHeight, scrollHeight, style } = docEl;
-    if (clientHeight < scrollHeight) {
-      const scrollbarWidth = getScrollWidth();
-      docEl.style.marginRight = prevMarginRight;
-      removeClass(docEl, styles.bodyClass);
-      const marginRight = parseFloat(getComputedStyle(docEl).marginRight);
-      addClass(docEl, styles.bodyClass);
-      docEl.style.marginRight = `${marginRight + scrollbarWidth}px`;
-    } else if (style.marginRight !== prevMarginRight) {
-      style.marginRight = prevMarginRight;
-    }
-  };
 
   _handleStackChange = () => {
     const shadowed = stack.mounted[stack.mounted.length - 1] !== this;
@@ -261,6 +248,24 @@ class Modal extends React.Component<Props, State> {
     if (event.keyCode === KEY_CODE_ESCAPE) {
       stopPropagation(event);
       this._requestClose();
+    }
+  };
+
+  _checkHorizontalScrollAppearance = () => {
+    let containerClientWidth;
+    let containerScrollWidth;
+    let hasScroll;
+
+    if (this._centerDOM) {
+      containerClientWidth = this._centerDOM.clientWidth;
+      containerScrollWidth = this._centerDOM.scrollWidth;
+      hasScroll = containerClientWidth < containerScrollWidth;
+    }
+
+    if (hasScroll) {
+      !this.state.horizontalScroll && this.setState({ horizontalScroll: true });
+    } else {
+      this.state.horizontalScroll && this.setState({ horizontalScroll: false });
     }
   };
 }
@@ -313,14 +318,19 @@ class Footer extends React.Component<FooterProps> {
     panel: PropTypes.bool
   };
 
+  _scrollbarWidth = getScrollWidth();
+
   render() {
-    var names = classNames({
+    const names = classNames({
       [styles.footer]: true,
       [styles.panel]: this.props.panel
     });
 
     return (
-      <Sticky side="bottom">
+      <Sticky
+        side="bottom"
+        offset={this.props.horizontalScroll ? this._scrollbarWidth : 0}
+      >
         {fixed => (
           <div className={classNames(names, fixed && styles.fixedFooter)}>
             {this.props.children}

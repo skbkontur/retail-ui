@@ -15,24 +15,28 @@ type Props = {
 };
 
 class RenderLayer extends Component<Props> {
-  unsibscribeFocusOutside: () => void;
-  unsibscribeClickOutside: () => void;
+  unsubscribeFocusOutside: () => void;
+  unsubscribeClickOutside: () => void;
 
   componentDidMount() {
-    this.unsibscribeFocusOutside = this.props.subscribeToOutsideFocus(
-      this.props.onFocusOutside
-    );
-    this.unsibscribeClickOutside = this.props.subscribeToOutsideClicks(
-      this.props.onClickOutside
-    );
+    if (this.props.onFocusOut) {
+      this.unsubscribeFocusOutside = this.props.subscribeToOutsideFocus(
+        this.props.onFocusOutside
+      );
+    }
+    if (this.props.onClickOutside) {
+      this.unsubscribeClickOutside = this.props.subscribeToOutsideClicks(
+        this.props.onClickOutside
+      );
+    }
   }
 
   componentWillUnmount() {
-    if (this.unsibscribeFocusOutside) {
-      this.unsibscribeFocusOutside();
+    if (this.unsubscribeFocusOutside) {
+      this.unsubscribeFocusOutside();
     }
-    if (this.unsibscribeClickOutside) {
-      this.unsibscribeClickOutside();
+    if (this.unsubscribeClickOutside) {
+      this.unsubscribeClickOutside();
     }
   }
 

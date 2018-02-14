@@ -35,6 +35,7 @@ export type CustomComboBoxProps<T> = {
   value?: ?T,
   warning?: boolean,
   width?: string | number,
+  maxMenuHeight?: number | string,
   renderItem?: (T, index?: number) => React.Node,
   renderNotFound?: () => React.Node,
   renderValue?: T => React.Node,
@@ -139,6 +140,7 @@ class CustomComboBox extends React.Component<Props<*>, CustomComboBoxState<*>> {
       value: this.props.value,
       warning: this.props.warning,
       width: this.props.width,
+      maxMenuHeight: this.props.maxMenuHeight,
 
       onChange: value => this.dispatch({ type: 'ValueChange', value }),
       onClickOutside: this.handleBlur,

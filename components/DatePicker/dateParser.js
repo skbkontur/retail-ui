@@ -1,15 +1,18 @@
 // @flow
+
+import type { CalendarDateShape } from '../Calendar';
+import { InvalidDate } from './InvalidDate';
+
 export default function(
-  str: string | Date | null | void,
+  str: string,
   withCorrection: boolean = true
-): ?Date {
-  if (str == null) {
-    return str;
+): CalendarDateShape | InvalidDate | null {
+  if (str === '') {
+    return null;
   }
-  if (str instanceof Date) {
-    return str;
-  }
-  const datePartsRegExp = /^(\d{1,2})\.?(\d{1,2})?\.?(\d{1,4})?$/;
+
+  const datePartsRegExp = /^([\d\s]{1,2})\.?([\d\s]{1,2})?\.?([\d\s]{1,4})?$/;
+
   const parts = str.replace(/_/g, '').match(datePartsRegExp);
 
   if (parts) {
@@ -22,10 +25,10 @@ export default function(
     if (withCorrection) {
       const now = new Date();
       if (isNaN(month)) {
-        month = now.getUTCMonth();
+        month = now.getMonth();
       }
       if (isNaN(year)) {
-        year = now.getUTCFullYear();
+        year = now.getFullYear();
       }
 
       // Handle short year version
@@ -38,16 +41,28 @@ export default function(
       }
     }
 
-    // IE8 does't support `Date('yyyy-mm-dd')` constructor.
-    const dateObj = new Date(Date.UTC(year, month, date));
-    if (
-      dateObj.getUTCFullYear() === year &&
-      dateObj.getUTCMonth() === month &&
-      dateObj.getUTCDate() === date
-    ) {
-      return dateObj;
+    const dateShape = {
+      date,
+      month,
+      year
+    };
+
+    if (isValidDateShape(dateShape)) {
+      return dateShape;
     }
   }
 
-  return null;
+  return new InvalidDate();
 }
+
+const isValidDateShape = ({ date, month, year }) => {
+  const dateObj = new Date(Date.UTC(year, month, date));
+  if (
+    dateObj.getUTCFullYear() === year &&
+    dateObj.getUTCMonth() === month &&
+    dateObj.getUTCDate() === date
+  ) {
+    return true;
+  }
+  return false;
+};

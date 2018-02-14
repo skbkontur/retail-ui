@@ -103,7 +103,9 @@ export type ExternalProps<T> = {
 
   warning?: boolean,
 
-  width?: string | number
+  width?: string | number,
+
+  maxMenuHeight?: number | string
 };
 
 const defaultReducer = createReducer(defaultReducers);
@@ -125,8 +127,8 @@ class ComboBox<T> extends React.Component<ExternalProps<T>> {
   _cb: ?CustomComboBox = null;
 
   /**
-  * @api
-  */
+   * @public
+   */
   focus() {
     if (this._cb) {
       this._cb.focus();

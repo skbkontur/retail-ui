@@ -24,16 +24,16 @@ function withFocusOutside<Props: ParamsProps>(
     _focusHandlers: Array<(e: Event) => mixed> = [];
     _clickHandlers: Array<(e: Event) => mixed> = [];
 
-    _focusSubscribtion: ?{ remove: () => void } = null;
+    _focusSubscription: ?{ remove: () => void } = null;
     _unmounted = false;
 
     _component;
 
     componentWillReceiveProps(nextProps: Props) {
-      if (this.props.active && !nextProps.active && this._focusSubscribtion) {
+      if (this.props.active && !nextProps.active && this._focusSubscription) {
         this._flush();
       }
-      if (!this.props.active && nextProps.active && !this._focusSubscribtion) {
+      if (!this.props.active && nextProps.active && !this._focusSubscription) {
         this._listen();
       }
     }
@@ -41,7 +41,7 @@ function withFocusOutside<Props: ParamsProps>(
     _ref = el => {
       this._component = el;
 
-      if (this._focusSubscribtion) {
+      if (this._focusSubscription) {
         this._flush();
       }
 
@@ -51,7 +51,7 @@ function withFocusOutside<Props: ParamsProps>(
     };
 
     _listen = () => {
-      this._focusSubscribtion = listenFocusOutside(
+      this._focusSubscription = listenFocusOutside(
         [this._getDomNode()],
         this._handleFocusOutside
       );
@@ -66,9 +66,9 @@ function withFocusOutside<Props: ParamsProps>(
     };
 
     _flush() {
-      if (this._focusSubscribtion) {
-        this._focusSubscribtion.remove();
-        this._focusSubscribtion = null;
+      if (this._focusSubscription) {
+        this._focusSubscription.remove();
+        this._focusSubscription = null;
       }
 
       events.removeEventListener(window, 'blur', this._handleFocusOutside);
@@ -119,7 +119,7 @@ function withFocusOutside<Props: ParamsProps>(
     };
 
     componentWillUnmount() {
-      if (this._focusSubscribtion) {
+      if (this._focusSubscription) {
         this._flush();
       }
       this._unmounted = true;

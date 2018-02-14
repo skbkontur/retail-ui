@@ -11,6 +11,7 @@ import type CustomComboBox, {
   CustomComboBoxProps,
   CustomComboBoxState
 } from '../CustomComboBox';
+import LayoutEvents from '../../../lib/LayoutEvents';
 
 type Action = $Subtype<{ type: string }>;
 
@@ -139,7 +140,10 @@ const Effect = {
   ) => {
     const { menu }: { menu: ?Menu } = getInstance();
     menu && menu._move(direction);
-  }
+  },
+  Reflow: (() => {
+    LayoutEvents.emit();
+  }: EffectType)
 };
 
 const reducers: { [type: string]: Reducer } = {
@@ -272,7 +276,7 @@ const reducers: { [type: string]: Reducer } = {
         loading: false,
         items: action.items
       },
-      [Effect.HighlightMenuItem]
+      [Effect.HighlightMenuItem, Effect.Reflow]
     ];
   },
   RequestFailure(state, props, action) {
