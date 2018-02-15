@@ -1,6 +1,8 @@
 declare const Upgrades: {
   enableFlatDesign: () => void;
-  ifFlatDesignEnabled: () => boolean;
+  isFlatDesignEnabled: () => boolean;
+  enableSizeMedium16px: () => void;
+  isSizeMedium16pxEnabled: () => boolean;
 };
 
 export default Upgrades;

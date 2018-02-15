@@ -107,6 +107,13 @@ export default (theme: ITheme) => ({
     padding: '0 15px'
   },
 
+  DEPRECATED_sizeMedium: {
+    fontSize: 14,
+    height: '38px',
+    lineHeight: '38px',
+    padding: '0 15px'
+  },
+
   sizeLarge: {
     fontSize: 16,
     height: '42px',
