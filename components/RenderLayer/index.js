@@ -4,7 +4,7 @@ import { Children, Component } from 'react';
 import type { Node } from 'react';
 import withFocusOutside from '../internal/withFocusOutside';
 
-type Props = {
+type Props = {|
   children?: Node,
   onClickOutside: (e: Event) => mixed,
   onFocusOutside: (e: Event) => mixed,
@@ -12,14 +12,14 @@ type Props = {
   subscribeToOutsideClicks: (fn: (e: Event) => mixed) => () => void,
   active?: boolean,
   innerRef?: void
-};
+|};
 
 class RenderLayer extends Component<Props> {
   unsubscribeFocusOutside: () => void;
   unsubscribeClickOutside: () => void;
 
   componentDidMount() {
-    if (this.props.onFocusOut) {
+    if (this.props.onFocusOutside) {
       this.unsubscribeFocusOutside = this.props.subscribeToOutsideFocus(
         this.props.onFocusOutside
       );
