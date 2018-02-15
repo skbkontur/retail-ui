@@ -14,11 +14,8 @@ gemini.suite('RadioGroup', suite => {
     .capture('hovered', (actions, find) => {
       actions.mouseMove(find(RADIO_SELECTOR));
     })
-    .capture('pressed', (actions, find) => {
-      actions.mouseDown(find(RADIO_SELECTOR));
-    })
-    .capture('unpressed', (actions, find) => {
-      actions.mouseUp(find(RADIO_SELECTOR));
+    .capture('clicked', (actions, find) => {
+      actions.click(find(RADIO_SELECTOR));
     })
     .capture('mouseLeave', (actions, find) => {
       actions.click(find(BUTTON_SELECTOR), 0, [0, 0]);

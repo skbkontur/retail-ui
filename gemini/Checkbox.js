@@ -10,11 +10,8 @@ gemini.suite('Checkbox plain', suite => {
     .capture('hovered', (actions, find) => {
       actions.mouseMove(find('span'));
     })
-    .capture('pressed', (actions, find) => {
-      actions.mouseDown(find('span'));
-    })
-    .capture('unpressed', (actions, find) => {
-      actions.mouseUp(find('span'));
+    .capture('clicked', (actions, find) => {
+      actions.click(find('span'));
     })
     .capture('mouseLeave', (actions, find) => {
       actions.click(find('body'), 0, [0, 0]);
