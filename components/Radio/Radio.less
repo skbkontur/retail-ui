@@ -1,4 +1,4 @@
-@import "../variables.less";
+@import '../variables.less';
 
 :local {
   .root {
@@ -14,14 +14,13 @@
     height: 16px;
     margin-top: 2px;
     margin-bottom: 2px;
-    vertical-align: top;
+    vertical-align: -2px;
     background-image: linear-gradient(-180deg, #fff 0, #ebebeb 100%);
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
+  }
 
-    &:after {
-      content: " ";
-      display: inline-block;
-    }
+  .placeholder {
+    display: inline-block;
   }
 
   .input {
@@ -55,7 +54,7 @@
   .focus:after,
   .warning:after,
   .error:after {
-    content: " ";
+    content: ' ';
     position: absolute;
     left: -2px;
     top: -2px;
@@ -85,7 +84,7 @@
   }
 
   .checked:before {
-    content: " ";
+    content: ' ';
     position: absolute;
     top: 0;
     right: 0;
@@ -108,7 +107,7 @@
   }
 
   .label {
-    display: inline-block;
+    display: inline-table;
     margin-left: 9px;
     white-space: normal;
     line-height: 20px;
