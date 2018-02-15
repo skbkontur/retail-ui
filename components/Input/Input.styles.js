@@ -54,6 +54,20 @@ export default (theme: ITheme) => ({
       height: '40px'
     }
   },
+  DEPRECATED_sizeMedium: {
+    '& $input': {
+      lineHeight: '38px',
+      fontSize: '14px'
+    },
+    '& $leftIcon': {
+      lineHeight: '40px',
+      height: '40px'
+    },
+    '& $rightIcon': {
+      lineHeight: '40px',
+      height: '40px'
+    }
+  },
   sizeLarge: {
     '& $input': {
       lineHeight: '42px',

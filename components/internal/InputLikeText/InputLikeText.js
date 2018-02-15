@@ -9,7 +9,7 @@ import filterProps from '../../filterProps';
 import '../../ensureOldIEClassName';
 import Upgrades from '../../../lib/Upgrades';
 
-const isFlatDesign = Upgrades.ifFlatDesignEnabled();
+const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 const styles = isFlatDesign
   ? require('./InputLikeText.flat.less')

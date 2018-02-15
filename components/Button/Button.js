@@ -12,7 +12,7 @@ import Icon from '../Icon';
 
 import '../ensureOldIEClassName';
 
-const isFlatDesign = Upgrades.ifFlatDesignEnabled();
+const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 let cssStyles;
 let jssStyles;
@@ -207,7 +207,9 @@ class Button extends React.Component<Props, State> {
 
     const SIZE_CLASSES = {
       small: classes.sizeSmall,
-      medium: classes.sizeMedium,
+      medium: Upgrades.isSizeMedium16pxEnabled()
+        ? classes.sizeMedium
+        : classes.DEPRECATED_sizeMedium,
       large: classes.sizeLarge
     };
 

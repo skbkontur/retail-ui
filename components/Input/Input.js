@@ -13,7 +13,7 @@ import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
-const isFlatDesign = Upgrades.ifFlatDesignEnabled();
+const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 let cssStyles;
 let jssStyles;
@@ -212,7 +212,9 @@ class Input extends React.Component<Props, State> {
   render = styled(cssStyles, jssStyles, classes => {
     const SIZE_CLASS_NAMES = {
       small: classes.sizeSmall,
-      medium: classes.sizeMedium,
+      medium: Upgrades.isSizeMedium16pxEnabled()
+        ? classes.sizeMedium
+        : classes.DEPRECATED_sizeMedium,
       large: classes.sizeLarge
     };
 
