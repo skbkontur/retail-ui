@@ -1,5 +1,5 @@
-@import "../variables.less";
-@import (reference) "../Link/Link.less";
+@import '../variables.less';
+@import (reference) '../Link/Link.less';
 
 :local {
   @focus-shadow: 0 0 0 1px @border-color-focus,
@@ -49,7 +49,7 @@
     }
 
     &:after {
-      content: "";
+      content: '';
       display: inline-block;
       vertical-align: baseline;
       width: 0;
@@ -87,7 +87,7 @@
 
         &:before {
           background: @arrow_loading;
-          content: "";
+          content: '';
           height: @arrow_loading_height;
           position: absolute;
           opacity: 0.2;
@@ -231,7 +231,7 @@
         &:before {
           border: 1px solid #fff;
           bottom: 0;
-          content: "";
+          content: '';
           left: 0;
           outline: 2px solid @border-color-focus;
           position: absolute;
@@ -404,7 +404,6 @@
 
   .root.link {
     display: inline;
-    height: inherit;
     padding: 0;
     margin: 0;
     background: none;
@@ -419,6 +418,10 @@
     &.disabled {
       box-shadow: none;
       background: none;
+    }
+
+    &.focus .caption {
+      text-decoration: underline;
     }
 
     .icon {
@@ -517,7 +520,7 @@
   }
 
   .loading:before {
-    content: "";
+    content: '';
     height: 100%;
     position: absolute;
     opacity: 0.2;

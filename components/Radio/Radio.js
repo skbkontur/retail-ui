@@ -78,18 +78,18 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
   };
 
   static propTypes = {
-    id: PropTypes.string,
-    name: PropTypes.string,
-    tabIndex: PropTypes.number,
     checked: PropTypes.bool,
+    children: PropTypes.node,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     focused: PropTypes.bool,
     hovered: PropTypes.bool,
+    id: PropTypes.string,
+    name: PropTypes.string,
     pressed: PropTypes.bool,
-    warning: PropTypes.bool,
-    children: PropTypes.node,
+    tabIndex: PropTypes.number,
     value: PropTypes.any.isRequired,
+    warning: PropTypes.bool,
     onChange: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
@@ -163,7 +163,9 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     return (
       <label {...labelProps}>
         <input {...inputProps} />
-        <span className={radioClassNames} />
+        <span className={radioClassNames}>
+          <span className={styles.placeholder} />
+        </span>
         {this.props.children && this.renderLabel()}
       </label>
     );
