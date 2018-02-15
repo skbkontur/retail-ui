@@ -1,5 +1,13 @@
 # Changelog
 
+### 0.14.4 -> 0.15.0
+
+#### 15.02.2018
+
+* [Button/Input] — вернули размер шрифта в `14px` при `size="medium"`. Размер `16px`
+  теперь можно включить используя метод `Upgrades.enableSizeMedium16px` из `/lib/upgrades`
+* [RenderLayer] — поправили обработку `onFocusOutside`
+
 ### 0.14.3 -> 0.14.4
 
 #### 15.02.2018
