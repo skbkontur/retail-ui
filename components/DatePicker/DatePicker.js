@@ -172,8 +172,6 @@ class DatePicker extends React.Component<Props, State> {
 
   static defaultProps = {
     dateTransformer: dateTransformers.utcDateTransformer,
-    minDate: new Date(Date.UTC(1900, 0, 1)),
-    maxDate: new Date(Date.UTC(2100, 0, 1)),
     width: 120,
     withMask: true,
     onUnexpectedInput: () => {}
