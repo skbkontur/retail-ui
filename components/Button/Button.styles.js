@@ -194,6 +194,10 @@ export default (theme: ITheme) => ({
       background: 'none'
     },
 
+    '&$focus $caption': {
+      textDecoration: 'underline'
+    },
+
     $icon: {
       paddingRight: theme.link.iconPadding
     },

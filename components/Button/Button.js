@@ -303,7 +303,9 @@ class Button extends React.Component<Props, State> {
         [classes.root]: true,
         [classes.link]: true,
         [classes.disabled]: this.props.disabled,
-        [classes.buttonWithIcon]: !!this.props.icon
+        [classes.buttonWithIcon]: !!this.props.icon,
+        [SIZE_CLASSES[this.props.size]]: true,
+        [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused
       });
       Object.assign(wrapProps, {
         className: classes.wrap,
