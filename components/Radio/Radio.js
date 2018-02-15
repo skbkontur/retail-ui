@@ -189,7 +189,7 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
-    if (this._isInRadioGroup) {
+    if (this._isInRadioGroup()) {
       this.context.onSelect(event, event.target.value);
     }
   };
