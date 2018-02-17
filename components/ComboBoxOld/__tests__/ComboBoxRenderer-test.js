@@ -276,7 +276,8 @@ describe('ComboBoxRenderer', () => {
 
     wrapper.find('[tabIndex]').simulate('click');
     wrapper.find('input').simulate('change', { target: { value: 'hello' } });
-    expect(wrapper.find('input').get(0).value).toBe('HELLO');
+
+    expect(wrapper.find('input').instance().value).toBe('HELLO');
   });
 
   it('ignores transforms if returned not string', () => {
@@ -291,7 +292,7 @@ describe('ComboBoxRenderer', () => {
 
     wrapper.find('[tabIndex]').simulate('click');
     wrapper.find('input').simulate('change', { target: { value: 'hello' } });
-    expect(wrapper.find('input').get(0).value).toBe('hello');
+    expect(wrapper.find('input').instance().value).toBe('hello');
   });
 
   it('calls onInputKeyDown function', () => {

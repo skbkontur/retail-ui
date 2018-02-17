@@ -10,14 +10,14 @@
 
 [libs]
 flow/testing.js
-node_modules/jss/flow-typed
+flow/cssom.js
+# node_modules/jss/flow-typed
 
 [options]
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
 
 munge_underscores=true
-unsafe.enable_getters_and_setters=true
 
 suppress_comment=.*\\$FlowIssue.*
 suppress_comment=.*\\$FlowFixMe.*

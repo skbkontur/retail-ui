@@ -1,6 +1,5 @@
 import { mount } from 'enzyme';
 import React from 'react';
-import * as MountUtils from '../../../testing/enzyme-utils/mount-utils';
 import RenderContainer from '../../RenderContainer';
 import Tooltip from '../Tooltip.js';
 
@@ -35,7 +34,7 @@ describe('Tooltip', () => {
     expect(refFn1.mock.calls[1][0]).toBe(null);
 
     expect(refFn2.mock.calls.length).toBe(1);
-    expect(refFn2.mock.calls[0][0]).toBe(wrapper.find('div').node);
+    expect(refFn2.mock.calls[0][0]).toBe(wrapper.find('div').instance());
   });
 
   it('calls onFocus/onBlur when trigger=focus', () => {
@@ -83,7 +82,7 @@ describe('Tooltip', () => {
         <div />
       </Tooltip>
     );
-    MountUtils.findWithRenderContainer('.cross', wrapper).simulate('click');
+    wrapper.find('.cross').simulate('click');
     expect(onClose.mock.calls.length).toBe(1);
   });
 

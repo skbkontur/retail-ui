@@ -34,7 +34,7 @@ type Props = {
  * `Toast.push('message', {label: 'Cancel', handler: cancelHandler})`
  */
 class Toast extends Component<Props, State> {
-  _timeout: number;
+  _timeout: TimeoutID | null = null;
   _toast: ToastView;
 
   constructor(props: Props) {
@@ -126,7 +126,7 @@ class Toast extends Component<Props, State> {
   _clearTimer = () => {
     if (this._timeout) {
       clearTimeout(this._timeout);
-      this._timeout = 0;
+      this._timeout = null;
     }
   };
 
