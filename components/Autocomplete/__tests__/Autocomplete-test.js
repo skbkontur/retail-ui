@@ -4,7 +4,6 @@ import React from 'react';
 import Autocomplete from '../Autocomplete';
 import Icon from '../../Icon';
 import { mount } from 'enzyme';
-import * as MountUtils from '../../../testing/enzyme-utils/mount-utils';
 
 const render = props => mount(React.createElement(Autocomplete, props));
 
@@ -34,11 +33,10 @@ describe('<Autocomplete />', () => {
     const wrapper = renderUnc({ source });
     wrapper.find('input').simulate('change', { target: { value: 'two' } });
 
-    // wait for react batch updates
     await new Promise(resolve => setTimeout(resolve));
+    wrapper.update();
 
-    const menuItems = getDropdownContainer(wrapper).find('.item');
-
+    const menuItems = wrapper.find('.item');
     expect(menuItems).toHaveLength(1);
     expect(menuItems.text()).toBe('Two');
   });
@@ -50,8 +48,9 @@ describe('<Autocomplete />', () => {
 
     // wait for react batch updates
     await new Promise(resolve => setTimeout(resolve));
+    wrapper.update();
 
-    const menuItems = MountUtils.findWithRenderContainer('.item', wrapper);
+    const menuItems = wrapper.find('.item');
 
     expect(menuItems).toHaveLength(2);
     expect(menuItems.first().text()).toBe('One');
@@ -65,6 +64,8 @@ describe('<Autocomplete />', () => {
 
     // wait for react batch updates
     await new Promise(resolve => setTimeout(resolve));
+    wrapper.update();
+
     expect(source).toHaveBeenCalledWith('two');
   });
 
@@ -75,8 +76,9 @@ describe('<Autocomplete />', () => {
 
     // wait for react batch updates
     await new Promise(resolve => setTimeout(resolve));
+    wrapper.update();
 
-    const menuItems = getDropdownContainer(wrapper).find('.item');
+    const menuItems = wrapper.find('.item');
 
     expect(menuItems).toHaveLength(2);
     expect(menuItems.first().text()).toBe('ONE');
@@ -134,9 +136,6 @@ describe('<Autocomplete />', () => {
     expect(event.key).toBe('a');
   });
 });
-
-const getDropdownContainer = wrapper =>
-  mount(wrapper.find('DropdownContainer').get(0).props.children);
 
 class UncontrolledAutocomplete extends React.Component<*, *> {
   state = {

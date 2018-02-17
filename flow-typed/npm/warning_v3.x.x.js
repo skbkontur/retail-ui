@@ -2,5 +2,5 @@
 // flow-typed version: b43dff3e0e/warning_v3.x.x/flow_>=v0.15.x
 
 declare module warning {
-  declare var exports: (shouldBeTrue: boolean, warning: string) => void;
+  declare module.exports: (shouldBeTrue: boolean, warning: string) => void;
 }

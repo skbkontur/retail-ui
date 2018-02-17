@@ -20,7 +20,8 @@ describe('PasswordInputFallback', () => {
     const inputs = component.find(Input);
 
     expect(inputs).toHaveLength(2);
-    expect(inputs.nodes[0].props.type).toBe('password');
-    expect(inputs.nodes[1].props.type).toBe('text');
+    const nodes = inputs.getElements();
+    expect(nodes[0].props.type).toBe('password');
+    expect(nodes[1].props.type).toBe('text');
   });
 });

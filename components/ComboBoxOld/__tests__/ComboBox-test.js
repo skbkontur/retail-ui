@@ -9,31 +9,22 @@ jest.mock('../../RenderContainer', () => props => <div {...props} />);
 describe('ComboBox', () => {
   it('autoFocus', () => {
     const wrapper = mount(<ComboBox autoFocus source={() => null} />);
-    const focusable = ReactDOM.findDOMNode(wrapper.get(0).renderer._focusable);
+    const focusable = ReactDOM.findDOMNode(wrapper.instance());
 
-    expect(focusable.ownerDocument.activeElement).toBe(focusable);
+    expect(
+      focusable.contains(focusable.ownerDocument.activeElement)
+    ).toBeTruthy();
   });
 
   it('handles focus', () => {
     const wrapper = mount(<ComboBox source={() => null} />);
     wrapper.instance().focus();
 
-    const focusable = ReactDOM.findDOMNode(wrapper.get(0).renderer._focusable);
-    expect(focusable.ownerDocument.activeElement).toBe(focusable);
-  });
+    const focusable = ReactDOM.findDOMNode(wrapper.instance());
 
-  /* No longer supporting this */
-  it.skip('fetches items when opened by entering a char', async () => {
-    const source = jest.fn(() => Promise.resolve({ values: [] }));
-    const wrapper = mount(<ComboBox source={source} />);
-
-    expect(source.mock.calls.length).toBe(0);
-    wrapper.find('[tabIndex]').simulate('keypress', {
-      charCode: 'a'.charCodeAt(0)
-    });
-
-    expect(source.mock.calls.length).toBe(1);
-    expect(source.mock.calls[0][0]).toBe('a');
+    expect(
+      focusable.contains(focusable.ownerDocument.activeElement)
+    ).toBeTruthy();
   });
 
   it('uses static info', () => {

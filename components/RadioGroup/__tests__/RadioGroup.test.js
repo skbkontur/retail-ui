@@ -41,11 +41,20 @@ describe('<RadioGroup />', () => {
 
   it('checks radio on click', () => {
     const items = ['one', 'two', 'three'];
-    const firstRadio = render({ items })
+    const root = render({ items });
+    root
       .find(Radio)
-      .at(0);
-    firstRadio.find('input').simulate('change');
-    expect(firstRadio.find('input').prop('checked')).toBeTruthy();
+      .at(0)
+      .find('input')
+      .simulate('change');
+
+    expect(
+      root
+        .find(Radio)
+        .at(0)
+        .find('input')
+        .prop('checked')
+    ).toBeTruthy();
   });
 
   it('calls onChange on radio click', () => {
@@ -117,11 +126,20 @@ describe('<RadioGroup />', () => {
         <Radio value="three">Hello</Radio>
       </div>
     );
-    const firstRadio = render({ children })
+    const root = render({ children });
+    root
       .find(Radio)
-      .at(0);
-    firstRadio.find('input').simulate('change');
-    expect(firstRadio.find('input').prop('checked')).toBeTruthy();
+      .at(0)
+      .find('input')
+      .simulate('change');
+
+    expect(
+      root
+        .find(Radio)
+        .at(0)
+        .find('input')
+        .prop('checked')
+    ).toBeTruthy();
   });
 
   it('calls onChange on children radio click', () => {
@@ -224,10 +242,19 @@ describe('<RadioGroup />', () => {
 
   it('works with number values', () => {
     const items = [1, 2, 3, 4];
-    const firstRadio = render({ items })
+    const root = render({ items });
+    root
       .find(Radio)
-      .at(0);
-    firstRadio.find('input').simulate('change');
-    expect(firstRadio.find('input').prop('checked')).toBeTruthy();
+      .at(0)
+      .find('input')
+      .simulate('change');
+
+    expect(
+      root
+        .find(Radio)
+        .at(0)
+        .find('input')
+        .prop('checked')
+    ).toBeTruthy();
   });
 });

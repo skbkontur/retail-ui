@@ -35,7 +35,7 @@ export default class Hint extends React.Component<Props, State> {
     opened: false
   };
 
-  _timer: ?number = null;
+  _timer: ?TimeoutID = null;
   _dom: ?HTMLElement;
 
   componentDidMount() {

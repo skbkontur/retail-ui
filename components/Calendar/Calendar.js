@@ -67,9 +67,6 @@ class Calendar extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    if (this._scrollAnimationTimeout) {
-      clearTimeout(this._scrollAnimationTimeout);
-    }
     if (this._animation.inProgress()) {
       this._animation.cancel();
     }
@@ -184,11 +181,6 @@ class Calendar extends React.Component<Props, State> {
   _scrollToMonth = (month: number, year: number) => {
     if (this._animation.inProgress()) {
       this._animation.finish();
-    }
-    // After animation finish there could be _handleScrollAnimationEnd _scrollAnimationTimeout
-    // we have to remove it after _animation.finish
-    if (this._scrollAnimationTimeout) {
-      clearTimeout(this._scrollAnimationTimeout);
     }
 
     const { minDate, maxDate } = this.props;
