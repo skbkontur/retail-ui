@@ -466,7 +466,12 @@ class Select<TValue, TItem> extends React.Component<
         setTimeout(this._focus, 0);
       }
     );
-    if (this.props.onChange) {
+
+    /* $FlowIssue */
+    if (
+      this.props.onChange &&
+      !this.props.areValuesEqual(this._getValue(), value)
+    ) {
       this.props.onChange({ target: { value } }, value);
     }
   }
