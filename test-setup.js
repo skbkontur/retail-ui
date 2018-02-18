@@ -2,7 +2,12 @@
 import 'regenerator-runtime/runtime';
 import 'babel-polyfill';
 
+import { configure } from 'enzyme';
+
+import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
+
+configure({ adapter: new Adapter() });
 
 /**
  * Since React v15.5, there's a warning printed if you access `React.createClass` or `React.PropTypes`

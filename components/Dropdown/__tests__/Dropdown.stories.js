@@ -44,7 +44,7 @@ storiesOf('Dropdown', module)
     <Dropdown
       icon="add"
       caption="Lorem ipsum dollar all mubarak ibn ahmed"
-      width="100"
+      width="100px"
     >
       <MenuItem>Menu item</MenuItem>
     </Dropdown>

@@ -72,15 +72,15 @@ type Props<TValue, TItem> = {
   width?: number | string
 };
 
-type State = {
+type State<TValue> = {
   opened: boolean,
   searchPattern?: string,
-  value: mixed
+  value: ?TValue
 };
 
 class Select<TValue, TItem> extends React.Component<
   Props<TValue, TItem>,
-  State
+  State<TValue>
 > {
   static propTypes = {
     /**
@@ -466,7 +466,12 @@ class Select<TValue, TItem> extends React.Component<
         setTimeout(this._focus, 0);
       }
     );
-    if (this.props.onChange) {
+
+    if (
+      this.props.onChange &&
+      // $FlowIgnore
+      !this.props.areValuesEqual(this._getValue(), value)
+    ) {
       this.props.onChange({ target: { value } }, value);
     }
   }
