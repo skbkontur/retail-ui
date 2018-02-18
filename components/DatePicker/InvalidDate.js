@@ -1,2 +1,0 @@
-// @flow
-export class InvalidDate {}

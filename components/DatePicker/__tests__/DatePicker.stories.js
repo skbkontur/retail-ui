@@ -7,23 +7,20 @@ import DatePicker from '../DatePicker';
 
 type State = {
   error: boolean,
-  value: Date | null
+  value: * | null
 };
 
 class DatePickerWithError extends React.Component<{}, State> {
   state = {
-    value: new Date(),
+    value: null,
     error: false
   };
 
-  handleChange = (_, value: Date | null) => {
-    this.setState({ value, error: false });
-  };
-
-  handleUnexpectedInput = input => {
-    if (input.length) {
-      this.setState({ error: true });
-    }
+  _handleChange = (_, value) => {
+    this.setState({
+      value,
+      error: value == null || !DatePicker.isValidDate(value)
+    });
   };
 
   render() {
@@ -31,8 +28,7 @@ class DatePickerWithError extends React.Component<{}, State> {
       <DatePicker
         error={this.state.error}
         value={this.state.value}
-        onChange={this.handleChange}
-        onUnexpectedInput={this.handleUnexpectedInput}
+        onChange={this._handleChange}
         enableTodayLink
       />
     );
@@ -49,7 +45,7 @@ storiesOf('DatePicker', module)
   .add('with mouseevent handlers', () => (
     <div style={{ paddingTop: 200 }}>
       <DatePicker
-        value={new Date('2017-01-02')}
+        value={{ date: 2, month: 0, year: 2017 }}
         onMouseEnter={() => console.count('enter')}
         onMouseLeave={() => console.count('leave')}
         onChange={action('change')}

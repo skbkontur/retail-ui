@@ -274,33 +274,30 @@ export default class DateInput extends Component<Props> {
 
     let [day, month, year] = dateValue.split('.');
     day = Number(day);
-    month = Number(month) - 1;
+    month = Number(month);
     year = Number(year);
 
     let date;
     switch (selectedBlock.index) {
       case 0:
-        date = new Date(Date.UTC(year, month, day + step));
+        date = [minMax(day + step, 1, 31), month, year];
         break;
       case 1:
-        date = new Date(Date.UTC(year, month + step, day));
+        date = [day, minMax(month + step, 1, 12), year];
         break;
       case 2:
-        date = new Date(Date.UTC(year + step, month, day));
+        date = [day, month, minMax(year + step, 0, 9999)];
         break;
       default:
         throw new TypeError('Unexpected block index ' + selectedBlock.index);
     }
 
-    const newDay = date.getUTCDate();
-    const newMonth = date.getUTCMonth() + 1;
-    const newYear = date.getUTCFullYear();
-    const newDate = [newDay, newMonth, newYear]
+    const newValue = date
       .filter(Boolean)
       .map(pad2)
       .join('.');
 
-    this.props.onChange(newDate);
+    this.props.onChange(newValue);
     this._selectBlock(selectedBlock);
   };
 
@@ -384,4 +381,8 @@ function getInputSelection(el) {
     start,
     end
   };
+}
+
+function minMax(value, min, max) {
+  return Math.min(Math.max(value, min), max);
 }

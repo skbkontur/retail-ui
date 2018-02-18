@@ -2,8 +2,7 @@
 
 import * as React from 'react';
 
-import Calendar from './Calendar';
-import DateSelect from '../DateSelect';
+import Calendar from '../Calendar';
 
 import styles from './Picker.less';
 
@@ -14,78 +13,59 @@ type Props = {
   onPick: (date: Date) => void
 };
 
-type State = {
-  date: Date
-};
-
-export default class Picker extends React.Component<Props, State> {
+export default class Picker extends React.Component<Props> {
   _mounted: boolean;
 
-  constructor(props: Props, context: mixed) {
-    super(props, context);
-
-    this.state = {
-      date: props.value ? new Date(props.value.getTime()) : new Date()
-    };
-  }
+  _calendar: Calendar | null = null;
 
   render() {
-    const { date } = this.state;
+    const { value, maxYear, minYear } = this.props;
     return (
       <div className={styles.root} onMouseDown={e => e.preventDefault()}>
-        <div className={styles.monthYear}>
-          <DateSelect
-            type="year"
-            value={this.state.date.getUTCFullYear()}
-            minYear={this.props.minYear}
-            maxYear={this.props.maxYear}
-            width={'50px'}
-            onChange={this.handleYearChange}
-          />
-          <div style={{ display: 'inline-block', width: 4 }} />
-          <DateSelect
-            type="month"
-            value={this.state.date.getUTCMonth()}
-            width={'80px'}
-            onChange={this.handleMonthChange}
-          />
-        </div>
         <Calendar
-          ref="calendar"
-          {...this.props}
-          initialDate={date}
-          onNav={date => this.setState({ date })}
+          ref={this._refCalendar}
+          initialMonth={value ? value.getUTCMonth() : undefined}
+          initialYear={value ? value.getUTCFullYear() : undefined}
+          maxDate={
+            maxYear !== undefined
+              ? { date: 31, month: 11, year: maxYear }
+              : undefined
+          }
+          minDate={
+            minYear !== undefined
+              ? { date: 1, month: 0, year: minYear }
+              : undefined
+          }
+          value={
+            value && {
+              date: value.getUTCDate(),
+              month: value.getUTCMonth(),
+              year: value.getUTCFullYear()
+            }
+          }
+          onSelect={this._handleSelect}
         />
       </div>
     );
   }
 
-  componentDidMount() {
-    this._mounted = true;
-  }
-
   componentDidUpdate(prevProps: Props) {
-    if (this.props.value && +prevProps.value !== +this.props.value) {
-      this.setState({ date: this.props.value });
-      this.refs.calendar.moveToDate(this.props.value);
+    const { value } = this.props;
+    if (value && +prevProps.value !== +value) {
+      if (this._calendar) {
+        this._calendar.scrollToMonth(
+          value.getUTCMonth(),
+          value.getUTCFullYear()
+        );
+      }
     }
   }
 
-  componentWillUnmount() {
-    this._mounted = false;
-  }
-
-  handleMonthChange = (month: number) => {
-    this.state.date.setUTCMonth(month);
-    this.setState({});
-
-    this.refs.calendar.moveToDate(this.state.date);
+  _refCalendar = calendar => {
+    this._calendar = calendar;
   };
 
-  handleYearChange = (year: number) => {
-    this.state.date.setUTCFullYear(year);
-    this.setState({});
-
-    this.refs.calendar.moveToDate(this.state.date);
+  _handleSelect = ({ date, month, year }) => {
+    this.props.onPick(new Date(Date.UTC(year, month, date, 0, 0, 0, 0)));
   };
 }

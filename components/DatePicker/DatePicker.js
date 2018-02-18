@@ -18,9 +18,9 @@ import Center from '../Center';
 
 import * as dateTransformers from './dateTransformers';
 import type { DateTransformer } from './dateTransformers';
-import { InvalidDate } from './InvalidDate';
 import { dateFormat } from './dateFormat';
 import type { CalendarDateShape } from '../Calendar';
+import { type DateShape, tryGetValidDateShape, isValidDate } from './DateShape';
 
 import styles from './DatePicker.less';
 
@@ -43,16 +43,15 @@ const INPUT_PASS_PROPS = {
   onMouseOver: true
 };
 
-type DatePickerValue = Date | null;
-
-type Props = {
+type Props<T> = {|
+  // @ignore
   className?: string, // legacy
-  dateTransformer: DateTransformer,
+  dateTransformer: DateTransformer<T>,
   disabled?: boolean,
   enableTodayLink?: boolean,
   error?: boolean,
-  minDate?: Date,
-  maxDate?: Date,
+  minDate?: T,
+  maxDate?: T,
   /** @ignore */
   maxYear?: number,
   /** @ignore */
@@ -60,15 +59,12 @@ type Props = {
   menuAlign?: 'left' | 'right',
   placeholder?: string,
   size?: 'small' | 'medium' | 'large',
-  value?: DatePickerValue,
+  value?: T | null,
   warning?: boolean,
   width?: number | string,
   withMask?: boolean,
   onBlur?: () => void,
-  onChange?: (
-    e: { target: { value: DatePickerValue } },
-    v: DatePickerValue
-  ) => void,
+  onChange?: (e: { target: { value: T | null } }, v: T | null) => void,
   onFocus?: () => void,
   onInput?: (e: SyntheticInputEvent<>) => void,
   onKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
@@ -76,16 +72,16 @@ type Props = {
   onKeyUp?: (e: SyntheticKeyboardEvent<>) => void,
   onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
   onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
-  onMouseOver?: (e: SyntheticMouseEvent<>) => void,
-  onUnexpectedInput: (value: string) => void
-};
+  onMouseOver?: (e: SyntheticMouseEvent<>) => void
+|};
 
 type State = {
   opened: boolean,
   textValue: string
 };
 
-class DatePicker extends React.Component<Props, State> {
+// eslint-disable-next-line flowtype/no-weak-types
+class DatePicker<T: any> extends React.Component<Props<T>, State> {
   static propTypes = {
     /**
      * Объект с двумя методами: `to`, `from`.
@@ -160,31 +156,25 @@ class DatePicker extends React.Component<Props, State> {
 
     onMouseLeave: PropTypes.func,
 
-    onMouseOver: PropTypes.func,
-
-    /**
-     * Вызывается если в инпут была введена невалидная дата.
-     * Строка инпута передается в параметр функции.
-     * Может понадобится для валидации
-     */
-    onUnexpectedInput: PropTypes.func
+    onMouseOver: PropTypes.func
   };
 
   static defaultProps = {
-    dateTransformer: dateTransformers.utcDateTransformer,
+    dateTransformer: dateTransformers.defaultTransformer,
     width: 120,
-    withMask: true,
-    onUnexpectedInput: () => {}
+    withMask: true
   };
 
   static dateTransformers = dateTransformers;
+
+  static isValidDate = isValidDate;
 
   input: Input;
 
   _focusSubscription: *;
   _focused: boolean;
 
-  constructor(props: Props, context: mixed) {
+  constructor(props: Props<T>, context: mixed) {
     super(props, context);
 
     this.state = {
@@ -213,7 +203,9 @@ class DatePicker extends React.Component<Props, State> {
     const { opened } = this.state;
     const { value, menuAlign, dateTransformer } = this.props;
 
-    const date = value && dateTransformer.from(value);
+    const dateShape: DateShape | null =
+      value != null ? dateTransformer.from(value) : null;
+    const date = dateShape && tryGetValidDateShape(dateShape);
     let picker = null;
     if (opened) {
       picker = (
@@ -271,7 +263,7 @@ class DatePicker extends React.Component<Props, State> {
     );
   }
 
-  componentWillReceiveProps({ value: newValue }: Props) {
+  componentWillReceiveProps({ value: newValue }: Props<T>) {
     const { value: oldValue } = this.props;
     if (newValue !== oldValue) {
       const textValue = newValue
@@ -285,7 +277,8 @@ class DatePicker extends React.Component<Props, State> {
   _getMinDate = () => {
     const { minDate, minYear, dateTransformer } = this.props;
     if (minDate) {
-      return dateTransformer.from(minDate);
+      let date = tryGetValidDateShape(dateTransformer.from(minDate));
+      return date || undefined;
     }
     if (minYear) {
       warning(
@@ -300,7 +293,8 @@ class DatePicker extends React.Component<Props, State> {
   _getMaxDate = () => {
     const { maxDate, maxYear, dateTransformer } = this.props;
     if (maxDate) {
-      return dateTransformer.from(maxDate);
+      let date = tryGetValidDateShape(dateTransformer.from(maxDate));
+      return date || undefined;
     }
     if (maxYear) {
       warning(
@@ -354,9 +348,7 @@ class DatePicker extends React.Component<Props, State> {
 
   _handleSubmit = () => {
     const newDate = parseTextValue(this.state.textValue);
-    if (newDate instanceof InvalidDate) {
-      this.props.onUnexpectedInput(trimMask(this.state.textValue));
-    } else if (this.props.onChange) {
+    if (this.props.onChange) {
       const date = newDate && this.props.dateTransformer.to(newDate);
       this.props.onChange({ target: { value: date } }, date);
     }
@@ -405,7 +397,7 @@ function trimMask(input) {
     .join('.');
 }
 
-function formatDate(date: Date, dateTransformer) {
+function formatDate(date, dateTransformer) {
   const dateShape = dateTransformer.from(date);
   return dateFormat(dateShape);
 }

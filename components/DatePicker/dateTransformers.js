@@ -1,39 +1,31 @@
 // @flow
 
-import { type CalendarDateShape } from '../Calendar';
+import { type DateShape } from './DateShape';
 
-export type DateTransformer = {
-  from: (date: Date) => CalendarDateShape,
-  to: (date: CalendarDateShape) => Date
+export type DateTransformer<T> = {
+  from: (date: T) => DateShape,
+  to: (date: DateShape) => T
 };
 
 // TODO: test
-export const utcDateTransformer: DateTransformer = {
-  from(date: Date): CalendarDateShape {
+export const utcDateTransformer: DateTransformer<Date> = {
+  from(date: Date): DateShape {
     return {
       date: date.getUTCDate(),
       month: date.getUTCMonth(),
       year: date.getUTCFullYear()
     };
   },
-  to({ date, month, year }: CalendarDateShape): Date {
-    return new Date(Date.UTC(year, month, date, 0, 0, 0, 0));
+  to({ date, month, year }: DateShape): Date {
+    return new Date(Date.UTC(year || 1900, month || 0, date || 1, 0, 0, 0, 0));
   }
 };
 
-// TODO: test
-export const localDateTransformer: DateTransformer = {
-  from(date: Date): CalendarDateShape {
-    return {
-      date: date.getDate(),
-      month: date.getMonth(),
-      year: date.getFullYear()
-    };
+export const defaultTransformer: DateTransformer<DateShape> = {
+  from(x: DateShape) {
+    return x;
   },
-  to({ date, month, year }: CalendarDateShape): Date {
-    const d = new Date();
-    d.setFullYear(year, month, date);
-    d.setHours(0, 0, 0, 0);
-    return d;
+  to(x: DateShape) {
+    return x;
   }
 };

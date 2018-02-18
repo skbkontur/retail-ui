@@ -1,12 +1,11 @@
 // @flow
 
 import type { CalendarDateShape } from '../Calendar';
-import { InvalidDate } from './InvalidDate';
 
 export default function(
   str: string,
   withCorrection: boolean = true
-): CalendarDateShape | InvalidDate | null {
+): CalendarDateShape | null {
   if (str === '') {
     return null;
   }
@@ -47,22 +46,8 @@ export default function(
       year
     };
 
-    if (isValidDateShape(dateShape)) {
-      return dateShape;
-    }
+    return dateShape;
   }
 
-  return new InvalidDate();
+  return null;
 }
-
-const isValidDateShape = ({ date, month, year }) => {
-  const dateObj = new Date(Date.UTC(year, month, date));
-  if (
-    dateObj.getUTCFullYear() === year &&
-    dateObj.getUTCMonth() === month &&
-    dateObj.getUTCDate() === date
-  ) {
-    return true;
-  }
-  return false;
-};

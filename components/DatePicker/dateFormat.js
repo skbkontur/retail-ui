@@ -1,10 +1,18 @@
 // @flow
 
-import type { CalendarDateShape } from '../Calendar';
+import type { DateShape } from './DateShape';
 
-export function dateFormat({ date, month, year }: CalendarDateShape): string {
-  const date_ = date.toString().padStart(2, '0');
-  const month_ = (month + 1).toString().padStart(2, '0');
-  const year_ = year.toString(10).padStart(4, '0');
-  return `${date_}.${month_}.${year_}`;
+function toMask(value, padding) {
+  if (value == null) {
+    return '_'.repeat(padding);
+  }
+  return value.toString().padStart(padding, '0');
+}
+
+export function dateFormat({ date, month, year }: DateShape): string {
+  return [
+    toMask(date, 2),
+    toMask(month != null ? month + 1 : null, 2),
+    toMask(year, 4)
+  ].join('.');
 }

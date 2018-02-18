@@ -32,7 +32,7 @@ class DatePickerWithError extends React.Component<{}, State> {
   }
 }
 
-storiesOf('DatePicker', module)
+storiesOf('DatePickerOld', module)
   .addDecorator(story => (
     <div>
       <MockDate date={new Date('2017-01-02')} />
