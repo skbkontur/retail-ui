@@ -22,6 +22,7 @@ export type Action<T> =
 
 export type CustomComboBoxProps<T> = {
   autoFocus?: boolean,
+  disablePortal?: boolean,
   disabled?: boolean,
   error?: boolean,
   menuAlign?: 'left' | 'right',
@@ -126,6 +127,7 @@ class CustomComboBox extends React.Component<Props<*>, CustomComboBoxState<*>> {
   render() {
     const viewProps = {
       disabled: this.props.disabled,
+      disablePortal: this.props.disablePortal,
       editing: this.state.editing,
       error: this.props.error,
       items: this.state.items,

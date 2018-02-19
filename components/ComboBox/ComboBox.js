@@ -16,6 +16,13 @@ export type ExternalProps<T> = {
 
   autoFocus?: boolean,
 
+  /**
+   * Не использовать Portal для рендеринга меню.
+   * По-умолчанию `false`.
+   * См. https://github.com/skbkontur/retail-ui/issues/15
+   */
+  disablePortal?: boolean,
+
   disabled?: boolean,
 
   error?: boolean,
