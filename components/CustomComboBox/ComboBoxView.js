@@ -12,6 +12,7 @@ import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 
 type Props<T> = {
+  disablePortal?: boolean,
   disabled?: boolean,
   editing?: boolean,
   error?: boolean,
@@ -159,6 +160,7 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
               align={menuAlign}
               getParent={() => findDOMNode(this)}
               offsetY={1}
+              disablePortal={this.props.disablePortal}
             >
               {menu}
             </DropdownContainer>
