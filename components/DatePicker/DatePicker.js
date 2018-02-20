@@ -72,7 +72,8 @@ type Props<T> = {|
   onKeyUp?: (e: SyntheticKeyboardEvent<>) => void,
   onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
   onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
-  onMouseOver?: (e: SyntheticMouseEvent<>) => void
+  onMouseOver?: (e: SyntheticMouseEvent<>) => void,
+  onInvalidDate?: (dateShape: DateShape) => void
 |};
 
 type State = {
@@ -162,7 +163,8 @@ class DatePicker<T: any> extends React.Component<Props<T>, State> {
   static defaultProps = {
     dateTransformer: dateTransformers.defaultTransformer,
     width: 120,
-    withMask: true
+    withMask: true,
+    onInvalidDate: () => {}
   };
 
   static dateTransformers = dateTransformers;
@@ -310,6 +312,11 @@ class DatePicker<T: any> extends React.Component<Props<T>, State> {
     return this.props.value
       ? formatDate(this.props.value, this.props.dateTransformer)
       : '';
+  };
+
+  _handleInvalidDate = (invalidDate: DateShape) => {
+    // this.props.onInvalidDate(invalidDate);
+    return null;
   };
 
   handleChange = (value: string) => {

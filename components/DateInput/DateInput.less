@@ -1,0 +1,63 @@
+@import '../variables.less';
+
+:local {
+  .wrapper {
+    display: inline-block;
+    width: 126px;
+    font-size: 14px;
+    position: relative;
+  }
+
+  .root {
+    padding: 5px 40px 6px 10px;
+    border: 1px solid @border-color-gray-light;
+    border-top-color: @border-color-gray-dark;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border: 1px solid #5199db;
+      box-shadow: 0 0 0 1px #5199db;
+    }
+
+    &.empty > * {
+      visibility: hidden;
+    }
+  }
+
+  .disabled {
+    background: @bg-disabled;
+    border-color: @border-color-gray-light;
+    color: @text-color-disabled;
+    pointer-events: none;
+  }
+
+  .mask {
+    color: #b8b8b8;
+    letter-spacing: 1.74px;
+  }
+
+  .delimiter {
+    color: #b8b8b8;
+  }
+
+  .delimiter.filled {
+    color: inherit;
+  }
+
+  .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 0 10px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .root.empty .icon {
+    visibility: visible;
+  }
+}

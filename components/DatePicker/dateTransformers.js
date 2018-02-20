@@ -1,14 +1,18 @@
 // @flow
 
-import { type DateShape } from './DateShape';
+import { type DateShape, isValidDate, tryGetValidDateShape } from './DateShape';
 
 export type DateTransformer<T> = {
   from: (date: T) => DateShape,
-  to: (date: DateShape) => T
+  to: (
+    dateShape: DateShape,
+    onInvalidDate: (DateShape) => DateShape | null
+  ) => T | null
 };
 
-// TODO: test
-export const utcDateTransformer: DateTransformer<Date> = {
+export const createUtcDateTransformer = (
+  onInvalidDate: DateShape => Date | null
+): DateTransformer<Date> => ({
   from(date: Date): DateShape {
     return {
       date: date.getUTCDate(),
@@ -16,16 +20,27 @@ export const utcDateTransformer: DateTransformer<Date> = {
       year: date.getUTCFullYear()
     };
   },
-  to({ date, month, year }: DateShape): Date {
-    return new Date(Date.UTC(year || 1900, month || 0, date || 1, 0, 0, 0, 0));
+  to(x: DateShape): Date | null {
+    const dateShape = tryGetValidDateShape(x);
+    if (dateShape) {
+      const { date, month, year } = dateShape;
+      return new Date(Date.UTC(year, month, date));
+    }
+    return onInvalidDate(x);
   }
-};
+});
 
 export const defaultTransformer: DateTransformer<DateShape> = {
-  from(x: DateShape) {
+  from(x: DateShape): DateShape {
     return x;
   },
-  to(x: DateShape) {
+  to(
+    x: DateShape,
+    onInvalidDate: DateShape => DateShape | null
+  ): DateShape | null {
+    if (!isValidDate(x)) {
+      return onInvalidDate(x);
+    }
     return x;
   }
 };

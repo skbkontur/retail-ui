@@ -1,0 +1,28 @@
+// @flow
+import * as React from 'react';
+
+import styles from './DateInput.less';
+
+type Props = {
+  value: string | null,
+  length: number,
+  selected?: boolean
+};
+
+export const MaskedValue = ({ value, length, selected }: Props) => {
+  if (!value) {
+    return <Mask length={length} />;
+  }
+  const left = value.toString();
+  const right = <Mask length={length - left.length} />;
+  return (
+    <span>
+      {left}
+      {right}
+    </span>
+  );
+};
+
+const Mask = ({ length }) => (
+  <span className={styles.mask}>{'_'.repeat(length)}</span>
+);
