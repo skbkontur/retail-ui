@@ -59,7 +59,12 @@ module.exports = {
         },
         {
           test: /\.less$/,
-          use: ['style-loader', 'css-loader', 'less-loader'],
+          use: [
+            'style-loader',
+            'css-modules-flow-types-loader',
+            'css-loader',
+            'less-loader'
+          ],
           include: /retail-ui/
         },
         {

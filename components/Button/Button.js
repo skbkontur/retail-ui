@@ -55,6 +55,7 @@ type Props = {
   disabled?: boolean,
   /** @ignore */
   disableFocus?: boolean,
+  error?: boolean,
   focused?: boolean,
   icon?: string,
   loading?: boolean,
@@ -69,6 +70,7 @@ type Props = {
   use: 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link',
   /** @ignore */
   visuallyFocused?: boolean,
+  warning?: boolean,
   width?: number | string
 };
 
@@ -228,7 +230,7 @@ class Button extends React.Component<Props, State> {
         [classes.noPadding]: this.props._noPadding,
         [classes.noRightPadding]: this.props._noRightPadding,
         [classes.buttonWithIcon]: !!this.props.icon,
-        [classes.arrowButton]: this.props.arrow,
+        [classes.arrowButton || '']: this.props.arrow,
         [SIZE_CLASSES[this.props.size]]: true,
         [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused
       }),
@@ -255,7 +257,7 @@ class Button extends React.Component<Props, State> {
     }
 
     const wrapProps = {
-      className: this.props.arrow ? classes.wrap_arrow : classes.wrap,
+      className: this.props.arrow ? classes.wrap_arrow || '' : classes.wrap,
       style: {
         width: undefined
       }
@@ -289,12 +291,12 @@ class Button extends React.Component<Props, State> {
     if (this.props.arrow) {
       arrow = (
         <div
-          className={classNames(
-            classes.arrow,
-            this.props.loading ? classes.arrow_loading : '',
-            this.props.error ? classes.arrow_error : '',
-            this.props.warning ? classes.arrow_warning : ''
-          )}
+          className={classNames({
+            [classes.arrow || '']: true,
+            [classes.arrow_loading || '']: this.props.loading,
+            [classes.arrow_error || '']: this.props.error,
+            [classes.arrow_warning || '']: this.props.warning
+          })}
         />
       );
     }

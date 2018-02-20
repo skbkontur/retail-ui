@@ -35,7 +35,7 @@ type Props = {
   href?: string,
   icon?: string,
   onClick?: (event: SyntheticMouseEvent<HTMLLinkElement>) => void,
-  use?: 'default' | 'success' | 'danger' | 'grayed',
+  use: 'default' | 'success' | 'danger' | 'grayed',
   children?: React.Node,
   /** @ignore */
   _button?: boolean,
@@ -100,16 +100,13 @@ class Link extends React.Component<Props, State> {
     }
 
     const props = {
-      className: classNames(
-        {
-          [styles.root]: true,
-          [styles.disabled]: disabled,
-          [styles.button]: _button,
-          [styles.buttonOpened]: _buttonOpened,
-          [styles.focus]: !disabled && this.state.focusedByTab
-        },
-        use && useClasses[use]
-      ),
+      className: classNames({
+        [styles.disabled]: disabled,
+        [styles.button]: _button,
+        [styles.buttonOpened]: _buttonOpened,
+        [styles.focus]: !disabled && this.state.focusedByTab,
+        [useClasses[use]]: use
+      }),
       href,
       onClick: this._handleClick,
       onFocus: this._handleFocus,

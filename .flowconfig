@@ -23,5 +23,6 @@ suppress_comment=.*\\$FlowIssue.*
 suppress_comment=.*\\$FlowFixMe.*
 suppress_comment=.*\\$FlowIgnore.*
 
-module.name_mapper='^.*\.less+$' -> '<PROJECT_ROOT>/flow/CssStub'
+module.file_ext=.js
+module.file_ext=.less
 module.name_mapper='^.*\.png+$' -> '<PROJECT_ROOT>/flow/StringStub'

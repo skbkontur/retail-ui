@@ -4,10 +4,10 @@ import * as React from 'react';
 
 import type { ITheme } from '../theme';
 
-const styled = <T: *>(
-  cssStyles: { [$Keys<T>]: string },
-  jssStyles: (theme: ITheme) => T,
-  render: (classes: { [$Keys<T>]: string }) => React$Node
+const styled = <T>(
+  cssStyles: T,
+  jssStyles: (theme: ITheme) => $ReadOnly<T>,
+  render: (classes: T) => React$Node
 ) => () => {
   if (process.env.EXPERIMENTAL_CSS_IN_JS) {
     const JssStyled = require('./JssStyled').default;
