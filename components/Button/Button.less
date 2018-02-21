@@ -418,6 +418,11 @@
     border: none;
     box-shadow: none;
     line-height: inherit;
+    height: auto;
+
+    .caption {
+      display: inline;
+    }
 
     &:active {
       vertical-align: 0;
@@ -426,10 +431,6 @@
     &.disabled {
       box-shadow: none;
       background: none;
-    }
-
-    &.focus .caption {
-      text-decoration: underline;
     }
 
     .icon {
@@ -543,14 +544,11 @@
     top: 0;
     left: 0;
     right: -30px;
-
     :global {
       animation: btn_loading 1s linear infinite;
     }
-
     transform: rotateY(180deg) skewX(0deg) skewY(0deg);
   }
-
   .warning,
   .error {
     border-radius: inherit;
@@ -560,55 +558,44 @@
     left: 0;
     right: 0;
   }
-
   .warning {
     box-shadow: 0 0 0 2px @border-color-warning;
   }
-
   .error {
     box-shadow: 0 0 0 2px @border-color-error;
   }
-
   :global(.rt-ie8) {
     .warning {
       outline: 2px solid @border-color-warning;
     }
-
     .error {
       outline: 2px solid @border-color-error;
     }
   }
-
   .narrow {
     padding-left: 5px;
     padding-right: 5px;
   }
-
   .noPadding {
     padding-left: 0;
     padding-right: 0;
   }
-
   .noRightPadding {
     padding-right: 0;
   }
 }
-
 @keyframes btn_loading {
   0% {
     transform: translateX(0) rotateY(180deg);
   }
-
   100% {
     transform: translateX(-30px) rotateY(180deg);
   }
 }
-
 @keyframes btn_loading_arrow {
   0% {
     transform: translateX(50px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
   }
-
   100% {
     transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg)
       skewY(0deg);
