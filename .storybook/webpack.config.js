@@ -7,6 +7,7 @@ module.exports = {
         test: /\.(css|less)$/,
         loaders: [
           'style-loader',
+          'css-modules-flow-types-loader',
           'css-loader?localIdentName=[name]-[local]-[hash:base64:4]'
         ]
       },

@@ -147,7 +147,6 @@ class Switcher extends React.Component<Props, State> {
 
   render() {
     const listClassNames = classNames({
-      [styles.list]: true,
       [styles.error]: this.props.error
     });
 

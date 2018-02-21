@@ -58,7 +58,7 @@ class Indicator extends React.Component<Props, State> {
   render() {
     return (
       <div
-        className={cn(styles.root, styles.className, this.props.className)}
+        className={cn(styles.root, this.props.className, this.props.className)}
         style={this.state.styles}
       />
     );

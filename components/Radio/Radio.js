@@ -120,11 +120,8 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
 
     let radioClassNames = classNames({
       [styles.radio]: true,
-      [styles.withLabel]: this.props.children,
       [styles.checked]: this.props.checked,
       [styles.focus]: this.props.focused,
-      [styles.hovered]: this.props.hovered,
-      [styles.pressed]: this.props.pressed,
       [styles.error]: error,
       [styles.warning]: warning,
       [styles.disabled]: disabled
