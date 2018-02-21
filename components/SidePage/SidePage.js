@@ -225,7 +225,7 @@ class Header extends React.Component<HeaderProps> {
         className={styles.close}
         onClick={this.context.requestClose}
       >
-        <span className={styles.cross}>×</span>
+        <span>×</span>
       </a>
     );
   }

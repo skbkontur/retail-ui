@@ -1,5 +1,5 @@
-@import "../variables.less";
-@import "../variables.flat.less";
+@import '../variables.less';
+@import '../variables.flat.less';
 
 :local {
   .root {
@@ -20,7 +20,7 @@
     border: 1px solid rgba(0, 0, 0, 0.15);
 
     &:after {
-      content: " ";
+      content: ' ';
       display: inline-block;
     }
   }
@@ -53,7 +53,7 @@
   .focus:after,
   .warning:after,
   .error:after {
-    content: " ";
+    content: ' ';
     position: absolute;
     left: -2px;
     top: -2px;
@@ -84,7 +84,7 @@
   }
 
   .root .radio.checked:before {
-    content: " ";
+    content: ' ';
     position: absolute;
     top: 0;
     right: 0;
@@ -115,5 +115,9 @@
 
   .labelDisabled {
     color: #a0a0a0;
+  }
+
+  .placeholder {
+    display: inline-block;
   }
 }

@@ -21,7 +21,8 @@ const getDefaultTheme = () => {
 
 type Props = {
   styles: Styles,
-  children: (classes: *) => React.Node
+  // eslint-disable-next-line flowtype/no-weak-types
+  children: (classes: any) => React.Node
 };
 
 const createStylesCreator = (styles: Styles) =>
