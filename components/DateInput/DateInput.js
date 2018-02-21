@@ -6,9 +6,16 @@ import * as React from 'react';
 import styles from './DateInput.less';
 
 import Icon from '../Icon';
+import {
+  clearDatePart,
+  updateDatePartBy,
+  inputNumber,
+  moveSelectionBy,
+  setSelection,
+  tryParseDateString
+} from './DateInputHelpers';
 import { DatePart } from './DatePart';
 import { MaskedValue } from './MaskedValue';
-import * as DIH from './DateInputHelpers';
 import { selectNodeContents, removeAllSelections } from './SelectionHelpers';
 
 export const DateParts = {
@@ -26,16 +33,20 @@ export type State = {
   year: string | null
 };
 
-type Props = {
+type Props = {|
   value?: string,
   disabled?: boolean,
+  width?: string | number,
+  withIcon?: boolean,
   onBlur?: (SyntheticFocusEvent<HTMLElement>) => void,
   onFocus?: (SyntheticFocusEvent<HTMLElement>) => void,
-  onChange?: ({ target: { value: string } }, string) => void
-};
+  onChange?: ({ target: { value: string } }, string) => void,
+  onKeyDown?: (SyntheticKeyboardEvent<HTMLElement>) => void
+|};
 
 class DateInput extends React.Component<Props, State> {
   _node: HTMLElement | null = null;
+  _innerNode: HTMLElement | null = null;
 
   constructor(props: Props) {
     super(props);
@@ -62,31 +73,43 @@ class DateInput extends React.Component<Props, State> {
     }
   }
 
+  /**
+   * @public
+   */
+  blur() {
+    this._node && this._node.blur();
+  }
+
+  /**
+   * @public
+   */
+  focus() {
+    if (!this.props.disabled && this._node) {
+      this._node.focus();
+    }
+  }
+
   render() {
     const { date, month, year, selected } = this.state;
     const isEmpty = this.checkIfEmpty();
 
     return (
       <div
+        style={{ width: this.props.width }}
         className={classNames({
-          [styles.wrapper]: true,
+          [styles.root]: true,
+          [styles.empty]: isEmpty,
           [styles.disabled]: this.props.disabled
         })}
+        ref={el => (this._node = el)}
+        tabIndex={this.props.disabled ? -1 : 0}
+        onBlur={this.handleBlur}
+        onFocus={this.handleFocus}
+        onKeyDown={this.handleKeyDown}
+        onMouseDown={this.createSelectionHandler(DateParts.Date)}
+        onPaste={this.handlePaste}
       >
-        <div
-          className={classNames({
-            [styles.root]: true,
-            [styles.empty]: isEmpty
-          })}
-          ref={el => (this._node = el)}
-          tabIndex={this.props.disabled ? -1 : 0}
-          onBlur={this.handleBlur}
-          onFocus={this.handleFocus}
-          onKeyDown={this.handleKeyDown}
-          onMouseDown={this.createSelectionHandler(DateParts.Date)}
-          onDoubleClick={this.selectAll}
-          onPaste={this.handlePaste}
-        >
+        <div ref={el => (this._innerNode = el)} onDoubleClick={this.selectAll}>
           <DatePart
             selected={selected === DateParts.Date}
             onMouseDown={this.createSelectionHandler(DateParts.Date)}
@@ -114,9 +137,11 @@ class DateInput extends React.Component<Props, State> {
             <MaskedValue value={year} length={4} />
           </DatePart>
         </div>
-        <span className={styles.icon}>
-          <Icon name="Calendar" />
-        </span>
+        {this.props.withIcon && (
+          <span className={styles.icon}>
+            <Icon name="Calendar" />
+          </span>
+        )}
       </div>
     );
   }
@@ -138,6 +163,13 @@ class DateInput extends React.Component<Props, State> {
   handleKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
     if (this.props.disabled) {
       return;
+    }
+
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(event);
+      if (event.defaultPrevented) {
+        return;
+      }
     }
 
     if (event.key === 'ArrowLeft') {
@@ -171,16 +203,16 @@ class DateInput extends React.Component<Props, State> {
     }
 
     // Not covered by guides
-    // if (event.key === 'Tab') {
-    //   if (event.shiftKey && this.state.selected !== 0) {
-    //     event.preventDefault();
-    //     this.moveSelection(-1);
-    //   }
-    //   if (!event.shiftKey && this.state.selected !== 2) {
-    //     event.preventDefault();
-    //     this.moveSelection(1);
-    //   }
-    // }
+    if (event.key === 'Tab') {
+      if (event.shiftKey && this.state.selected !== 0) {
+        event.preventDefault();
+        this.moveSelection(-1);
+      }
+      if (!event.shiftKey && this.state.selected !== 2) {
+        event.preventDefault();
+        this.moveSelection(1);
+      }
+    }
 
     if (event.key === 'a' && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
@@ -189,7 +221,7 @@ class DateInput extends React.Component<Props, State> {
   };
 
   handlePaste = (e: SyntheticClipboardEvent<HTMLElement>) => {
-    const parsed = DIH.tryParseDateString(e.clipboardData.getData('text'));
+    const parsed = tryParseDateString(e.clipboardData.getData('text'));
     if (parsed) {
       this.setState(parsed);
     }
@@ -208,7 +240,7 @@ class DateInput extends React.Component<Props, State> {
 
   emitChange = () => {
     const { date, month, year } = this.state;
-    const value = formatDate(date, month, year);
+    const value = trimTrailingDots(formatDate(date, month, year));
     if (this.props.value === value) {
       return;
     }
@@ -232,28 +264,28 @@ class DateInput extends React.Component<Props, State> {
   };
 
   clearDatePart() {
-    this.setState(DIH.clearDatePart);
+    this.setState(clearDatePart);
   }
 
   updateDatePartBy(step: number) {
-    this.setState(DIH.updateDatePartBy(step));
+    this.setState(updateDatePartBy(step));
   }
 
   inputValue(key: string) {
-    this.setState(DIH.inputNumber(key));
+    this.setState(inputNumber(key));
   }
 
   moveSelection(step: number) {
-    this.setState(DIH.moveSelectionBy(step));
+    this.setState(moveSelectionBy(step));
   }
 
   setSelection(index: number | null, cb?: () => void) {
-    this.setState(DIH.setSelection(index), cb);
+    this.setState(setSelection(index), cb);
   }
 
   selectAll = () => {
     this.setSelection(DateParts.All, () => {
-      this._node && selectNodeContents(this._node);
+      this._innerNode && selectNodeContents(this._innerNode);
     });
   };
 }
@@ -266,5 +298,7 @@ const parseValue = value => {
 const formatDate = (date, month, year) => {
   return `${date || ''}.${month || ''}.${year || ''}`;
 };
+
+const trimTrailingDots = (value: string) => value.replace(/\.*$/, '');
 
 export default DateInput;

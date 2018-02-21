@@ -1,4 +1,6 @@
 // @flow
+import Button from '../../Button/index';
+import Gapped from '../../Gapped/index';
 import MockDate from '../../internal/MockDate';
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
@@ -17,20 +19,26 @@ class DatePickerWithError extends React.Component<{}, State> {
   };
 
   _handleChange = (_, value) => {
+    action('change')(value);
     this.setState({
-      value,
-      error: value == null || !DatePicker.isValidDate(value)
+      value
     });
   };
 
   render() {
     return (
-      <DatePicker
-        error={this.state.error}
-        value={this.state.value}
-        onChange={this._handleChange}
-        enableTodayLink
-      />
+      <Gapped>
+        <DatePicker
+          error={this.state.error}
+          value={this.state.value}
+          onChange={this._handleChange}
+          enableTodayLink
+        />
+        <Button onClick={() => this.setState({ value: null })}>Clear</Button>
+        <Button onClick={() => this.setState({ value: '99.99.9999' })}>
+          Invalid
+        </Button>
+      </Gapped>
     );
   }
 }
@@ -38,6 +46,7 @@ class DatePickerWithError extends React.Component<{}, State> {
 storiesOf('DatePicker', module)
   .addDecorator(story => (
     <div>
+      <h2>Mocked date 01.02.2017</h2>
       <MockDate date={new Date('2017-01-02')} />
       {story()}
     </div>
@@ -45,7 +54,7 @@ storiesOf('DatePicker', module)
   .add('with mouseevent handlers', () => (
     <div style={{ paddingTop: 200 }}>
       <DatePicker
-        value={{ date: 2, month: 0, year: 2017 }}
+        value="02.07.2017"
         onMouseEnter={() => console.count('enter')}
         onMouseLeave={() => console.count('leave')}
         onChange={action('change')}

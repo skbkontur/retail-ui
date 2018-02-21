@@ -178,9 +178,11 @@ class Calendar extends React.Component<Props, State> {
     }
   };
 
-  _scrollToMonth = (month: number, year: number) => {
+  _scrollToMonth = async (month: number, year: number) => {
     if (this._animation.inProgress()) {
       this._animation.finish();
+      // Dirty hack to await batched updates
+      await new Promise(r => setTimeout(r));
     }
 
     const { minDate, maxDate } = this.props;
@@ -207,6 +209,7 @@ class Calendar extends React.Component<Props, State> {
     const maxMonthsToAdd = config.MAX_MONTHS_TO_APPEND_ON_SCROLL;
 
     const onEnd = () =>
+      console.log('END') ||
       this.setState({
         months: CalendarUtils.getMonths(month, year),
         scrollPosition: 0
