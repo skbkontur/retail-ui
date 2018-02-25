@@ -127,7 +127,7 @@ export default class CurrencyInput extends Component<Props, State> {
     };
   }
 
-  _handleMouseUp = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  _handleMouseUp = (event: SyntheticMouseEvent<HTMLInputElement>) => {
     const selection = getInputSelection(event.target);
     const normilized = CurrencyInputHelper.normalizeSelection(
       this.state.formatted,

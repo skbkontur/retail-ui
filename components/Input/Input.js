@@ -63,7 +63,7 @@ export type Props = {
   maxLength?: number | string,
   placeholder?: string,
   rightIcon?: React.Node,
-  size?: 'small' | 'medium' | 'large',
+  size: 'small' | 'medium' | 'large',
   title?: string,
   type?: 'password' | 'text',
   value?: string,
@@ -74,17 +74,17 @@ export type Props = {
   onMouseUp?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
   onMouseDown?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
   onChange?: (e: SyntheticInputEvent<HTMLInputElement>, v: string) => void,
-  onCopy?: (e: SyntheticClipboardEvent<>) => void,
-  onCut?: (e: SyntheticClipboardEvent<>) => void,
-  onFocus?: (e: SyntheticFocusEvent<>) => void,
-  onInput?: (e: SyntheticInputEvent<>) => void,
-  onKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
-  onKeyPress?: (e: SyntheticKeyboardEvent<>) => void,
-  onKeyUp?: (e: SyntheticKeyboardEvent<>) => void,
+  onCopy?: (e: SyntheticClipboardEvent<HTMLInputElement>) => void,
+  onCut?: (e: SyntheticClipboardEvent<HTMLInputElement>) => void,
+  onFocus?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
+  onInput?: (e: SyntheticInputEvent<HTMLInputElement>) => void,
+  onKeyDown?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
+  onKeyPress?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
+  onKeyUp?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
   onPaste?: (e: SyntheticClipboardEvent<HTMLInputElement>) => void,
-  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
-  onMouseOver?: (e: SyntheticMouseEvent<>) => void
+  onMouseEnter?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
+  onMouseOver?: (e: SyntheticMouseEvent<HTMLInputElement>) => void
 };
 
 type State = {
@@ -209,115 +209,6 @@ class Input extends React.Component<Props, State> {
 
   input: ?HTMLInputElement = null;
 
-  render = styled(cssStyles, jssStyles, classes => {
-    const SIZE_CLASS_NAMES = {
-      small: classes.sizeSmall,
-      medium: Upgrades.isSizeMedium16pxEnabled()
-        ? classes.sizeMedium
-        : classes.DEPRECATED_sizeMedium,
-      large: classes.sizeLarge
-    };
-
-    const className: string = this.props.className || '';
-    const sizeClassName =
-      SIZE_CLASS_NAMES[this.props.size || Input.defaultProps.size];
-    var labelProps = {
-      className: classNames({
-        [classes.root]: true,
-        [className]: true,
-        [classes.disabled]: this.props.disabled,
-        [classes.error]: this.props.error,
-        [classes.warning]: this.props.warning,
-        [classes.padLeft]: this.props.leftIcon,
-        [classes.padRight]: this.props.rightIcon,
-        [sizeClassName]: true
-      }),
-      style: {},
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver
-    };
-    if (this.props.width) {
-      labelProps.style.width = this.props.width;
-    }
-
-    var placeholder = null;
-
-    if (
-      this.state.polyfillPlaceholder &&
-      this.props.placeholder &&
-      !this.props.mask &&
-      !this.props.value
-    ) {
-      placeholder = (
-        <div
-          className={classes.placeholder}
-          style={{ textAlign: this.props.align || 'inherit' }}
-        >
-          {this.props.placeholder}
-        </div>
-      );
-    }
-
-    var leftIcon = null;
-    if (this.props.leftIcon) {
-      leftIcon = <div className={classes.leftIcon}>{this.props.leftIcon}</div>;
-    }
-    var rightIcon = null;
-    if (this.props.rightIcon) {
-      rightIcon = (
-        <div className={classes.rightIcon}>{this.props.rightIcon}</div>
-      );
-    }
-
-    const inputProps = {
-      ...filterProps(this.props, INPUT_PASS_PROPS),
-      className: classNames({
-        [classes.input]: true,
-        [classes.borderless]: this.props.borderless
-      }),
-      value: this.props.value,
-      onChange: this._handleChange,
-      style: {},
-      ref: this.getInputFromRef
-    };
-
-    const type = this.props.type;
-    if (type === 'password') {
-      inputProps.type = type;
-    }
-
-    if (this.props.align) {
-      inputProps.style.textAlign = this.props.align;
-    }
-
-    let input = null;
-
-    if (this.props.mask) {
-      input = (
-        <MaskedInput
-          {...inputProps}
-          mask={this.props.mask}
-          maskChar={
-            this.props.maskChar === undefined ? '_' : this.props.maskChar
-          }
-          alwaysShowMask={this.props.alwaysShowMask}
-        />
-      );
-    } else {
-      input = <input {...inputProps} />;
-    }
-
-    return (
-      <label {...labelProps}>
-        {input}
-        {placeholder}
-        {leftIcon}
-        {rightIcon}
-      </label>
-    );
-  });
-
   componentDidMount() {
     if (polyfillPlaceholder) {
       this.setState({ polyfillPlaceholder: true });
@@ -329,13 +220,6 @@ class Input extends React.Component<Props, State> {
       this.setState({ polyfillPlaceholder: true });
     }
   }
-
-  getInputFromRef = (ref: HTMLInputElement | MaskedInput) => {
-    // $FlowIssue
-    const elem: HTMLInputElement = ReactDOM.findDOMNode(this);
-    // $FlowIssue should return HTMLInputElement
-    this.input = this.props.mask ? elem.querySelector('input') : ref;
-  };
 
   /**
    * @public
@@ -357,22 +241,132 @@ class Input extends React.Component<Props, State> {
    * @public
    */
   setSelectionRange(start: number, end: number) {
-    invariant(
-      this.input,
-      'Cannot call "setSelectionRange" because Input is not mounted'
-    );
-    if (this.input.setSelectionRange) {
-      this.input.focus();
-      // $FlowIssue: suppressing the error of possibly null value of this.input
-      this.input.setSelectionRange(start, end);
-    } else if (this.input.createTextRange) {
-      const range = this.input.createTextRange();
+    const { input } = this;
+    invariant(input, 'Cannot call "setSelectionRange" on unmounted Input');
+
+    if (input.setSelectionRange) {
+      input.focus();
+      input.setSelectionRange(start, end);
+    } else if (input.createTextRange) {
+      const range = input.createTextRange();
       range.collapse(true);
       range.moveEnd('character', end);
       range.moveStart('character', start);
       range.select();
     }
   }
+
+  render = styled(cssStyles, jssStyles, classes => {
+    const labelProps = {
+      className: classNames({
+        [classes.root]: true,
+        [this.props.className || '']: true,
+        [classes.disabled]: this.props.disabled,
+        [classes.error]: this.props.error,
+        [classes.warning]: this.props.warning,
+        [classes.padLeft]: this.props.leftIcon,
+        [classes.padRight]: this.props.rightIcon,
+        [this._getSizeClassName(classes)]: true
+      }),
+      style: { width: this.props.width },
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver
+    };
+
+    const inputProps = {
+      ...filterProps(this.props, INPUT_PASS_PROPS),
+      className: classNames({
+        [classes.input]: true,
+        [classes.borderless]: this.props.borderless
+      }),
+      value: this.props.value,
+      onChange: this._handleChange,
+      style: { textAlign: this.props.align },
+      ref: this._refInput
+    };
+
+    if (this.props.type === 'password') {
+      inputProps.type = this.props.type;
+    }
+
+    let input = this.props.mask
+      ? this._renderMaskedInput(inputProps)
+      : React.createElement('input', inputProps);
+
+    return (
+      <label {...labelProps}>
+        {input}
+        {this._renderPlaceholder(classes)}
+        {this._renderLeftIcon(classes)}
+        {this._renderRightIcon(classes)}
+      </label>
+    );
+  });
+
+  _renderMaskedInput(inputProps) {
+    return (
+      <MaskedInput
+        {...inputProps}
+        mask={this.props.mask}
+        maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
+        alwaysShowMask={this.props.alwaysShowMask}
+      />
+    );
+  }
+
+  _renderLeftIcon(classes) {
+    return this._renderIcon(this.props.leftIcon, classes.leftIcon);
+  }
+
+  _renderRightIcon(classes) {
+    return this._renderIcon(this.props.rightIcon, classes.rightIcon);
+  }
+
+  _renderIcon(icon, className) {
+    return icon ? <div className={className}>{icon}</div> : null;
+  }
+
+  _renderPlaceholder(classes) {
+    var placeholder = null;
+
+    if (
+      this.state.polyfillPlaceholder &&
+      this.props.placeholder &&
+      !this.props.mask &&
+      !this.props.value
+    ) {
+      placeholder = (
+        <div
+          className={classes.placeholder}
+          style={{ textAlign: this.props.align || 'inherit' }}
+        >
+          {this.props.placeholder}
+        </div>
+      );
+    }
+
+    return placeholder;
+  }
+
+  _getSizeClassName(classes) {
+    const SIZE_CLASS_NAMES = {
+      small: classes.sizeSmall,
+      medium: Upgrades.isSizeMedium16pxEnabled()
+        ? classes.sizeMedium
+        : classes.DEPRECATED_sizeMedium,
+      large: classes.sizeLarge
+    };
+
+    return SIZE_CLASS_NAMES[this.props.size];
+  }
+
+  _refInput = (ref: HTMLInputElement | MaskedInput | null) => {
+    // $FlowIssue
+    const elem: HTMLElement = ReactDOM.findDOMNode(this);
+    // $FlowIssue should return HTMLInputElement
+    this.input = this.props.mask ? elem.querySelector('input') : ref;
+  };
 
   _handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     if (polyfillPlaceholder) {

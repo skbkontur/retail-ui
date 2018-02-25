@@ -32,16 +32,26 @@ const INPUT_PASS_PROPS = {
 };
 
 type Props = {
+  autoFocus?: boolean,
+  error?: boolean,
+  warning?: boolean,
   disabled?: boolean,
   getInputRef?: (ref: Input) => void,
   onBlur?: (e: Event) => void,
   onSubmit?: () => void,
-  onChange: (value: Date | string | void) => void,
+  onChange: (value: string) => void,
   onFocus?: () => void,
   opened: boolean,
   placeholder?: string,
   size: 'small' | 'medium' | 'large',
-  value: string
+  value: string,
+  onInput: *,
+  onKeyDown: *,
+  onKeyPress: *,
+  onKeyUp: *,
+  onMouseEnter: *,
+  onMouseLeave: *,
+  onMouseOver: *
 };
 
 const isIE8 = ieVerison === 8;
@@ -107,8 +117,9 @@ export default class DateInput extends Component<Props> {
     this._selectBlock(this._getSelectedBlock(start));
   };
 
-  _handleClick = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  _handleClick = (event: SyntheticMouseEvent<HTMLInputElement>) => {
     if (this._focused) {
+      // $FlowIgnore
       this._selectCurrentBlock(event.target);
     }
   };

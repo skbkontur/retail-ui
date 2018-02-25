@@ -33,7 +33,7 @@ export type State = {
   year: string | null
 };
 
-type Props = {|
+type Props = {
   value?: string,
   disabled?: boolean,
   width?: string | number,
@@ -42,7 +42,7 @@ type Props = {|
   onFocus?: (SyntheticFocusEvent<HTMLElement>) => void,
   onChange?: ({ target: { value: string } }, string) => void,
   onKeyDown?: (SyntheticKeyboardEvent<HTMLElement>) => void
-|};
+};
 
 class DateInput extends React.Component<Props, State> {
   _node: HTMLElement | null = null;

@@ -6,7 +6,6 @@ import { findDOMNode } from 'react-dom';
 import warning from 'warning';
 
 import filterProps from '../filterProps';
-import Input from '../Input';
 import Picker from './Picker';
 import DateInput from '../DateInput';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
@@ -32,7 +31,8 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true
 };
 
-type Props<T> = {|
+type Props<T> = {
+  autoFocus?: boolean,
   disabled?: boolean,
   enableTodayLink?: boolean,
   error?: boolean,
@@ -48,13 +48,13 @@ type Props<T> = {|
   warning?: boolean,
   width?: number | string,
   onBlur?: () => void,
-  onChange: (e: { target: { value: T | null } }, v: T | null) => void,
+  onChange: (e: { target: { value: T } }, v: T) => void,
   onFocus?: () => void,
   onKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
   onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
   onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
   onMouseOver?: (e: SyntheticMouseEvent<>) => void
-|};
+};
 
 type State = {
   opened: boolean
@@ -63,6 +63,8 @@ type State = {
 // eslint-disable-next-line flowtype/no-weak-types
 class DatePicker extends React.Component<Props<string>, State> {
   static propTypes = {
+    autoFocus: PropTypes.bool,
+
     disabled: PropTypes.bool,
 
     /**
@@ -114,7 +116,7 @@ class DatePicker extends React.Component<Props<string>, State> {
 
   static isValidDate = isValidDate;
 
-  input: Input;
+  input: DateInput | null;
 
   _focusSubscription: *;
   _focused: boolean;
@@ -131,7 +133,7 @@ class DatePicker extends React.Component<Props<string>, State> {
    * @public
    */
   blur() {
-    this.input.blur();
+    this.input && this.input.blur();
     this._handleBlur();
   }
 
@@ -139,7 +141,7 @@ class DatePicker extends React.Component<Props<string>, State> {
    * @public
    */
   focus() {
-    this.input.focus();
+    this.input && this.input.focus();
     this._handleFocus();
   }
 
@@ -198,7 +200,7 @@ class DatePicker extends React.Component<Props<string>, State> {
     );
   }
 
-  _getInputRef = (ref: Input) => {
+  _getInputRef = ref => {
     this.input = ref;
   };
 
@@ -291,7 +293,7 @@ class DatePicker extends React.Component<Props<string>, State> {
   close(focus: boolean) {
     this.setState({ opened: false }, () => {
       if (focus) {
-        this.input.focus();
+        this.input && this.input.focus();
       }
     });
   }

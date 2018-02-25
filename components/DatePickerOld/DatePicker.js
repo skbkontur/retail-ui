@@ -39,6 +39,7 @@ const INPUT_PASS_PROPS = {
 type DatePickerValue = Date | string | null;
 
 type Props = {
+  autoFocus?: boolean,
   className?: string, // legacy
   disabled?: boolean,
   error?: boolean,

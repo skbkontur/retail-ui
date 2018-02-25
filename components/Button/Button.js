@@ -38,7 +38,7 @@ function listenTabPresses() {
   }
 }
 
-type Props = {
+export type ButtonProps = {
   /** @ignore */
   _noPadding?: boolean,
 
@@ -78,7 +78,7 @@ type State = {
   focusedByTab: boolean
 };
 
-class Button extends React.Component<Props, State> {
+class Button extends React.Component<ButtonProps, State> {
   static TOP_LEFT = Corners.TOP_LEFT;
   static TOP_RIGHT = Corners.TOP_RIGHT;
   static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;

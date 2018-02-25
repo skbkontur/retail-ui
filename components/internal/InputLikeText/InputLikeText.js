@@ -26,15 +26,25 @@ const PASS_PROPS = {
   onMouseOver: true
 };
 
-export default class InputLikeText extends React.Component<{
+type Props = {
   borderless?: boolean,
   children?: React.Node,
   error?: boolean,
   padRight?: boolean,
   warning?: boolean,
   disabled?: boolean,
-  size: 'small' | 'medium' | 'large'
-}> {
+  size: 'small' | 'medium' | 'large',
+  onBlur?: (event: SyntheticEvent<HTMLElement>) => void,
+  onClick?: (event: SyntheticMouseEvent<HTMLElement>) => void,
+  onFocus?: (event: SyntheticFocusEvent<HTMLElement>) => void,
+  onKeyDown?: (event: SyntheticKeyboardEvent<HTMLElement>) => void,
+  onKeyPress?: (event: SyntheticKeyboardEvent<HTMLElement>) => void,
+  onMouseEnter?: (event: SyntheticMouseEvent<HTMLElement>) => void,
+  onMouseLeave?: (event: SyntheticMouseEvent<HTMLElement>) => void,
+  onMouseOver?: (event: SyntheticMouseEvent<HTMLElement>) => void
+};
+
+export default class InputLikeText extends React.Component<Props> {
   static defaultProps = {
     size: 'small'
   };
