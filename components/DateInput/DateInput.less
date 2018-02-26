@@ -2,22 +2,7 @@
 
 :local {
   .root {
-    padding: 5px 40px 6px 10px;
-    border: 1px solid @border-color-gray-light;
-    border-top-color: @border-color-gray-dark;
-    box-sizing: border-box;
-    display: inline-block;
-    width: 126px;
-    font-size: 14px;
-    position: relative;
-
-    &:focus {
-      outline: none;
-      border: 1px solid #5199db;
-      box-shadow: 0 0 0 1px #5199db;
-    }
-
-    &.empty > * {
+    &.empty {
       visibility: hidden;
     }
   }
@@ -47,11 +32,18 @@
     right: 0;
     top: 0;
     bottom: 0;
-    padding: 0 10px;
-    line-height: 30px;
-    text-align: center;
+    width: 40px;
     cursor: pointer;
     user-select: none;
+  }
+
+  .iconInner {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    bottom: 0;
+    height: 20px;
+    margin: auto;
   }
 
   .root.empty .icon {

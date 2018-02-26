@@ -5,6 +5,19 @@ import type { ITheme } from '../theme';
 const sidePadding = 10;
 const sidePaddingPadded = 25;
 
+const verticalPadding = {
+  small: 6,
+  medium: 10,
+  large: 12
+};
+
+const paddingMixin = (size: 'small' | 'medium' | 'large') => ({
+  paddingTop: verticalPadding[size],
+  paddingBottom: verticalPadding[size],
+  paddingLeft: sidePadding,
+  paddingRight: sidePadding
+});
+
 export default (theme: ITheme) => ({
   root: {
     display: 'inline-block',
@@ -17,17 +30,15 @@ export default (theme: ITheme) => ({
     boxSizing: 'border-box',
     fontFamily: 'inherit',
     fontSize: '14px',
-    lineHeight: '16px',
+    lineHeight: '20px',
     margin: '0',
     outline: 'none',
-    padding: [[0, sidePadding]],
     width: '100%',
     webkitAppearance: 'none',
 
     '&:focus': {
       borderColor: theme.common.borderColorFocus,
       boxShadow: `0 0 0 1px ${theme.common.borderColorFocus}`,
-      position: 'relative',
       zIndex: '2'
     },
 
@@ -37,12 +48,12 @@ export default (theme: ITheme) => ({
   },
   sizeSmall: {
     '& $input': {
-      lineHeight: '32px'
+      ...paddingMixin('small')
     }
   },
   sizeMedium: {
     '& $input': {
-      lineHeight: '38px',
+      ...paddingMixin('medium'),
       fontSize: '16px'
     },
     '& $leftIcon': {
@@ -56,7 +67,7 @@ export default (theme: ITheme) => ({
   },
   DEPRECATED_sizeMedium: {
     '& $input': {
-      lineHeight: '38px',
+      ...paddingMixin('medium'),
       fontSize: '14px'
     },
     '& $leftIcon': {
@@ -70,7 +81,7 @@ export default (theme: ITheme) => ({
   },
   sizeLarge: {
     '& $input': {
-      lineHeight: '42px',
+      ...paddingMixin('large'),
       fontSize: '16px'
     },
     '& $placeholder': {
@@ -170,17 +181,5 @@ export default (theme: ITheme) => ({
   },
   borderless: {
     borderColor: 'transparent'
-  },
-  searchLine: {
-    fontSize: '15px',
-    borderRadius: '2px',
-
-    '& $leftIcon': {
-      fontSize: '22px'
-    },
-    '&:focus': {
-      borderColor: 'transparent',
-      boxShadow: 'none'
-    }
   }
 });

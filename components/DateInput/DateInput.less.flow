@@ -6,6 +6,7 @@ declare module.exports: {|
   +'empty': string;
   +'filled': string;
   +'icon': string;
+  +'iconInner': string;
   +'mask': string;
   +'root': string;
 |};

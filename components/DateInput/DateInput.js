@@ -17,6 +17,7 @@ import {
 import { DatePart } from './DatePart';
 import { MaskedValue } from './MaskedValue';
 import { selectNodeContents, removeAllSelections } from './SelectionHelpers';
+import InputLikeText from '../internal/InputLikeText';
 
 export const DateParts = {
   Date: 0,
@@ -38,6 +39,7 @@ type Props = {
   disabled?: boolean,
   width?: string | number,
   withIcon?: boolean,
+  size: 'small' | 'large' | 'medium',
   onBlur?: (SyntheticFocusEvent<HTMLElement>) => void,
   onFocus?: (SyntheticFocusEvent<HTMLElement>) => void,
   onChange?: ({ target: { value: string } }, string) => void,
@@ -47,6 +49,10 @@ type Props = {
 class DateInput extends React.Component<Props, State> {
   _node: HTMLElement | null = null;
   _innerNode: HTMLElement | null = null;
+
+  static defaultProps = {
+    size: 'small'
+  };
 
   constructor(props: Props) {
     super(props);
@@ -94,22 +100,27 @@ class DateInput extends React.Component<Props, State> {
     const isEmpty = this.checkIfEmpty();
 
     return (
-      <div
-        style={{ width: this.props.width }}
-        className={classNames({
-          [styles.root]: true,
-          [styles.empty]: isEmpty,
-          [styles.disabled]: this.props.disabled
-        })}
-        ref={el => (this._node = el)}
-        tabIndex={this.props.disabled ? -1 : 0}
+      <InputLikeText
+        width={this.props.width}
+        innerRef={el => {
+          this._node = el;
+        }}
+        size={this.props.size}
+        disabled={this.props.disabled}
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
         onKeyDown={this.handleKeyDown}
         onMouseDown={this.createSelectionHandler(DateParts.Date)}
         onPaste={this.handlePaste}
       >
-        <div ref={el => (this._innerNode = el)} onDoubleClick={this.selectAll}>
+        <div
+          ref={el => (this._innerNode = el)}
+          onDoubleClick={this.selectAll}
+          className={classNames({
+            [styles.root]: true,
+            [styles.empty]: isEmpty
+          })}
+        >
           <DatePart
             selected={selected === DateParts.Date}
             onMouseDown={this.createSelectionHandler(DateParts.Date)}
@@ -139,10 +150,12 @@ class DateInput extends React.Component<Props, State> {
         </div>
         {this.props.withIcon && (
           <span className={styles.icon}>
-            <Icon name="Calendar" />
+            <span className={styles.iconInner}>
+              <Icon name="Calendar" />
+            </span>
           </span>
         )}
-      </div>
+      </InputLikeText>
     );
   }
 

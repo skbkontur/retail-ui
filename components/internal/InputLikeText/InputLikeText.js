@@ -4,27 +4,14 @@ import classNames from 'classnames';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 
-import filterProps from '../../filterProps';
-
 import '../../ensureOldIEClassName';
 import Upgrades from '../../../lib/Upgrades';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 const styles = isFlatDesign
-  ? require('./InputLikeText.flat.less')
-  : require('./InputLikeText.less');
-
-const PASS_PROPS = {
-  onBlur: true,
-  onClick: true,
-  onFocus: true,
-  onKeyDown: true,
-  onKeyPress: true,
-  onMouseEnter: true,
-  onMouseLeave: true,
-  onMouseOver: true
-};
+  ? require('../../Input/Input.flat.less')
+  : require('../../Input/Input.less');
 
 type Props = {
   borderless?: boolean,
@@ -34,26 +21,35 @@ type Props = {
   warning?: boolean,
   disabled?: boolean,
   size: 'small' | 'medium' | 'large',
-  onBlur?: (event: SyntheticEvent<HTMLElement>) => void,
-  onClick?: (event: SyntheticMouseEvent<HTMLElement>) => void,
-  onFocus?: (event: SyntheticFocusEvent<HTMLElement>) => void,
-  onKeyDown?: (event: SyntheticKeyboardEvent<HTMLElement>) => void,
-  onKeyPress?: (event: SyntheticKeyboardEvent<HTMLElement>) => void,
-  onMouseEnter?: (event: SyntheticMouseEvent<HTMLElement>) => void,
-  onMouseLeave?: (event: SyntheticMouseEvent<HTMLElement>) => void,
-  onMouseOver?: (event: SyntheticMouseEvent<HTMLElement>) => void
+  width?: string | number,
+  placeholder?: string,
+  innerRef?: (el: HTMLElement | null) => void,
+  // eslint-disable-next-line flowtype/no-weak-types
+  [key: string]: any
 };
 
 export default class InputLikeText extends React.Component<Props> {
+  _node: HTMLElement | null = null;
+
   static defaultProps = {
     size: 'small'
   };
 
-  render() {
-    const passProps = this.props.disabled
-      ? {}
-      : filterProps(this.props, PASS_PROPS);
+  /**
+   * @public
+   */
+  focus() {
+    this._node && this._node.focus();
+  }
 
+  /**
+   * @public
+   */
+  blur() {
+    this._node && this._node.blur();
+  }
+
+  render() {
     const className = classNames({
       [styles.root]: true,
       [styles.padRight]: this.props.padRight,
@@ -61,18 +57,58 @@ export default class InputLikeText extends React.Component<Props> {
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,
       [styles.disabled]: this.props.disabled,
-      [styles[`size-${this.props.size}`]]: this.props.size
+      [this._getSizeClassName()]: true
     });
 
+    let placeholder = null;
+    if (!this.props.children && this.props.placeholder) {
+      placeholder = (
+        <span className={styles.placeholder}>{this.props.placeholder}</span>
+      );
+    }
+
     return (
-      <span tabIndex="0" className={className} {...passProps}>
-        <span className={styles.inner}>{this.props.children}</span>
-      </span>
+      <label className={className} style={{ width: this.props.width }}>
+        <span
+          {...this.props}
+          tabIndex={this.props.disabled ? -1 : 0}
+          className={styles.input}
+          ref={this._ref}
+        >
+          <span
+            style={{
+              position: 'absolute',
+              left: 1,
+              right: 1,
+              paddingLeft: 'inherit',
+              paddingRight: 'inherit',
+              overflow: 'hidden'
+            }}
+          >
+            {this.props.children}
+          </span>
+        </span>
+        {placeholder}
+      </label>
     );
   }
 
-  focus() {
-    // eslint-disable-next-line flowtype/no-weak-types
-    (ReactDOM.findDOMNode(this): any).focus();
+  _ref = el => {
+    if (this.props.innerRef) {
+      this.props.innerRef(el);
+    }
+    this._node = el;
+  };
+
+  _getSizeClassName() {
+    const SIZE_CLASS_NAMES = {
+      small: styles.sizeSmall,
+      medium: Upgrades.isSizeMedium16pxEnabled()
+        ? styles.sizeMedium
+        : styles.DEPRECATED_sizeMedium,
+      large: styles.sizeLarge
+    };
+
+    return SIZE_CLASS_NAMES[this.props.size];
   }
 }

@@ -12,7 +12,6 @@ declare module.exports: {|
   +'placeholder': string;
   +'rightIcon': string;
   +'root': string;
-  +'searchLine': string;
   +'sizeLarge': string;
   +'sizeMedium': string;
   +'sizeSmall': string;

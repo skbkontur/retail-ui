@@ -12,7 +12,7 @@ type State = {
   value: * | null
 };
 
-class DatePickerWithError extends React.Component<{}, State> {
+class DatePickerWithError extends React.Component<*, State> {
   state = {
     value: null,
     error: false
@@ -29,6 +29,8 @@ class DatePickerWithError extends React.Component<{}, State> {
     return (
       <Gapped>
         <DatePicker
+          disabled={this.props.disabled}
+          size={this.props.size}
           error={this.state.error}
           value={this.state.value}
           onChange={this._handleChange}
@@ -62,4 +64,7 @@ storiesOf('DatePicker', module)
       <button>ok</button>
     </div>
   ))
-  .add('DatePickerWithError', () => <DatePickerWithError />);
+  .add('DatePickerWithError', () => <DatePickerWithError />)
+  .add('DatePicker disabled', () => <DatePickerWithError disabled />)
+  .add('DatePicker medium', () => <DatePickerWithError size="medium" />)
+  .add('DatePicker large', () => <DatePickerWithError size="large" />);

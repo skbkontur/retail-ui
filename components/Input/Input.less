@@ -4,6 +4,11 @@
   @side-padding: 10px;
   @side-padding-padded: 25px;
 
+  @small-vertical-padding: 6px;
+  @medium-vertical-padding: 9px;
+  @DEPRECATED_medium-vertical-padding: 10px;
+  @large-vertical-padding: 11px;
+
   .root {
     display: inline-block;
     position: relative;
@@ -14,14 +19,30 @@
     border: 1px solid @border-color-gray-light;
     border-top-color: @border-color-gray-dark;
     box-sizing: border-box;
+    display: inline-block;
     font-family: inherit;
     font-size: 14px;
-    line-height: 16px;
+    line-height: 20px;
     margin: 0; // For Safari.
     outline: none;
-    padding: 0 @side-padding;
+    padding-left: @side-padding;
+    padding-right: @side-padding;
     width: 100%;
     -webkit-appearance: none;
+    white-space: nowrap;
+    text-overflow: clip;
+
+    &:before {
+      content: '\a0';
+    }
+  }
+
+  .input::placeholder {
+    color: @placeholder-color;
+  }
+
+  .input:focus::placeholder {
+    color: @placeholder-color-light;
   }
 
   .input::-ms-clear {
@@ -29,23 +50,29 @@
   }
 
   .sizeSmall .input {
-    line-height: 32px;
+    padding-top: @small-vertical-padding;
+    padding-bottom: @small-vertical-padding;
   }
 
   .sizeMedium .input {
-    line-height: 38px;
     font-size: 16px;
+    line-height: 22px;
+    padding-top: @medium-vertical-padding;
+    padding-bottom: @medium-vertical-padding;
   }
 
-  .DEPRECATED_sizeMedium input {
-    line-height: 38px;
+  .DEPRECATED_sizeMedium .input {
     font-size: 14px;
+    padding-top: @DEPRECATED_medium-vertical-padding;
+    padding-bottom: @DEPRECATED_medium-vertical-padding;
   }
 
   .sizeLarge {
     .input {
-      line-height: 42px;
+      padding-top: @large-vertical-padding;
+      padding-bottom: @large-vertical-padding;
       font-size: 16px;
+      line-height: 22px;
     }
 
     .placeholder {
@@ -91,7 +118,6 @@
   .input:focus {
     border-color: @border-color-focus;
     box-shadow: 0 0 0 1px @border-color-focus;
-    position: relative;
     z-index: 2;
   }
 
@@ -99,6 +125,7 @@
     background: @bg-disabled;
     border-color: @border-color-gray-light;
     color: @text-color-disabled;
+    pointer-events: none;
   }
 
   .warning .input {
@@ -135,7 +162,7 @@
 
   .placeholder {
     bottom: 1px;
-    color: #aaa;
+    color: @placeholder-color;
     font-size: 14px;
     line-height: normal;
     left: @side-padding + 1;
@@ -149,7 +176,12 @@
     user-select: none;
     -ms-user-select: none;
     cursor: text;
-    height: 18px;
+    height: 20px;
+    z-index: -1;
+  }
+
+  .input:focus + .placeholder {
+    color: @placeholder-color-light;
   }
 
   .padLeft .placeholder {
@@ -202,19 +234,5 @@
 
   .borderless {
     border-color: transparent;
-  }
-
-  .searchLine {
-    font-size: 15px;
-    border-radius: 2px;
-
-    &.leftIcon {
-      font-size: 22px;
-    }
-
-    &:focus {
-      border-color: transparent;
-      box-shadow: none;
-    }
   }
 }
