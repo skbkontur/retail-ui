@@ -2,7 +2,6 @@
 
 import classNames from 'classnames';
 import * as React from 'react';
-import ReactDOM from 'react-dom';
 
 import '../../ensureOldIEClassName';
 import Upgrades from '../../../lib/Upgrades';
