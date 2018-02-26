@@ -3,6 +3,8 @@
 import classNames from 'classnames';
 import * as React from 'react';
 
+import { isIE } from '../ensureOldIEClassName';
+import Input from '../Input/index';
 import styles from './DateInput.less';
 
 import Icon from '../Icon';
@@ -47,8 +49,10 @@ type Props = {
 };
 
 class DateInput extends React.Component<Props, State> {
+  _input: Input | null = null;
   _node: HTMLElement | null = null;
   _innerNode: HTMLElement | null = null;
+  _isFocused: boolean = false;
 
   static defaultProps = {
     size: 'small'
@@ -77,6 +81,8 @@ class DateInput extends React.Component<Props, State> {
     ) {
       this.emitChange();
     }
+
+    this.selectDatePartInInput();
   }
 
   /**
@@ -84,21 +90,93 @@ class DateInput extends React.Component<Props, State> {
    */
   blur() {
     this._node && this._node.blur();
+    this._input && this._input.blur();
   }
 
   /**
    * @public
    */
   focus() {
-    if (!this.props.disabled && this._node) {
-      this._node.focus();
+    if (!this.props.disabled) {
+      this._node && this._node.focus();
+      this._input && this._input.focus();
     }
   }
 
+  getFormattedValue = () => {
+    const { date, month, year } = this.state;
+    const date_ = date ? date : '__';
+    const month_ = month ? month : '__';
+    const year_ = year ? year : '____';
+    return `${date_}.${month_}.${year_}`;
+  };
+
+  selectDatePartInInput = () => {
+    if (!this._isFocused || !isIE) {
+      return;
+    }
+    const { selected } = this.state;
+
+    let range;
+    switch (selected) {
+      case DateParts.Date:
+        range = [0, 2];
+        break;
+      case DateParts.Month:
+        range = [3, 5];
+        break;
+      case DateParts.Year:
+        range = [6, 10];
+        break;
+      case DateParts.All:
+        range = [0, 10];
+        break;
+      default:
+        range = [0, 0];
+    }
+
+    this._input && this._input.setSelectionRange(...range);
+  };
+
   render() {
-    const { date, month, year, selected } = this.state;
+    /**
+     * Internet Explorer looses focus on element, if its containing node
+     * would be selected with selectNodeContents
+     *
+     * Rendering input with mask
+     */
+    if (isIE) {
+      return this.renderInput();
+    }
+    return this.renderInputLikeText();
+  }
+
+  renderInput() {
     const isEmpty = this.checkIfEmpty();
 
+    return (
+      <Input
+        mask="99.99.9999"
+        width={this.props.width}
+        ref={el => {
+          this._input = el;
+        }}
+        size={this.props.size}
+        disabled={this.props.disabled}
+        onBlur={this.handleBlur}
+        onFocus={this.handleFocus}
+        onKeyDown={this.handleKeyDown}
+        onClick={this.handleClick}
+        onPaste={this.handlePaste}
+        value={isEmpty ? '' : this.getFormattedValue()}
+        rightIcon={<Icon name="Calendar" />}
+      />
+    );
+  }
+
+  renderInputLikeText() {
+    const { date, month, year, selected } = this.state;
+    const isEmpty = this.checkIfEmpty();
     return (
       <InputLikeText
         width={this.props.width}
@@ -110,7 +188,7 @@ class DateInput extends React.Component<Props, State> {
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
         onKeyDown={this.handleKeyDown}
-        onMouseDown={this.createSelectionHandler(DateParts.Date)}
+        onMouseDown={this.handleMouseDown}
         onPaste={this.handlePaste}
       >
         <div
@@ -159,14 +237,36 @@ class DateInput extends React.Component<Props, State> {
     );
   }
 
+  handleMouseDown = (event: SyntheticMouseEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    this.setSelection(DateParts.Date);
+
+    // Firefix prevents focus if mousedown prevented
+    this.focus();
+  };
+
+  handleClick = (event: SyntheticMouseEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const selection = getInputSelection(event.target);
+    const blockToSelect =
+      selection.start < 3
+        ? DateParts.Date
+        : selection.start < 6 ? DateParts.Month : DateParts.Year;
+    this.setSelection(blockToSelect);
+  };
+
   handleFocus = (event: SyntheticFocusEvent<HTMLElement>) => {
-    this.setSelection(0);
+    this._isFocused = true;
+
+    this.setSelection(DateParts.Date);
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
 
   handleBlur = (event: SyntheticFocusEvent<HTMLElement>) => {
+    this._isFocused = false;
+
     this.setSelection(null, removeAllSelections);
     if (this.props.onBlur) {
       this.props.onBlur(event);
@@ -313,5 +413,16 @@ const formatDate = (date, month, year) => {
 };
 
 const trimTrailingDots = (value: string) => value.replace(/\.*$/, '');
+
+function getInputSelection(input) {
+  if (!(input instanceof HTMLInputElement)) {
+    throw new Error('input is not HTMLInputElement');
+  }
+  return {
+    start: input.selectionStart,
+    end: input.selectionEnd,
+    direction: input.selectionDirection
+  };
+}
 
 export default DateInput;

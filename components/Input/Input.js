@@ -69,7 +69,7 @@ export type Props = {
   value?: string,
   warning?: boolean,
   width?: number | string,
-  onBlur?: (e: Event) => void,
+  onBlur?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
   onClick?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
   onMouseUp?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
   onMouseDown?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,

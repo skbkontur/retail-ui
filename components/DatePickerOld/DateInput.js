@@ -37,7 +37,7 @@ type Props = {
   warning?: boolean,
   disabled?: boolean,
   getInputRef?: (ref: Input) => void,
-  onBlur?: (e: Event) => void,
+  onBlur?: (e: SyntheticFocusEvent<HTMLElement>) => void,
   onSubmit?: () => void,
   onChange: (value: string) => void,
   onFocus?: () => void,
@@ -322,7 +322,7 @@ export default class DateInput extends Component<Props> {
     }
   };
 
-  _handleBlur = (e: Event) => {
+  _handleBlur = e => {
     this._focused = false;
     if (this.props.onBlur) {
       this.props.onBlur(e);

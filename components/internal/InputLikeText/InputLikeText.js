@@ -66,10 +66,22 @@ export default class InputLikeText extends React.Component<Props> {
       );
     }
 
+    const {
+      /* eslint-disable no-unused-vars */
+      tabIndex,
+      className: cn,
+      width,
+      children,
+      innerRef,
+      placeholder: ph,
+      /* eslint-enable no-unused-vars */
+      ...rest
+    } = this.props;
+
     return (
       <label className={className} style={{ width: this.props.width }}>
         <span
-          {...this.props}
+          {...rest}
           tabIndex={this.props.disabled ? -1 : 0}
           className={styles.input}
           ref={this._ref}
