@@ -9,7 +9,6 @@ import filterProps from '../filterProps';
 import Picker from './Picker';
 import DateInput from '../DateInput';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
-import RenderLayer from '../RenderLayer';
 
 import {
   formatDate,
@@ -145,19 +144,7 @@ class DatePicker extends React.Component<Props<string>, State> {
   }
 
   close() {
-    /**
-     * FIXME:
-     * DateInput focuses in IE if was blurred by Tab key after this setState
-     * Need to dig the problem dipper and find out what causes this problem.
-     *
-     * In IE this setState occures before DateInput calls didUpdate,
-     * and in Chrome it called after DateInput's didUpdate call.
-     *
-     * Adding nextTick to delay setState after children updates.
-     */
-    process.nextTick(() => {
-      this.setState({ opened: false });
-    });
+    this.setState({ opened: false });
   }
 
   render() {
@@ -187,11 +174,7 @@ class DatePicker extends React.Component<Props<string>, State> {
     }
 
     return (
-      <RenderLayer
-        onClickOutside={this._handleBlur}
-        onFocusOutside={this._handleBlur}
-        active={opened}
-      >
+      <div>
         <label
           className={styles.root}
           style={{ width: this.props.width }}
@@ -205,12 +188,13 @@ class DatePicker extends React.Component<Props<string>, State> {
             value={this.props.value || ''}
             width="100%"
             withIcon
+            onBlur={this._handleBlur}
             onFocus={this._handleFocus}
             onChange={this.props.onChange}
           />
           {picker}
         </label>
-      </RenderLayer>
+      </div>
     );
   }
 
