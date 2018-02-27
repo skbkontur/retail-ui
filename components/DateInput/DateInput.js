@@ -9,6 +9,7 @@ import Icon from '../Icon';
 
 const polyfillInput = false;
 
+import { extractAction, Actions } from './DateInputAction';
 import {
   clearDatePart,
   updateDatePartBy,
@@ -28,6 +29,13 @@ export const DateParts = {
   Month: 1,
   Year: 2,
   All: 3
+};
+
+const DatePartRanges = {
+  [DateParts.Date]: [0, 2],
+  [DateParts.Month]: [3, 5],
+  [DateParts.Year]: [6, 10],
+  [DateParts.All]: [0, 10]
 };
 
 export type State = {
@@ -71,7 +79,7 @@ class DateInput extends React.Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Props) {
     if (this.props.value !== nextProps.value) {
-      this.setValue(nextProps.value);
+      this.deriveStateFromValue(nextProps.value);
     }
   }
 
@@ -123,7 +131,7 @@ class DateInput extends React.Component<Props, State> {
   }
 
   renderInput() {
-    const isEmpty = this.checkIfEmpty();
+    const isMaskHidden = this.checkIfMaskHidden();
 
     return (
       <Input
@@ -138,7 +146,7 @@ class DateInput extends React.Component<Props, State> {
         onKeyDown={this.handleKeyDown}
         onClick={this.handleClick}
         onPaste={this.handlePaste}
-        value={isEmpty ? '' : this.getFormattedValue()}
+        value={isMaskHidden ? '' : this.getFormattedValue()}
         rightIcon={
           this.props.withIcon ? (
             <Icon
@@ -153,7 +161,7 @@ class DateInput extends React.Component<Props, State> {
 
   renderInputLikeText() {
     const { date, month, year, selected } = this.state;
-    const isEmpty = this.checkIfEmpty();
+    const isMaskHidden = this.checkIfMaskHidden();
     return (
       <InputLikeText
         width={this.props.width}
@@ -173,7 +181,7 @@ class DateInput extends React.Component<Props, State> {
           onDoubleClick={this.createSelectionHandler(DateParts.All)}
           className={classNames({
             [styles.root]: true,
-            [styles.empty]: isEmpty
+            [styles.empty]: isMaskHidden
           })}
         >
           <DatePart
@@ -261,50 +269,37 @@ class DateInput extends React.Component<Props, State> {
       }
     }
 
-    if (event.key === 'ArrowLeft') {
+    const action = extractAction(event);
+
+    if (action !== Actions.Ignore) {
       event.preventDefault();
+    }
+
+    if (action === Actions.MoveSelectionLeft) {
       this.moveSelection(-1);
     }
 
-    if (event.key === 'ArrowRight') {
-      event.preventDefault();
+    if (action === Actions.MoveSelectionRight) {
       this.moveSelection(1);
     }
 
-    if (event.key === 'ArrowUp') {
-      event.preventDefault();
+    if (action === Actions.Increment) {
       this.updateDatePartBy(1);
     }
 
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
+    if (action === Actions.Decrement) {
       this.updateDatePartBy(-1);
     }
 
-    if (/^\d$/.test(event.key)) {
-      event.preventDefault();
+    if (action === Actions.Digit) {
       this.inputValue(event.key);
     }
 
-    if (event.key === 'Backspace' || event.key === 'Delete') {
-      event.preventDefault();
+    if (action === Actions.ClearSelection) {
       this.clearDatePart();
     }
 
-    // Not covered by guides
-    if (event.key === 'Tab') {
-      if (event.shiftKey && this.state.selected !== 0) {
-        event.preventDefault();
-        this.moveSelection(-1);
-      }
-      if (!event.shiftKey && this.state.selected !== 2) {
-        event.preventDefault();
-        this.moveSelection(1);
-      }
-    }
-
-    if (event.key === 'a' && (event.ctrlKey || event.metaKey)) {
-      event.preventDefault();
+    if (action === Actions.FullSelection) {
       this.selectDatePart(DateParts.All);
     }
   };
@@ -312,66 +307,40 @@ class DateInput extends React.Component<Props, State> {
   handlePaste = (e: SyntheticClipboardEvent<HTMLElement>) => {
     const parsed = tryParseDateString(e.clipboardData.getData('text'));
     if (parsed) {
-      this.setState({
-        ...parsed,
-        selected: DateParts.All
-      });
+      this.setState({ ...parsed, selected: DateParts.All });
     }
   };
 
   getFormattedValue = () => {
     const { date, month, year } = this.state;
-    const date_ = date ? date : '__';
-    const month_ = month ? month : '__';
-    const year_ = year ? year : '____';
-    return `${date_}.${month_}.${year_}`;
+    return dateToMask(date, month, year);
   };
 
   selectDatePartInInput = () => {
-    if (polyfillInput) {
-      return;
-    }
-
-    if (!this._isFocused) {
+    if (polyfillInput || !this._isFocused) {
       return;
     }
 
     const { selected } = this.state;
-
     if (selected == null) {
       removeAllSelections();
       return;
     }
 
-    let range;
-    switch (selected) {
-      case DateParts.Date:
-        range = [0, 2];
-        break;
-      case DateParts.Month:
-        range = [3, 5];
-        break;
-      case DateParts.Year:
-        range = [6, 10];
-        break;
-      case DateParts.All:
-        range = [0, 10];
-        break;
-      default:
-        range = [0, 0];
+    const range = DatePartRanges[selected];
+    if (this._input) {
+      this._input.setSelectionRange(...range);
     }
-
-    this._input && this._input.setSelectionRange(...range);
   };
 
-  checkIfEmpty() {
+  checkIfMaskHidden() {
     return (
       ![this.state.date, this.state.month, this.state.year].some(Boolean) &&
       this.state.selected == null
     );
   }
 
-  setValue = (value: ?string) => {
+  deriveStateFromValue = (value: ?string) => {
     this.setState(parseValue(value));
   };
 
@@ -433,6 +402,13 @@ const parseValue = value => {
   const match = re.exec(value || '');
   const [date = null, month = null, year = null] = match.slice(1);
   return { date, month, year };
+};
+
+const dateToMask = (date, month, year) => {
+  const date_ = date ? date.padEnd(2, '_') : '__';
+  const month_ = month ? month.padEnd(2, '_') : '__';
+  const year_ = year ? year.padEnd(4, '_') : '____';
+  return `${date_}.${month_}.${year_}`;
 };
 
 const formatDate = (date, month, year) => {
