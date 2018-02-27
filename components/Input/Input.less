@@ -2,7 +2,7 @@
 
 :local {
   @side-padding: 10px;
-  @side-padding-padded: 25px;
+  @side-padding-padded: 27px;
 
   @small-vertical-padding: 6px;
   @medium-vertical-padding: 8px;
@@ -55,11 +55,18 @@
     padding-bottom: @small-vertical-padding;
   }
 
-  .sizeMedium .input {
-    font-size: 16px;
-    line-height: 22px;
-    padding-top: @medium-vertical-padding;
-    padding-bottom: @medium-vertical-padding;
+  .sizeMedium {
+    .input {
+      font-size: 16px;
+      line-height: 22px;
+      padding-top: @medium-vertical-padding;
+      padding-bottom: @medium-vertical-padding;
+    }
+
+    .icon {
+      font-size: 16px;
+      height: 22px;
+    }
   }
 
   .DEPRECATED_sizeMedium .input {
@@ -74,6 +81,11 @@
       padding-bottom: @large-vertical-padding;
       font-size: 16px;
       line-height: 22px;
+    }
+
+    .icon {
+      font-size: 16px;
+      height: 22px;
     }
 
     .placeholder {
@@ -196,27 +208,20 @@
   .rightIcon {
     color: #a9a9a9;
     cursor: text;
-    line-height: 34px;
-    height: 34px;
+    top: 0;
+    bottom: 0;
+    width: @side-padding-padded;
+    position: absolute;
+    z-index: 2;
+    display: inline-block;
+  }
+
+  .icon {
     position: absolute;
     top: 0;
-    z-index: 2;
-  }
-
-  .sizeMedium {
-    .leftIcon,
-    .rightIcon {
-      line-height: 40px;
-      height: 40px;
-    }
-  }
-
-  .sizeLarge {
-    .leftIcon,
-    .rightIcon {
-      line-height: 44px;
-      height: 44px;
-    }
+    bottom: 0;
+    height: 20px;
+    margin: auto;
   }
 
   .disabled .leftIcon,
@@ -225,11 +230,19 @@
   }
 
   .leftIcon {
-    left: 8px;
+    left: 0;
+
+    & .icon {
+      left: @side-padding;
+    }
   }
 
   .rightIcon {
-    right: 8px;
+    right: 0;
+
+    & .icon {
+      right: @side-padding;
+    }
   }
 
   .borderless {

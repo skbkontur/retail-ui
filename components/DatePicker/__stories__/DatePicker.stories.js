@@ -19,7 +19,7 @@ class DatePickerWithError extends React.Component<*, State> {
   };
 
   _handleChange = (_, value) => {
-    action('change')(value);
+    action('change')(_, value);
     this.setState({
       value
     });
@@ -38,7 +38,13 @@ class DatePickerWithError extends React.Component<*, State> {
         />
         <Button onClick={() => this.setState({ value: null })}>Clear</Button>
         <Button onClick={() => this.setState({ value: '99.99.9999' })}>
-          Invalid
+          Set "99.99.9999"
+        </Button>
+        <Button onClick={() => this.setState({ value: '99.hello' })}>
+          Set "99.hello"
+        </Button>
+        <Button onClick={() => this.setState({ value: '10.3' })}>
+          Set "10.3"
         </Button>
       </Gapped>
     );

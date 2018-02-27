@@ -118,7 +118,6 @@ class DatePicker extends React.Component<Props<string>, State> {
 
   input: DateInput | null;
 
-  _focusSubscription: *;
   _focused: boolean;
 
   constructor(props: Props<string>) {
@@ -143,6 +142,10 @@ class DatePicker extends React.Component<Props<string>, State> {
   focus() {
     this.input && this.input.focus();
     this._handleFocus();
+  }
+
+  close() {
+    this.setState({ opened: false });
   }
 
   render() {
@@ -192,7 +195,6 @@ class DatePicker extends React.Component<Props<string>, State> {
             withIcon
             onFocus={this._handleFocus}
             onChange={this.props.onChange}
-            onKeyDown={this._handleKeyDown}
           />
           {picker}
         </label>
@@ -236,13 +238,6 @@ class DatePicker extends React.Component<Props<string>, State> {
     return undefined;
   };
 
-  _handleKeyDown = event => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      this.blur();
-    }
-  };
-
   _handleFocus = () => {
     if (this._focused) {
       return;
@@ -271,7 +266,7 @@ class DatePicker extends React.Component<Props<string>, State> {
     }
 
     this._focused = false;
-    this.close(false);
+    this.close();
 
     if (onBlur) {
       onBlur();
@@ -289,14 +284,6 @@ class DatePicker extends React.Component<Props<string>, State> {
       this.props.onChange({ target: { value: date } }, date);
     }
   };
-
-  close(focus: boolean) {
-    this.setState({ opened: false }, () => {
-      if (focus) {
-        this.input && this.input.focus();
-      }
-    });
-  }
 }
 
 export default DatePicker;

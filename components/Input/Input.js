@@ -316,15 +316,19 @@ class Input extends React.Component<Props, State> {
   }
 
   _renderLeftIcon(classes) {
-    return this._renderIcon(this.props.leftIcon, classes.leftIcon);
+    return this._renderIcon(this.props.leftIcon, classes.leftIcon, classes);
   }
 
   _renderRightIcon(classes) {
-    return this._renderIcon(this.props.rightIcon, classes.rightIcon);
+    return this._renderIcon(this.props.rightIcon, classes.rightIcon, classes);
   }
 
-  _renderIcon(icon, className) {
-    return icon ? <div className={className}>{icon}</div> : null;
+  _renderIcon(icon, className, classes) {
+    return icon ? (
+      <div className={className}>
+        <span className={classes.icon}>{icon}</span>
+      </div>
+    ) : null;
   }
 
   _renderPlaceholder(classes) {

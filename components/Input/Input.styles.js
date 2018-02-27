@@ -56,13 +56,9 @@ export default (theme: ITheme) => ({
       ...paddingMixin('medium'),
       fontSize: '16px'
     },
-    '& $leftIcon': {
-      lineHeight: '40px',
-      height: '40px'
-    },
-    '& $rightIcon': {
-      lineHeight: '40px',
-      height: '40px'
+    '& $icon': {
+      fontSize: '16px',
+      height: '22px'
     }
   },
   DEPRECATED_sizeMedium: {
@@ -88,13 +84,9 @@ export default (theme: ITheme) => ({
       fontSize: '16px',
       height: '21px'
     },
-    '& $leftIcon': {
-      lineHeight: '44px',
-      height: '44px'
-    },
-    '& $rightIcon': {
-      lineHeight: '44px',
-      height: '44px'
+    '& $icon': {
+      fontSize: '16px',
+      height: '22px'
     }
   },
   disabled: {
@@ -162,22 +154,38 @@ export default (theme: ITheme) => ({
     cursor: 'text',
     height: 18
   },
-  icon: {
+  iconBase: {
     color: '#a9a9a9',
     cursor: 'text',
-    lineHeight: '34px',
-    height: '34px',
     position: 'absolute',
     top: '0',
+    bottom: '0',
+    width: sidePaddingPadded,
+    display: 'inline-block',
     zIndex: '2'
   },
+  icon: {
+    position: 'absolute',
+    top: '0',
+    bottom: '0',
+    height: 20,
+    margin: 'auto'
+  },
   leftIcon: {
-    extend: 'icon',
-    left: 8
+    extend: 'iconBase',
+    left: 0,
+
+    '& $icon': {
+      left: sidePadding
+    }
   },
   rightIcon: {
-    extend: 'icon',
-    right: 8
+    extend: 'iconBase',
+    right: 0,
+
+    '& $icon': {
+      right: sidePadding
+    }
   },
   borderless: {
     borderColor: 'transparent'

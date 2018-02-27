@@ -5,6 +5,7 @@ declare module.exports: {|
   +'borderless': string;
   +'disabled': string;
   +'error': string;
+  +'icon': string;
   +'input': string;
   +'leftIcon': string;
   +'padLeft': string;
