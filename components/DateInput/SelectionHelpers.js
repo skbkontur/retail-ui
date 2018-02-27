@@ -20,6 +20,5 @@ export const selectNodeContents = (node: HTMLElement) => {
 };
 
 export const removeAllSelections = () => {
-  console.log('remove all selections');
   window.getSelection().removeAllRanges();
 };

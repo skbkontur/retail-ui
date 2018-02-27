@@ -247,8 +247,6 @@ class Input extends React.Component<Props, State> {
     if (input.setSelectionRange) {
       input.focus();
       input.setSelectionRange(start, end);
-      console.log('input.selectionStart', input.selectionStart);
-      console.log('input.selectionEnd', input.selectionEnd);
     } else if (input.createTextRange) {
       const range = input.createTextRange();
       range.collapse(true);

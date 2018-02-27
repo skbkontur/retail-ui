@@ -209,7 +209,6 @@ class Calendar extends React.Component<Props, State> {
     const maxMonthsToAdd = config.MAX_MONTHS_TO_APPEND_ON_SCROLL;
 
     const onEnd = () =>
-      console.log('END') ||
       this.setState({
         months: CalendarUtils.getMonths(month, year),
         scrollPosition: 0
