@@ -86,7 +86,7 @@ class DateInput extends React.Component<Props, State> {
 
     if (this.state.selected === DateParts.All) {
       this.selectAll();
-    } else if (!polyfillInput && this.state.selected !== prevState.selected) {
+    } else {
       this.selectDatePartInInput();
     }
   }
@@ -328,11 +328,20 @@ class DateInput extends React.Component<Props, State> {
   };
 
   selectDatePartInInput = () => {
+    if (polyfillInput) {
+      return;
+    }
+
     if (!this._isFocused) {
       return;
     }
 
     const { selected } = this.state;
+
+    if (selected == null) {
+      removeAllSelections();
+      return;
+    }
 
     let range;
     switch (selected) {

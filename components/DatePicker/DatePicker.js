@@ -145,7 +145,19 @@ class DatePicker extends React.Component<Props<string>, State> {
   }
 
   close() {
-    this.setState({ opened: false });
+    /**
+     * FIXME:
+     * DateInput focuses in IE if was blurred by Tab key after this setState
+     * Need to dig the problem dipper and find out what causes this problem.
+     *
+     * In IE this setState occures before DateInput calls didUpdate,
+     * and in Chrome it called after DateInput's didUpdate call.
+     *
+     * Adding nextTick to delay setState after children updates.
+     */
+    process.nextTick(() => {
+      this.setState({ opened: false });
+    });
   }
 
   render() {
