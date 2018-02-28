@@ -53,7 +53,8 @@ export type State = {
   month: string | null,
   year: string | null,
   minDate: ?CalendarDateShape,
-  maxDate: ?CalendarDateShape
+  maxDate: ?CalendarDateShape,
+  notify: boolean
 };
 
 type Props = {
@@ -72,7 +73,7 @@ type Props = {
 
 class DateInput extends React.Component<Props, State> {
   _input: Input | null = null;
-  _divNode: HTMLElement | null = null;
+  _inputlikeText: InputLikeText | null = null;
   _divInnerNode: HTMLElement | null = null;
   _isFocused: boolean = false;
 
@@ -87,7 +88,8 @@ class DateInput extends React.Component<Props, State> {
       editingCharIndex: 0,
       ...parseValue(props.value),
       minDate: tryGetCalendarDateShape(props.minDate),
-      maxDate: tryGetCalendarDateShape(props.maxDate)
+      maxDate: tryGetCalendarDateShape(props.maxDate),
+      notify: false
     };
   }
 
@@ -117,13 +119,17 @@ class DateInput extends React.Component<Props, State> {
     } else {
       this.selectDatePartInInput();
     }
+
+    if (this.state.notify && !prevState.notify) {
+      this.notify();
+    }
   }
 
   /**
    * @public
    */
   blur() {
-    this._divNode && this._divNode.blur();
+    this._inputlikeText && this._inputlikeText.blur();
     this._input && this._input.blur();
   }
 
@@ -132,8 +138,18 @@ class DateInput extends React.Component<Props, State> {
    */
   focus() {
     if (!this.props.disabled) {
-      this._divNode && this._divNode.focus();
+      this._inputlikeText && this._inputlikeText.focus();
       this._input && this._input.focus();
+    }
+  }
+
+  /**
+   * @public
+   */
+  blink() {
+    if (!this.props.disabled) {
+      this._inputlikeText && this._inputlikeText.blink();
+      this._input && this._input.blink();
     }
   }
 
@@ -154,29 +170,31 @@ class DateInput extends React.Component<Props, State> {
     const isMaskHidden = this.checkIfMaskHidden();
 
     return (
-      <Input
-        width={this.props.width}
-        ref={el => {
-          this._input = el;
-        }}
-        size={this.props.size}
-        disabled={this.props.disabled}
-        onBlur={this.handleBlur}
-        onFocus={this.handleFocus}
-        onKeyDown={this.handleKeyDown}
-        onClick={this.handleClick}
-        onDoubleClick={this.handleDoubleClick}
-        onPaste={this.handlePaste}
-        value={isMaskHidden ? '' : this.getFormattedValue()}
-        rightIcon={
-          this.props.withIcon ? (
-            <Icon
-              name="Calendar"
-              color={this.props.disabled ? 'inherit' : '#333'}
-            />
-          ) : null
-        }
-      />
+      <div className={styles.wrapper}>
+        <Input
+          width={this.props.width}
+          ref={el => {
+            this._input = el;
+          }}
+          size={this.props.size}
+          disabled={this.props.disabled}
+          onBlur={this.handleBlur}
+          onFocus={this.handleFocus}
+          onKeyDown={this.handleKeyDown}
+          onClick={this.handleClick}
+          onDoubleClick={this.handleDoubleClick}
+          onPaste={this.handlePaste}
+          value={isMaskHidden ? '' : this.getFormattedValue()}
+          rightIcon={
+            this.props.withIcon ? (
+              <Icon
+                name="Calendar"
+                color={this.props.disabled ? 'inherit' : '#333'}
+              />
+            ) : null
+          }
+        />
+      </div>
     );
   }
 
@@ -186,8 +204,8 @@ class DateInput extends React.Component<Props, State> {
     return (
       <InputLikeText
         width={this.props.width}
-        innerRef={el => {
-          this._divNode = el;
+        ref={el => {
+          this._inputlikeText = el;
         }}
         size={this.props.size}
         disabled={this.props.disabled}
@@ -398,8 +416,8 @@ class DateInput extends React.Component<Props, State> {
       event.preventDefault();
       event.stopPropagation();
 
-      if (this._divNode) {
-        this._divNode.focus();
+      if (this._inputlikeText) {
+        this._inputlikeText.focus();
       }
 
       this.selectDatePart(index);
@@ -431,6 +449,11 @@ class DateInput extends React.Component<Props, State> {
       this._input && this._input.setSelectionRange(0, 10);
       this._divInnerNode && selectNodeContents(this._divInnerNode);
     }
+  }
+
+  notify() {
+    this.blink();
+    this.setState({ notify: false });
   }
 }
 

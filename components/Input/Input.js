@@ -90,7 +90,8 @@ export type Props = {
 };
 
 type State = {
-  polyfillPlaceholder: boolean
+  polyfillPlaceholder: boolean,
+  blinking: boolean
 };
 
 class Input extends React.Component<Props, State> {
@@ -201,12 +202,11 @@ class Input extends React.Component<Props, State> {
     size: 'small'
   };
 
-  constructor(props: Props) {
-    super(props);
-  }
+  _blinkTimeout;
 
   state: State = {
-    polyfillPlaceholder: false
+    polyfillPlaceholder: false,
+    blinking: false
   };
 
   input: ?HTMLInputElement = null;
@@ -214,6 +214,12 @@ class Input extends React.Component<Props, State> {
   componentDidMount() {
     if (polyfillPlaceholder) {
       this.setState({ polyfillPlaceholder: true });
+    }
+  }
+
+  componentWillUnmount() {
+    if (this._blinkTimeout) {
+      clearTimeout(this._blinkTimeout);
     }
   }
 
@@ -237,6 +243,18 @@ class Input extends React.Component<Props, State> {
   blur() {
     invariant(this.input, 'Cannot call "blur" because Input is not mounted');
     this.input.blur();
+  }
+
+  /**
+   * @public
+   */
+  blink() {
+    this.setState({ blinking: true }, () => {
+      this._blinkTimeout = setTimeout(
+        () => this.setState({ blinking: false }),
+        150
+      );
+    });
   }
 
   /**
@@ -280,7 +298,8 @@ class Input extends React.Component<Props, State> {
       ...filterProps(this.props, INPUT_PASS_PROPS),
       className: classNames({
         [classes.input]: true,
-        [classes.borderless]: this.props.borderless
+        [classes.borderless]: this.props.borderless,
+        [classes.blink]: this.state.blinking
       }),
       value: this.props.value,
       onChange: this._handleChange,

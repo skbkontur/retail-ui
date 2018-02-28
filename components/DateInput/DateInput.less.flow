@@ -9,4 +9,5 @@ declare module.exports: {|
   +'iconInner': string;
   +'mask': string;
   +'root': string;
+  +'wrapper': string;
 |};

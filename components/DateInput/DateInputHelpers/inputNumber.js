@@ -40,10 +40,11 @@ const updateDate = (key, state) => {
   }
 
   const d = Number(date) * 10 + Number(key);
+  if (d < 1 || d > 31) {
+    return { notify: true };
+  }
   return {
-    date: Math.max(1, Math.min(31, d))
-      .toString()
-      .padStart(2, '0'),
+    date: d.toString().padStart(2, '0'),
     selected: 1,
     editingCharIndex: 0
   };
@@ -66,10 +67,11 @@ const updateMonth = (key, state) => {
     };
   }
   const m = Number(month) * 10 + Number(key);
+  if (m < 1 || m > 12) {
+    return { notify: true };
+  }
   return {
-    month: Math.max(1, Math.min(12, m))
-      .toString()
-      .padStart(2, '0'),
+    month: m.toString().padStart(2, '0'),
     selected: 2,
     editingCharIndex: 0
   };

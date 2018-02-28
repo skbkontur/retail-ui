@@ -35,6 +35,7 @@ export default (theme: ITheme) => ({
     outline: 'none',
     width: '100%',
     webkitAppearance: 'none',
+    transition: 'background-color 0.15s ease-in',
 
     '&:focus': {
       borderColor: theme.common.borderColorFocus,
@@ -45,6 +46,9 @@ export default (theme: ITheme) => ({
     '&::-ms-clear': {
       display: 'none'
     }
+  },
+  blink: {
+    backgroundColor: theme.common.blinkColor
   },
   sizeSmall: {
     '& $input': {

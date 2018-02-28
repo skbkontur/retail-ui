@@ -14,6 +14,7 @@ const udpateDatePartBy = (
   circulate = true
 ) => {
   let result = Number(datePart) + step;
+  let notify = false;
   if (circulate) {
     if (result > max) {
       result = min;
@@ -22,9 +23,15 @@ const udpateDatePartBy = (
       result = max;
     }
   } else {
+    if (result < min || result > max) {
+      notify = true;
+    }
     result = Math.max(Math.min(max, result), min);
   }
-  return result.toString().padStart(padding, '0');
+  return {
+    value: result.toString().padStart(padding, '0'),
+    notify
+  };
 };
 
 export const updateDatePartBy = (step: number) => {
@@ -39,9 +46,18 @@ export const updateDatePartBy = (step: number) => {
           Number(month),
           Number(year)
         );
+        const { value, notify } = udpateDatePartBy(
+          step,
+          date,
+          min,
+          max,
+          2,
+          circulate
+        );
         return {
-          date: udpateDatePartBy(step, date, min, max, 2, circulate),
-          selected: DateParts.Date
+          date: value,
+          selected: DateParts.Date,
+          notify
         };
       }
       case DateParts.Month: {
@@ -51,7 +67,15 @@ export const updateDatePartBy = (step: number) => {
           Number(month),
           Number(year)
         );
-        return { month: udpateDatePartBy(step, month, min, max, 2, circulate) };
+        const { value, notify } = udpateDatePartBy(
+          step,
+          month,
+          min,
+          max,
+          2,
+          circulate
+        );
+        return { month: value, notify };
       }
       case DateParts.Year: {
         const { min, max, circulate } = getMinMaxYear(
@@ -59,7 +83,15 @@ export const updateDatePartBy = (step: number) => {
           maxDate,
           Number(year)
         );
-        return { year: udpateDatePartBy(step, year, min, max, 4, circulate) };
+        const { value, notify } = udpateDatePartBy(
+          step,
+          year,
+          min,
+          max,
+          4,
+          circulate
+        );
+        return { year: value, notify };
       }
       default:
         throw UnknownDatePart();

@@ -32,10 +32,15 @@
     white-space: nowrap;
     text-overflow: clip;
     background: white;
+    transition: background-color 0.15s ease-in;
 
     &:before {
       content: '\a0';
     }
+  }
+
+  .blink {
+    background-color: @blink-color;
   }
 
   .input::placeholder {

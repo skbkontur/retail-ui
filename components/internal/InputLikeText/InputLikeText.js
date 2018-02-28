@@ -27,11 +27,20 @@ type Props = {
   [key: string]: any
 };
 
-export default class InputLikeText extends React.Component<Props> {
+type State = {
+  blinking: boolean
+};
+
+export default class InputLikeText extends React.Component<Props, State> {
   _node: HTMLElement | null = null;
+  _blinkTimeout;
 
   static defaultProps = {
     size: 'small'
+  };
+
+  state = {
+    blinking: false
   };
 
   /**
@@ -46,6 +55,24 @@ export default class InputLikeText extends React.Component<Props> {
    */
   blur() {
     this._node && this._node.blur();
+  }
+
+  /**
+   * @public
+   */
+  blink() {
+    this.setState({ blinking: true }, () => {
+      this._blinkTimeout = setTimeout(
+        () => this.setState({ blinking: false }),
+        150
+      );
+    });
+  }
+
+  componentWillUnmount() {
+    if (this._blinkTimeout) {
+      clearTimeout(this._blinkTimeout);
+    }
   }
 
   render() {
@@ -83,7 +110,10 @@ export default class InputLikeText extends React.Component<Props> {
         <span
           {...rest}
           tabIndex={this.props.disabled ? -1 : 0}
-          className={styles.input}
+          className={classNames({
+            [styles.input]: true,
+            [styles.blink]: this.state.blinking
+          })}
           ref={this._ref}
         >
           <span
