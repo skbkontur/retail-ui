@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Calendar, { type CalendarDateShape } from '../Calendar';
 import shallowEqual from 'fbjs/lib/shallowEqual';
+import throttle from 'lodash.throttle';
 
 import { formatDate } from './DatePickerHelpers';
 import styles from './Picker.less';
@@ -46,8 +47,8 @@ export default class Picker extends React.Component<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     const { value } = this.props;
-    if (value && !shallowEqual(this.props.value, prevProps.value)) {
-      this._calendar && this._calendar.scrollToMonth(value.month, value.year);
+    if (value && !shallowEqual(value, prevProps.value)) {
+      this._scrollToMonth(value.month, value.year);
     }
   }
 
@@ -68,6 +69,12 @@ export default class Picker extends React.Component<Props, State> {
       </div>
     );
   }
+
+  _scrollToMonth = (month, year) => {
+    if (this._calendar) {
+      this._calendar.scrollToMonth(month, year);
+    }
+  };
 
   _renderTodayLink() {
     return (

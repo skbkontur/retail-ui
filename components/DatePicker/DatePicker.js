@@ -110,7 +110,9 @@ class DatePicker extends React.Component<Props<string>, State> {
   };
 
   static defaultProps = {
-    width: 120
+    width: 120,
+    minDate: '01.01.1900',
+    maxDate: '31.12.2099'
   };
 
   static isValidDate = isValidDate;
@@ -188,6 +190,8 @@ class DatePicker extends React.Component<Props<string>, State> {
             value={this.props.value || ''}
             width="100%"
             withIcon
+            minDate={this.props.minDate}
+            maxDate={this.props.maxDate}
             onBlur={this._handleBlur}
             onFocus={this._handleFocus}
             onChange={this.props.onChange}

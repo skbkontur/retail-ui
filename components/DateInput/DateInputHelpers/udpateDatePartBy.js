@@ -5,32 +5,117 @@ import type { State } from '../DateInput';
 import { DateParts } from '../DateInput';
 import { UnknownDatePart } from './UnknownDatePart';
 
-const udpateDatePartBy = (step, datePart, min, max, padding) => {
+const udpateDatePartBy = (
+  step,
+  datePart,
+  min,
+  max,
+  padding,
+  circulate = true
+) => {
   let result = Number(datePart) + step;
-  if (result > max) {
-    result = min;
-  }
-  if (result < min) {
-    result = max;
+  if (circulate) {
+    if (result > max) {
+      result = min;
+    }
+    if (result < min) {
+      result = max;
+    }
+  } else {
+    result = Math.max(Math.min(max, result), min);
   }
   return result.toString().padStart(padding, '0');
 };
 
 export const updateDatePartBy = (step: number) => {
-  return (state: State) => {
-    switch (state.selected) {
+  return ({ selected, date, month, year, minDate, maxDate }: State) => {
+    switch (selected) {
       case DateParts.All:
-      case DateParts.Date:
+      case DateParts.Date: {
+        const { min, max, circulate } = getMinMaxDate(
+          minDate,
+          maxDate,
+          Number(date),
+          Number(month),
+          Number(year)
+        );
         return {
-          date: udpateDatePartBy(step, state.date, 1, 31, 2),
+          date: udpateDatePartBy(step, date, min, max, 2, circulate),
           selected: DateParts.Date
         };
-      case DateParts.Month:
-        return { month: udpateDatePartBy(step, state.month, 1, 12, 2) };
-      case DateParts.Year:
-        return { year: udpateDatePartBy(step, state.year, 0, 9999, 4) };
+      }
+      case DateParts.Month: {
+        const { min, max, circulate } = getMinMaxMonth(
+          minDate,
+          maxDate,
+          Number(month),
+          Number(year)
+        );
+        return { month: udpateDatePartBy(step, month, min, max, 2, circulate) };
+      }
+      case DateParts.Year: {
+        const { min, max, circulate } = getMinMaxYear(
+          minDate,
+          maxDate,
+          Number(year)
+        );
+        return { year: udpateDatePartBy(step, year, min, max, 4, circulate) };
+      }
       default:
         throw UnknownDatePart();
     }
   };
 };
+
+function getMinMaxDate(minDate, maxDate, date, month, year) {
+  let min = 1;
+  let circulate = true;
+  if (minDate) {
+    if (minDate.year === year && minDate.month + 1 === month) {
+      min = minDate.date;
+      circulate = false;
+    }
+  }
+  let max = 31;
+  if (maxDate) {
+    if (maxDate.year === year && maxDate.month + 1 === month) {
+      max = maxDate.date;
+      circulate = false;
+    }
+  }
+  return { min, max, circulate };
+}
+
+function getMinMaxMonth(minDate, maxDate, month, year) {
+  let min = 1;
+  let circulate = true;
+  if (minDate) {
+    if (minDate.year === year) {
+      min = minDate.month + 1;
+      circulate = false;
+    }
+  }
+  let max = 12;
+  if (maxDate) {
+    if (maxDate.year === year) {
+      max = maxDate.month + 1;
+      circulate = false;
+    }
+  }
+  return { min, max, circulate };
+}
+
+function getMinMaxYear(minDate, maxDate, year) {
+  let min = 0;
+  let circulate = true;
+  if (minDate) {
+    min = minDate.year;
+    circulate = false;
+  }
+  let max = 9999;
+  if (maxDate) {
+    max = maxDate.year;
+    circulate = false;
+  }
+  return { min, max, circulate };
+}

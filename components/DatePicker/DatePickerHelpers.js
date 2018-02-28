@@ -15,8 +15,7 @@ export function parseDateString(value: string): DateShape {
   return { date, month: month ? month - 1 : null, year };
 }
 
-export function fillEmptyParts(value: string): string {
-  const now = new Date();
+export function fillEmptyParts(value: string, now: Date = new Date()): string {
   const today = {
     date: now.getDate(),
     month: now.getMonth(),

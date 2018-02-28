@@ -51,11 +51,13 @@ class DatePickerWithError extends React.Component<*, State> {
   }
 }
 
+const dateForMock = new Date('2017-01-02');
+
 storiesOf('DatePicker', module)
   .addDecorator(story => (
     <div>
-      <h2>Mocked date 01.02.2017</h2>
-      <MockDate date={new Date('2017-01-02')} />
+      <h2>Mocked date {dateForMock.toDateString()}</h2>
+      <MockDate date={dateForMock} />
       {story()}
     </div>
   ))

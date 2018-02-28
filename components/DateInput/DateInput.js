@@ -1,15 +1,20 @@
 // @flow
 
+import type { CalendarDateShape } from '../Calendar/CalendarDateShape';
+
 import classNames from 'classnames';
 import * as React from 'react';
 
+import { parseDateString } from '../DatePicker/DatePickerHelpers';
+import { tryGetValidDateShape } from '../DatePicker/DateShape';
 import { isIE } from '../ensureOldIEClassName';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Icon from '../Icon';
 
-const polyfillInput = !isIE;
+const polyfillInput = false; //!isIE;
 
+import { parseValue, formatDate } from './DateInputHelpers/dateFormat';
 import { extractAction, Actions } from './DateInputKeyboardActions';
 import {
   clearDatePart,
@@ -46,12 +51,16 @@ export type State = {
   editingCharIndex: number,
   date: string | null,
   month: string | null,
-  year: string | null
+  year: string | null,
+  minDate: ?CalendarDateShape,
+  maxDate: ?CalendarDateShape
 };
 
 type Props = {
   value?: string,
   disabled?: boolean,
+  minDate?: ?string,
+  maxDate?: ?string,
   width?: string | number,
   withIcon?: boolean,
   size: 'small' | 'large' | 'medium',
@@ -76,13 +85,21 @@ class DateInput extends React.Component<Props, State> {
     this.state = {
       selected: null,
       editingCharIndex: 0,
-      ...parseValue(props.value)
+      ...parseValue(props.value),
+      minDate: tryGetCalendarDateShape(props.minDate),
+      maxDate: tryGetCalendarDateShape(props.maxDate)
     };
   }
 
   componentWillReceiveProps(nextProps: Props) {
     if (this.props.value !== nextProps.value) {
       this.deriveStateFromValue(nextProps.value);
+    }
+    if (this.props.minDate !== nextProps.minDate) {
+      this.deriveMinDate(nextProps.minDate);
+    }
+    if (this.props.maxDate !== nextProps.maxDate) {
+      this.deriveMaxDate(nextProps.maxDate);
     }
   }
 
@@ -353,9 +370,17 @@ class DateInput extends React.Component<Props, State> {
     this.setState(parseValue(value));
   }
 
+  deriveMinDate(minDate: ?string) {
+    this.setState({ minDate: tryGetCalendarDateShape(minDate) });
+  }
+
+  deriveMaxDate(maxDate: ?string) {
+    this.setState({ maxDate: tryGetCalendarDateShape(maxDate) });
+  }
+
   emitChange() {
     const { date, month, year } = this.state;
-    const value = trimTrailingDots(formatDate(date, month, year));
+    const value = formatDate(date, month, year);
     if (this.props.value === value) {
       return;
     }
@@ -369,11 +394,14 @@ class DateInput extends React.Component<Props, State> {
       if (this.props.disabled) {
         return;
       }
+
       event.preventDefault();
       event.stopPropagation();
+
       if (this._divNode) {
         this._divNode.focus();
       }
+
       this.selectDatePart(index);
     };
   }
@@ -406,25 +434,12 @@ class DateInput extends React.Component<Props, State> {
   }
 }
 
-const parseValue = value => {
-  const re = /(\d{1,2})?\.?(\d{1,2})?\.?(\d{1,4})?/;
-  const match = re.exec(value || '');
-  const [date = null, month = null, year = null] = match.slice(1);
-  return { date, month, year };
-};
-
-const dateToMask = (date, month, year) => {
+function dateToMask(date, month, year) {
   const date_ = date ? date.padEnd(2, '_') : '__';
   const month_ = month ? month.padEnd(2, '_') : '__';
   const year_ = year ? year.padEnd(4, '_') : '____';
   return `${date_}.${month_}.${year_}`;
-};
-
-const formatDate = (date, month, year) => {
-  return `${date || ''}.${month || ''}.${year || ''}`;
-};
-
-const trimTrailingDots = (value: string) => value.replace(/\.*$/, '');
+}
 
 function getInputSelection(input) {
   if (!(input instanceof HTMLInputElement)) {
@@ -436,5 +451,9 @@ function getInputSelection(input) {
     direction: input.selectionDirection
   };
 }
+
+const tryGetCalendarDateShape = (dateString: ?string) => {
+  return dateString ? tryGetValidDateShape(parseDateString(dateString)) : null;
+};
 
 export default DateInput;
