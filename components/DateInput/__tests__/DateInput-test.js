@@ -1,12 +1,17 @@
 // @flow
 
 import * as React from 'react';
-import DateInput from '../index';
+import DateInput from '../DateInput';
 import { mount } from 'enzyme';
 
 const render = props => mount(<DateInput {...props} />);
 
 const getInput = root => root.find('input');
+
+beforeEach(() => {
+  // $FlowIgnore
+  DateInput.__Rewire__('polyfillInput', false);
+});
 
 it('renders', () => {
   render({ value: '10.02.2017' });

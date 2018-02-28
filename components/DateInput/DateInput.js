@@ -3,13 +3,14 @@
 import classNames from 'classnames';
 import * as React from 'react';
 
+import { isIE } from '../ensureOldIEClassName';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Icon from '../Icon';
 
-const polyfillInput = false;
+const polyfillInput = !isIE;
 
-import { extractAction, Actions } from './DateInputAction';
+import { extractAction, Actions } from './DateInputKeyboardActions';
 import {
   clearDatePart,
   updateDatePartBy,
@@ -31,7 +32,9 @@ export const DateParts = {
   All: 3
 };
 
-const DatePartRanges = {
+const DatePartRanges: {
+  [number]: [number, number]
+} = {
   [DateParts.Date]: [0, 2],
   [DateParts.Month]: [3, 5],
   [DateParts.Year]: [6, 10],
@@ -60,8 +63,8 @@ type Props = {
 
 class DateInput extends React.Component<Props, State> {
   _input: Input | null = null;
-  _node: HTMLElement | null = null;
-  _innerNode: HTMLElement | null = null;
+  _divNode: HTMLElement | null = null;
+  _divInnerNode: HTMLElement | null = null;
   _isFocused: boolean = false;
 
   static defaultProps = {
@@ -103,7 +106,7 @@ class DateInput extends React.Component<Props, State> {
    * @public
    */
   blur() {
-    this._node && this._node.blur();
+    this._divNode && this._divNode.blur();
     this._input && this._input.blur();
   }
 
@@ -112,7 +115,7 @@ class DateInput extends React.Component<Props, State> {
    */
   focus() {
     if (!this.props.disabled) {
-      this._node && this._node.focus();
+      this._divNode && this._divNode.focus();
       this._input && this._input.focus();
     }
   }
@@ -145,6 +148,7 @@ class DateInput extends React.Component<Props, State> {
         onFocus={this.handleFocus}
         onKeyDown={this.handleKeyDown}
         onClick={this.handleClick}
+        onDoubleClick={this.handleDoubleClick}
         onPaste={this.handlePaste}
         value={isMaskHidden ? '' : this.getFormattedValue()}
         rightIcon={
@@ -166,7 +170,7 @@ class DateInput extends React.Component<Props, State> {
       <InputLikeText
         width={this.props.width}
         innerRef={el => {
-          this._node = el;
+          this._divNode = el;
         }}
         size={this.props.size}
         disabled={this.props.disabled}
@@ -177,7 +181,7 @@ class DateInput extends React.Component<Props, State> {
         onPaste={this.handlePaste}
       >
         <div
-          ref={el => (this._innerNode = el)}
+          ref={el => (this._divInnerNode = el)}
           onDoubleClick={this.createSelectionHandler(DateParts.All)}
           className={classNames({
             [styles.root]: true,
@@ -237,6 +241,10 @@ class DateInput extends React.Component<Props, State> {
     const blockToSelect =
       start < 3 ? DateParts.Date : start < 6 ? DateParts.Month : DateParts.Year;
     this.selectDatePart(blockToSelect);
+  };
+
+  handleDoubleClick = () => {
+    this.selectDatePart(DateParts.All);
   };
 
   handleFocus = (event: SyntheticFocusEvent<HTMLElement>) => {
@@ -305,18 +313,19 @@ class DateInput extends React.Component<Props, State> {
   };
 
   handlePaste = (e: SyntheticClipboardEvent<HTMLElement>) => {
+    e.preventDefault();
     const parsed = tryParseDateString(e.clipboardData.getData('text'));
     if (parsed) {
       this.setState({ ...parsed, selected: DateParts.All });
     }
   };
 
-  getFormattedValue = () => {
+  getFormattedValue() {
     const { date, month, year } = this.state;
     return dateToMask(date, month, year);
-  };
+  }
 
-  selectDatePartInInput = () => {
+  selectDatePartInInput() {
     if (polyfillInput || !this._isFocused) {
       return;
     }
@@ -331,7 +340,7 @@ class DateInput extends React.Component<Props, State> {
     if (this._input) {
       this._input.setSelectionRange(...range);
     }
-  };
+  }
 
   checkIfMaskHidden() {
     return (
@@ -340,11 +349,11 @@ class DateInput extends React.Component<Props, State> {
     );
   }
 
-  deriveStateFromValue = (value: ?string) => {
+  deriveStateFromValue(value: ?string) {
     this.setState(parseValue(value));
-  };
+  }
 
-  emitChange = () => {
+  emitChange() {
     const { date, month, year } = this.state;
     const value = trimTrailingDots(formatDate(date, month, year));
     if (this.props.value === value) {
@@ -353,21 +362,21 @@ class DateInput extends React.Component<Props, State> {
     if (this.props.onChange) {
       this.props.onChange({ target: { value } }, value);
     }
-  };
+  }
 
-  createSelectionHandler = (index: number) => {
+  createSelectionHandler(index: number) {
     return (event: SyntheticEvent<HTMLElement>) => {
       if (this.props.disabled) {
         return;
       }
       event.preventDefault();
       event.stopPropagation();
-      if (this._node) {
-        this._node.focus();
+      if (this._divNode) {
+        this._divNode.focus();
       }
       this.selectDatePart(index);
     };
-  };
+  }
 
   clearDatePart() {
     this.setState(clearDatePart);
@@ -389,12 +398,12 @@ class DateInput extends React.Component<Props, State> {
     this.setState(setSelection(index), cb);
   }
 
-  selectAll = () => {
+  selectAll() {
     if (this._isFocused) {
       this._input && this._input.setSelectionRange(0, 10);
-      this._innerNode && selectNodeContents(this._innerNode);
+      this._divInnerNode && selectNodeContents(this._divInnerNode);
     }
-  };
+  }
 }
 
 const parseValue = value => {

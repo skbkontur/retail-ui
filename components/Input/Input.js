@@ -34,6 +34,7 @@ const INPUT_PASS_PROPS = {
   title: true,
 
   onBlur: true,
+  onDoubleClick: true,
   onCopy: true,
   onClick: true,
   onMouseUp: true,
@@ -71,6 +72,7 @@ export type Props = {
   width?: number | string,
   onBlur?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
   onClick?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
+  onDoubleClick?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
   onMouseUp?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
   onMouseDown?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
   onChange?: (e: SyntheticInputEvent<HTMLInputElement>, v: string) => void,
