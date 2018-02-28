@@ -73,8 +73,8 @@ export default class ScrollContainer extends React.Component {
     };
 
     const innerProps = {
-      ref: this._refInner, 
-      className: styles.inner, 
+      ref: this._refInner,
+      className: styles.inner,
       style: innerStyle,
       onWheel: this.props.preventWindowScroll ? this._handleInnerScrollWheel : null,
       onScroll: this._handleNativeScroll
@@ -118,6 +118,11 @@ export default class ScrollContainer extends React.Component {
   _reflow = () => {
     const state = this.state;
     const inner = this._inner;
+
+    if (inner === null) {
+      return;
+    }
+
     const containerHeight = inner.offsetHeight;
     const contentHeight = inner.scrollHeight;
     const scrollTop = inner.scrollTop;
