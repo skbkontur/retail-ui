@@ -30,7 +30,7 @@ const udpateDatePartBy = (
   }
   return {
     value: result.toString().padStart(padding, '0'),
-    notify
+    notify: datePart == null ? false : notify
   };
 };
 

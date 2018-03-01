@@ -12,7 +12,8 @@ export const Actions = {
   FullSelection: 23,
   ClearSelection: 31,
   Digit: 101,
-  Separator: 103
+  Separator: 103,
+  WrongInput: 201
 };
 
 const isSeparator = e =>
@@ -34,6 +35,7 @@ const extractAction = new KeyboardActionExctracterBuilder()
   .add(Actions.ClearSelection, e => e.key === 'Backspace' || e.key === 'Delete')
   .add(Actions.Digit, e => /^\d$/.test(e.key))
   .add(Actions.Ignore, e => isModified(e) || e.key === 'Tab')
+  .add(Actions.WrongInput, e => e.key === ' ' || /^[A-Za-zА-Яа-я]$/.test(e.key))
   .build(Actions.Unknown);
 
 export { extractAction };

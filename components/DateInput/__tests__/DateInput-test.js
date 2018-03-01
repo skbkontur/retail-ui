@@ -7,6 +7,7 @@ import { mount } from 'enzyme';
 const render = props => mount(<DateInput {...props} />);
 
 const getInput = root => root.find('input');
+const getValue = input => input.prop('value');
 
 beforeEach(() => {
   // $FlowIgnore
@@ -20,7 +21,7 @@ describe('DateInput', () => {
 
   it('renders with given valid value', () => {
     const root = render({ value: '10.02.2017' });
-    expect(getInput(root).prop('value')).toBe('10.02.2017');
+    expect(getValue(getInput(root))).toBe('10.02.2017');
   });
 
   const KeyDownCases = [

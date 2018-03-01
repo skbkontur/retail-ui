@@ -5,6 +5,7 @@ import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import warning from 'warning';
 
+import { isLess, isGreater } from '../Calendar/CalendarDateShape';
 import filterProps from '../filterProps';
 import Picker from './Picker';
 import DateInput from '../DateInput';
@@ -150,21 +151,16 @@ class DatePicker extends React.Component<Props<string>, State> {
   }
 
   render() {
-    const { opened } = this.state;
-    const { value, menuAlign } = this.props;
-
-    const date =
-      value != null ? tryGetValidDateShape(parseDateString(value)) : null;
     let picker = null;
-    if (opened) {
+    if (this.state.opened) {
       picker = (
         <DropdownContainer
           getParent={() => findDOMNode(this)}
           offsetY={2}
-          align={menuAlign}
+          align={this.props.menuAlign}
         >
           <Picker
-            value={date}
+            value={this._getDate()}
             minDate={this._getMinDate()}
             maxDate={this._getMaxDate()}
             onPick={this._handlePick}
@@ -205,6 +201,25 @@ class DatePicker extends React.Component<Props<string>, State> {
   _getInputRef = ref => {
     this.input = ref;
   };
+
+  _getDate() {
+    const { value } = this.props;
+    let date = null;
+    if (value != null) {
+      date = tryGetValidDateShape(parseDateString(value));
+    }
+    if (date) {
+      const minDate = this._getMinDate();
+      const maxDate = this._getMaxDate();
+      if (
+        (minDate && isLess(date, minDate)) ||
+        (maxDate && isGreater(date, maxDate))
+      ) {
+        date = null;
+      }
+    }
+    return date;
+  }
 
   _getMinDate = () => {
     const { minDate, minYear } = this.props;

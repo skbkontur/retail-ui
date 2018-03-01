@@ -3,7 +3,6 @@
 import * as React from 'react';
 import Calendar, { type CalendarDateShape } from '../Calendar';
 import shallowEqual from 'fbjs/lib/shallowEqual';
-import throttle from 'lodash.throttle';
 
 import { formatDate } from './DatePickerHelpers';
 import styles from './Picker.less';

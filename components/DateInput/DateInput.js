@@ -12,7 +12,7 @@ import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Icon from '../Icon';
 
-const polyfillInput = false; //!isIE;
+const polyfillInput = !isIE;
 
 import { parseValue, formatDate } from './DateInputHelpers/dateFormat';
 import { extractAction, Actions } from './DateInputKeyboardActions';
@@ -45,6 +45,8 @@ const DatePartRanges: {
   [DateParts.Year]: [6, 10],
   [DateParts.All]: [0, 10]
 };
+
+const maskChar = '_';
 
 export type State = {
   selected: number | null,
@@ -345,6 +347,10 @@ class DateInput extends React.Component<Props, State> {
     if (action === Actions.FullSelection) {
       this.selectDatePart(DateParts.All);
     }
+
+    if (action === Actions.WrongInput) {
+      this.blink();
+    }
   };
 
   handlePaste = (e: SyntheticClipboardEvent<HTMLElement>) => {
@@ -458,9 +464,9 @@ class DateInput extends React.Component<Props, State> {
 }
 
 function dateToMask(date, month, year) {
-  const date_ = date ? date.padEnd(2, '_') : '__';
-  const month_ = month ? month.padEnd(2, '_') : '__';
-  const year_ = year ? year.padEnd(4, '_') : '____';
+  const date_ = date ? date.padEnd(2, maskChar) : maskChar.repeat(2);
+  const month_ = month ? month.padEnd(2, maskChar) : maskChar.repeat(2);
+  const year_ = year ? year.padEnd(4, maskChar) : maskChar.repeat(4);
   return `${date_}.${month_}.${year_}`;
 }
 
