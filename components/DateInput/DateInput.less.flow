@@ -3,7 +3,6 @@
 declare module.exports: {|
   +'delimiter': string;
   +'disabled': string;
-  +'empty': string;
   +'filled': string;
   +'icon': string;
   +'iconInner': string;

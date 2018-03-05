@@ -94,7 +94,7 @@ export const updateDatePartBy = (step: number) => {
         return { year: value, notify };
       }
       default:
-        throw UnknownDatePart();
+        throw new UnknownDatePart();
     }
   };
 };

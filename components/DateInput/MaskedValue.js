@@ -2,6 +2,7 @@
 import * as React from 'react';
 
 import styles from './DateInput.less';
+import { maskChar } from './DateInputHelpers/maskChar';
 
 type Props = {
   value: string | null,
@@ -24,4 +25,6 @@ export const MaskedValue = ({ value, length, selected }: Props) => {
 };
 
 const Mask = ({ length }) =>
-  length ? <span className={styles.mask}>{'_'.repeat(length)}</span> : null;
+  length ? (
+    <span className={styles.mask}>{maskChar.repeat(length)}</span>
+  ) : null;

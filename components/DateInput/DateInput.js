@@ -7,14 +7,13 @@ import * as React from 'react';
 
 import { parseDateString } from '../DatePicker/DatePickerHelpers';
 import { tryGetValidDateShape } from '../DatePicker/DateShape';
-import { isIE } from '../ensureOldIEClassName';
+import { isIE, isEdge } from '../ensureOldIEClassName';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Icon from '../Icon';
 
-const polyfillInput = !isIE;
-
 import { parseValue, formatDate } from './DateInputHelpers/dateFormat';
+import { maskChar } from './DateInputHelpers/maskChar';
 import { extractAction, Actions } from './DateInputKeyboardActions';
 import {
   clearDatePart,
@@ -29,6 +28,8 @@ import { MaskedValue } from './MaskedValue';
 import { selectNodeContents, removeAllSelections } from './SelectionHelpers';
 
 import styles from './DateInput.less';
+
+const polyfillInput = !isIE && !isEdge;
 
 export const DateParts = {
   Date: 0,
@@ -45,8 +46,6 @@ const DatePartRanges: {
   [DateParts.Year]: [6, 10],
   [DateParts.All]: [0, 10]
 };
-
-const maskChar = '_';
 
 export type State = {
   selected: number | null,
@@ -175,15 +174,13 @@ class DateInput extends React.Component<Props, State> {
       <div className={styles.wrapper}>
         <Input
           width={this.props.width}
-          ref={el => {
-            this._input = el;
-          }}
+          ref={el => (this._input = el)}
           size={this.props.size}
           disabled={this.props.disabled}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           onKeyDown={this.handleKeyDown}
-          onClick={this.handleClick}
+          onClick={this.handleInputClick}
           onDoubleClick={this.handleDoubleClick}
           onPaste={this.handlePaste}
           value={isMaskHidden ? '' : this.getFormattedValue()}
@@ -206,9 +203,7 @@ class DateInput extends React.Component<Props, State> {
     return (
       <InputLikeText
         width={this.props.width}
-        ref={el => {
-          this._inputlikeText = el;
-        }}
+        ref={el => (this._inputlikeText = el)}
         size={this.props.size}
         disabled={this.props.disabled}
         onBlur={this.handleBlur}
@@ -217,41 +212,42 @@ class DateInput extends React.Component<Props, State> {
         onMouseDown={this.handleMouseDown}
         onPaste={this.handlePaste}
       >
-        <div
-          ref={el => (this._divInnerNode = el)}
-          onDoubleClick={this.createSelectionHandler(DateParts.All)}
-          className={classNames({
-            [styles.root]: true,
-            [styles.empty]: isMaskHidden
-          })}
-        >
-          <DatePart
-            selected={selected === DateParts.Date}
-            onMouseDown={this.createSelectionHandler(DateParts.Date)}
+        {!isMaskHidden && (
+          <div
+            ref={el => (this._divInnerNode = el)}
+            onDoubleClick={this.createSelectionHandler(DateParts.All)}
+            className={styles.root}
           >
-            <MaskedValue value={date} length={2} />
-          </DatePart>
-          <span
-            className={classNames(styles.delimiter, month && styles.filled)}
-          >
-            .
-          </span>
-          <DatePart
-            selected={selected === DateParts.Month}
-            onMouseDown={this.createSelectionHandler(DateParts.Month)}
-          >
-            <MaskedValue value={month} length={2} />
-          </DatePart>
-          <span className={classNames(styles.delimiter, year && styles.filled)}>
-            .
-          </span>
-          <DatePart
-            selected={selected === DateParts.Year}
-            onMouseDown={this.createSelectionHandler(DateParts.Year)}
-          >
-            <MaskedValue value={year} length={4} />
-          </DatePart>
-        </div>
+            <DatePart
+              selected={selected === DateParts.Date}
+              onMouseDown={this.createSelectionHandler(DateParts.Date)}
+            >
+              <MaskedValue value={date} length={2} />
+            </DatePart>
+            <span
+              className={classNames(styles.delimiter, month && styles.filled)}
+            >
+              .
+            </span>
+            <DatePart
+              selected={selected === DateParts.Month}
+              onMouseDown={this.createSelectionHandler(DateParts.Month)}
+            >
+              <MaskedValue value={month} length={2} />
+            </DatePart>
+            <span
+              className={classNames(styles.delimiter, year && styles.filled)}
+            >
+              .
+            </span>
+            <DatePart
+              selected={selected === DateParts.Year}
+              onMouseDown={this.createSelectionHandler(DateParts.Year)}
+            >
+              <MaskedValue value={year} length={4} />
+            </DatePart>
+          </div>
+        )}
         {this.props.withIcon && (
           <span className={styles.icon}>
             <span className={styles.iconInner}>
@@ -273,10 +269,14 @@ class DateInput extends React.Component<Props, State> {
     }
   };
 
-  handleClick = (event: SyntheticMouseEvent<HTMLInputElement>) => {
-    const { start } = getInputSelection(event.target);
+  handleInputClick = (event: SyntheticMouseEvent<HTMLInputElement>) => {
+    const { start, end } = getInputSelection(event.target);
     const blockToSelect =
-      start < 3 ? DateParts.Date : start < 6 ? DateParts.Month : DateParts.Year;
+      start !== end
+        ? DateParts.All
+        : start < 3
+          ? DateParts.Date
+          : start < 6 ? DateParts.Month : DateParts.Year;
     this.selectDatePart(blockToSelect);
   };
 
