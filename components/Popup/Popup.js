@@ -2,7 +2,7 @@
 /* eslint-disable flowtype/no-weak-types */
 import cn from 'classnames';
 import * as React from 'react';
-import { render, findDOMNode } from 'react-dom';
+import { render, unmountComponentAtNode, findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import RenderContainer from '../RenderContainer';
 import RenderLayer from '../RenderLayer';
@@ -71,7 +71,6 @@ export default class Popup extends React.Component<Props, State> {
 
   _layoutEventsToken;
   _popupElement: ?HTMLElement;
-  _inQueue: boolean = false;
   _containerDidMount: boolean = false;
   _tempNode: HTMLElement;
 
@@ -94,6 +93,7 @@ export default class Popup extends React.Component<Props, State> {
   componentWillUnmount() {
     this._layoutEventsToken.remove();
     if (this._tempNode) {
+      unmountComponentAtNode(this._tempNode);
       document.body && document.body.removeChild(this._tempNode);
     }
   }
@@ -150,22 +150,15 @@ export default class Popup extends React.Component<Props, State> {
             transitionEnterTimeout={200}
             transitionLeaveTimeout={200}
           >
-            {location ? this._renderContent(location) : null}
+            {location ? this._renderContent(location, true) : null}
           </Transition>
         </RenderContainer>
       </RenderLayer>
     );
   }
 
-  _renderContent(location) {
-    let {
-      hasPin,
-      children,
-      pinSize,
-      pinOffset,
-      backgroundColor,
-      hasShadow
-    } = this.props;
+  _renderContent(location, withZIndex?: boolean) {
+    const backgroundColor = this.props.backgroundColor;
 
     const style = {
       top: location.coordinates.top,
@@ -173,11 +166,13 @@ export default class Popup extends React.Component<Props, State> {
       backgroundColor
     };
 
-    // prettier-ignore
-    const pinBorder
-      = ieVerison === 8 ? '#e5e5e5'
-        : isIE ? 'rgba(0, 0, 0, 0.09)'
-          : 'transparent';
+    return withZIndex
+      ? this._renderRealContent(location, style)
+      : this._renderTempContent(location, style);
+  }
+
+  _renderRealContent(location, style) {
+    let { children, hasShadow } = this.props;
 
     return (
       <ZIndex
@@ -187,18 +182,53 @@ export default class Popup extends React.Component<Props, State> {
         style={style}
       >
         {children}
-        {hasPin && (
-          <PopupPin
-            popupElement={this._popupElement}
-            popupPosition={location.position}
-            size={pinSize}
-            offset={pinOffset}
-            borderWidth={hasShadow ? 1 : 0}
-            backgroundColor={backgroundColor}
-            borderColor={pinBorder}
-          />
-        )}
+        {this._renderPin(location)}
       </ZIndex>
+    );
+  }
+
+  _renderTempContent(location, style) {
+    let { children, hasShadow } = this.props;
+
+    return (
+      <div
+        ref={e => (this._popupElement = e)}
+        className={cn(styles.popup, hasShadow && styles.shadow)}
+        style={style}
+      >
+        {children}
+        {this._renderPin(location)}
+      </div>
+    );
+  }
+
+  _renderPin(location) {
+    const {
+      hasPin,
+      pinSize,
+      pinOffset,
+      backgroundColor,
+      hasShadow
+    } = this.props;
+
+    // prettier-ignore
+    const pinBorder
+      = ieVerison === 8 ? '#e5e5e5'
+      : isIE ? 'rgba(0, 0, 0, 0.09)'
+        : 'transparent';
+
+    return (
+      hasPin && (
+        <PopupPin
+          popupElement={this._popupElement}
+          popupPosition={location.position}
+          size={pinSize}
+          offset={pinOffset}
+          borderWidth={hasShadow ? 1 : 0}
+          backgroundColor={backgroundColor}
+          borderColor={pinBorder}
+        />
+      )
     );
   }
 
@@ -250,7 +280,7 @@ export default class Popup extends React.Component<Props, State> {
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
 
-    for (var i = 0; i < positions.length; ++i) {
+    for (let i = 0; i < positions.length; ++i) {
       const position = PopupHelper.getPositionObject(positions[i]);
       const coordinates = this._getCoordinates(
         anchorRect,
@@ -307,7 +337,7 @@ export default class Popup extends React.Component<Props, State> {
       case 'top':
         return {
           top: anchorRect.top - popupRect.height - margin,
-          left: this._getHorisontalPosition(
+          left: this._getHorizontalPosition(
             anchorRect,
             popupRect,
             position.align,
@@ -317,7 +347,7 @@ export default class Popup extends React.Component<Props, State> {
       case 'bottom':
         return {
           top: anchorRect.top + anchorRect.height + margin,
-          left: this._getHorisontalPosition(
+          left: this._getHorizontalPosition(
             anchorRect,
             popupRect,
             position.align,
@@ -349,7 +379,7 @@ export default class Popup extends React.Component<Props, State> {
     }
   }
 
-  _getHorisontalPosition(anchorRect, popupRect, align, popupOffset) {
+  _getHorizontalPosition(anchorRect, popupRect, align, popupOffset) {
     switch (align) {
       case 'left':
         return anchorRect.left - popupOffset;

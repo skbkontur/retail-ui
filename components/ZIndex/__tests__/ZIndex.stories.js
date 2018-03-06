@@ -220,7 +220,7 @@ class Demo extends React.Component<{}> {
   }
 }
 
-storiesOf('Zindex', module)
+storiesOf('ZIndex', module)
   .add('LightboxUnderLightbox', () => <LightboxUnderLightbox />)
   .add('ZSample', () => <ZSample total={3} />)
   .add('Demo', () => <Demo />);
