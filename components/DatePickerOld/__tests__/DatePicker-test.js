@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import DatePicker from '../DatePicker.js';
+import DatePicker from '../DatePickerOld.js';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');

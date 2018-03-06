@@ -3,7 +3,7 @@ import MockDate from '../../internal/MockDate';
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import DatePicker from '../DatePicker';
+import DatePicker from '../DatePickerOld';
 
 type State = {
   error: boolean,

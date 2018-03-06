@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export interface DatePickerProps {
+export interface DatePickerOldProps {
   autoFocus?: boolean;
   className?: string;
   disabled?: boolean;
@@ -27,11 +27,11 @@ export interface DatePickerProps {
   withMask?: boolean;
 }
 
-export interface DatePickerState {}
+export interface DatePickerOldState {}
 
 export default class DatePicker extends React.Component<
-  DatePickerProps,
-  DatePickerState
+  DatePickerOldProps,
+  DatePickerOldState
 > {
   focus(): void;
   blur(): void;

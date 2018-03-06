@@ -1,1 +1,5 @@
-export { default, DatePickerProps, DatePickerState } from './DatePicker';
+export {
+  default,
+  DatePickerOldProps,
+  DatePickerOldState
+} from './DatePickerOld';
