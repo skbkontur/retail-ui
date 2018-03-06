@@ -121,11 +121,11 @@ export default class Popup extends React.Component<Props, State> {
   }, 50);
 
   render() {
-    const {opened} = this.props;
+    const { opened } = this.props;
     if (!opened && !this._containerDidMount) {
       return null;
     }
-    const {location} = this.state;
+    const { location } = this.state;
     const directionClass = location
       ? location.position.split(' ')[0]
       : 'bottom';
@@ -150,9 +150,7 @@ export default class Popup extends React.Component<Props, State> {
             transitionEnterTimeout={200}
             transitionLeaveTimeout={200}
           >
-            {location
-              ? this._renderContent(location, true)
-              : null}
+            {location ? this._renderContent(location, true) : null}
           </Transition>
         </RenderContainer>
       </RenderLayer>
@@ -168,14 +166,13 @@ export default class Popup extends React.Component<Props, State> {
       backgroundColor
     };
 
-    return withZIndex ? this._renderRealContent(location, style) : this._renderTempContent(location, style);
+    return withZIndex
+      ? this._renderRealContent(location, style)
+      : this._renderTempContent(location, style);
   }
 
   _renderRealContent(location, style) {
-    let {
-      children,
-      hasShadow
-    } = this.props;
+    let { children, hasShadow } = this.props;
 
     return (
       <ZIndex
@@ -191,10 +188,7 @@ export default class Popup extends React.Component<Props, State> {
   }
 
   _renderTempContent(location, style) {
-    let {
-      children,
-      hasShadow
-    } = this.props;
+    let { children, hasShadow } = this.props;
 
     return (
       <div
@@ -223,17 +217,19 @@ export default class Popup extends React.Component<Props, State> {
       : isIE ? 'rgba(0, 0, 0, 0.09)'
         : 'transparent';
 
-    return hasPin && (
-      <PopupPin
-        popupElement={this._popupElement}
-        popupPosition={location.position}
-        size={pinSize}
-        offset={pinOffset}
-        borderWidth={hasShadow ? 1 : 0}
-        backgroundColor={backgroundColor}
-        borderColor={pinBorder}
-      />
-    )
+    return (
+      hasPin && (
+        <PopupPin
+          popupElement={this._popupElement}
+          popupPosition={location.position}
+          size={pinSize}
+          offset={pinOffset}
+          borderWidth={hasShadow ? 1 : 0}
+          backgroundColor={backgroundColor}
+          borderColor={pinBorder}
+        />
+      )
+    );
   }
 
   _handleClickOutside = () => {
