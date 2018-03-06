@@ -87,7 +87,7 @@ class DatePicker extends React.Component<Props<string>, State> {
     minDate: PropTypes.string,
 
     /**
-     * Строка даты или `null`
+     * Строка формата `dd.mm.yyyy`
      */
     value: PropTypes.string.isRequired,
 
