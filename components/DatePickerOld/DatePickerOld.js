@@ -73,7 +73,7 @@ type State = {
   textValue: string
 };
 
-class DatePicker extends React.Component<Props, State> {
+class DatePickerOld extends React.Component<Props, State> {
   static __REACT_UI_COMPONENT_NAME__ = 'DatePicker';
 
   static propTypes = {
@@ -368,4 +368,4 @@ function parseDate(str, withCorrection) {
   return isDate(date) ? date : null;
 }
 
-export default DatePicker;
+export default DatePickerOld;
