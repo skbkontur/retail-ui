@@ -172,29 +172,27 @@ class DatePicker extends React.Component<Props<string>, State> {
     }
 
     return (
-      <div>
-        <label
-          className={styles.root}
-          style={{ width: this.props.width }}
-          onMouseEnter={this.props.onMouseEnter}
-          onMouseLeave={this.props.onMouseLeave}
-          onMouseOver={this.props.onMouseOver}
-        >
-          <DateInput
-            {...filterProps(this.props, INPUT_PASS_PROPS)}
-            ref={this._getInputRef}
-            value={this.props.value || ''}
-            width="100%"
-            withIcon
-            minDate={this.props.minDate}
-            maxDate={this.props.maxDate}
-            onBlur={this._handleBlur}
-            onFocus={this._handleFocus}
-            onChange={this.props.onChange}
-          />
-          {picker}
-        </label>
-      </div>
+      <label
+        className={styles.root}
+        style={{ width: this.props.width }}
+        onMouseEnter={this.props.onMouseEnter}
+        onMouseLeave={this.props.onMouseLeave}
+        onMouseOver={this.props.onMouseOver}
+      >
+        <DateInput
+          {...filterProps(this.props, INPUT_PASS_PROPS)}
+          ref={this._getInputRef}
+          value={this.props.value || ''}
+          width="100%"
+          withIcon
+          minDate={this.props.minDate}
+          maxDate={this.props.maxDate}
+          onBlur={this._handleBlur}
+          onFocus={this._handleFocus}
+          onChange={this.props.onChange}
+        />
+        {picker}
+      </label>
     );
   }
 
