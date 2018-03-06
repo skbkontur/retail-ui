@@ -14,7 +14,7 @@ type Props = {
   [key: string]: any
 };
 
-export default class Zindex extends React.Component<Props> {
+export default class ZIndex extends React.Component<Props> {
   static propTypes = {
     /**
      * Приращение к z-index
