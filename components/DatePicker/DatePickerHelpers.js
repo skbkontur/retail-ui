@@ -14,22 +14,3 @@ export function parseDateString(value: string): DateShape {
     .map(x => (x ? Number(x) : null));
   return { date, month: month ? month - 1 : null, year };
 }
-
-export function fillEmptyParts(value: string, now: Date = new Date()): string {
-  const today = {
-    date: now.getDate(),
-    month: now.getMonth(),
-    year: now.getFullYear()
-  };
-  const parsed = parseDateString(value);
-  const joined = {
-    date: parsed.date || today.date,
-    month: parsed.month || today.month,
-    year: parsed.year || today.year
-  };
-  return formatDate(joined);
-}
-
-export function isEmptyOrNullValue(value: ?string): boolean %checks {
-  return !(value && value.split('.').some(Boolean));
-}

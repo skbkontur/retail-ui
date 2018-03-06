@@ -3,7 +3,6 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import warning from 'warning';
 
 import { isLess, isGreater } from '../Calendar/CalendarDateShape';
 import filterProps from '../filterProps';
@@ -11,12 +10,7 @@ import Picker from './Picker';
 import DateInput from '../DateInput';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 
-import {
-  formatDate,
-  parseDateString,
-  fillEmptyParts,
-  isEmptyOrNullValue
-} from './DatePickerHelpers';
+import { formatDate, parseDateString } from './DatePickerHelpers';
 import type { CalendarDateShape } from '../Calendar';
 import { tryGetValidDateShape, isValidDate } from './DateShape';
 
@@ -38,10 +32,6 @@ type Props<T> = {
   error?: boolean,
   minDate?: T,
   maxDate?: T,
-  /** @ignore */
-  maxYear?: number,
-  /** @ignore */
-  minYear?: number,
   menuAlign?: 'left' | 'right',
   size?: 'small' | 'medium' | 'large',
   value: T | null,
@@ -202,10 +192,7 @@ class DatePicker extends React.Component<Props<string>, State> {
 
   _getDate() {
     const { value } = this.props;
-    let date = null;
-    if (value != null) {
-      date = tryGetValidDateShape(parseDateString(value));
-    }
+    let date = value ? tryGetValidDateShape(parseDateString(value)) : null;
     if (date) {
       const minDate = this._getMinDate();
       const maxDate = this._getMaxDate();
@@ -220,35 +207,15 @@ class DatePicker extends React.Component<Props<string>, State> {
   }
 
   _getMinDate = () => {
-    const { minDate, minYear } = this.props;
-    if (minDate) {
-      let date = tryGetValidDateShape(parseDateString(minDate));
-      return date || undefined;
-    }
-    if (minYear) {
-      warning(
-        minYear,
-        'Property minYear is obsolete, please use minDate instead'
-      );
-      return { date: 1, month: 0, year: minYear };
-    }
-    return undefined;
+    const { minDate } = this.props;
+    const date = minDate && tryGetValidDateShape(parseDateString(minDate));
+    return date || undefined;
   };
 
   _getMaxDate = () => {
-    const { maxDate, maxYear } = this.props;
-    if (maxDate) {
-      let date = tryGetValidDateShape(parseDateString(maxDate));
-      return date || undefined;
-    }
-    if (maxYear) {
-      warning(
-        maxYear,
-        'Property minYear is obsolete, please use minDate instead'
-      );
-      return { date: 31, month: 12, year: maxYear };
-    }
-    return undefined;
+    const { maxDate } = this.props;
+    const date = maxDate && tryGetValidDateShape(parseDateString(maxDate));
+    return date || undefined;
   };
 
   _handleFocus = () => {
@@ -270,19 +237,11 @@ class DatePicker extends React.Component<Props<string>, State> {
       return;
     }
 
-    const { value, onChange, onBlur } = this.props;
-    if (!isEmptyOrNullValue(value)) {
-      const filledDate = fillEmptyParts(value);
-      if (filledDate !== value) {
-        onChange({ target: { value: filledDate } }, filledDate);
-      }
-    }
-
     this._focused = false;
     this.close();
 
-    if (onBlur) {
-      onBlur();
+    if (this.props.onBlur) {
+      this.props.onBlur();
     }
   };
 

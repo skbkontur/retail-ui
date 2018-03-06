@@ -101,6 +101,8 @@ export default class InputLikeText extends React.Component<Props, State> {
       children,
       innerRef,
       placeholder: ph,
+      error,
+      warning,
       /* eslint-enable no-unused-vars */
       ...rest
     } = this.props;

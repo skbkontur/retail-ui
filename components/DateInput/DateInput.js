@@ -13,6 +13,7 @@ import InputLikeText from '../internal/InputLikeText';
 import Icon from '../Icon';
 
 import { parseValue, formatDate } from './DateInputHelpers/dateFormat';
+import { fillEmptyParts } from './DateInputHelpers/fillEmptyParts';
 import { maskChar } from './DateInputHelpers/maskChar';
 import { extractAction, Actions } from './DateInputKeyboardActions';
 import {
@@ -166,6 +167,7 @@ class DateInput extends React.Component<Props, State> {
     if (polyfillInput) {
       return this.renderInputLikeText();
     }
+
     return this.renderInput();
   }
 
@@ -302,10 +304,26 @@ class DateInput extends React.Component<Props, State> {
   handleBlur = (event: SyntheticFocusEvent<HTMLElement>) => {
     this._isFocused = false;
 
-    this.selectDatePart(null, removeAllSelections);
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
-    }
+    // event have to be persisted
+    // as props.onBlur would be called in async way
+    event.persist();
+
+    // both setStates would be batched
+    // because this handler was called by
+    // react synthetic event
+    this.setState(setSelection(null));
+    this.setState(
+      state => {
+        const hasDateEntry = state.date || state.month || state.year;
+        return hasDateEntry ? fillEmptyParts(state) : {};
+      },
+      () => {
+        removeAllSelections();
+        if (this.props.onBlur) {
+          this.props.onBlur(event);
+        }
+      }
+    );
   };
 
   handleKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {

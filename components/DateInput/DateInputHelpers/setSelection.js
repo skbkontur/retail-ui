@@ -27,7 +27,7 @@ export const setSelection = (index: number | null) => (state: State) => {
     case DateParts.Year:
       return {
         ...commonChanges,
-        year: state.year ? state.year.padStart(4, '0') : null
+        year: state.year ? restoreYear(state.year) : null
       };
     case DateParts.All:
     case null:
@@ -35,6 +35,18 @@ export const setSelection = (index: number | null) => (state: State) => {
     default:
       throw new UnknownDatePart();
   }
+};
+
+const restoreYear = year => {
+  let y = Number(year);
+  if (y < 100) {
+    if (y > 50) {
+      y += 1900;
+    } else {
+      y += 2000;
+    }
+  }
+  return y.toString(10).padStart(4, '0');
 };
 
 export const moveSelectionBy = (step: number) => (state: State) => {
