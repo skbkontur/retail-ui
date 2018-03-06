@@ -97,7 +97,7 @@ class DateInput extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (this.props.value !== nextProps.value) {
+    if (this.props !== nextProps) {
       this.deriveStateFromValue(nextProps.value);
     }
     if (this.props.minDate !== nextProps.minDate) {
