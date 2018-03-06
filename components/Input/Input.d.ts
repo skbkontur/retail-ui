@@ -52,5 +52,6 @@ export interface InputState {
 export default class Input extends React.Component<InputProps, InputState> {
   focus(): void;
   blur(): void;
+  blink(): void;
   setSelectionRange(start: number, end: number): void;
 }
