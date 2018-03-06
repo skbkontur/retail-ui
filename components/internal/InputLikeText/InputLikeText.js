@@ -123,7 +123,8 @@ export default class InputLikeText extends React.Component<Props, State> {
               right: 1,
               paddingLeft: 'inherit',
               paddingRight: 'inherit',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              minHeight: 20 / 14 + 'em'
             }}
           >
             {this.props.children}
