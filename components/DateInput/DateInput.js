@@ -60,6 +60,8 @@ export type State = {
 
 type Props = {
   value?: string,
+  error?: boolean,
+  warning?: boolean,
   disabled?: boolean,
   minDate?: ?string,
   maxDate?: ?string,
@@ -177,6 +179,8 @@ class DateInput extends React.Component<Props, State> {
           ref={el => (this._input = el)}
           size={this.props.size}
           disabled={this.props.disabled}
+          error={this.props.error}
+          warning={this.props.warning}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           onKeyDown={this.handleKeyDown}
@@ -206,6 +210,8 @@ class DateInput extends React.Component<Props, State> {
         ref={el => (this._inputlikeText = el)}
         size={this.props.size}
         disabled={this.props.disabled}
+        error={this.props.error}
+        warning={this.props.warning}
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
         onKeyDown={this.handleKeyDown}

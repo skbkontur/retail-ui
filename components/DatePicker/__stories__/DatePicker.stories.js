@@ -6,16 +6,13 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import DatePicker from '../DatePicker';
+import Tooltip from '../../Tooltip/index';
 
-type State = {
-  error: boolean,
-  value: * | null
-};
-
-class DatePickerWithError extends React.Component<*, State> {
+class DatePickerWithError extends React.Component<*, *> {
   state = {
     value: null,
-    error: false
+    error: false,
+    tooltip: false
   };
 
   _handleChange = (_, value) => {
@@ -25,18 +22,52 @@ class DatePickerWithError extends React.Component<*, State> {
     });
   };
 
+  _unvalidate = () => {
+    this.setState({ error: false, tooltip: false });
+  };
+
+  _validate = () => {
+    this.setState(state => {
+      const error = !!state.value && !DatePicker.validate(state.value);
+      return {
+        error,
+        tooltip: error
+      };
+    });
+  };
+
+  _removeTooltip = () => {
+    this.setState(state => ({
+      tooltip: false
+    }));
+  };
+
   render() {
     return (
       <Gapped>
-        <DatePicker
-          disabled={this.props.disabled}
-          size={this.props.size}
-          error={this.state.error}
-          value={this.state.value}
-          onChange={this._handleChange}
-          enableTodayLink
-        />
-        <Button onClick={() => this.setState({ value: null })}>Clear</Button>
+        <Tooltip
+          trigger={this.state.tooltip ? 'opened' : 'closed'}
+          render={() => 'Такой даты не существует'}
+          onCloseClick={this._removeTooltip}
+        >
+          <DatePicker
+            disabled={this.props.disabled}
+            size={this.props.size}
+            error={this.state.error}
+            value={this.state.value}
+            onChange={this._handleChange}
+            onFocus={this._unvalidate}
+            onBlur={this._validate}
+            enableTodayLink
+          />
+        </Tooltip>
+        <Button
+          onClick={() =>
+            this.setState({ value: null, error: null, tooltip: false })
+          }
+        >
+          Clear
+        </Button>
         <Button onClick={() => this.setState({ value: '99.99.9999' })}>
           Set "99.99.9999"
         </Button>
