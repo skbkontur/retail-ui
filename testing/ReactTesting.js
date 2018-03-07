@@ -17,8 +17,9 @@ function ref(tid, existingRef) {
       let node = ReactDOM.findDOMNode(el);
       if (node) {
         if (node.hasAttribute(DATA_RENDER_CONTAINER_ID)) {
-          node = renderContainers[node.getAttribute(DATA_RENDER_CONTAINER_ID)]
-            ._domContainer;
+          node =
+            renderContainers[node.getAttribute(DATA_RENDER_CONTAINER_ID)]
+              ._domContainer;
         }
 
         node.setAttribute('tid', tid);
@@ -59,7 +60,7 @@ function findDOMNodes(path, parentNode = document.body) {
   });
 }
 
-function call(node, method, ...args) {
+function call(node, method, args = []) {
   return Lookup.getAdapter(node.lookupElement)[method](...args);
 }
 
