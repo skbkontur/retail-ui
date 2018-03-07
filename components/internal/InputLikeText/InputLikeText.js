@@ -2,9 +2,6 @@
 
 import classNames from 'classnames';
 import * as React from 'react';
-import ReactDOM from 'react-dom';
-
-import filterProps from '../../filterProps';
 
 import '../../ensureOldIEClassName';
 import Upgrades from '../../../lib/Upgrades';
@@ -12,38 +9,73 @@ import Upgrades from '../../../lib/Upgrades';
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 const styles = isFlatDesign
-  ? require('./InputLikeText.flat.less')
-  : require('./InputLikeText.less');
+  ? require('../../Input/Input.flat.less')
+  : require('../../Input/Input.less');
 
-const PASS_PROPS = {
-  onBlur: true,
-  onClick: true,
-  onFocus: true,
-  onKeyDown: true,
-  onKeyPress: true,
-  onMouseEnter: true,
-  onMouseLeave: true,
-  onMouseOver: true
-};
-
-export default class InputLikeText extends React.Component<{
+type Props = {
   borderless?: boolean,
   children?: React.Node,
   error?: boolean,
   padRight?: boolean,
   warning?: boolean,
   disabled?: boolean,
-  size: 'small' | 'medium' | 'large'
-}> {
+  size: 'small' | 'medium' | 'large',
+  width?: string | number,
+  placeholder?: string,
+  innerRef?: (el: HTMLElement | null) => void,
+  // eslint-disable-next-line flowtype/no-weak-types
+  [key: string]: any
+};
+
+type State = {
+  blinking: boolean
+};
+
+export default class InputLikeText extends React.Component<Props, State> {
+  _node: HTMLElement | null = null;
+  _blinkTimeout;
+
   static defaultProps = {
     size: 'small'
   };
 
-  render() {
-    const passProps = this.props.disabled
-      ? {}
-      : filterProps(this.props, PASS_PROPS);
+  state = {
+    blinking: false
+  };
 
+  /**
+   * @public
+   */
+  focus() {
+    this._node && this._node.focus();
+  }
+
+  /**
+   * @public
+   */
+  blur() {
+    this._node && this._node.blur();
+  }
+
+  /**
+   * @public
+   */
+  blink() {
+    this.setState({ blinking: true }, () => {
+      this._blinkTimeout = setTimeout(
+        () => this.setState({ blinking: false }),
+        150
+      );
+    });
+  }
+
+  componentWillUnmount() {
+    if (this._blinkTimeout) {
+      clearTimeout(this._blinkTimeout);
+    }
+  }
+
+  render() {
     const className = classNames({
       [styles.root]: true,
       [styles.padRight]: this.props.padRight,
@@ -51,18 +83,76 @@ export default class InputLikeText extends React.Component<{
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,
       [styles.disabled]: this.props.disabled,
-      [styles[`size-${this.props.size}`]]: this.props.size
+      [this._getSizeClassName()]: true
     });
 
+    let placeholder = null;
+    if (!this.props.children && this.props.placeholder) {
+      placeholder = (
+        <span className={styles.placeholder}>{this.props.placeholder}</span>
+      );
+    }
+
+    const {
+      /* eslint-disable no-unused-vars */
+      tabIndex,
+      className: cn,
+      width,
+      children,
+      innerRef,
+      placeholder: ph,
+      error,
+      warning,
+      /* eslint-enable no-unused-vars */
+      ...rest
+    } = this.props;
+
     return (
-      <span tabIndex="0" className={className} {...passProps}>
-        <span className={styles.inner}>{this.props.children}</span>
-      </span>
+      <label className={className} style={{ width: this.props.width }}>
+        <span
+          {...rest}
+          tabIndex={this.props.disabled ? -1 : 0}
+          className={classNames({
+            [styles.input]: true,
+            [styles.blink]: this.state.blinking
+          })}
+          ref={this._ref}
+        >
+          <span
+            style={{
+              position: 'absolute',
+              left: 1,
+              right: 1,
+              paddingLeft: 'inherit',
+              paddingRight: 'inherit',
+              overflow: 'hidden',
+              minHeight: 20 / 14 + 'em'
+            }}
+          >
+            {this.props.children}
+          </span>
+        </span>
+        {placeholder}
+      </label>
     );
   }
 
-  focus() {
-    // eslint-disable-next-line flowtype/no-weak-types
-    (ReactDOM.findDOMNode(this): any).focus();
+  _ref = el => {
+    if (this.props.innerRef) {
+      this.props.innerRef(el);
+    }
+    this._node = el;
+  };
+
+  _getSizeClassName() {
+    const SIZE_CLASS_NAMES = {
+      small: styles.sizeSmall,
+      medium: Upgrades.isSizeMedium16pxEnabled()
+        ? styles.sizeMedium
+        : styles.DEPRECATED_sizeMedium,
+      large: styles.sizeLarge
+    };
+
+    return SIZE_CLASS_NAMES[this.props.size];
   }
 }

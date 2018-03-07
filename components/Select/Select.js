@@ -1,4 +1,6 @@
 // @flow
+import type { ButtonProps } from '../Button/Button';
+
 import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
@@ -69,7 +71,10 @@ type Props<TValue, TItem> = {
   areValuesEqual: (value1: TValue, value2: TValue) => boolean,
   search?: boolean,
   value?: ?TValue,
-  width?: number | string
+  width?: number | string,
+  warning?: boolean,
+  use?: $PropertyType<ButtonProps, 'use'>,
+  size?: $PropertyType<ButtonProps, 'size'>
 };
 
 type State<TValue> = {

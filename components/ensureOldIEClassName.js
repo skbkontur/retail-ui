@@ -1,5 +1,6 @@
 let ieVerison;
 let isIE;
+let isEdge;
 
 if (global.document) {
   let classes = '';
@@ -17,9 +18,14 @@ if (global.document) {
     classes += ' rt-ie-any';
   }
 
+  isEdge = ua.includes('Edge/');
+  if (isEdge) {
+    classes += ' rt-ie-any';
+  }
+
   if (classes) {
     document.documentElement.className += classes;
   }
 }
 
-export { ieVerison, isIE };
+export { ieVerison, isIE, isEdge };

@@ -122,7 +122,7 @@ class ComboBoxRenderer extends React.Component<Props, State> {
   };
 
   _mounted = false;
-  _focusable: ?HTMLInputElement = null;
+  _focusable = null;
   _menu: ?Menu = null;
   _focusSubscribtion: ?{ remove: () => void } = null;
   _lastError: ErrorKind = null;
@@ -309,7 +309,7 @@ class ComboBoxRenderer extends React.Component<Props, State> {
     this._mounted = false;
   }
 
-  _refFocusable = (el: ?HTMLInputElement) => {
+  _refFocusable = (el: Input | InputLikeText | null) => {
     this._focusable = el && (el.focus ? el : (ReactDOM.findDOMNode(el): any));
   };
 
@@ -465,6 +465,7 @@ class ComboBoxRenderer extends React.Component<Props, State> {
 
   _focus = () => {
     if (this._focusable && this._focusable.setSelectionRange) {
+      // $FlowIgnore
       this._focusable.setSelectionRange(0, this.state.searchText.length);
     } else if (this._focusable) {
       this._focusable.focus();

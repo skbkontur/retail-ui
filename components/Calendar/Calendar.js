@@ -178,9 +178,11 @@ class Calendar extends React.Component<Props, State> {
     }
   };
 
-  _scrollToMonth = (month: number, year: number) => {
+  _scrollToMonth = async (month: number, year: number) => {
     if (this._animation.inProgress()) {
       this._animation.finish();
+      // Dirty hack to await batched updates
+      await new Promise(r => setTimeout(r));
     }
 
     const { minDate, maxDate } = this.props;

@@ -33,7 +33,7 @@ type Props = {
   value: ?number,
   warning?: boolean,
   width?: number | string,
-  onBlur?: (e: Event) => void,
+  onBlur?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
   onChange: (e: { target: { value: ?number } }, value: ?number) => void,
   onFocus?: () => void,
   onSubmit?: () => void
@@ -127,7 +127,7 @@ export default class CurrencyInput extends Component<Props, State> {
     };
   }
 
-  _handleMouseUp = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  _handleMouseUp = (event: SyntheticMouseEvent<HTMLInputElement>) => {
     const selection = getInputSelection(event.target);
     const normilized = CurrencyInputHelper.normalizeSelection(
       this.state.formatted,
@@ -362,7 +362,7 @@ export default class CurrencyInput extends Component<Props, State> {
     }
   };
 
-  _handleBlur = (event: Event) => {
+  _handleBlur = event => {
     this._focused = false;
     const value = CurrencyHelper.parse(this.state.formatted);
     const state = this._getState(value, this.props.fractionDigits);

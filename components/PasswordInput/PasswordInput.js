@@ -22,8 +22,8 @@ type State = {
 };
 
 /**
-  * **DRAFT**
-**/
+ * **DRAFT**
+ **/
 
 export default class PasswordInput extends React.Component<Props, State> {
   static defaultProps = {
@@ -48,7 +48,7 @@ export default class PasswordInput extends React.Component<Props, State> {
     }
   }
 
-  _handleKeyPress = (e: SyntheticKeyboardEvent<>) => {
+  _handleKeyPress = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     const { onKeyPress, detectCapsLock } = this.props;
 
     if (onKeyPress) {
@@ -76,7 +76,7 @@ export default class PasswordInput extends React.Component<Props, State> {
     this.setState({ capsLockEnabled });
   };
 
-  _handleKeydown = (e: SyntheticKeyboardEvent<>) => {
+  _handleKeydown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     const {
       props: { detectCapsLock, onKeyDown },
       state: { capsLockEnabled }

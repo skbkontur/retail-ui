@@ -2,7 +2,12 @@
 
 :local {
   @side-padding: 10px;
-  @side-padding-padded: 25px;
+  @side-padding-padded: 27px;
+
+  @small-vertical-padding: 6px;
+  @medium-vertical-padding: 8px;
+  @DEPRECATED_medium-vertical-padding: 9px;
+  @large-vertical-padding: 10px;
 
   .root {
     display: inline-block;
@@ -14,14 +19,36 @@
     border: 1px solid @border-color-gray-light;
     border-top-color: @border-color-gray-dark;
     box-sizing: border-box;
+    display: inline-block;
     font-family: inherit;
     font-size: 14px;
-    line-height: 16px;
+    line-height: 20px;
     margin: 0; // For Safari.
     outline: none;
-    padding: 0 @side-padding;
+    padding-left: @side-padding;
+    padding-right: @side-padding;
     width: 100%;
     -webkit-appearance: none;
+    white-space: nowrap;
+    text-overflow: clip;
+    background: white;
+    transition: background-color 0.15s ease-in;
+
+    &:before {
+      content: '\a0';
+    }
+  }
+
+  .blink {
+    background-color: @blink-color;
+  }
+
+  .input::placeholder {
+    color: @placeholder-color;
+  }
+
+  .input:focus::placeholder {
+    color: @placeholder-color-light;
   }
 
   .input::-ms-clear {
@@ -29,23 +56,41 @@
   }
 
   .sizeSmall .input {
-    line-height: 32px;
+    padding-top: @small-vertical-padding;
+    padding-bottom: @small-vertical-padding;
   }
 
-  .sizeMedium .input {
-    line-height: 38px;
-    font-size: 16px;
+  .sizeMedium {
+    .input {
+      font-size: 16px;
+      line-height: 22px;
+      padding-top: @medium-vertical-padding;
+      padding-bottom: @medium-vertical-padding;
+    }
+
+    .icon {
+      font-size: 16px;
+      height: 22px;
+    }
   }
 
-  .DEPRECATED_sizeMedium input {
-    line-height: 38px;
+  .DEPRECATED_sizeMedium .input {
     font-size: 14px;
+    padding-top: @DEPRECATED_medium-vertical-padding;
+    padding-bottom: @DEPRECATED_medium-vertical-padding;
   }
 
   .sizeLarge {
     .input {
-      line-height: 42px;
+      padding-top: @large-vertical-padding;
+      padding-bottom: @large-vertical-padding;
       font-size: 16px;
+      line-height: 22px;
+    }
+
+    .icon {
+      font-size: 16px;
+      height: 22px;
     }
 
     .placeholder {
@@ -91,7 +136,6 @@
   .input:focus {
     border-color: @border-color-focus;
     box-shadow: 0 0 0 1px @border-color-focus;
-    position: relative;
     z-index: 2;
   }
 
@@ -99,19 +143,18 @@
     background: @bg-disabled;
     border-color: @border-color-gray-light;
     color: @text-color-disabled;
+    pointer-events: none;
   }
 
   .warning .input {
     border-color: @border-color-warning;
     box-shadow: 0 0 0 1px @border-color-warning;
-    position: relative;
     z-index: 2;
   }
 
   .error .input {
     border-color: @border-color-error;
     box-shadow: 0 0 0 1px @border-color-error;
-    position: relative;
     z-index: 2;
   }
 
@@ -135,7 +178,7 @@
 
   .placeholder {
     bottom: 1px;
-    color: #aaa;
+    color: @placeholder-color;
     font-size: 14px;
     line-height: normal;
     left: @side-padding + 1;
@@ -145,11 +188,15 @@
     top: 1px;
     margin: auto;
     white-space: nowrap;
-    z-index: 2;
     user-select: none;
     -ms-user-select: none;
+    pointer-events: none;
     cursor: text;
-    height: 18px;
+    height: 20px;
+  }
+
+  .input:focus + .placeholder {
+    color: @placeholder-color-light;
   }
 
   .padLeft .placeholder {
@@ -164,27 +211,20 @@
   .rightIcon {
     color: #a9a9a9;
     cursor: text;
-    line-height: 34px;
-    height: 34px;
+    top: 0;
+    bottom: 0;
+    width: @side-padding-padded;
+    position: absolute;
+    z-index: 2;
+    display: inline-block;
+  }
+
+  .icon {
     position: absolute;
     top: 0;
-    z-index: 2;
-  }
-
-  .sizeMedium {
-    .leftIcon,
-    .rightIcon {
-      line-height: 40px;
-      height: 40px;
-    }
-  }
-
-  .sizeLarge {
-    .leftIcon,
-    .rightIcon {
-      line-height: 44px;
-      height: 44px;
-    }
+    bottom: 0;
+    height: 20px;
+    margin: auto;
   }
 
   .disabled .leftIcon,
@@ -193,28 +233,22 @@
   }
 
   .leftIcon {
-    left: 8px;
+    left: 0;
+
+    & .icon {
+      left: @side-padding;
+    }
   }
 
   .rightIcon {
-    right: 8px;
+    right: 0;
+
+    & .icon {
+      right: @side-padding;
+    }
   }
 
   .borderless {
     border-color: transparent;
-  }
-
-  .searchLine {
-    font-size: 15px;
-    border-radius: 2px;
-
-    &.leftIcon {
-      font-size: 22px;
-    }
-
-    &:focus {
-      border-color: transparent;
-      box-shadow: none;
-    }
   }
 }

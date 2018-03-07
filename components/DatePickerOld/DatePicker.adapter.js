@@ -1,6 +1,6 @@
 // @flow
 /* eslint-disable flowtype/no-weak-types */
-import DatePicker from './DatePicker.js';
+import DatePicker from './DatePickerOld.js';
 
 const DatePickerAdapter = {
   getValue(inst: DatePicker) {

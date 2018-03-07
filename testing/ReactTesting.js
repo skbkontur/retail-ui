@@ -59,7 +59,7 @@ function findDOMNodes(path, parentNode = document.body) {
   });
 }
 
-function call(node, method, args = []) {
+function call(node, method, ...args) {
   return Lookup.getAdapter(node.lookupElement)[method](...args);
 }
 
