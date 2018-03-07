@@ -101,12 +101,12 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
       arrow: 15
     };
     if (size === 'medium') {
-      topOffsets.spinner += 2;
-      topOffsets.arrow += 2;
-    }
-    if (size === 'large') {
       topOffsets.spinner += 4;
       topOffsets.arrow += 4;
+    }
+    if (size === 'large') {
+      topOffsets.spinner += 6;
+      topOffsets.arrow += 6;
     }
 
     const spinner = (
@@ -127,9 +127,9 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
         style={{
           border: '4px solid transparent',
           borderBottomWidth: 0,
-          borderTopColor: '#a6a6a6',
+          borderTopColor: '#aaa',
           position: 'absolute',
-          right: 8,
+          right: 10,
           top: topOffsets.arrow,
           zIndex: 2,
           pointerEvents: 'none'
@@ -293,13 +293,10 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
         padRight={openButton}
         disabled={disabled}
         warning={warning}
+        placeholder={placeholder}
         size={size}
       >
-        {value ? (
-          renderValue(value)
-        ) : (
-          <span style={{ color: 'gray' }}>{placeholder}</span>
-        )}
+        {value ? renderValue(value) : null}
       </InputLikeText>
     );
   }

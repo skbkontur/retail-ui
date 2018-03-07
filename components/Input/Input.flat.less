@@ -3,7 +3,11 @@
 
 :local {
   @side-padding: 10px;
-  @side-padding-padded: 25px;
+  @side-padding-padded: 27px;
+
+  @small-vertical-padding: 6px;
+  @medium-vertical-padding: 9px;
+  @large-vertical-padding: 11px;
 
   .root {
     display: inline-block;
@@ -14,14 +18,33 @@
   .input {
     border: 1px solid @border-color-gray-light;
     box-sizing: border-box;
+    display: inline-block;
     font-family: inherit;
     font-size: 14px;
-    line-height: 16px;
+    line-height: 20px;
     margin: 0; // For Safari.
     outline: none;
-    padding: 0 @side-padding;
+    padding-left: @side-padding;
+    padding-right: @side-padding;
     width: 100%;
     -webkit-appearance: none;
+    transition: background-color 0.15s ease-in;
+
+    &:empty:before {
+      content: '\a0';
+    }
+  }
+
+  .blink {
+    background-color: @blink-color;
+  }
+
+  .input::placeholder {
+    color: @placeholder-color;
+  }
+
+  .input:focus::placeholder {
+    color: @placeholder-color-light;
   }
 
   .input::-ms-clear {
@@ -29,19 +52,36 @@
   }
 
   .sizeSmall .input {
-    line-height: 32px;
+    padding-top: @small-vertical-padding;
+    padding-bottom: @small-vertical-padding;
   }
 
-  .DEPRECATED_sizeMedium .input,
-  .sizeMedium .input {
-    line-height: 38px;
-    font-size: 16px;
+  .DEPRECATED_sizeMedium,
+  .sizeMedium {
+    .input {
+      font-size: 16px;
+      line-height: 22px;
+      padding-top: @medium-vertical-padding;
+      padding-bottom: @medium-vertical-padding;
+    }
+
+    .icon {
+      font-size: 16px;
+      height: 22px;
+    }
   }
 
   .sizeLarge {
     .input {
-      line-height: 42px;
+      padding-top: @large-vertical-padding;
+      padding-bottom: @large-vertical-padding;
       font-size: 16px;
+      line-height: 22px;
+    }
+
+    .icon {
+      font-size: 16px;
+      height: 22px;
     }
 
     .placeholder {
@@ -86,7 +126,6 @@
   .input:focus {
     border-color: @flat-border-color-focus;
     box-shadow: 0 0 0 1px @flat-border-color-focus;
-    position: relative;
     z-index: 2;
   }
 
@@ -130,7 +169,7 @@
 
   .placeholder {
     bottom: 1px;
-    color: #aaa;
+    color: @placeholder-color;
     font-size: 14px;
     line-height: normal;
     left: @side-padding + 1;
@@ -145,10 +184,11 @@
     -ms-user-select: none;
     cursor: text;
     height: 18px;
+    z-index: -1;
   }
 
-  .padLeft .placeholder {
-    left: @side-padding-padded + 1;
+  .input:focus + .placeholder {
+    color: @placeholder-color-light;
   }
 
   .padRight .placeholder {
@@ -159,27 +199,20 @@
   .rightIcon {
     color: #a9a9a9;
     cursor: text;
-    line-height: 34px;
-    height: 34px;
+    top: 0;
+    bottom: 0;
+    width: @side-padding-padded;
+    position: absolute;
+    z-index: 2;
+    display: inline-block;
+  }
+
+  .icon {
     position: absolute;
     top: 0;
-    z-index: 2;
-  }
-
-  .sizeMedium {
-    .leftIcon,
-    .rightIcon {
-      line-height: 40px;
-      height: 40px;
-    }
-  }
-
-  .sizeLarge {
-    .leftIcon,
-    .rightIcon {
-      line-height: 44px;
-      height: 44px;
-    }
+    bottom: 0;
+    height: 20px;
+    margin: auto;
   }
 
   .disabled .leftIcon,
@@ -188,28 +221,22 @@
   }
 
   .leftIcon {
-    left: 8px;
+    left: 0;
+
+    & .icon {
+      left: @side-padding;
+    }
   }
 
   .rightIcon {
-    right: 8px;
+    right: 0;
+
+    & .icon {
+      right: @side-padding;
+    }
   }
 
   .borderless {
     border-color: transparent;
-  }
-
-  .searchLine {
-    font-size: 15px;
-    border-radius: 2px;
-
-    &.leftIcon {
-      font-size: 22px;
-    }
-
-    &:focus {
-      border-color: transparent;
-      box-shadow: none;
-    }
   }
 }

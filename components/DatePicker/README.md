@@ -1,40 +1,46 @@
-Пример календаря с обработкой ошибок, когда пользователь ввел невалидную дату.
-По умолчанию возвращает дату в UTC.
+Компонент `DatePicker` принимает в `value` строку формата `dd.mm.yyyy`.
+При вводе строки в поле ввода, возвращает строку без маски.
 
-```jsx
-<Gapped>
-  <DatePicker
-    error={state.error}
-    value={state.date}
-    onChange={(_, date) => setState({ date, error: false })}
-    onUnexpectedInput={x =>
-      setState({ error: true }, () =>
-        Toast.push('Такая дата не существует: ' + x)
-      )
-    }
-    enableTodayLink
-  />
-  {state.date && state.date.toLocaleString()}
-</Gapped>
+Имеется статический метод `DatePicker.validate`, который проверяет,
+что введенная дата корректна
+
+```jsx static
+DatePicker.validate: (value: string) => boolean
 ```
 
-Есть возможность работы со своим объектом даты, если указать `dateTransformer`
+Пример с обработкой ошибок, когда пользователь ввел невалидную дату.
 
 ```jsx
-const transformer = {
-  to: ({ date, month, year }) => [date, month, year],
-  from: ([date, month, year]) => ({ date, month, year })
+let initialState = {
+  value: '',
+  error: false,
+  tooltip: false
 };
 
-<Gapped>
+let handleChange = (_, value) => setState({ value });
+
+let unvalidate = () => setState({ error: false, tooltip: false });
+
+let validate = () =>
+  setState(state => {
+    const error = !!state.value && !DatePicker.validate(state.value);
+    return { error, tooltip: error };
+  });
+
+let removeTooltip = () => setState(state => ({ tooltip: false }));
+
+<Tooltip
+  trigger={state.tooltip ? 'opened' : 'closed'}
+  render={() => 'Такой даты не существует'}
+  onCloseClick={removeTooltip}
+>
   <DatePicker
-    dateTransformer={transformer}
     error={state.error}
-    value={state.date}
-    onChange={(_, date) => setState({ date, error: false })}
-    onUnexpectedInput={x => setState({ error: true })}
+    value={state.value}
+    onChange={handleChange}
+    onFocus={unvalidate}
+    onBlur={validate}
     enableTodayLink
   />
-  {state.date && JSON.stringify(state.date)}
-</Gapped>;
+</Tooltip>;
 ```

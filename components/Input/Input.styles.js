@@ -5,6 +5,19 @@ import type { ITheme } from '../theme';
 const sidePadding = 10;
 const sidePaddingPadded = 25;
 
+const verticalPadding = {
+  small: 6,
+  medium: 10,
+  large: 12
+};
+
+const paddingMixin = (size: 'small' | 'medium' | 'large') => ({
+  paddingTop: verticalPadding[size],
+  paddingBottom: verticalPadding[size],
+  paddingLeft: sidePadding,
+  paddingRight: sidePadding
+});
+
 export default (theme: ITheme) => ({
   root: {
     display: 'inline-block',
@@ -17,17 +30,16 @@ export default (theme: ITheme) => ({
     boxSizing: 'border-box',
     fontFamily: 'inherit',
     fontSize: '14px',
-    lineHeight: '16px',
+    lineHeight: '20px',
     margin: '0',
     outline: 'none',
-    padding: [[0, sidePadding]],
     width: '100%',
     webkitAppearance: 'none',
+    transition: 'background-color 0.15s ease-in',
 
     '&:focus': {
       borderColor: theme.common.borderColorFocus,
       boxShadow: `0 0 0 1px ${theme.common.borderColorFocus}`,
-      position: 'relative',
       zIndex: '2'
     },
 
@@ -35,28 +47,27 @@ export default (theme: ITheme) => ({
       display: 'none'
     }
   },
+  blink: {
+    backgroundColor: theme.common.blinkColor
+  },
   sizeSmall: {
     '& $input': {
-      lineHeight: '32px'
+      ...paddingMixin('small')
     }
   },
   sizeMedium: {
     '& $input': {
-      lineHeight: '38px',
+      ...paddingMixin('medium'),
       fontSize: '16px'
     },
-    '& $leftIcon': {
-      lineHeight: '40px',
-      height: '40px'
-    },
-    '& $rightIcon': {
-      lineHeight: '40px',
-      height: '40px'
+    '& $icon': {
+      fontSize: '16px',
+      height: '22px'
     }
   },
   DEPRECATED_sizeMedium: {
     '& $input': {
-      lineHeight: '38px',
+      ...paddingMixin('medium'),
       fontSize: '14px'
     },
     '& $leftIcon': {
@@ -70,20 +81,16 @@ export default (theme: ITheme) => ({
   },
   sizeLarge: {
     '& $input': {
-      lineHeight: '42px',
+      ...paddingMixin('large'),
       fontSize: '16px'
     },
     '& $placeholder': {
       fontSize: '16px',
       height: '21px'
     },
-    '& $leftIcon': {
-      lineHeight: '44px',
-      height: '44px'
-    },
-    '& $rightIcon': {
-      lineHeight: '44px',
-      height: '44px'
+    '& $icon': {
+      fontSize: '16px',
+      height: '22px'
     }
   },
   disabled: {
@@ -151,36 +158,40 @@ export default (theme: ITheme) => ({
     cursor: 'text',
     height: 18
   },
-  icon: {
+  iconBase: {
     color: '#a9a9a9',
     cursor: 'text',
-    lineHeight: '34px',
-    height: '34px',
     position: 'absolute',
     top: '0',
+    bottom: '0',
+    width: sidePaddingPadded,
+    display: 'inline-block',
     zIndex: '2'
   },
+  icon: {
+    position: 'absolute',
+    top: '0',
+    bottom: '0',
+    height: 20,
+    margin: 'auto'
+  },
   leftIcon: {
-    extend: 'icon',
-    left: 8
+    extend: 'iconBase',
+    left: 0,
+
+    '& $icon': {
+      left: sidePadding
+    }
   },
   rightIcon: {
-    extend: 'icon',
-    right: 8
+    extend: 'iconBase',
+    right: 0,
+
+    '& $icon': {
+      right: sidePadding
+    }
   },
   borderless: {
     borderColor: 'transparent'
-  },
-  searchLine: {
-    fontSize: '15px',
-    borderRadius: '2px',
-
-    '& $leftIcon': {
-      fontSize: '22px'
-    },
-    '&:focus': {
-      borderColor: 'transparent',
-      boxShadow: 'none'
-    }
   }
 });

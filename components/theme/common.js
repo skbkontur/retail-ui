@@ -10,5 +10,6 @@ export default {
   borderColorGrayLight: '#d9d9d9',
   borderColorGrayLighter: '#fff',
   borderColorError: '#da0902',
-  borderColorWarning: '#f5a636'
+  borderColorWarning: '#f5a636',
+  blinkColor: '#cde4f8'
 };

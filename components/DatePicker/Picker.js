@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 import Calendar, { type CalendarDateShape } from '../Calendar';
+import shallowEqual from 'fbjs/lib/shallowEqual';
 
-import { dateFormat } from './dateFormat';
-
+import { formatDate } from './DatePickerHelpers';
 import styles from './Picker.less';
 
 type Props = {|
@@ -44,6 +44,13 @@ export default class Picker extends React.Component<Props, State> {
     };
   }
 
+  componentDidUpdate(prevProps: Props) {
+    const { value } = this.props;
+    if (value && !shallowEqual(value, prevProps.value)) {
+      this._scrollToMonth(value.month, value.year);
+    }
+  }
+
   render() {
     const { date } = this.state;
     return (
@@ -62,6 +69,12 @@ export default class Picker extends React.Component<Props, State> {
     );
   }
 
+  _scrollToMonth = (month, year) => {
+    if (this._calendar) {
+      this._calendar.scrollToMonth(month, year);
+    }
+  };
+
   _renderTodayLink() {
     return (
       <button
@@ -69,7 +82,7 @@ export default class Picker extends React.Component<Props, State> {
         onClick={this._handleSelectToday}
         tabIndex={-1}
       >
-        Сегодня {dateFormat(this.state.today)}
+        Сегодня {formatDate(this.state.today)}
       </button>
     );
   }
