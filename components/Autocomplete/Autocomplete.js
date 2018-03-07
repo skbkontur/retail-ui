@@ -207,8 +207,12 @@ export default class Autocomplete extends React.Component<Props, State> {
   };
 
   _handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(event);
+    }
     switch (event.key) {
       case 'Escape':
+        event.preventDefault();
         this.setState({ items: null });
         return;
       case 'ArrowUp':
