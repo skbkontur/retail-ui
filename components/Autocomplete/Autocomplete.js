@@ -50,7 +50,7 @@ type Props = InputProps & {
   source: Array<string> | ((patter: string) => Promise<string[]>),
   onChange: (event: { target: { value: string } }, value: string) => void,
   disablePortal?: boolean,
-  hasShadow: boolean,
+  hasShadow?: boolean,
   menuAlign?: 'left' | 'right',
   menuMaxHeight?: number | string,
   menuWidth?: number | string,
