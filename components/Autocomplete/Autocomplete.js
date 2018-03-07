@@ -109,12 +109,13 @@ export default class Autocomplete extends React.Component<Props, State> {
     const inputProps = {
       onChange: this._handleChange,
       onKeyDown: this._handleKey,
+      onBlur: this._handleBlur,
       ref: this._refInput
     };
     return (
       <RenderLayer
-        onFocusOutside={this._handleBlur}
-        onClickOutside={this._handleBlur}
+        onFocusOutside={this._closeMenu}
+        onClickOutside={this._closeMenu}
       >
         <span className={styles.root}>
           {/* $FlowIssue inputProps overrides */}
@@ -175,11 +176,13 @@ export default class Autocomplete extends React.Component<Props, State> {
     this._fireChange(value);
   };
 
-  _handleBlur = (event: Event) => {
+  _closeMenu = () => {
     this._opened = false;
     this.setState({ items: null });
+  };
 
-    if (this.props.onBlur) {
+  _handleBlur = (event: Event) => {
+    if (this.props.onBlur && !this._opened) {
       this.props.onBlur(event);
     }
   };
@@ -239,10 +242,19 @@ export default class Autocomplete extends React.Component<Props, State> {
     const value = this.state.items[index];
 
     this._opened = false;
-    this.setState({
-      selected: -1,
-      items: null
-    });
+    this.setState(
+      {
+        selected: -1,
+        items: null
+      },
+      () => {
+        let input = this._input;
+        if (input) {
+          input.focus();
+          input.blur();
+        }
+      }
+    );
 
     this._fireChange(value);
   }

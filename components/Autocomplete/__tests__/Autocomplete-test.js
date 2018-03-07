@@ -105,7 +105,6 @@ describe('<Autocomplete />', () => {
       value: 'hel',
       warning: true,
       width: 300,
-      onBlur: () => {},
       onCopy: () => {},
       onCut: () => {},
       onFocus: () => {},
