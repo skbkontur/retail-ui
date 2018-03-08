@@ -2,10 +2,17 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import * as CDS from './CalendarDateShape';
+import styled from '../internal/styledRender';
 
 import config from './config';
 
-import classes from './DayCellView.less';
+let cssStyles;
+let jssStyles;
+if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+  jssStyles = require('./DayCellView.styles').default;
+} else {
+  cssStyles = require('./DayCellView.less');
+}
 
 type Props = {
   date: CDS.CalendarDateShape,
@@ -25,8 +32,8 @@ export const DayCellView = ({
   value,
   isWeekend,
   onClick
-}: Props) => {
-  return (
+}: Props) =>
+  styled.element(cssStyles, jssStyles, classes => (
     <button
       style={styles.cell}
       tabIndex={-1}
@@ -42,8 +49,7 @@ export const DayCellView = ({
     >
       {date.date}
     </button>
-  );
-};
+  ));
 
 const styles = {
   cell: {

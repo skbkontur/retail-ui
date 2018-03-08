@@ -10,8 +10,6 @@ import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
 import RenderLayer from '../RenderLayer';
 
-import styles from './Autocomplete.less';
-
 type InputProps = {
   align?: 'left' | 'center' | 'right',
   alwaysShowMask?: boolean,
@@ -134,7 +132,7 @@ export default class Autocomplete extends React.Component<Props, State> {
         onFocusOutside={this._handleBlur}
         onClickOutside={this._handleBlur}
       >
-        <span className={styles.root}>
+        <span style={{ display: 'inline-block' }}>
           {/* $FlowIssue inputProps overrides */}
           <Input {...this.props} {...inputProps} />
           {this._renderMenu()}
