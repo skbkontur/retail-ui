@@ -36,7 +36,7 @@ describe('<Autocomplete />', () => {
     await new Promise(resolve => setTimeout(resolve));
     wrapper.update();
 
-    const menuItems = wrapper.find('.item');
+    const menuItems = wrapper.find('MenuItem');
     expect(menuItems).toHaveLength(1);
     expect(menuItems.text()).toBe('Two');
   });
@@ -50,7 +50,7 @@ describe('<Autocomplete />', () => {
     await new Promise(resolve => setTimeout(resolve));
     wrapper.update();
 
-    const menuItems = wrapper.find('.item');
+    const menuItems = wrapper.find('MenuItem');
 
     expect(menuItems).toHaveLength(2);
     expect(menuItems.first().text()).toBe('One');
@@ -78,7 +78,7 @@ describe('<Autocomplete />', () => {
     await new Promise(resolve => setTimeout(resolve));
     wrapper.update();
 
-    const menuItems = wrapper.find('.item');
+    const menuItems = wrapper.find('MenuItem');
 
     expect(menuItems).toHaveLength(2);
     expect(menuItems.first().text()).toBe('ONE');
