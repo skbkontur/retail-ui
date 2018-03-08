@@ -31,30 +31,30 @@ type InputProps = {
   value: string,
   warning?: boolean,
   width?: number | string,
-  onBlur?: (e: Event) => void,
-  onCopy?: (e: SyntheticClipboardEvent<>) => void,
-  onCut?: (e: SyntheticClipboardEvent<>) => void,
-  onFocus?: (e: SyntheticFocusEvent<>) => void,
-  onInput?: (e: SyntheticInputEvent<>) => void,
-  onKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
-  onKeyPress?: (e: SyntheticKeyboardEvent<>) => void,
-  onKeyUp?: (e: SyntheticKeyboardEvent<>) => void,
-  onPaste?: (e: SyntheticFocusEvent<>) => void,
-  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
-  onMouseOver?: (e: SyntheticMouseEvent<>) => void
+  onCopy?: (e: SyntheticClipboardEvent<HTMLInputElement>) => void,
+  onCut?: (e: SyntheticClipboardEvent<HTMLInputElement>) => void,
+  onFocus?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
+  onInput?: (e: SyntheticInputEvent<HTMLInputElement>) => void,
+  onKeyDown?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
+  onKeyPress?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
+  onKeyUp?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
+  onPaste?: (e: SyntheticClipboardEvent<HTMLInputElement>) => void,
+  onMouseEnter?: (e: SyntheticMouseEvent<HTMLElement>) => void,
+  onMouseLeave?: (e: SyntheticMouseEvent<HTMLElement>) => void,
+  onMouseOver?: (e: SyntheticMouseEvent<HTMLElement>) => void
 };
 
 type Props = InputProps & {
   renderItem: (item: string) => React.Node,
   source: Array<string> | ((patter: string) => Promise<string[]>),
-  onChange: (event: { target: { value: string } }, value: string) => void,
   disablePortal?: boolean,
   hasShadow?: boolean,
   menuAlign?: 'left' | 'right',
   menuMaxHeight?: number | string,
   menuWidth?: number | string,
-  preventWindowScroll?: boolean
+  preventWindowScroll?: boolean,
+  onChange: (event: { target: { value: string } }, value: string) => void,
+  onBlur?: () => void
 };
 
 type State = {
@@ -108,6 +108,9 @@ export default class Autocomplete extends React.Component<Props, State> {
   _opened: boolean = false;
   _input: ?Input = null;
   _menu: ?Menu;
+
+  _focused: boolean = false;
+
   /**
    * @public
    */
@@ -118,15 +121,17 @@ export default class Autocomplete extends React.Component<Props, State> {
   }
 
   blur() {
-    if (this._input) {
-      this._input.blur();
-    }
+    this._handleBlur();
   }
 
   render() {
+    /* eslint-disable no-unused-vars */
+    const { onChange, onKeyDown, onFocus, onBlur, ...rest } = this.props;
+    /* eslint-enable no-unused-vars */
     const inputProps = {
       onChange: this._handleChange,
       onKeyDown: this._handleKeyDown,
+      onFocus: this._handleFocus,
       ref: this._refInput
     };
     return (
@@ -135,8 +140,7 @@ export default class Autocomplete extends React.Component<Props, State> {
         onClickOutside={this._handleBlur}
       >
         <span className={styles.root}>
-          {/* $FlowIssue inputProps overrides */}
-          <Input {...this.props} {...inputProps} />
+          <Input {...rest} {...inputProps} />
           {this._renderMenu()}
         </span>
       </RenderLayer>
@@ -197,12 +201,32 @@ export default class Autocomplete extends React.Component<Props, State> {
     this._fireChange(value);
   };
 
-  _handleBlur = (event: Event) => {
+  _handleFocus = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+    if (this._focused) {
+      return;
+    }
+
+    this._focused = true;
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
+    }
+  };
+
+  _handleBlur = () => {
+    if (!this._focused) {
+      return;
+    }
+
+    this._focused = false;
     this._opened = false;
     this.setState({ items: null });
 
+    if (this._input) {
+      this._input.blur();
+    }
+
     if (this.props.onBlur) {
-      this.props.onBlur(event);
+      this.props.onBlur();
     }
   };
 
@@ -254,6 +278,7 @@ export default class Autocomplete extends React.Component<Props, State> {
     });
 
     this._fireChange(value);
+    this.blur();
   }
 
   _updateItems(value) {
