@@ -25,6 +25,8 @@ export default function DateSelect(theme: ITheme) {
       }
     },
 
+    disabled: {},
+
     caption: {
       position: 'relative'
     },
