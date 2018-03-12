@@ -98,12 +98,26 @@ class JssStyled extends React.Component<Props> {
 
     if (sheetManagerTheme.refs === 0) {
       const styles = this._stylesCreator(theme);
-      const sheet = jss.createStyleSheet(styles);
+      let sheet;
+      if (process.env.NODE_ENV === 'production') {
+        sheet = jss.createStyleSheet(styles);
+      } else {
+        sheet = jss.createStyleSheet(styles, {
+          generateClassName: this._generateClassName
+        });
+      }
+
       sheetManagerTheme.sheet = sheet;
       sheet.attach();
     }
 
     sheetManagerTheme.refs += 1;
+  };
+
+  _generateClassName = rule => {
+    let counter = 0;
+    // $FlowIgnore
+    return `${this.props.styles.name || ''}-${rule.key}-${counter++}`;
   };
 
   _detach = theme => {

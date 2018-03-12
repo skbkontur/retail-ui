@@ -2,20 +2,22 @@
 
 import type { ITheme } from '../theme/index';
 
-export default (theme: ITheme) => ({
-  root: {
-    height: '100%'
-  },
+export default function Center(theme: ITheme) {
+  return {
+    root: {
+      height: '100%'
+    },
 
-  spring: {
-    display: 'inline-block',
-    height: '100%',
-    verticalAlign: 'middle'
-  },
+    spring: {
+      display: 'inline-block',
+      height: '100%',
+      verticalAlign: 'middle'
+    },
 
-  container: {
-    display: 'inline-block',
-    textAlign: 'left',
-    verticalAlign: 'middle'
-  }
-});
+    container: {
+      display: 'inline-block',
+      textAlign: 'left',
+      verticalAlign: 'middle'
+    }
+  };
+}
