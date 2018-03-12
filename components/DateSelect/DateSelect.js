@@ -8,8 +8,15 @@ import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import LayoutEvents from '../../lib/LayoutEvents';
 
 import PropTypes from 'prop-types';
+import styled from '../internal/styledRender';
 
-import styles from './DateSelect.less';
+let cssStyles;
+let jssStyles;
+if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+  jssStyles = require('./DateSelect.styles').default;
+} else {
+  cssStyles = require('./DateSelect.less');
+}
 
 import Icon from '../Icon/Icon.js';
 
@@ -111,7 +118,7 @@ export default class DateSelect extends React.Component<Props, State> {
     }
   }
 
-  render() {
+  render = styled(cssStyles, jssStyles, styles => {
     const { width, disabled } = this.props;
     const rootProps = {
       className: classNames({
@@ -134,10 +141,10 @@ export default class DateSelect extends React.Component<Props, State> {
             <Icon name="sort" size={12} />
           </div>
         </div>
-        {this.state.opened && this.renderMenu()}
+        {this.state.opened && this.renderMenu(styles)}
       </span>
     );
-  }
+  });
 
   _ref = node => {
     this._node = node;
@@ -158,7 +165,7 @@ export default class DateSelect extends React.Component<Props, State> {
     );
   };
 
-  renderMenu() {
+  renderMenu(styles: *) {
     const { top, height, nodeTop } = this.state;
 
     let shift = this.state.pos % HEIGHT;
