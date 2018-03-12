@@ -223,6 +223,7 @@ export default function Button(theme: ITheme) {
       boxShadow: `0 0 0 1px ${theme.common.borderColorGrayLight}`,
       color: '#808080',
       cursor: 'default',
+      pointerEvents: 'none',
 
       '&:active': {
         paddingTop: 0,
@@ -256,7 +257,7 @@ export default function Button(theme: ITheme) {
       }
     },
 
-    '@keyframes btn_loading': {
+    [keyframes('btn_loading')]: {
       from: {
         transform: 'translateX(0) rotateY(180deg)'
       },
@@ -296,7 +297,6 @@ export default function Button(theme: ITheme) {
 
     // TODO: arrow styles
     arrow: {},
-    arrowButton: {},
     wrap_arrow: {},
     arrow_loading: {},
     arrow_warning: {},
@@ -354,3 +354,5 @@ const generateLinkStyles = (color, hoverColor, focusColor, activeColor) => ({
     verticalAlign: 0
   }
 });
+
+const keyframes = name => '@keyframes ' + name;

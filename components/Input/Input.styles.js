@@ -158,16 +158,6 @@ export default (theme: ITheme) => ({
     cursor: 'text',
     height: 18
   },
-  iconBase: {
-    color: '#a9a9a9',
-    cursor: 'text',
-    position: 'absolute',
-    top: '0',
-    bottom: '0',
-    width: sidePaddingPadded,
-    display: 'inline-block',
-    zIndex: '2'
-  },
   icon: {
     position: 'absolute',
     top: '0',
@@ -176,7 +166,7 @@ export default (theme: ITheme) => ({
     margin: 'auto'
   },
   leftIcon: {
-    extend: 'iconBase',
+    ...iconBase(),
     left: 0,
 
     '& $icon': {
@@ -184,7 +174,7 @@ export default (theme: ITheme) => ({
     }
   },
   rightIcon: {
-    extend: 'iconBase',
+    ...iconBase(),
     right: 0,
 
     '& $icon': {
@@ -194,4 +184,15 @@ export default (theme: ITheme) => ({
   borderless: {
     borderColor: 'transparent'
   }
+});
+
+const iconBase = () => ({
+  color: '#a9a9a9',
+  cursor: 'text',
+  position: 'absolute',
+  top: '0',
+  bottom: '0',
+  width: sidePaddingPadded,
+  display: 'inline-block',
+  zIndex: '2'
 });

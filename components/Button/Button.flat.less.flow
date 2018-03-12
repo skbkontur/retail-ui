@@ -3,6 +3,10 @@
 declare module.exports: {|
   +'DEPRECATED_sizeMedium': string;
   +'active': string;
+  +'arrow': string;
+  +'arrow_error': string;
+  +'arrow_loading': string;
+  +'arrow_warning': string;
   +'buttonWithIcon': string;
   +'caption': string;
   +'checked': string;
@@ -26,4 +30,5 @@ declare module.exports: {|
   +'success': string;
   +'warning': string;
   +'wrap': string;
+  +'wrap_arrow': string;
 |};
