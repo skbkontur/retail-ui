@@ -13,8 +13,15 @@ import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import { formatDate, parseDateString } from './DatePickerHelpers';
 import type { CalendarDateShape } from '../Calendar';
 import { tryGetValidDateShape, isValidDate } from './DateShape';
+import styled from '../internal/styledRender';
 
-import styles from './DatePicker.less';
+let cssStyles;
+let jssStyles;
+if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+  jssStyles = require('./DatePicker.styles').default;
+} else {
+  cssStyles = require('./DatePicker.less');
+}
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -140,7 +147,7 @@ class DatePicker extends React.Component<Props<string>, State> {
     this.setState({ opened: false });
   }
 
-  render() {
+  render = styled(cssStyles, jssStyles, styles => {
     let picker = null;
     if (this.state.opened) {
       picker = (
@@ -184,7 +191,7 @@ class DatePicker extends React.Component<Props<string>, State> {
         {picker}
       </label>
     );
-  }
+  });
 
   _getInputRef = ref => {
     this.input = ref;

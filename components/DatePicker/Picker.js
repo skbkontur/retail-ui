@@ -5,7 +5,15 @@ import Calendar, { type CalendarDateShape } from '../Calendar';
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import { formatDate } from './DatePickerHelpers';
-import styles from './Picker.less';
+import styled from '../internal/styledRender';
+
+let cssStyles;
+let jssStyles;
+if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+  jssStyles = require('./Picker.styles').default;
+} else {
+  cssStyles = require('./Picker.less');
+}
 
 type Props = {|
   maxDate?: CalendarDateShape,
@@ -51,7 +59,7 @@ export default class Picker extends React.Component<Props, State> {
     }
   }
 
-  render() {
+  render = styled(cssStyles, jssStyles, styles => {
     const { date } = this.state;
     return (
       <div className={styles.root} onMouseDown={e => e.preventDefault()}>
@@ -64,10 +72,10 @@ export default class Picker extends React.Component<Props, State> {
           minDate={this.props.minDate}
           maxDate={this.props.maxDate}
         />
-        {this.props.enableTodayLink && this._renderTodayLink()}
+        {this.props.enableTodayLink && this._renderTodayLink(styles)}
       </div>
     );
-  }
+  });
 
   _scrollToMonth = (month, year) => {
     if (this._calendar) {
@@ -75,7 +83,7 @@ export default class Picker extends React.Component<Props, State> {
     }
   };
 
-  _renderTodayLink() {
+  _renderTodayLink(styles) {
     return (
       <button
         className={styles.todayWrapper}
