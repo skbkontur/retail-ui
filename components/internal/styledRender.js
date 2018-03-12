@@ -4,9 +4,15 @@ import * as React from 'react';
 
 import type { ITheme } from '../theme';
 
-const styledElement = <T>(
+type JSSStyles<T> = {
+  [$Keys<T>]: {},
+  '@font-face'?: {},
+  '@keyframes'?: {}
+};
+
+const styledElement = <T: {}>(
   cssStyles: T,
-  jssStyles: (theme: ITheme) => $ReadOnly<T>,
+  jssStyles: (theme: ITheme) => JSSStyles<T>,
   render: (classes: T) => React$Node
 ) => {
   if (process.env.EXPERIMENTAL_CSS_IN_JS) {
@@ -17,9 +23,9 @@ const styledElement = <T>(
   }
 };
 
-const styled = <T>(
+const styled = <T: {}>(
   cssStyles: T,
-  jssStyles: (theme: ITheme) => $ReadOnly<T>,
+  jssStyles: (theme: ITheme) => JSSStyles<T>,
   render: (classes: T) => React$Node
 ) => () => styledElement(cssStyles, jssStyles, render);
 
