@@ -195,7 +195,11 @@ export default function Button(theme: ITheme) {
       background: 'none',
       border: 'none',
       boxShadow: 'none',
-      lineHeight: 'inherit',
+      lineHeight: 'initial',
+
+      '& $caption': {
+        display: 'inline'
+      },
 
       '&$disabled': {
         boxShadow: 'none',
@@ -351,7 +355,7 @@ const generateLinkStyles = (color, hoverColor, focusColor, activeColor) => ({
 
   '&:active': {
     color: activeColor,
-    verticalAlign: 0
+    verticalAlign: '0'
   }
 });
 

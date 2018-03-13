@@ -174,13 +174,17 @@
 
   .root.link {
     display: inline;
-    height: inherit;
     padding: 0;
     margin: 0;
     background: none;
     border: none;
     box-shadow: none;
-    line-height: inherit;
+    line-height: initial;
+    height: auto;
+
+    .caption {
+      display: inline;
+    }
 
     &:active {
       vertical-align: 0;
