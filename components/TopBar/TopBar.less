@@ -1,6 +1,6 @@
 :local {
-  @active-background: rgba(0, 0, 0, .06);
-  @buttonSidePadding: 15px;
+  @active-background: rgba(0, 0, 0, 0.06);
+  @buttonSidePadding: 10px;
   @danger-color: #ffe3e3;
   @height: 50px;
   @pay-color: #ffeca9;
@@ -8,14 +8,15 @@
   .root {
     background: #fff;
     margin-bottom: 20px;
-    box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.10), 0px 1px 8px 0px rgba(0,0,0,0.10);
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1),
+      0px 1px 8px 0px rgba(0, 0, 0, 0.1);
     height: @height;
     padding: 0 15px;
   }
 
   :global(.rt-ie8) {
     .root {
-      border-bottom: 1px solid #d9d9d9
+      border-bottom: 1px solid #d9d9d9;
     }
   }
 
@@ -135,7 +136,7 @@
     box-sizing: border-box;
     left: 0;
     overflow: hidden;
-    padding: 0 2*@buttonSidePadding 0 @buttonSidePadding;
+    padding: 0 2 * @buttonSidePadding 0 @buttonSidePadding;
     position: absolute;
     text-overflow: ellipsis;
     width: 100%;
@@ -145,14 +146,14 @@
     color: #aaa;
     padding-left: 10px;
     position: absolute;
-    right: 2*@buttonSidePadding;
+    right: 2 * @buttonSidePadding;
   }
 
   .organizationsArrow {
     position: absolute;
     right: 0;
     text-align: center;
-    width: 2*@buttonSidePadding;
+    width: 2 * @buttonSidePadding;
   }
 
   .organizationsTitleDummy {
