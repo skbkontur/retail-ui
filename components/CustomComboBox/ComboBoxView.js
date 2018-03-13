@@ -295,6 +295,7 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
         warning={warning}
         placeholder={placeholder}
         size={size}
+        width="100%"
       >
         {value ? renderValue(value) : null}
       </InputLikeText>

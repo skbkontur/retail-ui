@@ -27,8 +27,15 @@ import {
 import { DatePart } from './DatePart';
 import { MaskedValue } from './MaskedValue';
 import { selectNodeContents, removeAllSelections } from './SelectionHelpers';
+import styled from '../internal/styledRender';
 
-import styles from './DateInput.less';
+let cssStyles;
+let jssStyles;
+if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+  jssStyles = require('./DateInput.styles').default;
+} else {
+  cssStyles = require('./DateInput.less');
+}
 
 const polyfillInput = !isIE && !isEdge;
 
@@ -157,7 +164,7 @@ class DateInput extends React.Component<Props, State> {
     }
   }
 
-  render() {
+  render = styled(cssStyles, jssStyles, styles => {
     /**
      * Internet Explorer looses focus on element, if its containing node
      * would be selected with selectNodeContents
@@ -165,13 +172,13 @@ class DateInput extends React.Component<Props, State> {
      * Rendering input with mask
      */
     if (polyfillInput) {
-      return this.renderInputLikeText();
+      return this.renderInputLikeText(styles);
     }
 
-    return this.renderInput();
-  }
+    return this.renderInput(styles);
+  });
 
-  renderInput() {
+  renderInput(styles: *) {
     const isMaskHidden = this.checkIfMaskHidden();
 
     return (
@@ -203,7 +210,7 @@ class DateInput extends React.Component<Props, State> {
     );
   }
 
-  renderInputLikeText() {
+  renderInputLikeText(styles: *) {
     const { date, month, year, selected } = this.state;
     const isMaskHidden = this.checkIfMaskHidden();
     return (

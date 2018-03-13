@@ -174,13 +174,16 @@
 
   .root.link {
     display: inline;
-    height: inherit;
     padding: 0;
     margin: 0;
     background: none;
     border: none;
     box-shadow: none;
-    line-height: inherit;
+    height: auto;
+
+    .caption {
+      display: inline;
+    }
 
     &:active {
       vertical-align: 0;
@@ -309,6 +312,23 @@
 
   .noRightPadding {
     padding-right: 0;
+  }
+
+  // TODO: arrow styles
+  .arrow {
+    content: '';
+  }
+  .arrow_loading {
+    content: '';
+  }
+  .arrow_warning {
+    content: '';
+  }
+  .arrow_error {
+    content: '';
+  }
+  .wrap_arrow {
+    content: '';
   }
 }
 

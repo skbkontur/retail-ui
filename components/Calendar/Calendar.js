@@ -9,10 +9,17 @@ import { Animation } from './Animation';
 import * as CDS from './CalendarDateShape';
 import { MonthViewModel } from './MonthViewModel';
 import CalendarScrollEvents from './CalendarScrollEvents';
+import styled from '../internal/styledRender';
 
 import { Month } from './Month';
 
-import classes from './Calendar.less';
+let cssStyles;
+let jssStyles;
+if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+  jssStyles = require('./Calendar.styles').default;
+} else {
+  cssStyles = require('./Calendar.less');
+}
 
 export type CalendarDateShape = CDS.CalendarDateShape;
 
@@ -80,7 +87,7 @@ class Calendar extends React.Component<Props, State> {
     this._scrollToMonth(month, year);
   }
 
-  render() {
+  render = styled(cssStyles, jssStyles, classes => {
     const positions = this._getMonthPositions();
     return (
       <div className={classes.root} onWheel={this._handleWheel}>
@@ -92,7 +99,7 @@ class Calendar extends React.Component<Props, State> {
         </div>
       </div>
     );
-  }
+  });
 
   _renderMonth([top, month]) {
     return (

@@ -3,10 +3,17 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import * as CDS from './CalendarDateShape';
+import styled from '../internal/styledRender';
 
 import config from './config';
 
-import classes from './MonthView.less';
+let cssStyles;
+let jssStyles;
+if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+  jssStyles = require('./MonthView.styles').default;
+} else {
+  cssStyles = require('./MonthView.less');
+}
 
 import DateSelect from '../DateSelect';
 
@@ -66,8 +73,7 @@ export const MonthView = ({
 
   const yearSelectDisabled =
     top > 40 || (isLastInYear && top < -height + config.MONTH_TITLE_HEIGHT);
-
-  return (
+  return styled.element(cssStyles, jssStyles, classes => (
     <div className={classes.month} style={{ top }} key={month + '-' + year}>
       <div
         style={{ ...styles.monthTitle, top: headerTop, borderBottomColor }}
@@ -103,7 +109,7 @@ export const MonthView = ({
       </div>
       {children}
     </div>
-  );
+  ));
 };
 
 const styles = {

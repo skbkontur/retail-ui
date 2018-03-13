@@ -10,8 +10,6 @@ import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
 import RenderLayer from '../RenderLayer';
 
-import styles from './Autocomplete.less';
-
 type InputProps = {
   align?: 'left' | 'center' | 'right',
   alwaysShowMask?: boolean,

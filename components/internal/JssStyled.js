@@ -9,7 +9,9 @@ import brcast from 'brcast';
 
 const jss = create(preset());
 
-type Styles = { [string]: mixed };
+type Styles = { [string]: mixed } | ((theme: ?{}) => { [string]: mixed });
+
+let counter = Number.MAX_SAFE_INTEGER;
 
 let defaultTheme;
 const getDefaultTheme = () => {
@@ -33,7 +35,7 @@ class JssStyled extends React.Component<Props> {
     [theming.channel]: PropTypes.object
   };
 
-  _sheetsManager = new Map();
+  static _sheetsManager = new Map();
   _unsubscribe = null;
   _theme = null;
   _broadcast = brcast();
@@ -81,10 +83,11 @@ class JssStyled extends React.Component<Props> {
     this.context[theming.channel] && this.context[theming.channel].getState();
 
   _attach = theme => {
-    let sheetManager = this._sheetsManager.get(this._stylesCreator);
+    let sheetManager = JssStyled._sheetsManager.get(this._stylesCreator);
+
     if (!sheetManager) {
       sheetManager = new Map();
-      this._sheetsManager.set(this._stylesCreator, sheetManager);
+      JssStyled._sheetsManager.set(this._stylesCreator, sheetManager);
     }
     let sheetManagerTheme = sheetManager.get(theme);
 
@@ -98,7 +101,15 @@ class JssStyled extends React.Component<Props> {
 
     if (sheetManagerTheme.refs === 0) {
       const styles = this._stylesCreator(theme);
-      const sheet = jss.createStyleSheet(styles);
+      let sheet;
+      if (process.env.NODE_ENV === 'production') {
+        sheet = jss.createStyleSheet(styles);
+      } else {
+        sheet = jss.createStyleSheet(styles, {
+          generateClassName: this._generateClassName
+        });
+      }
+
       sheetManagerTheme.sheet = sheet;
       sheet.attach();
     }
@@ -106,8 +117,14 @@ class JssStyled extends React.Component<Props> {
     sheetManagerTheme.refs += 1;
   };
 
+  _generateClassName = rule => {
+    const name =
+      typeof this.props.styles === 'function' ? this.props.styles.name : '';
+    return `${name}-${rule.key}-${(counter++).toString(36)}`;
+  };
+
   _detach = theme => {
-    const sheetManager = this._sheetsManager.get(this._stylesCreator);
+    const sheetManager = JssStyled._sheetsManager.get(this._stylesCreator);
     if (!sheetManager) {
       throw new Error('sheetManager is not defined');
     }
@@ -127,7 +144,7 @@ class JssStyled extends React.Component<Props> {
   };
 
   render() {
-    const sheetManager = this._sheetsManager.get(this._stylesCreator);
+    const sheetManager = JssStyled._sheetsManager.get(this._stylesCreator);
     if (!sheetManager) {
       throw new Error('sheetManager is not defined');
     }

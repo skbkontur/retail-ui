@@ -10,12 +10,19 @@ import Icon from '../Icon';
 
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
+import styled from '../internal/styledRender';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const styles = isFlatDesign
-  ? require('./Checkbox.flat.less')
-  : require('./Checkbox.less');
+let cssStyles;
+let jssStyles;
+if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+  jssStyles = require('./Checkbox.styles').default;
+} else {
+  cssStyles = isFlatDesign
+    ? require('./Checkbox.flat.less')
+    : require('./Checkbox.less');
+}
 
 const KEYCODE_TAB = 9;
 
@@ -72,7 +79,7 @@ class Checkbox extends React.Component<
 
   _wasFocused = false;
 
-  render() {
+  render = styled(cssStyles, jssStyles, styles => {
     const hasCaption = !!this.props.children;
 
     const rootClass = classNames({
@@ -124,7 +131,7 @@ class Checkbox extends React.Component<
         {caption}
       </label>
     );
-  }
+  });
 
   componentDidMount() {
     listenTabPresses();

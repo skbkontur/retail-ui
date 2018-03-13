@@ -1,5 +1,7 @@
 # Changelog
 
+Changelog переместился в https://github.com/skbkontur/retail-ui/releases
+
 ### 0.15.1 -> 0.16.0
 
 #### 07.03.2018
