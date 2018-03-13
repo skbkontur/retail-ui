@@ -266,7 +266,8 @@ const reducers: { [type: string]: Reducer } = {
   RequestItems(state, props, action) {
     return {
       ...state,
-      loading: true
+      loading: true,
+      opened: true
     };
   },
   ReceiveItems(state, props, action) {
