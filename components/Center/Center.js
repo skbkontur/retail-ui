@@ -30,7 +30,9 @@ export default class Center extends React.Component<Props> {
     /**
      * Горизонтальное выравнивание контента.
      */
-    align: PropTypes.oneOf(['left', 'center', 'right'])
+    align: PropTypes.oneOf(['left', 'center', 'right']),
+
+    style: PropTypes.object
   };
 
   static defaultProps = {
