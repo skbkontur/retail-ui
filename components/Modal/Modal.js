@@ -134,6 +134,7 @@ class Modal extends React.Component<Props, State> {
             return child;
         }
       }
+      return child;
     });
 
     const style = {};
@@ -218,9 +219,7 @@ class Modal extends React.Component<Props, State> {
 
   _handleStackChange = () => {
     const shadowed = stack.mounted[stack.mounted.length - 1] !== this;
-    if (this.state.shadowed !== shadowed) {
-      this.setState({ shadowed });
-    }
+    this.setState({ shadowed });
   };
 
   _handleContainerClick = event => {
