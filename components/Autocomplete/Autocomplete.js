@@ -137,7 +137,7 @@ export default class Autocomplete extends React.Component<Props, State> {
         onFocusOutside={this._handleBlur}
         onClickOutside={this._handleBlur}
       >
-        <span className={styles.root}>
+        <span style={{ display: 'inline-block' }}>
           <Input {...rest} {...inputProps} />
           {this._renderMenu()}
         </span>
