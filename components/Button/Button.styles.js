@@ -189,13 +189,12 @@ export default function Button(theme: ITheme) {
 
     link: {
       display: 'inline',
-      height: 'inherit',
       padding: '0',
       margin: '0',
       background: 'none',
       border: 'none',
       boxShadow: 'none',
-      lineHeight: 'initial',
+      height: 'auto',
 
       '& $caption': {
         display: 'inline'
