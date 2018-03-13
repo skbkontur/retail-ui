@@ -1,4 +1,4 @@
-```js
+```jsx
 const { default: Toggle } = require('../Toggle');
 const { default: Button } = require('../Button');
 
@@ -9,11 +9,25 @@ function renderSidePage() {
     <SidePage onClose={close} blockBackground>
       <SidePage.Header>Title</SidePage.Header>
       <SidePage.Body>
-        <div style={{ padding: '0 30px' }}>
-          <p>
-            A lotta people ask me where the fuck I've been at the last few
-            years.
-          </p>
+        <div
+          style={{
+            background: `repeating-linear-gradient(
+                          60deg,
+                          #fafafa,
+                          #fafafa 20px,
+                          #dfdede 20px,
+                          #dfdede 40px
+                        )`,
+            height: 600,
+            padding: '20px 0'
+          }}
+        >
+          <SidePage.Container>
+            <p>
+              A lotta people ask me where the fuck I've been at the last few
+              years.
+            </p>
+          </SidePage.Container>
         </div>
       </SidePage.Body>
       <SidePage.Footer panel>

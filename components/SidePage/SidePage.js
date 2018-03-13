@@ -44,14 +44,14 @@ type State = {
 class SidePage extends React.Component<Props, State> {
   static propTypes = {
     /**
-     * Отключает событие onClose, также дизейблит кнопку закрытия сайдпейджа
-     */
-    disableClose: PropTypes.bool,
-
-    /**
      * Добавить блокирующий фон, когда сайдпейдж открыт
      */
     blockBackground: PropTypes.bool,
+
+    /**
+     * Отключает событие onClose, также дизейблит кнопку закрытия сайдпейджа
+     */
+    disableClose: PropTypes.bool,
 
     /**
      * Не закрывать сайдпейдж при клике на фон.
@@ -76,6 +76,7 @@ class SidePage extends React.Component<Props, State> {
 
   static Header: Class<Header>;
   static Body: Class<Body>;
+  static Container: Class<Container>;
   static Footer: Class<Footer>;
 
   _stackSubscription = null;
@@ -280,8 +281,19 @@ class Footer extends React.Component<FooterProps> {
   }
 }
 
+type ContainerProps = {
+  children?: React.Node
+};
+
+class Container extends React.Component<ContainerProps> {
+  render() {
+    return <div className={styles.bodyContainer}>{this.props.children}</div>;
+  }
+}
+
 SidePage.Header = Header;
 SidePage.Body = Body;
+SidePage.Container = Container;
 SidePage.Footer = Footer;
 
 export default SidePage;
