@@ -76,23 +76,6 @@ export default class InputLikeText extends React.Component<Props, State> {
   }
 
   render() {
-    const className = classNames({
-      [styles.root]: true,
-      [styles.padRight]: this.props.padRight,
-      [styles.borderless]: this.props.borderless,
-      [styles.error]: this.props.error,
-      [styles.warning]: this.props.warning,
-      [styles.disabled]: this.props.disabled,
-      [this._getSizeClassName()]: true
-    });
-
-    let placeholder = null;
-    if (!this.props.children && this.props.placeholder) {
-      placeholder = (
-        <span className={styles.placeholder}>{this.props.placeholder}</span>
-      );
-    }
-
     const {
       /* eslint-disable no-unused-vars */
       tabIndex,
@@ -103,9 +86,28 @@ export default class InputLikeText extends React.Component<Props, State> {
       placeholder: ph,
       error,
       warning,
+      borderless,
+      padRight,
       /* eslint-enable no-unused-vars */
       ...rest
     } = this.props;
+
+    const className = classNames({
+      [styles.root]: true,
+      [styles.padRight]: padRight,
+      [styles.borderless]: borderless,
+      [styles.error]: error,
+      [styles.warning]: warning,
+      [styles.disabled]: this.props.disabled,
+      [this._getSizeClassName()]: true
+    });
+
+    let placeholder = null;
+    if (!this.props.children && this.props.placeholder) {
+      placeholder = (
+        <span className={styles.placeholder}>{this.props.placeholder}</span>
+      );
+    }
 
     return (
       <label className={className} style={{ width: this.props.width }}>
