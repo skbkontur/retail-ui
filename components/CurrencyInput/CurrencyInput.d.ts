@@ -13,6 +13,7 @@ export interface CurrencyInputProps {
   ) => void;
   onFocus?: () => void;
   onSubmit?: () => void;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
   placeholder?: string;
   signed?: boolean;
   size?: 'small' | 'medium' | 'large';

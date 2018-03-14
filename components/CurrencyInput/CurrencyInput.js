@@ -36,7 +36,8 @@ type Props = {
   onBlur?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
   onChange: (e: { target: { value: ?number } }, value: ?number) => void,
   onFocus?: () => void,
-  onSubmit?: () => void
+  onSubmit?: () => void,
+  onKeyDown?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void
 };
 
 type State = {
@@ -137,6 +138,13 @@ export default class CurrencyInput extends Component<Props, State> {
   };
 
   _handleKeyDown = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(event);
+      if (event.defaultPrevented) {
+        return;
+      }
+    }
+
     const action = this._getAction(event);
 
     if (action === Actions.Ignore) {
