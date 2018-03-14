@@ -27,4 +27,6 @@ export const MaskedValue = ({ value, length, selected }: Props) => {
 const Mask = ({ length }) =>
   length ? (
     <span className={styles.mask}>{maskChar.repeat(length)}</span>
-  ) : null;
+  ) : (
+    <span />
+  );
