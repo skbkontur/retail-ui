@@ -27,6 +27,7 @@ import {
 import { DatePart } from './DatePart';
 import { MaskedValue } from './MaskedValue';
 import { selectNodeContents, removeAllSelections } from './SelectionHelpers';
+import Upgrades from '../../lib/Upgrades';
 import styled from '../internal/styledRender';
 
 let cssStyles;
@@ -165,48 +166,53 @@ class DateInput extends React.Component<Props, State> {
   }
 
   render = styled(cssStyles, jssStyles, styles => {
-    /**
-     * Internet Explorer looses focus on element, if its containing node
-     * would be selected with selectNodeContents
-     *
-     * Rendering input with mask
-     */
-    if (polyfillInput) {
-      return this.renderInputLikeText(styles);
-    }
-
-    return this.renderInput(styles);
+    return (
+      <div
+        className={classNames(
+          styles.wrapper,
+          this.props.disabled && styles.disabled
+        )}
+        style={{ width: this.props.width }}
+      >
+        {polyfillInput
+          ? /**
+             * Internet Explorer looses focus on element, if its containing node
+             * would be selected with selectNodeContents
+             *
+             * Rendering input with mask
+             */
+            this.renderInputLikeText(styles)
+          : this.renderInput(styles)}
+        {this.props.withIcon && (
+          <span className={styles.icon}>
+            <span className={styles.iconInner}>
+              <Icon name="Calendar" size={this._getIconSize()} />
+            </span>
+          </span>
+        )}
+      </div>
+    );
   });
 
   renderInput(styles: *) {
     const isMaskHidden = this.checkIfMaskHidden();
 
     return (
-      <div className={styles.wrapper}>
-        <Input
-          width={this.props.width}
-          ref={el => (this._input = el)}
-          size={this.props.size}
-          disabled={this.props.disabled}
-          error={this.props.error}
-          warning={this.props.warning}
-          onBlur={this.handleBlur}
-          onFocus={this.handleFocus}
-          onKeyDown={this.handleKeyDown}
-          onClick={this.handleInputClick}
-          onDoubleClick={this.handleDoubleClick}
-          onPaste={this.handlePaste}
-          value={isMaskHidden ? '' : this.getFormattedValue()}
-          rightIcon={
-            this.props.withIcon ? (
-              <Icon
-                name="Calendar"
-                color={this.props.disabled ? 'inherit' : '#333'}
-              />
-            ) : null
-          }
-        />
-      </div>
+      <Input
+        width="100%"
+        ref={el => (this._input = el)}
+        size={this.props.size}
+        disabled={this.props.disabled}
+        error={this.props.error}
+        warning={this.props.warning}
+        onBlur={this.handleBlur}
+        onFocus={this.handleFocus}
+        onKeyDown={this.handleKeyDown}
+        onClick={this.handleInputClick}
+        onDoubleClick={this.handleDoubleClick}
+        onPaste={this.handlePaste}
+        value={isMaskHidden ? '' : this.getFormattedValue()}
+      />
     );
   }
 
@@ -215,7 +221,7 @@ class DateInput extends React.Component<Props, State> {
     const isMaskHidden = this.checkIfMaskHidden();
     return (
       <InputLikeText
-        width={this.props.width}
+        width="100%"
         ref={el => (this._inputlikeText = el)}
         size={this.props.size}
         disabled={this.props.disabled}
@@ -263,16 +269,19 @@ class DateInput extends React.Component<Props, State> {
             </DatePart>
           </div>
         )}
-        {this.props.withIcon && (
-          <span className={styles.icon}>
-            <span className={styles.iconInner}>
-              <Icon name="Calendar" />
-            </span>
-          </span>
-        )}
       </InputLikeText>
     );
   }
+
+  _getIconSize = () => {
+    if (this.props.size === 'large') {
+      return '16px';
+    }
+    if (this.props.size === 'medium' && Upgrades.isSizeMedium16pxEnabled()) {
+      return '16px';
+    }
+    return '14px';
+  };
 
   handleMouseDown = (event: SyntheticMouseEvent<HTMLInputElement>) => {
     event.preventDefault();
