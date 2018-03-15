@@ -17,7 +17,8 @@ storiesOf('ComboBox v2', module)
           { value: 3, label: 'Third' },
           { value: 4, label: 'Fourth' },
           { value: 5, label: 'Fifth' },
-          { value: 6, label: 'Sixth' }
+          { value: 6, label: 'Sixth' },
+          { value: 7, label: 'A long long long long long long time ago' }
         ].filter(
           x =>
             x.label.toLowerCase().includes(q.toLowerCase()) ||

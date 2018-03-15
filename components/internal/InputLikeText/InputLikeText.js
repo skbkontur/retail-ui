@@ -127,11 +127,18 @@ export default class InputLikeText extends React.Component<Props, State> {
               right: 1,
               paddingLeft: 'inherit',
               paddingRight: 'inherit',
-              overflow: 'hidden',
               minHeight: 20 / 14 + 'em'
             }}
           >
-            {this.props.children}
+            <span
+              style={{
+                display: 'inline-block',
+                width: '100%',
+                overflow: 'hidden'
+              }}
+            >
+              {this.props.children}
+            </span>
           </span>
         </span>
         {placeholder}
