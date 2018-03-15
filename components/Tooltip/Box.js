@@ -4,7 +4,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import shallowEqual from 'fbjs/lib/shallowEqual';
-import throttle from 'lodash.throttle';
 
 import position from './position';
 import renderPin from './renderPin';
@@ -71,7 +70,7 @@ class Box extends React.Component {
     this.props.onClose();
   };
 
-  reflow = throttle(() => {
+  reflow = () => {
     if (!this._mounted) {
       return;
     }
@@ -85,7 +84,7 @@ class Box extends React.Component {
     this.setState({ pos }, () => {
       this.updating_ = false;
     });
-  }, 100);
+  };
 }
 
 export default Box;
