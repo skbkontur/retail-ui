@@ -2,32 +2,21 @@
 /* eslint-disable flowtype/no-weak-types */
 import cn from 'classnames';
 import * as React from 'react';
-import { render, unmountComponentAtNode, findDOMNode } from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import RenderContainer from '../RenderContainer';
 import RenderLayer from '../RenderLayer';
 import ZIndex from '../ZIndex';
 import Transition from 'react-addons-css-transition-group';
-import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import PopupHelper from './PopupHelper';
 import PopupPin from './PopupPin';
 import LayoutEvents from '../../lib/LayoutEvents';
-import throttle from 'lodash.throttle';
+import { PopupRenderingState } from './PopupRenderingState';
 
 import styles from './Popup.less';
 
 import { isIE, ieVerison } from '../ensureOldIEClassName';
-
-function getTempNode() {
-  let tempNode = document.createElement('div');
-  tempNode.style.opacity = '0';
-  tempNode.style.position = 'absolute';
-  tempNode.className = 'react-ui';
-  document.body && document.body.appendChild(tempNode);
-
-  return tempNode;
-}
 
 type Props = {
   anchorElement: ?HTMLElement,
@@ -45,13 +34,7 @@ type Props = {
 };
 
 type State = {
-  location: ?{
-    coordinates: {
-      left: number,
-      top: number
-    },
-    position: string
-  }
+  renderingState: PopupRenderingState<any>
 };
 
 export default class Popup extends React.Component<Props, State> {
@@ -66,76 +49,95 @@ export default class Popup extends React.Component<Props, State> {
   };
 
   state: State = {
-    location: null
+    location: null,
+    renderingState: new PopupRenderingState.Unmounted()
   };
 
   _layoutEventsToken;
   _popupElement: ?HTMLElement;
-  _containerDidMount: boolean = false;
-  _tempNode: HTMLElement;
 
   componentDidMount() {
-    this._tempNode = getTempNode();
-
-    this._preRender();
+    if (this.props.opened) {
+      this._processRendering(new PopupRenderingState.Unmounted());
+    }
     this._layoutEventsToken = LayoutEvents.addListener(this._calculateLocation);
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if (this.props.opened && !prevProps.opened) {
+      this._processRendering(new PopupRenderingState.Unmounted());
+    }
+
     if (
-      this.props.opened !== prevProps.opened ||
-      this.props.anchorElement !== prevProps.anchorElement
+      this.state.renderingState.constructor !==
+      prevState.renderingState.constructor
     ) {
-      this._preRender();
+      this._processRendering(this.state.renderingState);
     }
   }
 
   componentWillUnmount() {
     this._layoutEventsToken.remove();
-    if (this._tempNode) {
-      unmountComponentAtNode(this._tempNode);
-      document.body && document.body.removeChild(this._tempNode);
+  }
+
+  _calculateLocation = () => {
+    if (!this.props.opened) {
+      return;
+    }
+    const { renderingState } = this.state;
+    if (renderingState instanceof PopupRenderingState.Calculated) {
+      this._processPopupMount();
+      return;
+    }
+    this._processRendering();
+  };
+
+  _processRendering(renderingState) {
+    if (renderingState instanceof PopupRenderingState.Unmounted) {
+      this._processPopupMount();
+    }
+
+    if (renderingState instanceof PopupRenderingState.UnknownSize) {
+      this._processPopupSizeCalculation(renderingState);
     }
   }
 
-  _preRender() {
-    const tempNode = this._tempNode;
-    render(this._renderContent(this._getDummyLocation()), tempNode, () => {
-      this._calculateLocation();
+  _processPopupMount() {
+    const popupElement = this._popupElement;
+    if (!popupElement) {
+      throw new Error('Popup node is not mounted');
+    }
+    this.setState({
+      renderingState: new PopupRenderingState.UnknownSize(popupElement)
     });
   }
 
-  _calculateLocation = throttle(() => {
-    if (!this.props.opened && this.state.location) {
-      this.setState({ location: null });
-    }
-    const location = this._getLocation();
-    if (
-      !this.state.location ||
-      !location ||
-      location.position !== this.state.location.position ||
-      !shallowEqual(location.coordinates, this.state.location.coordinates)
-    ) {
-      this.setState({ location });
-    }
-  }, 50);
+  _processPopupSizeCalculation(renderingState) {
+    const popupElement = renderingState.getValue();
+    const location = this._getLocation(popupElement);
+    this.setState({
+      renderingState: new PopupRenderingState.Calculated(location)
+    });
+  }
 
   render() {
     const { opened } = this.props;
-    if (!opened && !this._containerDidMount) {
-      return null;
+    const { renderingState } = this.state;
+
+    let directionClass = 'bottom';
+
+    if (renderingState instanceof PopupRenderingState.Calculated) {
+      const location = renderingState.getValue();
+      directionClass = location.position.split(' ')[0];
     }
-    const { location } = this.state;
-    const directionClass = location
-      ? location.position.split(' ')[0]
-      : 'bottom';
+
     return (
       <RenderLayer
         onClickOutside={this._handleClickOutside}
         onFocusOutside={this._handleFocusOutside}
         active={this.props.onCloseRequest && this.props.opened}
       >
-        <RenderContainer ref={this._refContainer}>
+        <RenderContainer>
           <Transition
             transitionName={{
               enter: styles['transition-enter-' + directionClass],
@@ -150,29 +152,26 @@ export default class Popup extends React.Component<Props, State> {
             transitionEnterTimeout={200}
             transitionLeaveTimeout={200}
           >
-            {location ? this._renderContent(location, true) : null}
+            {opened ? this._renderContent(renderingState) : null}
           </Transition>
         </RenderContainer>
       </RenderLayer>
     );
   }
 
-  _renderContent(location, withZIndex?: boolean) {
-    const backgroundColor = this.props.backgroundColor;
+  _renderContent(renderingState) {
+    let { children, hasShadow, backgroundColor } = this.props;
+    let location = this._getDummyLocation();
+
+    if (renderingState instanceof PopupRenderingState.Calculated) {
+      location = renderingState.getValue();
+    }
 
     const style = {
       top: location.coordinates.top,
       left: location.coordinates.left,
       backgroundColor
     };
-
-    return withZIndex
-      ? this._renderRealContent(location, style)
-      : this._renderTempContent(location, style);
-  }
-
-  _renderRealContent(location, style) {
-    let { children, hasShadow } = this.props;
 
     return (
       <ZIndex
@@ -184,21 +183,6 @@ export default class Popup extends React.Component<Props, State> {
         {children}
         {this._renderPin(location)}
       </ZIndex>
-    );
-  }
-
-  _renderTempContent(location, style) {
-    let { children, hasShadow } = this.props;
-
-    return (
-      <div
-        ref={e => (this._popupElement = e)}
-        className={cn(styles.popup, hasShadow && styles.shadow)}
-        style={style}
-      >
-        {children}
-        {this._renderPin(location)}
-      </div>
     );
   }
 
@@ -246,10 +230,6 @@ export default class Popup extends React.Component<Props, State> {
     }
   };
 
-  _refContainer = () => {
-    this._containerDidMount = true;
-  };
-
   _getDummyLocation() {
     return {
       coordinates: {
@@ -260,21 +240,11 @@ export default class Popup extends React.Component<Props, State> {
     };
   }
 
-  _getLocation() {
-    if (!this.props.opened) {
-      return null;
-    }
-
-    const popupElement = this._popupElement;
-
-    if (!popupElement) {
-      return null;
-    }
-
+  _getLocation(popupElement: HTMLElement) {
     const { anchorElement, positions, margin, popupOffset } = this.props;
 
     if (!anchorElement) {
-      return null;
+      throw new Error('Anchor element is not defined');
     }
 
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
