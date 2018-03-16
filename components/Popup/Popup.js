@@ -49,7 +49,6 @@ export default class Popup extends React.Component<Props, State> {
   };
 
   state: State = {
-    location: null,
     renderingState: new PopupRenderingState.Unmounted()
   };
 
@@ -84,12 +83,9 @@ export default class Popup extends React.Component<Props, State> {
     if (!this.props.opened) {
       return;
     }
-    const { renderingState } = this.state;
-    if (renderingState instanceof PopupRenderingState.Calculated) {
+    if (this.state.renderingState instanceof PopupRenderingState.Calculated) {
       this._processPopupMount();
-      return;
     }
-    this._processRendering();
   };
 
   _processRendering(renderingState) {
