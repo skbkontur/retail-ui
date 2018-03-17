@@ -105,18 +105,32 @@ export default class Popup extends React.Component<Props, State> {
       return null;
     }
 
-    if (!this.state.location) {
-      return this._renderContent();
+    const { location } = this.state;
+
+    if (!location) {
+      /**
+       * Rendering out of the screen for location calculation
+       *
+       * This render take place before didMount and didUpdate lifecycles
+       * In didMount/didUpdate _updateLocation method is called, which
+       * would trigger additional render after location calculation
+       */
+      return this._renderContent(this._getDummyLocation());
     }
 
-    const { direction } = PopupHelper.getPositionObject(
-      this.state.location.position
-    );
+    /**
+     * Animation depends on popup opening direction
+     */
+    const { direction } = PopupHelper.getPositionObject(location.position);
 
     return (
       <RenderLayer
         onClickOutside={this._handleClickOutside}
         onFocusOutside={this._handleFocusOutside}
+        /**
+         * If onCloseRequest is not specified _handleClickOutside and _handleFocusOutside
+         * are doing nothing. So there is no need in RenderLayer at all.
+         */
         active={this.props.onCloseRequest && this.props.opened}
       >
         <RenderContainer>
@@ -134,28 +148,24 @@ export default class Popup extends React.Component<Props, State> {
             transitionEnterTimeout={200}
             transitionLeaveTimeout={200}
           >
-            {this._renderContent()}
+            {this._renderContent(location)}
           </Transition>
         </RenderContainer>
       </RenderLayer>
     );
   }
 
-  _renderContent() {
-    const location = this.state.location || this._getDummyLocation();
-
-    const style = {
-      top: location.coordinates.top,
-      left: location.coordinates.left,
-      backgroundColor: this.props.backgroundColor
-    };
-
+  _renderContent(location: Location) {
     return (
       <ZIndex
         delta={1000}
         ref={e => (this._popupElement = e && (findDOMNode(e): any))}
         className={cn(styles.popup, this.props.hasShadow && styles.shadow)}
-        style={style}
+        style={{
+          top: location.coordinates.top,
+          left: location.coordinates.left,
+          backgroundColor: this.props.backgroundColor
+        }}
       >
         {this.props.children}
         {this._renderPin(location.position)}
@@ -164,29 +174,26 @@ export default class Popup extends React.Component<Props, State> {
   }
 
   _renderPin(position) {
-    const {
-      hasPin,
-      pinSize,
-      pinOffset,
-      backgroundColor,
-      hasShadow
-    } = this.props;
-
+    /**
+     * Box-shadow does not appear under the pin. Borders are used instead.
+     * In non ie browsers drop-shodow filter is used. It is applying
+     * shadow to pin too.
+     */
     // prettier-ignore
     const pinBorder
       = ieVerison === 8 ? '#e5e5e5'
-      : isIE ? 'rgba(0, 0, 0, 0.09)'
-        : 'transparent';
+      : isIE            ? 'rgba(0, 0, 0, 0.09)'
+      :                   'transparent';
 
     return (
-      hasPin && (
+      this.props.hasPin && (
         <PopupPin
           popupElement={this._popupElement}
           popupPosition={position}
-          size={pinSize}
-          offset={pinOffset}
-          borderWidth={hasShadow ? 1 : 0}
-          backgroundColor={backgroundColor}
+          size={this.props.pinSize}
+          offset={this.props.pinOffset}
+          borderWidth={this.props.hasShadow ? 1 : 0}
+          backgroundColor={this.props.backgroundColor}
           borderColor={pinBorder}
         />
       )
@@ -275,24 +282,16 @@ export default class Popup extends React.Component<Props, State> {
   }
 
   _getPinnedPopupOffset(anchorRect, position) {
-    const { direction, align } = position;
-    const { pinOffset, pinSize, hasPin } = this.props;
+    if (!this.props.hasPin || /center|middle/.test(position.align)) {
+      return 0;
+    }
 
-    const anchorSize = /top|bottom/.test(direction)
+    const anchorSize = /top|bottom/.test(position.direction)
       ? anchorRect.width
       : anchorRect.height;
 
-    const isAnchorLessThanPinOffset = anchorSize < (pinOffset + pinSize) * 2;
-
-    if (!hasPin) {
-      return 0;
-    }
-
-    if (!isAnchorLessThanPinOffset || /center|middle/.test(align)) {
-      return 0;
-    }
-
-    return pinOffset + pinSize - anchorSize / 2;
+    const { pinOffset, pinSize } = this.props;
+    return Math.max(0, pinOffset + pinSize - anchorSize / 2);
   }
 
   _getCoordinates(anchorRect, popupRect, position, margin, popupOffset) {
