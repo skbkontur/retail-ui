@@ -60,7 +60,7 @@ export default class Popup extends React.Component<Props, State> {
   };
 
   _layoutEventsToken;
-  _popupElement: ?HTMLElement;
+  _lastPopupElement: ?HTMLElement;
 
   componentDidMount() {
     this._updateLocation();
@@ -89,7 +89,7 @@ export default class Popup extends React.Component<Props, State> {
       return;
     }
 
-    const popupElement = this._popupElement;
+    const popupElement = this._lastPopupElement;
     if (!popupElement) {
       throw new Error('Popup node is not mounted');
     }
@@ -101,26 +101,8 @@ export default class Popup extends React.Component<Props, State> {
   }
 
   render() {
-    if (!this.props.opened) {
-      return null;
-    }
+    const location = this.state.location || this._getDummyLocation();
 
-    const { location } = this.state;
-
-    if (!location) {
-      /**
-       * Rendering out of the screen for location calculation
-       *
-       * This render take place before didMount and didUpdate lifecycles
-       * In didMount/didUpdate _updateLocation method is called, which
-       * would trigger additional render after location calculation
-       */
-      return this._renderContent(this._getDummyLocation());
-    }
-
-    /**
-     * Animation depends on popup opening direction
-     */
     const { direction } = PopupHelper.getPositionObject(location.position);
 
     return (
@@ -156,10 +138,15 @@ export default class Popup extends React.Component<Props, State> {
   }
 
   _renderContent(location: Location) {
+    if (!this.props.opened) {
+      return null;
+    }
+
     return (
       <ZIndex
+        key={this.state.location ? 'real' : 'dummy'}
         delta={1000}
-        ref={e => (this._popupElement = e && (findDOMNode(e): any))}
+        ref={this._refPopupElement}
         className={cn(styles.popup, this.props.hasShadow && styles.shadow)}
         style={{
           top: location.coordinates.top,
@@ -172,6 +159,12 @@ export default class Popup extends React.Component<Props, State> {
       </ZIndex>
     );
   }
+
+  _refPopupElement = zIndex => {
+    if (zIndex) {
+      this._lastPopupElement = zIndex && (findDOMNode(zIndex): any);
+    }
+  };
 
   _renderPin(position) {
     /**
@@ -188,7 +181,7 @@ export default class Popup extends React.Component<Props, State> {
     return (
       this.props.hasPin && (
         <PopupPin
-          popupElement={this._popupElement}
+          popupElement={this._lastPopupElement}
           popupPosition={position}
           size={this.props.pinSize}
           offset={this.props.pinOffset}
