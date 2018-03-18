@@ -118,9 +118,13 @@ class Tooltip extends React.Component<Props, State> {
   }
 
   _renderContent = () => {
+    const content = this.props.render();
+    if (content == null) {
+      return null;
+    }
     return (
       <div style={{ padding: '15px 20px', position: 'relative' }}>
-        {this.props.render()}
+        {content}
         {this._renderCross()}
       </div>
     );

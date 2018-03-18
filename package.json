@@ -143,12 +143,7 @@
       "\\.js": "<rootDir>/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*(test|spec))\\.(js|jsx)$",
-    "roots": [
-      "<rootDir>/components",
-      "<rootDir>/lib",
-      "<rootDir>/scripts",
-      "<rootDir>/testing"
-    ],
+
     "setupFiles": [
       "<rootDir>/test-setup.js"
     ]

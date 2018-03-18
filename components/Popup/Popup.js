@@ -131,6 +131,10 @@ export default class Popup extends React.Component<Props, State> {
         ? this.props.children()
         : this.props.children;
 
+    if (children == null) {
+      return null;
+    }
+
     return (
       <ZIndex
         key={this.state.location ? 'real' : 'dummy'}
@@ -212,7 +216,7 @@ export default class Popup extends React.Component<Props, State> {
 
     const popupElement = this._lastPopupElement;
     if (!popupElement) {
-      throw new Error('Popup node is not mounted');
+      return;
     }
 
     const location = this._getLocation(popupElement);
