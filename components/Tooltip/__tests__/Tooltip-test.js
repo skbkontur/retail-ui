@@ -1,13 +1,6 @@
 import { mount } from 'enzyme';
 import React from 'react';
-import RenderContainer from '../../RenderContainer';
-import TooltipOld from '../Tooltip.js';
-
-jest.mock('../../RenderContainer/RenderContainer.js', () => {
-  return function RenderContainerMock(props) {
-    return <div>{props.children}</div>;
-  };
-});
+import Tooltip from '../Tooltip.js';
 
 describe('Tooltip', () => {
   const render = () => '';
@@ -15,9 +8,9 @@ describe('Tooltip', () => {
   it('keeps child ref', () => {
     const Comp = ({ refFn }) => {
       return (
-        <TooltipOld render={render}>
+        <Tooltip render={render}>
           <div ref={refFn} />
-        </TooltipOld>
+        </Tooltip>
       );
     };
     const refFn1 = jest.fn();
@@ -41,9 +34,9 @@ describe('Tooltip', () => {
     const onFocus = jest.fn();
     const onBlur = jest.fn();
     const wrapper = mount(
-      <TooltipOld trigger="focus" render={render}>
+      <Tooltip trigger="focus" render={render}>
         <input onFocus={onFocus} onBlur={onBlur} />
-      </TooltipOld>
+      </Tooltip>
     );
     const input = wrapper.find('input');
 
@@ -59,28 +52,28 @@ describe('Tooltip', () => {
     const wrapper = mount(
       <div>
         <div id="foo">
-          <TooltipOld trigger="opened" render={render}>
+          <Tooltip trigger="opened" render={render}>
             foo
-          </TooltipOld>
+          </Tooltip>
         </div>
         <div id="bar">
-          <TooltipOld trigger="opened" render={() => null}>
+          <Tooltip trigger="opened" render={() => null}>
             bar
-          </TooltipOld>
+          </Tooltip>
         </div>
       </div>
     );
 
-    expect(wrapper.find('#foo').find(RenderContainer).length).toBe(1);
-    expect(wrapper.find('#bar').find(RenderContainer).length).toBe(0);
+    expect(wrapper.find('#foo').find('.cross').length).toBe(1);
+    expect(wrapper.find('#bar').find('.cross').length).toBe(0);
   });
 
   it('calls `onCloseClick` when click on the cross', () => {
     const onClose = jest.fn();
     const wrapper = mount(
-      <TooltipOld trigger="opened" render={render} onCloseClick={onClose}>
+      <Tooltip trigger="opened" render={render} onCloseClick={onClose}>
         <div />
-      </TooltipOld>
+      </Tooltip>
     );
     wrapper.find('.cross').simulate('click');
     expect(onClose.mock.calls.length).toBe(1);
@@ -92,9 +85,9 @@ describe('Tooltip', () => {
     }
 
     const wrapper = mount(
-      <TooltipOld trigger="opened" render={render}>
+      <Tooltip trigger="opened" render={render}>
         <PureComponent />
-      </TooltipOld>
+      </Tooltip>
     );
 
     expect(wrapper.find(PureComponent).length).toBe(1);
@@ -108,9 +101,9 @@ describe('Tooltip', () => {
     }
 
     const wrapper = mount(
-      <TooltipOld trigger="opened" render={render}>
+      <Tooltip trigger="opened" render={render}>
         <StatefulComponent />
-      </TooltipOld>
+      </Tooltip>
     );
 
     expect(wrapper.find(StatefulComponent).length).toBe(1);
