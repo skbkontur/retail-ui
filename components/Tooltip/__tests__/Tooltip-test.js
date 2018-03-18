@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import React from 'react';
 import RenderContainer from '../../RenderContainer';
-import Tooltip from '../Tooltip.js';
+import TooltipOld from '../Tooltip.js';
 
 jest.mock('../../RenderContainer/RenderContainer.js', () => {
   return function RenderContainerMock(props) {
@@ -15,9 +15,9 @@ describe('Tooltip', () => {
   it('keeps child ref', () => {
     const Comp = ({ refFn }) => {
       return (
-        <Tooltip render={render}>
+        <TooltipOld render={render}>
           <div ref={refFn} />
-        </Tooltip>
+        </TooltipOld>
       );
     };
     const refFn1 = jest.fn();
@@ -41,9 +41,9 @@ describe('Tooltip', () => {
     const onFocus = jest.fn();
     const onBlur = jest.fn();
     const wrapper = mount(
-      <Tooltip trigger="focus" render={render}>
+      <TooltipOld trigger="focus" render={render}>
         <input onFocus={onFocus} onBlur={onBlur} />
-      </Tooltip>
+      </TooltipOld>
     );
     const input = wrapper.find('input');
 
@@ -59,14 +59,14 @@ describe('Tooltip', () => {
     const wrapper = mount(
       <div>
         <div id="foo">
-          <Tooltip trigger="opened" render={render}>
+          <TooltipOld trigger="opened" render={render}>
             foo
-          </Tooltip>
+          </TooltipOld>
         </div>
         <div id="bar">
-          <Tooltip trigger="opened" render={() => null}>
+          <TooltipOld trigger="opened" render={() => null}>
             bar
-          </Tooltip>
+          </TooltipOld>
         </div>
       </div>
     );
@@ -78,9 +78,9 @@ describe('Tooltip', () => {
   it('calls `onCloseClick` when click on the cross', () => {
     const onClose = jest.fn();
     const wrapper = mount(
-      <Tooltip trigger="opened" render={render} onCloseClick={onClose}>
+      <TooltipOld trigger="opened" render={render} onCloseClick={onClose}>
         <div />
-      </Tooltip>
+      </TooltipOld>
     );
     wrapper.find('.cross').simulate('click');
     expect(onClose.mock.calls.length).toBe(1);
@@ -92,9 +92,9 @@ describe('Tooltip', () => {
     }
 
     const wrapper = mount(
-      <Tooltip trigger="opened" render={render}>
+      <TooltipOld trigger="opened" render={render}>
         <PureComponent />
-      </Tooltip>
+      </TooltipOld>
     );
 
     expect(wrapper.find(PureComponent).length).toBe(1);
@@ -108,9 +108,9 @@ describe('Tooltip', () => {
     }
 
     const wrapper = mount(
-      <Tooltip trigger="opened" render={render}>
+      <TooltipOld trigger="opened" render={render}>
         <StatefulComponent />
-      </Tooltip>
+      </TooltipOld>
     );
 
     expect(wrapper.find(StatefulComponent).length).toBe(1);

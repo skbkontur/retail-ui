@@ -1,3 +1,3 @@
 // @flow
-import Tooltip from './Tooltip';
-export default Tooltip;
+import TooltipOld from './TooltipOld';
+export default TooltipOld;
