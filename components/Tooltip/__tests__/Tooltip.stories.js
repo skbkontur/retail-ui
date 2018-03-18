@@ -42,6 +42,11 @@ storiesOf('Tooltip', module)
       <Button>Click me</Button>
     </TestTooltip>
   ))
+  .add('focus tooltip', () => (
+    <TestTooltip trigger="focus">
+      <Button>Focus me</Button>
+    </TestTooltip>
+  ))
   .add('tooltip left', () => (
     <TestTooltip trigger="opened" pos="left top">
       <span>Some label</span>

@@ -20,7 +20,7 @@ import { isIE, ieVerison } from '../ensureOldIEClassName';
 type Props = {
   anchorElement: ?HTMLElement,
   backgroundColor: string,
-  children: React.Node,
+  children: React.Node | (() => React.Node),
   hasPin: boolean,
   hasShadow: boolean,
   margin: number,
@@ -29,7 +29,9 @@ type Props = {
   pinSize: number,
   popupOffset: number,
   positions: string[],
-  onCloseRequest?: () => void
+  onCloseRequest?: () => void,
+  onMouseEnter?: (SyntheticMouseEvent<HTMLElement>) => void,
+  onMouseLeave?: (SyntheticMouseEvent<HTMLElement>) => void
 };
 
 type Location = {
@@ -117,6 +119,11 @@ export default class Popup extends React.Component<Props, State> {
       return null;
     }
 
+    const children =
+      typeof this.props.children === 'function'
+        ? this.props.children()
+        : this.props.children;
+
     return (
       <ZIndex
         key={this.state.location ? 'real' : 'dummy'}
@@ -128,8 +135,10 @@ export default class Popup extends React.Component<Props, State> {
           left: location.coordinates.left,
           backgroundColor: this.props.backgroundColor
         }}
+        onMouseEnter={this.props.onMouseEnter}
+        onMouseLeave={this.props.onMouseLeave}
       >
-        {this.props.children}
+        {children}
         {this._renderPin(location.position)}
       </ZIndex>
     );
@@ -369,14 +378,14 @@ Popup.propTypes = {
   /**
    * Ссылка (ref) на элемент, для которого рисуется попап
    */
-  anchorElement: PropTypes.any,
+  anchorElement: PropTypes.instanceOf(HTMLElement).isRequired,
 
   /**
    * Фон попапа и пина
    */
   backgroundColor: PropTypes.string,
 
-  children: PropTypes.node,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 
   /**
    * Показывать ли пин

@@ -1,12 +1,14 @@
-// @flow
+/* @flow */
 /* eslint-disable flowtype/no-weak-types */
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import Popup from '../Popup';
 import ReactDOM from 'react-dom';
 import RenderLayer from '../RenderLayer';
+import CROSS from '../internal/cross';
 
-import Box from './Box';
-import RenderContainer from '../RenderContainer';
+import boxStyles from './Box.less';
+
+const supportsPortal = 'createPortal' in ReactDOM;
 
 type Pos =
   | 'top left'
@@ -22,8 +24,23 @@ type Pos =
   | 'right middle'
   | 'right bottom';
 
+const Positions = [
+  'top left',
+  'top center',
+  'top right',
+  'bottom left',
+  'bottom center',
+  'bottom right',
+  'left top',
+  'left middle',
+  'left bottom',
+  'right top',
+  'right middle',
+  'right bottom'
+];
+
 type Props = {
-  children?: React.Element<*> | string,
+  children?: React.Element<any> | string,
 
   className?: string,
 
@@ -35,272 +52,242 @@ type Props = {
 
   trigger: 'hover' | 'click' | 'focus' | 'opened' | 'closed',
 
-  onCloseClick?: () => void
+  onCloseClick?: (SyntheticMouseEvent<HTMLElement>) => void,
+
+  onCloseRequest?: () => void,
+
+  allowedPositions: Pos[]
 };
 
 type State = {
   opened: boolean
 };
 
-/**
- * **Оптимизация перерисовки**
+class Tooltip extends React.Component<Props, State> {
+  _hoverTimeout: ?TimeoutID = null;
 
- * По-умолчанию, DOM-элемент тултипа добавляется в конец документа и имеет
- * `position: absolute`. Однако, если тултип показывается на элементе с
- * `position: fixed`, то тултип будет дергаться при прокрутке страницы. Но если
- * в реактовском контексте задать `insideFixedContainer: true`, то у тултипа
- * будет `fixed`-позиционирование, и он не будет дергаться. Пример:
- *
- * ```js
- * class Container extends React.Component {
- *   static childContextTypes = {
- *     insideFixedContainer: React.PropTypes.bool,
- *   };
- *
- *   getChildContext() { return {insideFixedContainer: true}; }
- *
- *   render() {
- *     return (
- *       <div style={{position: 'fixed'}}>
- *         tooltips here or down the tree
- *       </div>
- *     );
- *   }
- * }
- * ```
- */
-export default class Tooltip extends React.Component<Props, State> {
-  static propTypes = {
-    /**
-     * Показывать крестик для закрытия тултипа. По-умолчанию крестик
-     * показывается если проп *trigger* не `hover` и не `focus`.
-     */
-    closeButton: PropTypes.bool,
-
-    pos: PropTypes.oneOf([
-      'top left',
-      'top center',
-      'top right',
-      'bottom left',
-      'bottom center',
-      'bottom right',
-      'left top',
-      'left middle',
-      'left bottom',
-      'right top',
-      'right middle',
-      'right bottom'
-    ]),
-
-    /**
-     * Функция, которая возвращает содержимое тултипа.
-     *
-     * Если эта функция вернула `null`, то тултип не показывается.
-     */
-    render: PropTypes.func.isRequired,
-
-    trigger: PropTypes.oneOf(['hover', 'click', 'focus', 'opened', 'closed']),
-
-    onCloseClick: PropTypes.func
-  };
+  _wrapperElement: ?HTMLElement = null;
 
   static defaultProps = {
     pos: 'top left',
-    trigger: 'hover'
+    trigger: 'hover',
+    allowedPositions: Positions
   };
 
-  _hotspotDOM: ?HTMLElement;
-  _boxDOM: ?HTMLElement;
-  _lastOnFocus: ((event: SyntheticFocusEvent<>) => void) | null;
-  _lastOnBlur: ((event: SyntheticEvent<>) => void) | null;
+  state = {
+    opened: false
+  };
 
-  _childRef: ((el: ?React.Element<any>) => void) | string | null = null;
-  _cachedRef: ?(el: any, childRef: any) => void;
-
-  constructor(props: Props, context: any) {
-    super(props, context);
-
-    this.state = {
-      opened: props.trigger === 'opened'
-    };
-
-    this._hotspotDOM = null;
-    this._boxDOM = null;
-    this._lastOnFocus = null;
-    this._lastOnBlur = null;
+  componentDidMount() {
+    /**
+     * _wrapperElement is absent on initial mount
+     * Rendering again to show popup
+     */
+    if (this.props.trigger === 'opened') {
+      this.forceUpdate();
+    }
   }
 
   render() {
-    const props = {};
-    const { className } = this.props;
-
-    if (this.props.trigger === 'hover') {
-      props.onMouseOver = this._handleMouseOver;
-      props.onMouseLeave = this._handleMouseLeave;
-    } else if (this.props.trigger === 'click') {
-      props.onClick = this._handleClick;
-    }
-
-    const childProps: Object = {};
-    if (this.props.trigger === 'focus') {
-      childProps.onFocus = this._handleFocus;
-      childProps.onBlur = this._handleBlur;
-    }
-
-    let child: any = this.props.children;
-    this._lastOnFocus = null;
-    this._lastOnBlur = null;
-
-    const isStatefulChild = React.Component.isPrototypeOf(child.type);
-    if (typeof child === 'string' || !isStatefulChild) {
-      child = (
-        <span ref={this._getHotspotRef(null)} {...childProps}>
-          {child}
-        </span>
-      );
-    } else {
-      const onlyChild = React.Children.only(child);
-      childProps.ref = this._getHotspotRef(onlyChild.ref);
-      if (onlyChild.props) {
-        this._lastOnFocus = onlyChild.props.onFocus;
-        this._lastOnBlur = onlyChild.props.onBlur;
-      }
-      child = React.cloneElement(onlyChild, childProps);
-    }
+    const { wrapperProps, popupProps, layerProps } = this._getProps();
 
     return (
-      <RenderLayer
-        onClickOutside={this._handleBoxClose}
-        onFocusOutside={this._handleBoxClose}
-        active={this.state.opened}
-      >
-        <span {...props} className={className}>
-          {child}
-          {this._renderBox()}
+      <RenderLayer {...layerProps}>
+        <span ref={this._refWrapper} {...wrapperProps}>
+          {this.props.children}
+          {this._wrapperElement && (
+            <Popup
+              anchorElement={this._wrapperElement}
+              backgroundColor={'white'}
+              hasPin
+              hasShadow
+              margin={18}
+              opened={this.state.opened}
+              pinOffset={9}
+              pinSize={9}
+              popupOffset={0}
+              positions={this._getPositions()}
+              {...popupProps}
+            >
+              {this._renderContent}
+            </Popup>
+          )}
         </span>
       </RenderLayer>
     );
   }
 
-  _renderBox() {
-    if (!this.state.opened) {
-      return null;
-    }
+  _renderContent = () => {
+    return (
+      <div style={{ padding: '15px 20px', position: 'relative' }}>
+        {this.props.render()}
+        {this._renderCross()}
+      </div>
+    );
+  };
 
-    const content = this.props.render();
+  _renderCross() {
+    const hasCross =
+      this.props.closeButton === undefined
+        ? this.props.trigger !== 'hover' && this.props.trigger !== 'focus'
+        : this.props.closeButton;
 
-    if (content == null) {
+    if (!hasCross) {
       return null;
     }
 
     return (
-      <RenderContainer>
-        <Box
-          trigger={this.props.trigger}
-          getTarget={this._getTarget}
-          pos={this.props.pos}
-          close={this._isClosed()}
-          onClose={this._handleBoxClose}
-        >
-          {content}
-        </Box>
-      </RenderContainer>
+      <span className={boxStyles.cross} onClick={this._handleCrossClick}>
+        {CROSS}
+      </span>
     );
   }
 
-  componentWillReceiveProps(newProps: Props) {
-    if (newProps.trigger !== this.props.trigger) {
-      if (newProps.trigger === 'opened') {
-        this.setState({ opened: true });
-      } else if (newProps.trigger === 'closed') {
-        this.setState({ opened: false });
-      }
-    }
-  }
-
-  _refHotspot(childRef: any, el: any) {
-    if (typeof childRef === 'function') {
-      childRef(el);
-    }
-    this._hotspotDOM = el && (ReactDOM.findDOMNode(el): any);
-  }
-
-  _getHotspotRef(childRef: any) {
-    if (!this._cachedRef || this._childRef !== childRef) {
-      this._childRef = childRef;
-      this._cachedRef = this._refHotspot.bind(this, childRef);
-    }
-    return this._cachedRef;
-  }
-
-  _getTarget = () => {
-    return this._hotspotDOM;
+  _refWrapper = node => {
+    this._wrapperElement = node;
   };
 
-  _handleMouseOver = (event: SyntheticMouseEvent<>) => {
-    const target: HTMLElement = (event.target: any);
-    if (this._hotspotDOM) {
-      const opened = this._hotspotDOM.contains(target);
-      if (this.state.opened !== opened) {
-        this._setOpened(opened);
-      }
+  _getPositions() {
+    const { allowedPositions } = this.props;
+    const index = allowedPositions.indexOf(this.props.pos);
+    if (index === -1) {
+      throw new Error(
+        'Unexpected position passed to Tooltip. Expected one of: ' +
+          allowedPositions.join(', ')
+      );
     }
+    return [
+      ...allowedPositions.slice(index),
+      ...allowedPositions.slice(0, index)
+    ];
+  }
+
+  _getProps() {
+    switch (this.props.trigger) {
+      case 'opened':
+        return {
+          layerProps: {
+            active: true,
+            onClickOutside: this._handleClickOutside
+          },
+          wrapperProps: {},
+          popupProps: {
+            opened: true
+          }
+        };
+
+      case 'closed':
+        return {
+          layerProps: {},
+          wrapperProps: {},
+          popupProps: {
+            opened: false
+          }
+        };
+
+      case 'hover':
+        return {
+          layerProps: {},
+          wrapperProps: {
+            onMouseEnter: this._handleMouseEnter,
+            onMouseLeave: this._handleMouseLeave
+          },
+          popupProps: supportsPortal
+            ? {}
+            : {
+                onMouseEnter: this._handleMouseEnter,
+                onMouseLeave: this._handleMouseLeave
+              }
+        };
+
+      case 'click':
+        return {
+          layerProps: {
+            active: this.state.opened,
+            onClickOutside: this._handleClickOutside
+          },
+          wrapperProps: {
+            onClick: this._handleClick
+          },
+          popupProps: {}
+        };
+
+      case 'focus':
+        return {
+          layerProps: {},
+          wrapperProps: {
+            onFocus: this._handleFocus,
+            onBlur: this._handleBlur
+          },
+          popupProps: {}
+        };
+
+      default:
+        throw new Error('Unknown trigger specified');
+    }
+  }
+
+  _open() {
+    this.setState({ opened: true });
+  }
+
+  _close() {
+    this.setState({ opened: false });
+  }
+
+  _handleMouseEnter = () => {
+    if (this._hoverTimeout) {
+      clearTimeout(this._hoverTimeout);
+    }
+    this._open();
   };
 
   _handleMouseLeave = () => {
-    this._setOpened(false);
+    if (this._hoverTimeout) {
+      clearTimeout(this._hoverTimeout);
+      this._hoverTimeout = null;
+    }
+    this._hoverTimeout = setTimeout(() => {
+      this._close();
+    }, 300);
   };
 
-  _handleClick = (event: SyntheticMouseEvent<>) => {
+  _handleClick = () => {
+    this._open();
+  };
+
+  _handleClickOutside = () => {
+    if (this.props.onCloseRequest) {
+      this.props.onCloseRequest();
+    }
+    this._close();
+  };
+
+  _handleFocus = () => {
+    this._open();
+  };
+
+  _handleBlur = () => {
+    this._close();
+  };
+
+  _handleCrossClick = event => {
     event.stopPropagation();
-    const target: HTMLElement = (event.target: any);
-    if (this._hotspotDOM) {
-      if (!this.state.opened && this._hotspotDOM.contains(target)) {
-        this._setOpened(true);
-      }
-    }
-  };
-
-  _handleBoxClose = () => {
-    if (this.props.trigger !== 'opened') {
-      this._setOpened(false);
-    }
 
     if (this.props.onCloseClick) {
-      this.props.onCloseClick.call(null);
-    }
-  };
-
-  _handleFocus = (event: SyntheticFocusEvent<>) => {
-    this._setOpened(true);
-
-    const onFocus = this._lastOnFocus;
-    if (onFocus) {
-      onFocus(event);
-    }
-  };
-
-  _handleBlur = (event: SyntheticFocusEvent<>) => {
-    this._setOpened(false);
-
-    const onBlur = this._lastOnBlur;
-    if (onBlur) {
-      onBlur(event);
-    }
-  };
-
-  _setOpened(opened: boolean) {
-    if (this.state.opened !== opened) {
-      this.setState({ opened });
-    }
-  }
-
-  _isClosed = () => {
-    const trigger = this.props.trigger;
-    if (this.props.closeButton !== undefined) {
-      return this.props.closeButton;
+      this.props.onCloseClick(event);
     }
 
-    return trigger !== 'hover' && trigger !== 'focus';
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    if (this.props.onCloseRequest) {
+      this.props.onCloseRequest();
+    }
+
+    this._close();
   };
 }
+
+export default Tooltip;
