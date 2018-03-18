@@ -4,6 +4,8 @@ import * as React from 'react';
 import { storiesOf, linkTo } from '@storybook/react';
 
 import Tabs from '../Tabs';
+import Modal from '../../Modal';
+import Button from '../../Button';
 const { Tab } = Tabs;
 
 class UncTabs extends React.Component<*, *> {
@@ -142,6 +144,133 @@ class DisabledTab extends React.Component<*, *> {
   }
 }
 
+class TabsInModal extends React.Component<*, *> {
+  state = {
+    active: '1',
+    opened: false,
+    error: true,
+    warning: true,
+    success: true,
+    primary: true
+  };
+
+  render() {
+    return (
+      <div>
+        {this.state.opened && this.renderModal()}
+        <Button onClick={this.open}>Open modal</Button>
+      </div>
+    );
+  }
+
+  renderModal() {
+    const TabElement = function TabElement(props: {
+      style?: mixed,
+      children: React.Node
+    }) {
+      return (
+        <div style={{ marginLeft: 10, fontSize: 14, ...props.style }}>
+          {props.children}
+        </div>
+      );
+    };
+
+    return (
+      <Modal onClose={this.close} width={600}>
+        <Modal.Header>Title</Modal.Header>
+        <Modal.Body>
+          <div style={{ marginLeft: -30 }}>
+            <Tabs
+              vertical
+              value={this.state.active}
+              onChange={(_, v) => this.setState({ active: v })}
+            >
+              <Tab id="1">
+                <TabElement>Normal</TabElement>
+              </Tab>
+              <Tab id="2" success>
+                <TabElement>Success</TabElement>
+              </Tab>
+              <Tab
+                id="3"
+                success={this.state.success}
+                onClick={this.toggleSuccess}
+              >
+                <TabElement>Success-dynamic</TabElement>
+              </Tab>
+              <Tab id="4" warning>
+                <TabElement>Warning</TabElement>
+              </Tab>
+              <Tab
+                id="5"
+                warning={this.state.warning}
+                onClick={this.toggleWarning}
+              >
+                <TabElement>Warning-dynamic</TabElement>
+              </Tab>
+              <Tab id="6" error>
+                <TabElement style={{ color: '#e14c30' }}>Error</TabElement>
+              </Tab>
+              <Tab
+                id="7"
+                error={this.state.error}
+                warning
+                onClick={this.toggleError}
+              >
+                <TabElement style={{ color: '#e14c30' }}>
+                  Error-dynamic over warning
+                </TabElement>
+              </Tab>
+              <Tab id="8" primary>
+                <TabElement style={{ color: '#1e8dd4' }}>Primary</TabElement>
+              </Tab>
+              <Tab
+                id="9"
+                primary={this.state.primary}
+                onClick={this.togglePrimary}
+              >
+                <TabElement style={{ color: '#1e8dd4' }}>
+                  Primary-dynamic
+                </TabElement>
+              </Tab>
+              <Tab id="10" disabled>
+                <TabElement>Disabled</TabElement>
+              </Tab>
+            </Tabs>
+          </div>
+        </Modal.Body>
+        <Modal.Footer panel>
+          <Button onClick={this.close}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  open = () => {
+    this.setState({ opened: true });
+  };
+
+  close = () => {
+    this.setState({ opened: false });
+  };
+
+  toggleError = () => {
+    this.setState({ error: !this.state.error });
+  };
+
+  toggleWarning = () => {
+    this.setState({ warning: !this.state.warning });
+  };
+
+  toggleSuccess = () => {
+    this.setState({ success: !this.state.success });
+  };
+
+  togglePrimary = () => {
+    this.setState({ primary: !this.state.primary });
+  };
+}
+
 storiesOf('Tabs', module)
   .add('simple', () => <UncTabs />)
   .add('first', () => <RouterTabs value="first" />)
@@ -169,4 +298,5 @@ storiesOf('Tabs', module)
   .add('vertical', () => <UncTabs vertical />)
   .add('with component', () => <TabsWithMyLink />)
   .add('with unexpected tab size change', () => <OhMyTabs />)
-  .add('with disabled tab', () => <DisabledTab />);
+  .add('with disabled tab', () => <DisabledTab />)
+  .add('tabs in modal', () => <TabsInModal />);

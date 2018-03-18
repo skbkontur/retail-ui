@@ -35,9 +35,39 @@ type Props = {
   onClick?: (event: SyntheticEvent<>) => void,
 
   /**
+   * Click event
+   */
+  onKeyDown?: (event: SyntheticEvent<>) => void,
+
+  /**
    * Disabled indicator
    */
-  disabled?: boolean
+  disabled?: boolean,
+
+  /**
+   * Error indicator
+   */
+  error?: boolean,
+
+  /**
+   * Warning indicator
+   */
+  warning?: boolean,
+
+  /**
+   * Success indicator
+   */
+  success?: boolean,
+
+  /**
+   * Primary indicator
+   */
+  primary?: boolean,
+
+  /**
+   * Style property
+   */
+  style?: mixed
 };
 
 type Context = {
@@ -106,29 +136,40 @@ class Tab extends React.Component<Props, State> {
   }
 
   render() {
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable no-unused-vars
     const {
       id,
       component: Component,
       children,
       disabled,
+      onClick,
+      onKeyDown,
+      error,
+      warning,
+      success,
+      primary,
       ...rest
     } = this.props;
+    // eslint-enable no-unused-vars
     const isActive = this.context.activeTab === this._getId();
+    const isDisabled = this.isDisabled();
     const isVertical = this.context.vertical;
-    const isDisabled = typeof disabled === 'boolean' ? disabled : false;
     return (
       <Component
         className={cn(
           styles.root,
-          isActive && styles.active,
           isVertical && styles.vertical,
+          this.hasPrimary() && styles.primary,
+          this.hasSuccess() && styles.success,
+          this.hasWarning() && styles.warning,
+          this.hasError() && styles.error,
+          isActive && styles.active,
           isDisabled && styles.disabled
         )}
-        onBlur={!isDisabled && this._handleBlur}
-        onClick={!isDisabled && this._switchTab}
-        onFocus={!isDisabled && this._handleFocus}
-        onKeyDown={!isDisabled && this._handleKeyDown}
+        onBlur={!isDisabled ? this._handleBlur : this._noop}
+        onClick={!isDisabled ? this._switchTab : this._noop}
+        onFocus={!isDisabled ? this._handleFocus : this._noop}
+        onKeyDown={!isDisabled ? this._handleKeyDown : this._noop}
         tabIndex={isDisabled ? -1 : 0}
         ref={this._refNode}
         {...rest}
@@ -153,14 +194,22 @@ class Tab extends React.Component<Props, State> {
     this._node = element;
   };
 
-  _getNode = () => this._node;
+  _getNode = () => this;
 
   _switchTab = e => {
     const id = this.props.id || this.props.href;
+    if (this.props.onClick) {
+      this.props.onClick(e);
+    }
     this.context.switchTab(id);
   };
 
+  _noop = e => {};
+
   _handleKeyDown = (event: SyntheticKeyboardEvent<>) => {
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(event);
+    }
     switch (event.keyCode) {
       case KEYCODE_ARROW_LEFT:
       case KEYCODE_ARROW_UP:
@@ -191,6 +240,31 @@ class Tab extends React.Component<Props, State> {
   _handleBlur = e => {
     this.setState({ focusedByKeyboard: false });
   };
+
+  isDisabled = () =>
+    typeof this.props.disabled === 'boolean' ? this.props.disabled : false;
+
+  hasError = () =>
+    typeof this.props.error === 'boolean'
+      ? !this.isDisabled() && this.props.error
+      : false;
+
+  hasWarning = () =>
+    typeof this.props.warning === 'boolean'
+      ? !this.isDisabled() && this.props.warning
+      : false;
+
+  hasSuccess = () =>
+    typeof this.props.success === 'boolean'
+      ? !this.isDisabled() && this.props.success
+      : false;
+
+  hasPrimary = () =>
+    typeof this.props.primary === 'boolean'
+      ? !this.isDisabled() && this.props.primary
+      : false;
+
+  getUnderlyingNode = () => this._node;
 }
 
 const { string, node, func, any, bool } = PropTypes;
@@ -201,7 +275,8 @@ Tab.propTypes = {
   disabled: bool,
   href: string,
   id: string.isRequired,
-  onClick: func
+  onClick: func,
+  onKeyDown: func
 };
 
 Tab.contextTypes = {
