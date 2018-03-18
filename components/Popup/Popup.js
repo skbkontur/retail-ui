@@ -2,32 +2,20 @@
 /* eslint-disable flowtype/no-weak-types */
 import cn from 'classnames';
 import * as React from 'react';
-import { render, unmountComponentAtNode, findDOMNode } from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import RenderContainer from '../RenderContainer';
 import RenderLayer from '../RenderLayer';
 import ZIndex from '../ZIndex';
 import Transition from 'react-addons-css-transition-group';
-import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import PopupHelper from './PopupHelper';
 import PopupPin from './PopupPin';
 import LayoutEvents from '../../lib/LayoutEvents';
-import throttle from 'lodash.throttle';
 
 import styles from './Popup.less';
 
 import { isIE, ieVerison } from '../ensureOldIEClassName';
-
-function getTempNode() {
-  let tempNode = document.createElement('div');
-  tempNode.style.opacity = '0';
-  tempNode.style.position = 'absolute';
-  tempNode.className = 'react-ui';
-  document.body && document.body.appendChild(tempNode);
-
-  return tempNode;
-}
 
 type Props = {
   anchorElement: ?HTMLElement,
@@ -44,14 +32,16 @@ type Props = {
   onCloseRequest?: () => void
 };
 
+type Location = {
+  coordinates: {
+    left: number,
+    top: number
+  },
+  position: string
+};
+
 type State = {
-  location: ?{
-    coordinates: {
-      left: number,
-      top: number
-    },
-    position: string
-  }
+  location: ?Location
 };
 
 export default class Popup extends React.Component<Props, State> {
@@ -70,79 +60,44 @@ export default class Popup extends React.Component<Props, State> {
   };
 
   _layoutEventsToken;
-  _popupElement: ?HTMLElement;
-  _containerDidMount: boolean = false;
-  _tempNode: HTMLElement;
+  _lastPopupElement: ?HTMLElement;
 
   componentDidMount() {
-    this._tempNode = getTempNode();
-
-    this._preRender();
-    this._layoutEventsToken = LayoutEvents.addListener(this._calculateLocation);
+    this._updateLocation();
+    this._layoutEventsToken = LayoutEvents.addListener(this._handleLayoutEvent);
   }
 
-  componentDidUpdate(prevProps: Props) {
-    if (
-      this.props.opened !== prevProps.opened ||
-      this.props.anchorElement !== prevProps.anchorElement
-    ) {
-      this._preRender();
-    }
+  componentDidUpdate() {
+    this._updateLocation();
   }
 
   componentWillUnmount() {
     this._layoutEventsToken.remove();
-    if (this._tempNode) {
-      unmountComponentAtNode(this._tempNode);
-      document.body && document.body.removeChild(this._tempNode);
-    }
   }
-
-  _preRender() {
-    const tempNode = this._tempNode;
-    render(this._renderContent(this._getDummyLocation()), tempNode, () => {
-      this._calculateLocation();
-    });
-  }
-
-  _calculateLocation = throttle(() => {
-    if (!this.props.opened && this.state.location) {
-      this.setState({ location: null });
-    }
-    const location = this._getLocation();
-    if (
-      !this.state.location ||
-      !location ||
-      location.position !== this.state.location.position ||
-      !shallowEqual(location.coordinates, this.state.location.coordinates)
-    ) {
-      this.setState({ location });
-    }
-  }, 50);
 
   render() {
-    const { opened } = this.props;
-    if (!opened && !this._containerDidMount) {
-      return null;
-    }
-    const { location } = this.state;
-    const directionClass = location
-      ? location.position.split(' ')[0]
-      : 'bottom';
+    const location = this.state.location || this._getDummyLocation();
+
+    const { direction } = PopupHelper.getPositionObject(location.position);
+
     return (
       <RenderLayer
         onClickOutside={this._handleClickOutside}
         onFocusOutside={this._handleFocusOutside}
+        /**
+         * If onCloseRequest is not specified _handleClickOutside and _handleFocusOutside
+         * are doing nothing. So there is no need in RenderLayer at all.
+         */
         active={this.props.onCloseRequest && this.props.opened}
       >
-        <RenderContainer ref={this._refContainer}>
+        <RenderContainer>
           <Transition
             transitionName={{
-              enter: styles['transition-enter-' + directionClass],
+              enter: styles['transition-enter-' + direction],
               enterActive: styles['transition-enter-active'],
               leave: styles['transition-leave'],
               leaveActive: styles['transition-leave-active'],
-              appear: styles['transition-appear-' + directionClass],
+              appear: styles['transition-appear-' + direction],
               appearActive: styles['transition-appear-active']
             }}
             transitionAppear={true}
@@ -150,82 +105,63 @@ export default class Popup extends React.Component<Props, State> {
             transitionEnterTimeout={200}
             transitionLeaveTimeout={200}
           >
-            {location ? this._renderContent(location, true) : null}
+            {this._renderContent(location)}
           </Transition>
         </RenderContainer>
       </RenderLayer>
     );
   }
 
-  _renderContent(location, withZIndex?: boolean) {
-    const backgroundColor = this.props.backgroundColor;
-
-    const style = {
-      top: location.coordinates.top,
-      left: location.coordinates.left,
-      backgroundColor
-    };
-
-    return withZIndex
-      ? this._renderRealContent(location, style)
-      : this._renderTempContent(location, style);
-  }
-
-  _renderRealContent(location, style) {
-    let { children, hasShadow } = this.props;
+  _renderContent(location: Location) {
+    if (!this.props.opened) {
+      return null;
+    }
 
     return (
       <ZIndex
+        key={this.state.location ? 'real' : 'dummy'}
         delta={1000}
-        ref={e => (this._popupElement = e && (findDOMNode(e): any))}
-        className={cn(styles.popup, hasShadow && styles.shadow)}
-        style={style}
+        ref={this._refPopupElement}
+        className={cn(styles.popup, this.props.hasShadow && styles.shadow)}
+        style={{
+          top: location.coordinates.top,
+          left: location.coordinates.left,
+          backgroundColor: this.props.backgroundColor
+        }}
       >
-        {children}
-        {this._renderPin(location)}
+        {this.props.children}
+        {this._renderPin(location.position)}
       </ZIndex>
     );
   }
 
-  _renderTempContent(location, style) {
-    let { children, hasShadow } = this.props;
+  _refPopupElement = zIndex => {
+    if (zIndex) {
+      this._lastPopupElement = zIndex && (findDOMNode(zIndex): any);
+    }
+  };
 
-    return (
-      <div
-        ref={e => (this._popupElement = e)}
-        className={cn(styles.popup, hasShadow && styles.shadow)}
-        style={style}
-      >
-        {children}
-        {this._renderPin(location)}
-      </div>
-    );
-  }
-
-  _renderPin(location) {
-    const {
-      hasPin,
-      pinSize,
-      pinOffset,
-      backgroundColor,
-      hasShadow
-    } = this.props;
-
+  _renderPin(position) {
+    /**
+     * Box-shadow does not appear under the pin. Borders are used instead.
+     * In non-ie browsers drop-shodow filter is used. It is applying
+     * shadow to pin too.
+     */
     // prettier-ignore
     const pinBorder
       = ieVerison === 8 ? '#e5e5e5'
-      : isIE ? 'rgba(0, 0, 0, 0.09)'
-        : 'transparent';
+      : isIE            ? 'rgba(0, 0, 0, 0.09)'
+      :                   'transparent';
 
     return (
-      hasPin && (
+      this.props.hasPin && (
         <PopupPin
-          popupElement={this._popupElement}
-          popupPosition={location.position}
-          size={pinSize}
-          offset={pinOffset}
-          borderWidth={hasShadow ? 1 : 0}
-          backgroundColor={backgroundColor}
+          popupElement={this._lastPopupElement}
+          popupPosition={position}
+          size={this.props.pinSize}
+          offset={this.props.pinOffset}
+          borderWidth={this.props.hasShadow ? 1 : 0}
+          backgroundColor={this.props.backgroundColor}
           borderColor={pinBorder}
         />
       )
@@ -240,15 +176,52 @@ export default class Popup extends React.Component<Props, State> {
     this._requestClose();
   };
 
+  _handleLayoutEvent = () => {
+    if (this.state.location) {
+      this._updateLocation();
+    }
+  };
+
+  _updateLocation() {
+    if (!this.props.opened) {
+      if (this.state.location) {
+        this.setState({ location: null });
+      }
+      return;
+    }
+
+    const popupElement = this._lastPopupElement;
+    if (!popupElement) {
+      throw new Error('Popup node is not mounted');
+    }
+
+    const location = this._getLocation(popupElement);
+    if (!this._locationEquals(this.state.location, location)) {
+      this.setState({ location });
+    }
+  }
+
   _requestClose = () => {
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
     }
   };
 
-  _refContainer = () => {
-    this._containerDidMount = true;
-  };
+  _locationEquals(x: ?Location, y: ?Location) {
+    if (x === y) {
+      return true;
+    }
+
+    if (x == null || y == null) {
+      return false;
+    }
+
+    return (
+      x.coordinates.left === y.coordinates.left &&
+      x.coordinates.top === y.coordinates.top &&
+      x.position === y.position
+    );
+  }
 
   _getDummyLocation() {
     return {
@@ -260,21 +233,11 @@ export default class Popup extends React.Component<Props, State> {
     };
   }
 
-  _getLocation() {
-    if (!this.props.opened) {
-      return null;
-    }
-
-    const popupElement = this._popupElement;
-
-    if (!popupElement) {
-      return null;
-    }
-
+  _getLocation(popupElement: HTMLElement) {
     const { anchorElement, positions, margin, popupOffset } = this.props;
 
     if (!anchorElement) {
-      return null;
+      throw new Error('Anchor element is not defined');
     }
 
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
@@ -312,24 +275,16 @@ export default class Popup extends React.Component<Props, State> {
   }
 
   _getPinnedPopupOffset(anchorRect, position) {
-    const { direction, align } = position;
-    const { pinOffset, pinSize, hasPin } = this.props;
+    if (!this.props.hasPin || /center|middle/.test(position.align)) {
+      return 0;
+    }
 
-    const anchorSize = /top|bottom/.test(direction)
+    const anchorSize = /top|bottom/.test(position.direction)
       ? anchorRect.width
       : anchorRect.height;
 
-    const isAnchorLessThanPinOffset = anchorSize < (pinOffset + pinSize) * 2;
-
-    if (!hasPin) {
-      return 0;
-    }
-
-    if (!isAnchorLessThanPinOffset || /center|middle/.test(align)) {
-      return 0;
-    }
-
-    return pinOffset + pinSize - anchorSize / 2;
+    const { pinOffset, pinSize } = this.props;
+    return Math.max(0, pinOffset + pinSize - anchorSize / 2);
   }
 
   _getCoordinates(anchorRect, popupRect, position, margin, popupOffset) {
