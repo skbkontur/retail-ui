@@ -75,31 +75,6 @@ export default class Popup extends React.Component<Props, State> {
     this._layoutEventsToken.remove();
   }
 
-  _handleLayoutEvent = () => {
-    if (this.state.location) {
-      this._updateLocation();
-    }
-  };
-
-  _updateLocation() {
-    if (!this.props.opened) {
-      if (this.state.location) {
-        this.setState({ location: null });
-      }
-      return;
-    }
-
-    const popupElement = this._lastPopupElement;
-    if (!popupElement) {
-      throw new Error('Popup node is not mounted');
-    }
-
-    const location = this._getLocation(popupElement);
-    if (!this._locationEquals(this.state.location, location)) {
-      this.setState({ location });
-    }
-  }
-
   render() {
     const location = this.state.location || this._getDummyLocation();
 
@@ -169,7 +144,7 @@ export default class Popup extends React.Component<Props, State> {
   _renderPin(position) {
     /**
      * Box-shadow does not appear under the pin. Borders are used instead.
-     * In non ie browsers drop-shodow filter is used. It is applying
+     * In non-ie browsers drop-shodow filter is used. It is applying
      * shadow to pin too.
      */
     // prettier-ignore
@@ -200,6 +175,31 @@ export default class Popup extends React.Component<Props, State> {
   _handleFocusOutside = () => {
     this._requestClose();
   };
+
+  _handleLayoutEvent = () => {
+    if (this.state.location) {
+      this._updateLocation();
+    }
+  };
+
+  _updateLocation() {
+    if (!this.props.opened) {
+      if (this.state.location) {
+        this.setState({ location: null });
+      }
+      return;
+    }
+
+    const popupElement = this._lastPopupElement;
+    if (!popupElement) {
+      throw new Error('Popup node is not mounted');
+    }
+
+    const location = this._getLocation(popupElement);
+    if (!this._locationEquals(this.state.location, location)) {
+      this.setState({ location });
+    }
+  }
 
   _requestClose = () => {
     if (this.props.onCloseRequest) {
