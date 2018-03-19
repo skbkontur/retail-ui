@@ -58,18 +58,16 @@ class Indicator extends React.Component<Props, State> {
 
   render() {
     const node = this.props.getAnchorNode();
-    const hasError = node && node.hasError();
-    const hasWarning = node && node.hasWarning();
-    const hasSuccess = node && node.hasSuccess();
-    const hasPrimary = node && node.hasPrimary();
+    const indicators =
+      (node && node.getIndicators && node.getIndicators()) || {};
     return (
       <div
         className={cn(
           styles.root,
-          hasPrimary && styles.primary,
-          hasSuccess && styles.success,
-          hasWarning && styles.warning,
-          hasError && styles.error,
+          indicators.primary && styles.primary,
+          indicators.success && styles.success,
+          indicators.warning && styles.warning,
+          indicators.error && styles.error,
           this.props.className
         )}
         style={this.state.styles}

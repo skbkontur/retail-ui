@@ -152,17 +152,18 @@ class Tab extends React.Component<Props, State> {
     } = this.props;
     // eslint-enable no-unused-vars
     const isActive = this.context.activeTab === this._getId();
-    const isDisabled = this.isDisabled();
+    const isDisabled = Boolean(this.props.disabled);
     const isVertical = this.context.vertical;
+    const indicators = this.getIndicators();
     return (
       <Component
         className={cn(
           styles.root,
           isVertical && styles.vertical,
-          this.hasPrimary() && styles.primary,
-          this.hasSuccess() && styles.success,
-          this.hasWarning() && styles.warning,
-          this.hasError() && styles.error,
+          indicators.primary && styles.primary,
+          indicators.success && styles.success,
+          indicators.warning && styles.warning,
+          indicators.error && styles.error,
           isActive && styles.active,
           isDisabled && styles.disabled
         )}
@@ -200,6 +201,9 @@ class Tab extends React.Component<Props, State> {
     const id = this.props.id || this.props.href;
     if (this.props.onClick) {
       this.props.onClick(e);
+      if (e.defaultPrevented) {
+        return;
+      }
     }
     this.context.switchTab(id);
   };
@@ -209,6 +213,9 @@ class Tab extends React.Component<Props, State> {
   _handleKeyDown = (event: SyntheticKeyboardEvent<>) => {
     if (this.props.onKeyDown) {
       this.props.onKeyDown(event);
+      if (event.defaultPrevented) {
+        return;
+      }
     }
     switch (event.keyCode) {
       case KEYCODE_ARROW_LEFT:
@@ -241,28 +248,15 @@ class Tab extends React.Component<Props, State> {
     this.setState({ focusedByKeyboard: false });
   };
 
-  isDisabled = () =>
-    typeof this.props.disabled === 'boolean' ? this.props.disabled : false;
-
-  hasError = () =>
-    typeof this.props.error === 'boolean'
-      ? !this.isDisabled() && this.props.error
-      : false;
-
-  hasWarning = () =>
-    typeof this.props.warning === 'boolean'
-      ? !this.isDisabled() && this.props.warning
-      : false;
-
-  hasSuccess = () =>
-    typeof this.props.success === 'boolean'
-      ? !this.isDisabled() && this.props.success
-      : false;
-
-  hasPrimary = () =>
-    typeof this.props.primary === 'boolean'
-      ? !this.isDisabled() && this.props.primary
-      : false;
+  getIndicators() {
+    return {
+      error: Boolean(this.props.error),
+      warning: Boolean(this.props.warning),
+      success: Boolean(this.props.success),
+      primary: Boolean(this.props.primary),
+      disabled: Boolean(this.props.disabled)
+    };
+  }
 
   getUnderlyingNode = () => this._node;
 }
