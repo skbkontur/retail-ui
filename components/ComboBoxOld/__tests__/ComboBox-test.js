@@ -2,13 +2,13 @@ import { mount } from 'enzyme';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ComboBox from '../ComboBox.js';
+import ComboBoxOld from '../index';
 
 jest.mock('../../RenderContainer', () => props => <div {...props} />);
 
 describe('ComboBox', () => {
   it('autoFocus', () => {
-    const wrapper = mount(<ComboBox autoFocus source={() => null} />);
+    const wrapper = mount(<ComboBoxOld autoFocus source={() => null} />);
     const focusable = ReactDOM.findDOMNode(wrapper.instance());
 
     expect(
@@ -17,7 +17,7 @@ describe('ComboBox', () => {
   });
 
   it('handles focus', () => {
-    const wrapper = mount(<ComboBox source={() => null} />);
+    const wrapper = mount(<ComboBoxOld source={() => null} />);
     wrapper.instance().focus();
 
     const focusable = ReactDOM.findDOMNode(wrapper.instance());
@@ -30,7 +30,7 @@ describe('ComboBox', () => {
   it('uses static info', () => {
     const render = jest.fn();
     mount(
-      <ComboBox
+      <ComboBoxOld
         value="foo"
         info="bar"
         source={jest.fn()}
@@ -45,7 +45,7 @@ describe('ComboBox', () => {
     const info = jest.fn(val => Promise.resolve(val.toUpperCase()));
     const render = jest.fn();
     const wrapper = mount(
-      <ComboBox
+      <ComboBoxOld
         value="foo"
         info={info}
         source={jest.fn()}

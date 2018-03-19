@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import ComboBox from '../ComboBox';
+import ComboBoxOld from '../index';
 
 function source(v) {
   return Promise.resolve({
@@ -24,7 +24,7 @@ function renderItem(value) {
 
 storiesOf('Combobox OLD', module)
   .add('Simple combobox', () => (
-    <ComboBox
+    <ComboBoxOld
       source={source}
       value={'One'}
       renderValue={renderValue}
@@ -33,7 +33,7 @@ storiesOf('Combobox OLD', module)
   ))
   .add('combobox with text', () => (
     <div style={{ marginTop: 400 }}>
-      <ComboBox
+      <ComboBoxOld
         source={source}
         value={'One'}
         renderValue={renderValue}

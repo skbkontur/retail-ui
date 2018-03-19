@@ -11,7 +11,10 @@ type Props = BaseProps & {
   info?: Info | ((v: Value) => Promise<Info>)
 };
 
-export default class ComboBox extends React.Component<Props, $FlowFixMeState> {
+export default class ComboBoxOld extends React.Component<
+  Props,
+  $FlowFixMeState
+> {
   static propTypes = {
     autoFocus: PropTypes.bool,
 
