@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import * as PropTypes from 'prop-types';
 import * as styled from '../internal/styledRender';
 
 import JssStyles from './Center.styles';
@@ -14,9 +13,20 @@ if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   cssStyles = require('./Center.less');
 }
 
+enum HorizontalAlign {
+  left = 'left',
+  center = 'center',
+  right = 'right'
+}
+
 export interface CenterProps extends React.HTMLAttributes<HTMLDivElement> {
-  align?: 'left' | 'center' | 'right';
+  /**
+   * Горизонтальное выравнивание контента.
+   */
+  align?: HorizontalAlign;
+
   style?: React.CSSProperties;
+
   children?: React.ReactNode;
 }
 
@@ -27,14 +37,7 @@ export interface CenterState {}
  * свойства как в любой div.
  */
 export default class Center extends React.Component<CenterProps, CenterState> {
-  static propTypes = {
-    /**
-     * Горизонтальное выравнивание контента.
-     */
-    align: PropTypes.oneOf(['left', 'center', 'right']),
-
-    style: PropTypes.object
-  };
+  static align = HorizontalAlign;
 
   static defaultProps = {
     align: 'center'
