@@ -8,6 +8,7 @@ import RenderContainer from '../RenderContainer';
 import RenderLayer from '../RenderLayer';
 import ZIndex from '../ZIndex';
 import Transition from 'react-addons-css-transition-group';
+import raf from 'raf';
 
 import PopupHelper from './PopupHelper';
 import PopupPin from './PopupPin';
@@ -68,7 +69,13 @@ export default class Popup extends React.Component<Props, State> {
   }
 
   componentDidUpdate() {
-    this._updateLocation();
+    /**
+     * For react < 16 version ReactDOM.unstable_renderSubtreeIntoContainer is
+     * used. It causes refs callbacks to call after componentDidUpdate.
+     *
+     * Delaying _updateLocation to ensure that ref is set
+     */
+    this._delayUpdateLocation();
   }
 
   componentWillUnmount() {
@@ -181,6 +188,10 @@ export default class Popup extends React.Component<Props, State> {
       this._updateLocation();
     }
   };
+
+  _delayUpdateLocation() {
+    raf(() => this._updateLocation());
+  }
 
   _updateLocation() {
     if (!this.props.opened) {
