@@ -1,18 +1,28 @@
 ```jsx
 const S = 60;
 
-const Block = ({ pos, trigger, top, left }) => (
+const render = pos => (
+  <Tooltip
+    children={pos}
+    pos={pos}
+    render={() => render(pos)}
+    trigger={state.trigger === 'opened' ? 'hover' : state.trigger}
+  />
+);
+
+const Block = ({ pos, trigger, top, left, onMouseDown }) => (
   <div
     style={{
       top,
       left,
       display: 'inline-block',
-      position: 'absolute'
+      position: 'absolute',
+      cursor: trigger === 'click' ? 'pointer' : 'default'
     }}
   >
-    <Tooltip render={() => pos} pos={pos} trigger={trigger}>
+    <Tooltip render={() => render(pos)} pos={pos} trigger={trigger}>
       <div
-        tabIndex={0}
+        tabIndex={trigger === 'focus' ? 0 : null}
         style={{
           height: S - 5,
           width: S - 5,
@@ -25,7 +35,21 @@ const Block = ({ pos, trigger, top, left }) => (
 );
 
 let initialState = {
-  trigger: 'click'
+  trigger: 'click',
+  blocks: [
+    { top: S, left: S * 2, pos: 'top right' },
+    { top: S, left: S * 3, pos: 'top center' },
+    { top: S, left: S * 4, pos: 'top left' },
+    { top: S * 2, left: S * 5, pos: 'right top' },
+    { top: S * 3, left: S * 5, pos: 'right middle' },
+    { top: S * 4, left: S * 5, pos: 'right bottom' },
+    { top: S * 5, left: S * 4, pos: 'bottom left' },
+    { top: S * 5, left: S * 3, pos: 'bottom center' },
+    { top: S * 5, left: S * 2, pos: 'bottom right' },
+    { top: S * 4, left: S, pos: 'left bottom' },
+    { top: S * 3, left: S, pos: 'left middle' },
+    { top: S * 2, left: S, pos: 'left top' }
+  ]
 };
 
 <div
@@ -52,20 +76,8 @@ let initialState = {
     />
   </Center>
 
-  <Block pos="top right" trigger={state.trigger} top={S} left={S * 2} />
-  <Block pos="top center" trigger={state.trigger} top={S} left={S * 3} />
-  <Block pos="top left" trigger={state.trigger} top={S} left={S * 4} />
-
-  <Block pos="right top" trigger={state.trigger} top={S * 2} left={S * 5} />
-  <Block pos="right middle" trigger={state.trigger} top={S * 3} left={S * 5} />
-  <Block pos="right bottom" trigger={state.trigger} top={S * 4} left={S * 5} />
-
-  <Block pos="bottom left" trigger={state.trigger} top={S * 5} left={S * 4} />
-  <Block pos="bottom center" trigger={state.trigger} top={S * 5} left={S * 3} />
-  <Block pos="bottom right" trigger={state.trigger} top={S * 5} left={S * 2} />
-
-  <Block pos="left bottom" trigger={state.trigger} top={S * 4} left={S} />
-  <Block pos="left middle" trigger={state.trigger} top={S * 3} left={S} />
-  <Block pos="left top" trigger={state.trigger} top={S * 2} left={S} />
+  {state.blocks.map((block, i) => (
+    <Block key={i} {...block} trigger={state.trigger} />
+  ))}
 </div>;
 ```
