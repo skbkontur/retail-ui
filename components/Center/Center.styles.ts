@@ -1,6 +1,6 @@
 // @flow
 
-import type { ITheme } from '../theme/index';
+import { ITheme } from '../theme';
 
 export default function Center(theme: ITheme) {
   return {

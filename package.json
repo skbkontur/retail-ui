@@ -8,19 +8,9 @@
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --single-quote --write",
-      "eslint",
-      "git add"
-    ],
-    "*.{css,less}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.ts": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "*.js": ["prettier --single-quote --write", "eslint", "git add"],
+    "*.{css,less}": ["prettier --write", "git add"],
+    "*.ts": ["prettier --single-quote --write", "git add"]
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
@@ -30,7 +20,8 @@
     "build-storybook": "build-storybook",
     "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
     "gemini:update": "gemini update",
-    "gemini": "wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
+    "gemini":
+      "wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
     "lint": "eslint . --ignore-pattern 'flow-typed/**/*.js'",
     "precommit": "flow && lint-staged",
     "predeploy": "npm run styleguide:build",
@@ -38,8 +29,10 @@
     "storybook": "start-storybook -p 6060",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
-    "test": "cross-env NODE_ENV=test jest --no-cache && npm run test:screenshot",
-    "test:screenshot": "concurrently 'npm run storybook' 'npm run gemini' -k -s first",
+    "test":
+      "cross-env NODE_ENV=test jest --no-cache && npm run test:screenshot",
+    "test:screenshot":
+      "concurrently 'npm run storybook' 'npm run gemini' -k -s first",
     "typecheck": "flow",
     "unit-test": "jest",
     "unit-test:watch": "jest --watch"
@@ -73,6 +66,7 @@
     "@storybook/addon-knobs": "3.3.15",
     "@storybook/addons": "3.3.15",
     "@storybook/react": "3.3.15",
+    "@types/prop-types": "^15.5.2",
     "@types/react": "^16.0.40",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
@@ -118,11 +112,15 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-docgen-typescript": "^1.2.5",
     "react-dom": "^16.2.0",
-    "react-styleguidist": "git+https://github.com/nanot1m/react-styleguidist.git#better-flow-props",
+    "react-styleguidist":
+      "git+https://github.com/nanot1m/react-styleguidist.git#better-flow-props",
     "react-test-renderer": "16.2.0",
     "style-loader": "^0.20.3",
     "stylelint": "^9.1.1",
     "stylelint-config-standard": "^18.2.0",
+    "ts-jest": "^22.4.2",
+    "ts-loader": "^3.5.0",
+    "typed-css-modules-loader": "^0.0.11",
     "typescript": "^2.7.2",
     "url-loader": "^1.0.1",
     "wait-on": "^2.1.0",
@@ -136,21 +134,22 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/testing/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$":
+        "<rootDir>/testing/__mocks__/fileMock.js",
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {
-      "\\.js": "<rootDir>/preprocessor.js"
+      "\\.js": "<rootDir>/preprocessor.js",
+      "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(/__tests__/.*(test|spec))\\.(js|jsx)$",
+    "testRegex": "(/__tests__/.*(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
     "roots": [
       "<rootDir>/components",
       "<rootDir>/lib",
       "<rootDir>/scripts",
       "<rootDir>/testing"
     ],
-    "setupFiles": [
-      "<rootDir>/test-setup.js"
-    ]
+    "setupFiles": ["<rootDir>/test-setup.js"]
   }
 }
