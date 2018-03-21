@@ -5,12 +5,13 @@ import { findDOMNode } from 'react-dom';
 import cn from 'classnames';
 import LayoutEvents from '../../lib/LayoutEvents';
 import throttle from 'lodash.throttle';
+import Tab from './Tab';
 
 import styles from './Indicator.less';
 
 type Props = {
   className?: string,
-  getAnchorNode: () => Element | React.Component<*, *> | null,
+  getAnchorNode: () => Tab | null,
   tabUpdates: {
     on: (() => void) => () => void
   },
@@ -56,9 +57,19 @@ class Indicator extends React.Component<Props, State> {
   }
 
   render() {
+    const node = this.props.getAnchorNode();
+    const indicators =
+      (node && node.getIndicators && node.getIndicators()) || {};
     return (
       <div
-        className={cn(styles.root, this.props.className, this.props.className)}
+        className={cn(
+          styles.root,
+          indicators.primary && styles.primary,
+          indicators.success && styles.success,
+          indicators.warning && styles.warning,
+          indicators.error && styles.error,
+          this.props.className
+        )}
         style={this.state.styles}
       />
     );
@@ -66,7 +77,8 @@ class Indicator extends React.Component<Props, State> {
 
   _reflow = () => {
     const node = this.props.getAnchorNode();
-    const styles = this._getStyles(node);
+    const underlyingNode = node && node.getUnderlyingNode();
+    const styles = this._getStyles(underlyingNode);
     const stylesUpdated = ['left', 'top', 'width', 'height'].some(
       prop => styles[prop] !== this.state.styles[prop]
     );
