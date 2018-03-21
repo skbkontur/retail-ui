@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = (baseConfig, env) => {
   const config = baseConfig;
 
-  config.resolve.extensions.push('.ts', '.tsx');
+  config.resolve.extensions.unshift('.ts', '.tsx');
 
   config.module.rules.push(
     { test: /\.tsx?$/, loader: 'ts-loader' },
