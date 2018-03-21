@@ -118,7 +118,7 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-docgen-typescript": "^1.2.5",
     "react-dom": "^16.2.0",
-    "react-styleguidist": "git+https://github.com/nanot1m/react-styleguidist.git#better-flow-props",
+    "react-styleguidist": "6.4.0",
     "react-test-renderer": "16.2.0",
     "style-loader": "^0.20.3",
     "stylelint": "^9.1.1",
