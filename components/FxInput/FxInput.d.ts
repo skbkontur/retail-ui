@@ -4,6 +4,7 @@ import { InputProps } from '../Input';
 
 export interface FxInputProps extends InputProps {
   auto?: boolean;
+  type?: 'currency' | 'text';
 }
 
 export interface FxInputState {}
