@@ -9,11 +9,11 @@ function getComponentList() {
   return fs
     .readdirSync(dirPath)
     .map(x => [
-      path.join(dirPath, x, `${x}.js`),
-      path.join(dirPath, x, `${x}.tsx`)
+      path.join(dirPath, x, `${x}.tsx`),
+      path.join(dirPath, x, `${x}.js`)
     ])
-    .reduce((acc, x) => acc.concat(x), [])
-    .filter(x => fs.existsSync(x));
+    .map(([ts, js]) => (fs.existsSync(ts) ? ts : fs.existsSync(js) ? js : null))
+    .filter(Boolean);
 }
 
 module.exports = {
