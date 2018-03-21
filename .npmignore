@@ -4,5 +4,5 @@ travis-deploy-key
 npm-debug.log
 coverage/
 gemini-report
-__tests__
-__stories__
+**/__tests__
+**/__stories__
