@@ -4,7 +4,7 @@ DropdownMenu example
 const Gapped = require("../Gapped").default;
 const Link = require("../Link").default;
 const Menu = require("../Menu/Menu").default;
-const Icon = require("../Icon/Icon").default;
+const Icon = require("../Icon").default;
 
 const renderButton = props => (
   <Button

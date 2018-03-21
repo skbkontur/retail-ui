@@ -1,46 +1,71 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Menu from '../Menu';
 import MenuItem from '../../MenuItem';
 import MenuHeader from '../../MenuHeader';
 import MenuSeparator from '../../MenuSeparator';
 import DropdownMenu from '../DropdownMenu';
 import Button from '../../Button';
+import Gapped from '../../Gapped';
+import Link from '../../Link';
+import Icon from '../../Icon';
+import Menu from '../../Menu/Menu';
 
-storiesOf('Menu', module).add('Simple example', () => {
+storiesOf('DropdownMenu', module).add('Simple example', () => {
   const renderButton = props => (
-    <div
-      style={{
-        padding: 30
-      }}
-    >
-      <Button use="primary" {...props}>
-        Открыть меню
-      </Button>
-    </div>
+    <Button use="primary" {...props}>
+      Открыть меню
+    </Button>
   );
 
-  const renderNativeButton = props => (
-    <button {...props}>Нативная кнопка</button>
+  const renderLink = props => (
+    <Link use="danger" {...props}>
+      Ссылкой открыть меню
+    </Link>
   );
+
+  const renderMenuItem1 = props => <MenuItem {...props}>Пункт меню 1</MenuItem>;
+
+  const renderMenuItem2 = props => <MenuItem {...props}>Пункт меню 2</MenuItem>;
+
+  const renderMenuItem3 = props => <MenuItem {...props}>Пункт меню 3</MenuItem>;
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexWrap: 'wrap'
-      }}
-    >
-      <div
-        style={{
-          padding: 30
-        }}
+    <Gapped>
+      <DropdownMenu
+        renderCaption={renderButton}
+        menuMaxHeight={50}
+        menuWidth={350}
       >
+        <MenuHeader>Заголовок меню</MenuHeader>
+        <MenuSeparator />
+        <MenuItem>Раз</MenuItem>
+        <MenuItem>Два</MenuItem>
+        <MenuItem>Три</MenuItem>
+        <MenuSeparator />
+        <MenuItem>Раз</MenuItem>
+        <MenuItem>Два</MenuItem>
+        <MenuItem>Три</MenuItem>
+      </DropdownMenu>
+      <DropdownMenu
+        onItemClick={any => {
+          console.log('Клик по айтему:', any);
+        }}
+        renderCaption={renderLink}
+      >
+        <MenuHeader>Заголовок меню</MenuHeader>
+        <MenuSeparator />
+        <MenuItem>Раз</MenuItem>
+        <MenuItem>Два</MenuItem>
+        <MenuItem>Три</MenuItem>
+      </DropdownMenu>
+      <Menu>
+        <MenuHeader>Заголовок меню</MenuHeader>
+        <MenuSeparator />
         <DropdownMenu
           onItemClick={any => {
             console.log('Клик по айтему:', any);
           }}
-          renderAnchor={renderButton}
+          renderCaption={renderMenuItem1}
         >
           <MenuHeader>Заголовок меню</MenuHeader>
           <MenuSeparator />
@@ -48,17 +73,11 @@ storiesOf('Menu', module).add('Simple example', () => {
           <MenuItem>Два</MenuItem>
           <MenuItem>Три</MenuItem>
         </DropdownMenu>
-      </div>
-      <div
-        style={{
-          padding: 30
-        }}
-      >
         <DropdownMenu
           onItemClick={any => {
             console.log('Клик по айтему:', any);
           }}
-          renderAnchor={renderNativeButton}
+          renderCaption={renderMenuItem2}
         >
           <MenuHeader>Заголовок меню</MenuHeader>
           <MenuSeparator />
@@ -66,7 +85,26 @@ storiesOf('Menu', module).add('Simple example', () => {
           <MenuItem>Два</MenuItem>
           <MenuItem>Три</MenuItem>
         </DropdownMenu>
-      </div>
-    </div>
+        <DropdownMenu
+          onItemClick={any => {
+            console.log('Клик по айтему:', any);
+          }}
+          renderCaption={renderMenuItem3}
+        >
+          <MenuHeader>Заголовок меню</MenuHeader>
+          <MenuSeparator />
+          <MenuItem>Раз</MenuItem>
+          <MenuItem>Два</MenuItem>
+          <MenuItem>Три</MenuItem>
+        </DropdownMenu>
+      </Menu>
+      <DropdownMenu renderCaption={props => <Icon name="apple" />}>
+        <MenuHeader>Заголовок меню</MenuHeader>
+        <MenuSeparator />
+        <MenuItem>Раз</MenuItem>
+        <MenuItem>Два</MenuItem>
+        <MenuItem>Три</MenuItem>
+      </DropdownMenu>
+    </Gapped>
   );
 });
