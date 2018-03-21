@@ -33,8 +33,9 @@ const renderMenuItem3 = props => (
 
 <Gapped>
   <DropdownMenu
-      onItemClick={(any) => { console.log('Клик по айтему:', any); }}
       renderCaption={renderButton}
+      menuMaxHeight={50}
+      menuWidth={350}
   >
     <MenuHeader>Заголовок меню</MenuHeader>
     <MenuSeparator />

@@ -7,8 +7,11 @@ import type MenuItem from '../MenuItem/MenuItem';
 
 type Props = {
   children?: React.ChildrenArray<React.Element<Class<MenuItem>>>,
+  /** Максимальная высота меню */
   menuMaxHeight?: number | string,
+  /** Ширина меню */
   menuWidth?: number | string,
+  /** Функция возвращающая элемент, открывающий меню */
   renderCaption: () => React.Element<*>
 };
 
@@ -89,6 +92,7 @@ export default class DropdownMenu extends React.Component<Props, State> {
                 hasShadow={false}
                 maxHeight={this.props.menuMaxHeight || 'none'}
                 onKeyDown={this._handleKeyDown}
+                width={this.props.menuWidth || 'auto'}
               >
                 {this.props.children}
               </Menu>
