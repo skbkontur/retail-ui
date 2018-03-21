@@ -11,8 +11,8 @@ type Props = {
   menuMaxHeight?: number | string,
   /** Ширина меню */
   menuWidth?: number | string,
-  /** Функция возвращающая элемент, открывающий меню */
-  renderCaption: () => React.Element<*>
+  /** Элемент (обязательный), раскрывающий меню */
+  caption: React.Element<*>
 };
 
 type State = {
@@ -24,7 +24,7 @@ export default class DropdownMenu extends React.Component<Props, State> {
     menuVisible: false
   };
 
-  _captionElement: ?HTMLSpanElement;
+  _captionWrapper: ?HTMLSpanElement;
 
   _showMenu = (): void => {
     this.setState({ menuVisible: true });
@@ -67,16 +67,16 @@ export default class DropdownMenu extends React.Component<Props, State> {
           <span
             onClick={this._handleCaptionClick}
             ref={element => {
-              this._captionElement = element;
+              this._captionWrapper = element;
             }}
             style={{ display: 'inline-block' }}
           >
-            {this.props.renderCaption()}
+            {this.props.caption}
           </span>
-          {this._captionElement &&
+          {this._captionWrapper &&
             this.props.children && (
               <Popup
-                anchorElement={this._captionElement}
+                anchorElement={this._captionWrapper}
                 positions={[
                   'bottom left',
                   'bottom right',

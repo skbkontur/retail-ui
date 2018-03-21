@@ -11,28 +11,10 @@ import Icon from '../../Icon';
 import Menu from '../../Menu/Menu';
 
 storiesOf('DropdownMenu', module).add('Simple example', () => {
-  const renderButton = props => (
-    <Button use="primary" {...props}>
-      Открыть меню
-    </Button>
-  );
-
-  const renderLink = props => (
-    <Link use="danger" {...props}>
-      Ссылкой открыть меню
-    </Link>
-  );
-
-  const renderMenuItem1 = props => <MenuItem {...props}>Пункт меню 1</MenuItem>;
-
-  const renderMenuItem2 = props => <MenuItem {...props}>Пункт меню 2</MenuItem>;
-
-  const renderMenuItem3 = props => <MenuItem {...props}>Пункт меню 3</MenuItem>;
-
   return (
     <Gapped>
       <DropdownMenu
-        renderCaption={renderButton}
+        caption={<Button use="primary">Открыть меню</Button>}
         menuMaxHeight={50}
         menuWidth={350}
       >
@@ -50,7 +32,7 @@ storiesOf('DropdownMenu', module).add('Simple example', () => {
         onItemClick={any => {
           console.log('Клик по айтему:', any);
         }}
-        renderCaption={renderLink}
+        caption={<Link use="danger">Ссылкой открыть меню</Link>}
       >
         <MenuHeader>Заголовок меню</MenuHeader>
         <MenuSeparator />
@@ -65,7 +47,7 @@ storiesOf('DropdownMenu', module).add('Simple example', () => {
           onItemClick={any => {
             console.log('Клик по айтему:', any);
           }}
-          renderCaption={renderMenuItem1}
+          caption={<MenuItem>Пункт меню 1</MenuItem>}
         >
           <MenuHeader>Заголовок меню</MenuHeader>
           <MenuSeparator />
@@ -77,7 +59,7 @@ storiesOf('DropdownMenu', module).add('Simple example', () => {
           onItemClick={any => {
             console.log('Клик по айтему:', any);
           }}
-          renderCaption={renderMenuItem2}
+          caption={<MenuItem>Пункт меню 2</MenuItem>}
         >
           <MenuHeader>Заголовок меню</MenuHeader>
           <MenuSeparator />
@@ -89,7 +71,7 @@ storiesOf('DropdownMenu', module).add('Simple example', () => {
           onItemClick={any => {
             console.log('Клик по айтему:', any);
           }}
-          renderCaption={renderMenuItem3}
+          caption={<MenuItem>Пункт меню 3</MenuItem>}
         >
           <MenuHeader>Заголовок меню</MenuHeader>
           <MenuSeparator />
@@ -98,11 +80,12 @@ storiesOf('DropdownMenu', module).add('Simple example', () => {
           <MenuItem>Три</MenuItem>
         </DropdownMenu>
       </Menu>
-      <DropdownMenu renderCaption={props => <Icon name="apple" />}>
-        <MenuHeader>Заголовок меню</MenuHeader>
-        <MenuSeparator />
+      <DropdownMenu caption={<Icon name="Error" size={32} />} />
+      <DropdownMenu caption={<Icon name="Dot12" size={32} />} menuWidth="300px">
         <MenuItem>Раз</MenuItem>
+        <MenuSeparator />
         <MenuItem>Два</MenuItem>
+        <MenuSeparator />
         <MenuItem>Три</MenuItem>
       </DropdownMenu>
     </Gapped>
