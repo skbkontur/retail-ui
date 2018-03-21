@@ -8,9 +8,19 @@
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
   "lint-staged": {
-    "*.js": ["prettier --single-quote --write", "eslint", "git add"],
-    "*.{css,less}": ["prettier --write", "git add"],
-    "*.ts": ["prettier --single-quote --write", "git add"]
+    "*.js": [
+      "prettier --single-quote --write",
+      "eslint",
+      "git add"
+    ],
+    "*.{css,less}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.ts": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
@@ -20,8 +30,7 @@
     "build-storybook": "build-storybook",
     "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
     "gemini:update": "gemini update",
-    "gemini":
-      "wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
+    "gemini": "wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
     "lint": "eslint . --ignore-pattern 'flow-typed/**/*.js'",
     "precommit": "flow && lint-staged",
     "predeploy": "npm run styleguide:build",
@@ -29,10 +38,8 @@
     "storybook": "start-storybook -p 6060",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
-    "test":
-      "cross-env NODE_ENV=test jest --no-cache && npm run test:screenshot",
-    "test:screenshot":
-      "concurrently 'npm run storybook' 'npm run gemini' -k -s first",
+    "test": "cross-env NODE_ENV=test jest --no-cache && npm run test:screenshot",
+    "test:screenshot": "concurrently 'npm run storybook' 'npm run gemini' -k -s first",
     "typecheck": "flow",
     "unit-test": "jest",
     "unit-test:watch": "jest --watch"
@@ -110,7 +117,7 @@
     "prettier": "^1.11.1",
     "react": "^16.2.0",
     "react-addons-css-transition-group": "^15.6.2",
-    "react-docgen-typescript": "^1.2.5",
+    "react-docgen-typescript": "^1.2.6",
     "react-dom": "^16.2.0",
     "react-styleguidist": "6.4.0",
     "react-test-renderer": "16.2.0",
@@ -133,8 +140,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$":
-        "<rootDir>/testing/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/testing/__mocks__/fileMock.js",
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {
@@ -142,13 +148,22 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
     "roots": [
       "<rootDir>/components",
       "<rootDir>/lib",
       "<rootDir>/scripts",
       "<rootDir>/testing"
     ],
-    "setupFiles": ["<rootDir>/test-setup.js"]
+    "setupFiles": [
+      "<rootDir>/test-setup.js"
+    ]
   }
 }
