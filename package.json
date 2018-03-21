@@ -34,7 +34,6 @@
     "lint": "eslint . --ignore-pattern 'flow-typed/**/*.js'",
     "precommit": "flow && lint-staged",
     "predeploy": "npm run styleguide:build",
-    "prepublish": "tsc",
     "prepush": "npm run unit-test",
     "storybook": "start-storybook -p 6060",
     "styleguide": "styleguidist server",
