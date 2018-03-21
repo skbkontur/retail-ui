@@ -5,7 +5,7 @@
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "target": "es2015",
+    "target": "es3",
     "lib": ["es2017", "es2015", "dom"]
   },
   "exclude": ["node_modules"]
