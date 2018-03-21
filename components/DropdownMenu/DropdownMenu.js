@@ -73,31 +73,32 @@ export default class DropdownMenu extends React.Component<Props, State> {
           >
             {this.props.renderCaption()}
           </span>
-          {this._captionElement && (
-            <Popup
-              anchorElement={this._captionElement}
-              positions={[
-                'bottom left',
-                'bottom right',
-                'top left',
-                'top right'
-              ]}
-              opened={this.state.menuVisible}
-              margin={5}
-              hasShadow
-              hasPin
-              pinOffset={15}
-            >
-              <Menu
-                hasShadow={false}
-                maxHeight={this.props.menuMaxHeight || 'none'}
-                onKeyDown={this._handleKeyDown}
-                width={this.props.menuWidth || 'auto'}
+          {this._captionElement &&
+            this.props.children && (
+              <Popup
+                anchorElement={this._captionElement}
+                positions={[
+                  'bottom left',
+                  'bottom right',
+                  'top left',
+                  'top right'
+                ]}
+                opened={this.state.menuVisible}
+                margin={5}
+                hasShadow
+                hasPin
+                pinOffset={15}
               >
-                {this.props.children}
-              </Menu>
-            </Popup>
-          )}
+                <Menu
+                  hasShadow={false}
+                  maxHeight={this.props.menuMaxHeight || 'none'}
+                  onKeyDown={this._handleKeyDown}
+                  width={this.props.menuWidth || 'auto'}
+                >
+                  {this.props.children}
+                </Menu>
+              </Popup>
+            )}
         </div>
       </RenderLayer>
     );
