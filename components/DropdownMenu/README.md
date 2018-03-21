@@ -94,11 +94,6 @@ const renderMenuItem3 = props => (
   <DropdownMenu
     renderCaption={(props) => <Icon name="apple" />}
   >
-    <MenuHeader>Заголовок меню</MenuHeader>
-    <MenuSeparator />
-    <MenuItem>Раз</MenuItem>
-    <MenuItem>Два</MenuItem>
-    <MenuItem>Три</MenuItem>    
   </DropdownMenu>
 </Gapped>
 ```
