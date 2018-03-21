@@ -37,10 +37,6 @@
 @loader-bg: #fff;
 @loader-opacity: 0.8;
 
-// Tabs
-@tab-color-focus: @border-color-focus;
-@tab-color-hover: @border-color-focus-light;
-
 // Button
 
 //checked button
@@ -135,6 +131,18 @@
   0 -1px 0 0 rgba(0, 0, 0, 0.44), inset 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 @btn-pay-active-shadow-arrow: 1px -1px 0 0 rgba(210, 144, 0, 0.7),
   0 -2px 0 -1px rgba(0, 0, 0, 0.44), inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
+
+// Tabs
+@tab-color-focus: @border-color-focus;
+@tab-color-error: @btn-danger-bg;
+@tab-color-warning: @btn-pay-bg;
+@tab-color-success: @btn-success-bg;
+@tab-color-primary: @btn-primary-bg;
+@tab-color-hover: @border-color-focus-light;
+@tab-color-hover-error: lighten(@btn-danger-bg, 25%);
+@tab-color-hover-warning: lighten(@btn-pay-bg, 25%);
+@tab-color-hover-success: lighten(@btn-success-bg, 25%);
+@tab-color-hover-primary: lighten(@btn-primary-bg, 25%);
 
 // tooltip
 @tooltip-bg: @bg-default;
