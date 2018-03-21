@@ -8,19 +8,9 @@
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --single-quote --write",
-      "eslint",
-      "git add"
-    ],
-    "*.{css,less}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.ts": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "*.js": ["prettier --single-quote --write", "eslint", "git add"],
+    "*.{css,less}": ["prettier --write", "git add"],
+    "*.ts": ["prettier --single-quote --write", "git add"]
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
@@ -30,7 +20,8 @@
     "build-storybook": "build-storybook",
     "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
     "gemini:update": "gemini update",
-    "gemini": "wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
+    "gemini":
+      "wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
     "lint": "eslint . --ignore-pattern 'flow-typed/**/*.js'",
     "precommit": "flow && lint-staged",
     "predeploy": "npm run styleguide:build",
@@ -38,8 +29,10 @@
     "storybook": "start-storybook -p 6060",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
-    "test": "cross-env NODE_ENV=test jest --no-cache && npm run test:screenshot",
-    "test:screenshot": "concurrently 'npm run storybook' 'npm run gemini' -k -s first",
+    "test":
+      "cross-env NODE_ENV=test jest --no-cache && npm run test:screenshot",
+    "test:screenshot":
+      "concurrently 'npm run storybook' 'npm run gemini' -k -s first",
     "typecheck": "flow",
     "unit-test": "jest",
     "unit-test:watch": "jest --watch"
@@ -101,8 +94,6 @@
     "file-loader": "^1.1.11",
     "flow-bin": "^0.67.1",
     "fs-readdir-recursive": "^1.1.0",
-    "gemini": "5.5.0",
-    "gemini-sauce": "^1.0.1",
     "gh-pages": "^1.1.0",
     "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
@@ -134,9 +125,14 @@
     "react-addons-css-transition-group": ">=0.14.8",
     "react-dom": ">=0.14.9"
   },
+  "optionalDependencies": {
+    "gemini": "5.5.0",
+    "gemini-sauce": "^1.0.1"
+  },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/testing/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$":
+        "<rootDir>/testing/__mocks__/fileMock.js",
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {
@@ -149,8 +145,6 @@
       "<rootDir>/scripts",
       "<rootDir>/testing"
     ],
-    "setupFiles": [
-      "<rootDir>/test-setup.js"
-    ]
+    "setupFiles": ["<rootDir>/test-setup.js"]
   }
 }
