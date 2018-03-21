@@ -14,6 +14,7 @@ addons:
 before_deploy:
 - yarn
 - yarn build
+- yarn tsc
 - openssl aes-256-cbc -K $encrypted_86996ed187bd_key -iv $encrypted_86996ed187bd_iv
   -in build/.npmrc.enc -out build/.npmrc -d
 - openssl aes-256-cbc -k $travis_key_password -in travis-deploy-key.enc -out travis-deploy-key

@@ -13,7 +13,7 @@ if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   cssStyles = require('./Center.less');
 }
 
-enum HorizontalAlign {
+export enum HorizontalAlign {
   left = 'left',
   center = 'center',
   right = 'right'

@@ -1,5 +1,3 @@
-// @flow
-
 import { ITheme } from '../theme';
 
 export default function Center(theme: ITheme) {
