@@ -98,9 +98,12 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
     }
 
     syncWithState(props: ValidationWrapperProps) {
+        const nextValidationStates = props.validations.map(x => this.createState(x));
         this.setState({
-            validationStates: props.validations.map(x => this.createState(x)),
+            validationStates: nextValidationStates,
         });
+        const isValid = !nextValidationStates.find(x => x.visible);
+        this.context.validationContext.onValidationUpdated(this, isValid);
     }
 
     createState(validation: Validation): ValidationState {
