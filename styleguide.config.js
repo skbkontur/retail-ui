@@ -19,6 +19,7 @@ function getComponentList() {
 module.exports = {
   components: getComponentList,
   skipComponentsWithoutExample: true,
+  pagePerSection: true,
   styles: {
     StyleGuide: {
       '@global body': {
