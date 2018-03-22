@@ -1,6 +1,8 @@
 ```js
-const { default: Toggle } = require("../Toggle");
-const { default: Button } = require("../Button");
+<div />;
+
+const { default: Toggle } = require('../Toggle');
+const { default: Button } = require('../Button');
 
 let initialState = { opened: false };
 
@@ -17,8 +19,8 @@ function renderModal() {
           <Toggle
             checked={state.panel}
             onChange={() => setState(({ panel }) => ({ panel: !panel }))}
-          />{" "}
-          Panel {state.panel ? "enabled" : "disabled"}
+          />{' '}
+          Panel {state.panel ? 'enabled' : 'disabled'}
         </div>
       </Modal.Body>
       <Modal.Footer panel={state.panel}>

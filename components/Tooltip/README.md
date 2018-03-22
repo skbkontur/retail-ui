@@ -1,5 +1,7 @@
 ```js
-const { default: Gapped } = require("../Gapped");
+<div />;
+
+const { default: Gapped } = require('../Gapped');
 
 function render() {
   return <div>Hey there!</div>;
@@ -7,11 +9,11 @@ function render() {
 
 <Gapped vertical>
   <Tooltip render={render} pos="right top">
-    <div style={{ height: 100, background: "#f99" }} />
+    <div style={{ height: 100, background: '#f99' }} />
   </Tooltip>
 
   <Tooltip render={render} pos="right top">
-    <div style={{ width: 100, height: 100, background: "#f99" }} />
+    <div style={{ width: 100, height: 100, background: '#f99' }} />
   </Tooltip>
 
   <Tooltip render={render} pos="top right">
@@ -35,7 +37,7 @@ function render() {
   </Tooltip>
 
   <Tooltip render={render}>
-    <span style={{ border: "1px solid" }}>?</span>
+    <span style={{ border: '1px solid' }}>?</span>
   </Tooltip>
 </Gapped>;
 ```
