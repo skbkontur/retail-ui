@@ -2,10 +2,10 @@ import * as React from 'react';
 
 import { InputProps } from '../Input';
 
-export interface FxInputProps extends InputProps {
+export type FxInputProps = InputProps & {
   auto?: boolean;
   type?: 'currency' | 'text';
-}
+};
 
 export interface FxInputState {}
 
