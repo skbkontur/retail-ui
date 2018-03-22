@@ -34,7 +34,11 @@ class FxInput extends React.Component {
       inputProps.leftIcon = <Icon name="fx" />;
     } else {
       button = (
-        <Button narrow onClick={this.props.onRestore}>
+        <Button
+          narrow
+          onClick={this.props.onRestore}
+          borderless={this.props.borderless}
+        >
           <Icon name="undo" />
         </Button>
       );
