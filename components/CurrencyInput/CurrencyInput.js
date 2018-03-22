@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, type Node } from 'react';
 import PropTypes from 'prop-types';
 
 import Input from '../Input';
@@ -28,7 +28,7 @@ type Props = {
   disabled?: boolean,
   error?: boolean,
   fractionDigits?: ?number,
-  leftIcon?: React.Node,
+  leftIcon?: Node,
   placeholder?: string,
   signed?: boolean,
   size?: 'small' | 'medium' | 'large',
