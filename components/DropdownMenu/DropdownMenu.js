@@ -49,10 +49,6 @@ export default class DropdownMenu extends React.Component<Props, State> {
   };
 
   _handleKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
-    if (event.key !== 'Tab') {
-      event.preventDefault();
-    }
-
     switch (event.key) {
       case 'Escape':
         this._hideMenu();

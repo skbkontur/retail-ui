@@ -210,6 +210,10 @@ export default class InternalMenu extends React.Component<Props, State> {
       default:
         break;
     }
+
+    if (event.key !== 'Tab') {
+      event.preventDefault();
+    }
   };
 }
 
