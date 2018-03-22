@@ -118,12 +118,15 @@ export default class InputLikeText extends React.Component<Props, State> {
             [styles.input]: true,
             [styles.blink]: this.state.blinking
           })}
+          style={{
+            position: 'relative'
+          }}
           ref={this._ref}
         >
           <span
             style={{
               position: 'absolute',
-              left: 1,
+              left: 0,
               right: 1,
               paddingLeft: 'inherit',
               paddingRight: 'inherit',
