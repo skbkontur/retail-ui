@@ -26,6 +26,12 @@ export default class DropdownMenu extends React.Component<Props, State> {
 
   _captionWrapper: ?HTMLSpanElement;
 
+  componentWillMount() {
+    if (!this.props.caption) {
+      throw new Error('Prop caption is required!');
+    }
+  }
+
   _showMenu = (): void => {
     this.setState({ menuVisible: true });
   };

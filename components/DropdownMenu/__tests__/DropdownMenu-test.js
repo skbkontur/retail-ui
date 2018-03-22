@@ -10,24 +10,44 @@ describe('<DropdownMenu />', () => {
   });
 
   test('Render without crashes', () => {
-    const component = shallow(<DropdownMenu renderCaption={jest.fn} />);
+    const wrapper = shallow(<DropdownMenu caption={<span />} />);
 
-    expect(component).toHaveLength(1);
+    expect(wrapper).toHaveLength(1);
   });
 
-  test('Contain <Menu /> after open', () => {
-    const renderCaption = () => <button>Test</button>;
+  test('Throw, if caption is not passed', () => {
+    expect(() => shallow(<DropdownMenu />)).toThrow();
+  });
+
+  test('Contains <Menu /> after clicking on caption', () => {
     const component = (
-      <DropdownMenu renderCaption={renderCaption}>
+      <DropdownMenu caption={<button id="captionForTest">Test</button>}>
         <MenuItem>Test</MenuItem>
       </DropdownMenu>
     );
     const wrapper = mount(component);
+    const captionWrapper = wrapper.find('#captionForTest');
 
     expect(wrapper.find('MenuNew')).toHaveLength(0);
-    wrapper.instance()._showMenu();
-    wrapper.update();
+    captionWrapper.simulate('click');
 
-    expect(wrapper.find('MenuNew')).toHaveLength(2);
+    expect(wrapper.find('MenuNew')).toHaveLength(1);
+  });
+
+  test("Contains <MenuItem />'s after clicking on caption", () => {
+    const component = (
+      <DropdownMenu caption={<button id="captionForTest">Test</button>}>
+        <MenuItem>Test</MenuItem>
+        <MenuItem>Test</MenuItem>
+        <MenuItem>Test</MenuItem>
+      </DropdownMenu>
+    );
+    const wrapper = mount(component);
+    const captionWrapper = wrapper.find('#captionForTest');
+
+    expect(wrapper.find('MenuItem')).toHaveLength(0);
+    captionWrapper.simulate('click');
+
+    expect(wrapper.find('MenuItem')).toHaveLength(3);
   });
 });
