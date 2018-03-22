@@ -1,0 +1,4 @@
+__stories__
+*.ts
+*.tsx
+!*.d.ts

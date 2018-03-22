@@ -11,3 +11,4 @@ gemini-report
 .npmrc
 /styleguide
 /storybook-static
+*.less.d.ts

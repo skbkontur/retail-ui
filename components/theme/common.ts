@@ -1,5 +1,3 @@
-// @flow
-
 export default {
   bgDefault: '#fff',
   bgDisabled: '#f2f2f2',

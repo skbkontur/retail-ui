@@ -1,12 +1,19 @@
 const fs = require('fs');
 const path = require('path');
+const parseTsComponent = require('react-docgen-typescript').withDefaultConfig()
+  .parse;
+const parseJsComponent = require('react-docgen').parse;
 
 function getComponentList() {
   const dirPath = path.resolve(__dirname, 'components');
   return fs
     .readdirSync(dirPath)
-    .map(x => path.join(dirPath, x, `${x}.js`))
-    .filter(x => fs.existsSync(x));
+    .map(x => [
+      path.join(dirPath, x, `${x}.tsx`),
+      path.join(dirPath, x, `${x}.js`)
+    ])
+    .map(([ts, js]) => (fs.existsSync(ts) ? ts : fs.existsSync(js) ? js : null))
+    .filter(Boolean);
 }
 
 module.exports = {
@@ -29,9 +36,19 @@ module.exports = {
   },
   title: 'React UI Style Guide',
   require: ['babel-polyfill'],
+  propsParser: (path, ...rest) => {
+    if (/\.tsx$/.test(path)) {
+      return parseTsComponent(path, ...rest);
+    }
+    return parseJsComponent(...rest);
+  },
   webpackConfig: {
+    resolve: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx']
+    },
     module: {
       rules: [
+        { test: /\.tsx?$/, loader: 'ts-loader' },
         {
           test: /\.jsx?$/,
           exclude: /node_modules\/(?!buble)/,
@@ -63,6 +80,7 @@ module.exports = {
             'style-loader',
             'css-modules-flow-types-loader',
             'css-loader',
+            'typed-css-modules-loader',
             'less-loader'
           ],
           include: /retail-ui/

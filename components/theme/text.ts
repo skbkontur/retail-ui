@@ -1,5 +1,3 @@
-// @flow
-
 export default {
   colorDefault: '#404040',
   colorInvert: '#fff',

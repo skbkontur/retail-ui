@@ -10,7 +10,7 @@ type JSSStyles<T> = {
   '@keyframes'?: {}
 };
 
-const styledElement = <T: {}>(
+export const element = <T: {}>(
   cssStyles: T,
   jssStyles: (theme: ITheme) => JSSStyles<T>,
   render: (classes: T) => React$Node
@@ -27,8 +27,8 @@ const styled = <T: {}>(
   cssStyles: T,
   jssStyles: (theme: ITheme) => JSSStyles<T>,
   render: (classes: T) => React$Node
-) => () => styledElement(cssStyles, jssStyles, render);
+) => () => element(cssStyles, jssStyles, render);
 
-styled.element = styledElement;
+styled.element = element;
 
 export default styled;
