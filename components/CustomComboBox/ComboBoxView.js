@@ -12,6 +12,7 @@ import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 
 type Props<T> = {
+  borderless?: boolean,
   disablePortal?: boolean,
   disabled?: boolean,
   editing?: boolean,
@@ -249,6 +250,7 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
 
   renderInput() {
     const {
+      borderless,
       disabled,
       editing,
       error,
@@ -269,6 +271,7 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
     if (editing) {
       return (
         <Input
+          borderless={borderless}
           disabled={disabled}
           error={error}
           onBlur={onInputBlur}
@@ -288,6 +291,7 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
 
     return (
       <InputLikeText
+        borderless={borderless}
         error={error}
         onFocus={onFocus}
         padRight={openButton}
