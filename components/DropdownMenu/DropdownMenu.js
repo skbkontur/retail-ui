@@ -19,6 +19,9 @@ type State = {
   menuVisible: boolean
 };
 
+/**
+ * Меню, раскрывающееся по клику на переданный в ```caption``` элемент
+ */
 export default class DropdownMenu extends React.Component<Props, State> {
   state = {
     menuVisible: false
@@ -65,7 +68,7 @@ export default class DropdownMenu extends React.Component<Props, State> {
         onClickOutside={this._hideMenu}
         onFocusOutside={this._hideMenu}
       >
-        <div>
+        <div style={{ display: 'inline-block' }}>
           <span
             onClick={this._handleCaptionClick}
             ref={element => {
@@ -86,15 +89,15 @@ export default class DropdownMenu extends React.Component<Props, State> {
                   'top right'
                 ]}
                 opened={this.state.menuVisible}
-                margin={5}
+                margin={0}
                 hasShadow
-                pinOffset={15}
               >
                 <InternalMenu
                   hasShadow={false}
                   maxHeight={this.props.menuMaxHeight || 'none'}
                   onKeyDown={this._handleKeyDown}
                   width={this.props.menuWidth || 'auto'}
+                  onItemClick={this._hideMenu}
                 >
                   {this.props.children}
                 </InternalMenu>
