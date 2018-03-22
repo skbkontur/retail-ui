@@ -8,7 +8,7 @@ import ScrollContainer from '../ScrollContainer/ScrollContainer';
 
 import type MenuItem from '../MenuItem/MenuItem';
 
-import styles from './MenuNew.less';
+import styles from './InternalMenu.less';
 
 type MenuItemElement = ?React.Element<Class<MenuItem>>;
 
@@ -23,11 +23,10 @@ type Props = {
 };
 
 type State = {
-  highlightedIndex: number,
-  focused: boolean
+  highlightedIndex: number
 };
 
-export default class MenuNew extends React.Component<Props, State> {
+export default class InternalMenu extends React.Component<Props, State> {
   static defaultProps = {
     width: 'auto',
     maxHeight: 300,
@@ -36,8 +35,7 @@ export default class MenuNew extends React.Component<Props, State> {
   };
 
   state = {
-    highlightedIndex: -1,
-    focused: false
+    highlightedIndex: -1
   };
 
   _scrollContainer: ?ScrollContainer;
@@ -57,8 +55,6 @@ export default class MenuNew extends React.Component<Props, State> {
       <div
         className={cn(styles.root, this.props.hasShadow && styles.shadow)}
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
-        onFocus={this._handleFocus}
-        onBlur={this._handleBlur}
         onKeyDown={this._handleKeyDown}
         ref={element => {
           this._rootElement = element;
@@ -102,26 +98,10 @@ export default class MenuNew extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this._focusWithoutScroll();
+    this._focusWithScrollRestore();
   }
 
-  up() {
-    this._move(-1);
-  }
-
-  down() {
-    this._move(1);
-  }
-
-  enter(event: SyntheticEvent<*>) {
-    return this._select(this.state.highlightedIndex, true, event);
-  }
-
-  reset() {
-    this.setState({ highlightedIndex: -1 });
-  }
-
-  _focusWithoutScroll = (): void => {
+  _focusWithScrollRestore = (): void => {
     if (this._rootElement && window) {
       const scrollX: number = window.scrollX;
       const scrollY: number = window.scrollY;
@@ -197,37 +177,39 @@ export default class MenuNew extends React.Component<Props, State> {
     } while (index !== this.state.highlightedIndex);
   }
 
+  _moveUp = () => {
+    this._move(-1);
+  };
+
+  _moveDown = () => {
+    this._move(1);
+  };
+
   _isEmpty() {
     const { children } = this.props;
     return !children || !childrenToArray(children).filter(isExist).length;
   }
 
-  _handleFocus = (event: Event<*>): void => {
-    this.setState({
-      focused: true
-    });
-  };
-
-  _handleBlur = (): void => {
-    this.setState({
-      focused: false
-    });
-  };
-
   _handleKeyDown = (event: SyntheticKeyboardEvent<HTMLDivElement>): void => {
+    if (typeof this.props.onKeyDown === 'function') {
+      this.props.onKeyDown(event);
+    }
+
+    if (event.defaultPrevented) {
+      return;
+    }
+
     switch (event.key) {
       case 'ArrowUp':
-        this.up();
+        this._moveUp();
         break;
       case 'ArrowDown':
-        this.down();
+        this._moveDown();
         break;
 
       default:
         break;
     }
-
-    this.props.onKeyDown(event);
   };
 }
 

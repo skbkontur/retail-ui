@@ -1,21 +1,27 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { default as Menu } from '../MenuNew';
+import InternalMenu from '../InternalMenu';
 import MenuItem from '../../MenuItem/MenuItem';
 
 describe('Menu', () => {
+  beforeEach(() => {
+    window.scrollTo = jest.fn();
+  });
+
   it('calls existing refs of children when highlighted', () => {
     const refItem = jest.fn();
     const wrapper = mount(
-      <Menu>
+      <InternalMenu>
         <MenuItem ref={refItem} />
-      </Menu>
+      </InternalMenu>
     );
-    const menu = wrapper.instance();
+    // wrapper.setProps({
+    //   onKeyDown: jest.fn()
+    // });
 
     // Highlight first item.
-    menu.down();
+    wrapper.simulate('keyDown', { key: 'ArrowDown' });
 
     // 1. Called initially.
     // 2. Changed with a wrapper function. Previous function called with null.
@@ -27,11 +33,11 @@ describe('Menu', () => {
   it('calls onClick on manually passed MenuItem', () => {
     const onClick = jest.fn();
     const wrapper = mount(
-      <Menu>
+      <InternalMenu>
         <MenuItem onClick={onClick}>
           <span data-click />
         </MenuItem>
-      </Menu>
+      </InternalMenu>
     );
 
     wrapper.find('[data-click]').simulate('click');
@@ -42,11 +48,11 @@ describe('Menu', () => {
   it('does not call onClick on disabled MenuItem', () => {
     const onClick = jest.fn();
     const wrapper = mount(
-      <Menu>
+      <InternalMenu>
         <MenuItem onClick={onClick} disabled>
           <span data-click />
         </MenuItem>
-      </Menu>
+      </InternalMenu>
     );
 
     wrapper.find('[data-click]').simulate('click');

@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { default as Menu } from '../MenuNew/MenuNew';
+import InternalMenu from '../InternalMenu/InternalMenu';
 import Popup from '../Popup';
 import RenderLayer from '../RenderLayer';
 import type MenuItem from '../MenuItem/MenuItem';
@@ -92,17 +92,16 @@ export default class DropdownMenu extends React.Component<Props, State> {
                 opened={this.state.menuVisible}
                 margin={5}
                 hasShadow
-                hasPin
                 pinOffset={15}
               >
-                <Menu
+                <InternalMenu
                   hasShadow={false}
                   maxHeight={this.props.menuMaxHeight || 'none'}
                   onKeyDown={this._handleKeyDown}
                   width={this.props.menuWidth || 'auto'}
                 >
                   {this.props.children}
-                </Menu>
+                </InternalMenu>
               </Popup>
             )}
         </div>

@@ -28,10 +28,10 @@ describe('<DropdownMenu />', () => {
     const wrapper = mount(component);
     const captionWrapper = wrapper.find('#captionForTest');
 
-    expect(wrapper.find('MenuNew')).toHaveLength(0);
+    expect(wrapper.find('InternalMenu')).toHaveLength(0);
     captionWrapper.simulate('click');
 
-    expect(wrapper.find('MenuNew')).toHaveLength(1);
+    expect(wrapper.find('InternalMenu')).toHaveLength(1);
   });
 
   test("Contains <MenuItem />'s after clicking on caption", () => {
