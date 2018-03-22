@@ -12,6 +12,7 @@ import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 
 type Props<T> = {
+  autoFocus?: boolean,
   borderless?: boolean,
   disablePortal?: boolean,
   disabled?: boolean,
