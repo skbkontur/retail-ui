@@ -6,22 +6,29 @@ import Button from '../Button';
 import Group from '../Group';
 import Icon from '../Icon';
 import Input from '../Input';
+import CurrencyInput from '../CurrencyInput';
 
 class FxInput extends React.Component {
   static propTypes = {
-    auto: PropTypes.bool
+    auto: PropTypes.bool,
+    type: PropTypes.string
   };
 
   static defaultProps = {
-    width: 250
+    width: 250,
+    type: 'text'
   };
 
   _input = null;
 
   render() {
-    const { width } = this.props;
+    const { width, type } = this.props;
 
-    const inputProps = {};
+    const inputProps = {
+      align: 'right',
+      mainInGroup: true,
+      ref: this._refInput
+    };
     let button = null;
     if (this.props.auto) {
       inputProps.leftIcon = <Icon name="fx" />;
@@ -32,17 +39,12 @@ class FxInput extends React.Component {
         </Button>
       );
     }
+    const InputComponent = type === 'currency' ? CurrencyInput : Input;
 
     return (
       <Group width={width}>
         {button}
-        <Input
-          ref={this._refInput}
-          mainInGroup
-          align="right"
-          {...this.props}
-          {...inputProps}
-        />
+        <InputComponent {...inputProps} {...this.props}/>
       </Group>
     );
   }
