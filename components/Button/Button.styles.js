@@ -83,6 +83,16 @@ export default function Button(theme: ITheme) {
 
     checked: {},
 
+    borderless: {
+      boxShadow: 'none',
+      '&:hover': {
+        boxShadow: 'none'
+      },
+      '&:active': {
+        boxShadow: 'none'
+      }
+    },
+
     caption: {
       position: 'relative',
       whiteSpace: 'nowrap',

@@ -7,6 +7,7 @@ declare module.exports: {|
   +'arrow_error': string;
   +'arrow_loading': string;
   +'arrow_warning': string;
+  +'borderless': string;
   +'buttonWithIcon': string;
   +'caption': string;
   +'checked': string;
