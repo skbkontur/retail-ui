@@ -16,6 +16,8 @@ export type ExternalProps<T> = {
 
   autoFocus?: boolean,
 
+  borderless?: boolean,
+
   /**
    * Не использовать Portal для рендеринга меню.
    * По-умолчанию `false`.

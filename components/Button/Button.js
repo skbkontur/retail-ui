@@ -48,6 +48,7 @@ export type ButtonProps = {
   active?: boolean,
   arrow?: boolean,
   autoFocus?: boolean,
+  borderless?: boolean,
   checked?: boolean,
   children?: React.Node,
   /** @ignore */
@@ -99,6 +100,8 @@ class Button extends React.Component<ButtonProps, State> {
      * Автофокус
      */
     autoFocus: PropTypes.bool,
+
+    borderless: PropTypes.bool,
 
     checked: PropTypes.bool,
 
@@ -232,7 +235,8 @@ class Button extends React.Component<ButtonProps, State> {
         [classes.buttonWithIcon]: !!this.props.icon,
         [classes.arrowButton || '']: this.props.arrow,
         [SIZE_CLASSES[this.props.size]]: true,
-        [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused
+        [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused,
+        [cssStyles.borderless]: this.props.borderless
       }),
       style: {
         borderRadius:

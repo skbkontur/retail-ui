@@ -78,6 +78,7 @@ export default class InputLikeText extends React.Component<Props, State> {
   render() {
     const {
       /* eslint-disable no-unused-vars */
+      borderless,
       tabIndex,
       className: cn,
       width,
@@ -86,7 +87,6 @@ export default class InputLikeText extends React.Component<Props, State> {
       placeholder: ph,
       error,
       warning,
-      borderless,
       padRight,
       /* eslint-enable no-unused-vars */
       ...rest
@@ -116,7 +116,8 @@ export default class InputLikeText extends React.Component<Props, State> {
           tabIndex={this.props.disabled ? -1 : 0}
           className={classNames({
             [styles.input]: true,
-            [styles.blink]: this.state.blinking
+            [styles.blink]: this.state.blinking,
+            [styles.borderless]: borderless
           })}
           style={{
             position: 'relative'
