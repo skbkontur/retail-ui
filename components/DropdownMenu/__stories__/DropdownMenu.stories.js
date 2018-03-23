@@ -8,7 +8,7 @@ import Button from '../../Button';
 import Icon from '../../Icon';
 
 storiesOf('DropdownMenu', module)
-  .add('Простой пример', () => (
+  .add('Simple example', () => (
     <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
@@ -21,7 +21,7 @@ storiesOf('DropdownMenu', module)
       <MenuItem>Три</MenuItem>
     </DropdownMenu>
   ))
-  .add('С указанием ширины меню', () => (
+  .add('Example with width of menu', () => (
     <DropdownMenu
       caption={<Button use="primary">Открыть меню</Button>}
       menuWidth={350}
@@ -37,7 +37,7 @@ storiesOf('DropdownMenu', module)
       <MenuItem>Три</MenuItem>
     </DropdownMenu>
   ))
-  .add('С указанием максимальной высоты меню', () => (
+  .add('Example with maximum height of menu', () => (
     <DropdownMenu
       caption={<Button use="primary">Открыть меню</Button>}
       menuMaxHeight={150}
@@ -53,7 +53,7 @@ storiesOf('DropdownMenu', module)
       <MenuItem>Три</MenuItem>
     </DropdownMenu>
   ))
-  .add('В caption можно передать любой элемент', () => (
+  .add('Caption accepts an arbitrary element', () => (
     <DropdownMenu caption={<Icon name="Menu" size={32} />} menuWidth="300px">
       <MenuItem>Раз</MenuItem>
       <MenuItem>Два</MenuItem>
