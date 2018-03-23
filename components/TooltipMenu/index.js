@@ -1,2 +1,2 @@
-import DropdownMenu from './DropdownMenu';
-export default DropdownMenu;
+import TooltipMenu from './TooltipMenu';
+export default TooltipMenu;

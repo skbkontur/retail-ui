@@ -1,29 +1,29 @@
 // @flow
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import DropdownMenu from '../';
+import TooltipMenu from '../';
 import MenuItem from '../../MenuItem';
 
-describe('<DropdownMenu />', () => {
+describe('<TooltipMenu />', () => {
   beforeEach(() => {
     window.scrollTo = jest.fn();
   });
 
   test('Render without crashes', () => {
-    const wrapper = shallow(<DropdownMenu caption={<span />} />);
+    const wrapper = shallow(<TooltipMenu caption={<span />} />);
 
     expect(wrapper).toHaveLength(1);
   });
 
   test('Throw, if caption is not passed', () => {
-    expect(() => shallow(<DropdownMenu />)).toThrow();
+    expect(() => shallow(<TooltipMenu />)).toThrow();
   });
 
   test('Contains <Menu /> after clicking on caption', () => {
     const component = (
-      <DropdownMenu caption={<button id="captionForTest">Test</button>}>
+      <TooltipMenu caption={<button id="captionForTest">Test</button>}>
         <MenuItem>Test</MenuItem>
-      </DropdownMenu>
+      </TooltipMenu>
     );
     const wrapper = mount(component);
     const captionWrapper = wrapper.find('#captionForTest');
@@ -36,11 +36,11 @@ describe('<DropdownMenu />', () => {
 
   test("Contains <MenuItem />'s after clicking on caption", () => {
     const component = (
-      <DropdownMenu caption={<button id="captionForTest">Test</button>}>
+      <TooltipMenu caption={<button id="captionForTest">Test</button>}>
         <MenuItem>Test</MenuItem>
         <MenuItem>Test</MenuItem>
         <MenuItem>Test</MenuItem>
-      </DropdownMenu>
+      </TooltipMenu>
     );
     const wrapper = mount(component);
     const captionWrapper = wrapper.find('#captionForTest');
@@ -49,5 +49,27 @@ describe('<DropdownMenu />', () => {
     captionWrapper.simulate('click');
 
     expect(wrapper.find('MenuItem')).toHaveLength(3);
+  });
+
+  test('Throw, if passed unexpected position', () => {
+    const element = (
+      <TooltipMenu
+        caption={<button id="captionForTest">Test</button>}
+        positions={['top left', 'foo bar']}
+      >
+        <MenuItem>Test</MenuItem>
+        <MenuItem>Test</MenuItem>
+        <MenuItem>Test</MenuItem>
+      </TooltipMenu>
+    );
+    expect(() => shallow(element)).toThrow("Unxpected position 'foo bar'");
+  });
+
+  test('Render without crashes if passed expected positions', () => {
+    const element = (
+      <TooltipMenu caption={<span />} positions={['top left', 'top right']} />
+    );
+
+    expect(shallow(element)).toHaveLength(1);
   });
 });
