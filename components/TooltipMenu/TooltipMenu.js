@@ -32,21 +32,23 @@ type State = {
  * Если ```positions``` передан или передан пустой массив, используются все возможные положения.
  */
 export default class TooltipMenu extends React.Component<Props, State> {
+  static availablePositions = [
+    'top left',
+    'top center',
+    'top right',
+    'right top',
+    'right middle',
+    'right bottom',
+    'bottom left',
+    'bottom center',
+    'bottom right',
+    'left top',
+    'left middle',
+    'left bottom'
+  ];
+
   static defaultProps = {
-    positions: [
-      'top left',
-      'top center',
-      'top right',
-      'right top',
-      'right middle',
-      'right bottom',
-      'bottom left',
-      'bottom center',
-      'bottom right',
-      'left top',
-      'left middle',
-      'left bottom'
-    ]
+    positions: TooltipMenu.availablePositions
   };
 
   state = {
@@ -61,6 +63,26 @@ export default class TooltipMenu extends React.Component<Props, State> {
       throw new Error('Prop caption is required!');
     }
   }
+
+  componentDidMount() {
+    this._validatePositionsProps();
+  }
+
+  componentDidUpdate() {
+    this._validatePositionsProps();
+  }
+
+  _validatePositionsProps = (): void => {
+    const isValidPosition = (position: string): boolean => {
+      return TooltipMenu.availablePositions.includes(position);
+    };
+
+    this.props.positions.forEach(item => {
+      if (!isValidPosition(item)) {
+        throw new Error(`Unxpected position '${item}'`);
+      }
+    });
+  };
 
   _showMenu = (): void => {
     this._saveFocus();
@@ -119,7 +141,7 @@ export default class TooltipMenu extends React.Component<Props, State> {
     }
   };
 
-  _getAvailablePositions = (): Array<string> => {
+  _getPopupPositions = (): Array<string> => {
     const { positions } = this.props;
 
     if (positions && Array.isArray(positions) && positions.length) {
@@ -150,7 +172,7 @@ export default class TooltipMenu extends React.Component<Props, State> {
             this.props.children && (
               <Popup
                 anchorElement={this._captionWrapper}
-                positions={this._getAvailablePositions()}
+                positions={this._getPopupPositions()}
                 opened={this.state.menuVisible}
                 margin={10}
                 hasShadow
