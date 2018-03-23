@@ -65,3 +65,41 @@ const Icon = require("../Icon").default;
   <MenuItem>Три</MenuItem>
 </TooltipMenu>
 ```
+
+Только справа 
+
+```js
+const Icon = require("../Icon").default;
+
+<TooltipMenu
+  caption={<Icon name="Lightbulb" size={32} />}
+  menuWidth="300px"
+  positions={[
+    'right top',
+    'right middle',
+    'right bottom',
+  ]}
+>
+  <MenuItem>Раз</MenuItem>
+  <MenuItem>Два</MenuItem>
+  <MenuItem>Три</MenuItem>
+</TooltipMenu>
+
+```
+Меню только сверху выравненное по правому краю ```caption``` 
+
+```js
+const Icon = require("../Icon").default;
+
+<TooltipMenu
+  caption={<Icon name="Lightbulb" size={32} />}
+  menuWidth="300px"
+  positions={[
+    'top right',
+  ]}
+>
+  <MenuItem>Раз</MenuItem>
+  <MenuItem>Два</MenuItem>
+  <MenuItem>Три</MenuItem>
+</TooltipMenu>
+```

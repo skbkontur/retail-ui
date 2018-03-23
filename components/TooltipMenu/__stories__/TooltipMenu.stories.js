@@ -11,9 +11,10 @@ storiesOf('TooltipMenu', module)
   .addDecorator(story => (
     <div
       style={{
-        padding: '120px 120px 150px',
+        padding: 200,
         border: '1px solid #dfdede',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        textAlign: 'center'
       }}
     >
       {story()}
@@ -54,6 +55,28 @@ storiesOf('TooltipMenu', module)
   ))
   .add('Caption accepts an arbitrary element', () => (
     <TooltipMenu caption={<Icon name="Menu" size={32} />} menuWidth="300px">
+      <MenuItem>Раз</MenuItem>
+      <MenuItem>Два</MenuItem>
+      <MenuItem>Три</MenuItem>
+    </TooltipMenu>
+  ))
+  .add('Menu in right position only', () => (
+    <TooltipMenu
+      caption={<Icon name="Lightbulb" size={32} />}
+      menuWidth="300px"
+      positions={['right top', 'right middle', 'right bottom']}
+    >
+      <MenuItem>Раз</MenuItem>
+      <MenuItem>Два</MenuItem>
+      <MenuItem>Три</MenuItem>
+    </TooltipMenu>
+  ))
+  .add('Menu in top position only, align right', () => (
+    <TooltipMenu
+      caption={<Icon name="Lightbulb" size={32} />}
+      menuWidth="150px"
+      positions={['top right']}
+    >
       <MenuItem>Раз</MenuItem>
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
