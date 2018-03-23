@@ -28,6 +28,7 @@ export default class DropdownMenu extends React.Component<Props, State> {
   };
 
   _captionWrapper: ?HTMLSpanElement;
+  _savedFocusableElement: ?HTMLElement = null;
 
   componentWillMount() {
     if (!this.props.caption) {
@@ -36,19 +37,36 @@ export default class DropdownMenu extends React.Component<Props, State> {
   }
 
   _showMenu = (): void => {
+    this._saveFocus();
     this.setState({ menuVisible: true });
   };
 
   _hideMenu = (): void => {
     this.setState({ menuVisible: false });
+    this._restoreFocus();
   };
 
   _toggleMenu = (): void => {
-    this.setState(prevState => ({ menuVisible: !prevState.menuVisible }));
+    this.state.menuVisible ? this._hideMenu() : this._showMenu();
   };
 
   _handleCaptionClick = (): void => {
     this._toggleMenu();
+  };
+
+  _handleCaptionKeyDown = (
+    event: SyntheticKeyboardEvent<HTMLElement>
+  ): void => {
+    switch (event.key) {
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        this._showMenu();
+        break;
+
+      default:
+        break;
+    }
   };
 
   _handleKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
@@ -62,6 +80,19 @@ export default class DropdownMenu extends React.Component<Props, State> {
     }
   };
 
+  _saveFocus = (): void => {
+    if (document) {
+      this._savedFocusableElement = document.activeElement;
+    }
+  };
+
+  _restoreFocus = (): void => {
+    if (this._savedFocusableElement) {
+      this._savedFocusableElement.focus();
+      this._savedFocusableElement = null;
+    }
+  };
+
   render() {
     return (
       <RenderLayer
@@ -71,6 +102,7 @@ export default class DropdownMenu extends React.Component<Props, State> {
         <div style={{ display: 'inline-block' }}>
           <span
             onClick={this._handleCaptionClick}
+            onKeyDown={this._handleCaptionKeyDown}
             ref={element => {
               this._captionWrapper = element;
             }}
