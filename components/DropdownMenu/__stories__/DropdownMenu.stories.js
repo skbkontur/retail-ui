@@ -8,13 +8,20 @@ import Button from '../../Button';
 import Icon from '../../Icon';
 
 storiesOf('DropdownMenu', module)
+  .addDecorator(story => (
+    <div
+      style={{
+        padding: '20px 20px 150px',
+        border: '1px solid #dfdede',
+        overflow: 'hidden'
+      }}
+    >
+      {story()}
+    </div>
+  ))
   .add('Simple example', () => (
     <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
-      <MenuSeparator />
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
       <MenuSeparator />
       <MenuItem>Раз</MenuItem>
       <MenuItem>Два</MenuItem>
@@ -31,10 +38,6 @@ storiesOf('DropdownMenu', module)
       <MenuItem>Раз</MenuItem>
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
-      <MenuSeparator />
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
     </DropdownMenu>
   ))
   .add('Example with maximum height of menu', () => (
@@ -43,10 +46,6 @@ storiesOf('DropdownMenu', module)
       menuMaxHeight={150}
     >
       <MenuHeader>Заголовок меню</MenuHeader>
-      <MenuSeparator />
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
       <MenuSeparator />
       <MenuItem>Раз</MenuItem>
       <MenuItem>Два</MenuItem>

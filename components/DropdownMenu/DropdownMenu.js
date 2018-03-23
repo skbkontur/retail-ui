@@ -5,6 +5,8 @@ import Popup from '../Popup';
 import RenderLayer from '../RenderLayer';
 import type MenuItem from '../MenuItem/MenuItem';
 
+import styles from './DropdownMenu.less';
+
 type Props = {
   children?: React.ChildrenArray<React.Element<Class<MenuItem>>>,
   /** Максимальная высота меню */
@@ -99,14 +101,14 @@ export default class DropdownMenu extends React.Component<Props, State> {
         onClickOutside={this._hideMenu}
         onFocusOutside={this._hideMenu}
       >
-        <div style={{ display: 'inline-block' }}>
+        <div className={styles.container}>
           <span
             onClick={this._handleCaptionClick}
             onKeyDown={this._handleCaptionKeyDown}
             ref={element => {
               this._captionWrapper = element;
             }}
-            style={{ display: 'inline-block' }}
+            className={styles.caption}
           >
             {this.props.caption}
           </span>
