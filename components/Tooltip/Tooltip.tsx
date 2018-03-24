@@ -1,78 +1,96 @@
-/* @flow */
-/* eslint-disable flowtype/no-weak-types */
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import Popup from '../Popup';
-import ReactDOM from 'react-dom';
 import RenderLayer from '../RenderLayer';
 import CROSS from '../internal/cross';
+import { PopupPosition } from '../Popup/PopupPosition';
 
-import boxStyles from './Box.less';
+import * as styles from './Tooltip.less';
 
 const supportsPortal = 'createPortal' in ReactDOM;
 
-type Pos =
-  | 'top left'
-  | 'top center'
-  | 'top right'
-  | 'bottom left'
-  | 'bottom center'
-  | 'bottom right'
-  | 'left top'
-  | 'left middle'
-  | 'left bottom'
-  | 'right top'
-  | 'right middle'
-  | 'right bottom';
-
 const Positions = [
-  'top left',
-  'top center',
-  'top right',
-  'bottom left',
-  'bottom center',
-  'bottom right',
-  'left top',
-  'left middle',
-  'left bottom',
-  'right top',
-  'right middle',
-  'right bottom'
+  PopupPosition.TopLeft,
+  PopupPosition.TopCenter,
+  PopupPosition.TopRight,
+  PopupPosition.BottomLeft,
+  PopupPosition.BottomCenter,
+  PopupPosition.BottomRight,
+  PopupPosition.LeftTop,
+  PopupPosition.LeftMiddle,
+  PopupPosition.LeftBottom,
+  PopupPosition.RightTop,
+  PopupPosition.RightMiddle,
+  PopupPosition.RightBottom
 ];
 
-type Props = {
-  children?: React.Element<any> | string,
+export enum TooltipTrigger {
+  Hover = 'hover',
+  Click = 'click',
+  Focus = 'focus',
+  Opened = 'opened',
+  Closed = 'closed'
+}
 
-  className?: string,
+export type TooltipProps = {
+  children?: React.ReactNode;
 
-  closeButton?: boolean,
+  className?: string;
 
-  render: () => ?React.Node,
+  /**
+   * Показывать крестик для закрытия тултипа. По-умолчанию крестик
+   * показывается если проп *trigger* не `hover` и не `focus`.
+   */
+  closeButton?: boolean;
 
-  pos: Pos,
+  /**
+   * Функция, которая возвращает содержимое тултипа.
+   *
+   * Если эта функция вернула `null`, то тултип не показывается.
+   */
+  render: () => React.ReactNode;
 
-  trigger: 'hover' | 'click' | 'focus' | 'opened' | 'closed',
+  pos?: PopupPosition;
 
-  onCloseClick?: (SyntheticMouseEvent<HTMLElement>) => void,
+  trigger?: TooltipTrigger;
 
-  onCloseRequest?: () => void,
+  /**
+   * Хэндлер, вызываемый при клике по крестику
+   */
+  onCloseClick?: React.MouseEventHandler<HTMLElement>;
 
-  allowedPositions: Pos[]
+  /**
+   * Хэндлер, вызываемый при клике по крестику или
+   * снаружи тултипа
+   */
+  onCloseRequest?: () => void;
+
+  /**
+   * Список позиций, которые тултип будет занимать.
+   * Если положение тултипа в определенной позиции
+   * будет выходить за край экрана, то будет выбрана
+   * следующая позиция. Обязательно должен включать
+   * позицию указанную в `pos`
+   */
+  allowedPositions?: PopupPosition[];
 };
 
-type State = {
-  opened: boolean
+export type TooltipState = {
+  opened: boolean;
 };
 
-class Tooltip extends React.Component<Props, State> {
-  _hoverTimeout: ?TimeoutID = null;
+type InternalProps = TooltipProps & typeof Tooltip.defaultProps;
 
-  _wrapperElement: ?HTMLElement = null;
-
+class Tooltip extends React.Component<TooltipProps, TooltipState> {
   static defaultProps = {
-    pos: 'top left',
-    trigger: 'hover',
+    pos: PopupPosition.TopLeft,
+    trigger: TooltipTrigger.Hover,
     allowedPositions: Positions
   };
+
+  _hoverTimeout: number | null = null;
+
+  _wrapperElement: HTMLElement | null = null;
 
   state = {
     opened: false
@@ -83,7 +101,7 @@ class Tooltip extends React.Component<Props, State> {
      * _wrapperElement is absent on initial mount
      * Rendering again to show popup
      */
-    if (this.props.trigger === 'opened') {
+    if (this.props.trigger === TooltipTrigger.Opened) {
       this.forceUpdate();
     }
   }
@@ -133,7 +151,8 @@ class Tooltip extends React.Component<Props, State> {
   _renderCross() {
     const hasCross =
       this.props.closeButton === undefined
-        ? this.props.trigger !== 'hover' && this.props.trigger !== 'focus'
+        ? this.props.trigger !== TooltipTrigger.Hover &&
+          this.props.trigger !== TooltipTrigger.Focus
         : this.props.closeButton;
 
     if (!hasCross) {
@@ -141,19 +160,19 @@ class Tooltip extends React.Component<Props, State> {
     }
 
     return (
-      <span className={boxStyles.cross} onClick={this._handleCrossClick}>
+      <span className={styles.cross} onClick={this._handleCrossClick}>
         {CROSS}
       </span>
     );
   }
 
-  _refWrapper = node => {
+  private _refWrapper = (node: HTMLElement | null) => {
     this._wrapperElement = node;
   };
 
-  _getPositions() {
-    const { allowedPositions } = this.props;
-    const index = allowedPositions.indexOf(this.props.pos);
+  private _getPositions() {
+    const { allowedPositions, pos } = this.props as InternalProps;
+    const index = allowedPositions.indexOf(pos);
     if (index === -1) {
       throw new Error(
         'Unexpected position passed to Tooltip. Expected one of: ' +
@@ -166,9 +185,9 @@ class Tooltip extends React.Component<Props, State> {
     ];
   }
 
-  _getProps() {
+  private _getProps() {
     switch (this.props.trigger) {
-      case 'opened':
+      case TooltipTrigger.Opened:
         return {
           layerProps: {
             active: true,
@@ -180,7 +199,7 @@ class Tooltip extends React.Component<Props, State> {
           }
         };
 
-      case 'closed':
+      case TooltipTrigger.Closed:
         return {
           layerProps: {},
           wrapperProps: {},
@@ -189,7 +208,7 @@ class Tooltip extends React.Component<Props, State> {
           }
         };
 
-      case 'hover':
+      case TooltipTrigger.Hover:
         return {
           layerProps: {},
           wrapperProps: {
@@ -204,7 +223,7 @@ class Tooltip extends React.Component<Props, State> {
               }
         };
 
-      case 'click':
+      case TooltipTrigger.Click:
         return {
           layerProps: {
             active: this.state.opened,
@@ -216,7 +235,7 @@ class Tooltip extends React.Component<Props, State> {
           popupProps: {}
         };
 
-      case 'focus':
+      case TooltipTrigger.Focus:
         return {
           layerProps: {},
           wrapperProps: {
@@ -227,55 +246,55 @@ class Tooltip extends React.Component<Props, State> {
         };
 
       default:
-        throw new Error('Unknown trigger specified');
+        throw new Error('Unknown trigger specified: ' + this.props.trigger);
     }
   }
 
-  _open() {
+  private _open() {
     this.setState({ opened: true });
   }
 
-  _close() {
+  private _close() {
     this.setState({ opened: false });
   }
 
-  _handleMouseEnter = () => {
+  private _handleMouseEnter = () => {
     if (this._hoverTimeout) {
       clearTimeout(this._hoverTimeout);
     }
     this._open();
   };
 
-  _handleMouseLeave = () => {
+  private _handleMouseLeave = () => {
     if (this._hoverTimeout) {
       clearTimeout(this._hoverTimeout);
       this._hoverTimeout = null;
     }
-    this._hoverTimeout = setTimeout(() => {
+    this._hoverTimeout = window.setTimeout(() => {
       this._close();
     }, 300);
   };
 
-  _handleClick = () => {
+  private _handleClick = () => {
     this._open();
   };
 
-  _handleClickOutside = () => {
+  private _handleClickOutside = () => {
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
     }
     this._close();
   };
 
-  _handleFocus = () => {
+  private _handleFocus = () => {
     this._open();
   };
 
-  _handleBlur = () => {
+  private _handleBlur = () => {
     this._close();
   };
 
-  _handleCrossClick = event => {
+  private _handleCrossClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
     if (this.props.onCloseClick) {
