@@ -3,8 +3,12 @@
 declare module.exports: {|
   +'active': string;
   +'disabled': string;
+  +'error': string;
   +'focus': string;
   +'input': string;
+  +'primary': string;
   +'root': string;
+  +'success': string;
   +'vertical': string;
+  +'warning': string;
 |};

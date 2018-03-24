@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, type Node } from 'react';
 import PropTypes from 'prop-types';
 
 import Input from '../Input';
@@ -18,6 +18,7 @@ const INPUT_PASS_PROPS = {
   placeholder: true,
   size: true,
   warning: true,
+  leftIcon: true,
   width: true
 };
 
@@ -27,6 +28,7 @@ type Props = {
   disabled?: boolean,
   error?: boolean,
   fractionDigits?: ?number,
+  leftIcon?: Node,
   placeholder?: string,
   signed?: boolean,
   size?: 'small' | 'medium' | 'large',
@@ -52,6 +54,7 @@ export default class CurrencyInput extends Component<Props, State> {
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     fractionDigits: PropTypes.number,
+    leftIcon: PropTypes.element,
     placeholder: PropTypes.string,
     signed: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium', 'large']),

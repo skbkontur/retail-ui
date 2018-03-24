@@ -105,6 +105,14 @@ storiesOf('ComboBox v2', module)
       renderItem={renderValue}
       maxMenuHeight={200}
     />
+  ))
+  .add('with borderless', () => (
+    <TestComboBox
+      onSearch={search}
+      renderItem={renderValue}
+      onUnexpectedInput={nullStrategy}
+      borderless
+    />
   ));
 
 type State = {
@@ -130,6 +138,7 @@ class TestComboBox extends React.Component<*, State> {
         <ComboBoxV2
           autocomplete={this.props.autocomplete}
           autoFocus={this.props.autoFocus}
+          borderless={this.props.borderless}
           itemToValue={x => x.id}
           disabled={this.props.disabled}
           error={this.state.error}

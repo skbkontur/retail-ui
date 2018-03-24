@@ -1,7 +1,9 @@
-```js
-const { default: Icon } = require("../Icon");
-const { default: Button } = require("../Button");
-const { default: Input } = require("../Input");
+```jsx
+<div />;
+
+const { default: Icon } = require('../Icon');
+const { default: Button } = require('../Button');
+const { default: Input } = require('../Input');
 
 let initialState = { auto: false };
 

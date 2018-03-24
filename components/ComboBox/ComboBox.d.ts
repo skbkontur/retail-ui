@@ -3,6 +3,7 @@ import * as React from 'react';
 export interface ComboBoxProps<T> {
   autocomplete?: boolean;
   autoFocus?: boolean;
+  borderless?: boolean;
   disabled?: boolean;
   error?: boolean;
   getItems?: (query: string) => Promise<T[]>;

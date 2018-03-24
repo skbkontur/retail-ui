@@ -1,11 +1,9 @@
-// @flow
-
 import text from './text';
 import button from './button';
 import common from './common';
 import link from './link';
 
-const createDefaultTheme = () => ({
+const createDefaultTheme = (): ITheme => ({
   text,
   common,
   button,
@@ -13,10 +11,10 @@ const createDefaultTheme = () => ({
 });
 
 export type ITheme = {
-  text: typeof text,
-  common: typeof common,
-  button: typeof button,
-  link: typeof link
+  readonly text: typeof text;
+  readonly common: typeof common;
+  readonly button: typeof button;
+  readonly link: typeof link;
 };
 
 export default createDefaultTheme;

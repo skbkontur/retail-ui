@@ -1,8 +1,10 @@
-```js
-const { default: Gapped } = require("../Gapped");
-const { default: Radio } = require("../Radio");
+```jsx
+<div />;
 
-let items = ["One", "Two", "Three", "Four"];
+const { default: Gapped } = require('../Gapped');
+const { default: Radio } = require('../Radio');
+
+let items = ['One', 'Two', 'Three', 'Four'];
 
 let simpleRadioGroup = (
   <div>

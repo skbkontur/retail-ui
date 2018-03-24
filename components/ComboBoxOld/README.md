@@ -1,4 +1,6 @@
 ```jsx
+<div />;
+
 var items = [
   { id: 1, name: 'Kappa' },
   { id: 2, name: 'Keepo' },
