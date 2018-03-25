@@ -3,6 +3,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import events from 'add-event-listener';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer';
 import RenderLayer from '../RenderLayer';
@@ -12,6 +13,9 @@ import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
 import ModalStack from '../ModalStack';
 
 import styles from './SidePage.less';
+import stopPropagation from '../../lib/events/stopPropagation';
+
+const KEY_CODE_ESCAPE = 27;
 
 type Props = {
   children?: React.Node,
@@ -88,10 +92,12 @@ class SidePage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    events.addEventListener(window, 'keydown', this._handleKeyDown);
     this._stackSubscription = ModalStack.add(this, this._handleStackChange);
   }
 
   componentWillUnmount() {
+    events.removeEventListener(window, 'keydown', this._handleKeyDown);
     this._stackSubscription && this._stackSubscription.remove();
     ModalStack.remove(this);
   }
@@ -161,6 +167,16 @@ class SidePage extends React.Component<Props, State> {
 
   _handleClickOutside = () => {
     if (this.state.stackPosition === 0 && !this.props.ignoreBackgroundClick) {
+      this._requestClose();
+    }
+  };
+
+  _handleKeyDown = event => {
+    if (this.state.stackPosition !== 0) {
+      return;
+    }
+    if (event.keyCode === KEY_CODE_ESCAPE) {
+      stopPropagation(event);
       this._requestClose();
     }
   };
