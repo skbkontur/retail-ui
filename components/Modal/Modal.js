@@ -2,7 +2,6 @@
 /* eslint-disable react/no-multi-comp */
 import classNames from 'classnames';
 import events from 'add-event-listener';
-import { EventEmitter } from 'fbemitter';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
@@ -14,13 +13,9 @@ import ZIndex from '../ZIndex';
 import stopPropagation from '../../lib/events/stopPropagation';
 import Sticky from '../Sticky';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
+import ModalStack from '../ModalStack';
 
 import styles from './Modal.less';
-
-const stack = {
-  emitter: new EventEmitter(),
-  mounted: []
-};
 
 const KEY_CODE_ESCAPE = 27;
 
@@ -38,7 +33,7 @@ type Props = {
 };
 
 type State = {
-  shadowed: boolean,
+  stackPosition: number,
   horizontalScroll: boolean
 };
 
@@ -82,23 +77,12 @@ class Modal extends React.Component<Props, State> {
   static Footer: Class<Footer>;
 
   state = {
-    // Is shadowed by another modal that was rendered on top of this one.
-    shadowed: false,
+    stackPosition: 0,
     horizontalScroll: false
   };
 
   _stackSubscription = null;
   _centerDOM: ?HTMLElement = null;
-
-  constructor(props: Props, context: mixed) {
-    super(props, context);
-
-    stack.mounted.push(this);
-    this._stackSubscription = stack.emitter.addListener(
-      'change',
-      this._handleStackChange
-    );
-  }
 
   renderClose() {
     return (
@@ -148,7 +132,7 @@ class Modal extends React.Component<Props, State> {
       <RenderContainer>
         <ZIndex delta={1000} className={styles.root}>
           <HideBodyVerticalScroll />
-          {!this.state.shadowed && <div className={styles.bg} />}
+          {this.state.stackPosition === 0 && <div className={styles.bg} />}
           <div
             ref={this._refCenter}
             className={styles.container}
@@ -186,6 +170,7 @@ class Modal extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    this._stackSubscription = ModalStack.add(this, this._handleStackChange);
     if (mountedModalsCount === 0) {
       events.addEventListener(
         window,
@@ -195,7 +180,6 @@ class Modal extends React.Component<Props, State> {
     }
     mountedModalsCount++;
     events.addEventListener(window, 'keydown', this._handleKeyDown);
-    stack.emitter.emit('change');
     this._checkHorizontalScrollAppearance();
   }
 
@@ -209,17 +193,14 @@ class Modal extends React.Component<Props, State> {
       LayoutEvents.emit();
     }
 
+    events.removeEventListener(window, 'keydown', this._handleKeyDown);
     this._stackSubscription && this._stackSubscription.remove();
-    const inStackIndex = stack.mounted.findIndex(x => x === this);
-    if (inStackIndex !== -1) {
-      stack.mounted.splice(inStackIndex, 1);
-    }
-    stack.emitter.emit('change');
+    ModalStack.remove(this);
   }
 
-  _handleStackChange = () => {
-    const shadowed = stack.mounted[stack.mounted.length - 1] !== this;
-    this.setState({ shadowed });
+  _handleStackChange = (stack: React.Node[]) => {
+    let lol = stack.findIndex(x => x === this);
+    this.setState({ stackPosition: lol });
   };
 
   _handleContainerClick = event => {
@@ -241,7 +222,7 @@ class Modal extends React.Component<Props, State> {
   };
 
   _handleKeyDown = event => {
-    if (stack.mounted[stack.mounted.length - 1] !== this) {
+    if (this.state.stackPosition !== 0) {
       return;
     }
     if (event.keyCode === KEY_CODE_ESCAPE) {

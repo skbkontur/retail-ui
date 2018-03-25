@@ -1,7 +1,6 @@
 // @flow
 /* eslint-disable react/no-multi-comp */
 import classNames from 'classnames';
-import { EventEmitter } from 'fbemitter';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import LayoutEvents from '../../lib/LayoutEvents';
@@ -10,13 +9,9 @@ import RenderLayer from '../RenderLayer';
 import Sticky from '../Sticky';
 import ZIndex from '../ZIndex';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
+import ModalStack from '../ModalStack';
 
 import styles from './SidePage.less';
-
-const stack = {
-  emitter: new EventEmitter(),
-  mounted: []
-};
 
 type Props = {
   children?: React.Node,
@@ -29,7 +24,10 @@ type Props = {
 };
 
 type State = {
-  stackPosition: number
+  stackPosition?: number,
+  hasMarginRight?: boolean,
+  hasShadow?: boolean,
+  hasBackground?: boolean
 };
 
 /**
@@ -81,17 +79,7 @@ class SidePage extends React.Component<Props, State> {
 
   _stackSubscription = null;
 
-  constructor(props: Props, context: mixed) {
-    super(props, context);
-    stack.mounted.push(this);
-    this._stackSubscription = stack.emitter.addListener(
-      'change',
-      this._handleStackChange
-    );
-    this.state = {
-      stackPosition: stack.mounted.length - 1
-    };
-  }
+  state = {};
 
   getChildContext() {
     return {
@@ -99,14 +87,20 @@ class SidePage extends React.Component<Props, State> {
     };
   }
 
+  componentDidMount() {
+    this._stackSubscription = ModalStack.add(this, this._handleStackChange);
+  }
+
+  componentWillUnmount() {
+    this._stackSubscription && this._stackSubscription.remove();
+    ModalStack.remove(this);
+  }
+
   render() {
     const rootStyle = this.props.blockBackground ? { width: '100%' } : {};
     const sidePageStyle = {
       width: this.props.width || (this.props.blockBackground ? 800 : 500),
-      marginRight:
-        this.state.stackPosition === 0 && stack.mounted.length > 1
-          ? 20
-          : undefined
+      marginRight: this.state.hasMarginRight ? 20 : undefined
     };
 
     return (
@@ -124,7 +118,7 @@ class SidePage extends React.Component<Props, State> {
             <div
               className={classNames(
                 styles.background,
-                this.state.stackPosition === 0 && styles.gray
+                this.state.hasBackground && styles.gray
               )}
             />
           )}
@@ -132,7 +126,7 @@ class SidePage extends React.Component<Props, State> {
             <div
               className={classNames(
                 styles.container,
-                this.state.stackPosition < 2 && styles.shadow
+                this.state.hasShadow && styles.shadow
               )}
               style={sidePageStyle}
             >
@@ -146,29 +140,27 @@ class SidePage extends React.Component<Props, State> {
     );
   }
 
-  componentDidMount() {
-    stack.emitter.emit('change');
-  }
+  _handleStackChange = (stack: React.Node[]) => {
+    const sidePages = stack.filter(x => x instanceof SidePage);
+    const currentIndex = sidePages.findIndex(x => x === this);
 
-  componentWillUnmount() {
-    this._stackSubscription && this._stackSubscription.remove();
-    const inStackIndex = stack.mounted.findIndex(x => x === this);
-    if (inStackIndex !== -1) {
-      stack.mounted.splice(inStackIndex, 1);
-    }
-    stack.emitter.emit('change');
-  }
+    const hasMarginRight =
+      sidePages.length > 1 && currentIndex === sidePages.length - 1;
+    const hasShadow =
+      sidePages.length < 3 || currentIndex > sidePages.length - 3;
+    const hasBackground =
+      currentIndex === sidePages.length - 1 && stack[0] instanceof SidePage;
 
-  _handleStackChange = () => {
-    const stackPosition = stack.mounted.findIndex(x => x === this);
-    this.setState({ stackPosition });
+    this.setState({
+      stackPosition: stack.findIndex(x => x === this),
+      hasMarginRight,
+      hasShadow,
+      hasBackground
+    });
   };
 
   _handleClickOutside = () => {
-    if (
-      this.state.stackPosition === stack.mounted.length - 1 &&
-      !this.props.ignoreBackgroundClick
-    ) {
+    if (this.state.stackPosition === 0 && !this.props.ignoreBackgroundClick) {
       this._requestClose();
     }
   };
