@@ -14,6 +14,7 @@ addons:
 before_deploy:
 - yarn
 - yarn build
+- yarn tsc
 - openssl aes-256-cbc -K $encrypted_86996ed187bd_key -iv $encrypted_86996ed187bd_iv
   -in build/.npmrc.enc -out build/.npmrc -d
 - openssl aes-256-cbc -k $travis_key_password -in travis-deploy-key.enc -out travis-deploy-key
@@ -25,7 +26,8 @@ before_deploy:
 - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
 - yarn deploy
 deploy:
-- provider: npm
+  skip_cleanup: true
+  provider: npm
   email: tihonov.ea@gmail.com
   on:
     tags: true

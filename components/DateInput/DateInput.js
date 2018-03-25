@@ -90,7 +90,8 @@ class DateInput extends React.Component<Props, State> {
   _isFocused: boolean = false;
 
   static defaultProps = {
-    size: 'small'
+    size: 'small',
+    width: 125
   };
 
   constructor(props: Props) {

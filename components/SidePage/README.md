@@ -1,6 +1,5 @@
 ```jsx
-const { default: Toggle } = require('../Toggle');
-const { default: Button } = require('../Button');
+<div />;
 
 let initialState = { opened: false };
 

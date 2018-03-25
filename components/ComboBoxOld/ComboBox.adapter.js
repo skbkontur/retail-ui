@@ -3,7 +3,7 @@
 import isActiveElement from '../Menu/isActiveElement';
 import * as React from 'react';
 
-import ComboBox from './ComboBox.js';
+import ComboBoxOld from './ComboBoxOld.js';
 
 const ComboBoxAdapter = {
   getValue(inst) {
@@ -43,6 +43,6 @@ const ComboBoxAdapter = {
   }
 };
 // eslint-disable-next-line flowtype/no-weak-types
-(ComboBox: Object).__ADAPTER__ = ComboBoxAdapter;
+(ComboBoxOld: Object).__ADAPTER__ = ComboBoxAdapter;
 
-export default ComboBox;
+export default ComboBoxOld;

@@ -28,9 +28,12 @@
     padding-right: @side-padding;
     width: 100%;
     -webkit-appearance: none;
+    white-space: nowrap;
+    text-overflow: clip;
+    background: white;
     transition: background-color 0.15s ease-in;
 
-    &:empty:before {
+    &:before {
       content: '\a0';
     }
   }

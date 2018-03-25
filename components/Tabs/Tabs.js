@@ -43,7 +43,7 @@ type Props = {
 
 type State = {
   tabs: Array<{
-    getNode: () => Element | React.Component<*, *> | null,
+    getNode: () => Tab | null,
     id: string
   }>
 };

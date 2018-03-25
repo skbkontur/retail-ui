@@ -1,5 +1,3 @@
-// @flow
-
 export default {
   checkedBg: '#737373',
   defaultBg: '#f9f9f9',

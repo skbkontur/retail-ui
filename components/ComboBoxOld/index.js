@@ -1,2 +1,2 @@
-import ComboBox from './ComboBox';
-export default ComboBox;
+import ComboBoxOld from './ComboBoxOld';
+export default ComboBoxOld;
