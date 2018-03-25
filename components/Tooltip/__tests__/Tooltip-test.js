@@ -1,6 +1,6 @@
 import { mount } from 'enzyme';
 import React from 'react';
-import Tooltip from '../Tooltip.js';
+import Tooltip from '../Tooltip';
 
 describe('Tooltip', () => {
   const render = () => '';
