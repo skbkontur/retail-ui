@@ -119,10 +119,10 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
               backgroundColor={'white'}
               hasPin
               hasShadow
-              margin={18}
+              margin={15}
               opened={this.state.opened}
-              pinOffset={9}
-              pinSize={9}
+              pinOffset={10}
+              pinSize={8}
               popupOffset={0}
               positions={this._getPositions()}
               {...popupProps}
