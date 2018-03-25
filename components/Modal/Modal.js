@@ -199,8 +199,7 @@ class Modal extends React.Component<Props, State> {
   }
 
   _handleStackChange = (stack: React.Node[]) => {
-    let lol = stack.findIndex(x => x === this);
-    this.setState({ stackPosition: lol });
+    this.setState({ stackPosition: stack.findIndex(x => x === this) });
   };
 
   _handleContainerClick = event => {
