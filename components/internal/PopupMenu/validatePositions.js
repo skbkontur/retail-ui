@@ -1,6 +1,6 @@
 // @flow
 import availablePositions from './availablePositions';
-import { isProduction } from '../currentEnvironment';
+import { isProductionEnv } from '../currentEnvironment';
 
 export default (positions: Array<string>): boolean => {
   const isValidPosition = (position: string): boolean => {
@@ -8,7 +8,7 @@ export default (positions: Array<string>): boolean => {
   };
 
   return positions.every(item => {
-    if (isProduction) {
+    if (isProductionEnv) {
       return isValidPosition(item);
     } else {
       if (isValidPosition(item)) {

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import PopupMenu from '../internal/PopupMenu';
 import type MenuItem from '../MenuItem/MenuItem';
-import { isProduction } from '../internal/currentEnvironment';
+import { isProductionEnv } from '../internal/currentEnvironment';
 
 type Props = {
   children?: React.ChildrenArray<React.Element<Class<MenuItem>>>,
@@ -21,7 +21,7 @@ export default class DropdownMenu extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
 
-    if (!props.caption && !isProduction) {
+    if (!props.caption && !isProductionEnv) {
       throw new Error('Prop "caption" is required!!!');
     }
   }

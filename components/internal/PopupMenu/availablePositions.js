@@ -1,4 +1,6 @@
-export default [
+// @flow
+
+const availablePositions: Array<string> = [
   'top left',
   'top center',
   'top right',
@@ -12,3 +14,5 @@ export default [
   'left middle',
   'left bottom'
 ];
+
+export default availablePositions;
