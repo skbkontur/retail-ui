@@ -201,18 +201,21 @@ export default class InternalMenu extends React.Component<Props, State> {
 
     switch (event.key) {
       case 'ArrowUp':
+        event.preventDefault();
         this._moveUp();
         break;
       case 'ArrowDown':
+        event.preventDefault();
         this._moveDown();
+        break;
+
+      case 'Enter':
+        event.preventDefault();
+        this._select(this.state.highlightedIndex, false, event);
         break;
 
       default:
         break;
-    }
-
-    if (event.key !== 'Tab') {
-      event.preventDefault();
     }
   };
 }

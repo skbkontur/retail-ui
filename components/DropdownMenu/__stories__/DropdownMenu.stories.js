@@ -6,6 +6,7 @@ import MenuSeparator from '../../MenuSeparator';
 import DropdownMenu from '../DropdownMenu';
 import Button from '../../Button';
 import Icon from '../../Icon';
+import Toast from '../../Toast';
 
 storiesOf('DropdownMenu', module)
   .addDecorator(story => (
@@ -23,9 +24,9 @@ storiesOf('DropdownMenu', module)
     <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
+      <MenuItem onClick={() => Toast.push('Раз')}>Раз</MenuItem>
+      <MenuItem onClick={() => Toast.push('Два')}>Два</MenuItem>
+      <MenuItem onClick={() => Toast.push('Три')}>Три</MenuItem>
     </DropdownMenu>
   ))
   .add('Example with width of menu', () => (

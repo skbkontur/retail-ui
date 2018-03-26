@@ -20,7 +20,7 @@ var applyTest = testSuite =>
       actions.click(this.captionElement);
     })
     .capture('clickedOutside', (actions, find) => {
-      actions.click(find('body'), 0, [1, 1]);
+      actions.click(find('#root'));
     })
     .capture('tabPress', (actions, find) => {
       actions.sendKeys(gemini.TAB);
