@@ -2,7 +2,7 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import InternalMenu from '../InternalMenu';
-import MenuItem from '../../MenuItem';
+import MenuItem from '../../../MenuItem';
 
 describe('Menu', () => {
   beforeEach(() => {

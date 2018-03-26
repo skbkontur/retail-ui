@@ -62,7 +62,7 @@ describe('<TooltipMenu />', () => {
         <MenuItem>Test</MenuItem>
       </TooltipMenu>
     );
-    expect(() => shallow(element)).toThrow("Unxpected position 'foo bar'");
+    expect(() => mount(element)).toThrow('Unxpected position "foo bar"');
   });
 
   test('Render without crashes if passed expected positions', () => {

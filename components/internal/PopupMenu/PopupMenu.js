@@ -4,7 +4,8 @@ import InternalMenu from '../InternalMenu/InternalMenu';
 import Popup from '../../Popup';
 import RenderLayer from '../../RenderLayer';
 import type MenuItem from '../../MenuItem/MenuItem';
-
+import availablePositions from './availablePositions';
+import isValidPostions from './validatePositions';
 import styles from './PopupMenu.less';
 
 type Props = {
@@ -25,29 +26,16 @@ type State = {
   menuVisible: boolean
 };
 
-const AVAILABLE_POSITIONS = [
-  'top left',
-  'top center',
-  'top right',
-  'right top',
-  'right middle',
-  'right bottom',
-  'bottom left',
-  'bottom center',
-  'bottom right',
-  'left top',
-  'left middle',
-  'left bottom'
-];
-
 export default class PopupMenu extends React.Component<Props, State> {
   static defaultProps = {
-    positions: AVAILABLE_POSITIONS
+    positions: availablePositions
   };
 
   isDropdownMenu: boolean;
   isTooltipMenu: boolean;
   positions: Array<string>;
+  _captionWrapper: ?HTMLSpanElement;
+  _savedFocusableElement: ?HTMLElement = null;
 
   constructor(props: Props) {
     super(props);
@@ -56,44 +44,25 @@ export default class PopupMenu extends React.Component<Props, State> {
       throw new Error('Prop "type" is required!');
     }
 
-    if (!this.props.caption) {
-      throw new Error('Prop "caption" is required!');
-    }
-
     this.isDropdownMenu = props.type === 'dropdown';
     this.isTooltipMenu = props.type === 'tooltip';
 
-    this.positions = this.isDropdownMenu
-      ? ['bottom left', 'bottom right', 'top left', 'top right']
-      : props.positions;
-  }
+    if (this.isDropdownMenu) {
+      this.positions = ['bottom left', 'bottom right', 'top left', 'top right'];
+    }
 
-  state = {
-    menuVisible: false
-  };
-
-  _captionWrapper: ?HTMLSpanElement;
-  _savedFocusableElement: ?HTMLElement = null;
-
-  componentDidMount() {
-    this._validatePositionsProps();
-  }
-
-  componentDidUpdate() {
-    this._validatePositionsProps();
-  }
-
-  _validatePositionsProps = (): void => {
-    const isValidPosition = (position: string): boolean => {
-      return AVAILABLE_POSITIONS.includes(position);
-    };
-
-    this.positions.forEach(item => {
-      if (!isValidPosition(item)) {
-        throw new Error(`Unxpected position '${item}'`);
+    if (this.isTooltipMenu) {
+      if (isValidPostions(this.props.positions)) {
+        this.positions = this.props.positions;
+      } else {
+        this.positions = availablePositions;
       }
-    });
-  };
+    }
+
+    this.state = {
+      menuVisible: false
+    };
+  }
 
   _showMenu = (): void => {
     this._saveFocus();

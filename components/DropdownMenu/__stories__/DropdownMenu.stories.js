@@ -12,7 +12,7 @@ storiesOf('DropdownMenu', module)
   .addDecorator(story => (
     <div
       style={{
-        padding: '20px 20px 150px',
+        padding: '20px 120px 150px',
         border: '1px solid #dfdede',
         overflow: 'hidden'
       }}

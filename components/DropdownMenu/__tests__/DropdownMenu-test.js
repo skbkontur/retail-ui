@@ -16,6 +16,7 @@ describe('<DropdownMenu />', () => {
   });
 
   test('Throw, if caption is not passed', () => {
+    // console.log(shallow(<DropdownMenu />).debug());
     expect(() => shallow(<DropdownMenu />)).toThrow();
   });
 
