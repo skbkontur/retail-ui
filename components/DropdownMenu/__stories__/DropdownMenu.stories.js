@@ -54,7 +54,14 @@ storiesOf('DropdownMenu', module)
     </DropdownMenu>
   ))
   .add('Caption accepts an arbitrary element', () => (
-    <DropdownMenu caption={<Icon name="Menu" size={32} />} menuWidth="300px">
+    <DropdownMenu
+      menuWidth="300px"
+      caption={
+        <span tabIndex="0" style={{ display: 'inline-block' }}>
+          <Icon name="Menu" size={32} />
+        </span>
+      }
+    >
       <MenuItem>Раз</MenuItem>
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>

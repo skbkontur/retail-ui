@@ -4,9 +4,9 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import isActiveElement from './isActiveElement';
-import ScrollContainer from '../ScrollContainer/ScrollContainer';
+import ScrollContainer from '../../ScrollContainer/ScrollContainer';
 
-import type MenuItem from '../MenuItem/MenuItem';
+import type MenuItem from '../../MenuItem/MenuItem';
 
 import styles from './InternalMenu.less';
 
