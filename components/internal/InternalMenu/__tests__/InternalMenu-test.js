@@ -16,9 +16,6 @@ describe('Menu', () => {
         <MenuItem ref={refItem} />
       </InternalMenu>
     );
-    // wrapper.setProps({
-    //   onKeyDown: jest.fn()
-    // });
 
     // Highlight first item.
     wrapper.simulate('keyDown', { key: 'ArrowDown' });
