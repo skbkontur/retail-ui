@@ -3,14 +3,14 @@
 var pathTo = require('./utils').pathTo;
 
 const DROPDOWN_MENU_SELECTOR = '[class^="DropdownMenu-container"]';
-const DROPDOWN_MENU_CAPTION_SELECTOR = '[class^="DropdownMenu-caption"]';
+const CAPTION_SELECTOR = '[class^="PopupMenu-caption"]';
 
 var applyTest = testSuite =>
   testSuite
     .setCaptureElements('#test-element')
     .before((actions, find) => {
       this.dropdownMenu = find(DROPDOWN_MENU_SELECTOR);
-      this.captionElement = find(DROPDOWN_MENU_CAPTION_SELECTOR);
+      this.captionElement = find(CAPTION_SELECTOR);
     })
     .capture('plain')
     .capture('clickAfterClickedOnCaption', (actions, find) => {
@@ -20,13 +20,13 @@ var applyTest = testSuite =>
       actions.click(this.captionElement);
     })
     .capture('clickedOutside', (actions, find) => {
-      actions.click(find('#root'));
+      actions.click(find('body'));
     })
     .capture('tabPress', (actions, find) => {
       actions.sendKeys(gemini.TAB);
     })
     .capture('enterPress', (actions, find) => {
-      actions.sendKeys(gemini.SPACE);
+      actions.sendKeys(gemini.ENTER);
     })
     .capture('escapePress', (actions, find) => {
       actions.sendKeys(gemini.ESCAPE);
