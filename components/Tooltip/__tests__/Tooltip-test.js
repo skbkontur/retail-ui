@@ -1,13 +1,6 @@
 import { mount } from 'enzyme';
 import React from 'react';
-import RenderContainer from '../../RenderContainer';
-import Tooltip from '../Tooltip.js';
-
-jest.mock('../../RenderContainer/RenderContainer.js', () => {
-  return function RenderContainerMock(props) {
-    return <div>{props.children}</div>;
-  };
-});
+import Tooltip from '../Tooltip';
 
 describe('Tooltip', () => {
   const render = () => '';
@@ -71,8 +64,8 @@ describe('Tooltip', () => {
       </div>
     );
 
-    expect(wrapper.find('#foo').find(RenderContainer).length).toBe(1);
-    expect(wrapper.find('#bar').find(RenderContainer).length).toBe(0);
+    expect(wrapper.find('#foo').find('.cross').length).toBe(1);
+    expect(wrapper.find('#bar').find('.cross').length).toBe(0);
   });
 
   it('calls `onCloseClick` when click on the cross', () => {

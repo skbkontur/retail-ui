@@ -6,15 +6,11 @@ import { storiesOf } from '@storybook/react';
 import FxInput from '../FxInput';
 
 storiesOf('FxInput', module)
-  .add('type text', () => (
-    <TestFxInput />
-  ))
+  .add('type text', () => <TestFxInput />)
   .add('type currency', () => (
-    <TestFxInput type={'currency'} fractionDigits={4} autoFocus/>
+    <TestFxInput type={'currency'} fractionDigits={4} autoFocus />
   ))
-  .add('with borderless', () => (
-    <TestFxInput borderless/>
-  ));
+  .add('with borderless', () => <TestFxInput borderless />);
 
 type Props = {
   type?: string,
@@ -34,17 +30,17 @@ class TestFxInput extends React.Component<Props, State> {
   };
 
   render() {
-      return (
-        <FxInput
-          auto={this.state.auto}
-          autoFocus={this.props.autoFocus}
-          borderless={this.props.borderless}
-          type={this.props.type}
-          value={this.state.value}
-          onRestore={this.handleRestore}
-          onChange={this.handleChange}
-        />
-      );
+    return (
+      <FxInput
+        auto={this.state.auto}
+        autoFocus={this.props.autoFocus}
+        borderless={this.props.borderless}
+        type={this.props.type}
+        value={this.state.value}
+        onRestore={this.handleRestore}
+        onChange={this.handleChange}
+      />
+    );
   }
 
   handleChange = (_, value) => {

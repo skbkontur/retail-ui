@@ -1,3 +1,4 @@
+// @flow
 import * as React from 'react';
 
 export type TooltipPos =
@@ -14,19 +15,19 @@ export type TooltipPos =
   | 'right middle'
   | 'right bottom';
 
-export interface TooltipProps {
-  children?: React.ReactNode;
+export type TooltipProps = {
+  children?: React.Node;
   className?: string;
   closeButton?: boolean;
-  render: () => React.ReactNode | null;
+  render: () => React.Node | null;
   pos?: TooltipPos;
   trigger?: 'hover' | 'click' | 'focus' | 'opened' | 'closed';
-  onCloseClick?: () => void;
-}
+  onCloseClick?: () => void
+};
 
-export interface TooltipState {}
+export type TooltipState = {};
 
 export default class Tooltip extends React.Component<
   TooltipProps,
   TooltipState
-> {}
+  > { }

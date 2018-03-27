@@ -48,7 +48,7 @@ class FxInput extends React.Component {
     return (
       <Group width={width}>
         {button}
-        <InputComponent {...inputProps} {...this.props}/>
+        <InputComponent {...inputProps} {...this.props} />
       </Group>
     );
   }

@@ -6,9 +6,9 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 
 import RenderContainer from '../RenderContainer/RenderContainer';
-import position from '../Tooltip/position';
-import type { Result } from '../Tooltip/position';
-import renderPin from '../Tooltip/renderPin';
+import position from './position';
+import type { Result } from './position';
+import renderPin from './renderPin';
 import ZIndex from '../ZIndex';
 
 import styles from './HintBox.less';
