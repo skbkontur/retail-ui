@@ -177,7 +177,7 @@ export default class PopupMenu extends React.Component<Props, State> {
                   ref={element => {
                     this._menuElement = element;
                   }}
-                  loopSelect={false}
+                  cyclicSelection={false}
                 >
                   {this.props.children}
                 </InternalMenu>
