@@ -288,6 +288,51 @@ class SidePageWithModalInside extends Component<
   );
 }
 
+class SidePageWithStickyReaction extends Component<{}> {
+  render() {
+    const title = 'This is title';
+    const subtitle = 'This is subtitle';
+
+    return (
+      <SidePage>
+        <SidePage.Header>
+          {fixed =>
+            fixed ? (
+              title
+            ) : (
+              <div>
+                {title}
+                <br />
+                {subtitle}
+              </div>
+            )
+          }
+        </SidePage.Header>
+        <SidePage.Body>
+          {textSample}
+          {textSample}
+          {textSample}
+          {textSample}
+          {textSample}
+        </SidePage.Body>
+        <SidePage.Footer>
+          {fixed =>
+            fixed ? (
+              title
+            ) : (
+              <div>
+                {title}
+                <br />
+                {subtitle}
+              </div>
+            )
+          }
+        </SidePage.Footer>
+      </SidePage>
+    );
+  }
+}
+
 storiesOf('SidePage', module)
   .add('With scrollable parent content', () => (
     <SidePageWithScrollableContent />
@@ -296,6 +341,7 @@ storiesOf('SidePage', module)
   .add('SidePage over another SidePage', () => <SidePageOverAnotherSidePage />)
   .add('SidePage with configuration', () => <SidePageWithCloseConfiguration />)
   .add('SidePage with Modal', () => <SidePageWithModalInside />)
+  .add('SidePage with sticky reaction', () => <SidePageWithStickyReaction />)
   .add('Disabled SidePage', () => (
     <SidePage disableClose>
       <SidePage.Header>Disabled</SidePage.Header>

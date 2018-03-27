@@ -184,7 +184,7 @@ class SidePage extends React.Component<Props, State> {
 }
 
 type HeaderProps = {
-  children?: React.Node
+  children?: React.Node | ((fixed: boolean) => React.Node)
 };
 
 type HeaderContext = {
@@ -209,7 +209,9 @@ class Header extends React.Component<HeaderProps> {
                 <div
                   className={classNames(styles.title, fixed && styles.fixed)}
                 >
-                  {this.props.children}
+                  {typeof this.props.children === 'function'
+                    ? this.props.children(fixed)
+                    : this.props.children}
                 </div>
               </div>
             )}
@@ -247,7 +249,7 @@ class Body extends React.Component<BodyProps> {
 }
 
 type FooterProps = {
-  children?: React.Node,
+  children?: React.Node | ((fixed: boolean) => React.Node),
   panel?: boolean
 };
 
@@ -272,7 +274,13 @@ class Footer extends React.Component<FooterProps> {
                 [styles.fixed]: fixed
               });
 
-              return <div className={names}>{this.props.children}</div>;
+              return (
+                <div className={names}>
+                  {typeof this.props.children === 'function'
+                    ? this.props.children(fixed)
+                    : this.props.children}
+                </div>
+              );
             }}
           </Sticky>
         </td>
