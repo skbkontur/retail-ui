@@ -121,7 +121,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
               hasShadow
               margin={15}
               opened={this.state.opened}
-              pinOffset={10}
+              pinOffset={17}
               pinSize={8}
               popupOffset={0}
               positions={this._getPositions()}
@@ -215,12 +215,10 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
             onMouseEnter: this._handleMouseEnter,
             onMouseLeave: this._handleMouseLeave
           },
-          popupProps: supportsPortal
-            ? {}
-            : {
-                onMouseEnter: this._handleMouseEnter,
-                onMouseLeave: this._handleMouseLeave
-              }
+          popupProps: {
+            onMouseEnter: this._handlePopupMouseEnter,
+            onMouseLeave: this._handlePopupMouseLeave
+          }
         };
 
       case TooltipTrigger.Click:
@@ -258,21 +256,43 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.setState({ opened: false });
   }
 
-  private _handleMouseEnter = () => {
+  private _openWithDelay() {
     if (this._hoverTimeout) {
       clearTimeout(this._hoverTimeout);
     }
     this._open();
-  };
+  }
 
-  private _handleMouseLeave = () => {
+  private _closeWithDelay() {
     if (this._hoverTimeout) {
       clearTimeout(this._hoverTimeout);
       this._hoverTimeout = null;
     }
     this._hoverTimeout = window.setTimeout(() => {
       this._close();
-    }, 300);
+    }, 100);
+  }
+
+  private _handleMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+    if (!this._wrapperElement) {
+      return;
+    }
+    if (!this._wrapperElement.contains(event.target as Node)) {
+      return;
+    }
+    this._openWithDelay();
+  };
+
+  private _handleMouseLeave = () => {
+    this._closeWithDelay();
+  };
+
+  private _handlePopupMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+    this._openWithDelay();
+  };
+
+  private _handlePopupMouseLeave = (event: React.MouseEvent<HTMLElement>) => {
+    this._closeWithDelay();
   };
 
   private _handleClick = () => {

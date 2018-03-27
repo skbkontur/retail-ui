@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { PopupPosition } from './PopupPosition';
 
+export { PopupPosition };
+
 export interface PopupProps {
   anchorElement: HTMLElement;
   backgroundColor: string;

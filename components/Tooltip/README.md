@@ -1,3 +1,52 @@
+Отступы в тултипе подобраны так, чтобы базовая линия текста со шрифтом Segoe UI в тултипе совпадала с базовой линией стандартных контролов
+
+```jsx
+const initialState = {
+  size: 'small'
+};
+
+const render = () => (
+  <div
+    style={{
+      width: 250,
+      fontSize: state.size === 'large' ? 16 : 14,
+      fontFamily: 'Segoe UI'
+    }}
+  >
+    Задача организации, в особенности же рамки и место обучения кадров влечет за
+    собой процесс внедрения и модернизации форм развития.
+  </div>
+);
+
+<div style={{ fontFamily: 'Segoe UI' }}>
+  <Gapped vertical>
+    <Gapped>
+      <div style={{ width: 40 }}>Size</div>
+      <Select
+        width={120}
+        value={state.size}
+        items={['small', 'medium', 'large']}
+        onChange={(e, v) => setState({ size: v })}
+        size={state.size}
+      />
+    </Gapped>
+    <Tooltip render={render} pos="right top">
+      <Input size={state.size} leftIcon={<Icon name="Search" />} width={170} />
+    </Tooltip>
+    <Tooltip render={render} pos="right top">
+      <Button size={state.size} icon="Menu">
+        Menu
+      </Button>
+    </Tooltip>
+    <Tooltip render={render} pos="right top">
+      <Icon name="HelpDot" />
+    </Tooltip>
+  </Gapped>
+</div>;
+```
+
+Тултип может располагаться в одной из 12 позиции и триггериться одним из 5 способов
+
 ```jsx
 const S = 60;
 
@@ -59,13 +108,16 @@ let initialState = {
   }}
 >
   <Center>
-    <Select
-      width={S * 2}
-      size="large"
-      value={state.trigger}
-      items={['click', 'hover', 'focus', 'opened', 'closed']}
-      onChange={(_, v) => setState({ trigger: v })}
-    />
+    <Gapped>
+      Trigger
+      <Select
+        width={S * 2}
+        size="small"
+        value={state.trigger}
+        items={['click', 'hover', 'focus', 'opened', 'closed']}
+        onChange={(_, v) => setState({ trigger: v })}
+      />
+    </Gapped>
   </Center>
 
   {state.blocks.map((block, i) => (
