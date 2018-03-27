@@ -64,7 +64,6 @@ export default class Popup extends React.Component<Props, State> {
 
   _layoutEventsToken;
   _lastPopupElement: ?HTMLElement;
-  _mouseEntered = false;
 
   componentDidMount() {
     this._updateLocation();
@@ -124,7 +123,6 @@ export default class Popup extends React.Component<Props, State> {
 
   _renderContent(location: Location) {
     if (!this.props.opened) {
-      this._mouseEntered = false;
       return null;
     }
 
@@ -148,8 +146,8 @@ export default class Popup extends React.Component<Props, State> {
           left: location.coordinates.left,
           backgroundColor: this.props.backgroundColor
         }}
-        onMouseEnter={this._handleMouseEnter}
-        onMouseLeave={this._handleMouseLeave}
+        onMouseEnter={this.props.onMouseEnter}
+        onMouseLeave={this.props.onMouseLeave}
       >
         {children}
         {this._renderPin(location.position)}
@@ -189,26 +187,6 @@ export default class Popup extends React.Component<Props, State> {
       )
     );
   }
-
-  _handleMouseEnter = event => {
-    if (this._mouseEntered) {
-      return;
-    }
-    this._mouseEntered = true;
-    if (this.props.onMouseEnter) {
-      this.props.onMouseEnter(event);
-    }
-  };
-
-  _handleMouseLeave = event => {
-    if (!this._mouseEntered) {
-      return;
-    }
-    this._mouseEntered = false;
-    if (this.props.onMouseLeave) {
-      this.props.onMouseLeave(event);
-    }
-  };
 
   _handleClickOutside = () => {
     this._requestClose();

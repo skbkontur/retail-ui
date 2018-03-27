@@ -215,10 +215,12 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
             onMouseEnter: this._handleMouseEnter,
             onMouseLeave: this._handleMouseLeave
           },
-          popupProps: {
-            onMouseEnter: this._handlePopupMouseEnter,
-            onMouseLeave: this._handlePopupMouseLeave
-          }
+          popupProps: supportsPortal
+            ? {}
+            : {
+                onMouseEnter: this._handleMouseEnter,
+                onMouseLeave: this._handleMouseLeave
+              }
         };
 
       case TooltipTrigger.Click:
@@ -256,14 +258,14 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.setState({ opened: false });
   }
 
-  private _openWithDelay() {
+  private _handleMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
     if (this._hoverTimeout) {
       clearTimeout(this._hoverTimeout);
     }
     this._open();
-  }
+  };
 
-  private _closeWithDelay() {
+  private _handleMouseLeave = () => {
     if (this._hoverTimeout) {
       clearTimeout(this._hoverTimeout);
       this._hoverTimeout = null;
@@ -271,28 +273,6 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this._hoverTimeout = window.setTimeout(() => {
       this._close();
     }, 100);
-  }
-
-  private _handleMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
-    if (!this._wrapperElement) {
-      return;
-    }
-    if (!this._wrapperElement.contains(event.target as Node)) {
-      return;
-    }
-    this._openWithDelay();
-  };
-
-  private _handleMouseLeave = () => {
-    this._closeWithDelay();
-  };
-
-  private _handlePopupMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
-    this._openWithDelay();
-  };
-
-  private _handlePopupMouseLeave = (event: React.MouseEvent<HTMLElement>) => {
-    this._closeWithDelay();
   };
 
   private _handleClick = () => {
