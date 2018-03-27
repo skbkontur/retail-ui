@@ -1,6 +1,6 @@
 // @flow
 /* eslint-disable react/no-multi-comp */
-import React, { Component } from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import SidePage from '../SidePage';
@@ -30,6 +30,7 @@ const textSample = (
 );
 
 type SampleProps = {
+  children?: React.Node,
   total?: number,
   current: number,
   ignoreBackgroundClick?: boolean,
@@ -78,6 +79,7 @@ class Sample extends React.Component<SampleProps, SampleState> {
             />{' '}
             Panel {this.state.panel ? 'enabled' : 'disabled'}
           </div>
+          {this.props.children}
           {this.props.withContent && (
             <div>
               {textSample}
@@ -102,7 +104,45 @@ class Sample extends React.Component<SampleProps, SampleState> {
   );
 }
 
-class SidePageWithScrollableContent extends Component<{}, {}> {
+type SampleConfiguratorProps = {
+  ignoreBackgroundClick: boolean,
+  blockBackground: boolean,
+  withContent: boolean,
+  onChange: (name: string) => void
+};
+
+class SampleConfigurator extends React.Component<SampleConfiguratorProps> {
+  render() {
+    return (
+      <div>
+        <div>
+          <Toggle
+            checked={this.props.ignoreBackgroundClick}
+            onChange={() => this.props.onChange('ignoreBackgroundClick')}
+          />{' '}
+          ignoreBackgroundClick{' '}
+          {this.props.ignoreBackgroundClick ? 'enabled' : 'disabled'}
+        </div>
+        <div>
+          <Toggle
+            checked={this.props.blockBackground}
+            onChange={() => this.props.onChange('blockBackground')}
+          />{' '}
+          blockBackground {this.props.blockBackground ? 'enabled' : 'disabled'}
+        </div>
+        <div>
+          <Toggle
+            checked={this.props.withContent}
+            onChange={() => this.props.onChange('withContent')}
+          />{' '}
+          withContent {this.props.withContent ? 'enabled' : 'disabled'}
+        </div>
+      </div>
+    );
+  }
+}
+
+class SidePageWithScrollableContent extends React.Component<{}, {}> {
   render() {
     return (
       <div style={{ width: '300px' }}>
@@ -114,7 +154,10 @@ class SidePageWithScrollableContent extends Component<{}, {}> {
   }
 }
 
-class SidePageWithInputInHeader extends Component<{}, { opened: boolean }> {
+class SidePageWithInputInHeader extends React.Component<
+  {},
+  { opened: boolean }
+> {
   state = {
     opened: false
   };
@@ -158,7 +201,7 @@ class SidePageWithInputInHeader extends Component<{}, { opened: boolean }> {
   };
 }
 
-class SidePageOverAnotherSidePage extends Component<{}, *> {
+class SidePageOverAnotherSidePage extends React.Component<{}, *> {
   render() {
     return (
       <Sample
@@ -172,7 +215,7 @@ class SidePageOverAnotherSidePage extends Component<{}, *> {
   }
 }
 
-class SidePageWithCloseConfiguration extends Component<
+class SidePageWithCloseConfiguration extends React.Component<
   {},
   {
     ignoreBackgroundClick: boolean,
@@ -196,69 +239,54 @@ class SidePageWithCloseConfiguration extends Component<
           blockBackground={this.state.blockBackground}
           withContent={this.state.withContent}
         />
-        <div>
-          <Toggle
-            checked={this.state.ignoreBackgroundClick}
-            onChange={() =>
-              this.setState(({ ignoreBackgroundClick }) => ({
-                ignoreBackgroundClick: !ignoreBackgroundClick
-              }))
-            }
-          />{' '}
-          ignoreBackgroundClick{' '}
-          {this.state.ignoreBackgroundClick ? 'enabled' : 'disabled'}
-        </div>
-        <div>
-          <Toggle
-            checked={this.state.blockBackground}
-            onChange={() =>
-              this.setState(({ blockBackground }) => ({
-                blockBackground: !blockBackground
-              }))
-            }
-          />{' '}
-          blockBackground {this.state.blockBackground ? 'enabled' : 'disabled'}
-        </div>
-        <div>
-          <Toggle
-            checked={this.state.withContent}
-            onChange={() =>
-              this.setState(({ withContent }) => ({
-                withContent: !withContent
-              }))
-            }
-          />{' '}
-          withContent {this.state.withContent ? 'enabled' : 'disabled'}
-        </div>
+        <SampleConfigurator
+          onChange={name => this.setState(state => ({ [name]: !state[name] }))}
+          ignoreBackgroundClick={this.state.ignoreBackgroundClick}
+          blockBackground={this.state.blockBackground}
+          withContent={this.state.withContent}
+        />
       </div>
     );
   }
 }
 
-class SidePageWithModalInside extends Component<
+class SidePageWithModalInside extends React.Component<
   {},
   {
     isModalOpened: boolean,
-    isSidePageOpened: boolean
+    ignoreBackgroundClick: boolean,
+    blockBackground: boolean,
+    withContent: boolean
   }
 > {
-  constructor(props: {}) {
-    super(props);
-
-    this.state = {
-      isModalOpened: false,
-      isSidePageOpened: false
-    };
-  }
+  state = {
+    isModalOpened: false,
+    ignoreBackgroundClick: true,
+    blockBackground: false,
+    withContent: false
+  };
 
   render() {
     return (
       <div>
         {this.state.isModalOpened && this.renderModal()}
-        {this.state.isSidePageOpened && this.renderSidePage()}
-        <Button onClick={() => this.setState({ isSidePageOpened: true })}>
-          Открыть sidepage
-        </Button>
+        <Sample
+          current={1}
+          ignoreBackgroundClick={this.state.ignoreBackgroundClick}
+          blockBackground={this.state.blockBackground}
+        >
+          <Button onClick={() => this.setState({ isModalOpened: true })}>
+            Открыть modal
+          </Button>
+          <SampleConfigurator
+            onChange={name =>
+              this.setState(state => ({ [name]: !state[name] }))
+            }
+            ignoreBackgroundClick={this.state.ignoreBackgroundClick}
+            blockBackground={this.state.blockBackground}
+            withContent={true}
+          />
+        </Sample>
         {textSample}
         {textSample}
       </div>
@@ -272,19 +300,6 @@ class SidePageWithModalInside extends Component<
     >
       <Modal.Header>Хедер</Modal.Header>
     </Modal>
-  );
-
-  renderSidePage = () => (
-    <SidePage
-      onClose={() => this.setState({ isSidePageOpened: false })}
-      ignoreBackgroundClick
-    >
-      <SidePage.Body>
-        <Button onClick={() => this.setState({ isModalOpened: true })}>
-          Открыть modal
-        </Button>
-      </SidePage.Body>
-    </SidePage>
   );
 }
 

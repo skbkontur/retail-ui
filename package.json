@@ -77,6 +77,7 @@
     "@types/prop-types": "^15.5.2",
     "@types/react": "^16.0.40",
     "@types/react-dom": "^16.0.4",
+    "@types/fbemitter": "^2.0.32",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.1",
