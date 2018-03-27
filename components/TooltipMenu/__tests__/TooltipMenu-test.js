@@ -72,4 +72,29 @@ describe('<TooltipMenu />', () => {
 
     expect(shallow(element)).toHaveLength(1);
   });
+
+  test('Click handler on menu item should be called before closing', () => {
+    let testText = 'Foo bar';
+    const wrapper = mount(
+      <TooltipMenu caption={<button id="captionForTest">Test</button>}>
+        <MenuItem
+          onClick={() => {
+            testText = 'Bar foo';
+          }}
+        >
+          Test
+        </MenuItem>
+      </TooltipMenu>
+    );
+    const captionWrapper = wrapper.find('#captionForTest');
+
+    expect(wrapper.find('MenuItem')).toHaveLength(0);
+    captionWrapper.simulate('click');
+
+    const menuItemWrapper = wrapper.find('MenuItem');
+    expect(menuItemWrapper).toHaveLength(1);
+
+    menuItemWrapper.simulate('click');
+    expect(testText).toBe('Bar foo');
+  });
 });
