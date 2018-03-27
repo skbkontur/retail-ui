@@ -59,7 +59,17 @@
 ```js
 const Icon = require("../Icon").default;
 
-<DropdownMenu caption={<Icon name="Menu" size={32} />} menuWidth="300px">
+<DropdownMenu
+  caption={(
+    <span
+      style={{ display: 'inline-block' }}
+      tabIndex="0"
+    >
+      <Icon name="Menu" size={32} />
+    </span>
+  )}
+  menuWidth="300px"
+>
   <MenuItem>Раз</MenuItem>
   <MenuItem>Два</MenuItem>
   <MenuItem>Три</MenuItem>

@@ -59,7 +59,17 @@
 ```js
 const Icon = require("../Icon").default;
 
-<TooltipMenu caption={<Icon name="Menu" size={32} />} menuWidth="300px">
+<TooltipMenu
+  caption={(
+    <span
+      style={{ display: 'inline-block' }}
+      tabIndex="0"
+    >
+      <Icon name="Menu" size={32} />
+    </span>
+  )}
+  menuWidth="300px"
+>
   <MenuItem>Раз</MenuItem>
   <MenuItem>Два</MenuItem>
   <MenuItem>Три</MenuItem>
@@ -72,7 +82,14 @@ const Icon = require("../Icon").default;
 const Icon = require("../Icon").default;
 
 <TooltipMenu
-  caption={<Icon name="Lightbulb" size={32} />}
+  caption={(
+    <span
+      style={{ display: 'inline-block' }}
+      tabIndex="0"
+    >
+      <Icon name="Lightbulb" size={32} />
+    </span>
+  )}
   menuWidth="300px"
   positions={[
     'right top',
@@ -92,7 +109,14 @@ const Icon = require("../Icon").default;
 const Icon = require("../Icon").default;
 
 <TooltipMenu
-  caption={<Icon name="Lightbulb" size={32} />}
+  caption={(
+    <span
+      style={{ display: 'inline-block' }}
+      tabIndex="0"
+    >
+      <Icon name="Lightbulb" size={32} />
+    </span>
+  )}
   menuWidth="300px"
   positions={[
     'top right',
