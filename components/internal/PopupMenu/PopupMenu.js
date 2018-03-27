@@ -167,6 +167,7 @@ export default class PopupMenu extends React.Component<Props, State> {
                 margin={this.isTooltipMenu ? 10 : 0}
                 hasShadow
                 hasPin={this.isTooltipMenu}
+                pinOffset={this.isTooltipMenu ? 16 : 0}
               >
                 <InternalMenu
                   hasShadow={false}
