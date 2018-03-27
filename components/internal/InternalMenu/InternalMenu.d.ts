@@ -6,10 +6,13 @@ export interface MenuProps {
   maxHeight?: number | string;
   width?: number | string;
   preventWindowScroll?: boolean;
+  cyclicSelection?: boolean;
 }
 
 export interface MenuState {
   highlightedIndex: number;
 }
 
-export default class Menu extends React.Component<MenuProps, MenuState> {}
+export default class Menu extends React.Component<MenuProps, MenuState> {
+  move(step: number): void;
+}

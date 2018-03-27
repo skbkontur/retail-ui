@@ -19,7 +19,9 @@ type Props = {
   onItemClick?: () => void,
   width?: number | string,
   preventWindowScroll?: boolean,
-  onKeyDown: (SyntheticKeyboardEvent<HTMLElement>) => void
+  onKeyDown: (SyntheticKeyboardEvent<HTMLElement>) => void,
+  /** Циклический перебор айтемов меню (по-дефолтну включен)*/
+  cyclicSelection?: boolean
 };
 
 type State = {
@@ -31,7 +33,8 @@ export default class InternalMenu extends React.Component<Props, State> {
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
-    preventWindowScroll: true
+    preventWindowScroll: true,
+    cyclicSelection: true
   };
 
   state = {
@@ -165,6 +168,13 @@ export default class InternalMenu extends React.Component<Props, State> {
     let index = this.state.highlightedIndex;
     do {
       index += step;
+      if (
+        !this.props.cyclicSelection &&
+        (index < 0 || index > children.length)
+      ) {
+        return;
+      }
+
       if (index < 0) {
         index = children.length - 1;
       } else if (index > children.length) {

@@ -88,7 +88,7 @@ export default class PopupMenu extends React.Component<Props, State> {
   };
 
   _toggleMenu = (): void => {
-    this.state.menuVisible ? () => this._hideMenu() : this._showMenu();
+    this.state.menuVisible ? this._hideMenu() : this._showMenu();
   };
 
   _handleCaptionClick = (): void => {
@@ -177,6 +177,7 @@ export default class PopupMenu extends React.Component<Props, State> {
                   ref={element => {
                     this._menuElement = element;
                   }}
+                  loopSelect={false}
                 >
                   {this.props.children}
                 </InternalMenu>
