@@ -21,10 +21,8 @@ const KEY_CODE_ESCAPE = 27;
 
 let mountedModalsCount = 0;
 
-type ModalChild = React.Node;
-
 type Props = {
-  children?: ModalChild,
+  children?: React.Node,
   disableClose?: boolean,
   ignoreBackgroundClick?: boolean,
   noClose?: boolean,
@@ -170,7 +168,7 @@ class Modal extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this._stackSubscription = ModalStack.add(this, this._handleStackChange);
+    this._stackSubscription = ModalStack.add(1, this._handleStackChange);
     if (mountedModalsCount === 0) {
       events.addEventListener(
         window,
@@ -198,8 +196,8 @@ class Modal extends React.Component<Props, State> {
     ModalStack.remove(this);
   }
 
-  _handleStackChange = (stack: React.Node[]) => {
-    this.setState({ stackPosition: stack.findIndex(x => x === this) });
+  _handleStackChange = (stack: React.ComponentType<*>[]) => {
+    this.setState({ stackPosition: stack.indexOf(this) });
   };
 
   _handleContainerClick = event => {

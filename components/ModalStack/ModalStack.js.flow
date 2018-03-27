@@ -3,9 +3,9 @@ import * as React from 'react';
 import { EventSubscription } from 'fbemitter';
 
 export default class ModalStack {
-  static add(component: React.Node, onChange: (stack: React.Node[]) => void): EventSubscription {
+  static add(component: React.ComponentType<*>, onChange: (stack: React.ComponentType<*>[]) => void): EventSubscription {
   }
 
-  static remove(component: React.Node) {
+  static remove(component: React.ComponentType<*>) {
   }
 }

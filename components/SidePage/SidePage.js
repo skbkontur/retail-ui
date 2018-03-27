@@ -146,19 +146,20 @@ class SidePage extends React.Component<Props, State> {
     );
   }
 
-  _handleStackChange = (stack: React.Node[]) => {
+  _handleStackChange = (stack: React.ComponentType<*>[]) => {
     const sidePages = stack.filter(x => x instanceof SidePage);
-    const currentIndex = sidePages.findIndex(x => x === this);
+    const currentSidePagePosition = sidePages.indexOf(this);
+    const isSidePageOnStackTop = stack[0] instanceof SidePage;
 
     const hasMarginRight =
-      sidePages.length > 1 && currentIndex === sidePages.length - 1;
+      sidePages.length > 1 && currentSidePagePosition === sidePages.length - 1;
     const hasShadow =
-      sidePages.length < 3 || currentIndex > sidePages.length - 3;
+      sidePages.length < 3 || currentSidePagePosition > sidePages.length - 3;
     const hasBackground =
-      currentIndex === sidePages.length - 1 && stack[0] instanceof SidePage;
+      currentSidePagePosition === sidePages.length - 1 && isSidePageOnStackTop;
 
     this.setState({
-      stackPosition: stack.findIndex(x => x === this),
+      stackPosition: stack.indexOf(this),
       hasMarginRight,
       hasShadow,
       hasBackground

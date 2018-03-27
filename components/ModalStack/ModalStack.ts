@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { EventEmitter, EventSubscription } from 'fbemitter';
-import Global = NodeJS.Global;
 
 interface StackInfo {
   emitter: EventEmitter;
-  mounted: React.ReactNode[];
+  mounted: React.Component[];
 }
 
 interface GlobalWithStackInfo {
@@ -13,8 +12,8 @@ interface GlobalWithStackInfo {
 
 export default class ModalStack {
   public static add(
-    component: React.ReactNode,
-    onChange: (stack: React.ReactNode[]) => void
+    component: React.Component,
+    onChange: (stack: ReadonlyArray<React.Component>) => void
   ): EventSubscription {
     const { emitter, mounted } = ModalStack.getStackInfo();
     mounted.unshift(component);
@@ -25,9 +24,9 @@ export default class ModalStack {
     return subscription;
   }
 
-  public static remove(component: React.ReactNode) {
+  public static remove(component: React.Component) {
     const { emitter, mounted } = ModalStack.getStackInfo();
-    const index = mounted.findIndex(x => x === component);
+    const index = mounted.indexOf(component);
     if (index !== -1) {
       mounted.splice(index, 1);
     }
@@ -35,7 +34,7 @@ export default class ModalStack {
   }
 
   private static getStackInfo(): StackInfo {
-    const globalWithStack = global as GlobalWithStackInfo & Global;
+    const globalWithStack = global as GlobalWithStackInfo;
     return (
       globalWithStack.__ReactUIStackInfo ||
       (globalWithStack.__ReactUIStackInfo = {
