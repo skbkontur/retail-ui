@@ -6,6 +6,7 @@ import RenderLayer from '../../RenderLayer';
 import type MenuItem from '../../MenuItem/MenuItem';
 import availablePositions from './availablePositions';
 import isValidPostions from './validatePositions';
+import LayoutEvents from '../../../lib/LayoutEvents';
 import styles from './PopupMenu.less';
 
 type Props = {
@@ -69,13 +70,16 @@ export default class PopupMenu extends React.Component<Props, State> {
     this.setState({ menuVisible: true });
   };
 
-  _hideMenu = (): void => {
+  _hideMenu = (restoreFocus: ?boolean = false): void => {
     this.setState({ menuVisible: false });
-    this._restoreFocus();
+
+    if (restoreFocus) {
+      this._restoreFocus();
+    }
   };
 
   _toggleMenu = (): void => {
-    this.state.menuVisible ? this._hideMenu() : this._showMenu();
+    this.state.menuVisible ? () => this._hideMenu() : this._showMenu();
   };
 
   _handleCaptionClick = (): void => {
@@ -102,7 +106,8 @@ export default class PopupMenu extends React.Component<Props, State> {
   _handleKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
     switch (event.key) {
       case 'Escape':
-        this._hideMenu();
+        console.log('escape');
+        this._hideMenu(true);
         break;
 
       default:
@@ -130,8 +135,8 @@ export default class PopupMenu extends React.Component<Props, State> {
 
     return (
       <RenderLayer
-        onClickOutside={this._hideMenu}
-        onFocusOutside={this._hideMenu}
+        onClickOutside={() => this._hideMenu()}
+        onFocusOutside={() => this._hideMenu()}
       >
         <div className={styles.container}>
           <span
@@ -159,7 +164,7 @@ export default class PopupMenu extends React.Component<Props, State> {
                   maxHeight={this.props.menuMaxHeight || 'none'}
                   onKeyDown={this._handleKeyDown}
                   width={this.props.menuWidth || 'auto'}
-                  onItemClick={this._hideMenu}
+                  onItemClick={() => this._hideMenu(true)}
                 >
                   {this.props.children}
                 </InternalMenu>
