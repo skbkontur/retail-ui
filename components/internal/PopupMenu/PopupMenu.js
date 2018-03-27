@@ -37,6 +37,7 @@ export default class PopupMenu extends React.Component<Props, State> {
   positions: Array<string>;
   _captionWrapper: ?HTMLSpanElement;
   _savedFocusableElement: ?HTMLElement = null;
+  _menuElement: ?React.ElementRef<typeof InternalMenu>;
 
   constructor(props: Props) {
     super(props);
@@ -65,9 +66,17 @@ export default class PopupMenu extends React.Component<Props, State> {
     };
   }
 
-  _showMenu = (): void => {
+  _showMenu = (withForceSelect: ?boolean = false): void => {
     this._saveFocus();
-    this.setState({ menuVisible: true });
+    this.setState({ menuVisible: true }, () => {
+      if (withForceSelect) {
+        setTimeout(() => {
+          if (this._menuElement) {
+            this._menuElement.move(1);
+          }
+        }, 0);
+      }
+    });
   };
 
   _hideMenu = (restoreFocus: ?boolean = false): void => {
@@ -95,7 +104,8 @@ export default class PopupMenu extends React.Component<Props, State> {
       case 'ArrowUp':
       case 'ArrowDown':
         event.preventDefault();
-        this._showMenu();
+        const withForceSelect = true;
+        this._showMenu(withForceSelect);
         break;
 
       default:
@@ -106,7 +116,6 @@ export default class PopupMenu extends React.Component<Props, State> {
   _handleKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
     switch (event.key) {
       case 'Escape':
-        console.log('escape');
         this._hideMenu(true);
         break;
 
@@ -165,6 +174,9 @@ export default class PopupMenu extends React.Component<Props, State> {
                   onKeyDown={this._handleKeyDown}
                   width={this.props.menuWidth || 'auto'}
                   onItemClick={() => this._hideMenu(true)}
+                  ref={element => {
+                    this._menuElement = element;
+                  }}
                 >
                   {this.props.children}
                 </InternalMenu>

@@ -42,6 +42,12 @@ export default class InternalMenu extends React.Component<Props, State> {
   _highlighted: ?MenuItem;
   _rootElement: ?HTMLDivElement;
 
+  componentDidMount() {
+    this._focusWithScrollRestore();
+  }
+
+  move = (step: number): void => this._move(step);
+
   render() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
       x => x && x.props.icon
@@ -95,10 +101,6 @@ export default class InternalMenu extends React.Component<Props, State> {
         </ScrollContainer>
       </div>
     );
-  }
-
-  componentDidMount() {
-    this._focusWithScrollRestore();
   }
 
   _focusWithScrollRestore = (): void => {
