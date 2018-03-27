@@ -168,7 +168,7 @@ class Modal extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this._stackSubscription = ModalStack.add(1, this._handleStackChange);
+    this._stackSubscription = ModalStack.add(this, this._handleStackChange);
     if (mountedModalsCount === 0) {
       events.addEventListener(
         window,
