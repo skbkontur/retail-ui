@@ -51,4 +51,29 @@ describe('<DropdownMenu />', () => {
 
     expect(wrapper.find('MenuItem')).toHaveLength(3);
   });
+
+  test('Click handler on menu item should be called before closing', () => {
+    let testText = 'Foo bar';
+    const wrapper = mount(
+      <DropdownMenu caption={<button id="captionForTest">Test</button>}>
+        <MenuItem
+          onClick={() => {
+            testText = 'Bar foo';
+          }}
+        >
+          Test
+        </MenuItem>
+      </DropdownMenu>
+    );
+    const captionWrapper = wrapper.find('#captionForTest');
+
+    expect(wrapper.find('MenuItem')).toHaveLength(0);
+    captionWrapper.simulate('click');
+
+    const menuItemWrapper = wrapper.find('MenuItem');
+    expect(menuItemWrapper).toHaveLength(1);
+
+    menuItemWrapper.simulate('click');
+    expect(testText).toBe('Bar foo');
+  });
 });
