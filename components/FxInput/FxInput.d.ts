@@ -5,6 +5,7 @@ import { InputProps } from '../Input';
 export type FxInputProps = InputProps & {
   auto?: boolean;
   type?: 'currency' | 'text';
+  onRestore: () => void;
 };
 
 export interface FxInputState {}
