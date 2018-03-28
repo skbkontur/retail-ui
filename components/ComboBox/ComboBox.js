@@ -9,6 +9,7 @@ import { reducers as autocompleteReducers } from '../CustomComboBox/reducer/auto
 import CustomComboBox from '../CustomComboBox';
 
 export type ExternalProps<T> = {
+  align?: 'left' | 'center' | 'right',
   /**
    * Включает режим автокомплита
    */

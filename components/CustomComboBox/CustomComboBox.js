@@ -21,6 +21,7 @@ export type Action<T> =
   | { type: 'Blur' };
 
 export type CustomComboBoxProps<T> = {
+  align?: 'left' | 'center' | 'right',
   autoFocus?: boolean,
   borderless?: boolean,
   disablePortal?: boolean,
@@ -127,6 +128,7 @@ class CustomComboBox extends React.Component<Props<*>, CustomComboBoxState<*>> {
 
   render() {
     const viewProps = {
+      align: this.props.align,
       borderless: this.props.borderless,
       disabled: this.props.disabled,
       disablePortal: this.props.disablePortal,
