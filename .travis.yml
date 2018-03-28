@@ -14,7 +14,7 @@ addons:
 before_script:
 - yarn
 - yarn build-storybook
-- yarn serve storybook-static -p 6060
+- yarn serve storybook-static -p 6060 &
 before_deploy:
 - yarn
 - yarn build
