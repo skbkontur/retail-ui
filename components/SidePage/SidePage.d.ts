@@ -14,7 +14,7 @@ export interface SidePageState {
 }
 
 export interface SidePageHeaderProps {
-  children?: React.ReactNode;
+  children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
   close?: boolean;
 }
 
@@ -27,7 +27,7 @@ export interface SidePageBodyProps {
 export interface SidePageBodyState {}
 
 export interface SidePageFooterProps {
-  children?: React.ReactNode;
+  children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
   panel?: boolean;
 }
 
