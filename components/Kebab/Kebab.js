@@ -10,6 +10,7 @@ import Popup from '../Popup';
 import Menu from '../Menu/Menu.js';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderLayer from '../RenderLayer';
+import PopupMenu from '../internal/PopupMenu';
 
 import styles from './Kebab.less';
 
@@ -47,7 +48,8 @@ export default class Kebab extends React.Component<Props, State> {
   _listener;
 
   componentDidMount() {
-    this._listener = LayoutEvents.addListener(this._handleCloseRequest);
+    /** addListener'у нужен колбэк в аргумент */
+    this._listener = LayoutEvents.addListener(() => {});
     listenTabPresses();
   }
 
@@ -58,20 +60,16 @@ export default class Kebab extends React.Component<Props, State> {
   render() {
     const { disabled } = this.props;
     const { focusedByTab, opened } = this.state;
+
     return (
-      <RenderLayer
-        onClickOutside={this._handleCloseRequest}
-        onFocusOutside={this._handleCloseRequest}
-        active={this.state.opened}
-      >
-        <div className={styles.container}>
+      <PopupMenu
+        type="kebab"
+        onChangeMenuState={this._handleChangeMenuState}
+        caption={
           <div
-            onClick={this._handleClick}
-            onKeyDown={this._handleKeyDown}
+            tabIndex={disabled ? -1 : 0}
             onFocus={this._handleFocus}
             onBlur={this._handleBlur}
-            tabIndex={disabled ? -1 : 0}
-            ref={node => (this._anchor = node)}
             className={cn(
               styles.kebab,
               opened && styles.opened,
@@ -81,36 +79,32 @@ export default class Kebab extends React.Component<Props, State> {
           >
             {this._renderIcon(this.props.size)}
           </div>
-          {this._anchor && (
-            <Popup
-              anchorElement={this._anchor}
-              positions={[
-                'bottom left',
-                'bottom right',
-                'top left',
-                'top right'
-              ]}
-              opened={this.state.opened}
-              margin={5}
-              hasShadow
-              hasPin
-              pinOffset={15}
-            >
-              <div className={styles.menu}>
-                <Menu
-                  hasShadow={false}
-                  onItemClick={this._handleMenuItemClick}
-                  maxHeight={this.props.menuMaxHeight || 'none'}
-                >
-                  {this.props.children}
-                </Menu>
-              </div>
-            </Popup>
-          )}
-        </div>
-      </RenderLayer>
+        }
+      >
+        {!disabled && this.props.children}
+      </PopupMenu>
     );
   }
+
+  _handleChangeMenuState = (isOpened: boolean, restoreFocus: boolean): void => {
+    this.setState(
+      state => ({
+        opened: isOpened,
+        focusedByTab: !isOpened && restoreFocus
+      }),
+      () => {
+        if (this.props.disabled) {
+          return;
+        }
+
+        if (this.state.opened) {
+          this.props.onOpen && this.props.onOpen();
+        } else {
+          this.props.onClose && this.props.onClose();
+        }
+      }
+    );
+  };
 
   _handleFocus = (e: SyntheticFocusEvent<>) => {
     if (!this.props.disabled) {
@@ -126,11 +120,9 @@ export default class Kebab extends React.Component<Props, State> {
   };
 
   _handleBlur = () => {
-    this.setState({ focusedByTab: false });
-  };
-
-  _handleMenuItemClick = () => {
-    this._setPopupState(false);
+    this.setState({
+      focusedByTab: false
+    });
   };
 
   _renderIcon(size) {
@@ -151,45 +143,6 @@ export default class Kebab extends React.Component<Props, State> {
         throw new Error(`Unexpected size '${size}'`);
     }
   }
-
-  _handleCloseRequest = () => {
-    this._setPopupState(false);
-  };
-
-  _handleClick = e => {
-    this._setPopupState(!this.state.opened);
-  };
-
-  _handleKeyDown = event => {
-    switch (event.key) {
-      case 'Escape':
-        event.preventDefault();
-        this._setPopupState(false);
-        break;
-      case 'Enter':
-        event.preventDefault();
-        this._setPopupState(true);
-        break;
-    }
-  };
-
-  _setPopupState = (opened: boolean) => {
-    if (this.props.disabled && opened) {
-      return;
-    }
-
-    if (this.state.opened === opened) {
-      return;
-    }
-
-    opened
-      ? this.props.onOpen && this.props.onOpen()
-      : this.props.onClose && this.props.onClose();
-
-    this.setState({
-      opened
-    });
-  };
 }
 
 Kebab.propTypes = {

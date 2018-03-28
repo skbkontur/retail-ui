@@ -21,7 +21,9 @@ type Props = {
   /**  Массив разрешенных положений меню относительно caption'а. */
   positions: Array<string>,
   /** Тип меню */
-  type: 'dropdown' | 'tooltip'
+  type: 'dropdown' | 'tooltip' | 'kebab',
+  /** Колбэк, вызываемый после открытия/закрытия меню */
+  onChangeMenuState?: (boolean, boolean) => void
 };
 
 type State = {
@@ -132,6 +134,35 @@ export default class PopupMenu extends React.Component<Props, State> {
       this._savedFocusableElement.focus();
       this._savedFocusableElement = null;
     }
+  };
+
+  _handleChangeMenuVisible = (focusShouldBeRestored: boolean): void => {
+    if (focusShouldBeRestored) {
+      this._restoreFocus();
+    }
+    if (typeof this.props.onChangeMenuState === 'function') {
+      this.props.onChangeMenuState(
+        this.state.menuVisible,
+        focusShouldBeRestored
+      );
+    }
+  };
+
+  _getPopupMargin = (): number => {
+    if (this.isTooltipMenu) {
+      return 10;
+    }
+
+    if (this.isKebabMenu) {
+      return 5;
+    }
+
+    return 0;
+  };
+
+  _handleItemSelection = (eventType: string): void => {
+    const restoreFocus = eventType === 'keydown';
+    this._hideMenu(restoreFocus);
   };
 
   render() {
