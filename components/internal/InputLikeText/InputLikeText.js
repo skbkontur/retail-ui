@@ -13,6 +13,7 @@ const styles = isFlatDesign
   : require('../../Input/Input.less');
 
 type Props = {
+  align?: 'left' | 'center' | 'right',
   borderless?: boolean,
   children?: React.Node,
   error?: boolean,
@@ -78,6 +79,7 @@ export default class InputLikeText extends React.Component<Props, State> {
   render() {
     const {
       /* eslint-disable no-unused-vars */
+      align,
       borderless,
       tabIndex,
       className: cn,
@@ -110,7 +112,10 @@ export default class InputLikeText extends React.Component<Props, State> {
     }
 
     return (
-      <label className={className} style={{ width: this.props.width }}>
+      <label
+        className={className}
+        style={{ width: this.props.width, textAlign: align }}
+      >
         <span
           {...rest}
           tabIndex={this.props.disabled ? -1 : 0}

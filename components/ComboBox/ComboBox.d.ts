@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 export interface ComboBoxProps<T> {
+  align?: 'left' | 'center' | 'right';
   autocomplete?: boolean;
   autoFocus?: boolean;
   borderless?: boolean;

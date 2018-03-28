@@ -8,39 +8,7 @@ import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
 
 storiesOf('ComboBox v2', module)
-  .add('simple combobox', () => {
-    const getItems = q =>
-      Promise.resolve(
-        [
-          { value: 1, label: 'First' },
-          { value: 2, label: 'Second' },
-          { value: 3, label: 'Third' },
-          { value: 4, label: 'Fourth' },
-          { value: 5, label: 'Fifth' },
-          { value: 6, label: 'Sixth' },
-          { value: 7, label: 'A long long long long long long time ago' }
-        ].filter(
-          x =>
-            x.label.toLowerCase().includes(q.toLowerCase()) ||
-            x.value.toString(10) === q
-        )
-      );
-
-    class SimpleCombobox extends React.Component<{}, *> {
-      state = { value: { value: 1, label: 'First' } };
-      render() {
-        return (
-          <ComboBoxV2
-            value={this.state.value}
-            getItems={getItems}
-            onChange={(_, value) => this.setState(() => ({ value }))}
-          />
-        );
-      }
-    }
-
-    return <SimpleCombobox />;
-  })
+  .add('simple combobox', () => <SimpleCombobox />)
   .add('with error handling', () => (
     <TestComboBox
       onSearch={search}
@@ -113,6 +81,20 @@ storiesOf('ComboBox v2', module)
       onUnexpectedInput={nullStrategy}
       borderless
     />
+  ))
+  .add('with center align', () => (
+    <SimpleCombobox
+      align={'center'}
+      placeholder={'placeholder'}
+      noInitialValue={true}
+    />
+  ))
+  .add('with right align', () => (
+    <SimpleCombobox
+      align={'right'}
+      placeholder={'placeholder'}
+      noInitialValue={true}
+    />
   ));
 
 type State = {
@@ -136,6 +118,7 @@ class TestComboBox extends React.Component<*, State> {
     return (
       <div>
         <ComboBoxV2
+          align={this.props.align}
           autocomplete={this.props.autocomplete}
           autoFocus={this.props.autoFocus}
           borderless={this.props.borderless}
@@ -171,6 +154,38 @@ class TestComboBox extends React.Component<*, State> {
       </div>
     );
   }
+}
+
+class SimpleCombobox extends React.Component<{}, *> {
+  state = {
+    value: this.props.noInitialValue ? null : { value: 1, label: 'First' }
+  };
+  render() {
+    return (
+      <ComboBoxV2
+        {...this.props}
+        value={this.state.value}
+        getItems={this.getItems}
+        onChange={(_, value) => this.setState(() => ({ value }))}
+      />
+    );
+  }
+  getItems = q =>
+    Promise.resolve(
+      [
+        { value: 1, label: 'First' },
+        { value: 2, label: 'Second' },
+        { value: 3, label: 'Third' },
+        { value: 4, label: 'Fourth' },
+        { value: 5, label: 'Fifth' },
+        { value: 6, label: 'Sixth' },
+        { value: 7, label: 'A long long long long long long time ago' }
+      ].filter(
+        x =>
+          x.label.toLowerCase().includes(q.toLowerCase()) ||
+          x.value.toString(10) === q
+      )
+    );
 }
 
 function errorStrategy(setState) {
