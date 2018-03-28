@@ -3,7 +3,7 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
 
-import Button from '../Button.js';
+import Button from '../Button';
 
 describe('Button', function() {
   it('has correct label', function() {

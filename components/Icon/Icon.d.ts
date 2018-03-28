@@ -4,7 +4,7 @@ import IconNames from './IconNames';
 
 export interface IconProps {
   color?: string;
-  name: keyof IconNames;
+  name: IconNames;
   size?: number | string;
 }
 

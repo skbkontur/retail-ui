@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const WatchExternalFilesPlugin = require('webpack-watch-files-plugin').default;
 
 module.exports = (baseConfig, env) => {
   const config = baseConfig;
@@ -14,7 +15,7 @@ module.exports = (baseConfig, env) => {
         'style-loader',
         'css-modules-flow-types-loader',
         'css-loader?localIdentName=[name]-[local]-[hash:base64:4]',
-        'typed-css-modules-loader'
+        '@skbkontur/typed-css-modules-loader'
       ]
     },
     { test: /\.less$/, loader: 'less-loader' },
@@ -28,6 +29,9 @@ module.exports = (baseConfig, env) => {
       'process.env.EXPERIMENTAL_CSS_IN_JS': JSON.stringify(
         process.env.EXPERIMENTAL_CSS_IN_JS
       )
+    }),
+    new WatchExternalFilesPlugin({
+      files: ['*.less']
     })
   );
 
