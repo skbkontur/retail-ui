@@ -303,7 +303,7 @@ class SidePageWithModalInside extends React.Component<
   );
 }
 
-class SidePageWithStickyReaction extends Component<{}> {
+class SidePageWithStickyReaction extends React.Component<{}> {
   render() {
     const title = 'This is title';
     const subtitle = 'This is subtitle';
