@@ -3,18 +3,14 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-type Props = {
-  delta: number,
-  render?: boolean,
-  children?: React.Node,
-  className?: string,
-  // eslint-disable-next-line flowtype/no-weak-types
-  style?: Object,
-  // eslint-disable-next-line flowtype/no-weak-types
-  [key: string]: any
-};
+export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
+  delta: number;
+  render?: boolean;
+  children?: React.ReactNode;
+  className?: string;
+}
 
-export default class ZIndex extends React.Component<Props> {
+export default class ZIndex extends React.Component<ZIndexProps> {
   static propTypes = {
     /**
      * Приращение к z-index
@@ -27,9 +23,10 @@ export default class ZIndex extends React.Component<Props> {
     render: true
   };
 
-  zIndex: number;
+  private zIndex: number = 0;
 
-  componentWillMount() {
+  constructor(props: ZIndexProps) {
+    super(props);
     this.zIndex = ZIndexStorage.incrementZIndex(this.props.delta);
   }
 
@@ -38,8 +35,7 @@ export default class ZIndex extends React.Component<Props> {
   }
 
   render() {
-    const { render, style, children, ...props } = this.props;
-    delete props.delta;
+    const { render, style, children, delta, ...props } = this.props;
     return render ? (
       <div style={{ ...style, zIndex: this.zIndex }} {...props}>
         {children}
@@ -49,6 +45,10 @@ export default class ZIndex extends React.Component<Props> {
     );
   }
 }
+
+declare const global: {
+  __RetailUiZIndexes: number[];
+};
 
 class ZIndexStorage {
   static _getZIndexes = (): number[] => {
