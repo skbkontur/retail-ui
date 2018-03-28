@@ -11,6 +11,10 @@ addons:
     packages:
     - g++-4.8
     - graphicsmagick
+before_script:
+- yarn
+- yarn build-storybook
+- yarn serve storybook-static -p 6060
 before_deploy:
 - yarn
 - yarn build
