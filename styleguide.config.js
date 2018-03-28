@@ -178,7 +178,7 @@ module.exports = {
             'style-loader',
             'css-modules-flow-types-loader',
             'css-loader',
-            'typed-css-modules-loader',
+            '@skbkontur/typed-css-modules-loader',
             'less-loader'
           ],
           include: /retail-ui/
