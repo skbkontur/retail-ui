@@ -115,7 +115,8 @@ export default class PopupMenu extends React.Component<Props, State> {
   _handleKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
     switch (event.key) {
       case 'Escape':
-        this._hideMenu(true);
+        const restoreFocus = true;
+        this._hideMenu(restoreFocus);
         break;
 
       default:

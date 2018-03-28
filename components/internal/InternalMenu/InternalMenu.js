@@ -52,8 +52,6 @@ export default class InternalMenu extends React.Component<Props, State> {
     this._setInitialSelection();
   }
 
-  move = (step: number): void => this._move(step);
-
   render() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
       x => x && x.props.icon
