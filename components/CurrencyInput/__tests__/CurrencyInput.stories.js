@@ -6,13 +6,17 @@ import Gapped from '../../Gapped';
 import Button from '../../Button';
 import Toggle from '../../Toggle';
 
+type Props = {
+  borderless?: boolean
+};
+
 type CurrencyInputDemoState = {
   value: ?number,
   signed: boolean,
   digits: ?number
 };
 
-class CurrencyInputDemo extends React.Component<{}, CurrencyInputDemoState> {
+class CurrencyInputDemo extends React.Component<Props, CurrencyInputDemoState> {
   state = {
     value: null,
     signed: false,
@@ -34,6 +38,7 @@ class CurrencyInputDemo extends React.Component<{}, CurrencyInputDemoState> {
           </Button>
         </Gapped>
         <CurrencyInput
+          borderless={this.props.borderless}
           value={this.state.value}
           fractionDigits={this.state.digits}
           signed={this.state.signed}
@@ -92,4 +97,6 @@ class CurrencyInputDemo extends React.Component<{}, CurrencyInputDemoState> {
   };
 }
 
-storiesOf('CurrencyInput', module).add('Demo', () => <CurrencyInputDemo />);
+storiesOf('CurrencyInput', module)
+  .add('Demo', () => <CurrencyInputDemo />)
+  .add('With borderless', () => <CurrencyInputDemo borderless={true} />);

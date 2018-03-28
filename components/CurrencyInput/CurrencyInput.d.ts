@@ -3,6 +3,7 @@ import * as React from 'react';
 export interface CurrencyInputProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
+  borderless?: boolean;
   disabled?: boolean;
   error?: boolean;
   fractionDigits?: number | null;

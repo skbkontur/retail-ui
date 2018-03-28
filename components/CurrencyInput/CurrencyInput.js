@@ -13,6 +13,7 @@ import CurrencyInputHelper from './CurrencyInputHelper';
 const INPUT_PASS_PROPS = {
   align: true,
   autoFocus: true,
+  borderless: true,
   disabled: true,
   error: true,
   placeholder: true,
@@ -25,6 +26,7 @@ const INPUT_PASS_PROPS = {
 type Props = {
   align?: 'left' | 'center' | 'right',
   autoFocus?: boolean,
+  borderless?: boolean,
   disabled?: boolean,
   error?: boolean,
   fractionDigits?: ?number,
@@ -51,6 +53,7 @@ export default class CurrencyInput extends Component<Props, State> {
   static propTypes = {
     align: PropTypes.oneOf(['left', 'center', 'right']),
     autoFocus: PropTypes.bool,
+    borderless: PropTypes.bool,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     fractionDigits: PropTypes.number,
