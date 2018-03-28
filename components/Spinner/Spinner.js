@@ -9,7 +9,9 @@ import styles from './Spinner.less';
 import SpinnerFallback from './SpinnerFallback';
 import { types, sizeMaps, svgAnimateSupport } from './settings';
 
-const hasSvgAnimationSupport = svgAnimateSupport();
+export const SpinnerConfig = {
+  hasSvgAnimationSupport: svgAnimateSupport()
+};
 
 type Props = {
   caption?: string,
@@ -127,8 +129,11 @@ class Spinner extends React.Component<Props> {
 
     return (
       <div className={styles.spinner}>
-        {hasSvgAnimationSupport && this._renderSpinner(verifiedType)}
-        {!hasSvgAnimationSupport && <SpinnerFallback type={verifiedType} />}
+        {SpinnerConfig.hasSvgAnimationSupport &&
+          this._renderSpinner(verifiedType)}
+        {!SpinnerConfig.hasSvgAnimationSupport && (
+          <SpinnerFallback type={verifiedType} />
+        )}
         {caption && this._renderCaption(verifiedType, caption)}
       </div>
     );

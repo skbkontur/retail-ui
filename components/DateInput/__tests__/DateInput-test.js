@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import DateInput from '../DateInput';
+import DateInput, { DateInputConfig } from '../DateInput';
 import { mount } from 'enzyme';
 import { maskChar } from '../DateInputHelpers/maskChar';
 
@@ -26,7 +26,7 @@ setups.forEach(({ name, polyfillInput, getInput, getValue }) => {
   describe(name, () => {
     beforeEach(() => {
       // $FlowIgnore
-      DateInput.__Rewire__('polyfillInput', polyfillInput);
+      DateInputConfig.polyfillInput = polyfillInput;
     });
 
     describe('without min/max date', () => {

@@ -51,7 +51,7 @@ describe('<TooltipMenu />', () => {
     expect(wrapper.find('MenuItem')).toHaveLength(3);
   });
 
-  test('Throw, if passed unexpected position', () => {
+  xtest('Throw, if passed unexpected position', () => {
     const element = (
       <TooltipMenu
         caption={<button id="captionForTest">Test</button>}

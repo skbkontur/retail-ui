@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 
-import Spinner from '../Spinner';
+import Spinner, { SpinnerConfig } from '../Spinner';
 import styles from '../Spinner.less';
 import { sizeMaps } from '../settings';
 
@@ -10,7 +10,7 @@ const generateSelector = name => `.${styles[name]}`;
 
 describe('Spinner', () => {
   beforeEach(() => {
-    Spinner.__Rewire__('hasSvgAnimationSupport', true);
+    SpinnerConfig.hasSvgAnimationSupport = true;
   });
 
   it('renders default Spinner', () => {

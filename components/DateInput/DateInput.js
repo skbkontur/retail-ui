@@ -38,7 +38,9 @@ if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   cssStyles = require('./DateInput.less');
 }
 
-const polyfillInput = !isIE && !isEdge;
+export const DateInputConfig = {
+  polyfillInput: !isIE && !isEdge
+};
 
 export const DateParts = {
   Date: 0,
@@ -175,7 +177,7 @@ class DateInput extends React.Component<Props, State> {
         )}
         style={{ width: this.props.width }}
       >
-        {polyfillInput
+        {DateInputConfig.polyfillInput
           ? /**
              * Internet Explorer looses focus on element, if its containing node
              * would be selected with selectNodeContents
@@ -408,7 +410,7 @@ class DateInput extends React.Component<Props, State> {
   }
 
   selectDatePartInInput() {
-    if (polyfillInput || !this._isFocused) {
+    if (DateInputConfig.polyfillInput || !this._isFocused) {
       return;
     }
 

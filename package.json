@@ -8,19 +8,9 @@
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --single-quote --write",
-      "eslint",
-      "git add"
-    ],
-    "*.{css,less}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.{ts,tsx}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "*.js": ["prettier --single-quote --write", "eslint", "git add"],
+    "*.{css,less}": ["prettier --write", "git add"],
+    "*.{ts,tsx}": ["prettier --single-quote --write", "git add"]
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
@@ -30,7 +20,8 @@
     "build-storybook": "build-storybook",
     "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
     "gemini:update": "gemini update",
-    "gemini": "wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
+    "gemini":
+      "wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
     "lint": "eslint . --ignore-pattern 'flow-typed/**/*.js'",
     "precommit": "flow && lint-staged",
     "predeploy": "npm run styleguide:build",
@@ -83,7 +74,6 @@
     "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.3",
     "babel-loader": "7.1.4",
-    "babel-plugin-rewire": "1.1.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
     "babel-plugin-transform-es3-property-literals": "^6.22.0",
@@ -93,8 +83,6 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "babel-template": "^6.26.0",
-    "babel-types": "^6.26.0",
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.11",
     "css-modules-flow-types-loader": "^1.1.0",
@@ -147,7 +135,8 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/testing/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$":
+        "<rootDir>/testing/__mocks__/fileMock.js",
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {
@@ -155,16 +144,7 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "setupFiles": [
-      "<rootDir>/test-setup.js"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "setupFiles": ["<rootDir>/test-setup.js"]
   }
 }
