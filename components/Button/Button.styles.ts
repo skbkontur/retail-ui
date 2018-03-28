@@ -1,6 +1,6 @@
 // @flow
 
-import { type ITheme } from '../theme';
+import { ITheme } from '../theme';
 
 export default function Button(theme: ITheme) {
   return {
@@ -279,6 +279,9 @@ export default function Button(theme: ITheme) {
       }
     },
 
+    btn_loading: {},
+    btn_loading_arrow: {},
+
     warning: {
       borderRadius: 'inherit',
       position: 'absolute',
@@ -318,15 +321,15 @@ export default function Button(theme: ITheme) {
 }
 
 const generateUseStyles = (
-  hoverColorStart,
-  hoverColorEnd,
-  hoverShadow,
-  activeColor,
-  activeShadow,
-  colorStart,
-  colorEnd,
-  shadow,
-  color
+  hoverColorStart: string,
+  hoverColorEnd: string,
+  hoverShadow: string | string[][],
+  activeColor: string,
+  activeShadow: string | string[][],
+  colorStart: string,
+  colorEnd: string,
+  shadow: string | string[][],
+  color: string
 ) => ({
   backgroundImage: `linear-gradient(${colorStart}, ${colorEnd})`,
   color,
@@ -348,7 +351,12 @@ const generateUseStyles = (
   }
 });
 
-const generateLinkStyles = (color, hoverColor, focusColor, activeColor) => ({
+const generateLinkStyles = (
+  color: string,
+  hoverColor: string,
+  focusColor: string,
+  activeColor: string
+) => ({
   borderRadius: '1px',
   outline: 'none',
   textDecoration: 'none',
@@ -368,4 +376,4 @@ const generateLinkStyles = (color, hoverColor, focusColor, activeColor) => ({
   }
 });
 
-const keyframes = name => '@keyframes ' + name;
+const keyframes = (name: string) => '@keyframes ' + name;
