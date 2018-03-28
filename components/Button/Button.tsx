@@ -255,8 +255,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
             ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
             ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
             ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
-          textAlign: this.props.align,
-          width: this.props.width
+          textAlign: this.props.align
         },
         disabled: this.props.disabled || this.props.loading,
         onClick: this.props.onClick,
@@ -272,7 +271,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
       const wrapProps = {
         className: this.props.arrow ? classes.wrap_arrow || '' : classes.wrap,
         style: {
-          width: undefined
+          width: this.props.width
         }
       };
 
