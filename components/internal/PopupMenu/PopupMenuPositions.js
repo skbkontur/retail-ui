@@ -1,6 +1,6 @@
 // @flow
 
-const availablePositions: Array<string> = [
+const PopupMenuPositions: Array<string> = [
   'top left',
   'top center',
   'top right',
@@ -15,4 +15,11 @@ const availablePositions: Array<string> = [
   'left bottom'
 ];
 
-export default availablePositions;
+export const DropdownMenuPositions = [
+  'bottom left',
+  'bottom right',
+  'top left',
+  'top right'
+];
+
+export default PopupMenuPositions;
