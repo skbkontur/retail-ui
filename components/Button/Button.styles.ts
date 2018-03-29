@@ -1,5 +1,3 @@
-// @flow
-
 import { ITheme } from '../theme';
 
 export default function Button(theme: ITheme) {
