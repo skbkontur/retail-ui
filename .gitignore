@@ -12,6 +12,7 @@ gemini-report
 /styleguide
 /storybook-static
 *.less.d.ts
+*.less.flow
 
 yarn-debug.log
 yarn-error.log
