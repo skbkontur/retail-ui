@@ -44,7 +44,6 @@ export default class PopupMenu extends React.Component<Props, State> {
 
   _captionWrapper: HTMLSpanElement | null = null;
   _savedFocusableElement: HTMLElement | null = null;
-  _menuElement: InternalMenu | null = null;
 
   state = {
     menuVisible: false,
@@ -170,7 +169,6 @@ export default class PopupMenu extends React.Component<Props, State> {
                   onKeyDown={this._handleKeyDown}
                   width={this.props.menuWidth || 'auto'}
                   onItemClick={() => this._hideMenu(true)}
-                  ref={element => (this._menuElement = element)}
                   cyclicSelection={false}
                   initialSelectedItemIndex={
                     this.state.firstItemShouldBeSelected ? 0 : -1
