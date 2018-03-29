@@ -66,4 +66,18 @@ storiesOf('DropdownMenu', module)
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
     </DropdownMenu>
+  ))
+  .add('Only static elements', () => (
+    <DropdownMenu
+      menuWidth="300px"
+      caption={
+        <span tabIndex="0" style={{ display: 'inline-block' }}>
+          <Icon name="Menu" size={32} />
+        </span>
+      }
+    >
+      <MenuHeader>Заголовок меню</MenuHeader>
+      <MenuSeparator />
+      <MenuItem disabled>Недоступен</MenuItem>
+    </DropdownMenu>
   ));
