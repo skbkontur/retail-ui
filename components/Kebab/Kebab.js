@@ -63,7 +63,10 @@ export default class Kebab extends React.Component<Props, State> {
 
     return (
       <PopupMenu
-        type="kebab"
+        popupMargin={5}
+        popupPinOffset={15}
+        popupHasPin
+        positions={['bottom left', 'bottom right', 'top left', 'top right']}
         onChangeMenuState={this._handleChangeMenuState}
         caption={
           <div

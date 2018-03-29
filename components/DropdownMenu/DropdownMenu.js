@@ -34,7 +34,9 @@ export default class DropdownMenu extends React.Component<Props> {
         caption={this.props.caption}
         menuMaxHeight={this.props.menuMaxHeight}
         menuWidth={this.props.menuWidth}
-        type="dropdown"
+        popupHasPin={false}
+        popupMargin={0}
+        positions={['bottom left', 'bottom right', 'top left', 'top right']}
       >
         {this.props.children}
       </PopupMenu>

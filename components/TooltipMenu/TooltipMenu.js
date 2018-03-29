@@ -44,7 +44,9 @@ export default class TooltipMenu extends React.Component<Props> {
         menuWidth={this.props.menuWidth}
         caption={this.props.caption}
         positions={this.props.positions}
-        type="tooltip"
+        popupHasPin={true}
+        popupMargin={10}
+        popupPinOffset={15}
       >
         {this.props.children}
       </PopupMenu>

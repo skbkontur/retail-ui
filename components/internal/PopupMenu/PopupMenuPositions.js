@@ -15,11 +15,4 @@ const PopupMenuPositions: Array<string> = [
   'left bottom'
 ];
 
-export const DropdownMenuPositions = [
-  'bottom left',
-  'bottom right',
-  'top left',
-  'top right'
-];
-
 export default PopupMenuPositions;
