@@ -18,10 +18,11 @@ type Props = {
   maxHeight: number | string,
   onItemClick?: () => void,
   width?: number | string,
-  preventWindowScroll?: boolean,
+  preventWindowScroll: boolean,
   onKeyDown: (SyntheticKeyboardEvent<HTMLElement>) => void,
   /** Циклический перебор айтемов меню (по-дефолтну включен)*/
-  cyclicSelection?: boolean
+  cyclicSelection: boolean,
+  initialSelectedItemIndex: number
 };
 
 type State = {
@@ -34,7 +35,8 @@ export default class InternalMenu extends React.Component<Props, State> {
     maxHeight: 300,
     hasShadow: true,
     preventWindowScroll: true,
-    cyclicSelection: true
+    cyclicSelection: true,
+    initialSelectedItemIndex: -1
   };
 
   state = {
@@ -47,6 +49,7 @@ export default class InternalMenu extends React.Component<Props, State> {
 
   componentDidMount() {
     this._focusWithScrollRestore();
+    this._setInitialSelection();
   }
 
   move = (step: number): void => this._move(step);
@@ -116,6 +119,12 @@ export default class InternalMenu extends React.Component<Props, State> {
     }
   };
 
+  _setInitialSelection = () => {
+    for (let i = this.props.initialSelectedItemIndex; i > -1; i--) {
+      this._moveDown();
+    }
+  };
+
   _refScrollContainer = (scrollContainer: ?ScrollContainer) => {
     this._scrollContainer = scrollContainer;
   };
@@ -161,32 +170,31 @@ export default class InternalMenu extends React.Component<Props, State> {
   };
 
   _move(step: number) {
-    const children = childrenToArray(this.props.children);
-    if (!children.some(isActiveElement)) {
-      return;
-    }
-    let index = this.state.highlightedIndex;
-    do {
-      index += step;
-      if (
-        !this.props.cyclicSelection &&
-        (index < 0 || index > children.length)
-      ) {
-        return;
+    this.setState((state, props) => {
+      const children = childrenToArray(props.children);
+      if (!children.some(isActiveElement)) {
+        return null;
       }
+      let index = state.highlightedIndex;
+      do {
+        index += step;
+        if (!props.cyclicSelection && (index < 0 || index > children.length)) {
+          return null;
+        }
 
-      if (index < 0) {
-        index = children.length - 1;
-      } else if (index > children.length) {
-        index = 0;
-      }
+        if (index < 0) {
+          index = children.length - 1;
+        } else if (index > children.length) {
+          index = 0;
+        }
 
-      const child = children[index];
-      if (isActiveElement(child)) {
-        this.setState({ highlightedIndex: index }, this._scrollToSelected);
-        return;
-      }
-    } while (index !== this.state.highlightedIndex);
+        const child = children[index];
+        if (isActiveElement(child)) {
+          return { highlightedIndex: index };
+        }
+      } while (index !== state.highlightedIndex);
+      return null;
+    }, this._scrollToSelected);
   }
 
   _moveUp = () => {

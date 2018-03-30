@@ -4,3 +4,4 @@ travis-deploy-key
 npm-debug.log
 coverage/
 gemini-report
+storybook-static

@@ -42,6 +42,12 @@ function isLess(filename) {
   return /\.less$/.test(filename);
 }
 
+function isTS(filename) {
+  // Matched .ts and .tsx files
+  // Do not matched .d.ts files
+  return /^((?!d\.).)*(\.tsx?)$/.test(filename);
+}
+
 function compileLess(src, relative) {
   function handleError(error) {
     console.error(relative + ' can not be transpiled');
@@ -125,6 +131,8 @@ function handleFile(src, filename) {
     write(src, filename);
   } else if (isLess(filename)) {
     compileLess(src, filename);
+  } else if (isTS(filename)) {
+    // do nothing
   } else {
     const dest = path.join(OutDir, filename);
     outputFileSync(dest, fs.readFileSync(src));

@@ -1,10 +1,10 @@
 // @flow
-import availablePositions from './availablePositions';
+import PopupMenuPositions from './PopupMenuPositions';
 import { isProductionEnv } from '../currentEnvironment';
 
 export default (positions: Array<string>): boolean => {
   const isValidPosition = (position: string): boolean => {
-    return availablePositions.includes(position);
+    return PopupMenuPositions.includes(position);
   };
 
   return positions.every(item => {

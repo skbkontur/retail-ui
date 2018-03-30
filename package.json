@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "0.17.0",
+  "version": "0.17.2",
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
@@ -26,7 +26,7 @@
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "scripts": {
-    "build": "node scripts/build",
+    "build": "yarn tsc && node scripts/build",
     "build-storybook": "build-storybook",
     "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
     "gemini:update": "gemini update",
