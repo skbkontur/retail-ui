@@ -62,17 +62,4 @@ describe('Spinner', () => {
     expect(width).toEqual(sizeMaps.big.width);
     expect(height).toEqual(sizeMaps.big.height);
   });
-
-  /**
-   * This case is not covered by component api
-   */
-  xit('should render default Spinner if passed type is incorrect', () => {
-    const component = render({ type: '1231' });
-    const cloud = component.find(generateSelector('cloud'));
-    const { width, height } = cloud.props();
-    const defaultType = Spinner.defaultProps.type;
-
-    expect(width).toEqual(sizeMaps[defaultType].width);
-    expect(height).toEqual(sizeMaps[defaultType].height);
-  });
 });

@@ -51,20 +51,6 @@ describe('<TooltipMenu />', () => {
     expect(wrapper.find('MenuItem')).toHaveLength(3);
   });
 
-  xtest('Throw, if passed unexpected position', () => {
-    const element = (
-      <TooltipMenu
-        caption={<button id="captionForTest">Test</button>}
-        positions={['top left', 'foo bar']}
-      >
-        <MenuItem>Test</MenuItem>
-        <MenuItem>Test</MenuItem>
-        <MenuItem>Test</MenuItem>
-      </TooltipMenu>
-    );
-    expect(() => mount(element)).toThrow('Unxpected position "foo bar"');
-  });
-
   test('Render without crashes if passed expected positions', () => {
     const element = (
       <TooltipMenu caption={<span />} positions={['top left', 'top right']} />

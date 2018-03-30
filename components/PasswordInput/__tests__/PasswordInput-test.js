@@ -58,9 +58,7 @@ describe('PasswordInput', () => {
     expect(component.state().capsLockEnabled).toBe(null);
   });
 
-  // https://github.com/airbnb/enzyme/issues/1163
-  // FIXME when issue would be closed
-  xit('should at first render CapsLock label then hide it', () => {
+  it('should at first render CapsLock label then hide it', () => {
     const component = setup({ detectCapsLock: true });
 
     component.find('input').simulate('keyPress', { keyCode: 65 }); // a
