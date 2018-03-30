@@ -5,7 +5,7 @@ import RenderLayer from '../RenderLayer';
 import CROSS from '../internal/cross';
 import { PopupPosition } from '../Popup/PopupPosition';
 
-import styles from './Tooltip.less';
+import styles = require('./Tooltip.less');
 
 const supportsPortal = 'createPortal' in ReactDOM;
 

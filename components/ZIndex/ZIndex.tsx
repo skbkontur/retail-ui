@@ -1,9 +1,9 @@
-// @flow
-/* eslint-disable flowtype/no-weak-types */
 import * as React from 'react';
-import PropTypes from 'prop-types';
 
 export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Приращение к z-index
+   */
   delta: number;
   render?: boolean;
   children?: React.ReactNode;
@@ -11,14 +11,6 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export default class ZIndex extends React.Component<ZIndexProps> {
-  static propTypes = {
-    /**
-     * Приращение к z-index
-     */
-    delta: PropTypes.number.isRequired,
-    render: PropTypes.bool
-  };
-
   static defaultProps = {
     render: true
   };

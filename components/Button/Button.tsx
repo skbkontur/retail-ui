@@ -1,11 +1,9 @@
 // @flow
-import events from 'add-event-listener';
-import classNames from 'classnames';
+import * as events from 'add-event-listener';
+import * as classNames from 'classnames';
 import * as React from 'react';
 import * as styled from '../internal/styledRender';
 import Upgrades from '../../lib/Upgrades';
-
-import PropTypes from 'prop-types';
 
 import Corners from './Corners';
 import Icon from '../Icon';
@@ -70,8 +68,16 @@ export type ButtonProps = {
   /** @ignore */
   _noRightPadding?: boolean;
 
+  /**
+   * Визуально нажатое состояние.
+   */
   active?: boolean;
+
   align?: React.CSSProperties['textAlign'];
+
+  /**
+   * Кнопка со стрелкой.
+   */
   arrow?: boolean;
   autoFocus?: boolean;
   borderless?: boolean;
@@ -84,6 +90,10 @@ export type ButtonProps = {
   disableFocus?: boolean;
   error?: boolean;
   focused?: boolean;
+
+  /**
+   * Иконка слева от текста кнопки.
+   */
   icon?: IconNames;
   loading?: boolean;
   narrow?: boolean;
@@ -94,7 +104,12 @@ export type ButtonProps = {
   onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
   size: ButtonSize;
   type: ButtonType;
+
+  /**
+   * Вариант использования. Влияет на цвет кнопки.
+   */
   use: ButtonUse;
+
   /** @ignore */
   visuallyFocused?: boolean;
   warning?: boolean;
@@ -110,71 +125,6 @@ class Button extends React.Component<ButtonProps, ButtonState> {
   static TOP_RIGHT = Corners.TOP_RIGHT;
   static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
   static BOTTOM_LEFT = Corners.BOTTOM_LEFT;
-
-  static propTypes = {
-    /**
-     * Визуально нажатое состояние.
-     */
-    active: PropTypes.bool,
-
-    /**
-     * Кнопка со стрелкой.
-     */
-    arrow: PropTypes.bool,
-
-    /**
-     * Автофокус
-     */
-    autoFocus: PropTypes.bool,
-
-    borderless: PropTypes.bool,
-
-    checked: PropTypes.bool,
-
-    disableFocus: PropTypes.bool,
-
-    disabled: PropTypes.bool,
-
-    focused: PropTypes.bool,
-
-    /**
-     * Иконка слева от текста кнопки.
-     */
-    icon: PropTypes.string,
-
-    loading: PropTypes.bool,
-
-    narrow: PropTypes.bool,
-
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
-
-    /**
-     * Вариант использования. Влияет на цвет кнопки.
-     */
-    use: PropTypes.oneOf([
-      'default',
-      'primary',
-      'success',
-      'danger',
-      'pay',
-      'link'
-    ]),
-
-    visuallyFocused: PropTypes.bool,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    /**
-     * Click handler.
-     */
-    onClick: PropTypes.func,
-
-    onMouseEnter: PropTypes.func,
-
-    onMouseLeave: PropTypes.func,
-
-    onMouseOver: PropTypes.func
-  };
 
   static defaultProps = {
     use: 'default',
