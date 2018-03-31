@@ -102,13 +102,13 @@ export type ButtonProps = {
   onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
   onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
-  size: ButtonSize;
-  type: ButtonType;
+  size?: ButtonSize;
+  type?: ButtonType;
 
   /**
    * Вариант использования. Влияет на цвет кнопки.
    */
-  use: ButtonUse;
+  use?: ButtonUse;
 
   /** @ignore */
   visuallyFocused?: boolean;
@@ -185,7 +185,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
         type: this.props.type,
         className: classNames({
           [classes.root]: true,
-          [(classes as { [name: string]: string })[this.props.use] ||
+          [(classes as { [name: string]: string })[this.props.use!] ||
           classes.default]: true,
           [classes.active]: this.props.active,
           [classes.checked]: this.props.checked,
@@ -194,7 +194,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
           [classes.noPadding]: this.props._noPadding,
           [classes.noRightPadding]: this.props._noRightPadding,
           [classes.buttonWithIcon]: !!this.props.icon,
-          [SIZE_CLASSES[this.props.size]]: true,
+          [SIZE_CLASSES[this.props.size!]]: true,
           [classes.focus]:
             this.state.focusedByTab || this.props.visuallyFocused,
           [cssStyles.borderless]: this.props.borderless
@@ -267,7 +267,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
           [classes.link]: true,
           [classes.disabled]: this.props.disabled,
           [classes.buttonWithIcon]: !!this.props.icon,
-          [SIZE_CLASSES[this.props.size]]: true,
+          [SIZE_CLASSES[this.props.size!]]: true,
           [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused
         });
         Object.assign(wrapProps, {
