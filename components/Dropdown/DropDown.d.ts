@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { ButtonUse, ButtonSize } from '../Button';
-import IconNames from '../Icon/IconNames';
+import { IconName } from '../Icon';
 
 export interface DropdownButtonParams {
   disabled: boolean;
@@ -16,7 +16,7 @@ export interface DropdownProps {
   disablePortal?: boolean;
   disabled?: boolean;
   error?: boolean;
-  icon?: keyof IconNames;
+  icon?: IconName;
   maxMenuHeight?: number;
   menuAlign?: 'left' | 'right';
   menuWidth?: number | string;
