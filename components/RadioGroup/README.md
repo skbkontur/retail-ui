@@ -1,6 +1,4 @@
 ```jsx
-<div />;
-
 const { default: Gapped } = require('../Gapped');
 const { default: Radio } = require('../Radio');
 

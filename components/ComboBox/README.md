@@ -1,8 +1,6 @@
 Combobox with error handling
 
 ```jsx
-<div />;
-
 let delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 let maybeReject = x =>
@@ -57,8 +55,6 @@ let handleFocus = () => setState({ error: false });
 ComboBox with popular values, complex menu items and total count message
 
 ```jsx
-<div />;
-
 const getCities = require('./__mocks__/getCities.js').default;
 
 let popularItems = [

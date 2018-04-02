@@ -1,6 +1,4 @@
 ```js
-<div />;
-
 class Paginator3000 extends React.Component {
   constructor() {
     super();

@@ -1,6 +1,4 @@
 ```js
-<div />;
-
 const { default: Toggle } = require('../Toggle');
 const { default: Button } = require('../Button');
 

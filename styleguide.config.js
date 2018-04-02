@@ -23,8 +23,7 @@ module.exports = {
   styles: {
     StyleGuide: {
       '@global body': {
-        fontFamily:
-          '-apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
         fontSize: 14
       },
       '@font-face': {

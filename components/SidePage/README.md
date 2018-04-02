@@ -1,6 +1,4 @@
 ```jsx
-<div />;
-
 let initialState = { opened: false };
 
 function renderSidePage() {

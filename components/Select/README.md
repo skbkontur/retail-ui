@@ -1,5 +1,5 @@
 ```jsx
-<div />;
+
 
 let items = [
   Select.static(() => <Select.Item>Not selectable</Select.Item>),
