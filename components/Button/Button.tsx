@@ -14,7 +14,7 @@ const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 import CssStyles = require('./Button.less');
 import JssStyles from './Button.styles';
-import IconNames from '../Icon/IconNames';
+import { IconName } from '../Icon';
 
 let cssStyles: typeof CssStyles;
 let jssStyles: typeof JssStyles;
@@ -40,26 +40,17 @@ function listenTabPresses() {
   }
 }
 
-export enum ButtonSize {
-  Small = 'small',
-  Medium = 'medium',
-  Large = 'large'
-}
+export type ButtonSize = 'small' | 'medium' | 'large';
 
-export enum ButtonType {
-  Button = 'button',
-  Submit = 'submit',
-  Reset = 'reset'
-}
+export type ButtonType = 'button' | 'submit' | 'reset';
 
-export enum ButtonUse {
-  Default = 'default',
-  Primary = 'primary',
-  Success = 'success',
-  Danger = 'danger',
-  Pay = 'pay',
-  Link = 'link'
-}
+export type ButtonUse =
+  | 'default'
+  | 'primary'
+  | 'success'
+  | 'danger'
+  | 'pay'
+  | 'link';
 
 export type ButtonProps = {
   /** @ignore */
@@ -94,7 +85,7 @@ export type ButtonProps = {
   /**
    * Иконка слева от текста кнопки.
    */
-  icon?: IconNames;
+  icon?: IconName;
   loading?: boolean;
   narrow?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
