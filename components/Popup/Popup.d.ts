@@ -1,7 +1,18 @@
 import * as React from 'react';
-import { PopupPosition } from './PopupPosition';
 
-export { PopupPosition };
+export type PopupPosition =
+  | 'top left'
+  | 'top center'
+  | 'top right'
+  | 'bottom left'
+  | 'bottom center'
+  | 'bottom right'
+  | 'left top'
+  | 'left middle'
+  | 'left bottom'
+  | 'right top'
+  | 'right middle'
+  | 'right bottom';
 
 export interface PopupProps {
   anchorElement: HTMLElement;

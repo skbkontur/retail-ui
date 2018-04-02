@@ -18,7 +18,7 @@ if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   cssStyles = require('./DateSelect.less');
 }
 
-import Icon from '../Icon/Icon.js';
+import Icon from '../Icon/Icon';
 
 const MONTHS = [
   'Январь',
