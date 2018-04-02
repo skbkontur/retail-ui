@@ -63,16 +63,16 @@ class Gapped extends React.Component<Props> {
   }
 
   _renderHorizontal() {
+    var itemStyle = {
+      display: 'inline-block',
+      marginLeft: this.props.gap,
+      marginTop: this.props.gap,
+      verticalAlign: this.props.verticalAlign
+    };
     var children = React.Children.map(this.props.children, (child, index) => {
       if (!child) {
         return child;
       }
-      var itemStyle = {
-        display: 'inline-block',
-        marginLeft: this.props.gap,
-        marginTop: this.props.gap,
-        verticalAlign: index > 0 ? this.props.verticalAlign : 'middle'
-      };
       return <span style={itemStyle}>{child}</span>;
     });
     const rootStyle = {
