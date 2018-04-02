@@ -1,13 +1,13 @@
 // @flow
-import warning from 'warning';
+import * as warning from 'warning';
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
-import KonturIconic from './Kontur-Iconic';
+import Icons from './Kontur-Iconic';
 
-import styles from './Icon.less';
+import styles = require('./Icon.less');
 
-const MAP = {
+const MAP: { [key: string]: string } = {
   error: '\ue004',
   warning: '\ue005',
   ok: '\ue006',
@@ -225,47 +225,56 @@ const MAP = {
   'flash-drive': '\ue0d7'
 };
 
-function getNewIconName(name) {
-  const newIcon = Object.entries(KonturIconic).find(x => x[1] === MAP[name]);
-  return newIcon ? newIcon[0] : null;
+export type IconName = keyof typeof Icons;
+
+function getNewIconName(name: string) {
+  const newIcon = Object.keys(Icons).find(
+    x => (Icons as { [key: string]: string })[x] === MAP[name]
+  );
+  return newIcon ? newIcon : null;
 }
 
-type Props = {
-  name: string,
-  color?: string,
-  size?: string | number
-};
+export interface IconProps {
+  color?: string;
+  name: IconName;
+  size?: number | string;
+}
 
-class Icon extends React.Component<Props> {
+class Icon extends React.Component<IconProps> {
   static propTypes = {
     color: PropTypes.string,
 
     /**
      * Icon id.
      */
-    name: PropTypes.oneOf(Object.keys(KonturIconic).concat(Object.keys(MAP))),
+    name: PropTypes.oneOf(Object.keys(Icons).concat(Object.keys(MAP))),
 
     size: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   };
 
-  static Names = Object.keys(KonturIconic).reduce(
+  static Names = Object.keys(Icons).reduce(
     (acc, x) => ({ ...acc, [x]: x }),
     {}
   );
 
   static getAllNames = function() {
-    return Object.keys(KonturIconic);
+    return Object.keys(Icons);
   };
 
-  constructor(props: Props) {
+  constructor(props: IconProps) {
     super(props);
-    // this._checkDeprecatedName(props);
+    if (process.env.NODE_ENV !== 'production') {
+      this._checkDeprecatedName(props);
+    }
   }
 
-  componentWillReceiveProps(props: Props) {
-    // if (this.props.name !== props.name) {
-    //   this._checkDeprecatedName(props);
-    // }
+  componentWillReceiveProps(props: IconProps) {
+    if (
+      process.env.NODE_ENV !== 'production' &&
+      this.props.name !== props.name
+    ) {
+      this._checkDeprecatedName(props);
+    }
   }
 
   render() {
@@ -274,7 +283,7 @@ class Icon extends React.Component<Props> {
       color,
       fontSize: size
     };
-    const icon = KonturIconic[name] || MAP[name];
+    const icon = Icons[name] || MAP[name];
     return (
       <span className={styles.root} style={style}>
         {icon}
@@ -282,11 +291,10 @@ class Icon extends React.Component<Props> {
     );
   }
 
-  _checkDeprecatedName(props) {
+  _checkDeprecatedName(props: IconProps) {
     const newName = getNewIconName(props.name);
     warning(
-      props.name in KonturIconic && !newName,
-      // $FlowIssue warning should provide %checks
+      props.name in Icons && !newName,
       `Icon name "${props.name}" is depricated, ` + `use "${newName}" instead`
     );
   }
