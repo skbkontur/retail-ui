@@ -3,28 +3,34 @@ import * as ReactDOM from 'react-dom';
 import Popup from '../Popup';
 import RenderLayer from '../RenderLayer';
 import CROSS from '../internal/cross';
-import { PopupPosition } from '../Popup';
+import { PopupPosition } from '../Popup/PopupPosition';
 
 import styles = require('./Tooltip.less');
 
 const supportsPortal = 'createPortal' in ReactDOM;
 
-const Positions: PopupPosition[] = [
-  'top left',
-  'top center',
-  'top right',
-  'bottom left',
-  'bottom center',
-  'bottom right',
-  'left top',
-  'left middle',
-  'left bottom',
-  'right top',
-  'right middle',
-  'right bottom'
+const Positions = [
+  PopupPosition.TopLeft,
+  PopupPosition.TopCenter,
+  PopupPosition.TopRight,
+  PopupPosition.BottomLeft,
+  PopupPosition.BottomCenter,
+  PopupPosition.BottomRight,
+  PopupPosition.LeftTop,
+  PopupPosition.LeftMiddle,
+  PopupPosition.LeftBottom,
+  PopupPosition.RightTop,
+  PopupPosition.RightMiddle,
+  PopupPosition.RightBottom
 ];
 
-export type TooltipTrigger = 'hover' | 'click' | 'focus' | 'opened' | 'closed';
+export enum TooltipTrigger {
+  Hover = 'hover',
+  Click = 'click',
+  Focus = 'focus',
+  Opened = 'opened',
+  Closed = 'closed'
+}
 
 export type TooltipProps = {
   children?: React.ReactNode;
@@ -73,10 +79,12 @@ export type TooltipState = {
   opened: boolean;
 };
 
+type InternalProps = TooltipProps & typeof Tooltip.defaultProps;
+
 class Tooltip extends React.Component<TooltipProps, TooltipState> {
   static defaultProps = {
-    pos: 'top left',
-    trigger: 'hover',
+    pos: PopupPosition.TopLeft,
+    trigger: TooltipTrigger.Hover,
     allowedPositions: Positions
   };
 
@@ -93,7 +101,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
      * _wrapperElement is absent on initial mount
      * Rendering again to show popup
      */
-    if (this.props.trigger === 'opened') {
+    if (this.props.trigger === TooltipTrigger.Opened) {
       this.forceUpdate();
     }
   }
@@ -143,7 +151,8 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   _renderCross() {
     const hasCross =
       this.props.closeButton === undefined
-        ? this.props.trigger !== 'hover' && this.props.trigger !== 'focus'
+        ? this.props.trigger !== TooltipTrigger.Hover &&
+          this.props.trigger !== TooltipTrigger.Focus
         : this.props.closeButton;
 
     if (!hasCross) {
@@ -162,13 +171,8 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   };
 
   private _getPositions() {
-    // FIXME: allowedPositions in defaultProps, remove ! when default props
-    // would work in TypeScript
-    const allowedPositions = this.props.allowedPositions!;
-
-    // FIXME: pos in defaultProps, remove ! when default props
-    // would work in TypeScript
-    const index = allowedPositions.indexOf(this.props.pos!);
+    const { allowedPositions, pos } = this.props as InternalProps;
+    const index = allowedPositions.indexOf(pos);
     if (index === -1) {
       throw new Error(
         'Unexpected position passed to Tooltip. Expected one of: ' +
@@ -183,7 +187,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
   private _getProps() {
     switch (this.props.trigger) {
-      case 'opened':
+      case TooltipTrigger.Opened:
         return {
           layerProps: {
             active: true,
@@ -195,7 +199,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
           }
         };
 
-      case 'closed':
+      case TooltipTrigger.Closed:
         return {
           layerProps: {},
           wrapperProps: {},
@@ -204,7 +208,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
           }
         };
 
-      case 'hover':
+      case TooltipTrigger.Hover:
         return {
           layerProps: {},
           wrapperProps: {
@@ -219,7 +223,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
               }
         };
 
-      case 'click':
+      case TooltipTrigger.Click:
         return {
           layerProps: {
             active: this.state.opened,
@@ -231,7 +235,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
           popupProps: {}
         };
 
-      case 'focus':
+      case TooltipTrigger.Focus:
         return {
           layerProps: {},
           wrapperProps: {

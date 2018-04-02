@@ -13,7 +13,11 @@ if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   cssStyles = require('./Center.less');
 }
 
-export type HorizontalAlign = 'left' | 'center' | 'right';
+export enum HorizontalAlign {
+  left = 'left',
+  center = 'center',
+  right = 'right'
+}
 
 export interface CenterProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -33,6 +37,8 @@ export interface CenterState {}
  * свойства как в любой div.
  */
 export default class Center extends React.Component<CenterProps, CenterState> {
+  static align = HorizontalAlign;
+
   static defaultProps = {
     align: 'center'
   };

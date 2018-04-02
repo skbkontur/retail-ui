@@ -46,8 +46,6 @@
   "license": "MIT",
   "dependencies": {
     "@types/classnames": "^2.2.3",
-    "@types/enzyme": "^3.1.9",
-    "@types/jest": "^22.2.2",
     "add-event-listener": "0.0.1",
     "brcast": "^3.0.1",
     "classnames": "^2.2.5",
@@ -81,7 +79,6 @@
     "@types/prop-types": "^15.5.2",
     "@types/react": "^16.1.0",
     "@types/react-dom": "^16.0.4",
-    "@types/warning": "^3.0.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.3",
