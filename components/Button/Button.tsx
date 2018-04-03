@@ -1,4 +1,3 @@
-// @flow
 import * as events from 'add-event-listener';
 import * as classNames from 'classnames';
 import * as React from 'react';

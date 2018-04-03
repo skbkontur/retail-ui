@@ -1,9 +1,6 @@
-// @flow
-/* eslint-disable react/no-multi-comp */
-import classNames from 'classnames';
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import events from 'add-event-listener';
+import * as classNames from 'classnames';
+import * as events from 'add-event-listener';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer';
 import RenderLayer from '../RenderLayer';
@@ -11,28 +8,50 @@ import Sticky from '../Sticky';
 import ZIndex from '../ZIndex';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
 import ModalStack from '../ModalStack';
-
-import styles from './SidePage.less';
+import { EventSubscription } from 'fbemitter';
 import stopPropagation from '../../lib/events/stopPropagation';
+import createReactContext = require('create-react-context');
 
-const KEY_CODE_ESCAPE = 27;
+import styles = require('./SidePage.less');
 
-type Props = {
-  children?: React.Node,
-  blockBackground?: boolean,
-  disableClose?: boolean,
-  ignoreBackgroundClick?: boolean,
-  noClose?: boolean,
-  width?: number,
-  onClose?: () => void
-};
+const SidePageContext = createReactContext<() => void>(() => null);
 
-type State = {
-  stackPosition?: number,
-  hasMarginRight?: boolean,
-  hasShadow?: boolean,
-  hasBackground?: boolean
-};
+export interface SidePageProps {
+  children?: React.ReactNode;
+
+  /**
+   * Добавить блокирующий фон, когда сайдпейдж открыт
+   */
+  blockBackground?: boolean;
+
+  /**
+   * Отключает событие onClose, также дизейблит кнопку закрытия сайдпейджа
+   */
+  disableClose?: boolean;
+
+  /**
+   * Не закрывать сайдпейдж при клике на фон.
+   */
+  ignoreBackgroundClick?: boolean;
+
+  /**
+   * Задать ширину сайдпейджа
+   */
+  width?: number;
+
+  /**
+   * Вызывается, когда пользователь запросил закрытие сайдпейджа (нажал на фон, на
+   * Escape или на крестик).
+   */
+  onClose?: () => void;
+}
+
+export interface SidePageState {
+  stackPosition?: number;
+  hasMarginRight?: boolean;
+  hasShadow?: boolean;
+  hasBackground?: boolean;
+}
 
 /**
  * Сайдпейдж
@@ -43,66 +62,33 @@ type State = {
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
-class SidePage extends React.Component<Props, State> {
-  static propTypes = {
-    /**
-     * Добавить блокирующий фон, когда сайдпейдж открыт
-     */
-    blockBackground: PropTypes.bool,
+class SidePage extends React.Component<SidePageProps, SidePageState> {
+  public static Header: typeof Header;
+  public static Body: typeof Body;
+  public static Footer: typeof Footer;
+  public static Container: typeof Container;
 
-    /**
-     * Отключает событие onClose, также дизейблит кнопку закрытия сайдпейджа
-     */
-    disableClose: PropTypes.bool,
+  private stackSubscription: EventSubscription | null = null;
 
-    /**
-     * Не закрывать сайдпейдж при клике на фон.
-     */
-    ignoreBackgroundClick: PropTypes.bool,
-
-    /**
-     * Задать ширину сайдпейджа
-     */
-    width: PropTypes.number,
-
-    /**
-     * Вызывается, когда пользователь запросил закрытие сайдпейджа (нажал на фон, на
-     * Escape или на крестик).
-     */
-    onClose: PropTypes.func
-  };
-
-  static childContextTypes = {
-    requestClose: PropTypes.func.isRequired
-  };
-
-  static Header: Class<Header>;
-  static Body: Class<Body>;
-  static Container: Class<Container>;
-  static Footer: Class<Footer>;
-
-  _stackSubscription = null;
-
-  state = {};
-
-  getChildContext() {
-    return {
-      requestClose: this._requestClose
-    };
+  constructor(props: SidePageProps) {
+    super(props);
+    this.state = {};
   }
 
-  componentDidMount() {
-    events.addEventListener(window, 'keydown', this._handleKeyDown);
-    this._stackSubscription = ModalStack.add(this, this._handleStackChange);
+  public componentDidMount() {
+    events.addEventListener(window, 'keydown', this.handleKeyDown);
+    this.stackSubscription = ModalStack.add(this, this.handleStackChange);
   }
 
-  componentWillUnmount() {
-    events.removeEventListener(window, 'keydown', this._handleKeyDown);
-    this._stackSubscription && this._stackSubscription.remove();
+  public componentWillUnmount() {
+    events.removeEventListener(window, 'keydown', this.handleKeyDown);
+    if (this.stackSubscription != null) {
+      this.stackSubscription.remove();
+    }
     ModalStack.remove(this);
   }
 
-  render() {
+  public render() {
     const rootStyle = this.props.blockBackground ? { width: '100%' } : {};
     const sidePageStyle = {
       width: this.props.width || (this.props.blockBackground ? 800 : 500),
@@ -128,7 +114,7 @@ class SidePage extends React.Component<Props, State> {
               )}
             />
           )}
-          <RenderLayer onClickOutside={this._handleClickOutside} active={true}>
+          <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
               className={classNames(
                 styles.container,
@@ -137,7 +123,11 @@ class SidePage extends React.Component<Props, State> {
               style={sidePageStyle}
             >
               <table className={styles.layout}>
-                <tbody>{this.props.children}</tbody>
+                <tbody>
+                  <SidePageContext.Provider value={this.requestClose}>
+                    {this.props.children}
+                  </SidePageContext.Provider>
+                </tbody>
               </table>
             </div>
           </RenderLayer>
@@ -146,7 +136,7 @@ class SidePage extends React.Component<Props, State> {
     );
   }
 
-  _handleStackChange = (stack: React.ComponentType<*>[]) => {
+  private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
     const sidePages = stack.filter(x => x instanceof SidePage);
     const currentSidePagePosition = sidePages.indexOf(this);
     const isSidePageOnStackTop = stack[0] instanceof SidePage;
@@ -166,23 +156,23 @@ class SidePage extends React.Component<Props, State> {
     });
   };
 
-  _handleClickOutside = () => {
+  private handleClickOutside = () => {
     if (this.state.stackPosition === 0 && !this.props.ignoreBackgroundClick) {
-      this._requestClose();
+      this.requestClose();
     }
   };
 
-  _handleKeyDown = event => {
+  private handleKeyDown = (event: KeyboardEvent) => {
     if (this.state.stackPosition !== 0) {
       return;
     }
-    if (event.keyCode === KEY_CODE_ESCAPE) {
+    if (event.keyCode === 27) {
       stopPropagation(event);
-      this._requestClose();
+      this.requestClose();
     }
   };
 
-  _requestClose = () => {
+  private requestClose = () => {
     if (this.props.disableClose) {
       return;
     }
@@ -192,21 +182,11 @@ class SidePage extends React.Component<Props, State> {
   };
 }
 
-type HeaderProps = {
-  children?: React.Node | ((fixed: boolean) => React.Node)
-};
+export interface HeaderProps {
+  children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
+}
 
-type HeaderContext = {
-  requestClose: () => void
-};
-
-class Header extends React.Component<HeaderProps> {
-  static contextTypes = {
-    requestClose: PropTypes.func.isRequired
-  };
-
-  context: HeaderContext;
-
+export class Header extends React.Component<HeaderProps> {
   render() {
     return (
       <tr>
@@ -232,22 +212,22 @@ class Header extends React.Component<HeaderProps> {
 
   renderClose() {
     return (
-      <a
-        href="javascript:"
-        className={styles.close}
-        onClick={this.context.requestClose}
-      >
-        <span>×</span>
-      </a>
+      <SidePageContext.Consumer>
+        {requestClose => (
+          <a href="javascript:" className={styles.close} onClick={requestClose}>
+            <span>×</span>
+          </a>
+        )}
+      </SidePageContext.Consumer>
     );
   }
 }
 
-type BodyProps = {
-  children?: React.Node
-};
+export interface BodyProps {
+  children?: React.ReactNode;
+}
 
-class Body extends React.Component<BodyProps> {
+export class Body extends React.Component<BodyProps> {
   render() {
     return (
       <tr className={styles.body}>
@@ -257,20 +237,19 @@ class Body extends React.Component<BodyProps> {
   }
 }
 
-type FooterProps = {
-  children?: React.Node | ((fixed: boolean) => React.Node),
-  panel?: boolean
-};
+export interface FooterProps {
+  children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
+
+  /**
+   * Включает серый цвет в футере
+   */
+  panel?: boolean;
+}
 
 /**
  * Футер модального окна.
  */
-class Footer extends React.Component<FooterProps> {
-  static propTypes = {
-    /** Включает серый цвет в футере */
-    panel: PropTypes.bool
-  };
-
+export class Footer extends React.Component<FooterProps> {
   render() {
     return (
       <tr>
@@ -298,11 +277,11 @@ class Footer extends React.Component<FooterProps> {
   }
 }
 
-type ContainerProps = {
-  children?: React.Node
-};
+export interface ContainerProps {
+  children?: React.ReactNode;
+}
 
-class Container extends React.Component<ContainerProps> {
+export class Container extends React.Component<ContainerProps> {
   render() {
     return <div className={styles.bodyContainer}>{this.props.children}</div>;
   }
