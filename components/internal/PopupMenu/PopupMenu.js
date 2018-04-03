@@ -4,9 +4,7 @@ import InternalMenu from '../InternalMenu/InternalMenu';
 import Popup from '../../Popup';
 import RenderLayer from '../../RenderLayer';
 import type MenuItem from '../../MenuItem/MenuItem';
-import PopupMenuPositions, {
-  DropdownMenuPositions
-} from './PopupMenuPositions';
+import PopupMenuPositions from './PopupMenuPositions';
 import isValidPostions from './validatePositions';
 import styles from './PopupMenu.less';
 
@@ -20,8 +18,12 @@ type Props = {
   caption: React.Element<*>,
   /**  Массив разрешенных положений меню относительно caption'а. */
   positions: Array<string>,
-  /** Тип меню */
-  type: 'dropdown' | 'tooltip'
+  /** Колбэк, вызываемый после открытия/закрытия меню */
+  onChangeMenuState?: (boolean, boolean) => void,
+  /** Пропсы, передающиеся в Popup */
+  popupHasPin: boolean,
+  popupMargin: number,
+  popupPinOffset: number
 };
 
 type State = {
@@ -37,7 +39,8 @@ export const PopupMenuType = {
 export default class PopupMenu extends React.Component<Props, State> {
   static defaultProps = {
     positions: PopupMenuPositions,
-    type: PopupMenuType.Tooltip
+    type: PopupMenuType.Tooltip,
+    popupHasPin: true
   };
 
   static Type = PopupMenuType;
@@ -51,38 +54,36 @@ export default class PopupMenu extends React.Component<Props, State> {
   };
 
   _getPositions() {
-    if (this._isDropdownMenu()) {
-      return DropdownMenuPositions;
+    if (isValidPostions(this.props.positions)) {
+      return this.props.positions;
     }
-    if (this._isTooltipMenu()) {
-      if (isValidPostions(this.props.positions)) {
-        return this.props.positions;
-      } else {
-        return PopupMenuPositions;
-      }
-    }
-    throw new Error('Prop type is not specified');
-  }
 
-  _isDropdownMenu(): boolean {
-    return this.props.type === PopupMenuType.Dropdown;
-  }
-
-  _isTooltipMenu(): boolean {
-    return this.props.type === PopupMenuType.Tooltip;
+    return PopupMenuPositions;
   }
 
   _showMenu = (firstItemShouldBeSelected?: boolean): void => {
     this._saveFocus();
-    this.setState({ menuVisible: true, firstItemShouldBeSelected });
+    this.setState(
+      {
+        menuVisible: true,
+        firstItemShouldBeSelected
+      },
+      () => {
+        this._handleChangeMenuVisible(false);
+      }
+    );
   };
 
   _hideMenu = (restoreFocus?: boolean): void => {
-    this.setState({ menuVisible: false, firstItemShouldBeSelected: false });
-
-    if (restoreFocus) {
-      this._restoreFocus();
-    }
+    this.setState(
+      {
+        menuVisible: false,
+        firstItemShouldBeSelected: false
+      },
+      () => {
+        this._handleChangeMenuVisible(!!restoreFocus);
+      }
+    );
   };
 
   _toggleMenu = (): void => {
@@ -113,7 +114,8 @@ export default class PopupMenu extends React.Component<Props, State> {
   _handleKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
     switch (event.key) {
       case 'Escape':
-        this._hideMenu(true);
+        const restoreFocus = true;
+        this._hideMenu(restoreFocus);
         break;
 
       default:
@@ -134,9 +136,24 @@ export default class PopupMenu extends React.Component<Props, State> {
     }
   };
 
-  render() {
-    const menuTypeIsTooltip = this._isTooltipMenu();
+  _handleChangeMenuVisible = (focusShouldBeRestored: boolean): void => {
+    if (focusShouldBeRestored) {
+      this._restoreFocus();
+    }
+    if (typeof this.props.onChangeMenuState === 'function') {
+      this.props.onChangeMenuState(
+        this.state.menuVisible,
+        focusShouldBeRestored
+      );
+    }
+  };
 
+  _handleItemSelection = (eventType: string): void => {
+    const restoreFocus = eventType === 'keydown';
+    this._hideMenu(restoreFocus);
+  };
+
+  render() {
     return (
       <RenderLayer
         onClickOutside={() => this._hideMenu()}
@@ -156,19 +173,19 @@ export default class PopupMenu extends React.Component<Props, State> {
             this.props.children && (
               <Popup
                 anchorElement={this._captionWrapper}
-                positions={this._getPositions()}
                 opened={this.state.menuVisible}
-                margin={menuTypeIsTooltip ? 10 : 0}
                 hasShadow
-                hasPin={menuTypeIsTooltip}
-                pinOffset={menuTypeIsTooltip ? 16 : 0}
+                margin={this.props.popupMargin}
+                hasPin={this.props.popupHasPin}
+                pinOffset={this.props.popupPinOffset}
+                positions={this._getPositions()}
               >
                 <InternalMenu
                   hasShadow={false}
                   maxHeight={this.props.menuMaxHeight || 'none'}
                   onKeyDown={this._handleKeyDown}
                   width={this.props.menuWidth || 'auto'}
-                  onItemClick={() => this._hideMenu(true)}
+                  onItemClick={this._handleItemSelection}
                   cyclicSelection={false}
                   initialSelectedItemIndex={
                     this.state.firstItemShouldBeSelected ? 0 : -1

@@ -16,7 +16,7 @@ type Props = {
   children?: React.ChildrenArray<MenuItemElement>,
   hasShadow: boolean,
   maxHeight: number | string,
-  onItemClick?: () => void,
+  onItemClick?: string => void,
   width?: number | string,
   preventWindowScroll: boolean,
   onKeyDown: (SyntheticKeyboardEvent<HTMLElement>) => void,
@@ -51,8 +51,6 @@ export default class InternalMenu extends React.Component<Props, State> {
     this._focusWithScrollRestore();
     this._setInitialSelection();
   }
-
-  move = (step: number): void => this._move(step);
 
   render() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
@@ -152,7 +150,8 @@ export default class InternalMenu extends React.Component<Props, State> {
         }
       }
       item.props.onClick && item.props.onClick(event);
-      this.props.onItemClick && this.props.onItemClick();
+
+      this.props.onItemClick && this.props.onItemClick(event.type);
       return true;
     }
     return false;
