@@ -267,71 +267,7 @@ export default class CurrencyInput extends Component<Props, State> {
   };
 
   _getAction = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
-    const actions = [
-      {
-        type: Actions.Submit,
-        check: e => e.key === 'Enter'
-      },
-      {
-        type: Actions.ExtendSelectionLeft,
-        check: e => e.shiftKey && e.key === 'ArrowLeft'
-      },
-      {
-        type: Actions.ExtendSelectionRight,
-        check: e => e.shiftKey && e.key === 'ArrowRight'
-      },
-      {
-        type: Actions.FullSelection,
-        check: e => e.ctrlKey && e.key === 'a'
-      },
-      {
-        type: Actions.MoveCursorLeft,
-        check: e => e.key === 'ArrowLeft'
-      },
-      {
-        type: Actions.MoveCursorRight,
-        check: e => e.key === 'ArrowRight'
-      },
-      {
-        type: Actions.Home,
-        check: e => e.key === 'Home'
-      },
-      {
-        type: Actions.End,
-        check: e => e.key === 'End'
-      },
-      {
-        type: Actions.Backspace,
-        check: e => e.key === 'Backspace'
-      },
-      {
-        type: Actions.Delete,
-        check: e => e.key === 'Delete'
-      },
-      {
-        type: Actions.Minus,
-        check: e => e.key === '-' || e.key === 'Subtract'
-      },
-      {
-        type: Actions.Separator,
-        check: e =>
-          e.key === ',' ||
-          e.key === '.' ||
-          e.key === 'Decimal' ||
-          e.keyCode === 188 ||
-          e.keyCode === 190
-      },
-      {
-        type: Actions.Digit,
-        check: e => /^\d$/.exec(e.key)
-      },
-      {
-        type: Actions.Ignore,
-        check: e =>
-          e.shiftKey || e.metaKey || e.ctrlKey || e.altKey || e.key === 'Tab'
-      }
-    ];
-    const action = actions.find(x => x.check(event));
+    const action = ACTION_CHECKERS.find(x => x.check(event));
     return (action && action.type) || Actions.Unknown;
   };
 
@@ -423,3 +359,68 @@ const Actions = {
   Minus: 102,
   Separator: 103
 };
+
+const ACTION_CHECKERS = [
+  {
+    type: Actions.Submit,
+    check: e => e.key === 'Enter'
+  },
+  {
+    type: Actions.ExtendSelectionLeft,
+    check: e => e.shiftKey && e.key === 'ArrowLeft'
+  },
+  {
+    type: Actions.ExtendSelectionRight,
+    check: e => e.shiftKey && e.key === 'ArrowRight'
+  },
+  {
+    type: Actions.FullSelection,
+    check: e => e.ctrlKey && e.key === 'a'
+  },
+  {
+    type: Actions.MoveCursorLeft,
+    check: e => e.key === 'ArrowLeft'
+  },
+  {
+    type: Actions.MoveCursorRight,
+    check: e => e.key === 'ArrowRight'
+  },
+  {
+    type: Actions.Home,
+    check: e => e.key === 'Home'
+  },
+  {
+    type: Actions.End,
+    check: e => e.key === 'End'
+  },
+  {
+    type: Actions.Backspace,
+    check: e => e.key === 'Backspace'
+  },
+  {
+    type: Actions.Delete,
+    check: e => e.key === 'Delete'
+  },
+  {
+    type: Actions.Minus,
+    check: e => e.key === '-' || e.key === 'Subtract'
+  },
+  {
+    type: Actions.Separator,
+    check: e =>
+      e.key === ',' ||
+      e.key === '.' ||
+      e.key === 'Decimal' ||
+      e.keyCode === 188 ||
+      e.keyCode === 190
+  },
+  {
+    type: Actions.Digit,
+    check: e => /^\d$/.exec(e.key)
+  },
+  {
+    type: Actions.Ignore,
+    check: e =>
+      e.shiftKey || e.metaKey || e.ctrlKey || e.altKey || e.key === 'Tab'
+  }
+];
