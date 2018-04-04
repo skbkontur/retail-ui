@@ -158,6 +158,7 @@ export default class CurrencyInput extends Component<Props, State> {
     }
 
     event.preventDefault();
+    const shiftKeyPressed = event.shiftKey;
     const selection = this._getSelection(event.target);
 
     switch (action) {
@@ -194,11 +195,21 @@ export default class CurrencyInput extends Component<Props, State> {
         this._moveCursor(selection, +1);
         return;
       case Actions.Home:
-        this.setState({ selection: SelectionHelper.fromPosition(0) });
+        if (shiftKeyPressed) {
+          const position = this.state.selection.start;
+          this.setState({ selection: SelectionHelper.toBegin(position) });
+        } else {
+          this.setState({ selection: SelectionHelper.fromPosition(0) });
+        }
         return;
       case Actions.End:
-        let position = this.state.formatted.length;
-        this.setState({ selection: SelectionHelper.fromPosition(position) });
+        const end = this.state.formatted.length;
+        if (shiftKeyPressed) {
+          const start = this.state.selection.start;
+          this.setState({ selection: SelectionHelper.toEnd(start, end) });
+        } else {
+          this.setState({ selection: SelectionHelper.fromPosition(end) });
+        }
         return;
       case Actions.ExtendSelectionLeft:
         this._extendSelection(selection, -1);
