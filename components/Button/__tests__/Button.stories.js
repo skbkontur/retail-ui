@@ -39,7 +39,7 @@ storiesOf('Button', module)
   })
   .add('with icon, fixed width and long text', () => {
     return (
-      <Button icon="ok" width="200px">
+      <Button icon="Ok" width="200px">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio sunt ad
         repudiandae ipsum quos! Dolores ipsam magnam maxime debitis praesentium
         aperiam laudantium. Nulla laboriosam perferendis, maiores esse unde nam

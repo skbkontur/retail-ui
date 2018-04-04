@@ -124,7 +124,7 @@ class Checkbox extends React.Component<
         <span className={styles.box}>
           {this.props.checked && (
             <div className={styles.ok}>
-              <Icon name="ok" />
+              <Icon name="Ok" />
             </div>
           )}
         </span>
