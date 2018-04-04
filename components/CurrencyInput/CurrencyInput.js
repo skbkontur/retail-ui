@@ -128,9 +128,10 @@ export default class CurrencyInput extends Component<Props, State> {
   }
 
   _getState(value: ?number, fractionDigits: ?number) {
+    const position = this.state ? this.state.selection.start : 0;
     return {
       formatted: CurrencyHelper.format(value, { fractionDigits }),
-      selection: SelectionHelper.fromPosition(0)
+      selection: SelectionHelper.fromPosition(position)
     };
   }
 
