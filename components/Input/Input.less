@@ -1,6 +1,16 @@
 @import '../variables.less';
 
+
 :local {
+  @font-face {
+    font-family: 'SegoeUIAddon-Regular';
+    src: url('./fonts/SegoeUIAddon-Regular.eot');
+    src: local('./fonts/SegoeUIAddon-Regular'), 
+        url('./fonts/SegoeUIAddon-Regular.woff') format('woff'), 
+        url('./fonts/SegoeUIAddon-Regular.woff2') format('woff2');
+   //     url('./SegoeUIAddon-Regular.ttf') format('truetype');
+  }
+  @warning-color: #CCE4F9;
   @side-padding: 10px;
   @side-padding-padded: 27px;
 
@@ -77,7 +87,9 @@
       font-size: 16px;
       height: 21px;
     }
+
   }
+
 
   .DEPRECATED_sizeMedium .input {
     font-size: 14px;
@@ -102,8 +114,47 @@
       font-size: 16px;
       height: 21px;
     }
+    
   }
-
+.masked{
+    line-height: 32px;
+    width: auto;
+    padding-left: 10px;
+  &.root{
+    width: auto;
+  }
+    &:after{
+        content: attr(visiblepart);
+        right: 0;
+        display: inline-block;
+        white-space: pre;
+        color: rgba(0,0,0,.3);
+        padding-right: 10px;
+        z-index: 3;
+       
+    }
+    &:before,
+    &:after{
+      font-family: "SegoeUIAddon-Regular", "Segoe UI", Arial, Tahoma, sans-serif;
+      position: relative;
+      top: 1px;
+    }
+    &:before{
+        content: attr(hiddenpart);
+        left: 0;
+        white-space: pre;
+        color: transparent;
+        display: inline-block;
+        float: left;
+    }
+    input{
+        left: 0;
+        right: 0;
+        position: absolute;
+        width: 102%;
+        margin: auto;
+    }
+  }
   :global(.rt-ie-any) {
     // Set height for IE only since IE does not support line-height for inputs.
     // On the other hand, Chrome renders text (Segoe UI) 1 pixel lower if input

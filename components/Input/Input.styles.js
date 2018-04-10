@@ -183,6 +183,37 @@ export default (theme: ITheme) => ({
   },
   borderless: {
     borderColor: 'transparent'
+  },
+  masked:{
+    lineHeight: '32px',
+    width: 'auto',
+    paddingLleft: '10px',
+    '&:after':{
+        fontFmily:' "SegoeUIAddon-Regular", "Segoe UI", Arial, Tahoma, sans-serif',
+        content: 'attr(visiblepart)',
+        right:'0',
+        position: 'relative',
+        display:'inline-block',
+        whiteSpace:'pre',
+        color: 'rgba(0,0,0,.3)',
+    },
+    '&:before':{
+      fontFmily:' "SegoeUIAddon-Regular", "Segoe UI", Arial, Tahoma, sans-serif',
+        content: 'attr(hiddenpart)',
+        left: '0',
+        position: 'relative',
+        whiteSpace:'pre',
+        color: 'transparent',
+        display: 'block',
+        float: 'left',
+    },
+    'input':{
+        position: 'absolute',
+        left: '5px',
+        fontFmily:' "SegoeUIAddon-Regular", "Segoe UI", Arial, Tahoma, sans-serif',
+        width: '99%',
+        margin: 'auto'
+    }
   }
 });
 

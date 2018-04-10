@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames';
-import MaskedInput from 'react-input-mask/dist/react-input-mask';
+import MaskedInputWrapper from '../MaskedInputWrapper';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
@@ -70,6 +70,9 @@ export type Props = {
   value?: string,
   warning?: boolean,
   width?: number | string,
+  visiblepart?: string,
+  hiddenpart?: string,
+  maskAttached?: bool,
   onBlur?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
   onClick?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
   onDoubleClick?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
@@ -263,7 +266,6 @@ class Input extends React.Component<Props, State> {
   setSelectionRange(start: number, end: number) {
     const { input } = this;
     invariant(input, 'Cannot call "setSelectionRange" on unmounted Input');
-
     if (input.setSelectionRange) {
       input.focus();
       input.setSelectionRange(start, end);
@@ -274,6 +276,21 @@ class Input extends React.Component<Props, State> {
       range.moveStart('character', start);
       range.select();
     }
+  }
+  getSelectionRange(){
+    const { input } = this;
+    invariant(input, 'Cannot call "setSelectionRange" on unmounted Input');
+    let begin;
+    let end;
+    if (input.setSelectionRange) {
+        begin = input.selectionStart;
+        end = input.selectionEnd;
+    } else if (document.selection && document.selection.createRange) {
+        var range = document.selection.createRange();
+        begin = 0 - range.duplicate().moveStart('character', -100000);
+        end = begin + range.text.length;
+    }
+    return { begin: begin, end: end };
   }
 
   render = styled(cssStyles, jssStyles, classes => {
@@ -286,12 +303,15 @@ class Input extends React.Component<Props, State> {
         [classes.warning]: this.props.warning,
         [classes.padLeft]: this.props.leftIcon,
         [classes.padRight]: this.props.rightIcon,
+        [classes.masked]: this.props.maskAttached,
         [this._getSizeClassName(classes)]: true
       }),
       style: { width: this.props.width },
       onMouseEnter: this.props.onMouseEnter,
       onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver
+      onMouseOver: this.props.onMouseOver,
+      visiblepart: this.props.visiblepart,
+      hiddenpart: this.props.hiddenpart,
     };
 
     const inputProps = {
@@ -311,29 +331,25 @@ class Input extends React.Component<Props, State> {
       inputProps.type = this.props.type;
     }
 
-    let input = this.props.mask
-      ? this._renderMaskedInput(inputProps)
-      : React.createElement('input', inputProps);
+if(!this.props.maskAttached && !!this.props.mask){
+ return this._renderMaskedInput(inputProps) 
+}else{
+  return this._renderRegularInput(inputProps, labelProps, classes)
+}
 
-    return (
-      <label {...labelProps}>
-        {input}
-        {this._renderPlaceholder(classes)}
-        {this._renderLeftIcon(classes)}
-        {this._renderRightIcon(classes)}
-      </label>
-    );
   });
-
+ _renderRegularInput(inputProps, labelProps, classes){
+  return (
+    <label {...labelProps}>
+      <input {...inputProps}/>
+      {this._renderPlaceholder(classes)}
+      {this._renderLeftIcon(classes)}
+      {this._renderRightIcon(classes)}
+    </label>
+  );
+ }
   _renderMaskedInput(inputProps) {
-    return (
-      <MaskedInput
-        {...inputProps}
-        mask={this.props.mask}
-        maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
-        alwaysShowMask={this.props.alwaysShowMask}
-      />
-    );
+    return  <MaskedInputWrapper {...inputProps} mask={this.props.mask} />;
   }
 
   _renderLeftIcon(classes) {
@@ -386,7 +402,7 @@ class Input extends React.Component<Props, State> {
     return SIZE_CLASS_NAMES[this.props.size];
   }
 
-  _refInput = (ref: HTMLInputElement | MaskedInput | null) => {
+  _refInput = (ref: HTMLInputElement | null) => {
     // $FlowIssue
     const elem: HTMLElement = ReactDOM.findDOMNode(this);
     // $FlowIssue should return HTMLInputElement

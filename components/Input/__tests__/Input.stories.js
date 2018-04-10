@@ -122,10 +122,24 @@ storiesOf('Input', module)
     </div>
   )
   .add('Input with phone mask', () =>
-    <Input
-      width="150"
-      mask="+7 999 999-99-99"
-      maskChar={null}
-      placeholder="+7"
-    />
-  );
+    <Input  mask="+7 999 999-99-99"/>
+  )
+  .add('Inputs with masks', () =>
+  <div>
+    <div>
+      <Input  mask='9999'/><hr/>
+    </div>
+    <div>
+    <Input value="12sasd345"  mask='99.99.99.9'/><hr/>
+  </div>
+    <div>
+      <Input  mask='9.9.9.9.9'/><hr/>
+    </div>
+    <div>
+      <Input  mask='+7 999 999-99-99'/><hr/>
+    </div>
+    <div>
+      <Input  mask='9-9..6-99:9'/><hr/>
+    </div>
+  </div>
+);
