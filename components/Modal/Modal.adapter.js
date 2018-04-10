@@ -1,10 +1,10 @@
 // @flow
 
-import Modal from './Modal.js';
+import Modal from './Modal';
 
 const ModalAdapter = {
   close(inst) {
-    inst._requestClose();
+    inst.requestClose();
   }
 };
 

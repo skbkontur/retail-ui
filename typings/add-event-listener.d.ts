@@ -15,7 +15,7 @@ declare module 'add-event-listener' {
     ): void;
 
     <K extends keyof HTMLElementEventMap>(
-      el: HTMLElement,
+      el: Element,
       eventName: K,
       listener: (event: HTMLElementEventMap[K]) => void,
       useCapture?: boolean
