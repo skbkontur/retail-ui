@@ -20,13 +20,10 @@ export default class MaskedInputWrapper extends React.Component {
             hiddenPartOfMask: "",
             visiblePartOfMask: this.maskView,
         };
-        this.buffer = this.mask.split("").map(
-            (char, i) => { 
-                if (char != '?') 
-                    return this.defs[char] ? this.placeholder : char; 
-        });
+        this.buffer = this.mask.split("").map(char => this.defs[char] ? this.placeholder : char);
         this.fillTests(this.mask);
-    }
+     }
+
     fillTests = mask => {
        mask.split("").forEach((char, i) => {
             if (this.defs[char]) {
@@ -38,11 +35,13 @@ export default class MaskedInputWrapper extends React.Component {
             }
       })
     }
+
     componentDidMount = () => {
         this.refs._input.input.value = this.props.value;
-        this.checkVal();
+        this.resetBufferAndSelectionRange();
         this.updateMaskRendering();
     }  
+
     __handleBackspaceDeleteKeyDown = isDelKey =>{
         var pos = this.refs._input.getSelectionRange();
         var begin = pos.begin;
@@ -54,6 +53,7 @@ export default class MaskedInputWrapper extends React.Component {
         this.clearBuffer(begin, end);
         this.shiftL(begin, end - 1);
     }
+
     __handleKeyDown = e => {
         var key = e.which;
         if(e.ctrlKey || e.altKey || e.metaKey || this.isSpecialKey(key))
@@ -81,55 +81,61 @@ export default class MaskedInputWrapper extends React.Component {
                         this.refs._input.blink();
                     }
                     e.preventDefault();
-                    this.updateInput();
+                    this.updateMaskRendering();
                 }else{
                     e.preventDefault();
                 }
             }   
         } 
     }
+
     __handleKeyUp = e => {
         if(e.keyCode == 89 && e.ctrlKey || e.keyCode == 90 && e.ctrlKey){    // ctrl+z || ctrl+y
             this.__defferedInputUpdate();
             return;
         }
     }
+
     __defferedInputUpdate = () => {
         var that = this;
-        setTimeout(function () {
-            that.checkVal();
-            that.updateInput();
+        requestAnimationFrame(function () {
+            that.resetBufferAndSelectionRange();
+            that.updateMaskRendering();
         }, 0);
     }
+
     __getInputValue = () => {
         return this.refs._input.input.value
     }
+
     __setInputValue = value => {
         if(value === null)
             value = "";
+        this.refs._input.input.value = value;
+    }
+    
+    __setInputCaret = () => {
         var start = this.selectionRange.begin;
         var end = this.selectionRange.end;
-        this.refs._input.input.value = value;
         this.refs._input.setSelectionRange(start, end); 
     }
-    updateInput = () => {
-        this.fillBuffer();
-        this.updateMaskRendering();
-     }
 
     updateMaskRendering = () => {
        var value = this.trimBuffer();
        var hiddenPart = "";
        this.__setInputValue(value.join(""));
+       this.__setInputCaret();
        value.map( (item, i) => {
             hiddenPart += !!this.tests[i] ? this.placeholder : item;
        });
        var visiblePart = this.maskView.substring(hiddenPart.length, this.maskView.length);
        this.setState({ hiddenPartOfMask: hiddenPart, visiblePartOfMask: visiblePart})
     }
+
     storeSelectionRange = (begin, end) => {
         this.selectionRange = {begin: begin || end, end: end || begin};
     }
+
     fillBuffer = () => {
         var test = this.__getInputValue();
         for (var i = 0; i < this.length; i++)
@@ -139,21 +145,25 @@ export default class MaskedInputWrapper extends React.Component {
                     this.buffer[i] = c;
             }
     }
+
     clearBuffer = (start, end) => {
         for (var i = start; i < end && i < this.length; i++) {
             if (this.tests[i])
                 this.buffer[i] = this.placeholder;
         }
     }
+
     trimBuffer = () => {
         var length = this.buffer.indexOf(this.placeholder);
         return length !== -1 
                 ? this.buffer.slice(0, length) 
                 : this.buffer;
     }
-    checkVal = allow => {
+
+    resetBufferAndSelectionRange = allow => {
         var test = this.__getInputValue();
         var lastMatch = -1;
+        var caret = this.refs._input.getSelectionRange();
         for (var i = 0, pos = 0; i < this.length; i++) {
             if (this.tests[i]) {
                 this.buffer[i] = this.placeholder;
@@ -173,21 +183,24 @@ export default class MaskedInputWrapper extends React.Component {
             }
         }
         if (!allow && lastMatch + 1 < this.length) {
-            this.clearBuffer(0, this.length);
             this.fillBuffer();
             if (lastMatch < 0) {
                 this.__setInputValue("");
             } else {
-                this.checkVal(true);
+                this.resetBufferAndSelectionRange(true);
             }
         } else if (allow || lastMatch + 1 >= this.length) {
             this.updateMaskRendering();
-            if (!allow)
+            if (!allow){
                 var value = this.__getInputValue().substring(0, lastMatch + 1)
-            this.updateMaskRendering();
+                this.__setInputValue(value)
+            }
         }
-        this.refs._input.setSelectionRange(this.length ? i : this.firstNonMaskPos);
+        
+        var caretPosition = this.seekNext(this.seekNext(caret.begin) + (test.length - this.trimBuffer().length));
+        this.storeSelectionRange(caretPosition);
     }
+
     shiftL = (begin, end) => {
         if (begin < 0)
             return;
@@ -204,6 +217,7 @@ export default class MaskedInputWrapper extends React.Component {
         this.storeSelectionRange(Math.max(this.firstNonMaskPos, begin));
         this.updateMaskRendering();
     }
+
     shiftR = pos => {
         for (var i = pos, c = this.placeholder; i < this.length; i++) {
             if (this.tests[i]) {
@@ -217,27 +231,28 @@ export default class MaskedInputWrapper extends React.Component {
             }
         }
     }
+
     seekPrev = pos => {
         while (--pos >= 0 && !this.tests[pos]);
         return pos;
     }
+
     seekNext = pos => {
         while (++pos <= this.length && !this.tests[pos]);
         return pos;
     }
+
     isSpecialKey = keyCode => !!~[9, 13, 16, 37, 38, 39, 40].indexOf(keyCode)
-    render = ()  => {
-        return (   
-                <Input 
-                    onKeyUp = {this.__handleKeyUp}
-                    onKeyDown = {this.__handleKeyDown}
-                    onCut = {this.__defferedInputUpdate}
-                    onPaste = {this.__defferedInputUpdate}
-                    visiblepart = {this.state.visiblePartOfMask}
-                    hiddenpart = {this.state.hiddenPartOfMask}
-                    maskAttached={true}
-                    ref="_input"
-                    type="text" />
+
+    render = ()  => (  <Input 
+                        onKeyUp = {this.__handleKeyUp}
+                        onKeyDown = {this.__handleKeyDown}
+                        onCut = {this.__defferedInputUpdate}
+                        onPaste = {this.__defferedInputUpdate}
+                        visiblepart = {this.state.visiblePartOfMask}
+                        hiddenpart = {this.state.hiddenPartOfMask}
+                        maskAttached={true}
+                        ref="_input"
+                        type="text" />
         );
-    }
 }
