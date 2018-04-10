@@ -8,19 +8,9 @@
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --single-quote --write",
-      "eslint",
-      "git add"
-    ],
-    "*.{css,less}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.{ts,tsx}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "*.js": ["prettier --single-quote --write", "eslint", "git add"],
+    "*.{css,less}": ["prettier --write", "git add"],
+    "*.{ts,tsx}": ["prettier --single-quote --write", "git add"]
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
@@ -30,7 +20,8 @@
     "build-storybook": "build-storybook",
     "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
     "gemini:update": "gemini update",
-    "gemini": "wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
+    "gemini":
+      "wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
     "lint": "eslint . --ignore-pattern 'flow-typed/**/*.js'",
     "precommit": "flow && lint-staged",
     "predeploy": "npm run styleguide:build",
@@ -80,7 +71,7 @@
     "@storybook/react": "3.4.0",
     "@types/fbemitter": "^2.0.32",
     "@types/prop-types": "^15.5.2",
-    "@types/react": "^16.3.1",
+    "@types/react": "^16.0.40",
     "@types/react-dom": "^16.0.4",
     "@types/warning": "^3.0.0",
     "babel-core": "^6.26.0",
@@ -116,17 +107,17 @@
     "json-loader": "^0.5.7",
     "less": "3.0.1",
     "less-loader": "^4.1.0",
-    "lint-staged": "^7.0.2",
+    "lint-staged": "^7.0.4",
     "mockdate": "^2.0.2",
     "output-file-sync": "^2.0.1",
     "prettier": "^1.11.1",
-    "react": "^16.3.0",
+    "react": "^16.3.1",
     "react-addons-css-transition-group": "^15.6.2",
     "react-docgen-typescript": "^1.2.6",
-    "react-dom": "^16.3.0",
-    "react-styleguidist": "7.0.1",
-    "react-test-renderer": "16.3.0",
-    "serve": "^6.5.3",
+    "react-dom": "^16.3.1",
+    "react-styleguidist": "7.0.5",
+    "react-test-renderer": "16.3.1",
+    "serve": "^6.5.4",
     "style-loader": "^0.20.3",
     "ts-jest": "^22.4.2",
     "ts-loader": "3.5.0",
@@ -136,7 +127,7 @@
     "url-loader": "^1.0.1",
     "wait-on": "^2.1.0",
     "webpack": "^3.11.0",
-    "webpack-watch-files-plugin": "^1.0.0"
+    "webpack-watch-files-plugin": "^1.0.1"
   },
   "peerDependencies": {
     "@types/react": "*",
@@ -146,7 +137,8 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/testing/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$":
+        "<rootDir>/testing/__mocks__/fileMock.js",
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {
@@ -154,16 +146,7 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "setupFiles": [
-      "<rootDir>/test-setup.js"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "setupFiles": ["<rootDir>/test-setup.js"]
   }
 }
