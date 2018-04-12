@@ -10,6 +10,7 @@ export default class MaskedInputWrapper extends React.Component {
             'a': "[A-Za-z]",
             '*': "[A-Za-z0-9]"
         };
+        this.trueValue = "";
         this.placeholder = props.placeholder || "_";
         this.tests = [];
         this.firstNonMaskPos = null;
@@ -22,7 +23,7 @@ export default class MaskedInputWrapper extends React.Component {
         };
         this.buffer = this.mask.split("").map(char => this.defs[char] ? this.placeholder : char);
         this.fillTests(this.mask);
-     }
+    }
 
     fillTests = mask => {
        mask.split("").forEach((char, i) => {
@@ -123,9 +124,10 @@ export default class MaskedInputWrapper extends React.Component {
     updateMaskRendering = () => {
        var value = this.trimBuffer();
        var hiddenPart = "";
-       this.__setInputValue(value.join(""));
+       this.trueValue = value.join("");
+       this.__setInputValue(this.trueValue);
        this.__setInputCaret();
-       value.map( (item, i) => {
+       value.map((item, i) => {
             hiddenPart += !!this.tests[i] ? this.placeholder : item;
        });
        var visiblePart = this.maskView.substring(hiddenPart.length, this.maskView.length);
@@ -244,7 +246,8 @@ export default class MaskedInputWrapper extends React.Component {
 
     isSpecialKey = keyCode => !!~[9, 13, 16, 37, 38, 39, 40].indexOf(keyCode)
 
-    render = ()  => (  <Input 
+    render = ()  => (  <Input {...this.props}
+                        value={this.trueValue}
                         onKeyUp = {this.__handleKeyUp}
                         onKeyDown = {this.__handleKeyDown}
                         onCut = {this.__defferedInputUpdate}
@@ -253,6 +256,6 @@ export default class MaskedInputWrapper extends React.Component {
                         hiddenpart = {this.state.hiddenPartOfMask}
                         maskAttached={true}
                         ref="_input"
-                        type="text" />
+                        type="text"/>
         );
 }
