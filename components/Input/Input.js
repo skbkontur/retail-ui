@@ -330,9 +330,8 @@ class Input extends React.Component<Props, State> {
     if (this.props.type === 'password') {
       inputProps.type = this.props.type;
     }
-
-if(!this.props.maskAttached && !!this.props.mask){
- return this._renderMaskedInput(inputProps) 
+if(!!this.props.mask && !this.props.maskAttached){
+  return this._renderMaskedInput() 
 }else{
   return this._renderRegularInput(inputProps, labelProps, classes)
 }
@@ -348,8 +347,8 @@ if(!this.props.maskAttached && !!this.props.mask){
     </label>
   );
  }
-  _renderMaskedInput(inputProps) {
-    return  <MaskedInputWrapper {...inputProps} mask={this.props.mask} />;
+  _renderMaskedInput() {
+    return  <MaskedInputWrapper {...this.props} />;
   }
 
   _renderLeftIcon(classes) {

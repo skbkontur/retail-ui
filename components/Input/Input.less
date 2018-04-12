@@ -1,15 +1,13 @@
 @import '../variables.less';
-
-
+@font-face {
+  font-family: 'SegoeUIAddon-Regular';
+  src: url('./mask-char-font/font.eot');
+  src: local('./mask-char-font/font'), 
+      url('./mask-char-font/font.woff') format('woff'), 
+      url('./mask-char-font/font.woff2') format('woff2');
+}
 :local {
-  @font-face {
-    font-family: 'SegoeUIAddon-Regular';
-    src: url('./fonts/SegoeUIAddon-Regular.eot');
-    src: local('./fonts/SegoeUIAddon-Regular'), 
-        url('./fonts/SegoeUIAddon-Regular.woff') format('woff'), 
-        url('./fonts/SegoeUIAddon-Regular.woff2') format('woff2');
-   //     url('./SegoeUIAddon-Regular.ttf') format('truetype');
-  }
+
   @warning-color: #CCE4F9;
   @side-padding: 10px;
   @side-padding-padded: 27px;
@@ -119,9 +117,18 @@
 .masked{
     line-height: 32px;
     width: auto;
-    padding-left: 10px;
+    padding: 0 10px;
   &.root{
     width: auto;
+  }
+  .icon {
+    height: auto;
+  }
+  &.padLeft:before{
+    padding-left: 17px;
+  }
+  &.padLeft:after{
+    padding-right: 17px;
   }
     &:after{
         content: attr(visiblepart);
@@ -129,7 +136,6 @@
         display: inline-block;
         white-space: pre;
         color: rgba(0,0,0,.3);
-        padding-right: 10px;
         z-index: 3;
        
     }
@@ -138,6 +144,7 @@
       font-family: "SegoeUIAddon-Regular", "Segoe UI", Arial, Tahoma, sans-serif;
       position: relative;
       top: 1px;
+
     }
     &:before{
         content: attr(hiddenpart);
@@ -145,14 +152,14 @@
         white-space: pre;
         color: transparent;
         display: inline-block;
-        float: left;
-    }
+     }
     input{
         left: 0;
         right: 0;
         position: absolute;
         width: 102%;
         margin: auto;
+        padding-right: 1px;
     }
   }
   :global(.rt-ie-any) {

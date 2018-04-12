@@ -127,7 +127,7 @@ storiesOf('Input', module)
   .add('Inputs with masks', () =>
   <div>
     <div>
-      <Input  mask='9999'/><hr/>
+      <Input  leftIcon={<Icon name="Refresh" />}  rightIcon={<Icon name="Ruble" />}  mask='99-99'/><hr/>
     </div>
     <div>
     <Input value="12sasd345"  mask='99.99.99.9'/><hr/>
