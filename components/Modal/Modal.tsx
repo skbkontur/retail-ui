@@ -14,35 +14,13 @@ import { EventSubscription } from 'fbemitter';
 import createReactContext = require('create-react-context');
 
 import styles = require('./Modal.less');
-
-interface ModalContextProps {
-  close?: CloseProps;
-  horizontalScroll?: boolean;
-}
-
-const ModalContext = createReactContext<ModalContextProps>({});
+import { CloseProps, ModalContext, ModalContextProps } from './ModalContext';
+import { Footer } from './ModalFooter';
+import { Header } from './ModalHeader';
+import { Body } from './ModalBody';
+import { Close } from './ModalClose';
 
 let mountedModalsCount = 0;
-
-interface CloseProps {
-  disableClose?: boolean;
-  requestClose: () => void;
-}
-
-const Close: React.SFC<CloseProps> = (props: CloseProps) => {
-  return (
-    <a
-      href="javascript:"
-      className={classNames(
-        styles.close,
-        props.disableClose && styles.disabled
-      )}
-      onClick={props.requestClose}
-    >
-      ×
-    </a>
-  );
-};
 
 export interface ModalProps {
   /**
@@ -242,85 +220,6 @@ class Modal extends React.Component<ModalProps, ModalState> {
       this.setState({ horizontalScroll: false });
     }
   };
-}
-
-export interface HeaderProps {
-  close?: boolean;
-}
-
-export class Header extends React.Component<HeaderProps> {
-  render() {
-    return (
-      <ModalContext.Consumer>
-        {({ close }) => (
-          <Sticky side="top">
-            {fixed => (
-              <div
-                className={classNames(
-                  styles.header,
-                  fixed && styles.fixedHeader
-                )}
-              >
-                {close && (
-                  <div className={styles.absoluteClose}>
-                    <Close
-                      requestClose={close.requestClose}
-                      disableClose={close.disableClose}
-                    />
-                  </div>
-                )}
-                {this.props.children}
-              </div>
-            )}
-          </Sticky>
-        )}
-      </ModalContext.Consumer>
-    );
-  }
-}
-
-export class Body extends React.Component {
-  render() {
-    return <div className={styles.body}>{this.props.children}</div>;
-  }
-}
-
-export interface FooterProps {
-  /**
-   * Включает серый цвет в футере
-   */
-  panel?: boolean;
-}
-
-/**
- * Футер модального окна.
- */
-export class Footer extends React.Component<FooterProps> {
-  _scrollbarWidth = getScrollWidth();
-
-  render() {
-    const names = classNames({
-      [styles.footer]: true,
-      [styles.panel]: this.props.panel
-    });
-
-    return (
-      <ModalContext.Consumer>
-        {({ horizontalScroll }) => (
-          <Sticky
-            side="bottom"
-            offset={horizontalScroll ? this._scrollbarWidth : 0}
-          >
-            {fixed => (
-              <div className={classNames(names, fixed && styles.fixedFooter)}>
-                {this.props.children}
-              </div>
-            )}
-          </Sticky>
-        )}
-      </ModalContext.Consumer>
-    );
-  }
 }
 
 Modal.Header = Header;
