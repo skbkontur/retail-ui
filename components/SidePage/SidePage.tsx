@@ -17,8 +17,6 @@ import styles = require('./SidePage.less');
 const SidePageContext = createReactContext<() => void>(() => null);
 
 export interface SidePageProps {
-  children?: React.ReactNode;
-
   /**
    * Добавить блокирующий фон, когда сайдпейдж открыт
    */
@@ -223,11 +221,7 @@ export class Header extends React.Component<HeaderProps> {
   }
 }
 
-export interface BodyProps {
-  children?: React.ReactNode;
-}
-
-export class Body extends React.Component<BodyProps> {
+export class Body extends React.Component {
   render() {
     return (
       <tr className={styles.body}>
@@ -277,11 +271,7 @@ export class Footer extends React.Component<FooterProps> {
   }
 }
 
-export interface ContainerProps {
-  children?: React.ReactNode;
-}
-
-export class Container extends React.Component<ContainerProps> {
+export class Container extends React.Component {
   render() {
     return <div className={styles.bodyContainer}>{this.props.children}</div>;
   }
