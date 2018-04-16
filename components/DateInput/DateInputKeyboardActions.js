@@ -1,6 +1,10 @@
 // @flow
 
-import { KeyboardActionExctracterBuilder } from '../internal/extractKeyboardAction';
+import {
+  KeyboardActionExctracterBuilder,
+  isSeparator,
+  isModified
+} from '../internal/extractKeyboardAction';
 
 export const Actions = {
   Unknown: 0,
@@ -15,15 +19,6 @@ export const Actions = {
   Separator: 103,
   WrongInput: 201
 };
-
-const isSeparator = e =>
-  e.key === ',' ||
-  e.key === '.' ||
-  e.key === 'Decimal' ||
-  e.keyCode === 188 ||
-  e.keyCode === 190;
-
-const isModified = e => e.shiftKey || e.metaKey || e.ctrlKey || e.altKey;
 
 const extractAction = new KeyboardActionExctracterBuilder()
   .add(Actions.MoveSelectionLeft, e => e.key === 'ArrowLeft')
