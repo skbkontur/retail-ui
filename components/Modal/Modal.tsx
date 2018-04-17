@@ -200,7 +200,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
 
     this._centerDOM = null;
     if (center != null) {
-      this._centerDOM = ReactDOM.findDOMNode(center);
+      this._centerDOM = ReactDOM.findDOMNode(center) as HTMLElement;
       events.addEventListener(this._centerDOM, 'scroll', LayoutEvents.emit);
     }
   };
