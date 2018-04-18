@@ -276,10 +276,10 @@ class Select<TValue, TItem> extends React.Component<
       <Button {...buttonProps}>
         <span {...labelProps}>
           <span className={styles.labelText}>{params.label}</span>
-          <div className={styles.arrowWrap}>
-            <div className={styles.arrow} />
-          </div>
         </span>
+        <div className={styles.arrowWrap}>
+          <div className={styles.arrow} />
+        </div>
       </Button>
     );
   }
