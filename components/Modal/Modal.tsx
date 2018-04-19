@@ -1,17 +1,13 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
 import * as events from 'add-event-listener';
 import * as ReactDOM from 'react-dom';
-import getScrollWidth from '../../lib/dom/getScrollWidth';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer';
 import ZIndex from '../ZIndex';
 import stopPropagation from '../../lib/events/stopPropagation';
-import Sticky from '../Sticky';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
 import ModalStack from '../ModalStack';
 import { EventSubscription } from 'fbemitter';
-import createReactContext = require('create-react-context');
 
 import styles = require('./Modal.less');
 import { CloseProps, ModalContext, ModalContextProps } from './ModalContext';
@@ -151,7 +147,11 @@ class Modal extends React.Component<ModalProps, ModalState> {
                   />
                 ) : null}
                 <ModalContext.Provider value={modalContextProps}>
-                  {this.props.children}
+                  <div>
+                    {' '}
+                    {/* <ModalContext.Provider can only receive a single child element. */}
+                    {this.props.children}
+                  </div>
                 </ModalContext.Provider>
               </div>
             </div>
