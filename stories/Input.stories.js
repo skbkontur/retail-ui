@@ -227,6 +227,49 @@ class Example6 extends React.Component {
     }
 }
 
+class Example7 extends React.Component {
+    state = {
+        value1: "",
+        value2: "",
+        value3: "",
+    };
+
+    validateValue(value) {
+        if (value === "") {
+            return { message: "Должно быть не пусто", type: "submit" };
+        } else if (value.split(" ").length !== 2) {
+            return { message: "Значение должно состоять из двух слов.", type: "lostfocus" };
+        }
+        return null;
+    }
+
+    render() {
+        const { value1, value2, value3 } = this.state;
+        return (
+            <ValidationContainer ref="container">
+                <div>
+                    <div style={{ padding: 20 }}>
+                        <ValidationWrapperV1 validationInfo={this.validateValue(value1)}>
+                            <Input value={value1} onChange={(e, value) => this.setState({ value1: value })} />
+                        </ValidationWrapperV1>
+                    </div>
+                    <div style={{ padding: 20 }}>
+                        <ValidationWrapperV1 validationInfo={this.validateValue(value2)}>
+                            <Input value={value2} onChange={(e, value) => this.setState({ value2: value })} />
+                        </ValidationWrapperV1>
+                    </div>
+                    <div style={{ padding: 20 }}>
+                        <ValidationWrapperV1 validationInfo={this.validateValue(value3)}>
+                            <Input value={value3} onChange={(e, value) => this.setState({ value3: value })} />
+                        </ValidationWrapperV1>
+                    </div>
+                </div>
+                <Button onClick={() => this.refs.container.submit()}>Отправить</Button>
+            </ValidationContainer>
+        );
+    }
+}
+
 storiesOf("Input", module)
     .add("#1", () => {
         return <Example1 />;
@@ -245,4 +288,7 @@ storiesOf("Input", module)
     })
     .add("#6 Выбор первого контра для валидации", () => {
         return <Example6 />;
+    })
+    .add("#7 Три невалидных поля по сабмиту", () => {
+        return <Example7 />;
     });

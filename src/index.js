@@ -1,13 +1,12 @@
 // @flow
 /* eslint-disable react/no-multi-comp */
 import * as React from "react";
-import ValidationTooltipContext from "./Tooltips/ValidationTooltipContext";
 import ValidationContext from "./Behaviour/ValidationContext";
 import ValidationWrapper from "./Behaviour/ValidationWrapper";
 import ValidationTooltip from "./Tooltips/ValidationTooltip";
 import type { RenderErrorMessage } from "./Behaviour/ValidationWrapper";
 
-export { ValidationTooltip, ValidationTooltipContext, ValidationContext, ValidationWrapper };
+export { ValidationTooltip, ValidationContext, ValidationWrapper };
 
 type ValidationContainerProps = {
     children?: any,
@@ -33,7 +32,7 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
         contextProps.verticalOffset = this.props.scrollOffset || 50;
         return (
             <ValidationContext ref="childContext" {...contextProps}>
-                <ValidationTooltipContext ref="childTooltipContext">{children}</ValidationTooltipContext>
+                {children}
             </ValidationContext>
         );
     }

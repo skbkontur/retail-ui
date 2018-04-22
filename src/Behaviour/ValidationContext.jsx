@@ -104,7 +104,6 @@ export default class ValidationContext extends React.Component<ValidationContext
             if (!withoutFocus) {
                 firstInvalid.focus();
             }
-            firstInvalid.activateValidationMessageIfNeed();
         }
 
         if (this.props.onValidationUpdated) {

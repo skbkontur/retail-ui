@@ -188,12 +188,6 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
         }
     }
 
-    activateValidationMessageIfNeed() {
-        if (this.refs.errorMessage && typeof this.refs.errorMessage.setOpened === "function") {
-            this.refs.errorMessage.setOpened(true);
-        }
-    }
-
     async focus(): Promise<void> {
         if (this.child) {
             const childDomElement = ReactDom.findDOMNode(this.child);

@@ -9,5 +9,9 @@
         "*.js": "javascript",
         "*.js.flow": "javascript"
     },
-    "prettier.eslintIntegration": true
+    "prettier.eslintIntegration": true,
+    "files.exclude": {
+        "**/dist": true,
+        "**/retail-ui-dist": true,
+    }
 }

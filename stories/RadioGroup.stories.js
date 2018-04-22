@@ -12,8 +12,8 @@ class RadioGroupStory extends React.Component {
     };
 
     validateSex() {
-        const { value1 } = this.state;
-        if (value1 == null) {
+        const { sex } = this.state;
+        if (sex == null) {
             return { message: "Должно быть не пусто", type: "submit" };
         }
         return null;
