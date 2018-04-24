@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 :local {
   @active-background: rgba(0, 0, 0, 0.06);
   @buttonSidePadding: 10px;
@@ -6,10 +8,9 @@
   @pay-color: #ffeca9;
 
   .root {
-    background: #fff;
+    background: @tb-bg;
     margin-bottom: 20px;
-    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1),
-      0px 1px 8px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: @tb-shadow;
     height: @height;
     padding: 0 15px;
   }
@@ -60,7 +61,7 @@
     height: 30px;
     margin: 10px 0;
     width: 1px;
-    background-color: #dfdfdf;
+    background-color: @td-divider-bg;
   }
 
   .item {

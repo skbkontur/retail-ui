@@ -1,4 +1,4 @@
-@import "../variables.less";
+@import '../variables.less';
 
 :local {
   .root {
@@ -10,11 +10,11 @@
   }
 
   .bg {
-    background: #333;
+    background: @modal-back-bg;
     bottom: 0;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=60)';
     left: 0;
-    opacity: 0.6;
+    opacity: @modal-back-opacity;
     position: absolute;
     right: 0;
     top: 0;
@@ -32,7 +32,7 @@
   }
 
   .container:before {
-    content: "";
+    content: '';
     display: inline-block;
     vertical-align: middle;
     height: 80%; // to vertical align modal 40%/60% of screen height
@@ -57,7 +57,7 @@
 
   .close {
     color: #757575;
-    color: rgba(0, 0, 0, 0.54);
+    color: @modal-close-button-color;
     float: right;
     font-family: arial;
     font-size: 30px;
@@ -68,14 +68,14 @@
     width: 76px;
 
     &.disabled {
-      color: #8b8b8b;
+      color: @modal-close-button-disabled-color;
       pointer-events: none;
       cursor: default;
     }
   }
 
   .close:hover {
-    color: #333;
+    color: @modal-close-button-hover-color;
   }
 
   .close + .body {
@@ -96,12 +96,12 @@
 
   .fixedHeader,
   .fixedFooter {
-    background: #fff;
+    background: @modal-fixed-header-bg;
   }
 
   .fixedHeader:after,
   .fixedFooter:before {
-    content: "";
+    content: '';
     position: absolute;
     height: 1px;
     width: 100%;
@@ -111,7 +111,7 @@
 
   .fixedHeader:after {
     bottom: 1px;
-    box-shadow: 0 1px 10px rgba(0, 0, 0, 1);
+    box-shadow: @modal-fixed-header-shadow;
   }
 
   .body {
@@ -123,7 +123,7 @@
   }
 
   .footer.panel {
-    background: #e9e9e9;
+    background: @modal-footer-bg;
     padding-top: 20px;
   }
 
@@ -133,6 +133,6 @@
 
   .fixedFooter:before {
     top: 1px;
-    box-shadow: 0 -1px 10px rgba(0, 0, 0, 1);
+    box-shadow: @modal-fixed-footer-shadow;
   }
 }
