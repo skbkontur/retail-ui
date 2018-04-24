@@ -63,46 +63,72 @@ export type ButtonProps = {
    */
   active?: boolean;
 
+  // tslint:disable-next-line:max-line-length
+  /** `type TextAlignProperty = "inherit" | "initial" | "unset" | "center" | "end" | "justify" | "left" | "match-parent" | "right" | "start"` */
   align?: React.CSSProperties['textAlign'];
 
   /**
    * Кнопка со стрелкой.
    */
   arrow?: boolean;
+
   autoFocus?: boolean;
+
   borderless?: boolean;
+
   checked?: boolean;
+
   children?: React.ReactNode;
+
   /** @ignore */
   corners?: number;
+
   disabled?: boolean;
+
   /** @ignore */
   disableFocus?: boolean;
+
   error?: boolean;
+
   focused?: boolean;
 
   /**
    * Иконка слева от текста кнопки.
    */
   icon?: IconName;
+
   loading?: boolean;
+
   narrow?: boolean;
+
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+
   onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
+
   onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
+
   onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
+
   onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
+
+  /** `type ButtonSize = "small" | "medium" | "large"` */
   size?: ButtonSize;
+
+  /** `type ButtonType = "button" | "submit" | "reset"` */
   type?: ButtonType;
 
   /**
    * Вариант использования. Влияет на цвет кнопки.
+   *
+   * `type ButtonUse = "default" | "primary" | "success" | "danger" | "pay" | "link"`
    */
   use?: ButtonUse;
 
   /** @ignore */
   visuallyFocused?: boolean;
+
   warning?: boolean;
+
   width?: number | string;
 };
 
