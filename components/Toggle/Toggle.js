@@ -3,7 +3,16 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import styles from './Toggle.less';
+import Upgrades from '../../lib/Upgrades';
+
+const isFlatDesign = Upgrades.isFlatDesignEnabled();
+
+const CssStyles = require('./Toggle.less');
+
+let styles: typeof CssStyles;
+styles = isFlatDesign
+  ? require('./Toggle.flat.less')
+  : require('./Toggle.less');
 
 type Props = {
   checked: boolean,
@@ -40,10 +49,13 @@ class Toggle extends React.Component<Props> {
 
     return (
       <span className={containerClassName} onClick={this.handleClick}>
-        <span className={styles.handle}>
-          <div className={styles.bg} />
-          <span className={styles.hinge} />
+        <span className={styles.bg__container}>
+          <span className={styles.bg__wrap}>
+            <span className={styles.bg__left} />
+            <span className={styles.bg__right} />
+          </span>
         </span>
+        <span className={styles.handle} />
       </span>
     );
   }
