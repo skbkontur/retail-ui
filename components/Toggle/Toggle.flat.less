@@ -8,18 +8,13 @@
 @transitionBG: 0.2s ease-in 0.2s;
 @transitionHandle: 0.2s ease-in;
 
-:local {
-  .container {
-    position: relative;
-    display: inline-block;
-    width: @containerWidth;
-    height: @containerHeight;
-    box-sizing: border-box;
-    border-radius: @containerHeight / 2;
-    cursor: pointer;
+@error-color: #d70c17;
+@warning-color: #f69c00;
 
-    &:not(.isChecked) {
-      border: 1px solid #d0d0d0;
+:local {
+  .containerNotChecked(@state, @colorBorder, @colorLoading) {
+    &:not(.isChecked).@{state} {
+      border: 1px solid @colorBorder;
       transition: @transitionBG;
 
       .bg__left {
@@ -52,18 +47,45 @@
           left: 0;
         }
       }
-    }
 
-    &.isChecked {
-      border: 1px solid @toggle-bg-checked;
+      &.isLoading {
+        .bg__left {
+          background: @colorLoading;
+          transition: @transitionBG;
+        }
+        .bg__right {
+          background: @colorLoading;
+          transition: @transitionBG;
+        }
+        .bg__wrap {
+          left: -2px;
+          transition: @transitionHandle;
+        }
+        border: 1px solid @colorLoading;
+        transition: @transitionBG;
+      }
+
+      &:focus {
+        outline: none;
+      }
+      &:focus:not(.isDisabled) {
+        border: 1px solid #5199db;
+        box-shadow: 0 0 0 1px #5199db;
+      }
+    }
+  }
+
+  .containerChecked(@state, @color, @colorBorderLoading) {
+    &.isChecked.@{state} {
+      border: 1px solid @color;
       transition: @transitionBG;
 
       .bg__left {
-        background: @toggle-bg-checked;
+        background: @color;
         transition: @transitionBG;
       }
       .bg__right {
-        background: @toggle-bg-checked;
+        background: @color;
         transition: @transitionBG;
       }
       .handle {
@@ -85,11 +107,62 @@
           transition: @transitionHandle;
         }
       }
+
+      &.isLoading {
+        .bg__left {
+          background: #e5e5e5;
+          transition: @transitionBG;
+        }
+        .bg__right {
+          background: none;
+          transition: @transitionBG;
+        }
+        .bg__container {
+          left: 0;
+        }
+        border: 1px solid @colorBorderLoading;
+        transition: @transitionBG;
+      }
+
+      &:focus {
+        outline: none;
+      }
+      &:focus:not(.isDisabled) {
+        box-shadow: 0 0 0 1px #5199db, inset 0 0 0 1px #ffffff;
+        border: 1px solid #5199db;
+        transition: 0s;
+
+        .bg__container {
+          top: 1px;
+          bottom: 1px;
+          left: 1px;
+          right: 0;
+          transition: 0s;
+        }
+      }
     }
+  }
+
+  .container {
+    position: relative;
+    display: inline-block;
+    width: @containerWidth;
+    height: @containerHeight;
+    box-sizing: border-box;
+    border-radius: @containerHeight / 2;
+    cursor: pointer;
+
+    .containerNotChecked(isDefault, #d0d0d0, @toggle-bg-checked);
+    .containerNotChecked(isWarning, @warning-color, @warning-color);
+    .containerNotChecked(isError, @error-color, @error-color);
+
+    .containerChecked(isDefault, @toggle-bg-checked, #d0d0d0);
+    .containerChecked(isWarning, @warning-color, @warning-color);
+    .containerChecked(isError, @error-color, @error-color);
 
     &.isDisabled {
       background: @bg-disabled;
-      opacity: 0.7;
+      opacity: 0.15;
       cursor: default;
     }
 
@@ -102,7 +175,17 @@
     }
 
     &.isChecked.isDisabled {
-      border: 1px solid @toggle-bg-checked-disabled;
+      //border: 1px solid @toggle-bg-checked-disabled;
+    }
+
+    &.isWarning {
+      border: 1px solid @warning-color;
+      box-shadow: 0 0 0 1px @warning-color;
+    }
+
+    &.isError {
+      border: 1px solid @error-color;
+      box-shadow: 0 0 0 1px @error-color;
     }
 
     &:after {

@@ -17,18 +17,25 @@ styles = isFlatDesign
 type Props = {
   checked: boolean,
   disabled?: boolean,
-  onChange?: (value: boolean) => void
+  onChange?: (value: boolean) => void,
+  warning?: boolean,
+  error?: boolean,
+  loading?: boolean
 };
 
 class Toggle extends React.Component<Props> {
   static propTypes = {
     checked: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
+    error: PropTypes.bool,
+    loading: PropTypes.bool,
+    warning: PropTypes.bool,
     onChange: PropTypes.func
   };
 
   static defaultProps = {
-    disabled: false
+    disabled: false,
+    loading: false
   };
 
   handleClick = () => {
@@ -40,11 +47,15 @@ class Toggle extends React.Component<Props> {
   };
 
   render() {
-    const { checked, disabled } = this.props;
+    const { checked, disabled, warning, error, loading } = this.props;
 
     const containerClassName = classNames(styles.container, {
       [styles.isChecked]: checked,
-      [styles.isDisabled]: disabled
+      [styles.isDisabled]: disabled,
+      [styles.isDefault]: true,
+      [styles.isWarning]: warning,
+      [styles.isError]: error,
+      [styles.isLoading]: loading
     });
 
     return (
