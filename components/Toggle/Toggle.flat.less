@@ -8,8 +8,8 @@
 @transitionBG: 0.2s ease-in 0.2s;
 @transitionHandle: 0.2s ease-in;
 
-@error-color: #d70c17;
-@warning-color: #f69c00;
+@error-color: @toggle-flat-bg-error;
+@warning-color: @toggle-flat-bg-warning;
 
 :local {
   .containerNotChecked(@state, @colorBorder, @colorLoading) {
@@ -18,7 +18,7 @@
       transition: @transitionBG;
 
       .bg__left {
-        background: #e5e5e5;
+        background: @toggle-flat-bg-active;
         transition: @transitionBG;
       }
       .bg__right {
@@ -69,8 +69,8 @@
         outline: none;
       }
       &:focus:not(.isDisabled) {
-        border: 1px solid #5199db;
-        box-shadow: 0 0 0 1px #5199db;
+        border: 1px solid @toggle-flat-focus-shadow-color;
+        box-shadow: 0 0 0 1px @toggle-flat-focus-shadow-color;
       }
     }
   }
@@ -110,7 +110,7 @@
 
       &.isLoading {
         .bg__left {
-          background: #e5e5e5;
+          background: @toggle-flat-bg-active;
           transition: @transitionBG;
         }
         .bg__right {
@@ -128,8 +128,9 @@
         outline: none;
       }
       &:focus:not(.isDisabled) {
-        box-shadow: 0 0 0 1px #5199db, inset 0 0 0 1px #ffffff;
-        border: 1px solid #5199db;
+        box-shadow: 0 0 0 1px @toggle-flat-focus-shadow-color,
+          inset 0 0 0 1px #ffffff;
+        border: 1px solid @toggle-flat-focus-shadow-color;
         transition: 0s;
 
         .bg__container {
@@ -152,17 +153,17 @@
     border-radius: @containerHeight / 2;
     cursor: pointer;
 
-    .containerNotChecked(isDefault, #d0d0d0, @toggle-bg-checked);
+    .containerNotChecked(isDefault, @toggle-flat-border-color, @toggle-flat-bg-checked);
     .containerNotChecked(isWarning, @warning-color, @warning-color);
     .containerNotChecked(isError, @error-color, @error-color);
 
-    .containerChecked(isDefault, @toggle-bg-checked, #d0d0d0);
+    .containerChecked(isDefault, @toggle-flat-bg-checked, @toggle-flat-border-color);
     .containerChecked(isWarning, @warning-color, @warning-color);
     .containerChecked(isError, @error-color, @error-color);
 
     &.isDisabled {
       background: @bg-disabled;
-      opacity: 0.15;
+      opacity: 0.3;
       cursor: default;
     }
 
@@ -172,10 +173,6 @@
           background: #f3f3f2;
         }
       }
-    }
-
-    &.isChecked.isDisabled {
-      //border: 1px solid @toggle-bg-checked-disabled;
     }
 
     &.isWarning {
