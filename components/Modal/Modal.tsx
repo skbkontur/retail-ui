@@ -110,7 +110,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     const modalContextProps: ModalContextProps = {
       horizontalScroll: this.state.horizontalScroll
     };
-    if (hasHeader) {
+    if (hasHeader && !this.props.noClose) {
       modalContextProps.close = {
         disableClose: this.props.disableClose,
         requestClose: this.requestClose
