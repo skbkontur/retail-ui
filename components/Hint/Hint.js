@@ -1,8 +1,13 @@
 // @flow
-
+import classNames from 'classnames';
 import * as React from 'react';
 
-import HintBox from './HintBox';
+import Popup from '../Popup';
+import { ieVerison } from '../ensureOldIEClassName';
+
+import styles from './HintBox.less';
+
+const bgColor = ieVerison === 8 ? '#5b5b5b' : 'rgba(51, 51, 51, 0.8)';
 
 type Props = {
   children?: React.Node,
@@ -11,13 +16,44 @@ type Props = {
   onMouseEnter: (e: SyntheticMouseEvent<>) => void,
   onMouseLeave: (e: SyntheticMouseEvent<>) => void,
   opened: boolean,
-  pos: 'top' | 'right' | 'bottom' | 'left',
+  pos:
+    | 'top'
+    | 'right'
+    | 'bottom'
+    | 'left'
+    | 'top left'
+    | 'top center'
+    | 'top right'
+    | 'bottom left'
+    | 'bottom center'
+    | 'bottom right'
+    | 'left top'
+    | 'left middle'
+    | 'left bottom'
+    | 'right top'
+    | 'right middle'
+    | 'right bottom',
   text: React.Node
 };
 
 type State = {
   opened: boolean
 };
+
+const Positions = [
+  'top center',
+  'top left',
+  'top right',
+  'bottom center',
+  'bottom left',
+  'bottom right',
+  'left middle',
+  'left top',
+  'left bottom',
+  'right middle',
+  'right top',
+  'right bottom'
+];
 
 export default class Hint extends React.Component<Props, State> {
   static defaultProps = {
@@ -66,23 +102,33 @@ export default class Hint extends React.Component<Props, State> {
 
   render() {
     return (
-      <span
-        ref={this._ref}
-        onMouseEnter={this._handleMouseEnter}
-        onMouseLeave={this._handleMouseLeave}
-        style={{ display: 'inline-block' }}
-      >
-        {this.props.children}
-        {this.isOpened() && (
-          <HintBox
-            getTarget={this._getDOM}
-            text={this.props.text}
-            pos={this.props.pos}
-            maxWidth={this.props.maxWidth}
-          />
-        )}
+      <span ref={this._ref} style={{ display: 'inline-block' }}>
+        <span
+          onMouseEnter={this._handleMouseEnter}
+          onMouseLeave={this._handleMouseLeave}
+        >
+          {this.props.children}
+        </span>
+        <Popup
+          hasPin
+          opened={this.isOpened()}
+          anchorElement={this._dom}
+          positions={this._getPositions()}
+          backgroundColor={bgColor}
+        >
+          {this._renderContent()}
+        </Popup>
       </span>
     );
+  }
+
+  _renderContent() {
+    const { pos } = this.props;
+    const className = classNames({
+      [styles.root]: true,
+      [styles.rootCenter]: pos === 'top' || pos === 'bottom'
+    });
+    return <div className={className}>{this.props.text}</div>;
   }
 
   _ref = (el: ?HTMLElement) => {
@@ -91,6 +137,10 @@ export default class Hint extends React.Component<Props, State> {
 
   _getDOM = () => {
     return this._dom;
+  };
+
+  _getPositions = () => {
+    return Positions.filter(x => x.startsWith(this.props.pos));
   };
 
   _handleMouseEnter = e => {

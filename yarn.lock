@@ -8395,9 +8395,9 @@ react-docgen-displayname-handler@^1.0.1:
   dependencies:
     recast "0.12.6"
 
-react-docgen-typescript@^1.2.6:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/react-docgen-typescript/-/react-docgen-typescript-1.2.6.tgz#d1140c58ee9bfff5481320b9ebd1d0659ecf9913"
+react-docgen-typescript@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-docgen-typescript/-/react-docgen-typescript-1.3.0.tgz#a0ca0dca195067c3279d54f850de4799b78c5af5"
 
 react-docgen@^3.0.0-beta11:
   version "3.0.0-beta9"
@@ -8509,9 +8509,9 @@ react-style-proptype@^3.0.0:
   dependencies:
     prop-types "^15.5.4"
 
-react-styleguidist@7.0.5:
-  version "7.0.5"
-  resolved "https://registry.yarnpkg.com/react-styleguidist/-/react-styleguidist-7.0.5.tgz#b98b245e47a71101ac637e24a4123e0a341bd5a5"
+react-styleguidist@7.0.8:
+  version "7.0.8"
+  resolved "https://registry.yarnpkg.com/react-styleguidist/-/react-styleguidist-7.0.8.tgz#03d51b69bf1913b92ebe46153fda1268ed1c7d21"
   dependencies:
     "@vxna/mini-html-webpack-template" "^0.1.6"
     acorn "^5.5.3"
