@@ -66,8 +66,6 @@
 
     &:focus {
       outline: none;
-    }
-    &:focus:not(.isDisabled) {
       border: 1px solid @toggle-flat-focus-shadow-color;
       box-shadow: 0 0 0 1px @toggle-flat-focus-shadow-color;
     }
@@ -124,8 +122,6 @@
 
       &:focus {
         outline: none;
-      }
-      &:focus:not(.isDisabled) {
         box-shadow: 0 0 0 1px @toggle-flat-focus-shadow-color,
           inset 0 0 0 1px #ffffff;
         border: 1px solid @toggle-flat-focus-shadow-color;
@@ -169,13 +165,12 @@
       background: @bg-disabled;
       opacity: 0.3;
       cursor: default;
+      tab-index: -1;
     }
 
-    &:not(.isDisabled) {
-      &:hover {
-        .handle {
-          background: #f3f3f2;
-        }
+    &:hover {
+      .handle {
+        background: #f3f3f2;
       }
     }
 
