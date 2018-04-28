@@ -13,7 +13,7 @@
 
 :local {
   .containerNotChecked(@state, @colorBorder, @colorLoading) {
-    &:not(.isChecked).@{state} {
+    &.@{state} {
       border: 1px solid @colorBorder;
       transition: @transitionBG;
 
@@ -34,7 +34,7 @@
         transition: @transitionHandle;
       }
 
-      &:active:not(.isDisabled) {
+      &:active {
         .handle {
           right: 0;
           transition: @transitionHandle;
@@ -97,7 +97,7 @@
         transition: @transitionHandle;
       }
 
-      &:active:not(.isDisabled) {
+      &:active {
         .handle {
           right: 14px;
           transition: @transitionHandle;
@@ -162,6 +162,7 @@
     .containerChecked(isError, @error-color, @error-color);
 
     &.isDisabled {
+      pointer-events: none;
       background: @bg-disabled;
       opacity: 0.3;
       cursor: default;
