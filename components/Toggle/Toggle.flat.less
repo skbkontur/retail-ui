@@ -1,4 +1,5 @@
 @import '../variables.less';
+@import '../variables.flat.less';
 
 @containerHeight: 20px;
 @containerWidth: 34px;
@@ -7,8 +8,8 @@
 @transitionBG: 0.2s ease-in 0.2s;
 @transitionHandle: 0.2s ease-in;
 
-@error-color: @toggle-bg-error;
-@warning-color: @toggle-bg-warning;
+@error-color: @toggle-flat-bg-error;
+@warning-color: @toggle-flat-bg-warning;
 
 :local {
   .containerNotChecked(@colorBorder, @colorLoading) {
@@ -16,7 +17,7 @@
     transition: @transitionBG;
 
     .bg__left {
-      background: @toggle-bg-active;
+      background: @toggle-flat-bg-active;
       transition: @transitionBG;
     }
     .bg__right {
@@ -65,8 +66,8 @@
 
     &:focus {
       outline: none;
-      border: 1px solid @toggle-focus-shadow-color;
-      box-shadow: 0 0 0 1px @toggle-focus-shadow-color;
+      border: 1px solid @toggle-flat-focus-shadow-color;
+      box-shadow: 0 0 0 1px @toggle-flat-focus-shadow-color;
     }
   }
 
@@ -105,7 +106,7 @@
 
       &.isLoading {
         .bg__left {
-          background: @toggle-bg-active;
+          background: @toggle-flat-bg-active;
           transition: @transitionBG;
         }
         .bg__right {
@@ -121,9 +122,9 @@
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 1px @toggle-focus-shadow-color,
+        box-shadow: 0 0 0 1px @toggle-flat-focus-shadow-color,
           inset 0 0 0 1px #ffffff;
-        border: 1px solid @toggle-focus-shadow-color;
+        border: 1px solid @toggle-flat-focus-shadow-color;
         transition: 0s;
 
         .bg__container {
@@ -147,8 +148,8 @@
     cursor: pointer;
 
     &.isDefault {
-      .containerNotChecked(@toggle-border-color, @toggle-bg-checked);
-      .containerChecked(@toggle-bg-checked, @toggle-border-color);
+      .containerNotChecked(@toggle-flat-border-color, @toggle-flat-bg-checked);
+      .containerChecked(@toggle-flat-bg-checked, @toggle-flat-border-color);
     }
     &.isWarning {
       .containerNotChecked(@warning-color, @warning-color);
@@ -169,7 +170,7 @@
 
     &:hover {
       .handle {
-        background-image: linear-gradient(-180deg, #f1f1f1, #dedede);
+        background: #f3f3f2;
       }
     }
 
@@ -224,7 +225,7 @@
     bottom: 0;
     border-radius: @handleSize / 2;
     width: @handleSize;
+    background: #fff;
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
-    background-image: linear-gradient(-180deg, #ffffff, #ebebeb);
   }
 }
