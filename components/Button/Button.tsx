@@ -101,7 +101,11 @@ export type ButtonProps = {
 
   narrow?: boolean;
 
+  onBlur?: React.FocusEventHandler<HTMLButtonElement>;
+
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+
+  onFocus?: React.FocusEventHandler<HTMLButtonElement>;
 
   onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
 
@@ -322,11 +326,19 @@ class Button extends React.Component<ButtonProps, ButtonState> {
           tabPressed = false;
         }
       });
+      if (this.props.onFocus) {
+        this.props.onFocus(e);
+      }
     }
   };
 
-  private handleBlur = () => {
+  private handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
     this.setState({ focusedByTab: false });
+    if (!this.props.disabled && !this.props.disableFocus) {
+      if (this.props.onBlur) {
+        this.props.onBlur(e);
+      }
+    }
   };
 
   private _ref = (node: HTMLButtonElement | null) => {
