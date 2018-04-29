@@ -109,7 +109,7 @@ export default class PasswordInput extends React.Component<Props, State> {
         className={styles.toggleVisibility}
         onClick={this._handleToggleVisibility}
       >
-        <Icon size={14} name={this.state.visible ? 'eye' : 'eye-slash'} />
+        <Icon size={14} name={this.state.visible ? 'EyeOpened' : 'EyeClosed'} />
       </span>
     );
   };

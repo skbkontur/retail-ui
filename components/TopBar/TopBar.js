@@ -138,7 +138,7 @@ class TopBar extends React.Component<Props> {
           <Divider />
         </span>
         <ButtonItem iconOnly>
-          <Icon color="#aaa" size={20} name="angle-bottom" />
+          <Icon color="#aaa" size={20} name="ArrowChevronDown" />
         </ButtonItem>
       </div>
     );

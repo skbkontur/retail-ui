@@ -53,7 +53,7 @@ var Demo = React.createClass({
           />
 
           <Input
-            rightIcon={<Icon name="warning" />}
+            rightIcon={<Icon name="Warning" />}
             defaultValue="I'm mentally retarded"
           />
 
@@ -61,7 +61,7 @@ var Demo = React.createClass({
             <Autocomplete
               source={sampleItems}
               placeholder="Search through"
-              leftIcon={<Icon name="search" />}
+              leftIcon={<Icon name="Search" />}
             />
           </div>
 
