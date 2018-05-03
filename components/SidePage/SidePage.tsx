@@ -1,20 +1,21 @@
-import * as React from 'react';
-import * as classNames from 'classnames';
 import * as events from 'add-event-listener';
+import * as classNames from 'classnames';
+import { EventSubscription } from 'fbemitter';
+import * as React from 'react';
 import LayoutEvents from '../../lib/LayoutEvents';
-import RenderContainer from '../RenderContainer';
-import RenderLayer from '../RenderLayer';
-import Sticky from '../Sticky';
-import ZIndex from '../ZIndex';
+import stopPropagation from '../../lib/events/stopPropagation';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
 import ModalStack from '../ModalStack';
-import { EventSubscription } from 'fbemitter';
-import stopPropagation from '../../lib/events/stopPropagation';
-import createReactContext = require('create-react-context');
+import RenderContainer from '../RenderContainer';
+import RenderLayer from '../RenderLayer';
+import ZIndex from '../ZIndex';
+import SidePageBody from './SidePageBody';
+import SidePageContainer from './SidePageContainer';
+import { SidePageContext } from './SidePageContext';
+import SidePageFooter from './SidePageFooter';
+import SidePageHeader from './SidePageHeader';
 
 import styles = require('./SidePage.less');
-
-const SidePageContext = createReactContext<() => void>(() => null);
 
 export interface SidePageProps {
   /**
@@ -61,10 +62,10 @@ export interface SidePageState {
  * **Footer** необходимо передать пропс **panel**
  */
 class SidePage extends React.Component<SidePageProps, SidePageState> {
-  public static Header: typeof Header;
-  public static Body: typeof Body;
-  public static Footer: typeof Footer;
-  public static Container: typeof Container;
+  public static Header = SidePageHeader;
+  public static Body = SidePageBody;
+  public static Footer = SidePageFooter;
+  public static Container = SidePageContainer;
 
   private stackSubscription: EventSubscription | null = null;
 
@@ -179,107 +180,5 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     }
   };
 }
-
-export interface HeaderProps {
-  children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
-}
-
-export class Header extends React.Component<HeaderProps> {
-  render() {
-    return (
-      <tr>
-        <td className={styles.layoutItem}>
-          <Sticky side="top">
-            {fixed => (
-              <div className={classNames(styles.header, fixed && styles.fixed)}>
-                {this.renderClose()}
-                <div
-                  className={classNames(styles.title, fixed && styles.fixed)}
-                >
-                  {typeof this.props.children === 'function'
-                    ? this.props.children(fixed)
-                    : this.props.children}
-                </div>
-              </div>
-            )}
-          </Sticky>
-        </td>
-      </tr>
-    );
-  }
-
-  renderClose() {
-    return (
-      <SidePageContext.Consumer>
-        {requestClose => (
-          <a href="javascript:" className={styles.close} onClick={requestClose}>
-            <span>×</span>
-          </a>
-        )}
-      </SidePageContext.Consumer>
-    );
-  }
-}
-
-export class Body extends React.Component {
-  render() {
-    return (
-      <tr className={styles.body}>
-        <td className={styles.layoutItem}>{this.props.children}</td>
-      </tr>
-    );
-  }
-}
-
-export interface FooterProps {
-  children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
-
-  /**
-   * Включает серый цвет в футере
-   */
-  panel?: boolean;
-}
-
-/**
- * Футер модального окна.
- */
-export class Footer extends React.Component<FooterProps> {
-  render() {
-    return (
-      <tr>
-        <td className={styles.layoutItem}>
-          <Sticky side="bottom">
-            {fixed => {
-              const names = classNames({
-                [styles.footer]: true,
-                [styles.panel]: this.props.panel,
-                [styles.fixed]: fixed
-              });
-
-              return (
-                <div className={names}>
-                  {typeof this.props.children === 'function'
-                    ? this.props.children(fixed)
-                    : this.props.children}
-                </div>
-              );
-            }}
-          </Sticky>
-        </td>
-      </tr>
-    );
-  }
-}
-
-export class Container extends React.Component {
-  render() {
-    return <div className={styles.bodyContainer}>{this.props.children}</div>;
-  }
-}
-
-SidePage.Header = Header;
-SidePage.Body = Body;
-SidePage.Container = Container;
-SidePage.Footer = Footer;
 
 export default SidePage;
