@@ -6,63 +6,43 @@ sudo: required
 dist: trusty
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
+    # sources:
+    #   - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
+      # - g++-4.8
       - graphicsmagick
 install:
   - yarn
-stages:
-  - test
-  - screenshots
-  - name: prepare release
-    if: tag IS present AND branch = master
-  - name: documentation
-    if: tag IS present AND branch = master
-  - name: npm release
-    if: tag IS present AND branch = master
-  - name: npm release build
-    if: tag IS present AND branch = master
-jobs:
-  include:
-    - stage: test
-      script: yarn test
-    - stage: screenshots
-      script: 
-        - yarn build-storybook
-        - yarn serve storybook-static -p 6060 &
-        - yarn gemini
-    - stage: prepare release
-      script:
-        - yarn
-        - yarn build
-        - yarn tsc
-        - openssl aes-256-cbc -K $encrypted_86996ed187bd_key -iv $encrypted_86996ed187bd_iv
-          -in build/.npmrc.enc -out build/.npmrc -d
-        - openssl aes-256-cbc -k $travis_key_password -in travis-deploy-key.enc -out travis-deploy-key
-          -d
-        - chmod 600 travis-deploy-key
-        - eval `ssh-agent -s`
-        - ssh-add travis-deploy-key
-        - git config --global user.name "Travis CI"
-        - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
-    - stage: documentation
-      script: yarn deploy
-    - stage: npm release
-      deploy:
-        skip_cleanup: true
-        provider: npm
-        email: tihonov.ea@gmail.com
-        on:
-          tags: true
-          branch: master
-        api_key:
-          secure: q2UYmhnEgJMQT17qEUAmkuceiVJb7nPmnp55nTIqVsPUwI4dgKm0q1A/52p1rBfdplLiJqUH06bIMbBRg3XVUx49zniYj/JfYNSqxeC9VUfg/oxWpikJzCRJ7chHASV+EKl/LK7nbNQItcR2ecCe1cSEOkd7/2gZKNI3dflH4QsQOrNp8urA0T5J8Msd2JEvVAkes+3reJLUWDSSA1vSsv6u0yrUANgNwpeo/ZFz8etcy2EU/fodk2V4N3rIirYn0i3NQ+u3LI8cLK57x1krthfoorlRvtk/6k+U6VheHxjW057ED841pv/7uxZmWFi2dB11fEQyWjKGSYjHszG8MjIa/L3Sopi25yTqCOftMeHSkiTWtwNvp/0oTdkfVEqzwj0SdlCCEdP15e5JFtuFBtUSGuxLv7aFJ1ElIuzUMi89uG8szyvhm60MpbxGRxf/zUDeBNSJ4aI3DWkGOOw0nEj79Ymnr1TYtEaDq09GEVi/Utki+y6XKHHmIMEduEMVDPQyswIa++dpRISgCjfL4NU7sTse/XybhNcqSo4jJ7dlye+yW0CLRyxfzGGQTfx5YGqz0VnguhmW5+f199ftlROcHxuBEgqdS+mehvYK0c1t8bIGTpaLxAxX99XfHvSjGcxXsb2D1jPs1gsLZlzPTM3VPD62Kq1Ri61VFpQk5Ak=
-    - stage: npm release build
-      script:
-        - cd build
-        - npm publish
+before_script:
+  - yarn build-storybook
+script:
+  - yarn serve storybook-static -p 6060 &
+  - yarn gemini
+before_deploy:
+  - yarn build
+  - yarn tsc
+  - openssl aes-256-cbc -K $encrypted_86996ed187bd_key -iv $encrypted_86996ed187bd_iv
+    -in build/.npmrc.enc -out build/.npmrc -d
+  - openssl aes-256-cbc -k $travis_key_password -in travis-deploy-key.enc -out travis-deploy-key
+    -d
+  - chmod 600 travis-deploy-key
+  - eval `ssh-agent -s`
+  - ssh-add travis-deploy-key
+  - git config --global user.name "Travis CI"
+  - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: tihonov.ea@gmail.com
+  on:
+    tags: true
+    branch: master
+  api_key:
+    secure: q2UYmhnEgJMQT17qEUAmkuceiVJb7nPmnp55nTIqVsPUwI4dgKm0q1A/52p1rBfdplLiJqUH06bIMbBRg3XVUx49zniYj/JfYNSqxeC9VUfg/oxWpikJzCRJ7chHASV+EKl/LK7nbNQItcR2ecCe1cSEOkd7/2gZKNI3dflH4QsQOrNp8urA0T5J8Msd2JEvVAkes+3reJLUWDSSA1vSsv6u0yrUANgNwpeo/ZFz8etcy2EU/fodk2V4N3rIirYn0i3NQ+u3LI8cLK57x1krthfoorlRvtk/6k+U6VheHxjW057ED841pv/7uxZmWFi2dB11fEQyWjKGSYjHszG8MjIa/L3Sopi25yTqCOftMeHSkiTWtwNvp/0oTdkfVEqzwj0SdlCCEdP15e5JFtuFBtUSGuxLv7aFJ1ElIuzUMi89uG8szyvhm60MpbxGRxf/zUDeBNSJ4aI3DWkGOOw0nEj79Ymnr1TYtEaDq09GEVi/Utki+y6XKHHmIMEduEMVDPQyswIa++dpRISgCjfL4NU7sTse/XybhNcqSo4jJ7dlye+yW0CLRyxfzGGQTfx5YGqz0VnguhmW5+f199ftlROcHxuBEgqdS+mehvYK0c1t8bIGTpaLxAxX99XfHvSjGcxXsb2D1jPs1gsLZlzPTM3VPD62Kq1Ri61VFpQk5Ak=
+after_deploy:
+  - yarn deploy
+  - cd build
+  - npm publish
 env:
   global:
     - SAUCE_USERNAME=skbkontur_ife
