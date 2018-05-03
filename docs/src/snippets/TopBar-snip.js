@@ -22,7 +22,7 @@ ReactDOM.render(
 
       leftItems={[
         <Item>
-          <Icon name="child" color="#666"/>
+          <Icon name="Baby" color="#666"/>
         </Item>
       ]}
     />

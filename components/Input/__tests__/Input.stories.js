@@ -90,20 +90,20 @@ storiesOf('Input', module)
       <div>
         <div style={styles}>Left icon</div>
         <div id="left-icon-small-input-wrapper" style={styles}>
-          <Input size="small" leftIcon={<Icon name="search" />} />
+          <Input size="small" leftIcon={<Icon name="Search" />} />
         </div>
         <div id="left-icon-large-input-wrapper" style={styles}>
-          <Input size="large" leftIcon={<Icon name="search" />} />
+          <Input size="large" leftIcon={<Icon name="Search" />} />
         </div>
       </div>
 
       <div>
         <div style={styles}>Right icon</div>
         <div id="right-icon-small-input-wrapper" style={styles}>
-          <Input size="small" rightIcon={<Icon name="search" />} />
+          <Input size="small" rightIcon={<Icon name="Search" />} />
         </div>
         <div id="right-icon-large-input-wrapper" style={styles}>
-          <Input size="large" rightIcon={<Icon name="search" />} />
+          <Input size="large" rightIcon={<Icon name="Search" />} />
         </div>
       </div>
     </div>

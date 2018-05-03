@@ -10,11 +10,11 @@ let icon = null;
 if (!state.auto) {
   auto = (
     <Button onClick={e => setState({ auto: true })}>
-      <Icon name="undo" />
+      <Icon name="Undo" />
     </Button>
   );
 } else {
-  icon = <Icon name="fx" />;
+  icon = <Icon name="Function" />;
 }
 
 <Group width={300}>

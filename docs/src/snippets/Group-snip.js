@@ -5,11 +5,11 @@ var MyGroup = React.createClass({
     if (!this.state.auto) {
       auto = (
         <Button onClick={e => this.setState({ auto: true })}>
-          <Icon name="undo" />
+          <Icon name="Undo" />
         </Button>
       );
     } else {
-      icon = <Icon name="fx" />;
+      icon = <Icon name="Function" />;
     }
 
     return (

@@ -225,7 +225,7 @@ class DatePickerOld extends React.Component<Props, State> {
             className={openClassName}
             onMouseDown={e => e.preventDefault()}
           >
-            <Icon name="calendar" size={iconSize} />
+            <Icon name="Calendar" size={iconSize} />
           </Center>
         </label>
       </RenderLayer>

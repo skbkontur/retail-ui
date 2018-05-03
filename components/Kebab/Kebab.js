@@ -133,13 +133,13 @@ export default class Kebab extends React.Component<Props, State> {
       case 'small':
         return (
           <div className={styles.iconsmall}>
-            <Icon name="kebab" size="14" color="#757575" />
+            <Icon name="MenuKebab" size="14" color="#757575" />
           </div>
         );
       case 'large':
         return (
           <div className={styles.iconlarge}>
-            <Icon20 name="kebab" size="20" color="#757575" />
+            <Icon20 name="MenuKebab" size="20" color="#757575" />
           </div>
         );
       default:
