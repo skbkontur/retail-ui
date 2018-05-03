@@ -13,9 +13,6 @@ addons:
       - graphicsmagick
 install:
   - yarn
-before_script:
-  - yarn build-storybook
-  - yarn serve storybook-static -p 6060 &
 stages:
   - test
   - screenshots
@@ -32,7 +29,10 @@ jobs:
     - stage: test
       script: yarn test
     - stage: screenshots
-      script: yarn gemini
+      script: 
+        - yarn build-storybook
+        - yarn serve storybook-static -p 6060 &
+        - yarn gemini
     - stage: prepare release
       script:
         - yarn
