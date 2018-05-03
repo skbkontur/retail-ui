@@ -157,7 +157,8 @@ class Textarea extends React.Component {
       const fakeProps = {
         value: props.value,
         defaultValue: props.defaultValue,
-        className: classNames(props.className, styles.fake)
+        className: classNames(props.className, styles.fake),
+        readOnly: true
       };
       fakeTextarea = <textarea {...fakeProps} ref={this._refFake} />;
     }
