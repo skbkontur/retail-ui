@@ -4,18 +4,18 @@ node_js:
 cache: yarn
 sudo: required
 dist: trusty
-addons:
-  apt:
-    # sources:
-    #   - ubuntu-toolchain-r-test
-    packages:
-      # - g++-4.8
-      - graphicsmagick
+# addons:
+#   apt:
+#     # sources:
+#     #   - ubuntu-toolchain-r-test
+#     packages:
+#       # - g++-4.8
+#       - graphicsmagick
 install:
   - yarn
-before_script:
-  - yarn build-storybook
 script:
+  - yarn test
+  - yarn build-storybook
   - yarn serve storybook-static -p 6060 &
   - yarn gemini
 before_deploy:
