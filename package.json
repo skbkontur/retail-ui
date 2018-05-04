@@ -17,22 +17,18 @@
   },
   "scripts": {
     "build": "yarn tsc && node scripts/build",
-    "build-storybook": "build-storybook",
     "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
-    "gemini:update": "gemini update",
     "gemini":
-      "wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
-    "lint": "eslint . --ignore-pattern 'flow-typed/**/*.js'",
+      "cross-env NODE_ENV=test wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
     "precommit": "lint-staged",
     "predeploy": "npm run styleguide:build",
-    "prepush": "npm run unit-test",
+    "prepush": "npm run test",
     "storybook": "start-storybook -p 6060",
+    "storybook:build": "build-storybook",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
-    "test": "cross-env NODE_ENV=test jest --no-cache",
-    "typecheck": "flow",
-    "unit-test": "jest",
-    "unit-test:watch": "jest --watch"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "license": "MIT",
   "dependencies": {

@@ -8,7 +8,7 @@ install:
   - yarn
 script:
   - yarn test
-  - yarn build-storybook
+  - yarn storybook:build
   - yarn serve storybook-static -p 6060 &
   - yarn gemini
 before_deploy:
