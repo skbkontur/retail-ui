@@ -1,9 +1,9 @@
-import * as classNames from 'classnames';
-import * as MaskedInput from 'react-input-mask';
+import classNames from 'classnames';
+import MaskedInput from 'react-input-mask';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import * as ReactDOM from 'react-dom';
-import * as invariant from 'invariant';
+import invariant from 'invariant';
 import * as styled from '../internal/styledRender';
 
 import filterProps, { unwidenBool } from '../filterProps';
@@ -11,11 +11,11 @@ import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
-const isFlatDesign = Upgrades.isFlatDesignEnabled();
-
 import CssStyles = require('./Input.less');
 import JssStyles from './Input.styles';
 import { IconName } from '../Icon';
+
+const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 let cssStyles: typeof CssStyles;
 let jssStyles: typeof JssStyles;
@@ -346,14 +346,14 @@ class Input extends React.Component<InputProps, InputState> {
     inputProps: React.InputHTMLAttributes<HTMLInputElement>,
     mask: string
   ) {
-    // TODO: fix MaskedInput definitions
-    // tslint:disable-next-line:no-any
-    return React.createElement(MaskedInput as any, {
-      ...inputProps,
-      mask,
-      maskChar: this.props.maskChar === undefined ? '_' : this.props.maskChar,
-      alwaysShowMask: this.props.alwaysShowMask
-    });
+    return (
+      <MaskedInput
+        {...inputProps}
+        mask={mask}
+        maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
+        alwaysShowMask={this.props.alwaysShowMask}
+      />
+    );
   }
 
   _renderLeftIcon(classes: typeof CssStyles) {
@@ -411,7 +411,9 @@ class Input extends React.Component<InputProps, InputState> {
   }
 
   _refInput = (ref: HTMLInputElement | null) => {
-    const elem = ReactDOM.findDOMNode(this).querySelector('input');
+    const elem = (ReactDOM.findDOMNode(this) as HTMLElement).querySelector(
+      'input'
+    );
     this.input = this.props.mask ? elem : ref;
   };
 

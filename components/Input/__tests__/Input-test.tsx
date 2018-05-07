@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 import Input from '../Input';
-import * as MaskedInput from 'react-input-mask';
+import MaskedInput from 'react-input-mask';
 
 const render = props => mount(React.createElement(Input, props));
 
