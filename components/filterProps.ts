@@ -4,24 +4,31 @@ export type True<T> = {
   [K in keyof T]: T[K] extends true ? K : never
 }[keyof T];
 
-export type Optional<T> = {
+export type AmbiguousBool<T> = {
   [K in keyof T]: T[K] extends false ? never : T[K] extends true ? never : K
 }[keyof T];
 
 export default function filterProps<
   // tslint:disable-next-line:no-any
-  R extends { [key: string]: any }, // Props
-  E extends { [key: string]: boolean }, // Allowed
-  A extends Filter<keyof R, True<E>>, // Always passing props keys
-  C extends Filter<keyof R, Optional<E>>, // Maybe passing props keys
-  T extends { [P in keyof Pick<R, A>]: R[P] } &
-    { [Q in keyof Pick<R, C>]?: R[Q] } // Result
->(props: R, allowed: E): T {
-  const ret = {} as T;
+  Props extends Record<string, any>,
+  Allowed extends Record<string, boolean>,
+  Specific extends Filter<keyof Props, True<Allowed>>,
+  // If value neither true nor false, it should be optional
+  Optional extends Filter<keyof Props, AmbiguousBool<Allowed>>,
+  Result extends { [P in Specific]: Props[P] } & { [Q in Optional]?: Props[Q] }
+>(props: Props, allowed: Allowed): Result {
+  const ret = {} as Result;
   for (const key in props) {
     if (allowed[key]) {
-      ret[key as A] = props[key];
+      ret[key as Specific | Optional] = props[key];
     }
   }
   return ret;
+}
+
+// TypeScript widens types, so `true` becomes `boolean`
+export function specifyAllowed<T extends Record<string, boolean>>(
+  obj: T
+): { [P in keyof T]: T[P] extends infer U ? U : never } {
+  return obj;
 }

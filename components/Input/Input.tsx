@@ -1,22 +1,24 @@
-// @flow
-
-import classNames from 'classnames';
-import MaskedInput from 'react-input-mask/dist/react-input-mask';
+import * as classNames from 'classnames';
+import * as MaskedInput from 'react-input-mask';
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
-import invariant from 'invariant';
-import styled from '../internal/styledRender';
+import * as PropTypes from 'prop-types';
+import * as ReactDOM from 'react-dom';
+import * as invariant from 'invariant';
+import * as styled from '../internal/styledRender';
 
-import filterProps from '../filterProps';
+import filterProps, { specifyAllowed } from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-let cssStyles;
-let jssStyles;
+import CssStyles = require('./Input.less');
+import JssStyles from './Input.styles';
+import { IconName } from '../Icon';
+
+let cssStyles: typeof CssStyles;
+let jssStyles: typeof JssStyles;
 if (process.env.EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Input.styles').default;
 } else {
@@ -25,7 +27,7 @@ if (process.env.EXPERIMENTAL_CSS_IN_JS) {
     : require('./Input.less');
 }
 
-const INPUT_PASS_PROPS = {
+const INPUT_PASS_PROPS = specifyAllowed({
   autoFocus: true,
   disabled: true,
   id: true,
@@ -46,55 +48,61 @@ const INPUT_PASS_PROPS = {
   onKeyPress: true,
   onKeyUp: true,
   onPaste: true
-};
+});
 
-export type Props = {
-  align?: 'left' | 'center' | 'right',
-  alwaysShowMask?: boolean,
-  autoFocus?: boolean,
-  borderless?: boolean,
+export type InputSize = 'small' | 'medium' | 'large';
+
+export type InputAlign = 'left' | 'center' | 'right';
+
+export type InputType = 'password' | 'text';
+
+export interface InputProps {
+  align?: InputAlign;
+  alwaysShowMask?: boolean;
+  autoFocus?: boolean;
+  borderless?: boolean;
   /** @ignore */
-  className?: string, // TODO: kill it
-  disabled?: boolean,
-  error?: boolean,
-  id?: string,
-  leftIcon?: React.Node,
-  mask?: string,
-  maskChar?: ?string,
-  maxLength?: number | string,
-  placeholder?: string,
-  rightIcon?: React.Node,
-  size: 'small' | 'medium' | 'large',
-  title?: string,
-  type?: 'password' | 'text',
-  value?: string,
-  warning?: boolean,
-  width?: number | string,
-  onBlur?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
-  onClick?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
-  onDoubleClick?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
-  onMouseUp?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
-  onMouseDown?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
-  onChange?: (e: SyntheticInputEvent<HTMLInputElement>, v: string) => void,
-  onCopy?: (e: SyntheticClipboardEvent<HTMLInputElement>) => void,
-  onCut?: (e: SyntheticClipboardEvent<HTMLInputElement>) => void,
-  onFocus?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
-  onInput?: (e: SyntheticInputEvent<HTMLInputElement>) => void,
-  onKeyDown?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
-  onKeyPress?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
-  onKeyUp?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
-  onPaste?: (e: SyntheticClipboardEvent<HTMLInputElement>) => void,
-  onMouseEnter?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent<HTMLInputElement>) => void,
-  onMouseOver?: (e: SyntheticMouseEvent<HTMLInputElement>) => void
-};
+  className?: string; // TODO: kill it
+  disabled?: boolean;
+  error?: boolean;
+  id?: string;
+  leftIcon?: React.ReactNode;
+  mask?: string;
+  maskChar?: string | null;
+  maxLength?: number;
+  placeholder?: string;
+  rightIcon?: React.ReactNode;
+  size?: InputSize;
+  title?: string;
+  type?: InputType;
+  value?: string;
+  warning?: boolean;
+  width?: number | string;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  onClick?: React.MouseEventHandler<HTMLInputElement>;
+  onDoubleClick?: React.MouseEventHandler<HTMLInputElement>;
+  onMouseUp?: React.MouseEventHandler<HTMLInputElement>;
+  onMouseDown?: React.MouseEventHandler<HTMLInputElement>;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>, v: string) => void;
+  onCopy?: React.ClipboardEventHandler<HTMLInputElement>;
+  onCut?: React.ClipboardEventHandler<HTMLInputElement>;
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
+  onInput?: React.EventHandler<React.SyntheticEvent<HTMLInputElement>>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+  onKeyPress?: React.KeyboardEventHandler<HTMLInputElement>;
+  onKeyUp?: React.KeyboardEventHandler<HTMLInputElement>;
+  onPaste?: React.ClipboardEventHandler<HTMLInputElement>;
+  onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+}
 
-type State = {
-  polyfillPlaceholder: boolean,
-  blinking: boolean
-};
+export interface InputState {
+  polyfillPlaceholder: boolean;
+  blinking: boolean;
+}
 
-class Input extends React.Component<Props, State> {
+class Input extends React.Component<InputProps, InputState> {
   static propTypes = {
     align: PropTypes.oneOf(['left', 'center', 'right']),
 
@@ -198,18 +206,20 @@ class Input extends React.Component<Props, State> {
     onPaste: PropTypes.func
   };
 
-  static defaultProps = {
+  static defaultProps: {
+    size: InputSize;
+  } = {
     size: 'small'
   };
 
-  _blinkTimeout;
-
-  state: State = {
+  public state: InputState = {
     polyfillPlaceholder: false,
     blinking: false
   };
 
-  input: ?HTMLInputElement = null;
+  private _blinkTimeout: number = 0;
+
+  private input: HTMLInputElement | null = null;
 
   componentDidMount() {
     if (polyfillPlaceholder) {
@@ -223,7 +233,7 @@ class Input extends React.Component<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  componentWillReceiveProps(nextProps: InputProps) {
     if (polyfillPlaceholder && !nextProps.value) {
       this.setState({ polyfillPlaceholder: true });
     }
@@ -234,7 +244,7 @@ class Input extends React.Component<Props, State> {
    */
   focus() {
     invariant(this.input, 'Cannot call "focus" because Input is not mounted');
-    this.input.focus();
+    this.input!.focus();
   }
 
   /**
@@ -242,7 +252,7 @@ class Input extends React.Component<Props, State> {
    */
   blur() {
     invariant(this.input, 'Cannot call "blur" because Input is not mounted');
-    this.input.blur();
+    this.input!.blur();
   }
 
   /**
@@ -250,7 +260,7 @@ class Input extends React.Component<Props, State> {
    */
   blink() {
     this.setState({ blinking: true }, () => {
-      this._blinkTimeout = setTimeout(
+      this._blinkTimeout = window.setTimeout(
         () => this.setState({ blinking: false }),
         150
       );
@@ -262,13 +272,17 @@ class Input extends React.Component<Props, State> {
    */
   setSelectionRange(start: number, end: number) {
     const { input } = this;
-    invariant(input, 'Cannot call "setSelectionRange" on unmounted Input');
+    if (!input) {
+      throw new Error('Cannot call "setSelectionRange" on unmounted Input');
+    }
 
     if (input.setSelectionRange) {
       input.focus();
       input.setSelectionRange(start, end);
-    } else if (input.createTextRange) {
-      const range = input.createTextRange();
+      // tslint:disable-next-line:no-any
+    } else if ((input as any).createTextRange) {
+      // tslint:disable-next-line:no-any
+      const range = (input as any).createTextRange();
       range.collapse(true);
       range.moveEnd('character', end);
       range.moveStart('character', start);
@@ -276,75 +290,87 @@ class Input extends React.Component<Props, State> {
     }
   }
 
-  render = styled(cssStyles, jssStyles, classes => {
-    const labelProps = {
-      className: classNames({
-        [classes.root]: true,
-        [this.props.className || '']: true,
-        [classes.disabled]: this.props.disabled,
-        [classes.error]: this.props.error,
-        [classes.warning]: this.props.warning,
-        [classes.padLeft]: this.props.leftIcon,
-        [classes.padRight]: this.props.rightIcon,
-        [this._getSizeClassName(classes)]: true
-      }),
-      style: { width: this.props.width },
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver
-    };
+  render() {
+    return styled.element(cssStyles, jssStyles, classes => {
+      const labelProps = {
+        className: classNames({
+          [classes.root]: true,
+          [this.props.className || '']: true,
+          [classes.disabled]: this.props.disabled,
+          [classes.error]: this.props.error,
+          [classes.warning]: this.props.warning,
+          [classes.padLeft]: !!this.props.leftIcon,
+          [classes.padRight]: !!this.props.rightIcon,
+          [this._getSizeClassName(classes)]: true
+        }),
+        style: { width: this.props.width },
+        onMouseEnter: this.props.onMouseEnter,
+        onMouseLeave: this.props.onMouseLeave,
+        onMouseOver: this.props.onMouseOver
+      };
 
-    const inputProps = {
-      ...filterProps(this.props, INPUT_PASS_PROPS),
-      className: classNames({
-        [classes.input]: true,
-        [classes.borderless]: this.props.borderless,
-        [classes.blink]: this.state.blinking
-      }),
-      value: this.props.value,
-      onChange: this._handleChange,
-      style: { textAlign: this.props.align },
-      ref: this._refInput
-    };
+      const a = filterProps(this.props as InputProps, INPUT_PASS_PROPS);
 
-    if (this.props.type === 'password') {
-      inputProps.type = this.props.type;
-    }
+      const inputProps = {
+        ...filterProps(this.props, INPUT_PASS_PROPS),
+        className: classNames({
+          [classes.input]: true,
+          [classes.borderless]: this.props.borderless,
+          [classes.blink]: this.state.blinking
+        }),
+        value: this.props.value,
+        onChange: this._handleChange,
+        style: { textAlign: this.props.align },
+        ref: this._refInput,
+        type: 'text'
+      };
 
-    let input = this.props.mask
-      ? this._renderMaskedInput(inputProps)
-      : React.createElement('input', inputProps);
+      if (this.props.type === 'password') {
+        inputProps.type = this.props.type;
+      }
 
-    return (
-      <label {...labelProps}>
-        {input}
-        {this._renderPlaceholder(classes)}
-        {this._renderLeftIcon(classes)}
-        {this._renderRightIcon(classes)}
-      </label>
-    );
-  });
+      let input = this.props.mask
+        ? this._renderMaskedInput(inputProps, this.props.mask)
+        : React.createElement('input', inputProps);
 
-  _renderMaskedInput(inputProps) {
-    return (
-      <MaskedInput
-        {...inputProps}
-        mask={this.props.mask}
-        maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
-        alwaysShowMask={this.props.alwaysShowMask}
-      />
-    );
+      return (
+        <label {...labelProps}>
+          {input}
+          {this._renderPlaceholder(classes)}
+          {this._renderLeftIcon(classes)}
+          {this._renderRightIcon(classes)}
+        </label>
+      );
+    });
   }
 
-  _renderLeftIcon(classes) {
+  _renderMaskedInput(
+    inputProps: React.InputHTMLAttributes<HTMLInputElement>,
+    mask: string
+  ) {
+    // TODO: fix MaskedInput definitions
+    // tslint:disable-next-line:no-any
+    return React.createElement(MaskedInput as any, {
+      ...inputProps,
+      mask,
+      maskChar: this.props.maskChar === undefined ? '_' : this.props.maskChar,
+      alwaysShowMask: this.props.alwaysShowMask
+    });
+  }
+
+  _renderLeftIcon(classes: typeof CssStyles) {
     return this._renderIcon(this.props.leftIcon, classes.leftIcon, classes);
   }
 
-  _renderRightIcon(classes) {
+  _renderRightIcon(classes: typeof CssStyles) {
     return this._renderIcon(this.props.rightIcon, classes.rightIcon, classes);
   }
 
-  _renderIcon(icon, className, classes) {
+  _renderIcon(
+    icon: React.ReactNode,
+    className: string,
+    classes: typeof CssStyles
+  ) {
     return icon ? (
       <div className={className}>
         <span className={classes.icon}>{icon}</span>
@@ -352,7 +378,7 @@ class Input extends React.Component<Props, State> {
     ) : null;
   }
 
-  _renderPlaceholder(classes) {
+  _renderPlaceholder(classes: typeof CssStyles) {
     var placeholder = null;
 
     if (
@@ -374,7 +400,7 @@ class Input extends React.Component<Props, State> {
     return placeholder;
   }
 
-  _getSizeClassName(classes) {
+  _getSizeClassName(classes: typeof CssStyles) {
     const SIZE_CLASS_NAMES = {
       small: classes.sizeSmall,
       medium: Upgrades.isSizeMedium16pxEnabled()
@@ -383,17 +409,15 @@ class Input extends React.Component<Props, State> {
       large: classes.sizeLarge
     };
 
-    return SIZE_CLASS_NAMES[this.props.size];
+    return SIZE_CLASS_NAMES[this.props.size!];
   }
 
-  _refInput = (ref: HTMLInputElement | MaskedInput | null) => {
-    // $FlowIssue
-    const elem: HTMLElement = ReactDOM.findDOMNode(this);
-    // $FlowIssue should return HTMLInputElement
-    this.input = this.props.mask ? elem.querySelector('input') : ref;
+  _refInput = (ref: HTMLInputElement | null) => {
+    const elem = ReactDOM.findDOMNode(this).querySelector('input');
+    this.input = this.props.mask ? elem : ref;
   };
 
-  _handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  _handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (polyfillPlaceholder) {
       const fieldIsEmpty = event.target.value === '';
       if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
