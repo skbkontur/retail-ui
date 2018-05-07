@@ -11,7 +11,7 @@ import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
-import CssStyles = require('./Input.less');
+import CssStyles from './Input.less';
 import JssStyles from './Input.styles';
 import { IconName } from '../Icon';
 

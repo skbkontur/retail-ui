@@ -1,5 +1,3 @@
-// @flow
-
 import { ITheme } from '../theme';
 
 const sidePadding = 10;
