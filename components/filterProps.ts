@@ -27,8 +27,13 @@ export default function filterProps<
 }
 
 // TypeScript widens types, so `true` becomes `boolean`
-export function specifyAllowed<T extends Record<string, boolean>>(
+export function unwidenBool<T extends Record<string, boolean>>(
   obj: T
-): { [P in keyof T]: T[P] extends infer U ? U : never } {
+): { [P in keyof T]: T[P] } {
   return obj;
 }
+
+var a = unwidenBool({
+  b: true,
+  c: false
+});

@@ -6,7 +6,7 @@ import * as ReactDOM from 'react-dom';
 import * as invariant from 'invariant';
 import * as styled from '../internal/styledRender';
 
-import filterProps, { specifyAllowed } from '../filterProps';
+import filterProps, { unwidenBool } from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
@@ -27,7 +27,7 @@ if (process.env.EXPERIMENTAL_CSS_IN_JS) {
     : require('./Input.less');
 }
 
-const INPUT_PASS_PROPS = specifyAllowed({
+const INPUT_PASS_PROPS = unwidenBool({
   autoFocus: true,
   disabled: true,
   id: true,
@@ -308,8 +308,6 @@ class Input extends React.Component<InputProps, InputState> {
         onMouseLeave: this.props.onMouseLeave,
         onMouseOver: this.props.onMouseOver
       };
-
-      const a = filterProps(this.props as InputProps, INPUT_PASS_PROPS);
 
       const inputProps = {
         ...filterProps(this.props, INPUT_PASS_PROPS),

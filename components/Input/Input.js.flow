@@ -25,7 +25,7 @@ export type InputProps = {
   size?: InputSize,
   title?: string,
   type?: InputType,
-  value: string,
+  value?: string,
   warning?: boolean,
   width?: number | string,
   onBlur?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
