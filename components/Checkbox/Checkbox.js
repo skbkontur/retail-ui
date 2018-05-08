@@ -16,7 +16,7 @@ const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 let cssStyles;
 let jssStyles;
-if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Checkbox.styles').default;
 } else {
   cssStyles = isFlatDesign

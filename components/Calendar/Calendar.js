@@ -15,7 +15,7 @@ import { Month } from './Month';
 
 let cssStyles;
 let jssStyles;
-if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Calendar.styles').default;
 } else {
   cssStyles = require('./Calendar.less');

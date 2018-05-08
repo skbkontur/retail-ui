@@ -9,7 +9,7 @@ import config from './config';
 
 let cssStyles;
 let jssStyles;
-if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./MonthView.styles').default;
 } else {
   cssStyles = require('./MonthView.less');

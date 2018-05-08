@@ -18,7 +18,7 @@ const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 let cssStyles: typeof CssStyles;
 let jssStyles: typeof JssStyles;
-if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Input.styles').default;
 } else {
   cssStyles = isFlatDesign

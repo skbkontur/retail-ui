@@ -39,8 +39,8 @@ module.exports = (baseConfig, env) => {
 
   config.plugins.push(
     new webpack.DefinePlugin({
-      'process.env.EXPERIMENTAL_CSS_IN_JS': JSON.stringify(
-        process.env.EXPERIMENTAL_CSS_IN_JS
+      'process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS': JSON.stringify(
+        process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS
       )
     }),
     new WatchExternalFilesPlugin({

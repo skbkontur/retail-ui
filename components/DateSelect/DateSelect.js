@@ -12,7 +12,7 @@ import styled from '../internal/styledRender';
 
 let cssStyles;
 let jssStyles;
-if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./DateSelect.styles').default;
 } else {
   cssStyles = require('./DateSelect.less');
