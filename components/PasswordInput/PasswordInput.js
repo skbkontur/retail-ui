@@ -5,7 +5,7 @@ import { bool } from 'prop-types';
 import cn from 'classnames';
 import getCharHelper from './getCharHelper';
 import Input from '../Input';
-import type { Props as InputProps } from '../Input/Input';
+import type { InputProps } from '../Input/Input';
 import Icon from '../Icon';
 import PasswordInputFallback from './PasswordInputFallback';
 import { ieVerison, isIE } from '../ensureOldIEClassName';

@@ -1,8 +1,8 @@
-// @flow
+/* tslint:disable */
 import * as React from 'react';
 import { mount } from 'enzyme';
 import Input from '../Input';
-import MaskedInput from 'react-input-mask/dist/react-input-mask';
+import MaskedInput from 'react-input-mask';
 
 const render = props => mount(React.createElement(Input, props));
 
@@ -140,19 +140,19 @@ describe('<Input />', () => {
 
   it('has focus method', () => {
     const wrapper = render({ value: '' });
-    const instance = wrapper.instance();
+    const instance = wrapper.instance() as Input;
     expect(instance.focus).toBeInstanceOf(Function);
   });
 
   it('has blur method', () => {
     const wrapper = render({ value: '' });
-    const instance = wrapper.instance();
+    const instance = wrapper.instance() as Input;
     expect(instance.blur).toBeInstanceOf(Function);
   });
 
   it('has setSelectionRange method', () => {
     const wrapper = render({ value: '' });
-    const instance = wrapper.instance();
+    const instance = wrapper.instance() as Input;
     expect(instance.setSelectionRange).toBeInstanceOf(Function);
   });
 });

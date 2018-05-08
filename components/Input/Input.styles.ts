@@ -1,6 +1,4 @@
-// @flow
-
-import type { ITheme } from '../theme';
+import { ITheme } from '../theme';
 
 const sidePadding = 10;
 const sidePaddingPadded = 25;

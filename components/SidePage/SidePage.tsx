@@ -1,5 +1,5 @@
 import * as events from 'add-event-listener';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { EventSubscription } from 'fbemitter';
 import * as React from 'react';
 import LayoutEvents from '../../lib/LayoutEvents';
