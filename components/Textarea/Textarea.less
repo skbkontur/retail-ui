@@ -60,6 +60,15 @@
     color: @text-color-disabled;
   }
 
+  .textarea::placeholder,
+  .placeholder {
+    color: @placeholder-color;
+  }
+
+  .textarea:focus::placeholder {
+    color: @placeholder-color-light;
+  }
+
   .placeholder {
     position: absolute;
     z-index: 3;
