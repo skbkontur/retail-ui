@@ -32,8 +32,3 @@ export function unwidenBool<T extends Record<string, boolean>>(
 ): { [P in keyof T]: T[P] } {
   return obj;
 }
-
-var a = unwidenBool({
-  b: true,
-  c: false
-});
