@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import MaskedInput from 'react-input-mask';
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
 import * as ReactDOM from 'react-dom';
 import invariant from 'invariant';
 import * as styled from '../internal/styledRender';
@@ -58,42 +57,107 @@ export type InputType = 'password' | 'text';
 
 export interface InputProps {
   align?: InputAlign;
+
+  /**
+   * Показывать маску, даже если ничего не введено.
+   */
   alwaysShowMask?: boolean;
+
   autoFocus?: boolean;
+
+  /**
+   * Не отрисовывать рамку.
+   */
   borderless?: boolean;
   /** @ignore */
   className?: string; // TODO: kill it
+
   disabled?: boolean;
+
   error?: boolean;
+
+  /**
+   * ID для использования с элементом label.
+   */
   id?: string;
+
+  /**
+   * Иконка слева инпута.
+   */
   leftIcon?: React.ReactNode;
+
+  /**
+   * Маска ввода. Заменяет placeholder и defaultValue, влияет на значение
+   * инпута. Позволяет вводить только ограниченное количество символов.
+   *
+   * Шаблоны:
+   *  9: 0-9
+   *  a: A-Z, a-z
+   *  *: A-Z, a-z, 0-9
+   *
+   * Можно делать неудаляемую маску, например: `+4\9 99 999 99`. `\` &mdash;
+   * экранирует символ шаблона.
+   */
   mask?: string;
+
+  /**
+   * Символ маски. Если не указан, используется '_'.
+   */
   maskChar?: string | null;
+
   maxLength?: number;
+
   placeholder?: string;
+
+  /**
+   * Иконка справа инпута.
+   */
   rightIcon?: React.ReactNode;
+
   size?: InputSize;
+
   title?: string;
+
   type?: InputType;
+
   value?: string;
+
   warning?: boolean;
+
   width?: number | string;
+
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
+
   onClick?: React.MouseEventHandler<HTMLInputElement>;
+
   onDoubleClick?: React.MouseEventHandler<HTMLInputElement>;
+
   onMouseUp?: React.MouseEventHandler<HTMLInputElement>;
+
   onMouseDown?: React.MouseEventHandler<HTMLInputElement>;
+
   onChange?: (e: React.ChangeEvent<HTMLInputElement>, v: string) => void;
+
   onCopy?: React.ClipboardEventHandler<HTMLInputElement>;
+
   onCut?: React.ClipboardEventHandler<HTMLInputElement>;
+
   onFocus?: React.FocusEventHandler<HTMLInputElement>;
+
   onInput?: React.EventHandler<React.SyntheticEvent<HTMLInputElement>>;
+
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+
   onKeyPress?: React.KeyboardEventHandler<HTMLInputElement>;
+
   onKeyUp?: React.KeyboardEventHandler<HTMLInputElement>;
+
   onPaste?: React.ClipboardEventHandler<HTMLInputElement>;
+
   onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+
   onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+
   onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
 }
 
@@ -103,109 +167,6 @@ export interface InputState {
 }
 
 class Input extends React.Component<InputProps, InputState> {
-  static propTypes = {
-    align: PropTypes.oneOf(['left', 'center', 'right']),
-
-    /**
-     * Показывать маску, даже если ничего не введено.
-     */
-    alwaysShowMask: PropTypes.bool,
-
-    /**
-     * Не отрисовывать рамку.
-     */
-    borderless: PropTypes.bool,
-
-    disabled: PropTypes.bool,
-
-    /**
-     * Визуально показать наличие ошибки.
-     */
-    error: PropTypes.bool,
-
-    /**
-     * ID для использования с элементом label.
-     */
-    id: PropTypes.string,
-
-    /**
-     * Иконка слева инпута.
-     */
-    leftIcon: PropTypes.element,
-
-    /**
-     * Маска ввода. Заменяет placeholder и defaultValue, влияет на значение
-     * инпута. Позволяет вводить только ограниченное количество символов.
-     *
-     * Шаблоны:
-     *  9: 0-9
-     *  a: A-Z, a-z
-     *  *: A-Z, a-z, 0-9
-     *
-     * Можно делать неудаляемую маску, например: `+4\9 99 999 99`. `\` &mdash;
-     * экранирует символ шаблона.
-     */
-    mask: PropTypes.string,
-
-    /**
-     * Символ маски. Если не указан, используется '_'.
-     */
-    maskChar: PropTypes.string,
-
-    maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    placeholder: PropTypes.string,
-
-    /**
-     * Иконка справа инпута.
-     */
-    rightIcon: PropTypes.element,
-
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
-
-    title: PropTypes.string,
-
-    type: PropTypes.oneOf(['password', 'text']),
-
-    value: PropTypes.string.isRequired,
-
-    /**
-     * Визуально показать наличие предупреждения.
-     */
-    warning: PropTypes.bool,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    onBlur: PropTypes.func,
-
-    /**
-     * Вызывается при вводе каждого символа.
-     */
-    onChange: PropTypes.func,
-
-    onCopy: PropTypes.func,
-
-    onCut: PropTypes.func,
-
-    onFocus: PropTypes.func,
-
-    onInput: PropTypes.func,
-
-    onKeyDown: PropTypes.func,
-
-    onKeyPress: PropTypes.func,
-
-    onKeyUp: PropTypes.func,
-
-    onMouseEnter: PropTypes.func,
-
-    onMouseLeave: PropTypes.func,
-
-    onMouseOver: PropTypes.func,
-
-    onPaste: PropTypes.func
-  };
-
   static defaultProps: {
     size: InputSize;
   } = {
