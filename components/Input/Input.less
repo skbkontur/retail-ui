@@ -315,3 +315,32 @@
     border-color: transparent;
   }
 }
+
+input, textarea {
+
+  &:-ms-input-placeholder,
+  &::-webkit-input-placeholder,
+  &::-moz-placeholder {
+      color: red;// @c-disabled-txt;
+  }
+  &:focus {
+      &:-ms-input-placeholder,
+      &::-webkit-input-placeholder,
+      &::-moz-placeholder {
+          color: blue; // lighten(@c-disabled-txt, 20%);
+      }
+  }
+}
+
+.-disabled {
+  input, textarea {
+      &::-webkit-input-placeholder,
+      &:-ms-input-placeholder,
+      &::-moz-placeholder,
+      &:focus::-webkit-input-placeholder,
+      &:focus:-ms-input-placeholder,
+      &:focus::-moz-placeholder {
+          color: transparent;
+      }
+  }
+}

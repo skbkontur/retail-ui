@@ -1,6 +1,30 @@
 import * as React from 'react';
 import Input from '../Input';
 
+
+class HistorySaver{
+    constructor(){
+        this.values = [];
+        this.index = -1;
+    }
+    getNext = () =>{ 
+        var v = this.values[(++this.index < this.values.length - 1) && this.index]; 
+        console.log(v,this.index); return v;
+    }
+    getPrev = () => { 
+        var v = this.values[(--this.index > 0) && this.index]; 
+        console.log(v, this.index); return v;
+    }
+    push = value => {
+        if(this.index < this.values.length - 1){
+            this.values[++this.index] = value; 
+        }else{
+            this.values.push(value);
+            this.index = this.values.length - 1;
+        }
+        console.log(this.values,this.index)
+    }
+}
 export default class MaskedInputWrapper extends React.Component {
     constructor(props) {
         super(props)
@@ -10,7 +34,7 @@ export default class MaskedInputWrapper extends React.Component {
             'a': "[A-Za-z]",
             '*': "[A-Za-z0-9]"
         };
-        this.trueValue = "";
+        this.mountedValue = "";
         this.placeholder = props.placeholder || "_";
         this.tests = [];
         this.firstNonMaskPos = null;
@@ -23,6 +47,7 @@ export default class MaskedInputWrapper extends React.Component {
         };
         this.buffer = this.mask.split("").map(char => this.defs[char] ? this.placeholder : char);
         this.fillTests(this.mask);
+        this.historySaver = new HistorySaver()
     }
 
     fillTests = mask => {
@@ -38,6 +63,7 @@ export default class MaskedInputWrapper extends React.Component {
     }
 
     componentDidMount = () => {
+        this.refs._input.input.removeAttribute("value");
         this.refs._input.input.value = this.props.value;
         this.resetBufferAndSelectionRange();
         this.updateMaskRendering();
@@ -91,13 +117,26 @@ export default class MaskedInputWrapper extends React.Component {
     }
 
     __handleKeyUp = e => {
-        if(e.keyCode == 89 && e.ctrlKey || e.keyCode == 90 && e.ctrlKey){    // ctrl+z || ctrl+y
-            this.__defferedInputUpdate();
-            return;
-        }
-    }
 
+        if(e.keyCode == 89 && e.ctrlKey || e.keyCode == 90 && e.ctrlKey){
+           
+            var value = e.keyCode == 89 ?  this.historySaver.getNext() : this.historySaver.getPrev();
+            if(value){
+                this.__setInputValue(value)
+                this.updateMaskRendering();
+                }
+                e.preventDefault()
+        }else{
+            var history = this.historySaver.values,
+                value = e.target.value;
+            if(value !== history[history.length-1]){
+            this.historySaver.push(value);
+               }
+            } 
+    }
+    
     __defferedInputUpdate = () => {
+        this.refs._input.input.removeAttribute("value");
         var that = this;
         requestAnimationFrame(function () {
             that.resetBufferAndSelectionRange();
@@ -124,8 +163,8 @@ export default class MaskedInputWrapper extends React.Component {
     updateMaskRendering = () => {
        var value = this.trimBuffer();
        var hiddenPart = "";
-       this.trueValue = value.join("");
-       this.__setInputValue(this.trueValue);
+       this.mountedValue = value.join("");
+       this.__setInputValue(this.mountedValue);
        this.__setInputCaret();
        value.map((item, i) => {
             hiddenPart += !!this.tests[i] ? this.placeholder : item;
@@ -246,15 +285,34 @@ export default class MaskedInputWrapper extends React.Component {
 
     isSpecialKey = keyCode => !!~[9, 13, 16, 37, 38, 39, 40].indexOf(keyCode)
 
-    render = ()  => (  <Input {...this.props}
-                        value={this.trueValue}
+    prepearPropsToInput = props =>{
+        var newProps = {};
+         for(var key in props){
+            newProps[key] = props[key]
+        }
+        delete newProps.value;
+        return newProps;
+    }
+    saveValueToHistory = value => {
+        var history = this.history;
+           if(history[history - 1] !== value && this.historyIndex === history.length){
+            this.history.push(value);
+            this.historyIndex++;
+           }
+        
+    }
+    getFromHistory(){
+        return this.history[this.historyIndex]
+    }
+    render = ()  => (  <Input {...this.prepearPropsToInput(this.props)}
                         onKeyUp = {this.__handleKeyUp}
                         onKeyDown = {this.__handleKeyDown}
                         onCut = {this.__defferedInputUpdate}
                         onPaste = {this.__defferedInputUpdate}
                         visiblepart = {this.state.visiblePartOfMask}
                         hiddenpart = {this.state.hiddenPartOfMask}
-                        maskAttached={true}
+                        maskAttached = {true}
+                        onChange = {function(e){console.trace(e)}}
                         ref="_input"
                         type="text"/>
         );
