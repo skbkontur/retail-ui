@@ -28,6 +28,7 @@
     height: 0;
     width: 100%;
     top: 0;
+    left: 0;
     visibility: hidden;
   }
 
@@ -57,6 +58,15 @@
     background: @bg-disabled;
     border-color: @border-color-gray-light;
     color: @text-color-disabled;
+  }
+
+  .textarea::placeholder,
+  .placeholder {
+    color: @placeholder-color;
+  }
+
+  .textarea:focus::placeholder {
+    color: @placeholder-color-light;
   }
 
   .placeholder {

@@ -5,7 +5,7 @@ import { bool } from 'prop-types';
 import cn from 'classnames';
 import getCharHelper from './getCharHelper';
 import Input from '../Input';
-import type { Props as InputProps } from '../Input/Input';
+import type { InputProps } from '../Input/Input';
 import Icon from '../Icon';
 import PasswordInputFallback from './PasswordInputFallback';
 import { ieVerison, isIE } from '../ensureOldIEClassName';
@@ -109,7 +109,7 @@ export default class PasswordInput extends React.Component<Props, State> {
         className={styles.toggleVisibility}
         onClick={this._handleToggleVisibility}
       >
-        <Icon size={14} name={this.state.visible ? 'eye' : 'eye-slash'} />
+        <Icon size={14} name={this.state.visible ? 'EyeOpened' : 'EyeClosed'} />
       </span>
     );
   };

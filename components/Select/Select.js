@@ -175,7 +175,8 @@ class Select<TValue, TItem> extends React.Component<
     renderValue,
     renderItem,
     areValuesEqual,
-    filterItem
+    filterItem,
+    use: 'default'
   };
 
   static SEP = () => <MenuSeparator />;
@@ -234,7 +235,18 @@ class Select<TValue, TItem> extends React.Component<
       return this.props.renderValue(value, item);
     }
 
-    return <span className={styles.placeholder}>{this.props.placeholder}</span>;
+    const useIsCustom = this.props.use !== 'default';
+
+    return (
+      <span
+        className={classNames(
+          styles.placeholder,
+          useIsCustom && styles.customUsePlaceholder
+        )}
+      >
+        {this.props.placeholder}
+      </span>
+    );
   }
 
   renderDefaultButton(params: ButtonParams) {
@@ -272,14 +284,21 @@ class Select<TValue, TItem> extends React.Component<
       }
     };
 
+    const useIsCustom = this.props.use !== 'default';
+
     return (
       <Button {...buttonProps}>
         <span {...labelProps}>
           <span className={styles.labelText}>{params.label}</span>
-          <div className={styles.arrowWrap}>
-            <div className={styles.arrow} />
-          </div>
         </span>
+        <div className={styles.arrowWrap}>
+          <div
+            className={classNames(
+              styles.arrow,
+              useIsCustom && styles.customUseArrow
+            )}
+          />
+        </div>
       </Button>
     );
   }

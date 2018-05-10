@@ -22,7 +22,7 @@
   }
 
   .cross {
-    color: #808080;
+    color: @tooltip-close-btn-color;
     cursor: pointer;
     position: absolute;
     text-align: center;
@@ -33,10 +33,11 @@
     height: 11px;
     white-space: nowrap;
     line-height: 10px;
+    box-sizing: content-box;
   }
 
   .cross:hover {
-    color: #606060;
+    color: @tooltip-close-btn-hover-color;
   }
 
   .pin {

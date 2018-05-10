@@ -1,6 +1,4 @@
-// @flow
-
-import Modal from './Modal';
+import Modal from './Modal.js';
 
 const ModalAdapter = {
   close(inst) {
@@ -8,7 +6,6 @@ const ModalAdapter = {
   }
 };
 
-// $FlowIssue
 Modal.__ADAPTER__ = ModalAdapter;
 
 export default Modal;

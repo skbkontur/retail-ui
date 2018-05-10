@@ -1,5 +1,5 @@
 // @flow
-import * as warning from 'warning';
+import warning from 'warning';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 
@@ -222,7 +222,10 @@ const MAP: { [key: string]: string } = {
   'ok-double': '\ue0d5',
 
   // 24.03.2017
-  'flash-drive': '\ue0d7'
+  'flash-drive': '\ue0d7',
+
+  // 17.04.2018
+  'send-h': '\uE0E0'
 };
 
 export type IconName = keyof typeof Icons;

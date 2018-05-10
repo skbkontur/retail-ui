@@ -57,7 +57,7 @@ class Organizations extends React.Component<Props, State> {
             </span>
           )}
           <span className={styles.organizationsArrow}>
-            <Icon color="#aaa" size={14} name="angle-bottom" />
+            <Icon color="#aaa" size={14} name="ArrowChevronDown" />
           </span>
         </span>
         <div

@@ -12,7 +12,7 @@ import styled from '../internal/styledRender';
 
 let cssStyles;
 let jssStyles;
-if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./DateSelect.styles').default;
 } else {
   cssStyles = require('./DateSelect.less');
@@ -138,7 +138,7 @@ export default class DateSelect extends React.Component<Props, State> {
               [styles.arrowDisabled]: disabled
             })}
           >
-            <Icon name="sort" size={12} />
+            <Icon name="ArrowTriangleUpDown" size={12} />
           </div>
         </div>
         {this.state.opened && this.renderMenu(styles)}
@@ -251,7 +251,7 @@ export default class DateSelect extends React.Component<Props, State> {
               {!this.state.topCapped && (
                 <div className={styles.menuUp} onClick={this.handleUp}>
                   <span>
-                    <Icon name={'caret-top'} />
+                    <Icon name={'ArrowTriangleUp'} />
                   </span>
                 </div>
               )}
@@ -263,7 +263,7 @@ export default class DateSelect extends React.Component<Props, State> {
               {!this.state.botCapped && (
                 <div className={styles.menuDown} onClick={this.handleDown}>
                   <span>
-                    <Icon name={'caret-bottom'} />
+                    <Icon name={'ArrowTriangleDown'} />
                   </span>
                 </div>
               )}

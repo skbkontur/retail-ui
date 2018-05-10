@@ -155,6 +155,7 @@ export default {
   Baby: '\uE094',
   Send: '\uE095',
   Send2: '\uE096',
+  Send3: '\uE0E0',
   Copy: '\uE097',
   ArrowCorner1: '\uE098',
   Dot12Dashed: '\uE099',

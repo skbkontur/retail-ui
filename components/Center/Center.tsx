@@ -7,7 +7,7 @@ import * as CssStyles from './Center.less';
 
 let cssStyles: typeof CssStyles;
 let jssStyles: typeof JssStyles;
-if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Center.styles').default;
 } else {
   cssStyles = require('./Center.less');

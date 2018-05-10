@@ -15,7 +15,7 @@ export const element = <T: {}>(
   jssStyles: (theme: ITheme) => JSSStyles<T>,
   render: (classes: T) => React$Node
 ) => {
-  if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+  if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
     const JssStyled = require('./JssStyled').default;
     return <JssStyled styles={jssStyles} children={render} />;
   } else {

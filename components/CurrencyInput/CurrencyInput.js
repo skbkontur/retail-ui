@@ -9,6 +9,10 @@ import filterProps from '../filterProps';
 import SelectionHelper, { type Selection } from './SelectionHelper';
 import CurrencyHelper from './CurrencyHelper';
 import CurrencyInputHelper from './CurrencyInputHelper';
+import {
+  CURRENCY_INPUT_ACTIONS,
+  extractAction
+} from './CurrencyInputKeyboardActions';
 
 const INPUT_PASS_PROPS = {
   align: true,
@@ -151,9 +155,9 @@ export default class CurrencyInput extends Component<Props, State> {
       }
     }
 
-    const action = this._getAction(event);
+    const action = extractAction(event);
 
-    if (action === Actions.Ignore) {
+    if (action === CURRENCY_INPUT_ACTIONS.Ignore) {
       return;
     }
 
@@ -161,52 +165,64 @@ export default class CurrencyInput extends Component<Props, State> {
     const selection = this._getSelection(event.target);
 
     switch (action) {
-      case Actions.Submit:
+      case CURRENCY_INPUT_ACTIONS.Submit: {
         this.props.onSubmit && this.props.onSubmit();
         return;
-      case Actions.Digit:
+      }
+      case CURRENCY_INPUT_ACTIONS.Digit: {
         this._inputValue(selection.start, selection.end, event.key);
         return;
-      case Actions.Separator:
+      }
+      case CURRENCY_INPUT_ACTIONS.Separator: {
         this._inputValue(selection.start, selection.end, ',');
         return;
-      case Actions.Minus:
+      }
+      case CURRENCY_INPUT_ACTIONS.Minus: {
         this._inputValue(selection.start, selection.end, '-');
         return;
-      case Actions.Backspace:
+      }
+      case CURRENCY_INPUT_ACTIONS.Backspace: {
         this._inputValue(
           CurrencyInputHelper.moveCursor(this.state.formatted, selection, -1),
           selection.end,
           ''
         );
         return;
-      case Actions.Delete:
+      }
+      case CURRENCY_INPUT_ACTIONS.Delete: {
         this._inputValue(
           selection.start,
           CurrencyInputHelper.moveCursor(this.state.formatted, selection, +1),
           ''
         );
         return;
-      case Actions.MoveCursorLeft:
+      }
+      case CURRENCY_INPUT_ACTIONS.MoveCursorLeft: {
         this._moveCursor(selection, -1);
         return;
-      case Actions.MoveCursorRight:
+      }
+      case CURRENCY_INPUT_ACTIONS.MoveCursorRight: {
         this._moveCursor(selection, +1);
         return;
-      case Actions.Home:
+      }
+      case CURRENCY_INPUT_ACTIONS.Home: {
         this.setState({ selection: SelectionHelper.fromPosition(0) });
         return;
-      case Actions.End:
-        let position = this.state.formatted.length;
-        this.setState({ selection: SelectionHelper.fromPosition(position) });
+      }
+      case CURRENCY_INPUT_ACTIONS.End: {
+        const end = this.state.formatted.length;
+        this.setState({ selection: SelectionHelper.fromPosition(end) });
         return;
-      case Actions.ExtendSelectionLeft:
+      }
+      case CURRENCY_INPUT_ACTIONS.ExtendSelectionLeft: {
         this._extendSelection(selection, -1);
         return;
-      case Actions.ExtendSelectionRight:
+      }
+      case CURRENCY_INPUT_ACTIONS.ExtendSelectionRight: {
         this._extendSelection(selection, +1);
         return;
-      case Actions.FullSelection:
+      }
+      case CURRENCY_INPUT_ACTIONS.FullSelection: {
         this.setState({
           selection: {
             start: 0,
@@ -215,6 +231,18 @@ export default class CurrencyInput extends Component<Props, State> {
           }
         });
         return;
+      }
+      case CURRENCY_INPUT_ACTIONS.ExtendSelectionToBegin: {
+        this.setState({ selection: SelectionHelper.toBegin(selection.start) });
+        return;
+      }
+      case CURRENCY_INPUT_ACTIONS.ExtendSelectionToEnd: {
+        const inputEnd = this.state.formatted.length;
+        this.setState({
+          selection: SelectionHelper.toEnd(selection.start, inputEnd)
+        });
+        return;
+      }
     }
   };
 
@@ -264,75 +292,6 @@ export default class CurrencyInput extends Component<Props, State> {
         }
       });
     }
-  };
-
-  _getAction = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
-    const actions = [
-      {
-        type: Actions.Submit,
-        check: e => e.key === 'Enter'
-      },
-      {
-        type: Actions.ExtendSelectionLeft,
-        check: e => e.shiftKey && e.key === 'ArrowLeft'
-      },
-      {
-        type: Actions.ExtendSelectionRight,
-        check: e => e.shiftKey && e.key === 'ArrowRight'
-      },
-      {
-        type: Actions.FullSelection,
-        check: e => e.ctrlKey && e.key === 'a'
-      },
-      {
-        type: Actions.MoveCursorLeft,
-        check: e => e.key === 'ArrowLeft'
-      },
-      {
-        type: Actions.MoveCursorRight,
-        check: e => e.key === 'ArrowRight'
-      },
-      {
-        type: Actions.Home,
-        check: e => e.key === 'Home'
-      },
-      {
-        type: Actions.End,
-        check: e => e.key === 'End'
-      },
-      {
-        type: Actions.Backspace,
-        check: e => e.key === 'Backspace'
-      },
-      {
-        type: Actions.Delete,
-        check: e => e.key === 'Delete'
-      },
-      {
-        type: Actions.Minus,
-        check: e => e.key === '-' || e.key === 'Subtract'
-      },
-      {
-        type: Actions.Separator,
-        check: e =>
-          e.key === ',' ||
-          e.key === '.' ||
-          e.key === 'Decimal' ||
-          e.keyCode === 188 ||
-          e.keyCode === 190
-      },
-      {
-        type: Actions.Digit,
-        check: e => /^\d$/.exec(e.key)
-      },
-      {
-        type: Actions.Ignore,
-        check: e =>
-          e.shiftKey || e.metaKey || e.ctrlKey || e.altKey || e.key === 'Tab'
-      }
-    ];
-    const action = actions.find(x => x.check(event));
-    return (action && action.type) || Actions.Unknown;
   };
 
   _handlePaste = (event: SyntheticClipboardEvent<HTMLInputElement>) => {
@@ -401,25 +360,3 @@ function getInputSelection(input): Selection {
     direction: input.selectionDirection
   };
 }
-
-const Actions = {
-  Unknown: 0,
-  Ignore: 1,
-
-  MoveCursorLeft: 11,
-  MoveCursorRight: 12,
-  Home: 13,
-  End: 14,
-
-  ExtendSelectionLeft: 21,
-  ExtendSelectionRight: 22,
-  FullSelection: 23,
-
-  Backspace: 31,
-  Delete: 32,
-  Submit: 33,
-
-  Digit: 101,
-  Minus: 102,
-  Separator: 103
-};

@@ -27,3 +27,12 @@ export class KeyboardActionExctracterBuilder<+T> {
     };
   }
 }
+
+export const isModified: ActionCheck = e =>
+  e.shiftKey || e.metaKey || e.ctrlKey || e.altKey;
+export const isSeparator: ActionCheck = e =>
+  e.key === ',' ||
+  e.key === '.' ||
+  e.key === 'Decimal' ||
+  e.keyCode === 188 ||
+  e.keyCode === 190;
