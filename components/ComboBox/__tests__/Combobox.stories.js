@@ -95,6 +95,13 @@ storiesOf('ComboBox v2', module)
       placeholder={'placeholder'}
       noInitialValue={true}
     />
+  ))
+  .add('with maxLength', () => (
+    <SimpleCombobox
+      maxLength={10}
+      placeholder={'placeholder'}
+      noInitialValue={true}
+    />
   ));
 
 type State = {

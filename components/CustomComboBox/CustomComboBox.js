@@ -27,6 +27,7 @@ export type CustomComboBoxProps<T> = {
   disablePortal?: boolean,
   disabled?: boolean,
   error?: boolean,
+  maxLength?: number,
   menuAlign?: 'left' | 'right',
   openButton?: boolean,
   onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
@@ -146,6 +147,7 @@ class CustomComboBox extends React.Component<Props<*>, CustomComboBoxState<*>> {
       value: this.props.value,
       warning: this.props.warning,
       width: this.props.width,
+      maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
 
       onChange: value => this.dispatch({ type: 'ValueChange', value }),

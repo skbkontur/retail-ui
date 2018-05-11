@@ -31,6 +31,7 @@ type Props<T> = {
   value?: ?T,
   warning?: boolean,
   width: string | number,
+  maxLength?: number,
   maxMenuHeight?: number | string,
 
   onChange: T => mixed,
@@ -278,6 +279,7 @@ class ComboBoxView<T> extends React.Component<Props<T>> {
           borderless={borderless}
           disabled={disabled}
           error={error}
+          maxLength={this.props.maxLength}
           onBlur={onInputBlur}
           onChange={onInputChange}
           onFocus={onInputFocus}
