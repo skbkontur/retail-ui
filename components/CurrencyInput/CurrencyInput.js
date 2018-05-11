@@ -124,9 +124,9 @@ export default class CurrencyInput extends Component<Props, State> {
         onPaste={this._handlePaste}
         onCopy={this._handleCopy}
         onCut={this._handleCut}
-        onMouseEnter={this._handleMouseEnter}
-        onMouseLeave={this._handleMouseLeave}
-        onMouseOver={this._handleMouseOver}
+        onMouseEnter={this.props.onMouseEnter}
+        onMouseLeave={this.props.onMouseLeave}
+        onMouseOver={this.props.onMouseOver}
         ref={this._handleRef}
         placeholder={placeholder}
       />
@@ -356,24 +356,6 @@ export default class CurrencyInput extends Component<Props, State> {
 
   _handleRef = (ref: ?Input) => {
     this._input = ref;
-  };
-
-  _handleMouseEnter = (event: SyntheticMouseEvent<>) => {
-    if (this.props.onMouseEnter) {
-      this.props.onMouseEnter(event);
-    }
-  };
-
-  _handleMouseLeave = (event: SyntheticMouseEvent<>) => {
-    if (this.props.onMouseLeave) {
-      this.props.onMouseLeave(event);
-    }
-  };
-
-  _handleMouseOver = (event: SyntheticMouseEvent<>) => {
-    if (this.props.onMouseOver) {
-      this.props.onMouseOver(event);
-    }
   };
 }
 
