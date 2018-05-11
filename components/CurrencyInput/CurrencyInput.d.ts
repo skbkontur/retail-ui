@@ -15,6 +15,9 @@ export interface CurrencyInputProps {
   onFocus?: () => void;
   onSubmit?: () => void;
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+  onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
   placeholder?: string;
   signed?: boolean;
   size?: 'small' | 'medium' | 'large';

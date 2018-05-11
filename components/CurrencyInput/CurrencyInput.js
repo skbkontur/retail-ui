@@ -45,7 +45,10 @@ type Props = {
   onChange: (e: { target: { value: ?number } }, value: ?number) => void,
   onFocus?: () => void,
   onSubmit?: () => void,
-  onKeyDown?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void
+  onKeyDown?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
+  onMouseEnter?: (event: SyntheticMouseEvent<>) => void,
+  onMouseLeave?: (event: SyntheticMouseEvent<>) => void,
+  onMouseOver?: (event: SyntheticMouseEvent<>) => void
 };
 
 type State = {
@@ -71,6 +74,9 @@ export default class CurrencyInput extends Component<Props, State> {
     onBlur: PropTypes.func,
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+    onMouseOver: PropTypes.func,
     onSubmit: PropTypes.func
   };
 
@@ -118,6 +124,9 @@ export default class CurrencyInput extends Component<Props, State> {
         onPaste={this._handlePaste}
         onCopy={this._handleCopy}
         onCut={this._handleCut}
+        onMouseEnter={this._handleMouseEnter}
+        onMouseLeave={this._handleMouseLeave}
+        onMouseOver={this._handleMouseOver}
         ref={this._handleRef}
         placeholder={placeholder}
       />
@@ -347,6 +356,24 @@ export default class CurrencyInput extends Component<Props, State> {
 
   _handleRef = (ref: ?Input) => {
     this._input = ref;
+  };
+
+  _handleMouseEnter = (event: SyntheticMouseEvent<>) => {
+    if (this.props.onMouseEnter) {
+      this.props.onMouseEnter(event);
+    }
+  };
+
+  _handleMouseLeave = (event: SyntheticMouseEvent<>) => {
+    if (this.props.onMouseLeave) {
+      this.props.onMouseLeave(event);
+    }
+  };
+
+  _handleMouseOver = (event: SyntheticMouseEvent<>) => {
+    if (this.props.onMouseOver) {
+      this.props.onMouseOver(event);
+    }
   };
 }
 
