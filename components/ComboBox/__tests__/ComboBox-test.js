@@ -244,4 +244,15 @@ describe('ComboBox', () => {
 
     expect(onClick).toHaveBeenCalledTimes(1);
   });
+
+  it('handles maxLength', () => {
+    const search = jest.fn(() => Promise.resolve([]));
+    const wrapper = mount(<ComboBox getItems={search} maxLength={2} />);
+
+    wrapper.instance().focus();
+    wrapper.update();
+
+    const input = wrapper.find('input');
+    expect(input.prop('maxLength')).toBe(2);
+  });
 });

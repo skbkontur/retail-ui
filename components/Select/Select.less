@@ -30,6 +30,11 @@
 
   .placeholder {
     color: @slt-placeholder-color;
+
+    &.customUsePlaceholder {
+      color: inherit;
+      opacity: 0.7;
+    }
   }
 
   .arrowWrap {
@@ -52,6 +57,12 @@
       display: inline-block;
       margin-bottom: 3px;
       vertical-align: middle;
+
+      &.customUseArrow {
+        color: inherit;
+        border-top-color: inherit;
+        opacity: 0.7;
+      }
     }
   }
 

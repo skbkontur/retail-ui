@@ -28,7 +28,7 @@ describe('PasswordInput', () => {
 
   it('should render eye-slash Icon', () => {
     const component = setup();
-    expect(component.find(Icon).props().name).toBe('eye-slash');
+    expect(component.find(Icon).props().name).toBe('EyeClosed');
   });
 
   it('should render password Input', () => {
@@ -39,7 +39,7 @@ describe('PasswordInput', () => {
   it('should render eye Icon after click on eye-slash Icon', () => {
     const component = setup();
     component.find(Icon).simulate('click');
-    expect(component.find(Icon).props().name).toBe('eye');
+    expect(component.find(Icon).props().name).toBe('EyeOpened');
   });
 
   it('should render text Input after click on eye-slash Icon', () => {

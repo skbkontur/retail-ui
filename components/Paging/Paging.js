@@ -109,7 +109,7 @@ export default class Paging extends React.Component<Props, State> {
       >
         Дальше
         <span className={styles.forwardIcon}>
-          <Icon name="angle-right" size="18px" />
+          <Icon name="ArrowChevronRight" size="18px" />
         </span>
       </Component>
     );

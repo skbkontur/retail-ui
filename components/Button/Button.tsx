@@ -1,5 +1,5 @@
 import * as events from 'add-event-listener';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as React from 'react';
 import * as styled from '../internal/styledRender';
 import Upgrades from '../../lib/Upgrades';
@@ -17,7 +17,7 @@ import { IconName } from '../Icon';
 
 let cssStyles: typeof CssStyles;
 let jssStyles: typeof JssStyles;
-if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./Button.styles').default;
 } else {
   cssStyles = isFlatDesign
@@ -101,7 +101,11 @@ export type ButtonProps = {
 
   narrow?: boolean;
 
+  onBlur?: React.FocusEventHandler<HTMLButtonElement>;
+
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+
+  onFocus?: React.FocusEventHandler<HTMLButtonElement>;
 
   onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
 
@@ -322,11 +326,19 @@ class Button extends React.Component<ButtonProps, ButtonState> {
           tabPressed = false;
         }
       });
+      if (this.props.onFocus) {
+        this.props.onFocus(e);
+      }
     }
   };
 
-  private handleBlur = () => {
+  private handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
     this.setState({ focusedByTab: false });
+    if (!this.props.disabled && !this.props.disableFocus) {
+      if (this.props.onBlur) {
+        this.props.onBlur(e);
+      }
+    }
   };
 
   private _ref = (node: HTMLButtonElement | null) => {

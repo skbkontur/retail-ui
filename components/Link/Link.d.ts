@@ -3,11 +3,10 @@ import { IconName } from '../Icon';
 
 export type LinkUse = 'default' | 'success' | 'danger' | 'grayed';
 
-export interface LinkProps extends React.LinkHTMLAttributes<HTMLLinkElement> {
+export interface LinkProps
+  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   disabled?: boolean;
-  href?: string;
   icon?: IconName;
-  onClick?: React.MouseEventHandler<HTMLLinkElement>;
   use?: LinkUse;
   children?: React.ReactNode;
 }

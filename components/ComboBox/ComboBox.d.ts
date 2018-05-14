@@ -9,6 +9,7 @@ export interface ComboBoxProps<T> {
   error?: boolean;
   getItems?: (query: string) => Promise<T[]>;
   itemToValue: (item: T) => string | number;
+  maxLength?: number;
   menuAlign?: 'left' | 'right';
   onBlur?: () => void;
   onChange?: (event: { target: { value: T } }, item: T) => void;

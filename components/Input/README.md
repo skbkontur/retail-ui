@@ -1,3 +1,3 @@
 ```js
-<Input leftIcon={<Icon name="search" />} />
+<Input leftIcon={<Icon name="Search" />} />
 ```

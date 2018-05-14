@@ -31,7 +31,7 @@ class FxInput extends React.Component {
     };
     let button = null;
     if (this.props.auto) {
-      inputProps.leftIcon = <Icon name="fx" />;
+      inputProps.leftIcon = <Icon name="Function" />;
     } else {
       button = (
         <Button
@@ -39,7 +39,7 @@ class FxInput extends React.Component {
           onClick={this.props.onRestore}
           borderless={this.props.borderless}
         >
-          <Icon name="undo" />
+          <Icon name="Undo" />
         </Button>
       );
     }

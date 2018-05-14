@@ -44,6 +44,8 @@ export type ExternalProps<T> = {
    */
   itemToValue: (item: T) => string | number,
 
+  maxLength?: number,
+
   menuAlign: 'left' | 'right',
 
   onBlur?: () => void,

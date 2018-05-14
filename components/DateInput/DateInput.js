@@ -32,7 +32,7 @@ import styled from '../internal/styledRender';
 
 let cssStyles;
 let jssStyles;
-if (process.env.EXPERIMENTAL_CSS_IN_JS) {
+if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
   jssStyles = require('./DateInput.styles').default;
 } else {
   cssStyles = require('./DateInput.less');
@@ -303,7 +303,9 @@ class DateInput extends React.Component<Props, State> {
         ? DateParts.All
         : start < 3
           ? DateParts.Date
-          : start < 6 ? DateParts.Month : DateParts.Year;
+          : start < 6
+            ? DateParts.Month
+            : DateParts.Year;
     this.selectDatePart(blockToSelect);
   };
 

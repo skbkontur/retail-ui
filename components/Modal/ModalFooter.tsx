@@ -1,6 +1,6 @@
 import * as React from 'react';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import Sticky from '../Sticky';
 import styles = require('./Modal.less');
 import { ModalContext } from './ModalContext';

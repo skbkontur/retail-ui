@@ -95,4 +95,18 @@ storiesOf('Button', module)
         </tbody>
       </table>
     );
-  });
+  })
+  .add('use link', () => <Button use="link">Use Link</Button>)
+  .add('use link with icon', () => (
+    <Button use="link" icon="ArchivePack">
+      With Icon
+    </Button>
+  ))
+  .add('multiline text with link button', () => (
+    <div>
+      "You can't keep boogieing like this. <br />
+      You'll come <Button use="link">down</Button> <br />
+      with a fever of some sort."<br />
+      <i>Leela</i>
+    </div>
+  ));

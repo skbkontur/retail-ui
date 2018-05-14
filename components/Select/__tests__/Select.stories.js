@@ -65,4 +65,8 @@ storiesOf('Select', module)
   ))
   .add('Simple', () => <Select items={['one', 'two', 'three']} />)
   .add('Complex values', () => <SelectWrapper />)
-  .add('With null', () => <SelectWithNull />);
+  .add('With null', () => <SelectWithNull />)
+  .add('use link', () => <Select use="link" items={['one', 'two', 'three']} />)
+  .add('use link with icon', () => (
+    <Select _icon="Add" use="link" items={['one', 'two', 'three']} />
+  ));

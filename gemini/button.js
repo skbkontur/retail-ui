@@ -1,11 +1,9 @@
 /* global gemini */
 
-var pathTo = require('./utils').pathTo;
+const pathTo = require('./utils').pathTo;
 
-gemini.suite('button', suite => {
+const testScenario = suite => {
   suite
-    .setUrl(pathTo('Button', 'playground'))
-    .setCaptureElements('#test-element')
     .capture('idle')
     .capture('hover', (actions, find) => {
       actions.mouseMove(find('button'));
@@ -25,4 +23,36 @@ gemini.suite('button', suite => {
     .capture('tabPress', (actions, find) => {
       actions.sendKeys(gemini.TAB);
     });
+};
+
+gemini.suite('button', suite => {
+  testScenario(
+    suite
+      .setUrl(pathTo('Button', 'playground'))
+      .setCaptureElements('#test-element')
+  );
+});
+
+gemini.suite('button use link', suite => {
+  testScenario(
+    suite
+      .setUrl(pathTo('Button', 'use link'))
+      .setCaptureElements('#test-element')
+  );
+});
+
+gemini.suite('button use link with icon', suite => {
+  testScenario(
+    suite
+      .setUrl(pathTo('Button', 'use link with icon'))
+      .setCaptureElements('#test-element')
+  );
+});
+
+gemini.suite('button link multiline', suite => {
+  testScenario(
+    suite
+      .setUrl(pathTo('Button', 'multiline text with link button'))
+      .setCaptureElements('#test-element')
+  );
 });

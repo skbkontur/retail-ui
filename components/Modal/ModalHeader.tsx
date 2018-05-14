@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ModalContext } from './ModalContext';
 import Sticky from '../Sticky';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { Close } from './ModalClose';
 
 import styles = require('./Modal.less');
