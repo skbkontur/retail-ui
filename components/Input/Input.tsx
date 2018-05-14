@@ -343,7 +343,7 @@ class Input extends React.Component<InputProps, InputState> {
     if (
       this.state.polyfillPlaceholder &&
       this.props.placeholder &&
-      !this.props.mask &&
+      !this.props.alwaysShowMask &&
       !this.props.value
     ) {
       placeholder = (
