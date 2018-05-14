@@ -134,6 +134,7 @@
     "typescript": "^2.8.1",
     "url-loader": "^1.0.1",
     "wait-on": "^2.1.0",
+    "wd": "^1.6.2",
     "webpack": "^3.11.0",
     "webpack-watch-files-plugin": "^1.0.1"
   },
@@ -141,6 +142,9 @@
     "react": ">=0.14.9",
     "react-addons-css-transition-group": ">=0.14.8",
     "react-dom": ">=0.14.9"
+  },
+  "resolutions": {
+    "gemini/wd": "1.6.2"
   },
   "jest": {
     "moduleNameMapper": {
