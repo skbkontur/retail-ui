@@ -276,7 +276,7 @@ class Select<TValue, TItem> extends React.Component<
 
     const labelProps = {
       className: classNames({
-        [styles.label]: true,
+        [styles.label]: this.props.use !== 'link',
         [styles.labelWithLeftIcon]: !!this.props._icon
       }),
       style: {
