@@ -152,7 +152,7 @@ function generateBodyStyle(scrollWidth, rightOffset) {
 .${className} {
   overflow-y: auto !important;
   margin-right: -${scrollWidth}px !important;
-  padding-right = ${2 * scrollWidth + rightOffset}px !important;
+  padding-right: ${2 * scrollWidth + rightOffset}px !important;
 }
 `;
   return { className, css };
