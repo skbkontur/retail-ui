@@ -7,7 +7,7 @@ dist: trusty
 install:
   - yarn
 script:
-  - yarn test
+  - yarn test --silent
   - yarn storybook:build
   - yarn serve storybook-static -p 6060 --silent &
   - yarn gemini
