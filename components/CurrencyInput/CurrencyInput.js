@@ -45,7 +45,10 @@ type Props = {
   onChange: (e: { target: { value: ?number } }, value: ?number) => void,
   onFocus?: () => void,
   onSubmit?: () => void,
-  onKeyDown?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void
+  onKeyDown?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
+  onMouseEnter?: (event: SyntheticMouseEvent<>) => void,
+  onMouseLeave?: (event: SyntheticMouseEvent<>) => void,
+  onMouseOver?: (event: SyntheticMouseEvent<>) => void
 };
 
 type State = {
@@ -71,6 +74,9 @@ export default class CurrencyInput extends Component<Props, State> {
     onBlur: PropTypes.func,
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+    onMouseOver: PropTypes.func,
     onSubmit: PropTypes.func
   };
 
@@ -118,6 +124,9 @@ export default class CurrencyInput extends Component<Props, State> {
         onPaste={this._handlePaste}
         onCopy={this._handleCopy}
         onCut={this._handleCut}
+        onMouseEnter={this.props.onMouseEnter}
+        onMouseLeave={this.props.onMouseLeave}
+        onMouseOver={this.props.onMouseOver}
         ref={this._handleRef}
         placeholder={placeholder}
       />
