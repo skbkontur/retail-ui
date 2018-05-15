@@ -39,15 +39,16 @@ class Toggle extends React.Component<Props> {
   };
 
   handleClick = () => {
-    const { checked, disabled, onChange } = this.props;
-
+    const { checked, onChange } = this.props;
+    const disabled = this.isDisabled();
     if (!disabled && onChange) {
       onChange(!checked);
     }
   };
 
   render() {
-    const { checked, disabled, warning, error, loading } = this.props;
+    const { checked, warning, error, loading } = this.props;
+    const disabled = this.isDisabled();
 
     const containerClassName = classNames(styles.container, {
       [styles.isChecked]: checked,
@@ -69,6 +70,10 @@ class Toggle extends React.Component<Props> {
         <span className={styles.handle} />
       </span>
     );
+  }
+
+  isDisabled() {
+    return this.props.disabled || this.props.loading;
   }
 }
 

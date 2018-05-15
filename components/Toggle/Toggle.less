@@ -3,8 +3,9 @@
 @containerHeight: 20px;
 @containerWidth: 34px;
 @handleSize: 18px;
+@handleActiveSize: 22px;
 
-@transitionBG: 0.2s ease-in 0.2s;
+@transitionBG: 0.2s ease-in;
 @transitionHandle: 0.2s ease-in;
 
 @error-color: @toggle-bg-error;
@@ -34,15 +35,9 @@
 
     &:active {
       .handle {
-        right: 0;
+        right: 10px;
+        width: @handleActiveSize;
         transition: @transitionHandle;
-      }
-      .bg__wrap {
-        left: -2px;
-        transition: @transitionHandle;
-      }
-      .bg__container {
-        left: 0;
       }
     }
 
@@ -94,11 +89,8 @@
 
       &:active {
         .handle {
-          right: 14px;
-          transition: @transitionHandle;
-        }
-        .bg__wrap {
-          left: -16px;
+          right: 0;
+          width: @handleActiveSize;
           transition: @transitionHandle;
         }
       }
@@ -164,7 +156,6 @@
       background: @bg-disabled;
       opacity: 0.3;
       cursor: default;
-      tab-index: -1;
     }
 
     &:hover {
@@ -226,5 +217,6 @@
     width: @handleSize;
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
     background-image: linear-gradient(-180deg, #ffffff, #ebebeb);
+    will-change: right, width;
   }
 }

@@ -6,7 +6,7 @@ import Gapped from '../../Gapped/Gapped';
 import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';
 
-class Comp extends Component<*, *> {
+class Playground extends Component<*, *> {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,11 +48,11 @@ class Comp extends Component<*, *> {
                 {this.state.checked ? 'On' : 'Off'}
               </div>
               <div>
-                <Toggle checked={false} onChange={null} disabled />
+                <Toggle checked={false} disabled />
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked={true} onChange={null} disabled />
+                <Toggle checked={true} disabled />
                 {' On disabled'}
               </div>
             </Gapped>
@@ -68,11 +68,11 @@ class Comp extends Component<*, *> {
                 {this.state.checked ? 'On' : 'Off'}
               </div>
               <div>
-                <Toggle checked={false} onChange={null} disabled warning />
+                <Toggle checked={false} disabled warning />
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked={true} onChange={null} disabled warning />
+                <Toggle checked={true} disabled warning />
                 {' On disabled'}
               </div>
             </Gapped>
@@ -88,11 +88,11 @@ class Comp extends Component<*, *> {
                 {this.state.checked ? 'On' : 'Off'}
               </div>
               <div>
-                <Toggle checked={false} onChange={null} disabled error />
+                <Toggle checked={false} disabled error />
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked={true} onChange={null} disabled error />
+                <Toggle checked={true} disabled error />
                 {' On disabled'}
               </div>
             </Gapped>
@@ -118,4 +118,24 @@ class Comp extends Component<*, *> {
   }
 }
 
-storiesOf('Toggle', module).add('plain', () => <Comp />);
+class Simple extends React.Component<*, *> {
+  state = {
+    checked: true
+  };
+
+  render() {
+    return (
+      <div>
+        <Toggle
+          checked={this.state.checked}
+          onChange={() => this.setState(state => ({ checked: !state.checked }))}
+        />{' '}
+        {this.state.checked ? 'On' : 'Off'}
+      </div>
+    );
+  }
+}
+
+storiesOf('Toggle', module)
+  .add('plain', () => <Simple />)
+  .add('playground', () => <Playground />);
