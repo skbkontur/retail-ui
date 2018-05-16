@@ -303,7 +303,7 @@ class Input extends React.Component<InputProps, InputState> {
     });
   }
 
-  _renderMaskedInput(
+  private _renderMaskedInput(
     inputProps: React.InputHTMLAttributes<HTMLInputElement>,
     mask: string
   ) {
@@ -317,15 +317,15 @@ class Input extends React.Component<InputProps, InputState> {
     );
   }
 
-  _renderLeftIcon(classes: typeof CssStyles) {
+  private _renderLeftIcon(classes: typeof CssStyles) {
     return this._renderIcon(this.props.leftIcon, classes.leftIcon, classes);
   }
 
-  _renderRightIcon(classes: typeof CssStyles) {
+  private _renderRightIcon(classes: typeof CssStyles) {
     return this._renderIcon(this.props.rightIcon, classes.rightIcon, classes);
   }
 
-  _renderIcon(
+  private _renderIcon(
     icon: React.ReactNode,
     className: string,
     classes: typeof CssStyles
@@ -337,7 +337,7 @@ class Input extends React.Component<InputProps, InputState> {
     ) : null;
   }
 
-  _renderPlaceholder(classes: typeof CssStyles) {
+  private _renderPlaceholder(classes: typeof CssStyles) {
     var placeholder = null;
 
     if (
@@ -359,7 +359,7 @@ class Input extends React.Component<InputProps, InputState> {
     return placeholder;
   }
 
-  _getSizeClassName(classes: typeof CssStyles) {
+  private _getSizeClassName(classes: typeof CssStyles) {
     const SIZE_CLASS_NAMES = {
       small: classes.sizeSmall,
       medium: Upgrades.isSizeMedium16pxEnabled()
@@ -371,14 +371,14 @@ class Input extends React.Component<InputProps, InputState> {
     return SIZE_CLASS_NAMES[this.props.size!];
   }
 
-  _refInput = (ref: HTMLInputElement | null) => {
+  private _refInput = (ref: HTMLInputElement | null) => {
     const elem = (ReactDOM.findDOMNode(this) as HTMLElement).querySelector(
       'input'
     );
     this.input = this.props.mask ? elem : ref;
   };
 
-  _handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  private _handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (polyfillPlaceholder) {
       const fieldIsEmpty = event.target.value === '';
       if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
