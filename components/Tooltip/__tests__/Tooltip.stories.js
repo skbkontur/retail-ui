@@ -94,4 +94,29 @@ storiesOf('Tooltip', module)
         <PureComp />
       </TestTooltip>
     );
-  });
+  })
+  .add('MyCustomTooltip', () => <MyCustomTooltip />);
+
+class MyCustomTooltip extends React.Component<*, *> {
+  constructor() {
+    super();
+    this.state = {
+      state: 'hover'
+    };
+  }
+  render() {
+    const tooltipProps =
+      this.state.state === 'hover'
+        ? { trigger: 'hover' }
+        : {
+            trigger: 'opened',
+            onCloseRequest: () => this.setState({ state: 'hover' })
+          };
+
+    return (
+      <Tooltip render={() => 'hola'} {...tooltipProps}>
+        <Button onClick={() => this.setState({ state: 'opened' })}>Hey</Button>
+      </Tooltip>
+    );
+  }
+}
