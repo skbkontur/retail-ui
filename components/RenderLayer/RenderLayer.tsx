@@ -13,6 +13,10 @@ export interface RenderLayerProps {
 }
 
 class RenderLayer extends React.Component<RenderLayerProps> {
+  static defaultProps = {
+    active: true
+  };
+
   private focusOutsideListenerToken: {
     remove: () => void;
   } | null = null;
@@ -60,12 +64,18 @@ class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   private _handleFocusOutside = (event: Event) => {
+    if (!this.props.active) {
+      return;
+    }
     if (this.props.onFocusOutside) {
       this.props.onFocusOutside(event);
     }
   };
 
   private _handleNativeDocClick = (event: Event) => {
+    if (!this.props.active) {
+      return;
+    }
     const target = (event.target || event.srcElement) as HTMLElement;
     const node = this.getDomNode();
 
