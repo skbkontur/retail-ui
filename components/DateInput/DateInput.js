@@ -146,6 +146,7 @@ class DateInput extends React.Component<Props, State> {
   blur() {
     this._inputlikeText && this._inputlikeText.blur();
     this._input && this._input.blur();
+    this._isFocused = false;
   }
 
   /**
@@ -155,6 +156,7 @@ class DateInput extends React.Component<Props, State> {
     if (!this.props.disabled) {
       this._inputlikeText && this._inputlikeText.focus();
       this._input && this._input.focus();
+      this._isFocused = true;
     }
   }
 
