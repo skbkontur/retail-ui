@@ -109,15 +109,17 @@ export default class Hint extends React.Component<Props, State> {
         >
           {this.props.children}
         </span>
-        <Popup
-          hasPin
-          opened={this.isOpened()}
-          anchorElement={this._dom}
-          positions={this._getPositions()}
-          backgroundColor={bgColor}
-        >
-          {this._renderContent()}
-        </Popup>
+        {this._dom && (
+          <Popup
+            hasPin
+            opened={this.isOpened()}
+            anchorElement={this._dom}
+            positions={this._getPositions()}
+            backgroundColor={bgColor}
+          >
+            {this._renderContent()}
+          </Popup>
+        )}
       </span>
     );
   }
