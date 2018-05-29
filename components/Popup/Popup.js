@@ -24,6 +24,7 @@ type Props = {
   children: React.Node | (() => React.Node),
   hasPin: boolean,
   hasShadow: boolean,
+  hasAnimations?: boolean,
   margin: number,
   opened: boolean,
   pinOffset: number,
