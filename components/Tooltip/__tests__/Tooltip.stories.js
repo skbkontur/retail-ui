@@ -95,7 +95,28 @@ storiesOf('Tooltip', module)
       </TestTooltip>
     );
   })
-  .add('MyCustomTooltip', () => <MyCustomTooltip />);
+  .add('MyCustomTooltip', () => <MyCustomTooltip />)
+  .add('tooltip without animations', () => (
+    <div>
+      <Tooltip render={() => 'No prop'} trigger={'hover'}>
+        <Button>Hover me (no prop)</Button>
+      </Tooltip>
+      <Tooltip
+        render={() => 'allowedAnimations={true}'}
+        trigger={'hover'}
+        allowedAnimations={true}
+      >
+        <Button>Hover me (prop=true)</Button>
+      </Tooltip>
+      <Tooltip
+        render={() => 'allowedAnimations={false}'}
+        trigger={'hover'}
+        allowedAnimations={false}
+      >
+        <Button>Hover me (prop=false)</Button>
+      </Tooltip>
+    </div>
+  ));
 
 class MyCustomTooltip extends React.Component<*, *> {
   constructor() {
