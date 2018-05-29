@@ -55,6 +55,7 @@ export default class Popup extends React.Component<Props, State> {
     pinOffset: 16,
     hasPin: false,
     hasShadow: false,
+    hasAnimations: true,
     backgroundColor: '#fff'
   };
 
@@ -88,6 +89,7 @@ export default class Popup extends React.Component<Props, State> {
     const location = this.state.location || this._getDummyLocation();
 
     const { direction } = PopupHelper.getPositionObject(location.position);
+    const { hasAnimations } = this.props;
 
     return (
       <RenderLayer
@@ -109,7 +111,9 @@ export default class Popup extends React.Component<Props, State> {
               appear: styles['transition-appear-' + direction],
               appearActive: styles['transition-appear-active']
             }}
-            transitionAppear={true}
+            transitionAppear={hasAnimations}
+            transitionEnter={hasAnimations}
+            transitionLeave={hasAnimations}
             transitionAppearTimeout={200}
             transitionEnterTimeout={200}
             transitionLeaveTimeout={200}
