@@ -98,22 +98,22 @@ storiesOf('Tooltip', module)
   .add('MyCustomTooltip', () => <MyCustomTooltip />)
   .add('tooltip without animations', () => (
     <div>
-      <Tooltip render={() => 'No prop'} trigger={'hover'}>
-        <Button>Hover me (no prop)</Button>
+      <Tooltip render={() => 'No disableAnimations prop'} trigger={'hover'}>
+        <Button>Hover me (No disableAnimations prop)</Button>
       </Tooltip>
       <Tooltip
-        render={() => 'allowedAnimations={true}'}
+        render={() => 'disableAnimations={false}'}
         trigger={'hover'}
-        allowedAnimations={true}
+        disableAnimations={false}
       >
-        <Button>Hover me (prop=true)</Button>
+        <Button>Hover me (disableAnimations: false)</Button>
       </Tooltip>
       <Tooltip
-        render={() => 'allowedAnimations={false}'}
+        render={() => 'disableAnimations={true}'}
         trigger={'hover'}
-        allowedAnimations={false}
+        disableAnimations={true}
       >
-        <Button>Hover me (prop=false)</Button>
+        <Button>Hover me (disableAnimations: true)</Button>
       </Tooltip>
     </div>
   ));

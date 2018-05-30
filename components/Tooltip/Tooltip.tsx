@@ -72,7 +72,7 @@ export type TooltipProps = {
    * Конфигурация отображения анимации.
    * Стандартное значение true.
    */
-  allowedAnimations?: boolean;
+  disableAnimations?: boolean;
 };
 
 export type TooltipState = {
@@ -84,7 +84,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     pos: 'top left',
     trigger: 'hover',
     allowedPositions: Positions,
-    allowedAnimations: true
+    disableAnimations: false
   };
 
   _hoverTimeout: number | null = null;
@@ -123,7 +123,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
               pinOffset={17}
               pinSize={8}
               popupOffset={0}
-              hasAnimations={this.props.allowedAnimations}
+              disableAnimations={this.props.disableAnimations}
               positions={this._getPositions()}
               {...popupProps}
             >

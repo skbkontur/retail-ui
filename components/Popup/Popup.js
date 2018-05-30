@@ -24,7 +24,7 @@ type Props = {
   children: React.Node | (() => React.Node),
   hasPin: boolean,
   hasShadow: boolean,
-  hasAnimations?: boolean,
+  disableAnimations?: boolean,
   margin: number,
   opened: boolean,
   pinOffset: number,
@@ -56,7 +56,7 @@ export default class Popup extends React.Component<Props, State> {
     pinOffset: 16,
     hasPin: false,
     hasShadow: false,
-    hasAnimations: true,
+    disableAnimations: false,
     backgroundColor: '#fff'
   };
 
@@ -90,7 +90,7 @@ export default class Popup extends React.Component<Props, State> {
     const location = this.state.location || this._getDummyLocation();
 
     const { direction } = PopupHelper.getPositionObject(location.position);
-    const { hasAnimations } = this.props;
+    const { disableAnimations } = this.props;
 
     return (
       <RenderLayer
@@ -112,9 +112,9 @@ export default class Popup extends React.Component<Props, State> {
               appear: styles['transition-appear-' + direction],
               appearActive: styles['transition-appear-active']
             }}
-            transitionAppear={hasAnimations}
-            transitionEnter={hasAnimations}
-            transitionLeave={hasAnimations}
+            transitionAppear={!disableAnimations}
+            transitionEnter={!disableAnimations}
+            transitionLeave={!disableAnimations}
             transitionAppearTimeout={200}
             transitionEnterTimeout={200}
             transitionLeaveTimeout={200}
