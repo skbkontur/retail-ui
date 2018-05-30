@@ -70,7 +70,7 @@ export type ButtonProps = {
   /**
    * Кнопка со стрелкой.
    */
-  arrow?: boolean;
+  arrow?: boolean | 'left';
 
   autoFocus?: boolean;
 
@@ -239,7 +239,12 @@ class Button extends React.Component<ButtonProps, ButtonState> {
       };
 
       const wrapProps = {
-        className: this.props.arrow ? classes.wrap_arrow || '' : classes.wrap,
+        className: this.props.arrow
+          ? classNames(
+              classes.wrap_arrow,
+              this.props.arrow === 'left' && classes.wrap_arrow_left
+            ) || ''
+          : classes.wrap,
         style: {
           width: this.props.width
         }
@@ -272,6 +277,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
           <div
             className={classNames({
               [classes.arrow || '']: true,
+              [classes.arrow_left || '']: this.props.arrow === 'left',
               [classes.arrow_loading || '']: this.props.loading,
               [classes.arrow_error || '']: this.props.error,
               [classes.arrow_warning || '']: this.props.warning

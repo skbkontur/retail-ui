@@ -18,6 +18,11 @@
     margin-right: 10px;
   }
 
+  .wrap_arrow_left {
+    margin-right: 0;
+    margin-left: 10px;
+  }
+
   :global(.rt-ie9),
   :global(.rt-ie8) {
     .wrap_arrow {
@@ -80,6 +85,11 @@
         border-radius: 2px 2px 2px 16px;
         box-sizing: border-box;
         z-index: 1;
+      }
+
+      .arrow_left {
+        left: -8.5px;
+        transform: rotate(233deg) skewX(25deg) skewY(10deg);
       }
 
       .arrow.arrow_loading {
@@ -146,6 +156,10 @@
         box-shadow: @shadowArrow;
       }
 
+      .arrow_left {
+        background-image: linear-gradient(to top left, @colorStart, @colorEnd);
+      }
+
       .arrow.arrow_warning {
         box-shadow: 2px -2px 0 0 @border-color-warning;
       }
@@ -165,6 +179,14 @@
             @hoverColorEnd
           );
           box-shadow: @hoverShadowArrow;
+        }
+
+        .arrow_left {
+          background-image: linear-gradient(
+            to top left,
+            @hoverColorStart,
+            @hoverColorEnd
+          );
         }
 
         .arrow.arrow_warning {
@@ -270,21 +292,18 @@
     7px,
     441%
   );
-
   .sizeMedium {
     font-size: 16px;
     height: 38px;
     line-height: 38px;
     padding: 0 15px;
   }
-
   .DEPRECATED_sizeMedium {
     font-size: 14px;
     height: 38px;
     line-height: 38px;
     padding: 0 15px;
   }
-
   .buttonSizeMixin(
     sizeMedium,
     20.2px,
@@ -302,7 +321,6 @@
     0px,
     441%
   );
-
   .sizeLarge {
     font-size: 16px;
     height: 42px;
@@ -326,14 +344,11 @@
     -32px,
     700%
   );
-
   .buttonWithIcon {
     padding-right: 15px;
     padding-left: 15px;
   }
-
   // Use Default
-
   .buttonColorMixin(
     default,
     @btn-default-hover-bg-start,
@@ -351,9 +366,7 @@
     none,
     @border-color-gray-dark
   );
-
   // Use Primary
-
   .buttonColorMixin(
     primary,
     @btn-primary-hover-bg-start,
@@ -372,7 +385,6 @@
   );
 
   // Use Success
-
   .buttonColorMixin(
     success,
     @btn-success-hover-bg-start,
@@ -391,7 +403,6 @@
   );
 
   // Use Danger
-
   .buttonColorMixin(
     danger,
     @btn-danger-hover-bg-start,
@@ -410,7 +421,6 @@
   );
 
   // Use Pay
-
   .buttonColorMixin(
     pay,
     @btn-pay-hover-bg-start,
@@ -429,7 +439,6 @@
   );
 
   // Use Link
-
   .root.link {
     display: inline;
     padding: 0;
@@ -439,25 +448,20 @@
     box-shadow: none;
     line-height: inherit;
     height: auto;
-
     .caption {
       display: inline;
     }
-
     &:active {
       vertical-align: 0;
     }
-
     &.disabled {
       box-shadow: none;
       background: none;
     }
-
     .icon {
       padding-right: @linkIconPadding;
     }
   }
-
   .linkMixin(
     link,
     @link-color,
@@ -465,79 +469,63 @@
     @link-hover-color,
     @link-active-color
   );
-
   // End Use
-
   .root.checked {
     background: @btn-checked-bg;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6),
       inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
     color: #fff;
     padding-top: 1px;
-
     .arrow {
       background: @btn-checked-bg;
       box-shadow: @btn-shadow-checked-arrow;
     }
-
     .arrow.arrow_error {
       box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
         2px -2px 0 0 @border-color-error;
     }
-
     .arrow.arrow_warning {
       box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
         2px -2px 0 0 @border-color-warning;
     }
-
     &:hover {
       background: @btn-checked-bg;
     }
-
     &.focus {
       box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px @border-color-focus;
       position: relative;
       z-index: 2;
-
       .arrow {
         box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-focus;
       }
-
       .arrow.arrow_warning {
         box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-warning;
       }
-
       .arrow.arrow_error {
         box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-error;
       }
     }
   }
-
   .root.disabled {
     background: @bg-disabled;
     box-shadow: 0 0 0 1px @border-color-gray-light;
     color: #808080;
     cursor: default;
-
     .arrow {
       background: @bg-disabled;
       box-shadow: 1px -1px 0 0 @border-color-gray-light;
     }
-
     .arrow.arrow_warning {
       box-shadow: 2px -2px 0 0 @border-color-warning;
     }
-
     .arrow.arrow_error {
       box-shadow: 2px -2px 0 0 @border-color-error;
     }
-
     &:active {
       padding-top: 0;
       vertical-align: 0;
     }
   }
-
   .loading {
     position: absolute;
     top: 0;
@@ -547,7 +535,6 @@
     border-radius: inherit;
     overflow: hidden;
   }
-
   .loading:before {
     content: '';
     height: 100%;
@@ -611,7 +598,6 @@
     }
   }
 }
-
 @keyframes btn_loading {
   0% {
     transform: translateX(0) rotateY(180deg);
