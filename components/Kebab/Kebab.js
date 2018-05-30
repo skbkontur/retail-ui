@@ -22,7 +22,7 @@ type Props = {
   onClose: () => void,
   onOpen: () => void,
   size: 'small' | 'large',
-  positions: Array<string>,
+  positions?: Array<string>,
   menuMaxHeight?: number | string
 };
 
