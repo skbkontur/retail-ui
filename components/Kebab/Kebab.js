@@ -22,6 +22,7 @@ type Props = {
   onClose: () => void,
   onOpen: () => void,
   size: 'small' | 'large',
+  positions?: Array<string>,
   menuMaxHeight?: number | string
 };
 
@@ -35,6 +36,7 @@ export default class Kebab extends React.Component<Props, State> {
   static defaultProps = {
     onOpen: () => {},
     onClose: () => {},
+    positions: ['bottom left', 'bottom right', 'top left', 'top right'],
     size: 'small'
   };
 
@@ -58,7 +60,7 @@ export default class Kebab extends React.Component<Props, State> {
   }
 
   render() {
-    const { disabled } = this.props;
+    const { disabled, positions } = this.props;
     const { focusedByTab, opened } = this.state;
 
     return (
@@ -66,7 +68,7 @@ export default class Kebab extends React.Component<Props, State> {
         popupMargin={5}
         popupPinOffset={15}
         popupHasPin
-        positions={['bottom left', 'bottom right', 'top left', 'top right']}
+        positions={positions}
         onChangeMenuState={this._handleChangeMenuState}
         caption={
           <div
