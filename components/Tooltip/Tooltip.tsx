@@ -26,7 +26,7 @@ const Positions: PopupPosition[] = [
 
 export type TooltipTrigger = 'hover' | 'click' | 'focus' | 'opened' | 'closed';
 
-export type TooltipProps = {
+export interface TooltipProps {
   children?: React.ReactNode;
 
   className?: string;
@@ -73,29 +73,29 @@ export type TooltipProps = {
    * Стандартное значение true.
    */
   disableAnimations?: boolean;
-};
+}
 
-export type TooltipState = {
+export interface TooltipState {
   opened: boolean;
-};
+}
 
 class Tooltip extends React.Component<TooltipProps, TooltipState> {
-  static defaultProps = {
+  public static defaultProps = {
     pos: 'top left',
     trigger: 'hover',
     allowedPositions: Positions,
     disableAnimations: false
   };
 
-  _hoverTimeout: number | null = null;
-
-  _wrapperElement: HTMLElement | null = null;
-
-  state = {
+  public state = {
     opened: false
   };
 
-  componentDidMount() {
+  private hoverTimeout: number | null = null;
+
+  private wrapperElement: HTMLElement | null = null;
+
+  public componentDidMount() {
     /**
      * _wrapperElement is absent on initial mount
      * Rendering again to show popup
@@ -105,16 +105,16 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     }
   }
 
-  render() {
+  public render() {
     const { wrapperProps, popupProps, layerProps } = this._getProps();
 
     return (
       <RenderLayer {...layerProps}>
-        <span ref={this._refWrapper} {...wrapperProps}>
+        <span ref={this.refWrapper} {...wrapperProps}>
           {this.props.children}
-          {this._wrapperElement && (
+          {this.wrapperElement && (
             <Popup
-              anchorElement={this._wrapperElement}
+              anchorElement={this.wrapperElement}
               backgroundColor={'white'}
               hasPin
               hasShadow
@@ -127,7 +127,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
               positions={this._getPositions()}
               {...popupProps}
             >
-              {this._renderContent}
+              {this.renderContent}
             </Popup>
           )}
         </span>
@@ -135,7 +135,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     );
   }
 
-  _renderContent = () => {
+  public renderContent = () => {
     const content = this.props.render();
     if (content == null) {
       return null;
@@ -148,7 +148,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     );
   };
 
-  _renderCross() {
+  public _renderCross() {
     const hasCross =
       this.props.closeButton === undefined
         ? this.props.trigger !== 'hover' && this.props.trigger !== 'focus'
@@ -159,14 +159,14 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     }
 
     return (
-      <span className={styles.cross} onClick={this._handleCrossClick}>
+      <span className={styles.cross} onClick={this.handleCrossClick}>
         {CROSS}
       </span>
     );
   }
 
-  private _refWrapper = (node: HTMLElement | null) => {
-    this._wrapperElement = node;
+  private refWrapper = (node: HTMLElement | null) => {
+    this.wrapperElement = node;
   };
 
   private _getPositions() {
@@ -195,7 +195,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         return {
           layerProps: {
             active: true,
-            onClickOutside: this._handleClickOutside
+            onClickOutside: this.handleClickOutside
           },
           wrapperProps: {},
           popupProps: {
@@ -216,14 +216,14 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         return {
           layerProps: {},
           wrapperProps: {
-            onMouseEnter: this._handleMouseEnter,
-            onMouseLeave: this._handleMouseLeave
+            onMouseEnter: this.handleMouseEnter,
+            onMouseLeave: this.handleMouseLeave
           },
           popupProps: supportsPortal
             ? {}
             : {
-                onMouseEnter: this._handleMouseEnter,
-                onMouseLeave: this._handleMouseLeave
+                onMouseEnter: this.handleMouseEnter,
+                onMouseLeave: this.handleMouseLeave
               }
         };
 
@@ -231,10 +231,10 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         return {
           layerProps: {
             active: this.state.opened,
-            onClickOutside: this._handleClickOutside
+            onClickOutside: this.handleClickOutside
           },
           wrapperProps: {
-            onClick: this._handleClick
+            onClick: this.handleClick
           },
           popupProps: {}
         };
@@ -243,8 +243,8 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         return {
           layerProps: {},
           wrapperProps: {
-            onFocus: this._handleFocus,
-            onBlur: this._handleBlur
+            onFocus: this.handleFocus,
+            onBlur: this.handleBlur
           },
           popupProps: {}
         };
@@ -262,43 +262,43 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.setState({ opened: false });
   }
 
-  private _handleMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
-    if (this._hoverTimeout) {
-      clearTimeout(this._hoverTimeout);
+  private handleMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+    if (this.hoverTimeout) {
+      clearTimeout(this.hoverTimeout);
     }
     this._open();
   };
 
-  private _handleMouseLeave = () => {
-    if (this._hoverTimeout) {
-      clearTimeout(this._hoverTimeout);
-      this._hoverTimeout = null;
+  private handleMouseLeave = () => {
+    if (this.hoverTimeout) {
+      clearTimeout(this.hoverTimeout);
+      this.hoverTimeout = null;
     }
-    this._hoverTimeout = window.setTimeout(() => {
+    this.hoverTimeout = window.setTimeout(() => {
       this._close();
     }, 100);
   };
 
-  private _handleClick = () => {
+  private handleClick = () => {
     this._open();
   };
 
-  private _handleClickOutside = () => {
+  private handleClickOutside = () => {
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
     }
     this._close();
   };
 
-  private _handleFocus = () => {
+  private handleFocus = () => {
     this._open();
   };
 
-  private _handleBlur = () => {
+  private handleBlur = () => {
     this._close();
   };
 
-  private _handleCrossClick = (event: React.MouseEvent<HTMLElement>) => {
+  private handleCrossClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
     if (this.props.onCloseClick) {

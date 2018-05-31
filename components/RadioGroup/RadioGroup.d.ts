@@ -31,6 +31,6 @@ export default class RadioGroup<
   RadioGroupProps<Value, Data>,
   RadioGroupState<Value>
 > {
-  static Prevent: React.ComponentType;
-  focus(): void;
+  public static Prevent: React.ComponentType;
+  public focus(): void;
 }

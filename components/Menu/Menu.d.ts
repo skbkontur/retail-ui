@@ -14,8 +14,8 @@ export interface MenuState {
 }
 
 export default class Menu extends React.Component<MenuProps, MenuState> {
-  up(): void;
-  down(): void;
-  enter(event: React.SyntheticEvent<HTMLElement>): void;
-  reset(): void;
+  public up(): void;
+  public down(): void;
+  public enter(event: React.SyntheticEvent<HTMLElement>): void;
+  public reset(): void;
 }

@@ -41,6 +41,6 @@ export default class Dropdown extends React.Component<
   DropdownProps,
   DropdownState
 > {
-  open(): void;
-  close(): void;
+  public open(): void;
+  public close(): void;
 }

@@ -32,6 +32,6 @@ export interface RadioProps<T> {
 export default class Radio<Value = any> extends React.Component<
   RadioProps<Value>
 > {
-  focus(): void;
-  blur(): void;
+  public focus(): void;
+  public blur(): void;
 }

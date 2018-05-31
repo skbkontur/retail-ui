@@ -10,5 +10,5 @@ export default class TopBarDropdown extends React.Component<
   TopBarDropdownProps,
   TopBarDropdownState
 > {
-  open(): void;
+  public open(): void;
 }

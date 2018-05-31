@@ -52,9 +52,9 @@ export default class Select<Value = any, Item = Value> extends React.Component<
   SelectProps<Value, Item>,
   SelectState<Value>
 > {
-  static SEP: () => MenuSeparator;
-  static Item: typeof SelectItem;
-  static static: SelectStaticItem;
-  open(): void;
-  close(): void;
+  public static SEP: () => MenuSeparator;
+  public static Item: typeof SelectItem;
+  public static static: SelectStaticItem;
+  public open(): void;
+  public close(): void;
 }

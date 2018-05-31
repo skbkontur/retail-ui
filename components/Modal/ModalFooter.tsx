@@ -16,9 +16,9 @@ export interface FooterProps {
  * Футер модального окна.
  */
 export class Footer extends React.Component<FooterProps> {
-  _scrollbarWidth = getScrollWidth();
+  private scrollbarWidth = getScrollWidth();
 
-  render() {
+  public render() {
     const names = classNames({
       [styles.footer]: true,
       [styles.panel]: this.props.panel
@@ -29,7 +29,7 @@ export class Footer extends React.Component<FooterProps> {
         {({ horizontalScroll }) => (
           <Sticky
             side="bottom"
-            offset={horizontalScroll ? this._scrollbarWidth : 0}
+            offset={horizontalScroll ? this.scrollbarWidth : 0}
           >
             {fixed => (
               <div className={classNames(names, fixed && styles.fixedFooter)}>

@@ -1,7 +1,6 @@
 import * as events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
-import * as styled from '../internal/styledRender';
 import Upgrades from '../../lib/Upgrades';
 
 import Corners from './Corners';
@@ -12,18 +11,11 @@ import '../ensureOldIEClassName';
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 import CssStyles = require('./Button.less');
-import JssStyles from './Button.styles';
 import { IconName } from '../Icon';
 
-let cssStyles: typeof CssStyles;
-let jssStyles: typeof JssStyles;
-if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
-  jssStyles = require('./Button.styles').default;
-} else {
-  cssStyles = isFlatDesign
-    ? require('./Button.flat.less')
-    : require('./Button.less');
-}
+const classes: typeof CssStyles = isFlatDesign
+  ? require('./Button.flat.less')
+  : require('./Button.less');
 
 const KEYCODE_TAB = 9;
 
@@ -51,7 +43,7 @@ export type ButtonUse =
   | 'pay'
   | 'link';
 
-export type ButtonProps = {
+export interface ButtonProps {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -134,31 +126,31 @@ export type ButtonProps = {
   warning?: boolean;
 
   width?: number | string;
-};
+}
 
-export type ButtonState = {
+export interface ButtonState {
   focusedByTab: boolean;
-};
+}
 
 class Button extends React.Component<ButtonProps, ButtonState> {
-  static TOP_LEFT = Corners.TOP_LEFT;
-  static TOP_RIGHT = Corners.TOP_RIGHT;
-  static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
-  static BOTTOM_LEFT = Corners.BOTTOM_LEFT;
+  public static TOP_LEFT = Corners.TOP_LEFT;
+  public static TOP_RIGHT = Corners.TOP_RIGHT;
+  public static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
+  public static BOTTOM_LEFT = Corners.BOTTOM_LEFT;
 
-  static defaultProps = {
+  public static defaultProps = {
     use: 'default',
     size: 'small',
     type: 'button'
   };
 
-  state = {
+  public state = {
     focusedByTab: false
   };
 
   private _node: HTMLButtonElement | null = null;
 
-  componentDidMount() {
+  public componentDidMount() {
     listenTabPresses();
 
     if (this.props.autoFocus) {
@@ -170,7 +162,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
   /**
    * @public
    */
-  focus() {
+  public focus() {
     if (this._node) {
       this._node.focus();
     }
@@ -179,147 +171,144 @@ class Button extends React.Component<ButtonProps, ButtonState> {
   /**
    * @public
    */
-  blur() {
+  public blur() {
     if (this._node) {
       this._node.blur();
     }
   }
 
-  render() {
-    return styled.element(cssStyles, jssStyles, classes => {
-      const { corners = 0 } = this.props;
-      const radius = '2px';
+  public render() {
+    const { corners = 0 } = this.props;
+    const radius = '2px';
 
-      const SIZE_CLASSES = {
-        small: classes.sizeSmall,
-        medium: Upgrades.isSizeMedium16pxEnabled()
-          ? classes.sizeMedium
-          : classes.DEPRECATED_sizeMedium,
-        large: classes.sizeLarge
-      };
+    const SIZE_CLASSES = {
+      small: classes.sizeSmall,
+      medium: Upgrades.isSizeMedium16pxEnabled()
+        ? classes.sizeMedium
+        : classes.DEPRECATED_sizeMedium,
+      large: classes.sizeLarge
+    };
 
-      const rootProps = {
-        // By default the type attribute is 'submit'. IE8 will fire a click event
-        // on this button if somewhere on the page user presses Enter while some
-        // input is focused. So we set type to 'button' by default.
-        type: this.props.type,
-        className: classNames({
-          [classes.root]: true,
-          [(classes as { [name: string]: string })[this.props.use!] ||
-          classes.default]: true,
-          [classes.active]: this.props.active,
-          [classes.checked]: this.props.checked,
-          [classes.disabled]: this.props.disabled || this.props.loading,
-          [classes.narrow]: this.props.narrow,
-          [classes.noPadding]: this.props._noPadding,
-          [classes.noRightPadding]: this.props._noRightPadding,
-          [classes.buttonWithIcon]: !!this.props.icon,
-          [SIZE_CLASSES[this.props.size!]]: true,
-          [classes.focus]:
-            this.state.focusedByTab || this.props.visuallyFocused,
-          [cssStyles.borderless]: this.props.borderless
-        }),
-        style: {
-          borderRadius:
-            `${corners & Corners.TOP_LEFT ? 0 : radius}` +
-            ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
-            ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
-            ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
-          textAlign: this.props.align
-        },
-        disabled: this.props.disabled || this.props.loading,
-        onClick: this.props.onClick,
-        onFocus: this.handleFocus,
-        onBlur: this.handleBlur,
-        onKeyDown: this.props.onKeyDown,
-        onMouseEnter: this.props.onMouseEnter,
-        onMouseLeave: this.props.onMouseLeave,
-        onMouseOver: this.props.onMouseOver,
-        tabIndex: this.props.disableFocus ? -1 : 0
-      };
+    const rootProps = {
+      // By default the type attribute is 'submit'. IE8 will fire a click event
+      // on this button if somewhere on the page user presses Enter while some
+      // input is focused. So we set type to 'button' by default.
+      type: this.props.type,
+      className: classNames({
+        [classes.root]: true,
+        [(classes as { [name: string]: string })[this.props.use!] ||
+        classes.default]: true,
+        [classes.active]: this.props.active,
+        [classes.checked]: this.props.checked,
+        [classes.disabled]: this.props.disabled || this.props.loading,
+        [classes.narrow]: this.props.narrow,
+        [classes.noPadding]: this.props._noPadding,
+        [classes.noRightPadding]: this.props._noRightPadding,
+        [classes.buttonWithIcon]: !!this.props.icon,
+        [SIZE_CLASSES[this.props.size!]]: true,
+        [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused,
+        [classes.borderless]: this.props.borderless
+      }),
+      style: {
+        borderRadius:
+          `${corners & Corners.TOP_LEFT ? 0 : radius}` +
+          ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
+          ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
+          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
+        textAlign: this.props.align
+      },
+      disabled: this.props.disabled || this.props.loading,
+      onClick: this.props.onClick,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
+      onKeyDown: this.props.onKeyDown,
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver,
+      tabIndex: this.props.disableFocus ? -1 : 0
+    };
 
-      const wrapProps = {
-        className: this.props.arrow
-          ? classNames(
-              classes.wrap_arrow,
-              this.props.arrow === 'left' && classes.wrap_arrow_left
-            ) || ''
-          : classes.wrap,
-        style: {
-          width: this.props.width
-        }
-      };
-
-      let error = null;
-      if (this.props.error) {
-        error = <div className={classes.error} />;
-      } else if (this.props.warning) {
-        error = <div className={classes.warning} />;
+    const wrapProps = {
+      className: this.props.arrow
+        ? classNames(
+            classes.wrap_arrow,
+            this.props.arrow === 'left' && classes.wrap_arrow_left
+          ) || ''
+        : classes.wrap,
+      style: {
+        width: this.props.width
       }
+    };
 
-      let loading = null;
-      if (this.props.loading) {
-        loading = <div className={classes.loading} />;
-      }
+    let error = null;
+    if (this.props.error) {
+      error = <div className={classes.error} />;
+    } else if (this.props.warning) {
+      error = <div className={classes.warning} />;
+    }
 
-      let icon = null;
-      if (this.props.icon) {
-        icon = (
-          <span className={classes.icon}>
-            <Icon name={this.props.icon} />
-          </span>
-        );
-      }
+    let loading = null;
+    if (this.props.loading) {
+      loading = <div className={classes.loading} />;
+    }
 
-      let arrow = null;
-      if (this.props.arrow) {
-        arrow = (
-          <div
-            className={classNames({
-              [classes.arrow || '']: true,
-              [classes.arrow_left || '']: this.props.arrow === 'left',
-              [classes.arrow_loading || '']: this.props.loading,
-              [classes.arrow_error || '']: this.props.error,
-              [classes.arrow_warning || '']: this.props.warning
-            })}
-          />
-        );
-      }
-
-      // Force disable all props and features, that cannot be use with Link
-      if (this.props.use === 'link') {
-        rootProps.className = classNames({
-          [classes.root]: true,
-          [classes.link]: true,
-          [classes.disabled]: this.props.disabled,
-          [classes.buttonWithIcon]: !!this.props.icon,
-          [SIZE_CLASSES[this.props.size!]]: true,
-          [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused
-        });
-        Object.assign(wrapProps, {
-          className: classes.wrap,
-          style: { width: wrapProps.style.width }
-        });
-        rootProps.style.textAlign = undefined;
-        error = null;
-        loading = null;
-        arrow = null;
-      }
-
-      return (
-        <span {...wrapProps}>
-          <button ref={this._ref} {...rootProps}>
-            {loading}
-            {arrow}
-            <div className={classes.caption}>
-              {icon}
-              {this.props.children}
-            </div>
-            {error}
-          </button>
+    let icon = null;
+    if (this.props.icon) {
+      icon = (
+        <span className={classes.icon}>
+          <Icon name={this.props.icon} />
         </span>
       );
-    });
+    }
+
+    let arrow = null;
+    if (this.props.arrow) {
+      arrow = (
+        <div
+          className={classNames({
+            [classes.arrow || '']: true,
+            [classes.arrow_left || '']: this.props.arrow === 'left',
+            [classes.arrow_loading || '']: this.props.loading,
+            [classes.arrow_error || '']: this.props.error,
+            [classes.arrow_warning || '']: this.props.warning
+          })}
+        />
+      );
+    }
+
+    // Force disable all props and features, that cannot be use with Link
+    if (this.props.use === 'link') {
+      rootProps.className = classNames({
+        [classes.root]: true,
+        [classes.link]: true,
+        [classes.disabled]: this.props.disabled,
+        [classes.buttonWithIcon]: !!this.props.icon,
+        [SIZE_CLASSES[this.props.size!]]: true,
+        [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused
+      });
+      Object.assign(wrapProps, {
+        className: classes.wrap,
+        style: { width: wrapProps.style.width }
+      });
+      rootProps.style.textAlign = undefined;
+      error = null;
+      loading = null;
+      arrow = null;
+    }
+
+    return (
+      <span {...wrapProps}>
+        <button ref={this._ref} {...rootProps}>
+          {loading}
+          {arrow}
+          <div className={classes.caption}>
+            {icon}
+            {this.props.children}
+          </div>
+          {error}
+        </button>
+      </span>
+    );
   }
 
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {

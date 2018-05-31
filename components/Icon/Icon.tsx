@@ -244,7 +244,7 @@ export interface IconProps {
 }
 
 class Icon extends React.Component<IconProps> {
-  static propTypes = {
+  public static propTypes = {
     color: PropTypes.string,
 
     /**
@@ -255,32 +255,30 @@ class Icon extends React.Component<IconProps> {
     size: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   };
 
-  static Names = Object.keys(Icons).reduce(
+  public static Names = Object.keys(Icons).reduce(
     (acc, x) => ({ ...acc, [x]: x }),
     {}
   );
 
-  static getAllNames = function() {
-    return Object.keys(Icons);
-  };
+  public static getAllNames = () => Object.keys(Icons);
 
   constructor(props: IconProps) {
     super(props);
     if (process.env.NODE_ENV !== 'production') {
-      this._checkDeprecatedName(props);
+      this.checkDeprecatedName(props);
     }
   }
 
-  componentWillReceiveProps(props: IconProps) {
+  public componentWillReceiveProps(props: IconProps) {
     if (
       process.env.NODE_ENV !== 'production' &&
       this.props.name !== props.name
     ) {
-      this._checkDeprecatedName(props);
+      this.checkDeprecatedName(props);
     }
   }
 
-  render() {
+  public render() {
     const { name, color, size } = this.props;
     const style = {
       color,
@@ -294,7 +292,7 @@ class Icon extends React.Component<IconProps> {
     );
   }
 
-  _checkDeprecatedName(props: IconProps) {
+  private checkDeprecatedName(props: IconProps) {
     const newName = getNewIconName(props.name);
     warning(
       props.name in Icons && !newName,

@@ -10,11 +10,11 @@ const createDefaultTheme = (): ITheme => ({
   link
 });
 
-export type ITheme = {
+export interface ITheme {
   readonly text: typeof text;
   readonly common: typeof common;
   readonly button: typeof button;
   readonly link: typeof link;
-};
+}
 
 export default createDefaultTheme;

@@ -6,7 +6,7 @@ export interface KebabProps {
   onOpen?: () => void;
   size?: 'small' | 'large';
   children?: React.ReactNode;
-  positions?: Array<string>;
+  positions?: string[];
   menuMaxHeight?: number | string;
 }
 

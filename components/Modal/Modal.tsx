@@ -10,7 +10,7 @@ import ModalStack from '../ModalStack';
 import { EventSubscription } from 'fbemitter';
 
 import styles = require('./Modal.less');
-import { CloseProps, ModalContext, ModalContextProps } from './ModalContext';
+import { ModalContext, ModalContextProps } from './ModalContext';
 import { Footer } from './ModalFooter';
 import { Header } from './ModalHeader';
 import { Body } from './ModalBody';
@@ -57,20 +57,20 @@ export interface ModalState {
  * **Footer** необходимо передать пропс **panel**
  */
 class Modal extends React.Component<ModalProps, ModalState> {
-  static Header: typeof Header;
-  static Body: typeof Body;
-  static Footer: typeof Footer;
+  public static Header: typeof Header;
+  public static Body: typeof Body;
+  public static Footer: typeof Footer;
 
-  state: ModalState = {
+  public state: ModalState = {
     stackPosition: 0,
     horizontalScroll: false
   };
 
-  _stackSubscription: EventSubscription | null = null;
-  _centerDOM: Element | null = null;
+  private stackSubscription: EventSubscription | null = null;
+  private centerDOM: Element | null = null;
 
   public componentDidMount() {
-    this._stackSubscription = ModalStack.add(this, this.handleStackChange);
+    this.stackSubscription = ModalStack.add(this, this.handleStackChange);
 
     if (mountedModalsCount === 0) {
       events.addEventListener(
@@ -96,13 +96,13 @@ class Modal extends React.Component<ModalProps, ModalState> {
     }
 
     events.removeEventListener(window, 'keydown', this.handleKeyDown);
-    if (this._stackSubscription != null) {
-      this._stackSubscription.remove();
+    if (this.stackSubscription != null) {
+      this.stackSubscription.remove();
     }
     ModalStack.remove(this);
   }
 
-  render() {
+  public render() {
     const hasHeader = React.Children.toArray(this.props.children).some(
       child => (child as React.ReactElement<{}>).type === Header
     );
@@ -172,14 +172,14 @@ class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   private refCenter = (center: HTMLElement | null) => {
-    if (this._centerDOM != null) {
-      events.removeEventListener(this._centerDOM, 'scroll', LayoutEvents.emit);
+    if (this.centerDOM != null) {
+      events.removeEventListener(this.centerDOM, 'scroll', LayoutEvents.emit);
     }
 
-    this._centerDOM = null;
+    this.centerDOM = null;
     if (center != null) {
-      this._centerDOM = ReactDOM.findDOMNode(center) as HTMLElement;
-      events.addEventListener(this._centerDOM, 'scroll', LayoutEvents.emit);
+      this.centerDOM = ReactDOM.findDOMNode(center) as HTMLElement;
+      events.addEventListener(this.centerDOM, 'scroll', LayoutEvents.emit);
     }
   };
 
@@ -209,9 +209,9 @@ class Modal extends React.Component<ModalProps, ModalState> {
   private checkHorizontalScrollAppearance = () => {
     let hasScroll = false;
 
-    if (this._centerDOM) {
-      const containerClientWidth = this._centerDOM.clientWidth;
-      const containerScrollWidth = this._centerDOM.scrollWidth;
+    if (this.centerDOM) {
+      const containerClientWidth = this.centerDOM.clientWidth;
+      const containerScrollWidth = this.centerDOM.scrollWidth;
       hasScroll = containerClientWidth < containerScrollWidth;
     }
     if (hasScroll && !this.state.horizontalScroll) {

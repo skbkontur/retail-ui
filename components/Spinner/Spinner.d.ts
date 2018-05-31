@@ -20,5 +20,5 @@ export default class Spinner extends React.Component<
   SpinnerProps,
   SpinnerState
 > {
-  static Types: ISpinnerTypes;
+  public static Types: ISpinnerTypes;
 }

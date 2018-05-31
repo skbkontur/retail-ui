@@ -29,5 +29,5 @@ export interface PagingState {
 }
 
 export default class Paging extends React.Component<PagingProps, PagingState> {
-  static isForward(pageNumber: number | 'forward'): boolean;
+  public static isForward(pageNumber: number | 'forward'): boolean;
 }

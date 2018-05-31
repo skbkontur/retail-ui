@@ -3,7 +3,6 @@ import MaskedInput from 'react-input-mask';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import invariant from 'invariant';
-import * as styled from '../internal/styledRender';
 
 import filterProps, { unwidenBool } from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
@@ -11,20 +10,12 @@ import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
 import CssStyles from './Input.less';
-import JssStyles from './Input.styles';
-import { IconName } from '../Icon';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-let cssStyles: typeof CssStyles;
-let jssStyles: typeof JssStyles;
-if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
-  jssStyles = require('./Input.styles').default;
-} else {
-  cssStyles = isFlatDesign
-    ? require('./Input.flat.less')
-    : require('./Input.less');
-}
+const classes: typeof CssStyles = isFlatDesign
+  ? require('./Input.flat.less')
+  : require('./Input.less');
 
 const INPUT_PASS_PROPS = unwidenBool({
   autoFocus: true,
@@ -167,7 +158,7 @@ export interface InputState {
 }
 
 class Input extends React.Component<InputProps, InputState> {
-  static defaultProps: {
+  public static defaultProps: {
     size: InputSize;
   } = {
     size: 'small'
@@ -178,23 +169,23 @@ class Input extends React.Component<InputProps, InputState> {
     blinking: false
   };
 
-  private _blinkTimeout: number = 0;
+  private blinkTimeout: number = 0;
 
   private input: HTMLInputElement | null = null;
 
-  componentDidMount() {
+  public componentDidMount() {
     if (polyfillPlaceholder) {
       this.setState({ polyfillPlaceholder: true });
     }
   }
 
-  componentWillUnmount() {
-    if (this._blinkTimeout) {
-      clearTimeout(this._blinkTimeout);
+  public componentWillUnmount() {
+    if (this.blinkTimeout) {
+      clearTimeout(this.blinkTimeout);
     }
   }
 
-  componentWillReceiveProps(nextProps: InputProps) {
+  public componentWillReceiveProps(nextProps: InputProps) {
     if (polyfillPlaceholder && !nextProps.value) {
       this.setState({ polyfillPlaceholder: true });
     }
@@ -203,7 +194,7 @@ class Input extends React.Component<InputProps, InputState> {
   /**
    * @public
    */
-  focus() {
+  public focus() {
     invariant(this.input, 'Cannot call "focus" because Input is not mounted');
     this.input!.focus();
   }
@@ -211,7 +202,7 @@ class Input extends React.Component<InputProps, InputState> {
   /**
    * @public
    */
-  blur() {
+  public blur() {
     invariant(this.input, 'Cannot call "blur" because Input is not mounted');
     this.input!.blur();
   }
@@ -219,9 +210,9 @@ class Input extends React.Component<InputProps, InputState> {
   /**
    * @public
    */
-  blink() {
+  public blink() {
     this.setState({ blinking: true }, () => {
-      this._blinkTimeout = window.setTimeout(
+      this.blinkTimeout = window.setTimeout(
         () => this.setState({ blinking: false }),
         150
       );
@@ -231,7 +222,7 @@ class Input extends React.Component<InputProps, InputState> {
   /**
    * @public
    */
-  setSelectionRange(start: number, end: number) {
+  public setSelectionRange(start: number, end: number) {
     const { input } = this;
     if (!input) {
       throw new Error('Cannot call "setSelectionRange" on unmounted Input');
@@ -251,59 +242,57 @@ class Input extends React.Component<InputProps, InputState> {
     }
   }
 
-  render() {
-    return styled.element(cssStyles, jssStyles, classes => {
-      const labelProps = {
-        className: classNames({
-          [classes.root]: true,
-          [this.props.className || '']: true,
-          [classes.disabled]: this.props.disabled,
-          [classes.error]: this.props.error,
-          [classes.warning]: this.props.warning,
-          [classes.padLeft]: !!this.props.leftIcon,
-          [classes.padRight]: !!this.props.rightIcon,
-          [this._getSizeClassName(classes)]: true
-        }),
-        style: { width: this.props.width },
-        onMouseEnter: this.props.onMouseEnter,
-        onMouseLeave: this.props.onMouseLeave,
-        onMouseOver: this.props.onMouseOver
-      };
+  public render() {
+    const labelProps = {
+      className: classNames({
+        [classes.root]: true,
+        [this.props.className || '']: true,
+        [classes.disabled]: this.props.disabled,
+        [classes.error]: this.props.error,
+        [classes.warning]: this.props.warning,
+        [classes.padLeft]: !!this.props.leftIcon,
+        [classes.padRight]: !!this.props.rightIcon,
+        [this.getSizeClassName()]: true
+      }),
+      style: { width: this.props.width },
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver
+    };
 
-      const inputProps = {
-        ...filterProps(this.props, INPUT_PASS_PROPS),
-        className: classNames({
-          [classes.input]: true,
-          [classes.borderless]: this.props.borderless,
-          [classes.blink]: this.state.blinking
-        }),
-        value: this.props.value,
-        onChange: this._handleChange,
-        style: { textAlign: this.props.align },
-        ref: this._refInput,
-        type: 'text'
-      };
+    const inputProps = {
+      ...filterProps(this.props, INPUT_PASS_PROPS),
+      className: classNames({
+        [classes.input]: true,
+        [classes.borderless]: this.props.borderless,
+        [classes.blink]: this.state.blinking
+      }),
+      value: this.props.value,
+      onChange: this.handleChange,
+      style: { textAlign: this.props.align },
+      ref: this.refInput,
+      type: 'text'
+    };
 
-      if (this.props.type === 'password') {
-        inputProps.type = this.props.type;
-      }
+    if (this.props.type === 'password') {
+      inputProps.type = this.props.type;
+    }
 
-      let input = this.props.mask
-        ? this._renderMaskedInput(inputProps, this.props.mask)
-        : React.createElement('input', inputProps);
+    const input = this.props.mask
+      ? this.renderMaskedInput(inputProps, this.props.mask)
+      : React.createElement('input', inputProps);
 
-      return (
-        <label {...labelProps}>
-          {input}
-          {this._renderPlaceholder(classes)}
-          {this._renderLeftIcon(classes)}
-          {this._renderRightIcon(classes)}
-        </label>
-      );
-    });
+    return (
+      <label {...labelProps}>
+        {input}
+        {this.renderPlaceholder()}
+        {this.renderLeftIcon()}
+        {this.renderRightIcon()}
+      </label>
+    );
   }
 
-  private _renderMaskedInput(
+  private renderMaskedInput(
     inputProps: React.InputHTMLAttributes<HTMLInputElement>,
     mask: string
   ) {
@@ -317,19 +306,15 @@ class Input extends React.Component<InputProps, InputState> {
     );
   }
 
-  private _renderLeftIcon(classes: typeof CssStyles) {
-    return this._renderIcon(this.props.leftIcon, classes.leftIcon, classes);
+  private renderLeftIcon() {
+    return this.renderIcon(this.props.leftIcon, classes.leftIcon);
   }
 
-  private _renderRightIcon(classes: typeof CssStyles) {
-    return this._renderIcon(this.props.rightIcon, classes.rightIcon, classes);
+  private renderRightIcon() {
+    return this.renderIcon(this.props.rightIcon, classes.rightIcon);
   }
 
-  private _renderIcon(
-    icon: React.ReactNode,
-    className: string,
-    classes: typeof CssStyles
-  ) {
+  private renderIcon(icon: React.ReactNode, className: string) {
     return icon ? (
       <div className={className}>
         <span className={classes.icon}>{icon}</span>
@@ -337,8 +322,8 @@ class Input extends React.Component<InputProps, InputState> {
     ) : null;
   }
 
-  private _renderPlaceholder(classes: typeof CssStyles) {
-    var placeholder = null;
+  private renderPlaceholder() {
+    let placeholder = null;
 
     if (
       this.state.polyfillPlaceholder &&
@@ -359,7 +344,7 @@ class Input extends React.Component<InputProps, InputState> {
     return placeholder;
   }
 
-  private _getSizeClassName(classes: typeof CssStyles) {
+  private getSizeClassName() {
     const SIZE_CLASS_NAMES = {
       small: classes.sizeSmall,
       medium: Upgrades.isSizeMedium16pxEnabled()
@@ -371,14 +356,14 @@ class Input extends React.Component<InputProps, InputState> {
     return SIZE_CLASS_NAMES[this.props.size!];
   }
 
-  private _refInput = (ref: HTMLInputElement | null) => {
+  private refInput = (ref: HTMLInputElement | null) => {
     const elem = (ReactDOM.findDOMNode(this) as HTMLElement).querySelector(
       'input'
     );
     this.input = this.props.mask ? elem : ref;
   };
 
-  private _handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (polyfillPlaceholder) {
       const fieldIsEmpty = event.target.value === '';
       if (this.state.polyfillPlaceholder !== fieldIsEmpty) {

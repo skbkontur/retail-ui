@@ -13,7 +13,7 @@ export interface SidePageHeaderProps {
 export default class SidePageHeader extends React.Component<
   SidePageHeaderProps
 > {
-  render() {
+  public render() {
     return (
       <tr>
         <td className={styles.layoutItem}>
@@ -36,7 +36,7 @@ export default class SidePageHeader extends React.Component<
     );
   }
 
-  renderClose() {
+  public renderClose() {
     return (
       <SidePageContext.Consumer>
         {requestClose => (

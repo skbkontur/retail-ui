@@ -11,7 +11,7 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export default class ZIndex extends React.Component<ZIndexProps> {
-  static defaultProps = {
+  public static defaultProps = {
     render: true
   };
 
@@ -22,11 +22,11 @@ export default class ZIndex extends React.Component<ZIndexProps> {
     this.zIndex = ZIndexStorage.incrementZIndex(this.props.delta);
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     ZIndexStorage.removeZIndex(this.zIndex);
   }
 
-  render() {
+  public render() {
     const { render, style, children, delta, ...props } = this.props;
     return render ? (
       <div style={{ ...style, zIndex: this.zIndex }} {...props}>
@@ -43,24 +43,24 @@ declare const global: {
 };
 
 class ZIndexStorage {
-  static _getZIndexes = (): number[] => {
-    return global.__RetailUiZIndexes || (global.__RetailUiZIndexes = [0]);
-  };
-
-  static incrementZIndex = (delta: number): number => {
+  public static incrementZIndex = (delta: number): number => {
     if (delta <= 0) {
       throw new Error();
     }
-    const zIndexes = ZIndexStorage._getZIndexes();
+    const zIndexes = ZIndexStorage.getZIndexes();
     const top = zIndexes[zIndexes.length - 1];
     const zIndex = top + delta;
     zIndexes.push(zIndex);
     return zIndex;
   };
 
-  static removeZIndex = (zIndex: number): void => {
-    const zIndexes = ZIndexStorage._getZIndexes();
+  public static removeZIndex = (zIndex: number): void => {
+    const zIndexes = ZIndexStorage.getZIndexes();
     const i = zIndexes.indexOf(zIndex);
     zIndexes.splice(i, 1);
+  };
+
+  private static getZIndexes = (): number[] => {
+    return global.__RetailUiZIndexes || (global.__RetailUiZIndexes = [0]);
   };
 }

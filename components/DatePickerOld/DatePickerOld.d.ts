@@ -33,6 +33,6 @@ export default class DatePicker extends React.Component<
   DatePickerOldProps,
   DatePickerOldState
 > {
-  focus(): void;
-  blur(): void;
+  public focus(): void;
+  public blur(): void;
 }

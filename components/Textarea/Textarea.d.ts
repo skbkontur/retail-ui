@@ -38,6 +38,6 @@ export default class Textarea extends React.Component<
   TextareaProps,
   TextareaState
 > {
-  focus(): void;
-  blur(): void;
+  public focus(): void;
+  public blur(): void;
 }

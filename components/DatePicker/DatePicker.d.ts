@@ -31,8 +31,8 @@ export default class DatePicker extends React.Component<
   DatePickerProps,
   DatePickerState
 > {
-  static validate(value: string): boolean;
+  public static validate(value: string): boolean;
 
-  focus(): void;
-  blur(): void;
+  public focus(): void;
+  public blur(): void;
 }

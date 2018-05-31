@@ -4,14 +4,14 @@ import * as React from 'react';
 import Button, { ButtonUse } from '../Button';
 import { ButtonType } from '..';
 
-describe('Button', function() {
-  it('has correct label', function() {
+describe('Button', () => {
+  it('has correct label', () => {
     const wrapper = mount(<Button>Foo</Button>);
 
     expect(wrapper.text()).toBe('Foo');
   });
 
-  it('handles click event', function() {
+  it('handles click event', () => {
     const onClick = jest.fn();
     const wrapper = mount(<Button onClick={onClick} />);
 
@@ -41,7 +41,7 @@ describe('Button', function() {
     });
   });
 
-  it('handles click event', function() {
+  it('handles click event', () => {
     const onClick = jest.fn();
     const wrapper = mount(<Button onClick={onClick} />);
 

@@ -33,11 +33,11 @@ export interface CenterState {}
  * свойства как в любой div.
  */
 export default class Center extends React.Component<CenterProps, CenterState> {
-  static defaultProps = {
+  public static defaultProps = {
     align: 'center'
   };
 
-  render() {
+  public render() {
     return styled.element(cssStyles, jssStyles, styles => {
       const { align, style, children, ...rest } = this.props;
 

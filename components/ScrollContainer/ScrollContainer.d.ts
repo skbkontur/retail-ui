@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export interface ScrollContainerProps {
   invert?: boolean;
-  maxHeight?: number| string;
+  maxHeight?: number | string;
   preventWindowScroll?: boolean;
 }
 
@@ -12,5 +12,5 @@ export default class ScrollContainerGroup extends React.Component<
   ScrollContainerProps,
   ScrollContainerState
 > {
-  scrollTo(el: HTMLElement): void;
+  public scrollTo(el: HTMLElement): void;
 }

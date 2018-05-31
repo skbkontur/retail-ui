@@ -13,7 +13,7 @@ export interface RenderLayerProps {
 }
 
 class RenderLayer extends React.Component<RenderLayerProps> {
-  static defaultProps = {
+  public static defaultProps = {
     active: true
   };
 
@@ -21,11 +21,11 @@ class RenderLayer extends React.Component<RenderLayerProps> {
     remove: () => void;
   } | null = null;
 
-  componentDidMount() {
+  public componentDidMount() {
     this.attachListeners();
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     this.detachListeners();
   }
 
@@ -36,12 +36,12 @@ class RenderLayer extends React.Component<RenderLayerProps> {
   private attachListeners() {
     this.focusOutsideListenerToken = listenFocusOutside(
       () => [this.getDomNode()],
-      this._handleFocusOutside
+      this.handleFocusOutside
     );
 
-    Events.addEventListener(window, 'blur', this._handleFocusOutside);
+    Events.addEventListener(window, 'blur', this.handleFocusOutside);
 
-    Events.addEventListener(document, 'mousedown', this._handleNativeDocClick);
+    Events.addEventListener(document, 'mousedown', this.handleNativeDocClick);
   }
 
   private detachListeners() {
@@ -50,12 +50,12 @@ class RenderLayer extends React.Component<RenderLayerProps> {
       this.focusOutsideListenerToken = null;
     }
 
-    Events.removeEventListener(window, 'blur', this._handleFocusOutside);
+    Events.removeEventListener(window, 'blur', this.handleFocusOutside);
 
     Events.removeEventListener(
       document,
       'mousedown',
-      this._handleNativeDocClick
+      this.handleNativeDocClick
     );
   }
 
@@ -63,7 +63,7 @@ class RenderLayer extends React.Component<RenderLayerProps> {
     return findDOMNode(this) as HTMLElement;
   }
 
-  private _handleFocusOutside = (event: Event) => {
+  private handleFocusOutside = (event: Event) => {
     if (!this.props.active) {
       return;
     }
@@ -72,7 +72,7 @@ class RenderLayer extends React.Component<RenderLayerProps> {
     }
   };
 
-  private _handleNativeDocClick = (event: Event) => {
+  private handleNativeDocClick = (event: Event) => {
     if (!this.props.active) {
       return;
     }
