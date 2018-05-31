@@ -102,7 +102,7 @@ export default class Hint extends React.Component<Props, State> {
 
   render() {
     return (
-      <span ref={this._ref} style={{ display: 'inline-block' }}>
+      <span ref={this._ref} style={{ display: 'inline' }}>
         <span
           onMouseEnter={this._handleMouseEnter}
           onMouseLeave={this._handleMouseLeave}
