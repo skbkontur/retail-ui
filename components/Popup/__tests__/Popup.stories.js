@@ -106,6 +106,18 @@ storiesOf('Popup', module)
       </table>
     </div>
   ))
+  .add('disableAnimations', () => (
+    <div>
+      <PopupWithPositions
+        disableAnimations={false}
+        placeholder={'disableAnimations: false'}
+      />
+      <PopupWithPositions
+        disableAnimations={true}
+        placeholder={'disableAnimations: true'}
+      />
+    </div>
+  ))
   .add('Hint', () => (
     <div style={{ transform: 'translate(250%, 200%)' }}>
       <Hint
@@ -241,9 +253,10 @@ class PopupWithPositions extends Component<*, any> {
             hasPin={true}
             pinSize={10}
             pinOffset={7}
+            disableAnimations={this.props.disableAnimations}
           >
             <div style={{ padding: '10px 20px', fontSize: '30px' }}>
-              Placeholder
+              {this.props.placeholder || 'Placeholder'}
             </div>
           </Popup>
         )}

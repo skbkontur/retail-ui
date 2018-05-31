@@ -20,6 +20,7 @@ export interface PopupProps {
   children: React.ReactNode | (() => React.ReactNode);
   hasPin: boolean;
   hasShadow: boolean;
+  disableAnimations?: boolean;
   margin: number;
   opened: boolean;
   pinOffset: number;
