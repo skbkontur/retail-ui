@@ -1,7 +1,7 @@
 ```js
-const { default: Gapped } = require("../Gapped");
+const { default: Gapped } = require('../Gapped');
 
-<Gapped gap="30">
+<Gapped>
   <Spinner type="big" caption="big" />
   <Spinner type="normal" caption="normal" />
   <Spinner type="mini" caption="mini" />
