@@ -10,6 +10,6 @@ gemini.suite('modal', suite => {
       actions.click(find('button'));
     })
     .capture('open second modal', (actions, find) => {
-      actions.click(find('[class^="Modal-root"] button'));
+      actions.click(find('[class^="Modal-body"] button'));
     });
 });
