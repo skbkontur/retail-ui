@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Checkbox from '../Checkbox';
+import Gapped from '../../Gapped';
 
 class PlainCheckbox extends Component<*, *> {
   state = {
@@ -26,21 +27,21 @@ storiesOf('Checkbox', module)
   .add('unchecked', () => <Checkbox>Unchecked</Checkbox>)
   .add('checked', () => <Checkbox checked>Checked</Checkbox>)
   .add('disabled', () => <Checkbox disabled>Disabled</Checkbox>)
-  .add('disabled checked', () =>
+  .add('disabled checked', () => (
     <Checkbox disabled checked>
       Disabled and checked
     </Checkbox>
-  )
+  ))
   .add('error', () => <Checkbox error>Error</Checkbox>)
-  .add('with mouse enter/leave handlers', () =>
+  .add('with mouse enter/leave handlers', () => (
     <Checkbox
       onMouseEnter={() => console.count('enter')}
       onMouseLeave={() => console.count('leave')}
     >
       Hover me
     </Checkbox>
-  )
-  .add('with a long label', () =>
+  ))
+  .add('with a long label', () => (
     <PlainCheckbox>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
@@ -50,8 +51,8 @@ storiesOf('Checkbox', module)
       cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
       est laborum.
     </PlainCheckbox>
-  )
-  .add('w/o label', () =>
+  ))
+  .add('w/o label', () => (
     <div>
       <div>
         Some text <Checkbox />
@@ -60,4 +61,25 @@ storiesOf('Checkbox', module)
         Some text <Checkbox>Label</Checkbox>
       </div>
     </div>
-  );
+  ))
+  .add('programmatic focus', () => {
+    let checkbox;
+
+    function focus() {
+      checkbox && checkbox.focus();
+    }
+
+    function blur() {
+      checkbox && checkbox.blur();
+    }
+
+    return (
+      <div>
+        <Checkbox ref={el => (checkbox = el)}>Label</Checkbox>
+        <Gapped>
+          <button onClick={focus}>Focus</button>
+          <button onClick={blur}>Blur</button>
+        </Gapped>
+      </div>
+    );
+  });

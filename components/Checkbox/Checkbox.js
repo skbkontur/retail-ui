@@ -10,19 +10,12 @@ import Icon from '../Icon';
 
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
-import styled from '../internal/styledRender';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-let cssStyles;
-let jssStyles;
-if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
-  jssStyles = require('./Checkbox.styles').default;
-} else {
-  cssStyles = isFlatDesign
-    ? require('./Checkbox.flat.less')
-    : require('./Checkbox.less');
-}
+const styles = isFlatDesign
+  ? require('./Checkbox.flat.less')
+  : require('./Checkbox.less');
 
 const KEYCODE_TAB = 9;
 
@@ -53,12 +46,11 @@ type Props = {
   warning?: boolean
 };
 
-class Checkbox extends React.Component<
-  Props,
-  {
-    focusedByTab: boolean
-  }
-> {
+type State = {
+  focusedByTab: boolean
+};
+
+class Checkbox extends React.Component<Props, State> {
   static propTypes = {
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -79,7 +71,18 @@ class Checkbox extends React.Component<
 
   _wasFocused = false;
 
-  render = styled(cssStyles, jssStyles, styles => {
+  /** @api */
+  focus() {
+    tabPressed = true;
+    this.input && this.input.focus();
+  }
+
+  /** @api */
+  blur() {
+    this.input && this.input.blur();
+  }
+
+  render() {
     const hasCaption = !!this.props.children;
 
     const rootClass = classNames({
@@ -131,7 +134,7 @@ class Checkbox extends React.Component<
         {caption}
       </label>
     );
-  });
+  }
 
   componentDidMount() {
     listenTabPresses();
