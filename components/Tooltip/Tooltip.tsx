@@ -27,6 +27,7 @@ const Positions: PopupPosition[] = [
 export type TooltipTrigger = 'hover' | 'click' | 'focus' | 'opened' | 'closed';
 
 export interface TooltipProps {
+  anchorElement?: HTMLElement;
   children?: React.ReactNode;
 
   className?: string;
@@ -107,14 +108,15 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
   public render() {
     const { wrapperProps, popupProps, layerProps } = this._getProps();
+    const anchorElement = this.props.children ? this.wrapperElement : this.props.anchorElement
 
     return (
       <RenderLayer {...layerProps}>
         <span ref={this.refWrapper} {...wrapperProps}>
           {this.props.children}
-          {this.wrapperElement && (
+          {anchorElement && (
             <Popup
-              anchorElement={this.wrapperElement}
+              anchorElement={anchorElement}
               backgroundColor={'white'}
               hasPin
               hasShadow
