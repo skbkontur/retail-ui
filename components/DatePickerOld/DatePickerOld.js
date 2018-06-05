@@ -309,6 +309,9 @@ class DatePickerOld extends React.Component<Props, State> {
     }
     this._focused = false;
     this.close(false);
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
     this.blur();
   };
 
