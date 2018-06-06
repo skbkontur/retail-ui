@@ -70,7 +70,7 @@ export default class Kladr extends React.Component<Props, State> {
             {this._renderAddress(value.address)}
           </div>}
         {validation}
-        <Link icon="edit" onClick={this._handleOpen}>
+        <Link icon="Edit" onClick={this._handleOpen}>
           {change}
         </Link>
         {this.state.opened && this._renderModal()}
