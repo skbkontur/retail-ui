@@ -26,6 +26,7 @@ type Props = {
   hasShadow: boolean,
   disableAnimations?: boolean,
   margin: number,
+  maxWidth: number | string,
   opened: boolean,
   pinOffset: number,
   pinSize: number,
@@ -57,7 +58,8 @@ export default class Popup extends React.Component<Props, State> {
     hasPin: false,
     hasShadow: false,
     disableAnimations: false,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    maxWidth: 500
   };
 
   state: State = {
@@ -149,7 +151,8 @@ export default class Popup extends React.Component<Props, State> {
         style={{
           top: location.coordinates.top,
           left: location.coordinates.left,
-          backgroundColor: this.props.backgroundColor
+          backgroundColor: this.props.backgroundColor,
+          maxWidth: this.props.maxWidth
         }}
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}

@@ -27,7 +27,15 @@ const Positions: PopupPosition[] = [
 export type TooltipTrigger = 'hover' | 'click' | 'focus' | 'opened' | 'closed';
 
 export interface TooltipProps {
+  /**
+   * Относительно какого элемента позиционировать тултип
+   */
   anchorElement?: HTMLElement;
+
+  /**
+   * Если не указан `anchorElement` то тултип будет позиционироваться
+   * относительно дочерних элементов
+   */
   children?: React.ReactNode;
 
   className?: string;
@@ -66,6 +74,22 @@ export interface TooltipProps {
    * будет выходить за край экрана, то будет выбрана
    * следующая позиция. Обязательно должен включать
    * позицию указанную в `pos`
+   *
+   * ```ts
+   * type PopupPosition =
+   *   | 'top left'
+   *   | 'top center'
+   *   | 'top right'
+   *   | 'bottom left'
+   *   | 'bottom center'
+   *   | 'bottom right'
+   *   | 'left top'
+   *   | 'left middle'
+   *   | 'left bottom'
+   *   | 'right top'
+   *   | 'right middle'
+   *   | 'right bottom';
+   * ```
    */
   allowedPositions?: PopupPosition[];
 
@@ -108,7 +132,9 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
   public render() {
     const { wrapperProps, popupProps, layerProps } = this._getProps();
-    const anchorElement = this.props.children ? this.wrapperElement : this.props.anchorElement
+    const anchorElement = this.props.children
+      ? this.wrapperElement
+      : this.props.anchorElement;
 
     return (
       <RenderLayer {...layerProps}>
@@ -121,6 +147,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
               hasPin
               hasShadow
               margin={15}
+              maxWidth="none"
               opened={this.state.opened}
               pinOffset={17}
               pinSize={8}

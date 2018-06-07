@@ -22,6 +22,7 @@ export interface PopupProps {
   hasShadow: boolean;
   disableAnimations?: boolean;
   margin: number;
+  maxWidth?: string | number;
   opened: boolean;
   pinOffset: number;
   pinSize: number;
