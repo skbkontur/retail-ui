@@ -6,7 +6,7 @@ const InputAdapter = {
   },
 
   setValue(inst, value) {
-    inst._handleChange({ target: { value } });
+    inst.handleChange({ target: { value } });
   }
 };
 
