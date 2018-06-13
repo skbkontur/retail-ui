@@ -1,0 +1,10 @@
+.idea
+.vscode
+.DS_Store
+.npmrc
+
+node_modules
+yarn-debug.log
+yarn-error.log
+npm-debug.log
+lerna-debug.log
