@@ -1,0 +1,24 @@
+[version]
+0.38.0
+
+[ignore]
+.*/docs/.*
+.*/retail-ui/lib/.*
+.*/retail-ui/testing/.*
+.*/retail-ui/components/.*
+.*/retail-ui/docs/stories/.*
+
+
+[include]
+
+[libs]
+interfaces/
+
+[options]
+module.system.node.resolve_dirname=node_modules
+
+esproposal.class_instance_fields=enable
+unsafe.enable_getters_and_setters=true
+
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment= \\(.\\|\n\\)*\\@flow\\-disable\\-next\\-line

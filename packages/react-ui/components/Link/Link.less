@@ -1,0 +1,86 @@
+@import '../variables.less';
+
+@linkIconPadding: 3px;
+
+.linkMixin(@className, @color, @hoverColor, @focusColor, @activeColor) {
+  .@{className} {
+    border-radius: 1px;
+    outline: none;
+    text-decoration: none;
+    color: @color;
+
+    &:hover {
+      color: @hoverColor;
+    }
+
+    &.focus {
+      color: @focusColor;
+    }
+
+    &:active {
+      color: @activeColor;
+    }
+  }
+
+  .@{className}:hover,
+  .@{className}.focus {
+    text-decoration: @link-hover-text-decoration;
+  }
+
+  .@{className}.disabled {
+    box-shadow: none;
+    color: @link-disabled-color;
+    cursor: default;
+    text-decoration: none;
+  }
+}
+
+:local {
+  .linkMixin(
+    useDefault,
+    @link-color,
+    @link-hover-color,
+    @link-hover-color,
+    @link-active-color
+  );
+
+  .linkMixin(useSuccess, #3f9726, #3f9726, #3f9726, #24760d);
+
+  .linkMixin(useDanger, #e3071c, #e3071c, #e3071c, #b00616);
+
+  .linkMixin(
+    useGrayed,
+    @link-disabled-color,
+    @link-disabled-color,
+    @link-disabled-color,
+    @link-disabled-color
+  );
+
+  .icon {
+    display: inline-block;
+    margin-right: @linkIconPadding;
+  }
+
+  // For being used instead of button
+
+  .button {
+    display: inline-block;
+    line-height: 34px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .buttonOpened {
+    background: #e1e1e1;
+  }
+
+  .arrow {
+    border: 4px solid transparent;
+    border-bottom-width: 0;
+    border-top-color: #a0a0a0;
+    display: inline-block;
+    margin-bottom: 3px;
+    margin-left: 3px;
+    vertical-align: middle;
+  }
+}
