@@ -2,10 +2,6 @@
 	"workspaces": ["packages/*"],
 	"private": true,
 	"devDependencies": {
-		"lerna": "^2.11.0",
-		"tslint": "^5.9.1",
-    	"tslint-config-prettier": "^1.13.0",
-    	"tslint-react": "^3.5.1",
-    	"typescript": "^2.8.1"
+		"lerna": "^2.11.0"
 	}
 }
