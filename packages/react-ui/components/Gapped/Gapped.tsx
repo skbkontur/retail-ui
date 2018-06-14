@@ -1,20 +1,19 @@
-// @flow
 import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
-type Props = {
-  gap: number,
-  verticalAlign: 'top' | 'middle' | 'baseline' | 'bottom',
-  vertical?: boolean,
-  children: React.Node
-};
+export interface GappedProps {
+  gap?: number;
+  verticalAlign?: 'top' | 'middle' | 'baseline' | 'bottom';
+  vertical?: boolean;
+  children: React.ReactNode;
+}
 
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
  */
-class Gapped extends React.Component<Props> {
-  static propTypes = {
+class Gapped extends React.Component<GappedProps> {
+  public static propTypes = {
     /**
      * Расстояние между элементами.
      */
@@ -31,28 +30,28 @@ class Gapped extends React.Component<Props> {
     verticalAlign: PropTypes.oneOf(['top', 'middle', 'baseline', 'bottom'])
   };
 
-  static defaultProps = {
+  public static defaultProps = {
     gap: 10,
     verticalAlign: 'middle'
   };
 
-  render() {
+  public render() {
     if (this.props.vertical) {
       return this._renderVertical();
     }
     return this._renderHorizontal();
   }
 
-  _renderVertical() {
-    var subsequentItemStyle = {
+  private _renderVertical() {
+    const subsequentItemStyle: React.CSSProperties = {
       paddingTop: this.props.gap
     };
     let isFirst = true;
-    var children = React.Children.map(this.props.children, child => {
+    const children = React.Children.map(this.props.children, child => {
       if (!child) {
         return child;
       }
-      const style = isFirst ? null : subsequentItemStyle;
+      const style = isFirst ? undefined : subsequentItemStyle;
 
       isFirst = false;
 
@@ -62,14 +61,14 @@ class Gapped extends React.Component<Props> {
     return <div>{children}</div>;
   }
 
-  _renderHorizontal() {
-    var itemStyle = {
+  private _renderHorizontal() {
+    const itemStyle = {
       display: 'inline-block',
       marginLeft: this.props.gap,
       marginTop: this.props.gap,
       verticalAlign: this.props.verticalAlign
     };
-    var children = React.Children.map(this.props.children, (child, index) => {
+    const children = React.Children.map(this.props.children, (child, index) => {
       if (!child) {
         return child;
       }
@@ -79,8 +78,8 @@ class Gapped extends React.Component<Props> {
       paddingTop: 1
     };
     const contStyle = {
-      marginTop: -this.props.gap - 1,
-      marginLeft: -this.props.gap
+      marginTop: -this.props.gap! - 1,
+      marginLeft: -this.props.gap!
     };
     return (
       <div style={rootStyle}>

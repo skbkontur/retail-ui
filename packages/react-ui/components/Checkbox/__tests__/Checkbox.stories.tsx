@@ -1,18 +1,18 @@
-// @flow
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Checkbox from '../Checkbox';
-import Gapped from '../../Gapped';
+import Gapped from '../../Gapped/Gapped';
 
-class PlainCheckbox extends Component<*, *> {
-  state = {
+class PlainCheckbox extends Component<any, any> {
+  public state = {
     checked: false
   };
 
-  render() {
+  public render() {
     const { checked } = this.state;
     return (
       <Checkbox
+        // tslint:disable-next-line:jsx-no-lambda
         onChange={() => this.setState({ checked: !checked })}
         checked={checked}
       >
@@ -35,7 +35,9 @@ storiesOf('Checkbox', module)
   .add('error', () => <Checkbox error>Error</Checkbox>)
   .add('with mouse enter/leave handlers', () => (
     <Checkbox
+      // tslint:disable-next-line:jsx-no-lambda no-console
       onMouseEnter={() => console.count('enter')}
+      // tslint:disable-next-line:jsx-no-lambda no-console
       onMouseLeave={() => console.count('leave')}
     >
       Hover me
@@ -66,11 +68,15 @@ storiesOf('Checkbox', module)
     let checkbox;
 
     function focus() {
-      checkbox && checkbox.focus();
+      if (checkbox) {
+        checkbox.focus();
+      }
     }
 
     function blur() {
-      checkbox && checkbox.blur();
+      if (checkbox) {
+        checkbox.blur();
+      }
     }
 
     return (
