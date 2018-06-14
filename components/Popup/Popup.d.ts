@@ -16,17 +16,17 @@ export type PopupPosition =
 
 export interface PopupProps {
   anchorElement: HTMLElement;
-  backgroundColor: string;
+  backgroundColor?: string;
   children: React.ReactNode | (() => React.ReactNode);
-  hasPin: boolean;
-  hasShadow: boolean;
+  hasPin?: boolean;
+  hasShadow?: boolean;
   disableAnimations?: boolean;
-  margin: number;
+  margin?: number;
   maxWidth?: string | number;
   opened: boolean;
-  pinOffset: number;
-  pinSize: number;
-  popupOffset: number;
+  pinOffset?: number;
+  pinSize?: number;
+  popupOffset?: number;
   positions: PopupPosition[];
   onCloseRequest?: () => void;
   onMouseEnter?: React.MouseEventHandler<HTMLElement>;

@@ -1,22 +1,22 @@
-// @flow
 import classNames from 'classnames';
 import * as React from 'react';
 
-import Popup from '../Popup';
+import Popup, { PopupPosition } from '../Popup';
 import { ieVerison } from '../ensureOldIEClassName';
+import { createPropsGetter } from '../internal/createPropsGetter';
 
 import styles from './HintBox.less';
 
 const bgColor = ieVerison === 8 ? '#5b5b5b' : 'rgba(51, 51, 51, 0.8)';
 
-type Props = {
-  children?: React.Node,
-  manual: boolean,
-  maxWidth: string | number,
-  onMouseEnter: (e: SyntheticMouseEvent<>) => void,
-  onMouseLeave: (e: SyntheticMouseEvent<>) => void,
-  opened: boolean,
-  pos:
+export interface HintProps {
+  children?: React.ReactNode;
+  manual?: boolean;
+  maxWidth?: string | number;
+  onMouseEnter?: React.MouseEventHandler<HTMLElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLElement>;
+  opened?: boolean;
+  pos?:
     | 'top'
     | 'right'
     | 'bottom'
@@ -32,15 +32,15 @@ type Props = {
     | 'left bottom'
     | 'right top'
     | 'right middle'
-    | 'right bottom',
-  text: React.Node
-};
+    | 'right bottom';
+  text: React.ReactNode;
+}
 
-type State = {
-  opened: boolean
-};
+export interface HintState {
+  opened: boolean;
+}
 
-const Positions = [
+const Positions: PopupPosition[] = [
   'top center',
   'top left',
   'top right',
@@ -55,52 +55,54 @@ const Positions = [
   'right bottom'
 ];
 
-export default class Hint extends React.Component<Props, State> {
-  static defaultProps = {
+class Hint extends React.Component<HintProps, HintState> {
+  public static defaultProps = {
     pos: 'top',
     manual: false,
     opened: false,
-    maxWidth: (200: string | number),
-    onMouseEnter: (e: SyntheticMouseEvent<>) => {},
-    onMouseLeave: (e: SyntheticMouseEvent<>) => {}
+    maxWidth: 200 as string | number,
+    onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+      /**/
+    },
+    onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+      /**/
+    }
   };
 
-  state: {
-    opened: boolean
+  public state: {
+    opened: boolean;
   } = {
     opened: false
   };
 
-  _timer: ?TimeoutID = null;
-  _dom: ?HTMLElement;
+  public getProps = createPropsGetter(Hint.defaultProps);
 
-  componentDidMount() {
+  private _timer: Nullable<TimeoutID> = null;
+  private _dom: Nullable<HTMLElement>;
+
+  public componentDidMount() {
     this.setState({
-      opened: this.props.manual ? this.props.opened : false
+      opened: this.props.manual ? !!this.props.opened : false
     });
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  public componentWillReceiveProps(nextProps: HintProps) {
     if (!nextProps.manual) {
       return;
     }
 
     if (nextProps.opened !== this.props.opened) {
-      this.setState({ opened: nextProps.opened });
+      this.setState({ opened: !!nextProps.opened });
     }
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     if (this._timer) {
       clearTimeout(this._timer);
     }
   }
 
-  isOpened() {
-    return this.state.opened;
-  }
-
-  render() {
+  public render() {
     return (
       <span ref={this._ref} style={{ display: 'inline' }}>
         <span
@@ -124,7 +126,11 @@ export default class Hint extends React.Component<Props, State> {
     );
   }
 
-  _renderContent() {
+  private isOpened() {
+    return this.state.opened;
+  }
+
+  private _renderContent() {
     const { pos } = this.props;
     const className = classNames({
       [styles.root]: true,
@@ -133,35 +139,33 @@ export default class Hint extends React.Component<Props, State> {
     return <div className={className}>{this.props.text}</div>;
   }
 
-  _ref = (el: ?HTMLElement) => {
+  private _ref = (el: Nullable<HTMLElement>) => {
     this._dom = el;
   };
 
-  _getDOM = () => {
-    return this._dom;
+  private _getPositions = (): PopupPosition[] => {
+    return Positions.filter(x => x.startsWith(this.getProps().pos));
   };
 
-  _getPositions = () => {
-    return Positions.filter(x => x.startsWith(this.props.pos));
-  };
-
-  _handleMouseEnter = e => {
+  private _handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
     if (!this.props.manual && !this._timer) {
-      this._timer = setTimeout(this._open, 400);
+      this._timer = global.setTimeout(this._open, 400);
     }
-    this.props.onMouseEnter(e);
+    this.getProps().onMouseEnter(e);
   };
 
-  _handleMouseLeave = e => {
+  private _handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
     if (!this.props.manual && this._timer) {
       clearTimeout(this._timer);
       this._timer = null;
       this.setState({ opened: false });
     }
-    this.props.onMouseLeave(e);
+    this.getProps().onMouseLeave(e);
   };
 
-  _open = () => {
+  private _open = () => {
     this.setState({ opened: true });
   };
 }
+
+export default Hint;

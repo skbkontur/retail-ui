@@ -19,7 +19,7 @@ import Popup from '../../Popup/Popup';
 import Toast from '../../Toast';
 
 class ZKebab extends React.Component<{}> {
-  render() {
+  public render() {
     return (
       <Kebab>
         <MenuItem>1</MenuItem>
@@ -34,13 +34,13 @@ class ZKebab extends React.Component<{}> {
 }
 
 class ZSelect extends React.Component<{}> {
-  render() {
+  public render() {
     return <Select value={1} items={[1, 2, 3, 4, 5, 6]} />;
   }
 }
 
 class ZLoader extends React.Component<{ size: number }> {
-  render() {
+  public render() {
     const size = this.props.size + 'px';
     const style = { height: size, fontSize: '20px', border: 'solid red 1px' };
     return (
@@ -59,8 +59,8 @@ class ZLoader extends React.Component<{ size: number }> {
   }
 }
 
-class ZModal extends React.Component<{ size: number, children?: React.Node }> {
-  render() {
+class ZModal extends React.Component<{ size: number; children?: React.Node }> {
+  public render() {
     const size = this.props.size + 'px';
     return (
       <Modal>
@@ -75,7 +75,7 @@ class ZModal extends React.Component<{ size: number, children?: React.Node }> {
 }
 
 class LightboxUnderLightbox extends React.Component<{}> {
-  render() {
+  public render() {
     return (
       <div>
         <ZModal size={200}>xxx</ZModal>
@@ -85,26 +85,26 @@ class LightboxUnderLightbox extends React.Component<{}> {
   }
 }
 
-type ZSampleProps = {
-  total?: number,
-  current?: number
-};
+interface ZSampleProps {
+  total?: number;
+  current?: number;
+}
 
-type ZSampleState = {
-  modal: boolean,
-  popup: boolean
-};
+interface ZSampleState {
+  modal: boolean;
+  popup: boolean;
+}
 
 class ZSample extends React.Component<ZSampleProps, ZSampleState> {
-  state = {
+  public state = {
     modal: false,
     popup: false
   };
 
-  popupAnchor: ?HTMLElement;
-  notifier: ?Toast;
+  public popupAnchor: HTMLElement | null;
+  public notifier: Toast | null;
 
-  render() {
+  public render() {
     const controls = (
       <Gapped>
         <Tooltip
@@ -169,11 +169,13 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
     );
   }
 
-  notify(value: number) {
-    this.notifier && this.notifier.push('Message from #' + value);
+  public notify(value: number) {
+    if (this.notifier) {
+      this.notifier.push('Message from #' + value);
+    }
   }
 
-  renderBlock(content: React.Node, width: number, height?: number) {
+  public renderBlock(content: React.ReactNode, width: number, height?: number) {
     return (
       <Center style={{ width, height: height || width }}>{content}</Center>
     );
@@ -181,7 +183,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
 }
 
 class Demo extends React.Component<{}> {
-  render() {
+  public render() {
     return (
       <div>
         {this.renderDiv('red', 200, 0, 0)}
@@ -203,7 +205,7 @@ class Demo extends React.Component<{}> {
     );
   }
 
-  renderDiv(background, zIndex, left, top) {
+  public renderDiv(background, zIndex, left, top) {
     return (
       <div
         style={{

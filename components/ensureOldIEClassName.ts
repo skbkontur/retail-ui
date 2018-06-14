@@ -1,6 +1,6 @@
-let ieVerison;
-let isIE;
-let isEdge;
+let ieVerison: number | undefined;
+let isIE: boolean | undefined;
+let isEdge: boolean | undefined;
 
 if (global.document) {
   let classes = '';
@@ -13,7 +13,7 @@ if (global.document) {
   }
 
   const ua = global.navigator.userAgent;
-  isIE = ieVerison || ua.includes('MSIE ') || ua.includes('Trident/');
+  isIE = ieVerison != null || ua.includes('MSIE ') || ua.includes('Trident/');
   if (isIE) {
     classes += ' rt-ie-any';
   }

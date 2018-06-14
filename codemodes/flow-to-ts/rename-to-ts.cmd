@@ -1,1 +1,0 @@
-node scripts\rename.js %*

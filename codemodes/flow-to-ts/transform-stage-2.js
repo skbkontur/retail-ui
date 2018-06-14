@@ -44,8 +44,8 @@ function transformer(file, api) {
       path.value.qualification.name === 'React' &&
       path.value.id.name === 'Node'
     ) {
-      path.value.qualification.name = 'JSX';
-      path.value.id.name = 'Element';
+      path.value.qualification.name = 'React';
+      path.value.id.name = 'ReactNode';
       return path.value;
     }
     return path.value;
