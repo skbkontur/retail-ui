@@ -1,5 +1,3 @@
-/* @flow */
-
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -14,17 +12,17 @@ styles = isFlatDesign
   ? require('./Toggle.flat.less')
   : require('./Toggle.less');
 
-type Props = {
-  checked: boolean,
-  disabled?: boolean,
-  onChange?: (value: boolean) => void,
-  warning?: boolean,
-  error?: boolean,
-  loading?: boolean
+export interface ToggleProps {
+  checked: boolean;
+  disabled?: boolean;
+  onChange?: (value: boolean) => void;
+  warning?: boolean;
+  error?: boolean;
+  loading?: boolean;
 };
 
-class Toggle extends React.Component<Props> {
-  static propTypes = {
+class Toggle extends React.Component<ToggleProps> {
+  public static propTypes = {
     checked: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
@@ -33,20 +31,12 @@ class Toggle extends React.Component<Props> {
     onChange: PropTypes.func
   };
 
-  static defaultProps = {
+  public static defaultProps = {
     disabled: false,
     loading: false
   };
 
-  handleClick = () => {
-    const { checked, onChange } = this.props;
-    const disabled = this.isDisabled();
-    if (!disabled && onChange) {
-      onChange(!checked);
-    }
-  };
-
-  render() {
+  public render() {
     const { checked, warning, error, loading } = this.props;
     const disabled = this.isDisabled();
 
@@ -72,7 +62,15 @@ class Toggle extends React.Component<Props> {
     );
   }
 
-  isDisabled() {
+  private handleClick = () => {
+    const { checked, onChange } = this.props;
+    const disabled = this.isDisabled();
+    if (!disabled && onChange) {
+      onChange(!checked);
+    }
+  };
+
+  private isDisabled() {
     return this.props.disabled || this.props.loading;
   }
 }

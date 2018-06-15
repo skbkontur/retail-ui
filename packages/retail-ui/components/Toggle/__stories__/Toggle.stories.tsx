@@ -1,4 +1,5 @@
-// @flow
+// tslint:disable:jsx-no-bind jsx-no-lambda
+
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Toggle from '../Toggle';
@@ -6,7 +7,7 @@ import Gapped from '../../Gapped/Gapped';
 import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';
 
-class Playground extends Component<*, *> {
+class Playground extends Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,24 +17,7 @@ class Playground extends Component<*, *> {
     };
   }
 
-  toggle(checked) {
-    this.setState({
-      checked,
-      loading: this.state.loadingActive
-    });
-  }
-
-  activeLoading() {
-    this.setState({ loadingActive: !this.state.loadingActive });
-  }
-
-  stopLoading() {
-    this.setState({
-      loading: false
-    });
-  }
-
-  render() {
+  public render() {
     return (
       <div>
         <div>
@@ -116,14 +100,31 @@ class Playground extends Component<*, *> {
       </div>
     );
   }
+
+  private toggle(checked) {
+    this.setState({
+      checked,
+      loading: this.state.loadingActive
+    });
+  }
+
+  private activeLoading() {
+    this.setState({ loadingActive: !this.state.loadingActive });
+  }
+
+  private stopLoading() {
+    this.setState({
+      loading: false
+    });
+  }
 }
 
-class Simple extends React.Component<*, *> {
-  state = {
+class Simple extends React.Component<any, any> {
+  public state = {
     checked: true
   };
 
-  render() {
+  public render() {
     return (
       <div>
         <Toggle
@@ -136,6 +137,4 @@ class Simple extends React.Component<*, *> {
   }
 }
 
-storiesOf('Toggle', module)
-  .add('plain', () => <Simple />)
-  .add('playground', () => <Playground />);
+storiesOf('Toggle', module).add('plain', () => <Simple />).add('playground', () => <Playground />);
