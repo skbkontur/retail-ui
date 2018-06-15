@@ -1,41 +1,49 @@
-// @flow
 import cn from 'classnames';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import CapIcon from '../Icon/20px';
 
 import styles from './TopBar.less';
+import { createPropsGetter } from '../internal/createPropsGetter';
 
-class Item extends React.Component<{
-  _onClick?: (e: SyntheticMouseEvent<>) => void,
-  active?: boolean,
-  children?: React.Element<*> | string,
-  className: string,
-  icon?: string,
-  iconOnly?: boolean,
-  minWidth?: string | number,
-  use?: 'danger' | 'pay'
-}> {
-  static propTypes = {
+export interface ItemProps {
+  _onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+  _onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
+  active?: boolean;
+  children?: React.ReactNode;
+  className?: string;
+  icon?: string;
+  iconOnly?: boolean;
+  minWidth?: string | number;
+  use?: 'danger' | 'pay';
+  tabIndex?: number;
+}
+
+class Item extends React.Component<ItemProps> {
+  public static propTypes = {
     use: PropTypes.oneOf(['danger', 'pay'])
   };
 
-  static defaultProps = {
+  public static defaultProps = {
     className: ''
   };
 
-  render() {
+  private getProps = createPropsGetter(Item.defaultProps);
+
+  public render() {
     const {
       active,
       children,
       _onClick,
-      className,
+      _onKeyDown,
       iconOnly,
       icon,
       minWidth,
       use,
       ...rest
     } = this.props;
+
+    const className: string = this.getProps().className;
 
     const classes = {
       [styles.item]: true,
@@ -52,6 +60,7 @@ class Item extends React.Component<{
         {...rest}
         className={cn(classes)}
         onClick={_onClick}
+        onKeyDown={_onKeyDown}
         style={{ minWidth }}
       >
         {icon && (

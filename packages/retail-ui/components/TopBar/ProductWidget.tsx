@@ -1,4 +1,3 @@
-// @flow
 let calledLoad = false;
 
 export default {
@@ -21,7 +20,9 @@ export default {
     } else {
       const jquery = document.createElement('script');
       jquery.onload = loadWidget;
+      // @ts-ignore
       jquery.onreadystatechange = function() {
+        // @ts-ignore
         if (this.readyState === 'loaded' || this.readyState === 'complete') {
           loadWidget();
         }

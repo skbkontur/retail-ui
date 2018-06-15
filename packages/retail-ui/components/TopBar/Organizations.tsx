@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 
 import Icon from '../Icon';
@@ -6,37 +5,40 @@ import TopBarDropdown from './TopBarDropdown';
 
 import styles from './TopBar.less';
 
-type Props = {
-  caption: string | React.Element<React.ComponentType<mixed>>,
-  children: React.Element<React.ComponentType<mixed>>,
-  comment: ?string
-};
+export interface OrganizationsProps {
+  caption: React.ReactNode;
+  children: React.ReactElement<React.ComponentType<any>>;
+  comment: Nullable<string>;
+}
 
-type State = {
-  captionWhiteSpace: string,
-  minWidth: ?number
-};
+export interface OrganizationsState {
+  captionWhiteSpace: React.CSSProperties['whiteSpace'];
+  minWidth: Nullable<number>;
+}
 
-class Organizations extends React.Component<Props, State> {
-  _caption: ?HTMLElement;
-  _comment: ?HTMLElement;
-
-  state = {
-    captionWhiteSpace: 'normal',
+class Organizations extends React.Component<
+  OrganizationsProps,
+  OrganizationsState
+> {
+  public state = {
+    captionWhiteSpace: 'normal' as React.CSSProperties['whiteSpace'],
     minWidth: null
   };
 
-  componentDidMount() {
+  private _caption: Nullable<HTMLElement>;
+  private _comment: Nullable<HTMLElement>;
+
+  public componentDidMount() {
     this._recalculateWidth();
   }
 
-  componentDidUpdate(prevProps: Props) {
+  public componentDidUpdate(prevProps: OrganizationsProps) {
     if (prevProps.caption !== this.props.caption) {
       this._recalculateWidth();
     }
   }
 
-  render() {
+  public render() {
     const { caption, comment } = this.props;
 
     const title = (
@@ -44,7 +46,9 @@ class Organizations extends React.Component<Props, State> {
         <span
           className={styles.organizationsTitle}
           style={{
-            paddingRight: this._comment && this._comment.offsetWidth + 30
+            paddingRight: this._comment
+              ? this._comment.offsetWidth + 30
+              : undefined
           }}
         >
           <span ref={this._getCaptionRef}>{caption}</span>
@@ -65,10 +69,7 @@ class Organizations extends React.Component<Props, State> {
           style={{ whiteSpace: this.state.captionWhiteSpace }}
         >
           <span>
-            {React.isValidElement(caption)
-              ? // $FlowIssue isValidElement do not provides %checks
-                React.cloneElement(caption, { ref: null })
-              : caption}
+            {caption}
           </span>
           {comment && (
             <span className={styles.organizationsCommentDummy}>{comment}</span>
@@ -88,15 +89,15 @@ class Organizations extends React.Component<Props, State> {
     );
   }
 
-  _getCaptionRef = el => {
-    this._caption = el;
+  private _getCaptionRef = (element: HTMLSpanElement) => {
+    this._caption = element;
   };
 
-  _getCommentRef = el => {
-    this._comment = el;
+  private _getCommentRef = (element: HTMLSpanElement) => {
+    this._comment = element;
   };
 
-  _recalculateWidth() {
+  private _recalculateWidth() {
     const commentWidth = this._comment ? this._comment.offsetWidth : 0;
     if (!this._caption) {
       return;

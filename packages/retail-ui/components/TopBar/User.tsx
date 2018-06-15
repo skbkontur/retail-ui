@@ -1,5 +1,3 @@
-// @flow
-
 import * as React from 'react';
 import TopBarDropdown from './TopBarDropdown';
 import MenuItem from '../MenuItem';
@@ -7,10 +5,10 @@ import MenuItem from '../MenuItem';
 class User extends React.Component<{
   userName: string
 }> {
-  render() {
+  public render() {
     const { userName } = this.props;
     return (
-      <TopBarDropdown icon="user" caption={userName}>
+      <TopBarDropdown icon="User" caption={userName}>
         <div style={{ padding: '6px 18px 7px 15px' }}>
           <b>Личный кабинет Контура</b>
         </div>

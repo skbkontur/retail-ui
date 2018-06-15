@@ -1,5 +1,3 @@
-// @flow
-
 import classNames from 'classnames';
 import * as React from 'react';
 import PropTypes from 'prop-types';
@@ -20,25 +18,26 @@ import User from './User';
 
 import '../ensureOldIEClassName';
 import styles from './TopBar.less';
+import { createPropsGetter } from '../internal/createPropsGetter';
 
-type Props = {
-  children?: React.Element<*> | string,
-  color?: string,
-  leftItems?: React.Element<*>[],
-  logoComponent: React.ComponentType<*> | string,
-  logoHref?: string,
-  maxWidth?: string | number,
-  noMargin?: boolean,
-  noShadow?: boolean,
-  noWidget?: boolean,
-  onLogout?: () => void,
-  rightItems: React.Element<*>[],
-  suffix: string,
-  userName?: string
+interface TopBarProps {
+  children?: React.ReactNode;
+  color?: string;
+  leftItems?: Array<React.ReactElement<any>>;
+  logoComponent: React.ComponentType<any> | string;
+  logoHref?: string;
+  maxWidth?: string | number;
+  noMargin?: boolean;
+  noShadow?: boolean;
+  noWidget?: boolean;
+  onLogout?: () => void;
+  rightItems: Array<React.ReactElement<any>>;
+  suffix: string;
+  userName?: string;
 };
 
-type DefaultProps = {
-  maxWidth: string | number
+export interface TopBarDefaultProps {
+  maxWidth: string | number;
 };
 
 /**
@@ -51,30 +50,86 @@ type DefaultProps = {
  *
  * `Divider()` – разделитель
  *
- **/
-class TopBar extends React.Component<Props> {
-  _logoWrapper: ?HTMLElement = null;
+ */
+class TopBar extends React.Component<TopBarProps> {
+  public static Divider = Divider;
+  public static Item = ButtonItem;
+  public static Dropdown = TopBarDropdown;
+  public static OrganizationsDropdown = Organizations;
 
-  static Divider = Divider;
-  static Item = ButtonItem;
-  static Dropdown = TopBarDropdown;
-  static OrganizationsDropdown = Organizations;
-
-  static defaultProps: DefaultProps = {
+  public static defaultProps = {
     maxWidth: 1166,
     rightItems: []
   };
 
-  componentDidMount() {
+  public static propTypes = {
+    children: PropTypes.node,
+
+    /**
+     * Цвет логотипа
+     */
+    color: PropTypes.string,
+
+    leftItems: PropTypes.arrayOf(PropTypes.element),
+
+    /**
+     * Компонент используемый для рендеринга ссылки.
+     * Нужно переопределить если вы хотите подставить ссылку для роутера
+     */
+    logoComponent: PropTypes.any,
+
+    logoHref: PropTypes.string,
+
+    /**
+     * Максимальная ширина контейнера в шапке
+     */
+    maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+    /**
+     * Отключает отступ снизу
+     */
+    noMargin: PropTypes.bool,
+
+    /**
+     * Отключает тень
+     */
+    noShadow: PropTypes.bool,
+
+    /**
+     * Отключает виджет
+     */
+    noWidget: PropTypes.bool,
+
+    rightItems: PropTypes.arrayOf(PropTypes.element),
+
+    /**
+     * Суффикс логотипа
+     */
+    suffix: PropTypes.string,
+
+    /**
+     * Имя пользователя
+     */
+    userName: PropTypes.node,
+
+    /**
+     * Функция выхода
+     */
+    onLogout: PropTypes.func
+  };
+
+  private _logoWrapper: Nullable<HTMLElement> = null;
+  private getProps = createPropsGetter(TopBar.defaultProps);
+
+  public componentDidMount() {
     if (!this.props.noWidget) {
       ProductWidget.init();
     }
   }
 
-  render() {
+  public render() {
     const {
       leftItems,
-      rightItems,
       maxWidth,
       noShadow,
       noMargin,
@@ -82,7 +137,7 @@ class TopBar extends React.Component<Props> {
       onLogout
     } = this.props;
 
-    const _rightItems = [].concat(rightItems);
+    const _rightItems: Array<React.ReactElement<any>> = [].concat(this.getProps().rightItems);
     if (userName) {
       _rightItems.push(<User userName={userName} />, <Divider />);
     }
@@ -114,7 +169,7 @@ class TopBar extends React.Component<Props> {
     );
   }
 
-  _renderLogo() {
+  private _renderLogo(): React.ReactNode {
     const {
       suffix,
       color,
@@ -144,13 +199,13 @@ class TopBar extends React.Component<Props> {
     );
   }
 
-  _renderLeftItems(items) {
+  private _renderLeftItems(items?: Array<React.ReactElement<any>>) {
     if (!items) {
       return null;
     }
 
     return items.map((item, i) => {
-      if (!item.key) {
+      if (item && !item.key) {
         return React.cloneElement(item, {
           key: '$topbar_' + i
         });
@@ -159,7 +214,7 @@ class TopBar extends React.Component<Props> {
     });
   }
 
-  _renderRightItems(items) {
+  private _renderRightItems(items: Array<React.ReactElement<any>>) {
     if (!items) {
       return null;
     }
@@ -173,7 +228,7 @@ class TopBar extends React.Component<Props> {
     });
   }
 
-  _refLogoWrapper = (el: ?HTMLElement) => {
+  private _refLogoWrapper = (el: Nullable<HTMLElement>) => {
     if (this._logoWrapper) {
       events.removeEventListener(
         this._logoWrapper,
@@ -189,65 +244,9 @@ class TopBar extends React.Component<Props> {
     this._logoWrapper = el;
   };
 
-  _handleNativeLogoClick = (event: Event) => {
+  private _handleNativeLogoClick = (event: Event) => {
     stopPropagation(event);
   };
 }
-
-TopBar.propTypes = {
-  children: PropTypes.node,
-
-  /**
-   * Цвет логотипа
-   */
-  color: PropTypes.string,
-
-  leftItems: PropTypes.arrayOf(PropTypes.element),
-
-  /**
-   * Компонент используемый для рендеринга ссылки.
-   * Нужно переопределить если вы хотите подставить ссылку для роутера
-   */
-  logoComponent: PropTypes.any,
-
-  logoHref: PropTypes.string,
-
-  /**
-   * Максимальная ширина контейнера в шапке
-   */
-  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-  /**
-   * Отключает отступ снизу
-   */
-  noMargin: PropTypes.bool,
-
-  /**
-   * Отключает тень
-   */
-  noShadow: PropTypes.bool,
-
-  /**
-   * Отключает виджет
-   */
-  noWidget: PropTypes.bool,
-
-  rightItems: PropTypes.arrayOf(PropTypes.element),
-
-  /**
-   * Суффикс логотипа
-   */
-  suffix: PropTypes.string,
-
-  /**
-   * Имя пользователя
-   */
-  userName: PropTypes.node,
-
-  /**
-   * Функция выхода
-   */
-  onLogout: PropTypes.func
-};
 
 export default TopBar;
