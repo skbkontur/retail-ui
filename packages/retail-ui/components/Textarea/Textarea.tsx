@@ -11,6 +11,8 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import { getTextAreaHeight } from './TextareaHelpers';
 
 import styles from './Textarea.less';
+import { createPropsGetter } from '../internal/createPropsGetter';
+import { TextareaAdapter } from './Textarea.adapter';
 
 const PASS_PROPS = {
   autoFocus: true,
@@ -31,8 +33,46 @@ const PASS_PROPS = {
   onMouseOver: true
 };
 
-class Textarea extends React.Component {
-  static propTypes = {
+export interface TextareaProps {
+  autoFocus?: boolean;
+  autoResize?: boolean;
+  defaultValue?: string;
+  disabled?: boolean;
+  /**
+   * Визуально показать наличие ошибки.
+   */
+  error?: boolean;
+  id?: string;
+  maxLength?: number | string;
+  maxRows?: number | string;
+  placeholder?: string;
+  resize?: string;
+  className?: string;
+  /**
+   * Количество строк
+   */
+  rows?: number | string;
+  title?: string;
+  value: string;
+  width?: number | string;
+  onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
+  onChange?: (
+    event: Partial<React.ChangeEvent<HTMLTextAreaElement>>,
+    value: string
+  ) => void;
+  onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
+  onMouseEnter?: React.MouseEventHandler<HTMLTextAreaElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLTextAreaElement>;
+  onMouseOver?: React.MouseEventHandler<HTMLTextAreaElement>;
+}
+
+export interface TextareaState {
+  polyfillPlaceholder: boolean;
+  rows: number | string;
+}
+
+class Textarea extends React.Component<TextareaProps, TextareaState> {
+  public static propTypes = {
     autoFocus: PropTypes.bool,
 
     autoResize: PropTypes.bool,
@@ -80,53 +120,48 @@ class Textarea extends React.Component {
     onMouseOver: PropTypes.func
   };
 
-  static defaultProps = {
+  public static defaultProps = {
     rows: '3',
     maxRows: '15'
   };
 
-  _node;
+  public static __ADAPTER__: typeof TextareaAdapter;
 
-  _fakeNode;
+  public state = {
+    polyfillPlaceholder,
+    rows: 1
+  };
 
-  _layoutEvents;
+  private getProps = createPropsGetter(Textarea.defaultProps);
+  private _node: Nullable<HTMLTextAreaElement>;
+  private _fakeNode: Nullable<HTMLTextAreaElement>;
+  private _layoutEvents: Nullable<{ remove: () => void }>;
 
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      polyfillPlaceholder: false
-    };
-  }
-
-  componentDidMount() {
-    if (polyfillPlaceholder) {
-      this.setState({ polyfillPlaceholder: true });
-    }
+  public componentDidMount() {
     if (this.props.autoResize) {
       this._autoresize();
       this._layoutEvents = LayoutEvents.addListener(this._autoresize);
     }
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     if (this._layoutEvents) {
       this._layoutEvents.remove();
     }
   }
 
-  componentDidUpdate(prevProps) {
+  public componentDidUpdate(prevProps: TextareaProps) {
     if (
-      (this.props.autoResize && this.props.rows > this.state.rows) ||
+      (this.props.autoResize && parseInt(this.getProps().rows, 10) > this.state.rows) ||
       this.props.value !== prevProps.value
     ) {
       this._autoresize();
     }
   }
 
-  render() {
-    const rootProps = {};
-    const props = filterProps(this.props, PASS_PROPS);
+  public render() {
+    const rootProps: React.HTMLProps<HTMLLabelElement> = {};
+    const props: React.HTMLProps<HTMLTextAreaElement> = filterProps(this.props, PASS_PROPS);
     props.className = classNames({
       [styles.textarea]: true,
       [styles.error]: this.props.error
@@ -172,7 +207,46 @@ class Textarea extends React.Component {
     );
   }
 
-  _autoresize = throttle(() => {
+  public focus() {
+    if (this._node) {
+      this._node.focus();
+    }
+  }
+
+  public blur() {
+    if (this._node) {
+      this._node.blur();
+    }
+  }
+
+  public _handleChange = (event: Partial<React.ChangeEvent<HTMLTextAreaElement>>) => {
+    if (polyfillPlaceholder) {
+      const fieldIsEmpty = event.target!.value === '';
+
+      if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
+        this.setState({ polyfillPlaceholder: fieldIsEmpty });
+      }
+    }
+
+    if (this.props.onChange) {
+      this.props.onChange(event, event.target!.value);
+    }
+
+    if (this.props.autoResize) {
+      this._autoresize();
+    }
+  };
+
+  private _ref = (element: HTMLTextAreaElement) => {
+    this._node = element;
+  };
+
+  private _refFake = (element: HTMLTextAreaElement) => {
+    this._fakeNode = element;
+  };
+
+  // tslint:disable-next-line:member-ordering
+  private _autoresize = throttle(() => {
     const fakeNode = this._fakeNode;
     if (!fakeNode) {
       return;
@@ -184,60 +258,20 @@ class Textarea extends React.Component {
     if (this.props.value === undefined) {
       fakeNode.value = node.value;
     }
+
     const { rows, maxRows } = this.props;
+    if (rows === undefined || maxRows === undefined) {
+      return;
+    }
     const { height, exceededMaxHeight } = getTextAreaHeight(
       fakeNode,
-      rows,
-      maxRows
+      typeof rows === 'number' ? rows : parseInt(rows, 10),
+      typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
     );
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
     fakeNode.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
   }, 100);
-
-  _handleChange = event => {
-    if (polyfillPlaceholder) {
-      const fieldIsEmpty = event.target.value === '';
-
-      if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
-        this.setState({ polyfillPlaceholder: fieldIsEmpty });
-      }
-    }
-
-    if (this.props.onChange) {
-      this.props.onChange(event, event.target.value);
-    }
-
-    if (this.props.autoResize) {
-      this._autoresize();
-    }
-  };
-
-  /**
-   * @public
-   **/
-  focus() {
-    if (this._node) {
-      this._node.focus();
-    }
-  }
-
-  /**
-   * @public
-   **/
-  blur() {
-    if (this._node) {
-      this._node.blur();
-    }
-  }
-
-  _ref = el => {
-    this._node = el;
-  };
-
-  _refFake = el => {
-    this._fakeNode = el;
-  };
 }
 
 export default Textarea;

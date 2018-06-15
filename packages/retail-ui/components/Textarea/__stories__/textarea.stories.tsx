@@ -1,23 +1,18 @@
-
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Textarea from '../Textarea';
 
-type State = {
+interface AutoresizableTextareaState {
   value: string | null
 };
 
-class AutoresizableTextarea extends React.Component<{}, State> {
-  state = {
+class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaState> {
+  public state = {
     value: ''
   };
 
-  handleChange = (_, value: string | null) => {
-    this.setState({ value });
-  };
-
-  render() {
+  public render() {
     return (
       <div>
         <label htmlFor={'textarea'}>click me</label>
@@ -34,11 +29,13 @@ class AutoresizableTextarea extends React.Component<{}, State> {
       </div>
     );
   }
+
+  private handleChange = (_, value: string | null) => {
+    this.setState({ value });
+  };
 }
 
-storiesOf('Textarea', module)
-  .add('Simple', () => <Textarea />)
-  .add('Filled', () => (
+storiesOf('Textarea', module).add('Simple', () => <Textarea value="" />).add('Filled', () => (
     <Textarea
       value={
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit.\
@@ -47,8 +44,7 @@ storiesOf('Textarea', module)
         officia alias aperiam eum quas.'
       }
     />
-  ))
-  .add('With error', () => (
+  )).add('With error', () => (
     <Textarea
       error
       value={
@@ -58,8 +54,7 @@ storiesOf('Textarea', module)
         officia alias aperiam eum quas.'
       }
     />
-  ))
-  .add('Textarea in inline-flex and text', () => (
+  )).add('Textarea in inline-flex and text', () => (
     <div>
       <div style={{ display: 'inline-flex' }}>
         <Textarea
@@ -73,5 +68,4 @@ storiesOf('Textarea', module)
       </div>
       Lorem text
     </div>
-  ))
-  .add('Autoresizable textarea', () => <AutoresizableTextarea />);
+  )).add('Autoresizable textarea', () => <AutoresizableTextarea />);

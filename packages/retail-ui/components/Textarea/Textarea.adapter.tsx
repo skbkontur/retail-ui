@@ -1,6 +1,4 @@
-
-
-import Textarea from './Textarea.js';
+import Textarea from './Textarea';
 
 const TextareaAdapter = {
   getValue(inst: Textarea) {
@@ -8,11 +6,11 @@ const TextareaAdapter = {
   },
 
   setValue(inst: Textarea, value: string) {
-    inst._handleChange({ target: { value } });
+    inst._handleChange({ target: { value } } as Partial<React.ChangeEvent<HTMLTextAreaElement>>);
   }
 };
-// eslint-disable-next-line flowtype/no-weak-types
-(Textarea: any).__ADAPTER__ = TextareaAdapter;
+
+Textarea.__ADAPTER__ = TextareaAdapter;
 
 export { TextareaAdapter };
 export default Textarea;
