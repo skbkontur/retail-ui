@@ -2,6 +2,7 @@
 .vscode
 .DS_Store
 .npmrc
+*.code-workspace
 
 node_modules
 yarn-debug.log
