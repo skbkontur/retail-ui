@@ -125,12 +125,12 @@ export default class Hint extends React.Component<Props, State> {
   }
 
   _renderContent() {
-    const { pos } = this.props;
+    const { pos, maxWidth } = this.props;
     const className = classNames({
       [styles.root]: true,
       [styles.rootCenter]: pos === 'top' || pos === 'bottom'
     });
-    return <div className={className}>{this.props.text}</div>;
+    return <div className={className} style={{ maxWidth }}>{this.props.text}</div>;
   }
 
   _ref = (el: ?HTMLElement) => {
