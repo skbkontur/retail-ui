@@ -1,4 +1,4 @@
-// @flow
+
 import type { CursorMap } from './CursorHelper';
 
 export type DecimalFormattingOptions = {

@@ -1,4 +1,4 @@
-// @flow
+
 
 export const selectNodeContents = (node: HTMLElement) => {
   if (document.createRange) {

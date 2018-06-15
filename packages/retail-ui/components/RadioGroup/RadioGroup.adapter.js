@@ -1,4 +1,4 @@
-// @flow
+
 
 import RadioGroup from './RadioGroup.js';
 

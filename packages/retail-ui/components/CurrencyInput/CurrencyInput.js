@@ -1,4 +1,4 @@
-// @flow
+
 
 import React, { Component, type Node } from 'react';
 import PropTypes from 'prop-types';

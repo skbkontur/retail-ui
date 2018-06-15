@@ -1,4 +1,4 @@
-// @flow
+
 
 import isActiveElement from '../Menu/isActiveElement';
 import * as React from 'react';

@@ -1,4 +1,4 @@
-// @flow
+
 
 import { InputAdapter } from '../Input/Input.adapter';
 

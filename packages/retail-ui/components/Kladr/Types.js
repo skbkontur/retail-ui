@@ -1,4 +1,4 @@
-/* @flow */
+
 
 export type PlaceDescription = {
   code: string,

@@ -1,4 +1,4 @@
-// @flow
+
 
 import cn from 'classnames';
 import events from 'add-event-listener';

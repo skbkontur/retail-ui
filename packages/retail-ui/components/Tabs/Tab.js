@@ -1,4 +1,4 @@
-// @flow
+
 
 import events from 'add-event-listener';
 import * as React from 'react';

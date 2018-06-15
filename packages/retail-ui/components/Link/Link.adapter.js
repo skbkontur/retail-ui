@@ -1,4 +1,4 @@
-/* @flow */
+
 
 import Link from './Link.js';
 

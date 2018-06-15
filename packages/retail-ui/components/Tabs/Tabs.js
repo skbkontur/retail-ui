@@ -1,4 +1,4 @@
-// @flow
+
 import cn from 'classnames';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';

@@ -1,4 +1,4 @@
-// @flow
+
 import React from 'react';
 
 import Button from 'retail-ui/components/Button';

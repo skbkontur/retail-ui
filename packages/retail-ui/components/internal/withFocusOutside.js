@@ -1,4 +1,4 @@
-// @flow
+
 /* eslint-disable flowtype/no-weak-types */
 import * as React from 'react';
 import events from 'add-event-listener';

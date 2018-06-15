@@ -1,4 +1,4 @@
-// @flow
+
 
 type ActionCheck = (SyntheticKeyboardEvent<HTMLElement>) => boolean;
 

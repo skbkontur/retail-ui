@@ -1,4 +1,4 @@
-// @flow
+
 
 export const parseValue = (
   value: ?string

@@ -1,6 +1,0 @@
-// @flow
-
-// eslint-disable-next-line flowtype/no-weak-types
-export type ITheme = any;
-
-export default function createDefaultTheme(): ITheme {}

@@ -1,4 +1,4 @@
-// @flow
+
 /* eslint-disable flowtype/no-weak-types */
 /* global Lookup */
 import { mount } from 'enzyme';

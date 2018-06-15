@@ -1,4 +1,4 @@
-// @flow
+
 /* eslint-disable flowtype/no-weak-types */
 import cn from 'classnames';
 import * as React from 'react';

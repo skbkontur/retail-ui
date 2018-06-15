@@ -1,4 +1,4 @@
-// @flow
+
 
 import { type Selection } from './SelectionHelper';
 

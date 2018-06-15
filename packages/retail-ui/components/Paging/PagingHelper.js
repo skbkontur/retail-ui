@@ -1,4 +1,4 @@
-// @flow
+
 
 function getItems(active: number, total: number): (number | '.')[] {
   let result = [];

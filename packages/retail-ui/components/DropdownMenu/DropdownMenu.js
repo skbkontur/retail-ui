@@ -1,4 +1,4 @@
-// @flow
+
 import * as React from 'react';
 import PopupMenu from '../internal/PopupMenu';
 import type MenuItem from '../MenuItem/MenuItem';

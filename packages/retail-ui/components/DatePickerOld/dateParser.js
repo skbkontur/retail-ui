@@ -1,4 +1,4 @@
-// @flow
+
 export default function(
   str: string | Date | null | void,
   withCorrection: boolean = true

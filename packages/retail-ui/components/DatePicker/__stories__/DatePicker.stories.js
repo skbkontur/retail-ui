@@ -1,4 +1,4 @@
-// @flow
+
 import Button from '../../Button/index';
 import Gapped from '../../Gapped/index';
 import MockDate from '../../internal/MockDate';

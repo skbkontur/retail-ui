@@ -1,4 +1,4 @@
-// @flow
+
 /* eslint-disable flowtype/no-weak-types */
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';

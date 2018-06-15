@@ -1,4 +1,4 @@
-// @flow
+
 
 import type { Place, PlaceDescription } from './Types';
 

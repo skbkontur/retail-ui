@@ -1,4 +1,4 @@
-// @flow
+
 
 import fetch from '../../lib/net/fetch-cors';
 

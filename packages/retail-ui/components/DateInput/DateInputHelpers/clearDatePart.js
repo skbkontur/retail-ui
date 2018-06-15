@@ -1,4 +1,4 @@
-// @flow
+
 
 import { type State, DateParts } from '../DateInput';
 import { UnknownDatePart } from './UnknownDatePart';

@@ -1,4 +1,4 @@
-// @flow
+
 
 export const tryParseDateString = (value: string) => {
   const DMYre = /([\d\_]{1,2}).([\d\_]{1,2}).([\d\_]{4})/;

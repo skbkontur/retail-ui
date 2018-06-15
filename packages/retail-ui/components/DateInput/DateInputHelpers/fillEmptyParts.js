@@ -1,4 +1,4 @@
-// @flow
+
 
 type DateShape = {
   +date: ?string,

@@ -1,4 +1,4 @@
-// @flow
+
 import type { ButtonProps } from '../Button/Button';
 
 import events from 'add-event-listener';

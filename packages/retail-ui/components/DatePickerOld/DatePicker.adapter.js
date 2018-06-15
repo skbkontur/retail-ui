@@ -1,4 +1,4 @@
-// @flow
+
 /* eslint-disable flowtype/no-weak-types */
 import DatePicker from './DatePickerOld.js';
 

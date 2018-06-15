@@ -1,4 +1,4 @@
-// @flow
+
 
 export default function(e: SyntheticKeyboardEvent<>) {
   if (e.which == null) {

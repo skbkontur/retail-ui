@@ -1,4 +1,4 @@
-// @flow
+
 
 import PropTypes from 'prop-types';
 import * as React from 'react';

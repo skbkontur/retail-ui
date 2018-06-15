@@ -1,4 +1,4 @@
-// @flow
+
 import PopupMenuPositions from './PopupMenuPositions';
 import { isProductionEnv } from '../currentEnvironment';
 

@@ -1,4 +1,4 @@
-// @flow
+
 
 export default {
   TOP_LEFT: 1,

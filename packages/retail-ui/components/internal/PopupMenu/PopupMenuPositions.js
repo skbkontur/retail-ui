@@ -1,4 +1,4 @@
-// @flow
+
 
 const PopupMenuPositions: Array<string> = [
   'top left',

@@ -1,4 +1,4 @@
-// @flow
+
 
 /**
  * This file is for IDE and Flow. NOT FOR PRODUCTION USAGE.

@@ -20,7 +20,7 @@ renamer.matcher(targetDir + '/**/*.jsx', file => {
 
 glob(path.join(__dirname, '..', targetDir, '**/*'), (err, files) => {
   files.forEach(fp => {
-    if (fp.endsWith('.json') || fp.endsWith('.ts') || fp.endsWith('.tsx')) {
+    if (fp.endsWith('.json') || fp.endsWith('.ts') || fp.endsWith('.tsx') || fp.endsWith('.adapter.js')) {
       return;
     }
     let newName = renamer.rename(fp);

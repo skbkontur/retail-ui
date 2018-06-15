@@ -1,4 +1,4 @@
-// @flow
+
 import getComputedStyle from '../../lib/dom/getComputedStyle';
 
 export function getTextAreaHeight(

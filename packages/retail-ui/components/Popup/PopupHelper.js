@@ -1,4 +1,4 @@
-// @flow
+
 
 type Rect = {
   top: number,

@@ -1,4 +1,4 @@
-// @flow
+
 import PagingHelper from '../PagingHelper';
 
 [
