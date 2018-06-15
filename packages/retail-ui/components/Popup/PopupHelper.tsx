@@ -1,18 +1,21 @@
+export interface Rect {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+}
 
+export interface Offset {
+  top: number;
+  left: number;
+}
 
-type Rect = {
-  top: number,
-  left: number,
-  width: number,
-  height: number
-};
+export interface PositionObject {
+  direction: string;
+  align: string;
+}
 
-type Offset = {
-  top: number,
-  left: number
-};
-
-function getPositionObject(position: string) {
+function getPositionObject(position: string): PositionObject {
   const x = position.split(' ');
 
   return {
@@ -90,7 +93,7 @@ function _rectContainsRect(outerRect: Rect, innerRect: Rect): boolean {
 
 function _getViewProperty(getProperty: (e: HTMLElement) => number): number {
   const views = [document.documentElement, document.body];
-  return views.map(x => x && getProperty(x)).find(x => x) || 0;
+  return views.map(x => x && getProperty(x)).find(Boolean) || 0;
 }
 
 export default {

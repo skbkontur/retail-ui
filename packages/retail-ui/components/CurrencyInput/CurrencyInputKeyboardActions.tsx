@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   KeyboardActionExctracterBuilder,
   isSeparator,
@@ -55,6 +56,6 @@ export const extractAction = new KeyboardActionExctracterBuilder()
   .add(CURRENCY_INPUT_ACTIONS.Delete, e => e.key === 'Delete')
   .add(CURRENCY_INPUT_ACTIONS.Minus, e => e.key === '-' || e.key === 'Subtract')
   .add(CURRENCY_INPUT_ACTIONS.Separator, isSeparator)
-  .add(CURRENCY_INPUT_ACTIONS.Digit, e => /^\d$/.exec(e.key))
-  .add(CURRENCY_INPUT_ACTIONS.Ignore, e => isModified || e.key === 'Tab')
+  .add(CURRENCY_INPUT_ACTIONS.Digit, e => Boolean(/^\d$/.exec(e.key)))
+  .add(CURRENCY_INPUT_ACTIONS.Ignore, e => isModified(e) || e.key === 'Tab')
   .build(CURRENCY_INPUT_ACTIONS.Unknown);

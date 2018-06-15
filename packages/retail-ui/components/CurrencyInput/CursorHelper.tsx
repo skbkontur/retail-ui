@@ -1,15 +1,17 @@
-
-
-import { type Selection } from './SelectionHelper';
+import { Selection } from './SelectionHelper';
 
 export type CursorMap = number[];
 
 export default class CursorHelper {
-  static normalizePosition(map: CursorMap, position: number): number {
+  public static normalizePosition(map: CursorMap, position: number): number {
     return map[Math.min(Math.max(0, position), map.length - 1)];
   }
 
-  static calculatePosition(map: CursorMap, position: number, step: number) {
+  public static calculatePosition(
+    map: CursorMap,
+    position: number,
+    step: number
+  ) {
     if (position < 0 || map.length <= position) {
       throw new Error(
         `position out of range [${0} .. ${map.length -
@@ -20,7 +22,11 @@ export default class CursorHelper {
     return CursorHelper.toFormattedPosition(map, raw + step);
   }
 
-  static extendSelection(map: CursorMap, selection: Selection, step: number) {
+  public static extendSelection(
+    map: CursorMap,
+    selection: Selection,
+    step: number
+  ) {
     selection = CursorHelper.normalizeSelection(map, selection);
 
     selection =
@@ -39,7 +45,10 @@ export default class CursorHelper {
     return CursorHelper.normalizeSelection(map, selection);
   }
 
-  static normalizeSelection(map: CursorMap, selection: Selection): Selection {
+  public static normalizeSelection(
+    map: CursorMap,
+    selection: Selection
+  ): Selection {
     const start = CursorHelper.normalizePosition(map, selection.start);
     const end = CursorHelper.normalizePosition(map, selection.end);
 
@@ -66,12 +75,12 @@ export default class CursorHelper {
     };
   }
 
-  static toRawPosition(map: CursorMap, formattedPosition: number) {
+  public static toRawPosition(map: CursorMap, formattedPosition: number) {
     const count = Math.min(Math.max(0, formattedPosition), map.length - 1);
     return new Set(map.slice(0, count + 1)).size - 1;
   }
 
-  static toFormattedPosition(map: CursorMap, rawPosition: number) {
+  public static toFormattedPosition(map: CursorMap, rawPosition: number) {
     const count = Math.max(0, rawPosition) + 1;
     const unique = new Set();
 

@@ -1,18 +1,16 @@
-
-
 import * as React from 'react';
 import MockDate from 'mockdate';
 
 class MockDateComponent extends React.Component<{ date: Date }> {
-  componentDidMount() {
+  public componentDidMount() {
     MockDate.set(this.props.date);
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     MockDate.reset();
   }
 
-  render() {
+  public render() {
     return null;
   }
 }

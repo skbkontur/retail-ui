@@ -1,26 +1,31 @@
+import React from 'react';
 
+type ActionCheck = (x0: React.KeyboardEvent<HTMLElement>) => boolean;
 
-type ActionCheck = (SyntheticKeyboardEvent<HTMLElement>) => boolean;
+interface KeyboardActionMatcher<Actions> {
+  type: Actions;
+  check: (x0: React.KeyboardEvent<HTMLElement>) => boolean;
+}
 
-type KeyboardActionMatcher<Actions> = {
-  type: Actions,
-  check: (SyntheticKeyboardEvent<HTMLElement>) => boolean
-};
-
-export class KeyboardActionExctracterBuilder<+T> {
-  _actionMatchers: Array<KeyboardActionMatcher<*>>;
+export class KeyboardActionExctracterBuilder<T> {
+  private _actionMatchers: Array<KeyboardActionMatcher<any>>;
 
   constructor(actionMatchers: Array<KeyboardActionMatcher<T>> = []) {
     this._actionMatchers = actionMatchers;
   }
 
-  add<P>(type: P, check: ActionCheck): KeyboardActionExctracterBuilder<T | P> {
+  public add<P>(
+    type: P,
+    check: ActionCheck
+  ): KeyboardActionExctracterBuilder<T | P> {
     return new KeyboardActionExctracterBuilder(
       this._actionMatchers.concat({ type, check })
     );
   }
 
-  build<P>(defaultAction: P): (SyntheticKeyboardEvent<HTMLElement>) => T | P {
+  public build<P>(
+    defaultAction: P
+  ): (x0: React.KeyboardEvent<HTMLElement>) => T | P {
     return event => {
       const action = this._actionMatchers.find(x => x.check(event));
       return (action && action.type) || defaultAction;

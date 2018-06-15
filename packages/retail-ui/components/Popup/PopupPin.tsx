@@ -1,9 +1,7 @@
-
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import PopupHelper from './PopupHelper';
+import PopupHelper, { Rect, PositionObject } from './PopupHelper';
 
 import styles from './PopupPin.less';
 
@@ -16,23 +14,62 @@ const borderStyles = {
   borderRightColor: 'transparent'
 };
 
-type Props = {
-  backgroundColor: string,
-  borderColor: string,
-  borderWidth: number,
-  offset: number,
-  popupElement: ?HTMLElement,
-  popupPosition: string,
-  size: number
-};
+interface Props {
+  backgroundColor: string;
+  borderColor: string;
+  borderWidth: number;
+  offset: number;
+  popupElement: Nullable<HTMLElement>;
+  popupPosition: string;
+  size: number;
+}
 
 export default class PopupPin extends Component<Props> {
-  render() {
+  public static propTypes = {
+    /**
+     * Цвет фон пина
+     */
+    backgroundColor: PropTypes.string,
+
+    /**
+     * Цвет границы пина
+     */
+    borderColor: PropTypes.string,
+
+    /**
+     * Ширина границы пина
+     */
+    borderWidth: PropTypes.number,
+
+    /**
+     * Смещение пина от края попапа. Край задаётся в пропе position вторым словом
+     */
+    offset: PropTypes.number,
+
+    /**
+     * Ссылка на попап
+     */
+    popupElement: PropTypes.any,
+
+    /**
+     * Позиция поапа, по которой будет вычеслено положение пина
+     */
+    popupPosition: PropTypes.string,
+
+    /**
+     * Сторона пина без учёта границы.
+     * Пин представляет собой равносторонний треугольник, высота от попапа
+     * до "носика" пина будет соответствовать формуле (size* √3)/2
+     */
+    size: PropTypes.number
+  };
+
+  public render() {
     if (!this.props.popupElement) {
       return null;
     }
 
-    let options = this._getPinOptions(
+    const options = this._getPinOptions(
       PopupHelper.getElementAbsoluteRect(this.props.popupElement),
       PopupHelper.getPositionObject(this.props.popupPosition),
       this.props.size,
@@ -40,19 +77,19 @@ export default class PopupPin extends Component<Props> {
       this.props.borderWidth
     );
 
-    let styleOuter = this._getOuterStyle(
+    const styleOuter: React.CSSProperties = this._getOuterStyle(
       options.activeBorder,
       options.outerSize,
       this.props.borderColor
     );
 
-    let styleInner = this._getInnerStyle(
+    const styleInner: React.CSSProperties = this._getInnerStyle(
       options.activeBorder,
       this.props.size,
       this.props.backgroundColor
     );
 
-    let styleWrapper = this._getWrapperStyle(
+    const styleWrapper = this._getWrapperStyle(
       options.outerLeft,
       options.outerTop,
       options.outerSize
@@ -67,9 +104,10 @@ export default class PopupPin extends Component<Props> {
     );
   }
 
-  _getPopupOppositeDirection() {
-    let popupDirection = PopupHelper.getPositionObject(this.props.popupPosition)
-      .direction;
+  private _getPopupOppositeDirection(): 'bottom' | 'top' | 'left' | 'right' {
+    const popupDirection = PopupHelper.getPositionObject(
+      this.props.popupPosition
+    ).direction;
     switch (popupDirection) {
       case 'top':
         return 'bottom';
@@ -84,8 +122,8 @@ export default class PopupPin extends Component<Props> {
     }
   }
 
-  _getWrapperStyle(left, top, borderWitdth) {
-    let direction = this._getPopupOppositeDirection();
+  private _getWrapperStyle(left: number, top: number, borderWitdth: number) {
+    const direction = this._getPopupOppositeDirection();
     switch (direction) {
       case 'top':
       case 'bottom':
@@ -108,8 +146,12 @@ export default class PopupPin extends Component<Props> {
     }
   }
 
-  _getOuterStyle(activeBorder, borderWitdth, borderColor) {
-    let direction = this._getPopupOppositeDirection();
+  private _getOuterStyle(
+    activeBorder: string,
+    borderWitdth: number,
+    borderColor: string
+  ): React.CSSProperties {
+    const direction = this._getPopupOppositeDirection();
     switch (direction) {
       case 'top':
       case 'bottom':
@@ -119,7 +161,7 @@ export default class PopupPin extends Component<Props> {
           left: '0px',
           borderWidth: borderWitdth + 'px',
           ['border' + activeBorder + 'Color']: borderColor
-        };
+        } as React.CSSProperties;
       case 'left':
       case 'right':
         return {
@@ -128,14 +170,18 @@ export default class PopupPin extends Component<Props> {
           top: '0px',
           borderWidth: borderWitdth + 'px',
           ['border' + activeBorder + 'Color']: borderColor
-        };
+        } as React.CSSProperties;
       default:
         throw new TypeError('Unknown direction ' + direction);
     }
   }
 
-  _getInnerStyle(activeBorder, borderWitdth, borderColor) {
-    let direction = this._getPopupOppositeDirection();
+  private _getInnerStyle(
+    activeBorder: string,
+    borderWitdth: number,
+    borderColor: string
+  ): React.CSSProperties {
+    const direction = this._getPopupOppositeDirection();
     switch (direction) {
       case 'top':
       case 'bottom':
@@ -145,7 +191,7 @@ export default class PopupPin extends Component<Props> {
           left: -borderWitdth + 'px',
           borderWidth: borderWitdth + 'px',
           ['border' + activeBorder + 'Color']: borderColor
-        };
+        } as React.CSSProperties;
       case 'left':
       case 'right':
         return {
@@ -154,15 +200,21 @@ export default class PopupPin extends Component<Props> {
           top: -borderWitdth + 'px',
           borderWidth: borderWitdth + 'px',
           ['border' + activeBorder + 'Color']: borderColor
-        };
+        } as React.CSSProperties;
       default:
         throw new TypeError('Unknown direction ' + direction);
     }
   }
 
-  _getPinOptions(popupRect, popupPosition, pinSize, pinOffset, borderWidth) {
-    let bordersDelta = 2 * borderWidth;
-    let outerSize = pinSize + bordersDelta;
+  private _getPinOptions(
+    popupRect: Rect,
+    popupPosition: PositionObject,
+    pinSize: number,
+    pinOffset: number,
+    borderWidth: number
+  ) {
+    const bordersDelta = 2 * borderWidth;
+    const outerSize = pinSize + bordersDelta;
 
     switch (popupPosition.direction) {
       case 'top':
@@ -230,7 +282,12 @@ export default class PopupPin extends Component<Props> {
     }
   }
 
-  _getPinTopCoordinate(popupRect, align, pinHeight, pinOffset) {
+  private _getPinTopCoordinate(
+    popupRect: Rect,
+    align: string,
+    pinHeight: number,
+    pinOffset: number
+  ) {
     switch (align) {
       case 'top':
         return pinOffset;
@@ -243,7 +300,12 @@ export default class PopupPin extends Component<Props> {
     }
   }
 
-  _getPinLeftCoordinate(popupRect, align, pinHeight, pinOffset) {
+  private _getPinLeftCoordinate(
+    popupRect: Rect,
+    align: string,
+    pinHeight: number,
+    pinOffset: number
+  ) {
     switch (align) {
       case 'left':
         return pinOffset;
@@ -256,42 +318,3 @@ export default class PopupPin extends Component<Props> {
     }
   }
 }
-
-PopupPin.propTypes = {
-  /**
-   * Цвет фон пина
-   */
-  backgroundColor: PropTypes.string,
-
-  /**
-   * Цвет границы пина
-   */
-  borderColor: PropTypes.string,
-
-  /**
-   * Ширина границы пина
-   */
-  borderWidth: PropTypes.number,
-
-  /**
-   * Смещение пина от края попапа. Край задаётся в пропе position вторым словом
-   */
-  offset: PropTypes.number,
-
-  /**
-   * Ссылка на попап
-   */
-  popupElement: PropTypes.any,
-
-  /**
-   * Позиция поапа, по которой будет вычеслено положение пина
-   */
-  popupPosition: PropTypes.string,
-
-  /**
-   * Сторона пина без учёта границы.
-   * Пин представляет собой равносторонний треугольник, высота от попапа
-   * до "носика" пина будет соответствовать формуле (size* √3)/2
-   */
-  size: PropTypes.number
-};

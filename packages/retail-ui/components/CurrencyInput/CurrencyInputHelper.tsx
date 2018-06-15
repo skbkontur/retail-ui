@@ -1,11 +1,13 @@
-
-
-import { type Selection } from './SelectionHelper';
+import { Selection } from './SelectionHelper';
 import CurrencyHelper from './CurrencyHelper';
 import CursorHelper from './CursorHelper';
 
 export default class CurrencyInputHelper {
-  static moveCursor(value: string, selection: Selection, step: number): number {
+  public static moveCursor(
+    value: string,
+    selection: Selection,
+    step: number
+  ): number {
     return selection.start === selection.end
       ? CursorHelper.calculatePosition(
           CurrencyHelper.getInfo(value).cursorMap,
@@ -17,23 +19,30 @@ export default class CurrencyInputHelper {
         : selection.end;
   }
 
-  static extendSelection(value: string, selection: Selection, step: number) {
+  public static extendSelection(
+    value: string,
+    selection: Selection,
+    step: number
+  ) {
     const info = CurrencyHelper.getInfo(value);
     return CursorHelper.extendSelection(info.cursorMap, selection, step);
   }
 
-  static normalizeSelection(value: string, selection: Selection): Selection {
+  public static normalizeSelection(
+    value: string,
+    selection: Selection
+  ): Selection {
     const info = CurrencyHelper.getInfo(value);
     return CursorHelper.normalizeSelection(info.cursorMap, selection);
   }
 
-  static safeInsert(
+  public static safeInsert(
     value: string,
     start: number,
     end: number,
     input: string,
-    fractionDigits: ?number,
-    unsigned: ?boolean
+    fractionDigits: Nullable<number>,
+    unsigned: Nullable<boolean>
   ) {
     const extracted = CurrencyInputHelper.getMaximumValidSubstring(
       value,
@@ -49,13 +58,13 @@ export default class CurrencyInputHelper {
     return null;
   }
 
-  static getMaximumValidSubstring(
+  public static getMaximumValidSubstring(
     value: string,
     start: number,
     end: number,
     input: string,
-    fractionDigits: ?number,
-    unsigned: ?boolean
+    fractionDigits: Nullable<number>,
+    unsigned: Nullable<boolean>
   ) {
     const extracted = CurrencyHelper.extractValid(
       input,
@@ -80,7 +89,12 @@ export default class CurrencyInputHelper {
     return null;
   }
 
-  static insert(value: string, start: number, end: number, input: string) {
+  public static insert(
+    value: string,
+    start: number,
+    end: number,
+    input: string
+  ) {
     const prefix = value.substring(0, start);
     const suffix = value.substring(end);
 

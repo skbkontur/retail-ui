@@ -20,7 +20,8 @@ export default function filterProps<
   const ret = {} as Result;
   for (const key in props) {
     if (allowed[key]) {
-      ret[key as Specific | Optional] = props[key];
+      // @ts-ignore
+      ret[key] = props[key];
     }
   }
   return ret;

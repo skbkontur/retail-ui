@@ -1,4 +1,3 @@
-
 import cn from 'classnames';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
@@ -6,31 +5,34 @@ import ReactDOM from 'react-dom';
 import isActiveElement from './isActiveElement';
 import ScrollContainer from '../../ScrollContainer/ScrollContainer';
 
-import type MenuItem from '../../MenuItem/MenuItem';
+import MenuItem from '../../MenuItem/MenuItem';
 
 import styles from './InternalMenu.less';
+import { createPropsGetter } from '../createPropsGetter';
 
-type MenuItemElement = ?React.Element<Class<MenuItem>>;
+interface MenuProps {
+  children?: React.ReactNode;
+  hasShadow?: boolean;
+  maxHeight?: number | string;
+  onItemClick?: (x0: string) => void;
+  width?: number | string;
+  preventWindowScroll?: boolean;
+  onKeyDown: (x0: React.KeyboardEvent<HTMLElement>) => void;
 
-type Props = {
-  children?: React.ChildrenArray<MenuItemElement>,
-  hasShadow: boolean,
-  maxHeight: number | string,
-  onItemClick?: string => void,
-  width?: number | string,
-  preventWindowScroll: boolean,
-  onKeyDown: (SyntheticKeyboardEvent<HTMLElement>) => void,
-  /** Циклический перебор айтемов меню (по-дефолтну включен)*/
-  cyclicSelection: boolean,
-  initialSelectedItemIndex: number
-};
+  // Циклический перебор айтемов меню (по-дефолтну включен)
+  cyclicSelection?: boolean;
+  initialSelectedItemIndex?: number;
+}
 
-type State = {
-  highlightedIndex: number
-};
+interface MenuState {
+  highlightedIndex: number;
+}
 
-export default class InternalMenu extends React.Component<Props, State> {
-  static defaultProps = {
+export default class InternalMenu extends React.Component<
+  MenuProps,
+  MenuState
+> {
+  public static defaultProps = {
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
@@ -39,22 +41,24 @@ export default class InternalMenu extends React.Component<Props, State> {
     initialSelectedItemIndex: -1
   };
 
-  state = {
+  public state = {
     highlightedIndex: -1
   };
 
-  _scrollContainer: ?ScrollContainer;
-  _highlighted: ?MenuItem;
-  _rootElement: ?HTMLDivElement;
+  private _scrollContainer: Nullable<ScrollContainer>;
+  private _highlighted: Nullable<MenuItem>;
+  private _rootElement: Nullable<HTMLDivElement>;
 
-  componentDidMount() {
+  private getProps = createPropsGetter(InternalMenu.defaultProps);
+
+  public componentDidMount() {
     this._focusWithScrollRestore();
     this._setInitialSelection();
   }
 
-  render() {
+  public render() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
-      x => x && x.props.icon
+      x => typeof x === 'object' && x.props.icon
     );
 
     if (this._isEmpty()) {
@@ -69,7 +73,7 @@ export default class InternalMenu extends React.Component<Props, State> {
         ref={element => {
           this._rootElement = element;
         }}
-        tabIndex="0"
+        tabIndex={0}
       >
         <ScrollContainer
           ref={this._refScrollContainer}
@@ -77,8 +81,16 @@ export default class InternalMenu extends React.Component<Props, State> {
           preventWindowScroll={this.props.preventWindowScroll}
         >
           {React.Children.map(this.props.children, (child, index) => {
-            const isMenuItem = child && child.type.__MENU_ITEM__;
-            const isMenuHeader = child && child.type.__MENU_HEADER__;
+            if (typeof child === 'string' || typeof child === 'number') {
+              return child;
+            }
+            if (typeof child.type === 'string') {
+              return child;
+            }
+            const isMenuItem =
+              child && (child.type as typeof MenuItem).__MENU_ITEM__;
+            const isMenuHeader =
+              child && (child.type as typeof MenuItem).__MENU_HEADER__;
             if (enableIconPadding && (isMenuItem || isMenuHeader)) {
               child = React.cloneElement(child, {
                 _enableIconPadding: true
@@ -107,7 +119,7 @@ export default class InternalMenu extends React.Component<Props, State> {
     );
   }
 
-  _focusWithScrollRestore = (): void => {
+  private _focusWithScrollRestore = (): void => {
     if (this._rootElement && window) {
       const scrollX: number = window.scrollX;
       const scrollY: number = window.scrollY;
@@ -117,29 +129,42 @@ export default class InternalMenu extends React.Component<Props, State> {
     }
   };
 
-  _setInitialSelection = () => {
-    for (let i = this.props.initialSelectedItemIndex; i > -1; i--) {
+  private _setInitialSelection = () => {
+    for (let i = this.getProps().initialSelectedItemIndex; i > -1; i--) {
       this._moveDown();
     }
   };
 
-  _refScrollContainer = (scrollContainer: ?ScrollContainer) => {
+  private _refScrollContainer = (
+    scrollContainer: Nullable<ScrollContainer>
+  ) => {
     this._scrollContainer = scrollContainer;
   };
 
-  _refHighlighted(originalRef, menuItem) {
+  private _refHighlighted(
+    originalRef: (menuItem: MenuItem | null) => any,
+    menuItem: MenuItem | null
+  ) {
     this._highlighted = menuItem;
 
-    originalRef && originalRef(menuItem);
+    if (originalRef) {
+      originalRef(menuItem);
+    }
   }
 
-  _scrollToSelected = () => {
-    if (this._scrollContainer) {
-      this._scrollContainer.scrollTo(ReactDOM.findDOMNode(this._highlighted));
+  private _scrollToSelected = () => {
+    if (this._scrollContainer && this._highlighted) {
+      this._scrollContainer.scrollTo(ReactDOM.findDOMNode(
+        this._highlighted
+      ) as HTMLElement);
     }
   };
 
-  _select(index: number, shouldHandleHref: boolean, event): boolean {
+  private _select(
+    index: number,
+    shouldHandleHref: boolean,
+    event: React.SyntheticEvent<HTMLElement>
+  ): boolean {
     const item = childrenToArray(this.props.children)[index];
     if (isActiveElement(item)) {
       if (shouldHandleHref && item.props.href) {
@@ -149,26 +174,29 @@ export default class InternalMenu extends React.Component<Props, State> {
           location.href = item.props.href;
         }
       }
-      item.props.onClick && item.props.onClick(event);
-
-      this.props.onItemClick && this.props.onItemClick(event.type);
+      if (item.props.onClick) {
+        item.props.onClick(event);
+      }
+      if (this.props.onItemClick) {
+        this.props.onItemClick(event.type);
+      }
       return true;
     }
     return false;
   }
 
-  _highlightItem = (index: number): void => {
+  private _highlightItem = (index: number): void => {
     this.setState({ highlightedIndex: index });
     if (this._rootElement) {
       this._rootElement.focus();
     }
   };
 
-  _unhighlight = () => {
+  private _unhighlight = () => {
     this.setState({ highlightedIndex: -1 });
   };
 
-  _move(step: number) {
+  private _move(step: number) {
     this.setState((state, props) => {
       const children = childrenToArray(props.children);
       if (!children.some(isActiveElement)) {
@@ -196,20 +224,22 @@ export default class InternalMenu extends React.Component<Props, State> {
     }, this._scrollToSelected);
   }
 
-  _moveUp = () => {
+  private _moveUp = () => {
     this._move(-1);
   };
 
-  _moveDown = () => {
+  private _moveDown = () => {
     this._move(1);
   };
 
-  _isEmpty() {
+  private _isEmpty() {
     const { children } = this.props;
     return !children || !childrenToArray(children).filter(isExist).length;
   }
 
-  _handleKeyDown = (event: SyntheticKeyboardEvent<HTMLDivElement>): void => {
+  private _handleKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>
+  ): void => {
     if (typeof this.props.onKeyDown === 'function') {
       this.props.onKeyDown(event);
     }
@@ -239,12 +269,12 @@ export default class InternalMenu extends React.Component<Props, State> {
   };
 }
 
-function isExist(value) /* : boolean %checks */ {
+function isExist(value: any): value is any {
   return value !== null && value !== undefined;
 }
 
-function childrenToArray(children) {
-  const ret = [];
+function childrenToArray(children: React.ReactNode): React.ReactChild[] {
+  const ret: React.ReactChild[] = [];
   // Use forEach instead of map to avoid cloning for key unifying.
   React.Children.forEach(children, child => {
     ret.push(child);

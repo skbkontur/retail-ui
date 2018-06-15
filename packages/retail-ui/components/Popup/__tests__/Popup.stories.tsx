@@ -1,5 +1,4 @@
 
-/* eslint-disable flowtype/no-weak-types */
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Popup from '../Popup';
@@ -72,10 +71,7 @@ const AllCases = ({ small }) => (
   </div>
 );
 
-storiesOf('Popup', module)
-  .add('All pin opened', () => <AllCases small={false} />)
-  .add('All pin opened on small elements', () => <AllCases small />)
-  .add('Positioning', () => (
+storiesOf('Popup', module).add('All pin opened', () => <AllCases small={false} />).add('All pin opened on small elements', () => <AllCases small />).add('Positioning', () => (
     <div>
       <table>
         <tbody>
@@ -105,8 +101,7 @@ storiesOf('Popup', module)
         </tbody>
       </table>
     </div>
-  ))
-  .add('disableAnimations', () => (
+  )).add('disableAnimations', () => (
     <div>
       <PopupWithPositions
         disableAnimations={false}
@@ -117,16 +112,14 @@ storiesOf('Popup', module)
         placeholder={'disableAnimations: true'}
       />
     </div>
-  ))
-  .add('Hint', () => (
+  )).add('Hint', () => (
     <div style={{ transform: 'translate(250%, 200%)' }}>
       <Hint
         positions={['top center', 'right top', 'bottom center', 'left middle']}
         margin={20}
       />
     </div>
-  ))
-  .add('Toast', () => (
+  )).add('Toast', () => (
     <div style={{ transform: 'translate(250%, 200%)' }}>
       <Toast
         positions={['top center', 'right top', 'bottom center', 'left middle']}
@@ -134,8 +127,8 @@ storiesOf('Popup', module)
     </div>
   ));
 
-class AlwaysOpened extends Component<*, *> {
-  anchor: ?HTMLElement;
+class AlwaysOpened extends Component<any, any> {
+  anchor: Nullable<HTMLElement>;
 
   constructor(props) {
     super(props);
@@ -210,8 +203,8 @@ class AlwaysOpened extends Component<*, *> {
 }
 
 // eslint-disable-next-line react/no-multi-comp
-class PopupWithPositions extends Component<*, any> {
-  anchor: ?HTMLElement;
+class PopupWithPositions extends Component<any, any> {
+  anchor: Nullable<HTMLElement>;
 
   constructor(props) {
     super(props);
@@ -277,8 +270,8 @@ class PopupWithPositions extends Component<*, any> {
   };
 }
 
-class Hint extends Component<*, any> {
-  anchor: ?HTMLElement;
+class Hint extends Component<any, any> {
+  anchor: Nullable<HTMLElement>;
 
   constructor(props) {
     super(props);
@@ -325,8 +318,8 @@ class Hint extends Component<*, any> {
 }
 
 // eslint-disable-next-line react/no-multi-comp
-class Toast extends Component<*, *> {
-  anchor: ?HTMLElement;
+class Toast extends Component<any, any> {
+  anchor: Nullable<HTMLElement>;
 
   constructor(props) {
     super(props);

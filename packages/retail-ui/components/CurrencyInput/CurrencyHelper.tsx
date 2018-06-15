@@ -1,40 +1,39 @@
+import { CursorMap } from './CursorHelper';
 
-import type { CursorMap } from './CursorHelper';
+export interface DecimalFormattingOptions {
+  fractionDigits?: Nullable<number>;
+  thousandsDelimiter?: string;
+  minusSign?: string;
+}
 
-export type DecimalFormattingOptions = {
-  fractionDigits?: ?number,
-  thousandsDelimiter?: string,
-  minusSign?: string
-};
+interface DecimalFormattingOptionsInternal {
+  fractionDigits: Nullable<number>;
+  thousandsDelimiter: string;
+  minusSign: string;
+}
 
-type DecimalFormattingOptionsInternal = {
-  fractionDigits: ?number,
-  thousandsDelimiter: string,
-  minusSign: string
-};
-
-export type FormattingInfo = {
-  raw: string,
-  formatted: string,
-  cursorMap: CursorMap
-};
+export interface FormattingInfo {
+  raw: string;
+  formatted: string;
+  cursorMap: CursorMap;
+}
 
 export default class CurrencyHelper {
-  static defaultOptions: DecimalFormattingOptionsInternal = {
+  public static defaultOptions: DecimalFormattingOptionsInternal = {
     fractionDigits: null,
     thousandsDelimiter: String.fromCharCode(0x2009),
     minusSign: String.fromCharCode(0x2212)
   };
 
-  static getOptions(
-    options?: ?DecimalFormattingOptions
+  public static getOptions(
+    options?: Nullable<DecimalFormattingOptions>
   ): DecimalFormattingOptionsInternal {
     return { ...CurrencyHelper.defaultOptions, ...options };
   }
 
-  static getInfo(
+  public static getInfo(
     value: string,
-    options?: ?DecimalFormattingOptions
+    options?: Nullable<DecimalFormattingOptions>
   ): FormattingInfo {
     const raw = CurrencyHelper.unformatString(value);
     const formatted = CurrencyHelper.formatString(value, options);
@@ -43,9 +42,9 @@ export default class CurrencyHelper {
     return { raw, formatted, cursorMap };
   }
 
-  static getCursorMap(
+  public static getCursorMap(
     formatted: string,
-    formattingOptions?: ?DecimalFormattingOptions
+    formattingOptions?: Nullable<DecimalFormattingOptions>
   ): CursorMap {
     const options = CurrencyHelper.getOptions(formattingOptions);
     const regexp = new RegExp(options.thousandsDelimiter);
@@ -70,7 +69,10 @@ export default class CurrencyHelper {
     return cursorMap;
   }
 
-  static format(value: ?number, options?: ?DecimalFormattingOptions): string {
+  public static format(
+    value: Nullable<number>,
+    options?: Nullable<DecimalFormattingOptions>
+  ): string {
     if (value == null) {
       return '';
     }
@@ -78,7 +80,7 @@ export default class CurrencyHelper {
     return CurrencyHelper.formatString(value.toString(), options);
   }
 
-  static parse(value: string): ?number {
+  public static parse(value: string): Nullable<number> {
     const cleaned = CurrencyHelper.unformatString(value);
     if (!cleaned) {
       return null;
@@ -98,20 +100,20 @@ export default class CurrencyHelper {
     return parseFloat(result);
   }
 
-  static unformatString(value: string): string {
+  public static unformatString(value: string): string {
     return value
       .replace(/\s/g, '')
       .replace(',', '.')
       .replace(/[\u2212\u002D\uFE63\uFF0D\u2012\u2013\u2014\u2015]/g, '-');
   }
 
-  static formatForClipboard(value: string): string {
+  public static formatForClipboard(value: string): string {
     return CurrencyHelper.unformatString(value).replace('.', ',');
   }
 
-  static formatString(
+  public static formatString(
     value: string,
-    formattingOptions?: ?DecimalFormattingOptions
+    formattingOptions?: Nullable<DecimalFormattingOptions>
   ): string {
     const options = CurrencyHelper.getOptions(formattingOptions);
     value = CurrencyHelper.unformatString(value);
@@ -133,7 +135,7 @@ export default class CurrencyHelper {
     const parts = [];
 
     const blockSize = 3;
-    const start = (integer.length - 1) % blockSize - blockSize + 1;
+    const start = ((integer.length - 1) % blockSize) - blockSize + 1;
     for (let i = start; i < integer.length; i += blockSize) {
       parts.push(integer.substring(Math.max(i, 0), i + blockSize));
     }
@@ -155,10 +157,10 @@ export default class CurrencyHelper {
     return result;
   }
 
-  static isValidString(
+  public static isValidString(
     value: string,
-    fractionDigits: ?number,
-    unsigned: ?boolean
+    fractionDigits: Nullable<number>,
+    unsigned: Nullable<boolean>
   ) {
     value = CurrencyHelper.unformatString(value);
     const destructed = CurrencyHelper.destructString(value);
@@ -191,10 +193,10 @@ export default class CurrencyHelper {
     }
   }
 
-  static extractValid(
+  public static extractValid(
     value: string,
-    fractionDigits: ?number,
-    unsigned: ?boolean
+    fractionDigits: Nullable<number>,
+    unsigned: Nullable<boolean>
   ): string {
     value = CurrencyHelper.unformatString(value);
 
@@ -222,7 +224,7 @@ export default class CurrencyHelper {
     return '';
   }
 
-  static destructString(value: string) {
+  public static destructString(value: string) {
     const match = /^(-)?(\d*)?(\.)?(\d*)?$/.exec(value);
     if (!match) {
       return null;

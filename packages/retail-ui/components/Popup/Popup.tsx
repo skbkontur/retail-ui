@@ -1,5 +1,3 @@
-
-/* eslint-disable flowtype/no-weak-types */
 import cn from 'classnames';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
@@ -10,47 +8,105 @@ import ZIndex from '../ZIndex';
 import Transition from 'react-addons-css-transition-group';
 import raf from 'raf';
 
-import PopupHelper from './PopupHelper';
+import PopupHelper, { Rect, PositionObject } from './PopupHelper';
 import PopupPin from './PopupPin';
 import LayoutEvents from '../../lib/LayoutEvents';
 
 import styles from './Popup.less';
 
 import { isIE, ieVerison } from '../ensureOldIEClassName';
+import { createPropsGetter } from '../internal/createPropsGetter';
 
-type Props = {
-  anchorElement: ?HTMLElement,
-  backgroundColor: string,
-  children: React.Node | (() => React.Node),
-  hasPin: boolean,
-  hasShadow: boolean,
-  disableAnimations?: boolean,
-  margin: number,
-  maxWidth: number | string,
-  opened: boolean,
-  pinOffset: number,
-  pinSize: number,
-  popupOffset: number,
-  positions: string[],
-  onCloseRequest?: () => void,
-  onMouseEnter?: (SyntheticMouseEvent<HTMLElement>) => void,
-  onMouseLeave?: (SyntheticMouseEvent<HTMLElement>) => void
-};
+export interface PopupProps {
+  anchorElement: Nullable<HTMLElement>;
+  backgroundColor?: string;
+  children: React.ReactNode | (() => React.ReactNode);
+  hasPin?: boolean;
+  hasShadow?: boolean;
+  disableAnimations?: boolean;
+  margin?: number;
+  maxWidth?: number | string;
+  opened: boolean;
+  pinOffset?: number;
+  pinSize?: number;
+  popupOffset?: number;
+  positions: string[];
+  onCloseRequest?: () => void;
+  onMouseEnter?: (x0: React.MouseEvent<HTMLElement>) => void;
+  onMouseLeave?: (x0: React.MouseEvent<HTMLElement>) => void;
+}
 
-type Location = {
+interface PopupLocation {
   coordinates: {
-    left: number,
-    top: number
-  },
-  position: string
-};
+    left: number;
+    top: number;
+  };
+  position: string;
+}
 
-type State = {
-  location: ?Location
-};
+interface PopupState {
+  location: Nullable<PopupLocation>;
+}
 
-export default class Popup extends React.Component<Props, State> {
-  static defaultProps = {
+export default class Popup extends React.Component<PopupProps, PopupState> {
+  public static propTypes = {
+    /**
+     * Ссылка (ref) на элемент, для которого рисуется попап
+     */
+    anchorElement: PropTypes.instanceOf(HTMLElement).isRequired,
+
+    /**
+     * Фон попапа и пина
+     */
+    backgroundColor: PropTypes.string,
+
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
+
+    /**
+     * Показывать ли пин
+     */
+    hasPin: PropTypes.bool,
+
+    /**
+     * Применять ли box-shadow на попапе. При false отключает границу на пине
+     */
+    hasShadow: PropTypes.bool,
+
+    /**
+     * Отступ попапа от элемента
+     */
+    margin: PropTypes.number,
+
+    /**
+     * Показан или скрыт попап
+     */
+    opened: PropTypes.bool,
+
+    /**
+     * Смещение пина от края попапа. Край задаётся в пропе position вторым словом
+     */
+    pinOffset: PropTypes.number,
+
+    /**
+     * Сторона пина без учёта границы.
+     * Пин представляет собой равносторонний треугольник, высота от попапа
+     * до "носика" пина будет соответствовать формуле (size* √3)/2
+     */
+    pinSize: PropTypes.number,
+
+    /**
+     * смещение попапа относительно родительского элемента
+     */
+    popupOffset: PropTypes.number,
+
+    /**
+     * С какой стороны показывать попап и край попапа,
+     * на котором будет отображаться пин
+     */
+    positions: PropTypes.array
+  };
+
+  public static defaultProps = {
     margin: 10,
     popupOffset: 0,
     pinSize: 8,
@@ -62,19 +118,23 @@ export default class Popup extends React.Component<Props, State> {
     maxWidth: 500
   };
 
-  state: State = {
+  public state: PopupState = {
     location: null
   };
 
-  _layoutEventsToken;
-  _lastPopupElement: ?HTMLElement;
+  private _layoutEventsToken: Nullable<
+    ReturnType<typeof LayoutEvents.addListener>
+  >;
+  private _lastPopupElement: Nullable<HTMLElement>;
 
-  componentDidMount() {
+  private getProps = createPropsGetter(Popup.defaultProps);
+
+  public componentDidMount() {
     this._updateLocation();
     this._layoutEventsToken = LayoutEvents.addListener(this._handleLayoutEvent);
   }
 
-  componentDidUpdate() {
+  public componentDidUpdate() {
     /**
      * For react < 16 version ReactDOM.unstable_renderSubtreeIntoContainer is
      * used. It causes refs callbacks to call after componentDidUpdate.
@@ -84,11 +144,13 @@ export default class Popup extends React.Component<Props, State> {
     this._delayUpdateLocation();
   }
 
-  componentWillUnmount() {
-    this._layoutEventsToken.remove();
+  public componentWillUnmount() {
+    if (this._layoutEventsToken) {
+      this._layoutEventsToken.remove();
+    }
   }
 
-  render() {
+  public render() {
     const location = this.state.location || this._getDummyLocation();
 
     const { direction } = PopupHelper.getPositionObject(location.position);
@@ -128,7 +190,7 @@ export default class Popup extends React.Component<Props, State> {
     );
   }
 
-  _renderContent(location: Location) {
+  private _renderContent(location: PopupLocation) {
     if (!this.props.opened) {
       return null;
     }
@@ -163,13 +225,13 @@ export default class Popup extends React.Component<Props, State> {
     );
   }
 
-  _refPopupElement = zIndex => {
+  private _refPopupElement = (zIndex: ZIndex | null) => {
     if (zIndex) {
-      this._lastPopupElement = zIndex && (findDOMNode(zIndex): any);
+      this._lastPopupElement = zIndex && (findDOMNode(zIndex) as HTMLElement);
     }
   };
 
-  _renderPin(position) {
+  private _renderPin(position: string): React.ReactNode {
     /**
      * Box-shadow does not appear under the pin. Borders are used instead.
      * In non-ie browsers drop-shodow filter is used. It is applying
@@ -181,40 +243,42 @@ export default class Popup extends React.Component<Props, State> {
       : isIE            ? 'rgba(0, 0, 0, 0.09)'
       :                   'transparent';
 
+    const props = this.getProps();
+
     return (
       this.props.hasPin && (
         <PopupPin
-          popupElement={this._lastPopupElement}
+          popupElement={this._lastPopupElement!}
           popupPosition={position}
-          size={this.props.pinSize}
-          offset={this.props.pinOffset}
-          borderWidth={this.props.hasShadow ? 1 : 0}
-          backgroundColor={this.props.backgroundColor}
+          size={props.pinSize}
+          offset={props.pinOffset}
+          borderWidth={props.hasShadow ? 1 : 0}
+          backgroundColor={props.backgroundColor}
           borderColor={pinBorder}
         />
       )
     );
   }
 
-  _handleClickOutside = () => {
+  private _handleClickOutside = () => {
     this._requestClose();
   };
 
-  _handleFocusOutside = () => {
+  private _handleFocusOutside = () => {
     this._requestClose();
   };
 
-  _handleLayoutEvent = () => {
+  private _handleLayoutEvent = () => {
     if (this.state.location) {
       this._updateLocation();
     }
   };
 
-  _delayUpdateLocation() {
+  private _delayUpdateLocation() {
     raf(() => this._updateLocation());
   }
 
-  _updateLocation() {
+  private _updateLocation() {
     if (!this.props.opened) {
       if (this.state.location) {
         this.setState({ location: null });
@@ -233,13 +297,16 @@ export default class Popup extends React.Component<Props, State> {
     }
   }
 
-  _requestClose = () => {
+  private _requestClose = () => {
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
     }
   };
 
-  _locationEquals(x: ?Location, y: ?Location) {
+  private _locationEquals(
+    x: Nullable<PopupLocation>,
+    y: Nullable<PopupLocation>
+  ) {
     if (x === y) {
       return true;
     }
@@ -255,7 +322,7 @@ export default class Popup extends React.Component<Props, State> {
     );
   }
 
-  _getDummyLocation() {
+  private _getDummyLocation() {
     return {
       coordinates: {
         top: -9999,
@@ -265,8 +332,11 @@ export default class Popup extends React.Component<Props, State> {
     };
   }
 
-  _getLocation(popupElement: HTMLElement) {
-    const { anchorElement, positions, margin, popupOffset } = this.props;
+  private _getLocation(popupElement: HTMLElement) {
+    const { anchorElement, positions, margin, popupOffset } = this.getProps<
+      PopupProps,
+      Popup
+    >();
 
     if (!anchorElement) {
       throw new Error('Anchor element is not defined');
@@ -275,14 +345,16 @@ export default class Popup extends React.Component<Props, State> {
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
 
-    for (let i = 0; i < positions.length; ++i) {
-      const position = PopupHelper.getPositionObject(positions[i]);
+    // tslint:disable-next-line:no-shadowed-variable
+    for (const position of positions) {
+      const positionObj = PopupHelper.getPositionObject(position);
+      // tslint:disable-next-line:no-shadowed-variable
       const coordinates = this._getCoordinates(
         anchorRect,
         popupRect,
-        position,
+        positionObj,
         margin,
-        popupOffset + this._getPinnedPopupOffset(anchorRect, position)
+        popupOffset + this._getPinnedPopupOffset(anchorRect, positionObj)
       );
       if (
         PopupHelper.isAbsoluteRectFullyVisible({
@@ -292,7 +364,7 @@ export default class Popup extends React.Component<Props, State> {
           width: popupRect.width
         })
       ) {
-        return { coordinates, position: positions[i] };
+        return { coordinates, position };
       }
     }
     const position = PopupHelper.getPositionObject(positions[0]);
@@ -306,7 +378,7 @@ export default class Popup extends React.Component<Props, State> {
     return { coordinates, position: positions[0] };
   }
 
-  _getPinnedPopupOffset(anchorRect, position) {
+  private _getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {
     if (!this.props.hasPin || /center|middle/.test(position.align)) {
       return 0;
     }
@@ -315,11 +387,17 @@ export default class Popup extends React.Component<Props, State> {
       ? anchorRect.width
       : anchorRect.height;
 
-    const { pinOffset, pinSize } = this.props;
+    const { pinOffset, pinSize } = this.getProps<PopupProps, Popup>();
     return Math.max(0, pinOffset + pinSize - anchorSize / 2);
   }
 
-  _getCoordinates(anchorRect, popupRect, position, margin, popupOffset) {
+  private _getCoordinates(
+    anchorRect: Rect,
+    popupRect: Rect,
+    position: PositionObject,
+    margin: number,
+    popupOffset: number
+  ) {
     switch (position.direction) {
       case 'top':
         return {
@@ -366,7 +444,12 @@ export default class Popup extends React.Component<Props, State> {
     }
   }
 
-  _getHorizontalPosition(anchorRect, popupRect, align, popupOffset) {
+  private _getHorizontalPosition(
+    anchorRect: Rect,
+    popupRect: Rect,
+    align: string,
+    popupOffset: number
+  ) {
     switch (align) {
       case 'left':
         return anchorRect.left - popupOffset;
@@ -381,7 +464,12 @@ export default class Popup extends React.Component<Props, State> {
     }
   }
 
-  _getVerticalPosition(anchorRect, popupRect, align, popupOffset) {
+  private _getVerticalPosition(
+    anchorRect: Rect,
+    popupRect: Rect,
+    align: string,
+    popupOffset: number
+  ) {
     switch (align) {
       case 'top':
         return anchorRect.top - popupOffset;
@@ -396,60 +484,3 @@ export default class Popup extends React.Component<Props, State> {
     }
   }
 }
-
-Popup.propTypes = {
-  /**
-   * Ссылка (ref) на элемент, для которого рисуется попап
-   */
-  anchorElement: PropTypes.instanceOf(HTMLElement).isRequired,
-
-  /**
-   * Фон попапа и пина
-   */
-  backgroundColor: PropTypes.string,
-
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
-
-  /**
-   * Показывать ли пин
-   */
-  hasPin: PropTypes.bool,
-
-  /**
-   * Применять ли box-shadow на попапе. При false отключает границу на пине
-   */
-  hasShadow: PropTypes.bool,
-
-  /**
-   * Отступ попапа от элемента
-   */
-  margin: PropTypes.number,
-
-  /**
-   * Показан или скрыт попап
-   */
-  opened: PropTypes.bool,
-
-  /**
-   * Смещение пина от края попапа. Край задаётся в пропе position вторым словом
-   */
-  pinOffset: PropTypes.number,
-
-  /**
-   * Сторона пина без учёта границы.
-   * Пин представляет собой равносторонний треугольник, высота от попапа
-   * до "носика" пина будет соответствовать формуле (size* √3)/2
-   */
-  pinSize: PropTypes.number,
-
-  /**
-   * смещение попапа относительно родительского элемента
-   */
-  popupOffset: PropTypes.number,
-
-  /**
-   * С какой стороны показывать попап и край попапа,
-   * на котором будет отображаться пин
-   */
-  positions: PropTypes.array
-};

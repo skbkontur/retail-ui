@@ -11,9 +11,9 @@ type Props = {
 };
 
 type CurrencyInputDemoState = {
-  value: ?number,
+  value: Nullable<number>,
   signed: boolean,
-  digits: ?number
+  digits: Nullable<number>
 };
 
 class CurrencyInputDemo extends React.Component<Props, CurrencyInputDemoState> {
@@ -65,7 +65,7 @@ class CurrencyInputDemo extends React.Component<Props, CurrencyInputDemoState> {
     );
   }
 
-  _handleChange = (event: *, value: ?number) => {
+  _handleChange = (event: any, value: Nullable<number>) => {
     this.setState({ value });
   };
 
@@ -92,11 +92,9 @@ class CurrencyInputDemo extends React.Component<Props, CurrencyInputDemoState> {
     });
   };
 
-  _formatValue = (value: ?number): string => {
+  _formatValue = (value: Nullable<number>): string => {
     return value == null ? 'null' : value.toString();
   };
 }
 
-storiesOf('CurrencyInput', module)
-  .add('Demo', () => <CurrencyInputDemo />)
-  .add('With borderless', () => <CurrencyInputDemo borderless={true} />);
+storiesOf('CurrencyInput', module).add('Demo', () => <CurrencyInputDemo />).add('With borderless', () => <CurrencyInputDemo borderless={true} />);
