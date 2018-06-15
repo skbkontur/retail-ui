@@ -1,5 +1,4 @@
-// @flow
-/* eslint-disable react/no-multi-comp */
+/* tslint:disable:jsx-no-lambda */
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
@@ -59,7 +58,7 @@ class ZLoader extends React.Component<{ size: number }> {
   }
 }
 
-class ZModal extends React.Component<{ size: number; children?: React.Node }> {
+class ZModal extends React.Component<{ size: number; children?: React.ReactNode }> {
   public render() {
     const size = this.props.size + 'px';
     return (
@@ -101,10 +100,10 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
     popup: false
   };
 
-  public popupAnchor: HTMLElement | null;
-  public notifier: Toast | null;
+  private popupAnchor: HTMLElement | null = null;
+  private notifier: Toast | null = null;
 
-  public render() {
+  public render(): React.ReactNode {
     const controls = (
       <Gapped>
         <Tooltip
@@ -205,7 +204,7 @@ class Demo extends React.Component<{}> {
     );
   }
 
-  public renderDiv(background, zIndex, left, top) {
+  public renderDiv(background: string, zIndex: number, left: number, top: number) {
     return (
       <div
         style={{
