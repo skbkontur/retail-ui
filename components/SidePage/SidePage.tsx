@@ -14,8 +14,10 @@ import SidePageContainer from './SidePageContainer';
 import { SidePageContext } from './SidePageContext';
 import SidePageFooter from './SidePageFooter';
 import SidePageHeader from './SidePageHeader';
+import Transition from 'react-addons-css-transition-group';
 
-import styles = require('./SidePage.less');
+import styles from './SidePage.less';
+import { CSSTransitionGroupTransitionName } from 'react';
 
 export interface SidePageProps {
   /**
@@ -43,13 +45,33 @@ export interface SidePageProps {
    * Escape или на крестик).
    */
   onClose?: () => void;
+
+  /**
+   * Показывать сайдпэйдж слева
+   *
+   */
+  fromLeft?: boolean;
+
+  /**
+   * Отключить анимации
+   *
+   */
+  disableAnimations?: boolean;
 }
 
 export interface SidePageState {
   stackPosition?: number;
-  hasMarginRight?: boolean;
+  hasMargin?: boolean;
   hasShadow?: boolean;
   hasBackground?: boolean;
+}
+
+const TRANSITION_TIMEOUT = 200;
+
+interface ZIndexPropsType {
+  delta: number;
+  classes?: string;
+  style?: React.CSSProperties;
 }
 
 /**
@@ -88,51 +110,130 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   public render() {
-    const rootStyle = this.props.blockBackground ? { width: '100%' } : {};
-    const sidePageStyle = {
-      width: this.props.width || (this.props.blockBackground ? 800 : 500),
-      marginRight: this.state.hasMarginRight ? 20 : undefined
-    };
+    const { disableAnimations } = this.props;
 
     return (
       <RenderContainer>
-        <ZIndex
-          delta={1000}
-          className={styles.root}
-          onScroll={LayoutEvents.emit}
-          style={rootStyle}
+        {this.renderShadow()}
+        <Transition
+          transitionName={this.getTransitionNames()}
+          transitionAppear={!disableAnimations}
+          transitionEnter={!disableAnimations}
+          transitionLeave={!disableAnimations}
+          transitionAppearTimeout={TRANSITION_TIMEOUT}
+          transitionEnterTimeout={TRANSITION_TIMEOUT}
+          transitionLeaveTimeout={TRANSITION_TIMEOUT}
         >
-          <HideBodyVerticalScroll
-            allowScrolling={!this.props.blockBackground}
-          />
-          {this.props.blockBackground && (
-            <div
-              className={classNames(
-                styles.background,
-                this.state.hasBackground && styles.gray
-              )}
-            />
-          )}
-          <RenderLayer onClickOutside={this.handleClickOutside} active>
-            <div
-              className={classNames(
-                styles.container,
-                this.state.hasShadow && styles.shadow
-              )}
-              style={sidePageStyle}
-            >
-              <table className={styles.layout}>
-                <tbody>
-                  <SidePageContext.Provider value={this.requestClose}>
-                    {this.props.children}
-                  </SidePageContext.Provider>
-                </tbody>
-              </table>
-            </div>
-          </RenderLayer>
-        </ZIndex>
+          {this.renderContainer()}
+        </Transition>
       </RenderContainer>
     );
+  }
+
+  private getZIndexProps(): ZIndexPropsType {
+    const { fromLeft, blockBackground } = this.props;
+    return {
+      delta: 1000,
+      classes: classNames(styles.root, {
+        [styles.leftSide]: fromLeft
+      }),
+      style: blockBackground ? { width: '100%' } : undefined
+    };
+  }
+
+  private renderContainer(): JSX.Element {
+    const { delta, classes, style } = this.getZIndexProps();
+    return (
+      <ZIndex
+        delta={delta}
+        className={classes}
+        onScroll={LayoutEvents.emit}
+        style={style}
+      >
+        <RenderLayer onClickOutside={this.handleClickOutside} active>
+          <div
+            className={classNames(
+              styles.container,
+              this.state.hasShadow && styles.shadow
+            )}
+            style={this.getSidebarStyle()}
+          >
+            <table className={styles.layout}>
+              <tbody>
+                <SidePageContext.Provider value={this.requestClose}>
+                  {this.props.children}
+                </SidePageContext.Provider>
+              </tbody>
+            </table>
+          </div>
+        </RenderLayer>
+      </ZIndex>
+    );
+  }
+
+  private renderShadow(): JSX.Element {
+    const { delta, classes, style } = this.getZIndexProps();
+    const { blockBackground } = this.props;
+
+    return (
+      <ZIndex
+        delta={delta}
+        className={classes}
+        onScroll={LayoutEvents.emit}
+        style={style}
+      >
+        <HideBodyVerticalScroll allowScrolling={!blockBackground} />
+        {blockBackground && (
+          <div
+            className={classNames(
+              styles.background,
+              this.state.hasBackground && styles.gray
+            )}
+          />
+        )}
+      </ZIndex>
+    );
+  }
+
+  private getSidebarStyle(): React.CSSProperties {
+    const sidePageStyle: React.CSSProperties = {
+      width: this.props.width || (this.props.blockBackground ? 800 : 500)
+    };
+
+    if (this.state.hasMargin) {
+      if (this.props.fromLeft) {
+        sidePageStyle.marginLeft = 20;
+      } else {
+        sidePageStyle.marginRight = 20;
+      }
+    }
+
+    return sidePageStyle;
+  }
+
+  private getTransitionNames(): CSSTransitionGroupTransitionName {
+    const direction: 'right' | 'left' = this.props.fromLeft ? 'right' : 'left';
+    const transitionEnter =
+      styles[
+        ('transition-enter-' + direction) as
+          | 'transition-enter-left'
+          | 'transition-enter-right'
+      ];
+    const transitionAppear =
+      styles[
+        ('transition-appear-' + direction) as
+          | 'transition-appear-left'
+          | 'transition-appear-right'
+      ];
+
+    return {
+      enter: transitionEnter,
+      enterActive: styles['transition-enter-active'],
+      leave: styles['transition-leave'],
+      leaveActive: styles['transition-leave-active'],
+      appear: transitionAppear,
+      appearActive: styles['transition-appear-active']
+    };
   }
 
   private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
@@ -140,7 +241,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     const currentSidePagePosition = sidePages.indexOf(this);
     const isSidePageOnStackTop = stack[0] instanceof SidePage;
 
-    const hasMarginRight =
+    const hasMargin =
       sidePages.length > 1 && currentSidePagePosition === sidePages.length - 1;
     const hasShadow =
       sidePages.length < 3 || currentSidePagePosition > sidePages.length - 3;
@@ -149,7 +250,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
 
     this.setState({
       stackPosition: stack.indexOf(this),
-      hasMarginRight,
+      hasMargin,
       hasShadow,
       hasBackground
     });
