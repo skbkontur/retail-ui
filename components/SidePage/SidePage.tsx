@@ -88,7 +88,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Body = SidePageBody;
   public static Footer = SidePageFooter;
   public static Container = SidePageContainer;
-
+  private stickyElementsUpdaterInterval?: number;
   private stackSubscription: EventSubscription | null = null;
 
   constructor(props: SidePageProps) {
@@ -99,6 +99,11 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   public componentDidMount() {
     events.addEventListener(window, 'keydown', this.handleKeyDown);
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
+    this.stickyElementsUpdaterInterval = setInterval(LayoutEvents.emit);
+  }
+
+  public componentDidUpdate() {
+    this.unsubscribeStickyElementsUpdaterInterval();
   }
 
   public componentWillUnmount() {
@@ -280,6 +285,16 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
       this.props.onClose();
     }
   };
+
+  private unsubscribeStickyElementsUpdaterInterval() {
+    // fixed элементы не видят анимацию
+    if (this.stickyElementsUpdaterInterval) {
+      const killer = setTimeout(() => {
+        clearInterval(this.stickyElementsUpdaterInterval);
+        clearTimeout(killer);
+      }, TRANSITION_TIMEOUT);
+    }
+  }
 }
 
 export default SidePage;
