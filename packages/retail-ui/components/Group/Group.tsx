@@ -8,25 +8,30 @@ import Corners from '../Button/Corners';
 import '../ensureOldIEClassName';
 import styles from './Group.less';
 
+export interface GroupProps {
+  width?: React.CSSProperties['width'];
+}
+
 /**
  * Главный *Input*, который должен занимать всю доступную ширину, должен быть
  * помечен свойством *mainInGroup*.
  */
-class Group extends React.Component {
-  static propTypes = {
+class Group extends React.Component<GroupProps> {
+  public static propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   };
 
-  render() {
-    var style = {};
+  public render() {
+    const style: React.CSSProperties = {};
     if (this.props.width) {
       style.width = this.props.width;
     }
 
-    var first = null;
-    var last = null;
+    let first: Nullable<React.ReactElement<any>> = null;
+    let last: Nullable<React.ReactElement<any>> = null;
+
     React.Children.forEach(this.props.children, child => {
-      if (child) {
+      if (child && React.isValidElement(child)) {
         first = first || child;
         last = child;
       }
@@ -35,16 +40,22 @@ class Group extends React.Component {
     return (
       <span className={styles.root} style={style}>
         {React.Children.map(this.props.children, child => {
-          if (!child) {
+          if (!child || !React.isValidElement(child)) {
             return null;
           }
 
-          var wrapCss = classNames({
+          const childProps = (child as React.ReactElement<{
+            mainInGroup?: boolean;
+            width?: React.CSSProperties["width"];
+            corners?: number;
+          }>).props;
+
+          const wrapCss = classNames({
             [styles.wrap]: true,
-            [styles.fixed]: !child.props.mainInGroup,
-            [styles.stretch]: child.props.mainInGroup
+            [styles.fixed]: !childProps.mainInGroup,
+            [styles.stretch]: childProps.mainInGroup
           });
-          var itemCss = classNames({
+          const itemCss = classNames({
             [styles.item]: true,
             [styles.itemFirst]: child === first
           });
@@ -57,8 +68,8 @@ class Group extends React.Component {
             corners |= Corners.TOP_RIGHT | Corners.BOTTOM_RIGHT;
           }
 
-          const childProps = { corners };
-          if (child.props.mainInGroup) {
+          childProps.corners = corners;
+          if (childProps.mainInGroup) {
             childProps.width = '100%';
           }
 

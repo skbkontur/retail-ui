@@ -1,19 +1,15 @@
-
+// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Switcher from '../Switcher';
 
-class Component extends React.Component<*, *> {
-  state = {
+class Component extends React.Component<{ items: string[], error?: boolean }, { value: string }> {
+  public state = {
     value: ''
   };
 
-  handleChange(el) {
-    this.setState({ value: el.target.value });
-  }
-
-  render() {
+  public render() {
     return (
       <Switcher
         value={this.state.value}
@@ -23,12 +19,14 @@ class Component extends React.Component<*, *> {
       />
     );
   }
+
+  private handleChange(el) {
+    this.setState({ value: el.target.value });
+  }
 }
 
-storiesOf('Switcher', module)
-  .add('horizontal', () => {
+storiesOf('Switcher', module).add('horizontal', () => {
     return <Component items={['One', 'Two', 'Three']} />;
-  })
-  .add('errored', () => {
+  }).add('errored', () => {
     return <Component error items={['One', 'Two', 'Three']} />;
   });
