@@ -7,45 +7,46 @@ import PropTypes from 'prop-types';
 import Indicator from './Indicator';
 import Tab from './Tab';
 
-import styles from './Tabs.less';
+import styles = require('./Tabs.less');
+import { createPropsGetter } from '../internal/createPropsGetter';
 
-type Props = {
+export interface TabsProps {
   /**
    * Tab component should be child of Tabs component
    */
-  children?: React.Node,
+  children?: React.ReactNode;
 
   /**
    * Classname of indicator
    */
-  indicatorClassName?: string,
+  indicatorClassName?: string;
 
   /**
    * Tabs change event
    */
-  onChange?: (ev: { target: { value: string } }, value: string) => void,
+  onChange?: (ev: { target: { value: string } }, value: string) => void;
 
   /**
    * Active tab identifier
    */
-  value: string,
+  value: string;
 
   /**
    * Vertical indicator
    */
-  vertical: boolean,
+  vertical?: boolean;
 
   /**
    * Width of tabs container
    */
-  width?: number | string
+  width?: number | string;
 };
 
-type State = {
+export interface TabsState {
   tabs: Array<{
     getNode: () => Tab | null,
     id: string
-  }>
+  }>;
 };
 
 /**
@@ -53,18 +54,20 @@ type State = {
  *
  * contains static property `Tab`
  */
-class Tabs extends React.Component<Props, State> {
-  static defaultProps = {
+class Tabs extends React.Component<TabsProps, TabsState> {
+  public static propTypes = {};
+  public static childContextTypes = {};
+  public static defaultProps = {
     vertical: false
   };
 
-  static Tab = Tab;
+  public static Tab = Tab;
 
-  state: State = {
+  public state: TabsState = {
     tabs: []
   };
 
-  _tabUpdates = {
+  private _tabUpdates = {
     on: (cb: () => void) => {
       const index = this._listeners.push(cb);
       return () => {
@@ -73,9 +76,10 @@ class Tabs extends React.Component<Props, State> {
     }
   };
 
-  _listeners = [];
+  private getProps = createPropsGetter(Tabs.defaultProps);
+  private _listeners: Array<() => void> = [];
 
-  getChildContext() {
+  public getChildContext() {
     return {
       activeTab: this.props.value,
       addTab: this._addTab,
@@ -87,9 +91,9 @@ class Tabs extends React.Component<Props, State> {
     };
   }
 
-  render() {
+  public render(): React.ReactNode {
     const activeTab = this.state.tabs.find(x => x.id === this.props.value);
-    const { vertical } = this.props;
+    const { vertical } = this.getProps<TabsProps, Tabs>();
 
     return (
       <div
@@ -107,45 +111,48 @@ class Tabs extends React.Component<Props, State> {
     );
   }
 
-  _shiftFocus = (fromTab: string, delta: number) => {
+  private _shiftFocus = (fromTab: string, delta: number) => {
     const { tabs } = this.state;
     const index = tabs.findIndex(x => x.id === fromTab);
     const newIndex = Math.max(0, Math.min(index + delta, tabs.length - 1));
     const tab = tabs[newIndex];
-    let node = tab.getNode();
-    if (node instanceof React.Component) {
-      node = findDOMNode(node);
+    
+    const tabNode = tab.getNode();
+    let htmlNode;
+    if (tabNode instanceof React.Component) {
+      htmlNode = findDOMNode(tabNode) as HTMLElement;
     }
-    if (node && typeof node.focus === 'function') {
-      node.focus();
+
+    if (htmlNode && htmlNode.hasOwnProperty('focus')) {
+      htmlNode.focus();
     }
   };
 
-  _notifyUpdate = () => {
+  private _notifyUpdate = () => {
     this._listeners.forEach(cb => cb());
   };
 
-  _switchTab = (id: string) => {
+  private _switchTab = (id: string) => {
     const { onChange, value } = this.props;
     if (id !== value && onChange) {
       onChange(this._createEvent(id), id);
     }
   };
 
-  _addTab = (id: string, getNode: () => *) => {
-    this.setState(({ tabs }: State) => ({
+  private _addTab = (id: string, getNode: () => any) => {
+    this.setState(({ tabs }: TabsState) => ({
       tabs: tabs.concat({ id, getNode })
     }));
   };
 
-  _removeTab = (id: string) => {
-    this.setState((state: State) => {
+  private _removeTab = (id: string) => {
+    this.setState((state: TabsState) => {
       const tabs = state.tabs.filter(tab => tab.id !== id);
       return { tabs };
     });
   };
 
-  _createEvent(value) {
+  private _createEvent(value: string) {
     return { target: { value } };
   }
 }

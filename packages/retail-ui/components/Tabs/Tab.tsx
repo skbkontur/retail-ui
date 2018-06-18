@@ -6,82 +6,90 @@ import PropTypes from 'prop-types';
 import invariant from 'invariant';
 import cn from 'classnames';
 
-import styles from './Tab.less';
+import styles = require('./Tab.less');
 
-type Props = {
+export interface TabIndicators {
+  error: boolean;
+  warning: boolean;
+  success: boolean;
+  primary: boolean;
+  disabled: boolean;
+}
+
+export interface TabProps {
   /**
    * Tab content
    */
-  children?: React.Node,
+  children?: React.ReactNode;
 
   /**
    * Component to use as a tab
    */
-  component: React.ComponentType<*> | string,
+  component: React.ComponentType<any> | string;
 
   /**
    * Link href
    */
-  href: string,
+  href: string;
 
   /**
    * Tab identifier
    */
-  id?: string,
+  id?: string;
 
   /**
    * Click event
    */
-  onClick?: (event: SyntheticEvent<>) => void,
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 
   /**
    * Click event
    */
-  onKeyDown?: (event: SyntheticEvent<>) => void,
+  onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 
   /**
    * Disabled indicator
    */
-  disabled?: boolean,
+  disabled?: boolean;
 
   /**
    * Error indicator
    */
-  error?: boolean,
+  error?: boolean;
 
   /**
    * Warning indicator
    */
-  warning?: boolean,
+  warning?: boolean;
 
   /**
    * Success indicator
    */
-  success?: boolean,
+  success?: boolean;
 
   /**
    * Primary indicator
    */
-  primary?: boolean,
+  primary?: boolean;
 
   /**
    * Style property
    */
-  style?: mixed
+  style?: React.CSSProperties;
 };
 
-type Context = {
-  activeTab: string,
-  addTab: (id: string, getNode: () => *) => void,
-  notifyUpdate: () => void,
-  removeTab: (id: string) => void,
-  shiftFocus: (fromTab: string, delta: number) => void,
-  switchTab: (id: string) => void,
-  vertical: boolean
+export interface Context {
+  activeTab: string;
+  addTab: (id: string, getNode: () => any) => void;
+  notifyUpdate: () => void;
+  removeTab: (id: string) => void;
+  shiftFocus: (fromTab: string, delta: number) => void;
+  switchTab: (id: string) => void;
+  vertical: boolean;
 };
 
-type State = {
-  focusedByKeyboard: boolean
+export interface TabState {
+  focusedByKeyboard: boolean;
 };
 
 /**
@@ -99,44 +107,46 @@ type State = {
  *
  * Works only inside Tabs component, otherwise throws
  */
-class Tab extends React.Component<Props, State> {
-  static defaultProps = {
+class Tab extends React.Component<TabProps, TabState> {
+  public static propTypes = {};
+  public static contextTypes = {};
+  public static defaultProps = {
     component: 'a',
     href: 'javascript:'
   };
 
-  context: Context;
+  public context: Context;
 
-  state: State = {
+  public state: TabState = {
     focusedByKeyboard: false
   };
 
-  _node = null;
+  private _node = null;
+  private _noop;
 
-  componentWillMount() {
+  public componentWillMount() {
     invariant(
       typeof this.context.addTab === 'function',
       'Tab should be placed inside Tabs component'
     );
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this._addTab();
     listenTabPresses();
   }
 
-  componentDidUpdate() {
+  public componentDidUpdate() {
     if (this.context.activeTab === this.props.id) {
       this.context.notifyUpdate();
     }
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     this._removeTab();
   }
 
-  render() {
-    // eslint-disable no-unused-vars
+  public render() {
     const {
       id,
       component: Component,
@@ -150,7 +160,7 @@ class Tab extends React.Component<Props, State> {
       primary,
       ...rest
     } = this.props;
-    // eslint-enable no-unused-vars
+
     const isActive = this.context.activeTab === this._getId();
     const isDisabled = Boolean(this.props.disabled);
     const isVertical = this.context.vertical;
@@ -181,23 +191,36 @@ class Tab extends React.Component<Props, State> {
     );
   }
 
-  _getId = () => this.props.id || this.props.href;
 
-  _addTab() {
+  public getIndicators() {
+    return {
+      error: Boolean(this.props.error),
+      warning: Boolean(this.props.warning),
+      success: Boolean(this.props.success),
+      primary: Boolean(this.props.primary),
+      disabled: Boolean(this.props.disabled)
+    };
+  }
+
+  public getUnderlyingNode = () => this._node;
+
+  private _getId = () => this.props.id || this.props.href;
+
+  private _addTab() {
     this.context.addTab(this._getId(), this._getNode);
   }
 
-  _removeTab() {
+  private _removeTab() {
     this.context.removeTab(this._getId());
   }
 
-  _refNode = element => {
+  private _refNode = element => {
     this._node = element;
   };
 
-  _getNode = () => this;
+  private _getNode = () => this;
 
-  _switchTab = e => {
+  private _switchTab = e => {
     const id = this.props.id || this.props.href;
     if (this.props.onClick) {
       this.props.onClick(e);
@@ -208,9 +231,7 @@ class Tab extends React.Component<Props, State> {
     this.context.switchTab(id);
   };
 
-  _noop = e => {};
-
-  _handleKeyDown = (event: SyntheticKeyboardEvent<>) => {
+  private _handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
     if (this.props.onKeyDown) {
       this.props.onKeyDown(event);
       if (event.defaultPrevented) {
@@ -233,7 +254,7 @@ class Tab extends React.Component<Props, State> {
     }
   };
 
-  _handleFocus = e => {
+  private _handleFocus = e => {
     // focus event fires before keyDown eventlistener
     // so we should check focusKeyPressed in async way
     process.nextTick(() => {
@@ -244,21 +265,9 @@ class Tab extends React.Component<Props, State> {
     });
   };
 
-  _handleBlur = e => {
+  private _handleBlur = e => {
     this.setState({ focusedByKeyboard: false });
   };
-
-  getIndicators() {
-    return {
-      error: Boolean(this.props.error),
-      warning: Boolean(this.props.warning),
-      success: Boolean(this.props.success),
-      primary: Boolean(this.props.primary),
-      disabled: Boolean(this.props.disabled)
-    };
-  }
-
-  getUnderlyingNode = () => this._node;
 }
 
 const { string, node, func, any, bool } = PropTypes;
