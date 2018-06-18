@@ -3,4 +3,14 @@
 import * as React from 'react';
 import createReactContext = require('create-react-context');
 
-export const SidePageContext = createReactContext<() => void>(() => null);
+export interface SidePageContextType {
+  requestClose: () => void;
+  width: number | string | undefined;
+}
+
+export const SidePageContext = createReactContext<SidePageContextType>({
+  requestClose: () => {
+    /* default */
+  },
+  width: 0
+});
