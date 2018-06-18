@@ -105,14 +105,14 @@ export default class Dropdown extends React.Component {
     const items = React.Children.map(this.props.children, item => item);
 
     return (
-      <Select
-        ref={this._refSelect}
-        {...filterProps(this.props, PASS_PROPS)}
-        value={this.props.caption}
-        items={items}
-        _icon={this.props.icon}
-        renderValue={renderValue}
-      />
+     <Select
+       ref={this._refSelect}
+       {...filterProps(this.props, PASS_PROPS)}
+       value={this.props.caption}
+       items={items}
+       _icon={this.props.icon}
+       renderValue={renderValue}
+     />
     );
   }
 

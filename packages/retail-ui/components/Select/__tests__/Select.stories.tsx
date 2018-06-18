@@ -3,7 +3,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Select from '../Select';
 
-class SelectWrapper extends React.Component<{}, *> {
+class SelectWrapper extends React.Component<{}, any> {
   state = {
     value: { label: 'One', value: 1 }
   };
@@ -27,7 +27,7 @@ class SelectWrapper extends React.Component<{}, *> {
   }
 }
 
-class SelectWithNull extends React.Component<*, *> {
+class SelectWithNull extends React.Component<any, any> {
   state = {
     value: null
   };
@@ -54,19 +54,13 @@ class SelectWithNull extends React.Component<*, *> {
   }
 }
 
-storiesOf('Select', module)
-  .addDecorator(story => (
+storiesOf('Select', module).addDecorator(story => (
     <div
       className="dropdown-test-container"
       style={{ height: 150, width: 200, padding: 4 }}
     >
       {story()}
     </div>
-  ))
-  .add('Simple', () => <Select items={['one', 'two', 'three']} />)
-  .add('Complex values', () => <SelectWrapper />)
-  .add('With null', () => <SelectWithNull />)
-  .add('use link', () => <Select use="link" items={['one', 'two', 'three']} />)
-  .add('use link with icon', () => (
+  )).add('Simple', () => <Select items={['one', 'two', 'three']} />).add('Complex values', () => <SelectWrapper />).add('With null', () => <SelectWithNull />).add('use link', () => <Select use="link" items={['one', 'two', 'three']} />).add('use link with icon', () => (
     <Select _icon="Add" use="link" items={['one', 'two', 'three']} />
   ));

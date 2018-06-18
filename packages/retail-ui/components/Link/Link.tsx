@@ -8,6 +8,8 @@ import Icon, { IconName } from '../Icon';
 
 import styles = require('./Link.less');
 
+import { createPropsGetter } from '../internal/createPropsGetter';
+
 const useClasses = {
   default: styles.useDefault,
   success: styles.useSuccess,
@@ -34,7 +36,7 @@ export interface LinkProps {
   href?: string;
   icon?: IconName;
   onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
-  use: 'default' | 'success' | 'danger' | 'grayed';
+  use?: 'default' | 'success' | 'danger' | 'grayed';
   children?: React.ReactNode;
   /** @ignore */
   _button?: boolean;
@@ -72,16 +74,18 @@ class Link extends React.Component<LinkProps, LinkState> {
     focusedByTab: false
   };
 
+  private getProps = createPropsGetter(Link.defaultProps);
+
   public componentDidMount() {
     listenTabPresses();
   }
 
-  public render() {
+  public render(): React.ReactNode {
     const {
       disabled,
       href,
       icon: iconName,
-      use,
+      use = this.getProps().use,
       _button,
       _buttonOpened,
       ...rest
