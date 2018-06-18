@@ -1,15 +1,11 @@
-
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import Toast from './Toast';
-import type { Action } from './Toast';
+import { Action } from './Toast';
 
 class ToastStatic {
-  static node: HTMLDivElement;
-  static instance: ?Toast = null;
-
-  static push = function(notification: string, action?: Action) {
+  public static push = (notification: string, action?: Action) => {
     if (!ToastStatic.node) {
       ToastStatic.node = document.createElement('div');
       const { body } = document;
@@ -28,17 +24,20 @@ class ToastStatic {
     }
   };
 
-  static _push = function(notification, action) {
+  public static _push = (notification: string, action?: Action) => {
     if (ToastStatic.instance) {
       ToastStatic.instance.push(notification, action);
     }
   };
 
-  static close = function() {
+  public static close = () => {
     if (ToastStatic.instance) {
       ToastStatic.instance.close();
     }
   };
+
+  private static node: HTMLDivElement;
+  private static instance: Nullable<Toast> = null;
 }
 
 export default ToastStatic;

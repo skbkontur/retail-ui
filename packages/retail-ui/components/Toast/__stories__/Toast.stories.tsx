@@ -1,42 +1,19 @@
-
+// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import Toast from '../../Toast';
+import Toast from '..';
 import Button from '../../Button';
 import Modal from '../../Modal';
 
-class TestNotifier extends React.Component<*, *> {
-  notifier: ?Toast;
-
-  state = {
+class TestNotifier extends React.Component<any, any> {
+  public state = {
     modal: false
   };
+  
+  private notifier: Toast | null;
 
-  showNotification = () => {
-    if (this.props.complex) {
-      this.showComplexNotification();
-    } else {
-      this.showSimpleNotification();
-    }
-  };
-
-  showSimpleNotification() {
-    if (this.notifier) {
-      this.notifier.push('Successfully saved');
-    }
-  }
-
-  showComplexNotification() {
-    if (this.notifier) {
-      this.notifier.push('Successfully saved', {
-        label: 'Cancel',
-        handler: action('cancel_save')
-      });
-    }
-  }
-
-  render() {
+  public render() {
     return (
       <div>
         <Toast
@@ -53,7 +30,30 @@ class TestNotifier extends React.Component<*, *> {
     );
   }
 
-  renderModal() {
+  private showNotification = () => {
+    if (this.props.complex) {
+      this.showComplexNotification();
+    } else {
+      this.showSimpleNotification();
+    }
+  };
+
+  private showSimpleNotification() {
+    if (this.notifier) {
+      this.notifier.push('Successfully saved');
+    }
+  }
+
+  private showComplexNotification() {
+    if (this.notifier) {
+      this.notifier.push('Successfully saved', {
+        label: 'Cancel',
+        handler: action('cancel_save')
+      });
+    }
+  }
+
+  private renderModal() {
     return (
       <Modal>
         <Modal.Header>Modalka</Modal.Header>
@@ -70,10 +70,8 @@ class TestNotifier extends React.Component<*, *> {
   }
 }
 
-storiesOf('Toast', module)
-  .add('simple notifiacation', () => <TestNotifier />)
-  .add('complex notifiacation', () => <TestNotifier complex />)
-  .add('static method', () => (
+storiesOf('Toast', module).add('simple notifiacation', () => <TestNotifier />).add('complex notifiacation', () => <TestNotifier complex />).add('static method', () => (
+    // tslint:disable-next-line:jsx-no-lambda
     <Button onClick={() => Toast.push('Static method call')}>
       Show static
     </Button>

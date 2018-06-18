@@ -6,17 +6,19 @@ import ZIndex from '../ZIndex/ZIndex';
 
 import styles from './Toast.less';
 
-type Props = {
-  children?: string,
-  action?: {
-    label: string,
-    handler: () => void
-  },
-  onClose?: () => void
+export interface ToastViewProps {
+  children?: string;
+  action?: Nullable<{
+    label: string;
+    handler: () => void;
+  }>;
+  onClose?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 };
 
-class ToastView extends Component<Props> {
-  static propTypes = {
+class ToastView extends Component<ToastViewProps> {
+  public static propTypes = {
     /**
      * Adds action handling and close icon fot tost
      */
@@ -31,7 +33,7 @@ class ToastView extends Component<Props> {
     onClose: PropTypes.func
   };
 
-  render() {
+  public render() {
     const { children, action, onClose, ...rest } = this.props;
 
     const link = action ? (
