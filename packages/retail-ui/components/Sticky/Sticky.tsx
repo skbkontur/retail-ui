@@ -1,30 +1,27 @@
-
-
 import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 
-type Props = {
-  side: 'top' | 'bottom',
-  offset: number,
-  getStop?: () => ?HTMLElement,
-  children?: React.Node | ((fixed: boolean) => React.Node)
+export interface StickyProps {
+  side: 'top' | 'bottom';
+  offset: number;
+  getStop?: () => Nullable<HTMLElement>;
+  children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 };
 
-type State = {
-  fixed: boolean,
-  height: number,
-  left: number | string,
-  width: number | string,
-
-  stopped: boolean,
-  relativeTop: number
+export interface StickyState {
+  fixed: boolean;
+  height: number;
+  left: number | string;
+  width: number | string;
+  stopped: boolean;
+  relativeTop: number;
 };
 
-export default class Sticky extends React.Component<Props, State> {
-  static propTypes = {
+export default class Sticky extends React.Component<StickyProps, StickyState> {
+  public static propTypes = {
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
     /**
@@ -34,41 +31,55 @@ export default class Sticky extends React.Component<Props, State> {
 
     /**
      * Отступ от границы в пикселях
-     **/
+     */
     offset: PropTypes.number,
 
     side: PropTypes.oneOf(['top', 'bottom']).isRequired
   };
 
-  static defaultProps: { offset: number } = {
+  public static defaultProps: { offset: number } = {
     offset: 0
   };
 
-  _wrapper: ?HTMLElement;
-  _inner: ?HTMLElement;
+  public state: StickyState = {
+    fixed: false,
+    height: -1,
+    left: 'auto',
+    width: 'auto',
 
-  _scheduled: boolean = false;
-  _reflowing: boolean = false;
-  _lastInnerHeight: number = -1;
-  _layoutSubscription: { remove: () => void };
+    stopped: false,
+    relativeTop: 0
+  };
 
-  constructor(props: Props, context: mixed) {
-    super(props, context);
+  private _wrapper: Nullable<HTMLElement>;
+  private _inner: Nullable<HTMLElement>;
 
-    this.state = {
-      fixed: false,
-      height: -1,
-      left: 'auto',
-      width: 'auto',
+  private _scheduled: boolean = false;
+  private _reflowing: boolean = false;
+  private _lastInnerHeight: number = -1;
+  private _layoutSubscription: { remove: Nullable<() => void> } = {
+    remove: null,
+  };
 
-      stopped: false,
-      relativeTop: 0
-    };
+  public componentDidMount() {
+    this._reflow();
+
+    this._layoutSubscription = LayoutEvents.addListener(() => this._reflow());
   }
 
-  render() {
-    let wrapperStyle = null;
-    let innerStyle = null;
+  public componentWillUnmount() {
+    if (this._layoutSubscription.remove) {
+      this._layoutSubscription.remove();
+    }
+  }
+
+  public componentDidUpdate() {
+    this._reflow();
+  }
+
+  public render() {
+    let wrapperStyle: React.CSSProperties = {};
+    let innerStyle: React.CSSProperties = {};
     if (this.state.fixed) {
       if (this.state.stopped) {
         innerStyle = {
@@ -80,12 +91,12 @@ export default class Sticky extends React.Component<Props, State> {
           height: this.state.height === -1 ? 'auto' : this.state.height
         };
 
-        innerStyle = ({
+        innerStyle = {
           left: this.state.left,
           position: 'fixed',
           width: this.state.width,
           zIndex: 100
-        }: Object); // eslint-disable-line flowtype/no-weak-types
+        };
 
         if (this.props.side === 'top') {
           innerStyle.top = this.props.offset;
@@ -109,29 +120,15 @@ export default class Sticky extends React.Component<Props, State> {
     );
   }
 
-  _refWrapper = (ref: ?HTMLElement) => {
+  private _refWrapper = (ref: Nullable<HTMLElement>) => {
     this._wrapper = ref;
   };
 
-  _refInner = (ref: ?HTMLElement) => {
+  private _refInner = (ref: Nullable<HTMLElement>) => {
     this._inner = ref;
   };
 
-  componentDidMount() {
-    this._reflow();
-
-    this._layoutSubscription = LayoutEvents.addListener(() => this._reflow());
-  }
-
-  componentWillUnmount() {
-    this._layoutSubscription.remove();
-  }
-
-  componentDidUpdate() {
-    this._reflow();
-  }
-
-  _reflow = () => {
+  private _reflow = () => {
     if (this._reflowing) {
       this._scheduled = true;
       return;
@@ -154,7 +151,7 @@ export default class Sticky extends React.Component<Props, State> {
     check();
   };
 
-  *_doReflow(): Generator<$Shape<State>, void, void> {
+  private *_doReflow(): Generator {
     const { documentElement } = document;
 
     if (!documentElement) {
@@ -225,14 +222,16 @@ export default class Sticky extends React.Component<Props, State> {
     }
   }
 
-  _setStateIfChanged(state: $Shape<State>, callback?: () => void) {
+  private _setStateIfChanged(state: StickyState, callback?: () => void) {
     for (const key in state) {
-      if (this.state[key] !== state[key]) {
+      if (this.state[key as keyof StickyState] !== state[key as keyof StickyState]) {
         this.setState(state, callback);
         return;
       }
     }
-
-    callback && callback();
+    
+    if (callback) {
+      callback();
+    }
   }
 }
