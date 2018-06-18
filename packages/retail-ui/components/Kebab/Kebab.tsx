@@ -1,65 +1,61 @@
-
-
 import cn from 'classnames';
 import events from 'add-event-listener';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Icon20 from '../Icon/20px';
 import Icon from '../Icon';
-import Popup from '../Popup';
-import Menu from '../Menu/Menu.js';
 import LayoutEvents from '../../lib/LayoutEvents';
-import RenderLayer from '../RenderLayer';
 import PopupMenu from '../internal/PopupMenu';
 
-import styles from './Kebab.less';
+import styles = require('./Kebab.less');
 
-import type MenuItem from '../MenuItem/MenuItem';
-
-type Props = {
-  children?: React.ChildrenArray<?React.Element<Class<MenuItem>>>,
-  disabled?: boolean,
-  onClose: () => void,
-  onOpen: () => void,
-  size: 'small' | 'large',
-  positions?: Array<string>,
-  menuMaxHeight?: number | string
+export interface KebabProps {
+  disabled?: boolean;
+  onClose: () => void;
+  onOpen: () => void;
+  size: 'small' | 'large';
+  positions?: string[];
+  menuMaxHeight?: number | string;
 };
 
-type State = {
-  anchor: ?HTMLElement,
-  focusedByTab: boolean,
-  opened: boolean
+export interface KebabState {
+  anchor: Nullable<HTMLElement>;
+  focusedByTab: boolean;
+  opened: boolean;
 };
 
-export default class Kebab extends React.Component<Props, State> {
-  static defaultProps = {
-    onOpen: () => {},
-    onClose: () => {},
+export default class Kebab extends React.Component<KebabProps, KebabState> {
+  public static propTypes = {};
+  public static defaultProps = {
+    onOpen: () => undefined,
+    onClose: () => undefined,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
     size: 'small'
   };
 
-  state = {
+  public state = {
     opened: false,
     focusedByTab: false,
     anchor: null
   };
 
-  _anchor: ?HTMLElement;
-  _listener;
+  private _listener: {
+    remove: () => void;
+  } = {
+    remove: () => undefined
+  };
 
-  componentDidMount() {
+  public componentDidMount() {
     /** addListener'у нужен колбэк в аргумент */
-    this._listener = LayoutEvents.addListener(() => {});
+    this._listener = LayoutEvents.addListener(() => undefined);
     listenTabPresses();
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     this._listener.remove();
   }
 
-  render() {
+  public render() {
     const { disabled, positions } = this.props;
     const { focusedByTab, opened } = this.state;
 
@@ -91,7 +87,7 @@ export default class Kebab extends React.Component<Props, State> {
     );
   }
 
-  _handleChangeMenuState = (isOpened: boolean, restoreFocus: boolean): void => {
+  private _handleChangeMenuState = (isOpened: boolean, restoreFocus: boolean): void => {
     this.setState(
       state => ({
         opened: isOpened,
@@ -103,15 +99,19 @@ export default class Kebab extends React.Component<Props, State> {
         }
 
         if (this.state.opened) {
-          this.props.onOpen && this.props.onOpen();
+          if (this.props.onOpen) {
+            this.props.onOpen();
+          }
         } else {
-          this.props.onClose && this.props.onClose();
+          if (this.props.onClose) {
+            this.props.onClose();
+          }
         }
       }
     );
   };
 
-  _handleFocus = (e: SyntheticFocusEvent<>) => {
+  private _handleFocus = () => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -124,13 +124,13 @@ export default class Kebab extends React.Component<Props, State> {
     }
   };
 
-  _handleBlur = () => {
+  private _handleBlur = () => {
     this.setState({
       focusedByTab: false
     });
   };
 
-  _renderIcon(size) {
+  private _renderIcon(size: string) {
     switch (size) {
       case 'small':
         return (
@@ -141,7 +141,7 @@ export default class Kebab extends React.Component<Props, State> {
       case 'large':
         return (
           <div className={styles.iconlarge}>
-            <Icon20 name="kebab" size="20" color="#757575" />
+            <Icon20 name="kebab" color="#757575" />
           </div>
         );
       default:

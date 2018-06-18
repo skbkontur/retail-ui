@@ -11,8 +11,7 @@ type KebabItem = {
   action: string
 };
 
-storiesOf('Kebab', module)
-  .addDecorator(story => (
+storiesOf('Kebab', module).addDecorator(story => (
     <div
       style={{
         padding: '120px 0',
@@ -22,11 +21,7 @@ storiesOf('Kebab', module)
     >
       {story()}
     </div>
-  ))
-  .add('14px', () => <SomethingWithKebab size="small" />)
-  .add('20px', () => <SomethingWithKebab size="large" />)
-  .add('20px-disabled', () => <SomethingWithKebab size="large" disabled />)
-  .add('With fixed menu height', () => (
+  )).add('14px', () => <SomethingWithKebab size="small" />).add('20px', () => <SomethingWithKebab size="large" />).add('20px-disabled', () => <SomethingWithKebab size="large" disabled />).add('With fixed menu height', () => (
     <SomethingWithKebab
       size="large"
       menuMaxHeight={'200px'}

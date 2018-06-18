@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import styles from './Icon.less';
 
-var MAP = {
+const MAP = {
   circle: '\ue001',
   baseline: '\ue003',
   warning: '\ue005',
@@ -19,8 +19,13 @@ var MAP = {
   kebab: '\ue0c9'
 };
 
-class Icon extends React.Component {
-  static propTypes = {
+export interface IconProps {
+  name: keyof typeof MAP;
+  color: React.CSSProperties["color"];
+}
+
+class Icon extends React.Component<IconProps> {
+  public static propTypes = {
     color: PropTypes.string,
 
     /**
@@ -29,12 +34,12 @@ class Icon extends React.Component {
     name: PropTypes.oneOf(Object.keys(MAP))
   };
 
-  static getAllNames() {
+  public static getAllNames() {
     return Object.keys(MAP);
   }
 
-  render() {
-    var style = {
+  public render() {
+    const style = {
       color: this.props.color
     };
     return (
