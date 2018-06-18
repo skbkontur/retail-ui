@@ -1,13 +1,12 @@
-
 import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
-import Icon from '../Icon';
+import Icon, { IconName } from '../Icon';
 
-import styles from './Link.less';
+import styles = require('./Link.less');
 
 const useClasses = {
   default: styles.useDefault,
@@ -30,28 +29,31 @@ function listenTabPresses() {
   }
 }
 
-type Props = {
-  disabled?: boolean,
-  href?: string,
-  icon?: string,
-  onClick?: (event: SyntheticMouseEvent<HTMLLinkElement>) => void,
-  use: 'default' | 'success' | 'danger' | 'grayed',
-  children?: React.Node,
+export interface LinkProps {
+  disabled?: boolean;
+  href?: string;
+  icon?: IconName;
+  onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
+  use: 'default' | 'success' | 'danger' | 'grayed';
+  children?: React.ReactNode;
   /** @ignore */
-  _button?: boolean,
+  _button?: boolean;
   /** @ignore */
-  _buttonOpened?: boolean,
-  tabIndex?: number
+  _buttonOpened?: boolean;
+  tabIndex?: number;
 };
 
-type State = { focusedByTab: boolean };
+export interface LinkState {
+  focusedByTab: boolean;
+};
 
 /**
  * Стандартная ссылка.
  * Все свойства передаются в элемент *<a>*.
  */
-class Link extends React.Component<Props, State> {
-  static propTypes = {
+class Link extends React.Component<LinkProps, LinkState> {
+  public static __ADAPTER__: any;
+  public static propTypes = {
     disabled: PropTypes.bool,
 
     href: PropTypes.string,
@@ -61,20 +63,20 @@ class Link extends React.Component<Props, State> {
     use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed'])
   };
 
-  static defaultProps = {
+  public static defaultProps = {
     href: 'javascript:',
     use: 'default'
   };
 
-  state = {
+  public state = {
     focusedByTab: false
   };
 
-  componentDidMount() {
+  public componentDidMount() {
     listenTabPresses();
   }
 
-  render() {
+  public render() {
     const {
       disabled,
       href,
@@ -105,7 +107,7 @@ class Link extends React.Component<Props, State> {
         [styles.button]: _button,
         [styles.buttonOpened]: _buttonOpened,
         [styles.focus]: !disabled && this.state.focusedByTab,
-        [useClasses[use]]: use
+        [useClasses[use]]: !!use
       }),
       href,
       onClick: this._handleClick,
@@ -126,7 +128,7 @@ class Link extends React.Component<Props, State> {
     );
   }
 
-  _handleFocus = (e: SyntheticFocusEvent<HTMLLinkElement>) => {
+  private _handleFocus = (event: React.FocusEvent<HTMLAnchorElement>) => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -139,11 +141,11 @@ class Link extends React.Component<Props, State> {
     }
   };
 
-  _handleBlur = () => {
+  private _handleBlur = () => {
     this.setState({ focusedByTab: false });
   };
 
-  _handleClick = event => {
+  private _handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     if (this.props.onClick && !this.props.disabled) {
       this.props.onClick(event);
     }
