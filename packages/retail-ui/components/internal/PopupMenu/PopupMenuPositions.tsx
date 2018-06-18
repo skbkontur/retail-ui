@@ -1,6 +1,6 @@
 
 
-const PopupMenuPositions: Array<string> = [
+const PopupMenuPositions: string[] = [
   'top left',
   'top center',
   'top right',

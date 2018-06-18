@@ -15,7 +15,7 @@ export interface PopupMenuProps {
   /** Элемент (обязательный), раскрывающий меню */
   caption: React.ReactNode;
   /**  Массив разрешенных положений меню относительно caption'а. */
-  positions: string[];
+  positions?: string[];
   /** Колбэк, вызываемый после открытия/закрытия меню */
   onChangeMenuState?: (x0: boolean, x1: boolean) => void;
   /** Пропсы, передающиеся в Popup */
@@ -104,7 +104,7 @@ export default class PopupMenu extends React.Component<
   private hideMenuWithoutFocusing = () => this._hideMenu();
 
   private _getPositions() {
-    if (isValidPostions(this.props.positions)) {
+    if (this.props.positions && isValidPostions(this.props.positions)) {
       return this.props.positions;
     }
 

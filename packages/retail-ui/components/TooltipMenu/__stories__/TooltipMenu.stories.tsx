@@ -7,8 +7,7 @@ import TooltipMenu from '../TooltipMenu';
 import Button from '../../Button';
 import Icon from '../../Icon';
 
-storiesOf('TooltipMenu', module)
-  .addDecorator(story => (
+storiesOf('TooltipMenu', module).addDecorator(story => (
     <div
       style={{
         padding: 200,
@@ -19,8 +18,7 @@ storiesOf('TooltipMenu', module)
     >
       {story()}
     </div>
-  ))
-  .add('Simple example', () => (
+  )).add('Simple example', () => (
     <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
@@ -28,8 +26,7 @@ storiesOf('TooltipMenu', module)
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
     </TooltipMenu>
-  ))
-  .add('Example with width of menu', () => (
+  )).add('Example with width of menu', () => (
     <TooltipMenu
       caption={<Button use="primary">Открыть меню</Button>}
       menuWidth={300}
@@ -40,8 +37,7 @@ storiesOf('TooltipMenu', module)
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
     </TooltipMenu>
-  ))
-  .add('Example with maximum height of menu', () => (
+  )).add('Example with maximum height of menu', () => (
     <TooltipMenu
       caption={<Button use="primary">Открыть меню</Button>}
       menuMaxHeight={150}
@@ -52,11 +48,10 @@ storiesOf('TooltipMenu', module)
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
     </TooltipMenu>
-  ))
-  .add('Caption accepts an arbitrary element', () => (
+  )).add('Caption accepts an arbitrary element', () => (
     <TooltipMenu
       caption={
-        <span style={{ display: 'inline-block' }} tabIndex="0">
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
           <Icon name="Menu" size={32} />
         </span>
       }
@@ -66,11 +61,10 @@ storiesOf('TooltipMenu', module)
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
     </TooltipMenu>
-  ))
-  .add('Menu in right position only', () => (
+  )).add('Menu in right position only', () => (
     <TooltipMenu
       caption={
-        <span style={{ display: 'inline-block' }} tabIndex="0">
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
           <Icon name="Lightbulb" size={32} />
         </span>
       }
@@ -81,11 +75,10 @@ storiesOf('TooltipMenu', module)
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
     </TooltipMenu>
-  ))
-  .add('Menu in top position only, align right', () => (
+  )).add('Menu in top position only, align right', () => (
     <TooltipMenu
       caption={
-        <span style={{ display: 'inline-block' }} tabIndex="0">
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
           <Icon name="Lightbulb" size={32} />
         </span>
       }
