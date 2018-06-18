@@ -1,14 +1,12 @@
-
-
 import * as React from 'react';
 
-import styles from './MenuSeparator.less';
+import styles = require('./MenuSeparator.less');
 
 /**
  * Разделитель в меню.
  */
 export default class MenuSeparator extends React.Component<{}> {
-  render() {
+  public render() {
     return <div className={styles.root} />;
   }
 }
