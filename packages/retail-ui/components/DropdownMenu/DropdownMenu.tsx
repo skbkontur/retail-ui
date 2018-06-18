@@ -1,31 +1,29 @@
-
 import * as React from 'react';
 import PopupMenu from '../internal/PopupMenu';
-import type MenuItem from '../MenuItem/MenuItem';
 import { isProductionEnv } from '../internal/currentEnvironment';
 
-type Props = {
-  children?: React.ChildrenArray<React.Element<Class<MenuItem>>>,
+export interface DropdownMenuProps {
   /** Максимальная высота меню */
-  menuMaxHeight?: number | string,
+  menuMaxHeight?: React.CSSProperties['maxWidth'];
   /** Ширина меню */
-  menuWidth?: number | string,
+  menuWidth?: React.CSSProperties['width'];
   /** Элемент (обязательный), раскрывающий меню */
-  caption: React.Element<*>
+  caption: React.ReactNode;
 };
 
 /**
  * Меню, раскрывающееся по клику на переданный в ```caption``` элемент
  */
-export default class DropdownMenu extends React.Component<Props> {
-  constructor(props: Props) {
+export default class DropdownMenu extends React.Component<DropdownMenuProps> {
+  constructor(props: DropdownMenuProps) {
     super(props);
 
     if (!props.caption && !isProductionEnv) {
       throw new Error('Prop "caption" is required!!!');
     }
   }
-  render() {
+
+  public render() {
     if (!this.props.caption) {
       return null;
     }

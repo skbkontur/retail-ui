@@ -21,7 +21,7 @@ export interface PopupMenuProps {
   /** Пропсы, передающиеся в Popup */
   popupHasPin: boolean;
   popupMargin: number;
-  popupPinOffset: number;
+  popupPinOffset?: number;
 }
 
 interface PopupMenuState {
@@ -78,7 +78,7 @@ export default class PopupMenu extends React.Component<
                 hasShadow
                 margin={this.props.popupMargin}
                 hasPin={this.props.popupHasPin}
-                pinOffset={this.props.popupPinOffset}
+                pinOffset={this.props.popupPinOffset?}
                 positions={this._getPositions()}
               >
                 <InternalMenu
