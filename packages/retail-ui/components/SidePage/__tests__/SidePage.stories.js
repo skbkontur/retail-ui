@@ -348,6 +348,55 @@ class SidePageWithStickyReaction extends React.Component<{}> {
   }
 }
 
+class SidePageWithLeftPosition extends React.Component<{
+  disableAnimations?: boolean,
+  close: () => void
+}> {
+  render() {
+    return (
+      <SidePage
+        disableAnimations={this.props.disableAnimations}
+        fromLeft={true}
+        onClose={this.props.close}
+      >
+        <SidePage.Header>test</SidePage.Header>
+        <SidePage.Body>
+          <SidePage.Container>
+            {textSample}
+            {textSample}
+          </SidePage.Container>
+        </SidePage.Body>
+        <SidePage.Footer panel>
+          <Gapped>
+            <Button use="primary">Ok</Button>
+            <Button onClick={this.props.close}>Cancel</Button>
+          </Gapped>
+        </SidePage.Footer>
+      </SidePage>
+    );
+  }
+}
+
+class OpenSidePageWithLeftPosition extends React.Component<
+  SampleProps,
+  SampleState
+> {
+  state = {
+    open: false,
+    panel: false
+  };
+
+  open = () => this.setState({ open: true });
+  close = () => this.setState({ open: false });
+
+  render = () => (
+    <div>
+      {this.state.open && <SidePageWithLeftPosition close={this.close} />}
+      <Button onClick={this.open}>Open SidePage</Button>
+    </div>
+  );
+}
+
 storiesOf('SidePage', module)
   .add('With scrollable parent content', () => (
     <SidePageWithScrollableContent />

@@ -17,7 +17,7 @@ export default function filterProps<
   Optional extends Filter<keyof Props, AmbiguousBool<Allowed>>,
   Result extends { [P in Specific]: Props[P] } & { [Q in Optional]?: Props[Q] }
 >(props: Props, allowed: Allowed): Result {
-  const ret = {} as Result;
+  const ret = {} as any;
   for (const key in props) {
     if (allowed[key]) {
       // @ts-ignore
