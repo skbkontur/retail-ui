@@ -1,6 +1,6 @@
 import events from 'add-event-listener';
 import classNames from 'classnames';
-import React from 'react';
+import React, { MouseEvent } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -14,29 +14,22 @@ const MIN_SCROLL_SIZE = 20;
 
 export interface ScrollContainerProps {
   invert?: boolean;
-  maxHeight?: string | number;
+  maxHeight?: React.CSSProperties["maxHeight"];
   preventWindowScroll?: boolean;
 }
 
 export interface ScrollContainerState {
   scrollActive: boolean;
-  scrollSize: number;
-  scrollPos: number;
   hover: boolean;
   scrolling: boolean;
+  scrollSize: number;
+  scrollPos: number;
 }
 
-export default class ScrollContainer extends React.Component<
-  ScrollContainerProps,
-  ScrollContainerState
-> {
-  public static propTypes = {
-    invert: PropTypes.bool,
-    maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    preventWindowScroll: PropTypes.bool
-  };
+export default class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
+  public static propTypes = {};
 
-  public state = {
+  public state: ScrollContainerState = {
     scrollActive: false,
     scrollSize: 0,
     scrollPos: 0,
@@ -47,27 +40,14 @@ export default class ScrollContainer extends React.Component<
     scrolling: false
   };
 
-  private _inner: HTMLElement | null = null;
+  private _inner: Nullable<HTMLDivElement>;
 
-  public scrollTo(el: HTMLElement) {
-    if (!el) {
-      return;
-    }
-    const maxScroll = el.offsetTop;
+  public componentDidMount() {
+    this._reflow();
+  }
 
-    if (!this._inner) {
-      return;
-    }
-
-    if (this._inner.scrollTop > maxScroll) {
-      this._inner.scrollTop = maxScroll;
-      return;
-    }
-
-    const minScroll = el.offsetTop + el.scrollHeight - this._inner.offsetHeight;
-    if (this._inner.scrollTop < minScroll) {
-      this._inner.scrollTop = minScroll;
-    }
+  public componentDidUpdate() {
+    this._reflow();
   }
 
   public render() {
@@ -120,19 +100,27 @@ export default class ScrollContainer extends React.Component<
     );
   }
 
-  public componentDidMount() {
-    this._reflow();
+  public scrollTo(element: HTMLElement) {
+    if (!element || !this._inner) {
+      return;
+    }
+    const maxScroll = element.offsetTop;
+    if (this._inner.scrollTop > maxScroll) {
+      this._inner.scrollTop = maxScroll;
+      return;
+    }
+
+    const minScroll = element.offsetTop + element.scrollHeight - this._inner.offsetHeight;
+    if (this._inner.scrollTop < minScroll) {
+      this._inner.scrollTop = minScroll;
+    }
   }
 
-  public componentDidUpdate() {
-    this._reflow();
-  }
-
-  private _refInner = (el: HTMLElement | null) => {
-    this._inner = el;
+  private _refInner = (element: HTMLDivElement) => {
+    this._inner = element;
   };
 
-  private _handleNativeScroll = (event: React.UIEvent) => {
+  private _handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
     this._reflow();
     if (this.props.preventWindowScroll) {
       event.preventDefault();
@@ -142,16 +130,13 @@ export default class ScrollContainer extends React.Component<
   };
 
   private _reflow = () => {
-    const state = this.state;
-    const inner = this._inner;
-
-    if (inner === null) {
+    if (!this._inner) {
       return;
     }
 
-    const containerHeight = inner.offsetHeight;
-    const contentHeight = inner.scrollHeight;
-    const scrollTop = inner.scrollTop;
+    const containerHeight = this._inner.offsetHeight;
+    const contentHeight = this._inner.scrollHeight;
+    const scrollTop = this._inner.scrollTop;
 
     const scrollActive = containerHeight < contentHeight;
 
@@ -160,17 +145,18 @@ export default class ScrollContainer extends React.Component<
     }
 
     if (scrollActive) {
-      let scrollSize = (containerHeight / contentHeight) * containerHeight;
+      let scrollSize = containerHeight / contentHeight * containerHeight;
 
       if (scrollSize < MIN_SCROLL_SIZE) {
         scrollSize = MIN_SCROLL_SIZE;
       }
 
       const scrollPos =
-        (scrollTop / (contentHeight - containerHeight)) *
+        scrollTop /
+        (contentHeight - containerHeight) *
         (containerHeight - scrollSize);
 
-      if (state.scrollSize !== scrollSize || state.scrollPos !== scrollPos) {
+      if (this.state.scrollSize !== scrollSize || this.state.scrollPos !== scrollPos) {
         this.setState({
           scrollActive: true,
           scrollSize,
@@ -186,41 +172,45 @@ export default class ScrollContainer extends React.Component<
     }
   };
 
-  private _handleScrollMouseDown = (event: React.MouseEvent) => {
-    const target = global.document;
-    const initialY = event.clientY;
-
+  private _handleScrollMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!this._inner) {
       return;
     }
 
+    const target: Document = global.document;
+    const initialY = event.clientY;
     const initialScrollTop = this._inner.scrollTop;
 
-    const mouseMove = (evt: MouseEvent) => {
+    const mouseMove = (mouseMoveEvent: MouseEvent) => {
       if (!this._inner) {
         return;
       }
+
       const ratio =
         (this._inner.scrollHeight - this._inner.offsetHeight) /
         (this._inner.offsetHeight - this.state.scrollSize);
-      const deltaY = (evt.clientY - initialY) * ratio;
+      const deltaY = (mouseMoveEvent.clientY - initialY) * ratio;
 
       this._inner.scrollTop = initialScrollTop + deltaY;
 
-      if (evt.preventDefault) {
-        evt.preventDefault();
-      } else {
-        evt.returnValue = false;
+      if (mouseMoveEvent.preventDefault) {
+        mouseMoveEvent.preventDefault();
+      }
+
+      if (mouseMoveEvent.hasOwnProperty('returnValue')) {
+        (mouseMoveEvent as MouseEvent & { returnValue: boolean }).returnValue = false;
       }
     };
 
     const mouseUp = () => {
-      events.removeEventListener(target, 'mousemove', mouseMove);
+      // @ts-ignore
+      events.removeEventListener<keyof DocumentEventMap>(target, 'mousemove', mouseMove);
       events.removeEventListener(target, 'mouseup', mouseUp);
       this.setState({ scrolling: false });
     };
 
-    events.addEventListener(target, 'mousemove', mouseMove);
+    // @ts-ignore
+    events.addEventListener<keyof DocumentEventMap>(target, 'mousemove', mouseMove);
     events.addEventListener(target, 'mouseup', mouseUp);
     this.setState({ scrolling: true });
 
@@ -234,8 +224,7 @@ export default class ScrollContainer extends React.Component<
 
     if (
       event.deltaY > 0 &&
-      this._inner.scrollHeight <=
-        this._inner.scrollTop + this._inner.offsetHeight
+      this._inner.scrollHeight <= this._inner.scrollTop + this._inner.offsetHeight
     ) {
       return;
     }
@@ -252,10 +241,10 @@ export default class ScrollContainer extends React.Component<
       return;
     }
 
+
     if (
       event.deltaY > 0 &&
-      this._inner.scrollHeight <=
-        this._inner.scrollTop + this._inner.offsetHeight
+      this._inner.scrollHeight <= this._inner.scrollTop + this._inner.offsetHeight
     ) {
       event.preventDefault();
       return false;
@@ -266,17 +255,25 @@ export default class ScrollContainer extends React.Component<
     }
   };
 
-  private _handleMouseMove = (event: React.MouseEvent) => {
+  private _handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const right =
       event.currentTarget.getBoundingClientRect().right - event.pageX;
     this._setHover(right <= 12);
   };
 
-  private _handleMouseLeave = (event: React.MouseEvent) => {
+  private _handleMouseLeave = () => {
     this._setHover(false);
   };
 
   private _setHover(hover: boolean) {
-    this.setState(state => (state.hover !== hover ? { hover } : null));
+    if (this.state.hover !== hover) {
+      this.setState({ hover });
+    }
   }
 }
+
+ScrollContainer.propTypes = {
+  invert: PropTypes.bool,
+  maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  preventWindowScroll: PropTypes.bool
+};

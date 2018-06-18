@@ -1,12 +1,11 @@
-// @flow
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import ScrollContainer from '../ScrollContainer';
 
-function items(count) {
-  var items = [];
-  for (var i = 0; i < count; ++i) {
+function getItems(count: number) {
+  const items = [];
+  for (let i = 0; i < count; i += 1) {
     items.push(i);
   }
   return items;
@@ -22,7 +21,7 @@ storiesOf('ScrollContainer', module).add('with large content height', () => {
   return (
     <div style={wrapperStyle}>
       <ScrollContainer>
-        {items(1000).map(i => <div key={i}>{i}</div>)}
+        {getItems(1000).map(i => <div key={i}>{i}</div>)}
       </ScrollContainer>
     </div>
   );
