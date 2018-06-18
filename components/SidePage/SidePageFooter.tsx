@@ -1,9 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
-
-import Sticky from '../Sticky';
-
-import styles = require('./SidePage.less');
+import { SidePageContext } from './SidePageContext';
+import styles from './SidePage.less';
 
 export interface SidePageFooterProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
@@ -17,6 +15,7 @@ export interface SidePageFooterProps {
 /**
  * Футер модального окна.
  */
+
 export default class SidePageFooter extends React.Component<
   SidePageFooterProps
 > {
@@ -24,25 +23,34 @@ export default class SidePageFooter extends React.Component<
     return (
       <tr>
         <td className={styles.layoutItem}>
-          <Sticky side="bottom">
-            {fixed => {
-              const names = classNames({
-                [styles.footer]: true,
-                [styles.panel]: this.props.panel,
-                [styles.fixed]: fixed
-              });
-
-              return (
-                <div className={names}>
-                  {typeof this.props.children === 'function'
-                    ? this.props.children(fixed)
-                    : this.props.children}
+          <SidePageContext.Consumer>
+            {({ width }) => (
+              <div
+                style={{
+                  position: 'fixed',
+                  bottom: 0,
+                  width: this.getWidth(width)
+                }}
+              >
+                <div
+                  className={classNames(styles.footer, {
+                    [styles.panel]: this.props.panel
+                  })}
+                >
+                  {this.props.children}
                 </div>
-              );
-            }}
-          </Sticky>
+              </div>
+            )}
+          </SidePageContext.Consumer>
         </td>
       </tr>
     );
+  }
+
+  private getWidth(width: number | string | undefined): number {
+    if (typeof width === 'string') {
+      return 0;
+    }
+    return width || 0;
   }
 }

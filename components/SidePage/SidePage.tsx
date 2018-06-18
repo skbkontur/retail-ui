@@ -2,6 +2,7 @@ import * as events from 'add-event-listener';
 import classNames from 'classnames';
 import { EventSubscription } from 'fbemitter';
 import * as React from 'react';
+import { CSSTransitionGroupTransitionName } from 'react';
 import LayoutEvents from '../../lib/LayoutEvents';
 import stopPropagation from '../../lib/events/stopPropagation';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
@@ -17,7 +18,6 @@ import SidePageHeader from './SidePageHeader';
 import Transition from 'react-addons-css-transition-group';
 
 import styles from './SidePage.less';
-import { CSSTransitionGroupTransitionName } from 'react';
 
 export interface SidePageProps {
   /**
@@ -88,8 +88,8 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Body = SidePageBody;
   public static Footer = SidePageFooter;
   public static Container = SidePageContainer;
-  private stickyElementsUpdaterInterval?: number;
   private stackSubscription: EventSubscription | null = null;
+  private layoutRef: HTMLElement | null = null;
 
   constructor(props: SidePageProps) {
     super(props);
@@ -99,11 +99,6 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   public componentDidMount() {
     events.addEventListener(window, 'keydown', this.handleKeyDown);
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
-    this.stickyElementsUpdaterInterval = setInterval(LayoutEvents.emit);
-  }
-
-  public componentDidUpdate() {
-    this.unsubscribeStickyElementsUpdaterInterval();
   }
 
   public componentWillUnmount() {
@@ -148,6 +143,10 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderContainer(): JSX.Element {
     const { delta, classes, style } = this.getZIndexProps();
+    const footerPanelWidth = this.layoutRef
+      ? this.layoutRef.getBoundingClientRect().width
+      : this.getSidebarStyle().width;
+
     return (
       <ZIndex
         delta={delta}
@@ -163,9 +162,14 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
             )}
             style={this.getSidebarStyle()}
           >
-            <table className={styles.layout}>
+            <table ref={_ => (this.layoutRef = _)} className={styles.layout}>
               <tbody>
-                <SidePageContext.Provider value={this.requestClose}>
+                <SidePageContext.Provider
+                  value={{
+                    requestClose: this.requestClose,
+                    width: footerPanelWidth
+                  }}
+                >
                   {this.props.children}
                 </SidePageContext.Provider>
               </tbody>
@@ -285,16 +289,6 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
       this.props.onClose();
     }
   };
-
-  private unsubscribeStickyElementsUpdaterInterval() {
-    // fixed элементы не видят анимацию
-    if (this.stickyElementsUpdaterInterval) {
-      const killer = setTimeout(() => {
-        clearInterval(this.stickyElementsUpdaterInterval);
-        clearTimeout(killer);
-      }, TRANSITION_TIMEOUT);
-    }
-  }
 }
 
 export default SidePage;

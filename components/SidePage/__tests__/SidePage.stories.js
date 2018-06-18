@@ -362,10 +362,10 @@ class SidePageWithLeftPosition extends React.Component<{
       >
         <SidePage.Header>test</SidePage.Header>
         <SidePage.Body>
-          <div style={{ padding: 20 }}>
+          <SidePage.Container>
             {textSample}
             {textSample}
-          </div>
+          </SidePage.Container>
         </SidePage.Body>
         <SidePage.Footer panel>
           <Gapped>

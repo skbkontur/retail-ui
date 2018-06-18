@@ -2,9 +2,8 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import Sticky from '../Sticky';
-
-import styles = require('./SidePage.less');
 import { SidePageContext } from './SidePageContext';
+import styles from './SidePage.less';
 
 export interface SidePageHeaderProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
@@ -39,7 +38,7 @@ export default class SidePageHeader extends React.Component<
   public renderClose() {
     return (
       <SidePageContext.Consumer>
-        {requestClose => (
+        {({ requestClose }) => (
           <a href="javascript:" className={styles.close} onClick={requestClose}>
             <span>×</span>
           </a>
