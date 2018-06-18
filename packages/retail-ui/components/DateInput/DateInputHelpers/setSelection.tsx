@@ -1,11 +1,11 @@
-
-
-import type { State } from '../DateInput';
+import { DateInputState } from '../DateInput';
 
 import { DateParts } from '../DateInput';
 import { UnknownDatePart } from './UnknownDatePart';
 
-export const setSelection = (index: number | null) => (state: State) => {
+export const setSelection = (index: number | null) => (
+  state: Readonly<DateInputState>
+): Shape<DateInputState> => {
   const commonChanges = {
     selected:
       index != null
@@ -18,26 +18,26 @@ export const setSelection = (index: number | null) => (state: State) => {
       return {
         ...commonChanges,
         date: state.date ? state.date.padStart(2, '0') : null
-      };
+      } as Shape<DateInputState>;
     case DateParts.Month:
       return {
         ...commonChanges,
         month: state.month ? state.month.padStart(2, '0') : null
-      };
+      } as Shape<DateInputState>;
     case DateParts.Year:
       return {
         ...commonChanges,
         year: state.year ? restoreYear(state.year) : null
-      };
+      } as Shape<DateInputState>;
     case DateParts.All:
     case null:
-      return commonChanges;
+      return commonChanges as Shape<DateInputState>;
     default:
       throw new UnknownDatePart();
   }
 };
 
-const restoreYear = year => {
+const restoreYear = (year: string) => {
   let y = Number(year);
   if (y < 100) {
     if (y > 50) {
@@ -49,7 +49,9 @@ const restoreYear = year => {
   return y.toString(10).padStart(4, '0');
 };
 
-export const moveSelectionBy = (step: number) => (state: State) => {
+export const moveSelectionBy = (step: number) => (
+  state: DateInputState
+): Shape<DateInputState> => {
   const selected = Math.max(
     DateParts.Date,
     Math.min(DateParts.Year, (state.selected || DateParts.Date) + step)

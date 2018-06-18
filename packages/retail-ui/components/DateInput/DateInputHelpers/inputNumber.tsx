@@ -1,11 +1,9 @@
-
-
-import { type State, DateParts } from '../DateInput';
+import { DateInputState, DateParts } from '../DateInput';
 import { clearDatePart } from './clearDatePart';
 import { UnknownDatePart } from './UnknownDatePart';
 
 export const inputNumber = (key: string) => {
-  return (state: State) => {
+  return (state: DateInputState): Shape<DateInputState> => {
     switch (state.selected) {
       case DateParts.Date:
         return updateDate(key, state);
@@ -22,7 +20,10 @@ export const inputNumber = (key: string) => {
   };
 };
 
-const updateDate = (key, state) => {
+const updateDate = (
+  key: string,
+  state: DateInputState
+): Shape<DateInputState> => {
   const { date, editingCharIndex } = state;
   if (editingCharIndex === 0) {
     if (key > '3') {
@@ -30,27 +31,27 @@ const updateDate = (key, state) => {
         date: '0' + key,
         selected: 1,
         editingCharIndex: 0
-      };
+      } as Shape<DateInputState>;
     }
     return {
       date: key,
       selected: 0,
       editingCharIndex: 1
-    };
+    } as Shape<DateInputState>;
   }
 
   const d = Number(date) * 10 + Number(key);
   if (d < 1 || d > 31) {
-    return { notify: true };
+    return { notify: true } as Shape<DateInputState>;
   }
   return {
     date: d.toString().padStart(2, '0'),
     selected: 1,
     editingCharIndex: 0
-  };
+  } as Shape<DateInputState>;
 };
 
-const updateMonth = (key, state) => {
+const updateMonth = (key: string, state: DateInputState) => {
   const { month, editingCharIndex } = state;
   if (editingCharIndex === 0) {
     if (key > '1') {
@@ -58,36 +59,36 @@ const updateMonth = (key, state) => {
         month: '0' + key,
         selected: 2,
         editingCharIndex: 0
-      };
+      } as Shape<DateInputState>;
     }
     return {
       month: key,
       selected: 1,
       editingCharIndex: 1
-    };
+    } as Shape<DateInputState>;
   }
   const m = Number(month) * 10 + Number(key);
   if (m < 1 || m > 12) {
-    return { notify: true };
+    return { notify: true } as Shape<DateInputState>;
   }
   return {
     month: m.toString().padStart(2, '0'),
     selected: 2,
     editingCharIndex: 0
-  };
+  } as Shape<DateInputState>;
 };
 
-const updateYear = (key, state) => {
+const updateYear = (key: string, state: DateInputState) => {
   const { year, editingCharIndex } = state;
   if (editingCharIndex === 0) {
     return {
       year: key,
       selected: 2,
       editingCharIndex: 1
-    };
+    } as Shape<DateInputState>;
   }
   return {
     year: ((year || '') + key).slice(-4),
     selected: 2
-  };
+  } as Shape<DateInputState>;
 };

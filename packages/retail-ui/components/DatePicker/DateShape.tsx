@@ -1,12 +1,10 @@
+import { CalendarDateShape } from '../Calendar';
 
-
-import type { CalendarDateShape } from '../Calendar';
-
-export type DateShape = {
-  +date: ?number,
-  +month: ?number,
-  +year: ?number
-};
+export interface DateShape {
+  date: Nullable<number>;
+  month: Nullable<number>;
+  year: Nullable<number>;
+}
 
 export function isValidDate({ date, month, year }: DateShape): boolean {
   if (
@@ -28,10 +26,9 @@ export function isValidDate({ date, month, year }: DateShape): boolean {
   return false;
 }
 
-export function tryGetValidDateShape(x: DateShape): ?CalendarDateShape {
+export function tryGetValidDateShape(x: DateShape): CalendarDateShape | null {
   if (isValidDate(x)) {
-    // eslint-disable-next-line flowtype/no-weak-types
-    return ((x: any): CalendarDateShape);
+    return x as CalendarDateShape;
   }
   return null;
 }

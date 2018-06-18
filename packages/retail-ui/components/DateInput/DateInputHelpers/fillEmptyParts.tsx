@@ -1,12 +1,11 @@
+interface DateShape {
+  date: Nullable<string>;
+  month: Nullable<string>;
+  year: Nullable<string>;
+}
 
-
-type DateShape = {
-  +date: ?string,
-  +month: ?string,
-  +year: ?string
-};
-
-const padNumber = (num, length, mask) => num.toString().padStart(length, mask);
+const padNumber = (num: number, length: number, mask: string) =>
+  num.toString().padStart(length, mask);
 
 export function fillEmptyParts(
   { date, month, year }: DateShape,

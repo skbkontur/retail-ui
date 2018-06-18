@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 import DatePicker from '../DatePicker';
 import Tooltip from '../../Tooltip/index';
 
-class DatePickerWithError extends React.Component<*, *> {
+class DatePickerWithError extends React.Component<any, any> {
   state = {
     value: null,
     error: false,
@@ -84,8 +84,7 @@ class DatePickerWithError extends React.Component<*, *> {
 
 const dateForMock = new Date('2017-01-02');
 
-storiesOf('DatePicker', module)
-  .addDecorator(
+storiesOf('DatePicker', module).addDecorator(
     story =>
       process.env.NODE_ENV === 'test' ? (
         <div>
@@ -96,8 +95,7 @@ storiesOf('DatePicker', module)
       ) : (
         story()
       )
-  )
-  .add('with mouseevent handlers', () => (
+  ).add('with mouseevent handlers', () => (
     <div style={{ paddingTop: 200 }}>
       <DatePicker
         value="02.07.2017"
@@ -107,8 +105,4 @@ storiesOf('DatePicker', module)
       />
       <button>ok</button>
     </div>
-  ))
-  .add('DatePickerWithError', () => <DatePickerWithError />)
-  .add('DatePicker disabled', () => <DatePickerWithError disabled />)
-  .add('DatePicker medium', () => <DatePickerWithError size="medium" />)
-  .add('DatePicker large', () => <DatePickerWithError size="large" />);
+  )).add('DatePickerWithError', () => <DatePickerWithError />).add('DatePicker disabled', () => <DatePickerWithError disabled />).add('DatePicker medium', () => <DatePickerWithError size="medium" />).add('DatePicker large', () => <DatePickerWithError size="large" />);

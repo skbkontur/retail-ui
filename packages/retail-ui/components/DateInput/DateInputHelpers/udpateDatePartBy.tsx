@@ -1,16 +1,15 @@
-
-
-import type { State } from '../DateInput';
+import { DateInputState } from '../DateInput';
 
 import { DateParts } from '../DateInput';
 import { UnknownDatePart } from './UnknownDatePart';
+import { CalendarDateShape } from '../../Calendar/CalendarDateShape';
 
 const udpateDatePartBy = (
-  step,
-  datePart,
-  min,
-  max,
-  padding,
+  step: number,
+  datePart: string | null,
+  min: number,
+  max: number,
+  padding: number,
   circulate = true
 ) => {
   let result = Number(datePart) + step;
@@ -35,14 +34,14 @@ const udpateDatePartBy = (
 };
 
 export const updateDatePartBy = (step: number) => {
-  return ({ selected, date, month, year, minDate, maxDate }: State) => {
+  return (state: DateInputState) => {
+    const { selected, date, month, year, minDate, maxDate } = state;
     switch (selected) {
       case DateParts.All:
       case DateParts.Date: {
         const { min, max, circulate } = getMinMaxDate(
           minDate,
           maxDate,
-          Number(date),
           Number(month),
           Number(year)
         );
@@ -55,6 +54,7 @@ export const updateDatePartBy = (step: number) => {
           circulate
         );
         return {
+          ...state,
           date: value,
           selected: DateParts.Date,
           notify
@@ -64,7 +64,6 @@ export const updateDatePartBy = (step: number) => {
         const { min, max, circulate } = getMinMaxMonth(
           minDate,
           maxDate,
-          Number(month),
           Number(year)
         );
         const { value, notify } = udpateDatePartBy(
@@ -75,14 +74,10 @@ export const updateDatePartBy = (step: number) => {
           2,
           circulate
         );
-        return { month: value, notify };
+        return { ...state, month: value, notify };
       }
       case DateParts.Year: {
-        const { min, max, circulate } = getMinMaxYear(
-          minDate,
-          maxDate,
-          Number(year)
-        );
+        const { min, max, circulate } = getMinMaxYear(minDate, maxDate);
         const { value, notify } = udpateDatePartBy(
           step,
           year,
@@ -91,7 +86,7 @@ export const updateDatePartBy = (step: number) => {
           4,
           circulate
         );
-        return { year: value, notify };
+        return { ...state, year: value, notify };
       }
       default:
         throw new UnknownDatePart();
@@ -99,7 +94,12 @@ export const updateDatePartBy = (step: number) => {
   };
 };
 
-function getMinMaxDate(minDate, maxDate, date, month, year) {
+function getMinMaxDate(
+  minDate: Nullable<CalendarDateShape>,
+  maxDate: Nullable<CalendarDateShape>,
+  month: number,
+  year: number
+) {
   let min = 1;
   let circulate = true;
   if (minDate) {
@@ -118,7 +118,11 @@ function getMinMaxDate(minDate, maxDate, date, month, year) {
   return { min, max, circulate };
 }
 
-function getMinMaxMonth(minDate, maxDate, month, year) {
+function getMinMaxMonth(
+  minDate: Nullable<CalendarDateShape>,
+  maxDate: Nullable<CalendarDateShape>,
+  year: number
+) {
   let min = 1;
   let circulate = true;
   if (minDate) {
@@ -137,7 +141,10 @@ function getMinMaxMonth(minDate, maxDate, month, year) {
   return { min, max, circulate };
 }
 
-function getMinMaxYear(minDate, maxDate, year) {
+function getMinMaxYear(
+  minDate: Nullable<CalendarDateShape>,
+  maxDate: Nullable<CalendarDateShape>
+) {
   let min = 0;
   let circulate = true;
   if (minDate) {

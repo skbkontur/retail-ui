@@ -1,5 +1,3 @@
-
-
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
@@ -11,17 +9,10 @@ import DateInput from '../DateInput';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 
 import { formatDate, parseDateString } from './DatePickerHelpers';
-import type { CalendarDateShape } from '../Calendar';
+import { CalendarDateShape } from '../Calendar';
 import { tryGetValidDateShape, isValidDate } from './DateShape';
-import styled from '../internal/styledRender';
 
-let cssStyles;
-let jssStyles;
-if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
-  jssStyles = require('./DatePicker.styles').default;
-} else {
-  cssStyles = require('./DatePicker.less');
-}
+import styles = require('./DatePicker.less');
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -32,34 +23,34 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true
 };
 
-type Props<T> = {
-  autoFocus?: boolean,
-  disabled?: boolean,
-  enableTodayLink?: boolean,
-  error?: boolean,
-  minDate?: T,
-  maxDate?: T,
-  menuAlign?: 'left' | 'right',
-  size?: 'small' | 'medium' | 'large',
-  value: T | null,
-  warning?: boolean,
-  width?: number | string,
-  onBlur?: () => void,
-  onChange: (e: { target: { value: T } }, v: T) => void,
-  onFocus?: () => void,
-  onKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
-  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
-  onMouseOver?: (e: SyntheticMouseEvent<>) => void
-};
+export interface DatePickerProps<T> {
+  autoFocus?: boolean;
+  disabled?: boolean;
+  enableTodayLink?: boolean;
+  error?: boolean;
+  minDate?: T;
+  maxDate?: T;
+  menuAlign?: 'left' | 'right';
+  size?: 'small' | 'medium' | 'large';
+  value: T | null;
+  warning?: boolean;
+  width?: number | string;
+  onBlur?: () => void;
+  onChange: (e: { target: { value: T } }, v: T) => void;
+  onFocus?: () => void;
+  onKeyDown?: (e: React.KeyboardEvent<any>) => void;
+  onMouseEnter?: (e: React.MouseEvent<any>) => void;
+  onMouseLeave?: (e: React.MouseEvent<any>) => void;
+  onMouseOver?: (e: React.MouseEvent<any>) => void;
+}
 
-type State = {
-  opened: boolean
-};
+interface State {
+  opened: boolean;
+}
 
 // eslint-disable-next-line flowtype/no-weak-types
-class DatePicker extends React.Component<Props<string>, State> {
-  static propTypes = {
+class DatePicker extends React.Component<DatePickerProps<string>, State> {
+  public static propTypes = {
     autoFocus: PropTypes.bool,
 
     disabled: PropTypes.bool,
@@ -107,19 +98,20 @@ class DatePicker extends React.Component<Props<string>, State> {
     onMouseOver: PropTypes.func
   };
 
-  static defaultProps = {
+  public static defaultProps = {
     width: 120,
     minDate: '01.01.1900',
     maxDate: '31.12.2099'
   };
 
-  static validate = (value: string) => isValidDate(parseDateString(value));
+  public static validate = (value: string) =>
+    isValidDate(parseDateString(value));
 
-  input: DateInput | null;
+  private input: DateInput | null = null;
 
-  _focused: boolean;
+  private _focused: boolean = false;
 
-  constructor(props: Props<string>) {
+  constructor(props: DatePickerProps<string>) {
     super(props);
 
     this.state = {
@@ -130,28 +122,33 @@ class DatePicker extends React.Component<Props<string>, State> {
   /**
    * @public
    */
-  blur() {
-    this.input && this.input.blur();
+  public blur() {
+    if (this.input) {
+      this.input.blur();
+    }
     this._handleBlur();
   }
 
   /**
    * @public
    */
-  focus() {
-    this.input && this.input.focus();
+  public focus() {
+    if (this.input) {
+      this.input.focus();
+    }
     this._handleFocus();
   }
 
-  close() {
+  public close() {
     this.setState({ opened: false });
   }
 
-  render = styled(cssStyles, jssStyles, styles => {
+  public render(): React.ReactNode {
     let picker = null;
     if (this.state.opened) {
       picker = (
         <DropdownContainer
+          // tslint:disable-next-line:jsx-no-lambda
           getParent={() => findDOMNode(this)}
           offsetY={2}
           align={this.props.menuAlign}
@@ -191,13 +188,13 @@ class DatePicker extends React.Component<Props<string>, State> {
         {picker}
       </label>
     );
-  });
+  }
 
-  _getInputRef = ref => {
+  private _getInputRef = (ref: DateInput | null) => {
     this.input = ref;
   };
 
-  _getDate() {
+  private _getDate() {
     const { value } = this.props;
     let date = value ? tryGetValidDateShape(parseDateString(value)) : null;
     if (date) {
@@ -213,19 +210,19 @@ class DatePicker extends React.Component<Props<string>, State> {
     return date;
   }
 
-  _getMinDate = () => {
+  private _getMinDate = () => {
     const { minDate } = this.props;
     const date = minDate && tryGetValidDateShape(parseDateString(minDate));
     return date || undefined;
   };
 
-  _getMaxDate = () => {
+  private _getMaxDate = () => {
     const { maxDate } = this.props;
     const date = maxDate && tryGetValidDateShape(parseDateString(maxDate));
     return date || undefined;
   };
 
-  _handleFocus = () => {
+  private _handleFocus = () => {
     if (this._focused) {
       return;
     }
@@ -239,7 +236,7 @@ class DatePicker extends React.Component<Props<string>, State> {
     }
   };
 
-  _handleBlur = () => {
+  private _handleBlur = () => {
     if (!this._focused) {
       return;
     }
@@ -252,12 +249,12 @@ class DatePicker extends React.Component<Props<string>, State> {
     }
   };
 
-  _handlePick = (dateShape: CalendarDateShape) => {
+  private _handlePick = (dateShape: CalendarDateShape) => {
     this._handleSelect(dateShape);
     this.blur();
   };
 
-  _handleSelect = dateShape => {
+  private _handleSelect = (dateShape: CalendarDateShape) => {
     const date = formatDate(dateShape);
     if (this.props.onChange) {
       this.props.onChange({ target: { value: date } }, date);

@@ -1,33 +1,24 @@
-
-
 import * as React from 'react';
-import Calendar, { type CalendarDateShape } from '../Calendar';
+import Calendar, { CalendarDateShape } from '../Calendar';
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import { formatDate } from './DatePickerHelpers';
-import styled from '../internal/styledRender';
 
-let cssStyles;
-let jssStyles;
-if (process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS) {
-  jssStyles = require('./Picker.styles').default;
-} else {
-  cssStyles = require('./Picker.less');
+import styles = require('./Picker.less');
+
+interface Props {
+  maxDate?: CalendarDateShape;
+  minDate?: CalendarDateShape;
+  value: Nullable<CalendarDateShape>;
+  onPick: (date: CalendarDateShape) => void;
+  onSelect?: (date: CalendarDateShape) => void;
+  enableTodayLink?: boolean;
 }
 
-type Props = {|
-  maxDate?: CalendarDateShape,
-  minDate?: CalendarDateShape,
-  value: ?CalendarDateShape,
-  onPick: (date: CalendarDateShape) => void,
-  onSelect?: (date: CalendarDateShape) => void,
-  enableTodayLink?: boolean
-|};
-
-type State = {
-  date: CalendarDateShape,
-  today: CalendarDateShape
-};
+interface State {
+  date: CalendarDateShape;
+  today: CalendarDateShape;
+}
 
 const getTodayCalendarDate = () => {
   const d = new Date();
@@ -39,9 +30,7 @@ const getTodayCalendarDate = () => {
 };
 
 export default class Picker extends React.Component<Props, State> {
-  _mounted: boolean;
-
-  _calendar;
+  private _calendar: Calendar | null = null;
 
   constructor(props: Props) {
     super(props);
@@ -52,16 +41,17 @@ export default class Picker extends React.Component<Props, State> {
     };
   }
 
-  componentDidUpdate(prevProps: Props) {
+  public componentDidUpdate(prevProps: Props) {
     const { value } = this.props;
     if (value && !shallowEqual(value, prevProps.value)) {
       this._scrollToMonth(value.month, value.year);
     }
   }
 
-  render = styled(cssStyles, jssStyles, styles => {
+  public render() {
     const { date } = this.state;
     return (
+      // tslint:disable-next-line:jsx-no-lambda
       <div className={styles.root} onMouseDown={e => e.preventDefault()}>
         <Calendar
           ref={c => (this._calendar = c)}
@@ -72,18 +62,18 @@ export default class Picker extends React.Component<Props, State> {
           minDate={this.props.minDate}
           maxDate={this.props.maxDate}
         />
-        {this.props.enableTodayLink && this._renderTodayLink(styles)}
+        {this.props.enableTodayLink && this._renderTodayLink()}
       </div>
     );
-  });
+  }
 
-  _scrollToMonth = (month, year) => {
+  private _scrollToMonth = (month: number, year: number) => {
     if (this._calendar) {
       this._calendar.scrollToMonth(month, year);
     }
   };
 
-  _renderTodayLink(styles) {
+  private _renderTodayLink() {
     return (
       <button
         className={styles.todayWrapper}
@@ -95,7 +85,7 @@ export default class Picker extends React.Component<Props, State> {
     );
   }
 
-  _handleSelectToday = () => {
+  private _handleSelectToday = () => {
     const { today } = this.state;
     if (this.props.onSelect) {
       this.props.onSelect(today);

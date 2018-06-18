@@ -1,5 +1,3 @@
-
-
 export const selectNodeContents = (node: HTMLElement) => {
   if (document.createRange) {
     const selection = window.getSelection();
@@ -10,9 +8,10 @@ export const selectNodeContents = (node: HTMLElement) => {
     return;
   }
 
-  const { body } = document;
-  if (body && typeof body.createTextRange === 'function') {
-    const range = body.createTextRange();
+  // @ts-ignore
+  if (typeof document.body.createTextRange === 'function') {
+    // @ts-ignore
+    const range = document.body.createTextRange();
     range.moveToElementText(node);
     range.select();
     return;

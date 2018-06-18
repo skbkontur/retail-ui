@@ -1,16 +1,14 @@
-
 import * as React from 'react';
 
 import styles from './DateInput.less';
 import { maskChar } from './DateInputHelpers/maskChar';
 
-type Props = {
-  value: string | null,
-  length: number,
-  selected?: boolean
-};
+interface MaskedValueProps {
+  value: string | null;
+  length: number;
+}
 
-export const MaskedValue = ({ value, length, selected }: Props) => {
+export const MaskedValue = ({ value, length }: MaskedValueProps) => {
   if (!value) {
     return <Mask length={length} />;
   }
@@ -24,7 +22,7 @@ export const MaskedValue = ({ value, length, selected }: Props) => {
   );
 };
 
-const Mask = ({ length }) =>
+const Mask = ({ length }: { length: number }) =>
   length ? (
     <span className={styles.mask}>{maskChar.repeat(length)}</span>
   ) : (
