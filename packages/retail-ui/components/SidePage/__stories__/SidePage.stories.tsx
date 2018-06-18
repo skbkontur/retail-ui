@@ -1,5 +1,4 @@
-
-/* eslint-disable react/no-multi-comp */
+// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
@@ -9,6 +8,7 @@ import Input from '../../Input';
 import Textarea from '../../Textarea';
 import Toggle from '../../Toggle';
 import Modal from '../../Modal/Modal';
+import Gapped from '../../Gapped/Gapped';
 
 const textSample = (
   <p style={{ marginBottom: '100px' }}>
@@ -29,30 +29,30 @@ const textSample = (
   </p>
 );
 
-type SampleProps = {
-  children?: React.Node,
-  total?: number,
-  current: number,
-  ignoreBackgroundClick?: boolean,
-  blockBackground?: boolean,
-  withContent?: boolean
+interface SampleProps {
+  children?: React.ReactNode;
+  total?: number;
+  current?: number;
+  ignoreBackgroundClick?: boolean;
+  blockBackground?: boolean;
+  withContent?: boolean;
 };
 
-type SampleState = {
-  open: boolean,
-  panel: boolean
+interface SampleState {
+  open: boolean;
+  panel: boolean;
 };
 
 class Sample extends React.Component<SampleProps, SampleState> {
-  state = {
+  public state: SampleState = {
     open: false,
     panel: false
   };
 
-  open = () => this.setState({ open: true });
-  close = () => this.setState({ open: false });
+  public open = () => this.setState({ open: true });
+  public close = () => this.setState({ open: false });
 
-  renderSidePage = () => (
+  public renderSidePage = (): React.ReactNode => (
     <SidePage
       width={785}
       onClose={this.close}
@@ -62,7 +62,7 @@ class Sample extends React.Component<SampleProps, SampleState> {
       <SidePage.Header>Title</SidePage.Header>
       <SidePage.Body>
         <div style={{ padding: '0 35px 35px 35px' }}>
-          {this.props.total &&
+          {this.props.total && this.props.current &&
             this.props.total > this.props.current && (
               <Sample
                 current={this.props.current + 1}
@@ -96,23 +96,25 @@ class Sample extends React.Component<SampleProps, SampleState> {
     </SidePage>
   );
 
-  render = () => (
-    <div>
-      {this.state.open && this.renderSidePage()}
-      <Button onClick={this.open}>Open SidePage</Button>
-    </div>
-  );
+  public render() {
+    return (
+      <div>
+        {this.state.open && this.renderSidePage()}
+        <Button onClick={this.open}>Open SidePage</Button>
+      </div>
+    );
+  }
 }
 
-type SampleConfiguratorProps = {
-  ignoreBackgroundClick: boolean,
-  blockBackground: boolean,
-  withContent: boolean,
-  onChange: (name: string) => void
+interface SampleConfiguratorProps {
+  ignoreBackgroundClick: boolean;
+  blockBackground: boolean;
+  withContent: boolean;
+  onChange: (name: string) => void;
 };
 
 class SampleConfigurator extends React.Component<SampleConfiguratorProps> {
-  render() {
+  public render() {
     return (
       <div>
         <div>
@@ -143,7 +145,7 @@ class SampleConfigurator extends React.Component<SampleConfiguratorProps> {
 }
 
 class SidePageWithScrollableContent extends React.Component<{}, {}> {
-  render() {
+  public render() {
     return (
       <div style={{ width: '300px' }}>
         <Sample total={1} current={1} ignoreBackgroundClick withContent />
@@ -154,15 +156,16 @@ class SidePageWithScrollableContent extends React.Component<{}, {}> {
   }
 }
 
-class SidePageWithInputInHeader extends React.Component<
-  {},
-  { opened: boolean }
-> {
-  state = {
+interface SidePageWithInputInHeaderState {
+  opened: boolean;
+}
+
+class SidePageWithInputInHeader extends React.Component<{}, SidePageWithInputInHeaderState> {
+  public state: SidePageWithInputInHeaderState = {
     opened: false
   };
 
-  render() {
+  public render() {
     const sidePage = (
       <SidePage onClose={this.close}>
         <SidePage.Header>
@@ -192,17 +195,17 @@ class SidePageWithInputInHeader extends React.Component<
     );
   }
 
-  open = () => {
+  public open = () => {
     this.setState({ opened: true });
   };
 
-  close = () => {
+  public close = () => {
     this.setState({ opened: false });
   };
 }
 
-class SidePageOverAnotherSidePage extends React.Component<{}, *> {
-  render() {
+class SidePageOverAnotherSidePage extends React.Component<{}> {
+  public render() {
     return (
       <Sample
         current={1}
@@ -215,21 +218,23 @@ class SidePageOverAnotherSidePage extends React.Component<{}, *> {
   }
 }
 
+interface SidePageWithCloseConfigurationState {
+  ignoreBackgroundClick: boolean;
+  blockBackground: boolean;
+  withContent: boolean;
+}
+
 class SidePageWithCloseConfiguration extends React.Component<
   {},
-  {
-    ignoreBackgroundClick: boolean,
-    blockBackground: boolean,
-    withContent: boolean
-  }
+  SidePageWithCloseConfigurationState
 > {
-  state = {
+  public state: SidePageWithCloseConfigurationState = {
     ignoreBackgroundClick: false,
     blockBackground: false,
     withContent: false
   };
 
-  render() {
+  public render() {
     return (
       <div style={{ width: '300px' }}>
         <Sample
@@ -240,7 +245,10 @@ class SidePageWithCloseConfiguration extends React.Component<
           withContent={this.state.withContent}
         />
         <SampleConfigurator
-          onChange={name => this.setState(state => ({ [name]: !state[name] }))}
+          onChange={(name) => {
+            const propertyName = name as keyof SidePageWithCloseConfigurationState;
+            this.setState((state: SidePageWithCloseConfigurationState) => ({ [propertyName]: !state[propertyName] } as Shape<SidePageWithCloseConfigurationState>) );
+          }}
           ignoreBackgroundClick={this.state.ignoreBackgroundClick}
           blockBackground={this.state.blockBackground}
           withContent={this.state.withContent}
@@ -250,23 +258,25 @@ class SidePageWithCloseConfiguration extends React.Component<
   }
 }
 
+interface SidePageWithModalInsideState {
+  isModalOpened: boolean;
+  ignoreBackgroundClick: boolean;
+  blockBackground: boolean;
+  withContent: boolean;
+}
+
 class SidePageWithModalInside extends React.Component<
   {},
-  {
-    isModalOpened: boolean,
-    ignoreBackgroundClick: boolean,
-    blockBackground: boolean,
-    withContent: boolean
-  }
+  SidePageWithModalInsideState
 > {
-  state = {
+  public state: SidePageWithModalInsideState = {
     isModalOpened: false,
     ignoreBackgroundClick: true,
     blockBackground: false,
     withContent: false
   };
 
-  render() {
+  public render() {
     return (
       <div>
         {this.state.isModalOpened && this.renderModal()}
@@ -279,9 +289,10 @@ class SidePageWithModalInside extends React.Component<
             Открыть modal
           </Button>
           <SampleConfigurator
-            onChange={name =>
-              this.setState(state => ({ [name]: !state[name] }))
-            }
+            onChange={(name) => {
+              const propertyName = name as keyof SidePageWithModalInsideState;
+              this.setState((state: SidePageWithModalInsideState) => ({ [propertyName]: !state[propertyName] } as Shape<SidePageWithCloseConfigurationState>) );
+            }}
             ignoreBackgroundClick={this.state.ignoreBackgroundClick}
             blockBackground={this.state.blockBackground}
             withContent={true}
@@ -293,7 +304,7 @@ class SidePageWithModalInside extends React.Component<
     );
   }
 
-  renderModal = () => (
+  private renderModal = () => (
     <Modal
       onClose={() => this.setState({ isModalOpened: false })}
       ignoreBackgroundClick
@@ -304,7 +315,7 @@ class SidePageWithModalInside extends React.Component<
 }
 
 class SidePageWithStickyReaction extends React.Component<{}> {
-  render() {
+  public render() {
     const title = 'This is title';
     const subtitle = 'This is subtitle';
 
@@ -352,7 +363,7 @@ class SidePageWithLeftPosition extends React.Component<{
   disableAnimations?: boolean,
   close: () => void
 }> {
-  render() {
+  public render() {
     return (
       <SidePage
         disableAnimations={this.props.disableAnimations}
@@ -381,20 +392,22 @@ class OpenSidePageWithLeftPosition extends React.Component<
   SampleProps,
   SampleState
 > {
-  state = {
+  public state: SampleState = {
     open: false,
     panel: false
   };
 
-  open = () => this.setState({ open: true });
-  close = () => this.setState({ open: false });
+  public render() {
+    return (
+      <div>
+        {this.state.open && <SidePageWithLeftPosition close={this.close} />}
+        <Button onClick={this.open}>Open SidePage</Button>
+      </div>
+    );
+  }
 
-  render = () => (
-    <div>
-      {this.state.open && <SidePageWithLeftPosition close={this.close} />}
-      <Button onClick={this.open}>Open SidePage</Button>
-    </div>
-  );
+  private open = () => this.setState({ open: true });
+  private close = () => this.setState({ open: false });
 }
 
 storiesOf('SidePage', module)
@@ -411,4 +424,10 @@ storiesOf('SidePage', module)
       <SidePage.Header>Disabled</SidePage.Header>
       <SidePage.Body>Content of disabled body</SidePage.Body>
     </SidePage>
+  ))
+  .add('SidePage with left position', () => (
+    <SidePageWithLeftPosition close={() => undefined} disableAnimations />
+  ))
+  .add('Open SidePage with left position', () => (
+    <OpenSidePageWithLeftPosition />
   ));

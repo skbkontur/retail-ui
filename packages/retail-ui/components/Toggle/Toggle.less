@@ -1,0 +1,222 @@
+@import '../variables.less';
+
+@containerHeight: 20px;
+@containerWidth: 34px;
+@handleSize: 18px;
+@handleActiveSize: 22px;
+
+@transitionBG: 0.2s ease-in;
+@transitionHandle: 0.2s ease-in;
+
+@error-color: @toggle-bg-error;
+@warning-color: @toggle-bg-warning;
+
+:local {
+  .containerNotChecked(@colorBorder, @colorLoading) {
+    border: 1px solid @colorBorder;
+    transition: @transitionBG;
+
+    .bg__left {
+      background: @toggle-bg-active;
+      transition: @transitionBG;
+    }
+    .bg__right {
+      background: none;
+      transition: @transitionBG;
+    }
+    .handle {
+      right: 14px;
+      transition: @transitionHandle;
+    }
+    .bg__wrap {
+      left: -16px;
+      transition: @transitionHandle;
+    }
+
+    &:active {
+      .handle {
+        right: 10px;
+        width: @handleActiveSize;
+        transition: @transitionHandle;
+      }
+    }
+
+    &.isLoading {
+      .bg__left {
+        background: @colorLoading;
+        transition: @transitionBG;
+      }
+      .bg__right {
+        background: @colorLoading;
+        transition: @transitionBG;
+      }
+      .bg__wrap {
+        left: -2px;
+        transition: @transitionHandle;
+      }
+      border: 1px solid @colorLoading;
+      transition: @transitionBG;
+    }
+
+    &:focus {
+      outline: none;
+      border: 1px solid @toggle-focus-shadow-color;
+      box-shadow: 0 0 0 1px @toggle-focus-shadow-color;
+    }
+  }
+
+  .containerChecked(@color, @colorBorderLoading) {
+    &.isChecked {
+      border: 1px solid @color;
+      transition: @transitionBG;
+
+      .bg__left {
+        background: @color;
+        transition: @transitionBG;
+      }
+      .bg__right {
+        background: @color;
+        transition: @transitionBG;
+      }
+      .handle {
+        right: 0;
+        transition: @transitionHandle;
+      }
+      .bg__wrap {
+        left: -2px;
+        transition: @transitionHandle;
+      }
+
+      &:active {
+        .handle {
+          right: 0;
+          width: @handleActiveSize;
+          transition: @transitionHandle;
+        }
+      }
+
+      &.isLoading {
+        .bg__left {
+          background: @toggle-bg-active;
+          transition: @transitionBG;
+        }
+        .bg__right {
+          background: none;
+          transition: @transitionBG;
+        }
+        .bg__container {
+          left: 0;
+        }
+        border: 1px solid @colorBorderLoading;
+        transition: @transitionBG;
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 1px @toggle-focus-shadow-color,
+          inset 0 0 0 1px #ffffff;
+        border: 1px solid @toggle-focus-shadow-color;
+        transition: 0s;
+
+        .bg__container {
+          top: 1px;
+          bottom: 1px;
+          left: 1px;
+          right: 0;
+          transition: 0s;
+        }
+      }
+    }
+  }
+
+  .container {
+    position: relative;
+    display: inline-block;
+    width: @containerWidth;
+    height: @containerHeight;
+    box-sizing: border-box;
+    border-radius: @containerHeight / 2;
+    cursor: pointer;
+
+    &.isDefault {
+      .containerNotChecked(@toggle-border-color, @toggle-bg-checked);
+      .containerChecked(@toggle-bg-checked, @toggle-border-color);
+    }
+    &.isWarning {
+      .containerNotChecked(@warning-color, @warning-color);
+      .containerChecked(@warning-color, @warning-color);
+    }
+    &.isError {
+      .containerNotChecked(@error-color, @error-color);
+      .containerChecked(@error-color, @error-color);
+    }
+
+    &.isDisabled {
+      pointer-events: none;
+      background: @bg-disabled;
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    &:hover {
+      .handle {
+        background-image: linear-gradient(-180deg, #f1f1f1, #dedede);
+      }
+    }
+
+    &.isWarning {
+      border: 1px solid @warning-color;
+      box-shadow: 0 0 0 1px @warning-color;
+    }
+
+    &.isError {
+      border: 1px solid @error-color;
+      box-shadow: 0 0 0 1px @error-color;
+    }
+
+    &:after {
+      content: ' ';
+      display: inline-block;
+    }
+  }
+
+  .bg__container {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    bottom: 0;
+    border-radius: 10px;
+
+    left: -0.6px;
+    right: -0.6px;
+  }
+  .bg__wrap {
+    position: absolute;
+    height: 100%;
+    width: 50px;
+    left: -16px;
+  }
+  .bg__left,
+  .bg__right {
+    display: inline-block;
+    height: 100%;
+    width: 50%;
+  }
+  .bg__left {
+    display: inline-block;
+  }
+  .bg__right {
+    display: inline-block;
+  }
+  .handle {
+    height: 18px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-radius: @handleSize / 2;
+    width: @handleSize;
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
+    background-image: linear-gradient(-180deg, #ffffff, #ebebeb);
+    will-change: right, width;
+  }
+}

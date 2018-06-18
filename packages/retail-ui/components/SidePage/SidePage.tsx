@@ -2,7 +2,6 @@ import * as events from 'add-event-listener';
 import classNames from 'classnames';
 import { EventSubscription } from 'fbemitter';
 import * as React from 'react';
-import { CSSTransitionGroupTransitionName } from 'react';
 import LayoutEvents from '../../lib/LayoutEvents';
 import stopPropagation from '../../lib/events/stopPropagation';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
@@ -220,7 +219,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     return sidePageStyle;
   }
 
-  private getTransitionNames(): CSSTransitionGroupTransitionName {
+  private getTransitionNames() {
     const direction: 'right' | 'left' = this.props.fromLeft ? 'right' : 'left';
     const transitionEnter =
       styles[

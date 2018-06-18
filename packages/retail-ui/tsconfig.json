@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
     "strict": true,
@@ -10,10 +11,5 @@
     "declaration": true,
     "esModuleInterop": true,
     "noUnusedLocals": true
-  },
-  "exclude": [
-    "**/node_modules",
-    "**/components/**/__tests__",
-    "**/components/**/__stories__"
-  ]
+  }
 }

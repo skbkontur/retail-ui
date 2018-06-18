@@ -114,12 +114,12 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
 class VerticalScrollCounter {
   static increment = (): number => {
     const counter = global.RetailUIVerticalScrollCounter || 0;
-    return (global.RetailUIVerticalScrollCounter = counter + 1);
+    return global.RetailUIVerticalScrollCounter = counter + 1;
   };
 
   static decrement = (): number => {
     const counter = global.RetailUIVerticalScrollCounter || 0;
-    return (global.RetailUIVerticalScrollCounter = counter - 1);
+    return global.RetailUIVerticalScrollCounter = counter - 1;
   };
 
   static get = (): number => {
@@ -129,9 +129,7 @@ class VerticalScrollCounter {
 
 function generateClassName(className) {
   const compName = HideBodyVerticalScroll.name;
-  const hash = Math.random()
-    .toString(16)
-    .slice(2, 6);
+  const hash = Math.random().toString(16).slice(2, 6);
   return `${compName}-${className}-${hash}`;
 }
 

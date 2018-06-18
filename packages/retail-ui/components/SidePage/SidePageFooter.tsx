@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { SidePageContext } from './SidePageContext';
+import { SidePageContext, SidePageContextType } from './SidePageContext';
 import styles from './SidePage.less';
 
 export interface SidePageFooterProps {
@@ -24,7 +24,7 @@ export default class SidePageFooter extends React.Component<
       <tr>
         <td className={styles.layoutItem}>
           <SidePageContext.Consumer>
-            {({ width }) => (
+            {({ width }: SidePageContextType) => (
               <div
                 style={{
                   position: 'fixed',

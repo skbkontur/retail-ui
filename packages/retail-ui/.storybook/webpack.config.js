@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const WatchExternalFilesPlugin = require('webpack-watch-files-plugin').default;
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -8,6 +9,9 @@ module.exports = (baseConfig, env) => {
   const config = baseConfig;
 
   config.resolve.extensions.unshift('.ts', '.tsx');
+  config.resolve.plugins = [
+    new TsconfigPathsPlugin({ configFile: path.resolve("./tsconfig.json") })
+  ];
 
   config.module.rules.push(
     {

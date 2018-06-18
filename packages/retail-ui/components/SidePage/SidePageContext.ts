@@ -5,7 +5,7 @@ import createReactContext = require('create-react-context');
 
 export interface SidePageContextType {
   requestClose: () => void;
-  width: number | string | undefined;
+  width: React.CSSProperties["width"];
 }
 
 export const SidePageContext = createReactContext<SidePageContextType>({
