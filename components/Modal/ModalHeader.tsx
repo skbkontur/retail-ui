@@ -11,7 +11,7 @@ export interface HeaderProps {
 }
 
 export class Header extends React.Component<HeaderProps> {
-  public render() {
+  public render(): JSX.Element {
     return (
       <ModalContext.Consumer>
         {({ close }) => (

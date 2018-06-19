@@ -109,7 +109,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     ModalStack.remove(this);
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { disableAnimations } = this.props;
 
     return (

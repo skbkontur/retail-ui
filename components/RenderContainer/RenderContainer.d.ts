@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-export interface RenderContainerProps {
-  children?: React.ReactNode;
-}
+export interface RenderContainerProps {}
 
 export interface RenderContainerState {}
 

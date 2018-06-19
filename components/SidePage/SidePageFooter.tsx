@@ -19,7 +19,7 @@ export interface SidePageFooterProps {
 export default class SidePageFooter extends React.Component<
   SidePageFooterProps
 > {
-  public render() {
+  public render(): JSX.Element {
     return (
       <tr>
         <td className={styles.layoutItem}>

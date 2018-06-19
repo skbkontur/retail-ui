@@ -12,7 +12,7 @@ export interface SidePageHeaderProps {
 export default class SidePageHeader extends React.Component<
   SidePageHeaderProps
 > {
-  public render() {
+  public render(): JSX.Element {
     return (
       <tr>
         <td className={styles.layoutItem}>

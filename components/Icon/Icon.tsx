@@ -278,7 +278,7 @@ class Icon extends React.Component<IconProps> {
     }
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { name, color, size } = this.props;
     const style = {
       color,

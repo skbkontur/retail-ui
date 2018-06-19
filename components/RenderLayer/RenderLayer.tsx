@@ -6,7 +6,7 @@ import listenFocusOutside, {
 } from '../../lib/listenFocusOutside';
 
 export interface RenderLayerProps {
-  children?: React.ReactNode;
+  children: JSX.Element;
   onClickOutside?: (e: Event) => void;
   onFocusOutside?: (e: Event) => void;
   active?: boolean;
@@ -29,7 +29,7 @@ class RenderLayer extends React.Component<RenderLayerProps> {
     this.detachListeners();
   }
 
-  public render() {
+  public render(): JSX.Element {
     return this.props.children;
   }
 
