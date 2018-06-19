@@ -1,5 +1,4 @@
-
-import { ButtonProps, ButtonUse, ButtonSize } from '../Button/Button';
+import { ButtonUse, ButtonSize } from '../Button/Button';
 
 import events from 'add-event-listener';
 import classNames from 'classnames';
@@ -20,13 +19,14 @@ import RenderLayer from '../RenderLayer';
 import Item from './Item';
 
 import styles from './Select.less';
+import { IconName } from '../Icon';
 
-export type ButtonParams = {
-  disabled?: boolean,
-  label: React.ReactNode,
-  onClick: () => void,
-  onKeyDown: (event: SyntheticKeyboardEvent<any>) => void,
-  opened: boolean
+export interface ButtonParams {
+  disabled?: boolean;
+  label: React.ReactNode;
+  onClick: () => void;
+  onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
+  opened: boolean;
 };
 
 const PASS_BUTTON_PROPS = {
@@ -48,7 +48,7 @@ export interface SelectProps<TValue, TItem> {
   _renderButton?: (params: ButtonParams) => React.ReactNode;
   defaultValue?: TValue;
   /** @ignore */
-  diadocLinkIcon?: string;
+  diadocLinkIcon?: IconName;
   disablePortal?: boolean;
   disabled?: boolean;
   error?: boolean;
@@ -264,17 +264,19 @@ class Select<TValue, TItem> extends React.Component<
       return this.renderLinkButton(params);
     }
 
-    const buttonProps = {
-      ...filterProps(this.props, PASS_BUTTON_PROPS),
-
-      align: 'left' as React.CSSProperties['textAlign'],
-      disabled: this.props.disabled,
-      _noPadding: true,
-      width: '100%',
-      onClick: params.onClick,
-      onKeyDown: params.onKeyDown,
-      active: params.opened
-    };
+    const buttonProps = Object.assign(
+      {},
+      filterProps(this.props, PASS_BUTTON_PROPS) as Shape<SelectProps<TValue, TItem>>,
+      {
+        align: 'left' as React.CSSProperties['textAlign'],
+        disabled: this.props.disabled,
+        _noPadding: true,
+        width: '100%',
+        onClick: params.onClick,
+        onKeyDown: params.onKeyDown,
+        active: params.opened
+      }
+    );
 
     if (this.props._icon) {
       Object.assign(buttonProps, {
@@ -338,7 +340,7 @@ class Select<TValue, TItem> extends React.Component<
 
     return (
       <DropdownContainer
-        getParent={() => ReactDOM.findDOMNode(this)}
+        getParent={this.dropdownContainerGetParent}
         offsetY={-1}
         ref={this._refMenuContainer}
         align={this.props.menuAlign}
@@ -358,18 +360,24 @@ class Select<TValue, TItem> extends React.Component<
               i: number,
               comment: Nullable<React.ReactNode>
             ) => {
-              if (typeof item === 'function' || React.isValidElement(item)) {
-                return React.cloneElement(
-                  typeof item === 'function' ? item() : item,
-                  { key: i }
-                );
+              if (typeof item === 'function') {
+                const element = item();
+                
+                if (React.isValidElement(element)) {
+                  return React.cloneElement(element, { key: i });
+                }
+
+                return null;
+              }
+
+              if (React.isValidElement(item)) {
+                return React.cloneElement(item, { key: i });
               }
 
               return (
                 <MenuItem
                   key={i}
                   state={
-                    /* $FlowIssue */
                     this.props.areValuesEqual(iValue, value) ? 'selected' : null
                   }
                   onClick={this._select.bind(this, iValue)}
@@ -383,6 +391,10 @@ class Select<TValue, TItem> extends React.Component<
         </Menu>
       </DropdownContainer>
     );
+  }
+
+  private dropdownContainerGetParent = () => {
+    return ReactDOM.findDOMNode(this);
   }
 
   private _focusInput = (input: Input) => {
@@ -469,7 +481,7 @@ class Select<TValue, TItem> extends React.Component<
 
   private _focus = () => {
     const node = ReactDOM.findDOMNode(this);
-    if (node) {
+    if (node && node instanceof HTMLElement) {
       node.focus();
     }
   };
@@ -500,7 +512,7 @@ class Select<TValue, TItem> extends React.Component<
     return this.state.value;
   }
 
-  private _mapItems(fn) {
+  private _mapItems(fn: (value: TValue, item: TItem, index: number, comment?: string) => React.ReactNode) {
     const { items } = this.props;
     if (!items) {
       return [];
@@ -508,13 +520,12 @@ class Select<TValue, TItem> extends React.Component<
     const pattern =
       this.state.searchPattern && this.state.searchPattern.toLowerCase();
 
-    const result = [];
+    const result: React.ReactNodeArray = [];
     let index = 0;
     for (const entry of items) {
-      const [value, item, comment] = normalizeEntry(entry);
-      // $FlowIssue
+      const [value, item, comment] = normalizeEntry(entry as TItem);
+
       if (!pattern || this.props.filterItem(value, item, pattern)) {
-        // $FlowIssue
         result.push(fn(value, item, index, comment));
         ++index;
       }
@@ -523,7 +534,7 @@ class Select<TValue, TItem> extends React.Component<
     return result;
   }
 
-  private _getItemByValue(value?: TValue) {
+  private _getItemByValue(value?: Nullable<TValue>) {
     if (value === null || value === undefined) {
       return null;
     }
