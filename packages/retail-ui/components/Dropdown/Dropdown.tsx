@@ -7,6 +7,7 @@ import MenuHeader from '../MenuHeader/MenuHeader';
 import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import Select from '../Select';
+import { IconName } from '../Icon';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -30,11 +31,22 @@ const PASS_PROPS = {
   diadocLinkIcon: true
 };
 
+export interface DropdownProps {
+  caption: React.ReactNode;
+  icon: IconName;
+}
+
+export type DropdownSelectType = Select
+
 /**
  * Выпадающее меню.
  */
-export default class Dropdown extends React.Component {
-  static propTypes = {
+export default class Dropdown extends React.Component<DropdownProps> {
+  public static Header = MenuHeader;
+  public static MenuItem = MenuItem;
+  public static Separator = MenuSeparator;
+
+  public static propTypes = {
     /**
      * Подпись на кнопке.
      */
@@ -97,48 +109,42 @@ export default class Dropdown extends React.Component {
     onOpen: PropTypes.func
   };
 
-  constructor(props) {
-    super(props);
-  }
+  private _select: Nullable<DropdownSelectType> = null;
 
-  render() {
+  public render() {
     const items = React.Children.map(this.props.children, item => item);
 
     return (
      <Select
-       ref={this._refSelect}
-       {...filterProps(this.props, PASS_PROPS)}
-       value={this.props.caption}
-       items={items}
-       _icon={this.props.icon}
-       renderValue={renderValue}
+        // TODO: разобраться с типом для рефа
+        // @ts-ignore
+        ref={this._refSelect}
+        {...filterProps(this.props, PASS_PROPS)}
+        value={this.props.caption}
+        items={items}
+        _icon={this.props.icon}
+        renderValue={renderValue}
      />
     );
   }
 
-  _refSelect = select => {
-    this._select = select;
+  public open() {
+    if (this._select) {
+      this._select.open();
+    }
+  }
+
+  public close() {
+    if (this._select) {
+      this._select.close();
+    }
+  }
+
+  private _refSelect = (element: DropdownSelectType) => {
+    this._select = element;
   };
-
-  /**
-   * @public
-   */
-  open() {
-    this._select.open();
-  }
-
-  /**
-   * @public
-   */
-  close() {
-    this._select.close();
-  }
 }
 
-function renderValue(value) {
+function renderValue(value: any) {
   return value;
 }
-
-Dropdown.Header = MenuHeader;
-Dropdown.MenuItem = MenuItem;
-Dropdown.Separator = MenuSeparator;

@@ -27,7 +27,7 @@ export interface ButtonParams {
   onClick: () => void;
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   opened: boolean;
-};
+}
 
 const PASS_BUTTON_PROPS = {
   disabled: true,
@@ -67,22 +67,25 @@ export interface SelectProps<TValue, TItem> {
   placeholder?: React.ReactNode;
   renderItem: (value: TValue, item: TItem) => React.ReactNode;
   renderValue: (value: Nullable<TValue>, item: TItem) => React.ReactNode;
-  areValuesEqual: (value1: Nullable<TValue>, value2: Nullable<TValue>) => boolean;
+  areValuesEqual: (
+    value1: Nullable<TValue>,
+    value2: Nullable<TValue>
+  ) => boolean;
   search?: boolean;
   value?: Nullable<TValue>;
   width?: number | string;
   warning?: boolean;
   use?: ButtonUse;
   size?: ButtonSize;
-};
+}
 
 export interface SelectState<TValue> {
   opened: boolean;
   searchPattern?: string;
   value: Nullable<TValue>;
-};
+}
 
-class Select<TValue, TItem> extends React.Component<
+class Select<TValue = {}, TItem = {}> extends React.Component<
   SelectProps<TValue, TItem>,
   SelectState<TValue>
 > {
@@ -180,7 +183,9 @@ class Select<TValue, TItem> extends React.Component<
 
   public static Item = Item;
   public static SEP = () => <MenuSeparator />;
-  public static static = (element: React.ReactNode | (() => React.ReactNode)) => {
+  public static static = (
+    element: React.ReactNode | (() => React.ReactNode)
+  ) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
       'Select.static(element) expects element to be a valid react element.'
@@ -266,7 +271,9 @@ class Select<TValue, TItem> extends React.Component<
 
     const buttonProps = Object.assign(
       {},
-      filterProps(this.props, PASS_BUTTON_PROPS) as Shape<SelectProps<TValue, TItem>>,
+      filterProps(this.props, PASS_BUTTON_PROPS) as Shape<
+        SelectProps<TValue, TItem>
+      >,
       {
         align: 'left' as React.CSSProperties['textAlign'],
         disabled: this.props.disabled,
@@ -362,7 +369,7 @@ class Select<TValue, TItem> extends React.Component<
             ) => {
               if (typeof item === 'function') {
                 const element = item();
-                
+
                 if (React.isValidElement(element)) {
                   return React.cloneElement(element, { key: i });
                 }
@@ -395,7 +402,7 @@ class Select<TValue, TItem> extends React.Component<
 
   private dropdownContainerGetParent = () => {
     return ReactDOM.findDOMNode(this);
-  }
+  };
 
   private _focusInput = (input: Input) => {
     if (input) {
@@ -427,7 +434,6 @@ class Select<TValue, TItem> extends React.Component<
     if (!this.state.opened) {
       this.setState({ opened: true });
 
-      const { onOpen } = this.props;
       if (this.props.onOpen) {
         this.props.onOpen();
       }
@@ -439,7 +445,7 @@ class Select<TValue, TItem> extends React.Component<
       this.setState({ opened: false });
 
       if (this.props.onClose) {
-        this.props.onClose()
+        this.props.onClose();
       }
     }
 
@@ -512,7 +518,14 @@ class Select<TValue, TItem> extends React.Component<
     return this.state.value;
   }
 
-  private _mapItems(fn: (value: TValue, item: TItem, index: number, comment?: string) => React.ReactNode) {
+  private _mapItems(
+    fn: (
+      value: TValue,
+      item: TItem,
+      index: number,
+      comment?: string
+    ) => React.ReactNode
+  ) {
     const { items } = this.props;
     if (!items) {
       return [];
