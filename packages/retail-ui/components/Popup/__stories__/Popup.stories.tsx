@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Popup from '../Popup';
 
-const AllCases = ({ small }) => (
+const AllCases = ({ small }: { small: boolean }) => (
   <div style={{ transform: 'translate(50%, 15%)' }}>
     <table>
       <tbody>
@@ -127,22 +127,30 @@ storiesOf('Popup', module).add('All pin opened', () => <AllCases small={false} /
     </div>
   ));
 
-class AlwaysOpened extends Component<any, any> {
+interface AlwaysOpenedProps {
+  small: boolean;
+  positions: string[];
+}
+
+interface AlwaysOpenedState {
   anchor: Nullable<HTMLElement>;
+}
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
+  public state: AlwaysOpenedState = {
+    anchor: null
+  };
 
-  componentDidMount() {
+  private anchor: Nullable<HTMLElement>;
+
+  public componentDidMount() {
     this.setState({
       anchor: this.anchor
     });
   }
 
-  render() {
-    const defaultStyle = {
+  public render() {
+    const defaultStyle: React.CSSProperties = {
       width: '80px',
       height: '80px',
       margin: '20px',
@@ -151,7 +159,7 @@ class AlwaysOpened extends Component<any, any> {
       fontSize: '40px'
     };
 
-    const style = this.props.small
+    const style: React.CSSProperties = this.props.small
       ? {
           ...defaultStyle,
           width: '20',
@@ -162,13 +170,11 @@ class AlwaysOpened extends Component<any, any> {
 
     return (
       <div>
-        <div ref={e => (this.anchor = e)} style={style}>
+        <div ref={this._handleRef} style={style}>
           x
         </div>
         {this.state.anchor && (
           <Popup
-            onClickOutside={this._clickHandler}
-            onFocusOutside={this._clickHandler}
             anchorElement={this.state.anchor}
             popupOffset={0}
             opened={true}
@@ -195,32 +201,27 @@ class AlwaysOpened extends Component<any, any> {
     );
   }
 
-  _handleRef = e => {
+  private _handleRef = (e: HTMLDivElement) => {
     this.anchor = e;
   };
-
-  _clickHandler = e => {};
 }
 
-// eslint-disable-next-line react/no-multi-comp
+
 class PopupWithPositions extends Component<any, any> {
-  anchor: Nullable<HTMLElement>;
+  public state = {
+    opened: false,
+    anchor: null
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      opened: false,
-      anchor: null
-    };
-  }
+  private anchor: Nullable<HTMLElement>;
 
-  componentDidMount() {
+  public componentDidMount() {
     this.setState({
       anchor: this.anchor
     });
   }
 
-  render() {
+  public render() {
     return (
       <div>
         <div
@@ -257,34 +258,34 @@ class PopupWithPositions extends Component<any, any> {
     );
   }
 
-  _handleRef = e => {
-    this.anchor = e;
+  private _handleRef = (element: HTMLDivElement) => {
+    this.anchor = element;
   };
 
-  _handleClick = () => {
-    this.setState(state => ({ opened: !state.opened }));
+  private _handleClick = () => {
+    const currentOpened = this.state.opened;
+    this.setState({ opened: !currentOpened });
   };
 
-  _clickHandler = e => {
+  private _clickHandler = () => {
     this.setState({ opened: false });
   };
 }
 
 class Hint extends Component<any, any> {
-  anchor: Nullable<HTMLElement>;
+  public state = {
+    anchor: null
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  private anchor: Nullable<HTMLElement>;
 
-  componentDidMount() {
+  public componentDidMount() {
     this.setState({
       anchor: this.anchor
     });
   }
 
-  render() {
+  public render() {
     return (
       <div>
         <div
@@ -295,13 +296,10 @@ class Hint extends Component<any, any> {
         </div>
         {this.state.anchor && (
           <Popup
-            onClickOutside={this._clickHandler}
-            onFocusOutside={this._clickHandler}
             anchorElement={this.state.anchor}
             opened={true}
             positions={this.props.positions}
             margin={this.props.margin}
-            order={this.props.order}
             backgroundColor={'rgba(0, 0, 0, 0.65)'}
             hasShadow={false}
             hasPin={true}
@@ -314,25 +312,23 @@ class Hint extends Component<any, any> {
       </div>
     );
   }
-  _clickHandler = e => {};
 }
 
-// eslint-disable-next-line react/no-multi-comp
+
 class Toast extends Component<any, any> {
-  anchor: Nullable<HTMLElement>;
+  public state = {
+    anchor: null
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  private anchor: Nullable<HTMLElement>;
 
-  componentDidMount() {
+  public componentDidMount() {
     this.setState({
       anchor: this.anchor
     });
   }
 
-  render() {
+  public render() {
     return (
       <div>
         <div
@@ -343,8 +339,6 @@ class Toast extends Component<any, any> {
         </div>
         {this.state.anchor && (
           <Popup
-            onClickOutside={this._clickHandler}
-            onFocusOutside={this._clickHandler}
             anchorElement={this.state.anchor}
             opened={true}
             positions={this.props.positions}
@@ -360,5 +354,4 @@ class Toast extends Component<any, any> {
       </div>
     );
   }
-  _clickHandler = e => {};
 }

@@ -44,10 +44,7 @@ describe('Pager', () => {
     const wrapper = mount(
       <Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />
     );
-    wrapper
-      .find(`span.${PagingStyles.pageLink}`)
-      .at(1)
-      .simulate('click');
+    wrapper.find(`span.${PagingStyles.pageLink}`).at(1).simulate('click');
     expect(onPageChange).toHaveBeenCalled();
   });
 
@@ -56,10 +53,7 @@ describe('Pager', () => {
     const wrapper = mount(
       <Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />
     );
-    wrapper
-      .find(`span.${PagingStyles.pageLink}`)
-      .at(1)
-      .simulate('click');
+    wrapper.find(`span.${PagingStyles.pageLink}`).at(1).simulate('click');
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 
@@ -75,10 +69,7 @@ describe('Pager', () => {
     const wrapper = mount(
       <Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />
     );
-    wrapper
-      .find(`span.${PagingStyles.forwardLink}`)
-      .at(0)
-      .simulate('click');
+    wrapper.find(`span.${PagingStyles.forwardLink}`).at(0).simulate('click');
     expect(onPageChange).toHaveBeenCalled();
   });
 
@@ -87,10 +78,7 @@ describe('Pager', () => {
     const wrapper = mount(
       <Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />
     );
-    wrapper
-      .find(`span.${PagingStyles.forwardLink}`)
-      .at(0)
-      .simulate('click');
+    wrapper.find(`span.${PagingStyles.forwardLink}`).at(0).simulate('click');
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 

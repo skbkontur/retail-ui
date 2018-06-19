@@ -83,7 +83,9 @@ class CustomComboBox extends React.Component<
   CustomComboBoxState<any>
 > {
   public state: CustomComboBoxState<any> = DefaultState;
+  // @ts-ignore FIXME:
   private input: Nullable<Input>;
+  // @ts-ignore FIXME:
   private menu: Nullable<Menu>;
   private focused: boolean = false;
 

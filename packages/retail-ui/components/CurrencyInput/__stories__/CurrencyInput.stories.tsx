@@ -1,4 +1,4 @@
-
+// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import CurrencyInput from '../CurrencyInput';
@@ -6,24 +6,24 @@ import Gapped from '../../Gapped';
 import Button from '../../Button';
 import Toggle from '../../Toggle';
 
-type Props = {
-  borderless?: boolean
+interface CurrencyInputDemoProps {
+  borderless?: boolean;
 };
 
-type CurrencyInputDemoState = {
-  value: Nullable<number>,
-  signed: boolean,
-  digits: Nullable<number>
+interface CurrencyInputDemoState {
+  value: Nullable<number>;
+  signed: boolean;
+  digits: Nullable<number>;
 };
 
-class CurrencyInputDemo extends React.Component<Props, CurrencyInputDemoState> {
-  state = {
+class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, CurrencyInputDemoState> {
+  public state: CurrencyInputDemoState = {
     value: null,
     signed: false,
     digits: 2
   };
 
-  render() {
+  public render() {
     return (
       <Gapped vertical gap={20}>
         <Gapped gap={10}>
@@ -65,11 +65,11 @@ class CurrencyInputDemo extends React.Component<Props, CurrencyInputDemoState> {
     );
   }
 
-  _handleChange = (event: any, value: Nullable<number>) => {
+  private _handleChange = (event: any, value: Nullable<number>) => {
     this.setState({ value });
   };
 
-  _handleRand = () => {
+  private _handleRand = () => {
     const fraction = this.state.digits == null ? 4 : this.state.digits;
     const length = Math.min(15, 7 + fraction);
     const rand = Math.floor(Math.random() * Math.pow(10, length));
@@ -77,7 +77,7 @@ class CurrencyInputDemo extends React.Component<Props, CurrencyInputDemoState> {
     this.setState({ value });
   };
 
-  _handleDigits = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  private _handleDigits = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       value: null,
       digits:
@@ -85,14 +85,14 @@ class CurrencyInputDemo extends React.Component<Props, CurrencyInputDemoState> {
     });
   };
 
-  _handleSigned = (value: boolean) => {
+  private _handleSigned = (value: boolean) => {
     this.setState({
       value: null,
       signed: value
     });
   };
 
-  _formatValue = (value: Nullable<number>): string => {
+  private _formatValue = (value: Nullable<number>): string => {
     return value == null ? 'null' : value.toString();
   };
 }

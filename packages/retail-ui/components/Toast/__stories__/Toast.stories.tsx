@@ -11,7 +11,7 @@ class TestNotifier extends React.Component<any, any> {
     modal: false
   };
   
-  private notifier: Toast | null;
+  private notifier: Nullable<Toast>;
 
   public render() {
     return (

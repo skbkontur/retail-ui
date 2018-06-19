@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {
   KeyboardActionExctracterBuilder,
   isSeparator,
@@ -30,7 +30,7 @@ export const CURRENCY_INPUT_ACTIONS = {
 };
 
 export const extractAction = new KeyboardActionExctracterBuilder()
-  .add(CURRENCY_INPUT_ACTIONS.Submit, e => e.key === 'Enter')
+  .add(CURRENCY_INPUT_ACTIONS.Submit, (e: React.KeyboardEvent<HTMLElement>) => e.key === 'Enter')
   .add(
     CURRENCY_INPUT_ACTIONS.ExtendSelectionLeft,
     e => e.shiftKey && e.key === 'ArrowLeft'

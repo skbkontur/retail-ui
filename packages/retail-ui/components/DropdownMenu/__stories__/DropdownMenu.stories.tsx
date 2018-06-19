@@ -1,3 +1,4 @@
+// tslint:disable:jsx-no-lambda
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import MenuItem from '../../MenuItem';
@@ -52,7 +53,7 @@ storiesOf('DropdownMenu', module).addDecorator(story => (
     <DropdownMenu
       menuWidth="300px"
       caption={
-        <span tabIndex="0" style={{ display: 'inline-block' }}>
+        <span tabIndex={0} style={{ display: 'inline-block' }}>
           <Icon name="Menu" size={32} />
         </span>
       }
@@ -65,7 +66,7 @@ storiesOf('DropdownMenu', module).addDecorator(story => (
     <DropdownMenu
       menuWidth="300px"
       caption={
-        <span tabIndex="0" style={{ display: 'inline-block' }}>
+        <span tabIndex={0} style={{ display: 'inline-block' }}>
           <Icon name="Menu" size={32} />
         </span>
       }

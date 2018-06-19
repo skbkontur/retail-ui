@@ -1,4 +1,4 @@
-
+ // tslint:disable:jsx-no-lambda no-console
 import Button from '../../Button/index';
 import Gapped from '../../Gapped/index';
 import MockDate from '../../internal/MockDate';
@@ -9,40 +9,13 @@ import DatePicker from '../DatePicker';
 import Tooltip from '../../Tooltip/index';
 
 class DatePickerWithError extends React.Component<any, any> {
-  state = {
+  public state = {
     value: null,
     error: false,
     tooltip: false
   };
 
-  _handleChange = (_, value) => {
-    action('change')(_, value);
-    this.setState({
-      value
-    });
-  };
-
-  _unvalidate = () => {
-    this.setState({ error: false, tooltip: false });
-  };
-
-  _validate = () => {
-    this.setState(state => {
-      const error = !!state.value && !DatePicker.validate(state.value);
-      return {
-        error,
-        tooltip: error
-      };
-    });
-  };
-
-  _removeTooltip = () => {
-    this.setState(state => ({
-      tooltip: false
-    }));
-  };
-
-  render() {
+  public render() {
     return (
       <Gapped>
         <Tooltip
@@ -80,6 +53,34 @@ class DatePickerWithError extends React.Component<any, any> {
       </Gapped>
     );
   }
+
+  private _handleChange = (_: any, value: string) => {
+    action('change')(_, value);
+    this.setState({
+      value
+    });
+  };
+
+  private _unvalidate = () => {
+    this.setState({ error: false, tooltip: false });
+  };
+
+  private _validate = () => {
+    const currentValue = this.state.value;
+    this.setState(() => {
+      const error = !!currentValue && !DatePicker.validate(currentValue);
+      return {
+        error,
+        tooltip: error
+      };
+    });
+  };
+
+  private _removeTooltip = () => {
+    this.setState({
+      tooltip: false
+    });
+  };
 }
 
 const dateForMock = new Date('2017-01-02');
@@ -93,7 +94,9 @@ storiesOf('DatePicker', module).addDecorator(
           {story()}
         </div>
       ) : (
-        story()
+        <div>
+          {story()}
+        </div>
       )
   ).add('with mouseevent handlers', () => (
     <div style={{ paddingTop: 200 }}>

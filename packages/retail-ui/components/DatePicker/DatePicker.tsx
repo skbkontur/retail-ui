@@ -104,8 +104,13 @@ class DatePicker extends React.Component<DatePickerProps<string>, State> {
     maxDate: '31.12.2099'
   };
 
-  public static validate = (value: string) =>
-    isValidDate(parseDateString(value));
+  public static validate = (value: Nullable<string>) => {
+    if (!value) {
+      return false;
+    }
+
+    return isValidDate(parseDateString(value));
+  }
 
   private input: DateInput | null = null;
 

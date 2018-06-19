@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import Sticky from '../Sticky';
-import { SidePageContext } from './SidePageContext';
+import { SidePageContext, SidePageContextType } from './SidePageContext';
 import styles from './SidePage.less';
 
 export interface SidePageHeaderProps {
@@ -38,7 +38,7 @@ export default class SidePageHeader extends React.Component<
   public renderClose() {
     return (
       <SidePageContext.Consumer>
-        {({ requestClose }) => (
+        {({ requestClose }: SidePageContextType) => (
           <a href="javascript:" className={styles.close} onClick={requestClose}>
             <span>×</span>
           </a>

@@ -11,5 +11,9 @@
     "declaration": true,
     "esModuleInterop": true,
     "noUnusedLocals": true
-  }
+  },
+  "exclude": [
+    "**/__tests__",
+    "**/__mocks__"
+  ]
 }

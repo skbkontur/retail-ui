@@ -1,4 +1,3 @@
-
 import PropTypes from 'prop-types';
 import * as React from 'react';
 
@@ -7,8 +6,7 @@ import cloudImage from './cloud.png';
 
 const hasSVGSupport = () => 'SVGSVGElement' in window;
 
-/* eslint-disable max-len */
-const createCloud = color => (
+const createCloud = (color: string) => (
   <svg width="24" height="17" viewBox="0 0 24 17" className={styles.cloud}>
     <path
       fill={color}
@@ -16,10 +14,8 @@ const createCloud = color => (
     />
   </svg>
 );
-/* eslint-enable max-len */
 
-// eslint-disable-next-line react/no-multi-comp
-const createPngCloud = backgroundColor => (
+const createPngCloud = (backgroundColor: string) => (
   <div style={{ backgroundColor }} className={styles.cloud}>
     <div
       style={{ backgroundImage: `url('${cloudImage}')` }}
@@ -28,22 +24,21 @@ const createPngCloud = backgroundColor => (
   </div>
 );
 
-type Props = {
-  color?: string,
-  component: React.ComponentType<*> | string,
-  href?: string,
-  suffix?: string,
-  textColor?: string
+export interface LogotypeProps {
+  color?: string;
+  component: React.ComponentType<any> | string;
+  href?: string;
+  suffix?: string;
+  textColor?: string;
 };
 
-// eslint-disable-next-line react/no-multi-comp
-const Logotype = ({
-  color,
-  textColor,
-  component: Component,
+const Logotype: React.SFC<LogotypeProps> = ({
+  color = DefaultProps.color,
+  textColor = DefaultProps.textColor,
+  component: Component = DefaultProps.component,
   suffix,
-  href
-}: Props) => (
+  href = DefaultProps.href
+}) => (
   <Component href={href} tabIndex="-1" className={styles.root}>
     <span style={{ color: textColor }}>к</span>
     <span style={{ color }}>
@@ -54,7 +49,7 @@ const Logotype = ({
   </Component>
 );
 
-Logotype.defaultProps = {
+const DefaultProps = {
   color: '#D92932',
   textColor: '#000',
   component: 'a',

@@ -6,7 +6,7 @@ import Kebab from '../Kebab';
 import MenuItem from '../../MenuItem';
 import { manyItemsList, defaultItemsList } from './Kebab.items';
 
-type KebabItem = {
+interface KebabItem {
   text: string,
   action: string
 };
@@ -35,9 +35,9 @@ class SomethingWithKebab extends Component<{
   items?: KebabItem[],
   menuMaxHeight?: string | number
 }> {
-  render() {
+  public render() {
     const itemsList = this.props.items || defaultItemsList;
-    const menuItems = itemsList.map((item, index) => {
+    const menuItems = itemsList.map((item: KebabItem, index: number) => {
       return (
         <MenuItem key={index} onClick={action(item.action)}>
           {item.text}

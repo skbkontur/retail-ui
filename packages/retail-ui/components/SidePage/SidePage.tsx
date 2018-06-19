@@ -16,7 +16,7 @@ import SidePageFooter from './SidePageFooter';
 import SidePageHeader from './SidePageHeader';
 import Transition from 'react-addons-css-transition-group';
 
-import styles from './SidePage.less';
+import styles = require('./SidePage.less');
 
 export interface SidePageProps {
   /**

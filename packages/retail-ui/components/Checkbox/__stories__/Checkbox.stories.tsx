@@ -65,7 +65,7 @@ storiesOf('Checkbox', module)
     </div>
   ))
   .add('programmatic focus', () => {
-    let checkbox;
+    let checkbox: Nullable<Checkbox>;
 
     function focus() {
       if (checkbox) {

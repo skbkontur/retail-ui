@@ -11,7 +11,7 @@ import { createPropsGetter } from '../internal/createPropsGetter';
 
 export interface AutocompleteProps extends InputProps {
   renderItem?: (item: string) => React.ReactNode;
-  source: string[] | ((patter: string) => Promise<string[]>);
+  source?: string[] | ((patter: string) => Promise<string[]>);
   disablePortal?: boolean;
   hasShadow?: boolean;
   menuAlign?: 'left' | 'right';
@@ -273,6 +273,11 @@ class Autocomplete extends React.Component<
     }
     const pattern = value.trim();
     const source = this.props.source;
+
+    if (!source) {
+      return;
+    }
+
     let promise;
     if (typeof source === 'function') {
       promise = source(pattern);

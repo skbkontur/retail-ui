@@ -1,19 +1,20 @@
-
-/* eslint-disable react/no-multi-comp */
+// tslint:disable:jsx-no-lambda
 import * as React from 'react';
-import { storiesOf, linkTo } from '@storybook/react';
+import { storiesOf } from '@storybook/react';
+import { linkTo } from '@storybook/addon-links';
 
 import Tabs from '../Tabs';
 import Modal from '../../Modal';
 import Button from '../../Button';
+import { TabProps } from '../Tab';
 const { Tab } = Tabs;
 
-class UncTabs extends React.Component<*, *> {
-  state = {
+class UncTabs extends React.Component<any, any> {
+  public state = {
     active: 'fuji'
   };
 
-  render() {
+  public render() {
     return (
       <Tabs
         value={this.state.active}
@@ -28,14 +29,14 @@ class UncTabs extends React.Component<*, *> {
   }
 }
 
-const RouteTab = props => (
+const RouteTab = (props: any) => (
   <Tab id={props.to} onClick={linkTo('Tabs', props.to)}>
     {props.children}
   </Tab>
 );
 
-class RouterTabs extends React.Component<*> {
-  render() {
+class RouterTabs extends React.Component<any> {
+  public render() {
     return (
       <div>
         <h2>Router Tabs</h2>
@@ -48,20 +49,20 @@ class RouterTabs extends React.Component<*> {
   }
 }
 
-class MyLink extends React.Component<*> {
-  render() {
+class MyLink extends React.Component<any> {
+  public render() {
     return <a {...this.props} />;
   }
 }
 
-const MyLinkTab = props => <Tab component={MyLink} {...props} />;
+const MyLinkTab = (props: TabProps) => <Tab component={MyLink} {...props} />;
 
-class TabsWithMyLink extends React.Component<*, *> {
-  state = {
+class TabsWithMyLink extends React.Component<any, any> {
+  public state = {
     active: 'fuji'
   };
 
-  render() {
+  public render() {
     return (
       <Tabs
         value={this.state.active}
@@ -76,12 +77,12 @@ class TabsWithMyLink extends React.Component<*, *> {
   }
 }
 
-class UnexpectedUpdatedTab extends React.Component<*, *> {
-  state = {
+class UnexpectedUpdatedTab extends React.Component<any, any> {
+  public state = {
     updated: false
   };
 
-  render() {
+  public render() {
     return (
       <Tab {...this.props}>
         {this.state.updated ? (
@@ -96,12 +97,12 @@ class UnexpectedUpdatedTab extends React.Component<*, *> {
   }
 }
 
-class OhMyTabs extends React.Component<*, *> {
-  state = {
+class OhMyTabs extends React.Component<any, any> {
+  public state = {
     active: 'fuji'
   };
 
-  render() {
+  public render() {
     return (
       <Tabs
         value={this.state.active}
@@ -122,12 +123,12 @@ class OhMyTabs extends React.Component<*, *> {
   }
 }
 
-class DisabledTab extends React.Component<*, *> {
-  state = {
+class DisabledTab extends React.Component<any, any> {
+  public state = {
     active: 'first'
   };
 
-  render() {
+  public render() {
     return (
       <Tabs
         value={this.state.active}
@@ -144,8 +145,8 @@ class DisabledTab extends React.Component<*, *> {
   }
 }
 
-class TabsInModal extends React.Component<*, *> {
-  state = {
+class TabsInModal extends React.Component<any, any> {
+  public state = {
     active: '1',
     opened: false,
     error: true,
@@ -154,7 +155,7 @@ class TabsInModal extends React.Component<*, *> {
     primary: true
   };
 
-  render() {
+  public render() {
     return (
       <div>
         {this.state.opened && this.renderModal()}
@@ -163,10 +164,10 @@ class TabsInModal extends React.Component<*, *> {
     );
   }
 
-  renderModal() {
-    const TabElement = function TabElement(props: {
-      style?: mixed,
-      children: React.Node
+  private renderModal() {
+    const TabElement = function GetTabElement(props: {
+      style?: React.CSSProperties,
+      children: React.ReactNode
     }) {
       return (
         <div style={{ marginLeft: 10, fontSize: 14, ...props.style }}>
@@ -246,36 +247,32 @@ class TabsInModal extends React.Component<*, *> {
     );
   }
 
-  open = () => {
+  private open = () => {
     this.setState({ opened: true });
   };
 
-  close = () => {
+  private close = () => {
     this.setState({ opened: false });
   };
 
-  toggleError = () => {
+  private toggleError = () => {
     this.setState({ error: !this.state.error });
   };
 
-  toggleWarning = () => {
+  private toggleWarning = () => {
     this.setState({ warning: !this.state.warning });
   };
 
-  toggleSuccess = () => {
+  private toggleSuccess = () => {
     this.setState({ success: !this.state.success });
   };
 
-  togglePrimary = () => {
+  private togglePrimary = () => {
     this.setState({ primary: !this.state.primary });
   };
 }
 
-storiesOf('Tabs', module)
-  .add('simple', () => <UncTabs />)
-  .add('first', () => <RouterTabs value="first" />)
-  .add('another', () => <RouterTabs value="another" />)
-  .add('hrefs first', () => (
+storiesOf('Tabs', module).add('simple', () => <UncTabs />).add('first', () => <RouterTabs value="first" />).add('another', () => <RouterTabs value="another" />).add('hrefs first', () => (
     <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
       <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
         Hrefs first
@@ -284,8 +281,7 @@ storiesOf('Tabs', module)
         Hrefs second
       </Tab>
     </Tabs>
-  ))
-  .add('hrefs second', () => (
+  )).add('hrefs second', () => (
     <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
       <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
         Hrefs first
@@ -294,9 +290,4 @@ storiesOf('Tabs', module)
         Hrefs second
       </Tab>
     </Tabs>
-  ))
-  .add('vertical', () => <UncTabs vertical />)
-  .add('with component', () => <TabsWithMyLink />)
-  .add('with unexpected tab size change', () => <OhMyTabs />)
-  .add('with disabled tab', () => <DisabledTab />)
-  .add('tabs in modal', () => <TabsInModal />);
+  )).add('vertical', () => <UncTabs vertical />).add('with component', () => <TabsWithMyLink />).add('with unexpected tab size change', () => <OhMyTabs />).add('with disabled tab', () => <DisabledTab />).add('tabs in modal', () => <TabsInModal />);

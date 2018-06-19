@@ -1,3 +1,4 @@
+// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
@@ -9,12 +10,12 @@ storiesOf('Autocomplete', module).add('simple', () => (
   )).add('with renderItem', () => (
     <UncontrolledAutocomplete
       source={['One', 'Two', 'Three']}
-      renderItem={x => <div>Item: {x.toUpperCase()}</div>}
+      renderItem={(x: string) => <div>Item: {x.toUpperCase()}</div>}
     />
   )).add('with big renderItem width', () => (
     <UncontrolledAutocomplete
       source={['One', 'Two', 'Three']}
-      renderItem={x => (
+      renderItem={(x: string) => (
         <div style={{ width: 400 }}>Item: {x.toUpperCase()}</div>
       )}
     />
@@ -29,17 +30,18 @@ storiesOf('Autocomplete', module).add('simple', () => (
         'Suspendisse potenti.',
         ' Sed dignissim lacinia nunc.'
       ]}
-      renderItem={x => <div>{x}</div>}
+      renderItem={(x: string) => <div>{x}</div>}
       menuWidth={400}
       menuMaxHeight={150}
     />
   )).add('with onBlur/onFocus handlers', () => <WithBlurFocusHandlersExample />);
 
 class UncontrolledAutocomplete extends React.Component<any, any> {
-  state = {
+  public state = {
     value: ''
   };
-  render() {
+
+  public render() {
     return (
       <Autocomplete
         {...this.props}
@@ -53,20 +55,22 @@ class UncontrolledAutocomplete extends React.Component<any, any> {
 }
 
 class WithBlurFocusHandlersExample extends React.Component<any, any> {
-  state = {
+  public state = {
     focusCount: 0,
     blurCount: 0
   };
-  render() {
+  public render() {
     return (
       <Gapped vertical>
         <UncontrolledAutocomplete
-          onFocus={() =>
-            this.setState(state => ({ focusCount: state.focusCount + 1 }))
-          }
-          onBlur={() =>
-            this.setState(state => ({ blurCount: state.blurCount + 1 }))
-          }
+          onFocus={() => {
+            const { focusCount } = this.state;
+            this.setState({ focusCount: focusCount + 1 });
+          }}
+          onBlur={() => {
+            const { blurCount } = this.state;
+            this.setState({ blurCount: blurCount + 1 });
+          }}
           source={'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'.split(
             ' '
           )}

@@ -12,10 +12,23 @@ import PopupHelper, { Rect, PositionObject } from './PopupHelper';
 import PopupPin from './PopupPin';
 import LayoutEvents from '../../lib/LayoutEvents';
 
-import styles from './Popup.less';
+import styles = require('./Popup.less');
 
 import { isIE, ieVerison } from '../ensureOldIEClassName';
 import { createPropsGetter } from '../internal/createPropsGetter';
+
+export type PopupPosition = 'top left' |
+'top center' |
+'top right' |
+'right top' |
+'right middle' |
+'right bottom' |
+'bottom left' |
+'bottom center' |
+'bottom right' |
+'left top' |
+'left middle' |
+'left bottom'
 
 export interface PopupProps {
   anchorElement: Nullable<HTMLElement>;
@@ -169,11 +182,11 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         <RenderContainer>
           <Transition
             transitionName={{
-              enter: styles['transition-enter-' + direction],
+              enter: styles[('transition-enter-' + direction) as keyof typeof styles],
               enterActive: styles['transition-enter-active'],
               leave: styles['transition-leave'],
               leaveActive: styles['transition-leave-active'],
-              appear: styles['transition-appear-' + direction],
+              appear: styles[('transition-appear-' + direction) as keyof typeof styles],
               appearActive: styles['transition-appear-active']
             }}
             transitionAppear={!disableAnimations}

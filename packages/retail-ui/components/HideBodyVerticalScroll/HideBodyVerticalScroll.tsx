@@ -7,15 +7,15 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import addClass from '../../lib/dom/addClass';
 import removeClass from '../../lib/dom/removeClass';
 
-type Props = {
-  allowScrolling?: boolean
+export interface HideBodyVerticalScrollProps {
+  allowScrolling?: boolean;
 };
 
-export default class HideBodyVerticalScroll extends React.Component<Props> {
-  _disposeDocumentStyle: (() => void) | null = null;
-  _disposeBodyStyle: (() => void) | null = null;
+export default class HideBodyVerticalScroll extends React.Component<HideBodyVerticalScrollProps> {
+  private _disposeDocumentStyle: (() => void) | null = null;
+  private _disposeBodyStyle: (() => void) | null = null;
 
-  componentDidMount() {
+  public componentDidMount() {
     const counter = VerticalScrollCounter.increment();
     if (counter === 1) {
       this._updateScrollVisibility();
@@ -23,7 +23,7 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
     }
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     const counter = VerticalScrollCounter.decrement();
     if (counter === 0) {
       this._updateScrollVisibility();
@@ -31,11 +31,11 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
     }
   }
 
-  render() {
+  public render() {
     return null;
   }
 
-  _updateScrollVisibility = () => {
+  private _updateScrollVisibility = () => {
     const { documentElement, body } = document;
     if (documentElement && body) {
       this._restoreStyles(documentElement, body);
@@ -52,14 +52,14 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
     }
   };
 
-  _makeSomeMagicWithScroll = (document: HTMLElement, body: HTMLElement) => {
+  private _makeSomeMagicWithScroll = (document: HTMLElement, body: HTMLElement) => {
     const documentComputedStyle = getComputedStyle(document);
     const bodyComputedStyle = getComputedStyle(body);
 
     if (this.props.allowScrolling) {
-      const documentMargin = parseFloat(documentComputedStyle.marginRight);
-      const bodyMargin = parseFloat(bodyComputedStyle.marginRight);
-      const bodyPadding = parseFloat(bodyComputedStyle.paddingRight);
+      const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
+      const bodyMargin = parseFloat(bodyComputedStyle.marginRight || '');
+      const bodyPadding = parseFloat(bodyComputedStyle.paddingRight || '');
       const scrollWidth = getScrollWidth();
 
       const rightOffset = bodyMargin + bodyPadding + documentMargin;
@@ -72,13 +72,13 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
       body.scrollTop = scrollTop;
     } else {
       const documentStyle = generateDocumentStyle(
-        parseFloat(documentComputedStyle.marginRight) + getScrollWidth()
+        parseFloat(documentComputedStyle.marginRight || '') + getScrollWidth()
       );
       this._disposeDocumentStyle = this._attachStyle(document, documentStyle);
     }
   };
 
-  _attachStyle = (
+  private _attachStyle = (
     element: HTMLElement,
     style: { css: string, className: string }
   ) => {
@@ -90,7 +90,7 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
     };
   };
 
-  _restoreStyles = (document: HTMLElement, body: HTMLElement) => {
+  private _restoreStyles = (document: HTMLElement, body: HTMLElement) => {
     // Must be before _disposeDocumentStyle
     // as it would change after dispose
     const scrollTop = body.scrollTop;
@@ -112,28 +112,28 @@ export default class HideBodyVerticalScroll extends React.Component<Props> {
 }
 
 class VerticalScrollCounter {
-  static increment = (): number => {
+  public static increment = (): number => {
     const counter = global.RetailUIVerticalScrollCounter || 0;
     return global.RetailUIVerticalScrollCounter = counter + 1;
   };
 
-  static decrement = (): number => {
+  public static decrement = (): number => {
     const counter = global.RetailUIVerticalScrollCounter || 0;
     return global.RetailUIVerticalScrollCounter = counter - 1;
   };
 
-  static get = (): number => {
+  public static get = (): number => {
     return global.RetailUIVerticalScrollCounter || 0;
   };
 }
 
-function generateClassName(className) {
+function generateClassName(className: string) {
   const compName = HideBodyVerticalScroll.name;
   const hash = Math.random().toString(16).slice(2, 6);
   return `${compName}-${className}-${hash}`;
 }
 
-function generateDocumentStyle(documentMargin) {
+function generateDocumentStyle(documentMargin: number) {
   const className = generateClassName('document');
   const css = `\
 .${className} {
@@ -144,7 +144,7 @@ function generateDocumentStyle(documentMargin) {
   return { className, css };
 }
 
-function generateBodyStyle(scrollWidth, rightOffset) {
+function generateBodyStyle(scrollWidth: number, rightOffset: number) {
   const className = generateClassName('body');
   const css = `\
 .${className} {
@@ -159,8 +159,9 @@ function generateBodyStyle(scrollWidth, rightOffset) {
 function attachStylesheet(sheet: string) {
   const style = document.createElement('style');
   style.setAttribute('type', 'text/css');
+  // @ts-ignore
   if (style.styleSheet) {
-    // $FlowIgnore IE specific api
+    // @ts-ignore IE specific api
     style.styleSheet.cssText = sheet;
   } else {
     const textnode = document.createTextNode(sheet);

@@ -229,7 +229,7 @@ export default class CurrencyHelper {
     if (!match) {
       return null;
     }
-    const [_, sign = '', integer = '', delimiter = '', fraction = ''] = match;
+    const [, sign = '', integer = '', delimiter = '', fraction = ''] = match;
     return { sign, integer, delimiter, fraction };
   }
 }

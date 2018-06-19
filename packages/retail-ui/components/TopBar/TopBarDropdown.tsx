@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Dropdown from '../Dropdown';
 import ButtonItem from './ButtonItem';
-import { IconName } from '../Icon';
+import { IconProps } from '../Icon/20px';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -13,7 +13,7 @@ export interface ButtonParams {
 
 export interface TopBarDropdownProps {
   children?: React.ReactNode;
-  icon?: IconName;
+  icon?: IconProps['name'];
   minWidth?: string | number | null;
   use?: 'danger' | 'pay';
   caption: React.ReactNode;

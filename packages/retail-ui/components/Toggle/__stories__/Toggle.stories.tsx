@@ -8,14 +8,11 @@ import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';
 
 class Playground extends Component<any, any> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      checked: false,
-      loadingActive: false,
-      loading: false
-    };
-  }
+  public state = {
+    checked: false,
+    loadingActive: false,
+    loading: false
+  };
 
   public render() {
     return (
@@ -101,7 +98,7 @@ class Playground extends Component<any, any> {
     );
   }
 
-  private toggle(checked) {
+  private toggle(checked: boolean) {
     this.setState({
       checked,
       loading: this.state.loadingActive
@@ -129,7 +126,10 @@ class Simple extends React.Component<any, any> {
       <div>
         <Toggle
           checked={this.state.checked}
-          onChange={() => this.setState(state => ({ checked: !state.checked }))}
+          onChange={() => {
+            const { checked } = this.state;
+            this.setState({ checked: !checked });
+          }}
         />{' '}
         {this.state.checked ? 'On' : 'Off'}
       </div>

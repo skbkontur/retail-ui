@@ -1,14 +1,14 @@
-
+// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Select from '../Select';
 
 class SelectWrapper extends React.Component<{}, any> {
-  state = {
+  public state = {
     value: { label: 'One', value: 1 }
   };
 
-  render() {
+  public render() {
     return (
       <div>
         <Select
@@ -20,7 +20,11 @@ class SelectWrapper extends React.Component<{}, any> {
           value={this.state.value}
           onChange={(_, value) => this.setState({ value })}
           renderItem={x => x.label}
-          renderValue={x => x.label}
+          renderValue={(x) => {
+            if (x) {
+              return x.label
+            }
+          }}
         />
       </div>
     );
@@ -28,11 +32,11 @@ class SelectWrapper extends React.Component<{}, any> {
 }
 
 class SelectWithNull extends React.Component<any, any> {
-  state = {
+  public state = {
     value: null
   };
 
-  render() {
+  public render() {
     return (
       <div>
         <div>

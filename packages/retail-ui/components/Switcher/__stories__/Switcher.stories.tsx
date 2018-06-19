@@ -20,7 +20,7 @@ class Component extends React.Component<{ items: string[], error?: boolean }, { 
     );
   }
 
-  private handleChange(el) {
+  private handleChange(el: { target: { value: string } }) {
     this.setState({ value: el.target.value });
   }
 }

@@ -1,5 +1,3 @@
-
-
 import cn from 'classnames';
 import events from 'add-event-listener';
 import * as React from 'react';
@@ -9,51 +7,57 @@ import NavigationHelper from './NavigationHelper';
 import Icon from '../Icon';
 
 import styles from './Paging.less';
+import { createPropsGetter } from '../internal/createPropsGetter';
 
-type ItemComponentProps = {
-  active: boolean,
-  children?: React.Node,
-  className: string,
-  onClick: () => void,
-  pageNumber: number | 'forward',
-  tabIndex: number
+interface ItemComponentProps {
+  active: boolean;
+  children?: React.ReactNode;
+  className: string;
+  onClick: () => void;
+  pageNumber: number | 'forward';
+  tabIndex: number;
 };
 
-type Props = {
-  activePage: number,
-  component: React.ComponentType<ItemComponentProps>,
-  onPageChange: (pageNumber: number) => void,
-  pagesCount: number
+export interface PagingProps {
+  activePage: number;
+  component?: React.ComponentType<ItemComponentProps>;
+  onPageChange: (pageNumber: number) => void;
+  pagesCount: number;
+  disabled?: boolean
 };
 
-type State = {
-  focusedByTab: boolean,
-  focusedItem: ?ItemType
+export interface PagingState {
+  focusedByTab: boolean;
+  focusedItem: Nullable<ItemType>;
 };
 
-type ItemType = number | '.' | 'forward';
+export type ItemType = number | '.' | 'forward';
 
-export default class Paging extends React.Component<Props, State> {
-  static defaultProps = {
-    component: ({ className, onClick, children }: *) => (
+export default class Paging extends React.Component<PagingProps, PagingState> {
+  public static defaultProps = {
+    component: ({ className, onClick, children }: any) => (
       <span className={className} onClick={onClick} children={children} />
     )
   };
 
-  static isForward(pageNumber: number | 'forward'): boolean /* %checks */ {
+  public static propTypes = {};
+
+  public static isForward(pageNumber: number | 'forward'): boolean /* %checks */ {
     return pageNumber === 'forward';
   }
 
-  state: State = {
+  public state: PagingState = {
     focusedByTab: false,
     focusedItem: null
   };
 
-  componentDidMount() {
+  private getProps = createPropsGetter(Paging.defaultProps);
+
+  public componentDidMount() {
     listenTabPresses();
   }
 
-  render() {
+  public render() {
     return (
       <span
         tabIndex={0}
@@ -68,22 +72,22 @@ export default class Paging extends React.Component<Props, State> {
     );
   }
 
-  _renderItem = (item: ItemType, index: number) => {
-    let focused = this._getFocusedItem() === item;
+  private _renderItem = (item: ItemType, index: number) => {
+    const focused = this._getFocusedItem() === item;
     switch (item) {
       case '.':
-        let key = `dots${index < 5 ? 'Left' : 'Right'}`;
+        const key = `dots${index < 5 ? 'Left' : 'Right'}`;
         return this._renderDots(key);
       case 'forward':
-        let disabled = this._isItemDisabled(item);
+        const disabled = this._isItemDisabled(item);
         return this._renderForwardLink(disabled, focused);
       default:
-        let active = this.props.activePage === item;
+        const active = this.props.activePage === item;
         return this._renderPageLink(item, active, focused);
     }
   };
 
-  _renderDots = (key: string) => {
+  private _renderDots = (key: string) => {
     return (
       <span key={key} className={styles.dots}>
         {'...'}
@@ -91,13 +95,14 @@ export default class Paging extends React.Component<Props, State> {
     );
   };
 
-  _renderForwardLink = (disabled, focused) => {
-    let classes = cn({
+  private _renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
+    const classes = cn({
       [styles.forwardLink]: true,
       [styles.focused]: focused,
       [styles.disabled]: disabled
     });
-    const { component: Component } = this.props;
+    const Component = this.getProps().component;
+
     return (
       <Component
         key={'forward'}
@@ -115,19 +120,20 @@ export default class Paging extends React.Component<Props, State> {
     );
   };
 
-  _renderPageLink = (pageNumber, active, focused) => {
-    let classes = cn({
+  private _renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
+    const classes = cn({
       [styles.pageLink]: true,
       [styles.focused]: focused,
       [styles.active]: active
     });
-    const { component: Component } = this.props;
+    const Component = this.getProps().component;
+
     return (
       <span key={pageNumber} className={styles.pageLinkWrapper}>
         <Component
           active={active}
           className={classes}
-          onClick={() => this._goToPage(pageNumber)}
+          onClick={this._goToPage.bind(pageNumber)}
           tabIndex={-1}
           pageNumber={pageNumber}
         >
@@ -138,26 +144,24 @@ export default class Paging extends React.Component<Props, State> {
     );
   };
 
-  _renderNavigationHint = () => {
-    let canGoBackward = this._canGoBackward();
-    let canGoForward = this._canGoForward();
+  private _renderNavigationHint = () => {
+    const canGoBackward = this._canGoBackward();
+    const canGoForward = this._canGoForward();
 
-    return (
-      (canGoBackward || canGoForward) && (
-        <span className={styles.pageLinkHint}>
-          <span className={canGoBackward ? '' : styles.transparent}>{'←'}</span>
-          <span>{NavigationHelper.getKeyName()}</span>
-          <span className={canGoForward ? '' : styles.transparent}>{'→'}</span>
-        </span>
-      )
+    return (canGoBackward || canGoForward) && (
+      <span className={styles.pageLinkHint}>
+        <span className={canGoBackward ? '' : styles.transparent}>{'←'}</span>
+        <span>{NavigationHelper.getKeyName()}</span>
+        <span className={canGoForward ? '' : styles.transparent}>{'→'}</span>
+      </span>
     );
   };
 
-  _handleMouseDown = () => {
+  private _handleMouseDown = () => {
     this.setState({ focusedByTab: false, focusedItem: null });
   };
 
-  _handleKeyDown = (event: SyntheticKeyboardEvent<>) => {
+  private _handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
     if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowLeft') {
       event.preventDefault();
       this.setState({ focusedItem: null }, this._goBackward);
@@ -185,7 +189,7 @@ export default class Paging extends React.Component<Props, State> {
     }
   };
 
-  _handleFocus = (e: SyntheticFocusEvent<>) => {
+  private _handleFocus = (e: React.FocusEvent) => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -198,18 +202,18 @@ export default class Paging extends React.Component<Props, State> {
     }
   };
 
-  _handleBlur = () => {
+  private _handleBlur = () => {
     this.setState({ focusedByTab: false });
   };
 
-  _getItems = (): ItemType[] => {
+  private _getItems = (): ItemType[] => {
     return PagingHelper.getItems(
       this.props.activePage,
       this.props.pagesCount
     ).concat('forward');
   };
 
-  _getFocusedItem = (): ?ItemType => {
+  private _getFocusedItem = (): Nullable<ItemType> => {
     if (!this.state.focusedByTab) {
       return null;
     }
@@ -226,11 +230,11 @@ export default class Paging extends React.Component<Props, State> {
     return this.props.activePage;
   };
 
-  _isItemFocusable = (item: ItemType) => {
+  private _isItemFocusable = (item: ItemType) => {
     return !this._isItemDisabled(item);
   };
 
-  _isItemDisabled = (item: ItemType) => {
+  private _isItemDisabled = (item: ItemType) => {
     switch (item) {
       case '.':
         return true;
@@ -241,7 +245,7 @@ export default class Paging extends React.Component<Props, State> {
     }
   };
 
-  _executeItemAction = (item: ?ItemType) => {
+  private _executeItemAction = (item: Nullable<ItemType>) => {
     if (item === 'forward') {
       this._goForward();
     }
@@ -250,17 +254,17 @@ export default class Paging extends React.Component<Props, State> {
     }
   };
 
-  _moveFocusLeft = () => {
+  private _moveFocusLeft = () => {
     this._moveFocus(-1);
   };
 
-  _moveFocusRight = () => {
+  private _moveFocusRight = () => {
     this._moveFocus(1);
   };
 
-  _moveFocus = (step: number) => {
-    let focusedItem = this._getFocusedItem();
-    let items = this._getItems();
+  private _moveFocus = (step: number) => {
+    const focusedItem = this._getFocusedItem();
+    const items = this._getItems();
     let index = items.findIndex(x => x === focusedItem);
     do {
       index = (index + step + items.length) % items.length;
@@ -268,23 +272,23 @@ export default class Paging extends React.Component<Props, State> {
     this.setState({ focusedItem: items[index] });
   };
 
-  _canGoBackward = (): boolean => {
+  private _canGoBackward = (): boolean => {
     return this.props.activePage > 1;
   };
 
-  _canGoForward = (): boolean => {
+  private _canGoForward = (): boolean => {
     return this.props.activePage < this.props.pagesCount;
   };
 
-  _goBackward = () => {
+  private _goBackward = () => {
     this._goToPage(this.props.activePage - 1);
   };
 
-  _goForward = () => {
+  private _goForward = () => {
     this._goToPage(this.props.activePage + 1);
   };
 
-  _goToPage = (pageNumber: number) => {
+  private _goToPage = (pageNumber: number) => {
     if (
       1 <= pageNumber &&
       pageNumber !== this.props.activePage &&
@@ -333,4 +337,4 @@ function listenTabPresses() {
   }
 }
 
-function noop() {}
+const noop = () => undefined;

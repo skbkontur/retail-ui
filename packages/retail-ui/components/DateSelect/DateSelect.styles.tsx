@@ -111,7 +111,7 @@ export default function DateSelect(theme: ITheme) {
   };
 }
 
-const menuButton = theme => ({
+const menuButton = (theme: ITheme) => ({
   cursor: 'pointer',
   userSelect: 'none',
   background: '#fff',

@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import CapIcon from '../Icon/20px';
+import CapIcon, { IconProps } from '../Icon/20px';
 
 import styles from './TopBar.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
@@ -12,7 +12,7 @@ export interface ItemProps {
   active?: boolean;
   children?: React.ReactNode;
   className?: string;
-  icon?: string;
+  icon?: IconProps['name'];
   iconOnly?: boolean;
   minWidth?: string | number;
   use?: 'danger' | 'pay';

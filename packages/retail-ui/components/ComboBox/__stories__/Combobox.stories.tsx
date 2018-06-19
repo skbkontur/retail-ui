@@ -1,45 +1,54 @@
-
+// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import ComboBoxV2 from '../ComboBox';
 import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
+import { IconName } from '../../Icon';
 
-storiesOf('ComboBox v2', module).add('simple combobox', () => <SimpleCombobox />).add('with error handling', () => (
+storiesOf('ComboBox v2', module)
+  .add('simple combobox', () => <SimpleCombobox />)
+  .add('with error handling', () => (
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
       onUnexpectedInput={errorStrategy}
     />
-  )).add('with error skipping', () => (
+  ))
+  .add('with error skipping', () => (
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
       onUnexpectedInput={nullStrategy}
     />
-  )).add('with warning', () => (
+  ))
+  .add('with warning', () => (
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
       onUnexpectedInput={warningStrategy}
     />
-  )).add('with rejections', () => (
+  ))
+  .add('with rejections', () => (
     <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />
-  )).add('disabled', () => (
+  ))
+  .add('disabled', () => (
     <TestComboBox
       autoFocus
       disabled
       onSearch={search}
       renderItem={renderValue}
     />
-  )).add('with custom elements', () => (
+  ))
+  .add('with custom elements', () => (
     <TestComboBox
       onSearch={searchWithCustomElements}
       renderItem={renderValue}
       onUnexpectedInput={errorStrategy}
     />
-  )).add('autocomplete', () => (
+  ))
+  .add('autocomplete', () => (
     <TestComboBox
       autocomplete
       onSearch={search}
@@ -47,7 +56,8 @@ storiesOf('ComboBox v2', module).add('simple combobox', () => <SimpleCombobox />
       totalCount={12}
       onUnexpectedInput={errorStrategy}
     />
-  )).add('with autoFocus', () => (
+  ))
+  .add('with autoFocus', () => (
     <TestComboBox
       autocomplete
       autoFocus
@@ -56,32 +66,37 @@ storiesOf('ComboBox v2', module).add('simple combobox', () => <SimpleCombobox />
       totalCount={12}
       onUnexpectedInput={errorStrategy}
     />
-  )).add('with maxMenuHeight', () => (
+  ))
+  .add('with maxMenuHeight', () => (
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
       maxMenuHeight={200}
     />
-  )).add('with borderless', () => (
+  ))
+  .add('with borderless', () => (
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
       onUnexpectedInput={nullStrategy}
       borderless
     />
-  )).add('with center align', () => (
+  ))
+  .add('with center align', () => (
     <SimpleCombobox
       align={'center'}
       placeholder={'placeholder'}
       noInitialValue={true}
     />
-  )).add('with right align', () => (
+  ))
+  .add('with right align', () => (
     <SimpleCombobox
       align={'right'}
       placeholder={'placeholder'}
       noInitialValue={true}
     />
-  )).add('with maxLength', () => (
+  ))
+  .add('with maxLength', () => (
     <SimpleCombobox
       maxLength={10}
       placeholder={'placeholder'}
@@ -89,24 +104,27 @@ storiesOf('ComboBox v2', module).add('simple combobox', () => <SimpleCombobox />
     />
   ));
 
-type State = {
-  value: Nullable<{ id: number, name: string }>,
-  error: boolean,
-  warning: boolean
-};
+interface ValueType {
+  id: number;
+  name: string;
+}
 
-class TestComboBox extends React.Component<any, State> {
-  state = {
+interface ComboBoxState {
+  value: Nullable<ValueType>;
+  error: boolean;
+  warning: boolean;
+}
+
+class TestComboBox extends React.Component<any, ComboBoxState> {
+  public state: ComboBoxState = {
     value: null,
     error: false,
     warning: false
   };
 
-  handleChange = (_, value) => {
-    this.setState({ value, error: false });
-  };
+  private combobox: Nullable<ComboBoxV2<ValueType>> = null;
 
-  render() {
+  public render() {
     return (
       <div>
         <ComboBoxV2
@@ -114,7 +132,7 @@ class TestComboBox extends React.Component<any, State> {
           autocomplete={this.props.autocomplete}
           autoFocus={this.props.autoFocus}
           borderless={this.props.borderless}
-          itemToValue={x => x.id}
+          itemToValue={x => (x as ValueType).id}
           disabled={this.props.disabled}
           error={this.state.error}
           warning={this.state.warning}
@@ -124,7 +142,7 @@ class TestComboBox extends React.Component<any, State> {
           getItems={this.props.onSearch}
           renderItem={this.props.renderItem}
           renderValue={renderValue}
-          valueToString={x => x.name}
+          valueToString={x => (x as ValueType).name}
           placeholder="numbers"
           onChange={this.handleChange}
           onUnexpectedInput={
@@ -134,9 +152,17 @@ class TestComboBox extends React.Component<any, State> {
           }
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Найдено ${found} из ${total}`}
-          ref="cb"
+          ref={(el) => { this.combobox = el }}
         />{' '}
-        <button onClick={() => this.refs.cb.focus()}>Focus</button>
+        <button 
+          onClick={() => {
+            if (this.combobox) {
+              this.combobox.focus();
+            }
+          }}
+        >
+          Focus
+        </button>
         {this.state.error && (
           <div style={{ color: 'red' }}>Необходимо выбрать значение</div>
         )}
@@ -146,23 +172,41 @@ class TestComboBox extends React.Component<any, State> {
       </div>
     );
   }
+
+  private handleChange = (_: any, value: ValueType) => {
+    this.setState({ value, error: false });
+  };
 }
 
-class SimpleCombobox extends React.Component<{}, any> {
-  state = {
+interface SimpleComboboxProps {
+  noInitialValue?: boolean;
+  menuAlign?: 'left' | 'right';
+  align?: 'left' | 'center' | 'right';
+  placeholder?: string;
+  maxLength?: number;
+}
+
+interface SimpleComboboxState {
+  value: Nullable<{ value: number, label: string }>
+}
+
+class SimpleCombobox extends React.Component<SimpleComboboxProps, SimpleComboboxState> {
+  public state: SimpleComboboxState = {
     value: this.props.noInitialValue ? null : { value: 1, label: 'First' }
   };
-  render() {
+
+  public render() {
     return (
       <ComboBoxV2
         {...this.props}
         value={this.state.value}
         getItems={this.getItems}
-        onChange={(_, value) => this.setState(() => ({ value }))}
+        onChange={(_, value) => this.setState({ value })}
       />
     );
   }
-  getItems = q =>
+
+  private getItems = (query: string) =>
     Promise.resolve(
       [
         { value: 1, label: 'First' },
@@ -174,27 +218,33 @@ class SimpleCombobox extends React.Component<{}, any> {
         { value: 7, label: 'A long long long long long long time ago' }
       ].filter(
         x =>
-          x.label.toLowerCase().includes(q.toLowerCase()) ||
-          x.value.toString(10) === q
+          x.label.toLowerCase().includes(query.toLowerCase()) ||
+          x.value.toString(10) === query
       )
     );
 }
 
-function errorStrategy(setState) {
+function errorStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
   return x => {
-    x && setState({ error: true });
+    if (x) {
+      setState({ error: true });
+    }
   };
 }
 
-function nullStrategy(setState) {
+function nullStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
   return x => {
-    x && setState({ value: null });
+    if (x) {
+      setState({ value: null });
+    }
   };
 }
 
-function warningStrategy(setState) {
+function warningStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
   return x => {
-    x && setState({ warning: true });
+    if (x) {
+      setState({ warning: true });
+    } 
   };
 }
 
@@ -216,9 +266,9 @@ const items = [
 ];
 
 function search(query: string) {
-  const random = v => Math.random() * v;
+  const random = (v: any) => Math.random() * v;
 
-  const delay = v =>
+  const delay = (v: any) =>
     new Promise(resolve => setTimeout(resolve, random(10) * 100, v));
 
   return Promise.resolve(
@@ -228,39 +278,40 @@ function search(query: string) {
 
 let searchCount = 0;
 function searchWithRejections(query: string) {
-  const random = v => Math.random() * v;
+  const random = (v: number) => Math.random() * v;
 
-  const delay = v =>
+  const delay = (v: any) =>
     new Promise(resolve => setTimeout(resolve, random(5) * 100, v));
 
   searchCount++;
-  return Promise.resolve().then(delay).then(
-      () =>
-        searchCount % 2
-          ? Promise.reject()
-          : items.filter(x => ~x.name.indexOf(query.toLowerCase()))
-    );
+  return Promise.resolve()
+    .then(delay)
+    .then(() => {
+      searchCount % 2
+        ? Promise.reject()
+        : items.filter(x => ~x.name.indexOf(query.toLowerCase()));
+    });
 }
 
 function searchWithCustomElements(query: string) {
   const _items = items.filter(x => x.name.includes(query.toLowerCase()));
   const disabled = <MenuItem disabled>Nothing was found</MenuItem>;
   return Promise.resolve([
-    <MenuItem comment="Hello" icon="child" disabled>
+    <MenuItem key={1} comment="Hello" icon={'child' as IconName} disabled>
       World
     </MenuItem>,
-    <MenuSeparator />,
+    <MenuSeparator key={2} />,
     ..._items.slice(0, 3),
-    ...(_items.slice(0, 3).length ? [<MenuSeparator />] : []),
+    ...(_items.slice(0, 3).length ? [<MenuSeparator key={5} />] : []),
     ...(_items.slice(3).length ? _items.slice(3) : [disabled]),
-    <MenuSeparator />,
-    <MenuItem alkoLink onClick={() => alert('Clicked')}>
+    <MenuSeparator key={3} />,
+    <MenuItem key={4} alkoLink onClick={() => alert('Clicked')}>
       Ha ha
     </MenuItem>
   ]);
 }
 
-function renderValue({ id, name }) {
+function renderValue({ id, name }: ValueType): React.ReactNode {
   return (
     <div
       style={{

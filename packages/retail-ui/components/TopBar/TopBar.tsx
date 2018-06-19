@@ -20,7 +20,7 @@ import '../ensureOldIEClassName';
 import styles from './TopBar.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 
-interface TopBarProps {
+export interface TopBarProps {
   children?: React.ReactNode;
   color?: string;
   leftItems?: Array<React.ReactElement<any>>;

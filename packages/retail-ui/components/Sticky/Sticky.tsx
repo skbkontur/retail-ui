@@ -3,10 +3,11 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import LayoutEvents from '../../lib/LayoutEvents';
+import { createPropsGetter } from '../internal/createPropsGetter';
 
 export interface StickyProps {
   side: 'top' | 'bottom';
-  offset: number;
+  offset?: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 };
@@ -37,7 +38,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     side: PropTypes.oneOf(['top', 'bottom']).isRequired
   };
 
-  public static defaultProps: { offset: number } = {
+  public static defaultProps = {
     offset: 0
   };
 
@@ -60,6 +61,8 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   private _layoutSubscription: { remove: Nullable<() => void> } = {
     remove: null,
   };
+
+  private getProps = createPropsGetter(Sticky.defaultProps);
 
   public componentDidMount() {
     this._reflow();
@@ -167,8 +170,8 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     const wrapTop = wrapRect.top;
     const fixed =
       this.props.side === 'top'
-        ? wrapTop < this.props.offset
-        : wrapRect.bottom > windowHeight - this.props.offset;
+        ? wrapTop < this.getProps().offset
+        : wrapRect.bottom > windowHeight - this.getProps().offset;
 
     const wasFixed = this.state.fixed;
 
@@ -203,7 +206,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
       const stop = this.props.getStop && this.props.getStop();
       if (stop) {
         const stopRect = stop.getBoundingClientRect();
-        const outerHeight = height + this.props.offset;
+        const outerHeight = height + this.getProps().offset;
 
         if (this.props.side === 'top') {
           const stopped = stopRect.top - outerHeight < 0;

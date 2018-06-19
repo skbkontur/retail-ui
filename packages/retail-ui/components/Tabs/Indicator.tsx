@@ -25,8 +25,10 @@ class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     styles: {}
   };
 
-  private _eventListener = null;
-  private _removeTabUpdatesListener: () => void | null = null;
+  private _eventListener: Nullable<{
+    remove: () => void
+  }> = null;
+  private _removeTabUpdatesListener: Nullable<() => void> = null;
 
   public componentDidMount() {
     this._eventListener = LayoutEvents.addListener(throttle(this._reflow, 100));
@@ -77,14 +79,14 @@ class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     const underlyingNode = node && node.getUnderlyingNode();
     const nodeStyles = this._getStyles(underlyingNode);
     const stylesUpdated = ['left', 'top', 'width', 'height'].some(
-      prop => nodeStyles[prop] !== this.state.styles[prop]
+      prop => nodeStyles[prop as keyof React.CSSProperties] !== this.state.styles[prop as keyof React.CSSProperties]
     );
     if (stylesUpdated) {
       this.setState({ styles: nodeStyles });
     }
   };
 
-  private _getStyles(node): React.CSSProperties {
+  private _getStyles(node: any): React.CSSProperties {
     if (node instanceof React.Component) {
       node = findDOMNode(node);
     }

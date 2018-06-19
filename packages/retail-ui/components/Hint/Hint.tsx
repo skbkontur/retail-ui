@@ -5,7 +5,7 @@ import Popup, { PopupPosition } from '../Popup';
 import { ieVerison } from '../ensureOldIEClassName';
 import { createPropsGetter } from '../internal/createPropsGetter';
 
-import styles from './HintBox.less';
+import styles = require('./HintBox.less');
 
 const bgColor = ieVerison === 8 ? '#5b5b5b' : 'rgba(51, 51, 51, 0.8)';
 

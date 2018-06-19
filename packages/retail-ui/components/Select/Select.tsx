@@ -20,6 +20,7 @@ import Item from './Item';
 
 import styles from './Select.less';
 import { IconName } from '../Icon';
+import { createPropsGetter } from '../internal/createPropsGetter';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -52,7 +53,7 @@ export interface SelectProps<TValue, TItem> {
   disablePortal?: boolean;
   disabled?: boolean;
   error?: boolean;
-  filterItem: (value: TValue, item: TItem, pattern: string) => boolean;
+  filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
   items?: TItem[];
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
@@ -65,9 +66,9 @@ export interface SelectProps<TValue, TItem> {
   onMouseOver?: (e: React.MouseEvent<HTMLElement>) => void;
   onOpen?: () => void;
   placeholder?: React.ReactNode;
-  renderItem: (value: TValue, item: TItem) => React.ReactNode;
-  renderValue: (value: Nullable<TValue>, item: TItem) => React.ReactNode;
-  areValuesEqual: (
+  renderItem?: (value: TValue, item: TItem) => React.ReactNode;
+  renderValue?: (value: Nullable<TValue>, item: TItem) => React.ReactNode;
+  areValuesEqual?: (
     value1: Nullable<TValue>,
     value2: Nullable<TValue>
   ) => boolean;
@@ -133,7 +134,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
      * Чтобы добавить стандартный отступ для статического элемента:
      * ```
      * <Select.Item>My Element</Select.Item>
-     * ```
+     * ```?
      */
     items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 
@@ -195,6 +196,8 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
 
   private _menu: Nullable<Menu>;
 
+  private getProps = createPropsGetter(Select.defaultProps);
+
   constructor(props: SelectProps<TValue, TItem>) {
     super(props);
     this.state = {
@@ -247,7 +250,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     const item = this._getItemByValue(value);
 
     if (item !== null || value !== null) {
-      return this.props.renderValue(value, item);
+      return this.getProps().renderValue(value, item);
     }
 
     const useIsCustom = this.props.use !== 'default';
@@ -385,12 +388,12 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
                 <MenuItem
                   key={i}
                   state={
-                    this.props.areValuesEqual(iValue, value) ? 'selected' : null
+                    this.getProps().areValuesEqual(iValue, value) ? 'selected' : null
                   }
                   onClick={this._select.bind(this, iValue)}
                   comment={comment}
                 >
-                  {this.props.renderItem(iValue, item)}
+                  {this.getProps().renderItem(iValue, item)}
                 </MenuItem>
               );
             }
@@ -505,7 +508,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
 
     if (
       this.props.onChange &&
-      !this.props.areValuesEqual(this._getValue(), value)
+      !this.getProps().areValuesEqual(this._getValue(), value)
     ) {
       this.props.onChange({ target: { value } }, value);
     }
@@ -538,7 +541,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     for (const entry of items) {
       const [value, item, comment] = normalizeEntry(entry as TItem);
 
-      if (!pattern || this.props.filterItem(value, item, pattern)) {
+      if (!pattern || this.getProps().filterItem(value, item, pattern)) {
         result.push(fn(value, item, index, comment));
         ++index;
       }
@@ -557,7 +560,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     for (const entry of items) {
       const [itemValue, item] = normalizeEntry(entry);
 
-      if (this.props.areValuesEqual(itemValue, value)) {
+      if (this.getProps().areValuesEqual(itemValue, value)) {
         return item;
       }
     }

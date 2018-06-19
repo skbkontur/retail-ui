@@ -8,12 +8,13 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import PopupMenu from '../internal/PopupMenu';
 
 import styles = require('./Kebab.less');
+import { createPropsGetter } from '../internal/createPropsGetter';
 
 export interface KebabProps {
   disabled?: boolean;
-  onClose: () => void;
-  onOpen: () => void;
-  size: 'small' | 'large';
+  onClose?: () => void;
+  onOpen?: () => void;
+  size?: 'small' | 'large';
   positions?: string[];
   menuMaxHeight?: number | string;
 };
@@ -45,6 +46,8 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     remove: () => undefined
   };
 
+  private getProps = createPropsGetter(Kebab.defaultProps);
+
   public componentDidMount() {
     /** addListener'у нужен колбэк в аргумент */
     this._listener = LayoutEvents.addListener(() => undefined);
@@ -55,7 +58,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     this._listener.remove();
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { disabled, positions } = this.props;
     const { focusedByTab, opened } = this.state;
 
@@ -78,7 +81,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
               focusedByTab && styles.focused
             )}
           >
-            {this._renderIcon(this.props.size)}
+            {this._renderIcon(this.getProps().size)}
           </div>
         }
       >

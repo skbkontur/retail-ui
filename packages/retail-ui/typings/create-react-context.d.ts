@@ -1,5 +1,6 @@
 declare module 'create-react-context' {
-  function createReactContext<T>(
+  import * as React from 'react';
+    function createReactContext<T>(
     defaultValue: T,
     calculateChangedBits?: (prev: T, next: T) => number
   ): Context<T>;

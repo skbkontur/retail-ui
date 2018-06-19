@@ -1,28 +1,27 @@
-
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import Spinner from '../Spinner';
-import styles from './Loader.less';
+import styles = require('./Loader.less');
 
-type Props = {
-  children?: React.Node,
-  active: boolean,
-  caption?: string,
-  className?: string,
-  type?: 'mini' | 'normal' | 'big'
+export interface LoaderProps {
+  children?: React.ReactNode;
+  active: boolean;
+  caption?: string;
+  className?: string;
+  type?: 'mini' | 'normal' | 'big';
 };
 
 /**
  * DRAFT - лоадер-контейнер
  */
-class Loader extends React.Component<Props> {
-  static defaultProps = {
+class Loader extends React.Component<LoaderProps> {
+  public static defaultProps = {
     type: Spinner.Types.normal
   };
 
-  static propTypes = {
+  public static propTypes = {
     /**
      * показываем лоадер или нет
      */
@@ -50,15 +49,7 @@ class Loader extends React.Component<Props> {
     type: PropTypes.oneOf(Object.keys(Spinner.Types))
   };
 
-  _renderSpinner(type, caption) {
-    return (
-      <span className={styles.spinnerContainerCenter}>
-        <Spinner type={type} caption={caption} />
-      </span>
-    );
-  }
-
-  render() {
+  public render() {
     const { active, type, caption, className } = this.props;
     const loaderClassName = classnames(styles.loader, className, {
       [styles.active]: active
@@ -70,6 +61,14 @@ class Loader extends React.Component<Props> {
 
         {active && this._renderSpinner(type, caption)}
       </div>
+    );
+  }
+
+  private _renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: string) {
+    return (
+      <span className={styles.spinnerContainerCenter}>
+        <Spinner type={type} caption={caption} />
+      </span>
     );
   }
 }

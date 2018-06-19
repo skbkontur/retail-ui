@@ -1,4 +1,4 @@
-
+// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
@@ -84,7 +84,7 @@ storiesOf('ComboBoxV2 View', module).add('idle input', () => (
       items={[]}
       opened
       textValue="nothing"
-      renderNotFound={x => 'Не найдено'}
+      renderNotFound={() => 'Не найдено'}
     />
   )).add('with total count', () => (
     <View
@@ -116,7 +116,7 @@ storiesOf('ComboBoxV2 View', module).add('idle input', () => (
     <View editing placeholder="placeholder" disabled />
   ));
 
-function renderValue({ id, name }) {
+function renderValue({ id, name }: { id: React.ReactNode, name: React.ReactNode }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <span>{name}</span>

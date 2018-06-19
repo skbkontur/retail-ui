@@ -7,7 +7,7 @@ import MenuHeader from '../MenuHeader/MenuHeader';
 import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import Select from '../Select';
-import { IconName } from '../Icon';
+import { IconProps } from '../Icon/20px';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -33,7 +33,9 @@ const PASS_PROPS = {
 
 export interface DropdownProps {
   caption: React.ReactNode;
-  icon: IconName;
+  icon?: IconProps['name'];
+  width?: React.CSSProperties['width'];
+  _renderButton?: (params: any) => JSX.Element;
 }
 
 export type DropdownSelectType = Select

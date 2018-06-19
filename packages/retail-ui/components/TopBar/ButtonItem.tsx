@@ -2,12 +2,13 @@ import * as React from 'react';
 import Item, { ItemProps } from './Item';
 
 import styles from './TopBar.less';
+import { IconProps } from '../Icon/20px';
 
 export interface ButtonItemProps extends ItemProps {
   active?: boolean;
   children?: React.ReactNode;
   className?: string;
-  icon?: string;
+  icon?: IconProps['name'];
   iconOnly?: boolean;
   minWidth?: string | number;
   onClick?: () => void;

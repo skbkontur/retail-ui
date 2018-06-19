@@ -111,7 +111,7 @@ class Link extends React.Component<LinkProps, LinkState> {
         [styles.button]: _button,
         [styles.buttonOpened]: _buttonOpened,
         [styles.focus]: !disabled && this.state.focusedByTab,
-        [useClasses[use]]: !!use
+        [useClasses[use as keyof typeof useClasses]]: !!use
       }),
       href,
       onClick: this._handleClick,

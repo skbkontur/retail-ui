@@ -30,7 +30,7 @@ class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaSta
     );
   }
 
-  private handleChange = (_, value: string | null) => {
+  private handleChange = (_: any, value: string | null) => {
     this.setState({ value });
   };
 }

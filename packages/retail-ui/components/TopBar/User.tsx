@@ -1,5 +1,5 @@
 import * as React from 'react';
-import TopBarDropdown from './TopBarDropdown';
+import TopBarDropdown, { TopBarDropdownProps } from './TopBarDropdown';
 import MenuItem from '../MenuItem';
 
 class User extends React.Component<{
@@ -8,7 +8,7 @@ class User extends React.Component<{
   public render() {
     const { userName } = this.props;
     return (
-      <TopBarDropdown icon="User" caption={userName}>
+      <TopBarDropdown icon={'User' as TopBarDropdownProps['icon']} caption={userName}>
         <div style={{ padding: '6px 18px 7px 15px' }}>
           <b>Личный кабинет Контура</b>
         </div>

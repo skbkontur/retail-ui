@@ -1,4 +1,5 @@
-import React from 'react';
+// tslint:disable:jsx-no-lambda
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Calendar from '../Calendar';
 import Button from '../../Button';
@@ -11,7 +12,7 @@ storiesOf('Calendar', module).add('simple', () => (
     />
   )).add('CalendarWithButtons', () => <CalendarWithButtons />);
 
-const initialDate = new Date(2018, 0, 1);
+const initialDate = { year: 2018, month: 0, date: 1 };
 const datesToScroll = [
   { year: 2017, month: 5, date: 1 },
   { year: 2017, month: 10, date: 1 },
@@ -23,16 +24,22 @@ const datesToScroll = [
 ];
 
 class CalendarWithButtons extends React.Component {
-  render() {
+  private cal: Nullable<Calendar>;
+
+  public render() {
     return (
       <Gapped vertical>
-        <Calendar ref={cal => (this.cal = cal)} date={initialDate} />
+        <Calendar ref={cal => (this.cal = cal)} value={initialDate} />
         <Gapped vertical>
           {datesToScroll.map(x => (
             <Button
               key={x.year + '-' + x.month + '-' + x.date}
               width={240}
-              onClick={() => this.cal.scrollToMonth(x.month, x.year)}
+              onClick={() => {
+                if (this.cal) {
+                  this.cal.scrollToMonth(x.month, x.year)
+                }
+              }}
             >
               Scroll to: {x.date + '-' + (1 + x.month) + '-' + x.year}
             </Button>

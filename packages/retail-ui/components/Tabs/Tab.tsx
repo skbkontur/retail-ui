@@ -1,5 +1,3 @@
-
-
 import events from 'add-event-listener';
 import * as React from 'react';
 import PropTypes from 'prop-types';
@@ -7,6 +5,7 @@ import invariant from 'invariant';
 import cn from 'classnames';
 
 import styles = require('./Tab.less');
+import { createPropsGetter } from '../internal/createPropsGetter';
 
 export interface TabIndicators {
   error: boolean;
@@ -25,12 +24,12 @@ export interface TabProps {
   /**
    * Component to use as a tab
    */
-  component: React.ComponentType<any> | string;
+  component?: React.ComponentType<any> | string;
 
   /**
    * Link href
    */
-  href: string;
+  href?: string;
 
   /**
    * Tab identifier
@@ -78,7 +77,7 @@ export interface TabProps {
   style?: React.CSSProperties;
 };
 
-export interface Context {
+export interface TabContext {
   activeTab: string;
   addTab: (id: string, getNode: () => any) => void;
   notifyUpdate: () => void;
@@ -107,7 +106,7 @@ export interface TabState {
  *
  * Works only inside Tabs component, otherwise throws
  */
-class Tab extends React.Component<TabProps, TabState> {
+class Tab extends React.Component<TabProps, TabState, TabContext> {
   public static propTypes = {};
   public static contextTypes = {};
   public static defaultProps = {
@@ -115,14 +114,12 @@ class Tab extends React.Component<TabProps, TabState> {
     href: 'javascript:'
   };
 
-  public context: Context;
-
   public state: TabState = {
     focusedByKeyboard: false
   };
 
-  private _node = null;
-  private _noop;
+  private _node: Nullable<React.ReactElement<any>> = null;
+  private getProps = createPropsGetter(Tab.defaultProps);
 
   public componentWillMount() {
     invariant(
@@ -146,10 +143,9 @@ class Tab extends React.Component<TabProps, TabState> {
     this._removeTab();
   }
 
-  public render() {
+  public render(): JSX.Element {
     const {
       id,
-      component: Component,
       children,
       disabled,
       onClick,
@@ -160,6 +156,9 @@ class Tab extends React.Component<TabProps, TabState> {
       primary,
       ...rest
     } = this.props;
+
+    const Component = this.getProps().component;
+    const href = this.getProps().href;
 
     const isActive = this.context.activeTab === this._getId();
     const isDisabled = Boolean(this.props.disabled);
@@ -183,6 +182,7 @@ class Tab extends React.Component<TabProps, TabState> {
         onKeyDown={!isDisabled ? this._handleKeyDown : this._noop}
         tabIndex={isDisabled ? -1 : 0}
         ref={this._refNode}
+        href={href}
         {...rest}
       >
         {children}
@@ -203,8 +203,10 @@ class Tab extends React.Component<TabProps, TabState> {
   }
 
   public getUnderlyingNode = () => this._node;
+  
+  private _noop = () => undefined;
 
-  private _getId = () => this.props.id || this.props.href;
+  private _getId = () => this.props.id || this.getProps().href;
 
   private _addTab() {
     this.context.addTab(this._getId(), this._getNode);
@@ -214,17 +216,17 @@ class Tab extends React.Component<TabProps, TabState> {
     this.context.removeTab(this._getId());
   }
 
-  private _refNode = element => {
+  private _refNode = (element: React.ReactElement<any>) => {
     this._node = element;
   };
 
   private _getNode = () => this;
 
-  private _switchTab = e => {
+  private _switchTab = (event: React.MouseEvent<HTMLElement>) => {
     const id = this.props.id || this.props.href;
     if (this.props.onClick) {
-      this.props.onClick(e);
-      if (e.defaultPrevented) {
+      this.props.onClick(event);
+      if (event.defaultPrevented) {
         return;
       }
     }
@@ -254,7 +256,7 @@ class Tab extends React.Component<TabProps, TabState> {
     }
   };
 
-  private _handleFocus = e => {
+  private _handleFocus = () => {
     // focus event fires before keyDown eventlistener
     // so we should check focusKeyPressed in async way
     process.nextTick(() => {
@@ -265,7 +267,7 @@ class Tab extends React.Component<TabProps, TabState> {
     });
   };
 
-  private _handleBlur = e => {
+  private _handleBlur = () => {
     this.setState({ focusedByKeyboard: false });
   };
 }

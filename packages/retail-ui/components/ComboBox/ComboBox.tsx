@@ -33,18 +33,18 @@ export interface ComboBoxProps<T> {
    * По умолчанию ожидаются объекты с типом `{ value: string, label: string }`.
    *
    * Элементы могут быть любого типа. В этом случае необходимо определить
-   * свойства `itemToValue`, `renderValue`, `renderItem`, `valueToString`
+   * свойства `itemToValue`, `renderValue`, `renderItem`, `valueToString?`
    */
   getItems?: (query: string) => Promise<T[]>;
 
   /**
    * Необходим для сравнения полученных результатов с `value`
    */
-  itemToValue: (item: T) => string | number;
+  itemToValue?: (item: T) => string | number;
 
   maxLength?: number;
 
-  menuAlign: 'left' | 'right';
+  menuAlign?: 'left' | 'right';
 
   onBlur?: () => void;
 
@@ -107,7 +107,7 @@ export interface ComboBoxProps<T> {
   /**
    * Необходим для преобразования `value` в строку при фокусировке
    */
-  valueToString: (item: T) => string;
+  valueToString?: (item: T) => string;
 
   size?: 'small' | 'medium' | 'large';
 
@@ -126,7 +126,7 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
     // @ts-ignore
     itemToValue: x => x.value,
     // @ts-ignore
-    valueToString: x => x.label,
+    valueToString?: x => x.label,
     // @ts-ignore
     renderValue: x => x.label,
     // @ts-ignore
