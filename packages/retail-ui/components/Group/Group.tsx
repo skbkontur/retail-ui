@@ -12,6 +12,12 @@ export interface GroupProps {
   width?: React.CSSProperties['width'];
 }
 
+export interface GroupChildProps {
+  mainInGroup?: boolean;
+  width?: React.CSSProperties["width"];
+  corners?: number;
+}
+
 /**
  * Главный *Input*, который должен занимать всю доступную ширину, должен быть
  * помечен свойством *mainInGroup*.
@@ -40,15 +46,11 @@ class Group extends React.Component<GroupProps> {
     return (
       <span className={styles.root} style={style}>
         {React.Children.map(this.props.children, child => {
-          if (!child || !React.isValidElement(child)) {
+          if (!child || !React.isValidElement<GroupChildProps>(child)) {
             return null;
           }
 
-          const childProps = (child as React.ReactElement<{
-            mainInGroup?: boolean;
-            width?: React.CSSProperties["width"];
-            corners?: number;
-          }>).props;
+          const childProps = child.props;
 
           const wrapCss = classNames({
             [styles.wrap]: true,
@@ -67,13 +69,12 @@ class Group extends React.Component<GroupProps> {
           if (child !== last) {
             corners |= Corners.TOP_RIGHT | Corners.BOTTOM_RIGHT;
           }
-
-          childProps.corners = corners;
+          let width
           if (childProps.mainInGroup) {
-            childProps.width = '100%';
+            width = '100%';
           }
 
-          child = React.cloneElement(child, childProps);
+          child = React.cloneElement(child, {corners, width});
 
           return (
             <div className={wrapCss}>
