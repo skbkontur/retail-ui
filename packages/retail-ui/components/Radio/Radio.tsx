@@ -15,33 +15,33 @@ const styles = isFlatDesign
 
 type Primitive = number | string;
 
-export type SyntheticRadioEvent<T> = {
+export interface SyntheticRadioEvent<T> {
   target: {
-    id: ?string,
-    name: ?string,
-    checked: ?boolean,
-    disabled: ?boolean,
+    id: Nullable<string>,
+    name: Nullable<string>,
+    checked: Nullable<boolean>,
+    disabled: Nullable<boolean>,
     value: T
   }
 };
 
-type Props<T> = {
-  id?: string,
-  name?: string,
-  tabIndex?: number,
-  checked?: boolean,
-  disabled?: boolean,
-  error?: boolean,
-  focused?: boolean,
-  hovered?: boolean,
-  pressed?: boolean,
-  warning?: boolean,
-  children?: React.Node,
-  value: T,
-  onChange?: (event: SyntheticRadioEvent<T>, value: T) => mixed,
-  onMouseEnter?: (event: SyntheticRadioEvent<T>) => void,
-  onMouseLeave?: (event: SyntheticRadioEvent<T>) => void,
-  onMouseOver?: (event: SyntheticRadioEvent<T>) => void
+export interface RadioProps<T> {
+  id?: string;
+  name?: string;
+  tabIndex?: number;
+  checked?: boolean;
+  disabled?: boolean;
+  error?: boolean;
+  focused?: boolean;
+  hovered?: boolean;
+  pressed?: boolean;
+  warning?: boolean;
+  children?: React.ReactNode;
+  value: T;
+  onChange?: (event: SyntheticRadioEvent<T>, value: T) => void;
+  onMouseEnter?: (event: SyntheticRadioEvent<T>) => void;
+  onMouseLeave?: (event: SyntheticRadioEvent<T>) => void;
+  onMouseOver?: (event: SyntheticRadioEvent<T>) => void;
 };
 
 /**
@@ -53,18 +53,18 @@ type Props<T> = {
  *
  * ```js
  * type SyntheticRadioEvent<T> = {
-   target: {
-     id: ?string,
-     name: ?string,
-     checked: ?boolean,
-     disabled: ?boolean,
-     value: T
-   }
- };
+ * target: {
+ *    id: ?string,
+ *    name: ?string,
+ *    checked: ?boolean,
+ *    disabled: ?boolean,
+ *    value: T
+ *  }
+ * };
  * ```
  */
-class Radio<T: Primitive> extends React.Component<Props<T>> {
-  static contextTypes = {
+class Radio<T extends Primitive> extends React.Component<RadioProps<T>> {
+  public static contextTypes = {
     activeItem: PropTypes.any,
     onSelect: PropTypes.func,
     name: PropTypes.string,
@@ -73,11 +73,11 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     warning: PropTypes.bool
   };
 
-  static defaultProps = {
+  public static defaultProps = {
     focused: false
   };
 
-  static propTypes = {
+  public static propTypes = {
     checked: PropTypes.bool,
     children: PropTypes.node,
     disabled: PropTypes.bool,
@@ -96,24 +96,9 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     onMouseOver: PropTypes.func
   };
 
-  _node: ?HTMLInputElement = null;
-  _isInRadioGroup = () => Boolean(this.context.name);
+  private _node: Nullable<HTMLInputElement> = null;
 
-  /**
-   * @public
-   **/
-  focus() {
-    this._node && this._node.focus();
-  }
-
-  /**
-   * @public
-   **/
-  blur() {
-    this._node && this._node.blur();
-  }
-
-  render() {
+  public render() {
     const disabled = this.props.disabled || this.context.disabled;
     const warning = this.props.warning || this.context.warning;
     const error = this.props.error || this.context.error;
@@ -138,9 +123,21 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
       value: this.props.value,
       ref: this._ref,
       onChange: this._handleChange,
-      onMouseOver: this.props.onMouseOver,
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseLeave: this.props.onMouseLeave
+      onMouseOver: () => {
+        if (this.props.onMouseOver) {
+          this.props.onMouseOver(createSyntheticEvent(this.props));
+        }
+      },
+      onMouseEnter: () => {
+        if (this.props.onMouseEnter) {
+          this.props.onMouseEnter(createSyntheticEvent(this.props));
+        }
+      },
+      onMouseLeave: () => {
+        if (this.props.onMouseLeave) {
+          this.props.onMouseLeave(createSyntheticEvent(this.props));
+        }
+      }
     };
 
     const labelProps = {
@@ -168,7 +165,21 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     );
   }
 
-  renderLabel() {
+  public focus() {
+    if (this._node) {
+      this._node.focus();
+    }
+  }
+
+  public blur() {
+    if (this._node) {
+      this._node.blur();
+    }
+  }
+
+  private _isInRadioGroup = () => Boolean(this.context.name);
+
+  private renderLabel() {
     const labelClassNames = classNames({
       [styles.label]: true,
       [styles.labelDisabled]: this.props.disabled
@@ -177,12 +188,12 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     return <div className={labelClassNames}>{this.props.children}</div>;
   }
 
-  _ref = el => {
-    this._node = el;
+  private _ref = (element: HTMLInputElement) => {
+    this._node = element;
   };
 
-  _handleChange = event => {
-    event = createSyntheticEvent(this.props);
+  private _handleChange = () => {
+    const event = createSyntheticEvent(this.props);
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
@@ -191,22 +202,22 @@ class Radio<T: Primitive> extends React.Component<Props<T>> {
     }
   };
 
-  _handleMouseOver = event => {
-    event = createSyntheticEvent(this.props);
+  private _handleMouseOver = () => {
+    const event = createSyntheticEvent(this.props);
     if (this.props.onMouseOver) {
       this.props.onMouseOver(event);
     }
   };
 
-  _handleMouseEnter = event => {
-    event = createSyntheticEvent(this.props);
+  private _handleMouseEnter = () => {
+    const event = createSyntheticEvent(this.props);
     if (this.props.onMouseEnter) {
       this.props.onMouseEnter(event);
     }
   };
 
-  _handleMouseLeave = event => {
-    event = createSyntheticEvent(this.props);
+  private _handleMouseLeave = () => {
+    const event = createSyntheticEvent(this.props);
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(event);
     }
@@ -219,7 +230,7 @@ function createSyntheticEvent<T>({
   name,
   checked,
   disabled
-}: Props<T>): SyntheticRadioEvent<T> {
+}: RadioProps<T>): SyntheticRadioEvent<T> {
   const target = {
     value,
     id,
