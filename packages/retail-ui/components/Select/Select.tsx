@@ -1,4 +1,4 @@
-import { ButtonUse, ButtonSize } from '../Button/Button';
+import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
 
 import events from 'add-event-listener';
 import classNames from 'classnames';
@@ -68,10 +68,7 @@ export interface SelectProps<TValue, TItem> {
   placeholder?: React.ReactNode;
   renderItem?: (value: TValue, item?: TItem) => React.ReactNode;
   renderValue?: (value: TValue, item?: TItem) => React.ReactNode;
-  areValuesEqual?: (
-    value1: TValue,
-    value2: TValue
-  ) => boolean;
+  areValuesEqual?: (value1: TValue, value2: TValue) => boolean;
   search?: boolean;
   value?: TValue;
   width?: number | string;
@@ -249,7 +246,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     const value = this._getValue();
     const item = this._getItemByValue(value);
 
-    if (item !== null || value !== null) {
+    if (item != null || value != null) {
       return this.getProps().renderValue(value, item);
     }
 
@@ -272,21 +269,16 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
       return this.renderLinkButton(params);
     }
 
-    const buttonProps = Object.assign(
-      {},
-      filterProps(this.props, PASS_BUTTON_PROPS) as Shape<
-        SelectProps<TValue, TItem>
-      >,
-      {
-        align: 'left' as React.CSSProperties['textAlign'],
-        disabled: this.props.disabled,
-        _noPadding: true,
-        width: '100%',
-        onClick: params.onClick,
-        onKeyDown: params.onKeyDown,
-        active: params.opened
-      }
-    );
+    const buttonProps: ButtonProps = {
+      ...filterProps(this.props, PASS_BUTTON_PROPS),
+      align: 'left' as React.CSSProperties['textAlign'],
+      disabled: this.props.disabled,
+      _noPadding: true,
+      width: '100%',
+      onClick: params.onClick,
+      onKeyDown: params.onKeyDown,
+      active: params.opened
+    };
 
     if (this.props._icon) {
       Object.assign(buttonProps, {
@@ -388,7 +380,9 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
                 <MenuItem
                   key={i}
                   state={
-                    this.getProps().areValuesEqual(iValue, value) ? 'selected' : null
+                    this.getProps().areValuesEqual(iValue, value)
+                      ? 'selected'
+                      : null
                   }
                   onClick={this._select.bind(this, iValue)}
                   comment={comment}
