@@ -179,7 +179,6 @@ module.exports = {
           test: /\.less$/,
           use: [
             'style-loader',
-            'css-modules-flow-types-loader',
             'css-loader',
             '@skbkontur/typed-css-modules-loader',
             'less-loader'

@@ -105,7 +105,6 @@
     "babel-preset-react": "^6.24.1",
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.11",
-    "css-modules-flow-types-loader": "^1.1.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",

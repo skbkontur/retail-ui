@@ -3538,16 +3538,6 @@ css-loader@^0.28.11:
     postcss-value-parser "^3.3.0"
     source-list-map "^2.0.0"
 
-css-modules-flow-types-loader@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/css-modules-flow-types-loader/-/css-modules-flow-types-loader-1.1.0.tgz#df0fb3e1194f33a05276a238575ef2bae4261af1"
-  dependencies:
-    css-modules-flow-types-printer "^1.0.0"
-
-css-modules-flow-types-printer@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/css-modules-flow-types-printer/-/css-modules-flow-types-printer-1.0.0.tgz#93e13ba0144bedfe303b2fa9de62b10f732dcdd1"
-
 css-modules-loader-core@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/css-modules-loader-core/-/css-modules-loader-core-1.1.0.tgz#5908668294a1becd261ae0a4ce21b0b551f21d16"

@@ -10,7 +10,7 @@ module.exports = (baseConfig, env) => {
 
   config.resolve.extensions.unshift('.ts', '.tsx');
   config.resolve.plugins = [
-    new TsconfigPathsPlugin({ configFile: path.resolve("./tsconfig.json") })
+    new TsconfigPathsPlugin({ configFile: path.resolve('./tsconfig.json') })
   ];
 
   config.module.rules.push(
@@ -25,7 +25,6 @@ module.exports = (baseConfig, env) => {
       test: /\.(css|less)$/,
       loaders: [
         'style-loader',
-        'css-modules-flow-types-loader',
         'css-loader?localIdentName=[name]-[local]-[hash:base64:4]',
         {
           loader: '@skbkontur/typed-css-modules-loader',
