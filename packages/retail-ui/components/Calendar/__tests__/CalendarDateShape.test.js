@@ -1,5 +1,3 @@
-// @flow
-
 import * as CDS from '../CalendarDateShape';
 
 test('CDS.create creates given date', () => {

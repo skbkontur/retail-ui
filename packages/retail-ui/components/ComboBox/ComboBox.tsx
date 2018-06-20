@@ -136,9 +136,6 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
 
   private _cb: Nullable<CustomComboBox> = null;
 
-  /**
-   * @public
-   */
   public focus() {
     if (this._cb) {
       this._cb.focus();

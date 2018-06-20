@@ -51,7 +51,7 @@ export interface TooltipProps {
    *
    * Если эта функция вернула `null`, то тултип не показывается.
    */
-  render: () => React.ReactNode;
+  render?: Nullable<() => React.ReactNode>;
 
   pos?: PopupPosition;
 
@@ -165,7 +165,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   public renderContent = () => {
-    const content = this.props.render();
+    const content = this.props.render ? this.props.render() : null;
     if (content == null) {
       return null;
     }

@@ -1,7 +1,7 @@
-
-import React from 'react';
+// tslint:disable:jsx-no-lambda
+import * as React from 'react';
 import { shallow, mount } from 'enzyme';
-import TooltipMenu from '../';
+import TooltipMenu from '../TooltipMenu';
 import MenuItem from '../../MenuItem';
 
 describe('<TooltipMenu />', () => {
@@ -16,6 +16,7 @@ describe('<TooltipMenu />', () => {
   });
 
   test('Throw, if caption is not passed', () => {
+    // @ts-ignore
     expect(() => shallow(<TooltipMenu />)).toThrow();
   });
 

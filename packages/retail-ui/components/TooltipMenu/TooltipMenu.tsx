@@ -4,8 +4,10 @@ import { MenuItemProps } from '../MenuItem/MenuItem';
 import { isProductionEnv } from '../internal/currentEnvironment';
 import { MenuHeaderProps } from '../MenuHeader';
 
+export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
+
 export interface TooltipMenuProps {
-  children?: Array<React.ReactElement<MenuItemProps | {} | MenuHeaderProps>>;
+  children?: TooltipMenuChildType | TooltipMenuChildType[];
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
   /** Ширина меню */

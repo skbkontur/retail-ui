@@ -1,3 +1,1 @@
-
-import RenderContainer from './RenderContainer';
-export default RenderContainer;
+export { default } from './RenderContainer';

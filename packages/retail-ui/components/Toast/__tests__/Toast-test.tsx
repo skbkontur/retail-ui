@@ -1,56 +1,56 @@
-
-/* eslint-disable flowtype/no-weak-types */
-/* global Lookup */
-import { mount } from 'enzyme';
 import * as React from 'react';
+import { mount } from 'enzyme';
 import ReactDOM from 'react-dom';
 
-import Toast from '../Toast';
+import Toast, { ToastProps, ToastState } from '../Toast';
 
 jest.useFakeTimers();
 
-jest.mock('../../RenderContainer', () => props => <div {...props} />);
-jest.mock('react-addons-css-transition-group', () => ({ children }) => (
-  <div>{children}</div>
-));
+// const mockRenderContainer = (props: any) => <div {...props} />;
+// const mockTransitionGroup = ({ children }: any) => <div>{children}</div>;
+
+// jest.mock('../../RenderContainer', () => mockRenderContainer);
+// jest.mock('react-addons-css-transition-group', () => mockTransitionGroup);
 
 describe('Toast', () => {
   it('renders', () => {
-    mount(<Toast />);
+    mount<ToastProps>(<Toast />);
   });
 
   it("doesn't throw on push", () => {
     const wrapper = mount(<Toast />);
-    wrapper.instance(): any): Toast.push('message');
+    (wrapper.instance() as Toast).push('message');
   });
 
   it('sets message to state', () => {
     const wrapper = mount(<Toast />);
-    wrapper.instance(): any): Toast.push('message');
+    (wrapper.instance() as Toast).push('message');
     expect(wrapper.state().notification).toBe('message');
   });
 
   it('shows right message', () => {
-    const wrapper = mount(<Toast />);
-    wrapper.instance(): any): Toast.push('message');
+    const wrapper = mount<ToastProps, ToastState>(<Toast />);
+    (wrapper.instance() as Toast).push('message');
 
-    const toast = wrapper.instance(): any): Toast._toast;
+    const toast = (wrapper.instance() as Toast)._toast;
     expect(toast).toBeTruthy();
-    expect(ReactDOM.findDOMNode(toast): any.innerHTML).toContain('message');
+    const domNode = ReactDOM.findDOMNode(toast!);
+    expect(domNode).toBeInstanceOf(HTMLElement);
+    expect(domNode!.textContent).toEqual('message');
   });
 
   it('hides message after interval', () => {
     const wrapper = mount(<Toast />);
-    wrapper.instance(): any): Toast.push('message');
+    (wrapper.instance() as Toast).push('message');
     jest.runAllTimers();
-    const toast = wrapper.instance(): any): Toast._toast;
+    const toast = (wrapper.instance() as Toast)._toast;
     expect(toast).toBeFalsy();
   });
 
   it('calls onPush at push', () => {
     const onPush = jest.fn();
     const wrapper = mount(<Toast onPush={onPush} />);
-    wrapper.instance(): any): Toast.push('somemessage');
+    (wrapper.instance() as Toast).push('somemessage');
     jest.runAllTimers();
 
     expect(onPush.mock.calls[0][0]).toBe('somemessage');
@@ -60,7 +60,7 @@ describe('Toast', () => {
   it('calls onClose after close', () => {
     const onClose = jest.fn();
     const wrapper = mount(<Toast onClose={onClose} />);
-    wrapper.instance(): any): Toast.push('message');
+    ((wrapper.instance() as Toast) as Toast).push('message');
     jest.runAllTimers();
 
     expect(onClose.mock.calls[0][0]).toBe('message');
@@ -69,26 +69,26 @@ describe('Toast', () => {
 
   it('support actions in tosts', () => {
     const wrapper = mount(<Toast />);
-    wrapper.instance(): any): Toast.push('message', {
+    (wrapper.instance() as Toast).push('message', {
       label: 'action',
-      handler: () => {}
+      handler: () => undefined
     });
 
-    const toast = wrapper.instance(): any): Toast._toast;
-    const link = ReactDOM.findDOMNode(toast): any.querySelector('.link');
+    const toast = (wrapper.instance() as Toast)._toast;
+    const link = (ReactDOM.findDOMNode(toast!) as Element).querySelector('.link');
     expect(link).toBeTruthy();
   });
 
   it('passes right actions in tosts', () => {
     const wrapper = mount(<Toast />);
     const handler = jest.fn();
-    wrapper.instance(): any): Toast.push('message', {
+    (wrapper.instance() as Toast).push('message', {
       label: 'action',
       handler
     });
 
-    const toast = wrapper.instance(): any): Toast._toast;
+    const toast = (wrapper.instance() as Toast)._toast;
 
-    expect(toast.props.action).toEqual({ label: 'action', handler });
+    expect(toast!.props.action).toEqual({ label: 'action', handler });
   });
 });

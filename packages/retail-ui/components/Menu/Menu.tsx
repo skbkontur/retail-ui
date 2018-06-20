@@ -57,6 +57,9 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           preventWindowScroll={this.props.preventWindowScroll}
         >
           {React.Children.map(this.props.children, (child, index) => {
+            if (!child) {
+              return child
+            }
             if (typeof child === 'string' || typeof child === 'number') {
               return child;
             }

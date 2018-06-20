@@ -42,6 +42,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
     ToastStatic.close();
   }
 
+  public _toast: Nullable<ToastView>;
   private _timeout: Nullable<TimeoutID> = null;
 
   constructor(props: ToastProps) {
@@ -107,7 +108,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
       action,
     };
 
-    return <ToastView key={id} {...toastProps} />;
+    return <ToastView key={id} ref={this._refToast} {...toastProps} />;
   }
 
   private _clearTimer = () => {
@@ -123,6 +124,10 @@ class Toast extends React.Component<ToastProps, ToastState> {
     const timeOut = this.state.action ? 7 : 3;
 
     this._timeout = window.setTimeout(this.close, timeOut * 1000);
+  };
+
+  private _refToast = (element: ToastView) => {
+    this._toast = element;
   };
 }
 

@@ -1,3 +1,4 @@
+// tslint:disable:jsx-no-lambda
 import { mount } from 'enzyme';
 import React from 'react';
 import Tooltip from '../Tooltip';
@@ -6,7 +7,7 @@ describe('Tooltip', () => {
   const render = () => '';
 
   it('keeps child ref', () => {
-    const Comp = ({ refFn }) => {
+    const Comp = ({ refFn }: { refFn: (element: HTMLDivElement) => void }) => {
       return (
         <Tooltip render={render}>
           <div ref={refFn} />
@@ -95,7 +96,7 @@ describe('Tooltip', () => {
 
   it('renders stateful children component without errors', () => {
     class StatefulComponent extends React.Component {
-      render() {
+      public render() {
         return <div>Stateful Component!</div>;
       }
     }

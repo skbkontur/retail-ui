@@ -1,21 +1,32 @@
-
+// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import Tooltip from '../Tooltip';
+import Tooltip, { TooltipTrigger, TooltipProps } from '../Tooltip';
 import Button from '../../Button';
+import { PopupPosition } from '../../Popup';
+import { createPropsGetter } from '../../internal/createPropsGetter';
 
-class TestTooltip extends React.Component<*> {
-  static defaultProps = {
+interface TestTooltipProps {
+  pos?: PopupPosition;
+  trigger?: TooltipTrigger;
+}
+
+class TestTooltip extends React.Component<TestTooltipProps> {
+  public static defaultProps: {
+    pos: PopupPosition
+  } = {
     pos: 'top center'
   };
 
-  render() {
-    const { pos, trigger, children } = this.props;
+  private getProps = createPropsGetter(TestTooltip.defaultProps);
+
+  public render(): JSX.Element {
+    const { trigger, children } = this.props;
 
     return (
       <div style={{ padding: '150px' }}>
         <Tooltip
-          pos={pos}
+          pos={this.getProps().pos}
           render={() => <div>Hey there!</div>}
           trigger={trigger}
         >
@@ -118,15 +129,17 @@ storiesOf('Tooltip', module)
     </div>
   ));
 
-class MyCustomTooltip extends React.Component<*, *> {
-  constructor() {
-    super();
-    this.state = {
-      state: 'hover'
-    };
-  }
-  render() {
-    const tooltipProps =
+interface MyCustomTooltipState {
+  state: TooltipTrigger
+}
+
+class MyCustomTooltip extends React.Component<TestTooltipProps, MyCustomTooltipState> {
+  public state: MyCustomTooltipState = {
+    state: 'hover'
+  };
+
+  public render() {
+    const tooltipProps: Partial<TooltipProps> =
       this.state.state === 'hover'
         ? { trigger: 'hover' }
         : {

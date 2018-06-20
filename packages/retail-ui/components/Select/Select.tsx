@@ -66,14 +66,14 @@ export interface SelectProps<TValue, TItem> {
   onMouseOver?: (e: React.MouseEvent<HTMLElement>) => void;
   onOpen?: () => void;
   placeholder?: React.ReactNode;
-  renderItem?: (value: TValue, item: TItem) => React.ReactNode;
-  renderValue?: (value: Nullable<TValue>, item: TItem) => React.ReactNode;
+  renderItem?: (value: TValue, item?: TItem) => React.ReactNode;
+  renderValue?: (value: TValue, item?: TItem) => React.ReactNode;
   areValuesEqual?: (
-    value1: Nullable<TValue>,
-    value2: Nullable<TValue>
+    value1: TValue,
+    value2: TValue
   ) => boolean;
   search?: boolean;
-  value?: Nullable<TValue>;
+  value?: TValue;
   width?: number | string;
   warning?: boolean;
   use?: ButtonUse;

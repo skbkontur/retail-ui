@@ -13,7 +13,6 @@
     "noUnusedLocals": true
   },
   "exclude": [
-    "**/__tests__",
     "**/__mocks__"
   ]
 }

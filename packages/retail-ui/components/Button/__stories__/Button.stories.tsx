@@ -1,7 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import Button from '../../Button';
+import Button, { ButtonUse } from '../../Button';
 import Gapped from '../../Gapped';
+import { IconName } from '../../Icon';
+import { ButtonSize } from '../Button';
 
 storiesOf('Button', module)
   .add('playground', () => {
@@ -24,7 +26,7 @@ storiesOf('Button', module)
     </Gapped>
   ))
   .add('with icons', () => {
-    const icon = 'ok';
+    const icon: IconName = 'Ok';
     return (
       <Gapped>
         <Button icon={icon}>Small</Button>
@@ -51,8 +53,8 @@ storiesOf('Button', module)
     return <Button arrow>Arrow!</Button>;
   })
   .add('table', () => {
-    const uses = ['default', 'primary', 'success', 'danger', 'pay'];
-    const sizes = ['small', 'medium', 'large'];
+    const uses: ButtonUse[] = ['default', 'primary', 'success', 'danger', 'pay'];
+    const sizes: ButtonSize[] = ['small', 'medium', 'large'];
     return (
       <table style={{ borderSpacing: 10 }}>
         <thead>
@@ -83,8 +85,8 @@ storiesOf('Button', module)
                   Button
                 </Button>
               </td>
-              {sizes.map((size, i) => (
-                <td key={i}>
+              {sizes.map((size, index: number) => (
+                <td key={index}>
                   <Button use={use} size={size}>
                     Button
                   </Button>
