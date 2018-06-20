@@ -38,10 +38,6 @@ export default class ZIndex extends React.Component<ZIndexProps> {
   }
 }
 
-declare const global: {
-  __RetailUiZIndexes: number[];
-};
-
 class ZIndexStorage {
   public static incrementZIndex = (delta: number): number => {
     if (delta <= 0) {
@@ -61,6 +57,6 @@ class ZIndexStorage {
   };
 
   private static getZIndexes = (): number[] => {
-    return global.__RetailUiZIndexes || (global.__RetailUiZIndexes = [0]);
+    return window.__RetailUiZIndexes || (window.__RetailUiZIndexes = [0]);
   };
 }

@@ -13,8 +13,6 @@ const styles = isFlatDesign
   ? require('./Radio.flat.less')
   : require('./Radio.less');
 
-type Primitive = number | string;
-
 export interface SyntheticRadioEvent<T> {
   target: {
     id: Nullable<string>,

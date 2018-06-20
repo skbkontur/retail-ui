@@ -69,7 +69,7 @@ export default class InputLikeText extends React.Component<
    */
   public blink() {
     this.setState({ blinking: true }, () => {
-      this._blinkTimeout = global.setTimeout(
+      this._blinkTimeout = window.setTimeout(
         () => this.setState({ blinking: false }),
         150
       );

@@ -148,7 +148,7 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (this._wheelEndTimeout) {
       clearTimeout(this._wheelEndTimeout);
     }
-    this._wheelEndTimeout = global.setTimeout(this._scrollToNearestWeek, 300);
+    this._wheelEndTimeout = window.setTimeout(this._scrollToNearestWeek, 300);
   };
 
   private _scrollToNearestWeek = () => {

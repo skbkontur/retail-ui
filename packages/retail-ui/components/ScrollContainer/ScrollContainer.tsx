@@ -177,7 +177,7 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
       return;
     }
 
-    const target: Document = global.document;
+    const target: Document = window.document;
     const initialY = event.clientY;
     const initialScrollTop = this._inner.scrollTop;
 

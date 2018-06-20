@@ -36,9 +36,9 @@ export default class RenderContainer extends React.Component<any> {
     body.appendChild(this._domContainer);
 
     // @ts-ignore
-    if (global.ReactTesting) {
+    if (window.ReactTesting) {
       // @ts-ignore
-      global.ReactTesting.addRenderContainer(this._testID, this);
+      window.ReactTesting.addRenderContainer(this._testID, this);
     }
   }
 
@@ -73,9 +73,9 @@ export default class RenderContainer extends React.Component<any> {
     }
 
     // @ts-ignore
-    if (global.ReactTesting) {
+    if (window.ReactTesting) {
       // @ts-ignore
-      global.ReactTesting.removeRenderContainer(this._testID);
+      window.ReactTesting.removeRenderContainer(this._testID);
     }
   }
 

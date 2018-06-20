@@ -5,12 +5,36 @@ import invariant from 'invariant';
 import uuidv1 from 'uuid/v1';
 import Prevent from './Prevent';
 
-import Radio from '../Radio';
+import Radio, { SyntheticRadioEvent } from '../Radio';
 
-import styles from './RadioGroup.less';
+import styles = require('./RadioGroup.less');
+import { createPropsGetter } from '../internal/createPropsGetter';
 
-class RadioGroup extends React.Component {
-  static childContextTypes = {
+export type ItemType<T> = T | [T, React.ReactNode]
+
+export interface RadioGroupProps<T> {
+  defaultValue?: T;
+  value?: T;
+  items?: Array<ItemType<T>>;
+  name?: string;
+  disabled?: boolean;
+  warning?: boolean;
+  error?: boolean;
+  inline?: boolean;
+  width?: React.CSSProperties['width'];
+  renderItem?: (itemValue: T, data: React.ReactNode) => React.ReactNode;
+  onChange?: (event: SyntheticRadioEvent<T>, value: T) => any;
+  onMouseLeave?: () => any;
+  onMouseOver?: () => any;
+  onMouseEnter?: () => any;
+}
+
+export interface RadioGroupState<T> {
+  activeItem?: T;
+}
+ 
+class RadioGroup<T extends Primitive> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
+  public static childContextTypes = {
     error: PropTypes.bool,
     name: PropTypes.string,
     warning: PropTypes.bool,
@@ -19,7 +43,7 @@ class RadioGroup extends React.Component {
     onSelect: PropTypes.func
   };
 
-  static propTypes = {
+  public static propTypes = {
     /**
      * Может быть использовано, если не передан параметр `items`
      *
@@ -107,20 +131,25 @@ class RadioGroup extends React.Component {
     onMouseOver: PropTypes.func
   };
 
-  static defaultProps = {
+  public static defaultProps = {
     renderItem
   };
 
-  static Prevent = Prevent;
+  public static Prevent = Prevent;
 
-  _name = uuidv1();
-  _node = null;
+  private _node: Nullable<HTMLSpanElement>;
+  private _name = uuidv1();
+  private getProps = createPropsGetter(RadioGroup.defaultProps);
 
-  state = {
-    activeItem: this.props.defaultValue
-  };
+  constructor(props: RadioGroupProps<T>) {
+    super(props);
 
-  getChildContext() {
+    this.state = {
+      activeItem: this.props.defaultValue
+    };
+  }
+
+  public getChildContext() {
     return {
       activeItem: this._getValue(),
       onSelect: this._handleSelect,
@@ -131,41 +160,7 @@ class RadioGroup extends React.Component {
     };
   }
 
-  /**
-   * @public
-   **/
-  focus() {
-    const node = this._node;
-    if (!node) {
-      return;
-    }
-
-    let radio = node.querySelector('input[type="radio"]:checked');
-
-    // If no checked radios, try get first radio
-    if (!radio || radio.disabled) {
-      radio = node.querySelector('input[type="radio"]:not([disabled])');
-    }
-    radio && radio.focus();
-  }
-
-  _getValue = () =>
-    this._isControlled() ? this.props.value : this.state.activeItem;
-
-  _getName = () => this.props.name || this._name;
-
-  _isControlled = () => this.props.value != null;
-
-  _handleSelect = (event, value) => {
-    if (!this._isControlled()) {
-      this.setState({ activeItem: value });
-    }
-    if (this.props.onChange) {
-      this.props.onChange(event, value);
-    }
-  };
-
-  render() {
+  public render() {
     const { width, onMouseLeave, onMouseOver, onMouseEnter } = this.props;
     const style = {
       width: width != null ? width : 'auto'
@@ -182,7 +177,41 @@ class RadioGroup extends React.Component {
     );
   }
 
-  _renderChildren() {
+  public focus() {
+    const node = this._node;
+    if (!node) {
+      return;
+    }
+
+    let radio = node.querySelector('input[type="radio"]:checked') as Nullable<HTMLInputElement>;
+
+    // If no checked radios, try get first radio
+    if (!radio || radio.disabled) {
+      radio = node.querySelector('input[type="radio"]:not([disabled])') as Nullable<HTMLInputElement>;
+    }
+
+    if (radio) {
+      radio.focus();
+    }
+  }
+
+  private _getValue = () =>
+    this._isControlled() ? this.props.value : this.state.activeItem;
+
+  private _getName = () => this.props.name || this._name;
+
+  private _isControlled = () => this.props.value != null;
+
+  private _handleSelect = (event: SyntheticRadioEvent<T>, value: T) => {
+    if (!this._isControlled()) {
+      this.setState({ activeItem: value });
+    }
+    if (this.props.onChange) {
+      this.props.onChange(event, value);
+    }
+  };
+
+  private _renderChildren() {
     const { items, children } = this.props;
     invariant(
       (!items && children) || (items && !children),
@@ -191,12 +220,12 @@ class RadioGroup extends React.Component {
     return items ? mapItems(this._renderRadio, items) : children;
   }
 
-  _renderRadio = (itemValue, data, i) => {
+  private _renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
     const itemProps = {
-      key: itemValue,
+      key: typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : index,
       className: classNames({
         [styles.item]: true,
-        [styles.itemFirst]: i === 0,
+        [styles.itemFirst]: index === 0,
         [styles.itemInline]: this.props.inline
       })
     };
@@ -204,24 +233,24 @@ class RadioGroup extends React.Component {
     return (
       <span {...itemProps}>
         <Radio value={itemValue}>
-          {this.props.renderItem(itemValue, data)}
+          {this.getProps().renderItem(itemValue, data)}
         </Radio>
       </span>
     );
   };
 
-  _ref = el => {
-    this._node = el;
+  private _ref = (element: HTMLSpanElement) => {
+    this._node = element;
   };
 }
 
 export default RadioGroup;
 
-function renderItem(value, data) {
+function renderItem(_value: any, data: React.ReactNode) {
   return data;
 }
 
-function mapItems(fn, items) {
+function mapItems(fn: (value: any, data: any, index: number) => React.ReactNode, items: any[]) {
   const result = [];
   let index = 0;
   for (const entry of items) {
@@ -232,7 +261,7 @@ function mapItems(fn, items) {
   return result;
 }
 
-function normalizeEntry(entry) {
+function normalizeEntry(entry: any[]) {
   if (!Array.isArray(entry)) {
     return [entry, entry];
   }

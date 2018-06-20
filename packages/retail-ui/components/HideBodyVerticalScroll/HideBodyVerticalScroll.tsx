@@ -113,17 +113,17 @@ export default class HideBodyVerticalScroll extends React.Component<HideBodyVert
 
 class VerticalScrollCounter {
   public static increment = (): number => {
-    const counter = global.RetailUIVerticalScrollCounter || 0;
-    return global.RetailUIVerticalScrollCounter = counter + 1;
+    const counter = window.RetailUIVerticalScrollCounter || 0;
+    return window.RetailUIVerticalScrollCounter = counter + 1;
   };
 
   public static decrement = (): number => {
-    const counter = global.RetailUIVerticalScrollCounter || 0;
-    return global.RetailUIVerticalScrollCounter = counter - 1;
+    const counter = window.RetailUIVerticalScrollCounter || 0;
+    return window.RetailUIVerticalScrollCounter = counter - 1;
   };
 
   public static get = (): number => {
-    return global.RetailUIVerticalScrollCounter || 0;
+    return window.RetailUIVerticalScrollCounter || 0;
   };
 }
 

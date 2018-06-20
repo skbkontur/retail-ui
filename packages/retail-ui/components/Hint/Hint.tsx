@@ -149,7 +149,7 @@ class Hint extends React.Component<HintProps, HintState> {
 
   private _handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
     if (!this.props.manual && !this._timer) {
-      this._timer = global.setTimeout(this._open, 400);
+      this._timer = window.setTimeout(this._open, 400);
     }
     this.getProps().onMouseEnter(e);
   };

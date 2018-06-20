@@ -122,7 +122,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
 
     const timeOut = this.state.action ? 7 : 3;
 
-    this._timeout = global.setTimeout(this.close, timeOut * 1000);
+    this._timeout = window.setTimeout(this.close, timeOut * 1000);
   };
 }
 

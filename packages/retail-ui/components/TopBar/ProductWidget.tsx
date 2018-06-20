@@ -15,7 +15,7 @@ export default {
       document.getElementsByTagName('head')[0].appendChild(script);
     };
 
-    if (global.jQuery) {
+    if (window.jQuery) {
       loadWidget();
     } else {
       const jquery = document.createElement('script');

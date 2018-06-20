@@ -35,7 +35,7 @@ export interface CurrencyInputProps {
   disabled?: boolean;
   error?: boolean;
   fractionDigits?: Nullable<number>;
-  leftIcon?: Node;
+  leftIcon?: React.ReactNode;
   placeholder?: string;
   signed?: boolean;
   size?: 'small' | 'medium' | 'large';

@@ -2,7 +2,7 @@ let ieVerison: number | undefined;
 let isIE: boolean | undefined;
 let isEdge: boolean | undefined;
 
-if (global.document) {
+if (window.document) {
   let classes = '';
 
   const div = document.createElement('div');
@@ -12,7 +12,7 @@ if (global.document) {
     classes += ' rt-ie' + ieVerison;
   }
 
-  const ua = global.navigator.userAgent;
+  const ua = window.navigator.userAgent;
   isIE = ieVerison != null || ua.includes('MSIE ') || ua.includes('Trident/');
   if (isIE) {
     classes += ' rt-ie-any';
