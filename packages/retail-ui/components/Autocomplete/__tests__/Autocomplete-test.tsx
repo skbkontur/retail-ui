@@ -126,9 +126,7 @@ describe('<Autocomplete />', () => {
     };
 
     const wrapper = render({ ...props, onChange: () => undefined, source: [] });
-    const inputProps = wrapper.find('Input').props() as Partial<
-      AutocompleteProps
-    >;
+    const inputProps = wrapper.find('Input').props()
 
     // tslint:disable-next-line:forin
     for (const prop in props) {
