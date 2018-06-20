@@ -1,5 +1,4 @@
-
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import CROSS from '../internal/cross';
 import ZIndex from '../ZIndex/ZIndex';
@@ -15,9 +14,9 @@ export interface ToastViewProps {
   onClose?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
-};
+}
 
-class ToastView extends Component<ToastViewProps> {
+class ToastView extends React.Component<ToastViewProps> {
   public static propTypes = {
     /**
      * Adds action handling and close icon fot tost

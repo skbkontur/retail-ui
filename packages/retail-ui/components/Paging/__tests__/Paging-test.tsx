@@ -1,10 +1,9 @@
-
-
+// tslint:disable
 import { mount } from 'enzyme';
 import * as React from 'react';
 
 import Paging from '../Paging';
-import PagingStyles from '../Paging.less';
+import PagingStyles = require('../Paging.less');
 
 describe('Pager', () => {
   it('renders', () => {
@@ -44,7 +43,11 @@ describe('Pager', () => {
     const wrapper = mount(
       <Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />
     );
-    wrapper.find(`span.${PagingStyles.pageLink}`).at(1).simulate('click');
+
+    wrapper
+      .find(`span.${PagingStyles.pageLink}`)
+      .at(1)
+      .simulate('click');
     expect(onPageChange).toHaveBeenCalled();
   });
 
@@ -53,7 +56,10 @@ describe('Pager', () => {
     const wrapper = mount(
       <Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />
     );
-    wrapper.find(`span.${PagingStyles.pageLink}`).at(1).simulate('click');
+    wrapper
+      .find(`span.${PagingStyles.pageLink}`)
+      .at(1)
+      .simulate('click');
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 
@@ -69,7 +75,10 @@ describe('Pager', () => {
     const wrapper = mount(
       <Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />
     );
-    wrapper.find(`span.${PagingStyles.forwardLink}`).at(0).simulate('click');
+    wrapper
+      .find(`span.${PagingStyles.forwardLink}`)
+      .at(0)
+      .simulate('click');
     expect(onPageChange).toHaveBeenCalled();
   });
 
@@ -78,7 +87,10 @@ describe('Pager', () => {
     const wrapper = mount(
       <Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />
     );
-    wrapper.find(`span.${PagingStyles.forwardLink}`).at(0).simulate('click');
+    wrapper
+      .find(`span.${PagingStyles.forwardLink}`)
+      .at(0)
+      .simulate('click');
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 

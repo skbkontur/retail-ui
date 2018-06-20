@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import styles from './Calendar.less';
 
@@ -7,7 +7,7 @@ const DAY_HEIGHT = 31;
 const FIRST_CELL_OFFSET = 6;
 const HOLIDAYS_OFFSET = 3;
 
-export default class CalendarCell extends Component {
+export default class CalendarCell extends React.Component {
   constructor(props) {
     super(props);
 

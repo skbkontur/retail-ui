@@ -5,14 +5,12 @@
     "strict": true,
     "jsx": "react",
     "experimentalDecorators": true,
-    "target": "es3",
+    "target": "es5",
     "lib": ["es2017", "es2015", "dom"],
     "importHelpers": true,
     "declaration": true,
     "esModuleInterop": true,
     "noUnusedLocals": true
   },
-  "exclude": [
-    "**/__mocks__"
-  ]
+  "exclude": ["**/__mocks__", "**/__tests__/**"]
 }

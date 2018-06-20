@@ -233,9 +233,9 @@ class Autocomplete extends React.Component<
       this._handleItemClick(event, i);
   }
 
-  private getAnchor() {
+  private getAnchor = () => {
     return findDOMNode(this);
-  }
+  };
 
   private _handleItemClick(
     event: React.SyntheticEvent<HTMLElement>,

@@ -1,13 +1,15 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
-import Autocomplete, { AutocompleteProps, AutocomplpeteState } from '../Autocomplete';
+import Autocomplete, { AutocompleteProps } from '../Autocomplete';
 import Icon from '../../Icon';
 import { mount } from 'enzyme';
 
 const render = (props: AutocompleteProps) => mount(<Autocomplete {...props} />);
 
 const renderUnc = (props: AutocompleteProps) =>
-  mount<AutocompleteProps>(React.createElement(UncontrolledAutocomplete, props));
+  mount<AutocompleteProps>(
+    React.createElement(UncontrolledAutocomplete, props)
+  );
 
 describe('<Autocomplete />', () => {
   it('renders with given value', () => {
@@ -74,7 +76,11 @@ describe('<Autocomplete />', () => {
   it('uses renderItem prop to render items', async () => {
     const onChange = jest.fn();
     const source = () => Promise.resolve(['One', 'Two']);
-    const wrapper = renderUnc({ source, renderItem: x => x.toUpperCase(), onChange });
+    const wrapper = renderUnc({
+      source,
+      renderItem: x => x.toUpperCase(),
+      onChange
+    });
     wrapper.find('input').simulate('change', { target: { value: 'two' } });
 
     // wait for react batch updates
@@ -120,11 +126,15 @@ describe('<Autocomplete />', () => {
     };
 
     const wrapper = render({ ...props, onChange: () => undefined, source: [] });
-    const inputProps = wrapper.find('Input').props() as Partial<AutocompleteProps>;
+    const inputProps = wrapper.find('Input').props() as Partial<
+      AutocompleteProps
+    >;
 
     // tslint:disable-next-line:forin
     for (const prop in props) {
-      expect(inputProps[prop as keyof AutocompleteProps]).toBe(props[prop as keyof AutocompleteProps]);
+      expect(inputProps[prop as keyof AutocompleteProps]).toBe(
+        props[prop as keyof AutocompleteProps]
+      );
     }
   });
 
@@ -143,7 +153,10 @@ interface UncontrolledAutocompleteState {
   value: string;
 }
 
-class UncontrolledAutocomplete extends React.Component<AutocompleteProps, UncontrolledAutocompleteState> {
+class UncontrolledAutocomplete extends React.Component<
+  AutocompleteProps,
+  UncontrolledAutocompleteState
+> {
   public state = {
     value: ''
   };

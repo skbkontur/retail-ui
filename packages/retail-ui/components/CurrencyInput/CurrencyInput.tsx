@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Input from '../Input';
@@ -60,7 +60,7 @@ interface CurrencyInputState {
   selection: Selection;
 }
 
-export default class CurrencyInput extends Component<
+export default class CurrencyInput extends React.Component<
   CurrencyInputProps,
   CurrencyInputState
 > {

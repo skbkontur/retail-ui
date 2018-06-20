@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import PopupHelper, { Rect, PositionObject } from './PopupHelper';
@@ -24,7 +24,7 @@ interface Props {
   size: number;
 }
 
-export default class PopupPin extends Component<Props> {
+export default class PopupPin extends React.Component<Props> {
   public static propTypes = {
     /**
      * Цвет фон пина
