@@ -1,19 +1,27 @@
 import React from 'react';
-import Input from '../Input';
+import Input, { InputProps } from '../Input';
 
-export default class PasswordInputFallback extends React.Component {
-  static defaultProps = {
+export type PasswordInputFallbackProps = {
+  visible?: boolean;
+  size?: string;
+  refInput: (element: Input) => void;
+} & InputProps;
+
+export default class PasswordInputFallback extends React.Component<PasswordInputFallbackProps> {
+  public static defaultProps = {
     size: 'small'
   };
 
-  _passwordInput = null;
-  _textInput = null;
+  private _passwordInput: Nullable<Input> = null;
+  private _textInput: Nullable<Input> = null;
 
-  componentDidMount() {
-    this.props.refInput(this._passwordInput);
+  public componentDidMount() {
+    if (this._passwordInput) {
+      this.props.refInput(this._passwordInput);
+    }
   }
 
-  componentDidUpdate(prevProps) {
+  public componentDidUpdate(prevProps: PasswordInputFallbackProps) {
     if (prevProps.visible === this.props.visible) {
       return;
     }
@@ -21,18 +29,12 @@ export default class PasswordInputFallback extends React.Component {
     const { visible, refInput } = this.props;
     const currentInput = visible ? this._textInput : this._passwordInput;
 
-    refInput(currentInput, 'focus');
+    if (currentInput) {
+      refInput(currentInput);
+    }
   }
 
-  // sad ie8 hack that move caret position to the end
-  _handleFocus = ({ target }) => {
-    const val = target.value;
-
-    target.value = '';
-    target.value = val;
-  };
-
-  render() {
+  public render() {
     const { visible } = this.props;
 
     return (
@@ -60,4 +62,12 @@ export default class PasswordInputFallback extends React.Component {
       </div>
     );
   }
+
+  // sad ie8 hack that move caret position to the end
+  private _handleFocus = ({ target }: React.FocusEvent<HTMLInputElement>) => {
+    const val = target.value;
+
+    target.value = '';
+    target.value = val;
+  };
 }

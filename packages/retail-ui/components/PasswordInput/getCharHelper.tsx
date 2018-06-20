@@ -1,6 +1,6 @@
+import * as React from 'react';
 
-
-export default function(e: SyntheticKeyboardEvent<>) {
+export default function(e: React.KeyboardEvent<HTMLElement>) {
   if (e.which == null) {
     if (e.keyCode < 32) {
       return null;
