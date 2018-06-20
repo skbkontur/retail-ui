@@ -5,12 +5,10 @@ import Upgrades from '../../lib/Upgrades';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const CssStyles = require('./Toggle.less');
+import DefaultStyles = require('./Toggle.less');
+import FlatStyles = require('./Toggle.flat.less');
 
-let styles: typeof CssStyles;
-styles = isFlatDesign
-  ? require('./Toggle.flat.less')
-  : require('./Toggle.less');
+const styles = isFlatDesign ? FlatStyles : DefaultStyles;
 
 export interface ToggleProps {
   checked: boolean;
@@ -19,7 +17,7 @@ export interface ToggleProps {
   warning?: boolean;
   error?: boolean;
   loading?: boolean;
-};
+}
 
 class Toggle extends React.Component<ToggleProps> {
   public static propTypes = {

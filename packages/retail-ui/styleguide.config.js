@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const parseTsComponent = require('react-docgen-typescript').withDefaultConfig()
-  .parse;
+const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
+  './tsconfig.json'
+).parse;
 const parseJsComponent = require('react-docgen').parse;
 
 function getComponentList() {
@@ -133,6 +134,7 @@ module.exports = {
   },
   title: 'React UI',
   require: ['babel-polyfill'],
+  resolver: require('react-docgen').resolver.findAllComponentDefinitions,
   propsParser: (path, ...rest) => {
     if (/\.tsx$/.test(path)) {
       return parseTsComponent(path, ...rest);
