@@ -13,6 +13,8 @@ gemini-report
 /storybook-static
 *.less.d.ts
 *.less.flow
+/lib/**/*.js
+/lib/**/*.d.ts
 
 yarn-debug.log
 yarn-error.log
