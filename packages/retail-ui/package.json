@@ -111,7 +111,6 @@
     "eslint-plugin-flowtype": "^2.46.1",
     "eslint-plugin-react": "^7.7.0",
     "file-loader": "^1.1.11",
-    "flow-bin": "^0.67.1",
     "fs-readdir-recursive": "^1.1.0",
     "gemini": "5.6.2",
     "gemini-sauce": "^1.0.1",
