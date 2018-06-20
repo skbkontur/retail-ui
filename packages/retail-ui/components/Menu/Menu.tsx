@@ -63,9 +63,6 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             if (typeof child === 'string' || typeof child === 'number') {
               return child;
             }
-            if (typeof child.type === 'string') {
-              return child;
-            }
             const isMenuItem =
               child && (child.type as typeof MenuItem).__MENU_ITEM__;
             const isMenuHeader =

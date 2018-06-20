@@ -22,6 +22,7 @@ export interface DropdownContainerState {
     bottom: Nullable<number>;
     left: Nullable<number>;
     right: Nullable<number>;
+    minWidth: Nullable<number>;
   }>;
   hasStaticRoot?: boolean;
 }
@@ -77,13 +78,14 @@ export default class DropdownContainer extends React.Component<
       right: undefined
     };
     if (this.state.position) {
-      const { top, bottom, left, right } = this.state.position;
+      const { top, bottom, left, right, minWidth } = this.state.position;
       style = {
         ...style,
         top: top || undefined,
         bottom: bottom || undefined,
         left: left || undefined,
-        right: right || undefined
+        right: right || undefined,
+        minWidth: minWidth || undefined
       };
     }
     if (this.props.disablePortal) {
