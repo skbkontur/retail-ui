@@ -91,7 +91,7 @@ class Tabs extends React.Component<TabsProps, TabsState> {
     };
   }
 
-  public render(): React.ReactNode {
+  public render(): JSX.Element {
     const activeTab = this.state.tabs.find(x => x.id === this.props.value);
     const { vertical } = this.getProps<TabsProps, Tabs>();
 

@@ -29,8 +29,8 @@ class RenderLayer extends React.Component<RenderLayerProps> {
     this.detachListeners();
   }
 
-  public render() {
-    return this.props.children;
+  public render(): JSX.Element {
+    return React.Children.only(this.props.children);
   }
 
   private attachListeners() {

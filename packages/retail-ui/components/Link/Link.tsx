@@ -80,7 +80,7 @@ class Link extends React.Component<LinkProps, LinkState> {
     listenTabPresses();
   }
 
-  public render(): React.ReactNode {
+  public render(): JSX.Element {
     const {
       disabled,
       href,

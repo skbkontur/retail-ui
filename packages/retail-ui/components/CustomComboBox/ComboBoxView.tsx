@@ -85,7 +85,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
   }
 
-  public render(): React.ReactNode {
+  public render(): JSX.Element {
     const {
       items,
       loading,

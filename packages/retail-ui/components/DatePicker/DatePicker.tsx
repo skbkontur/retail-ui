@@ -148,7 +148,7 @@ class DatePicker extends React.Component<DatePickerProps<string>, State> {
     this.setState({ opened: false });
   }
 
-  public render(): React.ReactNode {
+  public render(): JSX.Element {
     let picker = null;
     if (this.state.opened) {
       picker = (
