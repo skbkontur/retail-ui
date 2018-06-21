@@ -1,5 +1,4 @@
-
-/* eslint-disable react/no-multi-comp */
+/* tslint:disable */
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 
@@ -11,14 +10,14 @@ import Toggle from '../../Toggle';
 
 class ModalWithScrollableContent extends Component<
   {},
-  { opened: boolean, panel: boolean }
+  { opened: boolean; panel: boolean }
 > {
-  state = {
+  public state = {
     opened: false,
     panel: false
   };
 
-  render() {
+  public render() {
     return (
       <div style={{ width: '300px' }}>
         {this.state.opened && this.renderModal()}
@@ -61,7 +60,7 @@ class ModalWithScrollableContent extends Component<
     );
   }
 
-  renderModal() {
+  public renderModal() {
     return (
       <Modal onClose={this.close}>
         <Modal.Header>Title</Modal.Header>
@@ -86,28 +85,28 @@ class ModalWithScrollableContent extends Component<
     );
   }
 
-  open = () => {
+  public open = () => {
     this.setState({ opened: true });
   };
 
-  close = () => {
+  public close = () => {
     this.setState({ opened: false });
   };
 }
 
 class ModalWithInputInHeader extends Component<{}, { opened: boolean }> {
-  state = {
+  public state = {
     opened: false
   };
 
-  renderModal() {
+  public renderModal() {
     return (
       <Modal onClose={this.close}>
         <Modal.Header>
           <Input placeholder="Some input placeholder..." />{' '}
           <Input size="large" placeholder="Some large input placeholder..." />
           <br />
-          <Textarea placeholder="Some textarea placeholder" />
+          <Textarea placeholder="Some textarea placeholder" value="" />
         </Modal.Header>
         <Modal.Body>
           <p>
@@ -119,7 +118,7 @@ class ModalWithInputInHeader extends Component<{}, { opened: boolean }> {
     );
   }
 
-  render() {
+  public render() {
     return (
       <div style={{ width: '300px' }}>
         {this.state.opened && this.renderModal()}
@@ -128,22 +127,22 @@ class ModalWithInputInHeader extends Component<{}, { opened: boolean }> {
     );
   }
 
-  open = () => {
+  public open = () => {
     this.setState({ opened: true });
   };
 
-  close = () => {
+  public close = () => {
     this.setState({ opened: false });
   };
 }
 
-class ModalOverAnotherModal extends Component<{}, *> {
-  state = {
+class ModalOverAnotherModal extends Component<{}, any> {
+  public state = {
     firstModalOpened: false,
     secondModalOpened: false
   };
 
-  renderModal(name, width) {
+  public renderModal(name: string, width: number) {
     return (
       <Modal width={width} onClose={this.close.bind(this, name)}>
         <Modal.Header>
@@ -160,7 +159,7 @@ class ModalOverAnotherModal extends Component<{}, *> {
     );
   }
 
-  render() {
+  public render() {
     const { firstModalOpened, secondModalOpened } = this.state;
 
     return (
@@ -174,7 +173,7 @@ class ModalOverAnotherModal extends Component<{}, *> {
     );
   }
 
-  close(name) {
+  public close(name: string) {
     this.setState({ [name]: false });
   }
 }
