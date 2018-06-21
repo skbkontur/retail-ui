@@ -13,7 +13,7 @@ if (window.document) {
   }
 
   const ua = window.navigator.userAgent;
-  isIE = ieVerison != null || ua.includes('MSIE ') || ua.includes('Trident/');
+  isIE = !!ieVerison || ua.includes('MSIE ') || ua.includes('Trident/');
   if (isIE) {
     classes += ' rt-ie-any';
   }
