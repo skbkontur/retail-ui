@@ -42,12 +42,12 @@ export default class RenderContainer extends React.Component<any> {
     }
   }
 
-  public render() {
+  public render(): JSX.Element {
     if (REACT_16) {
       return [
         ReactDOM.createPortal(this.props.children, this._domContainer),
         <Portal key="portal-ref" rt_rootID={this._testID} />
-      ];
+      ] as any; // FIXME: To support ts typings for react@15, render should return JSX.Element
     }
     return <Portal rt_rootID={this._testID} />;
   }

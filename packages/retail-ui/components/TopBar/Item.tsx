@@ -52,7 +52,8 @@ class Item extends React.Component<ItemProps> {
       [styles.iconOnly]: iconOnly
     };
     if (use) {
-      classes[styles['use-' + use]] = true;
+      const useClassName = ('use-' + use) as keyof typeof styles
+      classes[styles[useClassName]] = true;
     }
 
     return (
