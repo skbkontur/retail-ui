@@ -5,9 +5,9 @@ import * as React from 'react';
 import { CSSTransitionGroupTransitionName } from 'react';
 import LayoutEvents from '../../lib/LayoutEvents';
 import stopPropagation from '../../lib/events/stopPropagation';
-import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
+import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
 import ModalStack from '../ModalStack';
-import RenderContainer from '../RenderContainer';
+import RenderContainer from '../RenderContainer/RenderContainer';
 import RenderLayer from '../RenderLayer';
 import ZIndex from '../ZIndex';
 import SidePageBody from './SidePageBody';
@@ -114,18 +114,20 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
 
     return (
       <RenderContainer>
-        {this.renderShadow()}
-        <Transition
-          transitionName={this.getTransitionNames()}
-          transitionAppear={!disableAnimations}
-          transitionEnter={!disableAnimations}
-          transitionLeave={!disableAnimations}
-          transitionAppearTimeout={TRANSITION_TIMEOUT}
-          transitionEnterTimeout={TRANSITION_TIMEOUT}
-          transitionLeaveTimeout={TRANSITION_TIMEOUT}
-        >
-          {this.renderContainer()}
-        </Transition>
+        <div>
+          {this.renderShadow()}
+          <Transition
+            transitionName={this.getTransitionNames()}
+            transitionAppear={!disableAnimations}
+            transitionEnter={!disableAnimations}
+            transitionLeave={!disableAnimations}
+            transitionAppearTimeout={TRANSITION_TIMEOUT}
+            transitionEnterTimeout={TRANSITION_TIMEOUT}
+            transitionLeaveTimeout={TRANSITION_TIMEOUT}
+          >
+            {this.renderContainer()}
+          </Transition>
+        </div>
       </RenderContainer>
     );
   }
