@@ -6,7 +6,7 @@ import listenFocusOutside, {
 } from '../../lib/listenFocusOutside';
 
 export interface RenderLayerProps {
-  children?: React.ReactNode;
+  children: JSX.Element;
   onClickOutside?: (e: Event) => void;
   onFocusOutside?: (e: Event) => void;
   active?: boolean;

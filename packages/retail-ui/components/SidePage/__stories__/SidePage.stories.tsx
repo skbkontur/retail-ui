@@ -11,7 +11,7 @@ import Modal from '../../Modal/Modal';
 import Gapped from '../../Gapped/Gapped';
 
 const textSample = (
-  <p style={{ marginBottom: '100px' }}>
+  <p>
     On the other hand, we denounce with righteous indignation and dislike men
     who are so beguiled and demoralized by the charms of pleasure of the moment,
     so blinded by desire, that they cannot foresee the pain and trouble that are

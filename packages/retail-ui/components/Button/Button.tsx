@@ -177,7 +177,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
     }
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { corners = 0 } = this.props;
     const radius = '2px';
 

@@ -131,12 +131,16 @@ class Hint extends React.Component<HintProps, HintState> {
   }
 
   private _renderContent() {
-    const { pos } = this.props;
+    const { pos, maxWidth } = this.props;
     const className = classNames({
       [styles.root]: true,
       [styles.rootCenter]: pos === 'top' || pos === 'bottom'
     });
-    return <div className={className}>{this.props.text}</div>;
+    return (
+      <div className={className} style={{ maxWidth }}>
+        {this.props.text}
+      </div>
+    );
   }
 
   private _ref = (el: Nullable<HTMLElement>) => {

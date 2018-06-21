@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import Sticky from '../Sticky';
-import { SidePageContext, SidePageContextType } from './SidePageContext';
+import { SidePageContext } from './SidePageContext';
 import styles from './SidePage.less';
 
 export interface SidePageHeaderProps {
@@ -12,7 +12,7 @@ export interface SidePageHeaderProps {
 export default class SidePageHeader extends React.Component<
   SidePageHeaderProps
 > {
-  public render() {
+  public render(): JSX.Element {
     return (
       <tr>
         <td className={styles.layoutItem}>
@@ -38,7 +38,7 @@ export default class SidePageHeader extends React.Component<
   public renderClose() {
     return (
       <SidePageContext.Consumer>
-        {({ requestClose }: SidePageContextType) => (
+        {({ requestClose }) => (
           <a href="javascript:" className={styles.close} onClick={requestClose}>
             <span>×</span>
           </a>

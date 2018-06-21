@@ -6,7 +6,6 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
    */
   delta: number;
   render?: boolean;
-  children?: React.ReactNode;
   className?: string;
 }
 
@@ -26,15 +25,16 @@ export default class ZIndex extends React.Component<ZIndexProps> {
     ZIndexStorage.removeZIndex(this.zIndex);
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { render, style, children, delta, ...props } = this.props;
-    return render ? (
-      <div style={{ ...style, zIndex: this.zIndex }} {...props}>
+    const styles: React.CSSProperties = { ...style, zIndex: this.zIndex };
+    return (render ? (
+      <div style={styles} {...props}>
         {children}
       </div>
     ) : (
       children
-    );
+    )) as JSX.Element;
   }
 }
 

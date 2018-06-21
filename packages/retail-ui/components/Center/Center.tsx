@@ -26,7 +26,7 @@ export default class Center extends React.Component<CenterProps, CenterState> {
     align: 'center'
   };
 
-  public render() {
+  public render(): JSX.Element {
     const { align, style, children, ...rest } = this.props;
 
     const styleJoined = Object.assign({ textAlign: align }, style);
