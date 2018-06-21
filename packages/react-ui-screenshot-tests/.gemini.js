@@ -27,7 +27,11 @@ module.exports = {
   },
   system: {
     plugins: {
-      sauce: true
+      sauce: true,
+      'html-reporter/gemini': {
+        enabled: true,
+        baseHost: 'localhost:6060'
+      }
     }
   }
 };
