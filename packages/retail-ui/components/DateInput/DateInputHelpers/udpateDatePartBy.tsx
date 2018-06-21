@@ -34,7 +34,7 @@ const udpateDatePartBy = (
 };
 
 export const updateDatePartBy = (step: number) => {
-  return (state: DateInputState) => {
+  return (state: DateInputState): Shape<DateInputState> => {
     const { selected, date, month, year, minDate, maxDate } = state;
     switch (selected) {
       case DateParts.All:
@@ -54,11 +54,10 @@ export const updateDatePartBy = (step: number) => {
           circulate
         );
         return {
-          ...state,
           date: value,
           selected: DateParts.Date,
           notify
-        };
+        } as Shape<DateInputState>;
       }
       case DateParts.Month: {
         const { min, max, circulate } = getMinMaxMonth(
@@ -74,7 +73,7 @@ export const updateDatePartBy = (step: number) => {
           2,
           circulate
         );
-        return { ...state, month: value, notify };
+        return { month: value, notify } as Shape<DateInputState>;
       }
       case DateParts.Year: {
         const { min, max, circulate } = getMinMaxYear(minDate, maxDate);
@@ -86,7 +85,7 @@ export const updateDatePartBy = (step: number) => {
           4,
           circulate
         );
-        return { ...state, year: value, notify };
+        return { year: value, notify } as Shape<DateInputState>;
       }
       default:
         throw new UnknownDatePart();
