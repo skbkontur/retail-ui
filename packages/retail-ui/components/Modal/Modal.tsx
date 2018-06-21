@@ -2,10 +2,10 @@ import * as React from 'react';
 import * as events from 'add-event-listener';
 import * as ReactDOM from 'react-dom';
 import LayoutEvents from '../../lib/LayoutEvents';
-import RenderContainer from '../RenderContainer';
-import ZIndex from '../ZIndex';
+import RenderContainer from '../RenderContainer/RenderContainer';
+import ZIndex from '../ZIndex/ZIndex';
 import stopPropagation from '../../lib/events/stopPropagation';
-import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
+import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
 import ModalStack from '../ModalStack';
 import { EventSubscription } from 'fbemitter';
 
@@ -102,7 +102,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     ModalStack.remove(this);
   }
 
-  public render() {
+  public render(): JSX.Element {
     const hasHeader = React.Children.toArray(this.props.children).some(
       child => (child as React.ReactElement<{}>).type === Header
     );

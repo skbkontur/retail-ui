@@ -242,7 +242,7 @@ class Input extends React.Component<InputProps, InputState> {
     }
   }
 
-  public render() {
+  public render(): JSX.Element {
     const labelProps = {
       className: classNames({
         [classes.root]: true,

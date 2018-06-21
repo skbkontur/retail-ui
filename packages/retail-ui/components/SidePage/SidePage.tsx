@@ -2,6 +2,7 @@ import * as events from 'add-event-listener';
 import classNames from 'classnames';
 import { EventSubscription } from 'fbemitter';
 import * as React from 'react';
+
 import LayoutEvents from '../../lib/LayoutEvents';
 import stopPropagation from '../../lib/events/stopPropagation';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
@@ -16,7 +17,7 @@ import SidePageFooter from './SidePageFooter';
 import SidePageHeader from './SidePageHeader';
 import Transition from 'react-addons-css-transition-group';
 
-import styles = require('./SidePage.less');
+import styles from './SidePage.less';
 
 export interface SidePageProps {
   /**
@@ -108,7 +109,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     ModalStack.remove(this);
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { disableAnimations } = this.props;
 
     return (
@@ -142,9 +143,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderContainer(): JSX.Element {
     const { delta, classes, style } = this.getZIndexProps();
-    const footerPanelWidth = this.layoutRef
-      ? this.layoutRef.getBoundingClientRect().width
-      : this.getSidebarStyle().width;
+    const sidePageWidth = this.getWidth();
 
     return (
       <ZIndex
@@ -166,7 +165,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
                 <SidePageContext.Provider
                   value={{
                     requestClose: this.requestClose,
-                    width: footerPanelWidth
+                    width: sidePageWidth
                   }}
                 >
                   {this.props.children}
@@ -177,6 +176,13 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
         </RenderLayer>
       </ZIndex>
     );
+  }
+
+  private getWidth() {
+    if (!this.layoutRef) {
+      return 'auto';
+    }
+    return this.layoutRef.getBoundingClientRect().width;
   }
 
   private renderShadow(): JSX.Element {
@@ -219,7 +225,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     return sidePageStyle;
   }
 
-  private getTransitionNames() {
+  private getTransitionNames(): Record<string, string> {
     const direction: 'right' | 'left' = this.props.fromLeft ? 'right' : 'left';
     const transitionEnter =
       styles[

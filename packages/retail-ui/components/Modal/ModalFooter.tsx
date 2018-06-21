@@ -1,7 +1,7 @@
 import * as React from 'react';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
 import classNames from 'classnames';
-import Sticky from '../Sticky';
+import Sticky from '../Sticky/Sticky';
 import styles = require('./Modal.less');
 import { ModalContext } from './ModalContext';
 
@@ -18,7 +18,7 @@ export interface FooterProps {
 export class Footer extends React.Component<FooterProps> {
   private scrollbarWidth = getScrollWidth();
 
-  public render() {
+  public render(): JSX.Element {
     const names = classNames({
       [styles.footer]: true,
       [styles.panel]: this.props.panel
