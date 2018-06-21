@@ -15,6 +15,11 @@ gemini-report
 *.less.flow
 /lib/**/*.js
 /lib/**/*.d.ts
+/lib/**/*.map
+/components/**/*.d.ts
+/components/**/*.js
+/components/**/*.map
+
 
 yarn-debug.log
 yarn-error.log
