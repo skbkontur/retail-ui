@@ -5,22 +5,21 @@ cache: yarn
 sudo: required
 dist: trusty
 install:
-  - yarn
+  - lerna bootstrap
 script:
-  - yarn test --silent
-  - yarn storybook:build
-  - yarn serve storybook-static -p 6060 --silent &
-  - yarn gemini
+  - lerna --scope $PACKAGE run test --silent
+  - lerna --scope $PACKAGE run storybook:build
+  - lerna --scope $PACKAGE run serve storybook-static -p 6060 --silent &
+  - lerna --scope $PACKAGE run gemini
 before_deploy:
-  - yarn build
-  - yarn tsc
+  - lerna --scope $PACKAGE run build
   - openssl aes-256-cbc -K $encrypted_86996ed187bd_key -iv $encrypted_86996ed187bd_iv
     -in build/.npmrc.enc -out build/.npmrc -d
-  - openssl aes-256-cbc -k $travis_key_password -in travis-deploy-key.enc -out travis-deploy-key
+  - openssl aes-256-cbc -k $travis_key_password -in packages/$PACKAGE/travis-deploy-key.enc -out packages/$PACKAGE/travis-deploy-key
     -d
-  - chmod 600 travis-deploy-key
+  - chmod 600 packages/$PACKAGE/travis-deploy-key
   - eval `ssh-agent -s`
-  - ssh-add travis-deploy-key
+  - ssh-add packages/$PACKAGE/travis-deploy-key
   - git config --global user.name "Travis CI"
   - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
 deploy:
@@ -34,9 +33,11 @@ deploy:
     secure: q2UYmhnEgJMQT17qEUAmkuceiVJb7nPmnp55nTIqVsPUwI4dgKm0q1A/52p1rBfdplLiJqUH06bIMbBRg3XVUx49zniYj/JfYNSqxeC9VUfg/oxWpikJzCRJ7chHASV+EKl/LK7nbNQItcR2ecCe1cSEOkd7/2gZKNI3dflH4QsQOrNp8urA0T5J8Msd2JEvVAkes+3reJLUWDSSA1vSsv6u0yrUANgNwpeo/ZFz8etcy2EU/fodk2V4N3rIirYn0i3NQ+u3LI8cLK57x1krthfoorlRvtk/6k+U6VheHxjW057ED841pv/7uxZmWFi2dB11fEQyWjKGSYjHszG8MjIa/L3Sopi25yTqCOftMeHSkiTWtwNvp/0oTdkfVEqzwj0SdlCCEdP15e5JFtuFBtUSGuxLv7aFJ1ElIuzUMi89uG8szyvhm60MpbxGRxf/zUDeBNSJ4aI3DWkGOOw0nEj79Ymnr1TYtEaDq09GEVi/Utki+y6XKHHmIMEduEMVDPQyswIa++dpRISgCjfL4NU7sTse/XybhNcqSo4jJ7dlye+yW0CLRyxfzGGQTfx5YGqz0VnguhmW5+f199ftlROcHxuBEgqdS+mehvYK0c1t8bIGTpaLxAxX99XfHvSjGcxXsb2D1jPs1gsLZlzPTM3VPD62Kq1Ri61VFpQk5Ak=
 after_deploy:
   - yarn deploy
-  - cd build
-  - npm publish
+  # - cd build
+  # - npm publish
 env:
+  matrix:
+    - PACKAGE=retail-ui
   global:
     - SAUCE_USERNAME=skbkontur_ife
     - secure: z3KyUQyIjbHQ8RCfxfgEZdOc0w0jvpOgwPGfdB1ZcXTaToP7Pzlnf2r6He9Hzlz4gN42dMk2kaXwTRFciLWVstD8PTMZ2GWiy32FxqfATNIXRuMtsn0iqIR1zwSklaV+ESJn3oqoklYQjlYqbB//jGfslroKJ2fOihbtZjIEfAQCMKXic+O9i/QRwugXuCpdRMNn1zqStrpTKPTT26WjzIYQ7K5NAVFOx98tgJ3BCe+iDOG8FW6thu2Vz34pw/TLIBLJuPU4QXu6Hnex1GE4HIC5xRAtU5c9X95Wz5CWSjUJAJegazv+UYJRlN13ljxUYF4BvtRjqvb5ZmC6aANkk5wUHk657uJSmajaDnWuB9J0WuxaTScr0snMbGQWwlVUxUDi1med+3+TrH0PEjVRdBa4wH1ims4T6Wu9WjJHrxwyk2HSPOonKJFacCntrlXMq6En6X9ljtIiNWIg27CmBk/grxMtur5kQEf/mKDDd3wXZq+V8B4JLhxsXjyO2MH0DrYVeVJXWF8sz1ZG+UhkaZPJcqhNUm0KOpS82NNSn1E/YWD7QrCGbs+tR90sgLLEZGjGpMFeU3I5LcB0+wrqxVDzYoCSS733F1uKUNE4ZDqlQV4bPnE67jgWd9J7IO42m/a1S1Fc43JW8Qpw4hcSgTdahYuDcn39LtD34nEC4iI=
