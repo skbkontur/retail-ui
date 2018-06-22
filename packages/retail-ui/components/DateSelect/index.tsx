@@ -1,3 +1,1 @@
-
-import DateSelect from './DateSelect';
-export default DateSelect;
+export {default, DateSelectProps, DateSelectState} from './DateSelect';

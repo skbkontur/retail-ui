@@ -55,7 +55,7 @@ export interface CurrencyInputProps {
   onMouseOver?: (event: React.MouseEvent<any>) => void;
 }
 
-interface CurrencyInputState {
+export interface CurrencyInputState {
   formatted: string;
   selection: Selection;
 }

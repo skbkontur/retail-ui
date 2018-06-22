@@ -1,1 +1,1 @@
-export { default, CalendarDateShape, CalendarProps } from './Calendar';
+export { default, CalendarDateShape, CalendarProps, CalendarState } from './Calendar';

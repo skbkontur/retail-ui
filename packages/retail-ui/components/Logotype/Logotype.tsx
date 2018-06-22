@@ -38,7 +38,7 @@ const Logotype: React.SFC<LogotypeProps> = ({
   component: Component = DefaultProps.component,
   suffix,
   href = DefaultProps.href
-}) => (
+}): JSX.Element => (
   <Component href={href} tabIndex="-1" className={styles.root}>
     <span style={{ color: textColor }}>к</span>
     <span style={{ color }}>

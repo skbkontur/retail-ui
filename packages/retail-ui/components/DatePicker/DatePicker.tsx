@@ -44,12 +44,12 @@ export interface DatePickerProps<T> {
   onMouseOver?: (e: React.MouseEvent<any>) => void;
 }
 
-interface State {
+export interface DatePickerState {
   opened: boolean;
 }
 
 // eslint-disable-next-line flowtype/no-weak-types
-class DatePicker extends React.Component<DatePickerProps<string>, State> {
+class DatePicker extends React.Component<DatePickerProps<string>, DatePickerState> {
   public static propTypes = {
     autoFocus: PropTypes.bool,
 

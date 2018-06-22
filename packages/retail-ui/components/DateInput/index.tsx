@@ -1,1 +1,1 @@
-export { default, DateInputProps } from './DateInput';
+export { default, DateInputProps, DateInputState } from './DateInput';

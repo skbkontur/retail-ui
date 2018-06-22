@@ -1,1 +1,1 @@
-export { default, CurrencyInputProps } from './CurrencyInput';
+export { default, CurrencyInputProps, CurrencyInputState } from './CurrencyInput';

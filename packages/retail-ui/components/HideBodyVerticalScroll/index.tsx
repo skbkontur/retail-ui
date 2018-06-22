@@ -1,2 +1,1 @@
-import HideBodyVerticalScroll from './HideBodyVerticalScroll';
-export default HideBodyVerticalScroll;
+export {default, HideBodyVerticalScrollProps} from './HideBodyVerticalScroll';

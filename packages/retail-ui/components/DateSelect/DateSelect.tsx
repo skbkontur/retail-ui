@@ -29,7 +29,7 @@ const MONTHS = [
 
 const HEIGHT = 24;
 
-interface Props {
+export interface DateSelectProps {
   disabled?: boolean;
   maxYear?: number;
   minYear?: number;
@@ -39,7 +39,7 @@ interface Props {
   width?: number | string;
 }
 
-interface State {
+export interface DateSelectState {
   botCapped: boolean;
   current: Nullable<number>;
   height: number;
@@ -52,7 +52,7 @@ interface State {
 
 const isIE8 = Boolean(~window.navigator.userAgent.indexOf('MSIE 8.0'));
 
-export default class DateSelect extends React.Component<Props, State> {
+export default class DateSelect extends React.Component<DateSelectProps, DateSelectState> {
   public static propTypes = {
     disabled: PropTypes.bool,
 

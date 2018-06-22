@@ -1,3 +1,1 @@
-
-import CustomComboBox from './CustomComboBox';
-export default CustomComboBox;
+export {default, CustomComboBoxProps, CustomComboBoxState, } from './CustomComboBox';

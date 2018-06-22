@@ -8,11 +8,11 @@ export interface CurrencyLabelProps {
   currencySymbol?: React.ReactNode | null;
 }
 
-const CurrencyLabel = ({
+const CurrencyLabel: React.SFC<CurrencyLabelProps> = ({
   value,
   fractionDigits = 2,
   currencySymbol = null
-}: CurrencyLabelProps) => (
+}): JSX.Element => (
   <span>
     {CurrencyHelper.format(value, { fractionDigits })}
     {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}

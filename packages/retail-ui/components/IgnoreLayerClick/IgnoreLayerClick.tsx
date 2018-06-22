@@ -46,8 +46,8 @@ class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
     }
   }
 
-  public render() {
-    return this.props.children;
+  public render(): JSX.Element {
+    return React.Children.only(this.props.children);
   }
 
   public _handleMouseDown = (event: MouseEvent) => {
