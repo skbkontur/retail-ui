@@ -33,8 +33,8 @@ deploy:
     secure: q2UYmhnEgJMQT17qEUAmkuceiVJb7nPmnp55nTIqVsPUwI4dgKm0q1A/52p1rBfdplLiJqUH06bIMbBRg3XVUx49zniYj/JfYNSqxeC9VUfg/oxWpikJzCRJ7chHASV+EKl/LK7nbNQItcR2ecCe1cSEOkd7/2gZKNI3dflH4QsQOrNp8urA0T5J8Msd2JEvVAkes+3reJLUWDSSA1vSsv6u0yrUANgNwpeo/ZFz8etcy2EU/fodk2V4N3rIirYn0i3NQ+u3LI8cLK57x1krthfoorlRvtk/6k+U6VheHxjW057ED841pv/7uxZmWFi2dB11fEQyWjKGSYjHszG8MjIa/L3Sopi25yTqCOftMeHSkiTWtwNvp/0oTdkfVEqzwj0SdlCCEdP15e5JFtuFBtUSGuxLv7aFJ1ElIuzUMi89uG8szyvhm60MpbxGRxf/zUDeBNSJ4aI3DWkGOOw0nEj79Ymnr1TYtEaDq09GEVi/Utki+y6XKHHmIMEduEMVDPQyswIa++dpRISgCjfL4NU7sTse/XybhNcqSo4jJ7dlye+yW0CLRyxfzGGQTfx5YGqz0VnguhmW5+f199ftlROcHxuBEgqdS+mehvYK0c1t8bIGTpaLxAxX99XfHvSjGcxXsb2D1jPs1gsLZlzPTM3VPD62Kq1Ri61VFpQk5Ak=
 after_deploy:
   - yarn deploy
-  # - cd build
-  # - npm publish
+  - cd build
+  - npm publish
 env:
   matrix:
     - PACKAGE=retail-ui
