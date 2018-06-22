@@ -33,6 +33,7 @@
     "prepush": "npm run test",
     "storybook": "start-storybook -p 6060",
     "storybook:build": "build-storybook",
+    "storybook:run-serve": "npm run storybook:build && serve storybook-static -p 6060 --silent",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
     "test": "jest",
