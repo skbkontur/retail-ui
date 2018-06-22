@@ -19,9 +19,10 @@ export interface PopupMenuProps {
   /** Колбэк, вызываемый после открытия/закрытия меню */
   onChangeMenuState?: (x0: boolean, x1: boolean) => void;
   /** Пропсы, передающиеся в Popup */
-  popupHasPin: boolean;
+  popupHasPin?: boolean;
   popupMargin: number;
   popupPinOffset?: number;
+  type?: 'dropdown' | 'tooltip';
 }
 
 interface PopupMenuState {

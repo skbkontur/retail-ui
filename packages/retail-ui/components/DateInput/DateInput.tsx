@@ -67,7 +67,7 @@ export interface DateInputProps {
   maxDate?: Nullable<string>;
   width?: string | number;
   withIcon?: boolean;
-  size: 'small' | 'large' | 'medium';
+  size?: 'small' | 'large' | 'medium';
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
   onChange?: (x0: { target: { value: string } }, x1: string) => void;

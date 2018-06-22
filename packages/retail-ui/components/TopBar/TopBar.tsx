@@ -31,14 +31,14 @@ export interface TopBarProps {
   noShadow?: boolean;
   noWidget?: boolean;
   onLogout?: () => void;
-  rightItems: Array<React.ReactElement<any>>;
+  rightItems?: Array<React.ReactElement<any>>;
   suffix: string;
   userName?: string;
-};
+}
 
 export interface TopBarDefaultProps {
   maxWidth: string | number;
-};
+}
 
 /**
  * __DRAFT__
@@ -137,7 +137,9 @@ class TopBar extends React.Component<TopBarProps> {
       onLogout
     } = this.props;
 
-    const _rightItems: Array<React.ReactElement<any>> = [].concat(this.getProps().rightItems);
+    const _rightItems: Array<React.ReactElement<any>> = [].concat(
+      this.getProps().rightItems
+    );
     if (userName) {
       _rightItems.push(<User userName={userName} />, <Divider />);
     }
