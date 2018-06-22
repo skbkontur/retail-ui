@@ -10,8 +10,8 @@ install:
 script:
   - yarn lerna --scope $PACKAGE run test --silent
   - yarn lerna --scope $PACKAGE run storybook:build --silent
-  - yarn lerna --stream --logLevel silent --scope $PACKAGE run storybook:run-serve &
-  - yarn lerna --stream --scope react-ui-screenshot-tests run test
+  - yarn lerna --scope $PACKAGE run storybook:run-serve &
+  - yarn lerna --scope react-ui-screenshot-tests run test
 before_deploy:
   - yarn lerna --scope $PACKAGE run build
   - openssl aes-256-cbc -K $encrypted_86996ed187bd_key -iv $encrypted_86996ed187bd_iv
