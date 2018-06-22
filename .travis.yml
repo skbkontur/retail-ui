@@ -9,7 +9,7 @@ install:
   - yarn lerna bootstrap
 script:
   - yarn lerna --scope $PACKAGE run test --silent
-  - yarn lerna --scope $PACKAGE run storybook --loglevel silent
+  - yarn lerna --stream --scope $PACKAGE run storybook --silent
   - yarn lerna --scope react-ui-screenshot-tests run test
 before_deploy:
   - yarn lerna --scope $PACKAGE run build
