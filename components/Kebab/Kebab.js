@@ -6,10 +6,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Icon20 from '../Icon/20px';
 import Icon from '../Icon';
-import Popup from '../Popup';
-import Menu from '../Menu/Menu.js';
 import LayoutEvents from '../../lib/LayoutEvents';
-import RenderLayer from '../RenderLayer';
 import PopupMenu from '../internal/PopupMenu';
 
 import styles from './Kebab.less';
