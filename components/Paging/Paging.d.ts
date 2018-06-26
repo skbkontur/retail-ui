@@ -17,8 +17,10 @@ export type ItemComponent =
 export interface PagingProps {
   activePage: number;
   component?: ItemComponent;
+  forwardText?: string;
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
+  withoutNavigationHint?: boolean;
 }
 
 export type ItemType = number | '.' | 'forward';
