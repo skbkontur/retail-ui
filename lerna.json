@@ -17,13 +17,5 @@
       "tag: chore": ":wheelchair: Maintain"
     },
     "cacheDir": ".changelog"
-<<<<<<< HEAD
-=======
-  },
-  "command": {
-    "publish": {
-      "conventionalCommits": true
-    }
->>>>>>> 4943ec66... fix(root): fix lerna config
   }
 }
