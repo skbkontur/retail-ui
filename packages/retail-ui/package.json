@@ -31,7 +31,7 @@
     "precommit": "lint-staged",
     "predeploy": "npm run styleguide:build",
     "prepush": "npm run test",
-    "changelog": "lerna-changelog",
+    "version": "lerna-changelog",
     "storybook": "start-storybook -p 6060",
     "storybook:build": "build-storybook",
     "storybook:run-serve": "npm run storybook:build && serve storybook-static -p 6060",
