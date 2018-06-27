@@ -5,7 +5,14 @@ module.exports = {
     return babel.transform(src, {
       filename: path,
       presets: [
-        'env',
+        [
+          'env',
+          {
+            targets: {
+              node: 'current'
+            }
+          }
+        ],
         'react'
       ],
       plugins: ['transform-class-properties', 'transform-object-rest-spread'],
