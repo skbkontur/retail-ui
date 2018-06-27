@@ -17,8 +17,5 @@
       "tag: chore": ":wheelchair: Maintain"
     },
     "cacheDir": ".changelog"
-  },
-  "publish": {
-    "conventionalCommits": true
   }
 }
