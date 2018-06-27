@@ -10,4 +10,4 @@ fi
 set -e
 set -x
 
-yarn lerna --scope $@ publish --skip-npm --conventional-commits
+yarn lerna --scope $@ publish --skip-npm --conventional-commits --changelog-preset angular
