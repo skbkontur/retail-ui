@@ -1,11 +1,13 @@
 #!/bin/bash
 
-if $TRAVIS; then
-    exit 1;
+echo "Start publishing..."
+
+if [ ! $@ ]; then
+    echo "Package name is reqiured!"
+    exit 1
 fi
 
 set -e
+set -x
 
-cd ../
-
-yarn lerna --scope $0 publish --yes --skip-npm
+yarn lerna --scope $@ publish --skip-npm --conventional-commits
