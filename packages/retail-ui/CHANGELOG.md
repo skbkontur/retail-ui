@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
       <a name="0.18.7"></a>
+## [0.18.7](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.18.7...retail-ui@0.18.7) (2018-06-27)
+
+
+
+
+**Note:** Version bump only for package retail-ui
+
+      <a name="0.18.7"></a>
 ## <small>0.18.7 (2018-06-27)</small>
 
 * [DatePicker] — fixed with selection on click ([2a762fd](https://github.com/skbkontur/retail-ui/commit/2a762fd))
@@ -73,7 +81,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-      # Changelog
+    # Changelog
 
 Changelog переместился в https://github.com/skbkontur/retail-ui/releases
 
@@ -154,10 +162,10 @@ Changelog переместился в https://github.com/skbkontur/retail-ui/rel
 * Добавился параметр `enableTodayLink`, включающий кнопку сегодя в календаре
 * `minYear`, `maxYear` — устарели, используйте вместо них `minDate`, `maxDate`
 * `onUnexpectedInput` - теперь срабатывает только при вводе в инпут невалидной даты
-  и не срабатывает на пустом инпуте. Возвращаемое значение больше не передается в
-  `onChange`.
+и не срабатывает на пустом инпуте. Возвращаемое значение больше не передается в
+`onChange`.
 * Добавился параметр `dateTransformer`, который позволяет изменить логику
-  работы с датой. Подробнее в документации
+работы с датой. Подробнее в документации
 * [Button] — при `size = "medium"` размер шрифта равен 16px
 * [Popup] — исправилось позционирование на маленьких элементах. Также стал
 перерисовываться при скролле и ресайзе окна
