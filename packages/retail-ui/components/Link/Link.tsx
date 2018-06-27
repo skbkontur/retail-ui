@@ -114,9 +114,9 @@ class Link extends React.Component<LinkProps, LinkState> {
         [useClasses[use as keyof typeof useClasses]]: !!use
       }),
       href,
-      onClick: this._handleClick,
-      onFocus: this._handleFocus,
-      onBlur: this._handleBlur,
+      onClick: this.handleClick,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
       tabIndex: this.props.tabIndex
     };
     if (disabled) {
@@ -132,7 +132,7 @@ class Link extends React.Component<LinkProps, LinkState> {
     );
   }
 
-  private _handleFocus = (event: React.FocusEvent<HTMLAnchorElement>) => {
+  private handleFocus = (event: React.FocusEvent<HTMLAnchorElement>) => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -145,11 +145,11 @@ class Link extends React.Component<LinkProps, LinkState> {
     }
   };
 
-  private _handleBlur = () => {
+  private handleBlur = () => {
     this.setState({ focusedByTab: false });
   };
 
-  private _handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     if (this.props.onClick && !this.props.disabled) {
       this.props.onClick(event);
     }
