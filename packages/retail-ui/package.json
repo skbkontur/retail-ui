@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "0.18.8",
+  "version": "0.18.9",
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
@@ -29,8 +29,10 @@
     "build": "yarn tsc && node scripts/build",
     "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
     "precommit": "lint-staged",
-    "predeploy": "npm run styleguide:build",
-    "prepush": "npm run test",
+    "predeploy": "yarn run styleguide:build",
+    "prepush": "yarn run test",
+    "prepublish": "yarn build",
+    "postpublish": "yarn deploy",
     "storybook": "start-storybook -p 6060",
     "storybook:build": "build-storybook",
     "storybook:run-serve": "npm run storybook:build && serve storybook-static -p 6060",
