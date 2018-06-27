@@ -22,6 +22,7 @@ before_deploy:
   - ssh-add packages/$PACKAGE/travis-deploy-key
   - git config --global user.name "Travis CI"
   - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
+  - scripts/publish.sh
 deploy:
   skip_cleanup: true
   provider: npm
