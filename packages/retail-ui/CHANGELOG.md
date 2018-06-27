@@ -3,7 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-      <a name="0.18.10"></a>
+    <a name="0.18.11"></a>
+## [0.18.11](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.18.10...retail-ui@0.18.11) (2018-06-27)
+
+
+
+
+**Note:** Version bump only for package retail-ui
+
+    <a name="0.18.10"></a>
 ## 0.18.10 (2018-06-27)
 
 
@@ -11,7 +19,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package retail-ui
 
-      <a name="0.18.9"></a>
+  <a name="0.18.9"></a>
 ## 0.18.9 (2018-06-27)
 
 
@@ -19,7 +27,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package retail-ui
 
-    <a name="0.18.8"></a>
+<a name="0.18.8"></a>
 ## 0.18.8 (2018-06-27)
 
 
