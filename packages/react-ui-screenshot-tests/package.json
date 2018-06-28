@@ -1,0 +1,18 @@
+{
+  "name": "react-ui-screenshot-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "concurrently": "^3.6.0",
+    "gemini": "^5.7.2",
+    "gemini-sauce": "^1.0.1",
+    "html-reporter": "^2.18.1",
+    "wait-on": "^2.1.0"
+  },
+  "scripts": {
+    "test": "wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
+    "test:gui": "wait-on http-get://localhost:6060/ && gemini gui"
+  }
+}

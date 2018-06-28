@@ -2,18 +2,10 @@
 .vscode
 .DS_Store
 .npmrc
+*.code-workspace
 
 node_modules
-travis-deploy-key
-coverage/
-gemini-report
-/docs/dist/
-/build
-/styleguide
-/storybook-static
-*.less.d.ts
-*.less.flow
-
 yarn-debug.log
 yarn-error.log
 npm-debug.log
+lerna-debug.log

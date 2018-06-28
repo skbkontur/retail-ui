@@ -1,0 +1,12 @@
+{
+    "extends": [
+        "skbkontur-retail"
+    ],
+    "globals": {
+        "ReactClass": false,
+        "$Keys": false,
+        "Class": false,
+        "$NonMaybeType": false,
+        "RequestOptions": false
+    }
+}

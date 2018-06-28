@@ -1,0 +1,17 @@
+{
+  "name": "react-ui-codemodes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "easy-renamer": "^0.3.1",
+    "glob": "^7.1.2",
+    "jest": "^23.1.0",
+    "jscodeshift": "^0.5.1",
+    "shelljs": "^0.8.2"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}
