@@ -9,12 +9,12 @@
   "changelog": {
     "repo": "skbkontur/retail-ui",
     "labels": {
-      "tag: new feature": ":rocket: New Feature",
-      "tag: breaking change": ":boom: Breaking Change",
-      "tag: bug fix": ":bug: Bug Fix",
-      "tag: enhancement": ":nail_care: Enhancement",
-      "tag: documentation": ":memo: Documentation",
-      "tag: internal": ":house: Internal"
+      "tag: feat": ":rocket: New Feature",
+      "tag: fix": ":bug: Bug Fix",
+      "tag: docs": ":memo: Documentation",
+      "tag: refactor": ":nail_care: Refactoring",
+      "tag: test": ":hammer: Testing",
+      "tag: chore": ":wheelchair: Maintain"
     },
     "cacheDir": ".changelog"
   }
