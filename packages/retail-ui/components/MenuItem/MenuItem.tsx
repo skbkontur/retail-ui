@@ -18,7 +18,7 @@ export interface MenuItemProps {
   comment?: React.ReactNode;
   disabled?: boolean;
   href?: string;
-  icon?: IconName;
+  icon?: IconName | React.ReactElement<any>;
 
   /** @ignore */
   loose?: boolean;
@@ -49,7 +49,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
 
     href: PropTypes.string,
 
-    icon: PropTypes.string,
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 
     loose: PropTypes.bool,
 
@@ -65,7 +65,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
       alkoLink,
       comment,
       disabled,
-      icon: iconName,
+      icon,
       loose,
       state,
       children,
@@ -76,11 +76,15 @@ export default class MenuItem extends React.Component<MenuItemProps> {
 
     const hover = state === 'hover' && !disabled;
 
-    let icon = null;
-    if (iconName) {
-      icon = (
+    let iconElement = null;
+    if (icon) {
+      iconElement = (
         <div className={styles.icon}>
-          <Icon name={iconName} />
+          {typeof icon === 'string' ? (
+            <Icon name={icon} />
+          ) : (
+            icon
+          )}
         </div>
       );
     }
@@ -92,7 +96,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
       [styles.loose]: loose,
       [styles.selected]: state === 'selected',
       [styles.link]: alkoLink,
-      [styles.withIcon]: Boolean(icon) || _enableIconPadding
+      [styles.withIcon]: Boolean(iconElement) || _enableIconPadding
     });
 
     let content = children;
@@ -109,7 +113,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
         tabIndex={-1}
         onClick={disabled ? undefined : onClick}
       >
-        {icon}
+        {iconElement}
         {content}
         {this.props.comment && (
           <div
