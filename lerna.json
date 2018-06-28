@@ -5,5 +5,11 @@
   ],
   "version": "independent",
   "npmClient": "yarn",
-  "useWorkspaces": true
+  "useWorkspaces": true,
+  "command": {
+    "publish": {
+      "conventionalCommits": true,
+      "changelogPreset": "conventional-changelog-angular"
+    }
+  }
 }
