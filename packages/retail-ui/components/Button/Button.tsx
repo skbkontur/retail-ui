@@ -159,18 +159,12 @@ class Button extends React.Component<ButtonProps, ButtonState> {
     }
   }
 
-  /**
-   * @public
-   */
   public focus() {
     if (this._node) {
       this._node.focus();
     }
   }
 
-  /**
-   * @public
-   */
   public blur() {
     if (this._node) {
       this._node.blur();
