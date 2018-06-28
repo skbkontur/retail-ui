@@ -121,8 +121,8 @@ export default class InternalMenu extends React.Component<
 
   private _focusWithScrollRestore = (): void => {
     if (this._rootElement && window) {
-      const scrollX: number = window.scrollX;
-      const scrollY: number = window.scrollY;
+      const scrollX: number = window.scrollX || window.pageXOffset;
+      const scrollY: number = window.scrollY || window.pageYOffset;
 
       this._rootElement.focus();
       window.scrollTo(scrollX, scrollY);

@@ -24,6 +24,8 @@ export interface PagingProps {
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
   disabled?: boolean;
+  strings?: { forward: string };
+  withoutNavigationHint?: boolean;
 }
 
 export interface PagingState {
@@ -37,7 +39,8 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   public static defaultProps = {
     component: ({ className, onClick, children }: any) => (
       <span className={className} onClick={onClick} children={children} />
-    )
+    ),
+    strings: { forward: 'Дальше' }
   };
 
   public static propTypes = {};
@@ -106,7 +109,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       [styles.focused]: focused,
       [styles.disabled]: disabled
     });
-    const Component = this.getProps().component;
+    const {component: Component, strings} = this.getProps<PagingProps, Paging>();
 
     return (
       <Component
@@ -115,9 +118,9 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
         className={classes}
         onClick={disabled ? noop : this._goForward}
         tabIndex={-1}
-        pageNumber={'forward'}
+        pageNumber={'forward' as 'forward'}
       >
-        Дальше
+        {strings.forward}
         <span className={styles.forwardIcon}>
           <Icon name="ArrowChevronRight" size="18px" />
         </span>
@@ -135,8 +138,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       [styles.focused]: focused,
       [styles.active]: active
     });
-    const Component = this.getProps().component;
-
+    const { component: Component, withoutNavigationHint } = this.getProps<PagingProps, Paging>();
     return (
       <span key={pageNumber} className={styles.pageLinkWrapper}>
         <Component
@@ -149,7 +151,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
         >
           {pageNumber}
         </Component>
-        {active && this._renderNavigationHint()}
+        {!withoutNavigationHint && active && this._renderNavigationHint()}
       </span>
     );
   };

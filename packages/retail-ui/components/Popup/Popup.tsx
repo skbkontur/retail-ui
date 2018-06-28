@@ -292,22 +292,24 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private _updateLocation() {
-    if (!this.props.opened) {
-      if (this.state.location) {
-        this.setState({ location: null });
+    this.setState((state, props) => {
+      if (!props.opened) {
+        if (state.location) {
+          return { location: null } as Shape<PopupState>;
+        }
+        return null;
       }
-      return;
-    }
 
-    const popupElement = this._lastPopupElement;
-    if (!popupElement) {
-      return;
-    }
+      const popupElement = this._lastPopupElement;
+      if (!popupElement) {
+        return null;
+      }
 
-    const location = this._getLocation(popupElement);
-    if (!this._locationEquals(this.state.location, location)) {
-      this.setState({ location });
-    }
+      const location = this._getLocation(popupElement, state.location);
+      if (!this._locationEquals(state.location, location)) {
+        return { location };
+      }
+    });
   }
 
   private _requestClose = () => {
@@ -345,11 +347,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     };
   }
 
-  private _getLocation(popupElement: HTMLElement) {
-    const { anchorElement, positions, margin, popupOffset } = this.getProps<
-      PopupProps,
-      Popup
-    >();
+  private _getLocation(popupElement: HTMLElement, location?: PopupLocation | null) {
+    const { anchorElement, positions, margin, popupOffset } = this.getProps<PopupProps, Popup>();
 
     if (!anchorElement) {
       throw new Error('Anchor element is not defined');
@@ -357,6 +356,20 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
+
+    if (location && location.position) {
+      // tslint:disable-next-line:no-shadowed-variable
+      const position = PopupHelper.getPositionObject(location.position);
+      // tslint:disable-next-line:no-shadowed-variable
+      const coordinates = this._getCoordinates(
+        anchorRect,
+        popupRect,
+        position,
+        margin,
+        popupOffset + this._getPinnedPopupOffset(anchorRect, position)
+      );
+      return { coordinates, position: location.position };
+    }
 
     // tslint:disable-next-line:no-shadowed-variable
     for (const position of positions) {
