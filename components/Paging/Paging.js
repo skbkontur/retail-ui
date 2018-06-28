@@ -22,8 +22,10 @@ type ItemComponentProps = {
 type Props = {
   activePage: number,
   component: React.ComponentType<ItemComponentProps>,
+  forwardText?: string,
   onPageChange: (pageNumber: number) => void,
-  pagesCount: number
+  pagesCount: number,
+  withoutNavigationHint?: boolean
 };
 
 type State = {
@@ -37,7 +39,8 @@ export default class Paging extends React.Component<Props, State> {
   static defaultProps = {
     component: ({ className, onClick, children }: *) => (
       <span className={className} onClick={onClick} children={children} />
-    )
+    ),
+    forwardText: 'Дальше'
   };
 
   static isForward(pageNumber: number | 'forward'): boolean /* %checks */ {
@@ -97,7 +100,7 @@ export default class Paging extends React.Component<Props, State> {
       [styles.focused]: focused,
       [styles.disabled]: disabled
     });
-    const { component: Component } = this.props;
+    const { component: Component, forwardText } = this.props;
     return (
       <Component
         key={'forward'}
@@ -107,7 +110,7 @@ export default class Paging extends React.Component<Props, State> {
         tabIndex={-1}
         pageNumber={'forward'}
       >
-        Дальше
+        { forwardText }
         <span className={styles.forwardIcon}>
           <Icon name="ArrowChevronRight" size="18px" />
         </span>
@@ -121,7 +124,7 @@ export default class Paging extends React.Component<Props, State> {
       [styles.focused]: focused,
       [styles.active]: active
     });
-    const { component: Component } = this.props;
+    const { component: Component, withoutNavigationHint } = this.props;
     return (
       <span key={pageNumber} className={styles.pageLinkWrapper}>
         <Component
@@ -133,7 +136,7 @@ export default class Paging extends React.Component<Props, State> {
         >
           {pageNumber}
         </Component>
-        {active && this._renderNavigationHint()}
+        {!withoutNavigationHint && active && this._renderNavigationHint()}
       </span>
     );
   };
