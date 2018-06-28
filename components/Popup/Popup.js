@@ -215,22 +215,24 @@ export default class Popup extends React.Component<Props, State> {
   }
 
   _updateLocation() {
-    if (!this.props.opened) {
-      if (this.state.location) {
-        this.setState({ location: null });
+    this.setState((state, props) => {
+      if (!props.opened) {
+        if (state.location) {
+          return { location: null };
+        }
+        return null;
       }
-      return;
-    }
 
-    const popupElement = this._lastPopupElement;
-    if (!popupElement) {
-      return;
-    }
+      const popupElement = this._lastPopupElement;
+      if (!popupElement) {
+        return null;
+      }
 
-    const location = this._getLocation(popupElement);
-    if (!this._locationEquals(this.state.location, location)) {
-      this.setState({ location });
-    }
+      const location = this._getLocation(popupElement, state.location);
+      if (!this._locationEquals(state.location, location)) {
+        return { location };
+      }
+    });
   }
 
   _requestClose = () => {
@@ -265,7 +267,7 @@ export default class Popup extends React.Component<Props, State> {
     };
   }
 
-  _getLocation(popupElement: HTMLElement) {
+  _getLocation(popupElement: HTMLElement, location?: Location | null) {
     const { anchorElement, positions, margin, popupOffset } = this.props;
 
     if (!anchorElement) {
@@ -274,6 +276,18 @@ export default class Popup extends React.Component<Props, State> {
 
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
+
+    if (location && location.position) {
+      const position = PopupHelper.getPositionObject(location.position);
+      const coordinates = this._getCoordinates(
+        anchorRect,
+        popupRect,
+        position,
+        margin,
+        popupOffset + this._getPinnedPopupOffset(anchorRect, position)
+      );
+      return { coordinates, position: location.position };
+    }
 
     for (let i = 0; i < positions.length; ++i) {
       const position = PopupHelper.getPositionObject(positions[i]);
