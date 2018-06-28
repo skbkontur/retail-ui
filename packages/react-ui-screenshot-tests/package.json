@@ -14,5 +14,9 @@
   "scripts": {
     "test": "wait-on http-get://localhost:6060/ && gemini test --reporter vflat",
     "test:gui": "wait-on http-get://localhost:6060/ && gemini gui"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.0.0",
+    "@commitlint/config-lerna-scopes": "^7.0.0"
   }
 }

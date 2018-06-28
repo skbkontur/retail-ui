@@ -7,6 +7,6 @@
     "lerna": "^2.11.0"
   },
   "scripts": {
-    "changelog": "lerna-changelog"
+    "commitmsg": "commitlint -E GIT_PARAMS"
   }
 }
