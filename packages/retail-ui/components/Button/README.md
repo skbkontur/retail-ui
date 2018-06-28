@@ -1,7 +1,7 @@
 Button example
 
 ```js
-<Button icon="Ok">Ok</Button>
+<Button icon={<Icon name="Ok" />}>Ok</Button>
 ```
 
 Button has different use styles

@@ -34,7 +34,7 @@ function listenTabPresses() {
 export interface LinkProps {
   disabled?: boolean;
   href?: string;
-  icon?: IconName;
+  icon?: IconName | React.ReactElement<any>;
   onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
   use?: 'default' | 'success' | 'danger' | 'grayed';
   children?: React.ReactNode;
@@ -60,7 +60,7 @@ class Link extends React.Component<LinkProps, LinkState> {
 
     href: PropTypes.string,
 
-    icon: PropTypes.string,
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 
     use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed'])
   };
@@ -84,18 +84,22 @@ class Link extends React.Component<LinkProps, LinkState> {
     const {
       disabled,
       href,
-      icon: iconName,
-      use = this.getProps().use,
+      icon,
+      use,
       _button,
       _buttonOpened,
       ...rest
-    } = this.props;
+    } = this.getProps<LinkProps, Link>();
 
-    let icon = null;
-    if (iconName) {
-      icon = (
+    let iconElement = null;
+    if (icon) {
+      iconElement = (
         <span className={styles.icon}>
-          <Icon name={iconName} />
+          {typeof icon === 'string' ? (
+            <Icon name={icon} />
+          ) : (
+            icon
+          )}
         </span>
       );
     }
@@ -125,7 +129,7 @@ class Link extends React.Component<LinkProps, LinkState> {
 
     return (
       <a {...rest} {...props}>
-        {icon}
+        {iconElement}
         {this.props.children}
         {arrow}
       </a>

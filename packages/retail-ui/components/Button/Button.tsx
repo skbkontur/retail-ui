@@ -87,7 +87,7 @@ export interface ButtonProps {
   /**
    * Иконка слева от текста кнопки.
    */
-  icon?: IconName;
+  icon?: IconName | React.ReactElement<any>;
 
   loading?: boolean;
 
@@ -256,7 +256,11 @@ class Button extends React.Component<ButtonProps, ButtonState> {
     if (this.props.icon) {
       icon = (
         <span className={classes.icon}>
-          <Icon name={this.props.icon} />
+          {typeof this.props.icon === 'string' ? (
+            <Icon name={this.props.icon} />
+          ) : (
+            this.props.icon
+          )}
         </span>
       );
     }
