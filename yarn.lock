@@ -3353,6 +3353,16 @@ conventional-changelog-cli@^1.3.13:
     meow "^4.0.0"
     tempfile "^1.1.1"
 
+conventional-changelog-cli@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-cli/-/conventional-changelog-cli-2.0.1.tgz#1bceb924a063b05757e131e93d6674bd7d3f5bc7"
+  dependencies:
+    add-stream "^1.0.0"
+    conventional-changelog "^2.0.1"
+    lodash "^4.2.1"
+    meow "^4.0.0"
+    tempfile "^1.1.1"
+
 conventional-changelog-codemirror@^0.3.8:
   version "0.3.8"
   resolved "https://registry.yarnpkg.com/conventional-changelog-codemirror/-/conventional-changelog-codemirror-0.3.8.tgz#a1982c8291f4ee4d6f2f62817c6b2ecd2c4b7b47"
@@ -3582,6 +3592,19 @@ conventional-recommended-bump@^1.2.1:
     git-semver-tags "^1.3.0"
     meow "^3.3.0"
     object-assign "^4.0.1"
+
+conventional-recommended-bump@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/conventional-recommended-bump/-/conventional-recommended-bump-4.0.0.tgz#017dd469a0dcbd9c23d26da59157977d625d3120"
+  dependencies:
+    concat-stream "^1.6.0"
+    conventional-changelog-preset-loader "^2.0.0"
+    conventional-commits-filter "^2.0.0"
+    conventional-commits-parser "^3.0.0"
+    git-raw-commits "^2.0.0"
+    git-semver-tags "^2.0.0"
+    meow "^4.0.0"
+    q "^1.5.1"
 
 convert-source-map@^1.4.0, convert-source-map@^1.5.0, convert-source-map@^1.5.1:
   version "1.5.1"
