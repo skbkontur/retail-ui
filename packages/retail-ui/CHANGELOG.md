@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<<<<<<< HEAD
       <a name="0.18.13"></a>
 ## [0.18.13](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.18.11...retail-ui@0.18.13) (2018-06-27)
 
@@ -65,6 +66,25 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * [DatePicker] — fixed with selection on click ([2a762fd](https://github.com/skbkontur/retail-ui/commit/2a762fd))
 * changed travis config ([87db63e](https://github.com/skbkontur/retail-ui/commit/87db63e))
 * changed travis config: tune ([7219f9b](https://github.com/skbkontur/retail-ui/commit/7219f9b))
+=======
+<a name="0.19.0"></a>
+## 0.19.0 (2018-06-28)
+
+* chore: add commitlint to project ([589087a](https://github.com/skbkontur/retail-ui/commit/589087a))
+* chore: tune commitlint ([53cdfd5](https://github.com/skbkontur/retail-ui/commit/53cdfd5))
+* style(Button): remove comments ([2550ec5](https://github.com/skbkontur/retail-ui/commit/2550ec5))
+* docs: clear changelog ([96dca2a](https://github.com/skbkontur/retail-ui/commit/96dca2a))
+* fix(Paging): added props `strings` and `withoutNavigationHint` ([6dd3123](https://github.com/skbkontur/retail-ui/commit/6dd3123))
+* fix(Popup): do not change position after opening ([dd748cf](https://github.com/skbkontur/retail-ui/commit/dd748cf))
+* fix(retail-ui): change lerna config ([f471dbe](https://github.com/skbkontur/retail-ui/commit/f471dbe))
+* fix(retail-ui): run lerna-changelog on version change hoock ([29fc67d](https://github.com/skbkontur/retail-ui/commit/29fc67d))
+* perf(retail-ui): add lerna-changelog ([a1e7e6b](https://github.com/skbkontur/retail-ui/commit/a1e7e6b))
+* [DatePicker] — fixed with selection on click ([2a762fd](https://github.com/skbkontur/retail-ui/commit/2a762fd))
+* [DatePickerOld] — fixed bug when value is undefined ([a2de24c](https://github.com/skbkontur/retail-ui/commit/a2de24c))
+* changed travis config ([87db63e](https://github.com/skbkontur/retail-ui/commit/87db63e))
+* changed travis config: tune ([7219f9b](https://github.com/skbkontur/retail-ui/commit/7219f9b))
+* chore(retail-ui) change jest config ([ab75d25](https://github.com/skbkontur/retail-ui/commit/ab75d25))
+>>>>>>> publish_scripts
 * DateInput, DatePicker - converted to ts ([0eeabd9](https://github.com/skbkontur/retail-ui/commit/0eeabd9))
 * Dropdown to ts ([d6a6e3d](https://github.com/skbkontur/retail-ui/commit/d6a6e3d))
 * DropdownMenu to ts ([169ac62](https://github.com/skbkontur/retail-ui/commit/169ac62))
@@ -83,12 +103,23 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * Fixed type errors ([f0c9b7b](https://github.com/skbkontur/retail-ui/commit/f0c9b7b))
 * Group and Switcher to ts ([5af2b94](https://github.com/skbkontur/retail-ui/commit/5af2b94))
 * ignore compiled files ([544b273](https://github.com/skbkontur/retail-ui/commit/544b273))
+<<<<<<< HEAD
 * Kebab to ts; Icon20 to ts ([e8000a1](https://github.com/skbkontur/retail-ui/commit/e8000a1))
 * Link to ts ([b0ea27b](https://github.com/skbkontur/retail-ui/commit/b0ea27b))
 * MenuSeparator to ts; removed unused files ([72458a5](https://github.com/skbkontur/retail-ui/commit/72458a5))
 * Merge branch 'next' of github.com:skbkontur/retail-ui into next ([834cd6e](https://github.com/skbkontur/retail-ui/commit/834cd6e))
 * Merge remote-tracking branch 'origin/master' into next ([1c95e47](https://github.com/skbkontur/retail-ui/commit/1c95e47))
 * Merge remote-tracking branch 'origin/master' into next ([095c704](https://github.com/skbkontur/retail-ui/commit/095c704))
+=======
+* Kebab ie scroll fix (#561) ([f121bf1](https://github.com/skbkontur/retail-ui/commit/f121bf1)), closes [#561](https://github.com/skbkontur/retail-ui/issues/561)
+* Kebab to ts; Icon20 to ts ([e8000a1](https://github.com/skbkontur/retail-ui/commit/e8000a1))
+* Link to ts ([b0ea27b](https://github.com/skbkontur/retail-ui/commit/b0ea27b))
+* manual bump version ([19faeea](https://github.com/skbkontur/retail-ui/commit/19faeea))
+* MenuSeparator to ts; removed unused files ([72458a5](https://github.com/skbkontur/retail-ui/commit/72458a5))
+* Merge branch 'next' of github.com:skbkontur/retail-ui into next ([834cd6e](https://github.com/skbkontur/retail-ui/commit/834cd6e))
+* Merge remote-tracking branch 'origin/master' into next ([095c704](https://github.com/skbkontur/retail-ui/commit/095c704))
+* Merge remote-tracking branch 'origin/master' into next ([1c95e47](https://github.com/skbkontur/retail-ui/commit/1c95e47))
+>>>>>>> publish_scripts
 * merged branch moving-to-ts ([32c8d72](https://github.com/skbkontur/retail-ui/commit/32c8d72))
 * PassworInput to ts ([c588a2f](https://github.com/skbkontur/retail-ui/commit/c588a2f))
 * Popup, internals, CurrencyInput, CurrencyHelper - converted to ts ([0c97eea](https://github.com/skbkontur/retail-ui/commit/0c97eea))
@@ -125,18 +156,20 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * Нормально сделали ([9253cae](https://github.com/skbkontur/retail-ui/commit/9253cae))
 * поправлена связка lerna + ts, SidePage из масетра переписан на ts ([e0c181c](https://github.com/skbkontur/retail-ui/commit/e0c181c))
 * Починено определение  ie ([4b88b72](https://github.com/skbkontur/retail-ui/commit/4b88b72))
+<<<<<<< HEAD
 
 
 
 
 # Changelog
+=======
+* feat(retail-ui): changes method names ([e8d9d03](https://github.com/skbkontur/retail-ui/commit/e8d9d03))
+>>>>>>> publish_scripts
 
-Changelog переместился в https://github.com/skbkontur/retail-ui/releases
 
-### 0.15.1 -> 0.16.0
 
-#### 07.03.2018
 
+<<<<<<< HEAD
 * [DatePicker] — полностью изменили работу контрола. Теперь в `value` принимается,
 строка формата `dd.mm.yyyy`. И на каждое изменение строки в инпуте триггерится
 колбек в `onChange`. Убрали параметр `onUnexpectedInput`. Убрали `dateTransformer`.
@@ -146,66 +179,66 @@ Changelog переместился в https://github.com/skbkontur/retail-ui/rel
 решить проблемы вроде разного цвета плейсхолдеров.
 * [Input] — добавили метод инстанса `blink`, позволяющий мигать.
 * [DatePickerOld] — дейтпикер со старым поведением
+=======
+<a name="0.21.0"></a>
+# 0.21.0 (2018-06-28)
+>>>>>>> publish_scripts
 
-### 0.14.4 -> 0.15.0
 
-#### 15.02.2018
+### Bug Fixes
 
+<<<<<<< HEAD
 * [Button/Input] — вернули размер шрифта в `14px` при `size="medium"`. Размер `16px`
 теперь можно включить используя метод `Upgrades.enableSizeMedium16px` из `/lib/upgrades`
 * [RenderLayer] — поправили обработку `onFocusOutside`
+=======
+* **Paging:** added props `strings` and `withoutNavigationHint` ([6dd3123](https://github.com/skbkontur/retail-ui/commit/6dd3123))
+* **Popup:** do not change position after opening ([dd748cf](https://github.com/skbkontur/retail-ui/commit/dd748cf))
+* **retail-ui:** change lerna config ([f471dbe](https://github.com/skbkontur/retail-ui/commit/f471dbe))
+* **retail-ui:** run lerna-changelog on version change hoock ([29fc67d](https://github.com/skbkontur/retail-ui/commit/29fc67d))
+>>>>>>> publish_scripts
 
-### 0.14.3 -> 0.14.4
 
-#### 15.02.2018
+### Features
 
-* [Radio] — поправлена работа в контексте радиогруппы
+* **retail-ui:** changes method names ([e8d9d03](https://github.com/skbkontur/retail-ui/commit/e8d9d03))
 
-### 0.14.2 -> 0.14.3
 
-#### 15.02.2018
+### Performance Improvements
 
-* [Button] — `use="link"` больше не перебивает свойство `size`
-* [Radio] — поправлен baseline у иконки
-* [Gapped] — исправлен лишний вертикальный отступ при `verticalAlign="top"`
+* **retail-ui:** add lerna-changelog ([a1e7e6b](https://github.com/skbkontur/retail-ui/commit/a1e7e6b))
 
-### 0.14.1 -> 0.14.2
 
-#### 14.02.2018
 
-* [HideBodyVerticalScroll] — исправлено восстановления стилей в Firefox
 
-### 0.14.0 -> 0.14.1
+<a name="0.20.0"></a>
+# 0.20.0 (2018-06-28)
 
-#### 13.02.2018
 
-* [HideBodyVerticalScroll] — исправлено восстановления `scrollTop`
+### Bug Fixes
 
-### 0.13.2 -> 0.14.0
+* **Paging:** added props `strings` and `withoutNavigationHint` ([6dd3123](https://github.com/skbkontur/retail-ui/commit/6dd3123))
+* **Popup:** do not change position after opening ([dd748cf](https://github.com/skbkontur/retail-ui/commit/dd748cf))
+* **retail-ui:** change lerna config ([f471dbe](https://github.com/skbkontur/retail-ui/commit/f471dbe))
+* **retail-ui:** run lerna-changelog on version change hoock ([29fc67d](https://github.com/skbkontur/retail-ui/commit/29fc67d))
 
-#### 13.02.2018
 
-* [ComboBox] — пересчитывает позицию выпадающего списка при получении новых элементов
-* [ComboBox] — добавили свойство `maxMenuHeight`
-* [Upgrades] — **breaking** `enableFlatDisign` исправили на `enableFlatDesign`
-* [HideBodyVerticalScroll] — больше не вставляет инлайн стили в разметку
+### Features
 
-### 0.13.1 -> 0.13.2
+* **retail-ui:** changes method names ([e8d9d03](https://github.com/skbkontur/retail-ui/commit/e8d9d03))
 
-#### 10.02.2018
 
-* [SidePage] — теперь футер прижимается к нижнему краю экрана
+### Performance Improvements
 
-### 0.13.0 -> 0.13.1
+* **retail-ui:** add lerna-changelog ([a1e7e6b](https://github.com/skbkontur/retail-ui/commit/a1e7e6b))
 
-#### 8.02.2018
 
-* Добавили в зависимости `raf`
 
-### 0.12.2 -> 0.13.0
 
-#### 7.02.2018
+<a name="0.19.0"></a>
+# 0.19.0 (2018-06-28)
 
+<<<<<<< HEAD
 * [DatePicker] — обновлен календарь
 * Добавился параметр `enableTodayLink`, включающий кнопку сегодя в календаре
 * `minYear`, `maxYear` — устарели, используйте вместо них `minDate`, `maxDate`
@@ -217,21 +250,25 @@ Changelog переместился в https://github.com/skbkontur/retail-ui/rel
 * [Button] — при `size = "medium"` размер шрифта равен 16px
 * [Popup] — исправилось позционирование на маленьких элементах. Также стал
 перерисовываться при скролле и ресайзе окна
+=======
+>>>>>>> publish_scripts
 
-### 0.12.1 -> 0.12.2
+### Bug Fixes
 
-#### 7.02.2018
+* **Paging:** added props `strings` and `withoutNavigationHint` ([6dd3123](https://github.com/skbkontur/retail-ui/commit/6dd3123))
+* **Popup:** do not change position after opening ([dd748cf](https://github.com/skbkontur/retail-ui/commit/dd748cf))
+* **retail-ui:** change lerna config ([f471dbe](https://github.com/skbkontur/retail-ui/commit/f471dbe))
+* **retail-ui:** run lerna-changelog on version change hoock ([29fc67d](https://github.com/skbkontur/retail-ui/commit/29fc67d))
 
-* [CurrencyInput] - поправлен баг, при которон не устанавливалось начальное значение
 
-### 0.12.0 -> 0.12.1
+### Features
 
-#### 6.02.2018
+* **retail-ui:** changes method names ([e8d9d03](https://github.com/skbkontur/retail-ui/commit/e8d9d03))
 
-* [SidePage] - поправлен ряд багов, поробнее в #414
 
-### 0.11.0 -> 0.12.0
+### Performance Improvements
 
+<<<<<<< HEAD
 #### 5.02.2018
 
 * Добавлен новый компонент CurrencyLabel
@@ -542,3 +579,7 @@ Changelog переместился в https://github.com/skbkontur/retail-ui/rel
 Button - добавлен параметр `arrow` включающий отображение стрелки [77d35434c09254c05ec0eeff9063b27fa18f6f10]
 
 Поправлен вызов метода `blur` у `document.body` при клике на кнопку или ссылку [a5caa6eed8a45dd04dcf7f7fedee20e6f26f71d2]
+=======
+* **retail-ui:** add lerna-changelog ([a1e7e6b](https://github.com/skbkontur/retail-ui/commit/a1e7e6b))
+>>>>>>> 38ad0732... chore: add commitlint to project
+>>>>>>> publish_scripts

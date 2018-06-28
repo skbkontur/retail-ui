@@ -4,6 +4,17 @@
   ],
   "private": true,
   "devDependencies": {
+    "@commitlint/cli": "^7.0.0",
+    "@commitlint/config-conventional": "^7.0.1",
+    "@commitlint/config-lerna-scopes": "^7.0.0",
+    "conventional-changelog": "^2.0.1",
+    "conventional-changelog-angular": "^5.0.0",
+    "conventional-changelog-cli": "^2.0.1",
+    "conventional-commits-parser": "^3.0.0",
+    "conventional-recommended-bump": "^4.0.0",
     "lerna": "^2.11.0"
+  },
+  "scripts": {
+    "commitmsg": "commitlint -E GIT_PARAMS"
   }
 }
