@@ -234,7 +234,7 @@ class DatePickerOld extends React.Component<Props, State> {
 
   componentWillReceiveProps({ value: newValue }: Props) {
     const { value: oldValue } = this.props;
-    if (+newValue !== +oldValue) {
+    if (oldValue && +newValue !== +oldValue) {
       const textValue =
         typeof newValue === 'string' ? newValue : formatDate(newValue);
 
