@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^7.0.0",
+    "@commitlint/config-conventional": "^7.0.1",
     "@commitlint/config-lerna-scopes": "^7.0.0"
   }
 }
