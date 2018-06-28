@@ -8,8 +8,7 @@
   "useWorkspaces": true,
   "command": {
     "publish": {
-      "conventionalCommits": true,
-      "changelogPreset": "angular"
+      "conventionalCommits": true
     }
   }
 }
