@@ -6,36 +6,11 @@ sudo: required
 dist: trusty
 install:
   - yarn
-  - yarn lerna bootstrap
+  - yarn bootstrap
 script:
   - yarn lerna --scope $PACKAGE run test --silent
   - yarn lerna --scope $PACKAGE run storybook:run-serve &
   - yarn lerna --stream --scope react-ui-screenshot-tests run test
-# before_deploy:
-#   - yarn lerna --scope $PACKAGE run build
-#   - openssl aes-256-cbc -K $encrypted_86996ed187bd_key -iv $encrypted_86996ed187bd_iv
-#     -in build/.npmrc.enc -out build/.npmrc -d
-#   - openssl aes-256-cbc -k $travis_key_password -in packages/$PACKAGE/travis-deploy-key.enc -out packages/$PACKAGE/travis-deploy-key
-#     -d
-#   - chmod 600 packages/$PACKAGE/travis-deploy-key
-#   - eval `ssh-agent -s`
-#   - ssh-add packages/$PACKAGE/travis-deploy-key
-#   - git config --global user.name "Travis CI"
-#   - git config --global user.email "retail-ui-publish-bot@skbkontur.ru"
-#   - scripts/publish.sh
-# deploy:
-#   skip_cleanup: true
-#   provider: npm
-#   email: tihonov.ea@gmail.com
-#   on:
-#     tags: true
-#     branch: master
-#   api_key:
-#     secure: q2UYmhnEgJMQT17qEUAmkuceiVJb7nPmnp55nTIqVsPUwI4dgKm0q1A/52p1rBfdplLiJqUH06bIMbBRg3XVUx49zniYj/JfYNSqxeC9VUfg/oxWpikJzCRJ7chHASV+EKl/LK7nbNQItcR2ecCe1cSEOkd7/2gZKNI3dflH4QsQOrNp8urA0T5J8Msd2JEvVAkes+3reJLUWDSSA1vSsv6u0yrUANgNwpeo/ZFz8etcy2EU/fodk2V4N3rIirYn0i3NQ+u3LI8cLK57x1krthfoorlRvtk/6k+U6VheHxjW057ED841pv/7uxZmWFi2dB11fEQyWjKGSYjHszG8MjIa/L3Sopi25yTqCOftMeHSkiTWtwNvp/0oTdkfVEqzwj0SdlCCEdP15e5JFtuFBtUSGuxLv7aFJ1ElIuzUMi89uG8szyvhm60MpbxGRxf/zUDeBNSJ4aI3DWkGOOw0nEj79Ymnr1TYtEaDq09GEVi/Utki+y6XKHHmIMEduEMVDPQyswIa++dpRISgCjfL4NU7sTse/XybhNcqSo4jJ7dlye+yW0CLRyxfzGGQTfx5YGqz0VnguhmW5+f199ftlROcHxuBEgqdS+mehvYK0c1t8bIGTpaLxAxX99XfHvSjGcxXsb2D1jPs1gsLZlzPTM3VPD62Kq1Ri61VFpQk5Ak=
-# after_deploy:
-#   - yarn deploy
-#   - cd build
-#   - npm publish
 env:
   matrix:
     - PACKAGE=retail-ui
