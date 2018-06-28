@@ -5,17 +5,5 @@
   ],
   "version": "independent",
   "npmClient": "yarn",
-  "useWorkspaces": true,
-  "changelog": {
-    "repo": "skbkontur/retail-ui",
-    "labels": {
-      "tag: feat": ":rocket: New Feature",
-      "tag: fix": ":bug: Bug Fix",
-      "tag: docs": ":memo: Documentation",
-      "tag: refactor": ":nail_care: Refactoring",
-      "tag: test": ":hammer: Testing",
-      "tag: chore": ":wheelchair: Maintain"
-    },
-    "cacheDir": ".changelog"
-  }
+  "useWorkspaces": true
 }
