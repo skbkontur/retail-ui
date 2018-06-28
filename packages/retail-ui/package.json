@@ -1,10 +1,6 @@
 {
   "name": "retail-ui",
-<<<<<<< HEAD
   "version": "0.18.9",
-=======
-  "version": "0.20.0",
->>>>>>> 38ad0732... chore: add commitlint to project
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
@@ -66,9 +62,6 @@
     "warning": "^3.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^7.0.0",
-    "@commitlint/config-conventional": "^7.0.1",
-    "@commitlint/config-lerna-scopes": "^7.0.0",
     "@skbkontur/typed-css-modules-loader": "^0.1.4",
     "@storybook/addon-actions": "3.4.0",
     "@storybook/addon-knobs": "3.4.0",
