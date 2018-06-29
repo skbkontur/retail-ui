@@ -31,7 +31,7 @@
     "precommit": "lint-staged",
     "predeploy": "yarn run styleguide:build",
     "prepush": "yarn run test",
-    "prepublish": "yarn build",
+    "prepublishOnly": "yarn build",
     "postpublish": "yarn deploy",
     "storybook": "start-storybook -p 6060",
     "storybook:build": "build-storybook",
