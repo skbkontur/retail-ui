@@ -12,6 +12,7 @@
     "conventional-changelog-cli": "^2.0.1",
     "conventional-commits-parser": "^3.0.0",
     "conventional-recommended-bump": "^4.0.0",
+    "husky": "^0.14.3",
     "lerna": "^2.11.0"
   },
   "scripts": {
