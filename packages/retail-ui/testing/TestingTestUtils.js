@@ -1,28 +1,34 @@
-// @flow
-
+// @ts-check
 import { mount } from 'enzyme';
-import type { ReactWrapper } from 'enzyme';
 import * as React from 'react';
 
-class Wrap extends React.Component<*> {
+/**
+ * @typedef {import('enzyme').ReactWrapper} ReactWrapper
+ */
+
+/**
+ * @typedef {object} ReturnType
+ * @property {HTMLElement} node
+ * @property {() => ReactWrapper} unmount
+ * @property {(props: Object) => ReactWrapper} setProps
+ */
+
+class Wrap extends React.Component {
   render() {
     const { children, ...props } = this.props;
     return React.cloneElement(React.Children.only(children), props);
   }
 }
 
-type ReturnType = {
-  node: HTMLElement,
-  unmount: () => ReactWrapper,
-  // eslint-disable-next-line
-  setProps: (props: Object) => ReactWrapper
-};
-
-export function mountTest(reactElement: React.Element<*>): ReturnType {
+/**
+ * @param {React.ReactElement} reactElement
+ * @returns {ReturnType}
+ */
+export function mountTest(reactElement) {
   const wrapper = mount(<Wrap>{reactElement}</Wrap>);
 
   return {
-    // $FlowIssue needs better enzyme typings
+    // @ts-ignore needs better enzyme typings
     node: ReactTesting.findDOMNodes('a', wrapper.node)[0],
     unmount: wrapper.unmount.bind(wrapper),
     setProps: wrapper.setProps.bind(wrapper)

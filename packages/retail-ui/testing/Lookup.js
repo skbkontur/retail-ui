@@ -1,4 +1,4 @@
-/* eslint-disable flowtype/no-types-missing-file-annotation */
+
 const injectGlobalHook = require('./react-devtools/backend/installGlobalHook');
 injectGlobalHook(global);
 
@@ -10,8 +10,8 @@ const TID_HIDDEN = 'data-tid-auto';
 
 const React = require('react');
 const oldCreateElement = React.createElement;
-// eslint-disable-next-line flowtype/no-weak-types
-(React: any).createElement = (type, props, ...children) => {
+
+React.createElement = (type, props, ...children) => {
   if (!props) {
     return oldCreateElement(type, props, ...children);
   }
@@ -28,15 +28,16 @@ const oldCreateElement = React.createElement;
   return oldCreateElement(type, newProps, ...children);
 };
 
-type Element = {
-  _id: number,
-  node: Node
-};
+/**
+ * @typedef {object} Element
+ * @property {number} _id
+ * @property {Node} node
+ */
 
 const hook = global.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
 const agent = new Agent(global);
-const roots: Array<string> = [];
+const roots = [];
 const mounted = {};
 
 agent.on('root', id => {
@@ -60,13 +61,11 @@ agent.on('unmount', id => {
 
 inject(hook, agent);
 
-// eslint-disable-next-line flowtype/no-weak-types
-const findOne = (path: string, tree: any) => {
+const findOne = (path, tree) => {
   return findAll(path, tree)[0];
 };
 
-// eslint-disable-next-line flowtype/no-weak-types
-const findAll = (path: string, tree: any) => {
+const findAll = (path, tree) => {
   const tokens = path.split(' ');
 
   let roots;
@@ -129,9 +128,10 @@ const getDetachedRoot = portalID => {
   });
 };
 
-/* eslint-disable consistent-return */
-// eslint-disable-next-line flowtype/no-weak-types
-function getAdapter(element: Element): any {
+/**
+ * @param {Element} element 
+ */
+function getAdapter(element) {
   const comp = mounted[element._id];
   invariant(comp, 'Cannot get adapter of unmounted component.');
 
