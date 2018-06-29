@@ -20,6 +20,21 @@
     "clean": "lerna clean --yes",
     "commitmsg": "commitlint -E GIT_PARAMS",
     "precommit": "lerna run precommit",
-    "prepush": "lerna run prepush"
+    "prepush": "lerna run prepush",
+    "applypatchmsg": "lerna run applypatchmsg",
+    "postapplypatch": "lerna run postapplypatch",
+    "postcheckout": "lerna run postcheckout",
+    "postcommit": "lerna run postcommit",
+    "postmerge": "lerna run postmerge",
+    "postreceive": "lerna run postreceive",
+    "postrewrite": "lerna run postrewrite",
+    "postupdate": "lerna run postupdate",
+    "preapplypatch": "lerna run preapplypatch",
+    "preautogc": "lerna run preautogc",
+    "prerebase": "lerna run prerebase",
+    "prereceive": "lerna run prereceive",
+    "preparecommitmsg": "lerna run preparecommitmsg",
+    "pushtocheckout": "lerna run pushtocheckout",
+    "update": "lerna run update"
   }
 }
