@@ -6,17 +6,29 @@
   "devDependencies": {
     "@commitlint/cli": "^7.0.0",
     "@commitlint/config-conventional": "^7.0.1",
-    "@commitlint/config-lerna-scopes": "^7.0.0",
-    "conventional-changelog": "^2.0.1",
-    "conventional-changelog-angular": "^5.0.0",
-    "conventional-changelog-cli": "^2.0.1",
-    "conventional-commits-parser": "^3.0.0",
-    "conventional-recommended-bump": "^4.0.0",
+    "husky": "^0.14.3",
     "lerna": "^2.11.0"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes",
-    "commitmsg": "commitlint -E GIT_PARAMS"
+    "commitmsg": "commitlint -E GIT_PARAMS",
+    "precommit": "lerna run precommit",
+    "prepush": "lerna run prepush",
+    "applypatchmsg": "lerna run applypatchmsg",
+    "postapplypatch": "lerna run postapplypatch",
+    "postcheckout": "lerna run postcheckout",
+    "postcommit": "lerna run postcommit",
+    "postmerge": "lerna run postmerge",
+    "postreceive": "lerna run postreceive",
+    "postrewrite": "lerna run postrewrite",
+    "postupdate": "lerna run postupdate",
+    "preapplypatch": "lerna run preapplypatch",
+    "preautogc": "lerna run preautogc",
+    "prerebase": "lerna run prerebase",
+    "prereceive": "lerna run prereceive",
+    "preparecommitmsg": "lerna run preparecommitmsg",
+    "pushtocheckout": "lerna run pushtocheckout",
+    "update": "lerna run update"
   }
 }
