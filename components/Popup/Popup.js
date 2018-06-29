@@ -215,24 +215,22 @@ export default class Popup extends React.Component<Props, State> {
   }
 
   _updateLocation() {
-    this.setState((state, props) => {
-      if (!props.opened) {
-        if (state.location) {
-          return { location: null };
-        }
-        return null;
+    if (!this.props.opened) {
+      if (this.state.location) {
+        this.setState({ location: null });
       }
+      return;
+    }
 
-      const popupElement = this._lastPopupElement;
-      if (!popupElement) {
-        return null;
-      }
+    const popupElement = this._lastPopupElement;
+    if (!popupElement) {
+      return;
+    }
 
-      const location = this._getLocation(popupElement, state.location);
-      if (!this._locationEquals(state.location, location)) {
-        return { location };
-      }
-    });
+    const location = this._getLocation(popupElement);
+    if (!this._locationEquals(this.state.location, location)) {
+      this.setState({ location });
+    }
   }
 
   _requestClose = () => {
