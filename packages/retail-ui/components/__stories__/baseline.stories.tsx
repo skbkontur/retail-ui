@@ -40,4 +40,31 @@ storiesOf('Baseline', module)
     <div style={{ display: 'flex', alignItems: 'baseline' }}>
       <Button children="Hello" /> Plain text
     </div>
+  ))
+  .add('Input with button', () => (
+    <SimpleForm />
   ));
+
+class SimpleForm extends React.Component<any, any> {
+  public state = {
+    isFormSubmitted: false,
+    value: ''
+  };
+
+  public render() {
+    return (
+      <div>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          this.setState({ isFormSubmitted: true })
+        }}>
+          <Input id='test-input' onChange={(e) => this.setState({ value: e.target.value })}/>
+          <Button children="Click" type="submit"/>
+        </form>
+        {this.state.isFormSubmitted &&
+          <span id="test-input-value">{this.state.value}</span>
+        }
+      </div>
+    );
+  }
+}
