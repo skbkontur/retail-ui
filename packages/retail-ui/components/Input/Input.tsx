@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import MaskedInput from 'react-input-mask';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
@@ -10,6 +9,7 @@ import Upgrades from '../../lib/Upgrades';
 import CssStyles from './Input.less';
 import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
+import MaskedInput from '../internal/MaskedInput/MaskedInput';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
