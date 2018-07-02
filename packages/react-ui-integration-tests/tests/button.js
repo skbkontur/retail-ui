@@ -8,7 +8,7 @@ describe('Test button', function() {
       .setValue('#test-input', 'Hello')
       .click(buttonRootSelector)
       .waitForExist('#test-input-value');
-    browser.getText('#test-input-value').should.be.equal('Hello');
+    expect(browser.getText('#test-input-value')).toBe('Hello');
     browser.call(done);
   });
 });

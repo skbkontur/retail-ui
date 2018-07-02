@@ -67,8 +67,6 @@ exports.config = {
     ui: 'bdd'
   },
   before: function () {
-    const chai = require('chai');
-    global.expect = chai.expect;
-    chai.should();
+    global.expect = require('expect');
   }
 };

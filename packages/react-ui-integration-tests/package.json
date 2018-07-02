@@ -9,7 +9,6 @@
     "test": "wdio wdio.conf.js"
   },
   "dependencies": {
-    "chai": "^4.1.2",
     "selenium-standalone": "^6.15.1",
     "wdio-mocha-framework": "0.6.1",
     "wdio-sauce-service": "^0.4.4",
