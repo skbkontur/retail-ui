@@ -24,9 +24,16 @@ const oldCreateElement = React.createElement;
   }
   if (props.tid) {
     newProps[TID_HIDDEN] = props.tid;
+    if (type.__ADAPTER__ === undefined) {
+      newProps.tid = props.tid;
+    }
   }
   return oldCreateElement(type, newProps, ...children);
 };
+// eslint-disable-next-line flowtype/no-weak-types
+(React: any).createFactory = type =>
+  // eslint-disable-next-line flowtype/no-weak-types
+  (React: any).createElement.bind(null, type);
 
 type Element = {
   _id: number,
@@ -106,7 +113,11 @@ const search = (ids, tokens) => {
 
       const tid = comp.props && comp.props[TID_HIDDEN];
       if (tid === tokens[0]) {
-        return search([id], tokens.slice(1));
+        const resIds = search([id], tokens.slice(1));
+        if (comp.props.tid === tid && Array.isArray(comp.children)) {
+          resIds.push(...search(comp.children, tokens));
+        }
+        return resIds;
       }
 
       if (Array.isArray(comp.children)) {
@@ -131,17 +142,23 @@ const getDetachedRoot = portalID => {
 
 /* eslint-disable consistent-return */
 // eslint-disable-next-line flowtype/no-weak-types
-function getAdapter(element: Element): any {
-  const comp = mounted[element._id];
-  invariant(comp, 'Cannot get adapter of unmounted component.');
+function getAdapter(element: Element | Element[]): any {
+  const adapters = (Array.isArray(element) ? element : [element])
+    .map(el => {
+      const comp = mounted[el._id];
+      invariant(comp, 'Cannot get adapter of unmounted component.');
 
-  const instance = comp.publicInstance;
-  const type = instance && instance.constructor;
-  if (type && type.__ADAPTER__) {
-    return objectMap(type.__ADAPTER__, func => func.bind(null, instance));
-  }
+      const instance = comp.publicInstance;
+      const type = instance && instance.constructor;
+      if (type && type.__ADAPTER__) {
+        return objectMap(type.__ADAPTER__, func => func.bind(null, instance));
+      }
+    })
+    .filter(Boolean);
 
-  invariant(false, 'No adapter found.');
+  invariant(adapters.length, 'No adapter found.');
+
+  return adapters.reduce((acc, obj) => ({ ...obj, ...acc }), {});
 }
 /* eslint-enable consistent-return */
 
