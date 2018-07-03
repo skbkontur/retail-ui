@@ -2,39 +2,39 @@ const platform = process.platform;
 
 function generateCapabilities(platform) {
   // MacOS
-  if (platform === 'darwin') {
+  if (platform === "darwin") {
     return [
       {
-        browserName: 'firefox'
+        browserName: "firefox"
       },
       {
-        browserName: 'chrome'
+        browserName: "chrome"
       },
       {
-        browserName: 'safari'
+        browserName: "safari"
       }
     ];
   }
   // Windows
-  if (platform === 'win32') {
+  if (platform === "win32") {
     return [
       {
-        browserName: 'firefox'
+        browserName: "firefox"
       },
       {
-        browserName: 'chrome'
+        browserName: "chrome"
       },
       {
-        browserName: 'internet explorer'
+        browserName: "internet explorer"
       }
     ];
   }
   return [
     {
-      browserName: 'firefox'
+      browserName: "firefox"
     },
     {
-      browserName: 'chrome'
+      browserName: "chrome"
     }
   ];
 }
@@ -43,30 +43,28 @@ const sauceUsername = process.env.SAUCE_USERNAME;
 const sauceKey = process.env.SAUCE_ACCESS_KEY;
 
 exports.config = {
-  specs: [
-    './tests/*.js'
-  ],
+  specs: ["./tests/*.js"],
   maxInstances: 10,
   capabilities: generateCapabilities(platform),
   sync: true,
-  logLevel: 'result',
+  logLevel: "silent",
   coloredLogs: true,
   deprecationWarnings: true,
   bail: 0,
-  screenshotPath: './tests/errorScreenshots',
-  baseUrl: 'http://localhost:6060/',
+  screenshotPath: "./tests/errorScreenshots",
+  baseUrl: "http://localhost:6060/",
   waitforTimeout: 20000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
-  services: ['sauce'],
+  services: ["sauce"],
   user: sauceUsername,
   key: sauceKey,
   sauceConnect: true,
-  framework: 'mocha',
+  framework: "mocha",
   mochaOpts: {
-    ui: 'bdd'
+    ui: "bdd"
   },
-  before: function () {
-    global.expect = require('expect');
+  before: function() {
+    global.expect = require("expect");
   }
 };

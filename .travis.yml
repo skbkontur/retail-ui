@@ -10,7 +10,7 @@ install:
 script:
   - yarn lerna --scope retail-ui run test --silent
   - yarn lerna --scope retail-ui run storybook:run-serve &
-  - yarn lerna --stream --scope react-ui-integration-tests run test --silent
+  - yarn lerna --stream --scope react-ui-integration-tests run test
   - yarn lerna --stream --scope react-ui-screenshot-tests run test
 # before_deploy:
 #   - yarn lerna --scope $PACKAGE run build
