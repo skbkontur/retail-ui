@@ -95,6 +95,7 @@ export default class CurrencyInput extends React.Component<
 
   private _input: Nullable<Input>;
   private _focused: boolean = false;
+  private _tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(0);
 
   constructor(props: CurrencyInputProps, context: any) {
     super(props, context);
@@ -128,6 +129,7 @@ export default class CurrencyInput extends React.Component<
         onFocus={this._handleFocus}
         onMouseUp={this._handleMouseUp}
         onKeyDown={this._handleKeyDown}
+        onChange={this._handleChange}
         onPaste={this._handlePaste}
         onCopy={this._handleCopy}
         onCut={this._handleCut}
@@ -166,6 +168,9 @@ export default class CurrencyInput extends React.Component<
   };
 
   private _handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const selection = this._getSelection(event.target);
+    this._tempSelectionForOnChange = selection;
+
     if (this.props.onKeyDown) {
       this.props.onKeyDown(event);
       if (event.defaultPrevented) {
@@ -179,26 +184,15 @@ export default class CurrencyInput extends React.Component<
       return;
     }
 
-    event.preventDefault();
-    const selection = this._getSelection(event.target);
+    if (action !== CURRENCY_INPUT_ACTIONS.Unknown) {
+      event.preventDefault();
+    }
 
     switch (action) {
       case CURRENCY_INPUT_ACTIONS.Submit: {
         if (this.props.onSubmit) {
           this.props.onSubmit();
         }
-        return;
-      }
-      case CURRENCY_INPUT_ACTIONS.Digit: {
-        this._inputValue(selection.start, selection.end, event.key);
-        return;
-      }
-      case CURRENCY_INPUT_ACTIONS.Separator: {
-        this._inputValue(selection.start, selection.end, ',');
-        return;
-      }
-      case CURRENCY_INPUT_ACTIONS.Minus: {
-        this._inputValue(selection.start, selection.end, '-');
         return;
       }
       case CURRENCY_INPUT_ACTIONS.Backspace: {
@@ -244,22 +238,20 @@ export default class CurrencyInput extends React.Component<
       }
       case CURRENCY_INPUT_ACTIONS.FullSelection: {
         this.setState({
-          selection: {
-            start: 0,
-            end: this.state.formatted.length,
-            direction: 'forward'
-          }
+          selection: SelectionHelper.forward(0, this.state.formatted.length)
         });
         return;
       }
-      case CURRENCY_INPUT_ACTIONS.ExtendSelectionToBegin: {
-        this.setState({ selection: SelectionHelper.toBegin(selection.start) });
+      case CURRENCY_INPUT_ACTIONS.ExtendSelectionToStart: {
+        this.setState({
+          selection: SelectionHelper.backward(0, selection.start)
+        });
         return;
       }
       case CURRENCY_INPUT_ACTIONS.ExtendSelectionToEnd: {
         const inputEnd = this.state.formatted.length;
         this.setState({
-          selection: SelectionHelper.toEnd(selection.start, inputEnd)
+          selection: SelectionHelper.forward(selection.start, inputEnd)
         });
         return;
       }
@@ -311,6 +303,28 @@ export default class CurrencyInput extends React.Component<
           this.props.onChange({ target: { value: parsedValue } }, parsedValue);
         }
       });
+      return true;
+    }
+    return false;
+  };
+
+  private _getOnChangeDelta = (value: string) => {
+    const selection = this._tempSelectionForOnChange;
+    const oldValue = this.state.formatted;
+    if (selection.start !== selection.end) {
+      return value.substring(selection.start, value.length - (oldValue.length - selection.end));
+    }
+    else if (value.length > oldValue.length) {
+      return value.substr(selection.start, value.length - oldValue.length);
+    }
+    return null;
+  }
+
+  private _handleChange = (event: React.ChangeEvent<HTMLInputElement>, value: string): void => {
+    const selection = this._tempSelectionForOnChange;
+    const delta = this._getOnChangeDelta(value);
+    if (delta != null && !this._inputValue(selection.start, selection.end, delta)) {
+      this.setState({ selection });
     }
   };
 
