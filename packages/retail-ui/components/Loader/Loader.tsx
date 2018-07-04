@@ -1,8 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import debounce from 'lodash.debounce';
 
+import LayoutEvents from '../../lib/LayoutEvents';
 import Spinner from '../Spinner';
 import styles = require('./Loader.less');
 
@@ -55,9 +55,10 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     type: PropTypes.oneOf(Object.keys(Spinner.Types))
   };
 
-  private containerNode: HTMLDivElement | null;
-  private spinnerNode: HTMLSpanElement | null;
+  private containerNode: Nullable<HTMLDivElement>;
+  private spinnerNode: Nullable<HTMLSpanElement>;
   private spinnerHeight?: number;
+  private layoutEvents: Nullable<{ remove: () => void }>;
 
   constructor(props: LoaderProps) {
     super(props);
@@ -70,19 +71,19 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     };
   }
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.changeWindowHandler);
-    window.addEventListener('resize', this.changeWindowHandler);
-    this.checkSpinnerPosition();
-
+  public componentDidMount() {
     if (this.spinnerNode) {
       this.spinnerHeight = this.spinnerNode.children[0].getBoundingClientRect().height;
     }
+
+    this.checkSpinnerPosition();
+    this.layoutEvents = LayoutEvents.addListener(this.checkSpinnerPosition);
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.changeWindowHandler);
-    window.removeEventListener('resize', this.changeWindowHandler);
+  public componentWillUnmount() {
+    if (this.layoutEvents) {
+      this.layoutEvents.remove();
+    }
   }
 
   private checkSpinnerPosition = () => {
@@ -92,6 +93,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
 
     const {
       top: containerTop,
+      right: containerRight,
       bottom: containerBottom,
       left: containerLeft,
       height: containerHeight,
@@ -99,19 +101,22 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     } = this.containerNode.getBoundingClientRect();
 
     const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
 
-    // Если контейнер не больше высоты окна, то просто выравниваем по центру
-    if (windowHeight >= containerHeight) {
+    // Если контейнер не больше высоты и не шире окна,
+    // то просто выравниваем по центру
+    if (windowHeight >= containerHeight && windowWidth >= containerWidth) {
       return;
     }
 
     const spinnerStyle = {
-      width: containerWidth,
-      left: containerLeft,
       top: 0,
-      bottom: 0
+      right: 0,
+      bottom: 0,
+      left: 0
     };
 
+    // ПО ВЕРТИКАЛИ
     // Если верхний край контейнера ниже верхнего края окна,
     // то сдвигаем и лоадер
     if (containerTop > 0) {
@@ -124,7 +129,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
       spinnerStyle.bottom = Math.abs(windowHeight - containerBottom) + 30;
     }
 
-    // Если значем высоту спиннера и нижний край контейнера поднимается
+    // Если знаем высоту спиннера и нижний край контейнера поднимается
     // выше отступа на высоту спиннера, то убираем верхнюю позицию лоадера
     if (
       this.spinnerHeight &&
@@ -133,13 +138,24 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
       delete spinnerStyle.top;
     }
 
+    // ПО ГОРИЗОНТАЛИ
+    // Если левый край контейнера правее левого края окна,
+    // то сдвигаем и лоадер
+    if (containerLeft > 0) {
+      spinnerStyle.left = containerLeft;
+    }
+
+    // Если правый край контейнера левее правого края окна,
+    // то сдвигаем и лоадер
+    if (containerRight < windowWidth) {
+      spinnerStyle.right = windowWidth - containerRight;
+    }
+
     this.setState({
       isStickySpinner: true,
       spinnerStyle
     });
   };
-
-  private changeWindowHandler = debounce(this.checkSpinnerPosition, 10);
 
   public render() {
     const { active, type, caption, className } = this.props;

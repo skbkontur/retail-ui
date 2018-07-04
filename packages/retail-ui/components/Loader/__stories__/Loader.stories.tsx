@@ -13,14 +13,16 @@ function getItems(count: number) {
 
 const wrapperStyle = {
   width: '800px',
-  background: 'AliceBlue',
-  margin: '0 60px'
+  background: 'AliceBlue'
 };
 
-class ContentComponent extends React.Component<{ itemsCount: number }> {
+class ContentComponent extends React.Component<{
+  itemsCount: number;
+  additionalStyle?: object;
+}> {
   public render() {
     return (
-      <div style={wrapperStyle}>
+      <div style={{ ...wrapperStyle, ...this.props.additionalStyle }}>
         <Loader active type={'big'}>
           {getItems(this.props.itemsCount).map(i => <div key={i}>{i}</div>)}
         </Loader>
@@ -32,13 +34,13 @@ class ContentComponent extends React.Component<{ itemsCount: number }> {
 storiesOf('Loader', module)
   .add('Simple', () => <Loader active />)
   .add('Type "big"', () => <ContentComponent itemsCount={10} />)
-  .add('Scrollable content', () => <ContentComponent itemsCount={200} />)
-  .add('Scrollable content with before & after', () => {
-    return (
-      <div>
-        {getItems(20).map(i => <div key={i}>{i}</div>)}
-        <ContentComponent itemsCount={200} />
-        {getItems(20).map(i => <div key={i}>{i}</div>)}
-      </div>
-    );
-  });
+  .add('Vertical scroll', () => <ContentComponent itemsCount={200} />)
+  .add('Horizontal scroll', () => (
+    <ContentComponent itemsCount={10} additionalStyle={{ width: '2500px' }} />
+  ))
+  .add('Both dimensions scrollable content with spaces around', () => (
+    <ContentComponent
+      itemsCount={200}
+      additionalStyle={{ width: '2500px', margin: '600px 200px' }}
+    />
+  ));
