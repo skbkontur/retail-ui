@@ -65,6 +65,7 @@ export default class MaskedInput extends React.Component<
   }
 
   public render() {
+    const { mask, maskChar, alwaysShowMask, ...inputProps } = this.props;
     return (
       <div
         style={{ display: 'flex', flexDirection: 'column', padding: '4px' }}
@@ -72,19 +73,9 @@ export default class MaskedInput extends React.Component<
       >
         <div style={{ position: 'relative' }}>
           <input
-            className={styles.container}
+            {...inputProps}
             value={this.state.value}
             onChange={this.handleChange}
-            style={{
-              display: 'inline-block',
-              border: '1px solid #d9d9d9',
-              borderTopColor: '#b2b2b2',
-              fontSize: '14px',
-              lineHeight: '20px',
-              padding: '6px 10px',
-              background: '#fff',
-              font: 'inherit'
-            }}
             ref={element => {
               this.input = element;
             }}
