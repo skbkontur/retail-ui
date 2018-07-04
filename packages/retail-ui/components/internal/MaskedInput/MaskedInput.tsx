@@ -30,16 +30,15 @@ export default class MaskedInput extends React.Component<
   constructor(props: MaskedInputProps) {
     super(props);
 
-    const value = props.value ? props.value.toString() : '';
-
     this.mask = new InputMask({
-      pattern: this.props.mask.replace(/9/g, '1'),
-      placeholderChar: this.props.maskChar || '',
-      value
+      pattern: props.mask.replace(/9/g, '1'),
+      placeholderChar: props.maskChar || ''
     });
 
     this.emptyValue = this.mask.emptyValue;
     this.mask.pattern.isRevealingMask = true;
+
+    this.mask.setValue(props.value ? props.value.toString() : '');
 
     this.state = {
       value: this.mask.getValue(),
@@ -77,10 +76,7 @@ export default class MaskedInput extends React.Component<
   public render() {
     const { mask, maskChar, alwaysShowMask, ...inputProps } = this.props;
     return (
-      <div
-        style={{ display: 'flex', flexDirection: 'column', padding: '4px' }}
-        className={styles.container}
-      >
+      <div className={styles.container}>
         <div style={{ position: 'relative' }}>
           <input
             {...inputProps}
