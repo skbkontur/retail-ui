@@ -116,11 +116,11 @@ export default class MaskedInput extends React.Component<
 
     if (value.length < this.mask.getValue().length) {
       if (
-        this.input.selectionEnd &&
-        this.input.selectionEnd === value.length &&
-        !this.mask.pattern.isEditableIndex(this.input.selectionEnd)
+        selection.end &&
+        selection.end === value.length &&
+        !this.mask.pattern.isEditableIndex(selection.end)
       ) {
-        value = value.slice(0, this.input.selectionEnd - 1);
+        value = value.slice(0, selection.end - 1);
       }
     }
 
