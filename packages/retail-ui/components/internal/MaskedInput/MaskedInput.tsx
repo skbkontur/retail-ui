@@ -30,15 +30,16 @@ export default class MaskedInput extends React.Component<
   constructor(props: MaskedInputProps) {
     super(props);
 
+    const value = props.value ? props.value.toString() : '';
+
     this.mask = new InputMask({
       pattern: this.props.mask.replace(/9/g, '1'),
-      placeholderChar: this.props.maskChar || ''
+      placeholderChar: this.props.maskChar || '',
+      value
     });
 
     this.emptyValue = this.mask.emptyValue;
     this.mask.pattern.isRevealingMask = true;
-
-    this.mask.setValue(this.props.value ? this.props.value.toString() : '');
 
     this.state = {
       value: this.mask.getValue(),
@@ -47,6 +48,15 @@ export default class MaskedInput extends React.Component<
         end: 0
       }
     };
+  }
+
+  public componentWillReceiveProps(nextProps: MaskedInputProps) {
+    if (this.props.value !== nextProps.value) {
+      const value = nextProps.value ? nextProps.value.toString() : '';
+      this.mask.setValue(value);
+
+      this.setState({ value: this.mask.getValue() });
+    }
   }
 
   public componentDidUpdate(
@@ -120,10 +130,19 @@ export default class MaskedInput extends React.Component<
 
     this.mask.setValue(this.getRawValue(value));
 
-    this.setState({
-      value: this.mask.getValue(),
-      selection
-    });
+    event.persist();
+
+    this.setState(
+      {
+        value: this.mask.getValue(),
+        selection
+      },
+      () => {
+        if (this.props.onChange) {
+          this.props.onChange(event);
+        }
+      }
+    );
   };
 
   private getRawValue = (value: string) => {
