@@ -16,7 +16,7 @@ describe('DatePicker', () => {
 
     const input = wrapper.find('input');
     input.simulate('focus');
-    input.simulate('change', { target: { value: '4.12.13' } });
+    input.simulate('change', { target: { value: '04.12.13' } });
     clickOutside();
 
     expect(onChange).toHaveBeenCalledTimes(1);
@@ -32,9 +32,7 @@ describe('DatePicker', () => {
     const wrapper = mount(<DatePicker value={new Date()} />);
 
     wrapper.find('input').simulate('focus');
-    wrapper
-      .find('input')
-      .simulate('change', { currentTarget: { value: '1203' } });
+    wrapper.find('input').simulate('change', { target: { value: '1203' } });
     wrapper.setProps({ value: new Date('02-01-2003 UTC') });
     wrapper.update();
 
