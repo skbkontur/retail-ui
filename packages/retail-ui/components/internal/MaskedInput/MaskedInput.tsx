@@ -24,7 +24,7 @@ export default class MaskedInput extends React.Component<
   MaskedInputState
 > {
   private input: Nullable<HTMLInputElement>;
-  private mask: any;
+  private mask: InputMask;
   private emptyValue: string;
 
   constructor(props: MaskedInputProps) {
@@ -38,7 +38,7 @@ export default class MaskedInput extends React.Component<
     this.emptyValue = this.mask.emptyValue;
     this.mask.pattern.isRevealingMask = true;
 
-    this.mask.setValue(this.props.value || '');
+    this.mask.setValue(this.props.value ? this.props.value.toString() : '');
 
     this.state = {
       value: this.mask.getValue(),
