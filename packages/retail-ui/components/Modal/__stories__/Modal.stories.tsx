@@ -8,6 +8,12 @@ import Input from '../../Input';
 import Textarea from '../../Textarea';
 import Toggle from '../../Toggle';
 
+const basicFontStyle = {
+  fontSize: '14px',
+  lineHeight: '20px',
+  margin: '0'
+};
+
 class ModalWithScrollableContent extends Component<
   {},
   { opened: boolean; panel: boolean }
@@ -178,6 +184,127 @@ class ModalOverAnotherModal extends Component<{}, any> {
   }
 }
 
+class ModalWithFooterPanel extends Component<
+  {},
+  { opened: boolean; panel: boolean }
+> {
+  public state = {
+    opened: false,
+    panel: true
+  };
+
+  public renderModal() {
+    return (
+      <Modal onClose={this.close}>
+        <Modal.Header>
+          Адрес места осуществления предпринимательской деятельности
+        </Modal.Header>
+        <Modal.Body>
+          <Input placeholder="Страна" />
+        </Modal.Body>
+        <Modal.Footer panel={this.state.panel}>
+          <Button onClick={this.close}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  public render() {
+    return (
+      <div style={{ width: '300px' }}>
+        {this.state.opened && this.renderModal()}
+        <Button onClick={this.open}>Open modal</Button>
+      </div>
+    );
+  }
+
+  public open = () => {
+    this.setState({ opened: true });
+  };
+
+  public close = () => {
+    this.setState({ opened: false });
+  };
+}
+
+class ModalWithoutFooterPanel extends Component<{}, { opened: boolean }> {
+  public state = {
+    opened: false
+  };
+
+  public renderModal() {
+    return (
+      <Modal onClose={this.close}>
+        <Modal.Header>Исправление ошибок</Modal.Header>
+        <Modal.Body>
+          <p style={basicFontStyle}>
+            Исправить ошибки можно у нас в сервисе. Для этого загрузите
+            документы для редактирования. Также можно посмотреть ошибки,
+            исправить их в учетной программе и импортировать заново.
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.close}>Не создавать</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  public render() {
+    return (
+      <div style={{ width: '300px' }}>
+        {this.state.opened && this.renderModal()}
+        <Button onClick={this.open}>Open modal</Button>
+      </div>
+    );
+  }
+
+  public open = () => {
+    this.setState({ opened: true });
+  };
+
+  public close = () => {
+    this.setState({ opened: false });
+  };
+}
+
+class ModalWithoutFooter extends Component<{}, { opened: boolean }> {
+  public state = {
+    opened: false
+  };
+
+  public renderModal() {
+    return (
+      <Modal onClose={this.close}>
+        <Modal.Header>Воспользуйтесь другим браузером</Modal.Header>
+        <Modal.Body>
+          <p style={basicFontStyle}>
+            Некоторые функции не работают в вашем браузере. Чтобы все работало,
+            установите один из этих браузеров: Firefox, Opera, Chrome.
+          </p>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
+  public render() {
+    return (
+      <div style={{ width: '300px' }}>
+        {this.state.opened && this.renderModal()}
+        <Button onClick={this.open}>Open modal</Button>
+      </div>
+    );
+  }
+
+  public open = () => {
+    this.setState({ opened: true });
+  };
+
+  public close = () => {
+    this.setState({ opened: false });
+  };
+}
+
 storiesOf('Modal', module)
   .add('With scrollable parent content', () => <ModalWithScrollableContent />)
   .add('With Input in header', () => <ModalWithInputInHeader />)
@@ -187,4 +314,7 @@ storiesOf('Modal', module)
       <Modal.Header>Disabled</Modal.Header>
       <Modal.Body>Content of disabled body</Modal.Body>
     </Modal>
-  ));
+  ))
+  .add('Modal with footer panel', () => <ModalWithFooterPanel />)
+  .add('Modal without footer panel', () => <ModalWithoutFooterPanel />)
+  .add('Modal without footer', () => <ModalWithoutFooter />);

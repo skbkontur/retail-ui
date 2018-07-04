@@ -9,6 +9,7 @@ export interface CloseProps {
 }
 
 export interface ModalContextProps {
+  additionalPadding?: boolean;
   close?: CloseProps;
   horizontalScroll?: boolean;
 }

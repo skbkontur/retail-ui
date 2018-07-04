@@ -11,8 +11,6 @@ export const Close: React.SFC<CloseProps> = (props: CloseProps) => {
         props.disableClose && styles.disabled
       )}
       onClick={props.requestClose}
-    >
-      ×
-    </button>
+    />
   );
 };
