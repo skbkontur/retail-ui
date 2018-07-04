@@ -23,25 +23,30 @@ export default class MaskedInput extends React.Component<
   MaskedInputProps,
   MaskedInputState
 > {
-  public state: MaskedInputState = {
-    value: this.props.value || '',
-    selection: {
-      start: 0,
-      end: 0
-    }
-  };
-
   private input: Nullable<HTMLInputElement>;
+  private mask: any;
+  private emptyValue: string;
 
-  private mask: any = new InputMask({
-    pattern: this.props.mask.replace(/9/g, '1'),
-    placeholderChar: this.props.maskChar || ''
-  });
+  constructor(props: MaskedInputProps) {
+    super(props);
 
-  private emptyValue: string = this.mask.emptyValue;
+    this.mask = new InputMask({
+      pattern: this.props.mask.replace(/9/g, '1'),
+      placeholderChar: this.props.maskChar || ''
+    });
 
-  public componentDidMount() {
+    this.emptyValue = this.mask.emptyValue;
     this.mask.pattern.isRevealingMask = true;
+
+    this.mask.setValue(this.props.value || '');
+
+    this.state = {
+      value: this.mask.getValue(),
+      selection: {
+        start: 0,
+        end: 0
+      }
+    };
   }
 
   public componentDidUpdate(
@@ -54,7 +59,7 @@ export default class MaskedInput extends React.Component<
       prevState.value
     ) {
       this.moveCaret(
-        prevState.value.toString().length < this.state.value.toString().length
+        prevState.value.toString().length > this.state.value.toString().length
       );
     }
   }
@@ -100,6 +105,7 @@ export default class MaskedInput extends React.Component<
   }
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
     let { value } = event.target;
 
     if (!this.input) {
@@ -112,8 +118,12 @@ export default class MaskedInput extends React.Component<
     };
 
     if (value.length < this.mask.getValue().length) {
-      if (!this.mask.pattern.isEditableIndex(this.input.selectionEnd)) {
-        value = value.slice(0, value.length - 1);
+      if (
+        this.input.selectionEnd &&
+        this.input.selectionEnd === value.length &&
+        !this.mask.pattern.isEditableIndex(this.input.selectionEnd)
+      ) {
+        value = value.slice(0, this.input.selectionEnd - 1);
       }
     }
 
@@ -125,52 +135,51 @@ export default class MaskedInput extends React.Component<
     });
   };
 
-  private getRawValue = (value: string) =>
-    value
+  private getRawValue = (value: string) => {
+    return value
       .split('')
       .filter((char, index) => {
+        if (
+          index < this.mask.pattern.firstEditableIndex ||
+          index > this.mask.pattern.lastEditableIndex
+        ) {
+          return false;
+        }
+
         const isValidChar = this.mask.input(char);
 
         if (isValidChar) {
-          this.mask.backspace();
-          return true;
+          return this.mask.backspace();
         }
 
         return false;
       })
       .join('');
+  };
 
   private moveCaret = (moveBack?: boolean) => {
     if (!this.state.value) {
       return;
     }
     const { start } = this.state.selection;
-    let newCaretStart = start;
-    // let newCaretEnd = end;
-
-    this.state.value
-      .toString()
-      .split('')
-      .forEach((_char, index) => {
-        if (index < start) {
-          return;
-        }
-
-        if (newCaretStart !== start) {
-          return;
-        }
-
-        if (this.mask.pattern.isEditableIndex(index)) {
-          newCaretStart = index + 1;
-        }
-      });
-
-    if (this.input) {
-      this.input.setSelectionRange(newCaretStart, newCaretStart);
-    }
+    const valueBuffer = this.state.value.toString().split('');
 
     if (moveBack) {
+      for (let index = start; index > 0; index--) {
+        if (this.mask.pattern.isEditableIndex(index) && this.input) {
+          this.input.setSelectionRange(index, index);
+          break;
+        }
+      }
+
       return;
+    }
+
+    for (let index = start; index < valueBuffer.length; index++) {
+      if (this.mask.pattern.isEditableIndex(index) && this.input) {
+        this.input.setSelectionRange(index, index);
+        break;
+      }
     }
   };
 }
