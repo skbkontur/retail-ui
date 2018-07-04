@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 import Input, { InputProps } from '../Input';
-import MaskedInput from 'react-input-mask';
+import MaskedInput, { MaskedInputProps } from '../../internal/MaskedInput';
 
 const render = (props: InputProps) => mount(React.createElement(Input, props));
 
@@ -134,7 +134,7 @@ describe('<Input />', () => {
   });
 
   it('passes props to MaskedInput', () => {
-    const props: MaskedInput.Props = {
+    const props: MaskedInputProps = {
       value: '123',
       mask: '999',
       maskChar: '*',
@@ -146,8 +146,8 @@ describe('<Input />', () => {
 
     // tslint:disable-next-line:forin
     for (const prop in props) {
-      expect(inputProps[prop as keyof MaskedInput.Props]).toBe(
-        props[prop as keyof MaskedInput.Props]
+      expect(inputProps[prop as keyof MaskedInputProps]).toBe(
+        props[prop as keyof MaskedInputProps]
       );
     }
   });
