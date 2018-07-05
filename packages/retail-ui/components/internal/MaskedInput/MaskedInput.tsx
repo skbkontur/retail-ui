@@ -10,8 +10,9 @@ export interface Selection {
 
 export type MaskedInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   mask: string;
-  maskChar: InputProps['maskChar'];
-  alwaysShowMask: InputProps['alwaysShowMask'];
+  maskChar?: InputProps['maskChar'];
+  alwaysShowMask?: InputProps['alwaysShowMask'];
+  onInvalidInput?: () => void;
 };
 
 export interface MaskedInputState {
@@ -74,29 +75,33 @@ export default class MaskedInput extends React.Component<
   }
 
   public render() {
-    const { mask, maskChar, alwaysShowMask, ...inputProps } = this.props;
+    const {
+      mask,
+      maskChar,
+      alwaysShowMask,
+      onInvalidInput,
+      ...inputProps
+    } = this.props;
     return (
       <div className={styles.container}>
-        <div style={{ position: 'relative' }}>
-          <input
-            {...inputProps}
-            value={this.state.value}
-            onChange={this.handleChange}
-            ref={element => {
-              this.input = element;
+        <input
+          {...inputProps}
+          value={this.state.value}
+          onChange={this.handleChange}
+          ref={element => {
+            this.input = element;
+          }}
+        />
+        <span className={styles.inputMask}>
+          <span
+            style={{
+              color: 'transparent'
             }}
-          />
-          <span className={styles.inputMask}>
-            <span
-              style={{
-                color: 'transparent'
-              }}
-            >
-              {this.emptyValue.slice(0, this.mask.getValue().length)}
-            </span>
-            {this.emptyValue.slice(this.mask.getValue().length)}
+          >
+            {this.emptyValue.slice(0, this.mask.getValue().length)}
           </span>
-        </div>
+          {this.emptyValue.slice(this.mask.getValue().length)}
+        </span>
       </div>
     );
   }
@@ -127,6 +132,13 @@ export default class MaskedInput extends React.Component<
     this.mask.setValue(this.getRawValue(value));
 
     event.persist();
+
+    if (
+      this.state.value === this.mask.getValue() &&
+      this.props.onInvalidInput
+    ) {
+      this.props.onInvalidInput();
+    }
 
     this.setState(
       {

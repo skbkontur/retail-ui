@@ -108,14 +108,14 @@ class Input extends React.Component<InputProps, InputState> {
   /**
    * @public
    */
-  public blink() {
+  public blink = () => {
     this.setState({ blinking: true }, () => {
       this.blinkTimeout = window.setTimeout(
         () => this.setState({ blinking: false }),
         150
       );
     });
-  }
+  };
 
   /**
    * @public
@@ -218,6 +218,7 @@ class Input extends React.Component<InputProps, InputState> {
     return (
       <MaskedInput
         {...inputProps}
+        onInvalidInput={this.blink}
         mask={mask}
         maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
         alwaysShowMask={this.props.alwaysShowMask}
