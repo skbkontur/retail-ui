@@ -1,0 +1,16 @@
+.idea
+.vscode
+.DS_Store
+.npmrc
+
+node_modules
+travis-deploy-key
+coverage/
+gemini-report
+/lib
+/styleguide
+/storybook-static
+
+yarn-debug.log
+yarn-error.log
+npm-debug.log
