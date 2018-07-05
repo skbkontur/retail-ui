@@ -18,6 +18,7 @@ export type MaskedInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 export interface MaskedInputState {
   value: React.InputHTMLAttributes<HTMLInputElement>['value'];
   selection: Selection;
+  focus: boolean;
 }
 
 export default class MaskedInput extends React.Component<
@@ -46,7 +47,8 @@ export default class MaskedInput extends React.Component<
       selection: {
         start: 0,
         end: 0
-      }
+      },
+      focus: false
     };
   }
 
@@ -86,25 +88,56 @@ export default class MaskedInput extends React.Component<
       <div className={styles.container}>
         <input
           {...inputProps}
-          value={this.state.value}
+          value={this.renderValue()}
           onChange={this.handleChange}
           ref={element => {
             this.input = element;
           }}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
         />
-        <span className={styles.inputMask}>
-          <span
-            style={{
-              color: 'transparent'
-            }}
-          >
-            {this.emptyValue.slice(0, this.mask.getValue().length)}
+        {this.isMaskVisible() && (
+          <span className={styles.inputMask}>
+            <span
+              style={{
+                color: 'transparent'
+              }}
+            >
+              {this.emptyValue.slice(0, this.mask.getValue().length)}
+            </span>
+            {this.emptyValue.slice(this.mask.getValue().length)}
           </span>
-          {this.emptyValue.slice(this.mask.getValue().length)}
-        </span>
+        )}
       </div>
     );
   }
+
+  private isMaskVisible = () =>
+    this.props.alwaysShowMask ||
+    this.state.focus ||
+    !!this.mask.getRawValue().length;
+
+  private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    event.persist();
+    this.setState({ focus: true }, () => {
+      if (this.props.onFocus) {
+        this.props.onFocus(event);
+      }
+    });
+  };
+
+  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    event.persist();
+    this.setState({ focus: false }, () => {
+      if (this.props.onBlur) {
+        this.props.onBlur(event);
+      }
+    });
+  };
+
+  private renderValue = () => {
+    return this.isMaskVisible() ? this.state.value : '';
+  };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
