@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -30,41 +30,28 @@ const PASS_PROPS = {
 
   onMouseEnter: true,
   onMouseLeave: true,
-  onMouseOver: true
+  onMouseOver: true,
+
+  style: false,
+  className: false,
+  onChange: false
 };
 
-export interface TextareaProps {
-  autoFocus?: boolean;
-  autoResize?: boolean;
-  defaultValue?: string;
-  disabled?: boolean;
-  /**
-   * Визуально показать наличие ошибки.
-   */
-  error?: boolean;
-  id?: string;
-  maxLength?: number | string;
-  maxRows?: number | string;
-  placeholder?: string;
-  resize?: string;
-  className?: string;
-  /**
-   * Количество строк
-   */
-  rows?: number | string;
-  title?: string;
-  value: string;
-  width?: number | string;
-  onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
-  onChange?: (
-    event: Partial<React.ChangeEvent<HTMLTextAreaElement>>,
-    value: string
-  ) => void;
-  onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
-  onMouseEnter?: React.MouseEventHandler<HTMLTextAreaElement>;
-  onMouseLeave?: React.MouseEventHandler<HTMLTextAreaElement>;
-  onMouseOver?: React.MouseEventHandler<HTMLTextAreaElement>;
-}
+export type TextareaProps = Override<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  {
+    autoResize?: boolean;
+    error?: boolean;
+    warning?: boolean;
+    resize?: string;
+    width?: React.CSSProperties['width'];
+    maxRows?: number | string;
+    onChange?: (
+      event: React.ChangeEvent<HTMLTextAreaElement>,
+      value: string | null
+    ) => void;
+  }
+>;
 
 export interface TextareaState {
   polyfillPlaceholder: boolean;
@@ -152,7 +139,8 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public componentDidUpdate(prevProps: TextareaProps) {
     if (
-      (this.props.autoResize && parseInt(this.getProps().rows, 10) > this.state.rows) ||
+      (this.props.autoResize &&
+        parseInt(this.getProps().rows, 10) > this.state.rows) ||
       this.props.value !== prevProps.value
     ) {
       this._autoresize();
@@ -161,10 +149,14 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public render() {
     const rootProps: React.HTMLProps<HTMLLabelElement> = {};
-    const props: React.HTMLProps<HTMLTextAreaElement> = filterProps(this.props, PASS_PROPS);
+    const props: React.HTMLProps<HTMLTextAreaElement> = filterProps(
+      this.props,
+      PASS_PROPS
+    );
     props.className = classNames({
       [styles.textarea]: true,
-      [styles.error]: this.props.error
+      [styles.error]: this.props.error,
+      [styles.warning]: this.props.warning
     });
     props.style = {};
 
@@ -219,7 +211,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   }
 
-  public _handleChange = (event: Partial<React.ChangeEvent<HTMLTextAreaElement>>) => {
+  public _handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (polyfillPlaceholder) {
       const fieldIsEmpty = event.target!.value === '';
 
@@ -266,7 +258,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     const { height, exceededMaxHeight } = getTextAreaHeight(
       fakeNode,
       typeof rows === 'number' ? rows : parseInt(rows, 10),
-      typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
+      typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10)
     );
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
