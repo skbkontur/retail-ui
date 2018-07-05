@@ -86,6 +86,44 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     }
   }
 
+  public render() {
+    const { active, type, caption, className } = this.props;
+    const loaderClassName = classnames(styles.loader, className, {
+      [styles.active]: active
+    });
+
+    return (
+      <div
+        className={loaderClassName}
+        ref={element => {
+          this.containerNode = element;
+        }}
+      >
+        {this.props.children}
+
+        {active && this.renderSpinner(type, caption)}
+      </div>
+    );
+  }
+
+  private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: string) {
+    return (
+      <span
+        className={
+          this.state.isStickySpinner
+            ? styles.spinnerContainerSticky
+            : styles.spinnerContainerCenter
+        }
+        style={this.state.spinnerStyle}
+        ref={element => {
+          this.spinnerNode = element;
+        }}
+      >
+        <Spinner type={type} caption={caption} />
+      </span>
+    );
+  }
+
   private checkSpinnerPosition = () => {
     if (!this.containerNode) {
       return;
@@ -156,44 +194,6 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
       spinnerStyle
     });
   };
-
-  public render() {
-    const { active, type, caption, className } = this.props;
-    const loaderClassName = classnames(styles.loader, className, {
-      [styles.active]: active
-    });
-
-    return (
-      <div
-        className={loaderClassName}
-        ref={element => {
-          this.containerNode = element;
-        }}
-      >
-        {this.props.children}
-
-        {active && this._renderSpinner(type, caption)}
-      </div>
-    );
-  }
-
-  private _renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: string) {
-    return (
-      <span
-        className={
-          this.state.isStickySpinner
-            ? styles.spinnerContainerSticky
-            : styles.spinnerContainerCenter
-        }
-        style={this.state.spinnerStyle}
-        ref={element => {
-          this.spinnerNode = element;
-        }}
-      >
-        <Spinner type={type} caption={caption} />
-      </span>
-    );
-  }
 }
 
 export default Loader;
