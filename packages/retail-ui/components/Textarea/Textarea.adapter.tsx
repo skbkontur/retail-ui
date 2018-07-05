@@ -7,7 +7,9 @@ const TextareaAdapter = {
   },
 
   setValue(inst: Textarea, value: string) {
-    inst._handleChange({ target: { value } } as Partial<React.ChangeEvent<HTMLTextAreaElement>>);
+    inst._handleChange({ target: { value } } as React.ChangeEvent<
+      HTMLTextAreaElement
+    >);
   }
 };
 
