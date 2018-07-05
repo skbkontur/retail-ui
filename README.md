@@ -4,7 +4,7 @@
 
 - **retai-ui:** библиотека компонентов ([readme](packages/retail-ui/README.md))
 - **react-ui-validations** - библиотека валидации ([readme](packages/react-ui-validations/README.md))
-- **react-ui-screenshot-tests** - пакет для скриншотных тестов библиотека компонентов
+- **react-ui-screenshot-tests** - пакет для скриншотных тестов библиотеки компонентов
 - **react-ui-codemodes** - коллекция кодмод для разных целей и задач
 
 ## Установка и запуск
