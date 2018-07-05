@@ -113,7 +113,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
       }
       if (isFooter(child)) {
         hasFooter = true;
-        if (child.props.panel === true) {
+        if (child.props.panel) {
           hasPanel = true;
         }
       }
