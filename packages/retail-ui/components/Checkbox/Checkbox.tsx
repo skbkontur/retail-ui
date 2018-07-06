@@ -29,21 +29,21 @@ function listenTabPresses() {
   }
 }
 
-export interface CheckboxProps {
-  checked?: boolean;
-  children?: React.ReactNode;
-  disabled?: boolean;
-  error?: boolean;
-  onChange?: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    value: boolean
-  ) => void;
-  onMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
-  onMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
-  onMouseOver?: (e: React.MouseEvent<HTMLElement>) => void;
-  warning?: boolean;
-  tabIndex?: number;
-}
+export type CheckboxProps = Override<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  {
+    children?: React.ReactNode;
+    error?: boolean;
+    warning?: boolean;
+    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+    onChange?: (
+      event: React.ChangeEvent<HTMLInputElement>,
+      value: boolean
+    ) => void;
+  }
+>;
 
 export interface CheckboxState {
   focusedByTab: boolean;
@@ -82,7 +82,21 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 
   public render() {
-    const hasCaption = !!this.props.children;
+    const {
+      children,
+      error,
+      warning,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      onChange,
+
+      style,
+      className,
+      type,
+      ...rest
+    } = this.props;
+    const hasCaption = !!children;
 
     const rootClass = classNames({
       [styles.root]: true,
@@ -95,28 +109,26 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     });
 
     const inputProps = {
+      ...rest,
       type: 'checkbox',
       className: styles.input,
-      checked: this.props.checked,
-      disabled: this.props.disabled,
       onChange: this._handleChange,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      ref: this._inputRef,
-      tabIndex: this.props.tabIndex ? this.props.tabIndex : undefined
+      ref: this._inputRef
     };
 
     let caption = null;
     if (hasCaption) {
-      caption = <div className={styles.caption}>{this.props.children}</div>;
+      caption = <div className={styles.caption}>{children}</div>;
     }
 
     return (
       <label
         className={rootClass}
-        onMouseEnter={this.props.onMouseEnter}
-        onMouseLeave={this.props.onMouseLeave}
-        onMouseOver={this.props.onMouseOver}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onMouseOver={onMouseOver}
       >
         <input {...inputProps} />
         <span className={styles.box}>
