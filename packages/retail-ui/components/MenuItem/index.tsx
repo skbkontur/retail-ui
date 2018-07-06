@@ -1,1 +1,6 @@
-export { default, MenuItemProps, MenuItemState } from './MenuItem';
+export {
+  default,
+  MenuItemProps,
+  MenuItemState,
+  MenuItemElement
+} from './MenuItem';

@@ -6,6 +6,7 @@ import Icon, { IconName } from '../Icon';
 import styles from './MenuItem.less';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
+export type MenuItemElement = HTMLAnchorElement | HTMLSpanElement;
 
 const tagName = (disabled: boolean | undefined) => (disabled ? 'span' : 'a');
 
@@ -26,10 +27,10 @@ export interface MenuItemProps {
   /** @ignore */
   state?: MenuItemState;
   target?: string;
-  onClick?: (event: React.SyntheticEvent<HTMLElement>) => any;
-  onMouseDown?: (event: React.MouseEvent<HTMLElement>) => void;
-  onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
-  onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
+  onClick?: (event: React.MouseEvent<MenuItemElement>) => any;
+  onMouseDown?: (event: React.MouseEvent<MenuItemElement>) => void;
+  onMouseEnter?: (event: React.MouseEvent<MenuItemElement>) => void;
+  onMouseLeave?: (event: React.MouseEvent<MenuItemElement>) => void;
   children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
 }
 
