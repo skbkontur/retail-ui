@@ -1,4 +1,3 @@
-
 import classNames from 'classnames';
 import * as React from 'react';
 
@@ -15,32 +14,30 @@ const styles = isFlatDesign
 
 export interface SyntheticRadioEvent<T> {
   target: {
-    id: Nullable<string>,
-    name: Nullable<string>,
-    checked: Nullable<boolean>,
-    disabled: Nullable<boolean>,
-    value: T
-  }
-};
+    id: Nullable<string>;
+    name: Nullable<string>;
+    checked: Nullable<boolean>;
+    disabled: Nullable<boolean>;
+    value: T;
+  };
+}
 
-export interface RadioProps<T> {
-  id?: string;
-  name?: string;
-  tabIndex?: number;
-  checked?: boolean;
-  disabled?: boolean;
-  error?: boolean;
-  focused?: boolean;
-  hovered?: boolean;
-  pressed?: boolean;
-  warning?: boolean;
-  children?: React.ReactNode;
-  value: T;
-  onChange?: (event: SyntheticRadioEvent<T>, value: T) => void;
-  onMouseEnter?: (event: SyntheticRadioEvent<T>) => void;
-  onMouseLeave?: (event: SyntheticRadioEvent<T>) => void;
-  onMouseOver?: (event: SyntheticRadioEvent<T>) => void;
-};
+export type RadioProps<T> = Override<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  {
+    error?: boolean;
+    warning?: boolean;
+    focused?: boolean;
+    pressed?: boolean;
+    hovered?: boolean;
+    active?: boolean;
+    onChange?: (event: SyntheticRadioEvent<T>, value: T) => void;
+    onMouseEnter?: (event: SyntheticRadioEvent<T>) => void;
+    onMouseLeave?: (event: SyntheticRadioEvent<T>) => void;
+    onMouseOver?: (event: SyntheticRadioEvent<T>) => void;
+    value: T;
+  }
+>;
 
 /**
  * Радиокнопка.
@@ -97,9 +94,25 @@ class Radio<T extends Primitive> extends React.Component<RadioProps<T>> {
   private _node: Nullable<HTMLInputElement> = null;
 
   public render() {
-    const disabled = this.props.disabled || this.context.disabled;
-    const warning = this.props.warning || this.context.warning;
-    const error = this.props.error || this.context.error;
+    const {
+      active,
+      children,
+      disabled = this.context.disabled,
+      warning = this.context.warning,
+      error = this.context.error,
+      focused,
+      pressed,
+      hovered,
+      onMouseOver,
+      onMouseEnter,
+      onMouseLeave,
+      onChange,
+
+      className,
+      style,
+
+      ...rest
+    } = this.props;
 
     let radioClassNames = classNames({
       [styles.radio]: true,
@@ -111,14 +124,10 @@ class Radio<T extends Primitive> extends React.Component<RadioProps<T>> {
     });
 
     const inputProps = {
+      ...rest,
       type: 'radio',
       className: styles.input,
-      id: this.props.id,
-      name: this.props.name,
-      checked: this.props.checked,
       disabled,
-      tabIndex: this.props.tabIndex,
-      value: this.props.value,
       ref: this._ref,
       onChange: this._handleChange,
       onMouseOver: () => {
