@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Input from '../Input';
+import Input, { InputProps } from '../Input';
 
-import filterProps from '../filterProps';
 import SelectionHelper, {
   Selection,
   SelectionDirection
@@ -15,45 +14,20 @@ import {
   extractAction
 } from './CurrencyInputKeyboardActions';
 
-const INPUT_PASS_PROPS = {
-  align: true,
-  autoFocus: true,
-  borderless: true,
-  disabled: true,
-  error: true,
-  placeholder: true,
-  size: true,
-  warning: true,
-  leftIcon: true,
-  width: true
-};
-
-export interface CurrencyInputProps {
-  align?: 'left' | 'center' | 'right';
-  autoFocus?: boolean;
-  borderless?: boolean;
-  disabled?: boolean;
-  error?: boolean;
-  fractionDigits?: Nullable<number>;
-  leftIcon?: React.ReactNode;
-  placeholder?: string;
-  signed?: boolean;
-  size?: 'small' | 'medium' | 'large';
-  value: Nullable<number>;
-  warning?: boolean;
-  width?: number | string;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  onChange: (
-    e: { target: { value: Nullable<number> } },
-    value: Nullable<number>
-  ) => void;
-  onFocus?: () => void;
-  onSubmit?: () => void;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  onMouseEnter?: (event: React.MouseEvent<any>) => void;
-  onMouseLeave?: (event: React.MouseEvent<any>) => void;
-  onMouseOver?: (event: React.MouseEvent<any>) => void;
-}
+export type CurrencyInputProps = Override<
+  InputProps,
+  {
+    value: Nullable<number>;
+    fractionDigits?: Nullable<number>;
+    signed?: boolean;
+    onChange: (
+      e: { target: { value: Nullable<number> } },
+      value: Nullable<number>
+    ) => void;
+    onSubmit?: () => void;
+    onFocus?: () => void;
+  }
+>;
 
 export interface CurrencyInputState {
   formatted: string;
@@ -95,7 +69,9 @@ export default class CurrencyInput extends React.Component<
 
   private _input: Nullable<Input>;
   private _focused: boolean = false;
-  private _tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(0);
+  private _tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(
+    0
+  );
 
   constructor(props: CurrencyInputProps, context: any) {
     super(props, context);
@@ -114,6 +90,7 @@ export default class CurrencyInput extends React.Component<
   }
 
   public render() {
+    const { fractionDigits, signed, onSubmit, ...rest } = this.props;
     const placeholder =
       this.props.placeholder == null
         ? CurrencyHelper.format(0, {
@@ -123,7 +100,7 @@ export default class CurrencyInput extends React.Component<
 
     return (
       <Input
-        {...filterProps(this.props, INPUT_PASS_PROPS)}
+        {...rest}
         value={this.state.formatted}
         onBlur={this._handleBlur}
         onFocus={this._handleFocus}
@@ -312,18 +289,26 @@ export default class CurrencyInput extends React.Component<
     const selection = this._tempSelectionForOnChange;
     const oldValue = this.state.formatted;
     if (selection.start !== selection.end) {
-      return value.substring(selection.start, value.length - (oldValue.length - selection.end));
-    }
-    else if (value.length > oldValue.length) {
+      return value.substring(
+        selection.start,
+        value.length - (oldValue.length - selection.end)
+      );
+    } else if (value.length > oldValue.length) {
       return value.substr(selection.start, value.length - oldValue.length);
     }
     return null;
-  }
+  };
 
-  private _handleChange = (event: React.ChangeEvent<HTMLInputElement>, value: string): void => {
+  private _handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ): void => {
     const selection = this._tempSelectionForOnChange;
     const delta = this._getOnChangeDelta(value);
-    if (delta != null && !this._inputValue(selection.start, selection.end, delta)) {
+    if (
+      delta != null &&
+      !this._inputValue(selection.start, selection.end, delta)
+    ) {
       this.setState({ selection });
     }
   };
