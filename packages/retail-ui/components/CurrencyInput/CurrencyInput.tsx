@@ -13,7 +13,7 @@ import {
   CURRENCY_INPUT_ACTIONS,
   extractAction
 } from './CurrencyInputKeyboardActions';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 
 export type CurrencyInputProps = Override<
   InputProps,

@@ -9,6 +9,7 @@ import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
 import CssStyles from './Input.less';
+import { Override, Nullable } from '../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 

@@ -9,16 +9,18 @@ import Input, { InputProps } from '../Input';
 import CurrencyInput, { CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { InputType } from '../Input/Input';
-import { Omit } from '../../typings/utility-types';
+import { Override } from '../../typings/utility-types';
 
-export interface FxInputProps
-  extends Omit<CurrencyInputProps & InputProps, 'type' | 'value' | 'onChange'> {
-  auto?: boolean;
-  type?: 'currency' | InputType;
-  value?: React.ReactText | CurrencyInputProps['value'] | InputProps['value'];
-  onRestore?: () => void;
-  onChange?: CurrencyInputProps['onChange'] | InputProps['onChange'];
-}
+export type FxInputProps = Override<
+  CurrencyInputProps,
+  {
+    auto?: boolean;
+    type?: 'currency' | InputProps['type'];
+    onRestore?: () => void;
+    onChange: CurrencyInputProps['onChange'] | InputProps['onChange'];
+    value?: React.ReactText;
+  }
+>;
 
 export interface FxInputDefaultProps {
   width: FxInputProps['width'];
@@ -33,12 +35,13 @@ class FxInput extends React.Component<FxInputProps> {
 
   public static defaultProps: FxInputDefaultProps = {
     width: 250,
-    type: 'text' as 'currency' | InputType
+    type: 'text'
   };
 
   private getProps = createPropsGetter(FxInput.defaultProps);
 
   public render(): JSX.Element {
+    const { type, ...rest } = this.props;
     const inputProps: {
       align: InputProps['align'];
       mainInGroup: boolean;
@@ -70,14 +73,14 @@ class FxInput extends React.Component<FxInputProps> {
         {this.getProps().type === 'currency' ? (
           <CurrencyInput
             {...inputProps}
-            {...this.props}
+            {...rest}
             value={this.props.value as CurrencyInputProps['value']}
             onChange={this.props.onChange as CurrencyInputProps['onChange']}
           />
         ) : (
           <Input
             {...inputProps}
-            {...this.props}
+            {...rest}
             type={this.props.type as InputType}
             value={this.props.value as InputProps['value']}
             onChange={this.props.onChange as InputProps['onChange']}
