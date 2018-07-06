@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import isActiveElement from './isActiveElement';
 import ScrollContainer from '../ScrollContainer/ScrollContainer';
 
-import MenuItem from '../MenuItem/MenuItem';
+import MenuItem, { MenuItemElement } from '../MenuItem/MenuItem';
 
 import styles from './Menu.less';
 
@@ -58,7 +58,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         >
           {React.Children.map(this.props.children, (child, index) => {
             if (!child) {
-              return child
+              return child;
             }
             if (typeof child === 'string' || typeof child === 'number') {
               return child;
@@ -151,7 +151,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         }
       }
       if (item.props.onClick) {
-        item.props.onClick(event);
+        item.props.onClick(event as React.MouseEvent<MenuItemElement>);
       }
       if (this.props.onItemClick) {
         this.props.onItemClick();
