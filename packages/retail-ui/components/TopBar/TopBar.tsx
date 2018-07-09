@@ -25,7 +25,7 @@ export interface TopBarProps {
   children?: React.ReactNode;
   color?: string;
   leftItems?: Array<React.ReactElement<any>>;
-  logoComponent: React.ComponentType<any> | string;
+  logoComponent?: React.ComponentType<any> | string;
   logoHref?: string;
   maxWidth?: string | number;
   noMargin?: boolean;
@@ -33,7 +33,7 @@ export interface TopBarProps {
   noWidget?: boolean;
   onLogout?: () => void;
   rightItems?: Array<React.ReactElement<any>>;
-  suffix: string;
+  suffix?: string;
   userName?: string;
 }
 
