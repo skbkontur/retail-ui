@@ -1,5 +1,6 @@
 import { DateInputState, DateParts } from '../DateInput';
 import { UnknownDatePart } from './UnknownDatePart';
+import { Shape } from '../../../typings/utility-types';
 
 export const clearDatePart = (state: DateInputState): Shape<DateInputState> => {
   switch (state.selected) {

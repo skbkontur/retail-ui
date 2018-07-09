@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import filterProps from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
@@ -13,6 +13,7 @@ import { getTextAreaHeight } from './TextareaHelpers';
 import styles from './Textarea.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { TextareaAdapter } from './Textarea.adapter';
+import { Nullable } from '../../typings/utility-types';
 
 const PASS_PROPS = {
   autoFocus: true,
@@ -152,7 +153,8 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public componentDidUpdate(prevProps: TextareaProps) {
     if (
-      (this.props.autoResize && parseInt(this.getProps().rows, 10) > this.state.rows) ||
+      (this.props.autoResize &&
+        parseInt(this.getProps().rows, 10) > this.state.rows) ||
       this.props.value !== prevProps.value
     ) {
       this._autoresize();
@@ -161,7 +163,10 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public render() {
     const rootProps: React.HTMLProps<HTMLLabelElement> = {};
-    const props: React.HTMLProps<HTMLTextAreaElement> = filterProps(this.props, PASS_PROPS);
+    const props: React.HTMLProps<HTMLTextAreaElement> = filterProps(
+      this.props,
+      PASS_PROPS
+    );
     props.className = classNames({
       [styles.textarea]: true,
       [styles.error]: this.props.error
@@ -219,7 +224,9 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   }
 
-  public _handleChange = (event: Partial<React.ChangeEvent<HTMLTextAreaElement>>) => {
+  public _handleChange = (
+    event: Partial<React.ChangeEvent<HTMLTextAreaElement>>
+  ) => {
     if (polyfillPlaceholder) {
       const fieldIsEmpty = event.target!.value === '';
 
@@ -266,7 +273,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     const { height, exceededMaxHeight } = getTextAreaHeight(
       fakeNode,
       typeof rows === 'number' ? rows : parseInt(rows, 10),
-      typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
+      typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10)
     );
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';

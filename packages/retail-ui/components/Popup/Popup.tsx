@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import RenderContainer from '../RenderContainer';
 import RenderLayer from '../RenderLayer';
 import ZIndex from '../ZIndex';
@@ -16,19 +16,21 @@ import styles = require('./Popup.less');
 
 import { isIE, ieVerison } from '../ensureOldIEClassName';
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Nullable } from '../../typings/utility-types';
 
-export type PopupPosition = 'top left' |
-'top center' |
-'top right' |
-'right top' |
-'right middle' |
-'right bottom' |
-'bottom left' |
-'bottom center' |
-'bottom right' |
-'left top' |
-'left middle' |
-'left bottom'
+export type PopupPosition =
+  | 'top left'
+  | 'top center'
+  | 'top right'
+  | 'right top'
+  | 'right middle'
+  | 'right bottom'
+  | 'bottom left'
+  | 'bottom center'
+  | 'bottom right'
+  | 'left top'
+  | 'left middle'
+  | 'left bottom';
 
 export interface PopupProps {
   anchorElement: Nullable<HTMLElement>;
@@ -182,11 +184,17 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         <RenderContainer>
           <Transition
             transitionName={{
-              enter: styles[('transition-enter-' + direction) as keyof typeof styles],
+              enter:
+                styles[
+                  ('transition-enter-' + direction) as keyof typeof styles
+                ],
               enterActive: styles['transition-enter-active'],
               leave: styles['transition-leave'],
               leaveActive: styles['transition-leave-active'],
-              appear: styles[('transition-appear-' + direction) as keyof typeof styles],
+              appear:
+                styles[
+                  ('transition-appear-' + direction) as keyof typeof styles
+                ],
               appearActive: styles['transition-appear-active']
             }}
             transitionAppear={!disableAnimations}
@@ -292,24 +300,22 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private _updateLocation() {
-    this.setState((state, props) => {
-      if (!props.opened) {
-        if (state.location) {
-          return { location: null } as Shape<PopupState>;
-        }
-        return null;
+    if (!this.props.opened) {
+      if (this.state.location) {
+        this.setState({ location: null });
       }
+      return;
+    }
 
-      const popupElement = this._lastPopupElement;
-      if (!popupElement) {
-        return null;
-      }
+    const popupElement = this._lastPopupElement;
+    if (!popupElement) {
+      return;
+    }
 
-      const location = this._getLocation(popupElement, state.location);
-      if (!this._locationEquals(state.location, location)) {
-        return { location };
-      }
-    });
+    const location = this._getLocation(popupElement);
+    if (!this._locationEquals(this.state.location, location)) {
+      this.setState({ location });
+    }
   }
 
   private _requestClose = () => {
@@ -347,8 +353,14 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     };
   }
 
-  private _getLocation(popupElement: HTMLElement, location?: PopupLocation | null) {
-    const { anchorElement, positions, margin, popupOffset } = this.getProps<PopupProps, Popup>();
+  private _getLocation(
+    popupElement: HTMLElement,
+    location?: PopupLocation | null
+  ) {
+    const { anchorElement, positions, margin, popupOffset } = this.getProps<
+      PopupProps,
+      Popup
+    >();
 
     if (!anchorElement) {
       throw new Error('Anchor element is not defined');

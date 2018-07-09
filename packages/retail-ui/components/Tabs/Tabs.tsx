@@ -1,8 +1,7 @@
-
 import cn from 'classnames';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import Indicator from './Indicator';
 import Tab from './Tab';
@@ -40,14 +39,14 @@ export interface TabsProps {
    * Width of tabs container
    */
   width?: number | string;
-};
+}
 
 export interface TabsState {
   tabs: Array<{
-    getNode: () => Tab | null,
-    id: string
+    getNode: () => Tab | null;
+    id: string;
   }>;
-};
+}
 
 /**
  * Tabs wrapper
@@ -116,7 +115,7 @@ class Tabs extends React.Component<TabsProps, TabsState> {
     const index = tabs.findIndex(x => x.id === fromTab);
     const newIndex = Math.max(0, Math.min(index + delta, tabs.length - 1));
     const tab = tabs[newIndex];
-    
+
     const tabNode = tab.getNode();
     let htmlNode;
     if (tabNode instanceof React.Component) {

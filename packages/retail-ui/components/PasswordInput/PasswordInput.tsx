@@ -9,33 +9,37 @@ import PasswordInputFallback from './PasswordInputFallback';
 import { ieVerison, isIE } from '../ensureOldIEClassName';
 
 import styles from './PasswordInput.less';
+import { Nullable } from '../../typings/utility-types';
 
 export type PasswordInputProps = {
-  detectCapsLock?: boolean
+  detectCapsLock?: boolean;
 } & InputProps;
 
 export interface PasswordInputState {
   visible: boolean;
   capsLockEnabled?: boolean | null;
-};
+}
 
 export type InputProps = {
-  onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void,
-  onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void,
-  rightIcon: () => React.ReactNode
+  onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  rightIcon: () => React.ReactNode;
 } & PasswordInputProps;
 
 /**
  * **DRAFT**
  */
-export default class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
+export default class PasswordInput extends React.Component<
+  PasswordInputProps,
+  PasswordInputState
+> {
   public static propTypes = {
     /**
      * Включает CapsLock детектор
      */
     detectCapsLock: bool
   };
-  
+
   public static defaultProps = {
     size: 'small'
   };
@@ -45,7 +49,7 @@ export default class PasswordInput extends React.Component<PasswordInputProps, P
     capsLockEnabled: false
   };
 
-  private _input:  Nullable<Input>;
+  private _input: Nullable<Input>;
 
   public componentWillMount() {
     if (this.props.detectCapsLock) {

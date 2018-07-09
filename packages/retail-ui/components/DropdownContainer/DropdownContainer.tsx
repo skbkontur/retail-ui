@@ -6,6 +6,7 @@ import getComputedStyle from '../../lib/dom/getComputedStyle';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import ZIndex from '../ZIndex';
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Nullable } from '../../typings/utility-types';
 
 export interface DropdownContainerProps {
   align?: 'left' | 'right';

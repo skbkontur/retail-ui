@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import * as React from 'react';
 
 import styles from './Logotype.less';
@@ -30,7 +30,7 @@ export interface LogotypeProps {
   href?: string;
   suffix?: string;
   textColor?: string;
-};
+}
 
 const Logotype: React.SFC<LogotypeProps> = ({
   color = DefaultProps.color,

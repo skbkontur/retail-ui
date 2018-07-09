@@ -1,5 +1,5 @@
 // @ts-ignore noUnusedVar
-import React from 'react';
+import * as React from 'react';
 import {
   KeyboardActionExctracterBuilder,
   isSeparator,

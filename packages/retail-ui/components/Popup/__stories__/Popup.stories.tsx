@@ -1,7 +1,7 @@
-
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Popup from '../Popup';
+import { Nullable } from '../../../typings/utility-types';
 
 const AllCases = ({ small }: { small: boolean }) => (
   <div style={{ transform: 'translate(50%, 15%)' }}>
@@ -71,7 +71,10 @@ const AllCases = ({ small }: { small: boolean }) => (
   </div>
 );
 
-storiesOf('Popup', module).add('All pin opened', () => <AllCases small={false} />).add('All pin opened on small elements', () => <AllCases small />).add('Positioning', () => (
+storiesOf('Popup', module)
+  .add('All pin opened', () => <AllCases small={false} />)
+  .add('All pin opened on small elements', () => <AllCases small />)
+  .add('Positioning', () => (
     <div>
       <table>
         <tbody>
@@ -101,7 +104,8 @@ storiesOf('Popup', module).add('All pin opened', () => <AllCases small={false} /
         </tbody>
       </table>
     </div>
-  )).add('disableAnimations', () => (
+  ))
+  .add('disableAnimations', () => (
     <div>
       <PopupWithPositions
         disableAnimations={false}
@@ -112,14 +116,16 @@ storiesOf('Popup', module).add('All pin opened', () => <AllCases small={false} /
         placeholder={'disableAnimations: true'}
       />
     </div>
-  )).add('Hint', () => (
+  ))
+  .add('Hint', () => (
     <div style={{ transform: 'translate(250%, 200%)' }}>
       <Hint
         positions={['top center', 'right top', 'bottom center', 'left middle']}
         margin={20}
       />
     </div>
-  )).add('Toast', () => (
+  ))
+  .add('Toast', () => (
     <div style={{ transform: 'translate(250%, 200%)' }}>
       <Toast
         positions={['top center', 'right top', 'bottom center', 'left middle']}
@@ -205,7 +211,6 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
     this.anchor = e;
   };
 }
-
 
 class PopupWithPositions extends Component<any, any> {
   public state = {
@@ -313,7 +318,6 @@ class Hint extends Component<any, any> {
     );
   }
 }
-
 
 class Toast extends Component<any, any> {
   public state = {

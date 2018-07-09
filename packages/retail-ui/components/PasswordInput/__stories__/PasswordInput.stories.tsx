@@ -1,7 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import PasswordInput from '../PasswordInput';
+import { Nullable } from '../../../typings/utility-types';
 
 interface ComponentProps {
   capsLockEnabled?: boolean;
@@ -43,4 +44,6 @@ class Component extends React.Component<ComponentProps> {
   };
 }
 
-storiesOf('PasswordInput', module).add('Plain', () => <Component />).add('CapsLock label', () => <Component capsLockEnabled />);
+storiesOf('PasswordInput', module)
+  .add('Plain', () => <Component />)
+  .add('CapsLock label', () => <Component capsLockEnabled />);

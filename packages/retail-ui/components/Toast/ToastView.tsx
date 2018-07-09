@@ -1,9 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import CROSS from '../internal/cross';
 import ZIndex from '../ZIndex/ZIndex';
 
 import styles from './Toast.less';
+import { Nullable } from '../../typings/utility-types';
 
 export interface ToastViewProps {
   children?: string;

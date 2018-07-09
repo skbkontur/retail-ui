@@ -3,7 +3,7 @@ import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
 import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 import Button from '../Button';
@@ -21,6 +21,7 @@ import Item from './Item';
 import styles from './Select.less';
 import { IconName } from '../Icon';
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Nullable } from '../../typings/utility-types';
 
 export interface ButtonParams {
   disabled?: boolean;

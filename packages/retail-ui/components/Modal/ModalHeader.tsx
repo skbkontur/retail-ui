@@ -14,13 +14,14 @@ export class Header extends React.Component<HeaderProps> {
   public render(): JSX.Element {
     return (
       <ModalContext.Consumer>
-        {({ close }) => (
+        {({ close, additionalPadding }) => (
           <Sticky side="top">
             {fixed => (
               <div
                 className={classNames(
                   styles.header,
-                  fixed && styles.fixedHeader
+                  fixed && styles.fixedHeader,
+                  additionalPadding && styles.headerAddPadding
                 )}
               >
                 {close && (

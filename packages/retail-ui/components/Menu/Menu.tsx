@@ -8,6 +8,7 @@ import ScrollContainer from '../ScrollContainer/ScrollContainer';
 import MenuItem from '../MenuItem/MenuItem';
 
 import styles from './Menu.less';
+import { Nullable } from '../../typings/utility-types';
 
 interface MenuProps {
   children: React.ReactNode;
@@ -58,7 +59,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         >
           {React.Children.map(this.props.children, (child, index) => {
             if (!child) {
-              return child
+              return child;
             }
             if (typeof child === 'string' || typeof child === 'number') {
               return child;

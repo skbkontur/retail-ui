@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 
@@ -13,6 +13,7 @@ import { CalendarDateShape } from '../Calendar';
 import { tryGetValidDateShape, isValidDate } from './DateShape';
 
 import styles = require('./DatePicker.less');
+import { Nullable } from '../../typings/utility-types';
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -49,7 +50,10 @@ export interface DatePickerState {
 }
 
 // eslint-disable-next-line flowtype/no-weak-types
-class DatePicker extends React.Component<DatePickerProps<string>, DatePickerState> {
+class DatePicker extends React.Component<
+  DatePickerProps<string>,
+  DatePickerState
+> {
   public static propTypes = {
     autoFocus: PropTypes.bool,
 
@@ -110,7 +114,7 @@ class DatePicker extends React.Component<DatePickerProps<string>, DatePickerStat
     }
 
     return isValidDate(parseDateString(value));
-  }
+  };
 
   private input: DateInput | null = null;
 

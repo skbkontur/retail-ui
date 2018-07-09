@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import { types, sizeMaps } from './settings';
 

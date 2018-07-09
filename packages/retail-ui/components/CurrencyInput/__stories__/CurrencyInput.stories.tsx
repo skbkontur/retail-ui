@@ -5,18 +5,22 @@ import CurrencyInput from '../CurrencyInput';
 import Gapped from '../../Gapped';
 import Button from '../../Button';
 import Toggle from '../../Toggle';
+import { Nullable } from '../../../typings/utility-types';
 
 interface CurrencyInputDemoProps {
   borderless?: boolean;
-};
+}
 
 interface CurrencyInputDemoState {
   value: Nullable<number>;
   signed: boolean;
   digits: Nullable<number>;
-};
+}
 
-class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, CurrencyInputDemoState> {
+class CurrencyInputDemo extends React.Component<
+  CurrencyInputDemoProps,
+  CurrencyInputDemoState
+> {
   public state: CurrencyInputDemoState = {
     value: null,
     signed: false,
@@ -97,4 +101,6 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
   };
 }
 
-storiesOf('CurrencyInput', module).add('Demo', () => <CurrencyInputDemo />).add('With borderless', () => <CurrencyInputDemo borderless={true} />);
+storiesOf('CurrencyInput', module)
+  .add('Demo', () => <CurrencyInputDemo />)
+  .add('With borderless', () => <CurrencyInputDemo borderless={true} />);

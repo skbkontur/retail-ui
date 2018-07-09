@@ -11,8 +11,8 @@ import { EventSubscription } from 'fbemitter';
 
 import styles = require('./Modal.less');
 import { ModalContext, ModalContextProps } from './ModalContext';
-import { Footer } from './ModalFooter';
-import { Header } from './ModalHeader';
+import { Footer, FooterProps } from './ModalFooter';
+import { Header, HeaderProps } from './ModalHeader';
 import { Body } from './ModalBody';
 import { Close } from './ModalClose';
 
@@ -103,9 +103,21 @@ class Modal extends React.Component<ModalProps, ModalState> {
   }
 
   public render(): JSX.Element {
-    const hasHeader = React.Children.toArray(this.props.children).some(
-      child => (child as React.ReactElement<{}>).type === Header
-    );
+    let hasHeader = false;
+    let hasFooter = false;
+    let hasPanel = false;
+
+    React.Children.toArray(this.props.children).forEach(child => {
+      if (isHeader(child)) {
+        hasHeader = true;
+      }
+      if (isFooter(child)) {
+        hasFooter = true;
+        if (child.props.panel) {
+          hasPanel = true;
+        }
+      }
+    });
 
     const modalContextProps: ModalContextProps = {
       horizontalScroll: this.state.horizontalScroll
@@ -115,6 +127,12 @@ class Modal extends React.Component<ModalProps, ModalState> {
         disableClose: this.props.disableClose,
         requestClose: this.requestClose
       };
+    }
+    if (!hasFooter) {
+      modalContextProps.additionalPadding = true;
+    }
+    if (hasFooter && hasPanel) {
+      modalContextProps.additionalPadding = true;
     }
 
     const style: { width?: number | string } = {};
@@ -227,3 +245,21 @@ Modal.Body = Body;
 Modal.Footer = Footer;
 
 export default Modal;
+
+function isHeader(
+  child: React.ReactChild
+): child is React.ReactElement<HeaderProps> {
+  if (!React.isValidElement(child)) {
+    return false;
+  }
+  return child.type === Header;
+}
+
+function isFooter(
+  child: React.ReactChild
+): child is React.ReactElement<FooterProps> {
+  if (!React.isValidElement(child)) {
+    return false;
+  }
+  return child.type === Footer;
+}

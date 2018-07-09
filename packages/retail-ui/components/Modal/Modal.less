@@ -29,13 +29,13 @@
     overflow-y: auto;
     padding: 20px 0;
     outline: none;
-  }
 
-  .container:before {
-    content: '';
-    display: inline-block;
-    vertical-align: middle;
-    height: 80%; // to vertical align modal 40%/60% of screen height
+    &:before {
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      height: 80%; // to vertical align modal 40%/60% of screen height
+    }
   }
 
   .centerContainer {
@@ -56,16 +56,10 @@
   }
 
   .close {
-    color: #757575;
-    color: @modal-close-button-color;
+    position: relative;
     float: right;
-    font-family: arial;
-    font-size: 30px;
     margin: 2px 2px 0 0;
-    text-align: center;
-    text-decoration: none;
     width: 76px;
-    line-height: 70px;
     box-sizing: border-box;
     height: 65px;
     border: none;
@@ -78,14 +72,34 @@
       pointer-events: none;
       cursor: default;
     }
-  }
 
-  .close:hover {
-    color: @modal-close-button-hover-color;
-  }
+    &:after,
+    &:before {
+      content: '';
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      height: 18px;
+      width: 2px;
+      background: @modal-close-button-color;
+    }
 
-  .close + .body {
-    padding-top: 29px;
+    &:after {
+      transform: rotate(45deg);
+    }
+
+    &:before {
+      transform: rotate(-45deg);
+    }
+
+    &:hover:before,
+    &:hover:after {
+      background: @modal-close-button-hover-color;
+    }
+
+    & + .body {
+      padding-top: 29px;
+    }
   }
 
   .absoluteClose {
@@ -97,7 +111,7 @@
   .header {
     font-size: 22px;
     line-height: 30px;
-    padding: 20px 80px 15px 30px;
+    padding: 24px 110px 11px 30px;
   }
 
   .fixedHeader,
@@ -120,25 +134,34 @@
     box-shadow: @modal-fixed-header-shadow;
   }
 
+  .headerAddPadding {
+    padding-bottom: 22px;
+  }
+
   .body {
-    padding: 0 35px 26px 30px;
+    padding: 0 35px 25px 30px;
+  }
+
+  .bodyAddPadding {
+    padding-bottom: 30px;
   }
 
   .footer {
-    padding: 0 35px 20px 30px;
-  }
+    padding: 0 35px 30px 30px;
 
-  .footer.panel {
-    background: @modal-footer-bg;
-    padding-top: 20px;
+    &.panel {
+      background: @modal-footer-bg;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
   }
 
   .fixedFooter {
     padding-top: 20px;
-  }
 
-  .fixedFooter:before {
-    top: 1px;
-    box-shadow: @modal-fixed-footer-shadow;
+    &:before {
+      top: 1px;
+      box-shadow: @modal-fixed-footer-shadow;
+    }
   }
 }

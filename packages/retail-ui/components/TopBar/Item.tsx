@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import CapIcon, { IconProps } from '../Icon/20px';
 
 import styles from './TopBar.less';
@@ -52,7 +52,7 @@ class Item extends React.Component<ItemProps> {
       [styles.iconOnly]: iconOnly
     };
     if (use) {
-      const useClassName = ('use-' + use) as keyof typeof styles
+      const useClassName = ('use-' + use) as keyof typeof styles;
       classes[styles[useClassName]] = true;
     }
 

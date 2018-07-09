@@ -1,4 +1,5 @@
 import { CursorMap } from './CursorHelper';
+import { Nullable } from '../../typings/utility-types';
 
 export interface DecimalFormattingOptions {
   fractionDigits?: Nullable<number>;

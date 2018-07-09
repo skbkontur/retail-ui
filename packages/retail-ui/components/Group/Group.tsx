@@ -1,12 +1,13 @@
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import Corners from '../Button/Corners';
 
 import '../ensureOldIEClassName';
 import styles from './Group.less';
+import { Nullable } from '../../typings/utility-types';
 
 export interface GroupProps {
   width?: React.CSSProperties['width'];
@@ -14,7 +15,7 @@ export interface GroupProps {
 
 export interface GroupChildProps {
   mainInGroup?: boolean;
-  width?: React.CSSProperties["width"];
+  width?: React.CSSProperties['width'];
   corners?: number;
 }
 
@@ -69,12 +70,12 @@ class Group extends React.Component<GroupProps> {
           if (child !== last) {
             corners |= Corners.TOP_RIGHT | Corners.BOTTOM_RIGHT;
           }
-          let width
+          let width;
           if (childProps.mainInGroup) {
             width = '100%';
           }
 
-          child = React.cloneElement(child, {corners, width});
+          child = React.cloneElement(child, { corners, width });
 
           return (
             <div className={wrapCss}>

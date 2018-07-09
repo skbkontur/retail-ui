@@ -12,6 +12,7 @@ import CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
 
 import classes = require('./Calendar.less');
+import { Nullable } from '../../typings/utility-types';
 
 export type CalendarDateShape = CDS.CalendarDateShape;
 
