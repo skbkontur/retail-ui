@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { bool } from 'prop-types';
+import * as PropTypes from 'prop-types';
 import cn from 'classnames';
 import getCharHelper from './getCharHelper';
 import Input from '../Input';
@@ -37,7 +37,7 @@ export default class PasswordInput extends React.Component<
     /**
      * Включает CapsLock детектор
      */
-    detectCapsLock: bool
+    detectCapsLock: PropTypes.bool
   };
 
   public static defaultProps = {

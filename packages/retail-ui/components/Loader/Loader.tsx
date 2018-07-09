@@ -1,9 +1,11 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import classnames from 'classnames';
-
 import LayoutEvents from '../../lib/LayoutEvents';
-import Spinner from '../Spinner';
+
+// Note SpinnerType нужен для генерации правильного .d.ts файла
+// @ts-ignore — Свойство "SpinnerType" объявлено, но его значение не было прочитано
+import Spinner, { SpinnerType } from '../Spinner';
 import styles = require('./Loader.less');
 
 export interface LoaderProps {
