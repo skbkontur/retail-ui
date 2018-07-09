@@ -1,4 +1,23 @@
-# Changelog
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+      <a name="0.18.11"></a>
+## 0.18.11 (2018-07-09)
+
+
+### Bug Fixes
+
+* **lookup:** allow correctly work with recompose ([80ebb97](https://github.com/skbkontur/retail-ui/commit/80ebb97))
+* **modal:** fixed paddings and close button ([e55e763](https://github.com/skbkontur/retail-ui/commit/e55e763))
+* **popup:** fixed recursive updates for older react ([9309748](https://github.com/skbkontur/retail-ui/commit/9309748))
+* **сurrency-input:** починка ввода циферок на андроиде и под selenium ([d3f0286](https://github.com/skbkontur/retail-ui/commit/d3f0286))
+
+
+
+
+      # Changelog
 
 Changelog переместился в https://github.com/skbkontur/retail-ui/releases
 
@@ -7,12 +26,12 @@ Changelog переместился в https://github.com/skbkontur/retail-ui/rel
 #### 07.03.2018
 
 - [DatePicker] — полностью изменили работу контрола. Теперь в `value` принимается,
-  строка формата `dd.mm.yyyy`. И на каждое изменение строки в инпуте триггерится
-  колбек в `onChange`. Убрали параметр `onUnexpectedInput`. Убрали `dateTransformer`.
-  Добавили статический метод `DatePicker.validate`, который проверяет правильность
-  даты. Значительно улучшили работу поля ввода.
+строка формата `dd.mm.yyyy`. И на каждое изменение строки в инпуте триггерится
+колбек в `onChange`. Убрали параметр `onUnexpectedInput`. Убрали `dateTransformer`.
+Добавили статический метод `DatePicker.validate`, который проверяет правильность
+даты. Значительно улучшили работу поля ввода.
 - [Input/InputLikeText] — теперь используют одни и те же стили. Этим мы хотим
-  решить проблемы вроде разного цвета плейсхолдеров.
+решить проблемы вроде разного цвета плейсхолдеров.
 - [Input] — добавили метод инстанса `blink`, позволяющий мигать.
 - [DatePickerOld] — дейтпикер со старым поведением
 
@@ -21,7 +40,7 @@ Changelog переместился в https://github.com/skbkontur/retail-ui/rel
 #### 15.02.2018
 
 - [Button/Input] — вернули размер шрифта в `14px` при `size="medium"`. Размер `16px`
-  теперь можно включить используя метод `Upgrades.enableSizeMedium16px` из `/lib/upgrades`
+теперь можно включить используя метод `Upgrades.enableSizeMedium16px` из `/lib/upgrades`
 - [RenderLayer] — поправили обработку `onFocusOutside`
 
 ### 0.14.3 -> 0.14.4
@@ -76,16 +95,16 @@ Changelog переместился в https://github.com/skbkontur/retail-ui/rel
 #### 7.02.2018
 
 - [DatePicker] — обновлен календарь
-  - Добавился параметр `enableTodayLink`, включающий кнопку сегодя в календаре
-  - `minYear`, `maxYear` — устарели, используйте вместо них `minDate`, `maxDate`
-  - `onUnexpectedInput` - теперь срабатывает только при вводе в инпут невалидной даты
-    и не срабатывает на пустом инпуте. Возвращаемое значение больше не передается в
-    `onChange`.
-  - Добавился параметр `dateTransformer`, который позволяет изменить логику
-    работы с датой. Подробнее в документации
+- Добавился параметр `enableTodayLink`, включающий кнопку сегодя в календаре
+- `minYear`, `maxYear` — устарели, используйте вместо них `minDate`, `maxDate`
+- `onUnexpectedInput` - теперь срабатывает только при вводе в инпут невалидной даты
+  и не срабатывает на пустом инпуте. Возвращаемое значение больше не передается в
+  `onChange`.
+- Добавился параметр `dateTransformer`, который позволяет изменить логику
+  работы с датой. Подробнее в документации
 - [Button] — при `size = "medium"` размер шрифта равен 16px
 - [Popup] — исправилось позционирование на маленьких элементах. Также стал
-  перерисовываться при скролле и ресайзе окна
+перерисовываться при скролле и ресайзе окна
 
 ### 0.12.1 -> 0.12.2
 
@@ -303,8 +322,8 @@ Changelog переместился в https://github.com/skbkontur/retail-ui/rel
 - **BREAKING**: удалили папку _web_modules_ и чуть изменили способ [темизации](https://github.com/skbkontur/retail-ui#Хотим-другой-цвет-кнопки) библиотечки
 - Научились собирать библиотечку, собранная версия доступна в **npm** под именем **@skbkontur/react-ui**
 - Добавили компоненты
-  - [Tabs](http://tech.skbkontur.ru/react-ui/#/components/Tabs)
-  - [Kebab](http://tech.skbkontur.ru/react-ui/#/components/Kebab)
+- [Tabs](http://tech.skbkontur.ru/react-ui/#/components/Tabs)
+- [Kebab](http://tech.skbkontur.ru/react-ui/#/components/Kebab)
 - Checkbox - поправили выравнивание текста при нескольких строках, поправлен цвет в IE8
 - Spinner - поправили совместимость с react@15
 - Button - добавили TypeScript дефинишены, методы `focus` и `blur`, а также пропс `autoFocus`
