@@ -26,7 +26,7 @@ const createPngCloud = (backgroundColor: string) => (
 
 export interface LogotypeProps {
   color?: string;
-  component: React.ComponentType<any> | string;
+  component?: React.ComponentType<any> | string;
   href?: string;
   suffix?: string;
   textColor?: string;
