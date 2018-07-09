@@ -5,6 +5,7 @@ import * as CDS from './CalendarDateShape';
 import config from './config';
 
 import classes = require('./DayCellView.less');
+import { Nullable } from '../../typings/utility-types';
 
 interface DayCellViewProps {
   date: CDS.CalendarDateShape;

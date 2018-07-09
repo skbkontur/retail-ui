@@ -1,5 +1,4 @@
-
-import React from 'react';
+import * as React from 'react';
 import { shallow, mount } from 'enzyme';
 import DropdownMenu from '../';
 import MenuItem from '../../MenuItem';

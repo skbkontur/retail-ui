@@ -1,3 +1,5 @@
+import { Nullable } from '../../typings/utility-types';
+
 export interface CalendarDateShape {
   year: number;
   month: number;

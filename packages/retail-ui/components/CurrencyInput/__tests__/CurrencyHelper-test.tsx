@@ -6,14 +6,14 @@ describe('CurrencyHelper', () => {
       { value: ',', expected: '.' },
       { value: '.', expected: '.' },
       { value: '-12 345 678,90', expected: '-12345678.90' },
-      { value: '−1', expected: '-1' }, //U+2212 Minus
-      { value: '-1', expected: '-1' }, //U+002D Hyphen-minus
-      { value: '﹣1', expected: '-1' }, //U+FE63 Small Hyphen-minus
-      { value: '－1', expected: '-1' }, //U+FF0D Full-width Hyphen-minus
-      { value: '‒1', expected: '-1' }, //U+2012 figure dash
-      { value: '–1', expected: '-1' }, //U+2013 en dash
-      { value: '—1', expected: '-1' }, //U+2014 em dash
-      { value: '―1', expected: '-1' } //U+2015 horizontal bar
+      { value: '−1', expected: '-1' }, // U+2212 Minus
+      { value: '-1', expected: '-1' }, // U+002D Hyphen-minus
+      { value: '﹣1', expected: '-1' }, // U+FE63 Small Hyphen-minus
+      { value: '－1', expected: '-1' }, // U+FF0D Full-width Hyphen-minus
+      { value: '‒1', expected: '-1' }, // U+2012 figure dash
+      { value: '–1', expected: '-1' }, // U+2013 en dash
+      { value: '—1', expected: '-1' }, // U+2014 em dash
+      { value: '―1', expected: '-1' } // U+2015 horizontal bar
     ].forEach(x => {
       it(`unformatString('${x.value}') === ${x.expected}`, () => {
         const actual = CurrencyHelper.unformatString(x.value);

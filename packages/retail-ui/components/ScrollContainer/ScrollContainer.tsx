@@ -1,20 +1,20 @@
-import events from 'add-event-listener';
 import classNames from 'classnames';
-import React, { MouseEvent } from 'react';
+import * as React from 'react';
 
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
 
 import styles from './ScrollContainer.less';
+import { Nullable } from '../../typings/utility-types';
 
 const PADDING_RIGHT = 30;
 const MIN_SCROLL_SIZE = 20;
 
 export interface ScrollContainerProps {
   invert?: boolean;
-  maxHeight?: React.CSSProperties["maxHeight"];
+  maxHeight?: React.CSSProperties['maxHeight'];
   preventWindowScroll?: boolean;
 }
 
@@ -26,7 +26,10 @@ export interface ScrollContainerState {
   scrollPos: number;
 }
 
-export default class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
+export default class ScrollContainer extends React.Component<
+  ScrollContainerProps,
+  ScrollContainerState
+> {
   public static propTypes = {};
 
   public state: ScrollContainerState = {
@@ -110,7 +113,8 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
       return;
     }
 
-    const minScroll = element.offsetTop + element.scrollHeight - this._inner.offsetHeight;
+    const minScroll =
+      element.offsetTop + element.scrollHeight - this._inner.offsetHeight;
     if (this._inner.scrollTop < minScroll) {
       this._inner.scrollTop = minScroll;
     }
@@ -145,18 +149,20 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
     }
 
     if (scrollActive) {
-      let scrollSize = containerHeight / contentHeight * containerHeight;
+      let scrollSize = (containerHeight / contentHeight) * containerHeight;
 
       if (scrollSize < MIN_SCROLL_SIZE) {
         scrollSize = MIN_SCROLL_SIZE;
       }
 
       const scrollPos =
-        scrollTop /
-        (contentHeight - containerHeight) *
+        (scrollTop / (contentHeight - containerHeight)) *
         (containerHeight - scrollSize);
 
-      if (this.state.scrollSize !== scrollSize || this.state.scrollPos !== scrollPos) {
+      if (
+        this.state.scrollSize !== scrollSize ||
+        this.state.scrollPos !== scrollPos
+      ) {
         this.setState({
           scrollActive: true,
           scrollSize,
@@ -172,7 +178,9 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
     }
   };
 
-  private _handleScrollMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+  private _handleScrollMouseDown = (
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
     if (!this._inner) {
       return;
     }
@@ -198,20 +206,20 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
       }
 
       if (mouseMoveEvent.hasOwnProperty('returnValue')) {
-        (mouseMoveEvent as MouseEvent & { returnValue: boolean }).returnValue = false;
+        (mouseMoveEvent as MouseEvent & {
+          returnValue: boolean;
+        }).returnValue = false;
       }
     };
 
     const mouseUp = () => {
-      // @ts-ignore
-      events.removeEventListener<keyof DocumentEventMap>(target, 'mousemove', mouseMove);
-      events.removeEventListener(target, 'mouseup', mouseUp);
+      target.removeEventListener('mousemove', mouseMove);
+      target.removeEventListener('mouseup', mouseUp);
       this.setState({ scrolling: false });
     };
 
-    // @ts-ignore
-    events.addEventListener<keyof DocumentEventMap>(target, 'mousemove', mouseMove);
-    events.addEventListener(target, 'mouseup', mouseUp);
+    target.addEventListener('mousemove', mouseMove);
+    target.addEventListener('mouseup', mouseUp);
     this.setState({ scrolling: true });
 
     event.preventDefault();
@@ -224,7 +232,8 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
 
     if (
       event.deltaY > 0 &&
-      this._inner.scrollHeight <= this._inner.scrollTop + this._inner.offsetHeight
+      this._inner.scrollHeight <=
+        this._inner.scrollTop + this._inner.offsetHeight
     ) {
       return;
     }
@@ -241,10 +250,10 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
       return;
     }
 
-
     if (
       event.deltaY > 0 &&
-      this._inner.scrollHeight <= this._inner.scrollTop + this._inner.offsetHeight
+      this._inner.scrollHeight <=
+        this._inner.scrollTop + this._inner.offsetHeight
     ) {
       event.preventDefault();
       return false;

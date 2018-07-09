@@ -28,6 +28,7 @@ import { selectNodeContents, removeAllSelections } from './SelectionHelpers';
 import Upgrades from '../../lib/Upgrades';
 
 import styles = require('./DateInput.less');
+import { Nullable } from '../../typings/utility-types';
 
 export const DateInputConfig = {
   polyfillInput: !isIE && !isEdge

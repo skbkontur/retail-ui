@@ -1,3 +1,5 @@
+import { Nullable } from '../../../typings/utility-types';
+
 export const parseValue = (
   value: Nullable<string>
 ): { date: string | null; month: string | null; year: string | null } => {

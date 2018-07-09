@@ -1,3 +1,5 @@
+import { Nullable } from '../../../typings/utility-types';
+
 interface DateShape {
   date: Nullable<string>;
   month: Nullable<string>;

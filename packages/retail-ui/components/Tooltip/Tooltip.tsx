@@ -6,6 +6,7 @@ import CROSS from '../internal/cross';
 import { PopupPosition } from '../Popup';
 
 import styles = require('./Tooltip.less');
+import { Nullable } from '../../typings/utility-types';
 
 const supportsPortal = 'createPortal' in ReactDOM;
 

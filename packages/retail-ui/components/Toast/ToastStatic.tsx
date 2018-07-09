@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import Toast from './Toast';
 import { Action } from './Toast';
+import { Nullable } from '../../typings/utility-types';
 
 class ToastStatic {
   public static push = (notification: string, action?: Action) => {

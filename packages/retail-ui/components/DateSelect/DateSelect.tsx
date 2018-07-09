@@ -5,12 +5,13 @@ import RenderLayer from '../RenderLayer';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import LayoutEvents from '../../lib/LayoutEvents';
 
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import styles = require('./DateSelect.less');
 
 import Icon from '../Icon/Icon';
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Nullable } from '../../typings/utility-types';
 
 const MONTHS = [
   'Январь',
@@ -52,7 +53,10 @@ export interface DateSelectState {
 
 const isIE8 = Boolean(~window.navigator.userAgent.indexOf('MSIE 8.0'));
 
-export default class DateSelect extends React.Component<DateSelectProps, DateSelectState> {
+export default class DateSelect extends React.Component<
+  DateSelectProps,
+  DateSelectState
+> {
   public static propTypes = {
     disabled: PropTypes.bool,
 

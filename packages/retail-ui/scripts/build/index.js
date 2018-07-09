@@ -7,7 +7,7 @@ const babel = require('babel-core');
 const less = require('less');
 const config = require('./config.js');
 
-const FoldersToTransform = ['components', 'lib'];
+const FoldersToTransform = ['components', 'lib', 'typings'];
 const IgnoreTemplates = [/__tests__/, /\.stories.js$/];
 const OutDir = path.resolve(process.cwd(), 'build');
 

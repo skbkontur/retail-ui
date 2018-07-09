@@ -1,6 +1,7 @@
 import { Selection } from './SelectionHelper';
 import CurrencyHelper from './CurrencyHelper';
 import CursorHelper from './CursorHelper';
+import { Nullable } from '../../typings/utility-types';
 
 export default class CurrencyInputHelper {
   public static moveCursor(

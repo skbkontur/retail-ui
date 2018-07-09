@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 import Input from '../Input';
 
@@ -14,6 +14,7 @@ import {
   CURRENCY_INPUT_ACTIONS,
   extractAction
 } from './CurrencyInputKeyboardActions';
+import { Nullable } from '../../typings/utility-types';
 
 const INPUT_PASS_PROPS = {
   align: true,
@@ -95,7 +96,9 @@ export default class CurrencyInput extends React.Component<
 
   private _input: Nullable<Input>;
   private _focused: boolean = false;
-  private _tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(0);
+  private _tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(
+    0
+  );
 
   constructor(props: CurrencyInputProps, context: any) {
     super(props, context);
@@ -312,18 +315,26 @@ export default class CurrencyInput extends React.Component<
     const selection = this._tempSelectionForOnChange;
     const oldValue = this.state.formatted;
     if (selection.start !== selection.end) {
-      return value.substring(selection.start, value.length - (oldValue.length - selection.end));
-    }
-    else if (value.length > oldValue.length) {
+      return value.substring(
+        selection.start,
+        value.length - (oldValue.length - selection.end)
+      );
+    } else if (value.length > oldValue.length) {
       return value.substr(selection.start, value.length - oldValue.length);
     }
     return null;
-  }
+  };
 
-  private _handleChange = (event: React.ChangeEvent<HTMLInputElement>, value: string): void => {
+  private _handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ): void => {
     const selection = this._tempSelectionForOnChange;
     const delta = this._getOnChangeDelta(value);
-    if (delta != null && !this._inputValue(selection.start, selection.end, delta)) {
+    if (
+      delta != null &&
+      !this._inputValue(selection.start, selection.end, delta)
+    ) {
       this.setState({ selection });
     }
   };

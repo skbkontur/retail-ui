@@ -1,6 +1,7 @@
 import { DateInputState, DateParts } from '../DateInput';
 import { clearDatePart } from './clearDatePart';
 import { UnknownDatePart } from './UnknownDatePart';
+import { Shape } from '../../../typings/utility-types';
 
 export const inputNumber = (key: string) => {
   return (state: DateInputState): Shape<DateInputState> => {

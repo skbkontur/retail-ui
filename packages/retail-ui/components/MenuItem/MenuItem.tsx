@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import Icon, { IconName } from '../Icon';
 
 import styles from './MenuItem.less';
@@ -80,11 +80,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
     if (icon) {
       iconElement = (
         <div className={styles.icon}>
-          {typeof icon === 'string' ? (
-            <Icon name={icon} />
-          ) : (
-            icon
-          )}
+          {typeof icon === 'string' ? <Icon name={icon} /> : icon}
         </div>
       );
     }

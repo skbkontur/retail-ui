@@ -1,4 +1,5 @@
 import { CalendarDateShape } from '../Calendar';
+import { Nullable } from '../../typings/utility-types';
 
 export interface DateShape {
   date: Nullable<number>;

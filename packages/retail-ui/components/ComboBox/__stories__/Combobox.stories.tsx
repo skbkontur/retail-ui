@@ -6,6 +6,7 @@ import ComboBoxV2 from '../ComboBox';
 import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
 import { IconName } from '../../Icon';
+import { Nullable } from '../../../typings/utility-types';
 
 storiesOf('ComboBox v2', module)
   .add('simple combobox', () => <SimpleCombobox />)
@@ -152,9 +153,11 @@ class TestComboBox extends React.Component<any, ComboBoxState> {
           }
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Найдено ${found} из ${total}`}
-          ref={(el) => { this.combobox = el }}
+          ref={el => {
+            this.combobox = el;
+          }}
         />{' '}
-        <button 
+        <button
           onClick={() => {
             if (this.combobox) {
               this.combobox.focus();
@@ -187,10 +190,13 @@ interface SimpleComboboxProps {
 }
 
 interface SimpleComboboxState {
-  value: Nullable<{ value: number, label: string }>
+  value: Nullable<{ value: number; label: string }>;
 }
 
-class SimpleCombobox extends React.Component<SimpleComboboxProps, SimpleComboboxState> {
+class SimpleCombobox extends React.Component<
+  SimpleComboboxProps,
+  SimpleComboboxState
+> {
   public state: SimpleComboboxState = {
     value: this.props.noInitialValue ? null : { value: 1, label: 'First' }
   };
@@ -224,7 +230,9 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps, SimpleCombobox
     );
 }
 
-function errorStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
+function errorStrategy(
+  setState: (state: Partial<ComboBoxState>) => void
+): (x: any) => void {
   return x => {
     if (x) {
       setState({ error: true });
@@ -232,7 +240,9 @@ function errorStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: a
   };
 }
 
-function nullStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
+function nullStrategy(
+  setState: (state: Partial<ComboBoxState>) => void
+): (x: any) => void {
   return x => {
     if (x) {
       setState({ value: null });
@@ -240,11 +250,13 @@ function nullStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: an
   };
 }
 
-function warningStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
+function warningStrategy(
+  setState: (state: Partial<ComboBoxState>) => void
+): (x: any) => void {
   return x => {
     if (x) {
       setState({ warning: true });
-    } 
+    }
   };
 }
 

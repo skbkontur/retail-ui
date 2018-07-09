@@ -9,6 +9,7 @@ import Textarea from '../../Textarea';
 import Toggle from '../../Toggle';
 import Modal from '../../Modal/Modal';
 import Gapped from '../../Gapped/Gapped';
+import { Shape } from '../../../typings/utility-types';
 
 const textSample = (
   <p>
@@ -36,12 +37,12 @@ interface SampleProps {
   ignoreBackgroundClick?: boolean;
   blockBackground?: boolean;
   withContent?: boolean;
-};
+}
 
 interface SampleState {
   open: boolean;
   panel: boolean;
-};
+}
 
 class Sample extends React.Component<SampleProps, SampleState> {
   public state: SampleState = {
@@ -62,7 +63,8 @@ class Sample extends React.Component<SampleProps, SampleState> {
       <SidePage.Header>Title</SidePage.Header>
       <SidePage.Body>
         <div style={{ padding: '0 35px 35px 35px' }}>
-          {this.props.total && this.props.current &&
+          {this.props.total &&
+            this.props.current &&
             this.props.total > this.props.current && (
               <Sample
                 current={this.props.current + 1}
@@ -111,7 +113,7 @@ interface SampleConfiguratorProps {
   blockBackground: boolean;
   withContent: boolean;
   onChange: (name: string) => void;
-};
+}
 
 class SampleConfigurator extends React.Component<SampleConfiguratorProps> {
   public render() {
@@ -160,7 +162,10 @@ interface SidePageWithInputInHeaderState {
   opened: boolean;
 }
 
-class SidePageWithInputInHeader extends React.Component<{}, SidePageWithInputInHeaderState> {
+class SidePageWithInputInHeader extends React.Component<
+  {},
+  SidePageWithInputInHeaderState
+> {
   public state: SidePageWithInputInHeaderState = {
     opened: false
   };
@@ -245,9 +250,14 @@ class SidePageWithCloseConfiguration extends React.Component<
           withContent={this.state.withContent}
         />
         <SampleConfigurator
-          onChange={(name) => {
+          onChange={name => {
             const propertyName = name as keyof SidePageWithCloseConfigurationState;
-            this.setState((state: SidePageWithCloseConfigurationState) => ({ [propertyName]: !state[propertyName] } as Shape<SidePageWithCloseConfigurationState>) );
+            this.setState(
+              (state: SidePageWithCloseConfigurationState) =>
+                ({ [propertyName]: !state[propertyName] } as Shape<
+                  SidePageWithCloseConfigurationState
+                >)
+            );
           }}
           ignoreBackgroundClick={this.state.ignoreBackgroundClick}
           blockBackground={this.state.blockBackground}
@@ -289,9 +299,14 @@ class SidePageWithModalInside extends React.Component<
             Открыть modal
           </Button>
           <SampleConfigurator
-            onChange={(name) => {
+            onChange={name => {
               const propertyName = name as keyof SidePageWithModalInsideState;
-              this.setState((state: SidePageWithModalInsideState) => ({ [propertyName]: !state[propertyName] } as Shape<SidePageWithCloseConfigurationState>) );
+              this.setState(
+                (state: SidePageWithModalInsideState) =>
+                  ({ [propertyName]: !state[propertyName] } as Shape<
+                    SidePageWithCloseConfigurationState
+                  >)
+              );
             }}
             ignoreBackgroundClick={this.state.ignoreBackgroundClick}
             blockBackground={this.state.blockBackground}
@@ -360,8 +375,8 @@ class SidePageWithStickyReaction extends React.Component<{}> {
 }
 
 class SidePageWithLeftPosition extends React.Component<{
-  disableAnimations?: boolean,
-  close: () => void
+  disableAnimations?: boolean;
+  close: () => void;
 }> {
   public render() {
     return (

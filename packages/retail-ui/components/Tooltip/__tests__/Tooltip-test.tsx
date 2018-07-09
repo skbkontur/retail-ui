@@ -1,6 +1,6 @@
 // tslint:disable:jsx-no-lambda
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import Tooltip from '../Tooltip';
 
 describe('Tooltip', () => {

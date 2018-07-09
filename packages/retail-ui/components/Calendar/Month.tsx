@@ -10,6 +10,7 @@ import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
 import CalendarScrollEvents from './CalendarScrollEvents';
 import DateSelect from '../DateSelect/DateSelect';
+import { Nullable } from '../../typings/utility-types';
 
 interface MonthProps {
   top: number;

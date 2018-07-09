@@ -3,11 +3,12 @@ import classNames from 'classnames';
 
 import styles from './MenuHeader.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Nullable } from '../../typings/utility-types';
 
 export interface MenuHeaderProps {
   children: React.ReactNode;
   _enableIconPadding?: Nullable<boolean>;
-};
+}
 
 /**
  * Заголовок в меню.
@@ -17,7 +18,7 @@ export default class MenuHeader extends React.Component<MenuHeaderProps> {
   public static defaultProps = {
     _enableIconPadding: false
   };
-  
+
   private getProps = createPropsGetter(MenuHeader.defaultProps);
 
   public render() {

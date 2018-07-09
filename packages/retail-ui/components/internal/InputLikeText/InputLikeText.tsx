@@ -4,6 +4,7 @@ import * as React from 'react';
 import '../../ensureOldIEClassName';
 import Upgrades from '../../../lib/Upgrades';
 import { InputSize } from '../../Input';
+import { Nullable, TimeoutID } from '../../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 

@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import filterProps from '../filterProps';
 import MenuHeader from '../MenuHeader/MenuHeader';
@@ -8,6 +8,7 @@ import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import Select from '../Select';
 import { IconProps } from '../Icon/20px';
+import { Nullable } from '../../typings/utility-types';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -38,7 +39,7 @@ export interface DropdownProps {
   _renderButton?: (params: any) => JSX.Element;
 }
 
-export type DropdownSelectType = Select
+export type DropdownSelectType = Select;
 
 /**
  * Выпадающее меню.
@@ -117,7 +118,7 @@ export default class Dropdown extends React.Component<DropdownProps> {
     const items = React.Children.map(this.props.children, item => item);
 
     return (
-     <Select
+      <Select
         // TODO: разобраться с типом для рефа
         // @ts-ignore
         ref={this._refSelect}
@@ -126,7 +127,7 @@ export default class Dropdown extends React.Component<DropdownProps> {
         items={items}
         _icon={this.props.icon}
         renderValue={renderValue}
-     />
+      />
     );
   }
 

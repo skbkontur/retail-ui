@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import Spinner from '../Spinner';
@@ -11,7 +11,7 @@ export interface LoaderProps {
   caption?: string;
   className?: string;
   type?: 'mini' | 'normal' | 'big';
-};
+}
 
 /**
  * DRAFT - лоадер-контейнер

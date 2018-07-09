@@ -3,6 +3,7 @@ import { DateInputState } from '../DateInput';
 import { DateParts } from '../DateInput';
 import { UnknownDatePart } from './UnknownDatePart';
 import { CalendarDateShape } from '../../Calendar/CalendarDateShape';
+import { Nullable, Shape } from '../../../typings/utility-types';
 
 const udpateDatePartBy = (
   step: number,

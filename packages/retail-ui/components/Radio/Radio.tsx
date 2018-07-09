@@ -1,11 +1,11 @@
-
 import classNames from 'classnames';
 import * as React from 'react';
 
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
+import { Nullable, Primitive } from '../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -15,13 +15,13 @@ const styles = isFlatDesign
 
 export interface SyntheticRadioEvent<T> {
   target: {
-    id: Nullable<string>,
-    name: Nullable<string>,
-    checked: Nullable<boolean>,
-    disabled: Nullable<boolean>,
-    value: T
-  }
-};
+    id: Nullable<string>;
+    name: Nullable<string>;
+    checked: Nullable<boolean>;
+    disabled: Nullable<boolean>;
+    value: T;
+  };
+}
 
 export interface RadioProps<T> {
   id?: string;
@@ -40,7 +40,7 @@ export interface RadioProps<T> {
   onMouseEnter?: (event: SyntheticRadioEvent<T>) => void;
   onMouseLeave?: (event: SyntheticRadioEvent<T>) => void;
   onMouseOver?: (event: SyntheticRadioEvent<T>) => void;
-};
+}
 
 /**
  * Радиокнопка.

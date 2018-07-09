@@ -9,6 +9,7 @@ import CustomComboBox, {
   CustomComboBoxState
 } from '../CustomComboBox';
 import LayoutEvents from '../../../lib/LayoutEvents';
+import { Nullable } from '../../../typings/utility-types';
 
 interface BaseAction {
   type: string;
