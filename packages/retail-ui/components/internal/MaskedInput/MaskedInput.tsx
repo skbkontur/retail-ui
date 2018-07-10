@@ -65,14 +65,17 @@ export default class MaskedInput extends React.Component<
     _prevProps: MaskedInputProps,
     prevState: MaskedInputState
   ) {
-    // if (prevState.selection.end !== this.state.selection.end) {
-    //   if (this.state.selection.end === this.state.selection.start && this.input) {
-    //     this.input.setSelectionRange(
-    //       this.state.selection.start,
-    //       this.state.selection.end
-    //     );
-    //   }
-    // }
+    if (prevState.selection.end !== this.state.selection.end) {
+      if (
+        this.state.selection.end === this.state.selection.start &&
+        this.input
+      ) {
+        // this.input.setSelectionRange(
+        //   this.state.selection.start,
+        //   this.state.selection.end
+        // );
+      }
+    }
   }
 
   public render() {
@@ -160,18 +163,26 @@ export default class MaskedInput extends React.Component<
     };
 
     const isBackspace = selection.start < this.state.selection.start;
+    const firstEditableIndex = this.findFirstEditableIndex(
+      value,
+      selection.start,
+      isBackspace ? 'left' : 'right'
+    );
+
+    if (selection.start < this.mask.pattern.firstEditableIndex && isBackspace) {
+      event.preventDefault();
+
+      this.unexpectedInput();
+      this.setState({ selection: this.moveCaret(selection, isBackspace) });
+
+      return;
+    }
 
     if (
       selection.start === selection.end &&
       this.state.value != null &&
       value.length < this.state.value.toString().length
     ) {
-      const firstEditableIndex = this.findFirstEditableIndex(
-        value,
-        selection.start,
-        isBackspace ? 'left' : 'right'
-      );
-
       value = value
         .split('')
         .filter((_i, index) => {
@@ -189,26 +200,11 @@ export default class MaskedInput extends React.Component<
         .join('');
     }
 
-    if (
-      selection.start > 0 &&
-      selection.start < this.mask.pattern.firstEditableIndex &&
-      isBackspace
-    ) {
-      event.preventDefault();
-      if (this.props.onInvalidInput) {
-        this.props.onInvalidInput();
-      }
-
-      return;
-    }
-
     const rawValue = this.getRawValue(value);
     this.mask.setValue(rawValue);
 
     if (this.state.value === this.mask.getValue()) {
-      if (this.props.onInvalidInput) {
-        this.props.onInvalidInput();
-      }
+      this.unexpectedInput();
 
       return;
     }
@@ -217,15 +213,20 @@ export default class MaskedInput extends React.Component<
     this.setState(
       {
         value: this.mask.getValue(),
-        selection
+        selection: this.moveCaret(selection, isBackspace)
       },
       () => {
-        this.moveCaret(isBackspace);
         if (this.props.onChange) {
           this.props.onChange(event);
         }
       }
     );
+  };
+
+  private unexpectedInput = () => {
+    if (this.props.onInvalidInput) {
+      this.props.onInvalidInput();
+    }
   };
 
   private findFirstEditableIndex = (
@@ -278,29 +279,32 @@ export default class MaskedInput extends React.Component<
       .join('');
   };
 
-  private moveCaret = (moveBack?: boolean) => {
+  private moveCaret = (currentSelection: Selection, moveLeft?: boolean) => {
+    const selection = { ...currentSelection };
     if (!this.state.value) {
-      return;
+      return selection;
     }
-    const { start } = this.state.selection;
+
     const valueBuffer = this.state.value.toString().split('');
 
-    if (moveBack) {
-      for (let index = start; index > 0; index--) {
-        if (this.mask.pattern.isEditableIndex(index) && this.input) {
-          this.input.setSelectionRange(index, index);
+    if (moveLeft) {
+      for (let index = selection.start; index >= 0; index--) {
+        if (this.mask.pattern.isEditableIndex(index)) {
+          selection.start = index;
+          selection.end = index;
           break;
         }
       }
-
-      return;
-    }
-
-    for (let index = start; index < valueBuffer.length; index++) {
-      if (this.mask.pattern.isEditableIndex(index) && this.input) {
-        this.input.setSelectionRange(index, index);
-        break;
+    } else {
+      for (let index = selection.start; index < valueBuffer.length; index++) {
+        if (this.mask.pattern.isEditableIndex(index)) {
+          selection.start = index;
+          selection.end = index;
+          break;
+        }
       }
     }
+
+    return currentSelection;
   };
 }
