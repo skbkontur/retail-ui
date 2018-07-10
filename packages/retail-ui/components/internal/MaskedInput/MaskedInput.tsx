@@ -65,15 +65,14 @@ export default class MaskedInput extends React.Component<
     _prevProps: MaskedInputProps,
     prevState: MaskedInputState
   ) {
-    if (
-      prevState.value !== this.state.value &&
-      this.state.value &&
-      prevState.value
-    ) {
-      this.moveCaret(
-        prevState.value.toString().length > this.state.value.toString().length
-      );
-    }
+    // if (prevState.selection.end !== this.state.selection.end) {
+    //   if (this.state.selection.end === this.state.selection.start && this.input) {
+    //     this.input.setSelectionRange(
+    //       this.state.selection.start,
+    //       this.state.selection.end
+    //     );
+    //   }
+    // }
   }
 
   public render() {
@@ -95,6 +94,7 @@ export default class MaskedInput extends React.Component<
           }}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
+          onSelect={this.handleSelect}
         />
         {this.isMaskVisible() && (
           <span className={styles.inputMask}>
@@ -126,6 +126,15 @@ export default class MaskedInput extends React.Component<
     });
   };
 
+  private handleSelect = (event: React.UIEvent<HTMLInputElement>) => {
+    this.setState({
+      selection: {
+        start: event.currentTarget.selectionStart || 0,
+        end: event.currentTarget.selectionEnd || 0
+      }
+    });
+  };
+
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     event.persist();
     this.setState({ focus: false }, () => {
@@ -140,50 +149,111 @@ export default class MaskedInput extends React.Component<
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    let { value } = event.target;
-
     if (!this.input) {
       return;
     }
 
+    let { value } = event.target;
     const selection = {
-      start: this.input.selectionStart || 0,
-      end: this.input.selectionEnd || 0
+      start: event.currentTarget.selectionStart || 0,
+      end: event.currentTarget.selectionEnd || 0
     };
 
-    if (value.length < this.mask.getValue().length) {
-      if (
-        selection.end &&
-        selection.end === value.length &&
-        !this.mask.pattern.isEditableIndex(selection.end)
-      ) {
-        value = value.slice(0, selection.end - 1);
-      }
-    }
-
-    this.mask.setValue(this.getRawValue(value));
-
-    event.persist();
+    const isBackspace = selection.start < this.state.selection.start;
 
     if (
-      this.state.value === this.mask.getValue() &&
-      this.props.onInvalidInput
+      selection.start === selection.end &&
+      this.state.value != null &&
+      value.length < this.state.value.toString().length
     ) {
-      this.props.onInvalidInput();
+      const firstEditableIndex = this.findFirstEditableIndex(
+        value,
+        selection.start,
+        isBackspace ? 'left' : 'right'
+      );
+
+      value = value
+        .split('')
+        .filter((_i, index) => {
+          if (isBackspace) {
+            return (
+              index < (firstEditableIndex || 0) || index >= selection.start
+            );
+          }
+
+          return (
+            index < selection.start ||
+            index >= (firstEditableIndex || value.length)
+          );
+        })
+        .join('');
     }
 
+    if (
+      selection.start > 0 &&
+      selection.start < this.mask.pattern.firstEditableIndex &&
+      isBackspace
+    ) {
+      event.preventDefault();
+      if (this.props.onInvalidInput) {
+        this.props.onInvalidInput();
+      }
+
+      return;
+    }
+
+    const rawValue = this.getRawValue(value);
+    this.mask.setValue(rawValue);
+
+    if (this.state.value === this.mask.getValue()) {
+      if (this.props.onInvalidInput) {
+        this.props.onInvalidInput();
+      }
+
+      return;
+    }
+
+    event.persist();
     this.setState(
       {
         value: this.mask.getValue(),
         selection
       },
       () => {
+        this.moveCaret(isBackspace);
         if (this.props.onChange) {
           this.props.onChange(event);
         }
       }
     );
+  };
+
+  private findFirstEditableIndex = (
+    value: string,
+    startPos: number,
+    direction: 'left' | 'right'
+  ): number | null => {
+    let editableIndex: number | null = null;
+
+    if (direction === 'left') {
+      for (let index = startPos; index >= 0; index--) {
+        if (this.mask.pattern.isEditableIndex(index)) {
+          editableIndex = index;
+          break;
+        }
+      }
+    }
+
+    if (direction === 'right') {
+      for (let index = startPos; index < value.length; index++) {
+        if (this.mask.pattern.isEditableIndex(index)) {
+          editableIndex = index;
+          break;
+        }
+      }
+    }
+
+    return editableIndex;
   };
 
   private getRawValue = (value: string) => {
