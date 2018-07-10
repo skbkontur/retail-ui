@@ -7,6 +7,7 @@ import LayoutEvents from '../../lib/LayoutEvents';
 // @ts-ignore — Свойство "SpinnerType" объявлено, но его значение не было прочитано
 import Spinner, { SpinnerType } from '../Spinner';
 import styles = require('./Loader.less');
+import { Nullable } from '../../typings/utility-types';
 
 export interface LoaderProps {
   children?: React.ReactNode;
