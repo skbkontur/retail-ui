@@ -226,11 +226,7 @@ class CustomComboBox extends React.Component<
       return;
     }
 
-    if (!this.focused) {
-      return;
-    }
-    this.focused = false;
-    this.dispatch({ type: 'Blur' });
+    this.handleBlur();
   };
 }
 
