@@ -7,6 +7,7 @@ import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
 import { IconName } from '../../Icon';
 import { Nullable } from '../../../typings/utility-types';
+import { action } from '@storybook/addon-actions';
 
 storiesOf('ComboBox v2', module)
   .add('simple combobox', () => <SimpleCombobox />)
@@ -139,7 +140,10 @@ class TestComboBox extends React.Component<any, ComboBoxState> {
           warning={this.state.warning}
           value={this.state.value}
           maxMenuHeight={this.props.maxMenuHeight}
-          onFocus={() => this.setState({ error: false, warning: false })}
+          onBlur={action('blur')}
+          onFocus={() =>
+            this.setState({ error: false, warning: false }, action('focus'))
+          }
           getItems={this.props.onSearch}
           renderItem={this.props.renderItem}
           renderValue={renderValue}
