@@ -33,6 +33,8 @@ declare module 'inputmask-core' {
     setValue(value: string): void;
     getValue(): string;
     getRawValue(): string;
+    setSelection(selecton: { start: number; end: number }): boolean;
+    undo(): boolean;
   }
 
   export default InputMask;
