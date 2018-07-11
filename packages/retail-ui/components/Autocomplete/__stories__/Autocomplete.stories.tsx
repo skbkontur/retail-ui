@@ -5,21 +5,25 @@ import { storiesOf } from '@storybook/react';
 import Gapped from '../../Gapped/index';
 import Autocomplete from '../Autocomplete';
 
-storiesOf('Autocomplete', module).add('simple', () => (
+storiesOf('Autocomplete', module)
+  .add('simple', () => (
     <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />
-  )).add('with renderItem', () => (
+  ))
+  .add('with renderItem', () => (
     <UncontrolledAutocomplete
       source={['One', 'Two', 'Three']}
       renderItem={(x: string) => <div>Item: {x.toUpperCase()}</div>}
     />
-  )).add('with big renderItem width', () => (
+  ))
+  .add('with big renderItem width', () => (
     <UncontrolledAutocomplete
       source={['One', 'Two', 'Three']}
       renderItem={(x: string) => (
         <div style={{ width: 400 }}>Item: {x.toUpperCase()}</div>
       )}
     />
-  )).add('with fixed menu size', () => (
+  ))
+  .add('with fixed menu size', () => (
     <UncontrolledAutocomplete
       source={[
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -34,7 +38,8 @@ storiesOf('Autocomplete', module).add('simple', () => (
       menuWidth={400}
       menuMaxHeight={150}
     />
-  )).add('with onBlur/onFocus handlers', () => <WithBlurFocusHandlersExample />);
+  ))
+  .add('with onBlur/onFocus handlers', () => <WithBlurFocusHandlersExample />);
 
 class UncontrolledAutocomplete extends React.Component<any, any> {
   public state = {
