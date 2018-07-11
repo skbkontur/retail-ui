@@ -45,6 +45,7 @@ export type InputProps = Override<
     onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
     type?: InputType;
     value?: string;
+    className?: undefined;
   }
 >;
 
@@ -163,7 +164,6 @@ class Input extends React.Component<InputProps, InputState> {
     const labelProps = {
       className: classNames({
         [classes.root]: true,
-        [className || '']: true,
         [classes.disabled]: disabled,
         [classes.error]: error,
         [classes.warning]: warning,
