@@ -18,13 +18,13 @@ export interface AutocompleteProps extends InputProps {
   menuMaxHeight?: number | string;
   menuWidth?: number | string;
   preventWindowScroll?: boolean;
-  onChange: (event: { target: { value: string } }, value: string) => void;
   onBlur?: () => void;
 }
 
 export interface AutocomplpeteState {
   items: Nullable<string[]>;
   selected: number;
+  value: string;
 }
 
 /**
@@ -71,7 +71,8 @@ class Autocomplete extends React.Component<
 
   public state: AutocomplpeteState = {
     items: null,
-    selected: -1
+    selected: -1,
+    value: this.props.value || ''
   };
 
   private _opened: boolean = false;
@@ -97,7 +98,9 @@ class Autocomplete extends React.Component<
 
   public componentWillReceiveProps(nextProps: AutocompleteProps) {
     if (nextProps.value && this.props.value !== nextProps.value) {
-      this._updateItems(nextProps.value);
+      this.setState({ value: nextProps.value || '' }, () => {
+        this._updateItems(this.state.value);
+      });
     }
   }
 
@@ -121,7 +124,8 @@ class Autocomplete extends React.Component<
       onChange: this._handleChange,
       onKeyDown: this._handleKeyDown,
       onFocus: this._handleFocus,
-      ref: this._refInput
+      ref: this._refInput,
+      value: this.state.value
     };
     return (
       <RenderLayer
@@ -175,10 +179,12 @@ class Autocomplete extends React.Component<
     // https://github.com/airbnb/enzyme/issues/218
     // TODO: replace with currentTarget when fixed
     const value = event.target.value;
+    event.persist();
 
-    this._updateItems(value);
-
-    this._fireChange(value);
+    this.setState({ value }, () => {
+      this._updateItems(this.state.value);
+      this._fireChange(event);
+    });
   };
 
   private _handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -275,8 +281,7 @@ class Autocomplete extends React.Component<
       items: null
     });
 
-    this._fireChange(value);
-    this.blur();
+    this.setState({ value }, this.blur);
   }
 
   private _updateItems(value: string) {
@@ -306,9 +311,9 @@ class Autocomplete extends React.Component<
     });
   }
 
-  private _fireChange(value: string) {
+  private _fireChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (this.props.onChange) {
-      this.props.onChange({ target: { value } }, value);
+      this.props.onChange(event, event.target.value);
     }
   }
 
