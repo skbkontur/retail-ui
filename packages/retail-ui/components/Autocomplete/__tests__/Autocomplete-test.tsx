@@ -131,12 +131,11 @@ describe('<Autocomplete />', () => {
     const wrapper = render({ ...props, onChange: () => undefined, source: [] });
     const inputProps = wrapper.find('Input').props();
 
-    // tslint:disable-next-line:forin
-    for (const prop in props) {
-      expect(inputProps[prop as keyof AutocompleteProps]).toBe(
+    Object.keys(props).forEach(prop => {
+      expect(inputProps[prop as keyof Enzyme.HTMLAttributes]).toBe(
         props[prop as keyof AutocompleteProps]
       );
-    }
+    });
   });
 
   it('handles onKeyDown prop', () => {
