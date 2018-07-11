@@ -65,15 +65,18 @@ export default class MaskedInput extends React.Component<
     _prevProps: MaskedInputProps,
     prevState: MaskedInputState
   ) {
-    if (prevState.selection.end !== this.state.selection.end) {
+    if (
+      prevState.selection.end !== this.state.selection.end &&
+      prevState.value !== this.state.value
+    ) {
       if (
         this.state.selection.end === this.state.selection.start &&
         this.input
       ) {
-        // this.input.setSelectionRange(
-        //   this.state.selection.start,
-        //   this.state.selection.end
-        // );
+        this.input.setSelectionRange(
+          this.state.selection.start,
+          this.state.selection.end
+        );
       }
     }
   }
@@ -86,6 +89,7 @@ export default class MaskedInput extends React.Component<
       onInvalidInput,
       ...inputProps
     } = this.props;
+
     return (
       <div className={styles.container}>
         <input
@@ -130,12 +134,12 @@ export default class MaskedInput extends React.Component<
   };
 
   private handleSelect = (event: React.UIEvent<HTMLInputElement>) => {
-    this.setState({
-      selection: {
-        start: event.currentTarget.selectionStart || 0,
-        end: event.currentTarget.selectionEnd || 0
-      }
-    });
+    // this.setState({
+    //   selection: {
+    //     start: event.currentTarget.selectionStart || 0,
+    //     end: event.currentTarget.selectionEnd || 0
+    //   }
+    // });
   };
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -173,7 +177,9 @@ export default class MaskedInput extends React.Component<
       event.preventDefault();
 
       this.unexpectedInput();
-      this.setState({ selection: this.moveCaret(selection, isBackspace) });
+      this.setState(state => ({
+        selection: this.moveCaret(selection, state.value, isBackspace)
+      }));
 
       return;
     }
@@ -213,7 +219,7 @@ export default class MaskedInput extends React.Component<
     this.setState(
       {
         value: this.mask.getValue(),
-        selection: this.moveCaret(selection, isBackspace)
+        selection: this.moveCaret(selection, this.mask.getValue(), isBackspace)
       },
       () => {
         if (this.props.onChange) {
@@ -246,7 +252,7 @@ export default class MaskedInput extends React.Component<
     }
 
     if (direction === 'right') {
-      for (let index = startPos; index < value.length; index++) {
+      for (let index = startPos; index <= value.length; index++) {
         if (this.mask.pattern.isEditableIndex(index)) {
           editableIndex = index;
           break;
@@ -279,32 +285,32 @@ export default class MaskedInput extends React.Component<
       .join('');
   };
 
-  private moveCaret = (currentSelection: Selection, moveLeft?: boolean) => {
+  private moveCaret = (
+    currentSelection: Selection,
+    value: MaskedInputProps['value'],
+    moveLeft?: boolean
+  ) => {
     const selection = { ...currentSelection };
-    if (!this.state.value) {
+    if (!value) {
       return selection;
     }
 
-    const valueBuffer = this.state.value.toString().split('');
+    const firstEditableIndex = this.findFirstEditableIndex(
+      value.toString(),
+      currentSelection.start,
+      moveLeft ? 'left' : 'right'
+    );
 
-    if (moveLeft) {
-      for (let index = selection.start; index >= 0; index--) {
-        if (this.mask.pattern.isEditableIndex(index)) {
-          selection.start = index;
-          selection.end = index;
-          break;
-        }
-      }
-    } else {
-      for (let index = selection.start; index < valueBuffer.length; index++) {
-        if (this.mask.pattern.isEditableIndex(index)) {
-          selection.start = index;
-          selection.end = index;
-          break;
-        }
-      }
+    if (firstEditableIndex) {
+      selection.start = firstEditableIndex;
+      selection.end = firstEditableIndex;
     }
 
-    return currentSelection;
+    if (!moveLeft) {
+      // tslint:disable-next-line:no-console
+      console.log(firstEditableIndex);
+    }
+
+    return selection;
   };
 }
