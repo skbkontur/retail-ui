@@ -65,10 +65,7 @@ export default class MaskedInput extends React.Component<
     _prevProps: MaskedInputProps,
     prevState: MaskedInputState
   ) {
-    if (
-      prevState.selection.end !== this.state.selection.end &&
-      prevState.value !== this.state.value
-    ) {
+    if (prevState.value !== this.state.value) {
       if (
         this.state.selection.end === this.state.selection.start &&
         this.input
@@ -134,12 +131,12 @@ export default class MaskedInput extends React.Component<
   };
 
   private handleSelect = (event: React.UIEvent<HTMLInputElement>) => {
-    // this.setState({
-    //   selection: {
-    //     start: event.currentTarget.selectionStart || 0,
-    //     end: event.currentTarget.selectionEnd || 0
-    //   }
-    // });
+    this.setState({
+      selection: {
+        start: event.currentTarget.selectionStart || 0,
+        end: event.currentTarget.selectionEnd || 0
+      }
+    });
   };
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -173,12 +170,19 @@ export default class MaskedInput extends React.Component<
       isBackspace ? 'left' : 'right'
     );
 
-    if (selection.start < this.mask.pattern.firstEditableIndex && isBackspace) {
+    if (
+      this.getRawValue(value) &&
+      (selection.start < this.mask.pattern.firstEditableIndex ||
+        selection.start > this.mask.pattern.lastEditableIndex + 1)
+    ) {
       event.preventDefault();
 
       this.unexpectedInput();
       this.setState(state => ({
-        selection: this.moveCaret(selection, state.value, isBackspace)
+        selection: {
+          start: this.mask.pattern.firstEditableIndex,
+          end: this.mask.pattern.firstEditableIndex
+        }
       }));
 
       return;
@@ -209,8 +213,11 @@ export default class MaskedInput extends React.Component<
     const rawValue = this.getRawValue(value);
     this.mask.setValue(rawValue);
 
-    if (this.state.value === this.mask.getValue()) {
+    if (this.state.value === this.mask.getValue() && !this.mask.getRawValue()) {
       this.unexpectedInput();
+      this.setState({
+        selection: this.moveCaret(selection, this.mask.getValue(), isBackspace)
+      });
 
       return;
     }
@@ -277,7 +284,7 @@ export default class MaskedInput extends React.Component<
         const isValidChar = this.mask.input(char);
 
         if (isValidChar) {
-          return this.mask.backspace();
+          return this.mask.undo();
         }
 
         return false;
@@ -304,11 +311,6 @@ export default class MaskedInput extends React.Component<
     if (firstEditableIndex) {
       selection.start = firstEditableIndex;
       selection.end = firstEditableIndex;
-    }
-
-    if (!moveLeft) {
-      // tslint:disable-next-line:no-console
-      console.log(firstEditableIndex);
     }
 
     return selection;
