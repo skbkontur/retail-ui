@@ -1,12 +1,15 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
 
-import PasswordInputFallback from '../PasswordInputFallback';
+import PasswordInputFallback, {
+  PasswordInputFallbackProps
+} from '../PasswordInputFallback';
 import Input from '../../Input';
 
-const setup = props => {
+const setup = (props?: PasswordInputFallbackProps) => {
   return mount(
-    <PasswordInputFallback value="" refInput={() => {}} {...props} />
+    // tslint:disable-next-line:jsx-no-lambda
+    <PasswordInputFallback value="" refInput={() => undefined} {...props} />
   );
 };
 
