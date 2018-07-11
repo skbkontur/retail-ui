@@ -1,13 +1,13 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import PasswordInput from '../PasswordInput';
+import PasswordInput, { PasswordInputProps } from '../PasswordInput';
 import Input from '../../Input';
 import Icon from '../../Icon';
 
 import styles from '../PasswordInput.less';
 
-const setup = props => {
+const setup = (props?: PasswordInputProps) => {
   return mount(<PasswordInput value="" {...props} />);
 };
 

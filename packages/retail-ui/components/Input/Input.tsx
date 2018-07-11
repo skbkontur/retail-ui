@@ -148,7 +148,6 @@ class Input extends React.Component<InputProps, InputState> {
       warning,
       leftIcon,
       rightIcon,
-      disabled,
       borderless,
       value,
       align,
@@ -163,7 +162,7 @@ class Input extends React.Component<InputProps, InputState> {
     const labelProps = {
       className: classNames({
         [classes.root]: true,
-        [classes.disabled]: disabled,
+        [classes.disabled]: this.props.disabled,
         [classes.error]: error,
         [classes.warning]: warning,
         [classes.padLeft]: !!leftIcon,
