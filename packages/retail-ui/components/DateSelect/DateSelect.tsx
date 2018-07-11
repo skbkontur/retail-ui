@@ -298,9 +298,7 @@ export default class DateSelect extends React.Component<
     );
   }
 
-  private getAnchor() {
-    return this._node;
-  }
+  private getAnchor = () => this._node;
 
   private handleWheel = (event: React.WheelEvent<HTMLElement>) => {
     event.preventDefault();
