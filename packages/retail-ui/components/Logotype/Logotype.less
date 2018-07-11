@@ -31,4 +31,38 @@
     bottom: 0;
     left: 0;
   }
+
+  .dropdown {
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .divider {
+    height: 60%;
+    margin: 0 0 0 10px;
+    width: 1px;
+    background-color: @td-divider-bg;
+  }
+
+  .widgetWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    outline: 0;
+    padding: 0 11px;
+    position: relative;
+    background: none;
+    border: none;
+
+    &:hover,
+    &:focus {
+      background: rgba(0, 0, 0, 0.06);
+    }
+  }
 }

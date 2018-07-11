@@ -1,14 +1,8 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import events from 'add-event-listener';
 
-import stopPropagation from '../../lib/events/stopPropagation';
-
-import Icon from '../Icon';
 import Logotype from '../Logotype';
-import ProductWidget from './ProductWidget';
-
 import ButtonItem from './ButtonItem';
 import Divider from './Divider';
 import Item from './Item';
@@ -19,11 +13,13 @@ import User from './User';
 import '../ensureOldIEClassName';
 import styles from './TopBar.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
-import { Nullable } from '../../typings/utility-types';
+import End from './TopBarEnd';
+import Start from './TopBarStart';
 
 export interface TopBarProps {
   children?: React.ReactNode;
   color?: string;
+  cabinetUrl?: string;
   leftItems?: Array<React.ReactElement<any>>;
   logoComponent?: React.ComponentType<any> | string;
   logoHref?: string;
@@ -51,12 +47,22 @@ export interface TopBarDefaultProps {
  *
  * `Divider()` – разделитель
  *
+ * `Start({children: node})`
+ *  – контейнер для элементов в начале шапки
+ *
+ * `End({children: node})
+ *  – контейнер для элементов в конце шапки
+ *
  */
-class TopBar extends React.Component<TopBarProps> {
+class TopBar extends React.Component<TopBarProps, {}> {
   public static Divider = Divider;
   public static Item = ButtonItem;
   public static Dropdown = TopBarDropdown;
   public static OrganizationsDropdown = Organizations;
+  public static Start = Start;
+  public static End = End;
+  public static ItemStatic = Item;
+  public static User = User;
 
   public static defaultProps = {
     maxWidth: 1166,
@@ -64,6 +70,11 @@ class TopBar extends React.Component<TopBarProps> {
   };
 
   public static propTypes = {
+    /**
+     * URL для кастомизации ссылок в меню пользователя
+     */
+    cabinetUrl: PropTypes.string,
+
     children: PropTypes.node,
 
     /**
@@ -119,18 +130,13 @@ class TopBar extends React.Component<TopBarProps> {
     onLogout: PropTypes.func
   };
 
-  private _logoWrapper: Nullable<HTMLElement> = null;
   private getProps = createPropsGetter(TopBar.defaultProps);
 
-  public componentDidMount() {
-    if (!this.props.noWidget) {
-      ProductWidget.init();
-    }
-  }
-
-  public render() {
+  public render(): JSX.Element {
     const {
+      children,
       leftItems,
+      cabinetUrl,
       maxWidth,
       noShadow,
       noMargin,
@@ -141,12 +147,42 @@ class TopBar extends React.Component<TopBarProps> {
     const _rightItems: Array<React.ReactElement<any>> = [].concat(
       this.getProps().rightItems
     );
+
     if (userName) {
-      _rightItems.push(<User userName={userName} />, <Divider />);
+      _rightItems.push(
+        <User userName={userName} cabinetUrl={cabinetUrl} />,
+        <Divider />
+      );
     }
 
-    if (this.props.onLogout) {
+    if (onLogout) {
       _rightItems.push(<ButtonItem onClick={onLogout}>Выйти</ButtonItem>);
+    }
+
+    const logoProps = {
+      suffix: this.props.suffix,
+      color: this.props.color,
+      logoHref: this.props.logoHref,
+      logoComponent: this.props.logoComponent,
+      withWidget: !this.props.noWidget
+    };
+
+    if (children) {
+      return (
+        <div
+          className={classNames({
+            [styles.root]: true,
+            [styles.noShadow]: noShadow,
+            [styles.noMargin]: noMargin
+          })}
+        >
+          <div className={styles.center} style={{ maxWidth }}>
+            <div className={styles.containerWrap}>
+              <div className={styles.container}>{children}</div>
+            </div>
+          </div>
+        </div>
+      );
     }
 
     return (
@@ -160,11 +196,15 @@ class TopBar extends React.Component<TopBarProps> {
         <div className={styles.center} style={{ maxWidth }}>
           <div className={styles.containerWrap}>
             <div className={styles.container}>
-              {this._renderLogo()}
-              <div className={styles.leftItems}>
-                {this._renderLeftItems(leftItems)}
+              <div className={styles.startItems}>
+                <Item>
+                  <Logotype {...logoProps} />
+                </Item>
+                {this._renderItems(leftItems)}
               </div>
-              {this._renderRightItems(_rightItems)}
+              <div className={styles.endItems}>
+                {this._renderItems(_rightItems)}
+              </div>
             </div>
           </div>
         </div>
@@ -172,37 +212,7 @@ class TopBar extends React.Component<TopBarProps> {
     );
   }
 
-  private _renderLogo(): React.ReactNode {
-    const {
-      suffix,
-      color,
-      logoHref: href,
-      logoComponent: component
-    } = this.props;
-    const logoProps = { suffix, color, href, component };
-    if (this.props.noWidget) {
-      return (
-        <Item>
-          <Logotype {...logoProps} />
-        </Item>
-      );
-    }
-    return (
-      <div id="spwDropdown" className={styles.spwDropdown}>
-        <span ref={this._refLogoWrapper}>
-          <Item>
-            <Logotype {...logoProps} />
-          </Item>
-          <Divider />
-        </span>
-        <ButtonItem iconOnly>
-          <Icon color="#aaa" size={20} name="ArrowChevronDown" />
-        </ButtonItem>
-      </div>
-    );
-  }
-
-  private _renderLeftItems(items?: Array<React.ReactElement<any>>) {
+  private _renderItems(items?: Array<React.ReactElement<any>>) {
     if (!items) {
       return null;
     }
@@ -216,40 +226,6 @@ class TopBar extends React.Component<TopBarProps> {
       return item;
     });
   }
-
-  private _renderRightItems(items: Array<React.ReactElement<any>>) {
-    if (!items) {
-      return null;
-    }
-
-    return items.map((item, i) => {
-      return (
-        <span className={styles.rightItem} key={'$topbar_' + i}>
-          {item}
-        </span>
-      );
-    });
-  }
-
-  private _refLogoWrapper = (el: Nullable<HTMLElement>) => {
-    if (this._logoWrapper) {
-      events.removeEventListener(
-        this._logoWrapper,
-        'click',
-        this._handleNativeLogoClick
-      );
-    }
-
-    if (el) {
-      events.addEventListener(el, 'click', this._handleNativeLogoClick);
-    }
-
-    this._logoWrapper = el;
-  };
-
-  private _handleNativeLogoClick = (event: Event) => {
-    stopPropagation(event);
-  };
 }
 
 export default TopBar;
