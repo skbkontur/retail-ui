@@ -12,7 +12,6 @@ import User from './User';
 
 import '../ensureOldIEClassName';
 import styles from './TopBar.less';
-import { createPropsGetter } from '../internal/createPropsGetter';
 import End from './TopBarEnd';
 import Start from './TopBarStart';
 
@@ -35,6 +34,7 @@ export interface TopBarProps {
 
 export interface TopBarDefaultProps {
   maxWidth: string | number;
+  rightItems: Array<React.ReactElement<any>>;
 }
 
 /**
@@ -54,7 +54,7 @@ export interface TopBarDefaultProps {
  *  – контейнер для элементов в конце шапки
  *
  */
-class TopBar extends React.Component<TopBarProps, {}> {
+class TopBar extends React.Component<TopBarProps> {
   public static Divider = Divider;
   public static Item = ButtonItem;
   public static Dropdown = TopBarDropdown;
@@ -64,7 +64,7 @@ class TopBar extends React.Component<TopBarProps, {}> {
   public static ItemStatic = Item;
   public static User = User;
 
-  public static defaultProps = {
+  public static defaultProps: TopBarDefaultProps = {
     maxWidth: 1166,
     rightItems: []
   };
@@ -130,8 +130,6 @@ class TopBar extends React.Component<TopBarProps, {}> {
     onLogout: PropTypes.func
   };
 
-  private getProps = createPropsGetter(TopBar.defaultProps);
-
   public render(): JSX.Element {
     const {
       children,
@@ -141,12 +139,11 @@ class TopBar extends React.Component<TopBarProps, {}> {
       noShadow,
       noMargin,
       userName,
-      onLogout
+      onLogout,
+      rightItems = TopBar.defaultProps.rightItems
     } = this.props;
 
-    const _rightItems: Array<React.ReactElement<any>> = [].concat(
-      this.getProps().rightItems
-    );
+    const _rightItems: Array<React.ReactElement<any>> = [...rightItems];
 
     if (userName) {
       _rightItems.push(
@@ -167,24 +164,6 @@ class TopBar extends React.Component<TopBarProps, {}> {
       withWidget: !this.props.noWidget
     };
 
-    if (children) {
-      return (
-        <div
-          className={classNames({
-            [styles.root]: true,
-            [styles.noShadow]: noShadow,
-            [styles.noMargin]: noMargin
-          })}
-        >
-          <div className={styles.center} style={{ maxWidth }}>
-            <div className={styles.containerWrap}>
-              <div className={styles.container}>{children}</div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div
         className={classNames({
@@ -195,17 +174,21 @@ class TopBar extends React.Component<TopBarProps, {}> {
       >
         <div className={styles.center} style={{ maxWidth }}>
           <div className={styles.containerWrap}>
-            <div className={styles.container}>
-              <div className={styles.startItems}>
-                <Item>
-                  <Logotype {...logoProps} />
-                </Item>
-                {this._renderItems(leftItems)}
+            {children ? (
+              <div className={styles.container}>{children}</div>
+            ) : (
+              <div className={styles.container}>
+                <div className={styles.startItems}>
+                  <Item>
+                    <Logotype {...logoProps} />
+                  </Item>
+                  {this._renderItems(leftItems)}
+                </div>
+                <div className={styles.endItems}>
+                  {this._renderItems(_rightItems)}
+                </div>
               </div>
-              <div className={styles.endItems}>
-                {this._renderItems(_rightItems)}
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

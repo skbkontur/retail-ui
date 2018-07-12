@@ -1,10 +1,8 @@
 import * as React from 'react';
 import styles from './TopBar.less';
 
-class Start extends React.Component<{}> {
-  public render(): JSX.Element {
-    return <div className={styles.startItems}>{this.props.children}</div>;
-  }
-}
+const Start: React.SFC = ({ children }) => (
+  <div className={styles.startItems}>{children}</div>
+);
 
 export default Start;

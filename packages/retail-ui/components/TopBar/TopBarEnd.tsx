@@ -1,10 +1,8 @@
 import * as React from 'react';
 import styles from './TopBar.less';
 
-class End extends React.Component<{}> {
-  public render(): JSX.Element {
-    return <div className={styles.endItems}>{this.props.children}</div>;
-  }
-}
+const End: React.SFC = ({ children }) => (
+  <div className={styles.endItems}>{children}</div>
+);
 
 export default End;

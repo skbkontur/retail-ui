@@ -4,12 +4,12 @@ import TopBar from '../TopBar';
 import Icon from '../../Icon';
 import Logotype from '../../Logotype';
 
-let Item = TopBar.Item;
-let Start = TopBar.Start;
-let End = TopBar.End;
-let ItemStatic = TopBar.ItemStatic;
-let User = TopBar.User;
-let Divider = TopBar.Divider;
+const Item = TopBar.Item;
+const Start = TopBar.Start;
+const End = TopBar.End;
+const ItemStatic = TopBar.ItemStatic;
+const User = TopBar.User;
+const Divider = TopBar.Divider;
 
 storiesOf('TopBar', module)
   .add('TopBar Old', () => (
