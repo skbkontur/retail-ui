@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
 import uuidv1 from 'uuid/v1';
 import Prevent from './Prevent';
@@ -9,8 +9,9 @@ import Radio, { SyntheticRadioEvent } from '../Radio';
 
 import styles = require('./RadioGroup.less');
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Nullable, Primitive } from '../../typings/utility-types';
 
-export type ItemType<T> = T | [T, React.ReactNode]
+export type ItemType<T> = T | [T, React.ReactNode];
 
 export interface RadioGroupProps<T> {
   defaultValue?: T;
@@ -32,8 +33,11 @@ export interface RadioGroupProps<T> {
 export interface RadioGroupState<T> {
   activeItem?: T;
 }
- 
-class RadioGroup<T extends Primitive> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
+
+class RadioGroup<T extends Primitive> extends React.Component<
+  RadioGroupProps<T>,
+  RadioGroupState<T>
+> {
   public static childContextTypes = {
     error: PropTypes.bool,
     name: PropTypes.string,
@@ -183,11 +187,15 @@ class RadioGroup<T extends Primitive> extends React.Component<RadioGroupProps<T>
       return;
     }
 
-    let radio = node.querySelector('input[type="radio"]:checked') as Nullable<HTMLInputElement>;
+    let radio = node.querySelector('input[type="radio"]:checked') as Nullable<
+      HTMLInputElement
+    >;
 
     // If no checked radios, try get first radio
     if (!radio || radio.disabled) {
-      radio = node.querySelector('input[type="radio"]:not([disabled])') as Nullable<HTMLInputElement>;
+      radio = node.querySelector(
+        'input[type="radio"]:not([disabled])'
+      ) as Nullable<HTMLInputElement>;
     }
 
     if (radio) {
@@ -220,9 +228,16 @@ class RadioGroup<T extends Primitive> extends React.Component<RadioGroupProps<T>
     return items ? mapItems(this._renderRadio, items) : children;
   }
 
-  private _renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
+  private _renderRadio = (
+    itemValue: T,
+    data: React.ReactNode,
+    index: number
+  ): JSX.Element => {
     const itemProps = {
-      key: typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : index,
+      key:
+        typeof itemValue === 'string' || typeof itemValue === 'number'
+          ? itemValue
+          : index,
       className: classNames({
         [styles.item]: true,
         [styles.itemFirst]: index === 0,
@@ -250,7 +265,10 @@ function renderItem(_value: any, data: React.ReactNode) {
   return data;
 }
 
-function mapItems(fn: (value: any, data: any, index: number) => React.ReactNode, items: any[]) {
+function mapItems(
+  fn: (value: any, data: any, index: number) => React.ReactNode,
+  items: any[]
+) {
   const result = [];
   let index = 0;
   for (const entry of items) {

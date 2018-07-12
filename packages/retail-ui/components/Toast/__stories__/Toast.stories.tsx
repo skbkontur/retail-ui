@@ -5,12 +5,13 @@ import { action } from '@storybook/addon-actions';
 import Toast from '..';
 import Button from '../../Button';
 import Modal from '../../Modal';
+import { Nullable } from '../../../typings/utility-types';
 
 class TestNotifier extends React.Component<any, any> {
   public state = {
     modal: false
   };
-  
+
   private notifier: Nullable<Toast>;
 
   public render() {
@@ -70,7 +71,10 @@ class TestNotifier extends React.Component<any, any> {
   }
 }
 
-storiesOf('Toast', module).add('simple notifiacation', () => <TestNotifier />).add('complex notifiacation', () => <TestNotifier complex />).add('static method', () => (
+storiesOf('Toast', module)
+  .add('simple notifiacation', () => <TestNotifier />)
+  .add('complex notifiacation', () => <TestNotifier complex />)
+  .add('static method', () => (
     // tslint:disable-next-line:jsx-no-lambda
     <Button onClick={() => Toast.push('Static method call')}>
       Show static

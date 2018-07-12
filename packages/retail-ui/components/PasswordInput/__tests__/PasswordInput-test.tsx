@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 
 import PasswordInput, { PasswordInputProps } from '../PasswordInput';
 import Input from '../../Input';

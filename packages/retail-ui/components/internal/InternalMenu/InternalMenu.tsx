@@ -9,6 +9,7 @@ import MenuItem, { MenuItemElement } from '../../MenuItem/MenuItem';
 
 import styles from './InternalMenu.less';
 import { createPropsGetter } from '../createPropsGetter';
+import { Nullable } from '../../../typings/utility-types';
 
 interface MenuProps {
   children?: React.ReactNode;

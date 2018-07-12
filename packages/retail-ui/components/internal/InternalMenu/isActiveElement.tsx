@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import MenuItem, { MenuItemProps } from '../../MenuItem';
 
 export default function isActiveElement(

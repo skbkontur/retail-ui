@@ -4,13 +4,16 @@ import { storiesOf } from '@storybook/react';
 import Calendar from '../Calendar';
 import Button from '../../Button';
 import Gapped from '../../Gapped';
+import { Nullable } from '../../../typings/utility-types';
 
-storiesOf('Calendar', module).add('simple', () => (
+storiesOf('Calendar', module)
+  .add('simple', () => (
     <Calendar
       minDate={{ year: 2017, month: 10, date: 13 }}
       maxDate={{ year: 2018, month: 3, date: 15 }}
     />
-  )).add('CalendarWithButtons', () => <CalendarWithButtons />);
+  ))
+  .add('CalendarWithButtons', () => <CalendarWithButtons />);
 
 const initialDate = { year: 2018, month: 0, date: 1 };
 const datesToScroll = [
@@ -37,7 +40,7 @@ class CalendarWithButtons extends React.Component {
               width={240}
               onClick={() => {
                 if (this.cal) {
-                  this.cal.scrollToMonth(x.month, x.year)
+                  this.cal.scrollToMonth(x.month, x.year);
                 }
               }}
             >

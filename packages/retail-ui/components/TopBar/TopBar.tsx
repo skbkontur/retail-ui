@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import events from 'add-event-listener';
 
 import stopPropagation from '../../lib/events/stopPropagation';
@@ -19,12 +19,13 @@ import User from './User';
 import '../ensureOldIEClassName';
 import styles from './TopBar.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Nullable } from '../../typings/utility-types';
 
 export interface TopBarProps {
   children?: React.ReactNode;
   color?: string;
   leftItems?: Array<React.ReactElement<any>>;
-  logoComponent: React.ComponentType<any> | string;
+  logoComponent?: React.ComponentType<any> | string;
   logoHref?: string;
   maxWidth?: string | number;
   noMargin?: boolean;
@@ -32,7 +33,7 @@ export interface TopBarProps {
   noWidget?: boolean;
   onLogout?: () => void;
   rightItems?: Array<React.ReactElement<any>>;
-  suffix: string;
+  suffix?: string;
   userName?: string;
 }
 

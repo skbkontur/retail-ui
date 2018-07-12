@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
 
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import filterProps from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
@@ -13,6 +13,7 @@ import { getTextAreaHeight } from './TextareaHelpers';
 import styles from './Textarea.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { TextareaAdapter } from './Textarea.adapter';
+import { Nullable, Override } from '../../typings/utility-types';
 
 const PASS_PROPS = {
   autoFocus: true,

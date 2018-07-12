@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { mount } from 'enzyme';
 import ReactDOM from 'react-dom';
 
@@ -75,7 +75,9 @@ describe('Toast', () => {
     });
 
     const toast = (wrapper.instance() as Toast)._toast;
-    const link = (ReactDOM.findDOMNode(toast!) as Element).querySelector('.link');
+    const link = (ReactDOM.findDOMNode(toast!) as Element).querySelector(
+      '.link'
+    );
     expect(link).toBeTruthy();
   });
 

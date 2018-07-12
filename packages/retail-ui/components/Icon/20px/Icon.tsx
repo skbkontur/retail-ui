@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import styles from './Icon.less';
 
@@ -21,7 +21,7 @@ const MAP = {
 
 export interface IconProps {
   name: keyof typeof MAP;
-  color: React.CSSProperties["color"];
+  color: React.CSSProperties['color'];
 }
 
 class Icon extends React.Component<IconProps> {

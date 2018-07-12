@@ -2,7 +2,7 @@ import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
 
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import Icon, { IconName } from '../Icon';
 
@@ -43,11 +43,11 @@ export interface LinkProps {
   /** @ignore */
   _buttonOpened?: boolean;
   tabIndex?: number;
-};
+}
 
 export interface LinkState {
   focusedByTab: boolean;
-};
+}
 
 /**
  * Стандартная ссылка.
@@ -95,11 +95,7 @@ class Link extends React.Component<LinkProps, LinkState> {
     if (icon) {
       iconElement = (
         <span className={styles.icon}>
-          {typeof icon === 'string' ? (
-            <Icon name={icon} />
-          ) : (
-            icon
-          )}
+          {typeof icon === 'string' ? <Icon name={icon} /> : icon}
         </span>
       );
     }

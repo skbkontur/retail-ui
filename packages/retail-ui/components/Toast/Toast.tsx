@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 
 import RenderContainer from '../RenderContainer';
@@ -7,22 +6,23 @@ import ToastView, { ToastViewProps } from './ToastView';
 import ToastStatic from './ToastStatic';
 
 import './Toast.less';
+import { Nullable, TimeoutID } from '../../typings/utility-types';
 
 export interface Action {
   label: string;
   handler: () => void;
-};
+}
 
 export interface ToastState {
   notification: Nullable<string>;
   action: Nullable<Action>;
   id: number;
-};
+}
 
 export interface ToastProps {
   onPush?: (notification: string, action?: Action) => void;
   onClose?: (notification: string, action?: Action) => void;
-};
+}
 
 /**
  * Toast manages notifications
@@ -92,7 +92,6 @@ class Toast extends React.Component<ToastProps, ToastState> {
     this.setState({ notification: null, action: null });
   };
 
-
   private _renderToast() {
     const { notification, action, id } = this.state;
 
@@ -105,7 +104,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
       onMouseLeave: this._setTimer,
       onClose: this.close,
       children: notification,
-      action,
+      action
     };
 
     return <ToastView key={id} ref={this._refToast} {...toastProps} />;

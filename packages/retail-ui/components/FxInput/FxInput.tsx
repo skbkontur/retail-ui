@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import Button from '../Button';
 import Group from '../Group';
@@ -9,17 +9,19 @@ import Input, { InputProps } from '../Input';
 import CurrencyInput, { CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { InputType } from '../Input/Input';
+import { Override } from '../../typings/utility-types';
 
-export type FxInputProps = Override<
-  CurrencyInputProps,
-  {
-    auto?: boolean;
-    type?: 'currency' | InputProps['type'];
-    onRestore?: () => void;
-    onChange: CurrencyInputProps['onChange'] | InputProps['onChange'];
-    value?: React.ReactText;
-  }
->;
+export interface FxInputProps
+  extends Override<
+      CurrencyInputProps,
+      {
+        auto?: boolean;
+        type?: 'currency' | InputProps['type'];
+        onRestore?: () => void;
+        onChange: CurrencyInputProps['onChange'] | InputProps['onChange'];
+        value?: React.ReactText;
+      }
+    > {}
 
 export interface FxInputDefaultProps {
   width: FxInputProps['width'];

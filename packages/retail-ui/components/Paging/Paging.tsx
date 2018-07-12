@@ -8,6 +8,7 @@ import Icon from '../Icon';
 
 import styles = require('./Paging.less');
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Nullable } from '../../typings/utility-types';
 
 interface ItemComponentProps {
   active: boolean;
@@ -109,7 +110,10 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       [styles.focused]: focused,
       [styles.disabled]: disabled
     });
-    const {component: Component, strings} = this.getProps<PagingProps, Paging>();
+    const { component: Component, strings } = this.getProps<
+      PagingProps,
+      Paging
+    >();
 
     return (
       <Component
@@ -138,7 +142,10 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       [styles.focused]: focused,
       [styles.active]: active
     });
-    const { component: Component, withoutNavigationHint } = this.getProps<PagingProps, Paging>();
+    const { component: Component, withoutNavigationHint } = this.getProps<
+      PagingProps,
+      Paging
+    >();
     return (
       <span key={pageNumber} className={styles.pageLinkWrapper}>
         <Component

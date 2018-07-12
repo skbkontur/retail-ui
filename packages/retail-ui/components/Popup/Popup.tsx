@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import RenderContainer from '../RenderContainer';
 import RenderLayer from '../RenderLayer';
 import ZIndex from '../ZIndex';
@@ -16,6 +16,7 @@ import styles = require('./Popup.less');
 
 import { isIE, ieVerison } from '../ensureOldIEClassName';
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Nullable } from '../../typings/utility-types';
 
 export type PopupPosition =
   | 'top left'

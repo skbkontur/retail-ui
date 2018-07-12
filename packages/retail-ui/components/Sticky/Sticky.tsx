@@ -1,16 +1,17 @@
 import * as React from 'react';
 
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Nullable } from '../../typings/utility-types';
 
 export interface StickyProps {
   side: 'top' | 'bottom';
   offset?: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
-};
+}
 
 export interface StickyState {
   fixed: boolean;
@@ -19,7 +20,7 @@ export interface StickyState {
   width: number | string;
   stopped: boolean;
   relativeTop: number;
-};
+}
 
 export default class Sticky extends React.Component<StickyProps, StickyState> {
   public static propTypes = {
@@ -59,7 +60,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   private _reflowing: boolean = false;
   private _lastInnerHeight: number = -1;
   private _layoutSubscription: { remove: Nullable<() => void> } = {
-    remove: null,
+    remove: null
   };
 
   private getProps = createPropsGetter(Sticky.defaultProps);
@@ -227,12 +228,14 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
 
   private _setStateIfChanged(state: StickyState, callback?: () => void) {
     for (const key in state) {
-      if (this.state[key as keyof StickyState] !== state[key as keyof StickyState]) {
+      if (
+        this.state[key as keyof StickyState] !== state[key as keyof StickyState]
+      ) {
         this.setState(state, callback);
         return;
       }
     }
-    
+
     if (callback) {
       callback();
     }

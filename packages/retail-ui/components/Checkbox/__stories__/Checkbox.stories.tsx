@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Checkbox from '../Checkbox';
 import Gapped from '../../Gapped/Gapped';
+import { Nullable } from '../../../typings/utility-types';
 
 class PlainCheckbox extends Component<any, any> {
   public state = {

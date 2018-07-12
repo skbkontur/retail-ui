@@ -1,11 +1,12 @@
 import events from 'add-event-listener';
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
 import cn from 'classnames';
 
 import styles = require('./Tab.less');
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Nullable } from '../../typings/utility-types';
 
 export interface TabIndicators {
   error: boolean;
@@ -75,7 +76,7 @@ export interface TabProps {
    * Style property
    */
   style?: React.CSSProperties;
-};
+}
 
 export interface TabContext {
   activeTab: string;
@@ -85,11 +86,11 @@ export interface TabContext {
   shiftFocus: (fromTab: string, delta: number) => void;
   switchTab: (id: string) => void;
   vertical: boolean;
-};
+}
 
 export interface TabState {
   focusedByKeyboard: boolean;
-};
+}
 
 /**
  * Tab element of Tabs component
@@ -191,7 +192,6 @@ class Tab extends React.Component<TabProps, TabState, TabContext> {
     );
   }
 
-
   public getIndicators() {
     return {
       error: Boolean(this.props.error),
@@ -203,7 +203,7 @@ class Tab extends React.Component<TabProps, TabState, TabContext> {
   }
 
   public getUnderlyingNode = () => this._node;
-  
+
   private _noop = () => undefined;
 
   private _getId = () => this.props.id || this.getProps().href;

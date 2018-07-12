@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 
 import Menu from '../Menu';
 import MenuItem from '../../MenuItem/MenuItem';

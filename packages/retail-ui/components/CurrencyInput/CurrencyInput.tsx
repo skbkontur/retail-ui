@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 import Input, { InputProps } from '../Input';
 
@@ -13,6 +13,7 @@ import {
   CURRENCY_INPUT_ACTIONS,
   extractAction
 } from './CurrencyInputKeyboardActions';
+import { Nullable, Override } from '../../typings/utility-types';
 
 export type CurrencyInputProps = Override<
   InputProps,

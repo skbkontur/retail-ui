@@ -1,9 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 import PopupHelper, { Rect, PositionObject } from './PopupHelper';
 
 import styles from './PopupPin.less';
+import { Nullable } from '../../typings/utility-types';
 
 const borderStyles = {
   position: 'absolute',

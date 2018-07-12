@@ -6,6 +6,7 @@ import { ieVerison } from '../ensureOldIEClassName';
 import { createPropsGetter } from '../internal/createPropsGetter';
 
 import styles = require('./HintBox.less');
+import { Nullable, TimeoutID } from '../../typings/utility-types';
 
 const bgColor = ieVerison === 8 ? '#5b5b5b' : 'rgba(51, 51, 51, 0.8)';
 

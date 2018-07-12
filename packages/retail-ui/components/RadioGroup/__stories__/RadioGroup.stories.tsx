@@ -7,6 +7,7 @@ import Radio from '../../Radio';
 import Gapped from '../../Gapped';
 import Button from '../../Button';
 import { SyntheticRadioEvent } from '../../Radio/Radio';
+import { Nullable } from '../../../typings/utility-types';
 
 class Component extends React.Component<any, any> {
   public state = {
@@ -21,17 +22,21 @@ class Component extends React.Component<any, any> {
         <Button>Just button</Button>
         <div id="RadioGroup-wrap" style={{ padding: 10 }}>
           <RadioGroup
-            ref={element => this._radioGroup = element}
+            ref={element => (this._radioGroup = element)}
             value={this.state.value}
             onChange={el => this.handleChange(el)}
             {...this.props}
           />
         </div>
-        <Button onClick={() => {
-          if (this._radioGroup) {
-            this._radioGroup.focus()
-          }
-        }}>Focus RadioGroup</Button>
+        <Button
+          onClick={() => {
+            if (this._radioGroup) {
+              this._radioGroup.focus();
+            }
+          }}
+        >
+          Focus RadioGroup
+        </Button>
       </Gapped>
     );
   }
@@ -41,14 +46,18 @@ class Component extends React.Component<any, any> {
   }
 }
 
-storiesOf('RadioGroup', module).add('vertical', () => {
+storiesOf('RadioGroup', module)
+  .add('vertical', () => {
     return <Component items={['One', 'Two', 'Three']} />;
-  }).add('inline', () => <Component inline items={['One', 'Two', 'Three']} />).add('with renderItem', () => (
+  })
+  .add('inline', () => <Component inline items={['One', 'Two', 'Three']} />)
+  .add('with renderItem', () => (
     <RadioGroup
       items={['One', 'Two']}
       renderItem={x => <div>Value: {x}</div>}
     />
-  )).add('multiple groups', () => (
+  ))
+  .add('multiple groups', () => (
     <div>
       <Component items={['One', 'Two', 'Three']} />
       <hr />
@@ -56,9 +65,11 @@ storiesOf('RadioGroup', module).add('vertical', () => {
       <hr />
       <Component items={['One', 'Two', 'Three']} />
     </div>
-  )).add('uncontrolled with defaultValue', () => (
+  ))
+  .add('uncontrolled with defaultValue', () => (
     <RadioGroup items={['One', 'Two', 'Three']} defaultValue="One" />
-  )).add('uncontrolled with children and default value', () => (
+  ))
+  .add('uncontrolled with children and default value', () => (
     <RadioGroup defaultValue="One">
       <Gapped gap={10} vertical>
         <Radio value="One">First element</Radio>
@@ -66,7 +77,8 @@ storiesOf('RadioGroup', module).add('vertical', () => {
         <Radio value="Three">Third element</Radio>
       </Gapped>
     </RadioGroup>
-  )).add('uncontrolled with children and different item states', () => (
+  ))
+  .add('uncontrolled with children and different item states', () => (
     <RadioGroup defaultValue="One">
       <Gapped gap={10} vertical>
         <Radio value="One">First element</Radio>
@@ -81,7 +93,8 @@ storiesOf('RadioGroup', module).add('vertical', () => {
         </Radio>
       </Gapped>
     </RadioGroup>
-  )).add('disabled uncontrolled with children', () => (
+  ))
+  .add('disabled uncontrolled with children', () => (
     <RadioGroup defaultValue="One" disabled>
       <Gapped gap={10} vertical>
         <Radio value="One">First element</Radio>
@@ -89,7 +102,8 @@ storiesOf('RadioGroup', module).add('vertical', () => {
         <Radio value="Three">Third element</Radio>
       </Gapped>
     </RadioGroup>
-  )).add('error uncontrolled with children', () => (
+  ))
+  .add('error uncontrolled with children', () => (
     <RadioGroup defaultValue="One" error>
       <Gapped gap={10} vertical>
         <Radio value="One">First element</Radio>
@@ -97,7 +111,8 @@ storiesOf('RadioGroup', module).add('vertical', () => {
         <Radio value="Three">Third element</Radio>
       </Gapped>
     </RadioGroup>
-  )).add('warning uncontrolled with children', () => (
+  ))
+  .add('warning uncontrolled with children', () => (
     <RadioGroup defaultValue="One" warning>
       <Gapped gap={10} vertical>
         <Radio value="One">First element</Radio>
@@ -105,7 +120,8 @@ storiesOf('RadioGroup', module).add('vertical', () => {
         <Radio value="Three">Third element</Radio>
       </Gapped>
     </RadioGroup>
-  )).add('nested uncontrolled groups with children', () => (
+  ))
+  .add('nested uncontrolled groups with children', () => (
     <RadioGroup defaultValue="One">
       <Gapped gap={10} vertical>
         <Radio value="One">First element</Radio>

@@ -8,6 +8,7 @@ import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
+import { Nullable } from '../../typings/utility-types';
 
 interface ComboBoxViewProps<T> {
   align?: 'left' | 'center' | 'right';

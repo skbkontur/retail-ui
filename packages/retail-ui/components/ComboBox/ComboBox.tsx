@@ -5,6 +5,7 @@ import { reducers as defaultReducers } from '../CustomComboBox/reducer/default';
 import { reducers as autocompleteReducers } from '../CustomComboBox/reducer/autocomplete';
 
 import CustomComboBox from '../CustomComboBox';
+import { Nullable } from '../../typings/utility-types';
 
 export interface ComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -126,7 +127,7 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
     // @ts-ignore
     itemToValue: x => x.value,
     // @ts-ignore
-    valueToString?: x => x.label,
+    valueToString: x => x.label,
     // @ts-ignore
     renderValue: x => x.label,
     // @ts-ignore

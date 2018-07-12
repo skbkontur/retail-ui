@@ -8,6 +8,7 @@ import ScrollContainer from '../ScrollContainer/ScrollContainer';
 import MenuItem, { MenuItemElement } from '../MenuItem/MenuItem';
 
 import styles from './Menu.less';
+import { Nullable } from '../../typings/utility-types';
 
 interface MenuProps {
   children: React.ReactNode;

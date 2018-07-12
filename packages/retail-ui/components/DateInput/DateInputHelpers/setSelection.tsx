@@ -2,6 +2,7 @@ import { DateInputState } from '../DateInput';
 
 import { DateParts } from '../DateInput';
 import { UnknownDatePart } from './UnknownDatePart';
+import { Shape } from '../../../typings/utility-types';
 
 export const setSelection = (index: number | null) => (
   state: Readonly<DateInputState>

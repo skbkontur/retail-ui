@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import DateInput, { DateInputConfig } from '../DateInput';
 import { mount } from 'enzyme';
@@ -116,8 +114,8 @@ setups.forEach(({ name, polyfillInput, getInput, getValue }) => {
       ];
 
       KeyDownCases.forEach(([initDate, keys, expectedDate]) => {
-        let keyString = keys.join(' > ');
-        let expectedDateStr = `"${expectedDate}"`.padEnd(12, ' ');
+        const keyString = keys.join(' > ');
+        const expectedDateStr = `"${expectedDate}"`.padEnd(12, ' ');
         it(`calls onChange with ${expectedDateStr} if value is "${initDate}" and pressed "${keyString}"`, () => {
           const onChange = jest.fn();
           const input = getInput(render({ value: initDate, onChange }));
@@ -183,8 +181,8 @@ setups.forEach(({ name, polyfillInput, getInput, getValue }) => {
       ];
 
       KeyDownCases.forEach(([initDate, keys, expectedDate]) => {
-        let keyString = keys.join(' > ');
-        let expectedDateStr = expectedDate
+        const keyString = keys.join(' > ');
+        const expectedDateStr = expectedDate
           ? 'calls onChange with ' + `"${expectedDate}"`.padEnd(12, ' ')
           : 'does not call onChange          ';
         it(`${expectedDateStr} if value is "${initDate}", minDate is "${minDate}", maxDate is "${maxDate}" and pressed "${keyString}"`, () => {

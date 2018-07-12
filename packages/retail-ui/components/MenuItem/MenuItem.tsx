@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import Icon, { IconName } from '../Icon';
 
 import styles from './MenuItem.less';

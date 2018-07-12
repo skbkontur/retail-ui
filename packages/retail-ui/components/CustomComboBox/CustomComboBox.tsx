@@ -4,6 +4,7 @@ import shallow from 'fbjs/lib/shallowEqual';
 import ComboBoxView from './ComboBoxView';
 import Input from '../Input';
 import Menu from '../Menu/Menu';
+import { Nullable } from '../../typings/utility-types';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T }
@@ -132,6 +133,7 @@ class CustomComboBox extends React.Component<
       onClickOutside: this.handleBlur,
       onFocus: this.handleFocus,
       onFocusOutside: this.handleBlur,
+      onInputBlur: this.handleInputBlur,
       onInputChange: (_: any, value: string) =>
         this.dispatch({ type: 'TextChange', value }),
       onInputFocus: this.handleFocus,
@@ -214,6 +216,17 @@ class CustomComboBox extends React.Component<
     }
     this.focused = false;
     this.dispatch({ type: 'Blur' });
+  };
+
+  private handleInputBlur = () => {
+    // If menu opened, RenderLayer is active and
+    // it would call handleFocusOutside
+    // In that way handleBlur would be called
+    if (this.state.opened) {
+      return;
+    }
+
+    this.handleBlur();
   };
 }
 

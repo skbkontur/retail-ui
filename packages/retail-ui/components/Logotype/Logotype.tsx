@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import * as React from 'react';
 
 import styles from './Logotype.less';
@@ -26,11 +26,11 @@ const createPngCloud = (backgroundColor: string) => (
 
 export interface LogotypeProps {
   color?: string;
-  component: React.ComponentType<any> | string;
+  component?: React.ComponentType<any> | string;
   href?: string;
   suffix?: string;
   textColor?: string;
-};
+}
 
 const Logotype: React.SFC<LogotypeProps> = ({
   color = DefaultProps.color,

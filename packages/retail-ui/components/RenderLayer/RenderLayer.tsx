@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Events from 'add-event-listener';
 import { findDOMNode } from 'react-dom';
 import listenFocusOutside, {

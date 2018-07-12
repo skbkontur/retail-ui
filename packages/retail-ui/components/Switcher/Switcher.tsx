@@ -1,10 +1,11 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import Group from '../Group';
 import Button from '../Button';
 
 import styles from './Switcher.less';
+import { Nullable } from '../../typings/utility-types';
 
 export interface SwitcherProps {
   /**
@@ -19,16 +20,16 @@ export interface SwitcherProps {
   label?: string;
 
   error?: boolean;
-};
+}
 
 export interface SwitcherState {
   focusedIndex: Nullable<number>;
-};
+}
 
 interface SwitcherItem {
   label: string;
   value: string;
-};
+}
 
 class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   public static propTypes = {
@@ -49,7 +50,7 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
   public state: SwitcherState = {
     focusedIndex: null
-  }
+  };
 
   public render() {
     const listClassNames = classNames({
@@ -85,7 +86,9 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     }
   };
 
-  private _extractPropsFromItem = (item: string | SwitcherItem): SwitcherItem => {
+  private _extractPropsFromItem = (
+    item: string | SwitcherItem
+  ): SwitcherItem => {
     return typeof item === 'object' ? item : { label: item, value: item };
   };
 
@@ -170,7 +173,11 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         },
         disableFocus: true
       };
-      return <Button key={value} {...buttonProps}>{label}</Button>;
+      return (
+        <Button key={value} {...buttonProps}>
+          {label}
+        </Button>
+      );
     });
   };
 }

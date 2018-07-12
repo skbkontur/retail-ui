@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import * as React from 'react';
 
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
+import { Nullable, Primitive, Override } from '../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 

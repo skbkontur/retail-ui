@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import events from 'add-event-listener';
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import Icon20 from '../Icon/20px';
 import Icon from '../Icon';
 import LayoutEvents from '../../lib/LayoutEvents';
@@ -9,6 +9,7 @@ import PopupMenu from '../internal/PopupMenu';
 
 import styles = require('./Kebab.less');
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Nullable } from '../../typings/utility-types';
 
 export interface KebabProps {
   disabled?: boolean;
@@ -17,13 +18,13 @@ export interface KebabProps {
   size?: 'small' | 'large';
   positions?: string[];
   menuMaxHeight?: number | string;
-};
+}
 
 export interface KebabState {
   anchor: Nullable<HTMLElement>;
   focusedByTab: boolean;
   opened: boolean;
-};
+}
 
 export default class Kebab extends React.Component<KebabProps, KebabState> {
   public static propTypes = {};
@@ -90,7 +91,10 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     );
   }
 
-  private _handleChangeMenuState = (isOpened: boolean, restoreFocus: boolean): void => {
+  private _handleChangeMenuState = (
+    isOpened: boolean,
+    restoreFocus: boolean
+  ): void => {
     this.setState(
       state => ({
         opened: isOpened,

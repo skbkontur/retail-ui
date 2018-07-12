@@ -4,6 +4,7 @@ import Icon from '../Icon';
 import TopBarDropdown from './TopBarDropdown';
 
 import styles from './TopBar.less';
+import { Nullable } from '../../typings/utility-types';
 
 export interface OrganizationsProps {
   caption: React.ReactNode;
@@ -68,9 +69,7 @@ class Organizations extends React.Component<
           className={styles.organizationsTitleDummy}
           style={{ whiteSpace: this.state.captionWhiteSpace }}
         >
-          <span>
-            {caption}
-          </span>
+          <span>{caption}</span>
           {comment && (
             <span className={styles.organizationsCommentDummy}>{comment}</span>
           )}

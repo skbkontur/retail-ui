@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 
 import Input, { InputProps } from '../Input';
@@ -8,6 +8,7 @@ import Menu from '../Menu/Menu';
 import MenuItem, { MenuItemElement } from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Nullable } from '../../typings/utility-types';
 
 export interface AutocompleteProps extends InputProps {
   renderItem?: (item: string) => React.ReactNode;
