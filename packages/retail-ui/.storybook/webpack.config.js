@@ -10,7 +10,9 @@ module.exports = (baseConfig, env) => {
 
   config.resolve.extensions.unshift('.ts', '.tsx');
   config.resolve.plugins = [
-    new TsconfigPathsPlugin({ configFile: path.resolve('./tsconfig.json') })
+    new TsconfigPathsPlugin({
+      configFile: path.resolve(__dirname, '../tsconfig.json')
+    })
   ];
 
   config.module.rules.push(
