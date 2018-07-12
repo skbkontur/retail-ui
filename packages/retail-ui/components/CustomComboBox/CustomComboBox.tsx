@@ -2,8 +2,6 @@ import * as React from 'react';
 import shallow from 'fbjs/lib/shallowEqual';
 
 import ComboBoxView from './ComboBoxView';
-import Input from '../Input';
-import Menu from '../Menu/Menu';
 import { Nullable } from '../../typings/utility-types';
 
 export type Action<T> =
@@ -84,10 +82,6 @@ class CustomComboBox extends React.Component<
   CustomComboBoxState<any>
 > {
   public state: CustomComboBoxState<any> = DefaultState;
-  // @ts-ignore FIXME:
-  private input: Nullable<Input>;
-  // @ts-ignore FIXME:
-  private menu: Nullable<Menu>;
   private focused: boolean = false;
 
   public focus = () => {
@@ -147,14 +141,7 @@ class CustomComboBox extends React.Component<
       renderItem: this.props.renderItem,
       renderNotFound: this.props.renderNotFound,
       renderValue: this.props.renderValue,
-      renderTotalCount: this.props.renderTotalCount,
-
-      refInput: (input: Nullable<Input>) => {
-        this.input = input;
-      },
-      refMenu: (menu: Nullable<Menu>) => {
-        this.menu = menu;
-      }
+      renderTotalCount: this.props.renderTotalCount
     };
 
     return <ComboBoxView {...viewProps} />;
