@@ -1,5 +1,3 @@
-
-
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import * as React from 'react';
@@ -36,44 +34,7 @@ const INPUT_PASS_PROPS = {
   onMouseOver: true
 };
 
-type DatePickerValue = Date | string | null;
-
-type Props = {
-  autoFocus?: boolean,
-  className?: string, // legacy
-  disabled?: boolean,
-  error?: boolean,
-  maxYear?: number,
-  minYear?: number,
-  menuAlign?: 'left' | 'right',
-  onBlur?: () => void,
-  onChange?: (
-    e: { target: { value: DatePickerValue } },
-    v: DatePickerValue
-  ) => void,
-  onFocus?: () => void,
-  onInput?: (e: SyntheticInputEvent<>) => void,
-  onKeyDown?: (e: SyntheticKeyboardEvent<>) => void,
-  onKeyPress?: (e: SyntheticKeyboardEvent<>) => void,
-  onKeyUp?: (e: SyntheticKeyboardEvent<>) => void,
-  onMouseEnter?: (e: SyntheticMouseEvent<>) => void,
-  onMouseLeave?: (e: SyntheticMouseEvent<>) => void,
-  onMouseOver?: (e: SyntheticMouseEvent<>) => void,
-  onUnexpectedInput: (value: string) => DatePickerValue,
-  placeholder?: string,
-  size?: 'small' | 'medium' | 'large',
-  value?: DatePickerValue,
-  warning?: boolean,
-  width?: number | string,
-  withMask?: boolean
-};
-
-type State = {
-  opened: boolean,
-  textValue: string
-};
-
-class DatePickerOld extends React.Component<Props, State> {
+class DatePickerOld extends React.Component {
   static __REACT_UI_COMPONENT_NAME__ = 'DatePicker';
 
   static propTypes = {
@@ -140,12 +101,12 @@ class DatePickerOld extends React.Component<Props, State> {
     onUnexpectedInput: () => null
   };
 
-  input: Input;
+  input;
 
-  _focusSubscription: *;
-  _focused: boolean;
+  _focusSubscription;
+  _focused;
 
-  constructor(props: Props, context: mixed) {
+  constructor(props, context) {
     super(props, context);
     const textValue =
       typeof props.value === 'string' ? props.value : formatDate(props.value);
@@ -232,9 +193,9 @@ class DatePickerOld extends React.Component<Props, State> {
     );
   }
 
-  componentWillReceiveProps({ value: newValue }: Props) {
+  componentWillReceiveProps({ value: newValue }) {
     const { value: oldValue } = this.props;
-    if (oldValue && +newValue !== +oldValue) {
+    if (newValue && +newValue !== +oldValue) {
       const textValue =
         typeof newValue === 'string' ? newValue : formatDate(newValue);
 
@@ -253,7 +214,7 @@ class DatePickerOld extends React.Component<Props, State> {
     return '';
   };
 
-  handleChange = (value: string) => {
+  handleChange = value => {
     this.setState({ textValue: value });
   };
 
@@ -303,7 +264,7 @@ class DatePickerOld extends React.Component<Props, State> {
     }
   };
 
-  handlePick = (date: Date) => {
+  handlePick = date => {
     if (this.props.onChange) {
       this.props.onChange({ target: { value: date } }, date);
     }
@@ -319,7 +280,7 @@ class DatePickerOld extends React.Component<Props, State> {
     this.close(false);
   };
 
-  close(focus: boolean) {
+  close(focus) {
     this.setState({ opened: false }, () => {
       if (focus) {
         this.input.focus();
@@ -327,7 +288,7 @@ class DatePickerOld extends React.Component<Props, State> {
     });
   }
 
-  getInputRef = (ref: Input) => {
+  getInputRef = ref => {
     this.input = ref;
   };
 }
