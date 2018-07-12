@@ -1,5 +1,7 @@
 @import '../../variables.less';
 
+@side-padding-padded: 27px;
+
 @font-face {
   font-family: kontur-mask-char;
   src: url('mask-char-font/font.eot'); // For IE11 in IE8 mode.
@@ -25,32 +27,13 @@
     line-height: 20px;
     pointer-events: none;
     color: @placeholder-color;
-  }
 
-  .flash {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: @border-color-focus;
-    opacity: 1;
-
-    :global {
-      animation: flash_animation infinite 100ms linear;
+    &.padLeft {
+      padding-left: @side-padding-padded;
     }
-    // animation-duration: 4000ms;
-    // animation-delay: 100ms;
-    // animation-iteration-count: infinite;
-  }
-}
 
-@keyframes flash_animation {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 0.6;
+    &.padRight {
+      padding-right: @side-padding-padded;
+    }
   }
 }

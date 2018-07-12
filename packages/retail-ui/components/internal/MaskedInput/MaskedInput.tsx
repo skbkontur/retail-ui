@@ -2,6 +2,7 @@ import * as React from 'react';
 import InputMask from 'inputmask-core';
 import { InputProps } from '../../Input';
 import styles = require('./MaskedInput.less');
+import classNames from 'classnames';
 
 export interface Selection {
   start: number;
@@ -13,6 +14,8 @@ export type MaskedInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   maskChar?: InputProps['maskChar'];
   alwaysShowMask?: InputProps['alwaysShowMask'];
   onInvalidInput?: () => void;
+  hasLeftIcon?: boolean;
+  hasRightIcon?: boolean;
 };
 
 export interface MaskedInputState {
@@ -84,6 +87,8 @@ export default class MaskedInput extends React.Component<
       maskChar,
       alwaysShowMask,
       onInvalidInput,
+      hasLeftIcon,
+      hasRightIcon,
       ...inputProps
     } = this.props;
 
@@ -101,7 +106,12 @@ export default class MaskedInput extends React.Component<
           onSelect={this.handleSelect}
         />
         {this.isMaskVisible() && (
-          <span className={styles.inputMask}>
+          <span
+            className={classNames(styles.inputMask, {
+              [styles.padLeft]: hasLeftIcon,
+              [styles.padRight]: hasLeftIcon
+            })}
+          >
             <span
               style={{
                 color: 'transparent'
