@@ -107,13 +107,15 @@ export interface TabState {
  *
  * Works only inside Tabs component, otherwise throws
  */
-class Tab extends React.Component<TabProps, TabState, TabContext> {
+class Tab extends React.Component<TabProps, TabState> {
   public static propTypes = {};
   public static contextTypes = {};
   public static defaultProps = {
     component: 'a',
     href: 'javascript:'
   };
+
+  public context!: TabContext;
 
   public state: TabState = {
     focusedByKeyboard: false
@@ -223,7 +225,7 @@ class Tab extends React.Component<TabProps, TabState, TabContext> {
   private _getNode = () => this;
 
   private _switchTab = (event: React.MouseEvent<HTMLElement>) => {
-    const id = this.props.id || this.props.href;
+    const id = this.props.id || this.props.href!;
     if (this.props.onClick) {
       this.props.onClick(event);
       if (event.defaultPrevented) {
