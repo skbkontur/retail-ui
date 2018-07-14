@@ -20,9 +20,9 @@ class SelectWrapper extends React.Component<{}, any> {
           value={this.state.value}
           onChange={(_, value) => this.setState({ value })}
           renderItem={x => x.label}
-          renderValue={(x) => {
+          renderValue={x => {
             if (x) {
-              return x.label
+              return x.label;
             }
           }}
         />
@@ -58,13 +58,19 @@ class SelectWithNull extends React.Component<any, any> {
   }
 }
 
-storiesOf('Select', module).addDecorator(story => (
+storiesOf('Select', module)
+  .addDecorator(story => (
     <div
       className="dropdown-test-container"
       style={{ height: 150, width: 200, padding: 4 }}
     >
       {story()}
     </div>
-  )).add('Simple', () => <Select items={['one', 'two', 'three']} />).add('Complex values', () => <SelectWrapper />).add('With null', () => <SelectWithNull />).add('use link', () => <Select use="link" items={['one', 'two', 'three']} />).add('use link with icon', () => (
+  ))
+  .add('Simple', () => <Select items={['one', 'two', 'three']} />)
+  .add('Complex values', () => <SelectWrapper />)
+  .add('With null', () => <SelectWithNull />)
+  .add('use link', () => <Select use="link" items={['one', 'two', 'three']} />)
+  .add('use link with icon', () => (
     <Select _icon="Add" use="link" items={['one', 'two', 'three']} />
   ));
