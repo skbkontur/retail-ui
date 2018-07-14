@@ -8,8 +8,7 @@ import { Nullable } from '../../typings/utility-types';
 
 export interface OrganizationsProps {
   caption: React.ReactNode;
-  children: React.ReactElement<React.ComponentType<any>>;
-  comment: Nullable<string>;
+  comment?: Nullable<string>;
 }
 
 export interface OrganizationsState {
