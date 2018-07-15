@@ -9,15 +9,14 @@ export interface ButtonParams {
   onClick: () => void;
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   opened: boolean;
-};
+}
 
 export interface TopBarDropdownProps {
-  children?: React.ReactNode;
   icon?: IconProps['name'];
   minWidth?: string | number | null;
   use?: 'danger' | 'pay';
   caption: React.ReactNode;
-};
+}
 
 class TopBarDropdown extends React.Component<TopBarDropdownProps> {
   private _dropdown: Dropdown | null = null;
@@ -55,7 +54,7 @@ class TopBarDropdown extends React.Component<TopBarDropdownProps> {
       </ButtonItem>
     );
   };
-  
+
   private _ref = (dropdown: Dropdown) => {
     this._dropdown = dropdown;
   };

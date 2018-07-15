@@ -31,7 +31,8 @@ function listenTabPresses() {
   }
 }
 
-export interface LinkProps {
+export interface LinkProps
+  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   disabled?: boolean;
   href?: string;
   icon?: IconName | React.ReactElement<any>;

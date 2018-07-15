@@ -1,1 +1,3 @@
 !**/*.js
+!DatePickerOld.d.ts
+!index.d.ts
