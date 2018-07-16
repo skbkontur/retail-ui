@@ -8,7 +8,7 @@ import Icon from '../Icon';
 
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
