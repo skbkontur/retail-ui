@@ -1,19 +1,24 @@
 // @flow
-import React from 'react';
-import ReactDom from 'react-dom';
-import isEqual from 'lodash.isequal';
-import Events from 'add-event-listener';
+import * as React from "react";
+import ReactDom from "react-dom";
+import PropTypes from "prop-types";
+import isEqual from "lodash.isequal";
+import ReactUiDetection from "../ReactUiDetection";
+import smoothScrollIntoView from "./smoothScrollIntoView";
 
-require('smoothscroll-polyfill').polyfill();
+if (typeof HTMLElement === "undefined") {
+    window.HTMLElement = window.Element;
+}
 
 export type Validation = {
-    error: boolean;
-    level: 'error' | 'warning';
-    behaviour: 'immediate' | 'lostfocus' | 'submit';
+    error: boolean,
+    level: "error" | "warning",
+    behaviour: "immediate" | "lostfocus" | "submit",
+    message: React.Node,
 };
 
 export interface IValidationContextSettings {
-    scroll: { horizontalOffset: number; verticalOffset: number };
+    scroll: { horizontalOffset: number, verticalOffset: number };
 }
 
 export interface IValidationContext {
@@ -26,39 +31,41 @@ export interface IValidationContext {
 }
 
 export type RenderErrorMessage = (
-    control: React.Element<*>,
+    control: React.Element<any>,
     hasError: boolean,
     validation: ?Validation
-) => React.Element<*>;
+) => React.Element<any>;
 
 type ValidationWrapperProps = {
-    children?: any;
-    validations: Validation[];
-    errorMessage: RenderErrorMessage;
+    children?: React.Element<*>,
+    validations: Validation[],
+    errorMessage: RenderErrorMessage,
 };
 
 type ValidationState = {
-    visible?: boolean;
+    visible?: boolean,
 };
 
 type ValidationWrapperState = {
-    validationStates: ValidationState[];
+    validationStates: ValidationState[],
 };
 
-export default class ValidationWrapper extends React.Component {
-    props: ValidationWrapperProps;
+export default class ValidationWrapper extends React.Component<ValidationWrapperProps, ValidationWrapperState> {
     state: ValidationWrapperState = {
         validationStates: [],
     };
     context: {
-        validationContext: IValidationContext;
+        validationContext: IValidationContext,
+    };
+    refs: {
+        errorMessage: ?mixed,
     };
 
     static contextTypes = {
-        validationContext: React.PropTypes.any,
+        validationContext: PropTypes.any,
     };
 
-    child: React.Component<*, *, *>;
+    child: ?React.Component<any, any>;
     isChanging: boolean = false;
 
     _scrollTimer = null;
@@ -70,6 +77,11 @@ export default class ValidationWrapper extends React.Component {
     componentDidMount() {
         if (this.context.validationContext) {
             this.context.validationContext.register(this);
+        } else {
+            console.error(
+                "ValidationWrapper should appears as child of ValidationContext.\n" +
+                    "http://tech.skbkontur.ru/react-ui-validations/#/getting-started"
+            );
         }
     }
 
@@ -86,23 +98,24 @@ export default class ValidationWrapper extends React.Component {
     }
 
     syncWithState(props: ValidationWrapperProps) {
+        const nextValidationStates = props.validations.map(x => this.createState(x));
         this.setState({
-            validationStates: props.validations.map(x => this.createState(x)),
+            validationStates: nextValidationStates,
         });
+        const isValid = !nextValidationStates.find(x => x.visible);
+        this.context.validationContext.onValidationUpdated(this, isValid);
     }
 
     createState(validation: Validation): ValidationState {
-        if (validation.behaviour === 'immediate') {
+        if (validation.behaviour === "immediate") {
             return {};
-        }
-        else if (validation.behaviour === 'lostfocus') {
+        } else if (validation.behaviour === "lostfocus") {
             if (this.context.validationContext.isAnyWrapperInChangingMode()) {
                 return { visible: false };
             }
 
             return { visible: true };
-        }
-        else if (validation.behaviour === 'submit') {
+        } else if (validation.behaviour === "submit") {
             return { visible: false };
         }
         throw new Error(`Unknown behaviour: ${validation.behaviour}`);
@@ -119,6 +132,7 @@ export default class ValidationWrapper extends React.Component {
         validations.forEach((x, i) => this.processBlur(x, this.state.validationStates[i], i));
         this.context.validationContext.instanceProcessBlur(this);
         this.isChanging = false;
+        this.setState({});
     }
 
     async processSubmit(): Promise<void> {
@@ -129,13 +143,9 @@ export default class ValidationWrapper extends React.Component {
         );
     }
 
-    async processValidationSubmit(
-        validation: Validation,
-        validationState: ValidationState,
-        index: number
-    ): Promise<void> {
+    processValidationSubmit(validation: Validation, validationState: ValidationState, index: number): Promise<void> {
         return new Promise(resolve => {
-            if (validation.behaviour !== 'immediate') {
+            if (validation.behaviour !== "immediate") {
                 this.setState(
                     {
                         validationStates: [
@@ -146,8 +156,7 @@ export default class ValidationWrapper extends React.Component {
                     },
                     resolve
                 );
-            }
-            else {
+            } else {
                 resolve();
             }
         });
@@ -155,137 +164,71 @@ export default class ValidationWrapper extends React.Component {
 
     processBlur(validation: Validation, validationState: ValidationState, index: number) {
         this.isChanging = false;
-        if (validation.behaviour === 'lostfocus') {
-            let validationStates;
-            if (validation.error) {
+        if (validation.behaviour === "lostfocus") {
+            let { validationStates } = this.state;
+            if (validation.error && (!validationStates[index] || validationStates[index].visible === false)) {
                 validationStates = [
-                    ...this.state.validationStates.slice(0, index),
+                    ...validationStates.slice(0, index),
                     { ...validationState, visible: true },
-                    ...this.state.validationStates.slice(index + 1),
+                    ...validationStates.slice(index + 1),
                 ];
-            }
-            else {
+                this.setState({ validationStates: validationStates });
+                const isValid = !validationStates.find(x => x.visible);
+                this.context.validationContext.onValidationUpdated(this, isValid);
+            } else if (!validation.error && (!validationStates[index] || validationStates[index].visible === true)) {
                 validationStates = [
-                    ...this.state.validationStates.slice(0, index),
+                    ...validationStates.slice(0, index),
                     { ...validationState, visible: false },
-                    ...this.state.validationStates.slice(index + 1),
+                    ...validationStates.slice(index + 1),
                 ];
+                this.setState({ validationStates: validationStates });
+                const isValid = !validationStates.find(x => x.visible);
+                this.context.validationContext.onValidationUpdated(this, isValid);
             }
-            this.setState({
-                validationStates,
-            });
-            const isValid = !validationStates.find(x => x.visible);
-            this.context.validationContext.onValidationUpdated(this, isValid);
         }
-    }
-
-    activateValidationMessageIfNeed() {
-        if (this.refs.errorMessage && this.refs.errorMessage.setOpened) {
-            this.refs.errorMessage.setOpened(true);
-        }
-    }
-
-    getWindowRect(): { width: number; height: number } {
-        const result = { width: 0, height: 0 };
-        if (window.innerHeight) {
-            result.height = window.innerHeight;
-        }
-        else if (document.documentElement) {
-            result.height = document.documentElement.clientHeight;
-        }
-        if (window.innerWidth) {
-            result.width = window.innerWidth;
-        }
-        else if (document.documentElement) {
-            result.width = document.documentElement.clientWidth;
-        }
-        return result;
-    }
-
-    getScrollOffsets(domElement: Element): ?{ top: number; left: number } {
-        const elementRect = domElement.getBoundingClientRect();
-        const windowReact = this.getWindowRect();
-        const scrollSettings = this.context.validationContext.getSettings().scroll;
-        let top = 0;
-        let left = 0;
-
-        if (elementRect.top < scrollSettings.horizontalOffset) {
-            top = elementRect.top - scrollSettings.horizontalOffset;
-        }
-        else if (elementRect.bottom > windowReact.height - scrollSettings.horizontalOffset) {
-            top = elementRect.bottom - windowReact.height + scrollSettings.horizontalOffset;
-        }
-
-        if (elementRect.left < scrollSettings.verticalOffset) {
-            left = elementRect.left - scrollSettings.verticalOffset;
-        }
-        else if (elementRect.right > windowReact.width - scrollSettings.verticalOffset) {
-            left = elementRect.right - windowReact.width + scrollSettings.verticalOffset;
-        }
-
-        if (!top && !left) {
-            return null;
-        }
-
-        return {
-            top,
-            left,
-        };
     }
 
     async focus(): Promise<void> {
-        if (this.child && typeof this.child.focus === 'function') {
+        if (this.child) {
             const childDomElement = ReactDom.findDOMNode(this.child);
-            const scrollOffsets = this.getScrollOffsets(childDomElement);
-
-            if (scrollOffsets) {
-                await this.smoothScrollBy(scrollOffsets);
-            }
-            if (typeof this.child.focus === 'function') {
-                this.child.focus();
+            if (childDomElement != null && childDomElement instanceof HTMLElement) {
+                await smoothScrollIntoView(
+                    childDomElement,
+                    this.context.validationContext.getSettings().scroll.verticalOffset || 50
+                );
+                if (this.child != null && typeof this.child.focus === "function") {
+                    this.child.focus();
+                }
             }
             this.isChanging = false;
         }
     }
 
-    async smoothScrollBy(scrollOffsets: { top: number; left: number }): Promise<void> {
-        // используем EventListener'ы, т.к. в Firefox скролл асинхронный, и идующий за ним фокус сам прокручивает страницу по какой-то своей логике
-        this._scrollTimer = null;
-        const success = await Promise.race([
-            new Promise(resolve => {
-                const _handleScroll = () => {
-                    if (this._scrollTimer !== null) {
-                        clearTimeout(this._scrollTimer);
-                    }
-                    this._scrollTimer = setTimeout(() => {
-                        Events.removeEventListener(window, 'scroll', _handleScroll);
-                        resolve(true);
-                    }, 300);
-                };
-
-                Events.addEventListener(window, 'scroll', _handleScroll);
-                window.scrollBy({ ...scrollOffsets, behavior: 'smooth' });
-            }),
-            new Promise(resolve => setTimeout(() => resolve(false), 500)),
-        ]);
-        if (!success && this._scrollTimer === null) {
+    getControlPosition(): ?{ x: number, y: number } {
+        if (this.child) {
             const childDomElement = ReactDom.findDOMNode(this.child);
-            childDomElement.scrollIntoView({ behavior: 'smooth' });
+            if (childDomElement != null && childDomElement instanceof HTMLElement) {
+                return {
+                    x: childDomElement.getBoundingClientRect().top,
+                    y: childDomElement.getBoundingClientRect().left,
+                };
+            }
         }
+        return null;
     }
 
     isErrorOrWarning(validation: Validation, index: number): boolean {
-        if (validation.behaviour === 'immediate') {
+        if (validation.behaviour === "immediate") {
             return validation.error;
         }
         return Boolean(validation.error && this.state.validationStates[index].visible);
     }
 
     isError(validation: Validation, index: number): boolean {
-        if (validation.behaviour === 'immediate') {
-            return validation.error && validation.level === 'error';
+        if (validation.behaviour === "immediate") {
+            return validation.error && validation.level === "error";
         }
-        return Boolean(validation.error && validation.level === 'error' && this.state.validationStates[index].visible);
+        return Boolean(validation.error && validation.level === "error" && this.state.validationStates[index].visible);
     }
 
     hasError(): boolean {
@@ -294,12 +237,12 @@ export default class ValidationWrapper extends React.Component {
         return Boolean(validation && validation.error);
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { children, validations, errorMessage } = this.props;
         const validation = validations.find((x, i) => this.isErrorOrWarning(x, i));
 
-        const clonedChild = children
-            ? React.cloneElement(children, {
+        const clonedChild: React.Element<any> = children ? (
+            React.cloneElement(children, {
                 ref: x => {
                     if (children && children.ref) {
                         children.ref(x);
@@ -307,28 +250,50 @@ export default class ValidationWrapper extends React.Component {
                     this.child = x;
                 },
                 error: this.isChanging
-                      ? false
-                      : Boolean(validation && validation.error && validation.level === 'error'),
+                    ? false
+                    : Boolean(validation && validation.error && validation.level === "error"),
                 warning: this.isChanging
-                      ? false
-                      : Boolean(validation && validation.error && validation.level === 'warning'),
+                    ? false
+                    : Boolean(validation && validation.error && validation.level === "warning"),
                 onBlur: () => {
                     this.handleBlur();
                     if (children && children.props && children.props.onBlur) {
                         children.props.onBlur();
                     }
                 },
+                onInput: (...args) => {
+                    if (ReactUiDetection.isDatePicker(children)) {
+                        this.isChanging = true;
+                        this.setState({});
+                    }
+                    if (children && children.props && children.props.onInput) {
+                        children.props.onInput(...args);
+                    }
+                },
                 onChange: (...args) => {
-                    this.isChanging = true;
+                    if (ReactUiDetection.isDatePicker(children)) {
+                        const nextValue = args[1];
+                        if (
+                            nextValue !== children.props.value &&
+                            !(nextValue == null && children.props.value == null)
+                        ) {
+                            this.isChanging = true;
+                            this.handleBlur();
+                        }
+                    } else {
+                        this.isChanging = true;
+                    }
                     if (children && children.props && children.props.onChange) {
                         children.props.onChange(...args);
                     }
                 },
             })
-            : <span />;
+        ) : (
+            <span />
+        );
         const childWithError = React.cloneElement(
             errorMessage(clonedChild, Boolean(validation && validation.error), validation),
-            { ref: 'errorMessage' }
+            { ref: "errorMessage" }
         );
         return childWithError;
     }

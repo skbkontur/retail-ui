@@ -86,7 +86,7 @@ module.exports = function(content) {
     }
 
     return `
-import React from 'react';
+import * as React from 'react';
 import Helmet from 'react-helmet';
 import Code from 'react-syntax-highlighter';
 import Link from 'retail-ui/components/Link';
@@ -109,7 +109,7 @@ function Header({ level, children }) {
 }
 
 export default class GettingStarted extends React.Component {
-    render(): React.Element<*> {
+    render(): React.Node {
         return (
             <div>
                 ${header}

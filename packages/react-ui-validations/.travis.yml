@@ -1,13 +1,16 @@
 language: node_js
 node_js:
 - '5'
-install: npm install
+dist: precise
+install: yarn install
 script:
-- npm run lint
-- npm run flow.check
+- yarn run lint
+- yarn run flow.check
 before_deploy:
 - openssl aes-256-cbc -k "$travis_key_password" -in travis-react-ui-validations-deploy-key.enc -out travis-react-ui-validations-deploy-key -d
+- openssl aes-256-cbc -k "$travis_key_password" -in .npmrc.enc -out .npmrc -d
 - chmod 600 travis-react-ui-validations-deploy-key
+- chmod 600 .npmrc
 - eval `ssh-agent -s`
 - ssh-add travis-react-ui-validations-deploy-key
 - git config --global user.name "Travis CI"
@@ -16,11 +19,19 @@ before_deploy:
 - npm install
 - npm run publish-docs
 - popd
+- yarn run build:retail-ui
+- yarn run build:react-ui
+- yarn run prepare-packages
+- pushd retail-ui-dist
+- npm publish
+- popd
+- pushd react-ui-dist
+- npm publish
+- popd
 deploy:
-  provider: npm
-  email: tihonov.ea@gmail.com
-  api_key:
-    secure: rkJRCk+5WXNy7U7nype42D/hFp7tOLobizyyxgZ8VtRcXa0503w/Ei5WcX4boKgtFcx4L5rkO4G6APjGTRuDeOa97jZ0f/H9og5ztJcaHBH4nAHDZHrlaYyofRo/tLlElGSKsPwqpCoahiz7bPGosANuv8Do8dcXSu20dIFiRyfWr5xuswJku9KL8yOemTqLxF6UMFo9dT4haHPIMMjhoiuce9e9eblWgPHdALV9omLhsLaSyAMQcHTvoBrPwAgQMG06BTovaIE+Ic6GZFCpbDM1GLjc2xCTIAoKjRZsYNd+lrc3b5fxcZWsj8hjwrHeIQgs18PEzSq7jTKgBS6G0hKBtW6qAB/I+QSyzghvgY362nqkVfC/0+/MA1wKXVSTlh6DL0CwzXUWLwbrx6Ex/XwYfhPm+zOxDycWD0iFlo2yR/41B3kR2YdRWUqDxdMYqiDqDCHBRrG4bdqdlDYJA8G5DbGkZUBeDlBMkLP7VDyF47hevKQjjokOiLc28wqLes0dp1EPYF3fevZpMtTrkD7t84R+qns1ldpAXv0LEelQ5LUC4X0biYJH0ZdqEXv8hnCDW+H3ZIpHAiVsqS72dtFY2vo3PtTOg2zA0i939+2qxs81X/iZYQQuYwnd7wYeuOekNdMabFA8M4+FyT0HrJtfgBxI41jcHocwvW3HFzE=
+  provider: script
+  skip_cleanup: true
+  script: "echo done"
   on:
     tags: true
     repo: skbkontur/react-ui-validations

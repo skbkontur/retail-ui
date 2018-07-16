@@ -1,18 +1,18 @@
-
-import React from 'react';
-import styled from 'styled-components';
+// @flow
+import * as React from "react";
+import styled from "styled-components";
 
 type FormProps = {
-    children?: any;
+    children?: any,
 };
 
 type FormLineProps = {
-    children?: any;
-    title: string;
+    children?: any,
+    title: string,
 };
 
 type ActionsBarProps = {
-    children?: any;
+    children?: any,
 };
 
 const Form: ReactClass<FormProps> = styled.div`
@@ -35,12 +35,12 @@ const Title = styled.span`
 
 const Content = styled.span`
     display: inline-flex;
-    > span {
+    ${"" /* > span {
         display: inline-flex;
-    }
+    } */};
 `;
 
-function FormLine({ children, title }: FormLineProps): React.Element<*> {
+function FormLine({ children, title }: FormLineProps): React.Node {
     return (
         <Line>
             <Title>{title}</Title>
