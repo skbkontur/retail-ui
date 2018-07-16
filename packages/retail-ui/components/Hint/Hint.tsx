@@ -13,7 +13,7 @@ const bgColor = ieVerison === 8 ? '#5b5b5b' : 'rgba(51, 51, 51, 0.8)';
 export interface HintProps {
   children?: React.ReactNode;
   manual?: boolean;
-  maxWidth?: string | number;
+  maxWidth?: React.CSSProperties['maxWidth'];
   onMouseEnter?: React.MouseEventHandler<HTMLElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLElement>;
   opened?: boolean;
@@ -61,13 +61,9 @@ class Hint extends React.Component<HintProps, HintState> {
     pos: 'top',
     manual: false,
     opened: false,
-    maxWidth: 200 as string | number,
-    onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
-      /**/
-    },
-    onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
-      /**/
-    }
+    maxWidth: 200,
+    onMouseEnter: (e: React.MouseEvent<HTMLElement>) => undefined,
+    onMouseLeave: (e: React.MouseEvent<HTMLElement>) => undefined
   };
 
   public state: {
@@ -152,14 +148,14 @@ class Hint extends React.Component<HintProps, HintState> {
     return Positions.filter(x => x.startsWith(this.getProps().pos));
   };
 
-  private _handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+  private _handleMouseEnter = (e: React.MouseEvent<HTMLSpanElement>) => {
     if (!this.props.manual && !this._timer) {
       this._timer = window.setTimeout(this._open, 400);
     }
     this.getProps().onMouseEnter(e);
   };
 
-  private _handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+  private _handleMouseLeave = (e: React.MouseEvent<HTMLSpanElement>) => {
     if (!this.props.manual && this._timer) {
       clearTimeout(this._timer);
       this._timer = null;
