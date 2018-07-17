@@ -36,6 +36,8 @@ class FxInput extends React.Component<FxInputProps> {
     type: 'text' as 'currency' | InputType
   };
 
+  private input: Input | CurrencyInput | null = null;
+
   private getProps = createPropsGetter(FxInput.defaultProps);
 
   public render(): JSX.Element {
@@ -71,6 +73,7 @@ class FxInput extends React.Component<FxInputProps> {
           <CurrencyInput
             {...inputProps}
             {...this.props}
+            ref={inst => (this.input = inst)}
             value={this.props.value as CurrencyInputProps['value']}
             onChange={this.props.onChange as CurrencyInputProps['onChange']}
           />
@@ -78,6 +81,7 @@ class FxInput extends React.Component<FxInputProps> {
           <Input
             {...inputProps}
             {...this.props}
+            ref={inst => (this.input = inst)}
             type={this.props.type as InputType}
             value={this.props.value as InputProps['value']}
             onChange={this.props.onChange as InputProps['onChange']}

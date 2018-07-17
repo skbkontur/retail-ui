@@ -224,7 +224,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   }
 
-  public _handleChange = (
+  private _handleChange = (
     event: Partial<React.ChangeEvent<HTMLTextAreaElement>>
   ) => {
     if (polyfillPlaceholder) {
