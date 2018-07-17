@@ -15,6 +15,8 @@ import { Footer, FooterProps } from './ModalFooter';
 import { Header, HeaderProps } from './ModalHeader';
 import { Body } from './ModalBody';
 import { Close } from './ModalClose';
+import cn from 'classnames';
+import Upgrades from '../../lib/Upgrades';
 
 let mountedModalsCount = 0;
 
@@ -149,7 +151,9 @@ class Modal extends React.Component<ModalProps, ModalState> {
           {this.state.stackPosition === 0 && <div className={styles.bg} />}
           <div
             ref={this.refCenter}
-            className={styles.container}
+            className={cn(styles.container, {
+              [styles.mobile]: Upgrades.isAdaptiveStyles()
+            })}
             onClick={this.handleContainerClick}
           >
             <div
