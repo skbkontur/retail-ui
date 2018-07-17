@@ -179,7 +179,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
 
   public render(): JSX.Element {
     const { corners = 0 } = this.props;
-    const radius = '2px';
+    const RADIUS = this.props.size === 'small' ? '1px' : '2px';
 
     const SIZE_CLASSES = {
       small: classes.sizeSmall,
@@ -211,10 +211,10 @@ class Button extends React.Component<ButtonProps, ButtonState> {
       }),
       style: {
         borderRadius:
-          `${corners & Corners.TOP_LEFT ? 0 : radius}` +
-          ` ${corners & Corners.TOP_RIGHT ? 0 : radius}` +
-          ` ${corners & Corners.BOTTOM_RIGHT ? 0 : radius}` +
-          ` ${corners & Corners.BOTTOM_LEFT ? 0 : radius}`,
+          `${corners & Corners.TOP_LEFT ? 0 : RADIUS}` +
+          ` ${corners & Corners.TOP_RIGHT ? 0 : RADIUS}` +
+          ` ${corners & Corners.BOTTOM_RIGHT ? 0 : RADIUS}` +
+          ` ${corners & Corners.BOTTOM_LEFT ? 0 : RADIUS}`,
         textAlign: this.props.align
       },
       disabled: this.props.disabled || this.props.loading,
