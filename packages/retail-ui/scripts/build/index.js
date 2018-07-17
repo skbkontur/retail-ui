@@ -1,4 +1,4 @@
-const { isTypeScriptSource } = require('./isTS');
+const { isTypeScriptSource } = require('./isTypeScriptSource');
 
 const outputFileSync = require('output-file-sync');
 const readdir = require('fs-readdir-recursive');
