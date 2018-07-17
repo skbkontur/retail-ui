@@ -7,9 +7,7 @@ import styles from './MenuItem.less';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
-const tagName = (disabled: boolean | undefined) => (disabled ? 'span' : 'a');
-
-export interface MenuItemProps {
+export interface MenuItemProps extends React.AnchorHTMLAttributes<HTMLElement> {
   /** @ignore */
   _enableIconPadding?: boolean;
 
@@ -17,7 +15,6 @@ export interface MenuItemProps {
   alkoLink?: boolean;
   comment?: React.ReactNode;
   disabled?: boolean;
-  href?: string;
   icon?: IconName | React.ReactElement<any>;
 
   /** @ignore */
@@ -25,12 +22,10 @@ export interface MenuItemProps {
 
   /** @ignore */
   state?: MenuItemState;
-  target?: string;
-  onClick?: (event: React.SyntheticEvent<HTMLElement>) => any;
-  onMouseDown?: (event: React.MouseEvent<HTMLElement>) => void;
-  onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
-  onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
+  onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
+
+  component?: React.ComponentType<any>;
 }
 
 /**
@@ -64,17 +59,16 @@ export default class MenuItem extends React.Component<MenuItemProps> {
     const {
       alkoLink,
       comment,
-      disabled,
       icon,
       loose,
       state,
       children,
-      onClick,
       _enableIconPadding,
+      component,
       ...rest
     } = this.props;
 
-    const hover = state === 'hover' && !disabled;
+    const hover = state === 'hover' && !this.props.disabled;
 
     let iconElement = null;
     if (icon) {
@@ -87,7 +81,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
 
     const className = classNames({
       [styles.root]: true,
-      [styles.disabled]: disabled,
+      [styles.disabled]: this.props.disabled,
       [styles.hover]: hover,
       [styles.loose]: loose,
       [styles.selected]: state === 'selected',
@@ -100,15 +94,19 @@ export default class MenuItem extends React.Component<MenuItemProps> {
       content = children(this.props.state);
     }
 
-    const Tag = tagName(disabled);
+    const Component = this.getComponent();
+
+    const componentProps: Partial<any> = {
+      ...rest
+    };
+
+    if (Component === component) {
+      componentProps.to = this.props.href;
+      delete componentProps.href;
+    }
 
     return (
-      <Tag
-        {...rest}
-        className={className}
-        tabIndex={-1}
-        onClick={disabled ? undefined : onClick}
-      >
+      <Component {...componentProps} className={className} tabIndex={-1}>
         {iconElement}
         {content}
         {this.props.comment && (
@@ -121,7 +119,25 @@ export default class MenuItem extends React.Component<MenuItemProps> {
             {comment}
           </div>
         )}
-      </Tag>
+      </Component>
     );
   }
+
+  private getComponent = () => {
+    const { disabled, component, href } = this.props;
+
+    if (disabled) {
+      return 'button';
+    }
+
+    if (component) {
+      return component;
+    }
+
+    if (href) {
+      return 'a';
+    }
+
+    return 'button';
+  };
 }
