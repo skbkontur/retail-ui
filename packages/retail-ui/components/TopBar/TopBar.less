@@ -38,35 +38,31 @@
   }
 
   .container {
-    display: table;
-    min-width: 100%;
-    width: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
   }
 
-  .leftItems {
-    display: table-cell;
+  .startItems {
+    display: flex;
+    flex-wrap: nowrap;
     padding-right: 60px;
-    vertical-align: top;
-    width: 100%;
   }
 
-  .rightItem {
-    display: table-cell;
-    vertical-align: top;
+  .endItems {
+    display: flex;
+    flex-wrap: nowrap;
   }
 
   .divider {
-    display: inline-block;
-    vertical-align: middle;
     height: 30px;
-    margin: 10px 0;
+    align-self: center;
     width: 1px;
     background-color: @td-divider-bg;
   }
 
   .item {
     box-sizing: border-box;
-    display: inline-block;
     height: @height;
     line-height: @height;
     padding: 0 @buttonSidePadding;
@@ -75,7 +71,6 @@
   }
 
   .button {
-    display: inline-block;
     height: @height;
     line-height: @height;
     cursor: pointer;
