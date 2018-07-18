@@ -28,7 +28,10 @@ const MONTHS = [
   'Декабрь'
 ];
 
-const HEIGHT = 24;
+const itemHeight = 24;
+const visibleYearsCount = 11;
+const itemsToMoveCount = -5;
+const monthsCount = 12;
 
 export interface DateSelectProps {
   disabled?: boolean;
@@ -96,6 +99,7 @@ export default class DateSelect extends React.Component<
 
   private longClickTimer: number = 0;
   private setPositionRepeatTimer: number = 0;
+  private yearStep: number = 3;
 
   private getProps = createPropsGetter(DateSelect.defaultProps);
 
@@ -199,13 +203,13 @@ export default class DateSelect extends React.Component<
   private renderMenu(): React.ReactNode {
     const { top, height, nodeTop } = this.state;
 
-    let shift = this.state.pos % HEIGHT;
+    let shift = this.state.pos % itemHeight;
     if (shift < 0) {
-      shift += HEIGHT;
+      shift += itemHeight;
     }
 
-    const from = (this.state.pos - shift + top) / HEIGHT;
-    const to = from + Math.ceil((height + shift) / HEIGHT);
+    const from = (this.state.pos - shift + top) / itemHeight;
+    const to = from + Math.ceil((height + shift) / itemHeight);
     const items = [];
 
     for (let i = from; i < to; ++i) {
@@ -254,7 +258,7 @@ export default class DateSelect extends React.Component<
       [styles.isBotCapped]: this.state.botCapped
     });
 
-    let dropdownOffset = -HEIGHT;
+    let dropdownOffset = -itemHeight;
     if (nodeTop < -top) {
       const overflowOffsetDelta = this.state.topCapped ? 6 : 17;
       dropdownOffset -= nodeTop + top - overflowOffsetDelta;
@@ -319,7 +323,7 @@ export default class DateSelect extends React.Component<
     event.preventDefault();
     this.longClickTimer = window.setTimeout(() => {
       this.setPositionRepeatTimer = window.setInterval(
-        () => this.setPosition(this.state.pos - HEIGHT),
+        () => this.setPosition(this.state.pos - itemHeight),
         100
       );
     }, 200);
@@ -331,7 +335,7 @@ export default class DateSelect extends React.Component<
     event.preventDefault();
     this.longClickTimer = window.setTimeout(() => {
       this.setPositionRepeatTimer = window.setInterval(
-        () => this.setPosition(this.state.pos + HEIGHT),
+        () => this.setPosition(this.state.pos + itemHeight),
         100
       );
     }, 200);
@@ -350,9 +354,9 @@ export default class DateSelect extends React.Component<
 
     let deltaY = event.deltaY;
     if (event.deltaMode === 1) {
-      deltaY *= HEIGHT;
+      deltaY *= itemHeight;
     } else if (event.deltaMode === 2) {
-      deltaY *= HEIGHT * 4;
+      deltaY *= itemHeight * 4;
     }
     const pos = (this.state.pos += deltaY);
     this.setPosition(pos);
@@ -376,16 +380,14 @@ export default class DateSelect extends React.Component<
     }
   };
 
-  private _yearStep: number = 3;
-
   private handleUp = (event: React.MouseEvent) => {
     event.preventDefault();
-    this.setPosition(this.state.pos - HEIGHT * this._yearStep);
+    this.setPosition(this.state.pos - itemHeight * this.yearStep);
   };
 
   private handleDown = (event: React.MouseEvent) => {
     event.preventDefault();
-    this.setPosition(this.state.pos + HEIGHT * this._yearStep);
+    this.setPosition(this.state.pos + itemHeight * this.yearStep);
   };
 
   private getItem(index: number) {
@@ -397,15 +399,15 @@ export default class DateSelect extends React.Component<
   }
 
   private setPosition(pos: number) {
-    let top = -5 * HEIGHT;
-    let height = 11 * HEIGHT;
+    let top = itemsToMoveCount * itemHeight;
+    let height = visibleYearsCount * itemHeight;
     if (this.props.type === 'month') {
-      top = -this.props.value * HEIGHT;
-      height = 12 * HEIGHT;
+      top = -this.props.value * itemHeight;
+      height = monthsCount * itemHeight;
     }
 
     const minPos = this.getMinPos() - top;
-    const maxPos = this.getMaxPos() - top - height + HEIGHT;
+    const maxPos = this.getMaxPos() - top - height + itemHeight;
     if (minPos >= pos) {
       pos = minPos;
     }
@@ -420,18 +422,18 @@ export default class DateSelect extends React.Component<
 
   private getMinPos() {
     if (this.props.type === 'month') {
-      return -this.props.value * HEIGHT;
+      return -this.props.value * itemHeight;
     } else if (this.props.type === 'year') {
-      return (this.getProps().minYear - this.props.value) * HEIGHT;
+      return (this.getProps().minYear - this.props.value) * itemHeight;
     }
     return -Infinity; // Be defensive.
   }
 
   private getMaxPos() {
     if (this.props.type === 'month') {
-      return (11 - this.props.value) * HEIGHT;
+      return (visibleYearsCount - this.props.value) * itemHeight;
     } else if (this.props.type === 'year') {
-      return (this.getProps().maxYear - this.props.value) * HEIGHT;
+      return (this.getProps().maxYear - this.props.value) * itemHeight;
     }
     return Infinity; // Be defensive.
   }
