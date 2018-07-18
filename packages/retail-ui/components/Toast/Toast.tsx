@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import RenderContainer from '../RenderContainer';
-import Transition from 'react-addons-css-transition-group';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import ToastView, { ToastViewProps } from './ToastView';
 import ToastStatic from './ToastStatic';
 
@@ -61,15 +61,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
   public render() {
     return (
       <RenderContainer>
-        <Transition
-          transitionName="slide-and-fade"
-          transitionAppear={true}
-          transitionAppearTimeout={200}
-          transitionEnterTimeout={200}
-          transitionLeaveTimeout={150}
-        >
-          {this._renderToast()}
-        </Transition>
+        <TransitionGroup>{this._renderToast()}</TransitionGroup>
       </RenderContainer>
     );
   }
@@ -107,7 +99,18 @@ class Toast extends React.Component<ToastProps, ToastState> {
       action
     };
 
-    return <ToastView key={id} ref={this._refToast} {...toastProps} />;
+    return (
+      <CSSTransition
+        key={id}
+        classNames="slide-and-fade"
+        timeout={{
+          enter: 200,
+          exit: 150
+        }}
+      >
+        <ToastView ref={this._refToast} {...toastProps} />
+      </CSSTransition>
+    );
   }
 
   private _clearTimer = () => {
