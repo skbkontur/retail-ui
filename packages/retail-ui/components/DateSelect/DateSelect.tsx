@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import events from 'add-event-listener';
 
 import RenderLayer from '../RenderLayer';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
@@ -95,6 +94,9 @@ export default class DateSelect extends React.Component<
   private _listener: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private _timeout: number | undefined;
 
+  private longClickTimer: number = 0;
+  private setPositionRepeatTimer: number = 0;
+
   private getProps = createPropsGetter(DateSelect.defaultProps);
 
   public componentWillReceiveProps() {
@@ -104,7 +106,7 @@ export default class DateSelect extends React.Component<
   public componentDidMount() {
     this._listener = LayoutEvents.addListener(this._setNodeTop);
     this._setNodeTop();
-    events.addEventListener(window, 'keydown', this.handleKey);
+    window.addEventListener('keydown', this.handleKey);
   }
 
   public componentWillUnmount() {
@@ -114,7 +116,13 @@ export default class DateSelect extends React.Component<
     if (this._timeout) {
       clearTimeout(this._timeout);
     }
-    events.removeEventListener(window, 'keydown', this.handleKey);
+    if (this.longClickTimer) {
+      clearTimeout(this.longClickTimer);
+    }
+    if (this.setPositionRepeatTimer) {
+      clearTimeout(this.setPositionRepeatTimer);
+    }
+    window.removeEventListener('keydown', this.handleKey);
   }
 
   public open = () => {
@@ -271,6 +279,7 @@ export default class DateSelect extends React.Component<
                   onClick={this.handleUp}
                   onMouseDown={this.handleLongClickUp}
                   onMouseUp={this.handleLongClickStop}
+                  onMouseLeave={this.handleLongClickStop}
                   onTouchStart={this.handleLongClickUp}
                   onTouchEnd={this.handleLongClickStop}
                 >
@@ -290,6 +299,7 @@ export default class DateSelect extends React.Component<
                   onClick={this.handleDown}
                   onMouseDown={this.handleLongClickDown}
                   onMouseUp={this.handleLongClickStop}
+                  onMouseLeave={this.handleLongClickStop}
                   onTouchStart={this.handleLongClickDown}
                   onTouchEnd={this.handleLongClickStop}
                 >
@@ -305,13 +315,10 @@ export default class DateSelect extends React.Component<
     );
   }
 
-  private longClickTimer: number = 0;
-  private setPositionRepeatTimer: number = 0;
-
   private handleLongClickUp = (event: React.MouseEvent | React.TouchEvent) => {
     event.preventDefault();
-    this.longClickTimer = setTimeout(() => {
-      this.setPositionRepeatTimer = setInterval(
+    this.longClickTimer = window.setTimeout(() => {
+      this.setPositionRepeatTimer = window.setInterval(
         () => this.setPosition(this.state.pos - HEIGHT),
         100
       );
@@ -322,8 +329,8 @@ export default class DateSelect extends React.Component<
     event: React.MouseEvent | React.TouchEvent
   ) => {
     event.preventDefault();
-    this.longClickTimer = setTimeout(() => {
-      this.setPositionRepeatTimer = setInterval(
+    this.longClickTimer = window.setTimeout(() => {
+      this.setPositionRepeatTimer = window.setInterval(
         () => this.setPosition(this.state.pos + HEIGHT),
         100
       );
