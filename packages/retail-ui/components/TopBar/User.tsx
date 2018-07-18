@@ -1,32 +1,42 @@
 import * as React from 'react';
-import TopBarDropdown, { TopBarDropdownProps } from './TopBarDropdown';
+import * as PropTypes from 'prop-types';
+
+import TopBarDropdown from './TopBarDropdown';
 import MenuItem from '../MenuItem';
 
-class User extends React.Component<{
-  userName: string
-}> {
-  public render() {
-    const { userName } = this.props;
+export interface UserProps {
+  userName: string;
+  cabinetUrl?: string;
+}
+
+class User extends React.Component<UserProps> {
+  public static defaultProps = {
+    cabinetUrl: 'https://cabinet.kontur.ru'
+  };
+
+  public static propTypes = {
+    userName: PropTypes.string,
+
+    /**
+     * URL для кастомизации ссылок в меню пользователя
+     */
+    cabinetUrl: PropTypes.string
+  };
+
+  public render(): JSX.Element {
+    const { userName, cabinetUrl } = this.props;
     return (
-      <TopBarDropdown icon={'User' as TopBarDropdownProps['icon']} caption={userName}>
+      <TopBarDropdown icon={'user'} caption={userName}>
         <div style={{ padding: '6px 18px 7px 15px' }}>
           <b>Личный кабинет Контура</b>
         </div>
-        <MenuItem loose href="https://cabinet.kontur.ru" target="_blank">
+        <MenuItem loose href={cabinetUrl} target="_blank">
           Настройка входа в сервисы
         </MenuItem>
-        <MenuItem
-          loose
-          href="https://cabinet.kontur.ru#certificates"
-          target="_blank"
-        >
+        <MenuItem loose href={`${cabinetUrl}#certificates`} target="_blank">
           Сертификаты
         </MenuItem>
-        <MenuItem
-          loose
-          href="https://cabinet.kontur.ru#services"
-          target="_blank"
-        >
+        <MenuItem loose href={`${cabinetUrl}#services`} target="_blank">
           Оплата сервисов
         </MenuItem>
       </TopBarDropdown>

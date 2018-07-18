@@ -2,6 +2,7 @@ import warning from 'warning';
 
 let flatDesignEnabled = false;
 let sizeMedium16pxEnabled = false;
+let adaptiveStyles = false;
 
 const Upgrade = {
   enableHeight34() {
@@ -26,6 +27,14 @@ const Upgrade = {
 
   isSizeMedium16pxEnabled() {
     return sizeMedium16pxEnabled;
+  },
+
+  setAdaptiveStyles(enabled: boolean) {
+    adaptiveStyles = enabled;
+  },
+
+  isAdaptiveStyles() {
+    return adaptiveStyles;
   }
 };
 

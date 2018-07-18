@@ -7,6 +7,7 @@ import Button from '../../Button';
 import Input from '../../Input';
 import Textarea from '../../Textarea';
 import Toggle from '../../Toggle';
+import Upgrades from '../../../lib/Upgrades';
 
 const basicFontStyle = {
   fontSize: '14px',
@@ -305,6 +306,37 @@ class ModalWithoutFooter extends Component<{}, { opened: boolean }> {
   };
 }
 
+class ModalMobileView extends Component<{}, { opened: boolean }> {
+  public state = {
+    opened: true
+  };
+
+  componentDidMount() {
+    Upgrades.setAdaptiveStyles(true);
+  }
+
+  componentWillUnmount() {
+    Upgrades.setAdaptiveStyles(false);
+  }
+
+  render() {
+    return (
+      <Modal>
+        <Modal.Header>Воспользуйтесь другим браузером</Modal.Header>
+        <Modal.Body>
+          <p style={{ height: 2000 }}>
+            Некоторые функции не работают в вашем браузере. Чтобы все работало,
+            установите один из этих браузеров: Firefox, Opera, Chrome.
+          </p>
+        </Modal.Body>
+        <Modal.Footer panel>
+          <Button>Ок</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+}
+
 storiesOf('Modal', module)
   .add('With scrollable parent content', () => <ModalWithScrollableContent />)
   .add('With Input in header', () => <ModalWithInputInHeader />)
@@ -317,4 +349,5 @@ storiesOf('Modal', module)
   ))
   .add('Modal with footer panel', () => <ModalWithFooterPanel />)
   .add('Modal without footer panel', () => <ModalWithoutFooterPanel />)
-  .add('Modal without footer', () => <ModalWithoutFooter />);
+  .add('Modal without footer', () => <ModalWithoutFooter />)
+  .add('Modal mobile view', () => <ModalMobileView />);
