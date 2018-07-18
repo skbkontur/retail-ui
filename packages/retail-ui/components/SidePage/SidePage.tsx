@@ -66,7 +66,7 @@ export interface SidePageState {
   hasBackground?: boolean;
 }
 
-const TRANSITION_TIMEOUT = 20000;
+const TRANSITION_TIMEOUT = 200;
 
 interface ZIndexPropsType {
   delta: number;
