@@ -30,7 +30,6 @@
   }
 
   .transition {
-    &-appear,
     &-enter {
       opacity: 0.01;
 
@@ -51,20 +50,16 @@
       }
     }
 
-    &-appear-active,
     &-enter-active {
       transition: @show-transtion;
       opacity: 1;
       transform: translate(0, 0);
     }
 
-    &-leave {
-      opacity: 1;
-    }
-
-    &-leave-active {
+    &-exit {
       opacity: 0.01;
       transition: @hide-transition;
+      transform: translate(0, 0);
     }
   }
 }
