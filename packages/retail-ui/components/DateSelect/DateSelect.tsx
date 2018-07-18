@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
+import events from 'add-event-listener';
 
 import RenderLayer from '../RenderLayer';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
@@ -50,8 +51,6 @@ export interface DateSelectState {
   topCapped: boolean;
   nodeTop: number;
 }
-
-const isIE8 = Boolean(~window.navigator.userAgent.indexOf('MSIE 8.0'));
 
 export default class DateSelect extends React.Component<
   DateSelectProps,
@@ -105,6 +104,7 @@ export default class DateSelect extends React.Component<
   public componentDidMount() {
     this._listener = LayoutEvents.addListener(this._setNodeTop);
     this._setNodeTop();
+    events.addEventListener(window, 'keydown', this.handleKey);
   }
 
   public componentWillUnmount() {
@@ -114,6 +114,7 @@ export default class DateSelect extends React.Component<
     if (this._timeout) {
       clearTimeout(this._timeout);
     }
+    events.removeEventListener(window, 'keydown', this.handleKey);
   }
 
   public open = () => {
@@ -125,7 +126,7 @@ export default class DateSelect extends React.Component<
       return;
     }
 
-    this.resetSize(0);
+    this.setPosition(0);
     this.setState({
       opened: true,
       current: 0
@@ -205,14 +206,10 @@ export default class DateSelect extends React.Component<
         [styles.menuItemActive]: i === this.state.current,
         [styles.menuItemSelected]: i === 0
       });
-      const clickHandler = isIE8
-        ? {
-            onMouseDown: this.handleItemClick(i)
-          }
-        : {
-            onMouseDown: preventDefault,
-            onClick: this.handleItemClick(i)
-          };
+      const clickHandler = {
+        onMouseDown: preventDefault,
+        onClick: this.handleItemClick(i)
+      };
       items.push(
         <div
           key={i}
@@ -267,13 +264,16 @@ export default class DateSelect extends React.Component<
             offsetY={dropdownOffset}
             offsetX={-10}
           >
-            <div
-              className={holderClass}
-              style={style}
-              onKeyDown={this.handleKey}
-            >
+            <div className={holderClass} style={style}>
               {!this.state.topCapped && (
-                <div className={styles.menuUp} onClick={this.handleUp}>
+                <div
+                  className={styles.menuUp}
+                  onClick={this.handleUp}
+                  onMouseDown={this.handleLongClickUp}
+                  onMouseUp={this.handleLongClickStop}
+                  onTouchStart={this.handleLongClickUp}
+                  onTouchEnd={this.handleLongClickStop}
+                >
                   <span>
                     <Icon name={'ArrowTriangleUp'} />
                   </span>
@@ -285,7 +285,14 @@ export default class DateSelect extends React.Component<
                 </div>
               </div>
               {!this.state.botCapped && (
-                <div className={styles.menuDown} onClick={this.handleDown}>
+                <div
+                  className={styles.menuDown}
+                  onClick={this.handleDown}
+                  onMouseDown={this.handleLongClickDown}
+                  onMouseUp={this.handleLongClickStop}
+                  onTouchStart={this.handleLongClickDown}
+                  onTouchEnd={this.handleLongClickStop}
+                >
                   <span>
                     <Icon name={'ArrowTriangleDown'} />
                   </span>
@@ -297,6 +304,36 @@ export default class DateSelect extends React.Component<
       </RenderLayer>
     );
   }
+
+  private longClickTimer: number = 0;
+  private setPositionRepeatTimer: number = 0;
+
+  private handleLongClickUp = (event: React.MouseEvent | React.TouchEvent) => {
+    event.preventDefault();
+    this.longClickTimer = setTimeout(() => {
+      this.setPositionRepeatTimer = setInterval(
+        () => this.setPosition(this.state.pos - HEIGHT),
+        100
+      );
+    }, 200);
+  };
+
+  private handleLongClickDown = (
+    event: React.MouseEvent | React.TouchEvent
+  ) => {
+    event.preventDefault();
+    this.longClickTimer = setTimeout(() => {
+      this.setPositionRepeatTimer = setInterval(
+        () => this.setPosition(this.state.pos + HEIGHT),
+        100
+      );
+    }, 200);
+  };
+
+  private handleLongClickStop = () => {
+    clearTimeout(this.longClickTimer);
+    clearTimeout(this.setPositionRepeatTimer);
+  };
 
   private getAnchor = () => this._node;
 
@@ -311,7 +348,7 @@ export default class DateSelect extends React.Component<
       deltaY *= HEIGHT * 4;
     }
     const pos = (this.state.pos += deltaY);
-    this.resetSize(pos);
+    this.setPosition(pos);
   };
 
   private handleItemClick = (shift: number) => {
@@ -324,53 +361,24 @@ export default class DateSelect extends React.Component<
     };
   };
 
-  private handleKey = (event: React.KeyboardEvent<any>) => {
-    if (this.state.opened) {
-      switch (event.key) {
-        case 'Enter':
-          if (this.state.current !== null && this.props.onChange) {
-            const value = this.props.value + this.state.current;
-            this.props.onChange(value);
-          }
-          this.close();
-          event.stopPropagation();
-          break;
-
-        case 'Escape':
-          this.close();
-          event.stopPropagation(); // Specifically for DatePicker.
-          break;
-
-        case 'ArrowUp':
-          this.setState({ current: (this.state.current || 0) - 1 });
-          event.preventDefault();
-          break;
-
-        case 'ArrowDown':
-          this.setState({ current: (this.state.current || 0) + 1 });
-          event.preventDefault();
-          break;
-      }
-    } else {
-      switch (event.key) {
-        case ' ':
-        case 'ArrowUp':
-        case 'ArrowDown':
-          this.open();
-          event.preventDefault();
-          break;
-      }
+  private handleKey = (event: KeyboardEvent) => {
+    if (this.state.opened && event.key === 'Escape') {
+      event.preventDefault();
+      this.close();
+      event.stopPropagation();
     }
   };
 
+  private _yearStep: number = 3;
+
   private handleUp = (event: React.MouseEvent) => {
     event.preventDefault();
-    this.resetSize(this.state.pos - HEIGHT);
+    this.setPosition(this.state.pos - HEIGHT * this._yearStep);
   };
 
   private handleDown = (event: React.MouseEvent) => {
     event.preventDefault();
-    this.resetSize(this.state.pos + HEIGHT);
+    this.setPosition(this.state.pos + HEIGHT * this._yearStep);
   };
 
   private getItem(index: number) {
@@ -381,7 +389,7 @@ export default class DateSelect extends React.Component<
     return value;
   }
 
-  private resetSize(pos: number) {
+  private setPosition(pos: number) {
     let top = -5 * HEIGHT;
     let height = 11 * HEIGHT;
     if (this.props.type === 'month') {
