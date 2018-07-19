@@ -1,17 +1,63 @@
-**Old version**
+### Использование
+
+Рекомендуемое
+
+```jsx
+let pageStyle = {
+  background: '#e6e6e6',
+  height: 400,
+  border: '1px solid #dedfdf',
+  overflow: 'hidden'
+};
+
+let contentStyle = {
+  background: 'white',
+  padding: 15,
+  height: 280
+};
+
+<div style={pageStyle}>
+  <TopBar>
+    <TopBar.Start>
+      <TopBar.ItemStatic>
+        <Logotype suffix="ui" withWidget />
+      </TopBar.ItemStatic>
+      <TopBar.Item>
+        <Icon name="Baby" color="#666" />
+      </TopBar.Item>
+      <TopBar.Item>
+        <Icon name="Baby" color="#666" />
+      </TopBar.Item>
+    </TopBar.Start>
+    <TopBar.End>
+      <TopBar.Item>
+        <Icon name="Baby" color="#666" />
+      </TopBar.Item>
+      <TopBar.User userName="Alexander The Great" />
+      <TopBar.Divider />
+      <TopBar.Item onClick={() => alert('Logout!')}>Выйти</TopBar.Item>
+    </TopBar.End>
+  </TopBar>
+  <Loader active caption="neverending...">
+    <div style={contentStyle} />
+  </Loader>
+</div>;
+```
+
+Старый вариант
 
 ```jsx
 let Item = TopBar.Item;
 
 let pageStyle = {
-  background: "#e6e6e6",
+  background: '#e6e6e6',
   height: 400,
-  border: "1px solid #dedfdf",
-  overflow: "hidden"
+  border: '1px solid #dedfdf',
+  overflow: 'hidden'
 };
 
 let contentStyle = {
-  background: "white",
+  background: 'white',
   padding: 15,
   height: 280
 };
@@ -20,63 +66,13 @@ let contentStyle = {
   <TopBar
     userName="Alexander The Great"
     suffix="ui"
-    onLogout={() => alert("Logout!")}
+    onLogout={() => alert('Logout!')}
     leftItems={[
       <Item>
         <Icon name="Baby" color="#666" />
       </Item>
     ]}
   />
-  <Loader active caption="neverending...">
-    <div style={contentStyle} />
-  </Loader>
-</div>;
-```
-
-**New version (recommended)**
-
-```jsx
-let Start = TopBar.Start;
-let End = TopBar.End;
-let ItemStatic = TopBar.ItemStatic;
-let User = TopBar.User;
-let Divider = TopBar.Divider;
-
-let pageStyle = {
-  background: "#e6e6e6",
-  height: 400,
-  border: "1px solid #dedfdf",
-  overflow: "hidden"
-};
-
-let contentStyle = {
-  background: "white",
-  padding: 15,
-  height: 280
-};
-
-<div style={pageStyle}>
-  <TopBar>
-    <Start>
-      <ItemStatic>
-        <Logotype suffix="ui" withWidget />
-      </ItemStatic>
-      <Item>
-        <Icon name="Baby" color="#666" />
-      </Item>
-      <Item>
-        <Icon name="Baby" color="#666" />
-      </Item>
-    </Start>
-    <End>
-      <Item>
-        <Icon name="Baby" color="#666" />
-      </Item>
-      <User userName="Alexander The Great" />
-      <Divider/>
-      <Item onClick={() => alert("Logout!")}>Выйти</Item>
-    </End>
-  </TopBar>
   <Loader active caption="neverending...">
     <div style={contentStyle} />
   </Loader>
