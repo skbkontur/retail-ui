@@ -34,7 +34,7 @@ export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
-class RadioGroup<T extends Primitive> extends React.Component<
+class RadioGroup<T> extends React.Component<
   RadioGroupProps<T>,
   RadioGroupState<T>
 > {
