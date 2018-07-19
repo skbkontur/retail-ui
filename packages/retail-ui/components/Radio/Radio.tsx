@@ -5,7 +5,7 @@ import * as PropTypes from 'prop-types';
 
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
-import { Nullable, Primitive } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
