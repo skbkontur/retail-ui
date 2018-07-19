@@ -7,7 +7,7 @@ import styles from './MenuItem.less';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
-export interface MenuItemProps extends React.AnchorHTMLAttributes<HTMLElement> {
+export interface MenuItemProps {
   /** @ignore */
   _enableIconPadding?: boolean;
 
@@ -24,6 +24,11 @@ export interface MenuItemProps extends React.AnchorHTMLAttributes<HTMLElement> {
   state?: MenuItemState;
   onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
+  target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
+  title?: React.AnchorHTMLAttributes<HTMLAnchorElement>['title'];
+  href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
+  onMouseEnter?: React.MouseEventHandler;
+  onMouseLeave?: React.MouseEventHandler;
 
   component?: React.ComponentType<any>;
 }
@@ -96,17 +101,8 @@ export default class MenuItem extends React.Component<MenuItemProps> {
 
     const Component = this.getComponent();
 
-    const componentProps: Partial<any> = {
-      ...rest
-    };
-
-    if (Component === component) {
-      componentProps.to = this.props.href;
-      delete componentProps.href;
-    }
-
     return (
-      <Component {...componentProps} className={className} tabIndex={-1}>
+      <Component {...rest} className={className} tabIndex={-1}>
         {iconElement}
         {content}
         {this.props.comment && (
