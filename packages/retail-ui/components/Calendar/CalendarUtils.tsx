@@ -24,7 +24,7 @@ export const calculateScrollPosition = (
   const lastMonth = months[months.length - 1];
   if (scrollDirection > 0 && nextScrollPosition < 0) {
     do {
-      nextScrollPosition += nextMonths[0].height;
+      nextScrollPosition += nextMonths[1].height;
       nextMonths = getMonths(lastMonth.month, lastMonth.year);
     } while (nextScrollPosition < 0);
   }
