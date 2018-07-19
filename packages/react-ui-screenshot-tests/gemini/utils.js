@@ -1,4 +1,4 @@
-var host = '/iframe.html';
+var host = "/iframe";
 
 function pathTo(kind, story) {
   return `${host}?selectedKind=${kind}&selectedStory=${story}`;
