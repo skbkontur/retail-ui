@@ -14,7 +14,7 @@ export const calculateScrollPosition = (
   let nextMonths = months;
 
   const firstMonth = months[0];
-  if (deltaY < 0 && nextScrollPosition >= firstMonth.height) {
+  if (scrollDirection < 0 && nextScrollPosition >= firstMonth.height) {
     do {
       nextScrollPosition -= nextMonths[0].height;
       nextMonths = getMonths(firstMonth.month, firstMonth.year);
@@ -22,9 +22,9 @@ export const calculateScrollPosition = (
   }
 
   const lastMonth = months[months.length - 1];
-  if (deltaY > 0 && nextScrollPosition < 0) {
+  if (scrollDirection > 0 && nextScrollPosition < 0) {
     do {
-      nextScrollPosition += nextMonths[1].height;
+      nextScrollPosition += nextMonths[0].height;
       nextMonths = getMonths(lastMonth.month, lastMonth.year);
     } while (nextScrollPosition < 0);
   }
@@ -49,10 +49,14 @@ export const applyDelta = (deltaY: number) => (
   const isMaxDateExceeded =
     maxDate &&
     scrollDirection > 0 &&
-    maxDate.year * 12 + maxDate.month < months[2].year * 12 + months[2].month;
+    maxDate.year * 12 + maxDate.month < months[1].year * 12 + months[1].month;
 
-  if (isMinDateExceeded || isMaxDateExceeded) {
+  if (isMinDateExceeded) {
     return { scrollPosition: 0, scrollDirection };
+  }
+
+  if (isMaxDateExceeded) {
+    return { scrollPosition: months[2].height, scrollDirection };
   }
 
   return calculateScrollPosition(months, scrollPosition, deltaY);
