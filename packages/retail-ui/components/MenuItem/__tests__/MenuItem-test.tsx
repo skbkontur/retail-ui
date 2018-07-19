@@ -24,13 +24,18 @@ describe('MenuItem', () => {
   });
 
   it('pass component', () => {
-    const SomeComponent = ({ to }) => <a href={to} />;
+    const FakeRouterLink = ({ to }) => <span>{to}</span>;
+
+    const Component = ({ href, ...rest }) => (
+      <FakeRouterLink to={href} {...rest} />
+    );
 
     const wrapper = mount(
-      <MenuItem component={SomeComponent} href="http://test.href">
+      <MenuItem href="http:test.href" component={Component}>
         Testing component
       </MenuItem>
     );
-    expect(wrapper.contains(<a href="http://test.href" />)).toEqual(true);
+
+    expect(wrapper.contains(<span>http:test.href</span>)).toEqual(true);
   });
 });
