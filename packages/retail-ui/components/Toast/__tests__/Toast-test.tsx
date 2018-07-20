@@ -6,12 +6,6 @@ import Toast, { ToastProps, ToastState } from '../Toast';
 
 jest.useFakeTimers();
 
-// const mockRenderContainer = (props: any) => <div {...props} />;
-// const mockTransitionGroup = ({ children }: any) => <div>{children}</div>;
-
-// jest.mock('../../RenderContainer', () => mockRenderContainer);
-// jest.mock('react-addons-css-transition-group', () => mockTransitionGroup);
-
 describe('Toast', () => {
   it('renders', () => {
     mount<ToastProps>(<Toast />);
@@ -23,7 +17,7 @@ describe('Toast', () => {
   });
 
   it('sets message to state', () => {
-    const wrapper = mount(<Toast />);
+    const wrapper = mount<ToastProps, ToastState>(<Toast />);
     (wrapper.instance() as Toast).push('message');
     expect(wrapper.state().notification).toBe('message');
   });

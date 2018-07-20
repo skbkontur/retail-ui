@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
 
-import Button from '../Button';
+import Button, { ButtonUse, ButtonType } from '../Button';
 
 describe('Button', () => {
   it('has correct label', () => {
@@ -26,14 +26,14 @@ describe('Button', () => {
     'success',
     'danger',
     'link'
-  ]).forEach(use => {
+  ] as ButtonUse[]).forEach(use => {
     it(`sets class ${use} when use=${use} specified`, () => {
       const wrapper = mount(<Button use={use} />);
       expect(wrapper.find(`.${use}`)).toHaveLength(1);
     });
   });
 
-  (['submit', 'button', 'reset']).forEach(type => {
+  (['submit', 'button', 'reset'] as ButtonType[]).forEach(type => {
     it(`sets type ${type} when type=${type} specified`, () => {
       const wrapper = mount(<Button type={type} />);
       expect(wrapper.find('button').prop('type')).toBe(type);
