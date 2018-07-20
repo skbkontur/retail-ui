@@ -18,7 +18,7 @@ export interface FxInputProps
   value?: React.ReactText | CurrencyInputProps['value'] | InputProps['value'];
   onRestore?: () => void;
   onChange?: CurrencyInputProps['onChange'] | InputProps['onChange'];
-  refInput?: (element: CurrencyInput | Input) => void;
+  refInput?: (element: CurrencyInput | Input | null) => void;
 }
 
 export interface FxInputDefaultProps {
@@ -101,7 +101,7 @@ class FxInput extends React.Component<FxInputProps> {
   private refInput = (element: Input | CurrencyInput | null) => {
     this.input = element;
 
-    if (this.props.refInput && this.input) {
+    if (this.props.refInput) {
       this.props.refInput(this.input);
     }
   };
