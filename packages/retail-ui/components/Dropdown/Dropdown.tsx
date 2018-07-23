@@ -168,9 +168,7 @@ export default class Dropdown extends React.Component<DropdownProps> {
 
     return (
       <Select<React.ReactNode, React.ReactChild>
-        ref={element =>
-          this._refSelect<React.ReactNode, React.ReactChild>(element)
-        }
+        ref={this._refSelect}
         {...filterProps(this.props, PASS_PROPS)}
         value={this.props.caption}
         items={items}
@@ -192,8 +190,8 @@ export default class Dropdown extends React.Component<DropdownProps> {
     }
   }
 
-  private _refSelect = <Value, Item>(
-    element: Nullable<Select<Value, Item>>
+  private _refSelect = (
+    element: Nullable<Select<React.ReactNode, React.ReactChild>>
   ): void => {
     this._select = element;
   };
