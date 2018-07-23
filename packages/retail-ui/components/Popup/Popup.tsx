@@ -288,7 +288,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
   private _updateLocation() {
     const popupElement = this._lastPopupElement;
-    if (!popupElement) {
+    if (!popupElement || !this.props.opened) {
       return;
     }
 
