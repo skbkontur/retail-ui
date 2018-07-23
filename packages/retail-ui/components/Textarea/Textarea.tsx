@@ -49,7 +49,7 @@ export type TextareaProps = Override<
     maxRows?: number | string;
     onChange?: (
       event: React.ChangeEvent<HTMLTextAreaElement>,
-      value: string | null
+      value: string
     ) => void;
   }
 >;
