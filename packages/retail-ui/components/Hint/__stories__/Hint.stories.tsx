@@ -45,4 +45,16 @@ storiesOf('Hint', module)
     <Hint pos="bottom" text="Something will never be changed" manual opened>
       <span className="hint-content">Te amo</span>
     </Hint>
+  ))
+  .add('with large word', () => (
+    <div style={{ marginTop: -100 }}>
+      <Hint
+        pos="bottom"
+        manual
+        opened
+        text="Используется на элементах, которые не вмещают полноеназваниеилитребуютнебольшогопояснения. Например: панель действий, иконки без текста, сокращенные слишком длинные..."
+      >
+        <span className="hint-content">Там длинное слово</span>
+      </Hint>
+    </div>
   ));

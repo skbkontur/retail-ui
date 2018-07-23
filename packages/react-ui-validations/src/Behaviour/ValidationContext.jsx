@@ -1,21 +1,20 @@
 // @flow
-import React from 'react';
-import type { IValidationContext, IValidationContextSettings } from './ValidationWrapper';
-import ValidationWrapper from './ValidationWrapper';
+import PropTypes from "prop-types";
+import * as React from "react";
+import type { IValidationContext, IValidationContextSettings } from "./ValidationWrapper";
+import ValidationWrapper from "./ValidationWrapper";
 
 type ValidationContextProps = {
-    children?: any;
-    onValidationUpdated?: (isValid?: boolean) => void;
-    horizontalOffset?: number;
-    verticalOffset?: number;
+    children?: React.Node,
+    onValidationUpdated?: (isValid?: boolean) => void,
+    horizontalOffset?: number,
+    verticalOffset?: number,
 };
 
-export default class ValidationContext extends React.Component {
+export default class ValidationContext extends React.Component<ValidationContextProps> {
     static childContextTypes = {
-        validationContext: React.PropTypes.any,
+        validationContext: PropTypes.any,
     };
-
-    props: ValidationContextProps;
     childWrappers: ValidationWrapper[] = [];
 
     getChildContext(): { validationContext: IValidationContext } {
@@ -73,14 +72,38 @@ export default class ValidationContext extends React.Component {
         }
     }
 
+    getChildWrappersSortedByPosition(): ValidationWrapper[] {
+        const wrappersWithPosition = [...this.childWrappers].map(x => ({
+            target: x,
+            position: x.getControlPosition(),
+        }));
+        wrappersWithPosition.sort((x, y) => {
+            const xPosition = x.position;
+            const yPosition = y.position;
+            if (xPosition == null && yPosition == null) {
+                return 0;
+            }
+            if (xPosition == null) {
+                return 1;
+            }
+            if (yPosition == null) {
+                return -1;
+            }
+            if (Math.sign(xPosition.x - yPosition.x) !== 0) {
+                return Math.sign(xPosition.x - yPosition.x);
+            }
+            return Math.sign(xPosition.y - yPosition.y);
+        });
+        return wrappersWithPosition.map(x => x.target);
+    }
+
     async validate(withoutFocus: boolean): Promise<boolean> {
         await Promise.all(this.childWrappers.map(x => x.processSubmit()));
-        const firstInvalid = this.childWrappers.find(x => x.hasError());
+        const firstInvalid = this.getChildWrappersSortedByPosition().find(x => x.hasError());
         if (firstInvalid) {
             if (!withoutFocus) {
                 firstInvalid.focus();
             }
-            firstInvalid.activateValidationMessageIfNeed();
         }
 
         if (this.props.onValidationUpdated) {
@@ -90,12 +113,8 @@ export default class ValidationContext extends React.Component {
         return !firstInvalid;
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { children } = this.props;
-        return (
-            <span>
-                {children}
-            </span>
-        );
+        return <span>{children}</span>;
     }
 }

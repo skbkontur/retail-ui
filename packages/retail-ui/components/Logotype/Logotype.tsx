@@ -1,10 +1,12 @@
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
+import events from 'add-event-listener';
 
+import stopPropagation from '../../lib/events/stopPropagation';
+import { Nullable } from '../../typings/utility-types';
+import ProductWidget from './ProductWidget';
+import Icon from '../Icon';
 import styles from './Logotype.less';
-import cloudImage from './cloud.png';
-
-const hasSVGSupport = () => 'SVGSVGElement' in window;
 
 const createCloud = (color: string) => (
   <svg width="24" height="17" viewBox="0 0 24 17" className={styles.cloud}>
@@ -15,67 +17,116 @@ const createCloud = (color: string) => (
   </svg>
 );
 
-const createPngCloud = (backgroundColor: string) => (
-  <div style={{ backgroundColor }} className={styles.cloud}>
-    <div
-      style={{ backgroundImage: `url('${cloudImage}')` }}
-      className={styles.inner}
-    />
-  </div>
-);
-
 export interface LogotypeProps {
   color?: string;
   component?: React.ComponentType<any> | string;
   href?: string;
   suffix?: string;
   textColor?: string;
+  withWidget?: boolean;
 }
 
-const Logotype: React.SFC<LogotypeProps> = ({
-  color = DefaultProps.color,
-  textColor = DefaultProps.textColor,
-  component: Component = DefaultProps.component,
-  suffix,
-  href = DefaultProps.href
-}): JSX.Element => (
-  <Component href={href} tabIndex="-1" className={styles.root}>
-    <span style={{ color: textColor }}>к</span>
-    <span style={{ color }}>
-      {hasSVGSupport() ? createCloud(color) : createPngCloud(color)}
-    </span>
-    <span style={{ color: textColor }}>нтур{suffix && '.'}</span>
-    {suffix && <span style={{ color }}>{suffix}</span>}
-  </Component>
-);
+class Logotype extends React.Component<LogotypeProps> {
+  public static propTypes = {
+    /**
+     * Цвет логотипа в rgb, rgba, hex
+     */
+    color: PropTypes.string,
 
-const DefaultProps = {
-  color: '#D92932',
-  textColor: '#000',
-  component: 'a',
-  href: '/'
-};
+    /**
+     * Адрес ссылки
+     */
+    href: PropTypes.string,
 
-Logotype.propTypes = {
-  /**
-   * Цвет логотипа в rgb, rgba, hex
-   */
-  color: PropTypes.string,
+    /**
+     * Суффикс сервиса
+     */
+    suffix: PropTypes.string,
 
-  /**
-   * Адрес ссылки
-   */
-  href: PropTypes.string,
+    /**
+     * Цвет логотипа Контура в rgb, rgba, hex
+     */
+    textColor: PropTypes.string,
 
-  /**
-   * Суффикс сервиса
-   */
-  suffix: PropTypes.string,
+    /**
+     * Наличие виджета с продуктами
+     */
+    withWidget: PropTypes.bool
+  };
 
-  /**
-   * Цвет логотипа Контура в rgb, rgba, hex
-   */
-  textColor: PropTypes.string
-};
+  public static defaultProps = {
+    color: '#D92932',
+    textColor: '#000',
+    component: 'a',
+    href: '/'
+  };
+
+  private _logoWrapper: Nullable<HTMLElement> = null;
+
+  public componentDidMount() {
+    if (this.props.withWidget) {
+      ProductWidget.init();
+    }
+  }
+
+  public render(): JSX.Element {
+    const {
+      color = Logotype.defaultProps.color,
+      textColor = Logotype.defaultProps.textColor,
+      component: Component = Logotype.defaultProps.component,
+      suffix,
+      href = Logotype.defaultProps.href,
+      withWidget
+    } = this.props;
+
+    if (withWidget) {
+      return (
+        <div id="spwDropdown" className={styles.dropdown}>
+          <span ref={this._refLogoWrapper} className={styles.widgetWrapper}>
+            <Component href={href} tabIndex="-1" className={styles.root}>
+              <span style={{ color: textColor }}>к</span>
+              <span style={{ color }}>{createCloud(color)}</span>
+              <span style={{ color: textColor }}>нтур{suffix && '.'}</span>
+              {suffix && <span style={{ color }}>{suffix}</span>}
+            </Component>
+            <span className={styles.divider} />
+          </span>
+          <button className={styles.button}>
+            <Icon color="#aaa" size={20} name="ArrowChevronDown" />
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <Component href={href} tabIndex="-1" className={styles.root}>
+        <span style={{ color: textColor }}>к</span>
+        <span style={{ color }}>{createCloud(color)}</span>
+        <span style={{ color: textColor }}>нтур{suffix && '.'}</span>
+        {suffix && <span style={{ color }}>{suffix}</span>}
+      </Component>
+    );
+  }
+
+  private _refLogoWrapper = (el: Nullable<HTMLElement>) => {
+    if (this._logoWrapper) {
+      events.removeEventListener(
+        this._logoWrapper,
+        'click',
+        this._handleNativeLogoClick
+      );
+    }
+
+    if (el) {
+      events.addEventListener(el, 'click', this._handleNativeLogoClick);
+    }
+
+    this._logoWrapper = el;
+  };
+
+  private _handleNativeLogoClick = (event: Event) => {
+    stopPropagation(event);
+  };
+}
 
 export default Logotype;

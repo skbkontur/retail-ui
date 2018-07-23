@@ -1,6 +1,6 @@
 @import '../variables.less';
 
-@show-transtion: top 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+@show-transtion: transform 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
 @hide-transition: opacity 0.15s ease-out;
 
 :local {
@@ -59,22 +59,21 @@
 }
 
 .slide-and-fade {
-  &-appear,
   &-enter {
-    top: -40px;
+    transform: translateY(-40px);
   }
 
-  &-appear-active,
   &-enter-active {
     transition: @show-transtion;
-    top: 0;
+    transform: translateY(0);
   }
 
-  &-leave {
+  &-exit {
+    transform: translateY(0);
     opacity: 1;
   }
 
-  &-leave-active {
+  &-exit-active {
     opacity: 0.01;
     transition: @hide-transition;
   }

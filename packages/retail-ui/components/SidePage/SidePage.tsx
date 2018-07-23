@@ -15,7 +15,7 @@ import SidePageContainer from './SidePageContainer';
 import { SidePageContext } from './SidePageContext';
 import SidePageFooter from './SidePageFooter';
 import SidePageHeader from './SidePageHeader';
-import Transition from 'react-addons-css-transition-group';
+import { CSSTransition } from 'react-transition-group';
 
 import styles from './SidePage.less';
 
@@ -116,17 +116,19 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
       <RenderContainer>
         <div>
           {this.renderShadow()}
-          <Transition
-            transitionName={this.getTransitionNames()}
-            transitionAppear={!disableAnimations}
-            transitionEnter={!disableAnimations}
-            transitionLeave={!disableAnimations}
-            transitionAppearTimeout={TRANSITION_TIMEOUT}
-            transitionEnterTimeout={TRANSITION_TIMEOUT}
-            transitionLeaveTimeout={TRANSITION_TIMEOUT}
+          <CSSTransition
+            in
+            classNames={this.getTransitionNames()}
+            appear={!disableAnimations}
+            enter={!disableAnimations}
+            exit={false}
+            timeout={{
+              enter: TRANSITION_TIMEOUT,
+              exit: TRANSITION_TIMEOUT
+            }}
           >
             {this.renderContainer()}
-          </Transition>
+          </CSSTransition>
         </div>
       </RenderContainer>
     );
@@ -245,8 +247,8 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     return {
       enter: transitionEnter,
       enterActive: styles['transition-enter-active'],
-      leave: styles['transition-leave'],
-      leaveActive: styles['transition-leave-active'],
+      exit: styles['transition-leave'],
+      exitActive: styles['transition-leave-active'],
       appear: transitionAppear,
       appearActive: styles['transition-appear-active']
     };

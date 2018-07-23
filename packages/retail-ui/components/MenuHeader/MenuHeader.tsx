@@ -22,7 +22,7 @@ export default class MenuHeader extends React.Component<MenuHeaderProps> {
   private getProps = createPropsGetter(MenuHeader.defaultProps);
 
   public render() {
-    const classnames = classNames({
+    const classnames: string = classNames({
       [styles.root]: true,
       [styles.withLeftPadding]: this.getProps()._enableIconPadding
     });

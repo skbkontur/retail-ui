@@ -5,7 +5,7 @@ import * as PropTypes from 'prop-types';
 import RenderContainer from '../RenderContainer';
 import RenderLayer from '../RenderLayer';
 import ZIndex from '../ZIndex';
-import Transition from 'react-addons-css-transition-group';
+import { Transition } from 'react-transition-group';
 import raf from 'raf';
 
 import PopupHelper, { Rect, PositionObject } from './PopupHelper';
@@ -168,9 +168,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   public render() {
     const location = this.state.location || this._getDummyLocation();
 
-    const { direction } = PopupHelper.getPositionObject(location.position);
-    const { disableAnimations } = this.props;
-
     return (
       <RenderLayer
         onClickOutside={this._handleClickOutside}
@@ -181,69 +178,59 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
          */
         active={this.props.onCloseRequest && this.props.opened}
       >
-        <RenderContainer>
-          <Transition
-            transitionName={{
-              enter:
-                styles[
-                  ('transition-enter-' + direction) as keyof typeof styles
-                ],
-              enterActive: styles['transition-enter-active'],
-              leave: styles['transition-leave'],
-              leaveActive: styles['transition-leave-active'],
-              appear:
-                styles[
-                  ('transition-appear-' + direction) as keyof typeof styles
-                ],
-              appearActive: styles['transition-appear-active']
-            }}
-            transitionAppear={!disableAnimations}
-            transitionEnter={!disableAnimations}
-            transitionLeave={!disableAnimations}
-            transitionAppearTimeout={200}
-            transitionEnterTimeout={200}
-            transitionLeaveTimeout={200}
-          >
-            {this._renderContent(location)}
-          </Transition>
-        </RenderContainer>
+        <RenderContainer>{this._renderContent(location)}</RenderContainer>
       </RenderLayer>
     );
   }
 
   private _renderContent(location: PopupLocation) {
-    if (!this.props.opened) {
-      return null;
-    }
-
-    const children =
-      typeof this.props.children === 'function'
-        ? this.props.children()
-        : this.props.children;
-
-    if (children == null) {
-      return null;
-    }
+    const { direction } = PopupHelper.getPositionObject(location.position);
 
     return (
-      <ZIndex
-        key={this.state.location ? 'real' : 'dummy'}
-        delta={1000}
-        ref={this._refPopupElement}
-        className={cn(styles.popup, this.props.hasShadow && styles.shadow)}
-        style={{
-          top: location.coordinates.top,
-          left: location.coordinates.left,
-          backgroundColor: this.props.backgroundColor,
-          maxWidth: this.props.maxWidth
-        }}
-        onMouseEnter={this.props.onMouseEnter}
-        onMouseLeave={this.props.onMouseLeave}
+      <Transition
+        timeout={{ enter: 0, exit: 200 }}
+        appear
+        in={this.props.opened}
+        mountOnEnter
+        unmountOnExit
+        onExited={this.resetLocation}
       >
-        {children}
-        {this._renderPin(location.position)}
-      </ZIndex>
+        {(state: string) => (
+          <ZIndex
+            key={this.state.location ? 'real' : 'dummy'}
+            delta={1000}
+            ref={this._refPopupElement}
+            className={cn({
+              [styles.popup]: true,
+              [styles.shadow]: this.props.hasShadow,
+              [styles['transition-enter']]: state === 'entering',
+              [styles['transition-enter-active']]: state === 'entered',
+              [styles['transition-exit']]: state === 'exiting',
+              [styles[
+                ('transition-enter-' + direction) as keyof typeof styles
+              ]]: true
+            })}
+            style={{
+              top: location.coordinates.top,
+              left: location.coordinates.left,
+              backgroundColor: this.props.backgroundColor,
+              maxWidth: this.props.maxWidth
+            }}
+            onMouseEnter={this.props.onMouseEnter}
+            onMouseLeave={this.props.onMouseLeave}
+          >
+            {this.renderChildren()}
+            {this._renderPin(location.position)}
+          </ZIndex>
+        )}
+      </Transition>
     );
+  }
+
+  private renderChildren() {
+    return typeof this.props.children === 'function'
+      ? this.props.children()
+      : this.props.children;
   }
 
   private _refPopupElement = (zIndex: ZIndex | null) => {
@@ -300,23 +287,20 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private _updateLocation() {
-    if (!this.props.opened) {
-      if (this.state.location) {
-        this.setState({ location: null });
-      }
-      return;
-    }
-
     const popupElement = this._lastPopupElement;
     if (!popupElement) {
       return;
     }
 
-    const location = this._getLocation(popupElement);
+    const location = this._getLocation(popupElement, this.state.location);
     if (!this._locationEquals(this.state.location, location)) {
       this.setState({ location });
     }
   }
+
+  private resetLocation = () => {
+    return this.setState({ location: null });
+  };
 
   private _requestClose = () => {
     if (this.props.onCloseRequest) {

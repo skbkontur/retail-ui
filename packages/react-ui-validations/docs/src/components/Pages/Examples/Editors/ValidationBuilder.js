@@ -1,4 +1,3 @@
-
 class PropertyValidationBuilder {
     conditions = [];
 
@@ -9,10 +8,10 @@ class PropertyValidationBuilder {
     }
 
     required() {
-        return this.satisfy(x => Boolean(x), 'Поле должно быть заполнено', 'submit');
+        return this.satisfy(x => Boolean(x), "Поле должно быть заполнено", "submit");
     }
 
-    satisfy(condition, message, type = 'lostfocus') {
+    satisfy(condition, message, type = "lostfocus") {
         this.conditions.push(model => {
             if (!condition(this.modelPicker(model), model)) {
                 return {
@@ -52,10 +51,11 @@ class ValidationBuilder {
     builders = [];
 
     property(modelPicker, infoPicker, configuration) {
-        if (!infoPicker) {
-            infoPicker = modelPicker.toString().match(/return [\w\d]+?\.(.*?)(;|\})/)[1];
+        let infoPickerValue = infoPicker;
+        if (!infoPickerValue) {
+            infoPickerValue = modelPicker.toString().match(/return [\w\d]+?\.(.*?)(;|\})/)[1];
         }
-        const builder = new PropertyValidationBuilder(modelPicker, infoPicker, this);
+        const builder = new PropertyValidationBuilder(modelPicker, infoPickerValue, this);
         if (configuration) {
             configuration(builder);
         }

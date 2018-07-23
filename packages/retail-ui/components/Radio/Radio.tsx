@@ -5,7 +5,7 @@ import * as PropTypes from 'prop-types';
 
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
-import { Nullable, Primitive, Override } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -59,7 +59,7 @@ export type RadioProps<T> = Override<
  * };
  * ```
  */
-class Radio<T extends Primitive> extends React.Component<RadioProps<T>> {
+class Radio<T> extends React.Component<RadioProps<T>> {
   public static contextTypes = {
     activeItem: PropTypes.any,
     onSelect: PropTypes.func,
@@ -124,11 +124,21 @@ class Radio<T extends Primitive> extends React.Component<RadioProps<T>> {
       [styles.disabled]: disabled
     });
 
+    let value: string | number | undefined;
+    if (
+      typeof this.props.value === 'string' ||
+      typeof this.props.value === 'number'
+    ) {
+      value = this.props.value;
+    }
+
     const inputProps = {
       ...rest,
       type: 'radio',
       className: styles.input,
       disabled,
+      tabIndex: this.props.tabIndex,
+      value,
       ref: this._ref,
       onChange: this._handleChange,
       onMouseOver: () => {

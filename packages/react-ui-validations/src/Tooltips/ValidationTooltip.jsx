@@ -1,75 +1,51 @@
 // @flow
-import React from 'react';
-import Tooltip from 'retail-ui/components/Tooltip';
-import RadioGroup from 'retail-ui/components/RadioGroup';
+/* eslint-disable import/no-dynamic-require, prefer-template */
+import * as React from "react";
+import ReactUiDetection from "../ReactUiDetection";
+
+// $FlowFixMe we use define plugin
+const Tooltip2 = require(REACT_UI_PACKAGE + "/components/Tooltip");
+const Tooltip = requireDefault(Tooltip2);
+
+function requireDefault<T>(obj: T): T {
+    // $FlowFixMe default is a same module
+    return obj && obj.__esModule ? obj.default : obj; // eslint-disable-line
+}
 
 type ValidationTooltipProps = {
-    children?: any;
-    type?: 'simple' | 'lostfocus';
-    error: boolean;
+    children?: any,
+    type?: "simple" | "lostfocus",
+    error: boolean,
 };
 
 type ValidationTooltipState = {
-    opened: boolean;
+    focus: boolean,
+    mouseOver: boolean,
 };
 
-export default class ValidationTooltip extends React.Component {
-    props: ValidationTooltipProps;
+export default class ValidationTooltip extends React.Component<ValidationTooltipProps, ValidationTooltipState> {
     state: ValidationTooltipState = {
-        opened: false,
+        focus: false,
+        mouseOver: false,
     };
-
-    static contextTypes = {
-        validationTooltipContext: React.PropTypes.any,
-    };
-
-    componentWillReceiveProps(nextProps: ValidationTooltipProps) {
-        if (this.props.error !== nextProps.error) {
-            this.context.validationTooltipContext.errorStateUpdated(this, this.props.error, nextProps.error);
-        }
-    }
-
-    componentWillMount() {
-        if (this.context.validationTooltipContext) {
-            this.context.validationTooltipContext.registerInstance(this);
-        }
-    }
-
-    componentWillUnmount() {
-        if (this.context.validationTooltipContext) {
-            this.context.validationTooltipContext.unregisterInstance(this);
-        }
-    }
-
-    setOpened(opened: boolean) {
-        if (this.state.opened !== opened) {
-            this.setState({
-                opened: opened,
-            });
-        }
-    }
-
-    getBoxDomElement(): Element {
-        return this.refs.tooltip._hotspotDOM;
-    }
 
     handleFocus() {
-        this.context.validationTooltipContext.instanceFocus(this);
+        this.setState({ focus: true });
     }
 
     handleBlur() {
-        this.context.validationTooltipContext.instanceBlur(this);
+        this.setState({ focus: false });
     }
 
     handleMouseOver() {
-        this.context.validationTooltipContext.instanceMouseOver(this);
+        this.setState({ mouseOver: true });
     }
 
     handleMouseOut() {
-        this.context.validationTooltipContext.instanceMouseOut(this);
+        this.setState({ mouseOver: false });
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { children, ...props } = this.props;
         const onlyChild = React.Children.only(children);
         const childProps: any = {
@@ -88,17 +64,19 @@ export default class ValidationTooltip extends React.Component {
             onMouseEnter: () => this.handleMouseOver(),
             onMouseLeave: () => this.handleMouseOut(),
         };
-        if (onlyChild.type === RadioGroup) {
+        if (ReactUiDetection.isRadioGroup(onlyChild)) {
             const prevRenderItem = onlyChild.props.renderItem;
             const items = onlyChild.props.items;
             childProps.renderItem = (value, data, ...rest) => {
                 if (items[0] === value) {
                     return (
                         <Tooltip
-                            ref='tooltip'
+                            ref="tooltip"
                             {...props}
                             closeButton={false}
-                            trigger={this.props.error && this.state.opened ? 'opened' : 'closed'}>
+                            trigger={
+                                this.props.error && (this.state.focus || this.state.mouseOver) ? "opened" : "closed"
+                            }>
                             {React.cloneElement(prevRenderItem(value, data, ...rest))}
                         </Tooltip>
                     );
@@ -109,10 +87,10 @@ export default class ValidationTooltip extends React.Component {
         }
         return (
             <Tooltip
-                ref='tooltip'
+                ref="tooltip"
                 {...props}
                 closeButton={false}
-                trigger={this.props.error && this.state.opened ? 'opened' : 'closed'}>
+                trigger={this.props.error && (this.state.focus || this.state.mouseOver) ? "opened" : "closed"}>
                 {React.cloneElement(onlyChild, childProps)}
             </Tooltip>
         );

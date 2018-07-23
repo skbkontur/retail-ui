@@ -212,7 +212,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   }
 
-  public _handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  private _handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (polyfillPlaceholder) {
       const fieldIsEmpty = event.target!.value === '';
 
