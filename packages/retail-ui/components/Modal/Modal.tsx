@@ -14,9 +14,10 @@ import { ModalContext, ModalContextProps } from './ModalContext';
 import { Footer, FooterProps } from './ModalFooter';
 import { Header, HeaderProps } from './ModalHeader';
 import { Body } from './ModalBody';
-import { Close } from './ModalClose';
+import Close from './ModalClose';
 import cn from 'classnames';
 import Upgrades from '../../lib/Upgrades';
+import FocusLock from 'react-focus-lock';
 
 let mountedModalsCount = 0;
 
@@ -156,27 +157,29 @@ class Modal extends React.Component<ModalProps, ModalState> {
             })}
             onClick={this.handleContainerClick}
           >
-            <div
-              className={styles.centerContainer}
-              onClick={this.handleContainerClick}
-              style={containerStyle}
-            >
-              <div className={styles.window} style={style}>
-                {!hasHeader && !this.props.noClose ? (
-                  <Close
-                    requestClose={this.requestClose}
-                    disableClose={this.props.disableClose}
-                  />
-                ) : null}
-                <ModalContext.Provider value={modalContextProps}>
-                  <div>
-                    {' '}
-                    {/* <ModalContext.Provider can only receive a single child element. */}
-                    {this.props.children}
-                  </div>
-                </ModalContext.Provider>
+            <FocusLock returnFocus autoFocus={false}>
+              <div
+                className={styles.centerContainer}
+                onClick={this.handleContainerClick}
+                style={containerStyle}
+              >
+                <div className={styles.window} style={style}>
+                  {!hasHeader && !this.props.noClose ? (
+                    <Close
+                      requestClose={this.requestClose}
+                      disableClose={this.props.disableClose}
+                    />
+                  ) : null}
+                  <ModalContext.Provider value={modalContextProps}>
+                    <div>
+                      {' '}
+                      {/* <ModalContext.Provider can only receive a single child element. */}
+                      {this.props.children}
+                    </div>
+                  </ModalContext.Provider>
+                </div>
               </div>
-            </div>
+            </FocusLock>
           </div>
         </ZIndex>
       </RenderContainer>

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ModalContext } from './ModalContext';
 import Sticky from '../Sticky';
 import classNames from 'classnames';
-import { Close } from './ModalClose';
+import Close from './ModalClose';
 
 import styles = require('./Modal.less');
 
