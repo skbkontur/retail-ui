@@ -18,6 +18,7 @@ export interface FxInputProps
   value?: React.ReactText | CurrencyInputProps['value'] | InputProps['value'];
   onRestore?: () => void;
   onChange?: CurrencyInputProps['onChange'] | InputProps['onChange'];
+  refInput?: (element: CurrencyInput | Input | null) => void;
 }
 
 export interface FxInputDefaultProps {
@@ -73,7 +74,7 @@ class FxInput extends React.Component<FxInputProps> {
           <CurrencyInput
             {...inputProps}
             {...this.props}
-            ref={inst => (this.input = inst)}
+            ref={this.refInput}
             value={this.props.value as CurrencyInputProps['value']}
             onChange={this.props.onChange as CurrencyInputProps['onChange']}
           />
@@ -81,7 +82,7 @@ class FxInput extends React.Component<FxInputProps> {
           <Input
             {...inputProps}
             {...this.props}
-            ref={inst => (this.input = inst)}
+            ref={this.refInput}
             type={this.props.type as InputType}
             value={this.props.value as InputProps['value']}
             onChange={this.props.onChange as InputProps['onChange']}
@@ -90,6 +91,20 @@ class FxInput extends React.Component<FxInputProps> {
       </Group>
     );
   }
+
+  public focus = () => {
+    if (this.input) {
+      this.input.focus();
+    }
+  };
+
+  private refInput = (element: Input | CurrencyInput | null) => {
+    this.input = element;
+
+    if (this.props.refInput) {
+      this.props.refInput(this.input);
+    }
+  };
 }
 
 export default FxInput;
