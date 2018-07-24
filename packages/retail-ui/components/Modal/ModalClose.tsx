@@ -11,7 +11,6 @@ const Close: React.SFC<CloseProps> = (props: CloseProps) => {
         props.disableClose && styles.disabled
       )}
       onClick={props.requestClose}
-      tabIndex={1}
     >
       <span className={styles.closeOutline} />
     </button>
