@@ -16,7 +16,16 @@
       background: transparent;
       border: 0;
       text-align: left;
-      font-size: inherit;
+      font: inherit;
+      font-size: 100%;
+      margin: 0;
+      text-transform: none;
+      -webkit-appearance: button;
+
+      &::-moz-focus-inner {
+        border-style: none;
+        padding: 0;
+      }
     }
 
     .hover {
