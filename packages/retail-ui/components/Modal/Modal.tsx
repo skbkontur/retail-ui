@@ -157,12 +157,12 @@ class Modal extends React.Component<ModalProps, ModalState> {
             })}
             onClick={this.handleContainerClick}
           >
-            <FocusLock returnFocus autoFocus={false}>
-              <div
-                className={styles.centerContainer}
-                onClick={this.handleContainerClick}
-                style={containerStyle}
-              >
+            <div
+              className={styles.centerContainer}
+              onClick={this.handleContainerClick}
+              style={containerStyle}
+            >
+              <FocusLock returnFocus autoFocus={false}>
                 <div className={styles.window} style={style}>
                   {!hasHeader && !this.props.noClose ? (
                     <Close
@@ -178,8 +178,8 @@ class Modal extends React.Component<ModalProps, ModalState> {
                     </div>
                   </ModalContext.Provider>
                 </div>
-              </div>
-            </FocusLock>
+              </FocusLock>
+            </div>
           </div>
         </ZIndex>
       </RenderContainer>
