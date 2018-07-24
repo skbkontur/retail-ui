@@ -42,16 +42,13 @@ export interface TopBarDefaultProps {
  *
  * Шапка
  *
- * `Item({children: node, iconOnly: bool, onClick: func})`
- *  – кликабельный элемент шапки
+ * `Item({children: node, iconOnly: bool, onClick: func})` – кликабельный элемент шапки
  *
  * `Divider()` – разделитель
  *
- * `Start({children: node})`
- *  – контейнер для элементов в начале шапки
+ * `Start({children: node})` – контейнер для элементов в начале шапки
  *
- * `End({children: node})
- *  – контейнер для элементов в конце шапки
+ * `End({children: node})` – контейнер для элементов в конце шапки
  *
  */
 class TopBar extends React.Component<TopBarProps> {

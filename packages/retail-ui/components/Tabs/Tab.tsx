@@ -157,6 +157,7 @@ class Tab extends React.Component<TabProps, TabState> {
       warning,
       success,
       primary,
+      component,
       ...rest
     } = this.props;
 

@@ -9,7 +9,7 @@ import Radio, { SyntheticRadioEvent } from '../Radio';
 
 import styles = require('./RadioGroup.less');
 import { createPropsGetter } from '../internal/createPropsGetter';
-import { Nullable, Primitive } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
 
 export type ItemType<T> = T | [T, React.ReactNode];
 
@@ -34,7 +34,7 @@ export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
-class RadioGroup<T extends Primitive> extends React.Component<
+class RadioGroup<T> extends React.Component<
   RadioGroupProps<T>,
   RadioGroupState<T>
 > {

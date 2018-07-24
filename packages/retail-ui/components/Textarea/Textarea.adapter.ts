@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Textarea from './Textarea';
+import Textarea from './Textarea.js';
 
 const TextareaAdapter = {
   getValue(inst: Textarea) {
@@ -7,7 +7,10 @@ const TextareaAdapter = {
   },
 
   setValue(inst: Textarea, value: string) {
-    inst._handleChange({ target: { value } } as Partial<React.ChangeEvent<HTMLTextAreaElement>>);
+    // tslint:disable-next-line:no-string-literal
+    inst['_handleChange']({
+      target: { value }
+    } as Partial<React.ChangeEvent<HTMLTextAreaElement>>);
   }
 };
 
