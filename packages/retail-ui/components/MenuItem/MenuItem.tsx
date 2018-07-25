@@ -23,7 +23,7 @@ export interface MenuItemProps {
 
   /** @ignore */
   state?: MenuItemState;
-  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+  onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
   target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
   title?: React.AnchorHTMLAttributes<HTMLAnchorElement>['title'];

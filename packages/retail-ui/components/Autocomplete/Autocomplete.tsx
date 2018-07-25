@@ -114,6 +114,7 @@ class Autocomplete extends React.Component<
       menuAlign,
       menuMaxHeight,
       preventWindowScroll,
+      source,
       ...rest
     } = this.props;
 
@@ -244,7 +245,7 @@ class Autocomplete extends React.Component<
   };
 
   private handleMenuItemClick(i: number) {
-    return (event: React.MouseEvent<HTMLElement>) =>
+    return (event: React.SyntheticEvent<HTMLElement>) =>
       this._handleItemClick(event, i);
   }
 
@@ -253,10 +254,10 @@ class Autocomplete extends React.Component<
   };
 
   private _handleItemClick(
-    event: React.MouseEvent<HTMLElement>,
+    event: React.SyntheticEvent<HTMLElement> | React.MouseEvent<HTMLElement>,
     index: number
   ) {
-    if (event.button) {
+    if ((event as React.MouseEvent<HTMLElement>).button) {
       return;
     }
 
