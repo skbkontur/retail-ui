@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import isActiveElement from './isActiveElement';
 import ScrollContainer from '../../ScrollContainer/ScrollContainer';
 
-import MenuItem, { MenuItemElement } from '../../MenuItem/MenuItem';
+import MenuItem, { MenuItemProps } from '../../MenuItem';
 
 import styles from './InternalMenu.less';
 import { createPropsGetter } from '../createPropsGetter';
@@ -94,13 +94,16 @@ export default class InternalMenu extends React.Component<
             }
             const isMenuItem =
               child && (child.type as typeof MenuItem).__MENU_ITEM__;
+
             const isMenuHeader =
               child && (child.type as typeof MenuItem).__MENU_HEADER__;
+
             if (enableIconPadding && (isMenuItem || isMenuHeader)) {
               child = React.cloneElement(child, {
                 _enableIconPadding: true
               });
             }
+
             if (isActiveElement(child)) {
               const highlight = this.state.highlightedIndex === index;
 
@@ -109,7 +112,7 @@ export default class InternalMenu extends React.Component<
                 ref = this._refHighlighted.bind(this, child.ref);
               }
 
-              return React.cloneElement(child, {
+              return React.cloneElement<MenuItemProps, MenuItem>(child, {
                 ref,
                 state: highlight ? 'hover' : child.props.state,
                 onClick: this._select.bind(this, index, false),
@@ -117,6 +120,7 @@ export default class InternalMenu extends React.Component<
                 onMouseLeave: this._unhighlight
               });
             }
+
             return child;
           })}
         </ScrollContainer>
@@ -168,7 +172,7 @@ export default class InternalMenu extends React.Component<
   private _select(
     index: number,
     shouldHandleHref: boolean,
-    event: React.SyntheticEvent<MenuItemElement>
+    event: React.SyntheticEvent<HTMLElement>
   ): boolean {
     const item = childrenToArray(this.props.children)[index];
     if (isActiveElement(item)) {
@@ -180,7 +184,7 @@ export default class InternalMenu extends React.Component<
         }
       }
       if (item.props.onClick) {
-        item.props.onClick(event as React.MouseEvent<MenuItemElement>);
+        item.props.onClick(event as React.MouseEvent<HTMLElement>);
       }
       if (this.props.onItemClick) {
         this.props.onItemClick(event.type);

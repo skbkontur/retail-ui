@@ -129,6 +129,12 @@ export default class CurrencyInput extends React.Component<
     }
   }
 
+  public focus = () => {
+    if (this._input) {
+      this._input.focus();
+    }
+  };
+
   private _getState(value: Nullable<number>, fractionDigits: Nullable<number>) {
     return {
       formatted: CurrencyHelper.format(value, { fractionDigits }),

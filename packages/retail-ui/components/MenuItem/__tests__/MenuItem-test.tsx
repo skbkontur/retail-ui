@@ -17,4 +17,25 @@ describe('MenuItem', () => {
     const wrapper = mount(<MenuItem state="hover">{state => state}</MenuItem>);
     expect(wrapper.text()).toBe('hover');
   });
+
+  it('renders button tag', () => {
+    const wrapper = mount(<MenuItem>Test item</MenuItem>);
+    expect(wrapper.find('button')).toHaveLength(1);
+  });
+
+  it('pass component', () => {
+    const FakeRouterLink = ({ to }) => <span>{to}</span>;
+
+    const Component = ({ href, ...rest }) => (
+      <FakeRouterLink to={href} {...rest} />
+    );
+
+    const wrapper = mount(
+      <MenuItem href="http:test.href" component={Component}>
+        Testing component
+      </MenuItem>
+    );
+
+    expect(wrapper.contains(<span>http:test.href</span>)).toEqual(true);
+  });
 });
