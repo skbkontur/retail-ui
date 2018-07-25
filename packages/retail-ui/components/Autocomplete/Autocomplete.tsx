@@ -5,7 +5,7 @@ import { findDOMNode } from 'react-dom';
 import Input, { InputProps } from '../Input';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import Menu from '../Menu/Menu';
-import MenuItem, { MenuItemElement } from '../MenuItem';
+import MenuItem from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
@@ -244,7 +244,7 @@ class Autocomplete extends React.Component<
   };
 
   private handleMenuItemClick(i: number) {
-    return (event: React.MouseEvent<MenuItemElement>) =>
+    return (event: React.MouseEvent<HTMLElement>) =>
       this._handleItemClick(event, i);
   }
 
@@ -253,7 +253,7 @@ class Autocomplete extends React.Component<
   };
 
   private _handleItemClick(
-    event: React.MouseEvent<MenuItemElement>,
+    event: React.MouseEvent<HTMLElement>,
     index: number
   ) {
     if (event.button) {
