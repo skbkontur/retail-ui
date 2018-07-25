@@ -147,13 +147,17 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     // Если контейнер не больше высоты и не шире окна,
     // то просто выравниваем по центру
     if (windowHeight >= containerHeight && windowWidth >= containerWidth) {
+      this.setState({
+        isStickySpinner: false,
+        spinnerStyle: {}
+      });
       return;
     }
 
     const spinnerStyle = {
-      top: 0,
+      top: 30,
       right: 0,
-      bottom: 0,
+      bottom: 30,
       left: 0
     };
 
