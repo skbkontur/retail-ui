@@ -8,7 +8,7 @@ export default function isActiveElement(
     element &&
     element.type &&
     // FIXME: bad typings
-    (element.type as any).__MENU_ITEM__ &&
+    element.type === MenuItem &&
     !element.props.disabled
   );
 }

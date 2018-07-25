@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import isActiveElement from './isActiveElement';
 import ScrollContainer from '../ScrollContainer/ScrollContainer';
 
-import MenuItem from '../MenuItem/MenuItem';
+import MenuItem, { MenuItemProps } from '../MenuItem/MenuItem';
 
 import styles from './Menu.less';
 import { Nullable } from '../../typings/utility-types';
@@ -81,7 +81,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                 ref = this._refHighlighted.bind(this, child.ref);
               }
 
-              return React.cloneElement(child, {
+              return React.cloneElement<MenuItemProps, MenuItem>(child, {
                 ref,
                 state: highlight ? 'hover' : child.props.state,
                 onClick: this._select.bind(this, index, false),
