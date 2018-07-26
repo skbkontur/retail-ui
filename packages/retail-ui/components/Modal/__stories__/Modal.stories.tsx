@@ -350,4 +350,14 @@ storiesOf('Modal', module)
   .add('Modal with footer panel', () => <ModalWithFooterPanel />)
   .add('Modal without footer panel', () => <ModalWithoutFooterPanel />)
   .add('Modal without footer', () => <ModalWithoutFooter />)
+  .add('Modal without header', () => (
+    <Modal>
+      <Modal.Body>
+        <div>
+          Некоторые функции не работают в вашем браузере. Чтобы все работало,
+          установите один из этих браузеров: Firefox, divpera, Chrome.
+        </div>
+      </Modal.Body>
+    </Modal>
+  ))
   .add('Modal mobile view', () => <ModalMobileView />);

@@ -8,10 +8,11 @@ export class Body extends React.Component {
   public render(): JSX.Element {
     return (
       <ModalContext.Consumer>
-        {({ additionalPadding }) => (
+        {({ additionalPadding, hasHeader }) => (
           <div
             className={classNames(
               styles.body,
+              !hasHeader && styles.bodyWithoutHeader,
               additionalPadding && styles.bodyAddPadding
             )}
           >
