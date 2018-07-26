@@ -199,8 +199,18 @@ export default class PopupMenu extends React.Component<
     }
   };
 
-  private _handleItemSelection = (eventType: string): void => {
-    const restoreFocus = eventType === 'keydown';
+  private _handleItemSelection = (
+    event: React.SyntheticEvent<HTMLElement>
+  ): void => {
+    if (event.isDefaultPrevented()) {
+      return;
+    }
+
+    if (!event.isDefaultPrevented() && event.type === 'keydown') {
+      event.preventDefault();
+    }
+
+    const restoreFocus = event.type === 'keydown';
     this._hideMenu(restoreFocus);
   };
 }
