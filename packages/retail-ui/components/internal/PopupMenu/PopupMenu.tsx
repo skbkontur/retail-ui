@@ -206,7 +206,7 @@ export default class PopupMenu extends React.Component<
       return;
     }
 
-    if (!event.isDefaultPrevented() && event.type === 'keydown') {
+    if (event.type === 'keydown') {
       event.preventDefault();
     }
 
