@@ -4,12 +4,12 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import invariant from 'invariant';
 
-import filterProps, { unwidenBool } from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
 import CssStyles from './Input.less';
+import { Override, Nullable } from '../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -17,140 +17,37 @@ const classes: typeof CssStyles = isFlatDesign
   ? require('./Input.flat.less')
   : require('./Input.less');
 
-const INPUT_PASS_PROPS = unwidenBool({
-  autoFocus: true,
-  disabled: true,
-  id: true,
-  maxLength: true,
-  placeholder: !polyfillPlaceholder,
-  title: true,
-
-  onBlur: true,
-  onDoubleClick: true,
-  onCopy: true,
-  onClick: true,
-  onMouseUp: true,
-  onMouseDown: true,
-  onCut: true,
-  onFocus: true,
-  onInput: true,
-  onKeyDown: true,
-  onKeyPress: true,
-  onKeyUp: true,
-  onPaste: true
-});
-
 export type InputSize = 'small' | 'medium' | 'large';
 
 export type InputAlign = 'left' | 'center' | 'right';
 
 export type InputType = 'password' | 'text';
 
-export interface InputProps {
-  align?: InputAlign;
-
-  /**
-   * Показывать маску, даже если ничего не введено.
-   */
-  alwaysShowMask?: boolean;
-
-  autoFocus?: boolean;
-
-  /**
-   * Не отрисовывать рамку.
-   */
-  borderless?: boolean;
-  /** @ignore */
-  className?: string; // TODO: kill it
-
-  disabled?: boolean;
-
-  error?: boolean;
-
-  /**
-   * ID для использования с элементом label.
-   */
-  id?: string;
-
-  /**
-   * Иконка слева инпута.
-   */
-  leftIcon?: React.ReactNode;
-
-  /**
-   * Маска ввода. Заменяет placeholder и defaultValue, влияет на значение
-   * инпута. Позволяет вводить только ограниченное количество символов.
-   *
-   * Шаблоны:
-   *  9: 0-9
-   *  a: A-Z, a-z
-   *  *: A-Z, a-z, 0-9
-   *
-   * Можно делать неудаляемую маску, например: `+4\9 99 999 99`. `\` &mdash;
-   * экранирует символ шаблона.
-   */
-  mask?: string;
-
-  /**
-   * Символ маски. Если не указан, используется '_'.
-   */
-  maskChar?: string | null;
-
-  maxLength?: number;
-
-  placeholder?: string;
-
-  /**
-   * Иконка справа инпута.
-   */
-  rightIcon?: React.ReactNode;
-
-  size?: InputSize;
-
-  title?: string;
-
-  type?: InputType;
-
-  value?: string;
-
-  warning?: boolean;
-
-  width?: number | string;
-
-  onBlur?: React.FocusEventHandler<HTMLInputElement>;
-
-  onClick?: React.MouseEventHandler<HTMLInputElement>;
-
-  onDoubleClick?: React.MouseEventHandler<HTMLInputElement>;
-
-  onMouseUp?: React.MouseEventHandler<HTMLInputElement>;
-
-  onMouseDown?: React.MouseEventHandler<HTMLInputElement>;
-
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>, v: string) => void;
-
-  onCopy?: React.ClipboardEventHandler<HTMLInputElement>;
-
-  onCut?: React.ClipboardEventHandler<HTMLInputElement>;
-
-  onFocus?: React.FocusEventHandler<HTMLInputElement>;
-
-  onInput?: React.EventHandler<React.SyntheticEvent<HTMLInputElement>>;
-
-  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
-
-  onKeyPress?: React.KeyboardEventHandler<HTMLInputElement>;
-
-  onKeyUp?: React.KeyboardEventHandler<HTMLInputElement>;
-
-  onPaste?: React.ClipboardEventHandler<HTMLInputElement>;
-
-  onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-
-  onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-
-  onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-}
+export type InputProps = Override<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  {
+    leftIcon?: React.ReactNode;
+    rightIcon?: React.ReactNode;
+    error?: boolean;
+    warning?: boolean;
+    borderless?: boolean;
+    align?: InputAlign;
+    mask?: Nullable<string>;
+    maskChar?: Nullable<string>;
+    alwaysShowMask?: boolean;
+    size?: InputSize;
+    onChange?: (
+      event: React.ChangeEvent<HTMLInputElement>,
+      value: string
+    ) => void;
+    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+    type?: InputType;
+    value?: string;
+    className?: undefined;
+  }
+>;
 
 export interface InputState {
   polyfillPlaceholder: boolean;
@@ -243,43 +140,63 @@ class Input extends React.Component<InputProps, InputState> {
   }
 
   public render(): JSX.Element {
+    const {
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      width,
+      error,
+      warning,
+      leftIcon,
+      rightIcon,
+      borderless,
+      value,
+      align,
+      type,
+      mask,
+      style,
+      className,
+      size,
+      placeholder,
+      ...rest
+    } = this.props;
     const labelProps = {
       className: classNames({
         [classes.root]: true,
-        [this.props.className || '']: true,
         [classes.disabled]: this.props.disabled,
-        [classes.error]: this.props.error,
-        [classes.warning]: this.props.warning,
-        [classes.padLeft]: !!this.props.leftIcon,
-        [classes.padRight]: !!this.props.rightIcon,
+        [classes.error]: error,
+        [classes.warning]: warning,
+        [classes.padLeft]: !!leftIcon,
+        [classes.padRight]: !!rightIcon,
         [this.getSizeClassName()]: true
       }),
-      style: { width: this.props.width },
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver
+      style: { width },
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver
     };
 
     const inputProps = {
-      ...filterProps(this.props, INPUT_PASS_PROPS),
+      ...rest,
       className: classNames({
         [classes.input]: true,
-        [classes.borderless]: this.props.borderless,
+        [classes.borderless]: borderless,
         [classes.blink]: this.state.blinking
       }),
-      value: this.props.value,
+      value,
       onChange: this.handleChange,
-      style: { textAlign: this.props.align },
+      style: { textAlign: align },
       ref: this.refInput,
-      type: 'text'
+      type: 'text',
+      placeholder: !polyfillPlaceholder ? placeholder : undefined
     };
 
-    if (this.props.type === 'password') {
-      inputProps.type = this.props.type;
+    if (type === 'password') {
+      inputProps.type = type;
     }
 
-    const input = this.props.mask
-      ? this.renderMaskedInput(inputProps, this.props.mask)
+    const input = !!mask
+      ? this.renderMaskedInput(inputProps, mask)
       : React.createElement('input', inputProps);
 
     return (

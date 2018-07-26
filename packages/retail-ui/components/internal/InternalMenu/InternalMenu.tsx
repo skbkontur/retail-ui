@@ -82,7 +82,11 @@ export default class InternalMenu extends React.Component<
           preventWindowScroll={this.props.preventWindowScroll}
         >
           {React.Children.map(this.props.children, (child, index) => {
-            if (typeof child === 'string' || typeof child === 'number' || child == null) {
+            if (
+              typeof child === 'string' ||
+              typeof child === 'number' ||
+              child == null
+            ) {
               return child;
             }
             if (typeof child.type === 'string') {
@@ -180,7 +184,7 @@ export default class InternalMenu extends React.Component<
         }
       }
       if (item.props.onClick) {
-        item.props.onClick(event);
+        item.props.onClick(event as React.MouseEvent<HTMLElement>);
       }
       if (this.props.onItemClick) {
         this.props.onItemClick(event.type);

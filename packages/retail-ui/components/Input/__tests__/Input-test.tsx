@@ -83,6 +83,7 @@ describe('<Input />', () => {
     const inputProps = render({ ...props, value: 'hello' })
       .find('input')
       .props();
+
     for (let prop in props) {
       expect(inputProps[prop]).toBe(props[prop]);
     }

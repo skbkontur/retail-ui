@@ -6,6 +6,7 @@ import Icon, { IconName } from '../Icon';
 import styles from './MenuItem.less';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
+export type MenuItemElement = HTMLAnchorElement | HTMLSpanElement;
 
 export interface MenuItemProps {
   /** @ignore */

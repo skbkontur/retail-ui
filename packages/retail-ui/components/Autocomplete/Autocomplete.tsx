@@ -5,7 +5,7 @@ import { findDOMNode } from 'react-dom';
 import Input, { InputProps } from '../Input';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import Menu from '../Menu/Menu';
-import MenuItem from '../MenuItem/MenuItem';
+import MenuItem from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
@@ -103,8 +103,23 @@ class Autocomplete extends React.Component<
   }
 
   public render() {
-    const { onChange, onKeyDown, onFocus, onBlur, ...rest } = this.props;
+    const {
+      onChange,
+      onKeyDown,
+      onFocus,
+      onBlur,
+      renderItem: _renderItem,
+      disablePortal,
+      hasShadow,
+      menuAlign,
+      menuMaxHeight,
+      preventWindowScroll,
+      source,
+      ...rest
+    } = this.props;
+
     const inputProps = {
+      ...rest,
       onChange: this._handleChange,
       onKeyDown: this._handleKeyDown,
       onFocus: this._handleFocus,
@@ -116,7 +131,7 @@ class Autocomplete extends React.Component<
         onClickOutside={this._handleBlur}
       >
         <span style={{ display: 'inline-block' }}>
-          <Input {...rest} {...inputProps} />
+          <Input {...inputProps} />
           {this._renderMenu()}
         </span>
       </RenderLayer>
@@ -239,12 +254,10 @@ class Autocomplete extends React.Component<
   };
 
   private _handleItemClick(
-    event: React.SyntheticEvent<HTMLElement>,
+    event: React.SyntheticEvent<HTMLElement> | React.MouseEvent<HTMLElement>,
     index: number
   ) {
-    // FIXME: need better types for MenuItem onClick
-    // @ts-ignore
-    if (event.button) {
+    if ((event as React.MouseEvent<HTMLElement>).button) {
       return;
     }
 

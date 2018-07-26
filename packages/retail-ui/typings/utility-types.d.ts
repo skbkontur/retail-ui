@@ -13,3 +13,5 @@ export type Diff<T extends ObjectKeyType, U extends ObjectKeyType> = ({
 } &
   { [P in U]: never } & { [x: string]: never })[T];
 export type Omit<T, K extends keyof T> = Pick<T, Diff<keyof T, K>>;
+
+export type Override<T, U> = Pick<T, Diff<keyof T, keyof U>> & U;

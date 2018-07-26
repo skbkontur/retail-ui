@@ -2,12 +2,15 @@
 import * as React from 'react';
 import Autocomplete, { AutocompleteProps } from '../Autocomplete';
 import Icon from '../../Icon';
-import { mount } from 'enzyme';
+import * as Enzyme from 'enzyme';
 
-const render = (props: AutocompleteProps) => mount(<Autocomplete {...props} />);
+const render = (
+  props: AutocompleteProps
+): Enzyme.ReactWrapper<AutocompleteProps> =>
+  Enzyme.mount(<Autocomplete {...props} />);
 
 const renderUnc = (props: AutocompleteProps) =>
-  mount<AutocompleteProps>(
+  Enzyme.mount<AutocompleteProps>(
     React.createElement(UncontrolledAutocomplete, props)
   );
 
@@ -126,14 +129,13 @@ describe('<Autocomplete />', () => {
     };
 
     const wrapper = render({ ...props, onChange: () => undefined, source: [] });
-    const inputProps = wrapper.find('Input').props()
+    const inputProps = wrapper.find('Input').props();
 
-    // tslint:disable-next-line:forin
-    for (const prop in props) {
-      expect(inputProps[prop as keyof AutocompleteProps]).toBe(
+    Object.keys(props).forEach(prop => {
+      expect(inputProps[prop as keyof Enzyme.HTMLAttributes]).toBe(
         props[prop as keyof AutocompleteProps]
       );
-    }
+    });
   });
 
   it('handles onKeyDown prop', () => {
