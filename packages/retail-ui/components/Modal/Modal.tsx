@@ -123,6 +123,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     });
 
     const modalContextProps: ModalContextProps = {
+      hasHeader,
       horizontalScroll: this.state.horizontalScroll
     };
     if (hasHeader && !this.props.noClose) {
