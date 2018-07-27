@@ -26,7 +26,7 @@
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "scripts": {
-    "build": "yarn tsc && node scripts/build",
+    "build": "yarn tsc -c prod.tsconfig.json && node scripts/build",
     "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
     "precommit": "lint-staged",
     "predeploy": "yarn run styleguide:build",
@@ -132,7 +132,6 @@
     "style-loader": "^0.21.0",
     "ts-jest": "^23.0.1",
     "ts-loader": "3.5.0",
-    "tsconfig-paths-webpack-plugin": "^3.2.0",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.13.0",
     "tslint-react": "^3.6.0",
@@ -152,7 +151,7 @@
   "jest": {
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "jest.tsconfig.json"
+        "tsConfigFile": "./tsconfig.json"
       }
     },
     "moduleNameMapper": {
@@ -160,7 +159,7 @@
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {
-      "\\.js": "<rootDir>/preprocessor.js",
+      "^.+\\.jsx?$": "<rootDir>/preprocessor.js",
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",

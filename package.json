@@ -15,5 +15,13 @@
     "commitmsg": "commitlint -E GIT_PARAMS",
     "precommit": "lerna run precommit",
     "prepush": "lerna run prepush"
+  },
+  "jest": {
+    "projects": [
+      "<rootDir>/packages/*"
+    ],
+    "roots": [
+      "<rootDir>/packages/*"
+    ]
   }
 }
