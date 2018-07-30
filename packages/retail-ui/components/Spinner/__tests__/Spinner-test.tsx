@@ -6,7 +6,7 @@ import styles from '../Spinner.less';
 import { sizeMaps } from '../settings';
 
 const render = (props = {}) => mount(<Spinner {...props} />);
-const generateSelector = name => `.${styles[name]}`;
+const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;
 
 describe('Spinner', () => {
   beforeEach(() => {
