@@ -16,11 +16,6 @@ describe('FxInput', () => {
 
     wrapper.instance().focus();
 
-    // tslint:disable-next-line:no-console
-    console.log(input.html());
-    // tslint:disable-next-line:no-console
-    console.log(document.activeElement.innerHTML);
-
     expect(input.html() === document.activeElement.innerHTML);
   });
 });
