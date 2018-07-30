@@ -204,10 +204,10 @@ export default class DateSelect extends React.Component<
     if (this.props.maxValue != null && this.props.minValue != null) {
       return value > this.props.maxValue || value < this.props.minValue;
     }
-    if (this.props.minValue) {
+    if (this.props.minValue != null) {
       return value < this.props.minValue;
     }
-    if (this.props.maxValue) {
+    if (this.props.maxValue != null) {
       return value > this.props.maxValue;
     }
   }
