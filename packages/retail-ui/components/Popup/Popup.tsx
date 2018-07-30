@@ -15,7 +15,6 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import styles = require('./Popup.less');
 
 import { isIE, ieVerison } from '../ensureOldIEClassName';
-import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 
 export type PopupPosition =
@@ -142,21 +141,25 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   >;
   private _lastPopupElement: Nullable<HTMLElement>;
 
-  private getProps = createPropsGetter(Popup.defaultProps);
-
   public componentDidMount() {
     this._updateLocation();
     this._layoutEventsToken = LayoutEvents.addListener(this._handleLayoutEvent);
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(prevProps: PopupProps) {
     /**
      * For react < 16 version ReactDOM.unstable_renderSubtreeIntoContainer is
      * used. It causes refs callbacks to call after componentDidUpdate.
      *
      * Delaying _updateLocation to ensure that ref is set
      */
-    this._delayUpdateLocation();
+    if (!prevProps.opened && this.props.opened) {
+      this._delayUpdateLocation();
+    }
+
+    if (prevProps.opened && !this.props.opened) {
+      this.resetLocation();
+    }
   }
 
   public componentWillUnmount() {
@@ -193,7 +196,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         in={this.props.opened}
         mountOnEnter
         unmountOnExit
-        onExited={this.resetLocation}
       >
         {(state: string) => (
           <ZIndex
@@ -213,8 +215,10 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
             style={{
               top: location.coordinates.top,
               left: location.coordinates.left,
-              backgroundColor: this.props.backgroundColor,
-              maxWidth: this.props.maxWidth
+              backgroundColor:
+                this.props.backgroundColor ||
+                Popup.defaultProps.backgroundColor,
+              maxWidth: this.props.maxWidth || Popup.defaultProps.maxWidth
             }}
             onMouseEnter={this.props.onMouseEnter}
             onMouseLeave={this.props.onMouseLeave}
@@ -251,17 +255,22 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       : isIE            ? 'rgba(0, 0, 0, 0.09)'
       :                   'transparent';
 
-    const props = this.getProps();
+    const {
+      pinSize = Popup.defaultProps.pinSize,
+      pinOffset = Popup.defaultProps.pinOffset,
+      hasShadow = Popup.defaultProps.hasShadow,
+      backgroundColor = Popup.defaultProps.backgroundColor
+    } = this.props;
 
     return (
       this.props.hasPin && (
         <PopupPin
           popupElement={this._lastPopupElement!}
           popupPosition={position}
-          size={props.pinSize}
-          offset={props.pinOffset}
-          borderWidth={props.hasShadow ? 1 : 0}
-          backgroundColor={props.backgroundColor}
+          size={pinSize}
+          offset={pinOffset}
+          borderWidth={hasShadow ? 1 : 0}
+          backgroundColor={backgroundColor}
           borderColor={pinBorder}
         />
       )
@@ -288,7 +297,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
   private _updateLocation() {
     const popupElement = this._lastPopupElement;
-    if (!popupElement || !this.props.opened) {
+
+    if (!popupElement) {
       return;
     }
 
@@ -341,10 +351,12 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     popupElement: HTMLElement,
     location?: PopupLocation | null
   ) {
-    const { anchorElement, positions, margin, popupOffset } = this.getProps<
-      PopupProps,
-      Popup
-    >();
+    const {
+      anchorElement,
+      positions,
+      margin = Popup.defaultProps.margin,
+      popupOffset = Popup.defaultProps.popupOffset
+    } = this.props;
 
     if (!anchorElement) {
       throw new Error('Anchor element is not defined');
@@ -409,7 +421,10 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       ? anchorRect.width
       : anchorRect.height;
 
-    const { pinOffset, pinSize } = this.getProps<PopupProps, Popup>();
+    const {
+      pinOffset = Popup.defaultProps.pinOffset,
+      pinSize = Popup.defaultProps.pinSize
+    } = this.props;
     return Math.max(0, pinOffset + pinSize - anchorSize / 2);
   }
 
