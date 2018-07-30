@@ -1,6 +1,5 @@
 import * as React from 'react';
 import DatePicker from '../DatePicker';
-import DateSelect, { MONTHS } from '../../DateSelect';
 import { mount } from 'enzyme';
 
 const renderDatePicker = props =>

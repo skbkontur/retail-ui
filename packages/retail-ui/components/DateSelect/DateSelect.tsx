@@ -201,7 +201,7 @@ export default class DateSelect extends React.Component<
 
   private disableItems(index: number) {
     const value = this.props.value + index;
-    if (this.props.maxValue && this.props.minValue) {
+    if (this.props.maxValue != null && this.props.minValue != null) {
       return value > this.props.maxValue || value < this.props.minValue;
     }
     if (this.props.minValue) {

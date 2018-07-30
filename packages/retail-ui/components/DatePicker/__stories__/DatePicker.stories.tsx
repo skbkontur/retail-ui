@@ -118,6 +118,6 @@ storiesOf('DatePicker', module)
     <DatePickerWithError
       size="medium"
       minDate="05.03.2018"
-      maxDate="30.08.2019"
+      maxDate="30.01.2019"
     />
   ));
