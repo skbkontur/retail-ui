@@ -10,10 +10,9 @@ import * as PropTypes from 'prop-types';
 import styles = require('./DateSelect.less');
 
 import Icon from '../Icon/Icon';
-import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 
-const MONTHS = [
+export const MONTHS = [
   'Январь',
   'Февраль',
   'Март',
@@ -32,15 +31,17 @@ const itemHeight = 24;
 const visibleYearsCount = 11;
 const itemsToMoveCount = -5;
 const monthsCount = 12;
+const defaultMinYear = 1900;
+const defaultMaxYear = 2100;
 
 export interface DateSelectProps {
-  disabled?: boolean;
-  maxYear?: number;
-  minYear?: number;
+  disabled?: boolean | null;
   onChange: (value: number) => void;
   type?: 'month' | 'year';
   value: number;
   width?: number | string;
+  minValue?: number;
+  maxValue?: number;
 }
 
 export interface DateSelectState {
@@ -61,23 +62,23 @@ export default class DateSelect extends React.Component<
   public static propTypes = {
     disabled: PropTypes.bool,
 
-    maxYear: PropTypes.number,
-
-    minYear: PropTypes.number,
-
     type: PropTypes.string,
 
     value: PropTypes.number.isRequired,
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+
+    minValue: PropTypes.number,
+
+    maxValue: PropTypes.number
   };
 
   public static defaultProps = {
     type: 'year',
-    minYear: 1900,
-    maxYear: 2100,
+    minMonth: 0,
+    maxMonth: 11,
     width: 'auto'
   };
 
@@ -100,8 +101,6 @@ export default class DateSelect extends React.Component<
   private longClickTimer: number = 0;
   private setPositionRepeatTimer: number = 0;
   private yearStep: number = 3;
-
-  private getProps = createPropsGetter(DateSelect.defaultProps);
 
   public componentWillReceiveProps() {
     this._setNodeTop();
@@ -200,6 +199,19 @@ export default class DateSelect extends React.Component<
     );
   };
 
+  private disableItems(index: number) {
+    const value = this.props.value + index;
+    if (this.props.maxValue && this.props.minValue) {
+      return value > this.props.maxValue || value < this.props.minValue;
+    }
+    if (this.props.minValue) {
+      return value < this.props.minValue;
+    }
+    if (this.props.maxValue) {
+      return value > this.props.maxValue;
+    }
+  }
+
   private renderMenu(): React.ReactNode {
     const { top, height, nodeTop } = this.state;
 
@@ -216,7 +228,8 @@ export default class DateSelect extends React.Component<
       const className = classNames({
         [styles.menuItem]: true,
         [styles.menuItemActive]: i === this.state.current,
-        [styles.menuItemSelected]: i === 0
+        [styles.menuItemSelected]: i === 0,
+        [styles.menuItemDisabled]: this.disableItems(i)
       });
       const clickHandler = {
         onMouseDown: preventDefault,
@@ -424,7 +437,10 @@ export default class DateSelect extends React.Component<
     if (this.props.type === 'month') {
       return -this.props.value * itemHeight;
     } else if (this.props.type === 'year') {
-      return (this.getProps().minYear - this.props.value) * itemHeight;
+      return (
+        ((this.props.minValue || defaultMinYear) - this.props.value) *
+        itemHeight
+      );
     }
     return -Infinity; // Be defensive.
   }
@@ -433,7 +449,10 @@ export default class DateSelect extends React.Component<
     if (this.props.type === 'month') {
       return (visibleYearsCount - this.props.value) * itemHeight;
     } else if (this.props.type === 'year') {
-      return (this.getProps().maxYear - this.props.value) * itemHeight;
+      return (
+        ((this.props.maxValue || defaultMaxYear) - this.props.value) *
+        itemHeight
+      );
     }
     return Infinity; // Be defensive.
   }

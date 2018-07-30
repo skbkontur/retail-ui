@@ -64,6 +64,35 @@ export const MonthView = ({
 
   const yearSelectDisabled =
     top > 40 || (isLastInYear && top < -height + config.MONTH_TITLE_HEIGHT);
+
+  const getMinMonth = (value: number) => {
+    let min = 0;
+    for (let i = 0; i < 12; ++i) {
+      if (
+        minDate &&
+        CDS.isGreaterOrEqual({ date: 31, month: i, year: value }, minDate)
+      ) {
+        min = i;
+        break;
+      }
+    }
+    return min;
+  };
+
+  const getMaxMonth = (value: number) => {
+    let max = 11;
+    for (let i = 11; i >= 0; --i) {
+      if (
+        maxDate &&
+        CDS.isLessOrEqual({ date: 1, month: i, year: value }, maxDate)
+      ) {
+        max = i;
+        break;
+      }
+    }
+    return max;
+  };
+
   return (
     <div className={classes.month} style={{ top }} key={month + '-' + year}>
       <div
@@ -81,6 +110,8 @@ export const MonthView = ({
             value={month}
             onChange={onMonthSelect}
             ref={!monthSelectDisabled ? monthSelectRef : undefined}
+            minValue={getMinMonth(year)}
+            maxValue={getMaxMonth(year)}
           />
         </div>
         {isYearVisible && (
@@ -90,8 +121,8 @@ export const MonthView = ({
               width={50}
               type="year"
               value={year}
-              minYear={minDate ? minDate.year : undefined}
-              maxYear={maxDate ? maxDate.year : undefined}
+              minValue={minDate ? minDate.year : undefined}
+              maxValue={maxDate ? maxDate.year : undefined}
               onChange={onYearSelect}
               ref={!yearSelectDisabled ? yearSelectRef : undefined}
             />

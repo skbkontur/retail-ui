@@ -1,4 +1,4 @@
- // tslint:disable:jsx-no-lambda no-console
+// tslint:disable:jsx-no-lambda no-console
 import Button from '../../Button/index';
 import Gapped from '../../Gapped/index';
 import MockDate from '../../internal/MockDate';
@@ -24,6 +24,7 @@ class DatePickerWithError extends React.Component<any, any> {
           onCloseClick={this._removeTooltip}
         >
           <DatePicker
+            {...this.props}
             disabled={this.props.disabled}
             size={this.props.size}
             error={this.state.error}
@@ -85,7 +86,8 @@ class DatePickerWithError extends React.Component<any, any> {
 
 const dateForMock = new Date('2017-01-02');
 
-storiesOf('DatePicker', module).addDecorator(
+storiesOf('DatePicker', module)
+  .addDecorator(
     story =>
       process.env.NODE_ENV === 'test' ? (
         <div>
@@ -94,11 +96,10 @@ storiesOf('DatePicker', module).addDecorator(
           {story()}
         </div>
       ) : (
-        <div>
-          {story()}
-        </div>
+        <div>{story()}</div>
       )
-  ).add('with mouseevent handlers', () => (
+  )
+  .add('with mouseevent handlers', () => (
     <div style={{ paddingTop: 200 }}>
       <DatePicker
         value="02.07.2017"
@@ -108,4 +109,15 @@ storiesOf('DatePicker', module).addDecorator(
       />
       <button>ok</button>
     </div>
-  )).add('DatePickerWithError', () => <DatePickerWithError />).add('DatePicker disabled', () => <DatePickerWithError disabled />).add('DatePicker medium', () => <DatePickerWithError size="medium" />).add('DatePicker large', () => <DatePickerWithError size="large" />);
+  ))
+  .add('DatePickerWithError', () => <DatePickerWithError />)
+  .add('DatePicker disabled', () => <DatePickerWithError disabled />)
+  .add('DatePicker medium', () => <DatePickerWithError size="medium" />)
+  .add('DatePicker large', () => <DatePickerWithError size="large" />)
+  .add('DatePicker with min max date', () => (
+    <DatePickerWithError
+      size="medium"
+      minDate="05.03.2018"
+      maxDate="30.08.2019"
+    />
+  ));
