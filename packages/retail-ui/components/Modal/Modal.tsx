@@ -163,7 +163,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
               onClick={this.handleContainerClick}
               style={containerStyle}
             >
-              <FocusLock returnFocus autoFocus={false}>
+              <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
                 <div className={styles.window} style={style}>
                   {!hasHeader && !this.props.noClose ? (
                     <Close
@@ -245,6 +245,11 @@ class Modal extends React.Component<ModalProps, ModalState> {
     } else if (this.state.horizontalScroll) {
       this.setState({ horizontalScroll: false });
     }
+  };
+
+  // TODO: без порталов ломается сохранение фокуса внутри модалки
+  private isDisableFocusLock = () => {
+    return !ReactDOM.createPortal;
   };
 }
 
