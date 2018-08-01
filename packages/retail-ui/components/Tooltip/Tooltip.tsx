@@ -131,19 +131,19 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     }
   }
 
-  public render(): JSX.Element {
+  public render(): JSX.Element | null {
     const { wrapperProps, popupProps, layerProps } = this._getProps();
     const anchorElement = this.props.children
       ? this.wrapperElement
       : this.props.anchorElement;
-    const hasContent = this.props.render && this.props.render() !== null;
+    const content = this.renderContent();
 
     return (
       <RenderLayer {...layerProps}>
         <span ref={this.refWrapper} {...wrapperProps}>
           {this.props.children}
           {anchorElement &&
-            hasContent && (
+            content && (
               <Popup
                 anchorElement={anchorElement}
                 backgroundColor={'white'}
@@ -159,7 +159,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
                 positions={this._getPositions()}
                 {...popupProps}
               >
-                {this.renderContent}
+                {content}
               </Popup>
             )}
         </span>
