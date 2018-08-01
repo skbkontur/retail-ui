@@ -13,8 +13,8 @@ describe('Select', () => {
       group: {
         id: number;
         name: string;
-      }
-    } 
+      };
+    }
 
     const currentValue: ValueType = {
       id: 1,
@@ -27,28 +27,9 @@ describe('Select', () => {
       { id: 3, name: 'Sam', group: { id: 1, name: 'Red group' } }
     ];
 
-    interface SelectExmapleType { new (): Select<ValueType, ValueType> }
-    const SelectExmaple = Select as SelectExmapleType;
+    const SelectExmaple = Select;
 
-    const wrapper2 = mount(
-      <Select
-        value={{
-          id: 1,
-          name: 'John',
-          group: { id: 1, name: 'Red group' }
-        } as ValueType}
-        items={[
-          { id: 1, name: 'John', group: { id: 1, name: 'Red group' } },
-          { id: 2, name: 'Bill', group: { id: 2, name: 'Blue group' } },
-          { id: 3, name: 'Sam', group: { id: 1, name: 'Red group' } }
-        ] as ValueType[]}
-        renderItem={(x: ValueType) => x.name}
-        renderValue={(x: ValueType) => x.name}
-        areValuesEqual={(x1: ValueType, x2: ValueType) => x1.id === x2.id}
-      />
-    );
-
-    const wrapper = mount(
+    const wrapper = mount<Select>(
       <SelectExmaple
         value={currentValue}
         items={objectItems}
@@ -62,7 +43,7 @@ describe('Select', () => {
 
     const dropdownContainer = wrapper.find('DropdownContainer');
 
-    const defaultValueText = wrapper.prop('renderItem')(
+    const defaultValueText = wrapper.prop('renderItem')!(
       currentValue,
       currentValue
     );

@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import RadioGroup from '../RadioGroup';
+import RadioGroup, { RadioGroupProps } from '../RadioGroup';
 import Radio from '../../Radio';
 
-const render = props => mount(React.createElement(RadioGroup, props));
+const render = (props: Partial<RadioGroupProps<string>>) =>
+  mount(React.createElement(RadioGroup, props));
 
 describe('<RadioGroup />', () => {
   it('renders radios inside for items prop', () => {
@@ -101,13 +102,15 @@ describe('<RadioGroup />', () => {
 
   it('passes onMouse* events to radiogroup wrapper', () => {
     const props = {
-      onMouseOver: () => {},
-      onMouseEnter: () => {},
-      onMouseLeave: () => {}
+      onMouseOver: () => undefined,
+      onMouseEnter: () => undefined,
+      onMouseLeave: () => undefined
     };
     const wrapper = render({ items: [], ...props }).first();
     for (const prop in props) {
-      expect(wrapper.prop(prop)).toBe(props[prop]);
+      if (props[prop]) {
+        expect(wrapper.prop(prop)).toBe(props[prop]);
+      }
     }
   });
 

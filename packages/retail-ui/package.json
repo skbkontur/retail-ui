@@ -26,7 +26,7 @@
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "scripts": {
-    "build": "yarn tsc && node scripts/build",
+    "build": "yarn tsc -p prod.tsconfig.json && node scripts/build",
     "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
     "precommit": "lint-staged",
     "predeploy": "yarn run styleguide:build",
@@ -72,6 +72,7 @@
     "@storybook/react": "3.4.8",
     "@types/classnames": "^2.2.5",
     "@types/enzyme": "^3.1.12",
+    "@types/enzyme-to-json": "^1.5.1",
     "@types/exenv": "^1.2.0",
     "@types/fbemitter": "^2.0.32",
     "@types/invariant": "^2.2.29",
@@ -106,6 +107,7 @@
     "css-loader": "^1.0.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.4",
     "eslint": "^4.19.1",
     "eslint-plugin-flowtype": "^2.46.1",
     "eslint-plugin-react": "^7.7.0",
@@ -130,7 +132,6 @@
     "style-loader": "^0.21.0",
     "ts-jest": "^23.0.1",
     "ts-loader": "3.5.0",
-    "tsconfig-paths-webpack-plugin": "^3.2.0",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.13.0",
     "tslint-react": "^3.6.0",
@@ -150,7 +151,7 @@
   "jest": {
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "tsconfig.json"
+        "tsConfigFile": "./tsconfig.json"
       }
     },
     "moduleNameMapper": {
@@ -158,7 +159,7 @@
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {
-      "\\.js": "<rootDir>/preprocessor.js",
+      "^.+\\.jsx?$": "<rootDir>/preprocessor.js",
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",

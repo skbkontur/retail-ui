@@ -16,7 +16,7 @@ describe('<DropdownMenu />', () => {
 
   test('Throw, if caption is not passed', () => {
     // console.log(shallow(<DropdownMenu />).debug());
-    expect(() => shallow(<DropdownMenu />)).toThrow();
+    expect(() => shallow(<DropdownMenu caption={undefined} />)).toThrow();
   });
 
   test('Contains <Menu /> after clicking on caption', () => {
@@ -56,6 +56,7 @@ describe('<DropdownMenu />', () => {
     const wrapper = mount(
       <DropdownMenu caption={<button id="captionForTest">Test</button>}>
         <MenuItem
+          // tslint:disable-next-line:jsx-no-lambda
           onClick={() => {
             testText = 'Bar foo';
           }}
