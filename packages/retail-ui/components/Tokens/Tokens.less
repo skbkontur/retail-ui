@@ -1,0 +1,90 @@
+@import '../variables.less';
+
+:local {
+  .root {
+    .label {
+      background: @bg-default;
+      border: 1px solid @border-color-gray-light;
+      border-top-color: @border-color-gray-dark;
+      cursor: text;
+      padding: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      outline: none;
+    }
+
+    .labelFocused {
+      border: 1px solid @border-color-focus;
+      box-shadow: 0 0 0 1px @border-color-focus;
+    }
+
+    .input {
+      min-width: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      outline: none;
+      margin: 2px 0;
+      font-size: 14px;
+      padding: 0 0 0 5px;
+      height: 24px;
+    }
+
+    .token {
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: @token-color;
+      border-radius: 2px;
+      padding: 0 4px;
+      font-size: 14px;
+      margin: 2px;
+      min-width: 0;
+      min-height: 24px;
+      word-break: break-word;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .tokenActive {
+      background-color: @token-active-color;
+      color: @text-color-invert;
+
+      .removeIcon {
+        transition: none;
+        fill: @token-active-remove-icon-color;
+
+        &:hover {
+          fill: @token-active-remove-icon-hover-color;
+        }
+      }
+    }
+
+    .removeIcon {
+      height: 15px;
+      width: 15px;
+      padding: 2px;
+      box-sizing: border-box;
+      margin-left: 4px;
+      transition: fill 0.2s ease-out;
+      fill: @token-remove-icon-color;
+      flex: none;
+
+      &:hover {
+        fill: @token-remove-icon-hover-color;
+      }
+    }
+  }
+
+  .subheader {
+    color: #a0a0a0;
+    font-size: 12px;
+  }
+
+  .subheaderHovered {
+    color: #eee;
+  }
+}
