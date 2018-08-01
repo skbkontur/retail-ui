@@ -59,7 +59,7 @@ interface PopupLocation {
   position: string;
 }
 
-export interface PopupState {
+interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
