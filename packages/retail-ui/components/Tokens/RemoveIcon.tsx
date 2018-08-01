@@ -2,10 +2,10 @@ import * as React from 'react';
 
 interface Props {
   className?: string;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<SVGElement>;
 }
 
-const DeleteIcon = (props: Props) => (
+const RemoveIcon = (props: Props) => (
   <svg
     {...props}
     fillRule="evenodd"
@@ -19,4 +19,4 @@ const DeleteIcon = (props: Props) => (
   </svg>
 );
 
-export default DeleteIcon;
+export default RemoveIcon;

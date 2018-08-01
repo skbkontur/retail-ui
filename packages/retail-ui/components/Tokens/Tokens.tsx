@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom';
 import TextWidthHelper from './TextWidthHelper';
 import { TokensTokens } from './TokensTokens';
 import { TokensMenu } from './TokensMenu';
-import { TokensInputAction, TokensReducer } from './TokensReducer';
+import { TokensInputAction, tokensReducer } from './TokensReducer';
 import LayoutEvents from '../../lib/LayoutEvents';
 import styles from './Tokens.less';
 import cn from 'classnames';
@@ -26,6 +26,8 @@ interface Props<T> {
   renderNotFound?: () => React.ReactNode;
   placeholder?: string;
   delimiters?: string[];
+  error?: boolean;
+  warning?: boolean;
 }
 
 export interface State<T> {
@@ -106,7 +108,8 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
     };
 
     return (
-      <div ref={this.rootRef} className={styles.root}>
+      <div ref={this.rootRef} className={styles.root} data-tid="Tokens">
+        /* hack */
         <TextWidthHelper
           ref={this.textHelperRef}
           text={this.state.inputValue}
@@ -119,13 +122,14 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
           tabIndex={0}
           onKeyDown={this.handleWrapperKeyDown}
           onBlur={this.handleWrapperBlur}
-          onFocus={this.handleWrapperFocus}
+          onClick={this.handleWrapperClick}
         >
           <TokensTokens
             selectedItems={this.props.selectedItems}
             activeTokens={this.state.activeTokens}
             renderValue={this.props.renderValue}
             onRemoveToken={this.handleRemoveToken}
+            onTokenClick={this.handleTokenClick}
           />
           <input
             ref={this.inputRef}
@@ -166,7 +170,7 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
   }
 
   private dispatch = (action: TokensInputAction, cb?: () => void) => {
-    this.setState(prevState => TokensReducer(prevState, action), cb);
+    this.setState(prevState => tokensReducer(prevState, action), cb);
   };
 
   private updateInputTextWidth() {
@@ -192,21 +196,24 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
     if (this.isBlurToMenu(event)) {
       this.inputRef.current!.focus();
     } else if (!this.isBlurToWrapper(event)) {
-      this.dispatch({ type: 'BLUR_FROM_INPUT' });
+      this.dispatch({ type: 'BLUR' });
     }
   };
 
-  private handleWrapperBlur = (event: FocusEvent<HTMLLabelElement>) => {
+  private handleWrapperBlur = (event: FocusEvent<HTMLElement>) => {
     if (event.relatedTarget !== this.inputRef.current!) {
-      this.dispatch({ type: 'BLUR_FROM_WRAPPER' });
+      this.dispatch({ type: 'BLUR' });
     }
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
   };
 
-  private handleWrapperFocus = () => {
-    if (!this.state.inFocus) {
-      this.inputRef.current!.focus();
-    }
+  private handleWrapperClick = () => {
+    process.nextTick(() => {
+      if (!this.state.inFocus && this.state.activeTokens.length === 0) {
+        this.inputRef.current!.focus();
+      }
+      this.dispatch({ type: 'SET_FOCUS_IN' });
+    });
   };
 
   private tryGetItems = async (query: string = '') => {
@@ -396,6 +403,21 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
 
   private handleRemoveToken = (item: T) => {
     this.props.onChange(this.props.selectedItems.filter(_ => _ !== item));
+  };
+
+  private handleTokenClick = (
+    event: React.MouseEvent<HTMLElement>,
+    itemNew: T
+  ) => {
+    const items = this.state.activeTokens;
+    if (event.ctrlKey) {
+      const itemsNew = this.state.activeTokens.includes(itemNew)
+        ? items.filter(item => item !== itemNew)
+        : [...items, itemNew];
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: itemsNew });
+    } else {
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [itemNew] });
+    }
   };
 
   private handleChangeInputValue = async (e: ChangeEvent<HTMLInputElement>) => {

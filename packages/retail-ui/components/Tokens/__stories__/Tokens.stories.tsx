@@ -3,14 +3,19 @@ import { storiesOf } from '@storybook/react';
 import { Tokens, TokensInputType } from '../Tokens';
 
 const FixedWidthDecorator = (storyFn: any) => (
-  <div style={{ margin: 40, width: 400 }}>{storyFn()}</div>
+  <div
+    className="tokens-test-container"
+    style={{ margin: 40, height: 200, width: 400, padding: 4 }}
+  >
+    {storyFn()}
+  </div>
 );
 
 async function getItems(query: string) {
   const sleep = (milliseconds: number) =>
     new Promise(resolve => setTimeout(resolve, milliseconds));
   await sleep(400);
-  return ['aaa', 'bbb', 'ccc'].filter(s => s.includes(query));
+  return ['aaa', 'bbb'].filter(s => s.includes(query));
 }
 
 class Wrapper extends React.Component<any, any> {
