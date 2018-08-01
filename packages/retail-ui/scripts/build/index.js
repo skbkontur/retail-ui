@@ -25,6 +25,7 @@ function build() {
   generatePackageJson();
 
   copyNpmRc();
+  copyReadme();
 }
 
 function transform(filename, code, opts) {
@@ -226,6 +227,15 @@ function generatePackageJson() {
     dependencies: Object.assign({}, packageJson.dependencies, {
       'babel-runtime': '^6.26.0'
     }),
+    homepage:
+      'https://github.com/skbkontur/retail-ui/blob/master/packages/retail-ui/README.md',
+    repository: {
+      type: 'git',
+      url: 'git@github.com:skbkontur/retail-ui.git'
+    },
+    bugs: {
+      url: 'https://github.com/skbkontur/retail-ui/issues'
+    },
     peerDependencies: packageJson.peerDependencies
   };
   const source = JSON.stringify(result, null, 2);
@@ -236,4 +246,9 @@ function clearConsole() {
   process.stdout.write(
     process.platform === 'win32' ? '\x1Bc' : '\x1B[2J\x1B[3J\x1B[H'
   );
+}
+
+function copyReadme() {
+  const readmeFile = fs.readFileSync(path.join(process.cwd(), 'README.md'));
+  outputFileSync(path.join(OutDir, 'README.md'), readmeFile);
 }
