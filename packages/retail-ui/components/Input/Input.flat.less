@@ -5,9 +5,9 @@
   @side-padding: 10px;
   @side-padding-padded: 27px;
 
-  @small-vertical-padding: 6px;
-  @medium-vertical-padding: 9px;
-  @large-vertical-padding: 11px;
+  @small-vertical-padding: 7px;
+  @medium-vertical-padding: 10px;
+  @large-vertical-padding: 12px;
 
   .root {
     display: inline-block;
@@ -16,7 +16,9 @@
   }
 
   .input {
-    border: 1px solid @border-color-gray-light;
+    border: 0;
+    box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.15),
+      inset 0 0 0 1px rgba(0, 0, 0, 0.15), inset 0 2px 0 0 rgba(0, 0, 0, 0.05);
     box-sizing: border-box;
     display: inline-block;
     font-family: inherit;
@@ -119,40 +121,37 @@
     }
 
     .input:focus {
-      outline: 1px solid @flat-border-color-focus;
+      outline: 2px solid @flat-border-color-focus;
     }
 
     .warning .input {
-      outline: 1px solid @border-color-warning;
+      outline: 2px solid @border-color-warning;
     }
 
     .error .input {
-      outline: 1px solid @border-color-error;
+      outline: 2px solid @border-color-error;
     }
   }
 
   .input:focus {
-    border-color: @flat-border-color-focus;
-    box-shadow: 0 0 0 1px @flat-border-color-focus;
+    box-shadow: 0 0 0 2px @flat-border-color-focus;
     z-index: 2;
   }
 
   .disabled .input {
     background: @bg-disabled;
-    border-color: @border-color-gray-light;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
     color: @text-color-disabled;
   }
 
   .warning .input {
-    border-color: @border-color-warning;
-    box-shadow: 0 0 0 1px @border-color-warning;
+    box-shadow: 0 0 0 2px @border-color-warning;
     position: relative;
     z-index: 2;
   }
 
   .error .input {
-    border-color: @border-color-error;
-    box-shadow: 0 0 0 1px @border-color-error;
+    box-shadow: 0 0 0 2px @border-color-error;
     position: relative;
     z-index: 2;
   }
@@ -245,5 +244,6 @@
 
   .borderless {
     border-color: transparent;
+    box-shadow: none;
   }
 }
