@@ -46,7 +46,9 @@
       margin: 2px;
       min-width: 0;
       min-height: 24px;
+      word-break: break-all;
       word-break: break-word;
+      border: 1px solid darken(@token-color, 5%);
 
       &:hover {
         cursor: pointer;
@@ -56,6 +58,7 @@
     .tokenActive {
       background-color: @token-active-color;
       color: @text-color-invert;
+      border: 1px solid darken(@token-active-color, 5%);
 
       .removeIcon {
         transition: none;

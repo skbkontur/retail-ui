@@ -47,8 +47,28 @@ const FilledWrapper = (props: any) => (
 );
 
 // tslint:disable jsx-no-lambda
+// let handleClick = (e: any) => {
+//   e.preventDefault();
+//   (document.querySelector('#temp') as any).focus();
+//   setTimeout(() => console.log(document.activeElement), 200)
+// };
 storiesOf('Tokens', module)
   .addDecorator(FixedWidthDecorator)
+  .add('temp', () => {
+    setTimeout(() => {
+      (document.querySelector('#temp') as any).focus();
+      setTimeout(() => console.log(document.activeElement), 200);
+    }, 500);
+    return (
+      <div>
+        {/*<button onClick={handleClick}>click</button>*/}
+        <label id="temp" tabIndex={0} onFocus={() => console.log('on focus')}>
+          label
+          {/*<input type="text" onClick={handleClick} />*/}
+        </label>
+      </div>
+    );
+  })
   .add('empty with reference', () => {
     return <Wrapper getItems={getItems} />;
   })
@@ -58,11 +78,24 @@ storiesOf('Tokens', module)
   .add('empty combined', () => {
     return <Wrapper type={TokensInputType.Combined} getItems={getItems} />;
   })
+  .add('[with reference] filled', () => {
+    return <FilledWrapper getItems={getItems} />;
+  })
+  .add('[without reference] filled', () => {
+    return (
+      <FilledWrapper
+        type={TokensInputType.WithoutReference}
+        getItems={getItems}
+      />
+    );
+  })
+  .add('[combined] filled', () => {
+    return (
+      <FilledWrapper type={TokensInputType.Combined} getItems={getItems} />
+    );
+  })
   .add('placeholder', () => {
     return <Wrapper getItems={getItems} placeholder="Введите что-нибудь" />;
-  })
-  .add('with items', () => {
-    return <FilledWrapper getItems={getItems} />;
   })
   .add('with long item 1', () => {
     return (

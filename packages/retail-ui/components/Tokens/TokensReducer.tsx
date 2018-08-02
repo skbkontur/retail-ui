@@ -1,4 +1,4 @@
-import { State } from './Tokens';
+import { TokensState } from './Tokens';
 
 export interface TokensInputAction {
   type: TokensInputActions;
@@ -15,7 +15,11 @@ export type TokensInputActions =
   | 'REMOVE_ALL_ACTIVE_TOKENS'
   | 'CLEAR_INPUT';
 
-export function tokensReducer<T>(state: State<T>, action: TokensInputAction) {
+export function tokensReducer<T>(
+  state: TokensState<T>,
+  action: TokensInputAction
+) {
+  console.log('reducer', action.type, action.payload);
   const payload = action.payload;
   switch (action.type) {
     case 'SET_INPUT_VALUE_WIDTH': {

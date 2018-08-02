@@ -15,7 +15,7 @@ export enum TokensInputType {
   Combined
 }
 
-interface Props<T> {
+export interface TokensProps<T> {
   type?: TokensInputType;
   selectedItems: T[];
   onChange: (items: T[]) => void;
@@ -30,7 +30,7 @@ interface Props<T> {
   warning?: boolean;
 }
 
-export interface State<T> {
+export interface TokensState<T> {
   autocompleteItems?: T[];
   activeTokens: T[];
   inFocus?: boolean;
@@ -38,12 +38,15 @@ export interface State<T> {
   inputValueWidth: number;
 }
 
-export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
+export class Tokens<T = string> extends React.Component<
+  TokensProps<T>,
+  TokensState<T>
+> {
   rootRef = React.createRef<HTMLDivElement>();
   inputRef = React.createRef<HTMLInputElement>();
   tokensInputMenu = React.createRef<TokensMenu<T>>();
   textHelperRef = React.createRef<TextWidthHelper>();
-  wrapperRef = React.createRef<HTMLLabelElement>();
+  wrapperRef = React.createRef<HTMLDivElement>();
 
   get type() {
     return this.props.type ? this.props.type : TokensInputType.WithReference;
@@ -60,7 +63,7 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
     );
   }
 
-  state: State<T> = {
+  state: TokensState<T> = {
     inputValue: '',
     inputValueWidth: 20,
     activeTokens: []
@@ -68,9 +71,10 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
 
   componentDidMount() {
     this.updateInputTextWidth();
+    document.addEventListener('copy', this.handleCopy);
   }
 
-  componentDidUpdate(prevProps: Props<T>, prevState: State<T>) {
+  componentDidUpdate(prevProps: TokensProps<T>, prevState: TokensState<T>) {
     if (prevState.inputValue !== this.state.inputValue) {
       this.updateInputTextWidth();
     }
@@ -83,6 +87,10 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
     if (prevProps.selectedItems.length !== this.props.selectedItems.length) {
       LayoutEvents.emit();
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('copy', this.handleCopy);
   }
 
   render(): JSX.Element {
@@ -109,12 +117,12 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
 
     return (
       <div ref={this.rootRef} className={styles.root} data-tid="Tokens">
-        /* hack */
+        {/* hack */}
         <TextWidthHelper
           ref={this.textHelperRef}
           text={this.state.inputValue}
         />
-        <label
+        <div
           ref={this.wrapperRef}
           className={cn(styles.label, {
             [styles.labelFocused]: this.state.inFocus
@@ -123,6 +131,7 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
           onKeyDown={this.handleWrapperKeyDown}
           onBlur={this.handleWrapperBlur}
           onClick={this.handleWrapperClick}
+          onFocus={() => console.log('wrapper focus')}
         >
           <TokensTokens
             selectedItems={this.props.selectedItems}
@@ -132,10 +141,10 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
             onTokenClick={this.handleTokenClick}
           />
           <input
+            type="text"
             ref={this.inputRef}
             value={this.state.inputValue}
             style={inputInlineStyles}
-            type="text"
             autoComplete="off"
             spellCheck={false}
             className={styles.input}
@@ -148,8 +157,9 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
             onBlur={this.handleInputBlur}
             onChange={this.handleChangeInputValue}
             onKeyDown={this.handleInputKeyDown}
+            onPaste={this.handleInputPaste}
           />
-        </label>
+        </div>
         {showMenu && (
           <TokensMenu
             ref={this.tokensInputMenu}
@@ -181,8 +191,13 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
     );
   }
 
+  private getRelatedTarget(event: FocusEvent<HTMLElement>) {
+    return (event.relatedTarget || document.activeElement) as HTMLElement;
+  }
+
   private handleInputFocus = async (event: FocusEvent<HTMLInputElement>) => {
-    event.stopPropagation();
+    console.log('handleInputFocus');
+    // event.stopPropagation();
     if (!this.state.inFocus) {
       this.dispatch({ type: 'SET_FOCUS_IN' });
     }
@@ -192,28 +207,78 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
   };
 
   private handleInputBlur = (event: FocusEvent<HTMLInputElement>) => {
+    console.log('handleInputBlur', this.isBlurToMenu(event));
     event.stopPropagation();
     if (this.isBlurToMenu(event)) {
-      this.inputRef.current!.focus();
+      this.focusInput();
     } else if (!this.isBlurToWrapper(event)) {
       this.dispatch({ type: 'BLUR' });
     }
   };
 
   private handleWrapperBlur = (event: FocusEvent<HTMLElement>) => {
-    if (event.relatedTarget !== this.inputRef.current!) {
+    console.log(
+      'handleWrapperBlur',
+      event.relatedTarget,
+      document.activeElement
+    );
+    if (!this.isBlurToWrapper(event)) {
       this.dispatch({ type: 'BLUR' });
     }
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
   };
 
   private handleWrapperClick = () => {
+    console.log('handleWrapperClick');
     process.nextTick(() => {
+      console.log(
+        'handleWrapperClick 1',
+        this.state.inFocus,
+        this.state.activeTokens.length === 0
+      );
       if (!this.state.inFocus && this.state.activeTokens.length === 0) {
+        console.log('handleWrapperClick 2');
         this.inputRef.current!.focus();
       }
       this.dispatch({ type: 'SET_FOCUS_IN' });
     });
+  };
+
+  private handleCopy = (event: any) => {
+    if (
+      this.type === TokensInputType.WithReference ||
+      !this.state.inFocus ||
+      this.state.activeTokens.length === 0
+    ) {
+      return;
+    }
+    event.preventDefault();
+    // упорядочивание токенов
+    const tokens = this.state.activeTokens
+      .map(token => this.props.selectedItems.indexOf(token))
+      .sort()
+      .map(index => this.props.selectedItems[index]);
+    // const event = new ClipboardEvent('copy', { data: tokens.join(this.getCopyDelimeter()), dataType: 'text/plain' });
+    // debugger
+    // console.log(event)
+    event.clipboardData.setData('text/plain', tokens.join(this.delimiters[0]));
+  };
+
+  private handleInputPaste = (event: React.ClipboardEvent<HTMLElement>) => {
+    if (this.type === TokensInputType.WithReference) {
+      return;
+    }
+    let paste = event.clipboardData.getData('text');
+    const delimiters = this.delimiters;
+    if (delimiters.some(delimeter => paste.includes(delimeter))) {
+      event.preventDefault();
+      event.stopPropagation();
+      for (const delimeter of delimiters) {
+        paste = paste.split(delimeter).join(delimiters[0]);
+      }
+      const tokens = paste.split(delimiters[0]);
+      this.handleAddItems(tokens as any[]);
+    }
   };
 
   private tryGetItems = async (query: string = '') => {
@@ -235,10 +300,9 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
   };
 
   private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
-    const relatedTarget = event.relatedTarget as HTMLElement;
     if (this.menuRef) {
       const menu = ReactDOM.findDOMNode(this.menuRef) as HTMLElement | null;
-      if (menu && menu.contains(relatedTarget)) {
+      if (menu && menu.contains(this.getRelatedTarget(event))) {
         return true;
       }
     }
@@ -246,7 +310,8 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
   };
 
   private isBlurToWrapper = (event: FocusEvent<HTMLElement>) => {
-    const relatedTarget = event.relatedTarget as HTMLElement;
+    // console.log('isBlurToWrapper', event.relatedTarget, document.activeElement);
+    const relatedTarget = this.getRelatedTarget(event);
     return relatedTarget && this.rootRef.current!.contains(relatedTarget);
   };
 
@@ -296,14 +361,24 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
   };
 
   private moveFocusToLastToken() {
+    console.log('moveFocusToLastToken');
     const items = this.props.selectedItems;
     if (this.state.inputValue === '' && items && items.length > 0) {
       this.dispatch(
         { type: 'SET_ACTIVE_TOKENS', payload: items.slice(-1) },
-        () => this.wrapperRef.current!.focus()
+        this.focusWrapper
       );
     }
   }
+
+  private focusInput = () => {
+    process.nextTick(() => this.inputRef.current!.focus());
+  };
+
+  private focusWrapper = () => {
+    console.log('focusWrapper', this.wrapperRef.current);
+    process.nextTick(() => this.wrapperRef.current!.focus());
+  };
 
   private handleWrapperKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     switch (event.key) {
@@ -394,12 +469,18 @@ export class Tokens<T = string> extends React.Component<Props<T>, State<T>> {
     if (this.props.selectedItems.includes(item)) {
       return;
     }
-    this.props.onChange([...this.props.selectedItems, item]);
+    this.handleAddItems([item]);
     this.dispatch({ type: 'CLEAR_INPUT' });
     if (!this.props.hideMenuIfEmptyInputValue) {
       this.tryGetItems();
     }
   };
+
+  private handleAddItems(items: T[]) {
+    items = items.filter(item => !this.props.selectedItems.includes(item));
+    const newItems = this.props.selectedItems.concat(items);
+    this.props.onChange(newItems);
+  }
 
   private handleRemoveToken = (item: T) => {
     this.props.onChange(this.props.selectedItems.filter(_ => _ !== item));
