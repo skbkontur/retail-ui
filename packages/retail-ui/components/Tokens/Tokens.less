@@ -2,6 +2,18 @@
 
 :local {
   .root {
+    .label.warning {
+      //.labelFocused{
+      border: 1px solid @border-color-warning;
+      box-shadow: 0 0 0 1px @border-color-warning;
+      //}
+    }
+
+    .label.error {
+      border: 1px solid @border-color-error;
+      box-shadow: 0 0 0 1px @border-color-error;
+    }
+
     .label {
       background: @bg-default;
       border: 1px solid @border-color-gray-light;
@@ -49,6 +61,7 @@
       word-break: break-all;
       word-break: break-word;
       border: 1px solid darken(@token-color, 5%);
+      user-select: none;
 
       &:hover {
         cursor: pointer;

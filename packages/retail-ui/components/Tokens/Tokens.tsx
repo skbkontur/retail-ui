@@ -36,6 +36,7 @@ export interface TokensState<T> {
   inFocus?: boolean;
   inputValue: string;
   inputValueWidth: number;
+  preventBlur?: boolean;
 }
 
 /**
@@ -49,7 +50,7 @@ export class Tokens<T = string> extends React.Component<
   inputRef = React.createRef<HTMLInputElement>();
   tokensInputMenu = React.createRef<TokensMenu<T>>();
   textHelperRef = React.createRef<TextWidthHelper>();
-  wrapperRef = React.createRef<HTMLDivElement>();
+  wrapperRef = React.createRef<HTMLLabelElement>();
 
   get type() {
     return this.props.type ? this.props.type : TokensInputType.WithReference;
@@ -64,6 +65,17 @@ export class Tokens<T = string> extends React.Component<
       this.tokensInputMenu.current &&
       this.tokensInputMenu.current.getMenuRef().current
     );
+  }
+
+  isCursorVisibleForState(state: TokensState<T>) {
+    return (
+      state.inFocus &&
+      (state.inputValue !== '' || state.activeTokens.length === 0)
+    );
+  }
+
+  get isCursorVisible() {
+    return this.isCursorVisibleForState(this.state);
   }
 
   state: TokensState<T> = {
@@ -90,6 +102,9 @@ export class Tokens<T = string> extends React.Component<
     if (prevProps.selectedItems.length !== this.props.selectedItems.length) {
       LayoutEvents.emit();
     }
+    if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible) {
+      this.tryGetItems();
+    }
   }
 
   componentWillUnmount() {
@@ -105,36 +120,39 @@ export class Tokens<T = string> extends React.Component<
     }
 
     const showMenu =
-      this.state.inFocus &&
-      this.state.activeTokens.length === 0 &&
       this.type !== TokensInputType.WithoutReference &&
+      this.isCursorVisible &&
+      this.state.activeTokens.length === 0 &&
       (this.state.inputValue !== '' || !this.props.hideMenuIfEmptyInputValue);
 
-    const inputInlineStyles = {
+    const inputInlineStyles: React.CSSProperties = {
+      // вычисляем ширину чтобы input автоматически перенёсся на следующую строку при необходимости
       width: Math.max(50, this.state.inputValueWidth! + 7),
+      // input растягивается на всю ширину чтобы placeholder не обрезался
       flex:
         this.props.selectedItems && this.props.selectedItems.length === 0
           ? 1
-          : undefined
+          : undefined,
+      // в ie не работает, но альтернативный способ --- дать tabindex для label --- предположительно ещё сложнее
+      caretColor: this.isCursorVisible ? undefined : 'transparent'
     };
 
     return (
-      <div ref={this.rootRef} className={styles.root} data-tid="Tokens">
-        {/* hack */}
+      <div data-tid="Tokens" ref={this.rootRef} className={styles.root}>
+        {/* расчёт ширины текста с последующим обновлением ширины input */}
         <TextWidthHelper
           ref={this.textHelperRef}
           text={this.state.inputValue}
         />
-        <div
+        <label
           ref={this.wrapperRef}
           className={cn(styles.label, {
-            [styles.labelFocused]: this.state.inFocus
+            [styles.labelFocused]: this.state.inFocus,
+            [styles.error]: this.props.error,
+            [styles.warning]: this.props.warning
           })}
-          tabIndex={0}
-          onKeyDown={this.handleWrapperKeyDown}
-          onClick={this.handleWrapperClick}
-          onBlur={this.handleWrapperBlur}
-          onFocus={this.handleWrapperFocus}
+          onMouseDown={this.handleWrapperMouseDown}
+          onMouseUp={this.handleWrapperMouseUp}
         >
           <TokensTokens
             selectedItems={this.props.selectedItems}
@@ -159,10 +177,10 @@ export class Tokens<T = string> extends React.Component<
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}
             onChange={this.handleChangeInputValue}
-            onKeyDown={this.handleInputKeyDown}
+            onKeyDown={this.handleKeyDown}
             onPaste={this.handleInputPaste}
           />
-        </div>
+        </label>
         {showMenu && (
           <TokensMenu
             ref={this.tokensInputMenu}
@@ -194,65 +212,62 @@ export class Tokens<T = string> extends React.Component<
     );
   }
 
-  private getRelatedTarget(event: FocusEvent<HTMLElement>) {
-    return (event.relatedTarget || document.activeElement) as HTMLElement;
-  }
-
-  private handleInputFocus = async (event: FocusEvent<HTMLInputElement>) => {
-    console.log('handleInputFocus');
-    // event.stopPropagation();
-    if (!this.state.inFocus) {
-      this.dispatch({ type: 'SET_FOCUS_IN' });
-    }
-    if (!this.props.hideMenuIfEmptyInputValue) {
-      this.tryGetItems(this.state.inputValue);
-    }
+  private handleInputFocus = () => {
+    this.dispatch({ type: 'SET_FOCUS_IN' });
   };
 
   private handleInputBlur = (event: FocusEvent<HTMLInputElement>) => {
-    console.log('handleInputBlur', this.isBlurToMenu(event));
-    event.stopPropagation();
-    if (this.isBlurToMenu(event)) {
-      this.focusInput();
-    } else if (!this.isBlurToWrapper(event)) {
+    if (this.isBlurToMenu(event) || this.state.preventBlur) {
+      event.preventDefault();
+      // первый focus нужен для предотвращения/уменьшения моргания в других браузерах
+      this.inputRef.current!.focus();
+      // в firefox не работает без второго focus
+      process.nextTick(() => this.inputRef.current!.focus());
+      this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
+    } else {
       this.dispatch({ type: 'BLUR' });
     }
   };
 
-  private handleWrapperFocus = (event: FocusEvent<HTMLElement>) => {
-    console.log('handleWrapperFocus');
-    process.nextTick(() => {
-      if (!this.state.inFocus && this.state.activeTokens.length === 0) {
-        this.inputRef.current!.focus();
+  private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
+    if (this.menuRef) {
+      const menu = ReactDOM.findDOMNode(this.menuRef) as HTMLElement | null;
+      const relatedTarget = (event.relatedTarget ||
+        document.activeElement) as HTMLElement;
+      if (menu && menu.contains(relatedTarget)) {
+        return true;
       }
-      this.dispatch({ type: 'SET_FOCUS_IN' });
-    });
-  };
-
-  private handleWrapperBlur = (event: FocusEvent<HTMLElement>) => {
-    console.log('handleWrapperBlur');
-    if (!this.isBlurToWrapper(event)) {
-      this.dispatch({ type: 'BLUR' });
     }
-    this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
+    return false;
   };
 
-  private handleWrapperClick = () => {
-    console.log('handleWrapperClick');
-    process.nextTick(() => {
-      if (!this.state.inFocus && this.state.activeTokens.length === 0) {
-        this.inputRef.current!.focus();
-      }
-      this.dispatch({ type: 'SET_FOCUS_IN' });
-    });
+  private handleWrapperMouseDown = (event: React.MouseEvent<HTMLElement>) => {
+    this.dispatch({ type: 'SET_PREVENT_BLUR', payload: true });
+    const target = event.target as HTMLElement;
+    const isClickOnToken =
+      target &&
+      this.wrapperRef.current!.contains(target) &&
+      target !== this.wrapperRef.current! &&
+      target !== this.inputRef.current!;
+    if (!isClickOnToken) {
+      this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
+    }
+  };
+
+  private handleWrapperMouseUp = () => {
+    this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
   };
 
   private handleCopy = (event: any) => {
-    if (!this.state.inFocus || this.state.activeTokens.length === 0) {
+    if (
+      !this.state.inFocus ||
+      this.state.activeTokens.length === 0 ||
+      this.isCursorVisible
+    ) {
       return;
     }
     event.preventDefault();
-    // упорядочивание токенов
+    // упорядочивание токенов по индексу
     const tokens = this.state.activeTokens
       .map(token => this.props.selectedItems.indexOf(token))
       .sort()
@@ -261,16 +276,16 @@ export class Tokens<T = string> extends React.Component<
   };
 
   private handleInputPaste = (event: React.ClipboardEvent<HTMLElement>) => {
-    if (this.type === TokensInputType.WithReference) {
+    if (this.type === TokensInputType.WithReference || !event.clipboardData) {
       return;
     }
     let paste = event.clipboardData.getData('text');
     const delimiters = this.delimiters;
-    if (delimiters.some(delimeter => paste.includes(delimeter))) {
+    if (delimiters.some(delimiter => paste.includes(delimiter))) {
       event.preventDefault();
       event.stopPropagation();
-      for (const delimeter of delimiters) {
-        paste = paste.split(delimeter).join(delimiters[0]);
+      for (const delimiter of delimiters) {
+        paste = paste.split(delimiter).join(delimiters[0]);
       }
       const tokens = paste.split(delimiters[0]);
       this.handleAddItems(tokens as any[]);
@@ -278,8 +293,12 @@ export class Tokens<T = string> extends React.Component<
   };
 
   private tryGetItems = async (query: string = '') => {
-    if (this.props.getItems) {
+    if (
+      this.props.getItems &&
+      (this.state.inputValue !== '' || !this.props.hideMenuIfEmptyInputValue)
+    ) {
       const autocompleteItems = await this.props.getItems(query);
+
       const autocompleteItemsUnique = autocompleteItems.filter(
         item => !this.props.selectedItems.includes(item)
       );
@@ -295,20 +314,12 @@ export class Tokens<T = string> extends React.Component<
     }
   };
 
-  private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
-    if (this.menuRef) {
-      const menu = ReactDOM.findDOMNode(this.menuRef) as HTMLElement | null;
-      if (menu && menu.contains(this.getRelatedTarget(event))) {
-        return true;
-      }
+  private handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (this.isCursorVisible) {
+      this.handleInputKeyDown(event);
+    } else {
+      this.handleWrapperKeyDown(event);
     }
-    return false;
-  };
-
-  private isBlurToWrapper = (event: FocusEvent<HTMLElement>) => {
-    // console.log('isBlurToWrapper', event.relatedTarget, document.activeElement);
-    const relatedTarget = this.getRelatedTarget(event);
-    return relatedTarget && this.rootRef.current!.contains(relatedTarget);
   };
 
   private handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -357,23 +368,14 @@ export class Tokens<T = string> extends React.Component<
   };
 
   private moveFocusToLastToken() {
-    console.log('moveFocusToLastToken');
     const items = this.props.selectedItems;
     if (this.state.inputValue === '' && items && items.length > 0) {
-      this.dispatch(
-        { type: 'SET_ACTIVE_TOKENS', payload: items.slice(-1) },
-        this.focusWrapper
-      );
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: items.slice(-1) });
     }
   }
 
   private focusInput = () => {
     process.nextTick(() => this.inputRef.current!.focus());
-  };
-
-  private focusWrapper = () => {
-    console.log('focusWrapper', this.wrapperRef.current);
-    process.nextTick(() => this.wrapperRef.current!.focus());
   };
 
   private handleWrapperKeyDown = (event: KeyboardEvent<HTMLElement>) => {
@@ -467,9 +469,7 @@ export class Tokens<T = string> extends React.Component<
     }
     this.handleAddItems([item]);
     this.dispatch({ type: 'CLEAR_INPUT' });
-    if (!this.props.hideMenuIfEmptyInputValue) {
-      this.tryGetItems();
-    }
+    this.tryGetItems();
   };
 
   private handleAddItems(items: T[]) {
@@ -493,7 +493,6 @@ export class Tokens<T = string> extends React.Component<
     event: React.MouseEvent<HTMLElement>,
     itemNew: T
   ) => {
-    console.log('\thandleTokenClick');
     const items = this.state.activeTokens;
     if (event.ctrlKey) {
       const newItems = this.state.activeTokens.includes(itemNew)
@@ -503,10 +502,11 @@ export class Tokens<T = string> extends React.Component<
     } else {
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [itemNew] });
     }
+    this.focusInput();
   };
 
-  private handleChangeInputValue = async (e: ChangeEvent<HTMLInputElement>) => {
-    let query = e.target.value.trimLeft();
+  private handleChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
+    let query = event.target.value.trimLeft();
     if (query.endsWith(' ')) {
       query = query.trimRight() + ' ';
     }

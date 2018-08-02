@@ -28,7 +28,8 @@ export class TokensTokens<T> extends React.Component<Props<T>> {
           const handleTokenClick: React.MouseEventHandler<
             HTMLDivElement
           > = event => {
-            event.preventDefault();
+            // event.preventDefault();
+            event.stopPropagation();
             this.props.onTokenClick(event, item);
           };
           return (

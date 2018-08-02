@@ -9,6 +9,7 @@ export type TokensInputActions =
   | 'SET_INPUT_VALUE_WIDTH'
   | 'UPDATE_QUERY'
   | 'SET_FOCUS_IN'
+  | 'SET_PREVENT_BLUR'
   | 'BLUR'
   | 'SET_AUTOCOMPLETE_ITEMS'
   | 'SET_ACTIVE_TOKENS'
@@ -19,7 +20,6 @@ export function tokensReducer<T>(
   state: TokensState<T>,
   action: TokensInputAction
 ) {
-  console.log('reducer', action.type, action.payload);
   const payload = action.payload;
   switch (action.type) {
     case 'SET_INPUT_VALUE_WIDTH': {
@@ -31,6 +31,9 @@ export function tokensReducer<T>(
     case 'SET_FOCUS_IN': {
       return { inFocus: true };
     }
+    case 'SET_PREVENT_BLUR': {
+      return { preventBlur: payload };
+    }
     case 'SET_AUTOCOMPLETE_ITEMS': {
       return { autocompleteItems: payload };
     }
@@ -38,7 +41,12 @@ export function tokensReducer<T>(
       return { activeTokens: payload };
     }
     case 'BLUR': {
-      return { inFocus: false, autocompleteItems: undefined, activeTokens: [] };
+      return {
+        inFocus: false,
+        preventBlur: false,
+        autocompleteItems: undefined,
+        activeTokens: []
+      };
     }
     case 'REMOVE_ALL_ACTIVE_TOKENS': {
       return { activeTokens: [] };

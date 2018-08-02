@@ -8,7 +8,7 @@ import Popup from '../Popup/Popup';
 import cn from 'classnames';
 import styles from './Tokens.less';
 
-interface Props<T> {
+export interface TokensMenuProps<T> {
   anchorElement: HTMLElement;
   onAddItem: (item: T) => void;
   inputValue: string;
@@ -18,7 +18,7 @@ interface Props<T> {
   showAddItemHint?: boolean;
 }
 
-export class TokensMenu<T> extends React.Component<Props<T>> {
+export class TokensMenu<T> extends React.Component<TokensMenuProps<T>> {
   private menuRef = React.createRef<Menu>();
 
   render() {

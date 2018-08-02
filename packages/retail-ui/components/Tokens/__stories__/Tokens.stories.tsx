@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Tokens, TokensInputType } from '../Tokens';
+import Gapped from '../../Gapped';
 
 const FixedWidthDecorator = (storyFn: any) => (
   <div
@@ -43,30 +44,25 @@ class Wrapper extends React.Component<any, any> {
 }
 
 const FilledWrapper = (props: any) => (
-  <Wrapper {...{ ...props, numberItems: 6 }} />
+  <Wrapper {...{ ...props, numberItems: 7 }} />
 );
 
 // tslint:disable jsx-no-lambda
-// let handleClick = (e: any) => {
-//   e.preventDefault();
-//   (document.querySelector('#temp') as any).focus();
-//   setTimeout(() => console.log(document.activeElement), 200)
-// };
 storiesOf('Tokens', module)
   .addDecorator(FixedWidthDecorator)
-  .add('temp', () => {
-    setTimeout(() => {
-      (document.querySelector('#temp') as any).focus();
-      setTimeout(() => console.log(document.activeElement), 200);
-    }, 500);
+  .add('validations', () => {
     return (
-      <div>
-        {/*<button onClick={handleClick}>click</button>*/}
-        <label id="temp" tabIndex={0} onFocus={() => console.log('on focus')}>
-          label
-          {/*<input type="text" onClick={handleClick} />*/}
-        </label>
-      </div>
+      <Gapped vertical gap={10}>
+        <Wrapper getItems={getItems} placeholder="default" />
+        <Wrapper getItems={getItems} placeholder="warning" warning />
+        <Wrapper getItems={getItems} placeholder="error" error />
+        <Wrapper
+          getItems={getItems}
+          placeholder="warning and error"
+          warning
+          error
+        />
+      </Gapped>
     );
   })
   .add('empty with reference', () => {
@@ -94,9 +90,6 @@ storiesOf('Tokens', module)
       <FilledWrapper type={TokensInputType.Combined} getItems={getItems} />
     );
   })
-  .add('placeholder', () => {
-    return <Wrapper getItems={getItems} placeholder="Введите что-нибудь" />;
-  })
   .add('with long item 1', () => {
     return (
       <Wrapper
@@ -115,5 +108,13 @@ storiesOf('Tokens', module)
           'qewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiop'
         ]}
       />
+    );
+  })
+  .add('multiple tokens', () => {
+    return (
+      <Gapped vertical gap={10}>
+        <FilledWrapper getItems={getItems} />
+        <Wrapper getItems={getItems} type={TokensInputType.WithoutReference} />
+      </Gapped>
     );
   });
