@@ -38,6 +38,9 @@ export interface TokensState<T> {
   inputValueWidth: number;
 }
 
+/**
+ * DRAFT - поле с токенами
+ */
 export class Tokens<T = string> extends React.Component<
   TokensProps<T>,
   TokensState<T>
@@ -129,9 +132,9 @@ export class Tokens<T = string> extends React.Component<
           })}
           tabIndex={0}
           onKeyDown={this.handleWrapperKeyDown}
-          onBlur={this.handleWrapperBlur}
           onClick={this.handleWrapperClick}
-          onFocus={() => console.log('wrapper focus')}
+          onBlur={this.handleWrapperBlur}
+          onFocus={this.handleWrapperFocus}
         >
           <TokensTokens
             selectedItems={this.props.selectedItems}
@@ -216,12 +219,18 @@ export class Tokens<T = string> extends React.Component<
     }
   };
 
+  private handleWrapperFocus = (event: FocusEvent<HTMLElement>) => {
+    console.log('handleWrapperFocus');
+    process.nextTick(() => {
+      if (!this.state.inFocus && this.state.activeTokens.length === 0) {
+        this.inputRef.current!.focus();
+      }
+      this.dispatch({ type: 'SET_FOCUS_IN' });
+    });
+  };
+
   private handleWrapperBlur = (event: FocusEvent<HTMLElement>) => {
-    console.log(
-      'handleWrapperBlur',
-      event.relatedTarget,
-      document.activeElement
-    );
+    console.log('handleWrapperBlur');
     if (!this.isBlurToWrapper(event)) {
       this.dispatch({ type: 'BLUR' });
     }
@@ -231,13 +240,7 @@ export class Tokens<T = string> extends React.Component<
   private handleWrapperClick = () => {
     console.log('handleWrapperClick');
     process.nextTick(() => {
-      console.log(
-        'handleWrapperClick 1',
-        this.state.inFocus,
-        this.state.activeTokens.length === 0
-      );
       if (!this.state.inFocus && this.state.activeTokens.length === 0) {
-        console.log('handleWrapperClick 2');
         this.inputRef.current!.focus();
       }
       this.dispatch({ type: 'SET_FOCUS_IN' });
@@ -245,11 +248,7 @@ export class Tokens<T = string> extends React.Component<
   };
 
   private handleCopy = (event: any) => {
-    if (
-      this.type === TokensInputType.WithReference ||
-      !this.state.inFocus ||
-      this.state.activeTokens.length === 0
-    ) {
+    if (!this.state.inFocus || this.state.activeTokens.length === 0) {
       return;
     }
     event.preventDefault();
@@ -258,9 +257,6 @@ export class Tokens<T = string> extends React.Component<
       .map(token => this.props.selectedItems.indexOf(token))
       .sort()
       .map(index => this.props.selectedItems[index]);
-    // const event = new ClipboardEvent('copy', { data: tokens.join(this.getCopyDelimeter()), dataType: 'text/plain' });
-    // debugger
-    // console.log(event)
     event.clipboardData.setData('text/plain', tokens.join(this.delimiters[0]));
   };
 
@@ -484,18 +480,26 @@ export class Tokens<T = string> extends React.Component<
 
   private handleRemoveToken = (item: T) => {
     this.props.onChange(this.props.selectedItems.filter(_ => _ !== item));
+    const filteredActiveTokens = this.state.activeTokens.filter(
+      _ => _ !== item
+    );
+    this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: filteredActiveTokens });
+    if (filteredActiveTokens.length === 0) {
+      this.focusInput();
+    }
   };
 
   private handleTokenClick = (
     event: React.MouseEvent<HTMLElement>,
     itemNew: T
   ) => {
+    console.log('\thandleTokenClick');
     const items = this.state.activeTokens;
     if (event.ctrlKey) {
-      const itemsNew = this.state.activeTokens.includes(itemNew)
+      const newItems = this.state.activeTokens.includes(itemNew)
         ? items.filter(item => item !== itemNew)
         : [...items, itemNew];
-      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: itemsNew });
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: newItems });
     } else {
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [itemNew] });
     }
