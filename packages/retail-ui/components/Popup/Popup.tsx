@@ -33,7 +33,7 @@ export type PopupPosition =
 
 export interface PopupProps {
   anchorElement: Nullable<HTMLElement>;
-  backgroundColor?: string;
+  backgroundColor?: React.CSSProperties['backgroundColor'];
   children: React.ReactNode | (() => React.ReactNode);
   hasPin?: boolean;
   hasShadow?: boolean;
