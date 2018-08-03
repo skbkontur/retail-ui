@@ -1,4 +1,5 @@
 @import '../variables.less';
+@import '../variables.flat.less';
 
 :local {
   .root {
@@ -11,7 +12,6 @@
   .textarea {
     border: 1px solid @border-color-gray-light;
     border-top-color: @border-color-gray-dark;
-    box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05);
     box-sizing: border-box;
     font-family: inherit;
     font-size: 14px;
@@ -39,8 +39,8 @@
   }
 
   .textarea:focus {
-    border-color: @border-color-focus;
-    box-shadow: 0 0 0 1px @border-color-focus;
+    border-color: @flat-border-color-focus;
+    box-shadow: 0 0 0 1px @flat-border-color-focus;
     position: relative;
     z-index: 2;
   }

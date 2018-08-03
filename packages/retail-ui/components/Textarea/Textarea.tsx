@@ -10,10 +10,18 @@ import throttle from 'lodash.throttle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { getTextAreaHeight } from './TextareaHelpers';
 
-import styles from './Textarea.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { TextareaAdapter } from './Textarea.adapter';
 import { Nullable, Override } from '../../typings/utility-types';
+
+import Upgrades from '../../lib/Upgrades';
+import CssStyles from './Textarea.less';
+
+const isFlatDesign = Upgrades.isFlatDesignEnabled();
+
+const styles: typeof CssStyles = isFlatDesign
+  ? require('./Textarea.flat.less')
+  : require('./Textarea.less');
 
 const PASS_PROPS = {
   autoFocus: true,
