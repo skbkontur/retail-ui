@@ -24,7 +24,6 @@ export default class MenuHeader extends React.Component<MenuHeaderProps> {
   `;
 
   public render() {
-    // const Root = this.root;
     return <this.Component>{this.props.children}</this.Component>;
   }
 }

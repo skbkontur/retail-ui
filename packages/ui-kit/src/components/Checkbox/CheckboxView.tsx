@@ -2,13 +2,14 @@
 import React from 'react';
 // @ts-ignore: noUnusedLocals StyledComponentClass
 import { StyledComponentClass, ThemeProps } from 'styled-components';
+import { CheckboxProps } from '.';
 import styled, { css } from '../../lib/styled-components';
-import { DefaultThemeType } from '../../themes/default';
+import { DefaultThemeType, getDefaultTheme } from '../../themes/default';
 import { CheckboxState, CheckboxType } from '../../themes/default/checkbox';
 import { FocusVisible } from '../internal/focus-visible-selector';
 import IconOk from './IconOk';
 
-export type ViewProps = ThemeProps<DefaultThemeType>;
+export type ViewProps = ThemeProps<DefaultThemeType> & CheckboxProps;
 
 const boxTheme = ({ theme }: ViewProps) => theme.checkbox.box;
 
@@ -19,7 +20,7 @@ const stateProp = (
   prop: string,
   state: CheckboxState = 'default',
   type: CheckboxType = 'unchecked'
-) => ({ theme }: ViewProps) => {
+) => ({ theme = getDefaultTheme() }: ViewProps) => {
   return theme.checkbox[type][state][prop] || '';
 };
 
