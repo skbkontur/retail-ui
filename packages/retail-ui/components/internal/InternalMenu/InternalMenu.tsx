@@ -18,7 +18,7 @@ interface MenuProps {
   onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   width?: number | string;
   preventWindowScroll?: boolean;
-  onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 
   // Циклический перебор айтемов меню (по-дефолтну включен)
   cyclicSelection?: boolean;

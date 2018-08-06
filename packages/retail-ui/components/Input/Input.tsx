@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import MaskedInput from 'react-input-mask';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import invariant from 'invariant';
 
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
@@ -10,6 +9,7 @@ import Upgrades from '../../lib/Upgrades';
 
 import CssStyles from './Input.less';
 import { Override, Nullable } from '../../typings/utility-types';
+import invariant from 'invariant';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -46,6 +46,7 @@ export type InputProps = Override<
     type?: InputType;
     value?: string;
     className?: undefined;
+    capture?: boolean;
   }
 >;
 
@@ -130,7 +131,6 @@ class Input extends React.Component<InputProps, InputState> {
       input.setSelectionRange(start, end);
       // tslint:disable-next-line:no-any
     } else if ((input as any).createTextRange) {
-      // tslint:disable-next-line:no-any
       const range = (input as any).createTextRange();
       range.collapse(true);
       range.moveEnd('character', end);
@@ -210,7 +210,9 @@ class Input extends React.Component<InputProps, InputState> {
   }
 
   private renderMaskedInput(
-    inputProps: React.InputHTMLAttributes<HTMLInputElement>,
+    inputProps: React.InputHTMLAttributes<HTMLInputElement> & {
+      capture?: boolean;
+    },
     mask: string
   ) {
     return (

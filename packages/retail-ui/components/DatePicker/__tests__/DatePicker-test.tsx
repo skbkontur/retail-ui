@@ -1,18 +1,19 @@
 import * as React from 'react';
-import DatePicker from '../DatePicker';
+import DatePicker, { DatePickerProps } from '../DatePicker';
 import { mount } from 'enzyme';
 
-const renderDatePicker = props =>
-  mount(<DatePicker onChange={() => {}} value="02.07.2017" {...props} />);
+const handleChange = () => undefined;
+const renderDatePicker = (props?: Partial<DatePickerProps<string>>) =>
+  mount(<DatePicker onChange={handleChange} value="02.07.2017" {...props} />);
 
 describe('DatePicker', () => {
   it('renders', () => {
-    const datePicker = renderDatePicker({});
+    const datePicker = renderDatePicker();
     expect(datePicker.exists());
   });
 
   it('renders date select when open', () => {
-    const datePicker = renderDatePicker({});
+    const datePicker = renderDatePicker();
     datePicker.setState({ opened: true });
     const dateSelect = datePicker.find('DateSelect');
     expect(dateSelect.exists());

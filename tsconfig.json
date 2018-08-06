@@ -1,12 +1,18 @@
 {
-    "compilerOptions": {
-        "baseUrl": "./packages",
-        "target": "es5",
-        "module": "commonjs",
-        "sourceMap": true
-    },
-    "exclude": [
-        "node_modules",
-        "**/node_modules/*"
-    ]
+  "compilerOptions": {
+    "baseUrl": "./packages",
+    "sourceMap": true,
+    "module": "commonjs",
+    "strict": true,
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "target": "es5",
+    "lib": ["es2017", "es2015", "dom"],
+    "importHelpers": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules", "**/node_modules/*"]
 }

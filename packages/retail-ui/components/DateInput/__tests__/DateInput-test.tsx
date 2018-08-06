@@ -1,21 +1,28 @@
 import * as React from 'react';
 import DateInput, { DateInputConfig } from '../DateInput';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import { maskChar } from '../DateInputHelpers/maskChar';
+import { DateInputProps, DateInputState } from '../../../build/DateInput';
+import { HTMLAttributes } from 'react';
 
-const render = props => mount(<DateInput {...props} />);
+const render = (props: DateInputProps) =>
+  mount<DateInput>(<DateInput {...props} />);
 
 const setups = [
   {
     name: 'DateInput as Input',
-    getInput: root => root.find('input'),
-    getValue: input => input.prop('value'),
+    getInput: (root: ReactWrapper<DateInputProps, DateInputState, DateInput>) =>
+      root.find('input'),
+    getValue: (input: ReactWrapper<HTMLAttributes<HTMLInputElement>>) =>
+      input.prop('value'),
     polyfillInput: false
   },
   {
     name: 'DateInput as InputlikeText',
-    getInput: root => root.find('.input'),
-    getValue: input => input.text(),
+    getInput: (root: ReactWrapper<DateInputProps, DateInputState, DateInput>) =>
+      root.find('.input'),
+    getValue: (input: ReactWrapper<HTMLAttributes<HTMLInputElement>>) =>
+      input.text(),
     polyfillInput: true
   }
 ];
@@ -23,7 +30,6 @@ const setups = [
 setups.forEach(({ name, polyfillInput, getInput, getValue }) => {
   describe(name, () => {
     beforeEach(() => {
-      // $FlowIgnore
       DateInputConfig.polyfillInput = polyfillInput;
     });
 
@@ -34,7 +40,8 @@ setups.forEach(({ name, polyfillInput, getInput, getValue }) => {
 
       it('renders with given valid value', () => {
         const root = render({ value: '10.02.2017' });
-        expect(getValue(getInput(root))).toBe('10.02.2017');
+        const input = getInput(root);
+        expect(getValue(input)).toBe('10.02.2017');
       });
 
       it('updates when value changes', () => {
@@ -64,7 +71,7 @@ setups.forEach(({ name, polyfillInput, getInput, getValue }) => {
         );
       });
 
-      const KeyDownCases = [
+      const KeyDownCases: Array<[string, string[], string]> = [
         // [initial date, [...keys], expected date]
 
         // Date
@@ -155,9 +162,7 @@ setups.forEach(({ name, polyfillInput, getInput, getValue }) => {
 
       const maxDate = '12.09.2019';
 
-      const KeyDownCases = [
-        // [initial date, [...keys], expected date]
-
+      const KeyDownCases: Array<[string, string[], string | boolean]> = [
         // Date
         ['31.03.2017', ['ArrowUp'], '01.03.2017'],
         ['12.09.2019', ['ArrowUp'], false],
