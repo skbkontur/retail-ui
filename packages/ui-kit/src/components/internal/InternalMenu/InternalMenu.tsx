@@ -61,9 +61,7 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
       <InternalMenuStyledWrapper
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
         onKeyDown={this.handleKeyDown}
-        innerRef={element => {
-          this.rootElement = element;
-        }}
+        innerRef={this.rootElementRef}
         tabIndex={0}
       >
         <ScrollContainer
@@ -104,6 +102,10 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
       </InternalMenuStyledWrapper>
     );
   }
+
+  private rootElementRef = (element: InternalMenuWrapper) => {
+    this.rootElement = element;
+  };
 
   private focusWithScrollRestore = (): void => {
     if (this.rootElement && window) {
