@@ -68,7 +68,7 @@ export default class Select<Value = any, Item = any> extends React.Component<
   public render() {
     return (
       <PopupMenu
-        caption={this.getCaption()}
+        renderCaption={this.getCaption}
         menuMaxHeight={this.props.menuMaxHeight}
         menuWidth={this.props.menuWidth || this.props.width}
         popupHasPin={false}
@@ -89,7 +89,7 @@ export default class Select<Value = any, Item = any> extends React.Component<
     return ['bottom left', 'bottom right', 'top left', 'top right'];
   };
 
-  private getCaption = () => {
+  private getCaption = (showMenu: () => void) => {
     const {
       disabled,
       placeholder,
@@ -109,7 +109,7 @@ export default class Select<Value = any, Item = any> extends React.Component<
     } = this.props;
     return (
       <SelectCaptionWrapper>
-        <Button style={{ width, maxWidth }} disabled={disabled} {...rest}>
+        <Button onClick={showMenu} style={{ width, maxWidth }} disabled={disabled} {...rest}>
           <SelectCaptionInner>
             {this.renderLabel()}
             <SelectArrowWrapper>

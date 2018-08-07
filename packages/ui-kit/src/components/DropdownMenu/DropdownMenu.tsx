@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PopupMenu from '../internal/PopupMenu';
 import { MenuItemProps } from '../MenuItem';
+import { ClickableProps } from '../internal/Clickable';
 
 export interface DropdownMenuProps {
   children?: React.ReactElement<MenuItemProps> | Array<React.ReactElement<MenuItemProps>>;
@@ -9,7 +10,7 @@ export interface DropdownMenuProps {
   /** Ширина меню */
   menuWidth?: number | string;
   /** Элемент (обязательный), раскрывающий меню */
-  caption: React.ReactNode;
+  caption: React.ReactElement<ClickableProps>;
   disabled?: boolean;
 }
 
@@ -31,7 +32,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
     }
     return (
       <PopupMenu
-        caption={this.props.caption}
+        renderCaption={this.renderCaption}
         menuMaxHeight={this.props.menuMaxHeight}
         menuWidth={this.props.menuWidth}
         popupHasPin={false}
@@ -43,4 +44,10 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
       </PopupMenu>
     );
   }
+
+  private renderCaption = (showMenu: () => void) => {
+    return React.cloneElement(this.props.caption, {
+      onClick: showMenu
+    });
+  };
 }

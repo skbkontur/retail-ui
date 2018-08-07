@@ -12,7 +12,11 @@ export interface PopupMenuProps {
   /** Ширина меню */
   menuWidth?: number | string;
   /** Элемент (обязательный), раскрывающий меню */
-  caption: React.ReactNode;
+  renderCaption: (
+    showMenu: () => void,
+    hideMenu: () => void,
+    menuVisible: boolean
+  ) => React.ReactNode;
   /**  Массив разрешенных положений меню относительно caption'а. */
   positions: PopupMenuPosition[];
   /** Колбэк, вызываемый после открытия/закрытия меню */
@@ -22,6 +26,7 @@ export interface PopupMenuProps {
   popupMargin: number;
   popupPinOffset?: number;
   disabled?: boolean;
+  captionTrigger?: 'click' | 'none';
 }
 
 export interface PopupMenuState {
@@ -38,7 +43,8 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
   public static defaultProps = {
     positions: PopupMenuPositions,
     type: PopupMenuType.Tooltip,
-    popupHasPin: true
+    popupHasPin: true,
+    captionTrigger: 'click'
   };
 
   public static Type = PopupMenuType;
@@ -54,17 +60,13 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
   public render() {
     return (
       <RenderLayer
-        onClickOutside={() => this.hideMenu()}
-        onFocusOutside={() => this.hideMenu()}
+        onClickOutside={this.handleLoseFocus}
+        onFocusOutside={this.handleLoseFocus}
         active={this.state.menuVisible}
       >
         <PopupMenuWrapper>
-          <PopupMenuCaption
-            onClick={this.handleCaptionClick}
-            onKeyDown={this.handleCaptionKeyDown}
-            innerRef={element => (this.captionWrapper = element)}
-          >
-            {this.props.caption}
+          <PopupMenuCaption innerRef={this.captionRef}>
+            {this.props.renderCaption(this.showMenu, this.hideMenu, this.state.menuVisible)}
           </PopupMenuCaption>
           {this.captionWrapper &&
             this.props.children && (
@@ -95,19 +97,11 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
     );
   }
 
-  private getPositions() {
-    if (isValidPostions(this.props.positions)) {
-      return this.props.positions;
-    }
-
-    return PopupMenuPositions;
-  }
-
-  private toggleMenu = (): void => {
+  public toggleMenu = (): void => {
     this.state.menuVisible ? this.hideMenu() : this.showMenu();
   };
 
-  private showMenu = (firstItemShouldBeSelected?: boolean): void => {
+  public showMenu = (firstItemShouldBeSelected?: boolean): void => {
     if (this.props.disabled) {
       return;
     }
@@ -123,7 +117,7 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
     );
   };
 
-  private hideMenu = (restoreFocus?: boolean): void => {
+  public hideMenu = (restoreFocus?: boolean): void => {
     this.setState(
       {
         menuVisible: false,
@@ -135,24 +129,42 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
     );
   };
 
-  private handleCaptionClick = (): void => {
-    this.toggleMenu();
+  private captionRef = (element: HTMLSpanElement) => {
+    this.captionWrapper = element;
   };
 
-  private handleCaptionKeyDown = (event: React.KeyboardEvent<HTMLElement>): void => {
-    switch (event.key) {
-      case 'Enter':
-      case ' ':
-      case 'ArrowUp':
-      case 'ArrowDown':
-        event.preventDefault();
-        this.showMenu(true);
-        break;
+  private handleLoseFocus = () => {
+    this.hideMenu();
+  };
 
-      default:
-        break;
+  private getPositions() {
+    if (isValidPostions(this.props.positions)) {
+      return this.props.positions;
     }
-  };
+
+    return PopupMenuPositions;
+  }
+
+  // private handleCaptionClick = (): void => {
+  //   if (this.props.captionTrigger === "click") {
+  //     this.toggleMenu();
+  //   }
+  // };
+
+  // private handleCaptionKeyDown = (event: React.KeyboardEvent<HTMLElement>): void => {
+  //   switch (event.key) {
+  //     case "Enter":
+  //     case " ":
+  //     case "ArrowUp":
+  //     case "ArrowDown":
+  //       event.preventDefault();
+  //       this.showMenu(true);
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // };
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLElement>): void => {
     switch (event.key) {
