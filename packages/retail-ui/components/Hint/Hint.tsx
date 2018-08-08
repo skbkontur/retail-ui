@@ -100,27 +100,28 @@ class Hint extends React.Component<HintProps, HintState> {
   }
 
   public render() {
-    return (
-      <span ref={this._ref} style={{ display: 'inline' }}>
-        <span
-          onMouseEnter={this._handleMouseEnter}
-          onMouseLeave={this._handleMouseLeave}
+    return [
+      <span
+        key="caption"
+        onMouseEnter={this._handleMouseEnter}
+        onMouseLeave={this._handleMouseLeave}
+        ref={this._ref}
+      >
+        {this.props.children}
+      </span>,
+      this._dom && (
+        <Popup
+          key="hint"
+          hasPin
+          opened={this.isOpened()}
+          anchorElement={this._dom}
+          positions={this._getPositions()}
+          backgroundColor={bgColor}
         >
-          {this.props.children}
-        </span>
-        {this._dom && (
-          <Popup
-            hasPin
-            opened={this.isOpened()}
-            anchorElement={this._dom}
-            positions={this._getPositions()}
-            backgroundColor={bgColor}
-          >
-            {this._renderContent()}
-          </Popup>
-        )}
-      </span>
-    );
+          {this._renderContent()}
+        </Popup>
+      )
+    ];
   }
 
   private isOpened() {
