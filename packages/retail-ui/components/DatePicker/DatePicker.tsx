@@ -81,7 +81,7 @@ class DatePicker extends React.Component<
     /**
      * Строка формата `dd.mm.yyyy`
      */
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
 
     warning: PropTypes.bool,
 

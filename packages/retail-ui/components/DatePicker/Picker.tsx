@@ -6,6 +6,7 @@ import { formatDate } from './DatePickerHelpers';
 
 import styles = require('./Picker.less');
 import { Nullable } from '../../typings/utility-types';
+import { isLess, isGreater } from '../Calendar/CalendarDateShape';
 
 interface Props {
   maxDate?: CalendarDateShape;
@@ -37,7 +38,7 @@ export default class Picker extends React.Component<Props, State> {
     super(props);
     const today = getTodayCalendarDate();
     this.state = {
-      date: this.props.value || today,
+      date: this.getInitialDate(today),
       today
     };
   }
@@ -95,5 +96,21 @@ export default class Picker extends React.Component<Props, State> {
       const { month, year } = today;
       this._calendar.scrollToMonth(month, year);
     }
+  };
+
+  private getInitialDate = (today: CalendarDateShape) => {
+    if (this.props.value) {
+      return this.props.value;
+    }
+
+    if (this.props.minDate && isLess(today, this.props.minDate)) {
+      return this.props.minDate;
+    }
+
+    if (this.props.maxDate && isGreater(today, this.props.maxDate)) {
+      return this.props.maxDate;
+    }
+
+    return today;
   };
 }
