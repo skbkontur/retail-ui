@@ -5,6 +5,14 @@ import RenderLayer from '../RenderLayer';
 import PopupMenuPositions, { PopupMenuPosition } from './PopupMenuPositions';
 import { PopupMenuCaption, PopupMenuWrapper } from './PopupMenuView';
 import isValidPostions from './validatePositions';
+import { InternalMenuWrapper } from '../InternalMenu/InternalMenuView';
+import { ClickableProps } from '../Clickable';
+
+export interface PopupMenuCaptionProps {
+  showMenu: () => void;
+  hideMenu: () => void;
+  menuVisible: boolean;
+}
 
 export interface PopupMenuProps {
   /** Максимальная высота меню */
@@ -12,11 +20,7 @@ export interface PopupMenuProps {
   /** Ширина меню */
   menuWidth?: number | string;
   /** Элемент (обязательный), раскрывающий меню */
-  renderCaption: (
-    showMenu: () => void,
-    hideMenu: () => void,
-    menuVisible: boolean
-  ) => React.ReactNode;
+  renderCaption: (props: PopupMenuCaptionProps) => React.ReactElement<ClickableProps>;
   /**  Массив разрешенных положений меню относительно caption'а. */
   positions: PopupMenuPosition[];
   /** Колбэк, вызываемый после открытия/закрытия меню */
@@ -43,8 +47,7 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
   public static defaultProps = {
     positions: PopupMenuPositions,
     type: PopupMenuType.Tooltip,
-    popupHasPin: true,
-    captionTrigger: 'click'
+    popupHasPin: true
   };
 
   public static Type = PopupMenuType;
@@ -66,7 +69,11 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
       >
         <PopupMenuWrapper>
           <PopupMenuCaption innerRef={this.captionRef}>
-            {this.props.renderCaption(this.showMenu, this.hideMenu, this.state.menuVisible)}
+            {this.props.renderCaption({
+              menuVisible: this.state.menuVisible,
+              showMenu: this.showMenu,
+              hideMenu: this.hideMenu
+            })}
           </PopupMenuCaption>
           {this.captionWrapper &&
             this.props.children && (
@@ -87,6 +94,7 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
                   onItemClick={this.handleItemSelection}
                   cyclicSelection={false}
                   initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
+                  innerRef={this.internalMenuRef}
                 >
                   {this.props.children}
                 </InternalMenu>
@@ -127,6 +135,12 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
         this.handleChangeMenuVisible(!!restoreFocus);
       }
     );
+  };
+
+  private internalMenuRef = (element: InternalMenuWrapper) => {
+    if (element) {
+      element.focus();
+    }
   };
 
   private captionRef = (element: HTMLSpanElement) => {

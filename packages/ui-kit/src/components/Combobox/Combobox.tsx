@@ -1,11 +1,13 @@
 import * as React from 'react';
-import PopupMenu from '../internal/PopupMenu';
-import Input from '../Input';
 import MenuItem from '../MenuItem';
+import RenderLayer from '../internal/RenderLayer';
+import InternalMenu from '../internal/InternalMenu/InternalMenu';
+import { ComboboxWrapper, ComboboxInput, ComboboxPopup } from './ComboboxView';
 
 export interface ComboboxProps<T> {
   items: T[] | Promise<T[]>;
   renderItem: (item: T) => React.ReactNode;
+  width?: React.CSSProperties['width'];
 }
 
 export interface ComboboxState<T> {
@@ -24,19 +26,38 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     opened: false
   };
 
-  // private menu: PopupMenu | null = null;
-  // private input: Input | null = null;
+  private menu: InternalMenu | null = null;
+  private input: HTMLInputElement | null = null;
 
   public render() {
     return (
-      <PopupMenu
-        positions={['bottom left', 'bottom right', 'top left', 'top right']}
-        renderCaption={this.renderInput}
-        popupHasPin={false}
-        popupMargin={0}
+      <RenderLayer
+        onClickOutside={this.closeMenu}
+        onFocusOutside={this.closeMenu}
+        active={this.state.opened}
       >
-        {this.renderItems()}
-      </PopupMenu>
+        <ComboboxWrapper width={this.props.width}>
+          <ComboboxInput
+            inputRef={this.inputRef}
+            onFocus={this.handleInputFocus}
+            onKeyDown={this.handleInputKeyDown}
+          />
+          {this.input && (
+            <ComboboxPopup
+              opened={this.state.opened}
+              anchorElement={this.input}
+              positions={['bottom left', 'bottom right', 'top left', 'top right']}
+              hasShadow
+              margin={2}
+              width={this.props.width || this.getPopupWidth()}
+            >
+              <InternalMenu ref={this.refMenu} initialSelectedItemIndex={0}>
+                {this.renderItems()}
+              </InternalMenu>
+            </ComboboxPopup>
+          )}
+        </ComboboxWrapper>
+      </RenderLayer>
     );
   }
 
@@ -48,8 +69,54 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     this.getItems(nextProps);
   }
 
-  private renderInput = (showMenu: () => void) => {
-    return <Input onFocus={showMenu} />;
+  public openMenu = () => {
+    this.setState({
+      opened: true
+    });
+  };
+
+  public closeMenu = () => {
+    this.setState({
+      opened: false
+    });
+  };
+
+  private refMenu = (element: InternalMenu) => {
+    this.menu = element;
+  };
+
+  private handleInputFocus = () => {
+    this.openMenu();
+  };
+
+  private getPopupWidth = () => {
+    if (this.input) {
+      return `${this.input.getBoundingClientRect().width}px`;
+    }
+  };
+
+  private handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (this.menu) {
+      switch (event.key) {
+        case 'ArrowUp':
+          event.preventDefault();
+          this.menu.moveUp();
+          break;
+
+        case 'ArrowDown':
+          event.preventDefault();
+          this.menu.moveDown();
+          break;
+
+        case 'Enter':
+          event.preventDefault();
+          this.menu.selectActiveItem(event);
+          break;
+
+        default:
+          break;
+      }
+    }
   };
 
   private renderItems = () => {
@@ -74,17 +141,7 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     }
   };
 
-  // private handleChangeMenuState = (visibleMenu: boolean) => {
-  //   if (visibleMenu && this.input) {
-  //     setTimeout(this.input.focus, 1500);
-  //   }
-  // };
-
-  // private menuRef = (element: PopupMenu) => {
-  //   this.menu = element;
-  // };
-
-  // private inputRef = (element: Input) => {
-  //   this.input = element;
-  // };
+  private inputRef = (element: HTMLInputElement) => {
+    this.input = element;
+  };
 }

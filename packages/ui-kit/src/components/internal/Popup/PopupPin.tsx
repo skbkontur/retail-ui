@@ -13,7 +13,7 @@ const borderStyles: React.CSSProperties = {
 };
 
 export interface PopupPinProps {
-  backgroundColor: string;
+  backgroundColor: React.CSSProperties['backgroundColor'];
   borderColor: string;
   borderWidth: number;
   offset: number;
@@ -142,7 +142,7 @@ export default class PopupPin extends React.Component<PopupPinProps> {
   private getInnerStyle(
     activeBorder: string,
     borderWitdth: number,
-    borderColor: string
+    borderColor: React.CSSProperties['backgroundColor']
   ): React.CSSProperties {
     const direction = this.getPopupOppositeDirection();
     switch (direction) {

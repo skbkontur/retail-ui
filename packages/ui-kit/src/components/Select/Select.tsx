@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Override } from '../../lib/types';
 import Button from '../Button';
 import { ButtonProps } from '../Button/Button';
-import PopupMenu from '../internal/PopupMenu/PopupMenu';
+import PopupMenu, { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 import { PopupMenuPosition } from '../internal/PopupMenu/PopupMenuPositions';
 import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator';
@@ -89,7 +89,7 @@ export default class Select<Value = any, Item = any> extends React.Component<
     return ['bottom left', 'bottom right', 'top left', 'top right'];
   };
 
-  private getCaption = (showMenu: () => void) => {
+  private getCaption = ({ showMenu }: PopupMenuCaptionProps) => {
     const {
       disabled,
       placeholder,

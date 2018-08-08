@@ -2,6 +2,7 @@ import * as React from 'react';
 import PopupMenu from '../internal/PopupMenu';
 import { MenuItemProps } from '../MenuItem';
 import { ClickableProps } from '../internal/Clickable';
+import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 
 export interface DropdownMenuProps {
   children?: React.ReactElement<MenuItemProps> | Array<React.ReactElement<MenuItemProps>>;
@@ -45,7 +46,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
     );
   }
 
-  private renderCaption = (showMenu: () => void) => {
+  private renderCaption = ({ showMenu }: PopupMenuCaptionProps) => {
     return React.cloneElement(this.props.caption, {
       onClick: showMenu
     });

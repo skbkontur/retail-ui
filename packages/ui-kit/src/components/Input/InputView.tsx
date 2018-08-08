@@ -63,7 +63,7 @@ export type InputProps = Override<
     warning?: boolean;
     borderless?: boolean;
     size?: Sizes;
-    refInput?: (element: HTMLInputElement | null) => void;
+    refInput?: (element: HTMLInputElement) => void;
   }
 >;
 

@@ -19,6 +19,7 @@ export interface InternalMenuProps {
    */
   cyclicSelection?: boolean;
   initialSelectedItemIndex?: number;
+  innerRef?: (element: InternalMenuWrapper) => void;
 }
 
 export interface InternalMenuState {
@@ -103,8 +104,24 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
     );
   }
 
+  public moveUp = () => {
+    this.move(-1);
+  };
+
+  public moveDown = () => {
+    this.move(1);
+  };
+
+  public selectActiveItem = (event: React.SyntheticEvent<HTMLElement>) => {
+    this.select(this.state.highlightedIndex, false, event);
+  };
+
   private rootElementRef = (element: InternalMenuWrapper) => {
     this.rootElement = element;
+
+    if (this.props.innerRef) {
+      this.props.innerRef(element);
+    }
   };
 
   private focusWithScrollRestore = (): void => {
@@ -112,7 +129,6 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
       const scrollX: number = window.scrollX;
       const scrollY: number = window.scrollY;
 
-      this.rootElement.focus();
       window.scrollTo(scrollX, scrollY);
     }
   };
@@ -169,21 +185,10 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
 
   private highlightItem = (index: number): void => {
     this.setState({ highlightedIndex: index });
-    if (this.rootElement && this.rootElement.focus) {
-      this.rootElement.focus();
-    }
   };
 
   private unhighlight = () => {
     this.setState({ highlightedIndex: -1 });
-  };
-
-  private moveUp = () => {
-    this.move(-1);
-  };
-
-  private moveDown = () => {
-    this.move(1);
   };
 
   private move(step: number) {

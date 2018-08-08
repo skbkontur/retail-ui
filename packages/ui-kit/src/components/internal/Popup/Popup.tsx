@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import { Transition } from 'react-transition-group';
 import RenderContainer from '../RenderContainer';
 import RenderLayer from '../RenderLayer';
 
@@ -8,11 +7,11 @@ import LayoutEvents from '../../../lib/LayoutEvents';
 import ZIndex from '../ZIndex';
 import PopupHelper, { PositionObject, Rect } from './PopupHelper';
 import PopupPin from './PopupPin';
-import { Direction, PopupStyledView, TransitionState } from './PopupView';
+import { PopupStyledView, PopupTransition } from './PopupView';
 
 export interface PopupProps {
   anchorElement: HTMLElement;
-  backgroundColor?: string;
+  backgroundColor?: React.CSSProperties['backgroundColor'];
   children: React.ReactNode | (() => React.ReactNode);
   hasPin?: boolean;
   hasShadow?: boolean;
@@ -34,7 +33,7 @@ export interface DefaultPopupProps {
   pinOffset: number;
   hasPin: boolean;
   hasShadow: boolean;
-  backgroundColor: string;
+  backgroundColor: React.CSSProperties['backgroundColor'];
 }
 
 export type PropsWithDefaults = PopupProps & DefaultPopupProps;
@@ -109,12 +108,25 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private renderContent(location: Location) {
-    if (!this.props.opened) {
+    const {
+      opened,
+      children: _children,
+      anchorElement,
+      hasPin,
+      margin,
+      pinOffset,
+      pinSize,
+      popupOffset,
+      positions,
+      onCloseRequest,
+      ...rest
+    } = this.props;
+
+    if (!opened) {
       return null;
     }
 
-    const children =
-      typeof this.props.children === 'function' ? this.props.children() : this.props.children;
+    const children = typeof _children === 'function' ? _children() : _children;
 
     if (children == null) {
       return null;
@@ -123,28 +135,26 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     const { direction } = PopupHelper.getPositionObject(location.position);
 
     return (
-      <Transition timeout={{ enter: 0, exit: 200 }} appear={true} in={true}>
-        {(state: TransitionState) => (
-          <PopupStyledView
-            key={this.state.location ? 'real' : 'dummy'}
-            delta={1000}
-            innerRef={this.refPopupElement}
-            hasShadow={this.props.hasShadow}
-            style={{
-              top: location.coordinates.top,
-              left: location.coordinates.left,
-              backgroundColor: this.props.backgroundColor
-            }}
-            onMouseEnter={this.props.onMouseEnter}
-            onMouseLeave={this.props.onMouseLeave}
-            direction={direction as Direction}
-            transitionState={state}
-          >
-            {children}
-            {this.renderPin(location.position)}
-          </PopupStyledView>
-        )}
-      </Transition>
+      <PopupTransition
+        direction={direction}
+        timeout={{ enter: 0, exit: 200 }}
+        appear={true}
+        in={true}
+        style={{
+          top: location.coordinates.top,
+          left: location.coordinates.left
+        }}
+      >
+        <PopupStyledView
+          key={this.state.location ? 'real' : 'dummy'}
+          delta={1000}
+          innerRef={this.refPopupElement}
+          {...rest}
+        >
+          {children}
+          {this.renderPin(location.position)}
+        </PopupStyledView>
+      </PopupTransition>
     );
   }
 

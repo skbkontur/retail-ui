@@ -30,6 +30,7 @@ export type InputProps = Override<
     onChange?: (e: React.ChangeEvent<HTMLInputElement>, v: string) => void;
     warning?: boolean;
     error?: boolean;
+    innerRef?: (element: HTMLInputElement) => void;
   }
 >;
 
@@ -113,7 +114,7 @@ class Input extends React.Component<InputProps, InputState> {
   }
 
   public render() {
-    const { width, leftIcon, rightIcon, align, onChange, ...rest } = this.props;
+    const { width, leftIcon, rightIcon, align, onChange, innerRef, ...rest } = this.props;
     const hasLeftIcon = !!leftIcon;
     const hasRightIcon = !!rightIcon;
 
@@ -152,8 +153,11 @@ class Input extends React.Component<InputProps, InputState> {
     return placeholder;
   }
 
-  private refInput = (ref: HTMLInputElement | null) => {
+  private refInput = (ref: HTMLInputElement) => {
     this.input = ref;
+    if (this.props.innerRef) {
+      this.props.innerRef(ref);
+    }
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

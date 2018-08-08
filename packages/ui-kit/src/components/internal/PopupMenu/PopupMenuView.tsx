@@ -6,6 +6,7 @@ import styled from '../../../lib/styled-components';
 
 export const PopupMenuWrapper = styled.div`
   display: inline-block;
+  position: relative;
 `;
 
 export const PopupMenuCaption = styled.span`
