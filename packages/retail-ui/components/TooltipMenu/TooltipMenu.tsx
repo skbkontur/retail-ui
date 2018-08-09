@@ -1,10 +1,12 @@
 import * as React from 'react';
-import PopupMenu from '../internal/PopupMenu';
+import PopupMenu, { PopupMenuProps } from '../internal/PopupMenu';
 import { MenuItemProps } from '../MenuItem/MenuItem';
 import { isProductionEnv } from '../internal/currentEnvironment';
 import { MenuHeaderProps } from '../MenuHeader';
 
-export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
+export type TooltipMenuChildType = React.ReactElement<
+  MenuItemProps | {} | MenuHeaderProps
+>;
 
 export interface TooltipMenuProps {
   children?: TooltipMenuChildType | TooltipMenuChildType[];
@@ -12,11 +14,16 @@ export interface TooltipMenuProps {
   menuMaxHeight?: number | string;
   /** Ширина меню */
   menuWidth?: number | string;
-  /** Элемент (обязательный), раскрывающий меню */
-  caption: React.ReactElement<any>;
+  /**
+   * Элемент или функция возвращающая элемент,
+   * если передана, используется вместо ```caption```,
+   * в таком случае управлять открытием и закрытием меню
+   * придется в этой функции
+   */
+  caption: PopupMenuProps['caption'];
   /**  Массив разрешенных положений меню относительно caption'а. */
   positions?: string[];
-};
+}
 
 /**
  * Меню, раскрывающееся по клику на переданный в ```caption``` элемент.

@@ -6,21 +6,36 @@ import PopupMenuPositions from './PopupMenuPositions';
 import isValidPostions from './validatePositions';
 import styles from './PopupMenu.less';
 
+export interface PopupMenuCaptionProps {
+  opened: boolean;
+  openMenu: (firstItemShouldBeSelected?: boolean) => void;
+  closeMenu: (restoreFocus?: boolean) => void;
+  toggleMenu: () => void;
+}
+
 export interface PopupMenuProps {
   children?: React.ReactNode;
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
   /** Ширина меню */
   menuWidth?: number | string;
-  /** Элемент (обязательный), раскрывающий меню */
-  caption: React.ReactNode;
+
+  /**
+   * Элемент или функция возвращающая элемент,
+   * если передана, используется вместо ```caption```,
+   * в таком случае управлять открытием и закрытием меню
+   * придется в этой функции
+   */
+  caption:
+    | React.ReactNode
+    | ((props: PopupMenuCaptionProps) => React.ReactNode);
   /**  Массив разрешенных положений меню относительно caption'а. */
   positions?: string[];
   /** Колбэк, вызываемый после открытия/закрытия меню */
   onChangeMenuState?: (x0: boolean, x1: boolean) => void;
   /** Пропсы, передающиеся в Popup */
   popupHasPin?: boolean;
-  popupMargin: number;
+  popupMargin?: number;
   popupPinOffset?: number;
   type?: 'dropdown' | 'tooltip';
 }
@@ -42,7 +57,8 @@ export default class PopupMenu extends React.Component<
   public static defaultProps = {
     positions: PopupMenuPositions,
     type: PopupMenuType.Tooltip,
-    popupHasPin: true
+    popupHasPin: true,
+    popupMargin: 0
   };
 
   public static Type = PopupMenuType;
@@ -63,14 +79,7 @@ export default class PopupMenu extends React.Component<
         active={this.state.menuVisible}
       >
         <div className={styles.container}>
-          <span
-            onClick={this._handleCaptionClick}
-            onKeyDown={this._handleCaptionKeyDown}
-            ref={element => (this._captionWrapper = element)}
-            className={styles.caption}
-          >
-            {this.props.caption}
-          </span>
+          {this.renderCaption()}
           {this._captionWrapper &&
             this.props.children && (
               <Popup
@@ -101,6 +110,37 @@ export default class PopupMenu extends React.Component<
       </RenderLayer>
     );
   }
+
+  private renderCaption = () => {
+    if (typeof this.props.caption === 'function') {
+      const caption = this.props.caption({
+        opened: this.state.menuVisible,
+        openMenu: this._showMenu,
+        closeMenu: this._hideMenu,
+        toggleMenu: this._toggleMenu
+      });
+
+      return (
+        <span
+          className={styles.caption}
+          ref={element => (this._captionWrapper = element)}
+        >
+          {caption}
+        </span>
+      );
+    }
+
+    return (
+      <span
+        onClick={this._handleCaptionClick}
+        onKeyDown={this._handleCaptionKeyDown}
+        ref={element => (this._captionWrapper = element)}
+        className={styles.caption}
+      >
+        {this.props.caption}
+      </span>
+    );
+  };
 
   private hideMenuWithoutFocusing = () => this._hideMenu();
 
