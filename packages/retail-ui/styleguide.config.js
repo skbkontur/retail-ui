@@ -4,6 +4,7 @@ const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
   './tsconfig.json'
 ).parse;
 const parseJsComponent = require('react-docgen').parse;
+const libraryVersion = require('./package.json').version;
 
 function getComponentList() {
   const dirPath = path.resolve(__dirname, 'components');
@@ -132,7 +133,7 @@ module.exports = {
       }
     }
   },
-  title: 'React UI',
+  title: `React UI @${libraryVersion}`,
   require: ['babel-polyfill'],
   resolver: require('react-docgen').resolver.findAllComponentDefinitions,
   propsParser: (path, ...rest) => {
