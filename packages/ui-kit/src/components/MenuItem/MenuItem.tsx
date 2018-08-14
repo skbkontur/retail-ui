@@ -1,7 +1,14 @@
 import * as React from 'react';
-import { MenuItemIcon, MenuItemStyledComment, MenuItemStyledContainer } from './MenuItemView';
+import {
+  MenuItemIcon,
+  MenuItemStyledComment,
+  MenuItemStyledContainer,
+  MenuHeaderItem,
+  MenuStaticItem,
+  MenuSeparator
+} from './MenuItemView';
 
-export type MenuItemState = null | 'hover' | 'selected' | void;
+export type MenuItemState = null | 'hover' | 'selected';
 
 export interface MenuItemProps {
   _enableIconPadding?: boolean;
@@ -28,6 +35,10 @@ export interface MenuItemProps {
  * Элемент меню.
  */
 export default class MenuItem extends React.Component<MenuItemProps> {
+  public static Header = MenuHeaderItem;
+  public static Static = MenuStaticItem;
+  public static Separator = MenuSeparator;
+
   public render() {
     const {
       alkoLink,
@@ -35,7 +46,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
       disabled,
       icon,
       loose,
-      state,
+      state = null,
       children,
       onClick,
       _enableIconPadding,

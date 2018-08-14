@@ -1,5 +1,4 @@
 import * as React from 'react';
-import MenuHeader from '../../MenuHeader';
 import MenuItem from '../../MenuItem';
 
 export function isActiveElement(element: React.ReactChild) {
@@ -15,5 +14,5 @@ export function isMenuItem(element: React.ReactElement<any>): boolean {
 }
 
 export function isMenuHeader(element: React.ReactElement<any>): boolean {
-  return !!element && element.type === MenuHeader;
+  return !!element && element.type === MenuItem.Header;
 }

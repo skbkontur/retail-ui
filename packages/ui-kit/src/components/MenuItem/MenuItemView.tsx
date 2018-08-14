@@ -6,6 +6,7 @@ import { DefaultThemeType } from '../../themes/default';
 import { MenuItemThemeState } from '../../themes/default/menuItem';
 import Clickable from '../internal/Clickable';
 import { MenuItemState } from './MenuItem';
+import { ifProp } from 'styled-tools';
 
 export interface MenuItemContainerProps
   extends React.HTMLAttributes<HTMLSpanElement | HTMLAnchorElement> {
@@ -43,7 +44,33 @@ const MenuItemContainer: React.SFC<MenuItemContainerProps> = ({
   );
 };
 
+const commonStyles = css`
+  padding: 6px 18px 7px 8px;
+  white-space: nowrap;
+
+  ${ifProp('withIcon')`
+    padding-left: 36px;
+  `};
+`;
+
+export const MenuSeparator = styled.div`
+  border-top: 1px solid #e6e6e6;
+  margin: 5px 0;
+`;
+
+export const MenuStaticItem = styled.div`
+  ${commonStyles};
+`;
+
+export const MenuHeaderItem = styled(MenuStaticItem)`
+  color: #a0a0a0;
+  cursor: default;
+  font-size: 12px;
+`;
+
 export const MenuItemStyledContainer = styled(MenuItemContainer)`
+  ${commonStyles};
+
   position: relative;
   background: ${stateProp('background')};
   color: ${stateProp('color')};
@@ -51,9 +78,7 @@ export const MenuItemStyledContainer = styled(MenuItemContainer)`
   display: block;
   line-height: 18px;
   outline: none;
-  padding: 6px 18px 7px 8px;
   text-decoration: none;
-  white-space: nowrap;
   text-align: left;
   width: 100%;
 

@@ -19,6 +19,7 @@ export interface InternalMenuProps {
    */
   cyclicSelection?: boolean;
   initialSelectedItemIndex?: number;
+  selectedItemIndex?: number;
   innerRef?: (element: InternalMenuWrapper) => void;
 }
 
@@ -83,6 +84,13 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
 
             if (isActiveElement(child)) {
               const isHighlightedMenuItem = this.state.highlightedIndex === index;
+              const isSelectedMenuItem = this.props.selectedItemIndex === index;
+
+              const menuItemState = isHighlightedMenuItem
+                ? 'hover'
+                : isSelectedMenuItem
+                  ? 'selected'
+                  : undefined;
 
               return React.cloneElement(child, {
                 ref: (element: MenuItem) => {
@@ -91,7 +99,7 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
                   }
                   return element;
                 },
-                state: isHighlightedMenuItem ? 'hover' : child.props.state,
+                state: menuItemState,
                 onClick: this.select.bind(this, index, false),
                 onMouseEnter: () => this.highlightItem(index),
                 onMouseLeave: this.unhighlight,

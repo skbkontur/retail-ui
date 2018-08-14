@@ -1,14 +1,14 @@
 import * as React from 'react';
-import MenuItem from '../MenuItem';
+import MenuItem, { MenuItemProps } from '../MenuItem';
 import RenderLayer from '../internal/RenderLayer';
 import InternalMenu from '../internal/InternalMenu/InternalMenu';
 import { ComboboxWrapper, ComboboxInput, ComboboxPopup } from './ComboboxView';
-import MenuHeader from '../MenuHeader';
 
 export interface ComboboxProps<T> {
   getItems: (query: string) => Promise<T[]>;
   renderItem: (item: T) => React.ReactNode;
   renderValue: (value: T | null) => React.ReactText;
+  renderNotFound: () => React.ReactNode;
   width?: React.CSSProperties['width'];
   onInputChange?: React.ChangeEventHandler<HTMLInputElement>;
   value?: T | null;
@@ -26,8 +26,9 @@ export interface ComboboxState<T> {
 
 export default class Combobox<T> extends React.Component<ComboboxProps<T>, ComboboxState<T>> {
   public static defaultProps = {
-    renderItem: (item: any): React.ReactNode => item,
-    renderValue: (value: any): React.ReactText => value,
+    renderItem: (item: any): React.ReactNode => item.label,
+    renderValue: (value: any): React.ReactText => value.label,
+    renderNotFound: () => 'Не найдено',
     items: []
   };
 
@@ -42,8 +43,11 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
 
   private menu: InternalMenu | null = null;
   private input: HTMLInputElement | null = null;
+  private stopFetching: ((reason?: any) => void) | null = null;
 
   public render() {
+    const selectedValueIndex =
+      typeof this.state.selectedValueIndex === 'number' ? this.state.selectedValueIndex : undefined;
     return (
       <RenderLayer
         onClickOutside={this.closeMenu}
@@ -69,11 +73,8 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
             >
               <InternalMenu
                 ref={this.refMenu}
-                initialSelectedItemIndex={
-                  typeof this.state.selectedValueIndex === 'number'
-                    ? this.state.selectedValueIndex
-                    : undefined
-                }
+                selectedItemIndex={selectedValueIndex}
+                initialSelectedItemIndex={selectedValueIndex}
               >
                 {this.renderItems()}
               </InternalMenu>
@@ -191,6 +192,35 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
       return this.state.items.map((item, index) => {
         const selectHandler = () => this.handleSelectMenuItem(item);
 
+        if (React.isValidElement(item)) {
+          if (item.type === MenuItem) {
+            const getClickHandler = (element: React.ReactElement<MenuItemProps>) => (
+              event: React.SyntheticEvent<HTMLElement>
+            ) => {
+              if (element.props.onClick) {
+                element.props.onClick(event);
+              }
+              selectHandler();
+            };
+
+            return React.cloneElement(
+              item as React.ReactElement<MenuItemProps>,
+              {
+                onClick: getClickHandler(item)
+              },
+              ['cloned', (item as React.ReactElement<MenuItemProps>).props.children]
+            );
+          }
+
+          if (
+            item.type === MenuItem.Static ||
+            item.type === MenuItem.Header ||
+            item.type === MenuItem.Separator
+          ) {
+            return React.cloneElement(item, { key: index });
+          }
+        }
+
         return (
           <MenuItem onClick={selectHandler} key={index}>
             {this.props.renderItem(item)}
@@ -199,12 +229,11 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
       });
     }
 
-    return <MenuHeader>Nope</MenuHeader>;
+    return <MenuItem.Header>{this.props.renderNotFound()}</MenuItem.Header>;
   };
 
   private renderValue = (): React.ReactText => {
-    const value = this.props.renderValue(this.state.value);
-    return this.state.search || value || '';
+    return this.state.search || this.state.value ? this.props.renderValue(this.state.value) : '';
   };
 
   private getItems = () => {
@@ -213,12 +242,14 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
         loading: true
       },
       () => {
-        this.props.getItems(this.state.search).then(result => {
-          this.setState(state => ({
-            items: result,
-            loading: false,
-            selectedValueIndex: this.getSelectedIndex(result, state.value)
-          }));
+        this.fetchItems().then(result => {
+          if (Array.isArray(result)) {
+            this.setState(state => ({
+              items: result,
+              loading: false,
+              selectedValueIndex: this.getSelectedIndex(result, state.value)
+            }));
+          }
         });
       }
     );
@@ -250,5 +281,18 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     }
 
     return items.findIndex(item => item === value);
+  };
+
+  private fetchItems = () => {
+    if (this.stopFetching) {
+      this.stopFetching();
+    }
+
+    return Promise.race([
+      new Promise((_resolve, reject) => {
+        this.stopFetching = reject;
+      }),
+      this.props.getItems(this.state.search)
+    ]);
   };
 }
