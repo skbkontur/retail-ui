@@ -2,7 +2,14 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Combobox from '../';
 
-const items = ['One', 'Two', 'Three'];
+const ITEMS = ['One', 'Two', 'Three'];
+
+const getItems = (query: string) => {
+  const items = ITEMS.filter(item => {
+    return item.toLowerCase().indexOf(query.toLowerCase()) > -1;
+  });
+  return Promise.resolve(items);
+};
 
 storiesOf('Combobox', module)
   .addDecorator(story => (
@@ -16,5 +23,4 @@ storiesOf('Combobox', module)
       {story()}
     </div>
   ))
-  // @ts-ignore
-  .add('Simple example', () => <Combobox items={items} />);
+  .add('Simple example', () => <Combobox getItems={getItems} />);

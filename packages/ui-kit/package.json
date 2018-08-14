@@ -15,7 +15,7 @@
     "@types/fbemitter": "^2.0.32",
     "@types/jest": "^22.2.3",
     "@types/lodash.debounce": "^4.0.3",
-    "@types/react": "^16.4.7",
+    "@types/react": "^16.4.10",
     "@types/react-dom": "^16.0.6",
     "@types/react-transition-group": "^2.0.10",
     "@types/storybook__react": "^3.0.7",

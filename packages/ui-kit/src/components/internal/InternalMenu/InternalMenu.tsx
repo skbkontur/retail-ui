@@ -94,7 +94,8 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
                 state: isHighlightedMenuItem ? 'hover' : child.props.state,
                 onClick: this.select.bind(this, index, false),
                 onMouseEnter: () => this.highlightItem(index),
-                onMouseLeave: this.unhighlight
+                onMouseLeave: this.unhighlight,
+                key: index
               });
             }
             return child;
