@@ -8,7 +8,7 @@ export interface ComboboxProps<T> {
   getItems: (query: string) => Promise<T[]>;
   renderItem: (item: T) => React.ReactNode;
   renderValue: (value: T | null) => React.ReactText;
-  renderNotFound: () => React.ReactNode;
+  renderNotFound: (quiery: string) => React.ReactNode;
   width?: React.CSSProperties['width'];
   onInputChange?: React.ChangeEventHandler<HTMLInputElement>;
   value?: T | null;
@@ -26,7 +26,7 @@ export interface ComboboxState<T> {
 
 export default class Combobox<T> extends React.Component<ComboboxProps<T>, ComboboxState<T>> {
   public static defaultProps = {
-    renderItem: (item: any): React.ReactNode => item.label,
+    renderItem: (item: any): React.ReactNode => (item ? item.label : null),
     renderValue: (value: any): React.ReactText => value.label,
     renderNotFound: () => 'Не найдено',
     items: []
@@ -93,7 +93,7 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     if (prevState.search !== this.state.search) {
       this.getItems();
 
-      if (!this.state.search) {
+      if (!this.state.search && prevState.value === this.state.value) {
         this.setState({ value: null });
       }
     }
@@ -109,9 +109,12 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
   }
 
   public openMenu = () => {
-    this.setState({
-      opened: true
-    });
+    this.setState(
+      {
+        opened: true
+      },
+      this.setSelection
+    );
   };
 
   public closeMenu = () => {
@@ -144,8 +147,7 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
 
     this.setState(
       {
-        search: value,
-        value: null
+        search: value
       },
       () => {
         if (this.props.onInputChange) {
@@ -162,7 +164,9 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
   };
 
   private handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    this.openMenu();
+    if (!this.state.opened) {
+      this.openMenu();
+    }
 
     if (this.menu) {
       switch (event.key) {
@@ -192,6 +196,10 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
       return this.state.items.map((item, index) => {
         const selectHandler = () => this.handleSelectMenuItem(item);
 
+        if (!item) {
+          return null;
+        }
+
         if (React.isValidElement(item)) {
           if (item.type === MenuItem) {
             const getClickHandler = (element: React.ReactElement<MenuItemProps>) => (
@@ -200,7 +208,10 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
               if (element.props.onClick) {
                 element.props.onClick(event);
               }
-              selectHandler();
+
+              if (!event.defaultPrevented) {
+                selectHandler();
+              }
             };
 
             return React.cloneElement(
@@ -229,11 +240,11 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
       });
     }
 
-    return <MenuItem.Header>{this.props.renderNotFound()}</MenuItem.Header>;
+    return <MenuItem.Header>{this.props.renderNotFound(this.state.search)}</MenuItem.Header>;
   };
 
   private renderValue = (): React.ReactText => {
-    return this.state.search || this.state.value ? this.props.renderValue(this.state.value) : '';
+    return this.state.search || (this.state.value ? this.props.renderValue(this.state.value) : '');
   };
 
   private getItems = () => {
@@ -294,5 +305,11 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
       }),
       this.props.getItems(this.state.search)
     ]);
+  };
+
+  private setSelection = () => {
+    if (this.input) {
+      this.input.setSelectionRange(0, this.input.value.length);
+    }
   };
 }

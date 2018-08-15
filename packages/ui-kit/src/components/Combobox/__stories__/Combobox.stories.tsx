@@ -4,11 +4,14 @@ import Combobox from '../';
 import MenuItem from '../../MenuItem';
 import Button from '../../Button';
 import Input from '../../Input';
+import { action } from '@storybook/addon-actions';
 
 interface Item {
   value: number;
   label: string;
 }
+
+const SIMPLE_ITEMS = ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'];
 
 const ITEMS: Array<React.ReactElement<any> | Item> = [
   <MenuItem.Static key="static1">
@@ -26,13 +29,28 @@ const ITEMS: Array<React.ReactElement<any> | Item> = [
   <MenuItem.Separator key="static5" />,
   { value: 5, label: 'Fifth' },
   { value: 6, label: 'Sixth' },
-  // tslint:disable-next-line:jsx-no-lambda
-  <MenuItem disabled key="static6" onClick={e => e.preventDefault()}>
+  <MenuItem
+    key="static6"
+    // tslint:disable-next-line:jsx-no-lambda
+    onClick={e => {
+      e.preventDefault();
+      // tslint:disable-next-line:no-console
+      console.log('custom action here!');
+    }}
+  >
     Button
   </MenuItem>
 ];
 
-const getItems = (query: string) => {
+const getSimpleItems = (query: string) => {
+  const items = SIMPLE_ITEMS.filter(item => {
+    return item.toLowerCase().indexOf(query.toLowerCase()) > -1;
+  });
+
+  return Promise.resolve(items);
+};
+
+const getAnyItems = (query: string): Promise<typeof ITEMS> => {
   const items = ITEMS.filter(item => {
     return (
       React.isValidElement(item) ||
@@ -40,7 +58,8 @@ const getItems = (query: string) => {
       (item as Item).value.toString().indexOf(query.toLowerCase()) > -1
     );
   });
-  return Promise.resolve(items);
+
+  return new Promise(resolve => setTimeout(() => resolve(items), 500));
 };
 
 storiesOf('Combobox', module)
@@ -55,4 +74,17 @@ storiesOf('Combobox', module)
       {story()}
     </div>
   ))
-  .add('Simple example', () => <Combobox getItems={getItems} />);
+  .add('Simple example', () => {
+    const renderItem = (item: string) => item;
+    const renderValue = (value: string | null) => value || '';
+
+    return (
+      <Combobox
+        getItems={getSimpleItems}
+        onChangeValue={action('changed simple value')}
+        renderItem={renderItem}
+        renderValue={renderValue}
+      />
+    );
+  })
+  .add('With any elements', () => <Combobox getItems={getAnyItems} />);

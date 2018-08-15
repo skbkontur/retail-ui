@@ -1,9 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import Button from '../../Button';
-import MenuHeader from '../../MenuHeader';
 import MenuItem from '../../MenuItem';
-import MenuSeparator from '../../MenuSeparator';
 import DropdownMenu from '../DropdownMenu';
 
 storiesOf('DropdownMenu', module)
@@ -20,35 +18,17 @@ storiesOf('DropdownMenu', module)
   ))
   .add('Simple example', () => (
     <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
-      <MenuHeader>Заголовок меню</MenuHeader>
-      <MenuSeparator />
-      <MenuItem
-        onClick={() => {
-          return;
-        }}
-      >
-        Раз
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          return;
-        }}
-      >
-        Два
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          return;
-        }}
-      >
-        Три
-      </MenuItem>
+      <MenuItem.Header>Заголовок меню</MenuItem.Header>
+      <MenuItem.Separator />
+      <MenuItem>Раз</MenuItem>
+      <MenuItem>Два</MenuItem>
+      <MenuItem>Три</MenuItem>
     </DropdownMenu>
   ))
   .add('Example with width of menu', () => (
     <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuWidth={350}>
-      <MenuHeader>Заголовок меню</MenuHeader>
-      <MenuSeparator />
+      <MenuItem.Header>Заголовок меню</MenuItem.Header>
+      <MenuItem.Separator />
       <MenuItem>Раз</MenuItem>
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
@@ -56,8 +36,8 @@ storiesOf('DropdownMenu', module)
   ))
   .add('Example with maximum height of menu', () => (
     <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuMaxHeight={150}>
-      <MenuHeader>Заголовок меню</MenuHeader>
-      <MenuSeparator />
+      <MenuItem.Header>Заголовок меню</MenuItem.Header>
+      <MenuItem.Separator />
       <MenuItem>Раз</MenuItem>
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
@@ -86,8 +66,8 @@ storiesOf('DropdownMenu', module)
         </span>
       }
     >
-      <MenuHeader>Заголовок меню</MenuHeader>
-      <MenuSeparator />
+      <MenuItem.Header>Заголовок меню</MenuItem.Header>
+      <MenuItem.Separator />
       <MenuItem disabled>Недоступен 1</MenuItem>
       <MenuItem disabled>Недоступен 2</MenuItem>
       <MenuItem disabled>Недоступен 3</MenuItem>

@@ -1,4 +1,4 @@
-/* tslint:disable max-classes-per-file */
+/* tslint:disable max-classes-per-file jsx-no-lambda */
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import Select from '../Select';

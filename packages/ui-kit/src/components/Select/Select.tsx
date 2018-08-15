@@ -5,7 +5,6 @@ import { ButtonProps } from '../Button/Button';
 import PopupMenu, { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 import { PopupMenuPosition } from '../internal/PopupMenu/PopupMenuPositions';
 import MenuItem from '../MenuItem/MenuItem';
-import MenuSeparator from '../MenuSeparator';
 import {
   SelectArrow,
   SelectArrowWrapper,
@@ -52,7 +51,7 @@ export default class Select<Value = any, Item = any> extends React.Component<
     },
     placeholder: 'ничего не выбрано'
   };
-  public static SEP = () => <MenuSeparator />;
+  public static SEP = () => <MenuItem.Separator />;
   public static static = (element: React.ReactElement<any> | (() => React.ReactElement<any>)) =>
     element;
   public static Item: React.SFC = ({ children }) => <MenuItem>{children}</MenuItem>;
