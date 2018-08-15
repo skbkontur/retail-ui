@@ -143,13 +143,18 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
   };
 
   private setInitialSelection = () => {
-    if (this.props.initialSelectedItemIndex === undefined) {
+    if (
+      this.props.initialSelectedItemIndex === undefined ||
+      this.props.initialSelectedItemIndex < 0
+    ) {
       return;
     }
 
-    for (let i = this.props.initialSelectedItemIndex; i > -1; i--) {
-      this.moveDown();
-    }
+    this.move(this.props.initialSelectedItemIndex + 1);
+
+    // for (let i = this.props.initialSelectedItemIndex; i > -1; i--) {
+    //   this.moveDown();
+    // }
   };
 
   private refScrollContainer = (scrollContainer: ScrollContainer) => {
