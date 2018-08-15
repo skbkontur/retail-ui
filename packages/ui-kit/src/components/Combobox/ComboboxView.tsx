@@ -3,6 +3,7 @@ import styled from '../../lib/styled-components';
 import { prop } from 'styled-tools';
 import Input, { InputProps } from '../Input';
 import Popup, { PopupProps } from '../internal/Popup';
+import { getThemeColor } from '../../themes/utils';
 
 export const ComboboxWrapper = styled<{ width: React.CSSProperties['width'] }, 'div'>('div')`
   position: relative;
@@ -23,7 +24,7 @@ export interface ComboboxPopupProps extends PopupProps {
 export const ComboboxPopup = styled<ComboboxPopupProps>(({ width, ...rest }) => (
   <Popup {...rest} />
 ))`
-  width: ${prop('width', '')};
+  min-width: ${prop('width', '')};
 `;
 
 export const ComboboxArrow = styled.span`
@@ -34,4 +35,10 @@ export const ComboboxArrow = styled.span`
   border-bottom-width: 0;
   z-index: 2;
   pointer-events: none;
+`;
+
+export const ComboboxErrorMessage = styled.span`
+  color: ${({ theme }) => getThemeColor(theme.common.colors, '$.meaning.text_secondary')};
+  max-width: 300px;
+  white-space: normal;
 `;

@@ -2,7 +2,13 @@ import * as React from 'react';
 import MenuItem, { MenuItemProps } from '../MenuItem';
 import RenderLayer from '../internal/RenderLayer';
 import InternalMenu from '../internal/InternalMenu/InternalMenu';
-import { ComboboxWrapper, ComboboxInput, ComboboxPopup, ComboboxArrow } from './ComboboxView';
+import {
+  ComboboxWrapper,
+  ComboboxInput,
+  ComboboxPopup,
+  ComboboxArrow,
+  ComboboxErrorMessage
+} from './ComboboxView';
 import Spinner from '../Spinner';
 
 export interface ComboboxProps<T> {
@@ -24,7 +30,11 @@ export interface ComboboxState<T> {
   opened: boolean;
   search: string;
   loading: boolean;
+  fetchingError: string | null;
 }
+
+const DEFAULT_ERROR_MESSAGE =
+  'Что-то пошло не так. Проверьте соединение с интернетом и попробуйте еще раз';
 
 export default class Combobox<T> extends React.Component<ComboboxProps<T>, ComboboxState<T>> {
   public static defaultProps = {
@@ -41,7 +51,8 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     opened: false,
     search: '',
     loading: false,
-    selectedValueIndex: null
+    selectedValueIndex: null,
+    fetchingError: null
   };
 
   private menu: InternalMenu | null = null;
@@ -51,6 +62,7 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
   public render() {
     const selectedValueIndex =
       typeof this.state.selectedValueIndex === 'number' ? this.state.selectedValueIndex : undefined;
+
     return (
       <RenderLayer
         onClickOutside={this.closeMenu}
@@ -118,6 +130,12 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     }
   }
 
+  public componentWillUnmount() {
+    if (this.stopFetching) {
+      this.stopFetching();
+    }
+  }
+
   public openMenu = () => {
     this.setState(
       {
@@ -173,31 +191,13 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     }
   };
 
-  private handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  private handleInputKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
     if (!this.state.opened) {
       this.openMenu();
     }
 
     if (this.menu) {
-      switch (event.key) {
-        case 'ArrowUp':
-          event.preventDefault();
-          this.menu.moveUp();
-          break;
-
-        case 'ArrowDown':
-          event.preventDefault();
-          this.menu.moveDown();
-          break;
-
-        case 'Enter':
-          event.preventDefault();
-          this.menu.selectActiveItem(event);
-          break;
-
-        default:
-          break;
-      }
+      this.menu.passKeyDown(event);
     }
   };
 
@@ -229,7 +229,7 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
               {
                 onClick: getClickHandler(item)
               },
-              ['cloned', (item as React.ReactElement<MenuItemProps>).props.children]
+              [(item as React.ReactElement<MenuItemProps>).props.children]
             );
           }
 
@@ -248,6 +248,23 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
           </MenuItem>
         );
       });
+    }
+
+    if (this.state.fetchingError) {
+      const refresh = (event: React.SyntheticEvent<HTMLElement>) => {
+        event.preventDefault();
+
+        this.getItems();
+      };
+
+      return [
+        <MenuItem.Static key="message">
+          <ComboboxErrorMessage>{this.state.fetchingError}</ComboboxErrorMessage>
+        </MenuItem.Static>,
+        <MenuItem key="reload" onClick={refresh}>
+          Обновить
+        </MenuItem>
+      ];
     }
 
     if (this.state.loading) {
@@ -278,15 +295,29 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
         loading: true
       },
       () => {
-        this.fetchItems().then(result => {
-          if (Array.isArray(result)) {
-            this.setState(state => ({
-              items: result,
+        this.fetchItems()
+          .then(result => {
+            if (Array.isArray(result)) {
+              this.setState(state => ({
+                items: result,
+                loading: false,
+                selectedValueIndex: this.getSelectedIndex(result, state.value),
+                fetchingError: null
+              }));
+            }
+          })
+          .catch(reason => {
+            if (reason === 'ABORT_FETCHING') {
+              return;
+            }
+
+            this.setState({
+              items: [],
               loading: false,
-              selectedValueIndex: this.getSelectedIndex(result, state.value)
-            }));
-          }
-        });
+              fetchingError: reason || DEFAULT_ERROR_MESSAGE,
+              selectedValueIndex: 1
+            });
+          });
       }
     );
   };
@@ -321,7 +352,7 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
 
   private fetchItems = () => {
     if (this.stopFetching) {
-      this.stopFetching();
+      this.stopFetching('ABORT_FETCHING');
     }
 
     return Promise.race([

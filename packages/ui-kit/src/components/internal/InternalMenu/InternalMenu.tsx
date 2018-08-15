@@ -50,6 +50,12 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
     this.setInitialSelection();
   }
 
+  public componentDidUpdate(prevProps: InternalMenuProps) {
+    if (prevProps.initialSelectedItemIndex !== this.props.initialSelectedItemIndex) {
+      this.setInitialSelection();
+    }
+  }
+
   public render() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
       x => x && typeof x === 'object' && x.props.icon
@@ -113,16 +119,16 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
     );
   }
 
-  public moveUp = () => {
+  public passKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    this.handleKeyDown(event);
+  };
+
+  private moveUp = () => {
     this.move(-1);
   };
 
-  public moveDown = () => {
+  private moveDown = () => {
     this.move(1);
-  };
-
-  public selectActiveItem = (event: React.SyntheticEvent<HTMLElement>) => {
-    this.select(this.state.highlightedIndex, false, event);
   };
 
   private rootElementRef = (element: InternalMenuWrapper) => {
@@ -151,10 +157,6 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
     }
 
     this.move(this.props.initialSelectedItemIndex + 1);
-
-    // for (let i = this.props.initialSelectedItemIndex; i > -1; i--) {
-    //   this.moveDown();
-    // }
   };
 
   private refScrollContainer = (scrollContainer: ScrollContainer) => {
@@ -238,7 +240,7 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
     return !children || !childrenToArray(children).filter(isExist).length;
   }
 
-  private handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLElement>): void => {
     if (typeof this.props.onKeyDown === 'function') {
       this.props.onKeyDown(event);
     }

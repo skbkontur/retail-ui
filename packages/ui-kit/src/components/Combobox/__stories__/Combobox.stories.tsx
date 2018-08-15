@@ -42,6 +42,12 @@ const ITEMS: Array<React.ReactElement<any> | Item> = [
   </MenuItem>
 ];
 
+const delay = <T extends {}>(time: number) => (data: T): Promise<T> =>
+  new Promise(resolve => setTimeout(resolve, time, data));
+
+const maybeResolve = <T extends {}>(chance: number) => (data: T) =>
+  Math.random() > chance ? Promise.reject() : Promise.resolve(data);
+
 const getSimpleItems = (query: string) => {
   const items = SIMPLE_ITEMS.filter(item => {
     return item.toLowerCase().indexOf(query.toLowerCase()) > -1;
@@ -50,7 +56,7 @@ const getSimpleItems = (query: string) => {
   return Promise.resolve(items);
 };
 
-const getAnyItems = (query: string): Promise<typeof ITEMS> => {
+const getAnyItems = (query: string) => {
   const items = ITEMS.filter(item => {
     return (
       React.isValidElement(item) ||
@@ -59,7 +65,9 @@ const getAnyItems = (query: string): Promise<typeof ITEMS> => {
     );
   });
 
-  return new Promise(resolve => setTimeout(() => resolve(items), 1000));
+  return Promise.resolve(items)
+    .then(delay<typeof items>(500))
+    .then(maybeResolve(0.6));
 };
 
 storiesOf('Combobox', module)
