@@ -8,6 +8,5 @@
       }
     ]
   },
-  "include": ["src", "typings", "*.json"],
-  "exclude": ["src/**/__stories__"]
+  "include": ["src", "typings", "*.json"]
 }
