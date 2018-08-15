@@ -48,9 +48,14 @@ export const ScrollContainerStyledScroll = styled(ScrollContainerScroll)`
 `;
 
 export const ScrollContainerInner = styled.div`
+  position: relative;
   margin-bottom: -1px;
   max-height: 100%;
   // IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX
   padding-bottom: 1px;
   overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
