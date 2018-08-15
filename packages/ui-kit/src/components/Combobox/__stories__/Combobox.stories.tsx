@@ -5,6 +5,7 @@ import MenuItem from '../../MenuItem';
 import Button from '../../Button';
 import Input from '../../Input';
 import { action } from '@storybook/addon-actions';
+import Gapped from '../../Gapped';
 
 interface Item {
   value: number;
@@ -34,8 +35,7 @@ const ITEMS: Array<React.ReactElement<any> | Item> = [
     // tslint:disable-next-line:jsx-no-lambda
     onClick={e => {
       e.preventDefault();
-      // tslint:disable-next-line:no-console
-      console.log('custom action here!');
+      action('prevented default click')();
     }}
   >
     Button
@@ -59,7 +59,7 @@ const getAnyItems = (query: string): Promise<typeof ITEMS> => {
     );
   });
 
-  return new Promise(resolve => setTimeout(() => resolve(items), 500));
+  return new Promise(resolve => setTimeout(() => resolve(items), 1000));
 };
 
 storiesOf('Combobox', module)
@@ -87,4 +87,8 @@ storiesOf('Combobox', module)
       />
     );
   })
-  .add('With any elements', () => <Combobox getItems={getAnyItems} />);
+  .add('With any elements', () => (
+    <Gapped>
+      <Combobox onChangeValue={action('changed value')} getItems={getAnyItems} />
+    </Gapped>
+  ));

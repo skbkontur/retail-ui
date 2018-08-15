@@ -2,7 +2,8 @@ import * as React from 'react';
 import MenuItem, { MenuItemProps } from '../MenuItem';
 import RenderLayer from '../internal/RenderLayer';
 import InternalMenu from '../internal/InternalMenu/InternalMenu';
-import { ComboboxWrapper, ComboboxInput, ComboboxPopup } from './ComboboxView';
+import { ComboboxWrapper, ComboboxInput, ComboboxPopup, ComboboxArrow } from './ComboboxView';
+import Spinner from '../Spinner';
 
 export interface ComboboxProps<T> {
   getItems: (query: string) => Promise<T[]>;
@@ -13,6 +14,7 @@ export interface ComboboxProps<T> {
   onInputChange?: React.ChangeEventHandler<HTMLInputElement>;
   value?: T | null;
   onChangeValue?: (item: T | null) => void;
+  fetchingOnMount?: boolean;
 }
 
 export interface ComboboxState<T> {
@@ -29,7 +31,8 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     renderItem: (item: any): React.ReactNode => (item ? item.label : null),
     renderValue: (value: any): React.ReactText => value.label,
     renderNotFound: () => 'Не найдено',
-    items: []
+    items: [],
+    fetchingOnMount: false
   };
 
   public state: ComboboxState<T> = {
@@ -61,6 +64,7 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
             onKeyDown={this.handleInputKeyDown}
             onChange={this.handleInputChange}
             value={this.renderValue()}
+            rightIcon={this.renderArrow()}
           />
           {this.input && (
             <ComboboxPopup
@@ -86,10 +90,16 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
   }
 
   public componentDidMount() {
-    this.getItems();
+    if (this.props.fetchingOnMount) {
+      this.getItems();
+    }
   }
 
-  public componentDidUpdate(prevProps: ComboboxProps<T>, prevState: ComboboxState<T>) {
+  public componentDidUpdate(_prevProps: ComboboxProps<T>, prevState: ComboboxState<T>) {
+    if (!prevState.opened && this.state.opened && !this.props.fetchingOnMount) {
+      this.getItems();
+    }
+
     if (prevState.search !== this.state.search) {
       this.getItems();
 
@@ -240,11 +250,26 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
       });
     }
 
+    if (this.state.loading) {
+      return (
+        <MenuItem.Header>
+          <Spinner /> Загрузка...
+        </MenuItem.Header>
+      );
+    }
+
     return <MenuItem.Header>{this.props.renderNotFound(this.state.search)}</MenuItem.Header>;
   };
 
   private renderValue = (): React.ReactText => {
     return this.state.search || (this.state.value ? this.props.renderValue(this.state.value) : '');
+  };
+
+  private renderArrow = () => {
+    if (this.state.loading) {
+      return <Spinner />;
+    }
+    return <ComboboxArrow />;
   };
 
   private getItems = () => {

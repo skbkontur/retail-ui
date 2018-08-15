@@ -25,3 +25,13 @@ export const ComboboxPopup = styled<ComboboxPopupProps>(({ width, ...rest }) => 
 ))`
   width: ${prop('width', '')};
 `;
+
+export const ComboboxArrow = styled.span`
+  display: inline-block;
+  margin-bottom: 2px;
+  border: 4px solid transparent;
+  border-top-color: #aaa;
+  border-bottom-width: 0;
+  z-index: 2;
+  pointer-events: none;
+`;
