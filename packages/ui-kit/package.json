@@ -7,10 +7,10 @@
     "lib"
   ],
   "devDependencies": {
-    "@storybook/addon-actions": "^3.4.4",
-    "@storybook/addon-links": "^3.4.4",
-    "@storybook/addons": "^3.4.4",
-    "@storybook/react": "^3.4.4",
+    "@storybook/addon-actions": "^3.4.10",
+    "@storybook/addon-links": "^3.4.10",
+    "@storybook/addons": "^3.4.10",
+    "@storybook/react": "^3.4.10",
     "@types/exenv": "^1.2.0",
     "@types/fbemitter": "^2.0.32",
     "@types/jest": "^22.2.3",
