@@ -3,16 +3,16 @@
 :local {
   .root {
     display: inline-block;
-    background: #fff;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+    background: @picker-bg;
+    box-shadow: @picker-shadow;
     z-index: 1000;
     font-size: 0;
   }
 
   .todayWrapper {
     border: none;
-    background-color: white;
-    border-top: 1px solid #dfdede;
+    background-color: @picker-today-wrapper-bg-color;
+    border-top: @picker-today-wrapper-border-top;
     padding-top: 7px;
     padding-bottom: 8px;
     color: @link-color;
@@ -21,7 +21,7 @@
     font-size: 14px;
 
     &:hover {
-      background-color: #f5f5f5;
+      background-color: @picker-today-wrapper-hover-bg-color;
       cursor: pointer;
     }
 
