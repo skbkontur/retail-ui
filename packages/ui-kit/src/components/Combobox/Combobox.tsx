@@ -10,17 +10,23 @@ import {
   ComboboxErrorMessage
 } from './ComboboxView';
 import Spinner from '../Spinner';
+import { InputProps } from '../Input';
 
 export interface ComboboxProps<T> {
   getItems: (query: string) => Promise<T[]>;
   renderItem: (item: T) => React.ReactNode;
   renderValue: (value: T | null) => React.ReactText;
   renderNotFound: (quiery: string) => React.ReactNode;
-  width?: React.CSSProperties['width'];
-  onInputChange?: React.ChangeEventHandler<HTMLInputElement>;
-  value?: T | null;
   onChangeValue?: (item: T | null) => void;
+  onUnexpectedInput?: (query: string) => void;
+  onInputChange?: React.ChangeEventHandler<HTMLInputElement>;
+  width?: React.CSSProperties['width'];
+  value?: T | null;
   fetchingOnMount?: boolean;
+  warning?: boolean;
+  error?: boolean;
+  disabled?: boolean;
+  size?: InputProps['size'];
 }
 
 export interface ComboboxState<T> {
@@ -28,7 +34,7 @@ export interface ComboboxState<T> {
   value: T | null;
   selectedValueIndex: number | null;
   opened: boolean;
-  search: string;
+  query: string;
   loading: boolean;
   fetchingError: string | null;
 }
@@ -39,7 +45,7 @@ const DEFAULT_ERROR_MESSAGE =
 export default class Combobox<T> extends React.Component<ComboboxProps<T>, ComboboxState<T>> {
   public static defaultProps = {
     renderItem: (item: any): React.ReactNode => (item ? item.label : null),
-    renderValue: (value: any): React.ReactText => value.label,
+    renderValue: (value: any): React.ReactText => (value ? value.label : ''),
     renderNotFound: () => 'Не найдено',
     items: [],
     fetchingOnMount: false
@@ -49,7 +55,7 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     items: [],
     value: this.props.value || null,
     opened: false,
-    search: '',
+    query: this.props.renderValue(this.props.value || null).toString() || '',
     loading: false,
     selectedValueIndex: null,
     fetchingError: null
@@ -77,6 +83,10 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
             onChange={this.handleInputChange}
             value={this.renderValue()}
             rightIcon={this.renderArrow()}
+            warning={this.props.warning}
+            error={this.props.error}
+            disabled={this.props.disabled}
+            size={this.props.size}
           />
           {this.input && (
             <ComboboxPopup
@@ -90,7 +100,7 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
               <InternalMenu
                 ref={this.refMenu}
                 selectedItemIndex={selectedValueIndex}
-                initialSelectedItemIndex={selectedValueIndex}
+                highlightedIndex={this.state.items.length === 1 ? 0 : selectedValueIndex}
               >
                 {this.renderItems()}
               </InternalMenu>
@@ -107,25 +117,19 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     }
   }
 
-  public componentDidUpdate(_prevProps: ComboboxProps<T>, prevState: ComboboxState<T>) {
-    if (!prevState.opened && this.state.opened && !this.props.fetchingOnMount) {
-      this.getItems();
-    }
+  public componentWillReceiveProps(nextProps: ComboboxProps<T>, nextState: ComboboxState<T>) {
+    const nextValue = nextProps.value;
 
-    if (prevState.search !== this.state.search) {
-      this.getItems();
-
-      if (!this.state.search && prevState.value === this.state.value) {
-        this.setState({ value: null });
-      }
+    if (this.props.value !== nextValue && nextValue !== undefined) {
+      this.setValue(nextValue);
     }
 
     if (
-      prevState.value !== this.state.value ||
-      prevState.items.length !== this.state.items.length
+      nextState.value !== this.state.value ||
+      nextState.items.length !== this.state.items.length
     ) {
       this.setState({
-        selectedValueIndex: this.getSelectedIndex(this.state.items, this.state.value)
+        selectedValueIndex: this.getSelectedIndex(nextState.items, nextState.value)
       });
     }
   }
@@ -137,29 +141,48 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
   }
 
   public openMenu = () => {
-    this.setState(
-      {
-        opened: true
-      },
-      this.setSelection
-    );
+    if (this.props.disabled) {
+      return;
+    }
+
+    this.setState({ opened: true }, this.handleOpen);
   };
 
   public closeMenu = () => {
+    this.setState({ opened: false }, this.handleClose);
+  };
+
+  public focus = () => {
+    if (this.input && !this.props.disabled) {
+      this.input.focus();
+    }
+  };
+
+  public blur = () => {
+    if (this.input) {
+      this.input.blur();
+    }
+  };
+
+  private setValue = (value: T | null) => {
     this.setState(
       {
-        opened: false
+        value
       },
       () => {
-        if (this.input) {
-          this.input.blur();
+        if (this.props.onChangeValue) {
+          this.props.onChangeValue(this.state.value);
         }
       }
     );
+
+    this.setQuery(this.props.renderValue(value).toString() || '');
   };
 
-  private refMenu = (element: InternalMenu) => {
-    this.menu = element;
+  private setQuery = (value: string) => {
+    this.setState({
+      query: value
+    });
   };
 
   private handleInputFocus = () => {
@@ -173,21 +196,11 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
 
     const value = event.target.value;
 
-    this.setState(
-      {
-        search: value
-      },
-      () => {
-        if (this.props.onInputChange) {
-          this.props.onInputChange(event);
-        }
-      }
-    );
-  };
+    this.setQuery(value);
+    this.getItems();
 
-  private getPopupWidth = () => {
-    if (this.input) {
-      return `${this.input.getBoundingClientRect().width}px`;
+    if (this.props.onInputChange) {
+      this.props.onInputChange(event);
     }
   };
 
@@ -198,6 +211,31 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
 
     if (this.menu) {
       this.menu.passKeyDown(event);
+    }
+  };
+
+  private handleOpen = () => {
+    this.setSelection();
+    this.getItems(true);
+  };
+
+  private handleClose = () => {
+    if (this.input) {
+      this.input.blur();
+    }
+
+    if (this.props.onUnexpectedInput && !this.state.value) {
+      this.props.onUnexpectedInput(this.state.query);
+    }
+
+    if (!this.state.query) {
+      this.setValue(null);
+    }
+  };
+
+  private getPopupWidth = () => {
+    if (this.input) {
+      return `${this.input.getBoundingClientRect().width}px`;
     }
   };
 
@@ -275,11 +313,11 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
       );
     }
 
-    return <MenuItem.Header>{this.props.renderNotFound(this.state.search)}</MenuItem.Header>;
+    return <MenuItem.Header>{this.props.renderNotFound(this.state.query || '')}</MenuItem.Header>;
   };
 
   private renderValue = (): React.ReactText => {
-    return this.state.search || (this.state.value ? this.props.renderValue(this.state.value) : '');
+    return this.state.query === null ? this.props.renderValue(this.state.value) : this.state.query;
   };
 
   private renderArrow = () => {
@@ -289,13 +327,17 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     return <ComboboxArrow />;
   };
 
-  private getItems = () => {
+  private getItems = (firstLoading?: boolean) => {
+    if (this.props.disabled) {
+      return;
+    }
+
     this.setState(
       {
         loading: true
       },
       () => {
-        this.fetchItems()
+        this.fetchItems(firstLoading ? '' : this.state.query || '')
           .then(result => {
             if (Array.isArray(result)) {
               this.setState(state => ({
@@ -323,23 +365,8 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
   };
 
   private handleSelectMenuItem = (value: T) => {
-    this.setState(
-      {
-        value,
-        search: ''
-      },
-      () => {
-        this.closeMenu();
-
-        if (this.props.onChangeValue) {
-          this.props.onChangeValue(this.state.value);
-        }
-      }
-    );
-  };
-
-  private inputRef = (element: HTMLInputElement) => {
-    this.input = element;
+    this.setValue(value);
+    this.closeMenu();
   };
 
   private getSelectedIndex = (items: T[], value: T | null) => {
@@ -350,7 +377,7 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     return items.findIndex(item => item === value);
   };
 
-  private fetchItems = () => {
+  private fetchItems = (query = '') => {
     if (this.stopFetching) {
       this.stopFetching('ABORT_FETCHING');
     }
@@ -359,7 +386,10 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
       new Promise((_resolve, reject) => {
         this.stopFetching = reject;
       }),
-      this.props.getItems(this.state.search)
+      this.props.getItems(query).then(result => {
+        this.stopFetching = null;
+        return result;
+      })
     ]);
   };
 
@@ -367,5 +397,13 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     if (this.input) {
       this.input.setSelectionRange(0, this.input.value.length);
     }
+  };
+
+  private refMenu = (element: InternalMenu) => {
+    this.menu = element;
+  };
+
+  private inputRef = (element: HTMLInputElement) => {
+    this.input = element;
   };
 }
