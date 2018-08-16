@@ -1,3 +1,5 @@
+@import '../variables.less';
+
 :local {
   .headerMonth {
     display: inline-block;
@@ -15,13 +17,13 @@
   }
 
   .headerSticked {
-    background-color: white;
+    background-color: @calendar-month-header-sticked-bg-color;
     z-index: 1;
   }
 
   .monthTitle {
     font-weight: bold;
-    border-bottom: 1px solid #dfdede;
+    border-bottom: @calendar-month-title-border-bottom;
     margin-bottom: 10px;
     position: relative;
   }

@@ -27,6 +27,7 @@ export interface PagingProps {
   disabled?: boolean;
   strings?: { forward: string };
   withoutNavigationHint?: boolean;
+  caption?: string;
 }
 
 export interface PagingState {
@@ -124,7 +125,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
         tabIndex={-1}
         pageNumber={'forward' as 'forward'}
       >
-        {strings.forward}
+        {this.props.caption ? this.props.caption : strings.forward}
         <span className={styles.forwardIcon}>
           <Icon name="ArrowChevronRight" size="18px" />
         </span>
