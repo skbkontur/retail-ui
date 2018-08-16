@@ -18,7 +18,7 @@ export interface InternalMenuProps {
    * Циклический перебор айтемов меню (по-дефолтну включен)
    */
   cyclicSelection?: boolean;
-  initialSelectedItemIndex?: number;
+  highlightedIndex?: number;
   selectedItemIndex?: number;
   innerRef?: (element: InternalMenuWrapper) => void;
 }
@@ -34,11 +34,12 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
     hasShadow: true,
     preventWindowScroll: true,
     cyclicSelection: true,
-    initialSelectedItemIndex: -1
+    highlightedIndex: -1
   };
 
   public state: InternalMenuState = {
-    highlightedIndex: -1
+    highlightedIndex:
+      typeof this.props.highlightedIndex === 'number' ? this.props.highlightedIndex : -1
   };
 
   private scrollContainer: ScrollContainer | null = null;
@@ -47,13 +48,17 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
 
   public componentDidMount() {
     this.focusWithScrollRestore();
-    this.setInitialSelection();
   }
 
-  public componentDidUpdate(prevProps: InternalMenuProps) {
-    if (prevProps.initialSelectedItemIndex !== this.props.initialSelectedItemIndex) {
-      this.setInitialSelection();
+  public componentWillReceiveProps(nextProps: InternalMenuProps) {
+    const highlightedIndex = nextProps.highlightedIndex;
+    if (typeof highlightedIndex === 'number' && highlightedIndex !== this.props.highlightedIndex) {
+      this.setState({
+        highlightedIndex
+      });
     }
+
+    this.scrollToSelected();
   }
 
   public render() {
@@ -148,17 +153,6 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
     }
   };
 
-  private setInitialSelection = () => {
-    if (
-      this.props.initialSelectedItemIndex === undefined ||
-      this.props.initialSelectedItemIndex < 0
-    ) {
-      return;
-    }
-
-    this.move(this.props.initialSelectedItemIndex + 1);
-  };
-
   private refScrollContainer = (scrollContainer: ScrollContainer) => {
     this.scrollContainer = scrollContainer;
   };
@@ -230,7 +224,7 @@ export default class InternalMenu extends React.Component<InternalMenuProps, Int
         if (isActiveElement(child)) {
           return { highlightedIndex: index };
         }
-      } while (index !== state.highlightedIndex);
+      } while (index !== state.highlightedIndex && index <= children.length);
       return null;
     }, this.scrollToSelected);
   }

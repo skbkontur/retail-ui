@@ -93,7 +93,7 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
                   width={this.props.menuWidth || 'auto'}
                   onItemClick={this.handleItemSelection}
                   cyclicSelection={false}
-                  initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
+                  highlightedIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
                   innerRef={this.internalMenuRef}
                 >
                   {this.props.children}

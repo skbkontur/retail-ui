@@ -6,7 +6,7 @@ import InternalMenu from '../InternalMenu';
 
 storiesOf('Internal menu', module).add('Example', () => (
   <div style={{ border: '1px solid tomato', width: 200 }}>
-    <InternalMenu hasShadow={false} cyclicSelection={false} initialSelectedItemIndex={0}>
+    <InternalMenu hasShadow={false} cyclicSelection={false} highlightedIndex={0}>
       <MenuItem>One</MenuItem>
       <MenuItem>Two</MenuItem>
       <MenuItem>Four</MenuItem>
