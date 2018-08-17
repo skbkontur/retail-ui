@@ -295,7 +295,6 @@ class Button extends React.Component<ButtonProps, ButtonState> {
         style: { width: wrapProps.style.width }
       });
       rootProps.style.textAlign = undefined;
-      error = null;
       loading = null;
       arrow = null;
     }

@@ -38,6 +38,32 @@
       vertical-align: baseline;
       width: 0;
     }
+
+    .warning,
+    .error {
+      border-radius: inherit;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .warning {
+      box-shadow: 0 0 0 2px @border-color-warning;
+
+      :global(.rt-ie8) & {
+        outline: 2px solid @border-color-warning;
+      }
+    }
+
+    .error {
+      box-shadow: 0 0 0 2px @border-color-error;
+
+      :global(.rt-ie8) & {
+        outline: 2px solid @border-color-error;
+      }
+    }
   }
 
   .caption {
@@ -45,6 +71,7 @@
     white-space: nowrap;
     display: inline-block;
     width: 100%;
+    z-index: 10;
   }
 
   .icon {
@@ -179,7 +206,6 @@
     background: none;
     border: none;
     box-shadow: none;
-    height: auto;
 
     .caption {
       display: inline;
@@ -196,6 +222,24 @@
 
     .icon {
       padding-right: @linkIconPadding;
+    }
+
+    &.linkError {
+      .caption {
+        background: @error-secondary;
+      }
+    }
+
+    .warning,
+    .error {
+      left: -2px;
+      right: -2px;
+      top: 4px;
+      bottom: 4px;
+    }
+
+    .error {
+      background: @error-secondary;
     }
   }
 
@@ -270,34 +314,6 @@
     }
 
     transform: rotateY(180deg) skewX(0deg) skewY(0deg);
-  }
-
-  .warning,
-  .error {
-    border-radius: inherit;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-
-  .warning {
-    box-shadow: 0 0 0 2px @border-color-warning;
-  }
-
-  .error {
-    box-shadow: 0 0 0 2px @border-color-error;
-  }
-
-  :global(.rt-ie8) {
-    .warning {
-      outline: 2px solid @border-color-warning;
-    }
-
-    .error {
-      outline: 2px solid @border-color-error;
-    }
   }
 
   .narrow {
