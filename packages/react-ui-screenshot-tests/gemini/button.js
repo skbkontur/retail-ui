@@ -57,7 +57,7 @@ gemini.suite("button link multiline", suite => {
   );
 });
 
-gemini.suite("with error", suite => {
+gemini.suite("button use link with error", suite => {
   testScenario(
     suite
       .setUrl(pathTo("Button", "with error"))

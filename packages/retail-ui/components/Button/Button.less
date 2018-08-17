@@ -298,7 +298,10 @@
   }
 
   .sizeSmall {
-    height: 32px;
+    &:not(.link) {
+      height: 32px;
+    }
+
     line-height: 32px;
     padding: 0 15px;
   }
@@ -320,14 +323,20 @@
     441%
   );
   .sizeMedium {
+    &:not(.link) {
+      height: 38px;
+    }
+
     font-size: 16px;
-    height: 38px;
     line-height: 38px;
     padding: 0 15px;
   }
-  .DEPRECATED_sizeMedium {
+  .DEPRECATED_sizeMedium:not(.link) {
+    &:not(.link) {
+      height: 38px;
+    }
+
     font-size: 14px;
-    height: 38px;
     line-height: 38px;
     padding: 0 15px;
   }
@@ -349,8 +358,11 @@
     441%
   );
   .sizeLarge {
+    &:not(.link) {
+      height: 42px;
+    }
+
     font-size: 16px;
-    height: 42px;
     line-height: 42px;
     padding: 0 20px;
   }
@@ -493,8 +505,7 @@
     .error {
       left: -2px;
       right: -2px;
-      top: 3px;
-      bottom: 2px;
+      bottom: -2px;
     }
 
     .error {
