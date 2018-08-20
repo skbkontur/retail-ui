@@ -297,11 +297,9 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     const labelProps = {
       className: classNames({
         [styles.label]: this.props.use !== 'link',
-        [styles.labelWithLeftIcon]: !!this.props._icon
-      }),
-      style: {
-        paddingRight: buttonProps.size === 'large' ? '41px' : '38px'
-      }
+        [styles.labelWithLeftIcon]: !!this.props._icon,
+        [styles.withPlaceholder]: !this.state.value
+      })
     };
 
     const useIsCustom = this.props.use !== 'default';

@@ -9,13 +9,17 @@
   .label {
     box-sizing: border-box;
     display: inline-block;
-    padding: 0 34px 0 9px;
+    padding: 0 26px 0 9px;
     max-width: 100%;
     width: 100%;
     position: relative;
 
     &.labelWithLeftIcon {
       padding-left: 0;
+    }
+
+    &.withPlaceholder {
+      color: @slt-placeholder-color;
     }
   }
 
@@ -29,8 +33,6 @@
   }
 
   .placeholder {
-    color: @slt-placeholder-color;
-
     &.customUsePlaceholder {
       color: inherit;
       opacity: 0.7;
