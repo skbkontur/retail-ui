@@ -27,6 +27,7 @@ export interface ComboboxProps<T> {
   error?: boolean;
   disabled?: boolean;
   size?: InputProps['size'];
+  autocompleteMode?: boolean;
 }
 
 export interface ComboboxState<T> {
@@ -48,7 +49,8 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     renderValue: (value: any): React.ReactText => (value ? value.label : ''),
     renderNotFound: () => 'Не найдено',
     items: [],
-    fetchingOnMount: false
+    fetchingOnMount: false,
+    autocompleteMode: false
   };
 
   public state: ComboboxState<T> = {
@@ -82,7 +84,7 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
             onKeyDown={this.handleInputKeyDown}
             onChange={this.handleInputChange}
             value={this.renderValue()}
-            rightIcon={this.renderArrow()}
+            rightIcon={!this.props.autocompleteMode && this.renderArrow()}
             warning={this.props.warning}
             error={this.props.error}
             disabled={this.props.disabled}
@@ -123,15 +125,6 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     if (this.props.value !== nextValue && nextValue !== undefined) {
       this.setValue(nextValue);
     }
-
-    if (
-      nextState.value !== this.state.value ||
-      nextState.items.length !== this.state.items.length
-    ) {
-      this.setState({
-        selectedValueIndex: this.getSelectedIndex(nextState.items, nextState.value)
-      });
-    }
   }
 
   public componentWillUnmount() {
@@ -145,11 +138,17 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
       return;
     }
 
-    this.setState({ opened: true }, this.handleOpen);
+    this.setState({ opened: true }, () => {
+      if (!this.props.autocompleteMode) {
+        this.handleOpen();
+      }
+    });
   };
 
   public closeMenu = () => {
-    this.setState({ opened: false }, this.handleClose);
+    this.setState({ opened: false }, () => {
+      this.handleClose();
+    });
   };
 
   public focus = () => {
@@ -166,27 +165,36 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
 
   private setValue = (value: T | null) => {
     this.setState(
-      {
-        value
-      },
+      state => ({
+        value,
+        selectedValueIndex: this.getSelectedIndex(state.items, value),
+        query: this.props.renderValue(value).toString() || ''
+      }),
       () => {
         if (this.props.onChangeValue) {
           this.props.onChangeValue(this.state.value);
         }
+
+        this.closeMenu();
       }
     );
-
-    this.setQuery(this.props.renderValue(value).toString() || '');
   };
 
   private setQuery = (value: string) => {
-    this.setState({
-      query: value
-    });
+    this.setState(
+      {
+        query: value
+      },
+      () => {
+        this.getItems();
+      }
+    );
   };
 
   private handleInputFocus = () => {
-    this.openMenu();
+    if (!this.props.autocompleteMode) {
+      this.openMenu();
+    }
   };
 
   private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -197,7 +205,6 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     const value = event.target.value;
 
     this.setQuery(value);
-    this.getItems();
 
     if (this.props.onInputChange) {
       this.props.onInputChange(event);
@@ -205,10 +212,6 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
   };
 
   private handleInputKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (!this.state.opened) {
-      this.openMenu();
-    }
-
     if (this.menu) {
       this.menu.passKeyDown(event);
     }
@@ -216,10 +219,14 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
 
   private handleOpen = () => {
     this.setSelection();
-    this.getItems(true);
+    this.getItems();
   };
 
   private handleClose = () => {
+    if (this.props.autocompleteMode) {
+      return;
+    }
+
     if (this.input) {
       this.input.blur();
     }
@@ -327,7 +334,7 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
     return <ComboboxArrow />;
   };
 
-  private getItems = (firstLoading?: boolean) => {
+  private getItems = () => {
     if (this.props.disabled) {
       return;
     }
@@ -337,16 +344,32 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
         loading: true
       },
       () => {
-        this.fetchItems(firstLoading ? '' : this.state.query || '')
+        this.fetchItems(this.state.query)
           .then(result => {
             if (Array.isArray(result)) {
-              this.setState(state => ({
+              return result;
+            }
+
+            throw new Error('Passed data is not array');
+          })
+          .then(result => {
+            this.setState(
+              state => ({
                 items: result,
                 loading: false,
                 selectedValueIndex: this.getSelectedIndex(result, state.value),
                 fetchingError: null
-              }));
-            }
+              }),
+              () => {
+                if (this.props.autocompleteMode) {
+                  if (this.state.items.length && this.state.query) {
+                    this.openMenu();
+                  } else {
+                    this.closeMenu();
+                  }
+                }
+              }
+            );
           })
           .catch(reason => {
             if (reason === 'ABORT_FETCHING') {
@@ -366,7 +389,6 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
 
   private handleSelectMenuItem = (value: T) => {
     this.setValue(value);
-    this.closeMenu();
   };
 
   private getSelectedIndex = (items: T[], value: T | null) => {
@@ -394,7 +416,7 @@ export default class Combobox<T> extends React.Component<ComboboxProps<T>, Combo
   };
 
   private setSelection = () => {
-    if (this.input) {
+    if (this.input && this.state.value) {
       this.input.setSelectionRange(0, this.input.value.length);
     }
   };

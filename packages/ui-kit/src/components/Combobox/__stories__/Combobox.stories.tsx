@@ -6,6 +6,7 @@ import Button from '../../Button';
 import Input from '../../Input';
 import { action } from '@storybook/addon-actions';
 import Gapped from '../../Gapped';
+import Checkbox from '../../Checkbox';
 
 interface Item {
   value: number;
@@ -68,6 +69,39 @@ const getAnyItems = (query: string) => {
     .then(maybeResolve(1));
 };
 
+class AutocompleteStory extends React.Component<{}, { autocompleteMode: boolean }> {
+  public state = {
+    autocompleteMode: true
+  };
+
+  public render() {
+    return (
+      <Gapped>
+        <Checkbox checked={this.state.autocompleteMode} onChange={this.handleChangeMode}>
+          Autocomplete mode
+        </Checkbox>
+        <Combobox
+          getItems={getSimpleItems}
+          onChangeValue={action('changed simple value')}
+          renderItem={this.renderItem}
+          renderValue={this.renderValue}
+          autocompleteMode={this.state.autocompleteMode}
+        />
+      </Gapped>
+    );
+  }
+
+  private renderItem = (item: string) => item;
+
+  private renderValue = (value: string | null) => value || '';
+
+  private handleChangeMode = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      autocompleteMode: event.target.checked
+    });
+  };
+}
+
 storiesOf('Combobox', module)
   .addDecorator(story => (
     <div
@@ -98,4 +132,5 @@ storiesOf('Combobox', module)
     <Gapped>
       <Combobox onChangeValue={action('changed value')} getItems={getAnyItems} />
     </Gapped>
-  ));
+  ))
+  .add('Autocomplete mode', () => <AutocompleteStory />);
