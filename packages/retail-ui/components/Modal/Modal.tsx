@@ -139,13 +139,6 @@ class Modal extends React.Component<ModalProps, ModalState> {
       modalContextProps.additionalPadding = true;
     }
 
-    const style: { width?: number | string } = {};
-    const containerStyle: { width?: number | string } = {};
-    if (this.props.width) {
-      style.width = this.props.width;
-    } else {
-      containerStyle.width = 'auto';
-    }
     return (
       <RenderContainer>
         <ZIndex delta={1000} className={styles.root}>
@@ -161,10 +154,12 @@ class Modal extends React.Component<ModalProps, ModalState> {
             <div
               className={styles.centerContainer}
               onClick={this.handleContainerClick}
-              style={containerStyle}
+              style={{
+                width: this.props.width || 'auto'
+              }}
             >
               <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
-                <div className={styles.window} style={style}>
+                <div className={styles.window}>
                   {!hasHeader && !this.props.noClose ? (
                     <Close
                       requestClose={this.requestClose}
