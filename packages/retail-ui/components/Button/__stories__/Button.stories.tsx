@@ -53,7 +53,13 @@ storiesOf('Button', module)
     return <Button arrow>Arrow!</Button>;
   })
   .add('table', () => {
-    const uses: ButtonUse[] = ['default', 'primary', 'success', 'danger', 'pay'];
+    const uses: ButtonUse[] = [
+      'default',
+      'primary',
+      'success',
+      'danger',
+      'pay'
+    ];
     const sizes: ButtonSize[] = ['small', 'medium', 'large'];
     return (
       <table style={{ borderSpacing: 10 }}>
@@ -108,7 +114,19 @@ storiesOf('Button', module)
     <div>
       "You can't keep boogieing like this. <br />
       You'll come <Button use="link">down</Button> <br />
-      with a fever of some sort."<br />
+      with a fever of some sort."
+      <br />
       <i>Leela</i>
     </div>
+  ))
+  .add('with error', () => (
+    <Gapped>
+      <Button error>Error :(</Button>
+      <Button error use="primary">
+        Error :(
+      </Button>
+      <Button error use="link">
+        Error :(
+      </Button>
+    </Gapped>
   ));
