@@ -49,6 +49,8 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
 
   private getProps = createPropsGetter(Kebab.defaultProps);
 
+  private captionElement: Nullable<HTMLDivElement>;
+
   public componentDidMount() {
     /** addListener'у нужен колбэк в аргумент */
     this._listener = LayoutEvents.addListener(() => undefined);
@@ -81,6 +83,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
               disabled && styles.disabled,
               focusedByTab && styles.focused
             )}
+            ref={element => (this.captionElement = element)}
           >
             {this._renderIcon(this.getProps().size)}
           </div>
@@ -96,14 +99,21 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     restoreFocus: boolean
   ): void => {
     this.setState(
-      state => ({
+      {
         opened: isOpened,
         focusedByTab: !isOpened && restoreFocus
-      }),
+      },
       () => {
         if (this.props.disabled) {
           return;
         }
+
+        process.nextTick(() => {
+          if (this.captionElement && restoreFocus) {
+            tabPressed = true;
+            this.captionElement.focus();
+          }
+        });
 
         if (this.state.opened) {
           if (this.props.onOpen) {
