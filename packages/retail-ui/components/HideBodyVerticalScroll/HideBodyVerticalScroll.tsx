@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import getComputedStyle from '../../lib/dom/getComputedStyle';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
@@ -9,15 +8,19 @@ import removeClass from '../../lib/dom/removeClass';
 
 export interface HideBodyVerticalScrollProps {
   allowScrolling?: boolean;
-};
+}
 
-export default class HideBodyVerticalScroll extends React.Component<HideBodyVerticalScrollProps> {
+export default class HideBodyVerticalScroll extends React.Component<
+  HideBodyVerticalScrollProps
+> {
   private _disposeDocumentStyle: (() => void) | null = null;
   private _disposeBodyStyle: (() => void) | null = null;
+  private initialScroll: number = 0;
 
   public componentDidMount() {
     const counter = VerticalScrollCounter.increment();
     if (counter === 1) {
+      this.initialScroll = document.documentElement.scrollTop;
       this._updateScrollVisibility();
       event.addEventListener(window, 'resize', this._updateScrollVisibility);
     }
@@ -48,16 +51,25 @@ export default class HideBodyVerticalScroll extends React.Component<HideBodyVert
         this._makeSomeMagicWithScroll(documentElement, body);
       }
 
+      if (justRestore) {
+        documentElement.scrollTop = this.initialScroll;
+      }
+
       LayoutEvents.emit();
     }
   };
 
-  private _makeSomeMagicWithScroll = (document: HTMLElement, body: HTMLElement) => {
+  private _makeSomeMagicWithScroll = (
+    document: HTMLElement,
+    body: HTMLElement
+  ) => {
     const documentComputedStyle = getComputedStyle(document);
     const bodyComputedStyle = getComputedStyle(body);
 
     if (this.props.allowScrolling) {
-      const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
+      const documentMargin = parseFloat(
+        documentComputedStyle.marginRight || ''
+      );
       const bodyMargin = parseFloat(bodyComputedStyle.marginRight || '');
       const bodyPadding = parseFloat(bodyComputedStyle.paddingRight || '');
       const scrollWidth = getScrollWidth();
@@ -80,7 +92,7 @@ export default class HideBodyVerticalScroll extends React.Component<HideBodyVert
 
   private _attachStyle = (
     element: HTMLElement,
-    style: { css: string, className: string }
+    style: { css: string; className: string }
   ) => {
     addClass(element, style.className);
     const removeStyleNode = attachStylesheet(style.css);
@@ -114,12 +126,12 @@ export default class HideBodyVerticalScroll extends React.Component<HideBodyVert
 class VerticalScrollCounter {
   public static increment = (): number => {
     const counter = window.RetailUIVerticalScrollCounter || 0;
-    return window.RetailUIVerticalScrollCounter = counter + 1;
+    return (window.RetailUIVerticalScrollCounter = counter + 1);
   };
 
   public static decrement = (): number => {
     const counter = window.RetailUIVerticalScrollCounter || 0;
-    return window.RetailUIVerticalScrollCounter = counter - 1;
+    return (window.RetailUIVerticalScrollCounter = counter - 1);
   };
 
   public static get = (): number => {
@@ -129,7 +141,9 @@ class VerticalScrollCounter {
 
 function generateClassName(className: string) {
   const compName = HideBodyVerticalScroll.name;
-  const hash = Math.random().toString(16).slice(2, 6);
+  const hash = Math.random()
+    .toString(16)
+    .slice(2, 6);
   return `${compName}-${className}-${hash}`;
 }
 
