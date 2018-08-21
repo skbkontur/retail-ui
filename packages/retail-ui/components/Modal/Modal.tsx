@@ -146,6 +146,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     } else {
       containerStyle.width = 'auto';
     }
+
     return (
       <RenderContainer>
         <ZIndex delta={1000} className={styles.root}>
@@ -163,8 +164,11 @@ class Modal extends React.Component<ModalProps, ModalState> {
               onClick={this.handleContainerClick}
               style={containerStyle}
             >
-              <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
-                <div className={styles.window} style={style}>
+              <div className={styles.window} style={style}>
+                <FocusLock
+                  disabled={this.isDisableFocusLock()}
+                  autoFocus={false}
+                >
                   {!hasHeader && !this.props.noClose ? (
                     <Close
                       requestClose={this.requestClose}
@@ -178,8 +182,8 @@ class Modal extends React.Component<ModalProps, ModalState> {
                       {this.props.children}
                     </div>
                   </ModalContext.Provider>
-                </div>
-              </FocusLock>
+                </FocusLock>
+              </div>
             </div>
           </div>
         </ZIndex>
