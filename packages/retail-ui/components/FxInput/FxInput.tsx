@@ -9,19 +9,16 @@ import Input, { InputProps } from '../Input';
 import CurrencyInput, { CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { InputType } from '../Input/Input';
-import { Override } from '../../typings/utility-types';
+import { BaseTextFieldProps } from '../../typings/common';
 
-export type FxInputProps = Override<
-  CurrencyInputProps,
-  {
-    auto?: boolean;
-    type?: 'currency' | InputProps['type'];
-    onRestore?: () => void;
-    onChange: CurrencyInputProps['onChange'] | InputProps['onChange'];
-    value?: React.ReactText;
-    refInput?: (element: CurrencyInput | Input | null) => void;
-  }
->;
+export interface FxInputProps extends BaseTextFieldProps<HTMLInputElement> {
+  auto?: boolean;
+  type?: 'currency' | InputProps['type'];
+  onRestore?: () => void;
+  onChange: CurrencyInputProps['onChange'] | InputProps['onChange'];
+  value?: React.ReactText;
+  refInput?: (element: CurrencyInput | Input | null) => void;
+}
 
 export interface FxInputDefaultProps {
   width: FxInputProps['width'];

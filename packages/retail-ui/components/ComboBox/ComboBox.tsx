@@ -6,8 +6,9 @@ import { reducers as autocompleteReducers } from '../CustomComboBox/reducer/auto
 
 import CustomComboBox from '../CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
+import { ElementStateProps, ElementSizeProp } from '../../typings/common';
 
-export interface ComboBoxProps<T> {
+export interface ComboBoxProps<T> extends ElementStateProps, ElementSizeProp {
   align?: 'left' | 'center' | 'right';
   /**
    * Включает режим автокомплита
@@ -24,10 +25,6 @@ export interface ComboBoxProps<T> {
    * См. https://github.com/skbkontur/retail-ui/issues/15
    */
   disablePortal?: boolean;
-
-  disabled?: boolean;
-
-  error?: boolean;
 
   /**
    * Функция поиска эелементов, должна возвращать Promise с массивом элементов.
@@ -109,10 +106,6 @@ export interface ComboBoxProps<T> {
    * Необходим для преобразования `value` в строку при фокусировке
    */
   valueToString?: (item: T) => string;
-
-  size?: 'small' | 'medium' | 'large';
-
-  warning?: boolean;
 
   width?: string | number;
 

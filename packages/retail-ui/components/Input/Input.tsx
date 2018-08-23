@@ -8,8 +8,9 @@ import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
 import CssStyles from './Input.less';
-import { Override, Nullable } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
+import { BaseTextFieldProps } from '../../typings/common';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -17,38 +18,20 @@ const classes: typeof CssStyles = isFlatDesign
   ? require('./Input.flat.less')
   : require('./Input.less');
 
-export type InputSize = 'small' | 'medium' | 'large';
-
-export type InputAlign = 'left' | 'center' | 'right';
-
 export type InputType = 'password' | 'text';
 
-export type InputProps = Override<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  {
-    leftIcon?: React.ReactNode;
-    rightIcon?: React.ReactNode;
-    error?: boolean;
-    warning?: boolean;
-    borderless?: boolean;
-    align?: InputAlign;
-    mask?: Nullable<string>;
-    maskChar?: Nullable<string>;
-    alwaysShowMask?: boolean;
-    size?: InputSize;
-    onChange?: (
-      event: React.ChangeEvent<HTMLInputElement>,
-      value: string
-    ) => void;
-    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-    type?: InputType;
-    value?: string;
-    className?: undefined;
-    capture?: boolean;
-  }
->;
+export interface InputProps extends BaseTextFieldProps<HTMLInputElement> {
+  mask?: Nullable<string>;
+  maskChar?: Nullable<string>;
+  alwaysShowMask?: boolean;
+  onChange?: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ) => void;
+  type?: InputType;
+  value?: React.ReactText;
+  capture?: boolean;
+}
 
 export interface InputState {
   polyfillPlaceholder: boolean;
@@ -56,9 +39,7 @@ export interface InputState {
 }
 
 class Input extends React.Component<InputProps, InputState> {
-  public static defaultProps: {
-    size: InputSize;
-  } = {
+  public static defaultProps = {
     size: 'small'
   };
 
@@ -143,6 +124,8 @@ class Input extends React.Component<InputProps, InputState> {
     const {
       onMouseEnter,
       onMouseLeave,
+      onMouseMove,
+      onMouseOut,
       onMouseOver,
       width,
       error,
@@ -154,8 +137,6 @@ class Input extends React.Component<InputProps, InputState> {
       align,
       type,
       mask,
-      style,
-      className,
       size,
       placeholder,
       ...rest

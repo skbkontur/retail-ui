@@ -8,7 +8,8 @@ import Icon from '../Icon';
 
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
-import { Nullable, Override } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
+import { BaseInputProps } from '../../typings/common';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -30,21 +31,13 @@ function listenTabPresses() {
   }
 }
 
-export type CheckboxProps = Override<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  {
-    children?: React.ReactNode;
-    error?: boolean;
-    warning?: boolean;
-    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-    onChange?: (
-      event: React.ChangeEvent<HTMLInputElement>,
-      value: boolean
-    ) => void;
-  }
->;
+export interface CheckboxProps extends BaseInputProps {
+  children?: React.ReactNode;
+  onChange?: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: boolean
+  ) => void;
+}
 
 export interface CheckboxState {
   focusedByTab: boolean;
@@ -90,11 +83,9 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
+      onMouseMove,
+      onMouseOut,
       onChange,
-
-      style,
-      className,
-      type,
       ...rest
     } = this.props;
     const hasCaption = !!children;
@@ -130,6 +121,8 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onMouseOver={onMouseOver}
+        onMouseMove={onMouseMove}
+        onMouseOut={onMouseOut}
       >
         <input {...inputProps} />
         <span className={styles.box}>

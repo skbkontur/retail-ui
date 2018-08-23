@@ -10,17 +10,15 @@ import Radio, { SyntheticRadioEvent } from '../Radio';
 import styles = require('./RadioGroup.less');
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { ElementStateProps } from '../../typings/common';
 
 export type ItemType<T> = T | [T, React.ReactNode];
 
-export interface RadioGroupProps<T> {
+export interface RadioGroupProps<T> extends ElementStateProps {
   defaultValue?: T;
   value?: T;
   items?: Array<ItemType<T>>;
   name?: string;
-  disabled?: boolean;
-  warning?: boolean;
-  error?: boolean;
   inline?: boolean;
   width?: React.CSSProperties['width'];
   renderItem?: (itemValue: T, data: React.ReactNode) => React.ReactNode;

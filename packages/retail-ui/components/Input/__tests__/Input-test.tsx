@@ -79,7 +79,10 @@ describe('<Input />', () => {
       onKeyUp: () => undefined,
       onPaste: () => undefined
     };
-    const inputProps = render({ ...props, value: 'hello' })
+    const inputProps: React.AllHTMLAttributes<HTMLInputElement> = render({
+      ...props,
+      value: 'hello'
+    })
       .find('input')
       .props();
 

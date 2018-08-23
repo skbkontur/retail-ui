@@ -12,10 +12,11 @@ import { getTextAreaHeight } from './TextareaHelpers';
 
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { TextareaAdapter } from './Textarea.adapter';
-import { Nullable, Override } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
 
 import Upgrades from '../../lib/Upgrades';
 import CssStyles from './Textarea.less';
+import { BaseTextFieldProps } from '../../typings/common';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -46,21 +47,17 @@ const PASS_PROPS = {
   onChange: false
 };
 
-export type TextareaProps = Override<
-  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-  {
-    autoResize?: boolean;
-    error?: boolean;
-    warning?: boolean;
-    resize?: string;
-    width?: React.CSSProperties['width'];
-    maxRows?: number | string;
-    onChange?: (
-      event: React.ChangeEvent<HTMLTextAreaElement>,
-      value: string
-    ) => void;
-  }
->;
+export interface TextareaProps extends BaseTextFieldProps<HTMLTextAreaElement> {
+  value?: React.ReactText;
+  onChange?: (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+    value: string
+  ) => void;
+  autoResize?: boolean;
+  resize?: string;
+  rows?: number;
+  maxRows?: number | string;
+}
 
 export interface TextareaState {
   polyfillPlaceholder: boolean;

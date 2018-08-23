@@ -29,6 +29,7 @@ import Upgrades from '../../lib/Upgrades';
 
 import styles = require('./DateInput.less');
 import { Nullable } from '../../typings/utility-types';
+import { BaseTextFieldProps } from '../../typings/common';
 
 export const DateInputConfig = {
   polyfillInput: !isIE && !isEdge
@@ -59,7 +60,7 @@ export interface DateInputState {
   notify: boolean;
 }
 
-export interface DateInputProps {
+export interface DateInputProps extends BaseTextFieldProps<HTMLInputElement> {
   value?: string;
   error?: boolean;
   warning?: boolean;

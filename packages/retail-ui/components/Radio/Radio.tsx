@@ -5,7 +5,8 @@ import * as PropTypes from 'prop-types';
 
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
-import { Nullable, Override } from '../../typings/utility-types';
+import { Nullable, Omit } from '../../typings/utility-types';
+import { BaseInputProps } from '../../typings/common';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -23,22 +24,23 @@ export interface SyntheticRadioEvent<T> {
   };
 }
 
-export type RadioProps<T> = Override<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  {
-    error?: boolean;
-    warning?: boolean;
-    focused?: boolean;
-    pressed?: boolean;
-    hovered?: boolean;
-    active?: boolean;
-    onChange?: (event: SyntheticRadioEvent<T>, value: T) => void;
-    onMouseEnter?: (event: SyntheticRadioEvent<T>) => void;
-    onMouseLeave?: (event: SyntheticRadioEvent<T>) => void;
-    onMouseOver?: (event: SyntheticRadioEvent<T>) => void;
-    value: T;
-  }
->;
+export interface RadioProps<T>
+  extends Omit<
+      BaseInputProps,
+      'onMouseEnter' | 'onMouseLeave' | 'onMouseOver'
+    > {
+  error?: boolean;
+  warning?: boolean;
+  focused?: boolean;
+  pressed?: boolean;
+  hovered?: boolean;
+  active?: boolean;
+  onChange?: (event: SyntheticRadioEvent<T>, value: T) => void;
+  onMouseEnter?: (event: SyntheticRadioEvent<T>) => void;
+  onMouseLeave?: (event: SyntheticRadioEvent<T>) => void;
+  onMouseOver?: (event: SyntheticRadioEvent<T>) => void;
+  value: T;
+}
 
 /**
  * Радиокнопка.
@@ -107,11 +109,9 @@ class Radio<T> extends React.Component<RadioProps<T>> {
       onMouseOver,
       onMouseEnter,
       onMouseLeave,
+      onMouseMove,
+      onMouseOut,
       onChange,
-
-      className,
-      style,
-
       ...rest
     } = this.props;
 

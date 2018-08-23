@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 
-import Input, { InputProps } from '../Input';
+import Input from '../Input';
 
 import SelectionHelper, {
   Selection,
@@ -13,22 +13,20 @@ import {
   CURRENCY_INPUT_ACTIONS,
   extractAction
 } from './CurrencyInputKeyboardActions';
-import { Nullable, Override } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
+import { BaseTextFieldProps } from '../../typings/common';
 
-export type CurrencyInputProps = Override<
-  InputProps,
-  {
-    value: Nullable<number>;
-    fractionDigits?: Nullable<number>;
-    signed?: boolean;
-    onChange: (
-      e: { target: { value: Nullable<number> } },
-      value: Nullable<number>
-    ) => void;
-    onSubmit?: () => void;
-    onFocus?: () => void;
-  }
->;
+export interface CurrencyInputProps
+  extends BaseTextFieldProps<HTMLInputElement> {
+  value: Nullable<number>;
+  fractionDigits?: Nullable<number>;
+  signed?: boolean;
+  onChange: (
+    e: { target: { value: Nullable<number> } },
+    value: Nullable<number>
+  ) => void;
+  onSubmit?: () => void;
+}
 
 export interface CurrencyInputState {
   formatted: string;
@@ -357,7 +355,7 @@ export default class CurrencyInput extends React.Component<
   private _handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this._focused = true;
     if (this.props.onFocus) {
-      this.props.onFocus();
+      this.props.onFocus(event);
     }
   };
 

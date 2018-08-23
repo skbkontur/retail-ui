@@ -2,15 +2,17 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 
-import Input, { InputProps } from '../Input';
+import Input from '../Input';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { BaseTextFieldProps } from '../../typings/common';
 
-export interface AutocompleteProps extends InputProps {
+export interface AutocompleteProps
+  extends BaseTextFieldProps<HTMLInputElement> {
   renderItem?: (item: string) => React.ReactNode;
   source?: string[] | ((patter: string) => Promise<string[]>);
   disablePortal?: boolean;
@@ -21,6 +23,7 @@ export interface AutocompleteProps extends InputProps {
   preventWindowScroll?: boolean;
   onChange: (event: { target: { value: string } }, value: string) => void;
   onBlur?: () => void;
+  value?: string;
 }
 
 export interface AutocomplpeteState {

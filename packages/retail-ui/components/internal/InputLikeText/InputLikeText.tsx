@@ -3,8 +3,8 @@ import * as React from 'react';
 
 import '../../ensureOldIEClassName';
 import Upgrades from '../../../lib/Upgrades';
-import { InputSize } from '../../Input';
 import { Nullable, TimeoutID } from '../../../typings/utility-types';
+import { ElementSizeProp } from '../../../typings/common';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -12,7 +12,7 @@ const styles = isFlatDesign
   ? require('../../Input/Input.flat.less')
   : require('../../Input/Input.less');
 
-export interface InputLikeTextProps {
+export interface InputLikeTextProps extends ElementSizeProp {
   align?: 'left' | 'center' | 'right';
   borderless?: boolean;
   children?: React.ReactNode;
@@ -20,7 +20,6 @@ export interface InputLikeTextProps {
   padRight?: boolean;
   warning?: boolean;
   disabled?: boolean;
-  size?: InputSize;
   width?: string | number;
   placeholder?: string;
   innerRef?: (el: HTMLElement | null) => void;

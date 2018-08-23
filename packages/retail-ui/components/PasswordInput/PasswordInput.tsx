@@ -3,28 +3,22 @@ import * as PropTypes from 'prop-types';
 import cn from 'classnames';
 import getCharHelper from './getCharHelper';
 import Input from '../Input';
-import { InputProps } from '../Input/Input';
 import Icon from '../Icon';
 import PasswordInputFallback from './PasswordInputFallback';
 import { ieVerison, isIE } from '../ensureOldIEClassName';
 
 import styles from './PasswordInput.less';
 import { Nullable } from '../../typings/utility-types';
+import { BaseTextFieldProps } from '../../typings/common';
 
-export type PasswordInputProps = {
+export interface PasswordInputProps extends BaseTextFieldProps {
   detectCapsLock?: boolean;
-} & InputProps;
+}
 
 export interface PasswordInputState {
   visible: boolean;
   capsLockEnabled?: boolean | null;
 }
-
-export type InputProps = {
-  onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  rightIcon: () => React.ReactNode;
-} & PasswordInputProps;
 
 /**
  * **DRAFT**
