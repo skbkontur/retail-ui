@@ -59,6 +59,32 @@
       vertical-align: baseline;
       width: 0;
     }
+
+    .warning,
+    .error {
+      border-radius: inherit;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    &:not(.link) .warning {
+      box-shadow: 0 0 0 2px @border-color-warning;
+
+      :global(.rt-ie8) & {
+        outline: 2px solid @border-color-warning;
+      }
+    }
+
+    &:not(.link) .error {
+      box-shadow: 0 0 0 2px @border-color-error;
+
+      :global(.rt-ie8) & {
+        outline: 2px solid @border-color-error;
+      }
+    }
   }
 
   .caption {
@@ -66,6 +92,7 @@
     white-space: nowrap;
     display: inline-block;
     width: 100%;
+    z-index: 10;
   }
 
   .icon {
@@ -271,7 +298,10 @@
   }
 
   .sizeSmall {
-    height: 32px;
+    &:not(.link) {
+      height: 32px;
+    }
+
     line-height: 32px;
     padding: 0 15px;
   }
@@ -293,14 +323,20 @@
     441%
   );
   .sizeMedium {
+    &:not(.link) {
+      height: 38px;
+    }
+
     font-size: 16px;
-    height: 38px;
     line-height: 38px;
     padding: 0 15px;
   }
-  .DEPRECATED_sizeMedium {
+  .DEPRECATED_sizeMedium:not(.link) {
+    &:not(.link) {
+      height: 38px;
+    }
+
     font-size: 14px;
-    height: 38px;
     line-height: 38px;
     padding: 0 15px;
   }
@@ -322,8 +358,11 @@
     441%
   );
   .sizeLarge {
+    &:not(.link) {
+      height: 42px;
+    }
+
     font-size: 16px;
-    height: 42px;
     line-height: 42px;
     padding: 0 20px;
   }
@@ -447,7 +486,7 @@
     border: none;
     box-shadow: none;
     line-height: inherit;
-    height: auto;
+
     .caption {
       display: inline;
     }
@@ -460,6 +499,17 @@
     }
     .icon {
       padding-right: @linkIconPadding;
+    }
+
+    .warning,
+    .error {
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+    }
+
+    .error {
+      background: @error-secondary;
     }
   }
   .linkMixin(
@@ -556,29 +606,7 @@
     }
     transform: rotateY(180deg) skewX(0deg) skewY(0deg);
   }
-  .warning,
-  .error {
-    border-radius: inherit;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-  .warning {
-    box-shadow: 0 0 0 2px @border-color-warning;
-  }
-  .error {
-    box-shadow: 0 0 0 2px @border-color-error;
-  }
-  :global(.rt-ie8) {
-    .warning {
-      outline: 2px solid @border-color-warning;
-    }
-    .error {
-      outline: 2px solid @border-color-error;
-    }
-  }
+
   .narrow {
     padding-left: 5px;
     padding-right: 5px;

@@ -51,7 +51,7 @@ class Spinner extends React.Component<SpinnerProps> {
   public static Types: typeof types;
 
   public render() {
-    const { type, caption } = this.props;
+    const { type, caption, dimmed } = this.props;
     const verifiedType = sizeMaps[type!] ? type! : Spinner.defaultProps.type;
 
     return (
@@ -59,7 +59,7 @@ class Spinner extends React.Component<SpinnerProps> {
         {SpinnerConfig.hasSvgAnimationSupport &&
           this._renderSpinner(verifiedType)}
         {!SpinnerConfig.hasSvgAnimationSupport && (
-          <SpinnerFallback type={verifiedType} />
+          <SpinnerFallback type={verifiedType} dimmed={dimmed} />
         )}
         {caption && this._renderCaption(verifiedType, caption)}
       </div>

@@ -141,6 +141,13 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
           return;
         }
 
+        process.nextTick(() => {
+          if (this.captionElement && restoreFocus) {
+            tabPressed = true;
+            this.captionElement.focus();
+          }
+        });
+
         if (this.state.opened) {
           if (this.props.onOpen) {
             this.props.onOpen();

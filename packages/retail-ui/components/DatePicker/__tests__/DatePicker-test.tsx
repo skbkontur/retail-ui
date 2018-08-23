@@ -1,6 +1,7 @@
 import * as React from 'react';
 import DatePicker, { DatePickerProps } from '../DatePicker';
 import { mount } from 'enzyme';
+import Calendar from '../../Calendar';
 
 const handleChange = () => undefined;
 const renderDatePicker = (props?: Partial<DatePickerProps<string>>) =>
@@ -30,5 +31,31 @@ describe('DatePicker', () => {
     );
     expect(yearSelect.prop('minValue')).toEqual(2017);
     expect(yearSelect.prop('maxValue')).toEqual(2020);
+  });
+
+  it('correctly initial month/year with min date', () => {
+    const datePicker = renderDatePicker({
+      minDate: '21.01.2099'
+    });
+
+    datePicker.setState({ opened: true });
+
+    const calendar = datePicker.find(Calendar);
+
+    expect(calendar.prop('initialMonth')).toBe(0);
+    expect(calendar.prop('initialYear')).toBe(2099);
+  });
+
+  it('correctly initial month/year with max date', () => {
+    const datePicker = renderDatePicker({
+      maxDate: '15.11.1959'
+    });
+
+    datePicker.setState({ opened: true });
+
+    const calendar = datePicker.find(Calendar);
+
+    expect(calendar.prop('initialMonth')).toBe(10);
+    expect(calendar.prop('initialYear')).toBe(1959);
   });
 });

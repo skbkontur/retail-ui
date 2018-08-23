@@ -1,16 +1,16 @@
 /* global gemini */
 
-var pathTo = require('./utils').pathTo;
+var pathTo = require("./utils").pathTo;
 
-gemini.suite('toggle', suite => {
+gemini.suite("toggle", suite => {
   suite
-    .setUrl(pathTo('Toggle', 'plain'))
-    .setCaptureElements('#test-element')
-    .capture('plain')
-    .capture('pressed', (actions, find) => {
-      actions.mouseDown(find('span'));
+    .setUrl(pathTo("Toggle", "plain"))
+    .setCaptureElements("#test-element")
+    .capture("plain")
+    .capture("pressed", (actions, find) => {
+      actions.mouseDown(find("label"));
     })
-    .capture('clicked', (actions, find) => {
-      actions.mouseUp(find('span'));
+    .capture("clicked", (actions, find) => {
+      actions.mouseUp(find("label"));
     });
 });
