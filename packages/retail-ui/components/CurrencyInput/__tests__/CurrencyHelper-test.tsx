@@ -154,7 +154,7 @@ describe('CurrencyHelper', () => {
     ].forEach(x => {
       const options = { fractionDigits: x.fractionDigits };
       it(`formatString('${x.value}', ${JSON.stringify(options)}) throw`, () => {
-        expect(() => CurrencyHelper.format(x.value, options)).toThrow();
+        expect(() => CurrencyHelper.formatString(x.value, options)).toThrow();
       });
     });
   });
