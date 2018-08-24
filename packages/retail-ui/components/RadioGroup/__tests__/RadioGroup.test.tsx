@@ -3,8 +3,12 @@ import { mount } from 'enzyme';
 import RadioGroup, { RadioGroupProps } from '../RadioGroup';
 import Radio from '../../Radio';
 
-const render = (props: Partial<RadioGroupProps<string>>) =>
-  mount(React.createElement(RadioGroup, props));
+const render = <T extends {} = string>(
+  props: RadioGroupProps<T> & { children?: React.ReactNode }
+) => {
+  const { children, ...rest } = props;
+  return mount<RadioGroup<T>>(<RadioGroup {...rest}>{children}</RadioGroup>);
+};
 
 describe('<RadioGroup />', () => {
   it('renders radios inside for items prop', () => {
@@ -31,7 +35,7 @@ describe('<RadioGroup />', () => {
 
   it('renders radios with renderItem prop', () => {
     const items = ['one', 'two', 'three'];
-    const renderItem = x => x.toUpperCase();
+    const renderItem = (x: string) => x.toUpperCase();
     const radios = render({ items, renderItem }).find(Radio);
     items.forEach((item, index) => {
       expect(radios.at(index).text()).toBe(renderItem(item));
@@ -101,15 +105,17 @@ describe('<RadioGroup />', () => {
   });
 
   it('passes onMouse* events to radiogroup wrapper', () => {
-    const props = {
+    const props: Partial<RadioGroupProps<string>> = {
       onMouseOver: () => undefined,
       onMouseEnter: () => undefined,
       onMouseLeave: () => undefined
     };
     const wrapper = render({ items: [], ...props }).first();
     for (const prop in props) {
-      if (props[prop]) {
-        expect(wrapper.prop(prop)).toBe(props[prop]);
+      if (props[prop as keyof RadioGroupProps<string>]) {
+        expect(wrapper.prop(prop)).toBe(
+          props[prop as keyof RadioGroupProps<string>]
+        );
       }
     }
   });
@@ -243,7 +249,7 @@ describe('<RadioGroup />', () => {
 
   it('works with number values', () => {
     const items = [1, 2, 3, 4];
-    const root = render({ items });
+    const root = render<number>({ items });
     root
       .find(Radio)
       .at(0)
