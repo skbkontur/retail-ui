@@ -126,9 +126,6 @@ const styles = {
 };
 
 const webpackConfig = {
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx']
-  },
   module: {
     rules: [
       {
@@ -194,6 +191,10 @@ module.exports = {
     return parseJsComponent(...rest);
   },
   webpackConfig,
+  dangerouslyUpdateWebpackConfig: config => {
+    config.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx', '.json'];
+    return config;
+  },
   version: libraryVersion,
   ribbon: {
     url: 'https://github.com/skbkontur/retail-ui'
