@@ -146,18 +146,18 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     this._layoutEventsToken = LayoutEvents.addListener(this._handleLayoutEvent);
   }
 
-  public componentDidUpdate(prevProps: PopupProps) {
+  public componentWillReceiveProps(nextProps: PopupProps) {
     /**
      * For react < 16 version ReactDOM.unstable_renderSubtreeIntoContainer is
      * used. It causes refs callbacks to call after componentDidUpdate.
      *
      * Delaying _updateLocation to ensure that ref is set
      */
-    if (!prevProps.opened && this.props.opened) {
+    if (!this.props.opened && nextProps.opened) {
       this._delayUpdateLocation();
     }
 
-    if (prevProps.opened && !this.props.opened) {
+    if (this.props.opened && !nextProps.opened) {
       this.resetLocation();
     }
   }
