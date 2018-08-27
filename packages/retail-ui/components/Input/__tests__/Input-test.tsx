@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import Input, { InputProps } from '../Input';
 import MaskedInput from 'react-input-mask';
 
-const render = (props: InputProps) => mount(React.createElement(Input, props));
+const render = (props: InputProps) => mount<Input>(<Input {...props} />);
 
 describe('<Input />', () => {
   it('renders', () => {
@@ -79,7 +79,7 @@ describe('<Input />', () => {
       onKeyUp: () => undefined,
       onPaste: () => undefined
     };
-    const inputProps: React.AllHTMLAttributes<HTMLInputElement> = render({
+    const inputProps = render({
       ...props,
       value: 'hello'
     })
@@ -100,18 +100,19 @@ describe('<Input />', () => {
       onMouseOver: () => undefined,
       onMouseLeave: () => undefined
     };
-    const inputProps: React.HTMLAttributes<HTMLLabelElement> = render({
+    const labelProps = render({
       ...props,
       value: 'hello'
     })
       .find('label')
       .props();
 
-    // tslint:disable-next-line:forin
-    for (const prop in props as React.HTMLAttributes<HTMLLabelElement>) {
-      expect(
-        inputProps[prop as keyof React.HTMLAttributes<HTMLLabelElement>]
-      ).toBe(props[prop as keyof React.HTMLAttributes<HTMLLabelElement>]);
+    for (const prop in props) {
+      if (props[prop as keyof Partial<InputProps>]) {
+        expect(
+          labelProps[prop as keyof React.HTMLAttributes<HTMLLabelElement>]
+        ).toBe(props[prop as keyof Partial<InputProps>]);
+      }
     }
   });
 
