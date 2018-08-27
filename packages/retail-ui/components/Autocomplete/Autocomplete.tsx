@@ -24,6 +24,9 @@ export interface AutocompleteProps
   onChange: (event: { target: { value: string } }, value: string) => void;
   onBlur?: () => void;
   value?: string;
+  mask?: Nullable<string>;
+  maskChar?: Nullable<string>;
+  alwaysShowMask?: boolean;
 }
 
 export interface AutocomplpeteState {

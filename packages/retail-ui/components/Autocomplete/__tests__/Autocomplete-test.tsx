@@ -113,7 +113,6 @@ describe('<Autocomplete />', () => {
       rightIcon: <Icon name="Ok" />,
       size: 'medium',
       title: 'string',
-      type: 'text',
       value: 'hel',
       warning: true,
       width: 300,
