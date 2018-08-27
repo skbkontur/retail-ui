@@ -24,9 +24,9 @@ describe('MenuItem', () => {
   });
 
   it('pass component', () => {
-    const FakeRouterLink = ({ to }) => <span>{to}</span>;
+    const FakeRouterLink = ({ to }: { to: string }) => <span>{to}</span>;
 
-    const Component = ({ href, ...rest }) => (
+    const Component = ({ href, ...rest }: { href: string }) => (
       <FakeRouterLink to={href} {...rest} />
     );
 
