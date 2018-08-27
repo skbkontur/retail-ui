@@ -146,12 +146,12 @@ test('CDS.isBetween returns true if date is between given', () => {
 
   cases
     .map(([date, left, right]) => [
-      CDS.create(date[0], date[1], date[2]),
+      CDS.create(date![0], date![1], date![2]),
       left && CDS.create(left[0], left[1], left[2]),
       right && CDS.create(right[0], right[1], right[2])
     ])
     .forEach(([date, left, right]) => {
-      expect(CDS.isBetween(date, left, right)).toBe(true);
+      expect(CDS.isBetween(date!, left, right)).toBe(true);
     });
 });
 
@@ -166,11 +166,11 @@ test('CDS.isBetween returns false if date is not between given', () => {
 
   cases
     .map(([date, left, right]) => [
-      CDS.create(date[0], date[1], date[2]),
+      CDS.create(date![0], date![1], date![2]),
       left && CDS.create(left[0], left[1], left[2]),
       right && CDS.create(right[0], right[1], right[2])
     ])
     .forEach(([date, left, right]) => {
-      expect(CDS.isBetween(date, left, right)).toBe(false);
+      expect(CDS.isBetween(date!, left, right)).toBe(false);
     });
 });
