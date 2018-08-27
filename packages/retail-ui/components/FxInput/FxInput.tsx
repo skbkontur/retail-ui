@@ -15,7 +15,7 @@ export interface FxInputProps extends BaseTextFieldProps<HTMLInputElement> {
   auto?: boolean;
   type?: 'currency' | InputProps['type'];
   onRestore?: () => void;
-  onChange: CurrencyInputProps['onChange'] | InputProps['onChange'];
+  onChange?: CurrencyInputProps['onChange'] | InputProps['onChange'];
   value?: React.ReactText;
   refInput?: (element: CurrencyInput | Input | null) => void;
 }
