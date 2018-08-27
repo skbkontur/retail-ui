@@ -13,6 +13,11 @@ import { BaseTextFieldProps } from '../../typings/common';
 
 export interface PasswordInputProps extends BaseTextFieldProps {
   detectCapsLock?: boolean;
+  onChange?: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ) => void;
+  value?: React.ReactText;
 }
 
 export interface PasswordInputState {
