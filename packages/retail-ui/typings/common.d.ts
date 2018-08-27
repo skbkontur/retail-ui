@@ -32,7 +32,7 @@ export interface BaseInputProps<T = HTMLInputElement>
   /** передеается в DOM-элемент */
   role?: string;
   /** передеается в DOM-элемент */
-  autofocus?: boolean;
+  autoFocus?: boolean;
   /** передеается в DOM-элемент */
   maxLength?: number;
   checked?: boolean;
@@ -43,17 +43,19 @@ export interface BaseInputProps<T = HTMLInputElement>
   onKeyPress?: React.KeyboardEventHandler<T>;
   /** передеается в DOM-элемент */
   onKeyUp?: React.KeyboardEventHandler<T>;
+  /** передеается в DOM-элемент */
+  onInput?: React.KeyboardEventHandler<T>;
 
   /** передеается в label-обертку */
-  onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseEnter?: React.MouseEventHandler<HTMLElement>;
   /** передеается в label-обертку */
-  onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLElement>;
   /** передеается в label-обертку */
-  onMouseMove?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseMove?: React.MouseEventHandler<HTMLElement>;
   /** передеается в label-обертку */
-  onMouseOut?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseOut?: React.MouseEventHandler<HTMLElement>;
   /** передеается в label-обертку */
-  onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseOver?: React.MouseEventHandler<HTMLElement>;
   /** передеается в DOM-элемент */
   onMouseUp?: React.MouseEventHandler<T>;
   /** передеается в DOM-элемент */
