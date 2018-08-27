@@ -36,7 +36,7 @@ const defaultMaxYear = 2100;
 
 export interface DateSelectProps {
   disabled?: boolean | null;
-  onChange: (value: number) => void;
+  onChange?: (value: number) => void;
   type?: 'month' | 'year';
   value: number;
   width?: number | string;

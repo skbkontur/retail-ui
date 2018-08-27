@@ -1,9 +1,10 @@
 import * as React from 'react';
-import DateSelect from '../DateSelect';
+import DateSelect, { DateSelectProps } from '../DateSelect';
 import styles = require('../DateSelect.less');
 import { mount } from 'enzyme';
 
-const renderSelect = props => mount(<DateSelect {...props} />);
+const renderSelect = (props: DateSelectProps) =>
+  mount<DateSelect>(<DateSelect {...props} />);
 
 describe('DateSelect', () => {
   it('disable months not in range', () => {
