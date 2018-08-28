@@ -337,6 +337,99 @@ class ModalMobileView extends Component<{}, { opened: boolean }> {
   }
 }
 
+class ModalInner extends React.Component<{}, { bigHeight: boolean }> {
+  constructor(props: {}) {
+    super(props);
+
+    this.state = {
+      bigHeight: false
+    };
+  }
+
+  render() {
+    return (
+      <div style={{ width: 300 }}>
+        <Toggle
+          checked={this.state.bigHeight}
+          onChange={bigHeight => this.setState({ bigHeight })}
+        />{' '}
+        конкретно увеличить высоту
+        <p
+          style={{
+            height: this.state.bigHeight ? 1000 : 250,
+            transition: 'all 0.5s',
+            overflow: 'hidden'
+          }}
+        >
+          A lotta people ask me where the fuck I've been at the last few years.
+          A lotta people ask me where the fuck I've been at the last few years.
+          A lotta people ask me where the fuck I've been at the last few years.
+          A lotta people ask me where the fuck I've been at the last few years.
+          A lotta people ask me where the fuck I've been at the last few years.
+          A lotta people ask me where the fuck I've been at the last few years.
+          A lotta people ask me where the fuck I've been at the last few years.
+          A lotta people ask me where the fuck I've been at the last few years.
+          A lotta people ask me where the fuck I've been at the last few years.
+          A lotta people ask me where the fuck I've been at the last few years.
+          A lotta people ask me where the fuck I've been at the last few years.
+        </p>
+      </div>
+    );
+  }
+}
+
+class ModalWithVariableHeight extends Component<
+  {},
+  { opened: boolean; panel: boolean }
+> {
+  public state = {
+    opened: false,
+    panel: false
+  };
+
+  public render() {
+    return (
+      <div style={{ width: '300px' }}>
+        {this.state.opened && (
+          <Modal onClose={this.close}>
+            <Modal.Header>Title</Modal.Header>
+            <Modal.Body>
+              <p>
+                A lotta people ask me where the fuck I've been at the last few
+                years.
+              </p>
+
+              {this.props.children}
+
+              <div>
+                <Toggle
+                  checked={this.state.panel}
+                  onChange={() =>
+                    this.setState(({ panel }) => ({ panel: !panel }))
+                  }
+                />{' '}
+                Panel {this.state.panel ? 'enabled' : 'disabled'}
+              </div>
+            </Modal.Body>
+            <Modal.Footer panel={this.state.panel}>
+              <Button onClick={this.close}>Close</Button>
+            </Modal.Footer>
+          </Modal>
+        )}
+        <Button onClick={this.open}>Open modal</Button>
+      </div>
+    );
+  }
+
+  public open = () => {
+    this.setState({ opened: true });
+  };
+
+  public close = () => {
+    this.setState({ opened: false });
+  };
+}
+
 storiesOf('Modal', module)
   .add('With scrollable parent content', () => <ModalWithScrollableContent />)
   .add('With Input in header', () => <ModalWithInputInHeader />)
@@ -360,4 +453,9 @@ storiesOf('Modal', module)
       </Modal.Body>
     </Modal>
   ))
-  .add('Modal mobile view', () => <ModalMobileView />);
+  .add('Modal mobile view', () => <ModalMobileView />)
+  .add('Modal with variable height of content', () => (
+    <ModalWithVariableHeight>
+      <ModalInner />
+    </ModalWithVariableHeight>
+  ));
