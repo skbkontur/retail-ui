@@ -47,3 +47,15 @@ gemini.suite("modal without header", suite => {
     .setCaptureElements("html")
     .capture("open modal");
 });
+
+gemini.suite("modal with variable height of content", suite => {
+  suite
+    .setUrl(pathTo("Modal", "Modal with variable height of content"))
+    .setCaptureElements("html")
+    .capture("open modal", (actions, find) => {
+      actions.click(find("button"));
+    })
+    .capture("toggle content height", (actions, find) => {
+      actions.click(find('#modal-inner [class^="Toggle-wrapper"]')).wait(500);
+    });
+});
