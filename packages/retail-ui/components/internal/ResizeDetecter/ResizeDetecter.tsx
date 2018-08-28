@@ -21,29 +21,17 @@ export default class ResizeDetecter extends React.Component<
   }
 
   public render() {
-    return [
-      <iframe
-        key="resize-detecter-iframe"
-        ref={this.iframeRef}
-        className={styles.root}
-      />,
-      <div key="resize-detecter-content" className={styles.content}>
-        {this.props.children}
+    return (
+      <div className={styles.root}>
+        <iframe ref={this.iframeRef} className={styles.iframe} />
+        <div className={styles.content}>{this.props.children}</div>
       </div>
-    ];
+    );
   }
 
   private iframeRef = (iframe: HTMLIFrameElement) => {
     if (iframe && iframe.contentWindow && !this.iframe) {
       this.iframe = iframe;
-
-      if (this.iframe.parentElement) {
-        const parentStyles = window.getComputedStyle(this.iframe.parentElement);
-
-        if (parentStyles.getPropertyValue('position') === 'static') {
-          parentStyles.setProperty('position', 'relative');
-        }
-      }
 
       if (this.iframe.contentWindow) {
         this.iframe.contentWindow.onresize = this.props.onResize || null;
