@@ -188,9 +188,6 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
       event.persist();
     }
 
-    // tslint:disable-next-line:no-console
-    console.log('tabPressed', tabPressed);
-
     if (tabPressed) {
       this.setState(
         {
