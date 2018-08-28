@@ -1,8 +1,4 @@
 ```jsx
-const { default: Gapped } = require('../Gapped');
-const { default: MenuItem } = require('../MenuItem');
-const { default: Toast } = require('../Toast');
-
 let style = {
   alignItems: 'center',
   background: 'white',

@@ -3,12 +3,11 @@ import { mount } from 'enzyme';
 import RadioGroup, { RadioGroupProps } from '../RadioGroup';
 import Radio from '../../Radio';
 
-const render = <T extends {} = string>(
-  props: RadioGroupProps<T> & { children?: React.ReactNode }
-) => {
-  const { children, ...rest } = props;
-  return mount<RadioGroup<T>>(<RadioGroup {...rest}>{children}</RadioGroup>);
-};
+const render = (
+  props: Partial<RadioGroupProps<any>> & {
+    children?: React.ReactElement<any>;
+  }
+) => mount<RadioGroup<any>>(<RadioGroup {...props} />);
 
 describe('<RadioGroup />', () => {
   it('renders radios inside for items prop', () => {
@@ -111,13 +110,9 @@ describe('<RadioGroup />', () => {
       onMouseLeave: () => undefined
     };
     const wrapper = render({ items: [], ...props }).first();
-    for (const prop in props) {
-      if (props[prop as keyof RadioGroupProps<string>]) {
-        expect(wrapper.prop(prop)).toBe(
-          props[prop as keyof RadioGroupProps<string>]
-        );
-      }
-    }
+    Object.keys(props).forEach(prop => {
+      expect(wrapper.prop(prop)).toBe(props[prop as keyof typeof props]);
+    });
   });
 
   it('renders children', () => {
@@ -249,7 +244,7 @@ describe('<RadioGroup />', () => {
 
   it('works with number values', () => {
     const items = [1, 2, 3, 4];
-    const root = render<number>({ items });
+    const root = render({ items });
     root
       .find(Radio)
       .at(0)

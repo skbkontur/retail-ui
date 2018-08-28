@@ -1,6 +1,6 @@
 import PagingHelper from '../PagingHelper';
 
-const testCase: Array<[[number, number], Array<number | string>]> = [
+const cases: Array<[[number, number], Array<string | number>]> = [
   [[1, 1], [1]],
   [[1, 7], [1, 2, 3, 4, 5, 6, 7]],
   [[1, 10], [1, 2, 3, 4, 5, '.', 10]],
@@ -8,7 +8,7 @@ const testCase: Array<[[number, number], Array<number | string>]> = [
   [[8, 12], [1, '.', 6, 7, 8, 9, 10, 11, 12]]
 ];
 
-testCase.forEach(([[active, total], expecting]) => {
+cases.forEach(([[active, total], expecting]) => {
   it(`Active: ${active}; Total: ${total}`, () => {
     expect(PagingHelper.getItems(active, total)).toEqual(expecting);
   });

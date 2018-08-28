@@ -20,7 +20,10 @@ describe('DateSelect', () => {
       type: 'month',
       minValue: 2,
       maxValue: 7,
-      value: 6
+      value: 6,
+      onChange: () => {
+        /**/
+      }
     });
     dateSelect.find(`.${styles.caption}`).simulate('click');
     const disabledItems = dateSelect.find('.' + styles.menuItemDisabled);
@@ -48,7 +51,10 @@ describe('DateSelect', () => {
       type: 'month',
       minValue: 0,
       maxValue: 0,
-      value: 0
+      value: 0,
+      onChange: () => {
+        /**/
+      }
     });
     dateSelect.find(`.${styles.caption}`).simulate('click');
     const disabledItems = dateSelect.find('.' + styles.menuItemDisabled);
