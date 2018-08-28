@@ -161,7 +161,7 @@ export default class CurrencyHelper {
   public static isValidString(
     value: string,
     fractionDigits: Nullable<number>,
-    unsigned: Nullable<boolean>
+    unsigned?: Nullable<boolean>
   ) {
     value = CurrencyHelper.unformatString(value);
     const destructed = CurrencyHelper.destructString(value);

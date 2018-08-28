@@ -8,7 +8,7 @@ import Icon from '../../Icon';
 import styles from '../PasswordInput.less';
 
 const setup = (props?: PasswordInputProps) => {
-  return mount(<PasswordInput value="" {...props} />);
+  return mount<PasswordInput>(<PasswordInput value="" {...props} />);
 };
 
 describe('PasswordInput', () => {

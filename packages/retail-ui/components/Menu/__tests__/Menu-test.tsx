@@ -7,7 +7,7 @@ import MenuItem from '../../MenuItem/MenuItem';
 describe('Menu', () => {
   it('calls existing refs of children when highlighted', () => {
     const refItem = jest.fn();
-    const wrapper = mount(
+    const wrapper = mount<Menu>(
       <Menu>
         <MenuItem ref={refItem} />
       </Menu>

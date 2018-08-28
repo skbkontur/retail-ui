@@ -44,6 +44,6 @@ describe('Dropdown', () => {
     expect(select.prop('value')).toEqual(button);
     expect(select.prop('items')).toHaveLength(1);
 
-    expect(React.isValidElement(select.prop('items')[0])).toBeTruthy();
+    expect(React.isValidElement(select.prop('items')![0])).toBeTruthy();
   });
 });
