@@ -11,18 +11,18 @@ import { Nullable } from '../../typings/utility-types';
 const supportsPortal = 'createPortal' in ReactDOM;
 
 const Positions: PopupPosition[] = [
-  'top left',
-  'top center',
+  'right bottom',
+  'right middle',
+  'right top',
   'top right',
-  'bottom left',
-  'bottom center',
-  'bottom right',
+  'top center',
+  'top left',
   'left top',
   'left middle',
   'left bottom',
-  'right top',
-  'right middle',
-  'right bottom'
+  'bottom left',
+  'bottom center',
+  'bottom right'
 ];
 
 export type TooltipTrigger = 'hover' | 'click' | 'focus' | 'opened' | 'closed';
@@ -54,7 +54,7 @@ export interface TooltipProps {
    */
   render?: Nullable<() => React.ReactNode>;
 
-  pos?: PopupPosition;
+  pos: PopupPosition;
 
   trigger?: TooltipTrigger;
 
@@ -78,21 +78,21 @@ export interface TooltipProps {
    *
    * ```ts
    * type PopupPosition =
-   *   | 'top left'
-   *   | 'top center'
-   *   | 'top right'
-   *   | 'bottom left'
-   *   | 'bottom center'
-   *   | 'bottom right'
-   *   | 'left top'
-   *   | 'left middle'
-   *   | 'left bottom'
-   *   | 'right top'
-   *   | 'right middle'
-   *   | 'right bottom';
+   *   'right bottom',
+   * | 'right middle',
+   * | 'right top',
+   * | 'top right',
+   * | 'top center',
+   * | 'top left',
+   * | 'left top',
+   * | 'left middle',
+   * | 'left bottom',
+   * | 'bottom left',
+   * | 'bottom center',
+   * | 'bottom right'
    * ```
    */
-  allowedPositions?: PopupPosition[];
+  allowedPositions: PopupPosition[];
 
   /**
    * Конфигурация отображения анимации.
@@ -202,13 +202,8 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   };
 
   private _getPositions() {
-    // FIXME: allowedPositions in defaultProps, remove ! when default props
-    // would work in TypeScript
-    const allowedPositions = this.props.allowedPositions!;
-
-    // FIXME: pos in defaultProps, remove ! when default props
-    // would work in TypeScript
-    const index = allowedPositions.indexOf(this.props.pos!);
+    const allowedPositions = this.props.allowedPositions;
+    const index = allowedPositions.indexOf(this.props.pos);
     if (index === -1) {
       throw new Error(
         'Unexpected position passed to Tooltip. Expected one of: ' +
