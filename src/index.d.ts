@@ -20,7 +20,11 @@ export type ValidationInfo = {
     message: string | JSX.Element,
 };
 
-interface ValidationContainerProps {}
+interface ValidationContainerProps {
+    children?: any;
+    onValidationUpdated?: (isValid?: boolean) => void;
+    scrollOffset?: number;
+}
 
 export class ValidationContainer extends React.Component<ValidationContainerProps, {}> {
     validate(): Promise<boolean>;
