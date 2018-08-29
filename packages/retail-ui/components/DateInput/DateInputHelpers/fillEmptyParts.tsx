@@ -6,7 +6,7 @@ interface DateShape {
   year: Nullable<string>;
 }
 
-const padNumber = (num: number, length: number, mask: string) =>
+const padNumber = (num: number | string, length: number, mask: string) =>
   num.toString().padStart(length, mask);
 
 export function fillEmptyParts(
@@ -14,8 +14,8 @@ export function fillEmptyParts(
   now: Date = new Date()
 ) {
   return {
-    date: date || padNumber(now.getDate(), 2, '0'),
-    month: month || padNumber(now.getMonth() + 1, 2, '0'),
-    year: year || padNumber(now.getFullYear(), 2, '0')
+    date: padNumber(date || now.getDate(), 2, '0'),
+    month: padNumber(month || now.getMonth() + 1, 2, '0'),
+    year: padNumber(year || now.getFullYear(), 2, '0')
   };
 }
