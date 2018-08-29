@@ -246,7 +246,11 @@ describe('CurrencyHelper', () => {
       { value: '1 234 567 890 123,45', fractionDigits: 2, expected: true }
     ].forEach(x => {
       it(`parse('${x.value}', ${x.fractionDigits}) === ${x.expected}`, () => {
-        const actual = CurrencyHelper.isValidString(x.value, x.fractionDigits);
+        const actual = CurrencyHelper.isValidString(
+          x.value,
+          x.fractionDigits,
+          false
+        );
         const expected = x.expected;
         expect(actual).toBe(expected);
       });
