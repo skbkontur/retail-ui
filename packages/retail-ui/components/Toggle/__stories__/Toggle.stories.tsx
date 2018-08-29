@@ -6,6 +6,7 @@ import Toggle from '../Toggle';
 import Gapped from '../../Gapped/Gapped';
 import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';
+import { action } from '@storybook/addon-actions';
 
 class Playground extends Component<any, any> {
   public state = {
@@ -137,4 +138,9 @@ class Simple extends React.Component<any, any> {
   }
 }
 
-storiesOf('Toggle', module).add('plain', () => <Simple />).add('playground', () => <Playground />);
+storiesOf('Toggle', module)
+  .add('plain', () => <Simple />)
+  .add('uncontrolled', () => (
+    <Toggle defaultChecked={true} onChange={action('toggle')} />
+  ))
+  .add('playground', () => <Playground />);
