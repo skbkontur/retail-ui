@@ -26,7 +26,7 @@ class User extends React.Component<UserProps> {
   public render(): JSX.Element {
     const { userName, cabinetUrl } = this.props;
     return (
-      <TopBarDropdown icon={'user'} caption={userName}>
+      <TopBarDropdown icon={'user'} label={userName}>
         <div style={{ padding: '6px 18px 7px 15px' }}>
           <b>Личный кабинет Контура</b>
         </div>

@@ -18,6 +18,7 @@ import Close from './ModalClose';
 import cn from 'classnames';
 import Upgrades from '../../lib/Upgrades';
 import FocusLock from 'react-focus-lock';
+import ResizeDetector from '../internal/ResizeDetector';
 
 let mountedModalsCount = 0;
 
@@ -70,7 +71,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   private stackSubscription: EventSubscription | null = null;
-  private centerDOM: Element | null = null;
+  private centerDOM: HTMLDivElement | null = null;
 
   public componentDidMount() {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
@@ -86,6 +87,10 @@ class Modal extends React.Component<ModalProps, ModalState> {
     mountedModalsCount++;
     events.addEventListener(window, 'keydown', this.handleKeyDown);
     this.checkHorizontalScrollAppearance();
+
+    if (this.centerDOM) {
+      this.centerDOM.addEventListener('scroll', LayoutEvents.emit);
+    }
   }
 
   public componentWillUnmount() {
@@ -103,6 +108,10 @@ class Modal extends React.Component<ModalProps, ModalState> {
       this.stackSubscription.remove();
     }
     ModalStack.remove(this);
+
+    if (this.centerDOM) {
+      this.centerDOM.removeEventListener('scroll', LayoutEvents.emit);
+    }
   }
 
   public render(): JSX.Element {
@@ -165,24 +174,26 @@ class Modal extends React.Component<ModalProps, ModalState> {
               style={containerStyle}
             >
               <div className={styles.window} style={style}>
-                <FocusLock
-                  disabled={this.isDisableFocusLock()}
-                  autoFocus={false}
-                >
-                  {!hasHeader && !this.props.noClose ? (
-                    <Close
-                      requestClose={this.requestClose}
-                      disableClose={this.props.disableClose}
-                    />
-                  ) : null}
-                  <ModalContext.Provider value={modalContextProps}>
-                    <div>
-                      {' '}
-                      {/* <ModalContext.Provider can only receive a single child element. */}
-                      {this.props.children}
-                    </div>
-                  </ModalContext.Provider>
-                </FocusLock>
+                <ResizeDetector onResize={LayoutEvents.emit}>
+                  <FocusLock
+                    disabled={this.isDisableFocusLock()}
+                    autoFocus={false}
+                  >
+                    {!hasHeader && !this.props.noClose ? (
+                      <Close
+                        requestClose={this.requestClose}
+                        disableClose={this.props.disableClose}
+                      />
+                    ) : null}
+                    <ModalContext.Provider value={modalContextProps}>
+                      <div>
+                        {' '}
+                        {/* <ModalContext.Provider can only receive a single child element. */}
+                        {this.props.children}
+                      </div>
+                    </ModalContext.Provider>
+                  </FocusLock>
+                </ResizeDetector>
               </div>
             </div>
           </div>
@@ -201,16 +212,8 @@ class Modal extends React.Component<ModalProps, ModalState> {
     }
   };
 
-  private refCenter = (center: HTMLElement | null) => {
-    if (this.centerDOM != null) {
-      events.removeEventListener(this.centerDOM, 'scroll', LayoutEvents.emit);
-    }
-
-    this.centerDOM = null;
-    if (center != null) {
-      this.centerDOM = ReactDOM.findDOMNode(center) as HTMLElement;
-      events.addEventListener(this.centerDOM, 'scroll', LayoutEvents.emit);
-    }
+  private refCenter = (center: HTMLDivElement | null) => {
+    this.centerDOM = center;
   };
 
   private handleStackChange = (stack: ReadonlyArray<React.Component>) => {

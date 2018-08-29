@@ -8,8 +8,8 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import PopupMenu from '../internal/PopupMenu';
 
 import styles = require('./Kebab.less');
-import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 
 export interface KebabProps {
   disabled?: boolean;
@@ -47,10 +47,6 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     remove: () => undefined
   };
 
-  private getProps = createPropsGetter(Kebab.defaultProps);
-
-  private captionElement: Nullable<HTMLDivElement>;
-
   public componentDidMount() {
     /** addListener'у нужен колбэк в аргумент */
     this._listener = LayoutEvents.addListener(() => undefined);
@@ -63,7 +59,6 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
 
   public render(): JSX.Element {
     const { disabled, positions } = this.props;
-    const { focusedByTab, opened } = this.state;
 
     return (
       <PopupMenu
@@ -72,27 +67,65 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         popupHasPin
         positions={positions}
         onChangeMenuState={this._handleChangeMenuState}
-        caption={
-          <div
-            tabIndex={disabled ? -1 : 0}
-            onFocus={this._handleFocus}
-            onBlur={this._handleBlur}
-            className={cn(
-              styles.kebab,
-              opened && styles.opened,
-              disabled && styles.disabled,
-              focusedByTab && styles.focused
-            )}
-            ref={element => (this.captionElement = element)}
-          >
-            {this._renderIcon(this.getProps().size)}
-          </div>
-        }
+        caption={this.renderCaption}
       >
         {!disabled && this.props.children}
       </PopupMenu>
     );
   }
+
+  private renderCaption = (captionProps: PopupMenuCaptionProps) => {
+    const { disabled } = this.props;
+    const handleCaptionKeyDown = (
+      event: React.KeyboardEvent<HTMLDivElement>
+    ) => {
+      if (!disabled) {
+        this.handleCaptionKeyDown(event, captionProps.openMenu);
+      }
+    };
+
+    const handleCaptionClick = () => {
+      if (!disabled) {
+        captionProps.toggleMenu();
+      }
+    };
+
+    return (
+      <span
+        tabIndex={disabled ? -1 : 0}
+        onClick={handleCaptionClick}
+        onKeyDown={handleCaptionKeyDown}
+        onFocus={this._handleFocus}
+        onBlur={this._handleBlur}
+        className={cn(
+          styles.kebab,
+          captionProps.opened && styles.opened,
+          disabled && styles.disabled,
+          this.state.focusedByTab && styles.focused
+        )}
+      >
+        {this._renderIcon()}
+      </span>
+    );
+  };
+
+  private handleCaptionKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>,
+    openMenu: PopupMenuCaptionProps['openMenu']
+  ) => {
+    switch (event.key) {
+      case 'Enter':
+      case ' ':
+      case 'ArrowUp':
+      case 'ArrowDown':
+        event.preventDefault();
+        openMenu(true);
+        break;
+
+      default:
+        break;
+    }
+  };
 
   private _handleChangeMenuState = (
     isOpened: boolean,
@@ -107,13 +140,6 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         if (this.props.disabled) {
           return;
         }
-
-        process.nextTick(() => {
-          if (this.captionElement && restoreFocus) {
-            tabPressed = true;
-            this.captionElement.focus();
-          }
-        });
 
         if (this.state.opened) {
           if (this.props.onOpen) {
@@ -147,8 +173,8 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     });
   };
 
-  private _renderIcon(size: string) {
-    switch (size) {
+  private _renderIcon() {
+    switch (this.props.size) {
       case 'small':
         return (
           <div className={styles.iconsmall}>
@@ -162,7 +188,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
           </div>
         );
       default:
-        throw new Error(`Unexpected size '${size}'`);
+        throw new Error(`Unexpected size '${this.props.size}'`);
     }
   }
 }

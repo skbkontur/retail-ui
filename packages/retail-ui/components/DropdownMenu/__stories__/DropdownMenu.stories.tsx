@@ -8,6 +8,7 @@ import DropdownMenu from '../DropdownMenu';
 import Button from '../../Button';
 import Icon from '../../Icon';
 import Toast from '../../Toast';
+import { PopupMenuCaptionProps } from '../../internal/PopupMenu/PopupMenu';
 
 storiesOf('DropdownMenu', module)
   .addDecorator(story => (
@@ -80,5 +81,27 @@ storiesOf('DropdownMenu', module)
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
       <MenuItem disabled>Недоступен</MenuItem>
+    </DropdownMenu>
+  ))
+  .add('Caption accepts a function', () => (
+    <DropdownMenu
+      menuWidth="300px"
+      caption={(captionProps: PopupMenuCaptionProps) => (
+        <span
+          style={{
+            display: 'inline-block',
+            transition: 'all 0.3s',
+            transform: captionProps.opened ? 'rotate(45deg)' : 'none'
+          }}
+        >
+          <Button use="primary" onClick={captionProps.toggleMenu}>
+            <Icon name="ArrowSize2" size={16} />
+          </Button>
+        </span>
+      )}
+    >
+      <MenuItem>Раз</MenuItem>
+      <MenuItem>Два</MenuItem>
+      <MenuItem>Три</MenuItem>
     </DropdownMenu>
   ));
