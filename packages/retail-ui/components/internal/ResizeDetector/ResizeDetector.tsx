@@ -1,12 +1,12 @@
 import * as React from 'react';
-import styles from './ResizeDetecter.less';
+import styles from './ResizeDetector.less';
 
-export interface ResizeDetecterProps {
+export interface ResizeDetectorProps {
   onResize?: (event: UIEvent) => void;
 }
 
-export default class ResizeDetecter extends React.Component<
-  ResizeDetecterProps
+export default class ResizeDetector extends React.Component<
+  ResizeDetectorProps
 > {
   private iframeWindow: Window | null = null;
 

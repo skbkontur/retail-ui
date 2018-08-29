@@ -18,7 +18,7 @@ import Close from './ModalClose';
 import cn from 'classnames';
 import Upgrades from '../../lib/Upgrades';
 import FocusLock from 'react-focus-lock';
-import ResizeDetecter from '../internal/ResizeDetecter';
+import ResizeDetector from '../internal/ResizeDetector';
 
 let mountedModalsCount = 0;
 
@@ -174,7 +174,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
               style={containerStyle}
             >
               <div className={styles.window} style={style}>
-                <ResizeDetecter onResize={LayoutEvents.emit}>
+                <ResizeDetector onResize={LayoutEvents.emit}>
                   <FocusLock
                     disabled={this.isDisableFocusLock()}
                     autoFocus={false}
@@ -193,7 +193,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
                       </div>
                     </ModalContext.Provider>
                   </FocusLock>
-                </ResizeDetecter>
+                </ResizeDetector>
               </div>
             </div>
           </div>
