@@ -1,5 +1,4 @@
 import CursorHelper from '../CursorHelper';
-import { Selection } from '../SelectionHelper';
 
 describe('CursorHelper', () => {
   describe('toRawPosition', () => {
@@ -156,10 +155,7 @@ describe('CursorHelper', () => {
       it(`normalizeSelection([${x.map}], ${JSON.stringify(
         x.selection
       )}) === ${JSON.stringify(x.expected)}`, () => {
-        const actual = CursorHelper.normalizeSelection(
-          x.map,
-          x.selection as Selection
-        );
+        const actual = CursorHelper.normalizeSelection(x.map, x.selection);
         const expected = x.expected;
         expect(actual).toEqual(expected);
       });
@@ -323,7 +319,7 @@ describe('CursorHelper', () => {
       }') === '${JSON.stringify(x.expected)}`, () => {
         const actual = CursorHelper.extendSelection(
           x.value,
-          x.selection as Selection,
+          x.selection,
           x.step
         );
         const expected = x.expected;
