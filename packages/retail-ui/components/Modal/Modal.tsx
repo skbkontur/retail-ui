@@ -14,9 +14,10 @@ import { ModalContext, ModalContextProps } from './ModalContext';
 import { Footer, FooterProps } from './ModalFooter';
 import { Header, HeaderProps } from './ModalHeader';
 import { Body } from './ModalBody';
-import { Close } from './ModalClose';
+import Close from './ModalClose';
 import cn from 'classnames';
 import Upgrades from '../../lib/Upgrades';
+import FocusLock from 'react-focus-lock';
 
 let mountedModalsCount = 0;
 
@@ -122,6 +123,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     });
 
     const modalContextProps: ModalContextProps = {
+      hasHeader,
       horizontalScroll: this.state.horizontalScroll
     };
     if (hasHeader && !this.props.noClose) {
@@ -144,6 +146,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     } else {
       containerStyle.width = 'auto';
     }
+
     return (
       <RenderContainer>
         <ZIndex delta={1000} className={styles.root}>
@@ -162,19 +165,24 @@ class Modal extends React.Component<ModalProps, ModalState> {
               style={containerStyle}
             >
               <div className={styles.window} style={style}>
-                {!hasHeader && !this.props.noClose ? (
-                  <Close
-                    requestClose={this.requestClose}
-                    disableClose={this.props.disableClose}
-                  />
-                ) : null}
-                <ModalContext.Provider value={modalContextProps}>
-                  <div>
-                    {' '}
-                    {/* <ModalContext.Provider can only receive a single child element. */}
-                    {this.props.children}
-                  </div>
-                </ModalContext.Provider>
+                <FocusLock
+                  disabled={this.isDisableFocusLock()}
+                  autoFocus={false}
+                >
+                  {!hasHeader && !this.props.noClose ? (
+                    <Close
+                      requestClose={this.requestClose}
+                      disableClose={this.props.disableClose}
+                    />
+                  ) : null}
+                  <ModalContext.Provider value={modalContextProps}>
+                    <div>
+                      {' '}
+                      {/* <ModalContext.Provider can only receive a single child element. */}
+                      {this.props.children}
+                    </div>
+                  </ModalContext.Provider>
+                </FocusLock>
               </div>
             </div>
           </div>
@@ -241,6 +249,11 @@ class Modal extends React.Component<ModalProps, ModalState> {
     } else if (this.state.horizontalScroll) {
       this.setState({ horizontalScroll: false });
     }
+  };
+
+  // TODO: без порталов ломается сохранение фокуса внутри модалки
+  private isDisableFocusLock = () => {
+    return !ReactDOM.createPortal;
   };
 }
 

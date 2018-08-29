@@ -7,9 +7,8 @@ dist: trusty
 install:
   - yarn
 script:
-  - yarn lerna --scope retail-ui run test --silent
-  - yarn lerna --scope retail-ui run storybook:run-serve &
-  - yarn lerna --stream --scope react-ui-screenshot-tests run test
+  - yarn workspace retail-ui run test --silent
+  - yarn workspace react-ui-screenshot-tests run test
 env:
   global:
     - SAUCE_USERNAME=skbkontur_ife

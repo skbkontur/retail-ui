@@ -4,7 +4,7 @@ import * as Lookup from './Lookup';
 import { mount } from 'enzyme';
 import * as React from 'react';
 
-class Wrap extends React.Component<*> {
+class Wrap extends React.Component {
   render() {
     const { children, ...props } = this.props;
     return React.cloneElement(React.Children.only(children), props);

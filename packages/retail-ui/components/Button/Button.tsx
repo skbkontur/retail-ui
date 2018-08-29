@@ -295,7 +295,6 @@ class Button extends React.Component<ButtonProps, ButtonState> {
         style: { width: wrapProps.style.width }
       });
       rootProps.style.textAlign = undefined;
-      error = null;
       loading = null;
       arrow = null;
     }
@@ -303,13 +302,13 @@ class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <span {...wrapProps}>
         <button ref={this._ref} {...rootProps}>
+          {error}
           {loading}
           {arrow}
           <div className={classes.caption}>
             {icon}
             {this.props.children}
           </div>
-          {error}
         </button>
       </span>
     );

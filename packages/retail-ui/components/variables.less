@@ -3,13 +3,17 @@
 @bg-disabled: #f2f2f2;
 @bg-active: #5199db;
 
+@error-main: #d70c17;
+@error-secondary: #ffd6d6;
+@error-text: #ce0014;
+
 @border-color-focus: #5199db;
 @border-color-focus-light: #bad7f1;
-@border-color-gray-dark: #b2b2b2;
-@border-color-gray-light: #d9d9d9;
+@border-color-gray-dark: rgba(0, 0, 0, 0.28);
+@border-color-gray-light: rgba(0, 0, 0, 0.15);
 @border-color-gray-lighter: #fff;
-@border-color-error: #da0902;
-@border-color-warning: #f5a636;
+@border-color-error: @error-main;
+@border-color-warning: #f69c00;
 
 @placeholder-color: #aaa;
 @placeholder-color-light: #bbb;
@@ -167,6 +171,49 @@
 @modal-fixed-footer-shadow: 0 -1px 10px rgba(0, 0, 0, 1);
 @modal-footer-bg: #e9e9e9;
 
+// SidePage
+@side_page-footer-panel-bg: #e9e9e9;
+@side_page-close-button-color: rgba(0, 0, 0, 0.54);
+@side_page-close-button-hover-color: #333;
+@side_page-container-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+
+// DateInput
+@date_input-icon-color: inherit;
+@date_input-mask-color: #b8b8b8;
+
+// Calendar
+@calendar-cell-bg: white;
+@calendar-cell-hover-bg-color: @bg-active;
+@calendar-cell-hover-color: white;
+@calendar-cell-active-hover-color: white;
+@calendar-cell-weekend-color: red;
+@calendar-cell-today-border: 1px solid #8b8b8b;
+@calendar-cell-selected-bg-color: #e9e9e9;
+@calendar-month-header-sticked-bg-color: white;
+@calendar-month-title-border-bottom: 1px solid #dfdede;
+
+// DatePicker
+@date_picker-open-btn-color: #333;
+
+// Picker
+@picker-bg: #fff;
+@picker-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+@picker-today-wrapper-bg-color: white;
+@picker-today-wrapper-border-top: 1px solid #dfdede;
+@picker-today-wrapper-hover-bg-color: #f5f5f5;
+
+// Paging
+@paging-dots-color: gray;
+@paging-forward-link-color: @link-color;
+@paging-forward-link-disabled-color: @link-disabled-color;
+@paging-page-link-active-bg: rgba(0, 0, 0, 0.09);
+@paging-page-link-active-color: black;
+@paging-page-link-hover-bg: rgba(0, 0, 0, 0.05);
+@paging-page-link-hint-color: #bbb;
+
+// MenuSeparator
+@menu_separator-border-color: #e6e6e6;
+
 // Toast
 @toast-bg: rgba(51, 51, 51, 0.8);
 @toast-color: white;
@@ -195,7 +242,7 @@
 // Toggle
 @toggle-bg-checked: #3072c4;
 @toggle-bg-warning: #f69c00;
-@toggle-bg-error: #d70c17;
+@toggle-bg-error: @error-main;
 @toggle-bg-active: #e5e5e5;
 @toggle-focus-shadow-color: #5199db;
 @toggle-border-color: #d0d0d0;

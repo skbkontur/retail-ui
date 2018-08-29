@@ -146,7 +146,7 @@ export default class Select<Value = any, Item = any> extends React.Component<
         }
 
         if (typeof entry === 'function') {
-          const entryElement = (entry as () => React.ReactNode)();
+          const entryElement = entry();
 
           if (React.isValidElement(entryElement)) {
             return React.cloneElement(entryElement, { key: index });

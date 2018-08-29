@@ -31,7 +31,9 @@
     white-space: nowrap;
     text-overflow: clip;
     background: @chb-flat-input-bg;
+    background-clip: padding-box;
     transition: background-color 0.15s ease-in;
+    color: @chb-flat-input-color;
 
     &:before {
       content: '\a0';
@@ -141,6 +143,7 @@
     background: @bg-disabled;
     border-color: @border-color-gray-light;
     color: @text-color-disabled;
+    pointer-events: none;
   }
 
   .warning .input {
@@ -245,5 +248,6 @@
 
   .borderless {
     border-color: transparent;
+    box-shadow: none;
   }
 }

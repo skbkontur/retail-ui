@@ -125,7 +125,7 @@ export default class InputLikeText extends React.Component<
       >
         <span
           {...rest}
-          tabIndex={this.props.disabled ? -1 : 0}
+          tabIndex={this.props.disabled ? undefined : 0}
           className={classNames({
             [styles.input]: true,
             [styles.blink]: this.state.blinking,

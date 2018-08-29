@@ -2,9 +2,9 @@ import * as React from 'react';
 import shallow from 'fbjs/lib/shallowEqual';
 
 import ComboBoxView from './ComboBoxView';
+import { Nullable } from '../../typings/utility-types';
 import Input from '../Input';
 import Menu from '../Menu/Menu';
-import { Nullable } from '../../typings/utility-types';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T }

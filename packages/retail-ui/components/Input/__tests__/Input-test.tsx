@@ -1,10 +1,9 @@
-/* tslint:disable */
 import * as React from 'react';
 import { mount } from 'enzyme';
-import Input from '../Input';
+import Input, { InputProps } from '../Input';
 import MaskedInput from 'react-input-mask';
 
-const render = props => mount(React.createElement(Input, props));
+const render = (props: InputProps) => mount(React.createElement(Input, props));
 
 describe('<Input />', () => {
   it('renders', () => {
@@ -67,38 +66,49 @@ describe('<Input />', () => {
       placeholder: 'somePlaceholder',
       title: 'someTitle',
 
-      onBlur: () => {},
-      onCopy: () => {},
-      onClick: () => {},
-      onMouseUp: () => {},
-      onMouseDown: () => {},
-      onCut: () => {},
-      onFocus: () => {},
-      onInput: () => {},
-      onKeyDown: () => {},
-      onKeyPress: () => {},
-      onKeyUp: () => {},
-      onPaste: () => {}
+      onBlur: () => undefined,
+      onCopy: () => undefined,
+      onClick: () => undefined,
+      onMouseUp: () => undefined,
+      onMouseDown: () => undefined,
+      onCut: () => undefined,
+      onFocus: () => undefined,
+      onInput: () => undefined,
+      onKeyDown: () => undefined,
+      onKeyPress: () => undefined,
+      onKeyUp: () => undefined,
+      onPaste: () => undefined
     };
     const inputProps = render({ ...props, value: 'hello' })
       .find('input')
       .props();
-    for (let prop in props) {
-      expect(inputProps[prop]).toBe(props[prop]);
+
+    // tslint:disable-next-line:forin
+    for (const prop in props) {
+      expect(inputProps[prop as keyof typeof inputProps]).toBe(
+        props[prop as keyof typeof props]
+      );
     }
   });
 
   it('passes onMouse* props to label', () => {
-    const props = {
-      onMouseEnter: () => {},
-      onMouseOver: () => {},
-      onMouseLeave: () => {}
+    const props: Partial<InputProps> = {
+      onMouseEnter: () => undefined,
+      onMouseOver: () => undefined,
+      onMouseLeave: () => undefined
     };
-    const inputProps = render({ ...props, value: 'hello' })
+    const inputProps: React.HTMLAttributes<HTMLLabelElement> = render({
+      ...props,
+      value: 'hello'
+    })
       .find('label')
       .props();
-    for (let prop in props) {
-      expect(inputProps[prop]).toBe(props[prop]);
+
+    // tslint:disable-next-line:forin
+    for (const prop in props as React.HTMLAttributes<HTMLLabelElement>) {
+      expect(
+        inputProps[prop as keyof React.HTMLAttributes<HTMLLabelElement>]
+      ).toBe(props[prop as keyof React.HTMLAttributes<HTMLLabelElement>]);
     }
   });
 
@@ -107,7 +117,7 @@ describe('<Input />', () => {
       .find('input')
       .prop('style');
 
-    expect(inputStyles.textAlign).toBe('center');
+    expect(inputStyles && inputStyles.textAlign).toBe('center');
   });
 
   it('applies width prop on label', () => {
@@ -115,7 +125,7 @@ describe('<Input />', () => {
       .find('label')
       .prop('style');
 
-    expect(inputStyles.width).toBe('300px');
+    expect(inputStyles && inputStyles.width).toBe('300px');
   });
 
   it('renders MaskedInput on mask prop', () => {
@@ -124,17 +134,21 @@ describe('<Input />', () => {
   });
 
   it('passes props to MaskedInput', () => {
-    const props = {
+    const props: MaskedInput.Props = {
       value: '123',
       mask: '999',
       maskChar: '*',
       alwaysShowMask: true
     };
-    const inputProps = render(props)
+    const inputProps = render(props as Partial<InputProps>)
       .find(MaskedInput)
       .props();
-    for (let prop in props) {
-      expect(inputProps[prop]).toBe(props[prop]);
+
+    // tslint:disable-next-line:forin
+    for (const prop in props) {
+      expect(inputProps[prop as keyof MaskedInput.Props]).toBe(
+        props[prop as keyof MaskedInput.Props]
+      );
     }
   });
 

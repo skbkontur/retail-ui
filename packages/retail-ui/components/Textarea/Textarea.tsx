@@ -10,10 +10,18 @@ import throttle from 'lodash.throttle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { getTextAreaHeight } from './TextareaHelpers';
 
-import styles from './Textarea.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { TextareaAdapter } from './Textarea.adapter';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
+
+import Upgrades from '../../lib/Upgrades';
+import CssStyles from './Textarea.less';
+
+const isFlatDesign = Upgrades.isFlatDesignEnabled();
+
+const styles: typeof CssStyles = isFlatDesign
+  ? require('./Textarea.flat.less')
+  : require('./Textarea.less');
 
 const PASS_PROPS = {
   autoFocus: true,
@@ -31,41 +39,28 @@ const PASS_PROPS = {
 
   onMouseEnter: true,
   onMouseLeave: true,
-  onMouseOver: true
+  onMouseOver: true,
+
+  style: false,
+  className: false,
+  onChange: false
 };
 
-export interface TextareaProps {
-  autoFocus?: boolean;
-  autoResize?: boolean;
-  defaultValue?: string;
-  disabled?: boolean;
-  /**
-   * Визуально показать наличие ошибки.
-   */
-  error?: boolean;
-  id?: string;
-  maxLength?: number | string;
-  maxRows?: number | string;
-  placeholder?: string;
-  resize?: string;
-  className?: string;
-  /**
-   * Количество строк
-   */
-  rows?: number | string;
-  title?: string;
-  value: string;
-  width?: number | string;
-  onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
-  onChange?: (
-    event: Partial<React.ChangeEvent<HTMLTextAreaElement>>,
-    value: string
-  ) => void;
-  onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
-  onMouseEnter?: React.MouseEventHandler<HTMLTextAreaElement>;
-  onMouseLeave?: React.MouseEventHandler<HTMLTextAreaElement>;
-  onMouseOver?: React.MouseEventHandler<HTMLTextAreaElement>;
-}
+export type TextareaProps = Override<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  {
+    autoResize?: boolean;
+    error?: boolean;
+    warning?: boolean;
+    resize?: string;
+    width?: React.CSSProperties['width'];
+    maxRows?: number | string;
+    onChange?: (
+      event: React.ChangeEvent<HTMLTextAreaElement>,
+      value: string
+    ) => void;
+  }
+>;
 
 export interface TextareaState {
   polyfillPlaceholder: boolean;
@@ -169,7 +164,8 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     );
     props.className = classNames({
       [styles.textarea]: true,
-      [styles.error]: this.props.error
+      [styles.error]: this.props.error,
+      [styles.warning]: this.props.warning
     });
     props.style = {};
 
@@ -224,9 +220,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   }
 
-  private _handleChange = (
-    event: Partial<React.ChangeEvent<HTMLTextAreaElement>>
-  ) => {
+  private _handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (polyfillPlaceholder) {
       const fieldIsEmpty = event.target!.value === '';
 

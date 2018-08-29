@@ -15,10 +15,10 @@ interface MenuProps {
   children?: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number | string;
-  onItemClick?: (x0: string) => void;
+  onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   width?: number | string;
   preventWindowScroll?: boolean;
-  onKeyDown: (x0: React.KeyboardEvent<HTMLElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 
   // Циклический перебор айтемов меню (по-дефолтну включен)
   cyclicSelection?: boolean;
@@ -82,7 +82,11 @@ export default class InternalMenu extends React.Component<
           preventWindowScroll={this.props.preventWindowScroll}
         >
           {React.Children.map(this.props.children, (child, index) => {
-            if (typeof child === 'string' || typeof child === 'number' || child == null) {
+            if (
+              typeof child === 'string' ||
+              typeof child === 'number' ||
+              child == null
+            ) {
               return child;
             }
             if (typeof child.type === 'string') {
@@ -171,6 +175,7 @@ export default class InternalMenu extends React.Component<
     event: React.SyntheticEvent<HTMLElement>
   ): boolean {
     const item = childrenToArray(this.props.children)[index];
+
     if (isActiveElement(item)) {
       if (shouldHandleHref && item.props.href) {
         if (item.props.target) {
@@ -180,10 +185,10 @@ export default class InternalMenu extends React.Component<
         }
       }
       if (item.props.onClick) {
-        item.props.onClick(event);
+        item.props.onClick(event as React.MouseEvent<HTMLElement>);
       }
       if (this.props.onItemClick) {
-        this.props.onItemClick(event.type);
+        this.props.onItemClick(event);
       }
       return true;
     }
@@ -264,8 +269,9 @@ export default class InternalMenu extends React.Component<
         break;
 
       case 'Enter':
-        event.preventDefault();
-        this._select(this.state.highlightedIndex, false, event);
+        if (this._highlighted && this._highlighted.props.onClick) {
+          this._highlighted.props.onClick(event);
+        }
         break;
 
       default:

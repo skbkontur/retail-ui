@@ -10,7 +10,7 @@
     display: inline-block;
     padding: 6px 10px 0;
     font-size: 16px;
-    color: gray;
+    color: @paging-dots-color;
   }
 
   .forwardLink {
@@ -20,14 +20,14 @@
     margin: 4px 0 2px 10px;
     padding-right: 22px;
     font-size: 16px;
-    color: @link-color;
+    color: @paging-forward-link-color;
     cursor: pointer;
     text-decoration: none;
     outline: none;
     user-select: none;
 
     &.disabled {
-      color: @link-disabled-color;
+      color: @paging-forward-link-disabled-color;
       cursor: default;
     }
 
@@ -54,15 +54,15 @@
       margin: 2px 1px;
       padding: 2px 10px 5px;
       font-size: 16px;
-      color: @link-color;
+      color: @paging-forward-link-color;
       border-radius: 16px;
       cursor: pointer;
       text-decoration: none;
       outline: none;
 
       &.active {
-        background: rgba(0, 0, 0, 0.09);
-        color: black;
+        background: @paging-page-link-active-bg;
+        color: @paging-page-link-active-color;
         cursor: default;
       }
 
@@ -72,7 +72,7 @@
       }
 
       &:not(.active):hover {
-        background: rgba(0, 0, 0, 0.05);
+        background: @paging-page-link-hover-bg;
       }
     }
 
@@ -80,7 +80,7 @@
       display: inline-block;
       margin: 0 -20px;
       font-size: 11px;
-      color: #bbb;
+      color: @paging-page-link-hint-color;
 
       .transparent {
         color: transparent;

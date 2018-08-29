@@ -102,13 +102,27 @@
       transform: rotate(-45deg);
     }
 
+    &:focus:before,
+    &:focus:after,
     &:hover:before,
     &:hover:after {
       background: @modal-close-button-hover-color;
     }
 
-    & + .body {
-      padding-top: 29px;
+    .closeOutline {
+      display: none;
+    }
+
+    &:focus {
+      .closeOutline {
+        position: absolute;
+        display: block;
+        top: 24px;
+        right: 26px;
+        width: 26px;
+        height: 26px;
+        border: 2px solid @border-color-focus;
+      }
     }
   }
 
@@ -150,6 +164,10 @@
 
   .body {
     padding: 0 35px 25px 30px;
+  }
+
+  .bodyWithoutHeader {
+    padding-top: 30px;
   }
 
   .bodyAddPadding {

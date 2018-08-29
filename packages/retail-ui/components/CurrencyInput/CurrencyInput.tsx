@@ -1,9 +1,8 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 
-import Input from '../Input';
+import Input, { InputProps } from '../Input';
 
-import filterProps from '../filterProps';
 import SelectionHelper, {
   Selection,
   SelectionDirection
@@ -14,47 +13,22 @@ import {
   CURRENCY_INPUT_ACTIONS,
   extractAction
 } from './CurrencyInputKeyboardActions';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 
-const INPUT_PASS_PROPS = {
-  align: true,
-  autoFocus: true,
-  borderless: true,
-  disabled: true,
-  error: true,
-  placeholder: true,
-  size: true,
-  warning: true,
-  leftIcon: true,
-  width: true
-};
-
-export interface CurrencyInputProps {
-  align?: 'left' | 'center' | 'right';
-  autoFocus?: boolean;
-  borderless?: boolean;
-  disabled?: boolean;
-  error?: boolean;
-  fractionDigits?: Nullable<number>;
-  leftIcon?: React.ReactNode;
-  placeholder?: string;
-  signed?: boolean;
-  size?: 'small' | 'medium' | 'large';
-  value: Nullable<number>;
-  warning?: boolean;
-  width?: number | string;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  onChange: (
-    e: { target: { value: Nullable<number> } },
-    value: Nullable<number>
-  ) => void;
-  onFocus?: () => void;
-  onSubmit?: () => void;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  onMouseEnter?: (event: React.MouseEvent<any>) => void;
-  onMouseLeave?: (event: React.MouseEvent<any>) => void;
-  onMouseOver?: (event: React.MouseEvent<any>) => void;
-}
+export type CurrencyInputProps = Override<
+  InputProps,
+  {
+    value: Nullable<number>;
+    fractionDigits?: Nullable<number>;
+    signed?: boolean;
+    onChange: (
+      e: { target: { value: Nullable<number> } },
+      value: Nullable<number>
+    ) => void;
+    onSubmit?: () => void;
+    onFocus?: () => void;
+  }
+>;
 
 export interface CurrencyInputState {
   formatted: string;
@@ -117,6 +91,7 @@ export default class CurrencyInput extends React.Component<
   }
 
   public render() {
+    const { fractionDigits, signed, onSubmit, ...rest } = this.props;
     const placeholder =
       this.props.placeholder == null
         ? CurrencyHelper.format(0, {
@@ -126,7 +101,7 @@ export default class CurrencyInput extends React.Component<
 
     return (
       <Input
-        {...filterProps(this.props, INPUT_PASS_PROPS)}
+        {...rest}
         value={this.state.formatted}
         onBlur={this._handleBlur}
         onFocus={this._handleFocus}

@@ -1,0 +1,232 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Popup snapshots:  open and close popup: closed popup 1`] = `
+<Popup
+  anchorElement={
+    <button
+      id="test-id"
+    >
+      test
+    </button>
+  }
+  backgroundColor="#fff"
+  disableAnimations={false}
+  hasPin={false}
+  hasShadow={false}
+  margin={10}
+  maxWidth={500}
+  opened={false}
+  pinOffset={16}
+  pinSize={8}
+  popupOffset={0}
+  positions={
+    Array [
+      "bottom left",
+      "bottom right",
+      "top left",
+      "top right",
+    ]
+  }
+>
+  <RenderLayer
+    active={true}
+    onClickOutside={[Function]}
+    onFocusOutside={[Function]}
+  >
+    <RenderContainer>
+      <Transition
+        appear={true}
+        enter={true}
+        exit={true}
+        in={false}
+        mountOnEnter={true}
+        onEnter={[Function]}
+        onEntered={[Function]}
+        onEntering={[Function]}
+        onExit={[Function]}
+        onExited={[Function]}
+        onExiting={[Function]}
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 200,
+          }
+        }
+        unmountOnExit={true}
+      />
+      <Portal
+        key="portal-ref"
+        rt_rootID={3}
+      >
+        <noscript
+          data-render-container-id={3}
+        />
+      </Portal>
+    </RenderContainer>
+  </RenderLayer>
+</Popup>
+`;
+
+exports[`Popup snapshots:  open and close popup: closed popup again 1`] = `
+<Popup
+  anchorElement={
+    <button
+      id="test-id"
+    >
+      test
+    </button>
+  }
+  backgroundColor="#fff"
+  disableAnimations={false}
+  hasPin={false}
+  hasShadow={false}
+  margin={10}
+  maxWidth={500}
+  opened={false}
+  pinOffset={16}
+  pinSize={8}
+  popupOffset={0}
+  positions={
+    Array [
+      "bottom left",
+      "bottom right",
+      "top left",
+      "top right",
+    ]
+  }
+>
+  <RenderLayer
+    active={true}
+    onClickOutside={[Function]}
+    onFocusOutside={[Function]}
+  >
+    <RenderContainer>
+      <Transition
+        appear={true}
+        enter={true}
+        exit={true}
+        in={false}
+        mountOnEnter={true}
+        onEnter={[Function]}
+        onEntered={[Function]}
+        onEntering={[Function]}
+        onExit={[Function]}
+        onExited={[Function]}
+        onExiting={[Function]}
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 200,
+          }
+        }
+        unmountOnExit={true}
+      />
+      <Portal
+        key="portal-ref"
+        rt_rootID={3}
+      >
+        <noscript
+          data-render-container-id={3}
+        />
+      </Portal>
+    </RenderContainer>
+  </RenderLayer>
+</Popup>
+`;
+
+exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
+<Popup
+  anchorElement={
+    <button
+      id="test-id"
+    >
+      test
+    </button>
+  }
+  backgroundColor="#fff"
+  disableAnimations={false}
+  hasPin={false}
+  hasShadow={false}
+  margin={10}
+  maxWidth={500}
+  opened={true}
+  pinOffset={16}
+  pinSize={8}
+  popupOffset={0}
+  positions={
+    Array [
+      "bottom left",
+      "bottom right",
+      "top left",
+      "top right",
+    ]
+  }
+>
+  <RenderLayer
+    active={true}
+    onClickOutside={[Function]}
+    onFocusOutside={[Function]}
+  >
+    <RenderContainer>
+      <Transition
+        appear={true}
+        enter={true}
+        exit={true}
+        in={true}
+        mountOnEnter={true}
+        onEnter={[Function]}
+        onEntered={[Function]}
+        onEntering={[Function]}
+        onExit={[Function]}
+        onExited={[Function]}
+        onExiting={[Function]}
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 200,
+          }
+        }
+        unmountOnExit={true}
+      >
+        <ZIndex
+          className="popup transition-enter-top"
+          delta={1000}
+          key="dummy"
+          render={true}
+          style={
+            Object {
+              "backgroundColor": "#fff",
+              "left": -9999,
+              "maxWidth": 500,
+              "top": -9999,
+            }
+          }
+        >
+          <div
+            className="popup transition-enter-top"
+            style={
+              Object {
+                "backgroundColor": "#fff",
+                "left": -9999,
+                "maxWidth": 500,
+                "top": -9999,
+                "zIndex": 26000,
+              }
+            }
+          >
+            Test content
+          </div>
+        </ZIndex>
+      </Transition>
+      <Portal
+        key="portal-ref"
+        rt_rootID={3}
+      >
+        <noscript
+          data-render-container-id={3}
+        />
+      </Portal>
+    </RenderContainer>
+  </RenderLayer>
+</Popup>
+`;

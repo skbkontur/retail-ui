@@ -3,7 +3,7 @@ import { CloseProps } from './ModalContext';
 import classNames from 'classnames';
 import styles = require('./Modal.less');
 
-export const Close: React.SFC<CloseProps> = (props: CloseProps) => {
+const Close: React.SFC<CloseProps> = (props: CloseProps) => {
   return (
     <button
       className={classNames(
@@ -11,6 +11,10 @@ export const Close: React.SFC<CloseProps> = (props: CloseProps) => {
         props.disableClose && styles.disabled
       )}
       onClick={props.requestClose}
-    />
+    >
+      <span className={styles.closeOutline} />
+    </button>
   );
 };
+
+export default Close;

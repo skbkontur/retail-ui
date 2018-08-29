@@ -9,6 +9,7 @@ import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import Select from '../Select';
 import { IconProps } from '../Icon/20px';
 import { Nullable } from '../../typings/utility-types';
+import { ButtonUse, ButtonSize } from '../Button';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -33,13 +34,61 @@ const PASS_PROPS = {
 };
 
 export interface DropdownProps {
+  /**
+   * Подпись на кнопке.
+   */
   caption: React.ReactNode;
+  /**
+   * Иконка слева от текста кнопки
+   */
   icon?: IconProps['name'];
   width?: React.CSSProperties['width'];
+
+  /** @ignore */
   _renderButton?: (params: any) => JSX.Element;
+
+  /**
+   * Отключает использование портала
+   */
+  disablePortal?: boolean;
+
+  /**
+   * Визуально отключает Dropdown
+   */
+  disabled?: boolean;
+
+  /**
+   * Визуально показать наличие ошибки.
+   */
+  error?: boolean;
+  /**
+   * Визуально показать наличие предупреждения.
+   */
+  warning?: boolean;
+  maxMenuHeight?: number;
+  menuAlign?: 'left' | 'right';
+  menuWidth?: number | string;
+  size?: ButtonSize;
+
+  /**
+   * Смотри Button.
+   */
+  use?: ButtonUse;
+
+  /**
+   * Вызывается при закрытии меню.
+   */
+  onClose?: () => void;
+  /**
+   * Вызывается при открытии меню.
+   */
+  onOpen?: () => void;
+  onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
+  onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
+  onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-export type DropdownSelectType = Select;
+type DropdownSelectType = Select<React.ReactNode, React.ReactChild>;
 
 /**
  * Выпадающее меню.
@@ -112,15 +161,13 @@ export default class Dropdown extends React.Component<DropdownProps> {
     onOpen: PropTypes.func
   };
 
-  private _select: Nullable<DropdownSelectType> = null;
+  private _select: Nullable<DropdownSelectType>;
 
   public render() {
     const items = React.Children.map(this.props.children, item => item);
 
     return (
-      <Select
-        // TODO: разобраться с типом для рефа
-        // @ts-ignore
+      <Select<React.ReactNode, React.ReactChild>
         ref={this._refSelect}
         {...filterProps(this.props, PASS_PROPS)}
         value={this.props.caption}
@@ -143,7 +190,7 @@ export default class Dropdown extends React.Component<DropdownProps> {
     }
   }
 
-  private _refSelect = (element: DropdownSelectType) => {
+  private _refSelect = (element: DropdownSelectType): void => {
     this._select = element;
   };
 }

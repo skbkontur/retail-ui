@@ -1,17 +1,3 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "module": "commonjs",
-    "strict": true,
-    "jsx": "react",
-    "experimentalDecorators": true,
-    "target": "es5",
-    "lib": ["es2017", "es2015", "dom"],
-    "importHelpers": true,
-    "declaration": true,
-    "esModuleInterop": true,
-    "noUnusedLocals": true,
-    "skipLibCheck": true
-  },
-  "exclude": ["**/__mocks__", "**/__tests__/**"]
+  "extends": "../../tsconfig.json"
 }

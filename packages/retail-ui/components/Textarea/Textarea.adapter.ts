@@ -10,7 +10,7 @@ const TextareaAdapter = {
     // tslint:disable-next-line:no-string-literal
     inst['_handleChange']({
       target: { value }
-    } as Partial<React.ChangeEvent<HTMLTextAreaElement>>);
+    } as React.ChangeEvent<HTMLTextAreaElement>);
   }
 };
 
