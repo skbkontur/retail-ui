@@ -87,6 +87,10 @@ class Modal extends React.Component<ModalProps, ModalState> {
     mountedModalsCount++;
     events.addEventListener(window, 'keydown', this.handleKeyDown);
     this.checkHorizontalScrollAppearance();
+
+    if (this.centerDOM) {
+      this.centerDOM.addEventListener('scroll', LayoutEvents.emit);
+    }
   }
 
   public componentWillUnmount() {
@@ -104,6 +108,10 @@ class Modal extends React.Component<ModalProps, ModalState> {
       this.stackSubscription.remove();
     }
     ModalStack.remove(this);
+
+    if (this.centerDOM) {
+      this.centerDOM.removeEventListener('scroll', LayoutEvents.emit);
+    }
   }
 
   public render(): JSX.Element {
