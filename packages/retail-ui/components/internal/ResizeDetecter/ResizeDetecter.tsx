@@ -8,15 +8,17 @@ export interface ResizeDetecterProps {
 export default class ResizeDetecter extends React.Component<
   ResizeDetecterProps
 > {
-  private iframe: HTMLIFrameElement | null = null;
+  private iframeWindow: Window | null = null;
+
+  public componentDidMount() {
+    if (this.iframeWindow) {
+      this.iframeWindow.addEventListener('resize', this.handleResize);
+    }
+  }
 
   public componentWillUnmount() {
-    if (
-      this.iframe &&
-      this.iframe.contentWindow &&
-      this.iframe.contentWindow.onresize
-    ) {
-      this.iframe.contentWindow.onresize = null;
+    if (this.iframeWindow) {
+      this.iframeWindow.removeEventListener('resize', this.handleResize);
     }
   }
 
@@ -29,13 +31,15 @@ export default class ResizeDetecter extends React.Component<
     );
   }
 
-  private iframeRef = (iframe: HTMLIFrameElement) => {
-    if (iframe && iframe.contentWindow && !this.iframe) {
-      this.iframe = iframe;
+  private handleResize = (event: UIEvent) => {
+    if (this.props.onResize) {
+      this.props.onResize(event);
+    }
+  };
 
-      if (this.iframe.contentWindow) {
-        this.iframe.contentWindow.onresize = this.props.onResize || null;
-      }
+  private iframeRef = (iframe: HTMLIFrameElement) => {
+    if (iframe && iframe.contentWindow) {
+      this.iframeWindow = iframe.contentWindow;
     }
   };
 }
