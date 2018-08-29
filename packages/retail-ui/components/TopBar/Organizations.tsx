@@ -79,7 +79,7 @@ class Organizations extends React.Component<
     return (
       <TopBarDropdown
         {...this.props}
-        caption={title}
+        label={title}
         minWidth={this.state.minWidth}
       >
         {this.props.children}

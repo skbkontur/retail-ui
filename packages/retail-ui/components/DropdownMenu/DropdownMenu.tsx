@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PopupMenu from '../internal/PopupMenu';
+import PopupMenu, { PopupMenuProps } from '../internal/PopupMenu';
 import { isProductionEnv } from '../internal/currentEnvironment';
 
 export interface DropdownMenuProps {
@@ -7,9 +7,14 @@ export interface DropdownMenuProps {
   menuMaxHeight?: React.CSSProperties['maxWidth'];
   /** Ширина меню */
   menuWidth?: React.CSSProperties['width'];
-  /** Элемент (обязательный), раскрывающий меню */
-  caption: React.ReactNode;
-};
+  /**
+   * Элемент или функция возвращающая элемент,
+   * если передана, используется вместо ```caption```,
+   * в таком случае управлять открытием и закрытием меню
+   * придется в этой функции
+   */
+  caption: PopupMenuProps['caption'];
+}
 
 /**
  * Меню, раскрывающееся по клику на переданный в ```caption``` элемент

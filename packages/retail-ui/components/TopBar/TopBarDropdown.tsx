@@ -1,7 +1,8 @@
 import * as React from 'react';
-import Dropdown from '../Dropdown';
 import ButtonItem from './ButtonItem';
 import { IconProps } from '../Icon/20px';
+import DropdownMenu from '../DropdownMenu';
+import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -15,48 +16,54 @@ export interface TopBarDropdownProps {
   icon?: IconProps['name'];
   minWidth?: string | number | null;
   use?: 'danger' | 'pay';
-  caption: React.ReactNode;
+  label: React.ReactNode;
 }
 
 class TopBarDropdown extends React.Component<TopBarDropdownProps> {
-  private _dropdown: Dropdown | null = null;
-
   public render() {
     return (
-      <Dropdown
-        ref={this._ref}
-        _renderButton={this._renderButton}
-        {...this.props}
-      >
+      <DropdownMenu {...this.props} caption={this.renderButton}>
         {this.props.children}
-      </Dropdown>
+      </DropdownMenu>
     );
   }
 
-  public open() {
-    if (this._dropdown) {
-      this._dropdown.open();
-    }
-  }
+  private renderButton = (captionProps: PopupMenuCaptionProps) => {
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+      this.handleKeyDown(event, captionProps.openMenu);
+    };
 
-  private _renderButton = (params: ButtonParams) => {
     return (
       <ButtonItem
-        active={params.opened}
+        active={captionProps.opened}
         icon={this.props.icon}
         minWidth={this.props.minWidth ? this.props.minWidth : undefined}
         tabIndex={0}
         use={this.props.use}
-        onClick={params.onClick}
-        onKeyDown={params.onKeyDown}
+        onClick={captionProps.toggleMenu}
+        onKeyDown={handleKeyDown}
       >
-        {params.label}
+        {this.props.label}
       </ButtonItem>
     );
   };
 
-  private _ref = (dropdown: Dropdown) => {
-    this._dropdown = dropdown;
+  private handleKeyDown = (
+    event: React.KeyboardEvent<HTMLElement>,
+    openMenu: PopupMenuCaptionProps['openMenu']
+  ) => {
+    switch (event.key) {
+      case 'Enter':
+      case ' ':
+      case 'ArrowUp':
+      case 'ArrowDown':
+        event.preventDefault();
+        openMenu(true);
+        break;
+
+      default:
+        break;
+    }
   };
 }
 
