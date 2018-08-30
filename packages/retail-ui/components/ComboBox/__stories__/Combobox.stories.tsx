@@ -285,7 +285,7 @@ class SimpleCombobox extends React.Component<
 
 function errorStrategy(
   setState: (state: Partial<ComboBoxState>) => void
-): (x: any) => any {
+): (x: any) => void {
   return x => {
     if (x) {
       setState({ error: true });
