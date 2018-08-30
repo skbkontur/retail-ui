@@ -44,11 +44,6 @@ export default class SpinnerFallback extends React.Component<
     dimmed: fallbackImage_mini_dimmed
   };
 
-  private getSpriteSettingsKey = () =>
-    this.props.type === types.mini && this.props.dimmed
-      ? 'dimmed'
-      : this.props.type;
-
   public componentDidMount() {
     this._mounted = true;
     this.animate();
@@ -88,4 +83,9 @@ export default class SpinnerFallback extends React.Component<
 
     setTimeout(this.animate, 1000 / 25);
   };
+
+  private getSpriteSettingsKey = () =>
+    this.props.type === types.mini && this.props.dimmed
+      ? 'dimmed'
+      : this.props.type;
 }
