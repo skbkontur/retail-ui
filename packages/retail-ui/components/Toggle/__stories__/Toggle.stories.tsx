@@ -119,7 +119,7 @@ class Playground extends Component<any, any> {
 
 class Simple extends React.Component<any, any> {
   public state = {
-    checked: true
+    checked: false
   };
 
   public render() {
@@ -127,6 +127,7 @@ class Simple extends React.Component<any, any> {
       <div>
         <Toggle
           checked={this.state.checked}
+          defaultChecked={true}
           onChange={() => {
             const { checked } = this.state;
             this.setState({ checked: !checked });

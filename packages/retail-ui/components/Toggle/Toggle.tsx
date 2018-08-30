@@ -63,16 +63,13 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
   };
 
   private input: HTMLInputElement | null = null;
-  private isUncontrolled: boolean = true;
 
   constructor(props: ToggleProps) {
     super(props);
 
-    this.isUncontrolled = props.checked === undefined;
-
     this.state = {
       focusByTab: false,
-      checked: this.isUncontrolled ? props.defaultChecked || false : undefined
+      checked: this.isUncontrolled() ? props.defaultChecked : undefined
     };
   }
 
@@ -85,10 +82,21 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
   }
 
+  public componentWillReceiveProps(nextProps: ToggleProps) {
+    if (nextProps.checked !== this.props.checked) {
+      this.setState({
+        checked:
+          nextProps.checked === undefined
+            ? this.props.defaultChecked
+            : undefined
+      });
+    }
+  }
+
   public render() {
     const { warning, error, loading, color } = this.props;
     const disabled = this.isDisabled();
-    const checked = this.isUncontrolled
+    const checked = this.isUncontrolled()
       ? this.state.checked
       : this.props.checked;
 
@@ -162,7 +170,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
       event.persist();
     }
 
-    if (this.isUncontrolled) {
+    if (this.isUncontrolled()) {
       this.setState(
         {
           checked: event.target.checked
@@ -221,6 +229,8 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
   private isDisabled() {
     return this.props.disabled || this.props.loading;
   }
+
+  private isUncontrolled = () => this.props.checked === undefined;
 
   private callHandlers = (
     checked: boolean,
