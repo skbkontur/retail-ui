@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const WatchExternalFilesPlugin = require('webpack-watch-files-plugin').default;
-var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
