@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const WatchExternalFilesPlugin = require('webpack-watch-files-plugin').default;
-
+const util = require('util');
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = (baseConfig, env) => {
@@ -14,7 +14,7 @@ module.exports = (baseConfig, env) => {
       test: /\.tsx?$/,
       loader: 'ts-loader',
       options: {
-        transpileOnly: isProd,
+        transpileOnly: true,
         configFile: path.resolve(__dirname, '../prod.tsconfig.json')
       }
     },
@@ -47,6 +47,8 @@ module.exports = (baseConfig, env) => {
       files: ['*.less']
     })
   );
+
+  console.log(util.inspect(config.module, false, 10, true));
 
   return config;
 };
