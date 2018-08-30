@@ -7,7 +7,8 @@ import { PopupMenuCaptionProps } from '../PopupMenu';
 const renderCaption = (captionProps: PopupMenuCaptionProps) => (
   <button
     id="caption"
-    onClick={captionProps.openMenu}
+    // tslint:disable-next-line:jsx-no-lambda
+    onClick={() => captionProps.openMenu(true)}
     className={captionProps.opened ? 'opened' : 'closed'}
   >
     test

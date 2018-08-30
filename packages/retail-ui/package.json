@@ -18,6 +18,7 @@
       "git add"
     ],
     "*.{ts,tsx}": [
+      "tslint --project tsconfig.json",
       "prettier --single-quote --write",
       "git add"
     ]
@@ -28,7 +29,7 @@
   "scripts": {
     "build": "yarn tsc -p prod.tsconfig.json && node scripts/build",
     "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
-    "precommit": "lint-staged",
+    "precommit": "tsc --noEmit && lint-staged",
     "predeploy": "yarn run styleguide:build",
     "prepush": "yarn run test",
     "prepublishOnly": "yarn build",
