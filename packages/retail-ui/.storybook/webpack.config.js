@@ -48,7 +48,5 @@ module.exports = (baseConfig, env) => {
     })
   );
 
-  console.log(util.inspect(config.module, false, 10, true));
-
   return config;
 };
