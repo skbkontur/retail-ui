@@ -173,7 +173,7 @@ describe('ComboBox', () => {
   });
 
   it('renders custom elements in menu', async () => {
-    const items = [(<div>Hello, world</div>)];
+    const items = [<div key="0">Hello, world</div>];
     const promise = Promise.resolve(items);
     const search = jest.fn(() => promise);
     const wrapper = mount(<ComboBox getItems={search} />);
@@ -188,11 +188,11 @@ describe('ComboBox', () => {
   });
 
   it('calls default onClick on custom element select', async () => {
-    const items = [(
-      <div id="hello" data-name="world">
+    const items = [
+      <div key="0" id="hello" data-name="world">
         Hello, world
       </div>
-    )];
+    ];
     const promise = Promise.resolve(items);
     const search = jest.fn(() => promise);
     const onChange = jest.fn();
@@ -227,7 +227,11 @@ describe('ComboBox', () => {
 
   it('calls element onClick on custom element select', async () => {
     const onClick = jest.fn();
-    const items = [(<div onClick={onClick}>Hello, world</div>)];
+    const items = [
+      <div key="0" onClick={onClick}>
+        Hello, world
+      </div>
+    ];
     const promise = Promise.resolve(items);
     const search = jest.fn(() => promise);
 
@@ -254,5 +258,14 @@ describe('ComboBox', () => {
 
     const input = wrapper.find('input');
     expect(input.prop('maxLength')).toBe(2);
+  });
+
+  it("don't focus on error and value change", () => {
+    const wrapper = mount(<ComboBox />);
+
+    wrapper.setProps({ value: { label: '1' }, error: true });
+    wrapper.update();
+
+    expect(wrapper.is('input')).toBe(false);
   });
 });

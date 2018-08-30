@@ -174,13 +174,13 @@ const Effect = {
 const reducers: { [type: string]: Reducer } = {
   Mount: () => ({ ...DefaultState, inputChanged: false }),
   DidUpdate(state, props, action) {
+    // NOTE: Add `areEqual` check
     if (props.value === action.prevProps.value) {
       return state;
     }
     return {
       ...state,
-      opened: false,
-      editing: props.error
+      opened: false
     } as State;
   },
   Blur(state, props, action) {
