@@ -86,18 +86,18 @@ export default class InputLikeText extends React.Component<
   public render() {
     const {
       /* eslint-disable no-unused-vars */
+      className: cn,
+      innerRef,
+      tabIndex,
+      /* eslint-enable no-unused-vars */
       align,
       borderless,
-      tabIndex,
-      className: cn,
       width,
       children,
-      innerRef,
       placeholder: ph,
       error,
       warning,
       padRight,
-      /* eslint-enable no-unused-vars */
       ...rest
     } = this.props;
 
@@ -112,17 +112,12 @@ export default class InputLikeText extends React.Component<
     });
 
     let placeholder = null;
-    if (!this.props.children && this.props.placeholder) {
-      placeholder = (
-        <span className={styles.placeholder}>{this.props.placeholder}</span>
-      );
+    if (!children && ph) {
+      placeholder = <span className={styles.placeholder}>{ph}</span>;
     }
 
     return (
-      <label
-        className={className}
-        style={{ width: this.props.width, textAlign: align }}
-      >
+      <label className={className} style={{ width, textAlign: align }}>
         <span
           {...rest}
           tabIndex={this.props.disabled ? undefined : 0}
@@ -153,7 +148,7 @@ export default class InputLikeText extends React.Component<
                 overflow: 'hidden'
               }}
             >
-              {this.props.children}
+              {children}
             </span>
           </span>
         </span>
