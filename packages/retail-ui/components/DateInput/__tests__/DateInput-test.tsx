@@ -1,8 +1,11 @@
 import * as React from 'react';
-import DateInput, { DateInputConfig } from '../DateInput';
+import DateInput, {
+  DateInputConfig,
+  DateInputProps,
+  DateInputState
+} from '../DateInput';
 import { mount, ReactWrapper } from 'enzyme';
 import { maskChar } from '../DateInputHelpers/maskChar';
-import { DateInputProps, DateInputState } from '../../../build/DateInput';
 import { HTMLAttributes } from 'react';
 
 const render = (props: DateInputProps) =>

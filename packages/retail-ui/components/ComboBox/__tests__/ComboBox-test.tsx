@@ -1,6 +1,6 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
-import ComboBox, { ComboBoxProps } from '../ComboBox';
+import ComboBox from '../ComboBox';
 import { mount } from 'enzyme';
 
 function clickOutside() {
@@ -16,28 +16,27 @@ function delay(ms: number) {
 
 describe('ComboBox', () => {
   it('renders', () => {
-    mount(<ComboBox />);
+    mount<ComboBox<any>>(<ComboBox />);
   });
 
   it('focuses on focus call', () => {
-    const wrapper = mount<ComboBoxProps<any>>(<ComboBox />);
-    const newLocal = wrapper.instance() as ComboBox<any>;
-    newLocal.focus();
+    const wrapper = mount<ComboBox<any>>(<ComboBox />);
+    wrapper.instance().focus();
     expect(wrapper.getDOMNode().contains(document.activeElement)).toBeTruthy();
   });
 
   it('fetches item when focused', async () => {
     const search = jest.fn(() => Promise.resolve([]));
-    const wrapper = mount(<ComboBox getItems={search} />);
-    (wrapper.instance() as ComboBox<any>).focus();
+    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} />);
+    wrapper.instance().focus();
     expect(search).toBeCalledWith('');
   });
 
   it('fetches items on input', async () => {
     const search = jest.fn(() => Promise.resolve([]));
-    const wrapper = mount(<ComboBox getItems={search} />);
+    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} />);
 
-    (wrapper.instance() as ComboBox<any>).focus();
+    wrapper.instance().focus();
     wrapper.update();
     wrapper.find('input').simulate('change', { target: { value: 'world' } });
 
@@ -51,9 +50,9 @@ describe('ComboBox', () => {
   it('opens menu in dropdown container on search resolve', async () => {
     const promise = Promise.resolve(['one', 'two']);
     const search = jest.fn(() => promise);
-    const wrapper = mount(<ComboBox getItems={search} />);
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} />);
 
-    (wrapper.instance() as ComboBox<string>).focus();
+    wrapper.instance().focus();
 
     await promise;
 
@@ -66,9 +65,11 @@ describe('ComboBox', () => {
     const items = ['one', 'two', 'three'];
     const promise = Promise.resolve(items);
     const search = jest.fn(() => promise);
-    const wrapper = mount(<ComboBox getItems={search} renderItem={x => x} />);
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} renderItem={x => x} />
+    );
 
-    (wrapper.instance() as ComboBox<string>).focus();
+    wrapper.instance().focus();
 
     await promise;
 
@@ -86,10 +87,10 @@ describe('ComboBox', () => {
     const promise = Promise.resolve(items);
     const search = jest.fn(() => promise);
     const onChange = jest.fn();
-    const wrapper = mount(
+    const wrapper = mount<ComboBox<string>>(
       <ComboBox getItems={search} onChange={onChange} renderItem={x => x} />
     );
-    (wrapper.instance() as ComboBox<string>).focus();
+    wrapper.instance().focus();
     await promise;
     wrapper.update();
 
@@ -107,10 +108,10 @@ describe('ComboBox', () => {
     const promise = Promise.resolve(items);
     const search = jest.fn(() => promise);
     const onChange = jest.fn();
-    const wrapper = mount(
+    const wrapper = mount<ComboBox<string>>(
       <ComboBox getItems={search} onChange={onChange} renderItem={x => x} />
     );
-    (wrapper.instance() as ComboBox<string>).focus();
+    wrapper.instance().focus();
     await promise;
     await delay(0); // awaiting all batched updates
     wrapper.update();
@@ -123,8 +124,10 @@ describe('ComboBox', () => {
 
   it('retries request on Enter if rejected', async () => {
     const search = jest.fn(() => Promise.reject());
-    const wrapper = mount(<ComboBox getItems={search} renderItem={x => x} />);
-    (wrapper.instance() as ComboBox<string>).focus();
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} renderItem={x => x} />
+    );
+    wrapper.instance().focus();
     await delay(0); // awaiting all batched updates
     wrapper.update();
 
@@ -137,11 +140,11 @@ describe('ComboBox', () => {
   it('calls onUnexpectedInput on click outside', async () => {
     const search = jest.fn(() => Promise.reject());
     const onUnexpectedInput = jest.fn();
-    const wrapper = mount(
+    const wrapper = mount<ComboBox<string>>(
       <ComboBox getItems={search} onUnexpectedInput={onUnexpectedInput} />
     );
 
-    (wrapper.instance() as ComboBox<string>).focus();
+    wrapper.instance().focus();
     wrapper.update();
     wrapper.find('input').simulate('change', { target: { value: 'one' } });
 
@@ -153,7 +156,7 @@ describe('ComboBox', () => {
 
   it('calls onFocus on focus', async () => {
     const onFocus = jest.fn();
-    const wrapper = mount(<ComboBox onFocus={onFocus} />);
+    const wrapper = mount<ComboBox<any>>(<ComboBox onFocus={onFocus} />);
 
     wrapper.find('[tabIndex=0]').simulate('focus');
 
@@ -162,9 +165,9 @@ describe('ComboBox', () => {
 
   it('calls onBlur on click outside', () => {
     const onBlur = jest.fn();
-    const wrapper = mount(<ComboBox onBlur={onBlur} />);
+    const wrapper = mount<ComboBox<string>>(<ComboBox onBlur={onBlur} />);
 
-    (wrapper.instance() as ComboBox<string>).focus();
+    wrapper.instance().focus();
     wrapper.update();
 
     clickOutside();
@@ -173,12 +176,14 @@ describe('ComboBox', () => {
   });
 
   it('renders custom elements in menu', async () => {
-    const items = [(<div>Hello, world</div>)];
+    const items = [<div key="0">Hello, world</div>];
     const promise = Promise.resolve(items);
     const search = jest.fn(() => promise);
-    const wrapper = mount(<ComboBox getItems={search} />);
+    const wrapper = mount<ComboBox<React.ReactNode>>(
+      <ComboBox getItems={search} />
+    );
 
-    (wrapper.instance() as ComboBox<React.ReactNode>).focus();
+    wrapper.instance().focus();
     await promise;
     wrapper.update();
 
@@ -188,17 +193,19 @@ describe('ComboBox', () => {
   });
 
   it('calls default onClick on custom element select', async () => {
-    const items = [(
-      <div id="hello" data-name="world">
+    const items = [
+      <div key="0" id="hello" data-name="world">
         Hello, world
       </div>
-    )];
+    ];
     const promise = Promise.resolve(items);
     const search = jest.fn(() => promise);
     const onChange = jest.fn();
-    const wrapper = mount(<ComboBox getItems={search} onChange={onChange} />);
+    const wrapper = mount<ComboBox<React.ReactNode>>(
+      <ComboBox getItems={search} onChange={onChange} />
+    );
 
-    (wrapper.instance() as ComboBox<React.ReactNode>).focus();
+    wrapper.instance().focus();
     await promise;
     wrapper.update();
 
@@ -227,13 +234,19 @@ describe('ComboBox', () => {
 
   it('calls element onClick on custom element select', async () => {
     const onClick = jest.fn();
-    const items = [(<div onClick={onClick}>Hello, world</div>)];
+    const items = [
+      <div key="0" onClick={onClick}>
+        Hello, world
+      </div>
+    ];
     const promise = Promise.resolve(items);
     const search = jest.fn(() => promise);
 
-    const wrapper = mount(<ComboBox getItems={search} />);
+    const wrapper = mount<ComboBox<React.ReactNode>>(
+      <ComboBox getItems={search} />
+    );
 
-    (wrapper.instance() as ComboBox<React.ReactNode>).focus();
+    wrapper.instance().focus();
 
     await promise;
     wrapper.update();
@@ -247,12 +260,38 @@ describe('ComboBox', () => {
 
   it('handles maxLength', () => {
     const search = jest.fn(() => Promise.resolve([]));
-    const wrapper = mount(<ComboBox getItems={search} maxLength={2} />);
+    const wrapper = mount<ComboBox<any>>(
+      <ComboBox getItems={search} maxLength={2} />
+    );
 
-    (wrapper.instance() as ComboBox<any>).focus();
+    wrapper.instance().focus();
     wrapper.update();
 
     const input = wrapper.find('input');
     expect(input.prop('maxLength')).toBe(2);
+  });
+
+  it("don't focus on error and value change", () => {
+    const wrapper = mount<ComboBox<any>>(<ComboBox />);
+
+    wrapper.setProps({ value: { label: '1' }, error: true });
+    wrapper.update();
+
+    expect(wrapper.find('input').exists()).toBe(false);
+  });
+
+  it('clear value if onUnexpectedInput return null', () => {
+    const wrapper = mount<ComboBox<any>>(
+      <ComboBox onUnexpectedInput={() => null} />
+    );
+
+    wrapper.instance().focus();
+    wrapper.update();
+    wrapper.find('input').simulate('change', { target: { value: 'foo' } });
+
+    clickOutside();
+    wrapper.update();
+
+    expect(wrapper.find('input').prop('value')).toBe('');
   });
 });

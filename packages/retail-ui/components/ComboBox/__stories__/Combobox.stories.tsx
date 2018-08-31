@@ -8,6 +8,7 @@ import MenuSeparator from '../../MenuSeparator';
 import { IconName } from '../../Icon';
 import { Nullable } from '../../../typings/utility-types';
 import { action } from '@storybook/addon-actions';
+import Toggle from '../../Toggle';
 
 storiesOf('ComboBox v2', module)
   .add('simple combobox', () => <SimpleCombobox />)
@@ -104,7 +105,41 @@ storiesOf('ComboBox v2', module)
       placeholder={'placeholder'}
       noInitialValue={true}
     />
+  ))
+  .add('toogle error', () => <ComboBoxWithErrorToggler />)
+  .add('with `null` onUnexpectedInput', () => (
+    <ComboBoxV2 onUnexpectedInput={() => null} />
   ));
+
+interface ComboBoxWithErrorTogglerState {
+  error: boolean;
+  value: { label: number };
+}
+class ComboBoxWithErrorToggler extends React.Component<
+  {},
+  ComboBoxWithErrorTogglerState
+> {
+  public state: ComboBoxWithErrorTogglerState = {
+    error: false,
+    value: { label: 0 }
+  };
+
+  public render() {
+    return (
+      <>
+        <ComboBoxV2 error={this.state.error} value={this.state.value} />
+        <Toggle
+          onChange={value =>
+            this.setState(state => ({
+              error: value,
+              value: { label: state.value.label + 1 }
+            }))
+          }
+        />
+      </>
+    );
+  }
+}
 
 interface ValueType {
   id: number;
