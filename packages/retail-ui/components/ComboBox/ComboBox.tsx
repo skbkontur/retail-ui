@@ -30,7 +30,7 @@ export interface ComboBoxProps<T> {
   error?: boolean;
 
   /**
-   * Функция поиска эелементов, должна возвращать Promise с массивом элементов.
+   * Функция поиска элементов, должна возвращать Promise с массивом элементов.
    * По умолчанию ожидаются объекты с типом `{ value: string, label: string }`.
    *
    * Элементы могут быть любого типа. В этом случае необходимо определить
@@ -83,7 +83,7 @@ export interface ComboBoxProps<T> {
   renderNotFound?: () => React.ReactNode;
 
   /**
-   * Функция отображающаяя сообщение об общем количестве элементе
+   * Функция отображающаяя сообщение об общем количестве элементов
    */
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
 

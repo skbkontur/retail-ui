@@ -46,7 +46,7 @@ export type Reducer = (
   state: State,
   props: Props,
   action: Action
-) => Partial<State> | [State, EffectType[]];
+) => Partial<State> | [Partial<State>, EffectType[]];
 
 let requestId = 0;
 const searchFactory = (isEmpty: boolean): EffectType => (
@@ -183,7 +183,6 @@ const reducers: { [type: string]: Reducer } = {
       return state;
     }
     return {
-      ...state,
       opened: false
     } as State;
   },
@@ -192,7 +191,6 @@ const reducers: { [type: string]: Reducer } = {
     if (!inputChanged) {
       return [
         {
-          ...state,
           focused: false,
           opened: false,
           items: null,
@@ -204,7 +202,6 @@ const reducers: { [type: string]: Reducer } = {
 
     return [
       {
-        ...state,
         opened: false,
         items: null
       },
@@ -215,7 +212,6 @@ const reducers: { [type: string]: Reducer } = {
     if (state.editing) {
       return [
         {
-          ...state,
           focused: true,
           opened: true
         },
@@ -231,7 +227,6 @@ const reducers: { [type: string]: Reducer } = {
     }
     return [
       {
-        ...state,
         focused: true,
         opened: true,
         editing: true,
@@ -243,7 +238,6 @@ const reducers: { [type: string]: Reducer } = {
   TextChange(state, props, action) {
     return [
       {
-        ...state,
         inputChanged: true,
         textValue: action.value
       },
@@ -258,7 +252,6 @@ const reducers: { [type: string]: Reducer } = {
   ValueChange(state, props, action) {
     return [
       {
-        ...state,
         opened: false,
         inputChanged: false,
         editing: false
@@ -282,14 +275,12 @@ const reducers: { [type: string]: Reducer } = {
         }
         return [
           {
-            ...state,
             opened: true
           },
           effects
         ];
       case 'Escape':
         return {
-          ...state,
           items: null,
           opened: false
         };
@@ -299,7 +290,6 @@ const reducers: { [type: string]: Reducer } = {
   },
   RequestItems(state, props, action) {
     return {
-      ...state,
       loading: true,
       opened: true
     };
@@ -307,7 +297,6 @@ const reducers: { [type: string]: Reducer } = {
   ReceiveItems(state, props, action) {
     return [
       {
-        ...state,
         loading: false,
         items: action.items
       },
@@ -317,7 +306,6 @@ const reducers: { [type: string]: Reducer } = {
   RequestFailure(state, props, action) {
     return [
       {
-        ...state,
         loading: false,
         items: [
           <MenuItem disabled key="message">
