@@ -85,16 +85,14 @@ export default class InputLikeText extends React.Component<
 
   public render() {
     const {
-      /* eslint-disable no-unused-vars */
       className: cn,
       innerRef,
       tabIndex,
-      /* eslint-enable no-unused-vars */
+      placeholder,
       align,
       borderless,
       width,
       children,
-      placeholder: ph,
       error,
       warning,
       padRight,
@@ -110,11 +108,6 @@ export default class InputLikeText extends React.Component<
       [styles.disabled]: this.props.disabled,
       [this._getSizeClassName()]: true
     });
-
-    let placeholder = null;
-    if (!children && ph) {
-      placeholder = <span className={styles.placeholder}>{ph}</span>;
-    }
 
     return (
       <label className={className} style={{ width, textAlign: align }}>
@@ -152,7 +145,7 @@ export default class InputLikeText extends React.Component<
             </span>
           </span>
         </span>
-        {placeholder}
+        {this.renderPlaceholder()}
       </label>
     );
   }
@@ -163,6 +156,15 @@ export default class InputLikeText extends React.Component<
     }
     this._node = el;
   };
+
+  private renderPlaceholder() {
+    const { children, placeholder } = this.props;
+
+    if (!children && placeholder) {
+      return <span className={styles.placeholder}>{placeholder}</span>;
+    }
+    return null;
+  }
 
   private _getSizeClassName() {
     const SIZE_CLASS_NAMES = {
