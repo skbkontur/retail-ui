@@ -42,7 +42,6 @@ export interface ToggleProps {
 }
 
 export interface ToggleState {
-  checked?: boolean;
   focusByTab?: boolean;
 }
 
@@ -69,35 +68,27 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
 
     this.state = {
       focusByTab: false,
-      checked: this.isUncontrolled() ? props.defaultChecked : undefined
     };
   }
 
   public componentDidMount() {
     listenTabPresses();
+    const { defaultChecked, autoFocus } = this.props
 
-    if (this.props.autoFocus) {
+    if (autoFocus) {
       tabPressed = true;
       this.focus();
     }
-  }
-
-  public componentWillReceiveProps(nextProps: ToggleProps) {
-    if (nextProps.checked !== this.props.checked) {
-      this.setState({
-        checked:
-          nextProps.checked === undefined
-            ? this.props.defaultChecked
-            : undefined
-      });
+    if (this.input && this.isUncontrolled() && defaultChecked) {
+      this.input.checked = defaultChecked
     }
   }
 
   public render() {
-    const { warning, error, loading, color } = this.props;
+    const { warning, error, loading, color, defaultChecked } = this.props;
     const disabled = this.isDisabled();
     const checked = this.isUncontrolled()
-      ? this.state.checked
+      ? this.input ? this.input.checked : defaultChecked
       : this.props.checked;
 
     const containerClassNames = classNames(styles.container, {
@@ -115,7 +106,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
       >
         <input
           type="checkbox"
-          checked={checked}
+          checked={this.props.checked}
           onChange={this.handleChange}
           className={styles.input}
           onFocus={this.handleFocus}
@@ -170,17 +161,9 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
       event.persist();
     }
 
-    if (this.isUncontrolled()) {
-      this.setState(
-        {
-          checked: event.target.checked
-        },
-        () => {
-          this.callHandlers(this.state.checked!, event);
-        }
-      );
-    } else {
-      this.callHandlers(event.target.checked, event);
+    this.callHandlers(event.target.checked, event);
+    if (this.isUncontrolled() && this.props.color) {
+      this.forceUpdate()
     }
   };
 
