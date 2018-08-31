@@ -28,6 +28,7 @@ function listenTabPresses() {
 
 export interface ToggleProps {
   checked?: boolean;
+  defaultChecked?: boolean;
   disabled?: boolean;
   onChange?: (value: boolean) => void;
   changeEventHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -41,13 +42,13 @@ export interface ToggleProps {
 }
 
 export interface ToggleState {
-  checked: boolean;
   focusByTab?: boolean;
 }
 
 export default class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static propTypes = {
     checked: PropTypes.bool,
+    defaultChecked: PropTypes.bool,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     loading: PropTypes.bool,
@@ -57,8 +58,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
 
   public static defaultProps = {
     disabled: false,
-    loading: false,
-    checked: false
+    loading: false
   };
 
   private input: HTMLInputElement | null = null;
@@ -67,22 +67,29 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     super(props);
 
     this.state = {
-      checked: props.checked || false
+      focusByTab: false,
     };
   }
 
   public componentDidMount() {
     listenTabPresses();
+    const { defaultChecked, autoFocus } = this.props
 
-    if (this.props.autoFocus) {
+    if (autoFocus) {
       tabPressed = true;
       this.focus();
+    }
+    if (this.input && this.isUncontrolled() && defaultChecked) {
+      this.input.checked = defaultChecked
     }
   }
 
   public render() {
-    const { warning, error, loading, color } = this.props;
+    const { warning, error, loading, color, defaultChecked } = this.props;
     const disabled = this.isDisabled();
+    const checked = this.isUncontrolled()
+      ? this.input ? this.input.checked : defaultChecked
+      : this.props.checked;
 
     const containerClassNames = classNames(styles.container, {
       [styles.isWarning]: !color && warning,
@@ -99,7 +106,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
       >
         <input
           type="checkbox"
-          checked={this.state.checked}
+          checked={this.props.checked}
           onChange={this.handleChange}
           className={styles.input}
           onFocus={this.handleFocus}
@@ -109,7 +116,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
         <div
           className={containerClassNames}
           style={
-            this.state.checked && this.props.color
+            checked && this.props.color
               ? {
                   backgroundColor: color,
                   borderColor: color
@@ -120,7 +127,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
           <div
             className={styles.activeBackground}
             style={
-              this.state.checked && this.props.color
+              checked && this.props.color
                 ? {
                     backgroundColor: color
                   }
@@ -131,14 +138,6 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
         <div className={styles.handle} />
       </label>
     );
-  }
-
-  public componentWillReceiveProps(nextProps: ToggleProps) {
-    if (nextProps.checked && nextProps.checked !== this.state.checked) {
-      this.setState({
-        checked: nextProps.checked
-      });
-    }
   }
 
   public focus = () => {
@@ -162,20 +161,10 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
       event.persist();
     }
 
-    this.setState(
-      {
-        checked: event.target.checked
-      },
-      () => {
-        if (this.props.onChange) {
-          this.props.onChange(this.state.checked);
-        }
-
-        if (this.props.changeEventHandler) {
-          this.props.changeEventHandler(event);
-        }
-      }
-    );
+    this.callHandlers(event.target.checked, event);
+    if (this.isUncontrolled() && this.props.color) {
+      this.forceUpdate()
+    }
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -223,4 +212,19 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
   private isDisabled() {
     return this.props.disabled || this.props.loading;
   }
+
+  private isUncontrolled = () => this.props.checked === undefined;
+
+  private callHandlers = (
+    checked: boolean,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (this.props.onChange) {
+      this.props.onChange(checked);
+    }
+
+    if (this.props.changeEventHandler) {
+      this.props.changeEventHandler(event);
+    }
+  };
 }
