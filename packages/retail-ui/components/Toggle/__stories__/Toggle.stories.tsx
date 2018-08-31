@@ -117,7 +117,7 @@ class Playground extends Component<any, any> {
   }
 }
 
-class Simple extends React.Component<any, any> {
+class Simple extends React.Component<any, { checked: boolean }> {
   public state = {
     checked: true
   };
@@ -128,8 +128,7 @@ class Simple extends React.Component<any, any> {
         <Toggle
           checked={this.state.checked}
           onChange={() => {
-            const { checked } = this.state;
-            this.setState({ checked: !checked });
+            this.setState(({ checked }) => ({ checked: !checked }));
           }}
         />{' '}
         {this.state.checked ? 'On' : 'Off'}
@@ -141,4 +140,5 @@ class Simple extends React.Component<any, any> {
 storiesOf('Toggle', module)
   .add('plain', () => <Simple />)
   .add('uncontrolled', () => <Toggle onChange={action('toggle')} />)
+  .add('uncontrolled with color', () => <Toggle defaultChecked color="red" onChange={action('toggle')} />)
   .add('playground', () => <Playground />);
