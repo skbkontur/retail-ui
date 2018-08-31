@@ -277,7 +277,7 @@ describe('ComboBox', () => {
     wrapper.setProps({ value: { label: '1' }, error: true });
     wrapper.update();
 
-    expect(wrapper.is('input')).toBe(false);
+    expect(wrapper.find('input').exists()).toBe(false);
   });
 
   it('clear value if onUnexpectedInput return null', () => {
