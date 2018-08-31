@@ -6,7 +6,7 @@ import ComboBoxV2, { ComboBoxProps } from '../ComboBox';
 import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
 import { IconName } from '../../Icon';
-import { Nullable } from '../../../typings/utility-types';
+import { Nullable, Omit } from '../../../typings/utility-types';
 import { action } from '@storybook/addon-actions';
 import Toggle from '../../Toggle';
 
@@ -152,15 +152,8 @@ interface ComboBoxState {
   warning: boolean;
 }
 
-interface TestComboboxProps<T> {
-  align?: ComboBoxProps<T>['align'];
-  autocomplete?: ComboBoxProps<T>['autocomplete'];
-  autoFocus?: ComboBoxProps<T>['autoFocus'];
-  borderless?: ComboBoxProps<T>['borderless'];
-  disabled?: ComboBoxProps<T>['disabled'];
-  maxMenuHeight?: ComboBoxProps<T>['maxMenuHeight'];
-  renderItem?: ComboBoxProps<T>['renderItem'];
-  totalCount?: ComboBoxProps<T>['totalCount'];
+interface TestComboboxProps<T>
+  extends Omit<ComboBoxProps<T>, 'onUnexpectedInput'> {
   onSearch?: (query: string) => Promise<T[]>;
   onUnexpectedInput?: (
     setState: (state: Partial<ComboBoxState>) => void
