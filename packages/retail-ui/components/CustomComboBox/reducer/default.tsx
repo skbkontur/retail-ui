@@ -46,7 +46,7 @@ export type Reducer = (
   state: State,
   props: Props,
   action: Action
-) => State | [State, EffectType[]];
+) => Partial<State> | [State, EffectType[]];
 
 let requestId = 0;
 const searchFactory = (isEmpty: boolean): EffectType => (
@@ -102,7 +102,11 @@ const Effect = {
   ) => {
     const { onUnexpectedInput } = getProps();
     if (onUnexpectedInput) {
-      onUnexpectedInput(textValue);
+      // NOTE Обсудить поведение onUnexpectedInput
+      const value = onUnexpectedInput(textValue);
+      if (value === null) {
+        dispatch({ type: 'TextClear', value: '' });
+      }
     }
   },
   InputChange: ((dispatch, getState, getProps) => {
@@ -245,6 +249,11 @@ const reducers: { [type: string]: Reducer } = {
       },
       [Effect.DebouncedSearch, Effect.InputChange]
     ];
+  },
+  TextClear(state, props, action) {
+    return {
+      textValue: action.value
+    };
   },
   ValueChange(state, props, action) {
     return [

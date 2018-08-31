@@ -106,7 +106,10 @@ storiesOf('ComboBox v2', module)
       noInitialValue={true}
     />
   ))
-  .add('toogle error', () => <ComboBoxWithErrorToggler />);
+  .add('toogle error', () => <ComboBoxWithErrorToggler />)
+  .add('with `null` onUnexpectedInput', () => (
+    <ComboBoxV2 onUnexpectedInput={() => null} />
+  ));
 
 interface ComboBoxWithErrorTogglerState {
   error: boolean;

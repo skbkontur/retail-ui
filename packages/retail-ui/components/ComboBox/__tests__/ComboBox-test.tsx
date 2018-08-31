@@ -268,4 +268,17 @@ describe('ComboBox', () => {
 
     expect(wrapper.is('input')).toBe(false);
   });
+
+  it('clear value if onUnexpectedInput return null', () => {
+    const wrapper = mount(<ComboBox onUnexpectedInput={() => null} />);
+
+    (wrapper.instance() as ComboBox<any>).focus();
+    wrapper.update();
+    wrapper.find('input').simulate('change', { target: { value: 'foo' } });
+
+    clickOutside();
+    wrapper.update();
+
+    expect(wrapper.find('input').prop('value')).toBe('');
+  });
 });
