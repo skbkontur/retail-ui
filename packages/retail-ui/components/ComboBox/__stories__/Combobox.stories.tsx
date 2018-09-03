@@ -2,12 +2,13 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import ComboBoxV2 from '../ComboBox';
+import ComboBoxV2, { ComboBoxProps } from '../ComboBox';
 import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
 import { IconName } from '../../Icon';
-import { Nullable } from '../../../typings/utility-types';
+import { Nullable, Omit } from '../../../typings/utility-types';
 import { action } from '@storybook/addon-actions';
+import Toggle from '../../Toggle';
 
 storiesOf('ComboBox v2', module)
   .add('simple combobox', () => <SimpleCombobox />)
@@ -104,7 +105,41 @@ storiesOf('ComboBox v2', module)
       placeholder={'placeholder'}
       noInitialValue={true}
     />
+  ))
+  .add('toogle error', () => <ComboBoxWithErrorToggler />)
+  .add('with `null` onUnexpectedInput', () => (
+    <ComboBoxV2 onUnexpectedInput={() => null} />
   ));
+
+interface ComboBoxWithErrorTogglerState {
+  error: boolean;
+  value: { label: number };
+}
+class ComboBoxWithErrorToggler extends React.Component<
+  {},
+  ComboBoxWithErrorTogglerState
+> {
+  public state: ComboBoxWithErrorTogglerState = {
+    error: false,
+    value: { label: 0 }
+  };
+
+  public render() {
+    return (
+      <>
+        <ComboBoxV2 error={this.state.error} value={this.state.value} />
+        <Toggle
+          onChange={value =>
+            this.setState(state => ({
+              error: value,
+              value: { label: state.value.label + 1 }
+            }))
+          }
+        />
+      </>
+    );
+  }
+}
 
 interface ValueType {
   id: number;
@@ -117,7 +152,18 @@ interface ComboBoxState {
   warning: boolean;
 }
 
-class TestComboBox extends React.Component<any, ComboBoxState> {
+interface TestComboboxProps<T>
+  extends Omit<ComboBoxProps<T>, 'onUnexpectedInput'> {
+  onSearch?: (query: string) => Promise<T[]>;
+  onUnexpectedInput?: (
+    setState: (state: Partial<ComboBoxState>) => void
+  ) => (x: string) => any;
+}
+
+class TestComboBox extends React.Component<
+  TestComboboxProps<any>,
+  ComboBoxState
+> {
   public state: ComboBoxState = {
     value: null,
     error: false,
@@ -187,10 +233,6 @@ class TestComboBox extends React.Component<any, ComboBoxState> {
 
 interface SimpleComboboxProps {
   noInitialValue?: boolean;
-  menuAlign?: 'left' | 'right';
-  align?: 'left' | 'center' | 'right';
-  placeholder?: string;
-  maxLength?: number;
 }
 
 interface SimpleComboboxState {
@@ -198,7 +240,7 @@ interface SimpleComboboxState {
 }
 
 class SimpleCombobox extends React.Component<
-  SimpleComboboxProps,
+  SimpleComboboxProps & ComboBoxProps<any>,
   SimpleComboboxState
 > {
   public state: SimpleComboboxState = {
@@ -281,7 +323,7 @@ const items = [
   { id: 99, name: 'Putinka' }
 ];
 
-function search(query: string) {
+function search(query: string): Promise<any> {
   const random = (v: any) => Math.random() * v;
 
   const delay = (v: any) =>
@@ -293,7 +335,7 @@ function search(query: string) {
 }
 
 let searchCount = 0;
-function searchWithRejections(query: string) {
+function searchWithRejections(query: string): Promise<any> {
   const random = (v: number) => Math.random() * v;
 
   const delay = (v: any) =>

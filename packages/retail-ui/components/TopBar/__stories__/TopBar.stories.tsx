@@ -1,3 +1,4 @@
+// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import TopBar from '../TopBar';
@@ -19,7 +20,7 @@ storiesOf('TopBar', module)
       suffix="ui"
       onLogout={() => alert('Logout!')}
       leftItems={[
-        <Item>
+        <Item key="left-item-1">
           <Icon name="Baby" color="#666" />
         </Item>
       ]}

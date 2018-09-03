@@ -3,16 +3,14 @@ import * as React from 'react';
 
 import * as PropTypes from 'prop-types';
 
-import filterProps from '../filterProps';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import throttle from 'lodash.throttle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { getTextAreaHeight } from './TextareaHelpers';
 
-import { createPropsGetter } from '../internal/createPropsGetter';
 import { TextareaAdapter } from './Textarea.adapter';
-import { Nullable, Override } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
 
 import Upgrades from '../../lib/Upgrades';
 import CssStyles from './Textarea.less';
@@ -23,44 +21,60 @@ const styles: typeof CssStyles = isFlatDesign
   ? require('./Textarea.flat.less')
   : require('./Textarea.less');
 
-const PASS_PROPS = {
-  autoFocus: true,
-  defaultValue: true,
-  disabled: true,
-  maxLength: true,
-  placeholder: !polyfillPlaceholder,
-  rows: true,
-  title: true,
-  value: true,
-  id: true,
+export interface TextareaProps {
+  error?: boolean;
+  warning?: boolean;
+  disabled?: boolean;
 
-  onFocus: true,
-  onBlur: true,
+  autoResize?: boolean;
+  maxRows: string | number;
 
-  onMouseEnter: true,
-  onMouseLeave: true,
-  onMouseOver: true,
+  resize?: React.CSSProperties['resize'];
+  width?: React.CSSProperties['width'];
 
-  style: false,
-  className: false,
-  onChange: false
-};
+  id?: string;
+  name?: string;
+  title?: string;
+  spellCheck?: boolean;
+  role?: string;
+  maxLength?: number;
+  tabIndex?: number;
+  rows: number;
+  placeholder?: string;
 
-export type TextareaProps = Override<
-  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-  {
-    autoResize?: boolean;
-    error?: boolean;
-    warning?: boolean;
-    resize?: string;
-    width?: React.CSSProperties['width'];
-    maxRows?: number | string;
-    onChange?: (
-      event: React.ChangeEvent<HTMLTextAreaElement>,
-      value: string
-    ) => void;
-  }
->;
+  value?: string;
+  defaultValue?: string;
+  onChange?: (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+    value: string
+  ) => void;
+
+  onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseMove?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseOut?: React.MouseEventHandler<HTMLLabelElement>;
+
+  onMouseUp?: React.MouseEventHandler<HTMLLabelElement>;
+  onMouseDown?: React.MouseEventHandler<HTMLLabelElement>;
+  onClick?: React.MouseEventHandler<HTMLLabelElement>;
+  onDoubleClick?: React.MouseEventHandler<HTMLLabelElement>;
+
+  onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>;
+  onKeyPress?: React.KeyboardEventHandler<HTMLTextAreaElement>;
+  onKeyUp?: React.KeyboardEventHandler<HTMLTextAreaElement>;
+  onInput?: React.KeyboardEventHandler<HTMLTextAreaElement>;
+
+  onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
+  onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
+
+  onScroll?: React.UIEventHandler<HTMLTextAreaElement>;
+  onWheel?: React.WheelEventHandler<HTMLTextAreaElement>;
+
+  onCut?: React.ClipboardEventHandler<HTMLTextAreaElement>;
+  onPate?: React.ClipboardEventHandler<HTMLTextAreaElement>;
+  onCopy?: React.ClipboardEventHandler<HTMLTextAreaElement>;
+}
 
 export interface TextareaState {
   polyfillPlaceholder: boolean;
@@ -69,56 +83,60 @@ export interface TextareaState {
 
 class Textarea extends React.Component<TextareaProps, TextareaState> {
   public static propTypes = {
-    autoFocus: PropTypes.bool,
-
-    autoResize: PropTypes.bool,
-
-    defaultValue: PropTypes.string,
-
+    error: PropTypes.bool,
+    warning: PropTypes.bool,
     disabled: PropTypes.bool,
 
-    /**
-     * Визуально показать наличие ошибки.
-     */
-    error: PropTypes.bool,
+    autoResize: PropTypes.bool,
+    maxRows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    resize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     id: PropTypes.string,
-
-    maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    maxRows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
+    name: PropTypes.string,
+    title: PropTypes.string,
+    spellCheck: PropTypes.bool,
+    role: PropTypes.string,
+    maxLength: PropTypes.number,
+    tabIndex: PropTypes.number,
+    rows: PropTypes.number,
     placeholder: PropTypes.string,
 
-    resize: PropTypes.string,
-
-    /**
-     * Количество строк
-     */
-    rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    title: PropTypes.string,
-
-    value: PropTypes.string.isRequired,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    onBlur: PropTypes.func,
-
+    value: PropTypes.string,
+    defaultValue: PropTypes.string,
     onChange: PropTypes.func,
 
-    onFocus: PropTypes.func,
-
     onMouseEnter: PropTypes.func,
-
     onMouseLeave: PropTypes.func,
+    onMouseOver: PropTypes.func,
+    onMouseMove: PropTypes.func,
+    onMouseOut: PropTypes.func,
 
-    onMouseOver: PropTypes.func
+    onMouseUp: PropTypes.func,
+    onMouseDown: PropTypes.func,
+    onClick: PropTypes.func,
+    onDoubleClick: PropTypes.func,
+
+    onKeyDown: PropTypes.func,
+    onKeyPress: PropTypes.func,
+    onKeyUp: PropTypes.func,
+    onInput: PropTypes.func,
+
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+
+    onScroll: PropTypes.func,
+    onWheel: PropTypes.func,
+
+    onCut: PropTypes.func,
+    onPate: PropTypes.func,
+    onCopy: PropTypes.func
   };
 
   public static defaultProps = {
-    rows: '3',
-    maxRows: '15'
+    rows: 3,
+    maxRows: 15
   };
 
   public static __ADAPTER__: typeof TextareaAdapter;
@@ -128,99 +146,126 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     rows: 1
   };
 
-  private getProps = createPropsGetter(Textarea.defaultProps);
-  private _node: Nullable<HTMLTextAreaElement>;
-  private _fakeNode: Nullable<HTMLTextAreaElement>;
-  private _layoutEvents: Nullable<{ remove: () => void }>;
+  private node: Nullable<HTMLTextAreaElement>;
+  private fakeNode: Nullable<HTMLTextAreaElement>;
+  private layoutEvents: Nullable<{ remove: () => void }>;
 
   public componentDidMount() {
     if (this.props.autoResize) {
-      this._autoresize();
-      this._layoutEvents = LayoutEvents.addListener(this._autoresize);
+      this.autoResize();
+      this.layoutEvents = LayoutEvents.addListener(this.autoResize);
     }
   }
 
   public componentWillUnmount() {
-    if (this._layoutEvents) {
-      this._layoutEvents.remove();
+    if (this.layoutEvents) {
+      this.layoutEvents.remove();
     }
   }
 
   public componentDidUpdate(prevProps: TextareaProps) {
     if (
-      (this.props.autoResize &&
-        parseInt(this.getProps().rows, 10) > this.state.rows) ||
+      (this.props.autoResize && this.props.rows > this.state.rows) ||
       this.props.value !== prevProps.value
     ) {
-      this._autoresize();
+      this.autoResize();
     }
   }
 
   public render() {
-    const rootProps: React.HTMLProps<HTMLLabelElement> = {};
-    const props: React.HTMLProps<HTMLTextAreaElement> = filterProps(
-      this.props,
-      PASS_PROPS
-    );
-    props.className = classNames({
+    const {
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      onMouseMove,
+      onMouseOut,
+      onMouseUp,
+      onMouseDown,
+      onClick,
+      onDoubleClick,
+      width,
+      error,
+      warning,
+      autoResize,
+      resize,
+      onCut,
+      onPate,
+      maxRows,
+      ...textareaProps
+    } = this.props;
+
+    const rootProps = {
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      onMouseMove,
+      onMouseOut,
+      onMouseUp,
+      onMouseDown,
+      onClick,
+      onDoubleClick
+    };
+
+    const textareaClassNames = classNames({
       [styles.textarea]: true,
-      [styles.error]: this.props.error,
-      [styles.warning]: this.props.warning
+      [styles.error]: error,
+      [styles.warning]: warning
     });
-    props.style = {};
 
-    if (this.props.width) {
-      rootProps.style = { width: this.props.width };
-    }
-
-    if (this.props.resize) {
-      Object.assign(props.style, { resize: this.props.resize });
-    }
+    const textAreaStyle = {
+      width,
+      resize: autoResize ? 'none' : resize
+    };
 
     let placeholder = null;
 
-    if (this.state.polyfillPlaceholder && !this.props.value) {
+    if (this.state.polyfillPlaceholder && !textareaProps.value) {
       placeholder = (
-        <span className={styles.placeholder}>{this.props.placeholder}</span>
+        <span className={styles.placeholder}>{textareaProps.placeholder}</span>
       );
     }
 
     let fakeTextarea = null;
-    if (this.props.autoResize) {
-      props.onCut = this._autoresize;
-      props.onPaste = this._autoresize;
-      Object.assign(props.style, { resize: 'none' });
+    if (autoResize) {
       const fakeProps = {
-        value: props.value,
-        defaultValue: props.defaultValue,
-        className: classNames(props.className, styles.fake),
+        value: this.props.value,
+        defaultValue: this.props.defaultValue,
+        className: classNames(textareaClassNames, styles.fake),
         readOnly: true
       };
-      fakeTextarea = <textarea {...fakeProps} ref={this._refFake} />;
+      fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
     }
 
     return (
       <label {...rootProps} className={styles.root}>
         {placeholder}
-        <textarea {...props} ref={this._ref} onChange={this._handleChange} />
+        <textarea
+          {...textareaProps}
+          className={textareaClassNames}
+          style={textAreaStyle}
+          ref={this.ref}
+          onChange={this.handleChange}
+          onCut={this.handleCut}
+          onPaste={this.handlePaste}
+        />
         {fakeTextarea}
       </label>
     );
   }
 
   public focus() {
-    if (this._node) {
-      this._node.focus();
+    if (this.node) {
+      this.node.focus();
     }
   }
 
   public blur() {
-    if (this._node) {
-      this._node.blur();
+    if (this.node) {
+      this.node.blur();
     }
   }
 
-  private _handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  private handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (polyfillPlaceholder) {
       const fieldIsEmpty = event.target!.value === '';
 
@@ -230,29 +275,29 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
 
     if (this.props.onChange) {
-      this.props.onChange(event, event.target!.value);
+      this.props.onChange(event, event.target.value);
     }
 
     if (this.props.autoResize) {
-      this._autoresize();
+      this.autoResize();
     }
   };
 
-  private _ref = (element: HTMLTextAreaElement) => {
-    this._node = element;
+  private ref = (element: HTMLTextAreaElement) => {
+    this.node = element;
   };
 
-  private _refFake = (element: HTMLTextAreaElement) => {
-    this._fakeNode = element;
+  private refFake = (element: HTMLTextAreaElement) => {
+    this.fakeNode = element;
   };
 
   // tslint:disable-next-line:member-ordering
-  private _autoresize = throttle(() => {
-    const fakeNode = this._fakeNode;
+  private autoResize = throttle(() => {
+    const fakeNode = this.fakeNode;
     if (!fakeNode) {
       return;
     }
-    const node = this._node;
+    const node = this.node;
     if (!node) {
       return;
     }
@@ -273,6 +318,26 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
     fakeNode.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
   }, 100);
+
+  private handleCut = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    if (this.props.autoResize) {
+      this.autoResize();
+    }
+
+    if (this.props.onCut) {
+      this.props.onCut(event);
+    }
+  };
+
+  private handlePaste = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    if (this.props.autoResize) {
+      this.autoResize();
+    }
+
+    if (this.props.onCut) {
+      this.props.onCut(event);
+    }
+  };
 }
 
 export default Textarea;

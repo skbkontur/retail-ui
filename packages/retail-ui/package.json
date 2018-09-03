@@ -18,6 +18,7 @@
       "git add"
     ],
     "*.{ts,tsx}": [
+      "tslint --project tsconfig.json",
       "prettier --single-quote --write",
       "git add"
     ]
@@ -28,7 +29,7 @@
   "scripts": {
     "build": "yarn tsc -p prod.tsconfig.json && node scripts/build",
     "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
-    "precommit": "lint-staged",
+    "precommit": "tsc --noEmit && lint-staged",
     "predeploy": "yarn run styleguide:build",
     "prepush": "yarn run test",
     "prepublishOnly": "yarn build",
@@ -112,6 +113,7 @@
     "eslint-plugin-flowtype": "^2.46.1",
     "eslint-plugin-react": "^7.7.0",
     "file-loader": "^1.1.11",
+    "fork-ts-checker-webpack-plugin": "^0.4.9",
     "fs-readdir-recursive": "^1.1.0",
     "gh-pages": "^1.2.0",
     "identity-obj-proxy": "^3.0.0",
