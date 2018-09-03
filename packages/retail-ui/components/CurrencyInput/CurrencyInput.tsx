@@ -135,6 +135,12 @@ export default class CurrencyInput extends React.Component<
     }
   };
 
+  public blur = () => {
+    if (this._input) {
+      this._input.blur();
+    }
+  };
+
   private _getState(value: Nullable<number>, fractionDigits: Nullable<number>) {
     return {
       formatted: CurrencyHelper.format(value, { fractionDigits }),
