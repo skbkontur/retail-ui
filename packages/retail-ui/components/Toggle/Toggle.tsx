@@ -3,10 +3,10 @@ import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Upgrades from '../../lib/Upgrades';
 
-const isFlatDesign = Upgrades.isFlatDesignEnabled();
-
 import DefaultStyles = require('./Toggle.less');
 import FlatStyles = require('./Toggle.flat.less');
+
+const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 const styles = isFlatDesign ? FlatStyles : DefaultStyles;
 
@@ -28,6 +28,7 @@ function listenTabPresses() {
 
 export interface ToggleProps {
   checked?: boolean;
+  defaultChecked?: boolean;
   disabled?: boolean;
   onChange?: (value: boolean) => void;
   changeEventHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -41,13 +42,14 @@ export interface ToggleProps {
 }
 
 export interface ToggleState {
-  checked: boolean;
+  checked?: boolean;
   focusByTab?: boolean;
 }
 
 export default class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static propTypes = {
     checked: PropTypes.bool,
+    defaultChecked: PropTypes.bool,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     loading: PropTypes.bool,
@@ -57,8 +59,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
 
   public static defaultProps = {
     disabled: false,
-    loading: false,
-    checked: false
+    loading: false
   };
 
   private input: HTMLInputElement | null = null;
@@ -67,7 +68,8 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     super(props);
 
     this.state = {
-      checked: props.checked || false
+      focusByTab: false,
+      checked: props.defaultChecked
     };
   }
 
@@ -80,15 +82,25 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
   }
 
+  public focus = () => {
+    if (this.input) {
+      tabPressed = true;
+      this.input.focus();
+    }
+  };
+
   public render() {
     const { warning, error, loading, color } = this.props;
-    const disabled = this.isDisabled();
+    const disabled = this.props.disabled || loading;
+    const checked = this.isUncontrolled()
+      ? this.state.checked
+      : this.props.checked;
 
     const containerClassNames = classNames(styles.container, {
       [styles.isWarning]: !color && warning,
       [styles.isError]: !color && error,
       [styles.isLoading]: loading,
-      [styles.focused]: !disabled && !loading && this.state.focusByTab
+      [styles.focused]: !disabled && this.state.focusByTab
     });
 
     return (
@@ -99,17 +111,18 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
       >
         <input
           type="checkbox"
-          checked={this.state.checked}
+          checked={checked}
           onChange={this.handleChange}
           className={styles.input}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           ref={this.inputRef}
+          disabled={disabled}
         />
         <div
           className={containerClassNames}
           style={
-            this.state.checked && this.props.color
+            checked && color
               ? {
                   backgroundColor: color,
                   borderColor: color
@@ -119,13 +132,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
         >
           <div
             className={styles.activeBackground}
-            style={
-              this.state.checked && this.props.color
-                ? {
-                    backgroundColor: color
-                  }
-                : undefined
-            }
+            style={checked && color ? { backgroundColor: color } : undefined}
           />
         </div>
         <div className={styles.handle} />
@@ -133,94 +140,48 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     );
   }
 
-  public componentWillReceiveProps(nextProps: ToggleProps) {
-    if (nextProps.checked && nextProps.checked !== this.state.checked) {
-      this.setState({
-        checked: nextProps.checked
-      });
-    }
-  }
-
-  public focus = () => {
-    if (this.input) {
-      tabPressed = true;
-      this.input.focus();
-    }
-  };
-
   private inputRef = (element: HTMLInputElement) => {
     this.input = element;
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (this.isDisabled()) {
-      event.preventDefault();
-      return;
+    if (this.props.onChange) {
+      this.props.onChange(event.target.checked);
     }
 
     if (this.props.changeEventHandler) {
-      event.persist();
+      this.props.changeEventHandler(event);
     }
 
-    this.setState(
-      {
+    if (this.isUncontrolled()) {
+      this.setState({
         checked: event.target.checked
-      },
-      () => {
-        if (this.props.onChange) {
-          this.props.onChange(this.state.checked);
-        }
-
-        if (this.props.changeEventHandler) {
-          this.props.changeEventHandler(event);
-        }
-      }
-    );
+      });
+    }
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-    if (this.isDisabled()) {
-      event.preventDefault();
-      return;
-    }
-
     if (this.props.onFocus) {
-      event.persist();
+      this.props.onFocus(event);
     }
 
     if (tabPressed) {
-      this.setState(
-        {
-          focusByTab: true
-        },
-        () => {
-          if (this.props.onFocus) {
-            this.props.onFocus(event);
-          }
-          tabPressed = false;
-        }
-      );
+      this.setState({ focusByTab: true }, () => {
+        tabPressed = false;
+      });
     }
   };
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     if (this.props.onBlur) {
-      event.persist();
+      this.props.onBlur(event);
     }
-
-    this.setState(
-      {
-        focusByTab: false
-      },
-      () => {
-        if (this.props.onBlur) {
-          this.props.onBlur(event);
-        }
-      }
-    );
+    this.setState({
+      focusByTab: false
+    });
   };
 
-  private isDisabled() {
-    return this.props.disabled || this.props.loading;
+  private isUncontrolled() {
+    return this.props.checked === undefined;
   }
 }
