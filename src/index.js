@@ -56,7 +56,7 @@ export class ValidationWrapperV1 extends React.Component<ValidationWrapperV1Prop
 
         return (
             <ValidationWrapper
-                errorMessage={renderMessage || tooltip("right middle")}
+                errorMessage={renderMessage || tooltip("right top")}
                 validations={[
                     {
                         error: Boolean(validationInfo),
