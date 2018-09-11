@@ -1,0 +1,12 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "es5",
+    "jsx": "react",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["dom", "es2017"],
+    "sourceMap": true,
+    "allowUnreachableCode": true
+  }
+}

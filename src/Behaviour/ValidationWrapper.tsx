@@ -1,20 +1,21 @@
-// @flow
 import * as React from "react";
-import ReactDom from "react-dom";
-import PropTypes from "prop-types";
-import isEqual from "lodash.isequal";
+import * as ReactDom from "react-dom";
+import * as PropTypes from "prop-types";
+import * as isEqual from "lodash.isequal";
 import ReactUiDetection from "../ReactUiDetection";
 import smoothScrollIntoView from "./smoothScrollIntoView";
+import { Nullable } from "../Types";
 
 if (typeof HTMLElement === "undefined") {
-    window.HTMLElement = window.Element;
+    const w = window as any;
+    w.HTMLElement = w.Element;
 }
 
 export type Validation = {
     error: boolean,
     level: "error" | "warning",
     behaviour: "immediate" | "lostfocus" | "submit",
-    message: React.Node,
+    message: React.ReactNode,
 };
 
 export interface IValidationContextSettings {
@@ -31,13 +32,13 @@ export interface IValidationContext {
 }
 
 export type RenderErrorMessage = (
-    control: React.Element<any>,
+    control: React.ReactElement<any>,
     hasError: boolean,
-    validation: ?Validation
-) => React.Element<any>;
+    validation: Nullable<Validation>
+) => React.ReactElement<any>;
 
-type ValidationWrapperProps = {
-    children?: React.Element<*>,
+export type ValidationWrapperProps = {
+    children?: React.ReactElement<any>,
     validations: Validation[],
     errorMessage: RenderErrorMessage,
 };
@@ -50,6 +51,11 @@ type ValidationWrapperState = {
     validationStates: ValidationState[],
 };
 
+interface Point {
+    x: number;
+    y: number;
+}
+
 export default class ValidationWrapper extends React.Component<ValidationWrapperProps, ValidationWrapperState> {
     state: ValidationWrapperState = {
         validationStates: [],
@@ -58,17 +64,15 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
         validationContext: IValidationContext,
     };
     refs: {
-        errorMessage: ?mixed,
+        errorMessage: any, //todo type
     };
 
     static contextTypes = {
         validationContext: PropTypes.any,
     };
 
-    child: ?React.Component<any, any>;
+    child: any; //todo type
     isChanging: boolean = false;
-
-    _scrollTimer = null;
 
     componentWillMount() {
         this.syncWithState(this.props);
@@ -204,13 +208,14 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
         }
     }
 
-    getControlPosition(): ?{ x: number, y: number } {
+    getControlPosition(): Nullable<Point> {
         if (this.child) {
             const childDomElement = ReactDom.findDOMNode(this.child);
             if (childDomElement != null && childDomElement instanceof HTMLElement) {
+                const rect = childDomElement.getBoundingClientRect();
                 return {
-                    x: childDomElement.getBoundingClientRect().top,
-                    y: childDomElement.getBoundingClientRect().left,
+                    x: rect.top,
+                    y: rect.left,
                 };
             }
         }
@@ -237,15 +242,16 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
         return Boolean(validation && validation.error);
     }
 
-    render(): React.Node {
+    render() {
         const { children, validations, errorMessage } = this.props;
         const validation = validations.find((x, i) => this.isErrorOrWarning(x, i));
 
-        const clonedChild: React.Element<any> = children ? (
+        const clonedChild: React.ReactElement<any> = children ? (
             React.cloneElement(children, {
                 ref: x => {
-                    if (children && children.ref) {
-                        children.ref(x);
+                    const child = children as any; //todo type or maybe React.Children.only
+                    if (child && child.ref) {
+                        child.ref(x);
                     }
                     this.child = x;
                 },

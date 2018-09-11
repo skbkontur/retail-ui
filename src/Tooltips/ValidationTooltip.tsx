@@ -1,22 +1,26 @@
-// @flow
-/* eslint-disable import/no-dynamic-require, prefer-template */
 import * as React from "react";
-import ReactUiDetection from "../ReactUiDetection";
+import ReactUiDetection, {Tooltip} from "../ReactUiDetection";
 
-// $FlowFixMe we use define plugin
-const Tooltip2 = require(REACT_UI_PACKAGE + "/components/Tooltip");
-const Tooltip = requireDefault(Tooltip2);
+export type TooltipPosition = "top left"
+    | "top center"
+    | "top right"
+    | "bottom left"
+    | "bottom center"
+    | "bottom right"
+    | "left top"
+    | "left middle"
+    | "left bottom"
+    | "right top"
+    | "right middle"
+    | "right bottom";
 
-function requireDefault<T>(obj: T): T {
-    // $FlowFixMe default is a same module
-    return obj && obj.__esModule ? obj.default : obj; // eslint-disable-line
+export interface ValidationTooltipProps {
+    children: React.ReactElement<any>;
+    type?: "simple" | "lostfocus";
+    error: boolean;
+    pos?: TooltipPosition;
+    render?: () => React.ReactNode;
 }
-
-type ValidationTooltipProps = {
-    children?: any,
-    type?: "simple" | "lostfocus",
-    error: boolean,
-};
 
 type ValidationTooltipState = {
     focus: boolean,
@@ -45,17 +49,17 @@ export default class ValidationTooltip extends React.Component<ValidationTooltip
         this.setState({ mouseOver: false });
     }
 
-    render(): React.Node {
+    render() {
         const { children, ...props } = this.props;
         const onlyChild = React.Children.only(children);
         const childProps: any = {
-            onFocus: (...args: *[]) => {
+            onFocus: (...args: any[]) => {
                 this.handleFocus();
                 if (onlyChild.props.onFocus) {
                     onlyChild.props.onFocus(...args);
                 }
             },
-            onBlur: (...args: *[]) => {
+            onBlur: (...args: any[]) => {
                 this.handleBlur();
                 if (onlyChild.props.onBlur) {
                     onlyChild.props.onBlur(...args);

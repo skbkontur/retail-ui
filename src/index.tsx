@@ -1,38 +1,36 @@
-// @flow
-/* eslint-disable react/no-multi-comp */
 import * as React from "react";
-import ValidationContext from "./Behaviour/ValidationContext";
-import ValidationWrapper from "./Behaviour/ValidationWrapper";
-import ValidationTooltip from "./Tooltips/ValidationTooltip";
-import type { RenderErrorMessage } from "./Behaviour/ValidationWrapper";
+import ValidationContext, { ValidationContextProps } from "./Behaviour/ValidationContext";
+import ValidationWrapper, { ValidationWrapperProps, RenderErrorMessage, Validation } from "./Behaviour/ValidationWrapper";
+import ValidationTooltip, { ValidationTooltipProps, TooltipPosition } from "./Tooltips/ValidationTooltip";
+import { Nullable } from "./Types";
 
-export { ValidationTooltip, ValidationContext, ValidationWrapper };
+export { ValidationTooltip, ValidationTooltipProps, TooltipPosition  };
+export { ValidationContext, ValidationContextProps };
+export { ValidationWrapper, ValidationWrapperProps, RenderErrorMessage, Validation };
 
-type ValidationContainerProps = {
-    children?: any,
-    onValidationUpdated?: (isValid?: ?boolean) => void,
+export type ValidationContainerProps = {
+    children?: React.ReactNode,
+    onValidationUpdated?: (isValid?: Nullable<boolean>) => void,
     scrollOffset?: number,
 };
 
 export class ValidationContainer extends React.Component<ValidationContainerProps> {
     async submit(withoutFocus: boolean = false): Promise<void> {
-        await this.refs.childContext.validate(withoutFocus);
+        await (this.refs.childContext as ValidationContext).validate(withoutFocus);
     }
 
     validate(withoutFocus: boolean = false): Promise<boolean> {
-        return this.refs.childContext.validate(withoutFocus);
+        return (this.refs.childContext as ValidationContext).validate(withoutFocus);
     }
 
-    render(): React.Node {
-        const { children } = this.props;
-        const contextProps = {};
-        if (this.props.onValidationUpdated) {
-            contextProps.onValidationUpdated = this.props.onValidationUpdated;
-        }
-        contextProps.verticalOffset = this.props.scrollOffset || 50;
+    render() {
         return (
-            <ValidationContext ref="childContext" {...contextProps}>
-                {children}
+            <ValidationContext
+                ref="childContext"
+                verticalOffset={this.props.scrollOffset || 50}
+                onValidationUpdated={this.props.onValidationUpdated}
+            >
+                {this.props.children}
             </ValidationContext>
         );
     }
@@ -41,17 +39,17 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
 export type ValidationInfo = {
     type?: "immediate" | "lostfocus" | "submit",
     level?: "error" | "warning",
-    message: string,
+    message: React.ReactNode,
 };
 
-type ValidationWrapperV1Props = {
-    children?: React.Element<any>,
-    validationInfo: ?ValidationInfo,
+export type ValidationWrapperV1Props = {
+    children: React.ReactElement<any>,
+    validationInfo: Nullable<ValidationInfo>,
     renderMessage?: RenderErrorMessage,
 };
 
 export class ValidationWrapperV1 extends React.Component<ValidationWrapperV1Props> {
-    render(): React.Node {
+    render() {
         const { children, validationInfo, renderMessage } = this.props;
 
         return (
@@ -71,8 +69,8 @@ export class ValidationWrapperV1 extends React.Component<ValidationWrapperV1Prop
     }
 }
 
-export function tooltip(pos: string): RenderErrorMessage {
-    return function tooltipRenderer(control: *, hasError: *, validation: *): React.Element<any> {
+export function tooltip(pos: TooltipPosition): RenderErrorMessage {
+    return (control, hasError, validation) => {
         return (
             <ValidationTooltip
                 pos={pos}
@@ -89,9 +87,9 @@ export function tooltip(pos: string): RenderErrorMessage {
     };
 }
 
-export function text(pos: string = "right"): RenderErrorMessage {
+export function text(pos: "bottom" | "right" = "right"): RenderErrorMessage {
     if (pos === "right") {
-        return function textRenderer(control: *, hasError: *, validation: *): React.Element<any> {
+        return (control, hasError, validation) => {
             return (
                 <span style={{ display: "inline-block" }}>
                     {control}
@@ -102,7 +100,7 @@ export function text(pos: string = "right"): RenderErrorMessage {
             );
         };
     }
-    return function textRenderer(control: *, hasError: *, validation: *): React.Element<any> {
+    return (control, hasError, validation) => {
         return (
             <span style={{ position: "relative", display: "inline-block" }}>
                 {control}
@@ -116,7 +114,8 @@ export function text(pos: string = "right"): RenderErrorMessage {
                             position: "absolute",
                             top: "2px",
                             left: 0,
-                        }}>
+                        }}
+                    >
                         {(validation && validation.message) || ""}
                     </span>
                 </span>
