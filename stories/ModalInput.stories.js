@@ -1,6 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import * as React from "react";
-import { storiesOf } from "@kadira/storybook";
+import { storiesOf } from "@storybook/react";
 import Modal from "retail-ui/components/Modal";
 import Input from "retail-ui/components/Input";
 import Button from "retail-ui/components/Button";

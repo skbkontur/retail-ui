@@ -1,5 +1,5 @@
 import React from "react";
-import { storiesOf } from "@kadira/storybook";
+import { storiesOf } from "@storybook/react";
 import Input from "retail-ui/components/Input";
 import Button from "retail-ui/components/Button";
 import Select from "retail-ui/components/Select";

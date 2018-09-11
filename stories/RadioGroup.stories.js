@@ -1,5 +1,5 @@
 import * as React from "react";
-import { storiesOf } from "@kadira/storybook";
+import { storiesOf } from "@storybook/react";
 import RadioGroup from "retail-ui/components/RadioGroup";
 import Button from "retail-ui/components/Button";
 import { ValidationContainer, ValidationWrapperV1 } from "../src";
