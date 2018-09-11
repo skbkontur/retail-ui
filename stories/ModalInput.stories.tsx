@@ -1,26 +1,30 @@
-/* eslint-disable react/no-multi-comp */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import Modal from "retail-ui/components/Modal";
 import Input from "retail-ui/components/Input";
 import Button from "retail-ui/components/Button";
-// import Select from "retail-ui/components/Select";
-import { ValidationContainer, ValidationWrapperV1, text } from "../src";
+import Center from "retail-ui/components/Center/Center";
+import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from "../src";
+import { Nullable } from "../src/Types";
 
 storiesOf("ModalWithSingleInput", module)
     .add("Example1", () => <ModalInputStory />)
     .add("Example2", () => <SmallModalInputStory />);
 
-class ModalInputStory extends React.Component {
+interface ModalInputStoryState {
+    value: string;
+}
+
+class ModalInputStory extends React.Component<{}, ModalInputStoryState> {
     state = {
-        value1: "",
+        value: "",
     };
 
-    validateValue1() {
-        const { value1 } = this.state;
-        if (value1 === "") {
+    validateValue1(): Nullable<ValidationInfo> {
+        const { value } = this.state;
+        if (value === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value1.split(" ").length !== 2) {
+        } else if (value.split(" ").length !== 2) {
             return {
                 message: "Значение должно состоять из двух слов",
                 type: "lostfocus",
@@ -59,7 +63,7 @@ class ModalInputStory extends React.Component {
                                 <Input
                                     data-tid="SingleInput"
                                     value={this.state.value}
-                                    onChange={(e, value) => this.setState({ value1: value })}
+                                    onChange={(e, value) => this.setState({ value })}
                                 />
                             </ValidationWrapperV1>
                             <div
@@ -71,7 +75,7 @@ class ModalInputStory extends React.Component {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={() => this.refs.container.submit()} use="primary">
+                        <Button onClick={() => (this.refs.container as ValidationContainer).submit()} use="primary">
                             Кнопка
                         </Button>
                     </Modal.Footer>
@@ -81,20 +85,24 @@ class ModalInputStory extends React.Component {
     }
 }
 
-class SmallModalInputStory extends React.Component {
-    state = {
-        value1: "",
+interface SmallModalInputStoryState {
+    value: string;
+}
+
+class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState> {
+    state: SmallModalInputStoryState = {
+        value: "",
     };
 
     componentDidMount() {
         window.scrollTo(1000, 1000);
     }
 
-    validateValue1() {
-        const { value1 } = this.state;
-        if (value1 === "") {
+    validateValue1(): Nullable<ValidationInfo> {
+        const { value } = this.state;
+        if (value === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value1.split(" ").length !== 2) {
+        } else if (value.split(" ").length !== 2) {
             return {
                 message: "Значение должно состоять из двух слов",
                 type: "lostfocus",
@@ -108,7 +116,7 @@ class SmallModalInputStory extends React.Component {
             <ValidationContainer ref="outerContainer">
                 <div>
                     <h1>
-                        <center>Header</center>
+                        <Center>Header</Center>
                     </h1>
                     <div
                         style={{
@@ -130,12 +138,12 @@ class SmallModalInputStory extends React.Component {
                         renderMessage={text("bottom")}>
                         <Input
                             data-tid="SingleInput"
-                            value={this.state.value1}
-                            onChange={(e, value) => this.setState({ value1: value })}
+                            value={this.state.value}
+                            onChange={(e, value) => this.setState({ value })}
                         />
                     </ValidationWrapperV1>
                     <h2>
-                        <center>Footer</center>
+                        <Center>Footer</Center>
                     </h2>
                 </div>
 
@@ -160,8 +168,8 @@ class SmallModalInputStory extends React.Component {
                                     renderMessage={text("bottom")}>
                                     <Input
                                         data-tid="SingleInput"
-                                        value={this.state.value1}
-                                        onChange={(e, value) => this.setState({ value1: value })}
+                                        value={this.state.value}
+                                        onChange={(e, value) => this.setState({ value })}
                                     />
                                 </ValidationWrapperV1>
                             </div>
@@ -169,7 +177,7 @@ class SmallModalInputStory extends React.Component {
                         <Modal.Footer>
                             <Button
                                 onClick={() => {
-                                    this.refs.container.submit();
+                                    (this.refs.container as ValidationContainer).submit();
                                     // this.refs.outerContainer.submit();
                                 }}
                                 use="primary">

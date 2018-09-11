@@ -2,16 +2,21 @@ import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import RadioGroup from "retail-ui/components/RadioGroup";
 import Button from "retail-ui/components/Button";
-import { ValidationContainer, ValidationWrapperV1 } from "../src";
+import { ValidationContainer, ValidationInfo, ValidationWrapperV1 } from "../src";
+import { Nullable } from "../src/Types";
 
 storiesOf("RadioGroup", module).add("Example1", () => <RadioGroupStory />);
 
-class RadioGroupStory extends React.Component {
+interface RadioGroupStoryState {
+    sex: "male" | "female";
+}
+
+class RadioGroupStory extends React.Component<{}, RadioGroupStoryState> {
     state = {
         sex: null,
     };
 
-    validateSex() {
+    validateSex(): Nullable<ValidationInfo> {
         const { sex } = this.state;
         if (sex == null) {
             return { message: "Должно быть не пусто", type: "submit" };
@@ -32,7 +37,7 @@ class RadioGroupStory extends React.Component {
                         />
                     </ValidationWrapperV1>
                     <div style={{ padding: "100px 0" }}>
-                        <Button onClick={() => this.refs.container.validate()}>Check</Button>
+                        <Button onClick={() => (this.refs.container as ValidationContainer).validate()}>Check</Button>
                     </div>
                 </ValidationContainer>
             </div>
