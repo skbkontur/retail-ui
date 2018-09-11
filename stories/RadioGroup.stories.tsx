@@ -7,12 +7,14 @@ import { Nullable } from "../src/Types";
 
 storiesOf("RadioGroup", module).add("Example1", () => <RadioGroupStory />);
 
+type Sex = "male" | "female";
+
 interface RadioGroupStoryState {
-    sex: "male" | "female";
+    sex:  Nullable<Sex>;
 }
 
 class RadioGroupStory extends React.Component<{}, RadioGroupStoryState> {
-    state = {
+    state: RadioGroupStoryState = {
         sex: null,
     };
 
@@ -31,7 +33,7 @@ class RadioGroupStory extends React.Component<{}, RadioGroupStoryState> {
                     <ValidationWrapperV1 validationInfo={this.validateSex()}>
                         <RadioGroup
                             value={this.state.sex}
-                            items={["male", "female"]}
+                            items={["male", "female"] as Sex[]}
                             renderItem={x => <span>{x}</span>}
                             onChange={(e, value) => this.setState({ sex: value })}
                         />

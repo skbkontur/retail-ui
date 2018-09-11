@@ -1,5 +1,6 @@
 declare const REACT_UI_PACKAGE: string;
-declare function require(name:string);
+
+declare function require(name: string): any;
 
 function localInteropDefault(obj: any): any {
     return obj && obj.__esModule ? obj.default : obj;

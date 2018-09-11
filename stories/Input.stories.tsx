@@ -111,8 +111,10 @@ class Example3 extends React.Component<{}, Example3State> {
     }
 }
 
+type Sex = "male" | "female";
+
 interface Example4State {
-    type: "male" | "female" | null;
+    type: Nullable<Sex>;
     value: string;
 }
 
@@ -137,7 +139,7 @@ class Example4 extends React.Component<{}, Example4State> {
             <ValidationContainer ref="container">
                 <div style={{ padding: 10 }}>
                     <Select
-                        items={["male", "female"]}
+                        items={["male", "female"] as Sex[]}
                         value={this.state.type}
                         onChange={(e, value) => this.setState({ type: value })}
                     />

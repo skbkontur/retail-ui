@@ -1,4 +1,4 @@
-import { Nullable } from "../Types";
+import { Nullable, Omit } from "../Types";
 
 async function smoothScrollIntoView(element: HTMLElement, topOffset: number): Promise<void> {
     const scrollableParent = findScrollableParent(element);
@@ -33,10 +33,10 @@ async function smoothScrollIntoView(element: HTMLElement, topOffset: number): Pr
 export default smoothScrollIntoView;
 
 function smoothScroll(element: HTMLElement, x: number, y: number): Promise<void> {
-    let context;
+    let context: Omit<StepContent, "resolve">;
     if (element === getDocumentBodyStrict()) {
         context = {
-            scrollable: window,
+            scrollable: window as any as HTMLElement,
             startX: window.scrollX || window.pageXOffset,
             startY: window.scrollY || window.pageYOffset,
             method: (_, x, y) => scrollWindow(x, y),

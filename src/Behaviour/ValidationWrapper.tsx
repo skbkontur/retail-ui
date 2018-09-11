@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDom from "react-dom";
 import * as PropTypes from "prop-types";
-import * as isEqual from "lodash.isequal";
+import isEqual = require("lodash.isequal");
 import ReactUiDetection from "../ReactUiDetection";
 import smoothScrollIntoView from "./smoothScrollIntoView";
 import { Nullable } from "../Types";
@@ -60,10 +60,10 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
     state: ValidationWrapperState = {
         validationStates: [],
     };
-    context: {
+    context!: {
         validationContext: IValidationContext,
     };
-    refs: {
+    refs!: {
         errorMessage: any, //todo type
     };
 
@@ -106,7 +106,7 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
         this.setState({
             validationStates: nextValidationStates,
         });
-        const isValid = !nextValidationStates.find(x => x.visible);
+        const isValid = !nextValidationStates.find(x => x.visible === true);
         this.context.validationContext.onValidationUpdated(this, isValid);
     }
 
@@ -177,7 +177,7 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
                     ...validationStates.slice(index + 1),
                 ];
                 this.setState({ validationStates: validationStates });
-                const isValid = !validationStates.find(x => x.visible);
+                const isValid = !validationStates.find(x => x.visible === true);
                 this.context.validationContext.onValidationUpdated(this, isValid);
             } else if (!validation.error && (!validationStates[index] || validationStates[index].visible === true)) {
                 validationStates = [
@@ -186,7 +186,7 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
                     ...validationStates.slice(index + 1),
                 ];
                 this.setState({ validationStates: validationStates });
-                const isValid = !validationStates.find(x => x.visible);
+                const isValid = !validationStates.find(x => x.visible === true);
                 this.context.validationContext.onValidationUpdated(this, isValid);
             }
         }
@@ -248,7 +248,7 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
 
         const clonedChild: React.ReactElement<any> = children ? (
             React.cloneElement(children, {
-                ref: x => {
+                ref: (x: any) => {
                     const child = children as any; //todo type or maybe React.Children.only
                     if (child && child.ref) {
                         child.ref(x);
@@ -267,7 +267,7 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
                         children.props.onBlur();
                     }
                 },
-                onInput: (...args) => {
+                onInput: (...args: any[]) => {
                     if (ReactUiDetection.isDatePicker(children)) {
                         this.isChanging = true;
                         this.setState({});
@@ -276,7 +276,7 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
                         children.props.onInput(...args);
                     }
                 },
-                onChange: (...args) => {
+                onChange: (...args: any[]) => {
                     if (ReactUiDetection.isDatePicker(children)) {
                         const nextValue = args[1];
                         if (

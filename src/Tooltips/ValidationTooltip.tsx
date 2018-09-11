@@ -71,7 +71,7 @@ export default class ValidationTooltip extends React.Component<ValidationTooltip
         if (ReactUiDetection.isRadioGroup(onlyChild)) {
             const prevRenderItem = onlyChild.props.renderItem;
             const items = onlyChild.props.items;
-            childProps.renderItem = (value, data, ...rest) => {
+            childProps.renderItem = (value: any, data: any, ...rest: any[]) => {
                 if (items[0] === value) {
                     return (
                         <Tooltip

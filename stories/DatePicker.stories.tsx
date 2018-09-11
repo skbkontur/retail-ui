@@ -8,7 +8,7 @@ import { Nullable } from "../src/Types";
 storiesOf("DatePicker", module).add("Example1", () => <DatePickerStory />);
 
 interface DatePickerStoryState {
-    value: Date;
+    value: Date | string | null;
 }
 
 class DatePickerStory extends React.Component<{}, DatePickerStoryState> {
@@ -29,7 +29,7 @@ class DatePickerStory extends React.Component<{}, DatePickerStoryState> {
             <div style={{ padding: "20px 20px" }}>
                 <ValidationContainer ref="container">
                     <ValidationWrapperV1 validationInfo={this.validateValue1()}>
-                        <DatePicker value={this.state.value} onChange={(e, value) => this.setState({ value })} />
+                        <DatePicker value={this.state.value as any} onChange={(e, value) => this.setState({ value })} />
                     </ValidationWrapperV1>
                     <div style={{ padding: "100px 0" }}>
                         <Button onClick={() => (this.refs.container as ValidationContainer).validate()}>Check</Button>
