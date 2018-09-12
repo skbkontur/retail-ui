@@ -21,8 +21,12 @@ ReactDom.render(
     <Router history={history}>
         <Route path="/" component={Layout}>
             <IndexRoute component={Description} />
-            {Examples.map(page => <Route key={page.url} path={page.url} component={page.component} />)}
-            {Concepts.map(page => <Route key={page.url} path={page.url} component={page.component} />)}
+            {Examples.map(page => (
+                <Route key={page.url} path={page.url} component={page.component} />
+            ))}
+            {Concepts.map(page => (
+                <Route key={page.url} path={page.url} component={page.component} />
+            ))}
             <Route path="api" component={Api}>
                 <Route path="*" />
             </Route>
