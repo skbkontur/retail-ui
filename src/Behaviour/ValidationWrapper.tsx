@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as ReactDom from "react-dom";
 import * as PropTypes from "prop-types";
-import isEqual = require("lodash.isequal");
 import ReactUiDetection from "../ReactUiDetection";
 import smoothScrollIntoView from "./smoothScrollIntoView";
 import { Nullable } from "../Types";
+const isEqual = require("lodash.isequal");
 
 if (typeof HTMLElement === "undefined") {
     const w = window as any;
