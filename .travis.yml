@@ -21,6 +21,7 @@ before_deploy:
 - popd
 - yarn run build:retail-ui
 - yarn run build:react-ui
+- yarn run bundle-dts
 - yarn run prepare-packages
 - pushd retail-ui-dist
 - npm publish

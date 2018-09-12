@@ -8,6 +8,8 @@
     "lib": ["dom", "es2017"],
     "sourceMap": true,
     "allowUnreachableCode": true,
-    "strict": true
+    "strict": true,
+    "declaration": true,
+    "declarationDir": "./declaration"
   }
 }
