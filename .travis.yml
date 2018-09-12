@@ -1,11 +1,10 @@
 language: node_js
 node_js:
-- '5'
+- '8'
 dist: precise
 install: yarn install
 script:
 - yarn run lint
-- yarn run flow.check
 before_deploy:
 - openssl aes-256-cbc -k "$travis_key_password" -in travis-react-ui-validations-deploy-key.enc -out travis-react-ui-validations-deploy-key -d
 - openssl aes-256-cbc -k "$travis_key_password" -in .npmrc.enc -out .npmrc -d

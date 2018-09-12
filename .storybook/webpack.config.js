@@ -23,11 +23,6 @@ module.exports = function(sourceConfig, env, defaultConfig) {
                     loader: "babel-loader"
                 },
                 {
-                    test: /\.(js|jsx)$/,
-                    exclude: /node_modules/,
-                    loader: "babel-loader"
-                },
-                {
                     test: /\.(ts|tsx)$/,
                     exclude: /node_modules/,
                     loader: "ts-loader"
