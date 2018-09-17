@@ -100,28 +100,27 @@ class Hint extends React.Component<HintProps, HintState> {
   }
 
   public render() {
-    return [
+    return (
       <span
-        key="caption"
         onMouseEnter={this._handleMouseEnter}
         onMouseLeave={this._handleMouseLeave}
+        className={classNames(styles.root)}
         ref={this._ref}
       >
         {this.props.children}
-      </span>,
-      this._dom && (
-        <Popup
-          key="hint"
-          hasPin
-          opened={this.isOpened()}
-          anchorElement={this._dom}
-          positions={this._getPositions()}
-          backgroundColor={bgColor}
-        >
-          {this._renderContent()}
-        </Popup>
-      )
-    ];
+        {this._dom && (
+          <Popup
+            hasPin
+            opened={this.isOpened()}
+            anchorElement={this._dom}
+            positions={this._getPositions()}
+            backgroundColor={bgColor}
+          >
+            {this._renderContent()}
+          </Popup>
+        )}
+      </span>
+    );
   }
 
   private isOpened() {
@@ -131,8 +130,8 @@ class Hint extends React.Component<HintProps, HintState> {
   private _renderContent() {
     const { pos, maxWidth } = this.props;
     const className = classNames({
-      [styles.root]: true,
-      [styles.rootCenter]: pos === 'top' || pos === 'bottom'
+      [styles.content]: true,
+      [styles.contentCenter]: pos === 'top' || pos === 'bottom'
     });
     return (
       <div className={className} style={{ maxWidth }}>
