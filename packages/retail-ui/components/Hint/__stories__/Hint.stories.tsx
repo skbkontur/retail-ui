@@ -57,4 +57,17 @@ storiesOf('Hint', module)
         <span className="hint-content">Там длинное слово</span>
       </Hint>
     </div>
+  ))
+  .add('with block-element', () => (
+    <Hint pos="right" text="Something will never be changed" manual opened>
+      <div
+        className="hint-content"
+        style={{
+          width: 150,
+          border: '1px solid'
+        }}
+      >
+        <span>Ti voglio bene</span>
+      </div>
+    </Hint>
   ));
