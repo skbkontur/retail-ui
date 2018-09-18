@@ -35,3 +35,10 @@ gemini.suite("With large word", suite => {
     .setCaptureElements("#test-element")
     .capture("mouseOver");
 });
+
+gemini.suite("Hint with block caption", suite => {
+  suite
+    .setUrl(pathTo("Hint", "with block-element"))
+    .setCaptureElements("#test-element")
+    .capture("mouseOver");
+});
