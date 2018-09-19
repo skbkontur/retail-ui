@@ -1,4 +1,3 @@
-
 import warning from 'warning';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
@@ -260,7 +259,7 @@ class Icon extends React.Component<IconProps> {
     {}
   );
 
-  public static getAllNames = () => Object.keys(Icons);
+  public static getAllNames = () => Object.keys(Icons) as IconName[];
 
   constructor(props: IconProps) {
     super(props);
