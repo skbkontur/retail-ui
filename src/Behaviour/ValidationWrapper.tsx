@@ -114,7 +114,13 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
         if (validation.behaviour === "immediate") {
             return {};
         } else if (validation.behaviour === "lostfocus") {
-            if (this.context.validationContext.isAnyWrapperInChangingMode()) {
+            if (this.isChanging) {
+                return { visible: false };
+            }
+            if (
+                this.context.validationContext.isAnyWrapperInChangingMode() &&
+                this.state.validationStates.every(x => x.visible === false)
+            ) {
                 return { visible: false };
             }
 
