@@ -101,7 +101,8 @@ import { DatePicker, lessThan } from './ControlsWithValidations';
                     Пример реализации можно найти в{" "}
                     <Link href="https://github.com/skbkontur/react-ui-validations/tree/master/docs">
                         исходном коде документации
-                    </Link>.
+                    </Link>
+                    .
                 </p>
                 <h2>Демо:</h2>
 

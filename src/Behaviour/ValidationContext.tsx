@@ -1,11 +1,10 @@
-// @flow
-import PropTypes from "prop-types";
 import * as React from "react";
-import type { IValidationContext, IValidationContextSettings } from "./ValidationWrapper";
+import * as PropTypes from "prop-types";
+import { IValidationContext, IValidationContextSettings } from "./ValidationWrapper";
 import ValidationWrapper from "./ValidationWrapper";
 
-type ValidationContextProps = {
-    children?: React.Node,
+export type ValidationContextProps = {
+    children?: React.ReactNode,
     onValidationUpdated?: (isValid?: boolean) => void,
     horizontalOffset?: number,
     verticalOffset?: number,
@@ -113,7 +112,7 @@ export default class ValidationContext extends React.Component<ValidationContext
         return !firstInvalid;
     }
 
-    render(): React.Node {
+    render() {
         const { children } = this.props;
         return <span>{children}</span>;
     }

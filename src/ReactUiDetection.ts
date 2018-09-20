@@ -1,14 +1,17 @@
-// @flow
-/* eslint-disable import/no-dynamic-require, prefer-template */
-function localInteropDefault<T>(obj: T): T {
-    // $FlowFixMe default is a same module
-    return obj && obj.__esModule ? obj.default : obj; // eslint-disable-line
+declare const REACT_UI_PACKAGE: string;
+
+declare function require(name: string): any;
+
+function localInteropDefault(obj: any): any {
+    return obj && obj.__esModule ? obj.default : obj;
 }
 
-// $FlowFixMe we use define plugin
+//todo think about DatePicker & DatePickerOld
 const DatePicker = localInteropDefault(require(REACT_UI_PACKAGE + "/components/DatePicker"));
-// $FlowFixMe we use define plugin
 const RadioGroup = localInteropDefault(require(REACT_UI_PACKAGE + "/components/RadioGroup"));
+const Tooltip = localInteropDefault(require(REACT_UI_PACKAGE + "/components/Tooltip"));
+
+export { Tooltip };
 
 export default class ReactUiDetection {
     static isDatePicker(childrenArray: any): boolean {

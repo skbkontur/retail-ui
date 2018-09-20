@@ -1,30 +1,36 @@
-import React from "react";
-import { storiesOf } from "@kadira/storybook";
+import * as React from "react";
+import { storiesOf } from "@storybook/react";
 import Input from "retail-ui/components/Input";
-import { ValidationContainer, ValidationWrapperV1, text } from "../../src";
+import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from "../../src";
+import { Nullable } from "../../src/Types";
 
-class Example1 extends React.Component {
-    state = {
+interface Example1State {
+    value1: string;
+    value2: string;
+}
+
+class Example1 extends React.Component<{}, Example1State> {
+    state: Example1State = {
         value1: "",
         value2: "",
     };
 
-    validateValue1() {
+    validateValue1(): Nullable<ValidationInfo> {
         const { value1, value2 } = this.state;
         if (value1 === "") {
             return { message: "Должно быть не пусто", type: "submit" };
         } else if (value1 !== value2.replace(/1$/, "")) {
-            return { message: "Значение 1 должно быть равняться value1 + '1'" };
+            return { message: "Значение 1 должно быть равняться value + '1'" };
         }
         return null;
     }
 
-    validateValue2() {
+    validateValue2(): Nullable<ValidationInfo> {
         const { value1, value2 } = this.state;
         if (value2 === "") {
             return { message: "Должно быть не пусто", type: "submit" };
         } else if (value1 + "1" !== value2) {
-            return { message: "Значение 1 должно быть равняться value1 + '1'" };
+            return { message: "Значение 1 должно быть равняться value + '1'" };
         }
         return null;
     }

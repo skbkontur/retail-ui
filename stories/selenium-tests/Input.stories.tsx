@@ -1,18 +1,23 @@
-import React from "react";
-import { storiesOf } from "@kadira/storybook";
+import * as React from "react";
+import { storiesOf } from "@storybook/react";
 import Input from "retail-ui/components/Input";
-import { ValidationContainer, ValidationWrapperV1, text } from "../../src";
+import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from "../../src";
+import { Nullable } from "../../src/Types";
 
-class Example1 extends React.Component {
-    state = {
-        value1: "",
+interface Example1State {
+    value: string;
+}
+
+class Example1 extends React.Component<{}, Example1State> {
+    state: Example1State = {
+        value: "",
     };
 
-    validateValue1() {
-        const { value1 } = this.state;
-        if (value1 === "") {
+    validateValue1(): Nullable<ValidationInfo> {
+        const { value } = this.state;
+        if (value === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value1.split(" ").length !== 2) {
+        } else if (value.split(" ").length !== 2) {
             return { message: "Значение должно состоять из двух слов", type: "lostfocus" };
         }
         return null;
@@ -34,7 +39,7 @@ class Example1 extends React.Component {
                         <Input
                             data-tid="SingleInput"
                             value={this.state.value}
-                            onChange={(e, value) => this.setState({ value1: value })}
+                            onChange={(e, value) => this.setState({ value })}
                         />
                     </ValidationWrapperV1>
                 </div>
