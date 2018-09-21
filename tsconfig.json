@@ -1,15 +1,21 @@
 {
-  "compileOnSave": true,
-  "compilerOptions": {
-    "target": "es5",
-    "jsx": "react",
-    "module": "es2015",
-    "moduleResolution": "node",
-    "lib": ["dom", "es2017"],
-    "sourceMap": true,
-    "allowUnreachableCode": true,
-    "strict": true,
-    "declaration": true,
-    "declarationDir": "./declaration"
-  }
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "es5",
+        "jsx": "react",
+        "module": "es2015",
+        "moduleResolution": "node",
+        "lib": [
+            "dom",
+            "es2017"
+        ],
+        "sourceMap": true,
+        "allowUnreachableCode": true,
+        "strict": true,
+        "declaration": true,
+        "declarationDir": "./build/declaration"
+    },
+    "include": [
+        "src/**/*"
+    ]
 }

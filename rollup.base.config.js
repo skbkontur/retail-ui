@@ -6,9 +6,9 @@ export function buildConfig(outputDir, reactUiPackageName) {
     return {
         input: "src/index.tsx",
         output: {
-            file: outputDir + "/index.js",
+            file: "build/" + outputDir + "/index.js",
             format: "cjs",
-            sourcemap: outputDir + "/index.js.map"
+            sourcemap: "build/" + outputDir + "/index.js.map"
         },
         plugins: [
             typescript2({
