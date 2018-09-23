@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Kontur.ReactUI.SeleniumTesting</AssemblyName>
+    <Authors>Kontur</Authors>
+    <Company>Kontur</Company>
+    <Product>Kontur.ReactUI.SeleniumTesting</Product>
+    <RootNamespace>SKBKontur.SeleniumTesting</RootNamespace>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>2.0.5.0$(VersionSuffix)</Version>
+    <VersionSuffix>$(VersionSuffix)</VersionSuffix>
+    <LangVersion>latest</LangVersion>
+    <TargetFramework>net45</TargetFramework>
+    <PackageLicenseUrl>https://github.com/skbkontur/react-ui-testing/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/skbkontur/react-ui-testing</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/skbkontur/react-ui-testing</RepositoryUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\Output</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="10.0.0" />
+    <PackageReference Include="Kontur.RetryableAssertions" Version="0.0.1" />
+    <PackageReference Include="Kontur.Selone" Version="0.0.4" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.13.1" />
+  </ItemGroup>
+</Project>
