@@ -1,8 +1,8 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import Input from "retail-ui/components/Input";
-import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from "../../src";
 import { Nullable } from "../../src/Types";
+import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from "../../src";
 
 interface Example1State {
     value: string;
@@ -17,7 +17,8 @@ class Example1 extends React.Component<{}, Example1State> {
         const { value } = this.state;
         if (value === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value.split(" ").length !== 2) {
+        }
+        if (value.split(" ").length !== 2) {
             return { message: "Значение должно состоять из двух слов", type: "lostfocus" };
         }
         return null;
@@ -49,5 +50,5 @@ class Example1 extends React.Component<{}, Example1State> {
 }
 
 storiesOf("SingleInput", module).add("Example1", () => {
-    return <Example1 />;
+    return <Example1/>;
 });

@@ -2,15 +2,15 @@ import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import RadioGroup from "retail-ui/components/RadioGroup";
 import Button from "retail-ui/components/Button";
-import { ValidationContainer, ValidationInfo, ValidationWrapperV1 } from "../src";
 import { Nullable } from "../src/Types";
+import { ValidationContainer, ValidationWrapperV1, ValidationInfo } from "../src";
 
-storiesOf("RadioGroup", module).add("Example1", () => <RadioGroupStory />);
+storiesOf("RadioGroup", module).add("Example1", () => <RadioGroupStory/>);
 
 type Sex = "male" | "female";
 
 interface RadioGroupStoryState {
-    sex:  Nullable<Sex>;
+    sex: Nullable<Sex>;
 }
 
 class RadioGroupStory extends React.Component<{}, RadioGroupStoryState> {

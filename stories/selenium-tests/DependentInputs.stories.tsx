@@ -1,8 +1,8 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import Input from "retail-ui/components/Input";
-import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from "../../src";
 import { Nullable } from "../../src/Types";
+import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from "../../src";
 
 interface Example1State {
     value1: string;
@@ -19,7 +19,8 @@ class Example1 extends React.Component<{}, Example1State> {
         const { value1, value2 } = this.state;
         if (value1 === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value1 !== value2.replace(/1$/, "")) {
+        }
+        if (value1 !== value2.replace(/1$/, "")) {
             return { message: "Значение 1 должно быть равняться value + '1'" };
         }
         return null;
@@ -29,7 +30,8 @@ class Example1 extends React.Component<{}, Example1State> {
         const { value1, value2 } = this.state;
         if (value2 === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value1 + "1" !== value2) {
+        }
+        if (value1 + "1" !== value2) {
             return { message: "Значение 1 должно быть равняться value + '1'" };
         }
         return null;
@@ -54,9 +56,9 @@ class Example1 extends React.Component<{}, Example1State> {
                             onChange={(e, value) => this.setState({ value1: value })}
                         />
                     </ValidationWrapperV1>
-                    <br />
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
+                    <br/>
                     <ValidationWrapperV1
                         data-tid="ValidationWrapper2"
                         validationInfo={this.validateValue2()}
@@ -74,5 +76,5 @@ class Example1 extends React.Component<{}, Example1State> {
 }
 
 storiesOf("DependentInputs", module).add("Example1", () => {
-    return <Example1 />;
+    return <Example1/>;
 });

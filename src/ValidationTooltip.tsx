@@ -1,5 +1,5 @@
 import * as React from "react";
-import ReactUiDetection, {Tooltip} from "../ReactUiDetection";
+import ReactUiDetection, { Tooltip } from "./ReactUiDetection";
 
 export type TooltipPosition = "top left"
     | "top center"
@@ -78,9 +78,8 @@ export default class ValidationTooltip extends React.Component<ValidationTooltip
                             ref="tooltip"
                             {...props}
                             closeButton={false}
-                            trigger={
-                                this.props.error && (this.state.focus || this.state.mouseOver) ? "opened" : "closed"
-                            }>
+                            trigger={this.props.error && (this.state.focus || this.state.mouseOver) ? "opened" : "closed"}
+                        >
                             {React.cloneElement(prevRenderItem(value, data, ...rest))}
                         </Tooltip>
                     );
@@ -94,7 +93,8 @@ export default class ValidationTooltip extends React.Component<ValidationTooltip
                 ref="tooltip"
                 {...props}
                 closeButton={false}
-                trigger={this.props.error && (this.state.focus || this.state.mouseOver) ? "opened" : "closed"}>
+                trigger={this.props.error && (this.state.focus || this.state.mouseOver) ? "opened" : "closed"}
+            >
                 {React.cloneElement(onlyChild, childProps)}
             </Tooltip>
         );

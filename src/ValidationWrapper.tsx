@@ -1,9 +1,11 @@
 import * as React from "react";
 import * as ReactDom from "react-dom";
 import * as PropTypes from "prop-types";
-import ReactUiDetection from "../ReactUiDetection";
+import { Nullable } from "./Types";
+import ReactUiDetection from "./ReactUiDetection";
 import smoothScrollIntoView from "./smoothScrollIntoView";
-import { Nullable } from "../Types";
+import { IValidationContext } from "./ValidationContext";
+
 const isEqual = require("lodash.isequal");
 
 if (typeof HTMLElement === "undefined") {
@@ -18,23 +20,10 @@ export type Validation = {
     message: React.ReactNode,
 };
 
-export interface IValidationContextSettings {
-    scroll: { horizontalOffset: number, verticalOffset: number };
-}
-
-export interface IValidationContext {
-    register(wrapper: ValidationWrapper): void;
-    unregister(wrapper: ValidationWrapper): void;
-    instanceProcessBlur(wrapper: ValidationWrapper): void;
-    onValidationUpdated(wrapper: ValidationWrapper, isValid: boolean): void;
-    getSettings(): IValidationContextSettings;
-    isAnyWrapperInChangingMode(): boolean;
-}
-
 export type RenderErrorMessage = (
     control: React.ReactElement<any>,
     hasError: boolean,
-    validation: Nullable<Validation>
+    validation: Nullable<Validation>,
 ) => React.ReactElement<any>;
 
 export type ValidationWrapperProps = {
@@ -84,7 +73,7 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
         } else {
             console.error(
                 "ValidationWrapper should appears as child of ValidationContext.\n" +
-                    "http://tech.skbkontur.ru/react-ui-validations/#/getting-started"
+                "http://tech.skbkontur.ru/react-ui-validations/#/getting-started",
             );
         }
     }
@@ -149,7 +138,7 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
         this.isChanging = false;
         const { validations } = this.props;
         await Promise.all(
-            validations.map((x, i) => this.processValidationSubmit(x, this.state.validationStates[i], i))
+            validations.map((x, i) => this.processValidationSubmit(x, this.state.validationStates[i], i)),
         );
     }
 
@@ -164,7 +153,7 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
                             ...this.state.validationStates.slice(index + 1),
                         ],
                     },
-                    resolve
+                    resolve,
                 );
             } else {
                 resolve();
@@ -204,7 +193,7 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
             if (childDomElement != null && childDomElement instanceof HTMLElement) {
                 await smoothScrollIntoView(
                     childDomElement,
-                    this.context.validationContext.getSettings().scroll.verticalOffset || 50
+                    this.context.validationContext.getSettings().scroll.verticalOffset || 50,
                 );
                 if (this.child != null && typeof this.child.focus === "function") {
                     this.child.focus();
@@ -301,11 +290,11 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
                 },
             })
         ) : (
-            <span />
+            <span/>
         );
         const childWithError = React.cloneElement(
             errorMessage(clonedChild, Boolean(validation && validation.error), validation),
-            { ref: "errorMessage" }
+            { ref: "errorMessage" },
         );
         return childWithError;
     }

@@ -1,7 +1,22 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import { IValidationContext, IValidationContextSettings } from "./ValidationWrapper";
 import ValidationWrapper from "./ValidationWrapper";
+
+export interface IValidationContextSettings {
+    scroll: {
+        horizontalOffset: number;
+        verticalOffset: number;
+    };
+}
+
+export interface IValidationContext {
+    register(wrapper: ValidationWrapper): void;
+    unregister(wrapper: ValidationWrapper): void;
+    instanceProcessBlur(wrapper: ValidationWrapper): void;
+    onValidationUpdated(wrapper: ValidationWrapper, isValid: boolean): void;
+    getSettings(): IValidationContextSettings;
+    isAnyWrapperInChangingMode(): boolean;
+}
 
 export type ValidationContextProps = {
     children?: React.ReactNode,
@@ -113,7 +128,6 @@ export default class ValidationContext extends React.Component<ValidationContext
     }
 
     render() {
-        const { children } = this.props;
-        return <span>{children}</span>;
+        return <span>{this.props.children}</span>;
     }
 }

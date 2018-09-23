@@ -4,12 +4,12 @@ import Modal from "retail-ui/components/Modal";
 import Input from "retail-ui/components/Input";
 import Button from "retail-ui/components/Button";
 import Center from "retail-ui/components/Center/Center";
-import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from "../src";
 import { Nullable } from "../src/Types";
+import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from "../src";
 
 storiesOf("ModalWithSingleInput", module)
-    .add("Example1", () => <ModalInputStory />)
-    .add("Example2", () => <SmallModalInputStory />);
+    .add("Example1", () => <ModalInputStory/>)
+    .add("Example2", () => <SmallModalInputStory/>);
 
 interface ModalInputStoryState {
     value: string;
@@ -24,7 +24,8 @@ class ModalInputStory extends React.Component<{}, ModalInputStoryState> {
         const { value } = this.state;
         if (value === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value.split(" ").length !== 2) {
+        }
+        if (value.split(" ").length !== 2) {
             return {
                 message: "Значение должно состоять из двух слов",
                 type: "lostfocus",
@@ -98,11 +99,12 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
         window.scrollTo(1000, 1000);
     }
 
-    validateValue1(): Nullable<ValidationInfo> {
+    validateValue(): Nullable<ValidationInfo> {
         const { value } = this.state;
         if (value === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value.split(" ").length !== 2) {
+        }
+        if (value.split(" ").length !== 2) {
             return {
                 message: "Значение должно состоять из двух слов",
                 type: "lostfocus",
@@ -134,7 +136,7 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
 
                     <ValidationWrapperV1
                         data-tid="ValidationWrapper"
-                        validationInfo={this.validateValue1()}
+                        validationInfo={this.validateValue()}
                         renderMessage={text("bottom")}>
                         <Input
                             data-tid="SingleInput"
@@ -164,7 +166,7 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
                                 </div>
                                 <ValidationWrapperV1
                                     data-tid="ValidationWrapper"
-                                    validationInfo={this.validateValue1()}
+                                    validationInfo={this.validateValue()}
                                     renderMessage={text("bottom")}>
                                     <Input
                                         data-tid="SingleInput"

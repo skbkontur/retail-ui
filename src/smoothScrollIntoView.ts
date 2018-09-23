@@ -1,6 +1,6 @@
-import { Nullable, Omit } from "../Types";
+import { Nullable, Omit } from "./Types";
 
-async function smoothScrollIntoView(element: HTMLElement, topOffset: number): Promise<void> {
+export default async function smoothScrollIntoView(element: HTMLElement, topOffset: number): Promise<void> {
     const scrollableParent = findScrollableParent(element);
     const parentRects = scrollableParent.getBoundingClientRect();
     const clientRects = element.getBoundingClientRect();
@@ -13,7 +13,7 @@ async function smoothScrollIntoView(element: HTMLElement, topOffset: number): Pr
         await smoothScroll(
             scrollableParent,
             scrollableParent.scrollLeft + clientRects.left - parentRects.left,
-            scrollableParent.scrollTop + clientRects.top - parentRects.top - topOffset
+            scrollableParent.scrollTop + clientRects.top - parentRects.top - topOffset,
         );
         await scrollBy({
             left: parentRects.left,
@@ -29,8 +29,6 @@ async function smoothScrollIntoView(element: HTMLElement, topOffset: number): Pr
         });
     }
 }
-
-export default smoothScrollIntoView;
 
 function smoothScroll(element: HTMLElement, x: number, y: number): Promise<void> {
     let context: Omit<StepContent, "resolve">;
@@ -140,7 +138,7 @@ function scrollBy({ left, top }: { left: number, top: number }): Promise<void> {
     return smoothScroll(
         getDocumentBodyStrict(),
         Math.floor(left) + (window.scrollX || window.pageXOffset),
-        Math.floor(top) + (window.scrollY || window.pageYOffset)
+        Math.floor(top) + (window.scrollY || window.pageYOffset),
     );
 }
 

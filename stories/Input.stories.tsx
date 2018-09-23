@@ -3,8 +3,8 @@ import { storiesOf } from "@storybook/react";
 import Input from "retail-ui/components/Input";
 import Button from "retail-ui/components/Button";
 import Select from "retail-ui/components/Select";
-import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from "../src";
 import { Nullable } from "../src/Types";
+import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from "../src";
 
 interface Example1State {
     value: string;
@@ -15,11 +15,12 @@ class Example1 extends React.Component<{}, Example1State> {
         value: "",
     };
 
-    validateValue1(): Nullable<ValidationInfo> {
+    validateValue(): Nullable<ValidationInfo> {
         const { value } = this.state;
         if (value === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value.split(" ").length !== 2) {
+        }
+        if (value.split(" ").length !== 2) {
             return { message: "Значение должно состоять из двух слов", type: "lostfocus" };
         }
         return null;
@@ -29,8 +30,8 @@ class Example1 extends React.Component<{}, Example1State> {
         return (
             <ValidationContainer>
                 <div style={{ padding: 10 }}>
-                    <ValidationWrapperV1 validationInfo={this.validateValue1()} renderMessage={text("bottom")}>
-                        <Input value={this.state.value} onChange={(e, value) => this.setState({ value })} />
+                    <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text("bottom")}>
+                        <Input value={this.state.value} onChange={(e, value) => this.setState({ value })}/>
                     </ValidationWrapperV1>
                 </div>
             </ValidationContainer>
@@ -47,11 +48,12 @@ class Example2 extends React.Component<{}, Example2State> {
         value: "",
     };
 
-    validateValue1(): Nullable<ValidationInfo> {
+    validateValue(): Nullable<ValidationInfo> {
         const { value } = this.state;
         if (value === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value.split(" ").length !== 2) {
+        }
+        if (value.split(" ").length !== 2) {
             return { message: <span>Значение должно состоять из двух слов.</span>, type: "lostfocus" };
         }
         return null;
@@ -61,8 +63,8 @@ class Example2 extends React.Component<{}, Example2State> {
         return (
             <ValidationContainer>
                 <div style={{ padding: 10 }}>
-                    <ValidationWrapperV1 validationInfo={this.validateValue1()} renderMessage={text("bottom")}>
-                        <Input value={this.state.value} onChange={(e, value) => this.setState({ value })} />
+                    <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text("bottom")}>
+                        <Input value={this.state.value} onChange={(e, value) => this.setState({ value })}/>
                     </ValidationWrapperV1>
                 </div>
             </ValidationContainer>
@@ -79,11 +81,12 @@ class Example3 extends React.Component<{}, Example3State> {
         value: "",
     };
 
-    validateValue1(): Nullable<ValidationInfo> {
+    validateValue(): Nullable<ValidationInfo> {
         const { value } = this.state;
         if (value === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value.split(" ").length !== 2) {
+        }
+        if (value.split(" ").length !== 2) {
             return { message: <span>Значение должно состоять из двух слов.</span>, type: "lostfocus" };
         }
         return null;
@@ -94,12 +97,12 @@ class Example3 extends React.Component<{}, Example3State> {
             <ValidationContainer ref="container">
                 <div style={{ padding: 10 }}>
                     <Button onClick={() => this.submit()}>Отправить</Button>
-                    <div style={{ height: 1000, backgroundColor: "#eee" }} />
-                    <ValidationWrapperV1 validationInfo={this.validateValue1()} renderMessage={text("bottom")}>
-                        <Input value={this.state.value} onChange={(e, value) => this.setState({ value })} />
+                    <div style={{ height: 1000, backgroundColor: "#eee" }}/>
+                    <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text("bottom")}>
+                        <Input value={this.state.value} onChange={(e, value) => this.setState({ value })}/>
                     </ValidationWrapperV1>
                     <Button onClick={() => this.submit()}>Отправить</Button>
-                    <div style={{ height: 1000, backgroundColor: "#eee" }} />
+                    <div style={{ height: 1000, backgroundColor: "#eee" }}/>
                     <Button onClick={() => this.submit()}>Отправить</Button>
                 </div>
             </ValidationContainer>
@@ -128,7 +131,8 @@ class Example4 extends React.Component<{}, Example4State> {
         const { type, value } = this.state;
         if (value === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (type !== null && value !== type) {
+        }
+        if (type !== null && value !== type) {
             return { message: <span>Значение должно быть равно type.</span>, type: "lostfocus" };
         }
         return null;
@@ -144,9 +148,9 @@ class Example4 extends React.Component<{}, Example4State> {
                         onChange={(e, value) => this.setState({ type: value })}
                     />
                     <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text("bottom")}>
-                        <Input value={this.state.value} onChange={(e, value) => this.setState({ value: value })} />
+                        <Input value={this.state.value} onChange={(e, value) => this.setState({ value: value })}/>
                     </ValidationWrapperV1>
-                    <div style={{ height: 1000, backgroundColor: "#eee" }} />
+                    <div style={{ height: 1000, backgroundColor: "#eee" }}/>
                     <Button onClick={() => (this.refs.container as ValidationContainer).submit()}>Отправить</Button>
                 </div>
             </ValidationContainer>
@@ -163,11 +167,12 @@ class Example5 extends React.Component<{}, Example5State> {
         value: "",
     };
 
-    validateValue1(): Nullable<ValidationInfo> {
+    validateValue(): Nullable<ValidationInfo> {
         const { value } = this.state;
         if (value === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value.split(" ").length !== 2) {
+        }
+        if (value.split(" ").length !== 2) {
             return { message: <span>Значение должно состоять из двух слов.</span>, type: "lostfocus" };
         }
         return null;
@@ -177,15 +182,15 @@ class Example5 extends React.Component<{}, Example5State> {
         return (
             <ValidationContainer ref="container">
                 <div style={{ padding: 50 }}>
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
                     <div style={{ height: 300, width: 300, overflow: "scroll" }}>
                         <div style={{ height: 1000, width: 1000, position: "relative" }}>
                             <div style={{ position: "absolute", top: 500, left: 500 }}>
                                 <ValidationWrapperV1
-                                    validationInfo={this.validateValue1()}
+                                    validationInfo={this.validateValue()}
                                     renderMessage={text("bottom")}>
                                     <Input
                                         value={this.state.value}
@@ -217,7 +222,8 @@ class Example6 extends React.Component<{}, Example6State> {
         const { value1 } = this.state;
         if (value1 === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value1.split(" ").length !== 2) {
+        }
+        if (value1.split(" ").length !== 2) {
             return { message: <span>Значение должно состоять из двух слов.</span>, type: "lostfocus" };
         }
         return null;
@@ -227,7 +233,8 @@ class Example6 extends React.Component<{}, Example6State> {
         const { value2 } = this.state;
         if (value2 === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value2.split(" ").length !== 2) {
+        }
+        if (value2.split(" ").length !== 2) {
             return { message: <span>Значение должно состоять из двух слов.</span>, type: "lostfocus" };
         }
         return null;
@@ -276,7 +283,8 @@ class Example7 extends React.Component<{}, Example7State> {
     validateValue(value: string): Nullable<ValidationInfo> {
         if (value === "") {
             return { message: "Должно быть не пусто", type: "submit" };
-        } else if (value.split(" ").length !== 2) {
+        }
+        if (value.split(" ").length !== 2) {
             return { message: "Значение должно состоять из двух слов.", type: "lostfocus" };
         }
         return null;
@@ -289,17 +297,17 @@ class Example7 extends React.Component<{}, Example7State> {
                 <div>
                     <div style={{ padding: 20 }}>
                         <ValidationWrapperV1 validationInfo={this.validateValue(value1)}>
-                            <Input value={value1} onChange={(e, value) => this.setState({ value1: value })} />
+                            <Input value={value1} onChange={(e, value) => this.setState({ value1: value })}/>
                         </ValidationWrapperV1>
                     </div>
                     <div style={{ padding: 20 }}>
                         <ValidationWrapperV1 validationInfo={this.validateValue(value2)}>
-                            <Input value={value2} onChange={(e, value) => this.setState({ value2: value })} />
+                            <Input value={value2} onChange={(e, value) => this.setState({ value2: value })}/>
                         </ValidationWrapperV1>
                     </div>
                     <div style={{ padding: 20 }}>
                         <ValidationWrapperV1 validationInfo={this.validateValue(value3)}>
-                            <Input value={value3} onChange={(e, value) => this.setState({ value3: value })} />
+                            <Input value={value3} onChange={(e, value) => this.setState({ value3: value })}/>
                         </ValidationWrapperV1>
                     </div>
                 </div>
@@ -311,23 +319,23 @@ class Example7 extends React.Component<{}, Example7State> {
 
 storiesOf("Input", module)
     .add("#1", () => {
-        return <Example1 />;
+        return <Example1/>;
     })
     .add("#2 ReactElement в сообщении", () => {
-        return <Example2 />;
+        return <Example2/>;
     })
     .add("#3 Промотка сообщении", () => {
-        return <Example3 />;
+        return <Example3/>;
     })
     .add("#4 Зависимые поля", () => {
-        return <Example4 />;
+        return <Example4/>;
     })
     .add("#5 Промотка внутри котейнера", () => {
-        return <Example5 />;
+        return <Example5/>;
     })
     .add("#6 Выбор первого контра для валидации", () => {
-        return <Example6 />;
+        return <Example6/>;
     })
     .add("#7 Три невалидных поля по сабмиту", () => {
-        return <Example7 />;
+        return <Example7/>;
     });
