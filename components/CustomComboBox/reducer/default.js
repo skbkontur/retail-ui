@@ -91,7 +91,12 @@ const Effect = {
     getProps
   ) => {
     const { onUnexpectedInput } = getProps();
-    onUnexpectedInput && onUnexpectedInput(textValue);
+    if (onUnexpectedInput) {
+      const value = onUnexpectedInput(textValue);
+      if (value === null) {
+        dispatch({ type: 'TextClear', value: '' });
+      }
+    }
   },
   InputChange: ((dispatch, getState, getProps) => {
     const { onInputChange } = getProps();
@@ -154,8 +159,7 @@ const reducers: { [type: string]: Reducer } = {
     }
     return {
       ...state,
-      opened: false,
-      editing: props.error
+      opened: false
     };
   },
   Blur(state, props, action) {
@@ -220,6 +224,11 @@ const reducers: { [type: string]: Reducer } = {
       },
       [Effect.DebouncedSearch, Effect.InputChange]
     ];
+  },
+  TextClear(state, props, action) {
+    return {
+      textValue: action.value
+    };
   },
   ValueChange(state, props, action) {
     return [
