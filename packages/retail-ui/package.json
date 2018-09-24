@@ -44,6 +44,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@skbkontur/react-icons": "^2.0.1",
     "add-event-listener": "0.0.1",
     "classnames": "^2.2.6",
     "create-react-context": "^0.2.2",
