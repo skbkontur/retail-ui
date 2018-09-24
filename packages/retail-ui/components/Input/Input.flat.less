@@ -6,8 +6,9 @@
   @side-padding-padded: 27px;
 
   @small-vertical-padding: 6px;
-  @medium-vertical-padding: 9px;
-  @large-vertical-padding: 11px;
+  @medium-vertical-padding: 8px;
+  @DEPRECATED_medium-vertical-padding: 9px;
+  @large-vertical-padding: 10px;
 
   .root {
     display: inline-block;
@@ -61,7 +62,12 @@
     padding-bottom: @small-vertical-padding;
   }
 
-  .DEPRECATED_sizeMedium,
+  .DEPRECATED_sizeMedium .input {
+    font-size: 14px;
+    padding-top: @DEPRECATED_medium-vertical-padding;
+    padding-bottom: @DEPRECATED_medium-vertical-padding;
+  }
+
   .sizeMedium {
     .input {
       font-size: 16px;
