@@ -1,239 +1,201 @@
 import warning from 'warning';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import * as Icons from '@skbkontur/react-icons';
 
-import Icons from './Kontur-Iconic';
-
-import styles = require('./Icon.less');
-
-const MAP: { [key: string]: string } = {
-  error: '\ue004',
-  warning: '\ue005',
-  ok: '\ue006',
-  star: '\ue007',
-  'star-o': '\ue09d',
-  fired: '\ue008',
-  cert: '\ue00a',
-  smile: '\ue00b',
-  sad: '\ue00c',
-  'thumbs-up': '\ue073',
-  'thumbs-down': '\ue074',
-  wait: '\ue021',
-  opened: '\ue02d',
-  closed: '\ue02e',
-  bell: '\ue06c',
-
-  'up-down': '\ue01f',
-  'right-left': '\ue06d',
-
-  'arrow-top': '\ue042',
-  'arrow-right': '\ue041',
-  'arrow-bottom': '\ue040',
-  'arrow-left': '\ue04f',
-
-  'caret-top': '\ue04d',
-  'caret-right': '\ue04a',
-  'caret-bottom': '\ue04c',
-  'caret-left': '\ue04b',
-
-  'angle-top': '\ue059',
-  'angle-right': '\ue066',
-  'angle-bottom': '\ue058',
-  'angle-left': '\ue065',
-
-  'arrow-up-right': '\ue088',
-  'arrow-down-right': '\ue089',
-  'arrow-down-left': '\ue08a',
-  'arrow-up-left': '\ue08b',
-  maximize: '\ue085',
-  minimize: '\ue086',
-  drag: '\ue0c8',
-
-  enter: '\ue098',
-
-  ellipsis: '\ue048',
-  sort: '\ue049',
-
-  circle: '\ue001',
-  'circle-o': '\ue082',
-  'circle-o-dotted': '\ue099',
-  'circle-small': '\ue068',
-  'circle-small-o': '\ue083',
-  cloud: '\ue002',
-  android: '\ue06a',
-  baseline: '\ue003',
-  grid: '\ue03e',
-
-  add: '\ue00d',
-  remove: '\ue00e',
-  minus: '\ue01e',
-  edit: '\ue00f',
-  copy: '\ue097',
-  search: '\ue009',
-  comp: '\ue069',
-  print: '\ue010',
-  envelop: '\ue011',
-  'envelop-o': '\ue078',
-  'mail-in': '\ue079',
-  'mail-out': '\ue07a',
-  'send-o': '\ue095',
-  send: '\ue096',
-  fx: '\ue036',
-  calendar: '\ue023',
-  undo: '\ue012',
-  redo: '\ue09c',
-  forward: '\ue013',
-  backward: '\ue014',
-  sum: '\ue02a',
-  card: '\ue019',
-  import: '\ue01a',
-  export: '\ue027',
-  cart: '\ue07c',
-  'cart-o': '\ue07b',
-  shipment: '\ue02b',
-  clear: '\ue030',
-  refresh: '\ue029',
-  'new-window': '\ue061',
-  link: '\ue062',
-  marker: '\ue075',
-  archive: '\ue076',
-  unarchive: '\ue077',
-  child: '\ue094',
-  vacation: '\ue09a',
-  sick: '\ue09b',
-  'shop-cashregister': '\ue0C5',
-  'shop-receipt': '\ue0C6',
-
-  'play-forward': '\ue050',
-  'play-backward': '\ue051',
-  right: '\ue052',
-  left: '\ue053',
-
-  list: '\ue01b',
-  groups: '\ue01c',
-  gear: '\ue018',
-  tag: '\ue016',
-  video: '\ue017',
-  menu: '\ue01d',
-  user: '\ue020',
-  'user-gear': '\ue05b',
-  people: '\ue093',
-  trash: '\ue022',
-  upload: '\ue02c',
-  download: '\ue015',
-  help: '\ue037',
-  'help-o': '\ue038',
-  'help-circle': '\ue055',
-  info: '\ue06f',
-  login: '\ue067',
-  logout: '\ue039',
-  home: '\ue05c',
-  hourglass: '\ue071',
-  'comment-o': '\ue054',
-  comment: '\ue05d',
-
-  'eye-slash': '\ue043',
-  eye: '\ue044',
-  infinity: '\ue03f',
-  'map-pin': '\ue04e',
-  pin: '\ue06b',
-  clip: '\ue045',
-  money: '\ue046',
-  coins: '\ue05a',
-  stats: '\ue047',
-  filter: '\ue060',
-  bulb: '\ue06e',
-  heart: '\ue070',
-  'font-size': '\ue084',
-  flag: '\ue081',
-  'flag-o': '\ue080',
-  services: '\ue07d',
-  suitcase: '\ue07e',
-
-  doc: '\ue024',
-  'doc-o': '\ue087',
-  'doc-group': '\ue02f',
-  'doc-auto': '\ue05f',
-  'doc-revise': '\ue07f',
-  'doc-new': '\ue025',
-  'doc-duplicate': '\ue026',
-  'doc-convert': '\ue0b9',
-  folder: '\ue028',
-  'doc-doc': '\ue031',
-  'doc-rtf': '\ue064',
-  'doc-pdf': '\ue032',
-  'doc-txt': '\ue033',
-  'doc-xls': '\ue034',
-  'doc-xml': '\ue035',
-
-  phone: '\ue03b',
-  'phone-o': '\ue091',
-  vk: '\ue03d',
-  'vk-o': '\ue08c',
-  odnoklassniki: '\ue056',
-  'odnoklassniki-o': '\ue08f',
-  facebook: '\ue03a',
-  'facebook-o': '\ue08d',
-  twitter: '\ue03c',
-  'twitter-o': '\ue08e',
-  'google-plus': '\ue063',
-  'google-plus-o': '\ue090',
-  youtube: '\ue057',
-  instagram: '\ue072',
-  rss: '\ue05e',
-  'rss-o': '\ue092',
-  ruble: '\u20bd',
-
-  // 11.08.2016
-  apple: '\ue0c0',
-  windows: '\ue0c1',
-  car: '\ue0c2',
-  boat: '\ue0c3',
-  'document-declined': '\ue0c4',
-  cash: '\ue0c5',
-  'cash receipt': '\ue0c6',
-
-  // 12.09.2016
-  smartphone: '\ue0c7',
-
-  // 7.10.2016
-  kebab: '\ue0c9',
-
-  // 3.11.2016
-  'comment-add': '\ue0ca',
-  shutter: '\ue0cb',
-  'smartphone-slash': '\ue0cc',
-  telegram: '\ue0cd',
-  'telegram-o': '\ue0ce',
-
-  // 16.11.2016
-  'heart-o': '\ue0cf',
-  office: '\ue0d0',
-
-  // 2.12.2016
-  'arrows-h-aside': '\ue0d1',
-  'arrows-h-inside': '\ue0d2',
-  'tree-structure': '\ue0d3',
-  calculator: '\ue0d4',
-
-  // 3.02.2017
-  key: '\ue0d6',
-  'ok-double': '\ue0d5',
-
-  // 24.03.2017
-  'flash-drive': '\ue0d7',
-
-  // 17.04.2018
-  'send-h': '\uE0E0'
+const old2newIcons: { [key: string]: IconName } = {
+  error: 'Error',
+  warning: 'Warning',
+  ok: 'Ok',
+  star: 'Star',
+  'star-o': 'Star2',
+  fired: 'Fired',
+  cert: 'Certificate',
+  smile: 'EmoticonHappy',
+  sad: 'EmoticonSad',
+  'thumbs-up': 'ThumbUp',
+  'thumbs-down': 'ThumbDown',
+  wait: 'Clock',
+  opened: 'LockOpened',
+  closed: 'LockClosed',
+  bell: 'NotificationBell',
+  'up-down': 'ArrowParallelVertical',
+  'right-left': 'ArrowParallelHorizontal',
+  'arrow-top': 'ArrowBoldUp',
+  'arrow-right': 'ArrowBoldRight',
+  'arrow-bottom': 'ArrowBoldDown',
+  'arrow-left': 'ArrowBoldLeft',
+  'caret-top': 'ArrowTriangleUp',
+  'caret-right': 'ArrowTriangleRight',
+  'caret-bottom': 'ArrowTriangleDown',
+  'caret-left': 'ArrowTriangleLeft',
+  'angle-top': 'ArrowChevronUp',
+  'angle-right': 'ArrowChevronRight',
+  'angle-bottom': 'ArrowChevronDown',
+  'angle-left': 'ArrowChevronLeft',
+  'arrow-up-right': 'ArrowSize1',
+  'arrow-down-right': 'ArrowSize2',
+  'arrow-down-left': 'ArrowSize3',
+  'arrow-up-left': 'ArrowSize4',
+  maximize: 'ArrowSizeMax',
+  minimize: 'ArrowSizeMin',
+  drag: 'ArrowDrag',
+  enter: 'ArrowCorner1',
+  ellipsis: 'MenuDots',
+  sort: 'ArrowTriangleUpDown',
+  circle: 'Dot12',
+  'circle-o': 'Dot12Lite',
+  'circle-o-dotted': 'Dot12Dashed',
+  'circle-small': 'Dot8',
+  'circle-small-o': 'Dot8Lite',
+  cloud: 'Cloud',
+  android: 'Android',
+  baseline: 'Baseline',
+  grid: 'Grid',
+  add: 'Add',
+  remove: 'Delete',
+  minus: 'Remove',
+  edit: 'Edit',
+  copy: 'Copy',
+  search: 'Search',
+  comp: 'PC',
+  print: 'Print',
+  envelop: 'Mail',
+  'envelop-o': 'Mail2',
+  'mail-in': 'Mail2In',
+  'mail-out': 'Mail2Out',
+  'send-o': 'Send',
+  send: 'Send2',
+  fx: 'Function',
+  calendar: 'Calendar',
+  undo: 'Undo',
+  redo: 'Redo',
+  forward: 'ArrowChevron2Right',
+  backward: 'ArrowChevron2Left',
+  sum: 'Sum',
+  card: 'Card',
+  import: 'Import',
+  export: 'Export',
+  cart: 'ShoppingCartSolid',
+  'cart-o': 'ShoppingCartLite',
+  shipment: 'Shipment',
+  clear: 'Clear',
+  refresh: 'Refresh',
+  'new-window': 'NewWindow',
+  link: 'Link',
+  marker: 'Marker',
+  archive: 'ArchivePack',
+  unarchive: 'ArchiveUnpack',
+  child: 'Baby',
+  vacation: 'Vacation',
+  sick: 'Medical',
+  'shop-cashregister': 'ShopCashregister',
+  'shop-receipt': 'ShopReceipt',
+  'play-forward': 'Forward',
+  'play-backward': 'Backward',
+  right: 'Reply',
+  left: 'Skip',
+  list: 'ListRows',
+  groups: 'ListGroup',
+  gear: 'Settings',
+  tag: 'Tag',
+  video: 'Video',
+  menu: 'Menu',
+  user: 'User',
+  'user-gear': 'UserSettings',
+  people: 'People',
+  trash: 'Trash',
+  upload: 'Upload',
+  download: 'Download',
+  help: 'HelpBook',
+  'help-o': 'HelpLite',
+  'help-circle': 'HelpDot',
+  info: 'Info',
+  login: 'Login',
+  logout: 'Logout',
+  home: 'Home',
+  hourglass: 'Loading',
+  'comment-o': 'CommentLite',
+  comment: 'CommentSolid',
+  'eye-slash': 'EyeClosed',
+  eye: 'EyeOpened',
+  infinity: 'Infiniti',
+  'map-pin': 'MapPin',
+  pin: 'Pin',
+  clip: 'Attach',
+  money: 'Coin',
+  coins: 'Coins',
+  stats: 'Statistic',
+  filter: 'Filter',
+  bulb: 'Lightbulb',
+  heart: 'Heart',
+  'font-size': 'FontSize',
+  flag: 'FlagSolid',
+  'flag-o': 'FlagLite',
+  services: 'Handshake',
+  suitcase: 'Briefcase',
+  doc: 'DocumentSolid',
+  'doc-o': 'DocumentLite',
+  'doc-group': 'DocumentGroup',
+  'doc-auto': 'DocumentRefresh',
+  'doc-revise': 'DocumentCheck',
+  'doc-new': 'DocumentAdd',
+  'doc-duplicate': 'DocumentCopy',
+  'doc-convert': 'DocumentConvert',
+  folder: 'DocumentFolder',
+  'doc-doc': 'DocumentTypeDoc',
+  'doc-rtf': 'DocumentTypeRtf',
+  'doc-pdf': 'DocumentTypePdf',
+  'doc-txt': 'DocumentTypeTxt',
+  'doc-xls': 'DocumentTypeXls',
+  'doc-xml': 'DocumentTypeXml',
+  phone: 'Phone',
+  'phone-o': 'Phone2',
+  vk: 'Vkontakte',
+  'vk-o': 'Vkontakte2',
+  odnoklassniki: 'Odnoklassniki',
+  'odnoklassniki-o': 'Odnoklassniki2',
+  facebook: 'Facebook',
+  'facebook-o': 'Facebook2',
+  twitter: 'Twitter',
+  'twitter-o': 'Twitter2',
+  'google-plus': 'GooglePlus',
+  'google-plus-o': 'GooglePlus2',
+  youtube: 'Youtube',
+  instagram: 'Instagram',
+  rss: 'Rss',
+  'rss-o': 'Rss2',
+  ruble: 'Ruble',
+  apple: 'Apple',
+  windows: 'Windows',
+  car: 'OwnershipCar',
+  boat: 'OwnershipBoat',
+  'document-declined': 'DocumentCheck2',
+  cash: 'ShopCashregister',
+  'cash receipt': 'ShopReceipt',
+  smartphone: 'DeviceSmartphone',
+  kebab: 'MenuKebab',
+  'comment-add': 'CommentLiteAdd',
+  shutter: 'ArrowTriangleUpDown2',
+  'smartphone-slash': 'DeviceSmartphoneNo',
+  telegram: 'Telegram',
+  'telegram-o': 'Telegram2',
+  'heart-o': 'HeartLite',
+  office: 'HomeOffice',
+  'arrows-h-aside': 'ArrowTriangleUpDown3',
+  'arrows-h-inside': 'ArrowTriangleUpDown4',
+  'tree-structure': 'StructureTree',
+  calculator: 'Calculator',
+  key: 'Key',
+  'ok-double': 'OkDouble',
+  'flash-drive': 'USB',
+  'send-h': 'Send3'
 };
 
 export type IconName = keyof typeof Icons;
 
-function getNewIconName(name: string) {
-  const newIcon = Object.keys(Icons).find(
-    x => (Icons as { [key: string]: string })[x] === MAP[name]
-  );
-  return newIcon ? newIcon : null;
+function getNewIconName(name: string): IconName | undefined {
+  return old2newIcons[name];
 }
 
 export interface IconProps {
@@ -249,7 +211,7 @@ class Icon extends React.Component<IconProps> {
     /**
      * Icon id.
      */
-    name: PropTypes.oneOf(Object.keys(Icons).concat(Object.keys(MAP))),
+    name: PropTypes.oneOf(Object.keys(Icons).concat(Object.keys(old2newIcons))),
 
     size: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   };
@@ -278,17 +240,19 @@ class Icon extends React.Component<IconProps> {
   }
 
   public render(): JSX.Element {
-    const { name, color, size } = this.props;
-    const style = {
-      color,
-      fontSize: size
-    };
-    const icon = Icons[name] || MAP[name];
-    return (
-      <span className={styles.root} style={style}>
-        {icon}
-      </span>
-    );
+    const { name, ...restProps } = this.props;
+    const newName = getNewIconName(name);
+    let SvgIcon = null;
+    if (name in Icons) {
+      SvgIcon = Icons[name];
+    } else if (newName !== undefined) {
+      SvgIcon = Icons[newName];
+    }
+    // TODO Throw error?
+    if (SvgIcon == null) {
+      return <span />;
+    }
+    return <SvgIcon {...restProps} />;
   }
 
   private checkDeprecatedName(props: IconProps) {
