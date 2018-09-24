@@ -205,10 +205,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       onMouseUp,
       onMouseDown,
       onClick,
-      onDoubleClick,
-      style: {
-        width
-      }
+      onDoubleClick
     };
 
     const textareaClassNames = classNames({
@@ -218,7 +215,8 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     });
 
     const textAreaStyle = {
-      resize: autoResize ? 'none' : resize
+      resize: autoResize ? 'none' : resize,
+      width
     };
 
     let placeholder = null;
