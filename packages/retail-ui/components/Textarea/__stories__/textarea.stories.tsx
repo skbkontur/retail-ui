@@ -4,10 +4,13 @@ import { storiesOf } from '@storybook/react';
 import Textarea from '../Textarea';
 
 interface AutoresizableTextareaState {
-  value: string | null
-};
+  value: string | null;
+}
 
-class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaState> {
+class AutoresizableTextarea extends React.Component<
+  {},
+  AutoresizableTextareaState
+> {
   public state = {
     value: ''
   };
@@ -35,7 +38,9 @@ class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaSta
   };
 }
 
-storiesOf('Textarea', module).add('Simple', () => <Textarea value="" />).add('Filled', () => (
+storiesOf('Textarea', module)
+  .add('Simple', () => <Textarea value="" />)
+  .add('Filled', () => (
     <Textarea
       value={
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit.\
@@ -44,7 +49,8 @@ storiesOf('Textarea', module).add('Simple', () => <Textarea value="" />).add('Fi
         officia alias aperiam eum quas.'
       }
     />
-  )).add('With error', () => (
+  ))
+  .add('With error', () => (
     <Textarea
       error
       value={
@@ -54,7 +60,8 @@ storiesOf('Textarea', module).add('Simple', () => <Textarea value="" />).add('Fi
         officia alias aperiam eum quas.'
       }
     />
-  )).add('Textarea in inline-flex and text', () => (
+  ))
+  .add('Textarea in inline-flex and text', () => (
     <div>
       <div style={{ display: 'inline-flex' }}>
         <Textarea
@@ -68,4 +75,16 @@ storiesOf('Textarea', module).add('Simple', () => <Textarea value="" />).add('Fi
       </div>
       Lorem text
     </div>
-  )).add('Autoresizable textarea', () => <AutoresizableTextarea />);
+  ))
+  .add('Autoresizable textarea', () => <AutoresizableTextarea />)
+  .add('Textarea with custom width', () => (
+    <Textarea
+      width={400}
+      value={
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit.\
+            Modi enim voluptatum esse, id libero voluptas similique beatae,\
+            molestiae, impedit corrupti corporis asperiores odit ullam\
+            provident officia alias aperiam eum quas.'
+      }
+    />
+  ));

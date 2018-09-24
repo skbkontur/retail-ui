@@ -21,6 +21,8 @@ const styles: typeof CssStyles = isFlatDesign
   ? require('./Textarea.flat.less')
   : require('./Textarea.less');
 
+const DEFAULT_WIDTH = 250;
+
 export interface TextareaProps {
   error?: boolean;
   warning?: boolean;
@@ -183,7 +185,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       onMouseDown,
       onClick,
       onDoubleClick,
-      width,
+      width = DEFAULT_WIDTH,
       error,
       warning,
       autoResize,
@@ -213,8 +215,8 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     });
 
     const textAreaStyle = {
-      width,
-      resize: autoResize ? 'none' : resize
+      resize: autoResize ? 'none' : resize,
+      width
     };
 
     let placeholder = null;
