@@ -3,6 +3,7 @@ import InputMask from 'inputmask-core';
 import { InputProps } from '../../Input';
 import styles = require('./MaskedInput.less');
 import classNames from 'classnames';
+import { Nullable } from '../../../typings/utility-types';
 
 export interface Selection {
   start: number;
