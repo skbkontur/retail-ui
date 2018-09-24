@@ -13,7 +13,7 @@ interface TestTooltipProps {
 
 class TestTooltip extends React.Component<TestTooltipProps> {
   public static defaultProps: {
-    pos: PopupPosition
+    pos: PopupPosition;
   } = {
     pos: 'top center'
   };
@@ -127,13 +127,29 @@ storiesOf('Tooltip', module)
         <Button>Hover me (disableAnimations: true)</Button>
       </Tooltip>
     </div>
+  ))
+  .add('tooltip with inline-block caption', () => (
+    <TestTooltip trigger="opened" pos="top center">
+      <span
+        style={{
+          display: 'inline-block',
+          padding: '30px 40px',
+          border: '2px solid'
+        }}
+      >
+        I'm inline-block with paddings
+      </span>
+    </TestTooltip>
   ));
 
 interface MyCustomTooltipState {
-  state: TooltipTrigger
+  state: TooltipTrigger;
 }
 
-class MyCustomTooltip extends React.Component<TestTooltipProps, MyCustomTooltipState> {
+class MyCustomTooltip extends React.Component<
+  TestTooltipProps,
+  MyCustomTooltipState
+> {
   public state: MyCustomTooltipState = {
     state: 'hover'
   };

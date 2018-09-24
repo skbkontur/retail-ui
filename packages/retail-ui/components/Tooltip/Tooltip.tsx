@@ -217,6 +217,10 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   private _getProps() {
+    const commonWrapperProps = {
+      className: styles.wrapper
+    };
+
     switch (this.props.trigger) {
       case 'opened':
         return {
@@ -224,7 +228,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
             active: true,
             onClickOutside: this.handleClickOutside
           },
-          wrapperProps: {},
+          wrapperProps: { ...commonWrapperProps },
           popupProps: {
             opened: true
           }
@@ -233,7 +237,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       case 'closed':
         return {
           layerProps: {},
-          wrapperProps: {},
+          wrapperProps: { ...commonWrapperProps },
           popupProps: {
             opened: false
           }
@@ -243,6 +247,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         return {
           layerProps: {},
           wrapperProps: {
+            ...commonWrapperProps,
             onMouseEnter: this.handleMouseEnter,
             onMouseLeave: this.handleMouseLeave
           },
@@ -261,6 +266,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
             onClickOutside: this.handleClickOutside
           },
           wrapperProps: {
+            ...commonWrapperProps,
             onClick: this.handleClick
           },
           popupProps: {}
@@ -270,6 +276,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         return {
           layerProps: {},
           wrapperProps: {
+            ...commonWrapperProps,
             onFocus: this.handleFocus,
             onBlur: this.handleBlur
           },
