@@ -425,6 +425,16 @@ class OpenSidePageWithLeftPosition extends React.Component<
   private close = () => this.setState({ open: false });
 }
 
+class SimpleSidePage extends React.Component<{}, {}> {
+  public render() {
+    return (
+      <div style={{ width: '300px' }}>
+        <Sample total={1} current={1} ignoreBackgroundClick withContent />
+      </div>
+    );
+  }
+}
+
 storiesOf('SidePage', module)
   .add('With scrollable parent content', () => (
     <SidePageWithScrollableContent />
@@ -445,4 +455,5 @@ storiesOf('SidePage', module)
   ))
   .add('Open SidePage with left position', () => (
     <OpenSidePageWithLeftPosition />
-  ));
+  ))
+  .add('Simple', () => <SimpleSidePage />);
