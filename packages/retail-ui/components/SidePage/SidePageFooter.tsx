@@ -35,35 +35,29 @@ export default class SidePageFooter extends React.Component<
 
   public render(): JSX.Element {
     return (
-      <tr>
-        <td
-          className={styles.layoutItem}
-          style={{ height: this.getContentHeight() }}
-          ref={this.refWrapper}
-        >
-          <SidePageContext.Consumer>
-            {({ width }) => (
+      <div style={{ height: this.getContentHeight() }} ref={this.refWrapper}>
+        <SidePageContext.Consumer>
+          {({ width }) => (
+            <div
+              style={{
+                position: 'fixed',
+                bottom: 0,
+                width
+              }}
+            >
               <div
-                style={{
-                  position: 'fixed',
-                  bottom: 0,
-                  width
-                }}
+                className={classNames(styles.footer, {
+                  [styles.panel]: this.props.panel,
+                  [styles.fixed]: this.state.fixed
+                })}
+                ref={this.refContent}
               >
-                <div
-                  className={classNames(styles.footer, {
-                    [styles.panel]: this.props.panel,
-                    [styles.fixed]: this.state.fixed
-                  })}
-                  ref={this.refContent}
-                >
-                  {this.props.children}
-                </div>
+                {this.props.children}
               </div>
-            )}
-          </SidePageContext.Consumer>
-        </td>
-      </tr>
+            </div>
+          )}
+        </SidePageContext.Consumer>
+      </div>
     );
   }
 

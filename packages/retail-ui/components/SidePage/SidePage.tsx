@@ -164,18 +164,16 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
             )}
             style={this.getSidebarStyle()}
           >
-            <table ref={_ => (this.layoutRef = _)} className={styles.layout}>
-              <tbody>
-                <SidePageContext.Provider
-                  value={{
-                    requestClose: this.requestClose,
-                    width: sidePageWidth
-                  }}
-                >
-                  {this.props.children}
-                </SidePageContext.Provider>
-              </tbody>
-            </table>
+            <div ref={_ => (this.layoutRef = _)} className={styles.layout}>
+              <SidePageContext.Provider
+                value={{
+                  requestClose: this.requestClose,
+                  width: sidePageWidth
+                }}
+              >
+                {this.props.children}
+              </SidePageContext.Provider>
+            </div>
           </div>
         </RenderLayer>
       </ZIndex>

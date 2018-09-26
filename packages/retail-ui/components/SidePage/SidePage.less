@@ -6,14 +6,9 @@
 
 :local {
   .layout {
-    border-spacing: 0;
-    height: 100%;
-    width: 100%;
-  }
-
-  .layoutItem {
-    padding: 0;
-    vertical-align: text-bottom;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .root {
@@ -40,7 +35,6 @@
     &.gray {
       background: #333;
       opacity: 0.6;
-      -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=60)';
     }
   }
 
