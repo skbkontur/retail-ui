@@ -22,11 +22,13 @@ before_deploy:
 - yarn run build:react-ui
 - yarn run bundle-dts
 - yarn run prepare-packages
+- pushd build
 - pushd retail-ui-dist
 - npm publish
 - popd
 - pushd react-ui-dist
 - npm publish
+- popd
 - popd
 deploy:
   provider: script
