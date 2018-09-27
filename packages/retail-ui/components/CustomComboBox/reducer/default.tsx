@@ -178,10 +178,21 @@ const Effect = {
 const reducers: { [type: string]: Reducer } = {
   Mount: () => ({ ...DefaultState, inputChanged: false }),
   DidUpdate(state, props, action) {
-    // NOTE: Add `areEqual` check
-    if (props.value === action.prevProps.value) {
+    // TODO: Replace `JSON.stringify` to `areEqual` method
+    if (
+      JSON.stringify(props.value) === JSON.stringify(action.prevProps.value)
+    ) {
       return state;
     }
+
+    if (!action.prevProps.value && state.editing && !state.opened) {
+      return {
+        editing: false,
+        focused: false,
+        inputChanged: false
+      };
+    }
+
     return {
       opened: false
     } as State;
