@@ -5,6 +5,7 @@ import Tooltip, { TooltipTrigger, TooltipProps } from '../Tooltip';
 import Button from '../../Button';
 import { PopupPosition } from '../../Popup';
 import { createPropsGetter } from '../../internal/createPropsGetter';
+import Textarea from '../../Textarea';
 
 interface TestTooltipProps {
   pos?: PopupPosition;
@@ -140,6 +141,38 @@ storiesOf('Tooltip', module)
         I'm inline-block with paddings
       </span>
     </TestTooltip>
+  ))
+  .add('tooltip with 50% width element', () => (
+    <div style={{ width: '500px' }}>
+      <Tooltip
+        trigger="opened"
+        pos="bottom center"
+        render={() => '50% width content'}
+      >
+        <Button width="50%">50% width content</Button>
+      </Tooltip>
+    </div>
+  ))
+  .add('tooltip with multiline element', () => (
+    <div style={{ width: '500px' }}>
+      <Tooltip trigger="opened" pos="bottom center" render={() => 'Textarea'}>
+        <Textarea rows={5} width="50%" />
+      </Tooltip>
+    </div>
+  ))
+  .add('tooltip with multiple inline elements', () => (
+    <div style={{ width: '500px' }}>
+      <Tooltip
+        trigger="opened"
+        pos="bottom center"
+        render={() => '50% width content'}
+      >
+        <span style={{ width: '100%', display: 'inline-block' }}>
+          <Button width="50%">50% width content</Button>
+          <Button width="50%">50% width content</Button>
+        </span>
+      </Tooltip>
+    </div>
   ));
 
 interface MyCustomTooltipState {

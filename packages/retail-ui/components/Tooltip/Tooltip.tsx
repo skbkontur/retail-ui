@@ -105,6 +105,16 @@ export interface TooltipState {
   opened: boolean;
 }
 
+// TODO Эта хрено ломает вложенные тултипы,
+// так как обходит React.Children.only проверку в RenderLayer,
+// который делает findDOMNode
+// findDOMNode на нескольких элементах возвращает только первый
+class ContentWrapper extends React.Component<any> {
+  public render() {
+    return this.props.children;
+  }
+}
+
 class Tooltip extends React.Component<TooltipProps, TooltipState> {
   public static defaultProps = {
     pos: 'top left',
@@ -132,7 +142,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   public render(): JSX.Element | null {
-    const { wrapperProps, popupProps, layerProps } = this._getProps();
+    const { popupProps, layerProps } = this._getProps();
     const anchorElement = this.props.children
       ? this.wrapperElement
       : this.props.anchorElement;
@@ -140,7 +150,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
     return (
       <RenderLayer {...layerProps}>
-        <span ref={this.refWrapper} {...wrapperProps}>
+        <ContentWrapper ref={this.refWrapper}>
           {this.props.children}
           {anchorElement &&
             content && (
@@ -162,7 +172,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
                 {content}
               </Popup>
             )}
-        </span>
+        </ContentWrapper>
       </RenderLayer>
     );
   }
@@ -197,8 +207,40 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     );
   }
 
-  private refWrapper = (node: HTMLElement | null) => {
-    this.wrapperElement = node;
+  private refWrapper = (node: React.ReactInstance | null) => {
+    // TODO Надо искать соседей
+    this.wrapperElement = (node
+      ? ReactDOM.findDOMNode(node)
+      : null) as HTMLElement;
+
+    if (this.wrapperElement == null) {
+      return;
+    }
+
+    // TODO Сделать по нормальному
+    const { wrapperProps } = this._getProps();
+
+    if ('onMouseEnter' in wrapperProps) {
+      this.wrapperElement.addEventListener(
+        'mouseenter',
+        wrapperProps.onMouseEnter
+      );
+    }
+    if ('onMouseLeave' in wrapperProps) {
+      this.wrapperElement.addEventListener(
+        'mouseleave',
+        wrapperProps.onMouseLeave
+      );
+    }
+    if ('onClick' in wrapperProps) {
+      this.wrapperElement.addEventListener('click', wrapperProps.onClick);
+    }
+    if ('onFocus' in wrapperProps) {
+      this.wrapperElement.addEventListener('focus', wrapperProps.onFocus);
+    }
+    if ('onBlur' in wrapperProps) {
+      this.wrapperElement.addEventListener('blur', wrapperProps.onBlur);
+    }
   };
 
   private _getPositions() {
@@ -296,7 +338,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.setState({ opened: false });
   }
 
-  private handleMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+  private handleMouseEnter = () => {
     if (this.hoverTimeout) {
       clearTimeout(this.hoverTimeout);
     }
