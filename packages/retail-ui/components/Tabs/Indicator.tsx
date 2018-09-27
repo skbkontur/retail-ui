@@ -26,28 +26,30 @@ class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     styles: {}
   };
 
-  private _eventListener: Nullable<{
+  private eventListener: Nullable<{
     remove: () => void;
   }> = null;
-  private _removeTabUpdatesListener: Nullable<() => void> = null;
+  private removeTabUpdatesListener: Nullable<() => void> = null;
 
   public componentDidMount() {
-    this._eventListener = LayoutEvents.addListener(throttle(this._reflow, 100));
-    this._removeTabUpdatesListener = this.props.tabUpdates.on(this._reflow);
-    this._reflow();
+    this.eventListener = LayoutEvents.addListener(this.throttledReflow);
+    this.removeTabUpdatesListener = this.props.tabUpdates.on(this.reflow);
+    this.reflow();
   }
 
   public componentWillUnmount() {
-    if (this._eventListener) {
-      this._eventListener.remove();
+    this.throttledReflow.cancel();
+
+    if (this.eventListener) {
+      this.eventListener.remove();
     }
-    if (this._removeTabUpdatesListener) {
-      this._removeTabUpdatesListener();
+    if (this.removeTabUpdatesListener) {
+      this.removeTabUpdatesListener();
     }
   }
 
   public componentDidUpdate(_: IndicatorProps, prevState: IndicatorState) {
-    this._reflow();
+    this.reflow();
   }
 
   public render() {
@@ -76,10 +78,10 @@ class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     );
   }
 
-  private _reflow = () => {
+  private reflow = () => {
     const node = this.props.getAnchorNode();
     const underlyingNode = node && node.getUnderlyingNode();
-    const nodeStyles = this._getStyles(underlyingNode);
+    const nodeStyles = this.getStyles(underlyingNode);
     const stylesUpdated = ['left', 'top', 'width', 'height'].some(
       prop =>
         nodeStyles[prop as keyof React.CSSProperties] !==
@@ -90,34 +92,33 @@ class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     }
   };
 
-  private _getStyles(node: any): React.CSSProperties {
+  // tslint:disable-next-line:member-ordering
+  private throttledReflow = throttle(this.reflow, 100);
+
+  private getStyles(node: any): React.CSSProperties {
     if (node instanceof React.Component) {
       node = findDOMNode(node);
     }
 
-    if (!node) {
-      return {};
-    }
+    if (node instanceof HTMLElement) {
+      const rect = node.getBoundingClientRect();
+      if (this.props.vertical) {
+        return {
+          width: 3,
+          left: node.offsetLeft,
+          top: node.offsetTop,
+          height: rect.bottom - rect.top
+        };
+      }
 
-    // better to check node instanceof HTMLElement
-    // but it fails in ie8
-    // eslint-disable-next-line flowtype/no-weak-types
-    const _node: HTMLElement = node;
-
-    const rect = _node.getBoundingClientRect();
-    if (this.props.vertical) {
       return {
-        width: 3,
-        left: _node.offsetLeft,
-        top: _node.offsetTop,
-        height: rect.bottom - rect.top
+        left: node.offsetLeft,
+        top: node.offsetHeight + node.offsetTop - 3,
+        width: rect.right - rect.left
       };
     }
-    return {
-      left: _node.offsetLeft,
-      top: _node.offsetHeight + _node.offsetTop - 3,
-      width: rect.right - rect.left
-    };
+
+    return {};
   }
 }
 
