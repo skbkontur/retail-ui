@@ -7,7 +7,7 @@ module.exports = function(sourceConfig, env, defaultConfig) {
             ...defaultConfig.entry,
             preview: [
                 require.resolve("babel-polyfill"),
-                require.resolve("../selenium-tests/Assemblies/SeleniumTesting/react-selenium-testing.js"),
+                require.resolve("./react-selenium-testing.js"),
                 require.resolve("../stories/styles/reset.less"),
                 require.resolve("../stories/styles/typography.less"),
                 ...defaultConfig.entry.preview
