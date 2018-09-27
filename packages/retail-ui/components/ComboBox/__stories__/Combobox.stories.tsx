@@ -9,6 +9,7 @@ import { IconName } from '../../Icon';
 import { Nullable, Omit } from '../../../typings/utility-types';
 import { action } from '@storybook/addon-actions';
 import Toggle from '../../Toggle';
+import Button from '../../Button';
 
 storiesOf('ComboBox v2', module)
   .add('simple combobox', () => <SimpleCombobox />)
@@ -109,7 +110,8 @@ storiesOf('ComboBox v2', module)
   .add('toogle error', () => <ComboBoxWithErrorToggler />)
   .add('with `null` onUnexpectedInput', () => (
     <ComboBoxV2 onUnexpectedInput={() => null} />
-  ));
+  ))
+  .add('with external value', () => <ComboBoxWithExternalValue />);
 
 interface ComboBoxWithErrorTogglerState {
   error: boolean;
@@ -390,4 +392,50 @@ function renderValue({ id, name }: ValueType): React.ReactNode {
       <span>{id}</span>
     </div>
   );
+}
+
+class ComboBoxWithExternalValue extends React.Component {
+  public state = {
+    value: { value: 1, label: 'First' },
+    warning: false
+  };
+
+  public render = () => (
+    <div>
+      <ComboBoxV2
+        getItems={this.getItems}
+        value={this.state.value}
+        onChange={this.onChange}
+        onUnexpectedInput={this.onUnexpectedInput}
+        warning={this.state.warning}
+      />
+      <Button onClick={this.fill}>Set `First`</Button>
+      <div>
+        this.state.value:
+        <code>{JSON.stringify(this.state.value)}</code>
+      </div>
+    </div>
+  );
+
+  private fill = () => {
+    this.setState({
+      value: { value: 1, label: 'First' },
+      warning: false
+    });
+  };
+
+  private getItems = (q: string) =>
+    Promise.resolve(
+      [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }].filter(
+        x =>
+          x.label.toLowerCase().includes(q.toLowerCase()) ||
+          x.value.toString(10) === q
+      )
+    );
+
+  private onChange = (_: any, value: { value: number; label: string }) =>
+    this.setState({ value, warning: false });
+
+  private onUnexpectedInput = () =>
+    this.setState({ value: null, warning: true });
 }
