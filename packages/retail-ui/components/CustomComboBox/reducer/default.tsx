@@ -1,5 +1,6 @@
 import * as React from 'react';
 import debounce from 'lodash.debounce';
+import isEqual from 'lodash.isequal';
 
 import MenuItem from '../../MenuItem';
 import Menu from '../../Menu/Menu';
@@ -178,10 +179,7 @@ const Effect = {
 const reducers: { [type: string]: Reducer } = {
   Mount: () => ({ ...DefaultState, inputChanged: false }),
   DidUpdate(state, props, action) {
-    // TODO: Replace `JSON.stringify` to `areEqual` method
-    if (
-      JSON.stringify(props.value) === JSON.stringify(action.prevProps.value)
-    ) {
+    if (isEqual(props.value, action.prevProps.value)) {
       return state;
     }
 
