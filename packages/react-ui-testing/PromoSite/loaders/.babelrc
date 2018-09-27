@@ -1,0 +1,12 @@
+{
+    "presets": [
+        "flow",
+        [
+            "env",
+            {
+                "node": "current"
+            }
+        ],
+        "stage-0"
+    ]
+}
