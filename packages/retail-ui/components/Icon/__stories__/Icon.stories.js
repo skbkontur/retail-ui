@@ -10,12 +10,6 @@ const rootStyle: Partial<React.CSSProperties> = {
   width: '1000px'
 };
 
-const iconStyle = {
-  width: '14px',
-  display: 'inline-block',
-  margin: '5px'
-};
-
 storiesOf('Icon', module).add('All icons', () => (
   <div style={rootStyle}>
     {Icon.getAllNames()
@@ -25,13 +19,19 @@ storiesOf('Icon', module).add('All icons', () => (
           key={name}
           style={{
             flexBasis: '200px',
-            height: name === 'Space' ? '0' : '30px'
+            height: name === 'Space' ? '0' : '60px'
           }}
         >
-          <div style={iconStyle}>
-            <Icon name={name} />
+          <div>
+            <Icon name={name} /> <span>{name}</span>
           </div>
-          {name}
+          <div>
+            <span>{name.slice(0, name.length / 2)}</span> <Icon name={name} />{' '}
+            <span>{name.slice(name.length / 2)}</span>
+          </div>
+          <div>
+            <span>{name}</span> <Icon name={name} />
+          </div>
         </div>
       ))}
   </div>
