@@ -11,6 +11,7 @@ import CustomComboBox, {
 } from '../CustomComboBox';
 import LayoutEvents from '../../../lib/LayoutEvents';
 import { Nullable } from '../../../typings/utility-types';
+import warning from 'warning';
 
 interface BaseAction {
   type: string;
@@ -106,6 +107,10 @@ const Effect = {
       // NOTE Обсудить поведение onUnexpectedInput
       const value = onUnexpectedInput(textValue);
       if (value === null) {
+        warning(
+          false,
+          `[ComboBox] Returning 'null' is deprecated in 'onUnexpectedInput'. For clear value use instance method 'reset'`
+        );
         dispatch({ type: 'TextClear', value: '' });
       }
     }

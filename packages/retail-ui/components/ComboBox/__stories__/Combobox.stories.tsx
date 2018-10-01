@@ -411,7 +411,6 @@ class ComboBoxWithExternalValue extends React.Component {
         onUnexpectedInput={this.onUnexpectedInput}
         warning={this.state.warning}
         ref={element => (this.combobox = element)}
-        autocomplete
       />
       <Button onClick={this.fill}>Set `First`</Button>
       <Button onClick={this.reset}>Reset</Button>
@@ -455,5 +454,6 @@ class ComboBoxWithExternalValue extends React.Component {
     this.setState({
       warning: true
     });
+    return null;
   };
 }

@@ -67,7 +67,7 @@ export interface ComboBoxProps<T> {
    * Если при потере фокуса в выпадающем списке будет только один
    * элемент, то сработает onChange со значением данного элемента
    */
-  onUnexpectedInput?: (query: string) => any;
+  onUnexpectedInput?: (query: string) => void | null;
 
   placeholder?: string;
 
