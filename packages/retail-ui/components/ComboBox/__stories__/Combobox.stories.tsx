@@ -400,6 +400,8 @@ class ComboBoxWithExternalValue extends React.Component {
     warning: false
   };
 
+  private combobox: Nullable<ComboBoxV2<any>>;
+
   public render = () => (
     <div>
       <ComboBoxV2
@@ -408,8 +410,11 @@ class ComboBoxWithExternalValue extends React.Component {
         onChange={this.onChange}
         onUnexpectedInput={this.onUnexpectedInput}
         warning={this.state.warning}
+        ref={element => (this.combobox = element)}
+        autocomplete
       />
       <Button onClick={this.fill}>Set `First`</Button>
+      <Button onClick={this.reset}>Reset</Button>
       <div>
         this.state.value:
         <code>{JSON.stringify(this.state.value)}</code>
@@ -424,6 +429,16 @@ class ComboBoxWithExternalValue extends React.Component {
     });
   };
 
+  private reset = () => {
+    this.setState({
+      warning: false,
+      value: null
+    });
+    if (this.combobox) {
+      this.combobox.reset();
+    }
+  };
+
   private getItems = (q: string) =>
     Promise.resolve(
       [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }].filter(
@@ -436,6 +451,9 @@ class ComboBoxWithExternalValue extends React.Component {
   private onChange = (_: any, value: { value: number; label: string }) =>
     this.setState({ value, warning: false });
 
-  private onUnexpectedInput = () =>
-    this.setState({ value: null, warning: true });
+  private onUnexpectedInput = (query: string) => {
+    this.setState({
+      warning: true
+    });
+  };
 }

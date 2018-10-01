@@ -1,5 +1,4 @@
 import * as React from 'react';
-import shallow from 'fbjs/lib/shallowEqual';
 
 import ComboBoxView from './ComboBoxView';
 import { Nullable } from '../../typings/utility-types';
@@ -17,7 +16,8 @@ export type Action<T> =
     }
   | { type: 'Mount' }
   | { type: 'Focus' }
-  | { type: 'Blur' };
+  | { type: 'Blur' }
+  | { type: 'Reset' };
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -79,7 +79,7 @@ export const DefaultState = {
   textValue: ''
 };
 
-class CustomComboBox extends React.Component<
+class CustomComboBox extends React.PureComponent<
   Props<any>,
   CustomComboBoxState<any>
 > {
@@ -171,9 +171,12 @@ class CustomComboBox extends React.Component<
     if (prevState.editing && !this.state.editing) {
       this.handleBlur();
     }
-    if (!shallow(prevProps, this.props)) {
-      this.dispatch({ type: 'DidUpdate', prevProps, prevState });
-    }
+
+    this.dispatch({ type: 'DidUpdate', prevProps, prevState });
+  }
+
+  public reset() {
+    this.dispatch({ type: 'Reset' });
   }
 
   private dispatch = (action: Action<any>) => {

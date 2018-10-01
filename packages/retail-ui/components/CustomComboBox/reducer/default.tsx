@@ -183,14 +183,6 @@ const reducers: { [type: string]: Reducer } = {
       return state;
     }
 
-    if (!action.prevProps.value && state.editing && !state.opened) {
-      return {
-        editing: false,
-        focused: false,
-        inputChanged: false
-      };
-    }
-
     return {
       opened: false
     } as State;
@@ -330,6 +322,9 @@ const reducers: { [type: string]: Reducer } = {
       },
       [Effect.HighlightMenuItem]
     ];
+  },
+  Reset() {
+    return DefaultState;
   }
 };
 

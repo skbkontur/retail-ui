@@ -143,6 +143,12 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
     }
   }
 
+  public reset() {
+    if (this._cb) {
+      this._cb.reset();
+    }
+  }
+
   public render() {
     const { autocomplete, ...rest } = this.props;
     const props = {
