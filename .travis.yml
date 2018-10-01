@@ -20,7 +20,7 @@ matrix:
     mono: none
     dotnet: 2.1.4
     install:
-    - dotnet restore
+    - dotnet restore ./packages/react-ui-testing/SeleniumTesting
     script:
-    - dotnet build
+    - dotnet build ./packages/react-ui-testing/SeleniumTesting
     - dotnet test ./packages/react-ui-testing/SeleniumTesting/TestsCore/TestsCore.csproj
