@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Kontur.ReactUI.SeleniumTesting.TestsCore</AssemblyName>
+    <RootNamespace>SKBKontur.SeleniumTesting.TestsCore</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,13 +11,15 @@
     <PackageReference Include="JetBrains.Annotations" Version="10.0.0" />
     <PackageReference Include="Kontur.RetryableAssertions" Version="0.0.1" />
     <PackageReference Include="Kontur.Selone" Version="0.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="NUnit" Version="3.8.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.13.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SeleniumTesting\SeleniumTesting.csproj" />
+    <ProjectReference Include="..\SeleniumTestingCore\SeleniumTestingCore.csproj" />
   </ItemGroup>
 
 </Project>
