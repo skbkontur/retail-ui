@@ -2,6 +2,7 @@
 import * as React from 'react';
 import ComboBox from '../ComboBox';
 import { mount } from 'enzyme';
+import InputLikeText from '../../internal/InputLikeText';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -293,5 +294,22 @@ describe('ComboBox', () => {
     wrapper.update();
 
     expect(wrapper.find('input').prop('value')).toBe('');
+  });
+
+  it('reset', () => {
+    const wrapper = mount<ComboBox<any>>(<ComboBox />);
+
+    wrapper.instance().focus();
+    wrapper.update();
+    wrapper.find('input').simulate('change', { target: { value: 'foo' } });
+
+    expect(wrapper.find('input').prop('value')).toBe('foo');
+
+    clickOutside();
+    wrapper.instance().reset();
+
+    wrapper.update();
+
+    expect(wrapper.find(InputLikeText).text()).toBe('');
   });
 });
