@@ -18,7 +18,7 @@ matrix:
     
   - language: csharp
     mono: none
-    dotnet: 2.1.0
+    dotnet: 2.1.4
     install:
     - dotnet restore
     script:
