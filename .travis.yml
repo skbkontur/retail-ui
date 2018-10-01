@@ -17,8 +17,7 @@ matrix:
     - secure: VBz+uWg6WMtF53plpsti/PjGp7Zk3fvrKnMIPbPIXSf+ujKsupU1kKZGDQ0XY+K8UW8jjzQNX60Tz4u54bzKMBmVMatqpMkcu2ihtTvFwnYi76eLv+iZYgADQ8GhkDL6gtzwvi9Z+JoUAlUyxyjbXkb6VjAKP11H0uHi6aZ4/xBT+jVj59nq2jXaL98uOH4O0tFda8dJxx+4G+qwMXfitlpjYUsBCcNrvGY7jAnqNSupuv7CqYoRiOQ0HWeC32iNPgC6aGgHThIBc01hdY0xNkBPU6/b+B2fVmUQ262Y4weRbN//IRnaoEU+w5/WPfOuWOF6JFj7jdr34XBqgmkFi5kjXRvXlbe/jzlUMdLw9HXD6+1tc63QEHfOadI7MADfHGQlCAYHN8/tO/7z2LHOM93ds3EbdYcpfvA58aHHnZMf09KIYQ/MZHtabw/WQhaV+Kf0tnLZ/mgwQXzuQB8HeMAq8Hs72c7Z9hB+kDLsVymyoYtEdsCpfQURy1psoOC0XsXhZn9HJT0kdic5kDeu/+vCgiT7NAT97hQyG/h4V9UU1A+scEEdy2bL6KRYqaoEMnWj5kXvoqGjMTCZGPimjSyhPBjrmJusUsE9Ci7Oc07AM59FoTtb34K/aMejx5bD6uvzog54kqBiHsbergrga8RmBFO5hmoqjXhvNlVAh/s=
     
   - language: csharp
-    mono: none
-    dotnet: 2.1.4
+    dotnet: 2.1
     install:
     - dotnet restore ./packages/react-ui-testing/SeleniumTesting
     script:
