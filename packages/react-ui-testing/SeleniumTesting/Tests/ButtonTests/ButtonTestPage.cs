@@ -14,5 +14,6 @@ namespace SKBKontur.SeleniumTesting.Tests.ButtonTests
         }
 
         public Button SimpleButton { get; private set; }
+        public Button WarningButton { get; private set; }
     }
 }

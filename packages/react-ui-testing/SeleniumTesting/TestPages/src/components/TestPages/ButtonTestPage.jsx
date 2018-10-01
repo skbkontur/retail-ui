@@ -19,6 +19,16 @@ export default class ButtonTestPage extends React.Component {
                         />
                     </Case.Body>
                 </Case>
+                <Case title='Button with warning'>
+                    <Case.Body>
+                        <Button
+                            data-tid='WarningButton'
+                            value={this.state.value}
+                            onChange={(e, value) => this.setState({ value: value })}
+                            warning
+                        />
+                    </Case.Body>
+                </Case>
            </CaseSuite>
         );
     }

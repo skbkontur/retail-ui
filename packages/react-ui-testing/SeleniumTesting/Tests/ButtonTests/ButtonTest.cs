@@ -25,6 +25,12 @@ namespace SKBKontur.SeleniumTesting.Tests.ButtonTests
             page.SimpleButton.IsPresent.Wait().That(Is.True);
         }
 
+        [Test]
+        public void TestWarning()
+        {
+            Assert.That(page.WarningButton.HasWarning(), Is.True);
+        }
+
         private ButtonTestPage page;
     }
 }
