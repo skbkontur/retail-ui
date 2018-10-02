@@ -124,28 +124,24 @@ const autocompleteReducer = createReducer(autocompleteReducers);
 
 class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
   public static defaultProps = {
-    // @ts-ignore
-    itemToValue: x => x.value,
-    // @ts-ignore
-    valueToString: x => x.label,
-    // @ts-ignore
-    renderValue: x => x.label,
-    // @ts-ignore
-    renderItem: x => x.label,
+    itemToValue: (item: any) => item.value,
+    valueToString: (item: any) => item.label,
+    renderValue: (item: any) => item.label,
+    renderItem: (item: any) => item.label,
     menuAlign: 'left'
   };
 
-  private _cb: Nullable<CustomComboBox> = null;
+  private comboboxElement: Nullable<CustomComboBox> = null;
 
   public focus() {
-    if (this._cb) {
-      this._cb.focus();
+    if (this.comboboxElement) {
+      this.comboboxElement.focus();
     }
   }
 
   public reset() {
-    if (this._cb) {
-      this._cb.reset();
+    if (this.comboboxElement) {
+      this.comboboxElement.reset();
     }
   }
 
@@ -156,8 +152,14 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
       openButton: !autocomplete,
       reducer: autocomplete ? autocompleteReducer : defaultReducer
     };
-    // @ts-ignore
-    return <CustomComboBox {...props} ref={cb => (this._cb = cb)} />;
+
+    return (
+      // @ts-ignore
+      <CustomComboBox
+        {...props}
+        ref={element => (this.comboboxElement = element)}
+      />
+    );
   }
 }
 
