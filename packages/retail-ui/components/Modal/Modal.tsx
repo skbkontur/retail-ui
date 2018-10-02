@@ -166,13 +166,12 @@ class Modal extends React.Component<ModalProps, ModalState> {
             className={cn(styles.container, {
               [styles.mobile]: Upgrades.isAdaptiveStyles()
             })}
-            onClick={this.handleContainerClick}
           >
             <div
-              className={styles.centerContainer}
+              className={styles.modalClickTrap}
               onClick={this.handleContainerClick}
-              style={containerStyle}
-            >
+            />
+            <div className={styles.centerContainer} style={containerStyle}>
               <div className={styles.window} style={style}>
                 <ResizeDetector onResize={LayoutEvents.emit}>
                   <FocusLock
@@ -221,10 +220,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   private handleContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (
-      event.target === event.currentTarget &&
-      !this.props.ignoreBackgroundClick
-    ) {
+    if (!this.props.ignoreBackgroundClick) {
       this.requestClose();
     }
   };
