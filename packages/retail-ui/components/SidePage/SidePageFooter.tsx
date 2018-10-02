@@ -39,14 +39,13 @@ export default class SidePageFooter extends React.Component<
         <SidePageContext.Consumer>
           {({ width }) => (
             <div
+              className={styles.footer}
               style={{
-                position: 'fixed',
-                bottom: 0,
                 width
               }}
             >
               <div
-                className={classNames(styles.footer, {
+                className={classNames(styles.footerContent, {
                   [styles.panel]: this.props.panel,
                   [styles.fixed]: this.state.fixed
                 })}
