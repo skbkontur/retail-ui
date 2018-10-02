@@ -77,6 +77,18 @@ const searchFactory = (isEmpty: boolean): EffectType => (
   makeRequest();
 };
 
+const getValueContent = (reactNode: React.ReactNode) => {
+  if (reactNode == null) {
+    return '';
+  }
+
+  if (reactNode instanceof HTMLElement) {
+    return reactNode.textContent;
+  }
+
+  return reactNode.toString();
+};
+
 const Effect = {
   Search: searchFactory,
   DebouncedSearch: debounce(searchFactory(false), 300),
@@ -111,8 +123,9 @@ const Effect = {
     if (Array.isArray(items) && items.length === 1) {
       const singleItem = items[0];
       const renderedValue: React.ReactNode = renderValue(singleItem);
+      const valueContent = getValueContent(renderedValue);
 
-      if (renderedValue === textValue) {
+      if (valueContent === textValue) {
         dispatch({ type: 'ValueChange', value: singleItem });
       }
     }
