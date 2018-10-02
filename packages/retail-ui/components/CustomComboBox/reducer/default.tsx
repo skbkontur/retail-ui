@@ -1,5 +1,6 @@
 import * as React from 'react';
 import debounce from 'lodash.debounce';
+import isEqual from 'lodash.isequal';
 
 import MenuItem from '../../MenuItem';
 import Menu from '../../Menu/Menu';
@@ -10,6 +11,7 @@ import CustomComboBox, {
 } from '../CustomComboBox';
 import LayoutEvents from '../../../lib/LayoutEvents';
 import { Nullable } from '../../../typings/utility-types';
+import warning from 'warning';
 
 interface BaseAction {
   type: string;
@@ -105,6 +107,10 @@ const Effect = {
       // NOTE Обсудить поведение onUnexpectedInput
       const value = onUnexpectedInput(textValue);
       if (value === null) {
+        warning(
+          false,
+          `[ComboBox] Returning 'null' is deprecated in 'onUnexpectedInput'. For clear value use instance method 'reset'`
+        );
         dispatch({ type: 'TextClear', value: '' });
       }
     }
@@ -178,10 +184,10 @@ const Effect = {
 const reducers: { [type: string]: Reducer } = {
   Mount: () => ({ ...DefaultState, inputChanged: false }),
   DidUpdate(state, props, action) {
-    // NOTE: Add `areEqual` check
-    if (props.value === action.prevProps.value) {
+    if (isEqual(props.value, action.prevProps.value)) {
       return state;
     }
+
     return {
       opened: false
     } as State;
@@ -321,6 +327,9 @@ const reducers: { [type: string]: Reducer } = {
       },
       [Effect.HighlightMenuItem]
     ];
+  },
+  Reset() {
+    return DefaultState;
   }
 };
 
