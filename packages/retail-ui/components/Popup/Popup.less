@@ -5,7 +5,7 @@
 @hide-transition: opacity 0.15s ease-out;
 
 @value popupBackground: @bg-default;
-@value popupBorder: @popup-border-color;
+@value popupBorderColor: @popup-border-color;
 
 :local {
   .popup {
@@ -13,7 +13,7 @@
     min-width: 100px;
     background: @bg-default;
     border-radius: @popup-border-radius;
-    border: 1px solid @popup-border-color;
+    border: @popup-border @popup-border-color;
   }
 
   :global(.rt-ie-any) {
