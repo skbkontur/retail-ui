@@ -4,12 +4,16 @@
   opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
 @hide-transition: opacity 0.15s ease-out;
 
+@value popupBackground: @bg-default;
+@value popupBorder: @popup-border-color;
+
 :local {
   .popup {
     position: absolute;
     min-width: 100px;
     background: @bg-default;
     border-radius: @popup-border-radius;
+    border: 1px solid @popup-border-color;
   }
 
   :global(.rt-ie-any) {

@@ -12,9 +12,8 @@ import PopupHelper, { Rect, PositionObject } from './PopupHelper';
 import PopupPin from './PopupPin';
 import LayoutEvents from '../../lib/LayoutEvents';
 
-import styles = require('./Popup.less');
+import styles from './Popup.less';
 
-import { isIE, ieVerison } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 
 export type PopupPosition =
@@ -128,7 +127,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     hasPin: false,
     hasShadow: false,
     disableAnimations: false,
-    backgroundColor: '#fff',
     maxWidth: 500
   };
 
@@ -215,10 +213,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
             style={{
               top: location.coordinates.top,
               left: location.coordinates.left,
-              backgroundColor:
-                this.props.backgroundColor ||
-                Popup.defaultProps.backgroundColor,
-              maxWidth: this.props.maxWidth || Popup.defaultProps.maxWidth
+              backgroundColor: this.props.backgroundColor,
+              maxWidth: this.props.maxWidth
             }}
             onMouseEnter={this.props.onMouseEnter}
             onMouseLeave={this.props.onMouseLeave}
@@ -244,34 +240,18 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private _renderPin(position: string): React.ReactNode {
-    /**
-     * Box-shadow does not appear under the pin. Borders are used instead.
-     * In non-ie browsers drop-shodow filter is used. It is applying
-     * shadow to pin too.
-     */
-    // prettier-ignore
-    const pinBorder
-      = ieVerison === 8 ? '#e5e5e5'
-      : isIE            ? 'rgba(0, 0, 0, 0.09)'
-      :                   'transparent';
-
-    const {
-      pinSize = Popup.defaultProps.pinSize,
-      pinOffset = Popup.defaultProps.pinOffset,
-      hasShadow = Popup.defaultProps.hasShadow,
-      backgroundColor = Popup.defaultProps.backgroundColor
-    } = this.props;
+    const { pinSize, pinOffset, hasShadow, backgroundColor } = this.props;
 
     return (
       this.props.hasPin && (
         <PopupPin
           popupElement={this._lastPopupElement!}
           popupPosition={position}
-          size={pinSize}
-          offset={pinOffset}
+          size={pinSize!}
+          offset={pinOffset!}
           borderWidth={hasShadow ? 1 : 0}
-          backgroundColor={backgroundColor}
-          borderColor={pinBorder}
+          backgroundColor={backgroundColor || styles.popupBackground}
+          borderColor={styles.popupBorder}
         />
       )
     );
@@ -351,12 +331,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     popupElement: HTMLElement,
     location?: PopupLocation | null
   ) {
-    const {
-      anchorElement,
-      positions,
-      margin = Popup.defaultProps.margin,
-      popupOffset = Popup.defaultProps.popupOffset
-    } = this.props;
+    const { anchorElement, positions, margin, popupOffset } = this.props;
 
     if (!anchorElement) {
       throw new Error('Anchor element is not defined');
@@ -373,8 +348,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         anchorRect,
         popupRect,
         position,
-        margin,
-        popupOffset + this._getPinnedPopupOffset(anchorRect, position)
+        margin!,
+        popupOffset! + this._getPinnedPopupOffset(anchorRect, position)
       );
       return { coordinates, position: location.position };
     }
@@ -387,8 +362,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         anchorRect,
         popupRect,
         positionObj,
-        margin,
-        popupOffset + this._getPinnedPopupOffset(anchorRect, positionObj)
+        margin!,
+        popupOffset! + this._getPinnedPopupOffset(anchorRect, positionObj)
       );
       if (
         PopupHelper.isAbsoluteRectFullyVisible({
@@ -406,8 +381,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       anchorRect,
       popupRect,
       position,
-      margin,
-      popupOffset + this._getPinnedPopupOffset(anchorRect, position)
+      margin!,
+      popupOffset! + this._getPinnedPopupOffset(anchorRect, position)
     );
     return { coordinates, position: positions[0] };
   }

@@ -146,7 +146,6 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
             content && (
               <Popup
                 anchorElement={anchorElement}
-                backgroundColor={'white'}
                 hasPin
                 hasShadow
                 margin={15}
