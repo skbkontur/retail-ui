@@ -190,6 +190,15 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
   private _renderContent(location: PopupLocation) {
     const { direction } = PopupHelper.getPositionObject(location.position);
+    const rootStyle: React.CSSProperties = {
+      top: location.coordinates.top,
+      left: location.coordinates.left,
+      maxWidth: this.props.maxWidth
+    };
+
+    if (this.props.backgroundColor) {
+      rootStyle.backgroundColor = this.props.backgroundColor;
+    }
 
     return (
       <Transition
@@ -214,12 +223,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
                 ('transition-enter-' + direction) as keyof typeof styles
               ]]: true
             })}
-            style={{
-              top: location.coordinates.top,
-              left: location.coordinates.left,
-              backgroundColor: this.props.backgroundColor,
-              maxWidth: this.props.maxWidth
-            }}
+            style={rootStyle}
             onMouseEnter={this.props.onMouseEnter}
             onMouseLeave={this.props.onMouseLeave}
           >

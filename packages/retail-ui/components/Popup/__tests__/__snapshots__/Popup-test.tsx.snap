@@ -9,7 +9,6 @@ exports[`Popup snapshots:  open and close popup: closed popup 1`] = `
       test
     </button>
   }
-  backgroundColor="#fff"
   disableAnimations={false}
   hasPin={false}
   hasShadow={false}
@@ -76,7 +75,6 @@ exports[`Popup snapshots:  open and close popup: closed popup again 1`] = `
       test
     </button>
   }
-  backgroundColor="#fff"
   disableAnimations={false}
   hasPin={false}
   hasShadow={false}
@@ -143,7 +141,6 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
       test
     </button>
   }
-  backgroundColor="#fff"
   disableAnimations={false}
   hasPin={false}
   hasShadow={false}
@@ -195,7 +192,6 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
           render={true}
           style={
             Object {
-              "backgroundColor": "#fff",
               "left": -9999,
               "maxWidth": 500,
               "top": -9999,
@@ -206,7 +202,6 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
             className="popup transition-enter-top"
             style={
               Object {
-                "backgroundColor": "#fff",
                 "left": -9999,
                 "maxWidth": 500,
                 "top": -9999,
