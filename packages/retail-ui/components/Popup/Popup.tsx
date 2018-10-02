@@ -37,12 +37,12 @@ export interface PopupProps {
   hasPin?: boolean;
   hasShadow?: boolean;
   disableAnimations?: boolean;
-  margin?: number;
+  margin: number;
   maxWidth?: number | string;
   opened: boolean;
-  pinOffset?: number;
-  pinSize?: number;
-  popupOffset?: number;
+  pinOffset: number;
+  pinSize: number;
+  popupOffset: number;
   positions: string[];
   onCloseRequest?: () => void;
   onMouseEnter?: (x0: React.MouseEvent<HTMLElement>) => void;
@@ -247,8 +247,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         <PopupPin
           popupElement={this._lastPopupElement!}
           popupPosition={position}
-          size={pinSize!}
-          offset={pinOffset!}
+          size={pinSize}
+          offset={pinOffset}
           borderWidth={hasShadow ? 1 : 0}
           backgroundColor={backgroundColor || styles.popupBackground}
           borderColor={styles.popupBorder}
@@ -348,8 +348,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         anchorRect,
         popupRect,
         position,
-        margin!,
-        popupOffset! + this._getPinnedPopupOffset(anchorRect, position)
+        margin,
+        popupOffset + this._getPinnedPopupOffset(anchorRect, position)
       );
       return { coordinates, position: location.position };
     }
@@ -362,8 +362,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         anchorRect,
         popupRect,
         positionObj,
-        margin!,
-        popupOffset! + this._getPinnedPopupOffset(anchorRect, positionObj)
+        margin,
+        popupOffset + this._getPinnedPopupOffset(anchorRect, positionObj)
       );
       if (
         PopupHelper.isAbsoluteRectFullyVisible({
@@ -381,8 +381,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       anchorRect,
       popupRect,
       position,
-      margin!,
-      popupOffset! + this._getPinnedPopupOffset(anchorRect, position)
+      margin,
+      popupOffset + this._getPinnedPopupOffset(anchorRect, position)
     );
     return { coordinates, position: positions[0] };
   }
@@ -396,10 +396,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       ? anchorRect.width
       : anchorRect.height;
 
-    const {
-      pinOffset = Popup.defaultProps.pinOffset,
-      pinSize = Popup.defaultProps.pinSize
-    } = this.props;
+    const { pinOffset, pinSize } = this.props;
     return Math.max(0, pinOffset + pinSize - anchorSize / 2);
   }
 
