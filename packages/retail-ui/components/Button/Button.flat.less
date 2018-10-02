@@ -111,22 +111,31 @@
   }
 
   .sizeSmall {
-    height: 34px;
+    &:not(.link) {
+      height: 34px;
+    }
+
     line-height: 32px;
     padding: 0 15px;
   }
 
   .DEPRECATED_sizeMedium,
   .sizeMedium {
+    &:not(.link) {
+      height: 40px;
+    }
+
     font-size: 16px;
-    height: 40px;
     line-height: 38px;
     padding: 0 15px;
   }
 
   .sizeLarge {
+    &:not(.link) {
+      height: 44px;
+    }
+
     font-size: 16px;
-    height: 44px;
     line-height: 42px;
     padding: 0 20px;
   }
@@ -205,6 +214,7 @@
     background: none;
     border: none;
     box-shadow: none;
+    line-height: inherit;
 
     .caption {
       display: inline;
