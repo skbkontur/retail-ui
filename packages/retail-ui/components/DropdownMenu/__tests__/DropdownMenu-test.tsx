@@ -76,4 +76,26 @@ describe('<DropdownMenu />', () => {
     menuItemWrapper.simulate('click');
     expect(testText).toBe('Bar foo');
   });
+
+  test('Fire onOpen and onClose when open and close dropdown', () => {
+    const onOpen = jest.fn();
+    const onClose = jest.fn();
+    const wrapper = mount(
+      <DropdownMenu
+        caption={<button id="captionForTest">Test</button>}
+        onOpen={onOpen}
+        onClose={onClose}
+      >
+        <MenuItem>Test</MenuItem>
+      </DropdownMenu>
+    );
+
+    // open
+    wrapper.find('#captionForTest').simulate('click');
+    expect(onOpen.mock.calls.length).toBe(1);
+
+    // close
+    wrapper.find('MenuItem').simulate('click');
+    expect(onClose.mock.calls.length).toBe(1);
+  });
 });

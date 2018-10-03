@@ -17,6 +17,8 @@ export interface TopBarDropdownProps {
   minWidth?: string | number | null;
   use?: 'danger' | 'pay';
   label: React.ReactNode;
+  onOpen?: () => void;
+  onClose?: () => void;
 }
 
 class TopBarDropdown extends React.Component<TopBarDropdownProps> {

@@ -14,6 +14,9 @@ export interface DropdownMenuProps {
    * придется в этой функции
    */
   caption: PopupMenuProps['caption'];
+
+  onOpen?: () => void;
+  onClose?: () => void;
 }
 
 /**
@@ -37,6 +40,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
         caption={this.props.caption}
         menuMaxHeight={this.props.menuMaxHeight}
         menuWidth={this.props.menuWidth}
+        onChangeMenuState={this.handleChangeMenuState}
         popupHasPin={false}
         popupMargin={0}
         positions={['bottom left', 'bottom right', 'top left', 'top right']}
@@ -45,4 +49,16 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
       </PopupMenu>
     );
   }
+
+  private handleChangeMenuState = (menuVisible: boolean) => {
+    if (menuVisible && this.props.onOpen) {
+      this.props.onOpen();
+      return;
+    }
+
+    if (!menuVisible && this.props.onClose) {
+      this.props.onClose();
+      return;
+    }
+  };
 }
