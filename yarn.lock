@@ -371,9 +371,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@skbkontur/react-icons@^2.0.1":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-2.1.0.tgz#88402e86b60dfa893a29317fda3d8b27681bafdb"
+"@skbkontur/react-icons@^3.0.0":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-3.0.3.tgz#720059f312ae9c1d53e9a306d64deeb9eeaa494b"
+  integrity sha512-qwPTyUtccLo1vX1VI3l8qmnhics8Euc9N6qk0Q5rvTZV/vbHk672oIz8pPIUM/XLYAe8T24QznajWfX9ZjdRRQ==
   dependencies:
     tslib "^1.9.2"
 
