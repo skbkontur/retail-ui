@@ -10,7 +10,7 @@ import Modal from '../Modal';
 const ComboBoxOld = require('../ComboBoxOld').default;
 
 import { FiasAPI } from './FiasAPI';
-import { addressElementName, getLastFiasId } from './utils';
+import { getAddressElementName, getLastFiasId } from './utils';
 
 import styles from './AddressModal.less';
 import {
@@ -18,7 +18,6 @@ import {
   ADDRESS_FIELDS,
   AddressElement,
   ErrorMessages,
-  isNamedAddressElement,
   Levels,
   Room,
   VerifyResponse
@@ -36,7 +35,7 @@ interface FieldProps {
   source: (
     searchText: string
   ) => Promise<{
-    values: AddressElement[];
+    values: Array<AddressElement | undefined>;
     infos: Array<{ searchText: string; address: Address }>;
   }>;
   onChange: (
@@ -172,7 +171,7 @@ export class AddressModal extends React.Component<Props, State> {
             }
           }
         }
-      } else if (isNamedAddressElement(value)) {
+      } else if (value.name) {
         address[field] = value;
       } else {
         delete address[field];
@@ -312,7 +311,7 @@ export class AddressModal extends React.Component<Props, State> {
 
         const parent = info.address[parentField];
         if (parent && typeof parent === 'object' && parentField !== field) {
-          let parentName = addressElementName(parent, parentField);
+          let parentName = getAddressElementName(parent, parentField);
           if (parentField === 'region') {
             parentName = parent.code.substr(0, 2) + ' ' + parentName;
           }
@@ -323,7 +322,7 @@ export class AddressModal extends React.Component<Props, State> {
 
     return (
       <div>
-        {addressElementName(element, field)}
+        {getAddressElementName(element, field)}
         {parentNames.length > 0 && (
           <div className={styles.menuItemParents}>{parentNames.join(', ')}</div>
         )}
@@ -476,5 +475,5 @@ export class AddressModal extends React.Component<Props, State> {
 export default AddressModal;
 
 function renderValue(type: string, element: AddressElement) {
-  return element ? addressElementName(element, type) : '';
+  return element ? getAddressElementName(element, type) : '';
 }

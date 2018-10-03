@@ -1,17 +1,29 @@
 import {
   Address,
+  ADDRESS_FIELDS,
   AddressElement,
   EstateStatuses,
-  StructureStatuses,
-  isNamedAddressElement,
-  isHouse,
-  isRoom,
-  NamedAddressElement,
-  ADDRESS_FIELDS
+  House,
+  Levels,
+  Room,
+  Stead,
+  StructureStatuses
 } from './types';
 
+export const isStead = (element: AddressElement): element is Stead => {
+  return element.level === Levels.Stead;
+};
+
+export const isHouse = (element: AddressElement): element is House => {
+  return element.level === Levels.House;
+};
+
+export const isRoom = (element: AddressElement): element is Room => {
+  return element.level === Levels.Room;
+};
+
 // TODO неразрывнях пробелов наставить между топонимом и его типом
-export function addressElementName(
+export function getAddressElementName(
   element: AddressElement,
   _for?: string
 ): string {
@@ -20,7 +32,7 @@ export function addressElementName(
     return '';
   }
 
-  if (isNamedAddressElement(element)) {
+  if (element.abbreviation && element.name) {
     switch (element.abbreviation) {
       case 'Респ':
         return 'Республика ' + element.name;
@@ -89,6 +101,10 @@ export function addressElementName(
 
   let result = '';
 
+  if (isStead(element)) {
+    result = element.number;
+  }
+
   if (isHouse(element)) {
     if (element.estateStatus !== EstateStatuses.None) {
       switch (element.estateStatus) {
@@ -144,7 +160,7 @@ export function addressElementName(
   if (result) {
     return result.trim();
   } else {
-    return (element as NamedAddressElement).name || '';
+    return element.name || '';
   }
 }
 
@@ -154,7 +170,7 @@ export function getLastFiasId(
 ): string | undefined {
   const parents = (parentFields || ADDRESS_FIELDS).slice().reverse();
   for (const parentName of parents) {
-    const parent: AddressElement = address[parentName];
+    const parent: AddressElement | undefined = address[parentName];
     if (parent && typeof parent === 'object' && parent.fiasId) {
       return parent.fiasId;
     }
@@ -165,8 +181,8 @@ export function getAddressText(address: Address): string | null {
   if (!address) {
     return null;
   }
-  const text = (element: AddressElement) =>
-    element && addressElementName(element);
+  const text = (element: AddressElement | undefined) =>
+    element && getAddressElementName(element);
 
   return ADDRESS_FIELDS.map(field => text(address[field]))
     .filter(Boolean)

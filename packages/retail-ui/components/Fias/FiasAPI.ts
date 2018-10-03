@@ -1,15 +1,13 @@
 import {
   Address,
+  AddressObject,
   FiasId,
   House,
-  NamedAddressElement,
   Levels,
   LiveStatuses,
-  Region,
   Room,
   Stead,
-  VerifyResponse,
-  isNamedAddressElement
+  VerifyResponse
 } from './types';
 
 type SearchResponse = Promise<Address[]>;
@@ -26,7 +24,9 @@ const BASE_URL = 'https://api.kontur.ru/fias/v1/';
 const LIMIT = 50;
 
 export class FiasAPI {
-  private _regionsPromise: Promise<Array<{ region: Region }>> | null = null;
+  private _regionsPromise: Promise<
+    Array<{ region: AddressObject }>
+  > | null = null;
 
   constructor(public baseUrl: string = BASE_URL) {}
 
@@ -42,8 +42,8 @@ export class FiasAPI {
     Object.keys(address).forEach(key => !address[key] && delete address[key]);
     delete address.room;
 
-    // TODO: find out why houses can have name (according types they shouldn't)
-    if (address.house && isNamedAddressElement(address.house)) {
+    // TODO: find out why houses can have name
+    if (address.house && address.house.name) {
       address.house.number = address.house.name;
       delete address.house.name;
     }
@@ -111,20 +111,20 @@ export class FiasAPI {
       (roomsList: Room[]): Address[] => {
         return roomsList.reduce((filteredList: Address[], item: Room) => {
           if (!filteredList.length) {
-            return [{ room: { ...item } }];
+            return [{ room: { ...item, level: Levels.Room } }];
           }
 
           for (const i in filteredList) {
             if (filteredList[i].room!.flatNumber === item.flatNumber) {
               if (item.liveStatus === LiveStatuses.Active) {
-                filteredList[i] = { room: { ...item } };
+                filteredList[i] = { room: { ...item, level: Levels.Room } };
               }
               return filteredList;
             }
           }
 
           filteredList.push({
-            room: { ...item }
+            room: { ...item, level: Levels.Room }
           });
           return filteredList;
         }, []);
@@ -134,13 +134,23 @@ export class FiasAPI {
 
   public searchStead = (query: SearchQuery): SearchResponse => {
     return this.send(`steads?${createQuery(query)}`).then(data =>
-      data.map((item: Stead) => ({ stead: item }))
+      data.map((item: Stead) => ({
+        stead: {
+          ...item,
+          level: Levels.Stead
+        }
+      }))
     );
   };
 
   public searchHouse = (query: SearchQuery): SearchResponse => {
     return this.send(`houses?${createQuery(query)}`).then(data =>
-      data.map((item: House) => ({ house: item }))
+      data.map((item: House) => ({
+        house: {
+          ...item,
+          level: Levels.House
+        }
+      }))
     );
   };
 
@@ -164,7 +174,7 @@ function filterRegions(searchText: string) {
   return (list: Address[]) =>
     list.filter(({ region }: Address) => {
       return (
-        isStartMatch((region as NamedAddressElement).name, searchText) ||
+        isStartMatch(region!.name!, searchText) ||
         isStartMatch(region!.code, searchText)
       );
     });
