@@ -40,7 +40,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
         caption={this.props.caption}
         menuMaxHeight={this.props.menuMaxHeight}
         menuWidth={this.props.menuWidth}
-        onChangeMenuState={this.onChangeMenuState}
+        onChangeMenuState={this.handleChangeMenuState}
         popupHasPin={false}
         popupMargin={0}
         positions={['bottom left', 'bottom right', 'top left', 'top right']}
@@ -50,11 +50,15 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
     );
   }
 
-  private onChangeMenuState = (x0: boolean, x1: boolean) => {
-    if (x0 && this.props.onOpen) {
+  private handleChangeMenuState = (menuVisible: boolean) => {
+    if (menuVisible && this.props.onOpen) {
       this.props.onOpen();
-    } else if (!x0 && this.props.onClose) {
+      return;
+    }
+
+    if (!menuVisible && this.props.onClose) {
       this.props.onClose();
+      return;
     }
   };
 }
