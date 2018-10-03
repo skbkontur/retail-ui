@@ -50,7 +50,7 @@ class ExampleFias extends React.Component<any> {
     );
   }
 
-  private _handleChange = (event: null, value: any) => {
+  private _handleChange = (value: any) => {
     this.setState({ value });
   };
 }

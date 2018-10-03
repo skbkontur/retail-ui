@@ -2,7 +2,7 @@ import * as React from 'react';
 import { AddressModal } from './AddressModal';
 import Link from '../Link';
 import { getAddressText } from './utils';
-import { Address } from './types';
+import { Address, ErrorMessages } from './types';
 import { IconName } from '../Icon';
 
 interface Props {
@@ -14,8 +14,8 @@ interface Props {
   readOnly?: boolean;
   title?: string;
   baseUrl?: string;
-  validFn?: (address: Address) => any; // errors
-  onChange?: (event: any, value: { address: Address }) => any;
+  validFn?: (address: Address) => ErrorMessages;
+  onChange?: (value: { address: Address }) => void;
 }
 
 interface State {
@@ -89,7 +89,7 @@ export class Fias extends React.Component<Props> {
   private _handleChange = (value: { address: Address }) => {
     const onChange = this.props.onChange;
     if (onChange) {
-      onChange(null, value);
+      onChange(value);
     }
   };
 

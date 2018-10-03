@@ -3,20 +3,24 @@ import {
   AddressElement,
   EstateStatuses,
   StructureStatuses,
-  isLevelElement,
+  isNamedAddressElement,
   isHouse,
   isRoom,
-  LevelElement
+  NamedAddressElement,
+  ADDRESS_FIELDS
 } from './types';
 
 // TODO неразрывнях пробелов наставить между топонимом и его типом
-export function elementName(element: AddressElement, _for?: string): string {
+export function addressElementName(
+  element: AddressElement,
+  _for?: string
+): string {
   if (!element) {
     // TODO разобрать когда апи поменяют
     return '';
   }
 
-  if (isLevelElement(element)) {
+  if (isNamedAddressElement(element)) {
     switch (element.abbreviation) {
       case 'Респ':
         return 'Республика ' + element.name;
@@ -140,21 +144,9 @@ export function elementName(element: AddressElement, _for?: string): string {
   if (result) {
     return result.trim();
   } else {
-    return (element as LevelElement).name || '';
+    return (element as NamedAddressElement).name || '';
   }
 }
-
-export const ADDRESS_FIELDS = [
-  'region',
-  'district',
-  'city',
-  'settlement',
-  'planningStructure',
-  'street',
-  'stead',
-  'house',
-  'room'
-];
 
 export function getLastFiasId(
   address: Address,
@@ -173,18 +165,10 @@ export function getAddressText(address: Address): string | null {
   if (!address) {
     return null;
   }
-  const text = (element: AddressElement) => element && elementName(element);
-  return [
-    text(address.region),
-    text(address.district),
-    text(address.city),
-    text(address.settlement),
-    text(address.planningStructure),
-    text(address.street),
-    text(address.house),
-    text(address.stead),
-    text(address.room)
-  ]
-    .filter(x => !!x)
+  const text = (element: AddressElement) =>
+    element && addressElementName(element);
+
+  return ADDRESS_FIELDS.map(field => text(address[field]))
+    .filter(Boolean)
     .join(', ');
 }

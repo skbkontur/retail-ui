@@ -2,13 +2,14 @@ import {
   Address,
   FiasId,
   House,
-  LevelElement,
+  NamedAddressElement,
   Levels,
   LiveStatuses,
   Region,
   Room,
   Stead,
-  VerifyResponse
+  VerifyResponse,
+  isNamedAddressElement
 } from './types';
 
 type SearchResponse = Promise<Address[]>;
@@ -41,10 +42,11 @@ export class FiasAPI {
     Object.keys(address).forEach(key => !address[key] && delete address[key]);
     delete address.room;
 
-    // if (req.house && req.house.name) {
-    //   req.house.number = req.house.name;
-    //   delete req.house.name;
-    // }
+    // TODO: find out why houses can have name (according types they shouldn't)
+    if (address.house && isNamedAddressElement(address.house)) {
+      address.house.number = address.house.name;
+      delete address.house.name;
+    }
 
     return this.send('verify', {
       method: 'POST',
@@ -162,7 +164,7 @@ function filterRegions(searchText: string) {
   return (list: Address[]) =>
     list.filter(({ region }: Address) => {
       return (
-        isStartMatch((region as LevelElement).name, searchText) ||
+        isStartMatch((region as NamedAddressElement).name, searchText) ||
         isStartMatch(region!.code, searchText)
       );
     });

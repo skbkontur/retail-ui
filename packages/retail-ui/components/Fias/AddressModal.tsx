@@ -10,13 +10,15 @@ import Modal from '../Modal';
 const ComboBoxOld = require('../ComboBoxOld').default;
 
 import { FiasAPI } from './FiasAPI';
-import { ADDRESS_FIELDS, elementName, getLastFiasId } from './utils';
+import { addressElementName, getLastFiasId } from './utils';
 
 import styles from './AddressModal.less';
 import {
   Address,
+  ADDRESS_FIELDS,
   AddressElement,
-  isLevelElement,
+  ErrorMessages,
+  isNamedAddressElement,
   Levels,
   Room,
   VerifyResponse
@@ -59,12 +61,12 @@ interface Props {
   title?: string;
   address?: Address;
   baseUrl?: string;
-  validFn?: (address: Address) => any; // errors
+  validFn?: (address: Address) => ErrorMessages;
 }
 
 interface State {
   address: Address;
-  errorMessages: any; // TODO
+  errorMessages: ErrorMessages;
 }
 
 export class AddressModal extends React.Component<Props, State> {
@@ -170,7 +172,7 @@ export class AddressModal extends React.Component<Props, State> {
             }
           }
         }
-      } else if (isLevelElement(value)) {
+      } else if (isNamedAddressElement(value)) {
         address[field] = value;
       } else {
         delete address[field];
@@ -310,7 +312,7 @@ export class AddressModal extends React.Component<Props, State> {
 
         const parent = info.address[parentField];
         if (parent && typeof parent === 'object' && parentField !== field) {
-          let parentName = elementName(parent, parentField);
+          let parentName = addressElementName(parent, parentField);
           if (parentField === 'region') {
             parentName = parent.code.substr(0, 2) + ' ' + parentName;
           }
@@ -321,7 +323,7 @@ export class AddressModal extends React.Component<Props, State> {
 
     return (
       <div>
-        {elementName(element, field)}
+        {addressElementName(element, field)}
         {parentNames.length > 0 && (
           <div className={styles.menuItemParents}>{parentNames.join(', ')}</div>
         )}
@@ -474,5 +476,5 @@ export class AddressModal extends React.Component<Props, State> {
 export default AddressModal;
 
 function renderValue(type: string, element: AddressElement) {
-  return element ? elementName(element, type) : '';
+  return element ? addressElementName(element, type) : '';
 }

@@ -1,25 +1,29 @@
 export type FiasId = string;
 
 export interface FiasEntity {
-  id: FiasId;
+  id: string;
   fiasId: FiasId;
   parentFiasId?: FiasId;
   code: string;
 }
 
-export interface LevelElement extends FiasEntity {
+export interface NamedAddressElement extends FiasEntity {
   name: string;
   abbreviation: string;
   level: Levels;
 }
 
-export interface Region extends LevelElement {}
-export interface District extends LevelElement {}
-export interface City extends LevelElement {}
-export interface Settlement extends LevelElement {}
-export interface PlanningStructure extends LevelElement {} // TODO: find examples
-export interface Street extends LevelElement {}
-export interface Stead extends LevelElement {} // TODO: find examples
+export interface Region extends NamedAddressElement {}
+export interface District extends NamedAddressElement {}
+export interface City extends NamedAddressElement {}
+export interface Settlement extends NamedAddressElement {}
+export interface PlanningStructure extends NamedAddressElement {}
+export interface Street extends NamedAddressElement {}
+
+export interface Stead extends FiasEntity {
+  number: string;
+  liveStatus: LiveStatuses;
+}
 
 export interface House extends FiasEntity {
   estateStatus: EstateStatuses;
@@ -35,7 +39,6 @@ export interface Room extends FiasEntity {
   liveStatus: LiveStatuses;
 }
 
-// TODO: add export as array
 export enum Levels {
   Region = 'Region',
   District = 'District',
@@ -47,6 +50,10 @@ export enum Levels {
   House = 'House',
   Room = 'Room'
 }
+
+export const ADDRESS_FIELDS = Object.keys(Levels).map(key => {
+  return key.charAt(0).toLowerCase() + key.slice(1);
+});
 
 export enum EstateStatuses {
   Hold = 'Hold',
@@ -82,18 +89,18 @@ export type AddressElement =
 export interface Address {
   [key: string]: AddressElement;
   region?: Region;
-  district?: LevelElement;
-  city?: LevelElement;
-  settlement?: LevelElement;
-  street?: LevelElement;
+  district?: District;
+  city?: City;
+  settlement?: Settlement;
+  street?: Street;
   house?: House;
   room?: Room;
 }
 
-export const isLevelElement = (
+export const isNamedAddressElement = (
   element: AddressElement
-): element is LevelElement => {
-  return (element as LevelElement).level !== undefined;
+): element is NamedAddressElement => {
+  return (element as NamedAddressElement).name !== undefined;
 };
 
 export const isHouse = (element: AddressElement): element is House => {
@@ -109,3 +116,7 @@ export type VerifyResponse = Array<{
   isValid: boolean;
   invalidLevel?: Levels;
 }>;
+
+export interface ErrorMessages {
+  [key: string]: string;
+}
