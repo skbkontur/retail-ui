@@ -77,7 +77,7 @@ describe('<DropdownMenu />', () => {
     expect(testText).toBe('Bar foo');
   });
 
-  test('Fire onOpen and onClose when open and close drowpown', () => {
+  test('Fire onOpen and onClose when open and close dropdown', () => {
     const onOpen = jest.fn();
     const onClose = jest.fn();
     const wrapper = mount(
