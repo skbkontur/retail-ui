@@ -180,12 +180,16 @@ class Input extends React.Component<InputProps, InputState> {
       placeholder,
       mainInGroup,
       selectAllOnFocus,
+      disabled,
       ...rest
     } = this.props;
+
+    const { blinking } = this.state;
+
     const labelProps = {
       className: classNames({
         [classes.root]: true,
-        [classes.disabled]: this.props.disabled,
+        [classes.disabled]: disabled,
         [classes.error]: error,
         [classes.warning]: warning,
         [classes.padLeft]: !!leftIcon,
@@ -203,15 +207,15 @@ class Input extends React.Component<InputProps, InputState> {
       className: classNames({
         [classes.input]: true,
         [classes.borderless]: borderless,
-        [classes.blink]: this.state.blinking
+        [classes.blink]: blinking
       }),
       value,
       onChange: this.handleChange,
+      onFocus: this.handleFocus,
       style: { textAlign: align },
       ref: this.refInput,
       type: 'text',
-      placeholder: !polyfillPlaceholder ? placeholder : undefined,
-      onFocus: this.handleFocus
+      placeholder: !polyfillPlaceholder ? placeholder : undefined
     };
 
     if (type === 'password') {
