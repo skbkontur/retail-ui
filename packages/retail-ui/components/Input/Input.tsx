@@ -53,6 +53,7 @@ export type InputProps = Override<
 export interface InputState {
   polyfillPlaceholder: boolean;
   blinking: boolean;
+  focused: boolean;
 }
 
 class Input extends React.Component<InputProps, InputState> {
@@ -64,7 +65,8 @@ class Input extends React.Component<InputProps, InputState> {
 
   public state: InputState = {
     polyfillPlaceholder: false,
-    blinking: false
+    blinking: false,
+    focused: false
   };
 
   private blinkTimeout: number = 0;
@@ -158,16 +160,21 @@ class Input extends React.Component<InputProps, InputState> {
       className,
       size,
       placeholder,
+      disabled,
       ...rest
     } = this.props;
+
+    const { focused, blinking } = this.state;
+
     const labelProps = {
       className: classNames({
         [classes.root]: true,
-        [classes.disabled]: this.props.disabled,
+        [classes.disabled]: disabled,
         [classes.error]: error,
         [classes.warning]: warning,
         [classes.padLeft]: !!leftIcon,
         [classes.padRight]: !!rightIcon,
+        [classes.focused]: focused,
         [this.getSizeClassName()]: true
       }),
       style: { width },
@@ -181,10 +188,12 @@ class Input extends React.Component<InputProps, InputState> {
       className: classNames({
         [classes.input]: true,
         [classes.borderless]: borderless,
-        [classes.blink]: this.state.blinking
+        [classes.blink]: blinking
       }),
       value,
       onChange: this.handleChange,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
       style: { textAlign: align },
       ref: this.refInput,
       type: 'text',
@@ -208,6 +217,14 @@ class Input extends React.Component<InputProps, InputState> {
       </label>
     );
   }
+
+  private handleFocus = () => {
+    this.setState({ focused: true });
+  };
+
+  private handleBlur = () => {
+    this.setState({ focused: false });
+  };
 
   private renderMaskedInput(
     inputProps: React.InputHTMLAttributes<HTMLInputElement> & {
