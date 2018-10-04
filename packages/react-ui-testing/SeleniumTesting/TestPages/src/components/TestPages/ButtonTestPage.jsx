@@ -14,8 +14,6 @@ export default class ButtonTestPage extends React.Component {
                     <Case.Body>
                         <Button
                             data-tid='SimpleButton'
-                            value={this.state.value} 
-                            onChange={(e, value) => this.setState({ value: value })}
                         />
                     </Case.Body>
                 </Case>
@@ -23,8 +21,6 @@ export default class ButtonTestPage extends React.Component {
                     <Case.Body>
                         <Button
                             data-tid='WarningButton'
-                            value={this.state.value}
-                            onChange={(e, value) => this.setState({ value: value })}
                             warning
                         />
                     </Case.Body>
