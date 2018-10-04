@@ -25,8 +25,21 @@ export const isRoom = (element: AddressElement): element is Room => {
   return element.level === Levels.Room;
 };
 
+export function getAddressElementName(element: AddressElement | undefined) {
+  if (!element) {
+    return '';
+  } else if (element.name) {
+    return element.name;
+  } else if (isHouse(element)) {
+    return element.number;
+  } else if (isRoom(element)) {
+    return element.flatNumber;
+  }
+  return '';
+}
+
 // TODO неразрывнях пробелов наставить между топонимом и его типом
-export function getAddressElementName(
+export function getAddressElementText(
   element: AddressElement,
   _for?: string
 ): string {
@@ -35,6 +48,7 @@ export function getAddressElementName(
     return '';
   }
 
+  // TODO добавить пгт, с/п? найти все возможные аббревиатуры
   if (element.abbreviation && element.name) {
     switch (element.abbreviation) {
       case 'Респ':
@@ -185,7 +199,7 @@ export function getAddressText(address: Address): string | null {
     return null;
   }
   const text = (element: AddressElement | undefined) =>
-    element && getAddressElementName(element);
+    element && getAddressElementText(element);
 
   return ADDRESS_FIELDS.map(field => text(address[field]))
     .filter(Boolean)

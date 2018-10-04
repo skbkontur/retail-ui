@@ -18,6 +18,8 @@ interface SearchQuery {
   limit?: number;
   parentFiasId?: FiasId;
   level?: Levels;
+  fullAddress?: boolean;
+  directParent?: boolean;
 }
 
 const BASE_URL = 'https://api.kontur.ru/fias/v1/';
@@ -76,6 +78,18 @@ export class FiasAPI {
 
     if (level === Levels.Region) {
       return this.searchRegions(searchText);
+    }
+
+    if (
+      level === Levels.District ||
+      level === Levels.City ||
+      level === Levels.Settlement
+    ) {
+      if (parentFiasId) {
+        query.directParent = false;
+      } else {
+        query.fullAddress = true;
+      }
     }
 
     if (searchText) {
@@ -183,7 +197,7 @@ function filterRegions(searchText: string) {
 function createQuery(query: SearchQuery): string {
   const params = [];
   for (const key in query) {
-    if (query.hasOwnProperty && query[key]) {
+    if (query.hasOwnProperty(key)) {
       if (key === 'level') {
         params.push(`${key}[]=${encodeURIComponent(query[key] as string)}`);
       } else {

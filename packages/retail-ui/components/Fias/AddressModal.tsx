@@ -4,7 +4,11 @@ import Gapped from '../Gapped';
 import Modal from '../Modal';
 import ComboBox from '../ComboBox';
 import { FiasAPI } from './FiasAPI';
-import { getAddressElementName, getLastFiasId, isHouse, isRoom } from './utils';
+import {
+  getAddressElementName,
+  getAddressElementText,
+  getLastFiasId
+} from './utils';
 import styles from './AddressModal.less';
 import {
   Address,
@@ -175,66 +179,39 @@ export class AddressModal extends React.Component<Props, State> {
 
   public createItemRenderer(field: string) {
     return (address: Address): React.ReactNode => {
-      // TODO fias возвращает линейную структуру - надо или в несколько запросов её восстанавливать или забить
-      const element = address[field];
-      const parentNames = [];
-      const parents = ADDRESS_FIELDS.slice(
-        0,
-        ADDRESS_FIELDS.indexOf(field) + 1
-      ).reverse();
-      for (const i in parents) {
-        if (parents.hasOwnProperty(i)) {
-          const parentField = parents[i];
-          if (this.state.address[parentField]) {
-            break;
-          }
-          const parent = address[parentField];
-          if (parent && typeof parent === 'object' && parentField !== field) {
-            let parentName = getAddressElementName(parent, parentField);
-            if (parentField === 'region') {
-              parentName = parent.code.substr(0, 2) + ' ' + parentName;
-            }
-            parentNames.unshift(parentName);
-          }
-        }
+      const element = address[field]!;
+      let text = getAddressElementText(element, field);
+
+      if (element.level === Levels.Region) {
+        const regionCode = element.code.substr(0, 2);
+        text = regionCode + ' ' + text;
       }
 
-      return (
-        element && (
-          <div>
-            {getAddressElementName(element, field)}
-            {parentNames.length > 0 && (
-              <div className={styles.menuItemParents}>
-                {parentNames.join(', ')}
-              </div>
-            )}
-          </div>
-        )
-      );
+      const parentTexts: string[] = [];
+      const parents = ADDRESS_FIELDS.slice(
+        0,
+        ADDRESS_FIELDS.indexOf(field)
+      ).filter(key => Boolean(address[key]));
+      parents.forEach((parentField: string) => {
+        const parent = address[parentField];
+        if (parent) {
+          parentTexts.push(getAddressElementText(parent));
+        }
+      });
+
+      return [...parentTexts, text].join(', ');
     };
   }
 
   public createValueRenderer(field: string) {
     return (address: Address) => {
       const element = address[field];
-      return element ? getAddressElementName(element, field) : '';
+      return element ? getAddressElementText(element, field) : '';
     };
   }
 
   public createValueToStringConverter(field: string) {
-    return (address: Address) => {
-      const element = address[field];
-      if (!element) {
-        return '';
-      } else if (element.name) {
-        return element.name;
-      } else if (isHouse(element)) {
-        return element.number;
-      } else if (isRoom(element)) {
-        return element.flatNumber;
-      }
-      return '';
-    };
+    return (address: Address) => getAddressElementName(address[field]);
   }
 
   public getInvalidLevelErrors(invalidLevel: Levels, address: Address): any {
@@ -317,7 +294,7 @@ export class AddressModal extends React.Component<Props, State> {
   public render() {
     return (
       <Modal width={500} onClose={this._handleClose}>
-        <Modal.Header>{this.props.title}</Modal.Header>
+        {this.props.title && <Modal.Header>{this.props.title}</Modal.Header>}
         <Modal.Body>{this._renderForm()}</Modal.Body>
         <Modal.Footer panel>
           <Gapped>
