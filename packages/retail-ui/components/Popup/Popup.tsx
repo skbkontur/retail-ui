@@ -12,10 +12,12 @@ import PopupHelper, { Rect, PositionObject } from './PopupHelper';
 import PopupPin from './PopupPin';
 import LayoutEvents from '../../lib/LayoutEvents';
 
-import styles = require('./Popup.less');
+import styles from './Popup.less';
 
-import { isIE, ieVerison } from '../ensureOldIEClassName';
+import { isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
+
+const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 
 export type PopupPosition =
   | 'top left'
@@ -34,16 +36,17 @@ export type PopupPosition =
 export interface PopupProps {
   anchorElement: Nullable<HTMLElement>;
   backgroundColor?: React.CSSProperties['backgroundColor'];
+  borderColor?: React.CSSProperties['borderColor'];
   children: React.ReactNode | (() => React.ReactNode);
-  hasPin?: boolean;
-  hasShadow?: boolean;
-  disableAnimations?: boolean;
-  margin?: number;
-  maxWidth?: number | string;
+  hasPin: boolean;
+  hasShadow: boolean;
+  disableAnimations: boolean;
+  margin: number;
+  maxWidth: number | string;
   opened: boolean;
-  pinOffset?: number;
-  pinSize?: number;
-  popupOffset?: number;
+  pinOffset: number;
+  pinSize: number;
+  popupOffset: number;
   positions: string[];
   onCloseRequest?: () => void;
   onMouseEnter?: (x0: React.MouseEvent<HTMLElement>) => void;
@@ -128,7 +131,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     hasPin: false,
     hasShadow: false,
     disableAnimations: false,
-    backgroundColor: '#fff',
     maxWidth: 500
   };
 
@@ -188,6 +190,15 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
   private _renderContent(location: PopupLocation) {
     const { direction } = PopupHelper.getPositionObject(location.position);
+    const rootStyle: React.CSSProperties = {
+      top: location.coordinates.top,
+      left: location.coordinates.left,
+      maxWidth: this.props.maxWidth
+    };
+
+    if (this.props.backgroundColor) {
+      rootStyle.backgroundColor = this.props.backgroundColor;
+    }
 
     return (
       <Transition
@@ -212,14 +223,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
                 ('transition-enter-' + direction) as keyof typeof styles
               ]]: true
             })}
-            style={{
-              top: location.coordinates.top,
-              left: location.coordinates.left,
-              backgroundColor:
-                this.props.backgroundColor ||
-                Popup.defaultProps.backgroundColor,
-              maxWidth: this.props.maxWidth || Popup.defaultProps.maxWidth
-            }}
+            style={rootStyle}
             onMouseEnter={this.props.onMouseEnter}
             onMouseLeave={this.props.onMouseLeave}
           >
@@ -249,17 +253,17 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
      * In non-ie browsers drop-shodow filter is used. It is applying
      * shadow to pin too.
      */
-    // prettier-ignore
-    const pinBorder
-      = ieVerison === 8 ? '#e5e5e5'
-      : isIE            ? 'rgba(0, 0, 0, 0.09)'
-      :                   'transparent';
+    const pinBorder =
+      styles.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR && isIE
+        ? 'rgba(0, 0, 0, 0.09)'
+        : styles.popupBorderColor;
 
     const {
-      pinSize = Popup.defaultProps.pinSize,
-      pinOffset = Popup.defaultProps.pinOffset,
-      hasShadow = Popup.defaultProps.hasShadow,
-      backgroundColor = Popup.defaultProps.backgroundColor
+      pinSize,
+      pinOffset,
+      hasShadow,
+      backgroundColor,
+      borderColor
     } = this.props;
 
     return (
@@ -270,8 +274,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
           size={pinSize}
           offset={pinOffset}
           borderWidth={hasShadow ? 1 : 0}
-          backgroundColor={backgroundColor}
-          borderColor={pinBorder}
+          backgroundColor={backgroundColor || styles.popupBackground}
+          borderColor={borderColor || pinBorder}
         />
       )
     );
@@ -351,12 +355,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     popupElement: HTMLElement,
     location?: PopupLocation | null
   ) {
-    const {
-      anchorElement,
-      positions,
-      margin = Popup.defaultProps.margin,
-      popupOffset = Popup.defaultProps.popupOffset
-    } = this.props;
+    const { anchorElement, positions, margin, popupOffset } = this.props;
 
     if (!anchorElement) {
       throw new Error('Anchor element is not defined');
@@ -421,10 +420,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       ? anchorRect.width
       : anchorRect.height;
 
-    const {
-      pinOffset = Popup.defaultProps.pinOffset,
-      pinSize = Popup.defaultProps.pinSize
-    } = this.props;
+    const { pinOffset, pinSize } = this.props;
     return Math.max(0, pinOffset + pinSize - anchorSize / 2);
   }
 

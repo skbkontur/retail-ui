@@ -7,6 +7,7 @@ import styles = require('./HintBox.less');
 import { Nullable, TimeoutID } from '../../typings/utility-types';
 
 const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
+const HINT_BORDER_COLOR = 'transparent';
 
 export interface HintProps {
   children?: React.ReactNode;
@@ -107,6 +108,7 @@ class Hint extends React.Component<HintProps, HintState> {
             anchorElement={this.captionNode}
             positions={this.getPositions()}
             backgroundColor={HINT_BACKGROUND_COLOR}
+            borderColor={HINT_BORDER_COLOR}
           >
             {this.renderContent()}
           </Popup>
