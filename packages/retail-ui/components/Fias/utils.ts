@@ -15,7 +15,10 @@ export const isStead = (element: AddressElement): element is Stead => {
 };
 
 export const isHouse = (element: AddressElement): element is House => {
-  return element.level === Levels.House;
+  // TODO: discuss about possibility to make all AddressElements have 'level' prop
+  return (
+    element.level === Levels.House || element.hasOwnProperty('estateStatus')
+  );
 };
 
 export const isRoom = (element: AddressElement): element is Room => {
@@ -102,7 +105,7 @@ export function getAddressElementName(
   let result = '';
 
   if (isStead(element)) {
-    result = element.number;
+    result = ' ' + element.number;
   }
 
   if (isHouse(element)) {
