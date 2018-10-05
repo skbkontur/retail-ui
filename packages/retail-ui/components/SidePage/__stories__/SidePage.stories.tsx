@@ -303,20 +303,10 @@ class SidePageWithModalInside extends React.Component<
           <Button onClick={() => this.setState({ isModalOpened: true })}>
             Открыть modal
           </Button>
-          <SampleConfigurator
-            onChange={name => {
-              const propertyName = name as keyof SidePageWithModalInsideState;
-              this.setState(
-                (state: SidePageWithModalInsideState) =>
-                  ({ [propertyName]: !state[propertyName] } as Shape<
-                    SidePageWithCloseConfigurationState
-                  >)
-              );
-            }}
-            ignoreBackgroundClick={this.state.ignoreBackgroundClick}
-            blockBackground={this.state.blockBackground}
-            withContent={true}
-          />
+          <div>
+            {textSample}
+            {textSample}
+          </div>
         </Sample>
         {textSample}
         {textSample}
