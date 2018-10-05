@@ -11,32 +11,20 @@ import Icon from '../../Icon';
 storiesOf('Group', module)
   .add('Simple Group with Input and Button', () => (
     <Group>
-      <Input
-        placeholder="Search"
-        // @ts-ignore
-        mainInGroup
-      />
+      <Input placeholder="Search" mainInGroup />
       <Button icon="Search" />
     </Group>
   ))
   .add('Simple Group with custom width', () => (
     <Group width="300px">
-      <Input
-        placeholder="Search"
-        // @ts-ignore
-        mainInGroup
-      />
+      <Input placeholder="Search" mainInGroup />
       <Button icon="Search" />
     </Group>
   ))
   .add('Group with Input and multiple Buttons', () => (
     <Group>
       <Button>Clear</Button>
-      <Input
-        placeholder="Search"
-        // @ts-ignore
-        mainInGroup
-      />
+      <Input placeholder="Search" mainInGroup />
       <Button icon="Search" />
       <Button>Cancel</Button>
     </Group>
