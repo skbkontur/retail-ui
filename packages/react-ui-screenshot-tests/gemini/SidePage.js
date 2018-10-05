@@ -20,8 +20,13 @@ gemini.suite("More one SidePage", suite => {
   suite
     .setUrl(pathTo("SidePage", "SidePage over another SidePage"))
     .setCaptureElements("html")
-    .capture("open side-page", (actions, find) => {
+    .capture("open internal side-page", (actions, find) => {
       actions.click(find("button"));
       actions.click(find('[class^="SidePage-body"] button'));
+    })
+    .capture("close internal side-page", (action, find) => {
+      action.click(
+        find('.react-ui:last-child [class^="SidePage-footer"] button')
+      );
     });
 });

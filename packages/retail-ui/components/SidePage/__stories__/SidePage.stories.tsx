@@ -60,7 +60,12 @@ class Sample extends React.Component<SampleProps, SampleState> {
       ignoreBackgroundClick={this.props.ignoreBackgroundClick}
       blockBackground={this.props.blockBackground}
     >
-      <SidePage.Header>Title</SidePage.Header>
+      <SidePage.Header>
+        Title
+        {this.props.total &&
+          this.props.total > 1 &&
+          ` ${this.props.current} / ${this.props.total}`}
+      </SidePage.Header>
       <SidePage.Body>
         <div style={{ padding: '0 35px 35px 35px' }}>
           {this.props.total &&
