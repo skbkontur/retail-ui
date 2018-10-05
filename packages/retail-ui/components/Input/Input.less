@@ -15,11 +15,8 @@
     width: 250px;
   }
 
-  .root.focused {
-    z-index: 10;
-  }
-
   .input {
+    position: relative;
     border: 1px solid @border-color-gray-light;
     border-top-color: @border-color-gray-dark;
     box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05);
@@ -147,6 +144,7 @@
   .input:focus {
     border-color: @border-color-focus;
     box-shadow: 0 0 0 1px @border-color-focus;
+    z-index: 2;
   }
 
   .disabled .input {
