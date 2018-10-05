@@ -179,7 +179,7 @@ const webpackConfig = {
         ]
       },
       {
-        test: /\.less$/,
+        test: /\.(css|less)$/,
         use: [
           'style-loader',
           'css-loader',
