@@ -35,6 +35,8 @@ namespace SKBKontur.SeleniumTesting
             return GetReactProp<bool>("error");
         }
 
+        public IProp<bool> HasWarning => Property(() => GetReactProp<bool>("warning"), "HasWarning");
+
         public void MouseOver()
         {
             ExecuteAction(x =>
