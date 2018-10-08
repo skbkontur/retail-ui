@@ -1,9 +1,9 @@
-
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Input from '../Input';
 import Icon from '../../Icon';
+import Button from '../../Button';
 
 const styles = {
   display: 'inline-block',
@@ -47,7 +47,8 @@ storiesOf('Input', module)
 
       <div>
         <div style={styles}>
-          Disabled<br /> (with text)
+          Disabled
+          <br /> (with text)
         </div>
         <div id="disabled-text-small-input-wrapper" style={styles}>
           <Input size="small" value="Some text" disabled />
@@ -128,4 +129,25 @@ storiesOf('Input', module)
       maskChar={null}
       placeholder="+7"
     />
-  ));
+  ))
+  .add('Select all by prop', () => (
+    <Input defaultValue="Some value" selectAllOnFocus />
+  ))
+  .add('Select all by button', () => {
+    let input: Input | null = null;
+
+    const selectAll = () => {
+      if (input) {
+        input.selectAll();
+      }
+    };
+
+    return (
+      <div>
+        <div>
+          <Input ref={element => (input = element)} defaultValue="Some value" />
+        </div>
+        <Button onClick={selectAll}>Select all</Button>
+      </div>
+    );
+  });

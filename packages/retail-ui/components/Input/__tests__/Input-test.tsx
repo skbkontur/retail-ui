@@ -3,7 +3,8 @@ import { mount } from 'enzyme';
 import Input, { InputProps } from '../Input';
 import MaskedInput from 'react-input-mask';
 
-const render = (props: InputProps) => mount(React.createElement(Input, props));
+const render = (props: InputProps) =>
+  mount<Input>(React.createElement(Input, props));
 
 describe('<Input />', () => {
   it('renders', () => {
@@ -72,7 +73,6 @@ describe('<Input />', () => {
       onMouseUp: () => undefined,
       onMouseDown: () => undefined,
       onCut: () => undefined,
-      onFocus: () => undefined,
       onInput: () => undefined,
       onKeyDown: () => undefined,
       onKeyPress: () => undefined,
@@ -83,11 +83,12 @@ describe('<Input />', () => {
       .find('input')
       .props();
 
-    // tslint:disable-next-line:forin
     for (const prop in props) {
-      expect(inputProps[prop as keyof typeof inputProps]).toBe(
-        props[prop as keyof typeof props]
-      );
+      if (props[prop as keyof typeof props]) {
+        expect(inputProps[prop as keyof typeof inputProps]).toBe(
+          props[prop as keyof typeof props]
+        );
+      }
     }
   });
 
@@ -168,5 +169,30 @@ describe('<Input />', () => {
     const wrapper = render({ value: '' });
     const instance = wrapper.instance() as Input;
     expect(instance.setSelectionRange).toBeInstanceOf(Function);
+  });
+
+  it('selectAll method works', () => {
+    const value = 'Method works';
+    const wrapper = render({ value });
+
+    wrapper.instance().selectAll();
+
+    expect(document.activeElement).toBeInstanceOf(HTMLInputElement);
+    expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
+    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(
+      value.length
+    );
+  });
+
+  it('selectAllOnFocus prop works', () => {
+    const value = 'Prop works';
+    const wrapper = render({ value, selectAllOnFocus: true });
+
+    wrapper.find('input').simulate('focus');
+
+    expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
+    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(
+      value.length
+    );
   });
 });

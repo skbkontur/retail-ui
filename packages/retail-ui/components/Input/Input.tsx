@@ -69,6 +69,7 @@ export type InputProps = Override<
      * Главный инпут в Group
      */
     mainInGroup?: boolean;
+    selectAllOnFocus?: boolean;
   }
 >;
 
@@ -147,22 +148,15 @@ class Input extends React.Component<InputProps, InputState> {
    * @public
    */
   public setSelectionRange(start: number, end: number) {
-    const { input } = this;
-    if (!input) {
+    if (!this.input) {
       throw new Error('Cannot call "setSelectionRange" on unmounted Input');
     }
 
-    if (input.setSelectionRange) {
-      input.focus();
-      input.setSelectionRange(start, end);
-      // tslint:disable-next-line:no-any
-    } else if ((input as any).createTextRange) {
-      const range = (input as any).createTextRange();
-      range.collapse(true);
-      range.moveEnd('character', end);
-      range.moveStart('character', start);
-      range.select();
+    if (document.activeElement !== this.input) {
+      this.focus();
     }
+
+    this.input.setSelectionRange(start, end);
   }
 
   public render(): JSX.Element {
@@ -185,6 +179,7 @@ class Input extends React.Component<InputProps, InputState> {
       size,
       placeholder,
       mainInGroup,
+      selectAllOnFocus,
       ...rest
     } = this.props;
     const labelProps = {
@@ -215,7 +210,8 @@ class Input extends React.Component<InputProps, InputState> {
       style: { textAlign: align },
       ref: this.refInput,
       type: 'text',
-      placeholder: !polyfillPlaceholder ? placeholder : undefined
+      placeholder: !polyfillPlaceholder ? placeholder : undefined,
+      onFocus: this.handleFocus
     };
 
     if (type === 'password') {
@@ -235,6 +231,13 @@ class Input extends React.Component<InputProps, InputState> {
       </label>
     );
   }
+
+  /** @api */
+  public selectAll = () => {
+    if (this.input) {
+      this.setSelectionRange(0, this.input.value.length);
+    }
+  };
 
   private renderMaskedInput(
     inputProps: React.InputHTMLAttributes<HTMLInputElement> & {
@@ -319,6 +322,16 @@ class Input extends React.Component<InputProps, InputState> {
 
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
+    }
+  };
+
+  private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (this.props.selectAllOnFocus) {
+      this.selectAll();
+    }
+
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
     }
   };
 }
