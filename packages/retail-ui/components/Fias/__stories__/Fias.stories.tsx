@@ -5,7 +5,9 @@ import { Fias } from '../index';
 
 storiesOf('Fias', module)
   .add('default', () => <Fias />)
-  .add('with modal title', () => <ExampleFias title={'Адрес'} />)
+  .add('with custom title', () => (
+    <ExampleFias title={'Оригинальный Заголовок'} />
+  ))
   .add('with value', () => <ExampleFias value={MOCK_ADDRESS} />)
   .add('with search', () => <ExampleFias search={true} />)
   .add('error text', () => <ExampleFias error={'Error :('} />)

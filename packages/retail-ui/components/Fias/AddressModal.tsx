@@ -56,6 +56,7 @@ interface State {
 
 export class AddressModal extends React.Component<Props, State> {
   public static defaultProps: Props = {
+    title: 'Адрес',
     onChange: () => null,
     onClose: () => null
   };
@@ -314,7 +315,7 @@ export class AddressModal extends React.Component<Props, State> {
   public render() {
     return (
       <Modal width={500} onClose={this._handleClose}>
-        {this.props.title && <Modal.Header>{this.props.title}</Modal.Header>}
+        <Modal.Header>{this.props.title}</Modal.Header>
         <Modal.Body>{this._renderForm()}</Modal.Body>
         <Modal.Footer panel>
           <Gapped>
