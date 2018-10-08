@@ -216,7 +216,8 @@ class Input extends React.Component<InputProps, InputState> {
       style: { textAlign: align },
       ref: this.refInput,
       type: 'text',
-      placeholder: !polyfillPlaceholder ? placeholder : undefined
+      placeholder: !polyfillPlaceholder ? placeholder : undefined,
+      disabled
     };
 
     if (type === 'password') {

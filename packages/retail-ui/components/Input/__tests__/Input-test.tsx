@@ -85,7 +85,7 @@ describe('<Input />', () => {
 
     for (const prop in props) {
       if (props[prop as keyof typeof props]) {
-        expect(inputProps[prop as keyof typeof inputProps]).toBe(
+        expect(inputProps[prop as keyof typeof props]).toBe(
           props[prop as keyof typeof props]
         );
       }
