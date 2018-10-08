@@ -80,14 +80,14 @@ export class FiasAPI {
       });
     }
 
-    if (level === Levels.Region) {
+    if (level === Levels.region) {
       return this.searchRegions(searchText);
     }
 
     if (
-      level === Levels.District ||
-      level === Levels.City ||
-      level === Levels.Settlement
+      level === Levels.district ||
+      level === Levels.city ||
+      level === Levels.settlement
     ) {
       if (parentFiasId) {
         query.directParent = false;
@@ -98,13 +98,13 @@ export class FiasAPI {
 
     if (searchText && level) {
       if (parentFiasId) {
-        if (level === Levels.Room) {
+        if (level === Levels.room) {
           return this.searchRooms(query);
         }
-        if (level === Levels.House) {
+        if (level === Levels.house) {
           return this.searchHouse(query);
         }
-        if (level === Levels.Stead) {
+        if (level === Levels.stead) {
           return this.searchStead(query);
         }
       }
@@ -132,20 +132,20 @@ export class FiasAPI {
       (roomsList: Room[]): Address[] => {
         return roomsList.reduce((filteredList: Address[], item: Room) => {
           if (!filteredList.length) {
-            return [{ room: { ...item, level: Levels.Room } }];
+            return [{ room: { ...item, level: Levels.room } }];
           }
 
           for (const i in filteredList) {
             if (filteredList[i].room!.flatNumber === item.flatNumber) {
               if (item.liveStatus === LiveStatuses.Active) {
-                filteredList[i] = { room: { ...item, level: Levels.Room } };
+                filteredList[i] = { room: { ...item, level: Levels.room } };
               }
               return filteredList;
             }
           }
 
           filteredList.push({
-            room: { ...item, level: Levels.Room }
+            room: { ...item, level: Levels.room }
           });
           return filteredList;
         }, []);
@@ -158,7 +158,7 @@ export class FiasAPI {
       data.map((item: Stead) => ({
         stead: {
           ...item,
-          level: Levels.Stead
+          level: Levels.stead
         }
       }))
     );
@@ -169,7 +169,7 @@ export class FiasAPI {
       data.map((item: House) => ({
         house: {
           ...item,
-          level: Levels.House
+          level: Levels.house
         }
       }))
     );

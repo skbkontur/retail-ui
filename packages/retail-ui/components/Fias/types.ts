@@ -31,17 +31,21 @@ export interface Room extends AddressObject {
 }
 
 export enum Levels {
-  Region = 'Region',
-  District = 'District',
-  City = 'City',
-  Settlement = 'Settlement',
-  Stead = 'Stead',
-  Street = 'Street',
-  House = 'House',
-  Room = 'Room'
+  region = 'Region',
+  district = 'District',
+  city = 'City',
+  settlement = 'Settlement',
+  stead = 'Stead',
+  street = 'Street',
+  house = 'House',
+  room = 'Room'
 }
 
-export const ADDRESS_FIELDS = Object.keys(Levels).map(key => key.toLowerCase());
+export const ADDRESS_FIELDS: AddressFieldName[] = Object.keys(Levels).map(
+  field => field as AddressFieldName
+);
+
+export type AddressFieldName = keyof typeof Levels;
 
 export enum EstateStatuses {
   Hold = 'Hold',

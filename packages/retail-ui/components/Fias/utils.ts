@@ -11,18 +11,18 @@ import {
 } from './types';
 
 export const isStead = (element: AddressElement): element is Stead => {
-  return element.level === Levels.Stead;
+  return element.level === Levels.stead;
 };
 
 export const isHouse = (element: AddressElement): element is House => {
   // TODO: discuss about possibility to make all AddressElements have 'level' prop
   return (
-    element.level === Levels.House || element.hasOwnProperty('estateStatus')
+    element.level === Levels.house || element.hasOwnProperty('estateStatus')
   );
 };
 
 export const isRoom = (element: AddressElement): element is Room => {
-  return element.level === Levels.Room;
+  return element.level === Levels.room;
 };
 
 export function getAddressElementName(element: AddressElement | undefined) {

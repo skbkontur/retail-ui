@@ -15,6 +15,7 @@ import {
   Address,
   ADDRESS_FIELDS,
   AddressElement,
+  AddressFieldName,
   ErrorMessages,
   Levels,
   Room,
@@ -23,10 +24,8 @@ import {
 
 const VERIFY_ERROR_MESSAGE = 'Неверный адрес';
 
-interface ChangeEvent<T> {
-  target: {
-    value: T;
-  };
+interface Fields {
+  [field: string]: FieldProps | null;
 }
 
 interface FieldProps {
@@ -37,6 +36,12 @@ interface FieldProps {
   valueToString: (address: Address) => string;
   onInputChange: (value: string) => void;
   onUnexpectedInput?: (searchText: string) => void;
+}
+
+interface ChangeEvent<T> {
+  target: {
+    value: T;
+  };
 }
 
 interface Props {
@@ -66,15 +71,8 @@ export class AddressModal extends React.Component<Props, State> {
 
   private _verifyPromise: Promise<VerifyResponse> | null = null;
 
-  private readonly _searchProps: FieldProps;
-  private readonly _regionProps: FieldProps;
-  private readonly _districtProps: FieldProps;
-  private readonly _cityProps: FieldProps;
-  private readonly _settlementProps: FieldProps;
-  private readonly _streetProps: FieldProps;
-  private readonly _houseProps: FieldProps;
-  private readonly _steadProps: FieldProps;
-  private readonly _roomProps: FieldProps;
+  private _fields: Fields = {};
+  private readonly _searchProps: FieldProps | null = null;
 
   constructor(props: Props) {
     super(props);
@@ -86,78 +84,68 @@ export class AddressModal extends React.Component<Props, State> {
 
     this.api = new FiasAPI(this.props.baseUrl);
 
-    this._searchProps = {
-      getItems: this.createSource(),
-      onChange: (e, address: Address) => {
-        this.setState({ address });
-        this.check(address);
+    this._fields = ADDRESS_FIELDS.reduce(
+      (fields: Fields, field: AddressFieldName) => {
+        return {
+          ...fields,
+          [field]: this.getFieldProps(field)
+        };
       },
-      renderItem: address => getAddressText(address),
-      renderValue: address => getAddressText(address),
-      valueToString: address => getAddressText(address),
-      onInputChange: (value: string) => {
-        if (!value) {
-          this.setState({
-            address: {},
-            errorMessages: {}
-          });
-        }
-      }
-    };
-    this._regionProps = this.createFieldProps('region', 0, Levels.Region);
-    this._districtProps = this.createFieldProps('district', 1, Levels.District);
-    this._cityProps = this.createFieldProps('city', 2, Levels.City);
-    this._settlementProps = this.createFieldProps(
-      'settlement',
-      3,
-      Levels.Settlement
+      {}
     );
-    this._streetProps = this.createFieldProps('street', 5, Levels.Street);
-    this._houseProps = this.createFieldProps('house', 6, Levels.House);
-    this._steadProps = this.createFieldProps('stead', 6, Levels.Stead);
-    this._roomProps = {
-      ...this.createFieldProps('room', 8, Levels.Room),
-      onChange: (e, newAddress) => {
-        const roomField = 'room';
-        const element = newAddress[roomField];
-        const currentAddress = { ...this.state.address };
-        if (newAddress) {
-          for (const i in ADDRESS_FIELDS) {
-            if (ADDRESS_FIELDS.hasOwnProperty(i)) {
-              const addressField = ADDRESS_FIELDS[i];
-              if (addressField !== roomField && newAddress[addressField]) {
-                currentAddress[addressField] = newAddress[addressField] as Room;
-              } else if (addressField === roomField) {
-                currentAddress[roomField] = element as Room;
-                break;
+
+    if (props.search) {
+      this._searchProps = this.createSearchProps();
+    }
+  }
+
+  public getFieldProps(field: AddressFieldName): FieldProps | null {
+    switch (field) {
+      case 'room':
+        return {
+          ...this.createFieldProps(field),
+          onChange: (e, newAddress) => {
+            const roomField = 'room';
+            const element = newAddress[roomField];
+            const currentAddress = { ...this.state.address };
+            if (newAddress) {
+              for (const i in ADDRESS_FIELDS) {
+                if (ADDRESS_FIELDS.hasOwnProperty(i)) {
+                  const addressField = ADDRESS_FIELDS[i];
+                  if (addressField !== roomField && newAddress[addressField]) {
+                    currentAddress[addressField] = newAddress[
+                      addressField
+                    ] as Room;
+                  } else if (addressField === roomField) {
+                    currentAddress[roomField] = element as Room;
+                    break;
+                  }
+                }
               }
+            } else {
+              currentAddress[roomField] = element as Room;
             }
+            this.setState({ address: currentAddress });
           }
-        } else {
-          currentAddress[roomField] = element as Room;
-        }
-        this.setState({ address: currentAddress });
-      }
-    };
+        };
+      default:
+        return this.createFieldProps(field);
+    }
   }
 
-  public createFieldProps(
-    field: string,
-    depth: number,
-    level: Levels
-  ): FieldProps {
+  public createFieldProps(field: AddressFieldName): FieldProps {
     return {
-      getItems: this.createSource(depth, level),
-      onChange: this.createChangeHandler(field),
-      renderItem: this.createItemRenderer(field),
-      renderValue: this.createValueRenderer(field),
-      valueToString: this.createValueToStringConverter(field),
-      onInputChange: this.createInputHandler(field),
-      onUnexpectedInput: this.createUnexpectedInputHandler(field)
+      getItems: this.createFieldSource(field, Levels[field]),
+      onChange: this.createFieldChangeHandler(field),
+      renderItem: this.createFieldItemRenderer(field),
+      renderValue: this.createFieldValueRenderer(field),
+      valueToString: this.createFieldValueToStringConverter(field),
+      onInputChange: this.createFieldInputHandler(field),
+      onUnexpectedInput: this.createFieldUnexpectedInputHandler(field)
     };
   }
 
-  public createChangeHandler(field: string) {
+  public createFieldChangeHandler(field: string) {
     return (e: ChangeEvent<Address>, newAddress: Address) => {
       const currentAddress = { ...this.state.address };
       const element = newAddress[field]!;
@@ -179,7 +167,7 @@ export class AddressModal extends React.Component<Props, State> {
     };
   }
 
-  public createInputHandler(field: string) {
+  public createFieldInputHandler(field: string) {
     return (value: string) => {
       if (!value) {
         const errorMessages = { ...this.state.errorMessages };
@@ -189,7 +177,7 @@ export class AddressModal extends React.Component<Props, State> {
     };
   }
 
-  public createUnexpectedInputHandler(field: string) {
+  public createFieldUnexpectedInputHandler(field: string) {
     return (searchText: string) => {
       if (!searchText) {
         const address = { ...this.state.address };
@@ -199,12 +187,12 @@ export class AddressModal extends React.Component<Props, State> {
     };
   }
 
-  public createItemRenderer(field: string) {
+  public createFieldItemRenderer(field: AddressFieldName) {
     return (address: Address): React.ReactNode => {
       const element = address[field]!;
       let text = getAddressElementText(element, field);
 
-      if (element.level === Levels.Region) {
+      if (element.level === Levels.region) {
         const regionCode = element.code.substr(0, 2);
         text = regionCode + ' ' + text;
       }
@@ -225,15 +213,36 @@ export class AddressModal extends React.Component<Props, State> {
     };
   }
 
-  public createValueRenderer(field: string) {
+  public createFieldValueRenderer(field: AddressFieldName) {
     return (address: Address) => {
       const element = address[field];
       return element ? getAddressElementText(element, field) : '';
     };
   }
 
-  public createValueToStringConverter(field: string) {
+  public createFieldValueToStringConverter(field: AddressFieldName) {
     return (address: Address) => getAddressElementName(address[field]);
+  }
+
+  public createSearchProps(): FieldProps {
+    return {
+      getItems: this.createSearchSource(),
+      onChange: (e, address: Address) => {
+        this.setState({ address });
+        this.check(address);
+      },
+      renderItem: address => getAddressText(address),
+      renderValue: address => getAddressText(address),
+      valueToString: address => getAddressText(address),
+      onInputChange: (value: string) => {
+        if (!value) {
+          this.setState({
+            address: {},
+            errorMessages: {}
+          });
+        }
+      }
+    };
   }
 
   public getInvalidLevelErrors(invalidLevel: Levels, address: Address): any {
@@ -293,7 +302,8 @@ export class AddressModal extends React.Component<Props, State> {
     });
   }
 
-  public createSource(depth: number = -1, level?: Levels) {
+  public createFieldSource(field: AddressFieldName, level: Levels) {
+    const depth = ADDRESS_FIELDS.indexOf(field);
     return (searchText: string) => {
       const parentFiasId = getLastFiasId(
         this.state.address,
@@ -301,6 +311,10 @@ export class AddressModal extends React.Component<Props, State> {
       );
       return this.api.search(searchText, level, parentFiasId);
     };
+  }
+
+  public createSearchSource() {
+    return (searchText: string) => this.api.search(searchText);
   }
 
   public setStateAddress(key: string, value: AddressElement) {
@@ -385,7 +399,7 @@ export class AddressModal extends React.Component<Props, State> {
             <div className={styles.label}>Регион</div>
             <div className={styles.field}>
               <ComboBox
-                {...this._regionProps}
+                {...this._fields.region}
                 value={address}
                 placeholder="Можно вводить код или название"
                 error={errorMessages.hasOwnProperty('region')}
@@ -398,7 +412,7 @@ export class AddressModal extends React.Component<Props, State> {
             <div className={styles.label}>Район</div>
             <div className={styles.field}>
               <ComboBox
-                {...this._districtProps}
+                {...this._fields.district}
                 value={address}
                 error={errorMessages.hasOwnProperty('district')}
                 autocomplete={true}
@@ -410,7 +424,7 @@ export class AddressModal extends React.Component<Props, State> {
             <div className={styles.label}>Город</div>
             <div className={styles.field}>
               <ComboBox
-                {...this._cityProps}
+                {...this._fields.city}
                 value={address}
                 error={errorMessages.hasOwnProperty('city')}
                 autocomplete={true}
@@ -422,7 +436,7 @@ export class AddressModal extends React.Component<Props, State> {
             <div className={styles.label}>Населенный пункт</div>
             <div className={styles.field}>
               <ComboBox
-                {...this._settlementProps}
+                {...this._fields.settlement}
                 value={address}
                 error={errorMessages.hasOwnProperty('settlement')}
                 autocomplete={true}
@@ -434,7 +448,7 @@ export class AddressModal extends React.Component<Props, State> {
             <div className={styles.label}>Улица</div>
             <div className={styles.field}>
               <ComboBox
-                {...this._streetProps}
+                {...this._fields.street}
                 value={address}
                 error={errorMessages.hasOwnProperty('street')}
                 autocomplete={true}
@@ -446,7 +460,7 @@ export class AddressModal extends React.Component<Props, State> {
             <div className={styles.label}>Земельный участок</div>
             <div className={styles.field}>
               <ComboBox
-                {...this._steadProps}
+                {...this._fields.stead}
                 value={address}
                 error={errorMessages.hasOwnProperty('stead')}
                 autocomplete={true}
@@ -458,7 +472,7 @@ export class AddressModal extends React.Component<Props, State> {
             <div className={styles.label}>Дом, сооружение</div>
             <div className={styles.field}>
               <ComboBox
-                {...this._houseProps}
+                {...this._fields.house}
                 value={address}
                 error={errorMessages.hasOwnProperty('house')}
                 autocomplete={true}
@@ -470,7 +484,7 @@ export class AddressModal extends React.Component<Props, State> {
             <div className={styles.label}>Квартира, офис</div>
             <div className={styles.field}>
               <ComboBox
-                {...this._roomProps}
+                {...this._fields.room}
                 value={address}
                 error={errorMessages.hasOwnProperty('room')}
                 autocomplete={true}
