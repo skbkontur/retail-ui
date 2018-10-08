@@ -14,6 +14,7 @@ type SearchResponse = Promise<Address[]>;
 
 interface SearchQuery {
   [key: string]: any;
+  address?: string;
   prefix?: string;
   limit?: number;
   parentFiasId?: FiasId;
@@ -62,7 +63,7 @@ export class FiasAPI {
 
   public search = (
     searchText: string,
-    level: Levels,
+    level?: Levels,
     parentFiasId?: FiasId
   ): SearchResponse => {
     const query: SearchQuery = {
@@ -72,8 +73,11 @@ export class FiasAPI {
       level
     };
 
-    if (!parentFiasId) {
-      delete query.parentFiasId;
+    if (!level && searchText) {
+      return this.resolveAddress({
+        address: trimSearchText(searchText),
+        limit: LIMIT
+      });
     }
 
     if (level === Levels.Region) {
@@ -92,7 +96,7 @@ export class FiasAPI {
       }
     }
 
-    if (searchText) {
+    if (searchText && level) {
       if (parentFiasId) {
         if (level === Levels.Room) {
           return this.searchRooms(query);
@@ -104,7 +108,6 @@ export class FiasAPI {
           return this.searchStead(query);
         }
       }
-
       return this.searchAddressSuggest(query, level);
     } else {
       return Promise.resolve([]);
@@ -118,6 +121,10 @@ export class FiasAPI {
     return this.send(`addresses?${createQuery(query)}`).then(data =>
       data.filter((item: Address) => item[level.toLowerCase()])
     );
+  };
+
+  public resolveAddress = (query: SearchQuery): SearchResponse => {
+    return this.send(`addresses/resolve?${createQuery(query)}`);
   };
 
   public searchRooms = (query: SearchQuery): SearchResponse => {
@@ -197,7 +204,7 @@ function filterRegions(searchText: string) {
 function createQuery(query: SearchQuery): string {
   const params = [];
   for (const key in query) {
-    if (query.hasOwnProperty(key)) {
+    if (query.hasOwnProperty(key) && query[key] !== undefined) {
       if (key === 'level') {
         params.push(`${key}[]=${encodeURIComponent(query[key] as string)}`);
       } else {
@@ -206,4 +213,12 @@ function createQuery(query: SearchQuery): string {
     }
   }
   return params.join('&');
+}
+
+function trimSearchText(searchText: string): string {
+  return searchText
+    .toLowerCase()
+    .replace(/[,]/g, '')
+    .replace(/\s[\s]*/g, ' ');
+  // TODO: trim abbreviations and full types of toponyms
 }

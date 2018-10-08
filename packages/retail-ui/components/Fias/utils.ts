@@ -48,7 +48,7 @@ export function getAddressElementText(
     return '';
   }
 
-  // TODO добавить пгт, с/п? найти все возможные аббревиатуры
+  // TODO добавить пгт, с/п? найти все возможные аббревиатуры (массив?)
   if (element.abbreviation && element.name) {
     switch (element.abbreviation) {
       case 'Респ':
@@ -194,14 +194,14 @@ export function getLastFiasId(
   }
 }
 
-export function getAddressText(address: Address): string | null {
+export function getAddressText(address: Address): string {
   if (!address) {
-    return null;
+    return '';
   }
-  const text = (element: AddressElement | undefined) =>
+  const getText = (element: AddressElement | undefined) =>
     element && getAddressElementText(element);
 
-  return ADDRESS_FIELDS.map(field => text(address[field]))
+  return ADDRESS_FIELDS.map(field => getText(address[field]))
     .filter(Boolean)
     .join(', ');
 }

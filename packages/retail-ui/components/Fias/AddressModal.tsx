@@ -7,6 +7,7 @@ import { FiasAPI } from './FiasAPI';
 import {
   getAddressElementName,
   getAddressElementText,
+  getAddressText,
   getLastFiasId
 } from './utils';
 import styles from './AddressModal.less';
@@ -35,7 +36,7 @@ interface FieldProps {
   renderValue: (address: Address) => React.ReactNode;
   valueToString: (address: Address) => string;
   onInputChange: (value: string) => void;
-  onUnexpectedInput: (searchText: string) => void;
+  onUnexpectedInput?: (searchText: string) => void;
 }
 
 interface Props {
@@ -45,6 +46,7 @@ interface Props {
   address?: Address;
   baseUrl?: string;
   validFn?: (address: Address) => ErrorMessages;
+  search?: boolean;
 }
 
 interface State {
@@ -63,6 +65,7 @@ export class AddressModal extends React.Component<Props, State> {
 
   private _verifyPromise: Promise<VerifyResponse> | null = null;
 
+  private readonly _searchProps: FieldProps;
   private readonly _regionProps: FieldProps;
   private readonly _districtProps: FieldProps;
   private readonly _cityProps: FieldProps;
@@ -82,6 +85,24 @@ export class AddressModal extends React.Component<Props, State> {
 
     this.api = new FiasAPI(this.props.baseUrl);
 
+    this._searchProps = {
+      getItems: this.createSource(),
+      onChange: (e, address: Address) => {
+        this.setState({ address });
+        this.check(address);
+      },
+      renderItem: address => getAddressText(address),
+      renderValue: address => getAddressText(address),
+      valueToString: address => getAddressText(address),
+      onInputChange: (value: string) => {
+        if (!value) {
+          this.setState({
+            address: {},
+            errorMessages: {}
+          });
+        }
+      }
+    };
     this._regionProps = this.createFieldProps('region', 0, Levels.Region);
     this._districtProps = this.createFieldProps('district', 1, Levels.District);
     this._cityProps = this.createFieldProps('city', 2, Levels.City);
@@ -125,7 +146,7 @@ export class AddressModal extends React.Component<Props, State> {
     level: Levels
   ): FieldProps {
     return {
-      getItems: this.createSource(field, depth, level),
+      getItems: this.createSource(depth, level),
       onChange: this.createChangeHandler(field),
       renderItem: this.createItemRenderer(field),
       renderValue: this.createValueRenderer(field),
@@ -271,13 +292,12 @@ export class AddressModal extends React.Component<Props, State> {
     });
   }
 
-  public createSource(field: string, depth: number, level: Levels) {
+  public createSource(depth: number = -1, level?: Levels) {
     return (searchText: string) => {
       const parentFiasId = getLastFiasId(
         this.state.address,
         ADDRESS_FIELDS.slice(0, depth)
       );
-
       return this.api.search(searchText, level, parentFiasId);
     };
   }
@@ -344,10 +364,22 @@ export class AddressModal extends React.Component<Props, State> {
 
   private _renderForm() {
     const { address, errorMessages } = this.state;
-
     return (
       <div>
         <Gapped vertical>
+          {this.props.search && (
+            <div className={styles.row}>
+              <div className={styles.field}>
+                <ComboBox
+                  {...this._searchProps}
+                  value={address}
+                  placeholder="Начните вводить адрес в свободной форме"
+                  autocomplete={true}
+                  width="100%"
+                />
+              </div>
+            </div>
+          )}
           <div className={styles.row}>
             <div className={styles.label}>Регион</div>
             <div className={styles.field}>

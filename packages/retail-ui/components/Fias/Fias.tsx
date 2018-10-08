@@ -16,6 +16,7 @@ interface Props {
   baseUrl?: string;
   validFn?: (address: Address) => ErrorMessages;
   onChange?: (value: { address: Address }) => void;
+  search?: boolean;
 }
 
 interface State {
@@ -54,22 +55,24 @@ export class Fias extends React.Component<Props> {
     }
 
     return (
-      <span>
+      <div>
         {!empty &&
           isShowAddressText && <span>{getAddressText(value!.address)}</span>}
-        {validation}
         {!this.props.readOnly && (
-          <Link icon={iconTitleTemplate} onClick={this._handleOpen}>
-            {btnTitleTemplate}
-          </Link>
+          <div>
+            <Link icon={iconTitleTemplate} onClick={this._handleOpen}>
+              {btnTitleTemplate}
+            </Link>
+          </div>
         )}
+        {validation}
         {this.state.opened && this._renderModal()}
-      </span>
+      </div>
     );
   }
 
   private _renderModal() {
-    const { validFn, value, title, baseUrl } = this.props;
+    const { validFn, value, title, baseUrl, search } = this.props;
     return (
       <AddressModal
         address={value && value.address}
@@ -78,6 +81,7 @@ export class Fias extends React.Component<Props> {
         onChange={this._handleChange}
         onClose={this._handleClose}
         baseUrl={baseUrl}
+        search={search}
       />
     );
   }
