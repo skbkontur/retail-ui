@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.24.0"></a>
+# [0.24.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.23.3...retail-ui@0.24.0) (2018-10-08)
+
+
+### Bug Fixes
+
+* **Button:** fix type link in flat mode ([dc1d505](https://github.com/skbkontur/retail-ui/commit/dc1d505))
+* **ComboBox:** изменение значения после unexpectedInput ([c5379be](https://github.com/skbkontur/retail-ui/commit/c5379be)), closes [#730](https://github.com/skbkontur/retail-ui/issues/730)
+* **Hint:** pin color for ie11 ([7361e20](https://github.com/skbkontur/retail-ui/commit/7361e20))
+* **Input:** fix flat styles ([cbb4e55](https://github.com/skbkontur/retail-ui/commit/cbb4e55)), closes [#731](https://github.com/skbkontur/retail-ui/issues/731)
+* **Tooltip:** allow customize color ([26af1d5](https://github.com/skbkontur/retail-ui/commit/26af1d5))
+
+
+### Features
+
+* **ComboBox:** add 'reset' method ([4ff05fa](https://github.com/skbkontur/retail-ui/commit/4ff05fa))
+* onOpen & onClose props for DropDown Menu ([#771](https://github.com/skbkontur/retail-ui/issues/771)) ([9ae4bf0](https://github.com/skbkontur/retail-ui/commit/9ae4bf0)), closes [#769](https://github.com/skbkontur/retail-ui/issues/769) [#733](https://github.com/skbkontur/retail-ui/issues/733)
+
+
+
+
 <a name="0.23.3"></a>
 ## [0.23.3](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.23.2...retail-ui@0.23.3) (2018-09-27)
 
