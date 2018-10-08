@@ -5,13 +5,13 @@ import Icon from '../../Icon';
 import * as Enzyme from 'enzyme';
 
 const render = (
-  props: AutocompleteProps
+  props: Partial<AutocompleteProps>
 ): Enzyme.ReactWrapper<AutocompleteProps> =>
-  Enzyme.mount(<Autocomplete {...props} />);
+  Enzyme.mount(<Autocomplete {...props as AutocompleteProps} />);
 
-const renderUnc = (props: AutocompleteProps) =>
+const renderUnc = (props: Partial<AutocompleteProps>) =>
   Enzyme.mount<AutocompleteProps>(
-    React.createElement(UncontrolledAutocomplete, props)
+    React.createElement(UncontrolledAutocomplete, props as AutocompleteProps)
   );
 
 describe('<Autocomplete />', () => {

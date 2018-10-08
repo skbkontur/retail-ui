@@ -1,25 +1,31 @@
 import * as React from 'react';
 
 import styles = require('./Center.less');
+import { Override } from '../../typings/utility-types';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
-export interface CenterProps extends React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * Горизонтальное выравнивание контента.
-   */
-  align?: HorizontalAlign;
+export type CenterProps = Override<
+  React.HTMLAttributes<HTMLDivElement>,
+  {
+    /**
+     * Горизонтальное выравнивание контента.
+     */
+    align?: HorizontalAlign;
 
-  style?: React.CSSProperties;
-
-  children?: React.ReactNode;
-}
+    /**
+     * **Используй с осторожностью!**
+     * Дополнительные стили
+     */
+    style?: React.CSSProperties;
+  }
+>;
 
 export interface CenterState {}
 
 /**
  * Контейнер для вертикального центрирования. В компонент можно передавать
- * свойства как в любой div.
+ * свойства как в любой *div* (кроме `className`)
  */
 export default class Center extends React.Component<CenterProps, CenterState> {
   public static defaultProps = {

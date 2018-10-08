@@ -33,12 +33,19 @@ function listenTabPresses() {
 export type CheckboxProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
   {
+    /** Контент `label` */
     children?: React.ReactNode;
+    /** Состояние ошибки */
     error?: boolean;
+    /** Состояние Предупреждения */
     warning?: boolean;
+    /** Вызывается на label */
     onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+    /** Вызывается на label */
     onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+    /** Вызывается на label */
     onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+    /** onChange */
     onChange?: (
       event: React.ChangeEvent<HTMLInputElement>,
       value: boolean
@@ -50,6 +57,9 @@ export interface CheckboxState {
   focusedByTab: boolean;
 }
 
+/**
+ * Все свойства, кроме перечисленных, `className` и `style` передаются в `input`.
+ */
 class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   public static propTypes = {
     checked: PropTypes.bool,

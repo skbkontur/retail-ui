@@ -26,27 +26,49 @@ export type InputType = 'password' | 'text';
 export type InputProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
   {
+    /** Иконка слева */
     leftIcon?: React.ReactNode;
+    /** Иконка справа */
     rightIcon?: React.ReactNode;
+    /** Состояние ошибки */
     error?: boolean;
+    /** Состояние предупреждения */
     warning?: boolean;
+    /** Режим прозрачной рамки */
     borderless?: boolean;
+    /** Выравнивание текста */
     align?: InputAlign;
+    /** Паттерн маски */
     mask?: Nullable<string>;
+    /** Символ маски */
     maskChar?: Nullable<string>;
+    /** Показывать символы маски */
     alwaysShowMask?: boolean;
+    /** Размер */
     size?: InputSize;
+    /** onChange */
     onChange?: (
       event: React.ChangeEvent<HTMLInputElement>,
       value: string
     ) => void;
+    /** Вызывается на label */
     onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+    /** Вызывается на label */
     onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+    /** Вызывается на label */
     onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+    /** Тип */
     type?: InputType;
+    /** Значение */
     value?: string;
     className?: undefined;
+    style?: undefined;
     capture?: boolean;
+    /**
+     * @deprecated
+     * Главный инпут в Group
+     */
+    mainInGroup?: boolean;
   }
 >;
 
@@ -55,6 +77,10 @@ export interface InputState {
   blinking: boolean;
 }
 
+/**
+ * Интерфес пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
+ *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
+ */
 class Input extends React.Component<InputProps, InputState> {
   public static defaultProps: {
     size: InputSize;
@@ -158,6 +184,7 @@ class Input extends React.Component<InputProps, InputState> {
       className,
       size,
       placeholder,
+      mainInGroup,
       ...rest
     } = this.props;
     const labelProps = {
