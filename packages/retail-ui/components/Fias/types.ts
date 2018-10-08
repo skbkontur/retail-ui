@@ -2,13 +2,13 @@ export type FiasId = string;
 
 export interface AddressObject {
   id: string;
-  code: string;
   fiasId: FiasId;
-  level: Levels;
 
+  level?: Levels;
   name?: string;
   abbreviation?: string;
   parentFiasId?: FiasId;
+  code?: string;
 }
 
 export interface Stead extends AddressObject {

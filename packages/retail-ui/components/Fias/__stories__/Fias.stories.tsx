@@ -2,6 +2,9 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import { Fias } from '../index';
+import FiasForm from '../FiasForm';
+import FiasModal from '../FiasModal';
+import { Address } from '../types';
 
 storiesOf('Fias', module)
   .add('default', () => <Fias />)
@@ -10,10 +13,15 @@ storiesOf('Fias', module)
   ))
   .add('with value', () => <ExampleFias value={MOCK_ADDRESS} />)
   .add('with search', () => <ExampleFias search={true} />)
-  .add('error text', () => <ExampleFias error={'Error :('} />)
+  .add('error text', () => <ExampleFias error={true} />)
   .add('readonly', () => <ExampleFias readOnly={true} value={MOCK_ADDRESS} />)
   .add('custom icon and text', () => (
     <ExampleFias iconTitle={'HomeOffice'} btnTitle={'Юридический адресс'} />
+  ))
+  .add('modal', () => (
+    <FiasModal>
+      <FiasForm address={MOCK_ADDRESS.address as Address} baseUrl={BASE_URL} />
+    </FiasModal>
   ));
 
 const BASE_URL = 'https://api.dev.kontur/fias/v1/';

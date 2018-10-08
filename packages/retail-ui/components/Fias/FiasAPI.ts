@@ -187,15 +187,15 @@ export class FiasAPI {
   };
 }
 
-function isStartMatch(value: string, searchText: string) {
-  return value.toLowerCase().indexOf(searchText.toLowerCase()) === 0;
+function isStartMatch(value: string | undefined, searchText: string) {
+  return value && value.toLowerCase().indexOf(searchText.toLowerCase()) === 0;
 }
 
 function filterRegions(searchText: string) {
   return (list: Address[]) =>
     list.filter(({ region }: Address) => {
       return (
-        isStartMatch(region!.name!, searchText) ||
+        isStartMatch(region!.name, searchText) ||
         isStartMatch(region!.code, searchText)
       );
     });

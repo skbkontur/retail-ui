@@ -1,13 +1,16 @@
 import * as React from 'react';
-import { AddressModal } from './AddressModal';
 import Link from '../Link';
 import { getAddressText } from './utils';
 import { Address, ErrorMessages } from './types';
 import { IconName } from '../Icon';
+import FiasModal from './FiasModal';
+import FiasForm from './FiasForm';
 
 interface Props {
   value?: { address: Address };
   error?: boolean;
+  warning?: boolean;
+  feedback?: string;
   isShowAddressText?: boolean;
   btnTitle?: string;
   iconTitle?: IconName;
@@ -16,20 +19,42 @@ interface Props {
   baseUrl?: string;
   validFn?: (address: Address) => ErrorMessages;
   onChange?: (value: { address: Address }) => void;
+  onClose?: () => void;
   search?: boolean;
 }
 
 interface State {
   opened: boolean;
+  error: boolean;
 }
 
 export class Fias extends React.Component<Props> {
-  public state: State = {
-    opened: false
+  public static defaultProps = {
+    title: 'Адрес',
+    feedback: 'Заполнено не по справочнику адресов'
   };
+  public state: State;
+
+  private _form: React.RefObject<FiasForm> = React.createRef();
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      opened: false,
+      error: props.error || false
+    };
+  }
 
   public render() {
-    const { value, error, isShowAddressText, btnTitle, iconTitle } = this.props;
+    const {
+      value,
+      isShowAddressText,
+      btnTitle,
+      iconTitle,
+      feedback
+    } = this.props;
+    const { error, opened } = this.state;
 
     const empty = !(
       value &&
@@ -51,7 +76,7 @@ export class Fias extends React.Component<Props> {
 
     let validation;
     if (error) {
-      validation = <span style={{ color: '#ce0014' }}>{error}</span>;
+      validation = <span style={{ color: '#ce0014' }}>{feedback}</span>;
     }
 
     return (
@@ -66,7 +91,7 @@ export class Fias extends React.Component<Props> {
           </div>
         )}
         {validation}
-        {this.state.opened && this._renderModal()}
+        {opened && this._renderModal()}
       </div>
     );
   }
@@ -74,15 +99,19 @@ export class Fias extends React.Component<Props> {
   private _renderModal() {
     const { validFn, value, title, baseUrl, search } = this.props;
     return (
-      <AddressModal
-        address={value && value.address}
+      <FiasModal
         title={title}
-        validFn={validFn}
-        onChange={this._handleChange}
         onClose={this._handleClose}
-        baseUrl={baseUrl}
-        search={search}
-      />
+        onSave={this._handleSave}
+      >
+        <FiasForm
+          ref={this._form}
+          address={value && value.address}
+          validFn={validFn}
+          baseUrl={baseUrl}
+          search={search}
+        />
+      </FiasModal>
     );
   }
 
@@ -90,15 +119,32 @@ export class Fias extends React.Component<Props> {
     this.setState({ opened: true });
   };
 
+  private _handleClose = () => {
+    this.setState({ opened: false });
+    const onClose = this.props.onClose;
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  private _handleSave = async () => {
+    const form = this._form && this._form.current;
+    if (form) {
+      this.setState({ error: false });
+      const { address, errorMessages } = await form.submit();
+      if (errorMessages && Object.keys(errorMessages).length) {
+        this.setState({ error: true });
+      }
+      this._handleChange({ address });
+    }
+    this._handleClose();
+  };
+
   private _handleChange = (value: { address: Address }) => {
     const onChange = this.props.onChange;
     if (onChange) {
       onChange(value);
     }
-  };
-
-  private _handleClose = () => {
-    this.setState({ opened: false });
   };
 }
 

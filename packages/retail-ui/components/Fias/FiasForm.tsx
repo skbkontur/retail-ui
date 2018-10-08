@@ -1,7 +1,5 @@
 import * as React from 'react';
-import Button from '../Button';
 import Gapped from '../Gapped';
-import Modal from '../Modal';
 import ComboBox from '../ComboBox';
 import { FiasAPI } from './FiasAPI';
 import {
@@ -10,7 +8,7 @@ import {
   getAddressText,
   getLastFiasId
 } from './utils';
-import styles from './AddressModal.less';
+import styles from './FiasForm.less';
 import {
   Address,
   ADDRESS_FIELDS,
@@ -45,9 +43,6 @@ interface ChangeEvent<T> {
 }
 
 interface Props {
-  onChange: (value: { address: Address }) => any;
-  onClose: () => void;
-  title?: string;
   address?: Address;
   baseUrl?: string;
   validFn?: (address: Address) => ErrorMessages;
@@ -59,18 +54,11 @@ interface State {
   errorMessages: ErrorMessages;
 }
 
-export class AddressModal extends React.Component<Props, State> {
-  public static defaultProps: Props = {
-    title: 'Адрес',
-    onChange: () => null,
-    onClose: () => null
-  };
-
+export class FiasForm extends React.Component<Props, State> {
   public state: State;
   public api: FiasAPI;
 
   private _verifyPromise: Promise<VerifyResponse> | null = null;
-
   private _fields: Fields = {};
   private readonly _searchProps: FieldProps | null = null;
 
@@ -193,7 +181,7 @@ export class AddressModal extends React.Component<Props, State> {
       let text = getAddressElementText(element, field);
 
       if (element.level === Levels.region) {
-        const regionCode = element.code.substr(0, 2);
+        const regionCode = element.code ? element.code.substr(0, 2) : '';
         text = regionCode + ' ' + text;
       }
 
@@ -326,58 +314,14 @@ export class AddressModal extends React.Component<Props, State> {
     });
   }
 
+  public submit = async (): Promise<State> => {
+    await this._verifyPromise;
+    return {
+      ...this.state
+    };
+  };
+
   public render() {
-    return (
-      <Modal width={500} onClose={this._handleClose}>
-        <Modal.Header>{this.props.title}</Modal.Header>
-        <Modal.Body>{this._renderForm()}</Modal.Body>
-        <Modal.Footer panel>
-          <Gapped>
-            <Button size="medium" use="primary" onClick={this._handleSave}>
-              Найти объект
-            </Button>
-            <Button size="medium" onClick={this._handleClose}>
-              Отменить
-            </Button>
-          </Gapped>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-
-  private _handleSave = async () => {
-    await this._verifyPromise;
-
-    if (
-      this.state.errorMessages &&
-      Object.keys(this.state.errorMessages).length
-    ) {
-      // this.refs.fiasValidContainer.submit(); // посмотреть, как работает
-      return; // как по гайдам?
-    }
-
-    // let invalidLevel = false;
-    // let address = { ...this.state.address };
-    //
-    // for (let place of ADDRESS_FIELDS) {
-    //   if ( this.state.invalidLevel && place.toLowerCase() === this.state.invalidLevel.toLowerCase()) {
-    //     invalidLevel = true;
-    //   }
-    //   if (!(typeof address[place] === "object" && !invalidLevel)) {
-    //     delete address[place];
-    //   }
-    // }
-
-    this.props.onChange({ address: { ...this.state.address } });
-    this.props.onClose();
-  };
-
-  private _handleClose = async () => {
-    await this._verifyPromise;
-    this.props.onClose();
-  };
-
-  private _renderForm() {
     const { address, errorMessages } = this.state;
     return (
       <div>
@@ -498,4 +442,4 @@ export class AddressModal extends React.Component<Props, State> {
   }
 }
 
-export default AddressModal;
+export default FiasForm;
