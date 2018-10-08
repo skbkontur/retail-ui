@@ -14,14 +14,15 @@ export interface GroupProps {
 }
 
 export interface GroupChildProps {
+  /** @deprecated */
   mainInGroup?: boolean;
   width?: React.CSSProperties['width'];
   corners?: number;
 }
 
 /**
- * Главный *Input*, который должен занимать всю доступную ширину, должен быть
- * помечен свойством *mainInGroup*.
+ * Главный *Input*, который должен занимать всю доступную ширину, ~~должен быть
+ * 	помечен свойством *mainInGroup*~~ можно передать ширину *100%* инпуту.
  */
 class Group extends React.Component<GroupProps> {
   public static propTypes = {
@@ -29,10 +30,9 @@ class Group extends React.Component<GroupProps> {
   };
 
   public render() {
-    const style: React.CSSProperties = {};
-    if (this.props.width) {
-      style.width = this.props.width;
-    }
+    const style: React.CSSProperties = {
+      width: this.props.width
+    };
 
     let first: Nullable<React.ReactElement<any>> = null;
     let last: Nullable<React.ReactElement<any>> = null;
@@ -70,7 +70,7 @@ class Group extends React.Component<GroupProps> {
           if (child !== last) {
             corners |= Corners.TOP_RIGHT | Corners.BOTTOM_RIGHT;
           }
-          let width;
+          let width = childProps.width;
           if (childProps.mainInGroup) {
             width = '100%';
           }

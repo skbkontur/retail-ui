@@ -64,9 +64,10 @@ export type InputProps = Override<
     className?: undefined;
     style?: undefined;
     capture?: boolean;
+
     /**
      * @deprecated
-     * Главный инпут в Group
+     * 100% ширина в группе, лучше явно передать ширину в компонент
      */
     mainInGroup?: boolean;
     selectAllOnFocus?: boolean;

@@ -10,15 +10,16 @@ import Icon from '../../Icon';
 
 storiesOf('Group', module)
   .add('Simple Group with Input and Button', () => (
-    <Group>
+    <Group width="300px">
       <Input placeholder="Search" mainInGroup />
       <Button icon="Search" />
     </Group>
   ))
-  .add('Simple Group with custom width', () => (
-    <Group width="300px">
-      <Input placeholder="Search" mainInGroup />
+  .add('Simple Group with custom Inputs width', () => (
+    <Group>
+      <Input placeholder="Search" width="300px" />
       <Button icon="Search" />
+      <Input placeholder="Search" width="100px" />
     </Group>
   ))
   .add('Group with Input and multiple Buttons', () => (
@@ -43,7 +44,6 @@ storiesOf('Group', module)
         placeholder="Disabled"
         disabled
         rightIcon={<Icon name="User" />}
-        // @ts-ignore
         mainInGroup
       />
       <Button onClick={() => Toast.push('Push!')} error>
