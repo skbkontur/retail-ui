@@ -322,7 +322,7 @@ export class FiasForm extends React.Component<Props, State> {
   };
 
   public render() {
-    const { address, errorMessages } = this.state;
+    const { address } = this.state;
     return (
       <div>
         <Gapped vertical>
@@ -342,102 +342,71 @@ export class FiasForm extends React.Component<Props, State> {
           <div className={styles.row}>
             <div className={styles.label}>Регион</div>
             <div className={styles.field}>
-              <ComboBox
-                {...this._fields.region}
-                value={address}
-                placeholder="Можно вводить код или название"
-                error={errorMessages.hasOwnProperty('region')}
-                autocomplete={true}
-                width="100%"
-              />
+              {this._renderField('region', 'Можно вводить код или название')}
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Район</div>
-            <div className={styles.field}>
-              <ComboBox
-                {...this._fields.district}
-                value={address}
-                error={errorMessages.hasOwnProperty('district')}
-                autocomplete={true}
-                width="100%"
-              />
-            </div>
+            <div className={styles.field}>{this._renderField('district')}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Город</div>
-            <div className={styles.field}>
-              <ComboBox
-                {...this._fields.city}
-                value={address}
-                error={errorMessages.hasOwnProperty('city')}
-                autocomplete={true}
-                width="100%"
-              />
-            </div>
+            <div className={styles.field}>{this._renderField('city')}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Населенный пункт</div>
             <div className={styles.field}>
-              <ComboBox
-                {...this._fields.settlement}
-                value={address}
-                error={errorMessages.hasOwnProperty('settlement')}
-                autocomplete={true}
-                width="100%"
-              />
+              {this._renderField('settlement')}
+            </div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.label}>Иная территория</div>
+            <div className={styles.field}>
+              {this._renderField('planningstructure')}
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Улица</div>
-            <div className={styles.field}>
-              <ComboBox
-                {...this._fields.street}
-                value={address}
-                error={errorMessages.hasOwnProperty('street')}
-                autocomplete={true}
-                width="100%"
-              />
-            </div>
+            <div className={styles.field}>{this._renderField('street')}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Земельный участок</div>
             <div className={styles.field}>
-              <ComboBox
-                {...this._fields.stead}
-                value={address}
-                error={errorMessages.hasOwnProperty('stead')}
-                autocomplete={true}
-                width={130}
-              />
+              {this._renderField('stead', '', 130)}
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Дом, сооружение</div>
             <div className={styles.field}>
-              <ComboBox
-                {...this._fields.house}
-                value={address}
-                error={errorMessages.hasOwnProperty('house')}
-                autocomplete={true}
-                width={130}
-              />
+              {this._renderField('house', '', 130)}
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Квартира, офис</div>
             <div className={styles.field}>
-              <ComboBox
-                {...this._fields.room}
-                value={address}
-                error={errorMessages.hasOwnProperty('room')}
-                autocomplete={true}
-                width={130}
-              />
+              {this._renderField('room', '', 130)}
             </div>
           </div>
         </Gapped>
       </div>
+    );
+  }
+
+  private _renderField(
+    field: AddressFieldName,
+    placeholder: string = '',
+    width: string | number = '100%'
+  ) {
+    const { address, errorMessages } = this.state;
+    return (
+      <ComboBox
+        {...this._fields[field]}
+        value={address}
+        error={errorMessages.hasOwnProperty(field)}
+        placeholder={placeholder}
+        autocomplete={true}
+        width={width}
+      />
     );
   }
 }

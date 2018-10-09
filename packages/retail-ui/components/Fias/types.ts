@@ -35,6 +35,7 @@ export enum Levels {
   district = 'District',
   city = 'City',
   settlement = 'Settlement',
+  planningstructure = 'PlanningStructure',
   stead = 'Stead',
   street = 'Street',
   house = 'House',

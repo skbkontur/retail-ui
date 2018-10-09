@@ -87,7 +87,8 @@ export class FiasAPI {
     if (
       level === Levels.district ||
       level === Levels.city ||
-      level === Levels.settlement
+      level === Levels.settlement ||
+      level === Levels.planningstructure
     ) {
       if (parentFiasId) {
         query.directParent = false;
@@ -108,13 +109,13 @@ export class FiasAPI {
           return this.searchStead(query);
         }
       }
-      return this.searchAddressSuggest(query, level);
+      return this.searchAddressObject(query, level);
     } else {
       return Promise.resolve([]);
     }
   };
 
-  public searchAddressSuggest = (
+  public searchAddressObject = (
     query: SearchQuery,
     level: Levels
   ): SearchResponse => {
