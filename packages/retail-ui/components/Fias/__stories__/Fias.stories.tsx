@@ -14,9 +14,9 @@ storiesOf('Fias', module)
   .add('with value', () => <ExampleFias value={MOCK_ADDRESS} />)
   .add('with search', () => <ExampleFias search={true} />)
   .add('error text', () => <ExampleFias error={true} />)
-  .add('readonly', () => <ExampleFias readOnly={true} value={MOCK_ADDRESS} />)
+  .add('readonly', () => <ExampleFias readonly={true} value={MOCK_ADDRESS} />)
   .add('custom icon and text', () => (
-    <ExampleFias iconTitle={'HomeOffice'} btnTitle={'Юридический адресс'} />
+    <ExampleFias icon={'HomeOffice'} label={'Юридический адресс'} />
   ))
   .add('modal', () => (
     <FiasModal>
@@ -65,7 +65,6 @@ class ExampleFias extends React.Component<any> {
     return (
       <Fias
         baseUrl={BASE_URL}
-        isShowAddressText={true}
         value={this.state.value}
         onChange={this._handleChange}
         {...props}

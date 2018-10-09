@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Link from '../Link';
-import { getAddressText } from './utils';
+import { getAddressText, isEmptyAddress } from './utils';
 import { Address, ErrorMessages } from './types';
 import { IconName } from '../Icon';
 import FiasModal from './FiasModal';
@@ -11,10 +11,10 @@ interface Props {
   error?: boolean;
   warning?: boolean;
   feedback?: string;
-  isShowAddressText?: boolean;
-  btnTitle?: string;
-  iconTitle?: IconName;
-  readOnly?: boolean;
+  showAddressText?: boolean;
+  label?: string;
+  icon?: IconName;
+  readonly?: boolean;
   title?: string;
   baseUrl?: string;
   validFn?: (address: Address) => ErrorMessages;
@@ -31,7 +31,8 @@ interface State {
 export class Fias extends React.Component<Props> {
   public static defaultProps = {
     title: 'Адрес',
-    feedback: 'Заполнено не по справочнику адресов'
+    feedback: 'Заполнено не по справочнику адресов',
+    showAddressText: true
   };
   public state: State;
 
@@ -47,46 +48,25 @@ export class Fias extends React.Component<Props> {
   }
 
   public render() {
-    const {
-      value,
-      isShowAddressText,
-      btnTitle,
-      iconTitle,
-      feedback
-    } = this.props;
+    const { value, showAddressText, label, icon, feedback } = this.props;
     const { error, opened } = this.state;
 
-    const empty = !(
-      value &&
-      value.address &&
-      Object.keys(value.address).length
-    );
+    const empty = !value || isEmptyAddress(value.address);
+    const linkText = label || (empty ? 'Заполнить адрес' : 'Изменить адрес');
+    const linkIcon = icon || 'Edit';
 
-    let btnTitleTemplate;
-    if (btnTitle) {
-      btnTitleTemplate = btnTitle;
-    } else {
-      btnTitleTemplate = empty ? 'Заполнить адрес' : 'Изменить адрес';
-    }
-
-    let iconTitleTemplate: IconName = 'Edit';
-    if (iconTitle) {
-      iconTitleTemplate = iconTitle;
-    }
-
-    let validation;
-    if (error) {
-      validation = <span style={{ color: '#ce0014' }}>{feedback}</span>;
-    }
+    const validation = error ? (
+      <span style={{ color: '#ce0014' }}>{feedback}</span>
+    ) : null;
 
     return (
       <div>
         {!empty &&
-          isShowAddressText && <span>{getAddressText(value!.address)}</span>}
-        {!this.props.readOnly && (
+          showAddressText && <span>{getAddressText(value!.address)}</span>}
+        {!this.props.readonly && (
           <div>
-            <Link icon={iconTitleTemplate} onClick={this._handleOpen}>
-              {btnTitleTemplate}
+            <Link icon={linkIcon} onClick={this._handleOpen}>
+              {linkText}
             </Link>
           </div>
         )}
