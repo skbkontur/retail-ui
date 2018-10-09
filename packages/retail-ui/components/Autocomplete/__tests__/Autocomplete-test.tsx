@@ -1,7 +1,7 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
+import OkIcon from '@skbkontur/react-icons/Ok';
 import Autocomplete, { AutocompleteProps } from '../Autocomplete';
-import Icon from '../../Icon';
 import * as Enzyme from 'enzyme';
 
 const render = (
@@ -105,12 +105,12 @@ describe('<Autocomplete />', () => {
       disabled: true,
       error: true,
       id: 'someId',
-      leftIcon: <Icon name="Ok" />,
+      leftIcon: <OkIcon />,
       mask: '***',
       maskChar: 'x',
       maxLength: 3,
       placeholder: 'OOO',
-      rightIcon: <Icon name="Ok" />,
+      rightIcon: <OkIcon />,
       size: 'medium',
       title: 'string',
       type: 'text',

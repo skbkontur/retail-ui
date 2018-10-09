@@ -1,10 +1,8 @@
-import events from 'add-event-listener';
-import classNames from 'classnames';
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
-
-import Icon from '../Icon';
+import classNames from 'classnames';
+import events from 'add-event-listener';
+import OkIcon from '@skbkontur/react-icons/Ok';
 
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
@@ -145,7 +143,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
         <span className={styles.box}>
           {this.props.checked && (
             <div className={styles.ok}>
-              <Icon name="Ok" />
+              <OkIcon />
             </div>
           )}
         </span>

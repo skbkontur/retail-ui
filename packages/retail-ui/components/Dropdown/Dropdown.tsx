@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
 
 import filterProps from '../filterProps';
@@ -7,9 +6,9 @@ import MenuHeader from '../MenuHeader/MenuHeader';
 import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import Select from '../Select';
-import { IconProps } from '../Icon/20px';
 import { Nullable } from '../../typings/utility-types';
 import { ButtonUse, ButtonSize } from '../Button';
+import { IconName } from '../Icon';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -41,7 +40,7 @@ export interface DropdownProps {
   /**
    * Иконка слева от текста кнопки
    */
-  icon?: IconProps['name'];
+  icon?: IconName | React.ReactElement<any>;
   width?: React.CSSProperties['width'];
 
   /** @ignore */
@@ -122,7 +121,7 @@ export default class Dropdown extends React.Component<DropdownProps> {
     /**
      * Иконка слева от текста кнопки
      */
-    icon: PropTypes.string,
+    icon: PropTypes.node,
 
     maxMenuHeight: PropTypes.number,
 

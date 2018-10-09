@@ -45,7 +45,7 @@ const PASS_BUTTON_PROPS = {
 
 export interface SelectProps<TValue, TItem> {
   /** @ignore */
-  _icon?: string;
+  _icon?: IconName | React.ReactElement<any>;
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
   defaultValue?: TValue;

@@ -226,6 +226,10 @@ class Icon extends React.Component<IconProps> {
   constructor(props: IconProps) {
     super(props);
     if (process.env.NODE_ENV !== 'production') {
+      warning(
+        false,
+        'Using "Icon" component is deprecated. Please use icons from "@skbkontur/react-icons" instead'
+      );
       this.checkDeprecatedName(props);
     }
   }
@@ -248,7 +252,9 @@ class Icon extends React.Component<IconProps> {
     } else if (newName !== undefined) {
       SvgIcon = Icons[newName];
     }
-    // TODO Throw error?
+    if (process.env.NODE_ENV !== 'production') {
+      warning(Boolean(SvgIcon), `Icon with name "${name}" does not exist`);
+    }
     if (SvgIcon == null) {
       return <span />;
     }
