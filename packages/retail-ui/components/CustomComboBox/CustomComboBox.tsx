@@ -4,6 +4,7 @@ import ComboBoxView from './ComboBoxView';
 import { Nullable } from '../../typings/utility-types';
 import Input from '../Input';
 import Menu from '../Menu/Menu';
+import shallow from 'fbjs/lib/shallowEqual';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T }
@@ -79,7 +80,7 @@ export const DefaultState = {
   textValue: ''
 };
 
-class CustomComboBox extends React.PureComponent<
+class CustomComboBox extends React.Component<
   Props<any>,
   CustomComboBoxState<any>
 > {
@@ -165,6 +166,13 @@ class CustomComboBox extends React.PureComponent<
     if (this.props.autoFocus) {
       this.focus();
     }
+  }
+
+  public shouldComponentUpdate(
+    nextProps: Props<any>,
+    nextState: CustomComboBoxState<any>
+  ) {
+    return !shallow(nextProps, this.props) || !shallow(nextState, this.state);
   }
 
   public componentDidUpdate(prevProps: any, prevState: any) {
