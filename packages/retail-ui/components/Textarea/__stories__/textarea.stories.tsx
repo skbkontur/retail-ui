@@ -40,10 +40,7 @@ class AutoresizableTextarea extends React.Component<
 }
 
 const TEXT_SAMPLE =
-  'Lorem ipsum dolor sit amet, consectetur adipisicing elit.\
-Modi enim voluptatum esse, id libero voluptas similique beatae,\
-molestiae, impedit corrupti corporis asperiores odit ullam provident\
-officia alias aperiam eum quas.';
+  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';
 
 storiesOf('Textarea', module)
   .add('Simple', () => <Textarea value="" />)
