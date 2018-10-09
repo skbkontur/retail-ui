@@ -46,10 +46,10 @@ export class FiasAPI {
     delete address.room;
 
     // TODO: find out why houses can have name
-    if (address.house && address.house.name) {
-      address.house.number = address.house.name;
-      delete address.house.name;
-    }
+    // if (address.house && address.house.name) {
+    //   address.house.number = address.house.name;
+    //   delete address.house.name;
+    // }
 
     return this.send('verify', {
       method: 'POST',
@@ -133,20 +133,20 @@ export class FiasAPI {
       (roomsList: Room[]): Address[] => {
         return roomsList.reduce((filteredList: Address[], item: Room) => {
           if (!filteredList.length) {
-            return [{ room: { ...item, level: Levels.room } }];
+            return [{ room: { ...item } }];
           }
 
           for (const i in filteredList) {
             if (filteredList[i].room!.flatNumber === item.flatNumber) {
               if (item.liveStatus === LiveStatuses.Active) {
-                filteredList[i] = { room: { ...item, level: Levels.room } };
+                filteredList[i] = { room: { ...item } };
               }
               return filteredList;
             }
           }
 
           filteredList.push({
-            room: { ...item, level: Levels.room }
+            room: { ...item }
           });
           return filteredList;
         }, []);

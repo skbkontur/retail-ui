@@ -2,26 +2,38 @@ import {
   Address,
   ADDRESS_FIELDS,
   AddressElement,
+  AddressObject,
   EstateStatuses,
   House,
-  Levels,
   Room,
   Stead,
   StructureStatuses
 } from './types';
 
+export const isAddressObject = (
+  element: AddressElement
+): element is AddressObject => {
+  return element.hasOwnProperty('name');
+};
+
 export const isStead = (element: AddressElement): element is Stead => {
-  return element.level === Levels.stead;
+  return (
+    element.hasOwnProperty('number') &&
+    element.hasOwnProperty('liveStatus') &&
+    !element.hasOwnProperty('estateStatus')
+  );
 };
 
 export const isHouse = (element: AddressElement): element is House => {
   return (
-    element.level === Levels.house || element.hasOwnProperty('estateStatus')
+    element.hasOwnProperty('number') && element.hasOwnProperty('estateStatus')
   );
 };
 
 export const isRoom = (element: AddressElement): element is Room => {
-  return element.level === Levels.room;
+  return (
+    element.hasOwnProperty('flatNumber') && element.hasOwnProperty('liveStatus')
+  );
 };
 
 export const isEmptyAddress = (address: Address | undefined): boolean => {
@@ -29,14 +41,14 @@ export const isEmptyAddress = (address: Address | undefined): boolean => {
 };
 
 export function getAddressElementName(element: AddressElement | undefined) {
-  if (!element) {
-    return '';
-  } else if (element.name) {
-    return element.name;
-  } else if (isHouse(element)) {
-    return element.number;
-  } else if (isRoom(element)) {
-    return element.flatNumber;
+  if (element) {
+    if (isAddressObject(element)) {
+      return element.name;
+    } else if (isHouse(element) || isStead(element)) {
+      return element.number;
+    } else if (isRoom(element)) {
+      return element.flatNumber;
+    }
   }
   return '';
 }
@@ -52,7 +64,7 @@ export function getAddressElementText(
   }
 
   // TODO добавить пгт, с/п? найти все возможные аббревиатуры (массив?)
-  if (element.abbreviation && element.name) {
+  if (isAddressObject(element)) {
     switch (element.abbreviation) {
       case 'Респ':
         return 'Республика ' + element.name;
@@ -116,6 +128,9 @@ export function getAddressElementText(
 
       case 'Аобл':
         return element.name + ' автономная область';
+
+      default:
+        return `${element.abbreviation} ${element.name}`;
     }
   }
 
@@ -177,11 +192,7 @@ export function getAddressElementText(
     }
   }
 
-  if (result) {
-    return result.trim();
-  } else {
-    return element.name || '';
-  }
+  return result.trim();
 }
 
 export function getLastFiasId(

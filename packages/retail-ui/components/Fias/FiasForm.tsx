@@ -6,7 +6,8 @@ import {
   getAddressElementName,
   getAddressElementText,
   getAddressText,
-  getLastFiasId
+  getLastFiasId,
+  isAddressObject
 } from './utils';
 import styles from './FiasForm.less';
 import {
@@ -180,8 +181,8 @@ export class FiasForm extends React.Component<Props, State> {
       const element = address[field]!;
       let text = getAddressElementText(element, field);
 
-      if (element.level === Levels.region) {
-        const regionCode = element.code ? element.code.substr(0, 2) : '';
+      if (isAddressObject(element) && element.level === Levels.region) {
+        const regionCode = element.code.substr(0, 2);
         text = regionCode + ' ' + text;
       }
 
@@ -209,7 +210,7 @@ export class FiasForm extends React.Component<Props, State> {
   }
 
   public createFieldValueToStringConverter(field: AddressFieldName) {
-    return (address: Address) => getAddressElementName(address[field]);
+    return (address: Address): string => getAddressElementName(address[field]);
   }
 
   public createSearchProps(): FieldProps {

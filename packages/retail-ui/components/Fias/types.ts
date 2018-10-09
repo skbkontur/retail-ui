@@ -1,22 +1,24 @@
 export type FiasId = string;
 
-export interface AddressObject {
+export interface FiasEntity {
   id: string;
   fiasId: FiasId;
-
-  level?: Levels;
-  name?: string;
-  abbreviation?: string;
   parentFiasId?: FiasId;
-  code?: string;
 }
 
-export interface Stead extends AddressObject {
+export interface AddressObject extends FiasEntity {
+  level: Levels;
+  name: string;
+  abbreviation?: string;
+  code: string;
+}
+
+export interface Stead extends FiasEntity {
   number: string;
   liveStatus: LiveStatuses;
 }
 
-export interface House extends AddressObject {
+export interface House extends FiasEntity {
   number: string;
   estateStatus: EstateStatuses;
   structureStatus?: StructureStatuses;
@@ -24,7 +26,7 @@ export interface House extends AddressObject {
   buildingNumber?: string;
 }
 
-export interface Room extends AddressObject {
+export interface Room extends FiasEntity {
   flatNumber: string;
   flatType: number;
   liveStatus: LiveStatuses;
