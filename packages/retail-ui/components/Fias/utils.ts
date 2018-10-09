@@ -2,6 +2,7 @@ import {
   Address,
   ADDRESS_FIELDS,
   AddressElement,
+  AddressFieldName,
   AddressObject,
   EstateStatuses,
   House,
@@ -9,6 +10,7 @@ import {
   Stead,
   StructureStatuses
 } from './types';
+import { abbreviations } from './abbreviations';
 
 export const isAddressObject = (
   element: AddressElement
@@ -56,81 +58,52 @@ export function getAddressElementName(element: AddressElement | undefined) {
 // TODO неразрывнях пробелов наставить между топонимом и его типом
 export function getAddressElementText(
   element: AddressElement,
-  _for?: string
+  skipTypeFor?: AddressFieldName
 ): string {
   if (!element) {
-    // TODO разобрать когда апи поменяют
     return '';
   }
 
   // TODO добавить пгт, с/п? найти все возможные аббревиатуры (массив?)
   if (isAddressObject(element)) {
-    switch (element.abbreviation) {
+    const { abbreviation, name } = element;
+    const type = abbreviations[abbreviation] || abbreviation;
+    switch (abbreviation) {
       case 'Респ':
-        return 'Республика ' + element.name;
+        return `Республика ${name}`;
+
+      case 'Чувашия': // FIAS bug
+        return `Республика Чувашия`;
 
       case 'АО':
-        if (element.name !== 'Ханты-Мансийский Автономный округ - Югра') {
-          return element.name + ' автономный округ';
-        }
-        break;
+        // чтобы не дублировать "Автономный округ"
+        return (
+          `${name}` +
+          (name !== 'Ханты-Мансийский Автономный округ - Югра'
+            ? ` ${type}`
+            : ``)
+        );
 
       case 'обл':
-        return element.name + ' область';
+        return `${name} ${type}`;
 
       case 'край':
-        return element.name + ' край';
-
-      case 'р-н':
-        return (_for !== 'district' ? 'район ' : '') + element.name;
-
-      case 'г':
-        return (_for !== 'city' ? 'город ' : '') + element.name;
-
-      case 'д':
-        return 'деревня ' + element.name;
-
-      case 'п':
-        return 'поселок ' + element.name;
-
-      case 'с':
-        return 'село ' + element.name;
-
-      case 'ст-ца':
-        return 'станица ' + element.name;
-
-      case 'с/с':
-        return 'сельсовет ' + element.name;
-
-      case 'ул':
-        return (_for !== 'street' ? 'улица ' : '') + element.name;
-
-      case 'пл':
-        return 'площадь ' + element.name;
-
-      case 'пр-кт':
-        return 'проспект ' + element.name;
-
-      case 'проезд':
-        return 'проезд ' + element.name;
-
-      case 'тер':
-        return 'тер ' + element.name;
-
-      case 'кв-л':
-        return element.name + ' квартал';
-
-      case 'пер':
-        return element.name + ' переулок';
-
-      case 'Чувашия':
-        return element.name + ' ' + element.abbreviation;
+        return `${name} ${type}`;
 
       case 'Аобл':
-        return element.name + ' автономная область';
+        return `${name} ${type}`;
+
+      case 'р-н':
+        return (skipTypeFor !== 'district' ? `${type} ` : ``) + `${name}`;
+
+      case 'г':
+        return (skipTypeFor !== 'city' ? `${type} ` : ``) + `${name}`;
+
+      case 'ул':
+        return (skipTypeFor !== 'street' ? `${type} ` : ``) + `${name}`;
 
       default:
-        return `${element.abbreviation} ${element.name}`;
+        return `${type} ${element.name}`;
     }
   }
 
@@ -192,18 +165,20 @@ export function getAddressElementText(
     }
   }
 
-  return result.trim();
+  return result.trim() || getAddressElementName(element);
 }
 
 export function getLastFiasId(
   address: Address,
   parentFields: string[]
 ): string | undefined {
-  const parents = (parentFields || ADDRESS_FIELDS).slice().reverse();
-  for (const parentName of parents) {
-    const parent: AddressElement | undefined = address[parentName];
-    if (parent && typeof parent === 'object' && parent.fiasId) {
-      return parent.fiasId;
+  if (!isEmptyAddress(address)) {
+    const parents = (parentFields || ADDRESS_FIELDS).slice().reverse();
+    for (const parentName of parents) {
+      const parent: AddressElement | undefined = address[parentName];
+      if (parent && typeof parent === 'object' && parent.fiasId) {
+        return parent.fiasId;
+      }
     }
   }
 }

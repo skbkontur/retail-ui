@@ -9,7 +9,7 @@ export interface FiasEntity {
 export interface AddressObject extends FiasEntity {
   level: Levels;
   name: string;
-  abbreviation?: string;
+  abbreviation: string;
   code: string;
 }
 

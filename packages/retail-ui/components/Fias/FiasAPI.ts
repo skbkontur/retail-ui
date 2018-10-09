@@ -70,7 +70,8 @@ export class FiasAPI {
       prefix: searchText,
       limit: LIMIT,
       parentFiasId,
-      level
+      level,
+      actual: false
     };
 
     if (!level && searchText) {

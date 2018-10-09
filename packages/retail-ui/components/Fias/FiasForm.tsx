@@ -7,7 +7,8 @@ import {
   getAddressElementText,
   getAddressText,
   getLastFiasId,
-  isAddressObject
+  isAddressObject,
+  isEmptyAddress
 } from './utils';
 import styles from './FiasForm.less';
 import {
@@ -177,9 +178,13 @@ export class FiasForm extends React.Component<Props, State> {
   }
 
   public createFieldItemRenderer(field: AddressFieldName) {
-    return (address: Address): React.ReactNode => {
-      const element = address[field]!;
-      let text = getAddressElementText(element, field);
+    const { address } = this.state;
+    return (item: Address): React.ReactNode => {
+      const element = item[field]!;
+      const parents = ADDRESS_FIELDS.slice(0, ADDRESS_FIELDS.indexOf(field));
+      const hasParent =
+        !isEmptyAddress(address) && getLastFiasId(address!, parents);
+      let text = getAddressElementText(element, hasParent ? field : undefined);
 
       if (isAddressObject(element) && element.level === Levels.region) {
         const regionCode = element.code.substr(0, 2);
@@ -187,16 +192,14 @@ export class FiasForm extends React.Component<Props, State> {
       }
 
       const parentTexts: string[] = [];
-      const parents = ADDRESS_FIELDS.slice(
-        0,
-        ADDRESS_FIELDS.indexOf(field)
-      ).filter(key => Boolean(address[key]));
-      parents.forEach((parentField: string) => {
-        const parent = address[parentField];
-        if (parent) {
-          parentTexts.push(getAddressElementText(parent));
-        }
-      });
+      parents
+        .filter(key => Boolean(item[key]))
+        .forEach((parentField: string) => {
+          const parent = item[parentField];
+          if (parent) {
+            parentTexts.push(getAddressElementText(parent));
+          }
+        });
 
       return [...parentTexts, text].join(', ');
     };
