@@ -60,7 +60,12 @@ class Sample extends React.Component<SampleProps, SampleState> {
       ignoreBackgroundClick={this.props.ignoreBackgroundClick}
       blockBackground={this.props.blockBackground}
     >
-      <SidePage.Header>Title</SidePage.Header>
+      <SidePage.Header>
+        Title
+        {this.props.total &&
+          this.props.total > 1 &&
+          ` ${this.props.current} / ${this.props.total}`}
+      </SidePage.Header>
       <SidePage.Body>
         <div style={{ padding: '0 35px 35px 35px' }}>
           {this.props.total &&
@@ -298,20 +303,10 @@ class SidePageWithModalInside extends React.Component<
           <Button onClick={() => this.setState({ isModalOpened: true })}>
             Открыть modal
           </Button>
-          <SampleConfigurator
-            onChange={name => {
-              const propertyName = name as keyof SidePageWithModalInsideState;
-              this.setState(
-                (state: SidePageWithModalInsideState) =>
-                  ({ [propertyName]: !state[propertyName] } as Shape<
-                    SidePageWithCloseConfigurationState
-                  >)
-              );
-            }}
-            ignoreBackgroundClick={this.state.ignoreBackgroundClick}
-            blockBackground={this.state.blockBackground}
-            withContent={true}
-          />
+          <div>
+            {textSample}
+            {textSample}
+          </div>
         </Sample>
         {textSample}
         {textSample}
@@ -327,51 +322,6 @@ class SidePageWithModalInside extends React.Component<
       <Modal.Header>Хедер</Modal.Header>
     </Modal>
   );
-}
-
-class SidePageWithStickyReaction extends React.Component<{}> {
-  public render() {
-    const title = 'This is title';
-    const subtitle = 'This is subtitle';
-
-    return (
-      <SidePage>
-        <SidePage.Header>
-          {fixed =>
-            fixed ? (
-              title
-            ) : (
-              <div>
-                {title}
-                <br />
-                {subtitle}
-              </div>
-            )
-          }
-        </SidePage.Header>
-        <SidePage.Body>
-          {textSample}
-          {textSample}
-          {textSample}
-          {textSample}
-          {textSample}
-        </SidePage.Body>
-        <SidePage.Footer>
-          {fixed =>
-            fixed ? (
-              title
-            ) : (
-              <div>
-                {title}
-                <br />
-                {subtitle}
-              </div>
-            )
-          }
-        </SidePage.Footer>
-      </SidePage>
-    );
-  }
 }
 
 class SidePageWithLeftPosition extends React.Component<{
@@ -425,6 +375,16 @@ class OpenSidePageWithLeftPosition extends React.Component<
   private close = () => this.setState({ open: false });
 }
 
+class SimpleSidePage extends React.Component<{}, {}> {
+  public render() {
+    return (
+      <div style={{ width: '300px' }}>
+        <Sample total={1} current={1} ignoreBackgroundClick withContent />
+      </div>
+    );
+  }
+}
+
 storiesOf('SidePage', module)
   .add('With scrollable parent content', () => (
     <SidePageWithScrollableContent />
@@ -433,7 +393,6 @@ storiesOf('SidePage', module)
   .add('SidePage over another SidePage', () => <SidePageOverAnotherSidePage />)
   .add('SidePage with configuration', () => <SidePageWithCloseConfiguration />)
   .add('SidePage with Modal', () => <SidePageWithModalInside />)
-  .add('SidePage with sticky reaction', () => <SidePageWithStickyReaction />)
   .add('Disabled SidePage', () => (
     <SidePage disableClose>
       <SidePage.Header>Disabled</SidePage.Header>
@@ -445,4 +404,5 @@ storiesOf('SidePage', module)
   ))
   .add('Open SidePage with left position', () => (
     <OpenSidePageWithLeftPosition />
-  ));
+  ))
+  .add('Simple', () => <SimpleSidePage />);

@@ -14,24 +14,18 @@ export default class SidePageHeader extends React.Component<
 > {
   public render(): JSX.Element {
     return (
-      <tr>
-        <td className={styles.layoutItem}>
-          <Sticky side="top">
-            {fixed => (
-              <div className={classNames(styles.header, fixed && styles.fixed)}>
-                {this.renderClose()}
-                <div
-                  className={classNames(styles.title, fixed && styles.fixed)}
-                >
-                  {typeof this.props.children === 'function'
-                    ? this.props.children(fixed)
-                    : this.props.children}
-                </div>
-              </div>
-            )}
-          </Sticky>
-        </td>
-      </tr>
+      <Sticky side="top">
+        {fixed => (
+          <div className={classNames(styles.header, fixed && styles.fixed)}>
+            {this.renderClose()}
+            <div className={classNames(styles.title, fixed && styles.fixed)}>
+              {typeof this.props.children === 'function'
+                ? this.props.children(fixed)
+                : this.props.children}
+            </div>
+          </div>
+        )}
+      </Sticky>
     );
   }
 
