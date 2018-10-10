@@ -10,6 +10,7 @@ import Upgrades from '../../lib/Upgrades';
 import CssStyles from './Input.less';
 import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
+import deprecationWarning from 'warning';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -98,6 +99,15 @@ class Input extends React.Component<InputProps, InputState> {
   private blinkTimeout: number = 0;
 
   private input: HTMLInputElement | null = null;
+
+  constructor(props: InputProps) {
+    super(props);
+
+    deprecationWarning(
+      !Object.prototype.hasOwnProperty.call(props, 'mainInGroup'),
+      'Prop `mainInGroup` is deprecated. Please, use `width="100%"`'
+    );
+  }
 
   public componentDidMount() {
     if (polyfillPlaceholder) {
