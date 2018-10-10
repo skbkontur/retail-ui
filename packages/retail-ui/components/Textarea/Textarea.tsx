@@ -76,6 +76,9 @@ export interface TextareaProps {
   onCut?: React.ClipboardEventHandler<HTMLTextAreaElement>;
   onPate?: React.ClipboardEventHandler<HTMLTextAreaElement>;
   onCopy?: React.ClipboardEventHandler<HTMLTextAreaElement>;
+
+  /** Выделение значения при фокусе */
+  selectAllOnFocus?: boolean;
 }
 
 export interface TextareaState {
@@ -193,6 +196,8 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       onCut,
       onPate,
       maxRows,
+      onFocus,
+      selectAllOnFocus,
       ...textareaProps
     } = this.props;
 
@@ -251,6 +256,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
           onChange={this.handleChange}
           onCut={this.handleCut}
           onPaste={this.handlePaste}
+          onFocus={this.handleFocus}
         />
         {fakeTextarea}
       </label>
@@ -268,6 +274,24 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       this.node.blur();
     }
   }
+
+  public setSelectionRange = (start: number, end: number) => {
+    if (!this.node) {
+      throw new Error('Cannot call "setSelectionRange" on unmounted Input');
+    }
+
+    if (document.activeElement !== this.node) {
+      this.focus();
+    }
+
+    this.node.setSelectionRange(start, end);
+  };
+
+  public selectAll = () => {
+    if (this.node) {
+      this.setSelectionRange(0, this.node.value.length);
+    }
+  };
 
   private handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (polyfillPlaceholder) {
@@ -340,6 +364,16 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     if (this.props.onCut) {
       this.props.onCut(event);
+    }
+  };
+
+  private handleFocus = (event: React.FocusEvent<HTMLTextAreaElement>) => {
+    if (this.props.selectAllOnFocus) {
+      this.selectAll();
+    }
+
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
     }
   };
 }

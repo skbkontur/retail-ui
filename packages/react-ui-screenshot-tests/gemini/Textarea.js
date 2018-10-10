@@ -29,3 +29,25 @@ gemini.suite("Textarea with custom width", suite => {
     .setCaptureElements("#test-element")
     .capture("Textarea with custom width");
 });
+
+gemini.suite("Textarea set selection", () => {
+  gemini.suite("Select all by prop", suite => {
+    suite
+      .setUrl(pathTo("Textarea", "Select all by prop"))
+      .setCaptureElements("#test-element")
+      .capture("Plain")
+      .capture("Focused", (actions, find) => {
+        actions.click(find("label"));
+      });
+  });
+
+  gemini.suite("Select all by button", suite => {
+    suite
+      .setUrl(pathTo("Textarea", "Select all by button"))
+      .setCaptureElements("#test-element")
+      .capture("Plain")
+      .capture("Selected", (actions, find) => {
+        actions.click(find("button"));
+      });
+  });
+});
