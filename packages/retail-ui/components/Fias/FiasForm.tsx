@@ -36,6 +36,8 @@ interface FieldProps {
   valueToString: (address: Address) => string;
   onInputChange: (value: string) => void;
   onUnexpectedInput?: (searchText: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 interface ChangeEvent<T> {
@@ -54,6 +56,7 @@ interface Props {
 interface State {
   address: Address;
   errorMessages: ErrorMessages;
+  searchText: string;
 }
 
 export class FiasForm extends React.Component<Props, State> {
@@ -61,7 +64,7 @@ export class FiasForm extends React.Component<Props, State> {
   public api: FiasAPI;
 
   private _verifyPromise: Promise<VerifyResponse> | null = null;
-  private _fields: Fields = {};
+  private readonly _fields: Fields = {};
   private readonly _searchProps: FieldProps | null = null;
 
   constructor(props: Props) {
@@ -69,7 +72,8 @@ export class FiasForm extends React.Component<Props, State> {
 
     this.state = {
       address: { ...this.props.address } || {},
-      errorMessages: {}
+      errorMessages: {},
+      searchText: ''
     };
 
     this.api = new FiasAPI(this.props.baseUrl);
@@ -88,6 +92,10 @@ export class FiasForm extends React.Component<Props, State> {
       this._searchProps = this.createSearchProps();
     }
   }
+
+  public clearSearchText = () => {
+    this.setState({ searchText: '' });
+  };
 
   public getFieldProps(field: AddressFieldName): FieldProps | null {
     switch (field) {
@@ -131,7 +139,9 @@ export class FiasForm extends React.Component<Props, State> {
       renderValue: this.createFieldValueRenderer(field),
       valueToString: this.createFieldValueToStringConverter(field),
       onInputChange: this.createFieldInputHandler(field),
-      onUnexpectedInput: this.createFieldUnexpectedInputHandler(field)
+      onUnexpectedInput: this.createFieldUnexpectedInputHandler(field),
+      onFocus: this.clearSearchText,
+      onBlur: this.clearSearchText
     };
   }
 
@@ -159,11 +169,11 @@ export class FiasForm extends React.Component<Props, State> {
 
   public createFieldInputHandler(field: string) {
     return (value: string) => {
+      const errorMessages = { ...this.state.errorMessages };
       if (!value) {
-        const errorMessages = { ...this.state.errorMessages };
         delete errorMessages[field];
-        this.setState({ errorMessages });
       }
+      this.setState({ searchText: value, errorMessages });
     };
   }
 
@@ -178,8 +188,8 @@ export class FiasForm extends React.Component<Props, State> {
   }
 
   public createFieldItemRenderer(field: AddressFieldName) {
-    const { address } = this.state;
     return (item: Address): React.ReactNode => {
+      const { address, searchText } = this.state;
       const element = item[field]!;
       const parents = ADDRESS_FIELDS.slice(0, ADDRESS_FIELDS.indexOf(field));
       const hasParent =
@@ -201,7 +211,7 @@ export class FiasForm extends React.Component<Props, State> {
           }
         });
 
-      return [...parentTexts, text].join(', ');
+      return this._highlight([...parentTexts, text].join(', '), searchText);
     };
   }
 
@@ -411,6 +421,38 @@ export class FiasForm extends React.Component<Props, State> {
         autocomplete={true}
         width={width}
       />
+    );
+  }
+
+  private _highlight(str: string, target: string, lastonly: boolean = false) {
+    if (!str || !target || str === target) {
+      return str;
+    }
+    const regex = new RegExp(target, 'ig');
+    const spans = str.split(regex);
+    const matches = str.match(regex);
+    const result = spans.reduce(
+      (
+        current: Array<React.ReactElement<HTMLSpanElement>>,
+        span: string,
+        i: number
+      ) => {
+        current.push(<span>{span}</span>);
+        if (matches && matches[i]) {
+          const className =
+            lastonly && i < matches.length - 1 ? '' : styles.highlighted;
+          current.push(<span className={className}>{matches[i]}</span>);
+        }
+        return current;
+      },
+      []
+    );
+    return (
+      <div>
+        {result.map((element, i) => {
+          return React.cloneElement(element, { key: `${i}` });
+        })}
+      </div>
     );
   }
 }
