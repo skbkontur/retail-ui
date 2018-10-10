@@ -13,6 +13,7 @@ import LayoutEvents from '../../../lib/LayoutEvents';
 import { Nullable } from '../../../typings/utility-types';
 import warning from 'warning';
 import ComboBoxView from '../ComboBoxView';
+import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
 
 interface BaseAction {
   type: string;
@@ -77,18 +78,6 @@ const searchFactory = (isEmpty: boolean): EffectType => (
   makeRequest();
 };
 
-const getValueContent = (reactNode: React.ReactNode) => {
-  if (reactNode == null) {
-    return '';
-  }
-
-  if (reactNode instanceof HTMLElement) {
-    return reactNode.textContent;
-  }
-
-  return reactNode.toString();
-};
-
 const Effect = {
   Search: searchFactory,
   DebouncedSearch: debounce(searchFactory(false), 300),
@@ -117,13 +106,13 @@ const Effect = {
   ) => {
     const {
       onUnexpectedInput,
-      renderValue = ComboBoxView.defaultProps.renderValue
+      renderItem = ComboBoxView.defaultProps.renderItem
     } = getProps();
 
     if (Array.isArray(items) && items.length === 1) {
       const singleItem = items[0];
-      const renderedValue: React.ReactNode = renderValue(singleItem);
-      const valueContent = getValueContent(renderedValue);
+      const renderedValue: React.ReactNode = renderItem(singleItem);
+      const valueContent = reactGetTextContent(renderedValue);
 
       if (valueContent === textValue) {
         dispatch({ type: 'ValueChange', value: singleItem });
