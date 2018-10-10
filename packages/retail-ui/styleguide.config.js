@@ -1,7 +1,27 @@
 const fs = require('fs');
 const path = require('path');
 const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
-  './tsconfig.json'
+  './tsconfig.json',
+  {
+    propFilter: (prop, component) => {
+      const FILTERED_COMPONENTS = [
+        'Link',
+        'Input',
+        'Center',
+        'Autocomplete',
+        'Checkbox',
+        'CurrencyInput',
+        'FxInput',
+        'Radio'
+      ];
+
+      if (FILTERED_COMPONENTS.indexOf(component.name) > -1) {
+        return !!prop.description;
+      }
+
+      return true;
+    }
+  }
 ).parse;
 const parseJsComponent = require('react-docgen').parse;
 const libraryVersion = require('./package.json').version;

@@ -9,6 +9,7 @@ import Icon, { IconName } from '../Icon';
 import styles = require('./Link.less');
 
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { Override } from '../../typings/utility-types';
 
 const useClasses = {
   default: styles.useDefault,
@@ -31,20 +32,26 @@ function listenTabPresses() {
   }
 }
 
-export interface LinkProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  disabled?: boolean;
-  href?: string;
-  icon?: IconName | React.ReactElement<any>;
-  onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
-  use?: 'default' | 'success' | 'danger' | 'grayed';
-  children?: React.ReactNode;
-  /** @ignore */
-  _button?: boolean;
-  /** @ignore */
-  _buttonOpened?: boolean;
-  tabIndex?: number;
-}
+export type LinkProps = Override<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  {
+    /** Неактивное состояние */
+    disabled?: boolean;
+    /** href */
+    href?: string;
+    /** Иконка */
+    icon?: IconName | React.ReactElement<any>;
+    /** Тип */
+    use?: 'default' | 'success' | 'danger' | 'grayed';
+    _button?: boolean;
+    _buttonOpened?: boolean;
+    tabIndex?: number;
+    className?: undefined;
+    style?: undefined;
+    /** onClick */
+    onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
+  }
+>;
 
 export interface LinkState {
   focusedByTab: boolean;
@@ -52,7 +59,9 @@ export interface LinkState {
 
 /**
  * Стандартная ссылка.
- * Все свойства передаются в элемент *<a>*.
+ * Интерфес пропсов наследуется от `React.AnchorHTMLAttributes<HTMLAnchorElement>`.
+ * Все свойства передаются в элемент `<a>`.
+ * `className` и `style` не поддерживаются
  */
 class Link extends React.Component<LinkProps, LinkState> {
   public static __ADAPTER__: any;

@@ -11,16 +11,28 @@ import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 
 export interface AutocompleteProps extends InputProps {
-  renderItem?: (item: string) => React.ReactNode;
+  /** Функция отрисовки элемента меню */
+  renderItem: (item: string) => React.ReactNode;
+  /** Промис, резолвящий элементы меню */
   source?: string[] | ((patter: string) => Promise<string[]>);
-  disablePortal?: boolean;
-  hasShadow?: boolean;
-  menuAlign?: 'left' | 'right';
-  menuMaxHeight?: number | string;
+  /** Отключает использование портала  */
+  disablePortal: boolean;
+  /** Отрисовка тени у выпадающего меню */
+  hasShadow: boolean;
+  /** Выравнивание выпадающего меню */
+  menuAlign: 'left' | 'right';
+  /** Максимальная высота меню */
+  menuMaxHeight: number | string;
+  /** Ширина меню */
   menuWidth?: number | string;
-  preventWindowScroll?: boolean;
+  /** Отключить скролл окна, когда меню открыто */
+  preventWindowScroll: boolean;
+  /** onChange */
   onChange: (event: { target: { value: string } }, value: string) => void;
+  /** onBlur */
   onBlur?: () => void;
+  /** Размер инпута */
+  size: InputProps['size'];
 }
 
 export interface AutocomplpeteState {

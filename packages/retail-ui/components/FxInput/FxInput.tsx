@@ -14,11 +14,17 @@ import { Override } from '../../typings/utility-types';
 export type FxInputProps = Override<
   CurrencyInputProps,
   {
+    /** Авто-режим */
     auto?: boolean;
+    /** Тип инпута */
     type?: 'currency' | InputProps['type'];
+    /** onRestore */
     onRestore?: () => void;
+    /** onChange */
     onChange: CurrencyInputProps['onChange'] | InputProps['onChange'];
+    /** Значение */
     value?: React.ReactText;
+    /** ref Input'а */
     refInput?: (element: CurrencyInput | Input | null) => void;
   }
 >;
@@ -28,6 +34,7 @@ export interface FxInputDefaultProps {
   type: FxInputProps['type'];
 }
 
+/** Принимает все свойства `Input`'a */
 class FxInput extends React.Component<FxInputProps> {
   public static propTypes = {
     auto: PropTypes.bool,
@@ -44,7 +51,7 @@ class FxInput extends React.Component<FxInputProps> {
   private getProps = createPropsGetter(FxInput.defaultProps);
 
   public render(): JSX.Element {
-    const { type, ...rest } = this.props;
+    const { type, onRestore, auto, ...rest } = this.props;
     const inputProps: {
       align: InputProps['align'];
       mainInGroup: boolean;
@@ -56,7 +63,7 @@ class FxInput extends React.Component<FxInputProps> {
 
     let button = null;
 
-    if (this.props.auto) {
+    if (auto) {
       inputProps.leftIcon = <Icon name="Function" />;
     } else {
       button = (

@@ -18,15 +18,19 @@ import { Nullable, Override } from '../../typings/utility-types';
 export type CurrencyInputProps = Override<
   InputProps,
   {
+    /** Значение */
     value: Nullable<number>;
+    /** Кол-во цифр после зяпятой */
     fractionDigits?: Nullable<number>;
+    /** Отрицательные значения */
     signed?: boolean;
+    /** onChange */
     onChange: (
       e: { target: { value: Nullable<number> } },
       value: Nullable<number>
     ) => void;
+    /** onSubmit */
     onSubmit?: () => void;
-    onFocus?: () => void;
   }
 >;
 
@@ -35,6 +39,10 @@ export interface CurrencyInputState {
   selection: Selection;
 }
 
+/**
+ * Поле для денежных сумм (и других числовых значений).
+ * Принимает любые свойства `Input`
+ */
 export default class CurrencyInput extends React.Component<
   CurrencyInputProps,
   CurrencyInputState
@@ -91,7 +99,13 @@ export default class CurrencyInput extends React.Component<
   }
 
   public render() {
-    const { fractionDigits, signed, onSubmit, ...rest } = this.props;
+    const {
+      fractionDigits,
+      signed,
+      onSubmit,
+      mainInGroup,
+      ...rest
+    } = this.props;
     const placeholder =
       this.props.placeholder == null
         ? CurrencyHelper.format(0, {
@@ -363,7 +377,7 @@ export default class CurrencyInput extends React.Component<
   private _handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this._focused = true;
     if (this.props.onFocus) {
-      this.props.onFocus();
+      this.props.onFocus(event);
     }
   };
 

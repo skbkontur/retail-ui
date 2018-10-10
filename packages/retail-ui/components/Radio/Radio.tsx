@@ -26,16 +26,27 @@ export interface SyntheticRadioEvent<T> {
 export type RadioProps<T> = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
   {
+    /** Состояние ошибки */
     error?: boolean;
+    /** Состояние Предупреждения */
     warning?: boolean;
+    /** Состояние фокуса */
     focused?: boolean;
+    /** Состояние нажатия */
     pressed?: boolean;
+    /** Состояние hover */
     hovered?: boolean;
+    /** Состояние active */
     active?: boolean;
+    /** onChange */
     onChange?: (event: SyntheticRadioEvent<T>, value: T) => void;
+    /** onChange */
     onMouseEnter?: (event: SyntheticRadioEvent<T>) => void;
+    /** onChange */
     onMouseLeave?: (event: SyntheticRadioEvent<T>) => void;
+    /** onChange */
     onMouseOver?: (event: SyntheticRadioEvent<T>) => void;
+    /** Значение */
     value: T;
   }
 >;
