@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.24.2"></a>
+## [0.24.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.24.0...retail-ui@0.24.2) (2018-10-11)
+
+
+### Bug Fixes
+
+* **ComboBox:** PureComponent заменен на shouldComponentUpdate ([38d34fc](https://github.com/skbkontur/retail-ui/commit/38d34fc))
+* **ResizeDetector:** удален `removeEventListener` :green_apple: ([dc74eb8](https://github.com/skbkontur/retail-ui/commit/dc74eb8))
+* **SidePage:** fix zIndex of footer, fixed [#714](https://github.com/skbkontur/retail-ui/issues/714) ([63a2b5d](https://github.com/skbkontur/retail-ui/commit/63a2b5d))
+
+
+
+
 <a name="0.24.1"></a>
 ## [0.24.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.24.0...retail-ui@0.24.1) (2018-10-10)
 
