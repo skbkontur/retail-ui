@@ -23,6 +23,6 @@ matrix:
       deploy:
         skip_cleanup: true
         provider: script
-        script: nuget push ./packages/react-ui-testing/SeleniumTesting/Output/Kontur.ReactUI.SeleniumTesting.*.nupkg -ApiKey $NUGET_API_KEY
+        script: node ./packages/react-ui-testing/SeleniumTesting/nuget-push
         on:
           branch: csharp-build
