@@ -25,4 +25,4 @@ matrix:
         provider: script
         script: node ./packages/react-ui-testing/SeleniumTesting/nuget-push
         on:
-          branch: csharp-build
+          branch: master
