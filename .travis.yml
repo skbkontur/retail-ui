@@ -1,16 +1,21 @@
-language: node_js
-node_js:
-  - '8'
-cache: yarn
-sudo: required
-dist: trusty
-install:
-  - yarn
-script:
-  - yarn workspace retail-ui run test --silent
-  - yarn workspace react-ui-screenshot-tests run test
 env:
   global:
     - SAUCE_USERNAME=skbkontur_ife
     - secure: z3KyUQyIjbHQ8RCfxfgEZdOc0w0jvpOgwPGfdB1ZcXTaToP7Pzlnf2r6He9Hzlz4gN42dMk2kaXwTRFciLWVstD8PTMZ2GWiy32FxqfATNIXRuMtsn0iqIR1zwSklaV+ESJn3oqoklYQjlYqbB//jGfslroKJ2fOihbtZjIEfAQCMKXic+O9i/QRwugXuCpdRMNn1zqStrpTKPTT26WjzIYQ7K5NAVFOx98tgJ3BCe+iDOG8FW6thu2Vz34pw/TLIBLJuPU4QXu6Hnex1GE4HIC5xRAtU5c9X95Wz5CWSjUJAJegazv+UYJRlN13ljxUYF4BvtRjqvb5ZmC6aANkk5wUHk657uJSmajaDnWuB9J0WuxaTScr0snMbGQWwlVUxUDi1med+3+TrH0PEjVRdBa4wH1ims4T6Wu9WjJHrxwyk2HSPOonKJFacCntrlXMq6En6X9ljtIiNWIg27CmBk/grxMtur5kQEf/mKDDd3wXZq+V8B4JLhxsXjyO2MH0DrYVeVJXWF8sz1ZG+UhkaZPJcqhNUm0KOpS82NNSn1E/YWD7QrCGbs+tR90sgLLEZGjGpMFeU3I5LcB0+wrqxVDzYoCSS733F1uKUNE4ZDqlQV4bPnE67jgWd9J7IO42m/a1S1Fc43JW8Qpw4hcSgTdahYuDcn39LtD34nEC4iI=
     - secure: VBz+uWg6WMtF53plpsti/PjGp7Zk3fvrKnMIPbPIXSf+ujKsupU1kKZGDQ0XY+K8UW8jjzQNX60Tz4u54bzKMBmVMatqpMkcu2ihtTvFwnYi76eLv+iZYgADQ8GhkDL6gtzwvi9Z+JoUAlUyxyjbXkb6VjAKP11H0uHi6aZ4/xBT+jVj59nq2jXaL98uOH4O0tFda8dJxx+4G+qwMXfitlpjYUsBCcNrvGY7jAnqNSupuv7CqYoRiOQ0HWeC32iNPgC6aGgHThIBc01hdY0xNkBPU6/b+B2fVmUQ262Y4weRbN//IRnaoEU+w5/WPfOuWOF6JFj7jdr34XBqgmkFi5kjXRvXlbe/jzlUMdLw9HXD6+1tc63QEHfOadI7MADfHGQlCAYHN8/tO/7z2LHOM93ds3EbdYcpfvA58aHHnZMf09KIYQ/MZHtabw/WQhaV+Kf0tnLZ/mgwQXzuQB8HeMAq8Hs72c7Z9hB+kDLsVymyoYtEdsCpfQURy1psoOC0XsXhZn9HJT0kdic5kDeu/+vCgiT7NAT97hQyG/h4V9UU1A+scEEdy2bL6KRYqaoEMnWj5kXvoqGjMTCZGPimjSyhPBjrmJusUsE9Ci7Oc07AM59FoTtb34K/aMejx5bD6uvzog54kqBiHsbergrga8RmBFO5hmoqjXhvNlVAh/s=
+matrix:
+  include:
+    - language: node_js
+      node_js:
+        - "8"
+      cache: yarn
+      sudo: required
+      dist: trusty
+      install:
+        - yarn
+      script:
+        - yarn workspace retail-ui run test --silent
+        - yarn workspace react-ui-screenshot-tests run test
+
+    - language: csharp
+      solution: ./packages/react-ui-testing/SeleniumTesting/SeleniumTesting.sln
