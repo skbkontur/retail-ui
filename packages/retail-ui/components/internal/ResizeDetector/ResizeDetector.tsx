@@ -16,12 +16,6 @@ export default class ResizeDetector extends React.Component<
     }
   }
 
-  public componentWillUnmount() {
-    if (this.iframeWindow) {
-      this.iframeWindow.removeEventListener('resize', this.handleResize);
-    }
-  }
-
   public render() {
     return (
       <div className={styles.root}>
