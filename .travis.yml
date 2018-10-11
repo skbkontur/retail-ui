@@ -25,4 +25,4 @@ matrix:
         provider: script
         script: nuget push ./packages/react-ui-testing/SeleniumTesting/Output/Kontur.ReactUI.SeleniumTesting.*.nupkg -ApiKey $NUGET_API_KEY
         on:
-          condition: branch = master OR branch = csharp-build
+          branch: csharp-build
