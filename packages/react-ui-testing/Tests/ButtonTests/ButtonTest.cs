@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
@@ -22,6 +23,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ButtonTests
         [Test]
         public void TestPresence()
         {
+            Console.WriteLine("Button");
             page.SimpleButton.IsPresent.Wait().That(Is.True);
         }
 
