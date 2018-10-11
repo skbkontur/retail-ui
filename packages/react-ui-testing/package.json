@@ -4,9 +4,10 @@
   "description": "React selenium testing",
   "main": "react-selenium-testing.js",
   "scripts": {
-    "postinstall": "npm install --prefix ./TestPages",
+    "postinstall": "yarn --cwd ./TestPages install",
     "build": "dotnet restore && dotnet build",
-    "test": "dotnet test ./Tests/Tests.csproj"
+    "test": "dotnet test ./Tests/Tests.csproj",
+    "start": "yarn --cwd ./TestPages start"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "babel-core": "^6.26.3",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.23.0",
-    "babel-preset-stage-0": "^6.22.0"
+    "babel-preset-stage-0": "^6.22.0",
+    "sauce-connect-launcher": "^1.2.4"
   }
 }

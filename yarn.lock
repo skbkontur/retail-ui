@@ -13529,7 +13529,7 @@ sane@^2.0.0:
   optionalDependencies:
     fsevents "^1.2.3"
 
-sauce-connect-launcher@^1.2.0, sauce-connect-launcher@~1.2.3:
+sauce-connect-launcher@^1.2.0, sauce-connect-launcher@^1.2.4, sauce-connect-launcher@~1.2.3:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sauce-connect-launcher/-/sauce-connect-launcher-1.2.4.tgz#8d38f85242a9fbede1b2303b559f7e20c5609a1c"
   integrity sha512-X2vfwulR6brUGiicXKxPm1GJ7dBEeP1II450Uv4bHGrcGOapZNgzJvn9aioea5IC5BPp/7qjKdE3xbbTBIVXMA==
