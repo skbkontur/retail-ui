@@ -9,10 +9,10 @@
     <Version>2.0.5.0$(VersionSuffix)</Version>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <LangVersion>latest</LangVersion>
-    <TargetFramework>net45</TargetFramework>
     <PackageLicenseUrl>https://github.com/skbkontur/react-ui-testing/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/skbkontur/react-ui-testing</PackageProjectUrl>
     <RepositoryUrl>https://github.com/skbkontur/react-ui-testing</RepositoryUrl>
+    <TargetFrameworks>net45;netcoreapp2.1</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -24,6 +24,7 @@
     <PackageReference Include="JetBrains.Annotations" Version="10.0.0" />
     <PackageReference Include="Kontur.RetryableAssertions" Version="0.0.1" />
     <PackageReference Include="Kontur.Selone" Version="0.0.4" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />
     <PackageReference Include="Selenium.WebDriver" Version="3.13.1" />
   </ItemGroup>
 </Project>
