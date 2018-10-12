@@ -19,6 +19,7 @@ import cn from 'classnames';
 import Upgrades from '../../lib/Upgrades';
 import FocusLock from 'react-focus-lock';
 import ResizeDetector from '../internal/ResizeDetector';
+import { isIE } from '../ensureOldIEClassName';
 
 let mountedModalsCount = 0;
 
@@ -255,8 +256,9 @@ class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   // TODO: без порталов ломается сохранение фокуса внутри модалки
+  // NOTE: в ie нормально не работает
   private isDisableFocusLock = () => {
-    return !ReactDOM.createPortal;
+    return !ReactDOM.createPortal || isIE;
   };
 }
 
