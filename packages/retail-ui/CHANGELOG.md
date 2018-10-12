@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.24.3"></a>
+## [0.24.3](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.24.2...retail-ui@0.24.3) (2018-10-12)
+
+
+### Bug Fixes
+
+* **Modal:** focusLock отключен в ie, fix [#784](https://github.com/skbkontur/retail-ui/issues/784) ([0f5f93e](https://github.com/skbkontur/retail-ui/commit/0f5f93e))
+
+
+
+
 <a name="0.24.2"></a>
 ## [0.24.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.24.0...retail-ui@0.24.2) (2018-10-11)
 
