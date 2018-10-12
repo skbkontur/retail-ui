@@ -26,6 +26,10 @@ export default class HideBodyVerticalScroll extends React.Component<
     }
   }
 
+  public componentDidUpdate() {
+    this._updateScrollVisibility();
+  }
+
   public componentWillUnmount() {
     const counter = VerticalScrollCounter.decrement();
     if (counter === 0) {
