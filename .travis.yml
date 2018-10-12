@@ -19,10 +19,11 @@ matrix:
         - yarn workspace react-ui-screenshot-tests run test
 
     - language: csharp
-      solution: ./packages/react-ui-testing/SeleniumTesting/SeleniumTesting.sln
+      solution: ./packages/react-ui-testing/SeleniumTesting.sln
       deploy:
         skip_cleanup: true
         provider: script
-        script: node ./packages/react-ui-testing/SeleniumTesting/nuget-push
+        script: nuget push ./packages/react-ui-testing/*.nupkg -ApiKey $NUGET_API_KEY
         on:
-          branch: master
+          tags: true
+          condition: $TRAVIS_TAG =~ /^react-ui-testing/
