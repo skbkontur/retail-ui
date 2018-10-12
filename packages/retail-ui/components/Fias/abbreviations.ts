@@ -1,4 +1,5 @@
 // TODO: запросить и сверить все сокращения с back'ом
+// "ус."?
 export const abbreviations: { [key: string]: string } = {
   Респ: 'республика',
   край: 'край',

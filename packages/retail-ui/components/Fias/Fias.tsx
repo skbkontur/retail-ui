@@ -4,7 +4,8 @@ import { getAddressText, isEmptyAddress } from './utils';
 import { Address, ErrorMessages } from './types';
 import { IconName } from '../Icon';
 import FiasModal from './FiasModal';
-import FiasForm from './FiasForm';
+import FiasForm from './Form/FiasForm';
+import { FiasAPI } from './FiasAPI';
 
 interface Props {
   value?: { address: Address };
@@ -36,6 +37,7 @@ export class Fias extends React.Component<Props> {
   };
   public state: State;
 
+  private _api: FiasAPI;
   private _form: React.RefObject<FiasForm> = React.createRef();
 
   constructor(props: Props) {
@@ -45,6 +47,8 @@ export class Fias extends React.Component<Props> {
       opened: false,
       error: props.error || false
     };
+
+    this._api = new FiasAPI(props.baseUrl);
   }
 
   public render() {
@@ -77,7 +81,7 @@ export class Fias extends React.Component<Props> {
   }
 
   private _renderModal() {
-    const { validFn, value, title, baseUrl, search } = this.props;
+    const { validFn, value, title, search } = this.props;
     return (
       <FiasModal
         title={title}
@@ -88,7 +92,7 @@ export class Fias extends React.Component<Props> {
           ref={this._form}
           address={value && value.address}
           validFn={validFn}
-          baseUrl={baseUrl}
+          api={this._api}
           search={search}
         />
       </FiasModal>

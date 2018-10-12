@@ -28,8 +28,8 @@ export interface House extends FiasEntity {
 
 export interface Room extends FiasEntity {
   flatNumber: string;
-  flatType: number;
-  liveStatus: LiveStatuses;
+  flatType?: number;
+  liveStatus?: LiveStatuses;
 }
 
 export enum Levels {

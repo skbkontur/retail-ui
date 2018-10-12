@@ -2,9 +2,10 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import { Fias } from '../index';
-import FiasForm from '../FiasForm';
+import FiasForm from '../Form/FiasForm';
 import FiasModal from '../FiasModal';
 import { Address } from '../types';
+import { FiasAPI } from '../FiasAPI';
 
 storiesOf('Fias', module)
   .add('default', () => <Fias />)
@@ -18,11 +19,14 @@ storiesOf('Fias', module)
   .add('custom icon and text', () => (
     <ExampleFias icon={'HomeOffice'} label={'Юридический адресс'} />
   ))
-  .add('modal', () => (
-    <FiasModal>
-      <FiasForm address={MOCK_ADDRESS.address as Address} baseUrl={BASE_URL} />
-    </FiasModal>
-  ));
+  .add('modal', () => {
+    const api = new FiasAPI(BASE_URL);
+    return (
+      <FiasModal>
+        <FiasForm api={api} address={MOCK_ADDRESS.address as Address} />
+      </FiasModal>
+    );
+  });
 
 const BASE_URL = 'https://api.dev.kontur/fias/v1/';
 const MOCK_ADDRESS = {

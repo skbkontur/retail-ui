@@ -33,9 +33,7 @@ export const isHouse = (element: AddressElement): element is House => {
 };
 
 export const isRoom = (element: AddressElement): element is Room => {
-  return (
-    element.hasOwnProperty('flatNumber') && element.hasOwnProperty('liveStatus')
-  );
+  return element.hasOwnProperty('flatNumber');
 };
 
 export const isEmptyAddress = (address: Address | undefined): boolean => {
