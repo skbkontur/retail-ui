@@ -2,6 +2,8 @@
 
 :local {
   .cell {
+    .reset-button();
+
     display: inline-block;
     box-sizing: border-box;
     text-align: center;
@@ -26,15 +28,16 @@
     }
   }
 
+  .selected {
+    background-color: @calendar-cell-selected-bg-color;
+    color: @calendar-cell-selected-font-color;
+  }
+
   .weekend {
     color: @calendar-cell-weekend-color;
   }
 
   .today {
     border: @calendar-cell-today-border;
-  }
-
-  .selected {
-    background-color: @calendar-cell-selected-bg-color;
   }
 }
