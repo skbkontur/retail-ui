@@ -1,10 +1,12 @@
 {
-  "name": "react-selenium-testing",
+  "name": "react-ui-testing",
   "version": "0.1.0",
-  "description": "React selenium testing script",
+  "description": "React selenium testing",
   "main": "react-selenium-testing.js",
   "scripts": {
-    "build": "babel react-selenium-testing.js -d Output/ --copy-files"
+    "postinstall": "npm install --prefix ./TestPages",
+    "build": "dotnet restore && dotnet build",
+    "test": "dotnet test ./Tests/Tests.csproj"
   },
   "author": "",
   "license": "ISC",
