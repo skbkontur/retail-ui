@@ -12,7 +12,6 @@
   .bg {
     background: @modal-back-bg;
     bottom: 0;
-    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=60)';
     left: 0;
     opacity: @modal-back-opacity;
     position: absolute;
@@ -49,12 +48,13 @@
   }
 
   .centerContainer {
+    position: relative;
     display: inline-block;
+    margin: 0 20px;
     text-align: left;
     vertical-align: middle;
-    padding: 0 20px;
-    width: 100%;
     box-sizing: border-box;
+    z-index: 10;
   }
 
   .window {
@@ -62,7 +62,6 @@
     white-space: normal;
     background: @bg-default;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    margin: 0 auto;
   }
 
   .close {
@@ -191,5 +190,14 @@
       top: 1px;
       box-shadow: @modal-fixed-footer-shadow;
     }
+  }
+
+  .modalClickTrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
   }
 }
