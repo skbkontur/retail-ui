@@ -8,21 +8,18 @@ import {
 import {
   getAddressElementName,
   getAddressElementText,
-  getLastFiasId,
-  isAddressObject,
-  isEmptyAddress
+  getFieldParents,
+  getParentFiasId,
+  isAddressObject
 } from '../utils';
 import styles from './FiasForm.less';
 import {
   Address,
   ADDRESS_FIELDS,
-  AddressFieldName,
   ErrorMessages,
   Levels,
-  Room,
   VerifyResponse
 } from '../types';
-import Input from '../../Input/Input';
 
 const VERIFY_ERROR_MESSAGE = 'Неверный адрес';
 
@@ -48,13 +45,12 @@ export class FiasForm extends React.Component<Props, State> {
   public state: State;
 
   private _verifyPromise: Promise<VerifyResponse> | null = null;
-  private readonly _combos: {
+  private readonly _comboboxes: {
     [key: string]: {
       ref: React.RefObject<HighlightingComboBox<Address>>;
       props: HighlightingComboBoxProps<Address>;
     };
   } = {};
-  // private readonly _searchProps: ComboBoxProps<Address> = {};
 
   constructor(props: Props) {
     super(props);
@@ -64,9 +60,19 @@ export class FiasForm extends React.Component<Props, State> {
       errorMessages: {}
     };
 
-    this._combos = ADDRESS_FIELDS.reduce((combos, field: AddressFieldName) => {
+    this._comboboxes = [
+      'region',
+      'district',
+      'city',
+      'settlement',
+      'planningstructure',
+      'stead',
+      'street',
+      'house',
+      'room'
+    ].reduce((comboboxes, field) => {
       return {
-        ...combos,
+        ...comboboxes,
         [field]: {
           ref: React.createRef(),
           props: this.createComboBoxProps(field)
@@ -80,14 +86,12 @@ export class FiasForm extends React.Component<Props, State> {
   }
 
   public createComboBoxProps(
-    field: AddressFieldName
+    field: string
   ): HighlightingComboBoxProps<Address> {
     const getItems = (searchText: string) => {
-      const parentFiasId = getLastFiasId(
-        this.state.address,
-        ADDRESS_FIELDS.slice(0, ADDRESS_FIELDS.indexOf(field))
-      );
-      return this.props.api.search(searchText, Levels[field], parentFiasId);
+      const level = Levels[field as keyof typeof Levels];
+      const parentFiasId = getParentFiasId(this.state.address, field);
+      return this.props.api.search(searchText, level, parentFiasId);
     };
 
     const onChange = (e: ChangeEvent<Address>, value: Address) => {
@@ -99,7 +103,7 @@ export class FiasForm extends React.Component<Props, State> {
       if (!query) {
         address[field] = undefined;
       } else {
-        // address[field] = { name: query };
+        // set custom value
       }
       this.handleAddressChange(address);
     };
@@ -107,9 +111,7 @@ export class FiasForm extends React.Component<Props, State> {
     const renderItem = (item: Address): string => {
       const { address } = this.props;
       const element = item[field]!;
-      const parents = ADDRESS_FIELDS.slice(0, ADDRESS_FIELDS.indexOf(field));
-      const hasParent =
-        !isEmptyAddress(address) && getLastFiasId(address!, parents);
+      const hasParent = Boolean(getParentFiasId(address, field));
       let text = getAddressElementText(element, hasParent ? field : undefined);
 
       if (isAddressObject(element) && element.level === Levels.region) {
@@ -118,6 +120,7 @@ export class FiasForm extends React.Component<Props, State> {
       }
 
       const parentTexts: string[] = [];
+      const parents = getFieldParents(field);
       parents
         .filter(key => Boolean(item[key]))
         .forEach((parentField: string) => {
@@ -132,7 +135,6 @@ export class FiasForm extends React.Component<Props, State> {
 
     const renderValue = (address: Address): React.ReactNode => {
       const element = address[field];
-      // console.log(field, element);
       return element ? getAddressElementText(element, field) : '';
     };
 
@@ -169,7 +171,7 @@ export class FiasForm extends React.Component<Props, State> {
   }
 
   public check(address: Address): void {
-    const promise = this.props.api.verify(address);
+    const promise = this.props.api.verify({ ...address });
     this._verifyPromise = promise;
 
     promise.then(result => {
@@ -207,18 +209,6 @@ export class FiasForm extends React.Component<Props, State> {
     });
   }
 
-  public handleRoomChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    value: string
-  ) => {
-    this.setState({
-      address: {
-        ...this.state.address,
-        room: { flatNumber: value } as Room
-      }
-    });
-  };
-
   public handleAddressChange = (value: Address) => {
     const address = {
       ...this.state.address,
@@ -231,7 +221,7 @@ export class FiasForm extends React.Component<Props, State> {
     });
     this.setState({ address });
     this.check(address);
-    this.resetCombos();
+    this.resetComboboxes();
   };
 
   public submit = async (): Promise<State> => {
@@ -241,12 +231,12 @@ export class FiasForm extends React.Component<Props, State> {
     };
   };
 
-  public resetCombos = () => {
-    for (const field in this._combos) {
-      if (this._combos.hasOwnProperty(field)) {
-        const { ref } = this._combos[field];
+  public resetComboboxes = () => {
+    for (const field in this._comboboxes) {
+      if (this._comboboxes.hasOwnProperty(field)) {
+        const { ref } = this._comboboxes[field];
         if (ref && ref.current) {
-          // ref.current.reset();
+          ref.current.reset();
         }
       }
     }
@@ -256,19 +246,6 @@ export class FiasForm extends React.Component<Props, State> {
     return (
       <div>
         <Gapped vertical>
-          {/*{this.props.search && (*/}
-          {/*<div className={styles.row}>*/}
-          {/*<div className={styles.field}>*/}
-          {/*<ComboBox*/}
-          {/*{...this._searchProps}*/}
-          {/*value={address}*/}
-          {/*placeholder="Начните вводить адрес в свободной форме"*/}
-          {/*autocomplete={true}*/}
-          {/*width="100%"*/}
-          {/*/>*/}
-          {/*</div>*/}
-          {/*</div>*/}
-          {/*)}*/}
           <div className={styles.row}>
             <div className={styles.label}>Регион</div>
             <div className={styles.field}>
@@ -318,15 +295,7 @@ export class FiasForm extends React.Component<Props, State> {
           <div className={styles.row}>
             <div className={styles.label}>Квартира, офис</div>
             <div className={styles.field}>
-              <Input
-                onChange={this.handleRoomChange}
-                value={
-                  this.state.address.room
-                    ? this.state.address.room.flatNumber
-                    : ''
-                }
-                width={130}
-              />
+              {this._renderField('room', '', 130)}
             </div>
           </div>
         </Gapped>
@@ -335,20 +304,20 @@ export class FiasForm extends React.Component<Props, State> {
   }
 
   private _renderField = (
-    field: AddressFieldName,
+    field: string,
     placeholder: string = '',
     width: string | number = '100%'
   ) => {
     const { address, errorMessages } = this.state;
     return (
       <HighlightingComboBox
-        {...this._combos[field].props}
+        {...this._comboboxes[field].props}
         value={address}
         placeholder={placeholder}
         width={width}
         error={errorMessages.hasOwnProperty(field)}
         autocomplete={true}
-        ref={this._combos[field].ref}
+        ref={this._comboboxes[field].ref}
       />
     );
   };

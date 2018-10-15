@@ -27,7 +27,7 @@ export class HighlightingComboBox<T> extends React.Component<Props<T>, State> {
   public reset = () => {
     const combobox = this._comboboxRef.current;
     if (combobox) {
-      // combobox.reset();
+      combobox.reset();
     }
   };
 

@@ -2,20 +2,22 @@ import {
   Address,
   ADDRESS_FIELDS,
   AddressElement,
-  AddressFieldName,
   AddressObject,
   EstateStatuses,
   House,
-  Room,
   Stead,
+  Room,
   StructureStatuses
 } from './types';
 import { abbreviations } from './abbreviations';
+import { Nullable } from '../../typings/utility-types';
 
 export const isAddressObject = (
   element: AddressElement
 ): element is AddressObject => {
-  return element.hasOwnProperty('name');
+  return (
+    element.hasOwnProperty('name') && element.hasOwnProperty('abbreviation')
+  );
 };
 
 export const isStead = (element: AddressElement): element is Stead => {
@@ -36,11 +38,11 @@ export const isRoom = (element: AddressElement): element is Room => {
   return element.hasOwnProperty('flatNumber');
 };
 
-export const isEmptyAddress = (address: Address | undefined): boolean => {
-  return !(address && Object.keys(address).length);
+export const isEmptyAddress = (address: Nullable<Address>): boolean => {
+  return !address || !ADDRESS_FIELDS.some(field => Boolean(address[field]));
 };
 
-export function getAddressElementName(element: AddressElement | undefined) {
+export function getAddressElementName(element: Nullable<AddressElement>) {
   if (element) {
     if (isAddressObject(element)) {
       return element.name;
@@ -56,13 +58,13 @@ export function getAddressElementName(element: AddressElement | undefined) {
 // TODO неразрывнях пробелов наставить между топонимом и его типом
 export function getAddressElementText(
   element: AddressElement,
-  skipTypeFor?: AddressFieldName
+  skipTypeFor?: string
 ): string {
   if (!element) {
     return '';
   }
 
-  // TODO добавить пгт, с/п? найти все возможные аббревиатуры (массив?)
+  // TODO найти все возможные аббревиатуры
   if (isAddressObject(element)) {
     const { abbreviation, name } = element;
     const type = abbreviations[abbreviation] || abbreviation;
@@ -74,13 +76,11 @@ export function getAddressElementText(
         return `Республика Чувашия`;
 
       case 'АО':
-        // чтобы не дублировать "Автономный округ"
-        return (
-          `${name}` +
-          (name !== 'Ханты-Мансийский Автономный округ - Югра'
-            ? ` ${type}`
-            : ``)
-        );
+        let text = `${name}`;
+        if (name !== 'Ханты-Мансийский Автономный округ - Югра') {
+          text += ` ${type}`;
+        }
+        return text;
 
       case 'обл':
         return `${name} ${type}`;
@@ -166,15 +166,18 @@ export function getAddressElementText(
   return result.trim() || getAddressElementName(element);
 }
 
-export function getLastFiasId(
-  address: Address,
-  parentFields: string[]
+export function getFieldParents(field: string): string[] {
+  return ADDRESS_FIELDS.slice(0, ADDRESS_FIELDS.indexOf(field));
+}
+export function getParentFiasId(
+  address: Nullable<Address>,
+  field: string
 ): string | undefined {
   if (!isEmptyAddress(address)) {
-    const parents = (parentFields || ADDRESS_FIELDS).slice().reverse();
+    const parents = getFieldParents(field).reverse();
     for (const parentName of parents) {
-      const parent: AddressElement | undefined = address[parentName];
-      if (parent && typeof parent === 'object' && parent.fiasId) {
+      const parent: Nullable<AddressElement> = address![parentName];
+      if (parent) {
         return parent.fiasId;
       }
     }
@@ -185,7 +188,7 @@ export function getAddressText(address: Address): string {
   if (!address) {
     return '';
   }
-  const getText = (element: AddressElement | undefined) =>
+  const getText = (element: Nullable<AddressElement>) =>
     element && getAddressElementText(element);
 
   return ADDRESS_FIELDS.map(field => getText(address[field]))

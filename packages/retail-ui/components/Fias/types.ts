@@ -1,3 +1,5 @@
+import { Nullable } from '../../typings/utility-types';
+
 export type FiasId = string;
 
 export interface FiasEntity {
@@ -11,6 +13,18 @@ export interface AddressObject extends FiasEntity {
   name: string;
   abbreviation: string;
   code: string;
+}
+
+export enum Levels {
+  region = 'Region',
+  district = 'District',
+  city = 'City',
+  settlement = 'Settlement',
+  planningstructure = 'PlanningStructure',
+  stead = 'Stead',
+  street = 'Street',
+  house = 'House',
+  room = 'Room'
 }
 
 export interface Stead extends FiasEntity {
@@ -28,27 +42,9 @@ export interface House extends FiasEntity {
 
 export interface Room extends FiasEntity {
   flatNumber: string;
-  flatType?: number;
-  liveStatus?: LiveStatuses;
+  flatType: number;
+  liveStatus: LiveStatuses;
 }
-
-export enum Levels {
-  region = 'Region',
-  district = 'District',
-  city = 'City',
-  settlement = 'Settlement',
-  planningstructure = 'PlanningStructure',
-  stead = 'Stead',
-  street = 'Street',
-  house = 'House',
-  room = 'Room'
-}
-
-export const ADDRESS_FIELDS: AddressFieldName[] = Object.keys(Levels).map(
-  field => field as AddressFieldName
-);
-
-export type AddressFieldName = keyof typeof Levels;
 
 export enum EstateStatuses {
   Hold = 'Hold',
@@ -72,7 +68,7 @@ export enum LiveStatuses {
 export type AddressElement = AddressObject | Stead | House | Room;
 
 export interface Address {
-  [key: string]: AddressElement | undefined;
+  [key: string]: Nullable<AddressElement>;
   region?: AddressObject;
   district?: AddressObject;
   city?: AddressObject;
@@ -82,6 +78,18 @@ export interface Address {
   house?: House;
   room?: Room;
 }
+
+export const ADDRESS_FIELDS: string[] = [
+  'region',
+  'district',
+  'city',
+  'settlement',
+  'planningstructure',
+  'stead',
+  'street',
+  'house',
+  'room'
+];
 
 export type VerifyResponse = Array<{
   address: Address;
