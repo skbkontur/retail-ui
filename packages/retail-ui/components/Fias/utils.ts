@@ -5,8 +5,9 @@ import {
   AddressObject,
   EstateStatuses,
   House,
-  Stead,
+  Levels,
   Room,
+  Stead,
   StructureStatuses
 } from './types';
 import { abbreviations } from './abbreviations';
@@ -90,6 +91,11 @@ export function getAddressElementText(
 
       case 'Аобл':
         return `${name} ${type}`;
+
+      case 'п':
+        return `${
+          element.level === Levels.district ? 'Поселение' : 'Поселок'
+        } ${name}`;
 
       case 'р-н':
         return (skipTypeFor !== 'district' ? `${type} ` : ``) + `${name}`;
