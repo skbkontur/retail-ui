@@ -20,6 +20,15 @@ matrix:
 
     - language: csharp
       solution: ./packages/react-ui-testing/SeleniumTesting.sln
+      install:
+        - nvm install 8
+        - yarn
+        - yarn workspace retail-ui run build
+        - yarn workspace react-ui-testing run build
+      addons:
+        sauce_connect: true
+      script:
+        - yarn workspace react-ui-testing run test
       deploy:
         skip_cleanup: true
         provider: script
