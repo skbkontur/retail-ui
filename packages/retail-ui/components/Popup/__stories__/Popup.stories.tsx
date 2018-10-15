@@ -3,8 +3,8 @@ import { storiesOf } from '@storybook/react';
 import Popup from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
 
-const AllCases = ({ small }: { small: boolean }) => (
-  <div style={{ transform: 'translate(50%, 15%)' }}>
+const AllCases = ({ small, padding }: { small: boolean; padding: string }) => (
+  <div style={{ padding }}>
     <table>
       <tbody>
         <tr>
@@ -71,40 +71,86 @@ const AllCases = ({ small }: { small: boolean }) => (
   </div>
 );
 
+const Positioning = () => (
+  <div>
+    <table>
+      <tbody>
+        {new Array(6 * 5).fill(0).map((x, i) => {
+          return Math.floor(i / 6) % 2 ? (
+            <tr>
+              <td>
+                <div style={{ height: '40px' }} />
+              </td>
+            </tr>
+          ) : (
+            <tr>
+              <td>
+                <PopupWithPositions />
+              </td>
+              <td style={{ width: '50%', minWidth: '300px' }} />
+              <td>
+                <PopupWithPositions />
+              </td>
+              <td style={{ width: '50%', minWidth: '300px' }} />
+              <td>
+                <PopupWithPositions />
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+);
+
+class MinWidth extends React.Component {
+  public state: AlwaysOpenedState = {
+    anchor: null
+  };
+
+  private anchor: Nullable<HTMLElement>;
+
+  public componentDidMount() {
+    this.setState({
+      anchor: this.anchor
+    });
+  }
+
+  public render() {
+    return (
+      <div style={{ padding: '100px' }}>
+        <span ref={el => (this.anchor = el)}>x</span>
+        {this.state.anchor && (
+          <Popup
+            hasShadow
+            hasPin
+            opened
+            anchorElement={this.anchor}
+            positions={['bottom center']}
+          >
+            <div
+              style={{
+                textAlign: 'center',
+                padding: '5px'
+              }}
+            >
+              {'21:00'}
+            </div>
+          </Popup>
+        )}
+      </div>
+    );
+  }
+}
+
 storiesOf('Popup', module)
-  .add('All pin opened', () => <AllCases small={false} />)
-  .add('All pin opened on small elements', () => <AllCases small />)
-  .add('Positioning', () => (
-    <div>
-      <table>
-        <tbody>
-          {new Array(6 * 5).fill(0).map((x, i) => {
-            return Math.floor(i / 6) % 2 ? (
-              <tr>
-                <td>
-                  <div style={{ height: '40px' }} />
-                </td>
-              </tr>
-            ) : (
-              <tr>
-                <td>
-                  <PopupWithPositions />
-                </td>
-                <td style={{ width: '50%', minWidth: '300px' }} />
-                <td>
-                  <PopupWithPositions />
-                </td>
-                <td style={{ width: '50%', minWidth: '300px' }} />
-                <td>
-                  <PopupWithPositions />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+  .add('All pin opened', () => (
+    <AllCases small={false} padding={'50px 100px'} />
   ))
+  .add('All pin opened on small elements', () => (
+    <AllCases small padding={'70px 150px'} />
+  ))
+  .add('Positioning', () => <Positioning />)
   .add('disableAnimations', () => (
     <div>
       <PopupWithPositions
@@ -118,7 +164,7 @@ storiesOf('Popup', module)
     </div>
   ))
   .add('Hint', () => (
-    <div style={{ transform: 'translate(250%, 200%)' }}>
+    <div style={{ padding: '100px' }}>
       <Hint
         positions={['top center', 'right top', 'bottom center', 'left middle']}
         margin={20}
@@ -126,12 +172,13 @@ storiesOf('Popup', module)
     </div>
   ))
   .add('Toast', () => (
-    <div style={{ transform: 'translate(250%, 200%)' }}>
+    <div style={{ padding: '100px' }}>
       <Toast
         positions={['top center', 'right top', 'bottom center', 'left middle']}
       />
     </div>
-  ));
+  ))
+  .add('Small width', () => <MinWidth />);
 
 interface AlwaysOpenedProps {
   small: boolean;
@@ -158,7 +205,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
   public render() {
     const defaultStyle: React.CSSProperties = {
       width: '80px',
-      height: '80px',
+      height: '70px',
       margin: '20px',
       border: '1px solid black',
       textAlign: 'center',
