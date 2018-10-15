@@ -312,4 +312,44 @@ describe('ComboBox', () => {
 
     expect(wrapper.find(InputLikeText).text()).toBe('');
   });
+
+  it('onChange if single item', async () => {
+    const ITEMS = [
+      { value: 1, label: 'One' },
+      { value: 2, label: 'Two' },
+      { value: 3, label: 'Three' },
+      { value: 4, label: 'Four' }
+    ];
+
+    const getItems = (query: string) => {
+      return Promise.resolve(
+        ITEMS.filter(item => {
+          return item.label.indexOf(query) > -1;
+        })
+      );
+    };
+
+    const changeHandler = jest.fn();
+    const wrapper = mount<ComboBox<{ value: number; label: string }>>(
+      <ComboBox onChange={changeHandler} getItems={getItems} />
+    );
+
+    wrapper.instance().focus();
+    wrapper.update();
+    wrapper.find('input').simulate('change', { target: { value: 'Two' } });
+
+    await delay(300);
+
+    clickOutside();
+    wrapper.update();
+
+    expect(changeHandler).toHaveBeenCalledWith(
+      {
+        target: {
+          value: ITEMS[1]
+        }
+      },
+      ITEMS[1]
+    );
+  });
 });

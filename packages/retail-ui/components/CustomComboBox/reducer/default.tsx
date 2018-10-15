@@ -12,6 +12,8 @@ import CustomComboBox, {
 import LayoutEvents from '../../../lib/LayoutEvents';
 import { Nullable } from '../../../typings/utility-types';
 import warning from 'warning';
+import ComboBoxView from '../ComboBoxView';
+import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
 
 interface BaseAction {
   type: string;
@@ -97,12 +99,26 @@ const Effect = {
       onChange({ target: { value } }, value);
     }
   },
-  UnexpectedInput: (textValue: string): EffectType => (
+  UnexpectedInput: (textValue: string, items: any): EffectType => (
     dispatch,
     getState,
     getProps
   ) => {
-    const { onUnexpectedInput } = getProps();
+    const {
+      onUnexpectedInput,
+      renderItem = ComboBoxView.defaultProps.renderItem
+    } = getProps();
+
+    if (Array.isArray(items) && items.length === 1) {
+      const singleItem = items[0];
+      const renderedValue: React.ReactNode = renderItem(singleItem);
+      const valueContent = reactGetTextContent(renderedValue);
+
+      if (valueContent === textValue) {
+        dispatch({ type: 'ValueChange', value: singleItem });
+      }
+    }
+
     if (onUnexpectedInput) {
       // NOTE Обсудить поведение onUnexpectedInput
       const value = onUnexpectedInput(textValue);
@@ -193,7 +209,7 @@ const reducers: { [type: string]: Reducer } = {
     } as State;
   },
   Blur(state, props, action) {
-    const { inputChanged } = state;
+    const { inputChanged, items } = state;
     if (!inputChanged) {
       return [
         {
@@ -211,7 +227,7 @@ const reducers: { [type: string]: Reducer } = {
         opened: false,
         items: null
       },
-      [Effect.Blur, Effect.UnexpectedInput(state.textValue)]
+      [Effect.Blur, Effect.UnexpectedInput(state.textValue, items)]
     ];
   },
   Focus(state, props, action) {
