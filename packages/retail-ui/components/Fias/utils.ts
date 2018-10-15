@@ -58,8 +58,8 @@ export function getAddressElementName(element: Nullable<AddressElement>) {
 
 // TODO неразрывнях пробелов наставить между топонимом и его типом
 export function getAddressElementText(
-  element: AddressElement,
-  skipTypeFor?: string
+  element: Nullable<AddressElement>,
+  shouldSkipType: boolean = false
 ): string {
   if (!element) {
     return '';
@@ -68,7 +68,9 @@ export function getAddressElementText(
   // TODO найти все возможные аббревиатуры
   if (isAddressObject(element)) {
     const { abbreviation, name } = element;
-    const type = abbreviations[abbreviation] || abbreviation;
+    const type = !shouldSkipType
+      ? abbreviations[abbreviation] || abbreviation
+      : '';
     switch (abbreviation) {
       case 'Респ':
         return `Республика ${name}`;
@@ -96,15 +98,6 @@ export function getAddressElementText(
         return `${
           element.level === Levels.district ? 'Поселение' : 'Поселок'
         } ${name}`;
-
-      case 'р-н':
-        return (skipTypeFor !== 'district' ? `${type} ` : ``) + `${name}`;
-
-      case 'г':
-        return (skipTypeFor !== 'city' ? `${type} ` : ``) + `${name}`;
-
-      case 'ул':
-        return (skipTypeFor !== 'street' ? `${type} ` : ``) + `${name}`;
 
       default:
         return `${type} ${element.name}`;
@@ -172,8 +165,26 @@ export function getAddressElementText(
   return result.trim() || getAddressElementName(element);
 }
 
+export function isSkippableType(
+  field: string,
+  element: Nullable<AddressElement>
+): boolean {
+  const skippingMap: {
+    [key: string]: string;
+  } = {
+    district: 'р-н',
+    city: 'г',
+    street: 'ул'
+  };
+  if (element && skippingMap[field] && isAddressObject(element)) {
+    return skippingMap[field] === element.abbreviation;
+  }
+  return false;
+}
+
 export function getFieldParents(field: string): string[] {
-  return ADDRESS_FIELDS.slice(0, ADDRESS_FIELDS.indexOf(field));
+  const index = ADDRESS_FIELDS.indexOf(field);
+  return ADDRESS_FIELDS.slice(0, index > -1 ? index : 0);
 }
 export function getParentFiasId(
   address: Nullable<Address>,
@@ -190,14 +201,18 @@ export function getParentFiasId(
   }
 }
 
-export function getAddressText(address: Address): string {
+export function getAddressText(
+  address: Nullable<Address>,
+  minField?: string
+): string {
   if (!address) {
     return '';
   }
   const getText = (element: Nullable<AddressElement>) =>
     element && getAddressElementText(element);
-
-  return ADDRESS_FIELDS.map(field => getText(address[field]))
+  const fields = minField ? getFieldParents(minField) : ADDRESS_FIELDS;
+  return fields
+    .map(field => getText(address[field]))
     .filter(Boolean)
     .join(', ');
 }

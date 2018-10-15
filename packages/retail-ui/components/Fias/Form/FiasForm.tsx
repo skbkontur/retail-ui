@@ -8,9 +8,10 @@ import {
 import {
   getAddressElementName,
   getAddressElementText,
-  getFieldParents,
+  getAddressText,
   getParentFiasId,
-  isAddressObject
+  isAddressObject,
+  isSkippableType
 } from '../utils';
 import styles from './FiasForm.less';
 import {
@@ -109,33 +110,31 @@ export class FiasForm extends React.Component<Props, State> {
     };
 
     const renderItem = (item: Address): string => {
-      const { address } = this.props;
-      const element = item[field]!;
-      const hasParent = Boolean(getParentFiasId(address, field));
-      let text = getAddressElementText(element, hasParent ? field : undefined);
+      const element = item[field];
+      const hasParents = Boolean(getParentFiasId(item, field));
 
-      if (isAddressObject(element) && element.level === Levels.region) {
+      const fieldText = getAddressElementText(
+        element,
+        !hasParents && isSkippableType(field, element)
+      );
+
+      if (
+        element &&
+        isAddressObject(element) &&
+        element.level === Levels.region
+      ) {
         const regionCode = element.code.substr(0, 2);
-        text = regionCode + ' ' + text;
+        return `${regionCode} ${fieldText}`;
       }
 
-      const parentTexts: string[] = [];
-      const parents = getFieldParents(field);
-      parents
-        .filter(key => Boolean(item[key]))
-        .forEach((parentField: string) => {
-          const parent = item[parentField];
-          if (parent) {
-            parentTexts.push(getAddressElementText(parent));
-          }
-        });
-
-      return [...parentTexts, text].join(', ');
+      return hasParents
+        ? [getAddressText(item, field), fieldText].join(', ')
+        : fieldText;
     };
 
     const renderValue = (address: Address): React.ReactNode => {
       const element = address[field];
-      return element ? getAddressElementText(element, field) : '';
+      return getAddressElementText(element, isSkippableType(field, element));
     };
 
     const valueToString = (address: Address): string =>

@@ -1,5 +1,4 @@
 export const abbreviations: { [key: string]: string } = {
-  // Region
   АО: 'автономный округ',
   Аобл: 'автономная область',
   Респ: 'республика',
