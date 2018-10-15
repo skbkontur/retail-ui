@@ -10,6 +10,7 @@ import Upgrades from '../../lib/Upgrades';
 import CssStyles from './Input.less';
 import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
+import deprecationWarning from 'warning';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -64,9 +65,10 @@ export type InputProps = Override<
     className?: undefined;
     style?: undefined;
     capture?: boolean;
+
     /**
      * @deprecated
-     * Главный инпут в Group
+     * 100% ширина в группе, лучше явно передать ширину в компонент
      */
     mainInGroup?: boolean;
     selectAllOnFocus?: boolean;
@@ -97,6 +99,15 @@ class Input extends React.Component<InputProps, InputState> {
   private blinkTimeout: number = 0;
 
   private input: HTMLInputElement | null = null;
+
+  constructor(props: InputProps) {
+    super(props);
+
+    deprecationWarning(
+      !Object.prototype.hasOwnProperty.call(props, 'mainInGroup'),
+      'Prop `mainInGroup` is deprecated. Please, use `width="100%"`'
+    );
+  }
 
   public componentDidMount() {
     if (polyfillPlaceholder) {
@@ -180,12 +191,16 @@ class Input extends React.Component<InputProps, InputState> {
       placeholder,
       mainInGroup,
       selectAllOnFocus,
+      disabled,
       ...rest
     } = this.props;
+
+    const { blinking } = this.state;
+
     const labelProps = {
       className: classNames({
         [classes.root]: true,
-        [classes.disabled]: this.props.disabled,
+        [classes.disabled]: disabled,
         [classes.error]: error,
         [classes.warning]: warning,
         [classes.padLeft]: !!leftIcon,
@@ -203,15 +218,16 @@ class Input extends React.Component<InputProps, InputState> {
       className: classNames({
         [classes.input]: true,
         [classes.borderless]: borderless,
-        [classes.blink]: this.state.blinking
+        [classes.blink]: blinking
       }),
       value,
       onChange: this.handleChange,
+      onFocus: this.handleFocus,
       style: { textAlign: align },
       ref: this.refInput,
       type: 'text',
       placeholder: !polyfillPlaceholder ? placeholder : undefined,
-      onFocus: this.handleFocus
+      disabled
     };
 
     if (type === 'password') {
