@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.25.0"></a>
+# [0.25.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.24.1...retail-ui@0.25.0) (2018-10-15)
+
+
+### Bug Fixes
+
+* **ComboBox:** onChange при потере фокуса ([c3353b0](https://github.com/skbkontur/retail-ui/commit/c3353b0)), closes [#680](https://github.com/skbkontur/retail-ui/issues/680)
+* **HBVS:** пересчет размеров окна в каждом didUpdate, Closed [#717](https://github.com/skbkontur/retail-ui/issues/717) ([a162a03](https://github.com/skbkontur/retail-ui/commit/a162a03))
+* **Input:** fix console.log warning in group ([2bd4287](https://github.com/skbkontur/retail-ui/commit/2bd4287))
+* **Input:** повыщенный z-index при фокусе ([cf7f423](https://github.com/skbkontur/retail-ui/commit/cf7f423))
+* **Kebab:** react warning of unitless number ([66c6f21](https://github.com/skbkontur/retail-ui/commit/66c6f21))
+* **Modal:** fix click-handler ([cf84fd9](https://github.com/skbkontur/retail-ui/commit/cf84fd9)), closes [#757](https://github.com/skbkontur/retail-ui/issues/757)
+* **Modal:** focusLock отключен в ie, fix [#784](https://github.com/skbkontur/retail-ui/issues/784) ([839c7fa](https://github.com/skbkontur/retail-ui/commit/839c7fa))
+* **Popup:** change min-width to fix [#799](https://github.com/skbkontur/retail-ui/issues/799) ([4fb60a6](https://github.com/skbkontur/retail-ui/commit/4fb60a6))
+* **ResizeDetector:** удален `removeEventListener` :green_apple: ([ab586f7](https://github.com/skbkontur/retail-ui/commit/ab586f7))
+* **Tabs:** fix setState after unmount in Indicator component ([7444784](https://github.com/skbkontur/retail-ui/commit/7444784)), closes [#735](https://github.com/skbkontur/retail-ui/issues/735)
+
+
+### Features
+
+* **Calendar:** больше переменных в стилях ([212bd1f](https://github.com/skbkontur/retail-ui/commit/212bd1f)), closes [#755](https://github.com/skbkontur/retail-ui/issues/755)
+* **Group:** added Group tests and Stories ([a669d7f](https://github.com/skbkontur/retail-ui/commit/a669d7f))
+* **Input:** выделение значения ([1b68c7a](https://github.com/skbkontur/retail-ui/commit/1b68c7a))
+* **Textarea:** выделение значения ([8282b37](https://github.com/skbkontur/retail-ui/commit/8282b37))
+
+
+
+
 <a name="0.24.1"></a>
 ## [0.24.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.24.0...retail-ui@0.24.1) (2018-10-10)
 
