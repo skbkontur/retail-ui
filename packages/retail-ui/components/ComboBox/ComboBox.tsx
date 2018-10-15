@@ -68,8 +68,12 @@ export interface ComboBoxProps<T> {
    * элемент и  результат `renderValue` с этим элементом будет
    * совпадать со значение в текстовом поле, то
    * сработает onChange со значением данного элемента
+   *
+   * Сама функция также может вернуть значение,
+   * не равное `null` и `undefined`,
+   * с которым будет вызван onChange.
    */
-  onUnexpectedInput?: (query: string) => void | null;
+  onUnexpectedInput?: (query: string) => void | null | T;
 
   placeholder?: string;
 
