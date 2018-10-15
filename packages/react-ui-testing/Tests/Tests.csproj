@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AssemblyName>Kontur.ReactUI.SeleniumTesting.Tests</AssemblyName>
     <Authors>Kontur</Authors>
@@ -7,12 +7,23 @@
     <RootNamespace>SKBKontur.SeleniumTesting.Tests</RootNamespace>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <LangVersion>latest</LangVersion>
-    <TargetFramework>net45</TargetFramework>
+    <Configurations>Debug;Release;DebugCore;ReleaseCore</Configurations>
+    <Platforms>AnyCPU</Platforms>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugCore|AnyCPU' ">
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseCore|AnyCPU' ">
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <TargetFrameworks>netcoreapp2.1;net45</TargetFrameworks>
     <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <TargetFrameworks>netcoreapp2.1;net45</TargetFrameworks>
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
@@ -28,6 +39,6 @@
     <PackageReference Include="Selenium.WebDriver" Version="3.13.1" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Management" />
+    <Reference Include="System.Management" Condition="'$(TargetFramework)' == 'net45'" />
   </ItemGroup>
 </Project>
