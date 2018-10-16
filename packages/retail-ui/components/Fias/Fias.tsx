@@ -37,8 +37,8 @@ export class Fias extends React.Component<Props> {
   };
   public state: State;
 
-  private _api: FiasAPI;
-  private _form: React.RefObject<FiasForm> = React.createRef();
+  private api: FiasAPI;
+  private form: React.RefObject<FiasForm> = React.createRef();
 
   constructor(props: Props) {
     super(props);
@@ -48,7 +48,7 @@ export class Fias extends React.Component<Props> {
       error: props.error || false
     };
 
-    this._api = new FiasAPI(props.baseUrl);
+    this.api = new FiasAPI(props.baseUrl);
   }
 
   public render() {
@@ -69,41 +69,41 @@ export class Fias extends React.Component<Props> {
           showAddressText && <span>{getAddressText(value!.address)}</span>}
         {!this.props.readonly && (
           <div>
-            <Link icon={linkIcon} onClick={this._handleOpen}>
+            <Link icon={linkIcon} onClick={this.handleOpen}>
               {linkText}
             </Link>
           </div>
         )}
         {validation}
-        {opened && this._renderModal()}
+        {opened && this.renderModal()}
       </div>
     );
   }
 
-  private _renderModal() {
+  private renderModal() {
     const { validFn, value, title, search } = this.props;
     return (
       <FiasModal
         title={title}
-        onClose={this._handleClose}
-        onSave={this._handleSave}
+        onClose={this.handleClose}
+        onSave={this.handleSave}
       >
         <FiasForm
-          ref={this._form}
+          ref={this.form}
           address={value && value.address}
           validFn={validFn}
-          api={this._api}
+          api={this.api}
           search={search}
         />
       </FiasModal>
     );
   }
 
-  private _handleOpen = () => {
+  private handleOpen = () => {
     this.setState({ opened: true });
   };
 
-  private _handleClose = () => {
+  private handleClose = () => {
     this.setState({ opened: false });
     const onClose = this.props.onClose;
     if (onClose) {
@@ -111,20 +111,20 @@ export class Fias extends React.Component<Props> {
     }
   };
 
-  private _handleSave = async () => {
-    const form = this._form && this._form.current;
+  private handleSave = async () => {
+    const form = this.form && this.form.current;
     if (form) {
       this.setState({ error: false });
       const { address, errorMessages } = await form.submit();
       if (errorMessages && Object.keys(errorMessages).length) {
         this.setState({ error: true });
       }
-      this._handleChange({ address });
+      this.handleChange({ address });
     }
-    this._handleClose();
+    this.handleClose();
   };
 
-  private _handleChange = (value: { address: Address }) => {
+  private handleChange = (value: { address: Address }) => {
     const onChange = this.props.onChange;
     if (onChange) {
       onChange(value);

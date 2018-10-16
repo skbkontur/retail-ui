@@ -45,8 +45,8 @@ interface State {
 export class FiasForm extends React.Component<Props, State> {
   public state: State;
 
-  private _verifyPromise: Promise<VerifyResponse> | null = null;
-  private readonly _comboboxes: {
+  private verifyPromise: Promise<VerifyResponse> | null = null;
+  private readonly comboboxes: {
     [key: string]: {
       ref: React.RefObject<HighlightingComboBox<Address>>;
       props: HighlightingComboBoxProps<Address>;
@@ -61,7 +61,7 @@ export class FiasForm extends React.Component<Props, State> {
       errorMessages: {}
     };
 
-    this._comboboxes = [
+    this.comboboxes = [
       'region',
       'district',
       'city',
@@ -171,13 +171,13 @@ export class FiasForm extends React.Component<Props, State> {
 
   public check(address: Address): void {
     const promise = this.props.api.verify({ ...address });
-    this._verifyPromise = promise;
+    this.verifyPromise = promise;
 
     promise.then(result => {
-      if (promise !== this._verifyPromise) {
+      if (promise !== this.verifyPromise) {
         return;
       }
-      this._verifyPromise = null;
+      this.verifyPromise = null;
 
       if (!result || !result[0]) {
         return;
@@ -224,16 +224,16 @@ export class FiasForm extends React.Component<Props, State> {
   };
 
   public submit = async (): Promise<State> => {
-    await this._verifyPromise;
+    await this.verifyPromise;
     return {
       ...this.state
     };
   };
 
   public resetComboboxes = () => {
-    for (const field in this._comboboxes) {
-      if (this._comboboxes.hasOwnProperty(field)) {
-        const { ref } = this._comboboxes[field];
+    for (const field in this.comboboxes) {
+      if (this.comboboxes.hasOwnProperty(field)) {
+        const { ref } = this.comboboxes[field];
         if (ref && ref.current) {
           ref.current.reset();
         }
@@ -248,53 +248,51 @@ export class FiasForm extends React.Component<Props, State> {
           <div className={styles.row}>
             <div className={styles.label}>Регион</div>
             <div className={styles.field}>
-              {this._renderField('region', 'регион')}
+              {this.renderField('region', 'регион')}
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Район</div>
             <div className={styles.field}>
-              {this._renderField('district', 'район')}
+              {this.renderField('district', 'район')}
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Город</div>
             <div className={styles.field}>
-              {this._renderField('city', 'город')}
+              {this.renderField('city', 'город')}
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Населенный пункт</div>
-            <div className={styles.field}>
-              {this._renderField('settlement')}
-            </div>
+            <div className={styles.field}>{this.renderField('settlement')}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Иная территория</div>
             <div className={styles.field}>
-              {this._renderField('planningstructure')}
+              {this.renderField('planningstructure')}
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Улица</div>
-            <div className={styles.field}>{this._renderField('street')}</div>
+            <div className={styles.field}>{this.renderField('street')}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Земельный участок</div>
             <div className={styles.field}>
-              {this._renderField('stead', '', 130)}
+              {this.renderField('stead', '', 130)}
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Дом, сооружение</div>
             <div className={styles.field}>
-              {this._renderField('house', '', 130)}
+              {this.renderField('house', '', 130)}
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Квартира, офис</div>
             <div className={styles.field}>
-              {this._renderField('room', '', 130)}
+              {this.renderField('room', '', 130)}
             </div>
           </div>
         </Gapped>
@@ -302,7 +300,7 @@ export class FiasForm extends React.Component<Props, State> {
     );
   }
 
-  private _renderField = (
+  private renderField = (
     field: string,
     placeholder: string = '',
     width: string | number = '100%'
@@ -310,13 +308,13 @@ export class FiasForm extends React.Component<Props, State> {
     const { address, errorMessages } = this.state;
     return (
       <HighlightingComboBox
-        {...this._comboboxes[field].props}
+        {...this.comboboxes[field].props}
         value={address}
         placeholder={placeholder}
         width={width}
         error={errorMessages.hasOwnProperty(field)}
         autocomplete={true}
-        ref={this._comboboxes[field].ref}
+        ref={this.comboboxes[field].ref}
       />
     );
   };

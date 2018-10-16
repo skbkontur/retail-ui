@@ -27,7 +27,7 @@ const BASE_URL = 'https://api.kontur.ru/fias/v1/';
 const LIMIT = 50;
 
 export class FiasAPI {
-  private _regionsPromise: Promise<
+  private regionsPromise: Promise<
     Array<{ region: AddressObject }>
   > | null = null;
 
@@ -44,12 +44,6 @@ export class FiasAPI {
   public verify = (address: Address): Promise<VerifyResponse> => {
     Object.keys(address).forEach(key => !address[key] && delete address[key]);
     delete address.room;
-
-    // TODO: find out why houses can have name
-    // if (address.house && address.house.name) {
-    //   address.house.number = address.house.name;
-    //   delete address.house.name;
-    // }
 
     return this.send('verify', {
       method: 'POST',
@@ -178,13 +172,13 @@ export class FiasAPI {
   };
 
   public searchRegions = (searchText: string): SearchResponse => {
-    if (!this._regionsPromise) {
-      this._regionsPromise = this.send('addresses/regions');
+    if (!this.regionsPromise) {
+      this.regionsPromise = this.send('addresses/regions');
     }
     if (searchText) {
-      return this._regionsPromise.then(filterRegions(searchText));
+      return this.regionsPromise.then(filterRegions(searchText));
     } else {
-      return this._regionsPromise;
+      return this.regionsPromise;
     }
   };
 }

@@ -70,13 +70,13 @@ class ExampleFias extends React.Component<any> {
       <Fias
         baseUrl={BASE_URL}
         value={this.state.value}
-        onChange={this._handleChange}
+        onChange={this.handleChange}
         {...props}
       />
     );
   }
 
-  private _handleChange = (value: any) => {
+  private handleChange = (value: any) => {
     this.setState({ value });
   };
 }

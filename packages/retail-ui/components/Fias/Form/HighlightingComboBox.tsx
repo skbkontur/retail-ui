@@ -15,7 +15,7 @@ export class HighlightingComboBox<T> extends React.Component<Props<T>, State> {
   };
   public state: State;
   // TODO: downgrade refs to old react versions
-  private _comboboxRef: React.RefObject<ComboBox<T>> = React.createRef();
+  private comboboxRef: React.RefObject<ComboBox<T>> = React.createRef();
 
   constructor(props: Props<T>) {
     super(props);
@@ -25,7 +25,7 @@ export class HighlightingComboBox<T> extends React.Component<Props<T>, State> {
   }
 
   public reset = () => {
-    const combobox = this._comboboxRef.current;
+    const combobox = this.comboboxRef.current;
     if (combobox) {
       combobox.reset();
     }
@@ -35,7 +35,7 @@ export class HighlightingComboBox<T> extends React.Component<Props<T>, State> {
     const text = this.props.renderItem
       ? this.props.renderItem(item)
       : item.label;
-    return typeof text === 'string' ? this._highlight(text) : item;
+    return typeof text === 'string' ? this.highlight(text) : item;
   };
 
   public handleInputChange = (query: string) => {
@@ -52,12 +52,12 @@ export class HighlightingComboBox<T> extends React.Component<Props<T>, State> {
         {...props}
         renderItem={this.renderItem}
         onInputChange={this.handleInputChange}
-        ref={this._comboboxRef}
+        ref={this.comboboxRef}
       />
     );
   }
 
-  private _highlight(str: string, lastonly: boolean = true) {
+  private highlight(str: string, lastonly: boolean = true) {
     const { searchText } = this.state;
 
     if (!str || !searchText || str === searchText) {
