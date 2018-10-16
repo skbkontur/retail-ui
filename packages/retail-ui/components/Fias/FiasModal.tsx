@@ -3,13 +3,13 @@ import Button from '../Button';
 import Gapped from '../Gapped';
 import Modal from '../Modal';
 
-interface Props {
+interface FiasModalProps {
   title?: string;
   onClose?: () => any;
   onSave?: () => any;
 }
 
-export class FiasModal extends React.Component<Props> {
+export class FiasModal extends React.Component<FiasModalProps> {
   public static defaultProps = {
     title: 'Адрес',
     onClose: () => null,

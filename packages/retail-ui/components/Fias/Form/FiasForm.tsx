@@ -21,8 +21,8 @@ import {
   Levels,
   VerifyResponse
 } from '../types';
-
-const VERIFY_ERROR_MESSAGE = 'Неверный адрес';
+import Fias from '../Fias';
+import { Nullable } from '../../../typings/utility-types';
 
 interface ChangeEvent<T> {
   target: {
@@ -30,30 +30,31 @@ interface ChangeEvent<T> {
   };
 }
 
-interface Props {
+interface FiasFormProps {
   api: FiasAPI;
   address?: Address;
   validFn?: (address: Address) => ErrorMessages;
   search?: boolean;
 }
 
-interface State {
+interface FiasFormState {
   address: Address;
   errorMessages: ErrorMessages;
 }
 
-export class FiasForm extends React.Component<Props, State> {
-  public state: State;
+export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
+  public state: FiasFormState;
 
   private verifyPromise: Promise<VerifyResponse> | null = null;
   private readonly comboboxes: {
     [key: string]: {
-      ref: React.RefObject<HighlightingComboBox<Address>>;
+      ref: Nullable<HighlightingComboBox<Address>>;
       props: HighlightingComboBoxProps<Address>;
+      createRef: (element: HighlightingComboBox<Address>) => void;
     };
   } = {};
 
-  constructor(props: Props) {
+  constructor(props: FiasFormProps) {
     super(props);
 
     this.state = {
@@ -75,8 +76,11 @@ export class FiasForm extends React.Component<Props, State> {
       return {
         ...comboboxes,
         [field]: {
-          ref: React.createRef(),
-          props: this.createComboBoxProps(field)
+          ref: null,
+          props: this.createComboBoxProps(field),
+          createRef: (element: HighlightingComboBox<Address>) => {
+            this.comboboxes[field].ref = element;
+          }
         }
       };
     }, {});
@@ -163,7 +167,7 @@ export class FiasForm extends React.Component<Props, State> {
         Object.keys(address[field] as object).length &&
         isSearchInvalidLevel
       ) {
-        errorMessages[field] = VERIFY_ERROR_MESSAGE;
+        errorMessages[field] = Fias.defaultTexts.not_valid_message;
       }
     }
     return errorMessages;
@@ -223,7 +227,7 @@ export class FiasForm extends React.Component<Props, State> {
     this.resetComboboxes();
   };
 
-  public submit = async (): Promise<State> => {
+  public submit = async (): Promise<FiasFormState> => {
     await this.verifyPromise;
     return {
       ...this.state
@@ -233,9 +237,9 @@ export class FiasForm extends React.Component<Props, State> {
   public resetComboboxes = () => {
     for (const field in this.comboboxes) {
       if (this.comboboxes.hasOwnProperty(field)) {
-        const { ref } = this.comboboxes[field];
-        if (ref && ref.current) {
-          ref.current.reset();
+        const combobox = this.comboboxes[field].ref;
+        if (combobox) {
+          combobox.reset();
         }
       }
     }
@@ -314,7 +318,7 @@ export class FiasForm extends React.Component<Props, State> {
         width={width}
         error={errorMessages.hasOwnProperty(field)}
         autocomplete={true}
-        ref={this.comboboxes[field].ref}
+        ref={this.comboboxes[field].createRef}
       />
     );
   };

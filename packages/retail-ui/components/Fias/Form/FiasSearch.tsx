@@ -3,13 +3,13 @@ import { Address } from '../types';
 import { HighlightingComboBox } from './HighlightingComboBox';
 import { getAddressText } from '../utils';
 
-interface Props {
+interface FiasSearchProps {
   source: (query: string) => Promise<Address[]>;
   address: Address;
   onChange: (event: any, value: Address) => void;
 }
 
-export class FiasSearch extends React.Component<Props> {
+export class FiasSearch extends React.Component<FiasSearchProps> {
   public static defaultProps = {
     onChange: () => null
   };

@@ -1,28 +1,25 @@
 import * as React from 'react';
 import ComboBox, { ComboBoxProps } from '../../ComboBox';
 
-interface Props<T> extends ComboBoxProps<T> {
-  renderItem: (item: T) => string;
-}
+export interface HighlightingComboBoxProps<T> extends ComboBoxProps<T> {}
 
-interface State {
+interface HighlightingComboBoxState {
   searchText: string;
 }
 
-export class HighlightingComboBox<T> extends React.Component<Props<T>, State> {
+export class HighlightingComboBox<T> extends React.Component<
+  HighlightingComboBoxProps<T>,
+  HighlightingComboBoxState
+> {
   public static defaultProps = {
     onChange: () => null
   };
-  public state: State;
+  public state: HighlightingComboBoxState = {
+    searchText: ''
+  };
+
   // TODO: downgrade refs to old react versions
   private comboboxRef: React.RefObject<ComboBox<T>> = React.createRef();
-
-  constructor(props: Props<T>) {
-    super(props);
-    this.state = {
-      searchText: ''
-    };
-  }
 
   public reset = () => {
     const combobox = this.comboboxRef.current;
@@ -94,4 +91,3 @@ export class HighlightingComboBox<T> extends React.Component<Props<T>, State> {
 }
 
 export default HighlightingComboBox;
-export { Props as HighlightingComboBoxProps };
