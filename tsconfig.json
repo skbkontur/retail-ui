@@ -14,5 +14,5 @@
     "noUnusedLocals": true,
     "skipLibCheck": true
   },
-  "exclude": ["node_modules", "**/node_modules/*", "**/styleguide"]
+  "exclude": ["node_modules", "**/node_modules/*", "**/styleguide", "**/build"]
 }
