@@ -2,7 +2,7 @@ import * as React from 'react';
 import Link from '../Link';
 import { getAddressText, isEmptyAddress } from './utils';
 import { Address, ErrorMessages } from './types';
-import { IconName } from '../Icon';
+import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
 import { FiasAPI } from './FiasAPI';
@@ -14,7 +14,7 @@ interface Props {
   feedback?: string;
   showAddressText?: boolean;
   label?: string;
-  icon?: IconName;
+  icon?: React.ReactElement<any>;
   readonly?: boolean;
   title?: string;
   baseUrl?: string;
@@ -33,7 +33,8 @@ export class Fias extends React.Component<Props> {
   public static defaultProps = {
     title: 'Адрес',
     feedback: 'Заполнено не по справочнику адресов',
-    showAddressText: true
+    showAddressText: true,
+    icon: <EditIcon />
   };
   public state: State;
 
@@ -57,7 +58,6 @@ export class Fias extends React.Component<Props> {
 
     const empty = !value || isEmptyAddress(value.address);
     const linkText = label || (empty ? 'Заполнить адрес' : 'Изменить адрес');
-    const linkIcon = icon || 'Edit';
 
     const validation = error ? (
       <span style={{ color: '#ce0014' }}>{feedback}</span>
@@ -69,7 +69,7 @@ export class Fias extends React.Component<Props> {
           showAddressText && <span>{getAddressText(value!.address)}</span>}
         {!this.props.readonly && (
           <div>
-            <Link icon={linkIcon} onClick={this.handleOpen}>
+            <Link icon={icon} onClick={this.handleOpen}>
               {linkText}
             </Link>
           </div>

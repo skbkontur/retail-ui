@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-
+import HomeOfficeIcon from '@skbkontur/react-icons/HomeOffice';
 import { Fias } from '../index';
 import FiasForm from '../Form/FiasForm';
 import FiasModal from '../FiasModal';
@@ -17,8 +17,9 @@ storiesOf('Fias', module)
   .add('error text', () => <ExampleFias error={true} />)
   .add('readonly', () => <ExampleFias readonly={true} value={MOCK_ADDRESS} />)
   .add('custom icon and text', () => (
-    <ExampleFias icon={'HomeOffice'} label={'Юридический адресс'} />
+    <ExampleFias icon={<HomeOfficeIcon />} label={'Юридический адресс'} />
   ))
+  .add('link without icon', () => <ExampleFias icon={''} />)
   .add('modal', () => {
     const api = new FiasAPI(BASE_URL);
     return (
