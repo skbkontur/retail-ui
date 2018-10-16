@@ -1,4 +1,4 @@
-
+// @flow
 
 import classNames from 'classnames';
 import * as React from 'react';
@@ -53,7 +53,7 @@ export default class Calendar extends React.Component<Props, State> {
       offset += DAY_HEIGHT;
     }
     const from =
-      (this.state.pos - offset) / DAY_HEIGHT * WEEK - FIRST_WEEK_SHIFT;
+      ((this.state.pos - offset) / DAY_HEIGHT) * WEEK - FIRST_WEEK_SHIFT;
     const week = getWeek(from);
 
     const months = [];
