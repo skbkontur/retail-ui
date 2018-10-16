@@ -40,6 +40,7 @@
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
     "clean": "git clean -fdxqe node_modules",
+    "lint": "tsc --noEmit && eslint ./ && tslint --project tsconfig.json",
     "test": "jest",
     "test:watch": "jest --watch"
   },
