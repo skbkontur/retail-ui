@@ -87,7 +87,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
                 options.AddAdditionalCapability("tunnel-identifier", this.tunnelIdentifier, true);
                 options.AddAdditionalCapability("maxDuration", 10800, true);
 
-                for (int i = 0; i < 1000; i++)
+                for (int i = 0; i < 30; i++)
                 {
                     try
                     {
