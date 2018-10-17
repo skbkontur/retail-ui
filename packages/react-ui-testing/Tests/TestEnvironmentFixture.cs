@@ -3,11 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Management;
 using System.Net;
-using System.Text;
 using System.Threading;
-
 using NUnit.Framework;
-
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
@@ -20,62 +17,36 @@ namespace SKBKontur.SeleniumTesting.Tests
         [OneTimeSetUp]
         public void SetUp()
         {
-            if (TeamCityEnvironment.IsExecutionViaTeamCity)
+            if (TravisEnvironment.IsExecutionViaTravis)
             {
-                KillWebPackDevServer();
-
+                tunnelIdentifier =
+                    Environment.GetEnvironmentVariable("TRAVIS_JOB_NUMBER", EnvironmentVariableTarget.Process);
                 webServerProcess = CreateWebServerProcess();
                 webServerProcess.Start();
 
                 WaitResponse("http://localhost:8083/");
             }
+            else
+            {
+                tunnelIdentifier = Guid.NewGuid().ToString();
+                sauceConnectProcess = CreateSauceConnectProcess(tunnelIdentifier);
+                sauceConnectProcess.Start();
+            }
 
-            BrowserSetUp.SetUp();
+            BrowserSetUp.SetUp(tunnelIdentifier);
         }
 
         [OneTimeTearDown]
         public void TearDown()
         {
             BrowserSetUp.TearDown();
-            if (TeamCityEnvironment.IsExecutionViaTeamCity)
+            if (TravisEnvironment.IsExecutionViaTravis)
             {
                 KillProcessAndChildren(webServerProcess.Id);
             }
-        }
-
-        private static string GetCommandLine(Process process)
-        {
-            try
+            else
             {
-                var commandLine = new StringBuilder(process.MainModule.FileName);
-
-                commandLine.Append(" ");
-                using(var searcher = new ManagementObjectSearcher("SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + process.Id))
-                {
-                    foreach(var @object in searcher.Get())
-                    {
-                        commandLine.Append(@object["CommandLine"]);
-                        commandLine.Append(" ");
-                    }
-                }
-
-                return commandLine.ToString();
-            }
-            catch
-            {
-                return "";
-            }
-        }
-
-        private static void KillWebPackDevServer()
-        {
-            var processes = Process.GetProcesses();
-            foreach(var process in processes)
-            {
-                if(GetCommandLine(process).Contains("8ae78075-b41d-4cb5-bda6-1de5c329f05f"))
-                {
-                    KillProcessAndChildren(process.Id);
-                }
+                KillProcessAndChildren(sauceConnectProcess.Id);
             }
         }
 
@@ -130,7 +101,22 @@ namespace SKBKontur.SeleniumTesting.Tests
             var processStartInfo = new ProcessStartInfo
                 {
                     UseShellExecute = true,
-                    FileName = Path.Combine(PathUtils.FindProjectRootFolder(), "startTestPages.bat"),
+                    FileName = "yarn",
+                    WorkingDirectory = PathUtils.FindProjectRootFolder(),
+                    Arguments = "start"
+                };
+
+            return new Process {StartInfo = processStartInfo};
+        }
+
+        private static Process CreateSauceConnectProcess(string tunnelIdentifier)
+        {
+            var processStartInfo = new ProcessStartInfo
+                {
+                    UseShellExecute = false,
+                    FileName = "/usr/local/bin/node",
+                    WorkingDirectory = PathUtils.FindProjectRootFolder(),
+                    Arguments = $"sauce.js {tunnelIdentifier}"
                 };
 
             return new Process {StartInfo = processStartInfo};
@@ -138,6 +124,7 @@ namespace SKBKontur.SeleniumTesting.Tests
 
         private static void KillProcessAndChildren(int pid)
         {
+            // TODO crossplatform?
             var searcher = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID=" + pid);
             var moc = searcher.Get();
             foreach(var mo in moc)
@@ -156,5 +143,7 @@ namespace SKBKontur.SeleniumTesting.Tests
         }
 
         private Process webServerProcess;
+        private Process sauceConnectProcess;
+        private string tunnelIdentifier;
     }
 }
