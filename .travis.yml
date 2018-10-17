@@ -19,6 +19,7 @@ matrix:
         - yarn workspace react-ui-screenshot-tests run test
 
     - language: csharp
+      dotnet: 2.1
       solution: ./packages/react-ui-testing/SeleniumTesting.sln
       install:
         - nvm install 8
