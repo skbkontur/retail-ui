@@ -2,9 +2,9 @@
 {
     public class BrowserSetUp
     {
-        public static void SetUp()
+        public static void SetUp(string tunnelIdentifier)
         {
-            browser = new Browser("localhost", "8083");
+            browser = new Browser("localhost", "8083", tunnelIdentifier);
         }
 
         public static void TearDown()

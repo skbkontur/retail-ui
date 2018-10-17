@@ -30,6 +30,7 @@
     <ProjectReference Include="..\SeleniumTesting\SeleniumTesting.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="dotenv.net" Version="1.0.3" />
     <PackageReference Include="FluentAssertions" Version="5.4.1" />
     <PackageReference Include="JetBrains.Annotations" Version="10.0.0" />
     <PackageReference Include="Kontur.RetryableAssertions" Version="0.0.1" />
