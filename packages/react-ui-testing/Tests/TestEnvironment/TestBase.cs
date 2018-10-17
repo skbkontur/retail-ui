@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
 using SKBKontur.SeleniumTesting.Internals;
 using SKBKontur.SeleniumTesting.Tests.Helpers;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Management;
@@ -114,7 +114,7 @@ namespace SKBKontur.SeleniumTesting.Tests
             var processStartInfo = new ProcessStartInfo
                 {
                     UseShellExecute = false,
-                    FileName = "/usr/local/bin/node",
+                    FileName = "node",
                     WorkingDirectory = PathUtils.FindProjectRootFolder(),
                     Arguments = $"sauce.js {tunnelIdentifier}"
                 };

@@ -5,8 +5,8 @@
   "main": "react-selenium-testing.js",
   "scripts": {
     "postinstall": "yarn --cwd ./TestPages install",
-    "build": "dotnet restore && dotnet build",
-    "test": "dotnet test ./Tests/Tests.csproj",
+    "build": "dotnet build -c ReleaseCore",
+    "test": "dotnet test ./Tests/Tests.csproj -c ReleaseCore -v normal",
     "start": "yarn --cwd ./TestPages start"
   },
   "author": "",
