@@ -8,7 +8,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
     {
         public IEnumerator GetEnumerator()
         {
-            if(!TeamCityEnvironment.IsExecutionViaTeamCity)
+            if(!TravisEnvironment.IsExecutionViaTravis)
             {
                 yield break;
             }

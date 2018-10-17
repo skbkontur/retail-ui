@@ -7,7 +7,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 {
     [TestFixture("15.4.2", "0.11.0")]
     [TestFixture("16.4.2", "0.20.2")]
-    [TestFixtureSource(typeof(RetailUIAndReactVersions))]
+    // TODO Remove [TestFixtureSource(typeof(RetailUIAndReactVersions))]
     public abstract class TestBase
     {
         protected TestBase(string reactVersion, string retailUiVersion, string minRetailUiVersion)
