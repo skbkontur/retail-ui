@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Management;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading;
 using NUnit.Framework;
 using SKBKontur.SeleniumTesting.Tests.Helpers;
@@ -24,7 +25,7 @@ namespace SKBKontur.SeleniumTesting.Tests
                 webServerProcess = CreateWebServerProcess();
                 webServerProcess.Start();
 
-                WaitResponse("http://localhost:8083/");
+                WaitResponse("http://localhost:8083/", webServerProcess);
             }
             else
             {
@@ -40,22 +41,30 @@ namespace SKBKontur.SeleniumTesting.Tests
         public void TearDown()
         {
             BrowserSetUp.TearDown();
+            var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            if (isWindows)
+            {
+                KillProcessAndChildren(
+                    TravisEnvironment.IsExecutionViaTravis ? webServerProcess.Id : sauceConnectProcess.Id);
+                return;
+            }
+
             if (TravisEnvironment.IsExecutionViaTravis)
             {
-                KillProcessAndChildren(webServerProcess.Id);
+                webServerProcess.Kill();
             }
             else
             {
-                KillProcessAndChildren(sauceConnectProcess.Id);
+                sauceConnectProcess.Kill();
             }
         }
 
-        private static void WaitResponse(string url)
+        private static void WaitResponse(string url,Process process)
         {
-            for(var i = 0; i < 2000; i++)
+            for(var i = 0; i < 60; i++)
             {
                 var httpResponse = WebRequest.CreateHttp(url);
-                httpResponse.Timeout = (int)TimeSpan.FromHours(1).TotalMilliseconds;
+                httpResponse.Timeout = (int)TimeSpan.FromSeconds(2).TotalMilliseconds;
                 try
                 {
                     using(var response = httpResponse.GetResponse())
@@ -93,18 +102,21 @@ namespace SKBKontur.SeleniumTesting.Tests
                     Thread.Sleep(2000);
                 }
             }
-            throw new Exception("Cannot wait response");
+
+            var processStdOutString = process.StandardOutput.ReadToEnd();
+            throw new Exception($"Cannot wait response. {Environment.NewLine+processStdOutString}");
         }
 
         private static Process CreateWebServerProcess()
         {
             var processStartInfo = new ProcessStartInfo
                 {
-                    UseShellExecute = true,
-                    FileName = "yarn",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    FileName = "node",
                     WorkingDirectory = PathUtils.FindProjectRootFolder(),
-                    Arguments = "start"
-                };
+                    Arguments = "yarn-start.js"
+            };
 
             return new Process {StartInfo = processStartInfo};
         }
