@@ -49,7 +49,7 @@ yarn add retail-ui
 /* ... */
 module: {
   /* ... */
-  loaders: [
+  rules: [
     {
       test: /\.jsx?$/,
       use: [
