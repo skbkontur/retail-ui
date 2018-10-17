@@ -41,8 +41,7 @@ namespace SKBKontur.SeleniumTesting.Tests
         public void TearDown()
         {
             BrowserSetUp.TearDown();
-            var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            if (isWindows)
+            if (usingWindows)
             {
                 KillProcessAndChildren(
                     TravisEnvironment.IsExecutionViaTravis ? webServerProcess.Id : sauceConnectProcess.Id);
@@ -113,9 +112,9 @@ namespace SKBKontur.SeleniumTesting.Tests
                 {
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
-                    FileName = "node",
+                    FileName = usingWindows ? "cmd":"bash",
                     WorkingDirectory = PathUtils.FindProjectRootFolder(),
-                    Arguments = "yarn-start.js"
+                    Arguments = usingWindows ? "/k \"yarn start\"":"-c \"yarn start\""
             };
 
             return new Process {StartInfo = processStartInfo};
@@ -157,5 +156,6 @@ namespace SKBKontur.SeleniumTesting.Tests
         private Process webServerProcess;
         private Process sauceConnectProcess;
         private string tunnelIdentifier;
+        private static readonly bool usingWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
     }
 }
