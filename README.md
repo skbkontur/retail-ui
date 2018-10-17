@@ -26,5 +26,5 @@ $ yarn clean
 Пример запуска **storybook** в retail-ui:
 
 ```sh
-$ yarn workspace retail-ui run storybook
+$ yarn workspace retail-ui storybook
 ```
