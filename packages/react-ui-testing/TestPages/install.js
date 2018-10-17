@@ -2,6 +2,8 @@ const path = require('path');
 const fs = require('fs');
 const versions = require('./versions');
 const exec = require('child_process').exec;
+const currentVersion = "9.9.9";
+const reactVersions = require('./reactVersions.json');
 
 const package = function (name, version) {
     return `${name}@${version}`;
@@ -22,9 +24,11 @@ const install = function (reactVersion, retailUiVersion, dependencies) {
 
         const libs = [
             package('react', reactVersion),
-            package('retail-ui', retailUiVersion),
             ...Object.keys(dependencies).map(name => package(name, dependencies[name]))
         ];
+        if (retailUiVersion!=currentVersion){
+            libs.push(package('retail-ui', retailUiVersion));
+        }
 
         const child = exec(
             `npm install ${libs.join(' ')}`,
@@ -39,14 +43,18 @@ const install = function (reactVersion, retailUiVersion, dependencies) {
     })
 };
 
-const installAll = async function () {
-    for (const version of versions) {
-        const reactVersion = version["react"];
-        const retailUiVersions = version["retail-ui"];
+const versionPairs = versions
+.map(version => version['retail-ui'].map(retailUIVersion => [version.react, retailUIVersion,version.dependencies]))
+.reduce((x, y) => x.concat(y), [])
+.concat(reactVersions.map(version => [version.react, currentVersion, version.dependencies]));
 
-        for (const retailUiVersion of retailUiVersions) {
-            await install(reactVersion, retailUiVersion, version.dependencies);
-        }
+const installAll = async function () {
+    console.log(versionPairs)
+    for (const version of versionPairs) {
+        const reactVersion = version[0];
+        const retailUiVersion = version[1];
+        const dependencies = version[2];
+        await install(reactVersion, retailUiVersion, dependencies);
     }
 };
 
