@@ -21,6 +21,9 @@ import FocusLock from 'react-focus-lock';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
 
+import throttle from 'lodash/throttle';
+import { Cancelable } from 'lodash';
+
 let mountedModalsCount = 0;
 
 export interface ModalProps {
@@ -50,6 +53,7 @@ export interface ModalProps {
 export interface ModalState {
   stackPosition: number;
   horizontalScroll: boolean;
+  clickTrapHeight?: React.CSSProperties['height'];
 }
 
 /**
@@ -72,7 +76,9 @@ class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   private stackSubscription: EventSubscription | null = null;
-  private centerDOM: HTMLDivElement | null = null;
+  private containerNode: HTMLDivElement | null = null;
+  private clickTrapNode: HTMLDivElement | null = null;
+  private throtteledResizeClickTrap?: (() => void) & Cancelable;
 
   public componentDidMount() {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
@@ -89,8 +95,8 @@ class Modal extends React.Component<ModalProps, ModalState> {
     events.addEventListener(window, 'keydown', this.handleKeyDown);
     this.checkHorizontalScrollAppearance();
 
-    if (this.centerDOM) {
-      this.centerDOM.addEventListener('scroll', LayoutEvents.emit);
+    if (this.containerNode) {
+      this.containerNode.addEventListener('scroll', LayoutEvents.emit);
     }
   }
 
@@ -110,8 +116,12 @@ class Modal extends React.Component<ModalProps, ModalState> {
     }
     ModalStack.remove(this);
 
-    if (this.centerDOM) {
-      this.centerDOM.removeEventListener('scroll', LayoutEvents.emit);
+    if (this.containerNode) {
+      this.containerNode.removeEventListener('scroll', LayoutEvents.emit);
+    }
+
+    if (this.throtteledResizeClickTrap) {
+      this.throtteledResizeClickTrap.cancel();
     }
   }
 
@@ -163,7 +173,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
           <HideBodyVerticalScroll />
           {this.state.stackPosition === 0 && <div className={styles.bg} />}
           <div
-            ref={this.refCenter}
+            ref={this.refContainer}
             className={cn(styles.container, {
               [styles.mobile]: Upgrades.isAdaptiveStyles()
             })}
@@ -171,10 +181,14 @@ class Modal extends React.Component<ModalProps, ModalState> {
             <div
               className={styles.modalClickTrap}
               onClick={this.handleContainerClick}
+              ref={this.refClickTrap}
+              style={{
+                height: this.state.clickTrapHeight
+              }}
             />
             <div className={styles.centerContainer} style={containerStyle}>
               <div className={styles.window} style={style}>
-                <ResizeDetector onResize={LayoutEvents.emit}>
+                <ResizeDetector onResize={this.handleResize}>
                   <FocusLock
                     disabled={this.isDisableFocusLock()}
                     autoFocus={false}
@@ -212,8 +226,8 @@ class Modal extends React.Component<ModalProps, ModalState> {
     }
   };
 
-  private refCenter = (center: HTMLDivElement | null) => {
-    this.centerDOM = center;
+  private refContainer = (center: HTMLDivElement | null) => {
+    this.containerNode = center;
   };
 
   private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
@@ -239,9 +253,9 @@ class Modal extends React.Component<ModalProps, ModalState> {
   private checkHorizontalScrollAppearance = () => {
     let hasScroll = false;
 
-    if (this.centerDOM) {
-      const containerClientWidth = this.centerDOM.clientWidth;
-      const containerScrollWidth = this.centerDOM.scrollWidth;
+    if (this.containerNode) {
+      const containerClientWidth = this.containerNode.clientWidth;
+      const containerScrollWidth = this.containerNode.scrollWidth;
       hasScroll = containerClientWidth < containerScrollWidth;
     }
     if (hasScroll && !this.state.horizontalScroll) {
@@ -255,6 +269,40 @@ class Modal extends React.Component<ModalProps, ModalState> {
   // NOTE: в ie нормально не работает
   private isDisableFocusLock = () => {
     return !ReactDOM.createPortal || isIE;
+  };
+
+  private refClickTrap = (node: HTMLDivElement | null) => {
+    this.clickTrapNode = node;
+  };
+
+  private resizeClickTrap = (height?: number) => {
+    if (this.clickTrapNode) {
+      this.setState({
+        clickTrapHeight: height
+      });
+    }
+  };
+
+  private createThrotteledResizeClickTrap = (height?: number) => {
+    this.throtteledResizeClickTrap = throttle(
+      () => this.resizeClickTrap(height),
+      300
+    );
+
+    this.throtteledResizeClickTrap();
+  };
+
+  private handleResize = (event: UIEvent) => {
+    LayoutEvents.emit();
+
+    if (this.containerNode) {
+      const height = (event.target as Window).innerHeight;
+      const containerHeight = this.containerNode.offsetHeight;
+
+      this.createThrotteledResizeClickTrap(
+        height > containerHeight ? height : undefined
+      );
+    }
   };
 }
 
