@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Address } from '../types';
 import { HighlightingComboBox } from './HighlightingComboBox';
-import { getAddressText } from '../utils';
+import { Address } from '../models/Address';
 
 interface FiasSearchProps {
   source: (query: string) => Promise<Address[]>;
@@ -14,16 +13,16 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
     onChange: () => null
   };
 
-  public renderItem = (item: Address): string => {
-    return getAddressText(item);
+  public renderItem = (address: Address): string => {
+    return address.getText();
   };
 
-  public renderValue = (value: Address): string => {
-    return getAddressText(value);
+  public renderValue = (address: Address): string => {
+    return address.getText();
   };
 
-  public valueToString = (value: Address): string => {
-    return getAddressText(value);
+  public valueToString = (address: Address): string => {
+    return address.getText();
   };
 
   public render() {

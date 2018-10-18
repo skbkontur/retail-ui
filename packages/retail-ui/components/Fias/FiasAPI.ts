@@ -1,23 +1,23 @@
 import {
-  Address,
-  AddressObject,
   FiasId,
   House,
   Levels,
-  LiveStatuses,
-  Room,
   Stead,
-  VerifyResponse
+  SearchResponse,
+  VerifyResponse,
+  ValueAddress,
+  ResponseAddress,
+  FiasObject,
+  AddressObject
 } from './types';
-
-type SearchResponse = Promise<Address[]>;
+import { Nullable } from '../../typings/utility-types';
 
 interface SearchQuery {
   [key: string]: any;
   address?: string;
   prefix?: string;
   limit?: number;
-  parentFiasId?: FiasId;
+  parentFiasId?: Nullable<FiasId>;
   level?: Levels;
   fullAddress?: boolean;
   directParent?: boolean;
@@ -27,9 +27,7 @@ const BASE_URL = 'https://api.kontur.ru/fias/v1/';
 const LIMIT = 50;
 
 export class FiasAPI {
-  private regionsPromise: Promise<
-    Array<{ region: AddressObject }>
-  > | null = null;
+  private regionsPromise: Nullable<Promise<SearchResponse>> = null;
 
   constructor(public baseUrl: string = BASE_URL) {}
 
@@ -41,8 +39,8 @@ export class FiasAPI {
     }).then(res => res.json());
   };
 
-  public verify = (address: Address): Promise<VerifyResponse> => {
-    Object.keys(address).forEach(key => !address[key] && delete address[key]);
+  public verify = (address: ValueAddress): Promise<VerifyResponse> => {
+    // Object.keys(address).forEach(key => !address[key] && delete address[key]);
     delete address.room;
 
     return this.send('verify', {
@@ -58,8 +56,8 @@ export class FiasAPI {
   public search = (
     searchText: string,
     level?: Levels,
-    parentFiasId?: FiasId
-  ): SearchResponse => {
+    parentFiasId?: Nullable<FiasId>
+  ): Promise<SearchResponse> => {
     const query: SearchQuery = {
       prefix: searchText,
       limit: LIMIT,
@@ -94,9 +92,9 @@ export class FiasAPI {
 
     if (searchText && level) {
       if (parentFiasId) {
-        if (level === Levels.room) {
-          return this.searchRooms(query);
-        }
+        // if (level === Levels.room) {
+        //   return this.searchRooms(query);
+        // }
         if (level === Levels.house) {
           return this.searchHouse(query);
         }
@@ -113,43 +111,44 @@ export class FiasAPI {
   public searchAddressObject = (
     query: SearchQuery,
     level: Levels
-  ): SearchResponse => {
-    return this.send(`addresses?${createQuery(query)}`).then(data =>
-      data.filter((item: Address) => item[level.toLowerCase()])
+  ): Promise<SearchResponse> => {
+    return this.send(`addresses?${createQuery(query)}`).then(
+      data => data.filter((item: ResponseAddress) => item[level.toLowerCase()])
+      // data.map((address: ResponseAddress) => Address.createFromResponse(address))
     );
   };
 
-  public resolveAddress = (query: SearchQuery): SearchResponse => {
+  public resolveAddress = (query: SearchQuery): Promise<SearchResponse> => {
     return this.send(`addresses/resolve?${createQuery(query)}`);
   };
 
-  public searchRooms = (query: SearchQuery): SearchResponse => {
-    return this.send(`rooms?${createQuery(query)}`).then(
-      (roomsList: Room[]): Address[] => {
-        return roomsList.reduce((filteredList: Address[], item: Room) => {
-          if (!filteredList.length) {
-            return [{ room: { ...item } }];
-          }
+  // public searchRooms = (query: SearchQuery): Promise<SearchResponse> => {
+  //   return this.send(`rooms?${createQuery(query)}`).then(
+  //     (roomsList: Room[]): Address[] => {
+  //       return roomsList.reduce((filteredList: Address[], item: Room) => {
+  //         if (!filteredList.length) {
+  //           return [{ room: { ...item } }];
+  //         }
+  //
+  //         for (const i in filteredList) {
+  //           if (filteredList[i].room!.flatNumber === item.flatNumber) {
+  //             if (item.liveStatus === LiveStatuses.Active) {
+  //               filteredList[i] = { room: { ...item } };
+  //             }
+  //             return filteredList;
+  //           }
+  //         }
+  //
+  //         filteredList.push({
+  //           room: { ...item }
+  //         });
+  //         return filteredList;
+  //       }, []);
+  //     }
+  //   );
+  // };
 
-          for (const i in filteredList) {
-            if (filteredList[i].room!.flatNumber === item.flatNumber) {
-              if (item.liveStatus === LiveStatuses.Active) {
-                filteredList[i] = { room: { ...item } };
-              }
-              return filteredList;
-            }
-          }
-
-          filteredList.push({
-            room: { ...item }
-          });
-          return filteredList;
-        }, []);
-      }
-    );
-  };
-
-  public searchStead = (query: SearchQuery): SearchResponse => {
+  public searchStead = (query: SearchQuery): Promise<SearchResponse> => {
     return this.send(`steads?${createQuery(query)}`).then(data =>
       data.map((item: Stead) => ({
         stead: {
@@ -160,7 +159,7 @@ export class FiasAPI {
     );
   };
 
-  public searchHouse = (query: SearchQuery): SearchResponse => {
+  public searchHouse = (query: SearchQuery): Promise<SearchResponse> => {
     return this.send(`houses?${createQuery(query)}`).then(data =>
       data.map((item: House) => ({
         house: {
@@ -171,7 +170,7 @@ export class FiasAPI {
     );
   };
 
-  public searchRegions = (searchText: string): SearchResponse => {
+  public searchRegions = (searchText: string): Promise<SearchResponse> => {
     if (!this.regionsPromise) {
       this.regionsPromise = this.send('addresses/regions');
     }
@@ -188,11 +187,12 @@ function isStartMatch(value: string | undefined, searchText: string) {
 }
 
 function filterRegions(searchText: string) {
-  return (list: Address[]) =>
-    list.filter(({ region }: Address) => {
+  return (list: ResponseAddress[]) =>
+    list.filter((address: ResponseAddress) => {
+      const region: FiasObject = address.region as AddressObject;
       return (
-        isStartMatch(region!.name, searchText) ||
-        isStartMatch(region!.code, searchText)
+        isStartMatch(region.name, searchText) ||
+        isStartMatch(region.code, searchText)
       );
     });
 }
@@ -200,7 +200,7 @@ function filterRegions(searchText: string) {
 function createQuery(query: SearchQuery): string {
   const params = [];
   for (const key in query) {
-    if (query.hasOwnProperty(key) && query[key] !== undefined) {
+    if (query.hasOwnProperty(key) && Boolean(query[key])) {
       if (key === 'level') {
         params.push(`${key}[]=${encodeURIComponent(query[key] as string)}`);
       } else {

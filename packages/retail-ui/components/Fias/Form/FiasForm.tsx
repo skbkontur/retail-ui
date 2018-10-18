@@ -1,28 +1,20 @@
 import * as React from 'react';
 import Gapped from '../../Gapped';
-import { FiasAPI } from './../FiasAPI';
+import { FiasAPI } from '../FiasAPI';
 import {
   HighlightingComboBox,
   HighlightingComboBoxProps
 } from './HighlightingComboBox';
-import {
-  getAddressElementName,
-  getAddressElementText,
-  getAddressText,
-  getParentFiasId,
-  isAddressObject,
-  isSkippableType
-} from '../utils';
 import styles from './FiasForm.less';
 import {
-  Address,
-  ADDRESS_FIELDS,
   ErrorMessages,
   Levels,
-  VerifyResponse
+  VerifyResponse,
+  ResponseAddress
 } from '../types';
 import Fias from '../Fias';
 import { Nullable } from '../../../typings/utility-types';
+import { Address } from '../models/Address';
 
 interface ChangeEvent<T> {
   target: {
@@ -32,7 +24,7 @@ interface ChangeEvent<T> {
 
 interface FiasFormProps {
   api: FiasAPI;
-  address?: Address;
+  address: Address;
   validFn?: (address: Address) => ErrorMessages;
   search?: boolean;
 }
@@ -58,7 +50,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     super(props);
 
     this.state = {
-      address: { ...this.props.address } || {},
+      address: props.address,
       errorMessages: {}
     };
 
@@ -93,10 +85,16 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   public createComboBoxProps(
     field: string
   ): HighlightingComboBoxProps<Address> {
-    const getItems = (searchText: string) => {
+    const getItems = async (searchText: string) => {
       const level = Levels[field as keyof typeof Levels];
-      const parentFiasId = getParentFiasId(this.state.address, field);
-      return this.props.api.search(searchText, level, parentFiasId);
+      const parentFiasId = this.state.address.getClosestParentFiasId(field);
+      return this.props.api
+        .search(searchText, level, parentFiasId)
+        .then((items: ResponseAddress[]) => {
+          return items.map((item: ResponseAddress) => {
+            return Address.createFromResponse(item);
+          });
+        });
     };
 
     const onChange = (e: ChangeEvent<Address>, value: Address) => {
@@ -104,45 +102,42 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
 
     const onUnexpectedInput = (query: string) => {
-      const address = { ...this.state.address };
+      const { address } = this.state;
       if (!query) {
-        address[field] = undefined;
+        address.fields[field] = null;
       } else {
         // set custom value
       }
       this.handleAddressChange(address);
     };
 
-    const renderItem = (item: Address): string => {
-      const element = item[field];
-      const hasParents = Boolean(getParentFiasId(item, field));
+    const renderItem = (address: Address): string => {
+      const element = address.fields[field];
+      const hasParents = Boolean(address.getClosestParentFiasId(field));
 
-      const fieldText = getAddressElementText(
-        element,
-        !hasParents && isSkippableType(field, element)
-      );
+      const fieldText = element
+        ? element.getText(!hasParents && element.isTypeMatchField(field))
+        : '';
 
-      if (
-        element &&
-        isAddressObject(element) &&
-        element.level === Levels.region
-      ) {
-        const regionCode = element.code.substr(0, 2);
+      if (element && element.data && element.data.level === Levels.region) {
+        const regionCode = element.data.code.substr(0, 2);
         return `${regionCode} ${fieldText}`;
       }
 
       return hasParents
-        ? [getAddressText(item, field), fieldText].join(', ')
+        ? [address.getText(field), fieldText].join(', ')
         : fieldText;
     };
 
     const renderValue = (address: Address): React.ReactNode => {
-      const element = address[field];
-      return getAddressElementText(element, isSkippableType(field, element));
+      const element = address.fields[field];
+      return element && element.getText(element.isTypeMatchField(field));
     };
 
-    const valueToString = (address: Address): string =>
-      getAddressElementName(address[field]);
+    const valueToString = (address: Address): string => {
+      const element = address.fields[field];
+      return element ? element.name : '';
+    };
 
     return {
       getItems,
@@ -158,13 +153,13 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   public getInvalidLevelErrors(invalidLevel: Levels, address: Address): any {
     const errorMessages: any = {};
     let isSearchInvalidLevel = false;
-    for (const field of ADDRESS_FIELDS) {
-      if (field === invalidLevel.toLowerCase() && address[field]) {
+    for (const field of Address.FIELDS) {
+      if (field === invalidLevel.toLowerCase() && address.fields[field]) {
         isSearchInvalidLevel = true;
       }
       if (
-        address[field] &&
-        Object.keys(address[field] as object).length &&
+        address.fields[field] &&
+        Object.keys(address.fields[field] as object).length &&
         isSearchInvalidLevel
       ) {
         errorMessages[field] = Fias.defaultTexts.not_valid_message;
@@ -174,7 +169,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   }
 
   public check(address: Address): void {
-    const promise = this.props.api.verify({ ...address });
+    const promise = this.props.api.verify(address.toValue());
     this.verifyPromise = promise;
 
     promise.then(result => {
@@ -187,10 +182,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         return;
       }
 
-      const newAddress = {
-        ...this.state.address, // здесь сохраняются поля, которые не одобрил метод verify
-        ...result[0].address
-      };
+      const newAddress = Address.verify(address, result);
 
       let errorMessages = {};
       if (!result[0].isValid) {
@@ -200,10 +192,10 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         );
       }
 
-      if (this.props.validFn) {
-        const customErrorMessages = this.props.validFn(result[0].address); // только верифицированный адрес
-        errorMessages = { ...errorMessages, ...customErrorMessages };
-      }
+      // if (this.props.validFn) {
+      //   const customErrorMessages = this.props.validFn(result[0].address); // только верифицированный адрес
+      //   errorMessages = { ...errorMessages, ...customErrorMessages };
+      // }
 
       this.setState({
         address: newAddress,
@@ -213,17 +205,19 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   }
 
   public handleAddressChange = (value: Address) => {
-    const address = {
-      ...this.state.address,
-      ...value
-    };
-    Object.keys(address).forEach(field => {
-      if (!address[field]) {
-        delete address[field];
-      }
+    const { address } = this.state;
+    // TODO: separated method?
+    const newAddress = new Address({
+      ...address.fields,
+      ...value.fields
     });
-    this.setState({ address });
-    this.check(address);
+    // Object.keys(address).forEach(field => {
+    //   if (!address[field]) {
+    //     delete address[field];
+    //   }
+    // });
+    this.setState({ address: newAddress });
+    this.check(newAddress);
     this.resetComboboxes();
   };
 

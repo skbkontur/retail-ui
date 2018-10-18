@@ -1,18 +1,14 @@
 import * as React from 'react';
 import cn from 'classnames';
 import Link from '../Link';
-import { getAddressText, isEmptyAddress } from './utils';
-import { Address, ErrorMessages } from './types';
+import { FiasValue, ErrorMessages, VerifyResponse } from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
 import { FiasAPI } from './FiasAPI';
-import styles from './Fias.less';
 import { Nullable } from '../../typings/utility-types';
-
-interface FiasValue {
-  address: Address;
-}
+import { Address } from './models/Address';
+import styles from './Fias.less';
 
 interface FiasProps {
   value?: FiasValue;
@@ -26,7 +22,7 @@ interface FiasProps {
   title?: string;
   baseUrl?: string;
   validFn?: (address: Address) => ErrorMessages;
-  onChange?: (value: { address: Address }) => void;
+  onChange?: (value: FiasValue) => void;
   onClose?: () => void;
   search?: boolean;
 }
@@ -35,6 +31,7 @@ interface FiasState {
   opened: boolean;
   error: boolean;
   warning: boolean;
+  address: Address;
 }
 
 export class Fias extends React.Component<FiasProps, FiasState> {
@@ -58,20 +55,40 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   public state: FiasState = {
     opened: false,
     error: Boolean(this.props.error),
-    warning: Boolean(this.props.warning)
+    warning: Boolean(this.props.warning),
+    address: new Address()
   };
 
   private api: FiasAPI = new FiasAPI(this.props.baseUrl);
   private form: Nullable<FiasForm> = null;
 
-  public render() {
-    const { value, showAddressText, label, icon, feedback } = this.props;
-    const { error, warning, opened } = this.state;
+  public componentDidMount() {
+    this.verifyAddress();
+  }
 
-    const empty = isEmptyAddress(value && value.address);
+  public componentDidUpdate(prevProps: FiasProps, prevState: FiasState) {
+    this.verifyAddress();
+  }
+
+  public verifyAddress = (): void => {
+    const address = Address.createFromValue(this.props.value);
+    if (!address.isEqualTo(this.state.address)) {
+      this.api.verify(address.toValue()).then((response: VerifyResponse) => {
+        this.setState({
+          address: Address.verify(address, response)
+        });
+      });
+    }
+  };
+
+  public render() {
+    const { showAddressText, label, icon, feedback } = this.props;
+    const { error, warning, opened, address } = this.state;
     const linkText =
       label ||
-      (empty ? Fias.defaultTexts.fill_address : Fias.defaultTexts.edit_address);
+      (address.isEmpty
+        ? Fias.defaultTexts.fill_address
+        : Fias.defaultTexts.edit_address);
 
     const validation =
       error || warning ? (
@@ -84,10 +101,8 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
     return (
       <div>
-        {!empty &&
-          showAddressText && (
-            <span>{getAddressText(value && value.address)}</span>
-          )}
+        {!address.isEmpty &&
+          showAddressText && <span>{address.getText()}</span>}
         {!this.props.readonly && (
           <div>
             <Link icon={icon} onClick={this.handleOpen}>
@@ -102,7 +117,8 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   }
 
   private renderModal() {
-    const { validFn, value, title, search } = this.props;
+    const { validFn, title, search } = this.props;
+    const { address } = this.state;
     return (
       <FiasModal
         title={title}
@@ -111,7 +127,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       >
         <FiasForm
           ref={this.refForm}
-          address={value && value.address}
+          address={address}
           validFn={validFn}
           api={this.api}
           search={search}
@@ -139,15 +155,19 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       if (errorMessages && Object.keys(errorMessages).length) {
         this.setState({ error: true });
       }
-      this.handleChange({ address });
+      this.handleChange(address, errorMessages);
     }
     this.handleClose();
   };
 
-  private handleChange = (value: { address: Address }) => {
+  private handleChange = (address: Address, errorMessages: ErrorMessages) => {
+    // this.setState({ address });
     const onChange = this.props.onChange;
     if (onChange) {
-      onChange(value);
+      onChange({
+        address: address.toValue(),
+        errorMessages
+      });
     }
   };
 
