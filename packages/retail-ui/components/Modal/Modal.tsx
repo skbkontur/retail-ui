@@ -22,7 +22,6 @@ import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
 
 import throttle from 'lodash/throttle';
-import { Cancelable } from 'lodash';
 
 let mountedModalsCount = 0;
 
@@ -78,7 +77,6 @@ class Modal extends React.Component<ModalProps, ModalState> {
   private stackSubscription: EventSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
   private clickTrapNode: HTMLDivElement | null = null;
-  private throtteledResizeClickTrap?: (() => void) & Cancelable;
 
   public componentDidMount() {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
@@ -283,14 +281,8 @@ class Modal extends React.Component<ModalProps, ModalState> {
     }
   };
 
-  private createThrotteledResizeClickTrap = (height?: number) => {
-    this.throtteledResizeClickTrap = throttle(
-      () => this.resizeClickTrap(height),
-      300
-    );
-
-    this.throtteledResizeClickTrap();
-  };
+  // tslint:disable-next-line:member-ordering
+  private throtteledResizeClickTrap = throttle(this.resizeClickTrap, 300);
 
   private handleResize = (event: UIEvent) => {
     LayoutEvents.emit();
@@ -299,7 +291,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
       const height = (event.target as Window).innerHeight;
       const containerHeight = this.containerNode.offsetHeight;
 
-      this.createThrotteledResizeClickTrap(
+      this.throtteledResizeClickTrap(
         height > containerHeight ? height : undefined
       );
     }
