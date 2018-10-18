@@ -65,20 +65,6 @@ export enum StructureStatuses {
 export enum LiveStatuses {
   Active = 'active'
 }
-//
-// export type AddressElement = AddressObject | Stead | House | Room;
-//
-// export interface Address {
-//   [key: string]: Nullable<AddressElement>;
-//   region?: AddressObject;
-//   district?: AddressObject;
-//   city?: AddressObject;
-//   settlement?: AddressObject;
-//   street?: AddressObject;
-//   stead?: Stead;
-//   house?: House;
-//   room?: Room;
-// }
 
 export type FiasObject = AddressObject | Stead | House | Room;
 

@@ -21,7 +21,6 @@ interface FiasProps {
   readonly?: boolean;
   title?: string;
   baseUrl?: string;
-  validFn?: (address: Address) => ErrorMessages;
   onChange?: (value: FiasValue) => void;
   onClose?: () => void;
   search?: boolean;
@@ -112,7 +111,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   }
 
   private renderModal() {
-    const { validFn, title, search } = this.props;
+    const { title, search } = this.props;
     const { address } = this.state;
     return (
       <FiasModal
@@ -123,7 +122,6 @@ export class Fias extends React.Component<FiasProps, FiasState> {
         <FiasForm
           ref={this.refForm}
           address={address}
-          validFn={validFn}
           api={this.api}
           search={search}
         />

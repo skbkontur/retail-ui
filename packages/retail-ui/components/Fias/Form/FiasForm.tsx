@@ -17,6 +17,8 @@ import { Address } from '../models/Address';
 import { AddressElement } from '../models/AddressElement';
 import Fias from '../Fias';
 import Tooltip from '../../Tooltip/Tooltip';
+import { InputProps } from '../../Input';
+import Input from '../../Input/Input';
 
 interface ChangeEvent<T> {
   target: {
@@ -49,6 +51,11 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       tooltip: () => Nullable<React.ReactNode>;
     };
   } = {};
+  private readonly inputs: {
+    [key: string]: {
+      props: InputProps;
+    };
+  } = {};
 
   constructor(props: FiasFormProps) {
     super(props);
@@ -66,8 +73,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       'planningstructure',
       'stead',
       'street',
-      'house',
-      'room'
+      'house'
     ].reduce((comboboxes, field) => {
       return {
         ...comboboxes,
@@ -78,6 +84,15 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
             this.comboboxes[field].ref = element;
           },
           tooltip: () => this.state.errorMessages[field] || null
+        }
+      };
+    }, {});
+
+    this.inputs = ['room'].reduce((inputs, field) => {
+      return {
+        ...inputs,
+        [field]: {
+          props: this.createInputProps(field)
         }
       };
     }, {});
@@ -110,14 +125,22 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       this.handleAddressChange(value);
     };
 
-    const onUnexpectedInput = (query: string) => {
-      const { address } = this.state;
-      if (!query) {
-        delete address.fields[field];
-      } else {
-        address.fields[field] = new AddressElement(field, query);
+    const onInputChange = () => {
+      const errorMessages = { ...this.state.errorMessages };
+      if (errorMessages.hasOwnProperty(field)) {
+        delete errorMessages[field];
+        this.setState({
+          errorMessages
+        });
       }
-      this.handleAddressChange(address);
+    };
+
+    const onUnexpectedInput = (query: string) => {
+      this.handleAddressChange(
+        new Address({
+          [field]: query ? new AddressElement(field, query) : undefined
+        })
+      );
     };
 
     const renderItem = (address: Address): string => {
@@ -151,11 +174,24 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     return {
       getItems,
       onChange,
+      onInputChange,
       onUnexpectedInput,
       renderItem,
       renderValue,
       valueToString,
       renderNotFound: () => 'Не найдено ничего'
+    };
+  }
+
+  public createInputProps(field: string): InputProps {
+    return {
+      onChange: (e: ChangeEvent<string>, value: string) => {
+        this.handleAddressChange(
+          new Address({
+            [field]: value ? new AddressElement(field, value) : undefined
+          })
+        );
+      }
     };
   }
 
@@ -182,11 +218,6 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         errorMessages[String(invalidLevel).toLowerCase()] =
           Fias.defaultTexts.not_valid_message;
       }
-
-      // if (this.props.validFn) {
-      //   const customErrorMessages = this.props.validFn(result[0].address); // только верифицированный адрес
-      //   errorMessages = { ...errorMessages, ...customErrorMessages };
-      // }
 
       this.setState({
         address: verifiedAddress,
@@ -233,6 +264,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   };
 
   public render() {
+    const { address, errorMessages } = this.state;
     return (
       <div>
         <Gapped vertical>
@@ -283,7 +315,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           <div className={styles.row}>
             <div className={styles.label}>Квартира, офис</div>
             <div className={styles.field}>
-              {this.renderField('room', '', 130)}
+              <Input
+                value={address.fields.room ? address.fields.room.name : ''}
+                {...this.inputs.room.props}
+                error={errorMessages.hasOwnProperty('room')}
+                width={130}
+              />
             </div>
           </div>
         </Gapped>
