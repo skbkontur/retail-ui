@@ -1,3 +1,3 @@
-import Icon from "retail-ui/Icon";
+import Icon from "@skbkontur/react-icons";
 
 () => <Icon />;

@@ -1,5 +1,5 @@
 import Link from "retail-ui/Link";
-import Icon from "retail-ui/Icon";
+import Icon from "@skbkontur/react-icons";
 
 props => (
   <Link {...props}>
