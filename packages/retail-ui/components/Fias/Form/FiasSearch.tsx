@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HighlightingComboBox } from './HighlightingComboBox';
+import { FiasComboBox } from './FiasComboBox';
 import { Address } from '../models/Address';
 
 interface FiasSearchProps {
@@ -28,7 +28,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   public render() {
     const { address, source, onChange } = this.props;
     return (
-      <HighlightingComboBox
+      <FiasComboBox
         getItems={source}
         value={address}
         renderItem={this.renderItem}

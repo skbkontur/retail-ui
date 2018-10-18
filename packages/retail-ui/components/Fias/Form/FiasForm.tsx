@@ -1,10 +1,7 @@
 import * as React from 'react';
 import Gapped from '../../Gapped';
 import { FiasAPI } from '../FiasAPI';
-import {
-  HighlightingComboBox,
-  HighlightingComboBoxProps
-} from './HighlightingComboBox';
+import { FiasComboBox, FiasComboBoxProps } from './FiasComboBox';
 import styles from './FiasForm.less';
 import {
   ErrorMessages,
@@ -45,9 +42,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   private verifyPromise: Promise<VerifyResponse> | null = null;
   private readonly comboboxes: {
     [key: string]: {
-      ref: Nullable<HighlightingComboBox<Address>>;
-      props: HighlightingComboBoxProps<Address>;
-      createRef: (element: HighlightingComboBox<Address>) => void;
+      ref: Nullable<FiasComboBox<Address>>;
+      props: FiasComboBoxProps<Address>;
+      createRef: (element: FiasComboBox<Address>) => void;
       tooltip: () => Nullable<React.ReactNode>;
     };
   } = {};
@@ -80,7 +77,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         [field]: {
           ref: null,
           props: this.createComboBoxProps(field),
-          createRef: (element: HighlightingComboBox<Address>) => {
+          createRef: (element: FiasComboBox<Address>) => {
             this.comboboxes[field].ref = element;
           },
           tooltip: () => this.state.errorMessages[field] || null
@@ -106,9 +103,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     this.check();
   }
 
-  public createComboBoxProps(
-    field: string
-  ): HighlightingComboBoxProps<Address> {
+  public createComboBoxProps(field: string): FiasComboBoxProps<Address> {
     const getItems = async (searchText: string) => {
       const level = Levels[field as keyof typeof Levels];
       const parentFiasId = this.state.address.getClosestParentFiasId(field);
@@ -337,7 +332,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const { props, createRef, tooltip } = this.comboboxes[field];
     return (
       <Tooltip pos={'right middle'} render={tooltip}>
-        <HighlightingComboBox
+        <FiasComboBox
           {...props}
           value={address}
           placeholder={placeholder}

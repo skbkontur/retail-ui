@@ -1,39 +1,60 @@
 import * as React from 'react';
 import ComboBox, { ComboBoxProps } from '../../ComboBox';
+import { Nullable } from '../../../typings/utility-types';
 
-export interface HighlightingComboBoxProps<T> extends ComboBoxProps<T> {}
+export interface FiasComboBoxProps<Address> extends ComboBoxProps<Address> {}
 
-interface HighlightingComboBoxState {
+interface FiasComboBoxState {
   searchText: string;
+  totalCount: number;
 }
 
-export class HighlightingComboBox<T> extends React.Component<
-  HighlightingComboBoxProps<T>,
-  HighlightingComboBoxState
+export class FiasComboBox<Address> extends React.Component<
+  FiasComboBoxProps<Address>,
+  FiasComboBoxState
 > {
   public static defaultProps = {
     onChange: () => null
   };
-  public state: HighlightingComboBoxState = {
-    searchText: ''
+  public state: FiasComboBoxState = {
+    searchText: '',
+    totalCount: 0
   };
 
-  // TODO: downgrade refs to old react versions
-  private comboboxRef: React.RefObject<ComboBox<T>> = React.createRef();
+  private combobox: Nullable<ComboBox<Address>> = null;
 
   public reset = () => {
-    const combobox = this.comboboxRef.current;
-    if (combobox) {
-      combobox.reset();
+    if (this.combobox) {
+      this.combobox.reset();
     }
   };
 
-  public renderItem = (item: T & { label?: string }): React.ReactNode => {
+  public getItems = (searchText: string): Promise<Address[]> => {
+    return this.props.getItems
+      ? this.props.getItems(searchText).then(items => {
+          this.setState({
+            totalCount: items.length
+          });
+          return items.slice(0, 15);
+        })
+      : Promise.resolve([]);
+  };
+
+  public renderItem = (item: Address & { label?: string }): React.ReactNode => {
     const text = this.props.renderItem
       ? this.props.renderItem(item)
       : item.label;
     return typeof text === 'string' ? this.highlight(text) : item;
   };
+
+  public renderTotalCount = (found: number, total: number): React.ReactNode => (
+    <div>
+      <div>
+        Показано {found} из {total} найденных результатов.
+      </div>
+      <div>Уточните запрос, чтобы увидеть остальные</div>
+    </div>
+  );
 
   public handleInputChange = (query: string) => {
     if (this.props.onInputChange) {
@@ -47,12 +68,19 @@ export class HighlightingComboBox<T> extends React.Component<
     return (
       <ComboBox
         {...props}
+        getItems={this.getItems}
         renderItem={this.renderItem}
         onInputChange={this.handleInputChange}
-        ref={this.comboboxRef}
+        totalCount={this.state.totalCount}
+        renderTotalCount={this.renderTotalCount}
+        ref={this.createRef}
       />
     );
   }
+
+  private createRef = (element: ComboBox<Address>) => {
+    this.combobox = element;
+  };
 
   private highlight(str: string, lastonly: boolean = true) {
     const { searchText } = this.state;
@@ -90,4 +118,4 @@ export class HighlightingComboBox<T> extends React.Component<
   }
 }
 
-export default HighlightingComboBox;
+export default FiasComboBox;
