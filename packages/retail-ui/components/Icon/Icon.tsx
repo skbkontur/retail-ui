@@ -1,7 +1,7 @@
 import warning from 'warning';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import * as Icons from '@skbkontur/react-icons';
+import Icons, { IconName } from '@skbkontur/react-icons';
 
 const old2newIcons: { [key: string]: IconName } = {
   error: 'Error',
@@ -192,7 +192,7 @@ const old2newIcons: { [key: string]: IconName } = {
   'send-h': 'Send3'
 };
 
-export type IconName = keyof typeof Icons;
+export type IconName = IconName;
 
 function getNewIconName(name: string): IconName | undefined {
   return old2newIcons[name];
@@ -203,7 +203,6 @@ export interface IconProps {
   name: IconName;
   size?: number | string;
 }
-
 class Icon extends React.Component<IconProps> {
   public static propTypes = {
     color: PropTypes.string,
