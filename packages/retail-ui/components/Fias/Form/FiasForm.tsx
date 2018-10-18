@@ -12,9 +12,11 @@ import {
   VerifyResponse,
   ResponseAddress
 } from '../types';
-import Fias from '../Fias';
 import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
+import { AddressElement } from '../models/AddressElement';
+import Fias from '../Fias';
+import Tooltip from '../../Tooltip/Tooltip';
 
 interface ChangeEvent<T> {
   target: {
@@ -27,6 +29,7 @@ interface FiasFormProps {
   address: Address;
   validFn?: (address: Address) => ErrorMessages;
   search?: boolean;
+  errorMessages?: ErrorMessages;
 }
 
 interface FiasFormState {
@@ -43,6 +46,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       ref: Nullable<HighlightingComboBox<Address>>;
       props: HighlightingComboBoxProps<Address>;
       createRef: (element: HighlightingComboBox<Address>) => void;
+      tooltip: () => Nullable<React.ReactNode>;
     };
   } = {};
 
@@ -72,7 +76,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           props: this.createComboBoxProps(field),
           createRef: (element: HighlightingComboBox<Address>) => {
             this.comboboxes[field].ref = element;
-          }
+          },
+          tooltip: () => this.state.errorMessages[field] || null
         }
       };
     }, {});
@@ -80,6 +85,10 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     if (props.search) {
       // this._searchProps = this.createSearchProps();
     }
+  }
+
+  public componentDidMount() {
+    this.check();
   }
 
   public createComboBoxProps(
@@ -104,9 +113,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const onUnexpectedInput = (query: string) => {
       const { address } = this.state;
       if (!query) {
-        address.fields[field] = null;
+        delete address.fields[field];
       } else {
-        // set custom value
+        address.fields[field] = new AddressElement(field, query);
       }
       this.handleAddressChange(address);
     };
@@ -150,25 +159,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
   }
 
-  public getInvalidLevelErrors(invalidLevel: Levels, address: Address): any {
-    const errorMessages: any = {};
-    let isSearchInvalidLevel = false;
-    for (const field of Address.FIELDS) {
-      if (field === invalidLevel.toLowerCase() && address.fields[field]) {
-        isSearchInvalidLevel = true;
-      }
-      if (
-        address.fields[field] &&
-        Object.keys(address.fields[field] as object).length &&
-        isSearchInvalidLevel
-      ) {
-        errorMessages[field] = Fias.defaultTexts.not_valid_message;
-      }
-    }
-    return errorMessages;
-  }
-
-  public check(address: Address): void {
+  public check(): void {
+    const { address } = this.state;
     const promise = this.props.api.verify(address.toValue());
     this.verifyPromise = promise;
 
@@ -182,14 +174,13 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         return;
       }
 
-      const newAddress = Address.verify(address, result);
+      const verifiedAddress: Address = Address.verify(address, result);
+      const errorMessages: ErrorMessages = {};
+      const { isValid, invalidLevel } = result[0];
 
-      let errorMessages = {};
-      if (!result[0].isValid) {
-        errorMessages = this.getInvalidLevelErrors(
-          result[0].invalidLevel!,
-          newAddress
-        );
+      if (!isValid && invalidLevel) {
+        errorMessages[String(invalidLevel).toLowerCase()] =
+          Fias.defaultTexts.not_valid_message;
       }
 
       // if (this.props.validFn) {
@@ -198,7 +189,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       // }
 
       this.setState({
-        address: newAddress,
+        address: verifiedAddress,
         errorMessages
       });
     });
@@ -211,14 +202,16 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       ...address.fields,
       ...value.fields
     });
-    // Object.keys(address).forEach(field => {
-    //   if (!address[field]) {
-    //     delete address[field];
-    //   }
-    // });
-    this.setState({ address: newAddress });
-    this.check(newAddress);
-    this.resetComboboxes();
+
+    this.setState(
+      {
+        address: newAddress
+      },
+      () => {
+        this.check();
+        this.resetComboboxes();
+      }
+    );
   };
 
   public submit = async (): Promise<FiasFormState> => {
@@ -304,16 +297,19 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     width: string | number = '100%'
   ) => {
     const { address, errorMessages } = this.state;
+    const { props, createRef, tooltip } = this.comboboxes[field];
     return (
-      <HighlightingComboBox
-        {...this.comboboxes[field].props}
-        value={address}
-        placeholder={placeholder}
-        width={width}
-        error={errorMessages.hasOwnProperty(field)}
-        autocomplete={true}
-        ref={this.comboboxes[field].createRef}
-      />
+      <Tooltip pos={'right middle'} render={tooltip}>
+        <HighlightingComboBox
+          {...props}
+          value={address}
+          placeholder={placeholder}
+          width={width}
+          error={errorMessages.hasOwnProperty(field)}
+          autocomplete={true}
+          ref={createRef}
+        />
+      </Tooltip>
     );
   };
 }

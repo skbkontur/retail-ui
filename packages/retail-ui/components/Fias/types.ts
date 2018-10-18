@@ -94,6 +94,7 @@ export interface FiasValue {
 export interface ValueAddress {
   [key: string]: {
     name: string;
+    data?: FiasObject;
   };
 }
 

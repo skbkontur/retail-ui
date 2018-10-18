@@ -4,7 +4,7 @@ import HomeOfficeIcon from '@skbkontur/react-icons/HomeOffice';
 import { Fias } from '../index';
 import FiasForm from '../Form/FiasForm';
 import FiasModal from '../FiasModal';
-import { FiasValue } from '../types';
+import { AddressObject, FiasValue } from '../types';
 import { FiasAPI } from '../FiasAPI';
 import { Address } from '../models/Address';
 
@@ -39,12 +39,15 @@ const BASE_URL = 'https://api.dev.kontur/fias/v1/';
 const MOCK_ADDRESS_VALUE: FiasValue = {
   address: {
     region: {
-      // abbreviation: 'г',
-      // code: '7700000000000',
-      // fiasId: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
-      // id: '5c8b06f1-518e-496e-b683-7bf917e0d70b',
-      // level: 'Region',
-      name: 'Москва'
+      name: 'Москва',
+      data: {
+        abbreviation: 'г',
+        code: '7700000000000',
+        fiasId: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
+        id: '5c8b06f1-518e-496e-b683-7bf917e0d70b',
+        level: 'Region',
+        name: 'Москва'
+      } as AddressObject
     },
     street: {
       // abbreviation: 'пл',
@@ -52,7 +55,7 @@ const MOCK_ADDRESS_VALUE: FiasValue = {
       // fiasId: '8e39d017-db1c-413f-ae77-5f0d3b9e7ee9',
       // id: '54e2b3a5-bf2a-453e-9126-bfb6f32a009d',
       // level: 'Street',
-      name: 'Красная2'
+      name: 'Красная'
     },
     house: {
       // estateStatus: 'House',
@@ -74,11 +77,14 @@ class ExampleFias extends React.Component<any> {
 
   public render(): React.ReactNode {
     const { value, onChange, ...props } = this.props;
+    const { errorMessages } = this.state.value;
+    const error = errorMessages && Object.keys(errorMessages).length > 0;
     return (
       <Fias
         baseUrl={BASE_URL}
         value={this.state.value}
         onChange={this.handleChange}
+        error={error}
         {...props}
       />
     );

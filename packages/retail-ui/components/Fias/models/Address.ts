@@ -43,7 +43,12 @@ export class Address {
       const address: ValueAddress = value.address;
       Address.FIELDS.forEach(field => {
         if (address[field]) {
-          fields[field] = new AddressElement(field, address[field].name);
+          const { name, data } = address[field];
+          fields[field] = new AddressElement(
+            field,
+            name,
+            data && new FiasData(data)
+          );
         }
       });
     }
@@ -54,21 +59,24 @@ export class Address {
     address: Address,
     response: VerifyResponse
   ): Address => {
-    const fields = { ...address.fields };
+    const resultFields = { ...address.fields };
     if (response[0]) {
-      const result: ResponseAddress = response[0].address;
-      Address.FIELDS.forEach(field => {
-        const element: Nullable<AddressElement> = fields[field];
+      const { address: verifiedAddress, invalidLevel } = response[0];
+      for (const field of Address.FIELDS) {
+        const element: Nullable<AddressElement> = resultFields[field];
         if (element) {
-          if (result[field]) {
-            element.data = new FiasData(result[field]);
+          if (verifiedAddress[field]) {
+            element.data = new FiasData(verifiedAddress[field]);
           } else {
             delete element.data;
           }
+          if (invalidLevel && String(invalidLevel).toLowerCase() === field) {
+            break;
+          }
         }
-      });
+      }
     }
-    return new Address(fields);
+    return new Address(resultFields);
   };
 
   public static getParentFields = (field: string): string[] => {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import cn from 'classnames';
 import Link from '../Link';
-import { FiasValue, ErrorMessages, VerifyResponse } from './types';
+import { FiasValue, ErrorMessages } from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
@@ -29,8 +29,6 @@ interface FiasProps {
 
 interface FiasState {
   opened: boolean;
-  error: boolean;
-  warning: boolean;
   address: Address;
 }
 
@@ -40,7 +38,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     fill_address: 'Заполнить адрес',
     edit_address: 'Изменить адрес',
     feedback: 'Заполнено не по справочнику адресов',
-    not_valid_message: 'Неверный адрес'
+    not_valid_message: 'Адрес не найден в справочнике'
   };
 
   public static defaultProps = {
@@ -54,36 +52,33 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   public state: FiasState = {
     opened: false,
-    error: Boolean(this.props.error),
-    warning: Boolean(this.props.warning),
-    address: new Address()
+    address: Address.createFromValue(this.props.value)
   };
 
   private api: FiasAPI = new FiasAPI(this.props.baseUrl);
   private form: Nullable<FiasForm> = null;
 
-  public componentDidMount() {
-    this.verifyAddress();
-  }
-
   public componentDidUpdate(prevProps: FiasProps, prevState: FiasState) {
-    this.verifyAddress();
-  }
-
-  public verifyAddress = (): void => {
-    const address = Address.createFromValue(this.props.value);
-    if (!address.isEqualTo(this.state.address)) {
-      this.api.verify(address.toValue()).then((response: VerifyResponse) => {
+    if (prevProps.value !== this.props.value) {
+      const address = Address.createFromValue(this.props.value);
+      if (!address.isEqualTo(this.state.address)) {
         this.setState({
-          address: Address.verify(address, response)
+          address
         });
-      });
+      }
     }
-  };
+  }
 
   public render() {
-    const { showAddressText, label, icon, feedback } = this.props;
-    const { error, warning, opened, address } = this.state;
+    const {
+      showAddressText,
+      label,
+      icon,
+      feedback,
+      error,
+      warning
+    } = this.props;
+    const { opened, address } = this.state;
     const linkText =
       label ||
       (address.isEmpty
@@ -150,21 +145,16 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   private handleSave = async () => {
     if (this.form) {
-      this.setState({ error: false });
       const { address, errorMessages } = await this.form.submit();
-      if (errorMessages && Object.keys(errorMessages).length) {
-        this.setState({ error: true });
-      }
       this.handleChange(address, errorMessages);
     }
     this.handleClose();
   };
 
   private handleChange = (address: Address, errorMessages: ErrorMessages) => {
-    // this.setState({ address });
-    const onChange = this.props.onChange;
-    if (onChange) {
-      onChange({
+    this.setState({ address });
+    if (this.props.onChange) {
+      this.props.onChange({
         address: address.toValue(),
         errorMessages
       });
