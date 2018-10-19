@@ -89,4 +89,5 @@ storiesOf('Checkbox', module)
         </Gapped>
       </div>
     );
-  });
+  })
+  .add('partial checked', () => <Checkbox partialChecked>Label</Checkbox>);

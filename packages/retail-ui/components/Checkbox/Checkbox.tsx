@@ -48,6 +48,8 @@ export type CheckboxProps = Override<
       event: React.ChangeEvent<HTMLInputElement>,
       value: boolean
     ) => void;
+    /** Состояние частичного выделения */
+    partialChecked?: boolean;
   }
 >;
 
@@ -100,6 +102,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       onMouseOver,
       onChange,
 
+      partialChecked,
       style,
       className,
       type,
@@ -141,10 +144,14 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       >
         <input {...inputProps} />
         <span className={styles.box}>
-          {this.props.checked && (
-            <div className={styles.ok}>
-              <OkIcon />
-            </div>
+          {partialChecked ? (
+            <span className={styles.partialCheckedIcon} />
+          ) : (
+            this.props.checked && (
+              <div className={styles.ok}>
+                <OkIcon />
+              </div>
+            )
           )}
         </span>
         {caption}
