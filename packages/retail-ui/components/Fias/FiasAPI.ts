@@ -24,7 +24,6 @@ interface SearchQuery {
 }
 
 const BASE_URL = 'https://api.kontur.ru/fias/v1/';
-const LIMIT = 5;
 
 export class FiasAPI {
   private regionsPromise: Nullable<Promise<SearchResponse>> = null;
@@ -54,12 +53,13 @@ export class FiasAPI {
 
   public search = (
     searchText: string,
+    limit?: number,
     level?: Levels,
     parentFiasId?: Nullable<FiasId>
   ): Promise<SearchResponse> => {
     const query: SearchQuery = {
       prefix: searchText,
-      limit: LIMIT,
+      limit: limit && limit + 1,
       parentFiasId,
       level,
       actual: false
@@ -68,7 +68,7 @@ export class FiasAPI {
     if (!level && searchText) {
       return this.resolveAddress({
         address: trimSearchText(searchText),
-        limit: LIMIT
+        limit: query.limit
       });
     }
 
@@ -120,32 +120,6 @@ export class FiasAPI {
   public resolveAddress = (query: SearchQuery): Promise<SearchResponse> => {
     return this.send(`addresses/resolve?${createQuery(query)}`);
   };
-
-  // public searchRooms = (query: SearchQuery): Promise<SearchResponse> => {
-  //   return this.send(`rooms?${createQuery(query)}`).then(
-  //     (roomsList: Room[]): Address[] => {
-  //       return roomsList.reduce((filteredList: Address[], item: Room) => {
-  //         if (!filteredList.length) {
-  //           return [{ room: { ...item } }];
-  //         }
-  //
-  //         for (const i in filteredList) {
-  //           if (filteredList[i].room!.flatNumber === item.flatNumber) {
-  //             if (item.liveStatus === LiveStatuses.Active) {
-  //               filteredList[i] = { room: { ...item } };
-  //             }
-  //             return filteredList;
-  //           }
-  //         }
-  //
-  //         filteredList.push({
-  //           room: { ...item }
-  //         });
-  //         return filteredList;
-  //       }, []);
-  //     }
-  //   );
-  // };
 
   public searchStead = (query: SearchQuery): Promise<SearchResponse> => {
     return this.send(`steads?${createQuery(query)}`).then(data =>
@@ -215,5 +189,4 @@ function trimSearchText(searchText: string): string {
     .toLowerCase()
     .replace(/[,]/g, '')
     .replace(/\s[\s]*/g, ' ');
-  // TODO: trim abbreviations and full types of toponyms
 }

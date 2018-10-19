@@ -24,6 +24,7 @@ interface FiasProps {
   onChange?: (value: FiasValue) => void;
   onClose?: () => void;
   search?: boolean;
+  limit?: number;
 }
 
 interface FiasState {
@@ -111,7 +112,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   }
 
   private renderModal() {
-    const { title, search } = this.props;
+    const { title, search, limit } = this.props;
     const { address } = this.state;
     return (
       <FiasModal
@@ -124,6 +125,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           address={address}
           api={this.api}
           search={search}
+          limit={limit}
         />
       </FiasModal>
     );

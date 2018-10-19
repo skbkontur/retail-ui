@@ -28,6 +28,7 @@ interface FiasFormProps {
   address: Address;
   validFn?: (address: Address) => ErrorMessages;
   search?: boolean;
+  limit?: number;
   errorMessages?: ErrorMessages;
 }
 
@@ -37,7 +38,14 @@ interface FiasFormState {
 }
 
 export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
-  public state: FiasFormState;
+  public static defaultProps = {
+    limit: 5
+  };
+
+  public state: FiasFormState = {
+    address: this.props.address,
+    errorMessages: {}
+  };
 
   private verifyPromise: Promise<VerifyResponse> | null = null;
   private readonly comboboxes: {
@@ -56,11 +64,6 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   constructor(props: FiasFormProps) {
     super(props);
-
-    this.state = {
-      address: props.address,
-      errorMessages: {}
-    };
 
     this.comboboxes = [
       'region',
@@ -185,8 +188,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     level?: Levels,
     parent?: Nullable<FiasId>
   ) => {
+    const { limit } = this.props;
     return this.props.api
-      .search(searchText, level, parent)
+      .search(searchText, limit, level, parent)
       .then((items: ResponseAddress[]) => {
         return items.map((item: ResponseAddress) => {
           return Address.createFromResponse(item);
@@ -276,6 +280,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
                   source={this.createSearchSource}
                   address={address}
                   onChange={this.handleAddressChange}
+                  limit={this.props.limit}
                 />
               </div>
             </div>
@@ -356,6 +361,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           width={width}
           error={errorMessages.hasOwnProperty(field)}
           autocomplete={true}
+          limit={this.props.limit}
           ref={createRef}
         />
       </Tooltip>

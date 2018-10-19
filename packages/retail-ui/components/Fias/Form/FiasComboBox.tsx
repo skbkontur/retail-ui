@@ -3,7 +3,9 @@ import ComboBox, { ComboBoxProps } from '../../ComboBox';
 import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
 
-export interface FiasComboBoxProps extends ComboBoxProps<Address> {}
+export interface FiasComboBoxProps extends ComboBoxProps<Address> {
+  limit?: number;
+}
 
 export interface FiasComboBoxChangeEvent {
   target: {
@@ -13,6 +15,7 @@ export interface FiasComboBoxChangeEvent {
 
 interface FiasComboBoxState {
   searchText: string;
+  totalCount: number;
 }
 
 export class FiasComboBox extends React.Component<
@@ -22,8 +25,10 @@ export class FiasComboBox extends React.Component<
   public static defaultProps = {
     onChange: () => null
   };
+
   public state: FiasComboBoxState = {
-    searchText: ''
+    searchText: '',
+    totalCount: 0
   };
 
   private combobox: Nullable<ComboBox<Address>> = null;
@@ -34,12 +39,31 @@ export class FiasComboBox extends React.Component<
     }
   };
 
+  public getItems = (searchText: string): Promise<Address[]> => {
+    const { getItems, limit } = this.props;
+    return getItems
+      ? getItems(searchText).then(items => {
+          this.setState({
+            totalCount: items.length
+          });
+          return items.slice(0, limit);
+        })
+      : Promise.resolve([]);
+  };
+
   public renderItem = (item: Address & { label?: string }): React.ReactNode => {
     const text = this.props.renderItem
       ? this.props.renderItem(item)
       : item.label;
     return typeof text === 'string' ? this.highlight(text) : item;
   };
+
+  public renderTotalCount = (found: number, total: number): React.ReactNode => (
+    <div>
+      <div>Показано {found} результатов.</div>
+      <div>Уточните запрос, чтобы увидеть остальные</div>
+    </div>
+  );
 
   public handleInputChange = (query: string) => {
     if (this.props.onInputChange) {
@@ -49,12 +73,14 @@ export class FiasComboBox extends React.Component<
   };
 
   public render() {
-    const props = this.props;
     return (
       <ComboBox
-        {...props}
+        {...this.props}
+        getItems={this.getItems}
         renderItem={this.renderItem}
         onInputChange={this.handleInputChange}
+        totalCount={this.state.totalCount}
+        renderTotalCount={this.renderTotalCount}
         ref={this.createRef}
       />
     );

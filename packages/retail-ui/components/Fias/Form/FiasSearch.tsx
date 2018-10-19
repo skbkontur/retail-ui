@@ -7,13 +7,10 @@ interface FiasSearchProps {
   source: (query: string) => Promise<Address[]>;
   address: Address;
   onChange: (value: Address, fullChange: boolean) => void;
+  limit?: number;
 }
 
 export class FiasSearch extends React.Component<FiasSearchProps> {
-  public static defaultProps = {
-    onChange: () => null
-  };
-
   private combobox: Nullable<FiasComboBox> = null;
 
   public renderItem = (address: Address): string => {
@@ -49,7 +46,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   };
 
   public render() {
-    const { address, source } = this.props;
+    const { address, source, limit } = this.props;
     return (
       <FiasComboBox
         getItems={source}
@@ -62,6 +59,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
         placeholder={'Начните вводить адрес, например: Москва, Внуково'}
         width={'100%'}
         autocomplete={true}
+        limit={limit}
         ref={this.comboboxRef}
       />
     );
