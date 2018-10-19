@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { FiasComboBox } from './FiasComboBox';
+import { FiasComboBox, FiasComboBoxChangeEvent } from './FiasComboBox';
 import { Address } from '../models/Address';
+import { Nullable } from '../../../typings/utility-types';
 
 interface FiasSearchProps {
   source: (query: string) => Promise<Address[]>;
   address: Address;
-  onChange: (event: any, value: Address) => void;
+  onChange: (value: Address, fullChange: boolean) => void;
 }
 
 export class FiasSearch extends React.Component<FiasSearchProps> {
@@ -13,20 +14,42 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
     onChange: () => null
   };
 
+  private combobox: Nullable<FiasComboBox> = null;
+
   public renderItem = (address: Address): string => {
-    return address.getText();
+    return address.getText('planningstructure');
   };
 
   public renderValue = (address: Address): string => {
-    return address.getText();
+    return address.getText('planningstructure');
   };
 
   public valueToString = (address: Address): string => {
-    return address.getText();
+    return address.getText('planningstructure', true, ' ');
+  };
+
+  public handleChange = (
+    e: Nullable<FiasComboBoxChangeEvent>,
+    value: Address
+  ) => {
+    this.props.onChange(value, true);
+  };
+
+  public onUnexpectedInput = (query: string) => {
+    if (!query) {
+      this.handleChange(null, new Address({}));
+    }
+    this.reset();
+  };
+
+  public reset = () => {
+    if (this.combobox) {
+      this.combobox.reset();
+    }
   };
 
   public render() {
-    const { address, source, onChange } = this.props;
+    const { address, source } = this.props;
     return (
       <FiasComboBox
         getItems={source}
@@ -34,13 +57,19 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
         renderItem={this.renderItem}
         renderValue={this.renderValue}
         valueToString={this.valueToString}
-        onChange={onChange}
-        placeholder={''}
+        onChange={this.handleChange}
+        onUnexpectedInput={this.onUnexpectedInput}
+        placeholder={'Начните вводить адрес, например: Москва, Внуково'}
         width={'100%'}
         autocomplete={true}
+        ref={this.comboboxRef}
       />
     );
   }
+
+  private comboboxRef = (element: FiasComboBox) => {
+    this.combobox = element;
+  };
 }
 
 export default FiasSearch;

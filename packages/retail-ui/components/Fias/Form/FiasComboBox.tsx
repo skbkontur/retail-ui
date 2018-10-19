@@ -1,16 +1,23 @@
 import * as React from 'react';
 import ComboBox, { ComboBoxProps } from '../../ComboBox';
 import { Nullable } from '../../../typings/utility-types';
+import { Address } from '../models/Address';
 
-export interface FiasComboBoxProps<Address> extends ComboBoxProps<Address> {}
+export interface FiasComboBoxProps extends ComboBoxProps<Address> {}
+
+export interface FiasComboBoxChangeEvent {
+  target: {
+    value: Address;
+  };
+}
 
 interface FiasComboBoxState {
   searchText: string;
   totalCount: number;
 }
 
-export class FiasComboBox<Address> extends React.Component<
-  FiasComboBoxProps<Address>,
+export class FiasComboBox extends React.Component<
+  FiasComboBoxProps,
   FiasComboBoxState
 > {
   public static defaultProps = {

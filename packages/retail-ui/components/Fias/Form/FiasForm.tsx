@@ -1,13 +1,18 @@
 import * as React from 'react';
 import Gapped from '../../Gapped';
 import { FiasAPI } from '../FiasAPI';
-import { FiasComboBox, FiasComboBoxProps } from './FiasComboBox';
+import {
+  FiasComboBox,
+  FiasComboBoxProps,
+  FiasComboBoxChangeEvent
+} from './FiasComboBox';
 import styles from './FiasForm.less';
 import {
   ErrorMessages,
   Levels,
   VerifyResponse,
-  ResponseAddress
+  ResponseAddress,
+  FiasId
 } from '../types';
 import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
@@ -16,12 +21,7 @@ import Fias from '../Fias';
 import Tooltip from '../../Tooltip/Tooltip';
 import { InputProps } from '../../Input';
 import Input from '../../Input/Input';
-
-interface ChangeEvent<T> {
-  target: {
-    value: T;
-  };
-}
+import FiasSearch from './FiasSearch';
 
 interface FiasFormProps {
   api: FiasAPI;
@@ -42,9 +42,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   private verifyPromise: Promise<VerifyResponse> | null = null;
   private readonly comboboxes: {
     [key: string]: {
-      ref: Nullable<FiasComboBox<Address>>;
-      props: FiasComboBoxProps<Address>;
-      createRef: (element: FiasComboBox<Address>) => void;
+      ref: Nullable<FiasComboBox>;
+      props: FiasComboBoxProps;
+      createRef: (element: FiasComboBox) => void;
       tooltip: () => Nullable<React.ReactNode>;
     };
   } = {};
@@ -77,7 +77,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         [field]: {
           ref: null,
           props: this.createComboBoxProps(field),
-          createRef: (element: FiasComboBox<Address>) => {
+          createRef: (element: FiasComboBox) => {
             this.comboboxes[field].ref = element;
           },
           tooltip: () => this.state.errorMessages[field] || null
@@ -93,30 +93,20 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         }
       };
     }, {});
-
-    if (props.search) {
-      // this._searchProps = this.createSearchProps();
-    }
   }
 
   public componentDidMount() {
     this.check();
   }
 
-  public createComboBoxProps(field: string): FiasComboBoxProps<Address> {
+  public createComboBoxProps(field: string): FiasComboBoxProps {
     const getItems = async (searchText: string) => {
       const level = Levels[field as keyof typeof Levels];
       const parentFiasId = this.state.address.getClosestParentFiasId(field);
-      return this.props.api
-        .search(searchText, level, parentFiasId)
-        .then((items: ResponseAddress[]) => {
-          return items.map((item: ResponseAddress) => {
-            return Address.createFromResponse(item);
-          });
-        });
+      return this.createSearchSource(searchText, level, parentFiasId);
     };
 
-    const onChange = (e: ChangeEvent<Address>, value: Address) => {
+    const onChange = (e: FiasComboBoxChangeEvent, value: Address) => {
       this.handleAddressChange(value);
     };
 
@@ -180,7 +170,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   public createInputProps(field: string): InputProps {
     return {
-      onChange: (e: ChangeEvent<string>, value: string) => {
+      onChange: (e: React.ChangeEvent, value: string) => {
         this.handleAddressChange(
           new Address({
             [field]: value ? new AddressElement(field, value) : undefined
@@ -189,6 +179,20 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       }
     };
   }
+
+  public createSearchSource = async (
+    searchText: string,
+    level?: Levels,
+    parent?: Nullable<FiasId>
+  ) => {
+    return this.props.api
+      .search(searchText, level, parent)
+      .then((items: ResponseAddress[]) => {
+        return items.map((item: ResponseAddress) => {
+          return Address.createFromResponse(item);
+        });
+      });
+  };
 
   public check(): void {
     const { address } = this.state;
@@ -221,11 +225,13 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     });
   }
 
-  public handleAddressChange = (value: Address) => {
+  public handleAddressChange = (
+    value: Address,
+    fullChange: boolean = false
+  ) => {
     const { address } = this.state;
-    // TODO: separated method?
     const newAddress = new Address({
-      ...address.fields,
+      ...(fullChange ? {} : address.fields),
       ...value.fields
     });
 
@@ -263,6 +269,17 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     return (
       <div>
         <Gapped vertical>
+          {this.props.search && (
+            <div className={styles.row}>
+              <div className={styles.field}>
+                <FiasSearch
+                  source={this.createSearchSource}
+                  address={address}
+                  onChange={this.handleAddressChange}
+                />
+              </div>
+            </div>
+          )}
           <div className={styles.row}>
             <div className={styles.label}>Регион</div>
             <div className={styles.field}>
