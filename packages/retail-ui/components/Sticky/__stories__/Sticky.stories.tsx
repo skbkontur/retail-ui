@@ -83,7 +83,8 @@ class SampleBottom extends React.Component {
             <div
               style={{
                 padding: 10,
-                background: '#f99'
+                background: '#f99',
+                margin: 20
               }}
             >
               Small loan of a million dollars
