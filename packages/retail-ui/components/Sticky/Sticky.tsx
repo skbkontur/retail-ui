@@ -5,6 +5,8 @@ import * as PropTypes from 'prop-types';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import styles from './Sticky.less';
+import classNames from 'classnames';
 
 export interface StickyProps {
   side: 'top' | 'bottom';
@@ -84,10 +86,10 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   public render() {
     let wrapperStyle: React.CSSProperties = {};
     let innerStyle: React.CSSProperties = {};
+
     if (this.state.fixed) {
       if (this.state.stopped) {
         innerStyle = {
-          position: 'relative',
           top: this.state.relativeTop
         };
       } else {
@@ -97,9 +99,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
 
         innerStyle = {
           left: this.state.left,
-          position: 'fixed',
-          width: this.state.width,
-          zIndex: 100
+          width: this.state.width
         };
 
         if (this.props.side === 'top') {
@@ -117,7 +117,14 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
 
     return (
       <div style={wrapperStyle} ref={this._refWrapper}>
-        <div style={innerStyle} ref={this._refInner}>
+        <div
+          className={classNames(styles.inner, {
+            [styles.innerFixed]: this.state.fixed,
+            [styles.innerStopped]: this.state.stopped
+          })}
+          style={innerStyle}
+          ref={this._refInner}
+        >
           {children}
         </div>
       </div>
