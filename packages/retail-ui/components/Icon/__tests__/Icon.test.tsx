@@ -1,27 +1,26 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-
-import Icon from '../Icon';
+import OkIcon from '@skbkontur/react-icons/Ok';
 
 test('Icon renders', () => {
-  mount(<Icon name="Ok" />);
+  mount(<OkIcon />);
 });
 
 test('Icon has right color', () => {
-  const wrapper = mount(<Icon name="Ok" color="red" />);
+  const wrapper = mount(<OkIcon color="red" />);
   expect(
     wrapper
-      .children()
+      .find('.root')
       .first()
       .prop('style')
   ).toMatchObject({ color: 'red' });
 });
 
 test('Icon has right size', () => {
-  const wrapper = mount(<Icon name="Ok" size="18px" />);
+  const wrapper = mount(<OkIcon size="18px" />);
   expect(
     wrapper
-      .children()
+      .find('.root')
       .first()
       .prop('style')
   ).toMatchObject({ fontSize: '18px' });

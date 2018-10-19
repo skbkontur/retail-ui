@@ -1,6 +1,8 @@
-import classNames from 'classnames';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import classNames from 'classnames';
+import warning from 'warning';
+
 import Icon, { IconName } from '../Icon';
 
 import styles from './MenuItem.less';
@@ -78,6 +80,12 @@ export default class MenuItem extends React.Component<MenuItemProps> {
 
     let iconElement = null;
     if (icon) {
+      if (process.env.NODE_ENV !== 'production') {
+        warning(
+          React.isValidElement(this.props.icon),
+          'Passing string to "icon" prop is deprecated. Please use icons from "@skbkontur/react-icons"'
+        );
+      }
       iconElement = (
         <div className={styles.icon}>
           {typeof icon === 'string' ? <Icon name={icon} /> : icon}

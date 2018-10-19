@@ -1,8 +1,9 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import BabyIcon from '@skbkontur/react-icons/Baby';
+
 import TopBar from '../TopBar';
-import Icon from '../../Icon';
 import Logotype from '../../Logotype';
 
 const Item = TopBar.Item;
@@ -21,7 +22,7 @@ storiesOf('TopBar', module)
       onLogout={() => alert('Logout!')}
       leftItems={[
         <Item key="left-item-1">
-          <Icon name="Baby" color="#666" />
+          <BabyIcon color="#666" />
         </Item>
       ]}
     />
@@ -33,15 +34,15 @@ storiesOf('TopBar', module)
           <Logotype suffix="ui" withWidget />
         </ItemStatic>
         <Item>
-          <Icon name="Baby" color="#666" />
+          <BabyIcon color="#666" />
         </Item>
         <Item>
-          <Icon name="Baby" color="#666" />
+          <BabyIcon color="#666" />
         </Item>
       </Start>
       <End>
         <Item>
-          <Icon name="Baby" color="#666" />
+          <BabyIcon color="#666" />
         </Item>
         <User userName="Alexander The Great" />
         <Divider />
