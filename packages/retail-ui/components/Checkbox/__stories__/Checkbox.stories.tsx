@@ -23,6 +23,64 @@ class PlainCheckbox extends Component<any, any> {
   }
 }
 
+interface IndeterminatePlaygroundState {
+  checked: boolean;
+}
+
+class IndeterminatePlayground extends Component<
+  {},
+  IndeterminatePlaygroundState
+> {
+  public state: IndeterminatePlaygroundState = {
+    checked: false
+  };
+
+  private checkbox: Checkbox | null = null;
+
+  public render() {
+    return (
+      <div>
+        <Checkbox
+          // tslint:disable-next-line:jsx-no-lambda
+          onChange={(_event, checked) => this.setState({ checked })}
+          checked={this.state.checked}
+          initialIndeterminate
+          ref={this.checkboxRef}
+        >
+          {this.props.children}
+        </Checkbox>
+        <div>
+          <button onClick={this.setIndeterminate}>setIndeterminate</button>
+          <button onClick={this.resetIndeterminate}>resetIndeterminate</button>
+          <button onClick={this.changeValue}>changeValue</button>
+        </div>
+      </div>
+    );
+  }
+
+  private checkboxRef = (element: Checkbox) => {
+    this.checkbox = element;
+  };
+
+  private setIndeterminate = () => {
+    if (this.checkbox) {
+      this.checkbox.setIndeterminate();
+    }
+  };
+
+  private resetIndeterminate = () => {
+    if (this.checkbox) {
+      this.checkbox.resetIndeterminate();
+    }
+  };
+
+  private changeValue = () => {
+    this.setState((state: IndeterminatePlaygroundState) => ({
+      checked: !state.checked
+    }));
+  };
+}
+
 storiesOf('Checkbox', module)
   .add('plain', () => <PlainCheckbox>Plain checkbox</PlainCheckbox>)
   .add('unchecked', () => <Checkbox>Unchecked</Checkbox>)
@@ -90,4 +148,6 @@ storiesOf('Checkbox', module)
       </div>
     );
   })
-  .add('partial checked', () => <Checkbox partialChecked>Label</Checkbox>);
+  .add('indeterminate', () => (
+    <IndeterminatePlayground>Label</IndeterminatePlayground>
+  ));
