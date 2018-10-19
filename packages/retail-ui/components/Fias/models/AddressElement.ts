@@ -25,31 +25,32 @@ export class AddressElement {
           ? abbreviations[abbreviation] || abbreviation
           : '';
         switch (abbreviation) {
-          case 'Респ':
-            return `Республика ${name}`;
-
           case 'Чувашия':
-            return `Республика Чувашия`;
+            result = `${type} Чувашия`;
+            break;
 
           case 'АО':
             let text = `${name}`;
             if (name !== 'Ханты-Мансийский Автономный округ - Югра') {
               text += ` ${type}`;
             }
-            return text;
+            result = text;
+            break;
 
           case 'Аобл':
           case 'край':
           case 'обл':
-            return `${name} ${type}`;
+            result = `${name} ${type}`;
+            break;
 
           case 'п':
-            return `${
-              level === Levels.district ? 'Поселение' : 'Поселок'
+            result = `${
+              level === Levels.district && !skipType ? 'поселение' : 'поселок'
             } ${name}`;
+            break;
 
           default:
-            return `${type} ${name}`;
+            result = `${type} ${name}`;
         }
       }
 

@@ -90,12 +90,16 @@ export class Address {
     return !Address.FIELDS.some(field => Boolean(this.fields[field]));
   }
 
-  public getText = (minField?: string): string => {
+  public getText = (
+    minField?: string,
+    skipTypes: boolean = false,
+    connector: string = ', '
+  ): string => {
     if (this.isEmpty) {
       return '';
     }
     const getElementText = (element: Nullable<AddressElement>) => {
-      return element && element.getText();
+      return element && element.getText(skipTypes);
     };
     const fields = minField
       ? Address.getParentFields(minField)
@@ -103,7 +107,7 @@ export class Address {
     return fields
       .map(field => getElementText(this.fields[field]))
       .filter(Boolean)
-      .join(', ');
+      .join(connector);
   };
 
   public getClosestParentFiasId = (field: string): Nullable<string> => {
