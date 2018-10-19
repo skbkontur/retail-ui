@@ -144,6 +144,10 @@
     background: @modal-fixed-header-bg;
   }
 
+  .fixedHeader {
+    margin-bottom: 10px;
+  }
+
   .fixedHeader:after,
   .fixedFooter:before {
     content: '';
@@ -155,7 +159,7 @@
   }
 
   .fixedHeader:after {
-    bottom: 1px;
+    bottom: 11px;
     box-shadow: @modal-fixed-header-shadow;
   }
 
@@ -187,9 +191,10 @@
 
   .fixedFooter {
     padding-top: 20px;
+    margin-top: 10px;
 
     &:before {
-      top: 1px;
+      top: 11px;
       box-shadow: @modal-fixed-footer-shadow;
     }
   }
