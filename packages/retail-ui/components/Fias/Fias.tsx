@@ -44,6 +44,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   public static defaultProps = {
     title: Fias.defaultTexts.modal_title,
     feedback: Fias.defaultTexts.feedback,
+    limit: 5,
     showAddressText: true,
     error: false,
     warning: false,

@@ -3,16 +3,16 @@ import Gapped from '../../Gapped';
 import { FiasAPI } from '../FiasAPI';
 import {
   FiasComboBox,
-  FiasComboBoxProps,
-  FiasComboBoxChangeEvent
+  FiasComboBoxChangeEvent,
+  FiasComboBoxProps
 } from './FiasComboBox';
 import styles from './FiasForm.less';
 import {
   ErrorMessages,
+  FiasId,
   Levels,
-  VerifyResponse,
   ResponseAddress,
-  FiasId
+  VerifyResponse
 } from '../types';
 import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
@@ -38,10 +38,6 @@ interface FiasFormState {
 }
 
 export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
-  public static defaultProps = {
-    limit: 5
-  };
-
   public state: FiasFormState = {
     address: this.props.address,
     errorMessages: {}
@@ -154,6 +150,32 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       return element && element.getText(element.isTypeMatchField(field));
     };
 
+    const renderNotFound = (): React.ReactNode => {
+      const { city, settlement, street } = this.state.address.fields;
+      switch (field) {
+        case 'planningstructure':
+          return `Не найдены иные территории по указанному выше расположению`;
+
+        case 'street':
+          return city || settlement
+            ? `Не найдены иные территории по указанному выше расположению`
+            : `Заполните город или населенный пункт, чтобы выбрать название улицы`;
+
+        case 'stead':
+          return street
+            ? `Не найдены участки по указанному выше расположению`
+            : `Заполните улицу, чтобы выбрать номер участка`;
+
+        case 'house':
+          return street
+            ? `Не найдены дома по указанному выше расположению`
+            : `Заполните улицу, чтобы выбрать номер дома`;
+
+        default:
+          return `Адрес не найден`;
+      }
+    };
+
     const valueToString = (address: Address): string => {
       const element = address.fields[field];
       return element ? element.name : '';
@@ -167,7 +189,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       renderItem,
       renderValue,
       valueToString,
-      renderNotFound: () => 'Не найдено ничего'
+      renderNotFound
     };
   }
 
@@ -189,13 +211,22 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     parent?: Nullable<FiasId>
   ) => {
     const { limit } = this.props;
-    return this.props.api
-      .search(searchText, limit, level, parent)
-      .then((items: ResponseAddress[]) => {
-        return items.map((item: ResponseAddress) => {
-          return Address.createFromResponse(item);
+    const { city, settlement, street } = this.state.address.fields;
+    if (
+      (level === Levels.street && !(city || settlement)) ||
+      (level === Levels.stead && !street) ||
+      (level === Levels.house && !street)
+    ) {
+      return Promise.resolve([]);
+    } else {
+      return this.props.api
+        .search(searchText, limit, level, parent)
+        .then((items: ResponseAddress[]) => {
+          return items.map((item: ResponseAddress) => {
+            return Address.createFromResponse(item);
+          });
         });
-      });
+    }
   };
 
   public check(): void {
