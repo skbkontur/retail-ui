@@ -295,11 +295,7 @@ class SidePageWithModalInside extends React.Component<
     return (
       <div>
         {this.state.isModalOpened && this.renderModal()}
-        <Sample
-          current={1}
-          ignoreBackgroundClick={this.state.ignoreBackgroundClick}
-          blockBackground={this.state.blockBackground}
-        >
+        <Sample current={1} ignoreBackgroundClick={false} blockBackground>
           <Button onClick={() => this.setState({ isModalOpened: true })}>
             Открыть modal
           </Button>
@@ -385,6 +381,91 @@ class SimpleSidePage extends React.Component<{}, {}> {
   }
 }
 
+interface WithVariableContentState {
+  opened: boolean;
+  sidePageText: string[];
+  pageText: string[];
+}
+class WithVariableContent extends React.Component<
+  {},
+  WithVariableContentState
+> {
+  public state: WithVariableContentState = {
+    opened: false,
+    sidePageText: [],
+    pageText: []
+  };
+
+  public render() {
+    return (
+      <div>
+        {this.state.opened && this.renderSidePage()}
+        {this.state.pageText.map(() => (
+          <div style={{ height: '400px' }}>
+            A lotta people ask me where the fuck I've been at the last few
+            years.
+          </div>
+        ))}
+        <Button onClick={this.open}>Open</Button>
+      </div>
+    );
+  }
+
+  private renderSidePage = () => (
+    <SidePage onClose={this.close} blockBackground>
+      <SidePage.Header>Title</SidePage.Header>
+      <SidePage.Body>
+        <div
+          style={{
+            background: `repeating-linear-gradient(
+                          60deg,
+                          #fafafa,
+                          #fafafa 20px,
+                          #dfdede 20px,
+                          #dfdede 40px
+                        )`,
+            height: 600,
+            padding: '20px 0'
+          }}
+        >
+          <SidePage.Container>
+            <p>
+              A lotta people ask me where the fuck I've been at the last few
+              years.
+            </p>
+            {this.state.sidePageText.map((_item, index) => (
+              <div key={index} style={{ height: '400px' }}>
+                A lotta people ask me where the fuck I've been at the last few
+                years.
+              </div>
+            ))}
+          </SidePage.Container>
+        </div>
+      </SidePage.Body>
+      <SidePage.Footer panel>
+        <Button onClick={this.hendleAddSidePageClick}>Add sidePageText</Button>
+        <Button onClick={this.handleAddPageClick}>Add pageText</Button>
+      </SidePage.Footer>
+    </SidePage>
+  );
+
+  private hendleAddSidePageClick = () => {
+    this.setState(state => ({ sidePageText: [...state.sidePageText, 'text'] }));
+  };
+
+  private handleAddPageClick = () => {
+    this.setState(state => ({ pageText: [...state.pageText, 'text'] }));
+  };
+
+  private open = () => {
+    this.setState({ opened: true });
+  };
+
+  private close = () => {
+    this.setState({ opened: false });
+  };
+}
+
 storiesOf('SidePage', module)
   .add('With scrollable parent content', () => (
     <SidePageWithScrollableContent />
@@ -405,4 +486,5 @@ storiesOf('SidePage', module)
   .add('Open SidePage with left position', () => (
     <OpenSidePageWithLeftPosition />
   ))
-  .add('Simple', () => <SimpleSidePage />);
+  .add('Simple', () => <SimpleSidePage />)
+  .add('SidePage with variable content', () => <WithVariableContent />);
