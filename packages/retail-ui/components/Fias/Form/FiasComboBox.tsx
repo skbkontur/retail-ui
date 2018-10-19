@@ -13,7 +13,6 @@ export interface FiasComboBoxChangeEvent {
 
 interface FiasComboBoxState {
   searchText: string;
-  totalCount: number;
 }
 
 export class FiasComboBox extends React.Component<
@@ -24,8 +23,7 @@ export class FiasComboBox extends React.Component<
     onChange: () => null
   };
   public state: FiasComboBoxState = {
-    searchText: '',
-    totalCount: 0
+    searchText: ''
   };
 
   private combobox: Nullable<ComboBox<Address>> = null;
@@ -36,32 +34,12 @@ export class FiasComboBox extends React.Component<
     }
   };
 
-  public getItems = (searchText: string): Promise<Address[]> => {
-    return this.props.getItems
-      ? this.props.getItems(searchText).then(items => {
-          this.setState({
-            totalCount: items.length
-          });
-          return items.slice(0, 15);
-        })
-      : Promise.resolve([]);
-  };
-
   public renderItem = (item: Address & { label?: string }): React.ReactNode => {
     const text = this.props.renderItem
       ? this.props.renderItem(item)
       : item.label;
     return typeof text === 'string' ? this.highlight(text) : item;
   };
-
-  public renderTotalCount = (found: number, total: number): React.ReactNode => (
-    <div>
-      <div>
-        Показано {found} из {total} найденных результатов.
-      </div>
-      <div>Уточните запрос, чтобы увидеть остальные</div>
-    </div>
-  );
 
   public handleInputChange = (query: string) => {
     if (this.props.onInputChange) {
@@ -75,11 +53,8 @@ export class FiasComboBox extends React.Component<
     return (
       <ComboBox
         {...props}
-        getItems={this.getItems}
         renderItem={this.renderItem}
         onInputChange={this.handleInputChange}
-        totalCount={this.state.totalCount}
-        renderTotalCount={this.renderTotalCount}
         ref={this.createRef}
       />
     );

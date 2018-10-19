@@ -24,7 +24,7 @@ interface SearchQuery {
 }
 
 const BASE_URL = 'https://api.kontur.ru/fias/v1/';
-const LIMIT = 50;
+const LIMIT = 5;
 
 export class FiasAPI {
   private regionsPromise: Nullable<Promise<SearchResponse>> = null;
@@ -40,7 +40,6 @@ export class FiasAPI {
   };
 
   public verify = (address: ValueAddress): Promise<VerifyResponse> => {
-    // Object.keys(address).forEach(key => !address[key] && delete address[key]);
     delete address.room;
 
     return this.send('verify', {
