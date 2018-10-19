@@ -5,6 +5,11 @@
 - [Changelog](CHANGELOG.md)
 - [Roadmap](ROADMAP.md)
 
+### Варианты использование
+
+- **@skbkontur/react-ui** - собранная версия библиотеки, подходит для [квик-старта](#Квик-старт)
+- **retail-ui** - исходники для самостоятельной сборки, для переопределения `.less`-переменных, [слоу-старт](#Слоу-старт)
+
 ### Квик-старт
 
 ```bash
@@ -34,13 +39,17 @@ const MyApp = () => (
 
 ### Слоу-старт
 
+```bash
+yarn add retail-ui
+```
+
 Необходимо в [конфиг webpack](https://webpack.js.org/configuration/) добавить следующие лоадеры:
 
 ```javascript
 /* ... */
 module: {
   /* ... */
-  loaders: [
+  rules: [
     {
       test: /\.jsx?$/,
       use: [
