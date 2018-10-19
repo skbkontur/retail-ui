@@ -18,21 +18,11 @@ namespace SKBKontur.SeleniumTesting.Tests
         [OneTimeSetUp]
         public void SetUp()
         {
-            if (TravisEnvironment.IsExecutionViaTravis)
-            {
-                tunnelIdentifier =
-                    Environment.GetEnvironmentVariable("TRAVIS_JOB_NUMBER", EnvironmentVariableTarget.Process);
-                webServerProcess = CreateWebServerProcess();
-                webServerProcess.Start();
+            WaitResponse("http://localhost:8083/");
 
-                WaitResponse("http://localhost:8083/", webServerProcess);
-            }
-            else
-            {
-                tunnelIdentifier = Guid.NewGuid().ToString();
-                sauceConnectProcess = CreateSauceConnectProcess(tunnelIdentifier);
-                sauceConnectProcess.Start();
-            }
+            var tunnelIdentifier = Environment.GetEnvironmentVariable("TRAVIS_JOB_NUMBER", EnvironmentVariableTarget.Process) ?? $"{Environment.MachineName}-{Guid.NewGuid()}";
+            sauceConnectProcess = CreateSauceConnectProcess(tunnelIdentifier);
+            sauceConnectProcess.Start();
 
             BrowserSetUp.SetUp(tunnelIdentifier);
         }
@@ -41,24 +31,13 @@ namespace SKBKontur.SeleniumTesting.Tests
         public void TearDown()
         {
             BrowserSetUp.TearDown();
-            if (usingWindows)
-            {
-                KillProcessAndChildren(
-                    TravisEnvironment.IsExecutionViaTravis ? webServerProcess.Id : sauceConnectProcess.Id);
-                return;
-            }
 
-            if (TravisEnvironment.IsExecutionViaTravis)
-            {
-                webServerProcess.Kill();
-            }
-            else
-            {
-                sauceConnectProcess.Kill();
-            }
+            //tunnel closes on any data in stdin
+            sauceConnectProcess.StandardInput.WriteLine("0");
+            sauceConnectProcess.WaitForExit(TimeSpan.FromSeconds(30).Milliseconds);
         }
 
-        private static void WaitResponse(string url,Process process)
+        private static void WaitResponse(string url)
         {
             for(var i = 0; i < 60; i++)
             {
@@ -101,30 +80,15 @@ namespace SKBKontur.SeleniumTesting.Tests
                     Thread.Sleep(2000);
                 }
             }
-
-            var processStdOutString = process.StandardOutput.ReadToEnd();
-            throw new Exception($"Cannot wait response. {Environment.NewLine+processStdOutString}");
+            throw new Exception("Cannot wait response");
         }
-
-        private static Process CreateWebServerProcess()
-        {
-            var processStartInfo = new ProcessStartInfo
-                {
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    FileName = usingWindows ? "cmd":"bash",
-                    WorkingDirectory = PathUtils.FindProjectRootFolder(),
-                    Arguments = usingWindows ? "/k \"yarn start\"":"-c \"yarn start\""
-            };
-
-            return new Process {StartInfo = processStartInfo};
-        }
-
+        
         private static Process CreateSauceConnectProcess(string tunnelIdentifier)
         {
             var processStartInfo = new ProcessStartInfo
                 {
                     UseShellExecute = false,
+                    RedirectStandardInput = true,
                     FileName = "node",
                     WorkingDirectory = PathUtils.FindProjectRootFolder(),
                     Arguments = $"sauce.js {tunnelIdentifier}"
@@ -133,29 +97,6 @@ namespace SKBKontur.SeleniumTesting.Tests
             return new Process {StartInfo = processStartInfo};
         }
 
-        private static void KillProcessAndChildren(int pid)
-        {
-            // TODO crossplatform?
-            var searcher = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID=" + pid);
-            var moc = searcher.Get();
-            foreach(var mo in moc)
-            {
-                KillProcessAndChildren(Convert.ToInt32(mo["ProcessID"]));
-            }
-            try
-            {
-                var proc = Process.GetProcessById(pid);
-                proc.Kill();
-            }
-            catch(ArgumentException)
-            {
-                /* process already exited */
-            }
-        }
-
-        private Process webServerProcess;
         private Process sauceConnectProcess;
-        private string tunnelIdentifier;
-        private static readonly bool usingWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
     }
 }
