@@ -17,15 +17,16 @@ import {
 import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
 import { AddressElement } from '../models/AddressElement';
-import Fias from '../Fias';
 import Tooltip from '../../Tooltip/Tooltip';
 import { InputProps } from '../../Input';
 import Input from '../../Input/Input';
 import FiasSearch from './FiasSearch';
+import { defaultTexts, FiasTexts } from '../constants/texts';
 
 interface FiasFormProps {
   api: FiasAPI;
   address: Address;
+  texts?: FiasTexts;
   validFn?: (address: Address) => ErrorMessages;
   search?: boolean;
   limit?: number;
@@ -57,6 +58,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       props: InputProps;
     };
   } = {};
+
+  private texts: FiasTexts = this.props.texts || defaultTexts;
 
   constructor(props: FiasFormProps) {
     super(props);
@@ -152,27 +155,15 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
     const renderNotFound = (): React.ReactNode => {
       const { city, settlement, street } = this.state.address.fields;
-      switch (field) {
-        case 'planningstructure':
-          return `Не найдены иные территории по указанному выше расположению`;
 
-        case 'street':
-          return city || settlement
-            ? `Не найдены иные территории по указанному выше расположению`
-            : `Заполните город или населенный пункт, чтобы выбрать название улицы`;
-
-        case 'stead':
-          return street
-            ? `Не найдены участки по указанному выше расположению`
-            : `Заполните улицу, чтобы выбрать номер участка`;
-
-        case 'house':
-          return street
-            ? `Не найдены дома по указанному выше расположению`
-            : `Заполните улицу, чтобы выбрать номер дома`;
-
-        default:
-          return `Адрес не найден`;
+      if (
+        (field === 'street' && !(city || settlement)) ||
+        (field === 'stead' && !street) ||
+        (field === 'house' && !street)
+      ) {
+        return this.texts[`${field}_fill_before`];
+      } else {
+        return this.texts[`${field}_not_found`];
       }
     };
 
@@ -249,8 +240,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       const { isValid, invalidLevel } = result[0];
 
       if (!isValid && invalidLevel) {
-        errorMessages[String(invalidLevel).toLowerCase()] =
-          Fias.defaultTexts.not_valid_message;
+        errorMessages[
+          String(invalidLevel).toLowerCase()
+        ] = this.texts.not_valid_address;
       }
 
       this.setState({

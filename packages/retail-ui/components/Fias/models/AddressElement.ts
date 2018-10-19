@@ -1,5 +1,5 @@
 import { EstateStatuses, Levels, StructureStatuses } from '../types';
-import { abbreviations } from '../abbreviations';
+import { abbreviations } from '../constants/abbreviations';
 import { Nullable } from '../../../typings/utility-types';
 import { FiasData } from './FiasData';
 

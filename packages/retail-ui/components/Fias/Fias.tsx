@@ -8,6 +8,7 @@ import FiasForm from './Form/FiasForm';
 import { FiasAPI } from './FiasAPI';
 import { Nullable } from '../../typings/utility-types';
 import { Address } from './models/Address';
+import { defaultTexts, FiasTexts } from './constants/texts';
 import styles from './Fias.less';
 
 interface FiasProps {
@@ -19,12 +20,12 @@ interface FiasProps {
   label?: string;
   icon?: React.ReactElement<any>;
   readonly?: boolean;
-  title?: string;
   baseUrl?: string;
   onChange?: (value: FiasValue) => void;
   onClose?: () => void;
   search?: boolean;
   limit?: number;
+  texts?: FiasTexts;
 }
 
 interface FiasState {
@@ -33,17 +34,7 @@ interface FiasState {
 }
 
 export class Fias extends React.Component<FiasProps, FiasState> {
-  public static defaultTexts = {
-    modal_title: 'Адрес',
-    fill_address: 'Заполнить адрес',
-    edit_address: 'Изменить адрес',
-    feedback: 'Заполнено не по справочнику адресов',
-    not_valid_message: 'Адрес не найден в справочнике'
-  };
-
   public static defaultProps = {
-    title: Fias.defaultTexts.modal_title,
-    feedback: Fias.defaultTexts.feedback,
     limit: 5,
     showAddressText: true,
     error: false,
@@ -80,18 +71,21 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       warning
     } = this.props;
     const { opened, address } = this.state;
+
+    const texts: FiasTexts = {
+      ...defaultTexts,
+      ...this.props.texts
+    };
+
     const linkText =
-      label ||
-      (address.isEmpty
-        ? Fias.defaultTexts.fill_address
-        : Fias.defaultTexts.edit_address);
+      label || (address.isEmpty ? texts.fill_address : texts.edit_address);
 
     const validation =
       error || warning ? (
         <span
           className={cn({ [styles.error]: error, [styles.warning]: warning })}
         >
-          {feedback}
+          {feedback || texts.feedback}
         </span>
       ) : null;
 
@@ -107,17 +101,17 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           </div>
         )}
         {validation}
-        {opened && this.renderModal()}
+        {opened && this.renderModal(texts)}
       </div>
     );
   }
 
-  private renderModal() {
-    const { title, search, limit } = this.props;
+  private renderModal(texts: FiasTexts) {
+    const { search, limit } = this.props;
     const { address } = this.state;
     return (
       <FiasModal
-        title={title}
+        texts={texts}
         onClose={this.handleClose}
         onSave={this.handleSave}
       >
@@ -127,6 +121,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           api={this.api}
           search={search}
           limit={limit}
+          texts={texts}
         />
       </FiasModal>
     );
