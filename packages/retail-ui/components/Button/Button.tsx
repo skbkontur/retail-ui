@@ -35,6 +35,8 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 
 export type ButtonType = 'button' | 'submit' | 'reset';
 
+export type ButtonArrow = boolean | 'left';
+
 export type ButtonUse =
   | 'default'
   | 'primary'
@@ -61,8 +63,10 @@ export interface ButtonProps {
 
   /**
    * Кнопка со стрелкой.
+   *
+   * `type ButtonArrow = boolean | "left"`
    */
-  arrow?: boolean | 'left';
+  arrow?: ButtonArrow;
 
   autoFocus?: boolean;
 
