@@ -114,8 +114,8 @@
       }
 
       .arrow_left {
-        left: -8.5px;
-        transform: rotate(233deg) skewX(25deg) skewY(10deg);
+        left: -9.6px;
+        transform: rotate(232deg) skewX(25deg) skewY(10deg);
       }
 
       .arrow.arrow_loading {
@@ -131,10 +131,19 @@
           top: @arrow_loading_top;
           left: -207px;
           right: -72px;
-          transform: rotate(-44.3deg) skewX(0deg) skewY(0deg);
+          transform: rotate(-47deg) skewX(0deg) skewY(0deg);
 
           :global {
             animation: btn_loading_arrow 1s linear infinite;
+          }
+        }
+      }
+
+      .arrow_left.arrow_loading {
+        &:before {
+          :global {
+            animation: btn_loading_arrow_left 1s linear infinite;
+            animation-direction: reverse;
           }
         }
       }
@@ -325,25 +334,40 @@
     &:not(.link) {
       height: 38px;
     }
-
     font-size: 16px;
-    line-height: 38px;
-    padding: 0 15px;
-  }
-  .DEPRECATED_sizeMedium:not(.link) {
-    &:not(.link) {
-      height: 38px;
-    }
-
-    font-size: 14px;
     line-height: 38px;
     padding: 0 15px;
   }
   .buttonSizeMixin(
     sizeMedium,
     20.2px,
-    8.9px,
-    -9.3px,
+    9px,
+    -10.2px,
+    -9.5px,
+    rotate(52deg) skewX(24deg) skewY(8deg),
+    linear-gradient(
+      -56deg,
+      transparent 46.9%,
+      #ccc 0,
+      #ccc 69.5%,
+      transparent 0
+    ),
+    0px,
+    441%
+  );
+  .DEPRECATED_sizeMedium {
+    &:not(.link) {
+      height: 38px;
+    }
+    font-size: 14px;
+    line-height: 38px;
+    padding: 0 15px;
+  }
+  .buttonSizeMixin(
+    DEPRECATED_sizeMedium,
+    20.2px,
+    9px,
+    -10.2px,
     -9.5px,
     rotate(53deg) skewX(24deg) skewY(8deg),
     linear-gradient(
@@ -360,7 +384,6 @@
     &:not(.link) {
       height: 42px;
     }
-
     font-size: 16px;
     line-height: 42px;
     padding: 0 20px;
@@ -421,7 +444,6 @@
     @btn-primary-bg,
     #fff
   );
-
   // Use Success
   .buttonColorMixin(
     success,
@@ -439,7 +461,6 @@
     @btn-success-bg,
     #fff
   );
-
   // Use Danger
   .buttonColorMixin(
     danger,
@@ -457,7 +478,6 @@
     @btn-danger-bg,
     #fff
   );
-
   // Use Pay
   .buttonColorMixin(
     pay,
@@ -475,17 +495,16 @@
     @btn-pay-bg,
     none
   );
-
   // Use Link
   .root.link {
     display: inline;
     padding: 0;
+
     margin: 0;
     background: none;
     border: none;
     box-shadow: none;
     line-height: inherit;
-
     .caption {
       display: inline;
     }
@@ -499,14 +518,12 @@
     .icon {
       padding-right: @linkIconPadding;
     }
-
     .warning,
     .error {
       left: -2px;
       right: -2px;
       bottom: -2px;
     }
-
     .error {
       background: @error-secondary;
     }
@@ -605,7 +622,6 @@
     }
     transform: rotateY(180deg) skewX(0deg) skewY(0deg);
   }
-
   .narrow {
     padding-left: 5px;
     padding-right: 5px;
@@ -639,6 +655,16 @@
   }
   100% {
     transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg)
+      skewY(0deg);
+  }
+}
+@keyframes btn_loading_arrow_left {
+  0% {
+    transform: translateX(20px) translateY(40px) rotate(-44deg) skewX(0deg)
+      skewY(0deg);
+  }
+  100% {
+    transform: translateX(-15px) translateY(40px) rotate(-44deg) skewX(0deg)
       skewY(0deg);
   }
 }
