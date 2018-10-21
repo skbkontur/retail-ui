@@ -166,13 +166,16 @@
     @hoverColorEnd,
     @hoverShadow,
     @hoverShadowArrow,
+    @hoverShadowArrowLeft,
     @activeColor,
     @activeShadow,
     @activeShadowArrow,
+    @activeShadowArrowLeft,
     @colorStart,
     @colorEnd,
     @shadow,
     @shadowArrow,
+    @shadowArrowLeft,
     @bg,
     @color,
     @border: @bg
@@ -193,6 +196,7 @@
 
       .arrow_left {
         background-image: linear-gradient(to top left, @colorStart, @colorEnd);
+        box-shadow: @shadowArrowLeft;
       }
 
       .arrow.arrow_warning {
@@ -222,6 +226,7 @@
             @hoverColorStart,
             @hoverColorEnd
           );
+          box-shadow: @hoverShadowArrowLeft;
         }
 
         .arrow.arrow_warning {
@@ -261,6 +266,10 @@
       .arrow {
         background: @activeColor;
         box-shadow: @activeShadowArrow;
+      }
+
+      .arrow_left {
+        box-shadow: @activeShadowArrowLeft;
       }
 
       .arrow.arrow_warning {
@@ -344,7 +353,7 @@
     9px,
     -10.2px,
     -9.5px,
-    rotate(52deg) skewX(24deg) skewY(8deg),
+    rotate(53deg) skewX(24deg) skewY(8deg),
     linear-gradient(
       -56deg,
       transparent 46.9%,
@@ -392,7 +401,7 @@
     sizeLarge,
     21.7px,
     10.2px,
-    -10px,
+    -11.4px,
     -10.2px,
     rotate(53deg) skewX(25deg) skewY(10deg),
     linear-gradient(
@@ -416,13 +425,16 @@
     @btn-default-hover-bg-end,
     @btn-default-hover-shadow,
     @btn-default-hover-shadow-arrow,
+    @btn-default-hover-shadow-arrow-left,
     @btn-default-active-bg,
     @btn-default-active-shadow,
     @btn-default-active-shadow-arrow,
+    @btn-default-active-shadow-arrow-left,
     @btn-default-bg-start,
     @btn-default-bg-end,
     @btn-default-shadow,
     @btn-default-shadow-arrow,
+    @btn-default-shadow-arrow-left,
     @btn-default-bg,
     none,
     @border-color-gray-dark
@@ -434,13 +446,16 @@
     @btn-primary-hover-bg-end,
     @btn-primary-hover-shadow,
     @btn-primary-hover-shadow-arrow,
+    @btn-primary-hover-shadow-arrow-left,
     @btn-primary-active-bg,
     @btn-primary-active-shadow,
     @btn-primary-active-shadow-arrow,
+    @btn-primary-active-shadow-arrow-left,
     @btn-primary-bg-start,
     @btn-primary-bg-end,
     @btn-primary-shadow,
     @btn-primary-shadow-arrow,
+    @btn-primary-shadow-arrow-left,
     @btn-primary-bg,
     #fff
   );
@@ -451,13 +466,16 @@
     @btn-success-hover-bg-end,
     @btn-success-hover-shadow,
     @btn-success-hover-shadow-arrow,
+    @btn-success-hover-shadow-arrow-left,
     @btn-success-active-bg,
     @btn-success-active-shadow,
     @btn-success-active-shadow-arrow,
+    @btn-success-active-shadow-arrow-left,
     @btn-success-bg-start,
     @btn-success-bg-end,
     @btn-success-shadow,
     @btn-success-shadow-arrow,
+    @btn-success-shadow-arrow-left,
     @btn-success-bg,
     #fff
   );
@@ -468,13 +486,16 @@
     @btn-danger-hover-bg-end,
     @btn-danger-hover-shadow,
     @btn-danger-hover-shadow-arrow,
+    @btn-danger-hover-shadow-arrow-left,
     @btn-danger-active-bg,
     @btn-danger-active-shadow,
     @btn-danger-active-shadow-arrow,
+    @btn-danger-active-shadow-arrow-left,
     @btn-danger-bg-start,
     @btn-danger-bg-end,
     @btn-danger-shadow,
     @btn-danger-shadow-arrow,
+    @btn-danger-shadow-arrow-left,
     @btn-danger-bg,
     #fff
   );
@@ -485,13 +506,16 @@
     @btn-pay-hover-bg-end,
     @btn-pay-hover-shadow,
     @btn-pay-hover-shadow-arrow,
+    @btn-pay-hover-shadow-arrow-left,
     @btn-pay-active-bg,
     @btn-pay-active-shadow,
     @btn-pay-active-shadow-arrow,
+    @btn-pay-active-shadow-arrow-left,
     @btn-pay-bg-start,
     @btn-pay-bg-end,
     @btn-pay-shadow,
     @btn-pay-shadow-arrow,
+    @btn-pay-shadow-arrow-left,
     @btn-pay-bg,
     none
   );
@@ -499,7 +523,6 @@
   .root.link {
     display: inline;
     padding: 0;
-
     margin: 0;
     background: none;
     border: none;
@@ -545,6 +568,9 @@
     .arrow {
       background: @btn-checked-bg;
       box-shadow: @btn-shadow-checked-arrow;
+    }
+    .arrow_left {
+      box-shadow: @btn-shadow-checked-arrow-left;
     }
     .arrow.arrow_error {
       box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
