@@ -99,7 +99,20 @@
     padding-right: 7px;
   }
 
-  .buttonSizeMixin(@className, @length, @top, @right, @shift, @transform, @arrow_loading, @arrow_loading_top, @arrow_loading_height) {
+  .buttonSizeMixin(
+    @className,
+    @length,
+    @top,
+    @right,
+    @left,
+    @shift,
+    @transform,
+    @arrow_loading,
+    @arrow_loading_top,
+    @arrow_left_loading_top,
+    @arrow_left_loading_left,
+    @arrow_loading_height
+  ) {
     .@{className} {
       .arrow {
         position: absolute;
@@ -114,8 +127,8 @@
       }
 
       .arrow_left {
-        left: -9.6px;
-        transform: rotate(232deg) skewX(25deg) skewY(10deg);
+        left: @left;
+        transform: rotate(233deg) skewX(25deg) skewY(8deg);
       }
 
       .arrow.arrow_loading {
@@ -144,6 +157,8 @@
           :global {
             animation: btn_loading_arrow_left 1s linear infinite;
             animation-direction: reverse;
+            left: @arrow_left_loading_left;
+            top: @arrow_left_loading_top;
           }
         }
       }
@@ -327,6 +342,7 @@
     16.8px,
     7.5px,
     -7.5px,
+    -9.6px,
     -7.7px,
     rotate(53deg) skewX(24deg) skewY(10deg),
     linear-gradient(
@@ -337,6 +353,8 @@
       transparent 0
     ),
     7px,
+    7px,
+    -207px,
     441%
   );
   .sizeMedium {
@@ -352,6 +370,7 @@
     20.2px,
     9px,
     -10.2px,
+    -9.6px,
     -9.5px,
     rotate(53deg) skewX(24deg) skewY(8deg),
     linear-gradient(
@@ -362,6 +381,8 @@
       transparent 0
     ),
     0px,
+    0px,
+    -207px,
     441%
   );
   .DEPRECATED_sizeMedium {
@@ -377,6 +398,7 @@
     20.2px,
     9px,
     -10.2px,
+    -9.6px,
     -9.5px,
     rotate(53deg) skewX(24deg) skewY(8deg),
     linear-gradient(
@@ -387,6 +409,8 @@
       transparent 0
     ),
     0px,
+    0px,
+    -207px,
     441%
   );
   .sizeLarge {
@@ -401,7 +425,8 @@
     sizeLarge,
     21.7px,
     10.2px,
-    -11.4px,
+    -10.8px,
+    -10.6px,
     -10.2px,
     rotate(53deg) skewX(25deg) skewY(10deg),
     linear-gradient(
@@ -412,6 +437,8 @@
       transparent 0
     ),
     -32px,
+    -27px,
+    -192px,
     700%
   );
   .buttonWithIcon {
