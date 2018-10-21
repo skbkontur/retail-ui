@@ -1,12 +1,13 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import MenuIcon from '@skbkontur/react-icons/Menu';
+import ArrowSize2Icon from '@skbkontur/react-icons/ArrowSize2';
 import MenuItem from '../../MenuItem';
 import MenuHeader from '../../MenuHeader';
 import MenuSeparator from '../../MenuSeparator';
 import DropdownMenu from '../DropdownMenu';
 import Button from '../../Button';
-import Icon from '../../Icon';
 import Toast from '../../Toast';
 import { PopupMenuCaptionProps } from '../../internal/PopupMenu/PopupMenu';
 
@@ -60,7 +61,7 @@ storiesOf('DropdownMenu', module)
       menuWidth="300px"
       caption={
         <span tabIndex={0} style={{ display: 'inline-block' }}>
-          <Icon name="Menu" size={32} />
+          <MenuIcon size={32} />
         </span>
       }
     >
@@ -74,7 +75,7 @@ storiesOf('DropdownMenu', module)
       menuWidth="300px"
       caption={
         <span tabIndex={0} style={{ display: 'inline-block' }}>
-          <Icon name="Menu" size={32} />
+          <MenuIcon size={32} />
         </span>
       }
     >
@@ -95,7 +96,7 @@ storiesOf('DropdownMenu', module)
           }}
         >
           <Button use="primary" onClick={captionProps.toggleMenu}>
-            <Icon name="ArrowSize2" size={16} />
+            <ArrowSize2Icon size={16} />
           </Button>
         </span>
       )}

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import SearchIcon from '@skbkontur/react-icons/Search';
 
 import Input from '../Input';
-import Icon from '../../Icon';
 import Button from '../../Button';
 
 const styles = {
@@ -91,20 +91,20 @@ storiesOf('Input', module)
       <div>
         <div style={styles}>Left icon</div>
         <div id="left-icon-small-input-wrapper" style={styles}>
-          <Input size="small" leftIcon={<Icon name="Search" />} />
+          <Input size="small" leftIcon={<SearchIcon />} />
         </div>
         <div id="left-icon-large-input-wrapper" style={styles}>
-          <Input size="large" leftIcon={<Icon name="Search" />} />
+          <Input size="large" leftIcon={<SearchIcon />} />
         </div>
       </div>
 
       <div>
         <div style={styles}>Right icon</div>
         <div id="right-icon-small-input-wrapper" style={styles}>
-          <Input size="small" rightIcon={<Icon name="Search" />} />
+          <Input size="small" rightIcon={<SearchIcon />} />
         </div>
         <div id="right-icon-large-input-wrapper" style={styles}>
-          <Input size="large" rightIcon={<Icon name="Search" />} />
+          <Input size="large" rightIcon={<SearchIcon />} />
         </div>
       </div>
     </div>

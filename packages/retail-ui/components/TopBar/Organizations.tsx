@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import Icon from '../Icon';
+import ArrowChevronDownIcon from '@skbkontur/react-icons/ArrowChevronDown';
 import TopBarDropdown from './TopBarDropdown';
 
 import styles from './TopBar.less';
@@ -61,7 +61,7 @@ class Organizations extends React.Component<
             </span>
           )}
           <span className={styles.organizationsArrow}>
-            <Icon color="#aaa" size={14} name="ArrowChevronDown" />
+            <ArrowChevronDownIcon color="#aaa" size={14} />
           </span>
         </span>
         <div
