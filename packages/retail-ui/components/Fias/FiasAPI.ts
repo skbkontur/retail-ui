@@ -40,8 +40,11 @@ export class FiasAPI {
 
   public verify = (address: ValueAddress): Promise<VerifyResponse> => {
     delete address.room;
-
-    return this.send('verify', {
+    const query = {
+      directParent: false,
+      search: false
+    };
+    return this.send(`verify?${createQuery(query)}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -173,7 +176,7 @@ function filterRegions(searchText: string) {
 function createQuery(query: SearchQuery): string {
   const params = [];
   for (const key in query) {
-    if (query.hasOwnProperty(key) && Boolean(query[key])) {
+    if (query.hasOwnProperty(key) && query[key] !== undefined) {
       if (key === 'level') {
         params.push(`${key}[]=${encodeURIComponent(query[key] as string)}`);
       } else {
