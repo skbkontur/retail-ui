@@ -17,14 +17,7 @@ export class AddressElement {
     public data?: Nullable<FiasData>
   ) {}
 
-  public get isFederalCity(): boolean {
-    if (!(this.data && this.data.fiasId)) {
-      return false;
-    }
-    return FEDERAL_CITIES.includes(this.data.fiasId);
-  }
-
-  public getText(skipType: boolean = false): string {
+  public getText(withoutType: boolean = false): string {
     const { name, data } = this;
     let result = '';
 
@@ -35,7 +28,7 @@ export class AddressElement {
     if (data) {
       const { abbreviation, level } = data;
       if (abbreviation) {
-        const type = !skipType
+        const type = !withoutType
           ? abbreviations[abbreviation] || abbreviation
           : '';
         switch (abbreviation) {
@@ -59,7 +52,9 @@ export class AddressElement {
 
           case 'п':
             result = `${
-              level === Levels.district && !skipType ? 'поселение' : 'поселок'
+              level === Levels.district && !withoutType
+                ? 'поселение'
+                : 'поселок'
             } ${name}`;
             break;
 
@@ -126,17 +121,25 @@ export class AddressElement {
     return result.trim() || name;
   }
 
-  public isTypeMatchField = (field: string): boolean => {
-    const skippingMap: {
+  public get isFederalCity(): boolean {
+    if (!(this.data && this.data.fiasId)) {
+      return false;
+    }
+    return FEDERAL_CITIES.includes(this.data.fiasId);
+  }
+
+  public isTypeMatchTheField = (field: string): boolean => {
+    const types: {
       [key: string]: string;
     } = {
-      district: 'р-н',
-      city: 'г',
-      street: 'ул'
+      'р-н': 'district',
+      г: 'city',
+      нп: 'settlement',
+      ул: 'street'
     };
     const { data } = this;
     if (data && data.abbreviation) {
-      return skippingMap[field] === data.abbreviation;
+      return types[data.abbreviation] === field;
     }
     return false;
   };
