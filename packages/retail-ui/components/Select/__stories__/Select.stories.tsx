@@ -73,4 +73,31 @@ storiesOf('Select', module)
   .add('use link', () => <Select use="link" items={['one', 'two', 'three']} />)
   .add('use link with icon', () => (
     <Select _icon="Add" use="link" items={['one', 'two', 'three']} />
+  ))
+  .add('with scrollable menu', () => (
+    <Select
+      items={[
+        'One_1',
+        'Two_2',
+        'Three_3',
+        'One_4',
+        'Two_5',
+        'Three_6',
+        'One_7',
+        'Two_8',
+        'Three_9',
+        'One_10',
+        'Two_11',
+        'Three_12',
+        'One_13',
+        'Two_14',
+        'Three_15',
+        'One_16',
+        'Two_17',
+        'Three_18',
+        'One_19',
+        'Two_20',
+        'Three_21'
+      ]}
+    />
   ));
