@@ -198,15 +198,16 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
         onScroll={LayoutEvents.emit}
         style={style}
       >
-        <HideBodyVerticalScroll allowScrolling={!blockBackground} />
-        {blockBackground && (
+        {blockBackground && [
+          <HideBodyVerticalScroll key="hbvs" />,
           <div
+            key="overlay"
             className={classNames(
               styles.background,
               this.state.hasBackground && styles.gray
             )}
           />
-        )}
+        ]}
       </ZIndex>
     );
   }

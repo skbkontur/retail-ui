@@ -487,4 +487,15 @@ storiesOf('SidePage', module)
     <OpenSidePageWithLeftPosition />
   ))
   .add('Simple', () => <SimpleSidePage />)
-  .add('SidePage with variable content', () => <WithVariableContent />);
+  .add('SidePage with variable content', () => <WithVariableContent />)
+  .add('With scrollable parent content and scrolling before open', () => (
+    <div style={{ width: '300px' }}>
+      {textSample}
+      {textSample}
+      {textSample}
+      {textSample}
+      <Sample total={1} current={1} ignoreBackgroundClick withContent />
+      {textSample}
+      {textSample}
+    </div>
+  ));
