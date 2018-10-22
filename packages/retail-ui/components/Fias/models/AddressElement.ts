@@ -93,20 +93,18 @@ export class AddressElement {
 
         if (
           data.structureStatus &&
-          data.structureStatus !== StructureStatuses.None
+          data.structureStatus !== StructureStatuses.None &&
+          data.structureNumber
         ) {
-          const structureNumber = data.structureNumber
-            ? ' ' + data.structureNumber
-            : '';
           switch (data.structureStatus) {
             case StructureStatuses.Structure:
-              result = result + ' строение' + structureNumber;
+              result = result + ' строение ' + data.structureNumber;
               break;
             case StructureStatuses.Construction:
-              result = result + ' cооружение' + structureNumber;
+              result = result + ' cооружение ' + data.structureNumber;
               break;
             case StructureStatuses.Liter:
-              result = result + ' литера' + structureNumber;
+              result = result + ' литера ' + data.structureNumber;
               break;
           }
         }

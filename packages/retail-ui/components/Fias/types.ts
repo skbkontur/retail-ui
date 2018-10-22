@@ -34,9 +34,9 @@ export interface Stead extends FiasEntity {
 }
 
 export interface House extends FiasEntity {
-  number: string;
   estateStatus: EstateStatuses;
-  structureStatus?: StructureStatuses;
+  structureStatus: StructureStatuses;
+  number?: string;
   structureNumber?: string;
   buildingNumber?: string;
 }

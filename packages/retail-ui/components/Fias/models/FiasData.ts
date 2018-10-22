@@ -29,8 +29,8 @@ export class FiasData {
   public static isHouse = (data: FiasObject): data is House => {
     return (
       data &&
-      data.hasOwnProperty('number') &&
-      data.hasOwnProperty('estateStatus')
+      data.hasOwnProperty('structureStatus') &&
+      (data.hasOwnProperty('number') || data.hasOwnProperty('structureNumber'))
     );
   };
 
@@ -40,8 +40,10 @@ export class FiasData {
     const { data } = this;
     if (FiasData.isAddressObject(data)) {
       return data.name;
-    } else if (FiasData.isHouse(data) || FiasData.isStead(data)) {
+    } else if (FiasData.isStead(data)) {
       return data.number;
+    } else if (FiasData.isHouse(data)) {
+      return data.number || data.structureNumber || data.buildingNumber || '';
     }
     return '';
   }
@@ -55,7 +57,8 @@ export class FiasData {
   }
 
   public get number(): string {
-    return FiasData.isStead(this.data) || FiasData.isHouse(this.data)
+    return (FiasData.isStead(this.data) || FiasData.isHouse(this.data)) &&
+      this.data.number
       ? this.data.number
       : '';
   }
