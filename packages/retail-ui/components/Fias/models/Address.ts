@@ -57,16 +57,16 @@ export class Address {
     address: Address,
     response: VerifyResponse
   ): Address => {
-    const resultFields = { ...address.fields };
+    const addressFields = { ...address.fields };
     if (response[0]) {
-      const { address: verifiedAddress, invalidLevel } = response[0];
-      for (const field of Object.keys(resultFields)) {
-        const element = resultFields[field];
-        if (element) {
-          if (verifiedAddress[field]) {
-            element.data = new FiasData(verifiedAddress[field]);
+      const { address: verifiedFields, invalidLevel } = response[0];
+      for (const field of Object.keys(addressFields)) {
+        if (addressFields[field]) {
+          if (verifiedFields[field]) {
+            const data = new FiasData(verifiedFields[field]);
+            addressFields[field] = new AddressElement(field, data.name, data);
           } else {
-            delete element.data;
+            delete addressFields[field]!.data;
           }
           if (invalidLevel && String(invalidLevel).toLowerCase() === field) {
             break;
@@ -74,7 +74,7 @@ export class Address {
         }
       }
     }
-    return new Address(resultFields);
+    return new Address(addressFields);
   };
 
   public static getParentFields = (field: string): string[] => {
