@@ -13,7 +13,20 @@ const styles = isFlatDesign
   ? require('./Checkbox.flat.less')
   : require('./Checkbox.less');
 
+const KEYCODE_TAB = 9;
+
+let isListening: boolean;
 let tabPressed: boolean;
+
+function listenTabPresses() {
+  if (!isListening) {
+    window.addEventListener('keydown', (event: KeyboardEvent) => {
+      tabPressed = event.keyCode === KEYCODE_TAB;
+    });
+
+    isListening = true;
+  }
+}
 
 export type CheckboxProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -70,6 +83,8 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     if (this.props.initialIndeterminate) {
       this.setIndeterminate();
     }
+
+    listenTabPresses();
   };
 
   public componentWillReceiveProps(nextProps: CheckboxProps) {
