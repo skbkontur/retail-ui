@@ -155,6 +155,26 @@ describe('ComboBox', () => {
     expect(onUnexpectedInput).toHaveBeenCalledTimes(1);
   });
 
+  it('calls onChange if onUnexpectedInput return non-nullary value', async () => {
+    const values = [null, undefined, 'one'];
+    const onChange = jest.fn();
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox onChange={onChange} onUnexpectedInput={value => value} />
+    );
+
+    while (values.length) {
+      wrapper.instance().focus();
+      wrapper.update();
+      wrapper
+        .find('input')
+        .simulate('change', { target: { value: values.pop() } });
+      clickOutside();
+    }
+
+    expect(onChange).lastCalledWith({ target: { value: 'one' } }, 'one');
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
   it('calls onFocus on focus', async () => {
     const onFocus = jest.fn();
     const wrapper = mount<ComboBox<any>>(<ComboBox onFocus={onFocus} />);
