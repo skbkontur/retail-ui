@@ -358,7 +358,7 @@ describe('ComboBox', () => {
     wrapper.update();
     wrapper.find('input').simulate('change', { target: { value: 'Two' } });
 
-    await delay(300);
+    await delay(350);
 
     clickOutside();
     wrapper.update();
