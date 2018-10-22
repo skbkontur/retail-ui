@@ -1,7 +1,14 @@
-import { EstateStatuses, Levels, StructureStatuses } from '../types';
+import { EstateStatuses, FiasId, Levels, StructureStatuses } from '../types';
 import { abbreviations } from '../constants/abbreviations';
 import { Nullable } from '../../../typings/utility-types';
 import { FiasData } from './FiasData';
+
+const FEDERAL_CITIES: FiasId[] = [
+  '0c5b2444-70a0-4932-980c-b4dc0d3f02b5', // Москва
+  'c2deb16a-0330-4f05-821f-1d09c93331e6', // Санкт-Петербург
+  '6fdecb78-893a-4e3f-a5ba-aa062459463b', // Севастополь
+  '63ed1a35-4be6-4564-a1ec-0c51f7383314' // Байконур
+];
 
 export class AddressElement {
   constructor(
@@ -9,6 +16,13 @@ export class AddressElement {
     public name: string,
     public data?: Nullable<FiasData>
   ) {}
+
+  public get isFederalCity(): boolean {
+    if (!(this.data && this.data.fiasId)) {
+      return false;
+    }
+    return FEDERAL_CITIES.includes(this.data.fiasId);
+  }
 
   public getText(skipType: boolean = false): string {
     const { name, data } = this;

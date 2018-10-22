@@ -106,7 +106,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       const level = Levels[field as keyof typeof Levels];
       const parentFiasId = this.state.address.getClosestParentFiasId(field);
 
-      return this.createSearchSource(searchText, level, parentFiasId);
+      return this.createItemsSource(searchText, level, parentFiasId);
     };
 
     const onChange = (e: FiasComboBoxChangeEvent, value: Address) => {
@@ -157,17 +157,10 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
 
     const renderNotFound = (): React.ReactNode => {
-      const { city, settlement, street } = this.state.address.fields;
-
-      if (
-        (field === 'street' && !(city || settlement)) ||
-        (field === 'stead' && !street) ||
-        (field === 'house' && !street)
-      ) {
-        return this.texts[`${field}_fill_before`];
-      } else {
-        return this.texts[`${field}_not_found`];
-      }
+      const { address } = this.state;
+      return address.isTheFieldAllowedToFill(field)
+        ? this.texts[`${field}_not_found`]
+        : this.texts[`${field}_fill_before`];
     };
 
     const valueToString = (address: Address): string => {
@@ -201,28 +194,23 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
   }
 
-  public createSearchSource = async (
+  public createItemsSource = async (
     searchText: string,
     level?: Levels,
     parent?: Nullable<FiasId>
   ) => {
     const { limit } = this.props;
-    const { city, settlement, street } = this.state.address.fields;
-    if (
-      (level === Levels.street && !(city || settlement)) ||
-      (level === Levels.stead && !street) ||
-      (level === Levels.house && !street)
-    ) {
-      return Promise.resolve([]);
-    } else {
-      return this.props.api
-        .search(searchText, limit, level, parent)
-        .then((items: ResponseAddress[]) => {
-          return items.map((item: ResponseAddress) => {
-            return Address.createFromResponse(item);
-          });
-        });
-    }
+    const { address } = this.state;
+    const field = level ? String(level).toLowerCase() : null;
+    return address.isTheFieldAllowedToFill(field)
+      ? this.props.api
+          .search(searchText, limit, level, parent)
+          .then((items: ResponseAddress[]) => {
+            return items.map((item: ResponseAddress) => {
+              return Address.createFromResponse(item);
+            });
+          })
+      : Promise.resolve([]);
   };
 
   public check(): void {
@@ -301,7 +289,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
             <div className={styles.row}>
               <div className={styles.field}>
                 <FiasSearch
-                  source={this.createSearchSource}
+                  source={this.createItemsSource}
                   address={address}
                   onChange={this.handleAddressChange}
                   limit={this.props.limit}

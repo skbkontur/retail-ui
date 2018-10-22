@@ -108,6 +108,20 @@ export class Address {
       .join(connector);
   };
 
+  public isTheFieldAllowedToFill = (field: Nullable<string>): boolean => {
+    if (!field) {
+      return true;
+    }
+    const { region, city, settlement, street } = this.fields;
+    return !(
+      (field === 'street' &&
+        !(city || settlement) &&
+        !(region && region.isFederalCity)) ||
+      (field === 'stead' && !street) ||
+      (field === 'house' && !street)
+    );
+  };
+
   public getClosestParentFiasId = (field: string): Nullable<string> => {
     if (!this.isEmpty) {
       const parents = Address.getParentFields(field).reverse();
