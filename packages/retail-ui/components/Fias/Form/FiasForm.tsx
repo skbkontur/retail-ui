@@ -300,29 +300,33 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           <div className={styles.row}>
             <div className={styles.label}>Регион</div>
             <div className={styles.field}>
-              {this.renderField('region', 'регион')}
+              {this.renderField('region', 'Можно вводить код или название')}
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Район</div>
-            <div className={styles.field}>
-              {this.renderField('district', 'район')}
-            </div>
+            <div className={styles.field}>{this.renderField('district')}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Город</div>
-            <div className={styles.field}>
-              {this.renderField('city', 'город')}
-            </div>
+            <div className={styles.field}>{this.renderField('city')}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Населенный пункт</div>
-            <div className={styles.field}>{this.renderField('settlement')}</div>
+            <div className={styles.field}>
+              {this.renderField(
+                'settlement',
+                'Село, деревня, станица и другие'
+              )}
+            </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Иная территория</div>
             <div className={styles.field}>
-              {this.renderField('planningstructure')}
+              {this.renderField(
+                'planningstructure',
+                'Сад, парк, санаторий и другие'
+              )}
             </div>
           </div>
           <div className={styles.row}>
