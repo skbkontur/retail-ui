@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import MenuIcon from '@skbkontur/react-icons/Menu';
+import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
+
 import MenuItem from '../../MenuItem';
 import MenuHeader from '../../MenuHeader';
 import MenuSeparator from '../../MenuSeparator';
 import TooltipMenu from '../TooltipMenu';
 import Button from '../../Button';
-import Icon from '../../Icon';
 
 storiesOf('TooltipMenu', module)
   .addDecorator(story => (
@@ -57,7 +59,7 @@ storiesOf('TooltipMenu', module)
     <TooltipMenu
       caption={
         <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <Icon name="Menu" size={32} />
+          <MenuIcon size={32} />
         </span>
       }
       menuWidth="220px"
@@ -71,7 +73,7 @@ storiesOf('TooltipMenu', module)
     <TooltipMenu
       caption={
         <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <Icon name="Lightbulb" size={32} />
+          <LightbulbIcon size={32} />
         </span>
       }
       menuWidth="160px"
@@ -86,7 +88,7 @@ storiesOf('TooltipMenu', module)
     <TooltipMenu
       caption={
         <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <Icon name="Lightbulb" size={32} />
+          <LightbulbIcon size={32} />
         </span>
       }
       menuWidth="150px"

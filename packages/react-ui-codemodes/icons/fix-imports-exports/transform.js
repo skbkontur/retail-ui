@@ -1,14 +1,14 @@
 module.exports = function(file, api) {
   const j = api.jscodeshift;
   const root = j(file.source);
-  const typesForReplcae = [
+  const typesForReplace = [
     "ImportDeclaration",
     "ExportNamedDeclaration",
     "ExportAllDeclaration"
   ];
 
   root
-    .find(j.Node, node => typesForReplcae.indexOf(node.type) > -1)
+    .find(j.Node, node => typesForReplace.indexOf(node.type) > -1)
     .filter(path => {
       if (path.node.source.value.match(/\/Icon/)) {
         return path;

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import OkIcon from '@skbkontur/react-icons/Ok';
+import ArchivePackIcon from '@skbkontur/react-icons/ArchivePack';
 import Button, { ButtonUse } from '../../Button';
 import Gapped from '../../Gapped';
-import { IconName } from '../../Icon';
 import { ButtonSize } from '../Button';
 
 storiesOf('Button', module)
@@ -26,14 +27,13 @@ storiesOf('Button', module)
     </Gapped>
   ))
   .add('with icons', () => {
-    const icon: IconName = 'Ok';
     return (
       <Gapped>
-        <Button icon={icon}>Small</Button>
-        <Button size="medium" icon={icon}>
+        <Button icon={<OkIcon />}>Small</Button>
+        <Button size="medium" icon={<OkIcon />}>
           Medium
         </Button>
-        <Button size="large" icon={icon}>
+        <Button size="large" icon={<OkIcon />}>
           Large
         </Button>
       </Gapped>
@@ -41,7 +41,7 @@ storiesOf('Button', module)
   })
   .add('with icon, fixed width and long text', () => {
     return (
-      <Button icon="Ok" width="200px">
+      <Button icon={<OkIcon />} width="200px">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio sunt ad
         repudiandae ipsum quos! Dolores ipsam magnam maxime debitis praesentium
         aperiam laudantium. Nulla laboriosam perferendis, maiores esse unde nam
@@ -108,7 +108,7 @@ storiesOf('Button', module)
   })
   .add('use link', () => <Button use="link">Use Link</Button>)
   .add('use link with icon', () => (
-    <Button use="link" icon="ArchivePack">
+    <Button use="link" icon={<ArchivePackIcon />}>
       With Icon
     </Button>
   ))

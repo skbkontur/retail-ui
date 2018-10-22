@@ -1,14 +1,15 @@
-import cn from 'classnames';
-import events from 'add-event-listener';
 import * as React from 'react';
 import { number, func } from 'prop-types';
+import cn from 'classnames';
+import events from 'add-event-listener';
+import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
+
 import PagingHelper from './PagingHelper';
 import NavigationHelper from './NavigationHelper';
-import Icon from '../Icon';
-
-import styles = require('./Paging.less');
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+
+import styles from './Paging.less';
 
 interface ItemComponentProps {
   active: boolean;
@@ -127,7 +128,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       >
         {this.props.caption ? this.props.caption : strings.forward}
         <span className={styles.forwardIcon}>
-          <Icon name="ArrowChevronRight" size="18px" />
+          <ArrowChevronRightIcon size="18px" />
         </span>
       </Component>
     );

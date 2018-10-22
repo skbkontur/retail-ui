@@ -1,15 +1,16 @@
-import cn from 'classnames';
-import events from 'add-event-listener';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import cn from 'classnames';
+import events from 'add-event-listener';
+import MenuKebabIcon from '@skbkontur/react-icons/MenuKebab';
+
 import Icon20 from '../Icon/20px';
-import Icon from '../Icon';
 import LayoutEvents from '../../lib/LayoutEvents';
 import PopupMenu from '../internal/PopupMenu';
-
-import styles = require('./Kebab.less');
 import { Nullable } from '../../typings/utility-types';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
+
+import styles from './Kebab.less';
 
 export interface KebabProps {
   disabled?: boolean;
@@ -178,7 +179,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
       case 'small':
         return (
           <div className={styles.iconsmall}>
-            <Icon name="MenuKebab" size="14px" color="#757575" />
+            <MenuKebabIcon size="14px" color="#757575" />
           </div>
         );
       case 'large':

@@ -1,16 +1,15 @@
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import CalendarIcon from '@skbkontur/react-icons/Calendar';
 
 import filterProps from '../filterProps';
-import Input from '../Input';
 import Picker from './Picker';
 import DateInput from './DateInput';
 import dateParser from './dateParser';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import RenderLayer from '../RenderLayer';
-import Icon from '../Icon';
 import Center from '../Center';
 
 import styles from './DatePicker.less';
@@ -186,7 +185,7 @@ class DatePickerOld extends React.Component {
             className={openClassName}
             onMouseDown={e => e.preventDefault()}
           >
-            <Icon name="Calendar" size={iconSize} />
+            <CalendarIcon size={iconSize} />
           </Center>
         </label>
       </RenderLayer>
