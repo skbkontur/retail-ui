@@ -105,6 +105,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const getItems = async (searchText: string) => {
       const level = Levels[field as keyof typeof Levels];
       const parentFiasId = this.state.address.getClosestParentFiasId(field);
+
       return this.createSearchSource(searchText, level, parentFiasId);
     };
 
@@ -123,15 +124,17 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
 
     const onUnexpectedInput = (query: string) => {
-      this.handleAddressChange(
-        new Address({
-          [field]: query ? new AddressElement(field, query) : undefined
-        })
-      );
+      const fields = { ...this.state.address.fields };
+      if (query) {
+        fields[field] = new AddressElement(field, query);
+      } else {
+        delete fields[field];
+      }
+      this.handleAddressChange(new Address(fields), true);
     };
 
     const renderItem = (address: Address): string => {
-      const element = address.fields[field];
+      const element: Nullable<AddressElement> = address.fields[field];
       const hasParents = Boolean(address.getClosestParentFiasId(field));
 
       const fieldText = element
@@ -187,11 +190,13 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   public createInputProps(field: string): InputProps {
     return {
       onChange: (e: React.ChangeEvent, value: string) => {
-        this.handleAddressChange(
-          new Address({
-            [field]: value ? new AddressElement(field, value) : undefined
-          })
-        );
+        const fields = { ...this.state.address.fields };
+        if (value) {
+          fields[field] = new AddressElement(field, value);
+        } else {
+          delete fields[field];
+        }
+        this.handleAddressChange(new Address(fields), true);
       }
     };
   }
@@ -252,23 +257,19 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     });
   }
 
-  public handleAddressChange = (
-    value: Address,
-    fullChange: boolean = false
-  ) => {
-    const { address } = this.state;
-    const newAddress = new Address({
-      ...(fullChange ? {} : address.fields),
+  public handleAddressChange = (value: Address, replace: boolean = false) => {
+    const address = new Address({
+      ...(replace ? {} : this.state.address.fields),
       ...value.fields
     });
 
     this.setState(
       {
-        address: newAddress
+        address
       },
       () => {
-        this.check();
         this.resetComboboxes();
+        this.check();
       }
     );
   };

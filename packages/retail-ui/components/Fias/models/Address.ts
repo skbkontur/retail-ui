@@ -28,9 +28,7 @@ export class Address {
       Address.FIELDS.forEach(field => {
         if (response[field]) {
           const data: FiasData = new FiasData(response[field]);
-          if (data) {
-            fields[field] = new AddressElement(field, data.name, data);
-          }
+          fields[field] = new AddressElement(field, data.name, data);
         }
       });
     }
@@ -62,8 +60,8 @@ export class Address {
     const resultFields = { ...address.fields };
     if (response[0]) {
       const { address: verifiedAddress, invalidLevel } = response[0];
-      for (const field of Address.FIELDS) {
-        const element: Nullable<AddressElement> = resultFields[field];
+      for (const field of Object.keys(resultFields)) {
+        const element = resultFields[field];
         if (element) {
           if (verifiedAddress[field]) {
             element.data = new FiasData(verifiedAddress[field]);
@@ -87,7 +85,7 @@ export class Address {
   constructor(public fields: AddressFields = {}) {}
 
   public get isEmpty(): boolean {
-    return !Address.FIELDS.some(field => Boolean(this.fields[field]));
+    return !Address.FIELDS.some(field => this.fields.hasOwnProperty(field));
   }
 
   public getText = (
@@ -123,31 +121,31 @@ export class Address {
   };
 
   public toValue = (): ValueAddress => {
-    return Address.FIELDS.reduce((object, field) => {
+    return Object.keys(this.fields).reduce((value, field) => {
       const element = this.fields[field];
+      if (!element) {
+        return value;
+      }
+      const { name, data } = element;
       return {
-        ...object,
-        ...(element
-          ? {
-              [field]: {
-                name: element.name
-              }
-            }
-          : {})
+        ...value,
+        [field]: {
+          name,
+          ...(data ? data.data : {})
+        }
       };
     }, {});
   };
 
   public isEqualTo = (address: Address): boolean => {
     for (const field of Address.FIELDS) {
-      const current = this.fields[field];
-      const target = address.fields[field];
-      if (Boolean(current) !== Boolean(target)) {
+      const current: Nullable<AddressElement> = this.fields[field];
+      const target: Nullable<AddressElement> = address.fields[field];
+      if (
+        Boolean(current) !== Boolean(target) ||
+        (current && target && current.name !== target.name)
+      ) {
         return false;
-      } else if (current && target) {
-        if (current.name !== target.name) {
-          return false;
-        }
       }
     }
     return true;
