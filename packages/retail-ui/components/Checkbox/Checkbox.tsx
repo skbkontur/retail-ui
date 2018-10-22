@@ -155,9 +155,13 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
         onMouseOver={onMouseOver}
       >
         <input {...inputProps} />
-        <span className={styles.box}>
+        <span
+          className={classNames(styles.box, {
+            [styles.boxIndeterminate]: this.state.indeterminate
+          })}
+        >
           {this.state.indeterminate ? (
-            <span className={styles.partialCheckedIcon} />
+            <span className={styles.indeterminate} />
           ) : (
             this.props.checked && (
               <div className={styles.ok}>

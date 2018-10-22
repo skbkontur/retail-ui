@@ -23,11 +23,6 @@
     }
   }
 
-  .disabled {
-    color: @text-color-disabled;
-    cursor: default;
-  }
-
   .input {
     display: inline-block;
     opacity: 0;
@@ -114,16 +109,24 @@
     padding-left: 26px;
   }
 
-  .partialCheckedIcon {
+  .indeterminate {
     position: absolute;
     display: inline-block;
-    top: 3px;
-    left: 3px;
+    top: 4px;
+    left: 4px;
     width: 8px;
     height: 8px;
-    background: #333;
+    background: @text-color-default;
     border-radius: 1px;
-    border: 1px solid #202020;
     overflow: hidden;
+  }
+
+  .disabled {
+    color: @text-color-disabled;
+    cursor: default;
+
+    .indeterminate {
+      background: @text-color-disabled;
+    }
   }
 }
