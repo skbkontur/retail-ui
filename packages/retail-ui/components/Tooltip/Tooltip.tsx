@@ -99,6 +99,14 @@ export interface TooltipProps {
    * Стандартное значение true.
    */
   disableAnimations?: boolean;
+
+  /**
+   * Конфигурация закрытия тултипа.
+   * Если true, то при отведении курсора мыши от children тултипа, тултип закрывается.
+   * Разрешено true, только если closeButton !== true и trigger === hover.
+   * Стандартное значение false.
+   */
+  closeOnChildrenMouseLeave?: boolean;
 }
 
 export interface TooltipState {
@@ -110,7 +118,8 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     pos: 'top left',
     trigger: 'hover',
     allowedPositions: Positions,
-    disableAnimations: false
+    disableAnimations: false,
+    closeOnChildrenMouseLeave: false,
   };
 
   public state = {
@@ -143,24 +152,24 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         <span ref={this.refWrapper} {...wrapperProps}>
           {this.props.children}
           {anchorElement &&
-            content && (
-              <Popup
-                anchorElement={anchorElement}
-                hasPin
-                hasShadow
-                margin={15}
-                maxWidth="none"
-                opened={this.state.opened}
-                pinOffset={17}
-                pinSize={8}
-                popupOffset={0}
-                disableAnimations={this.props.disableAnimations}
-                positions={this._getPositions()}
-                {...popupProps}
-              >
-                {content}
-              </Popup>
-            )}
+          content && (
+            <Popup
+              anchorElement={anchorElement}
+              hasPin
+              hasShadow
+              margin={15}
+              maxWidth="none"
+              opened={this.state.opened}
+              pinOffset={17}
+              pinSize={8}
+              popupOffset={0}
+              disableAnimations={this.props.disableAnimations}
+              positions={this._getPositions()}
+              {...popupProps}
+            >
+              {content}
+            </Popup>
+          )}
         </span>
       </RenderLayer>
     );
@@ -172,7 +181,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       return null;
     }
     return (
-      <div style={{ padding: '15px 20px', position: 'relative' }}>
+      <div id='content' style={{ padding: '15px 20px', position: 'relative' }}>
         {content}
         {this._renderCross()}
       </div>
@@ -200,13 +209,18 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.wrapperElement = node;
   };
 
+  private needCloseOnChildrenMouseLeave = () =>
+    this.props.closeOnChildrenMouseLeave &&
+    !this.props.closeButton &&
+    this.props.trigger === 'hover';
+
   private _getPositions() {
     const allowedPositions = this.props.allowedPositions;
     const index = allowedPositions.indexOf(this.props.pos);
     if (index === -1) {
       throw new Error(
         'Unexpected position passed to Tooltip. Expected one of: ' +
-          allowedPositions.join(', ')
+        allowedPositions.join(', ')
       );
     }
     return [
@@ -289,6 +303,9 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   private handleMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+    if (this.needCloseOnChildrenMouseLeave() && (event.target as any).id === 'content')
+      return;
+
     if (this.hoverTimeout) {
       clearTimeout(this.hoverTimeout);
     }
