@@ -1,15 +1,14 @@
-export interface FiasTexts {
+export interface FiasLocale {
   [key: string]: string;
 }
 
-export const defaultTexts: FiasTexts = {
+export const defaultLocale: FiasLocale = {
   modal_title: 'Адрес',
-  modal_button_ok: 'Найти объект',
+  modal_button_ok: 'Сохранить',
   modal_button_cancel: 'Отменить',
-  fill_address: 'Заполнить адрес',
-  edit_address: 'Изменить адрес',
-  feedback: 'Заполнено не по справочнику адресов',
-  not_valid_address: 'Адрес не найден в справочнике',
+  address_fill: 'Заполнить адрес',
+  address_edit: 'Изменить адрес',
+  address_not_verified: 'Заполнено не по справочнику адресов',
   address_not_found: 'Адрес не найден в справочнике',
   region_not_found: 'Регион не найден',
   district_not_found: 'Район не найден',

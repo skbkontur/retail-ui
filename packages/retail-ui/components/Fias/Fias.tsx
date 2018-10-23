@@ -8,7 +8,7 @@ import FiasForm from './Form/FiasForm';
 import { FiasAPI } from './FiasAPI';
 import { Nullable } from '../../typings/utility-types';
 import { Address } from './models/Address';
-import { defaultTexts, FiasTexts } from './constants/texts';
+import { defaultLocale, FiasLocale } from './constants/locale';
 import styles from './Fias.less';
 
 interface FiasProps {
@@ -25,7 +25,7 @@ interface FiasProps {
   onClose?: () => void;
   search?: boolean;
   limit?: number;
-  texts?: FiasTexts;
+  locale?: FiasLocale;
 }
 
 interface FiasState {
@@ -72,20 +72,20 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     } = this.props;
     const { opened, address } = this.state;
 
-    const texts: FiasTexts = {
-      ...defaultTexts,
-      ...this.props.texts
+    const locale: FiasLocale = {
+      ...defaultLocale,
+      ...this.props.locale
     };
 
     const linkText =
-      label || (address.isEmpty ? texts.fill_address : texts.edit_address);
+      label || (address.isEmpty ? locale.address_fill : locale.address_edit);
 
     const validation =
       error || warning ? (
         <span
           className={cn({ [styles.error]: error, [styles.warning]: warning })}
         >
-          {feedback || texts.feedback}
+          {feedback || locale.address_not_verified}
         </span>
       ) : null;
 
@@ -101,17 +101,17 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           </div>
         )}
         {validation}
-        {opened && this.renderModal(texts)}
+        {opened && this.renderModal(locale)}
       </div>
     );
   }
 
-  private renderModal(texts: FiasTexts) {
+  private renderModal(locale: FiasLocale) {
     const { search, limit } = this.props;
     const { address } = this.state;
     return (
       <FiasModal
-        texts={texts}
+        locale={locale}
         onClose={this.handleClose}
         onSave={this.handleSave}
       >
@@ -121,7 +121,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           api={this.api}
           search={search}
           limit={limit}
-          texts={texts}
+          locale={locale}
         />
       </FiasModal>
     );

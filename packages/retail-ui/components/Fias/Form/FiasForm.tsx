@@ -20,12 +20,12 @@ import Tooltip from '../../Tooltip/Tooltip';
 import { InputProps } from '../../Input';
 import Input from '../../Input/Input';
 import FiasSearch from './FiasSearch';
-import { defaultTexts, FiasTexts } from '../constants/texts';
+import { FiasLocale } from '../constants/locale';
 
 interface FiasFormProps {
   api: FiasAPI;
   address: Address;
-  texts?: FiasTexts;
+  locale: FiasLocale;
   validFn?: (address: Address) => ErrorMessages;
   search?: boolean;
   limit?: number;
@@ -57,8 +57,6 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       props: InputProps;
     };
   } = {};
-
-  private texts: FiasTexts = this.props.texts || defaultTexts;
 
   constructor(props: FiasFormProps) {
     super(props);
@@ -156,8 +154,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const renderNotFound = (): React.ReactNode => {
       const { address } = this.state;
       return address.isTheFieldAllowedToFill(field)
-        ? this.texts[`${field}_not_found`]
-        : this.texts[`${field}_fill_before`];
+        ? this.props.locale[`${field}_not_found`]
+        : this.props.locale[`${field}_fill_before`];
     };
 
     const valueToString = (address: Address): string => {
@@ -231,7 +229,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       if (!isValid && invalidLevel) {
         errorMessages[
           String(invalidLevel).toLowerCase()
-        ] = this.texts.not_valid_address;
+        ] = this.props.locale.address_not_verified;
       }
 
       this.setState({

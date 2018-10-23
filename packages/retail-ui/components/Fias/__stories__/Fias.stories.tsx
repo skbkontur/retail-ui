@@ -7,11 +7,12 @@ import FiasModal from '../FiasModal';
 import { AddressObject, FiasValue } from '../types';
 import { FiasAPI } from '../FiasAPI';
 import { Address } from '../models/Address';
+import { defaultLocale } from '../constants/locale';
 
 storiesOf('Fias', module)
   .add('default', () => <Fias />)
   .add('with custom title', () => (
-    <ExampleFias title={'Оригинальный Заголовок'} />
+    <ExampleFias locale={{ modal_title: 'Оригинальный Заголовок' }} />
   ))
   .add('with value', () => <ExampleFias value={MOCK_ADDRESS_VALUE} />)
   .add('with search', () => <ExampleFias search={true} />)
@@ -26,9 +27,10 @@ storiesOf('Fias', module)
   .add('modal', () => {
     const api = new FiasAPI(BASE_URL);
     return (
-      <FiasModal>
+      <FiasModal locale={defaultLocale}>
         <FiasForm
           api={api}
+          locale={defaultLocale}
           address={Address.createFromValue(MOCK_ADDRESS_VALUE)}
         />
       </FiasModal>
