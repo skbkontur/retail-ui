@@ -7,12 +7,7 @@ import {
   FiasComboBoxProps
 } from './FiasComboBox';
 import styles from './FiasForm.less';
-import {
-  ErrorMessages,
-  FiasId,
-  ResponseAddress,
-  VerifyResponse
-} from '../types';
+import { ErrorMessages, FiasId, ResponseAddress } from '../types';
 import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
 import { AddressElement } from '../models/AddressElement';
@@ -43,7 +38,6 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     errorMessages: {}
   };
 
-  private verifyPromise: Promise<VerifyResponse> | null = null;
   private readonly comboboxes: {
     [key: string]: {
       ref: Nullable<FiasComboBox>;
@@ -109,11 +103,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
 
     const onInputChange = () => {
-      const errorMessages = { ...this.state.errorMessages };
-      if (errorMessages.hasOwnProperty(field)) {
-        delete errorMessages[field];
+      if (Object.keys(this.state.errorMessages).length) {
         this.setState({
-          errorMessages
+          errorMessages: {}
         });
       }
     };
@@ -209,28 +201,17 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   public check(): void {
     const { address } = this.state;
-    const promise = this.props.api.verify(address.toValue());
-    this.verifyPromise = promise;
+    const { api, locale } = this.props;
 
-    promise.then(result => {
-      if (promise !== this.verifyPromise) {
-        return;
-      }
-      this.verifyPromise = null;
-
+    api.verify(address.toValue()).then(result => {
       if (!result || !result[0]) {
         return;
       }
-
-      const verifiedAddress: Address = Address.verify(address, result);
-      const errorMessages: ErrorMessages = {};
-      const { isValid, invalidLevel } = result[0];
-
-      if (!isValid && invalidLevel) {
-        errorMessages[
-          String(invalidLevel).toLowerCase()
-        ] = this.props.locale.address_not_verified;
-      }
+      const { address: verifiedAddress, errorMessages } = Address.verify(
+        address,
+        result,
+        locale.address_not_verified
+      );
 
       this.setState({
         address: verifiedAddress,
@@ -257,7 +238,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   };
 
   public submit = async (): Promise<FiasFormState> => {
-    await this.verifyPromise;
+    await this.props.api.verifyPromise;
     return {
       ...this.state
     };

@@ -15,7 +15,6 @@ interface FiasProps {
   value?: FiasValue;
   error?: boolean;
   warning?: boolean;
-  feedback?: string;
   showAddressText?: boolean;
   label?: string;
   icon?: React.ReactElement<any>;
@@ -30,7 +29,6 @@ interface FiasProps {
 
 interface FiasState {
   opened: boolean;
-  address: Address;
 }
 
 export class Fias extends React.Component<FiasProps, FiasState> {
@@ -43,35 +41,16 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   };
 
   public state: FiasState = {
-    opened: false,
-    address: Address.createFromValue(this.props.value)
+    opened: false
   };
 
   private api: FiasAPI = new FiasAPI(this.props.baseUrl);
   private form: Nullable<FiasForm> = null;
 
-  public componentDidUpdate(prevProps: FiasProps, prevState: FiasState) {
-    if (prevProps.value !== this.props.value) {
-      const address = Address.createFromValue(this.props.value);
-      if (!address.isEqualTo(this.state.address)) {
-        this.setState({
-          address
-        });
-      }
-    }
-  }
-
   public render() {
-    const {
-      showAddressText,
-      label,
-      icon,
-      feedback,
-      error,
-      warning
-    } = this.props;
-    const { opened, address } = this.state;
-
+    const { showAddressText, label, icon, error, warning } = this.props;
+    const { opened } = this.state;
+    const address = Address.createFromValue(this.props.value);
     const locale: FiasLocale = {
       ...defaultLocale,
       ...this.props.locale
@@ -85,7 +64,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
         <span
           className={cn({ [styles.error]: error, [styles.warning]: warning })}
         >
-          {feedback || locale.address_not_verified}
+          {locale.address_not_verified}
         </span>
       ) : null;
 
@@ -101,14 +80,13 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           </div>
         )}
         {validation}
-        {opened && this.renderModal(locale)}
+        {opened && this.renderModal(address, locale)}
       </div>
     );
   }
 
-  private renderModal(locale: FiasLocale) {
+  private renderModal(address: Address, locale: FiasLocale) {
     const { search, limit } = this.props;
-    const { address } = this.state;
     return (
       <FiasModal
         locale={locale}
@@ -148,7 +126,6 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   };
 
   private handleChange = (address: Address, errorMessages: ErrorMessages) => {
-    this.setState({ address });
     if (this.props.onChange) {
       this.props.onChange({
         address: address.toValue(),

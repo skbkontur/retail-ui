@@ -3,7 +3,8 @@ import {
   ResponseAddress,
   AddressFields,
   FiasValue,
-  VerifyResponse
+  VerifyResponse,
+  ErrorMessages
 } from '../types';
 import { Nullable } from '../../../typings/utility-types';
 import { AddressElement } from './AddressElement';
@@ -55,9 +56,15 @@ export class Address {
 
   public static verify = (
     address: Address,
-    response: VerifyResponse
-  ): Address => {
+    response: VerifyResponse,
+    notVerifiedMessage: string
+  ): {
+    address: Address;
+    errorMessages: ErrorMessages;
+  } => {
     const addressFields = { ...address.fields };
+    const errorMessages: ErrorMessages = {};
+
     if (response[0]) {
       const { address: verifiedFields, invalidLevel } = response[0];
       for (const field of Object.keys(addressFields)) {
@@ -69,12 +76,16 @@ export class Address {
             delete addressFields[field]!.data;
           }
           if (invalidLevel && String(invalidLevel).toLowerCase() === field) {
+            errorMessages[field] = notVerifiedMessage;
             break;
           }
         }
       }
     }
-    return new Address(addressFields);
+    return {
+      address: new Address(addressFields),
+      errorMessages
+    };
   };
 
   public static getParentFields = (field: string): string[] => {
@@ -145,7 +156,7 @@ export class Address {
         ...value,
         [field]: {
           name,
-          ...(data ? data.data : {})
+          ...(data ? { data: data.data } : {})
         }
       };
     }, {});

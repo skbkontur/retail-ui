@@ -26,6 +26,7 @@ interface SearchQuery {
 const BASE_URL = 'https://api.kontur.ru/fias/v1/';
 
 export class FiasAPI {
+  public verifyPromise: Nullable<Promise<VerifyResponse>> = null;
   private regionsPromise: Nullable<Promise<SearchResponse>> = null;
 
   constructor(public baseUrl: string = BASE_URL) {}
@@ -44,13 +45,21 @@ export class FiasAPI {
       directParent: false,
       search: false
     };
-    return this.send(`verify?${createQuery(query)}`, {
+    const promise = this.send(`verify?${createQuery(query)}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify([address])
+    });
+    this.verifyPromise = promise;
+
+    return promise.then((response: VerifyResponse) => {
+      if (promise !== this.verifyPromise) {
+        return Promise.resolve([]);
+      }
+      return Promise.resolve(response);
     });
   };
 
