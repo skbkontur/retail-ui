@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import { TokenInput } from '../TokenInput';
+import TokenInput from '../TokenInput';
 
 async function getItems(query: string) {
   return ['aaa', 'bbb', 'ccc'].filter(s => s.includes(query));

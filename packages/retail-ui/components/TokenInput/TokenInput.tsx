@@ -43,7 +43,7 @@ export interface TokenInputState<T> {
 /**
  * DRAFT - поле с токенами
  */
-export class TokenInput<T = string> extends React.Component<
+class TokenInput<T = string> extends React.Component<
   TokenInputProps<T>,
   TokenInputState<T>
 > {
@@ -558,3 +558,5 @@ export class TokenInput<T = string> extends React.Component<
     });
   };
 }
+
+export default TokenInput;

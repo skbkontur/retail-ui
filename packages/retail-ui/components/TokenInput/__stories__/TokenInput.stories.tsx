@@ -1,7 +1,7 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { TokenInput, TokenInputType } from '../TokenInput';
+import TokenInput, { TokenInputType } from '../TokenInput';
 import Gapped from '../../Gapped';
 
 const FixedWidthDecorator = (storyFn: any) => (
