@@ -10,7 +10,6 @@ import styles from './FiasForm.less';
 import {
   ErrorMessages,
   FiasId,
-  Levels,
   ResponseAddress,
   VerifyResponse
 } from '../types';
@@ -103,10 +102,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   public createComboBoxProps(field: string): FiasComboBoxProps {
     const getItems = async (searchText: string) => {
-      const level = Levels[field as keyof typeof Levels];
       const parentFiasId = this.state.address.getClosestParentFiasId(field);
-
-      return this.createItemsSource(searchText, level, parentFiasId);
+      return this.createItemsSource(searchText, field, parentFiasId);
     };
 
     const onChange = (e: FiasComboBoxChangeEvent, value: Address) => {
@@ -141,7 +138,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         ? element.getText(!hasParents && element.isTypeMatchTheField(field))
         : '';
 
-      if (element && element.data && element.data.level === Levels.region) {
+      if (field === 'region' && element && element.data) {
         const regionCode = element.data.code.substr(0, 2);
         return `${regionCode} ${fieldText}`;
       }
@@ -196,15 +193,14 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   public createItemsSource = async (
     searchText: string,
-    level?: Levels,
+    field?: string,
     parent?: Nullable<FiasId>
   ) => {
     const { limit } = this.props;
     const { address } = this.state;
-    const field = level ? String(level).toLowerCase() : null;
     return address.isTheFieldAllowedToFill(field)
       ? this.props.api
-          .search(searchText, limit, level, parent)
+          .search(searchText, limit, field, parent)
           .then((items: ResponseAddress[]) => {
             return items.map((item: ResponseAddress) => {
               return Address.createFromResponse(item);

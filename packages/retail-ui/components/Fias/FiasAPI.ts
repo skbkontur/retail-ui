@@ -1,14 +1,14 @@
 import {
+  AddressObject,
   FiasId,
+  FiasObject,
   House,
   Levels,
-  Stead,
-  SearchResponse,
-  VerifyResponse,
-  ValueAddress,
   ResponseAddress,
-  FiasObject,
-  AddressObject
+  SearchResponse,
+  Stead,
+  ValueAddress,
+  VerifyResponse
 } from './types';
 import { Nullable } from '../../typings/utility-types';
 
@@ -18,7 +18,7 @@ interface SearchQuery {
   prefix?: string;
   limit?: number;
   parentFiasId?: Nullable<FiasId>;
-  level?: Levels;
+  levels?: Levels[];
   fullAddress?: boolean;
   directParent?: boolean;
 }
@@ -57,67 +57,62 @@ export class FiasAPI {
   public search = (
     searchText: string,
     limit?: number,
-    level?: Levels,
+    field?: string,
     parentFiasId?: Nullable<FiasId>
   ): Promise<SearchResponse> => {
     const query: SearchQuery = {
       prefix: searchText,
       limit: limit && limit + 1,
       parentFiasId,
-      level,
-      actual: false
+      actual: true
     };
 
-    if (!level && searchText) {
-      return this.resolveAddress({
-        address: trimSearchText(searchText),
-        limit: query.limit
-      });
-    }
-
-    if (level === Levels.region) {
-      return this.searchRegions(searchText);
-    }
-
-    if (
-      level === Levels.district ||
-      level === Levels.city ||
-      level === Levels.settlement ||
-      level === Levels.planningstructure
-    ) {
-      if (parentFiasId) {
-        query.directParent = false;
-      } else {
-        query.fullAddress = true;
+    if (searchText) {
+      if (!field) {
+        return this.resolveAddress({
+          address: trimSearchText(searchText),
+          limit: query.limit
+        });
       }
-    }
 
-    if (searchText && level) {
-      if (parentFiasId) {
-        // if (level === Levels.room) {
-        //   return this.searchRooms(query);
-        // }
-        if (level === Levels.house) {
+      if (field === 'region') {
+        return this.searchRegions(searchText);
+      }
+
+      if (field === 'house') {
+        if (parentFiasId) {
           return this.searchHouse(query);
         }
-        if (level === Levels.stead) {
+      } else if (field === 'stead') {
+        if (parentFiasId) {
           return this.searchStead(query);
         }
+      } else {
+        query.levels = [fieldToLevel(field)];
+
+        if (
+          field === 'district' ||
+          field === 'city' ||
+          field === 'settlement' ||
+          field === 'planningstructure'
+        ) {
+          if (parentFiasId) {
+            query.directParent = false;
+          } else {
+            query.fullAddress = true;
+          }
+        }
+
+        return this.searchAddressObject(query);
       }
-      return this.searchAddressObject(query, level);
-    } else {
-      return Promise.resolve([]);
     }
+    return Promise.resolve([]);
   };
 
   public searchAddressObject = (
-    query: SearchQuery,
-    level: Levels
+    query: SearchQuery
   ): Promise<SearchResponse> => {
-    return this.send(`addresses?${createQuery(query)}`).then(
-      data => data.filter((item: ResponseAddress) => item[level.toLowerCase()])
-      // data.map((address: ResponseAddress) => Address.createFromResponse(address))
-    );
+    return this.send(`addresses?${createQuery(query)}`);
   };
 
   public resolveAddress = (query: SearchQuery): Promise<SearchResponse> => {
@@ -128,8 +123,7 @@ export class FiasAPI {
     return this.send(`steads?${createQuery(query)}`).then(data =>
       data.map((item: Stead) => ({
         stead: {
-          ...item,
-          level: Levels.stead
+          ...item
         }
       }))
     );
@@ -139,8 +133,7 @@ export class FiasAPI {
     return this.send(`houses?${createQuery(query)}`).then(data =>
       data.map((item: House) => ({
         house: {
-          ...item,
-          level: Levels.house
+          ...item
         }
       }))
     );
@@ -175,10 +168,13 @@ function filterRegions(searchText: string) {
 
 function createQuery(query: SearchQuery): string {
   const params = [];
-  for (const key in query) {
-    if (query.hasOwnProperty(key) && query[key] !== undefined) {
-      if (key === 'level') {
-        params.push(`${key}[]=${encodeURIComponent(query[key] as string)}`);
+  for (const key of Object.keys(query)) {
+    const param = query[key];
+    if (param !== undefined) {
+      if (key === 'levels' && Array.isArray(param)) {
+        for (const level of param) {
+          params.push(`level[]=${encodeURIComponent(level as string)}`);
+        }
       } else {
         params.push(`${key}=${encodeURIComponent(query[key])}`);
       }
@@ -192,4 +188,8 @@ function trimSearchText(searchText: string): string {
     .toLowerCase()
     .replace(/[,]/g, '')
     .replace(/\s[\s]*/g, ' ');
+}
+
+function fieldToLevel(field: string): Levels {
+  return Levels[field as keyof typeof Levels];
 }

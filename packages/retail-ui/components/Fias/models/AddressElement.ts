@@ -1,4 +1,4 @@
-import { EstateStatuses, FiasId, Levels, StructureStatuses } from '../types';
+import { EstateStatuses, FiasId, StructureStatuses } from '../types';
 import { abbreviations } from '../constants/abbreviations';
 import { Nullable } from '../../../typings/utility-types';
 import { FiasData } from './FiasData';
@@ -26,7 +26,7 @@ export class AddressElement {
     }
 
     if (data) {
-      const { abbreviation, level } = data;
+      const { abbreviation } = data;
       if (abbreviation) {
         const type = !withoutType
           ? abbreviations[abbreviation] || abbreviation
@@ -51,11 +51,9 @@ export class AddressElement {
             break;
 
           case 'п':
-            result = `${
-              level === Levels.district && !withoutType
-                ? 'поселение'
-                : 'поселок'
-            } ${name}`;
+            result = !withoutType
+              ? `${this.type === 'district' ? 'поселение' : 'поселок'} ${name}`
+              : `${name}`;
             break;
 
           default:

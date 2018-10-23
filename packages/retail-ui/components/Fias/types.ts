@@ -22,10 +22,7 @@ export enum Levels {
   city = 'City',
   settlement = 'Settlement',
   planningstructure = 'PlanningStructure',
-  stead = 'Stead',
-  street = 'Street',
-  house = 'House',
-  room = 'Room'
+  street = 'Street'
 }
 
 export interface Stead extends FiasEntity {
