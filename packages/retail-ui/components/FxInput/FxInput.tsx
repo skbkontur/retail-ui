@@ -52,13 +52,9 @@ class FxInput extends React.Component<FxInputProps> {
 
   public render(): JSX.Element {
     const { type, onRestore, auto, ...rest } = this.props;
-    const inputProps: {
-      align: InputProps['align'];
-      mainInGroup: boolean;
-      leftIcon?: React.ReactNode;
-    } = {
+    const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
-      mainInGroup: true
+      width: '100%'
     };
 
     let button = null;
