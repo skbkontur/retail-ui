@@ -57,14 +57,14 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     };
 
     const linkText =
-      label || (address.isEmpty ? locale.address_fill : locale.address_edit);
+      label || (address.isEmpty ? locale.addressFill : locale.addressEdit);
 
     const validation =
       error || warning ? (
         <span
           className={cn({ [styles.error]: error, [styles.warning]: warning })}
         >
-          {locale.address_not_verified}
+          {locale.addressNotVerified}
         </span>
       ) : null;
 

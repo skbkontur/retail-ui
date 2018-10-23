@@ -20,15 +20,15 @@ export class FiasModal extends React.Component<FiasModalProps> {
     const { onClose, onSave, locale, children } = this.props;
     return (
       <Modal width={500} onClose={onClose}>
-        <Modal.Header>{locale.modal_title}</Modal.Header>
+        <Modal.Header>{locale.modalTitle}</Modal.Header>
         <Modal.Body>{children}</Modal.Body>
         <Modal.Footer panel>
           <Gapped>
             <Button size="medium" use="primary" onClick={onSave}>
-              {locale.modal_button_ok}
+              {locale.modalButtonOk}
             </Button>
             <Button size="medium" onClick={onClose}>
-              {locale.modal_button_cancel}
+              {locale.modalButtonCancel}
             </Button>
           </Gapped>
         </Modal.Footer>

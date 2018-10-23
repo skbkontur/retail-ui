@@ -12,7 +12,7 @@ import { defaultLocale } from '../constants/locale';
 storiesOf('Fias', module)
   .add('default', () => <Fias />)
   .add('with custom title', () => (
-    <ExampleFias locale={{ modal_title: 'Оригинальный Заголовок' }} />
+    <ExampleFias locale={{ modalTitle: 'Оригинальный Заголовок' }} />
   ))
   .add('with value', () => <ExampleFias value={MOCK_ADDRESS_VALUE} />)
   .add('with search', () => <ExampleFias search={true} />)

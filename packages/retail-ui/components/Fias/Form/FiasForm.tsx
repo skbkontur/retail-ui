@@ -146,8 +146,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const renderNotFound = (): React.ReactNode => {
       const { address } = this.state;
       return address.isTheFieldAllowedToFill(field)
-        ? this.props.locale[`${field}_not_found`]
-        : this.props.locale[`${field}_fill_before`];
+        ? this.props.locale[`${field}NotFound`]
+        : this.props.locale[`${field}FillBefore`];
     };
 
     const valueToString = (address: Address): string => {
@@ -210,7 +210,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       const { address: verifiedAddress, errorMessages } = Address.verify(
         address,
         result,
-        locale.address_not_verified
+        locale.addressNotVerified
       );
 
       this.setState({
