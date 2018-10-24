@@ -69,8 +69,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       'city',
       'settlement',
       'planningstructure',
-      'stead',
       'street',
+      'stead',
       'house'
     ].reduce((comboboxes, field) => {
       return {

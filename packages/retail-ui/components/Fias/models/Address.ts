@@ -17,8 +17,8 @@ export class Address {
     'city',
     'settlement',
     'planningstructure',
-    'stead',
     'street',
+    'stead',
     'house',
     'room'
   ];
@@ -163,19 +163,27 @@ export class Address {
   };
 
   public convertForVerification = () => {
-    return Object.keys(this.fields).reduce((value, field) => {
-      const element = this.fields[field];
-      if (!element) {
-        return value;
-      }
-      const { name, data } = element;
-      return {
-        ...value,
-        [field]: {
-          ...(data ? data.data : { [element.dataNameField]: name })
-        }
-      };
-    }, {});
+    return (
+      Object.keys(this.fields)
+        // these are not verifiable
+        .filter(field => field !== 'stead' && field !== 'room')
+        .reduce((value, field) => {
+          const element = this.fields[field];
+          if (!element) {
+            return value;
+          }
+          const { name } = element;
+          return {
+            ...value,
+            [field]:
+              field === 'house'
+                ? name
+                : {
+                    name
+                  }
+          };
+        }, {})
+    );
   };
 
   public isEqualTo = (address: Address): boolean => {

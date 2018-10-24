@@ -40,7 +40,6 @@ export class FiasAPI {
   };
 
   public verify = (address: ValueAddress): Promise<VerifyResponse> => {
-    delete address.room;
     const query = {
       directParent: false,
       search: false
