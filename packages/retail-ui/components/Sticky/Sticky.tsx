@@ -136,7 +136,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
             [styles.innerFixed]: this.state.fixed,
             [styles.innerStopped]: this.state.stopped
           })}
-          style={{ ...innerStyle }}
+          style={innerStyle}
           ref={this._refInner}
         >
           {children}
