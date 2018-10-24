@@ -24,12 +24,11 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   };
 
   public renderValue = (address: Address): string => {
-    return address.getText();
+    return address.getText('house');
   };
 
   public valueToString = (address: Address): string => {
-    // return address.getText(undefined, true, ' ');
-    return address.getText();
+    return address.getText('house');
   };
 
   public handleChange = (
