@@ -67,7 +67,7 @@ export class Address {
 
     if (response[0]) {
       const { address: verifiedFields, invalidLevel } = response[0];
-      for (const field of Object.keys(addressFields)) {
+      for (const field of Address.FIELDS) {
         if (addressFields[field]) {
           if (verifiedFields[field]) {
             const data = new FiasData(verifiedFields[field]);

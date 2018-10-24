@@ -60,7 +60,8 @@ export enum StructureStatuses {
 
 // TODO: add all statuses
 export enum LiveStatuses {
-  Active = 'active'
+  Active = 'active',
+  Inactive = 'inactive'
 }
 
 export type FiasObject = AddressObject | Stead | House | Room;
