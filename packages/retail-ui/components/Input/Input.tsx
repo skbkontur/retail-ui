@@ -186,6 +186,8 @@ class Input extends React.Component<InputProps, InputState> {
       align,
       type,
       mask,
+      maskChar,
+      alwaysShowMask,
       style,
       className,
       size,
