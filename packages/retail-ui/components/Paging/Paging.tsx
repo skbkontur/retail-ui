@@ -6,7 +6,6 @@ import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
 
 import PagingHelper from './PagingHelper';
 import NavigationHelper from './NavigationHelper';
-import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 
 import styles from './Paging.less';
@@ -26,9 +25,10 @@ export interface PagingProps {
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
   disabled?: boolean;
-  strings?: { forward: string };
+  strings: { forward: string };
   withoutNavigationHint?: boolean;
   caption?: string;
+  globalListeners?: boolean;
 }
 
 export interface PagingState {
@@ -58,13 +58,31 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   public state: PagingState = {
     focusedByTab: false,
     focusedItem: null,
-    keybordControl: false
+    keybordControl: this.props.globalListeners || false
   };
 
-  private getProps = createPropsGetter(Paging.defaultProps);
+  private addedGlobalListener: boolean = false;
 
   public componentDidMount() {
     listenTabPresses();
+
+    if (this.props.globalListeners) {
+      this.addGlobalListener();
+    }
+  }
+
+  public componentDidUpdate(prevProps: PagingProps) {
+    if (!prevProps.globalListeners && this.props.globalListeners) {
+      this.addGlobalListener();
+    }
+
+    if (prevProps.globalListeners && !this.props.globalListeners) {
+      this.removeGlobalListener();
+    }
+  }
+
+  public componentWillUnmount() {
+    this.removeGlobalListener();
   }
 
   public render() {
@@ -114,10 +132,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       [styles.focused]: focused,
       [styles.disabled]: disabled
     });
-    const { component: Component, strings } = this.getProps<
-      PagingProps,
-      Paging
-    >();
+    const { component: Component, strings } = this.props;
 
     return (
       <Component
@@ -186,7 +201,9 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     this.setState({ focusedByTab: false, focusedItem: null });
   };
 
-  private handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
+  private handleKeyDown = (
+    event: KeyboardEvent | React.KeyboardEvent<HTMLElement>
+  ) => {
     if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowLeft') {
       event.preventDefault();
       this.setState({ focusedItem: null }, this.goBackward);
@@ -232,7 +249,10 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   };
 
   private handleBlur = () => {
-    this.setState({ focusedByTab: false, keybordControl: false });
+    this.setState({
+      focusedByTab: false,
+      keybordControl: this.props.globalListeners || false
+    });
   };
 
   private getItems = (): ItemType[] => {
@@ -324,6 +344,23 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       pageNumber <= this.props.pagesCount
     ) {
       this.props.onPageChange(pageNumber);
+    }
+  };
+
+  private addGlobalListener = () => {
+    if (this.addedGlobalListener) {
+      return;
+    }
+
+    document.addEventListener('keydown', this.handleKeyDown);
+    this.addedGlobalListener = true;
+  };
+
+  private removeGlobalListener = () => {
+    if (this.addedGlobalListener) {
+      document.removeEventListener('keydown', this.handleKeyDown);
+
+      this.addedGlobalListener = false;
     }
   };
 }
