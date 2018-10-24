@@ -96,3 +96,5 @@ export type VerifyResponse = Array<{
 export interface ErrorMessages {
   [key: string]: string;
 }
+
+export type FormValidation = 'Error' | 'Warning' | 'None';

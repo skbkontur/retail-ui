@@ -1,7 +1,7 @@
 import * as React from 'react';
 import cn from 'classnames';
 import Link from '../Link';
-import { FiasValue, ErrorMessages } from './types';
+import { FiasValue, ErrorMessages, FormValidation } from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
@@ -15,6 +15,7 @@ interface FiasProps {
   value?: FiasValue;
   error?: boolean;
   warning?: boolean;
+  feedback?: string;
   showAddressText?: boolean;
   label?: string;
   icon?: React.ReactElement<any>;
@@ -25,6 +26,7 @@ interface FiasProps {
   search?: boolean;
   limit?: number;
   locale?: FiasLocale;
+  formValidation?: FormValidation;
 }
 
 interface FiasState {
@@ -48,7 +50,14 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   private form: Nullable<FiasForm> = null;
 
   public render() {
-    const { showAddressText, label, icon, error, warning } = this.props;
+    const {
+      showAddressText,
+      label,
+      icon,
+      error,
+      warning,
+      feedback
+    } = this.props;
     const { opened } = this.state;
     const address = Address.createFromValue(this.props.value);
     const locale: FiasLocale = {
@@ -60,11 +69,11 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       label || (address.isEmpty ? locale.addressFill : locale.addressEdit);
 
     const validation =
-      error || warning ? (
+      (error || warning) && feedback ? (
         <span
           className={cn({ [styles.error]: error, [styles.warning]: warning })}
         >
-          {locale.addressNotVerified}
+          {feedback}
         </span>
       ) : null;
 
@@ -86,7 +95,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   }
 
   private renderModal(address: Address, locale: FiasLocale) {
-    const { search, limit } = this.props;
+    const { search, limit, formValidation } = this.props;
     return (
       <FiasModal
         locale={locale}
@@ -100,6 +109,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           search={search}
           limit={limit}
           locale={locale}
+          validationLevel={formValidation}
         />
       </FiasModal>
     );

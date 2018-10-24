@@ -7,7 +7,12 @@ import {
   FiasComboBoxProps
 } from './FiasComboBox';
 import styles from './FiasForm.less';
-import { ErrorMessages, FiasId, ResponseAddress } from '../types';
+import {
+  ErrorMessages,
+  FiasId,
+  FormValidation,
+  ResponseAddress
+} from '../types';
 import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
 import { AddressElement } from '../models/AddressElement';
@@ -21,10 +26,10 @@ interface FiasFormProps {
   api: FiasAPI;
   address: Address;
   locale: FiasLocale;
-  validFn?: (address: Address) => ErrorMessages;
   search?: boolean;
   limit?: number;
   errorMessages?: ErrorMessages;
+  validationLevel?: FormValidation;
 }
 
 interface FiasFormState {
@@ -33,6 +38,10 @@ interface FiasFormState {
 }
 
 export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
+  public static defaultProps = {
+    validationLevel: 'Error'
+  };
+
   public state: FiasFormState = {
     address: this.props.address,
     errorMessages: {}
@@ -70,10 +79,10 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         [field]: {
           ref: null,
           props: this.createComboBoxProps(field),
+          tooltip: this.createFieldTooltip(field),
           createRef: (element: FiasComboBox) => {
             this.comboboxes[field].ref = element;
-          },
-          tooltip: () => this.state.errorMessages[field] || null
+          }
         }
       };
     }, {});
@@ -145,9 +154,10 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
     const renderNotFound = (): React.ReactNode => {
       const { address } = this.state;
+      const { locale } = this.props;
       return address.isTheFieldAllowedToFill(field)
-        ? this.props.locale[`${field}NotFound`]
-        : this.props.locale[`${field}FillBefore`];
+        ? locale[`${field}NotFound`] || locale.addressNotFound
+        : locale[`${field}FillBefore`];
     };
 
     const valueToString = (address: Address): string => {
@@ -199,6 +209,14 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       : Promise.resolve([]);
   };
 
+  public createFieldTooltip = (field: string): React.ReactNode => {
+    return () => {
+      const { errorMessages } = this.state;
+      const { validationLevel } = this.props;
+      return (validationLevel !== 'None' && errorMessages[field]) || null;
+    };
+  };
+
   public check(): void {
     const { address } = this.state;
     const { api, locale } = this.props;
@@ -210,7 +228,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       const { address: verifiedAddress, errorMessages } = Address.verify(
         address,
         result,
-        locale.addressNotVerified
+        locale.addressNotFound
       );
 
       this.setState({
@@ -342,7 +360,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     width: string | number = '100%'
   ) => {
     const { address, errorMessages } = this.state;
+    const { validationLevel } = this.props;
     const { props, createRef, tooltip } = this.comboboxes[field];
+    const error =
+      errorMessages.hasOwnProperty(field) && validationLevel === 'Error';
+    const warning =
+      errorMessages.hasOwnProperty(field) && validationLevel === 'Warning';
     return (
       <Tooltip pos={'right middle'} render={tooltip}>
         <FiasComboBox
@@ -350,7 +373,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           value={address}
           placeholder={placeholder}
           width={width}
-          error={errorMessages.hasOwnProperty(field)}
+          error={error}
+          warning={warning}
           autocomplete={true}
           limit={this.props.limit}
           ref={createRef}
