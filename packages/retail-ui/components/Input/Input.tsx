@@ -71,6 +71,7 @@ export type InputProps = Override<
      * 100% ширина в группе, лучше явно передать ширину в компонент
      */
     mainInGroup?: boolean;
+    /** Выделять введенное значение при фокусе */
     selectAllOnFocus?: boolean;
   }
 >;

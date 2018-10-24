@@ -1,16 +1,17 @@
-import classNames from 'classnames';
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
+import classNames from 'classnames';
+import ArrowTriangleUpDownIcon from '@skbkontur/react-icons/ArrowTriangleUpDown';
+import ArrowTriangleUpIcon from '@skbkontur/react-icons/ArrowTriangleUp';
+import ArrowTriangleDownIcon from '@skbkontur/react-icons/ArrowTriangleDown';
 
 import RenderLayer from '../RenderLayer';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import LayoutEvents from '../../lib/LayoutEvents';
 
-import * as PropTypes from 'prop-types';
-
-import styles = require('./DateSelect.less');
-
-import Icon from '../Icon/Icon';
 import { Nullable } from '../../typings/utility-types';
+
+import styles from './DateSelect.less';
 
 export const MONTHS = [
   'Январь',
@@ -172,7 +173,7 @@ export default class DateSelect extends React.Component<
               [styles.arrowDisabled]: disabled
             })}
           >
-            <Icon name="ArrowTriangleUpDown" size={12} />
+            <ArrowTriangleUpDownIcon size={12} />
           </div>
         </div>
         {this.state.opened && this.renderMenu()}
@@ -301,7 +302,7 @@ export default class DateSelect extends React.Component<
                   onTouchEnd={this.handleLongClickStop}
                 >
                   <span>
-                    <Icon name={'ArrowTriangleUp'} />
+                    <ArrowTriangleUpIcon />
                   </span>
                 </div>
               )}
@@ -321,7 +322,7 @@ export default class DateSelect extends React.Component<
                   onTouchEnd={this.handleLongClickStop}
                 >
                   <span>
-                    <Icon name={'ArrowTriangleDown'} />
+                    <ArrowTriangleDownIcon />
                   </span>
                 </div>
               )}

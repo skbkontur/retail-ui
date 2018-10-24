@@ -1,9 +1,10 @@
-import { mount } from 'enzyme';
 import * as React from 'react';
+import { mount } from 'enzyme';
+import EyeClosedIcon from '@skbkontur/react-icons/EyeClosed';
+import EyeOpenedIcon from '@skbkontur/react-icons/EyeOpened';
 
 import PasswordInput, { PasswordInputProps } from '../PasswordInput';
 import Input from '../../Input';
-import Icon from '../../Icon';
 
 import styles from '../PasswordInput.less';
 
@@ -18,17 +19,17 @@ describe('PasswordInput', () => {
 
   it('should render 1 Icon', () => {
     const component = setup();
-    expect(component.find(Icon)).toHaveLength(1);
+    expect(component.find('.toggleVisibility').children()).toHaveLength(1);
   });
 
   it('has Icon with 14px size', () => {
     const component = setup();
-    expect(component.find(Icon).props().size).toEqual(14);
+    expect(component.find(EyeClosedIcon).props().size).toEqual(14);
   });
 
   it('should render eye-slash Icon', () => {
     const component = setup();
-    expect(component.find(Icon).props().name).toBe('EyeClosed');
+    expect(component.find(EyeClosedIcon)).toHaveLength(1);
   });
 
   it('should render password Input', () => {
@@ -38,13 +39,13 @@ describe('PasswordInput', () => {
 
   it('should render eye Icon after click on eye-slash Icon', () => {
     const component = setup();
-    component.find(Icon).simulate('click');
-    expect(component.find(Icon).props().name).toBe('EyeOpened');
+    component.find(EyeClosedIcon).simulate('click');
+    expect(component.find(EyeOpenedIcon)).toHaveLength(1);
   });
 
   it('should render text Input after click on eye-slash Icon', () => {
     const component = setup();
-    component.find(Icon).simulate('click');
+    component.find(EyeClosedIcon).simulate('click');
     expect(component.find(Input).props().type).toBe('text');
   });
 

@@ -1,17 +1,17 @@
+import * as React from 'react';
 import * as events from 'add-event-listener';
 import classNames from 'classnames';
-import * as React from 'react';
+import warning from 'warning';
 import Upgrades from '../../lib/Upgrades';
 
 import Corners from './Corners';
-import Icon from '../Icon';
+import Icon, { IconName } from '../Icon';
 
 import '../ensureOldIEClassName';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-import CssStyles = require('./Button.less');
-import { IconName } from '../Icon';
+import CssStyles from './Button.less';
 
 const classes: typeof CssStyles = isFlatDesign
   ? require('./Button.flat.less')
@@ -258,6 +258,12 @@ class Button extends React.Component<ButtonProps, ButtonState> {
 
     let icon = null;
     if (this.props.icon) {
+      if (process.env.NODE_ENV !== 'production') {
+        warning(
+          React.isValidElement(this.props.icon),
+          'Passing string to "icon" prop is deprecated. Please use icons from "@skbkontur/react-icons"'
+        );
+      }
       icon = (
         <span className={classes.icon}>
           {typeof this.props.icon === 'string' ? (

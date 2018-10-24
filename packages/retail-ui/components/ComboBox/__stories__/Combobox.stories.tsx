@@ -1,13 +1,13 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+import BabyIcon from '@skbkontur/react-icons/Baby';
 
 import ComboBoxV2, { ComboBoxProps } from '../ComboBox';
 import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
-import { IconName } from '../../Icon';
 import { Nullable, Omit } from '../../../typings/utility-types';
-import { action } from '@storybook/addon-actions';
 import Toggle from '../../Toggle';
 import Button from '../../Button';
 
@@ -357,7 +357,7 @@ function searchWithCustomElements(query: string) {
   const _items = items.filter(x => x.name.includes(query.toLowerCase()));
   const disabled = <MenuItem disabled>Nothing was found</MenuItem>;
   return Promise.resolve([
-    <MenuItem key={1} comment="Hello" icon={'child' as IconName} disabled>
+    <MenuItem key={1} comment="Hello" icon={<BabyIcon />} disabled>
       World
     </MenuItem>,
     <MenuSeparator key={2} />,

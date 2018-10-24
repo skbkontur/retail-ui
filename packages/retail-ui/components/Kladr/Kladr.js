@@ -1,9 +1,8 @@
-
+// @flow
 /* eslint-disable flowtype/no-weak-types */
-
 import * as React from 'react';
-
 import PropTypes from 'prop-types';
+import EditIcon from '@skbkontur/react-icons/Edit';
 
 import AddressModal from './AddressModal';
 import Colors from '../../lib/Colors';
@@ -71,7 +70,7 @@ export default class Kladr extends React.Component<Props, State> {
           </div>
         )}
         {validation}
-        <Link icon="Edit" onClick={this._handleOpen}>
+        <Link icon={<EditIcon />} onClick={this._handleOpen}>
           {change}
         </Link>
         {this.state.opened && this._renderModal()}

@@ -1,14 +1,14 @@
-import { CalendarDateShape } from '../Calendar/CalendarDateShape';
-
-import classNames from 'classnames';
 import * as React from 'react';
+import classNames from 'classnames';
 
+import CalendarIcon from '@skbkontur/react-icons/Calendar';
+
+import { CalendarDateShape } from '../Calendar/CalendarDateShape';
 import { parseDateString } from '../DatePicker/DatePickerHelpers';
 import { tryGetValidDateShape } from '../DatePicker/DateShape';
 import { isIE, isEdge } from '../ensureOldIEClassName';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
-import Icon from '../Icon';
 
 import { parseValue, formatDate } from './DateInputHelpers/dateFormat';
 import { fillEmptyParts } from './DateInputHelpers/fillEmptyParts';
@@ -27,8 +27,8 @@ import { MaskedValue } from './MaskedValue';
 import { selectNodeContents, removeAllSelections } from './SelectionHelpers';
 import Upgrades from '../../lib/Upgrades';
 
-import styles = require('./DateInput.less');
 import { Nullable } from '../../typings/utility-types';
+import styles from './DateInput.less';
 
 export const DateInputConfig = {
   polyfillInput: !isIE && !isEdge
@@ -201,7 +201,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
         {this.props.withIcon && (
           <span className={styles.icon}>
             <span className={styles.iconInner}>
-              <Icon name="Calendar" size={this._getIconSize()} />
+              <CalendarIcon size={this._getIconSize()} />
             </span>
           </span>
         )}

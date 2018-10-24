@@ -1,11 +1,11 @@
-import * as PropTypes from 'prop-types';
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import events from 'add-event-listener';
+import ArrowChevronDownIcon from '@skbkontur/react-icons/ArrowChevronDown';
 
 import stopPropagation from '../../lib/events/stopPropagation';
 import { Nullable } from '../../typings/utility-types';
 import ProductWidget from './ProductWidget';
-import Icon from '../Icon';
 import styles from './Logotype.less';
 
 const createCloud = (color: string) => (
@@ -86,13 +86,16 @@ class Logotype extends React.Component<LogotypeProps> {
             <Component href={href} tabIndex="-1" className={styles.root}>
               <span style={{ color: textColor }}>к</span>
               <span style={{ color }}>{createCloud(color)}</span>
-              <span style={{ color: textColor }}>нтур{suffix && '.'}</span>
+              <span style={{ color: textColor }}>
+                нтур
+                {suffix && '.'}
+              </span>
               {suffix && <span style={{ color }}>{suffix}</span>}
             </Component>
             <span className={styles.divider} />
           </span>
           <button className={styles.button}>
-            <Icon color="#aaa" size={20} name="ArrowChevronDown" />
+            <ArrowChevronDownIcon color="#aaa" size={20} />
           </button>
         </div>
       );
@@ -102,7 +105,10 @@ class Logotype extends React.Component<LogotypeProps> {
       <Component href={href} tabIndex="-1" className={styles.root}>
         <span style={{ color: textColor }}>к</span>
         <span style={{ color }}>{createCloud(color)}</span>
-        <span style={{ color: textColor }}>нтур{suffix && '.'}</span>
+        <span style={{ color: textColor }}>
+          нтур
+          {suffix && '.'}
+        </span>
         {suffix && <span style={{ color }}>{suffix}</span>}
       </Component>
     );
