@@ -72,32 +72,32 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       <span
         tabIndex={0}
         className={styles.paging}
-        onKeyDown={this._handleKeyDown}
+        onKeyDown={this.handleKeyDown}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        onMouseDown={this._handleMouseDown}
+        onMouseDown={this.handleMouseDown}
       >
-        {this.getItems().map(this._renderItem)}
+        {this.getItems().map(this.renderItem)}
       </span>
     );
   }
 
-  private _renderItem = (item: ItemType, index: number) => {
+  private renderItem = (item: ItemType, index: number) => {
     const focused = this.getFocusedItem() === item;
     switch (item) {
       case '.':
         const key = `dots${index < 5 ? 'Left' : 'Right'}`;
-        return this._renderDots(key);
+        return this.renderDots(key);
       case 'forward':
-        const disabled = this._isItemDisabled(item);
-        return this._renderForwardLink(disabled, focused);
+        const disabled = this.isItemDisabled(item);
+        return this.renderForwardLink(disabled, focused);
       default:
         const active = this.props.activePage === item;
-        return this._renderPageLink(item, active, focused);
+        return this.renderPageLink(item, active, focused);
     }
   };
 
-  private _renderDots = (key: string) => {
+  private renderDots = (key: string) => {
     return (
       <span key={key} className={styles.dots}>
         {'...'}
@@ -105,7 +105,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     );
   };
 
-  private _renderForwardLink = (
+  private renderForwardLink = (
     disabled: boolean,
     focused: boolean
   ): JSX.Element => {
@@ -124,7 +124,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
         key={'forward'}
         active={false}
         className={classes}
-        onClick={disabled ? noop : this._goForward}
+        onClick={disabled ? noop : this.goForward}
         tabIndex={-1}
         pageNumber={'forward' as 'forward'}
       >
@@ -136,7 +136,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     );
   };
 
-  private _renderPageLink = (
+  private renderPageLink = (
     pageNumber: number,
     active: boolean,
     focused: boolean
@@ -156,20 +156,20 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
           active={active}
           className={classes}
           // tslint:disable-next-line:jsx-no-lambda
-          onClick={() => this._goToPage(pageNumber)}
+          onClick={() => this.goToPage(pageNumber)}
           tabIndex={-1}
           pageNumber={pageNumber}
         >
           {pageNumber}
         </Component>
-        {shouldRenderHint && this._renderNavigationHint()}
+        {shouldRenderHint && this.renderNavigationHint()}
       </span>
     );
   };
 
-  private _renderNavigationHint = () => {
-    const canGoBackward = this._canGoBackward();
-    const canGoForward = this._canGoForward();
+  private renderNavigationHint = () => {
+    const canGoBackward = this.canGoBackward();
+    const canGoForward = this.canGoForward();
 
     return (
       (canGoBackward || canGoForward) && (
@@ -182,34 +182,34 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     );
   };
 
-  private _handleMouseDown = () => {
+  private handleMouseDown = () => {
     this.setState({ focusedByTab: false, focusedItem: null });
   };
 
-  private _handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
     if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowLeft') {
       event.preventDefault();
-      this.setState({ focusedItem: null }, this._goBackward);
+      this.setState({ focusedItem: null }, this.goBackward);
       return;
     }
     if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowRight') {
       event.preventDefault();
-      this.setState({ focusedItem: null }, this._goForward);
+      this.setState({ focusedItem: null }, this.goForward);
       return;
     }
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
-      this.setState({ focusedByTab: true }, this._moveFocusLeft);
+      this.setState({ focusedByTab: true }, this.moveFocusLeft);
       return;
     }
     if (event.key === 'ArrowRight') {
       event.preventDefault();
-      this.setState({ focusedByTab: true }, this._moveFocusRight);
+      this.setState({ focusedByTab: true }, this.moveFocusRight);
       return;
     }
     if (event.key === 'Enter') {
       event.preventDefault();
-      this._executeItemAction(this.getFocusedItem());
+      this.executeItemAction(this.getFocusedItem());
       return;
     }
   };
@@ -260,38 +260,38 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   };
 
   private isItemFocusable = (item: ItemType) => {
-    return !this._isItemDisabled(item);
+    return !this.isItemDisabled(item);
   };
 
-  private _isItemDisabled = (item: ItemType) => {
+  private isItemDisabled = (item: ItemType) => {
     switch (item) {
       case '.':
         return true;
       case 'forward':
-        return !this._canGoForward();
+        return !this.canGoForward();
       default:
         return false;
     }
   };
 
-  private _executeItemAction = (item: Nullable<ItemType>) => {
+  private executeItemAction = (item: Nullable<ItemType>) => {
     if (item === 'forward') {
-      this._goForward();
+      this.goForward();
     }
     if (typeof item === 'number') {
-      this._goToPage(item);
+      this.goToPage(item);
     }
   };
 
-  private _moveFocusLeft = () => {
-    this._moveFocus(-1);
+  private moveFocusLeft = () => {
+    this.moveFocus(-1);
   };
 
-  private _moveFocusRight = () => {
-    this._moveFocus(1);
+  private moveFocusRight = () => {
+    this.moveFocus(1);
   };
 
-  private _moveFocus = (step: number) => {
+  private moveFocus = (step: number) => {
     const focusedItem = this.getFocusedItem();
     const items = this.getItems();
     let index = items.findIndex(x => x === focusedItem);
@@ -301,23 +301,23 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     this.setState({ focusedItem: items[index] });
   };
 
-  private _canGoBackward = (): boolean => {
+  private canGoBackward = (): boolean => {
     return this.props.activePage > 1;
   };
 
-  private _canGoForward = (): boolean => {
+  private canGoForward = (): boolean => {
     return this.props.activePage < this.props.pagesCount;
   };
 
-  private _goBackward = () => {
-    this._goToPage(this.props.activePage - 1);
+  private goBackward = () => {
+    this.goToPage(this.props.activePage - 1);
   };
 
-  private _goForward = () => {
-    this._goToPage(this.props.activePage + 1);
+  private goForward = () => {
+    this.goToPage(this.props.activePage + 1);
   };
 
-  private _goToPage = (pageNumber: number) => {
+  private goToPage = (pageNumber: number) => {
     if (
       1 <= pageNumber &&
       pageNumber !== this.props.activePage &&
