@@ -154,9 +154,11 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const renderNotFound = (): React.ReactNode => {
       const { address } = this.state;
       const { locale } = this.props;
-      return address.isTheFieldAllowedToFill(field)
-        ? locale[`${field}NotFound`] || locale.addressNotFound
-        : locale[`${field}FillBefore`];
+      return (
+        (address.isTheFieldAllowedToFill(field)
+          ? locale[`${field}NotFound`]
+          : locale[`${field}FillBefore`]) || locale.addressNotFound
+      );
     };
 
     const valueToString = (address: Address): string => {
@@ -285,15 +287,14 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
                   address={address}
                   onChange={this.handleAddressChange}
                   limit={this.props.limit}
+                  locale={this.props.locale}
                 />
               </div>
             </div>
           )}
           <div className={styles.row}>
             <div className={styles.label}>Регион</div>
-            <div className={styles.field}>
-              {this.renderField('region', 'Можно вводить код или название')}
-            </div>
+            <div className={styles.field}>{this.renderField('region')}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Район</div>
@@ -305,20 +306,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Населенный пункт</div>
-            <div className={styles.field}>
-              {this.renderField(
-                'settlement',
-                'Село, деревня, станица и другие'
-              )}
-            </div>
+            <div className={styles.field}>{this.renderField('settlement')}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Иная территория</div>
             <div className={styles.field}>
-              {this.renderField(
-                'planningstructure',
-                'Сад, парк, санаторий и другие'
-              )}
+              {this.renderField('planningstructure')}
             </div>
           </div>
           <div className={styles.row}>
@@ -327,23 +320,20 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Земельный участок</div>
-            <div className={styles.field}>
-              {this.renderField('stead', '', 130)}
-            </div>
+            <div className={styles.field}>{this.renderField('stead', 130)}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Дом, сооружение</div>
-            <div className={styles.field}>
-              {this.renderField('house', '', 130)}
-            </div>
+            <div className={styles.field}>{this.renderField('house', 130)}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Квартира, офис</div>
             <div className={styles.field}>
               <Input
-                value={address.fields.room ? address.fields.room.name : ''}
                 {...this.inputs.room.props}
+                value={address.fields.room ? address.fields.room.name : ''}
                 error={errorMessages.hasOwnProperty('room')}
+                placeholder={this.props.locale.roomPlaceholder}
                 width={130}
               />
             </div>
@@ -353,13 +343,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   }
 
-  private renderField = (
-    field: string,
-    placeholder: string = '',
-    width: string | number = '100%'
-  ) => {
+  private renderField = (field: string, width: string | number = '100%') => {
     const { address, errorMessages } = this.state;
-    const { validationLevel } = this.props;
+    const { locale, validationLevel } = this.props;
     const { props, createRef, tooltip } = this.comboboxes[field];
     const error =
       errorMessages.hasOwnProperty(field) && validationLevel === 'Error';
@@ -370,7 +356,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         <FiasComboBox
           {...props}
           value={address}
-          placeholder={placeholder}
+          placeholder={locale[`${field}Placeholder`]}
           width={width}
           error={error}
           warning={warning}

@@ -58,7 +58,6 @@ export enum StructureStatuses {
   None = 'None'
 }
 
-// TODO: add all statuses
 export enum LiveStatuses {
   Active = 'active',
   Inactive = 'inactive'
