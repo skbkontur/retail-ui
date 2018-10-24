@@ -13,6 +13,13 @@ export interface StickyProps {
   offset?: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
+
+  /**
+   * Вызывать `Maximum update depth exceeded error`, если у потомка определены марджины.
+   * Классическое поведение компонента, для тех кто использует отрицательные марджины внутри `Sticky`.
+   * @default true
+   */
+  allowMaximumUpdateDepthExceeded?: boolean;
 }
 
 export interface StickyState {
@@ -38,11 +45,13 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
      */
     offset: PropTypes.number,
 
-    side: PropTypes.oneOf(['top', 'bottom']).isRequired
+    side: PropTypes.oneOf(['top', 'bottom']).isRequired,
+    maximumUpdateDepthExceeded: PropTypes.bool
   };
 
   public static defaultProps = {
-    offset: 0
+    offset: 0,
+    maximumUpdateDepthExceeded: true
   };
 
   public state: StickyState = {
@@ -115,14 +124,18 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
       children = children(this.state.fixed);
     }
 
+    if (!this.props.allowMaximumUpdateDepthExceeded) {
+      innerStyle.overflow = 'auto';
+    }
+
     return (
       <div style={wrapperStyle} ref={this._refWrapper}>
         <div
-          className={classNames(styles.inner, {
+          className={classNames({
             [styles.innerFixed]: this.state.fixed,
             [styles.innerStopped]: this.state.stopped
           })}
-          style={innerStyle}
+          style={{ ...innerStyle }}
           ref={this._refInner}
         >
           {children}
