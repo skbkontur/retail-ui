@@ -15,11 +15,12 @@ export interface StickyProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 
   /**
-   * Вызывать `Maximum update depth exceeded error`, если у потомка определены марджины.
-   * Классическое поведение компонента, для тех кто использует отрицательные марджины внутри `Sticky`.
-   * @default true
+   *
+   * Если `false`, вызывает `Maximum update depth exceeded error` когда у потомка определены марджины.
+   * Если `true` - добавляет контейнеру `overflow: auto`, тем самым предотвращая схлопывание марджинов
+   * @default false
    */
-  allowMaximumUpdateDepthExceeded?: boolean;
+  allowChildWithMargins?: boolean;
 }
 
 export interface StickyState {
@@ -46,12 +47,12 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     offset: PropTypes.number,
 
     side: PropTypes.oneOf(['top', 'bottom']).isRequired,
-    maximumUpdateDepthExceeded: PropTypes.bool
+    allowChildWithMargins: PropTypes.bool
   };
 
   public static defaultProps = {
     offset: 0,
-    maximumUpdateDepthExceeded: true
+    allowChildWithMargins: true
   };
 
   public state: StickyState = {
@@ -124,7 +125,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
       children = children(this.state.fixed);
     }
 
-    if (!this.props.allowMaximumUpdateDepthExceeded) {
+    if (this.props.allowChildWithMargins) {
       innerStyle.overflow = 'auto';
     }
 
