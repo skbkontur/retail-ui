@@ -20,15 +20,16 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   private combobox: Nullable<FiasComboBox> = null;
 
   public renderItem = (address: Address): string => {
-    return address.getText('planningstructure');
+    return address.getText();
   };
 
   public renderValue = (address: Address): string => {
-    return address.getText('planningstructure');
+    return address.getText();
   };
 
   public valueToString = (address: Address): string => {
-    return address.getText('planningstructure', true, ' ');
+    // return address.getText(undefined, true, ' ');
+    return address.getText();
   };
 
   public handleChange = (

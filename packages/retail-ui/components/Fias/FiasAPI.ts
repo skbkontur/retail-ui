@@ -11,6 +11,7 @@ import {
   VerifyResponse
 } from './types';
 import { Nullable } from '../../typings/utility-types';
+import abbreviations from './constants/abbreviations';
 
 interface SearchQuery {
   [key: string]: any;
@@ -79,6 +80,7 @@ export class FiasAPI {
       if (!field) {
         return this.resolveAddress({
           address: trimSearchText(searchText),
+          level: 'House',
           limit: query.limit
         });
       }
@@ -191,11 +193,29 @@ function createQuery(query: SearchQuery): string {
   return params.join('&');
 }
 
+const stopWords: { [key: string]: boolean } = Object.keys(abbreviations).reduce(
+  (abbrs, abbr) => {
+    return {
+      ...abbrs,
+      ...abbreviations[abbr]
+        .split(' ')
+        .reduce((r, i) => ({ ...r, [i.toLowerCase()]: true }), {})
+    };
+  },
+  {
+    '-': true,
+    югра: true
+  }
+);
+
 function trimSearchText(searchText: string): string {
   return searchText
     .toLowerCase()
     .replace(/[,]/g, '')
-    .replace(/\s[\s]*/g, ' ');
+    .replace(/\s[\s]*/g, ' ')
+    .split(' ')
+    .filter(word => !Boolean(stopWords[word]))
+    .join(' ');
 }
 
 function fieldToLevel(field: string): Levels {
