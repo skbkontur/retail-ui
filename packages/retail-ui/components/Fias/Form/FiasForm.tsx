@@ -220,7 +220,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const { address } = this.state;
     const { api, locale } = this.props;
 
-    api.verify(address.toValue()).then(result => {
+    api.verify(address.convertForVerification()).then(result => {
       if (!result || !result[0]) {
         return;
       }

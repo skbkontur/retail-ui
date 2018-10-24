@@ -162,6 +162,22 @@ export class Address {
     }, {});
   };
 
+  public convertForVerification = () => {
+    return Object.keys(this.fields).reduce((value, field) => {
+      const element = this.fields[field];
+      if (!element) {
+        return value;
+      }
+      const { name, data } = element;
+      return {
+        ...value,
+        [field]: {
+          ...(data ? data.data : { [element.dataNameField]: name })
+        }
+      };
+    }, {});
+  };
+
   public isEqualTo = (address: Address): boolean => {
     for (const field of Address.FIELDS) {
       const current: Nullable<AddressElement> = this.fields[field];

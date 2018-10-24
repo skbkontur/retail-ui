@@ -17,6 +17,13 @@ export class AddressElement {
     public data?: Nullable<FiasData>
   ) {}
 
+  get dataNameField(): string {
+    if (this.type === 'stead' || this.type === 'house') {
+      return 'number';
+    }
+    return 'name';
+  }
+
   public getText(withoutType: boolean = false): string {
     const { name, data } = this;
     let result = '';
