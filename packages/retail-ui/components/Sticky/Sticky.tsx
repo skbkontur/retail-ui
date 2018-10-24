@@ -13,6 +13,14 @@ export interface StickyProps {
   offset?: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
+
+  /**
+   *
+   * Если `false`, вызывает `Maximum update depth exceeded error` когда у потомка определены марджины.
+   * Если `true` - добавляет контейнеру `overflow: auto`, тем самым предотвращая схлопывание марджинов
+   * @default false
+   */
+  allowChildWithMargins?: boolean;
 }
 
 export interface StickyState {
@@ -38,11 +46,13 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
      */
     offset: PropTypes.number,
 
-    side: PropTypes.oneOf(['top', 'bottom']).isRequired
+    side: PropTypes.oneOf(['top', 'bottom']).isRequired,
+    allowChildWithMargins: PropTypes.bool
   };
 
   public static defaultProps = {
-    offset: 0
+    offset: 0,
+    allowChildWithMargins: true
   };
 
   public state: StickyState = {
@@ -115,10 +125,14 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
       children = children(this.state.fixed);
     }
 
+    if (this.props.allowChildWithMargins) {
+      innerStyle.overflow = 'auto';
+    }
+
     return (
       <div style={wrapperStyle} ref={this._refWrapper}>
         <div
-          className={classNames(styles.inner, {
+          className={classNames({
             [styles.innerFixed]: this.state.fixed,
             [styles.innerStopped]: this.state.stopped
           })}
