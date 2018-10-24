@@ -28,7 +28,6 @@ interface FiasFormProps {
   locale: FiasLocale;
   search?: boolean;
   limit?: number;
-  errorMessages?: ErrorMessages;
   validationLevel?: FormValidation;
 }
 

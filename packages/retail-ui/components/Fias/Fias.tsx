@@ -27,6 +27,7 @@ interface FiasProps {
   limit?: number;
   locale?: FiasLocale;
   formValidation?: FormValidation;
+  allowNotVerified?: boolean;
 }
 
 interface FiasState {
@@ -39,7 +40,8 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     showAddressText: true,
     error: false,
     warning: false,
-    icon: <EditIcon />
+    icon: <EditIcon />,
+    allowNotVerified: true
   };
 
   public state: FiasState = {
@@ -130,6 +132,12 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   private handleSave = async () => {
     if (this.form) {
       const { address, errorMessages } = await this.form.submit();
+      if (
+        this.props.allowNotVerified === false &&
+        Object.keys(errorMessages).length
+      ) {
+        return;
+      }
       this.handleChange(address, errorMessages);
     }
     this.handleClose();
