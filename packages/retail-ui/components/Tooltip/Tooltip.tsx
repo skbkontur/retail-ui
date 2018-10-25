@@ -99,6 +99,14 @@ export interface TooltipProps {
    * Стандартное значение true.
    */
   disableAnimations?: boolean;
+
+  /**
+   * Конфигурация закрытия тултипа.
+   * Если true, то при отведении курсора мыши от children тултипа, тултип закрывается.
+   * Разрешено true, только если closeButton !== true и trigger === hover.
+   * Стандартное значение false.
+   */
+  closeOnChildrenMouseLeave?: boolean;
 }
 
 export interface TooltipState {
@@ -110,7 +118,8 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     pos: 'top left',
     trigger: 'hover',
     allowedPositions: Positions,
-    disableAnimations: false
+    disableAnimations: false,
+    closeOnChildrenMouseLeave: false
   };
 
   public state = {
@@ -120,6 +129,8 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   private hoverTimeout: number | null = null;
 
   private wrapperElement: HTMLElement | null = null;
+
+  private contentElement: HTMLElement | null = null;
 
   public componentDidMount() {
     /**
@@ -172,7 +183,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       return null;
     }
     return (
-      <div style={{ padding: '15px 20px', position: 'relative' }}>
+      <div ref={this.refContent} style={{ padding: '15px 20px', position: 'relative' }}>
         {content}
         {this._renderCross()}
       </div>
@@ -196,9 +207,18 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     );
   }
 
+  private refContent = (node: HTMLElement | null) => {
+    this.contentElement = node;
+  };
+
   private refWrapper = (node: HTMLElement | null) => {
     this.wrapperElement = node;
   };
+
+  private needCloseOnChildrenMouseLeave = () =>
+    this.props.closeOnChildrenMouseLeave &&
+    !this.props.closeButton &&
+    this.props.trigger === 'hover';
 
   private _getPositions() {
     const allowedPositions = this.props.allowedPositions;
@@ -289,6 +309,9 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   private handleMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+    if (this.needCloseOnChildrenMouseLeave() && event.target === this.contentElement)
+      return;
+
     if (this.hoverTimeout) {
       clearTimeout(this.hoverTimeout);
     }
