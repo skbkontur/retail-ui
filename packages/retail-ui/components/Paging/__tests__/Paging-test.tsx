@@ -146,4 +146,31 @@ describe('Pager', () => {
     root.simulate('keydown', { key: 'ArrowLeft', ctrlKey: true });
     expect(onPageChange).toHaveBeenCalledWith(1);
   });
+
+  it('keyboard control available with global listener', () => {
+    const onPageChange = jest.fn();
+    const wrapper = mount(
+      <Paging
+        globalListener
+        pagesCount={2}
+        activePage={2}
+        onPageChange={onPageChange}
+      />
+    );
+
+    expect(wrapper.state('keybordControl')).toBe(true);
+  });
+
+  it('keyboard control available with focus', () => {
+    const onPageChange = jest.fn();
+    const wrapper = mount(
+      <Paging pagesCount={2} activePage={2} onPageChange={onPageChange} />
+    );
+
+    expect(wrapper.state('keybordControl')).toBe(false);
+
+    wrapper.simulate('focus');
+
+    expect(wrapper.state('keybordControl')).toBe(true);
+  });
 });
