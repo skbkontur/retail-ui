@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.26.3"></a>
+## [0.26.3](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.26.1...retail-ui@0.26.3) (2018-10-25)
+
+
+### Bug Fixes
+
+* **Sticky:** fix default value of allowChildWithMargins ([94dcfd1](https://github.com/skbkontur/retail-ui/commit/94dcfd1))
+
+
+
+
 <a name="0.26.2"></a>
 ## [0.26.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.26.0...retail-ui@0.26.2) (2018-10-25)
 
