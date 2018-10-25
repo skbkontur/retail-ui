@@ -11,7 +11,7 @@ import { AddressElement } from './AddressElement';
 import { FiasData } from './FiasData';
 
 export class Address {
-  public static FIELDS = [
+  public static ALL_FIELDS = [
     'region',
     'district',
     'city',
@@ -24,10 +24,20 @@ export class Address {
     'room'
   ];
 
+  public static VERIFIABLE_FIELDS = [
+    'region',
+    'district',
+    'city',
+    'intracityarea',
+    'settlement',
+    'planningstructure',
+    'street'
+  ];
+
   public static createFromResponse = (response: ResponseAddress) => {
     const fields: AddressFields = {};
     if (response) {
-      Address.FIELDS.forEach(field => {
+      Address.ALL_FIELDS.forEach(field => {
         if (response[field]) {
           const data: FiasData = new FiasData(response[field]);
           fields[field] = new AddressElement(field, data.name, data);
@@ -41,7 +51,7 @@ export class Address {
     const fields: AddressFields = {};
     if (value && value.address) {
       const address: ValueAddress = value.address;
-      Address.FIELDS.forEach(field => {
+      Address.ALL_FIELDS.forEach(field => {
         if (address[field]) {
           const { name, data } = address[field];
           fields[field] = new AddressElement(
@@ -68,7 +78,7 @@ export class Address {
 
     if (response[0]) {
       const { address: verifiedFields, invalidLevel } = response[0];
-      for (const field of Address.FIELDS) {
+      for (const field of Address.VERIFIABLE_FIELDS) {
         if (addressFields[field]) {
           if (verifiedFields[field]) {
             const data = new FiasData(verifiedFields[field]);
@@ -90,14 +100,14 @@ export class Address {
   };
 
   public static getParentFields = (field: string): string[] => {
-    const index = Address.FIELDS.indexOf(field);
-    return index > -1 ? Address.FIELDS.slice(0, index) : [];
+    const index = Address.ALL_FIELDS.indexOf(field);
+    return index > -1 ? Address.ALL_FIELDS.slice(0, index) : [];
   };
 
   constructor(public fields: AddressFields = {}) {}
 
   public get isEmpty(): boolean {
-    return !Address.FIELDS.some(field => this.fields.hasOwnProperty(field));
+    return !Address.ALL_FIELDS.some(field => this.fields.hasOwnProperty(field));
   }
 
   public getText = (
@@ -113,7 +123,7 @@ export class Address {
     };
     const fields = minField
       ? Address.getParentFields(minField)
-      : Address.FIELDS;
+      : Address.ALL_FIELDS;
     return fields
       .map(field => getElementText(this.fields[field]))
       .filter(Boolean)
@@ -177,40 +187,20 @@ export class Address {
   };
 
   public convertForVerification = () => {
-    return (
-      Object.keys(this.fields)
-        // these are not verifiable
-        .filter(field => field !== 'stead' && field !== 'room')
-        .reduce((value, field) => {
-          const element = this.fields[field];
-          if (!element) {
-            return value;
-          }
-          const { name } = element;
-          return {
-            ...value,
-            [field]:
-              field === 'house'
-                ? name
-                : {
-                    name
-                  }
-          };
-        }, {})
-    );
-  };
-
-  public isEqualTo = (address: Address): boolean => {
-    for (const field of Address.FIELDS) {
-      const current: Nullable<AddressElement> = this.fields[field];
-      const target: Nullable<AddressElement> = address.fields[field];
-      if (
-        Boolean(current) !== Boolean(target) ||
-        (current && target && current.name !== target.name)
-      ) {
-        return false;
+    return Address.VERIFIABLE_FIELDS.reduce((value, field) => {
+      const element = this.fields[field];
+      if (!element) {
+        return value;
       }
-    }
-    return true;
+      const { name, data } = element;
+      const abbreviation = data && data.abbreviation;
+      return {
+        ...value,
+        [field]: {
+          name,
+          abbreviation
+        }
+      };
+    }, {});
   };
 }
