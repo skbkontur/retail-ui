@@ -62,8 +62,6 @@ export type InputProps = Override<
     type?: InputType;
     /** Значение */
     value?: string;
-    className?: undefined;
-    style?: undefined;
     capture?: boolean;
 
     /**
