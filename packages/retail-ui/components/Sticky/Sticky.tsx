@@ -52,7 +52,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
 
   public static defaultProps = {
     offset: 0,
-    allowChildWithMargins: true
+    allowChildWithMargins: false
   };
 
   public state: StickyState = {
