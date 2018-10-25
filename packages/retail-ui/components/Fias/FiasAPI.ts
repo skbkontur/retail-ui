@@ -197,6 +197,7 @@ function createQuery(query: SearchQuery): string {
   return params.join('&');
 }
 
+// TODO: turn this into replace map
 const searchStopWords: { [key: string]: boolean } = Object.keys(
   abbreviations
 ).reduce(
@@ -217,6 +218,7 @@ const searchStopWords: { [key: string]: boolean } = Object.keys(
 );
 
 function trimSearchText(searchText: string): string {
+  // TODO: turn this into custom replace function
   return searchText
     .toLowerCase()
     .replace(/[,]/g, '')
@@ -224,6 +226,7 @@ function trimSearchText(searchText: string): string {
     .replace(/\s-\s/g, ' ')
     .split(' ')
     .filter(word => !Boolean(searchStopWords[word]))
+    .slice(0, 6)
     .join(' ');
 }
 
