@@ -45,8 +45,6 @@ export type LinkProps = Override<
     _button?: boolean;
     _buttonOpened?: boolean;
     tabIndex?: number;
-    className?: undefined;
-    style?: undefined;
     /** onClick */
     onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
   }
