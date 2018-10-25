@@ -195,4 +195,21 @@ describe('<Input />', () => {
       value.length
     );
   });
+
+  it('MaskedInput props dont pass in HtmlNode', () => {
+    const wrapper = render({
+      value: 'foo',
+      selectAllOnFocus: true,
+      maskChar: '_',
+      alwaysShowMask: true,
+      mask: ''
+    });
+
+    const inputNodeAttrs = wrapper.find('input').props();
+
+    expect(Object.keys(inputNodeAttrs)).not.toContain('selectAllOnFocus');
+    expect(Object.keys(inputNodeAttrs)).not.toContain('maskChar');
+    expect(Object.keys(inputNodeAttrs)).not.toContain('alwaysShowMask');
+    expect(Object.keys(inputNodeAttrs)).not.toContain('mask');
+  });
 });
