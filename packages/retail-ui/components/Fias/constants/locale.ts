@@ -13,6 +13,7 @@ export const defaultLocale: FiasLocale = {
   addressNotFound: 'Адрес не найден',
   addressFillParentOrSearch: 'Заполните поля выше, либо воспользуйтесь поиском',
 
+  searchNotFound: 'Адрес не найден',
   searchPlaceholder: 'Начните вводить адрес, например: Москва, Внуково',
 
   regionNotFound: 'Регион не найден',

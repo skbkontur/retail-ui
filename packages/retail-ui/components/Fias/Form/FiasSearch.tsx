@@ -27,6 +27,10 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
     return address.getText('house');
   };
 
+  public renderNotFound = (): React.ReactNode => {
+    return this.props.locale!.searchNotFound;
+  };
+
   public valueToString = (address: Address): string => {
     return address.getText('house');
   };
@@ -62,6 +66,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
         valueToString={this.valueToString}
         onChange={this.handleChange}
         onUnexpectedInput={this.onUnexpectedInput}
+        renderNotFound={this.renderNotFound}
         placeholder={locale!.searchPlaceholder}
         width={'100%'}
         autocomplete={true}
