@@ -74,11 +74,12 @@ export interface TextareaProps {
   onWheel?: React.WheelEventHandler<HTMLTextAreaElement>;
 
   onCut?: React.ClipboardEventHandler<HTMLTextAreaElement>;
-  onPate?: React.ClipboardEventHandler<HTMLTextAreaElement>;
+  onPaste?: React.ClipboardEventHandler<HTMLTextAreaElement>;
   onCopy?: React.ClipboardEventHandler<HTMLTextAreaElement>;
 
   /** Выделение значения при фокусе */
   selectAllOnFocus?: boolean;
+  autoFocus?: boolean;
 }
 
 export interface TextareaState {
@@ -135,7 +136,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     onWheel: PropTypes.func,
 
     onCut: PropTypes.func,
-    onPate: PropTypes.func,
+    onPaste: PropTypes.func,
     onCopy: PropTypes.func
   };
 
@@ -194,7 +195,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       autoResize,
       resize,
       onCut,
-      onPate,
+      onPaste,
       maxRows,
       onFocus,
       selectAllOnFocus,
@@ -364,8 +365,8 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       this.autoResize();
     }
 
-    if (this.props.onCut) {
-      this.props.onCut(event);
+    if (this.props.onPaste) {
+      this.props.onPaste(event);
     }
   };
 
