@@ -78,11 +78,14 @@ export class FiasAPI {
 
     if (searchText) {
       if (!field) {
-        return this.resolveAddress({
-          address: trimSearchText(searchText),
-          level: 'House',
-          limit: query.limit
-        });
+        const text = trimSearchText(searchText);
+        return text
+          ? this.resolveAddress({
+              address: text,
+              level: 'House',
+              limit: query.limit
+            })
+          : Promise.resolve([]);
       }
 
       if (field === 'region') {
@@ -193,17 +196,21 @@ function createQuery(query: SearchQuery): string {
   return params.join('&');
 }
 
-const stopWords: { [key: string]: boolean } = Object.keys(abbreviations).reduce(
-  (abbrs, abbr) => {
+const searchStopWords: { [key: string]: boolean } = Object.keys(
+  abbreviations
+).reduce(
+  (words, abbr) => {
     return {
-      ...abbrs,
+      ...words,
       ...abbreviations[abbr]
         .split(' ')
-        .reduce((r, i) => ({ ...r, [i.toLowerCase()]: true }), {})
+        .reduce(
+          (abbrWords, word) => ({ ...abbrWords, [word.toLowerCase()]: true }),
+          {}
+        )
     };
   },
   {
-    '-': true,
     югра: true
   }
 );
@@ -213,8 +220,9 @@ function trimSearchText(searchText: string): string {
     .toLowerCase()
     .replace(/[,]/g, '')
     .replace(/\s[\s]*/g, ' ')
+    .replace(/\s-\s/g, ' ')
     .split(' ')
-    .filter(word => !Boolean(stopWords[word]))
+    .filter(word => !Boolean(searchStopWords[word]))
     .join(' ');
 }
 
