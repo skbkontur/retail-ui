@@ -26,9 +26,20 @@ export interface PagingProps {
   pagesCount: number;
   disabled?: boolean;
   strings: { forward: string };
+  /**
+   * Отключает навигационные подсказки.
+   * По-умолчанию подсказки появляются, когда доступно управление с клавиатуры
+   * (либо элемент в фокусе, либо globalListeners === true)
+   */
   withoutNavigationHint?: boolean;
   caption?: string;
-  globalListeners?: boolean;
+  /**
+   * Глобальный слушатель **keyDown**, для навигации клавишами без фокуса на компоненте.
+   * Если на странице используется несколько элементов
+   * **Paging** с withoutNavigationHint === true, то обработчик keyDown будет вызываться
+   * на каждом из них. Такие случаи лучше обрабатывать отдельно.
+   */
+  globalListener?: boolean;
 }
 
 export interface PagingState {
@@ -58,7 +69,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   public state: PagingState = {
     focusedByTab: false,
     focusedItem: null,
-    keybordControl: this.props.globalListeners || false
+    keybordControl: this.props.globalListener || false
   };
 
   private addedGlobalListener: boolean = false;
@@ -66,17 +77,17 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   public componentDidMount() {
     listenTabPresses();
 
-    if (this.props.globalListeners) {
+    if (this.props.globalListener) {
       this.addGlobalListener();
     }
   }
 
   public componentDidUpdate(prevProps: PagingProps) {
-    if (!prevProps.globalListeners && this.props.globalListeners) {
+    if (!prevProps.globalListener && this.props.globalListener) {
       this.addGlobalListener();
     }
 
-    if (prevProps.globalListeners && !this.props.globalListeners) {
+    if (prevProps.globalListener && !this.props.globalListener) {
       this.removeGlobalListener();
     }
   }
@@ -161,40 +172,45 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       [styles.focused]: focused,
       [styles.active]: active
     });
-    const { component: Component, withoutNavigationHint } = this.props;
-    const shouldRenderHint =
-      !withoutNavigationHint && active && this.state.keybordControl;
+    const Component = this.props.component;
+    const handleClick = () => this.goToPage(pageNumber);
 
     return (
       <span key={pageNumber} className={styles.pageLinkWrapper}>
         <Component
           active={active}
           className={classes}
-          // tslint:disable-next-line:jsx-no-lambda
-          onClick={() => this.goToPage(pageNumber)}
+          onClick={handleClick}
           tabIndex={-1}
           pageNumber={pageNumber}
         >
           {pageNumber}
         </Component>
-        {shouldRenderHint && this.renderNavigationHint()}
+        {active && this.renderNavigationHint()}
       </span>
     );
   };
 
   private renderNavigationHint = () => {
+    if (this.props.withoutNavigationHint) {
+      return null;
+    }
+
+    const { keybordControl } = this.state;
     const canGoBackward = this.canGoBackward();
     const canGoForward = this.canGoForward();
 
-    return (
-      (canGoBackward || canGoForward) && (
+    if (keybordControl && (canGoBackward || canGoForward)) {
+      return (
         <span className={styles.pageLinkHint}>
           <span className={canGoBackward ? '' : styles.transparent}>{'←'}</span>
           <span>{NavigationHelper.getKeyName()}</span>
           <span className={canGoForward ? '' : styles.transparent}>{'→'}</span>
         </span>
-      )
-    );
+      );
+    }
+
+    return <div className={styles.pageLinkHintPlaceHolder} />;
   };
 
   private handleMouseDown = () => {
@@ -251,7 +267,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private handleBlur = () => {
     this.setState({
       focusedByTab: false,
-      keybordControl: this.props.globalListeners || false
+      keybordControl: this.props.globalListener || false
     });
   };
 
