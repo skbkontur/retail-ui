@@ -9,7 +9,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **Sticky:** fix default value of allowChildWithMargins ([94dcfd1](https://github.com/skbkontur/retail-ui/commit/94dcfd1))
+* **Modal:** Modal.Footer и Modal.Header ипользуют Sticky с `allowChildWithMargins === true`  ([8fee4c1](https://github.com/skbkontur/retail-ui/commit/8fee4c1bd5133e5b7419cb8951c08b46605a3985))
 
 
 
