@@ -67,6 +67,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       'region',
       'district',
       'city',
+      'intracityarea',
       'settlement',
       'planningstructure',
       'street',
@@ -303,6 +304,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           <div className={styles.row}>
             <div className={styles.label}>Город</div>
             <div className={styles.field}>{this.renderField('city')}</div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.label}>Внутригородская территория</div>
+            <div className={styles.field}>
+              {this.renderField('intracityarea')}
+            </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Населенный пункт</div>

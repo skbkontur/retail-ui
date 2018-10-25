@@ -106,6 +106,7 @@ export class FiasAPI {
         if (
           field === 'district' ||
           field === 'city' ||
+          field === 'intracityarea' ||
           field === 'settlement' ||
           field === 'planningstructure'
         ) {

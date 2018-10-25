@@ -15,6 +15,7 @@ export class Address {
     'region',
     'district',
     'city',
+    'intracityarea',
     'settlement',
     'planningstructure',
     'street',

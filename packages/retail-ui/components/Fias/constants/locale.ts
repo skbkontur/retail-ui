@@ -23,6 +23,9 @@ export const defaultLocale: FiasLocale = {
   cityNotFound: 'Город не найден',
   cityPlaceholder: '',
 
+  intracityareaNotFound: 'Внутригородская территория не найдена',
+  intracityareaPlaceholder: '',
+
   settlementNotFound: 'Населенный пункт не найден',
   settlementPlaceholder: 'Село, деревня, станица и другие',
 
