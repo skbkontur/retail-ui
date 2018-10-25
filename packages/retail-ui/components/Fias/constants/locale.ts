@@ -11,6 +11,7 @@ export const defaultLocale: FiasLocale = {
   addressEdit: 'Изменить адрес',
   addressNotVerified: 'Адрес не найден в справочнике',
   addressNotFound: 'Адрес не найден',
+  addressFillParentOrSearch: 'Заполните поля выше, либо воспользуйтесь поиском',
 
   searchPlaceholder: 'Начните вводить адрес, например: Москва, Внуково',
 

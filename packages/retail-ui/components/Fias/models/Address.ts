@@ -134,6 +134,19 @@ export class Address {
     );
   };
 
+  public hasOnlyIndirectParent = (field: Nullable<string>): boolean => {
+    if (field) {
+      const parents = Address.getParentFields(field);
+      if (parents.length > 1) {
+        const directParent = this.fields[parents.pop() || ''];
+        return (
+          !directParent && parents.some(parent => Boolean(this.fields[parent]))
+        );
+      }
+    }
+    return false;
+  };
+
   public getClosestParentFiasId = (field: string): Nullable<string> => {
     if (!this.isEmpty) {
       const parents = Address.getParentFields(field).reverse();

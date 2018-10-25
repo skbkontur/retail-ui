@@ -155,10 +155,24 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const renderNotFound = (): React.ReactNode => {
       const { address } = this.state;
       const { locale } = this.props;
+      let messages = [locale[`${field}NotFound`] || locale.addressNotFound];
+
+      if (address.isTheFieldAllowedToFill(field)) {
+        if (address.hasOnlyIndirectParent(field)) {
+          messages.push(locale.addressFillParentOrSearch);
+        }
+      } else {
+        messages = locale[`${field}FillBefore`]
+          ? [locale[`${field}FillBefore`]]
+          : messages;
+      }
+
       return (
-        (address.isTheFieldAllowedToFill(field)
-          ? locale[`${field}NotFound`]
-          : locale[`${field}FillBefore`]) || locale.addressNotFound
+        <div>
+          {messages.map((message, i, m) => (
+            <div key={i}>{message + (m[i + 1] ? '.' : '')}</div>
+          ))}
+        </div>
       );
     };
 
