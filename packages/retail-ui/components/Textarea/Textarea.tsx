@@ -10,7 +10,7 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import { getTextAreaHeight } from './TextareaHelpers';
 
 import { TextareaAdapter } from './Textarea.adapter';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 
 import Upgrades from '../../lib/Upgrades';
 import CssStyles from './Textarea.less';
@@ -23,63 +23,63 @@ const styles: typeof CssStyles = isFlatDesign
 
 const DEFAULT_WIDTH = 250;
 
-export interface TextareaProps {
-  error?: boolean;
-  warning?: boolean;
-  disabled?: boolean;
+export type TextareaProps = Override<React.TextareaHTMLAttributes<HTMLTextAreaElement>, {
+    error?: boolean;
+    warning?: boolean;
+    disabled?: boolean;
 
-  autoResize?: boolean;
-  maxRows: string | number;
+    autoResize?: boolean;
+    maxRows: string | number;
 
-  resize?: React.CSSProperties['resize'];
-  width?: React.CSSProperties['width'];
+    resize?: React.CSSProperties['resize'];
+    width?: React.CSSProperties['width'];
 
-  id?: string;
-  name?: string;
-  title?: string;
-  spellCheck?: boolean;
-  role?: string;
-  maxLength?: number;
-  tabIndex?: number;
-  rows: number;
-  placeholder?: string;
+    id?: string;
+    name?: string;
+    title?: string;
+    spellCheck?: boolean;
+    role?: string;
+    maxLength?: number;
+    tabIndex?: number;
+    rows: number;
+    placeholder?: string;
 
-  value?: string;
-  defaultValue?: string;
-  onChange?: (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-    value: string
-  ) => void;
+    value?: string;
+    defaultValue?: string;
+    onChange?: (
+      event: React.ChangeEvent<HTMLTextAreaElement>,
+      value: string
+    ) => void;
 
-  onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-  onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-  onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-  onMouseMove?: React.MouseEventHandler<HTMLLabelElement>;
-  onMouseOut?: React.MouseEventHandler<HTMLLabelElement>;
+    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+    onMouseMove?: React.MouseEventHandler<HTMLLabelElement>;
+    onMouseOut?: React.MouseEventHandler<HTMLLabelElement>;
 
-  onMouseUp?: React.MouseEventHandler<HTMLLabelElement>;
-  onMouseDown?: React.MouseEventHandler<HTMLLabelElement>;
-  onClick?: React.MouseEventHandler<HTMLLabelElement>;
-  onDoubleClick?: React.MouseEventHandler<HTMLLabelElement>;
+    onMouseUp?: React.MouseEventHandler<HTMLLabelElement>;
+    onMouseDown?: React.MouseEventHandler<HTMLLabelElement>;
+    onClick?: React.MouseEventHandler<HTMLLabelElement>;
+    onDoubleClick?: React.MouseEventHandler<HTMLLabelElement>;
 
-  onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>;
-  onKeyPress?: React.KeyboardEventHandler<HTMLTextAreaElement>;
-  onKeyUp?: React.KeyboardEventHandler<HTMLTextAreaElement>;
-  onInput?: React.KeyboardEventHandler<HTMLTextAreaElement>;
+    onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>;
+    onKeyPress?: React.KeyboardEventHandler<HTMLTextAreaElement>;
+    onKeyUp?: React.KeyboardEventHandler<HTMLTextAreaElement>;
+    onInput?: React.KeyboardEventHandler<HTMLTextAreaElement>;
 
-  onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
-  onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
+    onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
+    onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
 
-  onScroll?: React.UIEventHandler<HTMLTextAreaElement>;
-  onWheel?: React.WheelEventHandler<HTMLTextAreaElement>;
+    onScroll?: React.UIEventHandler<HTMLTextAreaElement>;
+    onWheel?: React.WheelEventHandler<HTMLTextAreaElement>;
 
-  onCut?: React.ClipboardEventHandler<HTMLTextAreaElement>;
-  onPate?: React.ClipboardEventHandler<HTMLTextAreaElement>;
-  onCopy?: React.ClipboardEventHandler<HTMLTextAreaElement>;
+    onCut?: React.ClipboardEventHandler<HTMLTextAreaElement>;
+    onPate?: React.ClipboardEventHandler<HTMLTextAreaElement>;
+    onCopy?: React.ClipboardEventHandler<HTMLTextAreaElement>;
 
-  /** Выделение значения при фокусе */
-  selectAllOnFocus?: boolean;
-}
+    /** Выделение значения при фокусе */
+    selectAllOnFocus?: boolean;
+}>;
 
 export interface TextareaState {
   polyfillPlaceholder: boolean;
