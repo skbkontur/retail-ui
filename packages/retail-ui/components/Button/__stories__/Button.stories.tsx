@@ -66,7 +66,6 @@ storiesOf('Button', module)
               <React.Fragment key={index}>
                 {index === 0 && <th />}
                 <th>disabled {direction}</th>
-                <th>loading {direction}</th>
                 <th>checked {direction}</th>
                 <th>medium {direction}</th>
                 <th>large {direction}</th>
@@ -82,11 +81,6 @@ storiesOf('Button', module)
                   {directionIndex === 0 && <td>{use}</td>}
                   <td>
                     <Button arrow={direction} use={use} size="medium" disabled>
-                      Button {direction}
-                    </Button>
-                  </td>
-                  <td>
-                    <Button arrow={direction} use={use} size="medium" loading>
                       Button {direction}
                     </Button>
                   </td>
@@ -192,4 +186,33 @@ storiesOf('Button', module)
         Error :(
       </Button>
     </Gapped>
-  ));
+  ))
+  .add('loading', () => {
+    const sizes: ButtonSize[] = ['small', 'medium', 'large'];
+
+    return (
+      <Gapped vertical>
+        <Gapped>
+          {sizes.map((size, key) => (
+            <Button key={key} size={size} loading>
+              {size}
+            </Button>
+          ))}
+        </Gapped>
+        <Gapped>
+          {sizes.map((size, key) => (
+            <Button key={key} size={size} arrow loading>
+              Arrow {size}
+            </Button>
+          ))}
+        </Gapped>
+        <Gapped>
+          {sizes.map((size, key) => (
+            <Button key={key} size={size} arrow="left" loading>
+              Arrow left {size}
+            </Button>
+          ))}
+        </Gapped>
+      </Gapped>
+    );
+  });
