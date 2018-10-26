@@ -85,7 +85,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                 ref,
                 state: highlight ? 'hover' : child.props.state,
                 onClick: this._select.bind(this, index, false),
-                onMouseEnter: this._highlightItem.bind(this, index),
+                onMouseEnter: this.highlightItem.bind(this, index),
                 onMouseLeave: this._unhighlight
               });
             }
@@ -186,7 +186,8 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     return false;
   }
 
-  private _highlightItem(index: number) {
+  // tslint:disable-next-line:member-ordering
+  public highlightItem(index: number) {
     this.setState({ highlightedIndex: index });
   }
 
