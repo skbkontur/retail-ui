@@ -19,7 +19,17 @@ matrix:
         - yarn workspace react-ui-screenshot-tests run test
 
     - language: csharp
+      dotnet: 2.1
       solution: ./packages/react-ui-testing/SeleniumTesting.sln
+      install:
+        - nvm install 8
+        - yarn
+        - yarn workspace retail-ui run build
+        - yarn workspace react-ui-testing run build
+      before_script:
+        - yarn workspace react-ui-testing start &
+      script:
+        - yarn workspace react-ui-testing run test
       deploy:
         skip_cleanup: true
         provider: script
