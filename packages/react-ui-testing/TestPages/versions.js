@@ -10,7 +10,7 @@ const versionsInfo = [
             'react-dom': '16.4.2',
         }
     },
-    {
+ /*   {
         'react': '16.0.0',
         'retail-ui-compatibility': '0.9.9 || >=0.11.0',
         'retail-ui': ['0.9.7'],
@@ -45,7 +45,7 @@ const versionsInfo = [
             'react-dom': '0.14.3',
             'react-addons-css-transition-group': '0.14.3',
         }
-    },
+    },*/
 ];
 
 const readRetailUiVersions = function () {

@@ -8,10 +8,6 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
     {
         public IEnumerator GetEnumerator()
         {
-            if(!TravisEnvironment.IsExecutionViaTravis)
-            {
-                yield break;
-            }
             foreach(var versionPair in ProcessUtils.GetRetailAndReactVersions())
             {
                 yield return new TestFixtureData(versionPair[0], versionPair[1]);
