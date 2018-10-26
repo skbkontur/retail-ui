@@ -155,7 +155,7 @@ const webpackConfig = {
       },
       {
         test: /\.jsx?$/,
-        exclude: /node_modules\/(?!buble)/,
+        exclude: /node_modules(\/|\\)(?!buble)/,
         use: [
           {
             loader: 'babel-loader',
