@@ -163,7 +163,7 @@ const Effect = {
       index = items.findIndex(x => itemToValue(x) === itemToValue(value));
     }
     // @ts-ignore
-    menu._highlightItem(index);
+    menu.highlightItem(index);
     if (index >= 0) {
       // @ts-ignore
       process.nextTick(() => menu && menu._scrollToSelected());
