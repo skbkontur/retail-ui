@@ -12,21 +12,54 @@ import { defaultLocale, FiasLocale } from './constants/locale';
 import styles from './Fias.less';
 
 interface FiasProps {
+  /**
+   * Значение адреса. См. формат в примерах
+   */
   value?: FiasValue;
   error?: boolean;
   warning?: boolean;
+  /**
+   * Сообщение пользователю в режиме `error` или `warning`
+   */
   feedback?: string;
+  /**
+   * Выводить ли текстовую интерпретацию адреса над ссылкой
+   */
   showAddressText?: boolean;
+  /**
+   * Текст ссылки
+   */
   label?: string;
+  /**
+   * Иконка рядом со ссылкой
+   */
   icon?: React.ReactElement<any>;
   readonly?: boolean;
+  /**
+   * `https://api.dev.kontur/fias/v1/` - Test; `https://api.kontur.ru/fias/v1/` - Prod;
+   */
   baseUrl?: string;
   onChange?: (value: FiasValue) => void;
   onClose?: () => void;
+  /**
+   * Добавляет поле поиска адреса в произвольной форме
+   */
   search?: boolean;
+  /**
+   * Количество отображаемых элементов в выпадающих списках
+   */
   limit?: number;
+  /**
+   * Словарь текстовых констант. См. полный список ниже
+   */
   locale?: FiasLocale;
+  /**
+   * Уровень критичности ошибок валидации полей адреса
+   */
   formValidation?: FormValidation;
+  /**
+   * Разрешать ли сохранять неверефицированный (произвольный, не из базы) адрес
+   */
   allowNotVerified?: boolean;
 }
 
@@ -40,6 +73,8 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     showAddressText: true,
     error: false,
     warning: false,
+    readonly: false,
+    search: false,
     icon: <EditIcon />,
     allowNotVerified: true
   };
