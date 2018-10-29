@@ -7,29 +7,12 @@
     "type": "git",
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
-  "lint-staged": {
-    "*.js": [
-      "prettier --single-quote --write",
-      "eslint",
-      "git add"
-    ],
-    "*.{css,less}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.{ts,tsx}": [
-      "tslint --project tsconfig.json",
-      "prettier --single-quote --write",
-      "git add"
-    ]
-  },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "scripts": {
     "build": "yarn tsc -p prod.tsconfig.json && node scripts/build",
     "deploy": "gh-pages -d styleguide -r git@github.com:skbkontur/react-ui.git",
-    "precommit": "tsc --noEmit && lint-staged",
     "predeploy": "yarn run styleguide:build",
     "prepush": "yarn run test",
     "prepublishOnly": "yarn clean && yarn build",
@@ -40,6 +23,7 @@
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
     "clean": "git clean -fdxqe node_modules",
+    "lint": "tsc --noEmit && eslint ./ && tslint --project tsconfig.json",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -125,7 +109,6 @@
     "json-loader": "^0.5.7",
     "less": "3.7.1",
     "less-loader": "^4.1.0",
-    "lint-staged": "^7.2.0",
     "mockdate": "^2.0.2",
     "output-file-sync": "^2.0.1",
     "prettier": "^1.13.7",
