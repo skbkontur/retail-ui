@@ -36,7 +36,7 @@ export type TooltipTrigger =
   | 'opened'
   /** Просто закрыт */
   | 'closed'
-  /** Наведение ТОЛЬКО на children, не не на тултип */
+  /** Наведение ТОЛЬКО на children, а не на тултип */
   | 'hoverAnchor';
 
 export interface TooltipProps {
