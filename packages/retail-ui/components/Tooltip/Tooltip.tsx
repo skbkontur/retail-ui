@@ -128,7 +128,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
   public static closeDelay = 100;
 
-  private static triggersWithoutCoseButton: TooltipTrigger[] = [
+  private static triggersWithoutCloseButton: TooltipTrigger[] = [
     'hover',
     'hoverAnchor',
     'focus'
