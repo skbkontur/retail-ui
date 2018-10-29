@@ -8,6 +8,7 @@ import Input from '../../Input';
 import Textarea from '../../Textarea';
 import Toggle from '../../Toggle';
 import Upgrades from '../../../lib/Upgrades';
+import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 const basicFontStyle = {
   fontSize: '14px',
@@ -121,6 +122,96 @@ class ModalWithInputInHeader extends Component<{}, { opened: boolean }> {
             years.
           </p>
         </Modal.Body>
+      </Modal>
+    );
+  }
+
+  public render() {
+    return (
+      <div style={{ width: '300px' }}>
+        {this.state.opened && this.renderModal()}
+        <Button onClick={this.open}>Open modal</Button>
+      </div>
+    );
+  }
+
+  public open = () => {
+    this.setState({ opened: true });
+  };
+
+  public close = () => {
+    this.setState({ opened: false });
+  };
+}
+
+class ModalWithIconInput extends Component<{}, { opened: boolean }> {
+  public state = {
+    opened: false
+  };
+
+  public renderModal() {
+    return (
+      <Modal onClose={this.close}>
+        <Modal.Header>
+          <Input
+            size="large"
+            placeholder="Modal.Header"
+            leftIcon={<BorderAllIcon />}
+            rightIcon={<BorderAllIcon />}
+          />
+          <Input
+            size="medium"
+            placeholder="Modal.Header"
+            leftIcon={<BorderAllIcon />}
+            rightIcon={<BorderAllIcon />}
+          />
+          <Input
+            size="small"
+            placeholder="Modal.Header"
+            leftIcon={<BorderAllIcon />}
+            rightIcon={<BorderAllIcon />}
+          />
+        </Modal.Header>
+        <Modal.Body>
+          <Input
+            size="large"
+            placeholder="Modal.Body"
+            leftIcon={<BorderAllIcon />}
+            rightIcon={<BorderAllIcon />}
+          />
+          <Input
+            size="medium"
+            placeholder="Modal.Body"
+            leftIcon={<BorderAllIcon />}
+            rightIcon={<BorderAllIcon />}
+          />
+          <Input
+            size="small"
+            placeholder="Modal.Body"
+            leftIcon={<BorderAllIcon />}
+            rightIcon={<BorderAllIcon />}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Input
+            size="large"
+            placeholder="Modal.Footer"
+            leftIcon={<BorderAllIcon />}
+            rightIcon={<BorderAllIcon />}
+          />
+          <Input
+            size="medium"
+            placeholder="Modal.Footer"
+            leftIcon={<BorderAllIcon />}
+            rightIcon={<BorderAllIcon />}
+          />
+          <Input
+            size="small"
+            placeholder="Modal.Footer"
+            leftIcon={<BorderAllIcon />}
+            rightIcon={<BorderAllIcon />}
+          />
+        </Modal.Footer>
       </Modal>
     );
   }
@@ -433,6 +524,7 @@ class ModalWithVariableHeight extends Component<
 storiesOf('Modal', module)
   .add('With scrollable parent content', () => <ModalWithScrollableContent />)
   .add('With Input in header', () => <ModalWithInputInHeader />)
+  .add('With Icon Input', () => <ModalWithIconInput />)
   .add('Modal over another modal', () => <ModalOverAnotherModal />)
   .add('Disabled modal', () => (
     <Modal disableClose>
