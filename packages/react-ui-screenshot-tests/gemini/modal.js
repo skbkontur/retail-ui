@@ -48,6 +48,15 @@ gemini.suite("modal without header", suite => {
     .capture("open modal");
 });
 
+gemini.suite("modal with icon input", suite => {
+  suite
+    .setUrl(pathTo("Modal", "With Icon Input"))
+    .setCaptureElements("html")
+    .capture("open modal", (actions, find) => {
+      actions.click(find("button"));
+    });
+});
+
 gemini.suite("modal with variable height of content", suite => {
   suite
     .setUrl(pathTo("Modal", "Modal with variable height of content"))
