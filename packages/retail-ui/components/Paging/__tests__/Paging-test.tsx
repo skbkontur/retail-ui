@@ -151,7 +151,7 @@ describe('Pager', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(
       <Paging
-        globalListener
+        useGlobalListener
         pagesCount={2}
         activePage={2}
         onPageChange={onPageChange}

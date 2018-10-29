@@ -45,7 +45,7 @@ class PagingWithState extends Component<any, any> {
         <Paging
           activePage={this.state.activePage}
           pagesCount={this.props.pagesCount}
-          globalListener={this.props.globalListener}
+          useGlobalListener={this.props.useGlobalListener}
           onPageChange={this._handlePageChange}
         />
       </div>
@@ -120,5 +120,5 @@ storiesOf('Paging', module)
     <PagingWithCustomComponent pagesCount={12} />
   ))
   .add('Paging with global listener', () => (
-    <PagingWithState globalListener pagesCount={12} />
+    <PagingWithState useGlobalListener pagesCount={12} />
   ));

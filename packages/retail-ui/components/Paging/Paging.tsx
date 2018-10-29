@@ -39,7 +39,7 @@ export interface PagingProps {
    * **Paging** с withoutNavigationHint === true, то обработчик keyDown будет вызываться
    * на каждом из них. Такие случаи лучше обрабатывать отдельно.
    */
-  globalListener?: boolean;
+  useGlobalListener?: boolean;
 }
 
 export interface PagingState {
@@ -69,7 +69,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   public state: PagingState = {
     focusedByTab: false,
     focusedItem: null,
-    keybordControl: this.props.globalListener || false
+    keybordControl: this.props.useGlobalListener || false
   };
 
   private addedGlobalListener: boolean = false;
@@ -77,17 +77,17 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   public componentDidMount() {
     listenTabPresses();
 
-    if (this.props.globalListener) {
+    if (this.props.useGlobalListener) {
       this.addGlobalListener();
     }
   }
 
   public componentDidUpdate(prevProps: PagingProps) {
-    if (!prevProps.globalListener && this.props.globalListener) {
+    if (!prevProps.useGlobalListener && this.props.useGlobalListener) {
       this.addGlobalListener();
     }
 
-    if (prevProps.globalListener && !this.props.globalListener) {
+    if (prevProps.useGlobalListener && !this.props.useGlobalListener) {
       this.removeGlobalListener();
     }
   }
@@ -267,7 +267,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private handleBlur = () => {
     this.setState({
       focusedByTab: false,
-      keybordControl: this.props.globalListener || false
+      keybordControl: this.props.useGlobalListener || false
     });
   };
 
