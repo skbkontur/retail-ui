@@ -12,14 +12,10 @@ interface SampleState {
 }
 
 class Sample extends Component<{}, SampleState> {
-  constructor(props: {}, context: SampleState) {
-    super(props, context);
-
-    this.state = {
-      active: false,
-      open: false
-    };
-  }
+  public state: SampleState = {
+    active: false,
+    open: false
+  };
 
   public render() {
     return (
