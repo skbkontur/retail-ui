@@ -13,7 +13,7 @@ interface TestTooltipProps {
 
 class TestTooltip extends React.Component<TestTooltipProps> {
   public static defaultProps: {
-    pos: PopupPosition
+    pos: PopupPosition;
   } = {
     pos: 'top center'
   };
@@ -127,13 +127,23 @@ storiesOf('Tooltip', module)
         <Button>Hover me (disableAnimations: true)</Button>
       </Tooltip>
     </div>
+  ))
+  .add('hover on child only', () => (
+    <TestTooltip trigger="hoverAnchor">
+      <Button>
+        <code>trigger="hoverAnchor"</code>
+      </Button>
+    </TestTooltip>
   ));
 
 interface MyCustomTooltipState {
-  state: TooltipTrigger
+  state: TooltipTrigger;
 }
 
-class MyCustomTooltip extends React.Component<TestTooltipProps, MyCustomTooltipState> {
+class MyCustomTooltip extends React.Component<
+  TestTooltipProps,
+  MyCustomTooltipState
+> {
   public state: MyCustomTooltipState = {
     state: 'hover'
   };
