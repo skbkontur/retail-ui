@@ -208,7 +208,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   public renderCloseButton() {
     const hasCross =
       this.props.closeButton === undefined
-        ? Tooltip.triggersWithoutCoseButton.indexOf(this.props.trigger) === -1
+        ? Tooltip.triggersWithoutCloseButton.indexOf(this.props.trigger) === -1
         : this.props.closeButton;
 
     if (!hasCross) {
