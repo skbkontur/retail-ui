@@ -126,7 +126,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     closeOnChildrenMouseLeave: false
   };
 
-  private static triggersWithoutCLoseButton: TooltipTrigger[] = [
+  private static triggersWithoutCoseButton: TooltipTrigger[] = [
     'hover',
     'hoverAnchor',
     'focus'
@@ -206,7 +206,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   public renderCloseButton() {
     const hasCross =
       this.props.closeButton === undefined
-        ? Tooltip.triggersWithoutCLoseButton.indexOf(this.props.trigger) === -1
+        ? Tooltip.triggersWithoutCoseButton.indexOf(this.props.trigger) === -1
         : this.props.closeButton;
 
     if (!hasCross) {
