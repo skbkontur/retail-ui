@@ -18,24 +18,12 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
     {
         public static string[][] GetRetailAndReactVersions()
         {
-            var output = GetOutputWithRetries();
+            var output = GetOutputVersions();
             return JsonConvert.DeserializeObject<List<Versions>>(output)
                 .Select(x => new[] {x.React, x.RetailUI}).ToArray();
         }
 
-        private static string GetOutputWithRetries()
-        {
-            for (var i = 0; i < 10; i++)
-            {
-                var result = GetOutputWithLatestVersion();
-                if (string.IsNullOrWhiteSpace(result) || string.IsNullOrWhiteSpace(result.Trim())) continue;
-                return result;
-            }
-
-            throw new Exception("Cannot extract versions");
-        }
-
-        private static string GetOutputWithLatestVersion()
+        private static string GetOutputVersions()
         {
             var p = new Process
             {
@@ -45,7 +33,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     FileName = "node",
-                    Arguments = Path.Combine(PathUtils.FindProjectRootFolder(), "TestPages/versionsForRun.js")
+                    Arguments = Path.Combine(PathUtils.FindProjectRootFolder(), "TestPages/versions.js")
                 }
             };
             p.Start();
@@ -53,6 +41,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
             var errorOutput = p.StandardError.ReadToEnd();
             p.WaitForExit();
             if (p.ExitCode != 0) throw new Exception(errorOutput);
+            if (string.IsNullOrWhiteSpace(output) || string.IsNullOrWhiteSpace(output.Trim())) throw new Exception("Cannot extract versions");
             return output;
         }
     }

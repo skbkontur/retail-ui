@@ -3,25 +3,14 @@ const semver = require('semver');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const versions = require('./versions');
-const reactVersions = require('./reactVersions.json');
-
+const currentVersion = versions.currentVersion;
 const reactUiPath = path.resolve(__dirname, "../../retail-ui");
-const currentVersion = "9.9.9";
 
 const versionsDependencies = versions
     .map(x => Object.keys(x.dependencies))
-    .reduce((a, c) => a.concat(c), [])
-    .concat(
-    reactVersions.map(x => Object.keys(x.dependencies))
-        .reduce((a, c) => a.concat(c), [])
-    );
+    .reduce((a, c) => a.concat(c), []);
 
 const dependencies = ['react', 'retail-ui', ... new Set(versionsDependencies)];
-
-const versionPairs = versions
-    .map(version => version['retail-ui'].map(retailUIVersion => [version.react, retailUIVersion]))
-    .reduce((x, y) => x.concat(y), [])
-    .concat(reactVersions.map(version => [version.react, currentVersion]));
 
 function createConfig(reactVersion, retailUIVersion) {
     const targetDir = `${reactVersion}_${retailUIVersion}`;
@@ -109,10 +98,10 @@ function createConfig(reactVersion, retailUIVersion) {
         devServer: {
             port: 8083,
             historyApiFallback: {
-                rewrites: versionPairs.map(x =>
+                rewrites: versions.map(version =>
                     ({
-                        from: new RegExp(`^/${x[0]}/${x[1]}/.*`),
-                        to: `/${x[0]}/${x[1]}/index.html`,
+                        from: new RegExp(`^/${version['react']}/${version['retail-ui']}/.*`),
+                        to: `/${version['react']}/${version['retail-ui']}/index.html`,
                     })
                 ),
             }
@@ -120,4 +109,4 @@ function createConfig(reactVersion, retailUIVersion) {
     };
 }
 
-module.exports = versionPairs.map(x => createConfig(x[0], x[1]));
+module.exports = versions.map(version => createConfig(version['react'], version['retail-ui']));
