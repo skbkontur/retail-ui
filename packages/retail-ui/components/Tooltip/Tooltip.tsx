@@ -25,7 +25,19 @@ const Positions: PopupPosition[] = [
   'bottom right'
 ];
 
-export type TooltipTrigger = 'hover' | 'click' | 'focus' | 'opened' | 'closed';
+export type TooltipTrigger =
+  /** Наведение на children и на тултип */
+  | 'hover'
+  /** Клик на children */
+  | 'click'
+  /** Фокус на children */
+  | 'focus'
+  /** Просто открыт */
+  | 'opened'
+  /** Просто закрыт */
+  | 'closed'
+  /** Наведение ТОЛЬКО на children, а не на тултип */
+  | 'hoverAnchor';
 
 export interface TooltipProps {
   /**
@@ -56,7 +68,7 @@ export interface TooltipProps {
 
   pos: PopupPosition;
 
-  trigger?: TooltipTrigger;
+  trigger: TooltipTrigger;
 
   /**
    * Хэндлер, вызываемый при клике по крестику
@@ -95,10 +107,10 @@ export interface TooltipProps {
   allowedPositions: PopupPosition[];
 
   /**
-   * Конфигурация отображения анимации.
-   * Стандартное значение true.
+   * Флаг отключения анимации.
+   * @default false
    */
-  disableAnimations?: boolean;
+  disableAnimations: boolean;
 }
 
 export interface TooltipState {
@@ -110,8 +122,17 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     pos: 'top left',
     trigger: 'hover',
     allowedPositions: Positions,
-    disableAnimations: false
+    disableAnimations: false,
+    closeOnChildrenMouseLeave: false
   };
+
+  public static closeDelay = 100;
+
+  private static triggersWithoutCloseButton: TooltipTrigger[] = [
+    'hover',
+    'hoverAnchor',
+    'focus'
+  ];
 
   public state = {
     opened: false
@@ -120,6 +141,8 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   private hoverTimeout: number | null = null;
 
   private wrapperElement: HTMLElement | null = null;
+
+  private contentElement: HTMLElement | null = null;
 
   public componentDidMount() {
     /**
@@ -132,7 +155,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   public render(): JSX.Element | null {
-    const { wrapperProps, popupProps, layerProps } = this._getProps();
+    const { wrapperProps, popupProps, layerProps } = this.getProps();
     const anchorElement = this.props.children
       ? this.wrapperElement
       : this.props.anchorElement;
@@ -155,7 +178,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
                 pinSize={8}
                 popupOffset={0}
                 disableAnimations={this.props.disableAnimations}
-                positions={this._getPositions()}
+                positions={this.getPositions()}
                 {...popupProps}
               >
                 {content}
@@ -172,17 +195,20 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       return null;
     }
     return (
-      <div style={{ padding: '15px 20px', position: 'relative' }}>
+      <div
+        ref={this.refContent}
+        style={{ padding: '15px 20px', position: 'relative' }}
+      >
         {content}
-        {this._renderCross()}
+        {this.renderCloseButton()}
       </div>
     );
   };
 
-  public _renderCross() {
+  public renderCloseButton() {
     const hasCross =
       this.props.closeButton === undefined
-        ? this.props.trigger !== 'hover' && this.props.trigger !== 'focus'
+        ? Tooltip.triggersWithoutCloseButton.indexOf(this.props.trigger) === -1
         : this.props.closeButton;
 
     if (!hasCross) {
@@ -190,17 +216,21 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     }
 
     return (
-      <span className={styles.cross} onClick={this.handleCrossClick}>
+      <span className={styles.cross} onClick={this.handleCloseButtonClick}>
         {CROSS}
       </span>
     );
   }
 
+  private refContent = (node: HTMLElement | null) => {
+    this.contentElement = node;
+  };
+
   private refWrapper = (node: HTMLElement | null) => {
     this.wrapperElement = node;
   };
 
-  private _getPositions() {
+  private getPositions() {
     const allowedPositions = this.props.allowedPositions;
     const index = allowedPositions.indexOf(this.props.pos);
     if (index === -1) {
@@ -215,7 +245,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     ];
   }
 
-  private _getProps() {
+  private getProps() {
     switch (this.props.trigger) {
       case 'opened':
         return {
@@ -238,6 +268,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
           }
         };
 
+      case 'hoverAnchor':
       case 'hover':
         return {
           layerProps: {},
@@ -280,19 +311,26 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     }
   }
 
-  private _open() {
+  private open() {
     this.setState({ opened: true });
   }
 
-  private _close() {
+  private close() {
     this.setState({ opened: false });
   }
 
   private handleMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+    if (
+      this.props.trigger === 'hoverAnchor' &&
+      event.target === this.contentElement
+    ) {
+      return;
+    }
+
     if (this.hoverTimeout) {
       clearTimeout(this.hoverTimeout);
     }
-    this._open();
+    this.open();
   };
 
   private handleMouseLeave = () => {
@@ -301,30 +339,30 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       this.hoverTimeout = null;
     }
     this.hoverTimeout = window.setTimeout(() => {
-      this._close();
-    }, 100);
+      this.close();
+    }, Tooltip.closeDelay);
   };
 
   private handleClick = () => {
-    this._open();
+    this.open();
   };
 
   private handleClickOutside = () => {
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
     }
-    this._close();
+    this.close();
   };
 
   private handleFocus = () => {
-    this._open();
+    this.open();
   };
 
   private handleBlur = () => {
-    this._close();
+    this.close();
   };
 
-  private handleCrossClick = (event: React.MouseEvent<HTMLElement>) => {
+  private handleCloseButtonClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
     if (this.props.onCloseClick) {
@@ -339,7 +377,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       this.props.onCloseRequest();
     }
 
-    this._close();
+    this.close();
   };
 }
 
