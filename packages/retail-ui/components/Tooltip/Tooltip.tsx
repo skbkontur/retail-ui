@@ -126,6 +126,8 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     closeOnChildrenMouseLeave: false
   };
 
+  public static closeDelay = 100;
+
   private static triggersWithoutCoseButton: TooltipTrigger[] = [
     'hover',
     'hoverAnchor',
@@ -338,7 +340,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     }
     this.hoverTimeout = window.setTimeout(() => {
       this.close();
-    }, 100);
+    }, Tooltip.closeDelay);
   };
 
   private handleClick = () => {
