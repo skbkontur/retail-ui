@@ -50,6 +50,7 @@ interface ComboBoxViewProps<T> {
   renderValue?: (item: T) => React.ReactNode;
   refInput?: (input: Nullable<Input>) => void;
   refMenu?: (menu: Nullable<Menu>) => void;
+  refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
 }
 
 class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
@@ -276,7 +277,8 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       size,
       textValue,
       value,
-      warning
+      warning,
+      refInputLikeText
     } = this.props;
 
     if (editing) {
@@ -314,6 +316,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         placeholder={placeholder}
         size={size}
         width="100%"
+        ref={refInputLikeText}
       >
         {value ? renderValue!(value) : null}
       </InputLikeText>
