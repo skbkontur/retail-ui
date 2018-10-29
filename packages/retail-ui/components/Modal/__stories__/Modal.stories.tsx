@@ -5,7 +5,6 @@ import { storiesOf } from '@storybook/react';
 import Modal from '../';
 import Button from '../../Button';
 import Input from '../../Input';
-import Textarea from '../../Textarea';
 import Toggle from '../../Toggle';
 import Upgrades from '../../../lib/Upgrades';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
@@ -90,48 +89,6 @@ class ModalWithScrollableContent extends Component<
           <Button onClick={this.close}>Close</Button>
         </Modal.Footer>
       </Modal>
-    );
-  }
-
-  public open = () => {
-    this.setState({ opened: true });
-  };
-
-  public close = () => {
-    this.setState({ opened: false });
-  };
-}
-
-class ModalWithInputInHeader extends Component<{}, { opened: boolean }> {
-  public state = {
-    opened: false
-  };
-
-  public renderModal() {
-    return (
-      <Modal onClose={this.close}>
-        <Modal.Header>
-          <Input placeholder="Some input placeholder..." />{' '}
-          <Input size="large" placeholder="Some large input placeholder..." />
-          <br />
-          <Textarea placeholder="Some textarea placeholder" value="" />
-        </Modal.Header>
-        <Modal.Body>
-          <p>
-            A lotta people ask me where the fuck I've been at the last few
-            years.
-          </p>
-        </Modal.Body>
-      </Modal>
-    );
-  }
-
-  public render() {
-    return (
-      <div style={{ width: '300px' }}>
-        {this.state.opened && this.renderModal()}
-        <Button onClick={this.open}>Open modal</Button>
-      </div>
     );
   }
 
@@ -523,7 +480,6 @@ class ModalWithVariableHeight extends Component<
 
 storiesOf('Modal', module)
   .add('With scrollable parent content', () => <ModalWithScrollableContent />)
-  .add('With Input in header', () => <ModalWithInputInHeader />)
   .add('With Icon Input', () => <ModalWithIconInput />)
   .add('Modal over another modal', () => <ModalOverAnotherModal />)
   .add('Disabled modal', () => (
