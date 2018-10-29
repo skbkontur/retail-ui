@@ -1,3 +1,11 @@
+Управление с клавиатуры работает в двух вариантах:
+
+- **useGlobalListener === true** слушатель keydown событий на document, если на стринице несколько компонентов Paging,
+  обработчик будет срабатывать на каждом
+- **useGlobalListener === false** обработка нажатия клавиш будет работать только когда компонент в фокусе.
+
+Навигационные подсказки появляются когда доступно управлнеие с клавиатуры и `withoutNavigationHint != true`
+
 ```js
 class Paginator3000 extends React.Component {
   constructor() {
