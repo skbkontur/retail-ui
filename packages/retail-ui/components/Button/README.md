@@ -1,13 +1,15 @@
 Button example
 
 ```js
-<Button icon={<Icon name="Ok" />}>Ok</Button>
+const OkIcon = require('@skbkontur/react-icons/Ok').default;
+
+<Button icon={<OkIcon />}>Ok</Button>;
 ```
 
 Button has different use styles
 
 ```js
-const Gapped = require("../Gapped").default;
+const Gapped = require('../Gapped').default;
 
 <Gapped>
   <Button use="default">Default</Button>
@@ -22,7 +24,7 @@ const Gapped = require("../Gapped").default;
 Button can have different sizes
 
 ```js
-const Gapped = require("../Gapped").default;
+const Gapped = require('../Gapped').default;
 
 <Gapped>
   <Button size="small">Small</Button>

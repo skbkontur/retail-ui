@@ -1,9 +1,7 @@
 Простой пример
 
 ```js
-<DropdownMenu
-  caption={<Button use="primary">Открыть меню</Button>}
->
+<DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
   <MenuHeader>Заголовок меню</MenuHeader>
   <MenuSeparator />
   <MenuItem>Раз</MenuItem>
@@ -54,24 +52,21 @@
 </DropdownMenu>
 ```
 
-В ```caption``` можно передать любой элемент
+В `caption` можно передать любой элемент
 
 ```js
-const Icon = require("../Icon").default;
+const MenuIcon = require('@skbkontur/react-icons/Menu').default;
 
 <DropdownMenu
-  caption={(
-    <span
-      style={{ display: 'inline-block' }}
-      tabIndex="0"
-    >
-      <Icon name="Menu" size={32} />
+  caption={
+    <span style={{ display: 'inline-block' }} tabIndex="0">
+      <MenuIcon size={32} />
     </span>
-  )}
+  }
   menuWidth="300px"
 >
   <MenuItem>Раз</MenuItem>
   <MenuItem>Два</MenuItem>
   <MenuItem>Три</MenuItem>
-</DropdownMenu>
+</DropdownMenu>;
 ```

@@ -203,6 +203,10 @@ export interface IconProps {
   name: IconName;
   size?: number | string;
 }
+
+/**
+ * @deprecated Используй иконки из `@skbkontur/react-icons`
+ */
 class Icon extends React.Component<IconProps> {
   public static propTypes = {
     color: PropTypes.string,
