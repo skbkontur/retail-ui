@@ -6,7 +6,7 @@ import Group from '../Group';
 import Input from '../../Input';
 import Button from '../../Button';
 import Toast from '../../Toast';
-import Icon from '../../Icon';
+import UserIcon from '@skbkontur/react-icons/User';
 
 storiesOf('Group', module)
   .add('Simple Group with Input and Button', () => (
@@ -43,7 +43,7 @@ storiesOf('Group', module)
       <Input
         placeholder="Disabled"
         disabled
-        rightIcon={<Icon name="User" />}
+        rightIcon={<UserIcon />}
         mainInGroup
       />
       <Button onClick={() => Toast.push('Push!')} error>

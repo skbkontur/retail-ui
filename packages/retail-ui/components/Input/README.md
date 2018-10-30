@@ -1,3 +1,5 @@
-```js
-<Input leftIcon={<Icon name="Search" />} />
+```jsx
+const SearchIcon = require('@skbkontur/react-icons/Search').default;
+
+<Input leftIcon={<SearchIcon />} />;
 ```
