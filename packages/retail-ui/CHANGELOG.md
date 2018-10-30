@@ -3,6 +3,89 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.27.0"></a>
+# [0.27.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.26.1...retail-ui@0.27.0) (2018-10-29)
+
+
+### Bug Fixes
+
+* **Button:** fix flat styles ([5ba5980](https://github.com/skbkontur/retail-ui/commit/5ba5980)), closes [#856](https://github.com/skbkontur/retail-ui/issues/856)
+* **ComboBox:** public refs input/menu/inputLikeText ([f28b418](https://github.com/skbkontur/retail-ui/commit/f28b418))
+* **FxInput:** fix warning from 'mainInGroup' prop ([2ad6e4e](https://github.com/skbkontur/retail-ui/commit/2ad6e4e))
+* **Input:** filter props for HTMLInputElement, fix [#831](https://github.com/skbkontur/retail-ui/issues/831) ([fa94219](https://github.com/skbkontur/retail-ui/commit/fa94219))
+* **Input:** filter props for HTMLInputElement, fix [#831](https://github.com/skbkontur/retail-ui/issues/831) ([b0f04af](https://github.com/skbkontur/retail-ui/commit/b0f04af))
+* **Input:** input icons inside modal header [#861](https://github.com/skbkontur/retail-ui/issues/861) ([b69f0ab](https://github.com/skbkontur/retail-ui/commit/b69f0ab))
+* **Input:** update typings ([34adf0a](https://github.com/skbkontur/retail-ui/commit/34adf0a)), closes [#845](https://github.com/skbkontur/retail-ui/issues/845)
+* **Link:** fix types, fix [#841](https://github.com/skbkontur/retail-ui/issues/841) ([4a1e2b8](https://github.com/skbkontur/retail-ui/commit/4a1e2b8))
+* **Modal:** fix after Sticky hotfix ([b354149](https://github.com/skbkontur/retail-ui/commit/b354149))
+* **Modal:** not adaptive ([96178bd](https://github.com/skbkontur/retail-ui/commit/96178bd)), closes [#847](https://github.com/skbkontur/retail-ui/issues/847)
+* **SidePage:** fix blockBackground=false ([4a78d94](https://github.com/skbkontur/retail-ui/commit/4a78d94))
+* **SidePage:** fix blockBackground=false ([15a1763](https://github.com/skbkontur/retail-ui/commit/15a1763))
+* **Sticky:** вернули старое поведение с бесконечной рекурсией ([c04f3f1](https://github.com/skbkontur/retail-ui/commit/c04f3f1))
+* **Sticky:** вернули старое поведение с бесконечной рекурсией ([7cf7ebc](https://github.com/skbkontur/retail-ui/commit/7cf7ebc))
+* **Sticky:** fix default value of allowChildWithMargins ([3e5856e](https://github.com/skbkontur/retail-ui/commit/3e5856e))
+* **Sticky:** fix default value of allowChildWithMargins ([0ff54c6](https://github.com/skbkontur/retail-ui/commit/0ff54c6))
+
+
+### Features
+
+* **CustomComboBox:** добавил ref для InputLikeText ([c5cd653](https://github.com/skbkontur/retail-ui/commit/c5cd653))
+* **Tooltip:** новое значение `trigger` ([391f715](https://github.com/skbkontur/retail-ui/commit/391f715)), closes [#818](https://github.com/skbkontur/retail-ui/issues/818)
+
+
+
+
+<a name="0.26.3"></a>
+## [0.26.3](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.26.1...retail-ui@0.26.3) (2018-10-25)
+
+
+### Bug Fixes
+
+* **Modal:** Modal.Footer и Modal.Header ипользуют Sticky с `allowChildWithMargins === true`  ([8fee4c1](https://github.com/skbkontur/retail-ui/commit/8fee4c1bd5133e5b7419cb8951c08b46605a3985))
+
+
+
+
+<a name="0.26.2"></a>
+## [0.26.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.26.0...retail-ui@0.26.2) (2018-10-25)
+
+
+### Bug Fixes
+
+* **Sticky:** fix default value of allowChildWithMargins ([fffbea0](https://github.com/skbkontur/retail-ui/commit/fffbea0))
+* **Sticky:** вернули старое поведение с бесконечной рекурсией ([ebbbeec](https://github.com/skbkontur/retail-ui/commit/ebbbeec))
+
+
+
+
+<a name="0.26.1"></a>
+## [0.26.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.26.0...retail-ui@0.26.1) (2018-10-24)
+
+
+
+
+**Note:** Version bump only for package retail-ui
+
+<a name="0.26.0"></a>
+# [0.26.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.25.0...retail-ui@0.26.0) (2018-10-23)
+
+
+### Bug Fixes
+
+* **Button:** fix subpixel bug in chrome ([a757350](https://github.com/skbkontur/retail-ui/commit/a757350))
+* **FxInput:** fix warning from 'mainInGroup' prop ([d24390c](https://github.com/skbkontur/retail-ui/commit/d24390c))
+* **HBVS:** окончательно отремонтирован ([c8df8a5](https://github.com/skbkontur/retail-ui/commit/c8df8a5))
+* **Modal:** fix modalClickTrap height, close [#810](https://github.com/skbkontur/retail-ui/issues/810) ([01497b5](https://github.com/skbkontur/retail-ui/commit/01497b5))
+
+
+### Features
+
+* **combobox:** accept onUnexpectedInput handler return value ([e6c1d37](https://github.com/skbkontur/retail-ui/commit/e6c1d37))
+* **Icon:** use svg icons ([0690828](https://github.com/skbkontur/retail-ui/commit/0690828))
+
+
+
+
 <a name="0.25.0"></a>
 # [0.25.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.24.1...retail-ui@0.25.0) (2018-10-15)
 

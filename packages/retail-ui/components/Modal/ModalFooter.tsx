@@ -30,6 +30,7 @@ export class Footer extends React.Component<FooterProps> {
           <Sticky
             side="bottom"
             offset={horizontalScroll ? this.scrollbarWidth : 0}
+            allowChildWithMargins
           >
             {fixed => (
               <div className={classNames(names, fixed && styles.fixedFooter)}>

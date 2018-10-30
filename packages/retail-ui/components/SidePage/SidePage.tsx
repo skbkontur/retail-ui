@@ -164,14 +164,15 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
             )}
             style={this.getSidebarStyle()}
           >
-            <div ref={_ => (this.layoutRef = _)} className={styles.layout}>
+            <div ref={_ => (this.layoutRef = _)}>
               <SidePageContext.Provider
                 value={{
                   requestClose: this.requestClose,
                   width: sidePageWidth
                 }}
               >
-                {this.props.children}
+                {/* React <= 15. SidePageContext.Provider can only receive a single child element. */}
+                <div className={styles.layout}>{this.props.children}</div>
               </SidePageContext.Provider>
             </div>
           </div>
@@ -198,15 +199,16 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
         onScroll={LayoutEvents.emit}
         style={style}
       >
-        <HideBodyVerticalScroll allowScrolling={!blockBackground} />
-        {blockBackground && (
+        {blockBackground && [
+          <HideBodyVerticalScroll key="hbvs" />,
           <div
+            key="overlay"
             className={classNames(
               styles.background,
               this.state.hasBackground && styles.gray
             )}
           />
-        )}
+        ]}
       </ZIndex>
     );
   }

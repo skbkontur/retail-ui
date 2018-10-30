@@ -1,5 +1,7 @@
 @import '../variables.less';
 
+@containerPadding: 20px 0;
+
 :local {
   .root {
     height: 100%;
@@ -26,7 +28,7 @@
     text-align: center;
     height: 100%;
     overflow-y: auto;
-    padding: 20px 0;
+    padding: @containerPadding;
     outline: none;
 
     &:before {
@@ -41,7 +43,8 @@
         padding: 0;
 
         .centerContainer {
-          padding: 0;
+          margin: 0;
+          width: 100%;
         }
       }
     }
@@ -60,6 +63,7 @@
   .window {
     position: relative;
     white-space: normal;
+    margin: auto;
     background: @bg-default;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   }
@@ -142,6 +146,10 @@
     background: @modal-fixed-header-bg;
   }
 
+  .fixedHeader {
+    margin-bottom: 10px;
+  }
+
   .fixedHeader:after,
   .fixedFooter:before {
     content: '';
@@ -153,7 +161,7 @@
   }
 
   .fixedHeader:after {
-    bottom: 1px;
+    bottom: 11px;
     box-shadow: @modal-fixed-header-shadow;
   }
 
@@ -185,19 +193,22 @@
 
   .fixedFooter {
     padding-top: 20px;
+    margin-top: 10px;
 
     &:before {
-      top: 1px;
+      top: 11px;
       box-shadow: @modal-fixed-footer-shadow;
     }
   }
 
   .modalClickTrap {
     position: absolute;
-    left: 0;
+    padding: @containerPadding;
+    box-sizing: content-box;
     top: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 5;
   }
 }

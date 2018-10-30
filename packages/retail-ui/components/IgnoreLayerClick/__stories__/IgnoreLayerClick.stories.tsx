@@ -1,4 +1,4 @@
-
+// tslint:disable:jsx-no-lambda
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import SidePage from '../../SidePage/SidePage';
@@ -6,22 +6,18 @@ import IgnoreLayerClick from '../IgnoreLayerClick';
 import Button from '../../Button';
 import Toggle from '../../Toggle/Toggle';
 
-type SampleState = {
-  active: boolean,
-  open: boolean
-};
+interface SampleState {
+  active: boolean;
+  open: boolean;
+}
 
 class Sample extends Component<{}, SampleState> {
-  constructor(props, context) {
-    super(props, context);
+  public state: SampleState = {
+    active: false,
+    open: false
+  };
 
-    this.state = {
-      active: false,
-      open: false
-    };
-  }
-
-  render() {
+  public render() {
     return (
       <div>
         {this.state.open && (

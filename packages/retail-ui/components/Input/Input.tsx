@@ -62,8 +62,6 @@ export type InputProps = Override<
     type?: InputType;
     /** Значение */
     value?: string;
-    className?: undefined;
-    style?: undefined;
     capture?: boolean;
 
     /**
@@ -71,6 +69,7 @@ export type InputProps = Override<
      * 100% ширина в группе, лучше явно передать ширину в компонент
      */
     mainInGroup?: boolean;
+    /** Выделять введенное значение при фокусе */
     selectAllOnFocus?: boolean;
   }
 >;
@@ -185,6 +184,8 @@ class Input extends React.Component<InputProps, InputState> {
       align,
       type,
       mask,
+      maskChar,
+      alwaysShowMask,
       style,
       className,
       size,

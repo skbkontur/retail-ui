@@ -1,15 +1,17 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import cn from 'classnames';
+import EyeOpenedIcon from '@skbkontur/react-icons/EyeOpened';
+import EyeClosedIcon from '@skbkontur/react-icons/EyeClosed';
+
 import getCharHelper from './getCharHelper';
 import Input from '../Input';
 import { InputProps } from '../Input/Input';
-import Icon from '../Icon';
 import PasswordInputFallback from './PasswordInputFallback';
 import { ieVerison, isIE } from '../ensureOldIEClassName';
+import { Nullable } from '../../typings/utility-types';
 
 import styles from './PasswordInput.less';
-import { Nullable } from '../../typings/utility-types';
 
 export type PasswordInputProps = {
   detectCapsLock?: boolean;
@@ -147,7 +149,11 @@ export default class PasswordInput extends React.Component<
         className={styles.toggleVisibility}
         onClick={this._handleToggleVisibility}
       >
-        <Icon size={14} name={this.state.visible ? 'EyeOpened' : 'EyeClosed'} />
+        {this.state.visible ? (
+          <EyeOpenedIcon size={14} />
+        ) : (
+          <EyeClosedIcon size={14} />
+        )}
       </span>
     );
   };

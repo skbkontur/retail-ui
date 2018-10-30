@@ -1,8 +1,6 @@
 import * as React from 'react';
 import getComputedStyle from '../../lib/dom/getComputedStyle';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
-import event from 'add-event-listener';
-import LayoutEvents from '../../lib/LayoutEvents';
 import addClass from '../../lib/dom/addClass';
 import removeClass from '../../lib/dom/removeClass';
 
@@ -13,28 +11,33 @@ export interface HideBodyVerticalScrollProps {
 export default class HideBodyVerticalScroll extends React.Component<
   HideBodyVerticalScrollProps
 > {
-  private _disposeDocumentStyle: (() => void) | null = null;
-  private _disposeBodyStyle: (() => void) | null = null;
+  private disposeDocumentStyle: (() => void) | null = null;
+  private disposeBodyStyle: (() => void) | null = null;
   private initialScroll: number = 0;
 
   public componentDidMount() {
     const counter = VerticalScrollCounter.increment();
     if (counter === 1) {
-      this.initialScroll = document.documentElement.scrollTop;
-      this._updateScrollVisibility();
-      event.addEventListener(window, 'resize', this._updateScrollVisibility);
+      this.initialScroll = document.documentElement
+        ? document.documentElement.scrollTop
+        : 0;
+      this.updateScrollVisibility();
+      window.addEventListener('resize', this.updateScrollVisibility);
     }
   }
 
   public componentDidUpdate() {
-    this._updateScrollVisibility();
+    this.updateScrollVisibility();
   }
 
   public componentWillUnmount() {
+    const { documentElement, body } = document;
+    this.restoreStyles(documentElement, body);
+
     const counter = VerticalScrollCounter.decrement();
     if (counter === 0) {
-      this._updateScrollVisibility();
-      event.removeEventListener(window, 'resize', this._updateScrollVisibility);
+      this.updateScrollVisibility();
+      window.removeEventListener('resize', this.updateScrollVisibility);
     }
   }
 
@@ -42,28 +45,25 @@ export default class HideBodyVerticalScroll extends React.Component<
     return null;
   }
 
-  private _updateScrollVisibility = () => {
+  private updateScrollVisibility = () => {
     const { documentElement, body } = document;
-    if (documentElement && body) {
-      this._restoreStyles(documentElement, body);
+    const { clientHeight, scrollHeight } = documentElement;
 
-      const justRestore = VerticalScrollCounter.get() === 0;
-      const { clientHeight, scrollHeight } = documentElement;
-      const needHide = !justRestore && clientHeight < scrollHeight;
+    this.restoreStyles(documentElement, body);
 
-      if (needHide) {
-        this._makeSomeMagicWithScroll(documentElement, body);
-      }
+    const shouldRestore = VerticalScrollCounter.get() === 0;
+    const shouldHide = !shouldRestore && clientHeight < scrollHeight;
 
-      if (justRestore) {
-        documentElement.scrollTop = this.initialScroll;
-      }
+    if (shouldHide) {
+      this.makeSomeMagicWithScroll(documentElement, body);
+    }
 
-      LayoutEvents.emit();
+    if (shouldRestore) {
+      documentElement.scrollTop = this.initialScroll;
     }
   };
 
-  private _makeSomeMagicWithScroll = (
+  private makeSomeMagicWithScroll = (
     document: HTMLElement,
     body: HTMLElement
   ) => {
@@ -82,19 +82,21 @@ export default class HideBodyVerticalScroll extends React.Component<
 
       const scrollTop = document.scrollTop;
       const documentStyle = generateDocumentStyle(documentMargin);
-      this._disposeDocumentStyle = this._attachStyle(document, documentStyle);
+
+      this.disposeDocumentStyle = this.attachStyle(document, documentStyle);
       const bodyStyle = generateBodyStyle(scrollWidth, rightOffset);
-      this._disposeBodyStyle = this._attachStyle(body, bodyStyle);
+      this.disposeBodyStyle = this.attachStyle(body, bodyStyle);
       body.scrollTop = scrollTop;
     } else {
       const documentStyle = generateDocumentStyle(
         parseFloat(documentComputedStyle.marginRight || '') + getScrollWidth()
       );
-      this._disposeDocumentStyle = this._attachStyle(document, documentStyle);
+
+      this.disposeDocumentStyle = this.attachStyle(document, documentStyle);
     }
   };
 
-  private _attachStyle = (
+  private attachStyle = (
     element: HTMLElement,
     style: { css: string; className: string }
   ) => {
@@ -106,19 +108,19 @@ export default class HideBodyVerticalScroll extends React.Component<
     };
   };
 
-  private _restoreStyles = (document: HTMLElement, body: HTMLElement) => {
+  private restoreStyles = (document: HTMLElement, body: HTMLElement) => {
     // Must be before _disposeDocumentStyle
     // as it would change after dispose
     const scrollTop = body.scrollTop;
 
-    if (this._disposeDocumentStyle) {
-      this._disposeDocumentStyle();
-      this._disposeDocumentStyle = null;
+    if (this.disposeDocumentStyle) {
+      this.disposeDocumentStyle();
+      this.disposeDocumentStyle = null;
     }
 
-    if (this._disposeBodyStyle) {
-      this._disposeBodyStyle();
-      this._disposeBodyStyle = null;
+    if (this.disposeBodyStyle) {
+      this.disposeBodyStyle();
+      this.disposeBodyStyle = null;
       document.scrollTop = scrollTop;
     }
 
@@ -157,6 +159,7 @@ function generateDocumentStyle(documentMargin: number) {
 .${className} {
   overflow: hidden !important;
   margin-right: ${documentMargin}px !important;
+  height: 100%;
 }
 `;
   return { className, css };
@@ -169,6 +172,7 @@ function generateBodyStyle(scrollWidth: number, rightOffset: number) {
   overflow-y: auto !important;
   margin-right: -${scrollWidth}px !important;
   padding-right: ${2 * scrollWidth + rightOffset}px !important;
+  height: 100%;
 }
 `;
   return { className, css };
@@ -177,7 +181,7 @@ function generateBodyStyle(scrollWidth: number, rightOffset: number) {
 function attachStylesheet(sheet: string) {
   const style = document.createElement('style');
   style.setAttribute('type', 'text/css');
-  // @ts-ignore
+  // @ts-ignore IE specific api
   if (style.styleSheet) {
     // @ts-ignore IE specific api
     style.styleSheet.cssText = sheet;
@@ -188,6 +192,8 @@ function attachStylesheet(sheet: string) {
   const head = document.getElementsByTagName('head')[0];
   head.appendChild(style);
   return () => {
-    head.removeChild(style);
+    if (head.contains(style)) {
+      head.removeChild(style);
+    }
   };
 }

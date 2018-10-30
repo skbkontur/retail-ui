@@ -4,6 +4,7 @@ import ComboBoxView from './ComboBoxView';
 import { Nullable } from '../../typings/utility-types';
 import Input from '../Input';
 import Menu from '../Menu/Menu';
+import InputLikeText from '../internal/InputLikeText';
 import shallow from 'fbjs/lib/shallowEqual';
 
 export type Action<T> =
@@ -85,10 +86,9 @@ class CustomComboBox extends React.Component<
   CustomComboBoxState<any>
 > {
   public state: CustomComboBoxState<any> = DefaultState;
-  // @ts-ignore FIXME:
-  private input: Nullable<Input>;
-  // @ts-ignore FIXME:
-  private menu: Nullable<Menu>;
+  public input: Nullable<Input>;
+  public menu: Nullable<Menu>;
+  public inputLikeText: Nullable<InputLikeText>;
   private focused: boolean = false;
 
   public focus = () => {
@@ -155,6 +155,9 @@ class CustomComboBox extends React.Component<
       },
       refMenu: (menu: Nullable<Menu>) => {
         this.menu = menu;
+      },
+      refInputLikeText: (inputLikeText: Nullable<InputLikeText>) => {
+        this.inputLikeText = inputLikeText;
       }
     };
 

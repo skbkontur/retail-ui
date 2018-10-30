@@ -21,6 +21,10 @@
     overflow: visible; // On IE it's hidden by default.
     position: relative;
     width: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-clip: border-box;
 
     &::-moz-focus-inner {
       border: 0;
@@ -49,7 +53,7 @@
       right: 0;
     }
 
-    .warning {
+    &:not(.link) .warning {
       box-shadow: 0 0 0 2px @border-color-warning;
 
       :global(.rt-ie8) & {
@@ -57,7 +61,7 @@
       }
     }
 
-    .error {
+    &:not(.link) .error {
       box-shadow: 0 0 0 2px @border-color-error;
 
       :global(.rt-ie8) & {
@@ -243,8 +247,7 @@
     .error {
       left: -2px;
       right: -2px;
-      top: 3px;
-      bottom: 2px;
+      bottom: -2px;
     }
 
     .error {

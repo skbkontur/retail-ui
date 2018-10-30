@@ -371,6 +371,13 @@
   dependencies:
     any-observable "^0.3.0"
 
+"@skbkontur/react-icons@^3.0.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-3.1.0.tgz#9f8e001b16819a83c722a35880476345ac4ef90b"
+  integrity sha512-eA58MFU9u1JY1dDRKZDKEemazmx8dcIXU4+xjTN33Wv2tsv0VGhDhnObSSFa3bAMSv4LT+WFBOvC2BwoS2Tb0w==
+  dependencies:
+    tslib "^1.9.2"
+
 "@skbkontur/typed-css-modules-loader@^0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@skbkontur/typed-css-modules-loader/-/typed-css-modules-loader-0.1.4.tgz#08eac1a2bdbd2bb29297d1215d45a2de24136486"
@@ -9530,7 +9537,7 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-lint-staged@^7.1.0, lint-staged@^7.2.0:
+lint-staged@^7.1.0:
   version "7.2.2"
   resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-7.2.2.tgz#0983d55d497f19f36d11ff2c8242b2f56cc2dd05"
   integrity sha512-BWT3kx242hq5oaKJ8QiazPeHwJnEXImvjmgZfjljMI5HX6RrTxI3cTJXywre6GNafMONCD/suFnEiFmC69Gscg==
@@ -14908,7 +14915,7 @@ ts-loader@3.5.0:
     micromatch "^3.1.4"
     semver "^5.0.1"
 
-tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.1, tslib@^1.9.3:
+tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.1, tslib@^1.9.2, tslib@^1.9.3:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
   integrity sha512-4krF8scpejhaOgqzBEcGM7yDIEfi0/8+8zDRZhNZZ2kjmHJ4hv3zCbQWxoJGz1iw5U0Jl0nma13xzHXcncMavQ==

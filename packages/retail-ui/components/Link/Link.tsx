@@ -1,15 +1,14 @@
-import events from 'add-event-listener';
-import classNames from 'classnames';
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
+import classNames from 'classnames';
+import warning from 'warning';
+import events from 'add-event-listener';
 
 import Icon, { IconName } from '../Icon';
-
-import styles = require('./Link.less');
-
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
+
+import styles from './Link.less';
 
 const useClasses = {
   default: styles.useDefault,
@@ -46,8 +45,6 @@ export type LinkProps = Override<
     _button?: boolean;
     _buttonOpened?: boolean;
     tabIndex?: number;
-    className?: undefined;
-    style?: undefined;
     /** onClick */
     onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
   }
@@ -98,11 +95,20 @@ class Link extends React.Component<LinkProps, LinkState> {
       use,
       _button,
       _buttonOpened,
+      className,
+      style,
+
       ...rest
     } = this.getProps<LinkProps, Link>();
 
     let iconElement = null;
     if (icon) {
+      if (process.env.NODE_ENV !== 'production') {
+        warning(
+          React.isValidElement(this.props.icon),
+          'Passing string to "icon" prop is deprecated. Please use icons from "@skbkontur/react-icons"'
+        );
+      }
       iconElement = (
         <span className={styles.icon}>
           {typeof icon === 'string' ? <Icon name={icon} /> : icon}

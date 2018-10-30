@@ -1,10 +1,10 @@
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
+import FunctionIcon from '@skbkontur/react-icons/Function';
+import UndoIcon from '@skbkontur/react-icons/Undo';
 
 import Button from '../Button';
 import Group from '../Group';
-import Icon from '../Icon';
 import Input, { InputProps } from '../Input';
 import CurrencyInput, { CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter } from '../internal/createPropsGetter';
@@ -52,19 +52,15 @@ class FxInput extends React.Component<FxInputProps> {
 
   public render(): JSX.Element {
     const { type, onRestore, auto, ...rest } = this.props;
-    const inputProps: {
-      align: InputProps['align'];
-      mainInGroup: boolean;
-      leftIcon?: React.ReactNode;
-    } = {
+    const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
-      mainInGroup: true
+      width: '100%'
     };
 
     let button = null;
 
     if (auto) {
-      inputProps.leftIcon = <Icon name="Function" />;
+      inputProps.leftIcon = <FunctionIcon />;
     } else {
       button = (
         <Button
@@ -72,7 +68,7 @@ class FxInput extends React.Component<FxInputProps> {
           onClick={this.props.onRestore}
           borderless={this.props.borderless}
         >
-          <Icon name="Undo" />
+          <UndoIcon />
         </Button>
       );
     }

@@ -15,7 +15,7 @@ export class Header extends React.Component<HeaderProps> {
     return (
       <ModalContext.Consumer>
         {({ close, additionalPadding }) => (
-          <Sticky side="top">
+          <Sticky side="top" allowChildWithMargins>
             {fixed => (
               <div
                 className={classNames(

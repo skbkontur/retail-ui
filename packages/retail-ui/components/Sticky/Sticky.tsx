@@ -5,12 +5,22 @@ import * as PropTypes from 'prop-types';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import styles from './Sticky.less';
+import classNames from 'classnames';
 
 export interface StickyProps {
   side: 'top' | 'bottom';
   offset?: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
+
+  /**
+   *
+   * Если `false`, вызывает `Maximum update depth exceeded error` когда у потомка определены марджины.
+   * Если `true` - добавляет контейнеру `overflow: auto`, тем самым предотвращая схлопывание марджинов
+   * @default false
+   */
+  allowChildWithMargins?: boolean;
 }
 
 export interface StickyState {
@@ -36,11 +46,13 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
      */
     offset: PropTypes.number,
 
-    side: PropTypes.oneOf(['top', 'bottom']).isRequired
+    side: PropTypes.oneOf(['top', 'bottom']).isRequired,
+    allowChildWithMargins: PropTypes.bool
   };
 
   public static defaultProps = {
-    offset: 0
+    offset: 0,
+    allowChildWithMargins: false
   };
 
   public state: StickyState = {
@@ -84,10 +96,10 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   public render() {
     let wrapperStyle: React.CSSProperties = {};
     let innerStyle: React.CSSProperties = {};
+
     if (this.state.fixed) {
       if (this.state.stopped) {
         innerStyle = {
-          position: 'relative',
           top: this.state.relativeTop
         };
       } else {
@@ -97,9 +109,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
 
         innerStyle = {
           left: this.state.left,
-          position: 'fixed',
-          width: this.state.width,
-          zIndex: 100
+          width: this.state.width
         };
 
         if (this.props.side === 'top') {
@@ -115,9 +125,20 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
       children = children(this.state.fixed);
     }
 
+    if (this.props.allowChildWithMargins) {
+      innerStyle.overflow = 'auto';
+    }
+
     return (
       <div style={wrapperStyle} ref={this._refWrapper}>
-        <div style={innerStyle} ref={this._refInner}>
+        <div
+          className={classNames({
+            [styles.innerFixed]: this.state.fixed,
+            [styles.innerStopped]: this.state.stopped
+          })}
+          style={innerStyle}
+          ref={this._refInner}
+        >
           {children}
         </div>
       </div>

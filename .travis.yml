@@ -15,8 +15,9 @@ matrix:
       install:
         - yarn
       script:
-        - yarn workspace retail-ui run test --silent
-        - yarn workspace react-ui-screenshot-tests run test
+        - yarn workspace retail-ui lint
+        - yarn workspace retail-ui test --silent
+        - yarn workspace react-ui-screenshot-tests test
 
     - language: csharp
       dotnet: 2.1

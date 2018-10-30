@@ -128,6 +128,8 @@ const Effect = {
           `[ComboBox] Returning 'null' is deprecated in 'onUnexpectedInput'. For clear value use instance method 'reset'`
         );
         dispatch({ type: 'TextClear', value: '' });
+      } else if (value !== undefined) {
+        dispatch({ type: 'ValueChange', value });
       }
     }
   },
