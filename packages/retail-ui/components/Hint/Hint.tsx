@@ -99,13 +99,13 @@ class Hint extends React.Component<HintProps, HintState> {
       <span
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        className={classNames(styles.root)}
         ref={this.captionRef}
       >
         {this.props.children}
         {this.captionNode && (
           <Popup
             hasPin
+            margin={15}
             opened={this.state.opened}
             anchorElement={this.captionNode}
             positions={this.getPositions()}
