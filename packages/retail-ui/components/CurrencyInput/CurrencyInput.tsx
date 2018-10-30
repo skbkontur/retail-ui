@@ -37,6 +37,7 @@ export type CurrencyInputProps = Override<
 export interface CurrencyInputState {
   formatted: string;
   selection: Selection;
+  focused: boolean;
 }
 
 /**
@@ -76,16 +77,13 @@ export default class CurrencyInput extends React.Component<
     value: null
   };
 
-  private _input: Nullable<Input>;
-  private _focused: boolean = false;
-  private _tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(
-    0
-  );
+  public state: CurrencyInputState = {
+    ...this.getState(this.props.value, this.props.fractionDigits),
+    focused: false
+  };
 
-  constructor(props: CurrencyInputProps, context: any) {
-    super(props, context);
-    this.state = this._getState(props.value, props.fractionDigits);
-  }
+  private input: Nullable<Input>;
+  private tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(0);
 
   public componentWillReceiveProps(nextProps: CurrencyInputProps) {
     const { value, fractionDigits } = nextProps;
@@ -93,8 +91,17 @@ export default class CurrencyInput extends React.Component<
       value !== CurrencyHelper.parse(this.state.formatted) ||
       fractionDigits !== this.props.fractionDigits
     ) {
-      const state = this._getState(value, fractionDigits);
+      const state = this.getState(value, fractionDigits);
       this.setState(state);
+    }
+  }
+
+  public componentDidUpdate() {
+    if (this.state.focused) {
+      const { start, end } = this.state.selection;
+      if (this.input) {
+        this.input.setSelectionRange(start, end);
+      }
     }
   }
 
@@ -117,52 +124,43 @@ export default class CurrencyInput extends React.Component<
       <Input
         {...rest}
         value={this.state.formatted}
-        onBlur={this._handleBlur}
-        onFocus={this._handleFocus}
-        onMouseUp={this._handleMouseUp}
-        onKeyDown={this._handleKeyDown}
-        onChange={this._handleChange}
-        onPaste={this._handlePaste}
-        onCopy={this._handleCopy}
-        onCut={this._handleCut}
+        onBlur={this.handleBlur}
+        onFocus={this.handleFocus}
+        onMouseUp={this.handleMouseUp}
+        onKeyDown={this.handleKeyDown}
+        onChange={this.handleChange}
+        onPaste={this.handlePaste}
+        onCopy={this.handleCopy}
+        onCut={this.handleCut}
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}
-        ref={this._handleRef}
-        placeholder={placeholder}
+        ref={this.refInput}
+        placeholder={this.state.focused ? '' : placeholder}
       />
     );
   }
 
-  public componentDidUpdate() {
-    if (this._focused) {
-      const { start, end } = this.state.selection;
-      if (this._input) {
-        this._input.setSelectionRange(start, end);
-      }
-    }
-  }
-
   public focus = () => {
-    if (this._input) {
-      this._input.focus();
+    if (this.input) {
+      this.input.focus();
     }
   };
 
   public blur = () => {
-    if (this._input) {
-      this._input.blur();
+    if (this.input) {
+      this.input.blur();
     }
   };
 
-  private _getState(value: Nullable<number>, fractionDigits: Nullable<number>) {
+  private getState(value: Nullable<number>, fractionDigits: Nullable<number>) {
     return {
       formatted: CurrencyHelper.format(value, { fractionDigits }),
       selection: SelectionHelper.fromPosition(0)
     };
   }
 
-  private _handleMouseUp = (event: React.MouseEvent<HTMLInputElement>) => {
+  private handleMouseUp = (event: React.MouseEvent<HTMLInputElement>) => {
     const selection = getInputSelection(event.target);
     const normilized = CurrencyInputHelper.normalizeSelection(
       this.state.formatted,
@@ -171,9 +169,9 @@ export default class CurrencyInput extends React.Component<
     this.setState({ selection: normilized });
   };
 
-  private _handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    const selection = this._getSelection(event.target);
-    this._tempSelectionForOnChange = selection;
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const selection = this.getSelection(event.target);
+    this.tempSelectionForOnChange = selection;
 
     if (this.props.onKeyDown) {
       this.props.onKeyDown(event);
@@ -200,7 +198,7 @@ export default class CurrencyInput extends React.Component<
         return;
       }
       case CURRENCY_INPUT_ACTIONS.Backspace: {
-        this._inputValue(
+        this.inputValue(
           CurrencyInputHelper.moveCursor(this.state.formatted, selection, -1),
           selection.end,
           ''
@@ -208,7 +206,7 @@ export default class CurrencyInput extends React.Component<
         return;
       }
       case CURRENCY_INPUT_ACTIONS.Delete: {
-        this._inputValue(
+        this.inputValue(
           selection.start,
           CurrencyInputHelper.moveCursor(this.state.formatted, selection, +1),
           ''
@@ -216,11 +214,11 @@ export default class CurrencyInput extends React.Component<
         return;
       }
       case CURRENCY_INPUT_ACTIONS.MoveCursorLeft: {
-        this._moveCursor(selection, -1);
+        this.moveCursor(selection, -1);
         return;
       }
       case CURRENCY_INPUT_ACTIONS.MoveCursorRight: {
-        this._moveCursor(selection, +1);
+        this.moveCursor(selection, +1);
         return;
       }
       case CURRENCY_INPUT_ACTIONS.Home: {
@@ -233,11 +231,11 @@ export default class CurrencyInput extends React.Component<
         return;
       }
       case CURRENCY_INPUT_ACTIONS.ExtendSelectionLeft: {
-        this._extendSelection(selection, -1);
+        this.extendSelection(selection, -1);
         return;
       }
       case CURRENCY_INPUT_ACTIONS.ExtendSelectionRight: {
-        this._extendSelection(selection, +1);
+        this.extendSelection(selection, +1);
         return;
       }
       case CURRENCY_INPUT_ACTIONS.FullSelection: {
@@ -262,7 +260,7 @@ export default class CurrencyInput extends React.Component<
     }
   };
 
-  private _getSelection = (input: EventTarget): Selection => {
+  private getSelection = (input: EventTarget): Selection => {
     const selection = getInputSelection(input);
     return {
       start: selection.start,
@@ -271,7 +269,7 @@ export default class CurrencyInput extends React.Component<
     };
   };
 
-  private _moveCursor = (selection: Selection, step: number) => {
+  private moveCursor = (selection: Selection, step: number) => {
     const position = CurrencyInputHelper.moveCursor(
       this.state.formatted,
       selection,
@@ -280,7 +278,7 @@ export default class CurrencyInput extends React.Component<
     this.setState({ selection: SelectionHelper.fromPosition(position) });
   };
 
-  private _extendSelection = (selection: Selection, step: number) => {
+  private extendSelection = (selection: Selection, step: number) => {
     const extended = CurrencyInputHelper.extendSelection(
       this.state.formatted,
       selection,
@@ -289,7 +287,7 @@ export default class CurrencyInput extends React.Component<
     this.setState({ selection: extended });
   };
 
-  private _inputValue = (start: number, end: number, value: string) => {
+  private inputValue = (start: number, end: number, value: string) => {
     const result = CurrencyInputHelper.safeInsert(
       this.state.formatted,
       start,
@@ -312,8 +310,8 @@ export default class CurrencyInput extends React.Component<
     return false;
   };
 
-  private _getOnChangeDelta = (value: string) => {
-    const selection = this._tempSelectionForOnChange;
+  private getOnChangeDelta = (value: string) => {
+    const selection = this.tempSelectionForOnChange;
     const oldValue = this.state.formatted;
     if (selection.start !== selection.end) {
       return value.substring(
@@ -326,29 +324,26 @@ export default class CurrencyInput extends React.Component<
     return null;
   };
 
-  private _handleChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    value: string
-  ): void => {
-    const selection = this._tempSelectionForOnChange;
-    const delta = this._getOnChangeDelta(value);
+  private handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const selection = this.tempSelectionForOnChange;
+    const delta = this.getOnChangeDelta(event.target.value);
     if (
       delta != null &&
-      !this._inputValue(selection.start, selection.end, delta)
+      !this.inputValue(selection.start, selection.end, delta)
     ) {
       this.setState({ selection });
     }
   };
 
-  private _handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
+  private handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
     const data = event.clipboardData.getData('text');
-    const selection = this._getSelection(event.target);
-    this._inputValue(selection.start, selection.end, data);
+    const selection = this.getSelection(event.target);
+    this.inputValue(selection.start, selection.end, data);
     event.preventDefault();
   };
 
-  private _handleCopy = (event: React.ClipboardEvent<HTMLInputElement>) => {
-    const selection = this._getSelection(event.target);
+  private handleCopy = (event: React.ClipboardEvent<HTMLInputElement>) => {
+    const selection = this.getSelection(event.target);
     if (selection.start !== selection.end) {
       const substring = this.state.formatted.substring(
         selection.start,
@@ -360,8 +355,8 @@ export default class CurrencyInput extends React.Component<
     event.preventDefault();
   };
 
-  private _handleCut = (event: React.ClipboardEvent<HTMLInputElement>) => {
-    const selection = this._getSelection(event.target);
+  private handleCut = (event: React.ClipboardEvent<HTMLInputElement>) => {
+    const selection = this.getSelection(event.target);
     if (selection.start !== selection.end) {
       const substring = this.state.formatted.substring(
         selection.start,
@@ -369,30 +364,35 @@ export default class CurrencyInput extends React.Component<
       );
       const data = CurrencyHelper.formatForClipboard(substring);
       event.clipboardData.setData('text', data);
-      this._inputValue(selection.start, selection.end, '');
+      this.inputValue(selection.start, selection.end, '');
     }
     event.preventDefault();
   };
 
-  private _handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-    this._focused = true;
+  private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.setState({
+      focused: true
+    });
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
 
-  private _handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    this._focused = false;
+  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const value = CurrencyHelper.parse(this.state.formatted);
-    const state = this._getState(value, this.props.fractionDigits);
-    this.setState(state);
+
+    this.setState({
+      ...this.getState(value, this.props.fractionDigits),
+      focused: false
+    });
+
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
   };
 
-  private _handleRef = (ref: Nullable<Input>) => {
-    this._input = ref;
+  private refInput = (element: Input) => {
+    this.input = element;
   };
 }
 
