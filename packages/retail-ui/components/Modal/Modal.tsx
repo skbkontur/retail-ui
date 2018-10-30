@@ -199,8 +199,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
                     ) : null}
                     <ModalContext.Provider value={modalContextProps}>
                       <div>
-                        {' '}
-                        {/* <ModalContext.Provider can only receive a single child element. */}
+                        {/* React <= 15. ModalContext.Provider can only receive a single child element. */}
                         {this.props.children}
                       </div>
                     </ModalContext.Provider>
