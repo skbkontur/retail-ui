@@ -3,6 +3,8 @@
 Рекомендуемое
 
 ```jsx
+const BabyIcon = require('@skbkontur/react-icons/Baby').default;
+
 let pageStyle = {
   background: '#e6e6e6',
   height: 400,
@@ -23,15 +25,15 @@ let contentStyle = {
         <Logotype suffix="ui" withWidget />
       </TopBar.ItemStatic>
       <TopBar.Item>
-        <Icon name="Baby" color="#666" />
+        <BabyIcon color="#666" />
       </TopBar.Item>
       <TopBar.Item>
-        <Icon name="Baby" color="#666" />
+        <BabyIcon color="#666" />
       </TopBar.Item>
     </TopBar.Start>
     <TopBar.End>
       <TopBar.Item>
-        <Icon name="Baby" color="#666" />
+        <BabyIcon color="#666" />
       </TopBar.Item>
       <TopBar.User userName="Alexander The Great" />
       <TopBar.Divider />
@@ -47,6 +49,8 @@ let contentStyle = {
 Старый вариант
 
 ```jsx
+const BabyIcon = require('@skbkontur/react-icons/Baby').default;
+
 let Item = TopBar.Item;
 
 let pageStyle = {
@@ -69,7 +73,7 @@ let contentStyle = {
     onLogout={() => alert('Logout!')}
     leftItems={[
       <Item>
-        <Icon name="Baby" color="#666" />
+        <BabyIcon color="#666" />
       </Item>
     ]}
   />

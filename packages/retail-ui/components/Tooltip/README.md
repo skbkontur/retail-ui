@@ -1,6 +1,10 @@
 Отступы в тултипе подобраны так, чтобы базовая линия текста со шрифтом Segoe UI в тултипе совпадала с базовой линией стандартных контролов
 
 ```jsx
+const SearchIcon = require('@skbkontur/react-icons/Search').default;
+const MenuIcon = require('@skbkontur/react-icons/Menu').default;
+const HelpDotIcon = require('@skbkontur/react-icons/HelpDot').default;
+
 const initialState = {
   size: 'small'
 };
@@ -31,15 +35,15 @@ const render = () => (
       />
     </Gapped>
     <Tooltip render={render} pos="right top">
-      <Input size={state.size} leftIcon={<Icon name="Search" />} width={170} />
+      <Input size={state.size} leftIcon={<SearchIcon />} width={170} />
     </Tooltip>
     <Tooltip render={render} pos="right top">
-      <Button size={state.size} icon="Menu">
+      <Button size={state.size} icon={<MenuIcon />}>
         Menu
       </Button>
     </Tooltip>
     <Tooltip render={render} pos="right top">
-      <Icon name="HelpDot" />
+      <HelpDotIcon />
     </Tooltip>
   </Gapped>
 </div>;
