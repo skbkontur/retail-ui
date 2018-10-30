@@ -36,7 +36,7 @@ export class FiasData {
 
   constructor(public data: FiasObject) {}
 
-  get name(): string {
+  public get name(): string {
     const { data } = this;
     if (FiasData.isAddressObject(data)) {
       return data.name;

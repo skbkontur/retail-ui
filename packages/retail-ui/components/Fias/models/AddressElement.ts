@@ -17,13 +17,6 @@ export class AddressElement {
     public data?: Nullable<FiasData>
   ) {}
 
-  get dataNameField(): string {
-    if (this.type === 'stead' || this.type === 'house') {
-      return 'number';
-    }
-    return 'name';
-  }
-
   public getText(withoutType: boolean = false): string {
     const { name, data } = this;
     let result = '';
@@ -133,7 +126,7 @@ export class AddressElement {
     return FEDERAL_CITIES.includes(this.data.fiasId);
   }
 
-  public isTypeMatchTheField = (field: string): boolean => {
+  public doesTheTypeMatchTheField = (field: string): boolean => {
     const types: {
       [key: string]: string;
     } = {
@@ -148,4 +141,33 @@ export class AddressElement {
     }
     return false;
   };
+
+  get verifiableData(): Partial<FiasData> {
+    const { type, data } = this;
+    if (data) {
+      const {
+        name,
+        abbreviation,
+        number,
+        structureNumber,
+        buildingNumber
+      } = data;
+      switch (type) {
+        case 'house':
+          return {
+            number,
+            structureNumber,
+            buildingNumber
+          };
+        default:
+          return {
+            name,
+            abbreviation
+          };
+      }
+    }
+    return {
+      name: this.name
+    };
+  }
 }

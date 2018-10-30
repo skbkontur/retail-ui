@@ -31,7 +31,8 @@ export class Address {
     'intracityarea',
     'settlement',
     'planningstructure',
-    'street'
+    'street',
+    'house'
   ];
 
   public static createFromResponse = (response: ResponseAddress) => {
@@ -192,13 +193,10 @@ export class Address {
       if (!element) {
         return value;
       }
-      const { name, data } = element;
-      const abbreviation = data && data.abbreviation;
       return {
         ...value,
         [field]: {
-          name,
-          abbreviation
+          ...element.verifiableData
         }
       };
     }, {});

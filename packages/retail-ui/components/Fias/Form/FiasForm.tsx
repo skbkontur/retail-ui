@@ -134,7 +134,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       const hasParents = Boolean(address.getClosestParentFiasId(field));
 
       const fieldText = element
-        ? element.getText(!hasParents && element.isTypeMatchTheField(field))
+        ? element.getText(
+            !hasParents && element.doesTheTypeMatchTheField(field)
+          )
         : '';
 
       if (field === 'region' && element && element.data) {
@@ -149,7 +151,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
     const renderValue = (address: Address): React.ReactNode => {
       const element = address.fields[field];
-      return element && element.getText(element.isTypeMatchTheField(field));
+      return (
+        element && element.getText(element.doesTheTypeMatchTheField(field))
+      );
     };
 
     const renderNotFound = (): React.ReactNode => {
