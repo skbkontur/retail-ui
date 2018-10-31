@@ -150,12 +150,14 @@ const BriefcaseIcon = () => '💼';
 Формат данных:
 ```typescript
 interface FiasValue {
-  address: {
+  address?: {
     [key: string]: {
         name: string;
         data?: FiasObject;
       }
   };
+  addressString?: string;
+  fiasId?: string;
   errorMessages?: {
     [key: string]: string;
   };
@@ -233,6 +235,8 @@ const value: FiasValue = {
       name: '10'
     }
   },
+  addressString: 'Свердловская область, город Екатеринбург, улица Малопрудная, дом 5 строение 2',
+  fiasId: '2c9c38a3-e2b1-45d7-993d-d41be557a097',
   errorMessages: {}
 }
 ```
