@@ -2,9 +2,8 @@ const path = require('path');
 const semver = require('semver');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const versions = require('./versions');
-const currentVersion = versions.currentVersion;
-const reactUiPath = path.resolve(__dirname, "../../retail-ui");
+const retailUiPath = path.resolve(__dirname, "../../retail-ui");
+var { versions, retailUiLocalVersionStub } = require('./versions');
 
 const versionsDependencies = versions
     .map(x => Object.keys(x.dependencies))
@@ -18,8 +17,8 @@ function createConfig(reactVersion, retailUIVersion) {
     for (const dependency of dependencies) {
         alias[dependency] = path.resolve(`${targetDir}/node_modules/${dependency}`);
     }
-    if (retailUIVersion == currentVersion) {
-        alias["retail-ui"] = reactUiPath;
+    if (retailUIVersion === retailUiLocalVersionStub) {
+        alias["retail-ui"] = retailUiPath;
     }
     return {
         entry: {

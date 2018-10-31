@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "yarn --cwd ./TestPages install",
     "build": "dotnet build -c ReleaseCore",
-    "test": "dotnet test ./Tests/Tests.csproj -c ReleaseCore -v normal",
+    "test": "dotnet test ./Tests/Tests.csproj -c ReleaseCore -v detailed",
     "start": "yarn --cwd ./TestPages start"
   },
   "author": "",

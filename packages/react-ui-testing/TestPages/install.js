@@ -1,8 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const exec = require('child_process').exec;
-const versions = require('./versions');
-const currentVersion = versions.currentVersion;
+var { versions, retailUiLocalVersionStub } = require('./versions');
 
 const package = function (name, version) {
     return `${name}@${version}`;
@@ -26,15 +25,13 @@ const install = function (version) {
 
         const libs = [
             package('react', reactVersion),
+            ...retailUiVersion !== retailUiLocalVersionStub ? [package('retail-ui', retailUiVersion)] : [],
             ...Object.keys(dependencies).map(name => package(name, dependencies[name]))
         ];
-        if (retailUiVersion!=currentVersion){
-            libs.push(package('retail-ui', retailUiVersion));
-        }
 
         const child = exec(
             `npm install ${libs.join(' ')}`,
-            {cwd: path.join(__dirname, targetDir)},
+            { cwd: path.join(__dirname, targetDir) },
             function (error, stdout, stderr) {
                 stdout && console.log(`stdout:\n${stdout}`);
                 stderr && console.log(`stderr:\n${stderr}`);
