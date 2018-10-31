@@ -40,6 +40,10 @@ interface FiasProps {
    * `https://api.dev.kontur/fias/v1/` - Test; `https://api.kontur.ru/fias/v1/` - Prod;
    */
   baseUrl?: string;
+  /**
+   * Позволяет получить полный FiasValue после обработки входного `value`
+   */
+  onInit?: (value: FiasValue) => void;
   onChange?: (value: FiasValue) => void;
   onClose?: () => void;
   /**
@@ -100,7 +104,10 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   };
 
   public init = async () => {
-    this.updateAddress();
+    const address = await this.updateAddress();
+    if (this.props.onInit) {
+      this.props.onInit(address.getValue());
+    }
   };
 
   public updateAddress = async (): Promise<Address> => {
