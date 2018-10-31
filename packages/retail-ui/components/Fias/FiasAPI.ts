@@ -201,33 +201,28 @@ function createQuery(query: SearchQuery): string {
   return params.join('&');
 }
 
-// TODO: turn this into replace map
 const searchStopWords: { [key: string]: boolean } = Object.keys(
   abbreviations
-).reduce(
-  (words, abbr) => {
-    return {
-      ...words,
-      ...abbreviations[abbr]
-        .split(' ')
-        .reduce(
-          (abbrWords, word) => ({ ...abbrWords, [word.toLowerCase()]: true }),
-          {}
-        )
-    };
-  },
-  {
-    югра: true
-  }
-);
+).reduce((words, abbr) => {
+  return {
+    ...words,
+    ...abbreviations[abbr]
+      .split(' ')
+      .reduce(
+        (abbrWords, word) => ({ ...abbrWords, [word.toLowerCase()]: true }),
+        {}
+      )
+  };
+}, {});
 
 function trimSearchText(searchText: string): string {
-  // TODO: turn this into custom replace function
   return searchText
     .toLowerCase()
+    .replace(/югра/g, '')
+    .replace(/(строение|сооружение|литера)\s[а-я\w]+/g, '')
+    .replace(/\s-\s/g, ' ')
     .replace(/[,]/g, '')
     .replace(/\s[\s]*/g, ' ')
-    .replace(/\s-\s/g, ' ')
     .split(' ')
     .filter(word => !Boolean(searchStopWords[word]))
     .slice(0, 6)

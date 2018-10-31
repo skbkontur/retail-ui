@@ -24,7 +24,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   };
 
   public renderValue = (address: Address): string => {
-    return address.getText('house');
+    return address.getText('room');
   };
 
   public renderNotFound = (): React.ReactNode => {
@@ -32,7 +32,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   };
 
   public valueToString = (address: Address): string => {
-    return address.getText('house');
+    return address.getText('room');
   };
 
   public handleChange = (
