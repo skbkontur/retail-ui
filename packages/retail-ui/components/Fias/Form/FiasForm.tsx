@@ -7,12 +7,7 @@ import {
   FiasComboBoxProps
 } from './FiasComboBox';
 import styles from './FiasForm.less';
-import {
-  ErrorMessages,
-  FiasId,
-  FormValidation,
-  ResponseAddress
-} from '../types';
+import { FiasId, FormValidation, ResponseAddress } from '../types';
 import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
 import { AddressElement } from '../models/AddressElement';
@@ -33,7 +28,6 @@ interface FiasFormProps {
 
 interface FiasFormState {
   address: Address;
-  errorMessages: ErrorMessages;
 }
 
 export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
@@ -42,8 +36,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   };
 
   public state: FiasFormState = {
-    address: this.props.address,
-    errorMessages: {}
+    address: this.props.address
   };
 
   private readonly comboboxes: {
@@ -112,9 +105,10 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
 
     const onInputChange = () => {
-      if (Object.keys(this.state.errorMessages).length) {
+      const { address } = this.state;
+      if (address.hasErrors) {
         this.setState({
-          errorMessages: {}
+          address: new Address(address.fields)
         });
       }
     };
@@ -231,9 +225,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   public createFieldTooltip = (field: string): React.ReactNode => {
     return () => {
-      const { errorMessages } = this.state;
+      const { address } = this.state;
       const { validationLevel } = this.props;
-      return (validationLevel !== 'None' && errorMessages[field]) || null;
+      return (validationLevel !== 'None' && address.getError(field)) || null;
     };
   };
 
@@ -245,15 +239,14 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       if (!result || !result[0]) {
         return;
       }
-      const { address: verifiedAddress, errorMessages } = Address.verify(
+      const verifiedAddress = Address.verify(
         address,
         result,
         locale.addressNotFound
       );
 
       this.setState({
-        address: verifiedAddress,
-        errorMessages
+        address: verifiedAddress
       });
     });
   }
@@ -275,11 +268,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   };
 
-  public submit = async (): Promise<FiasFormState> => {
+  public submit = async (): Promise<Address> => {
     await this.props.api.verifyPromise;
-    return {
-      ...this.state
-    };
+    return this.state.address;
   };
 
   public resetComboboxes = () => {
@@ -294,7 +285,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   };
 
   public render() {
-    const { address, errorMessages } = this.state;
+    const { address } = this.state;
     return (
       <div>
         <Gapped vertical>
@@ -357,7 +348,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
               <Input
                 {...this.inputs.room.props}
                 value={address.fields.room ? address.fields.room.name : ''}
-                error={errorMessages.hasOwnProperty('room')}
+                error={address.hasError('room')}
                 placeholder={this.props.locale.roomPlaceholder}
                 width={130}
               />
@@ -369,13 +360,11 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   }
 
   private renderField = (field: string, width: string | number = '100%') => {
-    const { address, errorMessages } = this.state;
+    const { address } = this.state;
     const { locale, validationLevel } = this.props;
     const { props, createRef, tooltip } = this.comboboxes[field];
-    const error =
-      errorMessages.hasOwnProperty(field) && validationLevel === 'Error';
-    const warning =
-      errorMessages.hasOwnProperty(field) && validationLevel === 'Warning';
+    const error = address.hasError(field) && validationLevel === 'Error';
+    const warning = address.hasError(field) && validationLevel === 'Warning';
     return (
       <Tooltip pos={'right middle'} render={tooltip}>
         <FiasComboBox

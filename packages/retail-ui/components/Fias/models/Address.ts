@@ -1,10 +1,11 @@
 import {
-  ValueAddress,
+  AddressValue,
   ResponseAddress,
   AddressFields,
-  FiasValue,
   VerifyResponse,
-  ErrorMessages
+  ErrorMessages,
+  FiasId,
+  FiasValue
 } from '../types';
 import { Nullable } from '../../../typings/utility-types';
 import { AddressElement } from './AddressElement';
@@ -48,13 +49,12 @@ export class Address {
     return new Address(fields);
   };
 
-  public static createFromValue = (value: Nullable<FiasValue>) => {
+  public static createFromAddressValue = (addressValue: AddressValue) => {
     const fields: AddressFields = {};
-    if (value && value.address) {
-      const address: ValueAddress = value.address;
+    if (addressValue) {
       Address.ALL_FIELDS.forEach(field => {
-        if (address[field]) {
-          const { name, data } = address[field];
+        if (addressValue[field]) {
+          const { name, data } = addressValue[field];
           fields[field] = new AddressElement(
             field,
             name,
@@ -70,10 +70,7 @@ export class Address {
     address: Address,
     response: VerifyResponse,
     notVerifiedMessage: string
-  ): {
-    address: Address;
-    errorMessages: ErrorMessages;
-  } => {
+  ): Address => {
     const addressFields = { ...address.fields };
     const errorMessages: ErrorMessages = {};
 
@@ -94,10 +91,7 @@ export class Address {
         }
       }
     }
-    return {
-      address: new Address(addressFields),
-      errorMessages
-    };
+    return new Address(addressFields, errorMessages);
   };
 
   public static getParentFields = (field: string): string[] => {
@@ -105,11 +99,32 @@ export class Address {
     return index > -1 ? Address.ALL_FIELDS.slice(0, index) : [];
   };
 
-  constructor(public fields: AddressFields = {}) {}
+  constructor(
+    public fields: AddressFields = {},
+    public errorMessages: ErrorMessages = {}
+  ) {}
 
   public get isEmpty(): boolean {
     return !Address.ALL_FIELDS.some(field => this.fields.hasOwnProperty(field));
   }
+
+  public get hasErrors(): boolean {
+    return Object.keys(this.errorMessages).length > 0;
+  }
+
+  public hasError(field: string): boolean {
+    return this.errorMessages.hasOwnProperty(field);
+  }
+
+  public getError(field: string): string {
+    return this.errorMessages[field];
+  }
+
+  public getErrorMessages = () => {
+    return {
+      ...this.errorMessages
+    };
+  };
 
   public getText = (
     minField?: string,
@@ -170,7 +185,20 @@ export class Address {
     }
   };
 
-  public toValue = (): ValueAddress => {
+  public getFiasId = (): FiasId => {
+    if (!this.isEmpty) {
+      const fields = Address.VERIFIABLE_FIELDS.reverse();
+      for (const field of fields) {
+        const element: Nullable<AddressElement> = this.fields[field];
+        if (element && element.data) {
+          return element.data.fiasId;
+        }
+      }
+    }
+    return '';
+  };
+
+  public getAddressValue = (): AddressValue => {
     return Object.keys(this.fields).reduce((value, field) => {
       const element = this.fields[field];
       if (!element) {
@@ -185,6 +213,15 @@ export class Address {
         }
       };
     }, {});
+  };
+
+  public getValue = (): FiasValue => {
+    return {
+      address: this.getAddressValue(),
+      addressString: this.getText(),
+      fiasId: this.getFiasId(),
+      errorMessages: this.getErrorMessages()
+    };
   };
 
   public convertForVerification = () => {

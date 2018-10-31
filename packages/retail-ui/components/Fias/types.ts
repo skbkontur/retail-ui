@@ -71,11 +71,13 @@ export interface AddressFields {
 }
 
 export interface FiasValue {
-  address: ValueAddress;
+  address?: AddressValue;
+  addressString?: string;
+  fiasId?: FiasId;
   errorMessages?: ErrorMessages;
 }
 
-export interface ValueAddress {
+export interface AddressValue {
   [key: string]: {
     name: string;
     data?: FiasObject;

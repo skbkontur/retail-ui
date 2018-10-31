@@ -15,6 +15,12 @@ storiesOf('Fias', module)
     <ExampleFias locale={{ modalTitle: 'Оригинальный Заголовок' }} />
   ))
   .add('with value', () => <ExampleFias value={MOCK_ADDRESS_VALUE} />)
+  .add('with stringAddress', () => (
+    <ExampleFias value={{ addressString: MOCK_ADDRESS_VALUE.addressString }} />
+  ))
+  .add('with fiasId', () => (
+    <ExampleFias value={{ fiasId: '0c2c345f-cd7b-4011-9f3b-65095ab4c186' }} />
+  ))
   .add('with search', () => <ExampleFias search={true} />)
   .add('error text', () => <ExampleFias error={true} />)
   .add('readonly', () => (
@@ -31,7 +37,7 @@ storiesOf('Fias', module)
         <FiasForm
           api={api}
           locale={defaultLocale}
-          address={Address.createFromValue(MOCK_ADDRESS_VALUE)}
+          address={Address.createFromAddressValue(MOCK_ADDRESS_VALUE.address!)}
         />
       </FiasModal>
     );
@@ -69,7 +75,8 @@ const MOCK_ADDRESS_VALUE: FiasValue = {
       // structureStatus: 'None',
       name: '1'
     }
-  }
+  },
+  addressString: 'город Москва, площадь Красная, дом 1'
 };
 
 class ExampleFias extends React.Component<any> {

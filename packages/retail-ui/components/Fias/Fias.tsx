@@ -1,7 +1,7 @@
 import * as React from 'react';
 import cn from 'classnames';
 import Link from '../Link';
-import { FiasValue, ErrorMessages, FormValidation } from './types';
+import { FiasValue, FormValidation, ResponseAddress } from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
@@ -10,6 +10,7 @@ import { Nullable } from '../../typings/utility-types';
 import { Address } from './models/Address';
 import { defaultLocale, FiasLocale } from './constants/locale';
 import styles from './Fias.less';
+import isEqual from 'lodash.isequal';
 
 interface FiasProps {
   /**
@@ -65,6 +66,7 @@ interface FiasProps {
 
 interface FiasState {
   opened: boolean;
+  address: Address;
 }
 
 export class Fias extends React.Component<FiasProps, FiasState> {
@@ -80,11 +82,57 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   };
 
   public state: FiasState = {
-    opened: false
+    opened: false,
+    address: new Address()
   };
 
   private api: FiasAPI = new FiasAPI(this.props.baseUrl);
   private form: Nullable<FiasForm> = null;
+
+  public componentDidMount = () => {
+    this.init();
+  };
+
+  public componentDidUpdate = (prevProps: FiasProps) => {
+    if (!isEqual(prevProps.value, this.props.value)) {
+      this.updateAddress();
+    }
+  };
+
+  public init = async () => {
+    this.updateAddress();
+  };
+
+  public updateAddress = async (): Promise<Address> => {
+    const address = await this.getAddress(this.props.value);
+    this.setState({
+      address
+    });
+    return address;
+  };
+
+  public getAddress = async (value: Nullable<FiasValue>) => {
+    if (value) {
+      const { address, addressString, fiasId } = value;
+      if (address) {
+        return Address.createFromAddressValue(address);
+      } else if (fiasId) {
+        const response: ResponseAddress = await this.api.searchByFiasId(fiasId);
+        if (response) {
+          return Address.createFromResponse(response);
+        }
+      } else if (addressString) {
+        const response: ResponseAddress[] = await this.api.search(
+          addressString,
+          1
+        );
+        if (response.length) {
+          return Address.createFromResponse(response[0]);
+        }
+      }
+    }
+    return new Address();
+  };
 
   public render() {
     const {
@@ -95,8 +143,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       warning,
       feedback
     } = this.props;
-    const { opened } = this.state;
-    const address = Address.createFromValue(this.props.value);
+    const { opened, address } = this.state;
     const locale: FiasLocale = {
       ...defaultLocale,
       ...this.props.locale
@@ -166,24 +213,18 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   private handleSave = async () => {
     if (this.form) {
-      const { address, errorMessages } = await this.form.submit();
-      if (
-        this.props.allowNotVerified === false &&
-        Object.keys(errorMessages).length
-      ) {
+      const address = await this.form.submit();
+      if (address.hasErrors && this.props.allowNotVerified === false) {
         return;
       }
-      this.handleChange(address, errorMessages);
+      this.handleChange(address);
     }
     this.handleClose();
   };
 
-  private handleChange = (address: Address, errorMessages: ErrorMessages) => {
+  private handleChange = (address: Address) => {
     if (this.props.onChange) {
-      this.props.onChange({
-        address: address.toValue(),
-        errorMessages
-      });
+      this.props.onChange(address.getValue());
     }
   };
 

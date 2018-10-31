@@ -75,8 +75,8 @@ export class FiasData {
       : '';
   }
 
-  public get fiasId(): Nullable<FiasId> {
-    return this.data && this.data.fiasId;
+  public get fiasId(): FiasId {
+    return (this.data && this.data.fiasId) || '';
   }
 
   public get level(): Nullable<Levels> {

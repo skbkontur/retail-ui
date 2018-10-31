@@ -1,13 +1,13 @@
 import {
-  AddressObject,
   FiasId,
   FiasObject,
+  AddressObject,
   House,
   Levels,
   ResponseAddress,
   SearchResponse,
   Stead,
-  ValueAddress,
+  AddressValue,
   VerifyResponse
 } from './types';
 import { Nullable } from '../../typings/utility-types';
@@ -40,7 +40,7 @@ export class FiasAPI {
     }).then(res => res.json());
   };
 
-  public verify = (address: ValueAddress): Promise<VerifyResponse> => {
+  public verify = (address: AddressValue): Promise<VerifyResponse> => {
     const query = {
       directParent: false,
       search: false
@@ -131,6 +131,10 @@ export class FiasAPI {
 
   public resolveAddress = (query: SearchQuery): Promise<SearchResponse> => {
     return this.send(`addresses/resolve?${createQuery(query)}`);
+  };
+
+  public searchByFiasId = (fiasId: FiasId): Promise<ResponseAddress> => {
+    return this.send(`addresses/structural/${fiasId}`).catch(e => undefined);
   };
 
   public searchStead = (query: SearchQuery): Promise<SearchResponse> => {
