@@ -12,6 +12,7 @@ import {
 } from './types';
 import { Nullable } from '../../typings/utility-types';
 import abbreviations from './constants/abbreviations';
+import warning from 'warning';
 
 interface SearchQuery {
   [key: string]: any;
@@ -24,20 +25,24 @@ interface SearchQuery {
   directParent?: boolean;
 }
 
-const BASE_URL = 'https://api.kontur.ru/fias/v1/';
-
 export class FiasAPI {
   public verifyPromise: Nullable<Promise<VerifyResponse>> = null;
   private regionsPromise: Nullable<Promise<SearchResponse>> = null;
 
-  constructor(public baseUrl: string = BASE_URL) {}
+  constructor(public baseUrl: string) {
+    warning(baseUrl, '[Fias]: property "baseUrl" is required');
+  }
 
   public send = (path: string, params = {}): Promise<any> => {
-    return fetch(`${this.baseUrl}${path}`, {
-      credentials: 'same-origin',
-      method: 'GET',
-      ...params
-    }).then(res => res.json());
+    if (this.baseUrl) {
+      return fetch(`${this.baseUrl}${path}`, {
+        credentials: 'same-origin',
+        method: 'GET',
+        ...params
+      }).then(res => res.json());
+    } else {
+      return Promise.reject().catch(e => e);
+    }
   };
 
   public verify = (address: AddressValue): Promise<VerifyResponse> => {

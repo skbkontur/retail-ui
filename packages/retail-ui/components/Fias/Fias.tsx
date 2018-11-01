@@ -39,7 +39,7 @@ interface FiasProps {
   /**
    * `https://api.dev.kontur/fias/v1/` - Test; `https://api.kontur.ru/fias/v1/` - Prod;
    */
-  baseUrl?: string;
+  baseUrl: string;
   /**
    * Позволяет получить полный FiasValue после обработки входного `value`
    */

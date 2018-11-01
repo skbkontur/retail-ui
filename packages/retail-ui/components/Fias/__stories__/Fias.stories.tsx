@@ -10,7 +10,7 @@ import { Address } from '../models/Address';
 import { defaultLocale } from '../constants/locale';
 
 storiesOf('Fias', module)
-  .add('default', () => <Fias />)
+  .add('default', () => <Fias baseUrl={''} />)
   .add('with address value', () => (
     <ExampleFias value={{ address: MOCK_ADDRESS_VALUE.address }} />
   ))
