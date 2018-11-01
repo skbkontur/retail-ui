@@ -316,6 +316,57 @@ describe('ComboBox', () => {
     expect(wrapper.find('input').prop('value')).toBe('');
   });
 
+  it('update input text on focus in autocomplete mode', async () => {
+    class ExampleComboBox extends React.Component {
+      state: any = {
+        value: {
+          value: 1,
+          label: 'one'
+        }
+      };
+      combobox: ComboBox<any> | null = null;
+
+      resetValue = () => {
+        this.setState({ value: null })
+      };
+
+      focus = () => {
+        if (this.combobox) {
+          this.combobox.focus();
+        }
+      };
+
+      ref = (element: ComboBox<any>) => {
+        this.combobox = element;
+      };
+
+      render() {
+        return (
+          <ComboBox
+            value={this.state.value}
+            autocomplete={true}
+            ref={this.ref}
+          />
+        )
+      }
+    }
+
+    const wrapper = mount<ExampleComboBox>(
+      <ExampleComboBox/>
+    );
+
+    wrapper.instance().focus();
+    wrapper.update();
+    expect(wrapper.find('input').prop('value')).toBe('one');
+
+    clickOutside();
+    wrapper.instance().resetValue();
+
+    wrapper.instance().focus();
+    wrapper.update();
+    expect(wrapper.find('input').prop('value')).toBe('');
+  });
+
   it('reset', () => {
     const wrapper = mount<ComboBox<any>>(<ComboBox />);
 
