@@ -22,6 +22,14 @@
     &:active .box {
       background: @chb-flat-active-bg;
     }
+
+    &:hover .box.boxIndeterminate {
+      background-color: darken(@chb-flat-checked-bg, 5%);
+    }
+
+    &:active .box.boxIndeterminate {
+      background-color: darken(@chb-flat-checked-bg, 15%);
+    }
   }
 
   .input {
@@ -49,14 +57,6 @@
 
   .box.boxIndeterminate {
     background: @chb-flat-checked-bg;
-  }
-
-  &:hover .box.boxIndeterminate {
-    background-color: darken(@chb-flat-checked-bg, 5%);
-  }
-
-  &:active .box.boxIndeterminate {
-    background-color: darken(@chb-flat-checked-bg, 15%);
   }
 
   .checked .box {
