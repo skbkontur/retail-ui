@@ -2,7 +2,8 @@ const path = require('path');
 const semver = require('semver');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const versions = require('./versions');
+const retailUiPath = path.resolve(__dirname, "../../retail-ui");
+var { versions, retailUiLocalVersionStub } = require('./versions');
 
 const versionsDependencies = versions
     .map(x => Object.keys(x.dependencies))
@@ -10,17 +11,15 @@ const versionsDependencies = versions
 
 const dependencies = ['react', 'retail-ui', ... new Set(versionsDependencies)];
 
-const versionPairs = versions
-    .map(version => version['retail-ui'].map(retailUIVersion => [version.react, retailUIVersion]))
-    .reduce((x, y) => x.concat(y), []);
-
 function createConfig(reactVersion, retailUIVersion) {
     const targetDir = `${reactVersion}_${retailUIVersion}`;
     const alias = {};
     for (const dependency of dependencies) {
         alias[dependency] = path.resolve(`${targetDir}/node_modules/${dependency}`);
     }
-
+    if (retailUIVersion === retailUiLocalVersionStub) {
+        alias["retail-ui"] = retailUiPath;
+    }
     return {
         entry: {
             [`index_${reactVersion}_${retailUIVersion}`]: [
@@ -78,7 +77,7 @@ function createConfig(reactVersion, retailUIVersion) {
         },
         resolve: {
             extensions: ['.js', '.jsx'],
-            alias: {...alias}
+            alias: { ...alias }
         },
         plugins: [
             new webpack.DefinePlugin({
@@ -98,10 +97,10 @@ function createConfig(reactVersion, retailUIVersion) {
         devServer: {
             port: 8083,
             historyApiFallback: {
-                rewrites: versionPairs.map(x =>
+                rewrites: versions.map(version =>
                     ({
-                        from: new RegExp(`^/${x[0]}/${x[1]}/.*`),
-                        to: `/${x[0]}/${x[1]}/index.html`,
+                        from: new RegExp(`^/${version['react']}/${version['retail-ui']}/.*`),
+                        to: `/${version['react']}/${version['retail-ui']}/index.html`,
                     })
                 ),
             }
@@ -109,4 +108,4 @@ function createConfig(reactVersion, retailUIVersion) {
     };
 }
 
-module.exports = versionPairs.map(x => createConfig(x[0], x[1]));
+module.exports = versions.map(version => createConfig(version['react'], version['retail-ui']));
