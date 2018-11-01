@@ -11,25 +11,33 @@ import { defaultLocale } from '../constants/locale';
 
 storiesOf('Fias', module)
   .add('default', () => <Fias />)
-  .add('with custom title', () => (
-    <ExampleFias locale={{ modalTitle: 'Оригинальный Заголовок' }} />
+  .add('with address value', () => (
+    <ExampleFias value={{ address: MOCK_ADDRESS_VALUE.address }} />
   ))
-  .add('with value', () => <ExampleFias value={MOCK_ADDRESS_VALUE} />)
   .add('with stringAddress', () => (
     <ExampleFias value={{ addressString: MOCK_ADDRESS_VALUE.addressString }} />
   ))
   .add('with fiasId', () => (
-    <ExampleFias value={{ fiasId: '0c2c345f-cd7b-4011-9f3b-65095ab4c186' }} />
+    <ExampleFias value={{ fiasId: MOCK_ADDRESS_VALUE.fiasId }} />
   ))
   .add('with search', () => <ExampleFias search={true} />)
-  .add('error text', () => <ExampleFias error={true} />)
+  .add('with feedback', () => (
+    <ExampleFias error={true} feedback={'Заполнено не по ФИАСу'} />
+  ))
   .add('readonly', () => (
     <ExampleFias readonly={true} value={MOCK_ADDRESS_VALUE} />
   ))
-  .add('custom icon and text', () => (
-    <ExampleFias icon={<HomeOfficeIcon />} label={'Юридический адресс'} />
+  .add('customized', () => (
+    <ExampleFias
+      icon={<HomeOfficeIcon />}
+      label={'Юридический адресс'}
+      locale={{
+        modalTitle: 'Юридический адрес',
+        modalButtonOk: '👍',
+        modalButtonCancel: '👎'
+      }}
+    />
   ))
-  .add('link without icon', () => <ExampleFias icon={''} />)
   .add('modal', () => {
     const api = new FiasAPI(BASE_URL);
     return (
@@ -76,7 +84,8 @@ const MOCK_ADDRESS_VALUE: FiasValue = {
       name: '1'
     }
   },
-  addressString: 'город Москва, площадь Красная, дом 1'
+  addressString: 'город Москва, площадь Красная, дом 1',
+  fiasId: '0c2c345f-cd7b-4011-9f3b-65095ab4c186'
 };
 
 class ExampleFias extends React.Component<any> {
