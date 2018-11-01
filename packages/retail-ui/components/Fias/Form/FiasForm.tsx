@@ -101,7 +101,16 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
 
     const onChange = (e: FiasComboBoxChangeEvent, value: Address) => {
-      this.handleAddressChange(value);
+      const fields = {
+        ...this.state.address.fields,
+        ...value.fields
+      };
+      for (const checkField of Object.keys(fields)) {
+        if (!fields[checkField]) {
+          delete fields[checkField];
+        }
+      }
+      this.handleAddressChange(new Address(fields));
     };
 
     const onInputChange = () => {
@@ -115,12 +124,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
     const onUnexpectedInput = (query: string) => {
       const fields = { ...this.state.address.fields };
-      if (query) {
-        fields[field] = new AddressElement(field, query);
-      } else {
-        delete fields[field];
-      }
-      this.handleAddressChange(new Address(fields), true);
+      fields[field] = query ? new AddressElement(field, query) : undefined;
+      return new Address(fields);
     };
 
     const renderItem = (address: Address): string => {
@@ -200,7 +205,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         } else {
           delete fields[field];
         }
-        this.handleAddressChange(new Address(fields), true);
+        this.handleAddressChange(new Address(fields));
       }
     };
   }
@@ -251,12 +256,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     });
   }
 
-  public handleAddressChange = (value: Address, replace: boolean = false) => {
-    const address = new Address({
-      ...(replace ? {} : this.state.address.fields),
-      ...value.fields
-    });
-
+  public handleAddressChange = (address: Address) => {
     this.setState(
       {
         address

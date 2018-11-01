@@ -7,7 +7,7 @@ import { FiasLocale, defaultLocale } from '../constants/locale';
 interface FiasSearchProps {
   source: (query: string) => Promise<Address[]>;
   address: Address;
-  onChange: (value: Address, fullChange: boolean) => void;
+  onChange: (value: Address) => void;
   limit?: number;
   locale?: FiasLocale;
 }
@@ -39,7 +39,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
     e: Nullable<FiasComboBoxChangeEvent>,
     value: Address
   ) => {
-    this.props.onChange(value, true);
+    this.props.onChange(value);
   };
 
   public onUnexpectedInput = (query: string) => {
