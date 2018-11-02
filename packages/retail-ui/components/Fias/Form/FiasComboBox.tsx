@@ -2,6 +2,7 @@ import * as React from 'react';
 import ComboBox, { ComboBoxProps } from '../../ComboBox';
 import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
+import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
 
 export interface FiasComboBoxProps extends ComboBoxProps<Address> {
   limit?: number;
@@ -52,10 +53,10 @@ export class FiasComboBox extends React.Component<
   };
 
   public renderItem = (item: Address & { label?: string }): React.ReactNode => {
-    const text = this.props.renderItem
+    const node: React.ReactNode = this.props.renderItem
       ? this.props.renderItem(item)
-      : item.label;
-    return typeof text === 'string' ? this.highlight(text) : item;
+      : item.label || '';
+    return this.highlight(reactGetTextContent(node));
   };
 
   public renderTotalCount = (found: number, total: number): React.ReactNode => (
@@ -90,36 +91,36 @@ export class FiasComboBox extends React.Component<
     this.combobox = element;
   };
 
-  private highlight(str: string, lastonly: boolean = true) {
+  private highlight(str: string, lastMatchOnly: boolean = true) {
     const { searchText } = this.state;
-
-    if (!str || !searchText || str === searchText) {
+    const regex = new RegExp(searchText, 'ig');
+    const matches = str.match(regex);
+    if (!matches || str === searchText) {
       return str;
     }
-    const highlightedStyles = { fontWeight: 'bold' };
-    const regex = new RegExp(searchText, 'ig');
-    const spans = str.split(regex);
-    const matches = str.match(regex);
-    const result = spans.reduce(
+    const mismatches = str.split(regex);
+    const highlightStyle = {
+      fontWeight: 'bold'
+    };
+    const result = mismatches.reduce(
       (
-        current: Array<React.ReactElement<HTMLSpanElement>>,
-        span: string,
+        spans: Array<React.ReactElement<HTMLSpanElement>>,
+        text: string,
         i: number
       ) => {
-        current.push(<span>{span}</span>);
-        if (matches && matches[i]) {
-          const styles =
-            lastonly && i < matches.length - 1 ? {} : highlightedStyles;
-          current.push(<span style={styles}>{matches[i]}</span>);
+        spans.push(<span>{text}</span>);
+        if (matches[i]) {
+          const style = lastMatchOnly && matches[i + 1] ? {} : highlightStyle;
+          spans.push(<span style={style}>{matches[i]}</span>);
         }
-        return current;
+        return spans;
       },
       []
     );
     return (
       <div>
-        {result.map((element, i) => {
-          return React.cloneElement(element, { key: `${i}` });
+        {result.map((span, i) => {
+          return React.cloneElement(span, { key: `${i}` });
         })}
       </div>
     );
