@@ -32,7 +32,8 @@ interface FiasFormState {
 
 export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   public static defaultProps = {
-    validationLevel: 'Error'
+    validationLevel: 'Error',
+    limit: 5
   };
 
   public state: FiasFormState = {
@@ -213,13 +214,17 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   public createItemsSource = async (
     searchText: string,
     field?: string,
-    parent?: Nullable<FiasId>
+    parentFiasId?: Nullable<FiasId>
   ) => {
-    const { limit } = this.props;
+    const limit = this.props.limit || FiasForm.defaultProps.limit;
     const { address } = this.state;
     return address.isTheFieldAllowedToFill(field)
       ? this.props.api
-          .search(searchText, limit, field, parent)
+          .search(searchText, {
+            field,
+            parentFiasId,
+            limit: limit + 1
+          })
           .then((items: ResponseAddress[]) => {
             return items.map((item: ResponseAddress) => {
               return Address.createFromResponse(item);

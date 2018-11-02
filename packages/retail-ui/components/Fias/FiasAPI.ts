@@ -18,18 +18,24 @@ interface SearchQuery {
   [key: string]: any;
   address?: string;
   prefix?: string;
-  limit?: number;
   parentFiasId?: Nullable<FiasId>;
   levels?: Levels[];
   fullAddress?: boolean;
   directParent?: boolean;
+  limit?: number;
+}
+
+interface SearchOptions {
+  parentFiasId?: Nullable<FiasId>;
+  field?: string;
+  limit?: number;
 }
 
 export class FiasAPI {
   public verifyPromise: Nullable<Promise<VerifyResponse>> = null;
-  private regionsPromise: Nullable<Promise<SearchResponse>> = null;
+  public regionsPromise: Nullable<Promise<SearchResponse>> = null;
 
-  constructor(public baseUrl: string) {
+  constructor(private baseUrl: string = '') {
     warning(baseUrl, '[Fias]: property "baseUrl" is required');
   }
 
@@ -70,15 +76,15 @@ export class FiasAPI {
 
   public search = (
     searchText: string,
-    limit?: number,
-    field?: string,
-    parentFiasId?: Nullable<FiasId>
+    options: SearchOptions = {}
   ): Promise<SearchResponse> => {
+    const { field, parentFiasId, limit } = options;
     const query: SearchQuery = {
       prefix: searchText,
-      limit: limit && limit + 1,
+      actual: true,
       parentFiasId,
-      actual: true
+      field,
+      limit
     };
 
     if (searchText) {
@@ -88,7 +94,7 @@ export class FiasAPI {
           ? this.resolveAddress({
               address: text,
               level: 'House',
-              limit: query.limit
+              limit
             })
           : Promise.resolve([]);
       }

@@ -75,7 +75,6 @@ interface FiasState {
 
 export class Fias extends React.Component<FiasProps, FiasState> {
   public static defaultProps = {
-    limit: 5,
     showAddressText: true,
     error: false,
     warning: false,
@@ -131,7 +130,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       } else if (addressString) {
         const response: ResponseAddress[] = await this.api.search(
           addressString,
-          1
+          { limit: 1 }
         );
         if (response.length) {
           return Address.createFromResponse(response[0]);
