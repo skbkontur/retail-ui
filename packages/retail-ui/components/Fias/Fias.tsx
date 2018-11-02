@@ -102,44 +102,6 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     }
   };
 
-  public init = async () => {
-    const address = await this.updateAddress();
-    if (this.props.onInit) {
-      this.props.onInit(address.getValue());
-    }
-  };
-
-  public updateAddress = async (): Promise<Address> => {
-    const address = await this.getAddress(this.props.value);
-    this.setState({
-      address
-    });
-    return address;
-  };
-
-  public getAddress = async (value: Nullable<FiasValue>) => {
-    if (value) {
-      const { address, addressString, fiasId } = value;
-      if (address) {
-        return Address.createFromAddressValue(address);
-      } else if (fiasId) {
-        const response: ResponseAddress = await this.api.searchByFiasId(fiasId);
-        if (response) {
-          return Address.createFromResponse(response);
-        }
-      } else if (addressString) {
-        const response: ResponseAddress[] = await this.api.search(
-          addressString,
-          { limit: 1 }
-        );
-        if (response.length) {
-          return Address.createFromResponse(response[0]);
-        }
-      }
-    }
-    return new Address();
-  };
-
   public render() {
     const {
       showAddressText,
@@ -204,6 +166,44 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       </FiasModal>
     );
   }
+
+  private init = async () => {
+    const address = await this.updateAddress();
+    if (this.props.onInit) {
+      this.props.onInit(address.getValue());
+    }
+  };
+
+  private updateAddress = async (): Promise<Address> => {
+    const address = await this.getAddress(this.props.value);
+    this.setState({
+      address
+    });
+    return address;
+  };
+
+  private getAddress = async (value: Nullable<FiasValue>) => {
+    if (value) {
+      const { address, addressString, fiasId } = value;
+      if (address) {
+        return Address.createFromAddressValue(address);
+      } else if (fiasId) {
+        const response: ResponseAddress = await this.api.searchByFiasId(fiasId);
+        if (response) {
+          return Address.createFromResponse(response);
+        }
+      } else if (addressString) {
+        const response: ResponseAddress[] = await this.api.search(
+          addressString,
+          { limit: 1 }
+        );
+        if (response.length) {
+          return Address.createFromResponse(response[0]);
+        }
+      }
+    }
+    return new Address();
+  };
 
   private handleOpen = () => {
     this.setState({ opened: true });

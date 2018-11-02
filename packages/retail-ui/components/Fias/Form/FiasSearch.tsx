@@ -19,42 +19,6 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
 
   private combobox: Nullable<FiasComboBox> = null;
 
-  public renderItem = (address: Address): string => {
-    return address.getText();
-  };
-
-  public renderValue = (address: Address): string => {
-    return address.getText('room');
-  };
-
-  public renderNotFound = (): React.ReactNode => {
-    return this.props.locale!.searchNotFound;
-  };
-
-  public valueToString = (address: Address): string => {
-    return address.getText('room');
-  };
-
-  public handleChange = (
-    e: Nullable<FiasComboBoxChangeEvent>,
-    value: Address
-  ) => {
-    this.props.onChange(value);
-  };
-
-  public onUnexpectedInput = (query: string) => {
-    if (!query) {
-      this.handleChange(null, new Address({}));
-    }
-    this.reset();
-  };
-
-  public reset = () => {
-    if (this.combobox) {
-      this.combobox.reset();
-    }
-  };
-
   public render() {
     const { address, source, limit, locale } = this.props;
     return (
@@ -71,13 +35,49 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
         width={'100%'}
         autocomplete={true}
         limit={limit}
-        ref={this.comboboxRef}
+        ref={this.createRef}
       />
     );
   }
 
-  private comboboxRef = (element: FiasComboBox) => {
+  private createRef = (element: FiasComboBox) => {
     this.combobox = element;
+  };
+
+  private renderItem = (address: Address): string => {
+    return address.getText();
+  };
+
+  private renderValue = (address: Address): string => {
+    return address.getText('room');
+  };
+
+  private renderNotFound = (): React.ReactNode => {
+    return this.props.locale!.searchNotFound;
+  };
+
+  private valueToString = (address: Address): string => {
+    return address.getText('room');
+  };
+
+  private handleChange = (
+    e: Nullable<FiasComboBoxChangeEvent>,
+    value: Address
+  ) => {
+    this.props.onChange(value);
+  };
+
+  private onUnexpectedInput = (query: string) => {
+    if (!query) {
+      this.handleChange(null, new Address({}));
+    }
+    this.resetCombobox();
+  };
+
+  private resetCombobox = () => {
+    if (this.combobox) {
+      this.combobox.reset();
+    }
   };
 }
 

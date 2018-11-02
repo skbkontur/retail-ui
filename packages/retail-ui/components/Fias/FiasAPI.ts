@@ -52,18 +52,6 @@ export class FiasAPI {
     warning(baseUrl, '[Fias]: property "baseUrl" is required');
   }
 
-  public send = (path: string, params = {}): Promise<any> => {
-    if (this.baseUrl) {
-      return fetch(`${this.baseUrl}${path}`, {
-        credentials: 'same-origin',
-        method: 'GET',
-        ...params
-      }).then(res => res.json());
-    } else {
-      return Promise.reject().catch(e => e);
-    }
-  };
-
   public verify = (address: AddressValue): Promise<VerifyResponse> => {
     const query = {
       directParent: false,
@@ -149,6 +137,18 @@ export class FiasAPI {
 
   public searchByFiasId = (fiasId: FiasId): Promise<ResponseAddress> => {
     return this.send(`addresses/structural/${fiasId}`).catch(e => undefined);
+  };
+
+  private send = (path: string, params = {}): Promise<any> => {
+    if (this.baseUrl) {
+      return fetch(`${this.baseUrl}${path}`, {
+        credentials: 'same-origin',
+        method: 'GET',
+        ...params
+      }).then(res => res.json());
+    } else {
+      return Promise.reject().catch(e => e);
+    }
   };
 
   private searchAddressObject = (

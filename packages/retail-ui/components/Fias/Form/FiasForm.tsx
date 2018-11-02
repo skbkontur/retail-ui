@@ -95,7 +95,110 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     this.check();
   }
 
-  public createComboBoxProps(field: string): FiasComboBoxProps {
+  public submit = async (): Promise<Address> => {
+    await this.props.api.verifyPromise;
+    return this.state.address;
+  };
+
+  public render() {
+    const { address } = this.state;
+    return (
+      <div>
+        <Gapped vertical>
+          {this.props.search && (
+            <div className={styles.row}>
+              <div className={styles.field}>
+                <FiasSearch
+                  source={this.createItemsSource}
+                  address={address}
+                  onChange={this.handleAddressChange}
+                  limit={this.props.limit}
+                  locale={this.props.locale}
+                />
+              </div>
+            </div>
+          )}
+          <div className={styles.row}>
+            <div className={styles.label}>Регион</div>
+            <div className={styles.field}>{this.renderField('region')}</div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.label}>Район</div>
+            <div className={styles.field}>{this.renderField('district')}</div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.label}>Город</div>
+            <div className={styles.field}>{this.renderField('city')}</div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.label}>Внутригородская территория</div>
+            <div className={styles.field}>
+              {this.renderField('intracityarea')}
+            </div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.label}>Населенный пункт</div>
+            <div className={styles.field}>{this.renderField('settlement')}</div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.label}>Иная территория</div>
+            <div className={styles.field}>
+              {this.renderField('planningstructure')}
+            </div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.label}>Улица</div>
+            <div className={styles.field}>{this.renderField('street')}</div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.label}>Земельный участок</div>
+            <div className={styles.field}>{this.renderField('stead', 130)}</div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.label}>Дом, сооружение</div>
+            <div className={styles.field}>{this.renderField('house', 130)}</div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.label}>Квартира, офис</div>
+            <div className={styles.field}>
+              <Input
+                {...this.inputs.room.props}
+                value={address.fields.room ? address.fields.room.name : ''}
+                error={address.hasError('room')}
+                placeholder={this.props.locale.roomPlaceholder}
+                width={130}
+              />
+            </div>
+          </div>
+        </Gapped>
+      </div>
+    );
+  }
+
+  private renderField = (field: string, width: string | number = '100%') => {
+    const { address } = this.state;
+    const { locale, validationLevel } = this.props;
+    const { props, createRef, tooltip } = this.comboboxes[field];
+    const error = address.hasError(field) && validationLevel === 'Error';
+    const warning = address.hasError(field) && validationLevel === 'Warning';
+    return (
+      <Tooltip pos={'right middle'} render={tooltip}>
+        <FiasComboBox
+          {...props}
+          value={address}
+          placeholder={locale[`${field}Placeholder`]}
+          width={width}
+          error={error}
+          warning={warning}
+          autocomplete={true}
+          limit={this.props.limit}
+          ref={createRef}
+        />
+      </Tooltip>
+    );
+  };
+
+  private createComboBoxProps(field: string): FiasComboBoxProps {
     const getItems = async (searchText: string) => {
       const parentFiasId = this.state.address.getClosestParentFiasId(field);
       return this.createItemsSource(searchText, field, parentFiasId);
@@ -197,7 +300,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
   }
 
-  public createInputProps(field: string): InputProps {
+  private createInputProps(field: string): InputProps {
     return {
       onChange: (e: React.ChangeEvent, value: string) => {
         const fields = { ...this.state.address.fields };
@@ -211,7 +314,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
   }
 
-  public createItemsSource = async (
+  private createItemsSource = async (
     searchText: string,
     field?: string,
     parentFiasId?: Nullable<FiasId>
@@ -233,7 +336,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       : Promise.resolve([]);
   };
 
-  public createFieldTooltip = (field: string): React.ReactNode => {
+  private createFieldTooltip = (field: string): React.ReactNode => {
     return () => {
       const { address } = this.state;
       const { validationLevel } = this.props;
@@ -241,7 +344,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
   };
 
-  public check(): void {
+  private check(): void {
     const { address } = this.state;
     const { api, locale } = this.props;
 
@@ -261,7 +364,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     });
   }
 
-  public handleAddressChange = (address: Address) => {
+  private handleAddressChange = (address: Address) => {
     this.setState(
       {
         address
@@ -273,12 +376,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   };
 
-  public submit = async (): Promise<Address> => {
-    await this.props.api.verifyPromise;
-    return this.state.address;
-  };
-
-  public resetComboboxes = () => {
+  private resetComboboxes = () => {
     for (const field in this.comboboxes) {
       if (this.comboboxes.hasOwnProperty(field)) {
         const combobox = this.comboboxes[field].ref;
@@ -287,104 +385,6 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         }
       }
     }
-  };
-
-  public render() {
-    const { address } = this.state;
-    return (
-      <div>
-        <Gapped vertical>
-          {this.props.search && (
-            <div className={styles.row}>
-              <div className={styles.field}>
-                <FiasSearch
-                  source={this.createItemsSource}
-                  address={address}
-                  onChange={this.handleAddressChange}
-                  limit={this.props.limit}
-                  locale={this.props.locale}
-                />
-              </div>
-            </div>
-          )}
-          <div className={styles.row}>
-            <div className={styles.label}>Регион</div>
-            <div className={styles.field}>{this.renderField('region')}</div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.label}>Район</div>
-            <div className={styles.field}>{this.renderField('district')}</div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.label}>Город</div>
-            <div className={styles.field}>{this.renderField('city')}</div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.label}>Внутригородская территория</div>
-            <div className={styles.field}>
-              {this.renderField('intracityarea')}
-            </div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.label}>Населенный пункт</div>
-            <div className={styles.field}>{this.renderField('settlement')}</div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.label}>Иная территория</div>
-            <div className={styles.field}>
-              {this.renderField('planningstructure')}
-            </div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.label}>Улица</div>
-            <div className={styles.field}>{this.renderField('street')}</div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.label}>Земельный участок</div>
-            <div className={styles.field}>{this.renderField('stead', 130)}</div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.label}>Дом, сооружение</div>
-            <div className={styles.field}>{this.renderField('house', 130)}</div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.label}>Квартира, офис</div>
-            <div className={styles.field}>
-              <Input
-                {...this.inputs.room.props}
-                value={address.fields.room ? address.fields.room.name : ''}
-                error={address.hasError('room')}
-                placeholder={this.props.locale.roomPlaceholder}
-                width={130}
-              />
-            </div>
-          </div>
-        </Gapped>
-      </div>
-    );
-  }
-
-  private renderField = (field: string, width: string | number = '100%') => {
-    const { address } = this.state;
-    const { locale, validationLevel } = this.props;
-    const { props, createRef, tooltip } = this.comboboxes[field];
-    const error = address.hasError(field) && validationLevel === 'Error';
-    const warning = address.hasError(field) && validationLevel === 'Warning';
-    return (
-      <Tooltip pos={'right middle'} render={tooltip}>
-        <FiasComboBox
-          {...props}
-          value={address}
-          placeholder={locale[`${field}Placeholder`]}
-          width={width}
-          error={error}
-          warning={warning}
-          autocomplete={true}
-          limit={this.props.limit}
-          ref={createRef}
-        />
-      </Tooltip>
-    );
   };
 }
 

@@ -23,10 +23,6 @@ export class FiasComboBox extends React.Component<
   FiasComboBoxProps,
   FiasComboBoxState
 > {
-  public static defaultProps = {
-    onChange: () => null
-  };
-
   public state: FiasComboBoxState = {
     searchText: '',
     totalCount: 0
@@ -38,39 +34,6 @@ export class FiasComboBox extends React.Component<
     if (this.combobox) {
       this.combobox.reset();
     }
-  };
-
-  public getItems = (searchText: string): Promise<Address[]> => {
-    const { getItems, limit } = this.props;
-    return getItems
-      ? getItems(searchText).then(items => {
-          this.setState({
-            totalCount: items.length
-          });
-          return items.slice(0, limit);
-        })
-      : Promise.resolve([]);
-  };
-
-  public renderItem = (item: Address & { label?: string }): React.ReactNode => {
-    const node: React.ReactNode = this.props.renderItem
-      ? this.props.renderItem(item)
-      : item.label || '';
-    return this.highlight(reactGetTextContent(node));
-  };
-
-  public renderTotalCount = (found: number, total: number): React.ReactNode => (
-    <div>
-      <div>Показано {found} результатов.</div>
-      <div>Уточните запрос, чтобы увидеть остальные</div>
-    </div>
-  );
-
-  public handleInputChange = (query: string) => {
-    if (this.props.onInputChange) {
-      this.props.onInputChange(query);
-    }
-    this.setState({ searchText: query });
   };
 
   public render() {
@@ -86,6 +49,44 @@ export class FiasComboBox extends React.Component<
       />
     );
   }
+
+  private getItems = (searchText: string): Promise<Address[]> => {
+    const { getItems, limit } = this.props;
+    return getItems
+      ? getItems(searchText).then(items => {
+          this.setState({
+            totalCount: items.length
+          });
+          return items.slice(0, limit);
+        })
+      : Promise.resolve([]);
+  };
+
+  private renderItem = (
+    item: Address & { label?: string }
+  ): React.ReactNode => {
+    const node: React.ReactNode = this.props.renderItem
+      ? this.props.renderItem(item)
+      : item.label || '';
+    return this.highlight(reactGetTextContent(node));
+  };
+
+  private renderTotalCount = (
+    found: number,
+    total: number
+  ): React.ReactNode => (
+    <div>
+      <div>Показано {found} результатов.</div>
+      <div>Уточните запрос, чтобы увидеть остальные</div>
+    </div>
+  );
+
+  private handleInputChange = (query: string) => {
+    if (this.props.onInputChange) {
+      this.props.onInputChange(query);
+    }
+    this.setState({ searchText: query });
+  };
 
   private createRef = (element: ComboBox<Address>) => {
     this.combobox = element;

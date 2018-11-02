@@ -42,11 +42,7 @@ storiesOf('Fias', module)
     const api = new FiasAPI(BASE_URL);
     return (
       <FiasModal locale={defaultLocale}>
-        <FiasForm
-          api={api}
-          locale={defaultLocale}
-          address={Address.createFromAddressValue(MOCK_ADDRESS_VALUE.address!)}
-        />
+        <FiasForm api={api} locale={defaultLocale} address={new Address()} />
       </FiasModal>
     );
   });
