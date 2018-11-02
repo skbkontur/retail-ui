@@ -1,6 +1,5 @@
 import {
   FiasId,
-  FiasObject,
   AddressObject,
   House,
   Levels,
@@ -32,6 +31,20 @@ interface SearchOptions {
 }
 
 export class FiasAPI {
+  private static searchStopWords: { [key: string]: boolean } = Object.keys(
+    abbreviations
+  ).reduce((words, abbr) => {
+    return {
+      ...words,
+      ...abbreviations[abbr]
+        .split(' ')
+        .reduce(
+          (abbrWords, word) => ({ ...abbrWords, [word.toLowerCase()]: true }),
+          {}
+        )
+    };
+  }, {});
+
   public verifyPromise: Nullable<Promise<VerifyResponse>> = null;
   public regionsPromise: Nullable<Promise<SearchResponse>> = null;
 
@@ -56,7 +69,7 @@ export class FiasAPI {
       directParent: false,
       search: false
     };
-    const promise = this.send(`verify?${createQuery(query)}`, {
+    const promise = this.send(`verify?${this.createQuery(query)}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -89,7 +102,7 @@ export class FiasAPI {
 
     if (searchText) {
       if (!field) {
-        const text = trimSearchText(searchText);
+        const text = this.trimSearchText(searchText);
         return text
           ? this.resolveAddress({
               address: text,
@@ -112,7 +125,7 @@ export class FiasAPI {
           return this.searchStead(query);
         }
       } else {
-        query.levels = [fieldToLevel(field)];
+        query.levels = [this.getLevelFromField(field)];
 
         if (
           field === 'district' ||
@@ -134,22 +147,22 @@ export class FiasAPI {
     return Promise.resolve([]);
   };
 
-  public searchAddressObject = (
-    query: SearchQuery
-  ): Promise<SearchResponse> => {
-    return this.send(`addresses?${createQuery(query)}`);
-  };
-
-  public resolveAddress = (query: SearchQuery): Promise<SearchResponse> => {
-    return this.send(`addresses/resolve?${createQuery(query)}`);
-  };
-
   public searchByFiasId = (fiasId: FiasId): Promise<ResponseAddress> => {
     return this.send(`addresses/structural/${fiasId}`).catch(e => undefined);
   };
 
-  public searchStead = (query: SearchQuery): Promise<SearchResponse> => {
-    return this.send(`steads?${createQuery(query)}`).then(data =>
+  private searchAddressObject = (
+    query: SearchQuery
+  ): Promise<SearchResponse> => {
+    return this.send(`addresses?${this.createQuery(query)}`);
+  };
+
+  private resolveAddress = (query: SearchQuery): Promise<SearchResponse> => {
+    return this.send(`addresses/resolve?${this.createQuery(query)}`);
+  };
+
+  private searchStead = (query: SearchQuery): Promise<SearchResponse> => {
+    return this.send(`steads?${this.createQuery(query)}`).then(data =>
       data.map((item: Stead) => ({
         stead: {
           ...item
@@ -158,8 +171,8 @@ export class FiasAPI {
     );
   };
 
-  public searchHouse = (query: SearchQuery): Promise<SearchResponse> => {
-    return this.send(`houses?${createQuery(query)}`).then(data =>
+  private searchHouse = (query: SearchQuery): Promise<SearchResponse> => {
+    return this.send(`houses?${this.createQuery(query)}`).then(data =>
       data.map((item: House) => ({
         house: {
           ...item
@@ -168,78 +181,56 @@ export class FiasAPI {
     );
   };
 
-  public searchRegions = (searchText: string): Promise<SearchResponse> => {
+  private searchRegions = (searchText: string): Promise<SearchResponse> => {
     if (!this.regionsPromise) {
       this.regionsPromise = this.send('addresses/regions');
     }
-    if (searchText) {
-      return this.regionsPromise.then(filterRegions(searchText));
-    } else {
+    if (!searchText) {
       return this.regionsPromise;
     }
-  };
-}
-
-function isStartMatch(value: string | undefined, searchText: string) {
-  return value && value.toLowerCase().indexOf(searchText.toLowerCase()) === 0;
-}
-
-function filterRegions(searchText: string) {
-  return (list: ResponseAddress[]) =>
-    list.filter((address: ResponseAddress) => {
-      const region: FiasObject = address.region as AddressObject;
-      return (
-        isStartMatch(region.name, searchText) ||
-        isStartMatch(region.code, searchText)
-      );
+    return this.regionsPromise.then((response: ResponseAddress[]) => {
+      return response.filter((address: ResponseAddress) => {
+        const { name, code } = address.region as AddressObject;
+        return (
+          (name && name.startsWith(searchText)) ||
+          (code && code.startsWith(searchText))
+        );
+      });
     });
-}
+  };
 
-function createQuery(query: SearchQuery): string {
-  const params = [];
-  for (const key of Object.keys(query)) {
-    const param = query[key];
-    if (param !== undefined) {
-      if (key === 'levels' && Array.isArray(param)) {
-        for (const level of param) {
-          params.push(`level[]=${encodeURIComponent(level as string)}`);
+  private createQuery = (query: SearchQuery): string => {
+    const params = [];
+    for (const key of Object.keys(query)) {
+      const param = query[key];
+      if (param !== undefined) {
+        if (key === 'levels' && Array.isArray(param)) {
+          for (const level of param) {
+            params.push(`level[]=${encodeURIComponent(level as string)}`);
+          }
+        } else {
+          params.push(`${key}=${encodeURIComponent(query[key])}`);
         }
-      } else {
-        params.push(`${key}=${encodeURIComponent(query[key])}`);
       }
     }
-  }
-  return params.join('&');
-}
-
-const searchStopWords: { [key: string]: boolean } = Object.keys(
-  abbreviations
-).reduce((words, abbr) => {
-  return {
-    ...words,
-    ...abbreviations[abbr]
-      .split(' ')
-      .reduce(
-        (abbrWords, word) => ({ ...abbrWords, [word.toLowerCase()]: true }),
-        {}
-      )
+    return params.join('&');
   };
-}, {});
 
-function trimSearchText(searchText: string): string {
-  return searchText
-    .toLowerCase()
-    .replace(/югра/g, '')
-    .replace(/(строение|сооружение|литера)\s[а-я\w]+/g, '')
-    .replace(/\s-\s/g, ' ')
-    .replace(/[,]/g, '')
-    .replace(/\s[\s]*/g, ' ')
-    .split(' ')
-    .filter(word => !Boolean(searchStopWords[word]))
-    .slice(0, 6)
-    .join(' ');
-}
+  private getLevelFromField = (field: string): Levels => {
+    return Levels[field as keyof typeof Levels];
+  };
 
-function fieldToLevel(field: string): Levels {
-  return Levels[field as keyof typeof Levels];
+  private trimSearchText = (searchText: string): string => {
+    return searchText
+      .toLowerCase()
+      .replace(/югра/g, '')
+      .replace(/(строение|сооружение|литера)\s[а-я\w]+/g, '')
+      .replace(/\s-\s/g, ' ')
+      .replace(/[,]/g, '')
+      .replace(/\s[\s]*/g, ' ')
+      .split(' ')
+      .filter(word => !Boolean(FiasAPI.searchStopWords[word]))
+      .slice(0, 6)
+      .join(' ');
+  };
 }
