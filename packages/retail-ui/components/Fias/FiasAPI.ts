@@ -188,12 +188,14 @@ export class FiasAPI {
     if (!searchText) {
       return this.regionsPromise;
     }
+    const isStartsWithSearchText = (str: string) => {
+      return str && str.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+    };
     return this.regionsPromise.then((response: ResponseAddress[]) => {
       return response.filter((address: ResponseAddress) => {
         const { name, code } = address.region as AddressObject;
         return (
-          (name && name.startsWith(searchText)) ||
-          (code && code.startsWith(searchText))
+          isStartsWithSearchText(name) || isStartsWithSearchText(code)
         );
       });
     });
