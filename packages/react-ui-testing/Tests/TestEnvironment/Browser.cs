@@ -1,8 +1,10 @@
 using System;
 using System.Drawing;
-using System.IO;
 using System.Threading;
+#if NETCOREAPP2_1
 using dotenv.net;
+using System.IO;
+#endif
 using Kontur.Selone.Extensions;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -14,7 +16,6 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 {
     public class Browser
     {
-
         public Browser(string defaultDomain, string defaultPort, string tunnelIdentifier)
         {
             this.defaultDomain = defaultDomain;
@@ -40,7 +41,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
                 WebDriver.Manage().Cookies.AddCookie(new Cookie("testingMode", "1"));
                 return this;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception($"Can't open page with url={url}\r\n" + ex.Message);
             }
@@ -54,7 +55,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
         public void SaveScreenshot(string testName)
         {
             var screenshot = GetScreenshot();
-            if(screenshot == null)
+            if (screenshot == null)
                 throw new Exception("Can't take screenshot");
             ScreenshotSaver.Save(screenshot.AsByteArray, testName, DateTime.Now);
         }
@@ -72,7 +73,9 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 
                 if (!TravisEnvironment.IsExecutionViaTravis)
                 {
+#if NETCOREAPP2_1
                     DotEnv.Config(filePath: Path.Combine(PathUtils.FindProjectRootFolder(), ".env"));
+#endif
                 }
 
                 var sauceUserName = Environment.GetEnvironmentVariable("SAUCE_USERNAME", EnvironmentVariableTarget.Process);
@@ -95,8 +98,8 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
                     try
                     {
                         webDriver = new RemoteWebDriver(new Uri("http://ondemand.saucelabs.com:80/wd/hub"),
-                            options.ToCapabilities(),
-                            TimeSpan.FromSeconds(180));
+                                                        options.ToCapabilities(),
+                                                        TimeSpan.FromSeconds(180));
                         webDriver.Manage().Window.Size = new Size(1280, 1024);
                         return webDriver;
                     }
@@ -110,7 +113,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 
         private string GetAbsoluteUrl(string relativeUrl)
         {
-            if(relativeUrl.StartsWith("http://") || relativeUrl.StartsWith("https://"))
+            if (relativeUrl.StartsWith("http://") || relativeUrl.StartsWith("https://"))
                 return relativeUrl;
             return $"http://{defaultDomain}:{defaultPort}/{relativeUrl}/";
         }

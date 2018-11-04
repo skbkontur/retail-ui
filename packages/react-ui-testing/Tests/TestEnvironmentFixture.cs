@@ -1,9 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Management;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Threading;
 using NUnit.Framework;
 using SKBKontur.SeleniumTesting.Tests.Helpers;
@@ -82,7 +80,7 @@ namespace SKBKontur.SeleniumTesting.Tests
             }
             throw new Exception("Cannot wait response");
         }
-        
+
         private static Process CreateSauceConnectProcess(string tunnelIdentifier)
         {
             var processStartInfo = new ProcessStartInfo

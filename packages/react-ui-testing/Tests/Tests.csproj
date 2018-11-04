@@ -30,7 +30,6 @@
     <ProjectReference Include="..\SeleniumTesting\SeleniumTesting.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="dotenv.net" Version="1.0.3" />
     <PackageReference Include="FluentAssertions" Version="5.4.1" />
     <PackageReference Include="JetBrains.Annotations" Version="10.0.0" />
     <PackageReference Include="Kontur.RetryableAssertions" Version="0.0.1" />
@@ -41,7 +40,7 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.13.1" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Management" Condition="'$(TargetFramework)' == 'net45'" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
+    <PackageReference Include="dotenv.net" Version="1.0.3" />
   </ItemGroup>
 </Project>
