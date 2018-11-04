@@ -42,8 +42,8 @@ namespace SKBKontur.SeleniumTesting.Internals
         {
             return new AssertionConfiguration
                 {
-                    Timeout = timings?.Timeout ?? 5000,
-                    Interval = timings?.Timeout ?? 100,
+                    Timeout = timings?.Timeout ?? Timings.DefaultTimeout,
+                    Interval = timings?.Interval ?? Timings.DefaultInterval,
                     ExceptionMatcher = ExceptionMatcher
                 };
         }
