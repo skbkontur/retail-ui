@@ -105,4 +105,16 @@ storiesOf('DropdownMenu', module)
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
     </DropdownMenu>
+  ))
+  .add('Without animations', () => (
+    <DropdownMenu
+      disableAnimations
+      caption={<Button use="primary">Открыть меню</Button>}
+    >
+      <MenuHeader>Заголовок меню</MenuHeader>
+      <MenuSeparator />
+      <MenuItem onClick={() => Toast.push('Раз')}>Раз</MenuItem>
+      <MenuItem onClick={() => Toast.push('Два')}>Два</MenuItem>
+      <MenuItem onClick={() => Toast.push('Три')}>Три</MenuItem>
+    </DropdownMenu>
   ));

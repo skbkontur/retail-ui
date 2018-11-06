@@ -19,6 +19,10 @@ export interface KebabProps {
   size?: 'small' | 'large';
   positions?: string[];
   menuMaxHeight?: number | string;
+  /**
+   * Не показывать анимацию
+   */
+  disableAnimations: boolean;
 }
 
 export interface KebabState {
@@ -33,7 +37,8 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     onOpen: () => undefined,
     onClose: () => undefined,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
-    size: 'small'
+    size: 'small',
+    disableAnimations: false
   };
 
   public state = {
@@ -69,6 +74,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         positions={positions}
         onChangeMenuState={this._handleChangeMenuState}
         caption={this.renderCaption}
+        disableAnimations={this.props.disableAnimations}
       >
         {!disabled && this.props.children}
       </PopupMenu>
