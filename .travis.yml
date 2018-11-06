@@ -37,4 +37,4 @@ matrix:
         script: nuget push ./packages/react-ui-testing/*.nupkg -ApiKey $NUGET_API_KEY
         on:
           tags: true
-          condition: $TRAVIS_TAG =~ /^react-ui-testing/
+          condition: tag =~ /^react-ui-testing/
