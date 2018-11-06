@@ -80,27 +80,12 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   private input: Nullable<HTMLInputElement>;
 
   public componentDidMount = () => {
-    if (this.props.initialIndeterminate) {
-      this.setIndeterminate();
-    }
-
     listenTabPresses();
   };
 
   public componentWillReceiveProps(nextProps: CheckboxProps) {
     if (nextProps.checked !== this.props.checked) {
       this.resetIndeterminate();
-    }
-  }
-
-  public componentDidUpdate(
-    _prevProps: CheckboxProps,
-    prevState: CheckboxState
-  ) {
-    if (prevState.indeterminate !== this.state.indeterminate) {
-      if (this.input) {
-        this.input.indeterminate = this.state.indeterminate;
-      }
     }
   }
 
