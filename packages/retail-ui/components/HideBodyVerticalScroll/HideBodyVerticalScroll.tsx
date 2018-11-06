@@ -15,10 +15,12 @@ export default class HideBodyVerticalScroll extends React.Component<
   private disposeDocumentStyle: (() => void) | null = null;
   private disposeBodyStyle: (() => void) | null = null;
   private initialScroll: number = 0;
+  private master: boolean = false;
 
   public componentDidMount() {
     const counter = VerticalScrollCounter.increment();
     if (counter === 1) {
+      this.master = true;
       this.initialScroll = document.documentElement
         ? document.documentElement.scrollTop
         : 0;
@@ -28,7 +30,9 @@ export default class HideBodyVerticalScroll extends React.Component<
   }
 
   public componentDidUpdate() {
-    this.updateScrollVisibility();
+    if (this.master) {
+      this.updateScrollVisibility();
+    }
   }
 
   public componentWillUnmount() {
