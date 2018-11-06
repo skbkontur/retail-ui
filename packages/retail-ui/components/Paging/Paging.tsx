@@ -39,7 +39,7 @@ export interface PagingProps {
    * **Paging** с withoutNavigationHint === true, то обработчик keyDown будет вызываться
    * на каждом из них. Такие случаи лучше обрабатывать отдельно.
    */
-  useGlobalListener?: boolean;
+  useGlobalListener: boolean;
 }
 
 export interface PagingState {
@@ -55,7 +55,8 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     component: ({ className, onClick, children }: any) => (
       <span className={className} onClick={onClick} children={children} />
     ),
-    strings: { forward: 'Дальше' }
+    strings: { forward: 'Дальше' },
+    useGlobalListener: false
   };
 
   public static propTypes = {};
@@ -69,7 +70,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   public state: PagingState = {
     focusedByTab: false,
     focusedItem: null,
-    keybordControl: this.props.useGlobalListener || false
+    keybordControl: this.props.useGlobalListener
   };
 
   private addedGlobalListener: boolean = false;
