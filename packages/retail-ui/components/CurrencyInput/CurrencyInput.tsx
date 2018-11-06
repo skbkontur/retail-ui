@@ -391,7 +391,7 @@ export default class CurrencyInput extends React.Component<
     }
   };
 
-  private refInput = (element: Input) => {
+  private refInput = (element: Nullable<Input>) => {
     this.input = element;
   };
 }
