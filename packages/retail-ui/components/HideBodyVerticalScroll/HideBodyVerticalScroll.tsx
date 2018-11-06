@@ -1,7 +1,6 @@
 import * as React from 'react';
 import getComputedStyle from '../../lib/dom/getComputedStyle';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
-import addClass from '../../lib/dom/addClass';
 
 export interface HideBodyVerticalScrollProps {
   allowScrolling?: boolean;
@@ -99,7 +98,7 @@ export default class HideBodyVerticalScroll extends React.Component<
     element: HTMLElement,
     style: { css: string; className: string }
   ) => {
-    addClass(element, style.className);
+    element.classList.add(style.className);
     const removeStyleNode = attachStylesheet(style.css);
     return () => {
       removeStyleNode();
