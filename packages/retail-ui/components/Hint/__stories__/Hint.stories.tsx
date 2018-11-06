@@ -70,4 +70,17 @@ storiesOf('Hint', module)
         <span>Ti voglio bene</span>
       </div>
     </Hint>
+  ))
+  .add('hint without animations', () => (
+    <div>
+      <Hint text="No disableAnimations prop">
+        <button>Hover me (No disableAnimations prop)</button>
+      </Hint>
+      <Hint text="disableAnimations={false}" disableAnimations={false}>
+        <button>Hover me (disableAnimations: false)</button>
+      </Hint>
+      <Hint text="disableAnimations={true}" disableAnimations={true}>
+        <button>Hover me (disableAnimations: true)</button>
+      </Hint>
+    </div>
   ));

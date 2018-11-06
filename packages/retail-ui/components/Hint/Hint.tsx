@@ -34,6 +34,7 @@ export interface HintProps {
     | 'right middle'
     | 'right bottom';
   text: React.ReactNode;
+  disableAnimations: boolean;
 }
 
 export interface HintState {
@@ -60,7 +61,8 @@ class Hint extends React.Component<HintProps, HintState> {
     pos: 'top',
     manual: false,
     opened: false,
-    maxWidth: 200
+    maxWidth: 200,
+    disableAnimations: false
   };
 
   public state: HintState = {
@@ -109,6 +111,7 @@ class Hint extends React.Component<HintProps, HintState> {
             positions={this.getPositions()}
             backgroundColor={HINT_BACKGROUND_COLOR}
             borderColor={HINT_BORDER_COLOR}
+            disableAnimations={this.props.disableAnimations}
           >
             {this.renderContent()}
           </Popup>
