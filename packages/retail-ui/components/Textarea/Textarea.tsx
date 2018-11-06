@@ -10,7 +10,7 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import { getTextAreaHeight } from './TextareaHelpers';
 
 import { TextareaAdapter } from './Textarea.adapter';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 
 import Upgrades from '../../lib/Upgrades';
 import CssStyles from './Textarea.less';
@@ -23,70 +23,67 @@ const styles: typeof CssStyles = isFlatDesign
 
 const DEFAULT_WIDTH = 250;
 
-export interface TextareaProps {
-  error?: boolean;
-  warning?: boolean;
-  disabled?: boolean;
+export type TextareaProps = Override<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  {
+    /** Ошибка */
+    error?: boolean;
+    /** Предупреждение */
+    warning?: boolean;
+    /** Не активное состояние */
+    disabled?: boolean;
 
-  autoResize?: boolean;
-  maxRows: string | number;
+    /**
+     * Атоматический ресайз
+     * в зависимости от содержимого
+     */
+    autoResize?: boolean;
+    /**
+     * Число строк
+     */
+    rows: number | string;
+    /**
+     * Максимальное число строк при
+     * автоматическом ресайзе
+     */
+    maxRows: string | number;
 
-  resize?: React.CSSProperties['resize'];
-  width?: React.CSSProperties['width'];
+    /**
+     * Стандартный ресайз
+     * Попадает в `style`
+     */
+    resize?: React.CSSProperties['resize'];
 
-  id?: string;
-  name?: string;
-  title?: string;
-  spellCheck?: boolean;
-  role?: string;
-  maxLength?: number;
-  tabIndex?: number;
-  rows: number;
-  placeholder?: string;
+    /**
+     * Ширина
+     */
+    width?: React.CSSProperties['width'];
 
-  value?: string;
-  defaultValue?: string;
-  onChange?: (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-    value: string
-  ) => void;
+    /**
+     * Обработчик события `change`
+     */
+    onChange?: (
+      event: React.ChangeEvent<HTMLTextAreaElement>,
+      value: string
+    ) => void;
 
-  onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-  onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-  onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-  onMouseMove?: React.MouseEventHandler<HTMLLabelElement>;
-  onMouseOut?: React.MouseEventHandler<HTMLLabelElement>;
-
-  onMouseUp?: React.MouseEventHandler<HTMLLabelElement>;
-  onMouseDown?: React.MouseEventHandler<HTMLLabelElement>;
-  onClick?: React.MouseEventHandler<HTMLLabelElement>;
-  onDoubleClick?: React.MouseEventHandler<HTMLLabelElement>;
-
-  onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>;
-  onKeyPress?: React.KeyboardEventHandler<HTMLTextAreaElement>;
-  onKeyUp?: React.KeyboardEventHandler<HTMLTextAreaElement>;
-  onInput?: React.KeyboardEventHandler<HTMLTextAreaElement>;
-
-  onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
-  onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
-
-  onScroll?: React.UIEventHandler<HTMLTextAreaElement>;
-  onWheel?: React.WheelEventHandler<HTMLTextAreaElement>;
-
-  onCut?: React.ClipboardEventHandler<HTMLTextAreaElement>;
-  onPaste?: React.ClipboardEventHandler<HTMLTextAreaElement>;
-  onCopy?: React.ClipboardEventHandler<HTMLTextAreaElement>;
-
-  /** Выделение значения при фокусе */
-  selectAllOnFocus?: boolean;
-  autoFocus?: boolean;
-}
+    /** Выделение значения при фокусе */
+    selectAllOnFocus?: boolean;
+  }
+>;
 
 export interface TextareaState {
   polyfillPlaceholder: boolean;
   rows: number | string;
 }
 
+/**
+ * Компонент для ввода многострочного текста.
+ *
+ * Принимает все атрибуты `React.TextareaHTMLAttributes<HTMLTextAreaElement>`
+ *
+ * ** `className` и `style`  игнорируются**
+ */
 class Textarea extends React.Component<TextareaProps, TextareaState> {
   public static propTypes = {
     error: PropTypes.bool,
@@ -180,15 +177,6 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public render() {
     const {
-      onMouseEnter,
-      onMouseLeave,
-      onMouseOver,
-      onMouseMove,
-      onMouseOut,
-      onMouseUp,
-      onMouseDown,
-      onClick,
-      onDoubleClick,
       width = DEFAULT_WIDTH,
       error,
       warning,
@@ -199,19 +187,13 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       maxRows,
       onFocus,
       selectAllOnFocus,
+      rows,
+      className,
+      style,
       ...textareaProps
     } = this.props;
 
     const rootProps = {
-      onMouseEnter,
-      onMouseLeave,
-      onMouseOver,
-      onMouseMove,
-      onMouseOut,
-      onMouseUp,
-      onMouseDown,
-      onClick,
-      onDoubleClick,
       style: {
         width
       }

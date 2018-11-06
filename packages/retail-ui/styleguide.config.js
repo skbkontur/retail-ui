@@ -12,7 +12,8 @@ const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
         'Checkbox',
         'CurrencyInput',
         'FxInput',
-        'Radio'
+        'Radio',
+        'Textarea'
       ];
 
       if (FILTERED_COMPONENTS.indexOf(component.name) > -1) {
