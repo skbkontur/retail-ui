@@ -81,6 +81,10 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
   public componentDidMount = () => {
     listenTabPresses();
+
+    if (this.state.indeterminate && this.input) {
+      this.input.indeterminate = true;
+    }
   };
 
   public componentWillReceiveProps(nextProps: CheckboxProps) {
