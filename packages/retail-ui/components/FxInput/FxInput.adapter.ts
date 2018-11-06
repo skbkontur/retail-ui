@@ -25,10 +25,9 @@ const FxInputAdapter = {
     }
     if (inst instanceof CurrencyInput) {
       // tslint:disable-next-line:no-string-literal
-      inst['_handleChange'](
-        { target: { value } } as ChangeEvent<HTMLInputElement>,
-        value
-      );
+      inst['handleChange']({ target: { value } } as ChangeEvent<
+        HTMLInputElement
+      >);
     }
   }
 };
