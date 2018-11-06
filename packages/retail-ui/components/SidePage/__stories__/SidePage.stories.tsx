@@ -189,10 +189,7 @@ class SidePageWithInputInHeader extends React.Component<
           <Textarea placeholder="Some textarea placeholder" value="" />
         </SidePage.Header>
         <SidePage.Body>
-          <p style={{ marginLeft: 30 }}>
-            A lotta people ask me where the fuck I've been at the last few
-            years.
-          </p>
+          <p style={{ marginLeft: 30 }}>Use rxjs operators with react hooks</p>
         </SidePage.Body>
       </SidePage>
     );
@@ -402,8 +399,7 @@ class WithVariableContent extends React.Component<
         {this.state.opened && this.renderSidePage()}
         {this.state.pageText.map(() => (
           <div style={{ height: '400px' }}>
-            A lotta people ask me where the fuck I've been at the last few
-            years.
+            Use rxjs operators with react hooks
           </div>
         ))}
         <Button onClick={this.open}>Open</Button>
@@ -429,14 +425,10 @@ class WithVariableContent extends React.Component<
           }}
         >
           <SidePage.Container>
-            <p>
-              A lotta people ask me where the fuck I've been at the last few
-              years.
-            </p>
+            <p>Use rxjs operators with react hooks</p>
             {this.state.sidePageText.map((_item, index) => (
               <div key={index} style={{ height: '400px' }}>
-                A lotta people ask me where the fuck I've been at the last few
-                years.
+                Use rxjs operators with react hooks
               </div>
             ))}
           </SidePage.Container>

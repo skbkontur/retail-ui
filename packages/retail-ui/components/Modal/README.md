@@ -9,9 +9,7 @@ function renderModal() {
     <Modal onClose={close}>
       <Modal.Header>Title</Modal.Header>
       <Modal.Body>
-        <p>
-          A lotta people ask me where the fuck I've been at the last few years.
-        </p>
+        <p>Use rxjs operators with react hooks</p>
 
         <div>
           <Toggle

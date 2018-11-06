@@ -72,10 +72,7 @@ class ModalWithScrollableContent extends Component<
       <Modal onClose={this.close}>
         <Modal.Header>Title</Modal.Header>
         <Modal.Body>
-          <p>
-            A lotta people ask me where the fuck I've been at the last few
-            years.
-          </p>
+          <p>Use rxjs operators with react hooks</p>
 
           <div>
             <Toggle
@@ -409,17 +406,12 @@ class ModalInner extends React.Component<{}, { bigHeight: boolean }> {
             overflow: 'hidden'
           }}
         >
-          A lotta people ask me where the fuck I've been at the last few years.
-          A lotta people ask me where the fuck I've been at the last few years.
-          A lotta people ask me where the fuck I've been at the last few years.
-          A lotta people ask me where the fuck I've been at the last few years.
-          A lotta people ask me where the fuck I've been at the last few years.
-          A lotta people ask me where the fuck I've been at the last few years.
-          A lotta people ask me where the fuck I've been at the last few years.
-          A lotta people ask me where the fuck I've been at the last few years.
-          A lotta people ask me where the fuck I've been at the last few years.
-          A lotta people ask me where the fuck I've been at the last few years.
-          A lotta people ask me where the fuck I've been at the last few years.
+          Use rxjs operators with react hooks. Use rxjs operators with react
+          hooks. Use rxjs operators with react hooks. Use rxjs operators with
+          react hooks. Use rxjs operators with react hooks. Use rxjs operators
+          with react hooks. Use rxjs operators with react hooks. Use rxjs
+          operators with react hooks. Use rxjs operators with react hooks. Use
+          rxjs operators with react hooks. Use rxjs operators with react hooks.
         </p>
       </div>
     );
@@ -442,10 +434,7 @@ class ModalWithVariableHeight extends Component<
           <Modal onClose={this.close}>
             <Modal.Header>Title</Modal.Header>
             <Modal.Body>
-              <p>
-                A lotta people ask me where the fuck I've been at the last few
-                years.
-              </p>
+              <p>Use rxjs operators with react hooks</p>
 
               {this.props.children}
 
