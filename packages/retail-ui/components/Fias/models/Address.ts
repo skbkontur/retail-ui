@@ -5,36 +5,19 @@ import {
   VerifyResponse,
   ErrorMessages,
   FiasId,
-  FiasValue
+  FiasValue,
+  Fields
 } from '../types';
 import { Nullable } from '../../../typings/utility-types';
 import { AddressElement } from './AddressElement';
 import { FiasData } from './FiasData';
 
 export class Address {
-  public static ALL_FIELDS = [
-    'region',
-    'district',
-    'city',
-    'intracityarea',
-    'settlement',
-    'planningstructure',
-    'street',
-    'stead',
-    'house',
-    'room'
-  ];
+  public static ALL_FIELDS = Object.keys(Fields) as Fields[];
 
-  public static VERIFIABLE_FIELDS = [
-    'region',
-    'district',
-    'city',
-    'intracityarea',
-    'settlement',
-    'planningstructure',
-    'street',
-    'house'
-  ];
+  public static VERIFIABLE_FIELDS = Address.ALL_FIELDS.filter(field => (
+    field !== Fields.stead && field !== Fields.room
+  ));
 
   public static createFromResponse = (response: ResponseAddress) => {
     const fields: AddressFields = {};
@@ -52,9 +35,10 @@ export class Address {
   public static createFromAddressValue = (addressValue: AddressValue) => {
     const fields: AddressFields = {};
     if (addressValue) {
-      Address.ALL_FIELDS.forEach(field => {
-        if (addressValue[field]) {
-          const { name, data } = addressValue[field];
+      Address.ALL_FIELDS.forEach((field) => {
+        const addressField = addressValue[field];
+        if (addressField) {
+          const { name, data } = addressField;
           fields[field] = new AddressElement(
             field,
             name,
@@ -94,7 +78,7 @@ export class Address {
     return new Address(addressFields, errorMessages);
   };
 
-  public static getParentFields = (field: string): string[] => {
+  public static getParentFields = (field: Fields) => {
     const index = Address.ALL_FIELDS.indexOf(field);
     return index > -1 ? Address.ALL_FIELDS.slice(0, index) : [];
   };
@@ -112,11 +96,11 @@ export class Address {
     return Object.keys(this.errorMessages).length > 0;
   }
 
-  public hasError(field: string): boolean {
+  public hasError(field: Fields): boolean {
     return this.errorMessages.hasOwnProperty(field);
   }
 
-  public getError(field: string): string {
+  public getError(field: Fields): string {
     return this.errorMessages[field];
   }
 
@@ -127,7 +111,7 @@ export class Address {
   };
 
   public getText = (
-    minField?: string,
+    minField?: Fields,
     skipTypes: boolean = false,
     connector: string = ', '
   ): string => {
@@ -146,25 +130,23 @@ export class Address {
       .join(connector);
   };
 
-  public isTheFieldAllowedToFill = (field: Nullable<string>): boolean => {
+  public isTheFieldAllowedToFill = (field: Nullable<Fields>): boolean => {
     if (!field) {
       return true;
     }
     const { region, city, settlement, street } = this.fields;
     return !(
-      (field === 'street' &&
-        !(city || settlement) &&
-        !(region && region.isFederalCity)) ||
-      (field === 'stead' && !street) ||
-      (field === 'house' && !street)
+      (field === Fields.street && !city && !settlement && region && !region.isFederalCity) ||
+      (field === Fields.stead && !street) ||
+      (field === Fields.house && !street)
     );
   };
 
-  public hasOnlyIndirectParent = (field: Nullable<string>): boolean => {
+  public hasOnlyIndirectParent = (field: Nullable<Fields>): boolean => {
     if (field) {
       const parents = Address.getParentFields(field);
       if (parents.length > 1) {
-        const directParent = this.fields[parents.pop() || ''];
+        const directParent = this.fields[parents.pop() as Fields];
         return (
           !directParent && parents.some(parent => Boolean(this.fields[parent]))
         );
@@ -173,7 +155,7 @@ export class Address {
     return false;
   };
 
-  public getClosestParentFiasId = (field: string): Nullable<string> => {
+  public getClosestParentFiasId = (field: Fields): Nullable<FiasId> => {
     if (!this.isEmpty) {
       const parents = Address.getParentFields(field).reverse();
       for (const parentField of parents) {
@@ -199,7 +181,8 @@ export class Address {
   };
 
   public getAddressValue = (): AddressValue => {
-    return Object.keys(this.fields).reduce((value, field) => {
+    const fields = Object.keys(this.fields) as Fields[];
+    return fields.reduce((value, field) => {
       const element = this.fields[field];
       if (!element) {
         return value;

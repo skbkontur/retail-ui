@@ -1,7 +1,7 @@
-import { EstateStatuses, FiasId, StructureStatuses } from '../types';
-import { abbreviations } from '../constants/abbreviations';
-import { Nullable } from '../../../typings/utility-types';
-import { FiasData } from './FiasData';
+import {EstateStatuses, FiasId, Fields, StructureStatuses} from '../types';
+import {abbreviations} from '../constants/abbreviations';
+import {Nullable} from '../../../typings/utility-types';
+import {FiasData} from './FiasData';
 
 const FEDERAL_CITIES: FiasId[] = [
   '0c5b2444-70a0-4932-980c-b4dc0d3f02b5', // Москва
@@ -12,10 +12,17 @@ const FEDERAL_CITIES: FiasId[] = [
 
 export class AddressElement {
   constructor(
-    public type: string,
+    public type: Fields,
     public name: string,
     public data?: Nullable<FiasData>
   ) {}
+
+  public get isFederalCity(): boolean {
+    if (!(this.data && this.data.fiasId)) {
+      return false;
+    }
+    return FEDERAL_CITIES.indexOf(this.data.fiasId) > -1;
+  }
 
   public getText(withoutType: boolean = false): string {
     const { name, data } = this;
@@ -52,7 +59,7 @@ export class AddressElement {
 
           case 'п':
             result = !withoutType
-              ? `${this.type === 'district' ? 'поселение' : 'поселок'} ${name}`
+              ? `${this.type === Fields.district ? 'поселение' : 'поселок'} ${name}`
               : `${name}`;
             break;
 
@@ -61,11 +68,11 @@ export class AddressElement {
         }
       }
 
-      if (this.type === 'stead') {
+      if (this.type === Fields.stead) {
         result = ' ' + data.number;
       }
 
-      if (this.type === 'house') {
+      if (this.type === Fields.house) {
         if (data.estateStatus !== EstateStatuses.None) {
           switch (data.estateStatus) {
             case EstateStatuses.Hold:
@@ -107,7 +114,7 @@ export class AddressElement {
         }
       }
 
-      if (this.type === 'room') {
+      if (this.type === Fields.room) {
         if (data) {
           result = `квартира ${name}`;
         } else {
@@ -119,21 +126,14 @@ export class AddressElement {
     return result.trim() || name;
   }
 
-  public get isFederalCity(): boolean {
-    if (!(this.data && this.data.fiasId)) {
-      return false;
-    }
-    return FEDERAL_CITIES.includes(this.data.fiasId);
-  }
-
-  public doesTheTypeMatchTheField = (field: string): boolean => {
+  public doesTheTypeMatchTheField = (field: Fields): boolean => {
     const types: {
       [key: string]: string;
     } = {
-      'р-н': 'district',
-      г: 'city',
-      нп: 'settlement',
-      ул: 'street'
+      'р-н': Fields.district,
+      г: Fields.city,
+      нп: Fields.settlement,
+      ул: Fields.street
     };
     const { data } = this;
     if (data && data.abbreviation) {
@@ -153,7 +153,7 @@ export class AddressElement {
         buildingNumber
       } = data;
       switch (type) {
-        case 'house':
+        case Fields.house:
           return {
             number,
             structureNumber,

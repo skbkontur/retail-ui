@@ -1,21 +1,17 @@
 import * as React from 'react';
 import Gapped from '../../Gapped';
-import { FiasAPI } from '../FiasAPI';
-import {
-  FiasComboBox,
-  FiasComboBoxChangeEvent,
-  FiasComboBoxProps
-} from './FiasComboBox';
+import {FiasAPI} from '../FiasAPI';
+import {FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps} from './FiasComboBox';
 import styles from './FiasForm.less';
-import { FiasId, FormValidation, ResponseAddress } from '../types';
-import { Nullable } from '../../../typings/utility-types';
-import { Address } from '../models/Address';
-import { AddressElement } from '../models/AddressElement';
+import {FiasId, Fields, FormValidation, ResponseAddress} from '../types';
+import {Nullable} from '../../../typings/utility-types';
+import {Address} from '../models/Address';
+import {AddressElement} from '../models/AddressElement';
 import Tooltip from '../../Tooltip/Tooltip';
-import { InputProps } from '../../Input';
+import {InputProps} from '../../Input';
 import Input from '../../Input/Input';
 import FiasSearch from './FiasSearch';
-import { FiasLocale } from '../constants/locale';
+import {FiasLocale} from '../constants/locale';
 
 interface FiasFormProps {
   api: FiasAPI;
@@ -58,15 +54,15 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     super(props);
 
     this.comboboxes = [
-      'region',
-      'district',
-      'city',
-      'intracityarea',
-      'settlement',
-      'planningstructure',
-      'street',
-      'stead',
-      'house'
+      Fields.region,
+      Fields.district,
+      Fields.city,
+      Fields.intracityarea,
+      Fields.settlement,
+      Fields.planningstructure,
+      Fields.street,
+      Fields.stead,
+      Fields.house
     ].reduce((comboboxes, field) => {
       return {
         ...comboboxes,
@@ -81,7 +77,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       };
     }, {});
 
-    this.inputs = ['room'].reduce((inputs, field) => {
+    this.inputs = [Fields.room].reduce((inputs, field) => {
       return {
         ...inputs,
         [field]: {
@@ -120,43 +116,43 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           )}
           <div className={styles.row}>
             <div className={styles.label}>Регион</div>
-            <div className={styles.field}>{this.renderField('region')}</div>
+            <div className={styles.field}>{this.renderField(Fields.region)}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Район</div>
-            <div className={styles.field}>{this.renderField('district')}</div>
+            <div className={styles.field}>{this.renderField(Fields.district)}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Город</div>
-            <div className={styles.field}>{this.renderField('city')}</div>
+            <div className={styles.field}>{this.renderField(Fields.city)}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Внутригородская территория</div>
             <div className={styles.field}>
-              {this.renderField('intracityarea')}
+              {this.renderField(Fields.intracityarea)}
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Населенный пункт</div>
-            <div className={styles.field}>{this.renderField('settlement')}</div>
+            <div className={styles.field}>{this.renderField(Fields.settlement)}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Иная территория</div>
             <div className={styles.field}>
-              {this.renderField('planningstructure')}
+              {this.renderField(Fields.planningstructure)}
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Улица</div>
-            <div className={styles.field}>{this.renderField('street')}</div>
+            <div className={styles.field}>{this.renderField(Fields.street)}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Земельный участок</div>
-            <div className={styles.field}>{this.renderField('stead', 130)}</div>
+            <div className={styles.field}>{this.renderField(Fields.stead, 130)}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Дом, сооружение</div>
-            <div className={styles.field}>{this.renderField('house', 130)}</div>
+            <div className={styles.field}>{this.renderField(Fields.house, 130)}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Квартира, офис</div>
@@ -164,7 +160,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
               <Input
                 {...this.inputs.room.props}
                 value={address.fields.room ? address.fields.room.name : ''}
-                error={address.hasError('room')}
+                error={address.hasError(Fields.room)}
                 placeholder={this.props.locale.roomPlaceholder}
                 width={130}
               />
@@ -175,7 +171,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   }
 
-  private renderField = (field: string, width: string | number = '100%') => {
+  private renderField = (field: Fields, width: string | number = '100%') => {
     const { address } = this.state;
     const { locale, validationLevel } = this.props;
     const { props, createRef, tooltip } = this.comboboxes[field];
@@ -198,7 +194,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   };
 
-  private createComboBoxProps(field: string): FiasComboBoxProps {
+  private createComboBoxProps(field: Fields): FiasComboBoxProps {
     const getItems = async (searchText: string) => {
       const parentFiasId = this.state.address.getClosestParentFiasId(field);
       return this.createItemsSource(searchText, field, parentFiasId);
@@ -209,7 +205,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         ...this.state.address.fields,
         ...value.fields
       };
-      for (const checkField of Object.keys(fields)) {
+      for (const checkField of Object.keys(fields) as Fields[]) {
         if (!fields[checkField]) {
           delete fields[checkField];
         }
@@ -242,7 +238,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           )
         : '';
 
-      if (field === 'region' && element && element.data) {
+      if (field === Fields.region && element && element.data) {
         const regionCode = element.data.code.substr(0, 2);
         return `${regionCode} ${fieldText}`;
       }
@@ -300,7 +296,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
   }
 
-  private createInputProps(field: string): InputProps {
+  private createInputProps(field: Fields): InputProps {
     return {
       onChange: (e: React.ChangeEvent, value: string) => {
         const fields = { ...this.state.address.fields };
@@ -316,7 +312,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   private createItemsSource = async (
     searchText: string,
-    field?: string,
+    field?: Fields,
     parentFiasId?: Nullable<FiasId>
   ) => {
     const limit = this.props.limit || FiasForm.defaultProps.limit;
@@ -336,7 +332,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       : Promise.resolve([]);
   };
 
-  private createFieldTooltip = (field: string): React.ReactNode => {
+  private createFieldTooltip = (field: Fields): React.ReactNode => {
     return () => {
       const { address } = this.state;
       const { validationLevel } = this.props;

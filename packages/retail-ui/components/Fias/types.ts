@@ -10,20 +10,9 @@ export interface FiasEntity {
 }
 
 export interface AddressObject extends FiasEntity {
-  level: Levels;
   name: string;
   abbreviation: string;
   code: string;
-}
-
-export enum Levels {
-  region = 'Region',
-  district = 'District',
-  city = 'City',
-  intracityarea = 'IntracityArea',
-  settlement = 'Settlement',
-  planningstructure = 'PlanningStructure',
-  street = 'Street'
 }
 
 export interface Stead extends FiasEntity {
@@ -60,14 +49,27 @@ export enum StructureStatuses {
 }
 
 export enum LiveStatuses {
-  Active = 'active',
-  Inactive = 'inactive'
+  active = 'active',
+  inactive = 'inactive'
 }
 
 export type FiasObject = AddressObject | Stead | House | Room;
 
-export interface AddressFields {
-  [key: string]: Nullable<AddressElement>;
+export enum Fields {
+  region = 'region',
+  district = 'district',
+  city = 'city',
+  intracityarea = 'intracityarea',
+  settlement = 'settlement',
+  planningstructure = 'planningstructure',
+  street = 'street',
+  stead = 'stead',
+  house = 'house',
+  room = 'room'
+}
+
+export type AddressFields = {
+  [key in Fields]?: Nullable<AddressElement>;
 }
 
 export interface FiasValue {
@@ -77,8 +79,8 @@ export interface FiasValue {
   errorMessages?: ErrorMessages;
 }
 
-export interface AddressValue {
-  [key: string]: {
+export type AddressValue = {
+  [key in Fields]?: {
     name: string;
     data?: FiasObject;
   };
@@ -93,7 +95,7 @@ export type SearchResponse = ResponseAddress[];
 export type VerifyResponse = Array<{
   address: ResponseAddress;
   isValid: boolean;
-  invalidLevel?: Levels;
+  invalidLevel?: string;
 }>;
 
 export interface ErrorMessages {

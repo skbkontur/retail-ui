@@ -4,7 +4,6 @@ import {
   FiasId,
   FiasObject,
   House,
-  Levels,
   Stead,
   StructureStatuses
 } from '../types';
@@ -77,12 +76,6 @@ export class FiasData {
 
   public get fiasId(): FiasId {
     return (this.data && this.data.fiasId) || '';
-  }
-
-  public get level(): Nullable<Levels> {
-    if (FiasData.isAddressObject(this.data)) {
-      return this.data.level;
-    }
   }
 
   public get estateStatus(): Nullable<EstateStatuses> {

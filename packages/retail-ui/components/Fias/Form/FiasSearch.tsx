@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { FiasComboBox, FiasComboBoxChangeEvent } from './FiasComboBox';
-import { Address } from '../models/Address';
-import { Nullable } from '../../../typings/utility-types';
-import { FiasLocale, defaultLocale } from '../constants/locale';
+import {FiasComboBox, FiasComboBoxChangeEvent} from './FiasComboBox';
+import {Address} from '../models/Address';
+import {Nullable} from '../../../typings/utility-types';
+import {defaultLocale, FiasLocale} from '../constants/locale';
+import {Fields} from "../types";
 
 interface FiasSearchProps {
   source: (query: string) => Promise<Address[]>;
@@ -49,7 +50,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   };
 
   private renderValue = (address: Address): string => {
-    return address.getText('room');
+    return address.getText(Fields.room);
   };
 
   private renderNotFound = (): React.ReactNode => {
@@ -57,7 +58,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   };
 
   private valueToString = (address: Address): string => {
-    return address.getText('room');
+    return address.getText(Fields.room);
   };
 
   private handleChange = (
