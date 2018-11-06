@@ -1,20 +1,7 @@
-
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Paging from '../Paging';
-
-storiesOf('Paging', module).addDecorator(story => <div>{story()}</div>).add('GoToAbsensePage', () => <GoToAbsensePage />).add('SimpleSamples', () => {
-    return (
-      <div>
-        <PagingWithState pagesCount={1} />
-        <PagingWithState pagesCount={7} />
-        <PagingWithState pagesCount={8} />
-        <PagingWithState pagesCount={12} />
-      </div>
-    );
-  }).add('PagingWithCustomComponent', () => (
-    <PagingWithCustomComponent pagesCount={12} />
-  ));
+import { action } from '@storybook/addon-actions';
 
 class GoToAbsensePage extends Component<{}, any> {
   public state = {
@@ -58,6 +45,7 @@ class PagingWithState extends Component<any, any> {
         <Paging
           activePage={this.state.activePage}
           pagesCount={this.props.pagesCount}
+          useGlobalListener={this.props.useGlobalListener}
           onPageChange={this._handlePageChange}
         />
       </div>
@@ -65,7 +53,9 @@ class PagingWithState extends Component<any, any> {
   }
 
   private _handlePageChange = (pageNumber: number) => {
-    this.setState({ activePage: pageNumber });
+    this.setState({ activePage: pageNumber }, () =>
+      action('page cahnged')(this.state.activePage)
+    );
   };
 }
 
@@ -114,3 +104,21 @@ class PagingWithCustomComponent extends Component<any, any> {
     this.setState({ activePage: getPageFromHash() });
   };
 }
+
+storiesOf('Paging', module)
+  .addDecorator(story => <div>{story()}</div>)
+  .add('GoToAbsensePage', () => <GoToAbsensePage />)
+  .add('SimpleSamples', () => (
+    <>
+      <PagingWithState pagesCount={1} />
+      <PagingWithState pagesCount={7} />
+      <PagingWithState pagesCount={8} />
+      <PagingWithState pagesCount={12} />
+    </>
+  ))
+  .add('PagingWithCustomComponent', () => (
+    <PagingWithCustomComponent pagesCount={12} />
+  ))
+  .add('Paging with global listener', () => (
+    <PagingWithState useGlobalListener pagesCount={12} />
+  ));
