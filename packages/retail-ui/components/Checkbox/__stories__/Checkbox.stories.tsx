@@ -40,19 +40,30 @@ class IndeterminatePlayground extends Component<
   public render() {
     return (
       <div>
-        <Checkbox
-          // tslint:disable-next-line:jsx-no-lambda
-          onChange={(_event, checked) => this.setState({ checked })}
-          checked={this.state.checked}
-          initialIndeterminate
-          ref={this.checkboxRef}
+        <span
+          style={{ display: 'inline-block', padding: 4 }}
+          id="screenshot-capture"
         >
-          {this.props.children}
-        </Checkbox>
+          <Checkbox
+            // tslint:disable-next-line:jsx-no-lambda
+            onChange={(_event, checked) => this.setState({ checked })}
+            checked={this.state.checked}
+            initialIndeterminate
+            ref={this.checkboxRef}
+          >
+            {this.props.children}
+          </Checkbox>
+        </span>
         <div>
-          <button onClick={this.setIndeterminate}>setIndeterminate</button>
-          <button onClick={this.resetIndeterminate}>resetIndeterminate</button>
-          <button onClick={this.changeValue}>changeValue</button>
+          <button tabIndex={-1} onClick={this.setIndeterminate}>
+            setIndeterminate
+          </button>
+          <button tabIndex={-1} onClick={this.resetIndeterminate}>
+            resetIndeterminate
+          </button>
+          <button tabIndex={-1} onClick={this.changeValue}>
+            changeValue
+          </button>
         </div>
       </div>
     );
