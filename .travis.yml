@@ -35,6 +35,3 @@ matrix:
         skip_cleanup: true
         provider: script
         script: nuget push ./packages/react-ui-testing/*.nupkg -ApiKey $NUGET_API_KEY
-        on:
-          tags: true
-          condition: tag =~ /^react-ui-testing/
