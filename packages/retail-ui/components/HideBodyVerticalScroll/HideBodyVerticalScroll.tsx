@@ -9,6 +9,9 @@ export interface HideBodyVerticalScrollProps {
 export default class HideBodyVerticalScroll extends React.Component<
   HideBodyVerticalScrollProps
 > {
+  public static hash = Math.random()
+    .toString(16)
+    .slice(2, 6);
   private disposeDocumentStyle: (() => void) | null = null;
   private disposeBodyStyle: (() => void) | null = null;
   private initialScroll: number = 0;
@@ -144,11 +147,8 @@ class VerticalScrollCounter {
 }
 
 function generateClassName(className: string) {
-  const compName = HideBodyVerticalScroll.name;
-  const hash = Math.random()
-    .toString(16)
-    .slice(2, 6);
-  return `${compName}-${className}-${hash}`;
+  const { name, hash } = HideBodyVerticalScroll;
+  return `${name}-${className}-${hash}`;
 }
 
 function generateDocumentStyle(documentMargin: number) {
