@@ -82,6 +82,9 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
   }
 
+  /**
+   * @public
+   */
   public focus = () => {
     if (this.input) {
       tabPressed = true;

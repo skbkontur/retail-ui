@@ -103,6 +103,9 @@ export default class ScrollContainer extends React.Component<
     );
   }
 
+  /**
+   * @public
+   */
   public scrollTo(element: HTMLElement) {
     if (!element || !this._inner) {
       return;

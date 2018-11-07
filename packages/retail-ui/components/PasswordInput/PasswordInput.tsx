@@ -80,6 +80,9 @@ export default class PasswordInput extends React.Component<
     );
   }
 
+  /**
+   * @public
+   */
   public focus = () => {
     if (this._input) {
       this._input.focus();

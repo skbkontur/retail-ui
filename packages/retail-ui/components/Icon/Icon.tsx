@@ -224,6 +224,10 @@ class Icon extends React.Component<IconProps> {
     {}
   );
 
+  /**
+   * `static`. Получить список всех иконок
+   * @public
+   */
   public static getAllNames = () => Object.keys(Icons) as IconName[];
 
   constructor(props: IconProps) {

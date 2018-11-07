@@ -164,7 +164,9 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     );
   }
 
-  /** @api */
+  /**
+   * @public
+   */
   public focus() {
     tabPressed = true;
     if (this.input) {
@@ -172,14 +174,19 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
   }
 
-  /** @api */
+  /**
+   * @public
+   */
   public blur() {
     if (this.input) {
       this.input.blur();
     }
   }
 
-  /** @api */
+  /**
+   * Установить промежуточное значение
+   * @public
+   */
   public setIndeterminate = () => {
     this.setState({
       indeterminate: true
@@ -189,7 +196,10 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
   };
 
-  /** @api */
+  /**
+   * Сбросить промежуточное значение
+   * @public
+   */
   public resetIndeterminate = () => {
     this.setState({
       indeterminate: false

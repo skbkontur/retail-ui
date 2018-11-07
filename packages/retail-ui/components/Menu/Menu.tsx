@@ -96,18 +96,30 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     );
   }
 
+  /**
+   * @public
+   */
   public up() {
     this._move(-1);
   }
 
+  /**
+   * @public
+   */
   public down() {
     this._move(1);
   }
 
+  /**
+   * @public
+   */
   public enter(event: React.SyntheticEvent<HTMLElement>) {
     return this._select(this.state.highlightedIndex, true, event);
   }
 
+  /**
+   * @public
+   */
   public reset() {
     this.setState({ highlightedIndex: -1 });
   }

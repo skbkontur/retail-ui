@@ -177,12 +177,18 @@ export default class Dropdown extends React.Component<DropdownProps> {
     );
   }
 
+  /**
+   * @public
+   */
   public open() {
     if (this._select) {
       this._select.open();
     }
   }
 
+  /**
+   * @public
+   */
   public close() {
     if (this._select) {
       this._select.close();

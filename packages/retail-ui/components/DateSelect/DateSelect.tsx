@@ -129,6 +129,9 @@ export default class DateSelect extends React.Component<
     window.removeEventListener('keydown', this.handleKey);
   }
 
+  /**
+   * @public
+   */
   public open = () => {
     if (this.props.disabled) {
       return;
@@ -145,6 +148,9 @@ export default class DateSelect extends React.Component<
     });
   };
 
+  /**
+   * @public
+   */
   public close = () => {
     if (!this.state.opened) {
       return;

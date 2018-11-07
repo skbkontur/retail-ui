@@ -141,12 +141,18 @@ export default class CurrencyInput extends React.Component<
     );
   }
 
+  /**
+   * @public
+   */
   public focus = () => {
     if (this.input) {
       this.input.focus();
     }
   };
 
+  /**
+   * @public
+   */
   public blur = () => {
     if (this.input) {
       this.input.blur();
