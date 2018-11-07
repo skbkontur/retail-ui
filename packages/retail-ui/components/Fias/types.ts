@@ -87,8 +87,8 @@ export type AddressValue = {
   };
 }
 
-export interface ResponseAddress {
-  [key: string]: FiasObject;
+export type ResponseAddress = {
+  [key in Fields]?: FiasObject;
 }
 
 export type SearchResponse = ResponseAddress[];
@@ -99,8 +99,8 @@ export type VerifyResponse = Array<{
   invalidLevel?: string;
 }>;
 
-export interface ErrorMessages {
-  [key: string]: string;
+export type ErrorMessages = {
+  [key in Fields]?: string;
 }
 
 export type FormValidation = 'Error' | 'Warning' | 'None';

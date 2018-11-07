@@ -23,8 +23,9 @@ export class Address {
     const fields: AddressFields = {};
     if (response) {
       Address.ALL_FIELDS.forEach(field => {
-        if (response[field]) {
-          const data: FiasData = new FiasData(response[field]);
+        const fiasObject = response[field];
+        if (fiasObject) {
+          const data: FiasData = new FiasData(fiasObject);
           fields[field] = new AddressElement(field, data.name, data);
         }
       });
@@ -62,8 +63,9 @@ export class Address {
       const { address: verifiedFields, invalidLevel } = response[0];
       for (const field of Address.VERIFIABLE_FIELDS) {
         if (addressFields[field]) {
-          if (verifiedFields[field]) {
-            const data = new FiasData(verifiedFields[field]);
+          const fiasObject = verifiedFields[field];
+          if (fiasObject) {
+            const data = new FiasData(fiasObject);
             addressFields[field] = new AddressElement(field, data.name, data);
           } else {
             delete addressFields[field]!.data;
@@ -100,7 +102,7 @@ export class Address {
     return this.errorMessages.hasOwnProperty(field);
   }
 
-  public getError(field: Fields): string {
+  public getError(field: Fields): string | undefined {
     return this.errorMessages[field];
   }
 
