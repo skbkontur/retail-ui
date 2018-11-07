@@ -1,8 +1,4 @@
-export interface FiasLocale {
-  [key: string]: string;
-}
-
-export const defaultLocale: FiasLocale = {
+export const defaultLocale = {
   modalTitle: 'Адрес',
   modalButtonOk: 'Сохранить',
   modalButtonCancel: 'Отменить',

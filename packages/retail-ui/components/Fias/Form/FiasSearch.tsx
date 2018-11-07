@@ -2,8 +2,8 @@ import * as React from 'react';
 import {FiasComboBox, FiasComboBoxChangeEvent} from './FiasComboBox';
 import {Address} from '../models/Address';
 import {Nullable} from '../../../typings/utility-types';
-import {defaultLocale, FiasLocale} from '../constants/locale';
-import {Fields} from "../types";
+import {defaultLocale} from '../constants/locale';
+import {Fields, FiasLocale} from "../types";
 
 interface FiasSearchProps {
   source: (query: string) => Promise<Address[]>;

@@ -1,14 +1,14 @@
 import * as React from 'react';
 import cn from 'classnames';
 import Link from '../Link';
-import { FiasValue, FormValidation, ResponseAddress } from './types';
+import { FiasValue, FormValidation, FiasLocale, ResponseAddress } from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
 import { FiasAPI } from './FiasAPI';
 import { Nullable } from '../../typings/utility-types';
 import { Address } from './models/Address';
-import { defaultLocale, FiasLocale } from './constants/locale';
+import { defaultLocale } from './constants/locale';
 import styles from './Fias.less';
 import isEqual from 'lodash.isequal';
 
@@ -71,6 +71,7 @@ interface FiasProps {
 interface FiasState {
   opened: boolean;
   address: Address;
+  locale: FiasLocale;
 }
 
 export class Fias extends React.Component<FiasProps, FiasState> {
@@ -86,7 +87,11 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   public state: FiasState = {
     opened: false,
-    address: new Address()
+    address: new Address(),
+    locale: {
+      ...defaultLocale,
+      ...this.props.locale
+    }
   };
 
   private api: FiasAPI = new FiasAPI(this.props.baseUrl);
@@ -100,6 +105,9 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     if (!isEqual(prevProps.value, this.props.value)) {
       this.updateAddress();
     }
+    if (!isEqual(prevProps.locale, this.props.locale)) {
+      this.updateLocale();
+    }
   };
 
   public render() {
@@ -111,11 +119,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       warning,
       feedback
     } = this.props;
-    const { opened, address } = this.state;
-    const locale: FiasLocale = {
-      ...defaultLocale,
-      ...this.props.locale
-    };
+    const { opened, address, locale } = this.state;
 
     const linkText =
       label || (address.isEmpty ? locale.addressFill : locale.addressEdit);
@@ -180,6 +184,15 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       address
     });
     return address;
+  };
+
+  private updateLocale = (): void => {
+    this.setState({
+      locale: {
+        ...defaultLocale,
+        ...this.props.locale
+      }
+    });
   };
 
   private getAddress = async (value: Nullable<FiasValue>) => {

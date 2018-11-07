@@ -3,7 +3,7 @@ import Gapped from '../../Gapped';
 import {FiasAPI} from '../FiasAPI';
 import {FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps} from './FiasComboBox';
 import styles from './FiasForm.less';
-import {FiasId, Fields, FormValidation, ResponseAddress} from '../types';
+import {FiasId, Fields, FormValidation, FiasLocale, ResponseAddress} from '../types';
 import {Nullable} from '../../../typings/utility-types';
 import {Address} from '../models/Address';
 import {AddressElement} from '../models/AddressElement';
@@ -11,7 +11,6 @@ import Tooltip from '../../Tooltip/Tooltip';
 import {InputProps} from '../../Input';
 import Input from '../../Input/Input';
 import FiasSearch from './FiasSearch';
-import {FiasLocale} from '../constants/locale';
 
 interface FiasFormProps {
   api: FiasAPI;
@@ -177,12 +176,13 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const { props, createRef, tooltip } = this.comboboxes[field];
     const error = address.hasError(field) && validationLevel === 'Error';
     const warning = address.hasError(field) && validationLevel === 'Warning';
+    const placeholder = locale[`${field}Placeholder` as keyof FiasLocale];
     return (
       <Tooltip pos={'right middle'} render={tooltip}>
         <FiasComboBox
           {...props}
           value={address}
-          placeholder={locale[`${field}Placeholder`]}
+          placeholder={placeholder}
           width={width}
           error={error}
           warning={warning}
@@ -258,15 +258,15 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const renderNotFound = (): React.ReactNode => {
       const { address } = this.state;
       const { locale } = this.props;
-      let messages = [locale[`${field}NotFound`] || locale.addressNotFound];
+      let messages = [locale[`${field}NotFound` as keyof FiasLocale] || locale.addressNotFound];
 
       if (address.isTheFieldAllowedToFill(field)) {
         if (address.hasOnlyIndirectParent(field)) {
           messages.push(locale.addressFillParentOrSearch);
         }
       } else {
-        messages = locale[`${field}FillBefore`]
-          ? [locale[`${field}FillBefore`]]
+        messages = locale[`${field}FillBefore` as keyof FiasLocale]
+          ? [locale[`${field}FillBefore` as keyof FiasLocale]]
           : messages;
       }
 

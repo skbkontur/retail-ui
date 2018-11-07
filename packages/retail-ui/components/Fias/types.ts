@@ -1,5 +1,6 @@
 import { AddressElement } from './models/AddressElement';
 import { Nullable } from '../../typings/utility-types';
+import {defaultLocale} from "./constants/locale";
 
 export type FiasId = string;
 
@@ -103,3 +104,5 @@ export interface ErrorMessages {
 }
 
 export type FormValidation = 'Error' | 'Warning' | 'None';
+
+export type FiasLocale = typeof defaultLocale;
