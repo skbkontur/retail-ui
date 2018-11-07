@@ -6,6 +6,8 @@
   "devDependencies": {
     "@commitlint/cli": "^7.0.0",
     "@commitlint/config-conventional": "^7.0.1",
+    "commitizen": "^3.0.4",
+    "cz-conventional-changelog": "^2.1.0",
     "husky": "^0.14.3",
     "lerna": "^2.11.0"
   },
@@ -14,7 +16,8 @@
     "clean": "lerna clean --yes",
     "commitmsg": "commitlint -E GIT_PARAMS",
     "precommit": "lerna run precommit",
-    "prepush": "lerna run prepush"
+    "prepush": "lerna run prepush",
+    "commit": "git-cz"
   },
   "jest": {
     "projects": [
@@ -23,5 +26,10 @@
     "roots": [
       "<rootDir>/packages/*"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
