@@ -23,11 +23,6 @@
     }
   }
 
-  .disabled {
-    color: @text-color-disabled;
-    cursor: default;
-  }
-
   .input {
     display: inline-block;
     opacity: 0;
@@ -112,5 +107,26 @@
 
   .caption {
     padding-left: 26px;
+  }
+
+  .indeterminate {
+    position: absolute;
+    display: inline-block;
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    background: @text-color-default;
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .disabled {
+    color: @text-color-disabled;
+    cursor: default;
+
+    .indeterminate {
+      background: @text-color-disabled;
+    }
   }
 }
