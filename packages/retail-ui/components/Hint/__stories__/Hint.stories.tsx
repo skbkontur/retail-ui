@@ -4,6 +4,7 @@ import { withKnobs, select, text } from '@storybook/addon-knobs';
 
 import Hint from '../Hint';
 import Gapped from '../../Gapped';
+import Input from '../../Input';
 
 const getKnobs = () => ({
   text: text('text', 'Hello!'),
@@ -70,6 +71,13 @@ storiesOf('Hint', module)
         <span>Ti voglio bene</span>
       </div>
     </Hint>
+  ))
+  .add('with 100%-width input', () => (
+    <span style={{ width: '400px', display: 'inline-block' }}>
+      <Hint pos="top" text="Something will never be changed" manual opened>
+        <Input width="100%" />
+      </Hint>
+    </span>
   ))
   .add('hint without animations', () => (
     <div>

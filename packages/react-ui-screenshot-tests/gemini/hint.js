@@ -42,3 +42,10 @@ gemini.suite("Hint with block caption", suite => {
     .setCaptureElements("#test-element")
     .capture("mouseOver");
 });
+
+gemini.suite("Hint with 100%-width input", suite => {
+  suite
+    .setUrl(pathTo("Hint", "with 100%-width input"))
+    .setCaptureElements("#test-element")
+    .capture("mouseOver");
+});
