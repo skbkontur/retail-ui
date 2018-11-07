@@ -73,8 +73,8 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
   }
 
   /**
-   * @public
    * Scrolls calendar to given date
+   * @public
    */
   public scrollToMonth(month: number, year: number) {
     this._scrollToMonth(month, year);

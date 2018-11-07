@@ -15,7 +15,7 @@ export interface AutocompleteProps extends InputProps {
   renderItem: (item: string) => React.ReactNode;
   /** Промис, резолвящий элементы меню */
   source?: string[] | ((patter: string) => Promise<string[]>);
-  /** Отключает использование портала  */
+  /** Отключает использование портала */
   disablePortal: boolean;
   /** Отрисовка тени у выпадающего меню */
   hasShadow: boolean;
