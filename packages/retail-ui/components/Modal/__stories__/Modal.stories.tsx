@@ -1,4 +1,4 @@
-/* tslint:disable */
+/* tslint:disable jsx-no-lambda */
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 
@@ -359,15 +359,15 @@ class ModalMobileView extends Component<{}, { opened: boolean }> {
     opened: true
   };
 
-  componentDidMount() {
+  public componentDidMount() {
     Upgrades.setAdaptiveStyles(true);
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     Upgrades.setAdaptiveStyles(false);
   }
 
-  render() {
+  public render() {
     return (
       <Modal>
         <Modal.Header>Воспользуйтесь другим браузером</Modal.Header>
@@ -394,7 +394,7 @@ class ModalInner extends React.Component<{}, { bigHeight: boolean }> {
     };
   }
 
-  render() {
+  public render() {
     return (
       <div id="modal-inner" style={{ width: 300 }}>
         <Toggle
