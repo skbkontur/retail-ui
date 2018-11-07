@@ -149,9 +149,22 @@ const BriefcaseIcon = () => '💼';
 
 Формат данных:
 ```typescript
+enum Fields {
+  region = 'region',
+  district = 'district',
+  city = 'city',
+  intracityarea = 'intracityarea',
+  settlement = 'settlement',
+  planningstructure = 'planningstructure',
+  street = 'street',
+  stead = 'stead',
+  house = 'house',
+  room = 'room'
+}
+
 interface FiasValue {
   address?: {
-    [key: string]: {
+    [key in Fields]?: {
         name: string;
         data?: FiasObject;
       }
@@ -159,7 +172,7 @@ interface FiasValue {
   addressString?: string;
   fiasId?: string;
   errorMessages?: {
-    [key: string]: string;
+    [key in Fields]?: string;
   };
 }
 
@@ -244,7 +257,7 @@ const value: FiasValue = {
 Текстовые константы по умолчанию (`locale`):
 
 ```typescript
-const defaultLocale: FiasLocale = {
+const defaultLocale = {
   modalTitle: 'Адрес',
   modalButtonOk: 'Сохранить',
   modalButtonCancel: 'Отменить',
