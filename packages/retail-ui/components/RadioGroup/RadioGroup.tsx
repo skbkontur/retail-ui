@@ -181,6 +181,9 @@ class RadioGroup<T> extends React.Component<
     );
   }
 
+  /**
+   * @public
+   */
   public focus() {
     const node = this._node;
     if (!node) {

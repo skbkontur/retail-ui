@@ -104,6 +104,9 @@ class Autocomplete extends React.Component<
     }
   }
 
+  /**
+   * @public
+   */
   public blur() {
     this._handleBlur();
   }

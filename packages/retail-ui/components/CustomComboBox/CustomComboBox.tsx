@@ -91,6 +91,9 @@ class CustomComboBox extends React.Component<
   public inputLikeText: Nullable<InputLikeText>;
   private focused: boolean = false;
 
+  /**
+   * @public
+   */
   public focus = () => {
     if (this.props.disabled) {
       return;
@@ -99,6 +102,9 @@ class CustomComboBox extends React.Component<
     this.handleFocus();
   };
 
+  /**
+   * @public
+   */
   public blur = () => {
     if (this.props.disabled) {
       return;
@@ -186,6 +192,9 @@ class CustomComboBox extends React.Component<
     this.dispatch({ type: 'DidUpdate', prevProps, prevState });
   }
 
+  /**
+   * @public
+   */
   public reset() {
     this.dispatch({ type: 'Reset' });
   }

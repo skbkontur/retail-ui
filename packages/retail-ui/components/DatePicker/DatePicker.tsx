@@ -148,6 +148,10 @@ class DatePicker extends React.Component<
     this._handleFocus();
   }
 
+  /**
+   * Закрывает выпадашку выбора дня
+   * @public
+   */
   public close() {
     this.setState({ opened: false });
   }

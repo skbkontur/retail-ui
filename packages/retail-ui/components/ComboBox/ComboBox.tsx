@@ -139,12 +139,19 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
 
   private comboboxElement: Nullable<CustomComboBox> = null;
 
+  /**
+   * @public
+   */
   public focus() {
     if (this.comboboxElement) {
       this.comboboxElement.focus();
     }
   }
 
+  /**
+   * Сбрасывает введенное пользователем значение
+   * @public
+   */
   public reset() {
     if (this.comboboxElement) {
       this.comboboxElement.reset();

@@ -66,6 +66,14 @@ class Toast extends React.Component<ToastProps, ToastState> {
     );
   }
 
+  /**
+   * Показывает тост с `notification` в качестве сообщения.
+   *
+   * `action` опциональный параметр формата `{ label: string, handler: function }` добавляет кнопку в виде ссылки при клике на которую вызывается переданный handler
+   * @public
+   * @param notification
+   * @param action
+   */
   public push(notification: string, action?: Action) {
     if (this.state.notification) {
       this.close();
@@ -79,6 +87,9 @@ class Toast extends React.Component<ToastProps, ToastState> {
     );
   }
 
+  /**
+   * @public
+   */
   public close = () => {
     safelyCall(this.props.onClose, this.state.notification, this.state.action);
     this.setState({ notification: null, action: null });

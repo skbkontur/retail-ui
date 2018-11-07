@@ -263,18 +263,27 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     );
   }
 
+  /**
+   * @public
+   */
   public focus() {
     if (this.node) {
       this.node.focus();
     }
   }
 
+  /**
+   * @public
+   */
   public blur() {
     if (this.node) {
       this.node.blur();
     }
   }
 
+  /**
+   * @public
+   */
   public setSelectionRange = (start: number, end: number) => {
     if (!this.node) {
       throw new Error('Cannot call "setSelectionRange" on unmounted Input');
@@ -287,6 +296,9 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     this.node.setSelectionRange(start, end);
   };
 
+  /**
+   * @public
+   */
   public selectAll = () => {
     if (this.node) {
       this.setSelectionRange(0, this.node.value.length);

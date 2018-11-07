@@ -240,10 +240,16 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     );
   }
 
+  /**
+   * @public
+   */
   public open() {
     this._open();
   }
 
+  /**
+   * @public
+   */
   public close() {
     this._close();
   }

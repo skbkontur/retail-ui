@@ -98,6 +98,9 @@ class FxInput extends React.Component<FxInputProps> {
     );
   }
 
+  /**
+   * @public
+   */
   public focus = () => {
     if (this.input) {
       this.input.focus();

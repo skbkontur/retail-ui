@@ -249,7 +249,9 @@ class Input extends React.Component<InputProps, InputState> {
     );
   }
 
-  /** @api */
+  /**
+   * @public
+   */
   public selectAll = () => {
     if (this.input) {
       this.setSelectionRange(0, this.input.value.length);
