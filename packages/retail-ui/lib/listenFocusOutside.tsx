@@ -80,7 +80,7 @@ function findRenderContainer(
     currentNode === rootNode ||
     currentNode === document.body ||
     currentNode === document.documentElement ||
-    !(currentNode instanceof HTMLElement)
+    !(currentNode instanceof Element)
   ) {
     return container ? container : null;
   }
