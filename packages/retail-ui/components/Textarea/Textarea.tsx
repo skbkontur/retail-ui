@@ -41,7 +41,7 @@ export type TextareaProps = Override<
     /**
      * Число строк
      */
-    rows: number | string;
+    rows: number;
     /**
      * Максимальное число строк при
      * автоматическом ресайзе
@@ -187,7 +187,6 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       maxRows,
       onFocus,
       selectAllOnFocus,
-      rows,
       className,
       style,
       ...textareaProps
