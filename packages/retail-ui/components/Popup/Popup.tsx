@@ -203,10 +203,12 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     return (
       <Transition
         timeout={{ enter: 0, exit: 200 }}
-        appear
+        appear={!this.props.disableAnimations}
         in={this.props.opened}
         mountOnEnter
         unmountOnExit
+        enter={!this.props.disableAnimations}
+        exit={!this.props.disableAnimations}
       >
         {(state: string) => (
           <ZIndex

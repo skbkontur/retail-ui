@@ -38,6 +38,7 @@ export interface PopupMenuProps {
   popupMargin?: number;
   popupPinOffset?: number;
   type?: 'dropdown' | 'tooltip';
+  disableAnimations: boolean;
 }
 
 interface PopupMenuState {
@@ -58,7 +59,8 @@ export default class PopupMenu extends React.Component<
     positions: PopupMenuPositions,
     type: PopupMenuType.Tooltip,
     popupHasPin: true,
-    popupMargin: 0
+    popupMargin: 0,
+    disableAnimations: false
   };
 
   public static Type = PopupMenuType;
@@ -90,6 +92,7 @@ export default class PopupMenu extends React.Component<
                 hasPin={this.props.popupHasPin}
                 pinOffset={this.props.popupPinOffset}
                 positions={this._getPositions()}
+                disableAnimations={this.props.disableAnimations}
               >
                 <InternalMenu
                   hasShadow={false}

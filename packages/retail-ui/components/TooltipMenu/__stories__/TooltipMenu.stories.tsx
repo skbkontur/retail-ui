@@ -98,4 +98,14 @@ storiesOf('TooltipMenu', module)
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
     </TooltipMenu>
+  ))
+  .add('Menu without animations', () => (
+    <TooltipMenu
+      disableAnimations
+      caption={<Button use="primary">Нет анимации</Button>}
+    >
+      <MenuHeader>Анимация не пройдет</MenuHeader>
+      <MenuSeparator />
+      <MenuItem>Я не верю в мультики</MenuItem>
+    </TooltipMenu>
   ));

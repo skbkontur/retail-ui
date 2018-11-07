@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -7,11 +6,12 @@ import MenuItem from '../../MenuItem';
 import { manyItemsList, defaultItemsList } from './Kebab.items';
 
 interface KebabItem {
-  text: string,
-  action: string
-};
+  text: string;
+  action: string;
+}
 
-storiesOf('Kebab', module).addDecorator(story => (
+storiesOf('Kebab', module)
+  .addDecorator(story => (
     <div
       style={{
         padding: '120px 0',
@@ -21,19 +21,27 @@ storiesOf('Kebab', module).addDecorator(story => (
     >
       {story()}
     </div>
-  )).add('14px', () => <SomethingWithKebab size="small" />).add('20px', () => <SomethingWithKebab size="large" />).add('20px-disabled', () => <SomethingWithKebab size="large" disabled />).add('With fixed menu height', () => (
+  ))
+  .add('14px', () => <SomethingWithKebab size="small" />)
+  .add('20px', () => <SomethingWithKebab size="large" />)
+  .add('20px-disabled', () => <SomethingWithKebab size="large" disabled />)
+  .add('With fixed menu height', () => (
     <SomethingWithKebab
       size="large"
       menuMaxHeight={'200px'}
       items={manyItemsList}
     />
+  ))
+  .add('Kebab without animations', () => (
+    <SomethingWithKebab disableAnimations size="small" />
   ));
 
 class SomethingWithKebab extends Component<{
-  size: 'small' | 'large',
-  disabled?: boolean,
-  items?: KebabItem[],
-  menuMaxHeight?: string | number
+  size: 'small' | 'large';
+  disabled?: boolean;
+  items?: KebabItem[];
+  menuMaxHeight?: string | number;
+  disableAnimations?: boolean;
 }> {
   public render() {
     const itemsList = this.props.items || defaultItemsList;
@@ -54,6 +62,7 @@ class SomethingWithKebab extends Component<{
           onClose={action('close')}
           disabled={this.props.disabled}
           menuMaxHeight={this.props.menuMaxHeight}
+          disableAnimations={this.props.disableAnimations}
         >
           {menuItems}
         </Kebab>

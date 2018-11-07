@@ -23,6 +23,10 @@ export interface TooltipMenuProps {
   caption: PopupMenuProps['caption'];
   /**  Массив разрешенных положений меню относительно caption'а. */
   positions?: string[];
+  /**
+   * Не показывать анимацию
+   */
+  disableAnimations: boolean;
 }
 
 /**
@@ -34,6 +38,9 @@ export interface TooltipMenuProps {
  * Если ```positions``` передан или передан пустой массив, используются все возможные положения.
  */
 export default class TooltipMenu extends React.Component<TooltipMenuProps> {
+  public static defaultProps = {
+    disableAnimations: false
+  };
   constructor(props: TooltipMenuProps) {
     super(props);
 
@@ -56,6 +63,7 @@ export default class TooltipMenu extends React.Component<TooltipMenuProps> {
         popupHasPin={true}
         popupMargin={10}
         popupPinOffset={15}
+        disableAnimations={this.props.disableAnimations}
       >
         {this.props.children}
       </PopupMenu>
