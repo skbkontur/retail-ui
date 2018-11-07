@@ -213,11 +213,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     );
   }
 
-  /**
-   * Используется в Modal.adapter.js
-   * @private
-   */
-  public requestClose = () => {
+  private requestClose = () => {
     if (this.props.disableClose) {
       return;
     }
