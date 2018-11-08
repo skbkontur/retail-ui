@@ -132,16 +132,31 @@ export class Address {
       .join(connector);
   };
 
-  public isTheFieldAllowedToFill = (field: Nullable<Fields>): boolean => {
-    if (!field) {
-      return true;
-    }
+  public isAllowedToFill = (field: Nullable<Fields>): boolean => {
     const { region, city, settlement, street } = this.fields;
-    return !(
-      (field === Fields.street && !city && !settlement && region && !region.isFederalCity) ||
-      (field === Fields.stead && !street) ||
-      (field === Fields.house && !street)
-    );
+    if (
+      (field === Fields.street && !(city || settlement || (region && region.isFederalCity))) ||
+      (field === Fields.stead && !(street)) ||
+      (field === Fields.house && !(street))
+    ) {
+      return false;
+    }
+    return true;
+  };
+
+  public isAllowedToSearchFullAddress = (field?: Fields): boolean => {
+    if (
+      field === Fields.district ||
+      field === Fields.city ||
+      field === Fields.intracityarea ||
+      field === Fields.settlement ||
+      field === Fields.planningstructure
+    ) {
+      if (!this.getClosestParentFiasId(field)) {
+        return true;
+      }
+    }
+    return false;
   };
 
   public hasOnlyIndirectParent = (field: Nullable<Fields>): boolean => {
@@ -157,8 +172,8 @@ export class Address {
     return false;
   };
 
-  public getClosestParentFiasId = (field: Fields): Nullable<FiasId> => {
-    if (!this.isEmpty) {
+  public getClosestParentFiasId = (field?: Fields): FiasId | undefined => {
+    if (field && !this.isEmpty) {
       const parents = Address.getParentFields(field).reverse();
       for (const parentField of parents) {
         const parent: Nullable<AddressElement> = this.fields[parentField];
@@ -224,3 +239,5 @@ export class Address {
     }, {});
   };
 }
+
+export default Address;

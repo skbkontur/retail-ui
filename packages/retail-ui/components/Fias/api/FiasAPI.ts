@@ -1,17 +1,16 @@
 import {
   AddressObject,
-  AddressValue,
+  AddressValue, APIProvider,
   FiasId,
   Fields,
   House,
-  ResponseAddress,
+  ResponseAddress, SearchOptions,
   SearchResponse,
   Stead,
   VerifyResponse
-} from './types';
-import {Nullable} from '../../typings/utility-types';
-import abbreviations from './constants/abbreviations';
-import warning from 'warning';
+} from '../types';
+import {Nullable} from '../../../typings/utility-types';
+import abbreviations from '../constants/abbreviations';
 
 interface SearchQuery {
   address?: string;
@@ -24,13 +23,7 @@ interface SearchQuery {
   actual?: boolean;
 }
 
-interface SearchOptions {
-  parentFiasId?: Nullable<FiasId>;
-  field?: Fields;
-  limit?: number;
-}
-
-export class FiasAPI {
+export class FiasAPI implements APIProvider {
   private static searchStopWords: { [key: string]: boolean } = Object.keys(
     abbreviations
   ).reduce((words, abbr) => {
@@ -45,19 +38,48 @@ export class FiasAPI {
     };
   }, {});
 
-  public verifyPromise: Nullable<Promise<VerifyResponse>> = null;
-  public regionsPromise: Nullable<Promise<SearchResponse>> = null;
+  private static createQuery = (query: { [key: string]: any }): string => {
+    const params = [];
+    for (const key of Object.keys(query)) {
+      const param = query[key];
+      if (param !== undefined) {
+        if (key === 'levels' && Array.isArray(param)) {
+          for (const level of param) {
+            params.push(`level[]=${encodeURIComponent(level)}`);
+          }
+        } else {
+          params.push(`${key}=${encodeURIComponent(param)}`);
+        }
+      }
+    }
+    return params.join('&');
+  };
 
-  constructor(private baseUrl: string = '') {
-    warning(baseUrl, '[Fias]: property "baseUrl" is required');
-  }
+  private static trimSearchText = (searchText: string): string => {
+    return searchText
+      .toLowerCase()
+      .replace(/югра/g, '')
+      .replace(/(строение|сооружение|литера)\s[а-я\w]+/g, '')
+      .replace(/\s-\s/g, ' ')
+      .replace(/[,]/g, '')
+      .replace(/\s[\s]*/g, ' ')
+      .split(' ')
+      .filter(word => !Boolean(FiasAPI.searchStopWords[word]))
+      .slice(0, 6)
+      .join(' ');
+  };
+
+  private verifyPromise: Nullable<Promise<VerifyResponse>> = null;
+  private regionsPromise: Nullable<Promise<SearchResponse>> = null;
+
+  constructor(private baseUrl: string = '') {}
 
   public verify = (address: AddressValue): Promise<VerifyResponse> => {
     const query = {
       directParent: false,
       search: false
     };
-    const promise = this.send(`verify?${this.createQuery(query)}`, {
+    const promise = this.send(`verify?${FiasAPI.createQuery(query)}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -75,63 +97,39 @@ export class FiasAPI {
     });
   };
 
-  public search = (
-    searchText: string,
-    options: SearchOptions = {}
-  ): Promise<SearchResponse> => {
-    const { field, parentFiasId, limit } = options;
+  public search = ({ fiasId, searchText, field, parentFiasId, limit, fullAddress } : SearchOptions): Promise<SearchResponse> => {
     const query: SearchQuery = {
       prefix: searchText,
       actual: true,
+      directParent: false,
       parentFiasId,
-      limit
+      limit,
+      fullAddress
     };
+
+    if (fiasId) {
+      return this.resolveFiasId(fiasId);
+    }
 
     if (searchText) {
       if (!field) {
-        const text = this.trimSearchText(searchText);
+        const text = FiasAPI.trimSearchText(searchText);
         return text
           ? this.resolveAddress(text, limit)
           : Promise.resolve([]);
       }
-
-      if (field === Fields.region) {
-        return this.searchRegions(searchText);
-      }
-
-      if (field === Fields.house) {
-        if (parentFiasId) {
+      switch(field) {
+        case Fields.region:
+          return this.searchRegions(searchText);
+        case Fields.house:
           return this.searchHouse(query);
-        }
-      } else if (field === Fields.stead) {
-        if (parentFiasId) {
+        case Fields.stead:
           return this.searchStead(query);
-        }
-      } else {
-        query.levels = [field];
-
-        if (
-          field === Fields.district ||
-          field === Fields.city ||
-          field === Fields.intracityarea ||
-          field === Fields.settlement ||
-          field === Fields.planningstructure
-        ) {
-          if (parentFiasId) {
-            query.directParent = false;
-          } else {
-            query.fullAddress = true;
-          }
-        }
-
-        return this.searchAddressObject(query);
+        default:
+          return this.searchAddressObject({ ...query, levels: [field] });
       }
     }
     return Promise.resolve([]);
-  };
-
-  public searchByFiasId = (fiasId: FiasId): Promise<ResponseAddress> => {
-    return this.send(`addresses/structural/${fiasId}`).catch(e => undefined);
   };
 
   private send = (path: string, params = {}): Promise<any> => {
@@ -146,14 +144,20 @@ export class FiasAPI {
     }
   };
 
+  private resolveFiasId = (fiasId: FiasId): Promise<SearchResponse> => {
+    return this.send(`addresses/structural/${fiasId}`)
+      .then(result => [result])
+      .catch(e => []);
+  };
+
   private searchAddressObject = (
     query: SearchQuery
   ): Promise<SearchResponse> => {
-    return this.send(`addresses?${this.createQuery(query)}`);
+    return this.send(`addresses?${FiasAPI.createQuery(query)}`);
   };
 
   private resolveAddress = (address: string, limit?: number, level: Fields = Fields.house): Promise<SearchResponse> => {
-    return this.send(`addresses/resolve?${this.createQuery({
+    return this.send(`addresses/resolve?${FiasAPI.createQuery({
       address,
       limit,
       level
@@ -161,7 +165,7 @@ export class FiasAPI {
   };
 
   private searchStead = (query: SearchQuery): Promise<SearchResponse> => {
-    return this.send(`steads?${this.createQuery(query)}`).then(data =>
+    return this.send(`steads?${FiasAPI.createQuery(query)}`).then(data =>
       data.map((item: Stead) => ({
         stead: {
           ...item
@@ -171,7 +175,7 @@ export class FiasAPI {
   };
 
   private searchHouse = (query: SearchQuery): Promise<SearchResponse> => {
-    return this.send(`houses?${this.createQuery(query)}`).then(data =>
+    return this.send(`houses?${FiasAPI.createQuery(query)}`).then(data =>
       data.map((item: House) => ({
         house: {
           ...item
@@ -199,35 +203,6 @@ export class FiasAPI {
       });
     });
   };
-
-  private createQuery = (query: { [key: string]: any }): string => {
-    const params = [];
-    for (const key of Object.keys(query)) {
-      const param = query[key];
-      if (param !== undefined) {
-        if (key === 'levels' && Array.isArray(param)) {
-          for (const level of param) {
-            params.push(`level[]=${encodeURIComponent(level)}`);
-          }
-        } else {
-          params.push(`${key}=${encodeURIComponent(param)}`);
-        }
-      }
-    }
-    return params.join('&');
-  };
-
-  private trimSearchText = (searchText: string): string => {
-    return searchText
-      .toLowerCase()
-      .replace(/югра/g, '')
-      .replace(/(строение|сооружение|литера)\s[а-я\w]+/g, '')
-      .replace(/\s-\s/g, ' ')
-      .replace(/[,]/g, '')
-      .replace(/\s[\s]*/g, ' ')
-      .split(' ')
-      .filter(word => !Boolean(FiasAPI.searchStopWords[word]))
-      .slice(0, 6)
-      .join(' ');
-  };
 }
+
+export default FiasAPI;

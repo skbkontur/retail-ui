@@ -106,3 +106,17 @@ export type ErrorMessages = {
 export type FormValidation = 'Error' | 'Warning' | 'None';
 
 export type FiasLocale = typeof defaultLocale;
+
+export interface SearchOptions {
+  fiasId?: FiasId;
+  searchText?: string;
+  field?: Fields;
+  parentFiasId?: FiasId;
+  limit?: number;
+  fullAddress?: boolean;
+}
+
+export interface APIProvider {
+  search: (options: SearchOptions) => Promise<SearchResponse>;
+  verify: (address: AddressValue) => Promise<VerifyResponse>;
+}

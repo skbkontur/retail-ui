@@ -1,16 +1,17 @@
 import * as React from 'react';
 import cn from 'classnames';
 import Link from '../Link';
-import { FiasValue, FormValidation, FiasLocale, ResponseAddress } from './types';
+import {FiasValue, FormValidation, FiasLocale, ResponseAddress, APIProvider} from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
-import { FiasAPI } from './FiasAPI';
+import { FiasAPI } from './api/FiasAPI';
 import { Nullable } from '../../typings/utility-types';
 import { Address } from './models/Address';
 import { defaultLocale } from './constants/locale';
 import styles from './Fias.less';
 import isEqual from 'lodash.isequal';
+import warning from "warning";
 
 interface FiasProps {
   /**
@@ -37,9 +38,14 @@ interface FiasProps {
   icon?: React.ReactElement<any>;
   readonly?: boolean;
   /**
-   * `https://api.dev.kontur/fias/v1/` - Test; `https://api.kontur.ru/fias/v1/` - Prod;
+   * API URL. Существует тестовый
+   * `https://api.dev.kontur/fias/v1/` и боевой `https://api.kontur.ru/fias/v1/`
    */
-  baseUrl: string;
+  baseUrl?: string;
+  /**
+   * API instance. Если нет возможности использовать стандартный API.
+   */
+  api?: APIProvider;
   /**
    * Позволяет получить полный FiasValue после обработки входного `value`
    */
@@ -94,8 +100,17 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     }
   };
 
-  private api: FiasAPI = new FiasAPI(this.props.baseUrl);
+  public static messages = {
+    baseUrlOrApiIsRequired: '[Fias] property "baseUrl" or "api" is required'
+  };
+
+  private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl);
   private form: Nullable<FiasForm> = null;
+
+  constructor(props: FiasProps) {
+    super(props);
+    warning(props.api || props.baseUrl, Fias.messages.baseUrlOrApiIsRequired);
+  }
 
   public componentDidMount = () => {
     this.init();
@@ -200,16 +215,15 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       const { address, addressString, fiasId } = value;
       if (address) {
         return Address.createFromAddressValue(address);
-      } else if (fiasId) {
-        const response: ResponseAddress = await this.api.searchByFiasId(fiasId);
-        if (response) {
-          return Address.createFromResponse(response);
+      } else {
+        let options = {};
+        if (fiasId) {
+          options = { fiasId };
         }
-      } else if (addressString) {
-        const response: ResponseAddress[] = await this.api.search(
-          addressString,
-          { limit: 1 }
-        );
+        if (addressString) {
+          options = { searchText: addressString, limit: 1 };
+        }
+        const response: ResponseAddress[] = await this.api.search(options);
         if (response.length) {
           return Address.createFromResponse(response[0]);
         }

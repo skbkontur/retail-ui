@@ -1,9 +1,16 @@
 import * as React from 'react';
 import Gapped from '../../Gapped';
-import {FiasAPI} from '../FiasAPI';
 import {FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps} from './FiasComboBox';
 import styles from './FiasForm.less';
-import {FiasId, Fields, FormValidation, FiasLocale, ResponseAddress} from '../types';
+import {
+  Fields,
+  FormValidation,
+  FiasLocale,
+  ResponseAddress,
+  VerifyResponse,
+  APIProvider,
+  SearchOptions
+} from '../types';
 import {Nullable} from '../../../typings/utility-types';
 import {Address} from '../models/Address';
 import {AddressElement} from '../models/AddressElement';
@@ -13,7 +20,7 @@ import Input from '../../Input/Input';
 import FiasSearch from './FiasSearch';
 
 interface FiasFormProps {
-  api: FiasAPI;
+  api: APIProvider;
   address: Address;
   locale: FiasLocale;
   search?: boolean;
@@ -43,11 +50,14 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       tooltip: () => Nullable<React.ReactNode>;
     };
   } = {};
+
   private readonly inputs: {
     [key: string]: {
       props: InputProps;
     };
   } = {};
+
+  private verifyPromise: Nullable<Promise<VerifyResponse>> = null;
 
   constructor(props: FiasFormProps) {
     super(props);
@@ -91,7 +101,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   }
 
   public submit = async (): Promise<Address> => {
-    await this.props.api.verifyPromise;
+    await this.verifyPromise;
     return this.state.address;
   };
 
@@ -195,10 +205,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   };
 
   private createComboBoxProps(field: Fields): FiasComboBoxProps {
-    const getItems = async (searchText: string) => {
-      const parentFiasId = this.state.address.getClosestParentFiasId(field);
-      return this.createItemsSource(searchText, field, parentFiasId);
-    };
+    const getItems = async (searchText: string) => this.createItemsSource(searchText, field);
 
     const onChange = (e: FiasComboBoxChangeEvent, value: Address) => {
       const fields = {
@@ -260,7 +267,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       const { locale } = this.props;
       let messages = [locale[`${field}NotFound` as keyof FiasLocale] || locale.addressNotFound];
 
-      if (address.isTheFieldAllowedToFill(field)) {
+      if (address.isAllowedToFill(field)) {
         if (address.hasOnlyIndirectParent(field)) {
           messages.push(locale.addressFillParentOrSearch);
         }
@@ -312,24 +319,28 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   private createItemsSource = async (
     searchText: string,
-    field?: Fields,
-    parentFiasId?: Nullable<FiasId>
+    field?: Fields
   ) => {
-    const limit = this.props.limit || FiasForm.defaultProps.limit;
     const { address } = this.state;
-    return address.isTheFieldAllowedToFill(field)
-      ? this.props.api
-          .search(searchText, {
-            field,
-            parentFiasId,
-            limit: limit + 1
-          })
-          .then((items: ResponseAddress[]) => {
-            return items.map((item: ResponseAddress) => {
-              return Address.createFromResponse(item);
-            });
-          })
-      : Promise.resolve([]);
+    const limit = this.props.limit || FiasForm.defaultProps.limit;
+
+    if (address.isAllowedToFill(field)) {
+      const options: SearchOptions = {
+        searchText,
+        field,
+        parentFiasId: address.getClosestParentFiasId(field),
+        fullAddress: address.isAllowedToSearchFullAddress(field),
+        limit: limit + 1
+      };
+      return this.props.api
+        .search(options)
+        .then((items: ResponseAddress[]) => {
+          return items.map((item: ResponseAddress) => {
+            return Address.createFromResponse(item);
+          });
+        })
+    }
+    return Promise.resolve([]);
   };
 
   private createFieldTooltip = (field: Fields): React.ReactNode => {
@@ -344,20 +355,21 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const { address } = this.state;
     const { api, locale } = this.props;
 
-    api.verify(address.convertForVerification()).then(result => {
-      if (!result || !result[0]) {
-        return;
-      }
-      const verifiedAddress = Address.verify(
-        address,
-        result,
-        locale.addressNotFound
-      );
+    this.verifyPromise = api.verify(address.convertForVerification())
+      .then(result => {
+        if (result && result[0]) {
+          const verifiedAddress = Address.verify(
+            address,
+            result,
+            locale.addressNotFound
+          );
 
-      this.setState({
-        address: verifiedAddress
+          this.setState({
+            address: verifiedAddress
+          });
+        }
+        return result;
       });
-    });
   }
 
   private handleAddressChange = (address: Address) => {

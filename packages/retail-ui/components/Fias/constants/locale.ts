@@ -45,3 +45,5 @@ export const defaultLocale = {
 
   roomPlaceholder: ''
 };
+
+export default defaultLocale;
