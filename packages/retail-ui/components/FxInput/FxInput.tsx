@@ -107,6 +107,15 @@ class FxInput extends React.Component<FxInputProps> {
     }
   };
 
+  /**
+   * @public
+   */
+  public blur = () => {
+    if (this.input) {
+      this.input.blur();
+    }
+  };
+
   private refInput = (element: Input | CurrencyInput | null) => {
     this.input = element;
 
