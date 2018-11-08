@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.28.0"></a>
+# [0.28.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.27.0...retail-ui@0.28.0) (2018-11-08)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** починено поведение плэйсхолдера ([84d2486](https://github.com/skbkontur/retail-ui/commit/84d2486))
+* **FxInput:** mainInGroup works again ([9bfca93](https://github.com/skbkontur/retail-ui/commit/9bfca93))
+* **HBVS:** only root component can update styles ([e12d32f](https://github.com/skbkontur/retail-ui/commit/e12d32f))
+* **Hint:** remove inline-block style [#829](https://github.com/skbkontur/retail-ui/issues/829) ([c9fbdfb](https://github.com/skbkontur/retail-ui/commit/c9fbdfb))
+* **Popup:** make disableAnimations working again ([c85db13](https://github.com/skbkontur/retail-ui/commit/c85db13))
+* **SidePage:** work with react@15 ([9e811bd](https://github.com/skbkontur/retail-ui/commit/9e811bd))
+* **Textarea:** поправлен интерфейс и пропсов, исправлена пара багов ([715d162](https://github.com/skbkontur/retail-ui/commit/715d162))
+* **Tooltip:** click on svg in tooltip [#877](https://github.com/skbkontur/retail-ui/issues/877) ([3fa07e7](https://github.com/skbkontur/retail-ui/commit/3fa07e7))
+
+
+### Features
+
+* **Checkbox:** новое состояние WIP ([b443d5d](https://github.com/skbkontur/retail-ui/commit/b443d5d))
+* **Hint:** add disableAnimations prop ([cd548a6](https://github.com/skbkontur/retail-ui/commit/cd548a6))
+* **Paging:** global keydown listener ([b10df5d](https://github.com/skbkontur/retail-ui/commit/b10df5d))
+* **Paging:** show navigation hints by condition ([232a5c2](https://github.com/skbkontur/retail-ui/commit/232a5c2))
+* **PopupMenu:** add disableAnimation prop in PopupMenu-based components ([6602986](https://github.com/skbkontur/retail-ui/commit/6602986))
+
+
+
+
 <a name="0.27.0"></a>
 # [0.27.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.26.1...retail-ui@0.27.0) (2018-10-29)
 
