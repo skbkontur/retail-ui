@@ -22,7 +22,7 @@ export interface GroupChildProps {
 
 /**
  * Главному *Input*, который должен занимать всю доступную ширину, нужно
- * передать свойство `mainInGroup` (*deprecated*) или ширину `100%`;
+ * передать свойство `mainInGroup`;
  */
 class Group extends React.Component<GroupProps> {
   public static propTypes = {

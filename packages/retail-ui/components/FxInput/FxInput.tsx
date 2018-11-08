@@ -54,7 +54,7 @@ class FxInput extends React.Component<FxInputProps> {
     const { type, onRestore, auto, ...rest } = this.props;
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
-      width: '100%'
+      mainInGroup: true
     };
 
     let button = null;
