@@ -1,0 +1,40 @@
+@import '../../variables.less';
+
+@side-padding-padded: 27px;
+
+@font-face {
+  font-family: kontur-mask-char;
+  src: url('mask-char-font/font.eot'); // For IE11 in IE8 mode.
+  src: url('mask-char-font/font.eot?#iefix') format('embedded-opentype'),
+    url('mask-char-font/font.woff2') format('woff2'),
+    url('mask-char-font/font.woff') format('woff');
+}
+
+:local {
+  .container {
+    position: relative;
+    display: 'flex';
+    flex-direction: column;
+    font-family: kontur-mask-char, Segoe UI, Helevetica Neue;
+  }
+
+  .inputMask {
+    position: absolute;
+    width: 100%;
+    left: -1px;
+    top: -1px;
+    padding: 0 12px;
+    line-height: 20px;
+    pointer-events: none;
+    color: @placeholder-color;
+    z-index: 5;
+
+    &.padLeft {
+      padding-left: @side-padding-padded;
+    }
+
+    &.padRight {
+      padding-right: @side-padding-padded;
+    }
+  }
+}

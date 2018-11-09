@@ -1,7 +1,5 @@
 import classNames from 'classnames';
-import MaskedInput from 'react-input-mask';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
@@ -10,6 +8,7 @@ import Upgrades from '../../lib/Upgrades';
 import CssStyles from './Input.less';
 import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
+import MaskedInput from '../internal/MaskedInput/MaskedInput';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -42,6 +41,11 @@ export type InputProps = Override<
     mask?: Nullable<string>;
     /** Символ маски */
     maskChar?: Nullable<string>;
+    /**
+     * Словарь символов-регулярок для задания маски
+     * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
+     */
+    formatChars?: Record<string, string>;
     /** Показывать символы маски */
     alwaysShowMask?: boolean;
     /** Размер */
@@ -314,11 +318,12 @@ class Input extends React.Component<InputProps, InputState> {
     return SIZE_CLASS_NAMES[this.props.size!];
   }
 
-  private refInput = (ref: HTMLInputElement | null) => {
-    const elem = (ReactDOM.findDOMNode(this) as HTMLElement).querySelector(
-      'input'
-    );
-    this.input = this.props.mask ? elem : ref;
+  private refInput = (element: HTMLInputElement | MaskedInput | null) => {
+    if (element instanceof MaskedInput) {
+      this.input = element.input;
+    } else {
+      this.input = element;
+    }
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

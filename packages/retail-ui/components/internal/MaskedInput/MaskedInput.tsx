@@ -1,0 +1,142 @@
+import * as React from 'react';
+import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
+import classnames from 'classnames';
+import styles from './MaskedInput.less';
+
+export interface MaskedInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  mask: string;
+  maskChar?: string | null;
+  formatChars?: { [key: string]: string };
+  alwaysShowMask?: boolean;
+  hasLeftIcon?: boolean;
+  hasRightIcon?: boolean;
+}
+
+interface MaskedInputState {
+  value: string;
+  emptyValue: string;
+  focused: boolean;
+}
+
+export default class MaskedInput extends React.Component<
+  MaskedInputProps,
+  MaskedInputState
+> {
+  public state: MaskedInputState = {
+    value: this.props.value ? this.props.value.toString() : '',
+    emptyValue: '',
+    focused: false
+  };
+
+  public input: HTMLInputElement | null = null;
+
+  public componentWillReceiveProps(nextProps: MaskedInputProps) {
+    if (this.props.value !== nextProps.value) {
+      this.setState({
+        value: nextProps.value ? nextProps.value.toString() : ''
+      });
+    }
+  }
+
+  public render() {
+    const {
+      maskChar,
+      formatChars,
+      alwaysShowMask,
+      hasLeftIcon,
+      hasRightIcon,
+      ...inputProps
+    } = this.props;
+
+    return (
+      <span className={styles.container}>
+        <ReactInputMask
+          {...inputProps}
+          maskChar={null}
+          beforeMaskedValueChange={this.preprocess}
+          alwaysShowMask={false}
+          onChange={this.handleChange}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          value={this.state.value}
+          inputRef={this.refInput}
+        />
+        {this.isMaskVisible() && (
+          <span
+            className={classnames(styles.inputMask, {
+              [styles.padLeft]: hasLeftIcon,
+              [styles.padRight]: hasLeftIcon
+            })}
+          >
+            <span style={{ color: 'transparent' }}>
+              {this.state.emptyValue.slice(0, this.state.value.length)}
+            </span>
+            {this.state.emptyValue.slice(this.state.value.length)}
+          </span>
+        )}
+      </span>
+    );
+  }
+
+  private refInput = (input: HTMLInputElement | null) => {
+    this.input = input;
+  };
+
+  private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ value: event.target.value });
+
+    if (this.props.onChange) {
+      this.props.onChange(event);
+    }
+  };
+
+  private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.setState({ focused: true });
+
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
+    }
+  };
+
+  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.setState({ focused: false });
+
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
+  };
+
+  private preprocess = (
+    newState: InputState,
+    _oldState: InputState,
+    _userInput: string,
+    options: MaskOptions
+  ) => {
+    const visibleMaskChars = new Array(options.mask.length).fill(
+      this.props.maskChar
+    );
+
+    options.mask.split('').forEach((char, index) => {
+      if (options.permanents.indexOf(index) > -1) {
+        visibleMaskChars[index] = char;
+      }
+
+      if (newState.value[index]) {
+        visibleMaskChars[index] = newState.value[index];
+      }
+    });
+
+    const emptyValue = visibleMaskChars.join('');
+
+    if (this.state.emptyValue !== emptyValue) {
+      this.setState({
+        emptyValue
+      });
+    }
+
+    return newState;
+  };
+
+  private isMaskVisible = () => this.props.alwaysShowMask || this.state.focused;
+}

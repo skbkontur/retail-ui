@@ -901,10 +901,10 @@
     "@types/node" "*"
     "@types/react" "*"
 
-"@types/react-input-mask@^1.2.2":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@types/react-input-mask/-/react-input-mask-1.2.3.tgz#351e076c0f789dd2bfad52e0aa89dfb246f09dc0"
-  integrity sha512-lPfp0aus0BAv0Xwh2z6n9AYEe0r9KqE6j5nbn1l6VgxDD+Gb5Iqma+uhLXApaUrYmAHTzh82AtWYHO2gM3o51g==
+"@types/react-input-mask@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/react-input-mask/-/react-input-mask-2.0.1.tgz#547541e6dda81e37b442482a47e8c8da964e6487"
+  integrity sha512-DGk91w6Y1sammpk6XciINgdaS3mhRKo76n+hHR3zoY69roNE41WEk2yjfNA/TP5Zc74VirJ6mrOd2hnzhTFdxA==
   dependencies:
     "@types/react" "*"
 
@@ -12572,10 +12572,13 @@ react-input-mask@1.0.7:
   resolved "https://registry.yarnpkg.com/react-input-mask/-/react-input-mask-1.0.7.tgz#690d2189a1206972aeb82f332336be337fddf280"
   integrity sha512-lEnf+tL0YheGpPsOG7zPDImZlwwU1Zdh5gqFETs9cHdqa5SdJkDuWInGlR2T6Oa1YmShHPwuioiO9Bh8c0Eo2Q==
 
-react-input-mask@1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/react-input-mask/-/react-input-mask-1.2.2.tgz#225a1130d316ee54cea7431f004c738b4c41b4da"
-  integrity sha512-bMbpt+PeErDvMYGGln8RaivWti4U3TOXLRG77dElEfdetVOSysmrVBKB6XvL1cKUMscaqcXvYhmLFjLpCH5e4Q==
+react-input-mask@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-input-mask/-/react-input-mask-2.0.4.tgz#9ade5cf8196f4a856dbf010820fe75a795f3eb14"
+  integrity sha512-1hwzMr/aO9tXfiroiVCx5EtKohKwLk/NT8QlJXHQ4N+yJJFyUuMT+zfTpLBwX/lK3PkuMlievIffncpMZ3HGRQ==
+  dependencies:
+    invariant "^2.2.4"
+    warning "^4.0.2"
 
 react-inspector@^1.1.0:
   version "1.1.2"
@@ -15768,7 +15771,7 @@ warning@^3.0.0:
   dependencies:
     loose-envify "^1.0.0"
 
-warning@^4.0.1:
+warning@^4.0.1, warning@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.2.tgz#aa6876480872116fa3e11d434b0d0d8d91e44607"
   integrity sha512-wbTp09q/9C+jJn4KKJfJfoS6VleK/Dti0yqWSm6KMvJ4MRCXFQNapHuJXutJIrWV0Cf4AhTdeIe4qdKHR1+Hug==
