@@ -4,6 +4,7 @@ import SearchIcon from '@skbkontur/react-icons/Search';
 
 import Input from '../Input';
 import Button from '../../Button';
+import Gapped from '../../Gapped';
 
 const styles = {
   display: 'inline-block',
@@ -122,13 +123,28 @@ storiesOf('Input', module)
       </div>
     </div>
   ))
-  .add('Input with phone mask', () => (
-    <Input
-      width="150"
-      mask="+7 999 999-99-99"
-      maskChar={null}
-      placeholder="+7"
-    />
+  .add('Input with mask', () => (
+    <Gapped vertical>
+      <p>
+        <span>Mask:</span> <span>+7 999 999-99-99</span>{' '}
+        <Input
+          width="150"
+          mask="+7 999 999-99-99"
+          maskChar={'_'}
+          placeholder="+7"
+          alwaysShowMask
+        />
+      </p>
+      <p>
+        <span>Mask:</span> <span>99aa9999</span>{' '}
+        <Input
+          width="150"
+          mask="99aa9999"
+          maskChar={'_'}
+          placeholder="99aa9999"
+        />
+      </p>
+    </Gapped>
   ))
   .add('Select all by prop', () => (
     <Input defaultValue="Some value" selectAllOnFocus />
