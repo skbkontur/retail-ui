@@ -11,7 +11,7 @@ import { Address } from './models/Address';
 import { defaultLocale } from './constants/locale';
 import styles from './Fias.less';
 import isEqual from 'lodash.isequal';
-import warning from "warning";
+import {Logger} from "./logger/Logger";
 
 interface FiasProps {
   /**
@@ -100,16 +100,14 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     }
   };
 
-  public static messages = {
-    baseUrlOrApiIsRequired: '[Fias] property "baseUrl" or "api" is required'
-  };
-
   private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl);
   private form: Nullable<FiasForm> = null;
 
   constructor(props: FiasProps) {
     super(props);
-    warning(props.api || props.baseUrl, Fias.messages.baseUrlOrApiIsRequired);
+    if (!props.baseUrl && !props.api) {
+      Logger.log(Logger.warnings.baseUrlOrApiIsRequired);
+    }
   }
 
   public componentDidMount = () => {
@@ -223,9 +221,13 @@ export class Fias extends React.Component<FiasProps, FiasState> {
         if (addressString) {
           options = { searchText: addressString, limit: 1 };
         }
-        const response: ResponseAddress[] = await this.api.search(options);
-        if (response.length) {
-          return Address.createFromResponse(response[0]);
+        try {
+          const response: ResponseAddress[] = await this.api.search(options);
+          if (response.length) {
+            return Address.createFromResponse(response[0]);
+          }
+        } catch(e) {
+          return new Address();
         }
       }
     }
