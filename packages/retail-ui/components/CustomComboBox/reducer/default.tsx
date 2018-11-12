@@ -52,30 +52,42 @@ export type Reducer = (
   action: Action
 ) => Partial<State> | [Partial<State>, EffectType[]];
 
-let requestId = 0;
+const CANCELATION_REASON = 'previous request canceled';
+let cancelSearch: ((reason?: any) => void) | null = null;
+
 const searchFactory = (isEmpty: boolean): EffectType => (
   dispatch,
   getState,
   getProps
 ) => {
-  async function makeRequest() {
+  if (cancelSearch) {
+    cancelSearch();
+  }
+  const sparrer = new Promise((_resolve, reject) => {
+    cancelSearch = () => {
+      reject(CANCELATION_REASON);
+      Effect.DebouncedSearch.cancel();
+    };
+  });
+
+  const makeRequest = async () => {
     dispatch({ type: 'RequestItems' });
     const { getItems } = getProps();
     const searchValue = isEmpty ? '' : getState().textValue;
-    const expectingId = ++requestId;
 
     try {
       const items = await getItems(searchValue);
-      if (expectingId === requestId) {
-        dispatch({ type: 'ReceiveItems', items });
-      }
-    } catch (e) {
-      if (expectingId === requestId) {
-        dispatch({ type: 'RequestFailure', repeatRequest: makeRequest });
-      }
+      dispatch({ type: 'ReceiveItems', items });
+    } catch (error) {
+      dispatch({ type: 'RequestFailure', repeatRequest: makeRequest });
     }
-  }
-  makeRequest();
+  };
+
+  Promise.race([makeRequest(), sparrer]).catch(error => {
+    if (error === CANCELATION_REASON) {
+      return;
+    }
+  });
 };
 
 const Effect = {
@@ -83,6 +95,11 @@ const Effect = {
   DebouncedSearch: debounce(searchFactory(false), 300),
   Blur: ((dispatch, getState, getProps) => {
     const { onBlur } = getProps();
+
+    if (cancelSearch) {
+      cancelSearch();
+    }
+
     if (onBlur) {
       onBlur();
     }
@@ -212,6 +229,7 @@ const reducers: { [type: string]: Reducer } = {
   },
   Blur(state, props, action) {
     const { inputChanged, items } = state;
+
     if (!inputChanged) {
       return [
         {
