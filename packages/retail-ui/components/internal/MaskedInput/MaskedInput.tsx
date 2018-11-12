@@ -30,6 +30,14 @@ export default class MaskedInput extends React.Component<
   };
 
   public input: HTMLInputElement | null = null;
+  private reactInputMask: ReactInputMask | null = null;
+
+  public componentDidMount() {
+    if (this.reactInputMask) {
+      // FIXME: принудительно вызываем beforeMaskedValueChange, чтобы получить emptyValue
+      this.reactInputMask.forceUpdate();
+    }
+  }
 
   public componentWillReceiveProps(nextProps: MaskedInputProps) {
     if (this.props.value !== nextProps.value) {
@@ -46,6 +54,7 @@ export default class MaskedInput extends React.Component<
       alwaysShowMask,
       hasLeftIcon,
       hasRightIcon,
+      maxLength,
       ...inputProps
     } = this.props;
 
@@ -61,6 +70,7 @@ export default class MaskedInput extends React.Component<
           onBlur={this.handleBlur}
           value={this.state.value}
           inputRef={this.refInput}
+          ref={this.refMaskedInput}
         />
         {this.isMaskVisible() && (
           <span
@@ -81,6 +91,10 @@ export default class MaskedInput extends React.Component<
 
   private refInput = (input: HTMLInputElement | null) => {
     this.input = input;
+  };
+
+  private refMaskedInput = (reactInputMask: ReactInputMask) => {
+    this.reactInputMask = reactInputMask;
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,13 +123,19 @@ export default class MaskedInput extends React.Component<
 
   private preprocess = (
     newState: InputState,
-    _oldState: InputState,
-    _userInput: string,
+    oldState: InputState,
+    userInput: string,
     options: MaskOptions
   ) => {
     const visibleMaskChars = new Array(options.mask.length).fill(
       this.props.maskChar
     );
+
+    if (newState.value !== oldState.value && userInput === null) {
+      this.setState({
+        value: newState.value
+      });
+    }
 
     options.mask.split('').forEach((char, index) => {
       if (options.permanents.indexOf(index) > -1) {
