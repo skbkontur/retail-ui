@@ -1,7 +1,5 @@
 @import '../../variables.less';
 
-@side-padding-padded: 27px;
-
 @font-face {
   font-family: kontur-mask-char;
   src: url('mask-char-font/font.eot'); // For IE11 in IE8 mode.
@@ -13,8 +11,6 @@
 :local {
   .container {
     position: relative;
-    display: 'flex';
-    flex-direction: column;
     font-family: kontur-mask-char, Segoe UI, Helevetica Neue;
   }
 
@@ -30,11 +26,11 @@
     z-index: 5;
 
     &.padLeft {
-      padding-left: @side-padding-padded;
+      padding-left: @input-side-padding-with-icon;
     }
 
     &.padRight {
-      padding-right: @side-padding-padded;
+      padding-right: @input-side-padding-with-icon;
     }
   }
 }

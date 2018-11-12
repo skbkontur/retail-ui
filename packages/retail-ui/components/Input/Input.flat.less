@@ -2,8 +2,8 @@
 @import '../variables.flat.less';
 
 :local {
-  @side-padding: 10px;
-  @side-padding-padded: 27px;
+  @input-side-padding: 10px;
+  @input-side-padding-with-icon: 27px;
 
   @small-vertical-padding: 6px;
   @medium-vertical-padding: 8px;
@@ -28,8 +28,8 @@
     line-height: 20px;
     margin: 0; // For Safari.
     outline: none;
-    padding-left: @side-padding;
-    padding-right: @side-padding;
+    padding-left: @input-side-padding;
+    padding-right: @input-side-padding;
     width: 100%;
     -webkit-appearance: none;
     white-space: nowrap;
@@ -180,11 +180,11 @@
   }
 
   .padLeft .input {
-    padding-left: @side-padding-padded;
+    padding-left: @input-side-padding-with-icon;
   }
 
   .padRight .input {
-    padding-right: @side-padding-padded;
+    padding-right: @input-side-padding-with-icon;
   }
 
   .placeholder {
@@ -192,10 +192,10 @@
     color: @placeholder-color;
     font-size: 14px;
     line-height: normal;
-    left: @side-padding + 1;
+    left: @input-side-padding + 1;
     overflow: hidden;
     position: absolute;
-    right: @side-padding + 1;
+    right: @input-side-padding + 1;
     top: 1px;
     margin: auto;
     white-space: nowrap;
@@ -211,11 +211,11 @@
   }
 
   .padLeft .placeholder {
-    left: @side-padding-padded + 1;
+    left: @input-side-padding-with-icon + 1;
   }
 
   .padRight .placeholder {
-    right: @side-padding-padded + 1;
+    right: @input-side-padding-with-icon + 1;
   }
 
   .leftIcon,
@@ -224,7 +224,7 @@
     cursor: text;
     top: 0;
     bottom: 0;
-    width: @side-padding-padded;
+    width: @input-side-padding-with-icon;
     position: absolute;
     z-index: 2;
     display: inline-block;
@@ -247,7 +247,7 @@
     left: 0;
 
     & .icon {
-      left: @side-padding;
+      left: @input-side-padding;
     }
   }
 
@@ -255,7 +255,7 @@
     right: 0;
 
     & .icon {
-      right: @side-padding;
+      right: @input-side-padding;
     }
   }
 
