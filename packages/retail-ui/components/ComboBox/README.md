@@ -270,3 +270,111 @@ const renderItem = (item) => {
   />
 </Tooltip>;
 ```
+
+Добавление элементов в меню
+
+```jsx
+const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+
+class ComboboxExample extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      items: [
+        { value: 1, label: 'First' },
+        { value: 2, label: 'Second' },
+        { value: 3, label: 'Third' },
+        { value: 4, label: 'Fourth' },
+        { value: 5, label: 'Fifth' },
+        { value: 6, label: 'Sixth' }
+      ],
+      query: '',
+      selected: { value: 3, label: 'Third' },
+      error: false
+    };
+
+    this.comboBoxElement = null;
+
+    this.getItems = this.getItems.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.renderNotFound = this.renderNotFound.bind(this);
+    this.refComboBox = this.refComboBox.bind(this);
+    this.addItem = this.addItem.bind(this);
+  }
+
+  render() {
+    return (
+      <ComboBox
+        error={this.state.error}
+        getItems={this.getItems}
+        onChange={this.handleChange}
+        onFocus={this.handleFocus}
+        placeholder="Enter number"
+        value={this.state.selected}
+        onInputChange={query => this.setState({ query })}
+        renderNotFound={this.renderNotFound}
+        ref={this.refComboBox}
+      />
+    );
+  }
+
+  getItems(q) {
+    return Promise.resolve(
+      this.state.items.filter(
+        x =>
+          x.label.toLowerCase().includes(q.toLowerCase()) ||
+          x.value.toString(10) === q
+      )
+    ).then(delay(500));
+  }
+
+  handleChange(_, item) {
+    this.setState({ selected: item, error: false });
+  }
+
+  handleFocus() {
+    this.setState({ error: false });
+  }
+
+  renderNotFound() {
+    return (
+      <Button onClick={this.addItem} use="link">
+        + Добавить "{this.state.query}"
+      </Button>
+    );
+  }
+
+  refComboBox(element) {
+    this.comboBoxElement = element;
+  }
+
+  addItem() {
+    this.setState(
+      currentState => {
+        const newItem = {
+          value: Math.max(...currentState.items.map(({ value }) => value)) + 1,
+          label: currentState.query
+        };
+
+        return {
+          items: [...currentState.items, newItem],
+          selected: newItem,
+          error: false
+        };
+      },
+      () => {
+        /**
+         * Очищаем внутренний стэйт комбобокса
+         */
+        if (this.comboBoxElement) {
+          this.comboBoxElement.reset();
+        }
+      }
+    );
+  }
+}
+
+<ComboboxExample />;
+```
