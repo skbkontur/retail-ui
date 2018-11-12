@@ -4,7 +4,7 @@ import {
   FiasId,
   Fields,
   House,
-  ResponseAddress, SearchOptions,
+  AddressResponse, SearchOptions,
   SearchResponse,
   Stead,
   VerifyResponse
@@ -178,7 +178,7 @@ export class FiasAPI implements APIProvider {
   };
 
   private resolveFiasId = (fiasId: FiasId): Promise<SearchResponse> => {
-    return this.send<ResponseAddress>(`addresses/structural/${fiasId}`)
+    return this.send<AddressResponse>(`addresses/structural/${fiasId}`)
       .then(result => [result]);
   };
 
@@ -222,8 +222,8 @@ export class FiasAPI implements APIProvider {
     const isStartsWithSearchText = (str: string) => {
       return str && str.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
     };
-    return this.regionsPromise.then((response: ResponseAddress[]) => {
-      return response.filter((address: ResponseAddress) => {
+    return this.regionsPromise.then((response: AddressResponse[]) => {
+      return response.filter((address: AddressResponse) => {
         const { name, code } = address.region as AddressObject;
         return (
           isStartsWithSearchText(name) || isStartsWithSearchText(code)

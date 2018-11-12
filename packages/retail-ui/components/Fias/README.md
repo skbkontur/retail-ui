@@ -99,7 +99,7 @@ let initialState = {
         name: 'Санкт-Контурбург',
       }
     },
-    errorMessages: {
+    addressErrors: {
       city: 'Адрес не найден'
     }
   },
@@ -108,7 +108,7 @@ let initialState = {
 
 let handleChange = (value) => setState({ 
   home: value,
-  warning: Boolean(Object.keys(value.errorMessages).length)
+  warning: Boolean(Object.keys(value.addressErrors).length)
 });
 
 <Fias
@@ -170,10 +170,10 @@ interface FiasValue {
       }
   };
   addressString?: string;
-  fiasId?: string;
-  errorMessages?: {
+  addressErrors?: {
     [key in Fields]?: string;
   };
+  fiasId?: string;
 }
 
 const value: FiasValue = {
@@ -249,8 +249,8 @@ const value: FiasValue = {
     }
   },
   addressString: 'Свердловская область, город Екатеринбург, улица Малопрудная, дом 5 строение 2',
+  addressErrors: {},
   fiasId: '2c9c38a3-e2b1-45d7-993d-d41be557a097',
-  errorMessages: {}
 }
 ```
 

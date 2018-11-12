@@ -66,8 +66,8 @@ class ExampleFias extends React.Component<any> {
 
   public render(): React.ReactNode {
     const { value, onChange, ...props } = this.props;
-    const { errorMessages } = this.state.value;
-    const error = errorMessages && Object.keys(errorMessages).length > 0;
+    const { addressErrors } = this.state.value;
+    const error = addressErrors && Object.keys(addressErrors).length > 0;
     return (
       <Fias
         baseUrl={BASE_URL}

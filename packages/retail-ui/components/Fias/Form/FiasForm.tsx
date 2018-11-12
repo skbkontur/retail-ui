@@ -6,7 +6,7 @@ import {
   Fields,
   FormValidation,
   FiasLocale,
-  ResponseAddress,
+  AddressResponse,
   VerifyResponse,
   APIProvider,
   SearchOptions
@@ -334,8 +334,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       };
       return this.props.api
         .search(options)
-        .then((items: ResponseAddress[]) => {
-          return items.map((item: ResponseAddress) => {
+        .then((items: AddressResponse[]) => {
+          return items.map((item: AddressResponse) => {
             return Address.createFromResponse(item);
           });
         })

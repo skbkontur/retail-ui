@@ -1,9 +1,9 @@
 import {
   AddressValue,
-  ResponseAddress,
+  AddressResponse,
   AddressFields,
   VerifyResponse,
-  ErrorMessages,
+  AddressErrors,
   FiasId,
   FiasValue,
   Fields
@@ -19,7 +19,7 @@ export class Address {
     field !== Fields.stead && field !== Fields.room
   ));
 
-  public static createFromResponse = (response: ResponseAddress) => {
+  public static createFromResponse = (response: AddressResponse) => {
     const fields: AddressFields = {};
     if (response) {
       Address.ALL_FIELDS.forEach(field => {
@@ -57,7 +57,7 @@ export class Address {
     notVerifiedMessage: string
   ): Address => {
     const addressFields = { ...address.fields };
-    const errorMessages: ErrorMessages = {};
+    const addressErrors: AddressErrors = {};
 
     if (response[0]) {
       const { address: verifiedFields, invalidLevel } = response[0];
@@ -71,13 +71,13 @@ export class Address {
             delete addressFields[field]!.data;
           }
           if (invalidLevel && String(invalidLevel).toLowerCase() === field) {
-            errorMessages[field] = notVerifiedMessage;
+            addressErrors[field] = notVerifiedMessage;
             break;
           }
         }
       }
     }
-    return new Address(addressFields, errorMessages);
+    return new Address(addressFields, addressErrors);
   };
 
   public static getParentFields = (field: Fields) => {
@@ -87,7 +87,7 @@ export class Address {
 
   constructor(
     public fields: AddressFields = {},
-    public errorMessages: ErrorMessages = {}
+    public errors: AddressErrors = {}
   ) {}
 
   public get isEmpty(): boolean {
@@ -95,20 +95,20 @@ export class Address {
   }
 
   public get hasErrors(): boolean {
-    return Object.keys(this.errorMessages).length > 0;
+    return Object.keys(this.errors).length > 0;
   }
 
   public hasError(field: Fields): boolean {
-    return this.errorMessages.hasOwnProperty(field);
+    return this.errors.hasOwnProperty(field);
   }
 
   public getError(field: Fields): string | undefined {
-    return this.errorMessages[field];
+    return this.errors[field];
   }
 
-  public getErrorMessages = () => {
+  public getAddressErrors = () => {
     return {
-      ...this.errorMessages
+      ...this.errors
     };
   };
 
@@ -219,8 +219,8 @@ export class Address {
     return {
       address: this.getAddressValue(),
       addressString: this.getText(),
+      addressErrors: this.getAddressErrors(),
       fiasId: this.getFiasId(),
-      errorMessages: this.getErrorMessages()
     };
   };
 

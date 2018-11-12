@@ -1,7 +1,7 @@
 import {
   AddressValue, APIProvider,
   Fields,
-  ResponseAddress, SearchOptions,
+  AddressResponse, SearchOptions,
   SearchResponse,
   VerifyResponse
 } from '../types';
@@ -27,10 +27,10 @@ export class MockAPI implements APIProvider {
     return Promise.resolve([]);
   };
 
-  private getAddresses = (field: Fields, fullAddress?: boolean): ResponseAddress[] => {
+  private getAddresses = (field: Fields, fullAddress?: boolean): AddressResponse[] => {
     return addresses
-      .filter((address: ResponseAddress) => address[field])
-      .map((address: ResponseAddress) => fullAddress ? address : {
+      .filter((address: AddressResponse) => address[field])
+      .map((address: AddressResponse) => fullAddress ? address : {
         [field]: address[field]
       });
   }

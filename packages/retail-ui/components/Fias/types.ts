@@ -76,8 +76,8 @@ export type AddressFields = {
 export interface FiasValue {
   address?: AddressValue;
   addressString?: string;
+  addressErrors?: AddressErrors;
   fiasId?: FiasId;
-  errorMessages?: ErrorMessages;
 }
 
 export type AddressValue = {
@@ -87,19 +87,19 @@ export type AddressValue = {
   };
 }
 
-export type ResponseAddress = {
+export type AddressResponse = {
   [key in Fields]?: FiasObject;
 }
 
-export type SearchResponse = ResponseAddress[];
+export type SearchResponse = AddressResponse[];
 
 export type VerifyResponse = Array<{
-  address: ResponseAddress;
+  address: AddressResponse;
   isValid: boolean;
   invalidLevel?: string;
 }>;
 
-export type ErrorMessages = {
+export type AddressErrors = {
   [key in Fields]?: string;
 }
 
