@@ -25,6 +25,9 @@ storiesOf('Fias', module)
   .add('with fiasId', () => (
     <ExampleFias value={{ fiasId: MOCK_VALUE.fiasId }} />
   ))
+  .add('with fias version', () => (
+    <ExampleFias value={{ fiasId: MOCK_VALUE.fiasId }} version={'2016-08-25'} />
+  ))
   .add('with search', () => <ExampleFias search={true} />)
   .add('with fetch error', () => (
     <ExampleFias value={{ fiasId: '3f0affe0-0e2e-4c52-bd20-94767632f968-000-000-000' }} />

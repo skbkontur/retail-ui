@@ -26,6 +26,7 @@ interface SearchQuery {
   directParent?: boolean;
   limit?: number;
   actual?: boolean;
+  version?: string;
 }
 
 export class FiasAPI implements APIProvider {
@@ -79,7 +80,8 @@ export class FiasAPI implements APIProvider {
 
   constructor(
     private baseUrl: string = '',
-    private fetchFn: FetchFn = xhrFetch
+    private version?: string,
+    private fetchFn: FetchFn = xhrFetch,
   ) {}
 
   public verify = (address: AddressValue): Promise<APIResult<VerifyResponse>> => {
@@ -117,7 +119,8 @@ export class FiasAPI implements APIProvider {
       directParent: false,
       parentFiasId,
       limit,
-      fullAddress
+      fullAddress,
+      version: this.version,
     };
     const emptyResult = {
       success: true,

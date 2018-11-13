@@ -72,6 +72,10 @@ interface FiasProps {
    * Разрешать ли сохранять неверефицированный (произвольный, не из базы) адрес
    */
   allowNotVerified?: boolean;
+  /**
+   * Версия базы данных ФИАС. Формат: "2018-10-22"
+   */
+  version?: string;
 }
 
 interface FiasState {
@@ -100,7 +104,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     }
   };
 
-  private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl);
+  private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
   private form: Nullable<FiasForm> = null;
 
   constructor(props: FiasProps) {
