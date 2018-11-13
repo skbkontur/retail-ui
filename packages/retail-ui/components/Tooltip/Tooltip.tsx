@@ -1,13 +1,14 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import shallow from 'fbjs/lib/shallowEqual';
-import Popup from '../Popup';
-import RenderLayer from '../RenderLayer';
+import Popup, { PopupProps } from '../Popup';
+import RenderLayer, { RenderLayerProps } from '../RenderLayer';
 import CROSS from '../internal/cross';
 import { PopupPosition } from '../Popup';
 
 import styles from './Tooltip.less';
 import { Nullable } from '../../typings/utility-types';
+import { PopupHandlerProps } from '../Popup/Popup';
 
 const supportsPortal = 'createPortal' in ReactDOM;
 
@@ -112,6 +113,12 @@ export interface TooltipProps {
    * @default false
    */
   disableAnimations: boolean;
+
+  /**
+   * Использовать обертку над children в виде <span />
+   * @default true
+   */
+  useWrapper: boolean;
 }
 
 export interface TooltipState {
@@ -124,6 +131,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     trigger: 'hover',
     allowedPositions: Positions,
     disableAnimations: false,
+    useWrapper: true,
     closeOnChildrenMouseLeave: false
   };
 
@@ -164,37 +172,34 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
   public render(): JSX.Element | null {
     const { wrapperProps, popupProps, layerProps } = this.getProps();
-    const anchorElement = this.props.children
-      ? this.wrapperElement
-      : this.props.anchorElement;
     const content = this.renderContent();
 
-    return (
-      <RenderLayer {...layerProps}>
+    let popup = null;
+    if (this.props.useWrapper) {
+      const anchorElement = this.props.children
+        ? this.wrapperElement
+        : this.props.anchorElement;
+
+      popup = (
         <span ref={this.refWrapper} {...wrapperProps}>
           {this.props.children}
           {anchorElement &&
-            content && (
-              <Popup
-                anchorElement={anchorElement}
-                hasPin
-                hasShadow
-                margin={15}
-                maxWidth="none"
-                opened={this.state.opened}
-                pinOffset={17}
-                pinSize={8}
-                popupOffset={0}
-                disableAnimations={this.props.disableAnimations}
-                positions={this.getPositions()}
-                {...popupProps}
-              >
-                {content}
-              </Popup>
-            )}
+            content &&
+            this.renderPopup(anchorElement, popupProps, content)}
         </span>
-      </RenderLayer>
-    );
+      );
+    } else {
+      popup = this.renderPopup(
+        this.props.children || this.props.anchorElement,
+        {
+          ...wrapperProps,
+          ...popupProps
+        },
+        content
+      );
+    }
+
+    return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
   }
 
   public renderContent = () => {
@@ -230,6 +235,31 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     );
   }
 
+  private renderPopup(
+    anchorElement: React.ReactNode | HTMLElement,
+    popupProps: Partial<PopupProps>,
+    content: JSX.Element | null
+  ) {
+    return (
+      <Popup
+        anchorElement={anchorElement}
+        hasPin
+        hasShadow
+        margin={15}
+        maxWidth="none"
+        opened={this.state.opened}
+        pinOffset={17}
+        pinSize={8}
+        popupOffset={0}
+        disableAnimations={this.props.disableAnimations}
+        positions={this.getPositions()}
+        {...popupProps}
+      >
+        {content}
+      </Popup>
+    );
+  }
+
   private refContent = (node: HTMLElement | null) => {
     this.contentElement = node;
   };
@@ -253,7 +283,11 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     ];
   }
 
-  private getProps() {
+  private getProps(): {
+    layerProps: Partial<RenderLayerProps>;
+    wrapperProps: Partial<PopupHandlerProps>;
+    popupProps: Partial<PopupProps>;
+  } {
     switch (this.props.trigger) {
       case 'opened':
         return {
