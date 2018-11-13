@@ -1,7 +1,11 @@
+// tslint:disable:jsx-no-lambda
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
-import Popup from '../Popup';
+import Popup, { PopupPositions } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
+import Tooltip from 'retail-ui/components/Tooltip/Tooltip';
+import Textarea from 'retail-ui/components/Textarea';
+import Hint from 'retail-ui/components/Hint';
 
 const AllCases = ({ small, padding }: { small: boolean; padding: string }) => (
   <div style={{ padding }}>
@@ -144,6 +148,22 @@ class MinWidth extends React.Component {
 }
 
 storiesOf('Popup', module)
+  .add('Tooltips and Hints everywhere', () => (
+    <div style={{ padding: '150px', width: '500px' }}>
+      {PopupPositions.reduce(
+        (child, position) => (
+          <Tooltip useWrapper={false} render={() => position} pos={position}>
+            <Hint useWrapper={false} text={position} pos={position}>
+              {child}
+            </Hint>
+          </Tooltip>
+        ),
+        <Textarea rows={10} resize="none" width="50%">
+          {"I'm inline-block with 50% width.\n\nHover me!"}
+        </Textarea>
+      )}
+    </div>
+  ))
   .add('All pin opened', () => (
     <AllCases small={false} padding={'50px 100px'} />
   ))
@@ -165,7 +185,7 @@ storiesOf('Popup', module)
   ))
   .add('Hint', () => (
     <div style={{ padding: '100px' }}>
-      <Hint
+      <FakeHint
         positions={['top center', 'right top', 'bottom center', 'left middle']}
         margin={20}
       />
@@ -324,7 +344,7 @@ class PopupWithPositions extends Component<any, any> {
   };
 }
 
-class Hint extends Component<any, any> {
+class FakeHint extends Component<any, any> {
   public state = {
     anchor: null
   };
