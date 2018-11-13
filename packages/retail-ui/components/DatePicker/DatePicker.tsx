@@ -43,6 +43,7 @@ export interface DatePickerProps<T> {
   onMouseEnter?: (e: React.MouseEvent<any>) => void;
   onMouseLeave?: (e: React.MouseEvent<any>) => void;
   onMouseOver?: (e: React.MouseEvent<any>) => void;
+  holidays?: T[];
 }
 
 export interface DatePickerState {
@@ -99,7 +100,9 @@ class DatePicker extends React.Component<
 
     onMouseLeave: PropTypes.func,
 
-    onMouseOver: PropTypes.func
+    onMouseOver: PropTypes.func,
+
+    holidays: PropTypes.arrayOf(PropTypes.string)
   };
 
   public static defaultProps = {
@@ -173,6 +176,7 @@ class DatePicker extends React.Component<
             onPick={this._handlePick}
             onSelect={this._handleSelect}
             enableTodayLink={this.props.enableTodayLink}
+            holidays={this.getHolidays()}
           />
         </DropdownContainer>
       );
@@ -272,6 +276,21 @@ class DatePicker extends React.Component<
     if (this.props.onChange) {
       this.props.onChange({ target: { value: date } }, date);
     }
+  };
+
+  private getHolidays = () => {
+    const holidays: CalendarDateShape[] = [];
+
+    if (this.props.holidays) {
+      this.props.holidays.forEach(item => {
+        const shape = tryGetValidDateShape(parseDateString(item));
+        if (shape) {
+          holidays.push(shape);
+        }
+      });
+    }
+
+    return holidays;
   };
 }
 

@@ -44,3 +44,37 @@ let removeTooltip = () => setState(state => ({ tooltip: false }));
   />
 </Tooltip>;
 ```
+
+В компонент можно передать список праздничных дней. Это массив строк `dd.mm.yyyy`.
+
+```jsx
+const DatePickerHelpers = require('./DatePickerHelpers');
+const initialState = {
+  value: ''
+};
+
+const handleChange = (_, value) => setState({ value });
+
+const createRandomHolidays = () => {
+  const holidays = new Array(10);
+  const today = new Date();
+
+  for (let index = 0; index < holidays.length; index++) {
+    const day = new Date(
+      today.setDate(today.getDate() + 1 + index).valueOf()
+    );
+
+    const holiday = {
+      date: day.getDate(),
+      month: day.getMonth(),
+      year: day.getFullYear()
+    };
+
+    holidays[index] = DatePickerHelpers.formatDate(holiday);
+  }
+
+  return holidays;
+}
+
+<DatePicker holidays={createRandomHolidays()} value={state.value} onChange={handleChange} enableTodayLink />;
+```

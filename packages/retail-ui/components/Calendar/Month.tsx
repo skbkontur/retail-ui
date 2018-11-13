@@ -21,6 +21,7 @@ interface MonthProps {
   value?: Nullable<CDS.CalendarDateShape>;
   onDateClick?: (date: CDS.CalendarDateShape) => void;
   onMonthYearChange: (month: number, year: number) => void;
+  holidays: CDS.CalendarDateShape[];
 }
 
 export class Month extends React.Component<MonthProps> {
@@ -83,6 +84,7 @@ export class Month extends React.Component<MonthProps> {
         today={this.props.today}
         value={this.props.value}
         onDateClick={this.props.onDateClick}
+        holidays={this.props.holidays}
       />
     );
   }
@@ -121,6 +123,7 @@ interface MonthDayGridProps {
   today?: CDS.CalendarDateShape;
   value?: Nullable<CDS.CalendarDateShape>;
   onDateClick?: (x0: CDS.CalendarDateShape) => void;
+  holidays: CDS.CalendarDateShape[];
 }
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
@@ -149,18 +152,24 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
             display: 'inline-block'
           }}
         />
-        {this.props.days.map(day => (
-          <DayCellView
-            date={day}
-            key={`${day.date}.${day.month}.${day.year}`}
-            minDate={this.props.minDate}
-            maxDate={this.props.maxDate}
-            today={this.props.today}
-            value={this.props.value}
-            isWeekend={day.isWeekend}
-            onClick={this._handleClick}
-          />
-        ))}
+        {this.props.days.map(day => {
+          const isWeekend =
+            !!this.props.holidays.find(item => !!CDS.isEqual(item, day)) ||
+            day.isWeekend;
+
+          return (
+            <DayCellView
+              date={day}
+              key={`${day.date}.${day.month}.${day.year}`}
+              minDate={this.props.minDate}
+              maxDate={this.props.maxDate}
+              today={this.props.today}
+              value={this.props.value}
+              isWeekend={isWeekend}
+              onClick={this._handleClick}
+            />
+          );
+        })}
       </div>
     );
   }
