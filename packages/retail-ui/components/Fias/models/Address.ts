@@ -174,7 +174,7 @@ export class Address {
 
   public getClosestParentFiasId = (field?: Fields): FiasId | undefined => {
     if (field && !this.isEmpty) {
-      const parents = Address.getParentFields(field).reverse();
+      const parents = Address.getParentFields(field).slice().reverse();
       for (const parentField of parents) {
         const parent: Nullable<AddressElement> = this.fields[parentField];
         if (parent && parent.data) {
@@ -186,7 +186,7 @@ export class Address {
 
   public getFiasId = (): FiasId => {
     if (!this.isEmpty) {
-      const fields = Address.VERIFIABLE_FIELDS.reverse();
+      const fields = Address.VERIFIABLE_FIELDS.slice().reverse();
       for (const field of fields) {
         const element: Nullable<AddressElement> = this.fields[field];
         if (element && element.data) {

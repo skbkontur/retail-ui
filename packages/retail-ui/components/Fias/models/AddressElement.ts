@@ -3,14 +3,25 @@ import {abbreviations} from '../constants/abbreviations';
 import {Nullable} from '../../../typings/utility-types';
 import {FiasData} from './FiasData';
 
-const FEDERAL_CITIES: FiasId[] = [
-  '0c5b2444-70a0-4932-980c-b4dc0d3f02b5', // Москва
-  'c2deb16a-0330-4f05-821f-1d09c93331e6', // Санкт-Петербург
-  '6fdecb78-893a-4e3f-a5ba-aa062459463b', // Севастополь
-  '63ed1a35-4be6-4564-a1ec-0c51f7383314' // Байконур
-];
-
 export class AddressElement {
+
+  // Types (abbrevs) that match fields labels
+  private static MATCHING_TYPES: {
+    [key:string]: Fields
+  } = {
+    'р-н': Fields.district,
+    г: Fields.city,
+    нп: Fields.settlement,
+    ул: Fields.street
+  };
+
+  private static FEDERAL_CITIES: FiasId[] = [
+    '0c5b2444-70a0-4932-980c-b4dc0d3f02b5', // Москва
+    'c2deb16a-0330-4f05-821f-1d09c93331e6', // Санкт-Петербург
+    '6fdecb78-893a-4e3f-a5ba-aa062459463b', // Севастополь
+    '63ed1a35-4be6-4564-a1ec-0c51f7383314', // Байконур
+  ];
+
   constructor(
     public type: Fields,
     public name: string,
@@ -21,7 +32,7 @@ export class AddressElement {
     if (!(this.data && this.data.fiasId)) {
       return false;
     }
-    return FEDERAL_CITIES.indexOf(this.data.fiasId) > -1;
+    return AddressElement.FEDERAL_CITIES.indexOf(this.data.fiasId) > -1;
   }
 
   public getText(withoutType: boolean = false): string {
@@ -76,19 +87,19 @@ export class AddressElement {
         if (data.estateStatus !== EstateStatuses.None) {
           switch (data.estateStatus) {
             case EstateStatuses.Hold:
-              result = result + ' владение';
+              result = `${result} владение`;
               break;
             case EstateStatuses.House:
-              result = result + ' дом';
+              result = `${result} дом`;
               break;
             case EstateStatuses.HouseHold:
-              result = result + ' домовладение';
+              result = `${result} домовладение`;
               break;
           }
         }
 
         if (data.number) {
-          result = result + ' ' + data.number;
+          result = `${result} ${data.number}`;
         }
 
         if (
@@ -98,19 +109,19 @@ export class AddressElement {
         ) {
           switch (data.structureStatus) {
             case StructureStatuses.Structure:
-              result = result + ' строение ' + data.structureNumber;
+              result = `${result} строение ${data.structureNumber}`;
               break;
             case StructureStatuses.Construction:
-              result = result + ' cооружение ' + data.structureNumber;
+              result = `${result} cооружение ${data.structureNumber}`;
               break;
             case StructureStatuses.Liter:
-              result = result + ' литера ' + data.structureNumber;
+              result = `${result} литера ${data.structureNumber}`;
               break;
           }
         }
 
         if (data.buildingNumber) {
-          result = result + ' корпус ' + data.buildingNumber;
+          result = `${result} корпус ${data.buildingNumber}`;
         }
       }
 
@@ -126,18 +137,10 @@ export class AddressElement {
     return result.trim() || name;
   }
 
-  public doesTheTypeMatchTheField = (field: Fields): boolean => {
-    const types: {
-      [key: string]: string;
-    } = {
-      'р-н': Fields.district,
-      г: Fields.city,
-      нп: Fields.settlement,
-      ул: Fields.street
-    };
+  public isTypeMatchField = (field: Fields): boolean => {
     const { data } = this;
     if (data && data.abbreviation) {
-      return types[data.abbreviation] === field;
+      return AddressElement.MATCHING_TYPES[data.abbreviation] === field;
     }
     return false;
   };
