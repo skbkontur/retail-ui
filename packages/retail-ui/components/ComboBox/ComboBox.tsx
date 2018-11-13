@@ -6,6 +6,7 @@ import { reducers as autocompleteReducers } from '../CustomComboBox/reducer/auto
 
 import CustomComboBox from '../CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
+import { MenuItemState } from '../MenuItem';
 
 export interface ComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -81,7 +82,7 @@ export interface ComboBoxProps<T> {
    * Функция отрисовки элементов результата поиска.
    * Не применяется если элемент является функцией или React-элементом
    */
-  renderItem?: (item: T, index?: number) => React.ReactNode;
+  renderItem?: (item: T, state?: MenuItemState) => React.ReactNode;
 
   /**
    * Функция для отрисовки сообщения о пустом результате поиска
