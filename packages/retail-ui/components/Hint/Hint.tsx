@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
 
-import Popup, { PopupPosition } from '../Popup';
+import Popup, { PopupPosition, PopupProps } from '../Popup';
 
 import styles = require('./HintBox.less');
 import { Nullable, TimeoutID } from '../../typings/utility-types';
@@ -35,6 +35,7 @@ export interface HintProps {
     | 'right bottom';
   text: React.ReactNode;
   disableAnimations: boolean;
+  useWrapper: boolean;
 }
 
 export interface HintState {
@@ -62,7 +63,8 @@ class Hint extends React.Component<HintProps, HintState> {
     manual: false,
     opened: false,
     maxWidth: 200,
-    disableAnimations: false
+    disableAnimations: false,
+    useWrapper: true
   };
 
   public state: HintState = {
@@ -95,28 +97,43 @@ class Hint extends React.Component<HintProps, HintState> {
   }
 
   public render() {
+    if (this.props.useWrapper) {
+      return (
+        <span
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+          ref={this.captionRef}
+        >
+          {this.props.children}
+          {this.captionNode && this.renderPopup(this.captionNode)}
+        </span>
+      );
+    } else {
+      return this.renderPopup(this.props.children, {
+        onMouseEnter: this.handleMouseEnter,
+        onMouseLeave: this.handleMouseLeave
+      });
+    }
+  }
+
+  private renderPopup(
+    anchorElement: React.ReactNode | HTMLElement,
+    popupProps: Partial<PopupProps> = {}
+  ) {
     return (
-      <span
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        ref={this.captionRef}
+      <Popup
+        hasPin
+        margin={15}
+        opened={this.state.opened}
+        anchorElement={anchorElement}
+        positions={this.getPositions()}
+        backgroundColor={HINT_BACKGROUND_COLOR}
+        borderColor={HINT_BORDER_COLOR}
+        disableAnimations={this.props.disableAnimations}
+        {...popupProps}
       >
-        {this.props.children}
-        {this.captionNode && (
-          <Popup
-            hasPin
-            margin={15}
-            opened={this.state.opened}
-            anchorElement={this.captionNode}
-            positions={this.getPositions()}
-            backgroundColor={HINT_BACKGROUND_COLOR}
-            borderColor={HINT_BORDER_COLOR}
-            disableAnimations={this.props.disableAnimations}
-          >
-            {this.renderContent()}
-          </Popup>
-        )}
-      </span>
+        {this.renderContent()}
+      </Popup>
     );
   }
 
