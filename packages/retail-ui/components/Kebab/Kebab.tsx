@@ -22,7 +22,7 @@ export interface KebabProps {
   /**
    * Не показывать анимацию
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
 }
 
 export interface KebabState {

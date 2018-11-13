@@ -21,11 +21,11 @@ interface ItemComponentProps {
 
 export interface PagingProps {
   activePage: number;
-  component: React.ComponentType<ItemComponentProps>;
+  component?: React.ComponentType<ItemComponentProps>;
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
   disabled?: boolean;
-  strings: { forward: string };
+  strings?: { forward: string };
   /**
    * Отключает навигационные подсказки.
    * По-умолчанию подсказки появляются, когда доступно управление с клавиатуры
@@ -39,7 +39,7 @@ export interface PagingProps {
    * **Paging** с withoutNavigationHint === true, то обработчик keyDown будет вызываться
    * на каждом из них. Такие случаи лучше обрабатывать отдельно.
    */
-  useGlobalListener: boolean;
+  useGlobalListener?: boolean;
 }
 
 export interface PagingState {

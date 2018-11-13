@@ -41,12 +41,12 @@ export type TextareaProps = Override<
     /**
      * Число строк
      */
-    rows: number;
+    rows?: number;
     /**
      * Максимальное число строк при
      * автоматическом ресайзе
      */
-    maxRows: string | number;
+    maxRows?: string | number;
 
     /**
      * Стандартный ресайз
