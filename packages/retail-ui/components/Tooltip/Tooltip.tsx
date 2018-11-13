@@ -327,7 +327,9 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.setState({ opened: false });
   }
 
-  private handleMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+  private handleMouseEnter = (
+    event: React.MouseEvent<HTMLElement> | MouseEvent
+  ) => {
     if (
       this.props.trigger === 'hoverAnchor' &&
       event.target === this.contentElement
