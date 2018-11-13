@@ -241,7 +241,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
       const fieldText = element
         ? element.getText(
-            !hasParents && element.doesTheTypeMatchTheField(field)
+            !hasParents && element.isTypeMatchField(field)
           )
         : '';
 
@@ -258,7 +258,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const renderValue = (address: Address): React.ReactNode => {
       const element = address.fields[field];
       return (
-        element && element.getText(element.doesTheTypeMatchTheField(field))
+        element && element.getText(element.isTypeMatchField(field))
       );
     };
 
@@ -330,7 +330,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         field,
         parentFiasId: address.getClosestParentFiasId(field),
         fullAddress: address.isAllowedToSearchFullAddress(field),
-        limit: limit + 1
+        limit: limit + 1, // +1 to detect if there are more items
       };
       return this.props.api.search(options)
         .then(result => {
