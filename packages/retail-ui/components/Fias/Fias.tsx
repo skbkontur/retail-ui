@@ -1,7 +1,7 @@
 import * as React from 'react';
 import cn from 'classnames';
 import Link from '../Link';
-import {FiasValue, FormValidation, FiasLocale, AddressResponse, APIProvider} from './types';
+import {FiasValue, FormValidation, FiasLocale, APIProvider} from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
@@ -216,18 +216,19 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       } else {
         let options = {};
         if (fiasId) {
-          options = { fiasId };
+          options = {
+            fiasId
+          };
         }
         if (addressString) {
-          options = { searchText: addressString, limit: 1 };
+          options = {
+            searchText: addressString,
+            limit: 1
+          };
         }
-        try {
-          const response: AddressResponse[] = await this.api.search(options);
-          if (response.length) {
-            return Address.createFromResponse(response[0]);
-          }
-        } catch(e) {
-          return new Address();
+        const { success, data } = await this.api.search(options);
+        if (success && data && data.length) {
+          return Address.createFromResponse(data[0]);
         }
       }
     }

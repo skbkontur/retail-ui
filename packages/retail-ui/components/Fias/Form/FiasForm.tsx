@@ -9,7 +9,7 @@ import {
   AddressResponse,
   VerifyResponse,
   APIProvider,
-  SearchOptions
+  SearchOptions, APIResult
 } from '../types';
 import {Nullable} from '../../../typings/utility-types';
 import {Address} from '../models/Address';
@@ -57,7 +57,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
   } = {};
 
-  private verifyPromise: Nullable<Promise<VerifyResponse>> = null;
+  private verifyPromise: Nullable<Promise<APIResult<VerifyResponse>>> = null;
 
   constructor(props: FiasFormProps) {
     super(props);
@@ -332,12 +332,15 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         fullAddress: address.isAllowedToSearchFullAddress(field),
         limit: limit + 1
       };
-      return this.props.api
-        .search(options)
-        .then((items: AddressResponse[]) => {
-          return items.map((item: AddressResponse) => {
-            return Address.createFromResponse(item);
-          });
+      return this.props.api.search(options)
+        .then(result => {
+          const { success, data, error } = result;
+          return success && data
+            ? Promise.resolve(data.map((item: AddressResponse) => {
+                return Address.createFromResponse(item);
+              })
+            )
+            : Promise.reject(error);
         })
     }
     return Promise.resolve([]);
@@ -357,10 +360,11 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
     this.verifyPromise = api.verify(address.convertForVerification())
       .then(result => {
-        if (result && result[0]) {
+        const { success, data } = result;
+        if (success && data && data.length) {
           const verifiedAddress = Address.verify(
             address,
-            result,
+            data,
             locale.addressNotFound
           );
 

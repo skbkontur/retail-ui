@@ -3,28 +3,33 @@ import {
   Fields,
   AddressResponse, SearchOptions,
   SearchResponse,
-  VerifyResponse
+  VerifyResponse, APIResult
 } from '../types';
+import {APIResultFactory} from "./APIResultFactory";
 const addresses: SearchResponse = require('./data.json');
 
 export class MockAPI implements APIProvider {
 
-  public verify = async (address: AddressValue): Promise<VerifyResponse> => {
-    return Promise.resolve([]);
+  public verify = async (address: AddressValue): Promise<APIResult<VerifyResponse>> => {
+    return Promise.resolve(APIResultFactory.success([]));
   };
 
-  public search = async ({ fiasId, searchText, field, parentFiasId, limit, fullAddress } : SearchOptions): Promise<SearchResponse> => {
+  public search = async ({ fiasId, searchText, field, parentFiasId, limit, fullAddress } : SearchOptions): Promise<APIResult<SearchResponse>> => {
+    let data: SearchResponse = [];
+
     if (fiasId) {
-      return [addresses[0]];
+      data = [addresses[0]];
     }
 
     if (searchText) {
-      if (!field) {
-        return addresses;
+      if (field) {
+        data = this.getAddresses(field, fullAddress);
+      } else {
+        data = addresses;
       }
-      return this.getAddresses(field, fullAddress);
     }
-    return Promise.resolve([]);
+
+    return Promise.resolve(APIResultFactory.success(data))
   };
 
   private getAddresses = (field: Fields, fullAddress?: boolean): AddressResponse[] => {

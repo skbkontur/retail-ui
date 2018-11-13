@@ -117,6 +117,28 @@ export interface SearchOptions {
 }
 
 export interface APIProvider {
-  search: (options: SearchOptions) => Promise<SearchResponse>;
-  verify: (address: AddressValue) => Promise<VerifyResponse>;
+  search: (options: SearchOptions) => Promise<APIResult<SearchResponse>>;
+  verify: (address: AddressValue) => Promise<APIResult<VerifyResponse>>;
 }
+
+export interface APIResult<Data> {
+  success: boolean;
+  data?: Data;
+  error?: Error;
+}
+
+export type FetchFn = (
+  uri: string,
+  options: {
+    method?: 'GET' | 'POST',
+    body?: string
+  }
+) => Promise<FetchResponse>
+
+export interface FetchResponse {
+  ok: boolean;
+  status: number;
+  statusText: string;
+  json: () => Promise<any>;
+}
+
