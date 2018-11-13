@@ -32,3 +32,26 @@ const Gapped = require('../Gapped').default;
   <Button size="large">Large</Button>
 </Gapped>;
 ```
+
+Кнопки-стрелки
+
+```jsx
+<Gapped gap={25}>
+  <Gapped gap={5}>
+    <Button arrow="left" size="medium">
+      Назад
+    </Button>
+    <Button arrow size="medium">
+      Далее
+    </Button>
+  </Gapped>
+  <Gapped gap={5}>
+    <Button arrow="left" size="large">
+      Назад
+    </Button>
+    <Button arrow size="large">
+      Далее
+    </Button>
+  </Gapped>
+</Gapped>
+```
