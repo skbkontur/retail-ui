@@ -45,7 +45,7 @@ let removeTooltip = () => setState(state => ({ tooltip: false }));
 </Tooltip>;
 ```
 
-В компонент можно передать список праздничных дней. Это массив строк `dd.mm.yyyy`.
+В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня.
 
 ```jsx
 const DatePickerHelpers = require('./DatePickerHelpers');
@@ -76,5 +76,20 @@ const createRandomHolidays = () => {
   return holidays;
 }
 
-<DatePicker holidays={createRandomHolidays()} value={state.value} onChange={handleChange} enableTodayLink />;
+const isHoliday = (day, isWeekend) => {
+  const today = new Date();
+  const holiday = {
+      date: today.getDate(),
+      month: today.getMonth(),
+      year: today.getFullYear()
+    };
+
+  if (day === DatePickerHelpers.formatDate(holiday)) {
+    return !isWeekend;
+  }
+
+  return isWeekend;
+}
+
+<DatePicker isHoliday={isHoliday} value={state.value} onChange={handleChange} enableTodayLink />;
 ```

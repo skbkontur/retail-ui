@@ -23,7 +23,7 @@ export interface CalendarProps {
   value?: Nullable<CalendarDateShape>;
   maxDate?: CalendarDateShape;
   minDate?: CalendarDateShape;
-  holidays: CalendarDateShape[];
+  isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
 export interface CalendarState {
@@ -111,7 +111,7 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
         value={this.props.value}
         onDateClick={this.props.onSelect}
         onMonthYearChange={this._handleMonthYearChange}
-        holidays={this.props.holidays}
+        isHoliday={this.props.isHoliday}
       />
     );
   }

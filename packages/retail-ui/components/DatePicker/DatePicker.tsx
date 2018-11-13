@@ -10,7 +10,7 @@ import DropdownContainer from '../DropdownContainer/DropdownContainer';
 
 import { formatDate, parseDateString } from './DatePickerHelpers';
 import { CalendarDateShape } from '../Calendar';
-import { tryGetValidDateShape, isValidDate } from './DateShape';
+import { tryGetValidDateShape, isValidDate, DateShape } from './DateShape';
 
 import styles = require('./DatePicker.less');
 import { Nullable } from '../../typings/utility-types';
@@ -43,7 +43,15 @@ export interface DatePickerProps<T> {
   onMouseEnter?: (e: React.MouseEvent<any>) => void;
   onMouseLeave?: (e: React.MouseEvent<any>) => void;
   onMouseOver?: (e: React.MouseEvent<any>) => void;
-  holidays?: T[];
+
+  /**
+   * Функция для определения праздничных дней
+   * @default (_day: unknown, isWeekend: boolean) => isWeekend
+   * @param {T} day - строка в формате `dd.mm.yyyy`
+   * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
+   * @returns {boolean} `true` для выходного или `false` для рабочего дня
+   */
+  isHoliday: (day: T, isWeekend: boolean) => boolean;
 }
 
 export interface DatePickerState {
@@ -102,13 +110,14 @@ class DatePicker extends React.Component<
 
     onMouseOver: PropTypes.func,
 
-    holidays: PropTypes.arrayOf(PropTypes.string)
+    isHoliday: PropTypes.func
   };
 
   public static defaultProps = {
     width: 120,
     minDate: '01.01.1900',
-    maxDate: '31.12.2099'
+    maxDate: '31.12.2099',
+    isHoliday: (_day: unknown, isWeekend: boolean) => isWeekend
   };
 
   public static validate = (value: Nullable<string>) => {
@@ -176,7 +185,7 @@ class DatePicker extends React.Component<
             onPick={this._handlePick}
             onSelect={this._handleSelect}
             enableTodayLink={this.props.enableTodayLink}
-            holidays={this.getHolidays()}
+            isHoliday={this.isHoliday}
           />
         </DropdownContainer>
       );
@@ -278,19 +287,14 @@ class DatePicker extends React.Component<
     }
   };
 
-  private getHolidays = () => {
-    const holidays: CalendarDateShape[] = [];
-
-    if (this.props.holidays) {
-      this.props.holidays.forEach(item => {
-        const shape = tryGetValidDateShape(parseDateString(item));
-        if (shape) {
-          holidays.push(shape);
-        }
-      });
-    }
-
-    return holidays;
+  private isHoliday = ({
+    date,
+    month,
+    year,
+    isWeekend
+  }: CalendarDateShape & { isWeekend: boolean }) => {
+    const dateString = formatDate({ date, month, year });
+    return this.props.isHoliday(dateString, isWeekend);
   };
 }
 

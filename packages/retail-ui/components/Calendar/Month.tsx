@@ -21,7 +21,7 @@ interface MonthProps {
   value?: Nullable<CDS.CalendarDateShape>;
   onDateClick?: (date: CDS.CalendarDateShape) => void;
   onMonthYearChange: (month: number, year: number) => void;
-  holidays: CDS.CalendarDateShape[];
+  isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
 export class Month extends React.Component<MonthProps> {
@@ -84,7 +84,7 @@ export class Month extends React.Component<MonthProps> {
         today={this.props.today}
         value={this.props.value}
         onDateClick={this.props.onDateClick}
-        holidays={this.props.holidays}
+        isHoliday={this.props.isHoliday}
       />
     );
   }
@@ -123,10 +123,15 @@ interface MonthDayGridProps {
   today?: CDS.CalendarDateShape;
   value?: Nullable<CDS.CalendarDateShape>;
   onDateClick?: (x0: CDS.CalendarDateShape) => void;
-  holidays: CDS.CalendarDateShape[];
+  isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
+  public static defaultProps = {
+    isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) =>
+      day.isWeekend
+  };
+
   public shouldComponentUpdate(nextProps: MonthDayGridProps) {
     if (!CDS.isEqual(nextProps.value, this.props.value)) {
       return true;
@@ -153,9 +158,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
           }}
         />
         {this.props.days.map(day => {
-          const isWeekend =
-            !!this.props.holidays.find(item => !!CDS.isEqual(item, day)) ||
-            day.isWeekend;
+          const isWeekend = this.props.isHoliday(day);
 
           return (
             <DayCellView
