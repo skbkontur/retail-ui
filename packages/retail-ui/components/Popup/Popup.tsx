@@ -169,16 +169,16 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     location: null
   };
 
-  private _layoutEventsToken: Nullable<
+  private layoutEventsToken: Nullable<
     ReturnType<typeof LayoutEvents.addListener>
   >;
-  private _lastPopupElement: Nullable<HTMLElement>;
+  private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<Element | Text>;
   private anchorInstance: Nullable<React.ReactInstance>;
 
   public componentDidMount() {
-    this._updateLocation();
-    this._layoutEventsToken = LayoutEvents.addListener(this._handleLayoutEvent);
+    this.updateLocation();
+    this.layoutEventsToken = LayoutEvents.addListener(this.handleLayoutEvent);
   }
 
   public componentWillReceiveProps(nextProps: PopupProps) {
@@ -186,10 +186,10 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
      * For react < 16 version ReactDOM.unstable_renderSubtreeIntoContainer is
      * used. It causes refs callbacks to call after componentDidUpdate.
      *
-     * Delaying _updateLocation to ensure that ref is set
+     * Delaying updateLocation to ensure that ref is set
      */
     if (!this.props.opened && nextProps.opened) {
-      this._delayUpdateLocation();
+      this.delayUpdateLocation();
     }
 
     if (this.props.opened && !nextProps.opened) {
@@ -198,13 +198,13 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   public componentWillUnmount() {
-    if (this._layoutEventsToken) {
-      this._layoutEventsToken.remove();
+    if (this.layoutEventsToken) {
+      this.layoutEventsToken.remove();
     }
   }
 
   public render() {
-    const location = this.state.location || this._getDummyLocation();
+    const location = this.state.location || this.getDummyLocation();
     let child = null;
 
     if (this.props.anchorElement instanceof Element) {
@@ -226,15 +226,15 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     const content = (
-      <RenderContainer>{this._renderContent(location)}</RenderContainer>
+      <RenderContainer>{this.renderContent(location)}</RenderContainer>
     );
 
     return (
       <RenderLayer
-        onClickOutside={this._handleClickOutside}
-        onFocusOutside={this._handleFocusOutside}
+        onClickOutside={this.handleClickOutside}
+        onFocusOutside={this.handleFocusOutside}
         /**
-         * If onCloseRequest is not specified _handleClickOutside and _handleFocusOutside
+         * If onCloseRequest is not specified handleClickOutside and handleFocusOutside
          * are doing nothing. So there is no need in RenderLayer at all.
          */
         active={this.props.onCloseRequest && this.props.opened}
@@ -319,7 +319,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
   };
 
-  private _renderContent(location: PopupLocation) {
+  private renderContent(location: PopupLocation) {
     const { direction } = PopupHelper.getPositionObject(location.position);
     const rootStyle: React.CSSProperties = {
       top: location.coordinates.top,
@@ -345,7 +345,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
           <ZIndex
             key={this.state.location ? 'real' : 'dummy'}
             delta={1000}
-            ref={this._refPopupElement}
+            ref={this.refPopupElement}
             className={cn({
               [styles.popup]: true,
               [styles.shadow]: this.props.hasShadow,
@@ -361,7 +361,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
             onMouseLeave={this.props.onMouseLeave}
           >
             {this.renderChildren()}
-            {this._renderPin(location.position)}
+            {this.renderPin(location.position)}
           </ZIndex>
         )}
       </Transition>
@@ -374,13 +374,13 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       : this.props.children;
   }
 
-  private _refPopupElement = (zIndex: ZIndex | null) => {
+  private refPopupElement = (zIndex: ZIndex | null) => {
     if (zIndex) {
-      this._lastPopupElement = zIndex && (findDOMNode(zIndex) as HTMLElement);
+      this.lastPopupElement = zIndex && (findDOMNode(zIndex) as HTMLElement);
     }
   };
 
-  private _renderPin(position: string): React.ReactNode {
+  private renderPin(position: string): React.ReactNode {
     /**
      * Box-shadow does not appear under the pin. Borders are used instead.
      * In non-ie browsers drop-shodow filter is used. It is applying
@@ -402,7 +402,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     return (
       this.props.hasPin && (
         <PopupPin
-          popupElement={this._lastPopupElement!}
+          popupElement={this.lastPopupElement!}
           popupPosition={position}
           size={pinSize}
           offset={pinOffset}
@@ -414,36 +414,36 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private _handleClickOutside = () => {
-    this._requestClose();
+  private handleClickOutside = () => {
+    this.requestClose();
   };
 
-  private _handleFocusOutside = () => {
-    this._requestClose();
+  private handleFocusOutside = () => {
+    this.requestClose();
   };
 
-  private _handleLayoutEvent = () => {
+  private handleLayoutEvent = () => {
     if (this.anchorInstance) {
       this.updateAnchorElement(this.anchorInstance);
     }
     if (this.state.location) {
-      this._updateLocation();
+      this.updateLocation();
     }
   };
 
-  private _delayUpdateLocation() {
-    raf(() => this._updateLocation());
+  private delayUpdateLocation() {
+    raf(() => this.updateLocation());
   }
 
-  private _updateLocation() {
-    const popupElement = this._lastPopupElement;
+  private updateLocation() {
+    const popupElement = this.lastPopupElement;
 
     if (!popupElement) {
       return;
     }
 
-    const location = this._getLocation(popupElement, this.state.location);
-    if (!this._locationEquals(this.state.location, location)) {
+    const location = this.getLocation(popupElement, this.state.location);
+    if (!this.locationEquals(this.state.location, location)) {
       this.setState({ location });
     }
   }
@@ -452,13 +452,13 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     return this.setState({ location: null });
   };
 
-  private _requestClose = () => {
+  private requestClose = () => {
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
     }
   };
 
-  private _locationEquals(
+  private locationEquals(
     x: Nullable<PopupLocation>,
     y: Nullable<PopupLocation>
   ) {
@@ -477,7 +477,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private _getDummyLocation() {
+  private getDummyLocation() {
     return {
       coordinates: {
         top: -9999,
@@ -487,7 +487,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     };
   }
 
-  private _getLocation(
+  private getLocation(
     popupElement: HTMLElement,
     location?: PopupLocation | null
   ) {
@@ -511,12 +511,12 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       // tslint:disable-next-line:no-shadowed-variable
       const position = PopupHelper.getPositionObject(location.position);
       // tslint:disable-next-line:no-shadowed-variable
-      const coordinates = this._getCoordinates(
+      const coordinates = this.getCoordinates(
         anchorRect,
         popupRect,
         position,
         margin,
-        popupOffset + this._getPinnedPopupOffset(anchorRect, position)
+        popupOffset + this.getPinnedPopupOffset(anchorRect, position)
       );
       return { coordinates, position: location.position };
     }
@@ -525,12 +525,12 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     for (const position of positions) {
       const positionObj = PopupHelper.getPositionObject(position);
       // tslint:disable-next-line:no-shadowed-variable
-      const coordinates = this._getCoordinates(
+      const coordinates = this.getCoordinates(
         anchorRect,
         popupRect,
         positionObj,
         margin,
-        popupOffset + this._getPinnedPopupOffset(anchorRect, positionObj)
+        popupOffset + this.getPinnedPopupOffset(anchorRect, positionObj)
       );
       if (
         PopupHelper.isAbsoluteRectFullyVisible({
@@ -544,17 +544,17 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       }
     }
     const position = PopupHelper.getPositionObject(positions[0]);
-    const coordinates = this._getCoordinates(
+    const coordinates = this.getCoordinates(
       anchorRect,
       popupRect,
       position,
       margin,
-      popupOffset + this._getPinnedPopupOffset(anchorRect, position)
+      popupOffset + this.getPinnedPopupOffset(anchorRect, position)
     );
     return { coordinates, position: positions[0] };
   }
 
-  private _getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {
+  private getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {
     if (!this.props.hasPin || /center|middle/.test(position.align)) {
       return 0;
     }
@@ -567,7 +567,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     return Math.max(0, pinOffset + pinSize - anchorSize / 2);
   }
 
-  private _getCoordinates(
+  private getCoordinates(
     anchorRect: Rect,
     popupRect: Rect,
     position: PositionObject,
@@ -578,7 +578,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       case 'top':
         return {
           top: anchorRect.top - popupRect.height - margin,
-          left: this._getHorizontalPosition(
+          left: this.getHorizontalPosition(
             anchorRect,
             popupRect,
             position.align,
@@ -588,7 +588,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       case 'bottom':
         return {
           top: anchorRect.top + anchorRect.height + margin,
-          left: this._getHorizontalPosition(
+          left: this.getHorizontalPosition(
             anchorRect,
             popupRect,
             position.align,
@@ -597,7 +597,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         };
       case 'left':
         return {
-          top: this._getVerticalPosition(
+          top: this.getVerticalPosition(
             anchorRect,
             popupRect,
             position.align,
@@ -607,7 +607,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         };
       case 'right':
         return {
-          top: this._getVerticalPosition(
+          top: this.getVerticalPosition(
             anchorRect,
             popupRect,
             position.align,
@@ -620,7 +620,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
   }
 
-  private _getHorizontalPosition(
+  private getHorizontalPosition(
     anchorRect: Rect,
     popupRect: Rect,
     align: string,
@@ -640,7 +640,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
   }
 
-  private _getVerticalPosition(
+  private getVerticalPosition(
     anchorRect: Rect,
     popupRect: Rect,
     align: string,
