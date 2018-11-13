@@ -264,6 +264,8 @@ class Input extends React.Component<InputProps, InputState> {
         mask={mask}
         maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
         alwaysShowMask={this.props.alwaysShowMask}
+        hasLeftIcon={!!this.props.leftIcon}
+        hasRightIcon={!!this.props.rightIcon}
       />
     );
   }
@@ -278,9 +280,9 @@ class Input extends React.Component<InputProps, InputState> {
 
   private renderIcon(icon: React.ReactNode, className: string) {
     return icon ? (
-      <div className={className}>
+      <span className={className}>
         <span className={classes.icon}>{icon}</span>
-      </div>
+      </span>
     ) : null;
   }
 

@@ -22,7 +22,7 @@
     box-sizing: border-box;
     display: inline-block;
     font-family: inherit;
-    font-size: 14px;
+    font-size: inherit;
     line-height: 20px;
     margin: 0; // For Safari.
     outline: none;
@@ -63,8 +63,8 @@
   }
 
   .sizeMedium {
+    font-size: 16px;
     .input {
-      font-size: 16px;
       line-height: 22px;
       padding-top: @medium-vertical-padding;
       padding-bottom: @medium-vertical-padding;
@@ -88,10 +88,10 @@
   }
 
   .sizeLarge {
+    font-size: 16px;
     .input {
       padding-top: @large-vertical-padding;
       padding-bottom: @large-vertical-padding;
-      font-size: 16px;
       line-height: 22px;
     }
 
@@ -185,7 +185,7 @@
   .placeholder {
     bottom: 1px;
     color: @placeholder-color;
-    font-size: 14px;
+    font-size: inherit;
     line-height: normal;
     left: @input-side-padding + 1;
     overflow: hidden;
