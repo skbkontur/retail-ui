@@ -316,6 +316,29 @@ describe('ComboBox', () => {
     expect(wrapper.find('input').prop('value')).toBe('');
   });
 
+  it('update input text on focus in autocomplete mode', async () => {
+    const wrapper = mount<ComboBox<any>>(
+      <ComboBox
+        value={{
+          value: 1,
+          label: 'one'
+        }}
+        autocomplete={true}
+      />
+    );
+
+    wrapper.instance().focus();
+    wrapper.update();
+    expect(wrapper.find('input').prop('value')).toBe('one');
+
+    clickOutside();
+    wrapper.setProps({ value: null });
+
+    wrapper.instance().focus();
+    wrapper.update();
+    expect(wrapper.find('input').prop('value')).toBe('');
+  });
+
   it('reset', () => {
     const wrapper = mount<ComboBox<any>>(<ComboBox />);
 

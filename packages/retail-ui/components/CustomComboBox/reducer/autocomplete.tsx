@@ -25,6 +25,7 @@ const reducers: { [key: string]: Reducer } = {
       return [
         {
           ...state,
+          textValue,
           focused: true,
           editing: true,
           opened: false,
