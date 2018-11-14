@@ -248,14 +248,12 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
         </div>
         {this.state.anchor && (
           <Popup
+            opened
+            hasPin
+            hasShadow
             anchorElement={this.state.anchor}
-            popupOffset={0}
-            opened={true}
-            margin={10}
             positions={this.props.positions}
             backgroundColor={'#fff'}
-            hasShadow={true}
-            hasPin={true}
             pinSize={10}
             pinOffset={7}
           >
@@ -308,15 +306,14 @@ class PopupWithPositions extends Component<any, any> {
         />
         {this.state.anchor && (
           <Popup
+            hasPin
+            hasShadow
             onCloseRequest={this._clickHandler}
             anchorElement={this.state.anchor}
-            popupOffset={0}
             opened={this.state.opened}
             margin={13}
             positions={['bottom left', 'bottom right', 'top left', 'top right']}
             backgroundColor={'#fff'}
-            hasShadow={true}
-            hasPin={true}
             pinSize={10}
             pinOffset={7}
             disableAnimations={this.props.disableAnimations}
@@ -368,13 +365,12 @@ class FakeHint extends Component<any, any> {
         </div>
         {this.state.anchor && (
           <Popup
+            hasPin
+            opened
             anchorElement={this.state.anchor}
-            opened={true}
             positions={this.props.positions}
             margin={this.props.margin}
             backgroundColor={'rgba(0, 0, 0, 0.65)'}
-            hasShadow={false}
-            hasPin={true}
             pinSize={10}
             pinOffset={7}
           >
@@ -410,12 +406,10 @@ class Toast extends Component<any, any> {
         </div>
         {this.state.anchor && (
           <Popup
+            opened
             anchorElement={this.state.anchor}
-            opened={true}
             positions={this.props.positions}
             backgroundColor={'rgba(0, 0, 0, 0.65)'}
-            hasShadow={false}
-            hasPin={false}
             pinSize={10}
             pinOffset={7}
           >
