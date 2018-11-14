@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import shallow from 'fbjs/lib/shallowEqual';
 import Popup from '../Popup';
 import RenderLayer from '../RenderLayer';
 import CROSS from '../internal/cross';
@@ -152,6 +153,13 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     if (this.props.trigger === 'opened') {
       this.forceUpdate();
     }
+  }
+
+  public shouldComponentUpdate(
+    nextProps: TooltipProps,
+    nextState: TooltipState
+  ) {
+    return !shallow(nextProps, this.props) || !shallow(nextState, this.state);
   }
 
   public render(): JSX.Element | null {
