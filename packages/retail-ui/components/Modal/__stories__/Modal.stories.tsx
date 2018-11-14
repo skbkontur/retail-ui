@@ -495,4 +495,17 @@ storiesOf('Modal', module)
     <ModalWithVariableHeight>
       <ModalInner />
     </ModalWithVariableHeight>
+  ))
+  .add('Modal without sticky elemens', () => (
+    <Modal>
+      <Modal.Header sticky={false}>Header</Modal.Header>
+      <Modal.Body>
+        {new Array(200)
+          .fill('Use rxjs operators with react hooks.')
+          .map((item, index) => (
+            <p key={index}>{item}</p>
+          ))}
+      </Modal.Body>
+      <Modal.Footer sticky={false}>Footer</Modal.Footer>
+    </Modal>
   ));

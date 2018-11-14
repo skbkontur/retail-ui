@@ -63,6 +63,11 @@ export interface ModalState {
  *
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
+ *
+ * Для отключения прилипания шапки и футера
+ * в соответствующий компонет нужно передать
+ * проп **sticky** со значением **false**
+ * (по-умолчанию прилипание включено)
  */
 class Modal extends React.Component<ModalProps, ModalState> {
   public static Header: typeof Header;
