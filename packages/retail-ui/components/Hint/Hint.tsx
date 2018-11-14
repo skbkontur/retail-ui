@@ -8,6 +8,7 @@ import { Nullable, TimeoutID } from '../../typings/utility-types';
 
 const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';
+const POPUP_MARGIN = 15;
 
 export interface HintProps {
   children?: React.ReactNode;
@@ -123,7 +124,7 @@ class Hint extends React.Component<HintProps, HintState> {
     return (
       <Popup
         hasPin
-        margin={15}
+        margin={POPUP_MARGIN}
         opened={this.state.opened}
         anchorElement={anchorElement}
         positions={this.getPositions()}

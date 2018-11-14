@@ -11,6 +11,8 @@ import { Nullable } from '../../typings/utility-types';
 import { PopupHandlerProps } from '../Popup/Popup';
 
 const supportsPortal = 'createPortal' in ReactDOM;
+const POPUP_MARGIN = 15;
+const POPUP_PIN_OFFSET = 17;
 
 const Positions: PopupPosition[] = [
   'right bottom',
@@ -245,12 +247,10 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         anchorElement={anchorElement}
         hasPin
         hasShadow
-        margin={15}
+        margin={POPUP_MARGIN}
         maxWidth="none"
         opened={this.state.opened}
-        pinOffset={17}
-        pinSize={8}
-        popupOffset={0}
+        pinOffset={POPUP_PIN_OFFSET}
         disableAnimations={this.props.disableAnimations}
         positions={this.getPositions()}
         {...popupProps}
