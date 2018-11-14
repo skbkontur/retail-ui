@@ -1,10 +1,8 @@
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Threading;
-#if NETCOREAPP2_1
-using dotenv.net;
 using System.IO;
-#endif
 using Kontur.Selone.Extensions;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -73,9 +71,11 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 
                 if (!TravisEnvironment.IsExecutionViaTravis)
                 {
-#if NETCOREAPP2_1
-                    DotEnv.Config(filePath: Path.Combine(PathUtils.FindProjectRootFolder(), ".env"));
-#endif
+                        File.ReadAllLines(Path.Combine(PathUtils.FindProjectRootFolder(), ".env"))
+                            .Select(line => line.Split('='))
+                            .Where(splitLine => splitLine.Length == 2)
+                            .ToList()
+                            .ForEach(parameters => Environment.SetEnvironmentVariable(parameters[0].Trim(), parameters[1].Trim()));
                 }
 
                 var sauceUserName = Environment.GetEnvironmentVariable("SAUCE_USERNAME", EnvironmentVariableTarget.Process);
