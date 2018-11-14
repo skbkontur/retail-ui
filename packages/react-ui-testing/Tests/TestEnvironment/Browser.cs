@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.Linq;
-using System.Threading;
 using System.IO;
 using Kontur.Selone.Extensions;
 using NUnit.Framework;
@@ -90,24 +89,11 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
                 options.AddAdditionalCapability("tunnel-identifier", this.tunnelIdentifier, true);
                 options.AddAdditionalCapability("maxDuration", 10800, true);
 
-                // get session fails while sauce tunnel is not ready
-                var attempts = 5;
-                while (true)
-                {
-                    var hasAttempts = --attempts > 0;
-                    try
-                    {
-                        webDriver = new RemoteWebDriver(new Uri("http://ondemand.saucelabs.com:80/wd/hub"),
-                                                        options.ToCapabilities(),
-                                                        TimeSpan.FromSeconds(180));
-                        webDriver.Manage().Window.Size = new Size(1280, 1024);
-                        return webDriver;
-                    }
-                    catch (WebDriverException) when (hasAttempts)
-                    {
-                        Thread.Sleep(2000);
-                    }
-                }
+                webDriver = new RemoteWebDriver(new Uri("http://ondemand.saucelabs.com:80/wd/hub"),
+                    options.ToCapabilities(),
+                    TimeSpan.FromSeconds(180));
+                webDriver.Manage().Window.Size = new Size(1280, 1024);
+                return webDriver;
             }
         }
 
