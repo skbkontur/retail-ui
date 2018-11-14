@@ -70,11 +70,15 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 
                 if (!TravisEnvironment.IsExecutionViaTravis)
                 {
-                        File.ReadAllLines(Path.Combine(PathUtils.FindProjectRootFolder(), ".env"))
-                            .Select(line => line.Split('='))
-                            .Where(splitLine => splitLine.Length == 2)
-                            .ToList()
-                            .ForEach(parameters => Environment.SetEnvironmentVariable(parameters[0].Trim(), parameters[1].Trim()));
+                    var fileName = Path.Combine(PathUtils.FindProjectRootFolder(), ".env");
+                    var pairs = File.ReadLines(fileName)
+                        .Select(line => line.Split('=', 2))
+                        .Where(splitLine => splitLine.Length == 2)
+                        .Select(x => (key: x[0].Trim(), value: x[1].Trim()));
+                    foreach (var (key, value) in pairs)
+                    {
+                        Environment.SetEnvironmentVariable(key, value);
+                    }
                 }
 
                 var sauceUserName = Environment.GetEnvironmentVariable("SAUCE_USERNAME", EnvironmentVariableTarget.Process);
