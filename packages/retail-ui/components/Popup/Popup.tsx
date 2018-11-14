@@ -207,7 +207,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     const location = this.state.location || this.getDummyLocation();
     let child = null;
 
-    if (this.props.anchorElement instanceof Element) {
+    if (this.props.anchorElement instanceof HTMLElement) {
       this.anchorElement = this.props.anchorElement;
     } else if (React.isValidElement(this.props.anchorElement)) {
       child = React.Children.only(this.props.anchorElement);
