@@ -43,15 +43,26 @@ export interface DatePickerProps<T> {
   onMouseEnter?: (e: React.MouseEvent<any>) => void;
   onMouseLeave?: (e: React.MouseEvent<any>) => void;
   onMouseOver?: (e: React.MouseEvent<any>) => void;
+
+  /**
+   * Функция для определения праздничных дней
+   * @default (_day, isWeekend) => isWeekend
+   * @param {T} day - строка в формате `dd.mm.yyyy`
+   * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
+   * @returns {boolean} `true` для выходного или `false` для рабочего дня
+   */
+  isHoliday: (day: T, isWeekend: boolean) => boolean;
 }
 
 export interface DatePickerState {
   opened: boolean;
 }
 
+type DatePickerValue = string;
+
 // eslint-disable-next-line flowtype/no-weak-types
 class DatePicker extends React.Component<
-  DatePickerProps<string>,
+  DatePickerProps<DatePickerValue>,
   DatePickerState
 > {
   public static propTypes = {
@@ -99,13 +110,16 @@ class DatePicker extends React.Component<
 
     onMouseLeave: PropTypes.func,
 
-    onMouseOver: PropTypes.func
+    onMouseOver: PropTypes.func,
+
+    isHoliday: PropTypes.func
   };
 
   public static defaultProps = {
     width: 120,
     minDate: '01.01.1900',
-    maxDate: '31.12.2099'
+    maxDate: '31.12.2099',
+    isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend
   };
 
   public static validate = (value: Nullable<string>) => {
@@ -173,6 +187,7 @@ class DatePicker extends React.Component<
             onPick={this._handlePick}
             onSelect={this._handleSelect}
             enableTodayLink={this.props.enableTodayLink}
+            isHoliday={this.isHoliday}
           />
         </DropdownContainer>
       );
@@ -272,6 +287,16 @@ class DatePicker extends React.Component<
     if (this.props.onChange) {
       this.props.onChange({ target: { value: date } }, date);
     }
+  };
+
+  private isHoliday = ({
+    date,
+    month,
+    year,
+    isWeekend
+  }: CalendarDateShape & { isWeekend: boolean }) => {
+    const dateString = formatDate({ date, month, year });
+    return this.props.isHoliday(dateString, isWeekend);
   };
 }
 
