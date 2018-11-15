@@ -9,8 +9,6 @@ let initialState = { checked: false };
 Чекбокс может быть в состоянии "частично выбран". Как и в браузерном чекбоксе, это состояние влияет только на внешний вид и не влияет на состояние `checked`. `indeterminate` устанавливается в конструкторе через проп `initialIndeterminate` или методами инстанса `setIndeterminate()`/`resetIndeterminate()`
 
 ```jsx
-const React = require('react');
-
 class IndeterminateExample extends React.Component {
   constructor(props) {
     super(props);
