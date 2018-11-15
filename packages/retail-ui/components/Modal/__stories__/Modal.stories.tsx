@@ -496,7 +496,7 @@ storiesOf('Modal', module)
       <ModalInner />
     </ModalWithVariableHeight>
   ))
-  .add('Modal without sticky elemens', () => (
+  .add('Modal without sticky elements', () => (
     <Modal>
       <Modal.Header sticky={false}>Header</Modal.Header>
       <Modal.Body>
