@@ -10,7 +10,7 @@ import DropdownContainer from '../DropdownContainer/DropdownContainer';
 
 import { formatDate, parseDateString } from './DatePickerHelpers';
 import { CalendarDateShape } from '../Calendar';
-import { tryGetValidDateShape, isValidDate, DateShape } from './DateShape';
+import { tryGetValidDateShape, isValidDate } from './DateShape';
 
 import styles = require('./DatePicker.less');
 import { Nullable } from '../../typings/utility-types';
