@@ -310,13 +310,13 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   };
 }
 
-function isHeader(
+export function isHeader(
   child: React.ReactChild
 ): child is React.ReactElement<HeaderProps> {
   return React.isValidElement<HeaderProps>(child) && child.type === Header;
 }
 
-function isFooter(
+export function isFooter(
   child: React.ReactChild
 ): child is React.ReactElement<FooterProps> {
   return React.isValidElement<FooterProps>(child) && child.type === Footer;
