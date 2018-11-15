@@ -53,7 +53,7 @@ export type Reducer = (
 ) => Partial<State> | [Partial<State>, EffectType[]];
 
 const CANCELATION_REASON = 'previous request canceled';
-let cancelSearch: ((reason?: any) => void) | null = null;
+export let cancelSearch: ((reason?: any) => void) | null = null;
 
 const searchFactory = (isEmpty: boolean): EffectType => (
   dispatch,
@@ -62,6 +62,7 @@ const searchFactory = (isEmpty: boolean): EffectType => (
 ) => {
   if (cancelSearch) {
     cancelSearch();
+    cancelSearch = null;
   }
   const sparrer = new Promise((_resolve, reject) => {
     cancelSearch = () => {
@@ -83,11 +84,16 @@ const searchFactory = (isEmpty: boolean): EffectType => (
     }
   };
 
-  Promise.race([makeRequest(), sparrer]).catch(error => {
-    if (error === CANCELATION_REASON) {
-      return;
-    }
-  });
+  Promise.race([makeRequest(), sparrer])
+    .then(() => {
+      cancelSearch = null;
+    })
+    .catch(error => {
+      cancelSearch = null;
+      if (error === CANCELATION_REASON) {
+        return;
+      }
+    });
 };
 
 const Effect = {

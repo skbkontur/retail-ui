@@ -6,6 +6,7 @@ import Input from '../Input';
 import Menu from '../Menu/Menu';
 import InputLikeText from '../internal/InputLikeText';
 import shallow from 'fbjs/lib/shallowEqual';
+import { cancelSearch } from './reducer/default';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T }
@@ -190,6 +191,12 @@ class CustomComboBox extends React.Component<
     }
 
     this.dispatch({ type: 'DidUpdate', prevProps, prevState });
+  }
+
+  public componentWillUnmount() {
+    if (cancelSearch) {
+      cancelSearch();
+    }
   }
 
   /**
