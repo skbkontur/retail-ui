@@ -1,11 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import shallow from 'fbjs/lib/shallowEqual';
 import Popup from '../Popup';
 import RenderLayer from '../RenderLayer';
 import CROSS from '../internal/cross';
 import { PopupPosition } from '../Popup';
 
-import styles = require('./Tooltip.less');
+import styles from './Tooltip.less';
 import { Nullable } from '../../typings/utility-types';
 
 const supportsPortal = 'createPortal' in ReactDOM;
@@ -146,12 +147,19 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
   public componentDidMount() {
     /**
-     * _wrapperElement is absent on initial mount
+     * wrapperElement is absent on initial mount
      * Rendering again to show popup
      */
     if (this.props.trigger === 'opened') {
       this.forceUpdate();
     }
+  }
+
+  public shouldComponentUpdate(
+    nextProps: TooltipProps,
+    nextState: TooltipState
+  ) {
+    return !shallow(nextProps, this.props) || !shallow(nextState, this.state);
   }
 
   public render(): JSX.Element | null {

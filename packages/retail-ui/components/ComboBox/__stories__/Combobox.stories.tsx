@@ -111,7 +111,8 @@ storiesOf('ComboBox v2', module)
   .add('with `null` onUnexpectedInput', () => (
     <ComboBoxV2 onUnexpectedInput={() => null} />
   ))
-  .add('with external value', () => <ComboBoxWithExternalValue />);
+  .add('with external value', () => <ComboBoxWithExternalValue />)
+  .add('with renderItem state', () => <SimpleCombobox renderItem={(_, state) => String(state)} />);
 
 interface ComboBoxWithErrorTogglerState {
   error: boolean;

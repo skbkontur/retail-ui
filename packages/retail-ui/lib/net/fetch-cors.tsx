@@ -1,4 +1,7 @@
 interface ApiResponseType {
+  ok: boolean;
+  status: number;
+  statusText: string;
   text: () => Promise<string>;
   // tslint:disable-next-line:ban-types
   json: () => Promise<Object>;
@@ -19,6 +22,9 @@ export default function fetch(
 
     xhr.onload = () => {
       resolve({
+        ok: xhr.status >= 200 && xhr.status < 300,
+        status: xhr.status,
+        statusText: xhr.statusText,
         text: () => Promise.resolve(xhr.responseText),
         json: () => Promise.resolve(JSON.parse(xhr.responseText))
       });

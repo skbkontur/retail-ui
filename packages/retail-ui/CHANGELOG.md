@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.29.0"></a>
+# [0.29.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.28.0...retail-ui@0.29.0) (2018-11-13)
+
+
+### Bug Fixes
+
+* **ComboBox:** update textValue even if empty (autocomplete mode) ([#875](https://github.com/skbkontur/retail-ui/issues/875)) ([6981973](https://github.com/skbkontur/retail-ui/commit/6981973))
+
+
+### Features
+
+* **Button:** Новые стили для кнопок-стрелок ([#839](https://github.com/skbkontur/retail-ui/issues/839)) ([bcfe9c9](https://github.com/skbkontur/retail-ui/commit/bcfe9c9))
+* **ComboBox:** allow use hover state in renderItem ([eacebc3](https://github.com/skbkontur/retail-ui/commit/eacebc3))
+* **Fias:** новый компонент ФИАС, [#779](https://github.com/skbkontur/retail-ui/issues/779) ([74e7e04](https://github.com/skbkontur/retail-ui/commit/74e7e04))
+* **FxInput:** add public method blur ([b4e167d](https://github.com/skbkontur/retail-ui/commit/b4e167d)), closes [#888](https://github.com/skbkontur/retail-ui/issues/888)
+
+
+### BREAKING CHANGES
+
+* **ComboBox:** second argument of renderItem not used and replaced by MenuItemState
+
+
+
+
 <a name="0.28.0"></a>
 # [0.28.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.27.0...retail-ui@0.28.0) (2018-11-08)
 

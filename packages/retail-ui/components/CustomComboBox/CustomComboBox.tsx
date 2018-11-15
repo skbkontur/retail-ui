@@ -7,6 +7,7 @@ import Menu from '../Menu/Menu';
 import InputLikeText from '../internal/InputLikeText';
 import shallow from 'fbjs/lib/shallowEqual';
 import { cancelSearch } from './reducer/default';
+import { MenuItemState } from '../MenuItem';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T }
@@ -42,11 +43,11 @@ export interface CustomComboBoxProps<T> {
   warning?: boolean;
   width?: string | number;
   maxMenuHeight?: number | string;
-  renderItem?: (x0: T, index?: number) => React.ReactNode;
+  renderItem?: (item: T, state?: MenuItemState) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;
-  renderValue?: (x0: T) => React.ReactNode;
-  renderTotalCount?: (x0: number, x1: number) => React.ReactNode;
-  valueToString?: (x0: T) => string;
+  renderValue?: (value: T) => React.ReactNode;
+  renderTotalCount?: (found: number, total: number) => React.ReactNode;
+  valueToString?: (value: T) => string;
 }
 
 export interface CustomComboBoxState<T> {

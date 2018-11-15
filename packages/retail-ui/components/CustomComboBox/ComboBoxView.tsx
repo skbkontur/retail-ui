@@ -5,7 +5,7 @@ import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Menu from '../Menu/Menu';
-import MenuItem from '../MenuItem';
+import MenuItem, { MenuItemState } from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
@@ -33,18 +33,18 @@ interface ComboBoxViewProps<T> {
   maxLength?: number;
   maxMenuHeight?: number | string;
 
-  onChange?: (x0: T) => any;
+  onChange?: (item: T) => any;
   onClickOutside?: () => void;
   onFocus?: () => void;
   onFocusOutside?: () => void;
   onInputBlur?: () => void;
-  onInputChange?: (x0: React.ChangeEvent<HTMLInputElement>, x1: string) => void;
+  onInputChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
   onInputFocus?: () => void;
   onInputKeyDown?: (e: React.KeyboardEvent) => void;
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseOver?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
-  renderItem?: (item: T) => React.ReactNode;
+  renderItem?: (item: T, state: MenuItemState) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderValue?: (item: T) => React.ReactNode;
@@ -254,7 +254,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     return (
       // tslint:disable-next-line:jsx-no-lambda
       <MenuItem onClick={() => this.props.onChange!(item)} key={index}>
-        {this.props.renderItem!(item)}
+        {state => this.props.renderItem!(item, state)}
       </MenuItem>
     );
   };
