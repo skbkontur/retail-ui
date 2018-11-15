@@ -1,10 +1,7 @@
 using System;
 using System.Drawing;
-using System.Threading;
-#if NETCOREAPP2_1
-using dotenv.net;
+using System.Linq;
 using System.IO;
-#endif
 using Kontur.Selone.Extensions;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -73,9 +70,15 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 
                 if (!TravisEnvironment.IsExecutionViaTravis)
                 {
-#if NETCOREAPP2_1
-                    DotEnv.Config(filePath: Path.Combine(PathUtils.FindProjectRootFolder(), ".env"));
-#endif
+                    var fileName = Path.Combine(PathUtils.FindProjectRootFolder(), ".env");
+                    var pairs = File.ReadLines(fileName)
+                        .Select(line => line.Split('=', 2))
+                        .Where(splitLine => splitLine.Length == 2)
+                        .Select(x => (key: x[0].Trim(), value: x[1].Trim()));
+                    foreach (var (key, value) in pairs)
+                    {
+                        Environment.SetEnvironmentVariable(key, value);
+                    }
                 }
 
                 var sauceUserName = Environment.GetEnvironmentVariable("SAUCE_USERNAME", EnvironmentVariableTarget.Process);
@@ -90,24 +93,11 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
                 options.AddAdditionalCapability("tunnel-identifier", this.tunnelIdentifier, true);
                 options.AddAdditionalCapability("maxDuration", 10800, true);
 
-                // get session fails while sauce tunnel is not ready
-                var attempts = 5;
-                while (true)
-                {
-                    var hasAttempts = --attempts > 0;
-                    try
-                    {
-                        webDriver = new RemoteWebDriver(new Uri("http://ondemand.saucelabs.com:80/wd/hub"),
-                                                        options.ToCapabilities(),
-                                                        TimeSpan.FromSeconds(180));
-                        webDriver.Manage().Window.Size = new Size(1280, 1024);
-                        return webDriver;
-                    }
-                    catch (WebDriverException) when (hasAttempts)
-                    {
-                        Thread.Sleep(2000);
-                    }
-                }
+                webDriver = new RemoteWebDriver(new Uri("http://ondemand.saucelabs.com:80/wd/hub"),
+                    options.ToCapabilities(),
+                    TimeSpan.FromSeconds(180));
+                webDriver.Manage().Window.Size = new Size(1280, 1024);
+                return webDriver;
             }
         }
 
