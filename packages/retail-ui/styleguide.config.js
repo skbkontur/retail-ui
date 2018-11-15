@@ -90,7 +90,6 @@ const styles = {
   },
   ComponentsList: {
     list: {
-      paddingLeft: 0,
       paddingBottom: 100
     },
     item: {
@@ -198,7 +197,6 @@ const webpackConfig = {
 };
 
 module.exports = {
-  components: getComponentList,
   skipComponentsWithoutExample: true,
   pagePerSection: true,
   styles,
@@ -219,5 +217,10 @@ module.exports = {
   version: libraryVersion,
   ribbon: {
     url: 'https://github.com/skbkontur/retail-ui'
-  }
+  },
+  sections: [
+    { name: 'Readme', content: 'README.md', exampleMode: 'expand' },
+    { name: 'Changelog', content: 'CHANGELOG.md' },
+    { name: 'Components', components: getComponentList }
+  ]
 };
