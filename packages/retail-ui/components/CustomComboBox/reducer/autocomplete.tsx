@@ -20,7 +20,10 @@ Effect.DebouncedSearch = debounce(Effect.Search, 300);
 const reducers: { [key: string]: Reducer } = {
   ...defaultReducers,
   Focus: (state, props, action) => {
-    const textValue = props.value ? props.valueToString!(props.value) : '';
+    const textValue = state.editing
+      ? state.textValue
+      : props.value ? props.valueToString!(props.value) : '';
+
     if (!textValue) {
       return [
         {
