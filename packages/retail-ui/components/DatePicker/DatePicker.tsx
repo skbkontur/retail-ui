@@ -46,7 +46,7 @@ export interface DatePickerProps<T> {
 
   /**
    * Функция для определения праздничных дней
-   * @default (_day: unknown, isWeekend: boolean) => isWeekend
+   * @default (_day, isWeekend) => isWeekend
    * @param {T} day - строка в формате `dd.mm.yyyy`
    * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
    * @returns {boolean} `true` для выходного или `false` для рабочего дня
@@ -58,9 +58,11 @@ export interface DatePickerState {
   opened: boolean;
 }
 
+type DatePickerValue = string;
+
 // eslint-disable-next-line flowtype/no-weak-types
 class DatePicker extends React.Component<
-  DatePickerProps<string>,
+  DatePickerProps<DatePickerValue>,
   DatePickerState
 > {
   public static propTypes = {
@@ -117,7 +119,7 @@ class DatePicker extends React.Component<
     width: 120,
     minDate: '01.01.1900',
     maxDate: '31.12.2099',
-    isHoliday: (_day: unknown, isWeekend: boolean) => isWeekend
+    isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend
   };
 
   public static validate = (value: Nullable<string>) => {
