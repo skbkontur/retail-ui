@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import Modal, { isHeader, isFooter } from '../Modal';
 
 describe('Modal', () => {
