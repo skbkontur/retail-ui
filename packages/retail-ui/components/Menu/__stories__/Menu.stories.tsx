@@ -89,8 +89,21 @@ storiesOf('Menu', module)
     </Menu>
   ));
 
-class MoveControls extends React.Component<any> {
+class MoveControls extends React.Component {
   private menu: Menu | null = null;
+
+  public render() {
+    return (
+      <div>
+        <div id="move-buttons">
+          <button id="move-up" onClick={this.moveUp}>Move Up</button>
+          <button id="move-down" onClick={this.moveDown}>Move Down</button>
+        </div>
+        <br/>
+        {React.cloneElement(React.Children.only(this.props.children), { ref: this.refMenu })}
+      </div>
+    );
+  }
 
   private refMenu = (el: Menu) => {
     this.menu = el;
@@ -107,17 +120,4 @@ class MoveControls extends React.Component<any> {
       this.menu.down();
     }
   };
-
-  render() {
-    return (
-      <div>
-        <div id="move-buttons">
-          <button id="move-up" onClick={this.moveUp}>Move Up</button>
-          <button id="move-down" onClick={this.moveDown}>Move Down</button>
-        </div>
-        <br/>
-        {React.cloneElement(React.Children.only(this.props.children), { ref: this.refMenu })}
-      </div>
-    );
-  }
 }
