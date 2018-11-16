@@ -197,6 +197,7 @@ const webpackConfig = {
 };
 
 module.exports = {
+  styleguideDir: path.resolve(__dirname, `styleguide/${libraryVersion}`),
   skipComponentsWithoutExample: true,
   pagePerSection: true,
   styles,
