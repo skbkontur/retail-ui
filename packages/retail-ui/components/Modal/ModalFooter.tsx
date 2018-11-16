@@ -10,47 +10,36 @@ export interface FooterProps {
    * Включает серый цвет в футере
    */
   panel?: boolean;
-  sticky: boolean;
 }
 
 /**
  * Футер модального окна.
  */
 export class Footer extends React.Component<FooterProps> {
-  public static defaultProps = {
-    sticky: true
-  };
-
   private scrollbarWidth = getScrollWidth();
 
   public render(): JSX.Element {
+    const names = classNames({
+      [styles.footer]: true,
+      [styles.panel]: this.props.panel
+    });
+
     return (
       <ModalContext.Consumer>
-        {({ horizontalScroll }) => {
-          if (this.props.sticky) {
-            return (
-              <Sticky
-                side="bottom"
-                offset={horizontalScroll ? this.scrollbarWidth : 0}
-                allowChildWithMargins
-              >
-                {this.renderContent(horizontalScroll)}
-              </Sticky>
-            );
-          }
-
-          return this.renderContent(horizontalScroll)();
-        }}
+        {({ horizontalScroll }) => (
+          <Sticky
+            side="bottom"
+            offset={horizontalScroll ? this.scrollbarWidth : 0}
+            allowChildWithMargins
+          >
+            {fixed => (
+              <div className={classNames(names, fixed && styles.fixedFooter)}>
+                {this.props.children}
+              </div>
+            )}
+          </Sticky>
+        )}
       </ModalContext.Consumer>
     );
   }
-
-  private renderContent = (horizontalScroll?: boolean) => (fixed = false) => {
-    const className = classNames(styles.footer, {
-      [styles.panel]: this.props.panel,
-      [styles.fixedFooter]: fixed
-    });
-
-    return <div className={className}>{this.props.children}</div>;
-  };
 }
