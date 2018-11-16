@@ -64,3 +64,10 @@ gemini.suite("button use link with error", suite => {
       .setCaptureElements("#test-element")
   );
 });
+
+gemini.suite("Button arrows", suite => {
+  suite
+    .setUrl(pathTo("Button", "arrow table"))
+    .setCaptureElements("#test-element")
+    .capture("plain");
+});

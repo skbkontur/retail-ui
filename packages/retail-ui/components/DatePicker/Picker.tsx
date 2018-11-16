@@ -15,6 +15,7 @@ interface Props {
   onPick: (date: CalendarDateShape) => void;
   onSelect?: (date: CalendarDateShape) => void;
   enableTodayLink?: boolean;
+  isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
 interface State {
@@ -63,6 +64,7 @@ export default class Picker extends React.Component<Props, State> {
           onSelect={this.props.onPick}
           minDate={this.props.minDate}
           maxDate={this.props.maxDate}
+          isHoliday={this.props.isHoliday}
         />
         {this.props.enableTodayLink && this._renderTodayLink()}
       </div>

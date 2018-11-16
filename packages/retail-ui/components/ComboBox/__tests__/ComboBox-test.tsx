@@ -316,6 +316,72 @@ describe('ComboBox', () => {
     expect(wrapper.find('input').prop('value')).toBe('');
   });
 
+  describe('update input text when value changes if there was no editing', () => {
+    const value = { value: 1, label: 'one' };
+    const check = (wrapper: any) => {
+      wrapper.instance().focus();
+      wrapper.update();
+      expect(wrapper.find('input').prop('value')).toBe('one');
+
+      clickOutside();
+      wrapper.setProps({ value: null });
+
+      wrapper.instance().focus();
+      wrapper.update();
+      expect(wrapper.find('input').prop('value')).toBe('');
+    };
+
+    it('in default mode', () => {
+      check(mount<ComboBox<any>>(
+        <ComboBox
+          value={value}
+        />
+      ))
+    });
+
+    it('in autocomplete mode', () => {
+      check(mount<ComboBox<any>>(
+        <ComboBox
+          value={value}
+          autocomplete={true}
+        />
+      ))
+    });
+  });
+
+  describe('keep edited input text when value changes', () => {
+    const value = { value: 1, label: 'one' };
+    const check = (wrapper: any) => {
+      wrapper.instance().focus();
+      wrapper.update();
+      wrapper.find('input').simulate('change', { target: { value: 'two' } });
+
+      clickOutside();
+      wrapper.setProps({ value: null });
+
+      wrapper.instance().focus();
+      wrapper.update();
+      expect(wrapper.find('input').prop('value')).toBe('two');
+    };
+
+    it('in default mode', async () => {
+      check(mount<ComboBox<any>>(
+        <ComboBox
+          value={value}
+        />
+      ));
+    });
+
+    it('in autocomplete mode', async () => {
+      check(mount<ComboBox<any>>(
+        <ComboBox
+          value={value}
+          autocomplete={true}
+        />
+      ));
+    });
+  });
+
   it('reset', () => {
     const wrapper = mount<ComboBox<any>>(<ComboBox />);
 

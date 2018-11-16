@@ -21,7 +21,10 @@ namespace SKBKontur.SeleniumTesting.Tests
             var tunnelIdentifier = Environment.GetEnvironmentVariable("TRAVIS_JOB_NUMBER", EnvironmentVariableTarget.Process) ?? $"{Environment.MachineName}-{Guid.NewGuid()}";
             sauceConnectProcess = CreateSauceConnectProcess(tunnelIdentifier);
             sauceConnectProcess.Start();
-
+            if (sauceConnectProcess.StandardOutput.ReadLine() != "Sauce Connect ready")
+            {
+                throw new Exception("Unable to start sauce connect");
+            }
             BrowserSetUp.SetUp(tunnelIdentifier);
         }
 
@@ -87,6 +90,7 @@ namespace SKBKontur.SeleniumTesting.Tests
                 {
                     UseShellExecute = false,
                     RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
                     FileName = "node",
                     WorkingDirectory = PathUtils.FindProjectRootFolder(),
                     Arguments = $"sauce.js {tunnelIdentifier}"
