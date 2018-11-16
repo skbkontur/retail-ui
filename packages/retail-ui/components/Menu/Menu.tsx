@@ -149,6 +149,18 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     }
   };
 
+  private _scrollToTop = () => {
+    if (this._scrollContainer) {
+      this._scrollContainer.scrollToTop();
+    }
+  };
+
+  private _scrollToBottom = () => {
+    if (this._scrollContainer) {
+      this._scrollContainer.scrollToBottom();
+    }
+  };
+
   private _select(
     index: number,
     shouldHandleHref: boolean,
@@ -184,7 +196,8 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
   private _move(step: number) {
     const children = childrenToArray(this.props.children);
-    if (!children.some(isActiveElement)) {
+    const activeElements = children.filter(isActiveElement);
+    if (!activeElements.length) {
       return;
     }
     let index = this.state.highlightedIndex;
@@ -198,7 +211,18 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
       const child = children[index];
       if (isActiveElement(child)) {
-        this.setState({ highlightedIndex: index }, this._scrollToSelected);
+        this.setState({ highlightedIndex: index }, () => {
+          switch (activeElements.indexOf(child)) {
+            case 0:
+              this._scrollToTop();
+              break;
+            case activeElements.length - 1:
+              this._scrollToBottom();
+              break;
+            default:
+              this._scrollToSelected();
+          }
+        });
         return;
       }
     } while (index !== this.state.highlightedIndex);
