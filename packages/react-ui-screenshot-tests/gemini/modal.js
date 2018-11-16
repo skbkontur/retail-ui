@@ -68,34 +68,3 @@ gemini.suite("modal with variable height of content", suite => {
       actions.click(find('#modal-inner [class^="Toggle-wrapper"]')).wait(500);
     });
 });
-
-gemini.suite("modal without sticky elements", suite => {
-  suite
-    .setUrl(pathTo("Modal", "Modal without sticky elements"))
-    .setCaptureElements("html")
-    .capture("top")
-    .capture("middle", actions => {
-      actions.executeJS(function(window) {
-        var modalContainer = window.document.querySelector(
-          '[class^="Modal-container"]'
-        );
-        var modalContent = window.document.querySelector(
-          '[class^="Modal-centerContainer"]'
-        );
-
-        modalContainer.scrollTop = modalContent.offsetHeight / 2;
-      });
-    })
-    .capture("bottom", actions => {
-      actions.executeJS(function(window) {
-        var modalContainer = window.document.querySelector(
-          '[class^="Modal-container"]'
-        );
-        var modalContent = window.document.querySelector(
-          '[class^="Modal-centerContainer"]'
-        );
-
-        modalContainer.scrollTop = modalContent.offsetHeight;
-      });
-    });
-});

@@ -55,15 +55,6 @@ export interface ModalState {
   clickTrapHeight?: React.CSSProperties['height'];
 }
 
-/** Вынесено в компонет исключительно для того, чтобы искать enzyme'ом в тесте */
-type ModalClickTrap = React.HTMLAttributes<HTMLDivElement> & {
-  innerRef: (element: HTMLDivElement | null) => void;
-};
-
-const ModalClickTrap: React.SFC<ModalClickTrap> = ({ innerRef, ...props }) => (
-  <div ref={node => innerRef(node)} {...props} />
-);
-
 /**
  * Модальное окно
  *
@@ -72,16 +63,11 @@ const ModalClickTrap: React.SFC<ModalClickTrap> = ({ innerRef, ...props }) => (
  *
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
- *
- * Для отключения прилипания шапки и футера
- * в соответствующий компонет нужно передать
- * проп **sticky** со значением **false**
- * (по-умолчанию прилипание включено)
  */
-export default class Modal extends React.Component<ModalProps, ModalState> {
-  public static Header = Header;
-  public static Body = Body;
-  public static Footer = Footer;
+class Modal extends React.Component<ModalProps, ModalState> {
+  public static Header: typeof Header;
+  public static Body: typeof Body;
+  public static Footer: typeof Footer;
 
   public state: ModalState = {
     stackPosition: 0,
@@ -190,10 +176,10 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
               [styles.mobile]: Upgrades.isAdaptiveStyles()
             })}
           >
-            <ModalClickTrap
+            <div
               className={styles.modalClickTrap}
               onClick={this.handleContainerClick}
-              innerRef={this.refClickTrap}
+              ref={this.refClickTrap}
               style={{
                 height: this.state.clickTrapHeight
               }}
@@ -310,14 +296,26 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   };
 }
 
-export function isHeader(
+Modal.Header = Header;
+Modal.Body = Body;
+Modal.Footer = Footer;
+
+export default Modal;
+
+function isHeader(
   child: React.ReactChild
 ): child is React.ReactElement<HeaderProps> {
-  return React.isValidElement<HeaderProps>(child) && child.type === Header;
+  if (!React.isValidElement(child)) {
+    return false;
+  }
+  return child.type === Header;
 }
 
-export function isFooter(
+function isFooter(
   child: React.ReactChild
 ): child is React.ReactElement<FooterProps> {
-  return React.isValidElement<FooterProps>(child) && child.type === Footer;
+  if (!React.isValidElement(child)) {
+    return false;
+  }
+  return child.type === Footer;
 }
