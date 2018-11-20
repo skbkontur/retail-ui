@@ -35,12 +35,3 @@ gemini.suite("Popup Small width", suite => {
     .setCaptureElements("#test-element")
     .capture("plain");
 });
-
-gemini.suite("Popup wrap inline-block", suite => {
-  suite
-    .setUrl(pathTo("Popup", "Tooltips and Hints everywhere"))
-    .setCaptureElements("#test-element")
-    .capture("hover", (actions, find) => {
-      actions.mouseMove(find("textarea"));
-    });
-});
