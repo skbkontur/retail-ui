@@ -156,7 +156,7 @@ class TopBar extends React.Component<TopBarProps> {
     const logoProps = {
       suffix: this.props.suffix,
       color: this.props.color,
-      logoHref: this.props.logoHref,
+      href: this.props.logoHref,
       logoComponent: this.props.logoComponent,
       withWidget: !this.props.noWidget
     };
