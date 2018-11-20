@@ -90,7 +90,6 @@ const styles = {
   },
   ComponentsList: {
     list: {
-      paddingLeft: 0,
       paddingBottom: 100
     },
     item: {
@@ -199,6 +198,7 @@ const webpackConfig = {
 
 module.exports = {
   components: getComponentList,
+  styleguideDir: path.resolve(__dirname, `styleguide/${libraryVersion}`),
   skipComponentsWithoutExample: true,
   pagePerSection: true,
   styles,
