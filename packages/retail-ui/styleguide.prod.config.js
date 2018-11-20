@@ -3,6 +3,8 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 const config = require('./styleguide.config.js');
 
+const excludeVersions = ['0.8.8'];
+
 const { error, stdout } = spawnSync('npm', ['show', 'retail-ui', '--json']);
 
 if (error) {
@@ -11,7 +13,7 @@ if (error) {
 }
 
 const { versions, 'dist-tags': tags } = JSON.parse(stdout.toString());
-const isStable = config.version == tags.latest;
+const isStable = config.version === tags.latest;
 
 if (!isStable) {
   renameSync(
@@ -23,7 +25,8 @@ if (!isStable) {
 
 const stableVersions = versions
   .reverse()
-  .filter(version => !version.includes('-'));
+  .filter(version => !version.includes('-'))
+  .filter(version => !excludeVersions.includes(version));
 
 const versionSection = { name: 'Versions', sections: [] };
 
@@ -42,7 +45,14 @@ stableVersions.forEach(version => {
   });
 });
 
+config.sections = [
+  { name: 'Readme', content: 'README.md', exampleMode: 'expand' },
+  { name: 'Changelog', content: 'CHANGELOG.md' },
+  { name: 'Components', components: config.components }
+];
 config.sections.push(versionSection);
 config.styleguideDir = path.join(config.styleguideDir, '..');
+
+Reflect.deleteProperty(config, 'components');
 
 module.exports = config;

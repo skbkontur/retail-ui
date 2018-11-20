@@ -197,6 +197,7 @@ const webpackConfig = {
 };
 
 module.exports = {
+  components: getComponentList,
   styleguideDir: path.resolve(__dirname, `styleguide/${libraryVersion}`),
   skipComponentsWithoutExample: true,
   pagePerSection: true,
@@ -218,10 +219,5 @@ module.exports = {
   version: libraryVersion,
   ribbon: {
     url: 'https://github.com/skbkontur/retail-ui'
-  },
-  sections: [
-    { name: 'Readme', content: 'README.md', exampleMode: 'expand' },
-    { name: 'Changelog', content: 'CHANGELOG.md' },
-    { name: 'Components', components: getComponentList }
-  ]
+  }
 };
