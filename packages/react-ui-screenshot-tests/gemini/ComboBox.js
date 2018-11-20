@@ -23,7 +23,7 @@ gemini.suite("ComboBox", () => {
       suite
         .setUrl(pathTo("ComboBoxView", "opened"))
         .setCaptureElements("#test-element")
-        .ignoreElements('[class^="Spinner-circle"]')
+        .ignoreElements('[class^="Spinner-spinner"]')
         .capture("plain");
     });
 
@@ -32,6 +32,27 @@ gemini.suite("ComboBox", () => {
         .setUrl(pathTo("ComboBoxView", "with items"))
         .setCaptureElements("#test-element")
         .capture("plain");
+    });
+  });
+
+  gemini.suite("Component", () => {
+    let targetMenuItem;
+
+    gemini.suite("Simple", suite => {
+      suite
+        .setUrl(pathTo("ComboBox", "simple combobox"))
+        .setCaptureElements("#test-element")
+        .capture("plain")
+        .capture("opened", (action, find) => {
+          action.click(find('[class^="Input-root"]'));
+        })
+        .capture("hovered", (action, find) => {
+          targetMenuItem = find('[class^="MenuItem-root"]:nth-of-type(4)');
+          action.mouseMove(targetMenuItem);
+        })
+        .capture("selected", action => {
+          action.click(targetMenuItem);
+        });
     });
   });
 });
