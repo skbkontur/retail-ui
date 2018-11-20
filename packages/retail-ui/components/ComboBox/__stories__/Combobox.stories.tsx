@@ -4,15 +4,19 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 
-import ComboBoxV2, { ComboBoxProps } from '../ComboBox';
+import ComboBox, { ComboBoxProps } from '../ComboBox';
 import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
 import { Nullable, Omit } from '../../../typings/utility-types';
 import Toggle from '../../Toggle';
 import Button from '../../Button';
 
-storiesOf('ComboBox v2', module)
-  .add('simple combobox', () => <SimpleCombobox />)
+storiesOf('ComboBox', module)
+  .add('simple combobox', () => (
+    <div style={{ paddingBottom: 230, paddingRight: 40 }}>
+      <SimpleCombobox />
+    </div>
+  ))
   .add('with error handling', () => (
     <TestComboBox
       onSearch={search}
@@ -109,10 +113,12 @@ storiesOf('ComboBox v2', module)
   ))
   .add('toogle error', () => <ComboBoxWithErrorToggler />)
   .add('with `null` onUnexpectedInput', () => (
-    <ComboBoxV2 onUnexpectedInput={() => null} />
+    <ComboBox onUnexpectedInput={() => null} />
   ))
   .add('with external value', () => <ComboBoxWithExternalValue />)
-  .add('with renderItem state', () => <SimpleCombobox renderItem={(_, state) => String(state)} />);
+  .add('with renderItem state', () => (
+    <SimpleCombobox renderItem={(_, state) => String(state)} />
+  ));
 
 interface ComboBoxWithErrorTogglerState {
   error: boolean;
@@ -130,7 +136,7 @@ class ComboBoxWithErrorToggler extends React.Component<
   public render() {
     return (
       <>
-        <ComboBoxV2 error={this.state.error} value={this.state.value} />
+        <ComboBox error={this.state.error} value={this.state.value} />
         <Toggle
           onChange={value =>
             this.setState(state => ({
@@ -173,12 +179,12 @@ class TestComboBox extends React.Component<
     warning: false
   };
 
-  private combobox: Nullable<ComboBoxV2<ValueType>> = null;
+  private combobox: Nullable<ComboBox<ValueType>> = null;
 
   public render() {
     return (
       <div>
-        <ComboBoxV2
+        <ComboBox
           align={this.props.align}
           autocomplete={this.props.autocomplete}
           autoFocus={this.props.autoFocus}
@@ -252,7 +258,7 @@ class SimpleCombobox extends React.Component<
 
   public render() {
     return (
-      <ComboBoxV2
+      <ComboBox
         {...this.props}
         value={this.state.value}
         getItems={this.getItems}
@@ -401,11 +407,11 @@ class ComboBoxWithExternalValue extends React.Component {
     warning: false
   };
 
-  private combobox: Nullable<ComboBoxV2<any>>;
+  private combobox: Nullable<ComboBox<any>>;
 
   public render = () => (
     <div>
-      <ComboBoxV2
+      <ComboBox
         getItems={this.getItems}
         value={this.state.value}
         onChange={this.onChange}
