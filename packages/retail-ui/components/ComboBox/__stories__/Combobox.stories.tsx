@@ -13,6 +13,7 @@ import Button from '../../Button';
 
 storiesOf('ComboBox v2', module)
   .add('simple combobox', () => <SimpleCombobox />)
+  .add('simple combobox with delay', () => <SimpleCombobox delay={1000} />)
   .add('with error handling', () => (
     <TestComboBox
       onSearch={search}
@@ -112,7 +113,9 @@ storiesOf('ComboBox v2', module)
     <ComboBoxV2 onUnexpectedInput={() => null} />
   ))
   .add('with external value', () => <ComboBoxWithExternalValue />)
-  .add('with renderItem state', () => <SimpleCombobox renderItem={(_, state) => String(state)} />);
+  .add('with renderItem state', () => (
+    <SimpleCombobox renderItem={(_, state) => String(state)} />
+  ));
 
 interface ComboBoxWithErrorTogglerState {
   error: boolean;
@@ -236,6 +239,7 @@ class TestComboBox extends React.Component<
 
 interface SimpleComboboxProps {
   noInitialValue?: boolean;
+  delay?: number;
 }
 
 interface SimpleComboboxState {
@@ -276,6 +280,8 @@ class SimpleCombobox extends React.Component<
           x.label.toLowerCase().includes(query.toLowerCase()) ||
           x.value.toString(10) === query
       )
+    ).then<Array<{ value: number; label: string }>>(
+      result => new Promise(ok => setTimeout(ok, this.props.delay || 0, result))
     );
 }
 
