@@ -123,6 +123,26 @@ export default class ScrollContainer extends React.Component<
     }
   }
 
+  /**
+   * @public
+   */
+  public scrollToTop() {
+    if (!this._inner) {
+      return;
+    }
+    this._inner.scrollTop = 0;
+  }
+
+  /**
+   * @public
+   */
+  public scrollToBottom() {
+    if (!this._inner) {
+      return;
+    }
+    this._inner.scrollTop = this._inner.scrollHeight - this._inner.offsetHeight;
+  }
+
   private _refInner = (element: HTMLDivElement) => {
     this._inner = element;
   };

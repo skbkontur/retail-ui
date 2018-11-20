@@ -10,6 +10,12 @@ import React from 'react';
 configure({ adapter: new Adapter() });
 
 jest.mock('react-focus-lock', () => props => <div>{props.children}</div>);
+jest.mock('lodash.debounce', () =>
+  jest.fn(fn => {
+    fn.cancel = jest.fn();
+    return fn;
+  })
+);
 
 /**
  * Since React v15.5, there's a warning printed if you access `React.createClass` or `React.PropTypes`

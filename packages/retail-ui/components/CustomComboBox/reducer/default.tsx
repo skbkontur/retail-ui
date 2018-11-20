@@ -83,6 +83,9 @@ const Effect = {
   DebouncedSearch: debounce(searchFactory(false), 300),
   Blur: ((dispatch, getState, getProps) => {
     const { onBlur } = getProps();
+
+    Effect.DebouncedSearch.cancel();
+
     if (onBlur) {
       onBlur();
     }
