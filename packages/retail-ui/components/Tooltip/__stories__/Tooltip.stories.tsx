@@ -3,8 +3,9 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Tooltip, { TooltipTrigger, TooltipProps } from '../Tooltip';
 import Button from '../../Button';
-import { PopupPosition } from '../../Popup';
+import { PopupPosition, PopupPositions } from '../../Popup';
 import { createPropsGetter } from '../../internal/createPropsGetter';
+import Textarea from '../../Textarea';
 
 interface TestTooltipProps {
   pos?: PopupPosition;
@@ -134,6 +135,20 @@ storiesOf('Tooltip', module)
         <code>trigger="hoverAnchor"</code>
       </Button>
     </TestTooltip>
+  ))
+  .add('Tooltips without wrapper around inline-block with 50% width', () => (
+    <div style={{ padding: '150px', width: '500px' }}>
+      {PopupPositions.reduce(
+        (child, position) => (
+          <Tooltip useWrapper={false} render={() => position} pos={position}>
+            {child}
+          </Tooltip>
+        ),
+        <Textarea rows={10} resize="none" width="50%">
+          {"I'm inline-block with 50% width.\n\nHover me!"}
+        </Textarea>
+      )}
+    </div>
   ));
 
 interface MyCustomTooltipState {

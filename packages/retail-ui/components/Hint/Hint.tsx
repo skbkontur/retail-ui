@@ -1,20 +1,21 @@
 import classNames from 'classnames';
 import * as React from 'react';
 
-import Popup, { PopupPosition } from '../Popup';
+import Popup, { PopupPosition, PopupProps } from '../Popup';
 
 import styles = require('./HintBox.less');
 import { Nullable, TimeoutID } from '../../typings/utility-types';
 
 const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';
+const POPUP_MARGIN = 15;
 
 export interface HintProps {
   children?: React.ReactNode;
   manual?: boolean;
   maxWidth?: React.CSSProperties['maxWidth'];
-  onMouseEnter?: React.MouseEventHandler<HTMLElement>;
-  onMouseLeave?: React.MouseEventHandler<HTMLElement>;
+  onMouseEnter?: (event: React.MouseEvent<HTMLElement> | MouseEvent) => void;
+  onMouseLeave?: (event: React.MouseEvent<HTMLElement> | MouseEvent) => void;
   opened?: boolean;
   pos:
     | 'top'
@@ -35,6 +36,7 @@ export interface HintProps {
     | 'right bottom';
   text: React.ReactNode;
   disableAnimations: boolean;
+  useWrapper: boolean;
 }
 
 export interface HintState {
@@ -62,7 +64,8 @@ class Hint extends React.Component<HintProps, HintState> {
     manual: false,
     opened: false,
     maxWidth: 200,
-    disableAnimations: false
+    disableAnimations: false,
+    useWrapper: true
   };
 
   public state: HintState = {
@@ -95,28 +98,43 @@ class Hint extends React.Component<HintProps, HintState> {
   }
 
   public render() {
+    if (this.props.useWrapper) {
+      return (
+        <span
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+          ref={this.captionRef}
+        >
+          {this.props.children}
+          {this.captionNode && this.renderPopup(this.captionNode)}
+        </span>
+      );
+    } else {
+      return this.renderPopup(this.props.children, {
+        onMouseEnter: this.handleMouseEnter,
+        onMouseLeave: this.handleMouseLeave
+      });
+    }
+  }
+
+  private renderPopup(
+    anchorElement: React.ReactNode | HTMLElement,
+    popupProps: Partial<PopupProps> = {}
+  ) {
     return (
-      <span
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        ref={this.captionRef}
+      <Popup
+        hasPin
+        margin={POPUP_MARGIN}
+        opened={this.state.opened}
+        anchorElement={anchorElement}
+        positions={this.getPositions()}
+        backgroundColor={HINT_BACKGROUND_COLOR}
+        borderColor={HINT_BORDER_COLOR}
+        disableAnimations={this.props.disableAnimations}
+        {...popupProps}
       >
-        {this.props.children}
-        {this.captionNode && (
-          <Popup
-            hasPin
-            margin={15}
-            opened={this.state.opened}
-            anchorElement={this.captionNode}
-            positions={this.getPositions()}
-            backgroundColor={HINT_BACKGROUND_COLOR}
-            borderColor={HINT_BORDER_COLOR}
-            disableAnimations={this.props.disableAnimations}
-          >
-            {this.renderContent()}
-          </Popup>
-        )}
-      </span>
+        {this.renderContent()}
+      </Popup>
     );
   }
 
@@ -141,7 +159,9 @@ class Hint extends React.Component<HintProps, HintState> {
     return Positions.filter(x => x.startsWith(this.props.pos));
   };
 
-  private handleMouseEnter = (e: React.MouseEvent<HTMLSpanElement>) => {
+  private handleMouseEnter = (
+    e: React.MouseEvent<HTMLElement> | MouseEvent
+  ) => {
     if (!this.props.manual && !this.timer) {
       this.timer = window.setTimeout(this.open, 400);
     }
@@ -151,7 +171,9 @@ class Hint extends React.Component<HintProps, HintState> {
     }
   };
 
-  private handleMouseLeave = (e: React.MouseEvent<HTMLSpanElement>) => {
+  private handleMouseLeave = (
+    e: React.MouseEvent<HTMLElement> | MouseEvent
+  ) => {
     if (!this.props.manual && this.timer) {
       clearTimeout(this.timer);
       this.timer = null;

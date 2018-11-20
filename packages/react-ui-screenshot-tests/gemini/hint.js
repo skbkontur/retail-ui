@@ -49,3 +49,12 @@ gemini.suite("Hint with 100%-width input", suite => {
     .setCaptureElements("#test-element")
     .capture("mouseOver");
 });
+
+gemini.suite("Hint wrap inline-block", suite => {
+  suite
+    .setUrl(
+      pathTo("Hint", "Hints without wrapper around inline-block with 50% width")
+    )
+    .setCaptureElements("#test-element")
+    .capture("mouseOver");
+});
