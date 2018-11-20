@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.30.0"></a>
+# [0.30.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.29.0...retail-ui@0.30.0) (2018-11-20)
+
+
+### Bug Fixes
+
+* **ComboBox:** fix blinking test by mocking lodash.debounce ([fef6e3e](https://github.com/skbkontur/retail-ui/commit/fef6e3e))
+* **ComboBox:** prevent searching items after blur ([0a6153d](https://github.com/skbkontur/retail-ui/commit/0a6153d))
+* **ComboBox:** show editing input text on focus instead of value ([6e0e8d4](https://github.com/skbkontur/retail-ui/commit/6e0e8d4))
+* **Menu:** scroll till the container edges while moving through items ([32a6f94](https://github.com/skbkontur/retail-ui/commit/32a6f94)), closes [#860](https://github.com/skbkontur/retail-ui/issues/860)
+* **Tooltip:** add shallow equal on shouldComponentUpdate ([647fd5b](https://github.com/skbkontur/retail-ui/commit/647fd5b)), closes [#899](https://github.com/skbkontur/retail-ui/issues/899)
+* **TopBar:** pass href instead of logoHref prop to Logotype ([04b2d54](https://github.com/skbkontur/retail-ui/commit/04b2d54)), closes [#923](https://github.com/skbkontur/retail-ui/issues/923)
+
+
+### Features
+
+* **DatePicker:** поддержка праздничных дней ([#904](https://github.com/skbkontur/retail-ui/issues/904)) ([d1f4213](https://github.com/skbkontur/retail-ui/commit/d1f4213)), closes [#423](https://github.com/skbkontur/retail-ui/issues/423)
+* **Hint:** add `useWrapper` prop ([142f684](https://github.com/skbkontur/retail-ui/commit/142f684))
+* **Modal:** опциональное залипание шапки и футера ([#911](https://github.com/skbkontur/retail-ui/issues/911)) ([1e763cf](https://github.com/skbkontur/retail-ui/commit/1e763cf))
+* **Popup:** allow use react component as anchorElement ([7b0b373](https://github.com/skbkontur/retail-ui/commit/7b0b373))
+* **Tooltip:** add `useWrapper` prop ([71d803a](https://github.com/skbkontur/retail-ui/commit/71d803a)), closes [#721](https://github.com/skbkontur/retail-ui/issues/721)
+
+
+
+
 <a name="0.29.0"></a>
 # [0.29.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.28.0...retail-ui@0.29.0) (2018-11-13)
 
