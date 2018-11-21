@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.31.0-beta.0"></a>
+# [0.31.0-beta.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.30.0...retail-ui@0.31.0-beta.0) (2018-11-21)
+
+
+### Bug Fixes
+
+* **Modal:** generated docs use helper function as component ([ac0f9f3](https://github.com/skbkontur/retail-ui/commit/ac0f9f3))
+
+
+### Features
+
+* **retail-ui:** add TokenInput component ([b824861](https://github.com/skbkontur/retail-ui/commit/b824861))
+
+
+
+
 <a name="0.30.0"></a>
 # [0.30.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.29.0...retail-ui@0.30.0) (2018-11-20)
 
