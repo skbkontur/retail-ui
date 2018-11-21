@@ -102,3 +102,23 @@ gemini.suite("Input set selection", () => {
       });
   });
 });
+
+gemini.suite("Input with mask", suite => {
+  let input;
+
+  suite
+    .setUrl(pathTo("Input", "Input with phone mask"))
+    .setCaptureElements("#test-element")
+    .capture("Plain")
+    .capture("Focused", (action, find) => {
+      input = find("input");
+
+      action.click(input);
+    })
+    .capture("Editing", action => {
+      action.sendKeys(input, "912247");
+    })
+    .capture("Blured", action => {
+      action.sendKeys(input, gemini.TAB);
+    });
+});
