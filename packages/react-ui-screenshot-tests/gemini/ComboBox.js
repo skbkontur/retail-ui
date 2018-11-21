@@ -6,6 +6,7 @@ gemini.suite("ComboBox", () => {
       suite
         .setUrl(pathTo("ComboBoxView", "input like text"))
         .setCaptureElements("#test-element")
+        .ignoreElements('[class^="Spinner-spinner"]')
         .capture("plain")
         .capture("focused first element", (action, find) => {
           action.focus(find('[class^="Input-input"]'));

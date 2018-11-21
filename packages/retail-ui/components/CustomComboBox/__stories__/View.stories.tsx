@@ -38,6 +38,8 @@ storiesOf('ComboBoxView', module)
       </div>
       <View placeholder="placeholder" disabled />
       <View error textValue="error" />
+      <View openButton />
+      <View loading items={new Array(2)} />
     </Gapped>
   ))
   .add('input like text with placeholder', () => (
