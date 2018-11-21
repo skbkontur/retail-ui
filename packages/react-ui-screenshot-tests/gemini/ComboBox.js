@@ -98,5 +98,20 @@ gemini.suite("ComboBox", () => {
           action.click(setButton);
         });
     });
+
+    gemini.suite("Keyboard control", suite => {
+      suite
+        .setUrl(pathTo("ComboBox", "simple combobox"))
+        .setCaptureElements("#test-element")
+        .capture("select", (action, find) => {
+          action.click(find('[class^="Input-root"]'));
+          action.sendKeys(gemini.ARROW_DOWN);
+          action.sendKeys(gemini.ARROW_DOWN);
+          action.sendKeys(gemini.ARROW_DOWN);
+        })
+        .capture("submit", action => {
+          action.sendKeys(gemini.ENTER);
+        });
+    });
   });
 });
