@@ -1,3 +1,4 @@
+// tslint:disable:jsx-no-lambda
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Popup from '../Popup';
@@ -165,7 +166,7 @@ storiesOf('Popup', module)
   ))
   .add('Hint', () => (
     <div style={{ padding: '100px' }}>
-      <Hint
+      <FakeHint
         positions={['top center', 'right top', 'bottom center', 'left middle']}
         margin={20}
       />
@@ -228,14 +229,12 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
         </div>
         {this.state.anchor && (
           <Popup
+            opened
+            hasPin
+            hasShadow
             anchorElement={this.state.anchor}
-            popupOffset={0}
-            opened={true}
-            margin={10}
             positions={this.props.positions}
             backgroundColor={'#fff'}
-            hasShadow={true}
-            hasPin={true}
             pinSize={10}
             pinOffset={7}
           >
@@ -288,15 +287,14 @@ class PopupWithPositions extends Component<any, any> {
         />
         {this.state.anchor && (
           <Popup
+            hasPin
+            hasShadow
             onCloseRequest={this._clickHandler}
             anchorElement={this.state.anchor}
-            popupOffset={0}
             opened={this.state.opened}
             margin={13}
             positions={['bottom left', 'bottom right', 'top left', 'top right']}
             backgroundColor={'#fff'}
-            hasShadow={true}
-            hasPin={true}
             pinSize={10}
             pinOffset={7}
             disableAnimations={this.props.disableAnimations}
@@ -324,7 +322,7 @@ class PopupWithPositions extends Component<any, any> {
   };
 }
 
-class Hint extends Component<any, any> {
+class FakeHint extends Component<any, any> {
   public state = {
     anchor: null
   };
@@ -348,13 +346,12 @@ class Hint extends Component<any, any> {
         </div>
         {this.state.anchor && (
           <Popup
+            hasPin
+            opened
             anchorElement={this.state.anchor}
-            opened={true}
             positions={this.props.positions}
             margin={this.props.margin}
             backgroundColor={'rgba(0, 0, 0, 0.65)'}
-            hasShadow={false}
-            hasPin={true}
             pinSize={10}
             pinOffset={7}
           >
@@ -390,12 +387,10 @@ class Toast extends Component<any, any> {
         </div>
         {this.state.anchor && (
           <Popup
+            opened
             anchorElement={this.state.anchor}
-            opened={true}
             positions={this.props.positions}
             backgroundColor={'rgba(0, 0, 0, 0.65)'}
-            hasShadow={false}
-            hasPin={false}
             pinSize={10}
             pinOffset={7}
           >

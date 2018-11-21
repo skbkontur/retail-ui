@@ -17,6 +17,7 @@ storiesOf('ComboBox', module)
       <SimpleCombobox />
     </div>
   ))
+  .add('simple combobox with delay', () => <SimpleCombobox delay={1000} />)
   .add('with error handling', () => (
     <TestComboBox
       onSearch={search}
@@ -242,6 +243,7 @@ class TestComboBox extends React.Component<
 
 interface SimpleComboboxProps {
   noInitialValue?: boolean;
+  delay?: number;
 }
 
 interface SimpleComboboxState {
@@ -282,6 +284,8 @@ class SimpleCombobox extends React.Component<
           x.label.toLowerCase().includes(query.toLowerCase()) ||
           x.value.toString(10) === query
       )
+    ).then<Array<{ value: number; label: string }>>(
+      result => new Promise(ok => setTimeout(ok, this.props.delay || 0, result))
     );
 }
 

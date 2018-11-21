@@ -332,20 +332,13 @@ describe('ComboBox', () => {
     };
 
     it('in default mode', () => {
-      check(mount<ComboBox<any>>(
-        <ComboBox
-          value={value}
-        />
-      ))
+      check(mount<ComboBox<any>>(<ComboBox value={value} />));
     });
 
     it('in autocomplete mode', () => {
-      check(mount<ComboBox<any>>(
-        <ComboBox
-          value={value}
-          autocomplete={true}
-        />
-      ))
+      check(
+        mount<ComboBox<any>>(<ComboBox value={value} autocomplete={true} />)
+      );
     });
   });
 
@@ -365,20 +358,13 @@ describe('ComboBox', () => {
     };
 
     it('in default mode', async () => {
-      check(mount<ComboBox<any>>(
-        <ComboBox
-          value={value}
-        />
-      ));
+      check(mount<ComboBox<any>>(<ComboBox value={value} />));
     });
 
     it('in autocomplete mode', async () => {
-      check(mount<ComboBox<any>>(
-        <ComboBox
-          value={value}
-          autocomplete={true}
-        />
-      ));
+      check(
+        mount<ComboBox<any>>(<ComboBox value={value} autocomplete={true} />)
+      );
     });
   });
 
@@ -407,6 +393,8 @@ describe('ComboBox', () => {
       { value: 4, label: 'Four' }
     ];
 
+    const EXPECTED_ITEM = ITEMS[1];
+
     const getItems = (query: string) => {
       return Promise.resolve(
         ITEMS.filter(item => {
@@ -424,18 +412,17 @@ describe('ComboBox', () => {
     wrapper.update();
     wrapper.find('input').simulate('change', { target: { value: 'Two' } });
 
-    await delay(300);
-
+    await getItems('Two');
     clickOutside();
     wrapper.update();
 
     expect(changeHandler).toHaveBeenCalledWith(
       {
         target: {
-          value: ITEMS[1]
+          value: EXPECTED_ITEM
         }
       },
-      ITEMS[1]
+      EXPECTED_ITEM
     );
   });
 });

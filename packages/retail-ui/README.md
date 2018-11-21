@@ -18,7 +18,7 @@ yarn add @skbkontur/react-ui
 
 И используем компонентики у себя в проекте:
 
-```js
+```jsx static
 /* ... */
 import Button from '@skbkontur/react-ui/Button';
 import Toast from '@skbkontur/react-ui/Toast';
@@ -45,7 +45,7 @@ yarn add retail-ui
 
 Необходимо в [конфиг webpack](https://webpack.js.org/configuration/) добавить следующие лоадеры:
 
-```javascript
+```js static
 /* ... */
 module: {
   /* ... */
@@ -86,7 +86,7 @@ module: {
 Тут придется юзать слоу-старт.
 В конфиге нужно указать
 
-```javascript
+```js static
 /* ... */
 resolve: {
   /* ... */
