@@ -146,6 +146,15 @@ storiesOf('Input', module)
       </p>
     </Gapped>
   ))
+  .add('Input with phone mask', () => (
+    <Input
+      width="150"
+      mask="+7 999 999-99-99"
+      maskChar={'_'}
+      placeholder="+7"
+      alwaysShowMask
+    />
+  ))
   .add('Select all by prop', () => (
     <Input defaultValue="Some value" selectAllOnFocus />
   ))
