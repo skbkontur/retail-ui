@@ -1,28 +1,22 @@
+### Будущее
 
-### Far-far away
+- [ ] Встраивание метрик
+- [ ] Приватная библиотека с компонентами, использующими фирменый стиль
+- [ ] Обновление версии через CI
+- [ ] Интеграция `react-ui-validations` [#917](https://github.com/skbkontur/retail-ui/issues/917)
 
-- [ ] Component styles public api
+### Декабрь 2018
 
-### Future
+- [ ] Улучшение `MaskedInput` [#900](https://github.com/skbkontur/retail-ui/pull/900)
+- [ ] Скриншоты на `ComboBox` [#929](https://github.com/skbkontur/retail-ui/pull/929)
+- [ ] Оптимизация тестов `react-ui-testing` [#872](https://github.com/skbkontur/retail-ui/issues/872)
+- [ ] Гайдлайн для контрибьторов
 
-- [ ] Integrate Popup into Tooltip
-- [ ] Integrate Popup into Hint
-- [ ] DropdownMenu
-- [ ] TipMenu
-- [ ] Menu: handle keyboard
+### Ноябрь 2018
 
-
-### Present
-
-- [ ] Migrate to jss
-- [ ] Migrate Button to typescript
-- [ ] Integrate metrics
-- [ ] Sticky Loader - always stays in center of visible part of elements
-- [ ] FIAS
-
-### Past
-
-- [x] Sidepage
-- [x] Calendar redesign
-- [x] Migrate to styleguidist
-- [x] Currency input
+- [x] Версии библиотеки в `styleguidist` [#919](https://github.com/skbkontur/retail-ui/pull/919)
+- [x] Поддержка праздничных дней [#904](https://github.com/skbkontur/retail-ui/pull/904)
+- [x] Новые стили для кнопок-стрелок [#839](https://github.com/skbkontur/retail-ui/pull/839)
+- [x] Компонент `Fias` [#800](https://github.com/skbkontur/retail-ui/pull/800)
+- [x] Интеграция `react-ui-testing` [#813](https://github.com/skbkontur/retail-ui/pull/813), [#738](https://github.com/skbkontur/retail-ui/pull/738)
+- [x] Новое состояние `Checkbox` [#820](https://github.com/skbkontur/retail-ui/pull/820)
