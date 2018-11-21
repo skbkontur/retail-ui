@@ -55,5 +55,21 @@ gemini.suite("ComboBox", () => {
           action.click(targetMenuItem);
         });
     });
+
+    gemini.suite("Search", suite => {
+      suite
+        .setUrl(pathTo("ComboBox", "simple combobox"))
+        .setCaptureElements("#test-element")
+        .capture("search result", (action, find) => {
+          action.click(find('[class^="Input-root"]'));
+          action.sendKeys("input", "Second");
+        })
+        .capture("selcted", action => {
+          action.sendKeys(gemini.ENTER);
+        })
+        .capture("opened again", (action, find) => {
+          action.click(find('[class^="Input-root"]'));
+        });
+    });
   });
 });
