@@ -1,9 +1,10 @@
 import * as React from 'react';
-import getScrollWidth from '../../lib/dom/getScrollWidth';
 import classNames from 'classnames';
+import getScrollWidth from '../../lib/dom/getScrollWidth';
 import Sticky from '../Sticky/Sticky';
-import styles = require('./Modal.less');
 import { ModalContext } from './ModalContext';
+
+import styles from './Modal.less';
 
 export interface FooterProps {
   /**
@@ -11,6 +12,12 @@ export interface FooterProps {
    */
   panel?: boolean;
   sticky: boolean;
+}
+
+export function isFooter(
+  child: React.ReactChild
+): child is React.ReactElement<FooterProps> {
+  return React.isValidElement<FooterProps>(child) && child.type === Footer;
 }
 
 /**

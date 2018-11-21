@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import Modal, { isHeader, isFooter } from '../Modal';
+import Modal from '../Modal';
+import { isHeader } from '../ModalHeader';
+import { isFooter } from '../ModalFooter';
 
 describe('Modal', () => {
   it('Simple render without crash', () => {
