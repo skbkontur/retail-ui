@@ -508,4 +508,11 @@ storiesOf('Modal', module)
       </Modal.Body>
       <Modal.Footer sticky={false}>Footer</Modal.Footer>
     </Modal>
+  ))
+  .add('With alignTop', () => (
+    <Modal alignTop={true}>
+      <Modal.Body>
+        <p>Use rxjs operators with react hooks.</p>
+      </Modal.Body>
+    </Modal>
   ));
