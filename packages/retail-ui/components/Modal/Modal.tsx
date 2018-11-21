@@ -88,10 +88,6 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   public static Body = Body;
   public static Footer = Footer;
 
-  public static defaultProps = {
-    alignTop: false
-  };
-
   public state: ModalState = {
     stackPosition: 0,
     horizontalScroll: false
