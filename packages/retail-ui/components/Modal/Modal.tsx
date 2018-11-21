@@ -11,8 +11,8 @@ import { EventSubscription } from 'fbemitter';
 
 import styles = require('./Modal.less');
 import { ModalContext, ModalContextProps } from './ModalContext';
-import { Footer, FooterProps } from './ModalFooter';
-import { Header, HeaderProps } from './ModalHeader';
+import { Footer, isFooter } from './ModalFooter';
+import { Header, isHeader } from './ModalHeader';
 import { Body } from './ModalBody';
 import Close from './ModalClose';
 import cn from 'classnames';
@@ -308,16 +308,4 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
       );
     }
   };
-}
-
-export function isHeader(
-  child: React.ReactChild
-): child is React.ReactElement<HeaderProps> {
-  return React.isValidElement<HeaderProps>(child) && child.type === Header;
-}
-
-export function isFooter(
-  child: React.ReactChild
-): child is React.ReactElement<FooterProps> {
-  return React.isValidElement<FooterProps>(child) && child.type === Footer;
 }

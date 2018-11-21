@@ -11,6 +11,12 @@ export interface HeaderProps {
   sticky: boolean;
 }
 
+export function isHeader(
+  child: React.ReactChild
+): child is React.ReactElement<HeaderProps> {
+  return React.isValidElement<HeaderProps>(child) && child.type === Header;
+}
+
 export class Header extends React.Component<HeaderProps> {
   public static defaultProps = {
     sticky: true

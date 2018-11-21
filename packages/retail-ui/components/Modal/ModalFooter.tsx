@@ -13,6 +13,12 @@ export interface FooterProps {
   sticky: boolean;
 }
 
+export function isFooter(
+  child: React.ReactChild
+): child is React.ReactElement<FooterProps> {
+  return React.isValidElement<FooterProps>(child) && child.type === Footer;
+}
+
 /**
  * Футер модального окна.
  */
