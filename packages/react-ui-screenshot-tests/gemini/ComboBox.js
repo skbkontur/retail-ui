@@ -71,5 +71,15 @@ gemini.suite("ComboBox", () => {
           action.click(find('[class^="Input-root"]'));
         });
     });
+
+    gemini.suite("RenderNotFound", suite => {
+      suite
+        .setUrl(pathTo("ComboBox", "simple combobox"))
+        .setCaptureElements("#test-element")
+        .capture("search result", (action, find) => {
+          action.click(find('[class^="Input-root"]'));
+          action.sendKeys("input", "Такого точно нету");
+        });
+    });
   });
 });
