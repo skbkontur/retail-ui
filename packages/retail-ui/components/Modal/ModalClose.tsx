@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { CloseProps } from './ModalContext';
 import classNames from 'classnames';
-import styles = require('./Modal.less');
+import { CloseProps } from './ModalContext';
+
+import styles from './Modal.less';
 
 const Close: React.SFC<CloseProps> = (props: CloseProps) => {
   return (
