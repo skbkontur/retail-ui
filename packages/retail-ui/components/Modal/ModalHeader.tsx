@@ -1,10 +1,10 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import { ModalContext, CloseProps } from './ModalContext';
 import Sticky from '../Sticky';
-import classNames from 'classnames';
 import Close from './ModalClose';
 
-import styles = require('./Modal.less');
+import styles from './Modal.less';
 
 export interface HeaderProps {
   close?: boolean;

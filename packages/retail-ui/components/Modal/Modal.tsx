@@ -1,27 +1,26 @@
 import * as React from 'react';
 import * as events from 'add-event-listener';
 import * as ReactDOM from 'react-dom';
+import cn from 'classnames';
+import FocusLock from 'react-focus-lock';
+import { EventSubscription } from 'fbemitter';
+import throttle from 'lodash/throttle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import ZIndex from '../ZIndex/ZIndex';
 import stopPropagation from '../../lib/events/stopPropagation';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
 import ModalStack from '../ModalStack';
-import { EventSubscription } from 'fbemitter';
-
-import styles = require('./Modal.less');
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { Footer, isFooter } from './ModalFooter';
 import { Header, isHeader } from './ModalHeader';
 import { Body } from './ModalBody';
 import Close from './ModalClose';
-import cn from 'classnames';
 import Upgrades from '../../lib/Upgrades';
-import FocusLock from 'react-focus-lock';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
 
-import throttle from 'lodash/throttle';
+import styles from './Modal.less';
 
 let mountedModalsCount = 0;
 
