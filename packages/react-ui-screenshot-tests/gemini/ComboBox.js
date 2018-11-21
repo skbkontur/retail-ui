@@ -81,5 +81,22 @@ gemini.suite("ComboBox", () => {
           action.sendKeys("input", "Такого точно нету");
         });
     });
+
+    gemini.suite("External control", suite => {
+      suite
+        .setUrl(pathTo("ComboBox", "with external value"))
+        .setCaptureElements("#test-element")
+        .capture("initial value")
+        .capture("reset value", (action, find) => {
+          const resetButton = find('[class^="Button-wrap"]:nth-of-type(2)');
+
+          action.click(resetButton);
+        })
+        .capture("set value", (action, find) => {
+          const setButton = find('[class^="Button-wrap"]:nth-of-type(1)');
+
+          action.click(setButton);
+        });
+    });
   });
 });

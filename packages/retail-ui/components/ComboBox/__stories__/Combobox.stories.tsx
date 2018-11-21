@@ -414,7 +414,7 @@ class ComboBoxWithExternalValue extends React.Component {
   private combobox: Nullable<ComboBox<any>>;
 
   public render = () => (
-    <div>
+    <div style={{ paddingBottom: 60 }}>
       <ComboBox
         getItems={this.getItems}
         value={this.state.value}
@@ -426,8 +426,7 @@ class ComboBoxWithExternalValue extends React.Component {
       <Button onClick={this.fill}>Set `First`</Button>
       <Button onClick={this.reset}>Reset</Button>
       <div>
-        this.state.value:
-        <code>{JSON.stringify(this.state.value)}</code>
+        this.state.value: <code>{JSON.stringify(this.state.value)}</code>
       </div>
     </div>
   );
