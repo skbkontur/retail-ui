@@ -8,7 +8,9 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import styles from './TokenInput.less';
 import cn from 'classnames';
 import Menu from '../Menu/Menu';
-import RemoveIcon from './RemoveIcon';
+import Token from '../Token';
+import { TokenColors, TokenProps } from '../Token/Token';
+import { MenuItemState } from '../MenuItem';
 
 export enum TokenInputType {
   WithReference,
@@ -22,13 +24,18 @@ export interface TokenInputProps<T> {
   onChange: (items: T[]) => void;
   getItems?: (query: string) => Promise<T[]>;
   hideMenuIfEmptyInputValue?: boolean;
-  renderItem?: (item: T) => React.ReactNode;
-  renderValue?: (item: T) => React.ReactNode;
-  renderNotFound?: () => React.ReactNode;
+  renderItem: (item: T, state: MenuItemState) => React.ReactNode | undefined;
+  renderValue: (item: T) => React.ReactNode;
+  renderNotFound: () => React.ReactNode;
+  itemToValue: (item: string) => T;
   placeholder?: string;
   delimiters?: string[];
   error?: boolean;
   warning?: boolean;
+  renderTokenComponent?: (
+    token: (colors?: TokenColors) => React.ReactElement<TokenProps>,
+    value?: T
+  ) => React.ReactElement<TokenProps>;
 }
 
 export interface TokenInputState<T> {
@@ -38,6 +45,7 @@ export interface TokenInputState<T> {
   inputValue: string;
   inputValueWidth: number;
   preventBlur?: boolean;
+  loading?: boolean;
 }
 
 /**
@@ -47,6 +55,15 @@ export default class TokenInput<T = string> extends React.Component<
   TokenInputProps<T>,
   TokenInputState<T>
 > {
+  public static defaultProps: TokenInputProps<any> = {
+    selectedItems: [],
+    renderItem: (item: any) => item,
+    renderNotFound: () => 'Не найдено',
+    renderValue: (item: any) => item,
+    itemToValue: (item: string) => item,
+    onChange: () => void 0
+  };
+
   public state: TokenInputState<T> = {
     inputValue: '',
     inputValueWidth: 20,
@@ -75,7 +92,10 @@ export default class TokenInput<T = string> extends React.Component<
       prevState.activeTokens.length === 0 &&
       this.state.activeTokens.length > 0
     ) {
-      this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
+      this.dispatch({
+        type: 'SET_AUTOCOMPLETE_ITEMS',
+        payload: undefined
+      });
     }
     if (prevProps.selectedItems.length !== this.props.selectedItems.length) {
       LayoutEvents.emit();
@@ -149,24 +169,42 @@ export default class TokenInput<T = string> extends React.Component<
             onKeyDown={this.handleKeyDown}
             onPaste={this.handleInputPaste}
           />
+          {showMenu && (
+            <TokenInputMenu
+              ref={this.tokensInputMenuRef}
+              items={this.state.autocompleteItems}
+              loading={this.state.loading}
+              opened={showMenu}
+              anchorElement={this.input!}
+              inputValue={this.state.inputValue}
+              renderNotFound={this.props.renderNotFound}
+              renderItem={this.props.renderItem!}
+              onAddItem={this.handleAddItem}
+              onChange={this.handleChange}
+              showAddItemHint={this.showAddItemHint}
+            />
+          )}
         </label>
-        {showMenu && (
-          <TokenInputMenu
-            ref={this.tokensInputMenuRef}
-            anchorElement={this.input!}
-            inputValue={this.state.inputValue}
-            onAddItem={this.handleAddItem}
-            autocompleteItems={this.state.autocompleteItems}
-            renderNotFound={this.props.renderNotFound}
-            renderItem={this.props.renderItem}
-            showAddItemHint={
-              this.type === TokenInputType.Combined &&
-              this.state.inputValue !== ''
-            }
-          />
-        )}
       </div>
     );
+  }
+
+  private get showAddItemHint() {
+    const items = this.state.autocompleteItems;
+    const value = this.props.itemToValue!(this.state.inputValue);
+
+    if (items && items.includes(value)) {
+      return false;
+    }
+
+    const selectedItems = this.props.selectedItems;
+    if (selectedItems && selectedItems.includes(value)) {
+      return false;
+    }
+
+    if (this.type === TokenInputType.Combined && this.state.inputValue !== '') {
+      return true;
+    }
   }
 
   private get type() {
@@ -290,7 +328,11 @@ export default class TokenInput<T = string> extends React.Component<
         paste = paste.split(delimiter).join(delimiters[0]);
       }
       const tokens = paste.split(delimiters[0]);
-      this.handleAddItems(tokens as any[]);
+      const items = tokens
+        .map(token => this.props.itemToValue!(token))
+        .filter(item => !this.props.selectedItems.includes(item));
+      const newItems = this.props.selectedItems.concat(items);
+      this.props.onChange(newItems);
     }
   };
 
@@ -299,7 +341,9 @@ export default class TokenInput<T = string> extends React.Component<
       this.props.getItems &&
       (this.state.inputValue !== '' || !this.props.hideMenuIfEmptyInputValue)
     ) {
+      this.dispatch({ type: 'SET_LOADING', payload: true });
       const autocompleteItems = await this.props.getItems(query);
+      this.dispatch({ type: 'SET_LOADING', payload: false });
 
       const autocompleteItemsUnique = autocompleteItems.filter(
         item => !this.props.selectedItems.includes(item)
@@ -465,20 +509,30 @@ export default class TokenInput<T = string> extends React.Component<
     }
   };
 
-  private handleAddItem = (item: T) => {
+  private handleChange = (item: T) => {
     if (this.props.selectedItems.includes(item)) {
       return;
     }
-    this.handleAddItems([item]);
+
+    const newItems = this.props.selectedItems.concat([item]);
+    this.props.onChange(newItems);
+
     this.dispatch({ type: 'CLEAR_INPUT' });
     this.tryGetItems();
   };
 
-  private handleAddItems(items: T[]) {
-    items = items.filter(item => !this.props.selectedItems.includes(item));
-    const newItems = this.props.selectedItems.concat(items);
+  private handleAddItem = (item: string) => {
+    const value = this.props.itemToValue!(item);
+    if (this.props.selectedItems.includes(value)) {
+      return;
+    }
+
+    const newItems = this.props.selectedItems.concat([value]);
     this.props.onChange(newItems);
-  }
+
+    this.dispatch({ type: 'CLEAR_INPUT' });
+    this.tryGetItems();
+  };
 
   private handleRemoveToken = (item: T) => {
     this.props.onChange(this.props.selectedItems.filter(_ => _ !== item));
@@ -489,6 +543,8 @@ export default class TokenInput<T = string> extends React.Component<
     if (filteredActiveTokens.length === 0) {
       this.focusInput();
     }
+
+    this.tryGetItems();
   };
 
   private handleTokenClick = (
@@ -532,9 +588,9 @@ export default class TokenInput<T = string> extends React.Component<
   };
 
   private renderTokenFields = () => {
-    const renderValue = this.props.renderValue || ((item: T) => item);
-    return this.props.selectedItems.map((item, index) => {
-      const isSelected = this.state.activeTokens.indexOf(item) !== -1;
+    const renderValue = this.props.renderValue || (item => item);
+    return this.props.selectedItems.map(item => {
+      const isActive = this.state.activeTokens.indexOf(item) !== -1;
       const handleIconClick: React.MouseEventHandler<SVGElement> = event => {
         event.stopPropagation();
         this.handleRemoveToken(item);
@@ -545,16 +601,21 @@ export default class TokenInput<T = string> extends React.Component<
         event.stopPropagation();
         this.handleTokenClick(event, item);
       };
-      return (
-        <div
-          key={index}
-          onClick={handleTokenClick}
-          className={cn(styles.token, { [styles.tokenActive]: isSelected })}
-        >
-          {renderValue(item)}
-          <RemoveIcon className={styles.removeIcon} onClick={handleIconClick} />
-        </div>
-      );
+
+      const TokenComponent = (colors?: TokenColors) =>
+        Token({
+          isActive,
+          colors,
+          onClick: handleTokenClick,
+          onRemove: handleIconClick,
+          children: renderValue(item)
+        })!;
+
+      if (this.props.renderTokenComponent) {
+        return this.props.renderTokenComponent(TokenComponent, item);
+      }
+
+      return TokenComponent();
     });
   };
 }

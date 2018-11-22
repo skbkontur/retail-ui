@@ -5,9 +5,11 @@ export interface RemoveIconProps {
   onClick?: React.MouseEventHandler<SVGElement>;
 }
 
-const RemoveIcon = (props: RemoveIconProps) => (
+// в Colors.less связываемся по дата атрибуту data-name="RemoveIcon"
+const TokenRemoveIcon = (props: RemoveIconProps) => (
   <svg
     {...props}
+    data-name="RemoveIcon"
     fillRule="evenodd"
     strokeLinejoin="round"
     strokeMiterlimit="1.414"
@@ -19,4 +21,4 @@ const RemoveIcon = (props: RemoveIconProps) => (
   </svg>
 );
 
-export default RemoveIcon;
+export default TokenRemoveIcon;

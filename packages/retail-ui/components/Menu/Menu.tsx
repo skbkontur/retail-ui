@@ -124,6 +124,10 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     this.setState({ highlightedIndex: -1 });
   }
 
+  public highlightItem(index: number) {
+    this.setState({ highlightedIndex: index });
+  }
+
   private _refScrollContainer = (
     scrollContainer: Nullable<ScrollContainer>
   ) => {
@@ -184,11 +188,6 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
       return true;
     }
     return false;
-  }
-
-  // tslint:disable-next-line:member-ordering
-  public highlightItem(index: number) {
-    this.setState({ highlightedIndex: index });
   }
 
   private _unhighlight = () => {
