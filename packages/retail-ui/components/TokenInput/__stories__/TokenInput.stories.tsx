@@ -8,8 +8,7 @@ import { TokenColors } from '../../Token/Token';
 const FixedWidthDecorator = (storyFn: any) => (
   <div
     className="tokens-test-container"
-    style={{ margin: 40, height: 200, width: 400, padding: 4 }}
-  >
+    style={{ margin: 40, height: 200, width: 400, padding: 4 }}>
     {storyFn()}
   </div>
 );
@@ -226,4 +225,13 @@ storiesOf('TokenInput', module)
   })
   .add('combined generic token', () => {
     return <WrapperCustomModel />;
+  })
+  .add('width token', () => {
+    return (
+      <Gapped vertical gap={10}>
+        <Wrapper getItems={getItems} width={'100%'} />
+        <Wrapper getItems={getItems} width={300} />
+        <Wrapper getItems={getItems} width={150} />
+      </Gapped>
+    );
   });

@@ -32,6 +32,8 @@ export interface TokenInputProps<T> {
   delimiters?: string[];
   error?: boolean;
   warning?: boolean;
+  width: string | number;
+
   renderTokenComponent?: (
     token: (colors?: TokenColors) => React.ReactElement<TokenProps>,
     value?: T
@@ -61,7 +63,8 @@ export default class TokenInput<T = string> extends React.Component<
     renderNotFound: () => 'Не найдено',
     renderValue: (item: any) => item,
     itemToValue: (item: string) => item,
-    onChange: () => void 0
+    onChange: () => void 0,
+    width: 250 as string | number
   };
 
   public state: TokenInputState<T> = {
@@ -141,14 +144,14 @@ export default class TokenInput<T = string> extends React.Component<
         />
         <label
           ref={this.wrapperRef}
+          style={{ width: this.props.width }}
           className={cn(styles.label, {
             [styles.labelFocused]: this.state.inFocus,
             [styles.error]: this.props.error,
             [styles.warning]: this.props.warning
           })}
           onMouseDown={this.handleWrapperMouseDown}
-          onMouseUp={this.handleWrapperMouseUp}
-        >
+          onMouseUp={this.handleWrapperMouseUp}>
           {this.renderTokenFields()}
           <input
             type="text"
