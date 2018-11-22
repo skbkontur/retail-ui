@@ -27,7 +27,7 @@ export interface TokenInputProps<T> {
   renderItem: (item: T, state: MenuItemState) => React.ReactNode | undefined;
   renderValue: (item: T) => React.ReactNode;
   renderNotFound: () => React.ReactNode;
-  itemToValue: (item: string) => T;
+  valueToItem: (item: string) => T;
   placeholder?: string;
   delimiters?: string[];
   error?: boolean;
@@ -61,7 +61,7 @@ export default class TokenInput<T = string> extends React.Component<
     renderItem: (item: any) => item,
     renderNotFound: () => 'Не найдено',
     renderValue: (item: any) => item,
-    itemToValue: (item: string) => item,
+    valueToItem: (item: string) => item,
     onChange: () => void 0,
     width: 250 as string | number
   };
@@ -193,7 +193,7 @@ export default class TokenInput<T = string> extends React.Component<
 
   private get showAddItemHint() {
     const items = this.state.autocompleteItems;
-    const value = this.props.itemToValue!(this.state.inputValue);
+    const value = this.props.valueToItem!(this.state.inputValue);
 
     if (items && items.includes(value)) {
       return false;
@@ -331,7 +331,7 @@ export default class TokenInput<T = string> extends React.Component<
       }
       const tokens = paste.split(delimiters[0]);
       const items = tokens
-        .map(token => this.props.itemToValue!(token))
+        .map(token => this.props.valueToItem!(token))
         .filter(item => !this.props.selectedItems.includes(item));
       const newItems = this.props.selectedItems.concat(items);
       this.props.onChange(newItems);
@@ -524,7 +524,7 @@ export default class TokenInput<T = string> extends React.Component<
   };
 
   private handleAddItem = (item: string) => {
-    const value = this.props.itemToValue!(item);
+    const value = this.props.valueToItem!(item);
     if (this.props.selectedItems.includes(value)) {
       return;
     }

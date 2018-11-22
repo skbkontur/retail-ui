@@ -74,7 +74,7 @@ class WrapperCustomModel extends React.Component<
         selectedItems={this.state.selectedItems}
         renderItem={this.renderItem}
         renderValue={this.renderValue}
-        itemToValue={this.itemToValue}
+        valueToItem={this.valueToItem}
         getItems={getModelItems}
         onChange={this.onChange}
         placeholder="placeholder"
@@ -95,7 +95,7 @@ class WrapperCustomModel extends React.Component<
 
   private renderItem = (item: TokenModel) => item.value;
   private renderValue = (value: TokenModel) => value.value;
-  private itemToValue = (item: string): TokenModel => ({
+  private valueToItem = (item: string): TokenModel => ({
     value: item
   });
 
