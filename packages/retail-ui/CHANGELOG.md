@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.31.0-beta.2"></a>
+# [0.31.0-beta.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.31.0-beta.1...retail-ui@0.31.0-beta.2) (2018-11-22)
+
+
+### Features
+
+* **Token:** export token colors ([c74f1c6](https://github.com/skbkontur/retail-ui/commit/c74f1c6))
+* **Token:** itemToValue -> valueToItem ([7d1916e](https://github.com/skbkontur/retail-ui/commit/7d1916e))
+* **Token:** placeholder color ([8cc4cbc](https://github.com/skbkontur/retail-ui/commit/8cc4cbc))
+* **Token:** width token ([79f389f](https://github.com/skbkontur/retail-ui/commit/79f389f))
+
+
+
+
 <a name="0.31.0-beta.1"></a>
 # [0.31.0-beta.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.31.0-beta.0...retail-ui@0.31.0-beta.1) (2018-11-22)
 
