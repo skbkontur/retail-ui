@@ -1,1 +1,1 @@
-export { default } from './Token';
+export { default, TokenColors, TokenColorName, TokenProps } from './Token';
