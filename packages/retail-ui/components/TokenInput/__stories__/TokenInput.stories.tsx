@@ -3,7 +3,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Gapped from '../../Gapped';
 import TokenInput, { TokenInputType } from '../TokenInput';
-import { TokenColors } from '../../Token/Token';
+import { TokenColors } from '../../Token';
 
 const FixedWidthDecorator = (storyFn: any) => (
   <div

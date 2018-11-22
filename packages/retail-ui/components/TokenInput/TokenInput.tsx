@@ -9,7 +9,7 @@ import styles from './TokenInput.less';
 import cn from 'classnames';
 import Menu from '../Menu/Menu';
 import Token from '../Token';
-import { TokenColors, TokenProps } from '../Token/Token';
+import { TokenColors, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
 
 export enum TokenInputType {
@@ -33,7 +33,6 @@ export interface TokenInputProps<T> {
   error?: boolean;
   warning?: boolean;
   width: string | number;
-
   renderTokenComponent?: (
     token: (colors?: TokenColors) => React.ReactElement<TokenProps>,
     value?: T

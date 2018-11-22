@@ -35,13 +35,28 @@
       box-shadow: none;
       outline: none;
       margin: 2px 0;
+      font-family: inherit;
       font-size: 14px;
       padding: 0 0 0 5px;
       height: 24px;
+      -webkit-appearance: none;
+      white-space: nowrap;
+      text-overflow: clip;
+      background-clip: padding-box;
+      transition: background-color 0.15s ease-in;
 
       &::-ms-clear {
         display: none;
       }
+
+      &::placeholder {
+        color: @placeholder-color;
+      }
+
+      &:focus::placeholder {
+        color: @placeholder-color-light;
+      }
     }
+
   }
 }
