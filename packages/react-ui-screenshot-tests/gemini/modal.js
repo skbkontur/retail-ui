@@ -99,3 +99,10 @@ gemini.suite("modal without sticky elements", suite => {
       });
     });
 });
+
+gemini.suite("modal with align to the top", suite => {
+  suite
+    .setUrl(pathTo("Modal", "With alignTop"))
+    .setCaptureElements("html")
+    .capture("alignTop")
+});

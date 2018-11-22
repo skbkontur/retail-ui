@@ -31,6 +31,11 @@ export interface ModalProps {
   disableClose?: boolean;
 
   /**
+   * Выравнивание окна по верху страницы.
+   */
+  alignTop?: boolean;
+
+  /**
    * Не закрывать окно при клике на фон.
    */
   ignoreBackgroundClick?: boolean;
@@ -197,7 +202,12 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
                 height: this.state.clickTrapHeight
               }}
             />
-            <div className={styles.centerContainer} style={containerStyle}>
+            <div
+              className={cn(styles.centerContainer, {
+                [styles.alignTop]: this.props.alignTop
+              })}
+              style={containerStyle}
+            >
               <div className={styles.window} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
                   <FocusLock
