@@ -314,7 +314,9 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
           params.isPlaceholder && this.props.use !== 'default'
       }),
       style: {
-        paddingRight: buttonProps.size === 'large' ? '41px' : '38px'
+        paddingRight:
+          (buttonProps.size === 'large' ? 31 : 28) +
+          (!!this.props._icon ? 10 : 0)
       }
     };
 
