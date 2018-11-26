@@ -73,4 +73,7 @@ storiesOf('Select', module)
   .add('use link', () => <Select use="link" items={['one', 'two', 'three']} />)
   .add('use link with icon', () => (
     <Select _icon="Add" use="link" items={['one', 'two', 'three']} />
+  ))
+  .add('with text overflow', () => (
+    <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />
   ));
