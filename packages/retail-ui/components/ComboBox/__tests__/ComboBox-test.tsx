@@ -382,6 +382,26 @@ describe('ComboBox', () => {
     });
   });
 
+
+  it('does not do search on focus in autocomplete mode', () => {
+    const VALUE = { value: 1, label: 'one' };
+    const getItems = jest.fn();
+    const wrapper = mount<ComboBox<any>>(
+      <ComboBox
+        getItems={getItems}
+        value={VALUE}
+        autocomplete={true}
+      />
+    );
+
+    wrapper.instance().focus();
+    wrapper.update();
+
+    expect(getItems).toHaveBeenCalledTimes(0);
+    expect(wrapper.find('Menu')).toHaveLength(0);
+
+  });
+
   it('reset', () => {
     const wrapper = mount<ComboBox<any>>(<ComboBox />);
 
