@@ -317,27 +317,41 @@ describe('ComboBox', () => {
   });
 
   describe('update input text when value changes if there was no editing', () => {
-    const value = { value: 1, label: 'one' };
+    const VALUES = [
+      { value: 1, label: 'one' },
+      { value: 2, label: 'two' },
+    ];
+    const blur = (wrapper: any) => {
+      // when menu is not opened (after focus in autocomplete mode),
+      // clickOutside doesn't work, unlike the input blur.
+      wrapper.find('input').simulate('blur');
+      clickOutside();
+    };
     const check = (wrapper: any) => {
       wrapper.instance().focus();
       wrapper.update();
-      expect(wrapper.find('input').prop('value')).toBe('one');
+      expect(wrapper.find('input').prop('value')).toBe(VALUES[0].label);
 
-      clickOutside();
+      blur(wrapper);
+      wrapper.setProps({ value: VALUES[1] });
+      wrapper.instance().focus();
+      wrapper.update();
+      expect(wrapper.find('input').prop('value')).toBe(VALUES[1].label);
+
+      blur(wrapper);
       wrapper.setProps({ value: null });
-
       wrapper.instance().focus();
       wrapper.update();
       expect(wrapper.find('input').prop('value')).toBe('');
     };
 
     it('in default mode', () => {
-      check(mount<ComboBox<any>>(<ComboBox value={value} />));
+      check(mount<ComboBox<any>>(<ComboBox value={VALUES[0]} />));
     });
 
     it('in autocomplete mode', () => {
       check(
-        mount<ComboBox<any>>(<ComboBox value={value} autocomplete={true} />)
+        mount<ComboBox<any>>(<ComboBox value={VALUES[0]} autocomplete={true} />)
       );
     });
   });
