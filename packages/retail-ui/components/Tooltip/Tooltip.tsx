@@ -164,6 +164,12 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       this.forceUpdate();
     }
   }
+  
+  componentWillReceiveProps(nextProps: TooltipProps) {
+    if ((this.props.trigger === 'hover' || this.props.trigger === 'hoverAnchor') && nextProps.trigger === 'closed') {
+      this.setState({ opened: false });
+    }
+  }
 
   public shouldComponentUpdate(
     nextProps: TooltipProps,
