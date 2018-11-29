@@ -74,8 +74,6 @@ describe('<Input />', () => {
       onMouseDown: () => undefined,
       onCut: () => undefined,
       onInput: () => undefined,
-      onKeyDown: () => undefined,
-      onKeyPress: () => undefined,
       onKeyUp: () => undefined,
       onPaste: () => undefined
     };
@@ -191,5 +189,26 @@ describe('<Input />', () => {
     expect(Object.keys(inputNodeAttrs)).not.toContain('maskChar');
     expect(Object.keys(inputNodeAttrs)).not.toContain('alwaysShowMask');
     expect(Object.keys(inputNodeAttrs)).not.toContain('mask');
+  });
+
+  it('call onUnexpectedInput if was passed', () => {
+    const unexpectedInputHandlerMock = jest.fn();
+    const blinkMock = jest.fn();
+    const wrapper = render({});
+
+    wrapper.instance().blink = blinkMock;
+
+    // tslint:disable-next-line:no-string-literal
+    wrapper.instance()['handleUnexpectedInput']();
+
+    expect(blinkMock).toHaveBeenCalledTimes(1);
+
+    wrapper.setProps({ onUnexpectedInput: unexpectedInputHandlerMock });
+
+    // tslint:disable-next-line:no-string-literal
+    wrapper.instance()['handleUnexpectedInput']();
+
+    expect(blinkMock).toHaveBeenCalledTimes(1);
+    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
 });
