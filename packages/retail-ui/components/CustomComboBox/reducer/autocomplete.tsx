@@ -23,31 +23,16 @@ const reducers: { [key: string]: Reducer } = {
     const textValue = state.editing
       ? state.textValue
       : props.value ? props.valueToString!(props.value) : '';
-
-    if (!textValue) {
-      return [
-        {
-          ...state,
-          textValue,
-          focused: true,
-          editing: true,
-          opened: false,
-          items: null
-        },
-        [Effect.Focus]
-      ];
-    }
-
     return [
       {
         ...state,
         textValue,
         focused: true,
         editing: true,
-        opened: true,
+        opened: false,
         items: null
       },
-      [Effect.Search, Effect.Focus]
+      [Effect.Focus]
     ];
   },
   TextChange: ((
