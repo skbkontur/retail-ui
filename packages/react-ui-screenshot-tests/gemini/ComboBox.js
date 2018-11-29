@@ -113,5 +113,18 @@ gemini.suite("ComboBox", () => {
           action.sendKeys(gemini.ENTER);
         });
     });
+
+    gemini.suite("External toggle error and set value", suite => {
+      suite
+        .setUrl(pathTo("ComboBox", "toogle error"))
+        .setCaptureElements("#test-element")
+        .capture("plain")
+        .capture("with error", (action, find) => {
+          action.click(find("[class^='Toggle-wrapper']"));
+        })
+        .capture("plain again", (action, find) => {
+          action.click(find("[class^='Toggle-wrapper']"));
+        });
+    });
   });
 });
