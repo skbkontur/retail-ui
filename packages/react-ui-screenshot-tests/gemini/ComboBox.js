@@ -143,5 +143,12 @@ gemini.suite("ComboBox", () => {
           action.click(find("[class^='Toggle-wrapper']"));
         });
     });
+
+    gemini.suite("AutoFocus", suite => {
+      suite
+        .setUrl(pathTo("ComboBox", "with autoFocus"))
+        .setCaptureElements("#test-element")
+        .capture("plain");
+    });
   });
 });

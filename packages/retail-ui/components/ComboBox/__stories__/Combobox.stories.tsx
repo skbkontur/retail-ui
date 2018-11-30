@@ -72,9 +72,20 @@ storiesOf('ComboBox', module)
     />
   ))
   .add('with autoFocus', () => (
+    <div style={{ paddingBottom: 330, paddingRight: 40 }}>
+      <TestComboBox
+        autoFocus
+        onSearch={search}
+        renderItem={renderValue}
+        totalCount={12}
+        onUnexpectedInput={errorStrategy}
+      />
+    </div>
+  ))
+  .add('with autoFocus and autocomplete', () => (
     <TestComboBox
-      autocomplete
       autoFocus
+      autocomplete
       onSearch={search}
       renderItem={renderValue}
       totalCount={12}
