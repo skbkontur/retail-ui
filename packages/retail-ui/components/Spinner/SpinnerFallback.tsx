@@ -10,6 +10,8 @@ import fallbackImage_big from './fallback_cloud_big.png';
 import fallbackImage_normal from './fallback_cloud_normal.png';
 import { SpinnerType } from '.';
 
+import styles from './Spinner.less';
+
 export interface SpinnerFallbackProps {
   type: SpinnerType;
   dimmed?: boolean;
@@ -61,14 +63,12 @@ export default class SpinnerFallback extends React.Component<
     const cssSet: React.CSSProperties = {
       backgroundPosition: `0 -${frame * size.height}px`,
       backgroundImage: `url('${this._imageUrls[this.getSpriteSettingsKey()]}')`,
-      display: 'inline-block',
       height: size.height,
-      position: 'relative',
       top: type === 'mini' ? 2 : 0,
       width: size.width
     };
 
-    return <span style={cssSet} />;
+    return <span className={styles.fallback} style={cssSet} />;
   }
 
   private animate = () => {
