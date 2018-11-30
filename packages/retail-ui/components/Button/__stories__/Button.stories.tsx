@@ -5,8 +5,10 @@ import ArchivePackIcon from '@skbkontur/react-icons/ArchivePack';
 import Button, { ButtonUse } from '../../Button';
 import Gapped from '../../Gapped';
 import { ButtonSize, ButtonArrow } from '../Button';
+import { DateTest } from './DateTest';
 
 storiesOf('Button', module)
+  .add('valid', () => <DateTest />)
   .add('playground', () => {
     return <Button>Hello</Button>;
   })

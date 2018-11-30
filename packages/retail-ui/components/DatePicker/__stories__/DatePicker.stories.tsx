@@ -120,4 +120,9 @@ storiesOf('DatePicker', module)
       minDate="05.03.2018"
       maxDate="30.01.2019"
     />
+  ))
+  .add('With Tooltip', () => (
+    <Tooltip trigger="hover" render={() => 'Hello World'} pos="right middle">
+      <DatePickerWithError />
+    </Tooltip>
   ));

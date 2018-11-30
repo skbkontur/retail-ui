@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Select from '../Select';
+import Tooltip from 'retail-ui/components/Tooltip';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
@@ -68,6 +69,11 @@ storiesOf('Select', module)
     </div>
   ))
   .add('Simple', () => <Select items={['one', 'two', 'three']} />)
+  .add('With Tooltip', () => (
+    <Tooltip trigger="hover" render={() => 'Hello World'} pos="right middle">
+      <Select items={['one', 'two', 'three']} />
+    </Tooltip>
+  ))
   .add('Complex values', () => <SelectWrapper />)
   .add('With null', () => <SelectWithNull />)
   .add('use link', () => <Select use="link" items={['one', 'two', 'three']} />)

@@ -313,7 +313,9 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       case 'hoverAnchor':
       case 'hover':
         return {
-          layerProps: {},
+          layerProps: {
+            onMouseLeave: this.handleMouseLeave
+          },
           wrapperProps: {
             onMouseEnter: this.handleMouseEnter,
             onMouseLeave: this.handleMouseLeave

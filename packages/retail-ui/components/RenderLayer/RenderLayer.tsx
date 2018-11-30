@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Events from 'add-event-listener';
 import { findDOMNode } from 'react-dom';
+import debounce from 'lodash.debounce';
 import listenFocusOutside, {
   containsTargetOrRenderContainer
 } from '../../lib/listenFocusOutside';
@@ -9,6 +10,7 @@ export interface RenderLayerProps {
   children: JSX.Element;
   onClickOutside?: (e: Event) => void;
   onFocusOutside?: (e: Event) => void;
+  onMouseLeave?: (e: Event) => void;
   active?: boolean;
 }
 
@@ -42,6 +44,8 @@ class RenderLayer extends React.Component<RenderLayerProps> {
     Events.addEventListener(window, 'blur', this.handleFocusOutside);
 
     Events.addEventListener(document, 'mousedown', this.handleNativeDocClick);
+
+    Events.addEventListener(document, 'mousemove', this.handleNativeMouseMove);
   }
 
   private detachListeners() {
@@ -56,6 +60,12 @@ class RenderLayer extends React.Component<RenderLayerProps> {
       document,
       'mousedown',
       this.handleNativeDocClick
+    );
+
+    Events.removeEventListener(
+      document,
+      'mousemove',
+      this.handleNativeMouseMove
     );
   }
 
@@ -72,21 +82,31 @@ class RenderLayer extends React.Component<RenderLayerProps> {
     }
   };
 
-  private handleNativeDocClick = (event: Event) => {
+  private isMouseOutside = (event: Event) => {
     if (!this.props.active) {
-      return;
+      return false;
     }
     const target = (event.target || event.srcElement) as HTMLElement;
     const node = this.getDomNode();
 
     if (containsTargetOrRenderContainer(target)(node)) {
-      return;
+      return false;
     }
+    return true;
+  };
 
-    if (this.props.onClickOutside) {
+  private handleNativeDocClick = (event: Event) => {
+    if (this.isMouseOutside(event) && this.props.onClickOutside) {
       this.props.onClickOutside(event);
     }
   };
+
+  // tslint:disable-next-line:member-ordering
+  private handleNativeMouseMove = debounce(event => {
+    if (this.isMouseOutside(event) && this.props.onMouseLeave) {
+      this.props.onMouseLeave(event);
+    }
+  }, 100);
 }
 
 export default RenderLayer;

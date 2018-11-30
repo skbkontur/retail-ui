@@ -47,6 +47,7 @@
     "react-focus-lock": "^1.11.2",
     "react-input-mask": "2.0.4",
     "react-transition-group": "^2.4.0",
+    "react-ui-validations": "^0.3.0",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2",
     "warning": "^4.0.1"

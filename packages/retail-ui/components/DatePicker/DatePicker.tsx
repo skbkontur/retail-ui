@@ -280,6 +280,9 @@ class DatePicker extends React.Component<
   private _handlePick = (dateShape: CalendarDateShape) => {
     this._handleSelect(dateShape);
     this.blur();
+    if (this.props.onMouseLeave) {
+      this.props.onMouseLeave();
+    }
   };
 
   private _handleSelect = (dateShape: CalendarDateShape) => {
