@@ -150,5 +150,21 @@ gemini.suite("ComboBox", () => {
         .setCaptureElements("#test-element")
         .capture("plain");
     });
+
+    gemini.suite("select element if only one in dropdown", suite => {
+      suite
+        .setUrl(pathTo("ComboBox", "simple combobox"))
+        .setCaptureElements("#test-element")
+        .capture("editing", (action, find) => {
+          action.click(find('[class^="Input-root"]'));
+          action.sendKeys("input", "Second");
+        })
+        .capture("select", (action, find) => {
+          action.click(find("body"));
+        })
+        .capture("selected", (action, find) => {
+          action.click(find('[class^="Input-root"]'));
+        });
+    });
   });
 });
