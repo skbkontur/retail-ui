@@ -56,6 +56,23 @@ gemini.suite("ComboBox", () => {
         });
     });
 
+    gemini.suite("Open to top", suite => {
+      suite
+        .setUrl(pathTo("ComboBox", "open to top"))
+        .setCaptureElements("#test-element")
+        .capture("plain")
+        .capture("opened", (action, find) => {
+          action.click(find('[class^="Input-root"]'));
+        })
+        .capture("hovered", (action, find) => {
+          targetMenuItem = find('[class^="MenuItem-root"]:nth-of-type(4)');
+          action.mouseMove(targetMenuItem);
+        })
+        .capture("selected", action => {
+          action.click(targetMenuItem);
+        });
+    });
+
     gemini.suite("Search", suite => {
       suite
         .setUrl(pathTo("ComboBox", "simple combobox"))

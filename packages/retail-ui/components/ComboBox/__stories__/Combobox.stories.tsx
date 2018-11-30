@@ -17,6 +17,11 @@ storiesOf('ComboBox', module)
       <SimpleCombobox />
     </div>
   ))
+  .add('open to top', () => (
+    <div style={{ paddingTop: 600, paddingRight: 40 }}>
+      <SimpleCombobox />
+    </div>
+  ))
   .add('simple combobox with delay', () => <SimpleCombobox delay={1000} />)
   .add('with error handling', () => (
     <TestComboBox
