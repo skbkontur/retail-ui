@@ -8,15 +8,29 @@ import Gapped from '../../Gapped';
 storiesOf('ComboBoxView', module)
   .add('input like text', () => (
     <Gapped vertical>
-      <View value={{ id: 1, name: 'hello' }} renderValue={renderValue} />
+      <View
+        renderValue={simpleRenderValue}
+        value={{ value: 1, label: 'hello' }}
+      />
+      <View
+        renderValue={simpleRenderValue}
+        value={{ value: 1, label: 'hello' }}
+        align="center"
+      />
+      <View
+        renderValue={simpleRenderValue}
+        value={{ value: 1, label: 'hello' }}
+        align="right"
+      />
+      <View value={{ id: 1, name: 'hello' }} renderValue={complexRenderValue} />
       <View
         value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
-        renderValue={renderValue}
+        renderValue={complexRenderValue}
       />
       <div>
         <View
           value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
-          renderValue={renderValue}
+          renderValue={complexRenderValue}
         />{' '}
         hello
       </div>
@@ -24,7 +38,7 @@ storiesOf('ComboBoxView', module)
         <View
           size="medium"
           value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
-          renderValue={renderValue}
+          renderValue={complexRenderValue}
         />{' '}
         hello
       </div>
@@ -32,7 +46,7 @@ storiesOf('ComboBoxView', module)
         <View
           size="large"
           value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
-          renderValue={renderValue}
+          renderValue={complexRenderValue}
         />{' '}
         hello
       </div>
@@ -79,7 +93,7 @@ storiesOf('ComboBoxView', module)
               textValue="one"
               opened
               items={[{ id: 2, name: 'two' }, { id: 3, name: 'three' }]}
-              renderItem={renderValue}
+              renderItem={complexRenderValue}
               totalCount={221}
               renderTotalCount={(found, total) =>
                 `Показано ${found} из ${total}`
@@ -109,12 +123,16 @@ storiesOf('ComboBoxView', module)
           { id: 11, name: 'eleven' },
           { id: 12, name: 'twelve' }
         ]}
-        renderItem={renderValue}
+        renderItem={complexRenderValue}
       />
     </div>
   ));
 
-function renderValue({
+function simpleRenderValue(value: { value: number; label: string }) {
+  return value.label;
+}
+
+function complexRenderValue({
   id,
   name
 }: {
