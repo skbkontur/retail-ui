@@ -32,7 +32,9 @@ exports[`Popup snapshots:  open and close popup: closed popup 1`] = `
     onClickOutside={[Function]}
     onFocusOutside={[Function]}
   >
-    <RenderContainer>
+    <RenderContainer
+      anchor={null}
+    >
       <Transition
         appear={true}
         enter={true}
@@ -98,7 +100,9 @@ exports[`Popup snapshots:  open and close popup: closed popup again 1`] = `
     onClickOutside={[Function]}
     onFocusOutside={[Function]}
   >
-    <RenderContainer>
+    <RenderContainer
+      anchor={null}
+    >
       <Transition
         appear={true}
         enter={true}
@@ -164,7 +168,9 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
     onClickOutside={[Function]}
     onFocusOutside={[Function]}
   >
-    <RenderContainer>
+    <RenderContainer
+      anchor={null}
+    >
       <Transition
         appear={true}
         enter={true}

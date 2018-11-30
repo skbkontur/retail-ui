@@ -12,7 +12,7 @@ function setID(id: number) {
 const REACT_16 = !!ReactDOM.createPortal;
 
 export default class RenderContainer extends React.Component<{
-  anchor?: React.ReactNode | HTMLElement;
+  anchor?: React.ReactNode;
 }> {
   private _domContainer: HTMLElement;
 
@@ -106,10 +106,7 @@ export default class RenderContainer extends React.Component<{
   }
 }
 
-class Portal extends React.Component<{
-  rt_rootID: number;
-  children?: React.ReactNode | HTMLElement;
-}> {
+class Portal extends React.Component<{ rt_rootID: number }> {
   public componentDidMount() {
     const element = ReactDOM.findDOMNode(this);
 
@@ -122,10 +119,11 @@ class Portal extends React.Component<{
   }
 
   public render() {
-    if (!this.props.children || this.props.children instanceof HTMLElement) {
-      return <noscript data-render-container-id={this.props.rt_rootID} />;
-    }
-    return this.props.children;
+    return (
+      this.props.children || (
+        <noscript data-render-container-id={this.props.rt_rootID} />
+      )
+    );
   }
 }
 

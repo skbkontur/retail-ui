@@ -230,7 +230,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         active={this.props.onCloseRequest && this.props.opened}
       >
         <RenderContainer
-          anchor={child || this.anchorElement}
+          anchor={child}
           ref={child ? this.refAnchorElement : undefined}
         >
           {this.renderContent(location)}
