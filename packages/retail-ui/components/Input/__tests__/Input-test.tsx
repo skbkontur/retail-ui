@@ -4,11 +4,11 @@ import Input, { InputProps } from '../Input';
 import MaskedInput from 'react-input-mask';
 
 const render = (props: InputProps) =>
-  mount<Input>(React.createElement(Input, props));
+  mount<Input, InputProps>(React.createElement(Input, props));
 
 describe('<Input />', () => {
   it('renders', () => {
-    render({ value: 'Hello' });
+    expect(() => render({ value: 'Hello' })).not.toThrow();
   });
 
   it('renders with given value', () => {
@@ -133,26 +133,6 @@ describe('<Input />', () => {
     const wrapper = render({ value: '', mask: '999' });
     expect(wrapper.find(MaskedInput)).toHaveLength(1);
   });
-
-  it('passes props to MaskedInput', () => {
-    const props: MaskedInput.Props = {
-      value: '123',
-      mask: '999',
-      maskChar: '*',
-      alwaysShowMask: true
-    };
-    const inputProps = render(props as Partial<InputProps>)
-      .find(MaskedInput)
-      .props();
-
-    // tslint:disable-next-line:forin
-    for (const prop in props) {
-      expect(inputProps[prop as keyof MaskedInput.Props]).toBe(
-        props[prop as keyof MaskedInput.Props]
-      );
-    }
-  });
-
   it('has focus method', () => {
     const wrapper = render({ value: '' });
     const instance = wrapper.instance() as Input;

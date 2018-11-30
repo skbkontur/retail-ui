@@ -29,6 +29,7 @@ export interface ButtonParams {
   onClick: () => void;
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   opened: boolean;
+  isPlaceholder: boolean;
 }
 
 const PASS_BUTTON_PROPS = {
@@ -210,11 +211,12 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
   }
 
   public render() {
-    const label = this.renderLabel();
+    const { label, isPlaceholder } = this.renderLabel();
 
     const buttonParams: ButtonParams = {
       opened: this.state.opened,
       label,
+      isPlaceholder,
       onClick: this._toggle,
       onKeyDown: this.handleKey
     };
@@ -259,21 +261,24 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     const item = this._getItemByValue(value);
 
     if (item != null || value != null) {
-      return this.getProps().renderValue(value, item);
+      return {
+        label: this.getProps().renderValue(value, item),
+        isPlaceholder: false
+      };
     }
 
-    const useIsCustom = this.props.use !== 'default';
-
-    return (
-      <span
-        className={classNames(
-          styles.placeholder,
-          useIsCustom && styles.customUsePlaceholder
-        )}
-      >
-        {this.props.placeholder}
-      </span>
-    );
+    return {
+      label: (
+        <span
+          className={classNames({
+            [styles.customUsePlaceholder]: this.props.use !== 'default'
+          })}
+        >
+          {this.props.placeholder}
+        </span>
+      ),
+      isPlaceholder: true
+    };
   }
 
   private renderDefaultButton(params: ButtonParams) {
@@ -303,10 +308,15 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     const labelProps = {
       className: classNames({
         [styles.label]: this.props.use !== 'link',
-        [styles.labelWithLeftIcon]: !!this.props._icon
+        [styles.labelWithLeftIcon]: !!this.props._icon,
+        [styles.placeholder]: params.isPlaceholder,
+        [styles.customUsePlaceholder]:
+          params.isPlaceholder && this.props.use !== 'default'
       }),
       style: {
-        paddingRight: buttonProps.size === 'large' ? '41px' : '38px'
+        paddingRight:
+          (buttonProps.size === 'large' ? 31 : 28) +
+          (!!this.props._icon ? 10 : 0)
       }
     };
 

@@ -1,27 +1,26 @@
 import * as React from 'react';
 import * as events from 'add-event-listener';
 import * as ReactDOM from 'react-dom';
+import cn from 'classnames';
+import FocusLock from 'react-focus-lock';
+import { EventSubscription } from 'fbemitter';
+import throttle from 'lodash/throttle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import ZIndex from '../ZIndex/ZIndex';
 import stopPropagation from '../../lib/events/stopPropagation';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
 import ModalStack from '../ModalStack';
-import { EventSubscription } from 'fbemitter';
-
-import styles = require('./Modal.less');
 import { ModalContext, ModalContextProps } from './ModalContext';
-import { Footer, FooterProps } from './ModalFooter';
-import { Header, HeaderProps } from './ModalHeader';
+import { Footer, isFooter } from './ModalFooter';
+import { Header, isHeader } from './ModalHeader';
 import { Body } from './ModalBody';
 import Close from './ModalClose';
-import cn from 'classnames';
 import Upgrades from '../../lib/Upgrades';
-import FocusLock from 'react-focus-lock';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
 
-import throttle from 'lodash/throttle';
+import styles from './Modal.less';
 
 let mountedModalsCount = 0;
 
@@ -30,6 +29,11 @@ export interface ModalProps {
    * Отключает событие onClose, также дизейблит кнопку закрытия модалки
    */
   disableClose?: boolean;
+
+  /**
+   * Выравнивание окна по верху страницы.
+   */
+  alignTop?: boolean;
 
   /**
    * Не закрывать окно при клике на фон.
@@ -198,7 +202,12 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
                 height: this.state.clickTrapHeight
               }}
             />
-            <div className={styles.centerContainer} style={containerStyle}>
+            <div
+              className={cn(styles.centerContainer, {
+                [styles.alignTop]: this.props.alignTop
+              })}
+              style={containerStyle}
+            >
               <div className={styles.window} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
                   <FocusLock
@@ -308,16 +317,4 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
       );
     }
   };
-}
-
-export function isHeader(
-  child: React.ReactChild
-): child is React.ReactElement<HeaderProps> {
-  return React.isValidElement<HeaderProps>(child) && child.type === Header;
-}
-
-export function isFooter(
-  child: React.ReactChild
-): child is React.ReactElement<FooterProps> {
-  return React.isValidElement<FooterProps>(child) && child.type === Footer;
 }
