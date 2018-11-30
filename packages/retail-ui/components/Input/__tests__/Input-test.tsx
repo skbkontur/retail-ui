@@ -211,4 +211,51 @@ describe('<Input />', () => {
     expect(blinkMock).toHaveBeenCalledTimes(1);
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
+
+  it('call handleUnexpectedInput on keyDown', () => {
+    const unexpectedInputHandlerMock = jest.fn();
+    const wrapper = render({
+      value: '',
+      onUnexpectedInput: unexpectedInputHandlerMock
+    });
+    const pressBackspace = () => {
+      wrapper.find('input').simulate('keydown', {
+        key: 'Backspace'
+      });
+    };
+
+    pressBackspace();
+
+    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
+
+    wrapper.setProps({ value: '123' });
+
+    pressBackspace();
+
+    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('call handleUnexpectedInput on maxLength  has been reached', () => {
+    const unexpectedInputHandlerMock = jest.fn();
+    const wrapper = render({
+      value: '',
+      onUnexpectedInput: unexpectedInputHandlerMock,
+      maxLength: 3
+    });
+    const typeSymbol = () => {
+      wrapper.find('input').simulate('keypress', {
+        key: 'A'
+      });
+    };
+
+    typeSymbol();
+
+    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(0);
+
+    wrapper.setProps({ value: '123' });
+
+    typeSymbol();
+
+    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
+  });
 });
