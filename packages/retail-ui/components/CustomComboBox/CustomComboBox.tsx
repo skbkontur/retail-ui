@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import ReactDOM from 'react-dom';
 import ComboBoxView from './ComboBoxView';
 import { Nullable } from '../../typings/utility-types';
 import Input from '../Input';
@@ -7,6 +7,7 @@ import Menu from '../Menu/Menu';
 import InputLikeText from '../internal/InputLikeText';
 import shallow from 'fbjs/lib/shallowEqual';
 import { MenuItemState } from '../MenuItem';
+import tabbable from 'tabbable';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T }
@@ -19,6 +20,8 @@ export type Action<T> =
     }
   | { type: 'Mount' }
   | { type: 'Focus' }
+  | { type: 'RestoreFocus' }
+  | { type: 'InputClick' }
   | { type: 'Blur' }
   | { type: 'Reset' }
   | { type: 'Open' }
@@ -93,6 +96,7 @@ class CustomComboBox extends React.Component<
   public menu: Nullable<Menu>;
   public inputLikeText: Nullable<InputLikeText>;
   private focused: boolean = false;
+  private keepingFocus: boolean = false;
 
   /**
    * @public
@@ -103,6 +107,33 @@ class CustomComboBox extends React.Component<
     }
 
     this.handleFocus();
+  };
+
+  /**
+   * @public
+   */
+  public focusNext = () => {
+    const allTabbables = tabbable(document);
+    const currentTabbable = tabbable(ReactDOM.findDOMNode(this) as Element)[0];
+    const currentIndex = allTabbables.indexOf(currentTabbable);
+    if (currentIndex > -1) {
+      const nextTabbable = allTabbables[currentIndex + 1];
+      if (nextTabbable) {
+        nextTabbable.focus();
+      }
+    }
+  };
+
+  /**
+   * @public
+   */
+  public selectInputText = () => {
+    if (this.props.disabled) {
+      return;
+    }
+    if (this.input) {
+      this.input.selectAll();
+    }
   };
 
   /**
@@ -153,7 +184,7 @@ class CustomComboBox extends React.Component<
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
 
-      onChange: (value: any) => this.dispatch({ type: 'ValueChange', value }),
+      onChange: this.handleChange,
       onClickOutside: this.handleBlur,
       onFocus: this.handleFocus,
       onFocusOutside: this.handleBlur,
@@ -161,6 +192,7 @@ class CustomComboBox extends React.Component<
       onInputChange: (_: any, value: string) =>
         this.dispatch({ type: 'TextChange', value }),
       onInputFocus: this.handleFocus,
+      onInputClick: this.handleInputClick,
       onInputKeyDown: (event: React.KeyboardEvent) => {
         event.persist();
         this.dispatch({ type: 'KeyPress', event });
@@ -217,21 +249,24 @@ class CustomComboBox extends React.Component<
   }
 
   private dispatch = (action: Action<any>) => {
-    let effects: Array<Effect<any>>;
-    this.setState(
-      state => {
-        let nextState;
-        let stateAndEffect = this.props.reducer(state, this.props, action);
-        if (!Array.isArray(stateAndEffect)) {
-          stateAndEffect = [stateAndEffect, []];
+    return new Promise(resolve => {
+      let effects: Array<Effect<any>>;
+      this.setState(
+        state => {
+          let nextState;
+          let stateAndEffect = this.props.reducer(state, this.props, action);
+          if (!Array.isArray(stateAndEffect)) {
+            stateAndEffect = [stateAndEffect, []];
+          }
+          [nextState, effects] = stateAndEffect;
+          return nextState;
+        },
+        () => {
+          effects.forEach(this.handleEffect);
+          resolve();
         }
-        [nextState, effects] = stateAndEffect;
-        return nextState;
-      },
-      () => {
-        effects.forEach(this.handleEffect);
-      }
-    );
+      );
+    })
   };
 
   private handleEffect = (effect: Effect<any>) => {
@@ -242,6 +277,29 @@ class CustomComboBox extends React.Component<
 
   private getState = () => this.state;
 
+  private handleChange = async (value: any, event: React.SyntheticEvent) => {
+    const eventType = event.type;
+    if (eventType === 'click') {
+      this.keepingFocus = true;
+    }
+
+    await this.dispatch({ type: 'ValueChange', value });
+
+    if (eventType === 'click' && this.keepingFocus) {
+      await this.dispatch({ type: 'RestoreFocus' });
+      this.keepingFocus = false;
+    }
+    if (
+      (
+        eventType === 'keyup' ||
+        eventType === 'keydown' ||
+        eventType === 'keypress'
+      ) && (event as React.KeyboardEvent).key === 'Enter'
+    ) {
+      this.focusNext();
+    }
+  };
+
   private handleFocus = () => {
     if (this.focused) {
       return;
@@ -251,7 +309,7 @@ class CustomComboBox extends React.Component<
   };
 
   private handleBlur = () => {
-    if (!this.focused) {
+    if (!this.focused || this.keepingFocus) {
       return;
     }
     this.focused = false;
@@ -267,6 +325,10 @@ class CustomComboBox extends React.Component<
     }
 
     this.handleBlur();
+  };
+
+  private handleInputClick = () => {
+    this.dispatch({ type: 'InputClick' });
   };
 }
 

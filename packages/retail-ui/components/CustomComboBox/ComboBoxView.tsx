@@ -33,13 +33,14 @@ interface ComboBoxViewProps<T> {
   maxLength?: number;
   maxMenuHeight?: number | string;
 
-  onChange?: (item: T) => any;
+  onChange?: (item: T, e: React.SyntheticEvent) => void;
   onClickOutside?: () => void;
   onFocus?: () => void;
   onFocusOutside?: () => void;
   onInputBlur?: () => void;
   onInputChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
   onInputFocus?: () => void;
+  onInputClick?: () => void;
   onInputKeyDown?: (e: React.KeyboardEvent) => void;
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseOver?: (e: React.MouseEvent) => void;
@@ -64,9 +65,6 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     onFocusOutside: () => {
       /**/
     },
-    onChange: (item: any) => {
-      /**/
-    },
     size: 'small',
     width: 250 as string | number
   };
@@ -83,7 +81,6 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     const { input, props } = this;
     if (props.editing && !prevProps.editing && input) {
       input.focus();
-      input.setSelectionRange(0, (props.textValue || '').length);
     }
   }
 
@@ -245,7 +242,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       const props = Object.assign(
         {
           key: index,
-          onClick: () => this.props.onChange!(element.props)
+          onClick: (e: React.SyntheticEvent) => this.handleItemSelect(element.props, e)
         },
         element.props
       );
@@ -253,7 +250,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
     return (
       // tslint:disable-next-line:jsx-no-lambda
-      <MenuItem onClick={() => this.props.onChange!(item)} key={index}>
+      <MenuItem onClick={(e) => this.handleItemSelect(item, e)} key={index}>
         {state => this.props.renderItem!(item, state)}
       </MenuItem>
     );
@@ -270,6 +267,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       onInputBlur,
       onInputChange,
       onInputFocus,
+      onInputClick,
       onInputKeyDown,
       openButton,
       placeholder,
@@ -292,6 +290,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           onBlur={onInputBlur}
           onChange={onInputChange}
           onFocus={onInputFocus}
+          onClick={onInputClick}
           rightIcon={openButton ? <span /> : null}
           value={textValue || ''}
           onKeyDown={onInputKeyDown}
@@ -322,6 +321,13 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       </InputLikeText>
     );
   }
+
+  private handleItemSelect = (item: T, event: React.SyntheticEvent) => {
+    event.persist();
+    if (this.props.onChange) {
+      this.props.onChange(item, event);
+    }
+  };
 
   private refInput = (input: Nullable<Input>) => {
     if (this.props.refInput) {

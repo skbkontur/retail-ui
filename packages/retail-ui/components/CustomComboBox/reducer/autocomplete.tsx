@@ -25,7 +25,6 @@ const reducers: { [key: string]: Reducer } = {
       : props.value ? props.valueToString!(props.value) : '';
     return [
       {
-        ...state,
         textValue,
         focused: true,
         editing: true,
@@ -34,6 +33,9 @@ const reducers: { [key: string]: Reducer } = {
       },
       [Effect.Focus]
     ];
+  },
+  InputClick(state, props, action) {
+    return state;
   },
   TextChange: ((
     state,

@@ -168,6 +168,16 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
   }
 
   /**
+   * Выделяет текст внутри input
+   * @public
+   */
+  public selectInputText() {
+    if (this.comboboxElement) {
+      this.comboboxElement.selectInputText();
+    }
+  }
+
+  /**
    * Сбрасывает введенное пользователем значение
    * @public
    */

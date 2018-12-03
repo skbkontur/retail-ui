@@ -77,6 +77,15 @@ const searchFactory = (isEmpty: boolean): EffectType => (
   }
   makeRequest();
 };
+const getValueString = (props: CustomComboBoxProps<any>) => {
+  const { value, valueToString } = props;
+  if (!value) {
+    return '';
+  }
+  return valueToString
+    ? valueToString(value)
+    : value;
+};
 
 const Effect = {
   Search: searchFactory,
@@ -199,6 +208,10 @@ const Effect = {
   },
   Reflow: (() => {
     LayoutEvents.emit();
+  }) as EffectType,
+  SelectInputText: ((dispatch, getState, getProps, getInstance) => {
+    const combobox = getInstance();
+    combobox.selectInputText();
   }) as EffectType
 };
 
@@ -235,7 +248,19 @@ const reducers: { [type: string]: Reducer } = {
       [Effect.Blur, Effect.UnexpectedInput(state.textValue, items)]
     ];
   },
+  RestoreFocus(state, props, action) {
+    const textValue = getValueString(props);
+    return {
+      focused: true,
+      opened: false,
+      editing: true,
+      items: null,
+      textValue
+    };
+  },
   Focus(state, props, action) {
+    const textValue = getValueString(props);
+
     if (state.editing) {
       return [
         {
@@ -246,12 +271,6 @@ const reducers: { [type: string]: Reducer } = {
       ];
     }
 
-    let textValue = '';
-    if (props.value) {
-      textValue = props.valueToString
-        ? props.valueToString(props.value)
-        : props.value;
-    }
     return [
       {
         focused: true,
@@ -259,7 +278,7 @@ const reducers: { [type: string]: Reducer } = {
         editing: true,
         textValue
       },
-      [Effect.Search(true), Effect.Focus]
+      [Effect.Search(true), Effect.Focus, Effect.SelectInputText]
     ];
   },
   TextChange(state, props, action) {
@@ -276,14 +295,14 @@ const reducers: { [type: string]: Reducer } = {
       textValue: action.value
     };
   },
-  ValueChange(state, props, action) {
+  ValueChange(state, props, { value }) {
     return [
       {
         opened: false,
         inputChanged: false,
         editing: false
       },
-      [Effect.Change(action.value)]
+      [Effect.Change(value)]
     ];
   },
   KeyPress(state, props, { event }) {
@@ -314,6 +333,17 @@ const reducers: { [type: string]: Reducer } = {
       default:
         return state;
     }
+  },
+  InputClick(state, props, action) {
+    if (!state.opened) {
+      return [
+        {
+          opened: true
+        },
+        [Effect.Search(false)]
+      ];
+    }
+    return state;
   },
   RequestItems(state, props, action) {
     return {
