@@ -147,7 +147,14 @@ storiesOf('ComboBox', module)
         </span>
       </div>
     );
-  });
+  })
+  .add('focus flow', () => (
+    <div>
+      <SimpleCombobox autoFocus={true} />
+      <br/><br/>
+      <SimpleCombobox />
+    </div>
+  ));
 
 interface ComboBoxWithErrorTogglerState {
   error: boolean;
