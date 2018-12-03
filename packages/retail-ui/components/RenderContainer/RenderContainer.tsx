@@ -48,9 +48,8 @@ export default class RenderContainer extends React.Component<{
     if (REACT_16) {
       return [
         ReactDOM.createPortal(this.props.children, this._domContainer),
-        <Portal key="portal-ref" rt_rootID={this._testID}>
-          {this.props.anchor}
-        </Portal>
+        this.props.anchor,
+        <Portal key="portal-ref" rt_rootID={this._testID} />
       ] as any; // FIXME: To support ts typings for react@15, render should return JSX.Element
     }
     return <Portal rt_rootID={this._testID}>{this.props.anchor}</Portal>;
@@ -108,13 +107,19 @@ export default class RenderContainer extends React.Component<{
 
 class Portal extends React.Component<{ rt_rootID: number }> {
   public componentDidMount() {
+    if (!this.props.children) {
+      return;
+    }
+
     const element = ReactDOM.findDOMNode(this);
 
     if (element && element instanceof Element) {
-      element.setAttribute(
-        'data-render-container-id',
-        String(this.props.rt_rootID)
-      );
+      const rootId = element.getAttribute('data-render-container-id');
+      const rootIdAttribute = rootId
+        ? `${rootId} ${this.props.rt_rootID}`
+        : `${this.props.rt_rootID}`;
+
+      element.setAttribute('data-render-container-id', rootIdAttribute);
     }
   }
 
