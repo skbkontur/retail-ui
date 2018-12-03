@@ -1,7 +1,7 @@
-import {EstateStatuses, FiasId, Fields, StructureStatuses} from '../types';
-import {abbreviations} from '../constants/abbreviations';
-import {Nullable} from '../../../typings/utility-types';
-import {FiasData} from './FiasData';
+import { EstateStatuses, FiasId, Fields, StructureStatuses } from '../types';
+import { abbreviations } from '../constants/abbreviations';
+import { Nullable } from '../../../typings/utility-types';
+import { FiasData } from './FiasData';
 
 export class AddressElement {
 
@@ -153,13 +153,15 @@ export class AddressElement {
         abbreviation,
         number,
         structureNumber,
-        buildingNumber
+        buildingNumber,
+        structureStatus
       } = data;
       switch (type) {
         case Fields.house:
           return {
             number,
             structureNumber,
+            structureStatus,
             buildingNumber
           };
         default:
@@ -168,9 +170,20 @@ export class AddressElement {
             abbreviation
           };
       }
+    } else {
+      switch (type) {
+        case Fields.house:
+          // force invalidate house
+          // if it wasn't chosen from the list
+          // (we don't know what field to fill)
+          return {
+            number: '100%NotValidHouseNumber'
+          };
+        default:
+          return {
+            name: this.name
+          };
+      }
     }
-    return {
-      name: this.name
-    };
   }
 }
