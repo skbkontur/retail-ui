@@ -1,6 +1,5 @@
 import * as React from 'react';
 import ComboBox, { ComboBoxProps } from '../../ComboBox';
-import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
 import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
 
@@ -28,16 +27,8 @@ export class FiasComboBox extends React.Component<
     totalCount: 0
   };
 
-  private combobox: Nullable<ComboBox<Address>> = null;
-
   public get hasItems() {
     return this.state.totalCount > 0;
-  };
-
-  public reset = () => {
-    if (this.combobox) {
-      this.combobox.reset();
-    }
   };
 
   public render() {
@@ -49,7 +40,6 @@ export class FiasComboBox extends React.Component<
         onInputChange={this.handleInputChange}
         totalCount={this.state.totalCount}
         renderTotalCount={this.renderTotalCount}
-        ref={this.createRef}
       />
     );
   }
@@ -92,10 +82,6 @@ export class FiasComboBox extends React.Component<
       this.props.onInputChange(query);
     }
     this.setState({ searchText: query });
-  };
-
-  private createRef = (element: ComboBox<Address>) => {
-    this.combobox = element;
   };
 
   private highlight(str: string, lastMatchOnly: boolean = true) {

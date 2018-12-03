@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {FiasComboBox, FiasComboBoxChangeEvent} from './FiasComboBox';
 import {Address} from '../models/Address';
-import {Nullable} from '../../../typings/utility-types';
 import {defaultLocale} from '../constants/locale';
 import {Fields, FiasLocale} from "../types";
 
@@ -17,8 +16,6 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   public static defultProps = {
     locale: defaultLocale
   };
-
-  private combobox: Nullable<FiasComboBox> = null;
 
   public render() {
     const { address, source, limit, locale } = this.props;
@@ -36,14 +33,9 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
         width={'100%'}
         autocomplete={true}
         limit={limit}
-        ref={this.createRef}
       />
     );
   }
-
-  private createRef = (element: FiasComboBox) => {
-    this.combobox = element;
-  };
 
   private renderItem = (address: Address): string => {
     return address.getText();
@@ -62,7 +54,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   };
 
   private handleChange = (
-    e: Nullable<FiasComboBoxChangeEvent>,
+    e: FiasComboBoxChangeEvent,
     value: Address
   ) => {
     this.props.onChange(value);
@@ -70,16 +62,10 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
 
   private onUnexpectedInput = (query: string) => {
     if (!query) {
-      this.handleChange(null, new Address({}));
+      return new Address({});
     }
-    this.resetCombobox();
   };
 
-  private resetCombobox = () => {
-    if (this.combobox) {
-      this.combobox.reset();
-    }
-  };
 }
 
 export default FiasSearch;

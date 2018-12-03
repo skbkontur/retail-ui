@@ -389,21 +389,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         address
       },
       () => {
-        this.resetComboboxes();
         this.check();
       }
     );
-  };
-
-  private resetComboboxes = () => {
-    for (const field in this.comboboxes) {
-      if (this.comboboxes.hasOwnProperty(field)) {
-        const combobox = this.comboboxes[field].ref;
-        if (combobox) {
-          combobox.reset();
-        }
-      }
-    }
   };
 }
 
