@@ -11,7 +11,9 @@ function setID(id: number) {
 
 const REACT_16 = !!ReactDOM.createPortal;
 
-export default class RenderContainer extends React.Component<any> {
+export default class RenderContainer extends React.Component<{
+  anchor?: React.ReactNode;
+}> {
   private _domContainer: HTMLElement;
 
   private _testID: number;
@@ -46,10 +48,12 @@ export default class RenderContainer extends React.Component<any> {
     if (REACT_16) {
       return [
         ReactDOM.createPortal(this.props.children, this._domContainer),
-        <Portal key="portal-ref" rt_rootID={this._testID} />
+        <Portal key="portal-ref" rt_rootID={this._testID}>
+          {this.props.anchor}
+        </Portal>
       ] as any; // FIXME: To support ts typings for react@15, render should return JSX.Element
     }
-    return <Portal rt_rootID={this._testID} />;
+    return <Portal rt_rootID={this._testID}>{this.props.anchor}</Portal>;
   }
 
   public componentDidMount() {
@@ -103,8 +107,23 @@ export default class RenderContainer extends React.Component<any> {
 }
 
 class Portal extends React.Component<{ rt_rootID: number }> {
+  public componentDidMount() {
+    const element = ReactDOM.findDOMNode(this);
+
+    if (element && element instanceof Element) {
+      element.setAttribute(
+        'data-render-container-id',
+        String(this.props.rt_rootID)
+      );
+    }
+  }
+
   public render() {
-    return <noscript data-render-container-id={this.props.rt_rootID} />;
+    return (
+      this.props.children || (
+        <noscript data-render-container-id={this.props.rt_rootID} />
+      )
+    );
   }
 }
 
