@@ -8,6 +8,7 @@ export const defaultLocale = {
   addressNotVerified: 'Адрес не найден в справочнике',
   addressNotFound: 'Адрес не найден',
   addressFillParentOrSearch: 'Заполните поля выше, либо воспользуйтесь поиском',
+  addressSelectItemFromList: 'Выберите значение из списка',
 
   searchNotFound: 'Адрес не найден',
   searchPlaceholder: 'Начните вводить адрес, например: Москва, Внуково',

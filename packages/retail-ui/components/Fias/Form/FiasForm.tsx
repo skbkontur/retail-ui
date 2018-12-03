@@ -349,8 +349,15 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   private createFieldTooltip = (field: Fields): React.ReactNode => {
     return () => {
       const { address } = this.state;
-      const { validationLevel } = this.props;
-      return (validationLevel !== 'None' && address.getError(field)) || null;
+      const { validationLevel, locale } = this.props;
+      const combobox = this.comboboxes[field].ref;
+      const hasItems = combobox ? combobox.hasItems : false;
+      if (validationLevel !== 'None' && address.hasError(field)) {
+        return hasItems
+          ? locale.addressSelectItemFromList
+          : address.getError(field);
+      }
+      return null;
     };
   };
 
@@ -365,7 +372,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           const verifiedAddress = Address.verify(
             address,
             data,
-            locale.addressNotFound
+            locale.addressNotVerified
           );
 
           this.setState({

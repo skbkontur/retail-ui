@@ -30,6 +30,10 @@ export class FiasComboBox extends React.Component<
 
   private combobox: Nullable<ComboBox<Address>> = null;
 
+  public get hasItems() {
+    return this.state.totalCount > 0;
+  };
+
   public reset = () => {
     if (this.combobox) {
       this.combobox.reset();
@@ -52,14 +56,16 @@ export class FiasComboBox extends React.Component<
 
   private getItems = (searchText: string): Promise<Address[]> => {
     const { getItems, limit } = this.props;
-    return getItems
-      ? getItems(searchText).then(items => {
-          this.setState({
-            totalCount: items.length
-          });
-          return items.slice(0, limit);
-        })
+    const promise = getItems
+      ? getItems(searchText)
       : Promise.resolve([]);
+    return promise
+      .then(items => {
+        this.setState({
+          totalCount: items.length
+        });
+        return items.slice(0, limit);
+      });
   };
 
   private renderItem = (
