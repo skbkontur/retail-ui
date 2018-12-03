@@ -462,4 +462,40 @@ describe('ComboBox', () => {
     wrapper.update();
     expect(wrapper.find(Menu)).toHaveLength(0);
   });
+
+  it('keep focus in input after click on item', async () => {
+    const ITEMS = ['one', 'two', 'three'];
+    const promise = Promise.resolve(ITEMS);
+    const search = jest.fn(() => promise);
+    const onFocus = jest.fn();
+    const onBlur = jest.fn();
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox
+        getItems={search}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        renderItem={x => x}
+      />
+    );
+    wrapper.instance().focus();
+    await promise;
+    wrapper.update();
+    onFocus.mockClear();
+
+    wrapper
+      .find('MenuItem')
+      .first()
+      .simulate('click');
+
+    await delay(0); // await for restore focus
+    wrapper.update();
+
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input).toBeTruthy();
+    expect(input).toBe(document.activeElement); // input has focus
+    expect(input.selectionStart).toBe(input.selectionEnd); // input text is not selected
+
+    expect(onFocus).toHaveBeenCalledTimes(0);
+    expect(onBlur).toHaveBeenCalledTimes(0);
+  });
 });
