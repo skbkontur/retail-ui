@@ -87,12 +87,6 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
-class Id extends React.Component {
-  public render() {
-    return this.props.children;
-  }
-}
-
 export default class Popup extends React.Component<PopupProps, PopupState> {
   public static propTypes = {
     /**
@@ -225,10 +219,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       );
     }
 
-    const content = (
-      <RenderContainer>{this.renderContent(location)}</RenderContainer>
-    );
-
     return (
       <RenderLayer
         onClickOutside={this.handleClickOutside}
@@ -239,18 +229,12 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
          */
         active={this.props.onCloseRequest && this.props.opened}
       >
-        {child ? (
-          /**
-           * NOTE: Simple hack as workaround for `React.Children.only`
-           * Remember `findDOMNode` on this instance return first sibling HTMLElement
-           */
-          <Id ref={this.refAnchorElement}>
-            {child}
-            {content}
-          </Id>
-        ) : (
-          content
-        )}
+        <RenderContainer
+          anchor={child}
+          ref={child ? this.refAnchorElement : undefined}
+        >
+          {this.renderContent(location)}
+        </RenderContainer>
       </RenderLayer>
     );
   }
