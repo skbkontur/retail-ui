@@ -114,6 +114,7 @@ export interface SearchOptions {
   parentFiasId?: FiasId;
   limit?: number;
   fullAddress?: boolean;
+  directParent?: boolean;
 }
 
 export interface APIProvider {

@@ -159,6 +159,16 @@ export class Address {
     return false;
   };
 
+  public isAllowedToSearchThroughAllParents = (field?: Fields): boolean => {
+    return (
+      Boolean(field) &&
+      field !== Fields.street &&
+      field !== Fields.stead &&
+      field !== Fields.house &&
+      field !== Fields.room
+    );
+  };
+
   public hasOnlyIndirectParent = (field: Nullable<Fields>): boolean => {
     if (field) {
       const parents = Address.getParentFields(field);

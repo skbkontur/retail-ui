@@ -112,14 +112,14 @@ export class FiasAPI implements APIProvider {
       });
   };
 
-  public search = ({ fiasId, searchText, field, parentFiasId, limit, fullAddress } : SearchOptions): Promise<APIResult<SearchResponse>> => {
+  public search = ({ fiasId, searchText, field, parentFiasId, limit, fullAddress, directParent } : SearchOptions): Promise<APIResult<SearchResponse>> => {
     const query: SearchQuery = {
       prefix: searchText,
       actual: true,
-      directParent: false,
       parentFiasId,
       limit,
       fullAddress,
+      directParent,
       version: this.version,
     };
     const emptyResult = {
