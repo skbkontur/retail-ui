@@ -5,10 +5,11 @@ import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Menu from '../Menu/Menu';
-import MenuItem, { MenuItemState } from '../MenuItem';
+import { MenuItemState } from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
+import ComboBoxMenu from './ComboBoxMenu';
 
 interface ComboBoxViewProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -99,12 +100,18 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       onMouseOver,
       openButton,
       opened,
+      refMenu,
+      maxMenuHeight,
+      onChange,
+      renderTotalCount,
+      renderItem,
+      renderNotFound,
+      totalCount,
       size,
       width
     } = this.props;
 
     const input = this.renderInput();
-    const menu = this.renderMenu();
 
     const topOffsets = {
       spinner: 6,
@@ -126,8 +133,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           top: topOffsets.spinner,
           right: 5,
           zIndex: 10
-        }}
-      >
+        }}>
         <Spinner type="mini" caption="" dimmed />
       </span>
     );
@@ -154,14 +160,12 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       <RenderLayer
         onClickOutside={onClickOutside}
         onFocusOutside={onFocusOutside}
-        active={opened}
-      >
+        active={opened}>
         <label
           style={{ width, display: 'inline-block', position: 'relative' }}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
-          onMouseOver={onMouseOver}
-        >
+          onMouseOver={onMouseOver}>
           {input}
           {spinnerIsShown && spinner}
           {arrowIsShown && arrow}
@@ -171,93 +175,25 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
               // tslint:disable-next-line:jsx-no-lambda
               getParent={() => findDOMNode(this)}
               offsetY={1}
-              disablePortal={this.props.disablePortal}
-            >
-              {menu}
+              disablePortal={this.props.disablePortal}>
+              <ComboBoxMenu
+                items={items}
+                loading={loading}
+                maxMenuHeight={maxMenuHeight}
+                onChange={onChange!}
+                opened={opened}
+                refMenu={refMenu}
+                renderTotalCount={renderTotalCount}
+                renderItem={renderItem!}
+                renderNotFound={renderNotFound}
+                totalCount={totalCount}
+              />
             </DropdownContainer>
           )}
         </label>
       </RenderLayer>
     );
   }
-
-  private renderMenu(): React.ReactNode {
-    const {
-      opened,
-      items,
-      totalCount,
-      loading,
-      refMenu,
-      renderNotFound,
-      renderTotalCount,
-      maxMenuHeight
-    } = this.props;
-
-    if (!opened) {
-      return null;
-    }
-
-    if (loading && (!items || !items.length)) {
-      return (
-        <Menu ref={refMenu}>
-          <MenuItem disabled>
-            <div style={{ margin: '-2px 0 -1px' }}>
-              <Spinner type="mini" dimmed />
-            </div>
-          </MenuItem>
-        </Menu>
-      );
-    }
-
-    if ((items == null || items.length === 0) && renderNotFound) {
-      return (
-        <Menu ref={refMenu}>
-          <MenuItem disabled>{renderNotFound()}</MenuItem>
-        </Menu>
-      );
-    }
-
-    let total = null;
-    if (items && renderTotalCount && totalCount && items.length < totalCount) {
-      total = (
-        <MenuItem disabled>
-          <div style={{ fontSize: 12 }}>
-            {renderTotalCount(items.length, totalCount)}
-          </div>
-        </MenuItem>
-      );
-    }
-
-    return (
-      <Menu ref={refMenu} maxHeight={maxMenuHeight}>
-        {items && items.map(this.renderItem)}
-        {total}
-      </Menu>
-    );
-  }
-
-  private renderItem = (item: T, index: number): React.ReactNode => {
-    // NOTE this is undesireable feature, better
-    // to remove it from further versions
-    if (typeof item === 'function' || React.isValidElement(item)) {
-      // @ts-ignore
-      const element = typeof item === 'function' ? item() : item;
-      const props = Object.assign(
-        {
-          key: index,
-          onClick: () => this.props.onChange!(element.props)
-        },
-        element.props
-      );
-      return React.cloneElement(element, props);
-    }
-    return (
-      // tslint:disable-next-line:jsx-no-lambda
-      <MenuItem onClick={() => this.props.onChange!(item)} key={index}>
-        {state => this.props.renderItem!(item, state)}
-      </MenuItem>
-    );
-  };
 
   private renderInput(): React.ReactNode {
     const {
@@ -316,8 +252,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         placeholder={placeholder}
         size={size}
         width="100%"
-        ref={refInputLikeText}
-      >
+        ref={refInputLikeText}>
         {value ? renderValue!(value) : null}
       </InputLikeText>
     );

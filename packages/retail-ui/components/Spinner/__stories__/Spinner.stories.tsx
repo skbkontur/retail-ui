@@ -6,7 +6,10 @@ storiesOf('Spinner', module)
   .addDecorator(story => (
     <div style={{ height: 150, width: 200, padding: 4 }}>{story()}</div>
   ))
-  .add('Normal', () => <Spinner />)
-  .add('Big', () => <Spinner type="big" />)
-  .add('Mini', () => <Spinner type="mini" />)
-  .add('Mini dimmed', () => <Spinner type="mini" dimmed />);
+  .add('Simple', () => <Spinner />)
+  .add('Big', () => <Spinner type="big" caption="big" />)
+  .add('Normal', () => <Spinner type="normal" caption="normal" />)
+  .add('Mini', () => <Spinner type="mini" caption="mini" />)
+  .add('Mini dimmed', () => (
+    <Spinner type="mini" dimmed caption="mini dimmed" />
+  ));
