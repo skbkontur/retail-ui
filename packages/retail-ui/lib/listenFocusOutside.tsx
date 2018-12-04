@@ -88,7 +88,7 @@ function findRenderContainer(
   const newContainerId = currentNode.getAttribute('data-rendered-container-id');
   if (newContainerId) {
     const nextNode = document.querySelector(
-      `noscript[data-render-container-id="${newContainerId}"]`
+      `[data-render-container-id="${newContainerId}"]`
     );
 
     if (!nextNode) {
