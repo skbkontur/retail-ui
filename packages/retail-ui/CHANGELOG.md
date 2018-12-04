@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.31.0"></a>
+# [0.31.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.30.0...retail-ui@0.31.0) (2018-12-04)
+
+
+### Bug Fixes
+
+* **ComboBox:** don't do search on focus in autocomplete mode ([241195d](https://github.com/skbkontur/retail-ui/commit/241195d)), closes [#601](https://github.com/skbkontur/retail-ui/issues/601)
+* **DatePickerOld:** fix firefox specific bug ([737262d](https://github.com/skbkontur/retail-ui/commit/737262d))
+* **Modal:** generated docs use helper function as component ([ac0f9f3](https://github.com/skbkontur/retail-ui/commit/ac0f9f3))
+* **Popup:** fix render child for react@15 ([b2364a6](https://github.com/skbkontur/retail-ui/commit/b2364a6))
+* **Select:** fix text-overflow color ([4b100bd](https://github.com/skbkontur/retail-ui/commit/4b100bd)), closes [#543](https://github.com/skbkontur/retail-ui/issues/543)
+* **Select:** less offset of arrow-icon ([d2e1183](https://github.com/skbkontur/retail-ui/commit/d2e1183)), closes [#542](https://github.com/skbkontur/retail-ui/issues/542)
+
+
+### Features
+
+* **Input:** improve masked input ([#900](https://github.com/skbkontur/retail-ui/issues/900)) ([f03fd28](https://github.com/skbkontur/retail-ui/commit/f03fd28)), closes [#463](https://github.com/skbkontur/retail-ui/issues/463) [#449](https://github.com/skbkontur/retail-ui/issues/449) [#499](https://github.com/skbkontur/retail-ui/issues/499) [#463](https://github.com/skbkontur/retail-ui/issues/463) [#449](https://github.com/skbkontur/retail-ui/issues/449) [#499](https://github.com/skbkontur/retail-ui/issues/499)
+* **Modal:** add alignTop prop ([618b88b](https://github.com/skbkontur/retail-ui/commit/618b88b)), closes [#715](https://github.com/skbkontur/retail-ui/issues/715)
+
+
+
+
 <a name="0.30.0"></a>
 # [0.30.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.29.0...retail-ui@0.30.0) (2018-11-20)
 
