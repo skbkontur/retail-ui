@@ -20,7 +20,9 @@ export type Action<T> =
   | { type: 'Mount' }
   | { type: 'Focus' }
   | { type: 'Blur' }
-  | { type: 'Reset' };
+  | { type: 'Reset' }
+  | { type: 'Open' }
+  | { type: 'Close' };
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -113,6 +115,20 @@ class CustomComboBox extends React.Component<
 
     this.handleBlur();
   };
+
+  /**
+   * @public
+   */
+  public open() {
+    this.dispatch({ type: 'Open' });
+  }
+
+  /**
+   * @public
+   */
+  public close() {
+    this.dispatch({ type: 'Close' });
+  }
 
   public render() {
     const viewProps = {
