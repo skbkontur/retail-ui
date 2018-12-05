@@ -1,18 +1,22 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 
+interface RenderContainerProps {
+  anchor?: React.ReactNode;
+}
+
 const REACT_16 = !!ReactDOM.createPortal;
 
-export default class RenderContainer extends React.Component<{
-  anchor?: React.ReactNode;
-}> {
+export default class RenderContainer extends React.Component<
+  RenderContainerProps
+> {
   public static lastId = 0;
 
   private domContainer: HTMLElement;
   private rootId: number;
 
-  constructor(props: {}, context: {}) {
-    super(props, context);
+  constructor(props: RenderContainerProps) {
+    super(props);
 
     this.domContainer = document.createElement('div');
     this.hydrateId();
