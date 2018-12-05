@@ -92,6 +92,7 @@ export type InputProps = Override<
 export interface InputState {
   polyfillPlaceholder: boolean;
   blinking: boolean;
+  focused: boolean;
 }
 
 /**
@@ -107,7 +108,8 @@ class Input extends React.Component<InputProps, InputState> {
 
   public state: InputState = {
     polyfillPlaceholder: false,
-    blinking: false
+    blinking: false,
+    focused: false
   };
 
   private blinkTimeout: number = 0;
@@ -180,6 +182,8 @@ class Input extends React.Component<InputProps, InputState> {
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
+      onKeyDown,
+      onKeyPress,
       width,
       error,
       warning,
@@ -203,17 +207,16 @@ class Input extends React.Component<InputProps, InputState> {
       ...rest
     } = this.props;
 
-    const { blinking } = this.state;
+    const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: classNames({
-        [classes.root]: true,
+      className: classNames(classes.root, this.getSizeClassName(), {
         [classes.disabled]: disabled,
         [classes.error]: error,
         [classes.warning]: warning,
-        [classes.padLeft]: !!leftIcon,
-        [classes.padRight]: !!rightIcon,
-        [this.getSizeClassName()]: true
+        [classes.borderless]: borderless,
+        [classes.blink]: blinking,
+        [classes.focus]: focused
       }),
       style: { width },
       onMouseEnter,
@@ -223,16 +226,13 @@ class Input extends React.Component<InputProps, InputState> {
 
     const inputProps = {
       ...rest,
-      className: classNames({
-        [classes.input]: true,
-        [classes.borderless]: borderless,
-        [classes.blink]: blinking
-      }),
+      className: classNames(classes.input),
       value,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onKeyDown: this.handleKeyDown,
       onKeyPress: this.handleKeyPress,
+      onBlur: this.handleBlur,
       style: { textAlign: align },
       ref: this.refInput,
       type: 'text',
@@ -250,10 +250,14 @@ class Input extends React.Component<InputProps, InputState> {
 
     return (
       <label {...labelProps}>
+        <span className={classes.sideContainer}>{this.renderLeftIcon()}</span>
         {input}
         {this.renderPlaceholder()}
-        {this.renderLeftIcon()}
-        {this.renderRightIcon()}
+        <span
+          className={classNames(classes.sideContainer, classes.rightContainer)}
+        >
+          {this.renderRightIcon()}
+        </span>
       </label>
     );
   }
@@ -279,8 +283,6 @@ class Input extends React.Component<InputProps, InputState> {
         mask={mask}
         maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
         alwaysShowMask={this.props.alwaysShowMask}
-        hasLeftIcon={!!this.props.leftIcon}
-        hasRightIcon={!!this.props.rightIcon}
         onUnexpectedInput={this.handleUnexpectedInput}
       />
     );
@@ -295,11 +297,15 @@ class Input extends React.Component<InputProps, InputState> {
   }
 
   private renderIcon(icon: React.ReactNode, className: string) {
-    return icon ? (
-      <span className={className}>
-        <span className={classes.icon}>{icon}</span>
+    if (!icon) {
+      return null;
+    }
+
+    return (
+      <span className={classNames(className, classes.useDefaultColor)}>
+        {icon}
       </span>
-    ) : null;
+    );
   }
 
   private renderPlaceholder() {
@@ -358,6 +364,10 @@ class Input extends React.Component<InputProps, InputState> {
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.setState({
+      focused: true
+    });
+
     if (this.props.selectAllOnFocus) {
       this.selectAll();
     }
@@ -392,6 +402,14 @@ class Input extends React.Component<InputProps, InputState> {
       this.props.onUnexpectedInput();
     } else {
       this.blink();
+    }
+  };
+
+  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.setState({ focused: false });
+
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
     }
   };
 }

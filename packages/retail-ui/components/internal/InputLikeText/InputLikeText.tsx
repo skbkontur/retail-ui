@@ -99,14 +99,12 @@ export default class InputLikeText extends React.Component<
       ...rest
     } = this.props;
 
-    const className = classNames({
-      [styles.root]: true,
-      [styles.padRight]: padRight,
-      [styles.borderless]: borderless,
+    const className = classNames(styles.root, this._getSizeClassName(), {
+      [styles.disabled]: this.props.disabled,
       [styles.error]: error,
       [styles.warning]: warning,
-      [styles.disabled]: this.props.disabled,
-      [this._getSizeClassName()]: true
+      [styles.borderless]: borderless,
+      [styles.blink]: this.state.blinking
     });
 
     return (
@@ -114,11 +112,7 @@ export default class InputLikeText extends React.Component<
         <span
           {...rest}
           tabIndex={this.props.disabled ? undefined : 0}
-          className={classNames({
-            [styles.input]: true,
-            [styles.blink]: this.state.blinking,
-            [styles.borderless]: borderless
-          })}
+          className={styles.input}
           style={{
             position: 'relative'
           }}
@@ -146,6 +140,7 @@ export default class InputLikeText extends React.Component<
           </span>
         </span>
         {this.renderPlaceholder()}
+        <span className={styles.borders} />
       </label>
     );
   }

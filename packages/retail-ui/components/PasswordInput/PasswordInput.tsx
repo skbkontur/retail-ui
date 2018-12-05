@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import cn from 'classnames';
 import EyeOpenedIcon from '@skbkontur/react-icons/EyeOpened';
 import EyeClosedIcon from '@skbkontur/react-icons/EyeClosed';
 
@@ -65,19 +64,7 @@ export default class PasswordInput extends React.Component<
   }
 
   public render() {
-    const { capsLockEnabled } = this.state;
-
-    const rootClassNames = cn({
-      [styles.root]: true,
-      [styles.capsLockEnabled]: capsLockEnabled
-    });
-
-    return (
-      <div className={rootClassNames}>
-        {this._renderInput()}
-        {capsLockEnabled && <span className={styles.capsLockDetector} />}
-      </div>
-    );
+    return <div className={styles.root}>{this._renderInput()}</div>;
   }
 
   /**
@@ -147,16 +134,21 @@ export default class PasswordInput extends React.Component<
   };
 
   private _renderEye = () => {
+    const { capsLockEnabled } = this.state;
+
     return (
-      <span
-        className={styles.toggleVisibility}
-        onClick={this._handleToggleVisibility}
-      >
-        {this.state.visible ? (
-          <EyeOpenedIcon size={14} />
-        ) : (
-          <EyeClosedIcon size={14} />
-        )}
+      <span className={styles.iconWrapper}>
+        {capsLockEnabled && <span className={styles.capsLockDetector} />}
+        <span
+          className={styles.toggleVisibility}
+          onClick={this._handleToggleVisibility}
+        >
+          {this.state.visible ? (
+            <EyeOpenedIcon size={14} />
+          ) : (
+            <EyeClosedIcon size={14} />
+          )}
+        </span>
       </span>
     );
   };
