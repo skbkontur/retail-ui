@@ -151,7 +151,8 @@ storiesOf('ComboBox', module)
   .add('focus flow', () => (
     <div>
       <SimpleCombobox autoFocus={true} />
-      <br/><br/>
+      <br />
+      <br />
       <SimpleCombobox />
     </div>
   ));

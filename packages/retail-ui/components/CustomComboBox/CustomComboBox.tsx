@@ -290,11 +290,10 @@ class CustomComboBox extends React.Component<
       this.keepingFocus = false;
     }
     if (
-      (
-        eventType === 'keyup' ||
+      (eventType === 'keyup' ||
         eventType === 'keydown' ||
-        eventType === 'keypress'
-      ) && (event as React.KeyboardEvent).key === 'Enter'
+        eventType === 'keypress') &&
+      (event as React.KeyboardEvent).key === 'Enter'
     ) {
       this.focusNext();
     }

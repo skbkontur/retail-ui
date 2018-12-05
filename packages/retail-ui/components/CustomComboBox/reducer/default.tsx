@@ -158,8 +158,6 @@ const Effect = {
   HighlightMenuItem: ((dispatch, getState, getProps, getInstance) => {
     const { value, itemToValue } = getProps();
     const { items, focused } = getState();
-    // FIXME: accessing private props
-    // @ts-ignore
     const { menu }: { menu: Nullable<Menu> } = getInstance();
 
     if (!menu) {
@@ -174,9 +172,11 @@ const Effect = {
     if (items && items.length && value && itemToValue) {
       index = items.findIndex(x => itemToValue(x) === itemToValue(value));
     }
+    // FIXME: accessing private props
     // @ts-ignore
     menu._highlightItem(index);
     if (index >= 0) {
+      // FIXME: accessing private props
       // @ts-ignore
       process.nextTick(() => menu && menu._scrollToSelected());
     } else {
@@ -185,8 +185,6 @@ const Effect = {
   }) as EffectType,
   SelectMenuItem: (event: React.SyntheticEvent<any>) =>
     ((dispatch, getState, getProps, getInstance) => {
-      // FIXME: accessing private props
-      // @ts-ignore
       const { menu }: { menu: Nullable<Menu> } = getInstance();
       if (menu) {
         menu.enter(event);
@@ -198,10 +196,9 @@ const Effect = {
     getProps,
     getInstance
   ) => {
-    // FIXME: accessing private props
-    // @ts-ignore
     const { menu }: { menu: Nullable<Menu> } = getInstance();
     if (menu) {
+      // FIXME: accessing private props
       // @ts-ignore
       menu._move(direction);
     }
