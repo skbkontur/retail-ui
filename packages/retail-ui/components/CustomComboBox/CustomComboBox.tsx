@@ -10,7 +10,7 @@ import { MenuItemState } from '../MenuItem';
 import tabbable from 'tabbable';
 
 export type Action<T> =
-  | { type: 'ValueChange'; value: T }
+  | { type: 'ValueChange'; value: T; keepFocus: boolean }
   | { type: 'TextChange'; value: string }
   | { type: 'KeyPress'; event: React.KeyboardEvent }
   | {
@@ -20,7 +20,6 @@ export type Action<T> =
     }
   | { type: 'Mount' }
   | { type: 'Focus' }
-  | { type: 'RestoreFocus' }
   | { type: 'InputClick' }
   | { type: 'Blur' }
   | { type: 'Reset' }
@@ -249,24 +248,21 @@ class CustomComboBox extends React.Component<
   }
 
   private dispatch = (action: Action<any>) => {
-    return new Promise(resolve => {
-      let effects: Array<Effect<any>>;
-      this.setState(
-        state => {
-          let nextState;
-          let stateAndEffect = this.props.reducer(state, this.props, action);
-          if (!Array.isArray(stateAndEffect)) {
-            stateAndEffect = [stateAndEffect, []];
-          }
-          [nextState, effects] = stateAndEffect;
-          return nextState;
-        },
-        () => {
-          effects.forEach(this.handleEffect);
-          resolve();
+    let effects: Array<Effect<any>>;
+    this.setState(
+      state => {
+        let nextState;
+        let stateAndEffect = this.props.reducer(state, this.props, action);
+        if (!Array.isArray(stateAndEffect)) {
+          stateAndEffect = [stateAndEffect, []];
         }
-      );
-    })
+        [nextState, effects] = stateAndEffect;
+        return nextState;
+      },
+      () => {
+        effects.forEach(this.handleEffect);
+      }
+    );
   };
 
   private handleEffect = (effect: Effect<any>) => {
@@ -277,18 +273,15 @@ class CustomComboBox extends React.Component<
 
   private getState = () => this.state;
 
-  private handleChange = async (value: any, event: React.SyntheticEvent) => {
+  private handleChange = (value: any, event: React.SyntheticEvent) => {
     const eventType = event.type;
-    if (eventType === 'click') {
-      this.keepingFocus = true;
-    }
 
-    await this.dispatch({ type: 'ValueChange', value });
+    this.dispatch({
+      type: 'ValueChange',
+      value,
+      keepFocus: eventType === 'click'
+    });
 
-    if (eventType === 'click' && this.keepingFocus) {
-      await this.dispatch({ type: 'RestoreFocus' });
-      this.keepingFocus = false;
-    }
     if (
       (eventType === 'keyup' ||
         eventType === 'keydown' ||

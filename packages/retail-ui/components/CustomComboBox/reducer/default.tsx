@@ -77,14 +77,11 @@ const searchFactory = (isEmpty: boolean): EffectType => (
   }
   makeRequest();
 };
-const getValueString = (props: CustomComboBoxProps<any>) => {
-  const { value, valueToString } = props;
+const getValueString = (value: any, valueToString: Props['valueToString']) => {
   if (!value) {
     return '';
   }
-  return valueToString
-    ? valueToString(value)
-    : value;
+  return valueToString ? valueToString(value) : value;
 };
 
 const Effect = {
@@ -154,6 +151,15 @@ const Effect = {
         dispatch({ type: 'TextChange', value: returnedValue });
       }
     }
+  }) as EffectType,
+  InputFocus: ((dispatch, getState, getProps, getInstance) => {
+    const { input } = getInstance();
+
+    if (!input) {
+      return;
+    }
+
+    input.focus();
   }) as EffectType,
   HighlightMenuItem: ((dispatch, getState, getProps, getInstance) => {
     const { value, itemToValue } = getProps();
@@ -245,18 +251,9 @@ const reducers: { [type: string]: Reducer } = {
       [Effect.Blur, Effect.UnexpectedInput(state.textValue, items)]
     ];
   },
-  RestoreFocus(state, props, action) {
-    const textValue = getValueString(props);
-    return {
-      focused: true,
-      opened: false,
-      editing: true,
-      items: null,
-      textValue
-    };
-  },
   Focus(state, props, action) {
-    const textValue = getValueString(props);
+    const { value, valueToString } = props;
+    const textValue = getValueString(value, valueToString);
 
     if (state.editing) {
       return [
@@ -292,7 +289,20 @@ const reducers: { [type: string]: Reducer } = {
       textValue: action.value
     };
   },
-  ValueChange(state, props, { value }) {
+  ValueChange(state, props, { value, keepFocus }) {
+    if (keepFocus) {
+      const textValue = getValueString(value, props.valueToString);
+      return [
+        {
+          opened: false,
+          inputChanged: false,
+          editing: true,
+          items: null,
+          textValue
+        },
+        [Effect.Change(value), Effect.InputFocus]
+      ];
+    }
     return [
       {
         opened: false,
