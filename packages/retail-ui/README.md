@@ -2,8 +2,8 @@
 
 [![Build Status](https://travis-ci.org/skbkontur/retail-ui.svg?branch=master)](https://travis-ci.org/skbkontur/retail-ui)
 
-- [Changelog](CHANGELOG.md)
-- [Roadmap](ROADMAP.md)
+- [Changelog](#/Changelog)
+- [Roadmap](#/Roadmap)
 
 ### Варианты использование
 
