@@ -60,13 +60,7 @@ const reducers: { [key: string]: Reducer } = {
       },
       [Effect.DebouncedSearch, Effect.InputChange]
     ];
-  }) as Reducer,
-  Open: (state, props, action) => {
-    return {
-      ...state,
-      opened: true
-    };
-  }
+  }) as Reducer
 };
 
 export { reducers };

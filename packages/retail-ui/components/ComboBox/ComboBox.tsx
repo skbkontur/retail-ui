@@ -150,6 +150,24 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
   }
 
   /**
+   * @public Открывает выпадающий список
+   */
+  public open() {
+    if (this.comboboxElement) {
+      this.comboboxElement.open();
+    }
+  }
+
+  /**
+   * @public Закрывает выпадающий список
+   */
+  public close() {
+    if (this.comboboxElement) {
+      this.comboboxElement.close();
+    }
+  }
+
+  /**
    * Сбрасывает введенное пользователем значение
    * @public
    */

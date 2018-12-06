@@ -135,7 +135,19 @@ storiesOf('ComboBox', module)
   .add('with external value', () => <ComboBoxWithExternalValue />)
   .add('with renderItem state', () => (
     <SimpleCombobox renderItem={(_, state) => String(state)} />
-  ));
+  ))
+  .add('open and close methods', () => {
+    let combobox: Nullable<ComboBox<any>> = null;
+    return (
+      <div>
+        <ComboBox ref={e => combobox = e}/>
+        <span className="control-buttons">
+          <button onClick={() => combobox && combobox.open()}>open</button>
+          <button onClick={() => combobox && combobox.close()}>close</button>
+        </span>
+      </div>
+    );
+  });
 
 interface ComboBoxWithErrorTogglerState {
   error: boolean;
