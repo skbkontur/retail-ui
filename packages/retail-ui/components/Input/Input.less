@@ -23,13 +23,21 @@
     border: 1px solid @border-color-gray-light;
     border-top-color: @border-color-gray-dark;
     box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+    cursor: text;
+
+    * {
+      box-sizing: border-box;
+    }
+  }
+
+  .input {
     font: inherit;
-    margin: -1px 0 0 0;
+    margin: 0;
     padding: 0;
     outline: none;
     width: 100%;
     -webkit-appearance: none;
-    white-space: nowrap;
     text-overflow: clip;
     background: transparent;
     border: 0 none;
@@ -49,7 +57,9 @@
     overflow: hidden;
 
     &::before {
-      content: '\a0';
+      content: '\A0';
+      display: inline-block;
+      width: 0;
     }
   }
 
@@ -89,9 +99,9 @@
   }
 
   :global(.rt-ie-any) {
-    // Set height for IE only since IE does not support line-height for inputs.
-    // On the other hand, Chrome renders text (Segoe UI) 1 pixel lower if input
-    // has height set.
+    .inputWrapper {
+      margin: 0;
+    }
 
     .input {
       box-shadow: none !important;
@@ -121,12 +131,13 @@
   }
 
   .placeholder {
-    position: absolute;
     display: flex;
     align-items: center;
-    height: 100%;
+    position: absolute;
     top: 0;
-    left: @horizontal-padding;
+    left: 0;
+    width: 100%;
+    height: 100%;
     color: @placeholder-color;
     font-size: inherit;
     overflow: hidden;
@@ -135,10 +146,9 @@
     -ms-user-select: none;
     pointer-events: none;
     cursor: text;
-    padding: 0 1px;
   }
 
-  .focus + .placeholder {
+  .focus .placeholder {
     color: @placeholder-color-light;
   }
 
@@ -155,12 +165,10 @@
 
   .leftIcon {
     padding-right: 2px;
-    padding-left: 10px;
   }
 
   .rightIcon {
     padding-left: 2px;
-    padding-right: 10px;
   }
 
   .borderless {
@@ -171,6 +179,7 @@
   .focus {
     border-color: @border-color-focus;
     box-shadow: 0 0 0 1px @border-color-focus;
+    outline: none;
     z-index: 2;
   }
 
@@ -209,7 +218,6 @@
     min-width: 10px;
     height: 100%;
     padding-left: 10px;
-    line-height: 20px;
 
     &:before {
       content: '\a0';
@@ -221,6 +229,8 @@
   .rightContainer {
     margin: 0 0 0 auto;
     justify-self: flex-end;
+    padding-left: 0;
+    padding-right: 10px;
   }
 
   .prefix,

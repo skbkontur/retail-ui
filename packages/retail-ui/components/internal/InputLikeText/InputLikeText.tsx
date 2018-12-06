@@ -5,6 +5,8 @@ import '../../ensureOldIEClassName';
 import Upgrades from '../../../lib/Upgrades';
 import { InputSize } from '../../Input';
 import { Nullable, TimeoutID } from '../../../typings/utility-types';
+import { InputVisibilityState, IconType } from '../../Input/Input';
+import { InputProps } from '../../Input';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -12,12 +14,12 @@ const styles = isFlatDesign
   ? require('../../Input/Input.flat.less')
   : require('../../Input/Input.less');
 
+// TODO: добавить поддержку left/rightIcon
 export interface InputLikeTextProps {
   align?: 'left' | 'center' | 'right';
   borderless?: boolean;
   children?: React.ReactNode;
   error?: boolean;
-  padRight?: boolean;
   warning?: boolean;
   disabled?: boolean;
   size?: InputSize;
@@ -28,20 +30,19 @@ export interface InputLikeTextProps {
   [key: string]: any;
 }
 
-interface State {
-  blinking: boolean;
-}
+interface InputLikeTextState extends InputVisibilityState {}
 
 export default class InputLikeText extends React.Component<
   InputLikeTextProps,
-  State
+  InputLikeTextState
 > {
   public static defaultProps = {
     size: 'small'
   };
 
   public state = {
-    blinking: false
+    blinking: false,
+    focused: false
   };
 
   private _node: HTMLElement | null = null;
@@ -85,7 +86,6 @@ export default class InputLikeText extends React.Component<
 
   public render() {
     const {
-      className: cn,
       innerRef,
       tabIndex,
       placeholder,
@@ -95,7 +95,6 @@ export default class InputLikeText extends React.Component<
       children,
       error,
       warning,
-      padRight,
       ...rest
     } = this.props;
 
@@ -104,44 +103,35 @@ export default class InputLikeText extends React.Component<
       [styles.error]: error,
       [styles.warning]: warning,
       [styles.borderless]: borderless,
-      [styles.blink]: this.state.blinking
+      [styles.blink]: this.state.blinking,
+      [styles.focus]: this.state.focused
     });
 
     return (
-      <label className={className} style={{ width, textAlign: align }}>
-        <span
-          {...rest}
-          tabIndex={this.props.disabled ? undefined : 0}
-          className={styles.input}
-          style={{
-            position: 'relative'
-          }}
-          ref={this._ref}
-        >
-          <span
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 1,
-              paddingLeft: 'inherit',
-              paddingRight: 'inherit',
-              minHeight: 20 / 14 + 'em'
-            }}
-          >
-            <span
-              style={{
-                display: 'inline-block',
-                width: '100%',
-                overflow: 'hidden'
-              }}
-            >
-              {children}
-            </span>
-          </span>
+      <span
+        {...rest}
+        className={className}
+        style={{ width, textAlign: align }}
+        tabIndex={this.props.disabled ? undefined : 0}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        ref={this._ref}
+      >
+        <span className={styles.sideContainer}>
+          {this.renderLeftIcon()}
+          {prefix && <span className={styles.prefix}>{prefix}</span>}
         </span>
-        {this.renderPlaceholder()}
-        <span className={styles.borders} />
-      </label>
+        <span className={styles.inputWrapper}>
+          <span className={styles.input}>{children}</span>
+          {this.renderPlaceholder()}
+        </span>
+        <span
+          className={classNames(styles.sideContainer, styles.rightContainer)}
+        >
+          {suffix && <span className={styles.suffix}>{suffix}</span>}
+          {this.renderRightIcon()}
+        </span>
+      </span>
     );
   }
 
@@ -171,5 +161,44 @@ export default class InputLikeText extends React.Component<
     };
 
     return SIZE_CLASS_NAMES[this.props.size!];
+  }
+
+  private handleFocus = (event: React.FocusEvent<HTMLSpanElement>) => {
+    this.setState({ focused: true });
+
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
+    }
+  };
+  private handleBlur = (event: React.FocusEvent<HTMLSpanElement>) => {
+    this.setState({ focused: false });
+
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
+  };
+
+  private renderLeftIcon() {
+    return this.renderIcon(this.props.leftIcon, styles.leftIcon);
+  }
+
+  private renderRightIcon() {
+    return this.renderIcon(this.props.rightIcon, styles.rightIcon);
+  }
+
+  private renderIcon(icon: IconType, className: string) {
+    if (!icon) {
+      return null;
+    }
+
+    if (icon instanceof Function) {
+      return <span className={className}>{icon()}</span>;
+    }
+
+    return (
+      <span className={classNames(className, styles.useDefaultColor)}>
+        {icon}
+      </span>
+    );
   }
 }

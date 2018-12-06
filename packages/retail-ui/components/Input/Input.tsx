@@ -104,10 +104,13 @@ export type InputProps = Override<
   }
 >;
 
-export interface InputState {
-  polyfillPlaceholder: boolean;
+export interface InputVisibilityState {
   blinking: boolean;
   focused: boolean;
+}
+
+export interface InputState extends InputVisibilityState {
+  polyfillPlaceholder: boolean;
 }
 
 /**
