@@ -17,6 +17,7 @@
 - [ ] Гайдлайн для контрибьторов
 - [ ] Методы `open/close` для `ComboBox` [#967](https://github.com/skbkontur/retail-ui/pull/967)
 - [ ] Доработки по `Fias` [#960](https://github.com/skbkontur/retail-ui/pull/960)
+- [ ] Добавление свойств `prefix/postfix` для `Input` [#727](https://github.com/skbkontur/retail-ui/issues/727)
 
 ### Ноябрь 2018
 
