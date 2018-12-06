@@ -175,4 +175,33 @@ storiesOf('Input', module)
         <Button onClick={selectAll}>Select all</Button>
       </div>
     );
+  })
+  .add('Input with maxLength attr', () => (
+    <Input maxLength={3} placeholder="maxLength={3}" />
+  ))
+  .add('Manual blinking', () => {
+    class Sample extends React.Component {
+      private input: Input | null = null;
+
+      public render() {
+        return (
+          <Gapped>
+            <Input ref={this.refInput} />
+            <button onClick={this.handleClick}>Blink!</button>
+          </Gapped>
+        );
+      }
+
+      private handleClick = () => {
+        if (this.input) {
+          this.input.blink();
+        }
+      };
+
+      private refInput = (element: Input | null) => {
+        this.input = element;
+      };
+    }
+
+    return <Sample />;
   });

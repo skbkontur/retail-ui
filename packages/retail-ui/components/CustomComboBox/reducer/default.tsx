@@ -351,6 +351,16 @@ const reducers: { [type: string]: Reducer } = {
   },
   Reset() {
     return DefaultState;
+  },
+  Open: () => {
+    return {
+      opened: true
+    };
+  },
+  Close: () => {
+    return {
+      opened: false
+    };
   }
 };
 
