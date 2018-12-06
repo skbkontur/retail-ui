@@ -16,6 +16,10 @@ const classes: typeof CssStyles = isFlatDesign
   ? require('./Input.flat.less')
   : require('./Input.less');
 
+export const isDeleteKey = (key: string) => {
+  return key === 'Backspace' || key === 'Delete';
+};
+
 export type InputSize = 'small' | 'medium' | 'large';
 
 export type InputAlign = 'left' | 'center' | 'right';
@@ -74,6 +78,14 @@ export type InputProps = Override<
     mainInGroup?: boolean;
     /** Выделять введенное значение при фокусе */
     selectAllOnFocus?: boolean;
+    /**
+     * Обработчик неправильного ввода.
+     * По-умолчанию, инпут вспыхивает синим.
+     * Если передан - вызывается переданный обработчик,
+     * в таком случае вспыхивание можно вызвать
+     * публичным методом инстанса `blink()`
+     */
+    onUnexpectedInput?: () => void;
   }
 >;
 
@@ -187,6 +199,7 @@ class Input extends React.Component<InputProps, InputState> {
       mainInGroup,
       selectAllOnFocus,
       disabled,
+      onUnexpectedInput,
       ...rest
     } = this.props;
 
@@ -218,6 +231,8 @@ class Input extends React.Component<InputProps, InputState> {
       value,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
+      onKeyDown: this.handleKeyDown,
+      onKeyPress: this.handleKeyPress,
       style: { textAlign: align },
       ref: this.refInput,
       type: 'text',
@@ -266,6 +281,7 @@ class Input extends React.Component<InputProps, InputState> {
         alwaysShowMask={this.props.alwaysShowMask}
         hasLeftIcon={!!this.props.leftIcon}
         hasRightIcon={!!this.props.rightIcon}
+        onUnexpectedInput={this.handleUnexpectedInput}
       />
     );
   }
@@ -348,6 +364,34 @@ class Input extends React.Component<InputProps, InputState> {
 
     if (this.props.onFocus) {
       this.props.onFocus(event);
+    }
+  };
+
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(event);
+    }
+
+    if (!event.currentTarget.value && isDeleteKey(event.key) && !event.repeat) {
+      this.handleUnexpectedInput();
+    }
+  };
+
+  private handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (this.props.onKeyPress) {
+      this.props.onKeyPress(event);
+    }
+
+    if (this.props.maxLength === event.currentTarget.value.length) {
+      this.handleUnexpectedInput();
+    }
+  };
+
+  private handleUnexpectedInput = () => {
+    if (this.props.onUnexpectedInput) {
+      this.props.onUnexpectedInput();
+    } else {
+      this.blink();
     }
   };
 }
