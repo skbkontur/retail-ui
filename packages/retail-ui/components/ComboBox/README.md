@@ -211,13 +211,13 @@ const getItems = query =>
           x.value.toString(10) === query
       )
       .map(({ label, ...rest }) => {
-        const start = label.toLowerCase().indexOf(query);
+        const start = label.toLowerCase().indexOf(query.toLowerCase());
         const end = start + query.length;
 
         return {
           ...rest,
           label,
-          highlightedLabel: (
+          highlightedLabel: start >= 0 ? (
             <span>
               {label.substring(0, start)}
               <strong
@@ -229,7 +229,7 @@ const getItems = query =>
               </strong>
               {label.substring(end)}
             </span>
-          )
+          ) : null
         };
       })
   ).then(delay(500));
