@@ -166,5 +166,15 @@ gemini.suite("ComboBox", () => {
           action.click(find('[class^="Input-root"]'));
         });
     });
+
+    gemini.suite("focus next field after Enter on item", suite => {
+      suite
+        .setUrl(pathTo("ComboBox", "focus flow"))
+        .setCaptureElements("#test-element")
+        .capture("before")
+        .capture("after Enter on Item", (action) => {
+          action.sendKeys(gemini.ENTER);
+        });
+    });
   });
 });

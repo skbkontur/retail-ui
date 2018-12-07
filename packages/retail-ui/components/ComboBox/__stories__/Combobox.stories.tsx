@@ -147,7 +147,28 @@ storiesOf('ComboBox', module)
         </span>
       </div>
     );
-  });
+  })
+  .add('focus flow', () => (
+    <div>
+      <SimpleCombobox autoFocus={true} />
+      <br />
+      <br />
+      <SimpleCombobox />
+    </div>
+  ))
+  .add('1024 nested ComboBoxes', () => {
+    const RecursiveComboboxes = ({ depth }: { depth: number }) => (
+      <div>
+        {Array.from({length: 2}).map((_, i) => (
+          <div key={`${depth}-${i}`}>
+            {depth > 1 ? <RecursiveComboboxes depth={depth - 1}/> : <SimpleCombobox />}
+          </div>
+        ))}
+      </div>
+    );
+    return <RecursiveComboboxes depth={10}/>;
+  })
+;
 
 interface ComboBoxWithErrorTogglerState {
   error: boolean;

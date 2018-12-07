@@ -77,6 +77,12 @@ const searchFactory = (isEmpty: boolean): EffectType => (
   }
   makeRequest();
 };
+const getValueString = (value: any, valueToString: Props['valueToString']) => {
+  if (!value) {
+    return '';
+  }
+  return valueToString ? valueToString(value) : value;
+};
 
 const Effect = {
   Search: searchFactory,
@@ -146,11 +152,18 @@ const Effect = {
       }
     }
   }) as EffectType,
+  InputFocus: ((dispatch, getState, getProps, getInstance) => {
+    const { input } = getInstance();
+
+    if (!input) {
+      return;
+    }
+
+    input.focus();
+  }) as EffectType,
   HighlightMenuItem: ((dispatch, getState, getProps, getInstance) => {
     const { value, itemToValue } = getProps();
     const { items, focused } = getState();
-    // FIXME: accessing private props
-    // @ts-ignore
     const { menu }: { menu: Nullable<Menu> } = getInstance();
 
     if (!menu) {
@@ -165,9 +178,11 @@ const Effect = {
     if (items && items.length && value && itemToValue) {
       index = items.findIndex(x => itemToValue(x) === itemToValue(value));
     }
+    // FIXME: accessing private props
     // @ts-ignore
     menu._highlightItem(index);
     if (index >= 0) {
+      // FIXME: accessing private props
       // @ts-ignore
       process.nextTick(() => menu && menu._scrollToSelected());
     } else {
@@ -176,8 +191,6 @@ const Effect = {
   }) as EffectType,
   SelectMenuItem: (event: React.SyntheticEvent<any>) =>
     ((dispatch, getState, getProps, getInstance) => {
-      // FIXME: accessing private props
-      // @ts-ignore
       const { menu }: { menu: Nullable<Menu> } = getInstance();
       if (menu) {
         menu.enter(event);
@@ -189,16 +202,19 @@ const Effect = {
     getProps,
     getInstance
   ) => {
-    // FIXME: accessing private props
-    // @ts-ignore
     const { menu }: { menu: Nullable<Menu> } = getInstance();
     if (menu) {
+      // FIXME: accessing private props
       // @ts-ignore
       menu._move(direction);
     }
   },
   Reflow: (() => {
     LayoutEvents.emit();
+  }) as EffectType,
+  SelectInputText: ((dispatch, getState, getProps, getInstance) => {
+    const combobox = getInstance();
+    combobox.selectInputText();
   }) as EffectType
 };
 
@@ -236,6 +252,9 @@ const reducers: { [type: string]: Reducer } = {
     ];
   },
   Focus(state, props, action) {
+    const { value, valueToString } = props;
+    const textValue = getValueString(value, valueToString);
+
     if (state.editing) {
       return [
         {
@@ -246,12 +265,6 @@ const reducers: { [type: string]: Reducer } = {
       ];
     }
 
-    let textValue = '';
-    if (props.value) {
-      textValue = props.valueToString
-        ? props.valueToString(props.value)
-        : props.value;
-    }
     return [
       {
         focused: true,
@@ -259,7 +272,7 @@ const reducers: { [type: string]: Reducer } = {
         editing: true,
         textValue
       },
-      [Effect.Search(true), Effect.Focus]
+      [Effect.Search(true), Effect.Focus, Effect.SelectInputText]
     ];
   },
   TextChange(state, props, action) {
@@ -276,14 +289,27 @@ const reducers: { [type: string]: Reducer } = {
       textValue: action.value
     };
   },
-  ValueChange(state, props, action) {
+  ValueChange(state, props, { value, keepFocus }) {
+    if (keepFocus) {
+      const textValue = getValueString(value, props.valueToString);
+      return [
+        {
+          opened: false,
+          inputChanged: false,
+          editing: true,
+          items: null,
+          textValue
+        },
+        [Effect.Change(value), Effect.InputFocus]
+      ];
+    }
     return [
       {
         opened: false,
         inputChanged: false,
         editing: false
       },
-      [Effect.Change(action.value)]
+      [Effect.Change(value)]
     ];
   },
   KeyPress(state, props, { event }) {
@@ -314,6 +340,17 @@ const reducers: { [type: string]: Reducer } = {
       default:
         return state;
     }
+  },
+  InputClick(state, props, action) {
+    if (!state.opened) {
+      return [
+        {
+          opened: true
+        },
+        [Effect.Search(false)]
+      ];
+    }
+    return state;
   },
   RequestItems(state, props, action) {
     return {

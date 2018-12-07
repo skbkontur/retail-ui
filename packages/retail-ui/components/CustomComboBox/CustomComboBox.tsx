@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import ReactDOM from 'react-dom';
 import ComboBoxView from './ComboBoxView';
 import { Nullable } from '../../typings/utility-types';
 import Input from '../Input';
@@ -7,9 +7,10 @@ import Menu from '../Menu/Menu';
 import InputLikeText from '../internal/InputLikeText';
 import shallow from 'fbjs/lib/shallowEqual';
 import { MenuItemState } from '../MenuItem';
+import {getFirstFocusableElement, getNextFocusableElement} from '../../lib/dom/getFocusableElements';
 
 export type Action<T> =
-  | { type: 'ValueChange'; value: T }
+  | { type: 'ValueChange'; value: T; keepFocus: boolean }
   | { type: 'TextChange'; value: string }
   | { type: 'KeyPress'; event: React.KeyboardEvent }
   | {
@@ -19,6 +20,7 @@ export type Action<T> =
     }
   | { type: 'Mount' }
   | { type: 'Focus' }
+  | { type: 'InputClick' }
   | { type: 'Blur' }
   | { type: 'Reset' }
   | { type: 'Open' }
@@ -108,6 +110,18 @@ class CustomComboBox extends React.Component<
   /**
    * @public
    */
+  public selectInputText = () => {
+    if (this.props.disabled) {
+      return;
+    }
+    if (this.input) {
+      this.input.selectAll();
+    }
+  };
+
+  /**
+   * @public
+   */
   public blur = () => {
     if (this.props.disabled) {
       return;
@@ -153,7 +167,7 @@ class CustomComboBox extends React.Component<
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
 
-      onChange: (value: any) => this.dispatch({ type: 'ValueChange', value }),
+      onChange: this.handleChange,
       onClickOutside: this.handleBlur,
       onFocus: this.handleFocus,
       onFocusOutside: this.handleBlur,
@@ -161,6 +175,7 @@ class CustomComboBox extends React.Component<
       onInputChange: (_: any, value: string) =>
         this.dispatch({ type: 'TextChange', value }),
       onInputFocus: this.handleFocus,
+      onInputClick: this.handleInputClick,
       onInputKeyDown: (event: React.KeyboardEvent) => {
         event.persist();
         this.dispatch({ type: 'KeyPress', event });
@@ -242,6 +257,41 @@ class CustomComboBox extends React.Component<
 
   private getState = () => this.state;
 
+  private focusNextElement = () => {
+    const node = ReactDOM.findDOMNode(this);
+    if (node instanceof Element) {
+      const currentFocusable = getFirstFocusableElement(node);
+      if (currentFocusable) {
+        const nextFocusable = getNextFocusableElement(
+          currentFocusable,
+          currentFocusable.parentElement
+        );
+        if (nextFocusable) {
+          nextFocusable.focus();
+        }
+      }
+    }
+  };
+
+  private handleChange = (value: any, event: React.SyntheticEvent) => {
+    const eventType = event.type;
+
+    this.dispatch({
+      type: 'ValueChange',
+      value,
+      keepFocus: eventType === 'click'
+    });
+
+    if (
+      (eventType === 'keyup' ||
+        eventType === 'keydown' ||
+        eventType === 'keypress') &&
+      (event as React.KeyboardEvent).key === 'Enter'
+    ) {
+      this.focusNextElement();
+    }
+  };
+
   private handleFocus = () => {
     if (this.focused) {
       return;
@@ -267,6 +317,10 @@ class CustomComboBox extends React.Component<
     }
 
     this.handleBlur();
+  };
+
+  private handleInputClick = () => {
+    this.dispatch({ type: 'InputClick' });
   };
 }
 
