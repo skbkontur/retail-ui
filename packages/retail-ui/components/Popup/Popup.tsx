@@ -41,12 +41,12 @@ export const PopupPositions: PopupPosition[] = [
   'right top',
   'right middle',
   'right bottom',
-  'bottom left',
-  'bottom center',
   'bottom right',
-  'left top',
+  'bottom center',
+  'bottom left',
+  'left bottom',
   'left middle',
-  'left bottom'
+  'left top'
 ];
 
 export interface PopupHandlerProps {

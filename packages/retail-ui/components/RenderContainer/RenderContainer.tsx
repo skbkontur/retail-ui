@@ -1,89 +1,93 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 
-let lastID = 0;
-function nextID() {
-  return ++lastID;
-}
-function setID(id: number) {
-  lastID = id;
+interface RenderContainerProps {
+  anchor?: React.ReactNode;
 }
 
 const REACT_16 = !!ReactDOM.createPortal;
 
-export default class RenderContainer extends React.Component<{
-  anchor?: React.ReactNode;
-}> {
-  private _domContainer: HTMLElement;
+export default class RenderContainer extends React.Component<
+  RenderContainerProps
+> {
+  public static lastId = 0;
 
-  private _testID: number;
+  private domContainer: HTMLElement;
+  private rootId: number;
 
-  constructor(props: {}, context: {}) {
-    super(props, context);
+  constructor(props: RenderContainerProps) {
+    super(props);
 
-    this._domContainer = document.createElement('div');
-    this._hydrateId();
+    this.domContainer = document.createElement('div');
+    this.hydrateId();
 
-    this._testID = nextID();
-    this._domContainer.setAttribute(
+    this.rootId = this.nextId();
+    this.domContainer.setAttribute(
       'data-rendered-container-id',
-      this._testID.toString()
+      `${this.rootId}`
     );
-    this._domContainer.className = 'react-ui';
+    this.domContainer.className = 'react-ui';
 
     const { body } = document;
     if (!body) {
       throw Error('There is no "body" in "document"');
     }
-    body.appendChild(this._domContainer);
+    body.appendChild(this.domContainer);
 
     // @ts-ignore
     if (window.ReactTesting) {
       // @ts-ignore
-      window.ReactTesting.addRenderContainer(this._testID, this);
+      window.ReactTesting.addRenderContainer(this.rootId, this);
     }
   }
 
   public render(): JSX.Element {
     if (REACT_16) {
       return [
-        ReactDOM.createPortal(this.props.children, this._domContainer),
-        <Portal key="portal-ref" rt_rootID={this._testID}>
-          {this.props.anchor}
-        </Portal>
+        ReactDOM.createPortal(this.props.children, this.domContainer),
+        this.props.anchor,
+        <Portal key="portal-ref" rt_rootID={this.rootId} />
       ] as any; // FIXME: To support ts typings for react@15, render should return JSX.Element
     }
-    return <Portal rt_rootID={this._testID}>{this.props.anchor}</Portal>;
+    return <Portal rt_rootID={this.rootId}>{this.props.anchor}</Portal>;
   }
 
   public componentDidMount() {
     if (!REACT_16) {
-      this._renderChild();
+      this.renderChild();
     }
   }
 
   public componentDidUpdate() {
     if (!REACT_16) {
-      this._renderChild();
+      this.renderChild();
     }
   }
 
   public componentWillUnmount() {
     if (!REACT_16) {
-      ReactDOM.unmountComponentAtNode(this._domContainer);
+      ReactDOM.unmountComponentAtNode(this.domContainer);
     }
-    if (this._domContainer.parentNode) {
-      this._domContainer.parentNode.removeChild(this._domContainer);
+    if (this.domContainer.parentNode) {
+      this.domContainer.parentNode.removeChild(this.domContainer);
     }
 
     // @ts-ignore
     if (window.ReactTesting) {
       // @ts-ignore
-      window.ReactTesting.removeRenderContainer(this._testID);
+      window.ReactTesting.removeRenderContainer(this.rootId);
     }
   }
 
-  private _hydrateId() {
+  private nextId() {
+    return ++RenderContainer.lastId;
+  }
+
+  private setId(id: number) {
+    RenderContainer.lastId = id;
+  }
+
+  private hydrateId() {
     const nodes = document.querySelectorAll('[data-rendered-container-id]');
     if (nodes.length === 0) {
       return;
@@ -92,29 +96,35 @@ export default class RenderContainer extends React.Component<{
     const containerId = +(
       lastNode.getAttribute('data-rendered-container-id') || 0
     );
-    setID(containerId);
+    this.setId(containerId);
   }
 
-  private _renderChild() {
+  private renderChild() {
     ReactDOM.unstable_renderSubtreeIntoContainer(
       this,
-      <RootContainer rt_portalID={this._testID}>
+      <RootContainer rt_portalID={this.rootId}>
         {this.props.children}
       </RootContainer>,
-      this._domContainer
+      this.domContainer
     );
   }
 }
 
 class Portal extends React.Component<{ rt_rootID: number }> {
   public componentDidMount() {
+    if (!this.props.children) {
+      return;
+    }
+
     const element = ReactDOM.findDOMNode(this);
 
     if (element && element instanceof Element) {
-      element.setAttribute(
-        'data-render-container-id',
-        String(this.props.rt_rootID)
-      );
+      const rootId = element.getAttribute('data-render-container-id');
+      const rootIdAttribute = rootId
+        ? `${rootId} ${this.props.rt_rootID}`
+        : `${this.props.rt_rootID}`;
+
+      element.setAttribute('data-render-container-id', rootIdAttribute);
     }
   }
 

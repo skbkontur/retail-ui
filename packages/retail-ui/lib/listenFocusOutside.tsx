@@ -77,6 +77,7 @@ function findRenderContainer(
   const currentNode = node.parentElement;
   if (
     !currentNode ||
+    node === rootNode ||
     currentNode === rootNode ||
     currentNode === document.body ||
     currentNode === document.documentElement ||
@@ -88,7 +89,7 @@ function findRenderContainer(
   const newContainerId = currentNode.getAttribute('data-rendered-container-id');
   if (newContainerId) {
     const nextNode = document.querySelector(
-      `[data-render-container-id="${newContainerId}"]`
+      `[data-render-container-id~="${newContainerId}"]`
     );
 
     if (!nextNode) {
