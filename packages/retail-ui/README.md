@@ -2,15 +2,12 @@
 
 [![Build Status](https://travis-ci.org/skbkontur/retail-ui.svg?branch=master)](https://travis-ci.org/skbkontur/retail-ui)
 
-- [Changelog](CHANGELOG.md)
-- [Roadmap](ROADMAP.md)
-
-### Варианты использование
+### Варианты использования
 
 - **@skbkontur/react-ui** - собранная версия библиотеки, подходит для [квик-старта](#Квик-старт)
 - **retail-ui** - исходники для самостоятельной сборки, для переопределения `.less`-переменных, [слоу-старт](#Слоу-старт)
 
-### Квик-старт
+### <a name="Квик-старт"></a>Квик-старт
 
 ```bash
 yarn add @skbkontur/react-ui
@@ -37,7 +34,7 @@ const MyApp = () => (
 
 Квик-старт подойдёт, если вебпак настроен на сборку. Например, вы используете `create-react-app`. В противном случае добавьте в конфиг Вебпака `style-`, `css-` и `file-loader`.
 
-### Слоу-старт
+### <a name="Слоу-старт"></a>Слоу-старт
 
 ```bash
 yarn add retail-ui

@@ -48,7 +48,8 @@ stableVersions.forEach(version => {
 config.sections = [
   { name: 'Readme', content: 'README.md', exampleMode: 'expand' },
   { name: 'Changelog', content: 'CHANGELOG.md' },
-  { name: 'Components', components: config.components }
+  { name: 'Roadmap', content: 'ROADMAP.md' },
+  { name: 'Components', components: config.components, sectionDepth: 1 }
 ];
 config.sections.push(versionSection);
 config.styleguideDir = path.join(config.styleguideDir, '..');

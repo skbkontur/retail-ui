@@ -4,13 +4,20 @@
 - [ ] Приватная библиотека с компонентами, использующими фирменый стиль
 - [ ] Обновление версии через CI
 - [ ] Интеграция `react-ui-validations` [#917](https://github.com/skbkontur/retail-ui/issues/917)
+- [ ] Улучшение документации, добавление примеров
+- [ ] Шаблон проекта для быстрого старта
+- [ ] Переезд с Travis на TeamCity
+- [ ] Интеграция скриншотных тестов КЭвеба в релизный цикл
 
 ### Декабрь 2018
 
-- [ ] Улучшение `MaskedInput` [#900](https://github.com/skbkontur/retail-ui/pull/900)
-- [ ] Скриншоты на `ComboBox` [#929](https://github.com/skbkontur/retail-ui/pull/929)
+- [x] Улучшение `MaskedInput` [#900](https://github.com/skbkontur/retail-ui/pull/900)
+- [x] Скриншоты на `ComboBox` [#929](https://github.com/skbkontur/retail-ui/pull/929)
 - [ ] Оптимизация тестов `react-ui-testing` [#872](https://github.com/skbkontur/retail-ui/issues/872)
 - [ ] Гайдлайн для контрибьторов
+- [ ] Методы `open/close` для `ComboBox` [#967](https://github.com/skbkontur/retail-ui/pull/967)
+- [ ] Доработки по `Fias` [#960](https://github.com/skbkontur/retail-ui/pull/960)
+- [ ] Добавление свойств `prefix/postfix` для `Input` [#727](https://github.com/skbkontur/retail-ui/issues/727)
 
 ### Ноябрь 2018
 
