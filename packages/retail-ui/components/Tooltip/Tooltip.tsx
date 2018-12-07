@@ -165,6 +165,12 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     }
   }
 
+  public componentWillReceiveProps(nextProps: TooltipProps) {
+    if (nextProps.trigger === 'closed') {
+      this.close();
+    }
+  }
+
   public shouldComponentUpdate(
     nextProps: TooltipProps,
     nextState: TooltipState

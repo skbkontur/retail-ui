@@ -4,16 +4,13 @@ import ComboBox from '../ComboBox';
 import { mount } from 'enzyme';
 import InputLikeText from '../../internal/InputLikeText';
 import Menu from '../../Menu/Menu';
+import { delay } from '../../../lib/utils';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
   event.initEvent('mousedown', true, true);
 
   document.body.dispatchEvent(event);
-}
-
-function delay(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 describe('ComboBox', () => {
@@ -318,10 +315,7 @@ describe('ComboBox', () => {
   });
 
   describe('update input text when value changes if there was no editing', () => {
-    const VALUES = [
-      { value: 1, label: 'one' },
-      { value: 2, label: 'two' },
-    ];
+    const VALUES = [{ value: 1, label: 'one' }, { value: 2, label: 'two' }];
     const blur = (wrapper: any) => {
       // when menu is not opened (after focus in autocomplete mode),
       // clickOutside doesn't work, unlike the input blur.
@@ -383,16 +377,11 @@ describe('ComboBox', () => {
     });
   });
 
-
   it('does not do search on focus in autocomplete mode', () => {
     const VALUE = { value: 1, label: 'one' };
     const getItems = jest.fn();
     const wrapper = mount<ComboBox<any>>(
-      <ComboBox
-        getItems={getItems}
-        value={VALUE}
-        autocomplete={true}
-      />
+      <ComboBox getItems={getItems} value={VALUE} autocomplete={true} />
     );
 
     wrapper.instance().focus();
@@ -400,7 +389,6 @@ describe('ComboBox', () => {
 
     expect(getItems).toHaveBeenCalledTimes(0);
     expect(wrapper.find('Menu')).toHaveLength(0);
-
   });
 
   it('reset', () => {
@@ -462,9 +450,7 @@ describe('ComboBox', () => {
   });
 
   it('opens and closes by methods', async () => {
-    const wrapper = mount<ComboBox<any>>(
-      <ComboBox />
-    );
+    const wrapper = mount<ComboBox<any>>(<ComboBox />);
 
     expect(wrapper.find(Menu)).toHaveLength(0);
 
