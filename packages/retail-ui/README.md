@@ -2,10 +2,7 @@
 
 [![Build Status](https://travis-ci.org/skbkontur/retail-ui.svg?branch=master)](https://travis-ci.org/skbkontur/retail-ui)
 
-- [Changelog](CHANGELOG.md)
-- [Roadmap](ROADMAP.md)
-
-### Варианты использование
+### Варианты использования
 
 - **@skbkontur/react-ui** - собранная версия библиотеки, подходит для [квик-старта](#Квик-старт)
 - **retail-ui** - исходники для самостоятельной сборки, для переопределения `.less`-переменных, [слоу-старт](#Слоу-старт)
