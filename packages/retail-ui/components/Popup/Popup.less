@@ -11,9 +11,17 @@
   .popup {
     position: absolute;
     min-width: 18px;
-    background: @bg-default;
     border-radius: @popup-border-radius;
     border: @popup-border @popup-border-color;
+  }
+
+  .content {
+    border-radius: @popup-border-radius;
+    overflow: hidden;
+  }
+
+  .contentInner {
+    background: @bg-default;
   }
 
   :global(.rt-ie-any) {
