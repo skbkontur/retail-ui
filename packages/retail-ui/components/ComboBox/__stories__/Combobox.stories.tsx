@@ -155,7 +155,52 @@ storiesOf('ComboBox', module)
       <br />
       <SimpleCombobox />
     </div>
-  ));
+  ))
+  .add('1024 nested ComboBoxes', () =>
+    Array.from({ length: 2 }).map(() => (
+      <div key={'10'}>
+        {Array.from({ length: 2 }).map(() => (
+          <div key={'9'}>
+            {Array.from({ length: 2 }).map(() => (
+              <div key={'8'}>
+                {Array.from({ length: 2 }).map(() => (
+                  <div key={'7'}>
+                    {Array.from({ length: 2 }).map(() => (
+                      <div key={'6'}>
+                        {Array.from({ length: 2 }).map(() => (
+                          <div key={'5'}>
+                            {Array.from({ length: 2 }).map(() => (
+                              <div key={'4'}>
+                                {Array.from({ length: 2 }).map(() => (
+                                  <div key={'3'}>
+                                    {Array.from({ length: 2 }).map(() => (
+                                      <div key={'2'}>
+                                        {Array.from({ length: 2 }).map(
+                                          () => (
+                                            <div key={'1'}>
+                                              <SimpleCombobox />
+                                            </div>
+                                          )
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    ))
+  );
 
 interface ComboBoxWithErrorTogglerState {
   error: boolean;
