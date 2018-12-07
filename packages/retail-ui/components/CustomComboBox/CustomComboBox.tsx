@@ -7,7 +7,7 @@ import Menu from '../Menu/Menu';
 import InputLikeText from '../internal/InputLikeText';
 import shallow from 'fbjs/lib/shallowEqual';
 import { MenuItemState } from '../MenuItem';
-import tabbable from 'tabbable';
+import {getFirstFocusableElement, getNextFocusableElement} from '../../lib/dom/getFocusableElements';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T; keepFocus: boolean }
@@ -95,7 +95,6 @@ class CustomComboBox extends React.Component<
   public menu: Nullable<Menu>;
   public inputLikeText: Nullable<InputLikeText>;
   private focused: boolean = false;
-  private keepingFocus: boolean = false;
 
   /**
    * @public
@@ -106,21 +105,6 @@ class CustomComboBox extends React.Component<
     }
 
     this.handleFocus();
-  };
-
-  /**
-   * @public
-   */
-  public focusNext = () => {
-    const allTabbables = tabbable(document);
-    const currentTabbable = tabbable(ReactDOM.findDOMNode(this) as Element)[0];
-    const currentIndex = allTabbables.indexOf(currentTabbable);
-    if (currentIndex > -1) {
-      const nextTabbable = allTabbables[currentIndex + 1];
-      if (nextTabbable) {
-        nextTabbable.focus();
-      }
-    }
   };
 
   /**
@@ -273,6 +257,22 @@ class CustomComboBox extends React.Component<
 
   private getState = () => this.state;
 
+  private focusNextElement = () => {
+    const node = ReactDOM.findDOMNode(this);
+    if (node instanceof Element) {
+      const currentFocusable = getFirstFocusableElement(node);
+      if (currentFocusable) {
+        const nextFocusable = getNextFocusableElement(
+          currentFocusable,
+          currentFocusable.parentElement
+        );
+        if (nextFocusable) {
+          nextFocusable.focus();
+        }
+      }
+    }
+  };
+
   private handleChange = (value: any, event: React.SyntheticEvent) => {
     const eventType = event.type;
 
@@ -288,7 +288,7 @@ class CustomComboBox extends React.Component<
         eventType === 'keypress') &&
       (event as React.KeyboardEvent).key === 'Enter'
     ) {
-      this.focusNext();
+      this.focusNextElement();
     }
   };
 
@@ -301,7 +301,7 @@ class CustomComboBox extends React.Component<
   };
 
   private handleBlur = () => {
-    if (!this.focused || this.keepingFocus) {
+    if (!this.focused) {
       return;
     }
     this.focused = false;
