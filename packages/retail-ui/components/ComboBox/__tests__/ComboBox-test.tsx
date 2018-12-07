@@ -4,16 +4,13 @@ import ComboBox from '../ComboBox';
 import { mount } from 'enzyme';
 import InputLikeText from '../../internal/InputLikeText';
 import Menu from '../../Menu/Menu';
+import { delay } from '../../../lib/utils';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
   event.initEvent('mousedown', true, true);
 
   document.body.dispatchEvent(event);
-}
-
-function delay(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 describe('ComboBox', () => {

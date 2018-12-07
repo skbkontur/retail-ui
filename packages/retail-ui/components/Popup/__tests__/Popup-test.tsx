@@ -2,8 +2,7 @@ import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import Popup, { PopupProps, PopupState } from '../Popup';
 import toJson from 'enzyme-to-json';
-
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+import { delay } from '../../../lib/utils';
 
 const openPopup = async (
   wrapper: ReactWrapper<PopupProps, PopupState, Popup>
