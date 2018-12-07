@@ -215,7 +215,20 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
               }
             }
           >
-            Test content
+            <div
+              className="content"
+            >
+              <div
+                className="contentInner"
+                style={
+                  Object {
+                    "backgroundColor": undefined,
+                  }
+                }
+              >
+                Test content
+              </div>
+            </div>
           </div>
         </ZIndex>
       </Transition>

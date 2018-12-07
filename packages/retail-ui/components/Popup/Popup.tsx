@@ -41,12 +41,12 @@ export const PopupPositions: PopupPosition[] = [
   'right top',
   'right middle',
   'right bottom',
-  'bottom left',
-  'bottom center',
   'bottom right',
-  'left top',
+  'bottom center',
+  'bottom left',
+  'left bottom',
   'left middle',
-  'left bottom'
+  'left top'
 ];
 
 export interface PopupHandlerProps {
@@ -305,15 +305,12 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
   private renderContent(location: PopupLocation) {
     const { direction } = PopupHelper.getPositionObject(location.position);
+    const { backgroundColor } = this.props;
     const rootStyle: React.CSSProperties = {
       top: location.coordinates.top,
       left: location.coordinates.left,
       maxWidth: this.props.maxWidth
     };
-
-    if (this.props.backgroundColor) {
-      rootStyle.backgroundColor = this.props.backgroundColor;
-    }
 
     return (
       <Transition
@@ -344,7 +341,14 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
             onMouseEnter={this.props.onMouseEnter}
             onMouseLeave={this.props.onMouseLeave}
           >
-            {this.renderChildren()}
+            <div className={styles.content}>
+              <div
+                className={styles.contentInner}
+                style={{ backgroundColor }}
+              >
+                {this.renderChildren()}
+              </div>
+            </div>
             {this.renderPin(location.position)}
           </ZIndex>
         )}
