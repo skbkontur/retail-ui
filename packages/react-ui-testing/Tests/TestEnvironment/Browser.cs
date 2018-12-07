@@ -95,7 +95,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 
                 webDriver = new RemoteWebDriver(new Uri("http://ondemand.saucelabs.com:80/wd/hub"),
                     options.ToCapabilities(),
-                    TimeSpan.FromSeconds(180));
+                    TimeSpan.FromMinutes(5));
                 webDriver.Manage().Window.Size = new Size(1280, 1024);
                 return webDriver;
             }
