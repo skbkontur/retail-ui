@@ -37,6 +37,7 @@ export class FiasComboBox extends React.Component<
         {...this.props}
         getItems={this.getItems}
         renderItem={this.renderItem}
+        onChange={this.handleChange}
         onInputChange={this.handleInputChange}
         totalCount={this.state.totalCount}
         renderTotalCount={this.renderTotalCount}
@@ -76,6 +77,16 @@ export class FiasComboBox extends React.Component<
       <div>Уточните запрос, чтобы увидеть остальные</div>
     </div>
   );
+
+  private handleChange = (event: { target: { value: Address } }, item: Address) => {
+    const {onChange, valueToString} = this.props;
+    if (onChange) {
+      onChange(event, item);
+    }
+    this.setState({
+      searchText: valueToString ? valueToString(item) : ''
+    });
+  };
 
   private handleInputChange = (query: string) => {
     if (this.props.onInputChange) {
