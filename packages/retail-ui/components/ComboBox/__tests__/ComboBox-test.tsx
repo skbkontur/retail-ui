@@ -3,6 +3,7 @@ import * as React from 'react';
 import ComboBox from '../ComboBox';
 import { mount } from 'enzyme';
 import InputLikeText from '../../internal/InputLikeText';
+import Menu from '../../Menu/Menu';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -458,5 +459,21 @@ describe('ComboBox', () => {
       },
       EXPECTED_ITEM
     );
+  });
+
+  it('opens and closes by methods', async () => {
+    const wrapper = mount<ComboBox<any>>(
+      <ComboBox />
+    );
+
+    expect(wrapper.find(Menu)).toHaveLength(0);
+
+    wrapper.instance().open();
+    wrapper.update();
+    expect(wrapper.find(Menu)).toHaveLength(1);
+
+    wrapper.instance().close();
+    wrapper.update();
+    expect(wrapper.find(Menu)).toHaveLength(0);
   });
 });
