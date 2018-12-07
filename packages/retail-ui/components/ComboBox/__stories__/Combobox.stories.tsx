@@ -156,51 +156,19 @@ storiesOf('ComboBox', module)
       <SimpleCombobox />
     </div>
   ))
-  .add('1024 nested ComboBoxes', () =>
-    Array.from({ length: 2 }).map(() => (
-      <div key={'10'}>
-        {Array.from({ length: 2 }).map(() => (
-          <div key={'9'}>
-            {Array.from({ length: 2 }).map(() => (
-              <div key={'8'}>
-                {Array.from({ length: 2 }).map(() => (
-                  <div key={'7'}>
-                    {Array.from({ length: 2 }).map(() => (
-                      <div key={'6'}>
-                        {Array.from({ length: 2 }).map(() => (
-                          <div key={'5'}>
-                            {Array.from({ length: 2 }).map(() => (
-                              <div key={'4'}>
-                                {Array.from({ length: 2 }).map(() => (
-                                  <div key={'3'}>
-                                    {Array.from({ length: 2 }).map(() => (
-                                      <div key={'2'}>
-                                        {Array.from({ length: 2 }).map(
-                                          () => (
-                                            <div key={'1'}>
-                                              <SimpleCombobox />
-                                            </div>
-                                          )
-                                        )}
-                                      </div>
-                                    ))}
-                                  </div>
-                                ))}
-                              </div>
-                            ))}
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            ))}
+  .add('1024 nested ComboBoxes', () => {
+    const RecursiveComboboxes = ({ depth }: { depth: number }) => (
+      <div>
+        {Array.from({length: 2}).map((_, i) => (
+          <div key={`${depth}-${i}`}>
+            {depth > 1 ? <RecursiveComboboxes depth={depth - 1}/> : <SimpleCombobox />}
           </div>
         ))}
       </div>
-    ))
-  );
+    );
+    return <RecursiveComboboxes depth={10}/>;
+  })
+;
 
 interface ComboBoxWithErrorTogglerState {
   error: boolean;
