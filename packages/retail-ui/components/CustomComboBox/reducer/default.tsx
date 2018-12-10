@@ -219,14 +219,19 @@ const Effect = {
 };
 
 const reducers: { [type: string]: Reducer } = {
-  Mount: () => ({ ...DefaultState, inputChanged: false }),
+  Mount: (state, props) => ({
+    ...DefaultState,
+    inputChanged: false,
+    textValue: getValueString(props.value, props.valueToString)
+  }),
   DidUpdate(state, props, action) {
     if (isEqual(props.value, action.prevProps.value)) {
       return state;
     }
 
     return {
-      opened: false
+      opened: false,
+      textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString)
     } as State;
   },
   Blur(state, props, action) {
@@ -252,9 +257,6 @@ const reducers: { [type: string]: Reducer } = {
     ];
   },
   Focus(state, props, action) {
-    const { value, valueToString } = props;
-    const textValue = getValueString(value, valueToString);
-
     if (state.editing) {
       return [
         {
@@ -264,13 +266,11 @@ const reducers: { [type: string]: Reducer } = {
         [Effect.Search(false), Effect.Focus]
       ];
     }
-
     return [
       {
         focused: true,
         opened: true,
-        editing: true,
-        textValue
+        editing: true
       },
       [Effect.Search(true), Effect.Focus, Effect.SelectInputText]
     ];
@@ -290,8 +290,8 @@ const reducers: { [type: string]: Reducer } = {
     };
   },
   ValueChange(state, props, { value, keepFocus }) {
+    const textValue = getValueString(value, props.valueToString);
     if (keepFocus) {
-      const textValue = getValueString(value, props.valueToString);
       return [
         {
           opened: false,
@@ -307,7 +307,8 @@ const reducers: { [type: string]: Reducer } = {
       {
         opened: false,
         inputChanged: false,
-        editing: false
+        editing: false,
+        textValue
       },
       [Effect.Change(value)]
     ];
