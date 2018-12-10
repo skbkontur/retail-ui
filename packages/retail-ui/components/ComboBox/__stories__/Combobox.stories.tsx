@@ -140,9 +140,18 @@ storiesOf('ComboBox', module)
     let combobox: Nullable<ComboBox<any>> = null;
     return (
       <div>
-        <ComboBox ref={e => combobox = e}/>
+        <ComboBox
+          ref={e => combobox = e}
+          value={items[0]}
+          getItems={search}
+          renderItem={i => i.name}
+          valueToString={v => v.name}
+          renderValue={v => v.name}
+        />
         <span className="control-buttons">
           <button onClick={() => combobox && combobox.open()}>open</button>
+          <button onClick={() => combobox && combobox.open(true)}>open with empty search</button>
+          <button onClick={() => combobox && combobox.open(false)}>open with value search</button>
           <button onClick={() => combobox && combobox.close()}>close</button>
         </span>
       </div>
