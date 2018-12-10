@@ -65,14 +65,18 @@
     padding-bottom: @small-vertical-padding;
   }
 
-  .DEPRECATED_sizeMedium .input {
+  .DEPRECATED_sizeMedium {
     font-size: 14px;
-    padding-top: @DEPRECATED_medium-vertical-padding;
-    padding-bottom: @DEPRECATED_medium-vertical-padding;
-    font-size: 16px;
+
+    .input {
+      padding-top: @DEPRECATED_medium-vertical-padding;
+      padding-bottom: @DEPRECATED_medium-vertical-padding;
+    }
   }
 
   .sizeMedium {
+    font-size: 16px;
+
     .input {
       line-height: 22px;
       padding-top: @medium-vertical-padding;
@@ -80,18 +84,17 @@
     }
 
     .icon {
-      font-size: 16px;
       height: 22px;
     }
 
     .placeholder {
-      font-size: 16px;
       height: 21px;
     }
   }
 
   .sizeLarge {
     font-size: 16px;
+
     .input {
       padding-top: @large-vertical-padding;
       padding-bottom: @large-vertical-padding;
@@ -99,12 +102,10 @@
     }
 
     .icon {
-      font-size: 16px;
       height: 22px;
     }
 
     .placeholder {
-      font-size: 16px;
       height: 21px;
     }
   }

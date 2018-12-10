@@ -71,20 +71,21 @@
     }
 
     .icon {
-      font-size: 16px;
       height: 22px;
     }
 
     .placeholder {
-      font-size: 16px;
       height: 21px;
     }
   }
 
-  .DEPRECATED_sizeMedium .input {
+  .DEPRECATED_sizeMedium {
     font-size: 14px;
-    padding-top: @DEPRECATED_medium-vertical-padding;
-    padding-bottom: @DEPRECATED_medium-vertical-padding;
+
+    .input {
+      padding-top: @DEPRECATED_medium-vertical-padding;
+      padding-bottom: @DEPRECATED_medium-vertical-padding;
+    }
   }
 
   .sizeLarge {
@@ -96,12 +97,10 @@
     }
 
     .icon {
-      font-size: 16px;
       height: 22px;
     }
 
     .placeholder {
-      font-size: 16px;
       height: 21px;
     }
   }
