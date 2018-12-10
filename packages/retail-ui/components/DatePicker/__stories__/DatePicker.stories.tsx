@@ -115,9 +115,12 @@ storiesOf('DatePicker', module)
   .add('DatePicker medium', () => <DatePickerWithError size="medium" />)
   .add('DatePicker large', () => <DatePickerWithError size="large" />)
   .add('DatePicker with min max date', () => (
-    <DatePickerWithError
-      size="medium"
-      minDate="05.03.2018"
-      maxDate="30.01.2019"
-    />
+    <div style={{ paddingTop: 200 }}>
+      <DatePicker
+        value="02.07.2017"
+        minDate="02.07.2017"
+        maxDate="30.01.2018"
+        onChange={action('change')}
+      />
+    </div>
   ));
