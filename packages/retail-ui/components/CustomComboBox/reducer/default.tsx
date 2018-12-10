@@ -390,10 +390,13 @@ const reducers: { [type: string]: Reducer } = {
   Reset() {
     return DefaultState;
   },
-  Open: () => {
-    return {
-      opened: true
-    };
+  Open: (state, props, { emptySearch }) => {
+    return [
+      {
+        opened: true
+      },
+      emptySearch !== undefined ? [Effect.Search(emptySearch)] : []
+    ];
   },
   Close: () => {
     return {

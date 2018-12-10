@@ -23,7 +23,7 @@ export type Action<T> =
   | { type: 'InputClick' }
   | { type: 'Blur' }
   | { type: 'Reset' }
-  | { type: 'Open' }
+  | { type: 'Open'; emptySearch?: boolean }
   | { type: 'Close' };
 
 export interface CustomComboBoxProps<T> {
@@ -133,8 +133,8 @@ class CustomComboBox extends React.Component<
   /**
    * @public
    */
-  public open() {
-    this.dispatch({ type: 'Open' });
+  public open(emptySearch?: boolean) {
+    this.dispatch({ type: 'Open', emptySearch });
   }
 
   /**
