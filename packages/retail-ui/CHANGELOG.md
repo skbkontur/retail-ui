@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.33.0-beta.0"></a>
+# [0.33.0-beta.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.32.0...retail-ui@0.33.0-beta.0) (2018-12-10)
+
+
+### Features
+
+* **retail-ui:** add TokenInput component ([bba75c1](https://github.com/skbkontur/retail-ui/commit/bba75c1))
+
+
+
+
 <a name="0.32.0"></a>
 # [0.32.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.31.0...retail-ui@0.32.0) (2018-12-10)
 
