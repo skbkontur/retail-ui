@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.32.0"></a>
+# [0.32.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.31.0...retail-ui@0.32.0) (2018-12-10)
+
+
+### Bug Fixes
+
+* **ComboBox:** keep focus after item click and focus next after Enter ([50e5ef0](https://github.com/skbkontur/retail-ui/commit/50e5ef0)), closes [#907](https://github.com/skbkontur/retail-ui/issues/907)
+* **Popup:** remove unwanted pin border in IE ([b9f3b90](https://github.com/skbkontur/retail-ui/commit/b9f3b90)), closes [#786](https://github.com/skbkontur/retail-ui/issues/786) [#943](https://github.com/skbkontur/retail-ui/issues/943)
+* **RenderContainer:** correct store ids in data-attribute ([0dc7089](https://github.com/skbkontur/retail-ui/commit/0dc7089))
+* **Tooltip:** reset opened state by trigger prop ([83d0132](https://github.com/skbkontur/retail-ui/commit/83d0132)), closes [#896](https://github.com/skbkontur/retail-ui/issues/896)
+
+
+### Features
+
+* **ComboBox:** add open/close methods ([7bbd941](https://github.com/skbkontur/retail-ui/commit/7bbd941)), closes [#957](https://github.com/skbkontur/retail-ui/issues/957)
+* **Input:** blink on unexpected input ([7162ffa](https://github.com/skbkontur/retail-ui/commit/7162ffa))
+* **lib:** add functions for getting focusable elements ([6ff8b71](https://github.com/skbkontur/retail-ui/commit/6ff8b71))
+
+
+### Performance Improvements
+
+* **ComboBox:** optimize focusNextElement method ([f8946f4](https://github.com/skbkontur/retail-ui/commit/f8946f4))
+
+
+
+
 <a name="0.31.0"></a>
 # [0.31.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.30.0...retail-ui@0.31.0) (2018-12-04)
 
