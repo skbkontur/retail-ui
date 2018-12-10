@@ -85,7 +85,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                 ref,
                 state: highlight ? 'hover' : child.props.state,
                 onClick: this._select.bind(this, index, false),
-                onMouseEnter: this._highlightItem.bind(this, index),
+                onMouseEnter: this._highlight.bind(this, index),
                 onMouseLeave: this._unhighlight
               });
             }
@@ -122,6 +122,10 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
    */
   public reset() {
     this.setState({ highlightedIndex: -1 });
+  }
+
+  public highlightItem(index: number) {
+    this._highlight(index);
   }
 
   private _refScrollContainer = (
@@ -186,9 +190,9 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     return false;
   }
 
-  private _highlightItem(index: number) {
+  private _highlight = (index: number) => {
     this.setState({ highlightedIndex: index });
-  }
+  };
 
   private _unhighlight = () => {
     this.setState({ highlightedIndex: -1 });
