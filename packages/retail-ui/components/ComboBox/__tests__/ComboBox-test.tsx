@@ -478,6 +478,58 @@ describe('ComboBox', () => {
     expect(wrapper.find(Menu)).toHaveLength(0);
   });
 
+  it('opens by method with search', async () => {
+    const ITEMS = [
+      { value: 1, label: 'One' },
+      { value: 2, label: 'Two' },
+      { value: 3, label: 'Three' }
+    ];
+    const promise = Promise.resolve(ITEMS);
+    const search = (text: string) =>
+      promise.then(items =>
+        items.filter(
+          item => item.label.indexOf(text) > -1
+        )
+      );
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} value={ITEMS[0]}/>
+    );
+
+    expect(wrapper.find(Menu)).toHaveLength(0);
+
+    // open without search
+    wrapper.instance().open();
+    wrapper.update();
+    expect(wrapper.find(Menu)).toHaveLength(1);
+    expect(
+      wrapper
+        .find(MenuItem)
+        .filterWhere(item => !item.prop('disabled'))
+    ).toHaveLength(0);
+
+    // open with empty search
+    wrapper.instance().open(true);
+    await promise;
+    wrapper.update();
+    expect(wrapper.find(Menu)).toHaveLength(1);
+    expect(
+      wrapper
+        .find(MenuItem)
+        .filterWhere(item => !item.prop('disabled'))
+    ).toHaveLength(3);
+
+    // open with value search
+    wrapper.instance().open(false);
+    await promise;
+    wrapper.update();
+    expect(wrapper.find(Menu)).toHaveLength(1);
+    expect(
+      wrapper
+        .find(MenuItem)
+        .filterWhere(item => !item.prop('disabled'))
+    ).toHaveLength(1);
+  });
+
   it('keep focus in input after click on item', async () => {
     const ITEMS = ['one', 'two', 'three'];
     const promise = Promise.resolve(ITEMS);
