@@ -81,7 +81,7 @@ const getValueString = (value: any, valueToString: Props['valueToString']) => {
   if (!value) {
     return '';
   }
-  return valueToString ? valueToString(value) : value;
+  return valueToString ? valueToString(value) : value.label;
 };
 
 const Effect = {
