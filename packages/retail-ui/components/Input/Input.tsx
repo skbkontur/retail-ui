@@ -71,6 +71,11 @@ export type InputProps = Override<
     value?: string;
     capture?: boolean;
 
+    /** Префикс */
+    prefix?: React.ReactNode;
+    /** Суффикс */
+    suffix?: React.ReactNode;
+
     /**
      * @deprecated
      * 100% ширина в группе, лучше явно передать ширину в компонент
@@ -204,6 +209,8 @@ class Input extends React.Component<InputProps, InputState> {
       selectAllOnFocus,
       disabled,
       onUnexpectedInput,
+      prefix,
+      suffix,
       ...rest
     } = this.props;
 
@@ -250,12 +257,18 @@ class Input extends React.Component<InputProps, InputState> {
 
     return (
       <label {...labelProps}>
-        <span className={classes.sideContainer}>{this.renderLeftIcon()}</span>
-        {input}
-        {this.renderPlaceholder()}
+        <span className={classes.sideContainer}>
+          {this.renderLeftIcon()}
+          {this.renderPrefix()}
+        </span>
+        <span className={classes.inputWrapper}>
+          {input}
+          {this.renderPlaceholder()}
+        </span>
         <span
           className={classNames(classes.sideContainer, classes.rightContainer)}
         >
+          {this.renderSuffix()}
           {this.renderRightIcon()}
         </span>
       </label>
@@ -411,6 +424,26 @@ class Input extends React.Component<InputProps, InputState> {
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
+  };
+
+  private renderPrefix = () => {
+    const { prefix } = this.props;
+
+    if (!prefix) {
+      return null;
+    }
+
+    return <span className={classes.prefix}>{prefix}</span>;
+  };
+
+  private renderSuffix = () => {
+    const { suffix } = this.props;
+
+    if (!suffix) {
+      return null;
+    }
+
+    return <span className={classes.suffix}>{suffix}</span>;
   };
 }
 

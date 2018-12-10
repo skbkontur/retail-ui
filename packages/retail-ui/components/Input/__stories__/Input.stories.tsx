@@ -204,4 +204,77 @@ storiesOf('Input', module)
     }
 
     return <Sample />;
-  });
+  })
+  .add('Prefix and suffics', () => (
+    <div>
+      <div>
+        <div style={{ ...styles, width: 100 }}>Prefix</div>
+        <div style={styles}>
+          <Input prefix="Prefix" placeholder="Placeholder" />
+        </div>
+        <div style={styles}>
+          <Input prefix="Prefix" defaultValue="Value" />
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'baseline' }}>
+        <div style={{ ...styles, width: 100 }}>Suffix</div>
+        <div style={styles}>
+          <Input suffix="suffix" placeholder="Placeholder" />
+        </div>
+        <div style={styles}>
+          <Input suffix="suffix" defaultValue="Value" />
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'baseline' }}>
+        <div style={{ ...styles, width: 100 }}>Both preffix and suffix</div>
+        <div style={styles}>
+          <Input prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
+        </div>
+        <div style={styles}>
+          <Input prefix="Prefix" suffix="suffix" defaultValue="Value" />
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'baseline' }}>
+        <div style={{ ...styles, width: 100 }}>
+          Both preffix and suffix with rightIcon
+        </div>
+        <div style={styles}>
+          <Input
+            rightIcon={<SearchIcon />}
+            prefix="Prefix"
+            suffix="suffix"
+            placeholder="Placeholder"
+          />
+        </div>
+        <div style={styles}>
+          <Input
+            rightIcon={<SearchIcon />}
+            prefix="Prefix"
+            suffix="suffix"
+            defaultValue="Value"
+          />
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'baseline' }}>
+        <div style={{ ...styles, width: 100 }}>
+          Both preffix and suffix with leftIcon
+        </div>
+        <div style={styles}>
+          <Input
+            leftIcon={<SearchIcon />}
+            prefix="Prefix"
+            suffix="suffix"
+            placeholder="Placeholder"
+          />
+        </div>
+        <div style={styles}>
+          <Input
+            leftIcon={<SearchIcon />}
+            prefix="Prefix"
+            suffix="suffix"
+            defaultValue="Value"
+          />
+        </div>
+      </div>
+    </div>
+  ));

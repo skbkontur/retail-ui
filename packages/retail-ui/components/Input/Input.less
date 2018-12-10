@@ -28,13 +28,25 @@
     padding: 0;
     outline: none;
     width: 100%;
-    min-width: 0;
     -webkit-appearance: none;
     white-space: nowrap;
     text-overflow: clip;
     background: transparent;
     border: 0 none;
     line-height: inherit;
+    white-space: nowrap;
+  }
+
+  .inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    width: 100%;
+    min-width: 0;
+    white-space: nowrap;
+    text-overflow: clip;
+    overflow: hidden;
 
     &::before {
       content: '\a0';
@@ -59,37 +71,21 @@
 
   .sizeSmall {
     height: 34px;
-
-    .sideContainer {
-      height: 32px;
-    }
   }
 
   .sizeMedium {
     font-size: 16px;
     height: 40px;
-
-    .sideContainer {
-      height: 38px;
-    }
   }
 
   .DEPRECATED_sizeMedium {
     font-size: 14px;
     height: 40px;
-
-    .sideContainer {
-      height: 38px;
-    }
   }
 
   .sizeLarge {
     font-size: 16px;
     height: 44px;
-
-    .sideContainer {
-      height: 42px;
-    }
   }
 
   :global(.rt-ie-any) {
@@ -225,5 +221,10 @@
   .rightContainer {
     margin: 0 0 0 auto;
     justify-self: flex-end;
+  }
+
+  .prefix,
+  .suffix {
+    color: @placeholder-color;
   }
 }
