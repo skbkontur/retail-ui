@@ -16,7 +16,7 @@ const classes: typeof CssStyles = isFlatDesign
   ? require('./Input.flat.less')
   : require('./Input.less');
 
-export const isDeleteKey = (key: string) => {
+const isDeleteKey = (key: string) => {
   return key === 'Backspace' || key === 'Delete';
 };
 
