@@ -38,7 +38,10 @@ interface ComboBoxViewProps<T> {
   onFocus?: () => void;
   onFocusOutside?: () => void;
   onInputBlur?: () => void;
-  onInputChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+  onInputChange?: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ) => void;
   onInputFocus?: () => void;
   onInputClick?: () => void;
   onInputKeyDown?: (e: React.KeyboardEvent) => void;
@@ -84,17 +87,14 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
   }
 
-  public render(): JSX.Element {
+  public render() {
     const {
-      items,
-      loading,
       menuAlign,
       onClickOutside,
       onFocusOutside,
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
-      openButton,
       opened,
       size,
       width
@@ -116,37 +116,6 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       topOffsets.arrow += 6;
     }
 
-    const spinner: React.ReactNode = (
-      <span
-        style={{
-          position: 'absolute',
-          top: topOffsets.spinner,
-          right: 5,
-          zIndex: 10
-        }}
-      >
-        <Spinner type="mini" caption="" dimmed />
-      </span>
-    );
-
-    const arrow: React.ReactNode = (
-      <span
-        style={{
-          border: '4px solid transparent',
-          borderBottomWidth: 0,
-          borderTopColor: '#aaa',
-          position: 'absolute',
-          right: 10,
-          top: topOffsets.arrow,
-          zIndex: 2,
-          pointerEvents: 'none'
-        }}
-      />
-    );
-
-    const spinnerIsShown = loading && items && !!items.length;
-    const arrowIsShown = !spinnerIsShown && openButton;
-
     return (
       <RenderLayer
         onClickOutside={onClickOutside}
@@ -160,8 +129,6 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           onMouseOver={onMouseOver}
         >
           {input}
-          {spinnerIsShown && spinner}
-          {arrowIsShown && arrow}
           {opened && (
             <DropdownContainer
               align={menuAlign}
@@ -242,7 +209,8 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       const props = Object.assign(
         {
           key: index,
-          onClick: (e: React.SyntheticEvent) => this.handleItemSelect(element.props, e)
+          onClick: (e: React.SyntheticEvent) =>
+            this.handleItemSelect(element.props, e)
         },
         element.props
       );
@@ -250,7 +218,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
     return (
       // tslint:disable-next-line:jsx-no-lambda
-      <MenuItem onClick={(e) => this.handleItemSelect(item, e)} key={index}>
+      <MenuItem onClick={e => this.handleItemSelect(item, e)} key={index}>
         {state => this.props.renderItem!(item, state)}
       </MenuItem>
     );
@@ -269,7 +237,6 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       onInputFocus,
       onInputClick,
       onInputKeyDown,
-      openButton,
       placeholder,
       renderValue,
       size,
@@ -278,6 +245,8 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       warning,
       refInputLikeText
     } = this.props;
+
+    const rightIcon = this.getRightIcon();
 
     if (editing) {
       return (
@@ -291,7 +260,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           onChange={onInputChange}
           onFocus={onInputFocus}
           onClick={onInputClick}
-          rightIcon={openButton ? <span /> : null}
+          rightIcon={rightIcon}
           value={textValue || ''}
           onKeyDown={onInputKeyDown}
           placeholder={placeholder}
@@ -309,7 +278,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         borderless={borderless}
         error={error}
         onFocus={onFocus}
-        padRight={openButton}
+        rightIcon={rightIcon}
         disabled={disabled}
         warning={warning}
         placeholder={placeholder}
@@ -334,6 +303,47 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       this.props.refInput(input);
     }
     this.input = input;
+  };
+
+  private renderSpinner = () => (
+    <span
+      style={{
+        display: 'inline-block',
+        marginRight: -6,
+        paddingBottom: 2,
+        lineHeight: 'normal'
+      }}
+    >
+      <Spinner type="mini" caption="" dimmed />
+    </span>
+  );
+
+  private renderArrow = () => (
+    <span
+      style={{
+        display: 'block',
+        marginRight: -1,
+        border: '4px solid transparent',
+        borderBottomWidth: 0,
+        borderTopColor: '#aaa',
+        zIndex: 2,
+        pointerEvents: 'none'
+      }}
+    />
+  );
+
+  private getRightIcon = () => {
+    const { loading, items, openButton } = this.props;
+
+    if (loading && items && !!items.length) {
+      return this.renderSpinner();
+    }
+
+    if (openButton) {
+      return this.renderArrow();
+    }
+
+    return null;
   };
 }
 
