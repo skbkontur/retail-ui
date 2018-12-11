@@ -46,11 +46,12 @@ export interface CustomComboBoxProps<T> {
   warning?: boolean;
   width?: string | number;
   maxMenuHeight?: number | string;
-  renderItem?: (item: T, state?: MenuItemState) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;
-  renderValue?: (value: T) => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
-  valueToString?: (value: T) => string;
+  renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
+  renderValue: (value: T) => React.ReactNode;
+  valueToString: (value: T) => string;
+  itemToValue: (item: T) => string | number;
 }
 
 export interface CustomComboBoxState<T> {
