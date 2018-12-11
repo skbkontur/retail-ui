@@ -3,7 +3,6 @@ import * as React from 'react';
 
 import '../../ensureOldIEClassName';
 import Upgrades from '../../../lib/Upgrades';
-import { InputSize } from '../../Input';
 import { Nullable, TimeoutID } from '../../../typings/utility-types';
 import { InputVisibilityState, IconType } from '../../Input/Input';
 import { InputProps } from '../../Input';
@@ -14,20 +13,11 @@ const styles = isFlatDesign
   ? require('../../Input/Input.flat.less')
   : require('../../Input/Input.less');
 
-// TODO: добавить поддержку left/rightIcon
-export interface InputLikeTextProps {
-  align?: 'left' | 'center' | 'right';
-  borderless?: boolean;
+export interface InputLikeTextProps extends InputProps {
   children?: React.ReactNode;
-  error?: boolean;
-  warning?: boolean;
-  disabled?: boolean;
-  size?: InputSize;
-  width?: string | number;
-  placeholder?: string;
   innerRef?: (el: HTMLElement | null) => void;
-  // eslint-disable-next-line flowtype/no-weak-types
-  [key: string]: any;
+  onFocus?: React.FocusEventHandler<HTMLElement>;
+  onBlur?: React.FocusEventHandler<HTMLElement>;
 }
 
 interface InputLikeTextState extends InputVisibilityState {}
@@ -95,6 +85,13 @@ export default class InputLikeText extends React.Component<
       children,
       error,
       warning,
+      onChange,
+
+      prefix,
+      suffix,
+      leftIcon,
+      rightIcon,
+
       ...rest
     } = this.props;
 
@@ -163,14 +160,14 @@ export default class InputLikeText extends React.Component<
     return SIZE_CLASS_NAMES[this.props.size!];
   }
 
-  private handleFocus = (event: React.FocusEvent<HTMLSpanElement>) => {
+  private handleFocus = (event: React.FocusEvent<HTMLElement>) => {
     this.setState({ focused: true });
 
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
-  private handleBlur = (event: React.FocusEvent<HTMLSpanElement>) => {
+  private handleBlur = (event: React.FocusEvent<HTMLElement>) => {
     this.setState({ focused: false });
 
     if (this.props.onBlur) {
