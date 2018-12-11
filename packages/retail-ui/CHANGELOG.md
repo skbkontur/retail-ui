@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.32.1"></a>
+## [0.32.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.32.0...retail-ui@0.32.1) (2018-12-11)
+
+
+### Bug Fixes
+
+* **DateSelect:** fix varialble name in styles ([542ab98](https://github.com/skbkontur/retail-ui/commit/542ab98)), closes [#975](https://github.com/skbkontur/retail-ui/issues/975)
+* **Input:** fix regression around medium font-size ([a900f6e](https://github.com/skbkontur/retail-ui/commit/a900f6e))
+
+
+
+
 <a name="0.32.0"></a>
 # [0.32.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.31.0...retail-ui@0.32.0) (2018-12-10)
 
