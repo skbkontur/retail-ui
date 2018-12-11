@@ -25,13 +25,11 @@ interface Action extends BaseAction {
 
 export type Props = CustomComboBoxProps<any> & {
   getItems: (query: string) => Promise<any[]>;
-  itemToValue?: (x0: any) => string;
   onBlur?: () => {};
   onChange?: (x0: { target: { value: any } }, value: any) => {};
   onFocus?: () => {};
   onInputChange?: (textValue: string) => any;
   onUnexpectedInput?: (query: string) => Nullable<boolean>;
-  valueToString?: (x0: any) => string;
 };
 
 export type State = {
@@ -81,7 +79,7 @@ const getValueString = (value: any, valueToString: Props['valueToString']) => {
   if (!value) {
     return '';
   }
-  return valueToString ? valueToString(value) : value.label;
+  return valueToString(value);
 };
 
 const Effect = {
@@ -175,7 +173,7 @@ const Effect = {
     }
 
     let index = -1;
-    if (items && items.length && value && itemToValue) {
+    if (items && items.length && value) {
       index = items.findIndex(x => itemToValue(x) === itemToValue(value));
     }
     // FIXME: accessing private props
@@ -405,4 +403,4 @@ const reducers: { [type: string]: Reducer } = {
   }
 };
 
-export { reducers, Effect };
+export { reducers, Effect, getValueString };

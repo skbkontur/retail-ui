@@ -2,7 +2,8 @@ import {
   reducers as defaultReducers,
   Effect as DefaultEffect,
   EffectType,
-  Reducer
+  Reducer,
+  getValueString
 } from './default';
 
 import debounce from 'lodash.debounce';
@@ -19,10 +20,10 @@ Effect.DebouncedSearch = debounce(Effect.Search, 300);
 
 const reducers: { [key: string]: Reducer } = {
   ...defaultReducers,
-  Focus: (state, props, action) => {
+  Focus: (state, { value, valueToString }, action) => {
     const textValue = state.editing
       ? state.textValue
-      : props.value ? props.valueToString!(props.value) : '';
+      : getValueString(value, valueToString);
     return [
       {
         textValue,
