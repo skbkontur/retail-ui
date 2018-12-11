@@ -15,7 +15,7 @@
 - [x] Скриншоты на `ComboBox` [#929](https://github.com/skbkontur/retail-ui/pull/929)
 - [ ] Оптимизация тестов `react-ui-testing` [#872](https://github.com/skbkontur/retail-ui/issues/872)
 - [ ] Гайдлайн для контрибьторов
-- [ ] Методы `open/close` для `ComboBox` [#967](https://github.com/skbkontur/retail-ui/pull/967)
+- [x] Методы `open/close` для `ComboBox` [#967](https://github.com/skbkontur/retail-ui/pull/967)
 - [ ] Доработки по `Fias` [#960](https://github.com/skbkontur/retail-ui/pull/960)
 - [ ] Добавление свойств `prefix/postfix` для `Input` [#727](https://github.com/skbkontur/retail-ui/issues/727)
 
