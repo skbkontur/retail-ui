@@ -478,56 +478,42 @@ describe('ComboBox', () => {
     expect(wrapper.find(Menu)).toHaveLength(0);
   });
 
-  it('opens by method with search', async () => {
+  describe('search by method', async () => {
     const ITEMS = [
-      { value: 1, label: 'One' },
-      { value: 2, label: 'Two' },
-      { value: 3, label: 'Three' }
+      { value: 1, label: 'one' },
+      { value: 2, label: 'two' },
+      { value: 3, label: 'three' }
     ];
+    const VALUE = ITEMS[0];
     const promise = Promise.resolve(ITEMS);
-    const search = (text: string) =>
-      promise.then(items =>
-        items.filter(
-          item => item.label.indexOf(text) > -1
-        )
-      );
+    const getItems = jest.fn();
     const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} value={ITEMS[0]}/>
+      <ComboBox getItems={getItems} value={VALUE}/>
     );
 
-    expect(wrapper.find(Menu)).toHaveLength(0);
+    beforeEach(() => {
+      getItems.mockClear();
+    });
 
-    // open without search
-    wrapper.instance().open();
-    wrapper.update();
-    expect(wrapper.find(Menu)).toHaveLength(1);
-    expect(
-      wrapper
-        .find(MenuItem)
-        .filterWhere(item => !item.prop('disabled'))
-    ).toHaveLength(0);
+    it('opens menu', async () => {
+      wrapper.instance().search();
+      await promise;
+      wrapper.update();
+      expect(wrapper.find(Menu)).toHaveLength(1);
+    });
 
-    // open with empty search
-    wrapper.instance().open(true);
-    await promise;
-    wrapper.update();
-    expect(wrapper.find(Menu)).toHaveLength(1);
-    expect(
-      wrapper
-        .find(MenuItem)
-        .filterWhere(item => !item.prop('disabled'))
-    ).toHaveLength(3);
+    it('searches current value by default', async () => {
+      wrapper.instance().search();
+      expect(getItems).toHaveBeenCalledTimes(1);
+      expect(getItems).toHaveBeenCalledWith(VALUE.label);
+    });
 
-    // open with value search
-    wrapper.instance().open(false);
-    await promise;
-    wrapper.update();
-    expect(wrapper.find(Menu)).toHaveLength(1);
-    expect(
-      wrapper
-        .find(MenuItem)
-        .filterWhere(item => !item.prop('disabled'))
-    ).toHaveLength(1);
+    it('searches given query', async () => {
+      const QUERY = 'SEARCH_ME';
+      wrapper.instance().search(QUERY);
+      expect(getItems).toHaveBeenCalledTimes(1);
+      expect(getItems).toHaveBeenCalledWith(QUERY);
+    });
   });
 
   it('keep focus in input after click on item', async () => {
