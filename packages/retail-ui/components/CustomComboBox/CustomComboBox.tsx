@@ -23,8 +23,9 @@ export type Action<T> =
   | { type: 'InputClick' }
   | { type: 'Blur' }
   | { type: 'Reset' }
-  | { type: 'Open'; emptySearch?: boolean }
-  | { type: 'Close' };
+  | { type: 'Open' }
+  | { type: 'Close' }
+  | { type: 'Search'; query: string };
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -134,8 +135,15 @@ class CustomComboBox extends React.Component<
   /**
    * @public
    */
-  public open(emptySearch?: boolean) {
-    this.dispatch({ type: 'Open', emptySearch });
+  public search(query: string = this.state.textValue) {
+    this.dispatch({ type: 'Search', query });
+  }
+
+  /**
+   * @public
+   */
+  public open() {
+    this.dispatch({ type: 'Open' });
   }
 
   /**

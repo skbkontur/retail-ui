@@ -150,13 +150,22 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
   }
 
   /**
-   * @public Открывает выпадающий список
-   * @param {boolean} [emptySearch] - Если передан, запускает поиск
-   * по пустому (true) или текущему значению (false)
+   * @public Открывает выпадающий список и запускает поиск элементов
+   * @param {string} [query] - Текст поиска. По умолчанию берется
+   * текст из инпута или результат `valueToString(value)`
    */
-  public open(emptySearch?: boolean) {
+  public search(query?: string) {
     if (this.comboboxElement) {
-      this.comboboxElement.open(emptySearch);
+      this.comboboxElement.search(query);
+    }
+  }
+
+  /**
+   * @public Открывает выпадающий список
+   */
+  public open() {
+    if (this.comboboxElement) {
+      this.comboboxElement.open();
     }
   }
 

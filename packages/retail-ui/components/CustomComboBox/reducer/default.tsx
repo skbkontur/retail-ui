@@ -51,7 +51,7 @@ export type Reducer = (
 ) => Partial<State> | [Partial<State>, EffectType[]];
 
 let requestId = 0;
-const searchFactory = (isEmpty: boolean): EffectType => (
+const searchFactory = (query: string): EffectType => (
   dispatch,
   getState,
   getProps
@@ -59,11 +59,9 @@ const searchFactory = (isEmpty: boolean): EffectType => (
   async function makeRequest() {
     dispatch({ type: 'RequestItems' });
     const { getItems } = getProps();
-    const searchValue = isEmpty ? '' : getState().textValue;
     const expectingId = ++requestId;
-
     try {
-      const items = await getItems(searchValue);
+      const items = await getItems(query);
       if (expectingId === requestId) {
         dispatch({ type: 'ReceiveItems', items });
       }
@@ -84,7 +82,10 @@ const getValueString = (value: any, valueToString: Props['valueToString']) => {
 
 const Effect = {
   Search: searchFactory,
-  DebouncedSearch: debounce(searchFactory(false), 300),
+  DebouncedSearch: debounce((dispatch, getState, getProps, getInstance) => {
+    const searchEffect = searchFactory(getState().textValue);
+    searchEffect(dispatch, getState, getProps, getInstance);
+  }, 300),
   Blur: ((dispatch, getState, getProps) => {
     const { onBlur } = getProps();
 
@@ -261,7 +262,7 @@ const reducers: { [type: string]: Reducer } = {
           focused: true,
           opened: true
         },
-        [Effect.Search(false), Effect.Focus]
+        [Effect.Search(state.textValue), Effect.Focus]
       ];
     }
     return [
@@ -270,7 +271,7 @@ const reducers: { [type: string]: Reducer } = {
         opened: true,
         editing: true
       },
-      [Effect.Search(true), Effect.Focus, Effect.SelectInputText]
+      [Effect.Search(''), Effect.Focus, Effect.SelectInputText]
     ];
   },
   TextChange(state, props, action) {
@@ -323,7 +324,7 @@ const reducers: { [type: string]: Reducer } = {
           Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? -1 : 1)
         ];
         if (!state.opened) {
-          effects.push(Effect.Search(false));
+          effects.push(Effect.Search(state.textValue));
         }
         return [
           {
@@ -346,7 +347,7 @@ const reducers: { [type: string]: Reducer } = {
         {
           opened: true
         },
-        [Effect.Search(false)]
+        [Effect.Search(state.textValue)]
       ];
     }
     return state;
@@ -388,18 +389,22 @@ const reducers: { [type: string]: Reducer } = {
   Reset() {
     return DefaultState;
   },
-  Open: (state, props, { emptySearch }) => {
-    return [
-      {
-        opened: true
-      },
-      emptySearch !== undefined ? [Effect.Search(emptySearch)] : []
-    ];
+  Open: () => {
+    return {
+      opened: true
+    };
   },
   Close: () => {
     return {
-      opened: false
+      opened: false,
+      items: null
     };
+  },
+  Search: (state, props, { query }) => {
+    return [
+      state,
+      [Effect.Search(query)]
+    ];
   }
 };
 

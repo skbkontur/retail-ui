@@ -1,22 +1,9 @@
 import {
   reducers as defaultReducers,
-  Effect as DefaultEffect,
-  EffectType,
+  Effect,
   Reducer,
   getValueString
 } from './default';
-
-import debounce from 'lodash.debounce';
-
-const Effect = {
-  ...DefaultEffect,
-  Search: ((dispatch, getState, getProps, getInstance) => {
-    DefaultEffect.Search(false)(dispatch, getState, getProps, getInstance);
-    dispatch({ type: 'Open' });
-  }) as EffectType
-};
-
-Effect.DebouncedSearch = debounce(Effect.Search, 300);
 
 const reducers: { [key: string]: Reducer } = {
   ...defaultReducers,
