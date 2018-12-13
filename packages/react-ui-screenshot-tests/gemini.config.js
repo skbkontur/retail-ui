@@ -19,7 +19,7 @@ const flatComponents = [
 ].map(component => component.toLowerCase());
 
 const flatTestSuites = testDirectoryFiles
-  .map(filename => path.parse(filename).name)
+  .map(filename => path.parse(filename).name.toLowerCase())
   .filter(filename => flatComponents.includes(filename));
 
 const browsers = {
