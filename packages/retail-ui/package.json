@@ -18,8 +18,6 @@
     "prepublishOnly": "yarn clean && yarn build",
     "postpublish": "yarn deploy",
     "storybook": "start-storybook -p 6060",
-    "storybook:build": "build-storybook",
-    "storybook:run-serve": "yarn storybook:build && serve storybook-static -p 6660",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build && styleguidist build --config styleguide.prod.config.js",
     "clean": "git clean -fdxqe node_modules",
