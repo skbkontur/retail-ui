@@ -57,8 +57,10 @@ export default class PasswordInput extends React.Component<
       this.setState({ capsLockEnabled: null });
     }
 
+    // @ts-ignore
     if (isIE && !window.document.msCapsLockWarningOff) {
       // turns off default ie capslock warning
+      // @ts-ignore
       window.document.msCapsLockWarningOff = true;
     }
   }
