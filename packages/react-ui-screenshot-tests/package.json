@@ -7,7 +7,7 @@
   "dependencies": {
     "concurrently": "^3.6.0",
     "gemini": "^5.7.2",
-    "gemini-sauce": "^1.0.1",
+    "gemini-sauce": "^1.0.2",
     "html-reporter": "^2.18.1",
     "wait-on": "^2.1.0"
   },
