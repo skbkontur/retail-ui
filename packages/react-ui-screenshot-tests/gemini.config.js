@@ -1,11 +1,14 @@
 const fs = require("fs");
 const path = require("path");
 
-if (!process.env.CI) {
+// NOTE remove process.env.CI after teamcity migration
+const isCI = Boolean(process.env.TEAMCITY_VERSION || process.env.CI);
+
+if (!isCI) {
   require("dotenv").config();
 }
 
-const RetryCount = process.env.CI ? 2 : 0;
+const RetryCount = isCI ? 2 : 0;
 
 const testDirectoryFiles = fs.readdirSync(path.join(__dirname, "gemini"));
 const flatComponents = [
@@ -81,6 +84,7 @@ module.exports = {
   },
   system: {
     plugins: {
+      teamcity: Boolean(process.env.TEAMCITY_VERSION),
       sauce: true,
       "html-reporter/gemini": {
         enabled: true,
