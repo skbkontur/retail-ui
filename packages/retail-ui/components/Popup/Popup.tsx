@@ -61,7 +61,7 @@ export interface PopupProps extends PopupHandlerProps {
   anchorElement: React.ReactNode | HTMLElement;
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
-  children: React.ReactNode | (() => React.ReactNode);
+  children: React.ReactNode | ((locationIsNotDummy: boolean) => React.ReactNode);
   hasPin: boolean;
   hasShadow: boolean;
   disableAnimations: boolean;
@@ -346,7 +346,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
                 className={styles.contentInner}
                 style={{ backgroundColor }}
               >
-                {this.renderChildren()}
+                {this.renderChildren(location)}
               </div>
             </div>
             {this.renderPin(location.position)}
@@ -356,9 +356,11 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private renderChildren() {
+  private renderChildren(location: PopupLocation) {
+    const locationIsNotDummy = !this.locationEquals(location, this.getDummyLocation());
+
     return typeof this.props.children === 'function'
-      ? this.props.children()
+      ? this.props.children(locationIsNotDummy)
       : this.props.children;
   }
 

@@ -94,19 +94,22 @@ export default class PopupMenu extends React.Component<
                 positions={this._getPositions()}
                 disableAnimations={this.props.disableAnimations}
               >
-                <InternalMenu
-                  hasShadow={false}
-                  maxHeight={this.props.menuMaxHeight || 'none'}
-                  onKeyDown={this._handleKeyDown}
-                  width={this.props.menuWidth || 'auto'}
-                  onItemClick={this._handleItemSelection}
-                  cyclicSelection={false}
-                  initialSelectedItemIndex={
-                    this.state.firstItemShouldBeSelected ? 0 : -1
-                  }
-                >
-                  {this.props.children}
-                </InternalMenu>
+                {(locationIsNotDummy) => (
+                  <InternalMenu
+                    focus={locationIsNotDummy}
+                    hasShadow={false}
+                    maxHeight={this.props.menuMaxHeight || 'none'}
+                    onKeyDown={this._handleKeyDown}
+                    width={this.props.menuWidth || 'auto'}
+                    onItemClick={this._handleItemSelection}
+                    cyclicSelection={false}
+                    initialSelectedItemIndex={
+                      this.state.firstItemShouldBeSelected ? 0 : -1
+                    }
+                  >
+                    {this.props.children}
+                  </InternalMenu>
+                )}
               </Popup>
             )}
         </div>
