@@ -41,7 +41,7 @@ function runStorybook({ env, port }) {
     env,
     detached: true
   });
-  const waitOn = exec(`yarn wait-on -t 60000 http-get://localhost:${port}/`);
+  const waitOn = exec(`yarn wait-on -t 300000 http-get://localhost:${port}/`);
   const waitOnPromise = promisifyProcess(waitOn);
 
   storybook.on("error", error => {
