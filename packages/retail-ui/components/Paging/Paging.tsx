@@ -47,7 +47,7 @@ export interface PagingProps {
 export interface PagingState {
   focusedByTab: boolean;
   focusedItem: Nullable<ItemType>;
-  keybordControl: boolean;
+  keyboardControl: boolean;
 }
 
 export type ItemType = number | '.' | 'forward';
@@ -72,7 +72,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   public state: PagingState = {
     focusedByTab: false,
     focusedItem: null,
-    keybordControl: this.props.useGlobalListener
+    keyboardControl: this.props.useGlobalListener
   };
 
   private addedGlobalListener: boolean = false;
@@ -89,7 +89,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   public componentWillReceiveProps(nextProps: PagingProps) {
     if (this.props.useGlobalListener !== nextProps.useGlobalListener) {
       this.setState({
-        keybordControl: nextProps.useGlobalListener
+        keyboardControl: nextProps.useGlobalListener
       });
     }
   }
@@ -209,11 +209,11 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       return null;
     }
 
-    const { keybordControl } = this.state;
+    const { keyboardControl } = this.state;
     const canGoBackward = this.canGoBackward();
     const canGoForward = this.canGoForward();
 
-    if (keybordControl && (canGoBackward || canGoForward)) {
+    if (keyboardControl && (canGoBackward || canGoForward)) {
       return (
         <span className={styles.pageLinkHint}>
           <span className={canGoBackward ? '' : styles.transparent}>{'←'}</span>
@@ -277,7 +277,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       return;
     }
 
-    this.setState({ keybordControl: true });
+    this.setState({ keyboardControl: true });
 
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
@@ -292,7 +292,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private handleBlur = () => {
     this.setState({
       focusedByTab: false,
-      keybordControl: this.props.useGlobalListener || false
+      keyboardControl: this.props.useGlobalListener || false
     });
   };
 
