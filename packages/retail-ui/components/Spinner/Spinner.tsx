@@ -56,11 +56,13 @@ class Spinner extends React.Component<SpinnerProps> {
 
     return (
       <div className={styles.spinner}>
-        {SpinnerConfig.hasSvgAnimationSupport &&
-          this._renderSpinner(verifiedType)}
-        {!SpinnerConfig.hasSvgAnimationSupport && (
-          <SpinnerFallback type={verifiedType} dimmed={dimmed} />
-        )}
+        <span className={styles.inner}>
+          {SpinnerConfig.hasSvgAnimationSupport &&
+            this._renderSpinner(verifiedType)}
+          {!SpinnerConfig.hasSvgAnimationSupport && (
+            <SpinnerFallback type={verifiedType} dimmed={dimmed} />
+          )}
+        </span>
         {caption && this._renderCaption(verifiedType, caption)}
       </div>
     );
