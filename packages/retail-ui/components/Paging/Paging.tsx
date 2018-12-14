@@ -38,7 +38,7 @@ export interface PagingProps {
   /**
    * Глобальный слушатель **keyDown**, для навигации клавишами без фокуса на компоненте.
    * Если на странице используется несколько элементов
-   * **Paging** с withoutNavigationHint === true, то обработчик keyDown будет вызываться
+   * **Paging** с useGlobalListener === true, то обработчик keyDown будет вызываться
    * на каждом из них. Такие случаи лучше обрабатывать отдельно.
    */
   useGlobalListener: boolean;
