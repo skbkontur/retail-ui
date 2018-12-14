@@ -10,6 +10,8 @@ import { Nullable } from '../../typings/utility-types';
 
 import styles from './Paging.less';
 
+const IGNORE_EVENT_TAGS = ['input', 'textarea'];
+
 interface ItemComponentProps {
   active: boolean;
   children?: React.ReactNode;
@@ -74,12 +76,21 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   };
 
   private addedGlobalListener: boolean = false;
+  private container: HTMLSpanElement | null = null;
 
   public componentDidMount() {
     listenTabPresses();
 
     if (this.props.useGlobalListener) {
       this.addGlobalListener();
+    }
+  }
+
+  public componentWillReceiveProps(nextProps: PagingProps) {
+    if (this.props.useGlobalListener !== nextProps.useGlobalListener) {
+      this.setState({
+        keybordControl: nextProps.useGlobalListener
+      });
     }
   }
 
@@ -102,10 +113,11 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       <span
         tabIndex={0}
         className={styles.paging}
-        onKeyDown={this.handleKeyDown}
+        onKeyDown={this.addedGlobalListener ? undefined : this.handleKeyDown}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onMouseDown={this.handleMouseDown}
+        ref={this.refContainer}
       >
         {this.getItems().map(this.renderItem)}
       </span>
@@ -221,30 +233,42 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private handleKeyDown = (
     event: KeyboardEvent | React.KeyboardEvent<HTMLElement>
   ) => {
+    if (event.shiftKey) {
+      return;
+    }
+
+    const target = event.target;
+
+    if (
+      target instanceof Element &&
+      (IGNORE_EVENT_TAGS.includes(target.tagName.toLowerCase()) ||
+        (target as HTMLElement).isContentEditable)
+    ) {
+      return;
+    }
+
     if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowLeft') {
-      event.preventDefault();
       this.setState({ focusedItem: null }, this.goBackward);
       return;
     }
     if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowRight') {
-      event.preventDefault();
       this.setState({ focusedItem: null }, this.goForward);
       return;
     }
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      this.setState({ focusedByTab: true }, this.moveFocusLeft);
-      return;
-    }
-    if (event.key === 'ArrowRight') {
-      event.preventDefault();
-      this.setState({ focusedByTab: true }, this.moveFocusRight);
-      return;
-    }
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      this.executeItemAction(this.getFocusedItem());
-      return;
+
+    if (this.container && this.container === event.target) {
+      if (event.key === 'ArrowLeft') {
+        this.setState({ focusedByTab: true }, this.moveFocusLeft);
+        return;
+      }
+      if (event.key === 'ArrowRight') {
+        this.setState({ focusedByTab: true }, this.moveFocusRight);
+        return;
+      }
+      if (event.key === 'Enter') {
+        this.executeItemAction(this.getFocusedItem());
+        return;
+      }
     }
   };
 
@@ -379,6 +403,10 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
       this.addedGlobalListener = false;
     }
+  };
+
+  private refContainer = (element: HTMLSpanElement | null) => {
+    this.container = element;
   };
 }
 
