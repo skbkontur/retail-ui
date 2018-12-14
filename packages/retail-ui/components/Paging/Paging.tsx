@@ -113,7 +113,9 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       <span
         tabIndex={0}
         className={styles.paging}
-        onKeyDown={this.addedGlobalListener ? undefined : this.handleKeyDown}
+        onKeyDown={
+          this.props.useGlobalListener ? undefined : this.handleKeyDown
+        }
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onMouseDown={this.handleMouseDown}
