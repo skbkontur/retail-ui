@@ -8,6 +8,14 @@ import ZIndex from '../ZIndex';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 
+export interface DropdownContainerPosition {
+  top: Nullable<number>;
+  bottom: Nullable<number>;
+  left: Nullable<number>;
+  right: Nullable<number>;
+  minWidth: Nullable<number>;
+}
+
 export interface DropdownContainerProps {
   align?: 'left' | 'right';
   getParent: () => null | Element | Text;
@@ -18,13 +26,7 @@ export interface DropdownContainerProps {
 }
 
 export interface DropdownContainerState {
-  position: Nullable<{
-    top: Nullable<number>;
-    bottom: Nullable<number>;
-    left: Nullable<number>;
-    right: Nullable<number>;
-    minWidth: Nullable<number>;
-  }>;
+  position: Nullable<DropdownContainerPosition>;
   hasStaticRoot?: boolean;
 }
 
@@ -50,10 +52,8 @@ export default class DropdownContainer extends React.Component<
   private _layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
 
   public componentDidMount() {
-    if (!this.props.disablePortal) {
-      this._position();
-      this._layoutSub = LayoutEvents.addListener(this._position);
-    }
+    this._position();
+    this._layoutSub = LayoutEvents.addListener(this._position);
   }
 
   public componentWillMount() {
@@ -73,30 +73,17 @@ export default class DropdownContainer extends React.Component<
 
   public render() {
     let style: React.CSSProperties = {
-      position: 'absolute',
-      top: '0',
-      left: undefined,
-      right: undefined
+      position: 'absolute'
     };
     if (this.state.position) {
       const { top, bottom, left, right, minWidth } = this.state.position;
       style = {
         ...style,
-        top: top || undefined,
-        bottom: bottom || undefined,
-        left: left || undefined,
-        right: right || undefined,
-        minWidth: minWidth || undefined
-      };
-    }
-    if (this.props.disablePortal) {
-      style = {
-        ...style,
-        ...{
-          top: undefined,
-          bottom: undefined,
-          minWidth: '100%'
-        }
+        top: top !== null ? top : undefined,
+        bottom: bottom !== null ? bottom : undefined,
+        left: left !== null ? left : undefined,
+        right: right !== null ? right : undefined,
+        minWidth: minWidth !== null ? minWidth : undefined
       };
     }
 
@@ -185,7 +172,12 @@ export default class DropdownContainer extends React.Component<
         bottom,
         minWidth: targetRect.right - targetRect.left
       };
-      this.setState({ position });
+
+      this.setState({
+        position: this.props.disablePortal
+          ? this._convertToRelativePosition(position)
+          : position
+      });
     }
   };
 
@@ -199,5 +191,28 @@ export default class DropdownContainer extends React.Component<
     }
     const rect = child.getBoundingClientRect();
     return rect.height ? rect.height : rect.bottom - rect.top;
+  };
+
+  private _convertToRelativePosition = (position: DropdownContainerPosition): DropdownContainerPosition => {
+    const target = this.props.getParent() as Nullable<Element>;
+    const { offsetX = 0, offsetY = 0 } = this.props;
+    const { top, bottom, left, right, minWidth } = position;
+    if (target) {
+      const targetHeight = target.getBoundingClientRect().height;
+      return {
+        top: top !== null ? targetHeight + offsetY : null,
+        bottom: bottom !== null ? targetHeight + offsetY : null,
+        left: left !== null ? offsetX : null,
+        right: right !== null ? offsetX : null,
+        minWidth
+      }
+    }
+    return {
+      top: offsetY,
+      bottom: null,
+      left: offsetX,
+      right: null,
+      minWidth
+    };
   };
 }
