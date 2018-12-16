@@ -31,11 +31,11 @@
     padding: @containerPadding;
     outline: none;
 
-    &:before {
+    &::before {
       content: '';
       display: inline-block;
       vertical-align: middle;
-      height: 80%; // to vertical align modal 40%/60% of screen height
+      height: 80%; /* to vertical align modal 40%/60% of screen height */
     }
 
     @media screen and (max-width: @modal-adaptive-threshold) {
@@ -90,8 +90,8 @@
       cursor: default;
     }
 
-    &:after,
-    &:before {
+    &::after,
+    &::before {
       content: '';
       position: absolute;
       top: 30px;
@@ -101,18 +101,18 @@
       background: @modal-close-button-color;
     }
 
-    &:after {
+    &::after {
       transform: rotate(45deg);
     }
 
-    &:before {
+    &::before {
       transform: rotate(-45deg);
     }
 
-    &:focus:before,
-    &:focus:after,
-    &:hover:before,
-    &:hover:after {
+    &:focus::before,
+    &:focus::after,
+    &:hover::before,
+    &:hover::after {
       background: @modal-close-button-hover-color;
     }
 
@@ -154,8 +154,8 @@
     margin-bottom: 10px;
   }
 
-  .fixedHeader:after,
-  .fixedFooter:before {
+  .fixedHeader::after,
+  .fixedFooter::before {
     content: '';
     position: absolute;
     height: 1px;
@@ -164,7 +164,7 @@
     z-index: -1;
   }
 
-  .fixedHeader:after {
+  .fixedHeader::after {
     bottom: 11px;
     box-shadow: @modal-fixed-header-shadow;
   }
@@ -199,7 +199,7 @@
     padding-top: 20px;
     margin-top: 10px;
 
-    &:before {
+    &::before {
       top: 11px;
       box-shadow: @modal-fixed-footer-shadow;
     }

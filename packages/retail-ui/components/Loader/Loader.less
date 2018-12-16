@@ -16,7 +16,7 @@
     width: 100%;
     z-index: inherit;
 
-    &.active:after {
+    &.active::after {
       background: @loader-bg;
       content: ' ';
       filter: 'alpha(opacity = (@{loader-opacity} * 100 + ))';
@@ -37,7 +37,7 @@
     .spinnerContainer;
     .fillContainerPosition;
 
-    &:before {
+    &::before {
       content: ' ';
       display: inline-block;
       height: 100%;
@@ -48,9 +48,10 @@
 
   .spinnerContainerSticky {
     .spinnerContainer;
+
     position: fixed;
 
-    &:before {
+    &::before {
       content: ' ';
       display: inline-block;
       height: 100%;
