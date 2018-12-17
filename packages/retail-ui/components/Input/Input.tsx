@@ -26,13 +26,23 @@ export type InputAlign = 'left' | 'center' | 'right';
 
 export type InputType = 'password' | 'text';
 
+export type IconType = React.ReactNode | (() => React.ReactNode);
+
 export type InputProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
   {
-    /** Иконка слева */
-    leftIcon?: React.ReactNode;
-    /** Иконка справа */
-    rightIcon?: React.ReactNode;
+    /**
+     * Иконка слева
+     * Если `ReactNode` применяются дефолтные стили для иконки
+     * Если `() => ReactNode` применяются только стили для позиционирование
+     */
+    leftIcon?: IconType;
+    /**
+     * Иконка справа
+     * Если `ReactNode` применяются дефолтные стили для иконки
+     * Если `() => ReactNode` применяются только стили для позиционирование
+     */
+    rightIcon?: IconType;
     /** Состояние ошибки */
     error?: boolean;
     /** Состояние предупреждения */
@@ -309,9 +319,13 @@ class Input extends React.Component<InputProps, InputState> {
     return this.renderIcon(this.props.rightIcon, classes.rightIcon);
   }
 
-  private renderIcon(icon: React.ReactNode, className: string) {
+  private renderIcon(icon: IconType, className: string) {
     if (!icon) {
       return null;
+    }
+
+    if (icon instanceof Function) {
+      return <span className={className}>{icon()}</span>;
     }
 
     return (
