@@ -150,6 +150,17 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
   }
 
   /**
+   * @public Открывает выпадающий список и запускает поиск элементов
+   * @param {string} [query] - Текст поиска. По умолчанию берется
+   * текст из инпута или результат `valueToString(value)`
+   */
+  public search(query?: string) {
+    if (this.comboboxElement) {
+      this.comboboxElement.search(query);
+    }
+  }
+
+  /**
    * @public Открывает выпадающий список
    */
   public open() {
