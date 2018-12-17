@@ -1,28 +1,16 @@
 import {
   reducers as defaultReducers,
-  Effect as DefaultEffect,
-  EffectType,
-  Reducer
+  Effect,
+  Reducer,
+  getValueString
 } from './default';
-
-import debounce from 'lodash.debounce';
-
-const Effect = {
-  ...DefaultEffect,
-  Search: ((dispatch, getState, getProps, getInstance) => {
-    DefaultEffect.Search(false)(dispatch, getState, getProps, getInstance);
-    dispatch({ type: 'Open' });
-  }) as EffectType
-};
-
-Effect.DebouncedSearch = debounce(Effect.Search, 300);
 
 const reducers: { [key: string]: Reducer } = {
   ...defaultReducers,
-  Focus: (state, props, action) => {
+  Focus: (state, { value, valueToString }, action) => {
     const textValue = state.editing
       ? state.textValue
-      : props.value ? props.valueToString!(props.value) : '';
+      : getValueString(value, valueToString);
     return [
       {
         textValue,
