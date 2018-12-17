@@ -1,7 +1,7 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import ComboBox from '../ComboBox';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import InputLikeText from '../../internal/InputLikeText';
 import MenuItem from '../../MenuItem/MenuItem';
 import Menu from '../../Menu/Menu';
@@ -476,6 +476,38 @@ describe('ComboBox', () => {
     wrapper.instance().close();
     wrapper.update();
     expect(wrapper.find(Menu)).toHaveLength(0);
+  });
+
+  describe('search by method', () => {
+    const VALUE = { value: 1, label: 'one' };
+    let getItems: jest.Mock;
+    let wrapper: ReactWrapper<{}, {}, ComboBox<typeof VALUE>>;
+
+    beforeEach(() => {
+      getItems = jest.fn();
+      wrapper = mount<ComboBox<typeof VALUE>>(
+        <ComboBox getItems={getItems} value={VALUE} />
+      );
+    });
+
+    it('opens menu', () => {
+      wrapper.instance().search();
+      wrapper.update();
+      expect(wrapper.find(Menu)).toHaveLength(1);
+    });
+
+    it('searches current value by default', () => {
+      wrapper.instance().search();
+      expect(getItems).toHaveBeenCalledTimes(1);
+      expect(getItems).toHaveBeenCalledWith(VALUE.label);
+    });
+
+    it('searches given query', () => {
+      const QUERY = 'SEARCH_ME';
+      wrapper.instance().search(QUERY);
+      expect(getItems).toHaveBeenCalledTimes(1);
+      expect(getItems).toHaveBeenCalledWith(QUERY);
+    });
   });
 
   it('keep focus in input after click on item', async () => {

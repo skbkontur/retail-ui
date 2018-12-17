@@ -24,7 +24,8 @@ export type Action<T> =
   | { type: 'Blur' }
   | { type: 'Reset' }
   | { type: 'Open' }
-  | { type: 'Close' };
+  | { type: 'Close' }
+  | { type: 'Search'; query: string };
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -46,11 +47,12 @@ export interface CustomComboBoxProps<T> {
   warning?: boolean;
   width?: string | number;
   maxMenuHeight?: number | string;
-  renderItem?: (item: T, state?: MenuItemState) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;
-  renderValue?: (value: T) => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
-  valueToString?: (value: T) => string;
+  renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
+  renderValue: (value: T) => React.ReactNode;
+  valueToString: (value: T) => string;
+  itemToValue: (item: T) => string | number;
 }
 
 export interface CustomComboBoxState<T> {
@@ -129,6 +131,13 @@ class CustomComboBox extends React.Component<
 
     this.handleBlur();
   };
+
+  /**
+   * @public
+   */
+  public search(query: string = this.state.textValue) {
+    this.dispatch({ type: 'Search', query });
+  }
 
   /**
    * @public
