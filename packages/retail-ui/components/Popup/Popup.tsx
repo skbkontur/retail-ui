@@ -342,10 +342,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
             onMouseLeave={this.props.onMouseLeave}
           >
             <div className={styles.content}>
-              <div
-                className={styles.contentInner}
-                style={{ backgroundColor }}
-              >
+              <div className={styles.contentInner} style={{ backgroundColor }}>
                 {this.renderChildren()}
               </div>
             </div>
