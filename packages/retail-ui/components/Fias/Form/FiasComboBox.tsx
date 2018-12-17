@@ -27,6 +27,8 @@ export class FiasComboBox extends React.Component<
     totalCount: 0
   };
 
+  private combobox: ComboBox<Address> | null = null;
+
   public get hasItems() {
     return this.state.totalCount > 0;
   };
@@ -39,11 +41,17 @@ export class FiasComboBox extends React.Component<
         renderItem={this.renderItem}
         onChange={this.handleChange}
         onInputChange={this.handleInputChange}
+        onFocus={this.handleFocus}
         totalCount={this.state.totalCount}
         renderTotalCount={this.renderTotalCount}
+        ref={this.createRef}
       />
     );
   }
+
+  private createRef = (el: ComboBox<Address>) => {
+    this.combobox = el;
+  };
 
   private getItems = (searchText: string): Promise<Address[]> => {
     const { getItems, limit } = this.props;
@@ -93,6 +101,18 @@ export class FiasComboBox extends React.Component<
       this.props.onInputChange(query);
     }
     this.setState({ searchText: query });
+  };
+
+  private handleFocus = () => {
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
+    const { error, warning } = this.props;
+    if ((error || warning) && this.hasItems) {
+      if (this.combobox) {
+        this.combobox.search();
+      }
+    }
   };
 
   private highlight(str: string, lastMatchOnly: boolean = true) {
