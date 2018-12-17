@@ -1,235 +1,25 @@
 @import '../variables.less';
 @import '../variables.flat.less';
+@import './input.common.less';
 
 :local {
-  @small-vertical-padding: 6px;
-  @medium-vertical-padding: 8px;
-  @DEPRECATED_medium-vertical-padding: 9px;
-  @large-vertical-padding: 10px;
-
-  @horizontal-padding: 9px;
+  .commonStyles();
 
   .root {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    box-sizing: border-box;
-    width: 250px;
-    font-size: 14px;
-    background-clip: padding-box;
-    transition: background-color 0.15s ease-in;
-    line-height: normal;
-
     color: @chb-flat-input-color;
     background-color: @chb-flat-input-bg;
     border: 1px solid @border-color-gray-light;
 
-    cursor: text;
-  }
-
-  .input {
-    font: inherit;
-    margin: 0;
-    padding: 0;
-    outline: none;
-    width: 100%;
-    -webkit-appearance: none;
-    text-overflow: clip;
-    background: transparent;
-    border: 0 none;
-    line-height: inherit;
-    white-space: nowrap;
-  }
-
-  .inputWrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin: 0;
-    width: 100%;
-    min-width: 0;
-    white-space: nowrap;
-    text-overflow: clip;
-    overflow: hidden;
-
-    &::before {
-      content: '\A0';
-      display: inline-block;
-      width: 0;
-    }
-  }
-
-  .blink {
-    background-color: @blink-color;
-  }
-
-  .input::placeholder {
-    color: @placeholder-color;
-  }
-
-  .input:focus.input::placeholder {
-    color: @placeholder-color-light;
-  }
-
-  .input::-ms-clear {
-    display: none;
-  }
-
-  .sizeSmall {
-    height: 34px;
-  }
-
-  .sizeMedium {
-    font-size: 16px;
-    height: 40px;
-  }
-
-  .DEPRECATED_sizeMedium {
-    font-size: 14px;
-    height: 40px;
-  }
-
-  .sizeLarge {
-    font-size: 16px;
-    height: 44px;
-  }
-
-  :global(.rt-ie-any) {
-    // Set height for IE only since IE does not support line-height for inputs.
-    // On the other hand, Chrome renders text (Segoe UI) 1 pixel lower if input
-    // has height set.
-
-    .input {
-      box-shadow: none !important;
-    }
-
-    .focus {
-      outline: 1px solid @flat-border-color-focus;
-    }
-
-    .warning {
-      outline: 1px solid @border-color-warning;
-    }
-
-    .error {
-      outline: 1px solid @border-color-error;
-    }
-  }
-
-  :global(.rt-ie-8) {
-    .warning {
-      outline: 2px solid @border-color-warning;
-    }
-
-    .error {
-      outline: 2px solid @border-color-error;
-    }
-  }
-
-  .placeholder {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    top: 0;
-    left: @horizontal-padding;
-    color: @placeholder-color;
-    font-size: inherit;
-    overflow: hidden;
-    white-space: nowrap;
-    user-select: none;
-    -ms-user-select: none;
-    pointer-events: none;
-    cursor: text;
-    padding: 0 1px;
-  }
-
-  .focus + .placeholder {
-    color: @placeholder-color-light;
-  }
-
-  .leftIcon,
-  .rightIcon {
-    flex-shrink: 0;
-    cursor: text;
-    z-index: 2;
-
-    &.useDefaultColor {
-      color: @chb-flat-input-icon-color;
-    }
-  }
-
-  .leftIcon {
-    padding-right: 2px;
-  }
-
-  .rightIcon {
-    padding-left: 2px;
-  }
-
-  .borderless {
-    box-shadow: none;
-    border-color: transparent;
-  }
-
-  .focus {
-    border-color: @flat-border-color-focus;
-    box-shadow: 0 0 0 1px @flat-border-color-focus;
-    z-index: 2;
-  }
-
-  .warning {
-    border-color: @border-color-warning;
-    box-shadow: 0 0 0 1px @border-color-warning;
-    z-index: 2;
-  }
-
-  .error {
-    border-color: @border-color-error;
-    box-shadow: 0 0 0 1px @border-color-error;
-    z-index: 2;
-  }
-
-  .disabled {
-    background: @bg-disabled;
-    border-color: @border-color-gray-light;
-    box-shadow: none;
-
-    .input {
-      color: @text-color-disabled;
-      pointer-events: none;
+    &.focus {
+      border-color: @flat-border-color-focus;
+      box-shadow: 0 0 0 1px @flat-border-color-focus;
     }
 
     .leftIcon,
     .rightIcon {
-      cursor: default;
+      &.useDefaultColor {
+        color: @chb-flat-input-icon-color;
+      }
     }
-  }
-
-  .sideContainer {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    min-width: 11px;
-    height: 100%;
-    padding-left: 10px;
-
-    &:before {
-      content: '\a0';
-      display: inline-block;
-      width: 0;
-    }
-  }
-
-  .rightContainer {
-    margin: 0 0 0 auto;
-    justify-self: flex-end;
-    padding-left: 0;
-    padding-right: 10px;
-  }
-
-  .prefix,
-  .suffix {
-    color: @placeholder-color;
   }
 }
