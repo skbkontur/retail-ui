@@ -47,7 +47,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     anchor: null
   };
 
-  private _listener: {
+  private listener: {
     remove: () => void;
   } = {
     remove: () => undefined
@@ -55,12 +55,12 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
 
   public componentDidMount() {
     /** addListener'у нужен колбэк в аргумент */
-    this._listener = LayoutEvents.addListener(() => undefined);
+    this.listener = LayoutEvents.addListener(() => undefined);
     listenTabPresses();
   }
 
   public componentWillUnmount() {
-    this._listener.remove();
+    this.listener.remove();
   }
 
   public render(): JSX.Element {
@@ -72,7 +72,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         popupPinOffset={15}
         popupHasPin
         positions={positions}
-        onChangeMenuState={this._handleChangeMenuState}
+        onChangeMenuState={this.handleChangeMenuState}
         caption={this.renderCaption}
         disableAnimations={this.props.disableAnimations}
       >
@@ -102,8 +102,8 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         tabIndex={disabled ? -1 : 0}
         onClick={handleCaptionClick}
         onKeyDown={handleCaptionKeyDown}
-        onFocus={this._handleFocus}
-        onBlur={this._handleBlur}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
         className={cn(
           styles.kebab,
           captionProps.opened && styles.opened,
@@ -111,7 +111,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
           this.state.focusedByTab && styles.focused
         )}
       >
-        {this._renderIcon()}
+        {this.renderIcon()}
       </span>
     );
   };
@@ -134,7 +134,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     }
   };
 
-  private _handleChangeMenuState = (
+  private handleChangeMenuState = (
     isOpened: boolean,
     restoreFocus: boolean
   ): void => {
@@ -161,7 +161,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     );
   };
 
-  private _handleFocus = () => {
+  private handleFocus = () => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -174,13 +174,13 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     }
   };
 
-  private _handleBlur = () => {
+  private handleBlur = () => {
     this.setState({
       focusedByTab: false
     });
   };
 
-  private _renderIcon() {
+  private renderIcon() {
     switch (this.props.size) {
       case 'small':
         return (
