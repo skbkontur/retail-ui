@@ -2,6 +2,7 @@ import * as React from 'react';
 import InternalMenu from '../InternalMenu/InternalMenu';
 import Popup from '../../Popup';
 import RenderLayer from '../../RenderLayer';
+import { Nullable } from '../../../typings/utility-types';
 import PopupMenuPositions from './PopupMenuPositions';
 import isValidPostions from './validatePositions';
 import styles from './PopupMenu.less';
@@ -72,6 +73,7 @@ export default class PopupMenu extends React.Component<
 
   private _captionWrapper: HTMLSpanElement | null = null;
   private _savedFocusableElement: HTMLElement | null = null;
+  private menu: Nullable<InternalMenu> = null;
 
   public render() {
     return (
@@ -93,6 +95,7 @@ export default class PopupMenu extends React.Component<
                 pinOffset={this.props.popupPinOffset}
                 positions={this._getPositions()}
                 disableAnimations={this.props.disableAnimations}
+                onOpen={this._handleOpen}
               >
                 <InternalMenu
                   hasShadow={false}
@@ -101,6 +104,7 @@ export default class PopupMenu extends React.Component<
                   width={this.props.menuWidth || 'auto'}
                   onItemClick={this._handleItemSelection}
                   cyclicSelection={false}
+                  ref={this.refInternalMenu}
                   initialSelectedItemIndex={
                     this.state.firstItemShouldBeSelected ? 0 : -1
                   }
@@ -113,6 +117,15 @@ export default class PopupMenu extends React.Component<
       </RenderLayer>
     );
   }
+
+  private refInternalMenu = (element: Nullable<InternalMenu>) =>
+    (this.menu = element);
+
+  private _handleOpen = () => {
+    if (this.menu) {
+      this.menu.focus();
+    }
+  };
 
   private renderCaption = () => {
     if (typeof this.props.caption === 'function') {

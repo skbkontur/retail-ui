@@ -53,8 +53,11 @@ export default class InternalMenu extends React.Component<
   private getProps = createPropsGetter(InternalMenu.defaultProps);
 
   public componentDidMount() {
-    this._focusWithScrollRestore();
     this._setInitialSelection();
+  }
+
+  public focus() {
+    this._focusOnRootElement();
   }
 
   public render() {
@@ -128,13 +131,9 @@ export default class InternalMenu extends React.Component<
     );
   }
 
-  private _focusWithScrollRestore = (): void => {
-    if (this._rootElement && window) {
-      const scrollX: number = window.scrollX || window.pageXOffset;
-      const scrollY: number = window.scrollY || window.pageYOffset;
-
+  private _focusOnRootElement = (): void => {
+    if (this._rootElement) {
       this._rootElement.focus();
-      window.scrollTo(scrollX, scrollY);
     }
   };
 
