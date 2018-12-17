@@ -71,15 +71,16 @@ describe('Spinner', () => {
     });
 
     it('renders default Spinner', () => {
-      render();
+      expect(render).not.toThrow();
     });
 
     it('renders correct size of default Spinner', () => {
       const component = render();
       const cloudProps = component
+        .find('SpinnerFallback')
         .find('span')
-        .first()
-        .props().style;
+        .prop('style');
+
       const type = Spinner.defaultProps.type;
       expect(cloudProps).toMatchObject({
         width: sizeMaps[type].width,
@@ -92,9 +93,10 @@ describe('Spinner', () => {
       const type = 'mini';
       const component = render({ type });
       const cloudProps = component
+        .find('SpinnerFallback')
         .find('span')
-        .first()
-        .props().style;
+        .prop('style');
+
       expect(cloudProps).toMatchObject({
         width: sizeMaps[type].width,
         height: sizeMaps[type].height,
