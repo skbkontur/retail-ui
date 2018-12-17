@@ -9,7 +9,7 @@ gemini.suite("ComboBox", () => {
         .ignoreElements('[class^="Spinner-spinner"]')
         .capture("plain")
         .capture("focused first element", (action, find) => {
-          action.focus(find('[class^="Input-input"]'));
+          action.click(find('[class^="Input-input"]'));
         });
     });
 
@@ -172,7 +172,7 @@ gemini.suite("ComboBox", () => {
         .setUrl(pathTo("ComboBox", "focus flow"))
         .setCaptureElements("#test-element")
         .capture("before")
-        .capture("after Enter on Item", (action) => {
+        .capture("after Enter on Item", action => {
           action.sendKeys(gemini.ENTER);
         });
     });
