@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.33.0"></a>
+# [0.33.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.32.1...retail-ui@0.33.0) (2018-12-17)
+
+
+### Bug Fixes
+
+* **ComboBox:** always keep textValue in sync with value, if not editing ([f9e6531](https://github.com/skbkontur/retail-ui/commit/f9e6531))
+* **ComboBox:** fix getValueString function ([50accf1](https://github.com/skbkontur/retail-ui/commit/50accf1))
+* **CustomComboBox:** made some props required ([dd1f90a](https://github.com/skbkontur/retail-ui/commit/dd1f90a))
+* **MenuItem:** remove 'white-space: nowrap' property ([b4fb9e7](https://github.com/skbkontur/retail-ui/commit/b4fb9e7)), closes [#590](https://github.com/skbkontur/retail-ui/issues/590) [#959](https://github.com/skbkontur/retail-ui/issues/959)
+* **paging:** починено поведение глобального листенера ([fddcc74](https://github.com/skbkontur/retail-ui/commit/fddcc74)), closes [#998](https://github.com/skbkontur/retail-ui/issues/998) [#976](https://github.com/skbkontur/retail-ui/issues/976)
+
+
+### Features
+
+* **ComboBox:** add search method ([bb3fa2e](https://github.com/skbkontur/retail-ui/commit/bb3fa2e)), closes [#991](https://github.com/skbkontur/retail-ui/issues/991)
+* **ComboBox:** allow to open combobox with search ([c3b8965](https://github.com/skbkontur/retail-ui/commit/c3b8965))
+
+
+
+
 <a name="0.32.1"></a>
 ## [0.32.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.32.0...retail-ui@0.32.1) (2018-12-11)
 

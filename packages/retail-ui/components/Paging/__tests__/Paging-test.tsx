@@ -149,7 +149,7 @@ describe('Pager', () => {
 
   it('keyboard control available with global listener', () => {
     const onPageChange = jest.fn();
-    const wrapper = mount(
+    const wrapper = mount<Paging>(
       <Paging
         useGlobalListener
         pagesCount={2}
@@ -158,19 +158,19 @@ describe('Pager', () => {
       />
     );
 
-    expect(wrapper.state('keybordControl')).toBe(true);
+    expect(wrapper.state('keyboardControl')).toBe(true);
   });
 
   it('keyboard control available with focus', () => {
     const onPageChange = jest.fn();
-    const wrapper = mount(
+    const wrapper = mount<Paging>(
       <Paging pagesCount={2} activePage={2} onPageChange={onPageChange} />
     );
 
-    expect(wrapper.state('keybordControl')).toBe(false);
+    expect(wrapper.state('keyboardControl')).toBe(false);
 
     wrapper.simulate('focus');
 
-    expect(wrapper.state('keybordControl')).toBe(true);
+    expect(wrapper.state('keyboardControl')).toBe(true);
   });
 });
