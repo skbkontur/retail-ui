@@ -8,7 +8,8 @@
   .inner {
     margin-bottom: -1px;
     max-height: 100%;
-    // IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX
+
+    /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
     padding-bottom: 1px;
     overflow-y: scroll;
   }
@@ -20,7 +21,7 @@
     width: 4px;
     z-index: 200;
 
-    &:after {
+    &::after {
       background: #b7b7b7;
       border-radius: 5px;
       bottom: 1px;
@@ -37,7 +38,7 @@
     width: 10px;
   }
 
-  .scrollInvert:after {
+  .scrollInvert::after {
     background: #ccc;
     background: rgba(255, 255, 255, 0.5);
   }

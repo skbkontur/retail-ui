@@ -1,0 +1,11 @@
+extends:
+  - stylelint-config-standard
+  - stylelint-config-css-modules
+ignoreFiles:
+  - '**/*.tsx'
+rules:
+  no-descending-specificity: null
+
+  # Disable because of issue https://github.com/stylelint/stylelint/issues/3853
+  declaration-colon-newline-after: null
+  value-list-comma-newline-after: null

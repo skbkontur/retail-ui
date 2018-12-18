@@ -74,7 +74,7 @@
 @btn-default-active-shadow-arrow: 0 -2px 0 -1px rgba(0, 0, 0, 0.1),
   1px -1px 0 0 rgba(0, 0, 0, 0.2), inset 0 4px 5px -4px rgba(0, 0, 0, 0.1);
 @btn-default-active-shadow-arrow-left: 0 -1px 0 0 rgba(0, 0, 0, 0.1),
-  1px -0.3px 0px 0px rgba(0, 0, 0, 0.2),
+  1px -0.3px 0 0 rgba(0, 0, 0, 0.2),
   inset -4px 0 5px -4px rgba(0, 0, 0, 0.2);
 
 // use success
@@ -164,7 +164,7 @@
 @btn-pay-shadow-arrow: 1px -1px 0 0 rgba(238, 169, 34, 0.7),
   1px -0.3px 0 0 rgba(77, 16, 0, 0.56);
 @btn-pay-shadow-arrow-left: 1px -1px 0 0 rgba(238, 169, 34, 0.7),
-  0.2px -1px 0px -0.3px rgba(77, 16, 0, 0.56);
+  0.2px -1px 0 -0.3px rgba(77, 16, 0, 0.56);
 @btn-pay-hover-bg-start: #ffbd3a;
 @btn-pay-hover-bg-end: #f8a91d;
 @btn-pay-hover-shadow: 0 0 0 1px rgba(227, 142, 8, 0.7),
@@ -282,8 +282,8 @@
 
 // Topbar
 @tb-bg: #fff;
-@tb-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1),
-  0px 1px 8px 0px rgba(0, 0, 0, 0.1);
+@tb-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1),
+  0 1px 8px 0 rgba(0, 0, 0, 0.1);
 @td-divider-bg: #dfdfdf;
 
 // Logo
@@ -343,7 +343,6 @@
   padding: 0;
   width: auto;
   overflow: visible;
-
   background: transparent;
 
   /* inherit font & color from ancestor */
@@ -359,7 +358,6 @@
 
   /* Corrects inability to style clickable `input` types in iOS */
   -webkit-appearance: none;
-
   text-align: inherit;
 
   &::-moz-focus-inner {

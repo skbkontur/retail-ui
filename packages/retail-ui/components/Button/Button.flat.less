@@ -16,9 +16,9 @@
     display: inline-block;
     font-family: inherit;
     font-size: 14px;
-    margin: 0; // Need for Safari.
+    margin: 0; /* Need for Safari. */
     outline: 0;
-    overflow: visible; // On IE it's hidden by default.
+    overflow: visible; /* On IE it's hidden by default. */
     position: relative;
     width: 100%;
     background-size: contain;
@@ -36,7 +36,7 @@
       vertical-align: -1px;
     }
 
-    &:after {
+    &::after {
       content: '';
       display: inline-block;
       vertical-align: baseline;
@@ -83,14 +83,14 @@
   }
 
   .buttonColorMixin(
-    @className,
-    @color,
-    @bgColor,
-    @bgHoverColor,
-    @bgActiveColor,
-    @bgDisabledColor,
-    @border
-  ) {
+  @className,
+  @color,
+  @bgColor,
+  @bgHoverColor,
+  @bgActiveColor,
+  @bgDisabledColor,
+  @border
+) {
     .@{className} {
       background: @bgColor;
       color: @color;
@@ -304,7 +304,7 @@
     overflow: hidden;
   }
 
-  .loading:before {
+  .loading::before {
     content: '';
     height: 100%;
     position: absolute;
@@ -346,20 +346,26 @@
   .arrow {
     content: '';
   }
+
   .arrow_loading {
     content: '';
   }
+
   .arrow_warning {
     content: '';
   }
+
   .arrow_error {
     content: '';
   }
+
   .wrap_arrow {
     content: '';
   }
+
   .borderless {
     box-shadow: none;
+
     &:hover,
     &:active {
       box-shadow: none;
