@@ -103,11 +103,15 @@ export default class DropdownContainer extends React.Component<
     this.dom = e && (findDOMNode(e) as HTMLElement);
   };
 
+  private isElement = (node: Element | Text | null): node is Element => {
+    return node instanceof Element;
+  };
+
   private position = () => {
-    const target = this.props.getParent() as Nullable<Element>;
+    const target = this.props.getParent();
     const dom = this.dom;
 
-    if (target && dom) {
+    if (this.isElement(target) && dom) {
       const targetRect = target.getBoundingClientRect();
       const docEl = document.documentElement;
 
@@ -192,26 +196,28 @@ export default class DropdownContainer extends React.Component<
   };
 
   private getMinWidth = () => {
-    const target = this.props.getParent() as Nullable<Element>;
-    if (!target) {
+    const target = this.props.getParent();
+    if (!this.isElement(target)) {
       return 0;
     }
     const rect = target.getBoundingClientRect();
     return rect.width ? rect.width : rect.right - rect.left;
   };
 
-  private convertToRelativePosition = (position: DropdownContainerPosition): DropdownContainerPosition => {
-    const target = this.props.getParent() as Nullable<Element>;
+  private convertToRelativePosition = (
+    position: DropdownContainerPosition
+  ): DropdownContainerPosition => {
+    const target = this.props.getParent();
     const { offsetX = 0, offsetY = 0 } = this.props;
     const { top, bottom, left, right } = position;
-    if (target) {
+    if (this.isElement(target)) {
       const targetHeight = target.getBoundingClientRect().height;
       return {
         top: top !== null ? targetHeight + offsetY : null,
         bottom: bottom !== null ? targetHeight + offsetY : null,
         left: left !== null ? offsetX : null,
         right: right !== null ? offsetX : null
-      }
+      };
     }
     return {
       top: offsetY,
