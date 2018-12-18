@@ -55,6 +55,7 @@ export interface PopupHandlerProps {
   onClick?: (event: React.MouseEvent<HTMLElement> | MouseEvent) => void;
   onFocus?: (event: React.FocusEvent<HTMLElement> | FocusEvent) => void;
   onBlur?: (event: React.FocusEvent<HTMLElement> | FocusEvent) => void;
+  onOpen?: () => void;
 }
 
 export interface PopupProps extends PopupHandlerProps {
@@ -188,6 +189,16 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
     if (this.props.opened && !nextProps.opened) {
       this.resetLocation();
+    }
+  }
+
+  public componentDidUpdate(prevProps: PopupProps, prevState: PopupState) {
+    if (
+      prevState.location === null &&
+      this.state.location !== null &&
+      this.props.onOpen
+    ) {
+      this.props.onOpen();
     }
   }
 
@@ -342,10 +353,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
             onMouseLeave={this.props.onMouseLeave}
           >
             <div className={styles.content}>
-              <div
-                className={styles.contentInner}
-                style={{ backgroundColor }}
-              >
+              <div className={styles.contentInner} style={{ backgroundColor }}>
                 {this.renderChildren()}
               </div>
             </div>

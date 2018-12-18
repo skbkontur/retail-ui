@@ -46,15 +46,18 @@ export default class InternalMenu extends React.Component<
     highlightedIndex: -1
   };
 
-  private _scrollContainer: Nullable<ScrollContainer>;
-  private _highlighted: Nullable<MenuItem>;
-  private _rootElement: Nullable<HTMLDivElement>;
+  private scrollContainer: Nullable<ScrollContainer>;
+  private highlighted: Nullable<MenuItem>;
+  private rootElement: Nullable<HTMLDivElement>;
 
   private getProps = createPropsGetter(InternalMenu.defaultProps);
 
   public componentDidMount() {
-    this._focusWithScrollRestore();
-    this._setInitialSelection();
+    this.setInitialSelection();
+  }
+
+  public focus() {
+    this.focusOnRootElement();
   }
 
   public render() {
@@ -62,7 +65,7 @@ export default class InternalMenu extends React.Component<
       x => typeof x === 'object' && x.props.icon
     );
 
-    if (this._isEmpty()) {
+    if (this.isEmpty()) {
       return null;
     }
 
@@ -70,14 +73,14 @@ export default class InternalMenu extends React.Component<
       <div
         className={cn(styles.root, this.props.hasShadow && styles.shadow)}
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
-        onKeyDown={this._handleKeyDown}
+        onKeyDown={this.handleKeyDown}
         ref={element => {
-          this._rootElement = element;
+          this.rootElement = element;
         }}
         tabIndex={0}
       >
         <ScrollContainer
-          ref={this._refScrollContainer}
+          ref={this.refScrollContainer}
           maxHeight={this.props.maxHeight}
           preventWindowScroll={this.props.preventWindowScroll}
         >
@@ -109,15 +112,15 @@ export default class InternalMenu extends React.Component<
 
               let ref = child.ref;
               if (highlight) {
-                ref = this._refHighlighted.bind(this, child.ref);
+                ref = this.refHighlighted.bind(this, child.ref);
               }
 
               return React.cloneElement<MenuItemProps, MenuItem>(child, {
                 ref,
                 state: highlight ? 'hover' : child.props.state,
-                onClick: this._select.bind(this, index, false),
-                onMouseEnter: () => this._highlightItem(index),
-                onMouseLeave: this._unhighlight
+                onClick: this.select.bind(this, index, false),
+                onMouseEnter: () => this.highlightItem(index),
+                onMouseLeave: this.unhighlight
               });
             }
 
@@ -128,48 +131,42 @@ export default class InternalMenu extends React.Component<
     );
   }
 
-  private _focusWithScrollRestore = (): void => {
-    if (this._rootElement && window) {
-      const scrollX: number = window.scrollX || window.pageXOffset;
-      const scrollY: number = window.scrollY || window.pageYOffset;
-
-      this._rootElement.focus();
-      window.scrollTo(scrollX, scrollY);
+  private focusOnRootElement = (): void => {
+    if (this.rootElement) {
+      this.rootElement.focus();
     }
   };
 
-  private _setInitialSelection = () => {
+  private setInitialSelection = () => {
     for (let i = this.getProps().initialSelectedItemIndex; i > -1; i--) {
-      this._moveDown();
+      this.moveDown();
     }
   };
 
-  private _refScrollContainer = (
-    scrollContainer: Nullable<ScrollContainer>
-  ) => {
-    this._scrollContainer = scrollContainer;
+  private refScrollContainer = (scrollContainer: Nullable<ScrollContainer>) => {
+    this.scrollContainer = scrollContainer;
   };
 
-  private _refHighlighted(
+  private refHighlighted(
     originalRef: (menuItem: MenuItem | null) => any,
     menuItem: MenuItem | null
   ) {
-    this._highlighted = menuItem;
+    this.highlighted = menuItem;
 
     if (originalRef) {
       originalRef(menuItem);
     }
   }
 
-  private _scrollToSelected = () => {
-    if (this._scrollContainer && this._highlighted) {
-      this._scrollContainer.scrollTo(ReactDOM.findDOMNode(
-        this._highlighted
+  private scrollToSelected = () => {
+    if (this.scrollContainer && this.highlighted) {
+      this.scrollContainer.scrollTo(ReactDOM.findDOMNode(
+        this.highlighted
       ) as HTMLElement);
     }
   };
 
-  private _select(
+  private select(
     index: number,
     shouldHandleHref: boolean,
     event: React.SyntheticEvent<HTMLElement>
@@ -195,18 +192,18 @@ export default class InternalMenu extends React.Component<
     return false;
   }
 
-  private _highlightItem = (index: number): void => {
+  private highlightItem = (index: number): void => {
     this.setState({ highlightedIndex: index });
-    if (this._rootElement) {
-      this._rootElement.focus();
+    if (this.rootElement) {
+      this.rootElement.focus();
     }
   };
 
-  private _unhighlight = () => {
+  private unhighlight = () => {
     this.setState({ highlightedIndex: -1 });
   };
 
-  private _move(step: number) {
+  private move(step: number) {
     this.setState((state, props) => {
       const children = childrenToArray(props.children);
       if (!children.some(isActiveElement)) {
@@ -231,23 +228,23 @@ export default class InternalMenu extends React.Component<
         }
       } while (index !== state.highlightedIndex);
       return null;
-    }, this._scrollToSelected);
+    }, this.scrollToSelected);
   }
 
-  private _moveUp = () => {
-    this._move(-1);
+  private moveUp = () => {
+    this.move(-1);
   };
 
-  private _moveDown = () => {
-    this._move(1);
+  private moveDown = () => {
+    this.move(1);
   };
 
-  private _isEmpty() {
+  private isEmpty() {
     const { children } = this.props;
     return !children || !childrenToArray(children).filter(isExist).length;
   }
 
-  private _handleKeyDown = (
+  private handleKeyDown = (
     event: React.KeyboardEvent<HTMLDivElement>
   ): void => {
     if (typeof this.props.onKeyDown === 'function') {
@@ -261,16 +258,16 @@ export default class InternalMenu extends React.Component<
     switch (event.key) {
       case 'ArrowUp':
         event.preventDefault();
-        this._moveUp();
+        this.moveUp();
         break;
       case 'ArrowDown':
         event.preventDefault();
-        this._moveDown();
+        this.moveDown();
         break;
 
       case 'Enter':
-        if (this._highlighted && this._highlighted.props.onClick) {
-          this._highlighted.props.onClick(event);
+        if (this.highlighted && this.highlighted.props.onClick) {
+          this.highlighted.props.onClick(event);
         }
         break;
 
