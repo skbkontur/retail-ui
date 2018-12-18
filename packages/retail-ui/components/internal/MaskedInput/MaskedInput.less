@@ -11,7 +11,8 @@
 :local {
   .container {
     position: relative;
-    font-family: kontur-mask-char, Segoe UI, Helevetica Neue, sans-serif;
+    /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
+    font-family: kontur-mask-char, Segoe UI, Helevetica Neue; /* IE use Times New Roman as default font */
     font-size: inherit;
   }
 
