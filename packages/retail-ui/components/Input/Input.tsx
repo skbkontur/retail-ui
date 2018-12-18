@@ -81,9 +81,15 @@ export type InputProps = Override<
     value?: string;
     capture?: boolean;
 
-    /** Префикс */
+    /**
+     * Префикс
+     * `ReactNode` перед значением, но после иконки
+     */
     prefix?: React.ReactNode;
-    /** Суффикс */
+    /**
+     * Суффикс
+     * `ReactNode` после значения, но перед правой иконкой
+     */
     suffix?: React.ReactNode;
 
     /**
