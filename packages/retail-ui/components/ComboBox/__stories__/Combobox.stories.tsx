@@ -136,13 +136,23 @@ storiesOf('ComboBox', module)
   .add('with renderItem state', () => (
     <SimpleCombobox renderItem={(_, state) => String(state)} />
   ))
-  .add('open and close methods', () => {
+  .add('open, close, search methods', () => {
     let combobox: Nullable<ComboBox<any>> = null;
     return (
       <div>
-        <ComboBox ref={e => combobox = e}/>
+        <ComboBox
+          ref={e => combobox = e}
+          value={items[0]}
+          getItems={search}
+          renderItem={i => i.name}
+          valueToString={v => v.name}
+          renderValue={v => v.name}
+        />{' '}
         <span className="control-buttons">
-          <button onClick={() => combobox && combobox.open()}>open</button>
+          <button onClick={() => combobox && combobox.open()}>open</button>{' '}
+          <button onClick={() => combobox && combobox.search('')}>empty search</button>{' '}
+          <button onClick={() => combobox && combobox.search()}>search current value</button>{' '}
+          <button onClick={() => combobox && combobox.search('two')}>search "two"</button>{' '}
           <button onClick={() => combobox && combobox.close()}>close</button>
         </span>
       </div>

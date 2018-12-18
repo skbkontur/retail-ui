@@ -25,13 +25,11 @@ interface Action extends BaseAction {
 
 export type Props = CustomComboBoxProps<any> & {
   getItems: (query: string) => Promise<any[]>;
-  itemToValue?: (x0: any) => string;
   onBlur?: () => {};
   onChange?: (x0: { target: { value: any } }, value: any) => {};
   onFocus?: () => {};
   onInputChange?: (textValue: string) => any;
   onUnexpectedInput?: (query: string) => Nullable<boolean>;
-  valueToString?: (x0: any) => string;
 };
 
 export type State = {
@@ -53,7 +51,7 @@ export type Reducer = (
 ) => Partial<State> | [Partial<State>, EffectType[]];
 
 let requestId = 0;
-const searchFactory = (isEmpty: boolean): EffectType => (
+const searchFactory = (query: string): EffectType => (
   dispatch,
   getState,
   getProps
@@ -61,11 +59,9 @@ const searchFactory = (isEmpty: boolean): EffectType => (
   async function makeRequest() {
     dispatch({ type: 'RequestItems' });
     const { getItems } = getProps();
-    const searchValue = isEmpty ? '' : getState().textValue;
     const expectingId = ++requestId;
-
     try {
-      const items = await getItems(searchValue);
+      const items = await getItems(query);
       if (expectingId === requestId) {
         dispatch({ type: 'ReceiveItems', items });
       }
@@ -81,12 +77,15 @@ const getValueString = (value: any, valueToString: Props['valueToString']) => {
   if (!value) {
     return '';
   }
-  return valueToString ? valueToString(value) : value;
+  return valueToString(value);
 };
 
 const Effect = {
   Search: searchFactory,
-  DebouncedSearch: debounce(searchFactory(false), 300),
+  DebouncedSearch: debounce((dispatch, getState, getProps, getInstance) => {
+    const searchEffect = searchFactory(getState().textValue);
+    searchEffect(dispatch, getState, getProps, getInstance);
+  }, 300),
   Blur: ((dispatch, getState, getProps) => {
     const { onBlur } = getProps();
 
@@ -175,7 +174,7 @@ const Effect = {
     }
 
     let index = -1;
-    if (items && items.length && value && itemToValue) {
+    if (items && items.length && value) {
       index = items.findIndex(x => itemToValue(x) === itemToValue(value));
     }
     // FIXME: accessing private props
@@ -219,14 +218,19 @@ const Effect = {
 };
 
 const reducers: { [type: string]: Reducer } = {
-  Mount: () => ({ ...DefaultState, inputChanged: false }),
+  Mount: (state, props) => ({
+    ...DefaultState,
+    inputChanged: false,
+    textValue: getValueString(props.value, props.valueToString)
+  }),
   DidUpdate(state, props, action) {
     if (isEqual(props.value, action.prevProps.value)) {
       return state;
     }
 
     return {
-      opened: false
+      opened: false,
+      textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString)
     } as State;
   },
   Blur(state, props, action) {
@@ -252,27 +256,22 @@ const reducers: { [type: string]: Reducer } = {
     ];
   },
   Focus(state, props, action) {
-    const { value, valueToString } = props;
-    const textValue = getValueString(value, valueToString);
-
     if (state.editing) {
       return [
         {
           focused: true,
           opened: true
         },
-        [Effect.Search(false), Effect.Focus]
+        [Effect.Search(state.textValue), Effect.Focus]
       ];
     }
-
     return [
       {
         focused: true,
         opened: true,
-        editing: true,
-        textValue
+        editing: true
       },
-      [Effect.Search(true), Effect.Focus, Effect.SelectInputText]
+      [Effect.Search(''), Effect.Focus, Effect.SelectInputText]
     ];
   },
   TextChange(state, props, action) {
@@ -290,8 +289,8 @@ const reducers: { [type: string]: Reducer } = {
     };
   },
   ValueChange(state, props, { value, keepFocus }) {
+    const textValue = getValueString(value, props.valueToString);
     if (keepFocus) {
-      const textValue = getValueString(value, props.valueToString);
       return [
         {
           opened: false,
@@ -307,7 +306,8 @@ const reducers: { [type: string]: Reducer } = {
       {
         opened: false,
         inputChanged: false,
-        editing: false
+        editing: false,
+        textValue
       },
       [Effect.Change(value)]
     ];
@@ -324,7 +324,7 @@ const reducers: { [type: string]: Reducer } = {
           Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? -1 : 1)
         ];
         if (!state.opened) {
-          effects.push(Effect.Search(false));
+          effects.push(Effect.Search(state.textValue));
         }
         return [
           {
@@ -347,7 +347,7 @@ const reducers: { [type: string]: Reducer } = {
         {
           opened: true
         },
-        [Effect.Search(false)]
+        [Effect.Search(state.textValue)]
       ];
     }
     return state;
@@ -396,9 +396,16 @@ const reducers: { [type: string]: Reducer } = {
   },
   Close: () => {
     return {
-      opened: false
+      opened: false,
+      items: null
     };
+  },
+  Search: (state, props, { query }) => {
+    return [
+      state,
+      [Effect.Search(query)]
+    ];
   }
 };
 
-export { reducers, Effect };
+export { reducers, Effect, getValueString };
