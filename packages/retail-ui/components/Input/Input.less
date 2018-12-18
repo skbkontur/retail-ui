@@ -24,7 +24,7 @@
     font-family: inherit;
     font-size: inherit;
     line-height: 20px;
-    margin: 0; // For Safari.
+    margin: 0; /* For Safari. */
     outline: none;
     padding-left: @input-side-padding;
     padding-right: @input-side-padding;
@@ -36,7 +36,7 @@
     background-clip: padding-box;
     transition: background-color 0.15s ease-in;
 
-    &:before {
+    &::before {
       content: '\a0';
     }
   }
@@ -64,6 +64,7 @@
 
   .sizeMedium {
     font-size: 16px;
+
     .input {
       line-height: 22px;
       padding-top: @medium-vertical-padding;
@@ -89,6 +90,7 @@
 
   .sizeLarge {
     font-size: 16px;
+
     .input {
       padding-top: @large-vertical-padding;
       padding-bottom: @large-vertical-padding;

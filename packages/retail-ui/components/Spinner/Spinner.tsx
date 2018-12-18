@@ -14,7 +14,7 @@ export const SpinnerConfig = {
 export type SpinnerType = 'mini' | 'normal' | 'big';
 
 export interface SpinnerProps {
-  caption?: string;
+  caption?: React.ReactNode;
   dimmed?: boolean;
   type?: SpinnerType;
 }
@@ -29,7 +29,7 @@ class Spinner extends React.Component<SpinnerProps> {
      *
      * 'Загрузка' - значение по-умолчанию
      */
-    caption: PropTypes.string,
+    caption: PropTypes.node,
 
     dimmed: PropTypes.bool,
 
@@ -56,11 +56,13 @@ class Spinner extends React.Component<SpinnerProps> {
 
     return (
       <div className={styles.spinner}>
-        {SpinnerConfig.hasSvgAnimationSupport &&
-          this._renderSpinner(verifiedType)}
-        {!SpinnerConfig.hasSvgAnimationSupport && (
-          <SpinnerFallback type={verifiedType} dimmed={dimmed} />
-        )}
+        <span className={styles.inner}>
+          {SpinnerConfig.hasSvgAnimationSupport &&
+            this._renderSpinner(verifiedType)}
+          {!SpinnerConfig.hasSvgAnimationSupport && (
+            <SpinnerFallback type={verifiedType} dimmed={dimmed} />
+          )}
+        </span>
         {caption && this._renderCaption(verifiedType, caption)}
       </div>
     );
@@ -130,7 +132,7 @@ class Spinner extends React.Component<SpinnerProps> {
     return this._renderCloud(type);
   };
 
-  private _renderCaption = (type: SpinnerType, caption: string) => {
+  private _renderCaption = (type: SpinnerType, caption: React.ReactNode) => {
     const spanClassName = classnames({
       [styles.captionRight]: type === types.mini,
       [styles.captionBottom]: type !== types.mini

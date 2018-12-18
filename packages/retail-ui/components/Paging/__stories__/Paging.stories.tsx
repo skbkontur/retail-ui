@@ -3,6 +3,11 @@ import { storiesOf } from '@storybook/react';
 import Paging from '../Paging';
 import { action } from '@storybook/addon-actions';
 
+const lorem = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
+dignissimos labore expedita. Sapiente beatae eveniet sit, similique,
+sunt corrupti deserunt ab eius nobis suscipit praesentium labore.
+Distinctio hic asperiores consequatur?`;
+
 class GoToAbsensePage extends Component<{}, any> {
   public state = {
     activePage: 3
@@ -121,4 +126,63 @@ storiesOf('Paging', module)
   ))
   .add('Paging with global listener', () => (
     <PagingWithState useGlobalListener pagesCount={12} />
-  ));
+  ))
+  .add('Playground', () => <Playground />);
+
+class Playground extends React.Component<{}, { useGlobalListener: boolean }> {
+  public state = {
+    useGlobalListener: true
+  };
+
+  public render() {
+    return (
+      <div style={{ width: 400 }}>
+        <p
+          contentEditable
+          style={{ padding: '10px 15px', border: '1px solid' }}
+        />
+        <p>{lorem}</p>
+        <p>
+          <input
+            onKeyDown={this.log}
+            onKeyUp={this.log}
+            onKeyPress={this.log}
+            {...this.props}
+          />
+        </p>
+        <p>
+          <input type="radio" defaultChecked name="Paging" />
+          <input type="radio" name="Paging" />
+          <input type="radio" name="Paging" />
+          <input type="radio" name="Paging" />
+          <input type="radio" name="Paging" />
+        </p>
+        <p>
+          <label>
+            <input
+              type="checkbox"
+              checked={this.state.useGlobalListener}
+              onChange={this.handleChangeGlobalListener}
+            />{' '}
+            useGlobalListener:{' '}
+            <strong>{this.state.useGlobalListener.toString()}</strong>
+          </label>
+        </p>
+        <PagingWithState
+          useGlobalListener={this.state.useGlobalListener}
+          pagesCount={12}
+        />
+      </div>
+    );
+  }
+
+  private handleChangeGlobalListener = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    this.setState({ useGlobalListener: event.target.checked });
+  };
+
+  private log = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    action(event.type)(event.key);
+  };
+}

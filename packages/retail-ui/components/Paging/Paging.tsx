@@ -10,6 +10,8 @@ import { Nullable } from '../../typings/utility-types';
 
 import styles from './Paging.less';
 
+const IGNORE_EVENT_TAGS = ['input', 'textarea'];
+
 interface ItemComponentProps {
   active: boolean;
   children?: React.ReactNode;
@@ -36,7 +38,7 @@ export interface PagingProps {
   /**
    * Глобальный слушатель **keyDown**, для навигации клавишами без фокуса на компоненте.
    * Если на странице используется несколько элементов
-   * **Paging** с withoutNavigationHint === true, то обработчик keyDown будет вызываться
+   * **Paging** с useGlobalListener === true, то обработчик keyDown будет вызываться
    * на каждом из них. Такие случаи лучше обрабатывать отдельно.
    */
   useGlobalListener: boolean;
@@ -45,7 +47,7 @@ export interface PagingProps {
 export interface PagingState {
   focusedByTab: boolean;
   focusedItem: Nullable<ItemType>;
-  keybordControl: boolean;
+  keyboardControl: boolean;
 }
 
 export type ItemType = number | '.' | 'forward';
@@ -70,16 +72,25 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   public state: PagingState = {
     focusedByTab: false,
     focusedItem: null,
-    keybordControl: this.props.useGlobalListener
+    keyboardControl: this.props.useGlobalListener
   };
 
   private addedGlobalListener: boolean = false;
+  private container: HTMLSpanElement | null = null;
 
   public componentDidMount() {
     listenTabPresses();
 
     if (this.props.useGlobalListener) {
       this.addGlobalListener();
+    }
+  }
+
+  public componentWillReceiveProps(nextProps: PagingProps) {
+    if (this.props.useGlobalListener !== nextProps.useGlobalListener) {
+      this.setState({
+        keyboardControl: nextProps.useGlobalListener
+      });
     }
   }
 
@@ -102,10 +113,13 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       <span
         tabIndex={0}
         className={styles.paging}
-        onKeyDown={this.handleKeyDown}
+        onKeyDown={
+          this.props.useGlobalListener ? undefined : this.handleKeyDown
+        }
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onMouseDown={this.handleMouseDown}
+        ref={this.refContainer}
       >
         {this.getItems().map(this.renderItem)}
       </span>
@@ -197,11 +211,11 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       return null;
     }
 
-    const { keybordControl } = this.state;
+    const { keyboardControl } = this.state;
     const canGoBackward = this.canGoBackward();
     const canGoForward = this.canGoForward();
 
-    if (keybordControl && (canGoBackward || canGoForward)) {
+    if (keyboardControl && (canGoBackward || canGoForward)) {
       return (
         <span className={styles.pageLinkHint}>
           <span className={canGoBackward ? '' : styles.transparent}>{'←'}</span>
@@ -221,30 +235,42 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private handleKeyDown = (
     event: KeyboardEvent | React.KeyboardEvent<HTMLElement>
   ) => {
+    if (event.shiftKey) {
+      return;
+    }
+
+    const target = event.target;
+
+    if (
+      target instanceof Element &&
+      (IGNORE_EVENT_TAGS.includes(target.tagName.toLowerCase()) ||
+        (target as HTMLElement).isContentEditable)
+    ) {
+      return;
+    }
+
     if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowLeft') {
-      event.preventDefault();
       this.setState({ focusedItem: null }, this.goBackward);
       return;
     }
     if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowRight') {
-      event.preventDefault();
       this.setState({ focusedItem: null }, this.goForward);
       return;
     }
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      this.setState({ focusedByTab: true }, this.moveFocusLeft);
-      return;
-    }
-    if (event.key === 'ArrowRight') {
-      event.preventDefault();
-      this.setState({ focusedByTab: true }, this.moveFocusRight);
-      return;
-    }
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      this.executeItemAction(this.getFocusedItem());
-      return;
+
+    if (this.container && this.container === event.target) {
+      if (event.key === 'ArrowLeft') {
+        this.setState({ focusedByTab: true }, this.moveFocusLeft);
+        return;
+      }
+      if (event.key === 'ArrowRight') {
+        this.setState({ focusedByTab: true }, this.moveFocusRight);
+        return;
+      }
+      if (event.key === 'Enter') {
+        this.executeItemAction(this.getFocusedItem());
+        return;
+      }
     }
   };
 
@@ -253,7 +279,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       return;
     }
 
-    this.setState({ keybordControl: true });
+    this.setState({ keyboardControl: true });
 
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
@@ -268,7 +294,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private handleBlur = () => {
     this.setState({
       focusedByTab: false,
-      keybordControl: this.props.useGlobalListener || false
+      keyboardControl: this.props.useGlobalListener || false
     });
   };
 
@@ -379,6 +405,10 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
       this.addedGlobalListener = false;
     }
+  };
+
+  private refContainer = (element: HTMLSpanElement | null) => {
+    this.container = element;
   };
 }
 

@@ -37,9 +37,9 @@
     display: inline-block;
     font-family: inherit;
     font-size: 14px;
-    margin: 0; // Need for Safari.
+    margin: 0; /* Need for Safari. */
     outline: 0;
-    overflow: visible; // On IE it's hidden by default.
+    overflow: visible; /* On IE it's hidden by default. */
     position: relative;
     width: 100%;
     background-size: contain;
@@ -57,7 +57,7 @@
       vertical-align: -1px;
     }
 
-    &:after {
+    &::after {
       content: '';
       display: inline-block;
       vertical-align: baseline;
@@ -104,19 +104,19 @@
   }
 
   .buttonSizeMixin(
-    @className,
-    @length,
-    @top,
-    @right,
-    @left,
-    @shift,
-    @transform,
-    @arrow_loading,
-    @arrow_loading_top,
-    @arrow_left_loading_top,
-    @arrow_left_loading_left,
-    @arrow_loading_height
-  ) {
+  @className,
+  @length,
+  @top,
+  @right,
+  @left,
+  @shift,
+  @transform,
+  @arrow_loading,
+  @arrow_loading_top,
+  @arrow_left_loading_top,
+  @arrow_left_loading_left,
+  @arrow_loading_height
+) {
     .@{className} {
       .arrow {
         position: absolute;
@@ -138,7 +138,7 @@
       .arrow.arrow_loading {
         overflow: hidden;
 
-        &:before {
+        &::before {
           background: @arrow_loading;
           content: '';
           height: @arrow_loading_height;
@@ -157,7 +157,7 @@
       }
 
       .arrow_left.arrow_loading {
-        &:before {
+        &::before {
           :global {
             animation: btn_loading_arrow 1s linear infinite;
             animation-direction: reverse;
@@ -180,25 +180,25 @@
   }
 
   .buttonColorMixin(
-    @className,
-    @hoverColorStart,
-    @hoverColorEnd,
-    @hoverShadow,
-    @hoverShadowArrow,
-    @hoverShadowArrowLeft,
-    @activeColor,
-    @activeShadow,
-    @activeShadowArrow,
-    @activeShadowArrowLeft,
-    @colorStart,
-    @colorEnd,
-    @shadow,
-    @shadowArrow,
-    @shadowArrowLeft,
-    @bg,
-    @color,
-    @border: @bg
-  ) {
+  @className,
+  @hoverColorStart,
+  @hoverColorEnd,
+  @hoverShadow,
+  @hoverShadowArrow,
+  @hoverShadowArrowLeft,
+  @activeColor,
+  @activeShadow,
+  @activeShadowArrow,
+  @activeShadowArrowLeft,
+  @colorStart,
+  @colorEnd,
+  @shadow,
+  @shadowArrow,
+  @shadowArrowLeft,
+  @bg,
+  @color,
+  @border: @bg
+) {
     .@{className} {
       background-image: linear-gradient(@colorStart, @colorEnd);
       color: @color;
@@ -313,7 +313,7 @@
       .@{className}.focus {
         box-shadow: none;
 
-        &:before {
+        &::before {
           border: 1px solid #fff;
           bottom: 0;
           content: '';
@@ -361,10 +361,12 @@
     -207px,
     441%
   );
+
   .sizeMedium {
     &:not(.link) {
       height: 38px;
     }
+
     font-size: 16px;
     line-height: 38px;
     padding: 0 15px;
@@ -384,15 +386,17 @@
       #ccc 69.5%,
       transparent 0
     ),
-    0px,
-    0px,
+    0,
+    0,
     -208px,
     441%
   );
+
   .DEPRECATED_sizeMedium {
     &:not(.link) {
       height: 38px;
     }
+
     font-size: 14px;
     line-height: 38px;
     padding: 0 15px;
@@ -412,15 +416,17 @@
       #ccc 69.5%,
       transparent 0
     ),
-    0px,
-    0px,
+    0,
+    0,
     -208px,
     441%
   );
+
   .sizeLarge {
     &:not(.link) {
       height: 42px;
     }
+
     font-size: 16px;
     line-height: 42px;
     padding: 0 20px;
@@ -445,6 +451,7 @@
     -198px,
     700%
   );
+
   .buttonWithIcon {
     padding-right: 15px;
     padding-left: 15px;
@@ -559,25 +566,31 @@
     border: none;
     box-shadow: none;
     line-height: inherit;
+
     .caption {
       display: inline;
     }
+
     &:active {
       vertical-align: 0;
     }
+
     &.disabled {
       box-shadow: none;
       background: none;
     }
+
     .icon {
       padding-right: @linkIconPadding;
     }
+
     .warning,
     .error {
       left: -2px;
       right: -2px;
       bottom: -2px;
     }
+
     .error {
       background: @error-secondary;
     }
@@ -596,59 +609,74 @@
       inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
     color: #fff;
     padding-top: 1px;
+
     .arrow {
       background: @btn-checked-bg;
       box-shadow: @btn-shadow-checked-arrow;
     }
+
     .arrow_left {
       box-shadow: @btn-shadow-checked-arrow-left;
     }
+
     .arrow.arrow_error {
       box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
         2px -2px 0 0 @border-color-error;
     }
+
     .arrow.arrow_warning {
       box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
         2px -2px 0 0 @border-color-warning;
     }
+
     &:hover {
       background: @btn-checked-bg;
     }
+
     &.focus {
       box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px @border-color-focus;
       position: relative;
       z-index: 2;
+
       .arrow {
         box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-focus;
       }
+
       .arrow.arrow_warning {
         box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-warning;
       }
+
       .arrow.arrow_error {
         box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-error;
       }
     }
   }
+
   .root.disabled {
     background: @bg-disabled;
     box-shadow: 0 0 0 1px @border-color-gray-light;
     color: #808080;
     cursor: default;
+
     .arrow {
       background: @bg-disabled;
       box-shadow: 1px -1px 0 0 @border-color-gray-light;
     }
+
     .arrow.arrow_warning {
       box-shadow: 2px -2px 0 0 @border-color-warning;
     }
+
     .arrow.arrow_error {
       box-shadow: 2px -2px 0 0 @border-color-error;
     }
+
     &:active {
       padding-top: 0;
       vertical-align: 0;
     }
   }
+
   .loading {
     position: absolute;
     top: 0;
@@ -658,7 +686,8 @@
     border-radius: inherit;
     overflow: hidden;
   }
-  .loading:before {
+
+  .loading::before {
     content: '';
     height: 100%;
     position: absolute;
@@ -674,42 +703,53 @@
     top: 0;
     left: 0;
     right: -30px;
+
     :global {
       animation: btn_loading 1s linear infinite;
     }
+
     transform: rotateY(180deg) skewX(0deg) skewY(0deg);
   }
+
   .narrow {
     padding-left: 5px;
     padding-right: 5px;
   }
+
   .noPadding {
     padding-left: 0;
     padding-right: 0;
   }
+
   .noRightPadding {
     padding-right: 0;
   }
+
   .borderless {
     box-shadow: none;
+
     &:hover,
     &:active {
       box-shadow: none;
     }
   }
 }
+
 @keyframes btn_loading {
   0% {
     transform: translateX(0) rotateY(180deg);
   }
+
   100% {
     transform: translateX(-30px) rotateY(180deg);
   }
 }
+
 @keyframes btn_loading_arrow {
   0% {
     transform: translateX(50px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
   }
+
   100% {
     transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg)
       skewY(0deg);

@@ -4,6 +4,7 @@ import { mount } from 'enzyme';
 import Spinner, { SpinnerConfig } from '../Spinner';
 import styles from '../Spinner.less';
 import { sizeMaps } from '../settings';
+import SpinnerFallback from '../SpinnerFallback';
 
 const render = (props = {}) => mount(<Spinner {...props} />);
 const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;
@@ -71,17 +72,18 @@ describe('Spinner', () => {
     });
 
     it('renders default Spinner', () => {
-      render();
+      expect(render).not.toThrow();
     });
 
     it('renders correct size of default Spinner', () => {
       const component = render();
-      const cloudProps = component
+      const cloudStyle = component
+        .find(SpinnerFallback)
         .find('span')
-        .first()
-        .props().style;
+        .prop('style');
+
       const type = Spinner.defaultProps.type;
-      expect(cloudProps).toMatchObject({
+      expect(cloudStyle).toMatchObject({
         width: sizeMaps[type].width,
         height: sizeMaps[type].height,
         top: 0
@@ -91,11 +93,12 @@ describe('Spinner', () => {
     it('renders correct top position of mini Spinner', () => {
       const type = 'mini';
       const component = render({ type });
-      const cloudProps = component
+      const cloudStyle = component
+        .find(SpinnerFallback)
         .find('span')
-        .first()
-        .props().style;
-      expect(cloudProps).toMatchObject({
+        .prop('style');
+
+      expect(cloudStyle).toMatchObject({
         width: sizeMaps[type].width,
         height: sizeMaps[type].height,
         top: 2
