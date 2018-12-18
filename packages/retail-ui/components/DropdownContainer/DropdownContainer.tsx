@@ -191,8 +191,7 @@ export default class DropdownContainer extends React.Component<
     if (!child) {
       return 0;
     }
-    const rect = child.getBoundingClientRect();
-    return rect.height ? rect.height : rect.bottom - rect.top;
+    return child.getBoundingClientRect().height;
   };
 
   private getMinWidth = () => {
@@ -200,8 +199,7 @@ export default class DropdownContainer extends React.Component<
     if (!this.isElement(target)) {
       return 0;
     }
-    const rect = target.getBoundingClientRect();
-    return rect.width ? rect.width : rect.right - rect.left;
+    return target.getBoundingClientRect().width;
   };
 
   private convertToRelativePosition = (
