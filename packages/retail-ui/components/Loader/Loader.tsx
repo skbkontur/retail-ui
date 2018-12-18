@@ -5,14 +5,14 @@ import LayoutEvents from '../../lib/LayoutEvents';
 
 // Note SpinnerType нужен для генерации правильного .d.ts файла
 // @ts-ignore — Свойство "SpinnerType" объявлено, но его значение не было прочитано
-import Spinner, { SpinnerType } from '../Spinner';
+import Spinner, { SpinnerType, SpinnerProps } from '../Spinner';
 import styles = require('./Loader.less');
 import { Nullable } from '../../typings/utility-types';
 
 export interface LoaderProps {
   children?: React.ReactNode;
   active: boolean;
-  caption?: string;
+  caption?: SpinnerProps['caption'];
   className?: string;
   type?: 'mini' | 'normal' | 'big';
 }
@@ -41,7 +41,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
      *
      * "Загрузка" - значение по-умолчанию
      */
-    caption: PropTypes.string,
+    caption: Spinner.propTypes.caption,
 
     /**
      * Класс для обертки
@@ -109,7 +109,10 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     );
   }
 
-  private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: string) {
+  private renderSpinner(
+    type?: 'mini' | 'normal' | 'big',
+    caption?: React.ReactNode
+  ) {
     return (
       <span
         className={
