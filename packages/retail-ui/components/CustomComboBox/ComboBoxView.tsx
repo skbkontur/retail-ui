@@ -9,6 +9,9 @@ import MenuItem, { MenuItemState } from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
+import { ArrowTriangleDown } from '@skbkontur/react-icons';
+
+import styles from './CustomComboBox.less';
 
 interface ComboBoxViewProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -123,7 +126,8 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         active={opened}
       >
         <label
-          style={{ width, display: 'inline-block', position: 'relative' }}
+          style={{ width }}
+          className={styles.root}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           onMouseOver={onMouseOver}
@@ -165,7 +169,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       return (
         <Menu ref={refMenu}>
           <MenuItem disabled>
-            <div style={{ margin: '-2px 0 -1px' }}>
+            <div className={styles.menuItemSpinnerWrapper}>
               <Spinner type="mini" dimmed />
             </div>
           </MenuItem>
@@ -185,7 +189,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     if (items && renderTotalCount && totalCount && items.length < totalCount) {
       total = (
         <MenuItem disabled>
-          <div style={{ fontSize: 12 }}>
+          <div className={styles.menuItemContent}>
             {renderTotalCount(items.length, totalCount)}
           </div>
         </MenuItem>
@@ -306,30 +310,9 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   };
 
   private renderSpinner = () => (
-    <span
-      style={{
-        display: 'inline-block',
-        marginRight: -6,
-        paddingBottom: 2,
-        lineHeight: 'normal'
-      }}
-    >
+    <span className={styles.spinnerWrapper}>
       <Spinner type="mini" caption="" dimmed />
     </span>
-  );
-
-  private renderArrow = () => (
-    <span
-      style={{
-        display: 'block',
-        marginRight: -1,
-        border: '4px solid transparent',
-        borderBottomWidth: 0,
-        borderTopColor: '#aaa',
-        zIndex: 2,
-        pointerEvents: 'none'
-      }}
-    />
   );
 
   private getRightIcon = () => {
@@ -340,7 +323,11 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
 
     if (openButton) {
-      return this.renderArrow();
+      return (
+        <span className={styles.arrowWrapper}>
+          <ArrowTriangleDown />
+        </span>
+      );
     }
 
     return null;
