@@ -87,11 +87,11 @@ class Autocomplete extends React.Component<
     selected: -1
   };
 
-  private _opened: boolean = false;
-  private _input: Nullable<Input> = null;
-  private _menu: Nullable<Menu>;
+  private opened: boolean = false;
+  private input: Nullable<Input> = null;
+  private menu: Nullable<Menu>;
 
-  private _focused: boolean = false;
+  private focused: boolean = false;
 
   private getProps = createPropsGetter(Autocomplete.defaultProps);
 
@@ -99,8 +99,8 @@ class Autocomplete extends React.Component<
    * @public
    */
   public focus() {
-    if (this._input) {
-      this._input.focus();
+    if (this.input) {
+      this.input.focus();
     }
   }
 
@@ -108,12 +108,12 @@ class Autocomplete extends React.Component<
    * @public
    */
   public blur() {
-    this._handleBlur();
+    this.handleBlur();
   }
 
   public componentWillReceiveProps(nextProps: AutocompleteProps) {
     if (nextProps.value && this.props.value !== nextProps.value) {
-      this._updateItems(nextProps.value);
+      this.updateItems(nextProps.value);
     }
   }
 
@@ -135,28 +135,28 @@ class Autocomplete extends React.Component<
 
     const inputProps = {
       ...rest,
-      onChange: this._handleChange,
-      onKeyDown: this._handleKeyDown,
-      onFocus: this._handleFocus,
-      ref: this._refInput
+      onChange: this.handleChange,
+      onKeyDown: this.handleKeyDown,
+      onFocus: this.handleFocus,
+      ref: this.refInput
     };
     return (
       <RenderLayer
-        onFocusOutside={this._handleBlur}
-        onClickOutside={this._handleBlur}
+        onFocusOutside={this.handleBlur}
+        onClickOutside={this.handleBlur}
       >
         <span style={{ display: 'inline-block' }}>
           <Input {...inputProps} />
-          {this._renderMenu()}
+          {this.renderMenu()}
         </span>
       </RenderLayer>
     );
   }
 
-  private _renderMenu(): React.ReactNode {
+  private renderMenu(): React.ReactNode {
     const items = this.state.items;
     const menuProps = {
-      ref: this._refMenu,
+      ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
       width: this.props.menuWidth || this.props.width,
@@ -186,40 +186,40 @@ class Autocomplete extends React.Component<
     );
   }
 
-  private _handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this._opened = true;
+  private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.opened = true;
 
     // https://github.com/airbnb/enzyme/issues/218
     // TODO: replace with currentTarget when fixed
     const value = event.target.value;
 
-    this._updateItems(value);
+    this.updateItems(value);
 
-    this._fireChange(value);
+    this.fireChange(value);
   };
 
-  private _handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-    if (this._focused) {
+  private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (this.focused) {
       return;
     }
 
-    this._focused = true;
+    this.focused = true;
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
 
-  private _handleBlur = () => {
-    if (!this._focused) {
+  private handleBlur = () => {
+    if (!this.focused) {
       return;
     }
 
-    this._focused = false;
-    this._opened = false;
+    this.focused = false;
+    this.opened = false;
     this.setState({ items: null });
 
-    if (this._input) {
-      this._input.blur();
+    if (this.input) {
+      this.input.blur();
     }
 
     if (this.props.onBlur) {
@@ -227,7 +227,7 @@ class Autocomplete extends React.Component<
     }
   };
 
-  private _handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (this.props.onKeyDown) {
       this.props.onKeyDown(event);
     }
@@ -238,20 +238,20 @@ class Autocomplete extends React.Component<
         return;
       case 'ArrowUp':
         event.preventDefault();
-        if (this._menu) {
-          this._menu.up();
+        if (this.menu) {
+          this.menu.up();
         }
         return;
       case 'ArrowDown':
         event.preventDefault();
-        if (this._menu) {
-          this._menu.down();
+        if (this.menu) {
+          this.menu.down();
         }
         return;
       case 'Enter':
         event.preventDefault(); // To prevent form submission.
-        if (this._menu) {
-          this._menu.enter(event);
+        if (this.menu) {
+          this.menu.enter(event);
         }
         return;
       default:
@@ -261,14 +261,14 @@ class Autocomplete extends React.Component<
 
   private handleMenuItemClick(i: number) {
     return (event: React.SyntheticEvent<HTMLElement>) =>
-      this._handleItemClick(event, i);
+      this.handleItemClick(event, i);
   }
 
   private getAnchor = () => {
     return findDOMNode(this);
   };
 
-  private _handleItemClick(
+  private handleItemClick(
     event: React.SyntheticEvent<HTMLElement> | React.MouseEvent<HTMLElement>,
     index: number
   ) {
@@ -277,27 +277,27 @@ class Autocomplete extends React.Component<
     }
 
     event.preventDefault();
-    this._choose(index);
+    this.choose(index);
   }
 
-  private _choose(index: number) {
+  private choose(index: number) {
     if (!this.state.items) {
       return;
     }
 
     const value = this.state.items[index];
-    this._opened = false;
+    this.opened = false;
     this.setState({
       selected: -1,
       items: null
     });
 
-    this._fireChange(value);
+    this.fireChange(value);
     this.blur();
   }
 
-  private _updateItems(value: string) {
-    if (!this._opened) {
+  private updateItems(value: string) {
+    if (!this.opened) {
       return;
     }
     const pattern = value.trim();
@@ -314,7 +314,7 @@ class Autocomplete extends React.Component<
       promise = match(pattern, source);
     }
     promise.then(items => {
-      if (this.props.value === value && this._opened) {
+      if (this.props.value === value && this.opened) {
         this.setState({
           items,
           selected: -1
@@ -323,18 +323,18 @@ class Autocomplete extends React.Component<
     });
   }
 
-  private _fireChange(value: string) {
+  private fireChange(value: string) {
     if (this.props.onChange) {
       this.props.onChange({ target: { value } }, value);
     }
   }
 
-  private _refInput = (el: Input | null) => {
-    this._input = el;
+  private refInput = (el: Input | null) => {
+    this.input = el;
   };
 
-  private _refMenu = (menu: Menu | null) => {
-    this._menu = menu;
+  private refMenu = (menu: Menu | null) => {
+    this.menu = menu;
   };
 }
 
