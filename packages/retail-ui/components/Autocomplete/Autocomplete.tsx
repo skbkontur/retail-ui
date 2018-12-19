@@ -33,6 +33,8 @@ export interface AutocompleteProps extends InputProps {
   onBlur?: () => void;
   /** Размер инпута */
   size: InputProps['size'];
+  /** value */
+  value: string;
 }
 
 export interface AutocomplpeteState {
@@ -111,9 +113,9 @@ class Autocomplete extends React.Component<
     this.handleBlur();
   }
 
-  public componentWillReceiveProps(nextProps: AutocompleteProps) {
-    if (nextProps.value && this.props.value !== nextProps.value) {
-      this.updateItems(nextProps.value);
+  public componentDidUpdate(prevProps: AutocompleteProps) {
+    if (prevProps.value !== this.props.value) {
+      this.updateItems(this.props.value);
     }
   }
 
@@ -192,8 +194,6 @@ class Autocomplete extends React.Component<
     // https://github.com/airbnb/enzyme/issues/218
     // TODO: replace with currentTarget when fixed
     const value = event.target.value;
-
-    this.updateItems(value);
 
     this.fireChange(value);
   };
