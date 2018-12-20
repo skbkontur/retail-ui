@@ -140,6 +140,12 @@ class DatePicker extends React.Component<
     this.state = {
       opened: false
     };
+  public componentDidUpdate() {
+    const { disabled } = this.props;
+    const { opened } = this.state;
+    if (disabled && opened) {
+      this.close();
+    }
   }
 
   /**
