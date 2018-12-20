@@ -1,23 +1,57 @@
 import {
-  AddressValue,
-  AddressResponse,
-  AddressFields,
-  VerifyResponse,
   AddressErrors,
+  AddressFields,
+  AddressResponse,
+  AddressValue,
   FiasId,
   FiasValue,
-  Fields
+  Fields,
+  VerifyResponse
 } from '../types';
 import { Nullable } from '../../../typings/utility-types';
 import { AddressElement } from './AddressElement';
 import { FiasData } from './FiasData';
 
 export class Address {
-  public static ALL_FIELDS = Object.keys(Fields) as Fields[];
+  public static ALL_FIELDS = [
+    Fields.region,
+    Fields.district,
+    Fields.city,
+    Fields.intracityarea,
+    Fields.settlement,
+    Fields.planningstructure,
+    Fields.street,
+    Fields.stead,
+    Fields.house,
+    Fields.room
+  ];
 
-  public static VERIFIABLE_FIELDS = Address.ALL_FIELDS.filter(field => (
-    field !== Fields.stead && field !== Fields.room
-  ));
+  public static VERIFIABLE_FIELDS = [
+    Fields.region,
+    Fields.district,
+    Fields.city,
+    Fields.intracityarea,
+    Fields.settlement,
+    Fields.planningstructure,
+    Fields.street,
+    Fields.house
+  ];
+
+  public static FULL_ADDRESS_SEARCH_FIELDS = [
+    Fields.district,
+    Fields.city,
+    Fields.intracityarea,
+    Fields.settlement,
+    Fields.planningstructure
+  ];
+
+  public static ALL_PARENTS_SEARCH_FIELDS = [
+    Fields.district,
+    Fields.city,
+    Fields.intracityarea,
+    Fields.settlement,
+    Fields.planningstructure
+  ];
 
   public static createFromResponse = (response: AddressResponse) => {
     const fields: AddressFields = {};
@@ -36,7 +70,7 @@ export class Address {
   public static createFromAddressValue = (addressValue: AddressValue) => {
     const fields: AddressFields = {};
     if (addressValue) {
-      Address.ALL_FIELDS.forEach((field) => {
+      Address.ALL_FIELDS.forEach(field => {
         const addressField = addressValue[field];
         if (addressField) {
           const { name, data } = addressField;
@@ -57,12 +91,24 @@ export class Address {
     notVerifiedMessage: string
   ): Address => {
     const addressFields = { ...address.fields };
-    const addressErrors: AddressErrors = {};
+    const errors: AddressErrors = {};
+    const verifyResponse = response[0];
 
-    if (response[0]) {
-      const { address: verifiedFields, invalidLevel } = response[0];
+    if (verifyResponse) {
+      const { address: verifiedFields } = verifyResponse;
+      let { invalidLevel } = verifyResponse;
+
       for (const field of Address.VERIFIABLE_FIELDS) {
-        if (addressFields[field]) {
+        const currentField = addressFields[field];
+
+        if (currentField) {
+          if (field === Fields.house && !currentField.data) {
+            // force invalidate address
+            // if house wasn't chosen from the list
+            delete verifiedFields[field];
+            invalidLevel = field;
+          }
+
           const fiasObject = verifiedFields[field];
           if (fiasObject) {
             const data = new FiasData(fiasObject);
@@ -70,14 +116,15 @@ export class Address {
           } else {
             delete addressFields[field]!.data;
           }
+
           if (invalidLevel && String(invalidLevel).toLowerCase() === field) {
-            addressErrors[field] = notVerifiedMessage;
+            errors[field] = notVerifiedMessage;
             break;
           }
         }
       }
     }
-    return new Address(addressFields, addressErrors);
+    return new Address(addressFields, errors);
   };
 
   public static getParentFields = (field: Fields) => {
@@ -135,9 +182,10 @@ export class Address {
   public isAllowedToFill = (field: Nullable<Fields>): boolean => {
     const { region, city, settlement, street } = this.fields;
     if (
-      (field === Fields.street && !(city || settlement || (region && region.isFederalCity))) ||
-      (field === Fields.stead && !(street)) ||
-      (field === Fields.house && !(street))
+      (field === Fields.street &&
+        !(city || settlement || (region && region.isFederalCity))) ||
+      (field === Fields.stead && !street) ||
+      (field === Fields.house && !street)
     ) {
       return false;
     }
@@ -145,18 +193,16 @@ export class Address {
   };
 
   public isAllowedToSearchFullAddress = (field?: Fields): boolean => {
-    if (
-      field === Fields.district ||
-      field === Fields.city ||
-      field === Fields.intracityarea ||
-      field === Fields.settlement ||
-      field === Fields.planningstructure
-    ) {
+    if (field && Address.FULL_ADDRESS_SEARCH_FIELDS.includes(field)) {
       if (!this.getClosestParentFiasId(field)) {
         return true;
       }
     }
     return false;
+  };
+
+  public isAllowedToSearchThroughAllParents = (field?: Fields): boolean => {
+    return Boolean(field && Address.ALL_PARENTS_SEARCH_FIELDS.includes(field));
   };
 
   public hasOnlyIndirectParent = (field: Nullable<Fields>): boolean => {
@@ -174,7 +220,9 @@ export class Address {
 
   public getClosestParentFiasId = (field?: Fields): FiasId | undefined => {
     if (field && !this.isEmpty) {
-      const parents = Address.getParentFields(field).slice().reverse();
+      const parents = Address.getParentFields(field)
+        .slice()
+        .reverse();
       for (const parentField of parents) {
         const parent: Nullable<AddressElement> = this.fields[parentField];
         if (parent && parent.data) {
@@ -220,7 +268,7 @@ export class Address {
       address: this.getAddressValue(),
       addressString: this.getText(),
       addressErrors: this.getAddressErrors(),
-      fiasId: this.getFiasId(),
+      fiasId: this.getFiasId()
     };
   };
 

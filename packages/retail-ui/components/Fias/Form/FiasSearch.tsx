@@ -1,9 +1,8 @@
 import * as React from 'react';
-import {FiasComboBox, FiasComboBoxChangeEvent} from './FiasComboBox';
-import {Address} from '../models/Address';
-import {Nullable} from '../../../typings/utility-types';
-import {defaultLocale} from '../constants/locale';
-import {Fields, FiasLocale} from "../types";
+import { FiasComboBox, FiasComboBoxChangeEvent } from './FiasComboBox';
+import { Address } from '../models/Address';
+import { defaultLocale } from '../constants/locale';
+import { Fields, FiasLocale } from '../types';
 
 interface FiasSearchProps {
   source: (query: string) => Promise<Address[]>;
@@ -17,8 +16,6 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   public static defultProps = {
     locale: defaultLocale
   };
-
-  private combobox: Nullable<FiasComboBox> = null;
 
   public render() {
     const { address, source, limit, locale } = this.props;
@@ -36,14 +33,9 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
         width={'100%'}
         autocomplete={true}
         limit={limit}
-        ref={this.createRef}
       />
     );
   }
-
-  private createRef = (element: FiasComboBox) => {
-    this.combobox = element;
-  };
 
   private renderItem = (address: Address): string => {
     return address.getText();
@@ -61,23 +53,13 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
     return address.getText(Fields.room);
   };
 
-  private handleChange = (
-    e: Nullable<FiasComboBoxChangeEvent>,
-    value: Address
-  ) => {
+  private handleChange = (e: FiasComboBoxChangeEvent, value: Address) => {
     this.props.onChange(value);
   };
 
   private onUnexpectedInput = (query: string) => {
     if (!query) {
-      this.handleChange(null, new Address({}));
-    }
-    this.resetCombobox();
-  };
-
-  private resetCombobox = () => {
-    if (this.combobox) {
-      this.combobox.reset();
+      return new Address({});
     }
   };
 }

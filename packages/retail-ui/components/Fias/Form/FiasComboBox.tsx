@@ -1,6 +1,5 @@
 import * as React from 'react';
 import ComboBox, { ComboBoxProps } from '../../ComboBox';
-import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
 import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
 
@@ -28,13 +27,11 @@ export class FiasComboBox extends React.Component<
     totalCount: 0
   };
 
-  private combobox: Nullable<ComboBox<Address>> = null;
+  private combobox: ComboBox<Address> | null = null;
 
-  public reset = () => {
-    if (this.combobox) {
-      this.combobox.reset();
-    }
-  };
+  public get hasItems() {
+    return this.state.totalCount > 0;
+  }
 
   public render() {
     return (
@@ -42,7 +39,9 @@ export class FiasComboBox extends React.Component<
         {...this.props}
         getItems={this.getItems}
         renderItem={this.renderItem}
+        onChange={this.handleChange}
         onInputChange={this.handleInputChange}
+        onFocus={this.handleFocus}
         totalCount={this.state.totalCount}
         renderTotalCount={this.renderTotalCount}
         ref={this.createRef}
@@ -50,16 +49,19 @@ export class FiasComboBox extends React.Component<
     );
   }
 
+  private createRef = (el: ComboBox<Address> | null) => {
+    this.combobox = el;
+  };
+
   private getItems = (searchText: string): Promise<Address[]> => {
     const { getItems, limit } = this.props;
-    return getItems
-      ? getItems(searchText).then(items => {
-          this.setState({
-            totalCount: items.length
-          });
-          return items.slice(0, limit);
-        })
-      : Promise.resolve([]);
+    const promise = getItems ? getItems(searchText) : Promise.resolve([]);
+    return promise.then(items => {
+      this.setState({
+        totalCount: items.length
+      });
+      return items.slice(0, limit);
+    });
   };
 
   private renderItem = (
@@ -81,6 +83,19 @@ export class FiasComboBox extends React.Component<
     </div>
   );
 
+  private handleChange = (
+    event: { target: { value: Address } },
+    item: Address
+  ) => {
+    const { onChange, valueToString } = this.props;
+    if (onChange) {
+      onChange(event, item);
+    }
+    this.setState({
+      searchText: valueToString ? valueToString(item) : ''
+    });
+  };
+
   private handleInputChange = (query: string) => {
     if (this.props.onInputChange) {
       this.props.onInputChange(query);
@@ -88,8 +103,16 @@ export class FiasComboBox extends React.Component<
     this.setState({ searchText: query });
   };
 
-  private createRef = (element: ComboBox<Address>) => {
-    this.combobox = element;
+  private handleFocus = () => {
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
+    const { error, warning } = this.props;
+    if ((error || warning) && this.hasItems) {
+      if (this.combobox) {
+        this.combobox.search();
+      }
+    }
   };
 
   private highlight(str: string, lastMatchOnly: boolean = true) {
