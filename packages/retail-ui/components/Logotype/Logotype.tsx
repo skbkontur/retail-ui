@@ -79,38 +79,26 @@ class Logotype extends React.Component<LogotypeProps> {
       withWidget
     } = this.props;
 
-    if (withWidget) {
-      return (
-        <div id="spwDropdown" className={styles.dropdown}>
-          <span ref={this._refLogoWrapper} className={styles.widgetWrapper}>
-            <Component href={href} tabIndex="-1" className={styles.root}>
-              <span style={{ color: textColor }}>к</span>
-              <span style={{ color }}>{createCloud(color)}</span>
-              <span style={{ color: textColor }}>
-                нтур
-                {suffix && '.'}
-              </span>
-              {suffix && <span style={{ color }}>{suffix}</span>}
-            </Component>
-            <span className={styles.divider} />
-          </span>
+    return (
+      <div id="spwDropdown" className={styles.dropdown}>
+        <span ref={this._refLogoWrapper} className={styles.widgetWrapper}>
+          <Component href={href} tabIndex="-1" className={styles.root}>
+            <span style={{ color: textColor }}>к</span>
+            <span style={{ color }}>{createCloud(color)}</span>
+            <span style={{ color: textColor }}>
+              нтур
+              {suffix && '.'}
+            </span>
+            {suffix && <span style={{ color }}>{suffix}</span>}
+          </Component>
+          {withWidget && <span className={styles.divider} />}
+        </span>
+        {withWidget && (
           <button className={styles.button}>
             <ArrowChevronDownIcon color="#aaa" size={20} />
           </button>
-        </div>
-      );
-    }
-
-    return (
-      <Component href={href} tabIndex="-1" className={styles.root}>
-        <span style={{ color: textColor }}>к</span>
-        <span style={{ color }}>{createCloud(color)}</span>
-        <span style={{ color: textColor }}>
-          нтур
-          {suffix && '.'}
-        </span>
-        {suffix && <span style={{ color }}>{suffix}</span>}
-      </Component>
+        )}
+      </div>
     );
   }
 
