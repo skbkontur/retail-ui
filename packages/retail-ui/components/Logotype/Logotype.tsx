@@ -65,10 +65,15 @@ class Logotype extends React.Component<LogotypeProps> {
 
   public componentDidMount() {
     if (this.props.withWidget) {
-      ProductWidget.init();
+      this.initWidget();
     }
   }
 
+  public componentDidUpdate() {
+    if (this.props.withWidget) {
+      this.initWidget();
+    }
+  }
   public render(): JSX.Element {
     const {
       color = Logotype.defaultProps.color,
@@ -112,6 +117,18 @@ class Logotype extends React.Component<LogotypeProps> {
         {suffix && <span style={{ color }}>{suffix}</span>}
       </Component>
     );
+  }
+
+  private initWidget() {
+    if (
+      window.Kontur &&
+      window.Kontur.ProductWidget &&
+      typeof window.Kontur.ProductWidget.init === 'function'
+    ) {
+      window.Kontur.ProductWidget.init();
+    } else {
+      ProductWidget.init();
+    }
   }
 
   private _refLogoWrapper = (el: Nullable<HTMLElement>) => {

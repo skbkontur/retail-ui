@@ -13,6 +13,28 @@ const ItemStatic = TopBar.ItemStatic;
 const User = TopBar.User;
 const Divider = TopBar.Divider;
 
+class TobBarWidgetSwitch extends React.Component {
+  public state = { withWidget: true };
+  public render() {
+    return (
+      <TopBar>
+        <Start>
+          <ItemStatic>
+            <Logotype withWidget={this.state.withWidget} />
+          </ItemStatic>
+        </Start>
+        <End>
+          <Item
+            onClick={() =>
+              this.setState(state => ({ withWidget: !state.withWidget }))
+            }
+          >{`withWidget: ${this.state.withWidget}`}</Item>
+        </End>
+      </TopBar>
+    );
+  }
+}
+
 storiesOf('TopBar', module)
   .add('TopBar Old', () => (
     <TopBar
@@ -49,4 +71,5 @@ storiesOf('TopBar', module)
         <Item onClick={() => alert('Logout!')}>Выйти</Item>
       </End>
     </TopBar>
-  ));
+  ))
+  .add('TopBar widget switcher', () => <TobBarWidgetSwitch />);
