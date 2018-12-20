@@ -30,14 +30,14 @@ storiesOf('Fias', module)
   ))
   .add('with search', () => <ExampleFias search={true} />)
   .add('with fetch error', () => (
-    <ExampleFias value={{ fiasId: '3f0affe0-0e2e-4c52-bd20-94767632f968-000-000-000' }} />
+    <ExampleFias
+      value={{ fiasId: '3f0affe0-0e2e-4c52-bd20-94767632f968-000-000-000' }}
+    />
   ))
   .add('with feedback', () => (
     <ExampleFias error={true} feedback={'Заполнено не по ФИАСу'} />
   ))
-  .add('readonly', () => (
-    <ExampleFias readonly={true} value={MOCK_VALUE} />
-  ))
+  .add('readonly', () => <ExampleFias readonly={true} value={MOCK_VALUE} />)
   .add('customized', () => (
     <ExampleFias
       icon={<HomeOfficeIcon />}
@@ -50,11 +50,7 @@ storiesOf('Fias', module)
     />
   ))
   .add('with mockAPI', () => (
-    <ExampleFias
-      api={mockApi}
-      value={MOCK_VALUE}
-      search={true}
-    />
+    <ExampleFias api={mockApi} value={MOCK_VALUE} search={true} />
   ))
   .add('modal', () => {
     const api = new FiasAPI(BASE_URL);

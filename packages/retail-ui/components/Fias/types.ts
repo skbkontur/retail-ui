@@ -1,6 +1,6 @@
 import { AddressElement } from './models/AddressElement';
 import { Nullable } from '../../typings/utility-types';
-import {defaultLocale} from "./constants/locale";
+import { defaultLocale } from './constants/locale';
 
 export type FiasId = string;
 
@@ -69,9 +69,7 @@ export enum Fields {
   room = 'room'
 }
 
-export type AddressFields = {
-  [key in Fields]?: Nullable<AddressElement>;
-}
+export type AddressFields = { [key in Fields]?: Nullable<AddressElement> };
 
 export interface FiasValue {
   address?: AddressValue;
@@ -84,12 +82,10 @@ export type AddressValue = {
   [key in Fields]?: {
     name: string;
     data?: FiasObject;
-  };
-}
+  }
+};
 
-export type AddressResponse = {
-  [key in Fields]?: FiasObject;
-}
+export type AddressResponse = { [key in Fields]?: FiasObject };
 
 export type SearchResponse = AddressResponse[];
 
@@ -99,9 +95,7 @@ export type VerifyResponse = Array<{
   invalidLevel?: string;
 }>;
 
-export type AddressErrors = {
-  [key in Fields]?: string;
-}
+export type AddressErrors = { [key in Fields]?: string };
 
 export type FormValidation = 'Error' | 'Warning' | 'None';
 
@@ -114,6 +108,7 @@ export interface SearchOptions {
   parentFiasId?: FiasId;
   limit?: number;
   fullAddress?: boolean;
+  directParent?: boolean;
 }
 
 export interface APIProvider {
@@ -130,10 +125,10 @@ export interface APIResult<Data> {
 export type FetchFn = (
   uri: string,
   options: {
-    method?: 'GET' | 'POST',
-    body?: string
+    method?: 'GET' | 'POST';
+    body?: string;
   }
-) => Promise<FetchResponse>
+) => Promise<FetchResponse>;
 
 export interface FetchResponse {
   ok: boolean;
@@ -141,4 +136,3 @@ export interface FetchResponse {
   statusText: string;
   json: () => Promise<any>;
 }
-

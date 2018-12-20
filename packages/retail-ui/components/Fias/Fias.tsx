@@ -1,7 +1,7 @@
 import * as React from 'react';
 import cn from 'classnames';
 import Link from '../Link';
-import {FiasValue, FormValidation, FiasLocale, APIProvider} from './types';
+import { FiasValue, FormValidation, FiasLocale, APIProvider } from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
@@ -11,7 +11,7 @@ import { Address } from './models/Address';
 import { defaultLocale } from './constants/locale';
 import styles from './Fias.less';
 import isEqual from 'lodash.isequal';
-import {Logger} from "./logger/Logger";
+import { Logger } from './logger/Logger';
 
 interface FiasProps {
   /**
@@ -104,7 +104,8 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     }
   };
 
-  private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
+  private api: APIProvider =
+    this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
   private form: Nullable<FiasForm> = null;
 
   constructor(props: FiasProps) {
