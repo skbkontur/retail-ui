@@ -61,8 +61,8 @@ class Logotype extends React.Component<LogotypeProps> {
     href: '/'
   };
 
-  private _logoWrapper: Nullable<HTMLElement> = null;
-  private _isWidgetInited: boolean = false;
+  private logoWrapper: Nullable<HTMLElement> = null;
+  private isWidgetInited: boolean = false;
 
   public componentDidMount() {
     if (this.props.withWidget) {
@@ -88,7 +88,7 @@ class Logotype extends React.Component<LogotypeProps> {
 
     return (
       <div id="spwDropdown" className={styles.dropdown}>
-        <span ref={this._refLogoWrapper} className={styles.widgetWrapper}>
+        <span ref={this.refLogoWrapper} className={styles.widgetWrapper}>
           <Component href={href} tabIndex="-1" className={styles.root}>
             <span style={{ color: textColor }}>к</span>
             <span style={{ color }}>{createCloud(color)}</span>
@@ -109,30 +109,30 @@ class Logotype extends React.Component<LogotypeProps> {
     );
   }
 
-  private _refLogoWrapper = (el: Nullable<HTMLElement>) => {
-    if (this._logoWrapper) {
+  private refLogoWrapper = (el: Nullable<HTMLElement>) => {
+    if (this.logoWrapper) {
       events.removeEventListener(
-        this._logoWrapper,
+        this.logoWrapper,
         'click',
-        this._handleNativeLogoClick
+        this.handleNativeLogoClick
       );
     }
 
     if (el) {
-      events.addEventListener(el, 'click', this._handleNativeLogoClick);
+      events.addEventListener(el, 'click', this.handleNativeLogoClick);
     }
 
-    this._logoWrapper = el;
+    this.logoWrapper = el;
   };
 
-  private _handleNativeLogoClick = (event: Event) => {
+  private handleNativeLogoClick = (event: Event) => {
     stopPropagation(event);
   };
 
   private initWidget = () => {
-    if (!this._isWidgetInited) {
+    if (!this.isWidgetInited) {
       ProductWidget.init();
-      this._isWidgetInited = true;
+      this.isWidgetInited = true;
     }
   };
 }
