@@ -146,6 +146,10 @@ export default class CurrencyInput extends React.Component<
    */
   public focus = () => {
     if (this.input) {
+      this.input.setSelectionRange(
+        this.inputValue.length,
+        this.inputValue.length
+      );
       this.input.focus();
     }
   };
@@ -377,8 +381,15 @@ export default class CurrencyInput extends React.Component<
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({
-      focused: true
+      focused: true,
+      selection: {
+        start: event.target.selectionStart || event.target.value.length,
+        end: event.target.selectionEnd || event.target.value.length,
+        direction:
+          (event.target.selectionDirection as SelectionDirection) || 'none'
+      }
     });
+
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
