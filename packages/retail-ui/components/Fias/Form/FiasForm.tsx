@@ -1,6 +1,10 @@
 import * as React from 'react';
 import Gapped from '../../Gapped';
-import {FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps} from './FiasComboBox';
+import {
+  FiasComboBox,
+  FiasComboBoxChangeEvent,
+  FiasComboBoxProps
+} from './FiasComboBox';
 import styles from './FiasForm.less';
 import {
   Fields,
@@ -9,13 +13,14 @@ import {
   AddressResponse,
   VerifyResponse,
   APIProvider,
-  SearchOptions, APIResult
+  SearchOptions,
+  APIResult
 } from '../types';
-import {Nullable} from '../../../typings/utility-types';
-import {Address} from '../models/Address';
-import {AddressElement} from '../models/AddressElement';
+import { Nullable } from '../../../typings/utility-types';
+import { Address } from '../models/Address';
+import { AddressElement } from '../models/AddressElement';
 import Tooltip from '../../Tooltip/Tooltip';
-import {InputProps} from '../../Input';
+import { InputProps } from '../../Input';
 import Input from '../../Input/Input';
 import FiasSearch from './FiasSearch';
 
@@ -125,11 +130,15 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           )}
           <div className={styles.row}>
             <div className={styles.label}>Регион</div>
-            <div className={styles.field}>{this.renderField(Fields.region)}</div>
+            <div className={styles.field}>
+              {this.renderField(Fields.region)}
+            </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Район</div>
-            <div className={styles.field}>{this.renderField(Fields.district)}</div>
+            <div className={styles.field}>
+              {this.renderField(Fields.district)}
+            </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Город</div>
@@ -143,7 +152,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Населенный пункт</div>
-            <div className={styles.field}>{this.renderField(Fields.settlement)}</div>
+            <div className={styles.field}>
+              {this.renderField(Fields.settlement)}
+            </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Иная территория</div>
@@ -153,15 +164,21 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Улица</div>
-            <div className={styles.field}>{this.renderField(Fields.street)}</div>
+            <div className={styles.field}>
+              {this.renderField(Fields.street)}
+            </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Земельный участок</div>
-            <div className={styles.field}>{this.renderField(Fields.stead, 130)}</div>
+            <div className={styles.field}>
+              {this.renderField(Fields.stead, 130)}
+            </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Дом, сооружение</div>
-            <div className={styles.field}>{this.renderField(Fields.house, 130)}</div>
+            <div className={styles.field}>
+              {this.renderField(Fields.house, 130)}
+            </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Квартира, офис</div>
@@ -205,7 +222,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   };
 
   private createComboBoxProps(field: Fields): FiasComboBoxProps {
-    const getItems = async (searchText: string) => this.createItemsSource(searchText, field);
+    const getItems = async (searchText: string) =>
+      this.createItemsSource(searchText, field);
 
     const onChange = (e: FiasComboBoxChangeEvent, value: Address) => {
       const fields = {
@@ -240,9 +258,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       const hasParents = Boolean(address.getClosestParentFiasId(field));
 
       const fieldText = element
-        ? element.getText(
-            !hasParents && element.isTypeMatchField(field)
-          )
+        ? element.getText(!hasParents && element.isTypeMatchField(field))
         : '';
 
       if (field === Fields.region && element && element.data) {
@@ -257,15 +273,15 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
     const renderValue = (address: Address): React.ReactNode => {
       const element = address.fields[field];
-      return (
-        element && element.getText(element.isTypeMatchField(field))
-      );
+      return element && element.getText(element.isTypeMatchField(field));
     };
 
     const renderNotFound = (): React.ReactNode => {
       const { address } = this.state;
       const { locale } = this.props;
-      let messages = [locale[`${field}NotFound` as keyof FiasLocale] || locale.addressNotFound];
+      let messages = [
+        locale[`${field}NotFound` as keyof FiasLocale] || locale.addressNotFound
+      ];
 
       if (address.isAllowedToFill(field)) {
         if (address.hasOnlyIndirectParent(field)) {
@@ -317,10 +333,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
   }
 
-  private createItemsSource = async (
-    searchText: string,
-    field?: Fields
-  ) => {
+  private createItemsSource = async (searchText: string, field?: Fields) => {
     const { address } = this.state;
     const limit = this.props.limit || FiasForm.defaultProps.limit;
 
@@ -331,18 +344,18 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         parentFiasId: address.getClosestParentFiasId(field),
         fullAddress: address.isAllowedToSearchFullAddress(field),
         directParent: !address.isAllowedToSearchThroughAllParents(field),
-        limit: limit + 1, // +1 to detect if there are more items
+        limit: limit + 1 // +1 to detect if there are more items
       };
-      return this.props.api.search(options)
-        .then(result => {
-          const { success, data, error } = result;
-          return success && data
-            ? Promise.resolve(data.map((item: AddressResponse) => {
+      return this.props.api.search(options).then(result => {
+        const { success, data, error } = result;
+        return success && data
+          ? Promise.resolve(
+              data.map((item: AddressResponse) => {
                 return Address.createFromResponse(item);
               })
             )
-            : Promise.reject(error);
-        })
+          : Promise.reject(error);
+      });
     }
     return Promise.resolve([]);
   };
@@ -366,7 +379,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const { address } = this.state;
     const { api, locale } = this.props;
 
-    this.verifyPromise = api.verify(address.convertForVerification())
+    this.verifyPromise = api
+      .verify(address.convertForVerification())
       .then(result => {
         const { success, data } = result;
         if (success && data && data.length) {

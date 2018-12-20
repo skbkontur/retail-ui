@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {FiasComboBox, FiasComboBoxChangeEvent} from './FiasComboBox';
-import {Address} from '../models/Address';
-import {defaultLocale} from '../constants/locale';
-import {Fields, FiasLocale} from "../types";
+import { FiasComboBox, FiasComboBoxChangeEvent } from './FiasComboBox';
+import { Address } from '../models/Address';
+import { defaultLocale } from '../constants/locale';
+import { Fields, FiasLocale } from '../types';
 
 interface FiasSearchProps {
   source: (query: string) => Promise<Address[]>;
@@ -53,10 +53,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
     return address.getText(Fields.room);
   };
 
-  private handleChange = (
-    e: FiasComboBoxChangeEvent,
-    value: Address
-  ) => {
+  private handleChange = (e: FiasComboBoxChangeEvent, value: Address) => {
     this.props.onChange(value);
   };
 
@@ -65,7 +62,6 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
       return new Address({});
     }
   };
-
 }
 
 export default FiasSearch;

@@ -31,7 +31,7 @@ export class FiasComboBox extends React.Component<
 
   public get hasItems() {
     return this.state.totalCount > 0;
-  };
+  }
 
   public render() {
     return (
@@ -49,22 +49,19 @@ export class FiasComboBox extends React.Component<
     );
   }
 
-  private createRef = (el: ComboBox<Address>) => {
+  private createRef = (el: ComboBox<Address> | null) => {
     this.combobox = el;
   };
 
   private getItems = (searchText: string): Promise<Address[]> => {
     const { getItems, limit } = this.props;
-    const promise = getItems
-      ? getItems(searchText)
-      : Promise.resolve([]);
-    return promise
-      .then(items => {
-        this.setState({
-          totalCount: items.length
-        });
-        return items.slice(0, limit);
+    const promise = getItems ? getItems(searchText) : Promise.resolve([]);
+    return promise.then(items => {
+      this.setState({
+        totalCount: items.length
       });
+      return items.slice(0, limit);
+    });
   };
 
   private renderItem = (
@@ -86,8 +83,11 @@ export class FiasComboBox extends React.Component<
     </div>
   );
 
-  private handleChange = (event: { target: { value: Address } }, item: Address) => {
-    const {onChange, valueToString} = this.props;
+  private handleChange = (
+    event: { target: { value: Address } },
+    item: Address
+  ) => {
+    const { onChange, valueToString } = this.props;
     if (onChange) {
       onChange(event, item);
     }

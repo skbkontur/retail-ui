@@ -1,12 +1,12 @@
 import {
-  AddressValue,
-  AddressResponse,
-  AddressFields,
-  VerifyResponse,
   AddressErrors,
+  AddressFields,
+  AddressResponse,
+  AddressValue,
   FiasId,
   FiasValue,
-  Fields
+  Fields,
+  VerifyResponse
 } from '../types';
 import { Nullable } from '../../../typings/utility-types';
 import { AddressElement } from './AddressElement';
@@ -36,7 +36,7 @@ export class Address {
   public static createFromAddressValue = (addressValue: AddressValue) => {
     const fields: AddressFields = {};
     if (addressValue) {
-      Address.ALL_FIELDS.forEach((field) => {
+      Address.ALL_FIELDS.forEach(field => {
         const addressField = addressValue[field];
         if (addressField) {
           const { name, data } = addressField;
@@ -184,7 +184,9 @@ export class Address {
 
   public getClosestParentFiasId = (field?: Fields): FiasId | undefined => {
     if (field && !this.isEmpty) {
-      const parents = Address.getParentFields(field).slice().reverse();
+      const parents = Address.getParentFields(field)
+        .slice()
+        .reverse();
       for (const parentField of parents) {
         const parent: Nullable<AddressElement> = this.fields[parentField];
         if (parent && parent.data) {
@@ -230,7 +232,7 @@ export class Address {
       address: this.getAddressValue(),
       addressString: this.getText(),
       addressErrors: this.getAddressErrors(),
-      fiasId: this.getFiasId(),
+      fiasId: this.getFiasId()
     };
   };
 

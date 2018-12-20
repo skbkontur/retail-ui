@@ -5,13 +5,13 @@ let initialState = {
   home: {}
 };
 
-let handleChange = (value) => setState({ home: value });
+let handleChange = value => setState({ home: value });
 
 <Fias
   baseUrl={'https://api.kontur.ru/fias/v1/'}
   value={state.home}
   onChange={handleChange}
-/>
+/>;
 ```
 
 Поле поиска.
@@ -21,14 +21,14 @@ let initialState = {
   home: {}
 };
 
-let handleChange = (value) => setState({ home: value });
+let handleChange = value => setState({ home: value });
 
 <Fias
   baseUrl={'https://api.kontur.ru/fias/v1/'}
   value={state.home}
   onChange={handleChange}
   search={true}
-/>
+/>;
 ```
 
 Только верифицированные адреса.
@@ -50,20 +50,20 @@ let initialState = {
           okato: '65401000000',
           oktmo: '65701000',
           code: '6600000100000'
-        },
+        }
       }
     }
   }
 };
 
-let handleChange = (value) => setState({ home: value });
+let handleChange = value => setState({ home: value });
 
 <Fias
   baseUrl={'https://api.kontur.ru/fias/v1/'}
   value={state.home}
   onChange={handleChange}
   allowNotVerified={false}
-/>
+/>;
 ```
 
 Произвольные адреса.
@@ -73,20 +73,20 @@ let initialState = {
   home: {
     address: {
       city: {
-        name: 'Санкт-Контурбург',
+        name: 'Санкт-Контурбург'
       }
     }
   }
 };
 
-let handleChange = (value) => setState({ home: value });
+let handleChange = value => setState({ home: value });
 
 <Fias
   baseUrl={'https://api.kontur.ru/fias/v1/'}
   value={state.home}
   onChange={handleChange}
   formValidation={'None'}
-/>
+/>;
 ```
 
 Пользовательская валидация ошибок верификации
@@ -96,7 +96,7 @@ let initialState = {
   home: {
     address: {
       city: {
-        name: 'Санкт-Контурбург',
+        name: 'Санкт-Контурбург'
       }
     },
     addressErrors: {
@@ -106,10 +106,11 @@ let initialState = {
   warning: true
 };
 
-let handleChange = (value) => setState({ 
-  home: value,
-  warning: Boolean(Object.keys(value.addressErrors).length)
-});
+let handleChange = value =>
+  setState({
+    home: value,
+    warning: Boolean(Object.keys(value.addressErrors).length)
+  });
 
 <Fias
   baseUrl={'https://api.kontur.ru/fias/v1/'}
@@ -118,7 +119,7 @@ let handleChange = (value) => setState({
   formValidation={'Warning'}
   warning={state.warning}
   feedback={'Заполнено не по справочнику адресов'}
-/>
+/>;
 ```
 
 Возможности кастомизации
@@ -128,12 +129,12 @@ let initialState = {
   home: {}
 };
 
-let handleChange = (value) => setState({ home: value });
+let handleChange = value => setState({ home: value });
 
 const locale = {
   modalTitle: '🏛️',
   modalButtonOk: '👍',
-  modalButtonCancel: '👎',
+  modalButtonCancel: '👎'
 };
 const BriefcaseIcon = () => '💼';
 
@@ -142,12 +143,13 @@ const BriefcaseIcon = () => '💼';
   value={state.home}
   onChange={handleChange}
   label={'Юридический адрес'}
-  icon={<BriefcaseIcon/>}
+  icon={<BriefcaseIcon />}
   locale={locale}
-/>
+/>;
 ```
 
 Формат данных:
+
 ```typescript
 enum Fields {
   region = 'region',
@@ -165,14 +167,12 @@ enum Fields {
 interface FiasValue {
   address?: {
     [key in Fields]?: {
-        name: string;
-        data?: FiasObject;
-      }
+      name: string;
+      data?: FiasObject;
+    }
   };
   addressString?: string;
-  addressErrors?: {
-    [key in Fields]?: string;
-  };
+  addressErrors?: { [key in Fields]?: string };
   fiasId?: string;
 }
 
@@ -192,7 +192,7 @@ const value: FiasValue = {
         ifnsul: '6600',
         postalCode: '620000',
         code: '6600000000000'
-      },
+      }
     },
     city: {
       name: 'Екатеринбург',
@@ -207,7 +207,7 @@ const value: FiasValue = {
         okato: '65401000000',
         oktmo: '65701000',
         code: '6600000100000'
-      },
+      }
     },
     street: {
       name: 'Малопрудная',
@@ -225,7 +225,7 @@ const value: FiasValue = {
         ifnsul: '6658',
         postalCode: '620036',
         code: '66000001000155300'
-      },
+      }
     },
     house: {
       name: '5',
@@ -248,10 +248,11 @@ const value: FiasValue = {
       name: '10'
     }
   },
-  addressString: 'Свердловская область, город Екатеринбург, улица Малопрудная, дом 5 строение 2',
+  addressString:
+    'Свердловская область, город Екатеринбург, улица Малопрудная, дом 5 строение 2',
   addressErrors: {},
-  fiasId: '2c9c38a3-e2b1-45d7-993d-d41be557a097',
-}
+  fiasId: '2c9c38a3-e2b1-45d7-993d-d41be557a097'
+};
 ```
 
 Текстовые константы по умолчанию (`locale`):
@@ -306,4 +307,3 @@ const defaultLocale = {
   roomPlaceholder: ''
 };
 ```
-

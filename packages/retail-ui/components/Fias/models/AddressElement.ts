@@ -4,10 +4,9 @@ import { Nullable } from '../../../typings/utility-types';
 import { FiasData } from './FiasData';
 
 export class AddressElement {
-
   // Types (abbrevs) that match fields labels
   private static MATCHING_TYPES: {
-    [key:string]: Fields
+    [key: string]: Fields;
   } = {
     'р-н': Fields.district,
     г: Fields.city,
@@ -19,7 +18,7 @@ export class AddressElement {
     '0c5b2444-70a0-4932-980c-b4dc0d3f02b5', // Москва
     'c2deb16a-0330-4f05-821f-1d09c93331e6', // Санкт-Петербург
     '6fdecb78-893a-4e3f-a5ba-aa062459463b', // Севастополь
-    '63ed1a35-4be6-4564-a1ec-0c51f7383314', // Байконур
+    '63ed1a35-4be6-4564-a1ec-0c51f7383314' // Байконур
   ];
 
   constructor(
@@ -70,7 +69,9 @@ export class AddressElement {
 
           case 'п':
             result = !withoutType
-              ? `${this.type === Fields.district ? 'поселение' : 'поселок'} ${name}`
+              ? `${
+                  this.type === Fields.district ? 'поселение' : 'поселок'
+                } ${name}`
               : `${name}`;
             break;
 
