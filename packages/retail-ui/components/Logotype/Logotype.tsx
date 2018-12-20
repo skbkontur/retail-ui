@@ -62,10 +62,17 @@ class Logotype extends React.Component<LogotypeProps> {
   };
 
   private _logoWrapper: Nullable<HTMLElement> = null;
+  private _isWidgetInited: boolean = false;
 
   public componentDidMount() {
     if (this.props.withWidget) {
-      ProductWidget.init();
+      this.initWidget();
+    }
+  }
+
+  public componentDidUpdate() {
+    if (this.props.withWidget) {
+      this.initWidget();
     }
   }
 
@@ -120,6 +127,13 @@ class Logotype extends React.Component<LogotypeProps> {
 
   private _handleNativeLogoClick = (event: Event) => {
     stopPropagation(event);
+  };
+
+  private initWidget = () => {
+    if (!this._isWidgetInited) {
+      ProductWidget.init();
+      this._isWidgetInited = true;
+    }
   };
 }
 
