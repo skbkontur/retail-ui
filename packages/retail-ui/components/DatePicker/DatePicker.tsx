@@ -156,6 +156,9 @@ class DatePicker extends React.Component<
    * @public
    */
   public focus() {
+    if (this.props.disabled) {
+      return;
+    }
     if (this.input) {
       this.input.focus();
     }
