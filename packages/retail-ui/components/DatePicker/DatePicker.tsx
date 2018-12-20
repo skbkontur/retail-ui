@@ -130,16 +130,14 @@ class DatePicker extends React.Component<
     return isValidDate(parseDateString(value));
   };
 
+  public state: DatePickerState = {
+    opened: false
+  };
+
   private input: DateInput | null = null;
 
   private focused: boolean = false;
 
-  constructor(props: DatePickerProps<string>) {
-    super(props);
-
-    this.state = {
-      opened: false
-    };
   public componentDidUpdate() {
     const { disabled } = this.props;
     const { opened } = this.state;
