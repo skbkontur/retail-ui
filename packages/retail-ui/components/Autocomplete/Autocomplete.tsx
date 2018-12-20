@@ -115,7 +115,7 @@ class Autocomplete extends React.Component<
 
   public componentDidUpdate(prevProps: AutocompleteProps) {
     if (prevProps.value !== this.props.value) {
-      this.updateItems(this.props.value);
+      this.updateItems(this.props.value || '');
     }
   }
 
@@ -314,7 +314,7 @@ class Autocomplete extends React.Component<
       promise = match(pattern, source);
     }
     promise.then(items => {
-      if (this.props.value === value && this.opened) {
+      if (this.opened) {
         this.setState({
           items,
           selected: -1
