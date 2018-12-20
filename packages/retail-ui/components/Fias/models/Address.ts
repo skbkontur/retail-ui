@@ -91,12 +91,24 @@ export class Address {
     notVerifiedMessage: string
   ): Address => {
     const addressFields = { ...address.fields };
-    const addressErrors: AddressErrors = {};
+    const errors: AddressErrors = {};
+    const verifyResponse = response[0];
 
-    if (response[0]) {
-      const { address: verifiedFields, invalidLevel } = response[0];
+    if (verifyResponse) {
+      const { address: verifiedFields } = verifyResponse;
+      let { invalidLevel } = verifyResponse;
+
       for (const field of Address.VERIFIABLE_FIELDS) {
-        if (addressFields[field]) {
+        const currentField = addressFields[field];
+
+        if (currentField) {
+          if (field === Fields.house && !currentField.data) {
+            // force invalidate address
+            // if house wasn't chosen from the list
+            delete verifiedFields[field];
+            invalidLevel = field;
+          }
+
           const fiasObject = verifiedFields[field];
           if (fiasObject) {
             const data = new FiasData(fiasObject);
@@ -104,14 +116,15 @@ export class Address {
           } else {
             delete addressFields[field]!.data;
           }
+
           if (invalidLevel && String(invalidLevel).toLowerCase() === field) {
-            addressErrors[field] = notVerifiedMessage;
+            errors[field] = notVerifiedMessage;
             break;
           }
         }
       }
     }
-    return new Address(addressFields, addressErrors);
+    return new Address(addressFields, errors);
   };
 
   public static getParentFields = (field: Fields) => {

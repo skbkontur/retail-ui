@@ -171,20 +171,9 @@ export class AddressElement {
             abbreviation
           };
       }
-    } else {
-      switch (type) {
-        case Fields.house:
-          // force invalidate house
-          // if it wasn't chosen from the list
-          // (we don't know what field to fill)
-          return {
-            number: '100%NotValidHouseNumber'
-          };
-        default:
-          return {
-            name: this.name
-          };
-      }
     }
+    return {
+      name: this.name
+    };
   }
 }
