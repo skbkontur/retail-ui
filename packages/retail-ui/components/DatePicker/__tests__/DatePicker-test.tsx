@@ -2,10 +2,13 @@ import * as React from 'react';
 import DatePicker, { DatePickerProps } from '../DatePicker';
 import { mount } from 'enzyme';
 import Calendar from '../../Calendar';
+import DropdownContainer from '../../DropdownContainer/DropdownContainer';
 
 const handleChange = () => undefined;
 const renderDatePicker = (props?: Partial<DatePickerProps<string>>) =>
-  mount(<DatePicker onChange={handleChange} value="02.07.2017" {...props} />);
+  mount<DatePicker>(
+    <DatePicker onChange={handleChange} value="02.07.2017" {...props} />
+  );
 
 describe('DatePicker', () => {
   it('renders', () => {
@@ -57,5 +60,14 @@ describe('DatePicker', () => {
 
     expect(calendar.prop('initialMonth')).toBe(10);
     expect(calendar.prop('initialYear')).toBe(1959);
+  });
+
+  it("doesn't open on focus if disabled", () => {
+    const datePicker = renderDatePicker({
+      disabled: true
+    });
+    datePicker.instance().focus();
+    datePicker.update();
+    expect(datePicker.find(DropdownContainer)).toHaveLength(0);
   });
 });
