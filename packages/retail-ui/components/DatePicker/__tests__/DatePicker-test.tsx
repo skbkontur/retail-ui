@@ -70,4 +70,12 @@ describe('DatePicker', () => {
     datePicker.update();
     expect(datePicker.find(DropdownContainer)).toHaveLength(0);
   });
+
+  it('closes when become disabled', () => {
+    const datePicker = renderDatePicker();
+    datePicker.instance().focus();
+    datePicker.setProps({ disabled: true });
+    datePicker.update();
+    expect(datePicker.find(DropdownContainer)).toHaveLength(0);
+  });
 });
