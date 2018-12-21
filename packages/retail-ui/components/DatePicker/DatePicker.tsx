@@ -138,8 +138,10 @@ class DatePicker extends React.Component<
 
   private focused: boolean = false;
 
-  public componentDidUpdate() {
-    const { disabled } = this.props;
+  public componentWillReceiveProps(
+    nextProps: DatePickerProps<DatePickerValue>
+  ) {
+    const { disabled } = nextProps;
     const { opened } = this.state;
     if (disabled && opened) {
       this.close();
