@@ -7,6 +7,7 @@ import stopPropagation from '../../lib/events/stopPropagation';
 import { Nullable } from '../../typings/utility-types';
 import ProductWidget from './ProductWidget';
 import styles from './Logotype.less';
+import classnames from 'classnames';
 
 const createCloud = (color: string) => (
   <svg width="24" height="17" viewBox="0 0 24 17" className={styles.cloud}>
@@ -85,9 +86,12 @@ class Logotype extends React.Component<LogotypeProps> {
       href = Logotype.defaultProps.href,
       withWidget
     } = this.props;
+    const dropdownClassName = classnames(styles.dropdown, {
+      [styles.inline]: !withWidget
+    });
 
     return (
-      <div id="spwDropdown" className={styles.dropdown}>
+      <div id="spwDropdown" className={dropdownClassName}>
         <span ref={this.refLogoWrapper} className={styles.widgetWrapper}>
           <Component href={href} tabIndex="-1" className={styles.root}>
             <span style={{ color: textColor }}>к</span>
