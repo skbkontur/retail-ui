@@ -28,6 +28,7 @@ export interface DropdownContainerProps {
 
 export interface DropdownContainerState {
   position: Nullable<DropdownContainerPosition>;
+  minWidth: number;
   hasStaticRoot?: boolean;
 }
 
@@ -44,6 +45,7 @@ export default class DropdownContainer extends React.Component<
 
   public state: DropdownContainerState = {
     position: null,
+    minWidth: 0,
     hasStaticRoot: true
   };
 
@@ -84,7 +86,7 @@ export default class DropdownContainer extends React.Component<
         bottom: bottom !== null ? bottom : undefined,
         left: left !== null ? left : undefined,
         right: right !== null ? right : undefined,
-        minWidth: this.getMinWidth()
+        minWidth: this.state.minWidth
       };
     }
 
@@ -178,6 +180,7 @@ export default class DropdownContainer extends React.Component<
       };
 
       this.setState({
+        minWidth: this.getMinWidth(),
         position: this.props.disablePortal
           ? this.convertToRelativePosition(position)
           : position
