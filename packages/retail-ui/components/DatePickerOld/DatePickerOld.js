@@ -14,6 +14,7 @@ import RenderLayer from '../RenderLayer';
 import Center from '../Center';
 
 import styles from './DatePicker.less';
+import { isIE } from '../ensureOldIEClassName';
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -106,6 +107,8 @@ class DatePickerOld extends React.Component {
   _focusSubscription;
   _focused;
 
+  _ieFocusTrap;
+
   constructor(props, context) {
     super(props, context);
     const textValue =
@@ -135,7 +138,7 @@ class DatePickerOld extends React.Component {
 
   render() {
     const { opened } = this.state;
-    const { value, menuAlign } = this.props;
+    const { value, menuAlign, width } = this.props;
 
     const date = isDate(value) ? value : null;
     let picker = null;
@@ -171,7 +174,11 @@ class DatePickerOld extends React.Component {
         onFocusOutside={this.handleBlur}
         active={opened}
       >
-        <label className={className} style={{ width: this.props.width }}>
+        <label
+          className={className}
+          onClick={this.handleClick}
+          style={{ width }}
+        >
           <DateInput
             {...filterProps(this.props, INPUT_PASS_PROPS)}
             getInputRef={this.getInputRef}
@@ -218,8 +225,16 @@ class DatePickerOld extends React.Component {
     this.setState({ textValue: value });
   };
 
+  handleClick = () => {
+    if (!this.state.opened) {
+      this._focused = true;
+      this.setState({ opened: true });
+    }
+  };
+
   handleFocus = () => {
-    if (this._focused) {
+    if (this._focused || this._ieFocusTrap) {
+      this._ieFocusTrap = false;
       return;
     }
 
@@ -267,6 +282,10 @@ class DatePickerOld extends React.Component {
   handlePick = date => {
     if (this.props.onChange) {
       this.props.onChange({ target: { value: date } }, date);
+    }
+    if (isIE) {
+      // NOTE In IE can't blur input with mask https://github.com/sanniassin/react-input-mask/issues/73
+      this._ieFocusTrap = true;
     }
     this._focused = false;
     this.close(false);
