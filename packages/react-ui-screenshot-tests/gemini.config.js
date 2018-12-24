@@ -58,30 +58,30 @@ module.exports = {
   rootUrl: "http://localhost:6060/",
   compositeImage: true,
   browsers: {
-    ...browsers,
-    chromeFlat: {
-      ...optionsFlat,
-      ...browsers.chrome
-    },
-    firefoxFlat: {
-      ...optionsFlat,
-      ...browsers.firefox
-    },
-    ie11Flat: {
-      ...optionsFlat,
-      ...browsers.ie11
-    }
+    ...browsers
+    // chromeFlat: {
+    //   ...optionsFlat,
+    //   ...browsers.chrome
+    // },
+    // firefoxFlat: {
+    //   ...optionsFlat,
+    //   ...browsers.firefox
+    // },
+    // ie11Flat: {
+    //   ...optionsFlat,
+    //   ...browsers.ie11
+    // }
   },
-  sets: {
-    default: {
-      files: "./gemini/*.js",
-      browsers: Object.keys(browsers)
-    },
-    flat: {
-      files: flatTestSuites.map(suite => path.join("./gemini", `${suite}.js`)),
-      browsers: ["chromeFlat", "firefoxFlat", "ie11Flat"]
-    }
-  },
+  // sets: {
+  //   default: {
+  //     files: "./gemini/*.js",
+  //     browsers: Object.keys(browsers)
+  //   },
+  //   flat: {
+  //     files: flatTestSuites.map(suite => path.join("./gemini", `${suite}.js`)),
+  //     browsers: ["chromeFlat", "firefoxFlat", "ie11Flat"]
+  //   }
+  // },
   system: {
     plugins: {
       teamcity: Boolean(process.env.TEAMCITY_VERSION),
