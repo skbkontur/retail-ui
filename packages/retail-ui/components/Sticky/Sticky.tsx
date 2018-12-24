@@ -153,6 +153,10 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     this._inner = ref;
   };
 
+  private lesserThan(a: number, b: number) {
+    return b - a > 0.0001;
+  }
+
   private _reflow = () => {
     if (this._reflowing) {
       this._scheduled = true;
@@ -191,14 +195,18 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     const wrapLeft = wrapRect.left;
     const wrapTop = wrapRect.top;
     const fixed =
+      // NOTE Fix safari issue when `wrapTop` is around -1e-13 in some cases
       this.props.side === 'top'
-        ? wrapTop < this.getProps().offset
-        : wrapRect.bottom > windowHeight - this.getProps().offset;
+        ? this.lesserThan(wrapTop, this.getProps().offset)
+        : this.lesserThan(
+            windowHeight - this.getProps().offset,
+            wrapRect.bottom
+          );
 
     const wasFixed = this.state.fixed;
 
     if (fixed) {
-      const width = Math.floor(wrapRect.right - wrapRect.left);
+      const width = wrapRect.width;
       const inner = this._inner;
       let height = this.state.height;
       if (!inner) {
