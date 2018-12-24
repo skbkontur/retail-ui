@@ -95,6 +95,7 @@ function createConfig(reactVersion, retailUIVersion) {
             })
         ],
         devServer: {
+            host: "0.0.0.0",
             port: 8083,
             historyApiFallback: {
                 rewrites: versions.map(version =>
