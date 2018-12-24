@@ -130,16 +130,22 @@ class DatePicker extends React.Component<
     return isValidDate(parseDateString(value));
   };
 
+  public state: DatePickerState = {
+    opened: false
+  };
+
   private input: DateInput | null = null;
 
-  private _focused: boolean = false;
+  private focused: boolean = false;
 
-  constructor(props: DatePickerProps<string>) {
-    super(props);
-
-    this.state = {
-      opened: false
-    };
+  public componentWillReceiveProps(
+    nextProps: DatePickerProps<DatePickerValue>
+  ) {
+    const { disabled } = nextProps;
+    const { opened } = this.state;
+    if (disabled && opened) {
+      this.close();
+    }
   }
 
   /**
@@ -149,17 +155,20 @@ class DatePicker extends React.Component<
     if (this.input) {
       this.input.blur();
     }
-    this._handleBlur();
+    this.handleBlur();
   }
 
   /**
    * @public
    */
   public focus() {
+    if (this.props.disabled) {
+      return;
+    }
     if (this.input) {
       this.input.focus();
     }
-    this._handleFocus();
+    this.handleFocus();
   }
 
   /**
@@ -181,11 +190,11 @@ class DatePicker extends React.Component<
           align={this.props.menuAlign}
         >
           <Picker
-            value={this._getDate()}
-            minDate={this._getMinDate()}
-            maxDate={this._getMaxDate()}
-            onPick={this._handlePick}
-            onSelect={this._handleSelect}
+            value={this.getDate()}
+            minDate={this.getMinDate()}
+            maxDate={this.getMaxDate()}
+            onPick={this.handlePick}
+            onSelect={this.handleSelect}
             enableTodayLink={this.props.enableTodayLink}
             isHoliday={this.isHoliday}
           />
@@ -203,14 +212,14 @@ class DatePicker extends React.Component<
       >
         <DateInput
           {...filterProps(this.props, INPUT_PASS_PROPS)}
-          ref={this._getInputRef}
+          ref={this.getInputRef}
           value={this.props.value || ''}
           width="100%"
           withIcon
           minDate={this.props.minDate}
           maxDate={this.props.maxDate}
-          onBlur={this._handleBlur}
-          onFocus={this._handleFocus}
+          onBlur={this.handleBlur}
+          onFocus={this.handleFocus}
           onChange={this.props.onChange}
         />
         {picker}
@@ -218,16 +227,16 @@ class DatePicker extends React.Component<
     );
   }
 
-  private _getInputRef = (ref: DateInput | null) => {
+  private getInputRef = (ref: DateInput | null) => {
     this.input = ref;
   };
 
-  private _getDate() {
+  private getDate() {
     const { value } = this.props;
     let date = value ? tryGetValidDateShape(parseDateString(value)) : null;
     if (date) {
-      const minDate = this._getMinDate();
-      const maxDate = this._getMaxDate();
+      const minDate = this.getMinDate();
+      const maxDate = this.getMaxDate();
       if (
         (minDate && isLess(date, minDate)) ||
         (maxDate && isGreater(date, maxDate))
@@ -238,24 +247,24 @@ class DatePicker extends React.Component<
     return date;
   }
 
-  private _getMinDate = () => {
+  private getMinDate = () => {
     const { minDate } = this.props;
     const date = minDate && tryGetValidDateShape(parseDateString(minDate));
     return date || undefined;
   };
 
-  private _getMaxDate = () => {
+  private getMaxDate = () => {
     const { maxDate } = this.props;
     const date = maxDate && tryGetValidDateShape(parseDateString(maxDate));
     return date || undefined;
   };
 
-  private _handleFocus = () => {
-    if (this._focused) {
+  private handleFocus = () => {
+    if (this.focused) {
       return;
     }
 
-    this._focused = true;
+    this.focused = true;
 
     this.setState({ opened: true });
 
@@ -264,12 +273,12 @@ class DatePicker extends React.Component<
     }
   };
 
-  private _handleBlur = () => {
-    if (!this._focused) {
+  private handleBlur = () => {
+    if (!this.focused) {
       return;
     }
 
-    this._focused = false;
+    this.focused = false;
     this.close();
 
     if (this.props.onBlur) {
@@ -277,12 +286,12 @@ class DatePicker extends React.Component<
     }
   };
 
-  private _handlePick = (dateShape: CalendarDateShape) => {
-    this._handleSelect(dateShape);
+  private handlePick = (dateShape: CalendarDateShape) => {
+    this.handleSelect(dateShape);
     this.blur();
   };
 
-  private _handleSelect = (dateShape: CalendarDateShape) => {
+  private handleSelect = (dateShape: CalendarDateShape) => {
     const date = formatDate(dateShape);
     if (this.props.onChange) {
       this.props.onChange({ target: { value: date } }, date);
