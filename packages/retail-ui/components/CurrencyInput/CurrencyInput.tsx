@@ -97,11 +97,10 @@ export default class CurrencyInput extends React.Component<
   }
 
   public componentDidUpdate() {
-    if (this.state.focused) {
+    if (this.state.focused && this.input) {
       const { start, end } = this.state.selection;
-      if (this.input) {
-        this.input.setSelectionRange(start, end);
-      }
+
+      this.input.setSelectionRange(start, end);
     }
   }
 
@@ -146,10 +145,6 @@ export default class CurrencyInput extends React.Component<
    */
   public focus = () => {
     if (this.input) {
-      this.input.setSelectionRange(
-        this.inputValue.length,
-        this.inputValue.length
-      );
       this.input.focus();
     }
   };
