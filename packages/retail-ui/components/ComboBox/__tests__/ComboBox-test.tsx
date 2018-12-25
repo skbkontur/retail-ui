@@ -451,20 +451,30 @@ describe('ComboBox', () => {
     );
   });
 
-  it('opens and closes by methods', async () => {
-    const wrapper = mount<ComboBox<any>>(
-      <ComboBox />
-    );
+  describe('open/close methods', () => {
+    let wrapper: ReactWrapper<{}, {}, ComboBox<any>>;
 
-    expect(wrapper.find(Menu)).toHaveLength(0);
+    beforeEach(() => {
+      wrapper = mount<ComboBox<any>>(<ComboBox />);
+      wrapper.instance().open();
+      wrapper.update();
+    });
 
-    wrapper.instance().open();
-    wrapper.update();
-    expect(wrapper.find(Menu)).toHaveLength(1);
+    it('opens', () => {
+      expect(wrapper.find(Menu)).toHaveLength(1);
+    });
 
-    wrapper.instance().close();
-    wrapper.update();
-    expect(wrapper.find(Menu)).toHaveLength(0);
+    it('closes', () => {
+      wrapper.instance().close();
+      wrapper.update();
+      expect(wrapper.find(Menu)).toHaveLength(0);
+    });
+
+    it('closes on clickOutside', () => {
+      clickOutside();
+      wrapper.update();
+      expect(wrapper.find(Menu)).toHaveLength(0);
+    });
   });
 
   describe('search by method', () => {
