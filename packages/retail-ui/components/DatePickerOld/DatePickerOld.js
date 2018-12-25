@@ -107,8 +107,6 @@ class DatePickerOld extends React.Component {
   _focusSubscription;
   _focused;
 
-  _ieFocusTrap;
-
   constructor(props, context) {
     super(props, context);
     const textValue =
@@ -124,7 +122,6 @@ class DatePickerOld extends React.Component {
    * @public
    */
   blur() {
-    this.input.blur();
     this.handleBlur();
   }
 
@@ -174,11 +171,7 @@ class DatePickerOld extends React.Component {
         onFocusOutside={this.handleBlur}
         active={opened}
       >
-        <label
-          className={className}
-          onClick={this.handleClick}
-          style={{ width }}
-        >
+        <label className={className} style={{ width }}>
           <DateInput
             {...filterProps(this.props, INPUT_PASS_PROPS)}
             getInputRef={this.getInputRef}
@@ -187,6 +180,7 @@ class DatePickerOld extends React.Component {
             onFocus={this.handleFocus}
             onChange={this.handleChange}
             onSubmit={this._handleSubmit}
+            onBlur={this.handleBlur}
           />
           {picker}
           <Center
@@ -225,16 +219,8 @@ class DatePickerOld extends React.Component {
     this.setState({ textValue: value });
   };
 
-  handleClick = () => {
-    if (!this.state.opened) {
-      this._focused = true;
-      this.setState({ opened: true });
-    }
-  };
-
   handleFocus = () => {
-    if (this._focused || this._ieFocusTrap) {
-      this._ieFocusTrap = false;
+    if (this._focused) {
       return;
     }
 
@@ -261,6 +247,8 @@ class DatePickerOld extends React.Component {
     if (this.props.onBlur) {
       this.props.onBlur();
     }
+    // NOTE In IE can't blur input with mask https://github.com/sanniassin/react-input-mask/issues/73
+    setTimeout(() => this.input.blur());
   };
 
   _handleSubmit = () => {
@@ -283,16 +271,13 @@ class DatePickerOld extends React.Component {
     if (this.props.onChange) {
       this.props.onChange({ target: { value: date } }, date);
     }
-    if (isIE) {
-      // NOTE In IE can't blur input with mask https://github.com/sanniassin/react-input-mask/issues/73
-      this._ieFocusTrap = true;
-    }
     this._focused = false;
     this.close(false);
     if (this.props.onBlur) {
       this.props.onBlur();
     }
-    this.blur();
+    // NOTE In IE can't blur input with mask https://github.com/sanniassin/react-input-mask/issues/73
+    setTimeout(() => this.input.blur());
   };
 
   handlePickerClose = () => {
