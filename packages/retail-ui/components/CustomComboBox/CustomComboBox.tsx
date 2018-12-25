@@ -314,6 +314,9 @@ class CustomComboBox extends React.Component<
 
   private handleBlur = () => {
     if (!this.focused) {
+      if (this.state.opened) {
+        this.close();
+      }
       return;
     }
     this.focused = false;
