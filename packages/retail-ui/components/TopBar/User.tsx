@@ -33,10 +33,10 @@ class User extends React.Component<UserProps> {
         <MenuItem loose href={cabinetUrl} target="_blank">
           Настройка входа в сервисы
         </MenuItem>
-        <MenuItem loose href={`${cabinetUrl}#certificates`} target="_blank">
+        <MenuItem loose href={`${cabinetUrl}/certificates`} target="_blank">
           Сертификаты
         </MenuItem>
-        <MenuItem loose href={`${cabinetUrl}#services`} target="_blank">
+        <MenuItem loose href={`${cabinetUrl}/services`} target="_blank">
           Оплата сервисов
         </MenuItem>
       </TopBarDropdown>
