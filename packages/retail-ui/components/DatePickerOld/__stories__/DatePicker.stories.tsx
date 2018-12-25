@@ -43,10 +43,8 @@ storiesOf('DatePickerOld', module)
     <div style={{ paddingTop: 200 }}>
       <DatePicker
         value={new Date('2017-01-02')}
-        // tslint:disable-next-line: no-console
-        onMouseEnter={() => console.count('enter')}
-        // tslint:disable-next-line: no-console
-        onMouseLeave={() => console.count('leave')}
+        onMouseEnter={action('enter')}
+        onMouseLeave={action('leave')}
         onChange={action('change')}
       />
       <button>ok</button>
