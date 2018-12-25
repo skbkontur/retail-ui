@@ -129,7 +129,7 @@ class DatePickerOld extends React.Component {
    * @public
    */
   focus() {
-    this.input.focus();
+    this.input.selectAll();
     this.handleFocus();
   }
 
@@ -166,11 +166,7 @@ class DatePickerOld extends React.Component {
       [styles.openButtonDisabled]: this.props.disabled
     });
     return (
-      <RenderLayer
-        onClickOutside={this.handleBlur}
-        onFocusOutside={this.handleBlur}
-        active={opened}
-      >
+      <RenderLayer active={opened}>
         <label className={className} style={{ width }}>
           <DateInput
             {...filterProps(this.props, INPUT_PASS_PROPS)}
@@ -247,8 +243,7 @@ class DatePickerOld extends React.Component {
     if (this.props.onBlur) {
       this.props.onBlur();
     }
-    // NOTE In IE can't blur input with mask https://github.com/sanniassin/react-input-mask/issues/73
-    setTimeout(() => this.input.blur());
+    this.input.blur();
   };
 
   _handleSubmit = () => {
@@ -276,8 +271,12 @@ class DatePickerOld extends React.Component {
     if (this.props.onBlur) {
       this.props.onBlur();
     }
-    // NOTE In IE can't blur input with mask https://github.com/sanniassin/react-input-mask/issues/73
-    setTimeout(() => this.input.blur());
+    if (isIE) {
+      // NOTE In IE can't blur input with mask https://github.com/sanniassin/react-input-mask/issues/73
+      setTimeout(() => this.input.blur());
+    } else {
+      this.input.blur();
+    }
   };
 
   handlePickerClose = () => {
