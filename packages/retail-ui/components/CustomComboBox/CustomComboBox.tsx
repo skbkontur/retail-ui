@@ -7,7 +7,10 @@ import Menu from '../Menu/Menu';
 import InputLikeText from '../internal/InputLikeText';
 import shallow from 'fbjs/lib/shallowEqual';
 import { MenuItemState } from '../MenuItem';
-import {getFirstFocusableElement, getNextFocusableElement} from '../../lib/dom/getFocusableElements';
+import {
+  getFirstFocusableElement,
+  getNextFocusableElement
+} from '../../lib/dom/getFocusableElements';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T; keepFocus: boolean }

@@ -210,9 +210,7 @@ describe('ComboBox', () => {
     await promise;
     wrapper.update();
 
-    expect(
-      wrapper.find(Menu).containsAllMatchingElements(items)
-    ).toBeTruthy();
+    expect(wrapper.find(Menu).containsAllMatchingElements(items)).toBeTruthy();
   });
 
   it('calls default onClick on custom element select', async () => {
@@ -319,10 +317,7 @@ describe('ComboBox', () => {
   });
 
   describe('update input text when value changes if there was no editing', () => {
-    const VALUES = [
-      { value: 1, label: 'one' },
-      { value: 2, label: 'two' },
-    ];
+    const VALUES = [{ value: 1, label: 'one' }, { value: 2, label: 'two' }];
     const blur = (wrapper: any) => {
       // when menu is not opened (after focus in autocomplete mode),
       // clickOutside doesn't work, unlike the input blur.
@@ -384,16 +379,11 @@ describe('ComboBox', () => {
     });
   });
 
-
   it('does not do search on focus in autocomplete mode', () => {
     const VALUE = { value: 1, label: 'one' };
     const getItems = jest.fn();
     const wrapper = mount<ComboBox<any>>(
-      <ComboBox
-        getItems={getItems}
-        value={VALUE}
-        autocomplete={true}
-      />
+      <ComboBox getItems={getItems} value={VALUE} autocomplete={true} />
     );
 
     wrapper.instance().focus();
@@ -401,7 +391,6 @@ describe('ComboBox', () => {
 
     expect(getItems).toHaveBeenCalledTimes(0);
     expect(wrapper.find(Menu)).toHaveLength(0);
-
   });
 
   it('reset', () => {
