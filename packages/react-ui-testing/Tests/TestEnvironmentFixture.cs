@@ -17,14 +17,23 @@ namespace SKBKontur.SeleniumTesting.Tests
         public void SetUp()
         {
             WaitResponse("http://localhost:8083/");
+            string tunnelIdentifier;
 
-            var tunnelIdentifier = Environment.GetEnvironmentVariable("TRAVIS_JOB_NUMBER", EnvironmentVariableTarget.Process) ?? $"{Environment.MachineName}-{Guid.NewGuid()}";
-            sauceConnectProcess = CreateSauceConnectProcess(tunnelIdentifier);
-            sauceConnectProcess.Start();
-            if (sauceConnectProcess.StandardOutput.ReadLine() != "Sauce Connect ready")
+            if (TravisEnvironment.IsExecutionViaTravis)
             {
-                throw new Exception("Unable to start sauce connect");
+                tunnelIdentifier = Environment.GetEnvironmentVariable("TRAVIS_JOB_NUMBER", EnvironmentVariableTarget.Process);
+                sauceConnectProcess = CreateSauceConnectProcess(tunnelIdentifier);
+                sauceConnectProcess.Start();
+                if (sauceConnectProcess.StandardOutput.ReadLine() != "Sauce Connect ready")
+                {
+                    throw new Exception("Unable to start sauce connect");
+                }
             }
+            else
+            {
+                tunnelIdentifier = $"{Environment.MachineName}-{Guid.NewGuid()}";
+            }
+
             BrowserSetUp.SetUp(tunnelIdentifier);
         }
 
@@ -33,9 +42,12 @@ namespace SKBKontur.SeleniumTesting.Tests
         {
             BrowserSetUp.TearDown();
 
-            //tunnel closes on any data in stdin
-            sauceConnectProcess.StandardInput.WriteLine("0");
-            sauceConnectProcess.WaitForExit(TimeSpan.FromSeconds(30).Milliseconds);
+            if (TravisEnvironment.IsExecutionViaTravis)
+            {
+                //tunnel closes on any data in stdin
+                sauceConnectProcess.StandardInput.WriteLine("0");
+                sauceConnectProcess.WaitForExit(TimeSpan.FromSeconds(30).Milliseconds);
+            }
         }
 
         private static void WaitResponse(string url)
