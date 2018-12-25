@@ -228,7 +228,12 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
 
     return (
-      <label {...rootProps} className={styles.root}>
+      <label
+        {...rootProps}
+        className={classNames(styles.root, {
+          [styles.size16]: Upgrades.isSizeMedium16pxEnabled()
+        })}
+      >
         {placeholder}
         <textarea
           {...textareaProps}
