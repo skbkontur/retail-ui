@@ -3,12 +3,6 @@ import React from 'react';
 
 import DatePicker from '../DatePickerOld.js';
 
-function clickOutside() {
-  const event = document.createEvent('HTMLEvents');
-  event.initEvent('mousedown', true, true);
-  document.body.dispatchEvent(event);
-}
-
 describe('DatePicker', () => {
   it('parses input correctly', () => {
     const onChange = jest.fn();
@@ -17,7 +11,7 @@ describe('DatePicker', () => {
     const input = wrapper.find('input');
     input.simulate('focus');
     input.simulate('change', { target: { value: '4.12.13' } });
-    clickOutside();
+    input.simulate('blur');
 
     expect(onChange).toHaveBeenCalledTimes(1);
 
@@ -40,7 +34,7 @@ describe('DatePicker', () => {
 
     expect(wrapper.find('input').prop('value')).toBe('01.02.2003');
 
-    clickOutside();
+    wrapper.find('input').simulate('blur');
 
     expect(wrapper.find('input').prop('value')).toBe('01.02.2003');
   });
