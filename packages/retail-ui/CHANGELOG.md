@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.34.0"></a>
+# [0.34.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.33.0...retail-ui@0.34.0) (2018-12-26)
+
+
+### Bug Fixes
+
+* **Autocomplete:** исправлен многократный вызов `source` ([6a73bc5](https://github.com/skbkontur/retail-ui/commit/6a73bc5)), closes [#937](https://github.com/skbkontur/retail-ui/issues/937)
+* **ComboBox:** always close on clickOutside ([1715695](https://github.com/skbkontur/retail-ui/commit/1715695))
+* **ComboBox:** run empty search on input click if closed ([75670b4](https://github.com/skbkontur/retail-ui/commit/75670b4))
+* **CurrencyInput:** починено поведение фокуса ([ce3e1e9](https://github.com/skbkontur/retail-ui/commit/ce3e1e9)), closes [#932](https://github.com/skbkontur/retail-ui/issues/932)
+* **DatePicker:** close if picker became disabled ([2b98084](https://github.com/skbkontur/retail-ui/commit/2b98084))
+* **DatePicker:** do not open on focus if disabled ([03fb67d](https://github.com/skbkontur/retail-ui/commit/03fb67d))
+* **DatePickerOld:** can't blur in ie11 ([f515c56](https://github.com/skbkontur/retail-ui/commit/f515c56)), closes [#1030](https://github.com/skbkontur/retail-ui/issues/1030)
+* **DatePickerOld:** can't blur in safari ([194adca](https://github.com/skbkontur/retail-ui/commit/194adca))
+* **DropdownContainer:** align dropdown in disablePortal mode ([ca8561f](https://github.com/skbkontur/retail-ui/commit/ca8561f)), closes [#590](https://github.com/skbkontur/retail-ui/issues/590)
+* **Fias:** [FiasComboBox] update searchText on value change ([55cb808](https://github.com/skbkontur/retail-ui/commit/55cb808))
+* **Fias:** disallow search through all parents for Street and lower ([09966ec](https://github.com/skbkontur/retail-ui/commit/09966ec))
+* **Fias:** invalidate House if it wasn't chosen from the list ([2389155](https://github.com/skbkontur/retail-ui/commit/2389155)), closes [#905](https://github.com/skbkontur/retail-ui/issues/905)
+* **Fias:** open list on focus after validation (if has items) ([7972960](https://github.com/skbkontur/retail-ui/commit/7972960))
+* **InternalMenu:** focus on menu without scrollTo ([263091d](https://github.com/skbkontur/retail-ui/commit/263091d)), closes [#996](https://github.com/skbkontur/retail-ui/issues/996)
+* **Logotype:** always render dropdown container ([dfc26cb](https://github.com/skbkontur/retail-ui/commit/dfc26cb)), closes [#631](https://github.com/skbkontur/retail-ui/issues/631)
+* **Logotype:** display root as inline element when there is no widget ([b0f316f](https://github.com/skbkontur/retail-ui/commit/b0f316f))
+* **Logotype:** init widget on props update ([109f562](https://github.com/skbkontur/retail-ui/commit/109f562))
+* **Sticky:** infinity update loop in safari ([7c26f85](https://github.com/skbkontur/retail-ui/commit/7c26f85)), closes [#1033](https://github.com/skbkontur/retail-ui/issues/1033)
+* **Textarea:** don't pass placeholder prop if it is polyfilled ([54d16bb](https://github.com/skbkontur/retail-ui/commit/54d16bb)), closes [#955](https://github.com/skbkontur/retail-ui/issues/955)
+* **TopBar:** update User's links to cabinet.kontur.ru ([53d1024](https://github.com/skbkontur/retail-ui/commit/53d1024))
+
+
+### Features
+
+* **Fias:** show "select from list" message on validation if has items ([91dd8ba](https://github.com/skbkontur/retail-ui/commit/91dd8ba))
+* **Popup:** add `onOpen` prop ([af52795](https://github.com/skbkontur/retail-ui/commit/af52795))
+* **Spinner:** поддержка ReactNode в caption ([b0ba0cd](https://github.com/skbkontur/retail-ui/commit/b0ba0cd))
+* **Textarea:** шрифт и отсутпы по гайдам ([ca61be6](https://github.com/skbkontur/retail-ui/commit/ca61be6))
+
+
+
+
 <a name="0.33.0"></a>
 # [0.33.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.32.1...retail-ui@0.33.0) (2018-12-17)
 
