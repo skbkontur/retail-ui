@@ -230,7 +230,9 @@ const reducers: { [type: string]: Reducer } = {
 
     return {
       opened: false,
-      textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString)
+      textValue: state.editing
+        ? state.textValue
+        : getValueString(props.value, props.valueToString)
     } as State;
   },
   Blur(state, props, action) {
@@ -347,7 +349,7 @@ const reducers: { [type: string]: Reducer } = {
         {
           opened: true
         },
-        [Effect.Search(state.textValue)]
+        [Effect.Search('')]
       ];
     }
     return state;
@@ -401,10 +403,7 @@ const reducers: { [type: string]: Reducer } = {
     };
   },
   Search: (state, props, { query }) => {
-    return [
-      state,
-      [Effect.Search(query)]
-    ];
+    return [state, [Effect.Search(query)]];
   }
 };
 
