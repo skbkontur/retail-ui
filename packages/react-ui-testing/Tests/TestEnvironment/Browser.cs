@@ -68,32 +68,26 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
             {
                 if (webDriver != null) return webDriver;
 
-                if (!TravisEnvironment.IsExecutionViaTravis)
-                {
-                    var fileName = Path.Combine(PathUtils.FindProjectRootFolder(), ".env");
-                    var pairs = File.ReadLines(fileName)
-                        .Select(line => line.Split('=', 2))
-                        .Where(splitLine => splitLine.Length == 2)
-                        .Select(x => (key: x[0].Trim(), value: x[1].Trim()));
-                    foreach (var (key, value) in pairs)
-                    {
-                        Environment.SetEnvironmentVariable(key, value);
-                    }
-                }
-
-                var sauceUserName = Environment.GetEnvironmentVariable("SAUCE_USERNAME", EnvironmentVariableTarget.Process);
-                var sauceAccessKey = Environment.GetEnvironmentVariable("SAUCE_ACCESS_KEY", EnvironmentVariableTarget.Process);
-
+                var wdHub = "http://screen:shot@grid.testkontur.ru/wd/hub";
                 ChromeOptions options = new ChromeOptions();
-                options.AddAdditionalCapability(CapabilityType.Version, "54", true);
+
                 options.AddAdditionalCapability(CapabilityType.Platform, "Windows 10", true);
-                options.AddAdditionalCapability("username", sauceUserName, true);
-                options.AddAdditionalCapability("accessKey", sauceAccessKey, true);
                 options.AddAdditionalCapability("name", TestContext.CurrentContext.Test.Name, true);
                 options.AddAdditionalCapability("tunnel-identifier", this.tunnelIdentifier, true);
                 options.AddAdditionalCapability("maxDuration", 10800, true);
 
-                webDriver = new RemoteWebDriver(new Uri("http://ondemand.saucelabs.com:80/wd/hub"),
+                if (TravisEnvironment.IsExecutionViaTravis)
+                {
+                    wdHub = "http://ondemand.saucelabs.com:80/wd/hub";
+                    var sauceUserName = Environment.GetEnvironmentVariable("SAUCE_USERNAME", EnvironmentVariableTarget.Process);
+                    var sauceAccessKey = Environment.GetEnvironmentVariable("SAUCE_ACCESS_KEY", EnvironmentVariableTarget.Process);
+
+                    options.AddAdditionalCapability("username", sauceUserName, true);
+                    options.AddAdditionalCapability("accessKey", sauceAccessKey, true);
+                    options.AddAdditionalCapability(CapabilityType.Version, "67", true);
+                }
+
+                webDriver = new RemoteWebDriver(new Uri(wdHub),
                     options.ToCapabilities(),
                     TimeSpan.FromMinutes(5));
                 webDriver.Manage().Window.Size = new Size(1280, 1024);
