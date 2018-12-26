@@ -544,4 +544,69 @@ describe('ComboBox', () => {
     expect(onFocus).toHaveBeenCalledTimes(0);
     expect(onBlur).toHaveBeenCalledTimes(0);
   });
+
+  describe('click on input', () => {
+    const VALUE = { value: 1, label: 'one' };
+    type TComboBoxWrapper = ReactWrapper<{}, {}, ComboBox<typeof VALUE>>;
+    const clickOnInput = (comboboxWrapper: TComboBoxWrapper) => {
+      comboboxWrapper.update();
+      comboboxWrapper.find('input').simulate('click');
+    };
+    const getItems = jest.fn();
+    let wrapper: TComboBoxWrapper;
+
+    describe('in default mode', () => {
+      beforeEach(() => {
+        wrapper = mount<ComboBox<typeof VALUE>>(
+          <ComboBox getItems={getItems} value={VALUE} />
+        );
+        wrapper.instance().focus();
+        getItems.mockClear();
+      });
+
+      it('opens menu if it is closed', () => {
+        wrapper.instance().close();
+        clickOnInput(wrapper);
+        expect(wrapper.find(Menu)).toHaveLength(1);
+      });
+
+      it('runs empty search if menu is closed', () => {
+        wrapper.instance().close();
+        clickOnInput(wrapper);
+        expect(getItems).toHaveBeenCalledWith('');
+      });
+
+      it("doesn't run search if menu is open", () => {
+        clickOnInput(wrapper);
+        expect(getItems).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    describe('in autocomplete mode', () => {
+      beforeEach(() => {
+        wrapper = mount<ComboBox<typeof VALUE>>(
+          <ComboBox autocomplete={true} getItems={getItems} value={VALUE} />
+        );
+        wrapper.instance().focus();
+        getItems.mockClear();
+      });
+
+      it("doesn't open menu if it is closed", () => {
+        wrapper.instance().close();
+        clickOnInput(wrapper);
+        expect(wrapper.find(Menu)).toHaveLength(0);
+      });
+
+      it("doesn't run search if menu is closed", () => {
+        wrapper.instance().close();
+        clickOnInput(wrapper);
+        expect(getItems).toHaveBeenCalledTimes(0);
+      });
+
+      it("doesn't run search if menu is open", () => {
+        clickOnInput(wrapper);
+        expect(getItems).toHaveBeenCalledTimes(0);
+      });
+    });
+  });
 });
