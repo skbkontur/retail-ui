@@ -7130,16 +7130,24 @@ gemini-coverage@^2.0.0:
     fs-extra "^5.0.0"
     handlebars "~1.3.0"
 
-gemini-sauce@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/gemini-sauce/-/gemini-sauce-1.0.1.tgz#841891483853f984aaabe94d60fb52393bf742b7"
-  integrity sha1-hBiRSDhT+YSqq+lNYPtSOTv3Qrc=
+gemini-sauce@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/gemini-sauce/-/gemini-sauce-1.0.2.tgz#d205edf476afc17a210387220aab44eaa450860e"
+  integrity sha512-YhL7VrSM1GWiag+BVpIsazMCaIqTpsdMS/eb+DLef2LknSZ0Eh+tdJkXQU9C4x33PB4HSt8psA+lnxD/GjHOYQ==
   dependencies:
     cleankill "^1.0.0"
     lodash "^3.5.0"
     q "^1.2.0"
     sauce-connect-launcher "^1.2.0"
     uuid "^2.0.1"
+
+gemini-teamcity@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/gemini-teamcity/-/gemini-teamcity-2.1.5.tgz#5c05bdcdf10e19cfd149d27c28d1de5d002a8da7"
+  integrity sha512-/QBsTAtS9pEha6wH7wdhmhtt1NY3kCqsyJzviTtNc+0e1rwS74XzKa7zro2oujPZ4MMDmJ5WcWkvWzI86fEyMQ==
+  dependencies:
+    lodash "^4.0.0"
+    teamcity-service-messages "^0.1.7"
 
 gemini@^5.7.2:
   version "5.8.0"
@@ -9435,6 +9443,11 @@ jest-snapshot@^23.5.0:
     pretty-format "^23.5.0"
     semver "^5.5.0"
 
+jest-teamcity-reporter@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/jest-teamcity-reporter/-/jest-teamcity-reporter-0.9.0.tgz#a9f337a928a14e7e84163817456b930ecf7cbce8"
+  integrity sha512-q6W+ZaJSCIXmxC9wsY67zNn+vwG/EgKJygYJYH860jih5zS6mc2ZFc4v78gh6rgzgM9/siUtQm7SnRunYuWmVw==
+
 jest-util@^22.4.1, jest-util@^22.4.3:
   version "22.4.3"
   resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-22.4.3.tgz#c70fec8eec487c37b10b0809dc064a7ecf6aafac"
@@ -10380,7 +10393,7 @@ lodash@4.17.10, lodash@^4.0.1, lodash@^4.13.1, lodash@^4.15.0, lodash@^4.16.4, l
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
   integrity sha512-UejweD1pDoXu+AD825lWwp4ZGtSwgnpZxb3JDViD7StjQz+Nb/6l093lx4OQ0foGWNRoc19mWy7BzL+UAK2iVg==
 
-lodash@4.17.11, lodash@^4.17.11:
+lodash@4.17.11, lodash@^4.0.0, lodash@^4.17.11:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
@@ -10638,6 +10651,11 @@ memory-fs@~0.3.0:
   dependencies:
     errno "^0.1.3"
     readable-stream "^2.0.1"
+
+memorystream@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/memorystream/-/memorystream-0.3.1.tgz#86d7090b30ce455d63fbae12dda51a47ddcaf9b2"
+  integrity sha1-htcJCzDORV1j+64S3aUaR93K+bI=
 
 meow@^3.3.0:
   version "3.7.0"
@@ -11323,6 +11341,21 @@ npm-path@^2.0.2:
   dependencies:
     which "^1.2.10"
 
+npm-run-all@^4.1.5:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/npm-run-all/-/npm-run-all-4.1.5.tgz#04476202a15ee0e2e214080861bff12a51d98fba"
+  integrity sha512-Oo82gJDAVcaMdi3nuoKFavkIHBRVqQ1qvMb+9LHk/cF4P6B2m8aP04hGf7oL6wZ9BuGwX1onlLhpuoofSyoQDQ==
+  dependencies:
+    ansi-styles "^3.2.1"
+    chalk "^2.4.1"
+    cross-spawn "^6.0.5"
+    memorystream "^0.3.1"
+    minimatch "^3.0.4"
+    pidtree "^0.3.0"
+    read-pkg "^3.0.0"
+    shell-quote "^1.6.1"
+    string.prototype.padend "^3.0.0"
+
 npm-run-path@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/npm-run-path/-/npm-run-path-2.0.2.tgz#35a9232dfa35d7067b4cb2ddf2357b1871536c5f"
@@ -11937,6 +11970,11 @@ performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
+
+pidtree@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/pidtree/-/pidtree-0.3.0.tgz#f6fada10fccc9f99bf50e90d0b23d72c9ebc2e6b"
+  integrity sha512-9CT4NFlDcosssyg8KVFltgokyKZIFjoBxw8CTGy+5F38Y1eQWrt8tRayiUOXE+zVKQnYu5BR8JjCtvK3BcnBhg==
 
 pify@^2.0.0, pify@^2.3.0:
   version "2.3.0"
@@ -15438,6 +15476,11 @@ tar@^4:
     mkdirp "^0.5.0"
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
+
+teamcity-service-messages@^0.1.7:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/teamcity-service-messages/-/teamcity-service-messages-0.1.9.tgz#bb700cf2e15cac6ad244cb2f0bb3cc9d6da7ba2d"
+  integrity sha512-agmBUllpL8n02cG/6s16St5yXYEdynkyyGDWM5qsFq9sKEkc+gBAJgcgJQCVsqlxbZZUToRwTI1hLataRjCGcw==
 
 temp-dir@^1.0.0:
   version "1.0.0"
