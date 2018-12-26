@@ -375,14 +375,24 @@ export default class CurrencyInput extends React.Component<
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { selectionStart, selectionEnd, selectionDirection } = event.target;
+    const valueLenght = event.target.value.length;
+
+    const selection = {
+      start:
+        selectionStart !== selectionEnd
+          ? selectionStart || 0
+          : selectionStart || valueLenght,
+      end:
+        selectionEnd !== selectionStart
+          ? selectionEnd || 0
+          : selectionEnd || valueLenght,
+      direction: (selectionDirection as SelectionDirection) || 'none'
+    };
+
     this.setState({
       focused: true,
-      selection: {
-        start: event.target.selectionStart || event.target.value.length,
-        end: event.target.selectionEnd || event.target.value.length,
-        direction:
-          (event.target.selectionDirection as SelectionDirection) || 'none'
-      }
+      selection
     });
 
     if (this.props.onFocus) {
