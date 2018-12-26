@@ -17,7 +17,6 @@ gemini.suite("CurrencyInput", () => {
       })
       .capture("External focus and input", (actions, find) => {
         actions.click(find("button"));
-        actions.wait(500);
         "5678".split("").forEach(char => {
           actions.wait(500);
           actions.sendKeys(find('[class^="Input-input"]'), char);
