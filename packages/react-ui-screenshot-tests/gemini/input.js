@@ -127,3 +127,35 @@ gemini.suite("Input with mask", suite => {
       action.sendKeys(input, gemini.TAB);
     });
 });
+
+gemini.suite("Input with prefix and suffix", () => {
+  gemini.suite("Size small", suite => {
+    suite
+      .setUrl(pathTo("Input", "Prefix and suffics"))
+      .setCaptureElements("#inputWithPrefixOrSuffx-small")
+      .capture("Plain")
+      .capture("First input focused", (actions, find) => {
+        actions.focus(find("input"));
+      });
+  });
+
+  gemini.suite("Size medium", suite => {
+    suite
+      .setUrl(pathTo("Input", "Prefix and suffics"))
+      .setCaptureElements("#inputWithPrefixOrSuffx-medium")
+      .capture("Plain")
+      .capture("First input focused", (actions, find) => {
+        actions.focus(find("input"));
+      });
+  });
+
+  gemini.suite("Size large", suite => {
+    suite
+      .setUrl(pathTo("Input", "Prefix and suffics"))
+      .setCaptureElements("#inputWithPrefixOrSuffx-large")
+      .capture("Plain")
+      .capture("First input focused", (actions, find) => {
+        actions.focus(find("input"));
+      });
+  });
+});
