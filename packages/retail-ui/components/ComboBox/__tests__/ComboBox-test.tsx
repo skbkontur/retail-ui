@@ -140,6 +140,30 @@ describe('ComboBox', () => {
     expect(search).toHaveBeenCalledTimes(2);
   });
 
+  it('keeps focus after a click on the refresh button', async () => {
+    const search = jest.fn(() => Promise.reject());
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} renderItem={x => x} />
+    );
+
+    wrapper.instance().focus();
+    await delay(0);
+    wrapper.update();
+
+    const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+
+    inputNode.blur(); // simulate blur from real click
+    wrapper
+      .find(MenuItem)
+      .last()
+      .simulate('click');
+    await delay(0);
+    wrapper.update();
+
+    expect(search).toHaveBeenCalledTimes(2);
+    expect(inputNode).toBe(document.activeElement);
+  });
+
   it('calls onUnexpectedInput on click outside', async () => {
     const search = jest.fn(() => Promise.reject());
     const onUnexpectedInput = jest.fn();
