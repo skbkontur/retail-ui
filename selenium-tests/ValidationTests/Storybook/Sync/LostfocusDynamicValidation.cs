@@ -15,13 +15,13 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         public void TestValidationDoesNotDisappear()
         {
             var page = new Page(GetWebDriver()).Wait();
-            page.InputBValidation.IsPresent.Wait().True();
+            page.InputBValidation.WaitPresent();
             page.InputA.SetValue("bad");
-            page.InputA.WithError().Wait().True();
+            page.InputA.WaitError();
             var text = page.InputAValidation.Label.Text.Wait().That(Does.StartWith("incorrect times:"));
 
             page.InputB.InputValue("xxx");
-            page.InputA.WithError().Wait().True();
+            page.InputA.WaitError();
             page.InputAValidation.Label.Text.Wait().That(Does.StartWith("incorrect times:").And.Not.EqualTo(text));
         }
 
@@ -43,7 +43,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
 
             public Page Wait()
             {
-                InputA.IsPresent.Wait().True();
+                InputA.WaitPresent();
                 return this;
             }
         }

@@ -16,20 +16,20 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         {
             var page = new Page(GetWebDriver()).Wait();
             page.InputA.SetValue("ba");
-            page.InputA.WithError().Wait().False();
-            page.InputAValidation.Label.IsPresent.Wait().False();
+            page.InputA.WaitNoError();
+            page.InputAValidation.Label.WaitAbsent();
 
             page.InputB.InputValue("ba");
-            page.InputA.WithError().Wait().False();
-            page.InputAValidation.Label.IsPresent.Wait().False();
-            page.InputB.WithError().Wait().False();
-            page.InputBValidation.Label.IsPresent.Wait().False();
+            page.InputA.WaitNoError();
+            page.InputAValidation.Label.WaitAbsent();
+            page.InputB.WaitNoError();
+            page.InputBValidation.Label.WaitAbsent();
 
             page.InputB.TabOut();
-            page.InputA.WithError().Wait().True();
-            page.InputAValidation.Label.Text.Wait().EqualTo("duplicate value");
-            page.InputB.WithError().Wait().False();
-            page.InputBValidation.Label.IsPresent.Wait().False();
+            page.InputA.WaitError();
+            page.InputAValidation.Label.WaitText("duplicate value");
+            page.InputB.WaitNoError();
+            page.InputBValidation.Label.WaitAbsent();
         }
 
         [Test]
@@ -38,16 +38,16 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             var page = new Page(GetWebDriver()).Wait();
             page.InputA.SetValue("ba");
             page.InputB.SetValue("ba");
-            page.InputA.WithError().Wait().True();
-            page.InputAValidation.Label.Text.Wait().EqualTo("duplicate value");
+            page.InputA.WaitError();
+            page.InputAValidation.Label.WaitText("duplicate value");
 
             page.InputB.InputValue("b");
-            page.InputA.WithError().Wait().False();
-            page.InputAValidation.Label.IsPresent.Wait().False();
+            page.InputA.WaitNoError();
+            page.InputAValidation.Label.WaitAbsent();
 
             page.InputB.TabOut();
-            page.InputA.WithError().Wait().False();
-            page.InputAValidation.Label.IsPresent.Wait().False();
+            page.InputA.WaitNoError();
+            page.InputAValidation.Label.WaitAbsent();
         }
 
         [Test]
@@ -56,16 +56,16 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             var page = new Page(GetWebDriver()).Wait();
             page.InputA.SetValue("ba");
             page.InputB.SetValue("ba");
-            page.InputA.WithError().Wait().True();
-            page.InputAValidation.Label.Text.Wait().EqualTo("duplicate value");
+            page.InputA.WaitError();
+            page.InputAValidation.Label.WaitText("duplicate value");
 
             page.InputB.InputValue("ba");
-            page.InputA.WithError().Wait().True();
-            page.InputAValidation.Label.Text.Wait().EqualTo("duplicate value");
+            page.InputA.WaitError();
+            page.InputAValidation.Label.WaitText("duplicate value");
 
             page.InputB.TabOut();
-            page.InputA.WithError().Wait().True();
-            page.InputAValidation.Label.Text.Wait().EqualTo("duplicate value");
+            page.InputA.WaitError();
+            page.InputAValidation.Label.WaitText("duplicate value");
         }
 
         [Test]
@@ -74,16 +74,16 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             var page = new Page(GetWebDriver()).Wait();
             page.InputA.SetValue("ba");
             page.InputB.SetValue("ba");
-            page.InputA.WithError().Wait().True();
-            page.InputAValidation.Label.Text.Wait().EqualTo("duplicate value");
+            page.InputA.WaitError();
+            page.InputAValidation.Label.WaitText("duplicate value");
 
             page.InputA.InputValue("b");
-            page.InputA.WithError().Wait().False();
-            page.InputAValidation.Label.IsPresent.Wait().False();
+            page.InputA.WaitNoError();
+            page.InputAValidation.Label.WaitAbsent();
 
             page.InputA.TabOut();
-            page.InputA.WithError().Wait().False();
-            page.InputAValidation.Label.IsPresent.Wait().False();
+            page.InputA.WaitNoError();
+            page.InputAValidation.Label.WaitAbsent();
         }
 
         [Test]
@@ -92,16 +92,16 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             var page = new Page(GetWebDriver()).Wait();
             page.InputA.SetValue("ba");
             page.InputB.SetValue("ba");
-            page.InputA.WithError().Wait().True();
-            page.InputAValidation.Label.Text.Wait().EqualTo("duplicate value");
+            page.InputA.WaitError();
+            page.InputAValidation.Label.WaitText("duplicate value");
 
             page.InputA.InputValue("ba");
-            page.InputA.WithError().Wait().False();
-            page.InputAValidation.Label.IsPresent.Wait().False();
+            page.InputA.WaitNoError();
+            page.InputAValidation.Label.WaitAbsent();
 
             page.InputA.TabOut();
-            page.InputA.WithError().Wait().True();
-            page.InputAValidation.Label.Text.Wait().EqualTo("duplicate value");
+            page.InputA.WaitError();
+            page.InputAValidation.Label.WaitText("duplicate value");
         }
 
         private class Page : PageBase
@@ -126,7 +126,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
 
             public Page Wait()
             {
-                SubmitButton.IsPresent.Wait().True();
+                SubmitButton.WaitPresent();
                 return this;
             }
         }

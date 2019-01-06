@@ -14,8 +14,8 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         {
             var page = new SingleInputPage(GetWebDriver()).Wait();
             page.Input.Value.Wait().EqualTo("bad");
-            page.Input.WithError().Wait().True();
-            page.InputValidation.Label.Text.Wait().EqualTo("incorrect value");
+            page.Input.WaitError();
+            page.InputValidation.Label.WaitText("incorrect value");
         }
 
         [Test]
@@ -28,12 +28,12 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             page.Input.SendKeys(Keys.End);
             page.Input.SendKeys("d");
 
-            page.Input.WithError().Wait().False();
-            page.InputValidation.Label.Text.Wait().EqualTo("incorrect value");
+            page.Input.WaitNoError();
+            page.InputValidation.Label.WaitText("incorrect value");
 
             page.Input.TabOut();
-            page.Input.WithError().Wait().True();
-            page.InputValidation.Label.Text.Wait().EqualTo("incorrect value");
+            page.Input.WaitError();
+            page.InputValidation.Label.WaitText("incorrect value");
         }
     }
 }

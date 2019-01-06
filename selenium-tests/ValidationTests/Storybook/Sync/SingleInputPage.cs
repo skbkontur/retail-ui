@@ -24,7 +24,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
 
         public SingleInputPage Wait()
         {
-            SubmitButton.IsPresent.Wait().True();
+            SubmitButton.WaitPresent();
             return this;
         }
     }
