@@ -14,7 +14,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestInvalid()
         {
-            var page = new Page(GetWebDriver()).Wait();
+            var page = new Page(GetWebDriver()).WaitReady();
             page.InputA.SetValue("ba");
             page.InputA.WaitNoError();
             page.InputAValidation.Label.WaitAbsent();
@@ -35,7 +35,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestChangeB_UpdateInvalidToValid()
         {
-            var page = new Page(GetWebDriver()).Wait();
+            var page = new Page(GetWebDriver()).WaitReady();
             page.InputA.SetValue("ba");
             page.InputB.SetValue("ba");
             page.InputA.WaitError();
@@ -53,7 +53,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestChangeB_UpdateInvalidToInvalid()
         {
-            var page = new Page(GetWebDriver()).Wait();
+            var page = new Page(GetWebDriver()).WaitReady();
             page.InputA.SetValue("ba");
             page.InputB.SetValue("ba");
             page.InputA.WaitError();
@@ -71,7 +71,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestChangeA_UpdateInvalidToValid()
         {
-            var page = new Page(GetWebDriver()).Wait();
+            var page = new Page(GetWebDriver()).WaitReady();
             page.InputA.SetValue("ba");
             page.InputB.SetValue("ba");
             page.InputA.WaitError();
@@ -89,7 +89,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestChangeA_UpdateInvalidToValidToInvalid()
         {
-            var page = new Page(GetWebDriver()).Wait();
+            var page = new Page(GetWebDriver()).WaitReady();
             page.InputA.SetValue("ba");
             page.InputB.SetValue("ba");
             page.InputA.WaitError();
@@ -124,7 +124,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             public Button SubmitButton { get; }
             public Label ValidationState { get; }
 
-            public Page Wait()
+            public Page WaitReady()
             {
                 SubmitButton.WaitPresent();
                 return this;

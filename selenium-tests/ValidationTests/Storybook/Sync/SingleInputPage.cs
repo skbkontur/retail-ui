@@ -22,7 +22,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         public Button SubmitButton { get; }
         public Label ValidationState { get; }
 
-        public SingleInputPage Wait()
+        public SingleInputPage WaitReady()
         {
             SubmitButton.WaitPresent();
             return this;

@@ -10,7 +10,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestValidByDefault()
         {
-            var page = new SingleInputPage(GetWebDriver()).Wait();
+            var page = new SingleInputPage(GetWebDriver()).WaitReady();
             page.Input.Value.Wait().EqualTo("bad");
             page.Input.WaitNoError();
             page.ValidationState.WaitText("none");
@@ -20,7 +20,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestValidateOnSubmit()
         {
-            var page = new SingleInputPage(GetWebDriver()).Wait();
+            var page = new SingleInputPage(GetWebDriver()).WaitReady();
             page.Input.Value.Wait().EqualTo("bad");
 
             page.SubmitButton.Click();

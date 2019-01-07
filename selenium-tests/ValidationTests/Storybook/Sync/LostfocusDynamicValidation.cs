@@ -14,7 +14,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         [Test]
         public void TestValidationDoesNotDisappear()
         {
-            var page = new Page(GetWebDriver()).Wait();
+            var page = new Page(GetWebDriver()).WaitReady();
             page.InputBValidation.WaitPresent();
             page.InputA.SetValue("bad");
             page.InputA.WaitError();
@@ -41,7 +41,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             public ValidationWrapper InputBValidation { get; }
             public Input InputB { get; }
 
-            public Page Wait()
+            public Page WaitReady()
             {
                 InputA.WaitPresent();
                 return this;
