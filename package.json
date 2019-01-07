@@ -41,7 +41,7 @@
         "@storybook/addons": "3.4.10",
         "@storybook/react": "3.4.10",
         "@types/lodash.isequal": "4.5.2",
-        "@types/react": "@^0.14.9 || ^15.0.25 || ^16.0.0",
+        "@types/react": "^0.14.9 || ^15.0.25 || ^16.0.0",
         "@types/react-dom": "^0.14.0 || ^15.0.0 || ^16.0.0",
         "@types/storybook__react": "^3.0.7",
         "babel-cli": "^6.22.2",
