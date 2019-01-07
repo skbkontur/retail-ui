@@ -8,3 +8,6 @@ retail-ui-dist
 react-ui-dist
 .rpt2_cache
 declaration/
+packages/
+[Bb]in/
+[Oo]bj/
