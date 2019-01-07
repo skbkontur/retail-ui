@@ -62,7 +62,7 @@
         "eslint-plugin-prettier": "^2.5.0",
         "eslint-plugin-react": "^7.5.1",
         "fs-readdir-recursive": "^1.0.0",
-        "less": "^2.7.2",
+        "less": "^3.9.0",
         "less-loader": "^4.0.5",
         "output-file-sync": "^2.0.0",
         "prettier": "^1.10.2",
