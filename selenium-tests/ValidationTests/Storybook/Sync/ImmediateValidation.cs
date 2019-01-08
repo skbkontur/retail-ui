@@ -19,7 +19,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         }
 
         [Test]
-        public void TestValidateImmediatly()
+        public void TestValidateImmediately()
         {
             var page = new SingleInputPage(GetWebDriver()).WaitReady();
             page.Input.InputValue("bad");

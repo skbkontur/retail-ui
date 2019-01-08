@@ -22,10 +22,10 @@ export interface ValidationTooltipProps {
     render?: () => React.ReactNode;
 }
 
-type ValidationTooltipState = {
-    focus: boolean,
-    mouseOver: boolean,
-};
+interface ValidationTooltipState {
+    focus: boolean;
+    mouseOver: boolean;
+}
 
 export default class ValidationTooltip extends React.Component<ValidationTooltipProps, ValidationTooltipState> {
     state: ValidationTooltipState = {
