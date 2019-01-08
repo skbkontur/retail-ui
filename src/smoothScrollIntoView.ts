@@ -57,16 +57,16 @@ function smoothScroll(element: HTMLElement, x: number, y: number): Promise<void>
     return new Promise(resolve => step({ ...context, resolve: resolve }));
 }
 
-type StepContent = {
-    scrollable: HTMLElement,
-    startTime: number,
-    startX: number,
-    startY: number,
-    x: number,
-    y: number,
-    method: (element: Element, x: number, y: number) => void,
-    resolve: () => void,
-};
+interface StepContent {
+    scrollable: HTMLElement;
+    startTime: number;
+    startX: number;
+    startY: number;
+    x: number;
+    y: number;
+    method: (element: Element, x: number, y: number) => void;
+    resolve: () => void;
+}
 
 function step(context: StepContent) {
     const time = now();

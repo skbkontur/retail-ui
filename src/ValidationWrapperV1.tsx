@@ -1,19 +1,19 @@
 import * as React from "react";
 import { Nullable } from "./Types";
-import ValidationWrapper, { RenderErrorMessage } from "./ValidationWrapper";
+import ValidationWrapper, { RenderErrorMessage, ValidationLevel, ValidationBehaviour } from "./ValidationWrapper";
 import { tooltip } from "./ErrorRenderer";
 
-export type ValidationInfo = {
-    type?: "immediate" | "lostfocus" | "submit",
-    level?: "error" | "warning",
-    message: React.ReactNode,
-};
+export interface ValidationInfo {
+    type?: ValidationBehaviour;
+    level?: ValidationLevel;
+    message: React.ReactNode;
+}
 
-export type ValidationWrapperV1Props = {
-    children: React.ReactElement<any>,
-    validationInfo: Nullable<ValidationInfo>,
-    renderMessage?: RenderErrorMessage,
-};
+export interface ValidationWrapperV1Props {
+    children: React.ReactElement<any>;
+    validationInfo: Nullable<ValidationInfo>;
+    renderMessage?: RenderErrorMessage;
+}
 
 export default class ValidationWrapperV1 extends React.Component<ValidationWrapperV1Props> {
     render() {

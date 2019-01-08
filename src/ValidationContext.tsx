@@ -18,12 +18,12 @@ export interface IValidationContext {
     isAnyWrapperInChangingMode(): boolean;
 }
 
-export type ValidationContextProps = {
-    children?: React.ReactNode,
-    onValidationUpdated?: (isValid?: boolean) => void,
-    horizontalOffset?: number,
-    verticalOffset?: number,
-};
+export interface ValidationContextProps {
+    children?: React.ReactNode;
+    onValidationUpdated?: (isValid?: boolean) => void;
+    horizontalOffset?: number;
+    verticalOffset?: number;
+}
 
 export default class ValidationContext extends React.Component<ValidationContextProps> {
     static childContextTypes = {

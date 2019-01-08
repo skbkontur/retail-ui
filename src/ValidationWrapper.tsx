@@ -13,12 +13,16 @@ if (typeof HTMLElement === "undefined") {
     w.HTMLElement = w.Element;
 }
 
-export type Validation = {
-    error: boolean,
-    level: "error" | "warning",
-    behaviour: "immediate" | "lostfocus" | "submit",
-    message: React.ReactNode,
-};
+export type ValidationBehaviour = "immediate" | "lostfocus" | "submit";
+
+export type ValidationLevel = "error" | "warning";
+
+export interface Validation {
+    error: boolean;
+    level: ValidationLevel;
+    behaviour: ValidationBehaviour;
+    message: React.ReactNode;
+}
 
 export type RenderErrorMessage = (
     control: React.ReactElement<any>,
@@ -26,19 +30,19 @@ export type RenderErrorMessage = (
     validation: Nullable<Validation>,
 ) => React.ReactElement<any>;
 
-export type ValidationWrapperProps = {
-    children?: React.ReactElement<any>,
-    validations: Validation[],
-    errorMessage: RenderErrorMessage,
-};
+export interface ValidationWrapperProps {
+    children?: React.ReactElement<any>;
+    validations: Validation[];
+    errorMessage: RenderErrorMessage;
+}
 
-type ValidationState = {
-    visible?: boolean,
-};
+interface ValidationState {
+    visible?: boolean;
+}
 
-type ValidationWrapperState = {
-    validationStates: ValidationState[],
-};
+interface ValidationWrapperState {
+    validationStates: ValidationState[];
+}
 
 interface Point {
     x: number;

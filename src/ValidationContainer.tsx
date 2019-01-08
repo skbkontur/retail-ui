@@ -2,11 +2,11 @@ import * as React from "react";
 import { Nullable } from "./Types";
 import ValidationContext from "./ValidationContext";
 
-export type ValidationContainerProps = {
-    children?: React.ReactNode,
-    onValidationUpdated?: (isValid?: Nullable<boolean>) => void,
-    scrollOffset?: number,
-};
+export interface ValidationContainerProps {
+    children?: React.ReactNode;
+    onValidationUpdated?: (isValid?: Nullable<boolean>) => void;
+    scrollOffset?: number;
+}
 
 export default class ValidationContainer extends React.Component<ValidationContainerProps> {
     async submit(withoutFocus: boolean = false): Promise<void> {
