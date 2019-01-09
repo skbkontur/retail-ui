@@ -69,16 +69,20 @@ class Hint extends React.Component<HintProps, HintState> {
   };
 
   public state: HintState = {
-    opened: false
+    opened: this.props.manual ? !!this.props.opened : false
   };
 
   private timer: Nullable<TimeoutID> = null;
   private captionNode: Nullable<HTMLElement> = null;
 
   public componentDidMount() {
-    this.setState({
-      opened: this.props.manual ? !!this.props.opened : false
-    });
+    /**
+     * captionNode is absent on initial mount
+     * Rendering again to show popup
+     */
+    if (this.state.opened) {
+      this.forceUpdate();
+    }
   }
 
   public componentWillReceiveProps(nextProps: HintProps) {
