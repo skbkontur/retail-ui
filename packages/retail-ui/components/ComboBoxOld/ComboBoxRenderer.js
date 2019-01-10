@@ -411,7 +411,7 @@ class ComboBoxRenderer extends React.Component<Props, State> {
   };
 
   _handleArrowClick = (event: SyntheticMouseEvent<>) => {
-    if (!this.state.opened) {
+    if (!this.state.opened && !this.props.disabled) {
       this._handleValueClick();
     }
   };
