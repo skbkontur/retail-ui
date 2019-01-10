@@ -54,9 +54,10 @@ let requestId = 0;
 const searchFactory = (query: string): EffectType => (
   dispatch,
   getState,
-  getProps
+  getProps,
+  getInstance
 ) => {
-  async function makeRequest() {
+  const makeRequest = async () => {
     dispatch({ type: 'RequestItems' });
     const { getItems } = getProps();
     const expectingId = ++requestId;
@@ -67,10 +68,14 @@ const searchFactory = (query: string): EffectType => (
       }
     } catch (e) {
       if (expectingId === requestId) {
-        dispatch({ type: 'RequestFailure', repeatRequest: makeRequest });
+        dispatch({ type: 'RequestFailure', repeatRequest });
       }
     }
-  }
+  };
+  const repeatRequest = () => {
+    makeRequest();
+    Effect.InputFocus(dispatch, getState, getProps, getInstance);
+  };
   makeRequest();
 };
 const getValueString = (value: any, valueToString: Props['valueToString']) => {
