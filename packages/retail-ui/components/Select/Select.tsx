@@ -256,6 +256,13 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     this._close();
   }
 
+  /**
+   * @public
+   */
+  public focus() {
+    this._focus();
+  }
+
   private renderLabel() {
     const value = this._getValue();
     const item = this._getItemByValue(value);
@@ -507,6 +514,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
   private _focus = () => {
     const node = ReactDOM.findDOMNode(this);
     if (node && node instanceof HTMLElement) {
+      node.tabIndex = 0;
       node.focus();
     }
   };
