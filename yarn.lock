@@ -501,7 +501,7 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@skbkontur/react-icons@^3.0.0":
+"@skbkontur/react-icons@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-3.1.2.tgz#aa685e4ba57b1f72fdc364e123478bb9500caaae"
   integrity sha512-Yo8YxTEYnJA4iKY33nhKdodqW3JpmmcLCwmS1WWtpftIN3KP1nlLzJywMh17nZbDVY5WKb1YS2VD2rQLHeDxtQ==
