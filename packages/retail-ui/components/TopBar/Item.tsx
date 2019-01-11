@@ -69,7 +69,7 @@ class Item extends React.Component<ItemProps> {
             <CapIcon color="#666" name={icon} />
           </span>
         )}
-        {children}
+        {icon && iconOnly ? null : children}
       </div>
     );
   }
