@@ -14,6 +14,7 @@ import RenderLayer from '../RenderLayer';
 import Center from '../Center';
 
 import styles from './DatePicker.less';
+import { isIE } from '../ensureOldIEClassName';
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -121,7 +122,6 @@ class DatePickerOld extends React.Component {
    * @public
    */
   blur() {
-    this.input.blur();
     this.handleBlur();
   }
 
@@ -129,13 +129,13 @@ class DatePickerOld extends React.Component {
    * @public
    */
   focus() {
-    this.input.focus();
+    this.input.selectAll();
     this.handleFocus();
   }
 
   render() {
     const { opened } = this.state;
-    const { value, menuAlign } = this.props;
+    const { value, menuAlign, width } = this.props;
 
     const date = isDate(value) ? value : null;
     let picker = null;
@@ -166,12 +166,8 @@ class DatePickerOld extends React.Component {
       [styles.openButtonDisabled]: this.props.disabled
     });
     return (
-      <RenderLayer
-        onClickOutside={this.handleBlur}
-        onFocusOutside={this.handleBlur}
-        active={opened}
-      >
-        <label className={className} style={{ width: this.props.width }}>
+      <RenderLayer active={opened}>
+        <label className={className} style={{ width }}>
           <DateInput
             {...filterProps(this.props, INPUT_PASS_PROPS)}
             getInputRef={this.getInputRef}
@@ -180,6 +176,7 @@ class DatePickerOld extends React.Component {
             onFocus={this.handleFocus}
             onChange={this.handleChange}
             onSubmit={this._handleSubmit}
+            onBlur={this.handleBlur}
           />
           {picker}
           <Center
@@ -246,6 +243,7 @@ class DatePickerOld extends React.Component {
     if (this.props.onBlur) {
       this.props.onBlur();
     }
+    this.input.blur();
   };
 
   _handleSubmit = () => {
@@ -273,7 +271,12 @@ class DatePickerOld extends React.Component {
     if (this.props.onBlur) {
       this.props.onBlur();
     }
-    this.blur();
+    if (isIE) {
+      // NOTE In IE can't blur input with mask https://github.com/sanniassin/react-input-mask/issues/73
+      setTimeout(() => this.input.blur());
+    } else {
+      this.input.blur();
+    }
   };
 
   handlePickerClose = () => {

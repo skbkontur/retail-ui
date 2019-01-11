@@ -189,6 +189,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       selectAllOnFocus,
       className,
       style,
+      placeholder,
       ...textareaProps
     } = this.props;
 
@@ -208,11 +209,11 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       resize: autoResize ? 'none' : resize
     };
 
-    let placeholder = null;
+    let placeholderPolyfill = null;
 
     if (this.state.polyfillPlaceholder && !textareaProps.value) {
-      placeholder = (
-        <span className={styles.placeholder}>{textareaProps.placeholder}</span>
+      placeholderPolyfill = (
+        <span className={styles.placeholder}>{placeholder}</span>
       );
     }
 
@@ -228,12 +229,18 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
 
     return (
-      <label {...rootProps} className={styles.root}>
-        {placeholder}
+      <label
+        {...rootProps}
+        className={classNames(styles.root, {
+          [styles.size16]: Upgrades.isSizeMedium16pxEnabled()
+        })}
+      >
+        {placeholderPolyfill}
         <textarea
           {...textareaProps}
           className={textareaClassNames}
           style={textAreaStyle}
+          placeholder={!placeholderPolyfill ? placeholder : undefined}
           ref={this.ref}
           onChange={this.handleChange}
           onCut={this.handleCut}

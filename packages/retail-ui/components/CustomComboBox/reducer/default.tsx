@@ -54,9 +54,10 @@ let requestId = 0;
 const searchFactory = (query: string): EffectType => (
   dispatch,
   getState,
-  getProps
+  getProps,
+  getInstance
 ) => {
-  async function makeRequest() {
+  const makeRequest = async () => {
     dispatch({ type: 'RequestItems' });
     const { getItems } = getProps();
     const expectingId = ++requestId;
@@ -67,10 +68,14 @@ const searchFactory = (query: string): EffectType => (
       }
     } catch (e) {
       if (expectingId === requestId) {
-        dispatch({ type: 'RequestFailure', repeatRequest: makeRequest });
+        dispatch({ type: 'RequestFailure', repeatRequest });
       }
     }
-  }
+  };
+  const repeatRequest = () => {
+    makeRequest();
+    Effect.InputFocus(dispatch, getState, getProps, getInstance);
+  };
   makeRequest();
 };
 const getValueString = (value: any, valueToString: Props['valueToString']) => {
@@ -230,7 +235,9 @@ const reducers: { [type: string]: Reducer } = {
 
     return {
       opened: false,
-      textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString)
+      textValue: state.editing
+        ? state.textValue
+        : getValueString(props.value, props.valueToString)
     } as State;
   },
   Blur(state, props, action) {
@@ -347,7 +354,7 @@ const reducers: { [type: string]: Reducer } = {
         {
           opened: true
         },
-        [Effect.Search(state.textValue)]
+        [Effect.Search('')]
       ];
     }
     return state;
@@ -401,10 +408,7 @@ const reducers: { [type: string]: Reducer } = {
     };
   },
   Search: (state, props, { query }) => {
-    return [
-      state,
-      [Effect.Search(query)]
-    ];
+    return [state, [Effect.Search(query)]];
   }
 };
 

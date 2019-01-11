@@ -140,6 +140,30 @@ describe('ComboBox', () => {
     expect(search).toHaveBeenCalledTimes(2);
   });
 
+  it('keeps focus after a click on the refresh button', async () => {
+    const search = jest.fn(() => Promise.reject());
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} renderItem={x => x} />
+    );
+
+    wrapper.instance().focus();
+    await delay(0);
+    wrapper.update();
+
+    const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+
+    inputNode.blur(); // simulate blur from real click
+    wrapper
+      .find(MenuItem)
+      .last()
+      .simulate('click');
+    await delay(0);
+    wrapper.update();
+
+    expect(search).toHaveBeenCalledTimes(2);
+    expect(inputNode).toBe(document.activeElement);
+  });
+
   it('calls onUnexpectedInput on click outside', async () => {
     const search = jest.fn(() => Promise.reject());
     const onUnexpectedInput = jest.fn();
@@ -210,9 +234,7 @@ describe('ComboBox', () => {
     await promise;
     wrapper.update();
 
-    expect(
-      wrapper.find(Menu).containsAllMatchingElements(items)
-    ).toBeTruthy();
+    expect(wrapper.find(Menu).containsAllMatchingElements(items)).toBeTruthy();
   });
 
   it('calls default onClick on custom element select', async () => {
@@ -319,10 +341,7 @@ describe('ComboBox', () => {
   });
 
   describe('update input text when value changes if there was no editing', () => {
-    const VALUES = [
-      { value: 1, label: 'one' },
-      { value: 2, label: 'two' },
-    ];
+    const VALUES = [{ value: 1, label: 'one' }, { value: 2, label: 'two' }];
     const blur = (wrapper: any) => {
       // when menu is not opened (after focus in autocomplete mode),
       // clickOutside doesn't work, unlike the input blur.
@@ -384,16 +403,11 @@ describe('ComboBox', () => {
     });
   });
 
-
   it('does not do search on focus in autocomplete mode', () => {
     const VALUE = { value: 1, label: 'one' };
     const getItems = jest.fn();
     const wrapper = mount<ComboBox<any>>(
-      <ComboBox
-        getItems={getItems}
-        value={VALUE}
-        autocomplete={true}
-      />
+      <ComboBox getItems={getItems} value={VALUE} autocomplete={true} />
     );
 
     wrapper.instance().focus();
@@ -401,7 +415,6 @@ describe('ComboBox', () => {
 
     expect(getItems).toHaveBeenCalledTimes(0);
     expect(wrapper.find(Menu)).toHaveLength(0);
-
   });
 
   it('reset', () => {
@@ -462,20 +475,30 @@ describe('ComboBox', () => {
     );
   });
 
-  it('opens and closes by methods', async () => {
-    const wrapper = mount<ComboBox<any>>(
-      <ComboBox />
-    );
+  describe('open/close methods', () => {
+    let wrapper: ReactWrapper<{}, {}, ComboBox<any>>;
 
-    expect(wrapper.find(Menu)).toHaveLength(0);
+    beforeEach(() => {
+      wrapper = mount<ComboBox<any>>(<ComboBox />);
+      wrapper.instance().open();
+      wrapper.update();
+    });
 
-    wrapper.instance().open();
-    wrapper.update();
-    expect(wrapper.find(Menu)).toHaveLength(1);
+    it('opens', () => {
+      expect(wrapper.find(Menu)).toHaveLength(1);
+    });
 
-    wrapper.instance().close();
-    wrapper.update();
-    expect(wrapper.find(Menu)).toHaveLength(0);
+    it('closes', () => {
+      wrapper.instance().close();
+      wrapper.update();
+      expect(wrapper.find(Menu)).toHaveLength(0);
+    });
+
+    it('closes on clickOutside', () => {
+      clickOutside();
+      wrapper.update();
+      expect(wrapper.find(Menu)).toHaveLength(0);
+    });
   });
 
   describe('search by method', () => {
@@ -529,6 +552,9 @@ describe('ComboBox', () => {
     wrapper.update();
     onFocus.mockClear();
 
+    const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+
+    inputNode.blur(); // simulate blur from real click
     wrapper
       .find(MenuItem)
       .first()
@@ -537,12 +563,76 @@ describe('ComboBox', () => {
     await delay(0); // await for restore focus
     wrapper.update();
 
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input).toBeTruthy();
-    expect(input).toBe(document.activeElement); // input has focus
-    expect(input.selectionStart).toBe(input.selectionEnd); // input text is not selected
+    expect(inputNode).toBeTruthy();
+    expect(inputNode).toBe(document.activeElement); // input has focus
+    expect(inputNode.selectionStart).toBe(inputNode.selectionEnd); // input text is not selected
 
     expect(onFocus).toHaveBeenCalledTimes(0);
     expect(onBlur).toHaveBeenCalledTimes(0);
+  });
+
+  describe('click on input', () => {
+    const VALUE = { value: 1, label: 'one' };
+    type TComboBoxWrapper = ReactWrapper<{}, {}, ComboBox<typeof VALUE>>;
+    const clickOnInput = (comboboxWrapper: TComboBoxWrapper) => {
+      comboboxWrapper.update();
+      comboboxWrapper.find('input').simulate('click');
+    };
+    const getItems = jest.fn();
+    let wrapper: TComboBoxWrapper;
+
+    describe('in default mode', () => {
+      beforeEach(() => {
+        wrapper = mount<ComboBox<typeof VALUE>>(
+          <ComboBox getItems={getItems} value={VALUE} />
+        );
+        wrapper.instance().focus();
+        getItems.mockClear();
+      });
+
+      it('opens menu if it is closed', () => {
+        wrapper.instance().close();
+        clickOnInput(wrapper);
+        expect(wrapper.find(Menu)).toHaveLength(1);
+      });
+
+      it('runs empty search if menu is closed', () => {
+        wrapper.instance().close();
+        clickOnInput(wrapper);
+        expect(getItems).toHaveBeenCalledWith('');
+      });
+
+      it("doesn't run search if menu is open", () => {
+        clickOnInput(wrapper);
+        expect(getItems).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    describe('in autocomplete mode', () => {
+      beforeEach(() => {
+        wrapper = mount<ComboBox<typeof VALUE>>(
+          <ComboBox autocomplete={true} getItems={getItems} value={VALUE} />
+        );
+        wrapper.instance().focus();
+        getItems.mockClear();
+      });
+
+      it("doesn't open menu if it is closed", () => {
+        wrapper.instance().close();
+        clickOnInput(wrapper);
+        expect(wrapper.find(Menu)).toHaveLength(0);
+      });
+
+      it("doesn't run search if menu is closed", () => {
+        wrapper.instance().close();
+        clickOnInput(wrapper);
+        expect(getItems).toHaveBeenCalledTimes(0);
+      });
+
+      it("doesn't run search if menu is open", () => {
+        clickOnInput(wrapper);
+        expect(getItems).toHaveBeenCalledTimes(0);
+      });
+    });
   });
 });
