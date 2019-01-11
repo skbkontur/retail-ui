@@ -200,6 +200,7 @@ class Input extends React.Component<InputProps, InputState> {
       selectAllOnFocus,
       disabled,
       onUnexpectedInput,
+      formatChars,
       ...rest
     } = this.props;
 
@@ -282,6 +283,7 @@ class Input extends React.Component<InputProps, InputState> {
         hasLeftIcon={!!this.props.leftIcon}
         hasRightIcon={!!this.props.rightIcon}
         onUnexpectedInput={this.handleUnexpectedInput}
+        formatChars={this.props.formatChars}
       />
     );
   }
