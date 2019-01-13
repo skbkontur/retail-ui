@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 
-import Icon, { IconName } from '../Icon';
+import Icons, { IconName } from '@skbkontur/react-icons';
 
 const rootStyle: Partial<React.CSSProperties> = {
   display: 'flex',
@@ -19,6 +19,7 @@ interface TestIconProps {
 class TestIcon extends React.Component<TestIconProps> {
   public render() {
     const { name } = this.props;
+    const Icon = Icons[name];
     return (
       <div
         style={{
@@ -27,14 +28,14 @@ class TestIcon extends React.Component<TestIconProps> {
         }}
       >
         <div>
-          <Icon name={name} /> <span>{name}</span>
+          <Icon /> <span>{name}</span>
         </div>
         <div>
-          <span>{name.slice(0, name.length / 2)}</span> <Icon name={name} />{' '}
+          <span>{name.slice(0, name.length / 2)}</span> <Icon />{' '}
           <span>{name.slice(name.length / 2)}</span>
         </div>
         <div>
-          <span>{name}</span> <Icon name={name} />
+          <span>{name}</span> <Icon />
         </div>
       </div>
     );
@@ -43,7 +44,7 @@ class TestIcon extends React.Component<TestIconProps> {
 
 storiesOf('Icon', module).add('All icons', () => (
   <div style={rootStyle}>
-    {Icon.getAllNames()
+    {(Object.keys(Icons) as IconName[])
       .filter(name => !iconUpdates.every(update => update.includes(name)))
       .sort()
       .map(name => (

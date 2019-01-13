@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Select from '../Select';
+import AddIcon from '@skbkontur/react-icons/Add';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
@@ -72,7 +73,7 @@ storiesOf('Select', module)
   .add('With null', () => <SelectWithNull />)
   .add('use link', () => <Select use="link" items={['one', 'two', 'three']} />)
   .add('use link with icon', () => (
-    <Select _icon="Add" use="link" items={['one', 'two', 'three']} />
+    <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />
   ))
   .add('with text overflow', () => (
     <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />
