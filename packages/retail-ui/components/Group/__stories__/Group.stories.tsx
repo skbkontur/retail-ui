@@ -7,18 +7,20 @@ import Input from '../../Input';
 import Button from '../../Button';
 import Toast from '../../Toast';
 import UserIcon from '@skbkontur/react-icons/User';
+import SearchIcon from '@skbkontur/react-icons/Search';
+import DeleteIcon from '@skbkontur/react-icons/Delete';
 
 storiesOf('Group', module)
   .add('Simple Group with Input and Button', () => (
     <Group width="300px">
       <Input placeholder="Search" mainInGroup />
-      <Button icon="Search" />
+      <Button icon={<SearchIcon />} />
     </Group>
   ))
   .add('Simple Group with custom Inputs width', () => (
     <Group>
       <Input placeholder="Search" width="300px" />
-      <Button icon="Search" />
+      <Button icon={<SearchIcon />} />
       <Input placeholder="Search" width="100px" />
     </Group>
   ))
@@ -26,7 +28,7 @@ storiesOf('Group', module)
     <Group>
       <Button>Clear</Button>
       <Input placeholder="Search" mainInGroup />
-      <Button icon="Search" />
+      <Button icon={<SearchIcon />} />
       <Button>Cancel</Button>
     </Group>
   ))
@@ -39,7 +41,11 @@ storiesOf('Group', module)
   ))
   .add('Complex elements', () => (
     <Group>
-      <Button icon="Delete" onClick={() => Toast.push('Clear!')} width="10px" />
+      <Button
+        icon={<DeleteIcon />}
+        onClick={() => Toast.push('Clear!')}
+        width="10px"
+      />
       <Input
         placeholder="Disabled"
         disabled
