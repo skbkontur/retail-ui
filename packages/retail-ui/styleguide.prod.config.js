@@ -49,6 +49,7 @@ config.sections = [
   { name: 'Readme', content: 'README.md', exampleMode: 'expand' },
   { name: 'Changelog', content: 'CHANGELOG.md' },
   { name: 'Roadmap', content: 'ROADMAP.md' },
+  { name: 'Icons', content: './components/Icon/README.md' },
   { name: 'Components', components: config.components, sectionDepth: 1 }
 ];
 config.sections.push(versionSection);
