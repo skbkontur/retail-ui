@@ -50,7 +50,6 @@ export default class MaskedInput extends React.Component<
   public render() {
     const {
       maskChar,
-      formatChars,
       alwaysShowMask,
       hasLeftIcon,
       hasRightIcon,

@@ -8,7 +8,6 @@ import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import Select from '../Select';
 import { Nullable } from '../../typings/utility-types';
 import { ButtonUse, ButtonSize } from '../Button';
-import { IconName } from '../Icon';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -40,7 +39,7 @@ export interface DropdownProps {
   /**
    * Иконка слева от текста кнопки
    */
-  icon?: IconName | React.ReactElement<any>;
+  icon?: React.ReactElement<any>;
   width?: React.CSSProperties['width'];
 
   /** @ignore */

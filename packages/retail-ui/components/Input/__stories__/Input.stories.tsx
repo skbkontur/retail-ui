@@ -133,6 +133,7 @@ storiesOf('Input', module)
           maskChar={'_'}
           placeholder="+7"
           alwaysShowMask
+          formatChars={{ '9': '[0-9]', a: '[A-Za-z]', '*': '[A-Za-z0-9]' }}
         />
       </p>
       <p>
