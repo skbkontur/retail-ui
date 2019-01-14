@@ -55,8 +55,8 @@ class Item extends React.Component<ItemProps> {
       classes[styles[useClassName]] = true;
     }
 
-    const iconClasses = {
-      [styles.icon]: !iconOnly
+    const labelClasses = {
+      [styles.label]: icon
     };
 
     return (
@@ -67,12 +67,10 @@ class Item extends React.Component<ItemProps> {
         onKeyDown={_onKeyDown}
         style={{ minWidth }}
       >
-        {icon && (
-          <span className={cn(iconClasses)}>
-            <CapIcon color="#666" name={icon} />
-          </span>
+        {icon && <CapIcon color="#666" name={icon} />}
+        {icon && iconOnly ? null : (
+          <span className={cn(labelClasses)}>{children}</span>
         )}
-        {icon && iconOnly ? null : children}
       </div>
     );
   }
