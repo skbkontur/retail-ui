@@ -182,9 +182,7 @@ const Effect = {
     if (items && items.length && value) {
       index = items.findIndex(x => itemToValue(x) === itemToValue(value));
     }
-    // FIXME: accessing private props
-    // @ts-ignore
-    menu._highlightItem(index);
+    menu.highlightItem(index);
     if (index >= 0) {
       // FIXME: accessing private props
       // @ts-ignore
