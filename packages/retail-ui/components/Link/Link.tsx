@@ -1,10 +1,8 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
-import warning from 'warning';
 import events from 'add-event-listener';
 
-import Icon, { IconName } from '../Icon';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 
@@ -39,7 +37,7 @@ export type LinkProps = Override<
     /** href */
     href?: string;
     /** Иконка */
-    icon?: IconName | React.ReactElement<any>;
+    icon?: React.ReactElement<any>;
     /** Тип */
     use?: 'default' | 'success' | 'danger' | 'grayed';
     _button?: boolean;
@@ -103,17 +101,7 @@ class Link extends React.Component<LinkProps, LinkState> {
 
     let iconElement = null;
     if (icon) {
-      if (process.env.NODE_ENV !== 'production') {
-        warning(
-          React.isValidElement(this.props.icon),
-          'Passing string to "icon" prop is deprecated. Please use icons from "@skbkontur/react-icons"'
-        );
-      }
-      iconElement = (
-        <span className={styles.icon}>
-          {typeof icon === 'string' ? <Icon name={icon} /> : icon}
-        </span>
-      );
+      iconElement = <span className={styles.icon}>{icon}</span>;
     }
 
     let arrow = null;
