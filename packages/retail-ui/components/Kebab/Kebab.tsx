@@ -16,7 +16,7 @@ export interface KebabProps {
   disabled?: boolean;
   onClose?: () => void;
   onOpen?: () => void;
-  size?: 'small' | 'large';
+  size?: 'small' | 'medium' | 'large';
   positions?: string[];
   menuMaxHeight?: number | string;
   /**
@@ -186,6 +186,12 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         return (
           <div className={styles.iconsmall}>
             <MenuKebabIcon size="14px" color="#757575" />
+          </div>
+        );
+      case 'medium':
+        return (
+          <div className={styles.iconmedium}>
+            <MenuKebabIcon size="18px" color="#757575" />
           </div>
         );
       case 'large':
