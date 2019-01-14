@@ -202,7 +202,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     return element;
   };
 
-  private _menu: Nullable<Menu>;
+  private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
 
   private getProps = createPropsGetter(Select.defaultProps);
@@ -222,7 +222,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
       opened: this.state.opened,
       label,
       isPlaceholder,
-      onClick: this._toggle,
+      onClick: this.toggle,
       onKeyDown: this.handleKey
     };
 
@@ -235,8 +235,8 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
 
     return (
       <RenderLayer
-        onClickOutside={this._close}
-        onFocusOutside={this._close}
+        onClickOutside={this.close}
+        onFocusOutside={this.close}
         active={this.state.opened}
       >
         <span className={styles.root} style={style}>
@@ -250,16 +250,30 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
   /**
    * @public
    */
-  public open() {
-    this._open();
-  }
+  public open = () => {
+    if (!this.state.opened) {
+      this.setState({ opened: true });
+
+      if (this.props.onOpen) {
+        this.props.onOpen();
+      }
+    }
+  };
 
   /**
    * @public
    */
-  public close() {
-    this._close();
-  }
+  public close = () => {
+    if (this.state.opened) {
+      this.setState({ opened: false });
+
+      if (this.props.onClose) {
+        this.props.onClose();
+      }
+    }
+
+    events.removeEventListener(window, 'popstate', this.close);
+  };
 
   /**
    * @public
@@ -271,8 +285,8 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
   }
 
   private renderLabel() {
-    const value = this._getValue();
-    const item = this._getItemByValue(value);
+    const value = this.getValue();
+    const item = this.getItemByValue(value);
 
     if (item != null || value != null) {
       return {
@@ -370,28 +384,28 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
   private renderMenu(): React.ReactNode {
     const search = this.props.search ? (
       <div className={styles.search}>
-        <Input ref={this._focusInput} onChange={this.handleSearch} />
+        <Input ref={this.focusInput} onChange={this.handleSearch} />
       </div>
     ) : null;
 
-    const value = this._getValue();
+    const value = this.getValue();
 
     return (
       <DropdownContainer
         getParent={this.dropdownContainerGetParent}
         offsetY={-1}
-        ref={this._refMenuContainer}
+        ref={this.refMenuContainer}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
       >
         <Menu
-          ref={this._refMenu}
+          ref={this.refMenu}
           width={this.props.menuWidth}
-          onItemClick={this._close}
+          onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
         >
           {search}
-          {this._mapItems(
+          {this.mapItems(
             (
               iValue: TValue,
               item: TItem | (() => React.ReactNode),
@@ -420,7 +434,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
                       ? 'selected'
                       : null
                   }
-                  onClick={this._select.bind(this, iValue)}
+                  onClick={this.select.bind(this, iValue)}
                   comment={comment}
                 >
                   {this.getProps().renderItem(iValue, item)}
@@ -437,52 +451,30 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     return ReactDOM.findDOMNode(this);
   };
 
-  private _focusInput = (input: Input) => {
+  private focusInput = (input: Input) => {
     if (input) {
       input.focus();
     }
   };
 
-  private _refMenuContainer = (element: DropdownContainer) => {
-    events.removeEventListener(window, 'popstate', this._close);
+  private refMenuContainer = (element: DropdownContainer) => {
+    events.removeEventListener(window, 'popstate', this.close);
 
     if (element) {
-      events.addEventListener(window, 'popstate', this._close);
+      events.addEventListener(window, 'popstate', this.close);
     }
   };
 
-  private _refMenu = (menu: Menu) => {
-    this._menu = menu;
+  private refMenu = (menu: Menu) => {
+    this.menu = menu;
   };
 
-  private _toggle = () => {
+  private toggle = () => {
     if (this.state.opened) {
-      this._close();
+      this.close();
     } else {
-      this._open();
+      this.open();
     }
-  };
-
-  private _open = () => {
-    if (!this.state.opened) {
-      this.setState({ opened: true });
-
-      if (this.props.onOpen) {
-        this.props.onOpen();
-      }
-    }
-  };
-
-  private _close = () => {
-    if (this.state.opened) {
-      this.setState({ opened: false });
-
-      if (this.props.onClose) {
-        this.props.onClose();
-      }
-    }
-
-    events.removeEventListener(window, 'popstate', this._close);
   };
 
   private handleKey = (event: React.KeyboardEvent<HTMLElement>) => {
@@ -490,25 +482,25 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     if (!this.state.opened) {
       if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
         event.preventDefault();
-        this._open();
+        this.open();
       }
     } else {
       if (key === 'Escape') {
         this.setState({ opened: false }, this.focus);
       } else if (event.key === 'ArrowUp') {
         event.preventDefault();
-        if (this._menu) {
-          this._menu.up();
+        if (this.menu) {
+          this.menu.up();
         }
       } else if (event.key === 'ArrowDown') {
         event.preventDefault();
-        if (this._menu) {
-          this._menu.down();
+        if (this.menu) {
+          this.menu.down();
         }
       } else if (event.key === 'Enter') {
         event.preventDefault(); // To prevent form submission.
-        if (this._menu) {
-          this._menu.enter(event);
+        if (this.menu) {
+          this.menu.enter(event);
         }
       }
     }
@@ -518,7 +510,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     this.setState({ searchPattern: event.target.value });
   };
 
-  private _select(value: TValue) {
+  private select(value: TValue) {
     this.setState(
       {
         opened: false,
@@ -531,20 +523,20 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
 
     if (
       this.props.onChange &&
-      !this.getProps().areValuesEqual(this._getValue(), value)
+      !this.getProps().areValuesEqual(this.getValue(), value)
     ) {
       this.props.onChange({ target: { value } }, value);
     }
   }
 
-  private _getValue() {
+  private getValue() {
     if (this.props.value !== undefined) {
       return this.props.value;
     }
     return this.state.value;
   }
 
-  private _mapItems(
+  private mapItems(
     fn: (
       value: TValue,
       item: TItem,
@@ -573,7 +565,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     return result;
   }
 
-  private _getItemByValue(value?: Nullable<TValue>) {
+  private getItemByValue(value?: Nullable<TValue>) {
     if (value === null || value === undefined) {
       return null;
     }
