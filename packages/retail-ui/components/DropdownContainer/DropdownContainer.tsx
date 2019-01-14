@@ -69,7 +69,7 @@ export default class DropdownContainer extends React.Component<
   }
 
   public componentWillUnmount() {
-    if (!this.props.disablePortal && this.layoutSub) {
+    if (this.layoutSub) {
       this.layoutSub.remove();
     }
   }

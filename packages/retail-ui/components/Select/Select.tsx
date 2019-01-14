@@ -19,7 +19,6 @@ import RenderLayer from '../RenderLayer';
 import Item from './Item';
 
 import styles from './Select.less';
-import { IconName } from '../Icon';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 
@@ -46,12 +45,12 @@ const PASS_BUTTON_PROPS = {
 
 export interface SelectProps<TValue, TItem> {
   /** @ignore */
-  _icon?: IconName | React.ReactElement<any>;
+  _icon?: React.ReactElement<any>;
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
   defaultValue?: TValue;
   /** @ignore */
-  diadocLinkIcon?: IconName | React.ReactElement<any>;
+  diadocLinkIcon?: React.ReactElement<any>;
   disablePortal?: boolean;
   disabled?: boolean;
   error?: boolean;
