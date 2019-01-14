@@ -31,7 +31,7 @@ const MyApp = () => (
 то необходимо подключить `regenerator-runtime` или `babel-polyfill`,
 например в `index.html`
 
-Квик-старт подойдёт, если вебпак настроен на сборку. Например, вы используете `create-react-app`. В противном случае добавьте в конфиг Вебпака `style-`, `css-` и `file-loader`.
+Квик-старт подойдёт, если Вебпак настроен на сборку. Например, вы используете `create-react-app`. В противном случае добавьте в конфиг Вебпака `style-`, `css-` и `file-loader`.
 
 ### <a name="Слоу-старт"></a>Слоу-старт
 
@@ -39,7 +39,7 @@ const MyApp = () => (
 yarn add retail-ui
 ```
 
-Необходимо в [конфиг webpack](https://webpack.js.org/configuration/) добавить следующие лоадеры:
+Необходимо в [конфиг Вебпака](https://webpack.js.org/configuration/) добавить следующие лоадеры:
 
 ```js static
 module: {
