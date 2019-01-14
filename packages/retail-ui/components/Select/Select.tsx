@@ -81,6 +81,8 @@ export interface SelectProps<TValue, TItem> {
   warning?: boolean;
   use?: ButtonUse;
   size?: ButtonSize;
+  onFocus?: React.FocusEventHandler<HTMLElement>;
+  onBlur?: React.FocusEventHandler<HTMLElement>;
 }
 
 export interface SelectState<TValue> {
@@ -595,7 +597,9 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     return React.cloneElement(buttonElement, {
       ref: (element: FocusableReactElement) => {
         this.buttonRef(element);
-      }
+      },
+      onFocus: this.props.onFocus,
+      onBlur: this.props.onBlur
     });
   };
 }

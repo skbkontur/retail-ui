@@ -3,6 +3,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Select from '../Select';
 import AddIcon from '@skbkontur/react-icons/Add';
+import { action } from '@storybook/addon-actions';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
@@ -88,6 +89,8 @@ storiesOf('Select', module)
               width="100px"
               items={['oneoneone', 'twotwotwo', 'twotwotwo']}
               ref={this.refSelect}
+              onFocus={action('handleFocus')}
+              onBlur={action('handleBlur')}
             />
             <br />
             <button onClick={this.handleClick}>Focus!</button>
