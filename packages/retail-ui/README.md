@@ -27,7 +27,7 @@ const MyApp = () => (
 );
 ```
 
-Если ругается, что `regeneratorRuntime` не определен, то необходимо подключить `regenerator-runtime` или `babel-polyfill`, например в `index.html`
+Если ругается, что `regeneratorRuntime` не определен, то необходимо подключить `regenerator-runtime` или `@babel/polyfill`, например в `index.html`
 
 Квик-старт подойдёт, если Вебпак настроен на сборку. Например, вы используете `create-react-app`. В противном случае добавьте в конфиг Вебпака `style-`, `css-` и `file-loader`
 
@@ -48,10 +48,10 @@ module: {
         {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
+            presets: ['env', 'react'],
             plugins: [
-              '@babel/plugin-proposal-object-rest-spread',
-              '@babel/plugin-proposal-class-properties'
+              'proposal-object-rest-spread',
+              'proposal-class-properties'
             ]
           }
         }
