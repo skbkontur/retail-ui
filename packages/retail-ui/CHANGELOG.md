@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.33.1"></a>
+## [0.33.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.33.0...retail-ui@0.33.1) (2019-01-14)
+
+
+### Bug Fixes
+
+* **DatePickerOld:** can't blur in ie11 ([9a7a2c9](https://github.com/skbkontur/retail-ui/commit/9a7a2c9))
+* **Input:** pass formatChars to ReactInputMask ([43a2d2c](https://github.com/skbkontur/retail-ui/commit/43a2d2c))
+
+
+
+
 <a name="0.33.0"></a>
 # [0.33.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.32.1...retail-ui@0.33.0) (2018-12-17)
 
