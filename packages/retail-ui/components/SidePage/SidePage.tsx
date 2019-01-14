@@ -10,7 +10,7 @@ import ModalStack from '../ModalStack';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import RenderLayer from '../RenderLayer';
 import ZIndex from '../ZIndex';
-import SidePageBody from './SidePageBody';
+import { SidePageBodyWithContext } from './SidePageBody';
 import SidePageContainer from './SidePageContainer';
 import { SidePageContext } from './SidePageContext';
 import { SidePageFooterWithContext, SidePageFooter } from './SidePageFooter';
@@ -85,7 +85,7 @@ interface ZIndexPropsType {
  */
 class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Header = SidePageHeader;
-  public static Body = SidePageBody;
+  public static Body = SidePageBodyWithContext;
   public static Footer = SidePageFooterWithContext;
   public static Container = SidePageContainer;
 
@@ -178,6 +178,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
                 value={{
                   requestClose: this.requestClose,
                   width: sidePageWidth,
+                  updateLayout: this.updateLayout,
                   footerRef: this.footerRef
                 }}
               >
