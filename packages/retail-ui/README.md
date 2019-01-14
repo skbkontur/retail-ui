@@ -37,7 +37,7 @@ const MyApp = () => (
 yarn add retail-ui
 ```
 
-Необходимо в [конфиг Вебпака](https://webpack.js.org/configuration/) добавить следующие лоадеры:
+Необходимо установить как зависимости и добавить в [конфиг Вебпака](https://webpack.js.org/configuration/) следующие лоадеры:
 
 ```js static
 module: {
