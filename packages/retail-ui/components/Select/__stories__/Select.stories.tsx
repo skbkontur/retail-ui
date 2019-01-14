@@ -76,4 +76,34 @@ storiesOf('Select', module)
   ))
   .add('with text overflow', () => (
     <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />
-  ));
+  ))
+  .add('external focus', () => {
+    class Sample extends React.Component {
+      private selectElem: Select | null = null;
+      public render() {
+        return (
+          <div>
+            <Select
+              width="100px"
+              items={['oneoneone', 'twotwotwo', 'twotwotwo']}
+              ref={this.refSelect}
+            />
+            <br />
+            <button onClick={this.handleClick}>Focus!</button>
+          </div>
+        );
+      }
+
+      private refSelect = (element: Select<any, any> | null) => {
+        this.selectElem = element;
+      };
+
+      private handleClick = () => {
+        if (this.selectElem) {
+          this.selectElem.focus();
+        }
+      };
+    }
+
+    return <Sample />;
+  });

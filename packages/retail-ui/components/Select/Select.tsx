@@ -90,6 +90,10 @@ export interface SelectState<TValue> {
   value: Nullable<TValue>;
 }
 
+interface FocusableReactElement extends React.ReactElement<any> {
+  focus: (event?: any) => void;
+}
+
 class Select<TValue = {}, TItem = {}> extends React.Component<
   SelectProps<TValue, TItem>,
   SelectState<TValue>
@@ -199,6 +203,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
   };
 
   private _menu: Nullable<Menu>;
+  private buttonElement: FocusableReactElement | null = null;
 
   private getProps = createPropsGetter(Select.defaultProps);
 
@@ -226,6 +231,8 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
       maxWidth: this.props.maxWidth || undefined
     };
 
+    const button = this.getButton(buttonParams);
+
     return (
       <RenderLayer
         onClickOutside={this._close}
@@ -233,9 +240,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
         active={this.state.opened}
       >
         <span className={styles.root} style={style}>
-          {this.props._renderButton
-            ? this.props._renderButton(buttonParams)
-            : this.renderDefaultButton(buttonParams)}
+          {button}
           {!this.props.disabled && this.state.opened && this.renderMenu()}
         </span>
       </RenderLayer>
@@ -260,7 +265,9 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
    * @public
    */
   public focus() {
-    this._focus();
+    if (this.buttonElement && this.buttonElement.focus) {
+      this.buttonElement.focus();
+    }
   }
 
   private renderLabel() {
@@ -487,7 +494,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
       }
     } else {
       if (key === 'Escape') {
-        this.setState({ opened: false }, this._focus);
+        this.setState({ opened: false }, this.focus);
       } else if (event.key === 'ArrowUp') {
         event.preventDefault();
         if (this._menu) {
@@ -511,14 +518,6 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     this.setState({ searchPattern: event.target.value });
   };
 
-  private _focus = () => {
-    const node = ReactDOM.findDOMNode(this);
-    if (node && node instanceof HTMLElement) {
-      node.tabIndex = 0;
-      node.focus();
-    }
-  };
-
   private _select(value: TValue) {
     this.setState(
       {
@@ -526,7 +525,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
         value
       },
       () => {
-        setTimeout(this._focus, 0);
+        setTimeout(this.focus, 0);
       }
     );
 
@@ -590,6 +589,24 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     }
     return null;
   }
+
+  private buttonRef = (element: FocusableReactElement | null) => {
+    this.buttonElement = element;
+  };
+
+  private getButton = (buttonParams: ButtonParams) => {
+    const button = this.props._renderButton
+      ? this.props._renderButton(buttonParams)
+      : this.renderDefaultButton(buttonParams);
+
+    const buttonElement = React.Children.only(button);
+
+    return React.cloneElement(buttonElement, {
+      ref: (element: FocusableReactElement) => {
+        this.buttonRef(element);
+      }
+    });
+  };
 }
 
 function renderValue(value: any, item: any) {
