@@ -48,13 +48,16 @@ class Item extends React.Component<ItemProps> {
     const classes = {
       [styles.item]: true,
       [styles.buttonActive]: active,
-      [className]: true,
-      [styles.iconOnly]: iconOnly
+      [className]: true
     };
     if (use) {
       const useClassName = ('use-' + use) as keyof typeof styles;
       classes[styles[useClassName]] = true;
     }
+
+    const iconClasses = {
+      [styles.icon]: !iconOnly
+    };
 
     return (
       <div
@@ -65,7 +68,7 @@ class Item extends React.Component<ItemProps> {
         style={{ minWidth }}
       >
         {icon && (
-          <span className={styles.icon}>
+          <span className={cn(iconClasses)}>
             <CapIcon color="#666" name={icon} />
           </span>
         )}
