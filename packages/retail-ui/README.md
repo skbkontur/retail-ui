@@ -16,7 +16,6 @@ yarn add @skbkontur/react-ui
 И используем компонентики у себя в проекте:
 
 ```jsx static
-/* ... */
 import Button from '@skbkontur/react-ui/Button';
 import Toast from '@skbkontur/react-ui/Toast';
 
@@ -43,9 +42,7 @@ yarn add retail-ui
 Необходимо в [конфиг webpack](https://webpack.js.org/configuration/) добавить следующие лоадеры:
 
 ```js static
-/* ... */
 module: {
-  /* ... */
   rules: [
     {
       test: /\.jsx?$/,
@@ -73,9 +70,7 @@ module: {
       use: ['file-loader']
     }
   ];
-  /* ... */
 }
-/* ... */
 ```
 
 ### Хотим другой цвет кнопки!
@@ -84,15 +79,11 @@ module: {
 В конфиге нужно указать
 
 ```js static
-/* ... */
 resolve: {
-  /* ... */
   alias: {
     'react-ui-theme': path.join(__dirname, 'path-to-my-theme-variables.less')
   }
-  /* ... */
 }
-/* ... */
 ```
 
 Список переменных можно глянуть в `components/variables.less`
