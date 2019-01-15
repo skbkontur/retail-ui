@@ -30,3 +30,21 @@ gemini.suite("More one SidePage", suite => {
       );
     });
 });
+
+gemini.suite("SidePage updateLayout method", suite => {
+  suite
+    .setUrl(pathTo("SidePage", "test updateLayout method"))
+    .setCaptureElements("html")
+    .ignoreElements("#buttons")
+    .capture("idle")
+    .capture("Body content has been changed", (actions, find) => {
+      actions.click(find("#toggle-body-content"));
+    })
+    .capture("child component content has been changed", (actions, find) => {
+      actions.click(find("#toggle-body-content"));
+      actions.click(find("#toggle-child-component-content"));
+    })
+    .capture("update layout", (action, find) => {
+      action.click(find("#update"));
+    });
+});
