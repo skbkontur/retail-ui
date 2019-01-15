@@ -36,9 +36,10 @@ storiesOf('TopBar', module)
         <Item>
           <BabyIcon color="#666" />
         </Item>
-        <Item>
-          <BabyIcon color="#666" />
+        <Item icon="gear" iconOnly>
+          Only icon
         </Item>
+        <Item icon="gear">Not only icon</Item>
       </Start>
       <End>
         <Item>

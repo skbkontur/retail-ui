@@ -140,6 +140,30 @@ describe('ComboBox', () => {
     expect(search).toHaveBeenCalledTimes(2);
   });
 
+  it('keeps focus after a click on the refresh button', async () => {
+    const search = jest.fn(() => Promise.reject());
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} renderItem={x => x} />
+    );
+
+    wrapper.instance().focus();
+    await delay(0);
+    wrapper.update();
+
+    const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+
+    inputNode.blur(); // simulate blur from real click
+    wrapper
+      .find(MenuItem)
+      .last()
+      .simulate('click');
+    await delay(0);
+    wrapper.update();
+
+    expect(search).toHaveBeenCalledTimes(2);
+    expect(inputNode).toBe(document.activeElement);
+  });
+
   it('calls onUnexpectedInput on click outside', async () => {
     const search = jest.fn(() => Promise.reject());
     const onUnexpectedInput = jest.fn();
@@ -528,6 +552,9 @@ describe('ComboBox', () => {
     wrapper.update();
     onFocus.mockClear();
 
+    const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+
+    inputNode.blur(); // simulate blur from real click
     wrapper
       .find(MenuItem)
       .first()
@@ -536,10 +563,9 @@ describe('ComboBox', () => {
     await delay(0); // await for restore focus
     wrapper.update();
 
-    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input).toBeTruthy();
-    expect(input).toBe(document.activeElement); // input has focus
-    expect(input.selectionStart).toBe(input.selectionEnd); // input text is not selected
+    expect(inputNode).toBeTruthy();
+    expect(inputNode).toBe(document.activeElement); // input has focus
+    expect(inputNode.selectionStart).toBe(inputNode.selectionEnd); // input text is not selected
 
     expect(onFocus).toHaveBeenCalledTimes(0);
     expect(onBlur).toHaveBeenCalledTimes(0);

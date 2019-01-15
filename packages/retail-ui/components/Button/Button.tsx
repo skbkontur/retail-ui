@@ -1,11 +1,9 @@
 import * as React from 'react';
 import * as events from 'add-event-listener';
 import classNames from 'classnames';
-import warning from 'warning';
 import Upgrades from '../../lib/Upgrades';
 
 import Corners from './Corners';
-import Icon, { IconName } from '../Icon';
 
 import '../ensureOldIEClassName';
 
@@ -91,7 +89,7 @@ export interface ButtonProps {
   /**
    * Иконка слева от текста кнопки.
    */
-  icon?: IconName | React.ReactElement<any>;
+  icon?: React.ReactElement<any>;
 
   loading?: boolean;
 
@@ -256,23 +254,9 @@ class Button extends React.Component<ButtonProps, ButtonState> {
       loading = <div className={classes.loading} />;
     }
 
-    let icon = null;
+    let icon = this.props.icon;
     if (this.props.icon) {
-      if (process.env.NODE_ENV !== 'production') {
-        warning(
-          React.isValidElement(this.props.icon),
-          'Passing string to "icon" prop is deprecated. Please use icons from "@skbkontur/react-icons"'
-        );
-      }
-      icon = (
-        <span className={classes.icon}>
-          {typeof this.props.icon === 'string' ? (
-            <Icon name={this.props.icon} />
-          ) : (
-            this.props.icon
-          )}
-        </span>
-      );
+      icon = <span className={classes.icon}>{this.props.icon}</span>;
     }
 
     let arrow = null;
