@@ -16,7 +16,6 @@ yarn add @skbkontur/react-ui
 И используем компонентики у себя в проекте:
 
 ```jsx static
-/* ... */
 import Button from '@skbkontur/react-ui/Button';
 import Toast from '@skbkontur/react-ui/Toast';
 
@@ -28,11 +27,9 @@ const MyApp = () => (
 );
 ```
 
-Если ругается, что `regeneratorRuntime` не определен,
-то необходимо подключить `regenerator-runtime` или `babel-polyfill`,
-например в `index.html`
+Если ругается, что `regeneratorRuntime` не определен, то необходимо подключить `regenerator-runtime` или `@babel/polyfill`, например в `index.html`
 
-Квик-старт подойдёт, если вебпак настроен на сборку. Например, вы используете `create-react-app`. В противном случае добавьте в конфиг Вебпака `style-`, `css-` и `file-loader`.
+Квик-старт подойдёт, если Вебпак настроен на сборку. Например, вы используете `create-react-app`. В противном случае добавьте в конфиг Вебпака `style-`, `css-` и `file-loader`
 
 ### <a name="Слоу-старт"></a>Слоу-старт
 
@@ -40,12 +37,10 @@ const MyApp = () => (
 yarn add retail-ui
 ```
 
-Необходимо в [конфиг webpack](https://webpack.js.org/configuration/) добавить следующие лоадеры:
+Необходимо установить как зависимости и добавить в [конфиг Вебпака](https://webpack.js.org/configuration/) следующие лоадеры:
 
 ```js static
-/* ... */
 module: {
-  /* ... */
   rules: [
     {
       test: /\.jsx?$/,
@@ -55,8 +50,8 @@ module: {
           options: {
             presets: ['env', 'react'],
             plugins: [
-              'transform-object-rest-spread',
-              'transform-class-properties'
+              'proposal-object-rest-spread',
+              'proposal-class-properties'
             ]
           }
         }
@@ -65,34 +60,33 @@ module: {
     },
     {
       test: /\.less$/,
-      use: ['style-loader', 'css-loader', 'less-loader'],
-      include: /retail-ui/
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: { modules: 'global' }
+        },
+        'less-loader'
+      ],
     },
     {
       test: /\.(png|woff|woff2|eot)$/,
       use: ['file-loader']
     }
   ];
-  /* ... */
 }
-/* ... */
 ```
 
 ### Хотим другой цвет кнопки!
 
-Тут придется юзать слоу-старт.
-В конфиге нужно указать
+Тут придется юзать слоу-старт. В конфиге нужно указать:
 
 ```js static
-/* ... */
 resolve: {
-  /* ... */
   alias: {
     'react-ui-theme': path.join(__dirname, 'path-to-my-theme-variables.less')
   }
-  /* ... */
 }
-/* ... */
 ```
 
 Список переменных можно глянуть в `components/variables.less`
