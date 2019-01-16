@@ -50,6 +50,8 @@ export type Reducer = (
   action: Action
 ) => Partial<State> | [Partial<State>, EffectType[]];
 
+const MAX_REQUEST_DELAY = 500;
+const MIN_LOADER_SHOWN_TIME = 1000;
 let requestId = 0;
 const searchFactory = (query: string): EffectType => (
   dispatch,
@@ -58,11 +60,53 @@ const searchFactory = (query: string): EffectType => (
   getInstance
 ) => {
   const makeRequest = async () => {
-    dispatch({ type: 'RequestItems' });
     const { getItems } = getProps();
     const expectingId = ++requestId;
+
     try {
-      const items = await getItems(query);
+      let shouldLoaderShow = false;
+      let cancelDelay: (() => void) | null = null;
+      let forceResolveMinDelay: (() => void) | null = null;
+
+      const cancelableMinDelay = () =>
+        new Promise(resolve => {
+          forceResolveMinDelay = resolve;
+          setTimeout(resolve, MAX_REQUEST_DELAY + MIN_LOADER_SHOWN_TIME);
+        });
+
+      const cancelableDelay = () =>
+        new Promise((resolve, reject) => {
+          cancelDelay = reject;
+          setTimeout(resolve, MAX_REQUEST_DELAY);
+        });
+
+      cancelableDelay()
+        .then(() => {
+          shouldLoaderShow = true;
+          dispatch({ type: 'Open' });
+          dispatch({ type: 'RequestItems' });
+        })
+        .catch(() => {
+          shouldLoaderShow = false;
+          dispatch({ type: 'Open' });
+        });
+
+      const request = getItems(query).then(async result => {
+        if (!shouldLoaderShow) {
+          if (cancelDelay) {
+            cancelDelay();
+          }
+
+          if (forceResolveMinDelay) {
+            forceResolveMinDelay();
+          }
+        }
+
+        return await result;
+      });
+
+      const [items] = await Promise.all([request, cancelableMinDelay()]);
+
       if (expectingId === requestId) {
         dispatch({ type: 'ReceiveItems', items });
       }
@@ -264,8 +308,7 @@ const reducers: { [type: string]: Reducer } = {
     if (state.editing) {
       return [
         {
-          focused: true,
-          opened: true
+          focused: true
         },
         [Effect.Search(state.textValue), Effect.Focus]
       ];
@@ -273,7 +316,6 @@ const reducers: { [type: string]: Reducer } = {
     return [
       {
         focused: true,
-        opened: true,
         editing: true
       },
       [Effect.Search(''), Effect.Focus, Effect.SelectInputText]
