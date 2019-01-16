@@ -77,7 +77,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
               const highlight = this.state.highlightedIndex === index;
 
               let ref = child.ref;
-              if (highlight) {
+              if (highlight && typeof child.ref !== 'string') {
                 ref = this._refHighlighted.bind(this, child.ref);
               }
 
@@ -85,7 +85,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                 ref,
                 state: highlight ? 'hover' : child.props.state,
                 onClick: this._select.bind(this, index, false),
-                onMouseEnter: this._highlightItem.bind(this, index),
+                onMouseEnter: this._highlight.bind(this, index),
                 onMouseLeave: this._unhighlight
               });
             }
@@ -124,6 +124,10 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     this.setState({ highlightedIndex: -1 });
   }
 
+  public highlightItem(index: number) {
+    this._highlight(index);
+  }
+
   private _refScrollContainer = (
     scrollContainer: Nullable<ScrollContainer>
   ) => {
@@ -131,12 +135,15 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   private _refHighlighted(
-    originalRef: (menuItem: MenuItem | null) => any,
+    originalRef:
+      | ((menuItem: MenuItem | null) => any)
+      | React.RefObject<MenuItem>
+      | undefined,
     menuItem: MenuItem | null
   ) {
     this._highlighted = menuItem;
 
-    if (originalRef) {
+    if (typeof originalRef === 'function') {
       originalRef(menuItem);
     }
   }
@@ -186,9 +193,9 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     return false;
   }
 
-  private _highlightItem(index: number) {
+  private _highlight = (index: number) => {
     this.setState({ highlightedIndex: index });
-  }
+  };
 
   private _unhighlight = () => {
     this.setState({ highlightedIndex: -1 });

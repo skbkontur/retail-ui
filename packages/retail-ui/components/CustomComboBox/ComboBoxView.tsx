@@ -5,10 +5,11 @@ import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Menu from '../Menu/Menu';
-import MenuItem, { MenuItemState } from '../MenuItem';
+import { MenuItemState } from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
+import ComboBoxMenu from './ComboBoxMenu';
 
 interface ComboBoxViewProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -38,7 +39,10 @@ interface ComboBoxViewProps<T> {
   onFocus?: () => void;
   onFocusOutside?: () => void;
   onInputBlur?: () => void;
-  onInputChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+  onInputChange?: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ) => void;
   onInputFocus?: () => void;
   onInputClick?: () => void;
   onInputKeyDown?: (e: React.KeyboardEvent) => void;
@@ -96,12 +100,17 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       onMouseOver,
       openButton,
       opened,
+      refMenu,
+      maxMenuHeight,
+      renderTotalCount,
+      renderItem,
+      renderNotFound,
+      totalCount,
       size,
       width
     } = this.props;
 
     const input = this.renderInput();
-    const menu = this.renderMenu();
 
     const topOffsets = {
       spinner: 6,
@@ -170,91 +179,24 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
               offsetY={1}
               disablePortal={this.props.disablePortal}
             >
-              {menu}
+              <ComboBoxMenu
+                items={items}
+                loading={loading}
+                maxMenuHeight={maxMenuHeight}
+                onChange={this.handleItemSelect}
+                opened={opened}
+                refMenu={refMenu}
+                renderTotalCount={renderTotalCount}
+                renderItem={renderItem!}
+                renderNotFound={renderNotFound}
+                totalCount={totalCount}
+              />
             </DropdownContainer>
           )}
         </label>
       </RenderLayer>
     );
   }
-
-  private renderMenu(): React.ReactNode {
-    const {
-      opened,
-      items,
-      totalCount,
-      loading,
-      refMenu,
-      renderNotFound,
-      renderTotalCount,
-      maxMenuHeight
-    } = this.props;
-
-    if (!opened) {
-      return null;
-    }
-
-    if (loading && (!items || !items.length)) {
-      return (
-        <Menu ref={refMenu}>
-          <MenuItem disabled>
-            <div style={{ margin: '-2px 0 -1px' }}>
-              <Spinner type="mini" dimmed />
-            </div>
-          </MenuItem>
-        </Menu>
-      );
-    }
-
-    if ((items == null || items.length === 0) && renderNotFound) {
-      return (
-        <Menu ref={refMenu}>
-          <MenuItem disabled>{renderNotFound()}</MenuItem>
-        </Menu>
-      );
-    }
-
-    let total = null;
-    if (items && renderTotalCount && totalCount && items.length < totalCount) {
-      total = (
-        <MenuItem disabled>
-          <div style={{ fontSize: 12 }}>
-            {renderTotalCount(items.length, totalCount)}
-          </div>
-        </MenuItem>
-      );
-    }
-
-    return (
-      <Menu ref={refMenu} maxHeight={maxMenuHeight}>
-        {items && items.map(this.renderItem)}
-        {total}
-      </Menu>
-    );
-  }
-
-  private renderItem = (item: T, index: number): React.ReactNode => {
-    // NOTE this is undesireable feature, better
-    // to remove it from further versions
-    if (typeof item === 'function' || React.isValidElement(item)) {
-      // @ts-ignore
-      const element = typeof item === 'function' ? item() : item;
-      const props = Object.assign(
-        {
-          key: index,
-          onClick: (e: React.SyntheticEvent) => this.handleItemSelect(element.props, e)
-        },
-        element.props
-      );
-      return React.cloneElement(element, props);
-    }
-    return (
-      // tslint:disable-next-line:jsx-no-lambda
-      <MenuItem onClick={(e) => this.handleItemSelect(item, e)} key={index}>
-        {state => this.props.renderItem!(item, state)}
-      </MenuItem>
-    );
-  };
 
   private renderInput(): React.ReactNode {
     const {
