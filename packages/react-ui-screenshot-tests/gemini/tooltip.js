@@ -42,3 +42,10 @@ gemini.suite("Tooltip wrap inline-block", suite => {
       actions.mouseMove(find("textarea"));
     });
 });
+
+gemini.suite("Opened tooltip without wrapper", suite => {
+  suite
+    .setUrl(pathTo("Tooltip", "Opened tooltip without wrapper"))
+    .setCaptureElements("#test-element")
+    .capture("plain");
+});

@@ -22,7 +22,7 @@ storiesOf('Hint', module)
   .add('playground', () => <Hint {...getKnobs()}>Plain hint with knobs</Hint>)
   .add('too much hints', () => (
     <Gapped gap={5}>
-      {[...Array(252)].map((el, i) => (
+      {new Array(252).fill(null).map((_el, i) => (
         <Hint text="test" key={i}>
           Hover me!
         </Hint>
