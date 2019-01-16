@@ -314,6 +314,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   private ref = (element: HTMLTextAreaElement) => {
     this.node = element;
+    this.calculateMinHeight(element);
   };
 
   private refFake = (element: HTMLTextAreaElement) => {
@@ -376,6 +377,20 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
+  };
+
+  private calculateMinHeight = (node: HTMLTextAreaElement | null) => {
+    if (!node) {
+      return;
+    }
+
+    if (node.style.minHeight) {
+      return;
+    }
+
+    const { height: minHeight } = getTextAreaHeight(node, 1, 1);
+
+    node.style.minHeight = minHeight + 'px';
   };
 }
 
