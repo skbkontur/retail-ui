@@ -21,6 +21,7 @@ export interface StickyProps {
    * @default false
    */
   allowChildWithMargins?: boolean;
+  height?: Nullable<number>;
 }
 
 export interface StickyState {
@@ -93,6 +94,14 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     this._reflow();
   }
 
+  public get wrapperHeight() {
+    return typeof this.props.height === 'number'
+      ? this.props.height
+      : this.state.height === -1
+        ? 'auto'
+        : this.state.height;
+  }
+
   public render() {
     let wrapperStyle: React.CSSProperties = {};
     let innerStyle: React.CSSProperties = {};
@@ -104,7 +113,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
         };
       } else {
         wrapperStyle = {
-          height: this.state.height === -1 ? 'auto' : this.state.height
+          height: this.wrapperHeight
         };
 
         innerStyle = {
