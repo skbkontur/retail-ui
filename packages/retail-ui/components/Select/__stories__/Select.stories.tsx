@@ -3,6 +3,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Select from '../Select';
 import AddIcon from '@skbkontur/react-icons/Add';
+import { action } from '@storybook/addon-actions';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
@@ -77,4 +78,36 @@ storiesOf('Select', module)
   ))
   .add('with text overflow', () => (
     <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />
-  ));
+  ))
+  .add('external focus', () => {
+    class Sample extends React.Component {
+      private selectElem: Select | null = null;
+      public render() {
+        return (
+          <div>
+            <Select
+              width="100px"
+              items={['oneoneone', 'twotwotwo', 'twotwotwo']}
+              ref={this.refSelect}
+              onFocus={action('handleFocus')}
+              onBlur={action('handleBlur')}
+            />
+            <br />
+            <button onClick={this.handleClick}>Focus!</button>
+          </div>
+        );
+      }
+
+      private refSelect = (element: Select<any, any> | null) => {
+        this.selectElem = element;
+      };
+
+      private handleClick = () => {
+        if (this.selectElem) {
+          this.selectElem.focus();
+        }
+      };
+    }
+
+    return <Sample />;
+  });

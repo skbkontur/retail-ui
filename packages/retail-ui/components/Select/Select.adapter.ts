@@ -3,7 +3,7 @@ import Select from './Select.js';
 const SelectAdapter = {
   getValue(inst: Select) {
     // tslint:disable-next-line:no-string-literal
-    return inst['_getValue']();
+    return inst['getValue']();
   },
 
   setValue(inst: Select, value: any) {
@@ -13,12 +13,10 @@ const SelectAdapter = {
   },
 
   getItemValues(inst: Select) {
+    inst.open();
+    inst.close();
     // tslint:disable-next-line:no-string-literal
-    inst['_open']();
-    // tslint:disable-next-line:no-string-literal
-    inst['_close']();
-    // tslint:disable-next-line:no-string-literal
-    return inst['_mapItems'](value => value);
+    return inst['mapItems'](value => value);
   }
 };
 
