@@ -113,7 +113,10 @@ export default class SidePageHeader extends React.Component<
         ) : (
           this.renderClose()
         )}
-        <div className={classNames(styles.title, fixed && styles.fixed)}>
+        <div
+          className={classNames(styles.title, fixed && styles.fixed)}
+          data-tid={hidden ? '' : 'RealHeader'}
+        >
           {typeof this.props.children === 'function'
             ? this.props.children(Boolean(fixed))
             : this.props.children}

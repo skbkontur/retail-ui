@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Remote;
 
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
@@ -29,7 +29,7 @@ namespace SKBKontur.SeleniumTesting.Tests.SidePages
             {
             }
 
-            [Selector("##Header")]
+            [Selector("SidePageHeader ##RealHeader")]
             public Label Header { get; set; }
 
             [Selector("##Content")]
