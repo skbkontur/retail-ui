@@ -27,21 +27,16 @@ export default class SidePageHeader extends React.Component<
   private fixedHeader: HTMLElement | null = null;
 
   public componentDidMount() {
-    window.addEventListener('scroll', this.onScroll, true);
-    this.onScroll();
+    window.addEventListener('scroll', this.updateFixState, true);
+    this.update();
   }
 
   public componentWillUnmount() {
-    window.removeEventListener('scroll', this.onScroll, true);
+    window.removeEventListener('scroll', this.updateFixState, true);
   }
 
   public componentDidUpdate() {
-    this.onScroll();
-    if (this.state.headerHeight !== this.normalHeaderHeight) {
-      this.setState({
-        headerHeight: this.normalHeaderHeight
-      });
-    }
+    this.update();
   }
 
   public get scrollTop() {
@@ -71,6 +66,11 @@ export default class SidePageHeader extends React.Component<
       ? closeElement.getBoundingClientRect().top -
           this.fixedHeader.getBoundingClientRect().top
       : 0;
+  }
+
+  public update() {
+    this.updateHeaderHeight();
+    this.updateFixState();
   }
 
   public render(): JSX.Element {
@@ -147,12 +147,21 @@ export default class SidePageHeader extends React.Component<
     });
   }
 
-  private onScroll = () => {
+  private updateFixState = () => {
     const { scrollTop, normalHeaderHeight, fixedHeaderHeight } = this;
     const isReadyToFix = scrollTop > normalHeaderHeight - fixedHeaderHeight;
     if (this.state.isReadyToFix !== isReadyToFix) {
       this.setState({
         isReadyToFix
+      });
+    }
+  };
+
+  private updateHeaderHeight = () => {
+    const { headerHeight } = this.state;
+    if (headerHeight !== this.normalHeaderHeight) {
+      this.setState({
+        headerHeight: this.normalHeaderHeight
       });
     }
   };
