@@ -67,10 +67,17 @@
       border-bottom: @border-color-gray-light solid 1px;
       padding: 13px 0 13px 0;
     }
+
+    &.hidden {
+      position: absolute;
+      left: 0;
+      right: 0;
+      visibility: hidden;
+    }
   }
 
   .title {
-    padding-right: 70px;
+    padding-right: 85px;
     padding-left: 30px;
 
     &.fixed {
