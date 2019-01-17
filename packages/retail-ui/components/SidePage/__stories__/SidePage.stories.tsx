@@ -458,6 +458,60 @@ class WithVariableContent extends React.Component<
   };
 }
 
+class WithLongTitle extends React.Component {
+  public state = {
+    title: `On the other hand, we denounce with righteous indignation and dislike,
+          who are so beguiled and demoralized by the charms of pleasure of the
+          moment.`
+  };
+
+  public render() {
+    const { title } = this.state;
+    return (
+      <SidePage>
+        <SidePage.Header>{title}</SidePage.Header>
+        <SidePage.Body>
+          <div
+            id="scrollable-content"
+            style={{
+              height: 1500,
+              background: `repeating-linear-gradient(
+                      60deg,
+                      #fafafa,
+                      #fafafa 20px,
+                      #dfdede 20px,
+                      #dfdede 40px
+                    )`
+            }}
+          />
+        </SidePage.Body>
+        <SidePage.Footer>
+          <Gapped gap={15}>
+            <button
+              onClick={() =>
+                this.setState({
+                  title: title + title
+                })
+              }
+            >
+              Increase Title
+            </button>
+            <button
+              onClick={() =>
+                this.setState({
+                  title: title.slice(title.length / 2)
+                })
+              }
+            >
+              Decrease Title
+            </button>
+          </Gapped>
+        </SidePage.Footer>
+      </SidePage>
+    );
+  }
+}
+
 storiesOf('SidePage', module)
   .add('With scrollable parent content', () => (
     <SidePageWithScrollableContent />
@@ -490,4 +544,5 @@ storiesOf('SidePage', module)
       {textSample}
       {textSample}
     </div>
-  ));
+  ))
+  .add('With long title', () => <WithLongTitle />);
