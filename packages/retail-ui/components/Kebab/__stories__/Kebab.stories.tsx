@@ -23,6 +23,7 @@ storiesOf('Kebab', module)
     </div>
   ))
   .add('14px', () => <SomethingWithKebab size="small" />)
+  .add('18px', () => <SomethingWithKebab size="medium" />)
   .add('20px', () => <SomethingWithKebab size="large" />)
   .add('20px-disabled', () => <SomethingWithKebab size="large" disabled />)
   .add('With fixed menu height', () => (
@@ -37,7 +38,7 @@ storiesOf('Kebab', module)
   ));
 
 class SomethingWithKebab extends Component<{
-  size: 'small' | 'large';
+  size: 'small' | 'medium' | 'large';
   disabled?: boolean;
   items?: KebabItem[];
   menuMaxHeight?: string | number;
