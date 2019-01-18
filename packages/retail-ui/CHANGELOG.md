@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.35.0"></a>
+# [0.35.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.34.0...retail-ui@0.35.0) (2019-01-14)
+
+
+### Bug Fixes
+
+* **Calendar:** set box-sizing ([f3e7432](https://github.com/skbkontur/retail-ui/commit/f3e7432)), closes [#525](https://github.com/skbkontur/retail-ui/issues/525) [#762](https://github.com/skbkontur/retail-ui/issues/762)
+* **ComboBox:** keep focus after click on refresh ([2effb7c](https://github.com/skbkontur/retail-ui/commit/2effb7c)), closes [#1012](https://github.com/skbkontur/retail-ui/issues/1012)
+* **ComboBoxOld:** fix click on disabled arrow ([031281b](https://github.com/skbkontur/retail-ui/commit/031281b))
+* **DropdownContainer:** remove listeners in disablePortal mode too ([51a611f](https://github.com/skbkontur/retail-ui/commit/51a611f)), closes [#1064](https://github.com/skbkontur/retail-ui/issues/1064)
+* **Input:** pass formatChars to ReactInputMask ([747badf](https://github.com/skbkontur/retail-ui/commit/747badf))
+* **Modal:** скрыта нативная рамка фокуса в ff ([f9fecb2](https://github.com/skbkontur/retail-ui/commit/f9fecb2))
+* **Radio:** fix cursor in flat-theme, fix [#990](https://github.com/skbkontur/retail-ui/issues/990) ([0b21a21](https://github.com/skbkontur/retail-ui/commit/0b21a21))
+
+
+### Features
+
+* **Icon:** remove component ([cd229d3](https://github.com/skbkontur/retail-ui/commit/cd229d3)), closes [#1037](https://github.com/skbkontur/retail-ui/issues/1037)
+* **retail-ui:** add brand color variables ([072f2f5](https://github.com/skbkontur/retail-ui/commit/072f2f5))
+* **retail-ui:** add TokenInput component ([402c9bc](https://github.com/skbkontur/retail-ui/commit/402c9bc)), closes [#650](https://github.com/skbkontur/retail-ui/issues/650)
+
+
+### BREAKING CHANGES
+
+* **Icon:** Component `Icon` has been removed, please use icons from `@skbkontur/react-icons`
+
+
+
+
 <a name="0.34.0"></a>
 # [0.34.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.33.0...retail-ui@0.34.0) (2018-12-26)
 

@@ -230,6 +230,7 @@ class Input extends React.Component<InputProps, InputState> {
       onUnexpectedInput,
       prefix,
       suffix,
+      formatChars,
       ...rest
     } = this.props;
 
@@ -316,6 +317,7 @@ class Input extends React.Component<InputProps, InputState> {
         maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
         alwaysShowMask={this.props.alwaysShowMask}
         onUnexpectedInput={this.handleUnexpectedInput}
+        formatChars={this.props.formatChars}
       />
     );
   }

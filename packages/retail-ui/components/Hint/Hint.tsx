@@ -69,17 +69,10 @@ class Hint extends React.Component<HintProps, HintState> {
   };
 
   public state: HintState = {
-    opened: false
+    opened: this.props.manual ? !!this.props.opened : false
   };
 
   private timer: Nullable<TimeoutID> = null;
-  private captionNode: Nullable<HTMLElement> = null;
-
-  public componentDidMount() {
-    this.setState({
-      opened: this.props.manual ? !!this.props.opened : false
-    });
-  }
 
   public componentWillReceiveProps(nextProps: HintProps) {
     if (!nextProps.manual) {
@@ -99,22 +92,21 @@ class Hint extends React.Component<HintProps, HintState> {
 
   public render() {
     if (this.props.useWrapper) {
-      return (
+      const caption = (
         <span
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
-          ref={this.captionRef}
         >
           {this.props.children}
-          {this.captionNode && this.renderPopup(this.captionNode)}
         </span>
       );
-    } else {
-      return this.renderPopup(this.props.children, {
-        onMouseEnter: this.handleMouseEnter,
-        onMouseLeave: this.handleMouseLeave
-      });
+      return this.renderPopup(caption);
     }
+
+    return this.renderPopup(this.props.children, {
+      onMouseEnter: this.handleMouseEnter,
+      onMouseLeave: this.handleMouseLeave
+    });
   }
 
   private renderPopup(
@@ -150,10 +142,6 @@ class Hint extends React.Component<HintProps, HintState> {
       </div>
     );
   }
-
-  private captionRef = (element: Nullable<HTMLElement>) => {
-    this.captionNode = element;
-  };
 
   private getPositions = (): PopupPosition[] => {
     return Positions.filter(x => x.startsWith(this.props.pos));
