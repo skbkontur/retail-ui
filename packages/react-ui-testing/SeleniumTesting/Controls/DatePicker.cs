@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using Kontur.Selone.Extensions;
 using Kontur.Selone.Properties;
@@ -57,8 +57,16 @@ namespace SKBKontur.SeleniumTesting.Controls
             }
             catch
             {
-                var span = container.FindElement(By.CssSelector("label>span"));
-                return new SpanInputStrategy(span);
+                try
+                {
+                    var span = container.FindElement(By.CssSelector("label>span"));
+                    return new SpanInputStrategy(span);
+                }
+                catch
+                {
+                    var span = container.FindElement(By.CssSelector("[data-comp-name='InputLikeText']"));
+                    return new SpanInputStrategy(span);
+                }
             }
         }
 
