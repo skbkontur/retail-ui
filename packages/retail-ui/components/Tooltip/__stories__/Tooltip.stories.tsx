@@ -10,6 +10,7 @@ import Textarea from '../../Textarea';
 interface TestTooltipProps {
   pos?: PopupPosition;
   trigger?: TooltipTrigger;
+  useWrapper?: boolean;
 }
 
 class TestTooltip extends React.Component<TestTooltipProps> {
@@ -30,6 +31,7 @@ class TestTooltip extends React.Component<TestTooltipProps> {
           pos={this.getProps().pos}
           render={() => <div>Hey there!</div>}
           trigger={trigger}
+          useWrapper={this.props.useWrapper}
         >
           {children}
         </Tooltip>
@@ -65,7 +67,7 @@ storiesOf('Tooltip', module)
     </TestTooltip>
   ))
   .add('tooltip right', () => (
-    <TestTooltip trigger="opened" pos="right top">
+    <TestTooltip useWrapper={false} trigger="opened" pos="right top">
       <span>Some label</span>
     </TestTooltip>
   ))
@@ -149,6 +151,11 @@ storiesOf('Tooltip', module)
         </Textarea>
       )}
     </div>
+  ))
+  .add('Opened tooltip without wrapper', () => (
+    <TestTooltip useWrapper={false} trigger="opened" pos="left top">
+      <span>Without wrapper</span>
+    </TestTooltip>
   ));
 
 interface MyCustomTooltipState {
