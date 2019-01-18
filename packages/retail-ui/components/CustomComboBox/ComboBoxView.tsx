@@ -92,6 +92,8 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
   public render() {
     const {
+      items,
+      loading,
       menuAlign,
       onClickOutside,
       onFocusOutside,
