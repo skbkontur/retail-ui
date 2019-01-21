@@ -65,8 +65,18 @@ export default class ValidationTooltip extends React.Component<ValidationTooltip
                     onlyChild.props.onBlur(...args);
                 }
             },
-            onMouseEnter: () => this.handleMouseOver(),
-            onMouseLeave: () => this.handleMouseOut(),
+            onMouseEnter: (...args: any[]) => {
+                this.handleMouseOver();
+                if (onlyChild.props.onMouseEnter) {
+                    onlyChild.props.onMouseEnter(...args);
+                }
+            },
+            onMouseLeave: (...args: any[]) => {
+                this.handleMouseOut();
+                if (onlyChild.props.onMouseLeave) {
+                    onlyChild.props.onMouseLeave(...args);
+                }
+            },
         };
         if (ReactUiDetection.isRadioGroup(onlyChild)) {
             const prevRenderItem = onlyChild.props.renderItem;
