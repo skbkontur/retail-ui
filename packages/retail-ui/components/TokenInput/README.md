@@ -47,7 +47,7 @@ let tokenColors = {
     selectedItems={state.selectedItems}
     onChange={itemsNew => setState({ selectedItems: itemsNew })}
     renderTokenComponent={(token, value) => {
-      return token(tokenColors[value] || tokenColors.default);
+      return token({ colors: tokenColors[value] || tokenColors.default });
     }}
   />
 </div>;
