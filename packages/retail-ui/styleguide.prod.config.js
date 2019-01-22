@@ -5,7 +5,7 @@ const config = require('./styleguide.config.js');
 
 const excludeVersions = ['0.8.8'];
 
-const { error, stdout } = spawnSync('npm', ['show', 'retail-ui', '--json']);
+const { error, stdout } = spawnSync('npm', ['show', 'retail-ui', '--json'], { shell: true });
 
 if (error) {
   console.log(error);
