@@ -11,7 +11,7 @@ const browsers = {
   chrome: {
     desiredCapabilities: {
       browserName: "chrome",
-      version: "60"
+      version: "67"
     },
     retry: RetryCount
   },

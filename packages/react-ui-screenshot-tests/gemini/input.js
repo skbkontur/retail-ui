@@ -131,7 +131,7 @@ gemini.suite("Input with prefix and suffix", () => {
       .setCaptureElements("#inputWithPrefixOrSuffx-small")
       .capture("Plain")
       .capture("First input focused", (actions, find) => {
-        actions.focus(find("input"));
+        actions.focus(find("#inputWithPrefixOrSuffx-small input"));
       });
   });
 
@@ -141,7 +141,7 @@ gemini.suite("Input with prefix and suffix", () => {
       .setCaptureElements("#inputWithPrefixOrSuffx-medium")
       .capture("Plain")
       .capture("First input focused", (actions, find) => {
-        actions.focus(find("input"));
+        actions.focus(find("#inputWithPrefixOrSuffx-medium input"));
       });
   });
 
@@ -151,7 +151,7 @@ gemini.suite("Input with prefix and suffix", () => {
       .setCaptureElements("#inputWithPrefixOrSuffx-large")
       .capture("Plain")
       .capture("First input focused", (actions, find) => {
-        actions.focus(find("input"));
+        actions.focus(find("#inputWithPrefixOrSuffx-large input"));
       });
   });
 });
