@@ -10,6 +10,8 @@
   }
 
   .root {
+    .reset-button();
+
     border: 0;
     color: @text-color-default;
     cursor: pointer;
@@ -31,9 +33,8 @@
       padding: 0;
     }
 
-    &:active {
-      padding-top: 1px;
-      vertical-align: -1px;
+    &:active .caption {
+      transform: translateY(1px);
     }
 
     &::after {
