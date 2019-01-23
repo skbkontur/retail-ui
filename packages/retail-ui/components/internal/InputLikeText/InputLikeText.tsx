@@ -118,7 +118,7 @@ export default class InputLikeText extends React.Component<
           {this.renderLeftIcon()}
           {prefix && <span className={styles.prefix}>{prefix}</span>}
         </span>
-        <span className={styles.inputWrapper}>
+        <span className={styles.wrapper}>
           <span className={styles.input}>{children}</span>
           {this.renderPlaceholder()}
         </span>

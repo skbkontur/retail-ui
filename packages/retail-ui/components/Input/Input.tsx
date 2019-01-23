@@ -281,7 +281,7 @@ class Input extends React.Component<InputProps, InputState> {
           {this.renderLeftIcon()}
           {this.renderPrefix()}
         </span>
-        <span className={classes.inputWrapper}>
+        <span className={classes.wrapper}>
           {input}
           {this.renderPlaceholder()}
         </span>
