@@ -206,7 +206,7 @@ storiesOf('Input', module)
 
     return <Sample />;
   })
-  .add('Prefix and suffics', () => (
+  .add('Prefix and suffix', () => (
     <div>
       {(['small', 'medium', 'large'] as InputSize[]).map(size => (
         <div style={{ padding: 4 }} id={`inputWithPrefixOrSuffx-${size}`}>
