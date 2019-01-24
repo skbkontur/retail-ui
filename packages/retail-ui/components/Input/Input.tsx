@@ -250,6 +250,7 @@ class Input extends React.Component<InputProps, InputState> {
 
     return (
       <label {...labelProps}>
+        <div className={classes.borderTop} />
         {input}
         {this.renderPlaceholder()}
         {this.renderLeftIcon()}

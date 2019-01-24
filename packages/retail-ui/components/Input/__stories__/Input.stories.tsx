@@ -14,6 +14,13 @@ const styles = {
 };
 
 storiesOf('Input', module)
+  .add('Inputs everywhere', () =>
+    Array.from({ length: 2048 }).map((_, i) => (
+      <span style={{ padding: '2px', display: 'inline-block' }}>
+        <Input key={i} defaultValue={String(i).slice(0, 3)} width="50px" />
+      </span>
+    ))
+  )
   .add('Inputs with different states', () => (
     <div>
       <div>
