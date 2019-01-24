@@ -231,12 +231,11 @@ class Button extends React.Component<ButtonProps, ButtonState> {
     };
 
     const wrapProps = {
-      className: this.props.arrow
-        ? classNames(
-            classes.wrap_arrow,
-            this.props.arrow === 'left' && classes.wrap_arrow_left
-          ) || ''
-        : classes.wrap,
+      className: classNames({
+        [classes.wrap]: !this.props.arrow,
+        [classes.wrap_arrow]: this.props.arrow,
+        [classes.wrap_arrow_left]: this.props.arrow === 'left'
+      }),
       style: {
         width: this.props.width
       }
@@ -285,7 +284,9 @@ class Button extends React.Component<ButtonProps, ButtonState> {
         [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused
       });
       Object.assign(wrapProps, {
-        className: classes.wrap,
+        className: classNames(classes.wrap, {
+          [classes.wrap_link]: this.props.use === 'link'
+        }),
         style: { width: wrapProps.style.width }
       });
       rootProps.style.textAlign = undefined;

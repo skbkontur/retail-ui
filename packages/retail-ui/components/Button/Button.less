@@ -9,6 +9,10 @@
     box-sizing: border-box;
     display: inline-block;
     padding: 1px;
+
+    &_link {
+      padding: 0;
+    }
   }
 
   .wrap_arrow {
@@ -21,13 +25,6 @@
   .wrap_arrow_left {
     margin-right: 0;
     margin-left: 10px;
-  }
-
-  :global(.rt-ie9),
-  :global(.rt-ie8) {
-    .wrap_arrow {
-      margin-right: 0;
-    }
   }
 
   .root {
@@ -55,7 +52,10 @@
       padding: 0;
     }
 
-    &:active .caption {
+    &:not(.disabled).active .caption,
+    &:not(.disabled):active .caption,
+    &:not(.link).active .caption,
+    &:not(.link):active .caption {
       transform: translateY(1px);
     }
 
@@ -78,18 +78,10 @@
 
     &:not(.link) .warning {
       box-shadow: 0 0 0 2px @border-color-warning;
-
-      :global(.rt-ie8) & {
-        outline: 2px solid @border-color-warning;
-      }
     }
 
     &:not(.link) .error {
       box-shadow: 0 0 0 2px @border-color-error;
-
-      :global(.rt-ie8) & {
-        outline: 2px solid @border-color-error;
-      }
     }
   }
 
@@ -166,16 +158,6 @@
             left: @arrow_left_loading_left;
             top: @arrow_left_loading_top;
           }
-        }
-      }
-    }
-
-    :global(.rt-ie9),
-    :global(.rt-ie8) {
-      .@{className} {
-        .arrow {
-          height: 0;
-          width: 0;
         }
       }
     }
@@ -299,38 +281,6 @@
 
       .arrow.arrow_error {
         box-shadow: 2px -2px 0 0 @border-color-error;
-      }
-    }
-
-    :global(.rt-ie8),
-    :global(.rt-ie9) {
-      .@{className},
-      .@{className}:hover,
-      .@{className}:active {
-        background: @bg;
-        box-shadow: none;
-        outline: 1px solid @border;
-      }
-
-      .@{className}.focus {
-        box-shadow: none;
-
-        &::before {
-          border: 1px solid #fff;
-          bottom: 0;
-          content: '';
-          left: 0;
-          outline: 2px solid @border-color-focus;
-          position: absolute;
-          right: 0;
-          top: 0;
-        }
-      }
-
-      .@{className}.disabled {
-        background: @bg-disabled;
-        box-shadow: none;
-        outline: 1px solid @border-color-gray-light;
       }
     }
   }
@@ -567,10 +517,6 @@
 
     .caption {
       display: inline;
-    }
-
-    &:active {
-      vertical-align: 0;
     }
 
     &.disabled {
