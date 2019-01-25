@@ -13,7 +13,7 @@ import styles from './Fias.less';
 import isEqual from 'lodash.isequal';
 import { Logger } from './logger/Logger';
 
-interface FiasProps {
+export interface FiasProps {
   /**
    * Значение адреса. См. формат в примерах
    */
@@ -78,7 +78,7 @@ interface FiasProps {
   version?: string;
 }
 
-interface FiasState {
+export interface FiasState {
   opened: boolean;
   address: Address;
   locale: FiasLocale;
