@@ -16,12 +16,7 @@ if (process.env.STORYBOOK_FLAT_UI) {
 let stories = null;
 
 function renderStory({ kind, story }) {
-  ReactDOM.render(
-    <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
-      {stories[kind][story]()}
-    </div>,
-    document.getElementById('root')
-  );
+  ReactDOM.render(stories[kind][story](), document.getElementById('root'));
 }
 
 storiesOf('All', module).add('Stories', () => {
@@ -39,16 +34,11 @@ storiesOf('All', module).add('Stories', () => {
   return <div />;
 });
 
-addDecorator((story, { kind }) => {
-  if (kind == 'All') {
-    return story();
-  }
-  return (
-    <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
-      {story()}
-    </div>
-  );
-});
+addDecorator(story => (
+  <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
+    {story()}
+  </div>
+));
 
 const req = require.context('../components', true, /.stories.tsx?$/);
 
