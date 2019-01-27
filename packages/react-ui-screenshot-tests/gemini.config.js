@@ -10,10 +10,16 @@ Suite.create = function() {
 };
 
 Browser.prototype.openRelative = function(relativeURL) {
-  if (this.currentUrl) {
-    return Promise.resolve(this.currentUrl);
+  if (this.isStorybookOpen) {
+    return Promise.resolve();
   }
-  return this.open(this.config.getAbsoluteUrl(relativeURL), { resetZoom: true }).then(url => (this.currentUrl = url));
+  return this.open(this.config.getAbsoluteUrl(relativeURL), { resetZoom: true }).then(
+    () => (this.isStorybookOpen = true)
+  );
+};
+
+Browser.prototype.reset = function() {
+  return Promise.resolve();
 };
 
 // NOTE remove process.env.CI after teamcity migration
