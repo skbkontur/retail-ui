@@ -7,7 +7,6 @@ const RADIO_SELECTOR = '[class^="Radio-root"]';
 
 gemini.suite("RadioGroup", suite => {
   suite
-    .before(renderStory("RadioGroup", "playground"))
     .before(renderStory("RadioGroup", "vertical"))
     .setCaptureElements("#RadioGroup-wrap")
     .capture("plain")
