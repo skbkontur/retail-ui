@@ -1,10 +1,10 @@
 /* global gemini */
 
-var pathTo = require('./utils').pathTo;
+var renderStory = require('./utils').renderStory;
 
 gemini.suite('PasswordInput', suite => {
   suite
-    .setUrl(pathTo('PasswordInput', 'Plain'))
+    .before(renderStory('PasswordInput', 'Plain'))
     .setCaptureElements('#test-element')
     .capture('Plain')
     .capture('With typed password', (actions, find) => {
@@ -17,7 +17,7 @@ gemini.suite('PasswordInput', suite => {
 
 gemini.suite('PasswordInput with CapsLock', suite => {
   suite
-    .setUrl(pathTo('PasswordInput', 'CapsLock label'))
+    .before(renderStory('PasswordInput', 'CapsLock label'))
     .setCaptureElements('#test-element')
     .capture('Plain');
 });

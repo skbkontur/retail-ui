@@ -1,6 +1,6 @@
 /* global gemini */
 
-var pathTo = require('./utils').pathTo;
+var renderStory = require('./utils').renderStory;
 
 var applyTest = suite =>
   suite
@@ -14,26 +14,26 @@ var applyTest = suite =>
     });
 
 gemini.suite('link', suite => {
-  suite.setUrl(pathTo('Link', 'Simple'));
+  suite.before(renderStory('Link', 'Simple'));
   applyTest(suite);
 });
 
 gemini.suite('link with Icon', suite => {
-  suite.setUrl(pathTo('Link', 'With Icon'));
+  suite.before(renderStory('Link', 'With Icon'));
   applyTest(suite);
 });
 
 gemini.suite('link danger', suite => {
-  suite.setUrl(pathTo('Link', 'Danger'));
+  suite.before(renderStory('Link', 'Danger'));
   applyTest(suite);
 });
 
 gemini.suite('link Grayed', suite => {
-  suite.setUrl(pathTo('Link', 'Grayed'));
+  suite.before(renderStory('Link', 'Grayed'));
   applyTest(suite);
 });
 
 gemini.suite('link Disabled', suite => {
-  suite.setUrl(pathTo('Link', 'Disabled'));
+  suite.before(renderStory('Link', 'Disabled'));
   applyTest(suite);
 });

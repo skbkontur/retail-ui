@@ -1,13 +1,13 @@
 /* global gemini */
-var pathTo = require("./utils").pathTo;
+var renderStory = require("./utils").renderStory;
 
 var TEST_CONTAINER = "html";
 var BUTTONS = "#buttons";
 
 var initTest = (suite, showLongItems) =>
   suite
-    .setUrl(
-      pathTo("DropdownContainer", "various aligns, portals, items and scrolls")
+    .before(
+      renderStory("DropdownContainer", "various aligns, portals, items and scrolls")
     )
     .setCaptureElements(TEST_CONTAINER)
     .ignoreElements(BUTTONS)

@@ -1,11 +1,11 @@
 /* global gemini */
 
-var pathTo = require("./utils").pathTo;
+var renderStory = require("./utils").renderStory;
 var TOGGLE_WIDGET = "#toggle-widget";
 
 gemini.suite("Logotype", suite => {
   suite
-    .setUrl(pathTo("Logotype", "with widget"))
+    .before(renderStory("Logotype", "with widget"))
     .setCaptureElements("#test-element")
     .ignoreElements(TOGGLE_WIDGET)
     .capture("without widget")

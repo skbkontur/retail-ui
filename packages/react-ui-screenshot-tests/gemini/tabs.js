@@ -1,6 +1,6 @@
 /* global gemini */
 
-var pathTo = require('./utils').pathTo;
+var renderStory = require('./utils').renderStory;
 
 var TabSelector = '[class^="Tab-root"]';
 
@@ -30,11 +30,11 @@ var applyTest = testSuite =>
     });
 
 gemini.suite('tabs horizontal', suite => {
-  suite.setUrl(pathTo('Tabs', 'simple'));
+  suite.before(renderStory('Tabs', 'simple'));
   applyTest(suite);
 });
 
 gemini.suite('tabs vertical', suite => {
-  suite.setUrl(pathTo('Tabs', 'vertical'));
+  suite.before(renderStory('Tabs', 'vertical'));
   applyTest(suite);
 });

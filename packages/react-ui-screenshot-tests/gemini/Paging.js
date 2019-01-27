@@ -1,9 +1,9 @@
-const pathTo = require("./utils").pathTo;
+const renderStory = require("./utils").renderStory;
 
 gemini.suite("Paging", () => {
   gemini.suite("Sample", suite => {
     suite
-      .setUrl(pathTo("Paging", "GoToAbsensePage"))
+      .before(renderStory("Paging", "GoToAbsensePage"))
       .setCaptureElements("#test-element")
       .capture("plain")
       .capture("hover", (actions, find) => {
@@ -20,7 +20,7 @@ gemini.suite("Paging", () => {
   gemini.suite("Keyboard control", () => {
     gemini.suite("Sample", suite => {
       suite
-        .setUrl(pathTo("Paging", "GoToAbsensePage"))
+        .before(renderStory("Paging", "GoToAbsensePage"))
         .setCaptureElements("#test-element")
         .capture("focused", (actions, find) => {
           actions.focus(find('[class^="Paging-paging"]'));
@@ -42,7 +42,7 @@ gemini.suite("Paging", () => {
 
     gemini.suite("Sample ie11", suite => {
       suite
-        .setUrl(pathTo("Paging", "GoToAbsensePage"))
+        .before(renderStory("Paging", "GoToAbsensePage"))
         .setCaptureElements("#test-element")
         .capture("focused", (actions, find) => {
           actions.focus(find('[class^="Paging-paging"]'));

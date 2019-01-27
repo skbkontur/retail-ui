@@ -1,5 +1,5 @@
 /* global gemini */
-const pathTo = require("./utils").pathTo;
+const renderStory = require("./utils").renderStory;
 
 const ROOT_SELECTOR = '[class^="Select-root"]';
 const MENU_ITEM_SELECTOR = '[class^="MenuItem-root"]';
@@ -21,7 +21,7 @@ const testScenario = suite => {
 gemini.suite("Select", suite => {
   testScenario(
     suite
-      .setUrl(pathTo("Select", "Simple"))
+      .before(renderStory("Select", "Simple"))
       .setCaptureElements(".dropdown-test-container")
   );
 });
@@ -29,7 +29,7 @@ gemini.suite("Select", suite => {
 gemini.suite("Select Use Link", suite => {
   testScenario(
     suite
-      .setUrl(pathTo("Select", "use link"))
+      .before(renderStory("Select", "use link"))
       .setCaptureElements(".dropdown-test-container")
   );
 });
@@ -37,7 +37,7 @@ gemini.suite("Select Use Link", suite => {
 gemini.suite("Select Use Link With Icon", suite => {
   testScenario(
     suite
-      .setUrl(pathTo("Select", "use link with icon"))
+      .before(renderStory("Select", "use link with icon"))
       .setCaptureElements(".dropdown-test-container")
   );
 });
@@ -45,7 +45,7 @@ gemini.suite("Select Use Link With Icon", suite => {
 gemini.suite("Select with text-overflow", suite => {
   testScenario(
     suite
-      .setUrl(pathTo("Select", "with text overflow"))
+      .before(renderStory("Select", "with text overflow"))
       .setCaptureElements(".dropdown-test-container")
   );
 });

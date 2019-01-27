@@ -1,11 +1,11 @@
 /* global gemini */
-var pathTo = require('./utils').pathTo;
+var renderStory = require('./utils').renderStory;
 
 var BUTTON_SELECTOR = '[class^="Button-root"]';
 
 gemini.suite('Switcher', suite => {
   suite
-    .setUrl(pathTo('Switcher', 'horizontal'))
+    .before(renderStory('Switcher', 'horizontal'))
     .setCaptureElements('#test-element')
     .capture('idle')
     .capture('clicked', (actions, find) => {
@@ -15,7 +15,7 @@ gemini.suite('Switcher', suite => {
 
 gemini.suite('Switcher errored', suite => {
   suite
-    .setUrl(pathTo('Switcher', 'errored'))
+    .before(renderStory('Switcher', 'errored'))
     .setCaptureElements('#test-element')
     .capture('idle');
 });

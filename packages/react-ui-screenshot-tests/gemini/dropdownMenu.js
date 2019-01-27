@@ -1,6 +1,6 @@
 /* global gemini */
 
-var pathTo = require('./utils').pathTo;
+var renderStory = require('./utils').renderStory;
 
 const DROPDOWN_MENU_SELECTOR = '[class^="DropdownMenu-container"]';
 const CAPTION_SELECTOR = '[class^="PopupMenu-caption"]';
@@ -33,6 +33,6 @@ var applyTest = testSuite =>
     });
 
 gemini.suite('DropdownMenu simple', suite => {
-  suite.setUrl(pathTo('DropdownMenu', 'Simple example'));
+  suite.before(renderStory('DropdownMenu', 'Simple example'));
   applyTest(suite);
 });
