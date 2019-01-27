@@ -1,3 +1,21 @@
+const Suite = require("gemini/lib/suite");
+const Browser = require("gemini/lib/browser/new-browser");
+
+const oldCreate = Suite.create;
+
+Suite.create = function() {
+  const suite = oldCreate.apply(Suite, arguments);
+  suite.url = "iframe.html?selectedKind=All&selectedStory=Stories";
+  return suite;
+};
+
+Browser.prototype.openRelative = function(relativeURL) {
+  if (this.currentUrl) {
+    return Promise.resolve(this.currentUrl);
+  }
+  return this.open(this.config.getAbsoluteUrl(relativeURL), { resetZoom: true }).then(url => (this.currentUrl = url));
+};
+
 // NOTE remove process.env.CI after teamcity migration
 const isCI = Boolean(process.env.TEAMCITY_VERSION || process.env.CI);
 
