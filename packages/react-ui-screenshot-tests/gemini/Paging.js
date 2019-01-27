@@ -34,10 +34,7 @@ gemini.suite("Paging", () => {
         .capture("Next page", actions => {
           actions.sendKeys([gemini.CONTROL, gemini.ARROW_RIGHT]);
         })
-        .skip.in(
-          "ie11",
-          'в ie11 не получается "нажать" `gemini.CONTROL + gemini.ARROW_RIGHT`'
-        );
+        .skip.in("ie11", 'в ie11 не получается "нажать" `gemini.CONTROL + gemini.ARROW_RIGHT`');
     });
 
     gemini.suite("Sample ie11", suite => {

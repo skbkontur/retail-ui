@@ -52,9 +52,7 @@ gemini.suite("Hint with 100%-width input", suite => {
 
 gemini.suite("Hint wrap inline-block", suite => {
   suite
-    .before(
-      renderStory("Hint", "Hints without wrapper around inline-block with 50% width")
-    )
+    .before(renderStory("Hint", "Hints without wrapper around inline-block with 50% width"))
     .setCaptureElements("#test-element")
     .capture("mouseOver");
 });

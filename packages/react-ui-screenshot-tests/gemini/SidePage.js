@@ -26,9 +26,7 @@ gemini.suite("SidePage", suite => {
         actions.click(find('[class^="SidePage-body"] button'));
       })
       .capture("close internal side-page", (action, find) => {
-        action.click(
-          find('.react-ui:last-child [class^="SidePage-footer"] button')
-        );
+        action.click(find('.react-ui:last-child [class^="SidePage-footer"] button'));
       });
   });
 

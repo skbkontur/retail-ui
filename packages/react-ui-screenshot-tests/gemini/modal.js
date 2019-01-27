@@ -76,24 +76,16 @@ gemini.suite("modal without sticky elements", suite => {
     .capture("top")
     .capture("middle", actions => {
       actions.executeJS(function(window) {
-        var modalContainer = window.document.querySelector(
-          '[class^="Modal-container"]'
-        );
-        var modalContent = window.document.querySelector(
-          '[class^="Modal-centerContainer"]'
-        );
+        var modalContainer = window.document.querySelector('[class^="Modal-container"]');
+        var modalContent = window.document.querySelector('[class^="Modal-centerContainer"]');
 
         modalContainer.scrollTop = modalContent.offsetHeight / 2;
       });
     })
     .capture("bottom", actions => {
       actions.executeJS(function(window) {
-        var modalContainer = window.document.querySelector(
-          '[class^="Modal-container"]'
-        );
-        var modalContent = window.document.querySelector(
-          '[class^="Modal-centerContainer"]'
-        );
+        var modalContainer = window.document.querySelector('[class^="Modal-container"]');
+        var modalContent = window.document.querySelector('[class^="Modal-centerContainer"]');
 
         modalContainer.scrollTop = modalContent.offsetHeight;
       });
@@ -104,5 +96,5 @@ gemini.suite("modal with align to the top", suite => {
   suite
     .before(renderStory("Modal", "With alignTop"))
     .setCaptureElements("html")
-    .capture("alignTop")
+    .capture("alignTop");
 });

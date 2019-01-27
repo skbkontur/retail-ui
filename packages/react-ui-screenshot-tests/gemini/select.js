@@ -19,33 +19,21 @@ const testScenario = suite => {
 };
 
 gemini.suite("Select", suite => {
-  testScenario(
-    suite
-      .before(renderStory("Select", "Simple"))
-      .setCaptureElements(".dropdown-test-container")
-  );
+  testScenario(suite.before(renderStory("Select", "Simple")).setCaptureElements(".dropdown-test-container"));
 });
 
 gemini.suite("Select Use Link", suite => {
-  testScenario(
-    suite
-      .before(renderStory("Select", "use link"))
-      .setCaptureElements(".dropdown-test-container")
-  );
+  testScenario(suite.before(renderStory("Select", "use link")).setCaptureElements(".dropdown-test-container"));
 });
 
 gemini.suite("Select Use Link With Icon", suite => {
   testScenario(
-    suite
-      .before(renderStory("Select", "use link with icon"))
-      .setCaptureElements(".dropdown-test-container")
+    suite.before(renderStory("Select", "use link with icon")).setCaptureElements(".dropdown-test-container")
   );
 });
 
 gemini.suite("Select with text-overflow", suite => {
   testScenario(
-    suite
-      .before(renderStory("Select", "with text overflow"))
-      .setCaptureElements(".dropdown-test-container")
+    suite.before(renderStory("Select", "with text overflow")).setCaptureElements(".dropdown-test-container")
   );
 });
