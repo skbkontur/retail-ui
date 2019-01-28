@@ -37,11 +37,13 @@
       padding: 0;
     }
 
-    &:not(.disabled).active .caption,
-    &:not(.disabled):active .caption,
-    &:not(.link).active .caption,
-    &:not(.link):active .caption {
-      transform: translateY(1px);
+    :active,
+    .active {
+      &:not(.link):not(.disabled) {
+        .caption {
+          transform: translateY(1px);
+        }
+      }
     }
 
     &::after {
