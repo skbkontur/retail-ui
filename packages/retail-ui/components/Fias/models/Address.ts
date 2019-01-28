@@ -180,12 +180,12 @@ export class Address {
   };
 
   public isAllowedToFill = (field: Nullable<Fields>): boolean => {
-    const { region, city, settlement, street } = this.fields;
+    const { region, city, settlement, street, planningstructure } = this.fields;
     if (
       (field === Fields.street &&
         !(city || settlement || (region && region.isFederalCity))) ||
       (field === Fields.stead && !street) ||
-      (field === Fields.house && !street)
+      (field === Fields.house && !street && !planningstructure)
     ) {
       return false;
     }
