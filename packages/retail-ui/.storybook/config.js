@@ -16,7 +16,10 @@ if (process.env.STORYBOOK_FLAT_UI) {
 let stories = null;
 
 function renderStory({ kind, story }) {
-  ReactDOM.render(stories[kind][story](), document.getElementById('root'));
+  const root = document.getElementById('root');
+
+  ReactDOM.unmountComponentAtNode(root);
+  ReactDOM.render(stories[kind][story](), root);
 }
 
 storiesOf('All', module).add('Stories', () => {
