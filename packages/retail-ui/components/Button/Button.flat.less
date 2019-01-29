@@ -37,8 +37,9 @@
       padding: 0;
     }
 
-    :active,
-    .active {
+    &:active,
+    &.active,
+    &.checked {
       &:not(.link):not(.disabled) {
         .caption {
           transform: translateY(1px);
