@@ -41,7 +41,8 @@ export const defaultLocale = {
   steadPlaceholder: '',
 
   houseNotFound: 'Не найдены дома по указанному выше расположению',
-  houseFillBefore: 'Заполните улицу, чтобы выбрать номер дома',
+  houseFillBefore:
+    'Заполните улицу или иную территорию, чтобы выбрать номер дома',
   housePlaceholder: '',
 
   roomPlaceholder: ''
