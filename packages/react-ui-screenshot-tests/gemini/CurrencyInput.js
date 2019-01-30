@@ -5,6 +5,7 @@ gemini.suite("CurrencyInput", () => {
     suite
       .before(renderStory("CurrencyInput", "Sample"))
       .setCaptureElements("#test-element")
+      .ignoreElements("button")
       .capture("Plain")
       .capture("Focus", (actions, find) => {
         actions.focus(find('[class^="Input-input"]'));
