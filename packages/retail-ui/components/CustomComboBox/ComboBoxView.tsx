@@ -9,6 +9,8 @@ import { MenuItemState } from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
+import { ArrowTriangleDown } from '@skbkontur/react-icons';
+import styles from './CustomComboBox.less';
 import ComboBoxMenu from './ComboBoxMenu';
 
 interface ComboBoxViewProps<T> {
@@ -88,7 +90,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
   }
 
-  public render(): JSX.Element {
+  public render() {
     const {
       items,
       loading,
@@ -98,7 +100,6 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
-      openButton,
       opened,
       refMenu,
       maxMenuHeight,
@@ -125,37 +126,6 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       topOffsets.arrow += 6;
     }
 
-    const spinner: React.ReactNode = (
-      <span
-        style={{
-          position: 'absolute',
-          top: topOffsets.spinner,
-          right: 5,
-          zIndex: 10
-        }}
-      >
-        <Spinner type="mini" caption="" dimmed />
-      </span>
-    );
-
-    const arrow: React.ReactNode = (
-      <span
-        style={{
-          border: '4px solid transparent',
-          borderBottomWidth: 0,
-          borderTopColor: '#aaa',
-          position: 'absolute',
-          right: 10,
-          top: topOffsets.arrow,
-          zIndex: 2,
-          pointerEvents: 'none'
-        }}
-      />
-    );
-
-    const spinnerIsShown = loading && items && !!items.length;
-    const arrowIsShown = !spinnerIsShown && openButton;
-
     return (
       <RenderLayer
         onClickOutside={onClickOutside}
@@ -163,14 +133,13 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         active={opened}
       >
         <label
-          style={{ width, display: 'inline-block', position: 'relative' }}
+          style={{ width }}
+          className={styles.root}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           onMouseOver={onMouseOver}
         >
           {input}
-          {spinnerIsShown && spinner}
-          {arrowIsShown && arrow}
           {opened && (
             <DropdownContainer
               align={menuAlign}
@@ -211,7 +180,6 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       onInputFocus,
       onInputClick,
       onInputKeyDown,
-      openButton,
       placeholder,
       renderValue,
       size,
@@ -220,6 +188,8 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       warning,
       refInputLikeText
     } = this.props;
+
+    const rightIcon = this.getRightIcon();
 
     if (editing) {
       return (
@@ -233,7 +203,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           onChange={onInputChange}
           onFocus={onInputFocus}
           onClick={onInputClick}
-          rightIcon={openButton ? <span /> : null}
+          rightIcon={rightIcon}
           value={textValue || ''}
           onKeyDown={onInputKeyDown}
           placeholder={placeholder}
@@ -251,7 +221,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         borderless={borderless}
         error={error}
         onFocus={onFocus}
-        padRight={openButton}
+        rightIcon={rightIcon}
         disabled={disabled}
         warning={warning}
         placeholder={placeholder}
@@ -276,6 +246,30 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       this.props.refInput(input);
     }
     this.input = input;
+  };
+
+  private renderSpinner = () => (
+    <span className={styles.spinnerWrapper}>
+      <Spinner type="mini" caption="" dimmed />
+    </span>
+  );
+
+  private getRightIcon = () => {
+    const { loading, items, openButton } = this.props;
+
+    if (loading && items && !!items.length) {
+      return this.renderSpinner();
+    }
+
+    if (openButton) {
+      return (
+        <span className={styles.arrowWrapper}>
+          <ArrowTriangleDown />
+        </span>
+      );
+    }
+
+    return null;
   };
 }
 
