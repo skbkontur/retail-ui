@@ -2,7 +2,7 @@
 
 ## Пакеты
 
-- **retail-ui:** библиотека компонентов ([readme](packages/retail-ui/README.md), [changelog](packages/retail-ui/CHANGELOG.md), [roadmap](packages/retail-ui/CHANGELOG.md))
+- **retail-ui:** библиотека компонентов ([readme](packages/retail-ui/README.md), [changelog](packages/retail-ui/CHANGELOG.md), [roadmap](packages/retail-ui/ROADMAP.md))
 - **react-ui-validations** - библиотека валидации ([readme](packages/react-ui-validations/README.md))
 - **react-ui-screenshot-tests** - пакет для скриншотных тестов библиотеки компонентов
 - **react-ui-codemodes** - коллекция кодмод для разных целей и задач
