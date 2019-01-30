@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.37.0"></a>
+# [0.37.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.36.0...retail-ui@0.37.0) (2019-01-30)
+
+
+### Bug Fixes
+
+* **Fias:** allow to search for houses in planning structures ([3eeec85](https://github.com/skbkontur/retail-ui/commit/3eeec85)), closes [#1098](https://github.com/skbkontur/retail-ui/issues/1098)
+
+
+### Features
+
+* **Input:** поддержка префикса и суффикса ([fe9a1d8](https://github.com/skbkontur/retail-ui/commit/fe9a1d8))
+* **Input:** флекс-верска инпута ([64deabc](https://github.com/skbkontur/retail-ui/commit/64deabc))
+* **InputLikeText:** интерфейс пропсов наследуется от InputProps ([b4b7dce](https://github.com/skbkontur/retail-ui/commit/b4b7dce))
+
+
+
+
 <a name="0.36.0"></a>
 # [0.36.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.35.0...retail-ui@0.36.0) (2019-01-21)
 

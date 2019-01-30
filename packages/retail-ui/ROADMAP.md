@@ -17,7 +17,7 @@
 
 ### Январь 2019
 
-- [ ] Добавление свойств `prefix/postfix` для `Input` [#727](https://github.com/skbkontur/retail-ui/issues/727)
+- [x] Добавление свойств `prefix/postfix` для `Input` [#727](https://github.com/skbkontur/retail-ui/issues/727)
 - [ ] Обновление версии через CI [#1042](https://github.com/skbkontur/retail-ui/issues/1042)
 
 ### Декабрь 2018
