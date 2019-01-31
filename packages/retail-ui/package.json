@@ -21,7 +21,7 @@
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build && styleguidist build --config styleguide.prod.config.js",
     "clean": "git clean -fdxqe node_modules",
-    "lint:flow": "flow",
+    "lint:flow": "flow check",
     "lint": "npm-run-all --continue-on-error --parallel lint:*",
     "lint:tsc": "tsc --noEmit",
     "lint:eslint": "eslint ./",
