@@ -1,9 +1,9 @@
-const pathTo = require("./utils").pathTo;
+const renderStory = require("./utils").renderStory;
 
 gemini.suite("SidePage", suite => {
   gemini.suite("simple", suite => {
     suite
-      .setUrl(pathTo("SidePage", "Simple"))
+      .before(renderStory("SidePage", "Simple"))
       .setCaptureElements("html")
       .capture("open side-page", (actions, find) => {
         actions.click(find("button"));
@@ -12,29 +12,27 @@ gemini.suite("SidePage", suite => {
 
   gemini.suite("left", suite => {
     suite
-      .setUrl(pathTo("SidePage", "SidePage with left position"))
+      .before(renderStory("SidePage", "SidePage with left position"))
       .setCaptureElements("html")
       .capture("plain");
   });
 
   gemini.suite("SidePage over another SidePage", suite => {
     suite
-      .setUrl(pathTo("SidePage", "SidePage over another SidePage"))
+      .before(renderStory("SidePage", "SidePage over another SidePage"))
       .setCaptureElements("html")
       .capture("open internal side-page", (actions, find) => {
         actions.click(find("button"));
         actions.click(find('[class^="SidePage-body"] button'));
       })
       .capture("close internal side-page", (action, find) => {
-        action.click(
-          find('.react-ui:last-child [class^="SidePage-footer"] button')
-        );
+        action.click(find('.react-ui:last-child [class^="SidePage-footer"] button'));
       });
   });
 
   gemini.suite("updateLayout method", suite => {
     suite
-      .setUrl(pathTo("SidePage", "test updateLayout method"))
+      .before(renderStory("SidePage", "test updateLayout method"))
       .setCaptureElements("html")
       .ignoreElements("#buttons")
       .capture("idle")
