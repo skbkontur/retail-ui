@@ -64,7 +64,7 @@ const searchFactory = (query: string): EffectType => (
     const expectingId = ++requestId;
 
     let shouldLoaderShow = false;
-    let cancelSeilentDelay: (() => void) | null = null;
+    let cancelSilentRequestDelay: (() => void) | null = null;
     let forceResolveMinDelay: (() => void) | null = null;
 
     const cancelableMinDelay = () =>
@@ -74,17 +74,17 @@ const searchFactory = (query: string): EffectType => (
       });
 
     new Promise((resolve, reject) => {
-      cancelSeilentDelay = reject;
+      cancelSilentRequestDelay = reject;
       setTimeout(resolve, MAX_REQUEST_DELAY);
     })
       .then(() => {
         shouldLoaderShow = true;
-        cancelSeilentDelay = null;
+        cancelSilentRequestDelay = null;
         dispatch({ type: 'RequestItems' });
       })
       .catch(() => {
         shouldLoaderShow = false;
-        cancelSeilentDelay = null;
+        cancelSilentRequestDelay = null;
         dispatch({ type: 'Open' });
       });
 
@@ -94,8 +94,8 @@ const searchFactory = (query: string): EffectType => (
           return result;
         }
 
-        if (cancelSeilentDelay) {
-          cancelSeilentDelay();
+        if (cancelSilentRequestDelay) {
+          cancelSilentRequestDelay();
         }
 
         if (forceResolveMinDelay) {
