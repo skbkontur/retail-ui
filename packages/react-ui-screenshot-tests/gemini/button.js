@@ -71,3 +71,10 @@ gemini.suite("Button arrows", suite => {
     .setCaptureElements("#test-element")
     .capture("plain");
 });
+
+gemini.suite("Button text styles reset", suite => {
+  suite
+    .before(renderStory("Button", "text styles reset"))
+    .setCaptureElements("#test-element")
+    .capture("plain");
+});
