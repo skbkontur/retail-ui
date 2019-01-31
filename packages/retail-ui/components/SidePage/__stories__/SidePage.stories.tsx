@@ -458,6 +458,97 @@ class WithVariableContent extends React.Component<
   };
 }
 
+class TestUpdateLayoutMethod extends React.Component {
+  public static ChildComp = class extends React.Component {
+    public state = {
+      content: false
+    };
+
+    public toggleContent = () => {
+      this.setState({ content: !this.state.content });
+    };
+
+    public render() {
+      return (
+        <div>{this.state.content && <TestUpdateLayoutMethod.Content />}</div>
+      );
+    }
+  };
+
+  public static Content = () => (
+    <div
+      style={{
+        background: `repeating-linear-gradient(
+                          60deg,
+                          #fafafa,
+                          #fafafa 20px,
+                          #dfdede 20px,
+                          #dfdede 40px
+                        )`,
+        height: 2000
+      }}
+    />
+  );
+
+  public state = {
+    content: false
+  };
+
+  private sidePage: SidePage | null = null;
+  // @ts-ignore: only refers to a type, but is being used as a namespace here
+  private childComp: TestUpdateLayoutMethod.ChildComp | null = null;
+
+  public updateLayout = () => {
+    if (this.sidePage) {
+      this.sidePage.updateLayout();
+    }
+  };
+
+  public toggleBodyContent = () => {
+    this.setState({ content: !this.state.content });
+  };
+
+  public toggleChildContent = () => {
+    if (this.childComp) {
+      this.childComp.toggleContent();
+    }
+  };
+
+  public render() {
+    return (
+      <SidePage blockBackground ref={ref => (this.sidePage = ref)}>
+        <SidePage.Header>Title</SidePage.Header>
+        <SidePage.Body>
+          <SidePage.Container>
+            {this.state.content && <TestUpdateLayoutMethod.Content />}
+            <TestUpdateLayoutMethod.ChildComp
+              ref={ref => (this.childComp = ref)}
+            />
+          </SidePage.Container>
+        </SidePage.Body>
+        <SidePage.Footer>
+          <div id="buttons">
+            <Gapped gap={10}>
+              <button id="toggle-body-content" onClick={this.toggleBodyContent}>
+                Toggle Body Content
+              </button>
+              <button
+                id="toggle-child-component-content"
+                onClick={this.toggleChildContent}
+              >
+                Toggle Child Component Content
+              </button>
+              <button id="update" onClick={this.updateLayout}>
+                Update
+              </button>
+            </Gapped>
+          </div>
+        </SidePage.Footer>
+      </SidePage>
+    );
+  }
+}
+
 storiesOf('SidePage', module)
   .add('With scrollable parent content', () => (
     <SidePageWithScrollableContent />
@@ -480,6 +571,7 @@ storiesOf('SidePage', module)
   ))
   .add('Simple', () => <SimpleSidePage />)
   .add('SidePage with variable content', () => <WithVariableContent />)
+  .add('test updateLayout method', () => <TestUpdateLayoutMethod />)
   .add('With scrollable parent content and scrolling before open', () => (
     <div style={{ width: '300px' }}>
       {textSample}

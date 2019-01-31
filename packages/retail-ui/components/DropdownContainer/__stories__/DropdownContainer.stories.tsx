@@ -89,7 +89,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   }
 
   private renderControls = () => (
-    <div style={{ marginBottom: 16 }}>
+    <div style={{ marginBottom: 16, flexShrink: 0, flexGrow: 0 }}>
       <div id="buttons" style={{ display: 'inline-block' }}>
         <Button onClick={() => this.setState({ long: !this.state.long })}>
           {this.state.long ? 'Short' : 'Long'} Items

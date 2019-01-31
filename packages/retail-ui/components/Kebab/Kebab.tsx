@@ -11,13 +11,27 @@ import { Nullable } from '../../typings/utility-types';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 
 import styles from './Kebab.less';
+import { PopupPosition } from '../Popup';
 
 export interface KebabProps {
   disabled?: boolean;
-  onClose?: () => void;
-  onOpen?: () => void;
-  size?: 'small' | 'large';
-  positions?: string[];
+  /**
+   * Функция вызываемая при закрытии выпадашки
+   * @default () => undefined
+   */
+  onClose: () => void;
+  /**
+   * Функция вызываемая при открытии выпадашки
+   * @default () => undefined
+   */
+  onOpen: () => void;
+  size: 'small' | 'medium' | 'large';
+  /**
+   * Список позиций доступных для расположения выпадашки
+   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использоваться первая из этого списка
+   * @default ['bottom left', 'bottom right', 'top left', 'top right']
+   */
+  positions: PopupPosition[];
   menuMaxHeight?: number | string;
   /**
    * Не показывать анимацию
@@ -149,13 +163,9 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         }
 
         if (this.state.opened) {
-          if (this.props.onOpen) {
-            this.props.onOpen();
-          }
+          this.props.onOpen();
         } else {
-          if (this.props.onClose) {
-            this.props.onClose();
-          }
+          this.props.onClose();
         }
       }
     );
@@ -186,6 +196,12 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         return (
           <div className={styles.iconsmall}>
             <MenuKebabIcon size="14px" color="#757575" />
+          </div>
+        );
+      case 'medium':
+        return (
+          <div className={styles.iconmedium}>
+            <MenuKebabIcon size="18px" color="#757575" />
           </div>
         );
       case 'large':

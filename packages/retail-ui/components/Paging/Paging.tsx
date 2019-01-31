@@ -23,6 +23,10 @@ interface ItemComponentProps {
 
 export interface PagingProps {
   activePage: number;
+  /**
+   * Компонент обертки по умолчанию
+   * @default <span />
+   */
   component: React.ComponentType<ItemComponentProps>;
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;

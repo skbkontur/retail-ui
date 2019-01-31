@@ -67,7 +67,6 @@ describe('<Input />', () => {
       placeholder: 'somePlaceholder',
       title: 'someTitle',
 
-      onBlur: () => undefined,
       onCopy: () => undefined,
       onClick: () => undefined,
       onMouseUp: () => undefined,

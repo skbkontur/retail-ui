@@ -1,1 +1,1 @@
-export { Fias, Fias as default } from './Fias';
+export { Fias, FiasProps, FiasState, Fias as default } from './Fias';

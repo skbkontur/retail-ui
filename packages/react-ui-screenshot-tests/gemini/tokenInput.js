@@ -1,9 +1,9 @@
 /* global gemini */
-var pathTo = require("./utils").pathTo;
+var renderStory = require("./utils").renderStory;
 
 gemini.suite("TokenInput", suite => {
   suite
-    .setUrl(pathTo("TokenInput", "empty with reference"))
+    .before(renderStory("TokenInput", "empty with reference"))
     .setCaptureElements(".tokens-test-container")
     .capture("idle")
     .capture("clicked", (actions, find) => {

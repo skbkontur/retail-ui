@@ -10,10 +10,10 @@ import ModalStack from '../ModalStack';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import RenderLayer from '../RenderLayer';
 import ZIndex from '../ZIndex';
-import SidePageBody from './SidePageBody';
+import { SidePageBodyWithContext } from './SidePageBody';
 import SidePageContainer from './SidePageContainer';
 import { SidePageContext } from './SidePageContext';
-import SidePageFooter from './SidePageFooter';
+import { SidePageFooterWithContext, SidePageFooter } from './SidePageFooter';
 import SidePageHeader from './SidePageHeader';
 import { CSSTransition } from 'react-transition-group';
 
@@ -85,16 +85,15 @@ interface ZIndexPropsType {
  */
 class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Header = SidePageHeader;
-  public static Body = SidePageBody;
-  public static Footer = SidePageFooter;
+  public static Body = SidePageBodyWithContext;
+  public static Footer = SidePageFooterWithContext;
   public static Container = SidePageContainer;
+
+  public state: SidePageState = {};
+
   private stackSubscription: EventSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
-
-  constructor(props: SidePageProps) {
-    super(props);
-    this.state = {};
-  }
+  private footer: SidePageFooter | null = null;
 
   public componentDidMount() {
     events.addEventListener(window, 'keydown', this.handleKeyDown);
@@ -108,6 +107,16 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     }
     ModalStack.remove(this);
   }
+
+  /**
+   * Обновляет разметку компонента.
+   * @public
+   */
+  public updateLayout = (): void => {
+    if (this.footer) {
+      this.footer.update();
+    }
+  };
 
   public render(): JSX.Element {
     const { disableAnimations } = this.props;
@@ -168,7 +177,9 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
               <SidePageContext.Provider
                 value={{
                   requestClose: this.requestClose,
-                  width: sidePageWidth
+                  width: sidePageWidth,
+                  updateLayout: this.updateLayout,
+                  footerRef: this.footerRef
                 }}
               >
                 {/* React <= 15. SidePageContext.Provider can only receive a single child element. */}
@@ -297,6 +308,10 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (this.props.onClose) {
       this.props.onClose();
     }
+  };
+
+  private footerRef = (ref: SidePageFooter | null) => {
+    this.footer = ref;
   };
 }
 

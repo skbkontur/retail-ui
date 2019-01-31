@@ -26,13 +26,23 @@ export type InputAlign = 'left' | 'center' | 'right';
 
 export type InputType = 'password' | 'text';
 
+export type IconType = React.ReactNode | (() => React.ReactNode);
+
 export type InputProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
   {
-    /** Иконка слева */
-    leftIcon?: React.ReactNode;
-    /** Иконка справа */
-    rightIcon?: React.ReactNode;
+    /**
+     * Иконка слева
+     * Если `ReactNode` применяются дефолтные стили для иконки
+     * Если `() => ReactNode` применяются только стили для позиционирование
+     */
+    leftIcon?: IconType;
+    /**
+     * Иконка справа
+     * Если `ReactNode` применяются дефолтные стили для иконки
+     * Если `() => ReactNode` применяются только стили для позиционирование
+     */
+    rightIcon?: IconType;
     /** Состояние ошибки */
     error?: boolean;
     /** Состояние предупреждения */
@@ -72,6 +82,17 @@ export type InputProps = Override<
     capture?: boolean;
 
     /**
+     * Префикс
+     * `ReactNode` перед значением, но после иконки
+     */
+    prefix?: React.ReactNode;
+    /**
+     * Суффикс
+     * `ReactNode` после значения, но перед правой иконкой
+     */
+    suffix?: React.ReactNode;
+
+    /**
      * @deprecated
      * 100% ширина в группе, лучше явно передать ширину в компонент
      */
@@ -89,9 +110,13 @@ export type InputProps = Override<
   }
 >;
 
-export interface InputState {
-  polyfillPlaceholder: boolean;
+export interface InputVisibilityState {
   blinking: boolean;
+  focused: boolean;
+}
+
+export interface InputState extends InputVisibilityState {
+  polyfillPlaceholder: boolean;
 }
 
 /**
@@ -107,7 +132,8 @@ class Input extends React.Component<InputProps, InputState> {
 
   public state: InputState = {
     polyfillPlaceholder: false,
-    blinking: false
+    blinking: false,
+    focused: false
   };
 
   private blinkTimeout: number = 0;
@@ -180,6 +206,8 @@ class Input extends React.Component<InputProps, InputState> {
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
+      onKeyDown,
+      onKeyPress,
       width,
       error,
       warning,
@@ -200,21 +228,22 @@ class Input extends React.Component<InputProps, InputState> {
       selectAllOnFocus,
       disabled,
       onUnexpectedInput,
+      prefix,
+      suffix,
       formatChars,
       ...rest
     } = this.props;
 
-    const { blinking } = this.state;
+    const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: classNames({
-        [classes.root]: true,
+      className: classNames(classes.root, this.getSizeClassName(), {
         [classes.disabled]: disabled,
         [classes.error]: error,
         [classes.warning]: warning,
-        [classes.padLeft]: !!leftIcon,
-        [classes.padRight]: !!rightIcon,
-        [this.getSizeClassName()]: true
+        [classes.borderless]: borderless,
+        [classes.blink]: blinking,
+        [classes.focus]: focused
       }),
       style: { width },
       onMouseEnter,
@@ -224,16 +253,13 @@ class Input extends React.Component<InputProps, InputState> {
 
     const inputProps = {
       ...rest,
-      className: classNames({
-        [classes.input]: true,
-        [classes.borderless]: borderless,
-        [classes.blink]: blinking
-      }),
+      className: classNames(classes.input),
       value,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onKeyDown: this.handleKeyDown,
       onKeyPress: this.handleKeyPress,
+      onBlur: this.handleBlur,
       style: { textAlign: align },
       ref: this.refInput,
       type: 'text',
@@ -251,10 +277,20 @@ class Input extends React.Component<InputProps, InputState> {
 
     return (
       <label {...labelProps}>
-        {input}
-        {this.renderPlaceholder()}
-        {this.renderLeftIcon()}
-        {this.renderRightIcon()}
+        <span className={classes.sideContainer}>
+          {this.renderLeftIcon()}
+          {this.renderPrefix()}
+        </span>
+        <span className={classes.wrapper}>
+          {input}
+          {this.renderPlaceholder()}
+        </span>
+        <span
+          className={classNames(classes.sideContainer, classes.rightContainer)}
+        >
+          {this.renderSuffix()}
+          {this.renderRightIcon()}
+        </span>
       </label>
     );
   }
@@ -280,8 +316,6 @@ class Input extends React.Component<InputProps, InputState> {
         mask={mask}
         maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
         alwaysShowMask={this.props.alwaysShowMask}
-        hasLeftIcon={!!this.props.leftIcon}
-        hasRightIcon={!!this.props.rightIcon}
         onUnexpectedInput={this.handleUnexpectedInput}
         formatChars={this.props.formatChars}
       />
@@ -296,12 +330,20 @@ class Input extends React.Component<InputProps, InputState> {
     return this.renderIcon(this.props.rightIcon, classes.rightIcon);
   }
 
-  private renderIcon(icon: React.ReactNode, className: string) {
-    return icon ? (
-      <span className={className}>
-        <span className={classes.icon}>{icon}</span>
+  private renderIcon(icon: IconType, className: string) {
+    if (!icon) {
+      return null;
+    }
+
+    if (icon instanceof Function) {
+      return <span className={className}>{icon()}</span>;
+    }
+
+    return (
+      <span className={classNames(className, classes.useDefaultColor)}>
+        {icon}
       </span>
-    ) : null;
+    );
   }
 
   private renderPlaceholder() {
@@ -360,6 +402,10 @@ class Input extends React.Component<InputProps, InputState> {
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.setState({
+      focused: true
+    });
+
     if (this.props.selectAllOnFocus) {
       this.selectAll();
     }
@@ -395,6 +441,34 @@ class Input extends React.Component<InputProps, InputState> {
     } else {
       this.blink();
     }
+  };
+
+  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.setState({ focused: false });
+
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
+  };
+
+  private renderPrefix = () => {
+    const { prefix } = this.props;
+
+    if (!prefix) {
+      return null;
+    }
+
+    return <span className={classes.prefix}>{prefix}</span>;
+  };
+
+  private renderSuffix = () => {
+    const { suffix } = this.props;
+
+    if (!suffix) {
+      return null;
+    }
+
+    return <span className={classes.suffix}>{suffix}</span>;
   };
 }
 

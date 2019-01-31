@@ -1,10 +1,10 @@
 /* global gemini */
 
-var pathTo = require("./utils").pathTo;
+var renderStory = require("./utils").renderStory;
 
 gemini.suite("Checkbox plain", suite => {
   suite
-    .setUrl(pathTo("Checkbox", "plain"))
+    .before(renderStory("Checkbox", "plain"))
     .setCaptureElements("#test-element")
     .capture("plain")
     .capture("hovered", (actions, find) => {
@@ -26,42 +26,42 @@ gemini.suite("Checkbox plain", suite => {
 
 gemini.suite("Checkbox disabled", suite => {
   suite
-    .setUrl(pathTo("Checkbox", "disabled"))
+    .before(renderStory("Checkbox", "disabled"))
     .setCaptureElements("#test-element")
     .capture("Checkbox disabled");
 });
 
 gemini.suite("Checkbox disabled checked", suite => {
   suite
-    .setUrl(pathTo("Checkbox", "disabled checked"))
+    .before(renderStory("Checkbox", "disabled checked"))
     .setCaptureElements("#test-element")
     .capture("Checkbox disabled checked");
 });
 
 gemini.suite("Checkbox error", suite => {
   suite
-    .setUrl(pathTo("Checkbox", "error"))
+    .before(renderStory("Checkbox", "error"))
     .setCaptureElements("#test-element")
     .capture("Checkbox error");
 });
 
 gemini.suite("Checkbox with a long label", suite => {
   suite
-    .setUrl(pathTo("Checkbox", "with a long label"))
+    .before(renderStory("Checkbox", "with a long label"))
     .setCaptureElements("#test-element")
     .capture("plain");
 });
 
 gemini.suite("Checkbox without label", suite => {
   suite
-    .setUrl(pathTo("Checkbox", "w/o label"))
+    .before(renderStory("Checkbox", "w/o label"))
     .setCaptureElements("#test-element")
     .capture("plain");
 });
 
 gemini.suite("Checkbox indeterminate", suite => {
   suite
-    .setUrl(pathTo("Checkbox", "indeterminate"))
+    .before(renderStory("Checkbox", "indeterminate"))
     .setCaptureElements("#screenshot-capture")
     .capture("plain")
     .capture("hovered", (actions, find) => {

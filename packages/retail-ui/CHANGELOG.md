@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.37.0"></a>
+# [0.37.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.36.0...retail-ui@0.37.0) (2019-01-30)
+
+
+### Bug Fixes
+
+* **Fias:** allow to search for houses in planning structures ([3eeec85](https://github.com/skbkontur/retail-ui/commit/3eeec85)), closes [#1098](https://github.com/skbkontur/retail-ui/issues/1098)
+
+
+### Features
+
+* **Input:** поддержка префикса и суффикса ([fe9a1d8](https://github.com/skbkontur/retail-ui/commit/fe9a1d8))
+* **Input:** флекс-верска инпута ([64deabc](https://github.com/skbkontur/retail-ui/commit/64deabc))
+* **InputLikeText:** интерфейс пропсов наследуется от InputProps ([b4b7dce](https://github.com/skbkontur/retail-ui/commit/b4b7dce))
+
+
+
+
+<a name="0.36.0"></a>
+# [0.36.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.35.0...retail-ui@0.36.0) (2019-01-21)
+
+
+### Bug Fixes
+
+* **Hint:** fix unnecessary re-render ([c9160d4](https://github.com/skbkontur/retail-ui/commit/c9160d4)), closes [#1053](https://github.com/skbkontur/retail-ui/issues/1053)
+* **SidePage:** update layout when the Body has been updated ([4477546](https://github.com/skbkontur/retail-ui/commit/4477546)), closes [#961](https://github.com/skbkontur/retail-ui/issues/961)
+* **TopBar.Item:** при onlyIcon={true} не рендерятся дети, fix [#1019](https://github.com/skbkontur/retail-ui/issues/1019) ([49f52d2](https://github.com/skbkontur/retail-ui/commit/49f52d2))
+
+
+### Features
+
+* **Kebab:** add size medium ([9ea2d17](https://github.com/skbkontur/retail-ui/commit/9ea2d17))
+* **Select:** add public focus method ([8f317e1](https://github.com/skbkontur/retail-ui/commit/8f317e1)), closes [#1063](https://github.com/skbkontur/retail-ui/issues/1063)
+* **Select:** компонент принимает пропсы onFocus/onBlur ([2d4ba50](https://github.com/skbkontur/retail-ui/commit/2d4ba50))
+* **SidePage:** add updateLayout method ([7fe9290](https://github.com/skbkontur/retail-ui/commit/7fe9290))
+
+
+
+
 <a name="0.35.0"></a>
 # [0.35.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.34.0...retail-ui@0.35.0) (2019-01-14)
 

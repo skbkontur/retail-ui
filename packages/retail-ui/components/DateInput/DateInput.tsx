@@ -198,13 +198,6 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
              */
             this.renderInputLikeText()
           : this.renderInput()}
-        {this.props.withIcon && (
-          <span className={styles.icon}>
-            <span className={styles.iconInner}>
-              <CalendarIcon size={this._getIconSize()} />
-            </span>
-          </span>
-        )}
       </div>
     );
   }
@@ -227,6 +220,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
         onDoubleClick={this.handleDoubleClick}
         onPaste={this.handlePaste}
         value={isMaskHidden ? '' : this.getFormattedValue()}
+        rightIcon={this.renderIcon()}
       />
     );
   }
@@ -247,6 +241,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
         onKeyDown={this.handleKeyDown}
         onMouseDown={this.handleMouseDown}
         onPaste={this.handlePaste}
+        rightIcon={this.renderIcon()}
       >
         {!isMaskHidden && (
           <div
@@ -522,6 +517,16 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     this.blink();
     this.setState({ notify: false });
   }
+
+  private renderIcon = () => {
+    if (this.props.withIcon) {
+      return () => (
+        <span className={styles.icon}>
+          <CalendarIcon size={this._getIconSize()} />
+        </span>
+      );
+    }
+  };
 }
 
 function dateToMask(

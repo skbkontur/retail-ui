@@ -1,14 +1,12 @@
 /* global gemini */
-var pathTo = require("./utils").pathTo;
+var renderStory = require("./utils").renderStory;
 
 var TEST_CONTAINER = "html";
 var BUTTONS = "#buttons";
 
 var initTest = (suite, showLongItems) =>
   suite
-    .setUrl(
-      pathTo("DropdownContainer", "various aligns, portals, items and scrolls")
-    )
+    .before(renderStory("DropdownContainer", "various aligns, portals, items and scrolls"))
     .setCaptureElements(TEST_CONTAINER)
     .ignoreElements(BUTTONS)
     .before((actions, find) => {
@@ -31,16 +29,11 @@ var innerScrollTest = suite =>
     .capture("shot", actions => {
       actions.executeJS(function(window) {
         var innerScroll = window.document.querySelector("#inner-scroll");
-        innerScroll.scrollTop =
-          innerScroll.scrollHeight - innerScroll.offsetHeight;
-        innerScroll.scrollLeft =
-          innerScroll.scrollWidth - innerScroll.offsetWidth;
+        innerScroll.scrollTop = innerScroll.scrollHeight - innerScroll.offsetHeight;
+        innerScroll.scrollLeft = innerScroll.scrollWidth - innerScroll.offsetWidth;
       });
     })
-    .skip.in(
-      "ie11",
-      "ie иногда не до конца скролит элемент (разница в пару px)"
-    );
+    .skip.in("ie11", "ie иногда не до конца скролит элемент (разница в пару px)");
 
 gemini.suite("DropdownContainer", () => {
   gemini.suite("short Items", () => {

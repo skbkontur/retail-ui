@@ -1,60 +1,58 @@
 /* global gemini */
-var pathTo = require("./utils").pathTo;
+var renderStory = require("./utils").renderStory;
 
 gemini.suite("Hint", suite => {
   suite
-    .setUrl(pathTo("Hint", "default"))
+    .before(renderStory("Hint", "default"))
     .setCaptureElements("#test-element")
     .capture("mouseOver");
 });
 
 gemini.suite("Hint left", suite => {
   suite
-    .setUrl(pathTo("Hint", "left"))
+    .before(renderStory("Hint", "left"))
     .setCaptureElements("#test-element")
     .capture("mouseOver");
 });
 
 gemini.suite("Hint right", suite => {
   suite
-    .setUrl(pathTo("Hint", "right"))
+    .before(renderStory("Hint", "right"))
     .setCaptureElements("#test-element")
     .capture("mouseOver");
 });
 
 gemini.suite("Hint bottom", suite => {
   suite
-    .setUrl(pathTo("Hint", "bottom"))
+    .before(renderStory("Hint", "bottom"))
     .setCaptureElements("#test-element")
     .capture("mouseOver");
 });
 
 gemini.suite("With large word", suite => {
   suite
-    .setUrl(pathTo("Hint", "with large word"))
+    .before(renderStory("Hint", "with large word"))
     .setCaptureElements("#test-element")
     .capture("mouseOver");
 });
 
 gemini.suite("Hint with block caption", suite => {
   suite
-    .setUrl(pathTo("Hint", "with block-element"))
+    .before(renderStory("Hint", "with block-element"))
     .setCaptureElements("#test-element")
     .capture("mouseOver");
 });
 
 gemini.suite("Hint with 100%-width input", suite => {
   suite
-    .setUrl(pathTo("Hint", "with 100%-width input"))
+    .before(renderStory("Hint", "with 100%-width input"))
     .setCaptureElements("#test-element")
     .capture("mouseOver");
 });
 
 gemini.suite("Hint wrap inline-block", suite => {
   suite
-    .setUrl(
-      pathTo("Hint", "Hints without wrapper around inline-block with 50% width")
-    )
+    .before(renderStory("Hint", "Hints without wrapper around inline-block with 50% width"))
     .setCaptureElements("#test-element")
     .capture("mouseOver");
 });

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
-import Input from '../Input';
+import Input, { InputSize } from '../Input';
 import Button from '../../Button';
 import Gapped from '../../Gapped';
 
@@ -205,4 +205,98 @@ storiesOf('Input', module)
     }
 
     return <Sample />;
-  });
+  })
+  .add('Prefix and suffix', () => (
+    <div>
+      {(['small', 'medium', 'large'] as InputSize[]).map(size => (
+        <div style={{ padding: 4 }} id={`inputWithPrefixOrSuffx-${size}`}>
+          <div style={{ margin: '20px 10px 10px', fontSize: '1.5em' }}>
+            Size {size}
+          </div>
+          <div>
+            <div style={{ ...styles, width: 100 }}>Prefix</div>
+            <div style={styles}>
+              <Input size={size} prefix="Prefix" placeholder="Placeholder" />
+            </div>
+            <div style={styles}>
+              <Input size={size} prefix="Prefix" defaultValue="Value" />
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'baseline' }}>
+            <div style={{ ...styles, width: 100 }}>Suffix</div>
+            <div style={styles}>
+              <Input size={size} suffix="suffix" placeholder="Placeholder" />
+            </div>
+            <div style={styles}>
+              <Input size={size} suffix="suffix" defaultValue="Value" />
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'baseline' }}>
+            <div style={{ ...styles, width: 100 }}>Both preffix and suffix</div>
+            <div style={styles}>
+              <Input
+                size={size}
+                prefix="Prefix"
+                suffix="suffix"
+                placeholder="Placeholder"
+              />
+            </div>
+            <div style={styles}>
+              <Input
+                size={size}
+                prefix="Prefix"
+                suffix="suffix"
+                defaultValue="Value"
+              />
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'baseline' }}>
+            <div style={{ ...styles, width: 100 }}>
+              Both preffix and suffix with rightIcon
+            </div>
+            <div style={styles}>
+              <Input
+                size={size}
+                rightIcon={<SearchIcon />}
+                prefix="Prefix"
+                suffix="suffix"
+                placeholder="Placeholder"
+              />
+            </div>
+            <div style={styles}>
+              <Input
+                size={size}
+                rightIcon={<SearchIcon />}
+                prefix="Prefix"
+                suffix="suffix"
+                defaultValue="Value"
+              />
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'baseline' }}>
+            <div style={{ ...styles, width: 100 }}>
+              Both preffix and suffix with leftIcon
+            </div>
+            <div style={styles}>
+              <Input
+                size={size}
+                leftIcon={<SearchIcon />}
+                prefix="Prefix"
+                suffix="suffix"
+                placeholder="Placeholder"
+              />
+            </div>
+            <div style={styles}>
+              <Input
+                size={size}
+                leftIcon={<SearchIcon />}
+                prefix="Prefix"
+                suffix="suffix"
+                defaultValue="Value"
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  ));

@@ -1,10 +1,10 @@
 /* global gemini */
 
-var pathTo = require("./utils").pathTo;
+var renderStory = require("./utils").renderStory;
 
 gemini.suite("toggle", suite => {
   suite
-    .setUrl(pathTo("Toggle", "plain"))
+    .before(renderStory("Toggle", "plain"))
     .setCaptureElements("#test-element")
     .capture("plain")
     .capture("pressed", (actions, find) => {

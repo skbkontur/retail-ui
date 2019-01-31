@@ -1,12 +1,16 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { SidePageContext } from './SidePageContext';
+import {
+  SidePageContext,
+  SidePageContextType,
+  withContext
+} from './SidePageContext';
 import styles from './SidePage.less';
 import LayoutEvents from '../../lib/LayoutEvents';
 
 export interface SidePageFooterProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
-
+  context?: SidePageContextType;
   /**
    * Включает серый цвет в футере
    */
@@ -17,9 +21,7 @@ export interface SidePageFooterProps {
  * Футер модального окна.
  */
 
-export default class SidePageFooter extends React.Component<
-  SidePageFooterProps
-> {
+export class SidePageFooter extends React.Component<SidePageFooterProps> {
   public state = {
     fixed: false
   };
@@ -28,9 +30,25 @@ export default class SidePageFooter extends React.Component<
 
   private wrapper: HTMLElement | null = null;
 
+  private layoutSub: ReturnType<typeof LayoutEvents.addListener> | null = null;
+
   public componentDidMount() {
-    this.setProperStyles();
-    LayoutEvents.addListener(this.setProperStyles);
+    const { context } = this.props;
+    if (context) {
+      context.footerRef(this);
+    }
+    this.update();
+    this.layoutSub = LayoutEvents.addListener(this.update);
+  }
+
+  public componentWillUnmount() {
+    const { context } = this.props;
+    if (context) {
+      context.footerRef(null);
+    }
+    if (this.layoutSub) {
+      this.layoutSub.remove();
+    }
   }
 
   public render(): JSX.Element {
@@ -60,6 +78,10 @@ export default class SidePageFooter extends React.Component<
     );
   }
 
+  public update = () => {
+    this.setProperStyles();
+  };
+
   private refContent = (node: HTMLElement | null) => {
     this.content = node;
   };
@@ -84,3 +106,9 @@ export default class SidePageFooter extends React.Component<
     return this.content.getBoundingClientRect().height;
   }
 }
+
+export const SidePageFooterWithContext = withContext<SidePageFooterProps>(
+  SidePageFooter
+);
+
+export default SidePageFooterWithContext;

@@ -1,9 +1,9 @@
-var pathTo = require("./utils").pathTo;
+var renderStory = require("./utils").renderStory;
 
 gemini.suite("Spinner", () => {
   gemini.suite("String caption", suite => {
     suite
-      .setUrl(pathTo("Spinner", "Normal"))
+      .before(renderStory("Spinner", "Normal"))
       .setCaptureElements("#test-element")
       .ignoreElements({ every: "[class^='Spinner-inner']" })
       .capture("plain");
@@ -11,7 +11,7 @@ gemini.suite("Spinner", () => {
 
   gemini.suite("ReactNode caption", suite => {
     suite
-      .setUrl(pathTo("Spinner", "With ReactNode in caption"))
+      .before(renderStory("Spinner", "With ReactNode in caption"))
       .setCaptureElements("#test-element")
       .ignoreElements({ every: "[class^='Spinner-inner']" })
       .capture("plain");

@@ -1,28 +1,28 @@
-var pathTo = require("./utils").pathTo;
+var renderStory = require("./utils").renderStory;
 
 gemini.suite("ComboBox", () => {
   gemini.suite("View", () => {
     gemini.suite("Input like text", suite => {
       suite
-        .setUrl(pathTo("ComboBoxView", "input like text"))
+        .before(renderStory("ComboBoxView", "input like text"))
         .setCaptureElements("#test-element")
         .ignoreElements('[class^="Spinner-spinner"]')
         .capture("plain")
         .capture("focused first element", (action, find) => {
-          action.focus(find('[class^="Input-input"]'));
+          action.click(find('[class^="Input-input"]'));
         });
     });
 
     gemini.suite("Input like text with placeholder", suite => {
       suite
-        .setUrl(pathTo("ComboBoxView", "input like text with placeholder"))
+        .before(renderStory("ComboBoxView", "input like text with placeholder"))
         .setCaptureElements("#test-element")
         .capture("plain");
     });
 
     gemini.suite("Opened", suite => {
       suite
-        .setUrl(pathTo("ComboBoxView", "opened"))
+        .before(renderStory("ComboBoxView", "opened"))
         .setCaptureElements("#test-element")
         .ignoreElements('[class^="Spinner-spinner"]')
         .capture("plain");
@@ -30,7 +30,7 @@ gemini.suite("ComboBox", () => {
 
     gemini.suite("With items", suite => {
       suite
-        .setUrl(pathTo("ComboBoxView", "with items"))
+        .before(renderStory("ComboBoxView", "with items"))
         .setCaptureElements("#test-element")
         .capture("plain");
     });
@@ -41,7 +41,7 @@ gemini.suite("ComboBox", () => {
 
     gemini.suite("Simple", suite => {
       suite
-        .setUrl(pathTo("ComboBox", "simple combobox"))
+        .before(renderStory("ComboBox", "simple combobox"))
         .setCaptureElements("#test-element")
         .capture("plain")
         .capture("opened", (action, find) => {
@@ -58,7 +58,7 @@ gemini.suite("ComboBox", () => {
 
     gemini.suite("Open to top", suite => {
       suite
-        .setUrl(pathTo("ComboBox", "open to top"))
+        .before(renderStory("ComboBox", "open to top"))
         .setCaptureElements("#test-element")
         .capture("plain")
         .capture("opened", (action, find) => {
@@ -75,7 +75,7 @@ gemini.suite("ComboBox", () => {
 
     gemini.suite("Search", suite => {
       suite
-        .setUrl(pathTo("ComboBox", "simple combobox"))
+        .before(renderStory("ComboBox", "simple combobox"))
         .setCaptureElements("#test-element")
         .capture("search result", (action, find) => {
           action.click(find('[class^="Input-root"]'));
@@ -91,7 +91,7 @@ gemini.suite("ComboBox", () => {
 
     gemini.suite("RenderNotFound", suite => {
       suite
-        .setUrl(pathTo("ComboBox", "simple combobox"))
+        .before(renderStory("ComboBox", "simple combobox"))
         .setCaptureElements("#test-element")
         .capture("search result", (action, find) => {
           action.click(find('[class^="Input-root"]'));
@@ -101,7 +101,7 @@ gemini.suite("ComboBox", () => {
 
     gemini.suite("External control", suite => {
       suite
-        .setUrl(pathTo("ComboBox", "with external value"))
+        .before(renderStory("ComboBox", "with external value"))
         .setCaptureElements("#test-element")
         .capture("initial value")
         .capture("reset value", (action, find) => {
@@ -118,7 +118,7 @@ gemini.suite("ComboBox", () => {
 
     gemini.suite("Keyboard control", suite => {
       suite
-        .setUrl(pathTo("ComboBox", "simple combobox"))
+        .before(renderStory("ComboBox", "simple combobox"))
         .setCaptureElements("#test-element")
         .capture("select", (action, find) => {
           action.click(find('[class^="Input-root"]'));
@@ -133,7 +133,7 @@ gemini.suite("ComboBox", () => {
 
     gemini.suite("External toggle error and set value", suite => {
       suite
-        .setUrl(pathTo("ComboBox", "toogle error"))
+        .before(renderStory("ComboBox", "toogle error"))
         .setCaptureElements("#test-element")
         .capture("plain")
         .capture("with error", (action, find) => {
@@ -146,14 +146,14 @@ gemini.suite("ComboBox", () => {
 
     gemini.suite("AutoFocus", suite => {
       suite
-        .setUrl(pathTo("ComboBox", "with autoFocus"))
+        .before(renderStory("ComboBox", "with autoFocus"))
         .setCaptureElements("#test-element")
         .capture("plain");
     });
 
     gemini.suite("select element if only one in dropdown", suite => {
       suite
-        .setUrl(pathTo("ComboBox", "simple combobox"))
+        .before(renderStory("ComboBox", "simple combobox"))
         .setCaptureElements("#test-element")
         .capture("editing", (action, find) => {
           action.click(find('[class^="Input-root"]'));
@@ -169,10 +169,10 @@ gemini.suite("ComboBox", () => {
 
     gemini.suite("focus next field after Enter on item", suite => {
       suite
-        .setUrl(pathTo("ComboBox", "focus flow"))
+        .before(renderStory("ComboBox", "focus flow"))
         .setCaptureElements("#test-element")
         .capture("before")
-        .capture("after Enter on Item", (action) => {
+        .capture("after Enter on Item", action => {
           action.sendKeys(gemini.ENTER);
         });
     });
