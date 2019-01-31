@@ -159,3 +159,10 @@ gemini.suite("Input with prefix and suffix", () => {
       });
   });
 });
+
+gemini.suite("Input text styles reset", suite => {
+  suite
+    .before(renderStory("Input", "text styles reset"))
+    .setCaptureElements("#test-element")
+    .capture("plain");
+});
