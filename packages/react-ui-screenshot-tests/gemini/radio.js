@@ -1,10 +1,10 @@
 /* global gemini */
 
-var pathTo = require('./utils').pathTo;
+var renderStory = require("./utils").renderStory;
 
-gemini.suite('Radio', suite => {
+gemini.suite("Radio", suite => {
   suite
-    .setUrl(pathTo('Radio', 'Radio with different states'))
-    .setCaptureElements('#test-element')
-    .capture('different states');
+    .before(renderStory("Radio", "Radio with different states"))
+    .setCaptureElements("#test-element")
+    .capture("different states");
 });

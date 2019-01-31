@@ -1,6 +1,5 @@
 import * as React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
-import classnames from 'classnames';
 import styles from './MaskedInput.less';
 
 export interface MaskedInputProps
@@ -74,12 +73,7 @@ export default class MaskedInput extends React.Component<
           ref={this.refMaskedInput}
         />
         {this.isMaskVisible() && (
-          <span
-            className={classnames(styles.inputMask, {
-              [styles.padLeft]: hasLeftIcon,
-              [styles.padRight]: hasLeftIcon
-            })}
-          >
+          <span className={styles.inputMask}>
             <span style={{ color: 'transparent' }}>
               {this.state.emptyValue.slice(0, this.state.value.length)}
             </span>

@@ -1,3 +1,27 @@
+const Suite = require("gemini/lib/suite");
+const Browser = require("gemini/lib/browser/new-browser");
+
+const oldCreate = Suite.create;
+
+Suite.create = function() {
+  const suite = oldCreate.apply(Suite, arguments);
+  suite.url = "iframe.html?selectedKind=All&selectedStory=Stories";
+  return suite;
+};
+
+Browser.prototype.openRelative = function(relativeURL) {
+  if (this.isStorybookOpen) {
+    return Promise.resolve();
+  }
+  return this.open(this.config.getAbsoluteUrl(relativeURL), { resetZoom: true }).then(
+    () => (this.isStorybookOpen = true)
+  );
+};
+
+Browser.prototype.reset = function() {
+  return Promise.resolve();
+};
+
 // NOTE remove process.env.CI after teamcity migration
 const isCI = Boolean(process.env.TEAMCITY_VERSION || process.env.CI);
 
@@ -11,7 +35,7 @@ const browsers = {
   chrome: {
     desiredCapabilities: {
       browserName: "chrome",
-      version: "60"
+      version: "67"
     },
     retry: RetryCount
   },
