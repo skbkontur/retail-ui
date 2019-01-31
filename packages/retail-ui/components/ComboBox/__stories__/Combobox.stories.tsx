@@ -30,7 +30,7 @@ storiesOf('ComboBox', module)
       public render() {
         return (
           <div>
-            <SimpleCombobox delay={this.state.delay} />
+            <SimpleCombobox noInitialValue delay={this.state.delay} />
             <p>
               <label>Delay: </label>
               <input

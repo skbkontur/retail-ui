@@ -63,35 +63,34 @@ const searchFactory = (query: string): EffectType => (
     const { getItems } = getProps();
     const expectingId = ++requestId;
 
-    try {
-      let shouldLoaderShow = false;
-      let cancelDelay: (() => void) | null = null;
-      let forceResolveMinDelay: (() => void) | null = null;
+    let shouldLoaderShow = false;
+    let cancelDelay: (() => void) | null = null;
+    let forceResolveMinDelay: (() => void) | null = null;
 
-      const cancelableMinDelay = () =>
-        new Promise(resolve => {
-          forceResolveMinDelay = resolve;
-          setTimeout(resolve, MAX_REQUEST_DELAY + MIN_LOADER_SHOWN_TIME);
-        });
+    const cancelableMinDelay = () =>
+      new Promise(resolve => {
+        forceResolveMinDelay = resolve;
+        setTimeout(resolve, MAX_REQUEST_DELAY + MIN_LOADER_SHOWN_TIME);
+      });
 
-      const cancelableDelay = () =>
-        new Promise((resolve, reject) => {
-          cancelDelay = reject;
-          setTimeout(resolve, MAX_REQUEST_DELAY);
-        });
+    const cancelableDelay = () =>
+      new Promise((resolve, reject) => {
+        cancelDelay = reject;
+        setTimeout(resolve, MAX_REQUEST_DELAY);
+      });
 
-      cancelableDelay()
-        .then(() => {
-          shouldLoaderShow = true;
-          dispatch({ type: 'Open' });
-          dispatch({ type: 'RequestItems' });
-        })
-        .catch(() => {
-          shouldLoaderShow = false;
-          dispatch({ type: 'Open' });
-        });
+    cancelableDelay()
+      .then(() => {
+        shouldLoaderShow = true;
+        dispatch({ type: 'RequestItems' });
+      })
+      .catch(() => {
+        shouldLoaderShow = false;
+        dispatch({ type: 'Open' });
+      });
 
-      const request = getItems(query).then(async result => {
+    const request = getItems(query)
+      .then(result => {
         if (!shouldLoaderShow) {
           if (cancelDelay) {
             cancelDelay();
@@ -102,18 +101,18 @@ const searchFactory = (query: string): EffectType => (
           }
         }
 
-        return await result;
+        return result;
+      })
+      .catch(() => {
+        if (expectingId === requestId) {
+          dispatch({ type: 'RequestFailure', repeatRequest });
+        }
       });
 
-      const [items] = await Promise.all([request, cancelableMinDelay()]);
+    const [items] = await Promise.all([request, cancelableMinDelay()]);
 
-      if (expectingId === requestId) {
-        dispatch({ type: 'ReceiveItems', items });
-      }
-    } catch (e) {
-      if (expectingId === requestId) {
-        dispatch({ type: 'RequestFailure', repeatRequest });
-      }
+    if (expectingId === requestId) {
+      dispatch({ type: 'ReceiveItems', items });
     }
   };
   const repeatRequest = () => {
