@@ -22,11 +22,24 @@ class RenderLayer extends React.Component<RenderLayerProps> {
   } | null = null;
 
   public componentDidMount() {
-    this.attachListeners();
+    if (this.props.active) {
+      this.attachListeners();
+    }
+  }
+
+  public componentWillReceiveProps(nextProps: RenderLayerProps) {
+    if (!this.props.active && nextProps.active) {
+      this.attachListeners();
+    }
+    if (this.props.active && !nextProps.active) {
+      this.detachListeners();
+    }
   }
 
   public componentWillUnmount() {
-    this.detachListeners();
+    if (this.props.active) {
+      this.detachListeners();
+    }
   }
 
   public render(): JSX.Element {
@@ -64,18 +77,12 @@ class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   private handleFocusOutside = (event: Event) => {
-    if (!this.props.active) {
-      return;
-    }
     if (this.props.onFocusOutside) {
       this.props.onFocusOutside(event);
     }
   };
 
   private handleNativeDocClick = (event: Event) => {
-    if (!this.props.active) {
-      return;
-    }
     const target = (event.target || event.srcElement) as HTMLElement;
     const node = this.getDomNode();
 
