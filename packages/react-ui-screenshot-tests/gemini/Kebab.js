@@ -1,6 +1,6 @@
 /* global gemini */
 
-var pathTo = require("./utils").pathTo;
+var renderStory = require("./utils").renderStory;
 
 const KEBAB_SELECTOR = '[class^="Kebab-kebab"]';
 
@@ -35,17 +35,17 @@ var applyTest = testSuite =>
 
 gemini.suite("Kebab", () => {
   gemini.suite("14px", suite => {
-    suite.setUrl(pathTo("Kebab", "14px"));
+    suite.before(renderStory("Kebab", "14px"));
     applyTest(suite);
   });
 
   gemini.suite("18px", suite => {
-    suite.setUrl(pathTo("Kebab", "18px"));
+    suite.before(renderStory("Kebab", "18px"));
     applyTest(suite);
   });
 
   gemini.suite("20px", suite => {
-    suite.setUrl(pathTo("Kebab", "20px"));
+    suite.before(renderStory("Kebab", "20px"));
     applyTest(suite);
   });
 });

@@ -1,10 +1,11 @@
-const pathTo = require("./utils").pathTo;
+const renderStory = require("./utils").renderStory;
 
 gemini.suite("CurrencyInput", () => {
   gemini.suite("Sample", suite => {
     suite
-      .setUrl(pathTo("CurrencyInput", "Sample"))
+      .before(renderStory("CurrencyInput", "Sample"))
       .setCaptureElements("#test-element")
+      .ignoreElements("button")
       .capture("Plain")
       .capture("Focus", (actions, find) => {
         actions.focus(find('[class^="Input-input"]'));

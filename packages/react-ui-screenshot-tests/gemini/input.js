@@ -1,5 +1,5 @@
 /* global gemini */
-var pathTo = require("./utils").pathTo;
+var renderStory = require("./utils").renderStory;
 
 function createPlainSuite(suiteName, selector) {
   return gemini.suite(suiteName, childSuite => {
@@ -9,7 +9,7 @@ function createPlainSuite(suiteName, selector) {
 
 // Small, medium and large inputs (plain, focused, typed)
 gemini.suite("Inputs with different sizes", parentSuite => {
-  parentSuite.setUrl(pathTo("Input", "Inputs with different sizes")).setCaptureElements("#test-element");
+  parentSuite.before(renderStory("Input", "Inputs with different sizes")).setCaptureElements("#test-element");
 
   gemini.suite("Small", childSuite => {
     childSuite
@@ -51,7 +51,7 @@ gemini.suite("Inputs with different sizes", parentSuite => {
 // Small and large inputs in next states: warning, error, disabled,
 // disabled with text, placeholder, password, borderless
 gemini.suite("Inputs with different states", parentSuite => {
-  parentSuite.setUrl(pathTo("Input", "Inputs with different states")).setCaptureElements("#test-element");
+  parentSuite.before(renderStory("Input", "Inputs with different states")).setCaptureElements("#test-element");
 
   const suites = [
     ["Warning Small", "#warning-small-input-wrapper"],
@@ -80,7 +80,7 @@ gemini.suite("Inputs with different states", parentSuite => {
 gemini.suite("Input set selection", () => {
   gemini.suite("Select all by prop", suite => {
     suite
-      .setUrl(pathTo("Input", "Select all by prop"))
+      .before(renderStory("Input", "Select all by prop"))
       .setCaptureElements("#test-element")
       .capture("Plain")
       .capture("Focused", (actions, find) => {
@@ -90,7 +90,7 @@ gemini.suite("Input set selection", () => {
 
   gemini.suite("Select all by button", suite => {
     suite
-      .setUrl(pathTo("Input", "Select all by button"))
+      .before(renderStory("Input", "Select all by button"))
       .setCaptureElements("#test-element")
       .capture("Plain")
       .capture("Selected", (actions, find) => {
@@ -103,7 +103,7 @@ gemini.suite("Input with mask", suite => {
   let input;
 
   suite
-    .setUrl(pathTo("Input", "Input with phone mask"))
+    .before(renderStory("Input", "Input with phone mask"))
     .setCaptureElements("#test-element")
     .capture("Plain")
     .capture("Focused", (action, find) => {
@@ -127,7 +127,7 @@ gemini.suite("Input with mask", suite => {
 gemini.suite("Input with prefix and suffix", () => {
   gemini.suite("Size small", suite => {
     suite
-      .setUrl(pathTo("Input", "Prefix and suffix"))
+      .before(renderStory("Input", "Prefix and suffix"))
       .setCaptureElements("#inputWithPrefixOrSuffx-small")
       .capture("Plain")
       .capture("First input focused", (actions, find) => {
@@ -137,7 +137,7 @@ gemini.suite("Input with prefix and suffix", () => {
 
   gemini.suite("Size medium", suite => {
     suite
-      .setUrl(pathTo("Input", "Prefix and suffix"))
+      .before(renderStory("Input", "Prefix and suffix"))
       .setCaptureElements("#inputWithPrefixOrSuffx-medium")
       .capture("Plain")
       .capture("First input focused", (actions, find) => {
@@ -147,7 +147,7 @@ gemini.suite("Input with prefix and suffix", () => {
 
   gemini.suite("Size large", suite => {
     suite
-      .setUrl(pathTo("Input", "Prefix and suffix"))
+      .before(renderStory("Input", "Prefix and suffix"))
       .setCaptureElements("#inputWithPrefixOrSuffx-large")
       .capture("Plain")
       .capture("First input focused", (actions, find) => {
