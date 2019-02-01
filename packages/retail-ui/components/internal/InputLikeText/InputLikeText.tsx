@@ -7,6 +7,8 @@ import { Nullable, TimeoutID } from '../../../typings/utility-types';
 import { InputVisibilityState, IconType } from '../../Input/Input';
 import { InputProps } from '../../Input';
 
+import styles from './InputLikeText.less';
+
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 const inputStyles = isFlatDesign
@@ -119,7 +121,9 @@ export default class InputLikeText extends React.Component<
           {prefix && <span className={inputStyles.prefix}>{prefix}</span>}
         </span>
         <span className={inputStyles.wrapper}>
-          <span className={classNames(inputStyles.input)}>{children}</span>
+          <span className={classNames(inputStyles.input, styles.input)}>
+            {children}
+          </span>
           {this.renderPlaceholder()}
         </span>
         <span
