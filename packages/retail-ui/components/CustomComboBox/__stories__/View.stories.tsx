@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 
 import View from '../ComboBoxView';
 import Gapped from '../../Gapped';
+import Modal from '../../Modal';
 
 storiesOf('ComboBoxView', module)
   .add('input like text', () => (
@@ -126,6 +127,17 @@ storiesOf('ComboBoxView', module)
         renderItem={complexRenderValue}
       />
     </div>
+  ))
+  .add('in flex modal', () => (
+    <Modal width="250px">
+      <Modal.Body>
+        <div style={{ display: 'flex' }}>
+          <div style={{ flexGrow: 2 }}>
+            <View value={'Hello world! '.repeat(5)} width="100%" />
+          </div>
+        </div>
+      </Modal.Body>
+    </Modal>
   ));
 
 function simpleRenderValue(value: { value: number; label: string }) {
