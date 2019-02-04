@@ -97,7 +97,11 @@ export type VerifyResponse = Array<{
 
 export type AddressErrors = { [key in Fields]?: string };
 
-export type FormValidation = 'Error' | 'Warning' | 'None';
+export enum FormValidation {
+  Error = 'Error',
+  Warning = 'Warning',
+  None = 'None'
+}
 
 export type FiasLocale = typeof defaultLocale;
 
