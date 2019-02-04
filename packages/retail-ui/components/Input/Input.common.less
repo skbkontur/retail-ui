@@ -2,6 +2,8 @@
 
 .commonStyles {
   .root {
+    .reset-text();
+
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -116,22 +118,22 @@
   }
 
   .sizeSmall {
-    height: 34px;
+    height: @small-control-height;
   }
 
   .sizeMedium {
     font-size: 16px;
-    height: 40px;
+    height: @medium-control-height;
   }
 
   .DEPRECATED_sizeMedium {
     font-size: 14px;
-    height: 40px;
+    height: @medium-control-height;
   }
 
   .sizeLarge {
     font-size: 16px;
-    height: 44px;
+    height: @large-control-height;
   }
 
   .placeholder {

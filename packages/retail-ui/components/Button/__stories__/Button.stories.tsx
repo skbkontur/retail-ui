@@ -5,11 +5,13 @@ import ArchivePackIcon from '@skbkontur/react-icons/ArchivePack';
 import Button, { ButtonUse } from '../../Button';
 import Gapped from '../../Gapped';
 import { ButtonSize, ButtonArrow } from '../Button';
+import SearchIcon from '@skbkontur/react-icons/Search';
 
 storiesOf('Button', module)
   .add('playground', () => {
     return <Button>Hello</Button>;
   })
+  .add('with width', () => <Button width="300px">Hello</Button>)
   .add('different use', () => (
     <Gapped>
       <Button>Default</Button>
@@ -214,5 +216,36 @@ storiesOf('Button', module)
           ))}
         </Gapped>
       </Gapped>
+    );
+  })
+  .add('text styles reset', () => {
+    return (
+      <div
+        style={{
+          fontWeight: 'bold',
+          fontStyle: 'italic',
+          fontVariant: 'small-caps slashed-zero',
+          fontStretch: 'expanded',
+          color: 'red',
+          lineHeight: '50px',
+          textAlign: 'right',
+          textShadow: '3px 3px 3px #333',
+          textTransform: 'uppercase',
+          letterSpacing: '5px'
+        }}
+      >
+        <Gapped>
+          <span>Inherited Styles</span>
+          <Button>
+            <SearchIcon />
+          </Button>
+          <Button>Button</Button>
+          <Button visuallyFocused>Focused</Button>
+          <Button active>Active</Button>
+          <Button checked>Checked</Button>
+          <Button disabled>Disabled</Button>
+          <Button use="link">Link</Button>
+        </Gapped>
+      </div>
     );
   });

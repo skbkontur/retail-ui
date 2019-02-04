@@ -299,4 +299,34 @@ storiesOf('Input', module)
         </div>
       ))}
     </div>
+  ))
+  .add('text styles reset', () => (
+    <div
+      style={{
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+        fontVariant: 'small-caps slashed-zero',
+        fontStretch: 'expanded',
+        color: 'red',
+        lineHeight: '50px',
+        textAlign: 'right',
+        textShadow: '3px 3px 3px #333',
+        textTransform: 'uppercase',
+        letterSpacing: '5px'
+      }}
+    >
+      <Gapped vertical>
+        <span>Inherited Styles</span>
+        <Input placeholder="Placeholder" />
+        <Input defaultValue="Value" />
+        <Input defaultValue="Disabled" disabled />
+        <Input mask="a9*MASK" alwaysShowMask />
+        <Input
+          leftIcon={<SearchIcon />}
+          prefix="Prefix"
+          suffix="suffix"
+          defaultValue="Value"
+        />
+      </Gapped>
+    </div>
   ));

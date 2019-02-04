@@ -7,9 +7,11 @@ import { Nullable, TimeoutID } from '../../../typings/utility-types';
 import { InputVisibilityState, IconType } from '../../Input/Input';
 import { InputProps } from '../../Input';
 
+import styles from './InputLikeText.less';
+
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const styles = isFlatDesign
+const inputStyles = isFlatDesign
   ? require('../../Input/Input.flat.less')
   : require('../../Input/Input.less');
 
@@ -95,13 +97,13 @@ export default class InputLikeText extends React.Component<
       ...rest
     } = this.props;
 
-    const className = classNames(styles.root, this._getSizeClassName(), {
-      [styles.disabled]: this.props.disabled,
-      [styles.error]: error,
-      [styles.warning]: warning,
-      [styles.borderless]: borderless,
-      [styles.blink]: this.state.blinking,
-      [styles.focus]: this.state.focused
+    const className = classNames(inputStyles.root, this._getSizeClassName(), {
+      [inputStyles.disabled]: this.props.disabled,
+      [inputStyles.error]: error,
+      [inputStyles.warning]: warning,
+      [inputStyles.borderless]: borderless,
+      [inputStyles.blink]: this.state.blinking,
+      [inputStyles.focus]: this.state.focused
     });
 
     return (
@@ -114,18 +116,23 @@ export default class InputLikeText extends React.Component<
         onBlur={this.handleBlur}
         ref={this._ref}
       >
-        <span className={styles.sideContainer}>
+        <span className={inputStyles.sideContainer}>
           {this.renderLeftIcon()}
-          {prefix && <span className={styles.prefix}>{prefix}</span>}
+          {prefix && <span className={inputStyles.prefix}>{prefix}</span>}
         </span>
-        <span className={styles.wrapper}>
-          <span className={styles.input}>{children}</span>
+        <span className={inputStyles.wrapper}>
+          <span className={classNames(inputStyles.input, styles.input)}>
+            {children}
+          </span>
           {this.renderPlaceholder()}
         </span>
         <span
-          className={classNames(styles.sideContainer, styles.rightContainer)}
+          className={classNames(
+            inputStyles.sideContainer,
+            inputStyles.rightContainer
+          )}
         >
-          {suffix && <span className={styles.suffix}>{suffix}</span>}
+          {suffix && <span className={inputStyles.suffix}>{suffix}</span>}
           {this.renderRightIcon()}
         </span>
       </span>
@@ -143,18 +150,18 @@ export default class InputLikeText extends React.Component<
     const { children, placeholder } = this.props;
 
     if (!children && placeholder) {
-      return <span className={styles.placeholder}>{placeholder}</span>;
+      return <span className={inputStyles.placeholder}>{placeholder}</span>;
     }
     return null;
   }
 
   private _getSizeClassName() {
     const SIZE_CLASS_NAMES = {
-      small: styles.sizeSmall,
+      small: inputStyles.sizeSmall,
       medium: Upgrades.isSizeMedium16pxEnabled()
-        ? styles.sizeMedium
-        : styles.DEPRECATED_sizeMedium,
-      large: styles.sizeLarge
+        ? inputStyles.sizeMedium
+        : inputStyles.DEPRECATED_sizeMedium,
+      large: inputStyles.sizeLarge
     };
 
     return SIZE_CLASS_NAMES[this.props.size!];
@@ -176,11 +183,11 @@ export default class InputLikeText extends React.Component<
   };
 
   private renderLeftIcon() {
-    return this.renderIcon(this.props.leftIcon, styles.leftIcon);
+    return this.renderIcon(this.props.leftIcon, inputStyles.leftIcon);
   }
 
   private renderRightIcon() {
-    return this.renderIcon(this.props.rightIcon, styles.rightIcon);
+    return this.renderIcon(this.props.rightIcon, inputStyles.rightIcon);
   }
 
   private renderIcon(icon: IconType, className: string) {
@@ -193,7 +200,7 @@ export default class InputLikeText extends React.Component<
     }
 
     return (
-      <span className={classNames(className, styles.useDefaultColor)}>
+      <span className={classNames(className, inputStyles.useDefaultColor)}>
         {icon}
       </span>
     );

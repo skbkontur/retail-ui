@@ -9,7 +9,9 @@ function createPlainSuite(suiteName, selector) {
 
 // Small, medium and large inputs (plain, focused, typed)
 gemini.suite("Inputs with different sizes", parentSuite => {
-  parentSuite.before(renderStory("Input", "Inputs with different sizes")).setCaptureElements("#test-element");
+  parentSuite
+    .before(renderStory("Input", "Inputs with different sizes"))
+    .setCaptureElements("#test-element");
 
   gemini.suite("Small", childSuite => {
     childSuite
@@ -51,7 +53,9 @@ gemini.suite("Inputs with different sizes", parentSuite => {
 // Small and large inputs in next states: warning, error, disabled,
 // disabled with text, placeholder, password, borderless
 gemini.suite("Inputs with different states", parentSuite => {
-  parentSuite.before(renderStory("Input", "Inputs with different states")).setCaptureElements("#test-element");
+  parentSuite
+    .before(renderStory("Input", "Inputs with different states"))
+    .setCaptureElements("#test-element");
 
   const suites = [
     ["Warning Small", "#warning-small-input-wrapper"],
@@ -154,4 +158,11 @@ gemini.suite("Input with prefix and suffix", () => {
         actions.focus(find("#inputWithPrefixOrSuffx-large input"));
       });
   });
+});
+
+gemini.suite("Input text styles reset", suite => {
+  suite
+    .before(renderStory("Input", "text styles reset"))
+    .setCaptureElements("#test-element")
+    .capture("plain");
 });
