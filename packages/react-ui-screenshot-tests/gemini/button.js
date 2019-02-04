@@ -26,43 +26,25 @@ const testScenario = suite => {
 };
 
 gemini.suite("button", suite => {
-  testScenario(
-    suite
-      .before(renderStory("Button", "playground"))
-      .setCaptureElements("#test-element")
-  );
+  testScenario(suite.before(renderStory("Button", "playground")).setCaptureElements("#test-element"));
 });
 
 gemini.suite("button use link", suite => {
-  testScenario(
-    suite
-      .before(renderStory("Button", "use link"))
-      .setCaptureElements("#test-element")
-  );
+  testScenario(suite.before(renderStory("Button", "use link")).setCaptureElements("#test-element"));
 });
 
 gemini.suite("button use link with icon", suite => {
-  testScenario(
-    suite
-      .before(renderStory("Button", "use link with icon"))
-      .setCaptureElements("#test-element")
-  );
+  testScenario(suite.before(renderStory("Button", "use link with icon")).setCaptureElements("#test-element"));
 });
 
 gemini.suite("button link multiline", suite => {
   testScenario(
-    suite
-      .before(renderStory("Button", "multiline text with link button"))
-      .setCaptureElements("#test-element")
+    suite.before(renderStory("Button", "multiline text with link button")).setCaptureElements("#test-element")
   );
 });
 
 gemini.suite("button use link with error", suite => {
-  testScenario(
-    suite
-      .before(renderStory("Button", "with error"))
-      .setCaptureElements("#test-element")
-  );
+  testScenario(suite.before(renderStory("Button", "with error")).setCaptureElements("#test-element"));
 });
 
 gemini.suite("Button arrows", suite => {
@@ -75,6 +57,13 @@ gemini.suite("Button arrows", suite => {
 gemini.suite("Button text styles reset", suite => {
   suite
     .before(renderStory("Button", "text styles reset"))
+    .setCaptureElements("#test-element")
+    .capture("plain");
+});
+
+gemini.suite("Button with width", suite => {
+  suite
+    .before(renderStory("Button", "with width"))
     .setCaptureElements("#test-element")
     .capture("plain");
 });
