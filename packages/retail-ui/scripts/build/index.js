@@ -191,24 +191,36 @@ function handleExports(dirPath) {
         if (files.includes('index.d.ts')) {
           handleTsReexport(dir);
         }
+        if (files.includes('index.js.flow')) {
+          handleFlowReexport(dir);
+        }
       };
     }
 
-    function handleJsReexport(dir) {
+    function reexport(dir, ext, getSource) {
       const name = dir.split(path.sep).slice(-1)[0];
-      const source = `module.exports = require('./components/${name}');\n`;
-      const outPath = path.join(OutDir, name + '.js');
+      const source = getSource(name);
+      const outPath = path.join(OutDir, name + ext);
       outputFileSync(outPath, source);
     }
 
+    function handleJsReexport(dir) {
+      reexport(dir, '.js', name => `module.exports = require('./components/${name}');\n`);
+    }
+
     function handleTsReexport(dir) {
-      const name = dir.split(path.sep).slice(-1)[0];
-      const source = `\
+      reexport(dir, '.d.ts', name => `\
 export * from './components/${name}';
 export { default } from './components/${name}';
-`;
-      const outPath = path.join(OutDir, name + '.d.ts');
-      outputFileSync(outPath, source);
+`);
+    }
+
+    function handleFlowReexport(dir) {
+      reexport(dir, '.js.flow', name => `\
+/* @flow */
+export * from './components/${name}';
+export { default } from './components/${name}';
+`);
     }
   };
 }

@@ -11,6 +11,7 @@ storiesOf('Button', module)
   .add('playground', () => {
     return <Button>Hello</Button>;
   })
+  .add('with width', () => <Button width="300px">Hello</Button>)
   .add('different use', () => (
     <Gapped>
       <Button>Default</Button>

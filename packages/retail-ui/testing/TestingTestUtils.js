@@ -13,9 +13,9 @@ class Wrap extends React.Component<*> {
 
 type ReturnType = {
   node: HTMLElement,
-  unmount: () => ReactWrapper,
+  unmount: () => ReactWrapper<*>,
   // eslint-disable-next-line
-  setProps: (props: Object) => ReactWrapper
+  setProps: (props: Object) => ReactWrapper<*>
 };
 
 export function mountTest(reactElement: React.Element<*>): ReturnType {
