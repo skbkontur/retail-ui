@@ -322,7 +322,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       case 'hover':
         return {
           layerProps: {
-            active: true
+            active: false
           },
           wrapperProps: {
             onMouseEnter: this.handleMouseEnter,
@@ -351,7 +351,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       case 'focus':
         return {
           layerProps: {
-            active: true
+            active: false
           },
           wrapperProps: {
             onFocus: this.handleFocus,
