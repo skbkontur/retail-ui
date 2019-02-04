@@ -19,53 +19,52 @@ const createCloud = (color: string) => (
 );
 
 interface LogotypeLocale {
-  suffix: string,
-  prefix: string,
+  suffix: string;
+  prefix: string;
 }
 
-const defaultLocale: LogotypeLocale = { prefix: 'к', suffix: 'нтур' }
+const defaultLocale: LogotypeLocale = { prefix: 'к', suffix: 'нтур' };
 
 export interface LogotypeProps {
-  color?: string;
-  component?: React.ComponentType<any> | string;
-  href?: string;
+  /**
+   * Цвет логотипа в rgb, rgba, hex
+   */
+  color: string;
+  component: React.ComponentType<any> | string;
+  /**
+   * Адрес ссылки
+   */
+  href: string;
+  /**
+   * Суффикс сервиса
+   */
   suffix?: string;
-  textColor?: string;
+  /**
+   * Цвет логотипа Контура в rgb, rgba, hex
+   */
+  textColor: string;
+  /**
+   * Наличие виджета с продуктами
+   */
   withWidget?: boolean;
-  locale?: LogotypeLocale;
+  /**
+   * Словарь текстовых констант
+   * @default { prefix: 'к', suffix: 'нтур' }
+   */
+  locale: LogotypeLocale;
 }
 
 class Logotype extends React.Component<LogotypeProps> {
   public static propTypes = {
-    /**
-     * Цвет логотипа в rgb, rgba, hex
-     */
     color: PropTypes.string,
-
-    /**
-     * Адрес ссылки
-     */
     href: PropTypes.string,
-
-    /**
-     * Суффикс сервиса
-     */
     suffix: PropTypes.string,
-
-    /**
-     * Цвет логотипа Контура в rgb, rgba, hex
-     */
     textColor: PropTypes.string,
-
-    /**
-     * Наличие виджета с продуктами
-     */
     withWidget: PropTypes.bool,
-
-    /**
-     * Словарь текстовых констант
-     */
-    locale: PropTypes.object
+    locale: PropTypes.shape({
+      prefix: PropTypes.string,
+      suffix: PropTypes.string
+    })
   };
 
   public static defaultProps = {
@@ -73,7 +72,7 @@ class Logotype extends React.Component<LogotypeProps> {
     textColor: '#000',
     component: 'a',
     href: '/',
-    locale: defaultLocale,
+    locale: defaultLocale
   };
 
   private logoWrapper: Nullable<HTMLElement> = null;
@@ -93,13 +92,13 @@ class Logotype extends React.Component<LogotypeProps> {
 
   public render(): JSX.Element {
     const {
-      color = Logotype.defaultProps.color,
-      textColor = Logotype.defaultProps.textColor,
-      component: Component = Logotype.defaultProps.component,
+      color,
+      textColor,
+      component: Component,
       suffix,
-      href = Logotype.defaultProps.href,
+      href,
       withWidget,
-      locale = Logotype.defaultProps.locale,
+      locale
     } = this.props;
     const dropdownClassName = classnames(styles.dropdown, {
       [styles.inline]: !withWidget
