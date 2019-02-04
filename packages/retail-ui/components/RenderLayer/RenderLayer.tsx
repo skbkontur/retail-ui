@@ -27,11 +27,11 @@ class RenderLayer extends React.Component<RenderLayerProps> {
     }
   }
 
-  public componentWillReceiveProps(nextProps: RenderLayerProps) {
-    if (!this.props.active && nextProps.active) {
+  public componentDidUpdate(prevProps: RenderLayerProps) {
+    if (!prevProps.active && this.props.active) {
       this.attachListeners();
     }
-    if (this.props.active && !nextProps.active) {
+    if (prevProps.active && !this.props.active) {
       this.detachListeners();
     }
   }
