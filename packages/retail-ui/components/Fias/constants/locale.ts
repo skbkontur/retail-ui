@@ -1,4 +1,6 @@
-export const defaultLocale = {
+export const defaultLocale: {
+  [key: string]: string;
+} = {
   modalTitle: 'Адрес',
   modalButtonOk: 'Сохранить',
   modalButtonCancel: 'Отменить',
@@ -13,38 +15,48 @@ export const defaultLocale = {
   searchNotFound: 'Адрес не найден',
   searchPlaceholder: 'Начните вводить адрес, например: Москва, Внуково',
 
+  regionLabel: 'Регион',
   regionNotFound: 'Регион не найден',
   regionPlaceholder: 'Можно вводить код или название',
 
+  districtLabel: 'Район',
   districtNotFound: 'Район не найден',
   districtPlaceholder: '',
 
+  cityLabel: 'Город',
   cityNotFound: 'Город не найден',
   cityPlaceholder: '',
 
+  intracityareaLabel: 'Внутригородская территория',
   intracityareaNotFound: 'Внутригородская территория не найдена',
   intracityareaPlaceholder: '',
 
+  settlementLabel: 'Населенный пункт',
   settlementNotFound: 'Населенный пункт не найден',
   settlementPlaceholder: 'Село, деревня, станица и другие',
 
+  planningstructureLabel: 'Иная территория',
   planningstructureNotFound:
     'Не найдены иные территории по указанному выше расположению',
   planningstructurePlaceholder: 'Сад, парк, санаторий и другие',
 
+  streetLabel: 'Улица',
   streetNotFound: 'Не найдены улицы по указанному выше расположению',
   streetFillBefore: 'Заполните город или населенный пункт, чтобы выбрать улицу',
   streetPlaceholder: '',
 
+  steadLabel: 'Земельный участок',
   steadNotFound: 'Не найдены участки по указанному выше расположению',
   steadFillBefore: 'Заполните улицу, чтобы выбрать номер участка',
   steadPlaceholder: '',
 
+  houseLabel: 'Дом, сооружение',
   houseNotFound: 'Не найдены дома по указанному выше расположению',
   houseFillBefore:
     'Заполните улицу или иную территорию, чтобы выбрать номер дома',
   housePlaceholder: '',
 
+  roomLabel: 'Квартира, офис',
   roomPlaceholder: ''
 };
 
