@@ -309,7 +309,9 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
       case 'closed':
         return {
-          layerProps: {},
+          layerProps: {
+            active: false
+          },
           wrapperProps: {},
           popupProps: {
             opened: false
@@ -319,7 +321,9 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       case 'hoverAnchor':
       case 'hover':
         return {
-          layerProps: {},
+          layerProps: {
+            active: false
+          },
           wrapperProps: {
             onMouseEnter: this.handleMouseEnter,
             onMouseLeave: this.handleMouseLeave
@@ -346,7 +350,9 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
       case 'focus':
         return {
-          layerProps: {},
+          layerProps: {
+            active: false
+          },
           wrapperProps: {
             onFocus: this.handleFocus,
             onBlur: this.handleBlur

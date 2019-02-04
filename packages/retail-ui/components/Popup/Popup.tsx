@@ -227,7 +227,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
          * If onCloseRequest is not specified handleClickOutside and handleFocusOutside
          * are doing nothing. So there is no need in RenderLayer at all.
          */
-        active={this.props.onCloseRequest && this.props.opened}
+        active={Boolean(this.props.onCloseRequest) && this.props.opened}
       >
         <RenderContainer
           anchor={child}

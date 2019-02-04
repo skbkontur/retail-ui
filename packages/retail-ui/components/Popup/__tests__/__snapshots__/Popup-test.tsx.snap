@@ -28,7 +28,7 @@ exports[`Popup snapshots:  open and close popup: closed popup 1`] = `
   }
 >
   <RenderLayer
-    active={true}
+    active={false}
     onClickOutside={[Function]}
     onFocusOutside={[Function]}
   >
@@ -96,7 +96,7 @@ exports[`Popup snapshots:  open and close popup: closed popup again 1`] = `
   }
 >
   <RenderLayer
-    active={true}
+    active={false}
     onClickOutside={[Function]}
     onFocusOutside={[Function]}
   >
@@ -164,7 +164,7 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
   }
 >
   <RenderLayer
-    active={true}
+    active={false}
     onClickOutside={[Function]}
     onFocusOutside={[Function]}
   >
