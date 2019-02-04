@@ -34,6 +34,13 @@ gemini.suite("ComboBox", () => {
         .setCaptureElements("#test-element")
         .capture("plain");
     });
+
+    gemini.suite("Inside flex container", suite => {
+      suite
+        .before(renderStory("ComboBoxView", "in flex modal"))
+        .setCaptureElements("html")
+        .capture("plain");
+    });
   });
 
   gemini.suite("Component", () => {
