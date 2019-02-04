@@ -18,6 +18,13 @@ const createCloud = (color: string) => (
   </svg>
 );
 
+interface LogotypeLocale {
+  suffix: string,
+  prefix: string,
+}
+
+const defaultLocale: LogotypeLocale = { prefix: 'к', suffix: 'нтур' }
+
 export interface LogotypeProps {
   color?: string;
   component?: React.ComponentType<any> | string;
@@ -25,6 +32,7 @@ export interface LogotypeProps {
   suffix?: string;
   textColor?: string;
   withWidget?: boolean;
+  locale?: LogotypeLocale;
 }
 
 class Logotype extends React.Component<LogotypeProps> {
@@ -52,14 +60,20 @@ class Logotype extends React.Component<LogotypeProps> {
     /**
      * Наличие виджета с продуктами
      */
-    withWidget: PropTypes.bool
+    withWidget: PropTypes.bool,
+
+    /**
+     * Словарь текстовых констант
+     */
+    locale: PropTypes.object
   };
 
   public static defaultProps = {
     color: '#D92932',
     textColor: '#000',
     component: 'a',
-    href: '/'
+    href: '/',
+    locale: defaultLocale,
   };
 
   private logoWrapper: Nullable<HTMLElement> = null;
@@ -84,7 +98,8 @@ class Logotype extends React.Component<LogotypeProps> {
       component: Component = Logotype.defaultProps.component,
       suffix,
       href = Logotype.defaultProps.href,
-      withWidget
+      withWidget,
+      locale = Logotype.defaultProps.locale,
     } = this.props;
     const dropdownClassName = classnames(styles.dropdown, {
       [styles.inline]: !withWidget
@@ -94,10 +109,10 @@ class Logotype extends React.Component<LogotypeProps> {
       <div id="spwDropdown" className={dropdownClassName}>
         <span ref={this.refLogoWrapper} className={styles.widgetWrapper}>
           <Component href={href} tabIndex="-1" className={styles.root}>
-            <span style={{ color: textColor }}>к</span>
+            <span style={{ color: textColor }}>{locale.prefix}</span>
             <span style={{ color }}>{createCloud(color)}</span>
             <span style={{ color: textColor }}>
-              нтур
+              {locale.suffix}
               {suffix && '.'}
             </span>
             {suffix && <span style={{ color }}>{suffix}</span>}
