@@ -1,0 +1,47 @@
+/* @flow */
+import type { MouseEventHandler } from '../eventHandlers';
+
+export type InputSize = 'small' | 'medium' | 'large';
+export type InputAlign = 'left' | 'center' | 'right';
+export type InputType = 'password' | 'text';
+
+export type InputProps = {
+  leftIcon?: React$Node,
+  rightIcon?: React$Node,
+  error?: boolean,
+  warning?: boolean,
+  borderless?: boolean,
+  align?: InputAlign,
+  mask?: ?string,
+  maskChar?: ?string,
+  formatChars?: {
+    [key: string]: string
+  },
+  alwaysShowMask?: boolean,
+  size?: InputSize,
+  onChange?: (event: SyntheticInputEvent<HTMLInputElement>, value: string) => void,
+  onMouseEnter?: MouseEventHandler<HTMLLabelElement>,
+  onMouseLeave?: MouseEventHandler<HTMLLabelElement>,
+  onMouseOver?: MouseEventHandler<HTMLLabelElement>,
+  type?: InputType,
+  value?: string,
+  capture?: boolean,
+  mainInGroup?: boolean,
+  selectAllOnFocus?: boolean,
+  onUnexpectedInput?: () => void
+};
+
+export type InputState = {|
+  polyfillPlaceholder: boolean,
+  blinking: boolean
+|};
+
+declare class Input extends React$Component<InputProps, InputState> {
+  focus(): void,
+  blur(): void,
+  blink(): void,
+  setSelectionRange(start: number, end: number): void,
+  selectAll(): void
+}
+
+export default Input;
