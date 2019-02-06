@@ -1,7 +1,14 @@
 import * as React from 'react';
 import cn from 'classnames';
 import Link from '../Link';
-import { FiasValue, FormValidation, FiasLocale, APIProvider } from './types';
+import {
+  ExtraFields,
+  FiasValue,
+  FormValidation,
+  FiasLocale,
+  APIProvider,
+  AdditionalFields
+} from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
@@ -17,7 +24,7 @@ export interface FiasProps {
   /**
    * Значение адреса. См. формат в примерах
    */
-  value?: FiasValue;
+  value?: Partial<FiasValue>;
   error?: boolean;
   warning?: boolean;
   /**
@@ -213,11 +220,15 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     });
   };
 
-  private getAddress = async (value: Nullable<FiasValue>) => {
+  private getAddress = async (value: Partial<FiasValue> | undefined) => {
     if (value) {
-      const { address, addressString, fiasId } = value;
+      const { address, addressString, fiasId, postalCode } = value;
+      const additionalFields: AdditionalFields = {};
+      if (postalCode) {
+        additionalFields[ExtraFields.postalcode] = postalCode;
+      }
       if (address) {
-        return Address.createFromAddressValue(address);
+        return Address.createFromAddressValue(address, additionalFields);
       } else {
         let options = {};
         if (fiasId) {
@@ -233,7 +244,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
         }
         const { success, data } = await this.api.search(options);
         if (success && data && data.length) {
-          return Address.createFromResponse(data[0]);
+          return Address.createFromResponse(data[0], additionalFields);
         }
       }
     }

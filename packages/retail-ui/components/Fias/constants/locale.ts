@@ -57,7 +57,12 @@ export const defaultLocale: {
   housePlaceholder: '',
 
   roomLabel: 'Квартира, офис',
-  roomPlaceholder: ''
+  roomPlaceholder: '',
+
+  postalcodeLabel: 'Индекс',
+  postalcodePlaceholder: '',
+  postalcodeNotFound: 'Заполнено не по справочнику адресов',
+  postalcodeReplace: 'Заменить справочным'
 };
 
 export default defaultLocale;

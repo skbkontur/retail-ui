@@ -1,11 +1,13 @@
 import {
   AddressErrors,
   AddressFields,
+  AdditionalFields,
   AddressResponse,
   AddressValue,
   FiasId,
   FiasValue,
   Fields,
+  ExtraFields,
   VerifyResponse
 } from '../types';
 import { Nullable } from '../../../typings/utility-types';
@@ -13,7 +15,7 @@ import { AddressElement } from './AddressElement';
 import { FiasData } from './FiasData';
 
 export class Address {
-  public static ALL_FIELDS = [
+  public static MAIN_FIELDS = [
     Fields.region,
     Fields.district,
     Fields.city,
@@ -24,6 +26,13 @@ export class Address {
     Fields.stead,
     Fields.house,
     Fields.room
+  ];
+
+  public static ADDITIONAL_FIELDS = [ExtraFields.postalcode];
+
+  public static ALL_FIELDS = [
+    ...Address.MAIN_FIELDS,
+    ...Address.ADDITIONAL_FIELDS
   ];
 
   public static VERIFIABLE_FIELDS = [
@@ -53,10 +62,13 @@ export class Address {
     Fields.planningstructure
   ];
 
-  public static createFromResponse = (response: AddressResponse) => {
+  public static createFromResponse = (
+    response: AddressResponse,
+    additionalFields?: AdditionalFields
+  ) => {
     const fields: AddressFields = {};
     if (response) {
-      Address.ALL_FIELDS.forEach(field => {
+      Address.MAIN_FIELDS.forEach(field => {
         const fiasObject = response[field];
         if (fiasObject) {
           const data: FiasData = new FiasData(fiasObject);
@@ -64,13 +76,16 @@ export class Address {
         }
       });
     }
-    return new Address(fields);
+    return new Address(fields, additionalFields);
   };
 
-  public static createFromAddressValue = (addressValue: AddressValue) => {
+  public static createFromAddressValue = (
+    addressValue: AddressValue,
+    additionalFields?: AdditionalFields
+  ) => {
     const fields: AddressFields = {};
     if (addressValue) {
-      Address.ALL_FIELDS.forEach(field => {
+      Address.MAIN_FIELDS.forEach(field => {
         const addressField = addressValue[field];
         if (addressField) {
           const { name, data } = addressField;
@@ -82,7 +97,7 @@ export class Address {
         }
       });
     }
-    return new Address(fields);
+    return new Address(fields, additionalFields);
   };
 
   public static verify = (
@@ -90,7 +105,7 @@ export class Address {
     response: VerifyResponse,
     notVerifiedMessage: string
   ): Address => {
-    const addressFields = { ...address.fields };
+    const { fields, additionalFields } = address;
     const errors: AddressErrors = {};
     const verifyResponse = response[0];
 
@@ -99,7 +114,7 @@ export class Address {
       let { invalidLevel } = verifyResponse;
 
       for (const field of Address.VERIFIABLE_FIELDS) {
-        const currentField = addressFields[field];
+        const currentField = fields[field];
 
         if (currentField) {
           if (field === Fields.house && !currentField.data) {
@@ -112,9 +127,9 @@ export class Address {
           const fiasObject = verifiedFields[field];
           if (fiasObject) {
             const data = new FiasData(fiasObject);
-            addressFields[field] = new AddressElement(field, data.name, data);
+            fields[field] = new AddressElement(field, data.name, data);
           } else {
-            delete addressFields[field]!.data;
+            delete fields[field]!.data;
           }
 
           if (invalidLevel && String(invalidLevel).toLowerCase() === field) {
@@ -124,32 +139,46 @@ export class Address {
         }
       }
     }
-    return new Address(addressFields, errors);
+
+    const fiasPostalCode = address.getFiasPostalCode();
+    if (fiasPostalCode && address.postalCode !== fiasPostalCode) {
+      errors[ExtraFields.postalcode] = notVerifiedMessage;
+    }
+
+    return new Address(fields, additionalFields, errors);
   };
 
   public static getParentFields = (field: Fields) => {
-    const index = Address.ALL_FIELDS.indexOf(field);
-    return index > -1 ? Address.ALL_FIELDS.slice(0, index) : [];
+    const index = Address.MAIN_FIELDS.indexOf(field);
+    return index > -1 ? Address.MAIN_FIELDS.slice(0, index) : [];
   };
 
   constructor(
     public fields: AddressFields = {},
+    public additionalFields: AdditionalFields = {},
     public errors: AddressErrors = {}
   ) {}
 
   public get isEmpty(): boolean {
-    return !Address.ALL_FIELDS.some(field => this.fields.hasOwnProperty(field));
+    return !Address.MAIN_FIELDS.some(field =>
+      this.fields.hasOwnProperty(field)
+    );
   }
 
   public get hasErrors(): boolean {
     return Object.keys(this.errors).length > 0;
   }
 
-  public hasError(field: Fields): boolean {
+  public get postalCode(): string {
+    const value = this.additionalFields[ExtraFields.postalcode];
+    return typeof value === 'string' ? value : this.getFiasPostalCode();
+  }
+
+  public hasError(field: Fields | ExtraFields): boolean {
     return this.errors.hasOwnProperty(field);
   }
 
-  public getError(field: Fields): string | undefined {
+  public getError(field: Fields | ExtraFields): string | undefined {
     return this.errors[field];
   }
 
@@ -172,7 +201,7 @@ export class Address {
     };
     const fields = minField
       ? Address.getParentFields(minField)
-      : Address.ALL_FIELDS;
+      : Address.MAIN_FIELDS;
     return fields
       .map(field => getElementText(this.fields[field]))
       .filter(Boolean)
@@ -245,6 +274,19 @@ export class Address {
     return '';
   };
 
+  public getFiasPostalCode = (): string => {
+    if (!this.isEmpty) {
+      const fields = Address.VERIFIABLE_FIELDS.slice().reverse();
+      for (const field of fields) {
+        const element: Nullable<AddressElement> = this.fields[field];
+        if (element && element.data) {
+          return element.data.postalCode;
+        }
+      }
+    }
+    return '';
+  };
+
   public getAddressValue = (): AddressValue => {
     const fields = Object.keys(this.fields) as Fields[];
     return fields.reduce((value, field) => {
@@ -268,7 +310,8 @@ export class Address {
       address: this.getAddressValue(),
       addressString: this.getText(),
       addressErrors: this.getAddressErrors(),
-      fiasId: this.getFiasId()
+      fiasId: this.getFiasId(),
+      postalCode: this.postalCode
     };
   };
 

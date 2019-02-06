@@ -164,6 +164,10 @@ enum Fields {
   room = 'room'
 }
 
+enum ExtraFields {
+  postalcode = 'postalcode'
+}
+
 interface FiasValue {
   address?: {
     [key in Fields]?: {
@@ -174,6 +178,7 @@ interface FiasValue {
   addressString?: string;
   addressErrors?: { [key in Fields]?: string };
   fiasId?: string;
+  postalCode?: string;
 }
 
 const value: FiasValue = {
@@ -315,6 +320,11 @@ const defaultLocale = {
   housePlaceholder: '',
 
   roomLabel: 'Квартира, офис',
-  roomPlaceholder: ''
+  roomPlaceholder: '',
+
+  postalcodeLabel: 'Индекс',
+  postalcodePlaceholder: '',
+  postalcodeNotFound: 'Заполнено не по справочнику адресов',
+  postalcodeReplace: 'Заменить справочным'
 };
 ```

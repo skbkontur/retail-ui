@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Gapped from '../../Gapped';
+import Button from '../../Button';
 import {
   FiasComboBox,
   FiasComboBoxChangeEvent,
@@ -14,7 +15,8 @@ import {
   VerifyResponse,
   APIProvider,
   SearchOptions,
-  APIResult
+  APIResult,
+  ExtraFields
 } from '../types';
 import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
@@ -38,7 +40,7 @@ interface FiasFormState {
 }
 
 type FiasFormFields = {
-  [field in Fields]?: {
+  [field in Fields | ExtraFields]?: {
     meta: FiasFormFieldMeta;
     render: () => React.ReactNode;
   }
@@ -101,7 +103,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     super(props);
 
     this.fields = Address.ALL_FIELDS.reduce<FiasFormFields>(
-      (fields: FiasFormFields, field: Fields) => {
+      (fields: FiasFormFields, field: Fields | ExtraFields) => {
         switch (field) {
           case Fields.region:
           case Fields.district:
@@ -125,6 +127,14 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
               [field]: {
                 meta: this.createAddressInputMeta(Fields.room),
                 render: () => this.renderAddressInput(Fields.room)
+              }
+            };
+          case ExtraFields.postalcode:
+            return {
+              ...fields,
+              [field]: {
+                meta: this.createPostalCodeInputMeta(),
+                render: () => this.renderPostalCodeInput()
               }
             };
           default:
@@ -167,7 +177,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   }
 
   private getCommonFieldProps = (
-    field: Fields
+    field: Fields | ExtraFields
   ): {
     warning: boolean;
     error: boolean;
@@ -186,18 +196,18 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   private renderFields = (): React.ReactNode => {
     const { locale } = this.props;
-    return Address.ALL_FIELDS.map((field: Fields) => {
+    return Address.ALL_FIELDS.map((field: Fields | ExtraFields) => {
       const control = this.fields[field];
       if (control) {
         const { meta, render } = control;
         const label = locale[`${field}Label`];
         return (
           control && (
-            <Tooltip pos={'right middle'} render={meta.tooltip}>
-              <FiasForm.Field label={label} key={field}>
+            <FiasForm.Field label={label} key={field}>
+              <Tooltip pos={'right middle'} render={meta.tooltip}>
                 {render()}
-              </FiasForm.Field>
-            </Tooltip>
+              </Tooltip>
+            </FiasForm.Field>
           )
         );
       }
@@ -250,6 +260,27 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     }
   };
 
+  private renderPostalCodeInput = (): React.ReactNode => {
+    const inputField = this.fields[ExtraFields.postalcode];
+    if (inputField && FiasForm.isInputMeta(inputField.meta)) {
+      const { address } = this.state;
+      const { props, createRef } = inputField.meta;
+      const commonProps = this.getCommonFieldProps(ExtraFields.postalcode);
+      const value = address.postalCode;
+      return (
+        <Input
+          {...commonProps}
+          {...props}
+          value={value}
+          width={130}
+          ref={createRef}
+          mask={'999999'}
+          maskChar={''}
+        />
+      );
+    }
+  };
+
   private createAddressComboboxMeta = (field: Fields): ComboBoxMeta => {
     return {
       ref: null,
@@ -278,13 +309,28 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
   };
 
+  private createPostalCodeInputMeta = (): InputMeta => {
+    return {
+      ref: null,
+      props: this.createPostalCodeInputProps(),
+      tooltip: () => this.createPostalCodeTooltip(),
+      createRef: (ref: Input | null) => {
+        const inputField = this.fields[ExtraFields.postalcode];
+        if (inputField) {
+          inputField.meta.ref = ref;
+        }
+      }
+    };
+  };
+
   private createAddressComboBoxProps(field: Fields): FiasComboBoxProps {
     const getItems = async (searchText: string) =>
       this.createItemsSource(searchText, field);
 
     const onChange = (e: FiasComboBoxChangeEvent, value: Address) => {
-      const fields = {
-        ...this.state.address.fields,
+      const { fields, additionalFields } = this.state.address;
+      const newFields = {
+        ...fields,
         ...value.fields
       };
       for (const checkField of Object.keys(fields) as Fields[]) {
@@ -292,7 +338,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           delete fields[checkField];
         }
       }
-      this.handleAddressChange(new Address(fields));
+      this.handleAddressChange(new Address(newFields, additionalFields));
     };
 
     const onInputChange = () => {
@@ -374,13 +420,28 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   private createAddressInputProps(field: Fields): InputProps {
     return {
       onChange: (e: React.ChangeEvent, value: string) => {
-        const fields = { ...this.state.address.fields };
+        const { fields, additionalFields } = this.state.address;
         if (value) {
           fields[field] = new AddressElement(field, value);
         } else {
           delete fields[field];
         }
-        this.handleAddressChange(new Address(fields));
+        this.handleAddressChange(new Address(fields, additionalFields));
+      }
+    };
+  }
+
+  private createPostalCodeInputProps(): InputProps {
+    return {
+      onChange: (e: React.ChangeEvent, value: string) => {
+        const { fields, additionalFields, errors } = this.state.address;
+        const newAdditionalFields = {
+          ...additionalFields,
+          [ExtraFields.postalcode]: value
+        };
+        this.handleAddressChange(
+          new Address(fields, newAdditionalFields, errors)
+        );
       }
     };
   }
@@ -412,7 +473,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     return Promise.resolve([]);
   };
 
-  private getFieldTooltipContent = (field: Fields): React.ReactNode => {
+  private getFieldTooltipContent = (
+    field: Fields | ExtraFields
+  ): React.ReactNode => {
     const { address } = this.state;
     const { validationLevel } = this.props;
     if (validationLevel !== FormValidation.None && address.hasError(field)) {
@@ -435,6 +498,29 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         : tooltipContent;
     }
     return tooltipContent;
+  };
+
+  private createPostalCodeTooltip = (): React.ReactNode => {
+    const { locale } = this.props;
+    const tooltipContent = this.getFieldTooltipContent(ExtraFields.postalcode);
+    const replacePostalCode = () => {
+      const { fields, additionalFields } = this.state.address;
+      delete additionalFields[ExtraFields.postalcode];
+      this.handleAddressChange(new Address(fields, additionalFields));
+    };
+    return (
+      (tooltipContent && (
+        <div>
+          <span>{locale.postalcodeNotFound}</span>
+          <div>
+            <Button onClick={replacePostalCode} use="link">
+              {locale.postalcodeReplace}
+            </Button>
+          </div>
+        </div>
+      )) ||
+      null
+    );
   };
 
   private check(): void {
@@ -475,7 +561,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const { address } = this.state;
     if (address.hasErrors) {
       this.setState({
-        address: new Address(address.fields)
+        address: new Address(address.fields, address.additionalFields)
       });
     }
   };

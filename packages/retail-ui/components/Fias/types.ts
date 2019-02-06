@@ -8,6 +8,7 @@ export interface FiasEntity {
   id: string;
   fiasId: FiasId;
   parentFiasId?: FiasId;
+  postalCode?: string;
 }
 
 export interface AddressObject extends FiasEntity {
@@ -69,13 +70,20 @@ export enum Fields {
   room = 'room'
 }
 
+export enum ExtraFields {
+  postalcode = 'postalcode'
+}
+
 export type AddressFields = { [key in Fields]?: Nullable<AddressElement> };
 
+export type AdditionalFields = { [key in ExtraFields]?: Nullable<string> };
+
 export interface FiasValue {
-  address?: AddressValue;
-  addressString?: string;
-  addressErrors?: AddressErrors;
-  fiasId?: FiasId;
+  address: AddressValue;
+  addressString: string;
+  addressErrors: AddressErrors;
+  fiasId: FiasId;
+  postalCode: string;
 }
 
 export type AddressValue = {
@@ -95,7 +103,7 @@ export type VerifyResponse = Array<{
   invalidLevel?: string;
 }>;
 
-export type AddressErrors = { [key in Fields]?: string };
+export type AddressErrors = { [key in Fields | ExtraFields]?: string };
 
 export enum FormValidation {
   Error = 'Error',
