@@ -102,10 +102,22 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   };
 
   public get fieldsSettings(): FieldsSettings {
-    const userSettings = this.props.fieldsSettings;
-    const defaultSettings = {
-      visible: true
+    type Settings = FieldsSettings[keyof FieldsSettings];
+    const mergeSettings = (...sources: Settings[]): Settings => {
+      const defaultSettings = {
+        visible: true
+      };
+      return sources.reduce<Settings>(
+        (settings: Settings, source: Settings) => {
+          return {
+            ...settings,
+            ...source
+          };
+        },
+        defaultSettings
+      );
     };
+    const userSettings = this.props.fieldsSettings;
 
     return Address.ALL_FIELDS.reduce<FieldsSettings>(
       (fieldsSettings: FieldsSettings, field: Fields | ExtraFields) => {
@@ -113,22 +125,19 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           case ExtraFields.postalcode:
             return {
               ...fieldsSettings,
-              [field]: {
-                ...defaultSettings,
-                ...{
+              [field]: mergeSettings(
+                {
                   visible: false
                 },
-                ...(userSettings[field] || {})
-              }
+                userSettings[field]
+              )
             };
           default:
             return {
               ...fieldsSettings,
-              [field]: {
-                ...defaultSettings,
-                ...(userSettings[field] || {}),
+              [field]: mergeSettings(userSettings[field], {
                 visible: true
-              }
+              })
             };
         }
       },
