@@ -1,6 +1,6 @@
+using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using SKBKontur.SeleniumTesting.Tests.ButtonTests;
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
@@ -24,7 +24,7 @@ namespace SKBKontur.SeleniumTesting.Tests.AutocompleteTests
         public void TestListBasedSuggestions()
         {
             page.ListBasedAutocomplete.InputText("Grey");
-            var suggestions = page.ListBasedAutocomplete.GetSuggestions();
+            var suggestions = page.ListBasedAutocomplete.Suggestions.ToList();
             suggestions[0].Text.Wait().That(Is.EqualTo("Grey Face"));
             suggestions[1].Text.Wait().That(Is.EqualTo("Grey Space"));
         }
@@ -33,7 +33,7 @@ namespace SKBKontur.SeleniumTesting.Tests.AutocompleteTests
         public void TestFetchBasedSuggestions()
         {
             page.ListBasedAutocomplete.InputText("Grey");
-            var suggestions = page.ListBasedAutocomplete.GetSuggestions();
+            var suggestions = page.ListBasedAutocomplete.Suggestions.ToList();
             suggestions[0].Text.Wait().That(Is.EqualTo("Grey Face"));
             suggestions[1].Text.Wait().That(Is.EqualTo("Grey Space"));
         }
@@ -42,7 +42,7 @@ namespace SKBKontur.SeleniumTesting.Tests.AutocompleteTests
         public void TestNoOptionSuggestions()
         {
             page.ListBasedAutocomplete.InputText("Gray");
-            page.ListBasedAutocomplete.GetSuggestions().Should().BeEmpty();
+            page.ListBasedAutocomplete.Suggestions.ToList().Should().BeEmpty();
         }
 
         [Test]

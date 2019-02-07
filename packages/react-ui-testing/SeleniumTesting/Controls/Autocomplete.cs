@@ -21,6 +21,9 @@ namespace SKBKontur.SeleniumTesting.Controls
         [NotNull]
         public IProp<string> Text => ValueFromElement(x => x.FindElement(InputFieldSelector).Value().Get());
 
+        [NotNull]
+        public IEnumerable<MenuItem> Suggestions => menu.AsEnumerable();
+
         public void InputText([NotNull] string text)
         {
             ExecuteAction(x => x.FindElement(InputFieldSelector).SendKeys(text), $"InputText({text})");
