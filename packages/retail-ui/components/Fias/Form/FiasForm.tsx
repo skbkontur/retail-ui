@@ -126,7 +126,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
               ...fieldsSettings,
               [field]: {
                 ...defaultSettings,
-                ...(userSettings[field] || {})
+                ...(userSettings[field] || {}),
+                visible: true
               }
             };
         }
