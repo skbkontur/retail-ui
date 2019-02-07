@@ -89,6 +89,29 @@ let handleChange = value => setState({ home: value });
 />;
 ```
 
+Настройка полей.
+
+```jsx
+let initialState = {
+  home: {
+    fiasId: '2763c110-cb8b-416a-9dac-ad28a55b4402'
+  }
+};
+
+let handleChange = value => setState({ home: value });
+
+<Fias
+  baseUrl={'https://api.kontur.ru/fias/v1/'}
+  value={state.home}
+  onChange={handleChange}
+  fieldsSettings={{
+    postalcode: {
+      visible: true
+    }
+  }}
+/>;
+```
+
 Пользовательская валидация ошибок верификации
 
 ```jsx

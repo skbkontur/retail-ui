@@ -148,3 +148,9 @@ export interface FetchResponse {
   statusText: string;
   json: () => Promise<any>;
 }
+
+export type FieldsSettings = {
+  [field in Fields | ExtraFields]?: {
+    visible?: boolean;
+  }
+};

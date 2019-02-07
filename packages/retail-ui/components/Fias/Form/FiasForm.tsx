@@ -6,6 +6,7 @@ import {
   FiasComboBoxChangeEvent,
   FiasComboBoxProps
 } from './FiasComboBox';
+import isEqual from 'lodash.isequal';
 import styles from './FiasForm.less';
 import {
   Fields,
@@ -16,7 +17,8 @@ import {
   APIProvider,
   SearchOptions,
   APIResult,
-  ExtraFields
+  ExtraFields,
+  FieldsSettings
 } from '../types';
 import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
@@ -30,6 +32,7 @@ interface FiasFormProps {
   api: APIProvider;
   address: Address;
   locale: FiasLocale;
+  fieldsSettings: FieldsSettings;
   search?: boolean;
   limit?: number;
   validationLevel?: FormValidation;
@@ -37,6 +40,7 @@ interface FiasFormProps {
 
 interface FiasFormState {
   address: Address;
+  fieldsSettings: FieldsSettings;
 }
 
 type FiasFormFields = {
@@ -58,6 +62,12 @@ type InputMeta = FieldMeta<Input, InputProps>;
 type FiasFormFieldMeta = ComboBoxMeta | InputMeta;
 
 export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
+  public static defaultProps = {
+    validationLevel: 'Error',
+    limit: 5,
+    fieldsSettings: {}
+  };
+
   public static Field = ({
     label,
     children
@@ -86,14 +96,44 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     return !FiasForm.isComboboxMeta(meta) && props.hasOwnProperty('onChange');
   };
 
-  public static defaultProps = {
-    validationLevel: 'Error',
-    limit: 5
+  public state: FiasFormState = {
+    address: this.props.address,
+    fieldsSettings: this.fieldsSettings
   };
 
-  public state: FiasFormState = {
-    address: this.props.address
-  };
+  public get fieldsSettings(): FieldsSettings {
+    const userSettings = this.props.fieldsSettings;
+    const defaultSettings = {
+      visible: true
+    };
+
+    return Address.ALL_FIELDS.reduce<FieldsSettings>(
+      (fieldsSettings: FieldsSettings, field: Fields | ExtraFields) => {
+        switch (field) {
+          case ExtraFields.postalcode:
+            return {
+              ...fieldsSettings,
+              [field]: {
+                ...defaultSettings,
+                ...{
+                  visible: false
+                },
+                ...(userSettings[field] || {})
+              }
+            };
+          default:
+            return {
+              ...fieldsSettings,
+              [field]: {
+                ...defaultSettings,
+                ...(userSettings[field] || {})
+              }
+            };
+        }
+      },
+      {}
+    );
+  }
 
   private fields: FiasFormFields;
 
@@ -149,6 +189,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     this.check();
   }
 
+  public componentDidUpdate(prevProps: FiasFormProps) {
+    if (!isEqual(prevProps.fieldsSettings, this.props.fieldsSettings)) {
+      this.updateFieldsSettings();
+    }
+  }
+
   public submit = async (): Promise<Address> => {
     await this.verifyPromise;
     return this.state.address;
@@ -176,6 +222,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   }
 
+  private updateFieldsSettings = (): void => {
+    this.setState({
+      fieldsSettings: this.fieldsSettings
+    });
+  };
+
   private getCommonFieldProps = (
     field: Fields | ExtraFields
   ): {
@@ -196,9 +248,11 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   private renderFields = (): React.ReactNode => {
     const { locale } = this.props;
+    const { fieldsSettings } = this.state;
     return Address.ALL_FIELDS.map((field: Fields | ExtraFields) => {
       const control = this.fields[field];
-      if (control) {
+      const settings = fieldsSettings[field];
+      if (control && Boolean(settings && settings.visible)) {
         const { meta, render } = control;
         const label = locale[`${field}Label`];
         return (

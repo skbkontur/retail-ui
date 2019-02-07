@@ -7,7 +7,8 @@ import {
   FormValidation,
   FiasLocale,
   APIProvider,
-  AdditionalFields
+  AdditionalFields,
+  FieldsSettings
 } from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
@@ -83,6 +84,23 @@ export interface FiasProps {
    * Версия базы данных ФИАС. Формат: "2018-10-22"
    */
   version?: string;
+  /**
+   * Настройка полей. Достаточно переопределить только нужные. По умолчанию:
+   *
+   * ```ts
+   *  {
+   *     region:
+   *     ...
+   *     room: {
+   *       visible: true
+   *     },
+   *     postalcode: {
+   *       visible: false
+   *     }
+   *  }```
+   *
+   */
+  fieldsSettings?: FieldsSettings;
 }
 
 export interface FiasState {
@@ -174,13 +192,14 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           </div>
         )}
         {validation}
-        {opened && this.renderModal(address, locale)}
+        {opened && this.renderModal()}
       </div>
     );
   }
 
-  private renderModal(address: Address, locale: FiasLocale) {
-    const { search, limit, formValidation } = this.props;
+  private renderModal() {
+    const { address, locale } = this.state;
+    const { search, limit, formValidation, fieldsSettings } = this.props;
     return (
       <FiasModal
         locale={locale}
@@ -195,6 +214,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           limit={limit}
           locale={locale}
           validationLevel={formValidation}
+          fieldsSettings={fieldsSettings}
         />
       </FiasModal>
     );
