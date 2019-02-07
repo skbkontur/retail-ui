@@ -19,16 +19,14 @@ namespace SKBKontur.SeleniumTesting.Controls
         }
 
         [NotNull]
-        public IProp<string> Text => ValueFromElement(x =>
-        {
-            return x.FindElement(By.CssSelector("label > span > input")).Value().Get();
-        });
+        public IProp<string> Text => ValueFromElement(x => x.FindElement(InputFieldSelector).Value().Get());
 
         public void InputText([NotNull] string text)
         {
-            ExecuteAction(x => x.FindElement(By.CssSelector("label > span > input")).SendKeys(text),
-                $"InputText({text})");
+            ExecuteAction(x => x.FindElement(InputFieldSelector).SendKeys(text), $"InputText({text})");
         }
+
+        private By InputFieldSelector => By.CssSelector("input");
 
         [NotNull]
         public List<MenuItem> GetSuggestions()
