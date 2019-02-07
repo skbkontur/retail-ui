@@ -32,15 +32,16 @@ namespace SKBKontur.SeleniumTesting.Controls
         private By InputFieldSelector => By.CssSelector("input");
 
         [NotNull]
-        public List<MenuItem> GetSuggestions()
+        [Obsolete]
+        public List<string> GetSuggestions()
         {
             try
             {
-                return menu.AsEnumerable().ToList();
+                return Suggestions.Select(x => x.Text.Get()).ToList();
             }
             catch (ElementNotFoundException)
             {
-                return new List<MenuItem>();
+                return new List<string>();
             }
         }
 
