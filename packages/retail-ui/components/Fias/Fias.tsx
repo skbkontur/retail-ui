@@ -105,15 +105,19 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   public state: FiasState = {
     opened: false,
     address: new Address(),
-    locale: {
-      ...defaultLocale,
-      ...this.props.locale
-    }
+    locale: this.locale
   };
 
   private api: APIProvider =
     this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
   private form: Nullable<FiasForm> = null;
+
+  public get locale(): FiasLocale {
+    return {
+      ...defaultLocale,
+      ...this.props.locale
+    };
+  }
 
   constructor(props: FiasProps) {
     super(props);
@@ -213,10 +217,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   private updateLocale = (): void => {
     this.setState({
-      locale: {
-        ...defaultLocale,
-        ...this.props.locale
-      }
+      locale: this.locale
     });
   };
 
