@@ -22,7 +22,20 @@ namespace SKBKontur.SeleniumTesting.Controls
         public IProp<string> Text => ValueFromElement(x => x.FindElement(InputFieldSelector).Value().Get());
 
         [NotNull]
-        public IEnumerable<MenuItem> Suggestions => menu.AsEnumerable();
+        public List<MenuItem> Suggestions
+        {
+            get
+            {
+                try
+                {
+                    return menu.AsEnumerable().ToList();
+                }
+                catch (ElementNotFoundException)
+                {
+                    return new List<MenuItem>();
+                }
+            }
+        }
 
         public void InputText([NotNull] string text)
         {
@@ -35,14 +48,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         [Obsolete]
         public List<string> GetSuggestions()
         {
-            try
-            {
-                return Suggestions.Select(x => x.Text.Get()).ToList();
-            }
-            catch (ElementNotFoundException)
-            {
-                return new List<string>();
-            }
+            return Suggestions.Select(x => x.Text.Get()).ToList();
         }
 
         public void SelectByIndex(int index)
