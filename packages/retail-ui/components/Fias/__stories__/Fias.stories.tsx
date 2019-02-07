@@ -59,7 +59,13 @@ storiesOf('Fias', module)
         <FiasForm api={api} locale={defaultLocale} address={new Address()} />
       </FiasModal>
     );
-  });
+  })
+  .add('with additional fields', () => (
+    <ExampleFias
+      fieldsSettings={{ postalcode: { visible: true } }}
+      value={{ ...MOCK_VALUE, ...{ postalCode: '555555' } }}
+    />
+  ));
 
 class ExampleFias extends React.Component<any> {
   public state = {
