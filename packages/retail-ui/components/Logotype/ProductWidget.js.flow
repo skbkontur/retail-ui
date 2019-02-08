@@ -1,0 +1,7 @@
+/* @flow */
+
+declare var _default: {|
+  init(): void
+|};
+
+export default _default;

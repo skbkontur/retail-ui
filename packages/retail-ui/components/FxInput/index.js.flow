@@ -1,0 +1,2 @@
+/* @flow */
+export { default, FxInputProps } from './FxInput';
