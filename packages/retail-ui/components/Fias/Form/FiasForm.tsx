@@ -134,7 +134,18 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           visible: false
         }
       },
-      userSettings
+      userSettings,
+      // force show all address fields
+      // until they are ready to be hidden
+      Address.MAIN_FIELDS.reduce<FieldsSettings>(
+        (settings: FieldsSettings, field: Fields | ExtraFields) => ({
+          ...settings,
+          [field]: {
+            visible: true
+          }
+        }),
+        {}
+      )
     );
   }
 
