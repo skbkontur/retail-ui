@@ -22,6 +22,7 @@ storiesOf('ComboBox', module)
       <SimpleCombobox />
     </div>
   ))
+  .add('always reject', () => <ComboBox getItems={() => Promise.reject()} />)
   .add('simple combobox with delay', () => {
     class Sample extends React.Component {
       public state = {
