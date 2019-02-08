@@ -61,12 +61,35 @@ type ComboBoxMeta = FieldMeta<FiasComboBox, FiasComboBoxProps>;
 type InputMeta = FieldMeta<Input, InputProps>;
 type FiasFormFieldMeta = ComboBoxMeta | InputMeta;
 
+function deepMerge<T>(dst: T, ...src: T[]): T {
+  src.forEach(obj => {
+    for (const k in obj) {
+      if (dst[k] != null && typeof obj[k] === 'object') {
+        dst[k] = deepMerge(dst[k], obj[k]);
+      } else {
+        dst[k] = obj[k];
+      }
+    }
+  });
+  return dst;
+}
+
 export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   public static defaultProps = {
     validationLevel: 'Error',
     limit: 5,
     fieldsSettings: {}
   };
+
+  public static defaultSettings = Address.ALL_FIELDS.reduce<FieldsSettings>(
+    (settings: FieldsSettings, field: Fields | ExtraFields) => ({
+      ...settings,
+      [field]: {
+        visible: true
+      }
+    }),
+    {}
+  );
 
   public static Field = ({
     label,
@@ -102,46 +125,16 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   };
 
   public get fieldsSettings(): FieldsSettings {
-    type Settings = FieldsSettings[keyof FieldsSettings];
-    const mergeSettings = (...sources: Settings[]): Settings => {
-      const defaultSettings = {
-        visible: true
-      };
-      return sources.reduce<Settings>(
-        (settings: Settings, source: Settings) => {
-          return {
-            ...settings,
-            ...source
-          };
-        },
-        defaultSettings
-      );
-    };
-    const userSettings = this.props.fieldsSettings;
-
-    return Address.ALL_FIELDS.reduce<FieldsSettings>(
-      (fieldsSettings: FieldsSettings, field: Fields | ExtraFields) => {
-        switch (field) {
-          case ExtraFields.postalcode:
-            return {
-              ...fieldsSettings,
-              [field]: mergeSettings(
-                {
-                  visible: false
-                },
-                userSettings[field]
-              )
-            };
-          default:
-            return {
-              ...fieldsSettings,
-              [field]: mergeSettings(userSettings[field], {
-                visible: true
-              })
-            };
+    const { fieldsSettings: userSettings } = this.props;
+    return deepMerge<FieldsSettings>(
+      {},
+      FiasForm.defaultSettings,
+      {
+        [ExtraFields.postalcode]: {
+          visible: false
         }
       },
-      {}
+      userSettings
     );
   }
 
