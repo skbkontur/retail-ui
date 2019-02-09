@@ -197,6 +197,7 @@ describe('ComboBox', () => {
     while (values.length) {
       wrapper.instance().focus();
       wrapper.update();
+      await delay(0);
       wrapper
         .find('input')
         .simulate('change', { target: { value: values.pop() } });
@@ -216,12 +217,14 @@ describe('ComboBox', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onBlur on click outside', () => {
+  it('calls onBlur on click outside', async () => {
     const onBlur = jest.fn();
     const wrapper = mount<ComboBox<string>>(<ComboBox onBlur={onBlur} />);
 
     wrapper.instance().focus();
     wrapper.update();
+
+    await delay(0);
 
     clickOutside();
 
@@ -329,13 +332,14 @@ describe('ComboBox', () => {
     expect(wrapper.find('input').exists()).toBe(false);
   });
 
-  it('clear value if onUnexpectedInput return null', () => {
+  it('clear value if onUnexpectedInput return null', async () => {
     const wrapper = mount<ComboBox<any>>(
       <ComboBox onUnexpectedInput={() => null} />
     );
 
     wrapper.instance().focus();
     wrapper.update();
+    await delay(0);
     wrapper.find('input').simulate('change', { target: { value: 'foo' } });
 
     clickOutside();
