@@ -51,14 +51,14 @@ export type Reducer = (
 ) => Partial<State> | [Partial<State>, EffectType[]];
 
 function taskWithDelay(task: () => void, delay: number) {
-  let cancelationToken = () => {};
+  let cancelationToken: (() => void) = () => null;
 
   new Promise((resolve, reject) => {
     cancelationToken = reject;
     setTimeout(resolve, delay);
   })
     .then(task)
-    .catch(() => {});
+    .catch(() => null);
 
   return cancelationToken;
 }
@@ -108,23 +108,23 @@ const searchFactory = (query: string): EffectType => async (
     }
   }
 
-  try {
-    const [items] = await Promise.all([request || [], loaderShowDelay]);
-
-    if (expectingId === getInstance().requestId) {
-      dispatch({ type: 'ReceiveItems', items });
-    }
-  } catch (error) {
-    if (expectingId === getInstance().requestId) {
-      dispatch({
-        type: 'RequestFailure',
-        repeatRequest: () => {
-          Effect.Search(query)(dispatch, getState, getProps, getInstance);
-          Effect.InputFocus(dispatch, getState, getProps, getInstance);
-        }
-      });
-    }
-  }
+  Promise.all([request || [], loaderShowDelay])
+    .then(([items]) => {
+      if (expectingId === getInstance().requestId) {
+        dispatch({ type: 'ReceiveItems', items });
+      }
+    })
+    .catch(() => {
+      if (expectingId === getInstance().requestId) {
+        dispatch({
+          type: 'RequestFailure',
+          repeatRequest: () => {
+            Effect.Search(query)(dispatch, getState, getProps, getInstance);
+            Effect.InputFocus(dispatch, getState, getProps, getInstance);
+          }
+        });
+      }
+    });
 };
 
 const getValueString = (value: any, valueToString: Props['valueToString']) => {
