@@ -99,7 +99,10 @@ class CustomComboBox extends React.Component<
   public input: Nullable<Input>;
   public menu: Nullable<Menu>;
   public inputLikeText: Nullable<InputLikeText>;
+  public requestId = 0;
+  public loaderShowDelay: Nullable<Promise<never>>;
   private focused: boolean = false;
+  public cancelLoaderDelay = () => {};
 
   /**
    * @public

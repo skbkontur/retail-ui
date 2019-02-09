@@ -50,78 +50,83 @@ export type Reducer = (
   action: Action
 ) => Partial<State> | [Partial<State>, EffectType[]];
 
-const MAX_REQUEST_DELAY = 500;
-const MIN_LOADER_SHOWN_TIME = 1000;
-let requestId = 0;
-const searchFactory = (query: string): EffectType => (
+function taskWithDelay(task: () => void, delay: number) {
+  let cancelationToken = () => {};
+
+  new Promise((resolve, reject) => {
+    cancelationToken = reject;
+    setTimeout(resolve, delay);
+  })
+    .then(task)
+    .catch(() => {});
+
+  return cancelationToken;
+}
+
+export const DEBOUNCE_DELAY = 300;
+export const DELAY_BEFORE_SHOW_LOADER = 500;
+export const LOADER_SHOW_TIME = 1000;
+
+const searchFactory = (query: string): EffectType => async (
   dispatch,
   getState,
   getProps,
   getInstance
 ) => {
-  const makeRequest = async () => {
-    const { getItems } = getProps();
-    const expectingId = ++requestId;
+  let request = null;
+  const { getItems } = getProps();
 
-    let shouldLoaderShow = false;
-    let cancelSilentRequestDelay: (() => void) | null = null;
-    let forceResolveMinDelay: (() => void) | null = null;
+  const expectingId = (getInstance().requestId += 1);
 
-    const cancelableMinDelay = () =>
-      new Promise(resolve => {
-        forceResolveMinDelay = resolve;
-        setTimeout(resolve, MAX_REQUEST_DELAY + MIN_LOADER_SHOWN_TIME);
-      });
+  let { loaderShowDelay } = getInstance();
 
-    new Promise((resolve, reject) => {
-      cancelSilentRequestDelay = reject;
-      setTimeout(resolve, MAX_REQUEST_DELAY);
-    })
-      .then(() => {
-        shouldLoaderShow = true;
-        cancelSilentRequestDelay = null;
+  if (!loaderShowDelay) {
+    loaderShowDelay = new Promise(resolve => {
+      const cancelLoader = taskWithDelay(() => {
         dispatch({ type: 'RequestItems' });
-      })
-      .catch(() => {
-        shouldLoaderShow = false;
-        cancelSilentRequestDelay = null;
-        dispatch({ type: 'Open' });
-      });
+        setTimeout(resolve, LOADER_SHOW_TIME);
+      }, DELAY_BEFORE_SHOW_LOADER);
 
-    const request = getItems(query)
-      .then(result => {
-        if (shouldLoaderShow) {
-          return result;
-        }
+      getInstance().cancelLoaderDelay = () => {
+        cancelLoader();
+        resolve();
+      };
+    });
+  }
 
-        if (cancelSilentRequestDelay) {
-          cancelSilentRequestDelay();
-        }
+  getInstance().loaderShowDelay = loaderShowDelay;
 
-        if (forceResolveMinDelay) {
-          forceResolveMinDelay();
-        }
+  try {
+    request = getItems(query);
 
-        return result;
-      })
-      .catch(() => {
-        if (expectingId === requestId) {
-          dispatch({ type: 'RequestFailure', repeatRequest });
-        }
-      });
+    await request;
+  } catch (error) {
+    // NOTE Ignore error here
+  } finally {
+    if (!getState().loading && expectingId === getInstance().requestId) {
+      getInstance().cancelLoaderDelay();
+    }
+  }
 
-    const [items] = await Promise.all([request, cancelableMinDelay()]);
+  try {
+    const [items] = await Promise.all([request || [], loaderShowDelay]);
 
-    if (expectingId === requestId) {
+    if (expectingId === getInstance().requestId) {
       dispatch({ type: 'ReceiveItems', items });
     }
-  };
-  const repeatRequest = () => {
-    makeRequest();
-    Effect.InputFocus(dispatch, getState, getProps, getInstance);
-  };
-  makeRequest();
+  } catch (error) {
+    if (expectingId === getInstance().requestId) {
+      dispatch({
+        type: 'RequestFailure',
+        repeatRequest: () => {
+          Effect.Search(query)(dispatch, getState, getProps, getInstance);
+          Effect.InputFocus(dispatch, getState, getProps, getInstance);
+        }
+      });
+    }
+  }
 };
+
 const getValueString = (value: any, valueToString: Props['valueToString']) => {
   if (!value) {
     return '';
@@ -134,7 +139,7 @@ const Effect = {
   DebouncedSearch: debounce((dispatch, getState, getProps, getInstance) => {
     const searchEffect = searchFactory(getState().textValue);
     searchEffect(dispatch, getState, getProps, getInstance);
-  }, 300),
+  }, DEBOUNCE_DELAY),
   Blur: ((dispatch, getState, getProps) => {
     const { onBlur } = getProps();
 
@@ -409,6 +414,7 @@ const reducers: { [type: string]: Reducer } = {
     return [
       {
         loading: false,
+        opened: true,
         items: action.items
       },
       [Effect.HighlightMenuItem, Effect.Reflow]
@@ -418,6 +424,7 @@ const reducers: { [type: string]: Reducer } = {
     return [
       {
         loading: false,
+        opened: true,
         items: [
           <MenuItem disabled key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>
