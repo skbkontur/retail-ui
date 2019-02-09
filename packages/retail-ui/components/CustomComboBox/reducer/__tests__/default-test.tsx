@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { Effect } from '../default';
+import {
+  Effect,
+  DELAY_BEFORE_SHOW_LOADER,
+  LOADER_SHOW_TIME,
+  DEBOUNCE_DELAY
+} from '../default';
+import { delay } from 'retail-ui/lib/utils';
 
 interface ItemType {
   value: number;
@@ -92,4 +98,275 @@ describe('Default combobox reducer', () => {
       });
     }
   );
+});
+
+describe('Search', () => {
+  const query = 'one';
+  const items = ['one', 'two'];
+  let state = { loading: false };
+  let instance = { requestId: 0 };
+  let getState = jest.fn();
+  let getInstance = jest.fn();
+  let dispatch = jest.fn();
+
+  beforeEach(() => {
+    state = { loading: false };
+    instance = { requestId: 0 };
+    getState = jest.fn(() => state);
+    getInstance = jest.fn(() => instance);
+    dispatch = jest.fn(
+      ({ type }) =>
+        type === 'RequestItems'
+          ? (state.loading = true)
+          : (state.loading = false)
+    );
+  });
+
+  it('without delay', async () => {
+    const getItems = jest.fn(() => Promise.resolve(items));
+    const getProps = jest.fn(() => ({ getItems }));
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(0);
+
+    expect(getItems).toBeCalledWith(query);
+    expect(dispatch).toBeCalledWith({ type: 'ReceiveItems', items });
+  });
+
+  it(`with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
+    const getItems = jest.fn(
+      async () => (
+        await delay(DELAY_BEFORE_SHOW_LOADER - 200), Promise.resolve(items)
+      )
+    );
+    const getProps = jest.fn(() => ({ getItems }));
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(0);
+
+    expect(getItems).toBeCalledWith(query);
+
+    await delay(DELAY_BEFORE_SHOW_LOADER);
+
+    expect(dispatch).toBeCalledWith({ type: 'ReceiveItems', items });
+  });
+
+  it(`with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
+    const getItems = jest.fn(
+      async () => (
+        await delay(DELAY_BEFORE_SHOW_LOADER + 200), Promise.resolve(items)
+      )
+    );
+    const getProps = jest.fn(() => ({ getItems }));
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(0);
+
+    expect(getItems).toBeCalledWith(query);
+
+    await delay(DELAY_BEFORE_SHOW_LOADER);
+
+    expect(dispatch).toBeCalledWith({ type: 'RequestItems' });
+    dispatch.mockClear();
+
+    await delay(LOADER_SHOW_TIME);
+    await delay(0);
+
+    expect(dispatch).toBeCalledWith({ type: 'ReceiveItems', items });
+  });
+
+  it('rejected without delay', async () => {
+    const getItems = jest.fn(() => Promise.reject());
+    const getProps = jest.fn(() => ({ getItems }));
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(0);
+
+    expect(getItems).toBeCalledWith(query);
+    expect(dispatch).toBeCalledWith({
+      type: 'RequestFailure',
+      repeatRequest: expect.any(Function)
+    });
+  });
+
+  it(`rejected with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
+    const getItems = jest.fn(
+      async () => (
+        await delay(DELAY_BEFORE_SHOW_LOADER - 200), Promise.reject()
+      )
+    );
+    const getProps = jest.fn(() => ({ getItems }));
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(0);
+
+    expect(getItems).toBeCalledWith(query);
+
+    await delay(DELAY_BEFORE_SHOW_LOADER);
+
+    expect(dispatch).toBeCalledWith({
+      type: 'RequestFailure',
+      repeatRequest: expect.any(Function)
+    });
+  });
+
+  it(`rejected with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
+    const getItems = jest.fn(
+      async () => (
+        await delay(DELAY_BEFORE_SHOW_LOADER + 200), Promise.reject()
+      )
+    );
+    const getProps = jest.fn(() => ({ getItems }));
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(0);
+
+    expect(getItems).toBeCalledWith(query);
+
+    await delay(DELAY_BEFORE_SHOW_LOADER);
+
+    expect(dispatch).toBeCalledWith({ type: 'RequestItems' });
+    dispatch.mockClear();
+
+    await delay(LOADER_SHOW_TIME);
+
+    expect(dispatch).toBeCalledWith({
+      type: 'RequestFailure',
+      repeatRequest: expect.any(Function)
+    });
+  });
+
+  it('twice without delay', async () => {
+    const getItems = jest.fn(() => Promise.resolve(items));
+    const getProps = jest.fn(() => ({ getItems }));
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(0);
+
+    expect(getItems).toHaveBeenCalledTimes(2);
+    expect(getItems).toBeCalledWith(query);
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toBeCalledWith({ type: 'ReceiveItems', items });
+  });
+
+  it(`twice with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
+    const getItems = jest.fn(
+      async () => (
+        await delay(DELAY_BEFORE_SHOW_LOADER - 250), Promise.resolve(items)
+      )
+    );
+    const getProps = jest.fn(() => ({ getItems }));
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(DELAY_BEFORE_SHOW_LOADER - DEBOUNCE_DELAY);
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(DELAY_BEFORE_SHOW_LOADER);
+
+    expect(getItems).toHaveBeenCalledTimes(2);
+    expect(getItems).toBeCalledWith(query);
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toBeCalledWith({ type: 'ReceiveItems', items });
+  });
+
+  it(`twice with delay < ${DELAY_BEFORE_SHOW_LOADER} loader`, async () => {
+    const getItems = jest.fn(
+      async () => (
+        await delay(DELAY_BEFORE_SHOW_LOADER - 200), Promise.resolve(items)
+      )
+    );
+    const getProps = jest.fn(() => ({ getItems }));
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(DELAY_BEFORE_SHOW_LOADER - DEBOUNCE_DELAY);
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(DELAY_BEFORE_SHOW_LOADER - 200);
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toBeCalledWith({ type: 'RequestItems' });
+    dispatch.mockClear();
+
+    await delay(LOADER_SHOW_TIME + 100);
+
+    expect(getItems).toHaveBeenCalledTimes(2);
+    expect(getItems).toBeCalledWith(query);
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toBeCalledWith({ type: 'ReceiveItems', items });
+  });
+
+  it(`twice with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
+    const getItems = jest.fn(
+      async () => (
+        await delay(DELAY_BEFORE_SHOW_LOADER + 200), Promise.resolve(items)
+      )
+    );
+    const getProps = jest.fn(() => ({ getItems }));
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(DELAY_BEFORE_SHOW_LOADER - DEBOUNCE_DELAY);
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(DEBOUNCE_DELAY);
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toBeCalledWith({ type: 'RequestItems' });
+    dispatch.mockClear();
+
+    await delay(LOADER_SHOW_TIME + 100);
+
+    expect(getItems).toHaveBeenCalledTimes(2);
+    expect(getItems).toBeCalledWith(query);
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toBeCalledWith({ type: 'ReceiveItems', items });
+  });
+
+  it('twice with slow then fast requests', async () => {
+    const delays = [
+      DELAY_BEFORE_SHOW_LOADER + 200,
+      DELAY_BEFORE_SHOW_LOADER - 200
+    ];
+    const getItems = jest.fn(
+      async () => (await delay(delays.shift() || 0), Promise.resolve(items))
+    );
+    const getProps = jest.fn(() => ({ getItems }));
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(DEBOUNCE_DELAY);
+
+    Effect.Search(query)(dispatch, getState, getProps, getInstance);
+
+    await delay(DELAY_BEFORE_SHOW_LOADER - DEBOUNCE_DELAY);
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toBeCalledWith({ type: 'RequestItems' });
+    dispatch.mockClear();
+
+    await delay(200);
+
+    expect(dispatch).not.toBeCalled();
+
+    await delay(LOADER_SHOW_TIME - 200);
+
+    expect(getItems).toHaveBeenCalledTimes(2);
+    expect(getItems).toBeCalledWith(query);
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toBeCalledWith({ type: 'ReceiveItems', items });
+  });
 });
