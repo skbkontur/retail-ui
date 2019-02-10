@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  Effect,
-  DELAY_BEFORE_SHOW_LOADER,
-  LOADER_SHOW_TIME,
-  DEBOUNCE_DELAY
-} from '../default';
+import { Effect, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../default';
 import { delay } from 'retail-ui/lib/utils';
 
 interface ItemType {
@@ -268,7 +263,7 @@ describe('Search', () => {
 
     Effect.Search(query)(dispatch, getState, getProps, getInstance);
 
-    await delay(DELAY_BEFORE_SHOW_LOADER - DEBOUNCE_DELAY);
+    await delay(DELAY_BEFORE_SHOW_LOADER - 300);
 
     Effect.Search(query)(dispatch, getState, getProps, getInstance);
 
@@ -290,7 +285,7 @@ describe('Search', () => {
 
     Effect.Search(query)(dispatch, getState, getProps, getInstance);
 
-    await delay(DELAY_BEFORE_SHOW_LOADER - DEBOUNCE_DELAY);
+    await delay(DELAY_BEFORE_SHOW_LOADER - 300);
 
     Effect.Search(query)(dispatch, getState, getProps, getInstance);
 
@@ -318,11 +313,11 @@ describe('Search', () => {
 
     Effect.Search(query)(dispatch, getState, getProps, getInstance);
 
-    await delay(DELAY_BEFORE_SHOW_LOADER - DEBOUNCE_DELAY);
+    await delay(DELAY_BEFORE_SHOW_LOADER - 300);
 
     Effect.Search(query)(dispatch, getState, getProps, getInstance);
 
-    await delay(DEBOUNCE_DELAY);
+    await delay(300);
 
     expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toBeCalledWith({ type: 'RequestItems' });
@@ -348,11 +343,11 @@ describe('Search', () => {
 
     Effect.Search(query)(dispatch, getState, getProps, getInstance);
 
-    await delay(DEBOUNCE_DELAY);
+    await delay(300);
 
     Effect.Search(query)(dispatch, getState, getProps, getInstance);
 
-    await delay(DELAY_BEFORE_SHOW_LOADER - DEBOUNCE_DELAY);
+    await delay(DELAY_BEFORE_SHOW_LOADER - 300);
 
     expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toBeCalledWith({ type: 'RequestItems' });

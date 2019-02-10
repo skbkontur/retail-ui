@@ -63,7 +63,7 @@ function taskWithDelay(task: () => void, delay: number) {
   return cancelationToken;
 }
 
-export const DEBOUNCE_DELAY = 300;
+const DEBOUNCE_DELAY = 300;
 export const DELAY_BEFORE_SHOW_LOADER = 500;
 export const LOADER_SHOW_TIME = 1000;
 
