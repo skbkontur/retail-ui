@@ -9,10 +9,10 @@ function patchIconToNamedIcon({ j, path, nameAttr, nameAttrIndex, iconName, cons
       j.jsxElement(j.jsxOpeningElement(j.jsxIdentifier(`${consequentIconName}Icon`), path.node.attributes, true)),
       j.jsxElement(j.jsxOpeningElement(j.jsxIdentifier(`${alternateIconName}Icon`), path.node.attributes, true))
     );
-    if (path.parent.parent.node.type == "JSXExpressionContainer") {
+    if (path.parent.parent.node.type === "JSXExpressionContainer") {
       path.parent.parent.node.expression = conditionalExpression;
     } else {
-      const iconNodeIndex = path.parent.parent.node.children.findIndex(child => child == path.parent.node);
+      const iconNodeIndex = path.parent.parent.node.children.findIndex(child => child === path.parent.node);
 
       path.parent.parent.node.children[iconNodeIndex] = j.jsxExpressionContainer(conditionalExpression);
     }
@@ -41,15 +41,23 @@ function patchIconPropToNamedIcon({ j, iconAttr, iconName, consequentIconName, a
       j.jsxOpeningElement(j.jsxIdentifier(`${alternateIconName}Icon`), [], true)
     );
   } else if (
-    iconAttr.value.expression.type == "ConditionalExpression" &&
-    iconAttr.value.expression.consequent.type == "Literal"
+    iconAttr.value &&
+    iconAttr.value.expression &&
+    iconAttr.value.expression.type === "ConditionalExpression" &&
+    iconAttr.value.expression.consequent &&
+    (iconAttr.value.expression.consequent.type === "StringLiteral" ||
+      iconAttr.value.expression.consequent.type === "Literal")
   ) {
     iconAttr.value.expression.consequent = j.jsxElement(
       j.jsxOpeningElement(j.jsxIdentifier(`${iconAttr.value.expression.consequent.value}Icon`), [], true)
     );
   } else if (
-    iconAttr.value.expression.type == "ConditionalExpression" &&
-    iconAttr.value.expression.alternate.type == "Literal"
+    iconAttr.value &&
+    iconAttr.value.expression &&
+    iconAttr.value.expression.type === "ConditionalExpression" &&
+    iconAttr.value.expression.alternate &&
+    (iconAttr.value.expression.alternate.type === "StringLiteral" ||
+      iconAttr.value.expression.alternate.type === "Literal")
   ) {
     iconAttr.value.expression.alternate = j.jsxElement(
       j.jsxOpeningElement(j.jsxIdentifier(`${iconAttr.value.expression.alternate.value}Icon`), [], true)
@@ -75,8 +83,12 @@ function patchIconPropToSimpleIcon({ j, iconAttr, iconName, expressionIconValue 
       )
     );
   } else if (
-    iconAttr.value.expression.type == "ConditionalExpression" &&
-    iconAttr.value.expression.consequent.type == "Literal"
+    iconAttr.value &&
+    iconAttr.value.expression &&
+    iconAttr.value.expression.type === "ConditionalExpression" &&
+    iconAttr.value.expression.consequent &&
+    (iconAttr.value.expression.consequent.type === "StringLiteral" ||
+      iconAttr.value.expression.consequent.type === "Literal")
   ) {
     iconAttr.value.expression.consequent = j.jsxElement(
       j.jsxOpeningElement(
@@ -86,8 +98,12 @@ function patchIconPropToSimpleIcon({ j, iconAttr, iconName, expressionIconValue 
       )
     );
   } else if (
-    iconAttr.value.expression.type == "ConditionalExpression" &&
-    iconAttr.value.expression.alternate.type == "Literal"
+    iconAttr.value &&
+    iconAttr.value.expression &&
+    iconAttr.value.expression.type === "ConditionalExpression" &&
+    iconAttr.value.expression.alternate &&
+    (iconAttr.value.expression.alternate.type === "StringLiteral" ||
+      iconAttr.value.expression.alternate.type === "Literal")
   ) {
     iconAttr.value.expression.alternate = j.jsxElement(
       j.jsxOpeningElement(
@@ -100,14 +116,22 @@ function patchIconPropToSimpleIcon({ j, iconAttr, iconName, expressionIconValue 
 }
 
 function isSimpleIcon(attr) {
-  return attr.value.type == "Literal" || attr.value.expression.type == "Literal";
+  return (
+    (attr.value && (attr.value.type === "StringLiteral" || attr.value.type === "Literal")) ||
+    (attr.value &&
+      attr.value.expression &&
+      (attr.value.expression.type === "StringLiteral" || attr.value.expression.type === "Literal"))
+  );
 }
 
 function isTernaryIcon(attr) {
   return (
-    attr.value.expression.type == "ConditionalExpression" &&
-    attr.value.expression.consequent.type == "Literal" &&
-    attr.value.expression.alternate.type == "Literal"
+    attr.value &&
+    attr.value.expression &&
+    (attr.value.expression.type === "ConditionalExpression" &&
+      (attr.value.expression.consequent.type === "StringLiteral" ||
+        attr.value.expression.consequent.type === "Literal") &&
+      (attr.value.expression.alternate.type === "StringLiteral" || attr.value.expression.alternate.type === "Literal"))
   );
 }
 
@@ -122,8 +146,8 @@ module.exports = function(file, api) {
   let preserveIconImport = false;
 
   root.find(j.JSXOpeningElement, node => componentNames.includes(node.name.name)).forEach(path => {
-    if (path.node.name.name == "Icon") {
-      const nameAttrIndex = path.node.attributes.findIndex(attr => attr.name && attr.name.name == "name");
+    if (path.node.name.name === "Icon") {
+      const nameAttrIndex = path.node.attributes.findIndex(attr => attr.name && attr.name.name === "name");
       const nameAttr = path.node.attributes[nameAttrIndex];
       const iconComponent = { j, path, nameAttr, nameAttrIndex };
 
@@ -142,7 +166,7 @@ module.exports = function(file, api) {
       }
       iconComponents.push(iconComponent);
     } else {
-      const iconAttrIndex = path.node.attributes.findIndex(attr => attr.name && attr.name.name == "icon");
+      const iconAttrIndex = path.node.attributes.findIndex(attr => attr.name && attr.name.name === "icon");
       const iconAttr = path.node.attributes[iconAttrIndex];
       const component = { j, iconAttr };
 
@@ -193,15 +217,15 @@ module.exports = function(file, api) {
 
   imports.replaceWith(path => {
     const specifiers = path.node.specifiers;
-    const filteredSpecifiers = specifiers.filter(spec => spec.local.name != "Icon");
+    const filteredSpecifiers = specifiers.filter(spec => spec.local.name !== "Icon");
 
-    if (specifiers.length == filteredSpecifiers.length) return path.node;
+    if (specifiers.length === filteredSpecifiers.length) return path.node;
 
-    if (preserveIconImport && filteredSpecifiers.length == 0) return null;
+    if (preserveIconImport && filteredSpecifiers.length === 0) return null;
 
     iconImportsInserted = true;
 
-    if (filteredSpecifiers.length == 0) return iconImports;
+    if (filteredSpecifiers.length === 0) return iconImports;
 
     path.node.specifiers = filteredSpecifiers;
 
@@ -216,7 +240,7 @@ module.exports = function(file, api) {
       );
   }
 
-  if (iconNames.size == 0) return root.toSource();
+  if (iconNames.size === 0) return root.toSource();
 
   if (!preserveIconImport) {
     if (!iconImportsInserted) imports.at(-1).insertAfter(iconImports);
