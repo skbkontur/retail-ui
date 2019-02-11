@@ -62,6 +62,7 @@ export const defaultLocale: {
   postalcodeLabel: 'Индекс',
   postalcodePlaceholder: '',
   postalcodeNotFound: 'Заполнено не по справочнику адресов',
+  postalcodeNotValid: 'Значение не соответствует формату',
   postalcodeReplace: 'Заменить справочным'
 };
 

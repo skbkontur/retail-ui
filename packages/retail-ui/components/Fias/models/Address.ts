@@ -8,7 +8,7 @@ import {
   FiasValue,
   Fields,
   ExtraFields,
-  VerifyResponse
+  FiasLocale
 } from '../types';
 import { Nullable } from '../../../typings/utility-types';
 import { AddressElement } from './AddressElement';
@@ -102,47 +102,45 @@ export class Address {
 
   public static verify = (
     address: Address,
-    response: VerifyResponse,
-    notVerifiedMessage: string
+    verifiedFields: AddressResponse,
+    locale: FiasLocale
   ): Address => {
     const { fields, additionalFields } = address;
     const errors: AddressErrors = {};
-    const verifyResponse = response[0];
 
-    if (verifyResponse) {
-      const { address: verifiedFields } = verifyResponse;
-      let { invalidLevel } = verifyResponse;
+    for (const field of Address.VERIFIABLE_FIELDS) {
+      const addressField = fields[field];
+      let error = '';
 
-      for (const field of Address.VERIFIABLE_FIELDS) {
-        const currentField = fields[field];
+      if (addressField) {
+        if (field === Fields.house && !addressField.data) {
+          // force invalidate address
+          // if house wasn't chosen from the list
+          error = locale.addressSelectItemFromList;
+        }
+        if (!address.isAllowedToFill(field)) {
+          error = locale[`${field}FillBefore`];
+        }
 
-        if (currentField) {
-          if (field === Fields.house && !currentField.data) {
-            // force invalidate address
-            // if house wasn't chosen from the list
-            delete verifiedFields[field];
-            invalidLevel = field;
-          }
+        const fiasObject = verifiedFields[field];
 
-          const fiasObject = verifiedFields[field];
-          if (fiasObject) {
-            const data = new FiasData(fiasObject);
-            fields[field] = new AddressElement(field, data.name, data);
-          } else {
-            delete fields[field]!.data;
-          }
-
-          if (invalidLevel && String(invalidLevel).toLowerCase() === field) {
-            errors[field] = notVerifiedMessage;
-            break;
-          }
+        if (Boolean(error) || !fiasObject) {
+          errors[field] = error || locale.addressNotVerified;
+          delete addressField.data;
+          break;
+        } else {
+          const fiasData = new FiasData(fiasObject);
+          fields[field] = new AddressElement(field, fiasData.name, fiasData);
         }
       }
     }
 
-    const fiasPostalCode = address.getFiasPostalCode();
-    if (fiasPostalCode && address.postalCode !== fiasPostalCode) {
-      errors[ExtraFields.postalcode] = notVerifiedMessage;
+    if (Object.keys(errors).length === 0) {
+      if (address.postalCode && !address.isPostalCodeValid) {
+        errors[ExtraFields.postalcode] = locale.postalcodeNotValid;
+      } else if (address.isPostalCodeAltered) {
+        errors[ExtraFields.postalcode] = locale.postalcodeNotFound;
+      }
     }
 
     return new Address(fields, additionalFields, errors);
@@ -172,6 +170,15 @@ export class Address {
   public get postalCode(): string {
     const value = this.additionalFields[ExtraFields.postalcode];
     return typeof value === 'string' ? value : this.getFiasPostalCode();
+  }
+
+  public get isPostalCodeValid(): boolean {
+    return /^[\d]{6}$/.test(this.postalCode);
+  }
+
+  public get isPostalCodeAltered(): boolean {
+    const fiasPostalCode = this.getFiasPostalCode();
+    return Boolean(fiasPostalCode) && this.postalCode !== fiasPostalCode;
   }
 
   public hasError(field: Fields | ExtraFields): boolean {

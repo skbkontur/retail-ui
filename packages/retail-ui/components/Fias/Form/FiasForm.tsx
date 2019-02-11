@@ -577,17 +577,18 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       this.handleAddressChange(new Address(fields, additionalFields));
     };
     return (
-      (tooltipContent && (
+      tooltipContent && (
         <div>
-          <span>{locale.postalcodeNotFound}</span>
-          <div>
-            <Button onClick={replacePostalCode} use="link">
-              {locale.postalcodeReplace}
-            </Button>
-          </div>
+          <span>{tooltipContent}</span>
+          {this.state.address.isPostalCodeAltered && (
+            <div>
+              <Button onClick={replacePostalCode} use="link">
+                {locale.postalcodeReplace}
+              </Button>
+            </div>
+          )}
         </div>
-      )) ||
-      null
+      )
     );
   };
 
@@ -599,11 +600,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       .verify(address.convertForVerification())
       .then(result => {
         const { success, data } = result;
-        if (success && data && data.length) {
+        if (success && data) {
+          const verifiedFields = (data[0] && data[0].address) || {};
           const verifiedAddress = Address.verify(
             address,
-            data,
-            locale.addressNotVerified
+            verifiedFields,
+            locale
           );
 
           this.setState({
