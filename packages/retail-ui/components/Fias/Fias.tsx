@@ -2,6 +2,7 @@ import * as React from 'react';
 import cn from 'classnames';
 import Link from '../Link';
 import {
+  Fields,
   ExtraFields,
   FiasValue,
   FormValidation,
@@ -102,13 +103,27 @@ export interface FiasProps {
    *  }```
    *
    */
-  fieldsSettings?: FieldsSettings;
+  fieldsSettings: FieldsSettings;
 }
 
 export interface FiasState {
   opened: boolean;
   address: Address;
   locale: FiasLocale;
+  fieldsSettings: FieldsSettings;
+}
+
+function deepMerge<T>(dst: T, ...src: T[]): T {
+  src.forEach(obj => {
+    for (const k in obj) {
+      if (dst[k] != null && typeof obj[k] === 'object') {
+        dst[k] = deepMerge(dst[k], obj[k]);
+      } else {
+        dst[k] = obj[k];
+      }
+    }
+  });
+  return dst;
 }
 
 export class Fias extends React.Component<FiasProps, FiasState> {
@@ -119,13 +134,27 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     readonly: false,
     search: false,
     icon: <EditIcon />,
-    allowNotVerified: true
+    allowNotVerified: true,
+    fieldsSettings: {}
   };
+
+  public static defaultFieldsSettings = Address.ALL_FIELDS.reduce<
+    FieldsSettings
+  >(
+    (settings: FieldsSettings, field: Fields | ExtraFields) => ({
+      ...settings,
+      [field]: {
+        visible: true
+      }
+    }),
+    {}
+  );
 
   public state: FiasState = {
     opened: false,
     address: new Address(),
-    locale: this.locale
+    locale: this.locale,
+    fieldsSettings: this.fieldsSettings
   };
 
   private api: APIProvider =
@@ -137,6 +166,25 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       ...defaultLocale,
       ...this.props.locale
     };
+  }
+
+  public get fieldsSettings(): FieldsSettings {
+    const { fieldsSettings: userSettings } = this.props;
+    return deepMerge<FieldsSettings>(
+      {},
+      Fias.defaultFieldsSettings,
+      {
+        [ExtraFields.postalcode]: {
+          visible: false
+        }
+      },
+      userSettings
+    );
+  }
+
+  public isFieldVisible(field: Fields | ExtraFields): boolean {
+    const settings = this.state.fieldsSettings[field];
+    return Boolean(settings && settings.visible);
   }
 
   constructor(props: FiasProps) {
@@ -156,6 +204,9 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     }
     if (!isEqual(prevProps.locale, this.props.locale)) {
       this.updateLocale();
+    }
+    if (!isEqual(prevProps.fieldsSettings, this.props.fieldsSettings)) {
+      this.updateFieldsSettings();
     }
   };
 
@@ -200,8 +251,8 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   }
 
   private renderModal() {
-    const { address, locale } = this.state;
-    const { search, limit, formValidation, fieldsSettings } = this.props;
+    const { address, locale, fieldsSettings } = this.state;
+    const { search, limit, formValidation } = this.props;
     return (
       <FiasModal
         locale={locale}
@@ -240,6 +291,12 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   private updateLocale = (): void => {
     this.setState({
       locale: this.locale
+    });
+  };
+
+  private updateFieldsSettings = (): void => {
+    this.setState({
+      fieldsSettings: this.fieldsSettings
     });
   };
 
