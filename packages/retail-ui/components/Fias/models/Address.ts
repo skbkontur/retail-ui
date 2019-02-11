@@ -215,6 +215,12 @@ export class Address {
       .join(connector);
   };
 
+  public getFullText = (withPostalCode: boolean = false) => {
+    return [withPostalCode && this.postalCode, this.getText()]
+      .filter(Boolean)
+      .join(', ');
+  };
+
   public isAllowedToFill = (field: Nullable<Fields>): boolean => {
     const { region, city, settlement, street, planningstructure } = this.fields;
     if (
@@ -312,10 +318,11 @@ export class Address {
     }, {});
   };
 
-  public getValue = (): FiasValue => {
+  // TODO: get fields usage from fieldsSettings
+  public getValue = (withPostalCode: boolean): FiasValue => {
     return {
       address: this.getAddressValue(),
-      addressString: this.getText(),
+      addressString: this.getFullText(withPostalCode),
       addressErrors: this.getAddressErrors(),
       fiasId: this.getFiasId(),
       postalCode: this.postalCode

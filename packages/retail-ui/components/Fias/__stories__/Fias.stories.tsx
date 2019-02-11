@@ -11,7 +11,7 @@ import { MockAPI } from '../api/MockAPI';
 
 const BASE_URL = 'https://api.dev.kontur/fias/v1/';
 const MOCK_RESPONSE = require('../api/data.json')[0];
-const MOCK_VALUE = Address.createFromResponse(MOCK_RESPONSE).getValue();
+const MOCK_VALUE = Address.createFromResponse(MOCK_RESPONSE).getValue(false);
 const mockApi = new MockAPI();
 
 storiesOf('Fias', module)

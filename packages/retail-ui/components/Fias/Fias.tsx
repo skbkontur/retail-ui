@@ -237,7 +237,11 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     return (
       <div>
         {!address.isEmpty &&
-          showAddressText && <span>{address.getText()}</span>}
+          showAddressText && (
+            <span>
+              {address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}
+            </span>
+          )}
         {!this.props.readonly && (
           <div>
             <Link icon={icon} onClick={this.handleOpen}>
@@ -277,7 +281,9 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   private init = async () => {
     const address = await this.updateAddress();
     if (this.props.onInit) {
-      this.props.onInit(address.getValue());
+      this.props.onInit(
+        address.getValue(this.isFieldVisible(ExtraFields.postalcode))
+      );
     }
   };
 
@@ -368,7 +374,9 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   private handleChange = (address: Address) => {
     if (this.props.onChange) {
-      this.props.onChange(address.getValue());
+      this.props.onChange(
+        address.getValue(this.isFieldVisible(ExtraFields.postalcode))
+      );
     }
   };
 
