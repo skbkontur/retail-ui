@@ -180,11 +180,6 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     );
   }
 
-  public isFieldVisible(field: Fields | ExtraFields): boolean {
-    const settings = this.state.fieldsSettings[field];
-    return Boolean(settings && settings.visible);
-  }
-
   constructor(props: FiasProps) {
     super(props);
     if (!props.baseUrl && !props.api) {
@@ -207,6 +202,11 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       this.updateFieldsSettings();
     }
   };
+
+  public isFieldVisible(field: Fields | ExtraFields): boolean {
+    const settings = this.state.fieldsSettings[field];
+    return Boolean(settings && settings.visible);
+  }
 
   public render() {
     const {
