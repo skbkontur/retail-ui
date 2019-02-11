@@ -22,7 +22,45 @@ storiesOf('ComboBox', module)
       <SimpleCombobox />
     </div>
   ))
-  .add('simple combobox with delay', () => <SimpleCombobox delay={1000} />)
+  .add('always reject', () => (
+    <div style={{ paddingBottom: 100, paddingRight: 80 }}>
+      <ComboBox getItems={() => Promise.reject()} />
+    </div>
+  ))
+  .add('simple combobox with delay', () => {
+    class Sample extends React.Component {
+      public state = {
+        delay: 1000
+      };
+      public render() {
+        return (
+          <div>
+            <SimpleCombobox noInitialValue delay={this.state.delay} />
+            <p>
+              <label>Delay: </label>
+              <input
+                type="number"
+                value={this.state.delay}
+                onChange={this.handleChangeDelay}
+              />
+            </p>
+          </div>
+        );
+      }
+
+      private handleChangeDelay = (
+        event: React.ChangeEvent<HTMLInputElement>
+      ) => {
+        const value = event.target.valueAsNumber;
+
+        this.setState({
+          delay: value
+        });
+      };
+    }
+
+    return <Sample />;
+  })
   .add('with error handling', () => (
     <TestComboBox
       onSearch={search}
@@ -141,7 +179,7 @@ storiesOf('ComboBox', module)
     return (
       <div>
         <ComboBox
-          ref={e => combobox = e}
+          ref={e => (combobox = e)}
           value={items[0]}
           getItems={search}
           renderItem={i => i.name}
@@ -150,9 +188,15 @@ storiesOf('ComboBox', module)
         />{' '}
         <span className="control-buttons">
           <button onClick={() => combobox && combobox.open()}>open</button>{' '}
-          <button onClick={() => combobox && combobox.search('')}>empty search</button>{' '}
-          <button onClick={() => combobox && combobox.search()}>search current value</button>{' '}
-          <button onClick={() => combobox && combobox.search('two')}>search "two"</button>{' '}
+          <button onClick={() => combobox && combobox.search('')}>
+            empty search
+          </button>{' '}
+          <button onClick={() => combobox && combobox.search()}>
+            search current value
+          </button>{' '}
+          <button onClick={() => combobox && combobox.search('two')}>
+            search "two"
+          </button>{' '}
           <button onClick={() => combobox && combobox.close()}>close</button>
         </span>
       </div>
@@ -169,16 +213,19 @@ storiesOf('ComboBox', module)
   .add('1024 nested ComboBoxes', () => {
     const RecursiveComboboxes = ({ depth }: { depth: number }) => (
       <div>
-        {Array.from({length: 2}).map((_, i) => (
+        {Array.from({ length: 2 }).map((_, i) => (
           <div key={`${depth}-${i}`}>
-            {depth > 1 ? <RecursiveComboboxes depth={depth - 1}/> : <SimpleCombobox />}
+            {depth > 1 ? (
+              <RecursiveComboboxes depth={depth - 1} />
+            ) : (
+              <SimpleCombobox />
+            )}
           </div>
         ))}
       </div>
     );
-    return <RecursiveComboboxes depth={10}/>;
-  })
-;
+    return <RecursiveComboboxes depth={10} />;
+  });
 
 interface ComboBoxWithErrorTogglerState {
   error: boolean;
