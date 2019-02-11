@@ -443,14 +443,9 @@ const items = [
 ];
 
 function search(query: string): Promise<any> {
-  const random = (v: any) => Math.random() * v;
-
-  const delay = (v: any) =>
-    new Promise(resolve => setTimeout(resolve, random(10) * 100, v));
-
   return Promise.resolve(
     items.filter(x => ~x.name.toLowerCase().indexOf(query.toLowerCase()))
-  ).then(delay);
+  );
 }
 
 let searchCount = 0;
