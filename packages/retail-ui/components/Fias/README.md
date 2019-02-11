@@ -89,7 +89,7 @@ let handleChange = value => setState({ home: value });
 />;
 ```
 
-Настройка полей.
+Настройка полей. Почтовый индекс.
 
 ```jsx
 let initialState = {
@@ -105,6 +105,15 @@ let handleChange = value => setState({ home: value });
   value={state.home}
   onChange={handleChange}
   fieldsSettings={{
+    region: {
+      visible: false
+    },
+    district: {
+      visible: false
+    },
+    room: {
+      visible: false
+    },
     postalcode: {
       visible: true
     }
