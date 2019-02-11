@@ -9,25 +9,9 @@
 }
 
 :local {
-  .wrapper,
   .root {
     font-family: kontur-mask-char, Segoe UI, Helevetica Neue, sans-serif;
-  }
-
-  .wrapper {
-    display: inline-block;
-    position: relative;
-  }
-
-  .root {
     cursor: text;
-  }
-
-  .disabled {
-    background: @bg-disabled;
-    border-color: @border-color-gray-light;
-    color: @text-color-disabled;
-    pointer-events: none;
   }
 
   .mask {
@@ -44,5 +28,9 @@
 
   .icon {
     color: @date_input-icon-color;
+
+    &.disabled {
+      color: @text-color-disabled;
+    }
   }
 }

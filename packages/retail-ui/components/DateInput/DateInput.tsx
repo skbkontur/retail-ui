@@ -181,25 +181,15 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   public render() {
-    return (
-      <div
-        className={classNames(
-          styles.wrapper,
-          this.props.disabled && styles.disabled
-        )}
-        style={{ width: this.props.width }}
-      >
-        {DateInputConfig.polyfillInput
-          ? /**
-             * Internet Explorer looses focus on element, if its containing node
-             * would be selected with selectNodeContents
-             *
-             * Rendering input with mask
-             */
-            this.renderInputLikeText()
-          : this.renderInput()}
-      </div>
-    );
+    return DateInputConfig.polyfillInput
+      ? /**
+         * Internet Explorer looses focus on element, if its containing node
+         * would be selected with selectNodeContents
+         *
+         * Rendering input with mask
+         */
+        this.renderInputLikeText()
+      : this.renderInput();
   }
 
   private renderInput() {
@@ -207,7 +197,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     return (
       <Input
-        width="100%"
+        width={this.props.width}
         ref={el => (this._input = el)}
         size={this.props.size}
         disabled={this.props.disabled}
@@ -230,7 +220,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     const isMaskHidden = this.checkIfMaskHidden();
     return (
       <InputLikeText
-        width="100%"
+        width={this.props.width}
         ref={el => (this._inputlikeText = el)}
         size={this.props.size}
         disabled={this.props.disabled}
@@ -294,6 +284,9 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleMouseDown = (event: React.MouseEvent<HTMLInputElement>) => {
+    if (this.props.disabled) {
+      return;
+    }
     event.preventDefault();
     this.selectDatePart(DateParts.Date);
 
@@ -519,9 +512,14 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   private renderIcon = () => {
+    const iconStyles = classNames({
+      [styles.icon]: true,
+      [styles.disabled]: this.props.disabled
+    });
+
     if (this.props.withIcon) {
       return () => (
-        <span className={styles.icon}>
+        <span className={iconStyles}>
           <CalendarIcon size={this._getIconSize()} />
         </span>
       );

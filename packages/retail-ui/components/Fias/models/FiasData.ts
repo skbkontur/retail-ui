@@ -78,6 +78,10 @@ export class FiasData {
     return (this.data && this.data.fiasId) || '';
   }
 
+  public get postalCode(): string {
+    return (this.data && this.data.postalCode) || '';
+  }
+
   public get estateStatus(): Nullable<EstateStatuses> {
     if (FiasData.isHouse(this.data)) {
       return this.data.estateStatus;

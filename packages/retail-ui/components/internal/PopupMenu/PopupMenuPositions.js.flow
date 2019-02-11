@@ -1,0 +1,4 @@
+/* @flow */
+declare var PopupMenuPositions: string[];
+
+export default PopupMenuPositions;

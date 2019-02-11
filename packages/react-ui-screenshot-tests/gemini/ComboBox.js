@@ -34,6 +34,13 @@ gemini.suite("ComboBox", () => {
         .setCaptureElements("#test-element")
         .capture("plain");
     });
+
+    gemini.suite("Inside flex container", suite => {
+      suite
+        .before(renderStory("ComboBoxView", "in flex modal"))
+        .setCaptureElements("html")
+        .capture("plain");
+    });
   });
 
   gemini.suite("Component", () => {
@@ -114,12 +121,12 @@ gemini.suite("ComboBox", () => {
         .setCaptureElements("#test-element")
         .capture("initial value")
         .capture("reset value", (action, find) => {
-          const resetButton = find('[class^="Button-wrap"]:nth-of-type(2)');
+          const resetButton = find('[class^="Button-wrap"]:nth-child(3)');
 
           action.click(resetButton);
         })
         .capture("set value", (action, find) => {
-          const setButton = find('[class^="Button-wrap"]:nth-of-type(1)');
+          const setButton = find('[class^="Button-wrap"]:nth-child(2)');
 
           action.click(setButton);
         });

@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.38.0"></a>
+# [0.38.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.37.0...retail-ui@0.38.0) (2019-02-05)
+
+
+### Bug Fixes
+
+* **Button:** reset text styles ([0b7eec5](https://github.com/skbkontur/retail-ui/commit/0b7eec5)), closes [#1108](https://github.com/skbkontur/retail-ui/issues/1108)
+* **Button:** text align center with custom width ([2150cc6](https://github.com/skbkontur/retail-ui/commit/2150cc6)), closes [#1121](https://github.com/skbkontur/retail-ui/issues/1121)
+* **Combobox:** fix non-closing menu with disablePortal prop ([c5b5288](https://github.com/skbkontur/retail-ui/commit/c5b5288))
+* **DateInput:** remove unecessary wrapper element ([908941e](https://github.com/skbkontur/retail-ui/commit/908941e)), closes [#1119](https://github.com/skbkontur/retail-ui/issues/1119)
+* **Input:** reset text styles ([b7bd90b](https://github.com/skbkontur/retail-ui/commit/b7bd90b)), closes [#1108](https://github.com/skbkontur/retail-ui/issues/1108)
+* **InputLikeText:** fix overflow inside flex container ([91f5c8a](https://github.com/skbkontur/retail-ui/commit/91f5c8a)), closes [#1116](https://github.com/skbkontur/retail-ui/issues/1116)
+* **Kladr:** recover TypeScript typings ([948212d](https://github.com/skbkontur/retail-ui/commit/948212d)), closes [#1058](https://github.com/skbkontur/retail-ui/issues/1058)
+* **RenderLayer:** disable catch events ([#1127](https://github.com/skbkontur/retail-ui/issues/1127)) ([f0a447c](https://github.com/skbkontur/retail-ui/commit/f0a447c))
+* **Textarea:** define min-height, close [#1072](https://github.com/skbkontur/retail-ui/issues/1072) ([#1082](https://github.com/skbkontur/retail-ui/issues/1082)) ([01cf7d3](https://github.com/skbkontur/retail-ui/commit/01cf7d3))
+
+
+### Features
+
+* add flow typings ([9577790](https://github.com/skbkontur/retail-ui/commit/9577790))
+* **Logotype:** add locale prop ([e39c7f7](https://github.com/skbkontur/retail-ui/commit/e39c7f7))
+
+
+
+
 <a name="0.37.0"></a>
 # [0.37.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.36.0...retail-ui@0.37.0) (2019-01-30)
 

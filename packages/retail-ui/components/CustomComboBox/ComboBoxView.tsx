@@ -132,7 +132,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         onFocusOutside={onFocusOutside}
         active={opened}
       >
-        <label
+        <span
           style={{ width }}
           className={styles.root}
           onMouseEnter={onMouseEnter}
@@ -162,7 +162,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
               />
             </DropdownContainer>
           )}
-        </label>
+        </span>
       </RenderLayer>
     );
   }
