@@ -278,18 +278,18 @@ describe('Search', () => {
   it(`twice with delay < ${DELAY_BEFORE_SHOW_LOADER} loader`, async () => {
     const getItems = jest.fn(
       async () => (
-        await delay(DELAY_BEFORE_SHOW_LOADER - 200), Promise.resolve(items)
+        await delay(DELAY_BEFORE_SHOW_LOADER - 100), Promise.resolve(items)
       )
     );
     const getProps = jest.fn(() => ({ getItems }));
 
     Effect.Search(query)(dispatch, getState, getProps, getInstance);
 
-    await delay(DELAY_BEFORE_SHOW_LOADER - 300);
+    await delay(DELAY_BEFORE_SHOW_LOADER - 200);
 
     Effect.Search(query)(dispatch, getState, getProps, getInstance);
 
-    await delay(DELAY_BEFORE_SHOW_LOADER - 200);
+    await delay(DELAY_BEFORE_SHOW_LOADER - 100);
 
     expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toBeCalledWith({ type: 'RequestItems' });
