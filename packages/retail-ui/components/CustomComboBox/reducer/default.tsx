@@ -64,7 +64,7 @@ function taskWithDelay(task: () => void, delay: number) {
 }
 
 const DEBOUNCE_DELAY = 300;
-export const DELAY_BEFORE_SHOW_LOADER = 500;
+export const DELAY_BEFORE_SHOW_LOADER = 300;
 export const LOADER_SHOW_TIME = 1000;
 
 const searchFactory = (query: string): EffectType => async (
