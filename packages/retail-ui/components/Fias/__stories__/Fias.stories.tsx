@@ -60,9 +60,13 @@ storiesOf('Fias', module)
       </FiasModal>
     );
   })
-  .add('with additional fields', () => (
+  .add('with fields settings', () => (
     <ExampleFias
-      fieldsSettings={{ postalcode: { visible: true } }}
+      fieldsSettings={{
+        region: { visible: false },
+        district: { visible: false },
+        postalcode: { visible: true }
+      }}
       value={{ ...MOCK_VALUE, ...{ postalCode: '555555' } }}
     />
   ));
