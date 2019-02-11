@@ -50,34 +50,87 @@ export type Reducer = (
   action: Action
 ) => Partial<State> | [Partial<State>, EffectType[]];
 
-let requestId = 0;
-const searchFactory = (query: string): EffectType => (
+function taskWithDelay(task: () => void, delay: number) {
+  let cancelationToken: (() => void) = () => null;
+
+  new Promise((resolve, reject) => {
+    cancelationToken = reject;
+    setTimeout(resolve, delay);
+  })
+    .then(task)
+    .catch(() => null);
+
+  return cancelationToken;
+}
+
+const DEBOUNCE_DELAY = 300;
+export const DELAY_BEFORE_SHOW_LOADER = 300;
+export const LOADER_SHOW_TIME = 1000;
+
+const searchFactory = (query: string): EffectType => async (
   dispatch,
   getState,
   getProps,
   getInstance
 ) => {
-  const makeRequest = async () => {
-    dispatch({ type: 'RequestItems' });
-    const { getItems } = getProps();
-    const expectingId = ++requestId;
-    try {
-      const items = await getItems(query);
-      if (expectingId === requestId) {
-        dispatch({ type: 'ReceiveItems', items });
-      }
-    } catch (e) {
-      if (expectingId === requestId) {
-        dispatch({ type: 'RequestFailure', repeatRequest });
-      }
+  let request = null;
+  const { getItems } = getProps();
+
+  const expectingId = (getInstance().requestId += 1);
+
+  let { loaderShowDelay } = getInstance();
+
+  if (!loaderShowDelay) {
+    loaderShowDelay = new Promise(resolve => {
+      const cancelLoader = taskWithDelay(() => {
+        dispatch({ type: 'RequestItems' });
+        setTimeout(resolve, LOADER_SHOW_TIME);
+      }, DELAY_BEFORE_SHOW_LOADER);
+
+      getInstance().cancelLoaderDelay = () => {
+        cancelLoader();
+        resolve();
+      };
+    });
+  }
+
+  getInstance().loaderShowDelay = loaderShowDelay;
+
+  try {
+    request = getItems(query);
+
+    await request;
+  } catch (error) {
+    // NOTE Ignore error here
+  } finally {
+    if (!getState().loading && expectingId === getInstance().requestId) {
+      getInstance().cancelLoaderDelay();
     }
-  };
-  const repeatRequest = () => {
-    makeRequest();
-    Effect.InputFocus(dispatch, getState, getProps, getInstance);
-  };
-  makeRequest();
+  }
+
+  try {
+    const [items] = await Promise.all([request || [], loaderShowDelay]);
+
+    if (expectingId === getInstance().requestId) {
+      dispatch({ type: 'ReceiveItems', items });
+    }
+  } catch (error) {
+    if (expectingId === getInstance().requestId) {
+      dispatch({
+        type: 'RequestFailure',
+        repeatRequest: () => {
+          Effect.Search(query)(dispatch, getState, getProps, getInstance);
+          Effect.InputFocus(dispatch, getState, getProps, getInstance);
+        }
+      });
+    }
+  } finally {
+    if (expectingId === getInstance().requestId) {
+      getInstance().loaderShowDelay = null;
+    }
+  }
 };
+
 const getValueString = (value: any, valueToString: Props['valueToString']) => {
   if (!value) {
     return '';
@@ -90,7 +143,7 @@ const Effect = {
   DebouncedSearch: debounce((dispatch, getState, getProps, getInstance) => {
     const searchEffect = searchFactory(getState().textValue);
     searchEffect(dispatch, getState, getProps, getInstance);
-  }, 300),
+  }, DEBOUNCE_DELAY),
   Blur: ((dispatch, getState, getProps) => {
     const { onBlur } = getProps();
 
@@ -264,8 +317,7 @@ const reducers: { [type: string]: Reducer } = {
     if (state.editing) {
       return [
         {
-          focused: true,
-          opened: true
+          focused: true
         },
         [Effect.Search(state.textValue), Effect.Focus]
       ];
@@ -273,7 +325,6 @@ const reducers: { [type: string]: Reducer } = {
     return [
       {
         focused: true,
-        opened: true,
         editing: true
       },
       [Effect.Search(''), Effect.Focus, Effect.SelectInputText]
@@ -367,6 +418,7 @@ const reducers: { [type: string]: Reducer } = {
     return [
       {
         loading: false,
+        opened: true,
         items: action.items
       },
       [Effect.HighlightMenuItem, Effect.Reflow]
@@ -376,6 +428,7 @@ const reducers: { [type: string]: Reducer } = {
     return [
       {
         loading: false,
+        opened: true,
         items: [
           <MenuItem disabled key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>

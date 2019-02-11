@@ -63,6 +63,15 @@ gemini.suite("ComboBox", () => {
         });
     });
 
+    gemini.suite("Failed", suite => {
+      suite
+        .before(renderStory("ComboBox", "always reject"))
+        .setCaptureElements("#test-element")
+        .capture("opened", (action, find) => {
+          action.click(find('[class^="Input-root"]'));
+        });
+    });
+
     gemini.suite("Open to top", suite => {
       suite
         .before(renderStory("ComboBox", "open to top"))
