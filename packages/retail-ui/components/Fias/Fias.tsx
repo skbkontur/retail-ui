@@ -139,18 +139,6 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     fieldsSettings: {}
   };
 
-  public static defaultFieldsSettings = Address.ALL_FIELDS.reduce<
-    FieldsSettings
-  >(
-    (settings: FieldsSettings, field: Fields | ExtraFields) => ({
-      ...settings,
-      [field]: {
-        visible: true
-      }
-    }),
-    {}
-  );
-
   public state: FiasState = {
     opened: false,
     address: new Address(),
@@ -171,9 +159,18 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   public get fieldsSettings(): FieldsSettings {
     const { fieldsSettings: userSettings } = this.props;
+    // TODO: implement deepMerge with clone
+    const defaultSettings = Address.ALL_FIELDS.reduce<FieldsSettings>(
+      (settings: FieldsSettings, field: Fields | ExtraFields) => ({
+        ...settings,
+        [field]: {
+          visible: true
+        }
+      }),
+      {}
+    );
     return deepMerge<FieldsSettings>(
-      {},
-      Fias.defaultFieldsSettings,
+      defaultSettings,
       {
         [ExtraFields.postalcode]: {
           visible: false
