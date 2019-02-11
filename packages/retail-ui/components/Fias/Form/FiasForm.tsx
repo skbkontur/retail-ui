@@ -342,7 +342,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           delete fields[checkField];
         }
       }
-      this.handleAddressChange(new Address(newFields, additionalFields));
+      this.handleAddressChange(
+        new Address(this.filterInvisibleFields(newFields), additionalFields)
+      );
     };
 
     const onInputChange = () => {
@@ -468,9 +470,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         return success && data
           ? Promise.resolve(
               data.map((item: AddressResponse) => {
-                return Address.createFromResponse(
-                  this.filterInvisibleFields(item)
-                );
+                return Address.createFromResponse(item);
               })
             )
           : Promise.reject(error);
