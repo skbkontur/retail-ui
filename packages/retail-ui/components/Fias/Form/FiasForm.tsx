@@ -468,7 +468,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         return success && data
           ? Promise.resolve(
               data.map((item: AddressResponse) => {
-                return Address.createFromResponse(item);
+                return Address.createFromResponse(
+                  this.filterInvisibleFields(item)
+                );
               })
             )
           : Promise.reject(error);
@@ -570,6 +572,20 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         address: new Address(address.fields, address.additionalFields)
       });
     }
+  };
+
+  private filterInvisibleFields = <T extends {}>(address: T): T => {
+    const { fieldsSettings } = this.props;
+    const isFieldVisible = (field: Fields): boolean => {
+      const settings = fieldsSettings[field];
+      return Boolean(settings && settings.visible);
+    };
+    for (const field in address) {
+      if (!isFieldVisible(field as Fields)) {
+        delete address[field];
+      }
+    }
+    return address;
   };
 }
 

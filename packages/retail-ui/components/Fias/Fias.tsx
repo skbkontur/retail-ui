@@ -87,8 +87,9 @@ export interface FiasProps {
   version?: string;
   /**
    * Настройка полей. Достаточно переопределить только нужные.
-   * В данный момент, { visible: false } работает только для "postalcode".
-   * По умолчанию:
+   * Внимание, не рекомендуется скрывать поля в произвольном порядке. Это может привести
+   * к невозможности заполнения некоторых адресов.
+   * Значение по умолчанию:
    *
    * ```ts
    *  {
@@ -308,7 +309,8 @@ export class Fias extends React.Component<FiasProps, FiasState> {
         additionalFields[ExtraFields.postalcode] = postalCode;
       }
       if (address) {
-        return Address.createFromAddressValue(address, additionalFields);
+        const addressValue = this.filterInvisibleFields(address);
+        return Address.createFromAddressValue(addressValue, additionalFields);
       } else {
         let options = {};
         if (fiasId) {
@@ -324,11 +326,21 @@ export class Fias extends React.Component<FiasProps, FiasState> {
         }
         const { success, data } = await this.api.search(options);
         if (success && data && data.length) {
-          return Address.createFromResponse(data[0], additionalFields);
+          const addressResponse = this.filterInvisibleFields(data[0]);
+          return Address.createFromResponse(addressResponse, additionalFields);
         }
       }
     }
     return new Address();
+  };
+
+  private filterInvisibleFields = <T extends {}>(address: T): T => {
+    for (const field in address) {
+      if (!this.isFieldVisible(field as Fields)) {
+        delete address[field];
+      }
+    }
+    return address;
   };
 
   private handleOpen = () => {
