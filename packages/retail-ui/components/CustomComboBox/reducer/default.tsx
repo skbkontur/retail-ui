@@ -108,23 +108,27 @@ const searchFactory = (query: string): EffectType => async (
     }
   }
 
-  Promise.all([request || [], loaderShowDelay])
-    .then(([items]) => {
-      if (expectingId === getInstance().requestId) {
-        dispatch({ type: 'ReceiveItems', items });
-      }
-    })
-    .catch(() => {
-      if (expectingId === getInstance().requestId) {
-        dispatch({
-          type: 'RequestFailure',
-          repeatRequest: () => {
-            Effect.Search(query)(dispatch, getState, getProps, getInstance);
-            Effect.InputFocus(dispatch, getState, getProps, getInstance);
-          }
-        });
-      }
-    });
+  try {
+    const [items] = await Promise.all([request || [], loaderShowDelay]);
+
+    if (expectingId === getInstance().requestId) {
+      dispatch({ type: 'ReceiveItems', items });
+    }
+  } catch (error) {
+    if (expectingId === getInstance().requestId) {
+      dispatch({
+        type: 'RequestFailure',
+        repeatRequest: () => {
+          Effect.Search(query)(dispatch, getState, getProps, getInstance);
+          Effect.InputFocus(dispatch, getState, getProps, getInstance);
+        }
+      });
+    }
+  } finally {
+    if (expectingId === getInstance().requestId) {
+      getInstance().loaderShowDelay = null;
+    }
+  }
 };
 
 const getValueString = (value: any, valueToString: Props['valueToString']) => {
