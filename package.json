@@ -9,7 +9,7 @@
     "commitizen": "^3.0.5",
     "cz-conventional-changelog": "^2.1.0",
     "husky": "^1.3.1",
-    "lerna": "^2.11.0"
+    "lerna": "^3.11.1"
   },
   "scripts": {
     "commit": "git-cz"
