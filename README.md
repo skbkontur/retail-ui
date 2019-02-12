@@ -17,12 +17,6 @@
 $ yarn
 ```
 
-Очистка `node_modules` всех пакетов:
-
-```sh
-$ yarn clean
-```
-
 Пример запуска **storybook** в retail-ui:
 
 ```sh
