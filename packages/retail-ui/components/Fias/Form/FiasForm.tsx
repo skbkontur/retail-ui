@@ -342,9 +342,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           delete fields[checkField];
         }
       }
-      this.handleAddressChange(
-        new Address(this.filterInvisibleFields(newFields), additionalFields)
-      );
+      this.handleAddressChange(new Address(newFields, additionalFields));
     };
 
     const onInputChange = () => {
@@ -557,7 +555,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   private handleAddressChange = (address: Address) => {
     this.setState(
       {
-        address
+        address: this.filterInvisibleFields(address)
       },
       () => {
         this.check();
@@ -574,18 +572,20 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     }
   };
 
-  private filterInvisibleFields = <T extends {}>(address: T): T => {
+  private filterInvisibleFields = (address: Address): Address => {
     const { fieldsSettings } = this.props;
     const isFieldVisible = (field: Fields): boolean => {
       const settings = fieldsSettings[field];
       return Boolean(settings && settings.visible);
     };
-    for (const field in address) {
-      if (!isFieldVisible(field as Fields)) {
-        delete address[field];
+    const { fields, additionalFields, errors } = address;
+    let addressField: Fields;
+    for (addressField in fields) {
+      if (!isFieldVisible(addressField)) {
+        delete fields[addressField];
       }
     }
-    return address;
+    return new Address(fields, additionalFields, errors);
   };
 }
 
