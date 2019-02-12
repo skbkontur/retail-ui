@@ -4,7 +4,7 @@
   ],
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^7.5.1",
+    "@commitlint/cli": "^7.5.2",
     "@commitlint/config-conventional": "^7.5.0",
     "commitizen": "^3.0.5",
     "cz-conventional-changelog": "^2.1.0",
