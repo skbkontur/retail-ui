@@ -193,6 +193,9 @@ const webpackConfig = {
         use: ['file-loader']
       }
     ]
+  },
+  devServer: {
+    public: 'localhost.dev.kontur'
   }
 };
 
