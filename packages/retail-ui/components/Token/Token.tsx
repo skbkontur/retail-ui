@@ -4,6 +4,7 @@ import warningOutput from 'warning';
 import styles from './Token.less';
 import tokenColors from './Colors.less';
 import TokenRemoveIcon from './TokenRemoveIcon';
+import { emptyHandler } from "../../lib/utils";
 
 const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'i-default': 'defaultIdle',
@@ -42,8 +43,6 @@ export interface TokenProps {
   error?: boolean;
   warning?: boolean;
 }
-
-export const emptyHandler = () => undefined;
 
 const Token: React.SFC<TokenProps & TokenActions> = ({
   children,

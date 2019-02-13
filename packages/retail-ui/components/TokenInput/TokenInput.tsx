@@ -12,7 +12,8 @@ import Menu from '../Menu/Menu';
 import Token, { TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import isEqual from 'lodash.isequal';
-import { emptyHandler, TokenActions } from "../Token/Token";
+import { TokenActions } from "../Token/Token";
+import { emptyHandler } from "../../lib/utils";
 
 export enum TokenInputType {
   WithReference,
