@@ -264,6 +264,13 @@ const Effect = {
       menu._move(direction);
     }
   },
+  ResetMenuHighlight: ((dispatch, getState, getProps, getInstance) => {
+    const combobox = getInstance();
+
+    if (combobox.menu && combobox.menu.isHighlighted()) {
+      combobox.menu.reset();
+    }
+  }) as EffectType,
   Reflow: (() => {
     LayoutEvents.emit();
   }) as EffectType,
@@ -415,13 +422,16 @@ const reducers: { [type: string]: Reducer } = {
     };
   },
   ReceiveItems(state, props, action) {
+    const shouldResetMenuHighlight = state.textValue === '';
     return [
       {
         loading: false,
         opened: true,
         items: action.items
       },
-      [Effect.HighlightMenuItem, Effect.Reflow]
+      shouldResetMenuHighlight ?
+        [Effect.ResetMenuHighlight, Effect.Reflow] :
+        [Effect.HighlightMenuItem, Effect.Reflow]
     ];
   },
   RequestFailure(state, props, action) {

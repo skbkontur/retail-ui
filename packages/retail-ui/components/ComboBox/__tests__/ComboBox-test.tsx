@@ -115,7 +115,7 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     const onChange = jest.fn();
     const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} onChange={onChange} renderItem={x => x} />
+      <ComboBox getItems={search} onChange={onChange} renderItem={x => x} value={'one'} />
     );
     wrapper.instance().focus();
     await promise;
@@ -346,6 +346,40 @@ describe('ComboBox', () => {
     wrapper.update();
 
     expect(wrapper.find('input').prop('value')).toBe('');
+  });
+
+  it('does not highlight menu item on focus with empty input', async () => {
+    const items = ['one', 'two', 'three'];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} renderItem={x => x} />
+    );
+
+    wrapper.instance().focus();
+
+    await promise;
+
+    wrapper.update();
+
+    const menuInstance = wrapper.find(Menu).instance() as Menu;
+    expect(menuInstance.isHighlighted()).toBe(false);
+  });
+
+  it('highlights menu item on focus with non-empty input', async () => {
+    const items = ['one', 'two', 'three'];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} renderItem={x => x} value={'one'} />
+    );
+
+    wrapper.instance().focus();
+
+    await promise;
+
+    wrapper.update();
+
+    const menuInstance = wrapper.find(Menu).instance() as Menu;
+    expect(menuInstance.isHighlighted()).toBe(true);
   });
 
   describe('update input text when value changes if there was no editing', () => {
