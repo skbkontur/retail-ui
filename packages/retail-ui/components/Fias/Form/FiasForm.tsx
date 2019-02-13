@@ -332,14 +332,15 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       this.createItemsSource(searchText, field);
 
     const onChange = (e: FiasComboBoxChangeEvent, value: Address) => {
-      const { fields, additionalFields } = this.state.address;
+      const { fields: oldFields, additionalFields } = this.state.address;
       const newFields = {
-        ...fields,
+        ...oldFields,
         ...value.fields
       };
-      for (const checkField of Object.keys(fields) as Fields[]) {
-        if (!fields[checkField]) {
-          delete fields[checkField];
+      let addressField: Fields;
+      for (addressField in newFields) {
+        if (!newFields[addressField]) {
+          delete newFields[addressField];
         }
       }
       this.handleAddressChange(new Address(newFields, additionalFields));
@@ -350,9 +351,11 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
 
     const onUnexpectedInput = (query: string) => {
-      const fields = { ...this.state.address.fields };
-      fields[field] = query ? new AddressElement(field, query) : undefined;
-      return new Address(fields);
+      const newFields = {
+        ...this.state.address.fields,
+        [field]: query ? new AddressElement(field, query) : undefined
+      };
+      return new Address(newFields);
     };
 
     const renderItem = (address: Address): string => {
