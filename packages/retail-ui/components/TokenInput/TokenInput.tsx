@@ -85,7 +85,6 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     width: 250 as string | number
   };
 
-
   public state: TokenInputState<T> = {
     inputValue: '',
     inputValueWidth: 20,
@@ -125,7 +124,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       LayoutEvents.emit();
     }
     if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible) {
-      return this.tryGetItems(this.state.inputValue);
+      this.tryGetItems(this.state.inputValue);
     }
   }
 

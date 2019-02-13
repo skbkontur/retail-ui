@@ -1,5 +1,5 @@
 ```jsx
-const { default: Token } = require('../Token/Token');
+const { default: Token } = require('../Token');
 const { TokenInputType } = require('./TokenInput');
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 

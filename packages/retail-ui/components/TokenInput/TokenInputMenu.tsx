@@ -13,7 +13,7 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   onAddItem: (item: string) => void;
 }
 
-export default class TokenInputMenu<T = string> extends React.PureComponent<
+export default class TokenInputMenu<T = string> extends React.Component<
   TokenInputMenuProps<T>
 > {
   private menu: Menu | null = null;
