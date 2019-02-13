@@ -1,5 +1,6 @@
 {
   "name": "react-ui-testing",
+  "private": true,
   "version": "0.1.0",
   "description": "React selenium testing",
   "main": "react-selenium-testing.js",
