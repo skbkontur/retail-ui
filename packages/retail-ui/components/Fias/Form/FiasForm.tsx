@@ -19,7 +19,6 @@ import {
   ExtraFields,
   FieldsSettings
 } from '../types';
-import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
 import { AddressElement } from '../models/AddressElement';
 import Tooltip from '../../Tooltip/Tooltip';
@@ -100,7 +99,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   private fields: FiasFormFields;
 
-  private verifyPromise: Nullable<Promise<APIResult<VerifyResponse>>> = null;
+  private verifyPromise: Promise<APIResult<VerifyResponse>> | null = null;
 
   constructor(props: FiasFormProps) {
     super(props);
@@ -359,7 +358,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
 
     const renderItem = (address: Address): string => {
-      const element: Nullable<AddressElement> = address.fields[field];
+      const element = address.fields[field];
       const hasParents = Boolean(address.getClosestParentFiasId(field));
 
       const fieldText = element

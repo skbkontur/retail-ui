@@ -14,16 +14,16 @@ import {
   FetchFn,
   FetchResponse
 } from '../types';
-import { Nullable } from '../../../typings/utility-types';
 import abbreviations from '../constants/abbreviations';
 import { Logger } from '../logger/Logger';
 import { APIResultFactory } from './APIResultFactory';
 import xhrFetch from '../../../lib/net/fetch-cors';
 
 interface SearchQuery {
+  [key: string]: string | number | boolean | FiasId | Fields[] | undefined;
   address?: string;
   prefix?: string;
-  parentFiasId?: Nullable<FiasId>;
+  parentFiasId?: FiasId;
   levels?: Fields[];
   fullAddress?: boolean;
   directParent?: boolean;
@@ -47,17 +47,19 @@ export class FiasAPI implements APIProvider {
     };
   }, {});
 
-  private static createQuery = (query: { [key: string]: any }): string => {
+  private static createQuery = (query: SearchQuery): string => {
     const params = [];
-    for (const key of Object.keys(query)) {
-      const param = query[key];
-      if (param !== undefined) {
-        if (key === 'levels' && Array.isArray(param)) {
-          for (const level of param) {
-            params.push(`level[]=${encodeURIComponent(level)}`);
+    for (const key in query) {
+      if (query.hasOwnProperty(key)) {
+        const param = query[key];
+        if (param !== undefined) {
+          if (key === 'levels' && Array.isArray(param)) {
+            for (const level of param) {
+              params.push(`level[]=${encodeURIComponent(level)}`);
+            }
+          } else {
+            params.push(`${key}=${encodeURIComponent(`${param}`)}`);
           }
-        } else {
-          params.push(`${key}=${encodeURIComponent(param)}`);
         }
       }
     }
@@ -78,8 +80,8 @@ export class FiasAPI implements APIProvider {
       .join(' ');
   };
 
-  private verifyPromise: Nullable<Promise<APIResult<VerifyResponse>>> = null;
-  private regionsPromise: Nullable<Promise<APIResult<SearchResponse>>> = null;
+  private verifyPromise: Promise<APIResult<VerifyResponse>> | null = null;
+  private regionsPromise: Promise<APIResult<SearchResponse>> | null = null;
 
   constructor(
     private baseUrl: string = '',

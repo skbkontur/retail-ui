@@ -15,7 +15,6 @@ import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
 import { FiasAPI } from './api/FiasAPI';
-import { Nullable } from '../../typings/utility-types';
 import { Address } from './models/Address';
 import { defaultLocale } from './constants/locale';
 import styles from './Fias.less';
@@ -148,7 +147,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   private api: APIProvider =
     this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
-  private form: Nullable<FiasForm> = null;
+  private form: FiasForm | null = null;
 
   public get locale(): FiasLocale {
     return {
@@ -377,7 +376,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     }
   };
 
-  private refForm = (element: Nullable<FiasForm>) => {
+  private refForm = (element: FiasForm | null) => {
     this.form = element;
   };
 }
