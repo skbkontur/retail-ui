@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.39.0"></a>
+# [0.39.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.38.0...retail-ui@0.39.0) (2019-02-12)
+
+
+### Bug Fixes
+
+* **DropdownContainer:** fixed initial position ([8eed80e](https://github.com/skbkontur/retail-ui/commit/8eed80e))
+* **Menu:** not call `setState` after unmount ([dfd5152](https://github.com/skbkontur/retail-ui/commit/dfd5152))
+
+
+### Features
+
+* **ComboBox:** минимальное время показа лоадера ([279afac](https://github.com/skbkontur/retail-ui/commit/279afac))
+* **Fias:** add fields settings ([31ea3d3](https://github.com/skbkontur/retail-ui/commit/31ea3d3))
+* **Fias:** add postalCode field ([02f1498](https://github.com/skbkontur/retail-ui/commit/02f1498))
+* **Fias:** move fields labels to the locale ([0bae0fd](https://github.com/skbkontur/retail-ui/commit/0bae0fd))
+* **retail-ui:** add more flow typings ([#1137](https://github.com/skbkontur/retail-ui/issues/1137)) ([e72b3eb](https://github.com/skbkontur/retail-ui/commit/e72b3eb))
+
+
+
+
 <a name="0.38.0"></a>
 # [0.38.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.37.0...retail-ui@0.38.0) (2019-02-05)
 

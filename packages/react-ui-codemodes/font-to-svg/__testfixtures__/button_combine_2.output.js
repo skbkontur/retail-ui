@@ -9,7 +9,7 @@ props => (
     <Button icon={<OkIcon />} />
     <Button icon={<OkIcon />} />
     <Button icon={props.success ? <OkIcon /> : <RemoveIcon />} />
-    <Button icon={(props.success ? <OkIcon /> : <RemoveIcon />)} />
+    <Button icon={props.success ? <OkIcon /> : <RemoveIcon />} />
     <Button icon={props.success ? <OkIcon size="24px" /> : <RemoveIcon />} />
     <Button icon={props.success ? <OkIcon /> : <RemoveIcon color="red" />} />
     <Button
