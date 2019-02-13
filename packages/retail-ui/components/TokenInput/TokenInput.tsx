@@ -24,19 +24,19 @@ export enum TokenInputType {
 export interface TokenInputProps<T> {
   selectedItems: T[];
   onChange: (items: T[]) => void;
-  onMouseEnter?: MouseEventHandler<HTMLDivElement>;
-  onMouseLeave?: MouseEventHandler<HTMLDivElement>;
-  onFocus?: FocusEventHandler<HTMLInputElement>;
-  onBlur?: FocusEventHandler<HTMLInputElement>;
+  onMouseEnter: MouseEventHandler<HTMLDivElement>;
+  onMouseLeave: MouseEventHandler<HTMLDivElement>;
+  onFocus: FocusEventHandler<HTMLInputElement>;
+  onBlur: FocusEventHandler<HTMLInputElement>;
   autoFocus?: boolean;
   type?: TokenInputType;
   getItems?: (query: string) => Promise<T[]>;
   hideMenuIfEmptyInputValue?: boolean;
-  renderItem?: (item: T, state: MenuItemState) => React.ReactNode | null;
-  renderValue?: (item: T) => React.ReactNode;
+  renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
+  renderValue: (item: T) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;
   valueToItem: (item: string) => T;
-  toKey?: (item: T) => string | number | undefined;
+  toKey: (item: T) => string | number | undefined;
   placeholder?: string;
   delimiters?: string[];
   error?: boolean;
@@ -81,9 +81,16 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
   public static defaultProps: Partial<TokenInputProps<any>> = {
     selectedItems: [],
     renderNotFound: () => 'Не найдено',
+    renderItem: identity,
+    renderValue: identity,
     valueToItem: (item: string) => item,
+    toKey: defaultToKey,
     onChange: () => void 0,
-    width: 250 as string | number
+    width: 250 as string | number,
+    onBlur: emptyHandler,
+    onFocus: emptyHandler,
+    onMouseEnter: emptyHandler,
+    onMouseLeave: emptyHandler
   };
 
   public state: TokenInputState<T> = {
@@ -145,11 +152,11 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       warning,
       disabled,
       placeholder,
-      renderItem = identity,
+      renderItem,
       renderNotFound,
       hideMenuIfEmptyInputValue,
-      onMouseEnter = emptyHandler,
-      onMouseLeave = emptyHandler,
+      onMouseEnter,
+      onMouseLeave,
     } = this.props;
 
     const {
@@ -682,8 +689,8 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     }
 
     const {
-      renderValue = identity,
-      toKey = defaultToKey
+      renderValue,
+      toKey
     } = this.props;
     const isActive = this.state.activeTokens.indexOf(item) !== -1;
     const handleIconClick: React.MouseEventHandler<SVGElement> = event => {
