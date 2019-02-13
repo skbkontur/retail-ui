@@ -27,9 +27,13 @@ export interface TokenColors {
   active?: TokenColorName;
 }
 
-interface TokenActions {
+export interface TokenActions {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   onRemove?: React.MouseEventHandler<SVGElement>;
+  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+  onFocus?: React.FocusEventHandler<HTMLDivElement>;
+  onBlur?: React.FocusEventHandler<HTMLDivElement>;
 }
 
 export interface TokenProps {
@@ -39,19 +43,25 @@ export interface TokenProps {
   warning?: boolean;
 }
 
+export const emptyHandler = () => undefined;
+
 const Token: React.SFC<TokenProps & TokenActions> = ({
   children,
   isActive,
   colors,
   error,
   warning,
-  onClick = () => undefined,
-  onRemove = () => undefined
+  onClick = emptyHandler,
+  onRemove = emptyHandler,
+  onMouseEnter = emptyHandler,
+  onMouseLeave = emptyHandler,
+  onFocus = emptyHandler,
+  onBlur = emptyHandler,
 }) => {
   if (process.env.NODE_ENV !== 'production' && colors) {
     warningOutput(
       !deprecatedColorNames[colors.idle],
-      `Color name '${colors.idle}' has been depricated, use '${
+      `Color name '${colors.idle}' has been deprecated, use '${
         deprecatedColorNames[colors.idle]
       }' instead`
     );
@@ -59,7 +69,7 @@ const Token: React.SFC<TokenProps & TokenActions> = ({
     if (colors.active) {
       warningOutput(
         !deprecatedColorNames[colors.active],
-        `Color name '${colors.active}' has been depricated, use '${
+        `Color name '${colors.active}' has been deprecated, use '${
           deprecatedColorNames[colors.active]
         }' instead`
       );
@@ -85,7 +95,14 @@ const Token: React.SFC<TokenProps & TokenActions> = ({
   );
 
   return (
-    <div className={tokenClassNames} onClick={onClick}>
+    <div
+      className={tokenClassNames}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onFocus={onFocus}
+      onBlur={onBlur}
+    >
       {children}
       <TokenRemoveIcon className={styles.removeIcon} onClick={onRemove} />
     </div>

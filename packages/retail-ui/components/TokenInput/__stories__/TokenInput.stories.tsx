@@ -2,8 +2,13 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Gapped from '../../Gapped';
-import TokenInput, { TokenInputType } from '../TokenInput';
-import { TokenColors } from '../../Token';
+import TokenInput, { TokenInputProps, TokenInputType } from '../TokenInput';
+import Token, { TokenColors } from '../../Token';
+
+interface TokenModel {
+  id?: string;
+  value: string;
+}
 
 const FixedWidthDecorator = (storyFn: any) => (
   <div
@@ -35,15 +40,15 @@ async function getModelItems(query: string): Promise<TokenModel[]> {
   return getGenericItems().filter(s => s.value.includes(query));
 }
 
-class Wrapper extends React.Component<any, any> {
+class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
   constructor(props: any) {
     super(props);
     const selectedItems = props.selectedItems
       ? props.selectedItems
       : props.numberItems
         ? new Array(props.numberItems)
-            .fill(null)
-            .map((_, i) => i.toString().repeat(3))
+          .fill(null)
+          .map((_, i) => i.toString().repeat(3))
         : [];
     this.state = { selectedItems };
   }
@@ -54,23 +59,26 @@ class Wrapper extends React.Component<any, any> {
         {...this.props}
         selectedItems={this.state.selectedItems}
         onChange={itemsNew => this.setState({ selectedItems: itemsNew })}
-        renderTokenComponent={(token, value) => {
-          if (value === '222') {
-            return token({ error: true });
-          }
-          return token();
-        }}
+        renderToken={(item, { isActive, onClick, onRemove }) => (
+          <Token
+            key={item.toString()}
+            isActive={isActive}
+            onClick={onClick}
+            onRemove={onRemove}
+          >
+            {item}
+          </Token>
+        )}
       />
     );
   }
 }
 
-class MyTokenInput extends TokenInput<TokenModel> {}
+class MyTokenInput extends TokenInput<TokenModel> {
+}
 
-class WrapperCustomModel extends React.Component<
-  any,
-  { selectedItems: TokenModel[] }
-> {
+class WrapperCustomModel extends React.Component<any,
+  { selectedItems: TokenModel[] }> {
   constructor(props: any) {
     super(props);
     this.state = { selectedItems: [] };
@@ -87,16 +95,20 @@ class WrapperCustomModel extends React.Component<
         onChange={this.onChange}
         placeholder="placeholder"
         type={TokenInputType.Combined}
-        renderTokenComponent={(token, value) => {
-          let colors: TokenColors | undefined;
-          if (value && value.value.includes('aaa')) {
-            colors = {
+        renderToken={(item, { isActive, onClick, onRemove }) => (
+          <Token
+            key={item.id}
+            colors={item.value.includes('aaa') ? {
               idle: 'redIdle',
               active: 'redActive'
-            };
-          }
-          return token({ colors });
-        }}
+            } : undefined}
+            isActive={isActive}
+            onClick={onClick}
+            onRemove={onRemove}
+          >
+            {item}
+          </Token>
+        )}
       />
     );
   }
@@ -119,8 +131,8 @@ class ColoredWrapper extends React.Component<any, any> {
       ? props.selectedItems
       : props.numberItems
         ? new Array(props.numberItems)
-            .fill(null)
-            .map((_, i) => i.toString().repeat(3))
+          .fill(null)
+          .map((_, i) => i.toString().repeat(3))
         : [];
     this.state = { selectedItems };
   }
@@ -153,11 +165,6 @@ class ColoredWrapper extends React.Component<any, any> {
 const FilledWrapper = (props: any) => (
   <Wrapper {...{ ...props, numberItems: 7 }} />
 );
-
-interface TokenModel {
-  id?: string;
-  value: string;
-}
 
 // tslint:disable jsx-no-lambda
 storiesOf('TokenInput', module)
@@ -250,6 +257,20 @@ storiesOf('TokenInput', module)
       </Gapped>
     );
   })
+  .add('use renderToken', () => (
+    <Gapped gap={10}>
+      <Wrapper getItems={getItems} renderToken={(item, { isActive, onClick, onRemove }) => (
+        <Token
+          key={item.toString()}
+          isActive={isActive}
+          onClick={onClick}
+          onRemove={onRemove}
+        >
+          {item}
+        </Token>
+      )} />
+    </Gapped>
+  ))
   .add('disabled', () => {
     return (
       <Gapped vertical gap={10}>

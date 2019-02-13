@@ -1,15 +1,16 @@
 ```jsx
+const { default: Token } = require('../Token/Token');
 const { TokenInputType } = require('./TokenInput');
-let delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
-let getItems = q =>
+const getItems = q =>
   Promise.resolve(
     ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
       x => x.toLowerCase().includes(q.toLowerCase()) || x.toString(10) === q
     )
   ).then(delay(500));
 
-let tokenColors = {
+const tokenColors = {
   First: {
     idle: 'grayIdle',
     active: 'grayActive'
@@ -46,9 +47,17 @@ let tokenColors = {
     getItems={getItems}
     selectedItems={state.selectedItems}
     onChange={itemsNew => setState({ selectedItems: itemsNew })}
-    renderTokenComponent={(token, value) => {
-      return token({ colors: tokenColors[value] || tokenColors.default });
-    }}
+    renderToken={(item, { isActive, onClick, onRemove }) => (
+      <Token
+        key={item.toString()}
+        colors={tokenColors[item] || tokenColors.default}
+        isActive={isActive}
+        onClick={onClick}
+        onRemove={onRemove}
+      >
+        {item}
+      </Token>
+    )}
   />
 </div>;
 ```

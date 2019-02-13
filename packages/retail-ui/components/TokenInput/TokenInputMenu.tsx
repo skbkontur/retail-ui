@@ -13,7 +13,7 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   onAddItem: (item: string) => void;
 }
 
-export default class TokenInputMenu<T = string> extends React.Component<
+export default class TokenInputMenu<T = string> extends React.PureComponent<
   TokenInputMenuProps<T>
 > {
   private menu: Menu | null = null;
@@ -69,7 +69,7 @@ export default class TokenInputMenu<T = string> extends React.Component<
     const handleAddItemNoteClick = () => this.props.onAddItem(value);
 
     // TODO при переопределении delimiters это будет выглядеть не очень
-    const comment = 'Нажмите Enter или запятую';
+    const comment = 'Нажмите Enter или поставьте запятую';
 
     return (
       <MenuItem onClick={handleAddItemNoteClick} comment={comment}>
