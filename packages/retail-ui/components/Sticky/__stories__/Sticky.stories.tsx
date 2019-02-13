@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import Sticky from '../Sticky';
+import Sticky, { StickyProps } from '../Sticky';
+import { findDOMNode } from 'react-dom';
+import { createPropsGetter } from '../../internal/createPropsGetter';
 
 const TEXT = (
   <div>
@@ -83,8 +85,7 @@ class SampleBottom extends React.Component {
             <div
               style={{
                 padding: 10,
-                background: '#f99',
-                margin: 20
+                background: '#f99'
               }}
             >
               Small loan of a million dollars
@@ -104,7 +105,175 @@ class SampleBottom extends React.Component {
   private getStickyStopElement = () => this.stopElement;
 }
 
+class PositionsAndMargins extends React.Component {
+  public static Sticker = (
+    props: StickyProps & {
+      margins: boolean;
+      reference: (el: Element | null) => void;
+    }
+  ) => {
+    const { margins, reference, ...stickyProps } = props;
+    const stickerStyles = {
+      background: '#f99',
+      padding: 15,
+      margin: margins ? 20 : 0,
+      border: '2px solid #f55'
+    };
+    return (
+      <div ref={reference}>
+        <Sticky {...stickyProps}>
+          {fixed => (
+            <div style={stickerStyles}>
+              {`${stickyProps.side}, fixed: ${fixed}`}
+            </div>
+          )}
+        </Sticky>
+      </div>
+    );
+  };
+
+  public static Gap = ({
+    height
+  }: {
+    height: React.CSSProperties['height'];
+  }) => (
+    <div
+      style={{
+        height,
+        background: `repeating-linear-gradient(
+        60deg,
+        #fafafa,
+        #fafafa 20px,
+        #dfdede 20px,
+        #dfdede 40px
+      )`
+      }}
+    />
+  );
+
+  private stopElement: HTMLElement | null = null;
+  private bottomElement: HTMLElement | null = null;
+  private topElement: HTMLElement | null = null;
+
+  public state = {
+    absolute: false,
+    margins: false,
+    frame: false
+  };
+
+  public render() {
+    const { absolute, margins } = this.state;
+    const stopStyles = {
+      border: '2px dashed #888',
+      padding: 10
+    };
+    return (
+      <div
+        style={{
+          width: '100vw'
+        }}
+      >
+        <div
+          id="control-buttons"
+          style={{
+            width: 200,
+            position: 'fixed',
+            top: 10,
+            right: 10,
+            padding: 10,
+            background: '#fff',
+            border: '1px dashed #999',
+            zIndex: 2000
+          }}
+        >
+          <button
+            id="scroll-to-the-top"
+            onClick={() => this.scrollTo(this.topElement)}
+          >
+            Top Sticker
+          </button>
+          <button
+            id="scroll-to-the-bottom"
+            onClick={() => this.scrollTo(this.bottomElement)}
+          >
+            Bottom Sticker
+          </button>
+          <button id="toggle-margins" onClick={this.toggleMargins}>
+            Turn {this.state.margins ? 'Off' : 'On'} Margins
+          </button>
+          <button id="toggle-absolute">Turn On Absolute Position</button>
+          <button id="toggle-frame" onClick={this.toggleFrame}>
+            Turn {this.state.frame ? 'Off' : 'On'} Capture Frame
+          </button>
+        </div>
+        <PositionsAndMargins.Gap height="50vh" />
+        <PositionsAndMargins.Sticker
+          side="top"
+          getStop={this.getStopElement}
+          margins={margins}
+          reference={this.topRef}
+        />
+        <PositionsAndMargins.Gap height="50vh" />
+        <div style={stopStyles} ref={this.refStop}>
+          vertical stopper
+        </div>
+        <PositionsAndMargins.Gap height="50vh" />
+        <PositionsAndMargins.Sticker
+          side="bottom"
+          getStop={this.getStopElement}
+          margins={margins}
+          reference={this.bottomRef}
+        />
+        <PositionsAndMargins.Gap height="100vh" />
+        <div
+          id="capture-frame"
+          style={{
+            position: 'fixed',
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 1000,
+            display: this.state.frame ? 'block' : 'none'
+          }}
+        />
+      </div>
+    );
+  }
+
+  private refStop = (element: HTMLDivElement) => {
+    this.stopElement = element;
+  };
+
+  private topRef = (ref: Element | null) => {
+    this.topElement = ref instanceof HTMLElement ? ref : null;
+  };
+
+  private bottomRef = (ref: Element | null) => {
+    this.bottomElement = ref instanceof HTMLElement ? ref : null;
+  };
+
+  private getStopElement = () => this.stopElement;
+
+  private scrollTo = (element: HTMLElement | null) => {
+    if (element) {
+      window.scrollTo(0, element.offsetTop);
+    }
+  };
+
+  private toggleMargins = () => {
+    this.setState({ margins: !this.state.margins });
+  };
+
+  private toggleFrame = () => {
+    this.setState({ frame: !this.state.frame });
+  };
+}
+
 storiesOf('Sticky', module)
-  .addDecorator(story => <div style={{ width: 200 }}>{story()}</div>)
+  .addDecorator(story => (
+    <div style={{ width: 200, margin: '0 auto' }}>{story()}</div>
+  ))
   .add('Top', () => <SampleTop />)
-  .add('Bottom', () => <SampleBottom />);
+  .add('Bottom', () => <SampleBottom />)
+  .add('Fixed', () => <PositionsAndMargins />);

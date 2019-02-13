@@ -1,3 +1,64 @@
+Sticky
+
+```js
+<DropdownMenu
+  caption={<Button use="primary">Открыть меню</Button>}
+  menuMaxHeight={150}
+>
+  <MenuItem>Раз</MenuItem>
+  <Sticky side="top" absolute>
+    {fixed =>
+      !fixed ? (
+        <div style={{ background: fixed ? '#333' : '#fff' }}>
+          <MenuHeader>Заголовок меню</MenuHeader>
+        </div>
+      ) : (
+        <div style={{ background: fixed ? '#333' : '#fff' }}>
+          <MenuHeader>Заголовок меню</MenuHeader>
+          <MenuHeader>Заголовок меню</MenuHeader>
+          <MenuHeader>Заголовок меню</MenuHeader>
+        </div>
+      )
+    }
+  </Sticky>
+  <MenuSeparator />
+  <MenuItem>Два</MenuItem>
+  <MenuItem>Три</MenuItem>
+  <MenuSeparator />
+  <MenuItem>Раз</MenuItem>
+  <MenuItem>Два</MenuItem>
+  <MenuItem>Три</MenuItem>
+</DropdownMenu>
+```
+
+Sticky with Stop
+
+```js
+let stop = null;
+let style = { background: 'red' };
+
+<DropdownMenu
+  caption={<Button use="primary">Открыть меню</Button>}
+  menuMaxHeight={150}
+>
+  <Sticky side="top" getStop={() => stop} absolute>
+    {fixed => (
+      <div style={style}>
+        Small loan of a million dollars
+        {fixed ? ' fixed' : <div>not fixed</div>}
+      </div>
+    )}
+  </Sticky>
+  Great
+  <div style={{ height: 300 }} />
+  <div ref={el => (stop = el)} style={{ borderTop: '1px solid #000' }} />
+  <div style={{ height: 300 }} />
+  <Sticky side="bottom" getStop={() => stop} offset={0} absolute>
+    <div style={style}>Make America Great Again</div>
+  </Sticky>
+</DropdownMenu>;
+```
+
 Простой пример
 
 ```js

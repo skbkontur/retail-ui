@@ -93,6 +93,61 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     this._reflow();
   }
 
+  public get innerMargin(): {
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+  } {
+    let top = 0;
+    let right = 0;
+    let bottom = 0;
+    let left = 0;
+
+    if (this._inner && this._inner.firstElementChild) {
+      const {
+        marginTop,
+        marginRight,
+        marginBottom,
+        marginLeft
+      } = getComputedStyle(this._inner.firstElementChild);
+      top =
+        (!this.state.fixed &&
+          !this.state.stopped &&
+          marginTop &&
+          parseFloat(marginTop)) ||
+        0;
+      right = (marginRight && parseFloat(marginRight)) || 0;
+      bottom =
+        (!this.state.fixed &&
+          !this.state.stopped &&
+          marginBottom &&
+          parseFloat(marginBottom)) ||
+        0;
+      left = (marginLeft && parseFloat(marginLeft)) || 0;
+    }
+
+    return {
+      top,
+      right,
+      bottom,
+      left
+    };
+  }
+
+  public get innerHeight(): number {
+    let height = 0;
+
+    if (this._inner) {
+      height =
+        this._inner.offsetHeight +
+        this.innerMargin.top +
+        this.innerMargin.bottom;
+    }
+
+    return height;
+  }
+
   public render() {
     let wrapperStyle: React.CSSProperties = {};
     let innerStyle: React.CSSProperties = {};
