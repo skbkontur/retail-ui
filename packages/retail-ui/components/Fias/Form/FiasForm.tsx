@@ -19,7 +19,6 @@ import {
   ExtraFields,
   FieldsSettings
 } from '../types';
-import { Nullable } from '../../../typings/utility-types';
 import { Address } from '../models/Address';
 import { AddressElement } from '../models/AddressElement';
 import Tooltip from '../../Tooltip/Tooltip';
@@ -100,7 +99,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   private fields: FiasFormFields;
 
-  private verifyPromise: Nullable<Promise<APIResult<VerifyResponse>>> = null;
+  private verifyPromise: Promise<APIResult<VerifyResponse>> | null = null;
 
   constructor(props: FiasFormProps) {
     super(props);
@@ -332,19 +331,18 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       this.createItemsSource(searchText, field);
 
     const onChange = (e: FiasComboBoxChangeEvent, value: Address) => {
-      const { fields, additionalFields } = this.state.address;
+      const { fields: oldFields, additionalFields } = this.state.address;
       const newFields = {
-        ...fields,
+        ...oldFields,
         ...value.fields
       };
-      for (const checkField of Object.keys(fields) as Fields[]) {
-        if (!fields[checkField]) {
-          delete fields[checkField];
+      let addressField: Fields;
+      for (addressField in newFields) {
+        if (!newFields[addressField]) {
+          delete newFields[addressField];
         }
       }
-      this.handleAddressChange(
-        new Address(this.filterInvisibleFields(newFields), additionalFields)
-      );
+      this.handleAddressChange(new Address(newFields, additionalFields));
     };
 
     const onInputChange = () => {
@@ -352,13 +350,15 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
 
     const onUnexpectedInput = (query: string) => {
-      const fields = { ...this.state.address.fields };
-      fields[field] = query ? new AddressElement(field, query) : undefined;
-      return new Address(fields);
+      const newFields = {
+        ...this.state.address.fields,
+        [field]: query ? new AddressElement(field, query) : undefined
+      };
+      return new Address(newFields);
     };
 
     const renderItem = (address: Address): string => {
-      const element: Nullable<AddressElement> = address.fields[field];
+      const element = address.fields[field];
       const hasParents = Boolean(address.getClosestParentFiasId(field));
 
       const fieldText = element
@@ -557,7 +557,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   private handleAddressChange = (address: Address) => {
     this.setState(
       {
-        address
+        address: this.filterInvisibleFields(address)
       },
       () => {
         this.check();
@@ -574,18 +574,20 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     }
   };
 
-  private filterInvisibleFields = <T extends {}>(address: T): T => {
+  private filterInvisibleFields = (address: Address): Address => {
     const { fieldsSettings } = this.props;
     const isFieldVisible = (field: Fields): boolean => {
       const settings = fieldsSettings[field];
       return Boolean(settings && settings.visible);
     };
-    for (const field in address) {
-      if (!isFieldVisible(field as Fields)) {
-        delete address[field];
+    const { fields, additionalFields, errors } = address;
+    let addressField: Fields;
+    for (addressField in fields) {
+      if (!isFieldVisible(addressField)) {
+        delete fields[addressField];
       }
     }
-    return address;
+    return new Address(fields, additionalFields, errors);
   };
 }
 

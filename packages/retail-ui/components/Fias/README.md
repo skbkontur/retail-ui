@@ -94,7 +94,7 @@ let handleChange = value => setState({ home: value });
 ```jsx
 let initialState = {
   home: {
-    fiasId: '2763c110-cb8b-416a-9dac-ad28a55b4402'
+    fiasId: '22ead39c-ddcc-4c46-951d-f958750810fd'
   }
 };
 
@@ -104,11 +104,24 @@ let handleChange = value => setState({ home: value });
   baseUrl={'https://api.kontur.ru/fias/v1/'}
   value={state.home}
   onChange={handleChange}
+  search={true}
   fieldsSettings={{
     region: {
       visible: false
     },
     district: {
+      visible: false
+    },
+    settlement: {
+      visible: false
+    },
+    intracityarea: {
+      visible: false
+    },
+    planningstructure: {
+      visible: false
+    },
+    stead: {
       visible: false
     },
     room: {

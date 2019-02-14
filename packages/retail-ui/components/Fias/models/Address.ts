@@ -10,7 +10,6 @@ import {
   ExtraFields,
   FiasLocale
 } from '../types';
-import { Nullable } from '../../../typings/utility-types';
 import { AddressElement } from './AddressElement';
 import { FiasData } from './FiasData';
 
@@ -203,8 +202,8 @@ export class Address {
     if (this.isEmpty) {
       return '';
     }
-    const getElementText = (element: Nullable<AddressElement>) => {
-      return element && element.getText(skipTypes);
+    const getElementText = (element?: AddressElement): string => {
+      return element ? element.getText(skipTypes) : '';
     };
     const fields = minField
       ? Address.getParentFields(minField)
@@ -221,7 +220,7 @@ export class Address {
       .join(', ');
   };
 
-  public isAllowedToFill = (field: Nullable<Fields>): boolean => {
+  public isAllowedToFill = (field?: Fields): boolean => {
     const { region, city, settlement, street, planningstructure } = this.fields;
     if (
       (field === Fields.street &&
@@ -247,7 +246,7 @@ export class Address {
     return Boolean(field && Address.ALL_PARENTS_SEARCH_FIELDS.includes(field));
   };
 
-  public hasOnlyIndirectParent = (field: Nullable<Fields>): boolean => {
+  public hasOnlyIndirectParent = (field?: Fields): boolean => {
     if (field) {
       const parents = Address.getParentFields(field);
       if (parents.length > 1) {
@@ -266,7 +265,7 @@ export class Address {
         .slice()
         .reverse();
       for (const parentField of parents) {
-        const parent: Nullable<AddressElement> = this.fields[parentField];
+        const parent = this.fields[parentField];
         if (parent && parent.data) {
           return parent.data.fiasId;
         }
@@ -278,7 +277,7 @@ export class Address {
     if (!this.isEmpty) {
       const fields = Address.VERIFIABLE_FIELDS.slice().reverse();
       for (const field of fields) {
-        const element: Nullable<AddressElement> = this.fields[field];
+        const element = this.fields[field];
         if (element && element.data) {
           return element.data.fiasId;
         }
@@ -291,7 +290,7 @@ export class Address {
     if (!this.isEmpty) {
       const fields = Address.VERIFIABLE_FIELDS.slice().reverse();
       for (const field of fields) {
-        const element: Nullable<AddressElement> = this.fields[field];
+        const element = this.fields[field];
         if (element && element.data) {
           return element.data.postalCode;
         }
