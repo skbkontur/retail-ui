@@ -362,7 +362,7 @@ describe('ComboBox', () => {
     wrapper.update();
 
     const menuInstance = wrapper.find(Menu).instance() as Menu;
-    expect(menuInstance.isHighlighted()).toBe(false);
+    expect(menuInstance.hasHighlightedItem()).toBe(false);
   });
 
   it('highlights menu item on focus with non-empty input', async () => {
@@ -379,7 +379,7 @@ describe('ComboBox', () => {
     wrapper.update();
 
     const menuInstance = wrapper.find(Menu).instance() as Menu;
-    expect(menuInstance.isHighlighted()).toBe(true);
+    expect(menuInstance.hasHighlightedItem()).toBe(true);
   });
 
   describe('update input text when value changes if there was no editing', () => {

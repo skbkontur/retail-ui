@@ -133,7 +133,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   /**
    * @public
    */
-  public isHighlighted() {
+  public hasHighlightedItem() {
     return this.state.highlightedIndex !== -1;
   }
 

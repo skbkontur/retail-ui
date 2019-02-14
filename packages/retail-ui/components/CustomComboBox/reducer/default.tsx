@@ -264,10 +264,10 @@ const Effect = {
       menu._move(direction);
     }
   },
-  ResetMenuHighlight: ((dispatch, getState, getProps, getInstance) => {
+  ResetHighlightedMenuItem: ((dispatch, getState, getProps, getInstance) => {
     const combobox = getInstance();
 
-    if (combobox.menu && combobox.menu.isHighlighted()) {
+    if (combobox.menu && combobox.menu.hasHighlightedItem()) {
       combobox.menu.reset();
     }
   }) as EffectType,
@@ -429,9 +429,10 @@ const reducers: { [type: string]: Reducer } = {
         opened: true,
         items: action.items
       },
-      shouldResetMenuHighlight ?
-        [Effect.ResetMenuHighlight, Effect.Reflow] :
-        [Effect.HighlightMenuItem, Effect.Reflow]
+      [
+        shouldResetMenuHighlight ? Effect.ResetHighlightedMenuItem : Effect.HighlightMenuItem,
+        Effect.Reflow
+      ]
     ];
   },
   RequestFailure(state, props, action) {
