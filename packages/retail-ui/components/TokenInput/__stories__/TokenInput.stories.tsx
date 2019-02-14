@@ -106,7 +106,7 @@ class WrapperCustomModel extends React.Component<any,
             onClick={onClick}
             onRemove={onRemove}
           >
-            {item}
+            {item.value}
           </Token>
         )}
       />
