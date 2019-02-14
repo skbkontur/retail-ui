@@ -83,6 +83,11 @@ let renderTotalCount = (foundCount, totalCount) =>
     []
   );
 
+let getSelectedItem = items =>
+  state.value && items.find(item => state.value.value === item.value)
+    ? null
+    : state.value;
+
 let getItems = query =>
   getCities(query)
     .then(({ foundItems, totalCount }) => ({
@@ -91,14 +96,16 @@ let getItems = query =>
     }))
     .then(({ items, totalCount }) => ({
       popularItems: query.length === 0 ? popularItems : [],
+      selectedItem: getSelectedItem(items),
       items,
       totalCount
     }))
-    .then(({ popularItems, items, totalCount }) =>
+    .then(({ popularItems, selectedItem, items, totalCount }) =>
       [].concat(
         popularItems,
         popularItems.length ? <MenuSeparator /> : [],
-        items,
+        selectedItem || [],
+        selectedItem ? items.slice(0, -1) : items,
         renderTotalCount(items.length, totalCount)
       )
     );
