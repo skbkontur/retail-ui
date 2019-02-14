@@ -1,6 +1,5 @@
 import { EstateStatuses, FiasId, Fields, StructureStatuses } from '../types';
 import { abbreviations } from '../constants/abbreviations';
-import { Nullable } from '../../../typings/utility-types';
 import { FiasData } from './FiasData';
 
 export class AddressElement {
@@ -24,7 +23,7 @@ export class AddressElement {
   constructor(
     public type: Fields,
     public name: string,
-    public data?: Nullable<FiasData>
+    public data?: FiasData
   ) {}
 
   public get isFederalCity(): boolean {
