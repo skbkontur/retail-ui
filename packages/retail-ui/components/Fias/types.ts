@@ -1,5 +1,4 @@
 import { AddressElement } from './models/AddressElement';
-import { Nullable } from '../../typings/utility-types';
 import { defaultLocale } from './constants/locale';
 
 export type FiasId = string;
@@ -74,9 +73,9 @@ export enum ExtraFields {
   postalcode = 'postalcode'
 }
 
-export type AddressFields = { [key in Fields]?: Nullable<AddressElement> };
+export type AddressFields = { [key in Fields]?: AddressElement };
 
-export type AdditionalFields = { [key in ExtraFields]?: Nullable<string> };
+export type AdditionalFields = { [key in ExtraFields]?: string };
 
 export interface FiasValue {
   address: AddressValue;
