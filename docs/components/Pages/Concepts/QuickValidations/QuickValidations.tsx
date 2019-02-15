@@ -26,21 +26,16 @@ const FormEditor: React.FunctionComponent<FormEditorProps> = ({ data, onChange }
     return (
         <Form>
             <Form.Line title="Имя">
-                <Input required value={data.name}
-                    // @ts-ignore
-                       onChange={(e, value) => onChange({ name: value })}/>
+                <Input required value={data.name} onChange={(e, value) => onChange({ name: value })}/>
             </Form.Line>
             <Form.Line title="Email">
-                <Input required email value={data.email}
-                    // @ts-ignore
-                       onChange={(e, value) => onChange({ email: value })}/>
+                <Input required email value={data.email} onChange={(e, value) => onChange({ email: value })}/>
             </Form.Line>
             <Form.Line title="Дата рождения">
                 <DatePicker
                     required
                     validations={[lessThanDate(new Date("2010-01-01"))]}
                     value={data.born}
-                    // @ts-ignore
                     onChange={(e, value) => onChange({ born: value })}
                 />
             </Form.Line>

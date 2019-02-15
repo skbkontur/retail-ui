@@ -2,13 +2,32 @@ import * as React from "react";
 import Input from "retail-ui/components/Input";
 import DatePicker from "retail-ui/components/DatePicker";
 
-import { ValidationInfo, ValidationWrapperV1 } from "src/index";
+import { ValidationInfo, ValidationWrapperV1, RenderErrorMessage } from "src/index";
 import { Nullable } from "../../../../../typings/Types";
 
-// @ts-ignore
-function prepareProps({ required, email, validations, renderErrorMessage, value, ...props }) {
-    // @ts-ignore
-    const conditions = (validations || []).map(x => () => x(value));
+interface ValidationProps<TValue> {
+    required?: boolean;
+    email?: boolean;
+    validations?: ((value: Nullable<TValue>) => Nullable<ValidationInfo>)[];
+    renderErrorMessage?: RenderErrorMessage;
+}
+
+interface PreparedProps<TProps> {
+    validationWrapperProps: {
+        validationInfo: Nullable<ValidationInfo>;
+        renderMessage: Nullable<RenderErrorMessage>;
+    };
+    controlProps: TProps;
+}
+
+type WrappedProps<TValue, TProps extends { value?: TValue }> = TProps & ValidationProps<TValue>;
+type ExtractValue<TProps> = TProps extends { value?: infer TValue } ? TValue : never;
+
+function prepareProps<TValue, TProps extends { value?: any }>(props: WrappedProps<TValue, TProps>): PreparedProps<TProps> {
+    const { required, email, validations = [], renderErrorMessage, ...rest } = props;
+    const value = props.value;
+
+    const conditions = validations.map(x => () => x(value));
     if (required) {
         conditions.push(() => {
             if (!value) {
@@ -20,18 +39,17 @@ function prepareProps({ required, email, validations, renderErrorMessage, value,
 
     if (email) {
         conditions.push(() => {
-            if (!value.includes("@")) {
+            if (typeof value !== "string" || !value.includes("@")) {
                 return { message: "Почта указана неверно" };
             }
             return undefined;
         });
     }
 
-    // @ts-ignore
     const validationInfo = conditions.reduce((result, validation) => {
-        const validationResult = validation(value);
+        const validationResult = validation();
         if (validationResult) {
-            return { ...validationResult, ...result };
+            return { ...validationResult, ...result as any };
         }
         return result;
     }, undefined);
@@ -41,7 +59,7 @@ function prepareProps({ required, email, validations, renderErrorMessage, value,
             validationInfo: validationInfo,
             renderMessage: renderErrorMessage,
         },
-        controlProps: { value: value, ...props },
+        controlProps: rest as any,
     };
 }
 
@@ -67,7 +85,7 @@ export function lessThanDate(value: Date): ((value: Nullable<string>) => Nullabl
     };
 }
 
-function wrapControl(controlType: React.ComponentType<any>): React.FunctionComponent<any> {
+function wrapControl<TProps extends { value?: any }>(controlType: React.ComponentType<TProps>): React.FunctionComponent<WrappedProps<ExtractValue<TProps>, TProps>> {
     return props => {
         const { controlProps, validationWrapperProps } = prepareProps(props);
         const control = React.createElement(controlType, controlProps) as React.ReactElement<any>;
