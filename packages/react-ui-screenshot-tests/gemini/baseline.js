@@ -35,3 +35,33 @@ gemini.suite("Input and text Baseline", suite => {
     .setCaptureElements("#test-element")
     .capture("simple");
 });
+
+gemini.suite("Baseline Regress", suite => {
+  gemini.suite("Text, Input, InputLikeText", suite => {
+    suite
+      .before(renderStory("Baseline", "Text, Input, InputLikeText"))
+      .setCaptureElements("#test-element")
+      .capture("simple");
+  });
+
+  gemini.suite("Text, Large Input", suite => {
+    suite
+      .before(renderStory("Baseline", "Text, Large Input"))
+      .setCaptureElements("#test-element")
+      .capture("simple");
+  });
+
+  gemini.suite("Text, Buttons", suite => {
+    suite
+      .before(renderStory("Baseline", "Text, Buttons"))
+      .setCaptureElements("#test-element")
+      .capture("simple");
+  });
+
+  gemini.suite("Text, Large Button", suite => {
+    suite
+      .before(renderStory("Baseline", "Text, Large Button"))
+      .setCaptureElements("#test-element")
+      .capture("simple");
+  });
+});
