@@ -3,13 +3,10 @@ import Helmet from "react-helmet";
 import Code from "react-syntax-highlighter";
 import Button from "retail-ui/components/Button";
 import Link from "retail-ui/components/Link";
-
-import { Input, DatePicker, lessThanDate } from "./ControlsWithValidations";
-
-import Demo from "../../../Demo";
-import Form from "../../../Form";
-
 import { ValidationContainer } from "src/index";
+import { Input, DatePicker, lessThanDate } from "./ControlsWithValidations";
+import Demo from "docs/components/Demo";
+import Form from "docs/components/Form";
 
 export interface ContactInfo {
     name: string;

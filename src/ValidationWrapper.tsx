@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDom from "react-dom";
 import * as PropTypes from "prop-types";
-import { Nullable } from "../typings/Types";
+import { Nullable } from "typings/Types";
 import ReactUiDetection from "./ReactUiDetection";
 import smoothScrollIntoView from "./smoothScrollIntoView";
 import { IValidationContext } from "./ValidationContext";

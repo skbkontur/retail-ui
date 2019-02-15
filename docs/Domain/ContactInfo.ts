@@ -1,4 +1,4 @@
-import { Nullable } from "../../typings/Types";
+import { Nullable } from "typings/Types";
 import { ValidationResultFor } from "docs/components/Pages/Examples/Editors/ValidationBuilder";
 
 export interface ContactInfo {

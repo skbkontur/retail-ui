@@ -1,18 +1,14 @@
 import * as React from "react";
 import Helmet from "react-helmet";
 import Code from "react-syntax-highlighter";
-
 import Input from "retail-ui/components/Input";
 import Button from "retail-ui/components/Button";
 import Link from "retail-ui/components/Link";
-import { validation } from "../../Examples/Editors/ValidationBuilder";
-
-import { ContactInfo, FormEditorProps } from "../../../../Domain/ContactInfo";
-
-import Demo from "../../../Demo";
-import Form from "../../../Form";
-
-import { text, ValidationContainer, ValidationWrapperV1 } from "../../../../../src/index";
+import { text, ValidationContainer, ValidationWrapperV1 } from "src/index";
+import Demo from "docs/components/Demo";
+import Form from "docs/components/Form";
+import { validation } from "docs/components/Pages/Examples/Editors/ValidationBuilder";
+import { ContactInfo, FormEditorProps } from "docs/Domain/ContactInfo";
 
 const FormEditor: React.FunctionComponent<FormEditorProps> = ({ data, validationInfo, onChange }) => {
     const validationInfoValue = validationInfo || {};

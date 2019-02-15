@@ -1,4 +1,4 @@
-import { Nullable } from "../../../../../typings/Types";
+import { Nullable } from "typings/Types";
 import { ValidationInfo, ValidationBehaviour } from "src/index";
 
 export type ValidationResultFor<T> = Partial<{

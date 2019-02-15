@@ -22,6 +22,9 @@
             "docs/*": [
                 "docs/*"
             ],
+            "typings/*": [
+                "typings/*"
+            ],
             "*": [
                 "typings/*"
             ]

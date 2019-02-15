@@ -1,7 +1,6 @@
 import * as React from "react";
 import Helmet from "react-helmet";
 import styled from "styled-components";
-
 import Input from "retail-ui/components/Input";
 import Button from "retail-ui/components/Button";
 import RadioGroup from "retail-ui/components/RadioGroup";
@@ -11,14 +10,11 @@ import DatePicker from "retail-ui/components/DatePicker";
 import Textarea from "retail-ui/components/Textarea";
 import Checkbox from "retail-ui/components/Checkbox";
 import Link from "retail-ui/components/Link";
+import { ValidationContainer, ValidationWrapperV1, text } from "src/index";
+import { Nullable } from "typings/Types";
 import { validation, ValidationResultFor } from "./ValidationBuilder";
-
-import Demo from "../../../Demo";
-import Form from "../../../Form";
-
-import { ValidationContainer, ValidationWrapperV1, text } from "../../../../../src/index";
-import { Nullable } from "../../../../../typings/Types";
-
+import Demo from "docs/components/Demo";
+import Form from "docs/components/Form";
 
 export interface ContactInfo {
     name: string;

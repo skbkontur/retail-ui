@@ -1,9 +1,8 @@
 import * as React from "react";
 import Input from "retail-ui/components/Input";
 import DatePicker from "retail-ui/components/DatePicker";
-
 import { ValidationInfo, ValidationWrapperV1, RenderErrorMessage } from "src/index";
-import { Nullable } from "../../../../../typings/Types";
+import { Nullable } from "typings/Types";
 
 interface ValidationProps<TValue> {
     required?: boolean;

@@ -1,14 +1,11 @@
 import * as React from "react";
-
 import Button from "retail-ui/components/Button";
 import Input from "retail-ui/components/Input";
+import { ValidationContainer, ValidationWrapperV1 } from "src/index";
+import { ValidationResultFor } from "docs/components/Pages/Examples/Editors/ValidationBuilder";
+import { ContactInfo, FormEditorProps } from "docs/Domain/ContactInfo";
+import Form from "docs/components/Form";
 
-import { ContactInfo, FormEditorProps } from "../../../../Domain/ContactInfo";
-
-import Form from "../../../Form";
-
-import { ValidationContainer, ValidationWrapperV1 } from "../../../../../src/index";
-import { ValidationResultFor } from "../Editors/ValidationBuilder";
 
 const FormEditor: React.FunctionComponent<FormEditorProps> = ({ data, validationInfo, onChange }) => {
     validationInfo = validationInfo || {};
