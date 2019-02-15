@@ -3,7 +3,7 @@ import { text, ValidationInfo } from "../../src";
 import ValidationContainer from "../../src/ValidationContainer";
 import ValidationWrapperV1 from "../../src/ValidationWrapperV1";
 import Input from "retail-ui/components/Input";
-import { Nullable } from "../../src/Types";
+import { Nullable } from "../../typings/Types";
 import { ValidationState } from "../ValidationHelper";
 import Gapped from "retail-ui/components/Gapped";
 import Button from "retail-ui/components/Button";

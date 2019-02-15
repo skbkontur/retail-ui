@@ -2,7 +2,7 @@ import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import RadioGroup from "retail-ui/components/RadioGroup";
 import Button from "retail-ui/components/Button";
-import { Nullable } from "../src/Types";
+import { Nullable } from "../typings/Types";
 import { ValidationContainer, ValidationWrapperV1, ValidationInfo } from "../src";
 
 storiesOf("RadioGroup", module).add("Example1", () => <RadioGroupStory/>);

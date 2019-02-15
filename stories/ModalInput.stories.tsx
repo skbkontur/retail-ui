@@ -4,7 +4,7 @@ import Modal from "retail-ui/components/Modal";
 import Input from "retail-ui/components/Input";
 import Button from "retail-ui/components/Button";
 import Center from "retail-ui/components/Center/Center";
-import { Nullable } from "../src/Types";
+import { Nullable } from "../typings/Types";
 import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from "../src";
 
 storiesOf("ModalWithSingleInput", module)

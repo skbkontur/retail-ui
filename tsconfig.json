@@ -13,9 +13,19 @@
         "allowUnreachableCode": true,
         "strict": true,
         "declaration": true,
-        "declarationDir": "./build/declaration"
+        "declarationDir": "./build/declaration",
+        "baseUrl": ".",
+        "paths": {
+            "src/*": [
+                "src/*"
+            ],
+            "*": [
+                "typings/*"
+            ]
+        }
     },
     "include": [
-        "src/**/*"
+        "./src/**/*",
+        "./typings/**/*"
     ]
 }
