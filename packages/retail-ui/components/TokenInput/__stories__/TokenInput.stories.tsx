@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Gapped from '../../Gapped';
+import Input from '../../Input';
 import TokenInput, { TokenInputProps, TokenInputType } from '../TokenInput';
 import Token, { TokenColors } from '../../Token';
 
@@ -269,6 +270,12 @@ storiesOf('TokenInput', module)
           {item}
         </Token>
       )} />
+    </Gapped>
+  ))
+  .add('identical alignment with other controls', () => (
+    <Gapped gap={10} vertical={true}>
+      <Wrapper getItems={getItems} width={"100%"}/>
+      <Input value={"value"} width={"100%"} size={"medium"}/>
     </Gapped>
   ))
   .add('disabled', () => {
