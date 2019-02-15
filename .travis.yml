@@ -12,10 +12,8 @@ before_deploy:
 - ssh-add travis-react-ui-validations-deploy-key
 - git config --global user.name "Travis CI"
 - git config --global user.email "react-ui-validations-publish-bot@skbkontur.ru"
-- pushd docs
 - npm install
-- npm run publish-docs
-- popd
+- npm run docs-publish
 - npm run build:retail-ui
 - npm run build:react-ui
 - npm run bundle-dts
