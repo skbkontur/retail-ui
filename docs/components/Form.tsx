@@ -1,24 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
 
-type FormProps = {
-    children?: any,
-};
-
-type FormLineProps = {
-    children?: any,
-    title: string,
-};
-
-type ActionsBarProps = {
-    children?: any,
-};
-
-const FormWrapper = styled.div<FormProps>`
-    display: flex;
-    flex-direction: column;
-`;
-
 const Line = styled.div`
     display: flex;
     align-items: baseline;
@@ -34,10 +16,12 @@ const Title = styled.span`
 
 const Content = styled.span`
     display: inline-flex;
-    ${"" /* > span {
-        display: inline-flex;
-    } */};
 `;
+
+interface FormLineProps {
+    children?: React.ReactNode;
+    title: string;
+}
 
 const FormLine: React.FunctionComponent<FormLineProps> = props => {
     return (
@@ -48,10 +32,23 @@ const FormLine: React.FunctionComponent<FormLineProps> = props => {
     );
 };
 
+interface ActionsBarProps {
+    children?: React.ReactNode;
+}
+
 const ActionsBar = styled.div<ActionsBarProps>`
     margin-top: 20px;
     padding-left: 140px;
 `;
+
+const FormWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+interface FormProps {
+    children?: React.ReactNode;
+}
 
 export default class Form extends React.Component<FormProps> {
     static Line: typeof FormLine = FormLine;
@@ -61,3 +58,4 @@ export default class Form extends React.Component<FormProps> {
         return <FormWrapper {...this.props}/>;
     }
 }
+
