@@ -7,7 +7,6 @@
         "build:react-ui": "rollup --config rollup.react-ui.config.js",
         "bundle-dts": "node scripts/bundle-dts.js",
         "prepare-packages": "node scripts/prepare-packages.js",
-        "lint": "eslint docs --ext .js,.jsx",
         "storybook": "cross-env NODE_ENV=storybook start-storybook -p 8081 -c .storybook"
     },
     "main": "./index.js",

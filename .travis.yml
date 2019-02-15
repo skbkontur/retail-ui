@@ -2,9 +2,7 @@ language: node_js
 node_js:
 - '8'
 dist: precise
-install: yarn install
-script:
-- yarn run lint
+install: npm install
 before_deploy:
 - openssl aes-256-cbc -k "$travis_key_password" -in travis-react-ui-validations-deploy-key.enc -out travis-react-ui-validations-deploy-key -d
 - openssl aes-256-cbc -k "$travis_key_password" -in .npmrc.enc -out .npmrc -d
@@ -18,10 +16,10 @@ before_deploy:
 - npm install
 - npm run publish-docs
 - popd
-- yarn run build:retail-ui
-- yarn run build:react-ui
-- yarn run bundle-dts
-- yarn run prepare-packages
+- npm run build:retail-ui
+- npm run build:react-ui
+- npm run bundle-dts
+- npm run prepare-packages
 - pushd build
 - pushd retail-ui-dist
 - npm publish
