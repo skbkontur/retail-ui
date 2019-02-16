@@ -69,7 +69,7 @@ export default class TokenInputMenu<T = string> extends React.Component<
     const handleAddItemNoteClick = () => this.props.onAddItem(value);
 
     // TODO при переопределении delimiters это будет выглядеть не очень
-    const comment = 'Нажмите Enter или запятую';
+    const comment = 'Нажмите Enter или поставьте запятую';
 
     return (
       <MenuItem onClick={handleAddItemNoteClick} comment={comment}>
