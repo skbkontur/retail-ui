@@ -5,7 +5,6 @@ using JetBrains.Annotations;
 using Kontur.Selone.Extensions;
 using Kontur.Selone.Properties;
 using OpenQA.Selenium;
-using SKBKontur.SeleniumTesting.Internals;
 
 namespace SKBKontur.SeleniumTesting.Controls
 {
@@ -21,21 +20,16 @@ namespace SKBKontur.SeleniumTesting.Controls
         [NotNull]
         public IProp<string> Text => ValueFromElement(x => x.FindElement(InputFieldSelector).Value().Get());
 
-        [NotNull]
-        public List<MenuItem> Suggestions
+        public IProp<int> SuggestionsCount => portal.IsPresent.Transform(isPresent => isPresent ? menu.Count.Get() : 0);
+
+        public IProp<string> GetSuggestionAt(int index)
         {
-            get
-            {
-                try
-                {
-                    return menu.AsEnumerable().ToList();
-                }
-                catch (ElementNotFoundException)
-                {
-                    return new List<MenuItem>();
-                }
-            }
+            return SuggestionsCount.Transform(count => index < count ? menu[index].Text.Get() : null);
         }
+
+        public IProp<IEnumerable<string>> Suggestions => portal.IsPresent.Transform(isPresent => isPresent
+            ? Enumerable.Range(0, menu.Count.Get()).Select(i => menu[i].Text.Get())
+            : new string[0]);
 
         public void InputText([NotNull] string text)
         {
@@ -45,10 +39,10 @@ namespace SKBKontur.SeleniumTesting.Controls
         private By InputFieldSelector => By.CssSelector("input");
 
         [NotNull]
-        [Obsolete]
+        [Obsolete("This method has unpredictable behaviour in case of slow Autocomplete. Use Suggestions property instead")]
         public List<string> GetSuggestions()
         {
-            return Suggestions.Select(x => x.Text.Get()).ToList();
+            return Suggestions.Get().ToList();
         }
 
         public void SelectByIndex(int index)
