@@ -25,6 +25,18 @@ module.exports = function(file, api) {
           // @see https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#362-type-argument-lists
           switch (propsParam.type) {
             case "TSTypeLiteral":
+              j(propsParam)
+                .find(j.TSPropertySignature)
+                .forEach(propertyPath => {
+                  const { node } = propertyPath;
+                  if (
+                    defaultPropsNames.includes(node.key.name) &&
+                    !node.optional
+                  ) {
+                    node.optional = true;
+                  }
+                });
+              break;
             case "TSTypeReference":
             case "TSIntersectionType":
             case "TSUnionType":
