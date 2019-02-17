@@ -15,5 +15,6 @@ namespace SKBKontur.SeleniumTesting.Tests.AutocompleteTests
 
         public Autocomplete ListBasedAutocomplete { get; private set; }
         public Autocomplete FetchBasedAutocomplete { get; private set; }
+        public Autocomplete DelayedFetchBasedAutocomplete { get; private set; }
     }
 }

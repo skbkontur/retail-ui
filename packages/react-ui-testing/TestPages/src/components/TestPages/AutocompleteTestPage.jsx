@@ -4,7 +4,7 @@ import { CaseSuite, Case } from '../Case';
 
 const suggestions = ["Grey Face", "Grey Space", "Kappa", "Keepo", "Resident Sleeper"];
 
-class ListBasedAutocopmlete extends React.Component {
+class ListBasedAutocomplete extends React.Component {
   state = {
     value: ""
   };
@@ -21,7 +21,7 @@ class ListBasedAutocopmlete extends React.Component {
   }
 }
 
-class FetchBasedAutocopmlete extends React.Component {
+class FetchBasedAutocomplete extends React.Component {
   state = {
     value: ""
   };
@@ -38,19 +38,42 @@ class FetchBasedAutocopmlete extends React.Component {
   }
 }
 
+class DelayedFetchBasedAutocomplete extends React.Component<{sleepTimeInMs: number}> {
+  state = {
+    value: ""
+  };
+
+  render(): React.Element<*> {
+    const { sleepTimeInMs } = this.props;
+    return (
+      <Autocomplete
+        source={(pattern) => new Promise(resolve => setTimeout(resolve, sleepTimeInMs)).then(() => suggestions.filter(s => s.startsWith(pattern)))}
+        value={this.state.value}
+        onChange={(_, value) => this.setState({value: value})}
+        data-tid='DelayedFetchBasedAutocomplete'
+      />
+    );
+  }
+}
+
 export default class AutocompleteTestPage extends React.Component {
     render(): React.Element<*> {
       return (
             <CaseSuite title='Autocomplete'>
                 <Case title='List Based Autocomplete'>
                     <Case.Body>
-                      <ListBasedAutocopmlete/>
+                      <ListBasedAutocomplete/>
                     </Case.Body>
                 </Case>
                 <Case title='Fetch Based Autocomplete'>
                     <Case.Body>
-                      <FetchBasedAutocopmlete/>
+                      <FetchBasedAutocomplete/>
                     </Case.Body>
+                </Case>
+                <Case title='1s delay Fetch Based Autocomplete'>
+                  <Case.Body>
+                    <DelayedFetchBasedAutocomplete sleepTimeInMs={1000}/>
+                  </Case.Body>
                 </Case>
            </CaseSuite>
         );
