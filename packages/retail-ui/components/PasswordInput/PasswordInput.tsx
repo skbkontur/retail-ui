@@ -82,9 +82,7 @@ export default class PasswordInput extends React.Component<
    * @public
    */
   public blur = () => {
-    if (this._input) {
-      this._input.blur();
-    }
+    this._handleBlur();
   };
 
   private _handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -135,9 +133,7 @@ export default class PasswordInput extends React.Component<
   };
 
   private _handleToggleVisibility = () => {
-    this.setState(
-      prevState => ({ visible: !prevState.visible }),
-      this.state.visible ? this._handleFocus : this._handleBlur);
+    this.setState(prevState => ({ visible: !prevState.visible }), this._handleFocus);
   };
 
   private _handleFocus = () => {
