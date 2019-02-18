@@ -128,18 +128,19 @@ let renderItem = item => (
 
 Переопределение renderValue и renderItem:
 
-```jsx
+```js
+const OkIcon = require('@skbkontur/react-icons/Ok').default;
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const getItems = q =>
   Promise.resolve(
     [
-      { value: 1, label: 'First', email: 'first@skbkontur.ru' },
-      { value: 2, label: 'Second', email: 'second@skbkontur.ru' },
-      { value: 3, label: 'Third', email: 'third@skbkontur.ru' },
-      { value: 4, label: 'Fourth', email: 'fourth@skbkontur.ru' },
-      { value: 5, label: 'Fifth', email: 'fifth@skbkontur.ru' },
-      { value: 6, label: 'Sixth', email: 'sixth@skbkontur.ru' }
+      { approved: true, value: 1, label: 'Леонид Долецкий', email: 'first@skbkontur.ru' },
+      { approved: true, value: 2, label: 'Владислав Нашкодивший', email: 'second@skbkontur.ru' },
+      { approved: false, value: 3, label: 'Розенкранц Харитонов', email: 'third@skbkontur.ru' },
+      { approved: false, value: 4, label: 'Надежда Дубова', email: 'fourth@skbkontur.ru' },
+      { approved: true, value: 5, label: 'Владислав Сташкеевич', email: 'fifth@skbkontur.ru' },
+      { approved: true, value: 6, label: 'Василиса Поволоцкая', email: 'sixth@skbkontur.ru' }
     ].filter(
       x =>
         x.label.toLowerCase().includes(q.toLowerCase()) ||
@@ -148,7 +149,7 @@ const getItems = q =>
   ).then(delay(500));
 
 const initialState = {
-  selected: { value: 3, label: 'Third', email: 'third@skbkontur.ru' },
+  selected: { approved: false, value: 3, label: 'Розенкранц Харитонов', email: 'third@skbkontur.ru' },
   error: false
 };
 
@@ -158,17 +159,50 @@ const handleUnexpectedInput = () => setState({ error: true, selected: null });
 
 const handleFocus = () => setState({ error: false });
 
-const customRender = item => (
+const customRenderItem = item => (
   <div
     style={{
       display: 'flex',
       justifyContent: 'space-between'
     }}
   >
-    <span>✅ {item.label}</span>
     <span
       style={{
-        fontSize: '0.9em',
+        minWidth: '20px'
+      }}
+    >
+      {item.approved ? <OkIcon size={14} /> : null}    
+    </span>
+    <span
+      style={{
+          flexGrow: '1'
+      }}
+    >
+      {item.label}
+    </span>
+    <span
+      style={{
+        color: '#666',
+        minWidth: '40%',
+        paddingLeft: '10px',
+        boxSizing: 'box'
+      }}
+    >
+      {item.email}
+    </span>
+  </div>
+);
+
+const customRenderValue = item => (
+  <div
+    style={{
+      display: 'flex',
+      justifyContent: 'space-between'
+    }}
+  >
+    <span>{item.label}</span>
+    <span
+      style={{
         color: '#666'
       }}
     >
@@ -190,8 +224,8 @@ const customRender = item => (
     onUnexpectedInput={handleUnexpectedInput}
     placeholder="Enter number"
     value={state.selected}
-    renderItem={customRender}
-    renderValue={customRender}
+    renderItem={customRenderItem}
+    renderValue={customRenderValue}
     width="400px"
   />
 </Tooltip>;
