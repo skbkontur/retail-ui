@@ -382,6 +382,56 @@ describe('ComboBox', () => {
     expect(menuInstance.hasHighlightedItem()).toBe(true);
   });
 
+  it('calls `focusNextElement` after Enter keydown on empty input', async () => {
+    const items = ['one', 'two', 'three'];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} renderItem={x => x} value={null} />
+    );
+    // @ts-ignore
+    wrapper.instance().comboboxElement.focusNextElement = jest.fn();
+    // @ts-ignore
+    const {comboboxElement} = wrapper.instance();
+    let focusNextElement = () => {return};
+    if (comboboxElement) {
+      focusNextElement = comboboxElement.focusNextElement;
+    }
+
+    wrapper.instance().focus();
+
+    await promise;
+
+    wrapper.update();
+
+    wrapper.find('input').simulate('keydown', { key: 'Enter' });
+    expect(focusNextElement).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls `focusNextElement` after Enter keydown if value not found', async () => {
+    const items = ['one', 'two', 'three'];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} renderItem={x => x} value={'blabla'} />
+    );
+    // @ts-ignore
+    wrapper.instance().comboboxElement.focusNextElement = jest.fn();
+    // @ts-ignore
+    const {comboboxElement} = wrapper.instance();
+    let focusNextElement = () => {return};
+    if (comboboxElement) {
+      focusNextElement = comboboxElement.focusNextElement;
+    }
+
+    wrapper.instance().focus();
+
+    await promise;
+
+    wrapper.update();
+
+    wrapper.find('input').simulate('keydown', { key: 'Enter' });
+    expect(focusNextElement).toHaveBeenCalledTimes(1);
+  });
+
   describe('update input text when value changes if there was no editing', () => {
     const VALUES = [{ value: 1, label: 'one' }, { value: 2, label: 'two' }];
     const blur = (wrapper: any) => {
