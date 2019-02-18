@@ -50,7 +50,7 @@ export default class PasswordInput extends React.Component<
     capsLockEnabled: false
   };
 
-  private _input: Nullable<Input>;
+  private input: Nullable<Input>;
 
   public componentWillMount() {
     if (this.props.detectCapsLock) {
@@ -66,19 +66,26 @@ export default class PasswordInput extends React.Component<
   }
 
   public render() {
-    return <div className={styles.root}>{this._renderInput()}</div>;
+    return <div className={styles.root}>{this.renderInput()}</div>;
   }
 
   /**
    * @public
    */
   public focus = () => {
-    if (this._input) {
-      this._input.focus();
+    if (this.input) {
+      this.input.focus();
     }
   };
 
-  private _handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  /**
+   * @public
+   */
+  public blur = () => {
+    this.handleBlur();
+  };
+
+  private handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { onKeyPress, detectCapsLock } = this.props;
 
     if (onKeyPress) {
@@ -106,7 +113,7 @@ export default class PasswordInput extends React.Component<
     this.setState({ capsLockEnabled });
   };
 
-  private _handleKeydown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  private handleKeydown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const {
       props: { detectCapsLock, onKeyDown },
       state: { capsLockEnabled }
@@ -125,17 +132,23 @@ export default class PasswordInput extends React.Component<
     }
   };
 
-  private _handleToggleVisibility = () => {
-    this.setState({ visible: !this.state.visible }, this._handleFocus);
+  private handleToggleVisibility = () => {
+    this.setState(prevState => ({ visible: !prevState.visible }), this.handleFocus);
   };
 
-  private _handleFocus = () => {
-    if (this._input) {
-      this._input.focus();
+  private handleFocus = () => {
+    if (this.input) {
+      this.input.focus();
     }
   };
 
-  private _renderEye = () => {
+  private handleBlur = () => {
+    if (this.input) {
+      this.input.blur();
+    }
+  };
+
+  private renderEye = () => {
     const { capsLockEnabled } = this.state;
 
     return (
@@ -143,7 +156,7 @@ export default class PasswordInput extends React.Component<
         {capsLockEnabled && <span className={styles.capsLockDetector} />}
         <span
           className={styles.toggleVisibility}
-          onClick={this._handleToggleVisibility}
+          onClick={this.handleToggleVisibility}
         >
           {this.state.visible ? (
             <EyeOpenedIcon size={14} />
@@ -155,22 +168,22 @@ export default class PasswordInput extends React.Component<
     );
   };
 
-  private _refInput = (element: Input) => {
-    this._input = element;
+  private refInput = (element: Input) => {
+    this.input = element;
   };
 
-  private _renderInput() {
+  private renderInput() {
     const inputProps = {
       ...this.props,
-      onKeyDown: this._handleKeydown,
-      onKeyPress: this._handleKeyPress,
-      rightIcon: this._renderEye()
+      onKeyDown: this.handleKeydown,
+      onKeyPress: this.handleKeyPress,
+      rightIcon: this.renderEye()
     };
 
     if (isIE && ieVerison === 8) {
       return (
         <PasswordInputFallback
-          refInput={this._refInput}
+          refInput={this.refInput}
           visible={this.state.visible}
           {...inputProps}
         />
@@ -179,7 +192,7 @@ export default class PasswordInput extends React.Component<
 
     return (
       <Input
-        ref={this._refInput}
+        ref={this.refInput}
         type={this.state.visible ? 'text' : 'password'}
         {...inputProps}
       />
