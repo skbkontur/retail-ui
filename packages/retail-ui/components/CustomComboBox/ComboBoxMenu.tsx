@@ -4,6 +4,7 @@ import MenuItem, { MenuItemState } from '../MenuItem/MenuItem';
 import Spinner from '../Spinner/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
+import { ComboBoxRequestStatus } from './constants';
 
 export interface ComboBoxMenuProps<T> {
   opened?: boolean;
@@ -17,9 +18,16 @@ export interface ComboBoxMenuProps<T> {
   renderItem: (item: T, state: MenuItemState) => React.ReactNode;
   onChange: (value: T, event: React.SyntheticEvent) => any;
   renderAddButton?: () => React.ReactNode;
+  repeatRequest?: () => void;
+  requestStatus?: ComboBoxRequestStatus;
 }
 
 class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
+  public static defaultProps = {
+    repeatRequest: () => undefined,
+    requestStatus: ComboBoxRequestStatus.Unknown
+  };
+
   public render() {
     const {
       opened,
@@ -29,7 +37,8 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       refMenu,
       renderNotFound,
       renderTotalCount,
-      maxMenuHeight
+      maxMenuHeight,
+      requestStatus
     } = this.props;
 
     if (!opened) {
@@ -53,6 +62,22 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       );
     }
 
+    if (items === null && requestStatus === ComboBoxRequestStatus.Failed) {
+      return (
+        <Menu ref={refMenu} maxHeight={maxMenuHeight}>
+          <MenuItem disabled key="message">
+            <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>
+              Что-то пошло не так. Проверьте соединение с интернетом и
+              попробуйте еще раз
+            </div>
+          </MenuItem>
+          <MenuItem alkoLink onClick={this.props.repeatRequest} key="retry">
+            Обновить
+          </MenuItem>
+        </Menu>
+      )
+    }
+
     if ((items == null || items.length === 0) && renderNotFound) {
       return (
         <Menu ref={refMenu}>
@@ -62,7 +87,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
             <MenuItem disabled>{renderNotFound()}</MenuItem>
           )}
         </Menu>
-      );
+      )
     }
 
     let total = null;
