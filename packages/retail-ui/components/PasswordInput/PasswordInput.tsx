@@ -78,6 +78,15 @@ export default class PasswordInput extends React.Component<
     }
   };
 
+  /**
+   * @public
+   */
+  public blur = () => {
+    if (this._input) {
+      this._input.blur();
+    }
+  };
+
   private _handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { onKeyPress, detectCapsLock } = this.props;
 
@@ -126,12 +135,20 @@ export default class PasswordInput extends React.Component<
   };
 
   private _handleToggleVisibility = () => {
-    this.setState({ visible: !this.state.visible }, this._handleFocus);
+    this.setState(
+      prevState => ({ visible: !prevState.visible }),
+      this.state.visible ? this._handleFocus : this._handleBlur);
   };
 
   private _handleFocus = () => {
     if (this._input) {
       this._input.focus();
+    }
+  };
+
+  private _handleBlur = () => {
+    if (this._input) {
+      this._input.blur();
     }
   };
 
