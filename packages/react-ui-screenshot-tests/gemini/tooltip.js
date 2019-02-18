@@ -51,10 +51,14 @@ gemini.suite("Opened tooltip by focus (Button)", suite => {
     .setCaptureElements("#test-element")
     .capture("plain")
     .capture("focus", (actions, find) => {
-      actions.focus(find("button"));
+        actions.focus(find("button"));
     })
-    .capture("blur", (actions, find) => {
-      actions.blur(find("button"));
+    .capture("blur", (actions) => {
+        actions.executeJS(function(window) {
+            if (window.document.activeElement) {
+                window.document.activeElement.blur();
+            }
+        });
     });
 });
 
@@ -64,9 +68,13 @@ gemini.suite("Opened tooltip by focus (input)", suite => {
       .setCaptureElements("#test-element")
       .capture("plain")
       .capture("focus", (actions, find) => {
-        actions.focus(find("input"));
+          actions.focus(find("input"));
       })
-      .capture("blur", (actions, find) => {
-        actions.blur(find("input"));
+      .capture("blur", (actions) => {
+          actions.executeJS(function(window) {
+              if (window.document.activeElement) {
+                  window.document.activeElement.blur();
+              }
+          });
       });
 });
