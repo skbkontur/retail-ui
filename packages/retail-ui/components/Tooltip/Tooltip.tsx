@@ -259,6 +259,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         pinOffset={POPUP_PIN_OFFSET}
         disableAnimations={this.props.disableAnimations}
         positions={this.getPositions()}
+        ignoreHover={this.props.trigger === 'hoverAnchor'}
         {...popupProps}
       >
         {content}
@@ -394,9 +395,13 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       clearTimeout(this.hoverTimeout);
       this.hoverTimeout = null;
     }
-    this.hoverTimeout = window.setTimeout(() => {
+    if (this.props.trigger === 'hoverAnchor') {
       this.close();
-    }, Tooltip.closeDelay);
+    } else {
+      this.hoverTimeout = window.setTimeout(() => {
+        this.close();
+      }, Tooltip.closeDelay);
+    }
   };
 
   private handleClick = () => {

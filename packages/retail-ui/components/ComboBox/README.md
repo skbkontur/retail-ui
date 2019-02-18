@@ -58,9 +58,9 @@ ComboBox with popular values, complex menu items and total count message
 const getCities = require('./__mocks__/getCities.js').default;
 
 let popularItems = [
-  { value: 956, label: 'Махачкала' },
-  { value: 4974, label: 'Верхняя-Пышма' },
-  { value: 4980, label: 'Екатеринбург' }
+  { Id: 956, City: 'Махачкала' },
+  { Id: 4974, City: 'Верхняя-Пышма' },
+  { Id: 4980, City: 'Екатеринбург' }
 ];
 
 let handleChange = (_, value) => setState({ value });
@@ -74,6 +74,22 @@ let mapCity = ({ Id, City }) => ({
   label: City
 });
 
+let hasSelectedItem = itemsSets =>
+  itemsSets.some(items => items.find(item => state.value.value === item.Id));
+
+let shouldInsertSelectedItem = (query, items) =>
+  state.value && !query && !hasSelectedItem([items, popularItems]);
+
+let getPopularItems = query => (query ? [] : popularItems.map(mapCity));
+let renderSeparator = query => (query ? [] : <MenuSeparator />);
+let getSelectedItem = (query, items) =>
+  !shouldInsertSelectedItem(query, items) ? [] : state.value;
+
+let prepareItems = (query, items) =>
+  (!shouldInsertSelectedItem(query, items) ? items : items.slice(0, -1)).map(
+    mapCity
+  );
+
 let renderTotalCount = (foundCount, totalCount) =>
   foundCount < totalCount ? (
     <MenuHeader>
@@ -84,24 +100,15 @@ let renderTotalCount = (foundCount, totalCount) =>
   );
 
 let getItems = query =>
-  getCities(query)
-    .then(({ foundItems, totalCount }) => ({
-      items: foundItems.map(mapCity),
-      totalCount
-    }))
-    .then(({ items, totalCount }) => ({
-      popularItems: query.length === 0 ? popularItems : [],
-      items,
-      totalCount
-    }))
-    .then(({ popularItems, items, totalCount }) =>
-      [].concat(
-        popularItems,
-        popularItems.length ? <MenuSeparator /> : [],
-        items,
-        renderTotalCount(items.length, totalCount)
-      )
-    );
+  getCities(query).then(({ foundItems, totalCount }) =>
+    [].concat(
+      getPopularItems(query),
+      renderSeparator(query),
+      getSelectedItem(query, foundItems),
+      prepareItems(query, foundItems),
+      renderTotalCount(foundItems.length, totalCount)
+    )
+  );
 
 let renderItem = item => (
   <Gapped>
