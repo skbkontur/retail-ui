@@ -56,8 +56,8 @@ interface ComboBoxViewProps<T> {
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderValue?: (item: T) => React.ReactNode;
-  repeatRequest: () => void;
-  requestStatus: ComboBoxRequestStatus;
+  repeatRequest?: () => void;
+  requestStatus?: ComboBoxRequestStatus;
   refInput?: (input: Nullable<Input>) => void;
   refMenu?: (menu: Nullable<Menu>) => void;
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
@@ -68,6 +68,8 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     renderItem: (item: any) => item,
     renderNotFound: () => 'Не найдено',
     renderValue: (item: any) => item,
+    repeatRequest: () => undefined,
+    requestStatus: ComboBoxRequestStatus.Unknown,
     onClickOutside: () => {
       /**/
     },

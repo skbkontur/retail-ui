@@ -18,11 +18,16 @@ export interface ComboBoxMenuProps<T> {
   renderItem: (item: T, state: MenuItemState) => React.ReactNode;
   onChange: (value: T, event: React.SyntheticEvent) => any;
   renderAddButton?: () => React.ReactNode;
-  repeatRequest: () => void;
-  requestStatus: ComboBoxRequestStatus;
+  repeatRequest?: () => void;
+  requestStatus?: ComboBoxRequestStatus;
 }
 
 class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
+  public static defaultProps = {
+    repeatRequest: () => undefined,
+    requestStatus: ComboBoxRequestStatus.Unknown
+  };
+
   public render() {
     const {
       opened,
