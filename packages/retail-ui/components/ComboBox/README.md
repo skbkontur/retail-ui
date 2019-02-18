@@ -162,52 +162,64 @@ const handleFocus = () => setState({ error: false });
 const customRenderItem = item => (
   <div
     style={{
-      display: 'flex',
-      justifyContent: 'space-between'
+      display: 'flex'
     }}
   >
-    <span
+    <div
       style={{
-        minWidth: '20px'
+        minWidth: '55%',
+        display: 'flex'
       }}
     >
-      {item.approved ? <OkIcon size={14} /> : null}    
-    </span>
-    <span
+      <span
+        style={{
+          minWidth: '20px'
+        }}
+      >
+        {item.approved ? <OkIcon size={14} /> : null}    
+      </span>
+      <span
+        style={{
+            flexGrow: '1'
+        }}
+      >
+        {item.label}
+      </span>
+    </div>
+    <div
       style={{
-          flexGrow: '1'
-      }}
-    >
-      {item.label}
-    </span>
-    <span
-      style={{
-        color: '#666',
-        minWidth: '40%',
+        opacity: '0.6',
         paddingLeft: '10px',
-        boxSizing: 'box'
+        boxSizing: 'border-box'
       }}
     >
       {item.email}
-    </span>
+    </div>
   </div>
 );
 
 const customRenderValue = item => (
   <div
     style={{
-      display: 'flex',
-      justifyContent: 'space-between'
+      display: 'flex'
     }}
   >
-    <span>{item.label}</span>
-    <span
+    <div
       style={{
-        color: '#666'
+        minWidth: '55%'
+      }}
+    >
+      {item.label}    
+    </div>
+    <div
+      style={{
+        opacity: '0.6',
+        paddingLeft: '10px',
+        boxSizing: 'border-box'
       }}
     >
       {item.email}
-    </span>
+    </div>
   </div>
 );
 
