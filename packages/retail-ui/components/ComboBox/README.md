@@ -75,19 +75,20 @@ let mapCity = ({ Id, City }) => ({
 });
 
 let hasSelectedItem = itemsSets =>
-  !state.value ||
   itemsSets.some(items => items.find(item => state.value.value === item.Id));
+
+let shouldInsertSelectedItem = (query, items) =>
+  state.value && !query && !hasSelectedItem([items, popularItems]);
 
 let getPopularItems = query => (query ? [] : popularItems.map(mapCity));
 let renderSeparator = query => (query ? [] : <MenuSeparator />);
 let getSelectedItem = (query, items) =>
-  query || hasSelectedItem([items, popularItems]) ? [] : state.value;
+  !shouldInsertSelectedItem(query, items) ? [] : state.value;
 
 let prepareItems = (query, items) =>
-  (query || hasSelectedItem([items, popularItems])
-    ? items
-    : items.slice(0, -1)
-  ).map(mapCity);
+  (!shouldInsertSelectedItem(query, items) ? items : items.slice(0, -1)).map(
+    mapCity
+  );
 
 let renderTotalCount = (foundCount, totalCount) =>
   foundCount < totalCount ? (
