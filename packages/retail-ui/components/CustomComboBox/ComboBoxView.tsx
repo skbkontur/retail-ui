@@ -12,7 +12,7 @@ import { Nullable } from '../../typings/utility-types';
 import { ArrowTriangleDown } from '@skbkontur/react-icons';
 import styles from './CustomComboBox.less';
 import ComboBoxMenu from './ComboBoxMenu';
-import { ComboBoxRequestStatus } from './CustomComboBox';
+import { ComboBoxRequestStatus } from './constants';
 
 interface ComboBoxViewProps<T> {
   align?: 'left' | 'center' | 'right';

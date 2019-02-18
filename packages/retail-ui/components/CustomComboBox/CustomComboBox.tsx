@@ -11,6 +11,7 @@ import {
   getFirstFocusableElement,
   getNextFocusableElement
 } from '../../lib/dom/getFocusableElements';
+import { ComboBoxRequestStatus } from './constants';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T; keepFocus: boolean }
@@ -29,13 +30,6 @@ export type Action<T> =
   | { type: 'Open' }
   | { type: 'Close' }
   | { type: 'Search'; query: string };
-
-export enum ComboBoxRequestStatus {
-  Pending,
-  Success,
-  Failed,
-  Unknown
-}
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
