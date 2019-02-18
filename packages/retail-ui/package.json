@@ -180,6 +180,11 @@
     "setupFiles": [
       "<rootDir>/test-setup.js"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/test-setup-framework.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/test-setup-framework.js",
+    "roots": [
+      "components",
+      "lib",
+      "testing"
+    ]
   }
 }
