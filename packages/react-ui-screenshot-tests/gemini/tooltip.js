@@ -44,3 +44,29 @@ gemini.suite("Opened tooltip without wrapper", suite => {
     .setCaptureElements("#test-element")
     .capture("plain");
 });
+
+gemini.suite("Opened tooltip by focus (Button)", suite => {
+  suite
+    .before(renderStory("Tooltip", "focus tooltip"))
+    .setCaptureElements("#test-element")
+    .capture("plain")
+    .capture("focus", (actions, find) => {
+      actions.focus(find("button"));
+    })
+    .capture("blur", (actions, find) => {
+      actions.blur(find("button"));
+    });
+});
+
+gemini.suite("Opened tooltip by focus (input)", suite => {
+  suite
+      .before(renderStory("Tooltip", "focus tooltip (native input)"))
+      .setCaptureElements("#test-element")
+      .capture("plain")
+      .capture("focus", (actions, find) => {
+        actions.focus(find("input"));
+      })
+      .capture("blur", (actions, find) => {
+        actions.blur(find("input"));
+      });
+});
