@@ -179,6 +179,7 @@
     ],
     "setupFiles": [
       "<rootDir>/test-setup.js"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/test-setup-framework.js"
   }
 }
