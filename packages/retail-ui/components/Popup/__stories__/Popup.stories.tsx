@@ -3,6 +3,48 @@ import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Popup from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
+import Tooltip, { TooltipProps } from '../../Tooltip';
+import ComboBox, { ComboBoxProps } from '../../ComboBox';
+import Hint, { HintProps } from '../../Hint';
+import Select, { SelectProps } from '../../Select';
+
+storiesOf('Popup', module)
+  .add('All pin opened', () => (
+    <AllCases small={false} padding={'50px 100px'} />
+  ))
+  .add('All pin opened on small elements', () => (
+    <AllCases small padding={'70px 150px'} />
+  ))
+  .add('Positioning', () => <Positioning />)
+  .add('disableAnimations', () => (
+    <div>
+      <PopupWithPositions
+        disableAnimations={false}
+        placeholder={'disableAnimations: false'}
+      />
+      <PopupWithPositions
+        disableAnimations={true}
+        placeholder={'disableAnimations: true'}
+      />
+    </div>
+  ))
+  .add('Hint', () => (
+    <div style={{ padding: '100px' }}>
+      <FakeHint
+        positions={['top center', 'right top', 'bottom center', 'left middle']}
+        margin={20}
+      />
+    </div>
+  ))
+  .add('Toast', () => (
+    <div style={{ padding: '100px' }}>
+      <Toast
+        positions={['top center', 'right top', 'bottom center', 'left middle']}
+      />
+    </div>
+  ))
+  .add('Small width', () => <MinWidth />)
+  .add('Hover behaviour', () => <HoverBehaviour />);
 
 const AllCases = ({ small, padding }: { small: boolean; padding: string }) => (
   <div style={{ padding }}>
@@ -143,43 +185,6 @@ class MinWidth extends React.Component {
     );
   }
 }
-
-storiesOf('Popup', module)
-  .add('All pin opened', () => (
-    <AllCases small={false} padding={'50px 100px'} />
-  ))
-  .add('All pin opened on small elements', () => (
-    <AllCases small padding={'70px 150px'} />
-  ))
-  .add('Positioning', () => <Positioning />)
-  .add('disableAnimations', () => (
-    <div>
-      <PopupWithPositions
-        disableAnimations={false}
-        placeholder={'disableAnimations: false'}
-      />
-      <PopupWithPositions
-        disableAnimations={true}
-        placeholder={'disableAnimations: true'}
-      />
-    </div>
-  ))
-  .add('Hint', () => (
-    <div style={{ padding: '100px' }}>
-      <FakeHint
-        positions={['top center', 'right top', 'bottom center', 'left middle']}
-        margin={20}
-      />
-    </div>
-  ))
-  .add('Toast', () => (
-    <div style={{ padding: '100px' }}>
-      <Toast
-        positions={['top center', 'right top', 'bottom center', 'left middle']}
-      />
-    </div>
-  ))
-  .add('Small width', () => <MinWidth />);
 
 interface AlwaysOpenedProps {
   small: boolean;
@@ -398,6 +403,196 @@ class Toast extends Component<any, any> {
           </Popup>
         )}
       </div>
+    );
+  }
+}
+
+const renderPopupContent = () => {
+  return <span>Popup content</span>;
+};
+
+const COMBOBOX_ITEMS = [
+  { value: 1, label: 'First' },
+  { value: 2, label: 'Second' }
+];
+const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => [i.value, i.label]);
+const getComboboxItems = () => Promise.resolve(COMBOBOX_ITEMS);
+
+type IDropdownValue = { value: number; label: string };
+type IHasDropdownState = {
+  selected?: IDropdownValue;
+};
+
+interface IRenderTooltipWithComboboxProps {
+  tooltipProps?: Partial<TooltipProps>;
+  comboboxProps?: Partial<ComboBoxProps<any>>;
+}
+class RenderTooltipWithCombobox extends Component<
+  IRenderTooltipWithComboboxProps,
+  IHasDropdownState
+> {
+  constructor(props: IRenderTooltipWithComboboxProps) {
+    super(props);
+    this.state = {};
+  }
+  render() {
+    const tooltipProps = this.props.tooltipProps || {};
+    const comboboxProps = this.props.comboboxProps || {};
+    return (
+      <Tooltip
+        pos={'top left'}
+        trigger={'hover'}
+        closeButton={false}
+        render={renderPopupContent}
+        disableAnimations={true}
+        {...tooltipProps}
+      >
+        <ComboBox
+          size={'large'}
+          getItems={getComboboxItems}
+          value={this.state.selected}
+          onChange={this._handleOnChange}
+          {...comboboxProps}
+        />
+      </Tooltip>
+    );
+  }
+  private _handleOnChange = (event: any, value: IDropdownValue) => {
+    this.setState({ selected: value });
+  };
+}
+
+interface IRenderHintWithSelectProps {
+  hintProps?: Partial<HintProps>;
+  selectProps?: Partial<SelectProps<any, any>>;
+}
+
+class RenderHintWithSelect extends Component<
+  IRenderHintWithSelectProps,
+  IHasDropdownState
+> {
+  constructor(props: IRenderHintWithSelectProps) {
+    super(props);
+    this.state = {};
+  }
+  render() {
+    const hintProps = this.props.hintProps || {};
+    const selectProps = this.props.selectProps || {};
+    return (
+      <Hint
+        pos={'top left'}
+        text={'Hint text'}
+        disableAnimations={true}
+        {...hintProps}
+      >
+        <Select
+          size={'large'}
+          items={SELECT_ITEMS}
+          value={this.state.selected}
+          onChange={this._handleOnChange}
+          {...selectProps}
+        />
+      </Hint>
+    );
+  }
+  private _handleOnChange = (event: any, value: IDropdownValue) => {
+    this.setState({ selected: value });
+  };
+}
+
+class HoverBehaviour extends Component<any, any> {
+  public render() {
+    return (
+      <table cellPadding={20}>
+        <thead>
+          <tr>
+            <td>Case</td>
+            <td>Tooltip</td>
+            <td>Hint</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>disablePortal=true</td>
+            <td>
+              <RenderTooltipWithCombobox
+                comboboxProps={{ disablePortal: true }}
+              />
+            </td>
+            <td>
+              <RenderHintWithSelect selectProps={{ disablePortal: true }} />
+            </td>
+          </tr>
+          <tr>
+            <td>component && useWrapper=true</td>
+            <td>
+              <RenderTooltipWithCombobox tooltipProps={{ useWrapper: true }} />
+            </td>
+            <td>
+              <RenderHintWithSelect hintProps={{ useWrapper: true }} />
+            </td>
+          </tr>
+          <tr>
+            <td>component && useWrapper=false</td>
+            <td>
+              <RenderTooltipWithCombobox tooltipProps={{ useWrapper: false }} />
+            </td>
+            <td>
+              <RenderHintWithSelect hintProps={{ useWrapper: false }} />
+            </td>
+          </tr>
+          <tr>
+            <td>text && useWrapper=true</td>
+            <td>
+              <Tooltip
+                pos={'top left'}
+                trigger={'hover'}
+                closeButton={false}
+                render={renderPopupContent}
+                disableAnimations={true}
+                useWrapper={true}
+              >
+                Sample tooltip text
+              </Tooltip>
+            </td>
+            <td>
+              <Hint
+                pos={'top left'}
+                text={'Hint text'}
+                useWrapper={true}
+                disableAnimations={true}
+              >
+                Sample hint text
+              </Hint>
+            </td>
+          </tr>
+          <tr>
+            <td>text && useWrapper=false</td>
+            <td>
+              <Tooltip
+                pos={'top left'}
+                trigger={'hover'}
+                closeButton={false}
+                render={renderPopupContent}
+                disableAnimations={true}
+                useWrapper={true}
+              >
+                Sample text
+              </Tooltip>
+            </td>
+            <td>
+              <Hint
+                pos={'top left'}
+                text={'Hint text'}
+                useWrapper={false}
+                disableAnimations={true}
+              >
+                Sample hint text
+              </Hint>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     );
   }
 }

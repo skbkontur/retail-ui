@@ -110,6 +110,7 @@ storiesOf('Tooltip', module)
     );
   })
   .add('MyCustomTooltip', () => <MyCustomTooltip />)
+  .add('ManualTooltip', () => <ManualTooltip />)
   .add('tooltip without animations', () => (
     <div>
       <Tooltip render={() => 'No disableAnimations prop'} trigger={'hover'}>
@@ -182,6 +183,36 @@ class MyCustomTooltip extends React.Component<
     return (
       <Tooltip render={() => 'hola'} {...tooltipProps}>
         <Button onClick={() => this.setState({ state: 'opened' })}>Hey</Button>
+      </Tooltip>
+    );
+  }
+}
+
+class ManualTooltip extends React.Component<
+  TestTooltipProps,
+  MyCustomTooltipState
+> {
+  public state: MyCustomTooltipState = {
+    state: 'opened'
+  };
+
+  public render() {
+    const tooltipProps: Partial<TooltipProps> = {
+      trigger: this.state.state,
+      closeButton: false
+    };
+
+    return (
+      <Tooltip render={() => 'hola'} {...tooltipProps}>
+        <Button
+          onClick={() =>
+            this.setState({
+              state: this.state.state === 'opened' ? 'closed' : 'opened'
+            })
+          }
+        >
+          Hey
+        </Button>
       </Tooltip>
     );
   }

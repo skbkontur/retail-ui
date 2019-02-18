@@ -1,18 +1,18 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { CSSProperties } from 'react';
 import shallow from 'fbjs/lib/shallowEqual';
-import Popup, { PopupProps } from '../Popup';
+import Popup, { PopupPosition, PopupProps } from '../Popup';
 import RenderLayer, { RenderLayerProps } from '../RenderLayer';
 import CROSS from '../internal/cross';
-import { PopupPosition } from '../Popup';
-
-import styles from './Tooltip.less';
 import { Nullable } from '../../typings/utility-types';
-import { PopupHandlerProps } from '../Popup/Popup';
+import styles from './Tooltip.less';
 
-const supportsPortal = 'createPortal' in ReactDOM;
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
+const TOOLTIP_CONTENT_STYLE: CSSProperties = {
+  padding: '15px 20px',
+  position: 'relative'
+};
 
 const Positions: PopupPosition[] = [
   'right bottom',
@@ -150,20 +150,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   };
 
   private hoverTimeout: number | null = null;
-
-  private wrapperElement: HTMLElement | null = null;
-
   private contentElement: HTMLElement | null = null;
-
-  public componentDidMount() {
-    /**
-     * wrapperElement is absent on initial mount
-     * Rendering again to show popup
-     */
-    if (this.props.trigger === 'opened') {
-      this.forceUpdate();
-    }
-  }
 
   public componentWillReceiveProps(nextProps: TooltipProps) {
     if (nextProps.trigger === 'closed') {
@@ -179,33 +166,14 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   public render(): JSX.Element | null {
-    const { wrapperProps, popupProps, layerProps } = this.getProps();
+    const { popupProps, layerProps } = this.getProps();
+    const props = this.props;
+    const children = props.children;
     const content = this.renderContent();
 
-    let popup = null;
-    if (this.props.useWrapper) {
-      const anchorElement = this.props.children
-        ? this.wrapperElement
-        : this.props.anchorElement;
-
-      popup = (
-        <span ref={this.refWrapper} {...wrapperProps}>
-          {this.props.children}
-          {anchorElement &&
-            content &&
-            this.renderPopup(anchorElement, popupProps, content)}
-        </span>
-      );
-    } else {
-      popup = this.renderPopup(
-        this.props.children || this.props.anchorElement,
-        {
-          ...wrapperProps,
-          ...popupProps
-        },
-        content
-      );
-    }
+    // TODO warn if both are missing
+    const anchorElement = children || props.anchorElement;
+    const popup = this.renderPopup(anchorElement, popupProps, content);
 
     return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
   }
@@ -215,11 +183,9 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     if (content == null) {
       return null;
     }
+
     return (
-      <div
-        ref={this.refContent}
-        style={{ padding: '15px 20px', position: 'relative' }}
-      >
+      <div ref={this.refContent} style={TOOLTIP_CONTENT_STYLE}>
         {content}
         {this.renderCloseButton()}
       </div>
@@ -271,10 +237,6 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.contentElement = node;
   };
 
-  private refWrapper = (node: HTMLElement | null) => {
-    this.wrapperElement = node;
-  };
-
   private getPositions() {
     const allowedPositions = this.props.allowedPositions;
     const index = allowedPositions.indexOf(this.props.pos);
@@ -292,19 +254,20 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
   private getProps(): {
     layerProps: Partial<RenderLayerProps>;
-    wrapperProps: Partial<PopupHandlerProps>;
     popupProps: Partial<PopupProps>;
   } {
-    switch (this.props.trigger) {
+    const props = this.props;
+    const useWrapper = !!props.children && props.useWrapper;
+    switch (props.trigger) {
       case 'opened':
         return {
           layerProps: {
             active: true,
             onClickOutside: this.handleClickOutside
           },
-          wrapperProps: {},
           popupProps: {
-            opened: true
+            opened: true,
+            useWrapper: useWrapper
           }
         };
 
@@ -313,9 +276,9 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
           layerProps: {
             active: false
           },
-          wrapperProps: {},
           popupProps: {
-            opened: false
+            opened: false,
+            useWrapper: useWrapper
           }
         };
 
@@ -325,16 +288,11 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
           layerProps: {
             active: false
           },
-          wrapperProps: {
+          popupProps: {
             onMouseEnter: this.handleMouseEnter,
-            onMouseLeave: this.handleMouseLeave
-          },
-          popupProps: supportsPortal
-            ? {}
-            : {
-                onMouseEnter: this.handleMouseEnter,
-                onMouseLeave: this.handleMouseLeave
-              }
+            onMouseLeave: this.handleMouseLeave,
+            useWrapper: useWrapper
+          }
         };
 
       case 'click':
@@ -343,10 +301,10 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
             active: this.state.opened,
             onClickOutside: this.handleClickOutside
           },
-          wrapperProps: {
-            onClick: this.handleClick
-          },
-          popupProps: {}
+          popupProps: {
+            onClick: this.handleClick,
+            useWrapper: useWrapper
+          }
         };
 
       case 'focus':
@@ -354,15 +312,15 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
           layerProps: {
             active: false
           },
-          wrapperProps: {
+          popupProps: {
             onFocus: this.handleFocus,
-            onBlur: this.handleBlur
-          },
-          popupProps: {}
+            onBlur: this.handleBlur,
+            useWrapper: useWrapper
+          }
         };
 
       default:
-        throw new Error('Unknown trigger specified: ' + this.props.trigger);
+        throw new Error('Unknown trigger specified: ' + props.trigger);
     }
   }
 
@@ -374,26 +332,27 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.setState({ opened: false });
   }
 
-  private handleMouseEnter = (
-    event: React.MouseEvent<HTMLElement> | MouseEvent
-  ) => {
-    if (
-      this.props.trigger === 'hoverAnchor' &&
-      event.target === this.contentElement
-    ) {
+  private handleMouseEnter = (event: IMouseEvent) => {
+    const isHoverAnchor = this.props.trigger === 'hoverAnchor';
+    if (isHoverAnchor && event.target === this.contentElement) {
       return;
     }
 
     if (this.hoverTimeout) {
       clearTimeout(this.hoverTimeout);
+      this.hoverTimeout = null;
     }
     this.open();
   };
 
-  private handleMouseLeave = () => {
+  private handleMouseLeave = (event: IMouseEvent) => {
+    const isHover = this.props.trigger === 'hover';
+    if (isHover && event.relatedTarget === this.contentElement) {
+      return;
+    }
+
     if (this.hoverTimeout) {
       clearTimeout(this.hoverTimeout);
-      this.hoverTimeout = null;
     }
     if (this.props.trigger === 'hoverAnchor') {
       this.close();

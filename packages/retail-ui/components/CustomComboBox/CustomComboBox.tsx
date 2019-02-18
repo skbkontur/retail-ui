@@ -235,7 +235,6 @@ class CustomComboBox extends React.Component<
     if (prevState.editing && !this.state.editing) {
       this.handleBlur();
     }
-
     this.dispatch({ type: 'DidUpdate', prevProps, prevState });
   }
 
@@ -330,10 +329,9 @@ class CustomComboBox extends React.Component<
     // If menu opened, RenderLayer is active and
     // it would call handleFocusOutside
     // In that way handleBlur would be called
-    if (this.state.opened) {
+    if (this.state.editing) {
       return;
     }
-
     this.handleBlur();
   };
 
