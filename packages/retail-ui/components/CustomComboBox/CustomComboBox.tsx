@@ -11,6 +11,7 @@ import {
   getFirstFocusableElement,
   getNextFocusableElement
 } from '../../lib/dom/getFocusableElements';
+import { ComboBoxRequestStatus } from './constants';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T; keepFocus: boolean }
@@ -64,6 +65,8 @@ export interface CustomComboBoxState<T> {
   opened: boolean;
   textValue: string;
   items: Nullable<T[]>;
+  repeatRequest: () => void;
+  requestStatus: ComboBoxRequestStatus;
 }
 
 export type Effect<T> = (
@@ -88,7 +91,9 @@ export const DefaultState = {
   items: null,
   loading: false,
   opened: false,
-  textValue: ''
+  textValue: '',
+  repeatRequest: () => undefined,
+  requestStatus: ComboBoxRequestStatus.Unknown
 };
 
 class CustomComboBox extends React.Component<
@@ -202,6 +207,8 @@ class CustomComboBox extends React.Component<
       renderNotFound: this.props.renderNotFound,
       renderValue: this.props.renderValue,
       renderTotalCount: this.props.renderTotalCount,
+      repeatRequest: this.state.repeatRequest,
+      requestStatus: this.state.requestStatus,
 
       refInput: (input: Nullable<Input>) => {
         this.input = input;
@@ -246,6 +253,22 @@ class CustomComboBox extends React.Component<
     this.dispatch({ type: 'Reset' });
   }
 
+  public focusNextElement = () => {
+    const node = ReactDOM.findDOMNode(this);
+    if (node instanceof Element) {
+      const currentFocusable = getFirstFocusableElement(node);
+      if (currentFocusable) {
+        const nextFocusable = getNextFocusableElement(
+          currentFocusable,
+          currentFocusable.parentElement
+        );
+        if (nextFocusable) {
+          nextFocusable.focus();
+        }
+      }
+    }
+  };
+
   private dispatch = (action: Action<any>) => {
     let effects: Array<Effect<any>>;
     this.setState(
@@ -271,22 +294,6 @@ class CustomComboBox extends React.Component<
   private getProps = () => this.props;
 
   private getState = () => this.state;
-
-  private focusNextElement = () => {
-    const node = ReactDOM.findDOMNode(this);
-    if (node instanceof Element) {
-      const currentFocusable = getFirstFocusableElement(node);
-      if (currentFocusable) {
-        const nextFocusable = getNextFocusableElement(
-          currentFocusable,
-          currentFocusable.parentElement
-        );
-        if (nextFocusable) {
-          nextFocusable.focus();
-        }
-      }
-    }
-  };
 
   private handleChange = (value: any, event: React.SyntheticEvent) => {
     const eventType = event.type;

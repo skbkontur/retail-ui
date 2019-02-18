@@ -12,6 +12,7 @@ import { Nullable } from '../../typings/utility-types';
 import { ArrowTriangleDown } from '@skbkontur/react-icons';
 import styles from './CustomComboBox.less';
 import ComboBoxMenu from './ComboBoxMenu';
+import { ComboBoxRequestStatus } from './constants';
 
 interface ComboBoxViewProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -55,6 +56,8 @@ interface ComboBoxViewProps<T> {
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderValue?: (item: T) => React.ReactNode;
+  repeatRequest?: () => void;
+  requestStatus?: ComboBoxRequestStatus;
   refInput?: (input: Nullable<Input>) => void;
   refMenu?: (menu: Nullable<Menu>) => void;
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
@@ -65,6 +68,8 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     renderItem: (item: any) => item,
     renderNotFound: () => 'Не найдено',
     renderValue: (item: any) => item,
+    repeatRequest: () => undefined,
+    requestStatus: ComboBoxRequestStatus.Unknown,
     onClickOutside: () => {
       /**/
     },
@@ -106,6 +111,8 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       renderTotalCount,
       renderItem,
       renderNotFound,
+      repeatRequest,
+      requestStatus,
       totalCount,
       size,
       width
@@ -158,6 +165,8 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
                 renderTotalCount={renderTotalCount}
                 renderItem={renderItem!}
                 renderNotFound={renderNotFound}
+                repeatRequest={repeatRequest}
+                requestStatus={requestStatus}
                 totalCount={totalCount}
               />
             </DropdownContainer>
