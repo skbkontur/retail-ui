@@ -12,10 +12,13 @@ import { Nullable } from '../../typings/utility-types';
 const PADDING_RIGHT = 30;
 const MIN_SCROLL_SIZE = 20;
 
+export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
+
 export interface ScrollContainerProps {
   invert?: boolean;
   maxHeight?: React.CSSProperties['maxHeight'];
   preventWindowScroll?: boolean;
+  children?: React.ReactNode | ((scrollState: ScrollContainerScrollState) => React.ReactNode);
 }
 
 export interface ScrollContainerState {
@@ -91,6 +94,11 @@ export default class ScrollContainer extends React.Component<
       onScroll: this._handleNativeScroll
     };
 
+    let children = this.props.children;
+    if (typeof children === 'function') {
+      children = children(this._getScrollState());
+    }
+
     return (
       <div
         className={styles.root}
@@ -98,7 +106,7 @@ export default class ScrollContainer extends React.Component<
         onMouseLeave={this._handleMouseLeave}
       >
         {scroll}
-        <div {...innerProps}>{this.props.children}</div>
+        <div {...innerProps}>{children}</div>
       </div>
     );
   }
@@ -300,6 +308,18 @@ export default class ScrollContainer extends React.Component<
   private _setHover(hover: boolean) {
     if (this.state.hover !== hover) {
       this.setState({ hover });
+    }
+  }
+
+  private _getScrollState(): ScrollContainerScrollState {
+    if (!this._inner || this._inner.scrollTop === 0) {
+      return 'top';
+    }
+    else if (this._inner.scrollTop === this._inner.scrollHeight - this._inner.offsetHeight) {
+      return 'bottom';
+    }
+    else {
+      return 'scroll';
     }
   }
 }
