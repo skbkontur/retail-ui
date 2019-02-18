@@ -1,11 +1,11 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
-import ComboBox from '../ComboBox';
-import { mount, ReactWrapper } from 'enzyme';
+import ComboBox, {ComboBoxProps} from '../ComboBox';
+import {mount, ReactWrapper} from 'enzyme';
 import InputLikeText from '../../internal/InputLikeText';
 import MenuItem from '../../MenuItem/MenuItem';
 import Menu from '../../Menu/Menu';
-import { delay } from 'retail-ui/lib/utils';
+import {delay} from 'retail-ui/lib/utils';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -350,24 +350,18 @@ describe('ComboBox', () => {
 
   describe('update input text when value changes if there was no editing', () => {
     const VALUES = [{ value: 1, label: 'one' }, { value: 2, label: 'two' }];
-    const blur = (wrapper: any) => {
-      // when menu is not opened (after focus in autocomplete mode),
-      // clickOutside doesn't work, unlike the input blur.
-      wrapper.find('input').simulate('blur');
-      clickOutside();
-    };
-    const check = (wrapper: any) => {
+    const check = (wrapper: ReactWrapper<ComboBoxProps<any>, {}, ComboBox<any>>) => {
       wrapper.instance().focus();
       wrapper.update();
       expect(wrapper.find('input').prop('value')).toBe(VALUES[0].label);
 
-      blur(wrapper);
+      wrapper.instance().blur();
       wrapper.setProps({ value: VALUES[1] });
       wrapper.instance().focus();
       wrapper.update();
       expect(wrapper.find('input').prop('value')).toBe(VALUES[1].label);
 
-      blur(wrapper);
+      wrapper.instance().blur();
       wrapper.setProps({ value: null });
       wrapper.instance().focus();
       wrapper.update();
