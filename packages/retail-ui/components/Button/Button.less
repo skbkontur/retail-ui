@@ -35,7 +35,6 @@
     color: @text-color-default;
     cursor: pointer;
     display: inline-block;
-    font-size: 14px;
     text-align: center;
     margin: 0; /* Need for Safari. */
     outline: 0;
@@ -46,7 +45,6 @@
     background-position: center;
     background-repeat: no-repeat;
     background-clip: border-box;
-    padding-bottom: 1px;
 
     &::-moz-focus-inner {
       border: 0;
@@ -290,11 +288,14 @@
   }
 
   .sizeSmall {
-    &:not(.link) {
-      height: 32px;
-    }
+    font-size: 14px;
+    line-height: @control-line-height-small;
+    padding: @control-padding-y-small 15px;
 
-    padding: 0 15px;
+    :global(.rt-ie-any) & {
+      padding-top: @control-padding-y-small - 1;
+      padding-bottom: @control-padding-y-small + 1;
+    }
   }
   .buttonSizeMixin(
     sizeSmall,
@@ -318,12 +319,14 @@
   );
 
   .sizeMedium {
-    &:not(.link) {
-      height: 38px;
-    }
-
     font-size: 16px;
-    padding: 0 15px;
+    line-height: @control-line-height-medium;
+    padding: @control-padding-y-medium 15px;
+
+    :global(.rt-ie-any) & {
+      padding-top: @control-padding-y-medium - 1;
+      padding-bottom: @control-padding-y-medium + 1;
+    }
   }
   .buttonSizeMixin(
     sizeMedium,
@@ -347,12 +350,14 @@
   );
 
   .DEPRECATED_sizeMedium {
-    &:not(.link) {
-      height: 38px;
-    }
-
     font-size: 14px;
-    padding: 0 15px;
+    line-height: @control-line-height-small;
+    padding: @control-padding-y-medium 15px;
+
+    :global(.rt-ie-any) & {
+      padding-top: @control-padding-y-medium - 1;
+      padding-bottom: @control-padding-y-medium + 1;
+    }
   }
   .buttonSizeMixin(
     DEPRECATED_sizeMedium,
@@ -376,12 +381,14 @@
   );
 
   .sizeLarge {
-    &:not(.link) {
-      height: 42px;
-    }
-
     font-size: 16px;
-    padding: 0 20px;
+    line-height: @control-line-height-large;
+    padding: @control-padding-y-large - 1 20px @control-padding-y-large + 1;
+
+    :global(.rt-ie-any) & {
+      padding-top: @control-padding-y-large - 1;
+      padding-bottom: @control-padding-y-large + 1;
+    }
   }
   .buttonSizeMixin(
     sizeLarge,
