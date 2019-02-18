@@ -2,12 +2,12 @@ import * as React from 'react';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
 
-import MenuItem from '../../MenuItem';
 import Menu from '../../Menu/Menu';
-import { DefaultState } from '../CustomComboBox';
 import CustomComboBox, {
+  ComboBoxRequestStatus,
   CustomComboBoxProps,
-  CustomComboBoxState
+  CustomComboBoxState,
+  DefaultState
 } from '../CustomComboBox';
 import LayoutEvents from '../../../lib/LayoutEvents';
 import { Nullable } from '../../../typings/utility-types';
@@ -73,6 +73,10 @@ const searchFactory = (query: string): EffectType => async (
   getProps,
   getInstance
 ) => {
+  if (getState().requestStatus === ComboBoxRequestStatus.Pending) {
+    return;
+  }
+
   let request = null;
   const { getItems } = getProps();
 
@@ -219,9 +223,10 @@ const Effect = {
     input.focus();
   }) as EffectType,
   HighlightMenuItem: ((dispatch, getState, getProps, getInstance) => {
-    const { value, itemToValue } = getProps();
-    const { items, focused } = getState();
+    const { value, itemToValue, valueToString } = getProps();
+    const { items, focused, textValue, requestStatus } = getState();
     const { menu }: { menu: Nullable<Menu> } = getInstance();
+    const valueString = getValueString(value, valueToString);
 
     if (!menu) {
       return;
@@ -236,19 +241,27 @@ const Effect = {
       index = items.findIndex(x => itemToValue(x) === itemToValue(value));
     }
     menu.highlightItem(index);
+
     if (index >= 0) {
       // FIXME: accessing private props
       // @ts-ignore
       process.nextTick(() => menu && menu._scrollToSelected());
-    } else {
+      return;
+    }
+
+    if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
       process.nextTick(() => menu && menu.down());
     }
   }) as EffectType,
   SelectMenuItem: (event: React.SyntheticEvent<any>) =>
     ((dispatch, getState, getProps, getInstance) => {
-      const { menu }: { menu: Nullable<Menu> } = getInstance();
+      const { menu, focusNextElement }: { menu: Nullable<Menu>, focusNextElement: () => void } = getInstance();
       if (menu) {
         menu.enter(event);
+
+        if (!menu.hasHighlightedItem()) {
+          focusNextElement()
+        }
       }
     }) as EffectType,
   MoveMenuHighlight: (direction: 1 | -1): EffectType => (
@@ -418,7 +431,8 @@ const reducers: { [type: string]: Reducer } = {
   RequestItems(state, props, action) {
     return {
       loading: true,
-      opened: true
+      opened: true,
+      requestStatus: ComboBoxRequestStatus.Pending,
     };
   },
   ReceiveItems(state, props, action) {
@@ -427,7 +441,8 @@ const reducers: { [type: string]: Reducer } = {
       {
         loading: false,
         opened: true,
-        items: action.items
+        items: action.items,
+        requestStatus: ComboBoxRequestStatus.Success,
       },
       [
         shouldResetMenuHighlight ? Effect.ResetHighlightedMenuItem : Effect.HighlightMenuItem,
@@ -440,17 +455,9 @@ const reducers: { [type: string]: Reducer } = {
       {
         loading: false,
         opened: true,
-        items: [
-          <MenuItem disabled key="message">
-            <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>
-              Что-то пошло не так. Проверьте соединение с интернетом и
-              попробуйте еще раз
-            </div>
-          </MenuItem>,
-          <MenuItem alkoLink onClick={action.repeatRequest} key="retry">
-            Обновить
-          </MenuItem>
-        ]
+        items: null,
+        requestStatus: ComboBoxRequestStatus.Failed,
+        repeatRequest: action.repeatRequest
       },
       [Effect.HighlightMenuItem]
     ];
