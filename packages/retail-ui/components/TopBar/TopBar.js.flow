@@ -1,0 +1,43 @@
+/* @flow */
+import ButtonItem from './ButtonItem';
+import Divider from './Divider';
+import Item from './Item';
+import Organizations from './Organizations';
+import TopBarDropdown from './TopBarDropdown';
+import User from './User';
+
+export type TopBarProps = {|
+  children?: React$Node,
+  color?: string,
+  cabinetUrl?: string,
+  leftItems?: Array<React$Node>,
+  // eslint-disable-next-line flowtype/no-weak-types
+  logoComponent?: React$ComponentType<any> | string,
+  logoHref?: string,
+  maxWidth?: string | number,
+  noMargin?: boolean,
+  noShadow?: boolean,
+  noWidget?: boolean,
+  onLogout?: () => void,
+  rightItems?: Array<React$Node>,
+  suffix?: string,
+  userName?: string
+|};
+
+export type TopBarDefaultProps = {|
+  maxWidth: string | number,
+  rightItems: Array<React$Node>
+|};
+
+declare class TopBar extends React$Component<TopBarProps> {
+  static Divider: typeof Divider,
+  static Item: typeof ButtonItem,
+  static Dropdown: typeof TopBarDropdown,
+  static OrganizationsDropdown: typeof Organizations,
+  static Start: React$ComponentType<{||}>,
+  static End: React$ComponentType<{||}>,
+  static ItemStatic: typeof Item,
+  static User: typeof User
+}
+
+export default TopBar;

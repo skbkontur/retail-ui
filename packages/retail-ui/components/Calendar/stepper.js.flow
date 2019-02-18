@@ -1,0 +1,2 @@
+/* @flow */
+declare export var stepper: (currentX: number, currentV: number, targetX: number) => [number, number];
