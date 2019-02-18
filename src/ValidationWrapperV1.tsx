@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Nullable } from "./Types";
+import { Nullable } from "typings/Types";
 import ValidationWrapper, { RenderErrorMessage, ValidationLevel, ValidationBehaviour } from "./ValidationWrapper";
 import { tooltip } from "./ErrorRenderer";
 
@@ -12,7 +12,7 @@ export interface ValidationInfo {
 export interface ValidationWrapperV1Props {
     children: React.ReactElement<any>;
     validationInfo: Nullable<ValidationInfo>;
-    renderMessage?: RenderErrorMessage;
+    renderMessage?: Nullable<RenderErrorMessage>;
 }
 
 export default class ValidationWrapperV1 extends React.Component<ValidationWrapperV1Props> {

@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import Input from "retail-ui/components/Input";
 import Button from "retail-ui/components/Button";
 import Select from "retail-ui/components/Select";
-import { Nullable } from "../src/Types";
+import { Nullable } from "../typings/Types";
 import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from "../src";
 
 interface Example1State {

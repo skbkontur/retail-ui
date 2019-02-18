@@ -1,4 +1,4 @@
-import { Nullable, Omit } from "./Types";
+import { Nullable, Omit } from "typings/Types";
 
 export default async function smoothScrollIntoView(element: HTMLElement, topOffset: number): Promise<void> {
     const scrollableParent = findScrollableParent(element);

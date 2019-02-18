@@ -2,7 +2,7 @@ import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import DatePicker from "retail-ui/components/DatePicker";
 import Button from "retail-ui/components/Button";
-import { Nullable } from "../src/Types";
+import { Nullable } from "../typings/Types";
 import { ValidationContainer, ValidationInfo, ValidationWrapperV1 } from "../src";
 
 storiesOf("DatePicker", module).add("Example1", () => <DatePickerStory/>);

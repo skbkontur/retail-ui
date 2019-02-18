@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Nullable } from "./Types";
+import { Nullable } from "typings/Types";
 import ValidationContext from "./ValidationContext";
 
 export interface ValidationContainerProps {
