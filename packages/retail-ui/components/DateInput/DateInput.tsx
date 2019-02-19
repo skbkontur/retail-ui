@@ -86,10 +86,10 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     width: 125
   };
 
-  private _input: Input | null = null;
-  private _inputlikeText: InputLikeText | null = null;
-  private _divInnerNode: HTMLElement | null = null;
-  private _isFocused: boolean = false;
+  private input: Input | null = null;
+  private inputlikeText: InputLikeText | null = null;
+  private divInnerNode: HTMLElement | null = null;
+  private isFocused: boolean = false;
 
   constructor(props: DateInputProps) {
     super(props);
@@ -142,13 +142,13 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
    * @public
    */
   public blur() {
-    if (this._inputlikeText) {
-      this._inputlikeText.blur();
+    if (this.inputlikeText) {
+      this.inputlikeText.blur();
     }
-    if (this._input) {
-      this._input.blur();
+    if (this.input) {
+      this.input.blur();
     }
-    this._isFocused = false;
+    this.isFocused = false;
   }
 
   /**
@@ -156,13 +156,13 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
    */
   public focus() {
     if (!this.props.disabled) {
-      if (this._inputlikeText) {
-        this._inputlikeText.focus();
+      if (this.inputlikeText) {
+        this.inputlikeText.focus();
       }
-      if (this._input) {
-        this._input.focus();
+      if (this.input) {
+        this.input.focus();
       }
-      this._isFocused = true;
+      this.isFocused = true;
     }
   }
 
@@ -171,11 +171,11 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
    */
   public blink() {
     if (!this.props.disabled) {
-      if (this._inputlikeText) {
-        this._inputlikeText.blink();
+      if (this.inputlikeText) {
+        this.inputlikeText.blink();
       }
-      if (this._input) {
-        this._input.blink();
+      if (this.input) {
+        this.input.blink();
       }
     }
   }
@@ -198,7 +198,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     return (
       <Input
         width={this.props.width}
-        ref={el => (this._input = el)}
+        ref={el => (this.input = el)}
         size={this.props.size}
         disabled={this.props.disabled}
         error={this.props.error}
@@ -221,7 +221,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     return (
       <InputLikeText
         width={this.props.width}
-        ref={el => (this._inputlikeText = el)}
+        ref={el => (this.inputlikeText = el)}
         size={this.props.size}
         disabled={this.props.disabled}
         error={this.props.error}
@@ -235,7 +235,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
       >
         {!isMaskHidden && (
           <div
-            ref={el => (this._divInnerNode = el)}
+            ref={el => (this.divInnerNode = el)}
             onDoubleClick={this.createSelectionHandler(DateParts.All)}
             className={styles.root}
           >
@@ -273,7 +273,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     );
   }
 
-  private _getIconSize = () => {
+  private getIconSize = () => {
     if (this.props.size === 'large') {
       return '16px';
     }
@@ -291,7 +291,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     this.selectDatePart(DateParts.Date);
 
     // Firefix prevents focus if mousedown prevented
-    if (!this._isFocused) {
+    if (!this.isFocused) {
       this.focus();
     }
   };
@@ -314,7 +314,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLElement>) => {
-    this._isFocused = true;
+    this.isFocused = true;
 
     this.selectDatePart(DateParts.Date);
     if (this.props.onFocus) {
@@ -323,7 +323,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleBlur = (event: React.FocusEvent<HTMLElement>) => {
-    this._isFocused = false;
+    this.isFocused = false;
 
     // event have to be persisted
     // as props.onBlur would be called in async way
@@ -423,7 +423,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   private selectDatePartInInput() {
-    if (DateInputConfig.polyfillInput || !this._isFocused) {
+    if (DateInputConfig.polyfillInput || !this.isFocused) {
       return;
     }
 
@@ -434,8 +434,8 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
 
     const [start, end] = DatePartRanges[selected];
-    if (this._input) {
-      this._input.setSelectionRange(start, end);
+    if (this.input) {
+      this.input.setSelectionRange(start, end);
     }
   }
 
@@ -478,8 +478,8 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
       event.preventDefault();
       event.stopPropagation();
 
-      if (this._inputlikeText) {
-        this._inputlikeText.focus();
+      if (this.inputlikeText) {
+        this.inputlikeText.focus();
       }
 
       this.selectDatePart(index);
@@ -507,12 +507,12 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   private selectAll() {
-    if (this._isFocused) {
-      if (this._input) {
-        this._input.setSelectionRange(0, 10);
+    if (this.isFocused) {
+      if (this.input) {
+        this.input.setSelectionRange(0, 10);
       }
-      if (this._divInnerNode) {
-        selectNodeContents(this._divInnerNode);
+      if (this.divInnerNode) {
+        selectNodeContents(this.divInnerNode);
       }
     }
   }
@@ -531,7 +531,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     if (this.props.withIcon) {
       return () => (
         <span className={iconStyles}>
-          <CalendarIcon size={this._getIconSize()} />
+          <CalendarIcon size={this.getIconSize()} />
         </span>
       );
     }
