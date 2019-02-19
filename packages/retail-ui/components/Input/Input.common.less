@@ -9,11 +9,9 @@
     align-items: center;
     box-sizing: border-box;
     width: 250px;
-    font-size: 14px;
     background: white;
     background-clip: padding-box;
     transition: background-color 0.15s ease-in;
-    line-height: normal;
     outline: none;
     cursor: text;
 
@@ -84,6 +82,7 @@
     outline: none;
     width: 100%;
     -webkit-appearance: none;
+    -webkit-text-fill-color: currentcolor;
     text-overflow: clip;
     background: transparent;
     border: 0 none;
@@ -118,22 +117,59 @@
   }
 
   .sizeSmall {
-    height: @small-control-height;
+    font-size: 14px;
+    line-height: @control-line-height-small;
+    padding-top: @control-padding-y-small;
+    padding-bottom: @control-padding-y-small;
+    height: @control-height-small;
+
+    :global(.rt-ie-any) & {
+      line-height: normal;
+      padding-top: @control-padding-y-small - 1;
+      padding-bottom: @control-padding-y-small + 1;
+    }
   }
 
   .sizeMedium {
     font-size: 16px;
-    height: @medium-control-height;
+    line-height: @control-line-height-medium;
+    padding-top: @control-padding-y-medium;
+    padding-bottom: @control-padding-y-medium;
+    height: @control-height-medium;
+
+    :global(.rt-ie-any) & {
+      line-height: normal;
+      padding-top: @control-padding-y-medium - 1;
+      padding-bottom: @control-padding-y-medium + 1;
+    }
   }
 
   .DEPRECATED_sizeMedium {
     font-size: 14px;
-    height: @medium-control-height;
+    line-height: @control-line-height-medium;
+    padding-top: @control-padding-y-medium;
+    padding-bottom: @control-padding-y-medium;
+    height: @control-height-medium;
+
+    :global(.rt-ie-any) & {
+      line-height: normal;
+      padding-top: @control-padding-y-medium - 1;
+      padding-bottom: @control-padding-y-medium + 1;
+    }
   }
 
   .sizeLarge {
     font-size: 16px;
-    height: @large-control-height;
+    line-height: @control-line-height-large;
+    padding-top: @control-padding-y-large - 1;
+    padding-bottom: @control-padding-y-large + 1;
+    height: @control-height-large;
+
+    :global(.rt-ie-any) & {
+      line-height: normal;
+      padding-top: @control-padding-y-large - 2;
+      padding-bottom: @control-padding-y-large + 2;
+    }
   }
 
   .placeholder {
