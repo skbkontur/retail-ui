@@ -57,6 +57,7 @@ export interface DateInputState {
   minDate: Nullable<CalendarDateShape>;
   maxDate: Nullable<CalendarDateShape>;
   notify: boolean;
+  pressSeparatorEnabled: boolean;
 }
 
 export interface DateInputProps {
@@ -99,7 +100,8 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
       ...parseValue(props.value),
       minDate: tryGetCalendarDateShape(props.minDate),
       maxDate: tryGetCalendarDateShape(props.maxDate),
-      notify: false
+      notify: false,
+      pressSeparatorEnabled: false
     };
   }
 
@@ -124,7 +126,12 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
       prevState.month !== this.state.month ||
       prevState.year !== this.state.year
     ) {
+      this.setState({ pressSeparatorEnabled: true });
       this.emitChange();
+    }
+
+    if (prevState.selected !== this.state.selected) {
+      this.setState({ pressSeparatorEnabled: false });
     }
 
     if (this.state.selected === DateParts.All) {
@@ -411,8 +418,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleSeparatorKey() {
-    const { selected, date, month } = this.state;
-    if (selected !== null && (selected === DateParts.Date && date || selected === DateParts.Month && month)) {
+    if (this.state.pressSeparatorEnabled) {
       this.moveSelection(1);
     }
   };
