@@ -10,10 +10,14 @@ import ModalStack from '../ModalStack';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import RenderLayer from '../RenderLayer';
 import ZIndex from '../ZIndex';
-import { SidePageBodyWithContext } from './SidePageBody';
+import { SidePageBodyWithContext, SidePageBodyProps } from './SidePageBody';
 import SidePageContainer from './SidePageContainer';
 import { SidePageContext } from './SidePageContext';
-import { SidePageFooterWithContext, SidePageFooter } from './SidePageFooter';
+import {
+  SidePageFooterWithContext,
+  SidePageFooter,
+  SidePageFooterProps
+} from './SidePageFooter';
 import SidePageHeader from './SidePageHeader';
 import { CSSTransition } from 'react-transition-group';
 
@@ -85,8 +89,12 @@ interface ZIndexPropsType {
  */
 class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Header = SidePageHeader;
-  public static Body = SidePageBodyWithContext;
-  public static Footer = SidePageFooterWithContext;
+  public static Body: (
+    props: SidePageBodyProps
+  ) => JSX.Element = SidePageBodyWithContext;
+  public static Footer: (
+    props: SidePageFooterProps
+  ) => JSX.Element = SidePageFooterWithContext;
   public static Container = SidePageContainer;
 
   public state: SidePageState = {};

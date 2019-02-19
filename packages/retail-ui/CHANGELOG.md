@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.40.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.40.0...retail-ui@0.40.1) (2019-02-19)
+
+
+### Bug Fixes
+
+* **SidePage:** dynamic resolved types `Body` and `Footer` with context ([4ec286b](https://github.com/skbkontur/retail-ui/commit/4ec286b))
+
+
+
+
+
 # [0.40.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.39.0...retail-ui@0.40.0) (2019-02-19)
 
 
