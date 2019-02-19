@@ -177,7 +177,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     ReturnType<typeof LayoutEvents.addListener>
   >;
   private lastPopupElement: Nullable<HTMLElement>;
-  private anchorElement: Nullable<Element | Text> = null;
+  private anchorElement: Nullable<HTMLElement> = null;
   private anchorInstance: Nullable<React.ReactInstance>;
 
   public componentDidMount() {
@@ -215,6 +215,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     if (this.layoutEventsToken) {
       this.layoutEventsToken.remove();
     }
+
+    this.removeEventListeners(this.anchorElement)
   }
 
   public render() {
@@ -278,26 +280,31 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   private updateAnchorElement(element: HTMLElement | null) {
     const anchorElement = this.anchorElement;
 
-    if (element === anchorElement) {
-      return;
+    if (element !== anchorElement) {
+      this.removeEventListeners(anchorElement);
+      this.anchorElement = element;
+      this.addEventListeners(element);
     }
+  }
 
-    if (anchorElement && anchorElement instanceof HTMLElement) {
-      anchorElement.removeEventListener('mouseenter', this.handleMouseEnter);
-      anchorElement.removeEventListener('mouseleave', this.handleMouseLeave);
-      anchorElement.removeEventListener('click', this.handleClick);
-      anchorElement.removeEventListener('focusin', this.handleFocus as EventListener);
-      anchorElement.removeEventListener('focusout', this.handleBlur);
-
-    }
-
-    this.anchorElement = element;
+  private addEventListeners(element: Nullable<HTMLElement>) {
     if (element && element instanceof HTMLElement) {
       element.addEventListener('mouseenter', this.handleMouseEnter);
       element.addEventListener('mouseleave', this.handleMouseLeave);
       element.addEventListener('click', this.handleClick);
       element.addEventListener('focusin', this.handleFocus as EventListener);
       element.addEventListener('focusout', this.handleBlur);
+    }
+  }
+
+  private removeEventListeners(element: Nullable<HTMLElement>) {
+    if (element && element instanceof HTMLElement) {
+      element.removeEventListener('mouseenter', this.handleMouseEnter);
+      element.removeEventListener('mouseleave', this.handleMouseLeave);
+      element.removeEventListener('click', this.handleClick);
+      element.removeEventListener('focusin', this.handleFocus as EventListener);
+      element.removeEventListener('focusout', this.handleBlur);
+
     }
   }
 
