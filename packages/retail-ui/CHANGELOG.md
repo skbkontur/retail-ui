@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.40.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.39.0...retail-ui@0.40.0) (2019-02-19)
+
+
+### Bug Fixes
+
+* **RenderContainer:** unique keys warning ([b2279b3](https://github.com/skbkontur/retail-ui/commit/b2279b3)), closes [#1149](https://github.com/skbkontur/retail-ui/issues/1149)
+* **Tooltip:** fixed closing for `hoverAnchor` ([fd932f2](https://github.com/skbkontur/retail-ui/commit/fd932f2)), closes [#973](https://github.com/skbkontur/retail-ui/issues/973)
+
+
+### Features
+
+* **flow:** add typings ([#1160](https://github.com/skbkontur/retail-ui/issues/1160)) ([55d79c9](https://github.com/skbkontur/retail-ui/commit/55d79c9))
+* **PasswordInput:** add support blur event ([#1162](https://github.com/skbkontur/retail-ui/issues/1162)) ([ddd8195](https://github.com/skbkontur/retail-ui/commit/ddd8195)), closes [#889](https://github.com/skbkontur/retail-ui/issues/889)
+* **Popup:** add `ignoreHover` prop ([869f556](https://github.com/skbkontur/retail-ui/commit/869f556))
+* **TokenInput:** add ability to directly render token component ([#1148](https://github.com/skbkontur/retail-ui/issues/1148)) ([6354b2a](https://github.com/skbkontur/retail-ui/commit/6354b2a))
+
+
+
+
+
 <a name="0.39.0"></a>
 # [0.39.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.38.0...retail-ui@0.39.0) (2019-02-12)
 
