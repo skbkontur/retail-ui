@@ -23,7 +23,7 @@ export const Actions = {
 const extractAction = new KeyboardActionExctracterBuilder()
   .add(Actions.MoveSelectionLeft, e => e.key === 'ArrowLeft')
   .add(Actions.MoveSelectionRight, e => e.key === 'ArrowRight')
-  .add(Actions.MoveSelectionRight, isSeparator)
+  .add(Actions.Separator, isSeparator)
   .add(Actions.Increment, e => e.key === 'ArrowUp')
   .add(Actions.Decrement, e => e.key === 'ArrowDown')
   .add(Actions.FullSelection, e => (e.ctrlKey || e.metaKey) && e.key === 'a')

@@ -393,6 +393,10 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
       this.selectDatePart(DateParts.All);
     }
 
+    if (action === Actions.Separator) {
+      this.handleSeparatorKey();
+    }
+
     if (action === Actions.WrongInput) {
       this.blink();
     }
@@ -403,6 +407,13 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     const parsed = tryParseDateString(e.clipboardData.getData('text'));
     if (parsed) {
       this.setState({ ...parsed, selected: DateParts.All });
+    }
+  };
+
+  private handleSeparatorKey() {
+    const { selected, date, month } = this.state;
+    if (selected !== null && (selected === DateParts.Date && date || selected === DateParts.Month && month)) {
+      this.moveSelection(1);
     }
   };
 
