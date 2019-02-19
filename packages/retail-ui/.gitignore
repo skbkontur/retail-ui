@@ -19,6 +19,7 @@ gemini-report
 /components/**/*.d.ts
 /components/**/*.js
 /components/**/*.map
+/components/**/*.snap
 
 
 yarn-debug.log
