@@ -18,7 +18,8 @@ export interface ScrollContainerProps {
   invert?: boolean;
   maxHeight?: React.CSSProperties['maxHeight'];
   preventWindowScroll?: boolean;
-  children?: React.ReactNode | ((scrollState: ScrollContainerScrollState) => React.ReactNode);
+  children?: React.ReactNode;
+  onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
 }
 
 export interface ScrollContainerState {
@@ -94,11 +95,6 @@ export default class ScrollContainer extends React.Component<
       onScroll: this._handleNativeScroll
     };
 
-    let children = this.props.children;
-    if (typeof children === 'function') {
-      children = children(this._getScrollState());
-    }
-
     return (
       <div
         className={styles.root}
@@ -106,7 +102,7 @@ export default class ScrollContainer extends React.Component<
         onMouseLeave={this._handleMouseLeave}
       >
         {scroll}
-        <div {...innerProps}>{children}</div>
+        <div {...innerProps}>{this.props.children}</div>
       </div>
     );
   }
@@ -194,6 +190,9 @@ export default class ScrollContainer extends React.Component<
         this.state.scrollSize !== scrollSize ||
         this.state.scrollPos !== scrollPos
       ) {
+        const currentScrollState = this._getScrollState();
+        this.props.onScrollStateChange && this.props.onScrollStateChange(currentScrollState);
+
         this.setState({
           scrollActive: true,
           scrollSize,
