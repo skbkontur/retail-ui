@@ -53,10 +53,6 @@
 
 @blink-color: #cde4f8;
 
-@small-control-height: 34px;
-@medium-control-height: 40px;
-@large-control-height: 44px;
-
 @control-border-width: 1px;
 @control-line-height-small: 20px;
 @control-line-height-medium: 20px;
@@ -64,6 +60,13 @@
 @control-padding-y-small: 6px;
 @control-padding-y-medium: 9px;
 @control-padding-y-large: 10px;
+
+@control-height-small: 2 * @control-border-width + 2 * @control-padding-y-small +
+  @control-line-height-small;
+@control-height-medium: 2 * @control-border-width + 2 *
+  @control-padding-y-medium + @control-line-height-medium;
+@control-height-large: 2 * @control-border-width + 2 * @control-padding-y-large +
+  @control-line-height-large;
 
 // Text
 @text-color-default: #404040;

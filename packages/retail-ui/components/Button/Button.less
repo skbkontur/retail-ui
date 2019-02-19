@@ -291,8 +291,10 @@
     font-size: 14px;
     line-height: @control-line-height-small;
     padding: @control-padding-y-small 15px;
+    height: @control-height-small - 2;
 
     :global(.rt-ie-any) & {
+      line-height: normal;
       padding-top: @control-padding-y-small - 1;
       padding-bottom: @control-padding-y-small + 1;
     }
@@ -322,8 +324,10 @@
     font-size: 16px;
     line-height: @control-line-height-medium;
     padding: @control-padding-y-medium 15px;
+    height: @control-height-medium - 2;
 
     :global(.rt-ie-any) & {
+      line-height: normal;
       padding-top: @control-padding-y-medium - 1;
       padding-bottom: @control-padding-y-medium + 1;
     }
@@ -353,8 +357,10 @@
     font-size: 14px;
     line-height: @control-line-height-small;
     padding: @control-padding-y-medium 15px;
+    height: @control-height-medium - 2;
 
     :global(.rt-ie-any) & {
+      line-height: normal;
       padding-top: @control-padding-y-medium - 1;
       padding-bottom: @control-padding-y-medium + 1;
     }
@@ -384,10 +390,12 @@
     font-size: 16px;
     line-height: @control-line-height-large;
     padding: @control-padding-y-large - 1 20px @control-padding-y-large + 1;
+    height: @control-height-large - 2;
 
     :global(.rt-ie-any) & {
-      padding-top: @control-padding-y-large - 1;
-      padding-bottom: @control-padding-y-large + 1;
+      line-height: normal;
+      padding-top: @control-padding-y-large - 2;
+      padding-bottom: @control-padding-y-large + 2;
     }
   }
   .buttonSizeMixin(

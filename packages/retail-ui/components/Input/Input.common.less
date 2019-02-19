@@ -121,10 +121,12 @@
     line-height: @control-line-height-small;
     padding-top: @control-padding-y-small;
     padding-bottom: @control-padding-y-small;
+    height: @control-height-small;
 
     :global(.rt-ie-any) & {
-      padding-top: @control-padding-y-small - 2;
-      padding-bottom: @control-padding-y-small + 2;
+      line-height: normal;
+      padding-top: @control-padding-y-small - 1;
+      padding-bottom: @control-padding-y-small + 1;
     }
   }
 
@@ -133,10 +135,12 @@
     line-height: @control-line-height-medium;
     padding-top: @control-padding-y-medium;
     padding-bottom: @control-padding-y-medium;
+    height: @control-height-medium;
 
     :global(.rt-ie-any) & {
-      padding-top: @control-padding-y-medium - 2;
-      padding-bottom: @control-padding-y-medium + 2;
+      line-height: normal;
+      padding-top: @control-padding-y-medium - 1;
+      padding-bottom: @control-padding-y-medium + 1;
     }
   }
 
@@ -145,10 +149,12 @@
     line-height: @control-line-height-small;
     padding-top: @control-padding-y-medium;
     padding-bottom: @control-padding-y-medium;
+    height: @control-height-medium;
 
     :global(.rt-ie-any) & {
-      padding-top: @control-padding-y-medium - 2;
-      padding-bottom: @control-padding-y-medium + 2;
+      line-height: normal;
+      padding-top: @control-padding-y-medium - 1;
+      padding-bottom: @control-padding-y-medium + 1;
     }
   }
 
@@ -157,8 +163,10 @@
     line-height: @control-line-height-large;
     padding-top: @control-padding-y-large - 1;
     padding-bottom: @control-padding-y-large + 1;
+    height: @control-height-large;
 
     :global(.rt-ie-any) & {
+      line-height: normal;
       padding-top: @control-padding-y-large - 2;
       padding-bottom: @control-padding-y-large + 2;
     }
