@@ -11,6 +11,7 @@ interface TestTooltipProps {
   pos?: PopupPosition;
   trigger?: TooltipTrigger;
   useWrapper?: boolean;
+  disableAnimations?: boolean;
 }
 
 class TestTooltip extends React.Component<TestTooltipProps> {
@@ -32,6 +33,7 @@ class TestTooltip extends React.Component<TestTooltipProps> {
           render={() => <div>Hey there!</div>}
           trigger={trigger}
           useWrapper={this.props.useWrapper}
+          disableAnimations={this.props.disableAnimations}
         >
           {children}
         </Tooltip>
@@ -57,12 +59,12 @@ storiesOf('Tooltip', module)
     </TestTooltip>
   ))
   .add('focus tooltip', () => (
-    <TestTooltip trigger="focus">
+    <TestTooltip trigger="focus" disableAnimations={true}>
       <Button>Focus me</Button>
     </TestTooltip>
   ))
   .add('focus tooltip (native input)', () => (
-    <TestTooltip trigger="focus">
+    <TestTooltip trigger="focus" disableAnimations={true}>
       <input />
     </TestTooltip>
   ))
