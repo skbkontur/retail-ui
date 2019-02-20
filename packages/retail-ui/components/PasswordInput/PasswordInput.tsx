@@ -173,8 +173,9 @@ export default class PasswordInput extends React.Component<
   };
 
   private renderInput() {
+    const { detectCapsLock, ...props } = this.props;
     const inputProps = {
-      ...this.props,
+      ...props,
       onKeyDown: this.handleKeydown,
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye()
