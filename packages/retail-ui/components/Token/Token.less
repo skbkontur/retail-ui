@@ -5,9 +5,9 @@
     box-sizing: border-box;
     display: inline-flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     border-radius: 2px;
-    padding: 0 4px;
+    padding: 1px 4px 0;
     font-size: 14px;
     margin: 2px;
     min-width: 0;
@@ -31,6 +31,10 @@
     }
   }
 
+  .text {
+    align-self: baseline;
+  }
+
   .removeIcon {
     height: 15px;
     width: 15px;
@@ -39,5 +43,6 @@
     margin-left: 4px;
     transition: fill 0.2s ease-out;
     flex: none;
+    margin-top: 3px;
   }
 }
