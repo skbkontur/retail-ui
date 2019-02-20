@@ -4,7 +4,7 @@ import MenuItem, { MenuItemState } from '../MenuItem/MenuItem';
 import Spinner from '../Spinner/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
-import { ComboBoxRequestStatus } from './constants';
+import { ComboBoxRequestStatus } from './types';
 
 export interface ComboBoxMenuProps<T> {
   opened?: boolean;
@@ -75,7 +75,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
             Обновить
           </MenuItem>
         </Menu>
-      )
+      );
     }
 
     if ((items == null || items.length === 0) && renderNotFound) {
@@ -87,7 +87,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
             <MenuItem disabled>{renderNotFound()}</MenuItem>
           )}
         </Menu>
-      )
+      );
     }
 
     let total = null;

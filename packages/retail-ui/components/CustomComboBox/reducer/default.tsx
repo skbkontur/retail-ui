@@ -13,7 +13,7 @@ import { Nullable } from '../../../typings/utility-types';
 import warning from 'warning';
 import ComboBoxView from '../ComboBoxView';
 import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
-import { ComboBoxRequestStatus } from '../constants';
+import { ComboBoxRequestStatus } from '../types';
 
 interface BaseAction {
   type: string;

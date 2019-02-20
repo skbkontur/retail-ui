@@ -11,7 +11,7 @@ import {
   getFirstFocusableElement,
   getNextFocusableElement
 } from '../../lib/dom/getFocusableElements';
-import { ComboBoxRequestStatus } from './constants';
+import { ComboBoxRequestStatus } from './types';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T; keepFocus: boolean }
