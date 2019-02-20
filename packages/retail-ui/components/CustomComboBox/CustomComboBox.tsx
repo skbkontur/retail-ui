@@ -24,7 +24,8 @@ export type Action<T> =
   | { type: 'Reset' }
   | { type: 'Open' }
   | { type: 'Close' }
-  | { type: 'Search'; query: string };
+  | { type: 'Search'; query: string }
+  | { type: 'FocusNextElement' };
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';

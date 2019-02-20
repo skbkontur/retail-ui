@@ -274,16 +274,12 @@ const Effect = {
         (event as React.KeyboardEvent).key === 'Enter';
 
       if (menu) {
-        const hasHighlightedItem = menu.hasHighlightedItem();
-        const choosingHighlightedItem =
-          hasHighlightedItem && requestStatus === ComboBoxRequestStatus.Success;
-
         menu.enter(event);
         if (
           eventIsProperToFocusNextElement &&
-          (!hasHighlightedItem || choosingHighlightedItem)
+          requestStatus !== ComboBoxRequestStatus.Failed
         ) {
-          Effect.FocusNextElement(instance);
+          dispatch({ type: 'FocusNextElement' });
         }
       }
     }) as EffectType,
@@ -314,8 +310,8 @@ const Effect = {
     const combobox = getInstance();
     combobox.selectInputText();
   }) as EffectType,
-  FocusNextElement: (instance: CustomComboBox) => {
-    const node = ReactDOM.findDOMNode(instance);
+  FocusNextElement: ((dispatch, getState, getProps, getInstance) => {
+    const node = ReactDOM.findDOMNode(getInstance());
 
     if (node instanceof Element) {
       const currentFocusable = getFirstFocusableElement(node);
@@ -329,7 +325,7 @@ const Effect = {
         }
       }
     }
-  }
+  }) as EffectType
 };
 
 const reducers: { [type: string]: Reducer } = {
@@ -519,6 +515,9 @@ const reducers: { [type: string]: Reducer } = {
   },
   Search: (state, props, { query }) => {
     return [state, [Effect.Search(query)]];
+  },
+  FocusNextElement: (state, props, action) => {
+    return [state, [Effect.FocusNextElement]];
   }
 };
 
