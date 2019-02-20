@@ -2,13 +2,13 @@ import * as React from 'react';
 import {CSSProperties, HTMLProps} from 'react';
 import DatePicker from "../DatePicker/DatePicker";
 
-export interface PeriodValues {
+export interface DatePickerRangeValues {
   startValue: string;
   endValue: string;
 }
 
-interface PeriodUIProps {
-  separator?: string | JSX.Element;
+interface DatePickerRangeUIProps {
+  separator?: string | React.ReactNode;
   vertical?: boolean;
   horizontalMargin?: number;
   verticalMargin?: number;
@@ -23,7 +23,7 @@ interface DatePickerRangeValidationProps {
   useFocusOnStartDatePicker?: boolean;
 }
 
-interface HandleEvents {
+interface DatePickerRangeHandleEvents {
   onBlur?: (...args: any[]) => any;
   onChange?: (...args: any[]) => any;
   onFocus?: (...args: any[]) => any;
@@ -33,14 +33,15 @@ interface HandleEvents {
   onMouseOver?: (...args: any[]) => any;
 }
 
-export interface DatePickerRangeProps extends PeriodValues, PeriodUIProps, DatePickerRangeValidationProps, HandleEvents {
+export interface DatePickerRangeProps
+  extends DatePickerRangeValues, DatePickerRangeUIProps, DatePickerRangeValidationProps, DatePickerRangeHandleEvents {
   onStartChange: (e: { target: { value: string } }, v: string) => void;
   onEndChange: (e: { target: { value: string } }, v: string) => void;
   disableRange?: boolean;
 }
 
 export class DatePickerRange extends React.Component<DatePickerRangeProps> {
-  private readonly defaultSeparatorStyles: CSSProperties = {
+  private readonly _defaultSeparatorStyles: CSSProperties = {
     display: 'flex',
     width: 30,
     height: 34,
@@ -49,22 +50,22 @@ export class DatePickerRange extends React.Component<DatePickerRangeProps> {
     lineHeight: 0
   };
 
-  private DatePickerRange: React.RefObject<HTMLDivElement> = React.createRef();
-  private StartDatePicker: React.RefObject<DatePicker> = React.createRef();
-  private EndDatePicker: React.RefObject<DatePicker> = React.createRef();
+  private _datePickerRange: React.RefObject<HTMLDivElement> = React.createRef();
+  private _startDatePicker: React.RefObject<DatePicker> = React.createRef();
+  private _endDatePicker: React.RefObject<DatePicker> = React.createRef();
 
-  private readonly defaultSeparator = <span style={this.defaultSeparatorStyles}>—</span>;
+  private readonly _defaultSeparator = <span style={this._defaultSeparatorStyles}>—</span>;
 
   focus = () => {
     this.props.useFocusOnStartDatePicker
-      ? this.StartDatePicker && this.StartDatePicker.current && this.StartDatePicker.current.focus()
-      : this.EndDatePicker && this.EndDatePicker.current && this.EndDatePicker.current.focus();
+      ? this._startDatePicker && this._startDatePicker.current && this._startDatePicker.current.focus()
+      : this._endDatePicker && this._endDatePicker.current && this._endDatePicker.current.focus();
   };
 
   blur = () => {
     this.props.useFocusOnStartDatePicker
-      ? this.StartDatePicker && this.StartDatePicker.current && this.StartDatePicker.current.blur()
-      : this.EndDatePicker && this.EndDatePicker.current && this.EndDatePicker.current.blur();
+      ? this._startDatePicker && this._startDatePicker.current && this._startDatePicker.current.blur()
+      : this._endDatePicker && this._endDatePicker.current && this._endDatePicker.current.blur();
   };
 
   render(): JSX.Element {
@@ -109,11 +110,11 @@ export class DatePickerRange extends React.Component<DatePickerRangeProps> {
     }
 
     return (
-      <div ref={this.DatePickerRange} style={wrapperStyle}>
+      <div ref={this._datePickerRange} style={wrapperStyle}>
         <span style={startWrapperStyles}
               onFocus={this._onStartWrapperFocus}
               onBlur={this._onStartWrapperBlur}>
-          <DatePicker ref={this.StartDatePicker}
+          <DatePicker ref={this._startDatePicker}
                       value={startValue}
                       onChange={this._onStartChange}
                       maxDate={!disableRange ? this.props.endValue : ''}
@@ -124,13 +125,13 @@ export class DatePickerRange extends React.Component<DatePickerRangeProps> {
 
         {!disableDefaultSeparator && (
           <span {...separatorProps}>
-            {separator || (vertical ? null : this.defaultSeparator)}
+            {separator || (vertical ? null : this._defaultSeparator)}
           </span>
         )}
 
         <span onFocus={this._onEndWrapperFocus}
               onBlur={this._onEndWrapperBlur}>
-          <DatePicker ref={this.EndDatePicker}
+          <DatePicker ref={this._endDatePicker}
                       error={error}
                       value={endValue}
                       onChange={this._onEndChange}
@@ -158,26 +159,26 @@ export class DatePickerRange extends React.Component<DatePickerRangeProps> {
   }
 
   private _onStartWrapperFocus = () => {
-    if (this.StartDatePicker && this.StartDatePicker.current && this.props.error) {
-      this.StartDatePicker.current.focus();
+    if (this._startDatePicker && this._startDatePicker.current && this.props.error) {
+      this._startDatePicker.current.focus();
     }
   }
 
   private _onStartWrapperBlur = () => {
-    if (this.StartDatePicker && this.StartDatePicker.current && this.props.error) {
-      this.StartDatePicker.current.blur();
+    if (this._startDatePicker && this._startDatePicker.current && this.props.error) {
+      this._startDatePicker.current.blur();
     }
   }
 
   private _onEndWrapperFocus = () => {
-    if (this.EndDatePicker && this.EndDatePicker.current) {
-      this.EndDatePicker.current.focus();
+    if (this._endDatePicker && this._endDatePicker.current) {
+      this._endDatePicker.current.focus();
     }
   }
 
   private _onEndWrapperBlur = () => {
-    if (this.EndDatePicker && this.EndDatePicker.current) {
-      this.EndDatePicker.current.blur();
+    if (this._endDatePicker && this._endDatePicker.current) {
+      this._endDatePicker.current.blur();
     }
   }
 }
