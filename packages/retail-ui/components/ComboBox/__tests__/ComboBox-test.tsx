@@ -6,6 +6,7 @@ import InputLikeText from '../../internal/InputLikeText';
 import MenuItem from '../../MenuItem/MenuItem';
 import Menu from '../../Menu/Menu';
 import { delay } from 'retail-ui/lib/utils';
+import { Effect } from '../../CustomComboBox/reducer/default';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -27,6 +28,15 @@ function searchFactory<T>(
 }
 
 describe('ComboBox', () => {
+  const originalFocusNextElement = Effect.FocusNextElement;
+  beforeEach(() => {
+    Effect.FocusNextElement = jest.fn();
+  });
+
+  afterEach(() => {
+    Effect.FocusNextElement = originalFocusNextElement;
+  });
+
   it('renders', () => {
     mount<ComboBox<any>>(<ComboBox />);
   });
@@ -115,7 +125,12 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     const onChange = jest.fn();
     const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} onChange={onChange} renderItem={x => x} value={'one'} />
+      <ComboBox
+        getItems={search}
+        onChange={onChange}
+        renderItem={x => x}
+        value={'one'}
+      />
     );
     wrapper.instance().focus();
     await promise;
@@ -388,14 +403,6 @@ describe('ComboBox', () => {
     const wrapper = mount<ComboBox<string>>(
       <ComboBox getItems={search} renderItem={x => x} value={null} />
     );
-    // @ts-ignore
-    wrapper.instance().comboboxElement.focusNextElement = jest.fn();
-    // @ts-ignore
-    const {comboboxElement} = wrapper.instance();
-    let focusNextElement = () => {return};
-    if (comboboxElement) {
-      focusNextElement = comboboxElement.focusNextElement;
-    }
 
     wrapper.instance().focus();
 
@@ -404,23 +411,19 @@ describe('ComboBox', () => {
     wrapper.update();
 
     wrapper.find('input').simulate('keydown', { key: 'Enter' });
-    expect(focusNextElement).toHaveBeenCalledTimes(1);
+    expect(Effect.FocusNextElement).toHaveBeenCalledTimes(1);
   });
 
   it('calls `focusNextElement` after Enter keydown if value not found', async () => {
-    const items = ['one', 'two', 'three'];
+    const items = [
+      { value: 1, label: 'one' },
+      { value: 2, label: 'two' },
+      { value: 3, label: 'three' }
+    ];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} renderItem={x => x} value={'blabla'} />
+    const wrapper = mount<ComboBox<any>>(
+      <ComboBox getItems={search} value={{ value: 10, label: 'ten' }} />
     );
-    // @ts-ignore
-    wrapper.instance().comboboxElement.focusNextElement = jest.fn();
-    // @ts-ignore
-    const {comboboxElement} = wrapper.instance();
-    let focusNextElement = () => {return};
-    if (comboboxElement) {
-      focusNextElement = comboboxElement.focusNextElement;
-    }
 
     wrapper.instance().focus();
 
@@ -429,7 +432,7 @@ describe('ComboBox', () => {
     wrapper.update();
 
     wrapper.find('input').simulate('keydown', { key: 'Enter' });
-    expect(focusNextElement).toHaveBeenCalledTimes(1);
+    expect(Effect.FocusNextElement).toHaveBeenCalledTimes(1);
   });
 
   describe('update input text when value changes if there was no editing', () => {
