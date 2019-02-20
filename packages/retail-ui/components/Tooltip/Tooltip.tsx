@@ -267,7 +267,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
           },
           popupProps: {
             opened: true,
-            useWrapper: useWrapper
+            useWrapper
           }
         };
 
@@ -278,7 +278,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
           },
           popupProps: {
             opened: false,
-            useWrapper: useWrapper
+            useWrapper
           }
         };
 
@@ -291,7 +291,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
           popupProps: {
             onMouseEnter: this.handleMouseEnter,
             onMouseLeave: this.handleMouseLeave,
-            useWrapper: useWrapper
+            useWrapper
           }
         };
 
@@ -303,7 +303,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
           },
           popupProps: {
             onClick: this.handleClick,
-            useWrapper: useWrapper
+            useWrapper
           }
         };
 
@@ -315,7 +315,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
           popupProps: {
             onFocus: this.handleFocus,
             onBlur: this.handleBlur,
-            useWrapper: useWrapper
+            useWrapper
           }
         };
 

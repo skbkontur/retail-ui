@@ -418,10 +418,13 @@ const COMBOBOX_ITEMS = [
 const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => [i.value, i.label]);
 const getComboboxItems = () => Promise.resolve(COMBOBOX_ITEMS);
 
-type IDropdownValue = { value: number; label: string };
-type IHasDropdownState = {
+interface IDropdownValue {
+  value: number;
+  label: string;
+}
+interface IHasDropdownState {
   selected?: IDropdownValue;
-};
+}
 
 interface IRenderTooltipWithComboboxProps {
   tooltipProps?: Partial<TooltipProps>;
@@ -435,7 +438,7 @@ class RenderTooltipWithCombobox extends Component<
     super(props);
     this.state = {};
   }
-  render() {
+  public render() {
     const tooltipProps = this.props.tooltipProps || {};
     const comboboxProps = this.props.comboboxProps || {};
     return (
@@ -475,7 +478,7 @@ class RenderHintWithSelect extends Component<
     super(props);
     this.state = {};
   }
-  render() {
+  public render() {
     const hintProps = this.props.hintProps || {};
     const selectProps = this.props.selectProps || {};
     return (

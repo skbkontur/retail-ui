@@ -3,7 +3,6 @@ import { mount } from 'enzyme';
 import * as React from 'react';
 import Button from '../../Button';
 import Tooltip, { TooltipProps } from '../Tooltip';
-import { delay } from '../../../lib/utils';
 
 describe('Tooltip', () => {
   const render = () => '';
@@ -101,7 +100,11 @@ describe('Tooltip', () => {
     const Content = () => <div />;
 
     const wrapper = mount<TooltipProps>(
-      <Tooltip trigger="click" disableAnimations={true} render={() => <Content />}>
+      <Tooltip
+        trigger="click"
+        disableAnimations={true}
+        render={() => <Content />}
+      >
         <Button>Click me</Button>
       </Tooltip>
     );
