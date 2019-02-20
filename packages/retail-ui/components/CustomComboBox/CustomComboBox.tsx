@@ -1,5 +1,4 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom';
 import ComboBoxView from './ComboBoxView';
 import { Nullable } from '../../typings/utility-types';
 import Input from '../Input';
@@ -7,10 +6,6 @@ import Menu from '../Menu/Menu';
 import InputLikeText from '../internal/InputLikeText';
 import shallow from 'fbjs/lib/shallowEqual';
 import { MenuItemState } from '../MenuItem';
-import {
-  getFirstFocusableElement,
-  getNextFocusableElement
-} from '../../lib/dom/getFocusableElements';
 import { ComboBoxRequestStatus } from './types';
 
 export type Action<T> =
@@ -253,22 +248,6 @@ class CustomComboBox extends React.Component<
     this.dispatch({ type: 'Reset' });
   }
 
-  public focusNextElement = () => {
-    const node = ReactDOM.findDOMNode(this);
-    if (node instanceof Element) {
-      const currentFocusable = getFirstFocusableElement(node);
-      if (currentFocusable) {
-        const nextFocusable = getNextFocusableElement(
-          currentFocusable,
-          currentFocusable.parentElement
-        );
-        if (nextFocusable) {
-          nextFocusable.focus();
-        }
-      }
-    }
-  };
-
   private dispatch = (action: Action<any>) => {
     let effects: Array<Effect<any>>;
     this.setState(
@@ -303,15 +282,6 @@ class CustomComboBox extends React.Component<
       value,
       keepFocus: eventType === 'click'
     });
-
-    if (
-      (eventType === 'keyup' ||
-        eventType === 'keydown' ||
-        eventType === 'keypress') &&
-      (event as React.KeyboardEvent).key === 'Enter'
-    ) {
-      this.focusNextElement();
-    }
   };
 
   private handleFocus = () => {

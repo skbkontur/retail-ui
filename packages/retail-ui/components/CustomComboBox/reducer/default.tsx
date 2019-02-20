@@ -14,6 +14,11 @@ import warning from 'warning';
 import ComboBoxView from '../ComboBoxView';
 import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
 import { ComboBoxRequestStatus } from '../types';
+import ReactDOM from 'react-dom';
+import {
+  getFirstFocusableElement,
+  getNextFocusableElement
+} from '../../../lib/dom/getFocusableElements';
 
 interface BaseAction {
   type: string;
@@ -249,18 +254,28 @@ const Effect = {
       return;
     }
 
-    if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
+    if (
+      textValue !== valueString ||
+      requestStatus === ComboBoxRequestStatus.Failed
+    ) {
       process.nextTick(() => menu && menu.down());
     }
   }) as EffectType,
   SelectMenuItem: (event: React.SyntheticEvent<any>) =>
     ((dispatch, getState, getProps, getInstance) => {
-      const { menu, focusNextElement }: { menu: Nullable<Menu>, focusNextElement: () => void } = getInstance();
+      const instance = getInstance();
+      const { menu }: { menu: Nullable<Menu> } = instance;
+      const eventType = event.type;
+      const eventIsProperToFocusNextElement =
+        (eventType === 'keyup' ||
+          eventType === 'keydown' ||
+          eventType === 'keypress') &&
+        (event as React.KeyboardEvent).key === 'Enter';
+
       if (menu) {
         menu.enter(event);
-
-        if (!menu.hasHighlightedItem()) {
-          focusNextElement()
+        if (!menu.hasHighlightedItem() && eventIsProperToFocusNextElement) {
+          Effect.FocusNextElement(instance);
         }
       }
     }) as EffectType,
@@ -290,7 +305,23 @@ const Effect = {
   SelectInputText: ((dispatch, getState, getProps, getInstance) => {
     const combobox = getInstance();
     combobox.selectInputText();
-  }) as EffectType
+  }) as EffectType,
+  FocusNextElement: (instance: CustomComboBox) => {
+    const node = ReactDOM.findDOMNode(instance);
+
+    if (node instanceof Element) {
+      const currentFocusable = getFirstFocusableElement(node);
+      if (currentFocusable) {
+        const nextFocusable = getNextFocusableElement(
+          currentFocusable,
+          currentFocusable.parentElement
+        );
+        if (nextFocusable) {
+          nextFocusable.focus();
+        }
+      }
+    }
+  }
 };
 
 const reducers: { [type: string]: Reducer } = {
@@ -432,7 +463,7 @@ const reducers: { [type: string]: Reducer } = {
     return {
       loading: true,
       opened: true,
-      requestStatus: ComboBoxRequestStatus.Pending,
+      requestStatus: ComboBoxRequestStatus.Pending
     };
   },
   ReceiveItems(state, props, action) {
@@ -442,10 +473,12 @@ const reducers: { [type: string]: Reducer } = {
         loading: false,
         opened: true,
         items: action.items,
-        requestStatus: ComboBoxRequestStatus.Success,
+        requestStatus: ComboBoxRequestStatus.Success
       },
       [
-        shouldResetMenuHighlight ? Effect.ResetHighlightedMenuItem : Effect.HighlightMenuItem,
+        shouldResetMenuHighlight
+          ? Effect.ResetHighlightedMenuItem
+          : Effect.HighlightMenuItem,
         Effect.Reflow
       ]
     ];
