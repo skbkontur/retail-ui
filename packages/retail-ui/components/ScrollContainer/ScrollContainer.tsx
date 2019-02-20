@@ -12,10 +12,14 @@ import { Nullable } from '../../typings/utility-types';
 const PADDING_RIGHT = 30;
 const MIN_SCROLL_SIZE = 20;
 
+export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
+
 export interface ScrollContainerProps {
   invert?: boolean;
   maxHeight?: React.CSSProperties['maxHeight'];
   preventWindowScroll?: boolean;
+  children?: React.ReactNode;
+  onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
 }
 
 export interface ScrollContainerState {
@@ -44,6 +48,8 @@ export default class ScrollContainer extends React.Component<
   };
 
   private _inner: Nullable<HTMLDivElement>;
+
+  private _currentScrollState: ScrollContainerScrollState = 'top';
 
   public componentDidMount() {
     this._reflow();
@@ -186,6 +192,13 @@ export default class ScrollContainer extends React.Component<
         this.state.scrollSize !== scrollSize ||
         this.state.scrollPos !== scrollPos
       ) {
+
+        const updatedScrollState = this._getImmediateScrollState();
+        if (this.props.onScrollStateChange && updatedScrollState !== this._currentScrollState) {
+          this.props.onScrollStateChange(updatedScrollState);
+          this._currentScrollState = updatedScrollState;
+        }
+
         this.setState({
           scrollActive: true,
           scrollSize,
@@ -300,6 +313,18 @@ export default class ScrollContainer extends React.Component<
   private _setHover(hover: boolean) {
     if (this.state.hover !== hover) {
       this.setState({ hover });
+    }
+  }
+
+  private _getImmediateScrollState(): ScrollContainerScrollState {
+    if (!this._inner || this._inner.scrollTop === 0) {
+      return 'top';
+    }
+    else if (this._inner.scrollTop === this._inner.scrollHeight - this._inner.offsetHeight) {
+      return 'bottom';
+    }
+    else {
+      return 'scroll';
     }
   }
 }
