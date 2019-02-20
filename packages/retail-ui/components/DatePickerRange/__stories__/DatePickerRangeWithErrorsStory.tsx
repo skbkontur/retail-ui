@@ -30,10 +30,12 @@ class Wrapper extends React.Component<WrapperProps, {startValue?: string, endVal
 
     return (
       <div style={styles}>
+        {this.props.name && <div style={{marginBottom: 5}}>{this.props.name}</div>}
         <DatePickerRange {...datePickerRangeProps}/>
       </div>
     )
 
+    //TODO: заготовка для истории с валидациями
     /*return (
       <ValidationContainer>
         <ValidationWrapperV1 validationInfo={this.getValidationInfo()}>
@@ -43,21 +45,20 @@ class Wrapper extends React.Component<WrapperProps, {startValue?: string, endVal
     )*/
   }
 
-  private getValidationInfo(){
+  /*private _getValidationInfo(){
     return {
       level: this.props.errorLevel,
-      message: 'ololo',
-      type: 'immediate'
+      message: 'error message'
     }
-  }
+  }*/
 }
 
 export const DatePickerRangeWithErrorsStory = () => {
   return (
     <div>
-      <Wrapper rangeProps={{warning: true}}/>
+      <Wrapper rangeProps={{warning: true}} name="With warning"/>
 
-      <Wrapper rangeProps={{error: true}}/>
+      <Wrapper rangeProps={{error: true}} name="With error"/>
     </div>
   );
 }
