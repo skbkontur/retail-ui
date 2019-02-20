@@ -264,6 +264,7 @@ const Effect = {
   SelectMenuItem: (event: React.SyntheticEvent<any>) =>
     ((dispatch, getState, getProps, getInstance) => {
       const instance = getInstance();
+      const { requestStatus } = getState();
       const { menu }: { menu: Nullable<Menu> } = instance;
       const eventType = event.type;
       const eventIsProperToFocusNextElement =
@@ -273,8 +274,15 @@ const Effect = {
         (event as React.KeyboardEvent).key === 'Enter';
 
       if (menu) {
+        const hasHighlightedItem = menu.hasHighlightedItem();
+        const choosingHighlightedItem =
+          hasHighlightedItem && requestStatus === ComboBoxRequestStatus.Success;
+
         menu.enter(event);
-        if (!menu.hasHighlightedItem() && eventIsProperToFocusNextElement) {
+        if (
+          eventIsProperToFocusNextElement &&
+          (!hasHighlightedItem || choosingHighlightedItem)
+        ) {
           Effect.FocusNextElement(instance);
         }
       }
