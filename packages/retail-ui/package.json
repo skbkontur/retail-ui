@@ -177,10 +177,7 @@
       "json",
       "node"
     ],
-    "setupFiles": [
-      "<rootDir>/test-setup.js"
-    ],
-    "setupTestFrameworkScriptFile": "<rootDir>/test-setup-framework.js",
+    "setupTestFrameworkScriptFile": "<rootDir>/test-setup.js",
     "roots": [
       "components",
       "lib",
