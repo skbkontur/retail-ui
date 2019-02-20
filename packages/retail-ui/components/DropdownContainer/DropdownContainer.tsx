@@ -76,7 +76,8 @@ export default class DropdownContainer extends React.Component<
 
   public render() {
     let style: React.CSSProperties = {
-      position: 'absolute'
+      position: 'absolute',
+      top: '0'
     };
     if (this.state.position) {
       const { top, bottom, left, right } = this.state.position;

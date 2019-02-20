@@ -74,6 +74,7 @@ export interface PopupProps extends PopupHandlerProps {
   popupOffset: number;
   positions: string[];
   onCloseRequest?: () => void;
+  ignoreHover?: boolean;
 }
 
 interface PopupLocation {
@@ -146,7 +147,12 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
      * С какой стороны показывать попап и край попапа,
      * на котором будет отображаться пин
      */
-    positions: PropTypes.array
+    positions: PropTypes.array,
+
+    /**
+     * Игнорировать ли события hover/click
+     */
+    ignoreHover: PropTypes.bool,
   };
 
   public static defaultProps = {
@@ -340,6 +346,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
             ref={this.refPopupElement}
             className={cn({
               [styles.popup]: true,
+              [styles['popup-ignore-hover']]: this.props.ignoreHover,
               [styles.shadow]: this.props.hasShadow,
               [styles['transition-enter']]: state === 'entering',
               [styles['transition-enter-active']]: state === 'entered',

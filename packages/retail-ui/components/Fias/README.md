@@ -89,6 +89,51 @@ let handleChange = value => setState({ home: value });
 />;
 ```
 
+Настройка полей. Почтовый индекс.
+
+```jsx
+let initialState = {
+  home: {
+    fiasId: '22ead39c-ddcc-4c46-951d-f958750810fd'
+  }
+};
+
+let handleChange = value => setState({ home: value });
+
+<Fias
+  baseUrl={'https://api.kontur.ru/fias/v1/'}
+  value={state.home}
+  onChange={handleChange}
+  search={true}
+  fieldsSettings={{
+    region: {
+      visible: false
+    },
+    district: {
+      visible: false
+    },
+    settlement: {
+      visible: false
+    },
+    intracityarea: {
+      visible: false
+    },
+    planningstructure: {
+      visible: false
+    },
+    stead: {
+      visible: false
+    },
+    room: {
+      visible: false
+    },
+    postalcode: {
+      visible: true
+    }
+  }}
+/>;
+```
+
 Пользовательская валидация ошибок верификации
 
 ```jsx
@@ -164,6 +209,10 @@ enum Fields {
   room = 'room'
 }
 
+enum ExtraFields {
+  postalcode = 'postalcode'
+}
+
 interface FiasValue {
   address?: {
     [key in Fields]?: {
@@ -174,6 +223,7 @@ interface FiasValue {
   addressString?: string;
   addressErrors?: { [key in Fields]?: string };
   fiasId?: string;
+  postalCode?: string;
 }
 
 const value: FiasValue = {
@@ -273,37 +323,53 @@ const defaultLocale = {
   searchNotFound: 'Адрес не найден',
   searchPlaceholder: 'Начните вводить адрес, например: Москва, Внуково',
 
+  regionLabel: 'Регион',
   regionNotFound: 'Регион не найден',
   regionPlaceholder: 'Можно вводить код или название',
 
+  districtLabel: 'Район',
   districtNotFound: 'Район не найден',
   districtPlaceholder: '',
 
+  cityLabel: 'Город',
   cityNotFound: 'Город не найден',
   cityPlaceholder: '',
 
+  intracityareaLabel: 'Внутригородская территория',
   intracityareaNotFound: 'Внутригородская территория не найдена',
   intracityareaPlaceholder: '',
 
+  settlementLabel: 'Населенный пункт',
   settlementNotFound: 'Населенный пункт не найден',
   settlementPlaceholder: 'Село, деревня, станица и другие',
 
+  planningstructureLabel: 'Иная территория',
   planningstructureNotFound:
     'Не найдены иные территории по указанному выше расположению',
   planningstructurePlaceholder: 'Сад, парк, санаторий и другие',
 
+  streetLabel: 'Улица',
   streetNotFound: 'Не найдены улицы по указанному выше расположению',
   streetFillBefore: 'Заполните город или населенный пункт, чтобы выбрать улицу',
   streetPlaceholder: '',
 
+  steadLabel: 'Земельный участок',
   steadNotFound: 'Не найдены участки по указанному выше расположению',
   steadFillBefore: 'Заполните улицу, чтобы выбрать номер участка',
   steadPlaceholder: '',
 
+  houseLabel: 'Дом, сооружение',
   houseNotFound: 'Не найдены дома по указанному выше расположению',
-  houseFillBefore: 'Заполните улицу, чтобы выбрать номер дома',
+  houseFillBefore:
+    'Заполните улицу или иную территорию, чтобы выбрать номер дома',
   housePlaceholder: '',
 
-  roomPlaceholder: ''
+  roomLabel: 'Квартира, офис',
+  roomPlaceholder: '',
+
+  postalcodeLabel: 'Индекс',
+  postalcodePlaceholder: '',
+  postalcodeNotFound: 'Заполнено не по справочнику адресов',
+  postalcodeReplace: 'Заменить справочным'
 };
 ```

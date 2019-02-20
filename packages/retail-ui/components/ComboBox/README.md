@@ -58,9 +58,9 @@ ComboBox with popular values, complex menu items and total count message
 const getCities = require('./__mocks__/getCities.js').default;
 
 let popularItems = [
-  { value: 956, label: 'Махачкала' },
-  { value: 4974, label: 'Верхняя-Пышма' },
-  { value: 4980, label: 'Екатеринбург' }
+  { Id: 956, City: 'Махачкала' },
+  { Id: 4974, City: 'Верхняя-Пышма' },
+  { Id: 4980, City: 'Екатеринбург' }
 ];
 
 let handleChange = (_, value) => setState({ value });
@@ -74,6 +74,22 @@ let mapCity = ({ Id, City }) => ({
   label: City
 });
 
+let hasSelectedItem = itemsSets =>
+  itemsSets.some(items => items.find(item => state.value.value === item.Id));
+
+let shouldInsertSelectedItem = (query, items) =>
+  state.value && !query && !hasSelectedItem([items, popularItems]);
+
+let getPopularItems = query => (query ? [] : popularItems.map(mapCity));
+let renderSeparator = query => (query ? [] : <MenuSeparator />);
+let getSelectedItem = (query, items) =>
+  !shouldInsertSelectedItem(query, items) ? [] : state.value;
+
+let prepareItems = (query, items) =>
+  (!shouldInsertSelectedItem(query, items) ? items : items.slice(0, -1)).map(
+    mapCity
+  );
+
 let renderTotalCount = (foundCount, totalCount) =>
   foundCount < totalCount ? (
     <MenuHeader>
@@ -84,24 +100,15 @@ let renderTotalCount = (foundCount, totalCount) =>
   );
 
 let getItems = query =>
-  getCities(query)
-    .then(({ foundItems, totalCount }) => ({
-      items: foundItems.map(mapCity),
-      totalCount
-    }))
-    .then(({ items, totalCount }) => ({
-      popularItems: query.length === 0 ? popularItems : [],
-      items,
-      totalCount
-    }))
-    .then(({ popularItems, items, totalCount }) =>
-      [].concat(
-        popularItems,
-        popularItems.length ? <MenuSeparator /> : [],
-        items,
-        renderTotalCount(items.length, totalCount)
-      )
-    );
+  getCities(query).then(({ foundItems, totalCount }) =>
+    [].concat(
+      getPopularItems(query),
+      renderSeparator(query),
+      getSelectedItem(query, foundItems),
+      prepareItems(query, foundItems),
+      renderTotalCount(foundItems.length, totalCount)
+    )
+  );
 
 let renderItem = item => (
   <Gapped>
@@ -121,18 +128,19 @@ let renderItem = item => (
 
 Переопределение renderValue и renderItem:
 
-```jsx
+```js
+const OkIcon = require('@skbkontur/react-icons/Ok').default;
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const getItems = q =>
   Promise.resolve(
     [
-      { value: 1, label: 'First', email: 'first@skbkontur.ru' },
-      { value: 2, label: 'Second', email: 'second@skbkontur.ru' },
-      { value: 3, label: 'Third', email: 'third@skbkontur.ru' },
-      { value: 4, label: 'Fourth', email: 'fourth@skbkontur.ru' },
-      { value: 5, label: 'Fifth', email: 'fifth@skbkontur.ru' },
-      { value: 6, label: 'Sixth', email: 'sixth@skbkontur.ru' }
+      { approved: true, value: 1, label: 'Леонид Долецкий', email: 'first@skbkontur.ru' },
+      { approved: true, value: 2, label: 'Владислав Нашкодивший', email: 'second@skbkontur.ru' },
+      { approved: false, value: 3, label: 'Розенкранц Харитонов', email: 'third@skbkontur.ru' },
+      { approved: false, value: 4, label: 'Надежда Дубова', email: 'fourth@skbkontur.ru' },
+      { approved: true, value: 5, label: 'Владислав Сташкеевич', email: 'fifth@skbkontur.ru' },
+      { approved: true, value: 6, label: 'Василиса Поволоцкая', email: 'sixth@skbkontur.ru' }
     ].filter(
       x =>
         x.label.toLowerCase().includes(q.toLowerCase()) ||
@@ -141,7 +149,7 @@ const getItems = q =>
   ).then(delay(500));
 
 const initialState = {
-  selected: { value: 3, label: 'Third', email: 'third@skbkontur.ru' },
+  selected: { approved: false, value: 3, label: 'Розенкранц Харитонов', email: 'third@skbkontur.ru' },
   error: false
 };
 
@@ -151,22 +159,67 @@ const handleUnexpectedInput = () => setState({ error: true, selected: null });
 
 const handleFocus = () => setState({ error: false });
 
-const customRender = item => (
+const customRenderItem = item => (
   <div
     style={{
-      display: 'flex',
-      justifyContent: 'space-between'
+      display: 'flex'
     }}
   >
-    <span>✅ {item.label}</span>
-    <span
+    <div
       style={{
-        fontSize: '0.9em',
-        color: '#666'
+        minWidth: '55%',
+        display: 'flex'
+      }}
+    >
+      <span
+        style={{
+          minWidth: '20px'
+        }}
+      >
+        {item.approved ? <OkIcon size={14} /> : null}    
+      </span>
+      <span
+        style={{
+            flexGrow: '1'
+        }}
+      >
+        {item.label}
+      </span>
+    </div>
+    <div
+      style={{
+        opacity: '0.6',
+        paddingLeft: '10px',
+        boxSizing: 'border-box'
       }}
     >
       {item.email}
-    </span>
+    </div>
+  </div>
+);
+
+const customRenderValue = item => (
+  <div
+    style={{
+      display: 'flex'
+    }}
+  >
+    <div
+      style={{
+        minWidth: '55%'
+      }}
+    >
+      {item.label}    
+    </div>
+    <div
+      style={{
+        opacity: '0.6',
+        paddingLeft: '10px',
+        boxSizing: 'border-box'
+      }}
+    >
+      {item.email}
+    </div>
   </div>
 );
 
@@ -183,8 +236,8 @@ const customRender = item => (
     onUnexpectedInput={handleUnexpectedInput}
     placeholder="Enter number"
     value={state.selected}
-    renderItem={customRender}
-    renderValue={customRender}
+    renderItem={customRenderItem}
+    renderValue={customRenderValue}
     width="400px"
   />
 </Tooltip>;

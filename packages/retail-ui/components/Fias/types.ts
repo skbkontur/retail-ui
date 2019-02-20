@@ -1,5 +1,4 @@
 import { AddressElement } from './models/AddressElement';
-import { Nullable } from '../../typings/utility-types';
 import { defaultLocale } from './constants/locale';
 
 export type FiasId = string;
@@ -8,6 +7,7 @@ export interface FiasEntity {
   id: string;
   fiasId: FiasId;
   parentFiasId?: FiasId;
+  postalCode?: string;
 }
 
 export interface AddressObject extends FiasEntity {
@@ -69,13 +69,20 @@ export enum Fields {
   room = 'room'
 }
 
-export type AddressFields = { [key in Fields]?: Nullable<AddressElement> };
+export enum ExtraFields {
+  postalcode = 'postalcode'
+}
+
+export type AddressFields = { [key in Fields]?: AddressElement };
+
+export type AdditionalFields = { [key in ExtraFields]?: string };
 
 export interface FiasValue {
-  address?: AddressValue;
-  addressString?: string;
-  addressErrors?: AddressErrors;
-  fiasId?: FiasId;
+  address: AddressValue;
+  addressString: string;
+  addressErrors: AddressErrors;
+  fiasId: FiasId;
+  postalCode: string;
 }
 
 export type AddressValue = {
@@ -95,9 +102,13 @@ export type VerifyResponse = Array<{
   invalidLevel?: string;
 }>;
 
-export type AddressErrors = { [key in Fields]?: string };
+export type AddressErrors = { [key in Fields | ExtraFields]?: string };
 
-export type FormValidation = 'Error' | 'Warning' | 'None';
+export enum FormValidation {
+  Error = 'Error',
+  Warning = 'Warning',
+  None = 'None'
+}
 
 export type FiasLocale = typeof defaultLocale;
 
@@ -136,3 +147,9 @@ export interface FetchResponse {
   statusText: string;
   json: () => Promise<any>;
 }
+
+export type FieldsSettings = {
+  [field in Fields | ExtraFields]?: {
+    visible?: boolean;
+  }
+};

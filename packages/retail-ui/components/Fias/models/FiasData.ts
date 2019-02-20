@@ -7,7 +7,6 @@ import {
   Stead,
   StructureStatuses
 } from '../types';
-import { Nullable } from '../../../typings/utility-types';
 
 export class FiasData {
   public static isAddressObject = (data: FiasObject): data is AddressObject => {
@@ -78,13 +77,17 @@ export class FiasData {
     return (this.data && this.data.fiasId) || '';
   }
 
-  public get estateStatus(): Nullable<EstateStatuses> {
+  public get postalCode(): string {
+    return (this.data && this.data.postalCode) || '';
+  }
+
+  public get estateStatus(): EstateStatuses | undefined {
     if (FiasData.isHouse(this.data)) {
       return this.data.estateStatus;
     }
   }
 
-  public get structureStatus(): Nullable<StructureStatuses> {
+  public get structureStatus(): StructureStatuses | undefined {
     if (FiasData.isHouse(this.data)) {
       return this.data.structureStatus;
     }

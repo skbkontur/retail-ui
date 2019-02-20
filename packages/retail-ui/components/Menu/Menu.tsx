@@ -38,6 +38,12 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   private _scrollContainer: Nullable<ScrollContainer>;
   private _highlighted: Nullable<MenuItem>;
 
+  private unmounted = false;
+
+  public componentWillUnmount() {
+    this.unmounted = true;
+  }
+
   public render() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
       x => typeof x === 'object' && x.props.icon
@@ -202,6 +208,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   private _move(step: number) {
+    if (this.unmounted) {
+      // NOTE workaround, because `ComboBox` call `process.nextTick` in reducer
+      return;
+    }
+
     const children = childrenToArray(this.props.children);
     const activeElements = children.filter(isActiveElement);
     if (!activeElements.length) {

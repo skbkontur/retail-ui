@@ -1,12 +1,20 @@
 import * as React from 'react';
 import cn from 'classnames';
 import Link from '../Link';
-import { FiasValue, FormValidation, FiasLocale, APIProvider } from './types';
+import {
+  Fields,
+  ExtraFields,
+  FiasValue,
+  FormValidation,
+  FiasLocale,
+  APIProvider,
+  AdditionalFields,
+  FieldsSettings
+} from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
 import { FiasAPI } from './api/FiasAPI';
-import { Nullable } from '../../typings/utility-types';
 import { Address } from './models/Address';
 import { defaultLocale } from './constants/locale';
 import styles from './Fias.less';
@@ -17,7 +25,7 @@ export interface FiasProps {
   /**
    * Значение адреса. См. формат в примерах
    */
-  value?: FiasValue;
+  value?: Partial<FiasValue>;
   error?: boolean;
   warning?: boolean;
   /**
@@ -76,12 +84,46 @@ export interface FiasProps {
    * Версия базы данных ФИАС. Формат: "2018-10-22"
    */
   version?: string;
+  /**
+   * Настройка полей. Достаточно переопределить только нужные.
+   * Внимание, не рекомендуется скрывать поля в произвольном порядке. Это может привести
+   * к невозможности заполнения некоторых адресов.
+   * Значение по умолчанию:
+   *
+   * ```ts
+   *  {
+   *     region:
+   *     ...
+   *     room: {
+   *       visible: true
+   *     },
+   *     postalcode: {
+   *       visible: false
+   *     }
+   *  }```
+   *
+   */
+  fieldsSettings: FieldsSettings;
 }
 
 export interface FiasState {
   opened: boolean;
   address: Address;
   locale: FiasLocale;
+  fieldsSettings: FieldsSettings;
+}
+
+function deepMerge<T>(dst: T, ...src: T[]): T {
+  src.forEach(obj => {
+    for (const k in obj) {
+      if (dst[k] != null && typeof obj[k] === 'object') {
+        dst[k] = deepMerge(dst[k], obj[k]);
+      } else {
+        dst[k] = obj[k];
+      }
+    }
+  });
+  return dst;
 }
 
 export class Fias extends React.Component<FiasProps, FiasState> {
@@ -92,21 +134,50 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     readonly: false,
     search: false,
     icon: <EditIcon />,
-    allowNotVerified: true
+    allowNotVerified: true,
+    fieldsSettings: {}
   };
 
   public state: FiasState = {
     opened: false,
     address: new Address(),
-    locale: {
-      ...defaultLocale,
-      ...this.props.locale
-    }
+    locale: this.locale,
+    fieldsSettings: this.fieldsSettings
   };
 
   private api: APIProvider =
     this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
-  private form: Nullable<FiasForm> = null;
+  private form: FiasForm | null = null;
+
+  public get locale(): FiasLocale {
+    return {
+      ...defaultLocale,
+      ...this.props.locale
+    };
+  }
+
+  public get fieldsSettings(): FieldsSettings {
+    const { fieldsSettings: userSettings } = this.props;
+    // TODO: implement deepMerge with clone
+    const defaultSettings = Address.ALL_FIELDS.reduce<FieldsSettings>(
+      (settings: FieldsSettings, field: Fields | ExtraFields) => ({
+        ...settings,
+        [field]: {
+          visible: true
+        }
+      }),
+      {}
+    );
+    return deepMerge<FieldsSettings>(
+      defaultSettings,
+      {
+        [ExtraFields.postalcode]: {
+          visible: false
+        }
+      },
+      userSettings
+    );
+  }
 
   constructor(props: FiasProps) {
     super(props);
@@ -126,7 +197,15 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     if (!isEqual(prevProps.locale, this.props.locale)) {
       this.updateLocale();
     }
+    if (!isEqual(prevProps.fieldsSettings, this.props.fieldsSettings)) {
+      this.updateFieldsSettings();
+    }
   };
+
+  public isFieldVisible(field: Fields | ExtraFields): boolean {
+    const settings = this.state.fieldsSettings[field];
+    return Boolean(settings && settings.visible);
+  }
 
   public render() {
     const {
@@ -154,7 +233,11 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     return (
       <div>
         {!address.isEmpty &&
-          showAddressText && <span>{address.getText()}</span>}
+          showAddressText && (
+            <span>
+              {address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}
+            </span>
+          )}
         {!this.props.readonly && (
           <div>
             <Link icon={icon} onClick={this.handleOpen}>
@@ -163,12 +246,13 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           </div>
         )}
         {validation}
-        {opened && this.renderModal(address, locale)}
+        {opened && this.renderModal()}
       </div>
     );
   }
 
-  private renderModal(address: Address, locale: FiasLocale) {
+  private renderModal() {
+    const { address, locale, fieldsSettings } = this.state;
     const { search, limit, formValidation } = this.props;
     return (
       <FiasModal
@@ -184,6 +268,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           limit={limit}
           locale={locale}
           validationLevel={formValidation}
+          fieldsSettings={fieldsSettings}
         />
       </FiasModal>
     );
@@ -192,7 +277,9 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   private init = async () => {
     const address = await this.updateAddress();
     if (this.props.onInit) {
-      this.props.onInit(address.getValue());
+      this.props.onInit(
+        address.getValue(this.isFieldVisible(ExtraFields.postalcode))
+      );
     }
   };
 
@@ -206,18 +293,26 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   private updateLocale = (): void => {
     this.setState({
-      locale: {
-        ...defaultLocale,
-        ...this.props.locale
-      }
+      locale: this.locale
     });
   };
 
-  private getAddress = async (value: Nullable<FiasValue>) => {
+  private updateFieldsSettings = (): void => {
+    this.setState({
+      fieldsSettings: this.fieldsSettings
+    });
+  };
+
+  private getAddress = async (value: Partial<FiasValue> | undefined) => {
     if (value) {
-      const { address, addressString, fiasId } = value;
+      const { address, addressString, fiasId, postalCode } = value;
+      const additionalFields: AdditionalFields = {};
+      if (postalCode) {
+        additionalFields[ExtraFields.postalcode] = postalCode;
+      }
       if (address) {
-        return Address.createFromAddressValue(address);
+        const addressValue = this.filterInvisibleFields(address);
+        return Address.createFromAddressValue(addressValue, additionalFields);
       } else {
         let options = {};
         if (fiasId) {
@@ -233,11 +328,21 @@ export class Fias extends React.Component<FiasProps, FiasState> {
         }
         const { success, data } = await this.api.search(options);
         if (success && data && data.length) {
-          return Address.createFromResponse(data[0]);
+          const addressResponse = this.filterInvisibleFields(data[0]);
+          return Address.createFromResponse(addressResponse, additionalFields);
         }
       }
     }
     return new Address();
+  };
+
+  private filterInvisibleFields = <T extends {}>(address: T): T => {
+    for (const field in address) {
+      if (!this.isFieldVisible(field as Fields)) {
+        delete address[field];
+      }
+    }
+    return address;
   };
 
   private handleOpen = () => {
@@ -265,11 +370,13 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   private handleChange = (address: Address) => {
     if (this.props.onChange) {
-      this.props.onChange(address.getValue());
+      this.props.onChange(
+        address.getValue(this.isFieldVisible(ExtraFields.postalcode))
+      );
     }
   };
 
-  private refForm = (element: Nullable<FiasForm>) => {
+  private refForm = (element: FiasForm | null) => {
     this.form = element;
   };
 }

@@ -11,7 +11,7 @@ import { MockAPI } from '../api/MockAPI';
 
 const BASE_URL = 'https://api.dev.kontur/fias/v1/';
 const MOCK_RESPONSE = require('../api/data.json')[0];
-const MOCK_VALUE = Address.createFromResponse(MOCK_RESPONSE).getValue();
+const MOCK_VALUE = Address.createFromResponse(MOCK_RESPONSE).getValue(false);
 const mockApi = new MockAPI();
 
 storiesOf('Fias', module)
@@ -59,7 +59,17 @@ storiesOf('Fias', module)
         <FiasForm api={api} locale={defaultLocale} address={new Address()} />
       </FiasModal>
     );
-  });
+  })
+  .add('with fields settings', () => (
+    <ExampleFias
+      fieldsSettings={{
+        region: { visible: false },
+        district: { visible: false },
+        postalcode: { visible: true }
+      }}
+      value={{ ...MOCK_VALUE, ...{ postalCode: '555555' } }}
+    />
+  ));
 
 class ExampleFias extends React.Component<any> {
   public state = {
