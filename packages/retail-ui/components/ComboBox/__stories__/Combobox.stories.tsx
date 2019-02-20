@@ -422,46 +422,67 @@ class ComplexCombobox extends React.Component<ComboBoxProps<any>, {}> {
         renderItem={this.renderItem}
         placeholder="Начните вводить название"
       />
-    )
+    );
   }
 
   private handleChange = (_: any, value: any) => this.setState({ value });
 
   private getItems = (query: string) => {
     return getCities(query)
-      .then(({ foundItems, totalCount }: {foundItems: Array<{Id: number, City: string}>, totalCount: number}) => ({
-        foundItems: foundItems.map(this.mapCity),
-        totalCount
-      }))
-      .then(({ foundItems, totalCount }: {foundItems: any[], totalCount: number}) => ({
-        popularItems: query.length === 0 ? this.popularItems : [],
-        itemsToShow: foundItems,
-        totalCount
-      }))
-      .then((
-        { popularItems, itemsToShow, totalCount }: {popularItems: any, itemsToShow: any, totalCount: number}
-        ) =>
-        [].concat(
+      .then(
+        ({
+          foundItems,
+          totalCount
+        }: {
+          foundItems: Array<{ Id: number; City: string }>;
+          totalCount: number;
+        }) => ({
+          foundItems: foundItems.map(this.mapCity),
+          totalCount
+        })
+      )
+      .then(
+        ({
+          foundItems,
+          totalCount
+        }: {
+          foundItems: any[];
+          totalCount: number;
+        }) => ({
+          popularItems: query.length === 0 ? this.popularItems : [],
+          itemsToShow: foundItems,
+          totalCount
+        })
+      )
+      .then(
+        ({
           popularItems,
-          popularItems.length ? <MenuSeparator /> as any : [],
           itemsToShow,
-          this.renderTotalCount(itemsToShow.length, totalCount)
-        )
+          totalCount
+        }: {
+          popularItems: any;
+          itemsToShow: any;
+          totalCount: number;
+        }) =>
+          [].concat(
+            popularItems,
+            popularItems.length ? (<MenuSeparator /> as any) : [],
+            itemsToShow,
+            this.renderTotalCount(itemsToShow.length, totalCount)
+          )
       );
   };
 
   private renderItem = (item: any) => {
-    return (
-      item ? (
-          <Gapped>
-            <div style={{ width: 40 }}>{item.value}</div>
-            <div style={{ width: 210, whiteSpace: 'normal' }}>{item.label}</div>
-          </Gapped>
-      ) : null
-    )
+    return item ? (
+      <Gapped>
+        <div style={{ width: 40 }}>{item.value}</div>
+        <div style={{ width: 210, whiteSpace: 'normal' }}>{item.label}</div>
+      </Gapped>
+    ) : null;
   };
 
-  private mapCity = ({ Id, City }: {Id: number, City: string}) => ({
+  private mapCity = ({ Id, City }: { Id: number; City: string }) => ({
     value: Id,
     label: City
   });
