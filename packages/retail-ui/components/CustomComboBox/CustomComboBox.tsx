@@ -1,5 +1,4 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom';
 import ComboBoxView from './ComboBoxView';
 import { Nullable } from '../../typings/utility-types';
 import Input from '../Input';
@@ -7,10 +6,7 @@ import Menu from '../Menu/Menu';
 import InputLikeText from '../internal/InputLikeText';
 import shallow from 'fbjs/lib/shallowEqual';
 import { MenuItemState } from '../MenuItem';
-import {
-  getFirstFocusableElement,
-  getNextFocusableElement
-} from '../../lib/dom/getFocusableElements';
+import { ComboBoxRequestStatus } from './types';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T; keepFocus: boolean }
@@ -28,7 +24,8 @@ export type Action<T> =
   | { type: 'Reset' }
   | { type: 'Open' }
   | { type: 'Close' }
-  | { type: 'Search'; query: string };
+  | { type: 'Search'; query: string }
+  | { type: 'FocusNextElement' };
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -64,6 +61,8 @@ export interface CustomComboBoxState<T> {
   opened: boolean;
   textValue: string;
   items: Nullable<T[]>;
+  repeatRequest: () => void;
+  requestStatus: ComboBoxRequestStatus;
 }
 
 export type Effect<T> = (
@@ -88,7 +87,9 @@ export const DefaultState = {
   items: null,
   loading: false,
   opened: false,
-  textValue: ''
+  textValue: '',
+  repeatRequest: () => undefined,
+  requestStatus: ComboBoxRequestStatus.Unknown
 };
 
 class CustomComboBox extends React.Component<
@@ -202,6 +203,8 @@ class CustomComboBox extends React.Component<
       renderNotFound: this.props.renderNotFound,
       renderValue: this.props.renderValue,
       renderTotalCount: this.props.renderTotalCount,
+      repeatRequest: this.state.repeatRequest,
+      requestStatus: this.state.requestStatus,
 
       refInput: (input: Nullable<Input>) => {
         this.input = input;
@@ -271,22 +274,6 @@ class CustomComboBox extends React.Component<
 
   private getState = () => this.state;
 
-  private focusNextElement = () => {
-    const node = ReactDOM.findDOMNode(this);
-    if (node instanceof Element) {
-      const currentFocusable = getFirstFocusableElement(node);
-      if (currentFocusable) {
-        const nextFocusable = getNextFocusableElement(
-          currentFocusable,
-          currentFocusable.parentElement
-        );
-        if (nextFocusable) {
-          nextFocusable.focus();
-        }
-      }
-    }
-  };
-
   private handleChange = (value: any, event: React.SyntheticEvent) => {
     const eventType = event.type;
 
@@ -295,15 +282,6 @@ class CustomComboBox extends React.Component<
       value,
       keepFocus: eventType === 'click'
     });
-
-    if (
-      (eventType === 'keyup' ||
-        eventType === 'keydown' ||
-        eventType === 'keypress') &&
-      (event as React.KeyboardEvent).key === 'Enter'
-    ) {
-      this.focusNextElement();
-    }
   };
 
   private handleFocus = () => {
