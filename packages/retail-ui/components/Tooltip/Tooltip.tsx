@@ -1,18 +1,14 @@
 import * as React from 'react';
-import { CSSProperties } from 'react';
 import shallow from 'fbjs/lib/shallowEqual';
 import Popup, { PopupPosition, PopupProps } from '../Popup';
 import RenderLayer, { RenderLayerProps } from '../RenderLayer';
 import CROSS from '../internal/cross';
 import { Nullable } from '../../typings/utility-types';
 import styles from './Tooltip.less';
+import warning from 'warning';
 
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
-const TOOLTIP_CONTENT_STYLE: CSSProperties = {
-  padding: '15px 20px',
-  position: 'relative'
-};
 
 const Positions: PopupPosition[] = [
   'right bottom',
@@ -128,6 +124,24 @@ export interface TooltipState {
 }
 
 class Tooltip extends React.Component<TooltipProps, TooltipState> {
+  public static propTypes = {
+    children(
+      props: TooltipProps,
+      propName: keyof TooltipProps,
+      componentName: string
+    ) {
+      const children = props[propName];
+      warning(
+        children || props.anchorElement,
+        `[${componentName}]: you must provide either 'children' or 'anchorElement' prop for ${componentName} to work properly`
+      );
+      warning(
+        !(Array.isArray(children) && props.useWrapper === false),
+        `[${componentName}]: you provided multiple children, but useWrapper={false} - forcing wrapper <span/> for positioning to work correctly`
+      );
+    }
+  };
+
   public static defaultProps = {
     pos: 'top left',
     trigger: 'hover',
@@ -170,8 +184,6 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     const props = this.props;
     const children = props.children;
     const content = this.renderContent();
-
-    // TODO warn if both are missing
     const anchorElement = children || props.anchorElement;
     const popup = this.renderPopup(anchorElement, popupProps, content);
 
@@ -185,7 +197,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     }
 
     return (
-      <div ref={this.refContent} style={TOOLTIP_CONTENT_STYLE}>
+      <div ref={this.refContent} className={styles.tooltipContent}>
         {content}
         {this.renderCloseButton()}
       </div>
