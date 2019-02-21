@@ -8,7 +8,8 @@ import {
   FiasValue,
   Fields,
   ExtraFields,
-  FiasLocale
+  FiasLocale,
+  FieldsSettings
 } from '../types';
 import { AddressElement } from './AddressElement';
 import { FiasData } from './FiasData';
@@ -143,6 +144,24 @@ export class Address {
     }
 
     return new Address(fields, additionalFields, errors);
+  };
+
+  public static filterVisibleFields = (
+    fields: { [key in Fields]?: any },
+    fieldsSettings: FieldsSettings
+  ): { [key in Fields]?: any } => {
+    let filteredFields: { [key in Fields]?: any } = {};
+    const isFieldVisible = (field: Fields): boolean => {
+      const settings = fieldsSettings[field];
+      return Boolean(settings && settings.visible);
+    };
+    let field: Fields;
+    for (field in fields) {
+      if (isFieldVisible(field)) {
+        filteredFields[field] = fields[field];
+      }
+    }
+    return filteredFields;
   };
 
   public static getParentFields = (field: Fields) => {

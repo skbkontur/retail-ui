@@ -307,11 +307,15 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     if (value) {
       const { address, addressString, fiasId, postalCode } = value;
       const additionalFields: AdditionalFields = {};
+      const { fieldsSettings } = this.state;
       if (postalCode) {
         additionalFields[ExtraFields.postalcode] = postalCode;
       }
       if (address) {
-        const addressValue = this.filterInvisibleFields(address);
+        const addressValue = Address.filterVisibleFields(
+          address,
+          fieldsSettings
+        );
         return Address.createFromAddressValue(addressValue, additionalFields);
       } else {
         let options = {};
@@ -328,21 +332,15 @@ export class Fias extends React.Component<FiasProps, FiasState> {
         }
         const { success, data } = await this.api.search(options);
         if (success && data && data.length) {
-          const addressResponse = this.filterInvisibleFields(data[0]);
+          const addressResponse = Address.filterVisibleFields(
+            data[0],
+            fieldsSettings
+          );
           return Address.createFromResponse(addressResponse, additionalFields);
         }
       }
     }
     return new Address();
-  };
-
-  private filterInvisibleFields = <T extends {}>(address: T): T => {
-    for (const field in address) {
-      if (!this.isFieldVisible(field as Fields)) {
-        delete address[field];
-      }
-    }
-    return address;
   };
 
   private handleOpen = () => {
