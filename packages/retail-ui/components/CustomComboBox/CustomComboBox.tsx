@@ -91,9 +91,21 @@ export type Reducer<T> = (
   action: Action<T>
 ) => CustomComboBoxState<T> | [CustomComboBoxState<T>, Array<Effect<T>>];
 
-export type Props<T> = {
-  reducer: Reducer<T>;
-} & CustomComboBoxProps<T>;
+function taskWithDelay(task: () => void, delay: number) {
+  let cancelationToken: (() => void) = () => null;
+
+  new Promise((resolve, reject) => {
+    cancelationToken = reject;
+    setTimeout(resolve, delay);
+  })
+    .then(task)
+    .catch(() => null);
+
+  return cancelationToken;
+}
+
+export const DELAY_BEFORE_SHOW_LOADER = 300;
+export const LOADER_SHOW_TIME = 1000;
 
 export const DefaultState = {
   editing: false,
@@ -153,8 +165,61 @@ class CustomComboBox extends React.Component<
   /**
    * @public
    */
-  public search(query: string = this.state.textValue) {
-    this.dispatch({ type: 'Search', query });
+  public async search(query: string = this.state.textValue) {
+    let request = null;
+    const { getItems } = this.props;
+
+    const expectingId = (this.requestId += 1);
+
+    if (!this.loaderShowDelay) {
+      this.loaderShowDelay = new Promise(resolve => {
+        const cancelLoader = taskWithDelay(() => {
+          this.dispatch({ type: 'RequestItems' });
+          setTimeout(resolve, LOADER_SHOW_TIME);
+        }, DELAY_BEFORE_SHOW_LOADER);
+
+        this.cancelLoaderDelay = () => {
+          cancelLoader();
+          resolve();
+        };
+      });
+    }
+
+    try {
+      request = getItems(query);
+
+      await request;
+    } catch (error) {
+      // NOTE Ignore error here
+    } finally {
+      if (!this.state.loading && expectingId === this.requestId) {
+        this.cancelLoaderDelay();
+      }
+    }
+
+    try {
+      const [items] = await Promise.all([request || [], this.loaderShowDelay]);
+
+      if (expectingId === this.requestId) {
+        this.dispatch({ type: 'ReceiveItems', items });
+      }
+    } catch (error) {
+      if (expectingId === this.requestId) {
+        this.dispatch({
+          type: 'RequestFailure',
+          repeatRequest: () => {
+            this.search(query);
+            if (this.input) {
+              this.input.focus();
+            }
+          }
+        });
+      }
+    } finally {
+      if (expectingId === this.requestId) {
+        this.loaderShowDelay = null;
+      }
+    }
   }
 
   /**

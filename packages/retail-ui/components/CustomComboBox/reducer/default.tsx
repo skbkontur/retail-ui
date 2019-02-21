@@ -40,85 +40,15 @@ export type Reducer = (
   action: Action
 ) => Partial<State> | [Partial<State>, EffectType[]];
 
-function taskWithDelay(task: () => void, delay: number) {
-  let cancelationToken: (() => void) = () => null;
-
-  new Promise((resolve, reject) => {
-    cancelationToken = reject;
-    setTimeout(resolve, delay);
-  })
-    .then(task)
-    .catch(() => null);
-
-  return cancelationToken;
-}
-
 const DEBOUNCE_DELAY = 300;
-export const DELAY_BEFORE_SHOW_LOADER = 300;
-export const LOADER_SHOW_TIME = 1000;
 
-const searchFactory = (query: string): EffectType => async (
+const searchFactory = (query: string): EffectType => (
   dispatch,
   getState,
   getProps,
   getInstance
 ) => {
-  let request = null;
-  const { getItems } = getProps();
-
-  const expectingId = (getInstance().requestId += 1);
-
-  let { loaderShowDelay } = getInstance();
-
-  if (!loaderShowDelay) {
-    loaderShowDelay = new Promise(resolve => {
-      const cancelLoader = taskWithDelay(() => {
-        dispatch({ type: 'RequestItems' });
-        setTimeout(resolve, LOADER_SHOW_TIME);
-      }, DELAY_BEFORE_SHOW_LOADER);
-
-      getInstance().cancelLoaderDelay = () => {
-        cancelLoader();
-        resolve();
-      };
-    });
-  }
-
-  getInstance().loaderShowDelay = loaderShowDelay;
-
-  try {
-    request = getItems(query);
-
-    await request;
-  } catch (error) {
-    // NOTE Ignore error here
-  } finally {
-    if (!getState().loading && expectingId === getInstance().requestId) {
-      getInstance().cancelLoaderDelay();
-    }
-  }
-
-  try {
-    const [items] = await Promise.all([request || [], loaderShowDelay]);
-
-    if (expectingId === getInstance().requestId) {
-      dispatch({ type: 'ReceiveItems', items });
-    }
-  } catch (error) {
-    if (expectingId === getInstance().requestId) {
-      dispatch({
-        type: 'RequestFailure',
-        repeatRequest: () => {
-          Effect.Search(query)(dispatch, getState, getProps, getInstance);
-          Effect.InputFocus(dispatch, getState, getProps, getInstance);
-        }
-      });
-    }
-  } finally {
-    if (expectingId === getInstance().requestId) {
-      getInstance().loaderShowDelay = null;
-    }
-  }
+  getInstance().search(query);
 };
 
 const getValueString = (value: any, valueToString: Props['valueToString']) => {
