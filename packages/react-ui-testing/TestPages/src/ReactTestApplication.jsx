@@ -38,6 +38,7 @@ else
 
 import './styles/reset.less';
 import './styles/typography.less';
+import AutocompleteTestPage from "./components/TestPages/AutocompleteTestPage";
 
 export default function ReactTestApplication() {
     return (
@@ -61,6 +62,7 @@ export default function ReactTestApplication() {
                 <Route path='Kebab' component={KebabTestPage} />
                 <Route path='Paging' component={PagingTestPage} />
                 <Route path='SidePage' component={SidePageTestPage}/>
+                <Route path='Autocomplete' component={AutocompleteTestPage} />
             </Route>
         </Router>
     )
