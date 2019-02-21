@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Popup from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
-import Tooltip, { TooltipProps } from '../../Tooltip';
-import ComboBox, { ComboBoxProps } from '../../ComboBox';
-import Hint, { HintProps } from '../../Hint';
-import Select, { SelectProps } from '../../Select';
+import Tooltip from '../../Tooltip';
+import ComboBox from '../../ComboBox';
+import Hint from '../../Hint';
+import Select from '../../Select';
 
 storiesOf('Popup', module)
   .add('All pin opened', () => (
@@ -422,86 +422,124 @@ interface IDropdownValue {
   value: number;
   label: string;
 }
-interface IHasDropdownState {
+interface HasDropdownState {
   selected?: IDropdownValue;
 }
 
-interface IRenderTooltipWithComboboxProps {
-  tooltipProps?: Partial<TooltipProps>;
-  comboboxProps?: Partial<ComboBoxProps<any>>;
+interface HoverTestProps {
+  dropdownProps?: { disablePortal: boolean };
+  popupProps?: { useWrapper: boolean };
+  useText?: boolean;
 }
-class RenderTooltipWithCombobox extends Component<
-  IRenderTooltipWithComboboxProps,
-  IHasDropdownState
+class TooltipWithCombobox extends Component<
+  HoverTestProps,
+  HasDropdownState
 > {
-  constructor(props: IRenderTooltipWithComboboxProps) {
-    super(props);
-    this.state = {};
-  }
+  public state: HasDropdownState = {};
+
   public render() {
-    const tooltipProps = this.props.tooltipProps || {};
-    const comboboxProps = this.props.comboboxProps || {};
+    const tooltipProps = this.props.popupProps || {};
+    const comboboxProps = this.props.dropdownProps || {};
     return (
       <Tooltip
         pos={'top left'}
         trigger={'hover'}
         closeButton={false}
         render={renderPopupContent}
-        disableAnimations={true}
+        disableAnimations
         {...tooltipProps}
       >
-        <ComboBox
-          size={'large'}
-          getItems={getComboboxItems}
-          value={this.state.selected}
-          onChange={this._handleOnChange}
-          {...comboboxProps}
-        />
+        {this.props.useText ? (
+          'Sample text'
+        ) : (
+          <ComboBox
+            size={'large'}
+            getItems={getComboboxItems}
+            value={this.state.selected}
+            onChange={this.handleOnChange}
+            {...comboboxProps}
+          />
+        )}
       </Tooltip>
     );
   }
-  private _handleOnChange = (event: any, value: IDropdownValue) => {
+  private handleOnChange = (event: any, value: IDropdownValue) => {
     this.setState({ selected: value });
   };
 }
 
-interface IRenderHintWithSelectProps {
-  hintProps?: Partial<HintProps>;
-  selectProps?: Partial<SelectProps<any, any>>;
-}
+class HintWithSelect extends Component<HoverTestProps, HasDropdownState> {
+  public state: HasDropdownState = {};
 
-class RenderHintWithSelect extends Component<
-  IRenderHintWithSelectProps,
-  IHasDropdownState
-> {
-  constructor(props: IRenderHintWithSelectProps) {
-    super(props);
-    this.state = {};
-  }
   public render() {
-    const hintProps = this.props.hintProps || {};
-    const selectProps = this.props.selectProps || {};
+    const hintProps = this.props.popupProps || {};
+    const selectProps = this.props.dropdownProps || {};
     return (
       <Hint
         pos={'top left'}
         text={'Hint text'}
-        disableAnimations={true}
+        disableAnimations
         {...hintProps}
       >
-        <Select
-          size={'large'}
-          items={SELECT_ITEMS}
-          value={this.state.selected}
-          onChange={this._handleOnChange}
-          {...selectProps}
-        />
+        {this.props.useText ? (
+          'Sample text'
+        ) : (
+          <Select
+            size={'large'}
+            items={SELECT_ITEMS}
+            value={this.state.selected}
+            onChange={this.handleOnChange}
+            {...selectProps}
+          />
+        )}
       </Hint>
     );
   }
-  private _handleOnChange = (event: any, value: IDropdownValue) => {
+  private handleOnChange = (event: any, value: IDropdownValue) => {
     this.setState({ selected: value });
   };
 }
+
+const HOVER_CASES: HoverTestProps[] = [
+  {
+    dropdownProps: { disablePortal: true },
+    popupProps: { useWrapper: true }
+  },
+  {
+    dropdownProps: { disablePortal: true },
+    popupProps: { useWrapper: false }
+  },
+  {
+    dropdownProps: { disablePortal: false },
+    popupProps: { useWrapper: true }
+  },
+  {
+    dropdownProps: { disablePortal: false },
+    popupProps: { useWrapper: false }
+  },
+  {
+    useText: true,
+    popupProps: { useWrapper: true }
+  },
+  {
+    useText: true,
+    popupProps: { useWrapper: false }
+  }
+];
+
+const DescribeProps = (props: HoverTestProps) => {
+  return (
+    <span>
+      {props.useText ? 'Text' : 'Component'}
+      {props.popupProps && <br />}
+      {props.popupProps &&
+        `popupProps.useWrapper=${props.popupProps.useWrapper}`}
+      {props.dropdownProps && <br />}
+      {props.dropdownProps &&
+      `dropdownProps.disablePortal=${props.dropdownProps.disablePortal}`}
+    </span>
+  );
+};
 
 class HoverBehaviour extends Component<any, any> {
   public render() {
@@ -515,85 +553,27 @@ class HoverBehaviour extends Component<any, any> {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>disablePortal=true</td>
-            <td>
-              <RenderTooltipWithCombobox
-                comboboxProps={{ disablePortal: true }}
-              />
-            </td>
-            <td>
-              <RenderHintWithSelect selectProps={{ disablePortal: true }} />
-            </td>
-          </tr>
-          <tr>
-            <td>component && useWrapper=true</td>
-            <td>
-              <RenderTooltipWithCombobox tooltipProps={{ useWrapper: true }} />
-            </td>
-            <td>
-              <RenderHintWithSelect hintProps={{ useWrapper: true }} />
-            </td>
-          </tr>
-          <tr>
-            <td>component && useWrapper=false</td>
-            <td>
-              <RenderTooltipWithCombobox tooltipProps={{ useWrapper: false }} />
-            </td>
-            <td>
-              <RenderHintWithSelect hintProps={{ useWrapper: false }} />
-            </td>
-          </tr>
-          <tr>
-            <td>text && useWrapper=true</td>
-            <td>
-              <Tooltip
-                pos={'top left'}
-                trigger={'hover'}
-                closeButton={false}
-                render={renderPopupContent}
-                disableAnimations={true}
-                useWrapper={true}
-              >
-                Sample tooltip text
-              </Tooltip>
-            </td>
-            <td>
-              <Hint
-                pos={'top left'}
-                text={'Hint text'}
-                useWrapper={true}
-                disableAnimations={true}
-              >
-                Sample hint text
-              </Hint>
-            </td>
-          </tr>
-          <tr>
-            <td>text && useWrapper=false</td>
-            <td>
-              <Tooltip
-                pos={'top left'}
-                trigger={'hover'}
-                closeButton={false}
-                render={renderPopupContent}
-                disableAnimations={true}
-                useWrapper={true}
-              >
-                Sample text
-              </Tooltip>
-            </td>
-            <td>
-              <Hint
-                pos={'top left'}
-                text={'Hint text'}
-                useWrapper={false}
-                disableAnimations={true}
-              >
-                Sample hint text
-              </Hint>
-            </td>
-          </tr>
+          {HOVER_CASES.map((props, index) => (
+            <tr key={index}>
+              <td>
+                <DescribeProps {...props} />
+              </td>
+              <td>
+                <TooltipWithCombobox
+                  useText={props.useText}
+                  popupProps={props.popupProps}
+                  dropdownProps={props.dropdownProps}
+                />
+              </td>
+              <td>
+                <HintWithSelect
+                  useText={props.useText}
+                  popupProps={props.popupProps}
+                  dropdownProps={props.dropdownProps}
+                />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     );

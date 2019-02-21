@@ -59,12 +59,12 @@ storiesOf('Tooltip', module)
     </TestTooltip>
   ))
   .add('focus tooltip', () => (
-    <TestTooltip trigger="focus" disableAnimations={true}>
+    <TestTooltip trigger="focus" disableAnimations>
       <Button>Focus me</Button>
     </TestTooltip>
   ))
   .add('focus tooltip (native input)', () => (
-    <TestTooltip trigger="focus" disableAnimations={true}>
+    <TestTooltip trigger="focus" disableAnimations>
       <input />
     </TestTooltip>
   ))
@@ -126,14 +126,14 @@ storiesOf('Tooltip', module)
       <Tooltip
         render={() => 'disableAnimations={false}'}
         trigger={'hover'}
-        disableAnimations={false}
+        disableAnimations
       >
         <Button>Hover me (disableAnimations: false)</Button>
       </Tooltip>
       <Tooltip
         render={() => 'disableAnimations={true}'}
         trigger={'hover'}
-        disableAnimations={true}
+        disableAnimations
       >
         <Button>Hover me (disableAnimations: true)</Button>
       </Tooltip>

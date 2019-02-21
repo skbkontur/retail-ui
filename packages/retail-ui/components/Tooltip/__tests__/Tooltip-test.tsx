@@ -87,7 +87,7 @@ describe('Tooltip', () => {
       }
     }
 
-    const wrapper = mount<TooltipProps>(
+    const wrapper = mount<Tooltip>(
       <Tooltip trigger="opened" render={render}>
         <StatefulComponent />
       </Tooltip>
@@ -99,7 +99,7 @@ describe('Tooltip', () => {
   it('reset opened state by `tigger="closed"` prop', () => {
     const Content = () => <div />;
 
-    const wrapper = mount<TooltipProps>(
+    const wrapper = mount<Tooltip>(
       <Tooltip
         trigger="click"
         disableAnimations={true}
@@ -111,8 +111,7 @@ describe('Tooltip', () => {
 
     expect(wrapper.find(Content).length).toBe(0);
 
-    // @ts-ignore
-    wrapper.instance().open();
+    wrapper.setState({ opened: true });
     wrapper.update();
     expect(wrapper.find(Content).length).toBe(1);
 

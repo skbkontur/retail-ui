@@ -154,7 +154,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     /**
      * Игнорировать ли события hover/click
      */
-    ignoreHover: PropTypes.bool,
+    ignoreHover: PropTypes.bool
   };
 
   public static defaultProps = {
@@ -216,20 +216,19 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       this.layoutEventsToken.remove();
     }
 
-    this.removeEventListeners(this.anchorElement)
+    this.removeEventListeners(this.anchorElement);
   }
 
   public render() {
+    const {useWrapper, onCloseRequest, opened} = this.props;
     const location = this.state.location || this.getDummyLocation();
-    const props = this.props;
-    let anchorElement = props.anchorElement;
 
+    let anchorElement = this.props.anchorElement;
     const isHtmlElement = anchorElement instanceof HTMLElement;
     const isValidReactElement = React.isValidElement(anchorElement);
-    const isText = !isHtmlElement && !isValidReactElement;
-    const useWrapper = props.useWrapper;
+    const isTextOrMultiple = !isHtmlElement && !isValidReactElement;
 
-    if (useWrapper || isText) {
+    if (useWrapper || isTextOrMultiple) {
       anchorElement = <span>{anchorElement}</span>;
     }
 
@@ -238,7 +237,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       this.updateAnchorElement(anchorElement as HTMLElement);
     } else if (isValidReactElement) {
       child = React.Children.only(anchorElement);
-    } else if (isText) {
+    } else if (isTextOrMultiple) {
       child = anchorElement as React.ReactElement<HTMLElement>;
     }
 
@@ -250,7 +249,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
          * If onCloseRequest is not specified handleClickOutside and handleFocusOutside
          * are doing nothing. So there is no need in RenderLayer at all.
          */
-        active={Boolean(props.onCloseRequest) && props.opened}
+        active={Boolean(onCloseRequest) && opened}
       >
         <RenderContainer
           anchor={child}
@@ -304,7 +303,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       element.removeEventListener('click', this.handleClick);
       element.removeEventListener('focusin', this.handleFocus as EventListener);
       element.removeEventListener('focusout', this.handleBlur);
-
     }
   }
 
