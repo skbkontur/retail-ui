@@ -1,32 +1,24 @@
 import resolve from "rollup-plugin-node-resolve";
-import babel from "rollup-plugin-babel";
+import replace from "rollup-plugin-replace";
+import typescript2 from "rollup-plugin-typescript2";
 
 export function buildConfig(outputDir, reactUiPackageName) {
     return {
-        input: "src/index.js",
+        input: "src/index.tsx",
         output: {
-            file: outputDir + "/index.js",
+            file: "build/" + outputDir + "/index.js",
             format: "cjs",
-            sourcemap: outputDir + "/index.js.map",
+            sourcemap: "build/" + outputDir + "/index.js.map"
         },
         plugins: [
-            resolve({
-                extensions: [".js", ".jsx"],
+            typescript2({
+                useTsconfigDeclarationDir: true,
             }),
-            babel({
-                plugins: [
-                    "external-helpers",
-                    [
-                        "transform-define",
-                        {
-                            REACT_UI_PACKAGE: reactUiPackageName,
-                        },
-                    ],
-                ],
-                exclude: "node_modules/**",
-                externalHelpers: false,
+            resolve(),
+            replace({
+                REACT_UI_PACKAGE: JSON.stringify(reactUiPackageName),
             }),
         ],
-        external: ["lodash.isequal", "react-dom", "react", "prop-types", "add-event-listener"],
+        external: ["lodash.isequal", "react-dom", "react", "prop-types", "add-event-listener"]
     };
 }
