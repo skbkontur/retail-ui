@@ -220,25 +220,17 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   public render() {
-    const {useWrapper, onCloseRequest, opened} = this.props;
     const location = this.state.location || this.getDummyLocation();
+    const { useWrapper, onCloseRequest, opened } = this.props;
+    const anchorElement = this.props.anchorElement;
 
-    let anchorElement = this.props.anchorElement;
-    const isHtmlElement = anchorElement instanceof HTMLElement;
-    const isValidReactElement = React.isValidElement(anchorElement);
-    const isTextOrMultiple = !isHtmlElement && !isValidReactElement;
-
-    if (useWrapper || isTextOrMultiple) {
-      anchorElement = <span>{anchorElement}</span>;
-    }
-
-    let child = null;
-    if (isHtmlElement) {
-      this.updateAnchorElement(anchorElement as HTMLElement);
-    } else if (isValidReactElement) {
-      child = React.Children.only(anchorElement);
-    } else if (isTextOrMultiple) {
-      child = anchorElement as React.ReactElement<HTMLElement>;
+    let child: Nullable<React.ReactNode> = null;
+    if (anchorElement instanceof HTMLElement) {
+      this.updateAnchorElement(anchorElement);
+    } else if (React.isValidElement(anchorElement)) {
+      child = useWrapper ? <span>{anchorElement}</span> : anchorElement;
+    } else {
+      child = <span>{anchorElement}</span>;
     }
 
     return (
