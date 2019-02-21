@@ -11,6 +11,7 @@ import CustomComboBox, {
   LOADER_SHOW_TIME
 } from '../../CustomComboBox/CustomComboBox';
 import ComboBoxView from '../../CustomComboBox/ComboBoxView';
+import { Effect } from '../../CustomComboBox/reducer/default';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -32,6 +33,15 @@ function searchFactory<T>(
 }
 
 describe('ComboBox', () => {
+  const originalFocusNextElement = Effect.FocusNextElement;
+  beforeEach(() => {
+    Effect.FocusNextElement = jest.fn();
+  });
+
+  afterEach(() => {
+    Effect.FocusNextElement = originalFocusNextElement;
+  });
+
   it('renders', () => {
     mount<ComboBox<any>>(<ComboBox />);
   });
@@ -120,7 +130,12 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     const onChange = jest.fn();
     const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} onChange={onChange} renderItem={x => x} />
+      <ComboBox
+        getItems={search}
+        onChange={onChange}
+        renderItem={x => x}
+        value={'one'}
+      />
     );
     wrapper.instance().focus();
     await promise;
@@ -375,6 +390,78 @@ describe('ComboBox', () => {
 
     expect(wrapper.find(ComboBoxView).prop('loading')).toEqual(false);
     expect(wrapper.find(ComboBoxView).prop('opened')).toEqual(false);
+  });
+
+  it('does not highlight menu item on focus with empty input', async () => {
+    const items = ['one', 'two', 'three'];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} renderItem={x => x} />
+    );
+
+    wrapper.instance().focus();
+
+    await promise;
+
+    wrapper.update();
+
+    const menuInstance = wrapper.find(Menu).instance() as Menu;
+    expect(menuInstance.hasHighlightedItem()).toBe(false);
+  });
+
+  it('highlights menu item on focus with non-empty input', async () => {
+    const items = ['one', 'two', 'three'];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} renderItem={x => x} value={'one'} />
+    );
+
+    wrapper.instance().focus();
+
+    await promise;
+
+    wrapper.update();
+
+    const menuInstance = wrapper.find(Menu).instance() as Menu;
+    expect(menuInstance.hasHighlightedItem()).toBe(true);
+  });
+
+  it('calls `focusNextElement` after Enter keydown on empty input', async () => {
+    const items = ['one', 'two', 'three'];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} renderItem={x => x} value={null} />
+    );
+
+    wrapper.instance().focus();
+
+    await promise;
+
+    wrapper.update();
+
+    wrapper.find('input').simulate('keydown', { key: 'Enter' });
+    expect(Effect.FocusNextElement).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls `focusNextElement` after Enter keydown if value not found', async () => {
+    const items = [
+      { value: 1, label: 'one' },
+      { value: 2, label: 'two' },
+      { value: 3, label: 'three' }
+    ];
+    const [search, promise] = searchFactory(Promise.resolve(items));
+    const wrapper = mount<ComboBox<any>>(
+      <ComboBox getItems={search} value={{ value: 10, label: 'ten' }} />
+    );
+
+    wrapper.instance().focus();
+
+    await promise;
+
+    wrapper.update();
+
+    wrapper.find('input').simulate('keydown', { key: 'Enter' });
+    expect(Effect.FocusNextElement).toHaveBeenCalledTimes(1);
   });
 
   describe('update input text when value changes if there was no editing', () => {
