@@ -23,19 +23,9 @@ interface Action extends BaseAction {
   [key: string]: any;
 }
 
-export type Props = CustomComboBoxProps<any> & {
-  getItems: (query: string) => Promise<any[]>;
-  onBlur?: () => {};
-  onChange?: (x0: { target: { value: any } }, value: any) => {};
-  onFocus?: () => {};
-  onInputChange?: (textValue: string) => any;
-  onUnexpectedInput?: (query: string) => Nullable<boolean>;
-};
+type Props = CustomComboBoxProps<any>;
 
-export type State = {
-  inputChanged?: boolean;
-  focused?: boolean;
-} & CustomComboBoxState<any>;
+type State = CustomComboBoxState<any>;
 
 export type EffectType = (
   dispatch: (action: Action) => void,

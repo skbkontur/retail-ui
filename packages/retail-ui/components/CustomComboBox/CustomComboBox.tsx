@@ -28,7 +28,10 @@ export type Action<T> =
   | { type: 'Reset' }
   | { type: 'Open' }
   | { type: 'Close' }
-  | { type: 'Search'; query: string };
+  | { type: 'Search'; query: string }
+  | { type: 'RequestItems' }
+  | { type: 'ReceiveItems'; items: T[] }
+  | { type: 'RequestFailure'; repeatRequest: () => void };
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -40,6 +43,11 @@ export interface CustomComboBoxProps<T> {
   maxLength?: number;
   menuAlign?: 'left' | 'right';
   openButton?: boolean;
+  onChange?: (event: { target: { value: T } }, value: T) => {};
+  onInputChange?: (textValue: string) => any;
+  onUnexpectedInput?: (query: string) => Nullable<boolean>;
+  onFocus?: () => {};
+  onBlur?: () => {};
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseOver?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
@@ -56,6 +64,8 @@ export interface CustomComboBoxProps<T> {
   renderValue: (value: T) => React.ReactNode;
   valueToString: (value: T) => string;
   itemToValue: (item: T) => string | number;
+  getItems: (query: string) => Promise<T[]>;
+  reducer: Reducer<T>;
 }
 
 export interface CustomComboBoxState<T> {
@@ -64,6 +74,8 @@ export interface CustomComboBoxState<T> {
   opened: boolean;
   textValue: string;
   items: Nullable<T[]>;
+  inputChanged?: boolean;
+  focused?: boolean;
 }
 
 export type Effect<T> = (
@@ -92,7 +104,7 @@ export const DefaultState = {
 };
 
 class CustomComboBox extends React.Component<
-  Props<any>,
+  CustomComboBoxProps<any>,
   CustomComboBoxState<any>
 > {
   public state: CustomComboBoxState<any> = DefaultState;
@@ -225,7 +237,7 @@ class CustomComboBox extends React.Component<
   }
 
   public shouldComponentUpdate(
-    nextProps: Props<any>,
+    nextProps: CustomComboBoxProps<any>,
     nextState: CustomComboBoxState<any>
   ) {
     return !shallow(nextProps, this.props) || !shallow(nextState, this.state);
