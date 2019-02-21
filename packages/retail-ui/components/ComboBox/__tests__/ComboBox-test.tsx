@@ -10,6 +10,7 @@ import CustomComboBox, {
   DELAY_BEFORE_SHOW_LOADER,
   LOADER_SHOW_TIME
 } from '../../CustomComboBox/CustomComboBox';
+import ComboBoxView from '../../CustomComboBox/ComboBoxView';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -350,6 +351,30 @@ describe('ComboBox', () => {
     wrapper.update();
 
     expect(wrapper.find('input').prop('value')).toBe('');
+  });
+
+  it("shouldn't open on receive items if not focused", async () => {
+    const [search] = searchFactory(Promise.resolve(delay(500)));
+    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} />);
+
+    wrapper.instance().focus();
+    await delay(300);
+    wrapper.update();
+
+    expect(wrapper.find(ComboBoxView).prop('loading')).toEqual(true);
+    expect(wrapper.find(ComboBoxView).prop('opened')).toEqual(true);
+
+    clickOutside();
+    wrapper.update();
+
+    expect(wrapper.find(ComboBoxView).prop('loading')).toEqual(true);
+    expect(wrapper.find(ComboBoxView).prop('opened')).toEqual(false);
+
+    await delay(1000);
+    wrapper.update();
+
+    expect(wrapper.find(ComboBoxView).prop('loading')).toEqual(false);
+    expect(wrapper.find(ComboBoxView).prop('opened')).toEqual(false);
   });
 
   describe('update input text when value changes if there was no editing', () => {
