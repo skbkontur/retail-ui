@@ -59,7 +59,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
 
   private onUnexpectedInput = (query: string) => {
     if (!query) {
-      return new Address({});
+      return new Address();
     }
   };
 }

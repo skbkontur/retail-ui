@@ -14,6 +14,12 @@ import {
 import { AddressElement } from './AddressElement';
 import { FiasData } from './FiasData';
 
+export interface AddressOptions {
+  fields?: AddressFields;
+  additionalFields?: AdditionalFields;
+  errors?: AddressErrors;
+}
+
 export class Address {
   public static MAIN_FIELDS = [
     Fields.region,
@@ -76,7 +82,7 @@ export class Address {
         }
       });
     }
-    return new Address(fields, additionalFields);
+    return new Address({ fields, additionalFields });
   };
 
   public static createFromAddressValue = (
@@ -97,7 +103,7 @@ export class Address {
         }
       });
     }
-    return new Address(fields, additionalFields);
+    return new Address({ fields, additionalFields });
   };
 
   public static verify = (
@@ -143,7 +149,7 @@ export class Address {
       }
     }
 
-    return new Address(fields, additionalFields, errors);
+    return new Address({ fields, additionalFields, errors });
   };
 
   public static filterVisibleFields = (
@@ -169,11 +175,15 @@ export class Address {
     return index > -1 ? Address.MAIN_FIELDS.slice(0, index) : [];
   };
 
-  constructor(
-    public fields: AddressFields = {},
-    public additionalFields: AdditionalFields = {},
-    public errors: AddressErrors = {}
-  ) {}
+  public fields: AddressFields;
+  public additionalFields: AdditionalFields;
+  public errors: AddressErrors;
+
+  constructor({ fields, additionalFields, errors }: AddressOptions = {}) {
+    this.fields = fields || {};
+    this.additionalFields = additionalFields || {};
+    this.errors = errors || {};
+  }
 
   public get isEmpty(): boolean {
     return !Address.MAIN_FIELDS.some(field =>

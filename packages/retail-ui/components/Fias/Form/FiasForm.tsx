@@ -342,7 +342,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           delete newFields[addressField];
         }
       }
-      this.handleAddressChange(new Address(newFields, additionalFields));
+      this.handleAddressChange(
+        new Address({ fields: newFields, additionalFields })
+      );
     };
 
     const onInputChange = () => {
@@ -350,11 +352,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
 
     const onUnexpectedInput = (query: string) => {
+      const { fields, additionalFields } = this.state.address;
       const newFields = {
-        ...this.state.address.fields,
+        ...fields,
         [field]: query ? new AddressElement(field, query) : undefined
       };
-      return new Address(newFields);
+      return new Address({ fields: newFields, additionalFields });
     };
 
     const renderItem = (address: Address): string => {
@@ -432,7 +435,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         } else {
           delete fields[field];
         }
-        this.handleAddressChange(new Address(fields, additionalFields));
+        this.handleAddressChange(new Address({ fields, additionalFields }));
       }
     };
   }
@@ -446,7 +449,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           [ExtraFields.postalcode]: value
         };
         this.handleAddressChange(
-          new Address(fields, newAdditionalFields, errors)
+          new Address({ fields, additionalFields: newAdditionalFields, errors })
         );
       }
     };
@@ -512,7 +515,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const replacePostalCode = () => {
       const { fields, additionalFields } = this.state.address;
       delete additionalFields[ExtraFields.postalcode];
-      this.handleAddressChange(new Address(fields, additionalFields));
+      this.handleAddressChange(new Address({ fields, additionalFields }));
     };
     return (
       tooltipContent && (
@@ -558,11 +561,14 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const { fields, additionalFields, errors } = address;
     this.setState(
       {
-        address: new Address(
-          Address.filterVisibleFields(fields, this.props.fieldsSettings),
+        address: new Address({
+          fields: Address.filterVisibleFields(
+            fields,
+            this.props.fieldsSettings
+          ),
           additionalFields,
           errors
-        )
+        })
       },
       () => {
         this.check();
@@ -572,9 +578,10 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   private resetAddressErrors = () => {
     const { address } = this.state;
+    const { fields, additionalFields } = address;
     if (address.hasErrors) {
       this.setState({
-        address: new Address(address.fields, address.additionalFields)
+        address: new Address({ fields, additionalFields })
       });
     }
   };
