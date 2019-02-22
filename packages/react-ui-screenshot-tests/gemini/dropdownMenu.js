@@ -32,7 +32,29 @@ var applyTest = testSuite =>
       actions.sendKeys(gemini.ESCAPE);
     });
 
-gemini.suite("DropdownMenu simple", suite => {
-  suite.before(renderStory("DropdownMenu", "Simple example"));
-  applyTest(suite);
+gemini.suite("DropdownMenu", suite => {
+  gemini.suite("Simple", suite => {
+    suite.before(renderStory("DropdownMenu", "Simple example"));
+    applyTest(suite);
+  });
+
+  gemini.suite("With sticky item", suite => {
+    suite
+      .before(renderStory("DropdownMenu", "With sticky item"))
+      .before((actions, find) => {
+        this.captionElement = find(CAPTION_SELECTOR);
+      })
+      .setCaptureElements("html")
+      .capture("clicked", actions => {
+        actions.click(this.captionElement);
+      })
+      .capture("scrolled", actions => {
+        actions.executeJS(function(window) {
+          var scrollContainer = window.document.querySelector(
+            '[class^="ScrollContainer-inner"]'
+          );
+          scrollContainer.scrollTop += 200;
+        });
+      });
+  });
 });
