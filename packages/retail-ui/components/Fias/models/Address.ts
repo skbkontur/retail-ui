@@ -106,12 +106,25 @@ export class Address {
     return new Address({ fields, additionalFields });
   };
 
+  public static createFromAddress = (
+    address: Address,
+    options: AddressOptions
+  ) => {
+    const { fields, additionalFields, errors } = address;
+    return new Address({
+      fields,
+      additionalFields,
+      errors,
+      ...options
+    });
+  };
+
   public static verify = (
     address: Address,
     verifiedFields: AddressResponse,
     locale: FiasLocale
   ): Address => {
-    const { fields, additionalFields } = address;
+    const { fields } = address;
     const errors: AddressErrors = {};
 
     for (const field of Address.VERIFIABLE_FIELDS) {
@@ -149,7 +162,7 @@ export class Address {
       }
     }
 
-    return new Address({ fields, additionalFields, errors });
+    return Address.createFromAddress(address, { fields, errors });
   };
 
   public static filterVisibleFields = (

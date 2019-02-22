@@ -329,9 +329,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       this.createItemsSource(searchText, field);
 
     const onChange = (e: FiasComboBoxChangeEvent, value: Address) => {
-      const { fields: oldFields, additionalFields } = this.state.address;
+      const { address } = this.state;
       const newFields = {
-        ...oldFields,
+        ...address.fields,
         ...value.fields
       };
       let addressField: Fields;
@@ -341,7 +341,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         }
       }
       this.handleAddressChange(
-        new Address({ fields: newFields, additionalFields })
+        Address.createFromAddress(address, { fields: newFields })
       );
     };
 
@@ -350,12 +350,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
 
     const onUnexpectedInput = (query: string) => {
-      const { fields, additionalFields } = this.state.address;
+      const { address } = this.state;
       const newFields = {
-        ...fields,
+        ...address.fields,
         [field]: query ? new AddressElement(field, query) : undefined
       };
-      return new Address({ fields: newFields, additionalFields });
+      return Address.createFromAddress(address, { fields: newFields });
     };
 
     const renderItem = (address: Address): string => {
@@ -427,13 +427,16 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   private createAddressInputProps(field: Fields): InputProps {
     return {
       onChange: (e: React.ChangeEvent, value: string) => {
-        const { fields, additionalFields } = this.state.address;
+        const { address } = this.state;
+        const fields = { ...address.fields };
         if (value) {
           fields[field] = new AddressElement(field, value);
         } else {
           delete fields[field];
         }
-        this.handleAddressChange(new Address({ fields, additionalFields }));
+        this.handleAddressChange(
+          Address.createFromAddress(address, { fields })
+        );
       }
     };
   }
@@ -441,13 +444,15 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   private createPostalCodeInputProps(): InputProps {
     return {
       onChange: (e: React.ChangeEvent, value: string) => {
-        const { fields, additionalFields, errors } = this.state.address;
+        const { address } = this.state;
         const newAdditionalFields = {
-          ...additionalFields,
+          ...address.additionalFields,
           [ExtraFields.postalcode]: value
         };
         this.handleAddressChange(
-          new Address({ fields, additionalFields: newAdditionalFields, errors })
+          Address.createFromAddress(address, {
+            additionalFields: newAdditionalFields
+          })
         );
       }
     };
@@ -511,9 +516,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const { locale } = this.props;
     const tooltipContent = this.getFieldTooltipContent(ExtraFields.postalcode);
     const replacePostalCode = () => {
-      const { fields, additionalFields } = this.state.address;
+      const { address } = this.state;
+      const additionalFields = { ...address.additionalFields };
       delete additionalFields[ExtraFields.postalcode];
-      this.handleAddressChange(new Address({ fields, additionalFields }));
+      this.handleAddressChange(
+        Address.createFromAddress(address, { additionalFields })
+      );
     };
     return (
       tooltipContent && (
@@ -556,16 +564,13 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   }
 
   private handleAddressChange = (address: Address) => {
-    const { fields, additionalFields, errors } = address;
     this.setState(
       {
-        address: new Address({
+        address: Address.createFromAddress(address, {
           fields: Address.filterVisibleFields(
-            fields,
+            address.fields,
             this.props.fieldsSettings
-          ),
-          additionalFields,
-          errors
+          )
         })
       },
       () => {
@@ -576,10 +581,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   private resetAddressErrors = () => {
     const { address } = this.state;
-    const { fields, additionalFields } = address;
     if (address.hasErrors) {
       this.setState({
-        address: new Address({ fields, additionalFields })
+        address: Address.createFromAddress(address, { errors: {} })
       });
     }
   };
