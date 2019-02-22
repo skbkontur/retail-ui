@@ -204,22 +204,34 @@ function handleExports(dirPath) {
     }
 
     function handleJsReexport(dir) {
-      reexport(dir, '.js', name => `module.exports = require('./components/${name}');\n`);
+      reexport(
+        dir,
+        '.js',
+        name => `module.exports = require('./components/${name}');\n`
+      );
     }
 
     function handleTsReexport(dir) {
-      reexport(dir, '.d.ts', name => `\
+      reexport(
+        dir,
+        '.d.ts',
+        name => `\
 export * from './components/${name}';
 export { default } from './components/${name}';
-`);
+`
+      );
     }
 
     function handleFlowReexport(dir) {
-      reexport(dir, '.js.flow', name => `\
+      reexport(
+        dir,
+        '.js.flow',
+        name => `\
 /* @flow */
 export * from './components/${name}';
 export { default } from './components/${name}';
-`);
+`
+      );
     }
   };
 }
