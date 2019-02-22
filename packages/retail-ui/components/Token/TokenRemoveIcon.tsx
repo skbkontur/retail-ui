@@ -12,12 +12,10 @@ const TokenRemoveIcon = (props: RemoveIconProps) => (
     data-name="RemoveIcon"
     fillRule="evenodd"
     strokeLinejoin="round"
-    strokeMiterlimit="1.414"
     clipRule="evenodd"
-    viewBox="0 0 14 14"
+    viewBox="0 0 10 10"
   >
-    <rect width={14} height={14} y=".288" fill="none" />
-    <path d="M7.62,7.295l5.404,5.404l-0.608,0.608l-5.404,-5.404l-5.404,5.404l-0.608,-0.608l5.404,-5.404l-5.404,-5.404l0.608,-0.608l5.404,5.404l5.404,-5.404l0.608,0.608l-5.404,5.404Z" />
+    <polygon id="Path" points="6 5 10 9 9 10 5 6 1 10 0 9 4 5 0 1 1 0 5 4 9 0 10 1" />
   </svg>
 );
 
