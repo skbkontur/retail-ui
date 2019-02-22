@@ -277,8 +277,6 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           value={value}
           width={130}
           ref={createRef}
-          mask={'999999'}
-          maskChar={''}
         />
       );
     }
