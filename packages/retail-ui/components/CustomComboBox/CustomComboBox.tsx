@@ -7,6 +7,7 @@ import InputLikeText from '../internal/InputLikeText';
 import shallow from 'fbjs/lib/shallowEqual';
 import { MenuItemState } from '../MenuItem';
 import { ComboBoxRequestStatus } from './types';
+import { CustomError } from '../../lib/utils';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T; keepFocus: boolean }
@@ -127,6 +128,7 @@ class CustomComboBox extends React.Component<
   public requestId = 0;
   public loaderShowDelay: Nullable<Promise<never>>;
   private focused: boolean = false;
+  private cancelationToken: Nullable<(reason?: any) => void> = null;
   public cancelLoaderDelay: (() => void) = () => null;
 
   /**
@@ -170,6 +172,9 @@ class CustomComboBox extends React.Component<
     let request = null;
     const { getItems } = this.props;
 
+    const cancelPromise: Promise<never> = new Promise(
+      (_, reject) => (this.cancelationToken = reject)
+    );
     const expectingId = (this.requestId += 1);
 
     if (!this.loaderShowDelay) {
@@ -178,6 +183,8 @@ class CustomComboBox extends React.Component<
           this.dispatch({ type: 'RequestItems' });
           setTimeout(resolve, LOADER_SHOW_TIME);
         }, DELAY_BEFORE_SHOW_LOADER);
+
+        cancelPromise.catch(() => cancelLoader());
 
         this.cancelLoaderDelay = () => {
           cancelLoader();
@@ -199,12 +206,21 @@ class CustomComboBox extends React.Component<
     }
 
     try {
-      const [items] = await Promise.all([request || [], this.loaderShowDelay]);
-
+      const [items] = await Promise.race([
+        Promise.all([request || [], this.loaderShowDelay]),
+        cancelPromise
+      ]);
       if (expectingId === this.requestId) {
-        this.dispatch({ type: 'ReceiveItems', items });
+        this.dispatch({
+          type: 'ReceiveItems',
+          items
+        });
       }
     } catch (error) {
+      if (error && error.code === 'CancelRequest') {
+        this.setState({ loading: false });
+        return;
+      }
       if (expectingId === this.requestId) {
         this.dispatch({
           type: 'RequestFailure',
@@ -217,6 +233,7 @@ class CustomComboBox extends React.Component<
         });
       }
     } finally {
+      this.cancelationToken = null;
       if (expectingId === this.requestId) {
         this.loaderShowDelay = null;
       }
@@ -371,6 +388,10 @@ class CustomComboBox extends React.Component<
   };
 
   private handleBlur = () => {
+    if (this.cancelationToken) {
+      const cancelError = new CustomError('', 'CancelRequest');
+      this.cancelationToken(cancelError);
+    }
     if (!this.focused) {
       if (this.state.opened) {
         this.close();
