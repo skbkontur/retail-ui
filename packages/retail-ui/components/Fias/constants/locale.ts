@@ -63,7 +63,11 @@ export const defaultLocale: {
   postalcodePlaceholder: '',
   postalcodeNotFound: 'Заполнено не по справочнику адресов',
   postalcodeNotValid: 'Значение не соответствует формату',
-  postalcodeReplace: 'Заменить справочным'
+  postalcodeReplace: 'Заменить справочным',
+
+  foreignAddressLabel: 'Адрес',
+
+  countryPlaceholder: 'Начните вводить название страны'
 };
 
 export default defaultLocale;

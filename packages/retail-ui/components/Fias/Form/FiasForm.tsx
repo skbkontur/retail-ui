@@ -17,7 +17,8 @@ import {
   SearchOptions,
   APIResult,
   ExtraFields,
-  FieldsSettings
+  FieldsSettings,
+  FiasCountry
 } from '../types';
 import { Address } from '../models/Address';
 import { AddressElement } from '../models/AddressElement';
@@ -25,6 +26,8 @@ import Tooltip from '../../Tooltip/Tooltip';
 import { InputProps } from '../../Input';
 import Input from '../../Input/Input';
 import FiasSearch from './FiasSearch';
+import { FiasCountrySelector } from './FiasCountrySelector';
+import { Textarea } from 'retail-ui/components/all';
 
 interface FiasFormProps {
   api: APIProvider;
@@ -34,6 +37,7 @@ interface FiasFormProps {
   search?: boolean;
   limit?: number;
   validationLevel?: FormValidation;
+  countrySelector?: boolean;
 }
 
 interface FiasFormState {
@@ -62,7 +66,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   public static defaultProps = {
     validationLevel: 'Error',
     limit: 5,
-    fieldsSettings: {}
+    fieldsSettings: {},
+    countrySelector: false
   };
 
   public static Field = ({
@@ -158,21 +163,47 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   public render() {
     const { address } = this.state;
+    const { locale, limit, countrySelector } = this.props;
     return (
       <div>
         <Gapped vertical>
+          {countrySelector && (
+            <FiasForm.Field label="Страна">
+              <FiasCountrySelector
+                api={this.props.api}
+                country={address.country}
+                onChange={this.handleCountryChange}
+                limit={limit}
+                locale={locale}
+              />
+            </FiasForm.Field>
+          )}
           {this.props.search && (
             <FiasForm.Field>
               <FiasSearch
                 source={this.createItemsSource}
                 address={address}
                 onChange={this.handleAddressChange}
-                limit={this.props.limit}
-                locale={this.props.locale}
+                limit={limit}
+                locale={locale}
               />
             </FiasForm.Field>
           )}
-          {this.renderFields()}
+          {(countrySelector && !address.country) || address.isForeign ? (
+            <Gapped vertical>
+              <FiasForm.Field label={locale.foreignAddressLabel}>
+                <Textarea
+                  value={address.foreignAddress}
+                  onChange={this.handleForeignAddressChange}
+                  width="100%"
+                  resize="none"
+                />
+              </FiasForm.Field>
+              {this.renderFields([ExtraFields.postalcode])}
+            </Gapped>
+          ) : (
+            this.renderFields(Address.ALL_FIELDS)
+          )}
         </Gapped>
       </div>
     );
@@ -196,9 +227,11 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
   };
 
-  private renderFields = (): React.ReactNode => {
+  private renderFields = (
+    fields: (Fields | ExtraFields)[]
+  ): React.ReactNode => {
     const { locale, fieldsSettings } = this.props;
-    return Address.ALL_FIELDS.map((field: Fields | ExtraFields) => {
+    return fields.map((field: Fields | ExtraFields) => {
       const control = this.fields[field];
       const settings = fieldsSettings[field];
       if (control && Boolean(settings && settings.visible)) {
@@ -562,6 +595,20 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         return result;
       });
   }
+
+  private handleCountryChange = (country?: FiasCountry) => {
+    this.handleAddressChange(
+      Address.createFromAddress(this.state.address, { country })
+    );
+  };
+
+  private handleForeignAddressChange = (e: any, value: string) => {
+    this.handleAddressChange(
+      Address.createFromAddress(this.state.address, {
+        foreignAddress: value
+      })
+    );
+  };
 
   private handleAddressChange = (address: Address) => {
     this.setState(
