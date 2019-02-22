@@ -195,7 +195,7 @@ const webpackConfig = {
     ]
   },
   devServer: {
-    public: 'localhost.dev.kontur'
+    public: 'localhost.testkontur.ru'
   }
 };
 
