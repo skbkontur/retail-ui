@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PopupMenu, { PopupMenuProps } from '../internal/PopupMenu';
 import { isProductionEnv } from '../internal/currentEnvironment';
+import { ScrollContainerScrollState } from '../ScrollContainer/ScrollContainer';
 
 export interface DropdownMenuProps {
   /** Максимальная высота меню */
@@ -22,6 +23,7 @@ export interface DropdownMenuProps {
    * Не показывать анимацию
    */
   disableAnimations: boolean;
+  onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
 }
 
 /**
@@ -54,6 +56,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
         popupMargin={0}
         positions={['bottom left', 'bottom right', 'top left', 'top right']}
         disableAnimations={this.props.disableAnimations}
+        onScrollStateChange={this.props.onScrollStateChange}
       >
         {this.props.children}
       </PopupMenu>
