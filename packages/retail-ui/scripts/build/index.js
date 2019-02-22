@@ -105,12 +105,12 @@ function write(src, relative) {
 }
 
 function logTransform(src, dest) {
-  clearConsole();
-  console.log();
-  console.log('Transformed:');
-  console.log('From: ' + path.relative(process.cwd(), src));
-  console.log('  To: ' + path.relative(process.cwd(), dest));
-  console.log();
+  console.log(
+    `Transformed: ${path.relative(process.cwd(), src)} => ${path.relative(
+      process.cwd(),
+      dest
+    )}`
+  );
 }
 
 function shouldIgnore(loc) {
@@ -258,12 +258,6 @@ function generatePackageJson() {
   };
   const source = JSON.stringify(result, null, 2);
   outputFileSync(path.join(OutDir, 'package.json'), source);
-}
-
-function clearConsole() {
-  process.stdout.write(
-    process.platform === 'win32' ? '\x1Bc' : '\x1B[2J\x1B[3J\x1B[H'
-  );
 }
 
 function copyReadme() {
