@@ -24,7 +24,6 @@ function build() {
 
   generatePackageJson();
 
-  copyNpmRc();
   copyReadme();
 }
 
@@ -223,11 +222,6 @@ export { default } from './components/${name}';
 `);
     }
   };
-}
-
-function copyNpmRc() {
-  const npmrc = fs.readFileSync(path.join(process.cwd(), '.npmrc.enc'));
-  outputFileSync(path.join(OutDir, '.npmrc.enc'), npmrc);
 }
 
 function generatePackageJson() {
