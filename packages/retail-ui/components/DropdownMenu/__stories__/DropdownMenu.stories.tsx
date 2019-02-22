@@ -6,10 +6,14 @@ import ArrowSize2Icon from '@skbkontur/react-icons/ArrowSize2';
 import MenuItem from '../../MenuItem';
 import MenuHeader from '../../MenuHeader';
 import MenuSeparator from '../../MenuSeparator';
-import DropdownMenu from '../DropdownMenu';
+import DropdownMenu, { DropdownMenuProps } from '../DropdownMenu';
 import Button from '../../Button';
 import Toast from '../../Toast';
 import { PopupMenuCaptionProps } from '../../internal/PopupMenu/PopupMenu';
+import Input from '../../Input/Input';
+import SearchIcon from '@skbkontur/react-icons/Search';
+import { CSSProperties } from 'react';
+import { ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
 
 storiesOf('DropdownMenu', module)
   .addDecorator(story => (
@@ -117,4 +121,85 @@ storiesOf('DropdownMenu', module)
       <MenuItem onClick={() => Toast.push('Два')}>Два</MenuItem>
       <MenuItem onClick={() => Toast.push('Три')}>Три</MenuItem>
     </DropdownMenu>
+  ))
+  .add('With fixed header', () => (
+    <DropdownWithScrollStateChange
+      disableAnimations
+      caption={<Button use="primary">Открыть меню</Button>}
+      menuWidth={250}
+    />
   ));
+
+class DropdownWithScrollStateChange extends React.Component<
+  DropdownMenuProps,
+  { scrollState: ScrollContainerScrollState; value: string }
+> {
+  public state = {
+    scrollState: 'top' as ScrollContainerScrollState,
+    value: ''
+  };
+
+  public render() {
+    return (
+      <DropdownMenu
+        {...this.props}
+        onScrollStateChange={this.onScrollStateChange}
+        menuMaxHeight={450}
+        menuWidth={this.props.menuWidth}
+        onClose={this.resetStateToDefault}
+      >
+        {this.input}
+        {new Array(50).fill('').map((i, index) => (
+          <MenuItem key={index}>{`Item ${index}`}</MenuItem>
+        ))}
+      </DropdownMenu>
+    );
+  }
+
+  private get input() {
+    const { scrollState } = this.state;
+    const fixedState = scrollState !== 'top';
+
+    const inputWrapperStyles: CSSProperties = {
+      position: fixedState ? 'fixed' : 'static',
+      boxShadow: fixedState ? '0 5px 10px rgba(0, 0, 0, 0.2)' : 'none',
+      zIndex: 3000,
+      padding: '10px',
+      width: '100%',
+      boxSizing: 'border-box',
+      backgroundColor: 'white',
+      top: fixedState ? 0 : undefined,
+      transition: 'all 0.3s'
+    };
+
+    return (
+      <div
+        style={{
+          position: 'relative',
+          width: this.props.menuWidth
+        }}
+      >
+        <div style={inputWrapperStyles}>
+          <Input
+            leftIcon={<SearchIcon />}
+            value={this.state.value}
+            onChange={this.handleInputChange}
+            width={220}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  private handleInputChange = (_: any, value: string) => {
+    this.setState({ value });
+  };
+
+  private onScrollStateChange = (scrollState: ScrollContainerScrollState) => {
+    this.setState({ scrollState });
+  };
+
+  private resetStateToDefault = () => {
+    this.setState({ value: '', scrollState: 'top' });
+  };
+}
