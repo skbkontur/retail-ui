@@ -122,7 +122,7 @@ storiesOf('DropdownMenu', module)
       <MenuItem onClick={() => Toast.push('Три')}>Три</MenuItem>
     </DropdownMenu>
   ))
-  .add('With fixed header', () => (
+  .add('With sticky item', () => (
     <DropdownWithScrollStateChange
       disableAnimations
       caption={<Button use="primary">Открыть меню</Button>}
@@ -158,35 +158,28 @@ class DropdownWithScrollStateChange extends React.Component<
 
   private get input() {
     const { scrollState } = this.state;
-    const fixedState = scrollState !== 'top';
+    const stickyState = scrollState !== 'top';
 
     const inputWrapperStyles: CSSProperties = {
-      position: fixedState ? 'fixed' : 'static',
-      boxShadow: fixedState ? '0 5px 10px rgba(0, 0, 0, 0.2)' : 'none',
+      position: stickyState ? 'absolute' : 'relative',
+      boxShadow: stickyState ? '0 5px 10px rgba(0, 0, 0, 0.2)' : 'none',
       zIndex: 3000,
       padding: '10px',
       width: '100%',
       boxSizing: 'border-box',
       backgroundColor: 'white',
-      top: fixedState ? 0 : undefined,
-      transition: 'all 0.3s'
+      top: stickyState ? 0 : undefined,
+      transition: 'all 0.1s'
     };
 
     return (
-      <div
-        style={{
-          position: 'relative',
-          width: this.props.menuWidth
-        }}
-      >
-        <div style={inputWrapperStyles}>
-          <Input
-            leftIcon={<SearchIcon />}
-            value={this.state.value}
-            onChange={this.handleInputChange}
-            width={220}
-          />
-        </div>
+      <div style={inputWrapperStyles}>
+        <Input
+          leftIcon={<SearchIcon />}
+          value={this.state.value}
+          onChange={this.handleInputChange}
+          width={220}
+        />
       </div>
     );
   }
