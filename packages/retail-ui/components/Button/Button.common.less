@@ -1,11 +1,6 @@
 @import '../variables.less';
 
 .commonStyles() {
-  .wrap {
-    box-sizing: border-box;
-    display: inline-block;
-  }
-
   .root {
     .reset-button();
     .reset-text();
@@ -185,6 +180,9 @@
   );
 
   .wrap {
+    box-sizing: border-box;
+    display: inline-block;
+
     .root.disabled {
       background: @bg-disabled;
       color: #808080;
