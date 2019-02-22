@@ -192,9 +192,11 @@ export default class ScrollContainer extends React.Component<
         this.state.scrollSize !== scrollSize ||
         this.state.scrollPos !== scrollPos
       ) {
-
         const updatedScrollState = this._getImmediateScrollState();
-        if (this.props.onScrollStateChange && updatedScrollState !== this._currentScrollState) {
+        if (
+          this.props.onScrollStateChange &&
+          updatedScrollState !== this._currentScrollState
+        ) {
           this.props.onScrollStateChange(updatedScrollState);
           this._currentScrollState = updatedScrollState;
         }
@@ -319,11 +321,12 @@ export default class ScrollContainer extends React.Component<
   private _getImmediateScrollState(): ScrollContainerScrollState {
     if (!this._inner || this._inner.scrollTop === 0) {
       return 'top';
-    }
-    else if (this._inner.scrollTop === this._inner.scrollHeight - this._inner.offsetHeight) {
+    } else if (
+      this._inner.scrollTop ===
+      this._inner.scrollHeight - this._inner.offsetHeight
+    ) {
       return 'bottom';
-    }
-    else {
+    } else {
       return 'scroll';
     }
   }
