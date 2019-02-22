@@ -47,7 +47,7 @@ export interface FiasProps {
   readonly?: boolean;
   /**
    * API URL. Существует тестовый
-   * `https://api.dev.kontur/fias/v1/` и боевой `https://api.kontur.ru/fias/v1/`
+   * `https://api.testkontur.ru/fias/v1/` и боевой `https://api.kontur.ru/fias/v1/`
    */
   baseUrl?: string;
   /**
