@@ -2,6 +2,8 @@
 
 var renderStory = require("./utils").renderStory;
 
+var prefix = '-flat';
+
 gemini.suite("modal", suite => {
   suite
     .before(renderStory("Modal", "Modal over another modal"))
@@ -65,7 +67,7 @@ gemini.suite("modal with variable height of content", suite => {
       actions.click(find("button"));
     })
     .capture("toggle content height", (actions, find) => {
-      actions.click(find('#modal-inner [class^="Toggle-wrapper"]')).wait(500);
+      actions.click(find('#modal-inner [class^="Toggle' + prefix + '-wrapper"]')).wait(500);
     });
 });
 
