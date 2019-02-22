@@ -37,9 +37,9 @@ storiesOf('ScrollContainer', module).add('with scroll state', () => {
     {},
     { scrollState: ScrollContainerScrollState }
   > {
-    state = { scrollState: 'top' };
+    public state = { scrollState: 'top' as ScrollContainerScrollState };
 
-    render() {
+    public render() {
       const commonBlocksStyles: CSSProperties = {
         padding: '5px 10px',
         position: 'relative',
@@ -77,11 +77,7 @@ storiesOf('ScrollContainer', module).add('with scroll state', () => {
         >
           <div style={headerStyles}>header</div>
           <div style={scrollContainerWrapperStyles}>
-            <ScrollContainer
-              onScrollStateChange={scrollState =>
-                this.setState({ scrollState })
-              }
-            >
+            <ScrollContainer onScrollStateChange={this.handleScrollStateChange}>
               {getItems(20).map(i => (
                 <div key={i}>{i}</div>
               ))}
@@ -91,6 +87,12 @@ storiesOf('ScrollContainer', module).add('with scroll state', () => {
         </div>
       );
     }
+
+    private handleScrollStateChange = (
+      scrollState: ScrollContainerScrollState
+    ) => {
+      this.setState({ scrollState });
+    };
   }
 
   return <Wrapper />;

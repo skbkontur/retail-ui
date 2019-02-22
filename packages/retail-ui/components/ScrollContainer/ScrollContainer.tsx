@@ -18,7 +18,6 @@ export interface ScrollContainerProps {
   invert?: boolean;
   maxHeight?: React.CSSProperties['maxHeight'];
   preventWindowScroll?: boolean;
-  children?: React.ReactNode;
   onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
 }
 
@@ -28,6 +27,7 @@ export interface ScrollContainerState {
   scrolling: boolean;
   scrollSize: number;
   scrollPos: number;
+  scrollState: string;
 }
 
 export default class ScrollContainer extends React.Component<
@@ -44,7 +44,8 @@ export default class ScrollContainer extends React.Component<
     // Mouse is moving where big scrollbar can be located.
     hover: false,
     // True when scroll is following mouse (mouse down on scroll).
-    scrolling: false
+    scrolling: false,
+    scrollState: 'top'
   };
 
   private _inner: Nullable<HTMLDivElement>;
@@ -335,5 +336,6 @@ export default class ScrollContainer extends React.Component<
 ScrollContainer.propTypes = {
   invert: PropTypes.bool,
   maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  preventWindowScroll: PropTypes.bool
+  preventWindowScroll: PropTypes.bool,
+  onScrollStateChange: PropTypes.func
 };
