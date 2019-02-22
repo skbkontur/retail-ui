@@ -228,7 +228,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   };
 
   private renderFields = (
-    fields: (Fields | ExtraFields)[]
+    fields: Array<Fields | ExtraFields>
   ): React.ReactNode => {
     const { locale, fieldsSettings } = this.props;
     return fields.map((field: Fields | ExtraFields) => {

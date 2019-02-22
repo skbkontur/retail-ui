@@ -25,14 +25,6 @@ export interface AddressOptions {
 }
 
 export class Address {
-  public static IS_RUSSIA = (country: FiasCountry): boolean => {
-    return isEqual(country, {
-      shortName: 'Россия',
-      fullName: 'Российская Федерация',
-      code: '643'
-    });
-  };
-
   public static MAIN_FIELDS = [
     Fields.region,
     Fields.district,
@@ -79,6 +71,14 @@ export class Address {
     Fields.settlement,
     Fields.planningstructure
   ];
+
+  public static IS_RUSSIA = (country: FiasCountry): boolean => {
+    return isEqual(country, {
+      shortName: 'Россия',
+      fullName: 'Российская Федерация',
+      code: '643'
+    });
+  };
 
   public static createFromResponse = (
     response: AddressResponse,
@@ -191,9 +191,9 @@ export class Address {
     fields: { [key in Fields]?: any },
     fieldsSettings: FieldsSettings
   ): { [key in Fields]?: any } => {
-    let filteredFields: { [key in Fields]?: any } = {};
-    const isFieldVisible = (field: Fields): boolean => {
-      const settings = fieldsSettings[field];
+    const filteredFields: { [key in Fields]?: any } = {};
+    const isFieldVisible = (f: Fields): boolean => {
+      const settings = fieldsSettings[f];
       return Boolean(settings && settings.visible);
     };
     let field: Fields;
