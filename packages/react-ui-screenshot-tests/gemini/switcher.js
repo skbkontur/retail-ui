@@ -1,9 +1,7 @@
 /* global gemini */
 var renderStory = require("./utils").renderStory;
 
-var prefix = '-flat';
-
-var BUTTON_SELECTOR = '[class^="Button' + prefix + '-root"]';
+var BUTTON_SELECTOR = '[class^="Button-root"]';
 
 gemini.suite("Switcher", suite => {
   suite

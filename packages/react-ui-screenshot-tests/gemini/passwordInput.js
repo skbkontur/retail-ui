@@ -2,8 +2,6 @@
 
 var renderStory = require("./utils").renderStory;
 
-var prefix = '-flat';
-
 gemini.suite("PasswordInput", suite => {
   suite
     .before(renderStory("PasswordInput", "Plain"))
@@ -13,7 +11,7 @@ gemini.suite("PasswordInput", suite => {
       actions.sendKeys(find("input"), "Test...");
     })
     .capture("With visible password", (actions, find) => {
-      actions.click(find('[class^="Input' + prefix + '-rightIcon"]'));
+      actions.click(find('[class^="Input-rightIcon"]'));
     });
 });
 

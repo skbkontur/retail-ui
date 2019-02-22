@@ -28,7 +28,7 @@ gemini.suite("DateSelect in DatePicker", suite => {
 
       actions.click(find(selector));
     })
-    .skip.in(["firefox", "firefoxFlat"], "в firefox почему-то закрывается дэйтпикер после клика на DateSelect");
+    .skip.in("firefox", "в firefox почему-то закрывается дэйтпикер после клика на DateSelect");
 });
 
 gemini.suite("DateSelect with disabled items", suite => {
@@ -48,5 +48,5 @@ gemini.suite("DateSelect with disabled items", suite => {
 
       actions.click(find(selector));
     })
-    .skip.in(["firefox", "firefoxFlat"], "в firefox почему-то закрывается дэйтпикер после клика на DateSelect");
+    .skip.in("firefox", "в firefox почему-то закрывается дэйтпикер после клика на DateSelect");
 });

@@ -1,7 +1,5 @@
 var renderStory = require("./utils").renderStory;
 
-var prefix = '-flat';
-
 gemini.suite("ComboBox", () => {
   gemini.suite("View", () => {
     gemini.suite("Input like text", suite => {
@@ -11,7 +9,7 @@ gemini.suite("ComboBox", () => {
         .ignoreElements('[class^="Spinner-spinner"]')
         .capture("plain")
         .capture("focused first element", (action, find) => {
-          action.click(find('[class^="Input' + prefix + '-input"]'));
+          action.click(find('[class^="Input-input"]'));
         });
     });
 
@@ -54,7 +52,7 @@ gemini.suite("ComboBox", () => {
         .setCaptureElements("#test-element")
         .capture("plain")
         .capture("opened", (action, find) => {
-          action.click(find('[class^="Input' + prefix + '-root"]'));
+          action.click(find('[class^="Input-root"]'));
         })
         .capture("hovered", (action, find) => {
           targetMenuItem = find('[class^="MenuItem-root"]:nth-of-type(4)');
@@ -70,7 +68,7 @@ gemini.suite("ComboBox", () => {
         .before(renderStory("ComboBox", "always reject"))
         .setCaptureElements("#test-element")
         .capture("opened", (action, find) => {
-          action.click(find('[class^="Input' + prefix + '-root"]'));
+          action.click(find('[class^="Input-root"]'));
         });
     });
 
@@ -80,7 +78,7 @@ gemini.suite("ComboBox", () => {
         .setCaptureElements("#test-element")
         .capture("plain")
         .capture("opened", (action, find) => {
-          action.click(find('[class^="Input' + prefix + '-root"]'));
+          action.click(find('[class^="Input-root"]'));
         })
         .capture("hovered", (action, find) => {
           targetMenuItem = find('[class^="MenuItem-root"]:nth-of-type(4)');
@@ -96,14 +94,14 @@ gemini.suite("ComboBox", () => {
         .before(renderStory("ComboBox", "simple combobox"))
         .setCaptureElements("#test-element")
         .capture("search result", (action, find) => {
-          action.click(find('[class^="Input' + prefix + '-root"]'));
+          action.click(find('[class^="Input-root"]'));
           action.sendKeys("input", "Second");
         })
         .capture("selcted", action => {
           action.sendKeys(gemini.ENTER);
         })
         .capture("opened again", (action, find) => {
-          action.click(find('[class^="Input' + prefix + '-root"]'));
+          action.click(find('[class^="Input-root"]'));
         });
     });
 
@@ -112,7 +110,7 @@ gemini.suite("ComboBox", () => {
         .before(renderStory("ComboBox", "simple combobox"))
         .setCaptureElements("#test-element")
         .capture("search result", (action, find) => {
-          action.click(find('[class^="Input' + prefix + '-root"]'));
+          action.click(find('[class^="Input-root"]'));
           action.sendKeys("input", "Такого точно нету");
         });
     });
@@ -123,12 +121,12 @@ gemini.suite("ComboBox", () => {
         .setCaptureElements("#test-element")
         .capture("initial value")
         .capture("reset value", (action, find) => {
-          const resetButton = find('[class^="Button' + prefix + '-wrap"]:nth-child(3)');
+          const resetButton = find('[class^="Button-wrap"]:nth-child(3)');
 
           action.click(resetButton);
         })
         .capture("set value", (action, find) => {
-          const setButton = find('[class^="Button' + prefix + '-wrap"]:nth-child(2)');
+          const setButton = find('[class^="Button-wrap"]:nth-child(2)');
 
           action.click(setButton);
         });
@@ -139,7 +137,7 @@ gemini.suite("ComboBox", () => {
         .before(renderStory("ComboBox", "simple combobox"))
         .setCaptureElements("#test-element")
         .capture("select", (action, find) => {
-          action.click(find('[class^="Input' + prefix + '-root"]'));
+          action.click(find('[class^="Input-root"]'));
           action.sendKeys(gemini.ARROW_DOWN);
           action.sendKeys(gemini.ARROW_DOWN);
           action.sendKeys(gemini.ARROW_DOWN);
@@ -155,10 +153,10 @@ gemini.suite("ComboBox", () => {
         .setCaptureElements("#test-element")
         .capture("plain")
         .capture("with error", (action, find) => {
-          action.click(find("[class^='Toggle" + prefix + "-wrapper']"));
+          action.click(find("[class^='Toggle-wrapper']"));
         })
         .capture("plain again", (action, find) => {
-          action.click(find("[class^='Toggle" + prefix + "-wrapper']"));
+          action.click(find("[class^='Toggle-wrapper']"));
         });
     });
 
@@ -174,14 +172,14 @@ gemini.suite("ComboBox", () => {
         .before(renderStory("ComboBox", "simple combobox"))
         .setCaptureElements("#test-element")
         .capture("editing", (action, find) => {
-          action.click(find('[class^="Input' + prefix + '-root"]'));
+          action.click(find('[class^="Input-root"]'));
           action.sendKeys("input", "Second");
         })
         .capture("select", (action, find) => {
           action.click(find("body"));
         })
         .capture("selected", (action, find) => {
-          action.click(find('[class^="Input' + prefix + '-root"]'));
+          action.click(find('[class^="Input-root"]'));
         });
     });
 

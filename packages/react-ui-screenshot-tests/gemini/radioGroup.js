@@ -2,11 +2,8 @@
 
 var renderStory = require("./utils").renderStory;
 
-var prefix = '-flat';
-
-const BUTTON_SELECTOR = '[class^="Button' + prefix + '-root"]';
-const RADIO_SELECTOR = '[class^="Radio' + prefix + '-root"]';
-
+const BUTTON_SELECTOR = '[class^="Button-root"]';
+const RADIO_SELECTOR = '[class^="Radio-root"]';
 
 gemini.suite("RadioGroup", suite => {
   suite
