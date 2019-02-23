@@ -138,7 +138,15 @@ let handleChange = value => setState({ home: value });
 
 ```jsx
 let initialState = {
-  home: {}
+  home: {
+    country: {
+      code: '124',
+      fullName: 'Канада',
+      shortName: 'Канада'
+    },
+    foreignAddress: '80 Wellington St Ottawa',
+    postalCode: 'ON K1A 0A2'
+  }
 };
 
 let handleChange = value => setState({ home: value });
@@ -148,11 +156,6 @@ let handleChange = value => setState({ home: value });
   value={state.home}
   onChange={handleChange}
   countrySelector={true}
-  fieldsSettings={{
-    postalcode: {
-      visible: true
-    }
-  }}
 />;
 ```
 
