@@ -27,3 +27,5 @@ yarn-error.log
 npm-debug.log
 
 html-report
+
+/sc-*.log
