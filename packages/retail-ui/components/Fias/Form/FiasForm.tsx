@@ -152,6 +152,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   }
 
+  public get isForeignForm(): boolean {
+    const { address } = this.state;
+    const { countrySelector } = this.props;
+    return address.isForeign || (Boolean(countrySelector) && !address.country);
+  }
+
   public componentDidMount() {
     this.check();
   }
@@ -189,7 +195,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
               />
             </FiasForm.Field>
           )}
-          {(countrySelector && !address.country) || address.isForeign ? (
+          {this.isForeignForm ? (
             <Gapped vertical>
               <FiasForm.Field label={locale.foreignAddressLabel}>
                 <Textarea

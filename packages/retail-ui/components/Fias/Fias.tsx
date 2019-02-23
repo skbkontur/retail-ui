@@ -309,14 +309,13 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   private getAddress = async (value: Partial<FiasValue> | undefined) => {
     if (value) {
-      const country =
-        (this.props.countrySelector && value.country) || undefined;
       const {
         address,
         addressString,
-        foreignAddress,
         fiasId,
-        postalCode
+        postalCode,
+        country,
+        foreignAddress
       } = value;
       const additionalFields: AdditionalFields = {};
       const { fieldsSettings } = this.state;
@@ -370,6 +369,8 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           additionalFields,
           country
         );
+      } else {
+        return new Address({ country });
       }
     }
 
