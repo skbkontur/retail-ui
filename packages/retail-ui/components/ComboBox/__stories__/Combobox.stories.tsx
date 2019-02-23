@@ -10,6 +10,9 @@ import MenuSeparator from '../../MenuSeparator';
 import { Nullable, Omit } from '../../../typings/utility-types';
 import Toggle from '../../Toggle';
 import Button from '../../Button';
+import Gapped from '../../Gapped';
+import MenuHeader from '../../MenuHeader/MenuHeader';
+const getCities = require('../__mocks__/getCities.js').default;
 
 storiesOf('ComboBox', module)
   .add('simple combobox', () => (
@@ -225,7 +228,12 @@ storiesOf('ComboBox', module)
       </div>
     );
     return <RecursiveComboboxes depth={10} />;
-  });
+  })
+  .add('with many complex menu items', () => (
+    <div>
+      <ComplexCombobox />
+    </div>
+  ));
 
 interface ComboBoxWithErrorTogglerState {
   error: boolean;
@@ -392,6 +400,100 @@ class SimpleCombobox extends React.Component<
       )
     ).then<Array<{ value: number; label: string }>>(
       result => new Promise(ok => setTimeout(ok, this.props.delay || 0, result))
+    );
+}
+
+class ComplexCombobox extends React.Component<ComboBoxProps<any>, {}> {
+  public state = {
+    value: null
+  };
+  private popularItems = [
+    { value: 956, label: 'Махачкала' },
+    { value: 4974, label: 'Верхняя-Пышма' },
+    { value: 4980, label: 'Екатеринбург' }
+  ];
+
+  public render() {
+    return (
+      <ComboBox
+        onChange={this.handleChange}
+        value={this.state.value}
+        getItems={this.getItems}
+        renderItem={this.renderItem}
+        placeholder="Начните вводить название"
+      />
+    );
+  }
+
+  private handleChange = (_: any, value: any) => this.setState({ value });
+
+  private getItems = (query: string) => {
+    return getCities(query)
+      .then(
+        ({
+          foundItems,
+          totalCount
+        }: {
+          foundItems: Array<{ Id: number; City: string }>;
+          totalCount: number;
+        }) => ({
+          foundItems: foundItems.map(this.mapCity),
+          totalCount
+        })
+      )
+      .then(
+        ({
+          foundItems,
+          totalCount
+        }: {
+          foundItems: any[];
+          totalCount: number;
+        }) => ({
+          popularItems: query.length === 0 ? this.popularItems : [],
+          itemsToShow: foundItems,
+          totalCount
+        })
+      )
+      .then(
+        ({
+          popularItems,
+          itemsToShow,
+          totalCount
+        }: {
+          popularItems: any;
+          itemsToShow: any;
+          totalCount: number;
+        }) =>
+          [].concat(
+            popularItems,
+            popularItems.length ? (<MenuSeparator /> as any) : [],
+            itemsToShow,
+            this.renderTotalCount(itemsToShow.length, totalCount)
+          )
+      );
+  };
+
+  private renderItem = (item: any) => {
+    return item ? (
+      <Gapped>
+        <div style={{ width: 40 }}>{item.value}</div>
+        <div style={{ width: 210, whiteSpace: 'normal' }}>{item.label}</div>
+      </Gapped>
+    ) : null;
+  };
+
+  private mapCity = ({ Id, City }: { Id: number; City: string }) => ({
+    value: Id,
+    label: City
+  });
+
+  private renderTotalCount = (foundCount: number, totalCount: number): any =>
+    foundCount < totalCount ? (
+      <MenuHeader>
+        Показано {foundCount} из {totalCount} найденных городов.
+      </MenuHeader>
+    ) : (
+      []
     );
 }
 
