@@ -174,7 +174,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       <div>
         <Gapped vertical>
           {countrySelector && (
-            <FiasForm.Field label="Страна">
+            <FiasForm.Field label={locale.countryLabel}>
               <FiasCountrySelector
                 api={this.props.api}
                 country={address.country}
@@ -201,6 +201,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
                 <Textarea
                   value={address.foreignAddress}
                   onChange={this.handleForeignAddressChange}
+                  placeholder={locale.foreignAddressPlaceholder}
                   width="100%"
                   resize="none"
                 />

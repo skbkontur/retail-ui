@@ -66,7 +66,9 @@ export const defaultLocale: {
   postalcodeReplace: 'Заменить справочным',
 
   foreignAddressLabel: 'Адрес',
+  foreignAddressPlaceholder: '',
 
+  countryLabel: 'Страна',
   countryPlaceholder: 'Начните вводить название страны'
 };
 
