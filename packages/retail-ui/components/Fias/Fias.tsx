@@ -161,7 +161,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   }
 
   public get fieldsSettings(): FieldsSettings {
-    const { fieldsSettings: userSettings } = this.props;
+    const { fieldsSettings: userSettings, countrySelector } = this.props;
     // TODO: implement deepMerge with clone
     const defaultSettings = Address.ALL_FIELDS.reduce<FieldsSettings>(
       (settings: FieldsSettings, field: Fields | ExtraFields) => ({
@@ -176,7 +176,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       defaultSettings,
       {
         [ExtraFields.postalcode]: {
-          visible: false
+          visible: Boolean(countrySelector)
         }
       },
       userSettings
