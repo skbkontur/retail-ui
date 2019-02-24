@@ -196,7 +196,7 @@ class CustomComboBox extends React.Component<
     try {
       const items = await Promise.race([getItems(query) || [], cancelPromise]);
       if (this.state.loading) {
-        await this.loaderShowDelay;
+        await Promise.race([this.loaderShowDelay, cancelPromise]);
       }
       if (expectingId === this.requestId) {
         this.dispatch({
