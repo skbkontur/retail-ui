@@ -3,9 +3,10 @@ import 'regenerator-runtime/runtime';
 import 'babel-polyfill';
 
 import { configure } from 'enzyme';
-
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
+
+import RenderContainer from './components/RenderContainer';
 
 configure({ adapter: new Adapter() });
 
@@ -32,3 +33,14 @@ jest.mock('lodash.debounce', () =>
 
 delete React.createClass;
 delete React.PropTypes;
+
+
+// In general, it's easier (and performance-wise faster) to patch prototype once,
+// than write "__mock__" implementation and call
+// ```jest.mock(...)``` in every test (including indirect ones)
+
+// Stable data-rendered-container-id / keys for every test
+beforeAll(() => {
+  // noinspection JSUnresolvedVariable
+  RenderContainer.prototype.nextId = () => 1;
+});
