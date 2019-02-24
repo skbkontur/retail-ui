@@ -6,7 +6,7 @@ import Menu from '../Menu/Menu';
 import InputLikeText from '../internal/InputLikeText';
 import shallow from 'fbjs/lib/shallowEqual';
 import { MenuItemState } from '../MenuItem';
-import { ComboBoxRequestStatus } from './types';
+import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomError } from '../../lib/utils';
 
 export type Action<T> =

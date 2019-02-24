@@ -13,7 +13,7 @@ import { Nullable } from '../../../typings/utility-types';
 import warning from 'warning';
 import ComboBoxView from '../ComboBoxView';
 import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
-import { ComboBoxRequestStatus } from '../types';
+import { ComboBoxRequestStatus } from '../CustomComboBoxTypes';
 import ReactDOM from 'react-dom';
 import {
   getFirstFocusableElement,
