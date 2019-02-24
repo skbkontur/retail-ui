@@ -29,7 +29,8 @@ export type Action<T> =
   | { type: 'RequestItems' }
   | { type: 'ReceiveItems'; items: T[] }
   | { type: 'RequestFailure'; repeatRequest: () => void }
-  | { type: 'FocusNextElement' };
+  | { type: 'FocusNextElement' }
+  | { type: 'CancelRequest' };
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -218,7 +219,7 @@ class CustomComboBox extends React.Component<
       }
     } catch (error) {
       if (error && error.code === 'CancelRequest') {
-        this.setState({ loading: false });
+        this.dispatch({ type: 'CancelRequest' });
         return;
       }
       if (expectingId === this.requestId) {

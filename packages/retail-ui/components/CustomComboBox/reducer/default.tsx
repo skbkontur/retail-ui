@@ -434,6 +434,12 @@ const reducers: { [type: string]: Reducer } = {
   },
   FocusNextElement: (state, props, action) => {
     return [state, [Effect.FocusNextElement]];
+  },
+  CancelRequest: () => {
+    return [{
+      loading: false,
+      requestStatus: ComboBoxRequestStatus.Unknown
+    }, []];
   }
 };
 
