@@ -1077,5 +1077,38 @@ describe('ComboBox', () => {
         requestStatus: ComboBoxRequestStatus.Success
       });
     });
+
+    it('long request and blur', async () => {
+      const getItems = jest.fn(
+        async () => (await delay(500), Promise.resolve(items))
+      );
+      const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
+
+      wrapper.instance().focus();
+
+      await delay(300);
+
+      expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+        loading: true,
+        opened: true
+      });
+
+      clickOutside()
+      await delay(0);
+
+      expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+        loading: false,
+        opened: false
+      });
+
+      wrapper.instance().focus();
+
+      await delay(300);
+
+      expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+        loading: true,
+        opened: true
+      });
+    });
   });
 });

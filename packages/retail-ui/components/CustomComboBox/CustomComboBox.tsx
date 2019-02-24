@@ -170,7 +170,6 @@ class CustomComboBox extends React.Component<
    * @public
    */
   public async search(query: string = this.state.textValue) {
-    let request = null;
     const { getItems } = this.props;
 
     const cancelPromise: Promise<never> = new Promise(
@@ -195,22 +194,10 @@ class CustomComboBox extends React.Component<
     }
 
     try {
-      request = getItems(query);
-
-      await request;
-    } catch (error) {
-      // NOTE Ignore error here
-    } finally {
-      if (!this.state.loading && expectingId === this.requestId) {
-        this.cancelLoaderDelay();
+      const items = await Promise.race([getItems(query) || [], cancelPromise]);
+      if (this.state.loading) {
+        await this.loaderShowDelay;
       }
-    }
-
-    try {
-      const [items] = await Promise.race([
-        Promise.all([request || [], this.loaderShowDelay]),
-        cancelPromise
-      ]);
       if (expectingId === this.requestId) {
         this.dispatch({
           type: 'ReceiveItems',
@@ -220,9 +207,7 @@ class CustomComboBox extends React.Component<
     } catch (error) {
       if (error && error.code === 'CancelRequest') {
         this.dispatch({ type: 'CancelRequest' });
-        return;
-      }
-      if (expectingId === this.requestId) {
+      } else if (expectingId === this.requestId) {
         this.dispatch({
           type: 'RequestFailure',
           repeatRequest: () => {
@@ -234,8 +219,11 @@ class CustomComboBox extends React.Component<
         });
       }
     } finally {
-      this.cancelationToken = null;
       if (expectingId === this.requestId) {
+        if (!this.state.loading) {
+          this.cancelLoaderDelay();
+        }
+        this.cancelationToken = null;
         this.loaderShowDelay = null;
       }
     }
