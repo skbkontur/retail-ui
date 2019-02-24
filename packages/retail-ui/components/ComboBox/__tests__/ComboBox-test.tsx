@@ -776,7 +776,6 @@ describe('ComboBox', () => {
     const query = 'one';
     const items = ['one', 'two'];
 
-    // TODO test with `twice` prefix should check that items received from last request
     it('without delay', async () => {
       const getItems = jest.fn(() => Promise.resolve(items));
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
@@ -920,11 +919,14 @@ describe('ComboBox', () => {
     });
 
     it('twice without delay', async () => {
-      const getItems = jest.fn(() => Promise.resolve(items));
+      const secondQuery = 'two';
+      const getItems = jest.fn(searchQuery => (
+        Promise.resolve(items.filter(i => i.includes(searchQuery)))
+      ));
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
       wrapper.instance().search(query);
-      wrapper.instance().search(query);
+      wrapper.instance().search(secondQuery);
 
       await delay(0);
 
@@ -933,7 +935,7 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: false,
         opened: true,
-        items,
+        items: ['two'],
         requestStatus: ComboBoxRequestStatus.Success
       });
     });
