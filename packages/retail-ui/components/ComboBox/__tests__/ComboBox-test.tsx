@@ -12,7 +12,7 @@ import CustomComboBox, {
 } from '../../CustomComboBox/CustomComboBox';
 import ComboBoxView from '../../CustomComboBox/ComboBoxView';
 import { Effect } from '../../CustomComboBox/reducer/default';
-import { ComboBoxRequestStatus } from 'retail-ui/components/CustomComboBox/types';
+import { ComboBoxRequestStatus } from '../../CustomComboBox/CustomComboBoxTypes';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
