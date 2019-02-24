@@ -403,7 +403,9 @@ class CustomComboBox extends React.Component<
   };
 
   private handleInputClick = () => {
-    this.dispatch({ type: 'InputClick' });
+    if (!this.cancelationToken) {
+      this.dispatch({ type: 'InputClick' });
+    }
   };
 }
 

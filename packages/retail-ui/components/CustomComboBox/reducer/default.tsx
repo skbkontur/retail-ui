@@ -278,6 +278,7 @@ const reducers: { [type: string]: Reducer } = {
 
     return [
       {
+        focused: false,
         opened: false,
         items: null
       },
@@ -370,12 +371,7 @@ const reducers: { [type: string]: Reducer } = {
   },
   InputClick(state, props, action) {
     if (!state.opened) {
-      return [
-        {
-          opened: true
-        },
-        [Effect.Search('')]
-      ];
+      return [state, [Effect.Search('')]];
     }
     return state;
   },
