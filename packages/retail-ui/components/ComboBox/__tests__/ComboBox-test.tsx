@@ -12,6 +12,7 @@ import CustomComboBox, {
 } from '../../CustomComboBox/CustomComboBox';
 import ComboBoxView from '../../CustomComboBox/ComboBoxView';
 import { Effect } from '../../CustomComboBox/reducer/default';
+import { ComboBoxRequestStatus } from 'retail-ui/components/CustomComboBox/types';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -390,6 +391,11 @@ describe('ComboBox', () => {
 
     expect(wrapper.find(ComboBoxView).prop('loading')).toEqual(false);
     expect(wrapper.find(ComboBoxView).prop('opened')).toEqual(false);
+    expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+      loading: false,
+      opened: false,
+      requestStatus: ComboBoxRequestStatus.Unknown
+    });
   });
 
   it('does not highlight menu item on focus with empty input', async () => {
@@ -770,7 +776,6 @@ describe('ComboBox', () => {
     const query = 'one';
     const items = ['one', 'two'];
 
-    // TODO check request status after merge #1168
     // TODO test with `twice` prefix should check that items received from last request
     it('without delay', async () => {
       const getItems = jest.fn(() => Promise.resolve(items));
@@ -785,7 +790,8 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: false,
         opened: true,
-        items
+        items,
+        requestStatus: ComboBoxRequestStatus.Success
       });
     });
 
@@ -854,7 +860,8 @@ describe('ComboBox', () => {
       expect(getItems).toBeCalledWith(query);
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: false,
-        opened: true
+        opened: true,
+        requestStatus: ComboBoxRequestStatus.Failed
       });
     });
 
@@ -876,7 +883,8 @@ describe('ComboBox', () => {
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: false,
-        opened: true
+        opened: true,
+        requestStatus: ComboBoxRequestStatus.Failed
       });
     });
 
@@ -898,14 +906,16 @@ describe('ComboBox', () => {
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: true,
-        opened: true
+        opened: true,
+        requestStatus: ComboBoxRequestStatus.Pending
       });
 
       await delay(LOADER_SHOW_TIME);
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: false,
-        opened: true
+        opened: true,
+        requestStatus: ComboBoxRequestStatus.Failed
       });
     });
 
@@ -923,7 +933,8 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: false,
         opened: true,
-        items
+        items,
+        requestStatus: ComboBoxRequestStatus.Success
       });
     });
 
@@ -948,7 +959,8 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: false,
         opened: true,
-        items
+        items,
+        requestStatus: ComboBoxRequestStatus.Success
       });
     });
 
@@ -970,7 +982,8 @@ describe('ComboBox', () => {
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: true,
-        opened: true
+        opened: true,
+        requestStatus: ComboBoxRequestStatus.Pending
       });
 
       await delay(LOADER_SHOW_TIME + 100);
@@ -980,7 +993,8 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: false,
         opened: true,
-        items
+        items,
+        requestStatus: ComboBoxRequestStatus.Success
       });
     });
 
@@ -1002,7 +1016,8 @@ describe('ComboBox', () => {
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: true,
-        opened: true
+        opened: true,
+        requestStatus: ComboBoxRequestStatus.Pending
       });
 
       await delay(LOADER_SHOW_TIME + 100);
@@ -1012,7 +1027,8 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: false,
         opened: true,
-        items
+        items,
+        requestStatus: ComboBoxRequestStatus.Success
       });
     });
 
@@ -1036,14 +1052,16 @@ describe('ComboBox', () => {
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: true,
-        opened: true
+        opened: true,
+        requestStatus: ComboBoxRequestStatus.Pending
       });
 
       await delay(200);
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: true,
-        opened: true
+        opened: true,
+        requestStatus: ComboBoxRequestStatus.Pending
       });
 
       await delay(LOADER_SHOW_TIME - 200);
@@ -1053,7 +1071,8 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: false,
         opened: true,
-        items
+        items,
+        requestStatus: ComboBoxRequestStatus.Success
       });
     });
   });
