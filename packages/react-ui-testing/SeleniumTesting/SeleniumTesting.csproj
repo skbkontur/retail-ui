@@ -6,7 +6,7 @@
     <Product>Kontur.ReactUI.SeleniumTesting</Product>
     <RootNamespace>SKBKontur.SeleniumTesting</RootNamespace>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>2.0.7.0$(VersionSuffix)</Version>
+    <Version>$(VersionSuffix)</Version>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <LangVersion>latest</LangVersion>
     <PackageLicenseUrl>https://github.com/skbkontur/react-ui-testing/blob/master/LICENSE</PackageLicenseUrl>
