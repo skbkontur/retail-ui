@@ -6,7 +6,6 @@ import { Nullable } from '../../../typings/utility-types';
 import PopupMenuPositions from './PopupMenuPositions';
 import isValidPostions from './validatePositions';
 import styles from './PopupMenu.less';
-import {ScrollContainerScrollState} from "../../ScrollContainer/ScrollContainer";
 
 export interface PopupMenuCaptionProps {
   opened: boolean;
@@ -41,7 +40,6 @@ export interface PopupMenuProps {
   popupPinOffset?: number;
   type?: 'dropdown' | 'tooltip';
   disableAnimations: boolean;
-  onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
 }
 
 interface PopupMenuState {
@@ -110,7 +108,6 @@ export default class PopupMenu extends React.Component<
                   initialSelectedItemIndex={
                     this.state.firstItemShouldBeSelected ? 0 : -1
                   }
-                  onScrollStateChange={this.props.onScrollStateChange}
                 >
                   {this.props.children}
                 </InternalMenu>

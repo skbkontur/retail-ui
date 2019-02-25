@@ -3,7 +3,7 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import isActiveElement from './isActiveElement';
-import ScrollContainer, {ScrollContainerScrollState} from '../../ScrollContainer/ScrollContainer';
+import ScrollContainer from '../../ScrollContainer/ScrollContainer';
 
 import MenuItem, { MenuItemProps } from '../../MenuItem';
 
@@ -23,7 +23,6 @@ interface MenuProps {
   // Циклический перебор айтемов меню (по-дефолтну включен)
   cyclicSelection?: boolean;
   initialSelectedItemIndex?: number;
-  onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
 }
 
 interface MenuState {
@@ -84,7 +83,6 @@ export default class InternalMenu extends React.Component<
           ref={this.refScrollContainer}
           maxHeight={this.props.maxHeight}
           preventWindowScroll={this.props.preventWindowScroll}
-          onScrollStateChange={this.props.onScrollStateChange}
         >
           {React.Children.map(this.props.children, (child, index) => {
             if (
