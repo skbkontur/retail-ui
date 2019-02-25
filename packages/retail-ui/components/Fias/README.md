@@ -134,6 +134,31 @@ let handleChange = value => setState({ home: value });
 />;
 ```
 
+Иностранные адреса.
+
+```jsx
+let initialState = {
+  home: {
+    country: {
+      code: '124',
+      fullName: 'Канада',
+      shortName: 'Канада'
+    },
+    foreignAddress: '80 Wellington St Ottawa',
+    postalCode: 'ON K1A 0A2'
+  }
+};
+
+let handleChange = value => setState({ home: value });
+
+<Fias
+  baseUrl={'https://api.kontur.ru/fias/v1/'}
+  value={state.home}
+  onChange={handleChange}
+  countrySelector={true}
+/>;
+```
+
 Пользовательская валидация ошибок верификации
 
 ```jsx
@@ -224,6 +249,14 @@ interface FiasValue {
   addressErrors?: { [key in Fields]?: string };
   fiasId?: string;
   postalCode?: string;
+  foreignAddress?: string;
+  country?: FiasCountry;
+}
+
+interface FiasCountry {
+  shortName: string;
+  fullName: string;
+  code: string;
 }
 
 const value: FiasValue = {
