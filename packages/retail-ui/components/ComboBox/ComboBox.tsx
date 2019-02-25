@@ -161,6 +161,15 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
   }
 
   /**
+   * @public
+   */
+  public cancelSearch() {
+    if (this.comboboxElement) {
+      this.comboboxElement.cancelSearch();
+    }
+  }
+
+  /**
    * @public Открывает выпадающий список
    */
   public open() {

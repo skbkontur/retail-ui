@@ -69,6 +69,9 @@ const Effect = {
     const searchEffect = searchFactory(getState().textValue);
     searchEffect(dispatch, getState, getProps, getInstance);
   }, DEBOUNCE_DELAY),
+  CancelRequest: ((dispatch, getState, getProps, getInstance) => {
+    getInstance().cancelSearch();
+  }) as EffectType,
   Blur: ((dispatch, getState, getProps) => {
     const { onBlur } = getProps();
 
@@ -272,7 +275,7 @@ const reducers: { [type: string]: Reducer } = {
           items: null,
           editing: false
         },
-        [Effect.Blur]
+        [Effect.Blur, Effect.CancelRequest]
       ];
     }
 
@@ -282,7 +285,11 @@ const reducers: { [type: string]: Reducer } = {
         opened: false,
         items: null
       },
-      [Effect.Blur, Effect.UnexpectedInput(state.textValue, items)]
+      [
+        Effect.Blur,
+        Effect.CancelRequest,
+        Effect.UnexpectedInput(state.textValue, items)
+      ]
     ];
   },
   Focus(state, props, action) {
@@ -327,7 +334,7 @@ const reducers: { [type: string]: Reducer } = {
           items: null,
           textValue
         },
-        [Effect.Change(value), Effect.InputFocus]
+        [Effect.Change(value), Effect.CancelRequest, Effect.InputFocus]
       ];
     }
     return [
@@ -335,9 +342,10 @@ const reducers: { [type: string]: Reducer } = {
         opened: false,
         inputChanged: false,
         editing: false,
+        items: null,
         textValue
       },
-      [Effect.Change(value)]
+      [Effect.Change(value), Effect.CancelRequest]
     ];
   },
   KeyPress(state, props, { event }) {
@@ -354,12 +362,7 @@ const reducers: { [type: string]: Reducer } = {
         if (!state.opened) {
           effects.push(Effect.Search(state.textValue));
         }
-        return [
-          {
-            opened: true
-          },
-          effects
-        ];
+        return [state, effects];
       case 'Escape':
         return {
           items: null,

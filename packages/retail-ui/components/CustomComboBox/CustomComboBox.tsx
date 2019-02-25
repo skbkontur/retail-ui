@@ -232,6 +232,16 @@ class CustomComboBox extends React.Component<
   /**
    * @public
    */
+  public cancelSearch() {
+    if (this.cancelationToken) {
+      const cancelError = new CustomError('', 'CancelRequest');
+      this.cancelationToken(cancelError);
+    }
+  }
+
+  /**
+   * @public
+   */
   public open() {
     this.dispatch({ type: 'Open' });
   }
@@ -377,10 +387,6 @@ class CustomComboBox extends React.Component<
   };
 
   private handleBlur = () => {
-    if (this.cancelationToken) {
-      const cancelError = new CustomError('', 'CancelRequest');
-      this.cancelationToken(cancelError);
-    }
     if (!this.focused) {
       if (this.state.opened) {
         this.close();
