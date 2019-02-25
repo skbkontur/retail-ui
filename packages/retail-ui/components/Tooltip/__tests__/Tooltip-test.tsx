@@ -3,7 +3,6 @@ import { mount } from 'enzyme';
 import * as React from 'react';
 import Button from '../../Button';
 import Tooltip, { TooltipProps } from '../Tooltip';
-import { delay } from '../../../lib/utils';
 
 describe('Tooltip', () => {
   const render = () => '';
@@ -34,24 +33,6 @@ describe('Tooltip', () => {
 
     expect(refFn2.mock.calls.length).toBe(1);
     expect(refFn2.mock.calls[0][0]).toBe(wrapper.find('div').instance());
-  });
-
-  it('calls onFocus/onBlur when trigger=focus', () => {
-    const onFocus = jest.fn();
-    const onBlur = jest.fn();
-    const wrapper = mount<TooltipProps>(
-      <Tooltip trigger="focus" render={render}>
-        <input onFocus={onFocus} onBlur={onBlur} />
-      </Tooltip>
-    );
-    const input = wrapper.find('input');
-
-    input.simulate('focus');
-    expect(wrapper.state('opened')).toBe(true);
-    expect(onFocus.mock.calls.length).toBe(1);
-
-    input.simulate('blur');
-    expect(onBlur.mock.calls.length).toBe(1);
   });
 
   it('does not show tooltip in render func returned false', () => {
@@ -106,7 +87,7 @@ describe('Tooltip', () => {
       }
     }
 
-    const wrapper = mount<TooltipProps>(
+    const wrapper = mount<Tooltip>(
       <Tooltip trigger="opened" render={render}>
         <StatefulComponent />
       </Tooltip>
@@ -115,30 +96,30 @@ describe('Tooltip', () => {
     expect(wrapper.find(StatefulComponent).length).toBe(1);
   });
 
-  it('reset opened state by `tigger="closed"` prop', async () => {
+  it('reset opened state by `tigger="closed"` prop', () => {
     const Content = () => <div />;
 
-    const wrapper = mount<TooltipProps>(
-      <Tooltip trigger="click" render={() => <Content />}>
+    const wrapper = mount<Tooltip>(
+      <Tooltip
+        trigger="click"
+        disableAnimations={true}
+        render={() => <Content />}
+      >
         <Button>Click me</Button>
       </Tooltip>
     );
 
     expect(wrapper.find(Content).length).toBe(0);
 
-    wrapper.find(Button).simulate('click');
-
+    wrapper.setState({ opened: true });
+    wrapper.update();
     expect(wrapper.find(Content).length).toBe(1);
 
     wrapper.setProps({ trigger: 'closed' });
-
-    await delay(300);
     wrapper.update();
-
     expect(wrapper.find(Content).length).toBe(0);
 
     wrapper.setProps({ trigger: 'hover' });
-
     expect(wrapper.find(Content).length).toBe(0);
   });
 });

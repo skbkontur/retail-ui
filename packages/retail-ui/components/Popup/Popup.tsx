@@ -8,7 +8,7 @@ import ZIndex from '../ZIndex';
 import { Transition } from 'react-transition-group';
 import raf from 'raf';
 
-import PopupHelper, { Rect, PositionObject } from './PopupHelper';
+import PopupHelper, { PositionObject, Rect } from './PopupHelper';
 import PopupPin from './PopupPin';
 import LayoutEvents from '../../lib/LayoutEvents';
 
@@ -19,6 +19,7 @@ import { Nullable } from '../../typings/utility-types';
 import warning from 'warning';
 
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
+const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
 export type PopupPosition =
   | 'top left'
@@ -50,11 +51,11 @@ export const PopupPositions: PopupPosition[] = [
 ];
 
 export interface PopupHandlerProps {
-  onMouseEnter?: (event: React.MouseEvent<HTMLElement> | MouseEvent) => void;
-  onMouseLeave?: (event: React.MouseEvent<HTMLElement> | MouseEvent) => void;
-  onClick?: (event: React.MouseEvent<HTMLElement> | MouseEvent) => void;
-  onFocus?: (event: React.FocusEvent<HTMLElement> | FocusEvent) => void;
-  onBlur?: (event: React.FocusEvent<HTMLElement> | FocusEvent) => void;
+  onMouseEnter?: (event: IMouseEvent) => void;
+  onMouseLeave?: (event: IMouseEvent) => void;
+  onClick?: (event: IMouseEvent) => void;
+  onFocus?: (event: IFocusEvent) => void;
+  onBlur?: (event: IBlurEvent) => void;
   onOpen?: () => void;
 }
 
@@ -74,6 +75,7 @@ export interface PopupProps extends PopupHandlerProps {
   popupOffset: number;
   positions: string[];
   onCloseRequest?: () => void;
+  useWrapper: boolean;
   ignoreHover?: boolean;
 }
 
@@ -152,7 +154,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     /**
      * Игнорировать ли события hover/click
      */
-    ignoreHover: PropTypes.bool,
+    ignoreHover: PropTypes.bool
   };
 
   public static defaultProps = {
@@ -163,7 +165,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     hasPin: false,
     hasShadow: false,
     disableAnimations: false,
-    maxWidth: 500
+    maxWidth: 500,
+    useWrapper: false
   };
 
   public state: PopupState = {
@@ -174,7 +177,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     ReturnType<typeof LayoutEvents.addListener>
   >;
   private lastPopupElement: Nullable<HTMLElement>;
-  private anchorElement: Nullable<Element | Text>;
+  private anchorElement: Nullable<HTMLElement> = null;
   private anchorInstance: Nullable<React.ReactInstance>;
 
   public componentDidMount() {
@@ -212,28 +215,22 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     if (this.layoutEventsToken) {
       this.layoutEventsToken.remove();
     }
+
+    this.removeEventListeners(this.anchorElement);
   }
 
   public render() {
     const location = this.state.location || this.getDummyLocation();
-    let child = null;
+    const { useWrapper, onCloseRequest, opened } = this.props;
+    const anchorElement = this.props.anchorElement;
 
-    if (this.props.anchorElement instanceof HTMLElement) {
-      this.anchorElement = this.props.anchorElement;
-    } else if (React.isValidElement(this.props.anchorElement)) {
-      child = React.Children.only(this.props.anchorElement);
+    let child: Nullable<React.ReactNode> = null;
+    if (anchorElement instanceof HTMLElement) {
+      this.updateAnchorElement(anchorElement);
+    } else if (React.isValidElement(anchorElement)) {
+      child = useWrapper ? <span>{anchorElement}</span> : anchorElement;
     } else {
-      child = (
-        <span
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-          onClick={this.handleClick}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-        >
-          {this.props.anchorElement}
-        </span>
-      );
+      child = <span>{anchorElement}</span>;
     }
 
     return (
@@ -244,7 +241,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
          * If onCloseRequest is not specified handleClickOutside and handleFocusOutside
          * are doing nothing. So there is no need in RenderLayer at all.
          */
-        active={Boolean(this.props.onCloseRequest) && this.props.opened}
+        active={Boolean(onCloseRequest) && opened}
       >
         <RenderContainer
           anchor={child}
@@ -256,65 +253,72 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private updateAnchorElement(instance: React.ReactInstance) {
-    const element = findDOMNode(instance);
-
-    if (element === this.anchorElement) {
-      return;
-    }
-    const { anchorElement } = this;
-    if (anchorElement && anchorElement instanceof HTMLElement) {
-      anchorElement.removeEventListener('mouseenter', this.handleMouseEnter);
-      anchorElement.removeEventListener('mouseleave', this.handleMouseLeave);
-      anchorElement.removeEventListener('click', this.handleClick);
-      anchorElement.removeEventListener('focus', this.handleFocus);
-      anchorElement.removeEventListener('blur', this.handleBlur);
-    }
-
+  private refAnchorElement = (instance: React.ReactInstance | null) => {
+    this.anchorInstance = instance;
+    const element = this.extractElement(instance);
+    this.updateAnchorElement(element);
     this.anchorElement = element;
+  };
 
+  private extractElement(instance: React.ReactInstance | null) {
+    if (!instance) {
+      return null;
+    }
+    const element = findDOMNode(instance);
+    return element instanceof HTMLElement ? element : null;
+  }
+
+  private updateAnchorElement(element: HTMLElement | null) {
+    const anchorElement = this.anchorElement;
+
+    if (element !== anchorElement) {
+      this.removeEventListeners(anchorElement);
+      this.anchorElement = element;
+      this.addEventListeners(element);
+    }
+  }
+
+  private addEventListeners(element: Nullable<HTMLElement>) {
     if (element && element instanceof HTMLElement) {
       element.addEventListener('mouseenter', this.handleMouseEnter);
       element.addEventListener('mouseleave', this.handleMouseLeave);
       element.addEventListener('click', this.handleClick);
-      element.addEventListener('focus', this.handleFocus);
-      element.addEventListener('blur', this.handleBlur);
+      element.addEventListener('focusin', this.handleFocus as EventListener);
+      element.addEventListener('focusout', this.handleBlur);
     }
   }
 
-  private refAnchorElement = (instance: React.ReactInstance | null) => {
-    this.anchorInstance = instance;
-    if (this.anchorInstance) {
-      this.updateAnchorElement(this.anchorInstance);
-    } else {
-      this.anchorElement = null;
+  private removeEventListeners(element: Nullable<HTMLElement>) {
+    if (element && element instanceof HTMLElement) {
+      element.removeEventListener('mouseenter', this.handleMouseEnter);
+      element.removeEventListener('mouseleave', this.handleMouseLeave);
+      element.removeEventListener('click', this.handleClick);
+      element.removeEventListener('focusin', this.handleFocus as EventListener);
+      element.removeEventListener('focusout', this.handleBlur);
     }
-  };
-  private handleMouseEnter = (
-    event: React.MouseEvent<HTMLElement> | MouseEvent
-  ) => {
+  }
+
+  private handleMouseEnter = (event: IMouseEvent) => {
     if (this.props.onMouseEnter) {
       this.props.onMouseEnter(event);
     }
   };
-  private handleMouseLeave = (
-    event: React.MouseEvent<HTMLElement> | MouseEvent
-  ) => {
+  private handleMouseLeave = (event: IMouseEvent) => {
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(event);
     }
   };
-  private handleClick = (event: React.MouseEvent<HTMLElement> | MouseEvent) => {
+  private handleClick = (event: IMouseEvent) => {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
   };
-  private handleFocus = (event: React.FocusEvent<HTMLElement> | FocusEvent) => {
+  private handleFocus = (event: IFocusEvent) => {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
-  private handleBlur = (event: React.FocusEvent<HTMLElement> | FocusEvent) => {
+  private handleBlur = (event: IBlurEvent) => {
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
@@ -331,7 +335,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
     return (
       <Transition
-        timeout={{ enter: 0, exit: 200 }}
+        timeout={TRANSITION_TIMEOUT}
         appear={!this.props.disableAnimations}
         in={this.props.opened}
         mountOnEnter
@@ -356,8 +360,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
               ]]: true
             })}
             style={rootStyle}
-            onMouseEnter={this.props.onMouseEnter}
-            onMouseLeave={this.props.onMouseLeave}
+            onMouseEnter={this.handleMouseEnter}
+            onMouseLeave={this.handleMouseLeave}
           >
             <div className={styles.content}>
               <div className={styles.contentInner} style={{ backgroundColor }}>
@@ -427,7 +431,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
   private handleLayoutEvent = () => {
     if (this.anchorInstance) {
-      this.updateAnchorElement(this.anchorInstance);
+      this.updateAnchorElement(this.extractElement(this.anchorInstance));
     }
     if (this.state.location) {
       this.updateLocation();
