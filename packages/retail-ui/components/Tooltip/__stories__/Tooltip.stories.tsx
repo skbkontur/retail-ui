@@ -164,6 +164,21 @@ storiesOf('Tooltip', module)
     <TestTooltip useWrapper={false} trigger="opened" pos="left top">
       <span>Without wrapper</span>
     </TestTooltip>
+  ))
+  .add('Tooltip with dynamic content', () => (
+    <div style={{ marginLeft: 200, marginBottom: 120 }}>
+      <div style={{ height: 90 }} />
+      <DynamicContentTooltip position={'top left'} />
+      <div style={{ height: 90 }} />
+      <DynamicContentTooltip position={'top left'} />
+      <div style={{ height: 90 }} />
+      <DynamicContentTooltip position={'left middle'} />
+      <div style={{ height: 90 }} />
+      <DynamicContentTooltip position={'bottom left'} />
+      <div style={{ height: 90 }} />
+      <DynamicContentTooltip position={'bottom left'} />
+      <div style={{ height: 90 }} />
+    </div>
   ));
 
 interface MyCustomTooltipState {
@@ -223,4 +238,59 @@ class ManualTooltip extends React.Component<
       </Tooltip>
     );
   }
+}
+
+const SMALL_CONTENT = <span>Sample text</span>;
+const LARGE_CONTENT = (
+  <span>
+    Sample text, sample text, sample text, sample text, sample text
+    <br />
+    Sample text, sample text, sample text, sample text, sample text
+    <br />
+    Sample text, sample text, sample text, sample text, sample text
+    <br />
+    Sample text, sample text, sample text, sample text, sample text
+    <br />
+    Sample text, sample text, sample text, sample text, sample text
+    <br />
+    Sample text, sample text, sample text, sample text, sample text
+  </span>
+);
+class DynamicContentTooltip extends React.Component<
+  { position?: PopupPosition },
+  { content: React.ReactNode }
+> {
+  public state = {
+    content: SMALL_CONTENT
+  };
+
+  public render() {
+    return (
+      <Tooltip
+        pos={this.props.position}
+        render={this.tooltipContentGetter}
+        trigger={'opened'}
+        closeButton={false}
+        useWrapper={false}
+      >
+        <Button
+          size={'large'}
+          onClick={() =>
+            this.setState({
+              content:
+                this.state.content === SMALL_CONTENT
+                  ? LARGE_CONTENT
+                  : SMALL_CONTENT
+            })
+          }
+        >
+          Toggle content
+        </Button>
+      </Tooltip>
+    );
+  }
+
+  private tooltipContentGetter = () => {
+    return this.state.content;
+  };
 }

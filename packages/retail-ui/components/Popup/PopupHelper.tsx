@@ -35,6 +35,27 @@ function isAbsoluteRectFullyVisible(absoluteRect: Rect): boolean {
   return _rectContainsRect(windowAbsoluteRect, absoluteRect);
 }
 
+function canBecomeFullyVisible(position: PositionObject, targetRect: Rect) {
+  const availableScrollDistances = _getAvailableScrollDistances();
+  if (position.direction === 'top') {
+    return targetRect.top + availableScrollDistances.top >= 0;
+  } else if (position.direction === 'left') {
+    return targetRect.left + availableScrollDistances.left >= 0;
+  }
+  // NOTE: for bottom/right cases browser will always expand document size
+  return true;
+}
+
+function _getAvailableScrollDistances(windowRect?: Rect): Offset {
+  windowRect = windowRect || convertRectToAbsolute(_getWindowRelativeRect());
+  const windowTop = windowRect.top;
+  const windowLeft = windowRect.left;
+  return {
+    top: windowTop,
+    left: windowLeft
+  };
+}
+
 function _getElementRelativeRect(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
 
@@ -99,5 +120,6 @@ function _getViewProperty(getProperty: (e: HTMLElement) => number): number {
 export default {
   getPositionObject,
   getElementAbsoluteRect,
-  isAbsoluteRectFullyVisible
+  isAbsoluteRectFullyVisible,
+  canBecomeFullyVisible
 };
