@@ -83,6 +83,8 @@ export interface FiasValue {
   addressErrors: AddressErrors;
   fiasId: FiasId;
   postalCode: string;
+  country?: FiasCountry;
+  foreignAddress?: string;
 }
 
 export type AddressValue = {
@@ -124,6 +126,9 @@ export interface SearchOptions {
 
 export interface APIProvider {
   search: (options: SearchOptions) => Promise<APIResult<SearchResponse>>;
+  searchCountry: (
+    options: { prefix: string; limit?: number }
+  ) => Promise<APIResult<FiasCountry[]>>;
   verify: (address: AddressValue) => Promise<APIResult<VerifyResponse>>;
 }
 
@@ -153,3 +158,9 @@ export type FieldsSettings = {
     visible?: boolean;
   }
 };
+
+export interface FiasCountry {
+  shortName: string;
+  fullName: string;
+  code: string;
+}
