@@ -14,8 +14,8 @@ export interface HintProps {
   children?: React.ReactNode;
   manual?: boolean;
   maxWidth?: React.CSSProperties['maxWidth'];
-  onMouseEnter?: (event: React.MouseEvent<HTMLElement> | MouseEvent) => void;
-  onMouseLeave?: (event: React.MouseEvent<HTMLElement> | MouseEvent) => void;
+  onMouseEnter?: (event: IMouseEvent) => void;
+  onMouseLeave?: (event: IMouseEvent) => void;
   opened?: boolean;
   pos:
     | 'top'
@@ -87,25 +87,15 @@ class Hint extends React.Component<HintProps, HintState> {
   public componentWillUnmount() {
     if (this.timer) {
       clearTimeout(this.timer);
+      this.timer = null;
     }
   }
 
   public render() {
-    if (this.props.useWrapper) {
-      const caption = (
-        <span
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-        >
-          {this.props.children}
-        </span>
-      );
-      return this.renderPopup(caption);
-    }
-
     return this.renderPopup(this.props.children, {
       onMouseEnter: this.handleMouseEnter,
-      onMouseLeave: this.handleMouseLeave
+      onMouseLeave: this.handleMouseLeave,
+      useWrapper: this.props.useWrapper
     });
   }
 
@@ -147,9 +137,7 @@ class Hint extends React.Component<HintProps, HintState> {
     return Positions.filter(x => x.startsWith(this.props.pos));
   };
 
-  private handleMouseEnter = (
-    e: React.MouseEvent<HTMLElement> | MouseEvent
-  ) => {
+  private handleMouseEnter = (e: IMouseEvent) => {
     if (!this.props.manual && !this.timer) {
       this.timer = window.setTimeout(this.open, 400);
     }
@@ -159,9 +147,7 @@ class Hint extends React.Component<HintProps, HintState> {
     }
   };
 
-  private handleMouseLeave = (
-    e: React.MouseEvent<HTMLElement> | MouseEvent
-  ) => {
+  private handleMouseLeave = (e: IMouseEvent) => {
     if (!this.props.manual && this.timer) {
       clearTimeout(this.timer);
       this.timer = null;

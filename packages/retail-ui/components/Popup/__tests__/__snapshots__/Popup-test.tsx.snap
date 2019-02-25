@@ -26,6 +26,7 @@ exports[`Popup snapshots:  open and close popup: closed popup 1`] = `
       "top right",
     ]
   }
+  useWrapper={false}
 >
   <RenderLayer
     active={false}
@@ -57,10 +58,10 @@ exports[`Popup snapshots:  open and close popup: closed popup 1`] = `
       />
       <Portal
         key="portal-ref"
-        rt_rootID={3}
+        rt_rootID={1}
       >
         <noscript
-          data-render-container-id={3}
+          data-render-container-id={1}
         />
       </Portal>
     </RenderContainer>
@@ -94,6 +95,7 @@ exports[`Popup snapshots:  open and close popup: closed popup again 1`] = `
       "top right",
     ]
   }
+  useWrapper={false}
 >
   <RenderLayer
     active={false}
@@ -125,10 +127,10 @@ exports[`Popup snapshots:  open and close popup: closed popup again 1`] = `
       />
       <Portal
         key="portal-ref"
-        rt_rootID={3}
+        rt_rootID={1}
       >
         <noscript
-          data-render-container-id={3}
+          data-render-container-id={1}
         />
       </Portal>
     </RenderContainer>
@@ -162,6 +164,7 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
       "top right",
     ]
   }
+  useWrapper={false}
 >
   <RenderLayer
     active={false}
@@ -195,6 +198,8 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
           className="popup transition-enter-top"
           delta={1000}
           key="dummy"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           render={true}
           style={
             Object {
@@ -206,6 +211,8 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
         >
           <div
             className="popup transition-enter-top"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
             style={
               Object {
                 "left": -9999,
@@ -234,10 +241,10 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
       </Transition>
       <Portal
         key="portal-ref"
-        rt_rootID={3}
+        rt_rootID={1}
       >
         <noscript
-          data-render-container-id={3}
+          data-render-container-id={1}
         />
       </Portal>
     </RenderContainer>

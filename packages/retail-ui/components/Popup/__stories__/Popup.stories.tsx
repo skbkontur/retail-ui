@@ -3,6 +3,48 @@ import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import Popup from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
+import Tooltip from '../../Tooltip';
+import ComboBox from '../../ComboBox';
+import Hint from '../../Hint';
+import Select from '../../Select';
+
+storiesOf('Popup', module)
+  .add('All pin opened', () => (
+    <AllCases small={false} padding={'50px 100px'} />
+  ))
+  .add('All pin opened on small elements', () => (
+    <AllCases small padding={'70px 150px'} />
+  ))
+  .add('Positioning', () => <Positioning />)
+  .add('disableAnimations', () => (
+    <div>
+      <PopupWithPositions
+        disableAnimations={false}
+        placeholder={'disableAnimations: false'}
+      />
+      <PopupWithPositions
+        disableAnimations={true}
+        placeholder={'disableAnimations: true'}
+      />
+    </div>
+  ))
+  .add('Hint', () => (
+    <div style={{ padding: '100px' }}>
+      <FakeHint
+        positions={['top center', 'right top', 'bottom center', 'left middle']}
+        margin={20}
+      />
+    </div>
+  ))
+  .add('Toast', () => (
+    <div style={{ padding: '100px' }}>
+      <Toast
+        positions={['top center', 'right top', 'bottom center', 'left middle']}
+      />
+    </div>
+  ))
+  .add('Small width', () => <MinWidth />)
+  .add('Hover behaviour', () => <HoverBehaviour />);
 
 const AllCases = ({ small, padding }: { small: boolean; padding: string }) => (
   <div style={{ padding }}>
@@ -143,43 +185,6 @@ class MinWidth extends React.Component {
     );
   }
 }
-
-storiesOf('Popup', module)
-  .add('All pin opened', () => (
-    <AllCases small={false} padding={'50px 100px'} />
-  ))
-  .add('All pin opened on small elements', () => (
-    <AllCases small padding={'70px 150px'} />
-  ))
-  .add('Positioning', () => <Positioning />)
-  .add('disableAnimations', () => (
-    <div>
-      <PopupWithPositions
-        disableAnimations={false}
-        placeholder={'disableAnimations: false'}
-      />
-      <PopupWithPositions
-        disableAnimations={true}
-        placeholder={'disableAnimations: true'}
-      />
-    </div>
-  ))
-  .add('Hint', () => (
-    <div style={{ padding: '100px' }}>
-      <FakeHint
-        positions={['top center', 'right top', 'bottom center', 'left middle']}
-        margin={20}
-      />
-    </div>
-  ))
-  .add('Toast', () => (
-    <div style={{ padding: '100px' }}>
-      <Toast
-        positions={['top center', 'right top', 'bottom center', 'left middle']}
-      />
-    </div>
-  ))
-  .add('Small width', () => <MinWidth />);
 
 interface AlwaysOpenedProps {
   small: boolean;
@@ -398,6 +403,179 @@ class Toast extends Component<any, any> {
           </Popup>
         )}
       </div>
+    );
+  }
+}
+
+const renderPopupContent = () => {
+  return <span>Popup content</span>;
+};
+
+const COMBOBOX_ITEMS = [
+  { value: 1, label: 'First' },
+  { value: 2, label: 'Second' }
+];
+const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => [i.value, i.label]);
+const getComboboxItems = () => Promise.resolve(COMBOBOX_ITEMS);
+
+interface IDropdownValue {
+  value: number;
+  label: string;
+}
+interface HasDropdownState {
+  selected?: IDropdownValue;
+}
+
+interface HoverTestProps {
+  dropdownProps?: { disablePortal: boolean };
+  popupProps?: { useWrapper: boolean };
+  useText?: boolean;
+}
+class TooltipWithCombobox extends Component<
+  HoverTestProps,
+  HasDropdownState
+> {
+  public state: HasDropdownState = {};
+
+  public render() {
+    const tooltipProps = this.props.popupProps || {};
+    const comboboxProps = this.props.dropdownProps || {};
+    return (
+      <Tooltip
+        pos={'top left'}
+        trigger={'hover'}
+        closeButton={false}
+        render={renderPopupContent}
+        disableAnimations
+        {...tooltipProps}
+      >
+        {this.props.useText ? (
+          'Sample text'
+        ) : (
+          <ComboBox
+            size={'large'}
+            getItems={getComboboxItems}
+            value={this.state.selected}
+            onChange={this.handleOnChange}
+            {...comboboxProps}
+          />
+        )}
+      </Tooltip>
+    );
+  }
+  private handleOnChange = (event: any, value: IDropdownValue) => {
+    this.setState({ selected: value });
+  };
+}
+
+class HintWithSelect extends Component<HoverTestProps, HasDropdownState> {
+  public state: HasDropdownState = {};
+
+  public render() {
+    const hintProps = this.props.popupProps || {};
+    const selectProps = this.props.dropdownProps || {};
+    return (
+      <Hint
+        pos={'top left'}
+        text={'Hint text'}
+        disableAnimations
+        {...hintProps}
+      >
+        {this.props.useText ? (
+          'Sample text'
+        ) : (
+          <Select
+            size={'large'}
+            items={SELECT_ITEMS}
+            value={this.state.selected}
+            onChange={this.handleOnChange}
+            {...selectProps}
+          />
+        )}
+      </Hint>
+    );
+  }
+  private handleOnChange = (event: any, value: IDropdownValue) => {
+    this.setState({ selected: value });
+  };
+}
+
+const HOVER_CASES: HoverTestProps[] = [
+  {
+    dropdownProps: { disablePortal: true },
+    popupProps: { useWrapper: true }
+  },
+  {
+    dropdownProps: { disablePortal: true },
+    popupProps: { useWrapper: false }
+  },
+  {
+    dropdownProps: { disablePortal: false },
+    popupProps: { useWrapper: true }
+  },
+  {
+    dropdownProps: { disablePortal: false },
+    popupProps: { useWrapper: false }
+  },
+  {
+    useText: true,
+    popupProps: { useWrapper: true }
+  },
+  {
+    useText: true,
+    popupProps: { useWrapper: false }
+  }
+];
+
+const DescribeProps = (props: HoverTestProps) => {
+  return (
+    <span>
+      {props.useText ? 'Text' : 'Component'}
+      {props.popupProps && <br />}
+      {props.popupProps &&
+        `popupProps.useWrapper=${props.popupProps.useWrapper}`}
+      {props.dropdownProps && <br />}
+      {props.dropdownProps &&
+      `dropdownProps.disablePortal=${props.dropdownProps.disablePortal}`}
+    </span>
+  );
+};
+
+class HoverBehaviour extends Component<any, any> {
+  public render() {
+    return (
+      <table cellPadding={20}>
+        <thead>
+          <tr>
+            <td>Case</td>
+            <td>Tooltip</td>
+            <td>Hint</td>
+          </tr>
+        </thead>
+        <tbody>
+          {HOVER_CASES.map((props, index) => (
+            <tr key={index}>
+              <td>
+                <DescribeProps {...props} />
+              </td>
+              <td>
+                <TooltipWithCombobox
+                  useText={props.useText}
+                  popupProps={props.popupProps}
+                  dropdownProps={props.dropdownProps}
+                />
+              </td>
+              <td>
+                <HintWithSelect
+                  useText={props.useText}
+                  popupProps={props.popupProps}
+                  dropdownProps={props.dropdownProps}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     );
   }
 }

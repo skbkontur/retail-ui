@@ -1,0 +1,262 @@
+@import '../variables.less';
+
+.commonStyles() {
+  .root {
+    .reset-button();
+    .reset-text();
+
+    border: 0;
+    color: @text-color-default;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    margin: 0; /* Need for Safari. */
+    outline: 0;
+    overflow: visible; /* On IE it's hidden by default. */
+    position: relative;
+    width: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-clip: border-box;
+
+    &::-moz-focus-inner {
+      border: 0;
+      padding: 0;
+    }
+
+    &:active,
+    &.active,
+    &.checked {
+      &:not(.link):not(.disabled) {
+        .caption {
+          transform: translateY(1px);
+        }
+      }
+    }
+
+    &::after {
+      content: '';
+      display: inline-block;
+      vertical-align: baseline;
+      width: 0;
+    }
+
+    .warning,
+    .error {
+      border-radius: inherit;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    &:not(.link) .warning {
+      box-shadow: 0 0 0 2px @border-color-warning;
+    }
+
+    &:not(.link) .error {
+      box-shadow: 0 0 0 2px @border-color-error;
+    }
+  }
+
+  .caption {
+    position: relative;
+    white-space: nowrap;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .icon {
+    display: inline-block;
+    padding-right: 7px;
+  }
+
+  .sizeSmall {
+    font-size: 14px;
+
+    &:not(.link) {
+      padding: @control-padding-y-small 15px;
+      line-height: @control-line-height-small;
+
+      :global(.rt-ie-any) & {
+        line-height: normal;
+        padding-top: @control-padding-y-small - 1;
+        padding-bottom: @control-padding-y-small + 1;
+      }
+    }
+  }
+
+  .sizeMedium {
+    font-size: 16px;
+
+    &:not(.link) {
+      padding: @control-padding-y-medium - 1 15px @control-padding-y-medium + 1;
+      line-height: @control-line-height-medium;
+
+      :global(.rt-ie-any) & {
+        line-height: normal;
+        padding-top: @control-padding-y-medium - 2;
+        padding-bottom: @control-padding-y-medium + 2;
+      }
+    }
+  }
+
+  .DEPRECATED_sizeMedium {
+    &:not(.link) {
+      padding: @control-padding-y-medium 15px;
+      line-height: @control-line-height-small;
+
+      :global(.rt-ie-any) & {
+        line-height: normal;
+        padding-top: @control-padding-y-medium - 1;
+        padding-bottom: @control-padding-y-medium + 1;
+      }
+    }
+  }
+
+  .sizeLarge {
+    font-size: 16px;
+
+    &:not(.link) {
+      padding: @control-padding-y-large - 1 20px @control-padding-y-large + 1;
+      line-height: @control-line-height-large;
+
+      :global(.rt-ie-any) & {
+        line-height: normal;
+        padding-top: @control-padding-y-large - 2;
+        padding-bottom: @control-padding-y-large + 2;
+      }
+    }
+  }
+
+  .buttonWithIcon {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  // Use Link
+  .root.link {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    line-height: inherit;
+
+    .caption {
+      display: inline;
+    }
+
+    &.disabled {
+      box-shadow: none;
+      background: none;
+    }
+
+    .icon {
+      padding-right: @linkIconPadding;
+    }
+
+    .warning,
+    .error {
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+    }
+
+    .error {
+      background: @error-secondary;
+    }
+  }
+
+  .linkMixin(
+    link,
+    @link-color,
+    @link-hover-color,
+    @link-hover-color,
+    @link-active-color
+  );
+
+  .wrap {
+    box-sizing: border-box;
+    display: inline-block;
+
+    .root.disabled {
+      background: @bg-disabled;
+      color: #808080;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .narrow {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+
+    .noPadding {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .noRightPadding {
+      padding-right: 0;
+    }
+  }
+
+  .loading {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: inherit;
+    overflow: hidden;
+  }
+
+  .loading::before {
+    content: '';
+    height: 100%;
+    position: absolute;
+    opacity: 0.2;
+    background: linear-gradient(
+      -110deg,
+      #ccc 30%,
+      transparent 0,
+      transparent 60%,
+      #ccc 0
+    );
+    background-size: 30px 100%;
+    top: 0;
+    left: 0;
+    right: -30px;
+
+    :global {
+      animation: btn_loading 1s linear infinite;
+    }
+
+    transform: rotateY(180deg) skewX(0deg) skewY(0deg);
+  }
+}
+
+@keyframes btn_loading {
+  0% {
+    transform: translateX(0) rotateY(180deg);
+  }
+
+  100% {
+    transform: translateX(-30px) rotateY(180deg);
+  }
+}
+
+@keyframes btn_loading_arrow {
+  0% {
+    transform: translateX(50px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
+  }
+
+  100% {
+    transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg)
+      skewY(0deg);
+  }
+}

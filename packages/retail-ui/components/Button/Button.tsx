@@ -232,7 +232,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
 
     const wrapProps = {
       className: classNames({
-        [classes.wrap]: !this.props.arrow,
+        [classes.wrap]: true,
         [classes.wrap_arrow]: this.props.arrow,
         [classes.wrap_arrow_left]: this.props.arrow === 'left'
       }),
