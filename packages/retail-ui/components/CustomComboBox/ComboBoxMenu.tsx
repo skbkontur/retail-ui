@@ -4,7 +4,7 @@ import MenuItem, { MenuItemState } from '../MenuItem/MenuItem';
 import Spinner from '../Spinner/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
-import { ComboBoxRequestStatus } from './types';
+import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 
 export interface ComboBoxMenuProps<T> {
   opened?: boolean;

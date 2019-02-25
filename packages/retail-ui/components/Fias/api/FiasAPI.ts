@@ -12,7 +12,8 @@ import {
   VerifyResponse,
   APIResult,
   FetchFn,
-  FetchResponse
+  FetchResponse,
+  FiasCountry
 } from '../types';
 import abbreviations from '../constants/abbreviations';
 import { Logger } from '../logger/Logger';
@@ -170,6 +171,13 @@ export class FiasAPI implements APIProvider {
     }
 
     return Promise.resolve(emptyResult);
+  };
+
+  public searchCountry = (query: {
+    prefix: string;
+    limit?: number;
+  }): Promise<APIResult<FiasCountry[]>> => {
+    return this.send(`countries?${FiasAPI.createQuery(query)}`);
   };
 
   private send = <Data>(

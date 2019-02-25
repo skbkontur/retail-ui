@@ -17,7 +17,8 @@ import {
   SearchOptions,
   APIResult,
   ExtraFields,
-  FieldsSettings
+  FieldsSettings,
+  FiasCountry
 } from '../types';
 import { Address } from '../models/Address';
 import { AddressElement } from '../models/AddressElement';
@@ -25,6 +26,8 @@ import Tooltip from '../../Tooltip/Tooltip';
 import { InputProps } from '../../Input';
 import Input from '../../Input/Input';
 import FiasSearch from './FiasSearch';
+import { FiasCountrySelector } from './FiasCountrySelector';
+import { Textarea } from 'retail-ui/components/all';
 
 interface FiasFormProps {
   api: APIProvider;
@@ -34,6 +37,7 @@ interface FiasFormProps {
   search?: boolean;
   limit?: number;
   validationLevel?: FormValidation;
+  countrySelector?: boolean;
 }
 
 interface FiasFormState {
@@ -62,7 +66,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   public static defaultProps = {
     validationLevel: 'Error',
     limit: 5,
-    fieldsSettings: {}
+    fieldsSettings: {},
+    countrySelector: false
   };
 
   public static Field = ({
@@ -147,6 +152,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   }
 
+  public get isForeignForm(): boolean {
+    const { address } = this.state;
+    const { countrySelector } = this.props;
+    return address.isForeign || (Boolean(countrySelector) && !address.country);
+  }
+
   public componentDidMount() {
     this.check();
   }
@@ -158,21 +169,48 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   public render() {
     const { address } = this.state;
+    const { locale, limit, countrySelector } = this.props;
     return (
       <div>
         <Gapped vertical>
+          {countrySelector && (
+            <FiasForm.Field label={locale.countryLabel}>
+              <FiasCountrySelector
+                api={this.props.api}
+                country={address.country}
+                onChange={this.handleCountryChange}
+                limit={limit}
+                locale={locale}
+              />
+            </FiasForm.Field>
+          )}
           {this.props.search && (
             <FiasForm.Field>
               <FiasSearch
                 source={this.createItemsSource}
                 address={address}
                 onChange={this.handleAddressChange}
-                limit={this.props.limit}
-                locale={this.props.locale}
+                limit={limit}
+                locale={locale}
               />
             </FiasForm.Field>
           )}
-          {this.renderFields()}
+          {this.isForeignForm ? (
+            <Gapped vertical>
+              <FiasForm.Field label={locale.foreignAddressLabel}>
+                <Textarea
+                  value={address.foreignAddress}
+                  onChange={this.handleForeignAddressChange}
+                  placeholder={locale.foreignAddressPlaceholder}
+                  width="100%"
+                  resize="none"
+                />
+              </FiasForm.Field>
+              {this.renderFields([ExtraFields.postalcode])}
+            </Gapped>
+          ) : (
+            this.renderFields(Address.ALL_FIELDS)
+          )}
         </Gapped>
       </div>
     );
@@ -196,9 +234,11 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
   };
 
-  private renderFields = (): React.ReactNode => {
+  private renderFields = (
+    fields: Array<Fields | ExtraFields>
+  ): React.ReactNode => {
     const { locale, fieldsSettings } = this.props;
-    return Address.ALL_FIELDS.map((field: Fields | ExtraFields) => {
+    return fields.map((field: Fields | ExtraFields) => {
       const control = this.fields[field];
       const settings = fieldsSettings[field];
       if (control && Boolean(settings && settings.visible)) {
@@ -277,8 +317,6 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           value={value}
           width={130}
           ref={createRef}
-          mask={'999999'}
-          maskChar={''}
         />
       );
     }
@@ -331,9 +369,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       this.createItemsSource(searchText, field);
 
     const onChange = (e: FiasComboBoxChangeEvent, value: Address) => {
-      const { fields: oldFields, additionalFields } = this.state.address;
+      const { address } = this.state;
       const newFields = {
-        ...oldFields,
+        ...address.fields,
         ...value.fields
       };
       let addressField: Fields;
@@ -342,7 +380,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           delete newFields[addressField];
         }
       }
-      this.handleAddressChange(new Address(newFields, additionalFields));
+      this.handleAddressChange(
+        Address.createFromAddress(address, { fields: newFields })
+      );
     };
 
     const onInputChange = () => {
@@ -350,11 +390,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
 
     const onUnexpectedInput = (query: string) => {
+      const { address } = this.state;
       const newFields = {
-        ...this.state.address.fields,
+        ...address.fields,
         [field]: query ? new AddressElement(field, query) : undefined
       };
-      return new Address(newFields);
+      return Address.createFromAddress(address, { fields: newFields });
     };
 
     const renderItem = (address: Address): string => {
@@ -426,13 +467,16 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   private createAddressInputProps(field: Fields): InputProps {
     return {
       onChange: (e: React.ChangeEvent, value: string) => {
-        const { fields, additionalFields } = this.state.address;
+        const { address } = this.state;
+        const fields = { ...address.fields };
         if (value) {
           fields[field] = new AddressElement(field, value);
         } else {
           delete fields[field];
         }
-        this.handleAddressChange(new Address(fields, additionalFields));
+        this.handleAddressChange(
+          Address.createFromAddress(address, { fields })
+        );
       }
     };
   }
@@ -440,13 +484,15 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   private createPostalCodeInputProps(): InputProps {
     return {
       onChange: (e: React.ChangeEvent, value: string) => {
-        const { fields, additionalFields, errors } = this.state.address;
+        const { address } = this.state;
         const newAdditionalFields = {
-          ...additionalFields,
+          ...address.additionalFields,
           [ExtraFields.postalcode]: value
         };
         this.handleAddressChange(
-          new Address(fields, newAdditionalFields, errors)
+          Address.createFromAddress(address, {
+            additionalFields: newAdditionalFields
+          })
         );
       }
     };
@@ -510,9 +556,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const { locale } = this.props;
     const tooltipContent = this.getFieldTooltipContent(ExtraFields.postalcode);
     const replacePostalCode = () => {
-      const { fields, additionalFields } = this.state.address;
+      const { address } = this.state;
+      const additionalFields = { ...address.additionalFields };
       delete additionalFields[ExtraFields.postalcode];
-      this.handleAddressChange(new Address(fields, additionalFields));
+      this.handleAddressChange(
+        Address.createFromAddress(address, { additionalFields })
+      );
     };
     return (
       tooltipContent && (
@@ -554,10 +603,29 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       });
   }
 
+  private handleCountryChange = (country?: FiasCountry) => {
+    this.handleAddressChange(
+      Address.createFromAddress(this.state.address, { country })
+    );
+  };
+
+  private handleForeignAddressChange = (e: any, value: string) => {
+    this.handleAddressChange(
+      Address.createFromAddress(this.state.address, {
+        foreignAddress: value
+      })
+    );
+  };
+
   private handleAddressChange = (address: Address) => {
     this.setState(
       {
-        address: this.filterInvisibleFields(address)
+        address: Address.createFromAddress(address, {
+          fields: Address.filterVisibleFields(
+            address.fields,
+            this.props.fieldsSettings
+          )
+        })
       },
       () => {
         this.check();
@@ -569,25 +637,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const { address } = this.state;
     if (address.hasErrors) {
       this.setState({
-        address: new Address(address.fields, address.additionalFields)
+        address: Address.createFromAddress(address, { errors: {} })
       });
     }
-  };
-
-  private filterInvisibleFields = (address: Address): Address => {
-    const { fieldsSettings } = this.props;
-    const isFieldVisible = (field: Fields): boolean => {
-      const settings = fieldsSettings[field];
-      return Boolean(settings && settings.visible);
-    };
-    const { fields, additionalFields, errors } = address;
-    let addressField: Fields;
-    for (addressField in fields) {
-      if (!isFieldVisible(addressField)) {
-        delete fields[addressField];
-      }
-    }
-    return new Address(fields, additionalFields, errors);
   };
 }
 

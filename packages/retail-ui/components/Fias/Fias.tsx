@@ -9,7 +9,8 @@ import {
   FiasLocale,
   APIProvider,
   AdditionalFields,
-  FieldsSettings
+  FieldsSettings,
+  SearchOptions
 } from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
@@ -47,7 +48,7 @@ export interface FiasProps {
   readonly?: boolean;
   /**
    * API URL. Существует тестовый
-   * `https://api.dev.kontur/fias/v1/` и боевой `https://api.kontur.ru/fias/v1/`
+   * `https://api.testkontur.ru/fias/v1/` и боевой `https://api.kontur.ru/fias/v1/`
    */
   baseUrl?: string;
   /**
@@ -104,6 +105,8 @@ export interface FiasProps {
    *
    */
   fieldsSettings: FieldsSettings;
+  /* Выбор страны */
+  countrySelector: boolean;
 }
 
 export interface FiasState {
@@ -135,7 +138,8 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     search: false,
     icon: <EditIcon />,
     allowNotVerified: true,
-    fieldsSettings: {}
+    fieldsSettings: {},
+    countrySelector: false
   };
 
   public state: FiasState = {
@@ -157,7 +161,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   }
 
   public get fieldsSettings(): FieldsSettings {
-    const { fieldsSettings: userSettings } = this.props;
+    const { fieldsSettings: userSettings, countrySelector } = this.props;
     // TODO: implement deepMerge with clone
     const defaultSettings = Address.ALL_FIELDS.reduce<FieldsSettings>(
       (settings: FieldsSettings, field: Fields | ExtraFields) => ({
@@ -172,7 +176,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       defaultSettings,
       {
         [ExtraFields.postalcode]: {
-          visible: false
+          visible: Boolean(countrySelector)
         }
       },
       userSettings
@@ -232,12 +236,11 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
     return (
       <div>
-        {!address.isEmpty &&
-          showAddressText && (
-            <span>
-              {address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}
-            </span>
-          )}
+        {showAddressText && (
+          <span>
+            {address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}
+          </span>
+        )}
         {!this.props.readonly && (
           <div>
             <Link icon={icon} onClick={this.handleOpen}>
@@ -253,7 +256,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   private renderModal() {
     const { address, locale, fieldsSettings } = this.state;
-    const { search, limit, formValidation } = this.props;
+    const { search, limit, formValidation, countrySelector } = this.props;
     return (
       <FiasModal
         locale={locale}
@@ -269,6 +272,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           locale={locale}
           validationLevel={formValidation}
           fieldsSettings={fieldsSettings}
+          countrySelector={countrySelector}
         />
       </FiasModal>
     );
@@ -305,44 +309,72 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   private getAddress = async (value: Partial<FiasValue> | undefined) => {
     if (value) {
-      const { address, addressString, fiasId, postalCode } = value;
+      const {
+        address,
+        addressString,
+        fiasId,
+        postalCode,
+        country,
+        foreignAddress
+      } = value;
       const additionalFields: AdditionalFields = {};
+      const { fieldsSettings } = this.state;
+      let searchOptions: SearchOptions = {};
+
       if (postalCode) {
         additionalFields[ExtraFields.postalcode] = postalCode;
       }
-      if (address) {
-        const addressValue = this.filterInvisibleFields(address);
-        return Address.createFromAddressValue(addressValue, additionalFields);
-      } else {
-        let options = {};
-        if (fiasId) {
-          options = {
-            fiasId
-          };
-        }
-        if (addressString) {
-          options = {
-            searchText: addressString,
-            limit: 1
-          };
-        }
-        const { success, data } = await this.api.search(options);
-        if (success && data && data.length) {
-          const addressResponse = this.filterInvisibleFields(data[0]);
-          return Address.createFromResponse(addressResponse, additionalFields);
-        }
-      }
-    }
-    return new Address();
-  };
 
-  private filterInvisibleFields = <T extends {}>(address: T): T => {
-    for (const field in address) {
-      if (!this.isFieldVisible(field as Fields)) {
-        delete address[field];
+      if (country && !Address.IS_RUSSIA(country)) {
+        return new Address({
+          country,
+          foreignAddress,
+          additionalFields: { [ExtraFields.postalcode]: postalCode }
+        });
+      }
+
+      if (address) {
+        const addressValue = Address.filterVisibleFields(
+          address,
+          fieldsSettings
+        );
+        return Address.createFromAddressValue(
+          addressValue,
+          additionalFields,
+          country
+        );
+      }
+
+      if (fiasId) {
+        searchOptions = {
+          fiasId
+        };
+      }
+
+      if (addressString) {
+        searchOptions = {
+          searchText: addressString,
+          limit: 1
+        };
+      }
+
+      const { success, data } = await this.api.search(searchOptions);
+      if (success && data && data.length) {
+        const addressResponse = Address.filterVisibleFields(
+          data[0],
+          fieldsSettings
+        );
+        return Address.createFromResponse(
+          addressResponse,
+          additionalFields,
+          country
+        );
+      } else {
+        return new Address({ country });
       }
     }
-    return address;
+
+    return new Address();
   };
 
   private handleOpen = () => {
