@@ -7,7 +7,7 @@ import InputLikeText from '../internal/InputLikeText';
 import shallow from 'fbjs/lib/shallowEqual';
 import { MenuItemState } from '../MenuItem';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
-import { CustomError } from '../../lib/utils';
+import { CancelationError, taskWithDelay } from '../../lib/utils';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T; keepFocus: boolean }
@@ -91,19 +91,6 @@ export type Reducer<T> = (
   props: CustomComboBoxProps<T>,
   action: Action<T>
 ) => CustomComboBoxState<T> | [CustomComboBoxState<T>, Array<Effect<T>>];
-
-function taskWithDelay(task: () => void, delay: number) {
-  let cancelationToken: (() => void) = () => null;
-
-  new Promise((resolve, reject) => {
-    cancelationToken = reject;
-    setTimeout(resolve, delay);
-  })
-    .then(task)
-    .catch(() => null);
-
-  return cancelationToken;
-}
 
 export const DELAY_BEFORE_SHOW_LOADER = 300;
 export const LOADER_SHOW_TIME = 1000;
@@ -205,7 +192,7 @@ class CustomComboBox extends React.Component<
         });
       }
     } catch (error) {
-      if (error && error.code === 'CancelRequest') {
+      if (error && error.code === 'CancelationError') {
         this.dispatch({ type: 'CancelRequest' });
       } else if (expectingId === this.requestId) {
         this.dispatch({
@@ -234,8 +221,7 @@ class CustomComboBox extends React.Component<
    */
   public cancelSearch() {
     if (this.cancelationToken) {
-      const cancelError = new CustomError('', 'CancelRequest');
-      this.cancelationToken(cancelError);
+      this.cancelationToken(new CancelationError());
     }
   }
 

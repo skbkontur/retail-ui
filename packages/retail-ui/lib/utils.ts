@@ -1,17 +1,21 @@
-import {Nullable} from "../typings/utility-types";
-
-type CustomErrorCode = number | string;
-
 export const delay = (ms: number) =>
   new Promise(resolve => setTimeout(resolve, ms));
 
 export const emptyHandler = () => undefined;
 
-export class CustomError extends Error {
-  public code: Nullable<CustomErrorCode>;
+export class CancelationError extends Error {
+  public code = 'CancelationError';
+}
 
-  constructor(message?: string, code?: CustomErrorCode) {
-    super(message);
-    this.code = code;
-  }
+export function taskWithDelay(task: () => void, ms: number) {
+  let cancelationToken: (() => void) = () => null;
+
+  new Promise((resolve, reject) => {
+    cancelationToken = reject;
+    setTimeout(resolve, ms);
+  })
+    .then(task)
+    .catch(() => null);
+
+  return cancelationToken;
 }
