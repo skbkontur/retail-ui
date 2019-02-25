@@ -726,9 +726,11 @@ describe('ComboBox', () => {
         getItems.mockClear();
       });
 
-      it('opens menu if it is closed', () => {
+      it('opens menu if it is closed', async () => {
         wrapper.instance().close();
         clickOnInput(wrapper);
+        await delay(300);
+        wrapper.update();
         expect(wrapper.find(Menu)).toHaveLength(1);
       });
 
