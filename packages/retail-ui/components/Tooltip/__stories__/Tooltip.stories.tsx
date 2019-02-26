@@ -6,7 +6,6 @@ import Button from '../../Button';
 import { PopupPosition, PopupPositions } from '../../Popup';
 import { createPropsGetter } from '../../internal/createPropsGetter';
 import Textarea from '../../Textarea';
-import { UpdateTooltipPosition } from '../Tooltip';
 
 interface TestTooltipProps {
   pos?: PopupPosition;
@@ -167,34 +166,14 @@ storiesOf('Tooltip', module)
     </TestTooltip>
   ))
   .add('Tooltip with external dynamic content', () => (
-    <div style={{ marginLeft: 200, marginBottom: 120 }}>
-      <div style={{ height: 90 }} />
-      <ExternalDynamicContentTooltip position={'top left'} />
-      <div style={{ height: 90 }} />
-      <ExternalDynamicContentTooltip position={'top left'} />
-      <div style={{ height: 90 }} />
-      <ExternalDynamicContentTooltip position={'left middle'} />
-      <div style={{ height: 90 }} />
-      <ExternalDynamicContentTooltip position={'bottom left'} />
-      <div style={{ height: 90 }} />
-      <ExternalDynamicContentTooltip position={'bottom left'} />
-      <div style={{ height: 90 }} />
-    </div>
+    <DynamicContentStory
+      TooltipComponentClass={ExternalDynamicContentTooltip}
+    />
   ))
   .add('Tooltip with internal dynamic content', () => (
-    <div style={{ marginLeft: 250, marginBottom: 120 }}>
-      <div style={{ height: 90 }} />
-      <InternalDynamicContentTooltip position={'top left'} />
-      <div style={{ height: 90 }} />
-      <InternalDynamicContentTooltip position={'top left'} />
-      <div style={{ height: 90 }} />
-      <InternalDynamicContentTooltip position={'left middle'} />
-      <div style={{ height: 90 }} />
-      <InternalDynamicContentTooltip position={'bottom left'} />
-      <div style={{ height: 90 }} />
-      <InternalDynamicContentTooltip position={'bottom left'} />
-      <div style={{ height: 90 }} />
-    </div>
+    <DynamicContentStory
+      TooltipComponentClass={InternalDynamicContentTooltip}
+    />
   ))
   .add('Tooltip with dynamic anchor', () => <DynamicAnchorTooltip />);
 
@@ -293,12 +272,18 @@ class ExternalDynamicContentTooltip extends React.Component<
     return (
       <Tooltip
         pos={this.props.position}
+        allowedPositions={[
+          'top left',
+          'left middle',
+          'right middle',
+          'bottom left'
+        ]}
         render={this.tooltipContentGetter}
         trigger={'opened'}
         closeButton={false}
         useWrapper={false}
       >
-        <Button size={'small'} onClick={this.buttonClickHandler}>
+        <Button size={'small'} width={'100%'} onClick={this.buttonClickHandler}>
           Toggle content
         </Button>
       </Tooltip>
@@ -352,6 +337,12 @@ class InternalDynamicContentTooltip extends React.Component<
   public render() {
     return (
       <Tooltip
+        allowedPositions={[
+          'top left',
+          'left middle',
+          'right middle',
+          'bottom left'
+        ]}
         pos={this.props.position}
         render={this.tooltipContentGetter}
         trigger={'opened'}
@@ -371,10 +362,7 @@ class InternalDynamicContentTooltip extends React.Component<
 interface DynamicAnchorState {
   isFirst: boolean;
 }
-class DynamicAnchor extends React.Component<
-  { onContentChange?: () => void },
-  DynamicAnchorState
-> {
+class DynamicAnchor extends React.Component<{}, DynamicAnchorState> {
   public state: DynamicAnchorState = {
     isFirst: true
   };
@@ -391,6 +379,34 @@ class DynamicAnchor extends React.Component<
     this.setState({ isFirst: !this.state.isFirst });
   };
 }
+
+const DYNAMIC_TOOLTIP_POSITIONS: PopupPosition[] = [
+  'top left',
+  'top left',
+  'left middle',
+  'bottom left',
+  'bottom left'
+];
+
+interface DynamicContentStoryProps {
+  TooltipComponentClass:
+    | typeof ExternalDynamicContentTooltip
+    | typeof InternalDynamicContentTooltip;
+}
+const DynamicContentStory = (props: DynamicContentStoryProps) => {
+  const { TooltipComponentClass } = props;
+  return (
+    <div style={{ paddingTop: 70, paddingRight: 600, paddingBottom: 70,  paddingLeft: 250, width: 130 }}>
+      {DYNAMIC_TOOLTIP_POSITIONS.map((position, index) => {
+        return (
+          <div key={index} id={`Container-${index}`} style={{ paddingBottom: 70 }}>
+            <TooltipComponentClass position={position} />
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 class DynamicAnchorTooltip extends React.Component<{}, {}> {
   public render() {
