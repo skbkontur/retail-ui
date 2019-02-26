@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.33.2"></a>
+## [0.33.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.33.1...retail-ui@0.33.2) (2019-02-26)
+
+
+### Bug Fixes
+
+* **RenderLayer:** disable catch events ([#1127](https://github.com/skbkontur/retail-ui/issues/1127)) ([11ca060](https://github.com/skbkontur/retail-ui/commit/11ca060))
+
+
+
+
 <a name="0.33.1"></a>
 ## [0.33.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.33.0...retail-ui@0.33.1) (2019-01-14)
 
