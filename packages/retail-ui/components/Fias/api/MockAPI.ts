@@ -6,7 +6,8 @@ import {
   SearchOptions,
   SearchResponse,
   VerifyResponse,
-  APIResult
+  APIResult,
+  FiasCountry
 } from '../types';
 import { APIResultFactory } from './APIResultFactory';
 const addresses: SearchResponse = require('./data.json');
@@ -41,6 +42,12 @@ export class MockAPI implements APIProvider {
     }
 
     return Promise.resolve(APIResultFactory.success(data));
+  };
+
+  public searchCountry = async (
+    options: SearchOptions
+  ): Promise<APIResult<FiasCountry[]>> => {
+    return Promise.resolve(APIResultFactory.success([]));
   };
 
   private getAddresses = (

@@ -13,7 +13,7 @@ import { Nullable } from '../../../typings/utility-types';
 import warning from 'warning';
 import ComboBoxView from '../ComboBoxView';
 import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
-import { ComboBoxRequestStatus } from '../types';
+import { ComboBoxRequestStatus } from '../CustomComboBoxTypes';
 import ReactDOM from 'react-dom';
 import {
   getFirstFocusableElement,
@@ -28,19 +28,9 @@ interface Action extends BaseAction {
   [key: string]: any;
 }
 
-export type Props = CustomComboBoxProps<any> & {
-  getItems: (query: string) => Promise<any[]>;
-  onBlur?: () => {};
-  onChange?: (x0: { target: { value: any } }, value: any) => {};
-  onFocus?: () => {};
-  onInputChange?: (textValue: string) => any;
-  onUnexpectedInput?: (query: string) => Nullable<boolean>;
-};
+type Props = CustomComboBoxProps<any>;
 
-export type State = {
-  inputChanged?: boolean;
-  focused?: boolean;
-} & CustomComboBoxState<any>;
+type State = CustomComboBoxState<any>;
 
 export type EffectType = (
   dispatch: (action: Action) => void,
@@ -55,89 +45,15 @@ export type Reducer = (
   action: Action
 ) => Partial<State> | [Partial<State>, EffectType[]];
 
-function taskWithDelay(task: () => void, delay: number) {
-  let cancelationToken: (() => void) = () => null;
-
-  new Promise((resolve, reject) => {
-    cancelationToken = reject;
-    setTimeout(resolve, delay);
-  })
-    .then(task)
-    .catch(() => null);
-
-  return cancelationToken;
-}
-
 const DEBOUNCE_DELAY = 300;
-export const DELAY_BEFORE_SHOW_LOADER = 300;
-export const LOADER_SHOW_TIME = 1000;
 
-const searchFactory = (query: string): EffectType => async (
+const searchFactory = (query: string): EffectType => (
   dispatch,
   getState,
   getProps,
   getInstance
 ) => {
-  if (getState().requestStatus === ComboBoxRequestStatus.Pending) {
-    return;
-  }
-
-  let request = null;
-  const { getItems } = getProps();
-
-  const expectingId = (getInstance().requestId += 1);
-
-  let { loaderShowDelay } = getInstance();
-
-  if (!loaderShowDelay) {
-    loaderShowDelay = new Promise(resolve => {
-      const cancelLoader = taskWithDelay(() => {
-        dispatch({ type: 'RequestItems' });
-        setTimeout(resolve, LOADER_SHOW_TIME);
-      }, DELAY_BEFORE_SHOW_LOADER);
-
-      getInstance().cancelLoaderDelay = () => {
-        cancelLoader();
-        resolve();
-      };
-    });
-  }
-
-  getInstance().loaderShowDelay = loaderShowDelay;
-
-  try {
-    request = getItems(query);
-
-    await request;
-  } catch (error) {
-    // NOTE Ignore error here
-  } finally {
-    if (!getState().loading && expectingId === getInstance().requestId) {
-      getInstance().cancelLoaderDelay();
-    }
-  }
-
-  try {
-    const [items] = await Promise.all([request || [], loaderShowDelay]);
-
-    if (expectingId === getInstance().requestId) {
-      dispatch({ type: 'ReceiveItems', items });
-    }
-  } catch (error) {
-    if (expectingId === getInstance().requestId) {
-      dispatch({
-        type: 'RequestFailure',
-        repeatRequest: () => {
-          Effect.Search(query)(dispatch, getState, getProps, getInstance);
-          Effect.InputFocus(dispatch, getState, getProps, getInstance);
-        }
-      });
-    }
-  } finally {
-    if (expectingId === getInstance().requestId) {
-      getInstance().loaderShowDelay = null;
-    }
-  }
+  getInstance().search(query);
 };
 
 const getValueString = (value: any, valueToString: Props['valueToString']) => {
@@ -153,6 +69,9 @@ const Effect = {
     const searchEffect = searchFactory(getState().textValue);
     searchEffect(dispatch, getState, getProps, getInstance);
   }, DEBOUNCE_DELAY),
+  CancelRequest: ((dispatch, getState, getProps, getInstance) => {
+    getInstance().cancelSearch();
+  }) as EffectType,
   Blur: ((dispatch, getState, getProps) => {
     const { onBlur } = getProps();
 
@@ -356,16 +275,21 @@ const reducers: { [type: string]: Reducer } = {
           items: null,
           editing: false
         },
-        [Effect.Blur]
+        [Effect.Blur, Effect.CancelRequest]
       ];
     }
 
     return [
       {
+        focused: false,
         opened: false,
         items: null
       },
-      [Effect.Blur, Effect.UnexpectedInput(state.textValue, items)]
+      [
+        Effect.Blur,
+        Effect.CancelRequest,
+        Effect.UnexpectedInput(state.textValue, items)
+      ]
     ];
   },
   Focus(state, props, action) {
@@ -410,7 +334,7 @@ const reducers: { [type: string]: Reducer } = {
           items: null,
           textValue
         },
-        [Effect.Change(value), Effect.InputFocus]
+        [Effect.Change(value), Effect.CancelRequest, Effect.InputFocus]
       ];
     }
     return [
@@ -418,9 +342,10 @@ const reducers: { [type: string]: Reducer } = {
         opened: false,
         inputChanged: false,
         editing: false,
+        items: null,
         textValue
       },
-      [Effect.Change(value)]
+      [Effect.Change(value), Effect.CancelRequest]
     ];
   },
   KeyPress(state, props, { event }) {
@@ -437,12 +362,7 @@ const reducers: { [type: string]: Reducer } = {
         if (!state.opened) {
           effects.push(Effect.Search(state.textValue));
         }
-        return [
-          {
-            opened: true
-          },
-          effects
-        ];
+        return [state, effects];
       case 'Escape':
         return {
           items: null,
@@ -454,12 +374,7 @@ const reducers: { [type: string]: Reducer } = {
   },
   InputClick(state, props, action) {
     if (!state.opened) {
-      return [
-        {
-          opened: true
-        },
-        [Effect.Search('')]
-      ];
+      return [state, [Effect.Search('')]];
     }
     return state;
   },
@@ -498,6 +413,12 @@ const reducers: { [type: string]: Reducer } = {
       },
       [Effect.HighlightMenuItem]
     ];
+  },
+  CancelRequest: () => {
+    return {
+      loading: false,
+      requestStatus: ComboBoxRequestStatus.Unknown
+    };
   },
   Reset() {
     return DefaultState;

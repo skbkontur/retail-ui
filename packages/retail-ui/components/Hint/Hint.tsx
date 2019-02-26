@@ -92,11 +92,15 @@ class Hint extends React.Component<HintProps, HintState> {
   }
 
   public render() {
-    return this.renderPopup(this.props.children, {
-      onMouseEnter: this.handleMouseEnter,
-      onMouseLeave: this.handleMouseLeave,
-      useWrapper: this.props.useWrapper
-    });
+    if (this.props.text) {
+      return this.renderPopup(this.props.children, {
+        onMouseEnter: this.handleMouseEnter,
+        onMouseLeave: this.handleMouseLeave,
+        useWrapper: this.props.useWrapper
+      });
+    }
+
+    return this.props.children;
   }
 
   private renderPopup(

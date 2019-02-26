@@ -9,3 +9,9 @@ flow
 styleguide
 storybook-static
 build
+lib/**/*.js
+components/**/*.js
+!components/ComboBoxOld/**/*.js
+!components/DatePickerOld/**/*.js
+!components/PhoneInput/**/*.js
+!components/SearchSelect/**/*.js

@@ -76,17 +76,6 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
                 options.AddAdditionalCapability("tunnel-identifier", this.tunnelIdentifier, true);
                 options.AddAdditionalCapability("maxDuration", 10800, true);
 
-                if (TravisEnvironment.IsExecutionViaTravis)
-                {
-                    wdHub = "http://ondemand.saucelabs.com:80/wd/hub";
-                    var sauceUserName = Environment.GetEnvironmentVariable("SAUCE_USERNAME", EnvironmentVariableTarget.Process);
-                    var sauceAccessKey = Environment.GetEnvironmentVariable("SAUCE_ACCESS_KEY", EnvironmentVariableTarget.Process);
-
-                    options.AddAdditionalCapability("username", sauceUserName, true);
-                    options.AddAdditionalCapability("accessKey", sauceAccessKey, true);
-                    options.AddAdditionalCapability(CapabilityType.Version, "67", true);
-                }
-
                 webDriver = new RemoteWebDriver(new Uri(wdHub),
                     options.ToCapabilities(),
                     TimeSpan.FromMinutes(5));
