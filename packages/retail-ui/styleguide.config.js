@@ -174,8 +174,7 @@ const webpackConfig = {
       },
       {
         test: /\.(css|less)$/,
-        use: ['style-loader', 'css-loader', '@skbkontur/typed-css-modules-loader', 'less-loader'],
-        include: /retail-ui/
+        use: ['style-loader', 'css-loader', '@skbkontur/typed-css-modules-loader', 'less-loader']
       },
       {
         test: /\.(png|woff|woff2|eot)$/,
