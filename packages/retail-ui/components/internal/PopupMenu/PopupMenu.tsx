@@ -30,6 +30,10 @@ export interface PopupMenuProps {
   caption:
     | React.ReactNode
     | ((props: PopupMenuCaptionProps) => React.ReactNode);
+
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
+
   /**  Массив разрешенных положений меню относительно caption'а. */
   positions?: string[];
   /** Колбэк, вызываемый после открытия/закрытия меню */
@@ -108,6 +112,8 @@ export default class PopupMenu extends React.Component<
                   initialSelectedItemIndex={
                     this.state.firstItemShouldBeSelected ? 0 : -1
                   }
+                  header={this.props.header}
+                  footer={this.props.footer}
                 >
                   {this.props.children}
                 </InternalMenu>

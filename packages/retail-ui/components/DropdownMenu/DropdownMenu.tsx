@@ -15,6 +15,9 @@ export interface DropdownMenuProps {
    */
   caption: PopupMenuProps['caption'];
 
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
+
   onOpen?: () => void;
   onClose?: () => void;
 
@@ -54,6 +57,8 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
         popupMargin={0}
         positions={['bottom left', 'bottom right', 'top left', 'top right']}
         disableAnimations={this.props.disableAnimations}
+        header={this.props.header}
+        footer={this.props.footer}
       >
         {this.props.children}
       </PopupMenu>
