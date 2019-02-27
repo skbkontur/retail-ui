@@ -21,7 +21,7 @@ storiesOf('DropdownMenu', module)
       style={{
         padding: '20px 120px 150px',
         border: '1px solid #dfdede',
-        overflow: 'hidden'
+        overflow: 'hidden',
       }}
     >
       {story()}
@@ -37,10 +37,7 @@ storiesOf('DropdownMenu', module)
     </DropdownMenu>
   ))
   .add('Example with width of menu', () => (
-    <DropdownMenu
-      caption={<Button use="primary">Открыть меню</Button>}
-      menuWidth={350}
-    >
+    <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuWidth={350}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
       <MenuItem>Раз</MenuItem>
@@ -49,10 +46,7 @@ storiesOf('DropdownMenu', module)
     </DropdownMenu>
   ))
   .add('Example with maximum height of menu', () => (
-    <DropdownMenu
-      caption={<Button use="primary">Открыть меню</Button>}
-      menuMaxHeight={150}
-    >
+    <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuMaxHeight={150}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
       <MenuItem>Раз</MenuItem>
@@ -96,7 +90,7 @@ storiesOf('DropdownMenu', module)
           style={{
             display: 'inline-block',
             transition: 'all 0.3s',
-            transform: captionProps.opened ? 'rotate(45deg)' : 'none'
+            transform: captionProps.opened ? 'rotate(45deg)' : 'none',
           }}
         >
           <Button use="primary" onClick={captionProps.toggleMenu}>
@@ -111,10 +105,7 @@ storiesOf('DropdownMenu', module)
     </DropdownMenu>
   ))
   .add('Without animations', () => (
-    <DropdownMenu
-      disableAnimations
-      caption={<Button use="primary">Открыть меню</Button>}
-    >
+    <DropdownMenu disableAnimations caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
       <MenuItem onClick={() => Toast.push('Раз')}>Раз</MenuItem>
@@ -130,13 +121,10 @@ storiesOf('DropdownMenu', module)
     />
   ));
 
-class DropdownWithScrollStateChange extends React.Component<
-  DropdownMenuProps,
-  { value: string; hasHeader: boolean }
-> {
+class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps, { value: string; hasHeader: boolean }> {
   public state = {
     value: '',
-    hasHeader: true
+    hasHeader: true,
   };
 
   public render() {
@@ -162,15 +150,10 @@ class DropdownWithScrollStateChange extends React.Component<
         style={{
           backgroundColor: 'rgba(131, 128, 128, 0.15)',
           margin: '-6px -18px -7px -8px',
-          padding: '10px 18px 10px 8px'
+          padding: '10px 18px 10px 8px',
         }}
       >
-        <Input
-          leftIcon={<SearchIcon />}
-          value={this.state.value}
-          onChange={this.handleInputChange}
-          width={220}
-        />
+        <Input leftIcon={<SearchIcon />} value={this.state.value} onChange={this.handleInputChange} width={220} />
       </div>
     );
   };
@@ -189,7 +172,7 @@ class DropdownWithScrollStateChange extends React.Component<
 
   private switchHeaderState = () => {
     this.setState(state => ({
-      hasHeader: !state.hasHeader
+      hasHeader: !state.hasHeader,
     }));
   };
 

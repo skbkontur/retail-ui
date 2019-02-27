@@ -3,9 +3,7 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import isActiveElement from './isActiveElement';
-import ScrollContainer, {
-  ScrollContainerScrollState
-} from '../../ScrollContainer/ScrollContainer';
+import ScrollContainer, { ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
 
 import MenuItem, { MenuItemProps } from '../../MenuItem';
 
@@ -36,23 +34,20 @@ interface MenuState {
   scrollState: ScrollContainerScrollState;
 }
 
-export default class InternalMenu extends React.Component<
-  MenuProps,
-  MenuState
-> {
+export default class InternalMenu extends React.Component<MenuProps, MenuState> {
   public static defaultProps = {
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
     preventWindowScroll: true,
     cyclicSelection: true,
-    initialSelectedItemIndex: -1
+    initialSelectedItemIndex: -1,
   };
 
   public state: MenuState = {
     highlightedIndex: -1,
     maxHeight: 'none',
-    scrollState: 'top'
+    scrollState: 'top',
   };
 
   private scrollContainer: Nullable<ScrollContainer>;
@@ -78,7 +73,7 @@ export default class InternalMenu extends React.Component<
 
   public render() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
-      x => typeof x === 'object' && x.props.icon
+      x => typeof x === 'object' && x.props.icon,
     );
 
     if (this.isEmpty()) {
@@ -90,7 +85,7 @@ export default class InternalMenu extends React.Component<
         className={cn(styles.root, this.props.hasShadow && styles.shadow)}
         style={{
           width: this.props.width,
-          maxHeight: this.state.maxHeight
+          maxHeight: this.state.maxHeight,
         }}
         onKeyDown={this.handleKeyDown}
         ref={element => {
@@ -106,25 +101,19 @@ export default class InternalMenu extends React.Component<
           onScrollStateChange={this.handleScrollStateChange}
         >
           {React.Children.map(this.props.children, (child, index) => {
-            if (
-              typeof child === 'string' ||
-              typeof child === 'number' ||
-              child == null
-            ) {
+            if (typeof child === 'string' || typeof child === 'number' || child == null) {
               return child;
             }
             if (typeof child.type === 'string') {
               return child;
             }
-            const isMenuItem =
-              child && (child.type as typeof MenuItem).__MENU_ITEM__;
+            const isMenuItem = child && (child.type as typeof MenuItem).__MENU_ITEM__;
 
-            const isMenuHeader =
-              child && (child.type as typeof MenuItem).__MENU_HEADER__;
+            const isMenuHeader = child && (child.type as typeof MenuItem).__MENU_HEADER__;
 
             if (enableIconPadding && (isMenuItem || isMenuHeader)) {
               child = React.cloneElement(child, {
-                _enableIconPadding: true
+                _enableIconPadding: true,
               });
             }
 
@@ -141,7 +130,7 @@ export default class InternalMenu extends React.Component<
                 state: highlight ? 'hover' : child.props.state,
                 onClick: this.select.bind(this, index, false),
                 onMouseEnter: () => this.highlightItem(index),
-                onMouseLeave: this.unhighlight
+                onMouseLeave: this.unhighlight,
               });
             }
 
@@ -159,7 +148,7 @@ export default class InternalMenu extends React.Component<
         ref={el => (this.header = el)}
         className={cn({
           [styles.header]: true,
-          [styles.fixedHeader]: this.state.scrollState !== 'top'
+          [styles.fixedHeader]: this.state.scrollState !== 'top',
         })}
       >
         {this.props.header}
@@ -173,7 +162,7 @@ export default class InternalMenu extends React.Component<
         ref={el => (this.footer = el)}
         className={cn({
           [styles.footer]: true,
-          [styles.fixedFooter]: this.state.scrollState !== 'bottom'
+          [styles.fixedFooter]: this.state.scrollState !== 'bottom',
         })}
       >
         {this.props.footer}
@@ -221,7 +210,7 @@ export default class InternalMenu extends React.Component<
         : maxHeightFromProps;
 
     this.setState({
-      maxHeight: calculatedMaxHeight || 'none'
+      maxHeight: calculatedMaxHeight || 'none',
     });
   };
 
@@ -235,10 +224,7 @@ export default class InternalMenu extends React.Component<
     this.scrollContainer = scrollContainer;
   };
 
-  private refHighlighted(
-    originalRef: (menuItem: MenuItem | null) => any,
-    menuItem: MenuItem | null
-  ) {
+  private refHighlighted(originalRef: (menuItem: MenuItem | null) => any, menuItem: MenuItem | null) {
     this.highlighted = menuItem;
 
     if (originalRef) {
@@ -248,17 +234,11 @@ export default class InternalMenu extends React.Component<
 
   private scrollToSelected = () => {
     if (this.scrollContainer && this.highlighted) {
-      this.scrollContainer.scrollTo(ReactDOM.findDOMNode(
-        this.highlighted
-      ) as HTMLElement);
+      this.scrollContainer.scrollTo(ReactDOM.findDOMNode(this.highlighted) as HTMLElement);
     }
   };
 
-  private select(
-    index: number,
-    shouldHandleHref: boolean,
-    event: React.SyntheticEvent<HTMLElement>
-  ): boolean {
+  private select(index: number, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
     const item = childrenToArray(this.props.children)[index];
 
     if (isActiveElement(item)) {
@@ -332,9 +312,7 @@ export default class InternalMenu extends React.Component<
     return !children || !childrenToArray(children).filter(isExist).length;
   }
 
-  private handleKeyDown = (
-    event: React.KeyboardEvent<HTMLDivElement>
-  ): void => {
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     if (typeof this.props.onKeyDown === 'function') {
       this.props.onKeyDown(event);
     }
@@ -364,9 +342,7 @@ export default class InternalMenu extends React.Component<
     }
   };
 
-  private handleScrollStateChange = (
-    scrollState: ScrollContainerScrollState
-  ) => {
+  private handleScrollStateChange = (scrollState: ScrollContainerScrollState) => {
     if (this.state.scrollState !== scrollState) {
       this.setState({ scrollState });
     }

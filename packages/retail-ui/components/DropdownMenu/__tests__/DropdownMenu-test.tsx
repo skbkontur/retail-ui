@@ -63,7 +63,7 @@ describe('<DropdownMenu />', () => {
         >
           Test
         </MenuItem>
-      </DropdownMenu>
+      </DropdownMenu>,
     );
     const captionWrapper = wrapper.find('#captionForTest');
 
@@ -81,13 +81,9 @@ describe('<DropdownMenu />', () => {
     const onOpen = jest.fn();
     const onClose = jest.fn();
     const wrapper = mount(
-      <DropdownMenu
-        caption={<button id="captionForTest">Test</button>}
-        onOpen={onOpen}
-        onClose={onClose}
-      >
+      <DropdownMenu caption={<button id="captionForTest">Test</button>} onOpen={onOpen} onClose={onClose}>
         <MenuItem>Test</MenuItem>
-      </DropdownMenu>
+      </DropdownMenu>,
     );
 
     // open
@@ -101,12 +97,9 @@ describe('<DropdownMenu />', () => {
 
   test('Renders header', () => {
     const wrapper = mount(
-      <DropdownMenu
-        caption={<button id="captionForTest">Test</button>}
-        header={<div id="testHeader">Test header</div>}
-      >
+      <DropdownMenu caption={<button id="captionForTest">Test</button>} header={<div id="testHeader">Test header</div>}>
         <MenuItem>Test</MenuItem>
-      </DropdownMenu>
+      </DropdownMenu>,
     );
 
     wrapper.find('#captionForTest').simulate('click');
@@ -116,12 +109,9 @@ describe('<DropdownMenu />', () => {
 
   test('Renders footer', () => {
     const wrapper = mount(
-      <DropdownMenu
-        caption={<button id="captionForTest">Test</button>}
-        footer={<div id="testFooter">Test header</div>}
-      >
+      <DropdownMenu caption={<button id="captionForTest">Test</button>} footer={<div id="testFooter">Test header</div>}>
         <MenuItem>Test</MenuItem>
-      </DropdownMenu>
+      </DropdownMenu>,
     );
 
     wrapper.find('#captionForTest').simulate('click');

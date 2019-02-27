@@ -32,7 +32,7 @@ export interface DropdownMenuProps {
  */
 export default class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static defaultProps = {
-    disableAnimations: false
+    disableAnimations: false,
   };
 
   constructor(props: DropdownMenuProps) {
