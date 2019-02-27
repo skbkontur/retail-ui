@@ -20,7 +20,7 @@ function getPositionObject(position: string): PositionObject {
 
   return {
     direction: x[0],
-    align: x[1]
+    align: x[1],
   };
 }
 
@@ -52,7 +52,7 @@ function _getAvailableScrollDistances(windowRect?: Rect): Offset {
   const windowLeft = windowRect.left;
   return {
     top: windowTop,
-    left: windowLeft
+    left: windowLeft,
   };
 }
 
@@ -63,7 +63,7 @@ function _getElementRelativeRect(element: HTMLElement) {
     top: rect.top,
     left: rect.left,
     width: rect.right - rect.left,
-    height: rect.bottom - rect.top
+    height: rect.bottom - rect.top,
   };
 }
 
@@ -72,7 +72,7 @@ function _getWindowRelativeRect(): Rect {
     top: 0,
     left: 0,
     width: _getViewProperty(x => x.clientWidth) || window.innerWidth,
-    height: _getViewProperty(x => x.clientHeight) || window.innerHeight
+    height: _getViewProperty(x => x.clientHeight) || window.innerHeight,
   };
 }
 
@@ -83,7 +83,7 @@ function convertRectToAbsolute(rect: Rect): Rect {
     top: rect.top + offset.top,
     left: rect.left + offset.left,
     width: rect.width,
-    height: rect.height
+    height: rect.height,
   };
 }
 
@@ -99,7 +99,7 @@ function _getAbsoluteOffset(): Offset {
 
   return {
     top,
-    left
+    left,
   };
 }
 
@@ -121,5 +121,5 @@ export default {
   getPositionObject,
   getElementAbsoluteRect,
   isAbsoluteRectFullyVisible,
-  canBecomeFullyVisible
+  canBecomeFullyVisible,
 };
