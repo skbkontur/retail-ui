@@ -1,29 +1,26 @@
 const fs = require('fs');
 const path = require('path');
-const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
-  './tsconfig.json',
-  {
-    propFilter: (prop, component) => {
-      const FILTERED_COMPONENTS = [
-        'Link',
-        'Input',
-        'Center',
-        'Autocomplete',
-        'Checkbox',
-        'CurrencyInput',
-        'FxInput',
-        'Radio',
-        'Textarea'
-      ];
+const parseTsComponent = require('react-docgen-typescript').withCustomConfig('./tsconfig.json', {
+  propFilter: (prop, component) => {
+    const FILTERED_COMPONENTS = [
+      'Link',
+      'Input',
+      'Center',
+      'Autocomplete',
+      'Checkbox',
+      'CurrencyInput',
+      'FxInput',
+      'Radio',
+      'Textarea'
+    ];
 
-      if (FILTERED_COMPONENTS.indexOf(component.name) > -1) {
-        return !!prop.description;
-      }
-
-      return true;
+    if (FILTERED_COMPONENTS.indexOf(component.name) > -1) {
+      return !!prop.description;
     }
+
+    return true;
   }
-).parse;
+}).parse;
 const parseJsComponent = require('react-docgen').parse;
 const libraryVersion = require('./package.json').version;
 
@@ -31,10 +28,7 @@ function getComponentList() {
   const dirPath = path.resolve(__dirname, 'components');
   return fs
     .readdirSync(dirPath)
-    .map(x => [
-      path.join(dirPath, x, `${x}.tsx`),
-      path.join(dirPath, x, `${x}.js`)
-    ])
+    .map(x => [path.join(dirPath, x, `${x}.tsx`), path.join(dirPath, x, `${x}.js`)])
     .map(([ts, js]) => (fs.existsSync(ts) ? ts : fs.existsSync(js) ? js : null))
     .filter(Boolean);
 }
@@ -180,13 +174,7 @@ const webpackConfig = {
       },
       {
         test: /\.(css|less)$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          '@skbkontur/typed-css-modules-loader',
-          'less-loader'
-        ],
-        include: /retail-ui/
+        use: ['style-loader', 'css-loader', '@skbkontur/typed-css-modules-loader', 'less-loader']
       },
       {
         test: /\.(png|woff|woff2|eot)$/,
