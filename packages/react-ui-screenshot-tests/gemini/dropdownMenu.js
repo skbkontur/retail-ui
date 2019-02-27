@@ -38,9 +38,9 @@ gemini.suite("DropdownMenu", suite => {
     applyTest(suite);
   });
 
-  gemini.suite("With sticky item", suite => {
+  gemini.suite("With header and footer", suite => {
     suite
-      .before(renderStory("DropdownMenu", "With sticky item"))
+      .before(renderStory("DropdownMenu", "With header and footer"))
       .before((actions, find) => {
         this.captionElement = find(CAPTION_SELECTOR);
       })
@@ -48,12 +48,20 @@ gemini.suite("DropdownMenu", suite => {
       .capture("clicked", actions => {
         actions.click(this.captionElement);
       })
-      .capture("scrolled", actions => {
+      .capture("scrolled by 100", actions => {
         actions.executeJS(function(window) {
           var scrollContainer = window.document.querySelector(
             '[class^="ScrollContainer-inner"]'
           );
-          scrollContainer.scrollTop += 200;
+          scrollContainer.scrollTop += 100;
+        });
+      })
+      .capture("scrolled down to bottom", actions => {
+        actions.executeJS(function(window) {
+          var scrollContainer = window.document.querySelector(
+            '[class^="ScrollContainer-inner"]'
+          );
+          scrollContainer.scrollTop += scrollContainer.scrollHeight;
         });
       });
   });
