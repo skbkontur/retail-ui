@@ -50,8 +50,6 @@ export default class ScrollContainer extends React.Component<
 
   private _inner: Nullable<HTMLDivElement>;
 
-  private _currentScrollState: ScrollContainerScrollState = 'top';
-
   public componentDidMount() {
     this._reflow();
   }
@@ -193,20 +191,24 @@ export default class ScrollContainer extends React.Component<
         this.state.scrollSize !== scrollSize ||
         this.state.scrollPos !== scrollPos
       ) {
+        const { scrollState } = this.state;
         const updatedScrollState = this._getImmediateScrollState();
-        if (
-          this.props.onScrollStateChange &&
-          updatedScrollState !== this._currentScrollState
-        ) {
-          this.props.onScrollStateChange(updatedScrollState);
-          this._currentScrollState = updatedScrollState;
-        }
-
-        this.setState({
+        const scrollParamsToUpdate = {
           scrollActive: true,
           scrollSize,
-          scrollPos
-        });
+          scrollPos,
+          scrollState
+        };
+
+        if (updatedScrollState !== this.state.scrollState) {
+          scrollParamsToUpdate.scrollState = updatedScrollState;
+
+          if (this.props.onScrollStateChange) {
+            this.props.onScrollStateChange(updatedScrollState);
+          }
+        }
+
+        this.setState(scrollParamsToUpdate);
       }
     } else {
       this.setState({
