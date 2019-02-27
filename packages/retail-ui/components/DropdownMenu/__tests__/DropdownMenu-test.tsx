@@ -98,4 +98,34 @@ describe('<DropdownMenu />', () => {
     wrapper.find('MenuItem').simulate('click');
     expect(onClose.mock.calls.length).toBe(1);
   });
+
+  test('Renders header', () => {
+    const wrapper = mount(
+      <DropdownMenu
+        caption={<button id="captionForTest">Test</button>}
+        header={<div id="testHeader">Test header</div>}
+      >
+        <MenuItem>Test</MenuItem>
+      </DropdownMenu>
+    );
+
+    wrapper.find('#captionForTest').simulate('click');
+
+    expect(wrapper.find('#testHeader')).toHaveLength(1);
+  });
+
+  test('Renders footer', () => {
+    const wrapper = mount(
+      <DropdownMenu
+        caption={<button id="captionForTest">Test</button>}
+        footer={<div id="testFooter">Test header</div>}
+      >
+        <MenuItem>Test</MenuItem>
+      </DropdownMenu>
+    );
+
+    wrapper.find('#captionForTest').simulate('click');
+
+    expect(wrapper.find('#testFooter')).toHaveLength(1);
+  });
 });
