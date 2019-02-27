@@ -1,4 +1,4 @@
-import { mount, ReactWrapper } from 'enzyme';
+import { mount } from 'enzyme';
 import * as React from 'react';
 
 import MenuItem from '../../MenuItem/MenuItem';
@@ -11,7 +11,7 @@ describe('ScrollContainer', () => {
         {new Array(50).fill('').map((i, index) => (
           <MenuItem key={index}>{'test'}</MenuItem>
         ))}
-      </ScrollContainer>
+      </ScrollContainer>,
     );
 
     expect(wrapper.state('scrollState')).toEqual('top');
