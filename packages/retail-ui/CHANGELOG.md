@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.41.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.41.0...retail-ui@0.41.1) (2019-02-27)
+
+
+### Bug Fixes
+
+* **Popup:** remove ambient types ([72fb736](https://github.com/skbkontur/retail-ui/commit/72fb736))
+
+
+
+
+
+# [0.41.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.40.1...retail-ui@0.41.0) (2019-02-26)
+
+
+### Bug Fixes
+
+* **ComboBox:** fix `focusNextElement` call condition ([da8e007](https://github.com/skbkontur/retail-ui/commit/da8e007))
+* **ComboBox:** fix open if blured ([6a63937](https://github.com/skbkontur/retail-ui/commit/6a63937))
+* **ComboBox:** fixed menu item highlight on focus([#1100](https://github.com/skbkontur/retail-ui/issues/1100)) ([212cf2d](https://github.com/skbkontur/retail-ui/commit/212cf2d))
+* **ComboBox:** use requestStatus and repeatRequest to highlight menu item properly ([c5dfd8f](https://github.com/skbkontur/retail-ui/commit/c5dfd8f))
+* **DateInput:** add handle action `separator` ([c532008](https://github.com/skbkontur/retail-ui/commit/c532008)), closes [#1059](https://github.com/skbkontur/retail-ui/issues/1059)
+* **Hint:** don't render Popup if text is empty ([f4b2e03](https://github.com/skbkontur/retail-ui/commit/f4b2e03))
+* **PasswordInput:** remove not DOM prop `detectCapsLock` ([7d49446](https://github.com/skbkontur/retail-ui/commit/7d49446))
+* **Popup:** closing 'hover' after dropdown selection ([c021e04](https://github.com/skbkontur/retail-ui/commit/c021e04))
+* **Popup:** possible memory leak fix ([bd1bca4](https://github.com/skbkontur/retail-ui/commit/bd1bca4))
+* **retail-ui:** fix input and button baseline (according to the guides) ([085d6af](https://github.com/skbkontur/retail-ui/commit/085d6af))
+* **Token:** fix align text and icon ([#1182](https://github.com/skbkontur/retail-ui/issues/1182)) ([fe49699](https://github.com/skbkontur/retail-ui/commit/fe49699)), closes [#1158](https://github.com/skbkontur/retail-ui/issues/1158)
+* **Tooltip:** don't render Popup without content ([a9fbdb5](https://github.com/skbkontur/retail-ui/commit/a9fbdb5))
+
+
+### Features
+
+* **ComboBox:** add `cancelSearch` public method ([dcafb27](https://github.com/skbkontur/retail-ui/commit/dcafb27))
+* **ComboBox:** public blur method ([e3e3a8e](https://github.com/skbkontur/retail-ui/commit/e3e3a8e))
+* **Fias:** support foreign addresses ([2641ca2](https://github.com/skbkontur/retail-ui/commit/2641ca2))
+
+
+
+
+
 ## [0.40.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.40.0...retail-ui@0.40.1) (2019-02-19)
 
 

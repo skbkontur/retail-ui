@@ -8,10 +8,21 @@ import {
   FiasValue,
   Fields,
   ExtraFields,
-  FiasLocale
+  FiasLocale,
+  FieldsSettings,
+  FiasCountry
 } from '../types';
 import { AddressElement } from './AddressElement';
 import { FiasData } from './FiasData';
+import isEqual from 'lodash.isequal';
+
+export interface AddressOptions {
+  fields?: AddressFields;
+  additionalFields?: AdditionalFields;
+  errors?: AddressErrors;
+  country?: FiasCountry;
+  foreignAddress?: string;
+}
 
 export class Address {
   public static MAIN_FIELDS = [
@@ -61,9 +72,18 @@ export class Address {
     Fields.planningstructure
   ];
 
+  public static IS_RUSSIA = (country: FiasCountry): boolean => {
+    return isEqual(country, {
+      shortName: 'Россия',
+      fullName: 'Российская Федерация',
+      code: '643'
+    });
+  };
+
   public static createFromResponse = (
     response: AddressResponse,
-    additionalFields?: AdditionalFields
+    additionalFields?: AdditionalFields,
+    country?: FiasCountry
   ) => {
     const fields: AddressFields = {};
     if (response) {
@@ -75,12 +95,13 @@ export class Address {
         }
       });
     }
-    return new Address(fields, additionalFields);
+    return new Address({ fields, additionalFields, country });
   };
 
   public static createFromAddressValue = (
     addressValue: AddressValue,
-    additionalFields?: AdditionalFields
+    additionalFields?: AdditionalFields,
+    country?: FiasCountry
   ) => {
     const fields: AddressFields = {};
     if (addressValue) {
@@ -96,7 +117,28 @@ export class Address {
         }
       });
     }
-    return new Address(fields, additionalFields);
+    return new Address({ fields, additionalFields, country });
+  };
+
+  public static createFromAddress = (
+    address: Address,
+    options: AddressOptions
+  ) => {
+    const {
+      fields,
+      additionalFields,
+      errors,
+      country,
+      foreignAddress
+    } = address;
+    return new Address({
+      fields,
+      additionalFields,
+      errors,
+      country,
+      foreignAddress,
+      ...options
+    });
   };
 
   public static verify = (
@@ -104,7 +146,7 @@ export class Address {
     verifiedFields: AddressResponse,
     locale: FiasLocale
   ): Address => {
-    const { fields, additionalFields } = address;
+    const { fields } = address;
     const errors: AddressErrors = {};
 
     for (const field of Address.VERIFIABLE_FIELDS) {
@@ -142,7 +184,25 @@ export class Address {
       }
     }
 
-    return new Address(fields, additionalFields, errors);
+    return Address.createFromAddress(address, { fields, errors });
+  };
+
+  public static filterVisibleFields = (
+    fields: { [key in Fields]?: any },
+    fieldsSettings: FieldsSettings
+  ): { [key in Fields]?: any } => {
+    const filteredFields: { [key in Fields]?: any } = {};
+    const isFieldVisible = (f: Fields): boolean => {
+      const settings = fieldsSettings[f];
+      return Boolean(settings && settings.visible);
+    };
+    let field: Fields;
+    for (field in fields) {
+      if (isFieldVisible(field)) {
+        filteredFields[field] = fields[field];
+      }
+    }
+    return filteredFields;
   };
 
   public static getParentFields = (field: Fields) => {
@@ -150,11 +210,29 @@ export class Address {
     return index > -1 ? Address.MAIN_FIELDS.slice(0, index) : [];
   };
 
-  constructor(
-    public fields: AddressFields = {},
-    public additionalFields: AdditionalFields = {},
-    public errors: AddressErrors = {}
-  ) {}
+  public fields: AddressFields;
+  public additionalFields: AdditionalFields;
+  public errors: AddressErrors;
+  public country: FiasCountry | undefined;
+  public foreignAddress: string;
+
+  constructor({
+    fields,
+    additionalFields,
+    errors,
+    country,
+    foreignAddress
+  }: AddressOptions = {}) {
+    this.fields = fields || {};
+    this.additionalFields = additionalFields || {};
+    this.errors = errors || {};
+    this.country = country;
+    this.foreignAddress = foreignAddress || '';
+  }
+
+  public get isForeign(): boolean {
+    return Boolean(this.country && !Address.IS_RUSSIA(this.country));
+  }
 
   public get isEmpty(): boolean {
     return !Address.MAIN_FIELDS.some(field =>
@@ -172,7 +250,11 @@ export class Address {
   }
 
   public get isPostalCodeValid(): boolean {
-    return /^[\d]{6}$/.test(this.postalCode);
+    const rusFormat = /^[\d]{6}$/;
+    const foreignFormat = /^[\w\.\-\s]*$/;
+    return (!this.country || this.isForeign ? foreignFormat : rusFormat).test(
+      this.postalCode
+    );
   }
 
   public get isPostalCodeAltered(): boolean {
@@ -215,9 +297,19 @@ export class Address {
   };
 
   public getFullText = (withPostalCode: boolean = false) => {
-    return [withPostalCode && this.postalCode, this.getText()]
-      .filter(Boolean)
-      .join(', ');
+    const substrings: string[] = [];
+
+    if (withPostalCode) {
+      substrings.push(this.postalCode);
+    }
+
+    if (this.country) {
+      substrings.push(this.country.fullName);
+    }
+
+    substrings.push(this.isForeign ? this.foreignAddress : this.getText());
+
+    return substrings.filter(Boolean).join(', ');
   };
 
   public isAllowedToFill = (field?: Fields): boolean => {
@@ -319,12 +411,15 @@ export class Address {
 
   // TODO: get fields usage from fieldsSettings
   public getValue = (withPostalCode: boolean): FiasValue => {
+    const { country, foreignAddress } = this;
     return {
       address: this.getAddressValue(),
       addressString: this.getFullText(withPostalCode),
       addressErrors: this.getAddressErrors(),
       fiasId: this.getFiasId(),
-      postalCode: this.postalCode
+      postalCode: this.postalCode,
+      ...(country ? { country } : {}),
+      ...(this.isForeign ? { foreignAddress } : {})
     };
   };
 

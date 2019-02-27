@@ -24,7 +24,6 @@ function build() {
 
   generatePackageJson();
 
-  copyNpmRc();
   copyReadme();
 }
 
@@ -106,12 +105,12 @@ function write(src, relative) {
 }
 
 function logTransform(src, dest) {
-  clearConsole();
-  console.log();
-  console.log('Transformed:');
-  console.log('From: ' + path.relative(process.cwd(), src));
-  console.log('  To: ' + path.relative(process.cwd(), dest));
-  console.log();
+  console.log(
+    `Transformed: ${path.relative(process.cwd(), src)} => ${path.relative(
+      process.cwd(),
+      dest
+    )}`
+  );
 }
 
 function shouldIgnore(loc) {
@@ -205,29 +204,36 @@ function handleExports(dirPath) {
     }
 
     function handleJsReexport(dir) {
-      reexport(dir, '.js', name => `module.exports = require('./components/${name}');\n`);
+      reexport(
+        dir,
+        '.js',
+        name => `module.exports = require('./components/${name}');\n`
+      );
     }
 
     function handleTsReexport(dir) {
-      reexport(dir, '.d.ts', name => `\
+      reexport(
+        dir,
+        '.d.ts',
+        name => `\
 export * from './components/${name}';
 export { default } from './components/${name}';
-`);
+`
+      );
     }
 
     function handleFlowReexport(dir) {
-      reexport(dir, '.js.flow', name => `\
+      reexport(
+        dir,
+        '.js.flow',
+        name => `\
 /* @flow */
 export * from './components/${name}';
 export { default } from './components/${name}';
-`);
+`
+      );
     }
   };
-}
-
-function copyNpmRc() {
-  const npmrc = fs.readFileSync(path.join(process.cwd(), '.npmrc.enc'));
-  outputFileSync(path.join(OutDir, '.npmrc.enc'), npmrc);
 }
 
 function generatePackageJson() {
@@ -252,12 +258,6 @@ function generatePackageJson() {
   };
   const source = JSON.stringify(result, null, 2);
   outputFileSync(path.join(OutDir, 'package.json'), source);
-}
-
-function clearConsole() {
-  process.stdout.write(
-    process.platform === 'win32' ? '\x1Bc' : '\x1B[2J\x1B[3J\x1B[H'
-  );
 }
 
 function copyReadme() {

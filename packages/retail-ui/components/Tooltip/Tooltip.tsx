@@ -6,6 +6,7 @@ import CROSS from '../internal/cross';
 import { Nullable } from '../../typings/utility-types';
 import styles from './Tooltip.less';
 import warning from 'warning';
+import { MouseEventType } from '../../typings/event-types';
 
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
@@ -179,15 +180,20 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     return !shallow(nextProps, this.props) || !shallow(nextState, this.state);
   }
 
-  public render(): JSX.Element | null {
+  public render() {
     const { popupProps, layerProps } = this.getProps();
     const props = this.props;
     const children = props.children;
     const content = this.renderContent();
     const anchorElement = children || props.anchorElement;
-    const popup = this.renderPopup(anchorElement, popupProps, content);
 
-    return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
+    if (content != null) {
+      const popup = this.renderPopup(anchorElement, popupProps, content);
+
+      return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
+    }
+
+    return children;
   }
 
   public renderContent = () => {
@@ -344,7 +350,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.setState({ opened: false });
   }
 
-  private handleMouseEnter = (event: IMouseEvent) => {
+  private handleMouseEnter = (event: MouseEventType) => {
     const isHoverAnchor = this.props.trigger === 'hoverAnchor';
     if (isHoverAnchor && event.target === this.contentElement) {
       return;
@@ -357,7 +363,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.open();
   };
 
-  private handleMouseLeave = (event: IMouseEvent) => {
+  private handleMouseLeave = (event: MouseEventType) => {
     const isHover = this.props.trigger === 'hover';
     if (isHover && event.relatedTarget === this.contentElement) {
       return;
