@@ -21,8 +21,8 @@ const DUMMY_LOCATION: PopupLocation = {
   position: 'top left',
   coordinates: {
     top: -9999,
-    left: -9999
-  }
+    left: -9999,
+  },
 };
 
 export type PopupPosition =
@@ -51,7 +51,7 @@ export const PopupPositions: PopupPosition[] = [
   'bottom left',
   'left bottom',
   'left middle',
-  'left top'
+  'left top',
 ];
 
 export interface PopupHandlerProps {
@@ -100,10 +100,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     /**
      * Ссылка (ref) на элемент или React компонент, для которого рисуется попап
      */
-    anchorElement: PropTypes.oneOfType([
-      PropTypes.instanceOf(HTMLElement),
-      PropTypes.node
-    ]).isRequired,
+    anchorElement: PropTypes.oneOfType([PropTypes.instanceOf(HTMLElement), PropTypes.node]).isRequired,
 
     /**
      * Фон попапа и пина
@@ -158,7 +155,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     /**
      * Игнорировать ли события hover/click
      */
-    ignoreHover: PropTypes.bool
+    ignoreHover: PropTypes.bool,
   };
 
   public static defaultProps = {
@@ -170,16 +167,14 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     hasShadow: false,
     disableAnimations: false,
     maxWidth: 500,
-    useWrapper: false
+    useWrapper: false,
   };
 
   public state: PopupState = {
-    location: null
+    location: null,
   };
 
-  private layoutEventsToken: Nullable<
-    ReturnType<typeof LayoutEvents.addListener>
-  >;
+  private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
@@ -249,10 +244,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
          */
         active={Boolean(onCloseRequest) && opened}
       >
-        <RenderContainer
-          anchor={child}
-          ref={child ? this.refAnchorElement : undefined}
-        >
+        <RenderContainer anchor={child} ref={child ? this.refAnchorElement : undefined}>
           {this.renderContent()}
         </RenderContainer>
       </RenderLayer>
@@ -337,7 +329,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     const rootStyle: React.CSSProperties = {
       top: location.coordinates.top,
       left: location.coordinates.left,
-      maxWidth: this.props.maxWidth
+      maxWidth: this.props.maxWidth,
     };
 
     return (
@@ -362,9 +354,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
               [styles['transition-enter']]: state === 'entering',
               [styles['transition-enter-active']]: state === 'entered',
               [styles['transition-exit']]: state === 'exiting',
-              [styles[
-                ('transition-enter-' + direction) as keyof typeof styles
-              ]]: true
+              [styles[('transition-enter-' + direction) as keyof typeof styles]]: true,
             })}
             style={rootStyle}
             onMouseEnter={this.handleMouseEnter}
@@ -383,9 +373,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private renderChildren() {
-    return typeof this.props.children === 'function'
-      ? this.props.children()
-      : this.props.children;
+    return typeof this.props.children === 'function' ? this.props.children() : this.props.children;
   }
 
   private refPopupElement = (zIndex: ZIndex | null) => {
@@ -401,17 +389,9 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
      * shadow to pin too.
      */
     const pinBorder =
-      styles.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR && isIE
-        ? 'rgba(0, 0, 0, 0.09)'
-        : styles.popupBorderColor;
+      styles.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR && isIE ? 'rgba(0, 0, 0, 0.09)' : styles.popupBorderColor;
 
-    const {
-      pinSize,
-      pinOffset,
-      hasShadow,
-      backgroundColor,
-      borderColor
-    } = this.props;
+    const { pinSize, pinOffset, hasShadow, backgroundColor, borderColor } = this.props;
 
     return (
       this.props.hasPin && (
@@ -481,10 +461,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
   };
 
-  private locationEquals(
-    x: Nullable<PopupLocation>,
-    y: Nullable<PopupLocation>
-  ) {
+  private locationEquals(x: Nullable<PopupLocation>, y: Nullable<PopupLocation>) {
     if (x === y) {
       return true;
     }
@@ -494,9 +471,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     return (
-      x.coordinates.left === y.coordinates.left &&
-      x.coordinates.top === y.coordinates.top &&
-      x.position === y.position
+      x.coordinates.left === y.coordinates.left && x.coordinates.top === y.coordinates.top && x.position === y.position
     );
   }
 
@@ -504,17 +479,14 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     return DUMMY_LOCATION;
   }
 
-  private getLocation(
-    popupElement: HTMLElement,
-    location?: Nullable<PopupLocation>
-  ) {
+  private getLocation(popupElement: HTMLElement, location?: Nullable<PopupLocation>) {
     const { positions, margin, popupOffset } = this.props;
     const { anchorElement } = this;
 
     if (process.env.NODE_ENV !== 'production') {
       warning(
         anchorElement && anchorElement instanceof HTMLElement,
-        'Anchor element is not defined or not instance of HTMLElement'
+        'Anchor element is not defined or not instance of HTMLElement',
       );
     }
     if (!(anchorElement && anchorElement instanceof HTMLElement)) {
@@ -535,14 +507,14 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         popupRect,
         posObject,
         margin,
-        popupOffset + this.getPinnedPopupOffset(anchorRect, posObject)
+        popupOffset + this.getPinnedPopupOffset(anchorRect, posObject),
       );
 
       const popupAbsRect = {
         top: coordinates.top,
         left: coordinates.left,
         height: popupRect.height,
-        width: popupRect.width
+        width: popupRect.width,
       };
 
       if (PopupHelper.isAbsoluteRectFullyVisible(popupAbsRect)) {
@@ -559,14 +531,14 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         popupRect,
         posObject,
         margin,
-        popupOffset + this.getPinnedPopupOffset(anchorRect, posObject)
+        popupOffset + this.getPinnedPopupOffset(anchorRect, posObject),
       );
 
       const popupAbsRect = {
         top: coordinates.top,
         left: coordinates.left,
         height: popupRect.height,
-        width: popupRect.width
+        width: popupRect.width,
       };
 
       if (PopupHelper.isAbsoluteRectFullyVisible(popupAbsRect)) {
@@ -581,7 +553,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       popupRect,
       posObject,
       margin,
-      popupOffset + this.getPinnedPopupOffset(anchorRect, posObject)
+      popupOffset + this.getPinnedPopupOffset(anchorRect, posObject),
     );
     return { coordinates, position: forcedPosition };
   }
@@ -591,9 +563,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       return 0;
     }
 
-    const anchorSize = /top|bottom/.test(position.direction)
-      ? anchorRect.width
-      : anchorRect.height;
+    const anchorSize = /top|bottom/.test(position.direction) ? anchorRect.width : anchorRect.height;
 
     const { pinOffset, pinSize } = this.props;
     return Math.max(0, pinOffset + pinSize - anchorSize / 2);
@@ -604,89 +574,55 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     popupRect: Rect,
     position: PositionObject,
     margin: number,
-    popupOffset: number
+    popupOffset: number,
   ) {
     switch (position.direction) {
       case 'top':
         return {
           top: anchorRect.top - popupRect.height - margin,
-          left: this.getHorizontalPosition(
-            anchorRect,
-            popupRect,
-            position.align,
-            popupOffset
-          )
+          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
         };
       case 'bottom':
         return {
           top: anchorRect.top + anchorRect.height + margin,
-          left: this.getHorizontalPosition(
-            anchorRect,
-            popupRect,
-            position.align,
-            popupOffset
-          )
+          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
         };
       case 'left':
         return {
-          top: this.getVerticalPosition(
-            anchorRect,
-            popupRect,
-            position.align,
-            popupOffset
-          ),
-          left: anchorRect.left - popupRect.width - margin
+          top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
+          left: anchorRect.left - popupRect.width - margin,
         };
       case 'right':
         return {
-          top: this.getVerticalPosition(
-            anchorRect,
-            popupRect,
-            position.align,
-            popupOffset
-          ),
-          left: anchorRect.left + anchorRect.width + margin
+          top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
+          left: anchorRect.left + anchorRect.width + margin,
         };
       default:
         throw new Error(`Unxpected direction '${position.direction}'`);
     }
   }
 
-  private getHorizontalPosition(
-    anchorRect: Rect,
-    popupRect: Rect,
-    align: string,
-    popupOffset: number
-  ) {
+  private getHorizontalPosition(anchorRect: Rect, popupRect: Rect, align: string, popupOffset: number) {
     switch (align) {
       case 'left':
         return anchorRect.left - popupOffset;
       case 'center':
         return anchorRect.left - (popupRect.width - anchorRect.width) / 2;
       case 'right':
-        return (
-          anchorRect.left - (popupRect.width - anchorRect.width) + popupOffset
-        );
+        return anchorRect.left - (popupRect.width - anchorRect.width) + popupOffset;
       default:
         throw new Error(`Unxpected align '${align}'`);
     }
   }
 
-  private getVerticalPosition(
-    anchorRect: Rect,
-    popupRect: Rect,
-    align: string,
-    popupOffset: number
-  ) {
+  private getVerticalPosition(anchorRect: Rect, popupRect: Rect, align: string, popupOffset: number) {
     switch (align) {
       case 'top':
         return anchorRect.top - popupOffset;
       case 'middle':
         return anchorRect.top - (popupRect.height - anchorRect.height) / 2;
       case 'bottom':
-        return (
-          anchorRect.top - (popupRect.height - anchorRect.height) + popupOffset
-        );
+        return anchorRect.top - (popupRect.height - anchorRect.height) + popupOffset;
       default:
         throw new Error(`Unxpected align '${align}'`);
     }
