@@ -6,6 +6,7 @@ import CROSS from '../internal/cross';
 import { Nullable } from '../../typings/utility-types';
 import styles from './Tooltip.less';
 import warning from 'warning';
+import { areArraysEqual } from '../../lib/utils';
 
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
@@ -174,7 +175,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
     const { allowedPositions, pos } = this.props;
     const posChanged = nextProps.pos !== pos;
-    const allowedChanged = nextProps.allowedPositions !== allowedPositions;
+    const allowedChanged = !areArraysEqual(nextProps.allowedPositions, allowedPositions);
 
     if (posChanged || allowedChanged) {
       this.positions = null;

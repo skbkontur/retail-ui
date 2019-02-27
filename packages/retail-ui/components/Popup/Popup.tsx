@@ -323,7 +323,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderContent() {
-    const location = this.state.location || this.getDummyLocation();
+    const location = this.state.location || DUMMY_LOCATION;
     const { direction } = PopupHelper.getPositionObject(location.position);
     const { backgroundColor } = this.props;
     const rootStyle: React.CSSProperties = {
@@ -474,14 +474,9 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       x.coordinates.left === y.coordinates.left && x.coordinates.top === y.coordinates.top && x.position === y.position
     );
   }
-
-  private getDummyLocation() {
-    return DUMMY_LOCATION;
-  }
-
   private getLocation(popupElement: HTMLElement, location?: Nullable<PopupLocation>) {
-    const { positions, margin, popupOffset } = this.props;
-    const { anchorElement } = this;
+    const positions = this.props.positions;
+    const anchorElement = this.anchorElement;
 
     if (process.env.NODE_ENV !== 'production') {
       warning(
@@ -489,73 +484,38 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         'Anchor element is not defined or not instance of HTMLElement',
       );
     }
+
     if (!(anchorElement && anchorElement instanceof HTMLElement)) {
       return location;
     }
 
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
-    let posObject: PositionObject;
+
+    let position: string;
     let coordinates: Offset;
-    let forcedPosition: string;
 
     if (location && location.position) {
-      forcedPosition = location.position;
-      posObject = PopupHelper.getPositionObject(forcedPosition);
-      coordinates = this.getCoordinates(
-        anchorRect,
-        popupRect,
-        posObject,
-        margin,
-        popupOffset + this.getPinnedPopupOffset(anchorRect, posObject),
-      );
+      position = location.position;
+      coordinates = this.getCoordinates(anchorRect, popupRect, position);
 
-      const popupAbsRect = {
-        top: coordinates.top,
-        left: coordinates.left,
-        height: popupRect.height,
-        width: popupRect.width,
-      };
-
-      if (PopupHelper.isAbsoluteRectFullyVisible(popupAbsRect)) {
-        return { coordinates, position: forcedPosition };
-      } else if (PopupHelper.canBecomeFullyVisible(posObject, popupAbsRect)) {
-        return { coordinates, position: forcedPosition };
+      const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect);
+      const canBecomeVisible = !isFullyVisible && PopupHelper.canBecomeFullyVisible(position, coordinates);
+      if (isFullyVisible || canBecomeVisible) {
+        return { coordinates, position };
       }
     }
 
-    for (const possiblePosition of positions) {
-      posObject = PopupHelper.getPositionObject(possiblePosition);
-      coordinates = this.getCoordinates(
-        anchorRect,
-        popupRect,
-        posObject,
-        margin,
-        popupOffset + this.getPinnedPopupOffset(anchorRect, posObject),
-      );
-
-      const popupAbsRect = {
-        top: coordinates.top,
-        left: coordinates.left,
-        height: popupRect.height,
-        width: popupRect.width,
-      };
-
-      if (PopupHelper.isAbsoluteRectFullyVisible(popupAbsRect)) {
-        return { coordinates, position: possiblePosition };
+    for (position of positions) {
+      coordinates = this.getCoordinates(anchorRect, popupRect, position);
+      if (PopupHelper.isFullyVisible(coordinates, popupRect)) {
+        return { coordinates, position };
       }
     }
 
-    forcedPosition = positions[0];
-    posObject = PopupHelper.getPositionObject(forcedPosition);
-    coordinates = this.getCoordinates(
-      anchorRect,
-      popupRect,
-      posObject,
-      margin,
-      popupOffset + this.getPinnedPopupOffset(anchorRect, posObject),
-    );
-    return { coordinates, position: forcedPosition };
+    position = positions[0];
+    coordinates = this.getCoordinates(anchorRect, popupRect, position);
+    return { coordinates, position };
   }
 
   private getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {
@@ -569,13 +529,11 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     return Math.max(0, pinOffset + pinSize - anchorSize / 2);
   }
 
-  private getCoordinates(
-    anchorRect: Rect,
-    popupRect: Rect,
-    position: PositionObject,
-    margin: number,
-    popupOffset: number,
-  ) {
+  private getCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
+    const margin = this.props.margin;
+    const position = PopupHelper.getPositionObject(positionName);
+    const popupOffset = this.props.popupOffset + this.getPinnedPopupOffset(anchorRect, position);
+
     switch (position.direction) {
       case 'top':
         return {

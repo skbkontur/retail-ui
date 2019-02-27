@@ -1,5 +1,4 @@
-export const delay = (ms: number) =>
-  new Promise(resolve => setTimeout(resolve, ms));
+export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const emptyHandler = () => undefined;
 
@@ -18,4 +17,21 @@ export function taskWithDelay(task: () => void, ms: number) {
     .catch(() => null);
 
   return cancelationToken;
+}
+
+export function areArraysEqual(a: Array<string | number>, b: Array<string | number>) {
+  if (a === b) {
+    return true;
+  }
+  if (a.length !== b.length) {
+    return false;
+  }
+
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) {
+      return false;
+    }
+  }
+
+  return true;
 }
