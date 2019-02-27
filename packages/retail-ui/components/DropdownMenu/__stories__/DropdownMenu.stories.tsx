@@ -12,8 +12,8 @@ import Toast from '../../Toast';
 import { PopupMenuCaptionProps } from '../../internal/PopupMenu/PopupMenu';
 import Input from '../../Input/Input';
 import SearchIcon from '@skbkontur/react-icons/Search';
-import { CSSProperties } from 'react';
-import { ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
+import AddIcon from '@skbkontur/react-icons/Add';
+import DeleteIcon from '@skbkontur/react-icons/Delete';
 
 storiesOf('DropdownMenu', module)
   .addDecorator(story => (
@@ -122,7 +122,7 @@ storiesOf('DropdownMenu', module)
       <MenuItem onClick={() => Toast.push('Три')}>Три</MenuItem>
     </DropdownMenu>
   ))
-  .add('With sticky item', () => (
+  .add('With header and footer', () => (
     <DropdownWithScrollStateChange
       disableAnimations
       caption={<Button use="primary">Открыть меню</Button>}
@@ -132,23 +132,23 @@ storiesOf('DropdownMenu', module)
 
 class DropdownWithScrollStateChange extends React.Component<
   DropdownMenuProps,
-  { scrollState: ScrollContainerScrollState; value: string }
+  { value: string; hasHeader: boolean }
 > {
   public state = {
-    scrollState: 'top' as ScrollContainerScrollState,
-    value: ''
+    value: '',
+    hasHeader: true
   };
 
   public render() {
     return (
       <DropdownMenu
         {...this.props}
-        onScrollStateChange={this.onScrollStateChange}
-        menuMaxHeight={450}
+        menuMaxHeight={'450px'}
         menuWidth={this.props.menuWidth}
         onClose={this.resetStateToDefault}
+        header={this.state.hasHeader && this.header()}
+        footer={this.footer()}
       >
-        {this.input}
         {new Array(50).fill('').map((i, index) => (
           <MenuItem key={index}>{`Item ${index}`}</MenuItem>
         ))}
@@ -156,24 +156,15 @@ class DropdownWithScrollStateChange extends React.Component<
     );
   }
 
-  private get input() {
-    const { scrollState } = this.state;
-    const stickyState = scrollState !== 'top';
-
-    const inputWrapperStyles: CSSProperties = {
-      position: stickyState ? 'absolute' : 'relative',
-      boxShadow: stickyState ? '0 5px 10px rgba(0, 0, 0, 0.2)' : 'none',
-      zIndex: 3000,
-      padding: '10px',
-      width: '100%',
-      boxSizing: 'border-box',
-      backgroundColor: 'white',
-      top: stickyState ? 0 : undefined,
-      transition: 'all 0.1s'
-    };
-
+  private header = () => {
     return (
-      <div style={inputWrapperStyles}>
+      <div
+        style={{
+          backgroundColor: 'rgba(131, 128, 128, 0.15)',
+          margin: '-6px -18px -7px -8px',
+          padding: '10px 18px 10px 8px'
+        }}
+      >
         <Input
           leftIcon={<SearchIcon />}
           value={this.state.value}
@@ -182,17 +173,31 @@ class DropdownWithScrollStateChange extends React.Component<
         />
       </div>
     );
-  }
+  };
+
+  private footer = () => {
+    const { hasHeader } = this.state;
+    const icon = hasHeader ? <DeleteIcon /> : <AddIcon />;
+    return (
+      <div style={{ paddingTop: 4 }}>
+        <Button use={'link'} icon={icon} onClick={this.switchHeaderState}>
+          {hasHeader ? 'Disable header' : 'Enable Header'}
+        </Button>
+      </div>
+    );
+  };
+
+  private switchHeaderState = () => {
+    this.setState(state => ({
+      hasHeader: !state.hasHeader
+    }));
+  };
 
   private handleInputChange = (_: any, value: string) => {
     this.setState({ value });
   };
 
-  private onScrollStateChange = (scrollState: ScrollContainerScrollState) => {
-    this.setState({ scrollState });
-  };
-
   private resetStateToDefault = () => {
-    this.setState({ value: '', scrollState: 'top' });
+    this.setState({ value: '' });
   };
 }
