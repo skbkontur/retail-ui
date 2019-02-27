@@ -77,7 +77,7 @@ export interface PopupProps extends PopupHandlerProps {
   pinOffset: number;
   pinSize: number;
   popupOffset: number;
-  positions: string[];
+  positions: PopupPosition[];
   onCloseRequest?: () => void;
   useWrapper: boolean;
   ignoreHover?: boolean;
@@ -88,7 +88,7 @@ interface PopupLocation {
     left: number;
     top: number;
   };
-  position: string;
+  position: PopupPosition;
 }
 
 export interface PopupState {
@@ -492,7 +492,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
 
-    let position: string;
+    let position: PopupPosition;
     let coordinates: Offset;
 
     if (location && location.position) {

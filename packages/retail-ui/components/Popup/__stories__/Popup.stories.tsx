@@ -1,7 +1,7 @@
 // tslint:disable:jsx-no-lambda
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
-import Popup from '../Popup';
+import Popup, { PopupPosition } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
 import Tooltip from '../../Tooltip';
 import ComboBox from '../../ComboBox';
@@ -188,7 +188,7 @@ class MinWidth extends React.Component {
 
 interface AlwaysOpenedProps {
   small: boolean;
-  positions: string[];
+  positions: PopupPosition[];
 }
 
 interface AlwaysOpenedState {

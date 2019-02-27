@@ -44,7 +44,7 @@ function isAbsoluteRectFullyVisible(coordinates: Offset, popupRect: Rect): boole
   return _rectContainsRect(windowAbsoluteRect, absoluteRect);
 }
 
-function canBecomeFullyVisible(positionName: string, coordinates: Offset) {
+function canBecomeFullyVisible(positionName: PopupPosition, coordinates: Offset) {
   const position = getPositionObject(positionName);
 
   if (position.direction === 'top') {
