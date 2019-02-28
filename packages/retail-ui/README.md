@@ -1,6 +1,6 @@
 # React UI
 
-[![Build Status](https://travis-ci.org/skbkontur/retail-ui.svg?branch=master)](https://travis-ci.org/skbkontur/retail-ui)
+[![Build Status](https://tc.skbkontur.ru/app/rest/builds/buildType:Common_RetailUi_RunAll/statusIcon)](https://tc.skbkontur.ru/project.html?projectId=Common_RetailUi&tab=projectOverview)
 
 ### Варианты использования
 
