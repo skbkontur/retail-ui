@@ -14510,11 +14510,6 @@ react-icons@^2.2.7:
   dependencies:
     react-icon-base "2.1.0"
 
-react-input-mask@1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/react-input-mask/-/react-input-mask-1.2.2.tgz#225a1130d316ee54cea7431f004c738b4c41b4da"
-  integrity sha512-bMbpt+PeErDvMYGGln8RaivWti4U3TOXLRG77dElEfdetVOSysmrVBKB6XvL1cKUMscaqcXvYhmLFjLpCH5e4Q==
-
 react-input-mask@2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-input-mask/-/react-input-mask-2.0.4.tgz#9ade5cf8196f4a856dbf010820fe75a795f3eb14"
@@ -15554,30 +15549,6 @@ ret@~0.1.10:
   version "0.1.15"
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
   integrity sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==
-
-retail-ui@^0.19.1:
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/retail-ui/-/retail-ui-0.19.1.tgz#ee7bd27454df8196789084d64f1c79c3d5151ed2"
-  integrity sha1-7nvSdFTfgZZ4kITWTxx5w9UVHtI=
-  dependencies:
-    add-event-listener "0.0.1"
-    classnames "^2.2.6"
-    create-react-context "^0.2.2"
-    exenv "^1.2.2"
-    fbemitter "^2.1.1"
-    fbjs "^0.8.17"
-    invariant "2.2.4"
-    lodash.debounce "^4.0.8"
-    lodash.throttle "^4.1.1"
-    normalize-wheel "^1.0.1"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    raf "^3.4.0"
-    react-input-mask "1.2.2"
-    react-transition-group "^2.4.0"
-    tslib "^1.9.3"
-    uuid "^3.3.2"
-    warning "^4.0.1"
 
 retry@^0.10.0:
   version "0.10.1"
