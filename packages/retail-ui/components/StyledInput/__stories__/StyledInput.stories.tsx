@@ -2,6 +2,8 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import StyledInput from '../StyledInput';
+import Input from '../../Input';
+import Toggle from '../../Toggle/Toggle';
 
 const Icon: React.SFC<{ name?: string }> = ({ name }) => <span>{name}</span>;
 const styles = {
@@ -120,4 +122,61 @@ storiesOf('StyledInput', module)
         <StyledInput size="large" />
       </div>
     </div>
-  ));
+  ))
+  .add('Performance metrics', () => {
+    const styledInputs = new Array(100).fill('').map((i, index) => (
+      <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
+        <StyledInput width={150} />
+      </div>
+    ));
+    const defaultInputs = new Array(100).fill('').map((i, index) => (
+      <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
+        <Input width={150} />
+      </div>
+    ));
+
+    return (
+      <div>
+        <PerformanceMetrics styledInputs={styledInputs} defaultInputs={defaultInputs} />
+      </div>
+    );
+  });
+
+enum InputTypes {
+  Styled,
+  Default,
+}
+
+export class PerformanceMetrics extends React.Component<
+  { styledInputs: React.ReactNode[]; defaultInputs: React.ReactNode[] },
+  { inputType: InputTypes }
+> {
+  public state = {
+    inputType: InputTypes.Styled,
+  };
+
+  public render() {
+    return (
+      <div style={{ padding: 10 }}>
+        <div>
+          <Toggle changeEventHandler={this.handleToggleChange} checked={this.state.inputType === InputTypes.Styled} />
+          {'Toggle inputs'}
+        </div>
+        <h1 style={{ lineHeight: '2em' }}>
+          {this.state.inputType === InputTypes.Styled ? 'Styled Inputs:' : 'Default Inputs:'}
+        </h1>
+        <div style={{ width: 1000, padding: 10 }}>
+          {this.state.inputType === InputTypes.Styled ? this.props.styledInputs : this.props.defaultInputs}
+        </div>
+      </div>
+    );
+  }
+
+  private handleToggleChange = () => {
+    this.setState(state => {
+      return {
+        inputType: state.inputType === InputTypes.Styled ? InputTypes.Default : InputTypes.Styled,
+      };
+    });
+  };
+}
