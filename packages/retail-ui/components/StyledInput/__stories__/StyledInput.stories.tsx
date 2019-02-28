@@ -148,7 +148,7 @@ enum InputTypes {
 }
 
 export class PerformanceMetrics extends React.Component<
-  { styledInputs: React.ReactNode[]; defaultInputs: React.ReactNode[] },
+  { styledInputs: React.ReactNode; defaultInputs: React.ReactNode },
   { inputType: InputTypes }
 > {
   public state = {
