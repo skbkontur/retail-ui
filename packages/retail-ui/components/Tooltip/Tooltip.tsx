@@ -6,6 +6,7 @@ import CROSS from '../internal/cross';
 import { Nullable } from '../../typings/utility-types';
 import styles from './Tooltip.less';
 import warning from 'warning';
+import { MouseEventType } from '../../typings/event-types';
 import { areArraysEqual } from '../../lib/utils';
 
 const POPUP_MARGIN = 15;
@@ -364,7 +365,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.setState({ opened: false });
   }
 
-  private handleMouseEnter = (event: IMouseEvent) => {
+  private handleMouseEnter = (event: MouseEventType) => {
     const isHoverAnchor = this.props.trigger === 'hoverAnchor';
     if (isHoverAnchor && event.target === this.contentElement) {
       return;
@@ -377,7 +378,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.open();
   };
 
-  private handleMouseLeave = (event: IMouseEvent) => {
+  private handleMouseLeave = (event: MouseEventType) => {
     const isHover = this.props.trigger === 'hover';
     if (isHover && event.relatedTarget === this.contentElement) {
       return;

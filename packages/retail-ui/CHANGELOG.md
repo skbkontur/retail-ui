@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.41.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.41.0...retail-ui@0.41.1) (2019-02-27)
+
+
+### Bug Fixes
+
+* **Popup:** remove ambient types ([72fb736](https://github.com/skbkontur/retail-ui/commit/72fb736))
+
+
+
+
+
 # [0.41.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.40.1...retail-ui@0.41.0) (2019-02-26)
 
 

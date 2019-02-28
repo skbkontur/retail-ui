@@ -5,6 +5,7 @@ import Popup, { PopupPosition, PopupProps } from '../Popup';
 
 import styles = require('./HintBox.less');
 import { Nullable, TimeoutID } from '../../typings/utility-types';
+import { MouseEventType } from '../../typings/event-types';
 
 const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';
@@ -14,8 +15,8 @@ export interface HintProps {
   children?: React.ReactNode;
   manual?: boolean;
   maxWidth?: React.CSSProperties['maxWidth'];
-  onMouseEnter?: (event: IMouseEvent) => void;
-  onMouseLeave?: (event: IMouseEvent) => void;
+  onMouseEnter?: (event: MouseEventType) => void;
+  onMouseLeave?: (event: MouseEventType) => void;
   opened?: boolean;
   pos:
     | 'top'
@@ -141,7 +142,7 @@ class Hint extends React.Component<HintProps, HintState> {
     return Positions.filter(x => x.startsWith(this.props.pos));
   };
 
-  private handleMouseEnter = (e: IMouseEvent) => {
+  private handleMouseEnter = (e: MouseEventType) => {
     if (!this.props.manual && !this.timer) {
       this.timer = window.setTimeout(this.open, 400);
     }
@@ -151,7 +152,7 @@ class Hint extends React.Component<HintProps, HintState> {
     }
   };
 
-  private handleMouseLeave = (e: IMouseEvent) => {
+  private handleMouseLeave = (e: MouseEventType) => {
     if (!this.props.manual && this.timer) {
       clearTimeout(this.timer);
       this.timer = null;

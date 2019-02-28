@@ -14,6 +14,7 @@ import styles from './Popup.less';
 import { isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 import warning from 'warning';
+import { FocusEventType, MouseEventType } from '../../typings/event-types';
 
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
@@ -55,11 +56,11 @@ export const PopupPositions: PopupPosition[] = [
 ];
 
 export interface PopupHandlerProps {
-  onMouseEnter?: (event: IMouseEvent) => void;
-  onMouseLeave?: (event: IMouseEvent) => void;
-  onClick?: (event: IMouseEvent) => void;
-  onFocus?: (event: IFocusEvent) => void;
-  onBlur?: (event: IBlurEvent) => void;
+  onMouseEnter?: (event: MouseEventType) => void;
+  onMouseLeave?: (event: MouseEventType) => void;
+  onClick?: (event: MouseEventType) => void;
+  onFocus?: (event: FocusEventType) => void;
+  onBlur?: (event: FocusEventType) => void;
   onOpen?: () => void;
 }
 
@@ -282,7 +283,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       element.addEventListener('mouseleave', this.handleMouseLeave);
       element.addEventListener('click', this.handleClick);
       element.addEventListener('focusin', this.handleFocus as EventListener);
-      element.addEventListener('focusout', this.handleBlur);
+      element.addEventListener('focusout', this.handleBlur as EventListener);
     }
   }
 
@@ -292,31 +293,31 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       element.removeEventListener('mouseleave', this.handleMouseLeave);
       element.removeEventListener('click', this.handleClick);
       element.removeEventListener('focusin', this.handleFocus as EventListener);
-      element.removeEventListener('focusout', this.handleBlur);
+      element.removeEventListener('focusout', this.handleBlur as EventListener);
     }
   }
 
-  private handleMouseEnter = (event: IMouseEvent) => {
+  private handleMouseEnter = (event: MouseEventType) => {
     if (this.props.onMouseEnter) {
       this.props.onMouseEnter(event);
     }
   };
-  private handleMouseLeave = (event: IMouseEvent) => {
+  private handleMouseLeave = (event: MouseEventType) => {
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(event);
     }
   };
-  private handleClick = (event: IMouseEvent) => {
+  private handleClick = (event: MouseEventType) => {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
   };
-  private handleFocus = (event: IFocusEvent) => {
+  private handleFocus = (event: FocusEventType) => {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
-  private handleBlur = (event: IBlurEvent) => {
+  private handleBlur = (event: FocusEventType) => {
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
