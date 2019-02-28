@@ -1,6 +1,8 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ThemeProvider } from "styled-components";
+
 import {
   configure,
   addDecorator,
@@ -8,6 +10,7 @@ import {
   getStorybook
 } from '@storybook/react';
 import Upgrades from '../lib/Upgrades';
+import { getDefaultTheme } from "../themes";
 
 if (process.env.STORYBOOK_FLAT_UI) {
   Upgrades.enableFlatDesign();
@@ -36,6 +39,8 @@ storiesOf('All', module).add('Stories', () => {
   window.getStorybook = getStorybook;
   return <div />;
 });
+
+addDecorator(story => <ThemeProvider theme={getDefaultTheme()}>{story()}</ThemeProvider>);
 
 addDecorator(story => (
   <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
