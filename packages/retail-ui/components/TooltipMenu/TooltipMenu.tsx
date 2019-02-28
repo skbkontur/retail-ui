@@ -3,6 +3,7 @@ import PopupMenu, { PopupMenuProps } from '../internal/PopupMenu';
 import { MenuItemProps } from '../MenuItem/MenuItem';
 import { isProductionEnv } from '../internal/currentEnvironment';
 import { MenuHeaderProps } from '../MenuHeader';
+import { PopupPosition } from '../Popup';
 
 export type TooltipMenuChildType = React.ReactElement<
   MenuItemProps | {} | MenuHeaderProps
@@ -22,7 +23,7 @@ export interface TooltipMenuProps {
    */
   caption: PopupMenuProps['caption'];
   /**  Массив разрешенных положений меню относительно caption'а. */
-  positions?: string[];
+  positions?: PopupPosition[];
   /**
    * Не показывать анимацию
    */
