@@ -21,8 +21,7 @@ import Toast from '@skbkontur/react-ui/Toast';
 
 const MyApp = () => (
   <div>
-    Click this button{' '}
-    <Button onClick={() => Toast.push('Hey!')}>Click me</Button>
+    Click this button <Button onClick={() => Toast.push('Hey!')}>Click me</Button>
   </div>
 );
 ```
@@ -49,14 +48,11 @@ module: {
           loader: 'babel-loader',
           options: {
             presets: ['env', 'react'],
-            plugins: [
-              'proposal-object-rest-spread',
-              'proposal-class-properties'
-            ]
-          }
-        }
+            plugins: ['proposal-object-rest-spread', 'proposal-class-properties'],
+          },
+        },
       ],
-      include: /retail-ui/
+      include: /retail-ui/,
     },
     {
       test: /\.less$/,
@@ -64,15 +60,15 @@ module: {
         'style-loader',
         {
           loader: 'css-loader',
-          options: { modules: 'global' }
+          options: { modules: 'global' },
         },
-        'less-loader'
+        'less-loader',
       ],
     },
     {
       test: /\.(png|woff|woff2|eot)$/,
-      use: ['file-loader']
-    }
+      use: ['file-loader'],
+    },
   ];
 }
 ```
