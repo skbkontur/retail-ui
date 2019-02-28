@@ -140,6 +140,13 @@ storiesOf('StyledInput', module)
         <PerformanceMetrics styledInputs={styledInputs} defaultInputs={defaultInputs} />
       </div>
     );
+  })
+  .add('With 100 sharing state', () => {
+    return (
+      <div>
+        <PerformanceMetrics styledInputs={<SharingStateStyledInputs />} defaultInputs={<SharingStateDefaultInputs />} />
+      </div>
+    );
   });
 
 enum InputTypes {
@@ -179,4 +186,47 @@ export class PerformanceMetrics extends React.Component<
       };
     });
   };
+}
+
+class BaseSharingStateComponent extends React.Component<{}, { value: string }> {
+  public state = {
+    value: '',
+  };
+
+  public render(): React.ReactNode {
+    return null;
+  }
+
+  // @ts-ignore
+  protected handleInputChange = (e: any, value: string) => {
+    this.setState({ value });
+  };
+}
+
+class SharingStateDefaultInputs extends BaseSharingStateComponent {
+  public render() {
+    return (
+      <div>
+        {new Array(100).fill('').map((i, index) => (
+          <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
+            <Input width={150} onChange={this.handleInputChange} value={this.state.value} />
+          </div>
+        ))}
+      </div>
+    );
+  }
+}
+
+class SharingStateStyledInputs extends BaseSharingStateComponent {
+  public render() {
+    return (
+      <div>
+        {new Array(100).fill('').map((i, index) => (
+          <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
+            <StyledInput width={150} onChange={this.handleInputChange} value={this.state.value} />
+          </div>
+        ))}
+      </div>
+    );
+  }
 }
