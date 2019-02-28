@@ -17,22 +17,8 @@ namespace SKBKontur.SeleniumTesting.Tests
         public void SetUp()
         {
             WaitResponse("http://localhost:8083/");
-            string tunnelIdentifier;
 
-            if (TravisEnvironment.IsExecutionViaTravis)
-            {
-                tunnelIdentifier = Environment.GetEnvironmentVariable("TRAVIS_JOB_NUMBER", EnvironmentVariableTarget.Process);
-                sauceConnectProcess = CreateSauceConnectProcess(tunnelIdentifier);
-                sauceConnectProcess.Start();
-                if (sauceConnectProcess.StandardOutput.ReadLine() != "Sauce Connect ready")
-                {
-                    throw new Exception("Unable to start sauce connect");
-                }
-            }
-            else
-            {
-                tunnelIdentifier = $"{Environment.MachineName}-{Guid.NewGuid()}";
-            }
+            var tunnelIdentifier = $"{Environment.MachineName}-{Guid.NewGuid()}";
 
             BrowserSetUp.SetUp(tunnelIdentifier);
         }
@@ -41,13 +27,6 @@ namespace SKBKontur.SeleniumTesting.Tests
         public void TearDown()
         {
             BrowserSetUp.TearDown();
-
-            if (TravisEnvironment.IsExecutionViaTravis)
-            {
-                //tunnel closes on any data in stdin
-                sauceConnectProcess.StandardInput.WriteLine("0");
-                sauceConnectProcess.WaitForExit(TimeSpan.FromSeconds(30).Milliseconds);
-            }
         }
 
         private static void WaitResponse(string url)
@@ -95,22 +74,5 @@ namespace SKBKontur.SeleniumTesting.Tests
             }
             throw new Exception("Cannot wait response");
         }
-
-        private static Process CreateSauceConnectProcess(string tunnelIdentifier)
-        {
-            var processStartInfo = new ProcessStartInfo
-                {
-                    UseShellExecute = false,
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    FileName = "node",
-                    WorkingDirectory = PathUtils.FindProjectRootFolder(),
-                    Arguments = $"sauce.js {tunnelIdentifier}"
-                };
-
-            return new Process {StartInfo = processStartInfo};
-        }
-
-        private Process sauceConnectProcess;
     }
 }

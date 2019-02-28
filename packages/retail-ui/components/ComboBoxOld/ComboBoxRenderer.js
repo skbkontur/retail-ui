@@ -203,7 +203,6 @@ class ComboBoxRenderer extends React.Component<Props, State> {
       <InputLikeText
         ref={this._refFocusable}
         {...inputProps}
-        padRight={this.props.openButton}
         onClick={this._handleValueClick}
         onFocus={this._handleValueClick}
         error={isNotRecovered || this.props.error}

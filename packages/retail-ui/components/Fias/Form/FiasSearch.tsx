@@ -13,7 +13,7 @@ interface FiasSearchProps {
 }
 
 export class FiasSearch extends React.Component<FiasSearchProps> {
-  public static defultProps = {
+  public static defaultProps = {
     locale: defaultLocale
   };
 
@@ -59,7 +59,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
 
   private onUnexpectedInput = (query: string) => {
     if (!query) {
-      return new Address({});
+      return new Address();
     }
   };
 }

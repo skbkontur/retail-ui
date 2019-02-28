@@ -150,6 +150,15 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
   }
 
   /**
+   * @public
+   */
+  public blur() {
+    if (this.comboboxElement) {
+      this.comboboxElement.blur();
+    }
+  }
+
+  /**
    * @public Открывает выпадающий список и запускает поиск элементов
    * @param {string} [query] - Текст поиска. По умолчанию берется
    * текст из инпута или результат `valueToString(value)`
@@ -157,6 +166,15 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
   public search(query?: string) {
     if (this.comboboxElement) {
       this.comboboxElement.search(query);
+    }
+  }
+
+  /**
+   * @public
+   */
+  public cancelSearch() {
+    if (this.comboboxElement) {
+      this.comboboxElement.cancelSearch();
     }
   }
 

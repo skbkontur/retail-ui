@@ -31,7 +31,12 @@ gemini.suite("Tooltip bottom", suite => {
 
 gemini.suite("Tooltip wrap inline-block", suite => {
   suite
-    .before(renderStory("Tooltip", "Tooltips without wrapper around inline-block with 50% width"))
+    .before(
+      renderStory(
+        "Tooltip",
+        "Tooltips without wrapper around inline-block with 50% width"
+      )
+    )
     .setCaptureElements("#test-element")
     .capture("hover", (actions, find) => {
       actions.mouseMove(find("textarea"));
@@ -43,4 +48,38 @@ gemini.suite("Opened tooltip without wrapper", suite => {
     .before(renderStory("Tooltip", "Opened tooltip without wrapper"))
     .setCaptureElements("#test-element")
     .capture("plain");
+});
+
+gemini.suite("Opened tooltip by focus (Button)", suite => {
+  suite
+    .before(renderStory("Tooltip", "focus tooltip"))
+    .setCaptureElements("#test-element")
+    .capture("01 - plain")
+    .capture("02 - focus", actions => {
+      actions.sendKeys(gemini.TAB);
+    })
+    .capture("03 - blur", (actions, find) => {
+      actions.sendKeys(find("button"), gemini.TAB);
+    })
+    .skip.in(
+      "firefox",
+      "в firefox завезли поддержку focusin/focusout только с 52ой версии"
+    );
+});
+
+gemini.suite("Opened tooltip by focus (input)", suite => {
+  suite
+    .before(renderStory("Tooltip", "focus tooltip (native input)"))
+    .setCaptureElements("#test-element")
+    .capture("01 - plain")
+    .capture("02 - focus", (actions, find) => {
+      actions.focus(find("input"));
+    })
+    .capture("03 - blur", (actions, find) => {
+      actions.sendKeys(find("input"), gemini.TAB);
+    })
+    .skip.in(
+      "firefox",
+      "в firefox завезли поддержку focusin/focusout только с 52ой версии"
+    );
 });

@@ -5,6 +5,7 @@ import Popup, { PopupPosition, PopupProps } from '../Popup';
 
 import styles = require('./HintBox.less');
 import { Nullable, TimeoutID } from '../../typings/utility-types';
+import { MouseEventType } from '../../typings/event-types';
 
 const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';
@@ -14,8 +15,8 @@ export interface HintProps {
   children?: React.ReactNode;
   manual?: boolean;
   maxWidth?: React.CSSProperties['maxWidth'];
-  onMouseEnter?: (event: React.MouseEvent<HTMLElement> | MouseEvent) => void;
-  onMouseLeave?: (event: React.MouseEvent<HTMLElement> | MouseEvent) => void;
+  onMouseEnter?: (event: MouseEventType) => void;
+  onMouseLeave?: (event: MouseEventType) => void;
   opened?: boolean;
   pos:
     | 'top'
@@ -87,26 +88,20 @@ class Hint extends React.Component<HintProps, HintState> {
   public componentWillUnmount() {
     if (this.timer) {
       clearTimeout(this.timer);
+      this.timer = null;
     }
   }
 
   public render() {
-    if (this.props.useWrapper) {
-      const caption = (
-        <span
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-        >
-          {this.props.children}
-        </span>
-      );
-      return this.renderPopup(caption);
+    if (this.props.text) {
+      return this.renderPopup(this.props.children, {
+        onMouseEnter: this.handleMouseEnter,
+        onMouseLeave: this.handleMouseLeave,
+        useWrapper: this.props.useWrapper
+      });
     }
 
-    return this.renderPopup(this.props.children, {
-      onMouseEnter: this.handleMouseEnter,
-      onMouseLeave: this.handleMouseLeave
-    });
+    return this.props.children;
   }
 
   private renderPopup(
@@ -147,9 +142,7 @@ class Hint extends React.Component<HintProps, HintState> {
     return Positions.filter(x => x.startsWith(this.props.pos));
   };
 
-  private handleMouseEnter = (
-    e: React.MouseEvent<HTMLElement> | MouseEvent
-  ) => {
+  private handleMouseEnter = (e: MouseEventType) => {
     if (!this.props.manual && !this.timer) {
       this.timer = window.setTimeout(this.open, 400);
     }
@@ -159,9 +152,7 @@ class Hint extends React.Component<HintProps, HintState> {
     }
   };
 
-  private handleMouseLeave = (
-    e: React.MouseEvent<HTMLElement> | MouseEvent
-  ) => {
+  private handleMouseLeave = (e: MouseEventType) => {
     if (!this.props.manual && this.timer) {
       clearTimeout(this.timer);
       this.timer = null;

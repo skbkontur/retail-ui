@@ -6,7 +6,8 @@ import Menu from '../Menu/Menu';
 import InputLikeText from '../internal/InputLikeText';
 import shallow from 'fbjs/lib/shallowEqual';
 import { MenuItemState } from '../MenuItem';
-import { ComboBoxRequestStatus } from './types';
+import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
+import { CancelationError, taskWithDelay } from '../../lib/utils';
 
 export type Action<T> =
   | { type: 'ValueChange'; value: T; keepFocus: boolean }
@@ -25,7 +26,11 @@ export type Action<T> =
   | { type: 'Open' }
   | { type: 'Close' }
   | { type: 'Search'; query: string }
-  | { type: 'FocusNextElement' };
+  | { type: 'RequestItems' }
+  | { type: 'ReceiveItems'; items: T[] }
+  | { type: 'RequestFailure'; repeatRequest: () => void }
+  | { type: 'FocusNextElement' }
+  | { type: 'CancelRequest' };
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -37,6 +42,11 @@ export interface CustomComboBoxProps<T> {
   maxLength?: number;
   menuAlign?: 'left' | 'right';
   openButton?: boolean;
+  onChange?: (event: { target: { value: T } }, value: T) => {};
+  onInputChange?: (textValue: string) => any;
+  onUnexpectedInput?: (query: string) => Nullable<boolean>;
+  onFocus?: () => {};
+  onBlur?: () => {};
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseOver?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
@@ -53,6 +63,8 @@ export interface CustomComboBoxProps<T> {
   renderValue: (value: T) => React.ReactNode;
   valueToString: (value: T) => string;
   itemToValue: (item: T) => string | number;
+  getItems: (query: string) => Promise<T[]>;
+  reducer: Reducer<T>;
 }
 
 export interface CustomComboBoxState<T> {
@@ -61,6 +73,8 @@ export interface CustomComboBoxState<T> {
   opened: boolean;
   textValue: string;
   items: Nullable<T[]>;
+  inputChanged?: boolean;
+  focused?: boolean;
   repeatRequest: () => void;
   requestStatus: ComboBoxRequestStatus;
 }
@@ -78,9 +92,8 @@ export type Reducer<T> = (
   action: Action<T>
 ) => CustomComboBoxState<T> | [CustomComboBoxState<T>, Array<Effect<T>>];
 
-export type Props<T> = {
-  reducer: Reducer<T>;
-} & CustomComboBoxProps<T>;
+export const DELAY_BEFORE_SHOW_LOADER = 300;
+export const LOADER_SHOW_TIME = 1000;
 
 export const DefaultState = {
   editing: false,
@@ -93,7 +106,7 @@ export const DefaultState = {
 };
 
 class CustomComboBox extends React.Component<
-  Props<any>,
+  CustomComboBoxProps<any>,
   CustomComboBoxState<any>
 > {
   public state: CustomComboBoxState<any> = DefaultState;
@@ -103,6 +116,7 @@ class CustomComboBox extends React.Component<
   public requestId = 0;
   public loaderShowDelay: Nullable<Promise<never>>;
   private focused: boolean = false;
+  private cancelationToken: Nullable<(reason?: any) => void> = null;
   public cancelLoaderDelay: (() => void) = () => null;
 
   /**
@@ -142,8 +156,73 @@ class CustomComboBox extends React.Component<
   /**
    * @public
    */
-  public search(query: string = this.state.textValue) {
-    this.dispatch({ type: 'Search', query });
+  public async search(query: string = this.state.textValue) {
+    const { getItems } = this.props;
+
+    const cancelPromise: Promise<never> = new Promise(
+      (_, reject) => (this.cancelationToken = reject)
+    );
+    const expectingId = (this.requestId += 1);
+
+    if (!this.loaderShowDelay) {
+      this.loaderShowDelay = new Promise(resolve => {
+        const cancelLoader = taskWithDelay(() => {
+          this.dispatch({ type: 'RequestItems' });
+          setTimeout(resolve, LOADER_SHOW_TIME);
+        }, DELAY_BEFORE_SHOW_LOADER);
+
+        cancelPromise.catch(() => cancelLoader());
+
+        this.cancelLoaderDelay = () => {
+          cancelLoader();
+          resolve();
+        };
+      });
+    }
+
+    try {
+      const items = await Promise.race([getItems(query) || [], cancelPromise]);
+      if (this.state.loading) {
+        await Promise.race([this.loaderShowDelay, cancelPromise]);
+      }
+      if (expectingId === this.requestId) {
+        this.dispatch({
+          type: 'ReceiveItems',
+          items
+        });
+      }
+    } catch (error) {
+      if (error && error.code === 'CancelationError') {
+        this.dispatch({ type: 'CancelRequest' });
+      } else if (expectingId === this.requestId) {
+        this.dispatch({
+          type: 'RequestFailure',
+          repeatRequest: () => {
+            this.search(query);
+            if (this.input) {
+              this.input.focus();
+            }
+          }
+        });
+      }
+    } finally {
+      if (expectingId === this.requestId) {
+        if (!this.state.loading) {
+          this.cancelLoaderDelay();
+        }
+        this.cancelationToken = null;
+        this.loaderShowDelay = null;
+      }
+    }
+  }
+
+  /**
+   * @public
+   */
+  public cancelSearch() {
+    if (this.cancelationToken) {
+      this.cancelationToken(new CancelationError());
+    }
   }
 
   /**
@@ -228,7 +307,7 @@ class CustomComboBox extends React.Component<
   }
 
   public shouldComponentUpdate(
-    nextProps: Props<any>,
+    nextProps: CustomComboBoxProps<any>,
     nextState: CustomComboBoxState<any>
   ) {
     return !shallow(nextProps, this.props) || !shallow(nextState, this.state);
@@ -238,7 +317,6 @@ class CustomComboBox extends React.Component<
     if (prevState.editing && !this.state.editing) {
       this.handleBlur();
     }
-
     this.dispatch({ type: 'DidUpdate', prevProps, prevState });
   }
 
@@ -308,15 +386,16 @@ class CustomComboBox extends React.Component<
     // If menu opened, RenderLayer is active and
     // it would call handleFocusOutside
     // In that way handleBlur would be called
-    if (this.state.opened) {
+    if (this.state.editing) {
       return;
     }
-
     this.handleBlur();
   };
 
   private handleInputClick = () => {
-    this.dispatch({ type: 'InputClick' });
+    if (!this.cancelationToken) {
+      this.dispatch({ type: 'InputClick' });
+    }
   };
 }
 

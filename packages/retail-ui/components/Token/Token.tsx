@@ -102,7 +102,7 @@ const Token: React.SFC<TokenProps & TokenActions> = ({
       onFocus={onFocus}
       onBlur={onBlur}
     >
-      {children}
+      <span className={styles.text}>{children}</span>
       <TokenRemoveIcon className={styles.removeIcon} onClick={onRemove} />
     </div>
   );

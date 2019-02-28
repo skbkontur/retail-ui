@@ -11,6 +11,7 @@ interface TestTooltipProps {
   pos?: PopupPosition;
   trigger?: TooltipTrigger;
   useWrapper?: boolean;
+  disableAnimations?: boolean;
 }
 
 class TestTooltip extends React.Component<TestTooltipProps> {
@@ -32,6 +33,7 @@ class TestTooltip extends React.Component<TestTooltipProps> {
           render={() => <div>Hey there!</div>}
           trigger={trigger}
           useWrapper={this.props.useWrapper}
+          disableAnimations={this.props.disableAnimations}
         >
           {children}
         </Tooltip>
@@ -57,8 +59,13 @@ storiesOf('Tooltip', module)
     </TestTooltip>
   ))
   .add('focus tooltip', () => (
-    <TestTooltip trigger="focus">
+    <TestTooltip trigger="focus" disableAnimations>
       <Button>Focus me</Button>
+    </TestTooltip>
+  ))
+  .add('focus tooltip (native input)', () => (
+    <TestTooltip trigger="focus" disableAnimations>
+      <input />
     </TestTooltip>
   ))
   .add('tooltip left', () => (
@@ -110,6 +117,7 @@ storiesOf('Tooltip', module)
     );
   })
   .add('MyCustomTooltip', () => <MyCustomTooltip />)
+  .add('ManualTooltip', () => <ManualTooltip />)
   .add('tooltip without animations', () => (
     <div>
       <Tooltip render={() => 'No disableAnimations prop'} trigger={'hover'}>
@@ -118,14 +126,14 @@ storiesOf('Tooltip', module)
       <Tooltip
         render={() => 'disableAnimations={false}'}
         trigger={'hover'}
-        disableAnimations={false}
+        disableAnimations
       >
         <Button>Hover me (disableAnimations: false)</Button>
       </Tooltip>
       <Tooltip
         render={() => 'disableAnimations={true}'}
         trigger={'hover'}
-        disableAnimations={true}
+        disableAnimations
       >
         <Button>Hover me (disableAnimations: true)</Button>
       </Tooltip>
@@ -182,6 +190,36 @@ class MyCustomTooltip extends React.Component<
     return (
       <Tooltip render={() => 'hola'} {...tooltipProps}>
         <Button onClick={() => this.setState({ state: 'opened' })}>Hey</Button>
+      </Tooltip>
+    );
+  }
+}
+
+class ManualTooltip extends React.Component<
+  TestTooltipProps,
+  MyCustomTooltipState
+> {
+  public state: MyCustomTooltipState = {
+    state: 'opened'
+  };
+
+  public render() {
+    const tooltipProps: Partial<TooltipProps> = {
+      trigger: this.state.state,
+      closeButton: false
+    };
+
+    return (
+      <Tooltip render={() => 'hola'} {...tooltipProps}>
+        <Button
+          onClick={() =>
+            this.setState({
+              state: this.state.state === 'opened' ? 'closed' : 'opened'
+            })
+          }
+        >
+          Hey
+        </Button>
       </Tooltip>
     );
   }

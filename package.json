@@ -14,7 +14,7 @@
   },
   "scripts": {
     "commit": "git-cz",
-    "release": "env-cmd .env lerna publish"
+    "release": "env-cmd .env lerna version"
   },
   "jest": {
     "projects": [
