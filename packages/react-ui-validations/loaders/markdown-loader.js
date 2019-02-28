@@ -1,4 +1,4 @@
-import { markdown } from 'markdown';
+const { markdown } = require('markdown');
 
 class Renderer {
     renderContent(content) {
