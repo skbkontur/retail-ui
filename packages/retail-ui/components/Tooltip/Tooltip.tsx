@@ -7,6 +7,7 @@ import { Nullable } from '../../typings/utility-types';
 import styles from './Tooltip.less';
 import warning from 'warning';
 import { MouseEventType } from '../../typings/event-types';
+import isEqual from 'lodash.isequal';
 
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
@@ -164,12 +165,21 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     opened: false
   };
 
-  private hoverTimeout: number | null = null;
-  private contentElement: HTMLElement | null = null;
+  private hoverTimeout: Nullable<number> = null;
+  private contentElement: Nullable<HTMLElement> = null;
+  private positions: Nullable<PopupPosition[]> = null;
 
   public componentWillReceiveProps(nextProps: TooltipProps) {
     if (nextProps.trigger === 'closed') {
       this.close();
+    }
+
+    const { allowedPositions, pos } = this.props;
+    const posChanged = nextProps.pos !== pos;
+    const allowedChanged = !isEqual(nextProps.allowedPositions, allowedPositions);
+
+    if (posChanged || allowedChanged) {
+      this.positions = null;
     }
   }
 
@@ -256,18 +266,23 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   };
 
   private getPositions() {
-    const allowedPositions = this.props.allowedPositions;
-    const index = allowedPositions.indexOf(this.props.pos);
-    if (index === -1) {
-      throw new Error(
-        'Unexpected position passed to Tooltip. Expected one of: ' +
-          allowedPositions.join(', ')
-      );
+    if (!this.positions) {
+      const allowedPositions = this.props.allowedPositions;
+      const index = allowedPositions.indexOf(this.props.pos);
+      if (index === -1) {
+        throw new Error(
+          'Unexpected position passed to Tooltip. Expected one of: ' +
+            allowedPositions.join(', ')
+        );
+      }
+
+      this.positions = [
+        ...allowedPositions.slice(index),
+        ...allowedPositions.slice(0, index)
+      ];
     }
-    return [
-      ...allowedPositions.slice(index),
-      ...allowedPositions.slice(0, index)
-    ];
+
+    return this.positions;
   }
 
   private getProps(): {
