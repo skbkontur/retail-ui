@@ -88,7 +88,7 @@ export function lessThanDate(value: Date): ((value: Nullable<string>) => Nullabl
 
 function wrapControl<TProps extends { value?: any }>(
   controlType: React.ComponentType<TProps>,
-): React.FunctionComponent<WrappedProps<ExtractValue<TProps>, TProps>> {
+): React.SFC<WrappedProps<ExtractValue<TProps>, TProps>> {
   return props => {
     const { controlProps, validationWrapperProps } = prepareProps(props);
     const control = React.createElement(controlType, controlProps) as React.ReactElement<any>;

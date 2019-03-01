@@ -19,7 +19,7 @@ export interface FormEditorProps {
   onChange: (update: Partial<ContactInfo>) => void;
 }
 
-const FormEditor: React.FunctionComponent<FormEditorProps> = ({ data, onChange }) => {
+const FormEditor: React.SFC<FormEditorProps> = ({ data, onChange }) => {
   return (
     <Form>
       <Form.Line title="Имя">

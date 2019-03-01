@@ -1,6 +1,8 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
 import styled from 'styled-components';
+import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
+import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 import Input from 'retail-ui/components/Input';
 import Button from 'retail-ui/components/Button';
 import RadioGroup from 'retail-ui/components/RadioGroup';
@@ -35,7 +37,7 @@ export interface FormEditorProps {
   onChange: (update: Partial<ContactInfo>) => void;
 }
 
-const FormEditor: React.FunctionComponent<FormEditorProps> = ({ data, validation, onChange }) => {
+const FormEditor: React.SFC<FormEditorProps> = ({ data, validation, onChange }) => {
   const validationInfoValue = validation || {};
   return (
     <Form>
@@ -119,7 +121,10 @@ const FormEditor: React.FunctionComponent<FormEditorProps> = ({ data, validation
       <Form.Line title="Сcылка">
         <ValidationWrapperV1 validationInfo={validationInfoValue.modalOpened}>
           <LinkContainer>
-            <Link icon={data.modalOpened ? 'ThumbUp' : 'ThumbDown'} onClick={() => onChange({ modalOpened: true })}>
+            <Link
+              icon={data.modalOpened ? <ThumbUpIcon /> : <ThumbDownIcon />}
+              onClick={() => onChange({ modalOpened: true })}
+            >
               Нажми меня
             </Link>
           </LinkContainer>

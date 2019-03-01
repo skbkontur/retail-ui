@@ -23,7 +23,7 @@ interface FormLineProps {
   title: string;
 }
 
-const FormLine: React.FunctionComponent<FormLineProps> = props => {
+const FormLine: React.SFC<FormLineProps> = props => {
   return (
     <Line>
       <Title>{props.title}</Title>

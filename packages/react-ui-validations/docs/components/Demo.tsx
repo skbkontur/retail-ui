@@ -15,7 +15,7 @@ const DemoContainer = styled.div`
   font-size: 14px;
 `;
 
-const Demo: React.FunctionComponent<DemoProps> = ({ children, demo, source }) => {
+const Demo: React.SFC<DemoProps> = ({ children, demo, source }) => {
   const DemoComponent = demo;
   return (
     <div>

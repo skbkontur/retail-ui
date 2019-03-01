@@ -6,7 +6,7 @@ import Logotype from 'retail-ui/components/Logotype';
 import Examples from 'docs/components/Pages/Examples';
 import Concepts from 'docs/components/Pages/Concepts';
 
-const Layout: React.FunctionComponent = ({ children }) => {
+const Layout: React.SFC = ({ children }) => {
   return (
     <Root>
       <Helmet defaultTitle="React-UI Validations" titleTemplate="%s | React-UI Validations" />

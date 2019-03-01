@@ -8,7 +8,7 @@ import { ContactInfo, FormEditorProps } from 'docs/Domain/ContactInfo';
 import Demo from 'docs/components/Demo';
 import Form from 'docs/components/Form';
 
-const FormEditor: React.FunctionComponent<FormEditorProps> = ({ data, validationInfo, onChange }) => {
+const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfo, onChange }) => {
   validationInfo = validationInfo || {};
   return (
     <Form>
