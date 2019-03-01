@@ -1,1 +1,1 @@
-export { default, ComboBoxOldProps, ComboBoxOldState } from "./ComboBoxOld";
+export { default, ComboBoxOldProps, ComboBoxOldState } from './ComboBoxOld';

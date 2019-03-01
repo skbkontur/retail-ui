@@ -1,43 +1,43 @@
-const commonRules = require("./rules");
+const commonRules = require('./rules');
 
 module.exports = {
-    parser: "babel-eslint",
-    plugins: ["react", "babel", "flowtype", "prettier", "import"],
-    env: {
-        browser: true,
-        es6: true,
-        jest: true,
-        node: true,
+  parser: 'babel-eslint',
+  plugins: ['react', 'babel', 'flowtype', 'prettier', 'import'],
+  env: {
+    browser: true,
+    es6: true,
+    jest: true,
+    node: true,
+  },
+  parserOptions: {
+    sourceType: 'module',
+    ecmaFeatures: {
+      modules: true,
+      jsx: true,
     },
-    parserOptions: {
-        sourceType: "module",
-        ecmaFeatures: {
-            modules: true,
-            jsx: true,
-        },
+  },
+  settings: {
+    flowtype: {
+      onlyFilesWithFlowAnnotation: true,
     },
-    settings: {
-        flowtype: {
-            onlyFilesWithFlowAnnotation: true,
-        },
-    },
-    rules: Object.assign(
-        {},
+  },
+  rules: Object.assign(
+    {},
+    {
+      'prettier/prettier': [
+        'error',
         {
-            "prettier/prettier": [
-                "error",
-                {
-                    printWidth: 120,
-                    tabWidth: 4,
-                    useTabs: false,
-                    semi: true,
-                    singleQuote: false,
-                    trailingComma: "es5",
-                    bracketSpacing: true,
-                    jsxBracketSameLine: true,
-                },
-            ],
+          printWidth: 120,
+          tabWidth: 4,
+          useTabs: false,
+          semi: true,
+          singleQuote: false,
+          trailingComma: 'es5',
+          bracketSpacing: true,
+          jsxBracketSameLine: true,
         },
-        commonRules
-    ),
+      ],
+    },
+    commonRules,
+  ),
 };

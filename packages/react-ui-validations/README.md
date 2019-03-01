@@ -6,8 +6,8 @@
 
 ## Документация
 
-* [Docs & Demos](http://tech.skbkontur.ru/react-ui-validations/)
-* [Validation guides](https://guides.kontur.ru/principles/validation/)
+- [Docs & Demos](http://tech.skbkontur.ru/react-ui-validations/)
+- [Validation guides](https://guides.kontur.ru/principles/validation/)
 
 ## Использование
 
@@ -23,9 +23,9 @@ export default class DataEditor extends React.Component {
     render() {
         return (
             <ValidationContainer>
-                <ValidationWrapperV1 
-                    validationInfo={/\d+/.test(phone) 
-                        ? { message: 'Телефон должен состоять только из цифр' } 
+                <ValidationWrapperV1
+                    validationInfo={/\d+/.test(phone)
+                        ? { message: 'Телефон должен состоять только из цифр' }
                         : null}>
                     <Input
                         value={phone}

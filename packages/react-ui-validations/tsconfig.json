@@ -1,38 +1,23 @@
 {
-    "compileOnSave": true,
-    "compilerOptions": {
-        "target": "es5",
-        "jsx": "react",
-        "module": "es2015",
-        "moduleResolution": "node",
-        "lib": [
-            "dom",
-            "es2017"
-        ],
-        "sourceMap": true,
-        "allowUnreachableCode": true,
-        "strict": true,
-        "declaration": true,
-        "declarationDir": "./build/declaration",
-        "baseUrl": ".",
-        "paths": {
-            "src/*": [
-                "src/*"
-            ],
-            "docs/*": [
-                "docs/*"
-            ],
-            "typings/*": [
-                "typings/*"
-            ],
-            "*": [
-                "typings/*"
-            ]
-        }
-    },
-    "include": [
-        "./src/**/*",
-        "./docs/**/*",
-        "./typings/**/*"
-    ]
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "es5",
+    "jsx": "react",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "lib": ["dom", "es2017"],
+    "sourceMap": true,
+    "allowUnreachableCode": true,
+    "strict": true,
+    "declaration": true,
+    "declarationDir": "./build/declaration",
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["src/*"],
+      "docs/*": ["docs/*"],
+      "typings/*": ["typings/*"],
+      "*": ["typings/*"]
+    }
+  },
+  "include": ["./src/**/*", "./docs/**/*", "./typings/**/*"]
 }
