@@ -17,15 +17,12 @@ module.exports = function(sourceConfig, env, defaultConfig) {
       ...defaultConfig.module,
       rules: [
         {
-          test: /\.(js|jsx)$/,
-          include: /(retail-ui|config\.js)/,
-          exclude: /retail-ui(\\|\/)node_modules/,
-          loader: 'babel-loader',
-        },
-        {
           test: /\.(ts|tsx)$/,
-          exclude: /node_modules/,
+          include: /react-ui-validations/,
           loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+          },
         },
         {
           test: /\.less$/,
