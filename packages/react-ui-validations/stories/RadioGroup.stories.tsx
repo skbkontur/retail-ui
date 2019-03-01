@@ -18,6 +18,8 @@ class RadioGroupStory extends React.Component<{}, RadioGroupStoryState> {
     sex: null,
   };
 
+  private container: ValidationContainer | null = null;
+
   public validateSex(): Nullable<ValidationInfo> {
     const { sex } = this.state;
     if (sex == null) {
@@ -29,7 +31,7 @@ class RadioGroupStory extends React.Component<{}, RadioGroupStoryState> {
   public render() {
     return (
       <div style={{ padding: '20px 20px' }}>
-        <ValidationContainer ref="container">
+        <ValidationContainer ref={this.refContainer}>
           <ValidationWrapperV1 validationInfo={this.validateSex()}>
             <RadioGroup
               value={this.state.sex}
@@ -39,10 +41,12 @@ class RadioGroupStory extends React.Component<{}, RadioGroupStoryState> {
             />
           </ValidationWrapperV1>
           <div style={{ padding: '100px 0' }}>
-            <Button onClick={() => (this.refs.container as ValidationContainer).validate()}>Check</Button>
+            <Button onClick={() => this.container && this.container.validate()}>Check</Button>
           </div>
         </ValidationContainer>
       </div>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }

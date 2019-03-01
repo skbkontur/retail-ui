@@ -58,14 +58,17 @@ export default class OnBlurValidationsExample extends React.Component {
       sex: null,
     },
   };
+  private container: ValidationContainer | null = null;
 
   public handleSubmit() {
-    (this.refs.container as ValidationContainer).submit();
+    if (this.container) {
+      this.container.submit();
+    }
   }
 
   public render() {
     return (
-      <ValidationContainer ref="container">
+      <ValidationContainer ref={this.refContainer}>
         <FormEditor
           data={this.state.data}
           validationInfo={validate(this.state.data)}
@@ -79,4 +82,6 @@ export default class OnBlurValidationsExample extends React.Component {
       </ValidationContainer>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }

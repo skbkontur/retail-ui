@@ -20,6 +20,8 @@ class ModalInputStory extends React.Component<{}, ModalInputStoryState> {
     value: '',
   };
 
+  private container: ValidationContainer | null = null;
+
   public validateValue1(): Nullable<ValidationInfo> {
     const { value } = this.state;
     if (value === '') {
@@ -36,7 +38,7 @@ class ModalInputStory extends React.Component<{}, ModalInputStoryState> {
 
   public render() {
     return (
-      <ValidationContainer scrollOffset={115} ref="container">
+      <ValidationContainer scrollOffset={115} ref={this.refContainer}>
         <Modal>
           <Modal.Header>Заголовок</Modal.Header>
           <Modal.Body>
@@ -66,7 +68,7 @@ class ModalInputStory extends React.Component<{}, ModalInputStoryState> {
                 <Input
                   data-tid="SingleInput"
                   value={this.state.value}
-                  onChange={(e, value) => this.setState({ value })}
+                  onChange={(_, value) => this.setState({ value })}
                 />
               </ValidationWrapperV1>
               <div
@@ -78,7 +80,7 @@ class ModalInputStory extends React.Component<{}, ModalInputStoryState> {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => (this.refs.container as ValidationContainer).submit()} use="primary">
+            <Button onClick={() => this.container && this.container.submit()} use="primary">
               Кнопка
             </Button>
           </Modal.Footer>
@@ -86,6 +88,8 @@ class ModalInputStory extends React.Component<{}, ModalInputStoryState> {
       </ValidationContainer>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
 interface SmallModalInputStoryState {
@@ -96,6 +100,9 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
   public state: SmallModalInputStoryState = {
     value: '',
   };
+
+  private container: ValidationContainer | null = null;
+  private outerContainer: ValidationContainer | null = null;
 
   public componentDidMount() {
     window.scrollTo(1000, 1000);
@@ -117,7 +124,7 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
 
   public render() {
     return (
-      <ValidationContainer ref="outerContainer">
+      <ValidationContainer ref={this.refOuterContainer}>
         <div>
           <h1>
             <Center>Header</Center>
@@ -141,7 +148,7 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
             validationInfo={this.validateValue()}
             renderMessage={text('bottom')}
           >
-            <Input data-tid="SingleInput" value={this.state.value} onChange={(e, value) => this.setState({ value })} />
+            <Input data-tid="SingleInput" value={this.state.value} onChange={(_, value) => this.setState({ value })} />
           </ValidationWrapperV1>
           <h2>
             <Center>Footer</Center>
@@ -149,7 +156,7 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
         </div>
 
         <Modal>
-          <ValidationContainer scrollOffset={115} ref="container">
+          <ValidationContainer scrollOffset={115} ref={this.refContainer}>
             <Modal.Header>Заголовок</Modal.Header>
             <Modal.Body>
               <div style={{ padding: 10 }}>
@@ -172,7 +179,7 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
                   <Input
                     data-tid="SingleInput"
                     value={this.state.value}
-                    onChange={(e, value) => this.setState({ value })}
+                    onChange={(_, value) => this.setState({ value })}
                   />
                 </ValidationWrapperV1>
               </div>
@@ -180,8 +187,12 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
             <Modal.Footer>
               <Button
                 onClick={() => {
-                  (this.refs.container as ValidationContainer).submit();
-                  // this.refs.outerContainer.submit();
+                  if (this.container) {
+                    this.container.submit();
+                  }
+                  if (this.outerContainer) {
+                    this.outerContainer.submit();
+                  }
                 }}
                 use="primary"
               >
@@ -193,4 +204,7 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
       </ValidationContainer>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
+  private refOuterContainer = (el: ValidationContainer | null) => (this.outerContainer = el);
 }

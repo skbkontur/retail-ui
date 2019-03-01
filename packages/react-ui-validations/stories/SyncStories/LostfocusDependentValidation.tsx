@@ -16,14 +16,16 @@ interface LostfocusDependentValidationState {
 }
 
 export default class LostfocusDependentValidation extends React.Component<{}, LostfocusDependentValidationState> {
-    state: LostfocusDependentValidationState = {
+    public state: LostfocusDependentValidationState = {
         sending: false,
         valueA: "",
         valueB: "",
         validation: "none",
     };
 
-    validateA(): Nullable<ValidationInfo> {
+    private container: ValidationContainer | null = null;
+
+    public validateA(): Nullable<ValidationInfo> {
         if (this.state.valueA.substr(0, 3) === "bad") {
             return {
                 message: "incorrect value",
@@ -39,7 +41,7 @@ export default class LostfocusDependentValidation extends React.Component<{}, Lo
         return null;
     }
 
-    validateB(): Nullable<ValidationInfo> {
+    public validateB(): Nullable<ValidationInfo> {
         if (this.state.valueB.substr(0, 3) === "bad") {
             return {
                 message: "incorrect value",
@@ -55,9 +57,9 @@ export default class LostfocusDependentValidation extends React.Component<{}, Lo
         return null;
     }
 
-    render() {
+    public render() {
         return (
-            <ValidationContainer ref="container">
+            <ValidationContainer ref={this.refContainer}>
                 <div style={{ padding: 30 }}>
                     <Gapped vertical>
                         <Gapped>
@@ -66,7 +68,7 @@ export default class LostfocusDependentValidation extends React.Component<{}, Lo
                                 <Input
                                     data-tid={"InputA"}
                                     value={this.state.valueA}
-                                    onChange={(e, value) => this.setState({ valueA: value })}
+                                    onChange={(_, value) => this.setState({ valueA: value })}
                                 />
                             </ValidationWrapperV1>
                         </Gapped>
@@ -76,7 +78,7 @@ export default class LostfocusDependentValidation extends React.Component<{}, Lo
                                 <Input
                                     data-tid={"InputB"}
                                     value={this.state.valueB}
-                                    onChange={(e, value) => this.setState({ valueB: value })}
+                                    onChange={(_, value) => this.setState({ valueB: value })}
                                 />
                             </ValidationWrapperV1>
                         </Gapped>
@@ -96,10 +98,14 @@ export default class LostfocusDependentValidation extends React.Component<{}, Lo
         );
     }
 
-    handleSubmit = () => {
+    public handleSubmit = () => {
         this.setState({ sending: true, validation: "validating" }, async () => {
-            const isValid = await (this.refs.container as ValidationContainer).validate();
-            this.setState({ sending: false, validation: isValid ? "valid" : "invalid" });
+            if (this.container) {
+                const isValid = await this.container.validate();
+                this.setState({ sending: false, validation: isValid ? "valid" : "invalid" });
+            }
         });
     };
+
+    private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }

@@ -63,8 +63,12 @@ export default class DifferentMessages extends React.Component {
     },
   };
 
+  private container: ValidationContainer | null = null;
+
   public handleSubmit() {
-    (this.refs.container as ValidationContainer).submit();
+    if (this.container) {
+      this.container.submit();
+    }
   }
 
   public render() {
@@ -82,7 +86,7 @@ export default class DifferentMessages extends React.Component {
           <li>При редактировании невалидного поля, баллун остается на месте, а красная подсветка с поля снимается.</li>
         </ul>
         <Demo>
-          <ValidationContainer ref="container">
+          <ValidationContainer ref={this.refContainer}>
             <FormEditor
               data={this.state.data}
               validationInfo={validate(this.state.data)}
@@ -98,4 +102,6 @@ export default class DifferentMessages extends React.Component {
       </div>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }

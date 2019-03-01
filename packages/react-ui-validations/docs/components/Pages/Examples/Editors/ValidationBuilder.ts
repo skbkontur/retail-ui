@@ -44,11 +44,11 @@ class PropertyValidationBuilder<TModel, T> implements IPropertyValidationBuilder
     return this;
   }
 
-  public property<T>(
-    modelPicker: (model: TModel) => T,
+  public property<P>(
+    modelPicker: (model: TModel) => P,
     infoPicker?: keyof TModel,
-    configuration?: (builder: PropertyValidationBuilder<TModel, T>) => void,
-  ): PropertyValidationBuilder<TModel, T> {
+    configuration?: (builder: PropertyValidationBuilder<TModel, P>) => void,
+  ): PropertyValidationBuilder<TModel, P> {
     return this.parentBuilder.property(modelPicker, infoPicker, configuration);
   }
 

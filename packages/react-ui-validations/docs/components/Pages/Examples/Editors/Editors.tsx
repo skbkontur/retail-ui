@@ -33,12 +33,12 @@ export interface ContactInfo {
 
 export interface FormEditorProps {
   data: ContactInfo;
-  validation?: Nullable<ValidationResultFor<ContactInfo>>;
+  validationInfoValue?: Nullable<ValidationResultFor<ContactInfo>>;
   onChange: (update: Partial<ContactInfo>) => void;
 }
 
-const FormEditor: React.SFC<FormEditorProps> = ({ data, validation, onChange }) => {
-  const validationInfoValue = validation || {};
+const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfoValue, onChange }) => {
+  validationInfoValue = validationInfoValue || {};
   return (
     <Form>
       <Form.Line title="Имя">
@@ -193,8 +193,12 @@ export default class Editors extends React.Component<{}, EditorsState> {
     },
   };
 
+  private container: ValidationContainer | null = null;
+
   public handleSubmit() {
-    (this.refs.container as ValidationContainer).submit();
+    if (this.container) {
+      this.container.submit();
+    }
   }
 
   public render() {
@@ -203,10 +207,10 @@ export default class Editors extends React.Component<{}, EditorsState> {
         <Helmet title="Редакторы" />
         <h1>Редакторы</h1>
         <Demo>
-          <ValidationContainer ref="container">
+          <ValidationContainer ref={this.refContainer}>
             <FormEditor
               data={this.state.data}
-              validation={validate(this.state.data)}
+              validationInfoValue={validate(this.state.data)}
               onChange={update => this.setState({ data: { ...this.state.data, ...update } })}
             />
             <Form.ActionsBar>
@@ -219,4 +223,6 @@ export default class Editors extends React.Component<{}, EditorsState> {
       </div>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }

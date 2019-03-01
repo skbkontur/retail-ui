@@ -31,7 +31,7 @@ class Example1 extends React.Component<{}, Example1State> {
       <ValidationContainer>
         <div style={{ padding: 10 }}>
           <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text('bottom')}>
-            <Input value={this.state.value} onChange={(e, value) => this.setState({ value })} />
+            <Input value={this.state.value} onChange={(_, value) => this.setState({ value })} />
           </ValidationWrapperV1>
         </div>
       </ValidationContainer>
@@ -64,7 +64,7 @@ class Example2 extends React.Component<{}, Example2State> {
       <ValidationContainer>
         <div style={{ padding: 10 }}>
           <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text('bottom')}>
-            <Input value={this.state.value} onChange={(e, value) => this.setState({ value })} />
+            <Input value={this.state.value} onChange={(_, value) => this.setState({ value })} />
           </ValidationWrapperV1>
         </div>
       </ValidationContainer>
@@ -81,6 +81,8 @@ class Example3 extends React.Component<{}, Example3State> {
     value: '',
   };
 
+  private container: ValidationContainer | null = null;
+
   public validateValue(): Nullable<ValidationInfo> {
     const { value } = this.state;
     if (value === '') {
@@ -94,12 +96,12 @@ class Example3 extends React.Component<{}, Example3State> {
 
   public render() {
     return (
-      <ValidationContainer ref="container">
+      <ValidationContainer ref={this.refContainer}>
         <div style={{ padding: 10 }}>
           <Button onClick={() => this.submit()}>Отправить</Button>
           <div style={{ height: 1000, backgroundColor: '#eee' }} />
           <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text('bottom')}>
-            <Input value={this.state.value} onChange={(e, value) => this.setState({ value })} />
+            <Input value={this.state.value} onChange={(_, value) => this.setState({ value })} />
           </ValidationWrapperV1>
           <Button onClick={() => this.submit()}>Отправить</Button>
           <div style={{ height: 1000, backgroundColor: '#eee' }} />
@@ -109,8 +111,12 @@ class Example3 extends React.Component<{}, Example3State> {
     );
   }
 
-  private submit(): Promise<void> {
-    return (this.refs.container as ValidationContainer).submit();
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
+
+  private submit(): Promise<void> | void {
+    if (this.container) {
+      return this.container.submit();
+    }
   }
 }
 
@@ -127,6 +133,8 @@ class Example4 extends React.Component<{}, Example4State> {
     value: '',
   };
 
+  private container: ValidationContainer | null = null;
+
   public validateValue(): Nullable<ValidationInfo> {
     const { type, value } = this.state;
     if (value === '') {
@@ -140,22 +148,24 @@ class Example4 extends React.Component<{}, Example4State> {
 
   public render() {
     return (
-      <ValidationContainer ref="container">
+      <ValidationContainer ref={this.refContainer}>
         <div style={{ padding: 10 }}>
           <Select
             items={['male', 'female'] as Sex[]}
             value={this.state.type}
-            onChange={(e, value) => this.setState({ type: value })}
+            onChange={(_, value) => this.setState({ type: value })}
           />
           <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text('bottom')}>
-            <Input value={this.state.value} onChange={(e, value) => this.setState({ value })} />
+            <Input value={this.state.value} onChange={(_, value) => this.setState({ value })} />
           </ValidationWrapperV1>
           <div style={{ height: 1000, backgroundColor: '#eee' }} />
-          <Button onClick={() => (this.refs.container as ValidationContainer).submit()}>Отправить</Button>
+          <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
         </div>
       </ValidationContainer>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
 interface Example5State {
@@ -166,6 +176,8 @@ class Example5 extends React.Component<{}, Example5State> {
   public state: Example5State = {
     value: '',
   };
+
+  private container: ValidationContainer | null = null;
 
   public validateValue(): Nullable<ValidationInfo> {
     const { value } = this.state;
@@ -180,7 +192,7 @@ class Example5 extends React.Component<{}, Example5State> {
 
   public render() {
     return (
-      <ValidationContainer ref="container">
+      <ValidationContainer ref={this.refContainer}>
         <div style={{ padding: 50 }}>
           <br />
           <br />
@@ -190,16 +202,18 @@ class Example5 extends React.Component<{}, Example5State> {
             <div style={{ height: 1000, width: 1000, position: 'relative' }}>
               <div style={{ position: 'absolute', top: 500, left: 500 }}>
                 <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text('bottom')}>
-                  <Input value={this.state.value} onChange={(e, value) => this.setState({ value })} />
+                  <Input value={this.state.value} onChange={(_, value) => this.setState({ value })} />
                 </ValidationWrapperV1>
               </div>
             </div>
           </div>
-          <Button onClick={() => (this.refs.container as ValidationContainer).submit()}>Отправить</Button>
+          <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
         </div>
       </ValidationContainer>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
 interface Example6State {
@@ -212,6 +226,8 @@ class Example6 extends React.Component<{}, Example6State> {
     value1: '',
     value2: '',
   };
+
+  private container: ValidationContainer | null = null;
 
   public validateValue1(): Nullable<ValidationInfo> {
     const { value1 } = this.state;
@@ -237,23 +253,25 @@ class Example6 extends React.Component<{}, Example6State> {
 
   public render() {
     return (
-      <ValidationContainer ref="container">
+      <ValidationContainer ref={this.refContainer}>
         <div style={{ padding: 50, height: 200, position: 'relative' }}>
           <div style={{ position: 'absolute', top: 100 }}>
             <ValidationWrapperV1 validationInfo={this.validateValue1()}>
-              <Input value={this.state.value1} onChange={(e, value) => this.setState({ value1: value })} />
+              <Input value={this.state.value1} onChange={(_, value) => this.setState({ value1: value })} />
             </ValidationWrapperV1>
           </div>
           <div style={{ position: 'absolute', top: 20 }}>
             <ValidationWrapperV1 validationInfo={this.validateValue2()}>
-              <Input value={this.state.value2} onChange={(e, value) => this.setState({ value2: value })} />
+              <Input value={this.state.value2} onChange={(_, value) => this.setState({ value2: value })} />
             </ValidationWrapperV1>
           </div>
         </div>
-        <Button onClick={() => (this.refs.container as ValidationContainer).submit()}>Отправить</Button>
+        <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
       </ValidationContainer>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
 interface Example7State {
@@ -269,6 +287,8 @@ class Example7 extends React.Component<{}, Example7State> {
     value3: '',
   };
 
+  private container: ValidationContainer | null = null;
+
   public validateValue(value: string): Nullable<ValidationInfo> {
     if (value === '') {
       return { message: 'Должно быть не пусто', type: 'submit' };
@@ -282,28 +302,30 @@ class Example7 extends React.Component<{}, Example7State> {
   public render() {
     const { value1, value2, value3 } = this.state;
     return (
-      <ValidationContainer ref="container">
+      <ValidationContainer ref={this.refContainer}>
         <div>
           <div style={{ padding: 20 }}>
             <ValidationWrapperV1 validationInfo={this.validateValue(value1)}>
-              <Input value={value1} onChange={(e, value) => this.setState({ value1: value })} />
+              <Input value={value1} onChange={(_, value) => this.setState({ value1: value })} />
             </ValidationWrapperV1>
           </div>
           <div style={{ padding: 20 }}>
             <ValidationWrapperV1 validationInfo={this.validateValue(value2)}>
-              <Input value={value2} onChange={(e, value) => this.setState({ value2: value })} />
+              <Input value={value2} onChange={(_, value) => this.setState({ value2: value })} />
             </ValidationWrapperV1>
           </div>
           <div style={{ padding: 20 }}>
             <ValidationWrapperV1 validationInfo={this.validateValue(value3)}>
-              <Input value={value3} onChange={(e, value) => this.setState({ value3: value })} />
+              <Input value={value3} onChange={(_, value) => this.setState({ value3: value })} />
             </ValidationWrapperV1>
           </div>
         </div>
-        <Button onClick={() => (this.refs.container as ValidationContainer).submit()}>Отправить</Button>
+        <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
       </ValidationContainer>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
 storiesOf('Input', module)

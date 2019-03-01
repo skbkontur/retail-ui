@@ -16,6 +16,8 @@ class DatePickerStory extends React.Component<{}, DatePickerStoryState> {
     value: null,
   };
 
+  private container: ValidationContainer | null = null;
+
   public validateValue(): Nullable<ValidationInfo> {
     const { value } = this.state;
     if (value == null) {
@@ -27,15 +29,17 @@ class DatePickerStory extends React.Component<{}, DatePickerStoryState> {
   public render() {
     return (
       <div style={{ padding: '20px 20px' }}>
-        <ValidationContainer ref="container">
+        <ValidationContainer ref={this.refContainer}>
           <ValidationWrapperV1 validationInfo={this.validateValue()}>
             <DatePicker value={this.state.value as any} onChange={(e, value) => this.setState({ value })} />
           </ValidationWrapperV1>
           <div style={{ padding: '100px 0' }}>
-            <Button onClick={() => (this.refs.container as ValidationContainer).validate()}>Check</Button>
+            <Button onClick={() => this.container && this.container.validate()}>Check</Button>
           </div>
         </ValidationContainer>
       </div>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }

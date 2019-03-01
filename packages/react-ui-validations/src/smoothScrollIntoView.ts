@@ -37,7 +37,7 @@ function smoothScroll(element: HTMLElement, x: number, y: number): Promise<void>
       scrollable: (window as any) as HTMLElement,
       startX: window.scrollX || window.pageXOffset,
       startY: window.scrollY || window.pageYOffset,
-      method: (_, x, y) => scrollWindow(x, y),
+      method: scrollWindow,
       startTime: now(),
       x,
       y,
@@ -89,8 +89,8 @@ const ScrollTime = 468;
 
 const scrollWindow =
   typeof window.scroll === 'function'
-    ? (x: number, y: number) => window.scroll(x, y)
-    : (x: number, y: number) => window.scrollTo(x, y);
+    ? (_: any, x: number, y: number) => window.scroll(x, y)
+    : (_: any, x: number, y: number) => window.scrollTo(x, y);
 
 const now = window.performance && window.performance.now ? window.performance.now.bind(window.performance) : Date.now;
 

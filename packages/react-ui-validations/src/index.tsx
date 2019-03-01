@@ -1,4 +1,3 @@
-import * as React from 'react';
 import ValidationContainer, { ValidationContainerProps } from './ValidationContainer';
 import ValidationContext, { ValidationContextProps } from './ValidationContext';
 import ValidationWrapper, {

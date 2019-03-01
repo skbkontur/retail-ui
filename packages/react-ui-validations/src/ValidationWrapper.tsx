@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import * as PropTypes from 'prop-types';
+import * as warning from 'warning';
 import { Nullable } from 'typings/Types';
 import ReactUiDetection from './ReactUiDetection';
 import smoothScrollIntoView from './smoothScrollIntoView';
@@ -50,7 +51,6 @@ interface Point {
 }
 
 export default class ValidationWrapper extends React.Component<ValidationWrapperProps, ValidationWrapperState> {
-
   public static contextTypes = {
     validationContext: PropTypes.any,
   };
@@ -59,9 +59,6 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
   };
   public context!: {
     validationContext: IValidationContext;
-  };
-  public refs!: {
-    errorMessage: any; // todo type
   };
 
   public child: any; // todo type
@@ -72,13 +69,15 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
   }
 
   public componentDidMount() {
-    if (this.context.validationContext) {
-      this.context.validationContext.register(this);
-    } else {
-      console.error(
+    if (process.env.NODE_ENV !== 'production') {
+      warning(
+        this.context.validationContext,
         'ValidationWrapper should appears as child of ValidationContext.\n' +
           'http://tech.skbkontur.ru/react-ui-validations/#/getting-started',
       );
+    }
+    if (this.context.validationContext) {
+      this.context.validationContext.register(this);
     }
   }
 
@@ -144,7 +143,11 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
     await Promise.all(validations.map((x, i) => this.processValidationSubmit(x, this.state.validationStates[i], i)));
   }
 
-  public processValidationSubmit(validation: Validation, validationState: ValidationState, index: number): Promise<void> {
+  public processValidationSubmit(
+    validation: Validation,
+    validationState: ValidationState,
+    index: number,
+  ): Promise<void> {
     return new Promise(resolve => {
       if (validation.behaviour !== 'immediate') {
         this.setState(

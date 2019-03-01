@@ -9,18 +9,23 @@ export interface ValidationContainerProps {
 }
 
 export default class ValidationContainer extends React.Component<ValidationContainerProps> {
+  private childContext: ValidationContext | null = null;
   public async submit(withoutFocus: boolean = false): Promise<void> {
-    await (this.refs.childContext as ValidationContext).validate(withoutFocus);
+    if (this.childContext) {
+      await this.childContext.validate(withoutFocus);
+    }
   }
 
-  public validate(withoutFocus: boolean = false): Promise<boolean> {
-    return (this.refs.childContext as ValidationContext).validate(withoutFocus);
+  public validate(withoutFocus: boolean = false): Promise<boolean> | void {
+    if (this.childContext) {
+      return this.childContext.validate(withoutFocus);
+    }
   }
 
   public render() {
     return (
       <ValidationContext
-        ref="childContext"
+        ref={this.refChildContext}
         verticalOffset={this.props.scrollOffset || 50}
         onValidationUpdated={this.props.onValidationUpdated}
       >
@@ -28,4 +33,6 @@ export default class ValidationContainer extends React.Component<ValidationConta
       </ValidationContext>
     );
   }
+
+  private refChildContext = (el: ValidationContext | null) => (this.childContext = el);
 }

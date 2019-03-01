@@ -53,8 +53,12 @@ export default class QuickValidations extends React.Component<{}, QuickValidatio
     },
   };
 
+  private container: ValidationContainer | null = null;
+
   public handleSubmit() {
-    (this.refs.container as ValidationContainer).submit();
+    if (this.container) {
+      this.container.submit();
+    }
   }
 
   public render() {
@@ -115,7 +119,7 @@ import { DatePicker, lessThan } from './ControlsWithValidations';
         <h2>Демо:</h2>
 
         <Demo>
-          <ValidationContainer ref="container">
+          <ValidationContainer ref={this.refContainer}>
             <FormEditor
               data={this.state.data}
               onChange={update => this.setState({ data: { ...this.state.data, ...update } })}
@@ -130,4 +134,6 @@ import { DatePicker, lessThan } from './ControlsWithValidations';
       </div>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }

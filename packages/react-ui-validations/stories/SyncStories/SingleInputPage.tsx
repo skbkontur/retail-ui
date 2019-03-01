@@ -20,13 +20,15 @@ interface SingleInputPageState {
 }
 
 export default class SingleInputPage extends React.Component<SingleInputPageProps, SingleInputPageState> {
-    state: SingleInputPageState = {
+    public state: SingleInputPageState = {
         sending: false,
         value: this.props.initialValue || "",
         validation: "none",
     };
 
-    validate(): Nullable<ValidationInfo> {
+    private container: ValidationContainer | null = null;
+
+    public validate(): Nullable<ValidationInfo> {
         if (this.state.value.substr(0, 3) === "bad") {
             return {
                 message: "incorrect value",
@@ -36,16 +38,16 @@ export default class SingleInputPage extends React.Component<SingleInputPageProp
         return null;
     }
 
-    render() {
+    public render() {
         return (
-            <ValidationContainer ref="container">
+            <ValidationContainer ref={this.refContainer}>
                 <div style={{ padding: 30 }}>
                     <Gapped vertical>
                         <ValidationWrapperV1 data-tid="InputValidation" validationInfo={this.validate()} renderMessage={text()}>
                             <Input
                                 data-tid={"Input"}
                                 value={this.state.value}
-                                onChange={(e, value) => this.setState({ value: value })}
+                                onChange={(_, value) => this.setState({ value })}
                             />
                         </ValidationWrapperV1>
                         <Gapped>
@@ -64,10 +66,14 @@ export default class SingleInputPage extends React.Component<SingleInputPageProp
         );
     }
 
-    handleSubmit = () => {
+    public handleSubmit = () => {
         this.setState({ sending: true, validation: "validating" }, async () => {
-            const isValid = await (this.refs.container as ValidationContainer).validate();
-            this.setState({ sending: false, validation: isValid ? "valid" : "invalid" });
+            if (this.container) {
+                const isValid = await this.container.validate();
+                this.setState({ sending: false, validation: isValid ? "valid" : "invalid" });
+            }
         });
     };
+
+    private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }

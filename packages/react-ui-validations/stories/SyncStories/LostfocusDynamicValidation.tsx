@@ -13,7 +13,7 @@ interface LostfocusDynamicValidationState {
 }
 
 export default class LostfocusDynamicValidation extends React.Component<{}, LostfocusDynamicValidationState> {
-    state: LostfocusDynamicValidationState = {
+    public state: LostfocusDynamicValidationState = {
         sending: false,
         valueA: "",
         valueB: "",
@@ -21,7 +21,7 @@ export default class LostfocusDynamicValidation extends React.Component<{}, Lost
 
     private counter: number = 0;
 
-    validateA(): Nullable<ValidationInfo> {
+    public validateA(): Nullable<ValidationInfo> {
         if (this.state.valueA.substr(0, 3) === "bad") {
             return {
                 message: "incorrect times: " + ++this.counter,
@@ -31,9 +31,9 @@ export default class LostfocusDynamicValidation extends React.Component<{}, Lost
         return null;
     }
 
-    render() {
+    public render() {
         return (
-            <ValidationContainer ref="container">
+            <ValidationContainer>
                 <div style={{ padding: 30 }}>
                     <Gapped vertical>
                         <Gapped>
@@ -42,7 +42,7 @@ export default class LostfocusDynamicValidation extends React.Component<{}, Lost
                                 <Input
                                     data-tid={"InputA"}
                                     value={this.state.valueA}
-                                    onChange={(e, value) => this.setState({ valueA: value })}
+                                    onChange={(_, value) => this.setState({ valueA: value })}
                                 />
                             </ValidationWrapperV1>
                         </Gapped>
@@ -52,7 +52,7 @@ export default class LostfocusDynamicValidation extends React.Component<{}, Lost
                                 <Input
                                     data-tid={"InputB"}
                                     value={this.state.valueB}
-                                    onChange={(e, value) => this.setState({ valueB: value })}
+                                    onChange={(_, value) => this.setState({ valueB: value })}
                                 />
                             </ValidationWrapperV1>
                         </Gapped>

@@ -51,8 +51,12 @@ export default class ValidationsBuilder extends React.Component<{}, ValidationsB
     },
   };
 
+  private container: ValidationContainer | null = null;
+
   public handleSubmit() {
-    (this.refs.container as ValidationContainer).submit();
+    if (this.container) {
+      this.container.submit();
+    }
   }
 
   public render() {
@@ -128,7 +132,7 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
         </p>
         <h2>Демо:</h2>
         <Demo>
-          <ValidationContainer ref="container">
+          <ValidationContainer ref={this.refContainer}>
             <FormEditor
               data={this.state.data}
               validationInfo={validate(this.state.data)}
@@ -144,4 +148,6 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
       </div>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }

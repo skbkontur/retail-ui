@@ -65,8 +65,12 @@ export default class DifferentMessages extends React.Component<{}, DifferentMess
     },
   };
 
+  private container: ValidationContainer | null = null;
+
   public handleSubmit() {
-    (this.refs.container as ValidationContainer).submit();
+    if (this.container) {
+      this.container.submit();
+    }
   }
 
   public render() {
@@ -75,7 +79,7 @@ export default class DifferentMessages extends React.Component<{}, DifferentMess
         <Helmet title="Текстовые сообщения" />
         <h1>Текстовые сообщения</h1>
         <Demo>
-          <ValidationContainer ref="container">
+          <ValidationContainer ref={this.refContainer}>
             <FormEditor
               data={this.state.data}
               validationInfo={validate(this.state.data)}
@@ -91,4 +95,6 @@ export default class DifferentMessages extends React.Component<{}, DifferentMess
       </div>
     );
   }
+
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }

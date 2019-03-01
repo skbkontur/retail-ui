@@ -86,7 +86,6 @@ export default class ValidationTooltip extends React.Component<ValidationTooltip
         if (items[0] === value) {
           return (
             <Tooltip
-              ref="tooltip"
               {...props}
               closeButton={false}
               trigger={this.props.error && (this.state.focus || this.state.mouseOver) ? 'opened' : 'closed'}
@@ -101,7 +100,6 @@ export default class ValidationTooltip extends React.Component<ValidationTooltip
     }
     return (
       <Tooltip
-        ref="tooltip"
         {...props}
         closeButton={false}
         trigger={this.props.error && (this.state.focus || this.state.mouseOver) ? 'opened' : 'closed'}
