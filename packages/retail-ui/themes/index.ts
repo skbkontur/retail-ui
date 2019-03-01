@@ -15,7 +15,17 @@ export function getDefaultTheme(common?: DeepPartial<CommonTheme>) {
 
   return {
     common: base,
-    input: getInputTheme(base)
+    input: getInputTheme(base),
+    tooltip: {
+      "close-btn-color": "#808080",
+      "close-btn-hover-color": "#606060"
+    },
+    popup: {
+      "border-radius": "2px",
+      "border": "none",
+      "border-color": "transparent",
+      "drop-shadow": "drop-shadow(0 0 1px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));"
+    }
   };
 }
 
