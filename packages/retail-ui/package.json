@@ -35,7 +35,7 @@
     "add-event-listener": "0.0.1",
     "classnames": "^2.2.6",
     "create-react-context": "^0.2.2",
-    "csstype": "^2.6.1",
+    "csstype": "^2.2.0",
     "exenv": "^1.2.2",
     "fbemitter": "^2.1.1",
     "fbjs": "^0.8.17",
@@ -53,7 +53,7 @@
     "tabbable": "^3.1.1",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2",
-    "warning": "^4.0.1"
+    "warning": "^3.0.0"
   },
   "devDependencies": {
     "@skbkontur/react-icons": "^3.1.2",
@@ -99,7 +99,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "cross-env": "^5.2.0",
-    "css-loader": "^1.0.0",
+    "css-loader": "^0.28.11",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.4",
