@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@hugmanrique/react-markdown-loader": "^0.0.2",
+    "@skbkontur/react-icons": "^3.1.2",
     "@storybook/addons": "3.4.8",
     "@storybook/react": "3.4.8",
     "@types/lodash.isequal": "^4.5.3",
