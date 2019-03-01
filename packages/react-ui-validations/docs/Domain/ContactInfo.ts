@@ -1,5 +1,5 @@
-import { Nullable } from 'typings/Types';
-import { ValidationResultFor } from 'docs/components/Pages/Examples/Editors/ValidationBuilder';
+import { Nullable } from '../../typings/Types';
+import { ValidationResultFor } from './ValidationBuilder';
 
 export interface ContactInfo {
   name: string;

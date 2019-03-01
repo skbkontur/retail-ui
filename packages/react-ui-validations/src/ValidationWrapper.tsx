@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import * as PropTypes from 'prop-types';
-import * as warning from 'warning';
-import { Nullable } from 'typings/Types';
+import warning from 'warning';
+import { Nullable } from '../typings/Types';
 import ReactUiDetection from './ReactUiDetection';
 import smoothScrollIntoView from './smoothScrollIntoView';
 import { IValidationContext } from './ValidationContext';

@@ -12,11 +12,11 @@ import DatePicker from 'retail-ui/components/DatePicker';
 import Textarea from 'retail-ui/components/Textarea';
 import Checkbox from 'retail-ui/components/Checkbox';
 import Link from 'retail-ui/components/Link';
-import { ValidationContainer, ValidationWrapperV1, text } from 'src/index';
-import { Nullable } from 'typings/Types';
-import { validation, ValidationResultFor } from './ValidationBuilder';
-import Demo from 'docs/components/Demo';
-import Form from 'docs/components/Form';
+import { ValidationContainer, ValidationWrapperV1, text } from '../../../../src';
+import { Nullable } from '../../../../typings/Types';
+import { validation, ValidationResultFor } from '../../../Domain/ValidationBuilder';
+import Demo from '../../Demo';
+import Form from '../../Form';
 
 export interface ContactInfo {
   name: string;
@@ -43,17 +43,17 @@ const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfoValue, onC
     <Form>
       <Form.Line title="Имя">
         <ValidationWrapperV1 renderMessage={text()} validationInfo={validationInfoValue.name}>
-          <Input value={data.name} onChange={(e, value) => onChange({ name: value })} />
+          <Input value={data.name} onChange={(_, value) => onChange({ name: value })} />
         </ValidationWrapperV1>
       </Form.Line>
       <Form.Line title="Email">
         <ValidationWrapperV1 validationInfo={validationInfoValue.email}>
-          <Input value={data.email} onChange={(e, value) => onChange({ email: value })} />
+          <Input value={data.email} onChange={(_, value) => onChange({ email: value })} />
         </ValidationWrapperV1>
       </Form.Line>
       <Form.Line title="Телефон">
         <ValidationWrapperV1 validationInfo={validationInfoValue.phone}>
-          <Input value={data.phone} onChange={(e, value) => onChange({ phone: value })} />
+          <Input value={data.phone} onChange={(_, value) => onChange({ phone: value })} />
         </ValidationWrapperV1>
       </Form.Line>
       <Form.Line title="Пол">
@@ -62,7 +62,7 @@ const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfoValue, onC
             value={data.sex}
             items={['male', 'female']}
             renderItem={x => <span>{x}</span>}
-            onChange={(e, value) => onChange({ sex: value })}
+            onChange={(_, value) => onChange({ sex: value })}
           />
         </ValidationWrapperV1>
       </Form.Line>
@@ -82,7 +82,7 @@ const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfoValue, onC
                 infos: result,
               };
             }}
-            onChange={(e, value) => onChange({ city: value })}
+            onChange={(_, value) => onChange({ city: value })}
           />
         </ValidationWrapperV1>
       </Form.Line>
@@ -93,13 +93,13 @@ const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfoValue, onC
             renderValue={x => x}
             items={[['Православие', 'Православие'], ['Католичество', 'Католичество'], ['Мормонизм', 'Мормонизм']]}
             value={data.confession}
-            onChange={(e, value) => onChange({ confession: value })}
+            onChange={(_, value) => onChange({ confession: value })}
           />
         </ValidationWrapperV1>
       </Form.Line>
       <Form.Line title="Согласен">
         <ValidationWrapperV1 validationInfo={validationInfoValue.confirmed}>
-          <Checkbox checked={data.confirmed} onChange={(e, value) => onChange({ confirmed: value })} />
+          <Checkbox checked={data.confirmed} onChange={(_, value) => onChange({ confirmed: value })} />
         </ValidationWrapperV1>
       </Form.Line>
 
@@ -108,14 +108,14 @@ const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfoValue, onC
           <Textarea
             placeholder="Введите текст"
             value={data.about}
-            onChange={(e, value) => onChange({ about: value })}
+            onChange={(_, value) => onChange({ about: value })}
           />
         </ValidationWrapperV1>
       </Form.Line>
 
       <Form.Line title="Дата рождения">
         <ValidationWrapperV1 validationInfo={validationInfoValue.born}>
-          <DatePicker value={data.born} onChange={(e, value) => onChange({ born: value })} />
+          <DatePicker value={data.born} onChange={(_, value) => onChange({ born: value })} />
         </ValidationWrapperV1>
       </Form.Line>
       <Form.Line title="Сcылка">

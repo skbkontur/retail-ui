@@ -1,5 +1,5 @@
-import QuickValidations from './QuickValidations/QuickValidations';
-import ValidationsBuilder from './ValidationsBuilder/ValidationsBuilder';
+import QuickValidations from './QuickValidations';
+import ValidationsBuilder from './ValidationsBuilder';
 
 export default [
   {

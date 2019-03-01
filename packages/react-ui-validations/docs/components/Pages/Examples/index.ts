@@ -1,8 +1,8 @@
-import OnBlurValidations from './OnBlurValidations/OnBlurValidations.md';
-import DifferentMessages from './DifferentMessages/DifferentMessages';
-import TextMessages from './TextMessages/TextMessages';
-import ScrollToFirstInvalid from './ScrollToFirstInvalid/ScrollToFirstInvalid';
-import Editors from './Editors/Editors';
+import OnBlurValidations from './OnBlurValidations.md';
+import DifferentMessages from './DifferentMessages';
+import TextMessages from './TextMessages';
+import ScrollToFirstInvalid from './ScrollToFirstInvalid';
+import Editors from './Editors';
 
 export default [
   {

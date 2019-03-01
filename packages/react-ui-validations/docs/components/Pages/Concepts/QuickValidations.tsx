@@ -3,10 +3,10 @@ import Helmet from 'react-helmet';
 import Code from 'react-syntax-highlighter';
 import Button from 'retail-ui/components/Button';
 import Link from 'retail-ui/components/Link';
-import { ValidationContainer } from 'src/index';
-import { Input, DatePicker, lessThanDate } from './ControlsWithValidations';
-import Demo from 'docs/components/Demo';
-import Form from 'docs/components/Form';
+import { ValidationContainer } from '../../../../src';
+import { Input, DatePicker, lessThanDate } from '../../../Domain/ControlsWithValidations';
+import Demo from '../../Demo';
+import Form from '../../Form';
 
 export interface ContactInfo {
   name: string;
@@ -23,17 +23,17 @@ const FormEditor: React.SFC<FormEditorProps> = ({ data, onChange }) => {
   return (
     <Form>
       <Form.Line title="Имя">
-        <Input required value={data.name} onChange={(e, value) => onChange({ name: value })} />
+        <Input required value={data.name} onChange={(_, value) => onChange({ name: value })} />
       </Form.Line>
       <Form.Line title="Email">
-        <Input required email value={data.email} onChange={(e, value) => onChange({ email: value })} />
+        <Input required email value={data.email} onChange={(_, value) => onChange({ email: value })} />
       </Form.Line>
       <Form.Line title="Дата рождения">
         <DatePicker
           required
           validations={[lessThanDate(new Date('2010-01-01'))]}
           value={data.born}
-          onChange={(e, value) => onChange({ born: value })}
+          onChange={(_, value) => onChange({ born: value })}
         />
       </Form.Line>
     </Form>

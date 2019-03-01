@@ -1,20 +1,24 @@
 import * as React from 'react';
+import Helmet from 'react-helmet';
 import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
-import { ValidationContainer, ValidationWrapperV1 } from 'src/index';
-import { ValidationResultFor } from 'docs/components/Pages/Examples/Editors/ValidationBuilder';
-import { ContactInfo, FormEditorProps } from 'docs/Domain/ContactInfo';
-import Form from 'docs/components/Form';
+import { ValidationContainer, ValidationWrapperV1, text } from '../../../../src';
+import { ValidationResultFor } from '../../../Domain/ValidationBuilder';
+import { ContactInfo, FormEditorProps } from '../../../Domain/ContactInfo';
+import SpaceFiller from '../../SpaceFiller';
+import Demo from '../../Demo';
+import Form from '../../Form';
 
 const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfo, onChange }) => {
   validationInfo = validationInfo || {};
   return (
     <Form>
       <Form.Line title="Имя">
-        <ValidationWrapperV1 validationInfo={validationInfo.name}>
+        <ValidationWrapperV1 renderMessage={text()} validationInfo={validationInfo.name}>
           <Input value={data.name} onChange={(e, value) => onChange({ name: value })} />
         </ValidationWrapperV1>
       </Form.Line>
+      <SpaceFiller height={1600}>Пустое место</SpaceFiller>
       <Form.Line title="Email">
         <ValidationWrapperV1 validationInfo={validationInfo.email}>
           <Input value={data.email} onChange={(e, value) => onChange({ email: value })} />
@@ -49,7 +53,7 @@ function validate(data: ContactInfo): ValidationResultFor<ContactInfo> {
   return result;
 }
 
-export default class OnBlurValidationsExample extends React.Component {
+export default class DifferentMessages extends React.Component {
   public state = {
     data: {
       name: '',
@@ -58,6 +62,7 @@ export default class OnBlurValidationsExample extends React.Component {
       sex: null,
     },
   };
+
   private container: ValidationContainer | null = null;
 
   public handleSubmit() {
@@ -68,18 +73,33 @@ export default class OnBlurValidationsExample extends React.Component {
 
   public render() {
     return (
-      <ValidationContainer ref={this.refContainer}>
-        <FormEditor
-          data={this.state.data}
-          validationInfo={validate(this.state.data)}
-          onChange={update => this.setState({ data: { ...this.state.data, ...update } })}
-        />
-        <Form.ActionsBar>
-          <Button use="primary" onClick={() => this.handleSubmit()}>
-            Сохранить
-          </Button>
-        </Form.ActionsBar>
-      </ValidationContainer>
+      <div>
+        <Helmet title="Прокрутка к первому невалидному контролу" />
+        <h1>Прокрутка к первому невалидному контролу</h1>
+        <h4>Демо 1.</h4>
+        <p>
+          На этой форме есть валидации по потере фокуса. Имя должно состоять из двух слов и в почте должен быть символ{' '}
+          {"'@'"}.
+        </p>
+        <p>Ожидаемое поведение:</p>
+        <ul>
+          <li>При редактировании невалидного поля, баллун остается на месте, а красная подсветка с поля снимается.</li>
+        </ul>
+        <Demo>
+          <ValidationContainer ref={this.refContainer}>
+            <FormEditor
+              data={this.state.data}
+              validationInfo={validate(this.state.data)}
+              onChange={update => this.setState({ data: { ...this.state.data, ...update } })}
+            />
+            <Form.ActionsBar>
+              <Button use="primary" onClick={() => this.handleSubmit()}>
+                Сохранить
+              </Button>
+            </Form.ActionsBar>
+          </ValidationContainer>
+        </Demo>
+      </div>
     );
   }
 

@@ -1,37 +1,35 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
-import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
-import { ValidationContainer, ValidationWrapperV1, text } from 'src/index';
-import { ValidationResultFor } from 'docs/components/Pages/Examples/Editors/ValidationBuilder';
-import { ContactInfo, FormEditorProps } from 'docs/Domain/ContactInfo';
-import SpaceFiller from 'docs/components/SpaceFiller';
-import Demo from 'docs/components/Demo';
-import Form from 'docs/components/Form';
+import Button from 'retail-ui/components/Button';
+import { ValidationContainer, ValidationWrapperV1, text } from '../../../../src';
+import { ValidationResultFor } from '../../../Domain/ValidationBuilder';
+import Demo from '../../Demo';
+import Form from '../../Form';
+import { ContactInfo, FormEditorProps } from '../../../Domain/ContactInfo';
 
-const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfo, onChange }) => {
+function FormEditor({ data, validationInfo, onChange }: FormEditorProps) {
   validationInfo = validationInfo || {};
   return (
     <Form>
       <Form.Line title="Имя">
         <ValidationWrapperV1 renderMessage={text()} validationInfo={validationInfo.name}>
-          <Input value={data.name} onChange={(e, value) => onChange({ name: value })} />
+          <Input value={data.name} onChange={(_, value) => onChange({ name: value })} />
         </ValidationWrapperV1>
       </Form.Line>
-      <SpaceFiller height={1600}>Пустое место</SpaceFiller>
       <Form.Line title="Email">
         <ValidationWrapperV1 validationInfo={validationInfo.email}>
-          <Input value={data.email} onChange={(e, value) => onChange({ email: value })} />
+          <Input value={data.email} onChange={(_, value) => onChange({ email: value })} />
         </ValidationWrapperV1>
       </Form.Line>
       <Form.Line title="Телефон">
         <ValidationWrapperV1 validationInfo={validationInfo.phone}>
-          <Input value={data.phone} onChange={(e, value) => onChange({ phone: value })} />
+          <Input value={data.phone} onChange={(_, value) => onChange({ phone: value })} />
         </ValidationWrapperV1>
       </Form.Line>
     </Form>
   );
-};
+}
 
 function validate(data: ContactInfo): ValidationResultFor<ContactInfo> {
   const result: ValidationResultFor<ContactInfo> = {};
@@ -62,7 +60,6 @@ export default class DifferentMessages extends React.Component {
       sex: null,
     },
   };
-
   private container: ValidationContainer | null = null;
 
   public handleSubmit() {
@@ -74,17 +71,8 @@ export default class DifferentMessages extends React.Component {
   public render() {
     return (
       <div>
-        <Helmet title="Прокрутка к первому невалидному контролу" />
-        <h1>Прокрутка к первому невалидному контролу</h1>
-        <h4>Демо 1.</h4>
-        <p>
-          На этой форме есть валидации по потере фокуса. Имя должно состоять из двух слов и в почте должен быть символ{' '}
-          {"'@'"}.
-        </p>
-        <p>Ожидаемое поведение:</p>
-        <ul>
-          <li>При редактировании невалидного поля, баллун остается на месте, а красная подсветка с поля снимается.</li>
-        </ul>
+        <Helmet title="Разные типы сообщения в одной форме" />
+        <h1>Разные типы сообщения в одной форме</h1>
         <Demo>
           <ValidationContainer ref={this.refContainer}>
             <FormEditor

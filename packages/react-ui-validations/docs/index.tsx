@@ -4,12 +4,12 @@ import * as ReactDom from 'react-dom';
 import { Router, IndexRoute, Route, useRouterHistory } from 'react-router';
 import createHashHistory from 'history/lib/createHashHistory';
 
-import Layout from 'docs/components/Layout';
-import Api from 'docs/components/Pages/Api.md';
-import GettingStarted from 'docs/components/Pages/GettingStarted.md';
-import Description from 'docs/components/Pages/Description.md';
-import Examples from 'docs/components/Pages/Examples';
-import Concepts from 'docs/components/Pages/Concepts';
+import Layout from './components/Layout';
+import Api from './components/Pages/Api.md';
+import GettingStarted from './components/Pages/GettingStarted.md';
+import Description from './components/Pages/Description.md';
+import Examples from './components/Pages/Examples';
+import Concepts from './components/Pages/Concepts';
 
 import 'docs/styles/reset.less';
 import 'docs/styles/typography.less';

@@ -1,19 +1,17 @@
 import * as React from 'react';
-import Helmet from 'react-helmet';
-import Input from 'retail-ui/components/Input';
 import Button from 'retail-ui/components/Button';
-import { ValidationContainer, ValidationWrapperV1, text } from 'src/index';
-import { ValidationResultFor } from 'docs/components/Pages/Examples/Editors/ValidationBuilder';
-import Demo from 'docs/components/Demo';
-import Form from 'docs/components/Form';
-import { ContactInfo, FormEditorProps } from 'docs/Domain/ContactInfo';
+import Input from 'retail-ui/components/Input';
+import { ValidationContainer, ValidationWrapperV1 } from '../../../../src';
+import { ValidationResultFor } from '../../../Domain/ValidationBuilder';
+import { ContactInfo, FormEditorProps } from '../../../Domain/ContactInfo';
+import Form from '../../Form';
 
-function FormEditor({ data, validationInfo, onChange }: FormEditorProps) {
+const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfo, onChange }) => {
   validationInfo = validationInfo || {};
   return (
     <Form>
       <Form.Line title="Имя">
-        <ValidationWrapperV1 renderMessage={text()} validationInfo={validationInfo.name}>
+        <ValidationWrapperV1 validationInfo={validationInfo.name}>
           <Input value={data.name} onChange={(e, value) => onChange({ name: value })} />
         </ValidationWrapperV1>
       </Form.Line>
@@ -29,7 +27,7 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps) {
       </Form.Line>
     </Form>
   );
-}
+};
 
 function validate(data: ContactInfo): ValidationResultFor<ContactInfo> {
   const result: ValidationResultFor<ContactInfo> = {};
@@ -51,7 +49,7 @@ function validate(data: ContactInfo): ValidationResultFor<ContactInfo> {
   return result;
 }
 
-export default class DifferentMessages extends React.Component {
+export default class OnBlurValidationsExample extends React.Component {
   public state = {
     data: {
       name: '',
@@ -70,24 +68,18 @@ export default class DifferentMessages extends React.Component {
 
   public render() {
     return (
-      <div>
-        <Helmet title="Разные типы сообщения в одной форме" />
-        <h1>Разные типы сообщения в одной форме</h1>
-        <Demo>
-          <ValidationContainer ref={this.refContainer}>
-            <FormEditor
-              data={this.state.data}
-              validationInfo={validate(this.state.data)}
-              onChange={update => this.setState({ data: { ...this.state.data, ...update } })}
-            />
-            <Form.ActionsBar>
-              <Button use="primary" onClick={() => this.handleSubmit()}>
-                Сохранить
-              </Button>
-            </Form.ActionsBar>
-          </ValidationContainer>
-        </Demo>
-      </div>
+      <ValidationContainer ref={this.refContainer}>
+        <FormEditor
+          data={this.state.data}
+          validationInfo={validate(this.state.data)}
+          onChange={update => this.setState({ data: { ...this.state.data, ...update } })}
+        />
+        <Form.ActionsBar>
+          <Button use="primary" onClick={() => this.handleSubmit()}>
+            Сохранить
+          </Button>
+        </Form.ActionsBar>
+      </ValidationContainer>
     );
   }
 

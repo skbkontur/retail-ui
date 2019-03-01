@@ -3,8 +3,8 @@ import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import styled from 'styled-components';
 import Logotype from 'retail-ui/components/Logotype';
-import Examples from 'docs/components/Pages/Examples';
-import Concepts from 'docs/components/Pages/Concepts';
+import Examples from './Pages/Examples';
+import Concepts from './Pages/Concepts';
 
 const Layout: React.SFC = ({ children }) => {
   return (

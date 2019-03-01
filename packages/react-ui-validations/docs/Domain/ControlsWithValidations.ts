@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Input from 'retail-ui/components/Input';
 import DatePicker from 'retail-ui/components/DatePicker';
-import { ValidationInfo, ValidationWrapperV1, RenderErrorMessage } from 'src/index';
-import { Nullable } from 'typings/Types';
+import { ValidationInfo, ValidationWrapperV1, RenderErrorMessage } from '../../src';
+import { Nullable } from '../../typings/Types';
 
 interface ValidationProps<TValue> {
   required?: boolean;
@@ -72,7 +72,7 @@ function parseDate(value: Nullable<string>): Nullable<Date> {
   if (!match) {
     return null;
   }
-  const [_, dd, mm, yyyy] = match;
+  const [, dd, mm, yyyy] = match;
   return new Date(`${yyyy}.${mm}.${dd}`);
 }
 

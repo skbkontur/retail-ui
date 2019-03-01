@@ -2,11 +2,11 @@ import * as React from 'react';
 import Helmet from 'react-helmet';
 import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
-import { ValidationContainer, ValidationWrapperV1, text } from 'src/index';
-import { ValidationResultFor } from '../Editors/ValidationBuilder';
-import { ContactInfo, FormEditorProps } from 'docs/Domain/ContactInfo';
-import Demo from 'docs/components/Demo';
-import Form from 'docs/components/Form';
+import { ValidationContainer, ValidationWrapperV1, text } from '../../../../src';
+import { ValidationResultFor } from '../../../Domain/ValidationBuilder';
+import { ContactInfo, FormEditorProps } from '../../../Domain/ContactInfo';
+import Demo from '../../Demo';
+import Form from '../../Form';
 
 const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfo, onChange }) => {
   validationInfo = validationInfo || {};

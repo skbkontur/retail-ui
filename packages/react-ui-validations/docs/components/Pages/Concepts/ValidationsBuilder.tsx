@@ -4,11 +4,11 @@ import Code from 'react-syntax-highlighter';
 import Input from 'retail-ui/components/Input';
 import Button from 'retail-ui/components/Button';
 import Link from 'retail-ui/components/Link';
-import { text, ValidationContainer, ValidationWrapperV1 } from 'src/index';
-import Demo from 'docs/components/Demo';
-import Form from 'docs/components/Form';
-import { validation } from 'docs/components/Pages/Examples/Editors/ValidationBuilder';
-import { ContactInfo, FormEditorProps } from 'docs/Domain/ContactInfo';
+import { text, ValidationContainer, ValidationWrapperV1 } from '../../../../src';
+import Demo from '../../Demo';
+import Form from '../../Form';
+import { validation } from '../../../Domain/ValidationBuilder';
+import { ContactInfo, FormEditorProps } from '../../../Domain/ContactInfo';
 
 const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfo, onChange }) => {
   const validationInfoValue = validationInfo || {};
@@ -16,12 +16,12 @@ const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfo, onChange
     <Form>
       <Form.Line title="Имя">
         <ValidationWrapperV1 renderMessage={text()} validationInfo={validationInfoValue.name}>
-          <Input value={data.name} onChange={(e, value) => onChange({ name: value })} />
+          <Input value={data.name} onChange={(_, value) => onChange({ name: value })} />
         </ValidationWrapperV1>
       </Form.Line>
       <Form.Line title="Email">
         <ValidationWrapperV1 validationInfo={validationInfoValue.email}>
-          <Input value={data.email} onChange={(e, value) => onChange({ email: value })} />
+          <Input value={data.email} onChange={(_, value) => onChange({ email: value })} />
         </ValidationWrapperV1>
       </Form.Line>
     </Form>
