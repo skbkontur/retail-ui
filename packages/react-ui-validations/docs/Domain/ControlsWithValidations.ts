@@ -25,6 +25,7 @@ type ExtractValue<TProps> = TProps extends { value?: infer TValue } ? TValue : n
 function prepareProps<TValue, TProps extends { value?: any }>(
   props: WrappedProps<TValue, TProps>,
 ): PreparedProps<TProps> {
+  // @ts-ignore Rest types may only be created from object types
   const { required, email, validations = [], renderErrorMessage, ...rest } = props;
   const value = props.value;
 
@@ -99,5 +100,6 @@ function wrapControl<TProps extends { value?: any }>(
 const WrappedInput = wrapControl(Input);
 export { WrappedInput as Input };
 
+// @ts-ignore because extracted component prop types is incompatible wtih props & propTypes & defaultProps
 const WrappedDatePicker = wrapControl(DatePicker);
 export { WrappedDatePicker as DatePicker };
