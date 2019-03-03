@@ -35,8 +35,8 @@
         color: @placeholder-color-light;
       }
 
-      .input::placeholder {
-        color: @placeholder-color-light;
+      .input {
+        .placeholder({color: @placeholder-color-light;});
       }
     }
 
@@ -88,9 +88,7 @@
     line-height: inherit;
     white-space: nowrap;
 
-    &::placeholder {
-      color: @placeholder-color;
-    }
+    .placeholder({color: @placeholder-color;});
 
     &::-ms-clear {
       display: none;
