@@ -57,6 +57,11 @@
       .input {
         color: @text-color-disabled;
         pointer-events: none;
+
+        /* fix text color in safari */
+        -webkit-text-fill-color: currentcolor;
+
+        .placeholder({-webkit-text-fill-color: @placeholder-color;});
       }
 
       .leftIcon,
@@ -81,7 +86,6 @@
     outline: none;
     width: 100%;
     -webkit-appearance: none;
-    -webkit-text-fill-color: currentcolor;
     text-overflow: clip;
     background: transparent;
     border: 0 none;
