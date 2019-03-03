@@ -33,7 +33,6 @@ const FormEditor: React.SFC<FormEditorProps> = ({ data, onChange }) => {
           required
           validations={[lessThanDate(new Date('2010-01-01'))]}
           value={data.born}
-          // @ts-ignore see file docs/Domain/ControlsWithValidations.ts
           onChange={(_, value) => onChange({ born: value })}
         />
       </Form.Line>

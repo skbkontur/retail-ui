@@ -20,7 +20,6 @@ interface PreparedProps<TProps> {
 }
 
 type WrappedProps<TValue, TProps extends { value?: TValue }> = TProps & ValidationProps<TValue>;
-type ExtractValue<TProps> = TProps extends { value?: infer TValue } ? TValue : never;
 
 function prepareProps<TValue, TProps extends { value?: any }>(
   props: WrappedProps<TValue, TProps>,
@@ -87,9 +86,22 @@ export function lessThanDate(value: Date): ((value: Nullable<string>) => Nullabl
   };
 }
 
-function wrapControl<TProps extends { value?: any }>(
-  controlType: React.ComponentType<TProps>,
-): React.SFC<WrappedProps<ExtractValue<TProps>, TProps>> {
+type ExtractProps<TComponentOrTProps> = TComponentOrTProps extends React.ComponentType<
+    infer P
+    >
+  ? (P extends { value?: any } ? P : never)
+  : never;
+
+type ExtractValue<TComponent> = ExtractProps<TComponent> extends { value?: null | infer TValue } ? TValue : never;
+
+function wrapControl<TComponent extends React.ComponentType<ExtractProps<TComponent>>>(
+  controlType: TComponent,
+): React.ComponentType<WrappedProps<
+    ExtractValue<TComponent>,
+    JSX.LibraryManagedAttributes<TComponent, { value?: ExtractValue<TComponent> } & ExtractProps<TComponent>>
+    >
+  >
+{
   return props => {
     const { controlProps, validationWrapperProps } = prepareProps(props);
     const control = React.createElement(controlType, controlProps) as React.ReactElement<any>;
@@ -100,6 +112,5 @@ function wrapControl<TProps extends { value?: any }>(
 const WrappedInput = wrapControl(Input);
 export { WrappedInput as Input };
 
-// @ts-ignore because extracted component prop types is incompatible wtih props & propTypes & defaultProps
 const WrappedDatePicker = wrapControl(DatePicker);
 export { WrappedDatePicker as DatePicker };

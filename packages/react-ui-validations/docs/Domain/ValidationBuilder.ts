@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { Nullable } from '../../typings/Types';
 import { ValidationInfo, ValidationBehaviour } from '../../src';
 

@@ -29,13 +29,13 @@ export interface DatePickerProps<T> {
   disabled?: boolean;
   enableTodayLink?: boolean;
   error?: boolean;
-  minDate?: T;
-  maxDate?: T;
+  minDate: T;
+  maxDate: T;
   menuAlign?: 'left' | 'right';
   size?: 'small' | 'medium' | 'large';
-  value: T | null;
+  value?: T | null;
   warning?: boolean;
-  width?: number | string;
+  width: number | string;
   onBlur?: () => void;
   onChange: (e: { target: { value: T } }, v: T) => void;
   onFocus?: () => void;
@@ -80,14 +80,14 @@ class DatePicker extends React.Component<
     /**
      * Максимальная дата в календаре.
      */
-    maxDate: PropTypes.string,
+    maxDate: PropTypes.string.isRequired,
 
-    menuAlign: PropTypes.oneOf(['left', 'right']),
+    menuAlign: PropTypes.oneOf(['left', 'right'] as Array<'left' | 'right'>),
 
     /**
      * Минимальная дата в календаре.
      */
-    minDate: PropTypes.string,
+    minDate: PropTypes.string.isRequired,
 
     /**
      * Строка формата `dd.mm.yyyy`
@@ -96,7 +96,7 @@ class DatePicker extends React.Component<
 
     warning: PropTypes.bool,
 
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 
     onBlur: PropTypes.func,
 
@@ -112,7 +112,7 @@ class DatePicker extends React.Component<
 
     onMouseOver: PropTypes.func,
 
-    isHoliday: PropTypes.func
+    isHoliday: PropTypes.func.isRequired
   };
 
   public static defaultProps = {
