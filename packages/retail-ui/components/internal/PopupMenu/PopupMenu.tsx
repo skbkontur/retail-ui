@@ -1,10 +1,10 @@
 import * as React from 'react';
 import InternalMenu from '../InternalMenu/InternalMenu';
-import Popup from '../../Popup';
+import Popup, { PopupPosition } from '../../Popup';
 import RenderLayer from '../../RenderLayer';
 import { Nullable } from '../../../typings/utility-types';
 import PopupMenuPositions from './PopupMenuPositions';
-import isValidPostions from './validatePositions';
+import isValidPositions from './validatePositions';
 import styles from './PopupMenu.less';
 
 export interface PopupMenuCaptionProps {
@@ -33,7 +33,7 @@ export interface PopupMenuProps {
   footer?: React.ReactNode;
 
   /**  Массив разрешенных положений меню относительно caption'а. */
-  positions?: string[];
+  positions?: PopupPosition[];
   /** Колбэк, вызываемый после открытия/закрытия меню */
   onChangeMenuState?: (isOpened: boolean, restoreFocus: boolean) => void;
   /** Пропсы, передающиеся в Popup */
@@ -156,7 +156,7 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
   private hideMenuWithoutFocusing = () => this.hideMenu();
 
   private getPositions() {
-    if (this.props.positions && isValidPostions(this.props.positions)) {
+    if (this.props.positions && isValidPositions(this.props.positions)) {
       return this.props.positions;
     }
 

@@ -1,3 +1,5 @@
+import { PopupPosition } from './Popup';
+
 export interface Rect {
   top: number;
   left: number;
@@ -20,7 +22,7 @@ function getPositionObject(position: string): PositionObject {
 
   return {
     direction: x[0],
-    align: x[1]
+    align: x[1],
   };
 }
 
@@ -29,10 +31,34 @@ function getElementAbsoluteRect(element: HTMLElement): Rect {
   return convertRectToAbsolute(rect);
 }
 
-function isAbsoluteRectFullyVisible(absoluteRect: Rect): boolean {
+function isAbsoluteRectFullyVisible(coordinates: Offset, popupRect: Rect): boolean {
   const windowRelativeRect = _getWindowRelativeRect();
   const windowAbsoluteRect = convertRectToAbsolute(windowRelativeRect);
+  const absoluteRect = {
+    top: coordinates.top,
+    left: coordinates.left,
+    height: popupRect.height,
+    width: popupRect.width,
+  };
+
   return _rectContainsRect(windowAbsoluteRect, absoluteRect);
+}
+
+function canBecomeFullyVisible(positionName: PopupPosition, coordinates: Offset) {
+  const position = getPositionObject(positionName);
+
+  if (position.direction === 'top') {
+    const availableScrollDistances = convertRectToAbsolute(_getWindowRelativeRect());
+    return coordinates.top + availableScrollDistances.top >= 0;
+  }
+
+  if (position.direction === 'left') {
+    const availableScrollDistances = convertRectToAbsolute(_getWindowRelativeRect());
+    return coordinates.left + availableScrollDistances.left >= 0;
+  }
+
+  // NOTE: for bottom/right cases browser will always expand document size
+  return true;
 }
 
 function _getElementRelativeRect(element: HTMLElement) {
@@ -42,7 +68,7 @@ function _getElementRelativeRect(element: HTMLElement) {
     top: rect.top,
     left: rect.left,
     width: rect.right - rect.left,
-    height: rect.bottom - rect.top
+    height: rect.bottom - rect.top,
   };
 }
 
@@ -51,7 +77,7 @@ function _getWindowRelativeRect(): Rect {
     top: 0,
     left: 0,
     width: _getViewProperty(x => x.clientWidth) || window.innerWidth,
-    height: _getViewProperty(x => x.clientHeight) || window.innerHeight
+    height: _getViewProperty(x => x.clientHeight) || window.innerHeight,
   };
 }
 
@@ -62,7 +88,7 @@ function convertRectToAbsolute(rect: Rect): Rect {
     top: rect.top + offset.top,
     left: rect.left + offset.left,
     width: rect.width,
-    height: rect.height
+    height: rect.height,
   };
 }
 
@@ -78,7 +104,7 @@ function _getAbsoluteOffset(): Offset {
 
   return {
     top,
-    left
+    left,
   };
 }
 
@@ -99,5 +125,6 @@ function _getViewProperty(getProperty: (e: HTMLElement) => number): number {
 export default {
   getPositionObject,
   getElementAbsoluteRect,
-  isAbsoluteRectFullyVisible
+  isFullyVisible: isAbsoluteRectFullyVisible,
+  canBecomeFullyVisible,
 };
