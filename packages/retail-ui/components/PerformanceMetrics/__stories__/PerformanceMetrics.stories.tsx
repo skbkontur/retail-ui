@@ -1,22 +1,34 @@
 import { storiesOf } from '@storybook/react';
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 
-import StyledInput from '../../StyledInput';
-import Input from '../../Input';
 import { PerformanceMetrics } from '../PerformanceMetrics';
 import SidePage from '../../SidePage/SidePage';
 import Button from '../../Button/Button';
+import { getDefaultTheme } from '../../../themes';
+import { ThemeProvider } from '../../../lib/styled-components';
+import { ControlledStyledInput } from '../ControlledStyledInput';
+import { ControlledInput } from '../ControlledInput';
 
-const styledInputs = new Array(100).fill('').map((i, index) => (
-  <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
-    <StyledInput width={150} />
+const styledInputs = (
+  <ThemeProvider theme={getDefaultTheme()}>
+    <div>
+      {new Array(200).fill('').map((i, index) => (
+        <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
+          <ControlledStyledInput width={150} />
+        </div>
+      ))}
+    </div>
+  </ThemeProvider>
+);
+const defaultInputs = (
+  <div>
+    {new Array(200).fill('').map((i, index) => (
+      <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
+        <ControlledInput width={150} />
+      </div>
+    ))}
   </div>
-));
-const defaultInputs = new Array(100).fill('').map((i, index) => (
-  <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
-    <Input width={150} />
-  </div>
-));
+);
 
 storiesOf('PerformanceMetrics', module)
   .add('Styled Inputs', () => {
@@ -37,16 +49,26 @@ storiesOf('PerformanceMetrics', module)
     );
   })
   .add('Inputs with SidePage', () => {
-    const styled = new Array(200).fill('').map((i, index) => (
-      <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
-        <ControlledStyledInput width={150} />
+    const styled = (
+      <ThemeProvider theme={getDefaultTheme()}>
+        <div>
+          {new Array(200).fill('').map((i, index) => (
+            <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
+              <ControlledStyledInput width={150} />
+            </div>
+          ))}
+        </div>
+      </ThemeProvider>
+    );
+    const common = (
+      <div>
+        {new Array(200).fill('').map((i, index) => (
+          <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
+            <ControlledInput width={150} />
+          </div>
+        ))}
       </div>
-    ));
-    const common = new Array(200).fill('').map((i, index) => (
-      <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
-        <ControlledInput width={150} />
-      </div>
-    ));
+    );
 
     return (
       <div>
@@ -79,7 +101,7 @@ class SharingStateDefaultInputs extends BaseSharingStateInput {
       <div>
         {new Array(100).fill('').map((i, index) => (
           <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
-            <Input width={150} onChange={this.handleInputChange} value={this.state.value} />
+            <ControlledInput width={150} onChange={this.handleInputChange} value={this.state.value} />
           </div>
         ))}
       </div>
@@ -90,43 +112,17 @@ class SharingStateDefaultInputs extends BaseSharingStateInput {
 class SharingStateStyledInputs extends BaseSharingStateInput {
   public render() {
     return (
-      <div>
-        {new Array(100).fill('').map((i, index) => (
-          <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
-            <StyledInput width={150} onChange={this.handleInputChange} value={this.state.value} />
-          </div>
-        ))}
-      </div>
+      <ThemeProvider theme={getDefaultTheme()}>
+        <div>
+          {new Array(100).fill('').map((i, index) => (
+            <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
+              <ControlledStyledInput width={150} onChange={this.handleInputChange} value={this.state.value} />
+            </div>
+          ))}
+        </div>
+      </ThemeProvider>
     );
   }
-}
-
-class ControlledInput extends React.Component<{}, { value: string }> {
-  public state = {
-    value: '',
-  };
-
-  public render() {
-    return <Input {...this.props} value={this.state.value} onChange={this.handleChange} />;
-  }
-
-  private handleChange = (e: SyntheticEvent, value: string) => {
-    this.setState({ value });
-  };
-}
-
-class ControlledStyledInput extends React.Component<{}, {}> {
-  public state = {
-    value: '',
-  };
-
-  public render() {
-    return <StyledInput {...this.props} value={this.state.value} onChange={this.handleChange} />;
-  }
-
-  private handleChange = (e: SyntheticEvent, value: string) => {
-    this.setState({ value });
-  };
 }
 
 class InputsWithSidePage extends React.Component<{ inputs: React.ReactNode }, { showSidePage: boolean }> {

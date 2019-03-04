@@ -1,5 +1,7 @@
 import React from 'react';
-import Toggle from '../Toggle/Toggle';
+import Button from '../Button/Button';
+import ReactDOM from 'react-dom';
+import { Nullable } from '../../typings/utility-types';
 
 enum ComponentsTypes {
   Styled,
@@ -7,41 +9,77 @@ enum ComponentsTypes {
 }
 
 export class PerformanceMetrics extends React.Component<
-  { styledComponents: React.ReactNode; defaultComponents: React.ReactNode },
-  { componentsType: ComponentsTypes }
+  { styledComponents: React.ReactElement<any>; defaultComponents: React.ReactElement<any> },
+  {}
 > {
-  public state = {
-    componentsType: ComponentsTypes.Styled,
-  };
+  private panelWrapperStyled = { width: '45%', display: 'inline-block', verticalAlign: 'top' };
 
   public render() {
     return (
-      <div style={{ padding: 10 }}>
-        <div>
-          <Toggle
-            changeEventHandler={this.handleToggleChange}
-            checked={this.state.componentsType === ComponentsTypes.Styled}
-          />
-          {'Toggle inputs'}
-        </div>
-        <h1 style={{ lineHeight: '2em' }}>
-          {this.state.componentsType === ComponentsTypes.Styled ? 'Styled Components:' : 'Default Components:'}
-        </h1>
-        <div style={{ width: 1000, padding: 10 }}>
-          {this.state.componentsType === ComponentsTypes.Styled
-            ? this.props.styledComponents
-            : this.props.defaultComponents}
+      <div style={{ padding: 10, width: 1200 }}>
+        <div style={{ padding: 10 }}>
+          <div style={{ ...this.panelWrapperStyled }}>
+            <PerformanceMetricsPanel type={ComponentsTypes.Default} component={this.props.styledComponents} />
+          </div>
+          <div style={{ ...this.panelWrapperStyled }}>
+            <PerformanceMetricsPanel type={ComponentsTypes.Styled} component={this.props.defaultComponents} />
+          </div>
         </div>
       </div>
     );
   }
+}
 
-  private handleToggleChange = () => {
-    this.setState(state => {
-      return {
-        componentsType:
-          state.componentsType === ComponentsTypes.Styled ? ComponentsTypes.Default : ComponentsTypes.Styled,
-      };
-    });
+class PerformanceMetricsPanel extends React.Component<
+  { type: ComponentsTypes; component: React.ReactNode },
+  { mounted: boolean }
+> {
+  public state = {
+    mounted: true,
+  };
+  private container: Nullable<HTMLElement>;
+
+  public render() {
+    return (
+      <div>
+        <h1 style={{ lineHeight: '2em' }}>
+          {this.props.type === ComponentsTypes.Styled ? 'Styled Components:' : 'Default Components:'}
+        </h1>
+        <div style={{ marginBottom: 10 }}>
+          <Button onClick={this.setMountedState}>{this.state.mounted ? 'Unmount' : 'Mount'}</Button>
+        </div>
+        <div ref={el => (this.container = el)} />
+      </div>
+    );
+  }
+
+  public componentDidMount() {
+    if (this.props.component) {
+      ReactDOM.render(this.props.component, this.container);
+    }
+  }
+
+  private setMountedState = () => {
+    if (this.state.mounted) {
+      this.setState(
+        {
+          mounted: false,
+        },
+        () => {
+          if (this.container) {
+            ReactDOM.unmountComponentAtNode(this.container);
+          }
+        },
+      );
+    } else {
+      this.setState(
+        {
+          mounted: true,
+        },
+        () => {
+          ReactDOM.render(this.props.component, this.container);
+        },
+      );
+    }
   };
 }
