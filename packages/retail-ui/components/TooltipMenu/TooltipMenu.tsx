@@ -5,9 +5,7 @@ import { isProductionEnv } from '../internal/currentEnvironment';
 import { MenuHeaderProps } from '../MenuHeader';
 import { PopupPosition } from '../Popup';
 
-export type TooltipMenuChildType = React.ReactElement<
-  MenuItemProps | {} | MenuHeaderProps
->;
+export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
 
 export interface TooltipMenuProps {
   children?: TooltipMenuChildType | TooltipMenuChildType[];
@@ -40,7 +38,7 @@ export interface TooltipMenuProps {
  */
 export default class TooltipMenu extends React.Component<TooltipMenuProps> {
   public static defaultProps = {
-    disableAnimations: false
+    disableAnimations: false,
   };
   constructor(props: TooltipMenuProps) {
     super(props);
