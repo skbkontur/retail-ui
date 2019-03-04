@@ -20,6 +20,8 @@ export interface TooltipMenuProps {
    * придется в этой функции
    */
   caption: PopupMenuProps['caption'];
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
   /**  Массив разрешенных положений меню относительно caption'а. */
   positions?: PopupPosition[];
   /**
@@ -58,6 +60,8 @@ export default class TooltipMenu extends React.Component<TooltipMenuProps> {
         menuMaxHeight={this.props.menuMaxHeight}
         menuWidth={this.props.menuWidth}
         caption={this.props.caption}
+        header={this.props.header}
+        footer={this.props.footer}
         positions={this.props.positions}
         popupHasPin={true}
         popupMargin={10}
