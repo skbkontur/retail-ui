@@ -69,6 +69,14 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     }
   }
 
+  public componentWillReceiveProps(nextProps: MenuProps) {
+    if (nextProps.maxHeight !== this.props.maxHeight) {
+      this.setState({
+        maxHeight: nextProps.maxHeight || 'none',
+      });
+    }
+  }
+
   public focus() {
     this.focusOnRootElement();
   }
