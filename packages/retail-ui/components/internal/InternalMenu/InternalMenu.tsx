@@ -46,7 +46,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
 
   public state: MenuState = {
     highlightedIndex: -1,
-    maxHeight: 'none',
+    maxHeight: this.props.maxHeight || 'none',
     scrollState: 'top',
   };
 
@@ -64,7 +64,9 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
   }
 
   public componentDidUpdate(prevProps: MenuProps, prevState: MenuState) {
-    this.recalculateMaxHeight(prevProps);
+    if (this.shouldRecalculateMaxHeight(prevProps)) {
+      this.calculateMaxHeight();
+    }
   }
 
   public focus() {
@@ -176,38 +178,40 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     }
   };
 
-  private recalculateMaxHeight = (prevProps: MenuProps) => {
+  private shouldRecalculateMaxHeight = (prevProps: MenuProps): boolean => {
     const { maxHeight, header, footer, children } = this.props;
     const prevMaxHeight = prevProps.maxHeight;
     const prevHeader = prevProps.header;
     const prevFooter = prevProps.footer;
     const prevChildrenCount = React.Children.count(prevProps.children);
 
-    if (
+    return (
       maxHeight !== prevMaxHeight ||
       footer !== prevFooter ||
       header !== prevHeader ||
       React.Children.count(children) !== prevChildrenCount
-    ) {
-      this.calculateMaxHeight();
-    }
+    );
   };
 
   private calculateMaxHeight = () => {
     const { maxHeight } = this.props;
-    let maxHeightFromProps = maxHeight;
+    let parsedMaxHeight = maxHeight;
     let calculatedMaxHeight;
 
-    if (typeof maxHeight === 'string' && maxHeight.includes('px')) {
-      maxHeightFromProps = parseFloat(maxHeight);
+    if (typeof maxHeight === 'string' && typeof window !== 'undefined' && this.rootElement) {
+      const rootElementMaxHeight = window.getComputedStyle(this.rootElement).maxHeight;
+
+      if (rootElementMaxHeight) {
+        parsedMaxHeight = parseFloat(rootElementMaxHeight);
+      }
     }
 
     calculatedMaxHeight =
-      typeof maxHeightFromProps === 'number'
-        ? maxHeightFromProps +
+      typeof parsedMaxHeight === 'number'
+        ? parsedMaxHeight +
           ((this.header && this.header.getBoundingClientRect().height) || 0) +
           ((this.footer && this.footer.getBoundingClientRect().height) || 0)
-        : maxHeightFromProps;
+        : maxHeight;
 
     this.setState({
       maxHeight: calculatedMaxHeight || 'none',
