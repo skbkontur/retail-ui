@@ -1,6 +1,5 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
-
 import { PerformanceMetrics } from '../PerformanceMetrics';
 import SidePage from '../../SidePage/SidePage';
 import Button from '../../Button/Button';
@@ -8,6 +7,16 @@ import { getDefaultTheme } from '../../../themes';
 import { ThemeProvider } from '../../../lib/styled-components';
 import { ControlledStyledInput } from '../ControlledStyledInput';
 import { ControlledInput } from '../ControlledInput';
+import { InputProps } from '../../Input';
+import Spinner from '../../Spinner';
+
+function getRandom(min = 1, max = 1000) {
+  return `${Math.random() * (max - min) + min}`;
+}
+
+function noop() {
+  return undefined;
+}
 
 const styledInputs = (
   <ThemeProvider theme={getDefaultTheme()}>
@@ -29,6 +38,66 @@ const defaultInputs = (
     ))}
   </div>
 );
+
+const NativeInput = (props: any) => {
+  return <input {...props} />;
+};
+
+interface InputUpdaterProps {
+  count: number;
+  component: React.ComponentClass<InputProps> | React.SFC<InputProps>;
+}
+class InputsUpdater extends React.Component<InputUpdaterProps, { values: string[] }> {
+  private jobId?: number;
+  constructor(props: InputUpdaterProps) {
+    super(props);
+    this.state = {
+      values: this.getValues(),
+    };
+  }
+  public componentDidMount(): void {
+    this.scheduleUpdateValues();
+  }
+
+  public componentWillUnmount(): void {
+    if (this.jobId) {
+      cancelAnimationFrame(this.jobId);
+    }
+  }
+
+  public render() {
+    const Component = this.props.component;
+
+    return (
+      <div style={{ position: 'relative', paddingTop: 50, paddingLeft: 20 }}>
+        <div style={{ position: 'absolute', top: 10, left: 20, width: 100 }}>
+          <Spinner type={'mini'} caption={'FPS meter'} />
+        </div>
+        <div>
+          {this.state.values.map((v, i) => (
+            <div key={i} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
+              <Component value={v} onChange={noop} width={150} borderless />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  private scheduleUpdateValues = () => {
+    this.jobId = requestAnimationFrame(this.updateValues);
+  };
+
+  private updateValues = () => {
+    this.setState({ values: this.getValues() }, () => {
+      this.scheduleUpdateValues();
+    });
+  };
+
+  private getValues = () => {
+    return new Array(this.props.count).fill('').map((s, i) => getRandom(i));
+  };
+}
 
 storiesOf('PerformanceMetrics', module)
   .add('Styled Inputs', () => {
@@ -78,7 +147,14 @@ storiesOf('PerformanceMetrics', module)
         />
       </div>
     );
-  });
+  })
+  .add('Auto-updating inputs (Input, 200)', () => <InputsUpdater count={200} component={ControlledInput} />)
+  .add('Auto-updating inputs (StyledInput, 200)', () => (
+    <ThemeProvider theme={getDefaultTheme()}>
+      <InputsUpdater count={200} component={ControlledStyledInput} />
+    </ThemeProvider>
+  ))
+  .add('Auto-updating inputs (input, 200)', () => <InputsUpdater component={NativeInput} count={200} />);
 
 class BaseSharingStateInput extends React.Component<{}, { value: string }> {
   public state = {

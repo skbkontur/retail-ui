@@ -93,7 +93,7 @@ export const InputStyledView = styled(InputView)`
   padding-top: ${sizeProp('paddingTop')};
   padding-bottom: ${sizeProp('paddingBottom')};
   padding-left: ${props => (props.hasLeftIcon ? props.theme.input.iconWidth : props.theme.input.padding)};
-    padding-right: ${props => (props.hasRightIcon ? props.theme.input.iconWidth : props.theme.input.padding)};
+  padding-right: ${props => (props.hasRightIcon ? props.theme.input.iconWidth : props.theme.input.padding)};
   border: ${stateProp('border')};
   box-shadow: ${stateProp('box-shadow')};
   background: ${stateProp('background')};

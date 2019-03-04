@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '../Button/Button';
 import ReactDOM from 'react-dom';
 import { Nullable } from '../../typings/utility-types';
+import Spinner from '../Spinner';
 
 enum ComponentsTypes {
   Styled,
@@ -17,12 +18,13 @@ export class PerformanceMetrics extends React.Component<
   public render() {
     return (
       <div style={{ padding: 10, width: 1200 }}>
+        <div style={{position: 'absolute'}}><Spinner type={'mini'} caption={''}/></div>
         <div style={{ padding: 10 }}>
           <div style={{ ...this.panelWrapperStyled }}>
-            <PerformanceMetricsPanel type={ComponentsTypes.Default} component={this.props.styledComponents} />
+            <PerformanceMetricsPanel type={ComponentsTypes.Styled} component={this.props.styledComponents} />
           </div>
           <div style={{ ...this.panelWrapperStyled }}>
-            <PerformanceMetricsPanel type={ComponentsTypes.Styled} component={this.props.defaultComponents} />
+            <PerformanceMetricsPanel type={ComponentsTypes.Default} component={this.props.defaultComponents} />
           </div>
         </div>
       </div>
@@ -35,7 +37,7 @@ class PerformanceMetricsPanel extends React.Component<
   { mounted: boolean }
 > {
   public state = {
-    mounted: true,
+    mounted: false,
   };
   private container: Nullable<HTMLElement>;
 
@@ -54,7 +56,7 @@ class PerformanceMetricsPanel extends React.Component<
   }
 
   public componentDidMount() {
-    if (this.props.component) {
+    if (this.props.component && this.state.mounted) {
       ReactDOM.render(this.props.component, this.container);
     }
   }
