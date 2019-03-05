@@ -27,7 +27,7 @@ import { InputProps } from '../../Input';
 import Input from '../../Input/Input';
 import FiasSearch from './FiasSearch';
 import { FiasCountrySelector } from './FiasCountrySelector';
-import { Textarea } from 'retail-ui/components/all';
+import Textarea from '../../Textarea';
 
 interface FiasFormProps {
   api: APIProvider;

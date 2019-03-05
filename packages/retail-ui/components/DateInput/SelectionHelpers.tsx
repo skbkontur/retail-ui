@@ -19,5 +19,11 @@ export const selectNodeContents = (node: HTMLElement) => {
 };
 
 export const removeAllSelections = () => {
-  window.getSelection().removeAllRanges();
+  // @ts-ignore Fix IE error 800a025e https://github.com/skbkontur/retail-ui/issues/1205
+  if (typeof document.body.createTextRange === 'function') {
+    // @ts-ignore
+    document.body.createTextRange().collapse();
+  } else {
+    window.getSelection().removeAllRanges();
+  }
 };

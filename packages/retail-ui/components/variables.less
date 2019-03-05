@@ -48,8 +48,8 @@
 @border-color-error: @error-main;
 @border-color-warning: @warning-main;
 
-@placeholder-color: #aaa;
-@placeholder-color-light: #bbb;
+@placeholder-color: #a0a0a0;
+@placeholder-color-light: #cdcdcd;
 
 @blink-color: #cde4f8;
 
@@ -421,6 +421,22 @@
   text-align: initial;
   text-transform: none;
   text-shadow: none;
+}
+
+.placeholder(@rules) {
+  &:-moz-placeholder {
+    opacity: 1;
+    @rules();
+  }
+
+  &::-moz-placeholder {
+    opacity: 1;
+    @rules();
+  }
+
+  &::placeholder {
+    @rules();
+  }
 }
 
 @import (optional) '~react-ui-theme';
