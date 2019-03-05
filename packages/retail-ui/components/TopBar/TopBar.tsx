@@ -14,6 +14,7 @@ import '../ensureOldIEClassName';
 import styles from './TopBar.less';
 import End from './TopBarEnd';
 import Start from './TopBarStart';
+import Logout from './TopBarLogout';
 
 export interface TopBarProps {
   children?: React.ReactNode;
@@ -60,6 +61,7 @@ class TopBar extends React.Component<TopBarProps> {
   public static End = End;
   public static ItemStatic = Item;
   public static User = User;
+  public static Logout = Logout;
 
   public static defaultProps: TopBarDefaultProps = {
     maxWidth: 1166,
@@ -150,7 +152,7 @@ class TopBar extends React.Component<TopBarProps> {
     }
 
     if (onLogout) {
-      _rightItems.push(<ButtonItem onClick={onLogout}>Выйти</ButtonItem>);
+      _rightItems.push(<Logout onClick={onLogout} />);
     }
 
     const logoProps = {
