@@ -16,6 +16,7 @@ export { default as Kebab } from './Kebab/Kebab';
 // export { default as Kladr } from './Kladr/Kladr';
 export { default as Link } from './Link/Link';
 export { default as Loader } from './Loader/Loader';
+export { default as LocaleContext } from './LocaleContext/LocaleContext';
 export { default as Logotype } from './Logotype/Logotype';
 export { default as Menu } from './Menu/Menu';
 export { default as MenuItem } from './MenuItem/MenuItem';
