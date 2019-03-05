@@ -35,7 +35,7 @@ const Upgrade = {
 
   isAdaptiveStyles() {
     return adaptiveStyles;
-  }
+  },
 };
 
 export default Upgrade;
