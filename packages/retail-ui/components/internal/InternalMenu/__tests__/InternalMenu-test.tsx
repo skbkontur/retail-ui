@@ -14,7 +14,7 @@ describe('Menu', () => {
     const wrapper = mount(
       <InternalMenu>
         <MenuItem ref={refItem} />
-      </InternalMenu>
+      </InternalMenu>,
     );
 
     // Highlight first item.
@@ -34,7 +34,7 @@ describe('Menu', () => {
         <MenuItem onClick={onClick}>
           <span data-click />
         </MenuItem>
-      </InternalMenu>
+      </InternalMenu>,
     );
 
     wrapper.find('[data-click]').simulate('click');
@@ -49,7 +49,7 @@ describe('Menu', () => {
         <MenuItem onClick={onClick} disabled>
           <span data-click />
         </MenuItem>
-      </InternalMenu>
+      </InternalMenu>,
     );
 
     wrapper.find('[data-click]').simulate('click');
