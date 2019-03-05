@@ -17,13 +17,18 @@ function getRandom(min = 1, max = 1000) {
 function noop() {
   return undefined;
 }
+const INPUTS_COUNT = 150;
+const INPUT_WIDTH = 50;
+const DUMMY = new Array(INPUTS_COUNT).fill('');
+const WRAPPER_STYLES = { marginRight: 10, marginBottom: 10, display: 'inline-block' };
+const DEFAULT_THEME = getDefaultTheme();
 
 const styledInputs = (
-  <ThemeProvider theme={getDefaultTheme()}>
+  <ThemeProvider theme={DEFAULT_THEME}>
     <div>
-      {new Array(200).fill('').map((i, index) => (
-        <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
-          <ControlledStyledInput width={150} />
+      {DUMMY.map((i, index) => (
+        <div key={index} style={WRAPPER_STYLES}>
+          <ControlledStyledInput width={INPUT_WIDTH} />
         </div>
       ))}
     </div>
@@ -31,9 +36,9 @@ const styledInputs = (
 );
 const defaultInputs = (
   <div>
-    {new Array(100).fill('').map((i, index) => (
-      <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
-        <ControlledInput width={150} />
+    {DUMMY.map((i, index) => (
+      <div key={index} style={WRAPPER_STYLES}>
+        <ControlledInput width={INPUT_WIDTH} />
       </div>
     ))}
   </div>
@@ -150,7 +155,7 @@ storiesOf('PerformanceMetrics', module)
   })
   .add('Auto-updating inputs (Input, 200)', () => <InputsUpdater count={200} component={ControlledInput} />)
   .add('Auto-updating inputs (StyledInput, 200)', () => (
-    <ThemeProvider theme={getDefaultTheme()}>
+    <ThemeProvider theme={DEFAULT_THEME}>
       <InputsUpdater count={200} component={ControlledStyledInput} />
     </ThemeProvider>
   ))
