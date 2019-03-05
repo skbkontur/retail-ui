@@ -383,7 +383,13 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.open();
   };
 
-  private handleClickOutside = () => {
+  private handleClickOutside = (event: Event) => {
+    const triggerIsClick = this.props.trigger === 'click';
+    if (triggerIsClick && this.contentElement && event.target instanceof Node) {
+      if (this.contentElement === event.target || this.contentElement.contains(event.target)) {
+        return;
+      }
+    }
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
     }

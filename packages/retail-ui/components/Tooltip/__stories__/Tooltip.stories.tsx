@@ -175,6 +175,7 @@ storiesOf('Tooltip', module)
       TooltipComponentClass={InternalDynamicContentTooltip}
     />
   ))
+  .add('Tooltip with trigger=click', () => <TooltipWithClickTrigger />)
   .add('Tooltip with dynamic anchor', () => <DynamicAnchorTooltip />);
 
 interface MyCustomTooltipState {
@@ -419,6 +420,25 @@ class DynamicAnchorTooltip extends React.Component<{}, {}> {
           useWrapper={false}
         >
           <DynamicAnchor />
+        </Tooltip>
+      </div>
+    );
+  }
+  private tooltipContentGetter = () => {
+    return <span>Content</span>;
+  };
+}
+
+class TooltipWithClickTrigger extends React.Component<{}, {}> {
+  public render() {
+    return (
+      <div style={{ padding: 100 }}>
+        <Tooltip
+          pos={'bottom left'}
+          render={this.tooltipContentGetter}
+          trigger={'click'}
+        >
+          <span>Click me</span>
         </Tooltip>
       </div>
     );
