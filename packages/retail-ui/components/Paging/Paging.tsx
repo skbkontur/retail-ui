@@ -3,6 +3,8 @@ import { number, func } from 'prop-types';
 import cn from 'classnames';
 import events from 'add-event-listener';
 import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
+import { getLocale, locale } from "../LocaleContext/decorators";
+import { PagingLocale, PagingLocaleHelper } from './locale';
 
 import PagingHelper from './PagingHelper';
 import NavigationHelper from './NavigationHelper';
@@ -31,7 +33,7 @@ export interface PagingProps {
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
   disabled?: boolean;
-  strings: { forward: string };
+  strings?: { forward: string };
   /**
    * Отключает навигационные подсказки.
    * По-умолчанию подсказки появляются, когда доступно управление с клавиатуры
@@ -56,12 +58,12 @@ export interface PagingState {
 
 export type ItemType = number | '.' | 'forward';
 
+@locale('Paging', PagingLocaleHelper)
 export default class Paging extends React.Component<PagingProps, PagingState> {
   public static defaultProps = {
     component: ({ className, onClick, children }: any) => (
       <span className={className} onClick={onClick} children={children} />
     ),
-    strings: { forward: 'Дальше' },
     useGlobalListener: false
   };
 
@@ -81,6 +83,8 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
   private addedGlobalListener: boolean = false;
   private container: HTMLSpanElement | null = null;
+
+  @getLocale private readonly locale: PagingLocale = {};
 
   public componentDidMount() {
     listenTabPresses();
@@ -162,7 +166,13 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       [styles.focused]: focused,
       [styles.disabled]: disabled
     });
-    const { component: Component, strings } = this.props;
+    const {
+      component: Component,
+      strings: {
+        forward = this.locale.forward
+      } = {},
+      caption = forward
+    } = this.props;
 
     return (
       <Component
@@ -173,7 +183,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
         tabIndex={-1}
         pageNumber={'forward' as 'forward'}
       >
-        {this.props.caption ? this.props.caption : strings.forward}
+        {caption}
         <span className={styles.forwardIcon}>
           <ArrowChevronRightIcon size="18px" />
         </span>
