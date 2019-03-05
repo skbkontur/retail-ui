@@ -2,6 +2,9 @@
 
 import { mount } from 'enzyme';
 import * as React from 'react';
+import { defaultLangCode } from '../../LocaleContext/constants';
+import LocaleContext, { LangCodes } from "../../LocaleContext";
+import { SelectLocaleHelper } from '../locale';
 
 import Select from '../Select';
 
@@ -27,10 +30,10 @@ describe('Select', () => {
       { id: 3, name: 'Sam', group: { id: 1, name: 'Red group' } }
     ];
 
-    const SelectExmaple = Select;
+    const SelectExample = Select;
 
     const wrapper = mount<Select>(
-      <SelectExmaple
+      <SelectExample
         value={currentValue}
         items={objectItems}
         renderItem={x => x.name}
@@ -55,4 +58,38 @@ describe('Select', () => {
     expect(selectedMenuItem.length).toBe(1);
     expect(selectedMenuItem.text()).toBe(defaultValueText);
   });
+
+  describe('Locale', () => {
+    it('render default locale', () => {
+      const wrapper = mount(<LocaleContext><Select /></LocaleContext>);
+      const expectedText = SelectLocaleHelper.get(defaultLangCode).placeholder;
+
+      expect(wrapper.text()).toBe(expectedText);
+    });
+
+    it('render correct locale when set langCode', () => {
+      const wrapper = mount(<LocaleContext langCode={LangCodes.en_EN}><Select /></LocaleContext>);
+      const expectedText = SelectLocaleHelper.get(LangCodes.en_EN).placeholder;
+
+      expect(wrapper.text()).toBe(expectedText);
+    });
+
+    it('render custom locale', () => {
+      const customPlaceholder = 'custom loading';
+      const wrapper = mount(<LocaleContext locale={{
+        Select: { placeholder: customPlaceholder }
+      }}><Select /></LocaleContext>);
+
+      expect(wrapper.text()).toBe(customPlaceholder);
+    });
+
+    it('updates when langCode changes', () => {
+      const wrapper = mount(<LocaleContext langCode={LangCodes.en_EN}><Select /></LocaleContext>);
+      const expectedText = SelectLocaleHelper.get(LangCodes.ru_RU).placeholder;
+
+      wrapper.setProps({ langCode: LangCodes.ru_RU });
+
+      expect(wrapper.text()).toBe(expectedText);
+    });
+  })
 });
