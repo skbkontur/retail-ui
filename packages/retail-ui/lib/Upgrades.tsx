@@ -2,7 +2,7 @@ import warning from 'warning';
 
 let flatDesignEnabled = false;
 let sizeMedium16pxEnabled = false;
-let adaptiveStyles = false;
+let adaptiveStyles = true;
 
 const Upgrade = {
   enableHeight34() {
@@ -30,6 +30,7 @@ const Upgrade = {
   },
 
   setAdaptiveStyles(enabled: boolean) {
+    warning(false, 'Метод Upgrades.setAdaptiveStyles устарел. `adaptiveStyles` включен по умолчанию');
     adaptiveStyles = enabled;
   },
 
