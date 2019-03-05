@@ -16,3 +16,18 @@ const reactNodeCaption = (
   <Spinner type="big" caption={reactNodeCaption} />
 </Gapped>;
 ```
+
+#### Локали по умолчанию (см. `LocaleContext`)
+```typescript
+const ru_RU = {
+  Spinner: {
+    loading: 'Загрузка'
+  }
+};
+
+const en_EN = {
+  Spinner: {
+    loading: 'Loading'
+  }
+};
+```

@@ -2,10 +2,12 @@ import classnames from 'classnames';
 import * as React from 'react';
 
 import * as PropTypes from 'prop-types';
+import { getLocale, locale } from '../LocaleContext/decorators';
+import { SpinnerLocale, SpinnerLocaleHelper } from "./locale";
+import { sizeMaps, svgAnimateSupport, types } from './settings';
 
 import styles from './Spinner.less';
 import SpinnerFallback from './SpinnerFallback';
-import { types, sizeMaps, svgAnimateSupport } from './settings';
 
 export const SpinnerConfig = {
   hasSvgAnimationSupport: svgAnimateSupport()
@@ -22,6 +24,8 @@ export interface SpinnerProps {
 /**
  * DRAFT - инлайн-лоадер
  */
+
+@locale('Spinner', SpinnerLocaleHelper)
 class Spinner extends React.Component<SpinnerProps> {
   public static propTypes = {
     /**
@@ -44,14 +48,15 @@ class Spinner extends React.Component<SpinnerProps> {
   };
 
   public static defaultProps = {
-    type: types.normal,
-    caption: 'Загрузка'
+    type: types.normal
   };
 
   public static Types: typeof types;
 
+  @getLocale private readonly locale: SpinnerLocale = {};
+
   public render() {
-    const { type, caption, dimmed } = this.props;
+    const { type, caption = this.locale.loading, dimmed } = this.props;
     const verifiedType = sizeMaps[type!] ? type! : Spinner.defaultProps.type;
 
     return (
