@@ -38,13 +38,13 @@ interface LocaleControls {
     cabinetCertificates?: string;
     cabinetServices?: string;
   };
-  SelectLocale?: {
+  Select?: {
     placeholder?: React.ReactNode;
   };
-  PagingLocale?: {
+  Paging?: {
     forward?: string;
   };
-  LogotypeLocale?: {
+  Logotype?: {
     suffix?: string;
     prefix?: string;
   }
