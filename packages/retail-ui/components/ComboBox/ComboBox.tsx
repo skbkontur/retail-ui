@@ -135,7 +135,7 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
     valueToString: (item: any) => item.label,
     renderValue: (item: any) => item.label,
     renderItem: (item: any) => item.label,
-    menuAlign: 'left'
+    menuAlign: 'left',
   };
 
   private comboboxElement: Nullable<CustomComboBox> = null;
@@ -221,15 +221,12 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
     const props = {
       ...rest,
       openButton: !autocomplete,
-      reducer: autocomplete ? autocompleteReducer : defaultReducer
+      reducer: autocomplete ? autocompleteReducer : defaultReducer,
     };
 
     return (
       // @ts-ignore
-      <CustomComboBox
-        {...props}
-        ref={element => (this.comboboxElement = element)}
-      />
+      <CustomComboBox {...props} ref={element => (this.comboboxElement = element)} />
     );
   }
 }
