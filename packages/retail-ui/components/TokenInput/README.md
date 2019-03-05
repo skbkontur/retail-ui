@@ -61,3 +61,20 @@ const tokenColors = {
   />
 </div>;
 ```
+
+#### Локали по умолчанию (см. `LocaleContext`)
+```typescript
+const ru_RU = {
+  TokenInput: {
+    addButtonComment: 'Нажмите Enter или поставьте запятую',
+    addButtonTitle: 'Добавить'
+  }
+};
+
+const en_EN = {
+  TokenInput: {
+    addButtonComment: 'Press Enter or type comma',
+    addButtonTitle: 'Add'
+  }
+};
+```

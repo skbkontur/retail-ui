@@ -80,7 +80,6 @@ const defaultRenderToken = <T extends any>(item: T,
 export default class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static defaultProps: Partial<TokenInputProps<any>> = {
     selectedItems: [],
-    renderNotFound: () => 'Не найдено',
     renderItem: identity,
     renderValue: identity,
     valueToItem: (item: string) => item,
@@ -156,7 +155,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       renderNotFound,
       hideMenuIfEmptyInputValue,
       onMouseEnter,
-      onMouseLeave,
+      onMouseLeave
     } = this.props;
 
     const {
