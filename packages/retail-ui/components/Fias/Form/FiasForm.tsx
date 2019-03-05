@@ -47,15 +47,20 @@ type FiasFormFields = {
   }
 };
 
-interface FieldMeta<C, P> {
-  ref: C | null;
-  props: P;
-  createRef: (ref: C | null) => any;
+interface ComboBoxMeta {
+  ref: FiasComboBox | null;
+  props: FiasComboBoxProps;
+  createRef: (ref: FiasComboBox | null) => any;
   tooltip: () => React.ReactNode;
 }
 
-type ComboBoxMeta = FieldMeta<FiasComboBox, FiasComboBoxProps>;
-type InputMeta = FieldMeta<Input, InputProps>;
+interface InputMeta {
+  ref: Input | null;
+  props: InputProps;
+  createRef: (ref: Input | null) => any;
+  tooltip: () => React.ReactNode;
+}
+
 type FiasFormFieldMeta = ComboBoxMeta | InputMeta;
 
 export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {

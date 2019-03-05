@@ -196,12 +196,13 @@ export class Address {
   public country: FiasCountry | undefined;
   public foreignAddress: string;
 
-  constructor({ fields, additionalFields, errors, country, foreignAddress }: AddressOptions = {}) {
-    this.fields = fields || {};
-    this.additionalFields = additionalFields || {};
-    this.errors = errors || {};
+  constructor(options: AddressOptions = {}) {
+    const { fields = {}, additionalFields = {}, errors = {}, country, foreignAddress = '' } = options;
+    this.fields = fields;
+    this.additionalFields = additionalFields;
+    this.errors = errors;
     this.country = country;
-    this.foreignAddress = foreignAddress || '';
+    this.foreignAddress = foreignAddress;
   }
 
   public get isForeign(): boolean {
