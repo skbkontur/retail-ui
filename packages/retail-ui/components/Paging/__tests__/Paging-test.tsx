@@ -1,6 +1,9 @@
 // tslint:disable
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
+import { defaultLangCode } from '../../LocaleContext/constants';
+import LocaleContext, { LangCodes } from "../../LocaleContext";
+import { PagingLocaleHelper } from '../locale';
 
 import Paging from '../Paging';
 import PagingStyles = require('../Paging.less');
@@ -173,4 +176,40 @@ describe('Pager', () => {
 
     expect(wrapper.state('keyboardControl')).toBe(true);
   });
+
+  describe('Locale', () => {
+    let wrapper: ReactWrapper;
+    const getForwardText = () => wrapper.find(`span.${PagingStyles.forwardLink}`).text();
+    const PagingContext = () => <Paging pagesCount={5} activePage={1} onPageChange={() => {}} />;
+
+    it('render default locale', () => {
+      wrapper = mount(<LocaleContext>{PagingContext()}</LocaleContext>);
+      const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
+
+      expect(getForwardText()).toBe(expectedText);
+    });
+
+    it('render default locale', () => {
+      wrapper = mount(<LocaleContext langCode={LangCodes.en_EN}>{PagingContext()}</LocaleContext>);
+      const expectedText = PagingLocaleHelper.get(LangCodes.en_EN).forward;
+
+      expect(getForwardText()).toBe(expectedText);
+    });
+
+    it('render custom locale', () => {
+      const customPlaceholder = 'custom forward';
+      wrapper = mount(<LocaleContext locale={{Paging: {forward: customPlaceholder}}}>{PagingContext()}</LocaleContext>);
+
+      expect(getForwardText()).toBe(customPlaceholder);
+    });
+
+    it('updates when langCode changes', () => {
+      wrapper = mount(<LocaleContext langCode={LangCodes.en_EN}>{PagingContext()}</LocaleContext>);
+      const expectedText = PagingLocaleHelper.get(LangCodes.ru_RU).forward;
+
+      wrapper.setProps({ langCode: LangCodes.ru_RU });
+
+      expect(getForwardText()).toBe(expectedText);
+    });
+  })
 });
