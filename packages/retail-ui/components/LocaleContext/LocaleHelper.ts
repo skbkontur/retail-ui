@@ -10,8 +10,8 @@ export class LocaleHelper<C> {
     this.langCode = langCode || this.langCode;
   }
 
-  public get(langCode: LangCodes = this.langCode): object | C {
-    return this.locales[langCode] || {};
+  public get(langCode: LangCodes = this.langCode): C {
+    return this.locales[langCode] || {} as C;
   }
 }
 
