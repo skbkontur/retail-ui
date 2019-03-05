@@ -362,8 +362,8 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
-    const isHover = this.props.trigger === 'hover';
-    if (isHover && event.relatedTarget === this.contentElement) {
+    const triggerIsHover = this.props.trigger === 'hover';
+    if (triggerIsHover && event.relatedTarget === this.contentElement) {
       return;
     }
 
