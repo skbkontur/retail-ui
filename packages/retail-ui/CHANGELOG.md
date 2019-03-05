@@ -16,8 +16,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* **DropdownMenu:** add `onScrollStateChange` prop ([b7a2f9f](https://github.com/skbkontur/retail-ui/commit/b7a2f9f))
 * **DropdownMenu:** add header and footer props ([db8a428](https://github.com/skbkontur/retail-ui/commit/db8a428))
+* **ScrollContainer:** add `onScrollStateChange` prop ([18366b7](https://github.com/skbkontur/retail-ui/commit/18366b7))
 * **TooltipMenu:** add header and footer props ([578125d](https://github.com/skbkontur/retail-ui/commit/578125d))
 
 
