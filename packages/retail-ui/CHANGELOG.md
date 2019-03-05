@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.42.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.41.1...retail-ui@0.42.0) (2019-03-05)
+
+
+### Bug Fixes
+
+* **DatePicker:** fix clear selection on IE11 ([fe61312](https://github.com/skbkontur/retail-ui/commit/fe61312)), closes [#1205](https://github.com/skbkontur/retail-ui/issues/1205)
+* **Fias:** fix textarea import ([2a1dd51](https://github.com/skbkontur/retail-ui/commit/2a1dd51))
+* **retail-ui:** fix placeholders color according to the guides ([f29f9ac](https://github.com/skbkontur/retail-ui/commit/f29f9ac)), closes [#1166](https://github.com/skbkontur/retail-ui/issues/1166)
+* **Tooltip:** reposition changed content ([39b641f](https://github.com/skbkontur/retail-ui/commit/39b641f)), closes [#962](https://github.com/skbkontur/retail-ui/issues/962)
+
+
+### Features
+
+* **DropdownMenu:** add `onScrollStateChange` prop ([b7a2f9f](https://github.com/skbkontur/retail-ui/commit/b7a2f9f))
+* **DropdownMenu:** add header and footer props ([db8a428](https://github.com/skbkontur/retail-ui/commit/db8a428))
+* **TooltipMenu:** add header and footer props ([578125d](https://github.com/skbkontur/retail-ui/commit/578125d))
+
+
+
+
+
 ## [0.41.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.41.0...retail-ui@0.41.1) (2019-02-27)
 
 
