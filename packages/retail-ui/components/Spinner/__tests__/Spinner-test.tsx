@@ -1,9 +1,12 @@
+import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
-import { mount } from 'enzyme';
+import { defaultLangCode } from '../../LocaleContext/constants';
+import LocaleContext, { LangCodes } from "../../LocaleContext";
+import { SpinnerLocaleHelper } from '../locale';
+import { sizeMaps } from '../settings';
 
 import Spinner, { SpinnerConfig } from '../Spinner';
 import styles from '../Spinner.less';
-import { sizeMaps } from '../settings';
 import SpinnerFallback from '../SpinnerFallback';
 
 const render = (props = {}) => mount(<Spinner {...props} />);
@@ -103,6 +106,44 @@ describe('Spinner', () => {
         height: sizeMaps[type].height,
         top: 2
       });
+    });
+  });
+
+  describe('Locale', () => {
+    const getTextLoading = (wrapper: ReactWrapper): string => {
+      return wrapper.find(generateSelector('captionBottom')).text()
+    };
+
+    it('render default locale', () => {
+      const wrapper = mount(<LocaleContext><Spinner /></LocaleContext>);
+      const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading;
+
+      expect(getTextLoading(wrapper)).toBe(expectedText);
+    });
+
+    it('render correct locale when set langCode', () => {
+      const wrapper = mount(<LocaleContext langCode={LangCodes.en_EN}><Spinner /></LocaleContext>);
+      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_EN).loading;
+
+      expect(getTextLoading(wrapper)).toBe(expectedText)
+    });
+
+    it('render custom locale', () => {
+      const customText = 'custom loading';
+      const wrapper = mount(<LocaleContext locale={{
+        Spinner: { loading: customText }
+      }}><Spinner /></LocaleContext>);
+
+      expect(getTextLoading(wrapper)).toBe(customText)
+    });
+
+    it('updates when langCode changes', () => {
+      const wrapper = mount(<LocaleContext><Spinner /></LocaleContext>);
+      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_EN).loading;
+
+      wrapper.setProps({ langCode: LangCodes.en_EN });
+
+      expect(getTextLoading(wrapper)).toBe(expectedText)
     });
   });
 });
