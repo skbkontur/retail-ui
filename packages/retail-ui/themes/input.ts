@@ -5,8 +5,9 @@ import { getCommonTheme } from './common';
 export interface InputStateStyles {
   color?: string;
   background?: string;
-  'box-shadow'?: string;
   border?: string;
+  'box-shadow'?: string;
+  'border-top-color'?: string;
 }
 
 export type InputState = 'default' | 'focus' | 'warning' | 'error' | 'disabled';
@@ -22,8 +23,9 @@ export const getInputTheme = (base: CommonTheme = getCommonTheme()): { [key: str
     stateStyles[state] = {
       color: getColor(inputStyles[state].text),
       background: getColor(inputStyles[state].background),
+      border: getColor(inputStyles[state].border),
       'box-shadow': getColor(inputStyles[state].shadow),
-      border: getColor(inputStyles[state].border)
+      'border-top-color': getColor(inputStyles[state].borderTopColor),
     };
   });
 
@@ -35,19 +37,22 @@ export const getInputTheme = (base: CommonTheme = getCommonTheme()): { [key: str
       fontSize: '14px',
       lineHeight: '20px',
       paddingTop: '6px',
-      paddingBottom: '6px'
+      paddingBottom: '6px',
+      height: '34px'
     },
     medium: {
       fontSize: '16px',
-      lineHeight: '22px',
+      lineHeight: '20px',
       paddingTop: '8px',
-      paddingBottom: '8px'
+      paddingBottom: '8px',
+      height: '40px'
     },
     large: {
       fontSize: '16px',
       lineHeight: '22px',
       paddingTop: '10px',
-      paddingBottom: '10px'
-    }
+      paddingBottom: '10px',
+      height: '44px'
+    },
   };
 };

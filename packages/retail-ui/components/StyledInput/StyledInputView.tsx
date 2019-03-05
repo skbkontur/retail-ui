@@ -95,6 +95,7 @@ export const InputStyledView = styled(InputView)`
   padding-left: ${props => (props.hasLeftIcon ? props.theme.input.iconWidth : props.theme.input.padding)};
   padding-right: ${props => (props.hasRightIcon ? props.theme.input.iconWidth : props.theme.input.padding)};
   border: ${stateProp('border')};
+  border-top-color: ${stateProp('border-top-color')};
   box-shadow: ${stateProp('box-shadow')};
   background: ${stateProp('background')};
   color: ${stateProp('color')};

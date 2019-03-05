@@ -44,6 +44,7 @@
       "black_alpha_10" : "rgba(0,0,0,0.1)",
       "black_alpha_15" : "rgba(0,0,0,0.15)",
       "black_alpha_20" : "rgba(0,0,0,0.2)",
+      "black_alpha_28" : "rgba(0,0,0,0.28)",
       "black_alpha_40" : "rgba(0,0,0,0.4)",
       "black_alpha_44" : "rgba(0,0,0,0.44)",
 
@@ -88,17 +89,22 @@
       "yellow_hover": "linear-gradient(#ffbd3a, #f8a91d)"
     },
     "borders" : {
-      "reset": "0"
+      "reset": "0",
+      "input_default": "1px solid $.base.black_alpha_15",
+      "input_focus": "1px solid $.base.blue_light",
+      "input_warning": "1px solid #D70C17",
+      "input_error": "1px solid #F69C00",
+      "input_disabled": "1px solid $.base.black_alpha_15"
     },
     "shadows": {
       "disabled": "0 0 0 1px #d9d9d9",
       "button_focus": "inset 0 0 0 1px #fff, 0 0 0 2px $.base.blue_light",
 
-      "input_default": "0 0 0 1px $.base.black_alpha_15, 0 -1px 0 0 $.base.black_alpha_15, inset 0px 1px 0px $.base.black_alpha_05",
-      "input_focus": "0 0 0 2px $.base.blue_light",
-      "input_warning": "0 0 0 2px #D70C17" ,
-      "input_error": "0 0 0 2px #F69C00",
-      "input_disabled": "0 0 0 1px $.base.black_alpha_15, inset 0 0 0 0 rgba(0,0,0,0.0)",
+      "input_default": "inset 0 1px 0 0 $.base.black_alpha_05",
+      "input_focus": "0 0 0 1px $.base.blue_light",
+      "input_warning": "0 0 0 1px #D70C17" ,
+      "input_error": "0 0 0 1px #F69C00",
+      "input_disabled": "none",
 
       "gray": "0 1px 0 0 $.base.black_alpha_15, 0 0 0 1px $.base.black_alpha_15",
       "gray_hover": "0 1px 0 0 $.base.black_alpha_15, 0 0 0 1px $.base.black_alpha_20",
@@ -233,16 +239,17 @@
           "text": "$.meaning.text_default",
           "background": "$.meaning.background_level_1",
           "shadow": "$.shadows.input_default",
-          "border": "$.borders.reset"
+          "border": "$.borders.input_default",
+          "borderTopColor": "$.base.black_alpha_28"
         },
-        "focus": { "shadow": "$.shadows.input_focus", "border": "$.borders.reset" },
-        "warning": { "shadow": "$.shadows.input_warning", "border": "$.borders.reset" },
-        "error": { "shadow": "$.shadows.input_error", "border": "$.borders.reset" },
+        "focus": { "shadow": "$.shadows.input_focus", "border": "$.borders.input_focus" },
+        "warning": { "shadow": "$.shadows.input_warning", "border": "$.borders.input_warning" },
+        "error": { "shadow": "$.shadows.input_error", "border": "$.borders.input_error" },
         "disabled": {
           "text": "$.base.gray",
           "background": "$.base.gray_xx_light",
           "shadow": "$.shadows.input_disabled",
-          "border": "$.borders.reset"
+          "border": "$.borders.input_disabled"
         }
       }
     },

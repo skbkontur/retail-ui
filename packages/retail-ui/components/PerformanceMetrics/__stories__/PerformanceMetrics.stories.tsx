@@ -31,7 +31,7 @@ const styledInputs = (
 );
 const defaultInputs = (
   <div>
-    {new Array(200).fill('').map((i, index) => (
+    {new Array(100).fill('').map((i, index) => (
       <div key={index} style={{ marginRight: 10, marginBottom: 10, display: 'inline-block' }}>
         <ControlledInput width={150} />
       </div>
