@@ -18,3 +18,18 @@ let initialState = {};
   onChange={(_, value) => setState({ value })}
 />;
 ```
+
+#### Локали по умолчанию (см. `LocaleContext`)
+```typescript
+const ru_RU = {
+  Select: {
+    placeholder: 'ничего не выбрано'
+  }
+};
+
+const en_EN = {
+  Select: {
+    placeholder: 'nothing selected'
+  }
+};
+```
