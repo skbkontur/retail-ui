@@ -5,14 +5,6 @@ let sizeMedium16pxEnabled = false;
 let adaptiveStyles = true;
 
 const Upgrade = {
-  enableHeight34() {
-    warning(false, 'Метод Upgrades.enableHeight34 устарел');
-  },
-
-  isHeight34Enabled() {
-    return true;
-  },
-
   enableFlatDesign() {
     flatDesignEnabled = true;
   },
