@@ -5,7 +5,7 @@ import { LocaleControls } from "./types";
 
 export function locale<C>(componentName: keyof LocaleControls, localeHelper: LocaleHelper<C>) {
   return<T extends { new(...args: any[]): React.Component }>(constructor: T) => {
-    return class extends constructor {
+    const LocaleDecorator = class extends constructor {
       public componentName: keyof LocaleControls = componentName;
       public localeHelper: LocaleHelper<C> = localeHelper;
 
@@ -21,7 +21,9 @@ export function locale<C>(componentName: keyof LocaleControls, localeHelper: Loc
           </LocaleContextConsumer>
         );
       }
-    }
+    };
+    Object.defineProperty(LocaleDecorator, 'name', { value: constructor.name });
+    return LocaleDecorator;
   }
 }
 
