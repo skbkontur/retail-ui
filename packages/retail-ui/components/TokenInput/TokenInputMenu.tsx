@@ -4,13 +4,9 @@ import ComboBoxMenu, {
   ComboBoxMenuProps
 } from '../CustomComboBox/ComboBoxMenu';
 import Menu from '../Menu/Menu';
-import MenuItem from '../MenuItem/MenuItem';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
-  inputValue: string;
-  showAddItemHint?: boolean;
-  onAddItem: (item: string) => void;
 }
 
 export default class TokenInputMenu<T = string> extends React.Component<
@@ -27,6 +23,7 @@ export default class TokenInputMenu<T = string> extends React.Component<
       opened,
       items,
       renderNotFound,
+      renderAddButton,
       renderItem,
       onChange
     } = this.props;
@@ -50,7 +47,7 @@ export default class TokenInputMenu<T = string> extends React.Component<
           renderItem={renderItem}
           renderNotFound={renderNotFound}
           totalCount={totalCount}
-          renderAddButton={this.renderAddButton}
+          renderAddButton={renderAddButton}
         />
       </Popup>
     );
@@ -58,23 +55,4 @@ export default class TokenInputMenu<T = string> extends React.Component<
 
   public getMenuRef = (): any | null => this.menu;
   private menuRef = (node: any) => (this.menu = node);
-
-  private renderAddButton = (
-    value = this.props.inputValue
-  ): React.ReactNode | undefined => {
-    if (!this.props.showAddItemHint) {
-      return;
-    }
-
-    const handleAddItemNoteClick = () => this.props.onAddItem(value);
-
-    // TODO при переопределении delimiters это будет выглядеть не очень
-    const comment = 'Нажмите Enter или поставьте запятую';
-
-    return (
-      <MenuItem onClick={handleAddItemNoteClick} comment={comment}>
-        Добавить {value}
-      </MenuItem>
-    );
-  };
 }

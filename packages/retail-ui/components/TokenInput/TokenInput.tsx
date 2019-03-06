@@ -9,6 +9,7 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import styles from './TokenInput.less';
 import cn from 'classnames';
 import Menu from '../Menu/Menu';
+import MenuItem from '../MenuItem/MenuItem';
 import Token, { TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import isEqual from 'lodash.isequal';
@@ -35,6 +36,7 @@ export interface TokenInputProps<T> {
   renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
   renderValue: (item: T) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;
+  renderAddButton?: () => React.ReactNode;
   valueToItem: (item: string) => T;
   toKey: (item: T) => string | number | undefined;
   placeholder?: string;
@@ -154,6 +156,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       placeholder,
       renderItem,
       renderNotFound,
+      renderAddButton,
       hideMenuIfEmptyInputValue,
       onMouseEnter,
       onMouseLeave,
@@ -236,12 +239,10 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
               loading={loading}
               opened={showMenu}
               anchorElement={this.input!}
-              inputValue={inputValue}
               renderNotFound={renderNotFound}
               renderItem={renderItem}
-              onAddItem={this.handleAddItem}
+              renderAddButton={renderAddButton || this.renderAddButton}
               onChange={this.handleChange}
-              showAddItemHint={this.showAddItemHint}
             />
           )}
         </label>
@@ -751,5 +752,24 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       onRemove: handleIconClick,
     })
   }
+
+  private renderAddButton = (
+    value = this.state.inputValue
+  ): React.ReactNode | undefined => {
+    if (!this.showAddItemHint) {
+      return;
+    }
+
+    const handleAddItemNoteClick = () => this.handleAddItem(value);
+
+    // TODO при переопределении delimiters это будет выглядеть не очень
+    const comment = 'Нажмите Enter или поставьте запятую';
+
+    return (
+      <MenuItem onClick={handleAddItemNoteClick} comment={comment}>
+        Добавить {value}
+      </MenuItem>
+    );
+  };
 
 }
