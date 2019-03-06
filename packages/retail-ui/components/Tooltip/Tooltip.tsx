@@ -394,7 +394,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   };
 
   private isClickOutsideContent(event: Event) {
-    if (this.contentElement && event.target instanceof HTMLElement) {
+    if (this.contentElement && event.target instanceof Element) {
       return !containsTargetOrRenderContainer(event.target)(this.contentElement);
     }
 

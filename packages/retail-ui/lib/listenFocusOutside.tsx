@@ -53,8 +53,8 @@ function handleNativeFocus(event: UIEvent) {
   });
 }
 
-export function containsTargetOrRenderContainer(target: HTMLElement) {
-  return (element: HTMLElement) => {
+export function containsTargetOrRenderContainer(target: Element) {
+  return (element: Element) => {
     if (!element) {
       return false;
     }
