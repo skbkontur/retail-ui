@@ -16,7 +16,6 @@ import { Footer, isFooter } from './ModalFooter';
 import { Header, isHeader } from './ModalHeader';
 import { Body } from './ModalBody';
 import Close from './ModalClose';
-import Upgrades from '../../lib/Upgrades';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
 
@@ -180,12 +179,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
         <ZIndex delta={1000} className={styles.root}>
           <HideBodyVerticalScroll />
           {this.state.stackPosition === 0 && <div className={styles.bg} />}
-          <div
-            ref={this.refContainer}
-            className={cn(styles.container, {
-              [styles.mobile]: Upgrades.isAdaptiveStyles(),
-            })}
-          >
+          <div ref={this.refContainer} className={cn(styles.container, styles.mobile)}>
             <ModalClickTrap
               className={styles.modalClickTrap}
               onClick={this.handleContainerClick}

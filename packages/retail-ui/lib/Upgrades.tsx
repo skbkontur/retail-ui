@@ -2,7 +2,6 @@ import warning from 'warning';
 
 let flatDesignEnabled = false;
 let sizeMedium16pxEnabled = false;
-let adaptiveStyles = true;
 
 const Upgrade = {
   enableFlatDesign() {
@@ -22,12 +21,11 @@ const Upgrade = {
   },
 
   setAdaptiveStyles(enabled: boolean) {
-    warning(false, 'Метод Upgrades.setAdaptiveStyles устарел. `adaptiveStyles` включен по умолчанию');
-    adaptiveStyles = enabled;
+    warning(false, 'Метод Upgrades.setAdaptiveStyles устарел. `adaptiveStyles` включен всегда');
   },
 
   isAdaptiveStyles() {
-    return adaptiveStyles;
+    return true;
   },
 };
 
