@@ -13,9 +13,6 @@ import DatePicker from 'retail-ui/components/DatePicker'
 import Tooltip from 'retail-ui/components/Tooltip'
 import FxInput from 'retail-ui/components/FxInput'
 import Label from '../common/Label';
-import Upgrades from 'retail-ui/lib/Upgrades';
-
-Upgrades.enableHeight34();
 
 function bind(name) {
     return {
