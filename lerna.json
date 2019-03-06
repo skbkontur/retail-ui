@@ -7,7 +7,8 @@
     "version": {
       "githubRelease": true,
       "conventionalCommits": true,
-      "message": "chore(release): publish"
+      "message": "chore(release): publish",
+      "ignoreChanges": ["packages/react-ui-testing/TestPages/**"]
     }
   }
 }
