@@ -51,6 +51,8 @@ export interface TopBarDefaultProps {
  *
  * `End({children: node})` – контейнер для элементов в конце шапки
  *
+ * `Logout({children?: node})` – обёртка над `Item`. По умолчанию выводит локализованный текст
+ *
  */
 class TopBar extends React.Component<TopBarProps> {
   public static Divider = Divider;
