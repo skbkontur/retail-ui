@@ -435,7 +435,7 @@ class TooltipWithClickTrigger extends React.Component<{}, {}> {
       <div style={{ padding: 100 }}>
         <Tooltip
           pos={'bottom left'}
-          render={this.tooltipContentGetter}
+          render={this.outerTooltipContentGetter}
           trigger={'click'}
         >
           <span>Click me</span>
@@ -443,7 +443,16 @@ class TooltipWithClickTrigger extends React.Component<{}, {}> {
       </div>
     );
   }
-  private tooltipContentGetter = () => {
-    return <span>Content</span>;
+  private outerTooltipContentGetter = () => {
+    return  <Tooltip
+      pos={'bottom right'}
+      render={this.innerTooltipContentGetter}
+      trigger={'click'}
+    >
+      <span>Click me too</span>
+    </Tooltip>;
+  };
+  private innerTooltipContentGetter = () => {
+    return <span>You found me!</span>;
   };
 }

@@ -8,6 +8,7 @@ import styles from './Tooltip.less';
 import warning from 'warning';
 import { MouseEventType } from '../../typings/event-types';
 import isEqual from 'lodash.isequal';
+import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
@@ -279,7 +280,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         return {
           layerProps: {
             active: true,
-            onClickOutside: this.handleClickOutside,
+            onClickOutside: this.handleClickOutsideAnchor,
           },
           popupProps: {
             opened: true,
@@ -315,7 +316,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         return {
           layerProps: {
             active: this.state.opened,
-            onClickOutside: this.handleClickOutside,
+            onClickOutside: this.handleClickOutsideAnchor,
           },
           popupProps: {
             onClick: this.handleClick,
@@ -383,18 +384,22 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.open();
   };
 
-  private handleClickOutside = (event: Event) => {
-    const triggerIsClick = this.props.trigger === 'click';
-    if (triggerIsClick && this.contentElement && event.target instanceof Node) {
-      if (this.contentElement === event.target || this.contentElement.contains(event.target)) {
-        return;
+  private handleClickOutsideAnchor = (event: Event) => {
+    if (this.isClickOutsideContent(event)) {
+      if (this.props.onCloseRequest) {
+        this.props.onCloseRequest();
       }
+      this.close();
     }
-    if (this.props.onCloseRequest) {
-      this.props.onCloseRequest();
-    }
-    this.close();
   };
+
+  private isClickOutsideContent(event: Event) {
+    if (this.contentElement && event.target instanceof HTMLElement) {
+      return !containsTargetOrRenderContainer(event.target)(this.contentElement);
+    }
+
+    return true;
+  }
 
   private handleFocus = () => {
     this.open();
