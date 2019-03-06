@@ -36,7 +36,7 @@ export interface TokenInputProps<T> {
   renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
   renderValue: (item: T) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;
-  renderAddButton?: () => React.ReactNode;
+  renderAddButton?: (value: string, cb: () => void) => React.ReactNode;
   valueToItem: (item: string) => T;
   toKey: (item: T) => string | number | undefined;
   placeholder?: string;
@@ -156,7 +156,6 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       placeholder,
       renderItem,
       renderNotFound,
-      renderAddButton,
       hideMenuIfEmptyInputValue,
       onMouseEnter,
       onMouseLeave,
@@ -241,7 +240,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
               anchorElement={this.input!}
               renderNotFound={renderNotFound}
               renderItem={renderItem}
-              renderAddButton={renderAddButton || this.renderAddButton}
+              renderAddButton={this.renderAddButton}
               onChange={this.handleChange}
             />
           )}
@@ -761,6 +760,10 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     }
 
     const handleAddItemNoteClick = () => this.handleAddItem(value);
+
+    if (this.props.renderAddButton) {
+      return this.props.renderAddButton(value, handleAddItemNoteClick)
+    }
 
     // TODO при переопределении delimiters это будет выглядеть не очень
     const comment = 'Нажмите Enter или поставьте запятую';
