@@ -3,7 +3,7 @@ import { number, func } from 'prop-types';
 import cn from 'classnames';
 import events from 'add-event-listener';
 import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
-import { getLocale, locale } from "../LocaleContext/decorators";
+import { getLocale, locale } from "../LocaleProvider/decorators";
 import { PagingLocale, PagingLocaleHelper } from './locale';
 
 import PagingHelper from './PagingHelper';

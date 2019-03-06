@@ -1,8 +1,8 @@
 // tslint:disable
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
-import { defaultLangCode } from '../../LocaleContext/constants';
-import LocaleContext, { LangCodes } from "../../LocaleContext";
+import { defaultLangCode } from '../../LocaleProvider/constants';
+import LocaleProvider, { LangCodes } from "../../LocaleProvider";
 import { PagingLocaleHelper } from '../locale';
 
 import Paging from '../Paging';
@@ -183,14 +183,14 @@ describe('Pager', () => {
     const PagingContext = () => <Paging pagesCount={5} activePage={1} onPageChange={() => {}} />;
 
     it('render default locale', () => {
-      wrapper = mount(<LocaleContext>{PagingContext()}</LocaleContext>);
+      wrapper = mount(<LocaleProvider>{PagingContext()}</LocaleProvider>);
       const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
 
       expect(getForwardText()).toBe(expectedText);
     });
 
     it('render default locale', () => {
-      wrapper = mount(<LocaleContext langCode={LangCodes.en_EN}>{PagingContext()}</LocaleContext>);
+      wrapper = mount(<LocaleProvider langCode={LangCodes.en_EN}>{PagingContext()}</LocaleProvider>);
       const expectedText = PagingLocaleHelper.get(LangCodes.en_EN).forward;
 
       expect(getForwardText()).toBe(expectedText);
@@ -198,13 +198,13 @@ describe('Pager', () => {
 
     it('render custom locale', () => {
       const customPlaceholder = 'custom forward';
-      wrapper = mount(<LocaleContext locale={{Paging: {forward: customPlaceholder}}}>{PagingContext()}</LocaleContext>);
+      wrapper = mount(<LocaleProvider locale={{Paging: {forward: customPlaceholder}}}>{PagingContext()}</LocaleProvider>);
 
       expect(getForwardText()).toBe(customPlaceholder);
     });
 
     it('updates when langCode changes', () => {
-      wrapper = mount(<LocaleContext langCode={LangCodes.en_EN}>{PagingContext()}</LocaleContext>);
+      wrapper = mount(<LocaleProvider langCode={LangCodes.en_EN}>{PagingContext()}</LocaleProvider>);
       const expectedText = PagingLocaleHelper.get(LangCodes.ru_RU).forward;
 
       wrapper.setProps({ langCode: LangCodes.ru_RU });

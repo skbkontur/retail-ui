@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getLocale, locale } from '../LocaleContext/decorators';
+import { getLocale, locale } from '../LocaleProvider/decorators';
 import Menu from '../Menu/Menu';
 import MenuItem, { MenuItemState } from '../MenuItem/MenuItem';
 import Spinner from '../Spinner/Spinner';

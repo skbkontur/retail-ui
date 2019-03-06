@@ -1,4 +1,4 @@
-import { getLocale, locale } from '../LocaleContext/decorators';
+import { getLocale, locale } from '../LocaleProvider/decorators';
 import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
 
 import events from 'add-event-listener';

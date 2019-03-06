@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LocaleContextConsumer, LocaleContextProps } from "./LocaleContext";
+import { LocaleConsumer, LocaleProviderProps } from "./LocaleProvider";
 import { LocaleHelper } from "./LocaleHelper";
 import { LocaleControls } from "./types";
 
@@ -9,16 +9,16 @@ export function locale<C>(controlName: keyof LocaleControls, localeHelper: Local
       public controlName: keyof LocaleControls = controlName;
       public localeHelper: LocaleHelper<C> = localeHelper;
 
-      public _localeContext: LocaleContextProps = {};
+      public _localeContext: LocaleProviderProps = {};
 
       public render() {
         return (
-          <LocaleContextConsumer>
+          <LocaleConsumer>
             {localeContext => {
               this._localeContext = localeContext;
               return super.render();
             }}
-          </LocaleContextConsumer>
+          </LocaleConsumer>
         );
       }
     };

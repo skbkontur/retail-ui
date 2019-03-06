@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { getLocale, locale } from '../LocaleContext/decorators';
+import { getLocale, locale } from '../LocaleProvider/decorators';
 import ButtonItem, { ButtonItemProps } from './ButtonItem';
 import { TopBarLocale, TopBarLocaleHelper } from './locale';
 

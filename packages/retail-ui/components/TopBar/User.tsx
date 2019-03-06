@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { getLocale, locale } from '../LocaleContext/decorators';
+import { getLocale, locale } from '../LocaleProvider/decorators';
 import { TopBarLocale, TopBarLocaleHelper } from './locale';
 
 import TopBarDropdown from './TopBarDropdown';

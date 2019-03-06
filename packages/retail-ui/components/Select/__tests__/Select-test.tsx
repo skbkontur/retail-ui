@@ -2,8 +2,8 @@
 
 import { mount } from 'enzyme';
 import * as React from 'react';
-import { defaultLangCode } from '../../LocaleContext/constants';
-import LocaleContext, { LangCodes } from "../../LocaleContext";
+import { defaultLangCode } from '../../LocaleProvider/constants';
+import LocaleProvider, { LangCodes } from "../../LocaleProvider";
 import { SelectLocaleHelper } from '../locale';
 
 import Select from '../Select';
@@ -61,14 +61,14 @@ describe('Select', () => {
 
   describe('Locale', () => {
     it('render default locale', () => {
-      const wrapper = mount(<LocaleContext><Select /></LocaleContext>);
+      const wrapper = mount(<LocaleProvider><Select /></LocaleProvider>);
       const expectedText = SelectLocaleHelper.get(defaultLangCode).placeholder;
 
       expect(wrapper.text()).toBe(expectedText);
     });
 
     it('render correct locale when set langCode', () => {
-      const wrapper = mount(<LocaleContext langCode={LangCodes.en_EN}><Select /></LocaleContext>);
+      const wrapper = mount(<LocaleProvider langCode={LangCodes.en_EN}><Select /></LocaleProvider>);
       const expectedText = SelectLocaleHelper.get(LangCodes.en_EN).placeholder;
 
       expect(wrapper.text()).toBe(expectedText);
@@ -76,15 +76,15 @@ describe('Select', () => {
 
     it('render custom locale', () => {
       const customPlaceholder = 'custom loading';
-      const wrapper = mount(<LocaleContext locale={{
+      const wrapper = mount(<LocaleProvider locale={{
         Select: { placeholder: customPlaceholder }
-      }}><Select /></LocaleContext>);
+      }}><Select /></LocaleProvider>);
 
       expect(wrapper.text()).toBe(customPlaceholder);
     });
 
     it('updates when langCode changes', () => {
-      const wrapper = mount(<LocaleContext langCode={LangCodes.en_EN}><Select /></LocaleContext>);
+      const wrapper = mount(<LocaleProvider langCode={LangCodes.en_EN}><Select /></LocaleProvider>);
       const expectedText = SelectLocaleHelper.get(LangCodes.ru_RU).placeholder;
 
       wrapper.setProps({ langCode: LangCodes.ru_RU });

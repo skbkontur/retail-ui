@@ -2,7 +2,7 @@
 
 ### Props
 ```typescript jsx
-interface LocaleContextProps {
+interface LocaleProviderProps {
   locale?: LocaleControls
   langCode?: LangCodes;
 }
@@ -57,21 +57,21 @@ interface LocaleControls {
 
 Нативная локализация `<TokenInput />`
 ```jsx
-const { default: LocaleContext, LangCodes } = require('./components/LocaleContext');
+const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
 const { TokenInputType } = require('./components/TokenInput');
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
-<LocaleContext langCode={LangCodes.en_EN}>
+<LocaleProvider langCode={LangCodes.en_EN}>
   <TokenInput
     type={TokenInputType.Combined}
     getItems={() => Promise.resolve([]).then(delay(500))}
   />
-</LocaleContext>;
+</LocaleProvider>;
 ```
 
 Кастомная локализация `<TokenInput />`
 ```jsx
-const { default: LocaleContext, LangCodes } = require('./components/LocaleContext');
+const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
 const { TokenInputType } = require('./components/TokenInput');
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
@@ -81,13 +81,13 @@ const customLocale = {
   }
 };
 
-<LocaleContext locale={customLocale} langCode={LangCodes.en_EN}>
+<LocaleProvider locale={customLocale} langCode={LangCodes.en_EN}>
   <TokenInput
     type={TokenInputType.Combined}
     delimiters={[' ']}
     getItems={() => Promise.resolve([]).then(delay(500))}
   />
-</LocaleContext>;
+</LocaleProvider>;
 ```
 
 
@@ -95,7 +95,7 @@ const customLocale = {
 <br/>
 Для инкапсуляции локализации можно использовать несколько контекстов.
 ```jsx
-const { default: LocaleContext, LangCodes } = require('./components/LocaleContext');
+const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
 const { TokenInputType } = require('./components/TokenInput');
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
@@ -105,26 +105,26 @@ const customLocale = {
   }
 };
 
-<LocaleContext langCode={LangCodes.en_EN}>
+<LocaleProvider langCode={LangCodes.en_EN}>
   <Gapped vertical gap={10}>
-    <LocaleContext locale={customLocale} langCode={LangCodes.en_EN}>
+    <LocaleProvider locale={customLocale} langCode={LangCodes.en_EN}>
       <TokenInput
         getItems={() => Promise.resolve([]).then(delay(1500))}
       />
-    </LocaleContext>
+    </LocaleProvider>
     <TokenInput
       getItems={() => Promise.resolve([]).then(delay(1500))}
     />
     <Spinner />
   </Gapped>
-</LocaleContext>;
+</LocaleProvider>;
 ```
 
 ### Обзор всех доступных контролов
 
 ```jsx
 const { TokenInputType } = require('./components/TokenInput');
-const { default: LocaleContext, LangCodes } = require('./components/LocaleContext');
+const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
@@ -175,9 +175,9 @@ class LocalizationControls extends React.Component {
           getItems={() => Promise.resolve(Object.values(LocalizationControlNames).map((label, value) => ({ label, value })))}
           onChange={(_, { label: controlName }) => this.setState({ controlName })}
         />
-        <LocaleContext langCode={this.state.langCode} locale={locale}>
+        <LocaleProvider langCode={this.state.langCode} locale={locale}>
           {this.getControl(this.state.controlName)}
-        </LocaleContext>
+        </LocaleProvider>
       </Gapped>
     );
   }

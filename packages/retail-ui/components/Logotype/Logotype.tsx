@@ -4,7 +4,7 @@ import events from 'add-event-listener';
 import ArrowChevronDownIcon from '@skbkontur/react-icons/ArrowChevronDown';
 
 import stopPropagation from '../../lib/events/stopPropagation';
-import { getLocale, locale } from '../LocaleContext/decorators';
+import { getLocale, locale } from '../LocaleProvider/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { LogotypeLocale, LogotypeLocaleHelper } from './locale';
 import ProductWidget from './ProductWidget';

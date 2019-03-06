@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { getLocale, locale } from '../LocaleContext/decorators';
+import { getLocale, locale } from '../LocaleProvider/decorators';
 import Popup from '../Popup/Popup';
 import ComboBoxMenu, {
   ComboBoxMenuProps

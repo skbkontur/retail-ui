@@ -3,22 +3,22 @@ import * as React from 'react';
 import { defaultLangCode } from './constants';
 import { LangCodes, LocaleControls } from "./types";
 
-const Context = createReactContext<LocaleContextProps>({
+const LocaleContext = createReactContext<LocaleProviderProps>({
   locale: {},
   langCode: defaultLangCode
 });
 
-export interface LocaleContextProps {
+export interface LocaleProviderProps {
   locale?: LocaleControls;
   langCode?: LangCodes;
 }
 
-export const LocaleContextConsumer = Context.Consumer;
+export const LocaleConsumer = LocaleContext.Consumer;
 
-export default class LocaleContext extends React.Component<LocaleContextProps> {
+export default class LocaleProvider extends React.Component<LocaleProviderProps> {
   public render() {
     return (
-      <Context.Provider value={this.props}>{this.props.children}</Context.Provider>
+      <LocaleContext.Provider value={this.props}>{this.props.children}</LocaleContext.Provider>
     );
   }
 }

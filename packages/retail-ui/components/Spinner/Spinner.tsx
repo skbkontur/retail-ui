@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import * as React from 'react';
 
 import * as PropTypes from 'prop-types';
-import { getLocale, locale } from '../LocaleContext/decorators';
+import { getLocale, locale } from '../LocaleProvider/decorators';
 import { SpinnerLocale, SpinnerLocaleHelper } from "./locale";
 import { sizeMaps, svgAnimateSupport, types } from './settings';
 

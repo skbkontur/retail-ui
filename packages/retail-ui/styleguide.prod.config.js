@@ -50,7 +50,7 @@ config.sections = [
   { name: 'Changelog', content: 'CHANGELOG.md' },
   { name: 'Roadmap', content: 'ROADMAP.md' },
   { name: 'Icons', content: './components/Icon/README.md' },
-  { name: 'LocaleContext', content: 'LOCALECONTEXT.md' },
+  { name: 'LocaleProvider', content: 'LOCALEPROVIDER.md' },
   { name: 'Components', components: config.components, sectionDepth: 1 }
 ];
 config.sections.push(versionSection);

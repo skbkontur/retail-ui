@@ -1,7 +1,7 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
-import { defaultLangCode } from '../../LocaleContext/constants';
-import LocaleContext, { LangCodes } from "../../LocaleContext";
+import { defaultLangCode } from '../../LocaleProvider/constants';
+import LocaleProvider, { LangCodes } from "../../LocaleProvider";
 import { SpinnerLocaleHelper } from '../locale';
 import { sizeMaps } from '../settings';
 
@@ -115,14 +115,14 @@ describe('Spinner', () => {
     };
 
     it('render default locale', () => {
-      const wrapper = mount(<LocaleContext><Spinner /></LocaleContext>);
+      const wrapper = mount(<LocaleProvider><Spinner /></LocaleProvider>);
       const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading;
 
       expect(getTextLoading(wrapper)).toBe(expectedText);
     });
 
     it('render correct locale when set langCode', () => {
-      const wrapper = mount(<LocaleContext langCode={LangCodes.en_EN}><Spinner /></LocaleContext>);
+      const wrapper = mount(<LocaleProvider langCode={LangCodes.en_EN}><Spinner /></LocaleProvider>);
       const expectedText = SpinnerLocaleHelper.get(LangCodes.en_EN).loading;
 
       expect(getTextLoading(wrapper)).toBe(expectedText)
@@ -130,15 +130,15 @@ describe('Spinner', () => {
 
     it('render custom locale', () => {
       const customText = 'custom loading';
-      const wrapper = mount(<LocaleContext locale={{
+      const wrapper = mount(<LocaleProvider locale={{
         Spinner: { loading: customText }
-      }}><Spinner /></LocaleContext>);
+      }}><Spinner /></LocaleProvider>);
 
       expect(getTextLoading(wrapper)).toBe(customText)
     });
 
     it('updates when langCode changes', () => {
-      const wrapper = mount(<LocaleContext><Spinner /></LocaleContext>);
+      const wrapper = mount(<LocaleProvider><Spinner /></LocaleProvider>);
       const expectedText = SpinnerLocaleHelper.get(LangCodes.en_EN).loading;
 
       wrapper.setProps({ langCode: LangCodes.en_EN });

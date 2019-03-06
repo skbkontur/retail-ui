@@ -1,4 +1,4 @@
-import { LocaleHelper } from '../../LocaleContext/LocaleHelper';
+import { LocaleHelper } from '../../LocaleProvider/LocaleHelper';
 import en_EN from './locales/en';
 import ru_RU from './locales/ru';
 import { TopBarLocale } from './types';

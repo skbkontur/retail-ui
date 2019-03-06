@@ -1,7 +1,7 @@
 export {
   default,
-  LocaleContextProps
-} from './LocaleContext';
+  LocaleProviderProps
+} from './LocaleProvider';
 
 export {
   LangCodes,

@@ -1,7 +1,7 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
-import { defaultLangCode } from '../../LocaleContext/constants';
-import LocaleContext, { LangCodes, LocaleContextProps } from "../../LocaleContext";
+import { defaultLangCode } from '../../LocaleProvider/constants';
+import LocaleProvider, { LangCodes, LocaleProviderProps } from "../../LocaleProvider";
 import { delay } from '../../../lib/utils';
 import styles from '../../MenuItem/MenuItem.less';
 import { TokenInputLocaleHelper } from '../locale';
@@ -34,14 +34,14 @@ describe('<TokenInput />', () => {
       await delay(0);
       wrapper.update();
     };
-    const contextMount = (props: LocaleContextProps = {}) => {
+    const contextMount = (props: LocaleProviderProps = {}) => {
       wrapper = mount(
-        <LocaleContext {...props}>
+        <LocaleProvider {...props}>
           <TokenInput
             type={TokenInputType.Combined}
             getItems={getItems}
           />
-        </LocaleContext>
+        </LocaleProvider>
       );
     };
 

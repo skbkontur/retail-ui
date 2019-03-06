@@ -83,7 +83,7 @@ let contentStyle = {
 </div>;
 ```
 
-#### Локали по умолчанию (см. `LocaleContext`)
+#### Локали по умолчанию (см. `LocaleProvider`)
 ```typescript
 const ru_RU = {
   TopBar: {
