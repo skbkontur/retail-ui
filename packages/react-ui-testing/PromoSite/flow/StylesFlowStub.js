@@ -2,7 +2,9 @@
 
 const x: {
     (...args: *[]): string,
-    [_: string]: string
-} = function(...args: *[]): string { return ''; };
+    [_: string]: string,
+} = function(...args: *[]): string {
+    return '';
+};
 
 export default x;

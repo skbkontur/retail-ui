@@ -1,7 +1,7 @@
 // @flow
-import * as React from "react";
-import ReactDOM from "react-dom";
-import styled from "styled-components";
+import * as React from 'react';
+import ReactDOM from 'react-dom';
+import styled from 'styled-components';
 
 const ContentWrapper = styled.div``;
 
@@ -22,11 +22,11 @@ const Bookmarklet = styled.a`
 export default class BookmarkletsPage extends React.Component {
     createHrefToBookmarklet(filename): string {
         return (
-            "javascript: (function () { " +
+            'javascript: (function () { ' +
             'var jsCode = document.createElement("script"); ' +
             `jsCode.setAttribute("src", "${process.env.bookmarkletsRoot}/${filename}"); ` +
-            "document.body.appendChild(jsCode); " +
-            "}())"
+            'document.body.appendChild(jsCode); ' +
+            '}())'
         );
     }
 
@@ -34,7 +34,7 @@ export default class BookmarkletsPage extends React.Component {
         return (
             <ContentWrapper>
                 <Content>
-                    <Bookmarklet href={this.createHrefToBookmarklet("highlight-tid-bookmarklet.js")}>
+                    <Bookmarklet href={this.createHrefToBookmarklet('highlight-tid-bookmarklet.js')}>
                         Highlight tids
                     </Bookmarklet>
                 </Content>
