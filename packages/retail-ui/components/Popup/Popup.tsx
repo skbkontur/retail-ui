@@ -312,24 +312,32 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderContent() {
+    const props = this.props;
+
+    if (!props.opened) {
+      return null;
+    }
+
     const location = this.state.location || DUMMY_LOCATION;
     const { direction } = PopupHelper.getPositionObject(location.position);
-    const { backgroundColor } = this.props;
+    const { backgroundColor } = props;
     const rootStyle: React.CSSProperties = {
       top: location.coordinates.top,
       left: location.coordinates.left,
-      maxWidth: this.props.maxWidth,
+      maxWidth: props.maxWidth,
     };
 
+    const disableAnimations = props.disableAnimations;
+    
     return (
       <Transition
         timeout={TRANSITION_TIMEOUT}
-        appear={!this.props.disableAnimations}
-        in={this.props.opened}
+        appear={!disableAnimations}
+        in={true}
         mountOnEnter
         unmountOnExit
-        enter={!this.props.disableAnimations}
-        exit={!this.props.disableAnimations}
+        enter={!disableAnimations}
+        exit={!disableAnimations}
       >
         {(state: string) => (
           <ZIndex
@@ -338,8 +346,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
             ref={this.refPopupElement}
             className={cn({
               [styles.popup]: true,
-              [styles['popup-ignore-hover']]: this.props.ignoreHover,
-              [styles.shadow]: this.props.hasShadow,
+              [styles['popup-ignore-hover']]: props.ignoreHover,
+              [styles.shadow]: props.hasShadow,
               [styles['transition-enter']]: state === 'entering',
               [styles['transition-enter-active']]: state === 'entered',
               [styles['transition-exit']]: state === 'exiting',
@@ -396,7 +404,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       )
     );
   }
-
 
   private handleLayoutEvent = () => {
     if (this.anchorInstance) {
