@@ -1,6 +1,7 @@
-import { reducers as defaultReducers, Effect, Reducer, getValueString } from './default';
+import { reducers as defaultReducers, Effect, getValueString } from './default';
+import { CustomComboBoxReducers } from '../CustomComboBox';
 
-const reducers: { [key: string]: Reducer } = {
+const reducers: CustomComboBoxReducers<any> = {
   ...defaultReducers,
   Focus: (state, { value, valueToString }, action) => {
     const textValue = state.editing ? state.textValue : getValueString(value, valueToString);
@@ -18,7 +19,7 @@ const reducers: { [key: string]: Reducer } = {
   InputClick(state, props, action) {
     return state;
   },
-  TextChange: ((state, props, action: { type: 'TextChange'; value: string }) => {
+  TextChange: (state, props, action: { type: 'TextChange'; value: string }) => {
     if (!action.value) {
       return [
         {
@@ -39,7 +40,7 @@ const reducers: { [key: string]: Reducer } = {
       },
       [Effect.DebouncedSearch, Effect.InputChange],
     ];
-  }) as Reducer,
+  },
 };
 
 export { reducers };

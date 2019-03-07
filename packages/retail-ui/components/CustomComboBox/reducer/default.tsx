@@ -1,62 +1,59 @@
 import * as React from 'react';
+import ReactDOM from 'react-dom';
+import warning from 'warning';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
-
-import Menu from '../../Menu/Menu';
-import CustomComboBox, { CustomComboBoxProps, CustomComboBoxState, DefaultState } from '../CustomComboBox';
+import { CustomComboBoxProps, DefaultState, CustomComboBoxEffect, CustomComboBoxReducers } from '../CustomComboBox';
 import LayoutEvents from '../../../lib/LayoutEvents';
 import { Nullable } from '../../../typings/utility-types';
-import warning from 'warning';
 import ComboBoxView from '../ComboBoxView';
 import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
 import { ComboBoxRequestStatus } from '../CustomComboBoxTypes';
-import ReactDOM from 'react-dom';
 import { getFirstFocusableElement, getNextFocusableElement } from '../../../lib/dom/getFocusableElements';
 
-interface BaseAction {
-  type: string;
+type Effect = CustomComboBoxEffect<any>;
+
+interface EffectFactory {
+  Search: (query: string) => Effect;
+  DebouncedSearch: Effect & {
+    cancel(): void;
+    flush(): void;
+  };
+  CancelRequest: Effect;
+  Blur: Effect;
+  Focus: Effect;
+
+  Change: (value: any) => Effect;
+  UnexpectedInput: (textValue: string, items: Nullable<any[]>) => Effect;
+  InputChange: Effect;
+  InputFocus: Effect;
+  HighlightMenuItem: Effect;
+  SelectMenuItem: (event: React.KeyboardEvent<HTMLElement>) => Effect;
+  MoveMenuHighlight: (direction: 'up' | 'down') => Effect;
+  ResetHighlightedMenuItem: Effect;
+  Reflow: Effect;
+  SelectInputText: Effect;
+  FocusNextElement: Effect;
 }
-
-interface Action extends BaseAction {
-  [key: string]: any;
-}
-
-type Props = CustomComboBoxProps<any>;
-
-type State = CustomComboBoxState<any>;
-
-export type EffectType = (
-  dispatch: (action: Action) => void,
-  getState: () => State,
-  getProps: () => Props,
-  getInstance: () => CustomComboBox,
-) => void;
-
-export type Reducer = (state: State, props: Props, action: Action) => Partial<State> | [Partial<State>, EffectType[]];
 
 const DEBOUNCE_DELAY = 300;
 
-const searchFactory = (query: string): EffectType => (dispatch, getState, getProps, getInstance) => {
-  getInstance().search(query);
+const getValueString = (value: any, valueToString: CustomComboBoxProps<any>['valueToString']) => {
+  return value ? valueToString(value) : '';
 };
 
-const getValueString = (value: any, valueToString: Props['valueToString']) => {
-  if (!value) {
-    return '';
-  }
-  return valueToString(value);
-};
-
-const Effect = {
-  Search: searchFactory,
+const Effect: EffectFactory = {
+  Search: query => (dispatch, getState, getProps, getInstance) => {
+    getInstance().search(query);
+  },
   DebouncedSearch: debounce((dispatch, getState, getProps, getInstance) => {
-    const searchEffect = searchFactory(getState().textValue);
+    const searchEffect = Effect.Search(getState().textValue);
     searchEffect(dispatch, getState, getProps, getInstance);
   }, DEBOUNCE_DELAY),
-  CancelRequest: ((dispatch, getState, getProps, getInstance) => {
+  CancelRequest: (dispatch, getState, getProps, getInstance) => {
     getInstance().cancelSearch();
-  }) as EffectType,
-  Blur: ((dispatch, getState, getProps) => {
+  },
+  Blur: (dispatch, getState, getProps) => {
     const { onBlur } = getProps();
 
     Effect.DebouncedSearch.cancel();
@@ -64,20 +61,20 @@ const Effect = {
     if (onBlur) {
       onBlur();
     }
-  }) as EffectType,
-  Focus: ((dispatch, getState, getProps) => {
+  },
+  Focus: (dispatch, getState, getProps) => {
     const { onFocus } = getProps();
     if (onFocus) {
       onFocus();
     }
-  }) as EffectType,
-  Change: (value: any): EffectType => (dispatch, getState, getProps) => {
+  },
+  Change: value => (dispatch, getState, getProps) => {
     const { onChange } = getProps();
     if (onChange) {
       onChange({ target: { value } }, value);
     }
   },
-  UnexpectedInput: (textValue: string, items: any): EffectType => (dispatch, getState, getProps) => {
+  UnexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
     const { onUnexpectedInput, renderItem = ComboBoxView.defaultProps.renderItem } = getProps();
 
     if (Array.isArray(items) && items.length === 1) {
@@ -86,7 +83,7 @@ const Effect = {
       const valueContent = reactGetTextContent(renderedValue);
 
       if (valueContent === textValue) {
-        dispatch({ type: 'ValueChange', value: singleItem });
+        dispatch({ type: 'ValueChange', value: singleItem, keepFocus: false });
       }
     }
 
@@ -98,13 +95,13 @@ const Effect = {
           false,
           `[ComboBox] Returning 'null' is deprecated in 'onUnexpectedInput'. For clear value use instance method 'reset'`,
         );
-        dispatch({ type: 'TextClear', value: '' });
+        dispatch({ type: 'TextClear' });
       } else if (value !== undefined) {
-        dispatch({ type: 'ValueChange', value });
+        dispatch({ type: 'ValueChange', value, keepFocus: false });
       }
     }
   },
-  InputChange: ((dispatch, getState, getProps) => {
+  InputChange: (dispatch, getState, getProps) => {
     const { onInputChange } = getProps();
     const { textValue } = getState();
     if (onInputChange) {
@@ -113,8 +110,8 @@ const Effect = {
         dispatch({ type: 'TextChange', value: returnedValue });
       }
     }
-  }) as EffectType,
-  InputFocus: ((dispatch, getState, getProps, getInstance) => {
+  },
+  InputFocus: (dispatch, getState, getProps, getInstance) => {
     const { input } = getInstance();
 
     if (!input) {
@@ -122,11 +119,11 @@ const Effect = {
     }
 
     input.focus();
-  }) as EffectType,
-  HighlightMenuItem: ((dispatch, getState, getProps, getInstance) => {
+  },
+  HighlightMenuItem: (dispatch, getState, getProps, getInstance) => {
     const { value, itemToValue, valueToString } = getProps();
     const { items, focused, textValue, requestStatus } = getState();
-    const { menu }: { menu: Nullable<Menu> } = getInstance();
+    const { menu } = getInstance();
     const valueString = getValueString(value, valueToString);
 
     if (!menu) {
@@ -153,47 +150,43 @@ const Effect = {
     if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
       process.nextTick(() => menu && menu.down());
     }
-  }) as EffectType,
-  SelectMenuItem: (event: React.SyntheticEvent<any>) =>
-    ((dispatch, getState, getProps, getInstance) => {
-      const instance = getInstance();
-      const { requestStatus } = getState();
-      const { menu }: { menu: Nullable<Menu> } = instance;
-      const eventType = event.type;
-      const eventIsProperToFocusNextElement =
-        (eventType === 'keyup' || eventType === 'keydown' || eventType === 'keypress') &&
-        (event as React.KeyboardEvent).key === 'Enter';
+  },
+  SelectMenuItem: event => (dispatch, getState, getProps, getInstance) => {
+    const instance = getInstance();
+    const { requestStatus } = getState();
+    const { menu } = instance;
+    const eventType = event.type;
+    const eventIsProperToFocusNextElement =
+      (eventType === 'keyup' || eventType === 'keydown' || eventType === 'keypress') && event.key === 'Enter';
 
-      if (menu) {
-        menu.enter(event);
-        if (eventIsProperToFocusNextElement && requestStatus !== ComboBoxRequestStatus.Failed) {
-          dispatch({ type: 'FocusNextElement' });
-        }
-      }
-    }) as EffectType,
-  MoveMenuHighlight: (direction: 1 | -1): EffectType => (dispatch, getState, getProps, getInstance) => {
-    const { menu }: { menu: Nullable<Menu> } = getInstance();
     if (menu) {
-      // FIXME: accessing private props
-      // @ts-ignore
-      menu._move(direction);
+      menu.enter(event);
+      if (eventIsProperToFocusNextElement && requestStatus !== ComboBoxRequestStatus.Failed) {
+        dispatch({ type: 'FocusNextElement' });
+      }
     }
   },
-  ResetHighlightedMenuItem: ((dispatch, getState, getProps, getInstance) => {
+  MoveMenuHighlight: direction => (dispatch, getState, getProps, getInstance) => {
+    const { menu } = getInstance();
+    if (menu) {
+      menu[direction]();
+    }
+  },
+  ResetHighlightedMenuItem: (dispatch, getState, getProps, getInstance) => {
     const combobox = getInstance();
 
     if (combobox.menu && combobox.menu.hasHighlightedItem()) {
       combobox.menu.reset();
     }
-  }) as EffectType,
-  Reflow: (() => {
+  },
+  Reflow: () => {
     LayoutEvents.emit();
-  }) as EffectType,
-  SelectInputText: ((dispatch, getState, getProps, getInstance) => {
+  },
+  SelectInputText: (dispatch, getState, getProps, getInstance) => {
     const combobox = getInstance();
     combobox.selectInputText();
-  }) as EffectType,
-  FocusNextElement: ((dispatch, getState, getProps, getInstance) => {
+  },
+  FocusNextElement: (dispatch, getState, getProps, getInstance) => {
     const node = ReactDOM.findDOMNode(getInstance());
 
     if (node instanceof Element) {
@@ -205,10 +198,10 @@ const Effect = {
         }
       }
     }
-  }) as EffectType,
+  },
 };
 
-const reducers: { [type: string]: Reducer } = {
+const reducers: CustomComboBoxReducers<any> = {
   Mount: (state, props) => ({
     ...DefaultState,
     inputChanged: false,
@@ -222,7 +215,7 @@ const reducers: { [type: string]: Reducer } = {
     return {
       opened: false,
       textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString),
-    } as State;
+    };
   },
   Blur(state, props, action) {
     const { inputChanged, items } = state;
@@ -275,7 +268,7 @@ const reducers: { [type: string]: Reducer } = {
   },
   TextClear(state, props, action) {
     return {
-      textValue: action.value,
+      textValue: '',
     };
   },
   ValueChange(state, props, { value, keepFocus }) {
@@ -307,11 +300,11 @@ const reducers: { [type: string]: Reducer } = {
     switch (event.key) {
       case 'Enter':
         event.preventDefault();
-        return [state, [Effect.SelectMenuItem(event)]];
+        return [state, [Effect.SelectMenuItem(event as React.KeyboardEvent<HTMLElement>)]];
       case 'ArrowUp':
       case 'ArrowDown':
         event.preventDefault();
-        const effects = [Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? -1 : 1)];
+        const effects = [Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? 'up' : 'down')];
         if (!state.opened) {
           effects.push(Effect.Search(state.textValue));
         }

@@ -8,8 +8,10 @@ import shallow from 'fbjs/lib/shallowEqual';
 import { MenuItemState } from '../MenuItem';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
+import { Filter } from '../filterProps';
 
-export type Action<T> =
+export type CustomComboBoxAction<T> =
+  | { type: 'TextClear' }
   | { type: 'ValueChange'; value: T; keepFocus: boolean }
   | { type: 'TextChange'; value: string }
   | { type: 'KeyPress'; event: React.KeyboardEvent }
@@ -42,11 +44,11 @@ export interface CustomComboBoxProps<T> {
   maxLength?: number;
   menuAlign?: 'left' | 'right';
   openButton?: boolean;
-  onChange?: (event: { target: { value: T } }, value: T) => {};
-  onInputChange?: (textValue: string) => any;
-  onUnexpectedInput?: (query: string) => Nullable<boolean>;
-  onFocus?: () => {};
-  onBlur?: () => {};
+  onChange?: (event: { target: { value: T } }, value: T) => void;
+  onInputChange?: (textValue: string) => Nullable<string>;
+  onUnexpectedInput?: (query: string) => void | null | T;
+  onFocus?: () => void;
+  onBlur?: () => void;
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseOver?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
@@ -64,7 +66,7 @@ export interface CustomComboBoxProps<T> {
   valueToString: (value: T) => string;
   itemToValue: (item: T) => string | number;
   getItems: (query: string) => Promise<T[]>;
-  reducer: Reducer<T>;
+  reducer: CustomComboBoxReducer<T, CustomComboBoxAction<T>>;
 }
 
 export interface CustomComboBoxState<T> {
@@ -79,18 +81,22 @@ export interface CustomComboBoxState<T> {
   requestStatus: ComboBoxRequestStatus;
 }
 
-export type Effect<T> = (
-  dispatch: (x0: Action<T>) => void,
+export type CustomComboBoxEffect<T> = (
+  dispatch: (action: CustomComboBoxAction<T>) => void,
   getState: () => CustomComboBoxState<T>,
   getProps: () => CustomComboBoxProps<T>,
-  getInstance: () => CustomComboBox,
+  getInstance: () => CustomComboBox<T>,
 ) => void;
 
-export type Reducer<T> = (
+export type CustomComboBoxReducer<T, Action> = (
   state: CustomComboBoxState<T>,
   props: CustomComboBoxProps<T>,
-  action: Action<T>,
-) => CustomComboBoxState<T> | [CustomComboBoxState<T>, Array<Effect<T>>];
+  action: Action,
+) => Partial<CustomComboBoxState<T>> | [Partial<CustomComboBoxState<T>>, Array<CustomComboBoxEffect<T>>];
+
+export type CustomComboBoxReducers<T> = {
+  [Type in CustomComboBoxAction<T>['type']]: CustomComboBoxReducer<T, Filter<CustomComboBoxAction<T>, { type: Type }>>
+};
 
 export const DELAY_BEFORE_SHOW_LOADER = 300;
 export const LOADER_SHOW_TIME = 1000;
@@ -105,15 +111,15 @@ export const DefaultState = {
   requestStatus: ComboBoxRequestStatus.Unknown,
 };
 
-class CustomComboBox extends React.Component<CustomComboBoxProps<any>, CustomComboBoxState<any>> {
-  public state: CustomComboBoxState<any> = DefaultState;
+class CustomComboBox<T> extends React.Component<CustomComboBoxProps<T>, CustomComboBoxState<T>> {
+  public state: CustomComboBoxState<T> = DefaultState;
   public input: Nullable<Input>;
   public menu: Nullable<Menu>;
   public inputLikeText: Nullable<InputLikeText>;
   public requestId = 0;
   public loaderShowDelay: Nullable<Promise<never>>;
   private focused: boolean = false;
-  private cancelationToken: Nullable<(reason?: any) => void> = null;
+  private cancelationToken: Nullable<(reason?: Error) => void> = null;
   public cancelLoaderDelay: (() => void) = () => null;
 
   /**
@@ -262,7 +268,8 @@ class CustomComboBox extends React.Component<CustomComboBoxProps<any>, CustomCom
       onFocus: this.handleFocus,
       onFocusOutside: this.handleBlur,
       onInputBlur: this.handleInputBlur,
-      onInputChange: (_: any, value: string) => this.dispatch({ type: 'TextChange', value }),
+      onInputChange: (_: React.ChangeEvent<HTMLInputElement>, value: string) =>
+        this.dispatch({ type: 'TextChange', value }),
       onInputFocus: this.handleFocus,
       onInputClick: this.handleInputClick,
       onInputKeyDown: (event: React.KeyboardEvent) => {
@@ -300,11 +307,11 @@ class CustomComboBox extends React.Component<CustomComboBoxProps<any>, CustomCom
     }
   }
 
-  public shouldComponentUpdate(nextProps: CustomComboBoxProps<any>, nextState: CustomComboBoxState<any>) {
+  public shouldComponentUpdate(nextProps: CustomComboBoxProps<T>, nextState: CustomComboBoxState<T>) {
     return !shallow(nextProps, this.props) || !shallow(nextState, this.state);
   }
 
-  public componentDidUpdate(prevProps: any, prevState: any) {
+  public componentDidUpdate(prevProps: CustomComboBoxProps<T>, prevState: CustomComboBoxState<T>) {
     if (prevState.editing && !this.state.editing) {
       this.handleBlur();
     }
@@ -318,8 +325,8 @@ class CustomComboBox extends React.Component<CustomComboBoxProps<any>, CustomCom
     this.dispatch({ type: 'Reset' });
   }
 
-  private dispatch = (action: Action<any>) => {
-    let effects: Array<Effect<any>>;
+  private dispatch = (action: CustomComboBoxAction<T>) => {
+    let effects: Array<CustomComboBoxEffect<T>>;
     this.setState(
       state => {
         let nextState;
@@ -328,7 +335,7 @@ class CustomComboBox extends React.Component<CustomComboBoxProps<any>, CustomCom
           stateAndEffect = [stateAndEffect, []];
         }
         [nextState, effects] = stateAndEffect;
-        return nextState;
+        return { ...state, ...nextState };
       },
       () => {
         effects.forEach(this.handleEffect);
@@ -336,7 +343,7 @@ class CustomComboBox extends React.Component<CustomComboBoxProps<any>, CustomCom
     );
   };
 
-  private handleEffect = (effect: Effect<any>) => {
+  private handleEffect = (effect: CustomComboBoxEffect<T>) => {
     effect(this.dispatch, this.getState, this.getProps, () => this);
   };
 
@@ -344,7 +351,7 @@ class CustomComboBox extends React.Component<CustomComboBoxProps<any>, CustomCom
 
   private getState = () => this.state;
 
-  private handleChange = (value: any, event: React.SyntheticEvent) => {
+  private handleChange = (value: T, event: React.SyntheticEvent) => {
     const eventType = event.type;
 
     this.dispatch({

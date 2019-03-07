@@ -21,8 +21,8 @@ export interface ComboBoxProps<T> {
 
   /**
    * Не использовать Portal для рендеринга меню.
-   * По-умолчанию `false`.
    * См. https://github.com/skbkontur/retail-ui/issues/15
+   * @default false
    */
   disablePortal?: boolean;
 
@@ -35,14 +35,15 @@ export interface ComboBoxProps<T> {
    * По умолчанию ожидаются объекты с типом `{ value: string, label: string }`.
    *
    * Элементы могут быть любого типа. В этом случае необходимо определить
-   * свойства `itemToValue`, `renderValue`, `renderItem`, `valueToString?`
+   * свойства `itemToValue`, `renderValue`, `renderItem`, `valueToString`
    */
-  getItems?: (query: string) => Promise<T[]>;
+  getItems: (query: string) => Promise<T[]>;
 
   /**
    * Необходим для сравнения полученных результатов с `value`
+   * @default item => item.label
    */
-  itemToValue?: (item: T) => string | number;
+  itemToValue: (item: T) => string | number;
 
   maxLength?: number;
 
@@ -59,7 +60,7 @@ export interface ComboBoxProps<T> {
    * если результатом функции будет строка,
    * то она станет следующим состояним полем ввода
    */
-  onInputChange?: (query: string) => any;
+  onInputChange?: (query: string) => Nullable<string>;
 
   /**
    * Функция для обработки ситуации, когда была введена
@@ -81,8 +82,9 @@ export interface ComboBoxProps<T> {
   /**
    * Функция отрисовки элементов результата поиска.
    * Не применяется если элемент является функцией или React-элементом
+   * @default item => item.label
    */
-  renderItem?: (item: T, state?: MenuItemState) => React.ReactNode;
+  renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
 
   /**
    * Функция для отрисовки сообщения о пустом результате поиска
@@ -96,8 +98,9 @@ export interface ComboBoxProps<T> {
 
   /**
    * Функция отрисовки выбранного значения
+   * @default item => item.label
    */
-  renderValue?: (item: T) => React.ReactNode;
+  renderValue: (item: T) => React.ReactNode;
 
   /**
    * Общее количество элементов.
@@ -114,8 +117,9 @@ export interface ComboBoxProps<T> {
 
   /**
    * Необходим для преобразования `value` в строку при фокусировке
+   * @default item => item.label
    */
-  valueToString?: (item: T) => string;
+  valueToString: (item: T) => string;
 
   size?: 'small' | 'medium' | 'large';
 
@@ -126,19 +130,24 @@ export interface ComboBoxProps<T> {
   maxMenuHeight?: number | string;
 }
 
+export interface ComboBoxItem {
+  value: string;
+  label: string;
+}
+
 const defaultReducer = createReducer(defaultReducers);
 const autocompleteReducer = createReducer(autocompleteReducers);
 
-class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
+class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public static defaultProps = {
-    itemToValue: (item: any) => item.value,
-    valueToString: (item: any) => item.label,
-    renderValue: (item: any) => item.label,
-    renderItem: (item: any) => item.label,
+    itemToValue: (item: ComboBoxItem) => item.value,
+    valueToString: (item: ComboBoxItem) => item.label,
+    renderValue: (item: ComboBoxItem) => item.label,
+    renderItem: (item: ComboBoxItem) => item.label,
     menuAlign: 'left',
   };
 
-  private comboboxElement: Nullable<CustomComboBox> = null;
+  private comboboxElement: Nullable<CustomComboBox<T>> = null;
 
   /**
    * @public
@@ -224,10 +233,7 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
       reducer: autocomplete ? autocompleteReducer : defaultReducer,
     };
 
-    return (
-      // @ts-ignore
-      <CustomComboBox {...props} ref={element => (this.comboboxElement = element)} />
-    );
+    return <CustomComboBox {...props} ref={element => (this.comboboxElement = element)} />;
   }
 }
 
