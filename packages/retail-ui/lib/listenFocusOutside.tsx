@@ -74,7 +74,7 @@ function findRenderContainer(
   rootNode: Element,
   container?: Element
 ): Element | null {
-  const currentNode = node.parentElement;
+  const currentNode = node.parentNode;
   if (
     !currentNode ||
     node === rootNode ||
