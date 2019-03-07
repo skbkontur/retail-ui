@@ -2,20 +2,20 @@
 declare var _default: {|
   noWobble: {|
     stiffness: number,
-    damping: number
+    damping: number,
   |},
   gentle: {|
     stiffness: number,
-    damping: number
+    damping: number,
   |},
   wobbly: {|
     stiffness: number,
-    damping: number
+    damping: number,
   |},
   stiff: {|
     stiffness: number,
-    damping: number
-  |}
+    damping: number,
+  |},
 |};
 
 export default _default;

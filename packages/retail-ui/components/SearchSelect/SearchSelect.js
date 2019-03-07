@@ -13,7 +13,7 @@ import Input from '../Input';
 import styles from './SearchSelect.less';
 
 const INPUT_PASS_PROPS = {
-  width: true
+  width: true,
 };
 
 type Value = any;
@@ -29,7 +29,7 @@ type Props = {
   renderValue: (value: Value, data: ?Data) => any,
   renderItem: (value: Value, data: Data) => any,
   width: number | string,
-  onChange: (event: { target: { value: Value } }, value: Value) => void
+  onChange: (event: { target: { value: Value } }, value: Value) => void,
 };
 
 type State = {
@@ -38,7 +38,7 @@ type State = {
   value: any,
   item: any,
   results: ?Array<Data>,
-  selected: number
+  selected: number,
 };
 
 warning(false, 'Component SearchSelect is deprecated use ComboBox instead.');
@@ -57,7 +57,7 @@ class SearchSelect extends React.Component<Props, State> {
     source: PropTypes.func.isRequired,
 
     loader: PropTypes.shape({
-      load: PropTypes.func
+      load: PropTypes.func,
     }),
 
     getValue: PropTypes.func,
@@ -68,7 +68,7 @@ class SearchSelect extends React.Component<Props, State> {
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   };
 
   static defaultProps = {
@@ -76,7 +76,7 @@ class SearchSelect extends React.Component<Props, State> {
     renderItem,
     renderValue,
     placeholder: 'Пусто',
-    width: 250
+    width: 250,
   };
 
   _focusable: ?HTMLElement;
@@ -90,7 +90,7 @@ class SearchSelect extends React.Component<Props, State> {
       value: props.value !== undefined ? props.value : null,
       item: null,
       results: null,
-      selected: -1
+      selected: -1,
     };
     this._focusable = null;
   }
@@ -125,10 +125,7 @@ class SearchSelect extends React.Component<Props, State> {
           onKeyDown={this._handleInputKey}
           onBlur={this._handleInputBlur}
         />
-        <span
-          className={styles.openArrow}
-          onMouseDown={this._handleOpenClick}
-        />
+        <span className={styles.openArrow} onMouseDown={this._handleOpenClick} />
       </div>
     );
   }
@@ -136,9 +133,7 @@ class SearchSelect extends React.Component<Props, State> {
   renderClosedValue() {
     let value;
     if (this.state.value == null) {
-      value = (
-        <span className={styles.placeholder}>{this.props.placeholder}</span>
-      );
+      value = <span className={styles.placeholder}>{this.props.placeholder}</span>;
     } else if (this.props.loader) {
       if (this.state.item) {
         value = this.props.renderValue(this.state.value, this.state.item);
@@ -175,7 +170,7 @@ class SearchSelect extends React.Component<Props, State> {
           {results.map((item, i) => {
             const className = classNames({
               [styles.menuItem]: true,
-              [styles.menuItemSelected]: this.state.selected === i
+              [styles.menuItemSelected]: this.state.selected === i,
             });
             return (
               <div
@@ -215,7 +210,7 @@ class SearchSelect extends React.Component<Props, State> {
     const pattern = event.target.value;
     this.setState({
       opened: true,
-      searchText: pattern
+      searchText: pattern,
     });
     this._fetchList(pattern);
   };
@@ -231,8 +226,7 @@ class SearchSelect extends React.Component<Props, State> {
         this._moveSelection(1);
         break;
       case 'Enter':
-        const item =
-          this.state.results && this.state.results[this.state.selected];
+        const item = this.state.results && this.state.results[this.state.selected];
         if (item) {
           event.preventDefault();
           this._close(() => {
@@ -269,7 +263,7 @@ class SearchSelect extends React.Component<Props, State> {
     this.setState({
       opened: true,
       searchText: '',
-      results: null
+      results: null,
     });
     this._focusAsync();
     this._fetchList('');
@@ -281,13 +275,13 @@ class SearchSelect extends React.Component<Props, State> {
     this.setState(
       {
         opened: true,
-        searchText: ''
+        searchText: '',
       },
       () => {
         if (this._focusable) {
           this._focusable.focus();
         }
-      }
+      },
     );
   };
 
@@ -301,11 +295,11 @@ class SearchSelect extends React.Component<Props, State> {
         this.setState(
           {
             opened: true,
-            searchText: ''
+            searchText: '',
           },
           () => {
             this._focus();
-          }
+          },
         );
         this._fetchList('');
         break;
@@ -347,7 +341,7 @@ class SearchSelect extends React.Component<Props, State> {
       if (this.state.searchText === pattern) {
         this.setState({
           selected: -1,
-          results
+          results,
         });
       }
     });
@@ -393,9 +387,9 @@ class SearchSelect extends React.Component<Props, State> {
     this.setState(
       {
         opened: false,
-        results: null
+        results: null,
       },
-      callback
+      callback,
     );
   }
 

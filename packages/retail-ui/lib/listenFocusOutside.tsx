@@ -23,10 +23,8 @@ function addHandleEvent() {
   events.addEventListener(
     document.body,
     isFF ? 'focus' : ('focusin' as 'focus'),
-    isFF
-      ? debounce(handleNativeFocus, 0, { leading: true, trailing: false })
-      : handleNativeFocus,
-    isFF
+    isFF ? debounce(handleNativeFocus, 0, { leading: true, trailing: false }) : handleNativeFocus,
+    isFF,
   );
 }
 
@@ -69,11 +67,7 @@ export function containsTargetOrRenderContainer(target: HTMLElement) {
 /**
  * Searches RenderContainer placed in "rootNode" for "node"
  */
-function findRenderContainer(
-  node: Element,
-  rootNode: Element,
-  container?: Element
-): Element | null {
+function findRenderContainer(node: Element, rootNode: Element, container?: Element): Element | null {
   const currentNode = node.parentElement;
   if (
     !currentNode ||
@@ -88,14 +82,10 @@ function findRenderContainer(
 
   const newContainerId = currentNode.getAttribute('data-rendered-container-id');
   if (newContainerId) {
-    const nextNode = document.querySelector(
-      `[data-render-container-id~="${newContainerId}"]`
-    );
+    const nextNode = document.querySelector(`[data-render-container-id~="${newContainerId}"]`);
 
     if (!nextNode) {
-      throw Error(
-        `Origin node for container with id ${newContainerId} was not found`
-      );
+      throw Error(`Origin node for container with id ${newContainerId} was not found`);
     }
 
     return findRenderContainer(nextNode, rootNode, nextNode);
@@ -104,13 +94,10 @@ function findRenderContainer(
   return findRenderContainer(currentNode, rootNode, container);
 }
 
-function listen(
-  elements: HTMLElement[] | (() => HTMLElement[]),
-  callback: (event: Event) => void
-) {
+function listen(elements: HTMLElement[] | (() => HTMLElement[]), callback: (event: Event) => void) {
   const handler = {
     elements,
-    callback
+    callback,
   };
   handlers.push(handler);
 
@@ -120,7 +107,7 @@ function listen(
       if (index > -1) {
         handlers.splice(index, 1);
       }
-    }
+    },
   };
 }
 

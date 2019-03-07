@@ -42,10 +42,7 @@ interface ComboBoxViewProps<T> {
   onFocus?: () => void;
   onFocusOutside?: () => void;
   onInputBlur?: () => void;
-  onInputChange?: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    value: string
-  ) => void;
+  onInputChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
   onInputFocus?: () => void;
   onInputClick?: () => void;
   onInputKeyDown?: (e: React.KeyboardEvent) => void;
@@ -77,7 +74,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       /**/
     },
     size: 'small',
-    width: 250 as string | number
+    width: 250 as string | number,
   };
 
   private input: Nullable<Input>;
@@ -115,14 +112,14 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       requestStatus,
       totalCount,
       size,
-      width
+      width,
     } = this.props;
 
     const input = this.renderInput();
 
     const topOffsets = {
       spinner: 6,
-      arrow: 15
+      arrow: 15,
     };
     if (size === 'medium') {
       topOffsets.spinner += 4;
@@ -134,11 +131,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
 
     return (
-      <RenderLayer
-        onClickOutside={onClickOutside}
-        onFocusOutside={onFocusOutside}
-        active={opened}
-      >
+      <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
         <span
           style={{ width }}
           className={styles.root}
@@ -195,7 +188,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       textValue,
       value,
       warning,
-      refInputLikeText
+      refInputLikeText,
     } = this.props;
 
     const rightIcon = this.getRightIcon();

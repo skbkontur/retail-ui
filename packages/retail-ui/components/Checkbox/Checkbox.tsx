@@ -9,9 +9,7 @@ import { Nullable, Override } from '../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const styles = isFlatDesign
-  ? require('./Checkbox.flat.less')
-  : require('./Checkbox.less');
+const styles = isFlatDesign ? require('./Checkbox.flat.less') : require('./Checkbox.less');
 
 const KEYCODE_TAB = 9;
 
@@ -44,10 +42,7 @@ export type CheckboxProps = Override<
     /** Вызывается на label */
     onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
     /** onChange */
-    onChange?: (
-      event: React.ChangeEvent<HTMLInputElement>,
-      value: boolean
-    ) => void;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: boolean) => void;
     /** Состояние частичного выделения */
     initialIndeterminate?: boolean;
   }
@@ -70,11 +65,11 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     onChange: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func
+    onMouseOver: PropTypes.func,
   };
   public state = {
     focusedByTab: false,
-    indeterminate: this.props.initialIndeterminate || false
+    indeterminate: this.props.initialIndeterminate || false,
   };
 
   private input: Nullable<HTMLInputElement>;
@@ -118,7 +113,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       [styles.disabled]: this.props.disabled,
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,
-      [styles.focus]: this.state.focusedByTab
+      [styles.focus]: this.state.focusedByTab,
     });
 
     const inputProps = {
@@ -128,7 +123,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       onChange: this._handleChange,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      ref: this._inputRef
+      ref: this._inputRef,
     };
 
     let caption = null;
@@ -137,16 +132,11 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
 
     return (
-      <label
-        className={rootClass}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onMouseOver={onMouseOver}
-      >
+      <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
         <input {...inputProps} />
         <span
           className={classNames(styles.box, {
-            [styles.boxIndeterminate]: this.state.indeterminate
+            [styles.boxIndeterminate]: this.state.indeterminate,
           })}
         >
           {this.state.indeterminate ? (
@@ -189,7 +179,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
    */
   public setIndeterminate = () => {
     this.setState({
-      indeterminate: true
+      indeterminate: true,
     });
     if (this.input) {
       this.input.indeterminate = true;
@@ -202,7 +192,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
    */
   public resetIndeterminate = () => {
     this.setState({
-      indeterminate: false
+      indeterminate: false,
     });
     if (this.input) {
       this.input.indeterminate = false;

@@ -4,7 +4,7 @@ type Corners = {|
   TOP_LEFT: number,
   TOP_RIGHT: number,
   BOTTOM_RIGHT: number,
-  BOTTOM_LEFT: number
+  BOTTOM_LEFT: number,
 |};
 
 var corners: Corners;

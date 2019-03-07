@@ -23,7 +23,7 @@ export interface IndicatorState {
 
 class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   public state: IndicatorState = {
-    styles: {}
+    styles: {},
   };
 
   private eventListener: Nullable<{
@@ -54,14 +54,12 @@ class Indicator extends React.Component<IndicatorProps, IndicatorState> {
 
   public render() {
     const node = this.props.getAnchorNode();
-    const indicators: TabIndicators = (node &&
-      node.getIndicators &&
-      node.getIndicators()) || {
+    const indicators: TabIndicators = (node && node.getIndicators && node.getIndicators()) || {
       error: false,
       warning: false,
       success: false,
       primary: false,
-      disabled: false
+      disabled: false,
     };
     return (
       <div
@@ -71,7 +69,7 @@ class Indicator extends React.Component<IndicatorProps, IndicatorState> {
           indicators.success && styles.success,
           indicators.warning && styles.warning,
           indicators.error && styles.error,
-          this.props.className
+          this.props.className,
         )}
         style={this.state.styles}
       />
@@ -83,9 +81,7 @@ class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     const underlyingNode = node && node.getUnderlyingNode();
     const nodeStyles = this.getStyles(underlyingNode);
     const stylesUpdated = ['left', 'top', 'width', 'height'].some(
-      prop =>
-        nodeStyles[prop as keyof React.CSSProperties] !==
-        this.state.styles[prop as keyof React.CSSProperties]
+      prop => nodeStyles[prop as keyof React.CSSProperties] !== this.state.styles[prop as keyof React.CSSProperties],
     );
     if (stylesUpdated) {
       this.setState({ styles: nodeStyles });
@@ -107,14 +103,14 @@ class Indicator extends React.Component<IndicatorProps, IndicatorState> {
           width: 3,
           left: node.offsetLeft,
           top: node.offsetTop,
-          height: rect.bottom - rect.top
+          height: rect.bottom - rect.top,
         };
       }
 
       return {
         left: node.offsetLeft,
         top: node.offsetHeight + node.offsetTop - 3,
-        width: rect.right - rect.left
+        width: rect.right - rect.left,
       };
     }
 

@@ -8,9 +8,7 @@ import tabbable from 'tabbable';
  * @return {HTMLElement[]} - Массив найденных элементов
  */
 
-export const getFocusableElements = (
-  parent: Element | Document | null = document
-): HTMLElement[] => {
+export const getFocusableElements = (parent: Element | Document | null = document): HTMLElement[] => {
   if (!parent || !parent.children.length) {
     return [];
   }
@@ -25,9 +23,7 @@ export const getFocusableElements = (
  * @return {HTMLElement|null} - Найденный элемент или null
  */
 
-export const getFirstFocusableElement = (
-  parent: Element | Document | null = document
-): HTMLElement | null => {
+export const getFirstFocusableElement = (parent: Element | Document | null = document): HTMLElement | null => {
   if (!parent || !parent.children.length) {
     return null;
   }
@@ -55,7 +51,7 @@ export const getFirstFocusableElement = (
 export const getNextFocusableElement = (
   current: HTMLElement,
   parent: Element | Document | null = document,
-  recursive: boolean = true
+  recursive: boolean = true,
 ): HTMLElement | null => {
   if (!parent || !parent.contains(current)) {
     return null;
@@ -73,9 +69,7 @@ export const getNextFocusableElement = (
       }
     }
   }
-  return recursive
-    ? getNextFocusableElement(current, parent.parentElement)
-    : null;
+  return recursive ? getNextFocusableElement(current, parent.parentElement) : null;
 };
 
 export default getFocusableElements;

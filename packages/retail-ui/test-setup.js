@@ -15,7 +15,7 @@ jest.mock('lodash.debounce', () =>
   jest.fn(fn => {
     fn.cancel = jest.fn();
     return fn;
-  })
+  }),
 );
 
 /**
@@ -33,7 +33,6 @@ jest.mock('lodash.debounce', () =>
 
 delete React.createClass;
 delete React.PropTypes;
-
 
 // In general, it's easier (and performance-wise faster) to patch prototype once,
 // than write "__mock__" implementation and call

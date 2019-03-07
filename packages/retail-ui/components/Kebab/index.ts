@@ -1,1 +1,1 @@
-export {default, KebabProps, KebabState} from './Kebab';
+export { default, KebabProps, KebabState } from './Kebab';

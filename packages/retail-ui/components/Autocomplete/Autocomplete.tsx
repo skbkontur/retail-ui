@@ -47,10 +47,7 @@ export interface AutocomplpeteState {
  *
  * Все свойства передаются во внутренний *Input*.
  */
-class Autocomplete extends React.Component<
-  AutocompleteProps,
-  AutocomplpeteState
-> {
+class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState> {
   public static propTypes = {
     /**
      * Функция для отрисовки элемента в выпадающем списке. Единственный аргумент
@@ -71,7 +68,7 @@ class Autocomplete extends React.Component<
      * }
      * ```
      */
-    source: PropTypes.oneOfType([PropTypes.array, PropTypes.func])
+    source: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
   };
 
   public static defaultProps = {
@@ -81,12 +78,12 @@ class Autocomplete extends React.Component<
     hasShadow: true,
     menuMaxHeight: 300,
     menuAlign: 'left',
-    preventWindowScroll: true
+    preventWindowScroll: true,
   };
 
   public state: AutocomplpeteState = {
     items: null,
-    selected: -1
+    selected: -1,
   };
 
   private opened: boolean = false;
@@ -140,13 +137,10 @@ class Autocomplete extends React.Component<
       onChange: this.handleChange,
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
-      ref: this.refInput
+      ref: this.refInput,
     };
     return (
-      <RenderLayer
-        onFocusOutside={this.handleBlur}
-        onClickOutside={this.handleBlur}
-      >
+      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleBlur}>
         <span style={{ display: 'inline-block' }}>
           <Input {...inputProps} />
           {this.renderMenu()}
@@ -162,7 +156,7 @@ class Autocomplete extends React.Component<
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
       width: this.props.menuWidth || this.props.width,
-      preventWindowScroll: this.props.preventWindowScroll
+      preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
       return null;
@@ -260,18 +254,14 @@ class Autocomplete extends React.Component<
   };
 
   private handleMenuItemClick(i: number) {
-    return (event: React.SyntheticEvent<HTMLElement>) =>
-      this.handleItemClick(event, i);
+    return (event: React.SyntheticEvent<HTMLElement>) => this.handleItemClick(event, i);
   }
 
   private getAnchor = () => {
     return findDOMNode(this);
   };
 
-  private handleItemClick(
-    event: React.SyntheticEvent<HTMLElement> | React.MouseEvent<HTMLElement>,
-    index: number
-  ) {
+  private handleItemClick(event: React.SyntheticEvent<HTMLElement> | React.MouseEvent<HTMLElement>, index: number) {
     if ((event as React.MouseEvent<HTMLElement>).button) {
       return;
     }
@@ -289,7 +279,7 @@ class Autocomplete extends React.Component<
     this.opened = false;
     this.setState({
       selected: -1,
-      items: null
+      items: null,
     });
 
     this.fireChange(value);
@@ -317,7 +307,7 @@ class Autocomplete extends React.Component<
       if (this.opened) {
         this.setState({
           items,
-          selected: -1
+          selected: -1,
         });
       }
     });
@@ -344,9 +334,7 @@ function match(pattern: string, items: string[]) {
   }
 
   pattern = pattern.toLowerCase();
-  const filteredItems = items.filter(item =>
-    item.toLowerCase().includes(pattern)
-  );
+  const filteredItems = items.filter(item => item.toLowerCase().includes(pattern));
   return Promise.resolve(filteredItems);
 }
 

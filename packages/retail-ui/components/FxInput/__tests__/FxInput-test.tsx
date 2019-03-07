@@ -6,8 +6,8 @@ const render = (
   props: FxInputProps = {
     onChange: () => {
       /**/
-    }
-  }
+    },
+  },
 ) => mount<FxInput, FxInputProps>(<FxInput {...props} />);
 
 describe('FxInput', () => {
@@ -25,6 +25,6 @@ describe('FxInput', () => {
 
     wrapper.instance().blur();
 
-    expect(document.activeElement).toBe(document.body)
+    expect(document.activeElement).toBe(document.body);
   });
 });

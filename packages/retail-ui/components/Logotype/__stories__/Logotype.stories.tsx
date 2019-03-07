@@ -6,7 +6,7 @@ storiesOf('Logotype', module).add('with widget', () => <WithWidgetToggler />);
 
 class WithWidgetToggler extends React.Component {
   public state = {
-    widget: false
+    widget: false,
   };
 
   public toggle = () => {

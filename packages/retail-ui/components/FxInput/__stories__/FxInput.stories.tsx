@@ -8,9 +8,7 @@ import { Nullable } from '../../../typings/utility-types';
 
 storiesOf('FxInput', module)
   .add('type text', () => <TestFxInput />)
-  .add('type currency', () => (
-    <TestFxInput type={'currency'} fractionDigits={4} autoFocus />
-  ))
+  .add('type currency', () => <TestFxInput type={'currency'} fractionDigits={4} autoFocus />)
   .add('with borderless', () => <TestFxInput borderless />);
 
 interface TestFxInputProps {
@@ -27,7 +25,7 @@ interface TestFxInputState {
 
 class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
   public static defaultProps: { type: TestFxInputProps['type'] } = {
-    type: 'text'
+    type: 'text',
   };
 
   private getProps = createPropsGetter(TestFxInput.defaultProps);
@@ -38,7 +36,7 @@ class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
 
     this.state = {
       auto: false,
-      value: this.props.type === 'currency' ? 0 : ''
+      value: this.props.type === 'currency' ? 0 : '',
     };
   }
 
@@ -70,7 +68,7 @@ class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
   private handleRestore = () => {
     this.setState({
       value: this.props.type === 'currency' ? 111 : 'auto',
-      auto: true
+      auto: true,
     });
   };
 }

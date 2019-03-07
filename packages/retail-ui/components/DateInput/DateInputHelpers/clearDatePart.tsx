@@ -7,21 +7,21 @@ export const clearDatePart = (state: DateInputState): Shape<DateInputState> => {
     case DateParts.Date:
       return {
         date: null,
-        editingCharIndex: 0
+        editingCharIndex: 0,
       } as Shape<DateInputState>;
     case DateParts.Month:
       return {
         month: null,
         editingCharIndex: 0,
         // Handling multiple Backspace presses
-        selected: state.month ? DateParts.Month : DateParts.Date
+        selected: state.month ? DateParts.Month : DateParts.Date,
       } as Shape<DateInputState>;
     case DateParts.Year:
       return {
         year: null,
         editingCharIndex: 0,
         // Handling multiple Backspace presses
-        selected: state.year ? DateParts.Year : DateParts.Month
+        selected: state.year ? DateParts.Year : DateParts.Month,
       } as Shape<DateInputState>;
     case DateParts.All:
       return {
@@ -29,7 +29,7 @@ export const clearDatePart = (state: DateInputState): Shape<DateInputState> => {
         month: null,
         year: null,
         editingCharIndex: 0,
-        selected: DateParts.Date
+        selected: DateParts.Date,
       } as Shape<DateInputState>;
     default:
       throw new UnknownDatePart();

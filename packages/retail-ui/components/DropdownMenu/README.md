@@ -17,10 +17,7 @@
 С указанием ширины меню
 
 ```js
-<DropdownMenu
-  caption={<Button use="primary">Открыть меню</Button>}
-  menuWidth={350}
->
+<DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuWidth={350}>
   <MenuHeader>Заголовок меню</MenuHeader>
   <MenuSeparator />
   <MenuItem>Раз</MenuItem>
@@ -36,10 +33,7 @@
 С указанием максимальной высоты меню
 
 ```js
-<DropdownMenu
-  caption={<Button use="primary">Открыть меню</Button>}
-  menuMaxHeight={150}
->
+<DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuMaxHeight={150}>
   <MenuHeader>Заголовок меню</MenuHeader>
   <MenuSeparator />
   <MenuItem>Раз</MenuItem>

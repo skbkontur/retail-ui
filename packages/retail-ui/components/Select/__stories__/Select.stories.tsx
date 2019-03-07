@@ -7,18 +7,14 @@ import { action } from '@storybook/addon-actions';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
-    value: { label: 'One', value: 1 }
+    value: { label: 'One', value: 1 },
   };
 
   public render() {
     return (
       <div>
         <Select
-          items={[
-            { label: 'One', value: 1 },
-            { label: 'Two', value: 2 },
-            { label: 'Three', value: 3 }
-          ]}
+          items={[{ label: 'One', value: 1 }, { label: 'Two', value: 2 }, { label: 'Three', value: 3 }]}
           value={this.state.value}
           onChange={(_, value) => this.setState({ value })}
           renderItem={x => x.label}
@@ -35,7 +31,7 @@ class SelectWrapper extends React.Component<{}, any> {
 
 class SelectWithNull extends React.Component<any, any> {
   public state = {
-    value: null
+    value: null,
   };
 
   public render() {
@@ -45,13 +41,7 @@ class SelectWithNull extends React.Component<any, any> {
           value: <b>{JSON.stringify(this.state.value)}</b>
         </div>
         <Select
-          items={[
-            [null, 'Any'],
-            Select.SEP,
-            [1, 'First'],
-            [2, 'Second'],
-            [3, 'Third']
-          ]}
+          items={[[null, 'Any'], Select.SEP, [1, 'First'], [2, 'Second'], [3, 'Third']]}
           value={this.state.value}
           onChange={(_, value) => this.setState({ value })}
         />
@@ -62,10 +52,7 @@ class SelectWithNull extends React.Component<any, any> {
 
 storiesOf('Select', module)
   .addDecorator(story => (
-    <div
-      className="dropdown-test-container"
-      style={{ height: 150, width: 200, padding: 4 }}
-    >
+    <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
       {story()}
     </div>
   ))
@@ -73,12 +60,8 @@ storiesOf('Select', module)
   .add('Complex values', () => <SelectWrapper />)
   .add('With null', () => <SelectWithNull />)
   .add('use link', () => <Select use="link" items={['one', 'two', 'three']} />)
-  .add('use link with icon', () => (
-    <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />
-  ))
-  .add('with text overflow', () => (
-    <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />
-  ))
+  .add('use link with icon', () => <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />)
+  .add('with text overflow', () => <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />)
   .add('external focus', () => {
     class Sample extends React.Component {
       private selectElem: Select | null = null;

@@ -14,7 +14,7 @@ describe('Hint', () => {
     const wrapper = mount<Hint>(
       <Hint opened text="world">
         Hello
-      </Hint>
+      </Hint>,
     );
 
     expect(wrapper.state('opened')).toBe(false);
@@ -24,7 +24,7 @@ describe('Hint', () => {
     const wrapper = mount<Hint>(
       <Hint manual text="world">
         Hello
-      </Hint>
+      </Hint>,
     );
 
     expect(wrapper.state('opened')).toBe(false);

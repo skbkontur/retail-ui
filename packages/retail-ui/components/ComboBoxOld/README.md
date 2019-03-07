@@ -5,7 +5,7 @@ var items = [
   { id: 3, name: 'ResidentSleeper' },
   { id: 4, name: 'Kestrel' },
   { id: 5, name: 'Kats' },
-  { id: 6, name: 'Junior' }
+  { id: 6, name: 'Junior' },
 ];
 
 function info(id) {
@@ -14,13 +14,11 @@ function info(id) {
 
 function search(query) {
   query = query.toLowerCase();
-  var results = items.filter(
-    item => item.name.toLowerCase().indexOf(query) !== -1
-  );
+  var results = items.filter(item => item.name.toLowerCase().indexOf(query) !== -1);
   return Promise.resolve({
     values: results.map(d => d.id).slice(0, 3),
     infos: results,
-    total: results.length
+    total: results.length,
   });
 }
 

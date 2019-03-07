@@ -30,19 +30,14 @@
  * }
  * and cleaned = [["some", "attr"], ["other"]]
  */
-function dehydrate(
-  data: Object,
-  cleaned: Array<Array<string>>,
-  path?: Array<string>,
-  level?: number
-): string | Object {
+function dehydrate(data: Object, cleaned: Array<Array<string>>, path?: Array<string>, level?: number): string | Object {
   level = level || 0;
   path = path || [];
   if (typeof data === 'function') {
     cleaned.push(path);
     return {
       name: data.name,
-      type: 'function'
+      type: 'function',
     };
   }
   if (!data || typeof data !== 'object') {
@@ -56,7 +51,7 @@ function dehydrate(
       cleaned.push(path);
       return {
         type: 'symbol',
-        name: data.toString()
+        name: data.toString(),
       };
     }
     return data;
@@ -69,33 +64,24 @@ function dehydrate(
     cleaned.push(path);
     return {
       type: Array.isArray(data) ? 'array' : 'object',
-      name:
-        !data.constructor || data.constructor.name === 'Object'
-          ? ''
-          : data.constructor.name,
+      name: !data.constructor || data.constructor.name === 'Object' ? '' : data.constructor.name,
       meta: Array.isArray(data)
         ? {
-            length: data.length
+            length: data.length,
           }
-        : null
+        : null,
     };
   }
   if (Array.isArray(data)) {
     // $FlowFixMe path is not undefined.
-    return data.map((item, i) =>
-      dehydrate(item, cleaned, path.concat([i]), level + 1)
-    );
+    return data.map((item, i) => dehydrate(item, cleaned, path.concat([i]), level + 1));
   }
   // TODO when this is in the iframe window, we can just use Object
-  if (
-    data.constructor &&
-    typeof data.constructor === 'function' &&
-    data.constructor.name !== 'Object'
-  ) {
+  if (data.constructor && typeof data.constructor === 'function' && data.constructor.name !== 'Object') {
     cleaned.push(path);
     return {
       name: data.constructor.name,
-      type: 'object'
+      type: 'object',
     };
   }
   var res = {};

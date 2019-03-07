@@ -21,11 +21,7 @@ export class DatePart extends React.Component<DatePartProps> {
 
   public render() {
     return (
-      <span
-        ref={el => (this._node = el)}
-        onMouseDown={this.props.onMouseDown}
-        onDoubleClick={this.props.onDoubleClick}
-      >
+      <span ref={el => (this._node = el)} onMouseDown={this.props.onMouseDown} onDoubleClick={this.props.onDoubleClick}>
         {this.props.children}
       </span>
     );

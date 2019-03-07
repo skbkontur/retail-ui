@@ -1,10 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import {
-  SidePageContext,
-  SidePageContextType,
-  withContext
-} from './SidePageContext';
+import { SidePageContext, SidePageContextType, withContext } from './SidePageContext';
 import styles from './SidePage.less';
 import LayoutEvents from '../../lib/LayoutEvents';
 
@@ -23,7 +19,7 @@ export interface SidePageFooterProps {
 
 export class SidePageFooter extends React.Component<SidePageFooterProps> {
   public state = {
-    fixed: false
+    fixed: false,
   };
 
   private content: HTMLElement | null = null;
@@ -59,13 +55,13 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
             <div
               className={styles.footer}
               style={{
-                width
+                width,
               }}
             >
               <div
                 className={classNames(styles.footerContent, {
                   [styles.panel]: this.props.panel,
-                  [styles.fixed]: this.state.fixed
+                  [styles.fixed]: this.state.fixed,
                 })}
                 ref={this.refContent}
               >
@@ -107,8 +103,6 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   }
 }
 
-export const SidePageFooterWithContext = withContext<SidePageFooterProps>(
-  SidePageFooter
-);
+export const SidePageFooterWithContext = withContext<SidePageFooterProps>(SidePageFooter);
 
 export default SidePageFooterWithContext;

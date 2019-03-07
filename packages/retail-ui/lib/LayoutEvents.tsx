@@ -32,7 +32,7 @@ function addListener(callback: () => void) {
       if (emitter.listeners('layout').length === 0) {
         unlistenBrowserEvents();
       }
-    }
+    },
   };
 }
 
@@ -44,5 +44,5 @@ function emit() {
 
 export default {
   addListener,
-  emit
+  emit,
 };

@@ -1,11 +1,6 @@
-
 let polyfillPlaceholder = false;
 
-if (
-  typeof window !== 'undefined' &&
-  window.document &&
-  window.document.createElement
-) {
+if (typeof window !== 'undefined' && window.document && window.document.createElement) {
   const sAgent = window.navigator.userAgent;
 
   if (

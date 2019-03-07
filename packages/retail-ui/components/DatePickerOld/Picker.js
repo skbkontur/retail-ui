@@ -10,7 +10,7 @@ type Props = {
   maxYear?: number,
   minYear?: number,
   value: ?Date,
-  onPick: (date: Date) => void
+  onPick: (date: Date) => void,
 };
 
 export default class Picker extends React.Component<Props> {
@@ -26,21 +26,13 @@ export default class Picker extends React.Component<Props> {
           ref={this._refCalendar}
           initialMonth={value ? value.getUTCMonth() : undefined}
           initialYear={value ? value.getUTCFullYear() : undefined}
-          maxDate={
-            maxYear !== undefined
-              ? { date: 31, month: 11, year: maxYear }
-              : undefined
-          }
-          minDate={
-            minYear !== undefined
-              ? { date: 1, month: 0, year: minYear }
-              : undefined
-          }
+          maxDate={maxYear !== undefined ? { date: 31, month: 11, year: maxYear } : undefined}
+          minDate={minYear !== undefined ? { date: 1, month: 0, year: minYear } : undefined}
           value={
             value && {
               date: value.getUTCDate(),
               month: value.getUTCMonth(),
-              year: value.getUTCFullYear()
+              year: value.getUTCFullYear(),
             }
           }
           onSelect={this._handleSelect}
@@ -53,10 +45,7 @@ export default class Picker extends React.Component<Props> {
     const { value } = this.props;
     if (value && +prevProps.value !== +value) {
       if (this._calendar) {
-        this._calendar.scrollToMonth(
-          value.getUTCMonth(),
-          value.getUTCFullYear()
-        );
+        this._calendar.scrollToMonth(value.getUTCMonth(), value.getUTCFullYear());
       }
     }
   }

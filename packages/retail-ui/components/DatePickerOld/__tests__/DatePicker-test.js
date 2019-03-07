@@ -26,9 +26,7 @@ describe('DatePicker', () => {
     const wrapper = mount(<DatePicker value={new Date()} />);
 
     wrapper.find('input').simulate('focus');
-    wrapper
-      .find('input')
-      .simulate('change', { currentTarget: { value: '1203' } });
+    wrapper.find('input').simulate('change', { currentTarget: { value: '1203' } });
     wrapper.setProps({ value: new Date('02-01-2003 UTC') });
     wrapper.update();
 

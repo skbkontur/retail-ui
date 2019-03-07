@@ -16,7 +16,7 @@ export type InputProps = {
   mask?: ?string,
   maskChar?: ?string,
   formatChars?: {
-    [key: string]: string
+    [key: string]: string,
   },
   alwaysShowMask?: boolean,
   size?: InputSize,
@@ -31,26 +31,25 @@ export type InputProps = {
   suffix?: React$Node,
   mainInGroup?: boolean,
   selectAllOnFocus?: boolean,
-  onUnexpectedInput?: () => void
+  onUnexpectedInput?: () => void,
 };
 
 export type InputVisibilityState = {|
   blinking: boolean,
-  focused: boolean
+  focused: boolean,
 |};
 
 export type InputState = {|
   ...$Exact<InputVisibilityState>,
-  polyfillPlaceholder: boolean
+  polyfillPlaceholder: boolean,
 |};
 
 declare class Input extends React$Component<InputProps, InputState> {
-  focus(): void,
-  blur(): void,
-  blink(): void,
-  setSelectionRange(start: number, end: number): void,
-  selectAll: () => void
+  focus(): void;
+  blur(): void;
+  blink(): void;
+  setSelectionRange(start: number, end: number): void;
+  selectAll: () => void;
 }
 
 export default Input;
-

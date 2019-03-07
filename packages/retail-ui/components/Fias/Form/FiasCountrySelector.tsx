@@ -12,11 +12,9 @@ export interface FiasCountrySelectorProps {
   locale?: FiasLocale;
 }
 
-export class FiasCountrySelector extends React.Component<
-  FiasCountrySelectorProps
-> {
+export class FiasCountrySelector extends React.Component<FiasCountrySelectorProps> {
   public static defaultProps = {
-    locale: defaultLocale
+    locale: defaultLocale,
   };
 
   public render() {
@@ -48,7 +46,7 @@ export class FiasCountrySelector extends React.Component<
         ? Promise.resolve(
             data.map((country: FiasCountry) => {
               return new Address({ country });
-            })
+            }),
           )
         : Promise.reject(error);
     });

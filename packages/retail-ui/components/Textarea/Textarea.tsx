@@ -17,9 +17,7 @@ import CssStyles from './Textarea.less';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const styles: typeof CssStyles = isFlatDesign
-  ? require('./Textarea.flat.less')
-  : require('./Textarea.less');
+const styles: typeof CssStyles = isFlatDesign ? require('./Textarea.flat.less') : require('./Textarea.less');
 
 const DEFAULT_WIDTH = 250;
 
@@ -62,10 +60,7 @@ export type TextareaProps = Override<
     /**
      * Обработчик события `change`
      */
-    onChange?: (
-      event: React.ChangeEvent<HTMLTextAreaElement>,
-      value: string
-    ) => void;
+    onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>, value: string) => void;
 
     /** Выделение значения при фокусе */
     selectAllOnFocus?: boolean;
@@ -134,19 +129,19 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     onCut: PropTypes.func,
     onPaste: PropTypes.func,
-    onCopy: PropTypes.func
+    onCopy: PropTypes.func,
   };
 
   public static defaultProps = {
     rows: 3,
-    maxRows: 15
+    maxRows: 15,
   };
 
   public static __ADAPTER__: typeof TextareaAdapter;
 
   public state = {
     polyfillPlaceholder,
-    rows: 1
+    rows: 1,
   };
 
   private node: Nullable<HTMLTextAreaElement>;
@@ -167,10 +162,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
   }
 
   public componentDidUpdate(prevProps: TextareaProps) {
-    if (
-      (this.props.autoResize && this.props.rows > this.state.rows) ||
-      this.props.value !== prevProps.value
-    ) {
+    if ((this.props.autoResize && this.props.rows > this.state.rows) || this.props.value !== prevProps.value) {
       this.autoResize();
     }
   }
@@ -195,26 +187,24 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const rootProps = {
       style: {
-        width
-      }
+        width,
+      },
     };
 
     const textareaClassNames = classNames({
       [styles.textarea]: true,
       [styles.error]: error,
-      [styles.warning]: warning
+      [styles.warning]: warning,
     });
 
     const textAreaStyle = {
-      resize: autoResize ? 'none' : resize
+      resize: autoResize ? 'none' : resize,
     };
 
     let placeholderPolyfill = null;
 
     if (this.state.polyfillPlaceholder && !textareaProps.value) {
-      placeholderPolyfill = (
-        <span className={styles.placeholder}>{placeholder}</span>
-      );
+      placeholderPolyfill = <span className={styles.placeholder}>{placeholder}</span>;
     }
 
     let fakeTextarea = null;
@@ -223,7 +213,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
         value: this.props.value,
         defaultValue: this.props.defaultValue,
         className: classNames(textareaClassNames, styles.fake),
-        readOnly: true
+        readOnly: true,
       };
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
     }
@@ -232,7 +222,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       <label
         {...rootProps}
         className={classNames(styles.root, {
-          [styles.size16]: Upgrades.isSizeMedium16pxEnabled()
+          [styles.size16]: Upgrades.isSizeMedium16pxEnabled(),
         })}
       >
         {placeholderPolyfill}
@@ -341,7 +331,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     const { height, exceededMaxHeight } = getTextAreaHeight(
       fakeNode,
       typeof rows === 'number' ? rows : parseInt(rows, 10),
-      typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10)
+      typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
     );
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';

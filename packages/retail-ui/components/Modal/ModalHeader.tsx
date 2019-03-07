@@ -11,15 +11,13 @@ export interface HeaderProps {
   sticky: boolean;
 }
 
-export function isHeader(
-  child: React.ReactChild
-): child is React.ReactElement<HeaderProps> {
+export function isHeader(child: React.ReactChild): child is React.ReactElement<HeaderProps> {
   return React.isValidElement<HeaderProps>(child) && child.type === Header;
 }
 
 export class Header extends React.Component<HeaderProps> {
   public static defaultProps = {
-    sticky: true
+    sticky: true,
   };
 
   public render(): JSX.Element {
@@ -40,22 +38,13 @@ export class Header extends React.Component<HeaderProps> {
     );
   }
 
-  private renderContent = (close?: CloseProps, additionalPadding?: boolean) => (
-    fixed = false
-  ) => (
+  private renderContent = (close?: CloseProps, additionalPadding?: boolean) => (fixed = false) => (
     <div
-      className={classNames(
-        styles.header,
-        fixed && styles.fixedHeader,
-        additionalPadding && styles.headerAddPadding
-      )}
+      className={classNames(styles.header, fixed && styles.fixedHeader, additionalPadding && styles.headerAddPadding)}
     >
       {close && (
         <div className={styles.absoluteClose}>
-          <Close
-            requestClose={close.requestClose}
-            disableClose={close.disableClose}
-          />
+          <Close requestClose={close.requestClose} disableClose={close.disableClose} />
         </div>
       )}
       {this.props.children}

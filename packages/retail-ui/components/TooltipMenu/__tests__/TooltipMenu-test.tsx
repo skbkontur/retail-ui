@@ -53,9 +53,7 @@ describe('<TooltipMenu />', () => {
   });
 
   test('Render without crashes if passed expected positions', () => {
-    const element = (
-      <TooltipMenu caption={<span />} positions={['top left', 'top right']} />
-    );
+    const element = <TooltipMenu caption={<span />} positions={['top left', 'top right']} />;
 
     expect(shallow(element)).toHaveLength(1);
   });
@@ -71,7 +69,7 @@ describe('<TooltipMenu />', () => {
         >
           Test
         </MenuItem>
-      </TooltipMenu>
+      </TooltipMenu>,
     );
     const captionWrapper = wrapper.find('#captionForTest');
 

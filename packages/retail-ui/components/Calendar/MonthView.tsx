@@ -39,39 +39,28 @@ export const MonthView = ({
   onMonthSelect,
   onYearSelect,
   monthSelectRef,
-  yearSelectRef
+  yearSelectRef,
 }: MonthViewProps) => {
   const isTopNegative = top <= 0;
   const isHeaderSticked = isTopNegative && height >= -top;
 
-  const headerTop = isHeaderSticked
-    ? Math.min(-top, height - config.MONTH_TITLE_HEIGHT)
-    : 0;
+  const headerTop = isHeaderSticked ? Math.min(-top, height - config.MONTH_TITLE_HEIGHT) : 0;
 
-  const alpha = isHeaderSticked
-    ? (height + top - config.MONTH_TITLE_HEIGHT) / 10
-    : 1;
+  const alpha = isHeaderSticked ? (height + top - config.MONTH_TITLE_HEIGHT) / 10 : 1;
 
   const borderBottomColor = `rgba(223, 222, 222, ${alpha})`;
 
   const isYearVisible = isFirstInYear || isHeaderSticked;
   const yearTop = isHeaderSticked && !isLastInYear ? -headerTop - top : 0;
 
-  const monthSelectDisabled =
-    top > 40 ||
-    headerTop < 0 ||
-    headerTop >= height - config.MONTH_TITLE_HEIGHT;
+  const monthSelectDisabled = top > 40 || headerTop < 0 || headerTop >= height - config.MONTH_TITLE_HEIGHT;
 
-  const yearSelectDisabled =
-    top > 40 || (isLastInYear && top < -height + config.MONTH_TITLE_HEIGHT);
+  const yearSelectDisabled = top > 40 || (isLastInYear && top < -height + config.MONTH_TITLE_HEIGHT);
 
   const getMinMonth = (value: number) => {
     let min = 0;
     for (let i = 0; i < 12; ++i) {
-      if (
-        minDate &&
-        CDS.isGreaterOrEqual({ date: 31, month: i, year: value }, minDate)
-      ) {
+      if (minDate && CDS.isGreaterOrEqual({ date: 31, month: i, year: value }, minDate)) {
         min = i;
         break;
       }
@@ -82,10 +71,7 @@ export const MonthView = ({
   const getMaxMonth = (value: number) => {
     let max = 11;
     for (let i = 11; i >= 0; --i) {
-      if (
-        maxDate &&
-        CDS.isLessOrEqual({ date: 1, month: i, year: value }, maxDate)
-      ) {
+      if (maxDate && CDS.isLessOrEqual({ date: 1, month: i, year: value }, maxDate)) {
         max = i;
         break;
       }
@@ -99,7 +85,7 @@ export const MonthView = ({
         style={{ ...styles.monthTitle, top: headerTop, borderBottomColor }}
         className={classNames({
           [classes.monthTitle]: true,
-          [classes.headerSticked]: isHeaderSticked
+          [classes.headerSticked]: isHeaderSticked,
         })}
       >
         <div className={classes.headerMonth}>
@@ -136,9 +122,9 @@ export const MonthView = ({
 
 const styles = {
   header: {
-    lineHeight: config.MONTH_TITLE_HEIGHT + 'px'
+    lineHeight: config.MONTH_TITLE_HEIGHT + 'px',
   },
   monthTitle: {
-    lineHeight: config.MONTH_TITLE_HEIGHT + 'px'
-  }
+    lineHeight: config.MONTH_TITLE_HEIGHT + 'px',
+  },
 };

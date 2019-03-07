@@ -1,8 +1,7 @@
 import { ItemType } from './Paging';
 
-
 function getItems(active: number, total: number): ItemType[] {
-  const result:ItemType[] = [];
+  const result: ItemType[] = [];
 
   const left = Math.max(Math.min(active - 2, total - 4), 1);
   const right = Math.min(Math.max(5, active + 2), total);

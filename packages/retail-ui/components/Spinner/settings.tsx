@@ -5,7 +5,7 @@ export const types: {
 } = {
   big: 'big',
   mini: 'mini',
-  normal: 'normal'
+  normal: 'normal',
 };
 
 export const sizeMaps = {
@@ -13,20 +13,20 @@ export const sizeMaps = {
     height: 16,
     width: 16,
     viewBox: undefined,
-    strokeWidth: 1.5
+    strokeWidth: 1.5,
   },
   [types.normal]: {
     height: 35,
     width: 47,
     viewBox: undefined,
-    strokeWidth: 2
+    strokeWidth: 2,
   },
   [types.big]: {
     height: 70,
     width: 94,
     viewBox: '0 0 47 35',
-    strokeWidth: 2
-  }
+    strokeWidth: 2,
+  },
 };
 
 export function svgAnimateSupport() {
@@ -45,5 +45,5 @@ export function svgAnimateSupport() {
 export default {
   types,
   sizeMaps,
-  svgAnimateSupport
+  svgAnimateSupport,
 };

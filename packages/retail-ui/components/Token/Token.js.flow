@@ -5,19 +5,19 @@ export type TokenColorName = string;
 
 export type TokenColors = {|
   idle: TokenColorName,
-  active?: TokenColorName
+  active?: TokenColorName,
 |};
 
 type TokenActions = {|
   onClick?: MouseEventHandler<HTMLDivElement>,
-  onRemove?: MouseEventHandler<HTMLElement>
+  onRemove?: MouseEventHandler<HTMLElement>,
 |};
 
 export type TokenProps = {|
   colors?: TokenColors,
   isActive?: boolean,
   error?: boolean,
-  warning?: boolean
+  warning?: boolean,
 |};
 
 declare var Token: React$ComponentType<TokenProps & TokenActions>;

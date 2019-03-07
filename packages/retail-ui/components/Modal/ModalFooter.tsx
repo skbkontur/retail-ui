@@ -14,9 +14,7 @@ export interface FooterProps {
   sticky: boolean;
 }
 
-export function isFooter(
-  child: React.ReactChild
-): child is React.ReactElement<FooterProps> {
+export function isFooter(child: React.ReactChild): child is React.ReactElement<FooterProps> {
   return React.isValidElement<FooterProps>(child) && child.type === Footer;
 }
 
@@ -25,7 +23,7 @@ export function isFooter(
  */
 export class Footer extends React.Component<FooterProps> {
   public static defaultProps = {
-    sticky: true
+    sticky: true,
   };
 
   private scrollbarWidth = getScrollWidth();
@@ -36,11 +34,7 @@ export class Footer extends React.Component<FooterProps> {
         {({ horizontalScroll }) => {
           if (this.props.sticky) {
             return (
-              <Sticky
-                side="bottom"
-                offset={horizontalScroll ? this.scrollbarWidth : 0}
-                allowChildWithMargins
-              >
+              <Sticky side="bottom" offset={horizontalScroll ? this.scrollbarWidth : 0} allowChildWithMargins>
                 {this.renderContent(horizontalScroll)}
               </Sticky>
             );
@@ -55,7 +49,7 @@ export class Footer extends React.Component<FooterProps> {
   private renderContent = (horizontalScroll?: boolean) => (fixed = false) => {
     const className = classNames(styles.footer, {
       [styles.panel]: this.props.panel,
-      [styles.fixedFooter]: fixed
+      [styles.fixedFooter]: fixed,
     });
 
     return <div className={className}>{this.props.children}</div>;

@@ -7,15 +7,13 @@ import {
   SearchResponse,
   VerifyResponse,
   APIResult,
-  FiasCountry
+  FiasCountry,
 } from '../types';
 import { APIResultFactory } from './APIResultFactory';
 const addresses: SearchResponse = require('./data.json');
 
 export class MockAPI implements APIProvider {
-  public verify = async (
-    address: AddressValue
-  ): Promise<APIResult<VerifyResponse>> => {
+  public verify = async (address: AddressValue): Promise<APIResult<VerifyResponse>> => {
     return Promise.resolve(APIResultFactory.success([]));
   };
 
@@ -25,7 +23,7 @@ export class MockAPI implements APIProvider {
     field,
     parentFiasId,
     limit,
-    fullAddress
+    fullAddress,
   }: SearchOptions): Promise<APIResult<SearchResponse>> => {
     let data: SearchResponse = [];
 
@@ -44,23 +42,18 @@ export class MockAPI implements APIProvider {
     return Promise.resolve(APIResultFactory.success(data));
   };
 
-  public searchCountry = async (
-    options: SearchOptions
-  ): Promise<APIResult<FiasCountry[]>> => {
+  public searchCountry = async (options: SearchOptions): Promise<APIResult<FiasCountry[]>> => {
     return Promise.resolve(APIResultFactory.success([]));
   };
 
-  private getAddresses = (
-    field: Fields,
-    fullAddress?: boolean
-  ): AddressResponse[] => {
+  private getAddresses = (field: Fields, fullAddress?: boolean): AddressResponse[] => {
     return addresses.filter((address: AddressResponse) => address[field]).map(
       (address: AddressResponse) =>
         fullAddress
           ? address
           : {
-              [field]: address[field]
-            }
+              [field]: address[field],
+            },
     );
   };
 }

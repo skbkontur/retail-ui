@@ -11,7 +11,7 @@ export interface UserProps {
 
 class User extends React.Component<UserProps> {
   public static defaultProps = {
-    cabinetUrl: 'https://cabinet.kontur.ru'
+    cabinetUrl: 'https://cabinet.kontur.ru',
   };
 
   public static propTypes = {
@@ -20,7 +20,7 @@ class User extends React.Component<UserProps> {
     /**
      * URL для кастомизации ссылок в меню пользователя
      */
-    cabinetUrl: PropTypes.string
+    cabinetUrl: PropTypes.string,
   };
 
   public render(): JSX.Element {

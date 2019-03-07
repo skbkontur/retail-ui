@@ -15,15 +15,12 @@ export const TokenActions = {
   SET_ACTIVE_TOKENS: 'SET_ACTIVE_TOKENS',
   REMOVE_ALL_ACTIVE_TOKENS: 'REMOVE_ALL_ACTIVE_TOKENS',
   SET_LOADING: 'SET_LOADING',
-  CLEAR_INPUT: 'CLEAR_INPUT'
+  CLEAR_INPUT: 'CLEAR_INPUT',
 };
 
 export type TokenInputActionType = keyof typeof TokenActions;
 
-export function tokenInputReducer<T = string>(
-  state: TokenInputState<T>,
-  action: TokenInputAction
-) {
+export function tokenInputReducer<T = string>(state: TokenInputState<T>, action: TokenInputAction) {
   const payload = action.payload;
   switch (action.type) {
     case TokenActions.SET_INPUT_VALUE_WIDTH: {
@@ -49,7 +46,7 @@ export function tokenInputReducer<T = string>(
         inFocus: false,
         preventBlur: false,
         autocompleteItems: undefined,
-        activeTokens: []
+        activeTokens: [],
       };
     }
     case TokenActions.REMOVE_ALL_ACTIVE_TOKENS: {
@@ -60,7 +57,7 @@ export function tokenInputReducer<T = string>(
     }
     case TokenActions.SET_LOADING: {
       return {
-        loading: payload
+        loading: payload,
       };
     }
 

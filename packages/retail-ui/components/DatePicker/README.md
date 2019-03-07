@@ -14,7 +14,7 @@ DatePicker.validate: (value: string) => boolean
 let initialState = {
   value: '',
   error: false,
-  tooltip: false
+  tooltip: false,
 };
 
 let handleChange = (_, value) => setState({ value });

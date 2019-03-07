@@ -54,12 +54,12 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     error: PropTypes.bool,
     loading: PropTypes.bool,
     warning: PropTypes.bool,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   };
 
   public static defaultProps = {
     disabled: false,
-    loading: false
+    loading: false,
   };
 
   private input: HTMLInputElement | null = null;
@@ -69,7 +69,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
 
     this.state = {
       focusByTab: false,
-      checked: props.defaultChecked
+      checked: props.defaultChecked,
     };
   }
 
@@ -95,21 +95,19 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
   public render() {
     const { warning, error, loading, color } = this.props;
     const disabled = this.props.disabled || loading;
-    const checked = this.isUncontrolled()
-      ? this.state.checked
-      : this.props.checked;
+    const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
     const containerClassNames = classNames(styles.container, {
       [styles.isWarning]: !color && warning,
       [styles.isError]: !color && error,
       [styles.isLoading]: loading,
-      [styles.focused]: !disabled && this.state.focusByTab
+      [styles.focused]: !disabled && this.state.focusByTab,
     });
 
     return (
       <label
         className={classNames(styles.wrapper, {
-          [styles.isDisabled]: disabled
+          [styles.isDisabled]: disabled,
         })}
       >
         <input
@@ -128,15 +126,12 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
             checked && color
               ? {
                   backgroundColor: color,
-                  borderColor: color
+                  borderColor: color,
                 }
               : undefined
           }
         >
-          <div
-            className={styles.activeBackground}
-            style={checked && color ? { backgroundColor: color } : undefined}
-          />
+          <div className={styles.activeBackground} style={checked && color ? { backgroundColor: color } : undefined} />
         </div>
         <div className={styles.handle} />
       </label>
@@ -158,7 +153,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
 
     if (this.isUncontrolled()) {
       this.setState({
-        checked: event.target.checked
+        checked: event.target.checked,
       });
     }
   };
@@ -180,7 +175,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
       this.props.onBlur(event);
     }
     this.setState({
-      focusByTab: false
+      focusByTab: false,
     });
   };
 

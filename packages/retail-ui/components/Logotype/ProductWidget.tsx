@@ -9,9 +9,7 @@ export default {
       calledLoad = true;
 
       const script = document.createElement('script');
-      script.src =
-        'https://widget-product.kontur.ru/widget/loader?' +
-        'product=&type=service';
+      script.src = 'https://widget-product.kontur.ru/widget/loader?' + 'product=&type=service';
       document.getElementsByTagName('head')[0].appendChild(script);
     };
 
@@ -30,5 +28,5 @@ export default {
       jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
       document.getElementsByTagName('head')[0].appendChild(jquery);
     }
-  }
+  },
 };

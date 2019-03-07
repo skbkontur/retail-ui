@@ -11,7 +11,7 @@ export type TooltipMenuProps = {|
   menuWidth?: number | string,
   caption: $PropertyType<PopupMenuProps, 'caption'>,
   positions?: string[],
-  disableAnimations: boolean
+  disableAnimations: boolean,
 |};
 
 declare class TooltipMenu extends React$Component<TooltipMenuProps> {}

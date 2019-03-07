@@ -8,9 +8,7 @@ const AutocompleteAdapter = {
 
   setValue(inst: Autocomplete, value: string) {
     // tslint:disable-next-line:no-string-literal
-    inst['handleChange']({ target: { value } } as ChangeEvent<
-      HTMLInputElement
-    >);
+    inst['handleChange']({ target: { value } } as ChangeEvent<HTMLInputElement>);
   },
 
   getSuggestions(inst: Autocomplete) {
@@ -20,7 +18,7 @@ const AutocompleteAdapter = {
   setValueByIndex(inst: Autocomplete, index: number) {
     // tslint:disable-next-line:no-string-literal
     inst['choose'](index);
-  }
+  },
 };
 
 (Autocomplete as any).__ADAPTER__ = AutocompleteAdapter;

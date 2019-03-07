@@ -7,9 +7,7 @@ interface RenderContainerProps {
 
 const REACT_16 = !!ReactDOM.createPortal;
 
-export default class RenderContainer extends React.Component<
-  RenderContainerProps
-> {
+export default class RenderContainer extends React.Component<RenderContainerProps> {
   public static lastId = 0;
 
   private domContainer: HTMLElement;
@@ -22,10 +20,7 @@ export default class RenderContainer extends React.Component<
     this.hydrateId();
 
     this.rootId = this.nextId();
-    this.domContainer.setAttribute(
-      'data-rendered-container-id',
-      `${this.rootId}`
-    );
+    this.domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
     this.domContainer.className = 'react-ui';
 
     const { body } = document;
@@ -95,19 +90,15 @@ export default class RenderContainer extends React.Component<
       return;
     }
     const lastNode = nodes[nodes.length - 1];
-    const containerId = +(
-      lastNode.getAttribute('data-rendered-container-id') || 0
-    );
+    const containerId = +(lastNode.getAttribute('data-rendered-container-id') || 0);
     this.setId(containerId);
   }
 
   private renderChild() {
     ReactDOM.unstable_renderSubtreeIntoContainer(
       this,
-      <RootContainer rt_portalID={this.rootId}>
-        {this.props.children}
-      </RootContainer>,
-      this.domContainer
+      <RootContainer rt_portalID={this.rootId}>{this.props.children}</RootContainer>,
+      this.domContainer,
     );
   }
 }
@@ -122,26 +113,17 @@ class Portal extends React.Component<{ rt_rootID: number }> {
 
     if (element && element instanceof Element) {
       const rootId = element.getAttribute('data-render-container-id');
-      const rootIdAttribute = rootId
-        ? `${rootId} ${this.props.rt_rootID}`
-        : `${this.props.rt_rootID}`;
+      const rootIdAttribute = rootId ? `${rootId} ${this.props.rt_rootID}` : `${this.props.rt_rootID}`;
 
       element.setAttribute('data-render-container-id', rootIdAttribute);
     }
   }
 
   public render() {
-    return (
-      this.props.children || (
-        <noscript data-render-container-id={this.props.rt_rootID} />
-      )
-    );
+    return this.props.children || <noscript data-render-container-id={this.props.rt_rootID} />;
   }
 }
 
-function RootContainer(props: {
-  children?: React.ReactNode;
-  rt_portalID: number;
-}) {
+function RootContainer(props: { children?: React.ReactNode; rt_portalID: number }) {
   return React.Children.only(props.children);
 }

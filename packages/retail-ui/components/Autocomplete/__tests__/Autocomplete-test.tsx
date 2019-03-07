@@ -4,15 +4,11 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import Autocomplete, { AutocompleteProps } from '../Autocomplete';
 import * as Enzyme from 'enzyme';
 
-const render = (
-  props: Partial<AutocompleteProps>
-): Enzyme.ReactWrapper<AutocompleteProps> =>
+const render = (props: Partial<AutocompleteProps>): Enzyme.ReactWrapper<AutocompleteProps> =>
   Enzyme.mount(<Autocomplete {...props as AutocompleteProps} />);
 
 const renderUnc = (props: Partial<AutocompleteProps>) =>
-  Enzyme.mount<AutocompleteProps>(
-    React.createElement(UncontrolledAutocomplete, props as AutocompleteProps)
-  );
+  Enzyme.mount<AutocompleteProps>(React.createElement(UncontrolledAutocomplete, props as AutocompleteProps));
 
 describe('<Autocomplete />', () => {
   it('renders with given value', () => {
@@ -82,7 +78,7 @@ describe('<Autocomplete />', () => {
     const wrapper = renderUnc({
       source,
       renderItem: x => x.toUpperCase(),
-      onChange
+      onChange,
     });
     wrapper.find('input').simulate('change', { target: { value: 'two' } });
 
@@ -125,16 +121,14 @@ describe('<Autocomplete />', () => {
       onPaste: () => undefined,
       onMouseEnter: () => undefined,
       onMouseLeave: () => undefined,
-      onMouseOver: () => undefined
+      onMouseOver: () => undefined,
     };
 
     const wrapper = render({ ...props, onChange: () => undefined, source: [] });
     const inputProps = wrapper.find('Input').props();
 
     Object.keys(props).forEach(prop => {
-      expect(inputProps[prop as keyof Enzyme.HTMLAttributes]).toBe(
-        props[prop as keyof AutocompleteProps]
-      );
+      expect(inputProps[prop as keyof Enzyme.HTMLAttributes]).toBe(props[prop as keyof AutocompleteProps]);
     });
   });
 
@@ -153,21 +147,12 @@ interface UncontrolledAutocompleteState {
   value: string;
 }
 
-class UncontrolledAutocomplete extends React.Component<
-  AutocompleteProps,
-  UncontrolledAutocompleteState
-> {
+class UncontrolledAutocomplete extends React.Component<AutocompleteProps, UncontrolledAutocompleteState> {
   public state = {
-    value: ''
+    value: '',
   };
 
   public render() {
-    return (
-      <Autocomplete
-        {...this.props}
-        value={this.state.value}
-        onChange={(_, value) => this.setState({ value })}
-      />
-    );
+    return <Autocomplete {...this.props} value={this.state.value} onChange={(_, value) => this.setState({ value })} />;
   }
 }

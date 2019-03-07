@@ -8,11 +8,7 @@ const { stiffness, damping } = presets.noWobble;
 // imported from https://github.com/chenglou/react-motion/blob/master/src/stepper.js
 // and slightly simplified
 const reusedTuple: [number, number] = [0, 0];
-export const stepper = (
-  currentX: number,
-  currentV: number,
-  targetX: number
-) => {
+export const stepper = (currentX: number, currentV: number, targetX: number) => {
   // https://en.wikipedia.org/wiki/Hooke%27s_law
   const springForce = -stiffness * (currentX - targetX);
   const dampingForce = -damping * currentV;

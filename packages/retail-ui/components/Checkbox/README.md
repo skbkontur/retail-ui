@@ -16,7 +16,7 @@ class IndeterminateExample extends React.Component {
     this.checkboxInstance = null;
 
     this.state = {
-      checked: false
+      checked: false,
     };
   }
 

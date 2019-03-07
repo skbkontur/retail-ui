@@ -8,16 +8,13 @@ const RadioGroupAdapter = {
 
   setValue(inst: RadioGroup<any>, value: any) {
     if (inst.props.onChange) {
-      inst.props.onChange(
-        { target: { value } } as SyntheticRadioEvent<any>,
-        value
-      );
+      inst.props.onChange({ target: { value } } as SyntheticRadioEvent<any>, value);
     }
   },
 
   getItemValues(inst: RadioGroup<any>) {
     return (inst.props.items || []).map(normalizeEntry).map(([value]) => value);
-  }
+  },
 };
 
 (RadioGroup as any).__ADAPTER__ = RadioGroupAdapter;
