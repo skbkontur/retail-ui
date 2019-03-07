@@ -181,19 +181,18 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   public render() {
-    const { popupProps, layerProps } = this.getProps();
     const props = this.props;
-    const children = props.children;
     const content = this.renderContent();
-    const anchorElement = children || props.anchorElement;
 
     if (content != null) {
+      const { popupProps, layerProps } = this.getProps();
+      const anchorElement = props.children || props.anchorElement;
       const popup = this.renderPopup(anchorElement, popupProps, content);
 
-      return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
+      return layerProps ? <RenderLayer {...layerProps}>{popup}</RenderLayer> : popup;
     }
 
-    return children;
+    return props.children;
   }
 
   public renderContent = () => {
@@ -270,7 +269,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   private getProps(): {
-    layerProps: Partial<RenderLayerProps>;
+    layerProps: Nullable<Partial<RenderLayerProps>>;
     popupProps: Partial<PopupProps>;
   } {
     const props = this.props;
@@ -290,9 +289,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
       case 'closed':
         return {
-          layerProps: {
-            active: false,
-          },
+          layerProps: null,
           popupProps: {
             opened: false,
             useWrapper,
@@ -302,9 +299,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       case 'hoverAnchor':
       case 'hover':
         return {
-          layerProps: {
-            active: false,
-          },
+          layerProps: null,
           popupProps: {
             onMouseEnter: this.handleMouseEnter,
             onMouseLeave: this.handleMouseLeave,
@@ -326,9 +321,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
       case 'focus':
         return {
-          layerProps: {
-            active: false,
-          },
+          layerProps: null,
           popupProps: {
             onFocus: this.handleFocus,
             onBlur: this.handleBlur,
