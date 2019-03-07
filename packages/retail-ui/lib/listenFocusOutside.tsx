@@ -68,7 +68,7 @@ export function containsTargetOrRenderContainer(target: Element) {
  * Searches RenderContainer placed in "rootNode" for "node"
  */
 function findRenderContainer(node: Element, rootNode: Element, container?: Element): Element | null {
-  const currentNode = node.parentElement;
+  const currentNode = node.parentNode;
   if (
     !currentNode ||
     node === rootNode ||

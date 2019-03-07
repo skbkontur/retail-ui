@@ -6,6 +6,8 @@ import Button from '../../Button';
 import { PopupPosition, PopupPositions } from '../../Popup';
 import { createPropsGetter } from '../../internal/createPropsGetter';
 import Textarea from '../../Textarea';
+import Checkbox from '../../Checkbox';
+import Gapped from '../../Gapped';
 
 interface TestTooltipProps {
   pos?: PopupPosition;
@@ -395,12 +397,22 @@ class TooltipWithClickTrigger extends React.Component<{}, {}> {
   }
   private outerTooltipContentGetter = () => {
     return (
-      <Tooltip pos={'bottom right'} render={this.innerTooltipContentGetter} trigger={'click'}>
-        <span>Click me too</span>
-      </Tooltip>
+      <Gapped vertical gap={5}>
+        <Checkbox checked={true}>Item 1</Checkbox>
+        <Checkbox checked={false}>Item 2</Checkbox>
+        <Tooltip pos={'bottom left'} render={this.innerTooltipContentGetter} trigger={'click'}>
+          <span>Click me for more...</span>
+        </Tooltip>
+      </Gapped>
     );
   };
   private innerTooltipContentGetter = () => {
-    return <span>You found me!</span>;
+    return (
+      <Gapped vertical gap={5}>
+        More:
+        <Checkbox checked={true}>Item 3</Checkbox>
+        <Checkbox checked={false}>Item 4</Checkbox>
+      </Gapped>
+    );
   };
 }
