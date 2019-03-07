@@ -3,7 +3,6 @@ import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import * as PropTypes from 'prop-types';
 import RenderContainer from '../RenderContainer';
-import RenderLayer from '../RenderLayer';
 import ZIndex from '../ZIndex';
 import { Transition } from 'react-transition-group';
 import raf from 'raf';
@@ -223,8 +222,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   public render() {
-    const { useWrapper, onCloseRequest, opened } = this.props;
-    const anchorElement = this.props.anchorElement;
+    const { anchorElement, useWrapper } = this.props;
 
     let child: Nullable<React.ReactNode> = null;
     if (anchorElement instanceof HTMLElement) {
@@ -236,19 +234,9 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     return (
-      <RenderLayer
-        onClickOutside={this.handleClickOutside}
-        onFocusOutside={this.handleFocusOutside}
-        /**
-         * If onCloseRequest is not specified handleClickOutside and handleFocusOutside
-         * are doing nothing. So there is no need in RenderLayer at all.
-         */
-        active={Boolean(onCloseRequest) && opened}
-      >
-        <RenderContainer anchor={child} ref={child ? this.refAnchorElement : undefined}>
-          {this.renderContent()}
-        </RenderContainer>
-      </RenderLayer>
+      <RenderContainer anchor={child} ref={child ? this.refAnchorElement : undefined}>
+        {this.renderContent()}
+      </RenderContainer>
     );
   }
 
@@ -409,13 +397,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private handleClickOutside = () => {
-    this.requestClose();
-  };
-
-  private handleFocusOutside = () => {
-    this.requestClose();
-  };
 
   private handleLayoutEvent = () => {
     if (this.anchorInstance) {
@@ -454,12 +435,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   private resetLocation = () => {
     this.cancelDelayedUpdateLocation();
     this.setState({ location: null });
-  };
-
-  private requestClose = () => {
-    if (this.props.onCloseRequest) {
-      this.props.onCloseRequest();
-    }
   };
 
   private locationEquals(x: Nullable<PopupLocation>, y: Nullable<PopupLocation>) {
