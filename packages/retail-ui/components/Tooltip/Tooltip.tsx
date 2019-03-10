@@ -8,6 +8,7 @@ import styles from './Tooltip.less';
 import warning from 'warning';
 import { MouseEventType } from '../../typings/event-types';
 import isEqual from 'lodash.isequal';
+import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
@@ -279,7 +280,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         return {
           layerProps: {
             active: true,
-            onClickOutside: this.handleClickOutside,
+            onClickOutside: this.handleClickOutsideAnchor,
           },
           popupProps: {
             opened: true,
@@ -315,7 +316,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         return {
           layerProps: {
             active: this.state.opened,
-            onClickOutside: this.handleClickOutside,
+            onClickOutside: this.handleClickOutsideAnchor,
           },
           popupProps: {
             onClick: this.handleClick,
@@ -362,8 +363,8 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
-    const isHover = this.props.trigger === 'hover';
-    if (isHover && event.relatedTarget === this.contentElement) {
+    const triggerIsHover = this.props.trigger === 'hover';
+    if (triggerIsHover && event.relatedTarget === this.contentElement) {
       return;
     }
 
@@ -383,12 +384,22 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.open();
   };
 
-  private handleClickOutside = () => {
-    if (this.props.onCloseRequest) {
-      this.props.onCloseRequest();
+  private handleClickOutsideAnchor = (event: Event) => {
+    if (this.isClickOutsideContent(event)) {
+      if (this.props.onCloseRequest) {
+        this.props.onCloseRequest();
+      }
+      this.close();
     }
-    this.close();
   };
+
+  private isClickOutsideContent(event: Event) {
+    if (this.contentElement && event.target instanceof Element) {
+      return !containsTargetOrRenderContainer(event.target)(this.contentElement);
+    }
+
+    return true;
+  }
 
   private handleFocus = () => {
     this.open();

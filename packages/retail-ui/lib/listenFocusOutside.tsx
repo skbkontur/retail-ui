@@ -51,8 +51,8 @@ function handleNativeFocus(event: UIEvent) {
   });
 }
 
-export function containsTargetOrRenderContainer(target: HTMLElement) {
-  return (element: HTMLElement) => {
+export function containsTargetOrRenderContainer(target: Element) {
+  return (element: Element) => {
     if (!element) {
       return false;
     }
@@ -68,7 +68,7 @@ export function containsTargetOrRenderContainer(target: HTMLElement) {
  * Searches RenderContainer placed in "rootNode" for "node"
  */
 function findRenderContainer(node: Element, rootNode: Element, container?: Element): Element | null {
-  const currentNode = node.parentElement;
+  const currentNode = node.parentNode;
   if (
     !currentNode ||
     node === rootNode ||

@@ -6,6 +6,8 @@ import Button from '../../Button';
 import { PopupPosition, PopupPositions } from '../../Popup';
 import { createPropsGetter } from '../../internal/createPropsGetter';
 import Textarea from '../../Textarea';
+import Checkbox from '../../Checkbox';
+import Gapped from '../../Gapped';
 
 interface TestTooltipProps {
   pos?: PopupPosition;
@@ -163,6 +165,7 @@ storiesOf('Tooltip', module)
   .add('Tooltip with internal dynamic content', () => (
     <DynamicContentStory TooltipComponentClass={InternalDynamicContentTooltip} />
   ))
+  .add('Tooltip with trigger=click', () => <TooltipWithClickTrigger />)
   .add('Tooltip with dynamic anchor', () => <DynamicAnchorTooltip />);
 
 interface MyCustomTooltipState {
@@ -379,5 +382,37 @@ class DynamicAnchorTooltip extends React.Component<{}, {}> {
   }
   private tooltipContentGetter = () => {
     return <span>Content</span>;
+  };
+}
+
+class TooltipWithClickTrigger extends React.Component<{}, {}> {
+  public render() {
+    return (
+      <div style={{ padding: 100 }}>
+        <Tooltip pos={'bottom left'} render={this.outerTooltipContentGetter} trigger={'click'}>
+          <span>Click me</span>
+        </Tooltip>
+      </div>
+    );
+  }
+  private outerTooltipContentGetter = () => {
+    return (
+      <Gapped vertical gap={5}>
+        <Checkbox checked={true}>Item 1</Checkbox>
+        <Checkbox checked={false}>Item 2</Checkbox>
+        <Tooltip pos={'bottom left'} render={this.innerTooltipContentGetter} trigger={'click'}>
+          <span>Click me for more...</span>
+        </Tooltip>
+      </Gapped>
+    );
+  };
+  private innerTooltipContentGetter = () => {
+    return (
+      <Gapped vertical gap={5}>
+        More:
+        <Checkbox checked={true}>Item 3</Checkbox>
+        <Checkbox checked={false}>Item 4</Checkbox>
+      </Gapped>
+    );
   };
 }
