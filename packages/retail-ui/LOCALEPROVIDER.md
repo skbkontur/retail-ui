@@ -22,35 +22,13 @@ enum LangCodes {
 
 ```typescript jsx
 interface LocaleControls {
-  Spinner?: {
-    loading?: React.ReactNode;
-  };
-  TokenInput?: {
-    addButtonComment?: string;
-    addButtonTitle?: string;
-  };
-  ComboBox?: {
-    notFound?: string;
-    errorNetworkButton?: string;
-    errorNetworkMessage?: string;
-  };
-  TopBar?: {
-    logout?: string;
-    cabinetTitle?: string;
-    cabinetSettings?: string;
-    cabinetCertificates?: string;
-    cabinetServices?: string;
-  };
-  Select?: {
-    placeholder?: React.ReactNode;
-  };
-  Paging?: {
-    forward?: string;
-  };
-  Logotype?: {
-    suffix?: string;
-    prefix?: string;
-  };
+  Spinner?: SpinnerLocale;
+  TokenInput?: TokenInputLocale;
+  ComboBox?: ComboBoxLocale;
+  TopBar?: TopBarLocale;
+  Select?: SelectLocale;
+  Paging?: PagingLocale;
+  Logotype?: LogotypeLocale;
 }
 ```
 
@@ -58,7 +36,7 @@ interface LocaleControls {
 
 ### Использование
 
-Нативная локализация `<TokenInput />`
+Дефолтная локализация `<TokenInput />`
 
 ```jsx
 const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');

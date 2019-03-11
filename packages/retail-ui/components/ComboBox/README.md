@@ -402,19 +402,21 @@ class ComboboxExample extends React.Component {
 #### Локали по умолчанию (см. `LocaleProvider`)
 
 ```typescript
+interface ComboBoxLocale {
+  notFound?: string;
+  errorNetworkButton?: string;
+  errorNetworkMessage?: string;  
+}
+
 const ru_RU = {
-  ComboBox: {
-    notFound: 'Не найдено',
-    errorNetworkButton: 'Обновить',
-    errorNetworkMessage: 'Что-то пошло не так. Проверьте соединение с интернетом и попробуйте еще раз',
-  },
+  notFound: 'Не найдено',
+  errorNetworkButton: 'Обновить',
+  errorNetworkMessage: 'Что-то пошло не так. Проверьте соединение с интернетом и попробуйте еще раз',
 };
 
 const en_EN = {
-  ComboBox: {
-    notFound: 'Not found',
-    errorNetworkButton: 'Refresh',
-    errorNetworkMessage: 'Something went wrong. Check your internet connection and try again',
-  },
+  notFound: 'Not found',
+  errorNetworkButton: 'Refresh',
+  errorNetworkMessage: 'Something went wrong. Check your internet connection and try again',
 };
 ```

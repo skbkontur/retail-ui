@@ -9,15 +9,15 @@ let initialState = {};
 #### Локали по умолчанию (см. `LocaleProvider`)
 
 ```typescript
+interface SelectLocale {
+  placeholder?: React.ReactNode;
+}
+
 const ru_RU = {
-  Select: {
-    placeholder: 'ничего не выбрано',
-  },
+  placeholder: 'ничего не выбрано',
 };
 
 const en_EN = {
-  Select: {
-    placeholder: 'nothing selected',
-  },
+  placeholder: 'nothing selected',
 };
 ```

@@ -65,17 +65,18 @@ const tokenColors = {
 #### Локали по умолчанию (см. `LocaleProvider`)
 
 ```typescript
+interface TokenInputLocale {
+  addButtonComment?: string;
+  addButtonTitle?: string;
+}
+
 const ru_RU = {
-  TokenInput: {
-    addButtonComment: 'Нажмите Enter или поставьте запятую',
-    addButtonTitle: 'Добавить',
-  },
+  addButtonComment: 'Нажмите Enter или поставьте запятую',
+  addButtonTitle: 'Добавить',
 };
 
 const en_EN = {
-  TokenInput: {
-    addButtonComment: 'Press Enter or type comma',
-    addButtonTitle: 'Add',
-  },
+  addButtonComment: 'Press Enter or type comma',
+  addButtonTitle: 'Add',
 };
 ```

@@ -19,15 +19,15 @@ const reactNodeCaption = (
 #### Локали по умолчанию (см. `LocaleProvider`)
 
 ```typescript
+interface SpinnerLocale {
+  loading?: React.ReactNode;
+}
+
 const ru_RU = {
-  Spinner: {
-    loading: 'Загрузка',
-  },
+  loading: 'Загрузка',
 };
 
 const en_EN = {
-  Spinner: {
-    loading: 'Loading',
-  },
+  loading: 'Loading',
 };
 ```
