@@ -55,6 +55,13 @@ describe('Select', () => {
   });
 
   describe('Locale', () => {
+    it('render without LocaleProvider', () => {
+      const wrapper = mount(<Select />);
+      const expectedText = SelectLocaleHelper.get(defaultLangCode).placeholder;
+
+      expect(wrapper.text()).toBe(expectedText);
+    });
+
     it('render default locale', () => {
       const wrapper = mount(
         <LocaleProvider>
