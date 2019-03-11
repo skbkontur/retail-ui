@@ -1096,6 +1096,15 @@ describe('ComboBox', () => {
       wrapper.update();
     };
 
+    it('render without LocaleProvider', async () => {
+      wrapper = mount(<ComboBox getItems={search} />);
+      const expectedText = CustomComboBoxLocaleHelper.get(defaultLangCode).notFound;
+
+      await focus();
+
+      expect(wrapper.find(MenuItem).text()).toBe(expectedText);
+    });
+
     it('render default locale', async () => {
       wrapper = mount(
         <LocaleProvider>
