@@ -11,13 +11,11 @@ import Textarea from '../../Textarea';
 const getKnobs = () => ({
   text: text('text', 'Hello!'),
   pos: select('position', ['top', 'right', 'bottom', 'left'], 'top'),
-  maxWidth: text('max-width', '200')
+  maxWidth: text('max-width', '200'),
 });
 
 storiesOf('Hint', module)
-  .addDecorator(story => (
-    <div style={{ padding: '100px 300px' }}>{story()}</div>
-  ))
+  .addDecorator(story => <div style={{ padding: '100px 300px' }}>{story()}</div>)
   .addDecorator(withKnobs)
   .add('playground', () => <Hint {...getKnobs()}>Plain hint with knobs</Hint>)
   .add('too much hints', () => (
@@ -67,7 +65,7 @@ storiesOf('Hint', module)
         className="hint-content"
         style={{
           width: 150,
-          border: '1px solid'
+          border: '1px solid',
         }}
       >
         <span>Ti voglio bene</span>
@@ -95,20 +93,17 @@ storiesOf('Hint', module)
     </div>
   ));
 
-storiesOf('Hint', module).add(
-  'Hints without wrapper around inline-block with 50% width',
-  () => (
-    <div style={{ padding: '150px', width: '500px' }}>
-      {PopupPositions.reduce(
-        (child, position) => (
-          <Hint useWrapper={false} text={position} pos={position} manual opened>
-            {child}
-          </Hint>
-        ),
-        <Textarea rows={10} resize="none" width="50%">
-          {"I'm inline-block with 50% width.\n\nHover me!"}
-        </Textarea>
-      )}
-    </div>
-  )
-);
+storiesOf('Hint', module).add('Hints without wrapper around inline-block with 50% width', () => (
+  <div style={{ padding: '150px', width: '500px' }}>
+    {PopupPositions.reduce(
+      (child, position) => (
+        <Hint useWrapper={false} text={position} pos={position} manual opened>
+          {child}
+        </Hint>
+      ),
+      <Textarea rows={10} resize="none" width="50%">
+        {"I'm inline-block with 50% width.\n\nHover me!"}
+      </Textarea>,
+    )}
+  </div>
+));

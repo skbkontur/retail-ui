@@ -40,7 +40,7 @@ export default class CalendarCell extends React.Component {
       [styles.cellToday]: this._isToday(date),
       [styles.cellCurrent]: isSameDate(value, date),
       [styles.grey]: date.getUTCMonth() % 2,
-      [styles.cellHoly]: isHolyday
+      [styles.cellHoly]: isHolyday,
     });
 
     return (

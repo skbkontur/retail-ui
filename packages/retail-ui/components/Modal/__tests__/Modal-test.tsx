@@ -12,7 +12,7 @@ describe('Modal', () => {
           <Modal.Header>Header</Modal.Header>
           <Modal.Body>Body</Modal.Body>
           <Modal.Footer>Footer</Modal.Footer>
-        </Modal>
+        </Modal>,
       );
 
     expect(render).not.toThrow();
@@ -40,9 +40,7 @@ describe('Modal', () => {
 
   it('onClose handler works', () => {
     const onCloseHandler = jest.fn();
-    const wrapper = mount(
-      <Modal onClose={onCloseHandler}>Modal content</Modal>
-    );
+    const wrapper = mount(<Modal onClose={onCloseHandler}>Modal content</Modal>);
 
     expect(onCloseHandler).not.toHaveBeenCalled();
     wrapper.find('button').simulate('click');
@@ -54,7 +52,7 @@ describe('Modal', () => {
     const wrapper = mount(
       <Modal onClose={onCloseHandler} disableClose>
         Modal content
-      </Modal>
+      </Modal>,
     );
 
     expect(onCloseHandler).not.toHaveBeenCalled();
@@ -76,9 +74,7 @@ describe('Modal', () => {
 
   it('click on background call onClose', () => {
     const onCloseHandler = jest.fn();
-    const wrapper = mount(
-      <Modal onClose={onCloseHandler}>Modal content</Modal>
-    );
+    const wrapper = mount(<Modal onClose={onCloseHandler}>Modal content</Modal>);
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
     wrapper.find('ModalClickTrap').simulate('click');
@@ -90,7 +86,7 @@ describe('Modal', () => {
     const wrapper = mount(
       <Modal noClose onClose={onCloseHandler}>
         Modal content
-      </Modal>
+      </Modal>,
     );
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
@@ -103,7 +99,7 @@ describe('Modal', () => {
     const wrapper = mount(
       <Modal disableClose onClose={onCloseHandler}>
         Modal content
-      </Modal>
+      </Modal>,
     );
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
@@ -116,7 +112,7 @@ describe('Modal', () => {
     const wrapper = mount(
       <Modal ignoreBackgroundClick onClose={onCloseHandler}>
         Modal content
-      </Modal>
+      </Modal>,
     );
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
@@ -131,14 +127,14 @@ describe('Modal', () => {
       function renderDiv() {
         return <div />;
       },
-      false
+      false,
     ],
-    [Modal.Header, true]
+    [Modal.Header, true],
   ])('isHeader(%p) => %s', (Component, expected) => {
     const wrapper = mount(
       <div>
         <Component />
-      </div>
+      </div>,
     );
     const child = React.Children.only(wrapper.prop('children'));
     expect(isHeader(child)).toBe(expected);
@@ -151,14 +147,14 @@ describe('Modal', () => {
       function renderDiv() {
         return <div />;
       },
-      false
+      false,
     ],
-    [Modal.Header, false]
+    [Modal.Header, false],
   ])('isFooter(%p) => %s', (Component, expected) => {
     const wrapper = mount(
       <div>
         <Component />
-      </div>
+      </div>,
     );
     const child = React.Children.only(wrapper.prop('children'));
     expect(isFooter(child)).toBe(expected);

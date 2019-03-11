@@ -8,13 +8,13 @@ export type KebabProps = {|
   size: 'small' | 'medium' | 'large',
   positions: PopupPosition[],
   menuMaxHeight?: number | string,
-  disableAnimations: boolean
+  disableAnimations: boolean,
 |};
 
 export type KebabState = {|
   anchor: ?HTMLElement,
   focusedByTab: boolean,
-  opened: boolean
+  opened: boolean,
 |};
 
 declare class Kebab extends React$Component<KebabProps, KebabState> {}

@@ -9,12 +9,10 @@ const styles: React.CSSProperties = {
   position: 'absolute',
   left: -1000,
   top: -1000,
-  fontSize: 14
+  fontSize: 14,
 };
 
-export default class TextWidthHelper extends React.Component<
-  TextWidthHelperProps
-> {
+export default class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   private element: HTMLDivElement | null = null;
 
   public render() {

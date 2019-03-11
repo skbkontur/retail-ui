@@ -12,7 +12,7 @@ class DatePickerWithError extends React.Component<any, any> {
   public state = {
     value: null,
     error: false,
-    tooltip: false
+    tooltip: false,
   };
 
   public render() {
@@ -35,22 +35,10 @@ class DatePickerWithError extends React.Component<any, any> {
             enableTodayLink
           />
         </Tooltip>
-        <Button
-          onClick={() =>
-            this.setState({ value: null, error: null, tooltip: false })
-          }
-        >
-          Clear
-        </Button>
-        <Button onClick={() => this.setState({ value: '99.99.9999' })}>
-          Set "99.99.9999"
-        </Button>
-        <Button onClick={() => this.setState({ value: '99.hello' })}>
-          Set "99.hello"
-        </Button>
-        <Button onClick={() => this.setState({ value: '10.3' })}>
-          Set "10.3"
-        </Button>
+        <Button onClick={() => this.setState({ value: null, error: null, tooltip: false })}>Clear</Button>
+        <Button onClick={() => this.setState({ value: '99.99.9999' })}>Set "99.99.9999"</Button>
+        <Button onClick={() => this.setState({ value: '99.hello' })}>Set "99.hello"</Button>
+        <Button onClick={() => this.setState({ value: '10.3' })}>Set "10.3"</Button>
       </Gapped>
     );
   }
@@ -58,7 +46,7 @@ class DatePickerWithError extends React.Component<any, any> {
   private _handleChange = (_: any, value: string) => {
     action('change')(_, value);
     this.setState({
-      value
+      value,
     });
   };
 
@@ -72,14 +60,14 @@ class DatePickerWithError extends React.Component<any, any> {
       const error = !!currentValue && !DatePicker.validate(currentValue);
       return {
         error,
-        tooltip: error
+        tooltip: error,
       };
     });
   };
 
   private _removeTooltip = () => {
     this.setState({
-      tooltip: false
+      tooltip: false,
     });
   };
 }
@@ -97,7 +85,7 @@ storiesOf('DatePicker', module)
         </div>
       ) : (
         <div>{story()}</div>
-      )
+      ),
   )
   .add('with mouseevent handlers', () => (
     <div style={{ paddingTop: 200 }}>
@@ -116,11 +104,6 @@ storiesOf('DatePicker', module)
   .add('DatePicker large', () => <DatePickerWithError size="large" />)
   .add('DatePicker with min max date', () => (
     <div style={{ paddingTop: 200 }}>
-      <DatePicker
-        value="02.07.2017"
-        minDate="02.07.2017"
-        maxDate="30.01.2018"
-        onChange={action('change')}
-      />
+      <DatePicker value="02.07.2017" minDate="02.07.2017" maxDate="30.01.2018" onChange={action('change')} />
     </div>
   ));

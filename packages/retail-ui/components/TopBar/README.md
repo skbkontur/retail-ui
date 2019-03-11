@@ -9,13 +9,13 @@ let pageStyle = {
   background: '#e6e6e6',
   height: 400,
   border: '1px solid #dedfdf',
-  overflow: 'hidden'
+  overflow: 'hidden',
 };
 
 let contentStyle = {
   background: 'white',
   padding: 15,
-  height: 280
+  height: 280,
 };
 
 <div style={pageStyle}>
@@ -57,13 +57,13 @@ let pageStyle = {
   background: '#e6e6e6',
   height: 400,
   border: '1px solid #dedfdf',
-  overflow: 'hidden'
+  overflow: 'hidden',
 };
 
 let contentStyle = {
   background: 'white',
   padding: 15,
-  height: 280
+  height: 280,
 };
 
 <div style={pageStyle}>
@@ -74,7 +74,7 @@ let contentStyle = {
     leftItems={[
       <Item>
         <BabyIcon color="#666" />
-      </Item>
+      </Item>,
     ]}
   />
   <Loader active caption="neverending...">

@@ -25,9 +25,7 @@ storiesOf('Token', module)
     return (
       <>
         <Token>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Token>
-        <Token isActive>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        </Token>
+        <Token isActive>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Token>
       </>
     );
   })

@@ -6,7 +6,7 @@ import Radio from '../../Radio';
 const render = (
   props: Partial<RadioGroupProps<any>> & {
     children?: React.ReactElement<any>;
-  }
+  },
 ) => mount<RadioGroup<any>>(<RadioGroup {...props} />);
 
 describe('<RadioGroup />', () => {
@@ -55,7 +55,7 @@ describe('<RadioGroup />', () => {
         .find(Radio)
         .at(0)
         .find('input')
-        .prop('checked')
+        .prop('checked'),
     ).toBeTruthy();
   });
 
@@ -99,7 +99,7 @@ describe('<RadioGroup />', () => {
       radios
         .at(1)
         .find('input')
-        .prop('checked')
+        .prop('checked'),
     ).toBeTruthy();
   });
 
@@ -107,7 +107,7 @@ describe('<RadioGroup />', () => {
     const props = {
       onMouseOver: () => undefined,
       onMouseEnter: () => undefined,
-      onMouseLeave: () => undefined
+      onMouseLeave: () => undefined,
     };
     const wrapper = render({ items: [], ...props }).first();
     Object.keys(props).forEach(prop => {
@@ -140,7 +140,7 @@ describe('<RadioGroup />', () => {
         .find(Radio)
         .at(0)
         .find('input')
-        .prop('checked')
+        .prop('checked'),
     ).toBeTruthy();
   });
 
@@ -208,7 +208,7 @@ describe('<RadioGroup />', () => {
       radios
         .at(1)
         .find('input')
-        .prop('checked')
+        .prop('checked'),
     ).toBeTruthy();
   });
 
@@ -256,7 +256,7 @@ describe('<RadioGroup />', () => {
         .find(Radio)
         .at(0)
         .find('input')
-        .prop('checked')
+        .prop('checked'),
     ).toBeTruthy();
   });
 });

@@ -7,7 +7,7 @@ const rootStyle: Partial<React.CSSProperties> = {
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'baseline',
-  width: '1000px'
+  width: '1000px',
 };
 
 const iconUpdates: IconName[][] = [['Delta', 'UserAdd', 'Youtube2']];
@@ -24,15 +24,14 @@ class TestIcon extends React.Component<TestIconProps> {
       <div
         style={{
           flexBasis: '200px',
-          height: name === 'Space' ? '0' : '60px'
+          height: name === 'Space' ? '0' : '60px',
         }}
       >
         <div>
           <Icon /> <span>{name}</span>
         </div>
         <div>
-          <span>{name.slice(0, name.length / 2)}</span> <Icon />{' '}
-          <span>{name.slice(name.length / 2)}</span>
+          <span>{name.slice(0, name.length / 2)}</span> <Icon /> <span>{name.slice(name.length / 2)}</span>
         </div>
         <div>
           <span>{name}</span> <Icon />
@@ -50,8 +49,6 @@ storiesOf('Icon', module).add('All icons', () => (
       .map(name => (
         <TestIcon key={name} name={name} />
       ))}
-    {iconUpdates.map(update =>
-      update.map(name => <TestIcon key={name} name={name} />)
-    )}
+    {iconUpdates.map(update => update.map(name => <TestIcon key={name} name={name} />))}
   </div>
 ));

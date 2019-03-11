@@ -16,7 +16,7 @@ export interface MenuHeaderProps {
 export default class MenuHeader extends React.Component<MenuHeaderProps> {
   public static __MENU_HEADER__ = true;
   public static defaultProps = {
-    _enableIconPadding: false
+    _enableIconPadding: false,
   };
 
   private getProps = createPropsGetter(MenuHeader.defaultProps);
@@ -24,7 +24,7 @@ export default class MenuHeader extends React.Component<MenuHeaderProps> {
   public render() {
     const classnames: string = classNames({
       [styles.root]: true,
-      [styles.withLeftPadding]: this.getProps()._enableIconPadding
+      [styles.withLeftPadding]: this.getProps()._enableIconPadding,
     });
     return <div className={classnames}>{this.props.children}</div>;
   }

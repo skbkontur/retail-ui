@@ -12,7 +12,7 @@ class Playground extends Component<any, any> {
   public state = {
     checked: false,
     loadingActive: false,
-    loading: false
+    loading: false,
   };
 
   public render() {
@@ -22,11 +22,7 @@ class Playground extends Component<any, any> {
           <Gapped gap={10}>
             <Gapped vertical gap={10}>
               <div>
-                <Toggle
-                  checked={this.state.checked}
-                  onChange={this.toggle.bind(this)}
-                  loading={this.state.loading}
-                />{' '}
+                <Toggle checked={this.state.checked} onChange={this.toggle.bind(this)} loading={this.state.loading} />{' '}
                 {this.state.checked ? 'On' : 'Off'}
               </div>
               <div>
@@ -82,17 +78,10 @@ class Playground extends Component<any, any> {
         </div>
         <div style={{ marginTop: '15px' }}>
           <Gapped gap={10}>
-            <Checkbox
-              onChange={this.activeLoading.bind(this)}
-              checked={this.state.loadingActive}
-            >
+            <Checkbox onChange={this.activeLoading.bind(this)} checked={this.state.loadingActive}>
               Loading
             </Checkbox>
-            {this.state.loading && (
-              <Button onClick={this.stopLoading.bind(this)}>
-                Stop loading
-              </Button>
-            )}
+            {this.state.loading && <Button onClick={this.stopLoading.bind(this)}>Stop loading</Button>}
           </Gapped>
         </div>
       </div>
@@ -102,7 +91,7 @@ class Playground extends Component<any, any> {
   private toggle(checked: boolean) {
     this.setState({
       checked,
-      loading: this.state.loadingActive
+      loading: this.state.loadingActive,
     });
   }
 
@@ -112,14 +101,14 @@ class Playground extends Component<any, any> {
 
   private stopLoading() {
     this.setState({
-      loading: false
+      loading: false,
     });
   }
 }
 
 class Simple extends React.Component<any, any> {
   public state = {
-    checked: true
+    checked: true,
   };
 
   public render() {

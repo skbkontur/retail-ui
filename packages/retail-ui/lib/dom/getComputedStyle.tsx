@@ -2,10 +2,7 @@
 /* tslint:disable */
 // imported from https://github.com/Financial-Times/polyfill-service
 
-export default (function(): (
-  elt: Element,
-  pseudoElt?: string | null | undefined
-) => CSSStyleDeclaration {
+export default (function(): (elt: Element, pseudoElt?: string | null | undefined) => CSSStyleDeclaration {
   if (document.defaultView && document.defaultView.getComputedStyle) {
     return document.defaultView.getComputedStyle.bind(document.defaultView);
   }
@@ -13,10 +10,11 @@ export default (function(): (
   // @ts-ignore
   function getComputedStylePixel(element, property, fontSize) {
     var // Internet Explorer sometimes struggles to read currentStyle until the element's document is accessed.
-      value = (element.document &&
-        element.currentStyle[property].match(
-          /([\d\.]+)(%|cm|em|in|mm|pc|pt|)/
-        )) || [0, 0, ''],
+      value = (element.document && element.currentStyle[property].match(/([\d\.]+)(%|cm|em|in|mm|pc|pt|)/)) || [
+        0,
+        0,
+        '',
+      ],
       size = value[1],
       suffix = value[2],
       rootSize;
@@ -26,12 +24,7 @@ export default (function(): (
       : /%|em/.test(suffix) && element.parentElement
         ? getComputedStylePixel(element.parentElement, 'fontSize', null)
         : 16;
-    rootSize =
-      property == 'fontSize'
-        ? fontSize
-        : /width/i.test(property)
-          ? element.clientWidth
-          : element.clientHeight;
+    rootSize = property == 'fontSize' ? fontSize : /width/i.test(property) ? element.clientWidth : element.clientHeight;
 
     return suffix == '%'
       ? (size / 100) * rootSize
@@ -58,9 +51,7 @@ export default (function(): (
       b = property + 'Bottom' + borderSuffix,
       l = property + 'Left' + borderSuffix;
 
-    style[property] = (style[t] == style[r] &&
-    style[t] == style[b] &&
-    style[t] == style[l]
+    style[property] = (style[t] == style[r] && style[t] == style[b] && style[t] == style[l]
       ? [style[t]]
       : style[t] == style[b] && style[l] == style[r]
         ? [style[t], style[r]]
@@ -85,12 +76,7 @@ export default (function(): (
       property;
 
     for (property in currentStyle) {
-      Array.prototype.push.call(
-        style,
-        property == 'styleFloat'
-          ? 'float'
-          : property.replace(/[A-Z]/, unCamelCase)
-      );
+      Array.prototype.push.call(style, property == 'styleFloat' ? 'float' : property.replace(/[A-Z]/, unCamelCase));
 
       if (property == 'width') {
         style[property] = element.offsetWidth + 'px';
@@ -98,12 +84,8 @@ export default (function(): (
         style[property] = element.offsetHeight + 'px';
       } else if (property == 'styleFloat') {
         style.float = currentStyle[property];
-      } else if (
-        /margin.|padding.|border.+W/.test(property) &&
-        style[property] != 'auto'
-      ) {
-        style[property] =
-          Math.round(getComputedStylePixel(element, property, fontSize)) + 'px';
+      } else if (/margin.|padding.|border.+W/.test(property) && style[property] != 'auto') {
+        style[property] = Math.round(getComputedStylePixel(element, property, fontSize)) + 'px';
       } else if (/^outline/.test(property)) {
         // errors on checking outline
         try {
@@ -112,11 +94,7 @@ export default (function(): (
           style.outlineColor = currentStyle.color;
           style.outlineStyle = style.outlineStyle || 'none';
           style.outlineWidth = style.outlineWidth || '0px';
-          style.outline = [
-            style.outlineColor,
-            style.outlineWidth,
-            style.outlineStyle
-          ].join(' ');
+          style.outline = [style.outlineColor, style.outlineWidth, style.outlineStyle].join(' ');
         }
       } else {
         style[property] = currentStyle[property];
@@ -162,7 +140,7 @@ export default (function(): (
     // <CSSStyleDeclaration>.getPropertyCSSValue
     getPropertyCSSValue() {
       throw new Error('NotSupportedError: DOM Exception 9');
-    }
+    },
   };
   // @ts-ignore
   return function getComputedStyle(element) {

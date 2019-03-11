@@ -16,7 +16,7 @@ function renderSidePage() {
                           #dfdede 40px
                         )`,
             height: 600,
-            padding: '20px 0'
+            padding: '20px 0',
           }}
         >
           <SidePage.Container>

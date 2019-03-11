@@ -1,12 +1,12 @@
 Вызов статических методов
 
 ```js
-const { default: Button } = require("../Button");
+const { default: Button } = require('../Button');
 
 function showComplexNotification() {
-  Toast.push("Successfully saved", {
-    label: "Cancel",
-    handler: () => Toast.push("Canceled")
+  Toast.push('Successfully saved', {
+    label: 'Cancel',
+    handler: () => Toast.push('Canceled'),
   });
 }
 
@@ -18,18 +18,22 @@ function showComplexNotification() {
 ```js
 class Toaster extends React.Component {
   showNotification() {
-    this.notifier.push('Successfully')
+    this.notifier.push('Successfully');
   }
 
   render() {
     return (
       <div>
-        <Toast ref={el => {this.notifier = el}} />
+        <Toast
+          ref={el => {
+            this.notifier = el;
+          }}
+        />
         <Button onClick={() => this.showNotification()}>Show notification</Button>
       </div>
-    )
+    );
   }
 }
 
-<Toaster />
+<Toaster />;
 ```

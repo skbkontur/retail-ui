@@ -14,7 +14,7 @@ interface FiasSearchProps {
 
 export class FiasSearch extends React.Component<FiasSearchProps> {
   public static defaultProps = {
-    locale: defaultLocale
+    locale: defaultLocale,
   };
 
   public render() {

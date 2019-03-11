@@ -1,3 +1,3 @@
-var { versions } = require("./versions");
+var { versions } = require('./versions');
 
 console.log(versions);

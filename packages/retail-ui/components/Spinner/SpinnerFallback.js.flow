@@ -3,16 +3,13 @@ import type { SpinnerType } from '.';
 
 export type SpinnerFallbackProps = {|
   type: SpinnerType,
-  dimmed?: boolean
+  dimmed?: boolean,
 |};
 
 export type SpinnerFallbackState = {|
-  frame: number
+  frame: number,
 |};
 
-declare class SpinnerFallback extends React$Component<
-  SpinnerFallbackProps,
-  SpinnerFallbackState
-> {}
+declare class SpinnerFallback extends React$Component<SpinnerFallbackProps, SpinnerFallbackState> {}
 
 export default SpinnerFallback;

@@ -11,10 +11,7 @@ function transformer(file, api) {
 
   // [X, X] => Typle<X, X>
   parsed.find(j.TupleTypeAnnotation).replaceWith(path => {
-    return j.genericTypeAnnotation(
-      j.identifier('Tuple'),
-      j.typeParameterInstantiation(path.value.types)
-    );
+    return j.genericTypeAnnotation(j.identifier('Tuple'), j.typeParameterInstantiation(path.value.types));
   });
 
   return parsed.toSource().replace(/type type /gi, 'type ');

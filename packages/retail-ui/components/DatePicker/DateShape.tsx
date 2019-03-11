@@ -8,20 +8,12 @@ export interface DateShape {
 }
 
 export function isValidDate({ date, month, year }: DateShape): boolean {
-  if (
-    typeof date !== 'number' ||
-    typeof month !== 'number' ||
-    typeof year !== 'number'
-  ) {
+  if (typeof date !== 'number' || typeof month !== 'number' || typeof year !== 'number') {
     return false;
   }
 
   const dateObj = new Date(Date.UTC(year, month, date));
-  if (
-    dateObj.getUTCDate() === date &&
-    dateObj.getUTCMonth() === month &&
-    dateObj.getUTCFullYear() === year
-  ) {
+  if (dateObj.getUTCDate() === date && dateObj.getUTCMonth() === month && dateObj.getUTCFullYear() === year) {
     return true;
   }
   return false;

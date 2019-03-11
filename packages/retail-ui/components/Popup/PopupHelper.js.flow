@@ -3,17 +3,17 @@ export type Rect = {|
   top: number,
   left: number,
   width: number,
-  height: number
+  height: number,
 |};
 
 export type Offset = {|
   top: number,
-  left: number
+  left: number,
 |};
 
 export type PositionObject = {|
   direction: string,
-  align: string
+  align: string,
 |};
 
 declare function getPositionObject(position: string): PositionObject;
@@ -23,7 +23,7 @@ declare function isAbsoluteRectFullyVisible(absoluteRect: Rect): boolean;
 declare var _default: {|
   getPositionObject: typeof getPositionObject,
   getElementAbsoluteRect: typeof getElementAbsoluteRect,
-  isAbsoluteRectFullyVisible: typeof isAbsoluteRectFullyVisible
+  isAbsoluteRectFullyVisible: typeof isAbsoluteRectFullyVisible,
 |};
 
 export default _default;

@@ -1,7 +1,5 @@
 {
-    "extends": [
-        "./.eslint-config/config.js"
-    ],
+    "extends": ["./.eslint-config/config.js"],
     "rules": {
         "no-prototype-builtins": "off",
         "no-empty-function": "off",

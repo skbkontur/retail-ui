@@ -23,8 +23,4 @@ export const MaskedValue = ({ value, length }: MaskedValueProps) => {
 };
 
 const Mask = ({ length }: { length: number }) =>
-  length ? (
-    <span className={styles.mask}>{maskChar.repeat(length)}</span>
-  ) : (
-    <span />
-  );
+  length ? <span className={styles.mask}>{maskChar.repeat(length)}</span> : <span />;

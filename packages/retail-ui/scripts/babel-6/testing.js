@@ -26,27 +26,19 @@ module.exports = function(babel) {
           const refValue = t.JSXExpressionContainer(
             buildRefFunc({
               TID: tid,
-              REF: ref
-            }).expression
+              REF: ref,
+            }).expression,
           );
 
-          tidAttr.replaceWithMultiple([
-            tidAttr.node,
-            t.JSXAttribute(t.JSXIdentifier('ref'), refValue)
-          ]);
+          tidAttr.replaceWithMultiple([tidAttr.node, t.JSXAttribute(t.JSXIdentifier('ref'), refValue)]);
         } else if (tidPassAttr) {
-          invariant(
-            !refAttr,
-            'Attributes `ref` and `tid-pass` cannot be used together.'
-          );
+          invariant(!refAttr, 'Attributes `ref` and `tid-pass` cannot be used together.');
 
           tidPassAttr.node.name.name = 'ref';
-          tidPassAttr.node.value = t.JSXExpressionContainer(
-            buildPassFunc().expression
-          );
+          tidPassAttr.node.value = t.JSXExpressionContainer(buildPassFunc().expression);
         }
-      }
-    }
+      },
+    },
   };
 };
 

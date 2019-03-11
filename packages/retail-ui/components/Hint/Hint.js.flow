@@ -5,31 +5,31 @@ export type HintProps = {|
   maxWidth?: string | number,
   opened?: boolean,
   pos:
-    | "top"
-    | "right"
-    | "bottom"
-    | "left"
-    | "top left"
-    | "top center"
-    | "top right"
-    | "bottom left"
-    | "bottom center"
-    | "bottom right"
-    | "left top"
-    | "left middle"
-    | "left bottom"
-    | "right top"
-    | "right middle"
-    | "right bottom",
+    | 'top'
+    | 'right'
+    | 'bottom'
+    | 'left'
+    | 'top left'
+    | 'top center'
+    | 'top right'
+    | 'bottom left'
+    | 'bottom center'
+    | 'bottom right'
+    | 'left top'
+    | 'left middle'
+    | 'left bottom'
+    | 'right top'
+    | 'right middle'
+    | 'right bottom',
   text: React$Node,
   disableAnimations: boolean,
   useWrapper: boolean,
   onMouseEnter?: (event: SyntheticMouseEvent<HTMLElement> | MouseEvent) => void,
-  onMouseLeave?: (event: SyntheticMouseEvent<HTMLElement> | MouseEvent) => void
+  onMouseLeave?: (event: SyntheticMouseEvent<HTMLElement> | MouseEvent) => void,
 |};
 
 export type HintState = {|
-  opened: boolean
+  opened: boolean,
 |};
 
 declare class Hint extends React$Component<HintProps, HintState> {}

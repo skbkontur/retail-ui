@@ -8,7 +8,7 @@ import SpinnerFallback from './SpinnerFallback';
 import { types, sizeMaps, svgAnimateSupport } from './settings';
 
 export const SpinnerConfig = {
-  hasSvgAnimationSupport: svgAnimateSupport()
+  hasSvgAnimationSupport: svgAnimateSupport(),
 };
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
@@ -40,12 +40,12 @@ class Spinner extends React.Component<SpinnerProps> {
      *
      * Spinner.types - все доступные типы
      */
-    type: PropTypes.oneOf(Object.keys(types))
+    type: PropTypes.oneOf(Object.keys(types)),
   };
 
   public static defaultProps = {
     type: types.normal,
-    caption: 'Загрузка'
+    caption: 'Загрузка',
   };
 
   public static Types: typeof types;
@@ -57,11 +57,8 @@ class Spinner extends React.Component<SpinnerProps> {
     return (
       <div className={styles.spinner}>
         <span className={styles.inner}>
-          {SpinnerConfig.hasSvgAnimationSupport &&
-            this._renderSpinner(verifiedType)}
-          {!SpinnerConfig.hasSvgAnimationSupport && (
-            <SpinnerFallback type={verifiedType} dimmed={dimmed} />
-          )}
+          {SpinnerConfig.hasSvgAnimationSupport && this._renderSpinner(verifiedType)}
+          {!SpinnerConfig.hasSvgAnimationSupport && <SpinnerFallback type={verifiedType} dimmed={dimmed} />}
         </span>
         {caption && this._renderCaption(verifiedType, caption)}
       </div>
@@ -81,22 +78,9 @@ class Spinner extends React.Component<SpinnerProps> {
       9.19661922 L32.0297086,9.1495774 Z`;
 
     return (
-      <svg
-        className={styles.cloud}
-        width={params.width}
-        height={params.height}
-        viewBox={params.viewBox}
-      >
-        <path
-          className={styles.bg}
-          strokeWidth={params.strokeWidth}
-          d={svgPath}
-        />
-        <path
-          className={styles.path}
-          strokeWidth={params.strokeWidth}
-          d={svgPath}
-        />
+      <svg className={styles.cloud} width={params.width} height={params.height} viewBox={params.viewBox}>
+        <path className={styles.bg} strokeWidth={params.strokeWidth} d={svgPath} />
+        <path className={styles.path} strokeWidth={params.strokeWidth} d={svgPath} />
       </svg>
     );
   };
@@ -106,20 +90,11 @@ class Spinner extends React.Component<SpinnerProps> {
 
     return (
       <svg
-        className={classnames(
-          styles.circle,
-          this.props.dimmed && styles.dimmed
-        )}
+        className={classnames(styles.circle, this.props.dimmed && styles.dimmed)}
         width={params.width}
         height={params.height}
       >
-        <circle
-          cx="8"
-          cy="8"
-          r="6"
-          className={styles.path}
-          strokeWidth={params.strokeWidth}
-        />
+        <circle cx="8" cy="8" r="6" className={styles.path} strokeWidth={params.strokeWidth} />
       </svg>
     );
   };
@@ -135,7 +110,7 @@ class Spinner extends React.Component<SpinnerProps> {
   private _renderCaption = (type: SpinnerType, caption: React.ReactNode) => {
     const spanClassName = classnames({
       [styles.captionRight]: type === types.mini,
-      [styles.captionBottom]: type !== types.mini
+      [styles.captionBottom]: type !== types.mini,
     });
 
     return <span className={spanClassName}>{caption}</span>;

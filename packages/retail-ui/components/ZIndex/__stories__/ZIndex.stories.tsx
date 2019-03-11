@@ -48,7 +48,11 @@ class ZLoader extends React.Component<{ size: number }> {
           <div style={style}>
             <Center>
               <b>
-                Content<br />under<br />loader
+                Content
+                <br />
+                under
+                <br />
+                loader
               </b>
             </Center>
           </div>
@@ -64,9 +68,7 @@ class ZModal extends React.Component<{ size: number; children?: React.ReactNode 
     return (
       <Modal>
         <Modal.Body>
-          <div style={{ minWidth: size, minHeight: size }}>
-            {this.props.children}
-          </div>
+          <div style={{ minWidth: size, minHeight: size }}>{this.props.children}</div>
         </Modal.Body>
       </Modal>
     );
@@ -97,7 +99,7 @@ interface ZSampleState {
 class ZSample extends React.Component<ZSampleProps, ZSampleState> {
   public state = {
     modal: false,
-    popup: false
+    popup: false,
   };
 
   private popupAnchor: HTMLElement | null = null;
@@ -106,10 +108,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
   public render(): React.ReactNode {
     const controls = (
       <Gapped>
-        <Tooltip
-          render={() => this.renderBlock('TOOLTIP', 150)}
-          trigger={'hover'}
-        >
+        <Tooltip render={() => this.renderBlock('TOOLTIP', 150)} trigger={'hover'}>
           T
         </Tooltip>
         <Hint text={this.renderBlock('HINT', 150)}>H</Hint>
@@ -125,10 +124,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
         <Gapped>
           <ZLoader size={150} />
           <div ref={e => (this.popupAnchor = e)}>
-            <Toggle
-              checked={this.state.popup}
-              onChange={v => this.setState({ popup: v })}
-            />
+            <Toggle checked={this.state.popup} onChange={v => this.setState({ popup: v })} />
           </div>
           {this.popupAnchor && (
             <Popup
@@ -148,11 +144,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
         {controls}
         <Gapped gap={10}>
           <Button onClick={() => this.notify(current)}>TOAST</Button>
-          {current < total && (
-            <Button onClick={() => this.setState({ modal: true })}>
-              MODAL
-            </Button>
-          )}
+          {current < total && <Button onClick={() => this.setState({ modal: true })}>MODAL</Button>}
         </Gapped>
         {this.state.modal && (
           <Modal onClose={() => this.setState({ modal: false })}>
@@ -175,9 +167,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
   }
 
   public renderBlock(content: React.ReactNode, width: number, height?: number) {
-    return (
-      <Center style={{ width, height: height || width }}>{content}</Center>
-    );
+    return <Center style={{ width, height: height || width }}>{content}</Center>;
   }
 }
 
@@ -214,7 +204,7 @@ class Demo extends React.Component<{}> {
           position: 'absolute',
           zIndex,
           left,
-          top
+          top,
         }}
       />
     );

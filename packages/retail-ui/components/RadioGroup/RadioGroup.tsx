@@ -34,17 +34,14 @@ export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
-class RadioGroup<T> extends React.Component<
-  RadioGroupProps<T>,
-  RadioGroupState<T>
-> {
+class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
   public static childContextTypes = {
     error: PropTypes.bool,
     name: PropTypes.string,
     warning: PropTypes.bool,
     disabled: PropTypes.bool,
     activeItem: PropTypes.any,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
   };
 
   public static propTypes = {
@@ -132,11 +129,11 @@ class RadioGroup<T> extends React.Component<
 
     onMouseLeave: PropTypes.func,
 
-    onMouseOver: PropTypes.func
+    onMouseOver: PropTypes.func,
   };
 
   public static defaultProps = {
-    renderItem
+    renderItem,
   };
 
   public static Prevent = Prevent;
@@ -149,7 +146,7 @@ class RadioGroup<T> extends React.Component<
     super(props);
 
     this.state = {
-      activeItem: this.props.defaultValue
+      activeItem: this.props.defaultValue,
     };
   }
 
@@ -160,19 +157,19 @@ class RadioGroup<T> extends React.Component<
       name: this._getName(),
       disabled: this.props.disabled,
       error: this.props.error,
-      warning: this.props.warning
+      warning: this.props.warning,
     };
   }
 
   public render() {
     const { width, onMouseLeave, onMouseOver, onMouseEnter } = this.props;
     const style = {
-      width: width != null ? width : 'auto'
+      width: width != null ? width : 'auto',
     };
     const handlers = {
       onMouseOver,
       onMouseEnter,
-      onMouseLeave
+      onMouseLeave,
     };
     return (
       <span ref={this._ref} style={style} className={styles.root} {...handlers}>
@@ -190,15 +187,11 @@ class RadioGroup<T> extends React.Component<
       return;
     }
 
-    let radio = node.querySelector('input[type="radio"]:checked') as Nullable<
-      HTMLInputElement
-    >;
+    let radio = node.querySelector('input[type="radio"]:checked') as Nullable<HTMLInputElement>;
 
     // If no checked radios, try get first radio
     if (!radio || radio.disabled) {
-      radio = node.querySelector(
-        'input[type="radio"]:not([disabled])'
-      ) as Nullable<HTMLInputElement>;
+      radio = node.querySelector('input[type="radio"]:not([disabled])') as Nullable<HTMLInputElement>;
     }
 
     if (radio) {
@@ -206,8 +199,7 @@ class RadioGroup<T> extends React.Component<
     }
   }
 
-  private _getValue = () =>
-    this._isControlled() ? this.props.value : this.state.activeItem;
+  private _getValue = () => (this._isControlled() ? this.props.value : this.state.activeItem);
 
   private _getName = () => this.props.name || this._name;
 
@@ -224,35 +216,23 @@ class RadioGroup<T> extends React.Component<
 
   private _renderChildren() {
     const { items, children } = this.props;
-    invariant(
-      (!items && children) || (items && !children),
-      'Either items or children must be passed, not both'
-    );
+    invariant((!items && children) || (items && !children), 'Either items or children must be passed, not both');
     return items ? mapItems(this._renderRadio, items) : children;
   }
 
-  private _renderRadio = (
-    itemValue: T,
-    data: React.ReactNode,
-    index: number
-  ): JSX.Element => {
+  private _renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
     const itemProps = {
-      key:
-        typeof itemValue === 'string' || typeof itemValue === 'number'
-          ? itemValue
-          : index,
+      key: typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : index,
       className: classNames({
         [styles.item]: true,
         [styles.itemFirst]: index === 0,
-        [styles.itemInline]: this.props.inline
-      })
+        [styles.itemInline]: this.props.inline,
+      }),
     };
 
     return (
       <span {...itemProps}>
-        <Radio value={itemValue}>
-          {this.getProps().renderItem(itemValue, data)}
-        </Radio>
+        <Radio value={itemValue}>{this.getProps().renderItem(itemValue, data)}</Radio>
       </span>
     );
   };
@@ -268,10 +248,7 @@ function renderItem(_value: any, data: React.ReactNode) {
   return data;
 }
 
-function mapItems(
-  fn: (value: any, data: any, index: number) => React.ReactNode,
-  items: any[]
-) {
+function mapItems(fn: (value: any, data: any, index: number) => React.ReactNode, items: any[]) {
   const result = [];
   let index = 0;
   for (const entry of items) {

@@ -1,12 +1,8 @@
 export type Filter<T, U> = T extends U ? T : never;
 
-export type True<T> = {
-  [K in keyof T]: T[K] extends true ? K : never
-}[keyof T];
+export type True<T> = { [K in keyof T]: T[K] extends true ? K : never }[keyof T];
 
-export type AmbiguousBool<T> = {
-  [K in keyof T]: T[K] extends false ? never : T[K] extends true ? never : K
-}[keyof T];
+export type AmbiguousBool<T> = { [K in keyof T]: T[K] extends false ? never : T[K] extends true ? never : K }[keyof T];
 
 export default function filterProps<
   // tslint:disable-next-line:no-any
@@ -28,8 +24,6 @@ export default function filterProps<
 }
 
 // TypeScript widens types, so `true` becomes `boolean`
-export function unwidenBool<T extends Record<string, boolean>>(
-  obj: T
-): { [P in keyof T]: T[P] } {
+export function unwidenBool<T extends Record<string, boolean>>(obj: T): { [P in keyof T]: T[P] } {
   return obj;
 }

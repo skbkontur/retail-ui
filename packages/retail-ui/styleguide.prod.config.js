@@ -16,10 +16,7 @@ const { versions, 'dist-tags': tags } = JSON.parse(stdout.toString());
 const isStable = config.version === tags.latest;
 
 if (!isStable) {
-  renameSync(
-    config.styleguideDir,
-    path.join(config.styleguideDir, '..', 'next')
-  );
+  renameSync(config.styleguideDir, path.join(config.styleguideDir, '..', 'next'));
   process.exit(0);
 }
 
@@ -34,14 +31,14 @@ const versionSection = { name: 'Versions', sections: [] };
 versionSection.sections.push({
   name: 'next',
   content: 'README.md',
-  href: 'http://tech.skbkontur.ru/react-ui/next'
+  href: 'http://tech.skbkontur.ru/react-ui/next',
 });
 
 stableVersions.forEach(version => {
   versionSection.sections.push({
     name: version,
     content: 'README.md',
-    href: `http://tech.skbkontur.ru/react-ui/${version}`
+    href: `http://tech.skbkontur.ru/react-ui/${version}`,
   });
 });
 
@@ -50,7 +47,7 @@ config.sections = [
   { name: 'Changelog', content: 'CHANGELOG.md' },
   { name: 'Roadmap', content: 'ROADMAP.md' },
   { name: 'Icons', content: './components/Icon/README.md' },
-  { name: 'Components', components: config.components, sectionDepth: 1 }
+  { name: 'Components', components: config.components, sectionDepth: 1 },
 ];
 config.sections.push(versionSection);
 config.styleguideDir = path.join(config.styleguideDir, '..');

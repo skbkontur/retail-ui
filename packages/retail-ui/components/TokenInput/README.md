@@ -6,39 +6,39 @@ const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 const getItems = q =>
   Promise.resolve(
     ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
-      x => x.toLowerCase().includes(q.toLowerCase()) || x.toString(10) === q
-    )
+      x => x.toLowerCase().includes(q.toLowerCase()) || x.toString(10) === q,
+    ),
   ).then(delay(500));
 
 const tokenColors = {
   First: {
     idle: 'grayIdle',
-    active: 'grayActive'
+    active: 'grayActive',
   },
   Second: {
     idle: 'blueIdle',
-    active: 'blueActive'
+    active: 'blueActive',
   },
   Third: {
     idle: 'greenIdle',
-    active: 'greenActive'
+    active: 'greenActive',
   },
   Fourth: {
     idle: 'yellowIdle',
-    active: 'yellowActive'
+    active: 'yellowActive',
   },
   Fifth: {
     idle: 'redIdle',
-    active: 'redActive'
+    active: 'redActive',
   },
   Sixth: {
     idle: 'white',
-    active: 'black'
+    active: 'black',
   },
   default: {
     idle: 'defaultIdle',
-    active: 'defaultActive'
-  }
+    active: 'defaultActive',
+  },
 };
 
 <div style={{ width: '300px' }}>

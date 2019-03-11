@@ -5,7 +5,7 @@ declare var _default: {|
   MONTH_TITLE_OFFSET_HEIGHT: number,
   WRAPPER_HEIGHT: number,
   MONTH_BOTTOM_MARGIN: number,
-  MAX_MONTHS_TO_APPEND_ON_SCROLL: number
+  MAX_MONTHS_TO_APPEND_ON_SCROLL: number,
 |};
 
 export default _default;

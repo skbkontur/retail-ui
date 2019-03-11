@@ -3,11 +3,7 @@ import config from './config';
 import { MonthViewModel } from './MonthViewModel';
 import { CalendarState, CalendarProps } from './Calendar';
 
-export const calculateScrollPosition = (
-  months: MonthViewModel[],
-  scrollPosition: number,
-  deltaY: number
-) => {
+export const calculateScrollPosition = (months: MonthViewModel[], scrollPosition: number, deltaY: number) => {
   const scrollDirection = deltaY > 0 ? 1 : -1;
 
   let nextScrollPosition = scrollPosition - deltaY;
@@ -32,24 +28,20 @@ export const calculateScrollPosition = (
   return {
     scrollPosition: nextScrollPosition,
     months: nextMonths,
-    scrollDirection
+    scrollDirection,
   };
 };
 
 export const applyDelta = (deltaY: number) => (
   { scrollPosition, months }: Readonly<CalendarState>,
-  { minDate, maxDate }: CalendarProps
+  { minDate, maxDate }: CalendarProps,
 ) => {
   const scrollDirection = deltaY > 0 ? 1 : -1;
   const isMinDateExceeded =
-    minDate &&
-    scrollDirection < 0 &&
-    minDate.year * 12 + minDate.month > months[0].year * 12 + months[0].month;
+    minDate && scrollDirection < 0 && minDate.year * 12 + minDate.month > months[0].year * 12 + months[0].month;
 
   const isMaxDateExceeded =
-    maxDate &&
-    scrollDirection > 0 &&
-    maxDate.year * 12 + maxDate.month < months[1].year * 12 + months[1].month;
+    maxDate && scrollDirection > 0 && maxDate.year * 12 + maxDate.month < months[1].year * 12 + months[1].month;
 
   if (isMinDateExceeded) {
     return { scrollPosition: 0, scrollDirection };
@@ -66,8 +58,7 @@ export const isMonthVisible = (top: number, month: MonthViewModel) => {
   return top < config.WRAPPER_HEIGHT && top > -month.height;
 };
 
-export const getMonthsHeight = (months: MonthViewModel[]) =>
-  months.reduce((a, b) => a + b.height, 0);
+export const getMonthsHeight = (months: MonthViewModel[]) => months.reduce((a, b) => a + b.height, 0);
 
 export const getMonths = (month: number, year: number): MonthViewModel[] => {
   return [-1, 0, 1].map(x => MonthViewModel.create(month + x, year));

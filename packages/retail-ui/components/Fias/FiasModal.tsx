@@ -13,7 +13,7 @@ interface FiasModalProps {
 export class FiasModal extends React.Component<FiasModalProps> {
   public static defaultProps = {
     onClose: () => null,
-    onSave: () => null
+    onSave: () => null,
   };
 
   public render() {

@@ -38,7 +38,7 @@ module.exports = function setupBackend(hook: Hook): boolean {
     hook.emit('renderer-attached', {
       id: rid,
       renderer: hook._renderers[rid],
-      helpers: hook.helpers[rid]
+      helpers: hook.helpers[rid],
     });
   }
 
