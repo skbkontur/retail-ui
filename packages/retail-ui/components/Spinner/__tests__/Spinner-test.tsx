@@ -110,6 +110,13 @@ describe('Spinner', () => {
       return wrapper.find(generateSelector('captionBottom')).text();
     };
 
+    it('render without LocaleProvider', () => {
+      const wrapper = mount(<Spinner />);
+      const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading;
+
+      expect(getTextLoading(wrapper)).toBe(expectedText);
+    });
+
     it('render default locale', () => {
       const wrapper = mount(
         <LocaleProvider>
