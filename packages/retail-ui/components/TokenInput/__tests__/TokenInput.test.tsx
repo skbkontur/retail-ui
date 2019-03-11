@@ -32,13 +32,20 @@ describe('<TokenInput />', () => {
       await delay(0);
       wrapper.update();
     };
-    const contextMount = (props: LocaleProviderProps = {}) => {
-      wrapper = mount(
-        <LocaleProvider {...props}>
-          <TokenInput type={TokenInputType.Combined} getItems={getItems} />
-        </LocaleProvider>,
-      );
+    const contextMount = (props: LocaleProviderProps = {}, wrappedLocale: boolean = true) => {
+      const tokeninput = <TokenInput type={TokenInputType.Combined} getItems={getItems} />;
+      wrapper =
+        wrappedLocale === false ? mount(tokeninput) : mount(<LocaleProvider {...props}>{tokeninput}</LocaleProvider>);
     };
+
+    it('render without LocaleProvider', async () => {
+      contextMount({}, false);
+      const expectedComment = TokenInputLocaleHelper.get(defaultLangCode).addButtonComment;
+
+      await focus();
+
+      expect(getTextComment()).toBe(expectedComment);
+    });
 
     it('render default locale', async () => {
       contextMount();
