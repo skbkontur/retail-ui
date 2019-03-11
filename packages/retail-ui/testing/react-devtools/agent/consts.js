@@ -15,5 +15,5 @@ module.exports = {
   type: Symbol('type'),
   inspected: Symbol('inspected'),
   meta: Symbol('meta'),
-  proto: Symbol('proto')
+  proto: Symbol('proto'),
 };

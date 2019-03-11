@@ -13,7 +13,7 @@ import {
   APIResult,
   FetchFn,
   FetchResponse,
-  FiasCountry
+  FiasCountry,
 } from '../types';
 import abbreviations from '../constants/abbreviations';
 import { Logger } from '../logger/Logger';
@@ -34,17 +34,10 @@ interface SearchQuery {
 }
 
 export class FiasAPI implements APIProvider {
-  private static searchStopWords: { [key: string]: boolean } = Object.keys(
-    abbreviations
-  ).reduce((words, abbr) => {
+  private static searchStopWords: { [key: string]: boolean } = Object.keys(abbreviations).reduce((words, abbr) => {
     return {
       ...words,
-      ...abbreviations[abbr]
-        .split(' ')
-        .reduce(
-          (abbrWords, word) => ({ ...abbrWords, [word.toLowerCase()]: true }),
-          {}
-        )
+      ...abbreviations[abbr].split(' ').reduce((abbrWords, word) => ({ ...abbrWords, [word.toLowerCase()]: true }), {}),
     };
   }, {});
 
@@ -84,34 +77,25 @@ export class FiasAPI implements APIProvider {
   private verifyPromise: Promise<APIResult<VerifyResponse>> | null = null;
   private regionsPromise: Promise<APIResult<SearchResponse>> | null = null;
 
-  constructor(
-    private baseUrl: string = '',
-    private version?: string,
-    private fetchFn: FetchFn = xhrFetch
-  ) {}
+  constructor(private baseUrl: string = '', private version?: string, private fetchFn: FetchFn = xhrFetch) {}
 
-  public verify = (
-    address: AddressValue
-  ): Promise<APIResult<VerifyResponse>> => {
+  public verify = (address: AddressValue): Promise<APIResult<VerifyResponse>> => {
     const query = {
       directParent: false,
-      search: false
+      search: false,
     };
     const emptyResult = {
       success: true,
-      data: []
+      data: [],
     };
-    const promise = this.send<VerifyResponse>(
-      `verify?${FiasAPI.createQuery(query)}`,
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify([address])
-      }
-    );
+    const promise = this.send<VerifyResponse>(`verify?${FiasAPI.createQuery(query)}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([address]),
+    });
     this.verifyPromise = promise;
 
     return promise.then(result => {
@@ -129,7 +113,7 @@ export class FiasAPI implements APIProvider {
     parentFiasId,
     limit,
     fullAddress,
-    directParent
+    directParent,
   }: SearchOptions): Promise<APIResult<SearchResponse>> => {
     const query: SearchQuery = {
       prefix: searchText,
@@ -138,12 +122,12 @@ export class FiasAPI implements APIProvider {
       limit,
       fullAddress,
       directParent,
-      version: this.version
+      version: this.version,
     };
     const emptyResult = {
       success: true,
       status: 200,
-      data: []
+      data: [],
     };
 
     if (fiasId) {
@@ -173,26 +157,18 @@ export class FiasAPI implements APIProvider {
     return Promise.resolve(emptyResult);
   };
 
-  public searchCountry = (query: {
-    prefix: string;
-    limit?: number;
-  }): Promise<APIResult<FiasCountry[]>> => {
+  public searchCountry = (query: { prefix: string; limit?: number }): Promise<APIResult<FiasCountry[]>> => {
     return this.send(`countries?${FiasAPI.createQuery(query)}`);
   };
 
-  private send = <Data>(
-    path: string,
-    params = {}
-  ): Promise<APIResult<Data>> => {
+  private send = <Data>(path: string, params = {}): Promise<APIResult<Data>> => {
     const resultPromise = this.baseUrl
       ? this.fetchFn(`${this.baseUrl}${path}`, {
           method: 'GET',
-          ...params
+          ...params,
         }).then((result: FetchResponse) => {
           return result.ok
-            ? result
-                .json()
-                .then((data: Data) => APIResultFactory.success<Data>(data))
+            ? result.json().then((data: Data) => APIResultFactory.success<Data>(data))
             : Promise.reject(new Error(Logger.warnings.fetchError));
         })
       : Promise.reject(new Error(Logger.warnings.noBaseUrl));
@@ -203,86 +179,70 @@ export class FiasAPI implements APIProvider {
     });
   };
 
-  private resolveFiasId = (
-    fiasId: FiasId
-  ): Promise<APIResult<SearchResponse>> => {
-    return this.send<AddressResponse>(`addresses/structural/${fiasId}`).then(
-      result => {
-        const { success, data, error } = result;
-        if (success && data) {
-          return APIResultFactory.success<SearchResponse>([data]);
-        } else {
-          return APIResultFactory.fail<SearchResponse>(error && error.message);
-        }
+  private resolveFiasId = (fiasId: FiasId): Promise<APIResult<SearchResponse>> => {
+    return this.send<AddressResponse>(`addresses/structural/${fiasId}`).then(result => {
+      const { success, data, error } = result;
+      if (success && data) {
+        return APIResultFactory.success<SearchResponse>([data]);
+      } else {
+        return APIResultFactory.fail<SearchResponse>(error && error.message);
       }
-    );
+    });
   };
 
-  private searchAddressObject = (
-    query: SearchQuery
-  ): Promise<APIResult<SearchResponse>> => {
+  private searchAddressObject = (query: SearchQuery): Promise<APIResult<SearchResponse>> => {
     return this.send<SearchResponse>(`addresses?${FiasAPI.createQuery(query)}`);
   };
 
   private resolveAddress = (
     address: string,
     limit?: number,
-    level: Fields = Fields.house
+    level: Fields = Fields.house,
   ): Promise<APIResult<SearchResponse>> => {
     return this.send<SearchResponse>(
       `addresses/resolve?${FiasAPI.createQuery({
         address,
         limit,
-        level
-      })}`
+        level,
+      })}`,
     );
   };
 
-  private searchStead = (
-    query: SearchQuery
-  ): Promise<APIResult<SearchResponse>> => {
-    return this.send<Stead[]>(`steads?${FiasAPI.createQuery(query)}`).then(
-      result => {
-        const { success, data, error } = result;
-        if (success && data) {
-          return APIResultFactory.success<SearchResponse>(
-            data.map((stead: Stead) => {
-              return {
-                stead
-              };
-            })
-          );
-        } else {
-          return APIResultFactory.fail<SearchResponse>(error && error.message);
-        }
+  private searchStead = (query: SearchQuery): Promise<APIResult<SearchResponse>> => {
+    return this.send<Stead[]>(`steads?${FiasAPI.createQuery(query)}`).then(result => {
+      const { success, data, error } = result;
+      if (success && data) {
+        return APIResultFactory.success<SearchResponse>(
+          data.map((stead: Stead) => {
+            return {
+              stead,
+            };
+          }),
+        );
+      } else {
+        return APIResultFactory.fail<SearchResponse>(error && error.message);
       }
-    );
+    });
   };
 
-  private searchHouse = (
-    query: SearchQuery
-  ): Promise<APIResult<SearchResponse>> => {
-    return this.send<House[]>(`houses?${FiasAPI.createQuery(query)}`).then(
-      result => {
-        const { success, data, error } = result;
-        if (success && data) {
-          return APIResultFactory.success<SearchResponse>(
-            data.map((house: House) => {
-              return {
-                house
-              };
-            })
-          );
-        } else {
-          return APIResultFactory.fail<SearchResponse>(error && error.message);
-        }
+  private searchHouse = (query: SearchQuery): Promise<APIResult<SearchResponse>> => {
+    return this.send<House[]>(`houses?${FiasAPI.createQuery(query)}`).then(result => {
+      const { success, data, error } = result;
+      if (success && data) {
+        return APIResultFactory.success<SearchResponse>(
+          data.map((house: House) => {
+            return {
+              house,
+            };
+          }),
+        );
+      } else {
+        return APIResultFactory.fail<SearchResponse>(error && error.message);
       }
-    );
+    });
   };
 
-  private searchRegions = (
-    searchText: string
-  ): Promise<APIResult<SearchResponse>> => {
+  private searchRegions = (searchText: string): Promise<APIResult<SearchResponse>> => {
     if (!this.regionsPromise) {
       this.regionsPromise = this.send<SearchResponse>('addresses/regions');
     }
@@ -301,7 +261,7 @@ export class FiasAPI implements APIProvider {
           data.filter((address: AddressResponse) => {
             const { name, code } = address.region as AddressObject;
             return isStartsWithSearchText(name) || isStartsWithSearchText(code);
-          })
+          }),
         );
       }
       return result;

@@ -62,21 +62,19 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       <span className={className} onClick={onClick} children={children} />
     ),
     strings: { forward: 'Дальше' },
-    useGlobalListener: false
+    useGlobalListener: false,
   };
 
   public static propTypes = {};
 
-  public static isForward(
-    pageNumber: number | 'forward'
-  ): boolean /* %checks */ {
+  public static isForward(pageNumber: number | 'forward'): boolean /* %checks */ {
     return pageNumber === 'forward';
   }
 
   public state: PagingState = {
     focusedByTab: false,
     focusedItem: null,
-    keyboardControl: this.props.useGlobalListener
+    keyboardControl: this.props.useGlobalListener,
   };
 
   private addedGlobalListener: boolean = false;
@@ -93,7 +91,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   public componentWillReceiveProps(nextProps: PagingProps) {
     if (this.props.useGlobalListener !== nextProps.useGlobalListener) {
       this.setState({
-        keyboardControl: nextProps.useGlobalListener
+        keyboardControl: nextProps.useGlobalListener,
       });
     }
   }
@@ -117,9 +115,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       <span
         tabIndex={0}
         className={styles.paging}
-        onKeyDown={
-          this.props.useGlobalListener ? undefined : this.handleKeyDown
-        }
+        onKeyDown={this.props.useGlobalListener ? undefined : this.handleKeyDown}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onMouseDown={this.handleMouseDown}
@@ -153,14 +149,11 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     );
   };
 
-  private renderForwardLink = (
-    disabled: boolean,
-    focused: boolean
-  ): JSX.Element => {
+  private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
     const classes = cn({
       [styles.forwardLink]: true,
       [styles.focused]: focused,
-      [styles.disabled]: disabled
+      [styles.disabled]: disabled,
     });
     const { component: Component, strings } = this.props;
 
@@ -181,28 +174,18 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     );
   };
 
-  private renderPageLink = (
-    pageNumber: number,
-    active: boolean,
-    focused: boolean
-  ): JSX.Element => {
+  private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
     const classes = cn({
       [styles.pageLink]: true,
       [styles.focused]: focused,
-      [styles.active]: active
+      [styles.active]: active,
     });
     const Component = this.props.component;
     const handleClick = () => this.goToPage(pageNumber);
 
     return (
       <span key={pageNumber} className={styles.pageLinkWrapper}>
-        <Component
-          active={active}
-          className={classes}
-          onClick={handleClick}
-          tabIndex={-1}
-          pageNumber={pageNumber}
-        >
+        <Component active={active} className={classes} onClick={handleClick} tabIndex={-1} pageNumber={pageNumber}>
           {pageNumber}
         </Component>
         {active && this.renderNavigationHint()}
@@ -236,9 +219,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     this.setState({ focusedByTab: false, focusedItem: null });
   };
 
-  private handleKeyDown = (
-    event: KeyboardEvent | React.KeyboardEvent<HTMLElement>
-  ) => {
+  private handleKeyDown = (event: KeyboardEvent | React.KeyboardEvent<HTMLElement>) => {
     if (event.shiftKey) {
       return;
     }
@@ -247,8 +228,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
     if (
       target instanceof Element &&
-      (IGNORE_EVENT_TAGS.includes(target.tagName.toLowerCase()) ||
-        (target as HTMLElement).isContentEditable)
+      (IGNORE_EVENT_TAGS.includes(target.tagName.toLowerCase()) || (target as HTMLElement).isContentEditable)
     ) {
       return;
     }
@@ -298,15 +278,12 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private handleBlur = () => {
     this.setState({
       focusedByTab: false,
-      keyboardControl: this.props.useGlobalListener || false
+      keyboardControl: this.props.useGlobalListener || false,
     });
   };
 
   private getItems = (): ItemType[] => {
-    return PagingHelper.getItems(
-      this.props.activePage,
-      this.props.pagesCount
-    ).concat('forward');
+    return PagingHelper.getItems(this.props.activePage, this.props.pagesCount).concat('forward');
   };
 
   private getFocusedItem = (): Nullable<ItemType> => {
@@ -315,11 +292,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     }
 
     const { focusedItem } = this.state;
-    if (
-      focusedItem &&
-      this.getItems().indexOf(focusedItem) !== -1 &&
-      this.isItemFocusable(focusedItem)
-    ) {
+    if (focusedItem && this.getItems().indexOf(focusedItem) !== -1 && this.isItemFocusable(focusedItem)) {
       return focusedItem;
     }
 
@@ -385,11 +358,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   };
 
   private goToPage = (pageNumber: number) => {
-    if (
-      1 <= pageNumber &&
-      pageNumber !== this.props.activePage &&
-      pageNumber <= this.props.pagesCount
-    ) {
+    if (1 <= pageNumber && pageNumber !== this.props.activePage && pageNumber <= this.props.pagesCount) {
       this.props.onPageChange(pageNumber);
     }
   };
@@ -437,7 +406,7 @@ Paging.propTypes = {
   /**
    * Calls when page has been changed
    */
-  onPageChange: func.isRequired
+  onPageChange: func.isRequired,
 };
 
 const KEYCODE_TAB = 9;

@@ -4,38 +4,50 @@ import Menu from '../Menu/Menu';
 import InputLikeText from '../internal/InputLikeText';
 import type { MenuItemState } from '../MenuItem';
 
-export type Action<T> = {
-  type: 'ValueChange',
-  value: T,
-  keepFocus: boolean
-} | {
-  type: 'TextChange',
-  value: string
-} | {
-  type: 'KeyPress',
-  event: SyntheticKeyboardEvent<HTMLElement>
-} | {
-  type: 'DidUpdate',
-  prevProps: CustomComboBoxProps<T>,
-  prevState: CustomComboBoxState<T>
-} | {
-  type: 'Mount'
-} | {
-  type: 'Focus'
-} | {
-  type: 'InputClick'
-} | {
-  type: 'Blur'
-} | {
-  type: 'Reset'
-} | {
-  type: 'Open'
-} | {
-  type: 'Close'
-} | {
-  type: 'Search',
-  query: string
-};
+export type Action<T> =
+  | {
+      type: 'ValueChange',
+      value: T,
+      keepFocus: boolean,
+    }
+  | {
+      type: 'TextChange',
+      value: string,
+    }
+  | {
+      type: 'KeyPress',
+      event: SyntheticKeyboardEvent<HTMLElement>,
+    }
+  | {
+      type: 'DidUpdate',
+      prevProps: CustomComboBoxProps<T>,
+      prevState: CustomComboBoxState<T>,
+    }
+  | {
+      type: 'Mount',
+    }
+  | {
+      type: 'Focus',
+    }
+  | {
+      type: 'InputClick',
+    }
+  | {
+      type: 'Blur',
+    }
+  | {
+      type: 'Reset',
+    }
+  | {
+      type: 'Open',
+    }
+  | {
+      type: 'Close',
+    }
+  | {
+      type: 'Search',
+      query: string,
+    };
 
 export type CustomComboBoxProps<T> = {|
   align?: 'left' | 'center' | 'right',
@@ -62,7 +74,7 @@ export type CustomComboBoxProps<T> = {|
   renderItem: (item: T, state?: MenuItemState) => React$Node,
   renderValue: (value: T) => React$Node,
   valueToString: (value: T) => string,
-  itemToValue: (item: T) => string | number
+  itemToValue: (item: T) => string | number,
 |};
 
 export type CustomComboBoxState<T> = {|
@@ -70,15 +82,24 @@ export type CustomComboBoxState<T> = {|
   loading: boolean,
   opened: boolean,
   textValue: string,
-  items: ?T[]
+  items: ?(T[]),
 |};
 
-export type Effect<T> = (dispatch: (x0: Action<T>) => void, getState: () => CustomComboBoxState<T>, getProps: () => CustomComboBoxProps<T>, getInstance: () => CustomComboBox) => void;
+export type Effect<T> = (
+  dispatch: (x0: Action<T>) => void,
+  getState: () => CustomComboBoxState<T>,
+  getProps: () => CustomComboBoxProps<T>,
+  getInstance: () => CustomComboBox,
+) => void;
 
-export type Reducer<T> = (state: CustomComboBoxState<T>, props: CustomComboBoxProps<T>, action: Action<T>) => CustomComboBoxState<T> | [CustomComboBoxState<T>, Array<Effect<T>>];
+export type Reducer<T> = (
+  state: CustomComboBoxState<T>,
+  props: CustomComboBoxProps<T>,
+  action: Action<T>,
+) => CustomComboBoxState<T> | [CustomComboBoxState<T>, Array<Effect<T>>];
 
 export type Props<T> = {
-  reducer: Reducer<T>
+  reducer: Reducer<T>,
 } & CustomComboBoxProps<T>;
 
 declare export var DefaultState: {|
@@ -86,24 +107,24 @@ declare export var DefaultState: {|
   items: null,
   loading: boolean,
   opened: boolean,
-  textValue: string
+  textValue: string,
 |};
 
 // eslint-disable-next-line flowtype/no-weak-types
 declare class CustomComboBox extends React$Component<Props<any>, CustomComboBoxState<any>> {
   // eslint-disable-next-line flowtype/no-weak-types
-  state: CustomComboBoxState<any>,
-  input: ?Input,
-  menu: ?Menu,
-  inputLikeText: ?InputLikeText,
+  state: CustomComboBoxState<any>;
+  input: ?Input;
+  menu: ?Menu;
+  inputLikeText: ?InputLikeText;
 
-  focus: () => void,
-  selectInputText: () => void,
-  blur: () => void,
-  search(query?: string): void,
-  open(): void,
-  close(): void,
-  reset(): void
+  focus: () => void;
+  selectInputText: () => void;
+  blur: () => void;
+  search(query?: string): void;
+  open(): void;
+  close(): void;
+  reset(): void;
 }
 
 export default CustomComboBox;

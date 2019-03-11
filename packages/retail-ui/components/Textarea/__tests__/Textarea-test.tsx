@@ -22,12 +22,8 @@ describe('Textarea', () => {
 
     wrapper.instance().setSelectionRange(SELECTION_START, SELECTION_END);
 
-    expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(
-      SELECTION_START
-    );
-    expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(
-      SELECTION_END
-    );
+    expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(SELECTION_START);
+    expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(SELECTION_END);
   });
 
   it('selectAll works by method', () => {
@@ -36,28 +32,18 @@ describe('Textarea', () => {
 
     wrapper.instance().selectAll();
 
-    expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(
-      0
-    );
-    expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(
-      VALUE.length
-    );
+    expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(0);
+    expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(VALUE.length);
   });
 
   it('selectAllOnFocus prop works', () => {
     const VALUE = 'selectAllOnFocus prop works';
-    const wrapper = mount<Textarea>(
-      <Textarea value={VALUE} selectAllOnFocus />
-    );
+    const wrapper = mount<Textarea>(<Textarea value={VALUE} selectAllOnFocus />);
 
     wrapper.find('textarea').simulate('focus');
 
-    expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(
-      0
-    );
-    expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(
-      VALUE.length
-    );
+    expect((document.activeElement as HTMLTextAreaElement).selectionStart).toBe(0);
+    expect((document.activeElement as HTMLTextAreaElement).selectionEnd).toBe(VALUE.length);
   });
 
   it('manual focus', () => {

@@ -9,7 +9,7 @@ import { Nullable } from '../../../typings/utility-types';
 
 class TestNotifier extends React.Component<any, any> {
   public state = {
-    modal: false
+    modal: false,
   };
 
   private notifier: Nullable<Toast>;
@@ -17,15 +17,9 @@ class TestNotifier extends React.Component<any, any> {
   public render() {
     return (
       <div>
-        <Toast
-          ref={el => (this.notifier = el)}
-          onClose={action('close')}
-          onPush={action('push')}
-        />
+        <Toast ref={el => (this.notifier = el)} onClose={action('close')} onPush={action('push')} />
         <Button onClick={this.showNotification}>Show notification</Button>
-        <Button onClick={() => this.setState({ modal: true })}>
-          Show Modal
-        </Button>
+        <Button onClick={() => this.setState({ modal: true })}>Show Modal</Button>
         {this.state.modal && this.renderModal()}
       </div>
     );
@@ -49,7 +43,7 @@ class TestNotifier extends React.Component<any, any> {
     if (this.notifier) {
       this.notifier.push('Successfully saved', {
         label: 'Cancel',
-        handler: action('cancel_save')
+        handler: action('cancel_save'),
       });
     }
   }
@@ -62,9 +56,7 @@ class TestNotifier extends React.Component<any, any> {
           <Button onClick={this.showNotification}>Show notification</Button>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => this.setState({ modal: false })}>
-            Close Modal
-          </Button>
+          <Button onClick={() => this.setState({ modal: false })}>Close Modal</Button>
         </Modal.Footer>
       </Modal>
     );
@@ -76,7 +68,5 @@ storiesOf('Toast', module)
   .add('complex notifiacation', () => <TestNotifier complex />)
   .add('static method', () => (
     // tslint:disable-next-line:jsx-no-lambda
-    <Button onClick={() => Toast.push('Static method call')}>
-      Show static
-    </Button>
+    <Button onClick={() => Toast.push('Static method call')}>Show static</Button>
   ));

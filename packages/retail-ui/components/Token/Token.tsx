@@ -4,7 +4,7 @@ import warningOutput from 'warning';
 import styles from './Token.less';
 import tokenColors from './Colors.less';
 import TokenRemoveIcon from './TokenRemoveIcon';
-import { emptyHandler } from "../../lib/utils";
+import { emptyHandler } from '../../lib/utils';
 
 const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'i-default': 'defaultIdle',
@@ -18,7 +18,7 @@ const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'l-yellow': 'yellowIdle',
   'd-yellow': 'yellowActive',
   'l-red': 'redIdle',
-  'd-red': 'redActive'
+  'd-red': 'redActive',
 };
 
 export type TokenColorName = keyof typeof tokenColors;
@@ -60,37 +60,29 @@ const Token: React.SFC<TokenProps & TokenActions> = ({
   if (process.env.NODE_ENV !== 'production' && colors) {
     warningOutput(
       !deprecatedColorNames[colors.idle],
-      `Color name '${colors.idle}' has been deprecated, use '${
-        deprecatedColorNames[colors.idle]
-      }' instead`
+      `Color name '${colors.idle}' has been deprecated, use '${deprecatedColorNames[colors.idle]}' instead`,
     );
 
     if (colors.active) {
       warningOutput(
         !deprecatedColorNames[colors.active],
-        `Color name '${colors.active}' has been deprecated, use '${
-          deprecatedColorNames[colors.active]
-        }' instead`
+        `Color name '${colors.active}' has been deprecated, use '${deprecatedColorNames[colors.active]}' instead`,
       );
     }
   }
 
-  const tokenClassName = colors
-    ? tokenColors[colors.idle]
-    : tokenColors.defaultIdle;
+  const tokenClassName = colors ? tokenColors[colors.idle] : tokenColors.defaultIdle;
 
-  const activeTokenClassName = colors
-    ? tokenColors[colors.active || colors.idle]
-    : tokenColors.defaultActive;
+  const activeTokenClassName = colors ? tokenColors[colors.active || colors.idle] : tokenColors.defaultActive;
 
   const tokenClassNames = cn(
     styles.token,
     {
       [activeTokenClassName]: isActive,
       [styles.warning]: warning,
-      [styles.error]: error
+      [styles.error]: error,
     },
-    tokenClassName
+    tokenClassName,
   );
 
   return (

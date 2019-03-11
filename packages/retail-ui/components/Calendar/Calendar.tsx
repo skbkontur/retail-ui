@@ -39,13 +39,13 @@ const getTodayDate = () => {
   return {
     date: date.getDate(),
     month: date.getMonth(),
-    year: date.getFullYear()
+    year: date.getFullYear(),
   };
 };
 
 class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static defaultProps = {
-    holidays: []
+    holidays: [],
   };
 
   private _wheelEndTimeout: Nullable<number>;
@@ -57,17 +57,15 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     const today = getTodayDate();
 
-    const initialMonth =
-      props.initialMonth == null ? today.month : props.initialMonth;
-    const initialYear =
-      props.initialYear == null ? today.year : props.initialYear;
+    const initialMonth = props.initialMonth == null ? today.month : props.initialMonth;
+    const initialYear = props.initialYear == null ? today.year : props.initialYear;
 
     this.state = {
       scrollPosition: 0,
       months: CalendarUtils.getMonths(initialMonth, initialYear),
       today,
       scrollDirection: 1,
-      scrollTarget: 0
+      scrollTarget: 0,
     };
   }
 
@@ -135,17 +133,13 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
     const { pixelY } = normalizeWheel(event);
 
     this.setState(({ months, scrollPosition, scrollTarget }) => {
-      const targetPosition = CalendarUtils.calculateScrollPosition(
-        months,
-        scrollPosition,
-        pixelY
-      ).scrollPosition;
+      const targetPosition = CalendarUtils.calculateScrollPosition(months, scrollPosition, pixelY).scrollPosition;
       return { scrollTarget: targetPosition };
     }, this._handleWheelEnd);
 
     this._animation.animate(pixelY, deltaY =>
       // FIXME: Typescript not resolving setState cb type
-      this.setState(CalendarUtils.applyDelta(deltaY) as any)
+      this.setState(CalendarUtils.applyDelta(deltaY) as any),
     );
 
     CalendarScrollEvents.emit();
@@ -173,7 +167,7 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
         const amount = scrollTarget - targetPosition;
         this._animation.animate(amount, deltaY =>
           // FIXME: Typescript not resolving setState cb type
-          this.setState(CalendarUtils.applyDelta(deltaY) as any)
+          this.setState(CalendarUtils.applyDelta(deltaY) as any),
         );
       });
     }
@@ -199,8 +193,7 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
 
     const currentMonth = this.state.months[1];
-    const diffInMonths =
-      currentMonth.month + currentMonth.year * 12 - month - year * 12;
+    const diffInMonths = currentMonth.month + currentMonth.year * 12 - month - year * 12;
 
     if (diffInMonths === 0) {
       this._scrollTo(0);
@@ -212,7 +205,7 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
     const onEnd = () =>
       this.setState({
         months: CalendarUtils.getMonths(month, year),
-        scrollPosition: 0
+        scrollPosition: 0,
       });
 
     const isYearChanges = (state: CalendarState) =>
@@ -225,13 +218,9 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
     // If scrolling upwards, prepend maximum maxMonthsToAdd months
     // and scroll to the first month
     if (diffInMonths > 0) {
-      const monthsToPrependCount = Math.min(
-        Math.abs(diffInMonths) - 1,
-        maxMonthsToAdd
-      );
-      const monthsToPrepend = Array.from(
-        { length: monthsToPrependCount },
-        (_, index) => MonthViewModel.create(month + index, year)
+      const monthsToPrependCount = Math.min(Math.abs(diffInMonths) - 1, maxMonthsToAdd);
+      const monthsToPrepend = Array.from({ length: monthsToPrependCount }, (_, index) =>
+        MonthViewModel.create(month + index, year),
       );
       this.setState(
         state => {
@@ -247,27 +236,22 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
           }
           return {
             months: monthsToPrepend.concat(state.months),
-            scrollPosition: -CalendarUtils.getMonthsHeight(monthsToPrepend)
+            scrollPosition: -CalendarUtils.getMonthsHeight(monthsToPrepend),
           };
         },
         () => {
           const targetPosition = this.state.months[0].height;
           this._scrollTo(targetPosition, onEnd);
-        }
+        },
       );
     }
 
     // If scrolling downwards, append maximum maxMonthsToAdd months
     // and scroll to the last but one month
     if (diffInMonths < 0) {
-      const monthsToAppendCount = Math.min(
-        Math.abs(diffInMonths),
-        maxMonthsToAdd
-      );
-      const monthsToAppend = Array.from(
-        { length: monthsToAppendCount },
-        (_, index) =>
-          MonthViewModel.create(month + index - monthsToAppendCount + 2, year)
+      const monthsToAppendCount = Math.min(Math.abs(diffInMonths), maxMonthsToAdd);
+      const monthsToAppend = Array.from({ length: monthsToAppendCount }, (_, index) =>
+        MonthViewModel.create(month + index - monthsToAppendCount + 2, year),
       );
       this.setState(
         state => {
@@ -283,10 +267,9 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
           return { months: state.months.concat(monthsToAppend) };
         },
         () => {
-          const targetPosition =
-            -1 * CalendarUtils.getMonthsHeight(this.state.months.slice(1, -2));
+          const targetPosition = -1 * CalendarUtils.getMonthsHeight(this.state.months.slice(1, -2));
           this._scrollTo(targetPosition, onEnd);
-        }
+        },
       );
     }
   };
@@ -301,17 +284,17 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
       scrollAmmount,
       deltaY =>
         this.setState(({ scrollPosition }) => ({
-          scrollPosition: scrollPosition + deltaY
+          scrollPosition: scrollPosition + deltaY,
         })),
-      onEnd
+      onEnd,
     );
   };
 }
 
 const styles = {
   wrapper: {
-    height: config.WRAPPER_HEIGHT
-  }
+    height: config.WRAPPER_HEIGHT,
+  },
 };
 
 export default Calendar;

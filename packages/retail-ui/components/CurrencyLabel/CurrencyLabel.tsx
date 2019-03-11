@@ -11,7 +11,7 @@ export interface CurrencyLabelProps {
 const CurrencyLabel: React.SFC<CurrencyLabelProps> = ({
   value,
   fractionDigits = 2,
-  currencySymbol = null
+  currencySymbol = null,
 }): JSX.Element => (
   <span>
     {CurrencyHelper.format(value, { fractionDigits })}

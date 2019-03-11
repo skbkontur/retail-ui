@@ -50,10 +50,7 @@ class TopBarDropdown extends React.Component<TopBarDropdownProps> {
     );
   };
 
-  private handleKeyDown = (
-    event: React.KeyboardEvent<HTMLElement>,
-    openMenu: PopupMenuCaptionProps['openMenu']
-  ) => {
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLElement>, openMenu: PopupMenuCaptionProps['openMenu']) => {
     switch (event.key) {
       case 'Enter':
       case ' ':

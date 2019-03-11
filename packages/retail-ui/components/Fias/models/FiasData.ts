@@ -1,26 +1,14 @@
-import {
-  AddressObject,
-  EstateStatuses,
-  FiasId,
-  FiasObject,
-  House,
-  Stead,
-  StructureStatuses
-} from '../types';
+import { AddressObject, EstateStatuses, FiasId, FiasObject, House, Stead, StructureStatuses } from '../types';
 
 export class FiasData {
   public static isAddressObject = (data: FiasObject): data is AddressObject => {
-    return (
-      data && data.hasOwnProperty('name') && data.hasOwnProperty('abbreviation')
-    );
+    return data && data.hasOwnProperty('name') && data.hasOwnProperty('abbreviation');
   };
 
   public static isStead = (data: FiasObject): data is Stead => {
     return (
       data &&
-      (data.hasOwnProperty('number') &&
-        data.hasOwnProperty('liveStatus') &&
-        !data.hasOwnProperty('estateStatus'))
+      (data.hasOwnProperty('number') && data.hasOwnProperty('liveStatus') && !data.hasOwnProperty('estateStatus'))
     );
   };
 
@@ -55,22 +43,15 @@ export class FiasData {
   }
 
   public get number(): string {
-    return (FiasData.isStead(this.data) || FiasData.isHouse(this.data)) &&
-      this.data.number
-      ? this.data.number
-      : '';
+    return (FiasData.isStead(this.data) || FiasData.isHouse(this.data)) && this.data.number ? this.data.number : '';
   }
 
   public get structureNumber(): string {
-    return FiasData.isHouse(this.data) && this.data.structureNumber
-      ? this.data.structureNumber
-      : '';
+    return FiasData.isHouse(this.data) && this.data.structureNumber ? this.data.structureNumber : '';
   }
 
   public get buildingNumber(): string {
-    return FiasData.isHouse(this.data) && this.data.buildingNumber
-      ? this.data.buildingNumber
-      : '';
+    return FiasData.isHouse(this.data) && this.data.buildingNumber ? this.data.buildingNumber : '';
   }
 
   public get fiasId(): FiasId {

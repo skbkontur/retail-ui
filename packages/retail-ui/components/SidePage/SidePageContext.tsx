@@ -13,15 +13,13 @@ export const SidePageContext = createReactContext<SidePageContextType>({
   requestClose: () => undefined,
   width: 'auto',
   updateLayout: () => undefined,
-  footerRef: () => undefined
+  footerRef: () => undefined,
 });
 
 export const withContext = <P extends {}>(
-  BaseComponent: React.ComponentType<P & { context?: SidePageContextType }>
+  BaseComponent: React.ComponentType<P & { context?: SidePageContextType }>,
 ) => (props: P) => (
   <SidePageContext.Consumer>
-    {(context: SidePageContextType) => (
-      <BaseComponent {...props} context={context} />
-    )}
+    {(context: SidePageContextType) => <BaseComponent {...props} context={context} />}
   </SidePageContext.Consumer>
 );

@@ -9,14 +9,14 @@ module.exports = {
           'env',
           {
             targets: {
-              node: 'current'
-            }
-          }
+              node: 'current',
+            },
+          },
         ],
-        'react'
+        'react',
       ],
       plugins: ['transform-class-properties', 'transform-object-rest-spread'],
-      retainLines: true
+      retainLines: true,
     }).code;
-  }
+  },
 };

@@ -3,14 +3,8 @@ module.exports = function(babel) {
 
   function buildRefFunc(tid) {
     return t.CallExpression(
-      t.MemberExpression(
-        t.MemberExpression(
-          t.Identifier('global'),
-          t.Identifier('ReactTesting')
-        ),
-        t.Identifier('ref')
-      ),
-      [tid]
+      t.MemberExpression(t.MemberExpression(t.Identifier('global'), t.Identifier('ReactTesting')), t.Identifier('ref')),
+      [tid],
     );
   }
 
@@ -22,6 +16,6 @@ module.exports = function(babel) {
 
       node.name.name = 'ref';
       node.value = t.JSXExpressionContainer(buildRefFunc(node.value));
-    }
+    },
   });
 };

@@ -63,7 +63,7 @@ class TopBar extends React.Component<TopBarProps> {
 
   public static defaultProps: TopBarDefaultProps = {
     maxWidth: 1166,
-    rightItems: []
+    rightItems: [],
   };
 
   public static propTypes = {
@@ -124,7 +124,7 @@ class TopBar extends React.Component<TopBarProps> {
     /**
      * Функция выхода
      */
-    onLogout: PropTypes.func
+    onLogout: PropTypes.func,
   };
 
   public render(): JSX.Element {
@@ -137,16 +137,13 @@ class TopBar extends React.Component<TopBarProps> {
       noMargin,
       userName,
       onLogout,
-      rightItems = TopBar.defaultProps.rightItems
+      rightItems = TopBar.defaultProps.rightItems,
     } = this.props;
 
     const _rightItems: Array<React.ReactElement<any>> = [...rightItems];
 
     if (userName) {
-      _rightItems.push(
-        <User userName={userName} cabinetUrl={cabinetUrl} />,
-        <Divider />
-      );
+      _rightItems.push(<User userName={userName} cabinetUrl={cabinetUrl} />, <Divider />);
     }
 
     if (onLogout) {
@@ -158,7 +155,7 @@ class TopBar extends React.Component<TopBarProps> {
       color: this.props.color,
       href: this.props.logoHref,
       logoComponent: this.props.logoComponent,
-      withWidget: !this.props.noWidget
+      withWidget: !this.props.noWidget,
     };
 
     return (
@@ -166,7 +163,7 @@ class TopBar extends React.Component<TopBarProps> {
         className={classNames({
           [styles.root]: true,
           [styles.noShadow]: noShadow,
-          [styles.noMargin]: noMargin
+          [styles.noMargin]: noMargin,
         })}
       >
         <div className={styles.center} style={{ maxWidth }}>
@@ -181,9 +178,7 @@ class TopBar extends React.Component<TopBarProps> {
                   </Item>
                   {this._renderItems(leftItems)}
                 </div>
-                <div className={styles.endItems}>
-                  {this._renderItems(_rightItems)}
-                </div>
+                <div className={styles.endItems}>{this._renderItems(_rightItems)}</div>
               </div>
             )}
           </div>
@@ -200,7 +195,7 @@ class TopBar extends React.Component<TopBarProps> {
     return items.map((item, i) => {
       if (item && !item.key) {
         return React.cloneElement(item, {
-          key: '$topbar_' + i
+          key: '$topbar_' + i,
         });
       }
       return item;

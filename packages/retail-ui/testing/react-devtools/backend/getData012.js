@@ -81,7 +81,7 @@ function getData012(element: Object): DataType {
       forceUpdate: element.forceUpdate.bind(element),
       setInProps: element.forceUpdate && setInProps.bind(null, element),
       setInState: element.forceUpdate && setInState.bind(null, element),
-      setInContext: element.forceUpdate && setInContext.bind(null, element)
+      setInContext: element.forceUpdate && setInContext.bind(null, element),
     };
     publicInstance = element;
   }
@@ -98,7 +98,7 @@ function getData012(element: Object): DataType {
     children,
     text,
     updater,
-    publicInstance
+    publicInstance,
   };
 }
 

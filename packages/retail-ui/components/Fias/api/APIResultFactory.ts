@@ -4,14 +4,14 @@ export class APIResultFactory {
   public static success = <Data>(data: Data): APIResult<Data> => {
     return {
       success: true,
-      data
+      data,
     };
   };
 
   public static fail = <Data>(message: string = ''): APIResult<Data> => {
     return {
       success: false,
-      error: new Error(message)
+      error: new Error(message),
     };
   };
 }

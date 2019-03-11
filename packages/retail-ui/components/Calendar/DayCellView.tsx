@@ -17,15 +17,7 @@ interface DayCellViewProps {
   isWeekend?: boolean;
 }
 
-export const DayCellView = ({
-  date,
-  minDate,
-  maxDate,
-  today,
-  value,
-  isWeekend,
-  onClick
-}: DayCellViewProps) => (
+export const DayCellView = ({ date, minDate, maxDate, today, value, isWeekend, onClick }: DayCellViewProps) => (
   <button
     style={styles.cell}
     tabIndex={-1}
@@ -35,7 +27,7 @@ export const DayCellView = ({
       [classes.cell]: true,
       [classes.weekend]: isWeekend,
       [classes.today]: today && CDS.isEqual(date, today),
-      [classes.selected]: value && CDS.isEqual(date, value)
+      [classes.selected]: value && CDS.isEqual(date, value),
     })}
     onClick={onClick}
   >
@@ -48,6 +40,6 @@ const styles = {
     width: config.DAY_HEIGHT,
     height: config.DAY_HEIGHT,
     lineHeight: config.DAY_HEIGHT - 2 + 'px',
-    borderRadius: config.DAY_HEIGHT / 2
-  }
+    borderRadius: config.DAY_HEIGHT / 2,
+  },
 };

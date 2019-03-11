@@ -13,20 +13,15 @@ import { Shape } from '../../../typings/utility-types';
 
 const textSample = (
   <p>
-    On the other hand, we denounce with righteous indignation and dislike men
-    who are so beguiled and demoralized by the charms of pleasure of the moment,
-    so blinded by desire, that they cannot foresee the pain and trouble that are
-    bound to ensue; and equal blame belongs to those who fail in their duty
-    through weakness of will, which is the same as saying through shrinking from
-    toil and pain. These cases are perfectly simple and easy to distinguish. In
-    a free hour, when our power of choice is untrammelled and when nothing
-    prevents our being able to do what we like best, every pleasure is to be
-    welcomed and every pain avoided. But in certain circumstances and owing to
-    the claims of duty or the obligations of business it will frequently occur
-    that pleasures have to be repudiated and annoyances accepted. The wise man
-    therefore always holds in these matters to this principle of selection: he
-    rejects pleasures to secure other greater pleasures, or else he endures
-    pains to avoid worse pains.
+    On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the
+    charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound
+    to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as
+    saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free
+    hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best,
+    every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of
+    duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances
+    accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures
+    to secure other greater pleasures, or else he endures pains to avoid worse pains.
   </p>
 );
 
@@ -47,7 +42,7 @@ interface SampleState {
 class Sample extends React.Component<SampleProps, SampleState> {
   public state: SampleState = {
     open: false,
-    panel: false
+    panel: false,
   };
 
   public open = () => this.setState({ open: true });
@@ -62,9 +57,7 @@ class Sample extends React.Component<SampleProps, SampleState> {
     >
       <SidePage.Header>
         Title
-        {this.props.total &&
-          this.props.total > 1 &&
-          ` ${this.props.current} / ${this.props.total}`}
+        {this.props.total && this.props.total > 1 && ` ${this.props.current} / ${this.props.total}`}
       </SidePage.Header>
       <SidePage.Body>
         <div style={{ padding: '0 35px 35px 35px' }}>
@@ -80,10 +73,7 @@ class Sample extends React.Component<SampleProps, SampleState> {
               />
             )}
           <div>
-            <Toggle
-              checked={this.state.panel}
-              onChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
-            />{' '}
+            <Toggle checked={this.state.panel} onChange={() => this.setState(({ panel }) => ({ panel: !panel }))} />{' '}
             Panel {this.state.panel ? 'enabled' : 'disabled'}
           </div>
           {this.props.children}
@@ -129,22 +119,15 @@ class SampleConfigurator extends React.Component<SampleConfiguratorProps> {
             checked={this.props.ignoreBackgroundClick}
             onChange={() => this.props.onChange('ignoreBackgroundClick')}
           />{' '}
-          ignoreBackgroundClick{' '}
-          {this.props.ignoreBackgroundClick ? 'enabled' : 'disabled'}
+          ignoreBackgroundClick {this.props.ignoreBackgroundClick ? 'enabled' : 'disabled'}
         </div>
         <div>
-          <Toggle
-            checked={this.props.blockBackground}
-            onChange={() => this.props.onChange('blockBackground')}
-          />{' '}
+          <Toggle checked={this.props.blockBackground} onChange={() => this.props.onChange('blockBackground')} />{' '}
           blockBackground {this.props.blockBackground ? 'enabled' : 'disabled'}
         </div>
         <div>
-          <Toggle
-            checked={this.props.withContent}
-            onChange={() => this.props.onChange('withContent')}
-          />{' '}
-          withContent {this.props.withContent ? 'enabled' : 'disabled'}
+          <Toggle checked={this.props.withContent} onChange={() => this.props.onChange('withContent')} /> withContent{' '}
+          {this.props.withContent ? 'enabled' : 'disabled'}
         </div>
       </div>
     );
@@ -167,12 +150,9 @@ interface SidePageWithInputInHeaderState {
   opened: boolean;
 }
 
-class SidePageWithInputInHeader extends React.Component<
-  {},
-  SidePageWithInputInHeaderState
-> {
+class SidePageWithInputInHeader extends React.Component<{}, SidePageWithInputInHeaderState> {
   public state: SidePageWithInputInHeaderState = {
-    opened: false
+    opened: false,
   };
 
   public render() {
@@ -180,11 +160,7 @@ class SidePageWithInputInHeader extends React.Component<
       <SidePage onClose={this.close}>
         <SidePage.Header>
           <Input placeholder="Some input placeholder..." value="" />{' '}
-          <Input
-            size="large"
-            placeholder="Some large input placeholder..."
-            value=""
-          />
+          <Input size="large" placeholder="Some large input placeholder..." value="" />
           <br />
           <Textarea placeholder="Some textarea placeholder" value="" />
         </SidePage.Header>
@@ -213,15 +189,7 @@ class SidePageWithInputInHeader extends React.Component<
 
 class SidePageOverAnotherSidePage extends React.Component<{}> {
   public render() {
-    return (
-      <Sample
-        current={1}
-        total={5}
-        ignoreBackgroundClick
-        blockBackground
-        withContent
-      />
-    );
+    return <Sample current={1} total={5} ignoreBackgroundClick blockBackground withContent />;
   }
 }
 
@@ -231,14 +199,11 @@ interface SidePageWithCloseConfigurationState {
   withContent: boolean;
 }
 
-class SidePageWithCloseConfiguration extends React.Component<
-  {},
-  SidePageWithCloseConfigurationState
-> {
+class SidePageWithCloseConfiguration extends React.Component<{}, SidePageWithCloseConfigurationState> {
   public state: SidePageWithCloseConfigurationState = {
     ignoreBackgroundClick: false,
     blockBackground: false,
-    withContent: false
+    withContent: false,
   };
 
   public render() {
@@ -256,9 +221,7 @@ class SidePageWithCloseConfiguration extends React.Component<
             const propertyName = name as keyof SidePageWithCloseConfigurationState;
             this.setState(
               (state: SidePageWithCloseConfigurationState) =>
-                ({ [propertyName]: !state[propertyName] } as Shape<
-                  SidePageWithCloseConfigurationState
-                >)
+                ({ [propertyName]: !state[propertyName] } as Shape<SidePageWithCloseConfigurationState>),
             );
           }}
           ignoreBackgroundClick={this.state.ignoreBackgroundClick}
@@ -277,15 +240,12 @@ interface SidePageWithModalInsideState {
   withContent: boolean;
 }
 
-class SidePageWithModalInside extends React.Component<
-  {},
-  SidePageWithModalInsideState
-> {
+class SidePageWithModalInside extends React.Component<{}, SidePageWithModalInsideState> {
   public state: SidePageWithModalInsideState = {
     isModalOpened: false,
     ignoreBackgroundClick: true,
     blockBackground: false,
-    withContent: false
+    withContent: false,
   };
 
   public render() {
@@ -293,9 +253,7 @@ class SidePageWithModalInside extends React.Component<
       <div>
         {this.state.isModalOpened && this.renderModal()}
         <Sample current={1} ignoreBackgroundClick={false} blockBackground>
-          <Button onClick={() => this.setState({ isModalOpened: true })}>
-            Открыть modal
-          </Button>
+          <Button onClick={() => this.setState({ isModalOpened: true })}>Открыть modal</Button>
           <div>
             {textSample}
             {textSample}
@@ -308,10 +266,7 @@ class SidePageWithModalInside extends React.Component<
   }
 
   private renderModal = () => (
-    <Modal
-      onClose={() => this.setState({ isModalOpened: false })}
-      ignoreBackgroundClick
-    >
+    <Modal onClose={() => this.setState({ isModalOpened: false })} ignoreBackgroundClick>
       <Modal.Header>Хедер</Modal.Header>
     </Modal>
   );
@@ -323,11 +278,7 @@ class SidePageWithLeftPosition extends React.Component<{
 }> {
   public render() {
     return (
-      <SidePage
-        disableAnimations={this.props.disableAnimations}
-        fromLeft={true}
-        onClose={this.props.close}
-      >
+      <SidePage disableAnimations={this.props.disableAnimations} fromLeft={true} onClose={this.props.close}>
         <SidePage.Header>test</SidePage.Header>
         <SidePage.Body>
           <SidePage.Container>
@@ -346,13 +297,10 @@ class SidePageWithLeftPosition extends React.Component<{
   }
 }
 
-class OpenSidePageWithLeftPosition extends React.Component<
-  SampleProps,
-  SampleState
-> {
+class OpenSidePageWithLeftPosition extends React.Component<SampleProps, SampleState> {
   public state: SampleState = {
     open: false,
-    panel: false
+    panel: false,
   };
 
   public render() {
@@ -383,14 +331,11 @@ interface WithVariableContentState {
   sidePageText: string[];
   pageText: string[];
 }
-class WithVariableContent extends React.Component<
-  {},
-  WithVariableContentState
-> {
+class WithVariableContent extends React.Component<{}, WithVariableContentState> {
   public state: WithVariableContentState = {
     opened: false,
     sidePageText: [],
-    pageText: []
+    pageText: [],
   };
 
   public render() {
@@ -398,9 +343,7 @@ class WithVariableContent extends React.Component<
       <div>
         {this.state.opened && this.renderSidePage()}
         {this.state.pageText.map(() => (
-          <div style={{ height: '400px' }}>
-            Use rxjs operators with react hooks
-          </div>
+          <div style={{ height: '400px' }}>Use rxjs operators with react hooks</div>
         ))}
         <Button onClick={this.open}>Open</Button>
       </div>
@@ -421,7 +364,7 @@ class WithVariableContent extends React.Component<
                           #dfdede 40px
                         )`,
             height: 600,
-            padding: '20px 0'
+            padding: '20px 0',
           }}
         >
           <SidePage.Container>
@@ -461,7 +404,7 @@ class WithVariableContent extends React.Component<
 class TestUpdateLayoutMethod extends React.Component {
   public static ChildComp = class extends React.Component {
     public state = {
-      content: false
+      content: false,
     };
 
     public toggleContent = () => {
@@ -469,9 +412,7 @@ class TestUpdateLayoutMethod extends React.Component {
     };
 
     public render() {
-      return (
-        <div>{this.state.content && <TestUpdateLayoutMethod.Content />}</div>
-      );
+      return <div>{this.state.content && <TestUpdateLayoutMethod.Content />}</div>;
     }
   };
 
@@ -485,13 +426,13 @@ class TestUpdateLayoutMethod extends React.Component {
                           #dfdede 20px,
                           #dfdede 40px
                         )`,
-        height: 2000
+        height: 2000,
       }}
     />
   );
 
   public state = {
-    content: false
+    content: false,
   };
 
   private sidePage: SidePage | null = null;
@@ -521,9 +462,7 @@ class TestUpdateLayoutMethod extends React.Component {
         <SidePage.Body>
           <SidePage.Container>
             {this.state.content && <TestUpdateLayoutMethod.Content />}
-            <TestUpdateLayoutMethod.ChildComp
-              ref={ref => (this.childComp = ref)}
-            />
+            <TestUpdateLayoutMethod.ChildComp ref={ref => (this.childComp = ref)} />
           </SidePage.Container>
         </SidePage.Body>
         <SidePage.Footer>
@@ -532,10 +471,7 @@ class TestUpdateLayoutMethod extends React.Component {
               <button id="toggle-body-content" onClick={this.toggleBodyContent}>
                 Toggle Body Content
               </button>
-              <button
-                id="toggle-child-component-content"
-                onClick={this.toggleChildContent}
-              >
+              <button id="toggle-child-component-content" onClick={this.toggleChildContent}>
                 Toggle Child Component Content
               </button>
               <button id="update" onClick={this.updateLayout}>
@@ -550,9 +486,7 @@ class TestUpdateLayoutMethod extends React.Component {
 }
 
 storiesOf('SidePage', module)
-  .add('With scrollable parent content', () => (
-    <SidePageWithScrollableContent />
-  ))
+  .add('With scrollable parent content', () => <SidePageWithScrollableContent />)
   .add('With Input in header', () => <SidePageWithInputInHeader />)
   .add('SidePage over another SidePage', () => <SidePageOverAnotherSidePage />)
   .add('SidePage with configuration', () => <SidePageWithCloseConfiguration />)
@@ -563,12 +497,8 @@ storiesOf('SidePage', module)
       <SidePage.Body>Content of disabled body</SidePage.Body>
     </SidePage>
   ))
-  .add('SidePage with left position', () => (
-    <SidePageWithLeftPosition close={() => undefined} disableAnimations />
-  ))
-  .add('Open SidePage with left position', () => (
-    <OpenSidePageWithLeftPosition />
-  ))
+  .add('SidePage with left position', () => <SidePageWithLeftPosition close={() => undefined} disableAnimations />)
+  .add('Open SidePage with left position', () => <OpenSidePageWithLeftPosition />)
   .add('Simple', () => <SimpleSidePage />)
   .add('SidePage with variable content', () => <WithVariableContent />)
   .add('test updateLayout method', () => <TestUpdateLayoutMethod />)

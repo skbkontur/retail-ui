@@ -385,7 +385,7 @@ class CustomComboBox<T> extends React.Component<CustomComboBoxProps<T>, CustomCo
     // If menu opened, RenderLayer is active and
     // it would call handleFocusOutside
     // In that way handleBlur would be called
-    if (this.state.editing) {
+    if (this.state.opened) {
       return;
     }
     this.handleBlur();

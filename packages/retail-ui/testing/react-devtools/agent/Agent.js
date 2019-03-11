@@ -15,13 +15,7 @@ var { EventEmitter } = require('events');
 var assign = require('object-assign');
 var guid = require('../utils/guid');
 
-import type {
-  RendererID,
-  DataType,
-  OpaqueNodeHandle,
-  NativeType,
-  Helpers
-} from '../backend/types';
+import type { RendererID, DataType, OpaqueNodeHandle, NativeType, Helpers } from '../backend/types';
 
 type ElementID = string;
 
@@ -114,17 +108,14 @@ class Agent extends EventEmitter {
       }
     });
     this._prevSelected = null;
-    var isReactDOM =
-      window.document && typeof window.document.createElement === 'function';
+    var isReactDOM = window.document && typeof window.document.createElement === 'function';
     this.capabilities = assign(
       {
-        scroll:
-          isReactDOM &&
-          typeof window.document.body.scrollIntoView === 'function',
+        scroll: isReactDOM && typeof window.document.body.scrollIntoView === 'function',
         dom: isReactDOM,
-        editTextContent: false
+        editTextContent: false,
       },
-      capabilities
+      capabilities,
     );
   }
 
@@ -190,9 +181,7 @@ class Agent extends EventEmitter {
       }
     });
     bridge.on('scrollToNode', id => this.scrollToNode(id));
-    bridge.on('bananaslugchange', value =>
-      this.emit('bananaslugchange', value)
-    );
+    bridge.on('bananaslugchange', value => this.emit('bananaslugchange', value));
 
     /** Events sent to the frontend **/
     this.on('root', id => bridge.send('root', id));
@@ -280,9 +269,7 @@ class Agent extends EventEmitter {
       // If a renderer doesn't know about a reactId, it will throw an error.
       try {
         // $FlowFixMe possibly null - it's not null
-        component = this.reactInternals[renderer].getReactElementFromNative(
-          node
-        );
+        component = this.reactInternals[renderer].getReactElementFromNative(node);
       } catch (e) {}
       if (component) {
         return this.getId(component);
@@ -291,60 +278,30 @@ class Agent extends EventEmitter {
     return null;
   }
 
-  _setProps({
-    id,
-    path,
-    value
-  }: {
-    id: ElementID,
-    path: Array<string>,
-    value: any
-  }) {
+  _setProps({ id, path, value }: { id: ElementID, path: Array<string>, value: any }) {
     var data = this.elementData.get(id);
     if (data && data.updater && data.updater.setInProps) {
       data.updater.setInProps(path, value);
     } else {
-      console.warn(
-        "trying to set props on a component that doesn't support it"
-      );
+      console.warn("trying to set props on a component that doesn't support it");
     }
   }
 
-  _setState({
-    id,
-    path,
-    value
-  }: {
-    id: ElementID,
-    path: Array<string>,
-    value: any
-  }) {
+  _setState({ id, path, value }: { id: ElementID, path: Array<string>, value: any }) {
     var data = this.elementData.get(id);
     if (data && data.updater && data.updater.setInState) {
       data.updater.setInState(path, value);
     } else {
-      console.warn(
-        "trying to set state on a component that doesn't support it"
-      );
+      console.warn("trying to set state on a component that doesn't support it");
     }
   }
 
-  _setContext({
-    id,
-    path,
-    value
-  }: {
-    id: ElementID,
-    path: Array<string>,
-    value: any
-  }) {
+  _setContext({ id, path, value }: { id: ElementID, path: Array<string>, value: any }) {
     var data = this.elementData.get(id);
     if (data && data.updater && data.updater.setInContext) {
       data.updater.setInContext(path, value);
     } else {
-      console.warn(
-        "trying to set state on a component that doesn't support it"
-      );
+      console.warn("trying to set state on a component that doesn't support it");
     }
   }
 

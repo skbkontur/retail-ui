@@ -13,7 +13,7 @@ declare export var CURRENCY_INPUT_ACTIONS: {|
   ExtendSelectionToEnd: number,
   Backspace: number,
   Delete: number,
-  Submit: number
+  Submit: number,
 |};
 
 declare export var extractAction: (x0: SyntheticKeyboardEvent<HTMLElement>) => number | {};

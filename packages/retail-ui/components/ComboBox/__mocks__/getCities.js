@@ -3,8 +3,7 @@ const kladr = require('./kladr.json');
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const citiesFilterPredicate = query => city =>
-  city.Id.toString() === query ||
-  city.City.toLowerCase().includes(query.toLowerCase());
+  city.Id.toString() === query || city.City.toLowerCase().includes(query.toLowerCase());
 
 const maxItems = 5;
 
@@ -13,7 +12,7 @@ const getCities = query => {
   const result = items.slice(0, maxItems);
   return Promise.resolve({
     foundItems: result,
-    totalCount: items.length
+    totalCount: items.length,
   }).then(delay(300));
 };
 

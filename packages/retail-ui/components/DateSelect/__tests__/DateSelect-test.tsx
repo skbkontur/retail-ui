@@ -4,19 +4,11 @@ import styles = require('../DateSelect.less');
 import { mount } from 'enzyme';
 import { DateSelectProps } from '../DateSelect';
 
-const renderSelect = (props: DateSelectProps) =>
-  mount(<DateSelect {...props} />);
+const renderSelect = (props: DateSelectProps) => mount(<DateSelect {...props} />);
 
 describe('DateSelect', () => {
   it('disable months not in range', () => {
-    const expectedDisabledMonths = [
-      'Январь',
-      'Февраль',
-      'Сентябрь',
-      'Октябрь',
-      'Ноябрь',
-      'Декабрь'
-    ];
+    const expectedDisabledMonths = ['Январь', 'Февраль', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     const dateSelect = renderSelect({
       type: 'month',
       minValue: 2,
@@ -24,13 +16,11 @@ describe('DateSelect', () => {
       value: 6,
       onChange: () => {
         /**/
-      }
+      },
     });
     dateSelect.find(`.${styles.caption}`).simulate('click');
     const disabledItems = dateSelect.find('.' + styles.menuItemDisabled);
-    const disabledItemsMonths = disabledItems.map(
-      item => item.props().children
-    );
+    const disabledItemsMonths = disabledItems.map(item => item.props().children);
     expect(disabledItemsMonths).toEqual(expectedDisabledMonths);
   });
 
@@ -46,7 +36,7 @@ describe('DateSelect', () => {
       'Сентябрь',
       'Октябрь',
       'Ноябрь',
-      'Декабрь'
+      'Декабрь',
     ];
     const dateSelect = renderSelect({
       type: 'month',
@@ -55,13 +45,11 @@ describe('DateSelect', () => {
       value: 0,
       onChange: () => {
         /**/
-      }
+      },
     });
     dateSelect.find(`.${styles.caption}`).simulate('click');
     const disabledItems = dateSelect.find('.' + styles.menuItemDisabled);
-    const disabledItemsMonths = disabledItems.map(
-      item => item.props().children
-    );
+    const disabledItemsMonths = disabledItems.map(item => item.props().children);
     expect(disabledItemsMonths).toEqual(expectedDisabledMonths);
   });
 });

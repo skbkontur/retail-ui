@@ -3,7 +3,7 @@
 export type ZIndexProps = {
   delta: number,
   render?: boolean,
-  className?: string
+  className?: string,
 };
 
 declare class ZIndex extends React$Component<ZIndexProps> {}

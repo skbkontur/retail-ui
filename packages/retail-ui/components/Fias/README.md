@@ -2,33 +2,24 @@
 
 ```jsx
 let initialState = {
-  home: {}
+  home: {},
 };
 
 let handleChange = value => setState({ home: value });
 
-<Fias
-  baseUrl={'https://api.kontur.ru/fias/v1/'}
-  value={state.home}
-  onChange={handleChange}
-/>;
+<Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={state.home} onChange={handleChange} />;
 ```
 
 Поле поиска.
 
 ```jsx
 let initialState = {
-  home: {}
+  home: {},
 };
 
 let handleChange = value => setState({ home: value });
 
-<Fias
-  baseUrl={'https://api.kontur.ru/fias/v1/'}
-  value={state.home}
-  onChange={handleChange}
-  search={true}
-/>;
+<Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={state.home} onChange={handleChange} search={true} />;
 ```
 
 Только верифицированные адреса.
@@ -49,21 +40,16 @@ let initialState = {
           level: 'City',
           okato: '65401000000',
           oktmo: '65701000',
-          code: '6600000100000'
-        }
-      }
-    }
-  }
+          code: '6600000100000',
+        },
+      },
+    },
+  },
 };
 
 let handleChange = value => setState({ home: value });
 
-<Fias
-  baseUrl={'https://api.kontur.ru/fias/v1/'}
-  value={state.home}
-  onChange={handleChange}
-  allowNotVerified={false}
-/>;
+<Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={state.home} onChange={handleChange} allowNotVerified={false} />;
 ```
 
 Произвольные адреса.
@@ -73,20 +59,15 @@ let initialState = {
   home: {
     address: {
       city: {
-        name: 'Санкт-Контурбург'
-      }
-    }
-  }
+        name: 'Санкт-Контурбург',
+      },
+    },
+  },
 };
 
 let handleChange = value => setState({ home: value });
 
-<Fias
-  baseUrl={'https://api.kontur.ru/fias/v1/'}
-  value={state.home}
-  onChange={handleChange}
-  formValidation={'None'}
-/>;
+<Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={state.home} onChange={handleChange} formValidation={'None'} />;
 ```
 
 Настройка полей. Почтовый индекс.
@@ -94,8 +75,8 @@ let handleChange = value => setState({ home: value });
 ```jsx
 let initialState = {
   home: {
-    fiasId: '22ead39c-ddcc-4c46-951d-f958750810fd'
-  }
+    fiasId: '22ead39c-ddcc-4c46-951d-f958750810fd',
+  },
 };
 
 let handleChange = value => setState({ home: value });
@@ -107,29 +88,29 @@ let handleChange = value => setState({ home: value });
   search={true}
   fieldsSettings={{
     region: {
-      visible: false
+      visible: false,
     },
     district: {
-      visible: false
+      visible: false,
     },
     settlement: {
-      visible: false
+      visible: false,
     },
     intracityarea: {
-      visible: false
+      visible: false,
     },
     planningstructure: {
-      visible: false
+      visible: false,
     },
     stead: {
-      visible: false
+      visible: false,
     },
     room: {
-      visible: false
+      visible: false,
     },
     postalcode: {
-      visible: true
-    }
+      visible: true,
+    },
   }}
 />;
 ```
@@ -142,21 +123,16 @@ let initialState = {
     country: {
       code: '124',
       fullName: 'Канада',
-      shortName: 'Канада'
+      shortName: 'Канада',
     },
     foreignAddress: '80 Wellington St Ottawa',
-    postalCode: 'ON K1A 0A2'
-  }
+    postalCode: 'ON K1A 0A2',
+  },
 };
 
 let handleChange = value => setState({ home: value });
 
-<Fias
-  baseUrl={'https://api.kontur.ru/fias/v1/'}
-  value={state.home}
-  onChange={handleChange}
-  countrySelector={true}
-/>;
+<Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={state.home} onChange={handleChange} countrySelector={true} />;
 ```
 
 Пользовательская валидация ошибок верификации
@@ -166,20 +142,20 @@ let initialState = {
   home: {
     address: {
       city: {
-        name: 'Санкт-Контурбург'
-      }
+        name: 'Санкт-Контурбург',
+      },
     },
     addressErrors: {
-      city: 'Адрес не найден'
-    }
+      city: 'Адрес не найден',
+    },
   },
-  warning: true
+  warning: true,
 };
 
 let handleChange = value =>
   setState({
     home: value,
-    warning: Boolean(Object.keys(value.addressErrors).length)
+    warning: Boolean(Object.keys(value.addressErrors).length),
   });
 
 <Fias
@@ -196,7 +172,7 @@ let handleChange = value =>
 
 ```jsx
 let initialState = {
-  home: {}
+  home: {},
 };
 
 let handleChange = value => setState({ home: value });
@@ -204,7 +180,7 @@ let handleChange = value => setState({ home: value });
 const locale = {
   modalTitle: '🏛️',
   modalButtonOk: '👍',
-  modalButtonCancel: '👎'
+  modalButtonCancel: '👎',
 };
 const BriefcaseIcon = () => '💼';
 
@@ -231,11 +207,11 @@ enum Fields {
   street = 'street',
   stead = 'stead',
   house = 'house',
-  room = 'room'
+  room = 'room',
 }
 
 enum ExtraFields {
-  postalcode = 'postalcode'
+  postalcode = 'postalcode',
 }
 
 interface FiasValue {
@@ -274,8 +250,8 @@ const value: FiasValue = {
         ifnsfl: '6600',
         ifnsul: '6600',
         postalCode: '620000',
-        code: '6600000000000'
-      }
+        code: '6600000000000',
+      },
     },
     city: {
       name: 'Екатеринбург',
@@ -289,8 +265,8 @@ const value: FiasValue = {
         level: 'City',
         okato: '65401000000',
         oktmo: '65701000',
-        code: '6600000100000'
-      }
+        code: '6600000100000',
+      },
     },
     street: {
       name: 'Малопрудная',
@@ -307,8 +283,8 @@ const value: FiasValue = {
         ifnsfl: '6658',
         ifnsul: '6658',
         postalCode: '620036',
-        code: '66000001000155300'
-      }
+        code: '66000001000155300',
+      },
     },
     house: {
       name: '5',
@@ -324,17 +300,16 @@ const value: FiasValue = {
         oktmo: '65701000',
         ifnsfl: '6658',
         ifnsul: '6658',
-        structureNumber: '2'
-      }
+        structureNumber: '2',
+      },
     },
     room: {
-      name: '10'
-    }
+      name: '10',
+    },
   },
-  addressString:
-    'Свердловская область, город Екатеринбург, улица Малопрудная, дом 5 строение 2',
+  addressString: 'Свердловская область, город Екатеринбург, улица Малопрудная, дом 5 строение 2',
   addressErrors: {},
-  fiasId: '2c9c38a3-e2b1-45d7-993d-d41be557a097'
+  fiasId: '2c9c38a3-e2b1-45d7-993d-d41be557a097',
 };
 ```
 
@@ -377,8 +352,7 @@ const defaultLocale = {
   settlementPlaceholder: 'Село, деревня, станица и другие',
 
   planningstructureLabel: 'Иная территория',
-  planningstructureNotFound:
-    'Не найдены иные территории по указанному выше расположению',
+  planningstructureNotFound: 'Не найдены иные территории по указанному выше расположению',
   planningstructurePlaceholder: 'Сад, парк, санаторий и другие',
 
   streetLabel: 'Улица',
@@ -393,8 +367,7 @@ const defaultLocale = {
 
   houseLabel: 'Дом, сооружение',
   houseNotFound: 'Не найдены дома по указанному выше расположению',
-  houseFillBefore:
-    'Заполните улицу или иную территорию, чтобы выбрать номер дома',
+  houseFillBefore: 'Заполните улицу или иную территорию, чтобы выбрать номер дома',
   housePlaceholder: '',
 
   roomLabel: 'Квартира, офис',
@@ -403,6 +376,6 @@ const defaultLocale = {
   postalcodeLabel: 'Индекс',
   postalcodePlaceholder: '',
   postalcodeNotFound: 'Заполнено не по справочнику адресов',
-  postalcodeReplace: 'Заменить справочным'
+  postalcodeReplace: 'Заменить справочным',
 };
 ```

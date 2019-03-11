@@ -26,12 +26,12 @@ export interface GroupChildProps {
  */
 class Group extends React.Component<GroupProps> {
   public static propTypes = {
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   };
 
   public render() {
     const style: React.CSSProperties = {
-      width: this.props.width
+      width: this.props.width,
     };
 
     let first: Nullable<React.ReactElement<any>> = null;
@@ -56,11 +56,11 @@ class Group extends React.Component<GroupProps> {
           const wrapCss = classNames({
             [styles.wrap]: true,
             [styles.fixed]: !childProps.mainInGroup,
-            [styles.stretch]: childProps.mainInGroup
+            [styles.stretch]: childProps.mainInGroup,
           });
           const itemCss = classNames({
             [styles.item]: true,
-            [styles.itemFirst]: child === first
+            [styles.itemFirst]: child === first,
           });
 
           let corners = 0;

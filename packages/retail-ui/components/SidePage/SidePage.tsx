@@ -13,11 +13,7 @@ import ZIndex from '../ZIndex';
 import { SidePageBodyWithContext, SidePageBodyProps } from './SidePageBody';
 import SidePageContainer from './SidePageContainer';
 import { SidePageContext } from './SidePageContext';
-import {
-  SidePageFooterWithContext,
-  SidePageFooter,
-  SidePageFooterProps
-} from './SidePageFooter';
+import { SidePageFooterWithContext, SidePageFooter, SidePageFooterProps } from './SidePageFooter';
 import SidePageHeader from './SidePageHeader';
 import { CSSTransition } from 'react-transition-group';
 
@@ -89,12 +85,8 @@ interface ZIndexPropsType {
  */
 class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Header = SidePageHeader;
-  public static Body: (
-    props: SidePageBodyProps
-  ) => JSX.Element = SidePageBodyWithContext;
-  public static Footer: (
-    props: SidePageFooterProps
-  ) => JSX.Element = SidePageFooterWithContext;
+  public static Body: (props: SidePageBodyProps) => JSX.Element = SidePageBodyWithContext;
+  public static Footer: (props: SidePageFooterProps) => JSX.Element = SidePageFooterWithContext;
   public static Container = SidePageContainer;
 
   public state: SidePageState = {};
@@ -141,7 +133,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
             exit={false}
             timeout={{
               enter: TRANSITION_TIMEOUT,
-              exit: TRANSITION_TIMEOUT
+              exit: TRANSITION_TIMEOUT,
             }}
           >
             {this.renderContainer()}
@@ -156,9 +148,9 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     return {
       delta: 1000,
       classes: classNames(styles.root, {
-        [styles.leftSide]: fromLeft
+        [styles.leftSide]: fromLeft,
       }),
-      style: blockBackground ? { width: '100%' } : undefined
+      style: blockBackground ? { width: '100%' } : undefined,
     };
   }
 
@@ -167,18 +159,10 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     const sidePageWidth = this.getWidth();
 
     return (
-      <ZIndex
-        delta={delta}
-        className={classes}
-        onScroll={LayoutEvents.emit}
-        style={style}
-      >
+      <ZIndex delta={delta} className={classes} onScroll={LayoutEvents.emit} style={style}>
         <RenderLayer onClickOutside={this.handleClickOutside} active>
           <div
-            className={classNames(
-              styles.container,
-              this.state.hasShadow && styles.shadow
-            )}
+            className={classNames(styles.container, this.state.hasShadow && styles.shadow)}
             style={this.getSidebarStyle()}
           >
             <div ref={_ => (this.layoutRef = _)}>
@@ -187,7 +171,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
                   requestClose: this.requestClose,
                   width: sidePageWidth,
                   updateLayout: this.updateLayout,
-                  footerRef: this.footerRef
+                  footerRef: this.footerRef,
                 }}
               >
                 {/* React <= 15. SidePageContext.Provider can only receive a single child element. */}
@@ -212,21 +196,10 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     const { blockBackground } = this.props;
 
     return (
-      <ZIndex
-        delta={delta}
-        className={classes}
-        onScroll={LayoutEvents.emit}
-        style={style}
-      >
+      <ZIndex delta={delta} className={classes} onScroll={LayoutEvents.emit} style={style}>
         {blockBackground && [
           <HideBodyVerticalScroll key="hbvs" />,
-          <div
-            key="overlay"
-            className={classNames(
-              styles.background,
-              this.state.hasBackground && styles.gray
-            )}
-          />
+          <div key="overlay" className={classNames(styles.background, this.state.hasBackground && styles.gray)} />,
         ]}
       </ZIndex>
     );
@@ -234,7 +207,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private getSidebarStyle(): React.CSSProperties {
     const sidePageStyle: React.CSSProperties = {
-      width: this.props.width || (this.props.blockBackground ? 800 : 500)
+      width: this.props.width || (this.props.blockBackground ? 800 : 500),
     };
 
     if (this.state.hasMargin) {
@@ -251,17 +224,9 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   private getTransitionNames(): Record<string, string> {
     const direction: 'right' | 'left' = this.props.fromLeft ? 'right' : 'left';
     const transitionEnter =
-      styles[
-        ('transition-enter-' + direction) as
-          | 'transition-enter-left'
-          | 'transition-enter-right'
-      ];
+      styles[('transition-enter-' + direction) as 'transition-enter-left' | 'transition-enter-right'];
     const transitionAppear =
-      styles[
-        ('transition-appear-' + direction) as
-          | 'transition-appear-left'
-          | 'transition-appear-right'
-      ];
+      styles[('transition-appear-' + direction) as 'transition-appear-left' | 'transition-appear-right'];
 
     return {
       enter: transitionEnter,
@@ -269,7 +234,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
       exit: styles['transition-leave'],
       exitActive: styles['transition-leave-active'],
       appear: transitionAppear,
-      appearActive: styles['transition-appear-active']
+      appearActive: styles['transition-appear-active'],
     };
   }
 
@@ -278,18 +243,15 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     const currentSidePagePosition = sidePages.indexOf(this);
     const isSidePageOnStackTop = stack[0] instanceof SidePage;
 
-    const hasMargin =
-      sidePages.length > 1 && currentSidePagePosition === sidePages.length - 1;
-    const hasShadow =
-      sidePages.length < 3 || currentSidePagePosition > sidePages.length - 3;
-    const hasBackground =
-      currentSidePagePosition === sidePages.length - 1 && isSidePageOnStackTop;
+    const hasMargin = sidePages.length > 1 && currentSidePagePosition === sidePages.length - 1;
+    const hasShadow = sidePages.length < 3 || currentSidePagePosition > sidePages.length - 3;
+    const hasBackground = currentSidePagePosition === sidePages.length - 1 && isSidePageOnStackTop;
 
     this.setState({
       stackPosition: stack.indexOf(this),
       hasMargin,
       hasShadow,
-      hasBackground
+      hasBackground,
     });
   };
 

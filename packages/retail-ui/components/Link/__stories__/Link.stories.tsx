@@ -15,6 +15,4 @@ storiesOf('Link', module)
   ))
   .add('Grayed', () => <Link use="grayed">Simple link</Link>)
   .add('Disabled', () => <Link disabled>Simple link</Link>)
-  .add('With onClick', () => (
-    <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>
-  ));
+  .add('With onClick', () => <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>);

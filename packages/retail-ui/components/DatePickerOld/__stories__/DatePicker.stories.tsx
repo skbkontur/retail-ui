@@ -15,7 +15,7 @@ interface State {
 class DatePickerWithError extends React.Component<{}, State> {
   public state = {
     value: new Date(),
-    error: false
+    error: false,
   };
 
   public render() {
@@ -36,7 +36,7 @@ class DatePickerWithError extends React.Component<{}, State> {
 
 class DatePickerWithFocusBlur extends React.Component {
   public state = {
-    value: new Date()
+    value: new Date(),
   };
 
   private datepicker: Nullable<DatePicker> = null;
@@ -44,11 +44,7 @@ class DatePickerWithFocusBlur extends React.Component {
   public render() {
     return (
       <div>
-        <DatePicker
-          value={this.state.value}
-          onChange={this.handleChange}
-          ref={this.refDatePicker}
-        />
+        <DatePicker value={this.state.value} onChange={this.handleChange} ref={this.refDatePicker} />
         <Button
           onClick={() => {
             action('focus');

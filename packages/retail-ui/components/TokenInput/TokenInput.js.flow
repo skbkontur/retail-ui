@@ -21,7 +21,7 @@ export type TokenInputProps<T> = {|
   warning?: boolean,
   disabled?: boolean,
   width: string | number,
-  renderTokenComponent?: (token: (props?: $Shape<TokenProps>) => React$Node, value?: T) => React$Node
+  renderTokenComponent?: (token: (props?: $Shape<TokenProps>) => React$Node, value?: T) => React$Node,
 |};
 
 export type TokenInputState<T> = {|
@@ -31,7 +31,7 @@ export type TokenInputState<T> = {|
   inputValue: string,
   inputValueWidth: number,
   preventBlur?: boolean,
-  loading?: boolean
+  loading?: boolean,
 |};
 
 declare class TokenInput<T = string> extends React$Component<TokenInputProps<T>, TokenInputState<T>> {}

@@ -3,8 +3,7 @@ import { mount } from 'enzyme';
 import Input, { InputProps } from '../Input';
 import MaskedInput from 'react-input-mask';
 
-const render = (props: InputProps) =>
-  mount<Input, InputProps>(React.createElement(Input, props));
+const render = (props: InputProps) => mount<Input, InputProps>(React.createElement(Input, props));
 
 describe('<Input />', () => {
   it('renders', () => {
@@ -74,7 +73,7 @@ describe('<Input />', () => {
       onCut: () => undefined,
       onInput: () => undefined,
       onKeyUp: () => undefined,
-      onPaste: () => undefined
+      onPaste: () => undefined,
     };
     const inputProps = render({ ...props, value: 'hello' })
       .find('input')
@@ -82,9 +81,7 @@ describe('<Input />', () => {
 
     for (const prop in props) {
       if (props[prop as keyof typeof props]) {
-        expect(inputProps[prop as keyof typeof props]).toBe(
-          props[prop as keyof typeof props]
-        );
+        expect(inputProps[prop as keyof typeof props]).toBe(props[prop as keyof typeof props]);
       }
     }
   });
@@ -93,20 +90,20 @@ describe('<Input />', () => {
     const props: Partial<InputProps> = {
       onMouseEnter: () => undefined,
       onMouseOver: () => undefined,
-      onMouseLeave: () => undefined
+      onMouseLeave: () => undefined,
     };
     const inputProps: React.HTMLAttributes<HTMLLabelElement> = render({
       ...props,
-      value: 'hello'
+      value: 'hello',
     })
       .find('label')
       .props();
 
     // tslint:disable-next-line:forin
     for (const prop in props as React.HTMLAttributes<HTMLLabelElement>) {
-      expect(
-        inputProps[prop as keyof React.HTMLAttributes<HTMLLabelElement>]
-      ).toBe(props[prop as keyof React.HTMLAttributes<HTMLLabelElement>]);
+      expect(inputProps[prop as keyof React.HTMLAttributes<HTMLLabelElement>]).toBe(
+        props[prop as keyof React.HTMLAttributes<HTMLLabelElement>],
+      );
     }
   });
 
@@ -156,9 +153,7 @@ describe('<Input />', () => {
 
     expect(document.activeElement).toBeInstanceOf(HTMLInputElement);
     expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
-    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(
-      value.length
-    );
+    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
   });
 
   it('selectAllOnFocus prop works', () => {
@@ -168,9 +163,7 @@ describe('<Input />', () => {
     wrapper.find('input').simulate('focus');
 
     expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
-    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(
-      value.length
-    );
+    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
   });
 
   it('MaskedInput props dont pass in HtmlNode', () => {
@@ -179,7 +172,7 @@ describe('<Input />', () => {
       selectAllOnFocus: true,
       maskChar: '_',
       alwaysShowMask: true,
-      mask: ''
+      mask: '',
     });
 
     const inputNodeAttrs = wrapper.find('input').props();
@@ -215,11 +208,11 @@ describe('<Input />', () => {
     const unexpectedInputHandlerMock = jest.fn();
     const wrapper = render({
       value: '',
-      onUnexpectedInput: unexpectedInputHandlerMock
+      onUnexpectedInput: unexpectedInputHandlerMock,
     });
     const pressBackspace = () => {
       wrapper.find('input').simulate('keydown', {
-        key: 'Backspace'
+        key: 'Backspace',
       });
     };
 
@@ -239,11 +232,11 @@ describe('<Input />', () => {
     const wrapper = render({
       value: '',
       onUnexpectedInput: unexpectedInputHandlerMock,
-      maxLength: 3
+      maxLength: 3,
     });
     const typeSymbol = () => {
       wrapper.find('input').simulate('keypress', {
-        key: 'A'
+        key: 'A',
       });
     };
 

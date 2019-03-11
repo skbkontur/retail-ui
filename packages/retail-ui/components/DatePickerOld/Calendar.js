@@ -19,7 +19,7 @@ const MONTH_NAMES = [
   'Сентябрь',
   'Октябрь',
   'Ноябрь',
-  'Декабрь'
+  'Декабрь',
 ];
 const DAY = 24 * 60 * 60 * 1000;
 const WEEK = 7 * DAY;
@@ -31,11 +31,11 @@ type Props = {
   initialDate: Date,
   value: ?Date,
   onNav: (date: Date) => void,
-  onPick: (date: Date) => void
+  onPick: (date: Date) => void,
 };
 
 type State = {
-  pos: number
+  pos: number,
 };
 
 export default class Calendar extends React.Component<Props, State> {
@@ -43,7 +43,7 @@ export default class Calendar extends React.Component<Props, State> {
     super(props, context);
 
     this.state = {
-      pos: dateToPos(props.initialDate)
+      pos: dateToPos(props.initialDate),
     };
   }
 
@@ -52,8 +52,7 @@ export default class Calendar extends React.Component<Props, State> {
     if (offset < 0) {
       offset += DAY_HEIGHT;
     }
-    const from =
-      ((this.state.pos - offset) / DAY_HEIGHT) * WEEK - FIRST_WEEK_SHIFT;
+    const from = ((this.state.pos - offset) / DAY_HEIGHT) * WEEK - FIRST_WEEK_SHIFT;
     const week = getWeek(from);
 
     const months = [];
@@ -66,12 +65,12 @@ export default class Calendar extends React.Component<Props, State> {
       const height = getDayTop(week, offset, +monthEnd) - y;
       const style = {
         top: y,
-        height
+        height,
       };
       const monthClass = classNames({
         [styles.month]: true,
         [styles.first]: monthStart.getUTCMonth() === 0,
-        [styles.grey]: monthStart.getUTCMonth() % 2
+        [styles.grey]: monthStart.getUTCMonth() % 2,
       });
       const top = Math.max(0, -y);
       const wrapperStyle = {
@@ -79,7 +78,7 @@ export default class Calendar extends React.Component<Props, State> {
         top,
         display: top > height ? 'none' : 'block',
         opacity: top > height / 3 ? 0 : 1,
-        transition: 'opacity 0.2s ease-out'
+        transition: 'opacity 0.2s ease-out',
       };
       months.push(
         <div key={+monthStart} className={monthClass} style={style}>
@@ -87,7 +86,7 @@ export default class Calendar extends React.Component<Props, State> {
             {MONTH_NAMES[monthStart.getUTCMonth()]}
             <div className={styles.year}>{monthStart.getUTCFullYear()}</div>
           </div>
-        </div>
+        </div>,
       );
 
       monthStart = monthEnd;
@@ -104,7 +103,7 @@ export default class Calendar extends React.Component<Props, State> {
         date,
         weekIdx: curWeek - week,
         offset,
-        value: this.props.value
+        value: this.props.value,
       };
       cells.push(<Cell key={cur} {...cellProps} onPick={this.props.onPick} />);
     }

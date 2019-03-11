@@ -17,14 +17,11 @@ interface CurrencyInputDemoState {
   digits: Nullable<number>;
 }
 
-class CurrencyInputDemo extends React.Component<
-  CurrencyInputDemoProps,
-  CurrencyInputDemoState
-> {
+class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, CurrencyInputDemoState> {
   public state: CurrencyInputDemoState = {
     value: null,
     signed: false,
-    digits: 2
+    digits: 2,
   };
 
   public render() {
@@ -84,15 +81,14 @@ class CurrencyInputDemo extends React.Component<
   private _handleDigits = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       value: null,
-      digits:
-        event.target.value === '15' ? null : parseInt(event.target.value, 10)
+      digits: event.target.value === '15' ? null : parseInt(event.target.value, 10),
     });
   };
 
   private _handleSigned = (value: boolean) => {
     this.setState({
       value: null,
-      signed: value
+      signed: value,
     });
   };
 
@@ -108,7 +104,7 @@ class Sample extends React.Component<
   }
 > {
   public state = {
-    value: this.props.value
+    value: this.props.value,
   };
 
   private currencyInputElement: CurrencyInput | null = null;
@@ -156,19 +152,14 @@ storiesOf('CurrencyInput', module)
       }
     > {
       public state = {
-        mounted: false
+        mounted: false,
       };
 
       public render() {
         return (
           <div>
             <label>
-              Mounted{' '}
-              <input
-                type="checkbox"
-                checked={this.state.mounted}
-                onChange={this.handleChangeMounting}
-              />
+              Mounted <input type="checkbox" checked={this.state.mounted} onChange={this.handleChangeMounting} />
             </label>
             {this.state.mounted && (
               <div>
@@ -179,11 +170,9 @@ storiesOf('CurrencyInput', module)
         );
       }
 
-      private handleChangeMounting = (
-        event: React.ChangeEvent<HTMLInputElement>
-      ) => {
+      private handleChangeMounting = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-          mounted: event.target.checked
+          mounted: event.target.checked,
         });
       };
     }

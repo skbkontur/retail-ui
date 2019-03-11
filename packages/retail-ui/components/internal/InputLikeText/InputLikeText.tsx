@@ -11,9 +11,7 @@ import styles from './InputLikeText.less';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const inputStyles = isFlatDesign
-  ? require('../../Input/Input.flat.less')
-  : require('../../Input/Input.less');
+const inputStyles = isFlatDesign ? require('../../Input/Input.flat.less') : require('../../Input/Input.less');
 
 export interface InputLikeTextProps extends InputProps {
   children?: React.ReactNode;
@@ -24,17 +22,14 @@ export interface InputLikeTextProps extends InputProps {
 
 interface InputLikeTextState extends InputVisibilityState {}
 
-export default class InputLikeText extends React.Component<
-  InputLikeTextProps,
-  InputLikeTextState
-> {
+export default class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static defaultProps = {
-    size: 'small'
+    size: 'small',
   };
 
   public state = {
     blinking: false,
-    focused: false
+    focused: false,
   };
 
   private _node: HTMLElement | null = null;
@@ -63,10 +58,7 @@ export default class InputLikeText extends React.Component<
    */
   public blink() {
     this.setState({ blinking: true }, () => {
-      this._blinkTimeout = window.setTimeout(
-        () => this.setState({ blinking: false }),
-        150
-      );
+      this._blinkTimeout = window.setTimeout(() => this.setState({ blinking: false }), 150);
     });
   }
 
@@ -103,7 +95,7 @@ export default class InputLikeText extends React.Component<
       [inputStyles.warning]: warning,
       [inputStyles.borderless]: borderless,
       [inputStyles.blink]: this.state.blinking,
-      [inputStyles.focus]: this.state.focused
+      [inputStyles.focus]: this.state.focused,
     });
 
     return (
@@ -121,17 +113,10 @@ export default class InputLikeText extends React.Component<
           {prefix && <span className={inputStyles.prefix}>{prefix}</span>}
         </span>
         <span className={inputStyles.wrapper}>
-          <span className={classNames(inputStyles.input, styles.input)}>
-            {children}
-          </span>
+          <span className={classNames(inputStyles.input, styles.input)}>{children}</span>
           {this.renderPlaceholder()}
         </span>
-        <span
-          className={classNames(
-            inputStyles.sideContainer,
-            inputStyles.rightContainer
-          )}
-        >
+        <span className={classNames(inputStyles.sideContainer, inputStyles.rightContainer)}>
           {suffix && <span className={inputStyles.suffix}>{suffix}</span>}
           {this.renderRightIcon()}
         </span>
@@ -158,10 +143,8 @@ export default class InputLikeText extends React.Component<
   private _getSizeClassName() {
     const SIZE_CLASS_NAMES = {
       small: inputStyles.sizeSmall,
-      medium: Upgrades.isSizeMedium16pxEnabled()
-        ? inputStyles.sizeMedium
-        : inputStyles.DEPRECATED_sizeMedium,
-      large: inputStyles.sizeLarge
+      medium: Upgrades.isSizeMedium16pxEnabled() ? inputStyles.sizeMedium : inputStyles.DEPRECATED_sizeMedium,
+      large: inputStyles.sizeLarge,
     };
 
     return SIZE_CLASS_NAMES[this.props.size!];
@@ -199,10 +182,6 @@ export default class InputLikeText extends React.Component<
       return <span className={className}>{icon()}</span>;
     }
 
-    return (
-      <span className={classNames(className, inputStyles.useDefaultColor)}>
-        {icon}
-      </span>
-    );
+    return <span className={classNames(className, inputStyles.useDefaultColor)}>{icon}</span>;
   }
 }

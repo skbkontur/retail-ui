@@ -10,12 +10,7 @@ describe('<TokenInput />', () => {
   it('should contains placeholder', () => {
     const onChange = jest.fn();
     const wrapper = mount(
-      <TokenInput
-        getItems={getItems}
-        selectedItems={[]}
-        onChange={onChange}
-        placeholder="Placeholder"
-      />
+      <TokenInput getItems={getItems} selectedItems={[]} onChange={onChange} placeholder="Placeholder" />,
     );
     expect(wrapper.find('input').props().placeholder).toBe('Placeholder');
   });

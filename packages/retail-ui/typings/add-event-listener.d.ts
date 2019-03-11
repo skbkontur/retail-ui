@@ -4,21 +4,21 @@ declare module 'add-event-listener' {
       el: Window,
       eventName: K,
       listener: (event: WindowEventMap[K]) => void,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): void;
 
     <K extends keyof DocumentEventMap>(
       el: Document,
       eventName: K,
       listener: (event: DocumentEventMap[K]) => void,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): void;
 
     <K extends keyof HTMLElementEventMap>(
       el: Element,
       eventName: K,
       listener: (event: HTMLElementEventMap[K]) => void,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): void;
   }
 

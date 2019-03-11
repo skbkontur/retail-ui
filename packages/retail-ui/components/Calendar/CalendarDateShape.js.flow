@@ -2,7 +2,7 @@
 export type CalendarDateShape = {|
   year: number,
   month: number,
-  date: number
+  date: number,
 |};
 
 declare export var isEqual: (a: ?CalendarDateShape, b: ?CalendarDateShape) => boolean | null | void;
@@ -19,4 +19,8 @@ declare export var isGreater: (left: CalendarDateShape, right: CalendarDateShape
 
 declare export var isGreaterOrEqual: (left: CalendarDateShape, right: CalendarDateShape) => boolean;
 
-declare export var isBetween: (date: CalendarDateShape, left?: ?CalendarDateShape, right?: ?CalendarDateShape) => boolean;
+declare export var isBetween: (
+  date: CalendarDateShape,
+  left?: ?CalendarDateShape,
+  right?: ?CalendarDateShape,
+) => boolean;

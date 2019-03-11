@@ -48,7 +48,7 @@ describe('Tooltip', () => {
             bar
           </Tooltip>
         </div>
-      </div>
+      </div>,
     );
 
     expect(wrapper.find('#foo').find('.cross').length).toBe(1);
@@ -60,7 +60,7 @@ describe('Tooltip', () => {
     const wrapper = mount<TooltipProps>(
       <Tooltip trigger="opened" render={render} onCloseClick={onClose}>
         <div />
-      </Tooltip>
+      </Tooltip>,
     );
     wrapper.find('.cross').simulate('click');
     expect(onClose.mock.calls.length).toBe(1);
@@ -74,7 +74,7 @@ describe('Tooltip', () => {
     const wrapper = mount<TooltipProps>(
       <Tooltip trigger="opened" render={render}>
         <PureComponent />
-      </Tooltip>
+      </Tooltip>,
     );
 
     expect(wrapper.find(PureComponent).length).toBe(1);
@@ -90,7 +90,7 @@ describe('Tooltip', () => {
     const wrapper = mount<Tooltip>(
       <Tooltip trigger="opened" render={render}>
         <StatefulComponent />
-      </Tooltip>
+      </Tooltip>,
     );
 
     expect(wrapper.find(StatefulComponent).length).toBe(1);
@@ -100,13 +100,9 @@ describe('Tooltip', () => {
     const Content = () => <div />;
 
     const wrapper = mount<Tooltip>(
-      <Tooltip
-        trigger="click"
-        disableAnimations={true}
-        render={() => <Content />}
-      >
+      <Tooltip trigger="click" disableAnimations={true} render={() => <Content />}>
         <Button>Click me</Button>
-      </Tooltip>
+      </Tooltip>,
     );
 
     expect(wrapper.find(Content).length).toBe(0);

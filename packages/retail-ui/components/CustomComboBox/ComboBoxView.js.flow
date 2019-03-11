@@ -12,7 +12,7 @@ type ComboBoxViewProps<T> = {|
   disabled?: boolean,
   editing?: boolean,
   error?: boolean,
-  items?: ?T[],
+  items?: ?(T[]),
   loading?: boolean,
   menuAlign?: 'left' | 'right',
   opened?: boolean,
@@ -44,7 +44,7 @@ type ComboBoxViewProps<T> = {|
   renderValue?: (item: T) => React$Node,
   refInput?: (input: ?Input) => void,
   refMenu?: (menu: ?Menu) => void,
-  refInputLikeText?: (inputLikeText: ?InputLikeText) => void
+  refInputLikeText?: (inputLikeText: ?InputLikeText) => void,
 |};
 
 declare class ComboBoxView<T> extends React$Component<ComboBoxViewProps<T>> {}

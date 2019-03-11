@@ -17,23 +17,22 @@ const testCase: Array<{
 }> = [
   {
     label: 'First',
-    renderNode: label => label
+    renderNode: label => label,
   },
 
   {
     label: 'First Second',
-    renderNode: label => <SimpleComponent>{label}</SimpleComponent>
+    renderNode: label => <SimpleComponent>{label}</SimpleComponent>,
   },
 
   {
     label: 'Third',
-    renderNode: label => <span>{label}</span>
+    renderNode: label => <span>{label}</span>,
   },
 
   {
     label: 'Fourth',
-    renderNode: label =>
-      label.split('').map((char, index) => <span key={index}>{char}</span>)
+    renderNode: label => label.split('').map((char, index) => <span key={index}>{char}</span>),
   },
 
   {
@@ -42,13 +41,13 @@ const testCase: Array<{
       <span>
         <span>{label}</span>
       </span>
-    )
+    ),
   },
 
   {
     label: '123',
-    renderNode: _label => 123
-  }
+    renderNode: _label => 123,
+  },
 ];
 
 describe('reactGetTextContent', () => {

@@ -6,7 +6,7 @@ import { Nullable } from '../../../typings/utility-types';
 
 class PlainCheckbox extends Component<any, any> {
   public state = {
-    checked: false
+    checked: false,
   };
 
   public render() {
@@ -27,12 +27,9 @@ interface IndeterminatePlaygroundState {
   checked: boolean;
 }
 
-class IndeterminatePlayground extends Component<
-  {},
-  IndeterminatePlaygroundState
-> {
+class IndeterminatePlayground extends Component<{}, IndeterminatePlaygroundState> {
   public state: IndeterminatePlaygroundState = {
-    checked: false
+    checked: false,
   };
 
   private checkbox: Checkbox | null = null;
@@ -40,10 +37,7 @@ class IndeterminatePlayground extends Component<
   public render() {
     return (
       <div>
-        <span
-          style={{ display: 'inline-block', padding: 4 }}
-          id="screenshot-capture"
-        >
+        <span style={{ display: 'inline-block', padding: 4 }} id="screenshot-capture">
           <Checkbox
             // tslint:disable-next-line:jsx-no-lambda
             onChange={(_event, checked) => this.setState({ checked })}
@@ -87,7 +81,7 @@ class IndeterminatePlayground extends Component<
 
   private changeValue = () => {
     this.setState((state: IndeterminatePlaygroundState) => ({
-      checked: !state.checked
+      checked: !state.checked,
     }));
   };
 }
@@ -115,13 +109,10 @@ storiesOf('Checkbox', module)
   ))
   .add('with a long label', () => (
     <PlainCheckbox>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </PlainCheckbox>
   ))
   .add('w/o label', () => (
@@ -159,6 +150,4 @@ storiesOf('Checkbox', module)
       </div>
     );
   })
-  .add('indeterminate', () => (
-    <IndeterminatePlayground>Label</IndeterminatePlayground>
-  ));
+  .add('indeterminate', () => <IndeterminatePlayground>Label</IndeterminatePlayground>);

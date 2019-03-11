@@ -5,8 +5,7 @@
 :local {
   .commonStyles();
 
-  @focus-shadow: 0 0 0 1px @border-color-focus,
-    inset 0 0 0 1px @border-color-gray-lighter;
+  @focus-shadow: 0 0 0 1px @border-color-focus, inset 0 0 0 1px @border-color-gray-lighter;
 
   .wrap {
     padding: 1px;
@@ -117,11 +116,7 @@
       box-shadow: @shadow;
 
       .arrow {
-        background-image: linear-gradient(
-          to bottom right,
-          @colorStart,
-          @colorEnd
-        );
+        background-image: linear-gradient(to bottom right, @colorStart, @colorEnd);
         box-shadow: @shadowArrow;
       }
 
@@ -143,20 +138,12 @@
         box-shadow: @hoverShadow;
 
         .arrow {
-          background-image: linear-gradient(
-            to bottom right,
-            @hoverColorStart,
-            @hoverColorEnd
-          );
+          background-image: linear-gradient(to bottom right, @hoverColorStart, @hoverColorEnd);
           box-shadow: @hoverShadowArrow;
         }
 
         .arrow_left {
-          background-image: linear-gradient(
-            to top left,
-            @hoverColorStart,
-            @hoverColorEnd
-          );
+          background-image: linear-gradient(to top left, @hoverColorStart, @hoverColorEnd);
           box-shadow: @hoverShadowArrowLeft;
         }
 
@@ -179,8 +166,7 @@
         }
 
         .arrow.arrow_warning {
-          box-shadow: inset -1px 1px 0 0 #fff,
-            2px -2px 0 0 @border-color-warning;
+          box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-warning;
         }
 
         .arrow.arrow_error {
@@ -226,13 +212,7 @@
     -9.6px,
     -7.7px,
     rotate(53deg) skewX(24deg) skewY(10deg),
-    linear-gradient(
-      -56deg,
-      transparent 47.5%,
-      #ccc 0,
-      #ccc 73.5%,
-      transparent 0
-    ),
+    linear-gradient(-56deg, transparent 47.5%, #ccc 0, #ccc 73.5%, transparent 0),
     7px,
     7px,
     -207px,
@@ -252,13 +232,7 @@
     -9.6px,
     -9.5px,
     rotate(53deg) skewX(24deg) skewY(8deg),
-    linear-gradient(
-      -56deg,
-      transparent 46.9%,
-      #ccc 0,
-      #ccc 69.5%,
-      transparent 0
-    ),
+    linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0),
     0,
     0,
     -208px,
@@ -280,13 +254,7 @@
     -9.6px,
     -9.5px,
     rotate(53deg) skewX(24deg) skewY(8deg),
-    linear-gradient(
-      -56deg,
-      transparent 46.9%,
-      #ccc 0,
-      #ccc 69.5%,
-      transparent 0
-    ),
+    linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0),
     0,
     0,
     -208px,
@@ -306,13 +274,7 @@
     -10.6px,
     -10.2px,
     rotate(53deg) skewX(25deg) skewY(10deg),
-    linear-gradient(
-      -56deg,
-      transparent 48.2%,
-      #ccc 0,
-      #ccc 63.4%,
-      transparent 0
-    ),
+    linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0),
     -32px,
     -36px,
     -198px,
@@ -424,8 +386,7 @@
   // End Use
   .root.checked {
     background: @btn-checked-bg;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6),
-      inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
     color: #fff;
 
     .arrow {
@@ -438,13 +399,11 @@
     }
 
     .arrow.arrow_error {
-      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
-        2px -2px 0 0 @border-color-error;
+      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3), 2px -2px 0 0 @border-color-error;
     }
 
     .arrow.arrow_warning {
-      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
-        2px -2px 0 0 @border-color-warning;
+      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3), 2px -2px 0 0 @border-color-warning;
     }
 
     &:hover {

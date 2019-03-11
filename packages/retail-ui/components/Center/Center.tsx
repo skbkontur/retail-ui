@@ -29,7 +29,7 @@ export interface CenterState {}
  */
 export default class Center extends React.Component<CenterProps, CenterState> {
   public static defaultProps = {
-    align: 'center'
+    align: 'center',
   };
 
   public render(): JSX.Element {

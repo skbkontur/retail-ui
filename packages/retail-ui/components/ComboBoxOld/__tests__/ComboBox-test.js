@@ -11,9 +11,7 @@ describe('ComboBox', () => {
     const wrapper = mount(<ComboBoxOld autoFocus source={() => null} />);
     const focusable = ReactDOM.findDOMNode(wrapper.instance());
 
-    expect(
-      focusable.contains(focusable.ownerDocument.activeElement)
-    ).toBeTruthy();
+    expect(focusable.contains(focusable.ownerDocument.activeElement)).toBeTruthy();
   });
 
   it('handles focus', () => {
@@ -22,21 +20,12 @@ describe('ComboBox', () => {
 
     const focusable = ReactDOM.findDOMNode(wrapper.instance());
 
-    expect(
-      focusable.contains(focusable.ownerDocument.activeElement)
-    ).toBeTruthy();
+    expect(focusable.contains(focusable.ownerDocument.activeElement)).toBeTruthy();
   });
 
   it('uses static info', () => {
     const render = jest.fn();
-    mount(
-      <ComboBoxOld
-        value="foo"
-        info="bar"
-        source={jest.fn()}
-        renderValue={render}
-      />
-    );
+    mount(<ComboBoxOld value="foo" info="bar" source={jest.fn()} renderValue={render} />);
 
     expect(render.mock.calls[0][1]).toBe('bar');
   });
@@ -44,14 +33,7 @@ describe('ComboBox', () => {
   it('uses promise info', async () => {
     const info = jest.fn(val => Promise.resolve(val.toUpperCase()));
     const render = jest.fn();
-    const wrapper = mount(
-      <ComboBoxOld
-        value="foo"
-        info={info}
-        source={jest.fn()}
-        renderValue={render}
-      />
-    );
+    const wrapper = mount(<ComboBoxOld value="foo" info={info} source={jest.fn()} renderValue={render} />);
 
     // Initial render.
     expect(info.mock.calls[0]).toEqual(['foo']);

@@ -61,12 +61,9 @@
 @control-padding-y-medium: 9px;
 @control-padding-y-large: 10px;
 
-@control-height-small: 2 * @control-border-width + 2 * @control-padding-y-small +
-  @control-line-height-small;
-@control-height-medium: 2 * @control-border-width + 2 *
-  @control-padding-y-medium + @control-line-height-medium;
-@control-height-large: 2 * @control-border-width + 2 * @control-padding-y-large +
-  @control-line-height-large;
+@control-height-small: 2 * @control-border-width + 2 * @control-padding-y-small + @control-line-height-small;
+@control-height-medium: 2 * @control-border-width + 2 * @control-padding-y-medium + @control-line-height-medium;
+@control-height-large: 2 * @control-border-width + 2 * @control-padding-y-large + @control-line-height-large;
 
 // Text
 @text-color-default: #404040;
@@ -98,131 +95,100 @@
 @btn-default-bg: #f9f9f9;
 @btn-default-bg-start: #fff;
 @btn-default-bg-end: #ebebeb;
-@btn-default-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15),
-  0 0 0 1px rgba(0, 0, 0, 0.15);
-@btn-default-shadow-arrow: 1.2px -1px 0 0 rgba(0, 0, 0, 0.15),
-  1px 0 0 0 rgba(0, 0, 0, 0.15);
-@btn-default-shadow-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.15),
-  0 -1px 0 0 rgba(0, 0, 0, 0.15);
+@btn-default-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
+@btn-default-shadow-arrow: 1.2px -1px 0 0 rgba(0, 0, 0, 0.15), 1px 0 0 0 rgba(0, 0, 0, 0.15);
+@btn-default-shadow-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 -1px 0 0 rgba(0, 0, 0, 0.15);
 @btn-default-hover-bg-start: #f2f2f2;
 @btn-default-hover-bg-end: #dfdfdf;
-@btn-default-hover-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15),
-  0 0 0 1px rgba(0, 0, 0, 0.2);
-@btn-default-hover-shadow-arrow: 1px -1px 0 0 rgba(0, 0, 0, 0.15),
-  1px 0 0 0 rgba(0, 0, 0, 0.2);
-@btn-default-hover-shadow-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.15),
-  0 -1px 0 0 rgba(0, 0, 0, 0.2);
+@btn-default-hover-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.2);
+@btn-default-hover-shadow-arrow: 1px -1px 0 0 rgba(0, 0, 0, 0.15), 1px 0 0 0 rgba(0, 0, 0, 0.2);
+@btn-default-hover-shadow-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 -1px 0 0 rgba(0, 0, 0, 0.2);
 @btn-default-active-bg: #e1e1e1;
-@btn-default-active-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1),
-  0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-@btn-default-active-shadow-arrow: 0 -2px 0 -1px rgba(0, 0, 0, 0.1),
-  1px -1px 0 0 rgba(0, 0, 0, 0.2), inset 0 4px 5px -4px rgba(0, 0, 0, 0.1);
-@btn-default-active-shadow-arrow-left: 0 -1px 0 0 rgba(0, 0, 0, 0.1),
-  1px -0.3px 0 0 rgba(0, 0, 0, 0.2), inset -4px 0 5px -4px rgba(0, 0, 0, 0.2);
+@btn-default-active-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2),
+  inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+@btn-default-active-shadow-arrow: 0 -2px 0 -1px rgba(0, 0, 0, 0.1), 1px -1px 0 0 rgba(0, 0, 0, 0.2),
+  inset 0 4px 5px -4px rgba(0, 0, 0, 0.1);
+@btn-default-active-shadow-arrow-left: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 1px -0.3px 0 0 rgba(0, 0, 0, 0.2),
+  inset -4px 0 5px -4px rgba(0, 0, 0, 0.2);
 
 // use success
 @btn-success-bg: #419d14;
 @btn-success-bg-start: #4ba91d;
 @btn-success-bg-end: #37910b;
-@btn-success-shadow: 0 0 0 1px rgba(25, 103, 6, 0.7),
-  0 1px 0 0 rgba(21, 80, 7, 0.5);
-@btn-success-shadow-arrow: 1px -1px 0 0 rgba(25, 103, 6, 0.7),
-  1px 0 0 0 rgba(21, 80, 7, 0.5);
-@btn-success-shadow-arrow-left: 1px -1px 0 0 rgba(25, 103, 6, 0.7),
-  0 -1px 0 0 rgba(21, 80, 7, 0.5);
+@btn-success-shadow: 0 0 0 1px rgba(25, 103, 6, 0.7), 0 1px 0 0 rgba(21, 80, 7, 0.5);
+@btn-success-shadow-arrow: 1px -1px 0 0 rgba(25, 103, 6, 0.7), 1px 0 0 0 rgba(21, 80, 7, 0.5);
+@btn-success-shadow-arrow-left: 1px -1px 0 0 rgba(25, 103, 6, 0.7), 0 -1px 0 0 rgba(21, 80, 7, 0.5);
 @btn-success-hover-bg-start: #3b8d13;
 @btn-success-hover-bg-end: #317e0b;
-@btn-success-hover-shadow: 0 0 0 1px rgba(7, 73, 1, 0.7),
-  0 1px 0 0 rgba(16, 70, 4, 0.3);
-@btn-success-hover-shadow-arrow: 1px -1px 0 0 rgba(7, 73, 1, 0.7),
-  1px 0 0 0 rgba(16, 70, 4, 0.3);
-@btn-success-hover-shadow-arrow-left: 1px -1px 0 0 rgba(7, 73, 1, 0.7),
-  0 -1px 0 0 rgba(16, 70, 4, 0.3);
+@btn-success-hover-shadow: 0 0 0 1px rgba(7, 73, 1, 0.7), 0 1px 0 0 rgba(16, 70, 4, 0.3);
+@btn-success-hover-shadow-arrow: 1px -1px 0 0 rgba(7, 73, 1, 0.7), 1px 0 0 0 rgba(16, 70, 4, 0.3);
+@btn-success-hover-shadow-arrow-left: 1px -1px 0 0 rgba(7, 73, 1, 0.7), 0 -1px 0 0 rgba(16, 70, 4, 0.3);
 @btn-success-active-bg: #35840e;
-@btn-success-active-shadow: 0 0 0 1px rgba(4, 63, 0, 0.75),
-  0 -1px 0 0 rgba(9, 32, 4, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-@btn-success-active-shadow-arrow: 1px -1px 0 0 rgba(4, 63, 0, 0.75),
-  0 -2px 0 -1px rgba(9, 32, 4, 0.6), inset 0 4px 5px -4px rgba(0, 0, 0, 0.1);
-@btn-success-active-shadow-arrow-left: 1px -1px 0 0 rgba(4, 63, 0, 0.75),
-  0 0 0 -1px rgba(9, 32, 4, 0.6), inset -4px 0 5px -4px rgba(0, 0, 0, 0.2);
+@btn-success-active-shadow: 0 0 0 1px rgba(4, 63, 0, 0.75), 0 -1px 0 0 rgba(9, 32, 4, 0.6),
+  inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+@btn-success-active-shadow-arrow: 1px -1px 0 0 rgba(4, 63, 0, 0.75), 0 -2px 0 -1px rgba(9, 32, 4, 0.6),
+  inset 0 4px 5px -4px rgba(0, 0, 0, 0.1);
+@btn-success-active-shadow-arrow-left: 1px -1px 0 0 rgba(4, 63, 0, 0.75), 0 0 0 -1px rgba(9, 32, 4, 0.6),
+  inset -4px 0 5px -4px rgba(0, 0, 0, 0.2);
 
 // use primary
 @btn-primary-bg: #1e8dd4;
 @btn-primary-bg-start: #2899ea;
 @btn-primary-bg-end: #167ac1;
-@btn-primary-shadow: 0 0 0 1px rgba(14, 81, 129, 0.7),
-  0 1px 0 0 rgba(7, 37, 80, 0.5);
-@btn-primary-shadow-arrow: 1px -1px 0 0 rgba(14, 81, 129, 0.7),
-  1px 0 0 0 rgba(7, 37, 80, 0.5);
-@btn-primary-shadow-arrow-left: 1px -1px 0 0 rgba(14, 81, 129, 0.7),
-  0 -1px 0 0 rgba(7, 37, 80, 0.5);
+@btn-primary-shadow: 0 0 0 1px rgba(14, 81, 129, 0.7), 0 1px 0 0 rgba(7, 37, 80, 0.5);
+@btn-primary-shadow-arrow: 1px -1px 0 0 rgba(14, 81, 129, 0.7), 1px 0 0 0 rgba(7, 37, 80, 0.5);
+@btn-primary-shadow-arrow-left: 1px -1px 0 0 rgba(14, 81, 129, 0.7), 0 -1px 0 0 rgba(7, 37, 80, 0.5);
 @btn-primary-hover-bg-start: #0087d5;
 @btn-primary-hover-bg-end: #167ac1;
-@btn-primary-hover-shadow: 0 0 0 1px rgba(5, 60, 99, 0.7),
-  0 1px 0 0 rgba(7, 37, 80, 0.3);
-@btn-primary-hover-shadow-arrow: 1px -1px 0 0 rgba(5, 60, 99, 0.7),
-  1px 0 0 0 rgba(7, 37, 80, 0.3);
-@btn-primary-hover-shadow-arrow-left: 1px -1px 0 0 rgba(5, 60, 99, 0.7),
-  0 -1px 0 0 rgba(7, 37, 80, 0.3);
+@btn-primary-hover-shadow: 0 0 0 1px rgba(5, 60, 99, 0.7), 0 1px 0 0 rgba(7, 37, 80, 0.3);
+@btn-primary-hover-shadow-arrow: 1px -1px 0 0 rgba(5, 60, 99, 0.7), 1px 0 0 0 rgba(7, 37, 80, 0.3);
+@btn-primary-hover-shadow-arrow-left: 1px -1px 0 0 rgba(5, 60, 99, 0.7), 0 -1px 0 0 rgba(7, 37, 80, 0.3);
 @btn-primary-active-bg: #0079c3;
-@btn-primary-active-shadow: 0 0 0 1px rgba(10, 63, 99, 0.75),
-  0 -1px 0 0 rgba(8, 45, 96, 0.5), inset 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-@btn-primary-active-shadow-arrow: 1px -1px 0 0 rgba(10, 63, 99, 0.75),
-  0 -2px 0 -1px rgba(8, 45, 96, 0.5), inset 0 4px 5px -4px rgba(0, 0, 0, 0.2);
-@btn-primary-active-shadow-arrow-left: 1px -1px 0 0 rgba(10, 63, 99, 0.75),
-  0 0 0 -1px rgba(8, 45, 96, 0.5), inset -4px 0 5px -4px rgba(0, 0, 0, 0.2);
+@btn-primary-active-shadow: 0 0 0 1px rgba(10, 63, 99, 0.75), 0 -1px 0 0 rgba(8, 45, 96, 0.5),
+  inset 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+@btn-primary-active-shadow-arrow: 1px -1px 0 0 rgba(10, 63, 99, 0.75), 0 -2px 0 -1px rgba(8, 45, 96, 0.5),
+  inset 0 4px 5px -4px rgba(0, 0, 0, 0.2);
+@btn-primary-active-shadow-arrow-left: 1px -1px 0 0 rgba(10, 63, 99, 0.75), 0 0 0 -1px rgba(8, 45, 96, 0.5),
+  inset -4px 0 5px -4px rgba(0, 0, 0, 0.2);
 
 // use danger
 @btn-danger-bg: #e14c30;
 @btn-danger-bg-start: #ec5438;
 @btn-danger-bg-end: #d44327;
-@btn-danger-shadow: 0 0 0 1px rgba(173, 15, 0, 0.7),
-  0 1px 0 0 rgba(0, 0, 0, 0.4);
-@btn-danger-shadow-arrow: 1px -1px 0 0 rgba(173, 15, 0, 0.7),
-  1px 0 0 0 rgba(0, 0, 0, 0.4);
-@btn-danger-shadow-arrow-left: 1px -1px 0 0 rgba(173, 15, 0, 0.7),
-  0 -1px 0 0 rgba(0, 0, 0, 0.4);
+@btn-danger-shadow: 0 0 0 1px rgba(173, 15, 0, 0.7), 0 1px 0 0 rgba(0, 0, 0, 0.4);
+@btn-danger-shadow-arrow: 1px -1px 0 0 rgba(173, 15, 0, 0.7), 1px 0 0 0 rgba(0, 0, 0, 0.4);
+@btn-danger-shadow-arrow-left: 1px -1px 0 0 rgba(173, 15, 0, 0.7), 0 -1px 0 0 rgba(0, 0, 0, 0.4);
 @btn-danger-hover-bg-start: #d44227;
 @btn-danger-hover-bg-end: #c73013;
-@btn-danger-hover-shadow: 0 0 0 1px rgba(145, 0, 0, 0.7),
-  0 1px 0 0 rgba(90, 3, 3, 0.4);
-@btn-danger-hover-shadow-arrow: 1px -1px 0 0 rgba(145, 0, 0, 0.7),
-  1px 0 0 0 rgba(90, 3, 3, 0.4);
-@btn-danger-hover-shadow-arrow-left: 1px -1px 0 0 rgba(145, 0, 0, 0.7),
-  0 -1px 0 0 rgba(90, 3, 3, 0.4);
+@btn-danger-hover-shadow: 0 0 0 1px rgba(145, 0, 0, 0.7), 0 1px 0 0 rgba(90, 3, 3, 0.4);
+@btn-danger-hover-shadow-arrow: 1px -1px 0 0 rgba(145, 0, 0, 0.7), 1px 0 0 0 rgba(90, 3, 3, 0.4);
+@btn-danger-hover-shadow-arrow-left: 1px -1px 0 0 rgba(145, 0, 0, 0.7), 0 -1px 0 0 rgba(90, 3, 3, 0.4);
 @btn-danger-active-bg: #cd381b;
-@btn-danger-active-shadow: 0 0 0 1px rgba(108, 7, 7, 0.75),
-  0 -1px 0 0 rgba(90, 3, 3, 0.4), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-@btn-danger-active-shadow-arrow: 1px -1px 0 0 rgba(108, 7, 7, 0.75),
-  0 -2px 0 -1px rgba(90, 3, 3, 0.4), inset 0 4px 5px -4px rgba(0, 0, 0, 0.1);
-@btn-danger-active-shadow-arrow-left: 1px -1px 0 0 rgba(108, 7, 7, 0.75),
-  0 0 0 -1px rgba(90, 3, 3, 0.4), inset -4px 0 5px -4px rgba(0, 0, 0, 0.1);
+@btn-danger-active-shadow: 0 0 0 1px rgba(108, 7, 7, 0.75), 0 -1px 0 0 rgba(90, 3, 3, 0.4),
+  inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+@btn-danger-active-shadow-arrow: 1px -1px 0 0 rgba(108, 7, 7, 0.75), 0 -2px 0 -1px rgba(90, 3, 3, 0.4),
+  inset 0 4px 5px -4px rgba(0, 0, 0, 0.1);
+@btn-danger-active-shadow-arrow-left: 1px -1px 0 0 rgba(108, 7, 7, 0.75), 0 0 0 -1px rgba(90, 3, 3, 0.4),
+  inset -4px 0 5px -4px rgba(0, 0, 0, 0.1);
 
 // use pay
 @btn-pay-bg: #ffc943;
 @btn-pay-bg-start: #ffd54b;
 @btn-pay-bg-end: #ffbb39;
-@btn-pay-shadow: 0 0 0 1px rgba(238, 169, 34, 0.7),
-  0 1px 0 0 rgba(77, 16, 0, 0.56);
-@btn-pay-shadow-arrow: 1px -1px 0 0 rgba(238, 169, 34, 0.7),
-  1px -0.3px 0 0 rgba(77, 16, 0, 0.56);
-@btn-pay-shadow-arrow-left: 1px -1px 0 0 rgba(238, 169, 34, 0.7),
-  0.2px -1px 0 -0.3px rgba(77, 16, 0, 0.56);
+@btn-pay-shadow: 0 0 0 1px rgba(238, 169, 34, 0.7), 0 1px 0 0 rgba(77, 16, 0, 0.56);
+@btn-pay-shadow-arrow: 1px -1px 0 0 rgba(238, 169, 34, 0.7), 1px -0.3px 0 0 rgba(77, 16, 0, 0.56);
+@btn-pay-shadow-arrow-left: 1px -1px 0 0 rgba(238, 169, 34, 0.7), 0.2px -1px 0 -0.3px rgba(77, 16, 0, 0.56);
 @btn-pay-hover-bg-start: #ffbd3a;
 @btn-pay-hover-bg-end: #f8a91d;
-@btn-pay-hover-shadow: 0 0 0 1px rgba(227, 142, 8, 0.7),
-  0 1px 0 0 rgba(93, 20, 3, 0.4);
-@btn-pay-hover-shadow-arrow: 1px -1px 0 0 rgba(227, 142, 8, 0.7),
-  1px -0.3px 0 0 rgba(93, 20, 3, 0.4);
-@btn-pay-hover-shadow-arrow-left: 1px -1px 0 0 rgba(227, 142, 8, 0.7),
-  0 -1px 0 0 rgba(93, 20, 3, 0.4);
+@btn-pay-hover-shadow: 0 0 0 1px rgba(227, 142, 8, 0.7), 0 1px 0 0 rgba(93, 20, 3, 0.4);
+@btn-pay-hover-shadow-arrow: 1px -1px 0 0 rgba(227, 142, 8, 0.7), 1px -0.3px 0 0 rgba(93, 20, 3, 0.4);
+@btn-pay-hover-shadow-arrow-left: 1px -1px 0 0 rgba(227, 142, 8, 0.7), 0 -1px 0 0 rgba(93, 20, 3, 0.4);
 @btn-pay-active-bg: #fbb028;
-@btn-pay-active-shadow: 0 0 0 1px rgba(210, 144, 0, 0.7),
-  0 -1px 0 0 rgba(0, 0, 0, 0.44), inset 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-@btn-pay-active-shadow-arrow: 1px -1px 0 0 rgba(210, 144, 0, 0.7),
-  0 -2px 0 -1px rgba(0, 0, 0, 0.44), inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
-@btn-pay-active-shadow-arrow-left: 1px -1px 0 0 rgba(210, 144, 0, 0.7),
-  2px -0.3px 0 -1px rgba(0, 0, 0, 0.44),
+@btn-pay-active-shadow: 0 0 0 1px rgba(210, 144, 0, 0.7), 0 -1px 0 0 rgba(0, 0, 0, 0.44),
+  inset 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+@btn-pay-active-shadow-arrow: 1px -1px 0 0 rgba(210, 144, 0, 0.7), 0 -2px 0 -1px rgba(0, 0, 0, 0.44),
+  inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
+@btn-pay-active-shadow-arrow-left: 1px -1px 0 0 rgba(210, 144, 0, 0.7), 2px -0.3px 0 -1px rgba(0, 0, 0, 0.44),
   inset -4px 0 5px -4px rgba(0, 0, 0, 0.05);
 
 // Select
@@ -244,8 +210,7 @@
 @tooltip-bg: @bg-default;
 @tooltip-border: @dropdown-menu-border;
 @tooltip-border-raduis: 2px;
-@tooltip-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),
-  0 3px 10px 0 rgba(0, 0, 0, 0.2);
+@tooltip-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
 @tooltip-close-btn-color: #808080;
 @tooltip-close-btn-hover-color: #606060;
 
@@ -337,10 +302,8 @@
 @menu-border: 1px solid #d5d5d5;
 @menu-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 
-@btn-shadow-checked-arrow: 1px -1px 0 0 rgba(0, 0, 0, 0.6),
-  inset 0 4px 2px -3px rgba(0, 0, 0, 0.3);
-@btn-shadow-checked-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.6),
-  inset -4px 0 2px -3px rgba(0, 0, 0, 0.3);
+@btn-shadow-checked-arrow: 1px -1px 0 0 rgba(0, 0, 0, 0.6), inset 0 4px 2px -3px rgba(0, 0, 0, 0.3);
+@btn-shadow-checked-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3);
 
 // Toggle
 @toggle-bg-checked: #3072c4;
@@ -355,8 +318,7 @@
 @popup-border-radius: 2px;
 @popup-border: none;
 @popup-border-color: transparent;
-@popup-drop-shadow: drop-shadow(0 0 1px rgba(0, 0, 0, 0.1))
-  drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+@popup-drop-shadow: drop-shadow(0 0 1px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 @popup-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
 
 // Input

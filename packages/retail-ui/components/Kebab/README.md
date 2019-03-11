@@ -10,7 +10,7 @@ let style = {
   display: 'flex',
   justifyContent: 'space-between',
   padding: '0 20px',
-  width: 250
+  width: 250,
 };
 
 let Card = ({ name, post }) => (

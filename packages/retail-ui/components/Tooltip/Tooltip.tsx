@@ -8,6 +8,7 @@ import styles from './Tooltip.less';
 import warning from 'warning';
 import { MouseEventType } from '../../typings/event-types';
 import isEqual from 'lodash.isequal';
+import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
@@ -24,7 +25,7 @@ const Positions: PopupPosition[] = [
   'left bottom',
   'bottom left',
   'bottom center',
-  'bottom right'
+  'bottom right',
 ];
 
 export type TooltipTrigger =
@@ -127,21 +128,17 @@ export interface TooltipState {
 
 class Tooltip extends React.Component<TooltipProps, TooltipState> {
   public static propTypes = {
-    children(
-      props: TooltipProps,
-      propName: keyof TooltipProps,
-      componentName: string
-    ) {
+    children(props: TooltipProps, propName: keyof TooltipProps, componentName: string) {
       const children = props[propName];
       warning(
         children || props.anchorElement,
-        `[${componentName}]: you must provide either 'children' or 'anchorElement' prop for ${componentName} to work properly`
+        `[${componentName}]: you must provide either 'children' or 'anchorElement' prop for ${componentName} to work properly`,
       );
       warning(
         !(Array.isArray(children) && props.useWrapper === false),
-        `[${componentName}]: you provided multiple children, but useWrapper={false} - forcing wrapper <span/> for positioning to work correctly`
+        `[${componentName}]: you provided multiple children, but useWrapper={false} - forcing wrapper <span/> for positioning to work correctly`,
       );
-    }
+    },
   };
 
   public static defaultProps = {
@@ -150,19 +147,15 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     allowedPositions: Positions,
     disableAnimations: false,
     useWrapper: true,
-    closeOnChildrenMouseLeave: false
+    closeOnChildrenMouseLeave: false,
   };
 
   public static closeDelay = 100;
 
-  private static triggersWithoutCloseButton: TooltipTrigger[] = [
-    'hover',
-    'hoverAnchor',
-    'focus'
-  ];
+  private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus'];
 
   public state = {
-    opened: false
+    opened: false,
   };
 
   private hoverTimeout: Nullable<number> = null;
@@ -183,10 +176,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     }
   }
 
-  public shouldComponentUpdate(
-    nextProps: TooltipProps,
-    nextState: TooltipState
-  ) {
+  public shouldComponentUpdate(nextProps: TooltipProps, nextState: TooltipState) {
     return !shallow(nextProps, this.props) || !shallow(nextState, this.state);
   }
 
@@ -240,7 +230,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   private renderPopup(
     anchorElement: React.ReactNode | HTMLElement,
     popupProps: Partial<PopupProps>,
-    content: JSX.Element | null
+    content: JSX.Element | null,
   ) {
     return (
       <Popup
@@ -270,16 +260,10 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       const allowedPositions = this.props.allowedPositions;
       const index = allowedPositions.indexOf(this.props.pos);
       if (index === -1) {
-        throw new Error(
-          'Unexpected position passed to Tooltip. Expected one of: ' +
-            allowedPositions.join(', ')
-        );
+        throw new Error('Unexpected position passed to Tooltip. Expected one of: ' + allowedPositions.join(', '));
       }
 
-      this.positions = [
-        ...allowedPositions.slice(index),
-        ...allowedPositions.slice(0, index)
-      ];
+      this.positions = [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];
     }
 
     return this.positions;
@@ -296,60 +280,60 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         return {
           layerProps: {
             active: true,
-            onClickOutside: this.handleClickOutside
+            onClickOutside: this.handleClickOutsideAnchor,
           },
           popupProps: {
             opened: true,
-            useWrapper
-          }
+            useWrapper,
+          },
         };
 
       case 'closed':
         return {
           layerProps: {
-            active: false
+            active: false,
           },
           popupProps: {
             opened: false,
-            useWrapper
-          }
+            useWrapper,
+          },
         };
 
       case 'hoverAnchor':
       case 'hover':
         return {
           layerProps: {
-            active: false
+            active: false,
           },
           popupProps: {
             onMouseEnter: this.handleMouseEnter,
             onMouseLeave: this.handleMouseLeave,
-            useWrapper
-          }
+            useWrapper,
+          },
         };
 
       case 'click':
         return {
           layerProps: {
             active: this.state.opened,
-            onClickOutside: this.handleClickOutside
+            onClickOutside: this.handleClickOutsideAnchor,
           },
           popupProps: {
             onClick: this.handleClick,
-            useWrapper
-          }
+            useWrapper,
+          },
         };
 
       case 'focus':
         return {
           layerProps: {
-            active: false
+            active: false,
           },
           popupProps: {
             onFocus: this.handleFocus,
             onBlur: this.handleBlur,
-            useWrapper
-          }
+            useWrapper,
+          },
         };
 
       default:
@@ -379,8 +363,8 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
-    const isHover = this.props.trigger === 'hover';
-    if (isHover && event.relatedTarget === this.contentElement) {
+    const triggerIsHover = this.props.trigger === 'hover';
+    if (triggerIsHover && event.relatedTarget === this.contentElement) {
       return;
     }
 
@@ -400,12 +384,22 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.open();
   };
 
-  private handleClickOutside = () => {
-    if (this.props.onCloseRequest) {
-      this.props.onCloseRequest();
+  private handleClickOutsideAnchor = (event: Event) => {
+    if (this.isClickOutsideContent(event)) {
+      if (this.props.onCloseRequest) {
+        this.props.onCloseRequest();
+      }
+      this.close();
     }
-    this.close();
   };
+
+  private isClickOutsideContent(event: Event) {
+    if (this.contentElement && event.target instanceof Element) {
+      return !containsTargetOrRenderContainer(event.target)(this.contentElement);
+    }
+
+    return true;
+  }
 
   private handleFocus = () => {
     this.open();

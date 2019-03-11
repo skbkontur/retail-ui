@@ -2,8 +2,7 @@
 const { default: Gapped } = require('../Gapped');
 const reactNodeCaption = (
   <div>
-    <Spinner type="mini" caption={null} />{' '}
-    <span style={{ color: 'tomato', fontSize: '1.3em' }}>З</span>
+    <Spinner type="mini" caption={null} /> <span style={{ color: 'tomato', fontSize: '1.3em' }}>З</span>
     агрузка ...
   </div>
 );

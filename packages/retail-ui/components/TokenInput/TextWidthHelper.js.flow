@@ -1,10 +1,10 @@
 /* @flow */
 export type TextWidthHelperProps = {|
-  text?: string
+  text?: string,
 |};
 
 declare class TextWidthHelper extends React$Component<TextWidthHelperProps> {
-  getTextWidth(): number
+  getTextWidth(): number;
 }
 
 export default TextWidthHelper;

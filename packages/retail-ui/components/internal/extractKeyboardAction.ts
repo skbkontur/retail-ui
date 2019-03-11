@@ -14,18 +14,11 @@ export class KeyboardActionExctracterBuilder<T> {
     this._actionMatchers = actionMatchers;
   }
 
-  public add<P>(
-    type: P,
-    check: ActionCheck
-  ): KeyboardActionExctracterBuilder<T | P> {
-    return new KeyboardActionExctracterBuilder(
-      this._actionMatchers.concat({ type, check })
-    );
+  public add<P>(type: P, check: ActionCheck): KeyboardActionExctracterBuilder<T | P> {
+    return new KeyboardActionExctracterBuilder(this._actionMatchers.concat({ type, check }));
   }
 
-  public build<P>(
-    defaultAction: P
-  ): (x0: React.KeyboardEvent<HTMLElement>) => T | P {
+  public build<P>(defaultAction: P): (x0: React.KeyboardEvent<HTMLElement>) => T | P {
     return event => {
       const action = this._actionMatchers.find(x => x.check(event));
       return (action && action.type) || defaultAction;
@@ -33,11 +26,6 @@ export class KeyboardActionExctracterBuilder<T> {
   }
 }
 
-export const isModified: ActionCheck = e =>
-  e.shiftKey || e.metaKey || e.ctrlKey || e.altKey;
+export const isModified: ActionCheck = e => e.shiftKey || e.metaKey || e.ctrlKey || e.altKey;
 export const isSeparator: ActionCheck = e =>
-  e.key === ',' ||
-  e.key === '.' ||
-  e.key === 'Decimal' ||
-  e.keyCode === 188 ||
-  e.keyCode === 190;
+  e.key === ',' || e.key === '.' || e.key === 'Decimal' || e.keyCode === 188 || e.keyCode === 190;

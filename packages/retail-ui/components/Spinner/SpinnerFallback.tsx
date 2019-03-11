@@ -17,17 +17,15 @@ export interface SpinnerFallbackProps {
   dimmed?: boolean;
 }
 
-export default class SpinnerFallback extends React.Component<
-  SpinnerFallbackProps
-> {
+export default class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
   public static propTypes = {
     type: PropTypes.oneOf(Object.keys(types)),
 
-    dimmed: PropTypes.bool
+    dimmed: PropTypes.bool,
   };
 
   public state = {
-    frame: 0
+    frame: 0,
   };
 
   private _mounted = false;
@@ -36,14 +34,14 @@ export default class SpinnerFallback extends React.Component<
     [types.mini]: 180,
     [types.normal]: 60,
     [types.big]: 60,
-    dimmed: 60
+    dimmed: 60,
   };
 
   private _imageUrls = {
     [types.mini]: fallbackImage_mini,
     [types.normal]: fallbackImage_normal,
     [types.big]: fallbackImage_big,
-    dimmed: fallbackImage_mini_dimmed
+    dimmed: fallbackImage_mini_dimmed,
   };
 
   public componentDidMount() {
@@ -65,7 +63,7 @@ export default class SpinnerFallback extends React.Component<
       backgroundImage: `url('${this._imageUrls[this.getSpriteSettingsKey()]}')`,
       height: size.height,
       top: type === 'mini' ? 2 : 0,
-      width: size.width
+      width: size.width,
     };
 
     return <span className={styles.fallback} style={cssSet} />;
@@ -85,7 +83,5 @@ export default class SpinnerFallback extends React.Component<
   };
 
   private getSpriteSettingsKey = () =>
-    this.props.type === types.mini && this.props.dimmed
-      ? 'dimmed'
-      : this.props.type;
+    this.props.type === types.mini && this.props.dimmed ? 'dimmed' : this.props.type;
 }

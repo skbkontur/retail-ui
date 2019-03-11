@@ -13,16 +13,16 @@ export type ToggleProps = {|
   autoFocus?: boolean,
   onFocus?: FocusEventHandler<HTMLInputElement>,
   onBlur?: FocusEventHandler<HTMLInputElement>,
-  color?: string
+  color?: string,
 |};
 
 export type ToggleState = {|
   checked?: boolean,
-  focusByTab?: boolean
+  focusByTab?: boolean,
 |};
 
 declare class Toggle extends React$Component<ToggleProps, ToggleState> {
-  focus: () => void
+  focus: () => void;
 }
 
 export default Toggle;

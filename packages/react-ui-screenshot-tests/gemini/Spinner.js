@@ -1,19 +1,19 @@
-var renderStory = require("./utils").renderStory;
+var renderStory = require('./utils').renderStory;
 
-gemini.suite("Spinner", () => {
-  gemini.suite("String caption", suite => {
+gemini.suite('Spinner', () => {
+  gemini.suite('String caption', suite => {
     suite
-      .before(renderStory("Spinner", "Normal"))
-      .setCaptureElements("#test-element")
+      .before(renderStory('Spinner', 'Normal'))
+      .setCaptureElements('#test-element')
       .ignoreElements({ every: "[class^='Spinner-inner']" })
-      .capture("plain");
+      .capture('plain');
   });
 
-  gemini.suite("ReactNode caption", suite => {
+  gemini.suite('ReactNode caption', suite => {
     suite
-      .before(renderStory("Spinner", "With ReactNode in caption"))
-      .setCaptureElements("#test-element")
+      .before(renderStory('Spinner', 'With ReactNode in caption'))
+      .setCaptureElements('#test-element')
       .ignoreElements({ every: "[class^='Spinner-inner']" })
-      .capture("plain");
+      .capture('plain');
   });
 });

@@ -24,7 +24,7 @@ const DatePickerAdapter = {
     const onChange: any = inst.props.onChange;
     const date = value ? new Date(value) : null;
     onChange && onChange({ target: { value: date } }, date);
-  }
+  },
 };
 
 (DatePicker: any).__ADAPTER__ = DatePickerAdapter;
