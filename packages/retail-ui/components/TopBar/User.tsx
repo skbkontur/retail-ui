@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { getLocale, locale } from '../LocaleProvider/decorators';
+import { locale } from '../LocaleProvider/decorators';
 import { TopBarLocale, TopBarLocaleHelper } from './locale';
 
 import TopBarDropdown from './TopBarDropdown';
@@ -26,7 +26,7 @@ class User extends React.Component<UserProps> {
     cabinetUrl: PropTypes.string,
   };
 
-  @getLocale private readonly locale: TopBarLocale = {};
+  public readonly locale: TopBarLocale = {};
 
   public render(): JSX.Element {
     const { userName, cabinetUrl } = this.props;

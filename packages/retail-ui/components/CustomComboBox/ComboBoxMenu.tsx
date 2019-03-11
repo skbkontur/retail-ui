@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getLocale, locale } from '../LocaleProvider/decorators';
+import { locale } from '../LocaleProvider/decorators';
 import Menu from '../Menu/Menu';
 import MenuItem, { MenuItemState } from '../MenuItem/MenuItem';
 import Spinner from '../Spinner/Spinner';
@@ -32,7 +32,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     requestStatus: ComboBoxRequestStatus.Unknown,
   };
 
-  @getLocale private readonly locale: ComboBoxLocale = {};
+  public readonly locale: ComboBoxLocale = {};
 
   public render() {
     const {

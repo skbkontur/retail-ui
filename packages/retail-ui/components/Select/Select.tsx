@@ -1,4 +1,4 @@
-import { getLocale, locale } from '../LocaleProvider/decorators';
+import { locale } from '../LocaleProvider/decorators';
 import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
 
 import events from 'add-event-listener';
@@ -195,7 +195,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     return element;
   };
 
-  @getLocale private readonly locale: SelectLocale = {};
+  public readonly locale: SelectLocale = {};
 
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;

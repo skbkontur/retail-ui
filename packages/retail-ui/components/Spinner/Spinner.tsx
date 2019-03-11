@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import * as React from 'react';
 
 import * as PropTypes from 'prop-types';
-import { getLocale, locale } from '../LocaleProvider/decorators';
+import { locale } from '../LocaleProvider/decorators';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 import { sizeMaps, svgAnimateSupport, types } from './settings';
 
@@ -53,7 +53,7 @@ class Spinner extends React.Component<SpinnerProps> {
 
   public static Types: typeof types;
 
-  @getLocale private readonly locale: SpinnerLocale = {};
+  public readonly locale: SpinnerLocale = {};
 
   public render() {
     const { type, caption = this.locale.loading, dimmed } = this.props;

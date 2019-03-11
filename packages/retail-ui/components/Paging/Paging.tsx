@@ -3,7 +3,7 @@ import { number, func } from 'prop-types';
 import cn from 'classnames';
 import events from 'add-event-listener';
 import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
-import { getLocale, locale } from '../LocaleProvider/decorators';
+import { locale } from '../LocaleProvider/decorators';
 import { PagingLocale, PagingLocaleHelper } from './locale';
 
 import PagingHelper from './PagingHelper';
@@ -79,10 +79,10 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     keyboardControl: this.props.useGlobalListener,
   };
 
+  public readonly locale: PagingLocale = {};
+
   private addedGlobalListener: boolean = false;
   private container: HTMLSpanElement | null = null;
-
-  @getLocale private readonly locale: PagingLocale = {};
 
   public componentDidMount() {
     listenTabPresses();

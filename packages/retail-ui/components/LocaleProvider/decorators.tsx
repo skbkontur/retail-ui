@@ -21,20 +21,18 @@ export function locale<C>(controlName: keyof LocaleControls, localeHelper: Local
           </LocaleConsumer>
         );
       }
+
+      public get locale(): C {
+        const langCode = this._localeContext.langCode;
+        const localeFromContext = this._localeContext.locale && this._localeContext.locale[this.controlName];
+        return Object.assign({}, this.localeHelper.get(langCode), localeFromContext);
+      }
+
+      public set locale(value: C) {
+        // empty block
+      }
     };
     Object.defineProperty(LocaleDecorator, 'name', { value: constructor.name });
     return LocaleDecorator;
   };
-}
-
-export function getLocale(target: any, propertyKey: string) {
-  Object.defineProperty(target, propertyKey, {
-    // tslint:disable-next-line
-    get: function() {
-      const langCode = this._localeContext.langCode;
-      const localeFromContext = this._localeContext.locale && this._localeContext.locale[this.controlName];
-      return Object.assign({}, this.localeHelper.get(langCode), localeFromContext);
-    },
-    set: value => value,
-  });
 }

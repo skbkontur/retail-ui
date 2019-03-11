@@ -4,7 +4,7 @@ import events from 'add-event-listener';
 import ArrowChevronDownIcon from '@skbkontur/react-icons/ArrowChevronDown';
 
 import stopPropagation from '../../lib/events/stopPropagation';
-import { getLocale, locale } from '../LocaleProvider/decorators';
+import { locale } from '../LocaleProvider/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { LogotypeLocale, LogotypeLocaleHelper } from './locale';
 import ProductWidget from './ProductWidget';
@@ -75,10 +75,10 @@ class Logotype extends React.Component<LogotypeProps> {
     href: '/',
   };
 
+  public readonly locale: LogotypeLocale = {};
+
   private logoWrapper: Nullable<HTMLElement> = null;
   private isWidgetInited: boolean = false;
-
-  @getLocale private readonly locale: LogotypeLocale = {};
 
   public componentDidMount() {
     if (this.props.withWidget) {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { getLocale, locale } from '../LocaleProvider/decorators';
+import { locale } from '../LocaleProvider/decorators';
 import Popup from '../Popup/Popup';
 import ComboBoxMenu, { ComboBoxMenuProps } from '../CustomComboBox/ComboBoxMenu';
 import Menu from '../Menu/Menu';
@@ -15,9 +15,9 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
 
 @locale('TokenInput', TokenInputLocaleHelper)
 export default class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
-  private menu: Menu | null = null;
+  public readonly locale: TokenInputLocale = {};
 
-  @getLocale private readonly locale: TokenInputLocale = {};
+  private menu: Menu | null = null;
 
   public render() {
     const {
