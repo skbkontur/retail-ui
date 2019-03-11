@@ -9,31 +9,13 @@ import Modal from '../../Modal';
 storiesOf('ComboBoxView', module)
   .add('input like text', () => (
     <Gapped vertical>
-      <View
-        renderValue={simpleRenderValue}
-        value={{ value: 1, label: 'hello' }}
-      />
-      <View
-        renderValue={simpleRenderValue}
-        value={{ value: 1, label: 'hello' }}
-        align="center"
-      />
-      <View
-        renderValue={simpleRenderValue}
-        value={{ value: 1, label: 'hello' }}
-        align="right"
-      />
+      <View renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} />
+      <View renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} align="center" />
+      <View renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} align="right" />
       <View value={{ id: 1, name: 'hello' }} renderValue={complexRenderValue} />
-      <View
-        value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
-        renderValue={complexRenderValue}
-      />
+      <View value={{ id: 1, name: 'looooooooooooooooooooooong hello' }} renderValue={complexRenderValue} />
       <div>
-        <View
-          value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
-          renderValue={complexRenderValue}
-        />{' '}
-        hello
+        <View value={{ id: 1, name: 'looooooooooooooooooooooong hello' }} renderValue={complexRenderValue} /> hello
       </div>
       <div>
         <View
@@ -80,13 +62,7 @@ storiesOf('ComboBoxView', module)
         </tr>
         <tr>
           <td style={{ paddingBottom: 120, paddingRight: 10 }}>
-            <View
-              editing
-              items={[]}
-              opened
-              textValue="nothing"
-              renderNotFound={() => 'Не найдено'}
-            />
+            <View editing items={[]} opened textValue="nothing" renderNotFound={() => 'Не найдено'} />
           </td>
           <td style={{ paddingBottom: 120 }}>
             <View
@@ -96,9 +72,7 @@ storiesOf('ComboBoxView', module)
               items={[{ id: 2, name: 'two' }, { id: 3, name: 'three' }]}
               renderItem={complexRenderValue}
               totalCount={221}
-              renderTotalCount={(found, total) =>
-                `Показано ${found} из ${total}`
-              }
+              renderTotalCount={(found, total) => `Показано ${found} из ${total}`}
             />
           </td>
         </tr>
@@ -122,7 +96,7 @@ storiesOf('ComboBoxView', module)
           { id: 9, name: 'nine' },
           { id: 10, name: 'ten' },
           { id: 11, name: 'eleven' },
-          { id: 12, name: 'twelve' }
+          { id: 12, name: 'twelve' },
         ]}
         renderItem={complexRenderValue}
       />
@@ -144,13 +118,7 @@ function simpleRenderValue(value: { value: number; label: string }) {
   return value.label;
 }
 
-function complexRenderValue({
-  id,
-  name
-}: {
-  id: React.ReactNode;
-  name: React.ReactNode;
-}) {
+function complexRenderValue({ id, name }: { id: React.ReactNode; name: React.ReactNode }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <span>{name}</span>

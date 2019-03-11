@@ -25,7 +25,7 @@ export interface ComboBoxMenuProps<T> {
 class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
   public static defaultProps = {
     repeatRequest: () => undefined,
-    requestStatus: ComboBoxRequestStatus.Unknown
+    requestStatus: ComboBoxRequestStatus.Unknown,
   };
 
   public render() {
@@ -38,7 +38,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       renderNotFound,
       renderTotalCount,
       maxMenuHeight,
-      requestStatus
+      requestStatus,
     } = this.props;
 
     if (!opened) {
@@ -67,8 +67,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
         <Menu ref={refMenu} maxHeight={maxMenuHeight}>
           <MenuItem disabled key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>
-              Что-то пошло не так. Проверьте соединение с интернетом и
-              попробуйте еще раз
+              Что-то пошло не так. Проверьте соединение с интернетом и попробуйте еще раз
             </div>
           </MenuItem>
           <MenuItem alkoLink onClick={this.props.repeatRequest} key="retry">
@@ -81,11 +80,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     if ((items == null || items.length === 0) && renderNotFound) {
       return (
         <Menu ref={refMenu}>
-          {renderAddButton ? (
-            renderAddButton
-          ) : (
-            <MenuItem disabled>{renderNotFound()}</MenuItem>
-          )}
+          {renderAddButton ? renderAddButton : <MenuItem disabled>{renderNotFound()}</MenuItem>}
         </Menu>
       );
     }
@@ -94,9 +89,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     if (items && renderTotalCount && totalCount && items.length < totalCount) {
       total = (
         <MenuItem disabled>
-          <div style={{ fontSize: 12 }}>
-            {renderTotalCount(items.length, totalCount)}
-          </div>
+          <div style={{ fontSize: 12 }}>{renderTotalCount(items.length, totalCount)}</div>
         </MenuItem>
       );
     }
@@ -105,10 +98,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       <Menu ref={refMenu} maxHeight={maxMenuHeight}>
         {items && items.map(this.renderItem)}
         {total}
-        {renderAddButton && [
-          <MenuSeparator key="separator" />,
-          renderAddButton
-        ]}
+        {renderAddButton && [<MenuSeparator key="separator" />, renderAddButton]}
       </Menu>
     );
   }
@@ -123,10 +113,9 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       const props = Object.assign(
         {
           key: index,
-          onClick: (event: React.SyntheticEvent) =>
-            onChange(element.props, event)
+          onClick: (event: React.SyntheticEvent) => onChange(element.props, event),
         },
-        element.props
+        element.props,
       );
       return React.cloneElement(element, props);
     }

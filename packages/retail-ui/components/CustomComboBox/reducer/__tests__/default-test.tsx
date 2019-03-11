@@ -11,7 +11,7 @@ type RenderItem = (item: ItemType) => React.ReactNode;
 const createGetPropsMock = (renderItem: RenderItem) =>
   jest.fn(() => ({
     onUnexpectedInput: null,
-    renderItem
+    renderItem,
   }));
 
 const testCase = [
@@ -20,76 +20,69 @@ const testCase = [
     items: [
       {
         value: 1,
-        label: 'One'
-      }
+        label: 'One',
+      },
     ],
     renderItem: (item: ItemType) => item.label,
-    expectedDispatch: true
+    expectedDispatch: true,
   },
   {
     inputValue: 'One',
     items: [
       {
         value: 1,
-        label: 'One'
+        label: 'One',
       },
       {
         value: 2,
-        label: 'Two'
-      }
+        label: 'Two',
+      },
     ],
     renderItem: (item: ItemType) => item.label,
-    expectedDispatch: false
+    expectedDispatch: false,
   },
   {
     inputValue: 'One Plus',
     items: [
       {
         value: 1,
-        label: 'One'
-      }
+        label: 'One',
+      },
     ],
     renderItem: (item: ItemType) => `${item.label} Plus`,
-    expectedDispatch: true
+    expectedDispatch: true,
   },
   {
     inputValue: 'Two',
     items: [
       {
         value: 2,
-        label: 'Two'
-      }
+        label: 'Two',
+      },
     ],
     renderItem: (item: ItemType) => <span>{item.label}</span>,
-    expectedDispatch: true
-  }
+    expectedDispatch: true,
+  },
 ];
 
 describe('Default combobox reducer', () => {
-  testCase.forEach(
-    ({ inputValue, items, renderItem, expectedDispatch }, index) => {
-      it(`ValueChange after UnexpectedInput (test ${index + 1})`, () => {
-        const mockedGetProps = createGetPropsMock(renderItem);
-        const mockedDispatch = jest.fn();
-        const mockedGetState = jest.fn();
-        const mockedGetInstance = jest.fn();
+  testCase.forEach(({ inputValue, items, renderItem, expectedDispatch }, index) => {
+    it(`ValueChange after UnexpectedInput (test ${index + 1})`, () => {
+      const mockedGetProps = createGetPropsMock(renderItem);
+      const mockedDispatch = jest.fn();
+      const mockedGetState = jest.fn();
+      const mockedGetInstance = jest.fn();
 
-        Effect.UnexpectedInput(inputValue, items)(
-          mockedDispatch,
-          mockedGetState,
-          mockedGetProps,
-          mockedGetInstance
-        );
+      Effect.UnexpectedInput(inputValue, items)(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
 
-        if (expectedDispatch) {
-          expect(mockedDispatch).toBeCalledWith({
-            type: 'ValueChange',
-            value: items[0]
-          });
-        } else {
-          expect(mockedDispatch).not.toBeCalled();
-        }
-      });
-    }
-  );
+      if (expectedDispatch) {
+        expect(mockedDispatch).toBeCalledWith({
+          type: 'ValueChange',
+          value: items[0],
+        });
+      } else {
+        expect(mockedDispatch).not.toBeCalled();
+      }
+    });
+  });
 });
