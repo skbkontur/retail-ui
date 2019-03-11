@@ -212,18 +212,41 @@ describe('ComboBox', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onBlur on click outside', async () => {
+  describe('onBlur callback', () => {
     const onBlur = jest.fn();
-    const wrapper = mount<ComboBox<string>>(<ComboBox onBlur={onBlur} />);
+    const [search, promise] = searchFactory(Promise.resolve(['item']));
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onBlur={onBlur} />);
 
-    wrapper.instance().focus();
-    wrapper.update();
+    beforeEach(() => {
+      wrapper.instance().reset();
+      onBlur.mockClear();
+    });
 
-    await delay(0);
+    it('calls onBlur on click outside when menu is open', async () => {
+      wrapper.instance().focus();
 
-    clickOutside();
+      await promise;
+      wrapper.update();
 
-    expect(onBlur).toHaveBeenCalledTimes(1);
+      expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+        opened: true,
+      });
+      clickOutside();
+
+      expect(onBlur).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls onBlur on input blur when menu is closed', async () => {
+      wrapper.instance().focus();
+      wrapper.update();
+
+      expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+        opened: false,
+      });
+      wrapper.find('input').simulate('blur');
+
+      expect(onBlur).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('renders custom elements in menu', async () => {
