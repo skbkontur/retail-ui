@@ -78,6 +78,7 @@ describe('Default combobox reducer', () => {
       if (expectedDispatch) {
         expect(mockedDispatch).toBeCalledWith({
           type: 'ValueChange',
+          keepFocus: false,
           value: items[0],
         });
       } else {

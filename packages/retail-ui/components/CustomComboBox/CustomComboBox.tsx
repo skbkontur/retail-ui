@@ -46,7 +46,7 @@ export interface CustomComboBoxProps<T> {
   drawArrow?: boolean;
   searchOnFocus?: boolean;
   onChange?: (event: { target: { value: T } }, value: T) => void;
-  onInputChange?: (textValue: string) => Nullable<string>;
+  onInputChange?: (textValue: string) => Nullable<string> | void;
   onUnexpectedInput?: (query: string) => void | null | T;
   onFocus?: () => void;
   onBlur?: () => void;

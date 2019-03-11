@@ -73,7 +73,7 @@ export interface ComboBoxProps<T> {
    * если результатом функции будет строка,
    * то она станет следующим состояним полем ввода
    */
-  onInputChange?: (query: string) => Nullable<string>;
+  onInputChange?: (query: string) => Nullable<string> | void;
 
   /**
    * Функция для обработки ситуации, когда была введена

@@ -37,11 +37,11 @@ describe('ComboBox', () => {
   });
 
   it('renders', () => {
-    mount<ComboBox<any>>(<ComboBox />);
+    mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
   });
 
   it('focuses on focus call', () => {
-    const wrapper = mount<ComboBox<any>>(<ComboBox />);
+    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
     wrapper.instance().focus();
     expect(wrapper.getDOMNode().contains(document.activeElement)).toBeTruthy();
   });
@@ -189,7 +189,9 @@ describe('ComboBox', () => {
   it('calls onChange if onUnexpectedInput return non-nullary value', async () => {
     const values = [null, undefined, 'one'];
     const onChange = jest.fn();
-    const wrapper = mount<ComboBox<string>>(<ComboBox onChange={onChange} onUnexpectedInput={value => value} />);
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox onChange={onChange} onUnexpectedInput={value => value} getItems={() => Promise.resolve([])} />,
+    );
 
     while (values.length) {
       wrapper.instance().focus();
@@ -205,7 +207,7 @@ describe('ComboBox', () => {
 
   it('calls onFocus on focus', async () => {
     const onFocus = jest.fn();
-    const wrapper = mount<ComboBox<any>>(<ComboBox onFocus={onFocus} />);
+    const wrapper = mount<ComboBox<any>>(<ComboBox onFocus={onFocus} getItems={() => Promise.resolve([])} />);
 
     wrapper.find('[tabIndex=0]').simulate('focus');
 
@@ -214,7 +216,7 @@ describe('ComboBox', () => {
 
   it('calls onBlur on click outside', async () => {
     const onBlur = jest.fn();
-    const wrapper = mount<ComboBox<string>>(<ComboBox onBlur={onBlur} />);
+    const wrapper = mount<ComboBox<string>>(<ComboBox onBlur={onBlur} getItems={() => Promise.resolve([])} />);
 
     wrapper.instance().focus();
     wrapper.update();
@@ -307,7 +309,7 @@ describe('ComboBox', () => {
   });
 
   it("don't focus on error and value change", () => {
-    const wrapper = mount<ComboBox<any>>(<ComboBox />);
+    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
 
     wrapper.setProps({ value: { label: '1' }, error: true });
     wrapper.update();
@@ -316,7 +318,9 @@ describe('ComboBox', () => {
   });
 
   it('clear value if onUnexpectedInput return null', async () => {
-    const wrapper = mount<ComboBox<any>>(<ComboBox onUnexpectedInput={() => null} />);
+    const wrapper = mount<ComboBox<any>>(
+      <ComboBox onUnexpectedInput={() => null} getItems={() => Promise.resolve([])} />,
+    );
 
     wrapper.instance().focus();
     wrapper.update();
@@ -439,11 +443,20 @@ describe('ComboBox', () => {
     };
 
     it('in default mode', () => {
-      check(mount<ComboBox<any>>(<ComboBox value={VALUES[0]} />));
+      check(mount<ComboBox<any>>(<ComboBox value={VALUES[0]} getItems={() => Promise.resolve(VALUES)} />));
     });
 
     it('in autocomplete mode', () => {
-      check(mount<ComboBox<any>>(<ComboBox value={VALUES[0]} autocomplete={true} />));
+      check(
+        mount<ComboBox<any>>(
+          <ComboBox
+            value={VALUES[0]}
+            drawArrow={false}
+            searchOnFocus={false}
+            getItems={() => Promise.resolve(VALUES)}
+          />,
+        ),
+      );
     });
   });
 
@@ -463,18 +476,24 @@ describe('ComboBox', () => {
     };
 
     it('in default mode', async () => {
-      check(mount<ComboBox<any>>(<ComboBox value={value} />));
+      check(mount<ComboBox<any>>(<ComboBox value={value} getItems={() => Promise.resolve([value])} />));
     });
 
     it('in autocomplete mode', async () => {
-      check(mount<ComboBox<any>>(<ComboBox value={value} autocomplete={true} />));
+      check(
+        mount<ComboBox<any>>(
+          <ComboBox value={value} drawArrow={false} searchOnFocus={false} getItems={() => Promise.resolve([value])} />,
+        ),
+      );
     });
   });
 
   it('does not do search on focus in autocomplete mode', async () => {
-    const VALUE = { value: 1, label: 'one' };
+    const value = { value: 1, label: 'one' };
     const getItems = jest.fn();
-    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={getItems} value={VALUE} autocomplete={true} />);
+    const wrapper = mount<ComboBox<any>>(
+      <ComboBox getItems={getItems} value={value} drawArrow={false} searchOnFocus={false} />,
+    );
 
     wrapper.instance().focus();
     await delay(0);
@@ -485,7 +504,7 @@ describe('ComboBox', () => {
   });
 
   it('reset', () => {
-    const wrapper = mount<ComboBox<any>>(<ComboBox />);
+    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
 
     wrapper.instance().focus();
     wrapper.update();
@@ -544,10 +563,10 @@ describe('ComboBox', () => {
   });
 
   describe('open/close methods', () => {
-    let wrapper: ReactWrapper<{}, {}, ComboBox<any>>;
+    let wrapper: ReactWrapper<ComboBoxProps<any>, {}, ComboBox<any>>;
 
     beforeEach(() => {
-      wrapper = mount<ComboBox<any>>(<ComboBox />);
+      wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
       wrapper.instance().open();
       wrapper.update();
     });
@@ -573,7 +592,7 @@ describe('ComboBox', () => {
     const VALUE = { value: 1, label: 'one' };
     let getItems: jest.Mock<Promise<string[]>>;
     let promise: Promise<{}>;
-    let wrapper: ReactWrapper<{}, {}, ComboBox<typeof VALUE>>;
+    let wrapper: ReactWrapper<ComboBoxProps<typeof VALUE>, {}, ComboBox<typeof VALUE>>;
 
     beforeEach(() => {
       [getItems, promise] = searchFactory(Promise.resolve(['one']));
@@ -635,7 +654,7 @@ describe('ComboBox', () => {
 
   describe('click on input', () => {
     const VALUE = { value: 1, label: 'one' };
-    type TComboBoxWrapper = ReactWrapper<{}, {}, ComboBox<typeof VALUE>>;
+    type TComboBoxWrapper = ReactWrapper<ComboBoxProps<typeof VALUE>, {}, ComboBox<typeof VALUE>>;
     const clickOnInput = (comboboxWrapper: TComboBoxWrapper) => {
       comboboxWrapper.update();
       comboboxWrapper.find('input').simulate('click');
@@ -675,7 +694,9 @@ describe('ComboBox', () => {
 
     describe('in autocomplete mode', () => {
       beforeEach(() => {
-        wrapper = mount<ComboBox<typeof VALUE>>(<ComboBox autocomplete={true} getItems={getItems} value={VALUE} />);
+        wrapper = mount<ComboBox<typeof VALUE>>(
+          <ComboBox drawArrow={false} searchOnFocus={false} getItems={getItems} value={VALUE} />,
+        );
         wrapper.instance().focus();
         getItems.mockClear();
       });
