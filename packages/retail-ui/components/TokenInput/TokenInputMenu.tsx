@@ -1,8 +1,6 @@
 import * as React from 'react';
 import Popup from '../Popup/Popup';
-import ComboBoxMenu, {
-  ComboBoxMenuProps
-} from '../CustomComboBox/ComboBoxMenu';
+import ComboBoxMenu, { ComboBoxMenuProps } from '../CustomComboBox/ComboBoxMenu';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
 
@@ -13,9 +11,7 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   onAddItem: (item: string) => void;
 }
 
-export default class TokenInputMenu<T = string> extends React.Component<
-  TokenInputMenuProps<T>
-> {
+export default class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
   private menu: Menu | null = null;
 
   public render() {
@@ -28,7 +24,7 @@ export default class TokenInputMenu<T = string> extends React.Component<
       items,
       renderNotFound,
       renderItem,
-      onChange
+      onChange,
     } = this.props;
 
     return (
@@ -59,9 +55,7 @@ export default class TokenInputMenu<T = string> extends React.Component<
   public getMenuRef = (): any | null => this.menu;
   private menuRef = (node: any) => (this.menu = node);
 
-  private renderAddButton = (
-    value = this.props.inputValue
-  ): React.ReactNode | undefined => {
+  private renderAddButton = (value = this.props.inputValue): React.ReactNode | undefined => {
     if (!this.props.showAddItemHint) {
       return;
     }

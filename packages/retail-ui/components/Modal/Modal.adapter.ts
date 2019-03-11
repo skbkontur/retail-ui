@@ -4,7 +4,7 @@ const ModalAdapter = {
   close(inst: Modal) {
     // tslint:disable-next-line:no-string-literal
     inst['requestClose']();
-  }
+  },
 };
 
 (Modal as any).__ADAPTER__ = ModalAdapter;

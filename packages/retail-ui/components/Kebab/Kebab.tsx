@@ -52,19 +52,19 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     onClose: () => undefined,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
     size: 'small',
-    disableAnimations: false
+    disableAnimations: false,
   };
 
   public state = {
     opened: false,
     focusedByTab: false,
-    anchor: null
+    anchor: null,
   };
 
   private listener: {
     remove: () => void;
   } = {
-    remove: () => undefined
+    remove: () => undefined,
   };
 
   public componentDidMount() {
@@ -97,9 +97,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
 
   private renderCaption = (captionProps: PopupMenuCaptionProps) => {
     const { disabled } = this.props;
-    const handleCaptionKeyDown = (
-      event: React.KeyboardEvent<HTMLDivElement>
-    ) => {
+    const handleCaptionKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (!disabled) {
         this.handleCaptionKeyDown(event, captionProps.openMenu);
       }
@@ -122,7 +120,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
           styles.kebab,
           captionProps.opened && styles.opened,
           disabled && styles.disabled,
-          this.state.focusedByTab && styles.focused
+          this.state.focusedByTab && styles.focused,
         )}
       >
         {this.renderIcon()}
@@ -132,7 +130,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
 
   private handleCaptionKeyDown = (
     event: React.KeyboardEvent<HTMLDivElement>,
-    openMenu: PopupMenuCaptionProps['openMenu']
+    openMenu: PopupMenuCaptionProps['openMenu'],
   ) => {
     switch (event.key) {
       case 'Enter':
@@ -148,14 +146,11 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     }
   };
 
-  private handleChangeMenuState = (
-    isOpened: boolean,
-    restoreFocus: boolean
-  ): void => {
+  private handleChangeMenuState = (isOpened: boolean, restoreFocus: boolean): void => {
     this.setState(
       {
         opened: isOpened,
-        focusedByTab: !isOpened && restoreFocus
+        focusedByTab: !isOpened && restoreFocus,
       },
       () => {
         if (this.props.disabled) {
@@ -167,7 +162,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         } else {
           this.props.onClose();
         }
-      }
+      },
     );
   };
 
@@ -186,7 +181,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
 
   private handleBlur = () => {
     this.setState({
-      focusedByTab: false
+      focusedByTab: false,
     });
   };
 
@@ -234,7 +229,7 @@ Kebab.propTypes = {
   /**
    * Коллбек, вызывающийся перед открытием кебаба
    */
-  onOpen: PropTypes.func
+  onOpen: PropTypes.func,
 };
 
 const KEYCODE_TAB = 9;

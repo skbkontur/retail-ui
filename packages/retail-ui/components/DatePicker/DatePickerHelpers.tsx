@@ -1,5 +1,3 @@
-
-
 import { CalendarDateShape } from '../Calendar/index';
 import { DateShape } from './DateShape';
 

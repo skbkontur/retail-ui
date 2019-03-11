@@ -8,7 +8,7 @@ describe('MenuItem', () => {
     const wrapper = mount(
       <MenuItem state="hover">
         a<i>b</i>
-      </MenuItem>
+      </MenuItem>,
     );
     expect(wrapper.text()).toBe('ab');
   });
@@ -26,14 +26,12 @@ describe('MenuItem', () => {
   it('pass component', () => {
     const FakeRouterLink = ({ to }: { to: string }) => <span>{to}</span>;
 
-    const Component = ({ href }: { href: string }) => (
-      <FakeRouterLink to={href} />
-    );
+    const Component = ({ href }: { href: string }) => <FakeRouterLink to={href} />;
 
     const wrapper = mount(
       <MenuItem href="http:test.href" component={Component}>
         Testing component
-      </MenuItem>
+      </MenuItem>,
     );
 
     expect(wrapper.contains(<span>http:test.href</span>)).toEqual(true);

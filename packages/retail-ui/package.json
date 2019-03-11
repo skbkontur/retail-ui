@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "0.41.1",
+  "version": "0.42.0",
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
@@ -14,10 +14,10 @@
     "prepublishOnly": "yarn clean && yarn build",
     "clean": "git clean -fdxqe node_modules",
     "build": "yarn tsc -p prod.tsconfig.json && node scripts/build",
-    "postpublish": "yarn deploy",
+    "postpublish": "yarn deploy && yarn publish:react-ui",
     "predeploy": "rimraf styleguide && yarn run styleguide:build",
     "deploy": "gh-pages -a -d styleguide -r git@github.com:skbkontur/react-ui.git",
-    "postdeploy": "yarn --cwd ./build publish --non-interactive",
+    "publish:react-ui": "yarn --cwd ./build publish --non-interactive",
     "storybook": "start-storybook -p 6060",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build && styleguidist build --config styleguide.prod.config.js",

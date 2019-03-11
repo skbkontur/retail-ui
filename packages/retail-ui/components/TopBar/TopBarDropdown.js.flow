@@ -6,7 +6,7 @@ export type ButtonParams = {|
   label: React$Node,
   onClick: () => void,
   onKeyDown: (event: SyntheticKeyboardEvent<HTMLElement>) => void,
-  opened: boolean
+  opened: boolean,
 |};
 
 export type TopBarDropdownProps = {|
@@ -15,7 +15,7 @@ export type TopBarDropdownProps = {|
   use?: 'danger' | 'pay',
   label: React$Node,
   onOpen?: () => void,
-  onClose?: () => void
+  onClose?: () => void,
 |};
 
 declare class TopBarDropdown extends React$Component<TopBarDropdownProps> {}

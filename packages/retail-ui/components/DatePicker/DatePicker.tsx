@@ -21,7 +21,7 @@ const INPUT_PASS_PROPS = {
   warning: true,
   error: true,
   size: true,
-  onKeyDown: true
+  onKeyDown: true,
 };
 
 export interface DatePickerProps<T> {
@@ -61,10 +61,7 @@ export interface DatePickerState {
 type DatePickerValue = string;
 
 // eslint-disable-next-line flowtype/no-weak-types
-class DatePicker extends React.Component<
-  DatePickerProps<DatePickerValue>,
-  DatePickerState
-> {
+class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DatePickerState> {
   public static propTypes = {
     autoFocus: PropTypes.bool,
 
@@ -112,14 +109,14 @@ class DatePicker extends React.Component<
 
     onMouseOver: PropTypes.func,
 
-    isHoliday: PropTypes.func.isRequired
+    isHoliday: PropTypes.func.isRequired,
   };
 
   public static defaultProps = {
     width: 120,
     minDate: '01.01.1900',
     maxDate: '31.12.2099',
-    isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend
+    isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
   };
 
   public static validate = (value: Nullable<string>) => {
@@ -131,16 +128,14 @@ class DatePicker extends React.Component<
   };
 
   public state: DatePickerState = {
-    opened: false
+    opened: false,
   };
 
   private input: DateInput | null = null;
 
   private focused: boolean = false;
 
-  public componentWillReceiveProps(
-    nextProps: DatePickerProps<DatePickerValue>
-  ) {
+  public componentWillReceiveProps(nextProps: DatePickerProps<DatePickerValue>) {
     const { disabled } = nextProps;
     const { opened } = this.state;
     if (disabled && opened) {
@@ -237,10 +232,7 @@ class DatePicker extends React.Component<
     if (date) {
       const minDate = this.getMinDate();
       const maxDate = this.getMaxDate();
-      if (
-        (minDate && isLess(date, minDate)) ||
-        (maxDate && isGreater(date, maxDate))
-      ) {
+      if ((minDate && isLess(date, minDate)) || (maxDate && isGreater(date, maxDate))) {
         date = null;
       }
     }
@@ -298,12 +290,7 @@ class DatePicker extends React.Component<
     }
   };
 
-  private isHoliday = ({
-    date,
-    month,
-    year,
-    isWeekend
-  }: CalendarDateShape & { isWeekend: boolean }) => {
+  private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
     const dateString = formatDate({ date, month, year });
     return this.props.isHoliday(dateString, isWeekend);
   };

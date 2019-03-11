@@ -1,12 +1,7 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  configure,
-  addDecorator,
-  storiesOf,
-  getStorybook
-} from '@storybook/react';
+import { configure, addDecorator, storiesOf, getStorybook } from '@storybook/react';
 import Upgrades from '../lib/Upgrades';
 
 if (process.env.STORYBOOK_FLAT_UI) {

@@ -36,8 +36,7 @@ export const defaultLocale: {
   settlementPlaceholder: 'Село, деревня, станица и другие',
 
   planningstructureLabel: 'Иная территория',
-  planningstructureNotFound:
-    'Не найдены иные территории по указанному выше расположению',
+  planningstructureNotFound: 'Не найдены иные территории по указанному выше расположению',
   planningstructurePlaceholder: 'Сад, парк, санаторий и другие',
 
   streetLabel: 'Улица',
@@ -52,8 +51,7 @@ export const defaultLocale: {
 
   houseLabel: 'Дом, сооружение',
   houseNotFound: 'Не найдены дома по указанному выше расположению',
-  houseFillBefore:
-    'Заполните улицу или иную территорию, чтобы выбрать номер дома',
+  houseFillBefore: 'Заполните улицу или иную территорию, чтобы выбрать номер дома',
   housePlaceholder: '',
 
   roomLabel: 'Квартира, офис',
@@ -69,7 +67,7 @@ export const defaultLocale: {
   foreignAddressPlaceholder: '',
 
   countryLabel: 'Страна',
-  countryPlaceholder: 'Начните вводить название страны'
+  countryPlaceholder: 'Начните вводить название страны',
 };
 
 export default defaultLocale;

@@ -3,7 +3,7 @@ export type PopupMenuCaptionProps = {|
   opened: boolean,
   openMenu: (firstItemShouldBeSelected?: boolean) => void,
   closeMenu: (restoreFocus?: boolean) => void,
-  toggleMenu: () => void
+  toggleMenu: () => void,
 |};
 
 export type PopupMenuProps = {|
@@ -17,24 +17,24 @@ export type PopupMenuProps = {|
   popupMargin?: number,
   popupPinOffset?: number,
   type?: 'dropdown' | 'tooltip',
-  disableAnimations: boolean
+  disableAnimations: boolean,
 |};
 
 type PopupMenuState = {|
   menuVisible: boolean,
-  firstItemShouldBeSelected?: boolean
+  firstItemShouldBeSelected?: boolean,
 |};
 
 declare export var PopupMenuType: {
   Dropdown: string,
-  Tooltip: string
+  Tooltip: string,
 };
 
 declare class PopupMenu extends React$Component<PopupMenuProps, PopupMenuState> {
   static Type: {|
     Dropdown: string,
-    Tooltip: string
-  |}
+    Tooltip: string,
+  |};
 }
 
 export default PopupMenu;

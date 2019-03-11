@@ -9,9 +9,9 @@ const InputAdapter = {
   setValue(inst: Input, value: string) {
     // tslint:disable-next-line:no-string-literal
     inst['handleChange']({
-      target: { value }
+      target: { value },
     } as ChangeEvent<HTMLInputElement>);
-  }
+  },
 };
 
 (Input as any).__ADAPTER__ = InputAdapter;

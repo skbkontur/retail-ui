@@ -6,12 +6,12 @@ export type TokenInputMenuProps<T> = {|
   anchorElement: HTMLElement,
   inputValue: string,
   showAddItemHint?: boolean,
-  onAddItem: (item: string) => void
+  onAddItem: (item: string) => void,
 |};
 
 declare class TokenInputMenu<T = string> extends React$Component<TokenInputMenuProps<T>> {
   // eslint-disable-next-line flowtype/no-weak-types
-  getMenuRef: () => any
+  getMenuRef: () => any;
 }
 
 export default TokenInputMenu;

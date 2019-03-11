@@ -15,11 +15,11 @@ type Props = {
   title: string,
   value: any,
   warning?: ?string,
-  onChange: any
+  onChange: any,
 };
 
 type State = {
-  opened: boolean
+  opened: boolean,
 };
 
 /**
@@ -31,14 +31,14 @@ export default class Kladr extends React.Component<Props, State> {
     title: PropTypes.string,
     value: PropTypes.any,
     warning: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   };
 
   constructor(props: any) {
     super(props);
 
     this.state = {
-      opened: false
+      opened: false,
     };
   }
 
@@ -49,26 +49,14 @@ export default class Kladr extends React.Component<Props, State> {
 
     let validation = null;
     if (this.props.error) {
-      validation = (
-        <div style={{ color: Colors.ERROR, marginBottom: 5 }}>
-          {this.props.error}
-        </div>
-      );
+      validation = <div style={{ color: Colors.ERROR, marginBottom: 5 }}>{this.props.error}</div>;
     } else if (this.props.warning) {
-      validation = (
-        <div style={{ color: Colors.WARNING, marginBottom: 5 }}>
-          {this.props.warning}
-        </div>
-      );
+      validation = <div style={{ color: Colors.WARNING, marginBottom: 5 }}>{this.props.warning}</div>;
     }
 
     return (
       <span>
-        {!empty && (
-          <div style={{ marginBottom: 5 }}>
-            {this._renderAddress(value.address)}
-          </div>
-        )}
+        {!empty && <div style={{ marginBottom: 5 }}>{this._renderAddress(value.address)}</div>}
         {validation}
         <Link icon={<EditIcon />} onClick={this._handleOpen}>
           {change}
@@ -93,7 +81,7 @@ export default class Kladr extends React.Component<Props, State> {
       place(address.street),
       address.house && `дом ${address.house}`,
       address.building && `корпус ${address.building}`,
-      address.room && `квартира ${address.room}`
+      address.room && `квартира ${address.room}`,
     ]
       .filter(x => !!x)
       .join(', ');

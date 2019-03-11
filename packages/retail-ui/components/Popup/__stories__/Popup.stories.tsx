@@ -1,7 +1,7 @@
 // tslint:disable:jsx-no-lambda
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
-import Popup from '../Popup';
+import Popup, { PopupPosition } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
 import Tooltip from '../../Tooltip';
 import ComboBox from '../../ComboBox';
@@ -9,38 +9,23 @@ import Hint from '../../Hint';
 import Select from '../../Select';
 
 storiesOf('Popup', module)
-  .add('All pin opened', () => (
-    <AllCases small={false} padding={'50px 100px'} />
-  ))
-  .add('All pin opened on small elements', () => (
-    <AllCases small padding={'70px 150px'} />
-  ))
+  .add('All pin opened', () => <AllCases small={false} padding={'50px 100px'} />)
+  .add('All pin opened on small elements', () => <AllCases small padding={'70px 150px'} />)
   .add('Positioning', () => <Positioning />)
   .add('disableAnimations', () => (
     <div>
-      <PopupWithPositions
-        disableAnimations={false}
-        placeholder={'disableAnimations: false'}
-      />
-      <PopupWithPositions
-        disableAnimations={true}
-        placeholder={'disableAnimations: true'}
-      />
+      <PopupWithPositions disableAnimations={false} placeholder={'disableAnimations: false'} />
+      <PopupWithPositions disableAnimations={true} placeholder={'disableAnimations: true'} />
     </div>
   ))
   .add('Hint', () => (
     <div style={{ padding: '100px' }}>
-      <FakeHint
-        positions={['top center', 'right top', 'bottom center', 'left middle']}
-        margin={20}
-      />
+      <FakeHint positions={['top center', 'right top', 'bottom center', 'left middle']} margin={20} />
     </div>
   ))
   .add('Toast', () => (
     <div style={{ padding: '100px' }}>
-      <Toast
-        positions={['top center', 'right top', 'bottom center', 'left middle']}
-      />
+      <Toast positions={['top center', 'right top', 'bottom center', 'left middle']} />
     </div>
   ))
   .add('Small width', () => <MinWidth />)
@@ -148,14 +133,14 @@ const Positioning = () => (
 
 class MinWidth extends React.Component {
   public state: AlwaysOpenedState = {
-    anchor: null
+    anchor: null,
   };
 
   private anchor: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor
+      anchor: this.anchor,
     });
   }
 
@@ -164,17 +149,11 @@ class MinWidth extends React.Component {
       <div style={{ padding: '100px' }}>
         <span ref={el => (this.anchor = el)}>x</span>
         {this.state.anchor && (
-          <Popup
-            hasShadow
-            hasPin
-            opened
-            anchorElement={this.anchor}
-            positions={['bottom center']}
-          >
+          <Popup hasShadow hasPin opened anchorElement={this.anchor} positions={['bottom center']}>
             <div
               style={{
                 textAlign: 'center',
-                padding: '5px'
+                padding: '5px',
               }}
             >
               {'21:00'}
@@ -188,7 +167,7 @@ class MinWidth extends React.Component {
 
 interface AlwaysOpenedProps {
   small: boolean;
-  positions: string[];
+  positions: PopupPosition[];
 }
 
 interface AlwaysOpenedState {
@@ -197,14 +176,14 @@ interface AlwaysOpenedState {
 
 class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
   public state: AlwaysOpenedState = {
-    anchor: null
+    anchor: null,
   };
 
   private anchor: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor
+      anchor: this.anchor,
     });
   }
 
@@ -215,7 +194,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
       margin: '20px',
       border: '1px solid black',
       textAlign: 'center',
-      fontSize: '40px'
+      fontSize: '40px',
     };
 
     const style: React.CSSProperties = this.props.small
@@ -223,7 +202,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
           ...defaultStyle,
           width: '20',
           height: '20',
-          margin: '50'
+          margin: '50',
         }
       : defaultStyle;
 
@@ -247,7 +226,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
               style={{
                 textAlign: 'center',
                 padding: '10px 20px',
-                fontSize: '20px'
+                fontSize: '20px',
               }}
             >
               Text
@@ -266,14 +245,14 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
 class PopupWithPositions extends Component<any, any> {
   public state = {
     opened: false,
-    anchor: null
+    anchor: null,
   };
 
   private anchor: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor
+      anchor: this.anchor,
     });
   }
 
@@ -287,7 +266,7 @@ class PopupWithPositions extends Component<any, any> {
             width: '34px',
             height: '34px',
             borderRadius: '17px',
-            background: 'grey'
+            background: 'grey',
           }}
         />
         {this.state.anchor && (
@@ -304,9 +283,7 @@ class PopupWithPositions extends Component<any, any> {
             pinOffset={7}
             disableAnimations={this.props.disableAnimations}
           >
-            <div style={{ padding: '10px 20px', fontSize: '30px' }}>
-              {this.props.placeholder || 'Placeholder'}
-            </div>
+            <div style={{ padding: '10px 20px', fontSize: '30px' }}>{this.props.placeholder || 'Placeholder'}</div>
           </Popup>
         )}
       </div>
@@ -329,24 +306,21 @@ class PopupWithPositions extends Component<any, any> {
 
 class FakeHint extends Component<any, any> {
   public state = {
-    anchor: null
+    anchor: null,
   };
 
   private anchor: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor
+      anchor: this.anchor,
     });
   }
 
   public render() {
     return (
       <div>
-        <div
-          ref={e => (this.anchor = e)}
-          style={{ width: '100px', height: '100px', border: '1px solid black' }}
-        >
+        <div ref={e => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
           Hello
         </div>
         {this.state.anchor && (
@@ -370,24 +344,21 @@ class FakeHint extends Component<any, any> {
 
 class Toast extends Component<any, any> {
   public state = {
-    anchor: null
+    anchor: null,
   };
 
   private anchor: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor
+      anchor: this.anchor,
     });
   }
 
   public render() {
     return (
       <div>
-        <div
-          ref={e => (this.anchor = e)}
-          style={{ width: '100px', height: '100px', border: '1px solid black' }}
-        >
+        <div ref={e => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
           Hello
         </div>
         {this.state.anchor && (
@@ -411,10 +382,7 @@ const renderPopupContent = () => {
   return <span>Popup content</span>;
 };
 
-const COMBOBOX_ITEMS = [
-  { value: 1, label: 'First' },
-  { value: 2, label: 'Second' }
-];
+const COMBOBOX_ITEMS = [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }];
 const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => [i.value, i.label]);
 const getComboboxItems = () => Promise.resolve(COMBOBOX_ITEMS);
 
@@ -431,10 +399,7 @@ interface HoverTestProps {
   popupProps?: { useWrapper: boolean };
   useText?: boolean;
 }
-class TooltipWithCombobox extends Component<
-  HoverTestProps,
-  HasDropdownState
-> {
+class TooltipWithCombobox extends Component<HoverTestProps, HasDropdownState> {
   public state: HasDropdownState = {};
 
   public render() {
@@ -475,12 +440,7 @@ class HintWithSelect extends Component<HoverTestProps, HasDropdownState> {
     const hintProps = this.props.popupProps || {};
     const selectProps = this.props.dropdownProps || {};
     return (
-      <Hint
-        pos={'top left'}
-        text={'Hint text'}
-        disableAnimations
-        {...hintProps}
-      >
+      <Hint pos={'top left'} text={'Hint text'} disableAnimations {...hintProps}>
         {this.props.useText ? (
           'Sample text'
         ) : (
@@ -503,28 +463,28 @@ class HintWithSelect extends Component<HoverTestProps, HasDropdownState> {
 const HOVER_CASES: HoverTestProps[] = [
   {
     dropdownProps: { disablePortal: true },
-    popupProps: { useWrapper: true }
+    popupProps: { useWrapper: true },
   },
   {
     dropdownProps: { disablePortal: true },
-    popupProps: { useWrapper: false }
+    popupProps: { useWrapper: false },
   },
   {
     dropdownProps: { disablePortal: false },
-    popupProps: { useWrapper: true }
+    popupProps: { useWrapper: true },
   },
   {
     dropdownProps: { disablePortal: false },
-    popupProps: { useWrapper: false }
+    popupProps: { useWrapper: false },
   },
   {
     useText: true,
-    popupProps: { useWrapper: true }
+    popupProps: { useWrapper: true },
   },
   {
     useText: true,
-    popupProps: { useWrapper: false }
-  }
+    popupProps: { useWrapper: false },
+  },
 ];
 
 const DescribeProps = (props: HoverTestProps) => {
@@ -532,11 +492,9 @@ const DescribeProps = (props: HoverTestProps) => {
     <span>
       {props.useText ? 'Text' : 'Component'}
       {props.popupProps && <br />}
-      {props.popupProps &&
-        `popupProps.useWrapper=${props.popupProps.useWrapper}`}
+      {props.popupProps && `popupProps.useWrapper=${props.popupProps.useWrapper}`}
       {props.dropdownProps && <br />}
-      {props.dropdownProps &&
-      `dropdownProps.disablePortal=${props.dropdownProps.disablePortal}`}
+      {props.dropdownProps && `dropdownProps.disablePortal=${props.dropdownProps.disablePortal}`}
     </span>
   );
 };

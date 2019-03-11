@@ -39,22 +39,22 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       PropTypes.arrayOf(
         PropTypes.shape({
           label: PropTypes.string,
-          value: PropTypes.string
-        })
-      )
+          value: PropTypes.string,
+        }),
+      ),
     ]).isRequired,
     label: PropTypes.string,
     value: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   };
 
   public state: SwitcherState = {
-    focusedIndex: null
+    focusedIndex: null,
   };
 
   public render() {
     const listClassNames = classNames({
-      [styles.error]: this.props.error
+      [styles.error]: this.props.error,
     });
 
     const inputProps = {
@@ -62,14 +62,12 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       onKeyDown: this._handleKey,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      className: styles.input
+      className: styles.input,
     };
 
     return (
       <div>
-        {this.props.label ? (
-          <div className={styles.label}>{this.props.label}</div>
-        ) : null}
+        {this.props.label ? <div className={styles.label}>{this.props.label}</div> : null}
         <div className={styles.wrap}>
           <input {...inputProps} />
           <div className={listClassNames}>
@@ -86,9 +84,7 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     }
   };
 
-  private _extractPropsFromItem = (
-    item: string | SwitcherItem
-  ): SwitcherItem => {
+  private _extractPropsFromItem = (item: string | SwitcherItem): SwitcherItem => {
     return typeof item === 'object' ? item : { label: item, value: item };
   };
 
@@ -131,9 +127,7 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
     if (event.key === 'Enter') {
       if (this.props.onChange) {
-        const { value } = this._extractPropsFromItem(
-          this.props.items[focusedIndex]
-        );
+        const { value } = this._extractPropsFromItem(this.props.items[focusedIndex]);
         this._selectItem(value);
       }
       return;
@@ -171,7 +165,7 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         onClick: () => {
           this._selectItem(value);
         },
-        disableFocus: true
+        disableFocus: true,
       };
       return (
         <Button key={value} {...buttonProps}>

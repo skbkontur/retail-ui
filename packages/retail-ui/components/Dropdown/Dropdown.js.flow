@@ -25,16 +25,16 @@ export type DropdownProps = {|
   onOpen?: () => void,
   onMouseEnter?: MouseEventHandler<HTMLElement>,
   onMouseLeave?: MouseEventHandler<HTMLElement>,
-  onMouseOver?: MouseEventHandler<HTMLElement>
+  onMouseOver?: MouseEventHandler<HTMLElement>,
 |};
 
 declare class Dropdown extends React$Component<DropdownProps> {
-  static Header: typeof MenuHeader,
-  static MenuItem: typeof MenuItem,
-  static Separator: typeof MenuSeparator,
+  static Header: typeof MenuHeader;
+  static MenuItem: typeof MenuItem;
+  static Separator: typeof MenuSeparator;
 
-  open(): void,
-  close(): void
+  open(): void;
+  close(): void;
 }
 
 export default Dropdown;

@@ -24,13 +24,13 @@ class ToastView extends React.Component<ToastViewProps> {
      */
     action: PropTypes.shape({
       label: PropTypes.string.isRequired,
-      handler: PropTypes.func.isRequired
+      handler: PropTypes.func.isRequired,
     }),
     /**
      * Tost content
      */
     children: PropTypes.string.isRequired,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
   };
 
   public render() {

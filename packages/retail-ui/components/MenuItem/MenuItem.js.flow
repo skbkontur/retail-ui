@@ -22,12 +22,12 @@ export type MenuItemProps = {|
   onMouseEnter?: MouseEventHandler<HTMLElement>,
   onMouseLeave?: MouseEventHandler<HTMLElement>,
   // eslint-disable-next-line flowtype/no-weak-types
-  component?: React$ComponentType<any>
+  component?: React$ComponentType<any>,
 |};
 
 declare class MenuItem extends React$Component<MenuItemProps> {
-  static __MENU_ITEM__: boolean,
-  static __MENU_HEADER__: boolean
+  static __MENU_ITEM__: boolean;
+  static __MENU_HEADER__: boolean;
 }
 
 export default MenuItem;

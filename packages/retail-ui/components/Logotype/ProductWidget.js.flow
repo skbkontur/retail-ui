@@ -1,7 +1,7 @@
 /* @flow */
 
 declare var _default: {|
-  init(): void
+  init(): void,
 |};
 
 export default _default;

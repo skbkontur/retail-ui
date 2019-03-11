@@ -10,7 +10,7 @@ describe('Group', () => {
       <Group>
         <Input />
         <Button>Test</Button>
-      </Group>
+      </Group>,
     );
 
     expect(wrapper.exists());
@@ -25,7 +25,7 @@ describe('Group', () => {
           id="test-input"
         />
         <Button>Test</Button>
-      </Group>
+      </Group>,
     );
 
     const wrappingElements = wrapper.find('.wrap');
@@ -48,26 +48,26 @@ describe('Group', () => {
         <div id="test-div-1" />
         <div id="test-div-2" />
         <div id="test-div-3" />
-      </Group>
+      </Group>,
     );
 
     expect(
       wrapper
         .find('#test-div-1')
         .parent()
-        .prop('class')
+        .prop('class'),
     ).toContain('itemFirst');
     expect(
       wrapper
         .find('#test-div-2')
         .parent()
-        .prop('class')
+        .prop('class'),
     ).not.toContain('itemFirst');
     expect(
       wrapper
         .find('#test-div-3')
         .parent()
-        .prop('class')
+        .prop('class'),
     ).not.toContain('itemFirst');
   });
 
@@ -75,14 +75,14 @@ describe('Group', () => {
     const wrapper = render(
       <Group width="100px">
         <div />
-      </Group>
+      </Group>,
     );
 
     expect(
       wrapper
         .find('.wrap')
         .parent()
-        .prop('style').width
+        .prop('style').width,
     ).toBe('100px');
   });
 });

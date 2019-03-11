@@ -1,6 +1,6 @@
 /* @flow */
 export type ResizeDetectorProps = {|
-  onResize?: (event: UIEvent) => void
+  onResize?: (event: UIEvent) => void,
 |};
 
 declare class ResizeDetector extends React$Component<ResizeDetectorProps> {}

@@ -18,14 +18,14 @@ var performanceNow = require('fbjs/lib/performanceNow');
 type AnyFn = (...x: any) => any;
 export type Wall = {
   listen: (fn: (data: PayloadType) => void) => void,
-  send: (data: PayloadType) => void
+  send: (data: PayloadType) => void,
 };
 
 type EventPayload = {
   type: 'event',
   cleaned: ?Array<Array<string>>,
   evt: string,
-  data: any
+  data: any,
 };
 
 type PayloadType =
@@ -33,28 +33,28 @@ type PayloadType =
       type: 'inspect',
       id: string,
       path: Array<string>,
-      callback: number
+      callback: number,
     }
   | {
       type: 'many-events',
-      events: Array<EventPayload>
+      events: Array<EventPayload>,
     }
   | {
       type: 'call',
       name: string,
       args: Array<any>,
-      callback: number
+      callback: number,
     }
   | {
       type: 'callback',
       id: number,
-      args: Array<any>
+      args: Array<any>,
     }
   | {
-      type: 'pause'
+      type: 'pause',
     }
   | {
-      type: 'resume'
+      type: 'resume',
     }
   | EventPayload;
 
@@ -160,7 +160,7 @@ class Bridge {
       type: 'inspect',
       callback: _cid,
       path,
-      id
+      id,
     });
   }
 
@@ -172,7 +172,7 @@ class Bridge {
       type: 'call',
       callback: _cid,
       args,
-      name
+      name,
     });
   }
 
@@ -185,13 +185,13 @@ class Bridge {
 
   pause() {
     this._wall.send({
-      type: 'pause'
+      type: 'pause',
     });
   }
 
   resume() {
     this._wall.send({
-      type: 'resume'
+      type: 'resume',
     });
   }
 
@@ -352,7 +352,7 @@ class Bridge {
     this._wall.send({
       type: 'callback',
       id: callback,
-      args: [result]
+      args: [result],
     });
   }
 
@@ -371,10 +371,7 @@ class Bridge {
         if (name === '__proto__') {
           protod = true;
         }
-        if (
-          isFn &&
-          (name === 'arguments' || name === 'callee' || name === 'caller')
-        ) {
+        if (isFn && (name === 'arguments' || name === 'callee' || name === 'caller')) {
           return;
         }
         result[name] = dehydrate(val[name], cleaned, [name]);
@@ -385,10 +382,7 @@ class Bridge {
         var newProto = {};
         var pIsFn = typeof val.__proto__ === 'function';
         Object.getOwnPropertyNames(val.__proto__).forEach(name => {
-          if (
-            pIsFn &&
-            (name === 'arguments' || name === 'callee' || name === 'caller')
-          ) {
+          if (pIsFn && (name === 'arguments' || name === 'callee' || name === 'caller')) {
             return;
           }
           newProto[name] = dehydrate(val.__proto__[name], protoclean, [name]);
@@ -401,7 +395,7 @@ class Bridge {
     this._wall.send({
       type: 'callback',
       id: callback,
-      args: [result, cleaned, proto, protoclean]
+      args: [result, cleaned, proto, protoclean],
     });
   }
 }

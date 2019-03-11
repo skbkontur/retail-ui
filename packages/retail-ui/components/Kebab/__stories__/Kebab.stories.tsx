@@ -16,7 +16,7 @@ storiesOf('Kebab', module)
       style={{
         padding: '120px 0',
         border: '1px solid #dfdede',
-        overflow: 'hidden'
+        overflow: 'hidden',
       }}
     >
       {story()}
@@ -27,15 +27,9 @@ storiesOf('Kebab', module)
   .add('20px', () => <SomethingWithKebab size="large" />)
   .add('20px-disabled', () => <SomethingWithKebab size="large" disabled />)
   .add('With fixed menu height', () => (
-    <SomethingWithKebab
-      size="large"
-      menuMaxHeight={'200px'}
-      items={manyItemsList}
-    />
+    <SomethingWithKebab size="large" menuMaxHeight={'200px'} items={manyItemsList} />
   ))
-  .add('Kebab without animations', () => (
-    <SomethingWithKebab disableAnimations size="small" />
-  ));
+  .add('Kebab without animations', () => <SomethingWithKebab disableAnimations size="small" />);
 
 class SomethingWithKebab extends Component<{
   size: 'small' | 'medium' | 'large';

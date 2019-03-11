@@ -2,7 +2,7 @@
 import type { SpinnerType } from './Spinner';
 
 declare export var types: {
-  [key: string]: SpinnerType
+  [key: string]: SpinnerType,
 };
 
 declare export var sizeMaps: {
@@ -11,21 +11,21 @@ declare export var sizeMaps: {
         height: number,
         width: number,
         viewBox: void,
-        strokeWidth: number
+        strokeWidth: number,
       |}
     | {|
         height: number,
         width: number,
         viewBox: string,
-        strokeWidth: number
-      |}
+        strokeWidth: number,
+      |},
 };
 
 declare export function svgAnimateSupport(): boolean;
 
 declare var _default: {|
   types: {
-    [key: string]: SpinnerType
+    [key: string]: SpinnerType,
   },
   sizeMaps: {
     [key: string]:
@@ -33,16 +33,16 @@ declare var _default: {|
           height: number,
           width: number,
           viewBox: void,
-          strokeWidth: number
+          strokeWidth: number,
         |}
       | {|
           height: number,
           width: number,
           viewBox: string,
-          strokeWidth: number
-        |}
+          strokeWidth: number,
+        |},
   },
-  svgAnimateSupport: typeof svgAnimateSupport
+  svgAnimateSupport: typeof svgAnimateSupport,
 |};
 
 export default _default;

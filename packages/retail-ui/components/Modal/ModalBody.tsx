@@ -13,7 +13,7 @@ export class Body extends React.Component {
             className={classNames(
               styles.body,
               !hasHeader && styles.bodyWithoutHeader,
-              additionalPadding && styles.bodyAddPadding
+              additionalPadding && styles.bodyAddPadding,
             )}
           >
             {this.props.children}

@@ -29,10 +29,7 @@ export interface DatePickerOldProps {
 
 export interface DatePickerOldState {}
 
-export default class DatePicker extends React.Component<
-  DatePickerOldProps,
-  DatePickerOldState
-> {
+export default class DatePicker extends React.Component<DatePickerOldProps, DatePickerOldState> {
   public focus(): void;
   public blur(): void;
 }

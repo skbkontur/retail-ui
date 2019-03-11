@@ -10,7 +10,7 @@ function transformer(file, api) {
         x.importKind = null;
         return x;
       }),
-      x.value.source
+      x.value.source,
     );
   });
 
@@ -24,10 +24,7 @@ function transformer(file, api) {
       console.log('Skipped Nullable: ' + file.path);
       return path.value;
     }
-    return j.genericTypeAnnotation(
-      j.identifier('Nullable'),
-      j.typeParameterInstantiation([path.value.typeAnnotation])
-    );
+    return j.genericTypeAnnotation(j.identifier('Nullable'), j.typeParameterInstantiation([path.value.typeAnnotation]));
   });
 
   // ?XXX => Nullable<XXX>
@@ -40,10 +37,7 @@ function transformer(file, api) {
 
   // React.Node => JSX.Element, React.ReactNode, React.ReactChild, React.Element<T>
   parsed.find(j.QualifiedTypeIdentifier).replaceWith(path => {
-    if (
-      path.value.qualification.name === 'React' &&
-      path.value.id.name === 'Node'
-    ) {
+    if (path.value.qualification.name === 'React' && path.value.id.name === 'Node') {
       path.value.qualification.name = 'React';
       path.value.id.name = 'ReactNode';
       return path.value;
@@ -72,7 +66,7 @@ function transformer(file, api) {
         path.value.params.map(x => {
           x.variance = null;
           return x;
-        })
+        }),
       );
     }
     return path.value;
@@ -86,10 +80,7 @@ function transformer(file, api) {
   // (X, Y) => T => (x0: X, x1: Y) => T
   parsed.find(j.FunctionTypeAnnotation).replaceWith(path => {
     if (path.value.params.some(x => x.name == null)) {
-      if (
-        path.parent.value.type === 'ObjectTypeProperty' &&
-        path.parent.value.method
-      ) {
+      if (path.parent.value.type === 'ObjectTypeProperty' && path.parent.value.method) {
         console.log('Skipped param names: ' + file.path);
         return path.value;
       }
@@ -103,7 +94,7 @@ function transformer(file, api) {
         }),
         path.value.returnType,
         path.value.rest,
-        path.value.typeParameters
+        path.value.typeParameters,
       );
     }
     return path.value;
@@ -113,10 +104,8 @@ function transformer(file, api) {
   parsed.find(j.TypeParameter).replaceWith(path => {
     if (path.value.bound != null) {
       path.value.bound = j.genericTypeAnnotation(
-        j.identifier(
-          ' extends ' + j(path.value.bound.typeAnnotation).toSource()
-        ),
-        null
+        j.identifier(' extends ' + j(path.value.bound.typeAnnotation).toSource()),
+        null,
       );
       path.value.default = null;
       return path.value;
@@ -127,10 +116,8 @@ function transformer(file, api) {
   // (x: Y) => cast<Y>(x);
   parsed.find(j.TypeCastExpression).replaceWith(path => {
     const result = j.callExpression(
-      j.identifier(
-        'cast<' + j(path.value.typeAnnotation.typeAnnotation).toSource() + '>'
-      ),
-      [path.value.expression]
+      j.identifier('cast<' + j(path.value.typeAnnotation.typeAnnotation).toSource() + '>'),
+      [path.value.expression],
     );
     return result;
   });

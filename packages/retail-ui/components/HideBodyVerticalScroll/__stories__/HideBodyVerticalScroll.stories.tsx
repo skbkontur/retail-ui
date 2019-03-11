@@ -6,7 +6,7 @@ import Gapped from '../../Gapped';
 
 class Example extends React.Component {
   public state = {
-    lockScroll: false
+    lockScroll: false,
   };
 
   public render() {
@@ -15,10 +15,7 @@ class Example extends React.Component {
         <div style={{ position: 'fixed', top: '50%', left: '50%' }}>
           <p>
             <strong>lockScroll</strong>
-            <Toggle
-              onChange={this.handleChangeLock}
-              checked={this.state.lockScroll}
-            />
+            <Toggle onChange={this.handleChangeLock} checked={this.state.lockScroll} />
           </p>
         </div>
         {this.state.lockScroll && <HideBodyVerticalScroll />}
@@ -27,7 +24,7 @@ class Example extends React.Component {
             height: 400,
             width: 100,
             margin: 20,
-            border: '3px solid'
+            border: '3px solid',
           }}
         />
         <div
@@ -35,7 +32,7 @@ class Example extends React.Component {
             height: 400,
             width: 100,
             margin: 20,
-            border: '3px solid'
+            border: '3px solid',
           }}
         />
         <div
@@ -43,7 +40,7 @@ class Example extends React.Component {
             height: 400,
             width: 100,
             margin: 20,
-            border: '3px solid'
+            border: '3px solid',
           }}
         />
         <div
@@ -51,7 +48,7 @@ class Example extends React.Component {
             height: 400,
             width: 100,
             margin: 20,
-            border: '3px solid'
+            border: '3px solid',
           }}
         />
       </div>
@@ -60,7 +57,7 @@ class Example extends React.Component {
 
   private handleChangeLock = (checked: boolean) => {
     this.setState({
-      lockScroll: checked
+      lockScroll: checked,
     });
   };
 }
@@ -68,7 +65,7 @@ class Example extends React.Component {
 class Example2 extends React.Component {
   public state = {
     lockScroll: false,
-    oversizeContent: false
+    oversizeContent: false,
   };
 
   public render() {
@@ -79,17 +76,11 @@ class Example2 extends React.Component {
             <Gapped vertical>
               <div>
                 <strong>lockScroll</strong>
-                <Toggle
-                  onChange={this.handleChangeLock}
-                  checked={this.state.lockScroll}
-                />
+                <Toggle onChange={this.handleChangeLock} checked={this.state.lockScroll} />
               </div>
               <div>
                 <strong>oversizeContent</strong>
-                <Toggle
-                  onChange={this.handleChangeContent}
-                  checked={this.state.oversizeContent}
-                />
+                <Toggle onChange={this.handleChangeContent} checked={this.state.oversizeContent} />
               </div>
             </Gapped>
           </p>
@@ -100,7 +91,7 @@ class Example2 extends React.Component {
             height: 400,
             width: 100,
             margin: 20,
-            border: '3px solid'
+            border: '3px solid',
           }}
         />
         {this.state.oversizeContent && (
@@ -110,7 +101,7 @@ class Example2 extends React.Component {
                 height: 400,
                 width: 100,
                 margin: 20,
-                border: '3px solid'
+                border: '3px solid',
               }}
             />
             <div
@@ -118,7 +109,7 @@ class Example2 extends React.Component {
                 height: 400,
                 width: 100,
                 margin: 20,
-                border: '3px solid'
+                border: '3px solid',
               }}
             />
             <div
@@ -126,7 +117,7 @@ class Example2 extends React.Component {
                 height: 400,
                 width: 100,
                 margin: 20,
-                border: '3px solid'
+                border: '3px solid',
               }}
             />
           </div>
@@ -137,13 +128,13 @@ class Example2 extends React.Component {
 
   private handleChangeLock = (checked: boolean) => {
     this.setState({
-      lockScroll: checked
+      lockScroll: checked,
     });
   };
 
   private handleChangeContent = (checked: boolean) => {
     this.setState({
-      oversizeContent: checked
+      oversizeContent: checked,
     });
   };
 }

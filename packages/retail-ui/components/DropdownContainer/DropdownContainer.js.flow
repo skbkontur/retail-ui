@@ -6,7 +6,7 @@ export type DropdownContainerPosition = {|
   top: ?number,
   bottom: ?number,
   left: ?number,
-  right: ?number
+  right: ?number,
 |};
 
 export type DropdownContainerProps = {|
@@ -15,13 +15,13 @@ export type DropdownContainerProps = {|
   children?: React$Node,
   disablePortal?: boolean,
   offsetY?: number,
-  offsetX?: number
+  offsetX?: number,
 |};
 
 export type DropdownContainerState = {|
   position: ?DropdownContainerPosition,
   minWidth: number,
-  hasStaticRoot?: boolean
+  hasStaticRoot?: boolean,
 |};
 
 declare class DropdownContainer extends React$Component<DropdownContainerProps, DropdownContainerState> {}

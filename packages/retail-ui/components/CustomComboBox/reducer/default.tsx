@@ -3,11 +3,7 @@ import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
 
 import Menu from '../../Menu/Menu';
-import CustomComboBox, {
-  CustomComboBoxProps,
-  CustomComboBoxState,
-  DefaultState
-} from '../CustomComboBox';
+import CustomComboBox, { CustomComboBoxProps, CustomComboBoxState, DefaultState } from '../CustomComboBox';
 import LayoutEvents from '../../../lib/LayoutEvents';
 import { Nullable } from '../../../typings/utility-types';
 import warning from 'warning';
@@ -15,10 +11,7 @@ import ComboBoxView from '../ComboBoxView';
 import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
 import { ComboBoxRequestStatus } from '../CustomComboBoxTypes';
 import ReactDOM from 'react-dom';
-import {
-  getFirstFocusableElement,
-  getNextFocusableElement
-} from '../../../lib/dom/getFocusableElements';
+import { getFirstFocusableElement, getNextFocusableElement } from '../../../lib/dom/getFocusableElements';
 
 interface BaseAction {
   type: string;
@@ -36,23 +29,14 @@ export type EffectType = (
   dispatch: (action: Action) => void,
   getState: () => State,
   getProps: () => Props,
-  getInstance: () => CustomComboBox
+  getInstance: () => CustomComboBox,
 ) => void;
 
-export type Reducer = (
-  state: State,
-  props: Props,
-  action: Action
-) => Partial<State> | [Partial<State>, EffectType[]];
+export type Reducer = (state: State, props: Props, action: Action) => Partial<State> | [Partial<State>, EffectType[]];
 
 const DEBOUNCE_DELAY = 300;
 
-const searchFactory = (query: string): EffectType => (
-  dispatch,
-  getState,
-  getProps,
-  getInstance
-) => {
+const searchFactory = (query: string): EffectType => (dispatch, getState, getProps, getInstance) => {
   getInstance().search(query);
 };
 
@@ -93,15 +77,8 @@ const Effect = {
       onChange({ target: { value } }, value);
     }
   },
-  UnexpectedInput: (textValue: string, items: any): EffectType => (
-    dispatch,
-    getState,
-    getProps
-  ) => {
-    const {
-      onUnexpectedInput,
-      renderItem = ComboBoxView.defaultProps.renderItem
-    } = getProps();
+  UnexpectedInput: (textValue: string, items: any): EffectType => (dispatch, getState, getProps) => {
+    const { onUnexpectedInput, renderItem = ComboBoxView.defaultProps.renderItem } = getProps();
 
     if (Array.isArray(items) && items.length === 1) {
       const singleItem = items[0];
@@ -119,7 +96,7 @@ const Effect = {
       if (value === null) {
         warning(
           false,
-          `[ComboBox] Returning 'null' is deprecated in 'onUnexpectedInput'. For clear value use instance method 'reset'`
+          `[ComboBox] Returning 'null' is deprecated in 'onUnexpectedInput'. For clear value use instance method 'reset'`,
         );
         dispatch({ type: 'TextClear', value: '' });
       } else if (value !== undefined) {
@@ -173,10 +150,7 @@ const Effect = {
       return;
     }
 
-    if (
-      textValue !== valueString ||
-      requestStatus === ComboBoxRequestStatus.Failed
-    ) {
+    if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
       process.nextTick(() => menu && menu.down());
     }
   }) as EffectType,
@@ -187,27 +161,17 @@ const Effect = {
       const { menu }: { menu: Nullable<Menu> } = instance;
       const eventType = event.type;
       const eventIsProperToFocusNextElement =
-        (eventType === 'keyup' ||
-          eventType === 'keydown' ||
-          eventType === 'keypress') &&
+        (eventType === 'keyup' || eventType === 'keydown' || eventType === 'keypress') &&
         (event as React.KeyboardEvent).key === 'Enter';
 
       if (menu) {
         menu.enter(event);
-        if (
-          eventIsProperToFocusNextElement &&
-          requestStatus !== ComboBoxRequestStatus.Failed
-        ) {
+        if (eventIsProperToFocusNextElement && requestStatus !== ComboBoxRequestStatus.Failed) {
           dispatch({ type: 'FocusNextElement' });
         }
       }
     }) as EffectType,
-  MoveMenuHighlight: (direction: 1 | -1): EffectType => (
-    dispatch,
-    getState,
-    getProps,
-    getInstance
-  ) => {
+  MoveMenuHighlight: (direction: 1 | -1): EffectType => (dispatch, getState, getProps, getInstance) => {
     const { menu }: { menu: Nullable<Menu> } = getInstance();
     if (menu) {
       // FIXME: accessing private props
@@ -235,23 +199,20 @@ const Effect = {
     if (node instanceof Element) {
       const currentFocusable = getFirstFocusableElement(node);
       if (currentFocusable) {
-        const nextFocusable = getNextFocusableElement(
-          currentFocusable,
-          currentFocusable.parentElement
-        );
+        const nextFocusable = getNextFocusableElement(currentFocusable, currentFocusable.parentElement);
         if (nextFocusable) {
           nextFocusable.focus();
         }
       }
     }
-  }) as EffectType
+  }) as EffectType,
 };
 
 const reducers: { [type: string]: Reducer } = {
   Mount: (state, props) => ({
     ...DefaultState,
     inputChanged: false,
-    textValue: getValueString(props.value, props.valueToString)
+    textValue: getValueString(props.value, props.valueToString),
   }),
   DidUpdate(state, props, action) {
     if (isEqual(props.value, action.prevProps.value)) {
@@ -260,9 +221,7 @@ const reducers: { [type: string]: Reducer } = {
 
     return {
       opened: false,
-      textValue: state.editing
-        ? state.textValue
-        : getValueString(props.value, props.valueToString)
+      textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString),
     } as State;
   },
   Blur(state, props, action) {
@@ -273,9 +232,9 @@ const reducers: { [type: string]: Reducer } = {
           focused: false,
           opened: false,
           items: null,
-          editing: false
+          editing: false,
         },
-        [Effect.Blur, Effect.CancelRequest]
+        [Effect.Blur, Effect.CancelRequest],
       ];
     }
 
@@ -283,44 +242,40 @@ const reducers: { [type: string]: Reducer } = {
       {
         focused: false,
         opened: false,
-        items: null
+        items: null,
       },
-      [
-        Effect.Blur,
-        Effect.CancelRequest,
-        Effect.UnexpectedInput(state.textValue, items)
-      ]
+      [Effect.Blur, Effect.CancelRequest, Effect.UnexpectedInput(state.textValue, items)],
     ];
   },
   Focus(state, props, action) {
     if (state.editing) {
       return [
         {
-          focused: true
+          focused: true,
         },
-        [Effect.Search(state.textValue), Effect.Focus]
+        [Effect.Search(state.textValue), Effect.Focus],
       ];
     }
     return [
       {
         focused: true,
-        editing: true
+        editing: true,
       },
-      [Effect.Search(''), Effect.Focus, Effect.SelectInputText]
+      [Effect.Search(''), Effect.Focus, Effect.SelectInputText],
     ];
   },
   TextChange(state, props, action) {
     return [
       {
         inputChanged: true,
-        textValue: action.value
+        textValue: action.value,
       },
-      [Effect.DebouncedSearch, Effect.InputChange]
+      [Effect.DebouncedSearch, Effect.InputChange],
     ];
   },
   TextClear(state, props, action) {
     return {
-      textValue: action.value
+      textValue: action.value,
     };
   },
   ValueChange(state, props, { value, keepFocus }) {
@@ -332,9 +287,9 @@ const reducers: { [type: string]: Reducer } = {
           inputChanged: false,
           editing: true,
           items: null,
-          textValue
+          textValue,
         },
-        [Effect.Change(value), Effect.CancelRequest, Effect.InputFocus]
+        [Effect.Change(value), Effect.CancelRequest, Effect.InputFocus],
       ];
     }
     return [
@@ -343,9 +298,9 @@ const reducers: { [type: string]: Reducer } = {
         inputChanged: false,
         editing: false,
         items: null,
-        textValue
+        textValue,
       },
-      [Effect.Change(value), Effect.CancelRequest]
+      [Effect.Change(value), Effect.CancelRequest],
     ];
   },
   KeyPress(state, props, { event }) {
@@ -356,9 +311,7 @@ const reducers: { [type: string]: Reducer } = {
       case 'ArrowUp':
       case 'ArrowDown':
         event.preventDefault();
-        const effects = [
-          Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? -1 : 1)
-        ];
+        const effects = [Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? -1 : 1)];
         if (!state.opened) {
           effects.push(Effect.Search(state.textValue));
         }
@@ -366,7 +319,7 @@ const reducers: { [type: string]: Reducer } = {
       case 'Escape':
         return {
           items: null,
-          opened: false
+          opened: false,
         };
       default:
         return state;
@@ -382,7 +335,7 @@ const reducers: { [type: string]: Reducer } = {
     return {
       loading: true,
       opened: true,
-      requestStatus: ComboBoxRequestStatus.Pending
+      requestStatus: ComboBoxRequestStatus.Pending,
     };
   },
   ReceiveItems(state, props, action) {
@@ -392,14 +345,9 @@ const reducers: { [type: string]: Reducer } = {
         loading: false,
         opened: true,
         items: action.items,
-        requestStatus: ComboBoxRequestStatus.Success
+        requestStatus: ComboBoxRequestStatus.Success,
       },
-      [
-        shouldResetMenuHighlight
-          ? Effect.ResetHighlightedMenuItem
-          : Effect.HighlightMenuItem,
-        Effect.Reflow
-      ]
+      [shouldResetMenuHighlight ? Effect.ResetHighlightedMenuItem : Effect.HighlightMenuItem, Effect.Reflow],
     ];
   },
   RequestFailure(state, props, action) {
@@ -409,15 +357,15 @@ const reducers: { [type: string]: Reducer } = {
         opened: true,
         items: null,
         requestStatus: ComboBoxRequestStatus.Failed,
-        repeatRequest: action.repeatRequest
+        repeatRequest: action.repeatRequest,
       },
-      [Effect.HighlightMenuItem]
+      [Effect.HighlightMenuItem],
     ];
   },
   CancelRequest: () => {
     return {
       loading: false,
-      requestStatus: ComboBoxRequestStatus.Unknown
+      requestStatus: ComboBoxRequestStatus.Unknown,
     };
   },
   Reset() {
@@ -425,13 +373,13 @@ const reducers: { [type: string]: Reducer } = {
   },
   Open: () => {
     return {
-      opened: true
+      opened: true,
     };
   },
   Close: () => {
     return {
       opened: false,
-      items: null
+      items: null,
     };
   },
   Search: (state, props, { query }) => {
@@ -439,7 +387,7 @@ const reducers: { [type: string]: Reducer } = {
   },
   FocusNextElement: (state, props, action) => {
     return [state, [Effect.FocusNextElement]];
-  }
+  },
 };
 
 export { reducers, Effect, getValueString };

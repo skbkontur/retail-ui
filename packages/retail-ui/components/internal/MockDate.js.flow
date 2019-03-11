@@ -1,7 +1,7 @@
 /* @flow */
 
 type Props = {|
-  date: Date
+  date: Date,
 |};
 
 declare class MockDateComponent extends React$Component<Props> {}

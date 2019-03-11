@@ -1,10 +1,10 @@
 import * as React from 'react';
 import InternalMenu from '../InternalMenu/InternalMenu';
-import Popup from '../../Popup';
+import Popup, { PopupPosition } from '../../Popup';
 import RenderLayer from '../../RenderLayer';
 import { Nullable } from '../../../typings/utility-types';
 import PopupMenuPositions from './PopupMenuPositions';
-import isValidPostions from './validatePositions';
+import isValidPositions from './validatePositions';
 import styles from './PopupMenu.less';
 
 export interface PopupMenuCaptionProps {
@@ -27,11 +27,13 @@ export interface PopupMenuProps {
    * в таком случае управлять открытием и закрытием меню
    * придется в этой функции
    */
-  caption:
-    | React.ReactNode
-    | ((props: PopupMenuCaptionProps) => React.ReactNode);
+  caption: React.ReactNode | ((props: PopupMenuCaptionProps) => React.ReactNode);
+
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
+
   /**  Массив разрешенных положений меню относительно caption'а. */
-  positions?: string[];
+  positions?: PopupPosition[];
   /** Колбэк, вызываемый после открытия/закрытия меню */
   onChangeMenuState?: (isOpened: boolean, restoreFocus: boolean) => void;
   /** Пропсы, передающиеся в Popup */
@@ -49,26 +51,23 @@ interface PopupMenuState {
 
 export const PopupMenuType = {
   Dropdown: 'dropdown',
-  Tooltip: 'tooltip'
+  Tooltip: 'tooltip',
 };
 
-export default class PopupMenu extends React.Component<
-  PopupMenuProps,
-  PopupMenuState
-> {
+export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static defaultProps = {
     positions: PopupMenuPositions,
     type: PopupMenuType.Tooltip,
     popupHasPin: true,
     popupMargin: 0,
-    disableAnimations: false
+    disableAnimations: false,
   };
 
   public static Type = PopupMenuType;
 
   public state = {
     menuVisible: false,
-    firstItemShouldBeSelected: false
+    firstItemShouldBeSelected: false,
   };
 
   private captionWrapper: HTMLSpanElement | null = null;
@@ -105,9 +104,9 @@ export default class PopupMenu extends React.Component<
                   onItemClick={this.handleItemSelection}
                   cyclicSelection={false}
                   ref={this.refInternalMenu}
-                  initialSelectedItemIndex={
-                    this.state.firstItemShouldBeSelected ? 0 : -1
-                  }
+                  initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
+                  header={this.props.header}
+                  footer={this.props.footer}
                 >
                   {this.props.children}
                 </InternalMenu>
@@ -118,8 +117,7 @@ export default class PopupMenu extends React.Component<
     );
   }
 
-  private refInternalMenu = (element: Nullable<InternalMenu>) =>
-    (this.menu = element);
+  private refInternalMenu = (element: Nullable<InternalMenu>) => (this.menu = element);
 
   private handleOpen = () => {
     if (this.menu) {
@@ -133,14 +131,11 @@ export default class PopupMenu extends React.Component<
         opened: this.state.menuVisible,
         openMenu: this.showMenu,
         closeMenu: this.hideMenu,
-        toggleMenu: this.toggleMenu
+        toggleMenu: this.toggleMenu,
       });
 
       return (
-        <span
-          className={styles.caption}
-          ref={element => (this.captionWrapper = element)}
-        >
+        <span className={styles.caption} ref={element => (this.captionWrapper = element)}>
           {caption}
         </span>
       );
@@ -161,7 +156,7 @@ export default class PopupMenu extends React.Component<
   private hideMenuWithoutFocusing = () => this.hideMenu();
 
   private getPositions() {
-    if (this.props.positions && isValidPostions(this.props.positions)) {
+    if (this.props.positions && isValidPositions(this.props.positions)) {
       return this.props.positions;
     }
 
@@ -173,11 +168,11 @@ export default class PopupMenu extends React.Component<
     this.setState(
       {
         menuVisible: true,
-        firstItemShouldBeSelected
+        firstItemShouldBeSelected,
       },
       () => {
         this.handleChangeMenuVisible(false);
-      }
+      },
     );
   };
 
@@ -185,11 +180,11 @@ export default class PopupMenu extends React.Component<
     this.setState(
       {
         menuVisible: false,
-        firstItemShouldBeSelected: false
+        firstItemShouldBeSelected: false,
       },
       () => {
         this.handleChangeMenuVisible(!!restoreFocus);
-      }
+      },
     );
   };
 
@@ -201,9 +196,7 @@ export default class PopupMenu extends React.Component<
     this.toggleMenu();
   };
 
-  private handleCaptionKeyDown = (
-    event: React.KeyboardEvent<HTMLElement>
-  ): void => {
+  private handleCaptionKeyDown = (event: React.KeyboardEvent<HTMLElement>): void => {
     switch (event.key) {
       case 'Enter':
       case ' ':
@@ -248,16 +241,11 @@ export default class PopupMenu extends React.Component<
       this.restoreFocus();
     }
     if (typeof this.props.onChangeMenuState === 'function') {
-      this.props.onChangeMenuState(
-        this.state.menuVisible,
-        focusShouldBeRestored
-      );
+      this.props.onChangeMenuState(this.state.menuVisible, focusShouldBeRestored);
     }
   };
 
-  private handleItemSelection = (
-    event: React.SyntheticEvent<HTMLElement>
-  ): void => {
+  private handleItemSelection = (event: React.SyntheticEvent<HTMLElement>): void => {
     if (event.isDefaultPrevented()) {
       return;
     }

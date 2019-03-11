@@ -14,11 +14,14 @@ export type ComboBoxProps<T> = {|
   maxLength?: number,
   menuAlign?: 'left' | 'right',
   onBlur?: () => void,
-  onChange?: (event: {
-    target: {
-      value: T
-    }
-  }, item: T) => void,
+  onChange?: (
+    event: {
+      target: {
+        value: T,
+      },
+    },
+    item: T,
+  ) => void,
   onFocus?: () => void,
   // eslint-disable-next-line flowtype/no-weak-types
   onInputChange?: (query: string) => any,
@@ -34,16 +37,16 @@ export type ComboBoxProps<T> = {|
   size?: 'small' | 'medium' | 'large',
   warning?: boolean,
   width?: string | number,
-  maxMenuHeight?: number | string
+  maxMenuHeight?: number | string,
 |};
 
 declare class ComboBox<T> extends React$Component<ComboBoxProps<T>> {
-  focus(): void,
-  search(query?: string): void,
-  open(): void,
-  close(): void,
-  selectInputText(): void,
-  reset(): void
+  focus(): void;
+  search(query?: string): void;
+  open(): void;
+  close(): void;
+  selectInputText(): void;
+  reset(): void;
 }
 
 export default ComboBox;

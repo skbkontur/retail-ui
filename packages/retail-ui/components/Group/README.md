@@ -20,11 +20,7 @@ if (!state.auto) {
 
 <Group width={300}>
   {auto}
-  <Input
-    mainInGroup
-    leftIcon={icon}
-    onChange={e => setState({ auto: false })}
-  />
+  <Input mainInGroup leftIcon={icon} onChange={e => setState({ auto: false })} />
   <Button>Hey</Button>
   <Button>Ma</Button>
 </Group>;

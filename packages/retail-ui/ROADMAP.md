@@ -2,23 +2,30 @@
 
 - [ ] Встраивание метрик
 - [ ] Приватная библиотека с компонентами, использующими фирменый стиль
-- [ ] Интеграция `react-ui-validations` [#917](https://github.com/skbkontur/retail-ui/issues/917)
 - [ ] Улучшение документации, добавление примеров
 - [ ] Шаблон проекта для быстрого старта
 - [ ] Интеграция скриншотных тестов КЭвеба в релизный цикл
 - [ ] Гайдлайн для контрибьюторов
 - [ ] Реализация компонента списка уведомлений
-- [ ] Реализация механизма кастомизации на `css-in-js`
 - [ ] Поддержка онлайн IDE (codesandbox)
+
+### Апрель 2019
+
+- [ ] Реализация механизма кастомизации на `css-in-js` https://github.com/skbkontur/retail-ui/projects/5
+
+### Март 2019
+
+- [ ] Отказ от SauceLabs в пользу SeleniumGrid КЭвеба для скриншотных тестов
+- [ ] Интеграция `react-ui-validations` [#917](https://github.com/skbkontur/retail-ui/issues/917)
+- [ ] Добавление поддержки локализации компонентов
 
 ### Февраль 2019
 
-- [ ] Отказ от SauceLabs в пользу SeleniumGrid КЭвеба для скриншотных тестов
+- [x] Обновление версии через CI [#1042](https://github.com/skbkontur/retail-ui/issues/1042)
 
 ### Январь 2019
 
 - [x] Добавление свойств `prefix/postfix` для `Input` [#727](https://github.com/skbkontur/retail-ui/issues/727)
-- [ ] Обновление версии через CI [#1042](https://github.com/skbkontur/retail-ui/issues/1042)
 
 ### Декабрь 2018
 

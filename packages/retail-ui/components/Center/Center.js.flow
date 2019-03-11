@@ -5,7 +5,7 @@ export type HorizontalAlign = 'left' | 'center' | 'right';
 
 export type CenterProps = {
   align?: HorizontalAlign,
-  style?: CSS.Properties<string | number>
+  style?: CSS.Properties<string | number>,
 };
 
 export type CenterState = {||};

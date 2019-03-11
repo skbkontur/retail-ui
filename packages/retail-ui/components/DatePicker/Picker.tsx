@@ -28,7 +28,7 @@ const getTodayCalendarDate = () => {
   return {
     date: d.getDate(),
     month: d.getMonth(),
-    year: d.getFullYear()
+    year: d.getFullYear(),
   };
 };
 
@@ -40,7 +40,7 @@ export default class Picker extends React.Component<Props, State> {
     const today = getTodayCalendarDate();
     this.state = {
       date: this.getInitialDate(today),
-      today
+      today,
     };
   }
 
@@ -79,11 +79,7 @@ export default class Picker extends React.Component<Props, State> {
 
   private _renderTodayLink() {
     return (
-      <button
-        className={styles.todayWrapper}
-        onClick={this._handleSelectToday}
-        tabIndex={-1}
-      >
+      <button className={styles.todayWrapper} onClick={this._handleSelectToday} tabIndex={-1}>
         Сегодня {formatDate(this.state.today)}
       </button>
     );

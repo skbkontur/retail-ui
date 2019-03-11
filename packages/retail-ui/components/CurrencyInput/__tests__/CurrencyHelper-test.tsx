@@ -13,7 +13,7 @@ describe('CurrencyHelper', () => {
       { value: '‒1', expected: '-1' }, // U+2012 figure dash
       { value: '–1', expected: '-1' }, // U+2013 en dash
       { value: '—1', expected: '-1' }, // U+2014 em dash
-      { value: '―1', expected: '-1' } // U+2015 horizontal bar
+      { value: '―1', expected: '-1' }, // U+2015 horizontal bar
     ].forEach(x => {
       it(`unformatString('${x.value}') === ${x.expected}`, () => {
         const actual = CurrencyHelper.unformatString(x.value);
@@ -34,7 +34,7 @@ describe('CurrencyHelper', () => {
       { value: 1234567, expected: '1\u2009234\u2009567' },
       { value: -0, expected: '0' },
       { value: -1, expected: '\u22121' },
-      { value: -1234567, expected: '\u22121\u2009234\u2009567' }
+      { value: -1234567, expected: '\u22121\u2009234\u2009567' },
     ].forEach(x => {
       it(`format(${x.value}) === '${x.expected}'`, () => {
         const actual = CurrencyHelper.format(x.value);
@@ -57,21 +57,16 @@ describe('CurrencyHelper', () => {
       { value: 1.2, fractionDigits: 4, expected: '1,2000' },
 
       { value: 1.02, fractionDigits: 2, expected: '1,02' },
-      { value: 1.02, fractionDigits: 4, expected: '1,0200' }
+      { value: 1.02, fractionDigits: 4, expected: '1,0200' },
     ].forEach(x => {
       const options = { fractionDigits: x.fractionDigits };
-      it(`format(${x.value}, ${JSON.stringify(options)}) === '${
-        x.expected
-      }'`, () => {
+      it(`format(${x.value}, ${JSON.stringify(options)}) === '${x.expected}'`, () => {
         const actual = CurrencyHelper.format(x.value, options);
         const expected = x.expected;
         expect(actual).toBe(expected);
       });
     });
-    [
-      { value: 1.1, fractionDigits: 0 },
-      { value: 1.6789, fractionDigits: 3 }
-    ].forEach(x => {
+    [{ value: 1.1, fractionDigits: 0 }, { value: 1.6789, fractionDigits: 3 }].forEach(x => {
       const options = { fractionDigits: x.fractionDigits };
       it(`format(${x.value}, ${JSON.stringify(options)}) throw`, () => {
         expect(() => CurrencyHelper.format(x.value, options)).toThrow();
@@ -92,7 +87,7 @@ describe('CurrencyHelper', () => {
       { value: '1234567', expected: '1\u2009234\u2009567' },
       { value: '-0', expected: '\u22120' },
       { value: '-1', expected: '\u22121' },
-      { value: '-1234567', expected: '\u22121\u2009234\u2009567' }
+      { value: '-1234567', expected: '\u22121\u2009234\u2009567' },
     ].forEach(x => {
       it(`formatString('${x.value}') === '${x.expected}'`, () => {
         const actual = CurrencyHelper.formatString(x.value);
@@ -137,21 +132,16 @@ describe('CurrencyHelper', () => {
       { value: '1.2', fractionDigits: 4, expected: '1,2000' },
 
       { value: '1.02', fractionDigits: 2, expected: '1,02' },
-      { value: '1.02', fractionDigits: 4, expected: '1,0200' }
+      { value: '1.02', fractionDigits: 4, expected: '1,0200' },
     ].forEach(x => {
       const options = { fractionDigits: x.fractionDigits };
-      it(`formatString('${x.value}', ${JSON.stringify(options)}) === '${
-        x.expected
-      }'`, () => {
+      it(`formatString('${x.value}', ${JSON.stringify(options)}) === '${x.expected}'`, () => {
         const actual = CurrencyHelper.formatString(x.value, options);
         const expected = x.expected;
         expect(actual).toBe(expected);
       });
     });
-    [
-      { value: '1.1', fractionDigits: 0 },
-      { value: '1.6789', fractionDigits: 3 }
-    ].forEach(x => {
+    [{ value: '1.1', fractionDigits: 0 }, { value: '1.6789', fractionDigits: 3 }].forEach(x => {
       const options = { fractionDigits: x.fractionDigits };
       it(`formatString('${x.value}', ${JSON.stringify(options)}) throw`, () => {
         expect(() => CurrencyHelper.formatString(x.value, options)).toThrow();
@@ -179,7 +169,7 @@ describe('CurrencyHelper', () => {
       { value: '-.1', expected: -0.1 },
       { value: '-12', expected: -12 },
       { value: '\uFF0D1', expected: -1 },
-      { value: '\u22121', expected: -1 }
+      { value: '\u22121', expected: -1 },
     ].forEach(x => {
       it(`parse('${x.value}') === ${x.expected}`, () => {
         const actual = CurrencyHelper.parse(x.value);
@@ -243,7 +233,7 @@ describe('CurrencyHelper', () => {
       { value: '..', fractionDigits: null, expected: false },
       { value: '000.000', fractionDigits: null, expected: true },
       { value: '1 234 567 890 123,45', fractionDigits: null, expected: true },
-      { value: '1 234 567 890 123,45', fractionDigits: 2, expected: true }
+      { value: '1 234 567 890 123,45', fractionDigits: 2, expected: true },
     ].forEach(x => {
       it(`parse('${x.value}', ${x.fractionDigits}) === ${x.expected}`, () => {
         const actual = CurrencyHelper.isValidString(x.value, x.fractionDigits);

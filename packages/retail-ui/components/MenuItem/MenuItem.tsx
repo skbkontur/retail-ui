@@ -57,21 +57,11 @@ export default class MenuItem extends React.Component<MenuItemProps> {
 
     target: PropTypes.string,
 
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
   };
 
   public render() {
-    const {
-      alkoLink,
-      comment,
-      icon,
-      loose,
-      state,
-      children,
-      _enableIconPadding,
-      component,
-      ...rest
-    } = this.props;
+    const { alkoLink, comment, icon, loose, state, children, _enableIconPadding, component, ...rest } = this.props;
 
     const hover = state === 'hover' && !this.props.disabled;
 
@@ -87,7 +77,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
       [styles.loose]: loose,
       [styles.selected]: state === 'selected',
       [styles.link]: alkoLink,
-      [styles.withIcon]: Boolean(iconElement) || _enableIconPadding
+      [styles.withIcon]: Boolean(iconElement) || _enableIconPadding,
     });
 
     let content = children;
@@ -105,7 +95,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
           <div
             className={classNames({
               [styles.comment]: true,
-              [styles.commentHover]: hover
+              [styles.commentHover]: hover,
             })}
           >
             {comment}

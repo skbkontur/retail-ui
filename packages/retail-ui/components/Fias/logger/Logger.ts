@@ -4,7 +4,7 @@ export class Logger {
   public static warnings = {
     baseUrlOrApiIsRequired: 'property "baseUrl" or "api" is required',
     noBaseUrl: 'baseUrl is not specified',
-    fetchError: 'fetch error'
+    fetchError: 'fetch error',
   };
 
   public static log = (message: string, details?: string) => {

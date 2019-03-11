@@ -65,13 +65,11 @@ describe('Toast', () => {
     const wrapper = mount(<Toast />);
     (wrapper.instance() as Toast).push('message', {
       label: 'action',
-      handler: () => undefined
+      handler: () => undefined,
     });
 
     const toast = (wrapper.instance() as Toast)._toast;
-    const link = (ReactDOM.findDOMNode(toast!) as Element).querySelector(
-      '.link'
-    );
+    const link = (ReactDOM.findDOMNode(toast!) as Element).querySelector('.link');
     expect(link).toBeTruthy();
   });
 
@@ -80,7 +78,7 @@ describe('Toast', () => {
     const handler = jest.fn();
     (wrapper.instance() as Toast).push('message', {
       label: 'action',
-      handler
+      handler,
     });
 
     const toast = (wrapper.instance() as Toast)._toast;

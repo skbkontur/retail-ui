@@ -10,7 +10,7 @@ interface ComponentProps {
 
 class Component extends React.Component<ComponentProps> {
   public state = {
-    value: ''
+    value: '',
   };
 
   private _passwordInput: Nullable<PasswordInput>;

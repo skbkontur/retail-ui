@@ -38,12 +38,12 @@ export interface FxInputDefaultProps {
 class FxInput extends React.Component<FxInputProps> {
   public static propTypes = {
     auto: PropTypes.bool,
-    type: PropTypes.string
+    type: PropTypes.string,
   };
 
   public static defaultProps: FxInputDefaultProps = {
     width: 250,
-    type: 'text'
+    type: 'text',
   };
 
   private input: Input | CurrencyInput | null = null;
@@ -54,7 +54,7 @@ class FxInput extends React.Component<FxInputProps> {
     const { type, onRestore, auto, ...rest } = this.props;
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
-      mainInGroup: true
+      mainInGroup: true,
     };
 
     let button = null;
@@ -63,11 +63,7 @@ class FxInput extends React.Component<FxInputProps> {
       inputProps.leftIcon = <FunctionIcon />;
     } else {
       button = (
-        <Button
-          narrow
-          onClick={this.props.onRestore}
-          borderless={this.props.borderless}
-        >
+        <Button narrow onClick={this.props.onRestore} borderless={this.props.borderless}>
           <UndoIcon />
         </Button>
       );

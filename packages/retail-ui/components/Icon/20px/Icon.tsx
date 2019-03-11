@@ -16,7 +16,7 @@ const MAP = {
   grid: '\ue03e',
   money: '\ue046',
   'help-circle': '\ue055',
-  kebab: '\ue0c9'
+  kebab: '\ue0c9',
 };
 
 export interface IconProps {
@@ -31,7 +31,7 @@ class Icon extends React.Component<IconProps> {
     /**
      * Icon id.
      */
-    name: PropTypes.oneOf(Object.keys(MAP))
+    name: PropTypes.oneOf(Object.keys(MAP)),
   };
 
   public static getAllNames() {
@@ -40,7 +40,7 @@ class Icon extends React.Component<IconProps> {
 
   public render() {
     const style = {
-      color: this.props.color
+      color: this.props.color,
     };
     return (
       <span className={styles.root} style={style}>

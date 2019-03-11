@@ -7,7 +7,7 @@ type Props = {|
   offset: number,
   popupElement: ?HTMLElement,
   popupPosition: string,
-  size: number
+  size: number,
 |};
 
 declare class PopupPin extends React$Component<Props> {}

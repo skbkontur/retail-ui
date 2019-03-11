@@ -1,5 +1,5 @@
-require("dotenv").config();
-const sauceConnectLauncher = require("sauce-connect-launcher");
+require('dotenv').config();
+const sauceConnectLauncher = require('sauce-connect-launcher');
 let sauce;
 
 sauceConnectLauncher(
@@ -9,24 +9,24 @@ sauceConnectLauncher(
     tunnelIdentifier: process.argv[2],
     verbose: true,
     connectRetries: 1,
-    connectRetryTimeout: 30000
+    connectRetryTimeout: 30000,
   },
   (error, sauceConnectProcess) => {
     if (error) {
       throw error;
     }
     sauce = sauceConnectProcess;
-    console.log("Sauce Connect ready");
-  }
+    console.log('Sauce Connect ready');
+  },
 );
 
 process.stdin.on('data', () => {
   if (sauce) {
-    sauce.close(function () {
-      console.log("Closed Sauce Connect process");
+    sauce.close(function() {
+      console.log('Closed Sauce Connect process');
       process.exit();
-    })
+    });
   } else {
     process.exit();
   }
-})
+});

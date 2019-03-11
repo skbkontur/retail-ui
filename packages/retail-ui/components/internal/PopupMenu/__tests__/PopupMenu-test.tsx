@@ -23,7 +23,7 @@ describe('PopupMenu', () => {
         positions={['bottom left', 'bottom right', 'top left', 'top right']}
       >
         <MenuItem />
-      </PopupMenu>
+      </PopupMenu>,
     );
 
     expect(wrapper.state('menuVisible')).toBeFalsy();
@@ -35,12 +35,9 @@ describe('PopupMenu', () => {
 
   it('pass function to caption', () => {
     const wrapper = mount(
-      <PopupMenu
-        caption={renderCaption}
-        positions={['bottom left', 'bottom right', 'top left', 'top right']}
-      >
+      <PopupMenu caption={renderCaption} positions={['bottom left', 'bottom right', 'top left', 'top right']}>
         <MenuItem />
-      </PopupMenu>
+      </PopupMenu>,
     );
 
     const getCaption = () => wrapper.find('#caption');

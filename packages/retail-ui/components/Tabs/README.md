@@ -1,5 +1,5 @@
 ```js
-let initialState = { active: "fuji" };
+let initialState = { active: 'fuji' };
 
 <Tabs value={state.active} onChange={(_, v) => setState({ active: v })}>
   <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>

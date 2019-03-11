@@ -8,7 +8,7 @@ export interface AddressModalProps {
   onChange: (
     value: {
       address: Address;
-    }
+    },
   ) => void;
   onClose: () => void;
 }
@@ -18,10 +18,7 @@ export interface AddressModalState {
   invalidField: Nullable<string>;
 }
 
-export default class AddressModal extends React.Component<
-  AddressModalProps,
-  AddressModalState
-> {
+export default class AddressModal extends React.Component<AddressModalProps, AddressModalState> {
   private _regionProps;
   private _districtProps;
   private _cityProps;

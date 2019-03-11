@@ -9,10 +9,7 @@ interface ApiResponseType {
 
 type Result = Promise<ApiResponseType>;
 
-export default function fetch(
-  uri: string,
-  options: { method?: 'GET' | 'POST'; body?: string } = {}
-): Result {
+export default function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: string } = {}): Result {
   const method = options.method || 'GET';
   const xhr = createXHR();
 
@@ -26,7 +23,7 @@ export default function fetch(
         status: xhr.status,
         statusText: xhr.statusText,
         text: () => Promise.resolve(xhr.responseText),
-        json: () => Promise.resolve(JSON.parse(xhr.responseText))
+        json: () => Promise.resolve(JSON.parse(xhr.responseText)),
       });
     };
   });
