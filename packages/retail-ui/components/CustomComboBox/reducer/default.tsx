@@ -241,30 +241,34 @@ const reducers: CustomComboBoxReducers<any> = {
     ];
   },
   Focus(state, props, action) {
-    if (state.editing) {
-      return [
-        {
-          focused: true,
-        },
-        [Effect.Search(state.textValue), Effect.Focus],
-      ];
+    const newState = {
+      focused: true,
+      editing: true,
+    };
+    if (!props.searchOnFocus) {
+      return [newState, [Effect.Focus]];
     }
-    return [
-      {
-        focused: true,
-        editing: true,
-      },
-      [Effect.Search(''), Effect.Focus, Effect.SelectInputText],
-    ];
+    if (state.editing) {
+      return [newState, [Effect.Search(state.textValue), Effect.Focus]];
+    }
+    return [newState, [Effect.Search(''), Effect.Focus, Effect.SelectInputText]];
   },
   TextChange(state, props, action) {
-    return [
-      {
-        inputChanged: true,
-        textValue: action.value,
-      },
-      [Effect.DebouncedSearch, Effect.InputChange],
-    ];
+    const newState = {
+      inputChanged: true,
+      textValue: action.value,
+    };
+    if (!action.value && props.searchOnFocus) {
+      return [
+        {
+          ...newState,
+          opened: false,
+          items: null,
+        },
+        [Effect.InputChange],
+      ];
+    }
+    return [newState, [Effect.DebouncedSearch, Effect.InputChange]];
   },
   TextClear(state, props, action) {
     return {
@@ -319,7 +323,7 @@ const reducers: CustomComboBoxReducers<any> = {
     }
   },
   InputClick(state, props, action) {
-    if (!state.opened) {
+    if (!state.opened && props.searchOnFocus) {
       return [state, [Effect.Search('')]];
     }
     return state;

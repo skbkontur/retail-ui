@@ -26,7 +26,7 @@ interface ComboBoxViewProps<T> {
   loading?: boolean;
   menuAlign?: 'left' | 'right';
   opened?: boolean;
-  openButton?: boolean;
+  drawArrow?: boolean;
   placeholder?: string;
   size?: 'small' | 'medium' | 'large';
   textValue?: string;
@@ -257,13 +257,13 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   );
 
   private getRightIcon = () => {
-    const { loading, items, openButton } = this.props;
+    const { loading, items, drawArrow } = this.props;
 
     if (loading && items && !!items.length) {
       return this.renderSpinner();
     }
 
-    if (openButton) {
+    if (drawArrow) {
       return (
         <span className={styles.arrowWrapper}>
           <ArrowTriangleDown />

@@ -1,8 +1,8 @@
 import * as React from 'react';
+import warning from 'warning';
 
 import createReducer from '../CustomComboBox/reducer';
 import { reducers as defaultReducers } from '../CustomComboBox/reducer/default';
-import { reducers as autocompleteReducers } from '../CustomComboBox/reducer/autocomplete';
 
 import CustomComboBox from '../CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
@@ -12,8 +12,21 @@ export interface ComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
   /**
    * Включает режим автокомплита
+   * @deprecated используйте флаги `searchOnFocus` и `drawArrow`.
+   * Установка обоих флагов в `false` соответствует режиму автокомплита
    */
   autocomplete?: boolean;
+
+  /**
+   * Вызывает функцию поиска `getItems` при фокусе и очистке поля ввода
+   * @default true
+   */
+  searchOnFocus?: boolean;
+  /**
+   * Рисует справа иконку в виде стрелки
+   * @default true
+   */
+  drawArrow?: boolean;
 
   autoFocus?: boolean;
 
@@ -135,9 +148,6 @@ export interface ComboBoxItem {
   label: string;
 }
 
-const defaultReducer = createReducer(defaultReducers);
-const autocompleteReducer = createReducer(autocompleteReducers);
-
 class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public static defaultProps = {
     itemToValue: (item: ComboBoxItem) => item.value,
@@ -145,6 +155,8 @@ class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
     renderValue: (item: ComboBoxItem) => item.label,
     renderItem: (item: ComboBoxItem) => item.label,
     menuAlign: 'left',
+    searchOnFocus: true,
+    drawArrow: true,
   };
 
   private comboboxElement: Nullable<CustomComboBox<T>> = null;
@@ -226,14 +238,30 @@ class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   }
 
   public render() {
-    const { autocomplete, ...rest } = this.props;
-    const props = {
-      ...rest,
-      openButton: !autocomplete,
-      reducer: autocomplete ? autocompleteReducer : defaultReducer,
-    };
+    const { autocomplete, ...restProps } = this.props;
+    let { drawArrow, searchOnFocus } = this.props;
 
-    return <CustomComboBox {...props} ref={element => (this.comboboxElement = element)} />;
+    if (process.env.NODE_ENV !== 'production') {
+      warning(
+        autocomplete === undefined,
+        '`autocompelete` flag is deprecated, please use `drawArrow` and `searchOnFocus` instead',
+      );
+    }
+
+    if (autocomplete !== undefined) {
+      drawArrow = !Boolean(autocomplete);
+      searchOnFocus = !Boolean(autocomplete);
+    }
+
+    return (
+      <CustomComboBox
+        {...restProps}
+        drawArrow={drawArrow}
+        searchOnFocus={searchOnFocus}
+        reducer={createReducer(defaultReducers)}
+        ref={element => (this.comboboxElement = element)}
+      />
+    );
   }
 }
 

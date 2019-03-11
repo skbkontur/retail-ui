@@ -43,7 +43,8 @@ export interface CustomComboBoxProps<T> {
   error?: boolean;
   maxLength?: number;
   menuAlign?: 'left' | 'right';
-  openButton?: boolean;
+  drawArrow?: boolean;
+  searchOnFocus?: boolean;
   onChange?: (event: { target: { value: T } }, value: T) => void;
   onInputChange?: (textValue: string) => Nullable<string>;
   onUnexpectedInput?: (query: string) => void | null | T;
@@ -252,7 +253,7 @@ class CustomComboBox<T> extends React.Component<CustomComboBoxProps<T>, CustomCo
       loading: this.state.loading,
       menuAlign: this.props.menuAlign,
       opened: this.state.opened,
-      openButton: this.props.openButton,
+      drawArrow: this.props.drawArrow,
       placeholder: this.props.placeholder,
       size: this.props.size,
       textValue: this.state.textValue,
