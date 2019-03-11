@@ -1,8 +1,8 @@
-const { find } = require("gemini/lib/tests-api/find-func");
+const { find } = require('gemini/lib/tests-api/find-func');
 
 // NOTE For correct caching element id
 // See `findElement` function in gemini/lib/tests-api/actions-builder.js
-const body = find("body");
+const body = find('body');
 
 module.exports = {
   renderStory(kind, story) {
@@ -14,8 +14,8 @@ module.exports = {
           window.scrollTo(0, 0);
           window.renderStory({ kind: "${kind}", story: "${story}" });
         }
-      })()`)
+      })()`),
       );
     };
-  }
+  },
 };

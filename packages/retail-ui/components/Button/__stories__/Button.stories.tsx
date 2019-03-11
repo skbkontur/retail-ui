@@ -44,21 +44,14 @@ storiesOf('Button', module)
   .add('with icon, fixed width and long text', () => {
     return (
       <Button icon={<OkIcon />} width="200px">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio sunt ad
-        repudiandae ipsum quos! Dolores ipsam magnam maxime debitis praesentium
-        aperiam laudantium. Nulla laboriosam perferendis, maiores esse unde nam
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio sunt ad repudiandae ipsum quos! Dolores ipsam
+        magnam maxime debitis praesentium aperiam laudantium. Nulla laboriosam perferendis, maiores esse unde nam
         numquam!
       </Button>
     );
   })
   .add('arrow table', () => {
-    const uses: ButtonUse[] = [
-      'default',
-      'primary',
-      'success',
-      'danger',
-      'pay'
-    ];
+    const uses: ButtonUse[] = ['default', 'primary', 'success', 'danger', 'pay'];
     const directions: ButtonArrow[] = [true, 'left'];
     return (
       <table style={{ borderSpacing: 10 }}>
@@ -110,13 +103,7 @@ storiesOf('Button', module)
     );
   })
   .add('table', () => {
-    const uses: ButtonUse[] = [
-      'default',
-      'primary',
-      'success',
-      'danger',
-      'pay'
-    ];
+    const uses: ButtonUse[] = ['default', 'primary', 'success', 'danger', 'pay'];
     const sizes: ButtonSize[] = ['small', 'medium', 'large'];
     return (
       <table style={{ borderSpacing: 10 }}>
@@ -231,7 +218,7 @@ storiesOf('Button', module)
           textAlign: 'right',
           textShadow: '3px 3px 3px #333',
           textTransform: 'uppercase',
-          letterSpacing: '5px'
+          letterSpacing: '5px',
         }}
       >
         <Gapped>

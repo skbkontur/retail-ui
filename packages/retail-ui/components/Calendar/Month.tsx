@@ -128,8 +128,7 @@ interface MonthDayGridProps {
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
   public static defaultProps = {
-    isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) =>
-      day.isWeekend
+    isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
   };
 
   public shouldComponentUpdate(nextProps: MonthDayGridProps) {
@@ -154,7 +153,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
         <div
           style={{
             width: this.props.offset * config.DAY_HEIGHT,
-            display: 'inline-block'
+            display: 'inline-block',
           }}
         />
         {this.props.days.map(day => {

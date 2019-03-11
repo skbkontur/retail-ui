@@ -1,16 +1,16 @@
 /* global gemini */
-var renderStory = require("./utils").renderStory;
+var renderStory = require('./utils').renderStory;
 
-gemini.suite("Simple ToastView", suite => {
+gemini.suite('Simple ToastView', suite => {
   suite
-    .before(renderStory("ToastView", "simple toast"))
+    .before(renderStory('ToastView', 'simple toast'))
     .setCaptureElements(['[class^="Toast-root"]'])
-    .capture("simple");
+    .capture('simple');
 });
 
-gemini.suite("ToastView With Action", suite => {
+gemini.suite('ToastView With Action', suite => {
   suite
-    .before(renderStory("ToastView", "with action"))
+    .before(renderStory('ToastView', 'with action'))
     .setCaptureElements(['[class^="Toast-root"]'])
-    .capture("with action");
+    .capture('with action');
 });

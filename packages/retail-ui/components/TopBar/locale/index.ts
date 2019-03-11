@@ -7,5 +7,5 @@ export * from './types';
 
 export const TopBarLocaleHelper = new LocaleHelper<TopBarLocale>({
   ru_RU,
-  en_EN
+  en_EN,
 });

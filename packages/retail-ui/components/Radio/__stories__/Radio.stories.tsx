@@ -1,11 +1,11 @@
-
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Gapped from '../../Gapped';
 import Radio from '../Radio';
 
-storiesOf('Radio', module).add('Radio with different states', () => (
+storiesOf('Radio', module)
+  .add('Radio with different states', () => (
     <div style={{ margin: '5px' }}>
       <Gapped gap={20}>
         <Radio value="value" />
@@ -18,13 +18,14 @@ storiesOf('Radio', module).add('Radio with different states', () => (
         <Radio warning value="value" />
       </Gapped>
     </div>
-  )).add('Playground', () => {
+  ))
+  .add('Playground', () => {
     class Comp extends React.Component<{}, any> {
       public state = {
         hovered: false,
         checked: false,
         active: false,
-        value: 'value'
+        value: 'value',
       };
 
       public render() {
@@ -41,7 +42,7 @@ storiesOf('Radio', module).add('Radio with different states', () => (
 
       private handleClick = () => {
         this.setState({ checked: !this.state.checked });
-      }
+      };
     }
 
     return <Comp />;

@@ -7,5 +7,5 @@ export * from './types';
 
 export const TokenInputLocaleHelper = new LocaleHelper<TokenInputLocale>({
   ru_RU,
-  en_EN
+  en_EN,
 });

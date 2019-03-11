@@ -8,10 +8,7 @@ import MenuSeparator from '../../MenuSeparator';
 
 storiesOf('Menu', module)
   .addDecorator(story => (
-    <div
-      id="menu-test-container"
-      style={{ padding: 10 }}
-    >
+    <div id="menu-test-container" style={{ padding: 10 }}>
       {story()}
     </div>
   ))
@@ -96,10 +93,14 @@ class MoveControls extends React.Component {
     return (
       <div>
         <div id="move-buttons">
-          <button id="move-up" onClick={this.moveUp}>Move Up</button>
-          <button id="move-down" onClick={this.moveDown}>Move Down</button>
+          <button id="move-up" onClick={this.moveUp}>
+            Move Up
+          </button>
+          <button id="move-down" onClick={this.moveDown}>
+            Move Down
+          </button>
         </div>
-        <br/>
+        <br />
         {React.cloneElement(React.Children.only(this.props.children), { ref: this.refMenu })}
       </div>
     );

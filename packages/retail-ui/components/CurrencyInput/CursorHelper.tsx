@@ -7,26 +7,15 @@ export default class CursorHelper {
     return map[Math.min(Math.max(0, position), map.length - 1)];
   }
 
-  public static calculatePosition(
-    map: CursorMap,
-    position: number,
-    step: number
-  ) {
+  public static calculatePosition(map: CursorMap, position: number, step: number) {
     if (position < 0 || map.length <= position) {
-      throw new Error(
-        `position out of range [${0} .. ${map.length -
-          1}], actual value: ${position}`
-      );
+      throw new Error(`position out of range [${0} .. ${map.length - 1}], actual value: ${position}`);
     }
     const raw = CursorHelper.toRawPosition(map, position);
     return CursorHelper.toFormattedPosition(map, raw + step);
   }
 
-  public static extendSelection(
-    map: CursorMap,
-    selection: Selection,
-    step: number
-  ) {
+  public static extendSelection(map: CursorMap, selection: Selection, step: number) {
     selection = CursorHelper.normalizeSelection(map, selection);
 
     selection =
@@ -34,21 +23,18 @@ export default class CursorHelper {
         ? {
             start: CursorHelper.calculatePosition(map, selection.start, step),
             end: selection.end,
-            direction: 'backward'
+            direction: 'backward',
           }
         : {
             start: selection.start,
             end: CursorHelper.calculatePosition(map, selection.end, step),
-            direction: 'forward'
+            direction: 'forward',
           };
 
     return CursorHelper.normalizeSelection(map, selection);
   }
 
-  public static normalizeSelection(
-    map: CursorMap,
-    selection: Selection
-  ): Selection {
+  public static normalizeSelection(map: CursorMap, selection: Selection): Selection {
     const start = CursorHelper.normalizePosition(map, selection.start);
     const end = CursorHelper.normalizePosition(map, selection.end);
 
@@ -56,7 +42,7 @@ export default class CursorHelper {
       return {
         start,
         end,
-        direction: 'none'
+        direction: 'none',
       };
     }
 
@@ -64,14 +50,14 @@ export default class CursorHelper {
       return {
         start,
         end,
-        direction: selection.direction === 'backward' ? 'backward' : 'forward'
+        direction: selection.direction === 'backward' ? 'backward' : 'forward',
       };
     }
 
     return {
       start: end,
       end: start,
-      direction: selection.direction === 'backward' ? 'forward' : 'backward'
+      direction: selection.direction === 'backward' ? 'forward' : 'backward',
     };
   }
 

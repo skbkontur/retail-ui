@@ -1,7 +1,7 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import { defaultLangCode } from '../../LocaleProvider/constants';
-import LocaleProvider, { LangCodes, LocaleProviderProps } from "../../LocaleProvider";
+import LocaleProvider, { LangCodes, LocaleProviderProps } from '../../LocaleProvider';
 import { delay } from '../../../lib/utils';
 import styles from '../../MenuItem/MenuItem.less';
 import { TokenInputLocaleHelper } from '../locale';
@@ -16,12 +16,7 @@ describe('<TokenInput />', () => {
   it('should contains placeholder', () => {
     const onChange = jest.fn();
     const wrapper = mount(
-      <TokenInput
-        getItems={getItems}
-        selectedItems={[]}
-        onChange={onChange}
-        placeholder="Placeholder"
-      />
+      <TokenInput getItems={getItems} selectedItems={[]} onChange={onChange} placeholder="Placeholder" />,
     );
     expect(wrapper.find('input').props().placeholder).toBe('Placeholder');
   });
@@ -30,18 +25,18 @@ describe('<TokenInput />', () => {
     let wrapper: ReactWrapper;
     const getTextComment = (): string => wrapper.find(generateSelector('comment')).text();
     const focus = async (): Promise<void> => {
-      wrapper.find(TokenInput).instance().setState({inFocus: true, inputValue: '--', loading: false});
+      wrapper
+        .find(TokenInput)
+        .instance()
+        .setState({ inFocus: true, inputValue: '--', loading: false });
       await delay(0);
       wrapper.update();
     };
     const contextMount = (props: LocaleProviderProps = {}) => {
       wrapper = mount(
         <LocaleProvider {...props}>
-          <TokenInput
-            type={TokenInputType.Combined}
-            getItems={getItems}
-          />
-        </LocaleProvider>
+          <TokenInput type={TokenInputType.Combined} getItems={getItems} />
+        </LocaleProvider>,
       );
     };
 
@@ -55,7 +50,7 @@ describe('<TokenInput />', () => {
     });
 
     it('render correct locale when set langCode', async () => {
-      contextMount({langCode: LangCodes.en_EN});
+      contextMount({ langCode: LangCodes.en_EN });
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.en_EN).addButtonComment;
 
       await focus();
@@ -73,7 +68,7 @@ describe('<TokenInput />', () => {
     });
 
     it('updates when langCode changes', async () => {
-      contextMount({langCode: LangCodes.en_EN});
+      contextMount({ langCode: LangCodes.en_EN });
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.ru_RU).addButtonComment;
 
       await focus();

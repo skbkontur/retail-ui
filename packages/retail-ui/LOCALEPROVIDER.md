@@ -1,13 +1,16 @@
 Локализация компонентов с помощью полифила [`create-react-context`](https://github.com/jamiebuilds/create-react-context)
 
 ### Props
+
 ```typescript jsx
 interface LocaleProviderProps {
-  locale?: LocaleControls
+  locale?: LocaleControls;
   langCode?: LangCodes;
 }
 ```
+
 Доступные языки
+
 ```typescript jsx
 enum LangCodes {
   ru_RU = 'ru_RU',
@@ -47,7 +50,7 @@ interface LocaleControls {
   Logotype?: {
     suffix?: string;
     prefix?: string;
-  }
+  };
 }
 ```
 
@@ -56,20 +59,19 @@ interface LocaleControls {
 ### Использование
 
 Нативная локализация `<TokenInput />`
+
 ```jsx
 const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
 const { TokenInputType } = require('./components/TokenInput');
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 <LocaleProvider langCode={LangCodes.en_EN}>
-  <TokenInput
-    type={TokenInputType.Combined}
-    getItems={() => Promise.resolve([]).then(delay(500))}
-  />
+  <TokenInput type={TokenInputType.Combined} getItems={() => Promise.resolve([]).then(delay(500))} />
 </LocaleProvider>;
 ```
 
 Кастомная локализация `<TokenInput />`
+
 ```jsx
 const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
 const { TokenInputType } = require('./components/TokenInput');
@@ -77,23 +79,19 @@ const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const customLocale = {
   TokenInput: {
-    addButtonComment: 'Press Enter or type Spacebar'
-  }
+    addButtonComment: 'Press Enter or type Spacebar',
+  },
 };
 
 <LocaleProvider locale={customLocale} langCode={LangCodes.en_EN}>
-  <TokenInput
-    type={TokenInputType.Combined}
-    delimiters={[' ']}
-    getItems={() => Promise.resolve([]).then(delay(500))}
-  />
+  <TokenInput type={TokenInputType.Combined} delimiters={[' ']} getItems={() => Promise.resolve([]).then(delay(500))} />
 </LocaleProvider>;
 ```
-
 
 Некоторые контролы используют компоненты других контролов.
 <br/>
 Для инкапсуляции локализации можно использовать несколько контекстов.
+
 ```jsx
 const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
 const { TokenInputType } = require('./components/TokenInput');
@@ -101,20 +99,16 @@ const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const customLocale = {
   Spinner: {
-    loading: 'awaiting...'
-  }
+    loading: 'awaiting...',
+  },
 };
 
 <LocaleProvider langCode={LangCodes.en_EN}>
   <Gapped vertical gap={10}>
     <LocaleProvider locale={customLocale} langCode={LangCodes.en_EN}>
-      <TokenInput
-        getItems={() => Promise.resolve([]).then(delay(1500))}
-      />
+      <TokenInput getItems={() => Promise.resolve([]).then(delay(1500))} />
     </LocaleProvider>
-    <TokenInput
-      getItems={() => Promise.resolve([]).then(delay(1500))}
-    />
+    <TokenInput getItems={() => Promise.resolve([]).then(delay(1500))} />
     <Spinner />
   </Gapped>
 </LocaleProvider>;
@@ -128,11 +122,7 @@ const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvi
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
-const items = [
-  {label: 'aaa', value: 1},
-  {label: 'bbb', value: 2},
-  {label: 'ccc', value: 3},
-];
+const items = [{ label: 'aaa', value: 1 }, { label: 'bbb', value: 2 }, { label: 'ccc', value: 3 }];
 
 const LocalizationControlNames = {
   ComboBox: 'ComboBox',
@@ -141,38 +131,36 @@ const LocalizationControlNames = {
   TopBar: 'TopBar',
   Select: 'Select',
   Paging: 'Paging',
-  Logotype: 'Logotype'
+  Logotype: 'Logotype',
 };
 
 class LocalizationControls extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-        langCode: LangCodes.ru_RU,
-        controlName: null
-      };
+      langCode: LangCodes.ru_RU,
+      controlName: null,
+    };
   }
 
   render() {
-    const customLocaleRU = {
-
-    };
-    const customLocaleEN = {
-
-    };
+    const customLocaleRU = {};
+    const customLocaleEN = {};
 
     const locale = this.state.langCode === LangCodes.en_EN ? customLocaleEN : customLocaleRU;
 
     return (
       <Gapped vertical gap={10}>
         <ComboBox
-          placeholder='Выбрать язык'
+          placeholder="Выбрать язык"
           getItems={() => Promise.resolve(Object.values(LangCodes).map((label, value) => ({ label, value })))}
           onChange={(_, { label: langCode }) => this.setState({ langCode })}
         />
         <ComboBox
-          placeholder='Выбрать контрол'
-          getItems={() => Promise.resolve(Object.values(LocalizationControlNames).map((label, value) => ({ label, value })))}
+          placeholder="Выбрать контрол"
+          getItems={() =>
+            Promise.resolve(Object.values(LocalizationControlNames).map((label, value) => ({ label, value })))
+          }
           onChange={(_, { label: controlName }) => this.setState({ controlName })}
         />
         <LocaleProvider langCode={this.state.langCode} locale={locale}>
@@ -185,16 +173,15 @@ class LocalizationControls extends React.Component {
   getControl(controlName) {
     switch (controlName) {
       case LocalizationControlNames.ComboBox:
-        return <ComboBox
-          getItems={str => Promise.resolve(items.filter(({label}) => label.includes(str))).then(delay(500))}
-          onChange={(_, { label: langCode }) => this.setState({ langCode })}
-        />;
+        return (
+          <ComboBox
+            getItems={str => Promise.resolve(items.filter(({ label }) => label.includes(str))).then(delay(500))}
+            onChange={(_, { label: langCode }) => this.setState({ langCode })}
+          />
+        );
 
       case LocalizationControlNames.TokenInput:
-        return <TokenInput
-          type={TokenInputType.Combined}
-          getItems={() => Promise.resolve([]).then(delay(500))}
-        />;
+        return <TokenInput type={TokenInputType.Combined} getItems={() => Promise.resolve([]).then(delay(500))} />;
 
       case LocalizationControlNames.Spinner:
         return <Spinner />;
@@ -213,7 +200,7 @@ class LocalizationControls extends React.Component {
               <TopBar.Logout onClick={() => alert('Logout!')} />
             </TopBar.End>
           </TopBar>
-      );
+        );
 
       case LocalizationControlNames.Logotype:
         return <Logotype />;
@@ -229,5 +216,4 @@ class LocalizationControls extends React.Component {
 }
 
 <LocalizationControls />;
-
 ```

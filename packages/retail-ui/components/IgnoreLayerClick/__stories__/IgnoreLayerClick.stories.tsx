@@ -14,7 +14,7 @@ interface SampleState {
 class Sample extends Component<{}, SampleState> {
   public state: SampleState = {
     active: false,
-    open: false
+    open: false,
   };
 
   public render() {

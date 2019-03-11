@@ -2,7 +2,7 @@
 import type { Address } from './Types';
 
 type KladrValue = {|
-  address: Address
+  address: Address,
 |};
 
 export type KladrProps = {|
@@ -12,11 +12,11 @@ export type KladrProps = {|
   value: any,
   warning?: string,
   // eslint-disable-next-line flowtype/no-weak-types
-  onChange?: (event: any, value: KladrValue) => void
+  onChange?: (event: any, value: KladrValue) => void,
 |};
 
 export type KladrState = {|
-  opened: boolean
+  opened: boolean,
 |};
 
 /**

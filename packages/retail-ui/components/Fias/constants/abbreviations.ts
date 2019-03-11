@@ -155,7 +155,7 @@ export const abbreviations: { [key: string]: string } = {
   'кот.': 'котельная',
   'пав.': 'павильон',
   'соор.': 'сооружение',
-  шахта: 'шахта'
+  шахта: 'шахта',
 };
 
 export default abbreviations;

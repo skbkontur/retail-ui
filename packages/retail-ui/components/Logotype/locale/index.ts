@@ -7,5 +7,5 @@ export * from './types';
 
 export const LogotypeLocaleHelper = new LocaleHelper<LogotypeLocale>({
   ru_RU,
-  en_EN
+  en_EN,
 });

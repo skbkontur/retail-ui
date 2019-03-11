@@ -9,9 +9,7 @@ export interface SidePageHeaderProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 }
 
-export default class SidePageHeader extends React.Component<
-  SidePageHeaderProps
-> {
+export default class SidePageHeader extends React.Component<SidePageHeaderProps> {
   public render(): JSX.Element {
     return (
       <Sticky side="top">
@@ -19,9 +17,7 @@ export default class SidePageHeader extends React.Component<
           <div className={classNames(styles.header, fixed && styles.fixed)}>
             {this.renderClose()}
             <div className={classNames(styles.title, fixed && styles.fixed)}>
-              {typeof this.props.children === 'function'
-                ? this.props.children(fixed)
-                : this.props.children}
+              {typeof this.props.children === 'function' ? this.props.children(fixed) : this.props.children}
             </div>
           </div>
         )}

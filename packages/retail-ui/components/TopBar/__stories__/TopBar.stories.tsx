@@ -24,7 +24,7 @@ storiesOf('TopBar', module)
       leftItems={[
         <Item key="left-item-1">
           <BabyIcon color="#666" />
-        </Item>
+        </Item>,
       ]}
     />
   ))

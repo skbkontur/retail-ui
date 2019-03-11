@@ -20,8 +20,6 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
   }
 }
 
-export const SidePageBodyWithContext = withContext<SidePageBodyProps>(
-  SidePageBody
-);
+export const SidePageBodyWithContext = withContext<SidePageBodyProps>(SidePageBody);
 
 export default SidePageBodyWithContext;

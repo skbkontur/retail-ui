@@ -14,7 +14,7 @@ export interface UserProps {
 @locale('TopBar', TopBarLocaleHelper)
 class User extends React.Component<UserProps> {
   public static defaultProps = {
-    cabinetUrl: 'https://cabinet.kontur.ru'
+    cabinetUrl: 'https://cabinet.kontur.ru',
   };
 
   public static propTypes = {
@@ -23,19 +23,14 @@ class User extends React.Component<UserProps> {
     /**
      * URL для кастомизации ссылок в меню пользователя
      */
-    cabinetUrl: PropTypes.string
+    cabinetUrl: PropTypes.string,
   };
 
   @getLocale private readonly locale: TopBarLocale = {};
 
   public render(): JSX.Element {
     const { userName, cabinetUrl } = this.props;
-    const {
-      cabinetTitle,
-      cabinetSettings,
-      cabinetCertificates,
-      cabinetServices,
-    } = this.locale;
+    const { cabinetTitle, cabinetSettings, cabinetCertificates, cabinetServices } = this.locale;
 
     return (
       <TopBarDropdown icon={'user'} label={userName}>

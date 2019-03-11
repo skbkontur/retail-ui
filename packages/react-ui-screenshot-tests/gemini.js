@@ -1,13 +1,13 @@
-const { spawn } = require("child_process");
+const { spawn } = require('child_process');
 
 function promisifyProcess(child) {
   return new Promise((resolve, reject) => {
     let errorAcquired = false;
-    child.on("error", error => {
+    child.on('error', error => {
       errorAcquired = true;
       reject(error);
     });
-    child.on("exit", code => {
+    child.on('exit', code => {
       if (errorAcquired) {
         return;
       }
@@ -21,16 +21,16 @@ function promisifyProcess(child) {
 }
 
 function exec(commandLine, { detached = false, env = {} } = {}) {
-  const [command, ...args] = commandLine.split(" ");
+  const [command, ...args] = commandLine.split(' ');
   const child = spawn(command, args, {
     shell: true,
     detached,
     stdio: [0, 1, 2],
     env: {
-      NODE_ENV: "production",
+      NODE_ENV: 'production',
       ...process.env,
-      ...env
-    }
+      ...env,
+    },
   });
 
   return child;
@@ -39,12 +39,12 @@ function exec(commandLine, { detached = false, env = {} } = {}) {
 function runStorybook({ env, port }) {
   const storybook = exec(`yarn workspace retail-ui storybook -p ${port}`, {
     env,
-    detached: true
+    detached: true,
   });
   const waitOn = exec(`yarn wait-on -t 300000 http-get://localhost:${port}/`);
   const waitOnPromise = promisifyProcess(waitOn);
 
-  storybook.on("error", error => {
+  storybook.on('error', error => {
     console.log(error);
     process.exit(-1);
   });
@@ -65,12 +65,12 @@ function killChildren() {
 
 const childPids = [];
 
-process.on("exit", killChildren);
-process.on("SIGINT", killChildren);
+process.on('exit', killChildren);
+process.on('SIGINT', killChildren);
 
 runStorybook({ port: 6060 })
   .then(() => {
-    const gemini = exec(`yarn gemini ${process.argv.slice(2).join(" ")}`);
+    const gemini = exec(`yarn gemini ${process.argv.slice(2).join(' ')}`);
 
     return promisifyProcess(gemini);
   })

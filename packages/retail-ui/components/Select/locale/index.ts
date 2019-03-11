@@ -7,5 +7,5 @@ export * from './types';
 
 export const SelectLocaleHelper = new LocaleHelper<SelectLocale>({
   ru_RU,
-  en_EN
+  en_EN,
 });

@@ -1,1 +1,1 @@
-export {default, TooltipProps, TooltipState, TooltipTrigger} from './Tooltip';
+export { default, TooltipProps, TooltipState, TooltipTrigger } from './Tooltip';

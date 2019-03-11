@@ -1,7 +1,7 @@
-import { SpinnerLocale } from "../types";
+import { SpinnerLocale } from '../types';
 
 const componentsLocales: SpinnerLocale = {
-  loading: 'Loading'
+  loading: 'Loading',
 };
 
 export default componentsLocales;

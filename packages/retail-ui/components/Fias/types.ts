@@ -39,19 +39,19 @@ export enum EstateStatuses {
   Hold = 'Hold',
   House = 'House',
   HouseHold = 'HouseHold',
-  None = 'None'
+  None = 'None',
 }
 
 export enum StructureStatuses {
   Structure = 'Structure',
   Construction = 'Construction',
   Liter = 'Liter',
-  None = 'None'
+  None = 'None',
 }
 
 export enum LiveStatuses {
   active = 'active',
-  inactive = 'inactive'
+  inactive = 'inactive',
 }
 
 export type FiasObject = AddressObject | Stead | House | Room;
@@ -66,11 +66,11 @@ export enum Fields {
   street = 'street',
   stead = 'stead',
   house = 'house',
-  room = 'room'
+  room = 'room',
 }
 
 export enum ExtraFields {
-  postalcode = 'postalcode'
+  postalcode = 'postalcode',
 }
 
 export type AddressFields = { [key in Fields]?: AddressElement };
@@ -109,7 +109,7 @@ export type AddressErrors = { [key in Fields | ExtraFields]?: string };
 export enum FormValidation {
   Error = 'Error',
   Warning = 'Warning',
-  None = 'None'
+  None = 'None',
 }
 
 export type FiasLocale = typeof defaultLocale;
@@ -126,9 +126,7 @@ export interface SearchOptions {
 
 export interface APIProvider {
   search: (options: SearchOptions) => Promise<APIResult<SearchResponse>>;
-  searchCountry: (
-    options: { prefix: string; limit?: number }
-  ) => Promise<APIResult<FiasCountry[]>>;
+  searchCountry: (options: { prefix: string; limit?: number }) => Promise<APIResult<FiasCountry[]>>;
   verify: (address: AddressValue) => Promise<APIResult<VerifyResponse>>;
 }
 
@@ -143,7 +141,7 @@ export type FetchFn = (
   options: {
     method?: 'GET' | 'POST';
     body?: string;
-  }
+  },
 ) => Promise<FetchResponse>;
 
 export interface FetchResponse {

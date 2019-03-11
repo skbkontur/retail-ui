@@ -3,25 +3,21 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import MenuItem from '../../MenuItem';
 import Toggle from '../../Toggle';
-import DropdownContainer, {
-  DropdownContainerProps
-} from '../DropdownContainer';
+import DropdownContainer, { DropdownContainerProps } from '../DropdownContainer';
 import { findDOMNode } from 'react-dom';
 import Menu from '../../Menu/Menu';
 import Button from '../../Button/Button';
 
-storiesOf('DropdownContainer', module).add(
-  'various aligns, portals, items and scrolls',
-  () => <VariousAlignsPortalsItemsAndScrolls />
-);
+storiesOf('DropdownContainer', module).add('various aligns, portals, items and scrolls', () => (
+  <VariousAlignsPortalsItemsAndScrolls />
+));
 
 class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   public aligns: Array<'left' | 'right'> = ['left', 'right'];
   public portals = [false, true];
   public rows = ['top', 'middle', 'bottom'];
   public cols = ['left', 'center', 'right'];
-  public LONG_ITEM =
-    'LongItemLongItemLongItemLongItemLong LongItem LongItemLongItemLongItemLongItemLongItemLongItem';
+  public LONG_ITEM = 'LongItemLongItemLongItemLongItemLong LongItem LongItemLongItemLongItemLongItemLongItemLongItem';
   public SHORT_ITEM = 'ShortShortShort Short';
   public dropdowns: {
     [id: string]: DropdownWithToggle | null;
@@ -32,13 +28,11 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
     long: boolean;
   } = {
     shown: {},
-    long: false
+    long: false,
   };
 
   public componentDidMount(): void {
-    Object.keys(this.dropdowns).forEach(dropdown =>
-      this.toggle(dropdown, true)
-    );
+    Object.keys(this.dropdowns).forEach(dropdown => this.toggle(dropdown, true));
   }
 
   public get isAllShown() {
@@ -48,14 +42,12 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   }
 
   public toggle = (id: string, value: boolean) => {
-    this.setState(
-      (state: { shown: { [id: string]: boolean }; long: boolean }) => ({
-        shown: {
-          ...state.shown,
-          [id]: value
-        }
-      })
-    );
+    this.setState((state: { shown: { [id: string]: boolean }; long: boolean }) => ({
+      shown: {
+        ...state.shown,
+        [id]: value,
+      },
+    }));
   };
 
   public toggleAll = (value: boolean) => {
@@ -76,7 +68,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
             borderColor: 'transparent',
             borderWidth: '50px 150px 150px 50px',
             height: '100%',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
           }}
         >
           {this.renderControls()}
@@ -95,9 +87,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
           {this.state.long ? 'Short' : 'Long'} Items
         </Button>
         &nbsp;
-        <Button onClick={() => this.toggleAll(!this.isAllShown)}>
-          {this.isAllShown ? 'Hide' : 'Show'} All
-        </Button>
+        <Button onClick={() => this.toggleAll(!this.isAllShown)}>{this.isAllShown ? 'Hide' : 'Show'} All</Button>
       </div>
     </div>
   );
@@ -127,16 +117,14 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
                   {`${align}, portal: ${!disablePortal}`}
                 </div>
               );
-            })
+            }),
           )
         }
       </Grid>
     );
   };
 
-  private createDropdownRef = (id: string) => (
-    element: DropdownWithToggle | null
-  ) => {
+  private createDropdownRef = (id: string) => (element: DropdownWithToggle | null) => {
     if (element) {
       this.dropdowns[id] = element;
     }
@@ -154,7 +142,7 @@ class ScrollableContainer extends React.Component<{
           overflow: 'auto',
           border: '1px dashed #ccc',
           position: 'relative',
-          height: '100%'
+          height: '100%',
         }}
       >
         {this.props.children}
@@ -169,7 +157,7 @@ class ScrollMaker extends React.Component<{
 }> {
   public static defaultProps = {
     xScroll: 100,
-    yScroll: 100
+    yScroll: 100,
   };
 
   public render() {
@@ -181,7 +169,7 @@ class ScrollMaker extends React.Component<{
           top: 0,
           right: -xScroll,
           bottom: -yScroll,
-          left: 0
+          left: 0,
         }}
       >
         {this.props.children}
@@ -201,7 +189,7 @@ class Grid extends React.Component<{
         <div
           style={{
             display: 'flex',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
           }}
         >
           {this.props.children}
@@ -224,7 +212,7 @@ class Grid extends React.Component<{
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          height: '100%'
+          height: '100%',
         }}
       >
         {rows.map(row => (

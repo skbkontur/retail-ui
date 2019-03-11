@@ -3,7 +3,7 @@ import type { MouseEventHandler } from '../eventHandlers';
 
 export type RemoveIconProps = {|
   className?: string,
-  onClick?: MouseEventHandler<HTMLElement>
+  onClick?: MouseEventHandler<HTMLElement>,
 |};
 
 declare var TokenRemoveIcon: (props: RemoveIconProps) => React$Node;

@@ -1,1 +1,1 @@
-export {default, FxInputProps} from './FxInput';
+export { default, FxInputProps } from './FxInput';

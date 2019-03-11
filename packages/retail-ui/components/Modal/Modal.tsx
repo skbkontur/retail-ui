@@ -16,7 +16,6 @@ import { Footer, isFooter } from './ModalFooter';
 import { Header, isHeader } from './ModalHeader';
 import { Body } from './ModalBody';
 import Close from './ModalClose';
-import Upgrades from '../../lib/Upgrades';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
 
@@ -89,7 +88,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
   public state: ModalState = {
     stackPosition: 0,
-    horizontalScroll: false
+    horizontalScroll: false,
   };
 
   private stackSubscription: EventSubscription | null = null;
@@ -100,11 +99,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
 
     if (mountedModalsCount === 0) {
-      events.addEventListener(
-        window,
-        'resize',
-        this.checkHorizontalScrollAppearance
-      );
+      events.addEventListener(window, 'resize', this.checkHorizontalScrollAppearance);
     }
 
     mountedModalsCount++;
@@ -118,11 +113,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
   public componentWillUnmount() {
     if (--mountedModalsCount === 0) {
-      events.removeEventListener(
-        window,
-        'resize',
-        this.checkHorizontalScrollAppearance
-      );
+      events.removeEventListener(window, 'resize', this.checkHorizontalScrollAppearance);
       LayoutEvents.emit();
     }
 
@@ -160,12 +151,12 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     const modalContextProps: ModalContextProps = {
       hasHeader,
-      horizontalScroll: this.state.horizontalScroll
+      horizontalScroll: this.state.horizontalScroll,
     };
     if (hasHeader && !this.props.noClose) {
       modalContextProps.close = {
         disableClose: this.props.disableClose,
-        requestClose: this.requestClose
+        requestClose: this.requestClose,
       };
     }
     if (!hasFooter) {
@@ -188,37 +179,26 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
         <ZIndex delta={1000} className={styles.root}>
           <HideBodyVerticalScroll />
           {this.state.stackPosition === 0 && <div className={styles.bg} />}
-          <div
-            ref={this.refContainer}
-            className={cn(styles.container, {
-              [styles.mobile]: Upgrades.isAdaptiveStyles()
-            })}
-          >
+          <div ref={this.refContainer} className={cn(styles.container, styles.mobile)}>
             <ModalClickTrap
               className={styles.modalClickTrap}
               onClick={this.handleContainerClick}
               innerRef={this.refClickTrap}
               style={{
-                height: this.state.clickTrapHeight
+                height: this.state.clickTrapHeight,
               }}
             />
             <div
               className={cn(styles.centerContainer, {
-                [styles.alignTop]: this.props.alignTop
+                [styles.alignTop]: this.props.alignTop,
               })}
               style={containerStyle}
             >
               <div className={styles.window} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
-                  <FocusLock
-                    disabled={this.isDisableFocusLock()}
-                    autoFocus={false}
-                  >
+                  <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (
-                      <Close
-                        requestClose={this.requestClose}
-                        disableClose={this.props.disableClose}
-                      />
+                      <Close requestClose={this.requestClose} disableClose={this.props.disableClose} />
                     ) : null}
                     <ModalContext.Provider value={modalContextProps}>
                       <div>
@@ -297,7 +277,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   private resizeClickTrap = (height?: number) => {
     if (this.clickTrapNode) {
       this.setState({
-        clickTrapHeight: height
+        clickTrapHeight: height,
       });
     }
   };
@@ -312,9 +292,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
       const height = (event.target as Window).innerHeight;
       const containerHeight = this.containerNode.offsetHeight;
 
-      this.throtteledResizeClickTrap(
-        height > containerHeight ? height : undefined
-      );
+      this.throtteledResizeClickTrap(height > containerHeight ? height : undefined);
     }
   };
 }

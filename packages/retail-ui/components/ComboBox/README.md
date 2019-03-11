@@ -3,8 +3,7 @@ Combobox with error handling
 ```jsx
 let delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
-let maybeReject = x =>
-  Math.random() * 3 < 1 ? Promise.reject() : Promise.resolve(x);
+let maybeReject = x => (Math.random() * 3 < 1 ? Promise.reject() : Promise.resolve(x));
 
 let getItems = q =>
   Promise.resolve(
@@ -14,19 +13,15 @@ let getItems = q =>
       { value: 3, label: 'Third' },
       { value: 4, label: 'Fourth' },
       { value: 5, label: 'Fifth' },
-      { value: 6, label: 'Sixth' }
-    ].filter(
-      x =>
-        x.label.toLowerCase().includes(q.toLowerCase()) ||
-        x.value.toString(10) === q
-    )
+      { value: 6, label: 'Sixth' },
+    ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
   )
     .then(delay(500))
     .then(maybeReject);
 
 let initialState = {
   selected: { value: 3, label: 'Third' },
-  error: false
+  error: false,
 };
 
 let handleChange = (_, item) => setState({ selected: item, error: false });
@@ -35,11 +30,7 @@ let handleUnexpectedInput = () => setState({ error: true, selected: null });
 
 let handleFocus = () => setState({ error: false });
 
-<Tooltip
-  closeButton={false}
-  render={() => 'Item must be selected!'}
-  trigger={state.error ? 'opened' : 'closed'}
->
+<Tooltip closeButton={false} render={() => 'Item must be selected!'} trigger={state.error ? 'opened' : 'closed'}>
   <ComboBox
     error={state.error}
     getItems={getItems}
@@ -60,35 +51,30 @@ const getCities = require('./__mocks__/getCities.js').default;
 let popularItems = [
   { Id: 956, City: 'Махачкала' },
   { Id: 4974, City: 'Верхняя-Пышма' },
-  { Id: 4980, City: 'Екатеринбург' }
+  { Id: 4980, City: 'Екатеринбург' },
 ];
 
 let handleChange = (_, value) => setState({ value });
 
 let initialState = {
-  value: null
+  value: null,
 };
 
 let mapCity = ({ Id, City }) => ({
   value: Id,
-  label: City
+  label: City,
 });
 
-let hasSelectedItem = itemsSets =>
-  itemsSets.some(items => items.find(item => state.value.value === item.Id));
+let hasSelectedItem = itemsSets => itemsSets.some(items => items.find(item => state.value.value === item.Id));
 
-let shouldInsertSelectedItem = (query, items) =>
-  state.value && !query && !hasSelectedItem([items, popularItems]);
+let shouldInsertSelectedItem = (query, items) => state.value && !query && !hasSelectedItem([items, popularItems]);
 
 let getPopularItems = query => (query ? [] : popularItems.map(mapCity));
 let renderSeparator = query => (query ? [] : <MenuSeparator />);
-let getSelectedItem = (query, items) =>
-  !shouldInsertSelectedItem(query, items) ? [] : state.value;
+let getSelectedItem = (query, items) => (!shouldInsertSelectedItem(query, items) ? [] : state.value);
 
 let prepareItems = (query, items) =>
-  (!shouldInsertSelectedItem(query, items) ? items : items.slice(0, -1)).map(
-    mapCity
-  );
+  (!shouldInsertSelectedItem(query, items) ? items : items.slice(0, -1)).map(mapCity);
 
 let renderTotalCount = (foundCount, totalCount) =>
   foundCount < totalCount ? (
@@ -106,8 +92,8 @@ let getItems = query =>
       renderSeparator(query),
       getSelectedItem(query, foundItems),
       prepareItems(query, foundItems),
-      renderTotalCount(foundItems.length, totalCount)
-    )
+      renderTotalCount(foundItems.length, totalCount),
+    ),
   );
 
 let renderItem = item => (
@@ -140,17 +126,13 @@ const getItems = q =>
       { approved: false, value: 3, label: 'Розенкранц Харитонов', email: 'third@skbkontur.ru' },
       { approved: false, value: 4, label: 'Надежда Дубова', email: 'fourth@skbkontur.ru' },
       { approved: true, value: 5, label: 'Владислав Сташкеевич', email: 'fifth@skbkontur.ru' },
-      { approved: true, value: 6, label: 'Василиса Поволоцкая', email: 'sixth@skbkontur.ru' }
-    ].filter(
-      x =>
-        x.label.toLowerCase().includes(q.toLowerCase()) ||
-        x.value.toString(10) === q
-    )
+      { approved: true, value: 6, label: 'Василиса Поволоцкая', email: 'sixth@skbkontur.ru' },
+    ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
   ).then(delay(500));
 
 const initialState = {
   selected: { approved: false, value: 3, label: 'Розенкранц Харитонов', email: 'third@skbkontur.ru' },
-  error: false
+  error: false,
 };
 
 const handleChange = (_, item) => setState({ selected: item, error: false });
@@ -162,25 +144,25 @@ const handleFocus = () => setState({ error: false });
 const customRenderItem = item => (
   <div
     style={{
-      display: 'flex'
+      display: 'flex',
     }}
   >
     <div
       style={{
         minWidth: '55%',
-        display: 'flex'
+        display: 'flex',
       }}
     >
       <span
         style={{
-          minWidth: '20px'
+          minWidth: '20px',
         }}
       >
-        {item.approved ? <OkIcon size={14} /> : null}    
+        {item.approved ? <OkIcon size={14} /> : null}
       </span>
       <span
         style={{
-            flexGrow: '1'
+          flexGrow: '1',
         }}
       >
         {item.label}
@@ -190,7 +172,7 @@ const customRenderItem = item => (
       style={{
         opacity: '0.6',
         paddingLeft: '10px',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
       }}
     >
       {item.email}
@@ -201,21 +183,21 @@ const customRenderItem = item => (
 const customRenderValue = item => (
   <div
     style={{
-      display: 'flex'
+      display: 'flex',
     }}
   >
     <div
       style={{
-        minWidth: '55%'
+        minWidth: '55%',
       }}
     >
-      {item.label}    
+      {item.label}
     </div>
     <div
       style={{
         opacity: '0.6',
         paddingLeft: '10px',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
       }}
     >
       {item.email}
@@ -223,11 +205,7 @@ const customRenderValue = item => (
   </div>
 );
 
-<Tooltip
-  closeButton={false}
-  render={() => 'Item must be selected!'}
-  trigger={state.error ? 'opened' : 'closed'}
->
+<Tooltip closeButton={false} render={() => 'Item must be selected!'} trigger={state.error ? 'opened' : 'closed'}>
   <ComboBox
     error={state.error}
     getItems={getItems}
@@ -256,13 +234,9 @@ const getItems = query =>
       { value: 3, label: 'Third' },
       { value: 4, label: 'Fourth' },
       { value: 5, label: 'Fifth' },
-      { value: 6, label: 'Sixth' }
+      { value: 6, label: 'Sixth' },
     ]
-      .filter(
-        x =>
-          x.label.toLowerCase().includes(query.toLowerCase()) ||
-          x.value.toString(10) === query
-      )
+      .filter(x => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query)
       .map(({ label, ...rest }) => {
         const start = label.toLowerCase().indexOf(query.toLowerCase());
         const end = start + query.length;
@@ -270,26 +244,27 @@ const getItems = query =>
         return {
           ...rest,
           label,
-          highlightedLabel: start >= 0 ? (
-            <span>
-              {label.substring(0, start)}
-              <strong
-                style={{
-                  fontSize: '1.1em'
-                }}
-              >
-                {label.substring(start, end)}
-              </strong>
-              {label.substring(end)}
-            </span>
-          ) : null
+          highlightedLabel:
+            start >= 0 ? (
+              <span>
+                {label.substring(0, start)}
+                <strong
+                  style={{
+                    fontSize: '1.1em',
+                  }}
+                >
+                  {label.substring(start, end)}
+                </strong>
+                {label.substring(end)}
+              </span>
+            ) : null,
         };
-      })
+      }),
   ).then(delay(500));
 
 const initialState = {
   selected: { value: 3, label: 'Third' },
-  error: false
+  error: false,
 };
 
 const handleChange = (_, item) => setState({ selected: item, error: false });
@@ -298,19 +273,15 @@ const handleUnexpectedInput = () => setState({ error: true, selected: null });
 
 const handleFocus = () => setState({ error: false });
 
-const renderItem = (item) => {
+const renderItem = item => {
   if (item.highlightedLabel) {
     return item.highlightedLabel;
   }
 
   return item.label;
-}
+};
 
-<Tooltip
-  closeButton={false}
-  render={() => 'Item must be selected!'}
-  trigger={state.error ? 'opened' : 'closed'}
->
+<Tooltip closeButton={false} render={() => 'Item must be selected!'} trigger={state.error ? 'opened' : 'closed'}>
   <ComboBox
     error={state.error}
     getItems={getItems}
@@ -340,11 +311,11 @@ class ComboboxExample extends React.Component {
         { value: 3, label: 'Third' },
         { value: 4, label: 'Fourth' },
         { value: 5, label: 'Fifth' },
-        { value: 6, label: 'Sixth' }
+        { value: 6, label: 'Sixth' },
       ],
       query: '',
       selected: { value: 3, label: 'Third' },
-      error: false
+      error: false,
     };
 
     this.comboBoxElement = null;
@@ -375,11 +346,7 @@ class ComboboxExample extends React.Component {
 
   getItems(q) {
     return Promise.resolve(
-      this.state.items.filter(
-        x =>
-          x.label.toLowerCase().includes(q.toLowerCase()) ||
-          x.value.toString(10) === q
-      )
+      this.state.items.filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
     ).then(delay(500));
   }
 
@@ -408,13 +375,13 @@ class ComboboxExample extends React.Component {
       currentState => {
         const newItem = {
           value: Math.max(...currentState.items.map(({ value }) => value)) + 1,
-          label: currentState.query
+          label: currentState.query,
         };
 
         return {
           items: [...currentState.items, newItem],
           selected: newItem,
-          error: false
+          error: false,
         };
       },
       () => {
@@ -424,7 +391,7 @@ class ComboboxExample extends React.Component {
         if (this.comboBoxElement) {
           this.comboBoxElement.reset();
         }
-      }
+      },
     );
   }
 }
@@ -433,13 +400,14 @@ class ComboboxExample extends React.Component {
 ```
 
 #### Локали по умолчанию (см. `LocaleProvider`)
+
 ```typescript
 const ru_RU = {
   ComboBox: {
     notFound: 'Не найдено',
     errorNetworkButton: 'Обновить',
-    errorNetworkMessage: 'Что-то пошло не так. Проверьте соединение с интернетом и попробуйте еще раз'
-  }
+    errorNetworkMessage: 'Что-то пошло не так. Проверьте соединение с интернетом и попробуйте еще раз',
+  },
 };
 
 const en_EN = {
@@ -447,6 +415,6 @@ const en_EN = {
     notFound: 'Not found',
     errorNetworkButton: 'Refresh',
     errorNetworkMessage: 'Something went wrong. Check your internet connection and try again',
-  }
+  },
 };
 ```

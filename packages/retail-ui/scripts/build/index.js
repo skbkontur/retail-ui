@@ -32,7 +32,7 @@ function transform(filename, code, opts) {
     filename,
     plugins: config.plugins,
     presets: config.presets,
-    sourceMaps: true
+    sourceMaps: true,
   });
   result.filename = filename;
   result.actual = code;
@@ -59,12 +59,9 @@ function compileLess(src, relative) {
 
     less
       .render(data, {
-        paths: [
-          path.resolve(process.cwd(), 'components'),
-          path.resolve(process.cwd(), 'web_modules')
-        ],
+        paths: [path.resolve(process.cwd(), 'components'), path.resolve(process.cwd(), 'web_modules')],
         relativeUrls: true,
-        filename: src
+        filename: src,
       })
       .then(output => {
         outputFileSync(dest, output.css);
@@ -95,7 +92,7 @@ function write(src, relative) {
 
   const data = compile(src, {
     sourceFileName: path.relative(dest + '/..', src),
-    sourceMapTarget: path.basename(relative)
+    sourceMapTarget: path.basename(relative),
   });
 
   outputFileSync(dest, data.code);
@@ -105,12 +102,7 @@ function write(src, relative) {
 }
 
 function logTransform(src, dest) {
-  console.log(
-    `Transformed: ${path.relative(process.cwd(), src)} => ${path.relative(
-      process.cwd(),
-      dest
-    )}`
-  );
+  console.log(`Transformed: ${path.relative(process.cwd(), src)} => ${path.relative(process.cwd(), dest)}`);
 }
 
 function shouldIgnore(loc) {
@@ -204,11 +196,7 @@ function handleExports(dirPath) {
     }
 
     function handleJsReexport(dir) {
-      reexport(
-        dir,
-        '.js',
-        name => `module.exports = require('./components/${name}');\n`
-      );
+      reexport(dir, '.js', name => `module.exports = require('./components/${name}');\n`);
     }
 
     function handleTsReexport(dir) {
@@ -218,7 +206,7 @@ function handleExports(dirPath) {
         name => `\
 export * from './components/${name}';
 export { default } from './components/${name}';
-`
+`,
       );
     }
 
@@ -230,7 +218,7 @@ export { default } from './components/${name}';
 /* @flow */
 export * from './components/${name}';
 export { default } from './components/${name}';
-`
+`,
       );
     }
   };
@@ -243,18 +231,17 @@ function generatePackageJson() {
     version: packageJson.version,
     license: 'MIT',
     dependencies: Object.assign({}, packageJson.dependencies, {
-      'babel-runtime': '^6.26.0'
+      'babel-runtime': '^6.26.0',
     }),
-    homepage:
-      'https://github.com/skbkontur/retail-ui/blob/master/packages/retail-ui/README.md',
+    homepage: 'https://github.com/skbkontur/retail-ui/blob/master/packages/retail-ui/README.md',
     repository: {
       type: 'git',
-      url: 'git@github.com:skbkontur/retail-ui.git'
+      url: 'git@github.com:skbkontur/retail-ui.git',
     },
     bugs: {
-      url: 'https://github.com/skbkontur/retail-ui/issues'
+      url: 'https://github.com/skbkontur/retail-ui/issues',
     },
-    peerDependencies: packageJson.peerDependencies
+    peerDependencies: packageJson.peerDependencies,
   };
   const source = JSON.stringify(result, null, 2);
   outputFileSync(path.join(OutDir, 'package.json'), source);

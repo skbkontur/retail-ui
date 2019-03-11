@@ -15,13 +15,7 @@ class Paginator3000 extends React.Component {
   }
 
   render() {
-    return (
-      <Paging
-        activePage={this.state.active}
-        onPageChange={this._handlePageChange}
-        pagesCount={12}
-      />
-    );
+    return <Paging activePage={this.state.active} onPageChange={this._handlePageChange} pagesCount={12} />;
   }
 
   _handlePageChange(pageNumber) {
@@ -33,17 +27,17 @@ class Paginator3000 extends React.Component {
 ```
 
 #### Локали по умолчанию (см. `LocaleProvider`)
+
 ```typescript
 const ru_RU = {
   Paging: {
-    forward: 'Дальше'    
-  }
+    forward: 'Дальше',
+  },
 };
 
 const en_EN = {
   Paging: {
-    forward: 'Forward'
-  }
+    forward: 'Forward',
+  },
 };
-
 ```

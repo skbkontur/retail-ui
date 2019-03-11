@@ -7,5 +7,5 @@ export * from './types';
 
 export const SpinnerLocaleHelper = new LocaleHelper<SpinnerLocale>({
   ru_RU,
-  en_EN
+  en_EN,
 });

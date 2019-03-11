@@ -2,7 +2,7 @@
 export type CurrencyLabelProps = {|
   fractionDigits?: number,
   value: number,
-  currencySymbol?: React$Node | null
+  currencySymbol?: React$Node | null,
 |};
 
 declare var CurrencyLabel: React$ComponentType<CurrencyLabelProps>;

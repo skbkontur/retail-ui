@@ -11,5 +11,5 @@ export const hasFocusOnLinkClick = !isSafari();
 
 export default {
   hasFocusOnButtonClick,
-  hasFocusOnLinkClick
+  hasFocusOnLinkClick,
 };

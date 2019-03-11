@@ -18,13 +18,10 @@ interface FiasComboBoxState {
   totalCount: number;
 }
 
-export class FiasComboBox extends React.Component<
-  FiasComboBoxProps,
-  FiasComboBoxState
-> {
+export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBoxState> {
   public state: FiasComboBoxState = {
     searchText: '',
-    totalCount: 0
+    totalCount: 0,
   };
 
   private combobox: ComboBox<Address> | null = null;
@@ -58,41 +55,31 @@ export class FiasComboBox extends React.Component<
     const promise = getItems ? getItems(searchText) : Promise.resolve([]);
     return promise.then(items => {
       this.setState({
-        totalCount: items.length
+        totalCount: items.length,
       });
       return items.slice(0, limit);
     });
   };
 
-  private renderItem = (
-    item: Address & { label?: string }
-  ): React.ReactNode => {
-    const node: React.ReactNode = this.props.renderItem
-      ? this.props.renderItem(item)
-      : item.label || '';
+  private renderItem = (item: Address & { label?: string }): React.ReactNode => {
+    const node: React.ReactNode = this.props.renderItem ? this.props.renderItem(item) : item.label || '';
     return this.highlight(reactGetTextContent(node));
   };
 
-  private renderTotalCount = (
-    found: number,
-    total: number
-  ): React.ReactNode => (
+  private renderTotalCount = (found: number, total: number): React.ReactNode => (
     <div>
       <div>Показано {found} результатов.</div>
       <div>Уточните запрос, чтобы увидеть остальные</div>
     </div>
   );
 
-  private handleChange = (
-    event: { target: { value: Address } },
-    item: Address
-  ) => {
+  private handleChange = (event: { target: { value: Address } }, item: Address) => {
     const { onChange, valueToString } = this.props;
     if (onChange) {
       onChange(event, item);
     }
     this.setState({
-      searchText: valueToString ? valueToString(item) : ''
+      searchText: valueToString ? valueToString(item) : '',
     });
   };
 
@@ -124,23 +111,16 @@ export class FiasComboBox extends React.Component<
     }
     const mismatches = str.split(regex);
     const highlightStyle = {
-      fontWeight: 'bold'
+      fontWeight: 'bold',
     };
-    const result = mismatches.reduce(
-      (
-        spans: Array<React.ReactElement<HTMLSpanElement>>,
-        text: string,
-        i: number
-      ) => {
-        spans.push(<span>{text}</span>);
-        if (matches[i]) {
-          const style = lastMatchOnly && matches[i + 1] ? {} : highlightStyle;
-          spans.push(<span style={style}>{matches[i]}</span>);
-        }
-        return spans;
-      },
-      []
-    );
+    const result = mismatches.reduce((spans: Array<React.ReactElement<HTMLSpanElement>>, text: string, i: number) => {
+      spans.push(<span>{text}</span>);
+      if (matches[i]) {
+        const style = lastMatchOnly && matches[i + 1] ? {} : highlightStyle;
+        spans.push(<span style={style}>{matches[i]}</span>);
+      }
+      return spans;
+    }, []);
     return (
       <div>
         {result.map((span, i) => {

@@ -3,12 +3,12 @@ import type { WhiteSpaceProperty } from 'csstype';
 
 export type OrganizationsProps = {|
   caption: React$Node,
-  comment?: ?string
+  comment?: ?string,
 |};
 
 export type OrganizationsState = {|
   captionWhiteSpace: WhiteSpaceProperty,
-  minWidth: ?number
+  minWidth: ?number,
 |};
 
 declare class Organizations extends React$Component<OrganizationsProps, OrganizationsState> {}

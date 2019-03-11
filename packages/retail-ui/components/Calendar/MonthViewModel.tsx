@@ -4,10 +4,7 @@ import { DayCellViewModel } from './DayCellViewModel';
 import { memo } from './utils';
 
 export class MonthViewModel {
-  public static create = memo(
-    (month: number, year: number): MonthViewModel =>
-      new MonthViewModel(month, year)
-  );
+  public static create = memo((month: number, year: number): MonthViewModel => new MonthViewModel(month, year));
 
   public readonly daysCount: number;
 
@@ -56,12 +53,10 @@ const getMonthHeight = memo(
   (daysCount: number, offset: number) =>
     Math.ceil((daysCount + offset) / 7) * config.DAY_HEIGHT +
     config.MONTH_TITLE_OFFSET_HEIGHT +
-    config.MONTH_BOTTOM_MARGIN
+    config.MONTH_BOTTOM_MARGIN,
 );
 
-const getMonthsDays = memo((month: number, year: number) =>
-  new Date(year, month + 1, 0).getDate()
-);
+const getMonthsDays = memo((month: number, year: number) => new Date(year, month + 1, 0).getDate());
 
 const getMonthOffset = memo((month: number, year: number) => {
   const day = new Date(year, month, 1).getDay() - 1;

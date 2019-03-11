@@ -7,5 +7,5 @@ export * from './types';
 
 export const CustomComboBoxLocaleHelper = new LocaleHelper<ComboBoxLocale>({
   ru_RU,
-  en_EN
+  en_EN,
 });

@@ -1,12 +1,12 @@
 /* @flow */
 export type GroupProps = {|
-  width?: string | number
+  width?: string | number,
 |};
 
 export type GroupChildProps = {|
   mainInGroup?: boolean,
   width?: string | number,
-  corners?: number
+  corners?: number,
 |};
 
 declare class Group extends React$Component<GroupProps> {}

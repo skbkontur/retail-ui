@@ -15,10 +15,8 @@ class ToastStatic {
       }
       body.appendChild(ToastStatic.node);
 
-      ReactDOM.render(
-        <Toast ref={el => (ToastStatic.instance = el)} />,
-        ToastStatic.node,
-        () => ToastStatic._push(notification, action)
+      ReactDOM.render(<Toast ref={el => (ToastStatic.instance = el)} />, ToastStatic.node, () =>
+        ToastStatic._push(notification, action),
       );
     } else {
       ToastStatic._push(notification, action);

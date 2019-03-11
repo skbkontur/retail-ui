@@ -12,7 +12,7 @@ const useClasses = {
   default: styles.useDefault,
   success: styles.useSuccess,
   danger: styles.useDanger,
-  grayed: styles.useGrayed
+  grayed: styles.useGrayed,
 };
 
 const KEYCODE_TAB = 9;
@@ -67,16 +67,16 @@ class Link extends React.Component<LinkProps, LinkState> {
 
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 
-    use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed'])
+    use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
   };
 
   public static defaultProps = {
     href: 'javascript:',
-    use: 'default'
+    use: 'default',
   };
 
   public state = {
-    focusedByTab: false
+    focusedByTab: false,
   };
 
   private getProps = createPropsGetter(Link.defaultProps);
@@ -115,13 +115,13 @@ class Link extends React.Component<LinkProps, LinkState> {
         [styles.button]: _button,
         [styles.buttonOpened]: _buttonOpened,
         [styles.focus]: !disabled && this.state.focusedByTab,
-        [useClasses[use as keyof typeof useClasses]]: !!use
+        [useClasses[use as keyof typeof useClasses]]: !!use,
       }),
       href,
       onClick: this._handleClick,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      tabIndex: this.props.tabIndex
+      tabIndex: this.props.tabIndex,
     };
     if (disabled) {
       props.tabIndex = -1;

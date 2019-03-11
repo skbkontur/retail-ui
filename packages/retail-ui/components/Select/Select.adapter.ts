@@ -17,7 +17,7 @@ const SelectAdapter = {
     inst.close();
     // tslint:disable-next-line:no-string-literal
     return inst['mapItems'](value => value);
-  }
+  },
 };
 
 (Select as any).__ADAPTER__ = SelectAdapter;

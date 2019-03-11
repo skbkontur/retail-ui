@@ -1,8 +1,8 @@
-import { TokenInputLocale } from "../types";
+import { TokenInputLocale } from '../types';
 
 const componentsLocales: TokenInputLocale = {
   addButtonComment: 'Нажмите Enter или поставьте запятую',
-  addButtonTitle: 'Добавить'
+  addButtonTitle: 'Добавить',
 };
 
 export default componentsLocales;

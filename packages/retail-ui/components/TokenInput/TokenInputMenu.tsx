@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { getLocale, locale } from '../LocaleProvider/decorators';
 import Popup from '../Popup/Popup';
-import ComboBoxMenu, {
-  ComboBoxMenuProps
-} from '../CustomComboBox/ComboBoxMenu';
+import ComboBoxMenu, { ComboBoxMenuProps } from '../CustomComboBox/ComboBoxMenu';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
-import { TokenInputLocaleHelper, TokenInputLocale } from "./locale";
+import { TokenInputLocaleHelper, TokenInputLocale } from './locale';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
@@ -16,9 +14,7 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
 }
 
 @locale('TokenInput', TokenInputLocaleHelper)
-export default class TokenInputMenu<T = string> extends React.Component<
-  TokenInputMenuProps<T>
-> {
+export default class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
   private menu: Menu | null = null;
 
   @getLocale private readonly locale: TokenInputLocale = {};
@@ -33,7 +29,7 @@ export default class TokenInputMenu<T = string> extends React.Component<
       items,
       renderNotFound,
       renderItem,
-      onChange
+      onChange,
     } = this.props;
 
     return (
@@ -64,17 +60,12 @@ export default class TokenInputMenu<T = string> extends React.Component<
   public getMenuRef = (): any | null => this.menu;
   private menuRef = (node: any) => (this.menu = node);
 
-  private renderAddButton = (
-    value = this.props.inputValue
-  ): React.ReactNode | undefined => {
+  private renderAddButton = (value = this.props.inputValue): React.ReactNode | undefined => {
     if (!this.props.showAddItemHint) {
       return;
     }
 
-    const {
-      addButtonComment,
-      addButtonTitle
-    } = this.locale;
+    const { addButtonComment, addButtonTitle } = this.locale;
 
     const handleAddItemNoteClick = () => this.props.onAddItem(value);
 

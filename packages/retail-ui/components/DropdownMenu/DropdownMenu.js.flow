@@ -7,7 +7,7 @@ export type DropdownMenuProps = {|
   caption: $PropertyType<PopupMenuProps, 'caption'>,
   onOpen?: () => void,
   onClose?: () => void,
-  disableAnimations: boolean
+  disableAnimations: boolean,
 |};
 
 class DropdownMenu extends React$Component<DropdownMenuProps> {}

@@ -13,7 +13,7 @@ function getItems(count: number) {
 
 const wrapperStyle = {
   width: '800px',
-  background: 'AliceBlue'
+  background: 'AliceBlue',
 };
 
 class ContentComponent extends React.Component<{
@@ -24,7 +24,9 @@ class ContentComponent extends React.Component<{
     return (
       <div style={{ ...wrapperStyle, ...this.props.additionalStyle }}>
         <Loader active type={'big'}>
-          {getItems(this.props.itemsCount).map(i => <div key={i}>{i}</div>)}
+          {getItems(this.props.itemsCount).map(i => (
+            <div key={i}>{i}</div>
+          ))}
         </Loader>
       </div>
     );
@@ -37,30 +39,22 @@ storiesOf('Loader', module)
   .add('Type "big" with text', () => (
     <div style={{ width: 400 }}>
       <h1>
-        Yeah, and if you were the pope they'd be all, "Straighten your pope
-        hat." And "Put on your good vestments."
+        Yeah, and if you were the pope they'd be all, "Straighten your pope hat." And "Put on your good vestments."
       </h1>
       <p>
-        No, I'm Santa Claus! I guess if you want children beaten, you have to do
-        it yourself. We're also Santa Claus! Leela, Bender, we're going grave
-        robbing.
+        No, I'm Santa Claus! I guess if you want children beaten, you have to do it yourself. We're also Santa Claus!
+        Leela, Bender, we're going grave robbing.
       </p>
       <p>
-        Are you crazy? I can't swallow that. Large bet on myself in round one.
-        Hey, whatcha watching?{' '}
-        <strong>
-          {' '}
-          Moving along… I guess if you want children beaten, you have to do it
-          yourself.
-        </strong>
+        Are you crazy? I can't swallow that. Large bet on myself in round one. Hey, whatcha watching?{' '}
+        <strong> Moving along… I guess if you want children beaten, you have to do it yourself.</strong>
         <em>It's okay, Bender.</em> I like cooking too.
       </p>
       <h2>Oh, I think we should just stay friends.</h2>
       <p>
-        No argument here. And when we woke up, we had these bodies. You guys go
-        on without me! I'm going to go… look for more stuff to steal! Oh, how
-        awful. Did he at least die painlessly? …To shreds, you say. Well, how is
-        his wife holding up? …To shreds, you say.
+        No argument here. And when we woke up, we had these bodies. You guys go on without me! I'm going to go… look for
+        more stuff to steal! Oh, how awful. Did he at least die painlessly? …To shreds, you say. Well, how is his wife
+        holding up? …To shreds, you say.
       </p>
       <ol>
         <li>No! The kind with looting and maybe starting a few fires!</li>
@@ -69,30 +63,22 @@ storiesOf('Loader', module)
       </ol>
       <Loader active type={'big'}>
         <h1>
-          Yeah, and if you were the pope they'd be all, "Straighten your pope
-          hat." And "Put on your good vestments."
+          Yeah, and if you were the pope they'd be all, "Straighten your pope hat." And "Put on your good vestments."
         </h1>
         <p>
-          No, I'm Santa Claus! I guess if you want children beaten, you have to
-          do it yourself. We're also Santa Claus! Leela, Bender, we're going
-          grave robbing.
+          No, I'm Santa Claus! I guess if you want children beaten, you have to do it yourself. We're also Santa Claus!
+          Leela, Bender, we're going grave robbing.
         </p>
         <p>
-          Are you crazy? I can't swallow that. Large bet on myself in round one.
-          Hey, whatcha watching?{' '}
-          <strong>
-            {' '}
-            Moving along… I guess if you want children beaten, you have to do it
-            yourself.
-          </strong>
+          Are you crazy? I can't swallow that. Large bet on myself in round one. Hey, whatcha watching?{' '}
+          <strong> Moving along… I guess if you want children beaten, you have to do it yourself.</strong>
           <em>It's okay, Bender.</em> I like cooking too.
         </p>
         <h2>Oh, I think we should just stay friends.</h2>
         <p>
-          No argument here. And when we woke up, we had these bodies. You guys
-          go on without me! I'm going to go… look for more stuff to steal! Oh,
-          how awful. Did he at least die painlessly? …To shreds, you say. Well,
-          how is his wife holding up? …To shreds, you say.
+          No argument here. And when we woke up, we had these bodies. You guys go on without me! I'm going to go… look
+          for more stuff to steal! Oh, how awful. Did he at least die painlessly? …To shreds, you say. Well, how is his
+          wife holding up? …To shreds, you say.
         </p>
         <ol>
           <li>No! The kind with looting and maybe starting a few fires!</li>
@@ -101,30 +87,22 @@ storiesOf('Loader', module)
         </ol>
       </Loader>
       <h1>
-        Yeah, and if you were the pope they'd be all, "Straighten your pope
-        hat." And "Put on your good vestments."
+        Yeah, and if you were the pope they'd be all, "Straighten your pope hat." And "Put on your good vestments."
       </h1>
       <p>
-        No, I'm Santa Claus! I guess if you want children beaten, you have to do
-        it yourself. We're also Santa Claus! Leela, Bender, we're going grave
-        robbing.
+        No, I'm Santa Claus! I guess if you want children beaten, you have to do it yourself. We're also Santa Claus!
+        Leela, Bender, we're going grave robbing.
       </p>
       <p>
-        Are you crazy? I can't swallow that. Large bet on myself in round one.
-        Hey, whatcha watching?{' '}
-        <strong>
-          {' '}
-          Moving along… I guess if you want children beaten, you have to do it
-          yourself.
-        </strong>
+        Are you crazy? I can't swallow that. Large bet on myself in round one. Hey, whatcha watching?{' '}
+        <strong> Moving along… I guess if you want children beaten, you have to do it yourself.</strong>
         <em>It's okay, Bender.</em> I like cooking too.
       </p>
       <h2>Oh, I think we should just stay friends.</h2>
       <p>
-        No argument here. And when we woke up, we had these bodies. You guys go
-        on without me! I'm going to go… look for more stuff to steal! Oh, how
-        awful. Did he at least die painlessly? …To shreds, you say. Well, how is
-        his wife holding up? …To shreds, you say.
+        No argument here. And when we woke up, we had these bodies. You guys go on without me! I'm going to go… look for
+        more stuff to steal! Oh, how awful. Did he at least die painlessly? …To shreds, you say. Well, how is his wife
+        holding up? …To shreds, you say.
       </p>
       <ol>
         <li>No! The kind with looting and maybe starting a few fires!</li>
@@ -134,12 +112,7 @@ storiesOf('Loader', module)
     </div>
   ))
   .add('Vertical scroll', () => <ContentComponent itemsCount={200} />)
-  .add('Horizontal scroll', () => (
-    <ContentComponent itemsCount={10} additionalStyle={{ width: '2500px' }} />
-  ))
+  .add('Horizontal scroll', () => <ContentComponent itemsCount={10} additionalStyle={{ width: '2500px' }} />)
   .add('Both dimensions scrollable content with spaces around', () => (
-    <ContentComponent
-      itemsCount={200}
-      additionalStyle={{ width: '2500px', margin: '600px 200px' }}
-    />
+    <ContentComponent itemsCount={200} additionalStyle={{ width: '2500px', margin: '600px 200px' }} />
   ));

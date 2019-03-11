@@ -64,15 +64,15 @@ class Logotype extends React.Component<LogotypeProps> {
     withWidget: PropTypes.bool,
     locale: PropTypes.shape({
       prefix: PropTypes.string,
-      suffix: PropTypes.string
-    })
+      suffix: PropTypes.string,
+    }),
   };
 
   public static defaultProps = {
     color: '#D92932',
     textColor: '#000',
     component: 'a',
-    href: '/'
+    href: '/',
   };
 
   private logoWrapper: Nullable<HTMLElement> = null;
@@ -100,10 +100,10 @@ class Logotype extends React.Component<LogotypeProps> {
       suffix,
       href,
       withWidget,
-      locale: propLocale = this.locale
+      locale: propLocale = this.locale,
     } = this.props;
     const dropdownClassName = classnames(styles.dropdown, {
-      [styles.inline]: !withWidget
+      [styles.inline]: !withWidget,
     });
 
     return (
@@ -131,11 +131,7 @@ class Logotype extends React.Component<LogotypeProps> {
 
   private refLogoWrapper = (el: Nullable<HTMLElement>) => {
     if (this.logoWrapper) {
-      events.removeEventListener(
-        this.logoWrapper,
-        'click',
-        this.handleNativeLogoClick
-      );
+      events.removeEventListener(this.logoWrapper, 'click', this.handleNativeLogoClick);
     }
 
     if (el) {

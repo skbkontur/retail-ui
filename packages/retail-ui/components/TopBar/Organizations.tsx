@@ -16,13 +16,10 @@ export interface OrganizationsState {
   minWidth: Nullable<number>;
 }
 
-class Organizations extends React.Component<
-  OrganizationsProps,
-  OrganizationsState
-> {
+class Organizations extends React.Component<OrganizationsProps, OrganizationsState> {
   public state = {
     captionWhiteSpace: 'normal' as React.CSSProperties['whiteSpace'],
-    minWidth: null
+    minWidth: null,
   };
 
   private _caption: Nullable<HTMLElement>;
@@ -46,17 +43,12 @@ class Organizations extends React.Component<
         <span
           className={styles.organizationsTitle}
           style={{
-            paddingRight: this._comment
-              ? this._comment.offsetWidth + 30
-              : undefined
+            paddingRight: this._comment ? this._comment.offsetWidth + 30 : undefined,
           }}
         >
           <span ref={this._getCaptionRef}>{caption}</span>
           {comment && (
-            <span
-              className={styles.organizationsComment}
-              ref={this._getCommentRef}
-            >
+            <span className={styles.organizationsComment} ref={this._getCommentRef}>
               {comment}
             </span>
           )}
@@ -64,24 +56,15 @@ class Organizations extends React.Component<
             <ArrowChevronDownIcon color="#aaa" size={14} />
           </span>
         </span>
-        <div
-          className={styles.organizationsTitleDummy}
-          style={{ whiteSpace: this.state.captionWhiteSpace }}
-        >
+        <div className={styles.organizationsTitleDummy} style={{ whiteSpace: this.state.captionWhiteSpace }}>
           <span>{caption}</span>
-          {comment && (
-            <span className={styles.organizationsCommentDummy}>{comment}</span>
-          )}
+          {comment && <span className={styles.organizationsCommentDummy}>{comment}</span>}
         </div>
       </div>
     );
 
     return (
-      <TopBarDropdown
-        {...this.props}
-        label={title}
-        minWidth={this.state.minWidth}
-      >
+      <TopBarDropdown {...this.props} label={title} minWidth={this.state.minWidth}>
         {this.props.children}
       </TopBarDropdown>
     );
@@ -105,12 +88,12 @@ class Organizations extends React.Component<
     if (this._caption.offsetWidth + commentWidth > 315) {
       this.setState({
         captionWhiteSpace: 'normal',
-        minWidth: 360
+        minWidth: 360,
       });
     } else {
       this.setState({
         captionWhiteSpace: 'nowrap',
-        minWidth: null
+        minWidth: null,
       });
     }
   }

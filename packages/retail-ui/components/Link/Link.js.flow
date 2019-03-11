@@ -10,16 +10,16 @@ export type LinkProps = {
   _button?: boolean,
   _buttonOpened?: boolean,
   tabIndex?: number,
-  onClick?: MouseEventHandler<HTMLAnchorElement>
+  onClick?: MouseEventHandler<HTMLAnchorElement>,
 };
 
 export type LinkState = {|
-  focusedByTab: boolean
+  focusedByTab: boolean,
 |};
 
 declare class Link extends React$Component<LinkProps, LinkState> {
   // eslint-disable-next-line flowtype/no-weak-types
-  static __ADAPTER__: any
+  static __ADAPTER__: any;
 }
 
 export default Link;

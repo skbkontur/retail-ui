@@ -9,13 +9,13 @@ let pageStyle = {
   background: '#e6e6e6',
   height: 400,
   border: '1px solid #dedfdf',
-  overflow: 'hidden'
+  overflow: 'hidden',
 };
 
 let contentStyle = {
   background: 'white',
   padding: 15,
-  height: 280
+  height: 280,
 };
 
 <div style={pageStyle}>
@@ -57,13 +57,13 @@ let pageStyle = {
   background: '#e6e6e6',
   height: 400,
   border: '1px solid #dedfdf',
-  overflow: 'hidden'
+  overflow: 'hidden',
 };
 
 let contentStyle = {
   background: 'white',
   padding: 15,
-  height: 280
+  height: 280,
 };
 
 <div style={pageStyle}>
@@ -74,7 +74,7 @@ let contentStyle = {
     leftItems={[
       <Item>
         <BabyIcon color="#666" />
-      </Item>
+      </Item>,
     ]}
   />
   <Loader active caption="neverending...">
@@ -84,6 +84,7 @@ let contentStyle = {
 ```
 
 #### Локали по умолчанию (см. `LocaleProvider`)
+
 ```typescript
 const ru_RU = {
   TopBar: {
@@ -91,8 +92,8 @@ const ru_RU = {
     cabinetSettings: 'Настройка входа в сервисы',
     cabinetCertificates: 'Сертификаты',
     cabinetServices: 'Оплата сервисов',
-    logout: 'Выйти'
-  }
+    logout: 'Выйти',
+  },
 };
 
 const en_EN = {
@@ -101,7 +102,7 @@ const en_EN = {
     cabinetSettings: 'Configure login services',
     cabinetCertificates: 'Certificates',
     cabinetServices: 'Payment for services',
-    logout: 'Logout'
-  }
+    logout: 'Logout',
+  },
 };
 ```

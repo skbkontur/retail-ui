@@ -1,18 +1,19 @@
 // tslint:disable:jsx-no-lambda
-import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
-import { delay } from 'retail-ui/lib/utils';
-import ComboBoxView from '../../CustomComboBox/ComboBoxView';
-import CustomComboBox, { DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../CustomComboBox/CustomComboBox';
-import { ComboBoxRequestStatus } from '../../CustomComboBox/CustomComboBoxTypes';
 import { CustomComboBoxLocaleHelper } from '../../CustomComboBox/locale';
-import { Effect } from '../../CustomComboBox/reducer/default';
-import InputLikeText from '../../internal/InputLikeText';
-import LocaleProvider, { LangCodes } from "../../LocaleProvider";
+import { LangCodes } from '../../LocaleProvider';
 import { defaultLangCode } from '../../LocaleProvider/constants';
-import Menu from '../../Menu/Menu';
-import MenuItem from '../../MenuItem/MenuItem';
+import LocaleProvider from '../../LocaleProvider/LocaleProvider';
 import ComboBox, { ComboBoxProps } from '../ComboBox';
+import { mount, ReactWrapper } from 'enzyme';
+import InputLikeText from '../../internal/InputLikeText';
+import MenuItem from '../../MenuItem/MenuItem';
+import Menu from '../../Menu/Menu';
+import { delay } from 'retail-ui/lib/utils';
+import CustomComboBox, { DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../CustomComboBox/CustomComboBox';
+import ComboBoxView from '../../CustomComboBox/ComboBoxView';
+import { Effect } from '../../CustomComboBox/reducer/default';
+import { ComboBoxRequestStatus } from '../../CustomComboBox/CustomComboBoxTypes';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -21,13 +22,9 @@ function clickOutside() {
   document.body.dispatchEvent(event);
 }
 
-function searchFactory<T>(
-  promise: Promise<T>
-): [jest.Mock<Promise<T>>, Promise<{}>] {
+function searchFactory<T>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<{}>] {
   let searchCalled: () => void;
-  const searchPromise = new Promise(
-    resolve => (searchCalled = async () => (await delay(0), resolve()))
-  );
+  const searchPromise = new Promise(resolve => (searchCalled = async () => (await delay(0), resolve())));
   const search = jest.fn(() => (searchCalled(), promise));
 
   return [search, searchPromise];
@@ -89,9 +86,7 @@ describe('ComboBox', () => {
   it('sets items on search resolve', async () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} renderItem={x => x} />
-    );
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />);
 
     wrapper.instance().focus();
 
@@ -110,9 +105,7 @@ describe('ComboBox', () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
     const onChange = jest.fn();
-    const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} onChange={onChange} renderItem={x => x} />
-    );
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onChange={onChange} renderItem={x => x} />);
     wrapper.instance().focus();
     await promise;
     wrapper.update();
@@ -131,12 +124,7 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     const onChange = jest.fn();
     const wrapper = mount<ComboBox<string>>(
-      <ComboBox
-        getItems={search}
-        onChange={onChange}
-        renderItem={x => x}
-        value={'one'}
-      />
+      <ComboBox getItems={search} onChange={onChange} renderItem={x => x} value={'one'} />,
     );
     wrapper.instance().focus();
     await promise;
@@ -150,9 +138,7 @@ describe('ComboBox', () => {
 
   it('retries request on Enter if rejected', async () => {
     const [search, promise] = searchFactory(Promise.reject());
-    const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} renderItem={x => x} />
-    );
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />);
     wrapper.instance().focus();
     await promise;
     wrapper.update();
@@ -167,9 +153,7 @@ describe('ComboBox', () => {
 
   it('keeps focus after a click on the refresh button', async () => {
     const [search, promise] = searchFactory(Promise.reject());
-    const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} renderItem={x => x} />
-    );
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />);
 
     wrapper.instance().focus();
     await promise;
@@ -192,9 +176,7 @@ describe('ComboBox', () => {
   it('calls onUnexpectedInput on click outside', async () => {
     const [search, promise] = searchFactory(Promise.reject());
     const onUnexpectedInput = jest.fn();
-    const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} onUnexpectedInput={onUnexpectedInput} />
-    );
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onUnexpectedInput={onUnexpectedInput} />);
 
     wrapper.instance().focus();
     wrapper.update();
@@ -211,17 +193,13 @@ describe('ComboBox', () => {
   it('calls onChange if onUnexpectedInput return non-nullary value', async () => {
     const values = [null, undefined, 'one'];
     const onChange = jest.fn();
-    const wrapper = mount<ComboBox<string>>(
-      <ComboBox onChange={onChange} onUnexpectedInput={value => value} />
-    );
+    const wrapper = mount<ComboBox<string>>(<ComboBox onChange={onChange} onUnexpectedInput={value => value} />);
 
     while (values.length) {
       wrapper.instance().focus();
       wrapper.update();
       await delay(0);
-      wrapper
-        .find('input')
-        .simulate('change', { target: { value: values.pop() } });
+      wrapper.find('input').simulate('change', { target: { value: values.pop() } });
       clickOutside();
     }
 
@@ -238,26 +216,47 @@ describe('ComboBox', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onBlur on click outside', async () => {
+  describe('onBlur callback', () => {
     const onBlur = jest.fn();
-    const wrapper = mount<ComboBox<string>>(<ComboBox onBlur={onBlur} />);
+    const [search, promise] = searchFactory(Promise.resolve(['item']));
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onBlur={onBlur} />);
 
-    wrapper.instance().focus();
-    wrapper.update();
+    beforeEach(() => {
+      wrapper.instance().reset();
+      onBlur.mockClear();
+    });
 
-    await delay(0);
+    it('calls onBlur on click outside when menu is open', async () => {
+      wrapper.instance().focus();
 
-    clickOutside();
+      await promise;
+      wrapper.update();
 
-    expect(onBlur).toHaveBeenCalledTimes(1);
+      expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+        opened: true,
+      });
+      clickOutside();
+
+      expect(onBlur).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls onBlur on input blur when menu is closed', async () => {
+      wrapper.instance().focus();
+      wrapper.update();
+
+      expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
+        opened: false,
+      });
+      wrapper.find('input').simulate('blur');
+
+      expect(onBlur).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('renders custom elements in menu', async () => {
     const items = [<div key="0">Hello, world</div>];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    const wrapper = mount<ComboBox<React.ReactNode>>(
-      <ComboBox getItems={search} />
-    );
+    const wrapper = mount<ComboBox<React.ReactNode>>(<ComboBox getItems={search} />);
 
     wrapper.instance().focus();
     await promise;
@@ -270,21 +269,17 @@ describe('ComboBox', () => {
     const items = [
       <div key="0" id="hello" data-name="world">
         Hello, world
-      </div>
+      </div>,
     ];
     const [search, promise] = searchFactory(Promise.resolve(items));
     const onChange = jest.fn();
-    const wrapper = mount<ComboBox<React.ReactNode>>(
-      <ComboBox getItems={search} onChange={onChange} />
-    );
+    const wrapper = mount<ComboBox<React.ReactNode>>(<ComboBox getItems={search} onChange={onChange} />);
 
     wrapper.instance().focus();
     await promise;
     wrapper.update();
 
-    wrapper
-      .findWhere(x => x.matchesElement(<div>Hello, world</div>))
-      .simulate('click');
+    wrapper.findWhere(x => x.matchesElement(<div>Hello, world</div>)).simulate('click');
 
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toBeCalledWith(
@@ -293,15 +288,15 @@ describe('ComboBox', () => {
           value: {
             id: 'hello',
             'data-name': 'world',
-            children: 'Hello, world'
-          }
-        }
+            children: 'Hello, world',
+          },
+        },
       },
       {
         id: 'hello',
         'data-name': 'world',
-        children: 'Hello, world'
-      }
+        children: 'Hello, world',
+      },
     );
   });
 
@@ -310,31 +305,25 @@ describe('ComboBox', () => {
     const items = [
       <div key="0" onClick={onClick}>
         Hello, world
-      </div>
+      </div>,
     ];
     const [search, promise] = searchFactory(Promise.resolve(items));
 
-    const wrapper = mount<ComboBox<React.ReactNode>>(
-      <ComboBox getItems={search} />
-    );
+    const wrapper = mount<ComboBox<React.ReactNode>>(<ComboBox getItems={search} />);
 
     wrapper.instance().focus();
 
     await promise;
     wrapper.update();
 
-    wrapper
-      .findWhere(x => x.matchesElement(<div>Hello, world</div>))
-      .simulate('click');
+    wrapper.findWhere(x => x.matchesElement(<div>Hello, world</div>)).simulate('click');
 
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('handles maxLength', async () => {
     const [search, promise] = searchFactory(Promise.resolve([]));
-    const wrapper = mount<ComboBox<any>>(
-      <ComboBox getItems={search} maxLength={2} />
-    );
+    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} maxLength={2} />);
 
     wrapper.instance().focus();
     await promise;
@@ -354,9 +343,7 @@ describe('ComboBox', () => {
   });
 
   it('clear value if onUnexpectedInput return null', async () => {
-    const wrapper = mount<ComboBox<any>>(
-      <ComboBox onUnexpectedInput={() => null} />
-    );
+    const wrapper = mount<ComboBox<any>>(<ComboBox onUnexpectedInput={() => null} />);
 
     wrapper.instance().focus();
     wrapper.update();
@@ -394,16 +381,14 @@ describe('ComboBox', () => {
     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
       loading: false,
       opened: false,
-      requestStatus: ComboBoxRequestStatus.Unknown
+      requestStatus: ComboBoxRequestStatus.Unknown,
     });
   });
 
   it('does not highlight menu item on focus with empty input', async () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} renderItem={x => x} />
-    );
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />);
 
     wrapper.instance().focus();
 
@@ -418,9 +403,7 @@ describe('ComboBox', () => {
   it('highlights menu item on focus with non-empty input', async () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} renderItem={x => x} value={'one'} />
-    );
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} value={'one'} />);
 
     wrapper.instance().focus();
 
@@ -435,9 +418,7 @@ describe('ComboBox', () => {
   it('calls `focusNextElement` after Enter keydown on empty input', async () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} renderItem={x => x} value={null} />
-    );
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} value={null} />);
 
     wrapper.instance().focus();
 
@@ -450,15 +431,9 @@ describe('ComboBox', () => {
   });
 
   it('calls `focusNextElement` after Enter keydown if value not found', async () => {
-    const items = [
-      { value: 1, label: 'one' },
-      { value: 2, label: 'two' },
-      { value: 3, label: 'three' }
-    ];
+    const items = [{ value: 1, label: 'one' }, { value: 2, label: 'two' }, { value: 3, label: 'three' }];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    const wrapper = mount<ComboBox<any>>(
-      <ComboBox getItems={search} value={{ value: 10, label: 'ten' }} />
-    );
+    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} value={{ value: 10, label: 'ten' }} />);
 
     wrapper.instance().focus();
 
@@ -472,9 +447,7 @@ describe('ComboBox', () => {
 
   describe('update input text when value changes if there was no editing', () => {
     const VALUES = [{ value: 1, label: 'one' }, { value: 2, label: 'two' }];
-    const check = (
-      wrapper: ReactWrapper<ComboBoxProps<any>, {}, ComboBox<any>>
-    ) => {
+    const check = (wrapper: ReactWrapper<ComboBoxProps<any>, {}, ComboBox<any>>) => {
       wrapper.instance().focus();
       wrapper.update();
       expect(wrapper.find('input').prop('value')).toBe(VALUES[0].label);
@@ -497,9 +470,7 @@ describe('ComboBox', () => {
     });
 
     it('in autocomplete mode', () => {
-      check(
-        mount<ComboBox<any>>(<ComboBox value={VALUES[0]} autocomplete={true} />)
-      );
+      check(mount<ComboBox<any>>(<ComboBox value={VALUES[0]} autocomplete={true} />));
     });
   });
 
@@ -523,18 +494,14 @@ describe('ComboBox', () => {
     });
 
     it('in autocomplete mode', async () => {
-      check(
-        mount<ComboBox<any>>(<ComboBox value={value} autocomplete={true} />)
-      );
+      check(mount<ComboBox<any>>(<ComboBox value={value} autocomplete={true} />));
     });
   });
 
   it('does not do search on focus in autocomplete mode', async () => {
     const VALUE = { value: 1, label: 'one' };
     const getItems = jest.fn();
-    const wrapper = mount<ComboBox<any>>(
-      <ComboBox getItems={getItems} value={VALUE} autocomplete={true} />
-    );
+    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={getItems} value={VALUE} autocomplete={true} />);
 
     wrapper.instance().focus();
     await delay(0);
@@ -566,7 +533,7 @@ describe('ComboBox', () => {
       { value: 1, label: 'One' },
       { value: 2, label: 'Two' },
       { value: 3, label: 'Three' },
-      { value: 4, label: 'Four' }
+      { value: 4, label: 'Four' },
     ];
 
     const EXPECTED_ITEM = ITEMS[1];
@@ -575,13 +542,13 @@ describe('ComboBox', () => {
       return Promise.resolve(
         ITEMS.filter(item => {
           return item.label.indexOf(query) > -1;
-        })
+        }),
       );
     };
 
     const changeHandler = jest.fn();
     const wrapper = mount<ComboBox<{ value: number; label: string }>>(
-      <ComboBox onChange={changeHandler} getItems={getItems} />
+      <ComboBox onChange={changeHandler} getItems={getItems} />,
     );
 
     wrapper.instance().focus();
@@ -596,10 +563,10 @@ describe('ComboBox', () => {
     expect(changeHandler).toHaveBeenCalledWith(
       {
         target: {
-          value: EXPECTED_ITEM
-        }
+          value: EXPECTED_ITEM,
+        },
       },
-      EXPECTED_ITEM
+      EXPECTED_ITEM,
     );
   });
 
@@ -637,9 +604,7 @@ describe('ComboBox', () => {
 
     beforeEach(() => {
       [getItems, promise] = searchFactory(Promise.resolve(['one']));
-      wrapper = mount<ComboBox<typeof VALUE>>(
-        <ComboBox getItems={getItems} value={VALUE} />
-      );
+      wrapper = mount<ComboBox<typeof VALUE>>(<ComboBox getItems={getItems} value={VALUE} />);
     });
 
     it('opens menu', async () => {
@@ -669,12 +634,7 @@ describe('ComboBox', () => {
     const onFocus = jest.fn();
     const onBlur = jest.fn();
     const wrapper = mount<ComboBox<string>>(
-      <ComboBox
-        getItems={search}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        renderItem={x => x}
-      />
+      <ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={x => x} />,
     );
     wrapper.instance().focus();
     await promise;
@@ -714,9 +674,7 @@ describe('ComboBox', () => {
     describe('in default mode', () => {
       beforeEach(async () => {
         [getItems, promise] = searchFactory(Promise.resolve(['one']));
-        wrapper = mount<ComboBox<typeof VALUE>>(
-          <ComboBox getItems={getItems} value={VALUE} />
-        );
+        wrapper = mount<ComboBox<typeof VALUE>>(<ComboBox getItems={getItems} value={VALUE} />);
         wrapper.instance().focus();
         await promise;
         getItems.mockClear();
@@ -744,9 +702,7 @@ describe('ComboBox', () => {
 
     describe('in autocomplete mode', () => {
       beforeEach(() => {
-        wrapper = mount<ComboBox<typeof VALUE>>(
-          <ComboBox autocomplete={true} getItems={getItems} value={VALUE} />
-        );
+        wrapper = mount<ComboBox<typeof VALUE>>(<ComboBox autocomplete={true} getItems={getItems} value={VALUE} />);
         wrapper.instance().focus();
         getItems.mockClear();
       });
@@ -788,16 +744,12 @@ describe('ComboBox', () => {
         requestStatus: ComboBoxRequestStatus.Success,
         loading: false,
         opened: true,
-        items
+        items,
       });
     });
 
     it(`with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-      const getItems = jest.fn(
-        async () => (
-          await delay(DELAY_BEFORE_SHOW_LOADER - 200), Promise.resolve(items)
-        )
-      );
+      const getItems = jest.fn(async () => (await delay(DELAY_BEFORE_SHOW_LOADER - 200), Promise.resolve(items)));
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
       wrapper.instance().search(query);
@@ -812,16 +764,12 @@ describe('ComboBox', () => {
         requestStatus: ComboBoxRequestStatus.Success,
         loading: false,
         opened: true,
-        items
+        items,
       });
     });
 
     it(`with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-      const getItems = jest.fn(
-        async () => (
-          await delay(DELAY_BEFORE_SHOW_LOADER + 200), Promise.resolve(items)
-        )
-      );
+      const getItems = jest.fn(async () => (await delay(DELAY_BEFORE_SHOW_LOADER + 200), Promise.resolve(items)));
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
       wrapper.instance().search(query);
@@ -835,7 +783,7 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Pending,
         loading: true,
-        opened: true
+        opened: true,
       });
 
       await delay(LOADER_SHOW_TIME);
@@ -845,7 +793,7 @@ describe('ComboBox', () => {
         requestStatus: ComboBoxRequestStatus.Success,
         loading: false,
         opened: true,
-        items
+        items,
       });
     });
 
@@ -861,16 +809,12 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Failed,
         loading: false,
-        opened: true
+        opened: true,
       });
     });
 
     it(`rejected with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-      const getItems = jest.fn(
-        async () => (
-          await delay(DELAY_BEFORE_SHOW_LOADER - 200), Promise.reject()
-        )
-      );
+      const getItems = jest.fn(async () => (await delay(DELAY_BEFORE_SHOW_LOADER - 200), Promise.reject()));
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
       wrapper.instance().search(query);
@@ -884,16 +828,12 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Failed,
         loading: false,
-        opened: true
+        opened: true,
       });
     });
 
     it(`rejected with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-      const getItems = jest.fn(
-        async () => (
-          await delay(DELAY_BEFORE_SHOW_LOADER + 200), Promise.reject()
-        )
-      );
+      const getItems = jest.fn(async () => (await delay(DELAY_BEFORE_SHOW_LOADER + 200), Promise.reject()));
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
       wrapper.instance().search(query);
@@ -907,7 +847,7 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Pending,
         loading: true,
-        opened: true
+        opened: true,
       });
 
       await delay(LOADER_SHOW_TIME);
@@ -915,15 +855,13 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Failed,
         loading: false,
-        opened: true
+        opened: true,
       });
     });
 
     it('twice without delay', async () => {
       const secondQuery = 'two';
-      const getItems = jest.fn(searchQuery =>
-        Promise.resolve(items.filter(i => i.includes(searchQuery)))
-      );
+      const getItems = jest.fn(searchQuery => Promise.resolve(items.filter(i => i.includes(searchQuery))));
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
       wrapper.instance().search(query);
@@ -937,7 +875,7 @@ describe('ComboBox', () => {
         requestStatus: ComboBoxRequestStatus.Success,
         loading: false,
         opened: true,
-        items: ['two']
+        items: ['two'],
       });
     });
 
@@ -945,9 +883,8 @@ describe('ComboBox', () => {
       const secondQuery = 'two';
       const getItems = jest.fn(
         async searchQuery => (
-          await delay(DELAY_BEFORE_SHOW_LOADER - 250),
-          Promise.resolve(items.filter(i => i.includes(searchQuery)))
-        )
+          await delay(DELAY_BEFORE_SHOW_LOADER - 250), Promise.resolve(items.filter(i => i.includes(searchQuery)))
+        ),
       );
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
@@ -965,7 +902,7 @@ describe('ComboBox', () => {
         requestStatus: ComboBoxRequestStatus.Success,
         loading: false,
         opened: true,
-        items: ['two']
+        items: ['two'],
       });
     });
 
@@ -973,9 +910,8 @@ describe('ComboBox', () => {
       const secondQuery = 'two';
       const getItems = jest.fn(
         async searchQuery => (
-          await delay(DELAY_BEFORE_SHOW_LOADER - 100),
-          Promise.resolve(items.filter(i => i.includes(searchQuery)))
-        )
+          await delay(DELAY_BEFORE_SHOW_LOADER - 100), Promise.resolve(items.filter(i => i.includes(searchQuery)))
+        ),
       );
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
@@ -990,7 +926,7 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Pending,
         loading: true,
-        opened: true
+        opened: true,
       });
 
       await delay(LOADER_SHOW_TIME + 100);
@@ -1001,7 +937,7 @@ describe('ComboBox', () => {
         requestStatus: ComboBoxRequestStatus.Success,
         loading: false,
         opened: true,
-        items: ['two']
+        items: ['two'],
       });
     });
 
@@ -1009,9 +945,8 @@ describe('ComboBox', () => {
       const secondQuery = 'two';
       const getItems = jest.fn(
         async searchQuery => (
-          await delay(DELAY_BEFORE_SHOW_LOADER + 200),
-          Promise.resolve(items.filter(i => i.includes(searchQuery)))
-        )
+          await delay(DELAY_BEFORE_SHOW_LOADER + 200), Promise.resolve(items.filter(i => i.includes(searchQuery)))
+        ),
       );
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
@@ -1026,7 +961,7 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Pending,
         loading: true,
-        opened: true
+        opened: true,
       });
 
       await delay(LOADER_SHOW_TIME + 100);
@@ -1037,21 +972,17 @@ describe('ComboBox', () => {
         requestStatus: ComboBoxRequestStatus.Success,
         loading: false,
         opened: true,
-        items: ['two']
+        items: ['two'],
       });
     });
 
     it('twice with slow then fast requests', async () => {
-      const delays = [
-        DELAY_BEFORE_SHOW_LOADER + 200,
-        DELAY_BEFORE_SHOW_LOADER - 200
-      ];
+      const delays = [DELAY_BEFORE_SHOW_LOADER + 200, DELAY_BEFORE_SHOW_LOADER - 200];
       const secondQuery = 'two';
       const getItems = jest.fn(
         async searchQuery => (
-          await delay(delays.shift() || 0),
-          Promise.resolve(items.filter(i => i.includes(searchQuery)))
-        )
+          await delay(delays.shift() || 0), Promise.resolve(items.filter(i => i.includes(searchQuery)))
+        ),
       );
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
@@ -1066,7 +997,7 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Pending,
         loading: true,
-        opened: true
+        opened: true,
       });
 
       await delay(200);
@@ -1074,7 +1005,7 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Pending,
         loading: true,
-        opened: true
+        opened: true,
       });
 
       await delay(LOADER_SHOW_TIME - 200);
@@ -1085,14 +1016,12 @@ describe('ComboBox', () => {
         requestStatus: ComboBoxRequestStatus.Success,
         loading: false,
         opened: true,
-        items: ['two']
+        items: ['two'],
       });
     });
 
     it('long request and blur before if resolves', async () => {
-      const getItems = jest.fn(
-        async () => (await delay(500), Promise.resolve(items))
-      );
+      const getItems = jest.fn(async () => (await delay(500), Promise.resolve(items)));
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
       wrapper.instance().focus();
@@ -1101,7 +1030,7 @@ describe('ComboBox', () => {
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: true,
-        opened: true
+        opened: true,
       });
 
       clickOutside();
@@ -1109,7 +1038,7 @@ describe('ComboBox', () => {
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: false,
-        opened: false
+        opened: false,
       });
 
       wrapper.instance().focus();
@@ -1118,14 +1047,12 @@ describe('ComboBox', () => {
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: true,
-        opened: true
+        opened: true,
       });
     });
 
     it('long request and blur after it resolves', async () => {
-      const getItems = jest.fn(
-        async () => (await delay(500), Promise.resolve(items))
-      );
+      const getItems = jest.fn(async () => (await delay(500), Promise.resolve(items)));
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
       wrapper.instance().focus();
@@ -1134,7 +1061,7 @@ describe('ComboBox', () => {
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: true,
-        opened: true
+        opened: true,
       });
 
       clickOutside();
@@ -1142,7 +1069,7 @@ describe('ComboBox', () => {
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: false,
-        opened: false
+        opened: false,
       });
 
       wrapper.instance().focus();
@@ -1151,7 +1078,7 @@ describe('ComboBox', () => {
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         loading: true,
-        opened: true
+        opened: true,
       });
     });
   });
@@ -1170,7 +1097,11 @@ describe('ComboBox', () => {
     };
 
     it('render default locale', async () => {
-      wrapper = mount(<LocaleProvider><ComboBox getItems={search} /></LocaleProvider>);
+      wrapper = mount(
+        <LocaleProvider>
+          <ComboBox getItems={search} />
+        </LocaleProvider>,
+      );
       const expectedText = CustomComboBoxLocaleHelper.get(defaultLangCode).notFound;
 
       await focus();
@@ -1179,7 +1110,11 @@ describe('ComboBox', () => {
     });
 
     it('render correct locale when set langCode', async () => {
-      wrapper = mount(<LocaleProvider langCode={LangCodes.en_EN}><ComboBox getItems={search} /></LocaleProvider>);
+      wrapper = mount(
+        <LocaleProvider langCode={LangCodes.en_EN}>
+          <ComboBox getItems={search} />
+        </LocaleProvider>,
+      );
       const expectedText = CustomComboBoxLocaleHelper.get(LangCodes.en_EN).notFound;
 
       await focus();
@@ -1189,9 +1124,15 @@ describe('ComboBox', () => {
 
     it('render custom locale', async () => {
       const customText = 'custom notFound';
-      wrapper = mount(<LocaleProvider locale={{
-        ComboBox: { notFound: customText }
-      }}><ComboBox getItems={search} /></LocaleProvider>);
+      wrapper = mount(
+        <LocaleProvider
+          locale={{
+            ComboBox: { notFound: customText },
+          }}
+        >
+          <ComboBox getItems={search} />
+        </LocaleProvider>,
+      );
 
       await focus();
 
@@ -1199,7 +1140,11 @@ describe('ComboBox', () => {
     });
 
     it('updates when langCode changes', async () => {
-      wrapper = mount(<LocaleProvider><ComboBox getItems={search} /></LocaleProvider>);
+      wrapper = mount(
+        <LocaleProvider>
+          <ComboBox getItems={search} />
+        </LocaleProvider>,
+      );
       const expected = CustomComboBoxLocaleHelper.get(LangCodes.en_EN).notFound;
 
       wrapper.setProps({ langCode: LangCodes.en_EN });
@@ -1207,5 +1152,5 @@ describe('ComboBox', () => {
 
       expect(wrapper.find(MenuItem).text()).toBe(expected);
     });
-  })
+  });
 });

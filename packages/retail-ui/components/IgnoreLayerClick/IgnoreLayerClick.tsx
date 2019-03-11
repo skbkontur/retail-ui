@@ -7,16 +7,10 @@ export interface IgnoreLayerClickProps {
   active: boolean;
 }
 
-export default class IgnoreLayerClick extends React.Component<
-  IgnoreLayerClickProps
-> {
+export default class IgnoreLayerClick extends React.Component<IgnoreLayerClickProps> {
   public render() {
     const child = React.Children.only(this.props.children);
-    return this.props.active ? (
-      <IgnoreLayerClickWrapper>{child}</IgnoreLayerClickWrapper>
-    ) : (
-      child
-    );
+    return this.props.active ? <IgnoreLayerClickWrapper>{child}</IgnoreLayerClickWrapper> : child;
   }
 }
 
@@ -37,11 +31,7 @@ class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
 
   public componentWillUnmount() {
     if (this._element) {
-      events.removeEventListener(
-        this._element,
-        'mousedown',
-        this._handleMouseDown
-      );
+      events.removeEventListener(this._element, 'mousedown', this._handleMouseDown);
       this._element = null;
     }
   }

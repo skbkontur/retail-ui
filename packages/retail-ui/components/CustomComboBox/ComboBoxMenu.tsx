@@ -6,7 +6,7 @@ import Spinner from '../Spinner/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
-import { CustomComboBoxLocaleHelper, ComboBoxLocale } from "./locale";
+import { CustomComboBoxLocaleHelper, ComboBoxLocale } from './locale';
 
 export interface ComboBoxMenuProps<T> {
   opened?: boolean;
@@ -29,7 +29,7 @@ export interface ComboBoxMenuProps<T> {
 class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
   public static defaultProps = {
     repeatRequest: () => undefined,
-    requestStatus: ComboBoxRequestStatus.Unknown
+    requestStatus: ComboBoxRequestStatus.Unknown,
   };
 
   @getLocale private readonly locale: ComboBoxLocale = {};
@@ -44,14 +44,10 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       renderNotFound = () => notFound,
       renderTotalCount,
       maxMenuHeight,
-      requestStatus
+      requestStatus,
     } = this.props;
 
-    const {
-      notFound,
-      errorNetworkButton,
-      errorNetworkMessage
-    } = this.locale;
+    const { notFound, errorNetworkButton, errorNetworkMessage } = this.locale;
 
     if (!opened) {
       return null;
@@ -78,9 +74,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       return (
         <Menu ref={refMenu} maxHeight={maxMenuHeight}>
           <MenuItem disabled key="message">
-            <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>
-              {errorNetworkMessage}
-            </div>
+            <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuItem>
           <MenuItem alkoLink onClick={this.props.repeatRequest} key="retry">
             {errorNetworkButton}
@@ -92,11 +86,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     if ((items == null || items.length === 0) && renderNotFound) {
       return (
         <Menu ref={refMenu}>
-          {renderAddButton ? (
-            renderAddButton
-          ) : (
-            <MenuItem disabled>{renderNotFound()}</MenuItem>
-          )}
+          {renderAddButton ? renderAddButton : <MenuItem disabled>{renderNotFound()}</MenuItem>}
         </Menu>
       );
     }
@@ -105,9 +95,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     if (items && renderTotalCount && totalCount && items.length < totalCount) {
       total = (
         <MenuItem disabled>
-          <div style={{ fontSize: 12 }}>
-            {renderTotalCount(items.length, totalCount)}
-          </div>
+          <div style={{ fontSize: 12 }}>{renderTotalCount(items.length, totalCount)}</div>
         </MenuItem>
       );
     }
@@ -116,10 +104,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       <Menu ref={refMenu} maxHeight={maxMenuHeight}>
         {items && items.map(this.renderItem)}
         {total}
-        {renderAddButton && [
-          <MenuSeparator key="separator" />,
-          renderAddButton
-        ]}
+        {renderAddButton && [<MenuSeparator key="separator" />, renderAddButton]}
       </Menu>
     );
   }
@@ -134,10 +119,9 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       const props = Object.assign(
         {
           key: index,
-          onClick: (event: React.SyntheticEvent) =>
-            onChange(element.props, event)
+          onClick: (event: React.SyntheticEvent) => onChange(element.props, event),
         },
-        element.props
+        element.props,
       );
       return React.cloneElement(element, props);
     }

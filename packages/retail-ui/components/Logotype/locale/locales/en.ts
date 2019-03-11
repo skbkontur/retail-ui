@@ -1,8 +1,8 @@
-import { LogotypeLocale } from "../types";
+import { LogotypeLocale } from '../types';
 
 const componentsLocales: LogotypeLocale = {
   prefix: 'k',
-  suffix: 'ntur'
+  suffix: 'ntur',
 };
 
 export default componentsLocales;

@@ -10,7 +10,7 @@ Distinctio hic asperiores consequatur?`;
 
 class GoToAbsensePage extends Component<{}, any> {
   public state = {
-    activePage: 3
+    activePage: 3,
   };
 
   public render() {
@@ -18,11 +18,7 @@ class GoToAbsensePage extends Component<{}, any> {
     return (
       <div>
         <div style={{ textAlign: 'center' }}>
-          <Paging
-            activePage={this.state.activePage}
-            pagesCount={pagesCount}
-            onPageChange={this._handlePageChange}
-          />
+          <Paging activePage={this.state.activePage} pagesCount={pagesCount} onPageChange={this._handlePageChange} />
         </div>
       </div>
     );
@@ -41,7 +37,7 @@ class GoToAbsensePage extends Component<{}, any> {
 
 class PagingWithState extends Component<any, any> {
   public state = {
-    activePage: 1
+    activePage: 1,
   };
 
   public render() {
@@ -58,9 +54,7 @@ class PagingWithState extends Component<any, any> {
   }
 
   private _handlePageChange = (pageNumber: number) => {
-    this.setState({ activePage: pageNumber }, () =>
-      action('page cahnged')(this.state.activePage)
-    );
+    this.setState({ activePage: pageNumber }, () => action('page cahnged')(this.state.activePage));
   };
 }
 
@@ -75,7 +69,7 @@ const CustomComponent: React.SFC<any> = ({ active, pageNumber, ...props }) =>
 
 class PagingWithCustomComponent extends Component<any, any> {
   public state = {
-    activePage: 1
+    activePage: 1,
   };
 
   public componentDidMount() {
@@ -121,34 +115,22 @@ storiesOf('Paging', module)
       <PagingWithState pagesCount={12} />
     </>
   ))
-  .add('PagingWithCustomComponent', () => (
-    <PagingWithCustomComponent pagesCount={12} />
-  ))
-  .add('Paging with global listener', () => (
-    <PagingWithState useGlobalListener pagesCount={12} />
-  ))
+  .add('PagingWithCustomComponent', () => <PagingWithCustomComponent pagesCount={12} />)
+  .add('Paging with global listener', () => <PagingWithState useGlobalListener pagesCount={12} />)
   .add('Playground', () => <Playground />);
 
 class Playground extends React.Component<{}, { useGlobalListener: boolean }> {
   public state = {
-    useGlobalListener: true
+    useGlobalListener: true,
   };
 
   public render() {
     return (
       <div style={{ width: 400 }}>
-        <p
-          contentEditable
-          style={{ padding: '10px 15px', border: '1px solid' }}
-        />
+        <p contentEditable style={{ padding: '10px 15px', border: '1px solid' }} />
         <p>{lorem}</p>
         <p>
-          <input
-            onKeyDown={this.log}
-            onKeyUp={this.log}
-            onKeyPress={this.log}
-            {...this.props}
-          />
+          <input onKeyDown={this.log} onKeyUp={this.log} onKeyPress={this.log} {...this.props} />
         </p>
         <p>
           <input type="radio" defaultChecked name="Paging" />
@@ -159,26 +141,16 @@ class Playground extends React.Component<{}, { useGlobalListener: boolean }> {
         </p>
         <p>
           <label>
-            <input
-              type="checkbox"
-              checked={this.state.useGlobalListener}
-              onChange={this.handleChangeGlobalListener}
-            />{' '}
-            useGlobalListener:{' '}
-            <strong>{this.state.useGlobalListener.toString()}</strong>
+            <input type="checkbox" checked={this.state.useGlobalListener} onChange={this.handleChangeGlobalListener} />{' '}
+            useGlobalListener: <strong>{this.state.useGlobalListener.toString()}</strong>
           </label>
         </p>
-        <PagingWithState
-          useGlobalListener={this.state.useGlobalListener}
-          pagesCount={12}
-        />
+        <PagingWithState useGlobalListener={this.state.useGlobalListener} pagesCount={12} />
       </div>
     );
   }
 
-  private handleChangeGlobalListener = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  private handleChangeGlobalListener = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ useGlobalListener: event.target.checked });
   };
 

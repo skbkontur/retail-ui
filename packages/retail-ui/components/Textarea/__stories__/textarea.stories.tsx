@@ -8,12 +8,9 @@ interface AutoresizableTextareaState {
   value: string | null;
 }
 
-class AutoresizableTextarea extends React.Component<
-  {},
-  AutoresizableTextareaState
-> {
+class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaState> {
   public state = {
-    value: ''
+    value: '',
   };
 
   public render() {
@@ -46,17 +43,17 @@ storiesOf('Textarea', module)
   .add('Different states', () => {
     const rowStyles = {
       display: 'flex',
-      padding: 5
+      padding: 5,
     };
 
     const cellStyles = {
-      padding: 5
+      padding: 5,
     };
 
     const headingStyles = {
       width: 120,
       padding: 5,
-      textAlign: 'right' as 'right'
+      textAlign: 'right' as 'right',
     };
 
     return (
@@ -119,12 +116,8 @@ storiesOf('Textarea', module)
     </div>
   ))
   .add('Autoresizable textarea', () => <AutoresizableTextarea />)
-  .add('Textarea with custom width', () => (
-    <Textarea width={400} value={TEXT_SAMPLE} />
-  ))
-  .add('Select all by prop', () => (
-    <Textarea defaultValue={TEXT_SAMPLE} selectAllOnFocus />
-  ))
+  .add('Textarea with custom width', () => <Textarea width={400} value={TEXT_SAMPLE} />)
+  .add('Select all by prop', () => <Textarea defaultValue={TEXT_SAMPLE} selectAllOnFocus />)
   .add('Select all by button', () => {
     let textarea: Textarea | null = null;
     const handleClick = () => {

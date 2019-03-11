@@ -1,19 +1,19 @@
 // @flow
-import * as React from "react";
-import ReactDom from "react-dom";
+import * as React from 'react';
+import ReactDom from 'react-dom';
 
-import { HashRouter } from "react-router-dom";
-import { Switch, Route } from "react-router-dom";
+import { HashRouter } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
-import Layout from "./components/Layout";
-import Description from "./components/Pages/Description.md";
-import QuickStart from "./components/Pages/QuickStart.md";
-import ExposeTidsToDom from "./components/Pages/ExposeTidsToDom.md";
-import PageObjectsDotNet from "./components/Pages/PageObjectsDotNet.md";
-import Bookmarklet from "./components/Pages/Bookmarklet";
+import Layout from './components/Layout';
+import Description from './components/Pages/Description.md';
+import QuickStart from './components/Pages/QuickStart.md';
+import ExposeTidsToDom from './components/Pages/ExposeTidsToDom.md';
+import PageObjectsDotNet from './components/Pages/PageObjectsDotNet.md';
+import Bookmarklet from './components/Pages/Bookmarklet';
 
-import "./styles/reset.less";
-import "./styles/typography.less";
+import './styles/reset.less';
+import './styles/typography.less';
 
 ReactDom.render(
     <HashRouter>
@@ -27,5 +27,5 @@ ReactDom.render(
             </Switch>
         </Layout>
     </HashRouter>,
-    document.getElementById("content")
+    document.getElementById('content'),
 );

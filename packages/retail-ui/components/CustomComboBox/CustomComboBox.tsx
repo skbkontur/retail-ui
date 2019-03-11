@@ -83,13 +83,13 @@ export type Effect<T> = (
   dispatch: (x0: Action<T>) => void,
   getState: () => CustomComboBoxState<T>,
   getProps: () => CustomComboBoxProps<T>,
-  getInstance: () => CustomComboBox
+  getInstance: () => CustomComboBox,
 ) => void;
 
 export type Reducer<T> = (
   state: CustomComboBoxState<T>,
   props: CustomComboBoxProps<T>,
-  action: Action<T>
+  action: Action<T>,
 ) => CustomComboBoxState<T> | [CustomComboBoxState<T>, Array<Effect<T>>];
 
 export const DELAY_BEFORE_SHOW_LOADER = 300;
@@ -102,13 +102,10 @@ export const DefaultState = {
   opened: false,
   textValue: '',
   repeatRequest: () => undefined,
-  requestStatus: ComboBoxRequestStatus.Unknown
+  requestStatus: ComboBoxRequestStatus.Unknown,
 };
 
-class CustomComboBox extends React.Component<
-  CustomComboBoxProps<any>,
-  CustomComboBoxState<any>
-> {
+class CustomComboBox extends React.Component<CustomComboBoxProps<any>, CustomComboBoxState<any>> {
   public state: CustomComboBoxState<any> = DefaultState;
   public input: Nullable<Input>;
   public menu: Nullable<Menu>;
@@ -117,7 +114,7 @@ class CustomComboBox extends React.Component<
   public loaderShowDelay: Nullable<Promise<never>>;
   private focused: boolean = false;
   private cancelationToken: Nullable<(reason?: any) => void> = null;
-  public cancelLoaderDelay: (() => void) = () => null;
+  public cancelLoaderDelay: () => void = () => null;
 
   /**
    * @public
@@ -159,9 +156,7 @@ class CustomComboBox extends React.Component<
   public async search(query: string = this.state.textValue) {
     const { getItems } = this.props;
 
-    const cancelPromise: Promise<never> = new Promise(
-      (_, reject) => (this.cancelationToken = reject)
-    );
+    const cancelPromise: Promise<never> = new Promise((_, reject) => (this.cancelationToken = reject));
     const expectingId = (this.requestId += 1);
 
     if (!this.loaderShowDelay) {
@@ -188,7 +183,7 @@ class CustomComboBox extends React.Component<
       if (expectingId === this.requestId) {
         this.dispatch({
           type: 'ReceiveItems',
-          items
+          items,
         });
       }
     } catch (error) {
@@ -202,7 +197,7 @@ class CustomComboBox extends React.Component<
             if (this.input) {
               this.input.focus();
             }
-          }
+          },
         });
       }
     } finally {
@@ -267,8 +262,7 @@ class CustomComboBox extends React.Component<
       onFocus: this.handleFocus,
       onFocusOutside: this.handleBlur,
       onInputBlur: this.handleInputBlur,
-      onInputChange: (_: any, value: string) =>
-        this.dispatch({ type: 'TextChange', value }),
+      onInputChange: (_: any, value: string) => this.dispatch({ type: 'TextChange', value }),
       onInputFocus: this.handleFocus,
       onInputClick: this.handleInputClick,
       onInputKeyDown: (event: React.KeyboardEvent) => {
@@ -293,7 +287,7 @@ class CustomComboBox extends React.Component<
       },
       refInputLikeText: (inputLikeText: Nullable<InputLikeText>) => {
         this.inputLikeText = inputLikeText;
-      }
+      },
     };
 
     return <ComboBoxView {...viewProps} />;
@@ -306,10 +300,7 @@ class CustomComboBox extends React.Component<
     }
   }
 
-  public shouldComponentUpdate(
-    nextProps: CustomComboBoxProps<any>,
-    nextState: CustomComboBoxState<any>
-  ) {
+  public shouldComponentUpdate(nextProps: CustomComboBoxProps<any>, nextState: CustomComboBoxState<any>) {
     return !shallow(nextProps, this.props) || !shallow(nextState, this.state);
   }
 
@@ -341,7 +332,7 @@ class CustomComboBox extends React.Component<
       },
       () => {
         effects.forEach(this.handleEffect);
-      }
+      },
     );
   };
 
@@ -359,7 +350,7 @@ class CustomComboBox extends React.Component<
     this.dispatch({
       type: 'ValueChange',
       value,
-      keepFocus: eventType === 'click'
+      keepFocus: eventType === 'click',
     });
   };
 
@@ -386,7 +377,7 @@ class CustomComboBox extends React.Component<
     // If menu opened, RenderLayer is active and
     // it would call handleFocusOutside
     // In that way handleBlur would be called
-    if (this.state.editing) {
+    if (this.state.opened) {
       return;
     }
     this.handleBlur();

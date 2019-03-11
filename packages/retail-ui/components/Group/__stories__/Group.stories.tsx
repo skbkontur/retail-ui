@@ -41,17 +41,8 @@ storiesOf('Group', module)
   ))
   .add('Complex elements', () => (
     <Group>
-      <Button
-        icon={<DeleteIcon />}
-        onClick={() => Toast.push('Clear!')}
-        width="10px"
-      />
-      <Input
-        placeholder="Disabled"
-        disabled
-        rightIcon={<UserIcon />}
-        mainInGroup
-      />
+      <Button icon={<DeleteIcon />} onClick={() => Toast.push('Clear!')} width="10px" />
+      <Input placeholder="Disabled" disabled rightIcon={<UserIcon />} mainInGroup />
       <Button onClick={() => Toast.push('Push!')} error>
         Push
       </Button>

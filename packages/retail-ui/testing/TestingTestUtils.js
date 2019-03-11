@@ -15,7 +15,7 @@ type ReturnType = {
   node: HTMLElement,
   unmount: () => ReactWrapper<*>,
   // eslint-disable-next-line
-  setProps: (props: Object) => ReactWrapper<*>
+  setProps: (props: Object) => ReactWrapper<*>,
 };
 
 export function mountTest(reactElement: React.Element<*>): ReturnType {
@@ -25,6 +25,6 @@ export function mountTest(reactElement: React.Element<*>): ReturnType {
     // $FlowIssue needs better enzyme typings
     node: ReactTesting.findDOMNodes('a', wrapper.node)[0],
     unmount: wrapper.unmount.bind(wrapper),
-    setProps: wrapper.setProps.bind(wrapper)
+    setProps: wrapper.setProps.bind(wrapper),
   };
 }
