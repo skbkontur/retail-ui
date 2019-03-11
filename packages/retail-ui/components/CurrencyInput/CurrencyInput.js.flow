@@ -5,23 +5,26 @@ export type CurrencyInputProps = {
   value: ?number,
   fractionDigits?: ?number,
   signed?: boolean,
-  onChange: (e: {
-    target: {|
-      value: ?number
-    |}
-  }, value: ?number) => void,
-  onSubmit?: () => void
+  onChange: (
+    e: {
+      target: {|
+        value: ?number,
+      |},
+    },
+    value: ?number,
+  ) => void,
+  onSubmit?: () => void,
 };
 
 export type CurrencyInputState = {|
   formatted: string,
   selection: Selection,
-  focused: boolean
+  focused: boolean,
 |};
 
 declare class CurrencyInput extends React$Component<CurrencyInputProps, CurrencyInputState> {
-  focus: () => void,
-  blur: () => void
+  focus: () => void;
+  blur: () => void;
 }
 
 export default CurrencyInput;

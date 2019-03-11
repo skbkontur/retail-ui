@@ -19,14 +19,7 @@ describe('Button', () => {
     expect(onClick.mock.calls.length).toBe(1);
   });
 
-  ([
-    'default',
-    'primary',
-    'pay',
-    'success',
-    'danger',
-    'link'
-  ] as ButtonUse[]).forEach(use => {
+  (['default', 'primary', 'pay', 'success', 'danger', 'link'] as ButtonUse[]).forEach(use => {
     it(`sets class ${use} when use=${use} specified`, () => {
       const wrapper = mount(<Button use={use} />);
       expect(wrapper.find(`.${use}`)).toHaveLength(1);

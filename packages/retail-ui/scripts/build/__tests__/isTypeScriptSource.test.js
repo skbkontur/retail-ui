@@ -6,7 +6,7 @@ const TestCases = [
   ['index.tsx', true],
   ['index.d.ts', false],
   ['ComboBoxOld.tsx', true],
-  ['ComboBoxOld.d.ts', false]
+  ['ComboBoxOld.d.ts', false],
 ];
 
 TestCases.forEach(([filename, result]) => {

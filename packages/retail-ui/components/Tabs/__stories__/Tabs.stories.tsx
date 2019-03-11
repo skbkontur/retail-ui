@@ -11,16 +11,12 @@ const { Tab } = Tabs;
 
 class UncTabs extends React.Component<any, any> {
   public state = {
-    active: 'fuji'
+    active: 'fuji',
   };
 
   public render() {
     return (
-      <Tabs
-        value={this.state.active}
-        onChange={(_, v) => this.setState({ active: v })}
-        vertical={this.props.vertical}
-      >
+      <Tabs value={this.state.active} onChange={(_, v) => this.setState({ active: v })} vertical={this.props.vertical}>
         <Tab id="fuji">Fuji</Tab>
         <Tab id="tahat">Tahat</Tab>
         <Tab id="alps">Alps</Tab>
@@ -59,16 +55,12 @@ const MyLinkTab = (props: TabProps) => <Tab component={MyLink} {...props} />;
 
 class TabsWithMyLink extends React.Component<any, any> {
   public state = {
-    active: 'fuji'
+    active: 'fuji',
   };
 
   public render() {
     return (
-      <Tabs
-        value={this.state.active}
-        onChange={(_, v) => this.setState({ active: v })}
-        vertical={this.props.vertical}
-      >
+      <Tabs value={this.state.active} onChange={(_, v) => this.setState({ active: v })} vertical={this.props.vertical}>
         <MyLinkTab id="fuji">🌋&nbsp;&nbsp;Fuji</MyLinkTab>
         <MyLinkTab id="tahat">⛰&nbsp;&nbsp;Tahat</MyLinkTab>
         <MyLinkTab id="alps">🗻&nbsp;&nbsp;Alps</MyLinkTab>
@@ -79,19 +71,13 @@ class TabsWithMyLink extends React.Component<any, any> {
 
 class UnexpectedUpdatedTab extends React.Component<any, any> {
   public state = {
-    updated: false
+    updated: false,
   };
 
   public render() {
     return (
       <Tab {...this.props}>
-        {this.state.updated ? (
-          ':P'
-        ) : (
-          <button onClick={() => this.setState({ updated: true })}>
-            Update me
-          </button>
-        )}
+        {this.state.updated ? ':P' : <button onClick={() => this.setState({ updated: true })}>Update me</button>}
       </Tab>
     );
   }
@@ -99,25 +85,15 @@ class UnexpectedUpdatedTab extends React.Component<any, any> {
 
 class OhMyTabs extends React.Component<any, any> {
   public state = {
-    active: 'fuji'
+    active: 'fuji',
   };
 
   public render() {
     return (
-      <Tabs
-        value={this.state.active}
-        onChange={(_, v) => this.setState({ active: v })}
-        vertical={this.props.vertical}
-      >
-        <UnexpectedUpdatedTab id="fuji">
-          🌋&nbsp;&nbsp;Fuji
-        </UnexpectedUpdatedTab>
-        <UnexpectedUpdatedTab id="tahat">
-          ⛰&nbsp;&nbsp;Tahat
-        </UnexpectedUpdatedTab>
-        <UnexpectedUpdatedTab id="alps">
-          🗻&nbsp;&nbsp;Alps
-        </UnexpectedUpdatedTab>
+      <Tabs value={this.state.active} onChange={(_, v) => this.setState({ active: v })} vertical={this.props.vertical}>
+        <UnexpectedUpdatedTab id="fuji">🌋&nbsp;&nbsp;Fuji</UnexpectedUpdatedTab>
+        <UnexpectedUpdatedTab id="tahat">⛰&nbsp;&nbsp;Tahat</UnexpectedUpdatedTab>
+        <UnexpectedUpdatedTab id="alps">🗻&nbsp;&nbsp;Alps</UnexpectedUpdatedTab>
       </Tabs>
     );
   }
@@ -125,15 +101,12 @@ class OhMyTabs extends React.Component<any, any> {
 
 class DisabledTab extends React.Component<any, any> {
   public state = {
-    active: 'first'
+    active: 'first',
   };
 
   public render() {
     return (
-      <Tabs
-        value={this.state.active}
-        onChange={(_, v) => this.setState({ active: v })}
-      >
+      <Tabs value={this.state.active} onChange={(_, v) => this.setState({ active: v })}>
         <Tab id="first">First</Tab>
         <Tab id="second" disabled>
           Second (disabled)
@@ -152,7 +125,7 @@ class TabsInModal extends React.Component<any, any> {
     error: true,
     warning: true,
     success: true,
-    primary: true
+    primary: true,
   };
 
   public render() {
@@ -165,15 +138,8 @@ class TabsInModal extends React.Component<any, any> {
   }
 
   private renderModal() {
-    const TabElement = function GetTabElement(props: {
-      style?: React.CSSProperties,
-      children: React.ReactNode
-    }) {
-      return (
-        <div style={{ marginLeft: 10, fontSize: 14, ...props.style }}>
-          {props.children}
-        </div>
-      );
+    const TabElement = function GetTabElement(props: { style?: React.CSSProperties; children: React.ReactNode }) {
+      return <div style={{ marginLeft: 10, fontSize: 14, ...props.style }}>{props.children}</div>;
     };
 
     return (
@@ -181,58 +147,33 @@ class TabsInModal extends React.Component<any, any> {
         <Modal.Header>Title</Modal.Header>
         <Modal.Body>
           <div style={{ marginLeft: -30 }}>
-            <Tabs
-              vertical
-              value={this.state.active}
-              onChange={(_, v) => this.setState({ active: v })}
-            >
+            <Tabs vertical value={this.state.active} onChange={(_, v) => this.setState({ active: v })}>
               <Tab id="1">
                 <TabElement>Normal</TabElement>
               </Tab>
               <Tab id="2" success>
                 <TabElement>Success</TabElement>
               </Tab>
-              <Tab
-                id="3"
-                success={this.state.success}
-                onClick={this.toggleSuccess}
-              >
+              <Tab id="3" success={this.state.success} onClick={this.toggleSuccess}>
                 <TabElement>Success-dynamic</TabElement>
               </Tab>
               <Tab id="4" warning>
                 <TabElement>Warning</TabElement>
               </Tab>
-              <Tab
-                id="5"
-                warning={this.state.warning}
-                onClick={this.toggleWarning}
-              >
+              <Tab id="5" warning={this.state.warning} onClick={this.toggleWarning}>
                 <TabElement>Warning-dynamic</TabElement>
               </Tab>
               <Tab id="6" error>
                 <TabElement style={{ color: '#e14c30' }}>Error</TabElement>
               </Tab>
-              <Tab
-                id="7"
-                error={this.state.error}
-                warning
-                onClick={this.toggleError}
-              >
-                <TabElement style={{ color: '#e14c30' }}>
-                  Error-dynamic over warning
-                </TabElement>
+              <Tab id="7" error={this.state.error} warning onClick={this.toggleError}>
+                <TabElement style={{ color: '#e14c30' }}>Error-dynamic over warning</TabElement>
               </Tab>
               <Tab id="8" primary>
                 <TabElement style={{ color: '#1e8dd4' }}>Primary</TabElement>
               </Tab>
-              <Tab
-                id="9"
-                primary={this.state.primary}
-                onClick={this.togglePrimary}
-              >
-                <TabElement style={{ color: '#1e8dd4' }}>
-                  Primary-dynamic
-                </TabElement>
+              <Tab id="9" primary={this.state.primary} onClick={this.togglePrimary}>
+                <TabElement style={{ color: '#1e8dd4' }}>Primary-dynamic</TabElement>
               </Tab>
               <Tab id="10" disabled>
                 <TabElement>Disabled</TabElement>
@@ -272,22 +213,24 @@ class TabsInModal extends React.Component<any, any> {
   };
 }
 
-storiesOf('Tabs', module).add('simple', () => <UncTabs />).add('first', () => <RouterTabs value="first" />).add('another', () => <RouterTabs value="another" />).add('hrefs first', () => (
+storiesOf('Tabs', module)
+  .add('simple', () => <UncTabs />)
+  .add('first', () => <RouterTabs value="first" />)
+  .add('another', () => <RouterTabs value="another" />)
+  .add('hrefs first', () => (
     <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
-      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
-        Hrefs first
-      </Tab>
-      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
-        Hrefs second
-      </Tab>
+      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">Hrefs first</Tab>
+      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">Hrefs second</Tab>
     </Tabs>
-  )).add('hrefs second', () => (
+  ))
+  .add('hrefs second', () => (
     <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
-      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
-        Hrefs first
-      </Tab>
-      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
-        Hrefs second
-      </Tab>
+      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">Hrefs first</Tab>
+      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">Hrefs second</Tab>
     </Tabs>
-  )).add('vertical', () => <UncTabs vertical />).add('with component', () => <TabsWithMyLink />).add('with unexpected tab size change', () => <OhMyTabs />).add('with disabled tab', () => <DisabledTab />).add('tabs in modal', () => <TabsInModal />);
+  ))
+  .add('vertical', () => <UncTabs vertical />)
+  .add('with component', () => <TabsWithMyLink />)
+  .add('with unexpected tab size change', () => <OhMyTabs />)
+  .add('with disabled tab', () => <DisabledTab />)
+  .add('tabs in modal', () => <TabsInModal />);

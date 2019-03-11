@@ -112,23 +112,20 @@ class Tab extends React.Component<TabProps, TabState> {
   public static contextTypes = {};
   public static defaultProps = {
     component: 'a',
-    href: 'javascript:'
+    href: 'javascript:',
   };
 
   public context!: TabContext;
 
   public state: TabState = {
-    focusedByKeyboard: false
+    focusedByKeyboard: false,
   };
 
   private _node: Nullable<React.ReactElement<any>> = null;
   private getProps = createPropsGetter(Tab.defaultProps);
 
   public componentWillMount() {
-    invariant(
-      typeof this.context.addTab === 'function',
-      'Tab should be placed inside Tabs component'
-    );
+    invariant(typeof this.context.addTab === 'function', 'Tab should be placed inside Tabs component');
   }
 
   public componentDidMount() {
@@ -178,7 +175,7 @@ class Tab extends React.Component<TabProps, TabState> {
           indicators.warning && styles.warning,
           indicators.error && styles.error,
           isActive && styles.active,
-          isDisabled && styles.disabled
+          isDisabled && styles.disabled,
         )}
         onBlur={!isDisabled ? this._handleBlur : this._noop}
         onClick={!isDisabled ? this._switchTab : this._noop}
@@ -201,7 +198,7 @@ class Tab extends React.Component<TabProps, TabState> {
       warning: Boolean(this.props.warning),
       success: Boolean(this.props.success),
       primary: Boolean(this.props.primary),
-      disabled: Boolean(this.props.disabled)
+      disabled: Boolean(this.props.disabled),
     };
   }
 
@@ -284,7 +281,7 @@ Tab.propTypes = {
   href: string,
   id: string.isRequired,
   onClick: func,
-  onKeyDown: func
+  onKeyDown: func,
 };
 
 Tab.contextTypes = {
@@ -294,7 +291,7 @@ Tab.contextTypes = {
   removeTab: func.isRequired,
   switchTab: func.isRequired,
   shiftFocus: func.isRequired,
-  vertical: bool.isRequired
+  vertical: bool.isRequired,
 };
 
 const KEYCODE_TAB = 9;
@@ -314,7 +311,7 @@ function listenTabPresses() {
         KEYCODE_ARROW_LEFT,
         KEYCODE_ARROW_UP,
         KEYCODE_ARROW_RIGHT,
-        KEYCODE_ARROW_DOWN
+        KEYCODE_ARROW_DOWN,
       ].includes(event.keyCode);
     });
     isListening = true;

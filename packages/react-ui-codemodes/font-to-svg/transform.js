@@ -7,9 +7,9 @@ function patchIconToNamedIcon({ j, path, nameAttr, nameAttrIndex, iconName, cons
     const conditionalExpression = j.conditionalExpression(
       nameAttr.value.expression.test,
       j.jsxElement(j.jsxOpeningElement(j.jsxIdentifier(`${consequentIconName}Icon`), path.node.attributes, true)),
-      j.jsxElement(j.jsxOpeningElement(j.jsxIdentifier(`${alternateIconName}Icon`), path.node.attributes, true))
+      j.jsxElement(j.jsxOpeningElement(j.jsxIdentifier(`${alternateIconName}Icon`), path.node.attributes, true)),
     );
-    if (path.parent.parent.node.type === "JSXExpressionContainer") {
+    if (path.parent.parent.node.type === 'JSXExpressionContainer') {
       path.parent.parent.node.expression = conditionalExpression;
     } else {
       const iconNodeIndex = path.parent.parent.node.children.findIndex(child => child === path.parent.node);
@@ -23,7 +23,7 @@ function patchIconToNamespace({ j, path, nameAttr, nameAttrIndex, iconName }) {
   if (!nameAttr) return;
 
   if (isSimpleIcon(nameAttr)) {
-    path.node.name = j.jsxMemberExpression(j.jsxIdentifier("Icon"), j.jsxIdentifier(iconName));
+    path.node.name = j.jsxMemberExpression(j.jsxIdentifier('Icon'), j.jsxIdentifier(iconName));
     path.node.attributes.splice(nameAttrIndex, 1);
   }
 }
@@ -31,36 +31,36 @@ function patchIconToNamespace({ j, path, nameAttr, nameAttrIndex, iconName }) {
 function patchIconPropToNamedIcon({ j, iconAttr, iconName, consequentIconName, alternateIconName }) {
   if (isSimpleIcon(iconAttr)) {
     iconAttr.value = j.jsxExpressionContainer(
-      j.jsxElement(j.jsxOpeningElement(j.jsxIdentifier(`${iconName}Icon`), [], true))
+      j.jsxElement(j.jsxOpeningElement(j.jsxIdentifier(`${iconName}Icon`), [], true)),
     );
   } else if (isTernaryIcon(iconAttr)) {
     iconAttr.value.expression.consequent = j.jsxElement(
-      j.jsxOpeningElement(j.jsxIdentifier(`${consequentIconName}Icon`), [], true)
+      j.jsxOpeningElement(j.jsxIdentifier(`${consequentIconName}Icon`), [], true),
     );
     iconAttr.value.expression.alternate = j.jsxElement(
-      j.jsxOpeningElement(j.jsxIdentifier(`${alternateIconName}Icon`), [], true)
+      j.jsxOpeningElement(j.jsxIdentifier(`${alternateIconName}Icon`), [], true),
     );
   } else if (
     iconAttr.value &&
     iconAttr.value.expression &&
-    iconAttr.value.expression.type === "ConditionalExpression" &&
+    iconAttr.value.expression.type === 'ConditionalExpression' &&
     iconAttr.value.expression.consequent &&
-    (iconAttr.value.expression.consequent.type === "StringLiteral" ||
-      iconAttr.value.expression.consequent.type === "Literal")
+    (iconAttr.value.expression.consequent.type === 'StringLiteral' ||
+      iconAttr.value.expression.consequent.type === 'Literal')
   ) {
     iconAttr.value.expression.consequent = j.jsxElement(
-      j.jsxOpeningElement(j.jsxIdentifier(`${iconAttr.value.expression.consequent.value}Icon`), [], true)
+      j.jsxOpeningElement(j.jsxIdentifier(`${iconAttr.value.expression.consequent.value}Icon`), [], true),
     );
   } else if (
     iconAttr.value &&
     iconAttr.value.expression &&
-    iconAttr.value.expression.type === "ConditionalExpression" &&
+    iconAttr.value.expression.type === 'ConditionalExpression' &&
     iconAttr.value.expression.alternate &&
-    (iconAttr.value.expression.alternate.type === "StringLiteral" ||
-      iconAttr.value.expression.alternate.type === "Literal")
+    (iconAttr.value.expression.alternate.type === 'StringLiteral' ||
+      iconAttr.value.expression.alternate.type === 'Literal')
   ) {
     iconAttr.value.expression.alternate = j.jsxElement(
-      j.jsxOpeningElement(j.jsxIdentifier(`${iconAttr.value.expression.alternate.value}Icon`), [], true)
+      j.jsxOpeningElement(j.jsxIdentifier(`${iconAttr.value.expression.alternate.value}Icon`), [], true),
     );
   }
 }
@@ -69,58 +69,58 @@ function patchIconPropToSimpleIcon({ j, iconAttr, iconName, expressionIconValue 
   if (isSimpleIcon(iconAttr)) {
     iconAttr.value = j.jsxExpressionContainer(
       j.jsxElement(
-        j.jsxOpeningElement(j.jsxMemberExpression(j.jsxIdentifier("Icon"), j.jsxIdentifier(iconName)), [], true)
-      )
+        j.jsxOpeningElement(j.jsxMemberExpression(j.jsxIdentifier('Icon'), j.jsxIdentifier(iconName)), [], true),
+      ),
     );
   } else if (isTernaryIcon(iconAttr)) {
     iconAttr.value = j.jsxExpressionContainer(
       j.jsxElement(
         j.jsxOpeningElement(
-          j.jsxIdentifier("Icon"),
-          [j.jsxAttribute(j.jsxIdentifier("name"), expressionIconValue)],
-          true
-        )
-      )
+          j.jsxIdentifier('Icon'),
+          [j.jsxAttribute(j.jsxIdentifier('name'), expressionIconValue)],
+          true,
+        ),
+      ),
     );
   } else if (
     iconAttr.value &&
     iconAttr.value.expression &&
-    iconAttr.value.expression.type === "ConditionalExpression" &&
+    iconAttr.value.expression.type === 'ConditionalExpression' &&
     iconAttr.value.expression.consequent &&
-    (iconAttr.value.expression.consequent.type === "StringLiteral" ||
-      iconAttr.value.expression.consequent.type === "Literal")
+    (iconAttr.value.expression.consequent.type === 'StringLiteral' ||
+      iconAttr.value.expression.consequent.type === 'Literal')
   ) {
     iconAttr.value.expression.consequent = j.jsxElement(
       j.jsxOpeningElement(
-        j.jsxMemberExpression(j.jsxIdentifier("Icon"), j.jsxIdentifier(iconAttr.value.expression.consequent.value)),
+        j.jsxMemberExpression(j.jsxIdentifier('Icon'), j.jsxIdentifier(iconAttr.value.expression.consequent.value)),
         [],
-        true
-      )
+        true,
+      ),
     );
   } else if (
     iconAttr.value &&
     iconAttr.value.expression &&
-    iconAttr.value.expression.type === "ConditionalExpression" &&
+    iconAttr.value.expression.type === 'ConditionalExpression' &&
     iconAttr.value.expression.alternate &&
-    (iconAttr.value.expression.alternate.type === "StringLiteral" ||
-      iconAttr.value.expression.alternate.type === "Literal")
+    (iconAttr.value.expression.alternate.type === 'StringLiteral' ||
+      iconAttr.value.expression.alternate.type === 'Literal')
   ) {
     iconAttr.value.expression.alternate = j.jsxElement(
       j.jsxOpeningElement(
-        j.jsxMemberExpression(j.jsxIdentifier("Icon"), j.jsxIdentifier(iconAttr.value.expression.alternate.value)),
+        j.jsxMemberExpression(j.jsxIdentifier('Icon'), j.jsxIdentifier(iconAttr.value.expression.alternate.value)),
         [],
-        true
-      )
+        true,
+      ),
     );
   }
 }
 
 function isSimpleIcon(attr) {
   return (
-    (attr.value && (attr.value.type === "StringLiteral" || attr.value.type === "Literal")) ||
+    (attr.value && (attr.value.type === 'StringLiteral' || attr.value.type === 'Literal')) ||
     (attr.value &&
       attr.value.expression &&
-      (attr.value.expression.type === "StringLiteral" || attr.value.expression.type === "Literal"))
+      (attr.value.expression.type === 'StringLiteral' || attr.value.expression.type === 'Literal'))
   );
 }
 
@@ -128,17 +128,17 @@ function isTernaryIcon(attr) {
   return (
     attr.value &&
     attr.value.expression &&
-    (attr.value.expression.type === "ConditionalExpression" &&
-      (attr.value.expression.consequent.type === "StringLiteral" ||
-        attr.value.expression.consequent.type === "Literal") &&
-      (attr.value.expression.alternate.type === "StringLiteral" || attr.value.expression.alternate.type === "Literal"))
+    (attr.value.expression.type === 'ConditionalExpression' &&
+      (attr.value.expression.consequent.type === 'StringLiteral' ||
+        attr.value.expression.consequent.type === 'Literal') &&
+      (attr.value.expression.alternate.type === 'StringLiteral' || attr.value.expression.alternate.type === 'Literal'))
   );
 }
 
 module.exports = function(file, api) {
   const j = api.jscodeshift;
   const root = j(file.source);
-  const componentNames = ["Icon", "Link", "Button", "MenuItem"];
+  const componentNames = ['Icon', 'Link', 'Button', 'MenuItem'];
   const iconNames = new Set();
   const iconComponents = [];
   const componentsWithIconProp = [];
@@ -146,8 +146,8 @@ module.exports = function(file, api) {
   let preserveIconImport = false;
 
   root.find(j.JSXOpeningElement, node => componentNames.includes(node.name.name)).forEach(path => {
-    if (path.node.name.name === "Icon") {
-      const nameAttrIndex = path.node.attributes.findIndex(attr => attr.name && attr.name.name === "name");
+    if (path.node.name.name === 'Icon') {
+      const nameAttrIndex = path.node.attributes.findIndex(attr => attr.name && attr.name.name === 'name');
       const nameAttr = path.node.attributes[nameAttrIndex];
       const iconComponent = { j, path, nameAttr, nameAttrIndex };
 
@@ -166,7 +166,7 @@ module.exports = function(file, api) {
       }
       iconComponents.push(iconComponent);
     } else {
-      const iconAttrIndex = path.node.attributes.findIndex(attr => attr.name && attr.name.name === "icon");
+      const iconAttrIndex = path.node.attributes.findIndex(attr => attr.name && attr.name.name === 'icon');
       const iconAttr = path.node.attributes[iconAttrIndex];
       const component = { j, iconAttr };
 
@@ -211,13 +211,13 @@ module.exports = function(file, api) {
     : [...iconNames].map(iconName =>
         j.importDeclaration(
           [j.importDefaultSpecifier(j.identifier(`${iconName}Icon`))],
-          j.stringLiteral(`@skbkontur/react-icons/${iconName}`)
-        )
+          j.stringLiteral(`@skbkontur/react-icons/${iconName}`),
+        ),
       );
 
   imports.replaceWith(path => {
     const specifiers = path.node.specifiers;
-    const filteredSpecifiers = specifiers.filter(spec => spec.local.name !== "Icon");
+    const filteredSpecifiers = specifiers.filter(spec => spec.local.name !== 'Icon');
 
     if (specifiers.length === filteredSpecifiers.length) return path.node;
 
@@ -236,7 +236,10 @@ module.exports = function(file, api) {
     imports
       .at(-1)
       .insertAfter(
-        j.importDeclaration([j.importDefaultSpecifier(j.identifier("Icon"))], j.stringLiteral("@skbkontur/react-icons"))
+        j.importDeclaration(
+          [j.importDefaultSpecifier(j.identifier('Icon'))],
+          j.stringLiteral('@skbkontur/react-icons'),
+        ),
       );
   }
 

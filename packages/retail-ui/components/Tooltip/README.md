@@ -6,7 +6,7 @@ const MenuIcon = require('@skbkontur/react-icons/Menu').default;
 const HelpDotIcon = require('@skbkontur/react-icons/HelpDot').default;
 
 const initialState = {
-  size: 'small'
+  size: 'small',
 };
 
 const render = () => (
@@ -14,11 +14,11 @@ const render = () => (
     style={{
       width: 250,
       fontSize: state.size === 'large' ? 16 : 14,
-      fontFamily: 'Segoe UI'
+      fontFamily: 'Segoe UI',
     }}
   >
-    Задача организации, в особенности же рамки и место обучения кадров влечет за
-    собой процесс внедрения и модернизации форм развития.
+    Задача организации, в особенности же рамки и место обучения кадров влечет за собой процесс внедрения и модернизации
+    форм развития.
   </div>
 );
 
@@ -61,7 +61,7 @@ const Block = ({ pos, trigger, top, left, onMouseDown }) => (
       left,
       display: 'inline-block',
       position: 'absolute',
-      cursor: trigger === 'click' ? 'pointer' : 'default'
+      cursor: trigger === 'click' ? 'pointer' : 'default',
     }}
   >
     <Tooltip render={() => pos} pos={pos} trigger={trigger}>
@@ -71,7 +71,7 @@ const Block = ({ pos, trigger, top, left, onMouseDown }) => (
           height: S - 5,
           width: S - 5,
           background: 'white',
-          boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)'
+          boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
         }}
       />
     </Tooltip>
@@ -92,8 +92,8 @@ let initialState = {
     { top: S * 7, left: S * 2, pos: 'bottom left' },
     { top: S * 6, left: S, pos: 'left bottom' },
     { top: S * 4, left: S, pos: 'left middle' },
-    { top: S * 2, left: S, pos: 'left top' }
-  ]
+    { top: S * 2, left: S, pos: 'left top' },
+  ],
 };
 
 <div
@@ -108,7 +108,7 @@ let initialState = {
                    #fafafa ${S / 4}px,
                    #dfdede ${S / 4}px,
                    #dfdede ${S / 2}px
-                 )`
+                 )`,
   }}
 >
   <Center>

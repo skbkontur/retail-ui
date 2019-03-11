@@ -1,35 +1,24 @@
-import {
-  reducers as defaultReducers,
-  Effect,
-  Reducer,
-  getValueString
-} from './default';
+import { reducers as defaultReducers, Effect, Reducer, getValueString } from './default';
 
 const reducers: { [key: string]: Reducer } = {
   ...defaultReducers,
   Focus: (state, { value, valueToString }, action) => {
-    const textValue = state.editing
-      ? state.textValue
-      : getValueString(value, valueToString);
+    const textValue = state.editing ? state.textValue : getValueString(value, valueToString);
     return [
       {
         textValue,
         focused: true,
         editing: true,
         opened: false,
-        items: null
+        items: null,
       },
-      [Effect.Focus]
+      [Effect.Focus],
     ];
   },
   InputClick(state, props, action) {
     return state;
   },
-  TextChange: ((
-    state,
-    props,
-    action: { type: 'TextChange'; value: string }
-  ) => {
+  TextChange: ((state, props, action: { type: 'TextChange'; value: string }) => {
     if (!action.value) {
       return [
         {
@@ -37,20 +26,20 @@ const reducers: { [key: string]: Reducer } = {
           textValue: '',
           inputChanged: true,
           opened: false,
-          items: null
+          items: null,
         },
-        [Effect.InputChange]
+        [Effect.InputChange],
       ];
     }
     return [
       {
         ...state,
         inputChanged: true,
-        textValue: action.value
+        textValue: action.value,
       },
-      [Effect.DebouncedSearch, Effect.InputChange]
+      [Effect.DebouncedSearch, Effect.InputChange],
     ];
-  }) as Reducer
+  }) as Reducer,
 };
 
 export { reducers };

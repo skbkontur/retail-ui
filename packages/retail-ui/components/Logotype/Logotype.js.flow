@@ -2,7 +2,7 @@
 
 type LogotypeLocale = {|
   suffix: string,
-  prefix: string
+  prefix: string,
 |};
 
 export type LogotypeProps = {|
@@ -13,7 +13,7 @@ export type LogotypeProps = {|
   suffix?: string,
   textColor: string,
   withWidget?: boolean,
-  locale: LogotypeLocale
+  locale: LogotypeLocale,
 |};
 
 declare class Logotype extends React$Component<LogotypeProps> {}

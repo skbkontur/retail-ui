@@ -28,7 +28,7 @@ const PASS_PROPS = {
   onMouseOver: true,
 
   diadocLink: true,
-  diadocLinkIcon: true
+  diadocLinkIcon: true,
 };
 
 export interface DropdownProps {
@@ -156,7 +156,7 @@ export default class Dropdown extends React.Component<DropdownProps> {
     /**
      * Вызывается при открытии меню.
      */
-    onOpen: PropTypes.func
+    onOpen: PropTypes.func,
   };
 
   private _select: Nullable<DropdownSelectType>;

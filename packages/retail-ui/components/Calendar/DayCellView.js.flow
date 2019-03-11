@@ -8,7 +8,7 @@ type DayCellViewProps = {|
   minDate?: CalendarDateShape,
   maxDate?: CalendarDateShape,
   onClick?: (event: SyntheticMouseEvent<HTMLButtonElement>) => void,
-  isWeekend?: boolean
+  isWeekend?: boolean,
 |};
 
 declare export var DayCellView: (props: DayCellViewProps) => React$Node;

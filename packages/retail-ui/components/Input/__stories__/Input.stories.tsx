@@ -10,7 +10,7 @@ const styles = {
   display: 'inline-block',
   verticalAlign: 'middle',
   minWidth: '90px',
-  padding: '5px'
+  padding: '5px',
 };
 
 storiesOf('Input', module)
@@ -138,27 +138,14 @@ storiesOf('Input', module)
       </p>
       <p>
         <span>Mask:</span> <span>99aa9999</span>{' '}
-        <Input
-          width="150"
-          mask="99aa9999"
-          maskChar={'_'}
-          placeholder="99aa9999"
-        />
+        <Input width="150" mask="99aa9999" maskChar={'_'} placeholder="99aa9999" />
       </p>
     </Gapped>
   ))
   .add('Input with phone mask', () => (
-    <Input
-      width="150"
-      mask="+7 999 999-99-99"
-      maskChar={'_'}
-      placeholder="+7"
-      alwaysShowMask
-    />
+    <Input width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
   ))
-  .add('Select all by prop', () => (
-    <Input defaultValue="Some value" selectAllOnFocus />
-  ))
+  .add('Select all by prop', () => <Input defaultValue="Some value" selectAllOnFocus />)
   .add('Select all by button', () => {
     let input: Input | null = null;
 
@@ -177,9 +164,7 @@ storiesOf('Input', module)
       </div>
     );
   })
-  .add('Input with maxLength attr', () => (
-    <Input maxLength={3} placeholder="maxLength={3}" />
-  ))
+  .add('Input with maxLength attr', () => <Input maxLength={3} placeholder="maxLength={3}" />)
   .add('Manual blinking', () => {
     class Sample extends React.Component {
       private input: Input | null = null;
@@ -210,9 +195,7 @@ storiesOf('Input', module)
     <div>
       {(['small', 'medium', 'large'] as InputSize[]).map(size => (
         <div style={{ padding: 4 }} id={`inputWithPrefixOrSuffx-${size}`}>
-          <div style={{ margin: '20px 10px 10px', fontSize: '1.5em' }}>
-            Size {size}
-          </div>
+          <div style={{ margin: '20px 10px 10px', fontSize: '1.5em' }}>Size {size}</div>
           <div>
             <div style={{ ...styles, width: 100 }}>Prefix</div>
             <div style={styles}>
@@ -234,66 +217,28 @@ storiesOf('Input', module)
           <div style={{ display: 'flex', alignItems: 'baseline' }}>
             <div style={{ ...styles, width: 100 }}>Both preffix and suffix</div>
             <div style={styles}>
-              <Input
-                size={size}
-                prefix="Prefix"
-                suffix="suffix"
-                placeholder="Placeholder"
-              />
+              <Input size={size} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
             </div>
             <div style={styles}>
-              <Input
-                size={size}
-                prefix="Prefix"
-                suffix="suffix"
-                defaultValue="Value"
-              />
+              <Input size={size} prefix="Prefix" suffix="suffix" defaultValue="Value" />
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline' }}>
-            <div style={{ ...styles, width: 100 }}>
-              Both preffix and suffix with rightIcon
+            <div style={{ ...styles, width: 100 }}>Both preffix and suffix with rightIcon</div>
+            <div style={styles}>
+              <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
             </div>
             <div style={styles}>
-              <Input
-                size={size}
-                rightIcon={<SearchIcon />}
-                prefix="Prefix"
-                suffix="suffix"
-                placeholder="Placeholder"
-              />
-            </div>
-            <div style={styles}>
-              <Input
-                size={size}
-                rightIcon={<SearchIcon />}
-                prefix="Prefix"
-                suffix="suffix"
-                defaultValue="Value"
-              />
+              <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline' }}>
-            <div style={{ ...styles, width: 100 }}>
-              Both preffix and suffix with leftIcon
+            <div style={{ ...styles, width: 100 }}>Both preffix and suffix with leftIcon</div>
+            <div style={styles}>
+              <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
             </div>
             <div style={styles}>
-              <Input
-                size={size}
-                leftIcon={<SearchIcon />}
-                prefix="Prefix"
-                suffix="suffix"
-                placeholder="Placeholder"
-              />
-            </div>
-            <div style={styles}>
-              <Input
-                size={size}
-                leftIcon={<SearchIcon />}
-                prefix="Prefix"
-                suffix="suffix"
-                defaultValue="Value"
-              />
+              <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
             </div>
           </div>
         </div>
@@ -312,7 +257,7 @@ storiesOf('Input', module)
         textAlign: 'right',
         textShadow: '3px 3px 3px #333',
         textTransform: 'uppercase',
-        letterSpacing: '5px'
+        letterSpacing: '5px',
       }}
     >
       <Gapped vertical>
@@ -321,12 +266,7 @@ storiesOf('Input', module)
         <Input defaultValue="Value" />
         <Input defaultValue="Disabled" disabled />
         <Input mask="a9*MASK" alwaysShowMask />
-        <Input
-          leftIcon={<SearchIcon />}
-          prefix="Prefix"
-          suffix="suffix"
-          defaultValue="Value"
-        />
+        <Input leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
       </Gapped>
     </div>
   ));

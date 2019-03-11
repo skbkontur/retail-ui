@@ -7,12 +7,12 @@ export type LoaderProps = {|
   active: boolean,
   caption?: $PropertyType<SpinnerProps, 'caption'>,
   className?: string,
-  type?: 'mini' | 'normal' | 'big'
+  type?: 'mini' | 'normal' | 'big',
 |};
 
 export type LoaderState = {|
   isStickySpinner: boolean,
-  spinnerStyle?: CSS.Properties<string | number>
+  spinnerStyle?: CSS.Properties<string | number>,
 |};
 
 declare class Loader extends React$Component<LoaderProps, LoaderState> {}

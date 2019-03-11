@@ -1,10 +1,6 @@
 // @ts-ignore noUnusedVar
 import * as React from 'react';
-import {
-  KeyboardActionExctracterBuilder,
-  isSeparator,
-  isModified
-} from '../internal/extractKeyboardAction';
+import { KeyboardActionExctracterBuilder, isSeparator, isModified } from '../internal/extractKeyboardAction';
 
 export const Actions = {
   Unknown: 0,
@@ -17,7 +13,7 @@ export const Actions = {
   ClearSelection: 31,
   Digit: 101,
   Separator: 103,
-  WrongInput: 201
+  WrongInput: 201,
 };
 
 const extractAction = new KeyboardActionExctracterBuilder()

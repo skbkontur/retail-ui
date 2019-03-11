@@ -1,8 +1,5 @@
 import * as React from 'react';
-import {
-  KeyboardActionExctracterBuilder,
-  isModified
-} from '../internal/extractKeyboardAction';
+import { KeyboardActionExctracterBuilder, isModified } from '../internal/extractKeyboardAction';
 
 export const CURRENCY_INPUT_ACTIONS = {
   Unknown: 0,
@@ -26,23 +23,11 @@ export const CURRENCY_INPUT_ACTIONS = {
 
 export const extractAction = new KeyboardActionExctracterBuilder()
   .add(CURRENCY_INPUT_ACTIONS.Submit, (e: React.KeyboardEvent<HTMLElement>) => e.key === 'Enter')
-  .add(
-    CURRENCY_INPUT_ACTIONS.ExtendSelectionLeft,
-    e => e.shiftKey && e.key === 'ArrowLeft'
-  )
-  .add(
-    CURRENCY_INPUT_ACTIONS.ExtendSelectionRight,
-    e => e.shiftKey && e.key === 'ArrowRight'
-  )
+  .add(CURRENCY_INPUT_ACTIONS.ExtendSelectionLeft, e => e.shiftKey && e.key === 'ArrowLeft')
+  .add(CURRENCY_INPUT_ACTIONS.ExtendSelectionRight, e => e.shiftKey && e.key === 'ArrowRight')
   .add(CURRENCY_INPUT_ACTIONS.FullSelection, e => e.ctrlKey && e.key === 'a')
-  .add(
-    CURRENCY_INPUT_ACTIONS.ExtendSelectionToStart,
-    e => e.shiftKey && e.key === 'Home'
-  )
-  .add(
-    CURRENCY_INPUT_ACTIONS.ExtendSelectionToEnd,
-    e => e.shiftKey && e.key === 'End'
-  )
+  .add(CURRENCY_INPUT_ACTIONS.ExtendSelectionToStart, e => e.shiftKey && e.key === 'Home')
+  .add(CURRENCY_INPUT_ACTIONS.ExtendSelectionToEnd, e => e.shiftKey && e.key === 'End')
   .add(CURRENCY_INPUT_ACTIONS.MoveCursorLeft, e => e.key === 'ArrowLeft')
   .add(CURRENCY_INPUT_ACTIONS.MoveCursorRight, e => e.key === 'ArrowRight')
   .add(CURRENCY_INPUT_ACTIONS.Home, e => !isModified(e) && e.key === 'Home')

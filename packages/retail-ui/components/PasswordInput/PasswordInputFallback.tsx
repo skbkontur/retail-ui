@@ -8,11 +8,9 @@ export type PasswordInputFallbackProps = {
   refInput: (element: Input) => void;
 } & InputProps;
 
-export default class PasswordInputFallback extends React.Component<
-  PasswordInputFallbackProps
-> {
+export default class PasswordInputFallback extends React.Component<PasswordInputFallbackProps> {
   public static defaultProps = {
-    size: 'small'
+    size: 'small',
   };
 
   private _passwordInput: Nullable<Input> = null;

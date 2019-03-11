@@ -11,6 +11,7 @@ Atom/Nuclide, and as a standalone Electron app.
 ## Installation
 
 ### Pre-packaged
+
 The official extensions represent the current stable release.
 
 - [Chrome extension](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
@@ -43,6 +44,7 @@ Tools or use a pre-prelease version.
 ![](/images/devtools-side-pane.gif)
 
 ## For Hacking
+
 For changes that don't directly involve Chrome/Firefox/etc. APIs, there is a
 "plain" shell that just renders the devtools into an html page along with a
 TodoMVC test app. This is by far the quickest way to develop. Check out
@@ -69,12 +71,12 @@ Currently iframes and Chrome apps/extensions are not inspectable.
 
 ### Does "Trace React Updates" trace renders?
 
-Yes, but it's also tracing if a component *may* render.
+Yes, but it's also tracing if a component _may_ render.
 In order to fully understand what counts as an "update", you need to understand how [shouldComponentUpdate](https://facebook.github.io/react/docs/advanced-performance.html#shouldcomponentupdate-in-action) works.
 ![](https://facebook.github.io/react/img/docs/should-component-update.png)
 
 Here "Trace React Updates" will draw a border around every node but C4 and C5.
-Why does it trace components that don't actually update? (via shouldComponentUpdate() -> false) 
+Why does it trace components that don't actually update? (via shouldComponentUpdate() -> false)
 This is a limitation of the system used to track updates, and will hopefully change in the future. It doesn't, however, trace the children of components that opt out, as there's no possibility of them updating.
 The higher the rate of updates happening per second the more the color changes from blue to red.
 
@@ -89,12 +91,12 @@ selected in the React tree.
 What to do if the extension breaks.
 
 - check the error console of devtools. Part of React Devtools runs scripts in
-    the context of your page, and is vulnerable to misbehaving polyfills.
+  the context of your page, and is vulnerable to misbehaving polyfills.
 - open devtools out into a new window, and then hit the shortcut to open
-    devtools again (cmd+option+j or ctrl+shift+j). This is the "debug
-    devtools" debugger. Check the console there for errors.
+  devtools again (cmd+option+j or ctrl+shift+j). This is the "debug
+  devtools" debugger. Check the console there for errors.
 - open `chrome://extensions`, find react devtools, and click "background page"
-    under "Inspected views". You might find the errors there.
+  under "Inspected views". You might find the errors there.
 
 ## Contributing
 

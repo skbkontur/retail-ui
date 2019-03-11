@@ -10,7 +10,7 @@ import {
   ExtraFields,
   FiasLocale,
   FieldsSettings,
-  FiasCountry
+  FiasCountry,
 } from '../types';
 import { AddressElement } from './AddressElement';
 import { FiasData } from './FiasData';
@@ -35,15 +35,12 @@ export class Address {
     Fields.street,
     Fields.stead,
     Fields.house,
-    Fields.room
+    Fields.room,
   ];
 
   public static ADDITIONAL_FIELDS = [ExtraFields.postalcode];
 
-  public static ALL_FIELDS = [
-    ...Address.MAIN_FIELDS,
-    ...Address.ADDITIONAL_FIELDS
-  ];
+  public static ALL_FIELDS = [...Address.MAIN_FIELDS, ...Address.ADDITIONAL_FIELDS];
 
   public static VERIFIABLE_FIELDS = [
     Fields.region,
@@ -53,7 +50,7 @@ export class Address {
     Fields.settlement,
     Fields.planningstructure,
     Fields.street,
-    Fields.house
+    Fields.house,
   ];
 
   public static FULL_ADDRESS_SEARCH_FIELDS = [
@@ -61,7 +58,7 @@ export class Address {
     Fields.city,
     Fields.intracityarea,
     Fields.settlement,
-    Fields.planningstructure
+    Fields.planningstructure,
   ];
 
   public static ALL_PARENTS_SEARCH_FIELDS = [
@@ -69,21 +66,21 @@ export class Address {
     Fields.city,
     Fields.intracityarea,
     Fields.settlement,
-    Fields.planningstructure
+    Fields.planningstructure,
   ];
 
   public static IS_RUSSIA = (country: FiasCountry): boolean => {
     return isEqual(country, {
       shortName: 'Россия',
       fullName: 'Российская Федерация',
-      code: '643'
+      code: '643',
     });
   };
 
   public static createFromResponse = (
     response: AddressResponse,
     additionalFields?: AdditionalFields,
-    country?: FiasCountry
+    country?: FiasCountry,
   ) => {
     const fields: AddressFields = {};
     if (response) {
@@ -101,7 +98,7 @@ export class Address {
   public static createFromAddressValue = (
     addressValue: AddressValue,
     additionalFields?: AdditionalFields,
-    country?: FiasCountry
+    country?: FiasCountry,
   ) => {
     const fields: AddressFields = {};
     if (addressValue) {
@@ -109,43 +106,26 @@ export class Address {
         const addressField = addressValue[field];
         if (addressField) {
           const { name, data } = addressField;
-          fields[field] = new AddressElement(
-            field,
-            name,
-            data && new FiasData(data)
-          );
+          fields[field] = new AddressElement(field, name, data && new FiasData(data));
         }
       });
     }
     return new Address({ fields, additionalFields, country });
   };
 
-  public static createFromAddress = (
-    address: Address,
-    options: AddressOptions
-  ) => {
-    const {
-      fields,
-      additionalFields,
-      errors,
-      country,
-      foreignAddress
-    } = address;
+  public static createFromAddress = (address: Address, options: AddressOptions) => {
+    const { fields, additionalFields, errors, country, foreignAddress } = address;
     return new Address({
       fields,
       additionalFields,
       errors,
       country,
       foreignAddress,
-      ...options
+      ...options,
     });
   };
 
-  public static verify = (
-    address: Address,
-    verifiedFields: AddressResponse,
-    locale: FiasLocale
-  ): Address => {
+  public static verify = (address: Address, verifiedFields: AddressResponse, locale: FiasLocale): Address => {
     const { fields } = address;
     const errors: AddressErrors = {};
 
@@ -189,7 +169,7 @@ export class Address {
 
   public static filterVisibleFields = (
     fields: { [key in Fields]?: any },
-    fieldsSettings: FieldsSettings
+    fieldsSettings: FieldsSettings,
   ): { [key in Fields]?: any } => {
     const filteredFields: { [key in Fields]?: any } = {};
     const isFieldVisible = (f: Fields): boolean => {
@@ -216,13 +196,7 @@ export class Address {
   public country: FiasCountry | undefined;
   public foreignAddress: string;
 
-  constructor({
-    fields,
-    additionalFields,
-    errors,
-    country,
-    foreignAddress
-  }: AddressOptions = {}) {
+  constructor({ fields, additionalFields, errors, country, foreignAddress }: AddressOptions = {}) {
     this.fields = fields || {};
     this.additionalFields = additionalFields || {};
     this.errors = errors || {};
@@ -235,9 +209,7 @@ export class Address {
   }
 
   public get isEmpty(): boolean {
-    return !Address.MAIN_FIELDS.some(field =>
-      this.fields.hasOwnProperty(field)
-    );
+    return !Address.MAIN_FIELDS.some(field => this.fields.hasOwnProperty(field));
   }
 
   public get hasErrors(): boolean {
@@ -252,9 +224,7 @@ export class Address {
   public get isPostalCodeValid(): boolean {
     const rusFormat = /^[\d]{6}$/;
     const foreignFormat = /^[\w\.\-\s]*$/;
-    return (!this.country || this.isForeign ? foreignFormat : rusFormat).test(
-      this.postalCode
-    );
+    return (!this.country || this.isForeign ? foreignFormat : rusFormat).test(this.postalCode);
   }
 
   public get isPostalCodeAltered(): boolean {
@@ -272,24 +242,18 @@ export class Address {
 
   public getAddressErrors = () => {
     return {
-      ...this.errors
+      ...this.errors,
     };
   };
 
-  public getText = (
-    minField?: Fields,
-    skipTypes: boolean = false,
-    connector: string = ', '
-  ): string => {
+  public getText = (minField?: Fields, skipTypes: boolean = false, connector: string = ', '): string => {
     if (this.isEmpty) {
       return '';
     }
     const getElementText = (element?: AddressElement): string => {
       return element ? element.getText(skipTypes) : '';
     };
-    const fields = minField
-      ? Address.getParentFields(minField)
-      : Address.MAIN_FIELDS;
+    const fields = minField ? Address.getParentFields(minField) : Address.MAIN_FIELDS;
     return fields
       .map(field => getElementText(this.fields[field]))
       .filter(Boolean)
@@ -315,8 +279,7 @@ export class Address {
   public isAllowedToFill = (field?: Fields): boolean => {
     const { region, city, settlement, street, planningstructure } = this.fields;
     if (
-      (field === Fields.street &&
-        !(city || settlement || (region && region.isFederalCity))) ||
+      (field === Fields.street && !(city || settlement || (region && region.isFederalCity))) ||
       (field === Fields.stead && !street) ||
       (field === Fields.house && !street && !planningstructure)
     ) {
@@ -343,9 +306,7 @@ export class Address {
       const parents = Address.getParentFields(field);
       if (parents.length > 1) {
         const directParent = this.fields[parents.pop() as Fields];
-        return (
-          !directParent && parents.some(parent => Boolean(this.fields[parent]))
-        );
+        return !directParent && parents.some(parent => Boolean(this.fields[parent]));
       }
     }
     return false;
@@ -403,8 +364,8 @@ export class Address {
         ...value,
         [field]: {
           name,
-          ...(data ? { data: data.data } : {})
-        }
+          ...(data ? { data: data.data } : {}),
+        },
       };
     }, {});
   };
@@ -419,7 +380,7 @@ export class Address {
       fiasId: this.getFiasId(),
       postalCode: this.postalCode,
       ...(country ? { country } : {}),
-      ...(this.isForeign ? { foreignAddress } : {})
+      ...(this.isForeign ? { foreignAddress } : {}),
     };
   };
 
@@ -432,8 +393,8 @@ export class Address {
       return {
         ...value,
         [field]: {
-          ...element.verifiableData
-        }
+          ...element.verifiableData,
+        },
       };
     }, {});
   };

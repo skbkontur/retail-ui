@@ -4,7 +4,7 @@ import testingPugin from '../testing.js';
 
 function compile(input) {
   return transform(input, {
-    plugins: [jsxSyntaxPlugin, testingPugin]
+    plugins: [jsxSyntaxPlugin, testingPugin],
   }).code;
 }
 

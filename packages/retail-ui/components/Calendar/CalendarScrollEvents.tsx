@@ -14,7 +14,7 @@ function addListener(callback: () => void) {
   return {
     remove() {
       token.remove();
-    }
+    },
   };
 }
 
@@ -24,5 +24,5 @@ function emit() {
 
 export default {
   addListener,
-  emit
+  emit,
 };

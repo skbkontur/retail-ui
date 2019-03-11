@@ -2,8 +2,7 @@ import * as React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 import styles from './MaskedInput.less';
 
-export interface MaskedInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
   maskChar?: string | null;
   formatChars?: { [key: string]: string };
@@ -19,14 +18,11 @@ interface MaskedInputState {
   focused: boolean;
 }
 
-export default class MaskedInput extends React.Component<
-  MaskedInputProps,
-  MaskedInputState
-> {
+export default class MaskedInput extends React.Component<MaskedInputProps, MaskedInputState> {
   public state: MaskedInputState = {
     value: this.props.value ? this.props.value.toString() : '',
     emptyValue: '',
-    focused: false
+    focused: false,
   };
 
   public input: HTMLInputElement | null = null;
@@ -42,7 +38,7 @@ export default class MaskedInput extends React.Component<
   public componentWillReceiveProps(nextProps: MaskedInputProps) {
     if (this.props.value !== nextProps.value) {
       this.setState({
-        value: nextProps.value ? nextProps.value.toString() : ''
+        value: nextProps.value ? nextProps.value.toString() : '',
       });
     }
   }
@@ -74,9 +70,7 @@ export default class MaskedInput extends React.Component<
         />
         {this.isMaskVisible() && (
           <span className={styles.inputMask}>
-            <span style={{ color: 'transparent' }}>
-              {this.state.emptyValue.slice(0, this.state.value.length)}
-            </span>
+            <span style={{ color: 'transparent' }}>{this.state.emptyValue.slice(0, this.state.value.length)}</span>
             {this.state.emptyValue.slice(this.state.value.length)}
           </span>
         )}
@@ -120,19 +114,12 @@ export default class MaskedInput extends React.Component<
     }
   };
 
-  private preprocess = (
-    newState: InputState,
-    oldState: InputState,
-    userInput: string,
-    options: MaskOptions
-  ) => {
-    const visibleMaskChars = new Array(options.mask.length).fill(
-      this.props.maskChar
-    );
+  private preprocess = (newState: InputState, oldState: InputState, userInput: string, options: MaskOptions) => {
+    const visibleMaskChars = new Array(options.mask.length).fill(this.props.maskChar);
 
     if (newState.value !== oldState.value && userInput === null) {
       this.setState({
-        value: newState.value
+        value: newState.value,
       });
     }
 
@@ -150,7 +137,7 @@ export default class MaskedInput extends React.Component<
 
     if (this.state.emptyValue !== emptyValue) {
       this.setState({
-        emptyValue
+        emptyValue,
       });
     }
 

@@ -32,21 +32,18 @@ export interface DropdownContainerState {
   hasStaticRoot?: boolean;
 }
 
-export default class DropdownContainer extends React.Component<
-  DropdownContainerProps,
-  DropdownContainerState
-> {
+export default class DropdownContainer extends React.Component<DropdownContainerProps, DropdownContainerState> {
   public static defaultProps = {
     align: 'left',
     disablePortal: false,
     offsetX: 0,
-    offsetY: -1
+    offsetY: -1,
   };
 
   public state: DropdownContainerState = {
     position: null,
     minWidth: 0,
-    hasStaticRoot: true
+    hasStaticRoot: true,
   };
 
   private getProps = createPropsGetter(DropdownContainer.defaultProps);
@@ -77,7 +74,7 @@ export default class DropdownContainer extends React.Component<
   public render() {
     let style: React.CSSProperties = {
       position: 'absolute',
-      top: '0'
+      top: '0',
     };
     if (this.state.position) {
       const { top, bottom, left, right } = this.state.position;
@@ -87,7 +84,7 @@ export default class DropdownContainer extends React.Component<
         bottom: bottom !== null ? bottom : undefined,
         left: left !== null ? left : undefined,
         right: right !== null ? right : undefined,
-        minWidth: this.state.minWidth
+        minWidth: this.state.minWidth,
       };
     }
 
@@ -97,11 +94,7 @@ export default class DropdownContainer extends React.Component<
       </ZIndex>
     );
 
-    return this.props.disablePortal ? (
-      content
-    ) : (
-      <RenderContainer>{content}</RenderContainer>
-    );
+    return this.props.disablePortal ? content : <RenderContainer>{content}</RenderContainer>;
   }
 
   private ref = (e: ZIndex | null) => {
@@ -132,8 +125,7 @@ export default class DropdownContainer extends React.Component<
 
       if (this.props.align === 'right') {
         const docWidth = docEl.offsetWidth || 0;
-        right =
-          docWidth - (targetRect.right + scrollX) + this.getProps().offsetX;
+        right = docWidth - (targetRect.right + scrollX) + this.getProps().offsetX;
       } else {
         left = targetRect.left + scrollX + this.getProps().offsetX;
       }
@@ -150,12 +142,7 @@ export default class DropdownContainer extends React.Component<
         top = null;
 
         if (this.state.hasStaticRoot) {
-          bottom =
-            distanceToBottom -
-            scrollY +
-            offsetY +
-            targetRect.bottom -
-            targetRect.top;
+          bottom = distanceToBottom - scrollY + offsetY + targetRect.bottom - targetRect.top;
         } else {
           let bodyScrollHeight = 0;
           if (document.body) {
@@ -177,14 +164,12 @@ export default class DropdownContainer extends React.Component<
         top,
         left,
         right,
-        bottom
+        bottom,
       };
 
       this.setState({
         minWidth: this.getMinWidth(),
-        position: this.props.disablePortal
-          ? this.convertToRelativePosition(position)
-          : position
+        position: this.props.disablePortal ? this.convertToRelativePosition(position) : position,
       });
     }
   };
@@ -208,9 +193,7 @@ export default class DropdownContainer extends React.Component<
     return target.getBoundingClientRect().width;
   };
 
-  private convertToRelativePosition = (
-    position: DropdownContainerPosition
-  ): DropdownContainerPosition => {
+  private convertToRelativePosition = (position: DropdownContainerPosition): DropdownContainerPosition => {
     const target = this.props.getParent();
     const { offsetX = 0, offsetY = 0 } = this.props;
     const { top, bottom, left, right } = position;
@@ -220,14 +203,14 @@ export default class DropdownContainer extends React.Component<
         top: top !== null ? targetHeight + offsetY : null,
         bottom: bottom !== null ? targetHeight + offsetY : null,
         left: left !== null ? offsetX : null,
-        right: right !== null ? offsetX : null
+        right: right !== null ? offsetX : null,
       };
     }
     return {
       top: offsetY,
       bottom: null,
       left: offsetX,
-      right: null
+      right: null,
     };
   };
 }

@@ -28,11 +28,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
-    preventWindowScroll: true
+    preventWindowScroll: true,
   };
 
   public state = {
-    highlightedIndex: -1
+    highlightedIndex: -1,
   };
 
   private _scrollContainer: Nullable<ScrollContainer>;
@@ -46,7 +46,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
   public render() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
-      x => typeof x === 'object' && x.props.icon
+      x => typeof x === 'object' && x.props.icon,
     );
 
     if (this._isEmpty()) {
@@ -70,13 +70,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             if (typeof child === 'string' || typeof child === 'number') {
               return child;
             }
-            const isMenuItem =
-              child && (child.type as typeof MenuItem).__MENU_ITEM__;
-            const isMenuHeader =
-              child && (child.type as typeof MenuItem).__MENU_HEADER__;
+            const isMenuItem = child && (child.type as typeof MenuItem).__MENU_ITEM__;
+            const isMenuHeader = child && (child.type as typeof MenuItem).__MENU_HEADER__;
             if (enableIconPadding && (isMenuItem || isMenuHeader)) {
               child = React.cloneElement(child, {
-                _enableIconPadding: true
+                _enableIconPadding: true,
               });
             }
             if (isActiveElement(child)) {
@@ -92,7 +90,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                 state: highlight ? 'hover' : child.props.state,
                 onClick: this._select.bind(this, index, false),
                 onMouseEnter: this._highlight.bind(this, index),
-                onMouseLeave: this._unhighlight
+                onMouseLeave: this._unhighlight,
               });
             }
             return child;
@@ -141,18 +139,13 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     this._highlight(index);
   }
 
-  private _refScrollContainer = (
-    scrollContainer: Nullable<ScrollContainer>
-  ) => {
+  private _refScrollContainer = (scrollContainer: Nullable<ScrollContainer>) => {
     this._scrollContainer = scrollContainer;
   };
 
   private _refHighlighted(
-    originalRef:
-      | ((menuItem: MenuItem | null) => any)
-      | React.RefObject<MenuItem>
-      | undefined,
-    menuItem: MenuItem | null
+    originalRef: ((menuItem: MenuItem | null) => any) | React.RefObject<MenuItem> | undefined,
+    menuItem: MenuItem | null,
   ) {
     this._highlighted = menuItem;
 
@@ -163,9 +156,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
   private _scrollToSelected = () => {
     if (this._scrollContainer && this._highlighted) {
-      this._scrollContainer.scrollTo(ReactDOM.findDOMNode(
-        this._highlighted
-      ) as HTMLElement);
+      this._scrollContainer.scrollTo(ReactDOM.findDOMNode(this._highlighted) as HTMLElement);
     }
   };
 
@@ -181,11 +172,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     }
   };
 
-  private _select(
-    index: number,
-    shouldHandleHref: boolean,
-    event: React.SyntheticEvent<HTMLElement>
-  ): boolean {
+  private _select(index: number, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
     const item = childrenToArray(this.props.children)[index];
     if (isActiveElement(item)) {
       if (shouldHandleHref && item.props.href) {

@@ -16,7 +16,7 @@ type MonthViewProps = {|
   onMonthSelect: (month: number) => void,
   onYearSelect: (month: number) => void,
   monthSelectRef: (select: DateSelect | null) => void,
-  yearSelectRef: (select: DateSelect | null) => void
+  yearSelectRef: (select: DateSelect | null) => void,
 |};
 
 declare export var MonthView: (props: MonthViewProps) => React$Node;

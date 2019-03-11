@@ -15,9 +15,9 @@ module.exports = {
         helpers: false,
         polyfill: false,
         regenerator: true,
-        moduleName: 'babel-runtime'
-      }
+        moduleName: 'babel-runtime',
+      },
     ],
-    path.resolve(__dirname, '../babel/imports-less-to-css')
-  ]
+    path.resolve(__dirname, '../babel/imports-less-to-css'),
+  ],
 };

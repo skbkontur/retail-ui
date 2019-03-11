@@ -1,5 +1,3 @@
-
-
 export default {
   /**
    * Day cell size
@@ -27,5 +25,5 @@ export default {
    * Maximal count of month appending on scrollTo method call
    * with large intervals
    */
-  MAX_MONTHS_TO_APPEND_ON_SCROLL: 5
+  MAX_MONTHS_TO_APPEND_ON_SCROLL: 5,
 };

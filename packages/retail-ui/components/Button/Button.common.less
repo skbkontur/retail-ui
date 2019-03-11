@@ -171,13 +171,7 @@
     }
   }
 
-  .linkMixin(
-    link,
-    @link-color,
-    @link-hover-color,
-    @link-hover-color,
-    @link-active-color
-  );
+  .linkMixin(link, @link-color, @link-hover-color, @link-hover-color, @link-active-color);
 
   .wrap {
     box-sizing: border-box;
@@ -220,13 +214,7 @@
     height: 100%;
     position: absolute;
     opacity: 0.2;
-    background: linear-gradient(
-      -110deg,
-      #ccc 30%,
-      transparent 0,
-      transparent 60%,
-      #ccc 0
-    );
+    background: linear-gradient(-110deg, #ccc 30%, transparent 0, transparent 60%, #ccc 0);
     background-size: 30px 100%;
     top: 0;
     left: 0;
@@ -256,7 +244,6 @@
   }
 
   100% {
-    transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg)
-      skewY(0deg);
+    transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
   }
 }

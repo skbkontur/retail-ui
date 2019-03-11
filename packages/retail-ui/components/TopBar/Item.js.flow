@@ -11,7 +11,7 @@ export type ItemProps = {|
   iconOnly?: boolean,
   minWidth?: string | number,
   use?: 'danger' | 'pay',
-  tabIndex?: number
+  tabIndex?: number,
 |};
 
 declare class Item extends React$Component<ItemProps> {}

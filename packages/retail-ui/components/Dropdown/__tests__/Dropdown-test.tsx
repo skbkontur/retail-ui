@@ -9,7 +9,7 @@ describe('Dropdown', () => {
     const wrapper = mount(
       <Dropdown caption="button">
         <MenuItem>Menu item</MenuItem>
-      </Dropdown>
+      </Dropdown>,
     );
 
     expect(wrapper.exists());
@@ -24,14 +24,10 @@ describe('Dropdown', () => {
 
     const selectInstance = wrapper.find(Select).instance();
 
-    expect(
-      (selectInstance.state as SelectState<JSX.Element>).opened
-    ).toBeTruthy();
+    expect((selectInstance.state as SelectState<JSX.Element>).opened).toBeTruthy();
 
     wrapper.find('#test-button').simulate('click');
-    expect(
-      (selectInstance.state as SelectState<JSX.Element>).opened
-    ).toBeFalsy();
+    expect((selectInstance.state as SelectState<JSX.Element>).opened).toBeFalsy();
   });
 
   it('Pass props to select', () => {

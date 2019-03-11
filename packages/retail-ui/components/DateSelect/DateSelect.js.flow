@@ -8,7 +8,7 @@ export type DateSelectProps = {|
   value: number,
   width?: number | string,
   minValue?: number,
-  maxValue?: number
+  maxValue?: number,
 |};
 
 export type DateSelectState = {|
@@ -19,12 +19,12 @@ export type DateSelectState = {|
   pos: number,
   top: number,
   topCapped: boolean,
-  nodeTop: number
+  nodeTop: number,
 |};
 
 declare class DateSelect extends React$Component<DateSelectProps, DateSelectState> {
-  open: () => void,
-  close: () => void
+  open: () => void;
+  close: () => void;
 }
 
 export default DateSelect;

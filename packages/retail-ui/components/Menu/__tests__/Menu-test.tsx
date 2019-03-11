@@ -10,7 +10,7 @@ describe('Menu', () => {
     const wrapper = mount<Menu>(
       <Menu>
         <MenuItem ref={refItem} />
-      </Menu>
+      </Menu>,
     );
     const menu = wrapper.instance();
 
@@ -31,7 +31,7 @@ describe('Menu', () => {
         <MenuItem onClick={onClick}>
           <span data-click />
         </MenuItem>
-      </Menu>
+      </Menu>,
     );
 
     wrapper.find('[data-click]').simulate('click');
@@ -46,7 +46,7 @@ describe('Menu', () => {
         <MenuItem onClick={onClick} disabled>
           <span data-click />
         </MenuItem>
-      </Menu>
+      </Menu>,
     );
 
     wrapper.find('[data-click]').simulate('click');

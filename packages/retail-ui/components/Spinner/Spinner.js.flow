@@ -2,7 +2,7 @@
 import { types } from './settings';
 
 declare export var SpinnerConfig: {|
-  hasSvgAnimationSupport: boolean
+  hasSvgAnimationSupport: boolean,
 |};
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
@@ -10,11 +10,11 @@ export type SpinnerType = 'mini' | 'normal' | 'big';
 export type SpinnerProps = {|
   caption?: React$Node,
   dimmed?: boolean,
-  type?: SpinnerType
+  type?: SpinnerType,
 |};
 
 declare class Spinner extends React$Component<SpinnerProps> {
-  static Types: typeof types
+  static Types: typeof types;
 }
 
 export default Spinner;

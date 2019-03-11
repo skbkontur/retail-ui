@@ -26,9 +26,7 @@ describe('ComboBoxRenderer', () => {
 
   it('closes if not recovered', () => {
     const onChange = jest.fn();
-    const wrapper = mount(
-      <ComboBoxRenderer value={null} source={source} onChange={onChange} />
-    );
+    const wrapper = mount(<ComboBoxRenderer value={null} source={source} onChange={onChange} />);
 
     editAndBlur(wrapper);
 
@@ -44,12 +42,7 @@ describe('ComboBoxRenderer', () => {
   it('closes when value was recovered', () => {
     const onChange = jest.fn();
     const wrapper = mount(
-      <ComboBoxRenderer
-        value="bar"
-        source={source}
-        recover={x => ({ value: x })}
-        onChange={onChange}
-      />
+      <ComboBoxRenderer value="bar" source={source} recover={x => ({ value: x })} onChange={onChange} />,
     );
 
     editAndBlur(wrapper);
@@ -67,7 +60,7 @@ describe('ComboBoxRenderer', () => {
         source={source}
         recover={text => (text === 'bar' ? { value: 'bar' } : null)}
         onError={onError}
-      />
+      />,
     );
 
     editAndBlur(wrapper);
@@ -83,9 +76,7 @@ describe('ComboBoxRenderer', () => {
 
   it('close menu on escape press', () => {
     const onChange = jest.fn();
-    const wrapper = mount(
-      <ComboBoxRenderer value="" source={source} onChange={onChange} />
-    );
+    const wrapper = mount(<ComboBoxRenderer value="" source={source} onChange={onChange} />);
 
     wrapper.find('[tabIndex]').simulate('click');
     wrapper
@@ -102,9 +93,7 @@ describe('ComboBoxRenderer', () => {
     const items = ['foo', 'bar'];
     const promise = Promise.resolve({ values: items });
     const onChange = jest.fn();
-    const wrapper = mount(
-      <ComboBoxRenderer value="" source={() => promise} onChange={onChange} />
-    );
+    const wrapper = mount(<ComboBoxRenderer value="" source={() => promise} onChange={onChange} />);
 
     wrapper.find('[tabIndex]').simulate('click');
     await promise;
@@ -125,9 +114,7 @@ describe('ComboBoxRenderer', () => {
     const items = ['foo', 'bar'];
     const promise = Promise.resolve({ values: items });
     const onOpen = jest.fn();
-    const wrapper = mount(
-      <ComboBoxRenderer value="" source={() => promise} onOpen={onOpen} />
-    );
+    const wrapper = mount(<ComboBoxRenderer value="" source={() => promise} onOpen={onOpen} />);
 
     wrapper.find('[tabIndex]').simulate('click');
     expect(onOpen.mock.calls.length).toBe(1);
@@ -143,9 +130,7 @@ describe('ComboBoxRenderer', () => {
     const items = ['foo', 'bar'];
     const promise = Promise.resolve({ values: items });
     const onClose = jest.fn();
-    const wrapper = mount(
-      <ComboBoxRenderer value="" source={() => promise} onClose={onClose} />
-    );
+    const wrapper = mount(<ComboBoxRenderer value="" source={() => promise} onClose={onClose} />);
 
     wrapper.find('[tabIndex]').simulate('click');
     expect(onClose.mock.calls.length).toBe(0);
@@ -158,9 +143,7 @@ describe('ComboBoxRenderer', () => {
     const items = ['foo', 'bar'];
     const promise = Promise.resolve({ values: items });
     const onFocus = jest.fn();
-    const wrapper = mount(
-      <ComboBoxRenderer value="" source={() => promise} onFocus={onFocus} />
-    );
+    const wrapper = mount(<ComboBoxRenderer value="" source={() => promise} onFocus={onFocus} />);
 
     wrapper.find('[tabIndex]').simulate('click');
     expect(onFocus.mock.calls.length).toBe(1);
@@ -177,9 +160,7 @@ describe('ComboBoxRenderer', () => {
     const items = ['foo', 'bar'];
     const promise = Promise.resolve({ values: items });
     const onBlur = jest.fn();
-    const wrapper = mount(
-      <ComboBoxRenderer value="" source={() => promise} onBlur={onBlur} />
-    );
+    const wrapper = mount(<ComboBoxRenderer value="" source={() => promise} onBlur={onBlur} />);
 
     wrapper.find('[tabIndex]').simulate('click');
     await promise;
@@ -193,13 +174,7 @@ describe('ComboBoxRenderer', () => {
 
   it('calls onInputChange function', () => {
     const onInputChange = jest.fn();
-    const wrapper = mount(
-      <ComboBoxRenderer
-        value=""
-        source={() => Promise.resolve()}
-        onInputChange={onInputChange}
-      />
-    );
+    const wrapper = mount(<ComboBoxRenderer value="" source={() => Promise.resolve()} onInputChange={onInputChange} />);
 
     wrapper.find('[tabIndex]').simulate('click');
     wrapper.find('input').simulate('change', { target: { value: 'hello' } });
@@ -208,13 +183,7 @@ describe('ComboBoxRenderer', () => {
 
   it('applies onInputChange transforms for input value', () => {
     const onInputChange = v => v.toUpperCase();
-    const wrapper = mount(
-      <ComboBoxRenderer
-        value=""
-        source={() => Promise.resolve()}
-        onInputChange={onInputChange}
-      />
-    );
+    const wrapper = mount(<ComboBoxRenderer value="" source={() => Promise.resolve()} onInputChange={onInputChange} />);
 
     wrapper.find('[tabIndex]').simulate('click');
     wrapper.find('input').simulate('change', { target: { value: 'hello' } });
@@ -224,13 +193,7 @@ describe('ComboBoxRenderer', () => {
 
   it('ignores transforms if returned not string', () => {
     const onInputChange = v => {};
-    const wrapper = mount(
-      <ComboBoxRenderer
-        value=""
-        source={() => Promise.resolve()}
-        onInputChange={onInputChange}
-      />
-    );
+    const wrapper = mount(<ComboBoxRenderer value="" source={() => Promise.resolve()} onInputChange={onInputChange} />);
 
     wrapper.find('[tabIndex]').simulate('click');
     wrapper.find('input').simulate('change', { target: { value: 'hello' } });
@@ -240,11 +203,7 @@ describe('ComboBoxRenderer', () => {
   it('calls onInputKeyDown function', () => {
     const onInputKeyDown = jest.fn();
     const wrapper = mount(
-      <ComboBoxRenderer
-        value=""
-        source={() => Promise.resolve()}
-        onInputKeyDown={onInputKeyDown}
-      />
+      <ComboBoxRenderer value="" source={() => Promise.resolve()} onInputKeyDown={onInputKeyDown} />,
     );
 
     wrapper.find('[tabIndex]').simulate('click');
@@ -255,11 +214,7 @@ describe('ComboBoxRenderer', () => {
   it('prevents default keyDown handling if onInputKeyDown prevents', () => {
     const onInputKeyDown = e => e.preventDefault();
     const wrapper = mount(
-      <ComboBoxRenderer
-        value=""
-        source={() => Promise.resolve()}
-        onInputKeyDown={onInputKeyDown}
-      />
+      <ComboBoxRenderer value="" source={() => Promise.resolve()} onInputKeyDown={onInputKeyDown} />,
     );
 
     wrapper.find('[tabIndex]').simulate('click');

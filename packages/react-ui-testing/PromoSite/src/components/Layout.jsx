@@ -1,10 +1,10 @@
 // @flow
-import React from "react";
-import Helmet from "react-helmet";
-import { withRouter } from "react-router";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import Logotype from "retail-ui/components/Logotype";
+import React from 'react';
+import Helmet from 'react-helmet';
+import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import Logotype from 'retail-ui/components/Logotype';
 
 type LayoutProps = {
     children?: any,
@@ -20,20 +20,22 @@ function Layout({ children, location }: LayoutProps): React.Element<*> {
                     <Logotype suffix="ui-testing" href="#/" color="#fff" textColor="#fff" />
                 </LogoContainer>
                 <div>
-                    <NavigationLink className={location.pathname === "/quick-start" ? "active" : ""} to="/quick-start">
+                    <NavigationLink className={location.pathname === '/quick-start' ? 'active' : ''} to="/quick-start">
                         Квик-старт
                     </NavigationLink>
                     <NavigationLink
-                        className={location.pathname === "/expose-tids-to-dom" ? "active" : ""}
-                        to="/expose-tids-to-dom">
+                        className={location.pathname === '/expose-tids-to-dom' ? 'active' : ''}
+                        to="/expose-tids-to-dom"
+                    >
                         Скрипт для работы с DOM
                     </NavigationLink>
                     <NavigationLink
-                        className={location.pathname === "/page-objects-dot-net" ? "active" : ""}
-                        to="/page-objects-dot-net">
+                        className={location.pathname === '/page-objects-dot-net' ? 'active' : ''}
+                        to="/page-objects-dot-net"
+                    >
                         PageObjects для .NET
                     </NavigationLink>
-                    <NavigationLink className={location.pathname === "/bookmarklet" ? "active" : ""} to="/bookmarklet">
+                    <NavigationLink className={location.pathname === '/bookmarklet' ? 'active' : ''} to="/bookmarklet">
                         Bookmarklet
                     </NavigationLink>
                 </div>
@@ -47,11 +49,11 @@ function Layout({ children, location }: LayoutProps): React.Element<*> {
 
 export default withRouter(Layout);
 
-const navigationBarSize = "290px";
-const sidebarColor = "#41464e";
-const sidebarTextColor = "#ffffff";
-const sidebarLinkActiveColor = "rgba(0, 0, 0, 0.3)";
-const sidebarLinkFocusColor = "rgba(0, 0, 0, 0.2)";
+const navigationBarSize = '290px';
+const sidebarColor = '#41464e';
+const sidebarTextColor = '#ffffff';
+const sidebarLinkActiveColor = 'rgba(0, 0, 0, 0.3)';
+const sidebarLinkFocusColor = 'rgba(0, 0, 0, 0.2)';
 
 const Root = styled.div`
     h1 {

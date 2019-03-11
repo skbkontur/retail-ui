@@ -35,10 +35,7 @@ function getData(element: Object): DataType {
   if (typeof element !== 'object') {
     nodeType = 'Text';
     text = element + '';
-  } else if (
-    element._currentElement === null ||
-    element._currentElement === false
-  ) {
+  } else if (element._currentElement === null || element._currentElement === false) {
     nodeType = 'Empty';
   } else if (element._renderedComponent) {
     nodeType = 'NativeWrapper';
@@ -76,11 +73,7 @@ function getData(element: Object): DataType {
       name = element.getName();
       // 0.14 top-level wrapper
       // TODO(jared): The backend should just act as if these don't exist.
-      if (
-        element._renderedComponent &&
-        element._currentElement.props ===
-          element._renderedComponent._currentElement
-      ) {
+      if (element._renderedComponent && element._currentElement.props === element._renderedComponent._currentElement) {
         nodeType = 'Wrapper';
       }
       if (name === null) {
@@ -101,7 +94,7 @@ function getData(element: Object): DataType {
       forceUpdate: inst.forceUpdate && inst.forceUpdate.bind(inst),
       setInProps: inst.forceUpdate && setInProps.bind(null, element),
       setInState: inst.forceUpdate && setInState.bind(null, inst),
-      setInContext: inst.forceUpdate && setInContext.bind(null, inst)
+      setInContext: inst.forceUpdate && setInContext.bind(null, inst),
     };
     publicInstance = inst;
 
@@ -125,7 +118,7 @@ function getData(element: Object): DataType {
     children,
     text,
     updater,
-    publicInstance
+    publicInstance,
   };
 }
 
@@ -133,7 +126,7 @@ function setInProps(internalInst, path: Array<string | number>, value: any) {
   var element = internalInst._currentElement;
   internalInst._currentElement = {
     ...element,
-    props: copyWithSet(element.props, path, value)
+    props: copyWithSet(element.props, path, value),
   };
   internalInst._instance.forceUpdate();
 }

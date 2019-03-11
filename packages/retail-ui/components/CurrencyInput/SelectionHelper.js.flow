@@ -2,15 +2,15 @@
 export type Selection = {|
   start: number,
   end: number,
-  direction: SelectionDirection
+  direction: SelectionDirection,
 |};
 
 export type SelectionDirection = 'forward' | 'backward' | 'none';
 
 declare class SelectionHelper {
-  static fromPosition: (position: number) => Selection,
-  static backward: (start: number, end: number) => Selection,
-  static forward: (start: number, end: number) => Selection
+  static fromPosition: (position: number) => Selection;
+  static backward: (start: number, end: number) => Selection;
+  static forward: (start: number, end: number) => Selection;
 }
 
 export default SelectionHelper;

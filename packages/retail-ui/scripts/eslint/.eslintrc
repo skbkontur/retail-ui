@@ -38,7 +38,7 @@ globals:
 rules:
   # Possible Errors <http://eslint.org/docs/rules/#possible-errors>
   # babel removes them for older browsers
-  comma-dangle: [1, never]
+  comma-dangle: [1, always-multiline]
   # equivalent to jshint boss
   no-cond-assign: 1
   # equivalent to jshint devel
@@ -373,7 +373,7 @@ rules:
   flowtype/define-flow-type: 1
   flowtype/delimiter-dangle:
   - 2
-  - never
+  - always-multiline
   flowtype/generic-spacing:
   - 2
   - never

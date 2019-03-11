@@ -5,9 +5,7 @@ export interface ResizeDetectorProps {
   onResize?: (event: UIEvent) => void;
 }
 
-export default class ResizeDetector extends React.Component<
-  ResizeDetectorProps
-> {
+export default class ResizeDetector extends React.Component<ResizeDetectorProps> {
   private iframeWindow: Window | null = null;
 
   public componentDidMount() {

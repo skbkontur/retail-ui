@@ -50,7 +50,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
     this.state = {
       notification: null,
       action: null,
-      id: 0
+      id: 0,
     };
   }
 
@@ -81,10 +81,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
 
     safelyCall(this.props.onPush, notification, action);
 
-    this.setState(
-      ({ id }) => ({ notification, action, id: id + 1 }),
-      this._setTimer
-    );
+    this.setState(({ id }) => ({ notification, action, id: id + 1 }), this._setTimer);
   }
 
   /**
@@ -107,7 +104,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
       onMouseLeave: this._setTimer,
       onClose: this.close,
       children: notification,
-      action
+      action,
     };
 
     return (
@@ -116,7 +113,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
         classNames="slide-and-fade"
         timeout={{
           enter: 200,
-          exit: 150
+          exit: 150,
         }}
       >
         <ToastView ref={this._refToast} {...toastProps} />

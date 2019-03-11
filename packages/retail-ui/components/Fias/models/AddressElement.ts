@@ -10,21 +10,17 @@ export class AddressElement {
     'р-н': Fields.district,
     г: Fields.city,
     нп: Fields.settlement,
-    ул: Fields.street
+    ул: Fields.street,
   };
 
   private static FEDERAL_CITIES: FiasId[] = [
     '0c5b2444-70a0-4932-980c-b4dc0d3f02b5', // Москва
     'c2deb16a-0330-4f05-821f-1d09c93331e6', // Санкт-Петербург
     '6fdecb78-893a-4e3f-a5ba-aa062459463b', // Севастополь
-    '63ed1a35-4be6-4564-a1ec-0c51f7383314' // Байконур
+    '63ed1a35-4be6-4564-a1ec-0c51f7383314', // Байконур
   ];
 
-  constructor(
-    public type: Fields,
-    public name: string,
-    public data?: FiasData
-  ) {}
+  constructor(public type: Fields, public name: string, public data?: FiasData) {}
 
   public get isFederalCity(): boolean {
     if (!(this.data && this.data.fiasId)) {
@@ -44,9 +40,7 @@ export class AddressElement {
     if (data) {
       const { abbreviation } = data;
       if (abbreviation) {
-        const type = !withoutType
-          ? abbreviations[abbreviation] || abbreviation
-          : '';
+        const type = !withoutType ? abbreviations[abbreviation] || abbreviation : '';
         switch (abbreviation) {
           case 'Чувашия':
             result = `${type} Чувашия`;
@@ -67,11 +61,7 @@ export class AddressElement {
             break;
 
           case 'п':
-            result = !withoutType
-              ? `${
-                  this.type === Fields.district ? 'поселение' : 'поселок'
-                } ${name}`
-              : `${name}`;
+            result = !withoutType ? `${this.type === Fields.district ? 'поселение' : 'поселок'} ${name}` : `${name}`;
             break;
 
           default:
@@ -102,11 +92,7 @@ export class AddressElement {
           result = `${result} ${data.number}`;
         }
 
-        if (
-          data.structureStatus &&
-          data.structureStatus !== StructureStatuses.None &&
-          data.structureNumber
-        ) {
+        if (data.structureStatus && data.structureStatus !== StructureStatuses.None && data.structureNumber) {
           switch (data.structureStatus) {
             case StructureStatuses.Structure:
               result = `${result} строение ${data.structureNumber}`;
@@ -148,31 +134,24 @@ export class AddressElement {
   get verifiableData(): Partial<FiasData> {
     const { type, data } = this;
     if (data) {
-      const {
-        name,
-        abbreviation,
-        number,
-        structureNumber,
-        buildingNumber,
-        structureStatus
-      } = data;
+      const { name, abbreviation, number, structureNumber, buildingNumber, structureStatus } = data;
       switch (type) {
         case Fields.house:
           return {
             number,
             structureNumber,
             structureStatus,
-            buildingNumber
+            buildingNumber,
           };
         default:
           return {
             name,
-            abbreviation
+            abbreviation,
           };
       }
     }
     return {
-      name: this.name
+      name: this.name,
     };
   }
 }

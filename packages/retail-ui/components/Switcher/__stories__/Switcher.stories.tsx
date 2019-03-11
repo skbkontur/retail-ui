@@ -4,9 +4,9 @@ import { storiesOf } from '@storybook/react';
 
 import Switcher from '../Switcher';
 
-class Component extends React.Component<{ items: string[], error?: boolean }, { value: string }> {
+class Component extends React.Component<{ items: string[]; error?: boolean }, { value: string }> {
   public state = {
-    value: ''
+    value: '',
   };
 
   public render() {
@@ -25,8 +25,10 @@ class Component extends React.Component<{ items: string[], error?: boolean }, { 
   }
 }
 
-storiesOf('Switcher', module).add('horizontal', () => {
+storiesOf('Switcher', module)
+  .add('horizontal', () => {
     return <Component items={['One', 'Two', 'Three']} />;
-  }).add('errored', () => {
+  })
+  .add('errored', () => {
     return <Component error items={['One', 'Two', 'Three']} />;
   });

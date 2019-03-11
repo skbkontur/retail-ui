@@ -33,7 +33,7 @@ storiesOf('ComboBox', module)
   .add('simple combobox with delay', () => {
     class Sample extends React.Component {
       public state = {
-        delay: 1000
+        delay: 1000,
       };
       public render() {
         return (
@@ -41,23 +41,17 @@ storiesOf('ComboBox', module)
             <SimpleCombobox noInitialValue delay={this.state.delay} />
             <p>
               <label>Delay: </label>
-              <input
-                type="number"
-                value={this.state.delay}
-                onChange={this.handleChangeDelay}
-              />
+              <input type="number" value={this.state.delay} onChange={this.handleChangeDelay} />
             </p>
           </div>
         );
       }
 
-      private handleChangeDelay = (
-        event: React.ChangeEvent<HTMLInputElement>
-      ) => {
+      private handleChangeDelay = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.valueAsNumber;
 
         this.setState({
-          delay: value
+          delay: value,
         });
       };
     }
@@ -65,43 +59,18 @@ storiesOf('ComboBox', module)
     return <Sample />;
   })
   .add('with error handling', () => (
-    <TestComboBox
-      onSearch={search}
-      renderItem={renderValue}
-      onUnexpectedInput={errorStrategy}
-    />
+    <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={errorStrategy} />
   ))
   .add('with error skipping', () => (
-    <TestComboBox
-      onSearch={search}
-      renderItem={renderValue}
-      onUnexpectedInput={nullStrategy}
-    />
+    <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={nullStrategy} />
   ))
   .add('with warning', () => (
-    <TestComboBox
-      onSearch={search}
-      renderItem={renderValue}
-      onUnexpectedInput={warningStrategy}
-    />
+    <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={warningStrategy} />
   ))
-  .add('with rejections', () => (
-    <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />
-  ))
-  .add('disabled', () => (
-    <TestComboBox
-      autoFocus
-      disabled
-      onSearch={search}
-      renderItem={renderValue}
-    />
-  ))
+  .add('with rejections', () => <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />)
+  .add('disabled', () => <TestComboBox autoFocus disabled onSearch={search} renderItem={renderValue} />)
   .add('with custom elements', () => (
-    <TestComboBox
-      onSearch={searchWithCustomElements}
-      renderItem={renderValue}
-      onUnexpectedInput={errorStrategy}
-    />
+    <TestComboBox onSearch={searchWithCustomElements} renderItem={renderValue} onUnexpectedInput={errorStrategy} />
   ))
   .add('autocomplete', () => (
     <TestComboBox
@@ -133,50 +102,17 @@ storiesOf('ComboBox', module)
       onUnexpectedInput={errorStrategy}
     />
   ))
-  .add('with maxMenuHeight', () => (
-    <TestComboBox
-      onSearch={search}
-      renderItem={renderValue}
-      maxMenuHeight={200}
-    />
-  ))
+  .add('with maxMenuHeight', () => <TestComboBox onSearch={search} renderItem={renderValue} maxMenuHeight={200} />)
   .add('with borderless', () => (
-    <TestComboBox
-      onSearch={search}
-      renderItem={renderValue}
-      onUnexpectedInput={nullStrategy}
-      borderless
-    />
+    <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={nullStrategy} borderless />
   ))
-  .add('with center align', () => (
-    <SimpleCombobox
-      align={'center'}
-      placeholder={'placeholder'}
-      noInitialValue={true}
-    />
-  ))
-  .add('with right align', () => (
-    <SimpleCombobox
-      align={'right'}
-      placeholder={'placeholder'}
-      noInitialValue={true}
-    />
-  ))
-  .add('with maxLength', () => (
-    <SimpleCombobox
-      maxLength={10}
-      placeholder={'placeholder'}
-      noInitialValue={true}
-    />
-  ))
+  .add('with center align', () => <SimpleCombobox align={'center'} placeholder={'placeholder'} noInitialValue={true} />)
+  .add('with right align', () => <SimpleCombobox align={'right'} placeholder={'placeholder'} noInitialValue={true} />)
+  .add('with maxLength', () => <SimpleCombobox maxLength={10} placeholder={'placeholder'} noInitialValue={true} />)
   .add('toogle error', () => <ComboBoxWithErrorToggler />)
-  .add('with `null` onUnexpectedInput', () => (
-    <ComboBox onUnexpectedInput={() => null} />
-  ))
+  .add('with `null` onUnexpectedInput', () => <ComboBox onUnexpectedInput={() => null} />)
   .add('with external value', () => <ComboBoxWithExternalValue />)
-  .add('with renderItem state', () => (
-    <SimpleCombobox renderItem={(_, state) => String(state)} />
-  ))
+  .add('with renderItem state', () => <SimpleCombobox renderItem={(_, state) => String(state)} />)
   .add('open, close, search methods', () => {
     let combobox: Nullable<ComboBox<any>> = null;
     return (
@@ -191,15 +127,9 @@ storiesOf('ComboBox', module)
         />{' '}
         <span className="control-buttons">
           <button onClick={() => combobox && combobox.open()}>open</button>{' '}
-          <button onClick={() => combobox && combobox.search('')}>
-            empty search
-          </button>{' '}
-          <button onClick={() => combobox && combobox.search()}>
-            search current value
-          </button>{' '}
-          <button onClick={() => combobox && combobox.search('two')}>
-            search "two"
-          </button>{' '}
+          <button onClick={() => combobox && combobox.search('')}>empty search</button>{' '}
+          <button onClick={() => combobox && combobox.search()}>search current value</button>{' '}
+          <button onClick={() => combobox && combobox.search('two')}>search "two"</button>{' '}
           <button onClick={() => combobox && combobox.close()}>close</button>
         </span>
       </div>
@@ -217,13 +147,7 @@ storiesOf('ComboBox', module)
     const RecursiveComboboxes = ({ depth }: { depth: number }) => (
       <div>
         {Array.from({ length: 2 }).map((_, i) => (
-          <div key={`${depth}-${i}`}>
-            {depth > 1 ? (
-              <RecursiveComboboxes depth={depth - 1} />
-            ) : (
-              <SimpleCombobox />
-            )}
-          </div>
+          <div key={`${depth}-${i}`}>{depth > 1 ? <RecursiveComboboxes depth={depth - 1} /> : <SimpleCombobox />}</div>
         ))}
       </div>
     );
@@ -239,13 +163,10 @@ interface ComboBoxWithErrorTogglerState {
   error: boolean;
   value: { label: number };
 }
-class ComboBoxWithErrorToggler extends React.Component<
-  {},
-  ComboBoxWithErrorTogglerState
-> {
+class ComboBoxWithErrorToggler extends React.Component<{}, ComboBoxWithErrorTogglerState> {
   public state: ComboBoxWithErrorTogglerState = {
     error: false,
-    value: { label: 0 }
+    value: { label: 0 },
   };
 
   public render() {
@@ -256,7 +177,7 @@ class ComboBoxWithErrorToggler extends React.Component<
           onChange={value =>
             this.setState(state => ({
               error: value,
-              value: { label: state.value.label + 1 }
+              value: { label: state.value.label + 1 },
             }))
           }
         />
@@ -276,22 +197,16 @@ interface ComboBoxState {
   warning: boolean;
 }
 
-interface TestComboboxProps<T>
-  extends Omit<ComboBoxProps<T>, 'onUnexpectedInput'> {
+interface TestComboboxProps<T> extends Omit<ComboBoxProps<T>, 'onUnexpectedInput'> {
   onSearch?: (query: string) => Promise<T[]>;
-  onUnexpectedInput?: (
-    setState: (state: Partial<ComboBoxState>) => void
-  ) => (x: string) => any;
+  onUnexpectedInput?: (setState: (state: Partial<ComboBoxState>) => void) => (x: string) => any;
 }
 
-class TestComboBox extends React.Component<
-  TestComboboxProps<any>,
-  ComboBoxState
-> {
+class TestComboBox extends React.Component<TestComboboxProps<any>, ComboBoxState> {
   public state: ComboBoxState = {
     value: null,
     error: false,
-    warning: false
+    warning: false,
   };
 
   private combobox: Nullable<ComboBox<ValueType>> = null;
@@ -311,9 +226,7 @@ class TestComboBox extends React.Component<
           value={this.state.value}
           maxMenuHeight={this.props.maxMenuHeight}
           onBlur={action('blur')}
-          onFocus={() =>
-            this.setState({ error: false, warning: false }, action('focus'))
-          }
+          onFocus={() => this.setState({ error: false, warning: false }, action('focus'))}
           getItems={this.props.onSearch}
           renderItem={this.props.renderItem}
           renderValue={renderValue}
@@ -321,9 +234,7 @@ class TestComboBox extends React.Component<
           placeholder="numbers"
           onChange={this.handleChange}
           onUnexpectedInput={
-            this.props.onUnexpectedInput
-              ? this.props.onUnexpectedInput(this.setState.bind(this))
-              : undefined
+            this.props.onUnexpectedInput ? this.props.onUnexpectedInput(this.setState.bind(this)) : undefined
           }
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Найдено ${found} из ${total}`}
@@ -340,12 +251,8 @@ class TestComboBox extends React.Component<
         >
           Focus
         </button>
-        {this.state.error && (
-          <div style={{ color: 'red' }}>Необходимо выбрать значение</div>
-        )}
-        {this.state.warning && (
-          <div style={{ color: '#f50' }}>Вы не выбрали значение</div>
-        )}
+        {this.state.error && <div style={{ color: 'red' }}>Необходимо выбрать значение</div>}
+        {this.state.warning && <div style={{ color: '#f50' }}>Вы не выбрали значение</div>}
       </div>
     );
   }
@@ -364,12 +271,9 @@ interface SimpleComboboxState {
   value: Nullable<{ value: number; label: string }>;
 }
 
-class SimpleCombobox extends React.Component<
-  SimpleComboboxProps & ComboBoxProps<any>,
-  SimpleComboboxState
-> {
+class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps<any>, SimpleComboboxState> {
   public state: SimpleComboboxState = {
-    value: this.props.noInitialValue ? null : { value: 1, label: 'First' }
+    value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
   };
 
   public render() {
@@ -392,25 +296,21 @@ class SimpleCombobox extends React.Component<
         { value: 4, label: 'Fourth' },
         { value: 5, label: 'Fifth' },
         { value: 6, label: 'Sixth' },
-        { value: 7, label: 'A long long long long long long time ago' }
-      ].filter(
-        x =>
-          x.label.toLowerCase().includes(query.toLowerCase()) ||
-          x.value.toString(10) === query
-      )
+        { value: 7, label: 'A long long long long long long time ago' },
+      ].filter(x => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
     ).then<Array<{ value: number; label: string }>>(
-      result => new Promise(ok => setTimeout(ok, this.props.delay || 0, result))
+      result => new Promise(ok => setTimeout(ok, this.props.delay || 0, result)),
     );
 }
 
 class ComplexCombobox extends React.Component<ComboBoxProps<any>, {}> {
   public state = {
-    value: null
+    value: null,
   };
   private popularItems = [
     { value: 956, label: 'Махачкала' },
     { value: 4974, label: 'Верхняя-Пышма' },
-    { value: 4980, label: 'Екатеринбург' }
+    { value: 4980, label: 'Екатеринбург' },
   ];
 
   public render() {
@@ -429,47 +329,22 @@ class ComplexCombobox extends React.Component<ComboBoxProps<any>, {}> {
 
   private getItems = (query: string) => {
     return getCities(query)
-      .then(
-        ({
-          foundItems,
-          totalCount
-        }: {
-          foundItems: Array<{ Id: number; City: string }>;
-          totalCount: number;
-        }) => ({
-          foundItems: foundItems.map(this.mapCity),
-          totalCount
-        })
-      )
-      .then(
-        ({
-          foundItems,
-          totalCount
-        }: {
-          foundItems: any[];
-          totalCount: number;
-        }) => ({
-          popularItems: query.length === 0 ? this.popularItems : [],
-          itemsToShow: foundItems,
-          totalCount
-        })
-      )
-      .then(
-        ({
+      .then(({ foundItems, totalCount }: { foundItems: Array<{ Id: number; City: string }>; totalCount: number }) => ({
+        foundItems: foundItems.map(this.mapCity),
+        totalCount,
+      }))
+      .then(({ foundItems, totalCount }: { foundItems: any[]; totalCount: number }) => ({
+        popularItems: query.length === 0 ? this.popularItems : [],
+        itemsToShow: foundItems,
+        totalCount,
+      }))
+      .then(({ popularItems, itemsToShow, totalCount }: { popularItems: any; itemsToShow: any; totalCount: number }) =>
+        [].concat(
           popularItems,
+          popularItems.length ? (<MenuSeparator /> as any) : [],
           itemsToShow,
-          totalCount
-        }: {
-          popularItems: any;
-          itemsToShow: any;
-          totalCount: number;
-        }) =>
-          [].concat(
-            popularItems,
-            popularItems.length ? (<MenuSeparator /> as any) : [],
-            itemsToShow,
-            this.renderTotalCount(itemsToShow.length, totalCount)
-          )
+          this.renderTotalCount(itemsToShow.length, totalCount),
+        ),
       );
   };
 
@@ -484,7 +359,7 @@ class ComplexCombobox extends React.Component<ComboBoxProps<any>, {}> {
 
   private mapCity = ({ Id, City }: { Id: number; City: string }) => ({
     value: Id,
-    label: City
+    label: City,
   });
 
   private renderTotalCount = (foundCount: number, totalCount: number): any =>
@@ -497,9 +372,7 @@ class ComplexCombobox extends React.Component<ComboBoxProps<any>, {}> {
     );
 }
 
-function errorStrategy(
-  setState: (state: Partial<ComboBoxState>) => void
-): (x: any) => void {
+function errorStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
   return x => {
     if (x) {
       setState({ error: true });
@@ -507,9 +380,7 @@ function errorStrategy(
   };
 }
 
-function nullStrategy(
-  setState: (state: Partial<ComboBoxState>) => void
-): (x: any) => void {
+function nullStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
   return x => {
     if (x) {
       setState({ value: null });
@@ -517,9 +388,7 @@ function nullStrategy(
   };
 }
 
-function warningStrategy(
-  setState: (state: Partial<ComboBoxState>) => void
-): (x: any) => void {
+function warningStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
   return x => {
     if (x) {
       setState({ warning: true });
@@ -541,29 +410,24 @@ const items = [
   { id: 11, name: 'eleven' },
   { id: 12, name: 'twelve' },
   { id: 13, name: 'very long long long long long long name' },
-  { id: 99, name: 'Putinka' }
+  { id: 99, name: 'Putinka' },
 ];
 
 function search(query: string): Promise<any> {
-  return Promise.resolve(
-    items.filter(x => ~x.name.toLowerCase().indexOf(query.toLowerCase()))
-  );
+  return Promise.resolve(items.filter(x => ~x.name.toLowerCase().indexOf(query.toLowerCase())));
 }
 
 let searchCount = 0;
 function searchWithRejections(query: string): Promise<any> {
   const random = (v: number) => Math.random() * v;
 
-  const delay = (v: any) =>
-    new Promise(resolve => setTimeout(resolve, random(5) * 100, v));
+  const delay = (v: any) => new Promise(resolve => setTimeout(resolve, random(5) * 100, v));
 
   searchCount++;
   return Promise.resolve()
     .then(delay)
     .then(() => {
-      searchCount % 2
-        ? Promise.reject()
-        : items.filter(x => ~x.name.indexOf(query.toLowerCase()));
+      searchCount % 2 ? Promise.reject() : items.filter(x => ~x.name.indexOf(query.toLowerCase()));
     });
 }
 
@@ -581,7 +445,7 @@ function searchWithCustomElements(query: string) {
     <MenuSeparator key={3} />,
     <MenuItem key={4} alkoLink onClick={() => alert('Clicked')}>
       Ha ha
-    </MenuItem>
+    </MenuItem>,
   ]);
 }
 
@@ -591,14 +455,14 @@ function renderValue({ id, name }: ValueType): React.ReactNode {
       style={{
         display: 'flex',
         justifyContent: 'space-between',
-        maxWidth: 250
+        maxWidth: 250,
       }}
     >
       <span
         style={{
           overflow: 'hidden',
           textOverflow: 'ellipsis',
-          marginRight: 20
+          marginRight: 20,
         }}
       >
         {name}
@@ -611,7 +475,7 @@ function renderValue({ id, name }: ValueType): React.ReactNode {
 class ComboBoxWithExternalValue extends React.Component {
   public state = {
     value: { value: 1, label: 'First' },
-    warning: false
+    warning: false,
   };
 
   private combobox: Nullable<ComboBox<any>>;
@@ -637,14 +501,14 @@ class ComboBoxWithExternalValue extends React.Component {
   private fill = () => {
     this.setState({
       value: { value: 1, label: 'First' },
-      warning: false
+      warning: false,
     });
   };
 
   private reset = () => {
     this.setState({
       warning: false,
-      value: null
+      value: null,
     });
     if (this.combobox) {
       this.combobox.reset();
@@ -654,18 +518,15 @@ class ComboBoxWithExternalValue extends React.Component {
   private getItems = (q: string) =>
     Promise.resolve(
       [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }].filter(
-        x =>
-          x.label.toLowerCase().includes(q.toLowerCase()) ||
-          x.value.toString(10) === q
-      )
+        x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q,
+      ),
     );
 
-  private onChange = (_: any, value: { value: number; label: string }) =>
-    this.setState({ value, warning: false });
+  private onChange = (_: any, value: { value: number; label: string }) => this.setState({ value, warning: false });
 
   private onUnexpectedInput = (query: string) => {
     this.setState({
-      warning: true
+      warning: true,
     });
     return null;
   };

@@ -16,27 +16,13 @@ const mockApi = new MockAPI();
 
 storiesOf('Fias', module)
   .add('default', () => <Fias />)
-  .add('with address value', () => (
-    <ExampleFias value={{ address: MOCK_VALUE.address }} />
-  ))
-  .add('with stringAddress', () => (
-    <ExampleFias value={{ addressString: MOCK_VALUE.addressString }} />
-  ))
-  .add('with fiasId', () => (
-    <ExampleFias value={{ fiasId: MOCK_VALUE.fiasId }} />
-  ))
-  .add('with fias version', () => (
-    <ExampleFias value={{ fiasId: MOCK_VALUE.fiasId }} version={'2016-08-25'} />
-  ))
+  .add('with address value', () => <ExampleFias value={{ address: MOCK_VALUE.address }} />)
+  .add('with stringAddress', () => <ExampleFias value={{ addressString: MOCK_VALUE.addressString }} />)
+  .add('with fiasId', () => <ExampleFias value={{ fiasId: MOCK_VALUE.fiasId }} />)
+  .add('with fias version', () => <ExampleFias value={{ fiasId: MOCK_VALUE.fiasId }} version={'2016-08-25'} />)
   .add('with search', () => <ExampleFias search={true} />)
-  .add('with fetch error', () => (
-    <ExampleFias
-      value={{ fiasId: '3f0affe0-0e2e-4c52-bd20-94767632f968-000-000-000' }}
-    />
-  ))
-  .add('with feedback', () => (
-    <ExampleFias error={true} feedback={'Заполнено не по ФИАСу'} />
-  ))
+  .add('with fetch error', () => <ExampleFias value={{ fiasId: '3f0affe0-0e2e-4c52-bd20-94767632f968-000-000-000' }} />)
+  .add('with feedback', () => <ExampleFias error={true} feedback={'Заполнено не по ФИАСу'} />)
   .add('readonly', () => <ExampleFias readonly={true} value={MOCK_VALUE} />)
   .add('customized', () => (
     <ExampleFias
@@ -45,13 +31,11 @@ storiesOf('Fias', module)
       locale={{
         modalTitle: 'Юридический адрес',
         modalButtonOk: '👍',
-        modalButtonCancel: '👎'
+        modalButtonCancel: '👎',
       }}
     />
   ))
-  .add('with mockAPI', () => (
-    <ExampleFias api={mockApi} value={MOCK_VALUE} search={true} />
-  ))
+  .add('with mockAPI', () => <ExampleFias api={mockApi} value={MOCK_VALUE} search={true} />)
   .add('modal', () => {
     const api = new FiasAPI(BASE_URL);
     return (
@@ -65,7 +49,7 @@ storiesOf('Fias', module)
       fieldsSettings={{
         region: { visible: false },
         district: { visible: false },
-        postalcode: { visible: true }
+        postalcode: { visible: true },
       }}
       value={{ ...MOCK_VALUE, ...{ postalCode: '555555' } }}
     />
@@ -73,22 +57,14 @@ storiesOf('Fias', module)
 
 class ExampleFias extends React.Component<any> {
   public state = {
-    value: this.props.value || {}
+    value: this.props.value || {},
   };
 
   public render(): React.ReactNode {
     const { value, onChange, ...props } = this.props;
     const { addressErrors } = this.state.value;
     const error = addressErrors && Object.keys(addressErrors).length > 0;
-    return (
-      <Fias
-        baseUrl={BASE_URL}
-        value={this.state.value}
-        onChange={this.handleChange}
-        error={error}
-        {...props}
-      />
-    );
+    return <Fias baseUrl={BASE_URL} value={this.state.value} onChange={this.handleChange} error={error} {...props} />;
   }
 
   private handleChange = (value: any) => {

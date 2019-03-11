@@ -56,7 +56,7 @@ const Positions: PopupPosition[] = [
   'left bottom',
   'right middle',
   'right top',
-  'right bottom'
+  'right bottom',
 ];
 
 class Hint extends React.Component<HintProps, HintState> {
@@ -66,11 +66,11 @@ class Hint extends React.Component<HintProps, HintState> {
     opened: false,
     maxWidth: 200,
     disableAnimations: false,
-    useWrapper: true
+    useWrapper: true,
   };
 
   public state: HintState = {
-    opened: this.props.manual ? !!this.props.opened : false
+    opened: this.props.manual ? !!this.props.opened : false,
   };
 
   private timer: Nullable<TimeoutID> = null;
@@ -97,17 +97,14 @@ class Hint extends React.Component<HintProps, HintState> {
       return this.renderPopup(this.props.children, {
         onMouseEnter: this.handleMouseEnter,
         onMouseLeave: this.handleMouseLeave,
-        useWrapper: this.props.useWrapper
+        useWrapper: this.props.useWrapper,
       });
     }
 
     return this.props.children;
   }
 
-  private renderPopup(
-    anchorElement: React.ReactNode | HTMLElement,
-    popupProps: Partial<PopupProps> = {}
-  ) {
+  private renderPopup(anchorElement: React.ReactNode | HTMLElement, popupProps: Partial<PopupProps> = {}) {
     return (
       <Popup
         hasPin
@@ -129,7 +126,7 @@ class Hint extends React.Component<HintProps, HintState> {
     const { pos, maxWidth } = this.props;
     const className = classNames({
       [styles.content]: true,
-      [styles.contentCenter]: pos === 'top' || pos === 'bottom'
+      [styles.contentCenter]: pos === 'top' || pos === 'bottom',
     });
     return (
       <div className={className} style={{ maxWidth }}>

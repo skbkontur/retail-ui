@@ -1,1 +1,1 @@
-export {default, RadioGroupProps, RadioGroupState, ItemType} from './RadioGroup';
+export { default, RadioGroupProps, RadioGroupState, ItemType } from './RadioGroup';

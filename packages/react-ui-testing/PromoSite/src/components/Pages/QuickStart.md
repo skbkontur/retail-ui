@@ -2,16 +2,16 @@
 
 ### Начальные требования
 
-* Microsoft Visual Studio 2015+
-* node.js + npm 
-* Chrome
+-   Microsoft Visual Studio 2015+
+-   node.js + npm
+-   Chrome
 
 ### Устновка и запуск chromedriver
 
-* [Скачать](https://chromedriver.storage.googleapis.com/index.html?path=2.34/) и запусть chromedriver
-* В Microsoft Visual Studio 2015+ cоздать пустой ClassLibrary проект
-* Добавить в зависимости Selnium.WebDriver и NUnit
-* Запустить простейший тест:
+-   [Скачать](https://chromedriver.storage.googleapis.com/index.html?path=2.34/) и запусть chromedriver
+-   В Microsoft Visual Studio 2015+ cоздать пустой ClassLibrary проект
+-   Добавить в зависимости Selnium.WebDriver и NUnit
+-   Запустить простейший тест:
 
 Code:
 
@@ -39,7 +39,7 @@ Code:
 
             [Test]
             public void OpenPageAndCheckInput()
-            {            
+            {
                 webdriver.Navigate().GoToUrl("http://tech.skbkontur.ru/react-ui-testingccc/demo-page/");
                 var demoPage = new DemoPage(webdriver);
 
@@ -64,4 +64,3 @@ Code:
             public Label ValueLabel { get; set; }
         }
     }
-

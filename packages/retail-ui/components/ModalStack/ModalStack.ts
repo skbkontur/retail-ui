@@ -13,13 +13,11 @@ interface GlobalWithStackInfo {
 export default class ModalStack {
   public static add(
     component: React.Component,
-    onChange: (stack: ReadonlyArray<React.Component>) => void
+    onChange: (stack: ReadonlyArray<React.Component>) => void,
   ): EventSubscription {
     const { emitter, mounted } = ModalStack.getStackInfo();
     mounted.unshift(component);
-    const subscription = emitter.addListener('change', () =>
-      onChange([...mounted])
-    );
+    const subscription = emitter.addListener('change', () => onChange([...mounted]));
     emitter.emit('change');
     return subscription;
   }
@@ -39,7 +37,7 @@ export default class ModalStack {
       globalWithStack.__ReactUIStackInfo ||
       (globalWithStack.__ReactUIStackInfo = {
         emitter: new EventEmitter(),
-        mounted: []
+        mounted: [],
       })
     );
   }

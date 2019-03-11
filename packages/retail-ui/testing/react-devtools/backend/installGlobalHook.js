@@ -58,8 +58,8 @@ function installGlobalHook(window: Object) {
         if (this._listeners[evt]) {
           this._listeners[evt].map(fn => fn(data));
         }
-      }
-    }: Hook)
+      },
+    }: Hook),
   });
 }
 

@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import ScrollContainer, {
-  ScrollContainerScrollState
-} from '../ScrollContainer';
+import ScrollContainer, { ScrollContainerScrollState } from '../ScrollContainer';
 import { CSSProperties } from 'react';
 
 function getItems(count: number) {
@@ -17,7 +15,7 @@ function getItems(count: number) {
 const wrapperStyle = {
   height: '200px',
   width: '100px',
-  border: '1px solid #000'
+  border: '1px solid #000',
 };
 
 storiesOf('ScrollContainer', module).add('with large content height', () => {
@@ -33,10 +31,7 @@ storiesOf('ScrollContainer', module).add('with large content height', () => {
 });
 
 storiesOf('ScrollContainer', module).add('with scroll state', () => {
-  class Wrapper extends React.Component<
-    {},
-    { scrollState: ScrollContainerScrollState }
-  > {
+  class Wrapper extends React.Component<{}, { scrollState: ScrollContainerScrollState }> {
     public state = { scrollState: 'top' as ScrollContainerScrollState };
 
     public render() {
@@ -44,37 +39,29 @@ storiesOf('ScrollContainer', module).add('with scroll state', () => {
         padding: '5px 10px',
         position: 'relative',
         transition: 'box-shadow 0.2s',
-        zIndex: 1
+        zIndex: 1,
       };
 
       const headerStyles: CSSProperties = {
-        boxShadow:
-          this.state.scrollState !== 'top'
-            ? '0 5px 10px rgba(0, 0, 0, 0.2)'
-            : 'none',
-        ...commonBlocksStyles
+        boxShadow: this.state.scrollState !== 'top' ? '0 5px 10px rgba(0, 0, 0, 0.2)' : 'none',
+        ...commonBlocksStyles,
       };
 
       const footerStyles: CSSProperties = {
-        boxShadow:
-          this.state.scrollState !== 'bottom'
-            ? 'rgba(0, 0, 0, 0.2) 0px -5px 10px'
-            : 'none',
+        boxShadow: this.state.scrollState !== 'bottom' ? 'rgba(0, 0, 0, 0.2) 0px -5px 10px' : 'none',
         background: '#f1f1f1',
-        ...commonBlocksStyles
+        ...commonBlocksStyles,
       };
 
       const scrollContainerWrapperStyles: CSSProperties = {
         ...wrapperStyle,
         border: 'none',
         padding: '0px 5px',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
       };
 
       return (
-        <div
-          style={{ margin: 20, boxShadow: 'rgba(0, 0, 0, 0.2) 0px 0px 10px' }}
-        >
+        <div style={{ margin: 20, boxShadow: 'rgba(0, 0, 0, 0.2) 0px 0px 10px' }}>
           <div style={headerStyles}>header</div>
           <div style={scrollContainerWrapperStyles}>
             <ScrollContainer onScrollStateChange={this.handleScrollStateChange}>
@@ -88,9 +75,7 @@ storiesOf('ScrollContainer', module).add('with scroll state', () => {
       );
     }
 
-    private handleScrollStateChange = (
-      scrollState: ScrollContainerScrollState
-    ) => {
+    private handleScrollStateChange = (scrollState: ScrollContainerScrollState) => {
       this.setState({ scrollState });
     };
   }

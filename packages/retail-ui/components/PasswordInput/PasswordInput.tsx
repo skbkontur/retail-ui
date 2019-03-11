@@ -30,24 +30,21 @@ export type InputProps = {
 /**
  * **DRAFT**
  */
-export default class PasswordInput extends React.Component<
-  PasswordInputProps,
-  PasswordInputState
-> {
+export default class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
   public static propTypes = {
     /**
      * Включает CapsLock детектор
      */
-    detectCapsLock: PropTypes.bool
+    detectCapsLock: PropTypes.bool,
   };
 
   public static defaultProps = {
-    size: 'small'
+    size: 'small',
   };
 
   public state: PasswordInputState = {
     visible: false,
-    capsLockEnabled: false
+    capsLockEnabled: false,
   };
 
   private input: Nullable<Input>;
@@ -107,8 +104,7 @@ export default class PasswordInput extends React.Component<
     }
 
     const capsLockEnabled =
-      (chr.toLowerCase() === chr && event.shiftKey) ||
-      (chr.toUpperCase() === chr && !event.shiftKey);
+      (chr.toLowerCase() === chr && event.shiftKey) || (chr.toUpperCase() === chr && !event.shiftKey);
 
     this.setState({ capsLockEnabled });
   };
@@ -116,7 +112,7 @@ export default class PasswordInput extends React.Component<
   private handleKeydown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const {
       props: { detectCapsLock, onKeyDown },
-      state: { capsLockEnabled }
+      state: { capsLockEnabled },
     } = this;
 
     if (onKeyDown) {
@@ -154,15 +150,8 @@ export default class PasswordInput extends React.Component<
     return (
       <span className={styles.iconWrapper}>
         {capsLockEnabled && <span className={styles.capsLockDetector} />}
-        <span
-          className={styles.toggleVisibility}
-          onClick={this.handleToggleVisibility}
-        >
-          {this.state.visible ? (
-            <EyeOpenedIcon size={14} />
-          ) : (
-            <EyeClosedIcon size={14} />
-          )}
+        <span className={styles.toggleVisibility} onClick={this.handleToggleVisibility}>
+          {this.state.visible ? <EyeOpenedIcon size={14} /> : <EyeClosedIcon size={14} />}
         </span>
       </span>
     );
@@ -178,25 +167,13 @@ export default class PasswordInput extends React.Component<
       ...props,
       onKeyDown: this.handleKeydown,
       onKeyPress: this.handleKeyPress,
-      rightIcon: this.renderEye()
+      rightIcon: this.renderEye(),
     };
 
     if (isIE && ieVerison === 8) {
-      return (
-        <PasswordInputFallback
-          refInput={this.refInput}
-          visible={this.state.visible}
-          {...inputProps}
-        />
-      );
+      return <PasswordInputFallback refInput={this.refInput} visible={this.state.visible} {...inputProps} />;
     }
 
-    return (
-      <Input
-        ref={this.refInput}
-        type={this.state.visible ? 'text' : 'password'}
-        {...inputProps}
-      />
-    );
+    return <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />;
   }
 }
