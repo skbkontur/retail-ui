@@ -147,6 +147,13 @@ describe('Pager', () => {
     const getForwardText = () => wrapper.find(`span.${PagingStyles.forwardLink}`).text();
     const PagingContext = () => <Paging pagesCount={5} activePage={1} onPageChange={() => {}} />;
 
+    it('render without LocaleProvider', () => {
+      wrapper = mount(PagingContext());
+      const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
+
+      expect(getForwardText()).toBe(expectedText);
+    });
+
     it('render default locale', () => {
       wrapper = mount(<LocaleProvider>{PagingContext()}</LocaleProvider>);
       const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
