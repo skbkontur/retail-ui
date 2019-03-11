@@ -6,7 +6,6 @@ import Modal from '../';
 import Button from '../../Button';
 import Input from '../../Input';
 import Toggle from '../../Toggle';
-import Upgrades from '../../../lib/Upgrades';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 const basicFontStyle = {
@@ -282,14 +281,6 @@ class ModalMobileView extends Component<{}, { opened: boolean }> {
   public state = {
     opened: true,
   };
-
-  public componentDidMount() {
-    Upgrades.setAdaptiveStyles(true);
-  }
-
-  public componentWillUnmount() {
-    Upgrades.setAdaptiveStyles(false);
-  }
 
   public render() {
     return (
