@@ -9,7 +9,12 @@ export function NativePortal(props: PortalPros) {
   return <noscript data-render-container-id={props.rt_rootID} />;
 }
 
+// @ts-ignore
+NativePortal.displayName = 'Portal';
+
 export class CustomPortal extends React.Component<PortalPros> {
+  public static displayName = 'Portal';
+
   public componentDidMount() {
     if (!this.props.children) {
       return;

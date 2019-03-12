@@ -97,6 +97,8 @@ export class RenderContainerBase extends React.Component<RenderContainerProps> {
 }
 
 class RenderContainerNativePortal extends RenderContainerBase {
+  public static displayName = 'RenderContainer';
+
   public render(): JSX.Element {
     if (this.props.children) {
       if (!this.domContainer) {
@@ -117,6 +119,8 @@ class RenderContainerNativePortal extends RenderContainerBase {
 }
 
 class RenderContainerCustomPortal extends RenderContainerBase {
+  public static displayName = 'RenderContainer';
+
   public render(): JSX.Element {
     return <CustomPortal rt_rootID={this.rootId}>{this.props.anchor}</CustomPortal>;
   }
