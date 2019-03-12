@@ -144,7 +144,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   private _refHighlighted(
-    originalRef: ((menuItem: MenuItem | null) => any) | React.RefObject<MenuItem> | undefined,
+    originalRef: ((menuItem: MenuItem | null) => any) | React.RefObject<MenuItem> | null | undefined,
     menuItem: MenuItem | null,
   ) {
     this._highlighted = menuItem;

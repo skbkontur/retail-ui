@@ -131,8 +131,9 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
               const highlight = this.state.highlightedIndex === index;
 
               let ref = child.ref;
+              const originalRef = ref;
               if (highlight) {
-                ref = this.refHighlighted.bind(this, child.ref);
+                ref = menuItem => this.refHighlighted(originalRef, menuItem);
               }
 
               return React.cloneElement<MenuItemProps, MenuItem>(child, {
@@ -236,10 +237,13 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     this.scrollContainer = scrollContainer;
   };
 
-  private refHighlighted(originalRef: (menuItem: MenuItem | null) => any, menuItem: MenuItem | null) {
+  private refHighlighted(
+    originalRef: string | ((instance: MenuItem | null) => void) | React.RefObject<MenuItem> | null | undefined,
+    menuItem: MenuItem | null,
+  ) {
     this.highlighted = menuItem;
 
-    if (originalRef) {
+    if (typeof originalRef === 'function') {
       originalRef(menuItem);
     }
   }

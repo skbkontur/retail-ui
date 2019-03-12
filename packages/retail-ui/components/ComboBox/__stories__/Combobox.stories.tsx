@@ -199,7 +199,7 @@ interface ComboBoxState {
 
 interface TestComboboxProps<T> extends Omit<ComboBoxProps<T>, 'onUnexpectedInput'> {
   onSearch?: (query: string) => Promise<T[]>;
-  onUnexpectedInput?: (setState: (state: Partial<ComboBoxState>) => void) => (x: string) => any;
+  onUnexpectedInput?: (setState: (state: Pick<ComboBoxState, never>) => void) => (x: string) => any;
 }
 
 class TestComboBox extends React.Component<TestComboboxProps<any>, ComboBoxState> {
