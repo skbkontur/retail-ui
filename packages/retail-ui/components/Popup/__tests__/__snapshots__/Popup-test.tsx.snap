@@ -28,44 +28,9 @@ exports[`Popup snapshots:  open and close popup: closed popup 1`] = `
   }
   useWrapper={false}
 >
-  <RenderLayer
-    active={false}
-    onClickOutside={[Function]}
-    onFocusOutside={[Function]}
-  >
-    <RenderContainer
-      anchor={null}
-    >
-      <Transition
-        appear={true}
-        enter={true}
-        exit={true}
-        in={false}
-        mountOnEnter={true}
-        onEnter={[Function]}
-        onEntered={[Function]}
-        onEntering={[Function]}
-        onExit={[Function]}
-        onExited={[Function]}
-        onExiting={[Function]}
-        timeout={
-          Object {
-            "enter": 0,
-            "exit": 200,
-          }
-        }
-        unmountOnExit={true}
-      />
-      <Portal
-        key="portal-ref"
-        rt_rootID={1}
-      >
-        <noscript
-          data-render-container-id={1}
-        />
-      </Portal>
-    </RenderContainer>
-  </RenderLayer>
+  <RenderContainer
+    anchor={null}
+  />
 </Popup>
 `;
 
@@ -97,44 +62,9 @@ exports[`Popup snapshots:  open and close popup: closed popup again 1`] = `
   }
   useWrapper={false}
 >
-  <RenderLayer
-    active={false}
-    onClickOutside={[Function]}
-    onFocusOutside={[Function]}
-  >
-    <RenderContainer
-      anchor={null}
-    >
-      <Transition
-        appear={true}
-        enter={true}
-        exit={true}
-        in={false}
-        mountOnEnter={true}
-        onEnter={[Function]}
-        onEntered={[Function]}
-        onEntering={[Function]}
-        onExit={[Function]}
-        onExited={[Function]}
-        onExiting={[Function]}
-        timeout={
-          Object {
-            "enter": 0,
-            "exit": 200,
-          }
-        }
-        unmountOnExit={true}
-      />
-      <Portal
-        key="portal-ref"
-        rt_rootID={1}
-      >
-        <noscript
-          data-render-container-id={1}
-        />
-      </Portal>
-    </RenderContainer>
-  </RenderLayer>
+  <RenderContainer
+    anchor={null}
+  />
 </Popup>
 `;
 
@@ -166,88 +96,82 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
   }
   useWrapper={false}
 >
-  <RenderLayer
-    active={false}
-    onClickOutside={[Function]}
-    onFocusOutside={[Function]}
+  <RenderContainer
+    anchor={null}
   >
-    <RenderContainer
-      anchor={null}
+    <Transition
+      appear={true}
+      enter={true}
+      exit={true}
+      in={true}
+      mountOnEnter={true}
+      onEnter={[Function]}
+      onEntered={[Function]}
+      onEntering={[Function]}
+      onExit={[Function]}
+      onExited={[Function]}
+      onExiting={[Function]}
+      timeout={
+        Object {
+          "enter": 0,
+          "exit": 200,
+        }
+      }
+      unmountOnExit={true}
     >
-      <Transition
-        appear={true}
-        enter={true}
-        exit={true}
-        in={true}
-        mountOnEnter={true}
-        onEnter={[Function]}
-        onEntered={[Function]}
-        onEntering={[Function]}
-        onExit={[Function]}
-        onExited={[Function]}
-        onExiting={[Function]}
-        timeout={
+      <ZIndex
+        className="popup transition-enter-top"
+        delta={1000}
+        key="dummy"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        render={true}
+        style={
           Object {
-            "enter": 0,
-            "exit": 200,
+            "left": -9999,
+            "maxWidth": 500,
+            "top": -9999,
           }
         }
-        unmountOnExit={true}
       >
-        <ZIndex
+        <div
           className="popup transition-enter-top"
-          delta={1000}
-          key="dummy"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          render={true}
           style={
             Object {
               "left": -9999,
               "maxWidth": 500,
               "top": -9999,
+              "zIndex": 1000,
             }
           }
         >
           <div
-            className="popup transition-enter-top"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            style={
-              Object {
-                "left": -9999,
-                "maxWidth": 500,
-                "top": -9999,
-                "zIndex": 26000,
-              }
-            }
+            className="content"
           >
             <div
-              className="content"
-            >
-              <div
-                className="contentInner"
-                style={
-                  Object {
-                    "backgroundColor": undefined,
-                  }
+              className="contentInner"
+              style={
+                Object {
+                  "backgroundColor": undefined,
                 }
-              >
-                Test content
-              </div>
+              }
+            >
+              Test content
             </div>
           </div>
-        </ZIndex>
-      </Transition>
-      <Portal
-        key="portal-ref"
-        rt_rootID={1}
-      >
-        <noscript
-          data-render-container-id={1}
-        />
-      </Portal>
-    </RenderContainer>
-  </RenderLayer>
+        </div>
+      </ZIndex>
+    </Transition>
+    <Portal
+      key="portal-ref"
+      rt_rootID={1}
+    >
+      <noscript
+        data-render-container-id={1}
+      />
+    </Portal>
+  </RenderContainer>
 </Popup>
 `;
