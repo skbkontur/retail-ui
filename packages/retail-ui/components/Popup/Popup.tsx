@@ -170,22 +170,37 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     useWrapper: false,
   };
 
-  public state: PopupState = {
-    location: null,
-  };
-
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
   private anchorInstance: Nullable<React.ReactInstance>;
 
+  constructor(props: Readonly<PopupProps>, context: any) {
+    super(props, context);
+    this.state = {
+      location: null,
+    };
+
+    this.refAnchorElement = this.refAnchorElement.bind(this);
+    this.refPopupElement = this.refPopupElement.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
+    this.handleLayoutEvent = this.handleLayoutEvent.bind(this);
+    this.updateLocation = this.updateLocation.bind(this);
+    this.resetLocation = this.resetLocation.bind(this);
+
+  }
+
   public componentDidMount() {
     this.updateLocation();
     this.layoutEventsToken = LayoutEvents.addListener(this.handleLayoutEvent);
   }
 
-  public componentWillReceiveProps(nextProps: PopupProps) {
+  public componentWillReceiveProps(nextProps: Readonly<PopupProps>) {
     const isGoingToOpen = !this.props.opened && nextProps.opened;
     const isGoingToUpdate = this.props.opened && nextProps.opened;
     const isGoingToClose = this.props.opened && !nextProps.opened;
@@ -240,7 +255,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private refAnchorElement = (instance: React.ReactInstance | null) => {
+  private refAnchorElement(instance: React.ReactInstance | null) {
     this.anchorInstance = instance;
     const element = this.extractElement(instance);
     this.updateAnchorElement(element);
@@ -296,27 +311,27 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
   }
 
-  private handleMouseEnter = (event: MouseEventType) => {
+  private handleMouseEnter(event: MouseEventType) {
     if (this.props.onMouseEnter) {
       this.props.onMouseEnter(event);
     }
   };
-  private handleMouseLeave = (event: MouseEventType) => {
+  private handleMouseLeave(event: MouseEventType) {
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(event);
     }
   };
-  private handleClick = (event: MouseEventType) => {
+  private handleClick(event: MouseEventType) {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
   };
-  private handleFocus = (event: FocusEventType) => {
+  private handleFocus(event: FocusEventType) {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
-  private handleBlur = (event: FocusEventType) => {
+  private handleBlur(event: FocusEventType) {
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
@@ -384,7 +399,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     return typeof this.props.children === 'function' ? this.props.children() : this.props.children;
   }
 
-  private refPopupElement = (zIndex: ZIndex | null) => {
+  private refPopupElement(zIndex: ZIndex | null) {
     if (zIndex) {
       this.lastPopupElement = zIndex && (findDOMNode(zIndex) as HTMLElement);
     }
@@ -416,7 +431,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private handleLayoutEvent = () => {
+  private handleLayoutEvent() {
     if (this.anchorInstance) {
       this.updateAnchorElement(this.extractElement(this.anchorInstance));
     }
@@ -427,7 +442,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
   private delayUpdateLocation() {
     this.cancelDelayedUpdateLocation();
-    this.locationUpdateId = raf(() => this.updateLocation());
+    this.locationUpdateId = raf(this.updateLocation);
   }
 
   private cancelDelayedUpdateLocation() {
@@ -450,7 +465,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
   }
 
-  private resetLocation = () => {
+  private resetLocation() {
     this.cancelDelayedUpdateLocation();
     this.setState({ location: null });
   };
