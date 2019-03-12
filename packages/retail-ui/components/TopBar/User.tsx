@@ -26,7 +26,7 @@ class User extends React.Component<UserProps> {
     cabinetUrl: PropTypes.string,
   };
 
-  public readonly locale: TopBarLocale = {};
+  private readonly locale!: TopBarLocale;
 
   public render(): JSX.Element {
     const { userName, cabinetUrl } = this.props;

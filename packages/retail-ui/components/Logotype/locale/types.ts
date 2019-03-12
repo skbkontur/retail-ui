@@ -1,4 +1,4 @@
 export interface LogotypeLocale {
-  suffix?: string;
-  prefix?: string;
+  suffix: string;
+  prefix: string;
 }

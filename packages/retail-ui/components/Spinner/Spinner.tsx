@@ -53,7 +53,7 @@ class Spinner extends React.Component<SpinnerProps> {
 
   public static Types: typeof types;
 
-  public readonly locale: SpinnerLocale = {};
+  private readonly locale!: SpinnerLocale;
 
   public render() {
     const { type, caption = this.locale.loading, dimmed } = this.props;
