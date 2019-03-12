@@ -5,7 +5,6 @@ import invariant from 'invariant';
 import cn from 'classnames';
 
 import styles = require('./Tab.less');
-import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 
 export interface TabIndicators {
@@ -25,12 +24,12 @@ export interface TabProps {
   /**
    * Component to use as a tab
    */
-  component?: React.ComponentType<any> | string;
+  component: React.ComponentType<any> | string;
 
   /**
    * Link href
    */
-  href?: string;
+  href: string;
 
   /**
    * Tab identifier
@@ -122,7 +121,6 @@ class Tab extends React.Component<TabProps, TabState> {
   };
 
   private _node: Nullable<React.ReactElement<any>> = null;
-  private getProps = createPropsGetter(Tab.defaultProps);
 
   public componentWillMount() {
     invariant(typeof this.context.addTab === 'function', 'Tab should be placed inside Tabs component');
@@ -158,8 +156,8 @@ class Tab extends React.Component<TabProps, TabState> {
       ...rest
     } = this.props;
 
-    const Component = this.getProps().component;
-    const href = this.getProps().href;
+    const Component = this.props.component;
+    const href = this.props.href;
 
     const isActive = this.context.activeTab === this._getId();
     const isDisabled = Boolean(this.props.disabled);
@@ -206,7 +204,7 @@ class Tab extends React.Component<TabProps, TabState> {
 
   private _noop = () => undefined;
 
-  private _getId = () => this.props.id || this.getProps().href;
+  private _getId = () => this.props.id || this.props.href;
 
   private _addTab() {
     this.context.addTab(this._getId(), this._getNode);

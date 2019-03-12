@@ -18,3 +18,8 @@ export function taskWithDelay(task: () => void, ms: number) {
 
   return cancelationToken;
 }
+
+// tslint:disable-next-line: ban-types
+export function isFunction<T>(x: T | Function): x is Function {
+  return typeof x === 'function';
+}

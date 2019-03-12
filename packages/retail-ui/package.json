@@ -139,7 +139,7 @@
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.13.0",
     "tslint-react": "^3.6.0",
-    "typescript": "^3.0.1",
+    "typescript": "^3.3.3333",
     "url-loader": "^1.0.1",
     "wd": "^1.10.1",
     "webpack": "^3.11.0",
