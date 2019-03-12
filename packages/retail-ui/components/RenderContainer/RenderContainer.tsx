@@ -1,129 +1,164 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
+import { CustomPortal, NativePortal } from './Portal';
+import { RootContainer } from './RootContainer';
+import { Nullable } from '../../typings/utility-types';
 
 interface RenderContainerProps {
   anchor?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-const REACT_16 = !!ReactDOM.createPortal;
+class RenderContainerBase extends React.Component<RenderContainerProps> {
+  public static ids: boolean[] = [true];
 
-export default class RenderContainer extends React.Component<RenderContainerProps> {
-  public static lastId = 0;
+  private static getId() {
+    return RenderContainerBase.ids.push(true) - 1;
+  }
+  private static releaseId(rootId: number) {
+    RenderContainerBase.ids[rootId] = false;
+  }
+  private static compactIds() {
+    const idsCounter = RenderContainerBase.ids;
+    while (idsCounter.length && idsCounter[idsCounter.length - 1] === false) {
+      idsCounter.pop();
+    }
+  }
 
-  private domContainer: HTMLElement;
-  private rootId: number;
+  protected rootId: number = 0;
+  protected domContainer: Nullable<HTMLElement> = null;
 
   constructor(props: RenderContainerProps) {
     super(props);
 
-    this.domContainer = document.createElement('div');
-    this.hydrateId();
-
-    this.rootId = this.nextId();
-    this.domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
-    this.domContainer.className = 'react-ui';
-
-    const { body } = document;
-    if (!body) {
-      throw Error('There is no "body" in "document"');
-    }
-    body.appendChild(this.domContainer);
-
-    // @ts-ignore
-    if (window.ReactTesting) {
-      // @ts-ignore
-      window.ReactTesting.addRenderContainer(this.rootId, this);
+    if (props.children) {
+      this.mountContainer();
     }
   }
 
-  public render(): JSX.Element {
-    if (REACT_16) {
-      return (
-        <React.Fragment>
-          {this.props.anchor}
-          {ReactDOM.createPortal(this.props.children, this.domContainer)}
-          <Portal key="portal-ref" rt_rootID={this.rootId} />
-        </React.Fragment>
-      );
+  public componentWillReceiveProps(nextProps: Readonly<RenderContainerProps>): void {
+    if (!this.props.children && nextProps.children) {
+      this.mountContainer();
     }
-    return <Portal rt_rootID={this.rootId}>{this.props.anchor}</Portal>;
-  }
-
-  public componentDidMount() {
-    if (!REACT_16) {
-      this.renderChild();
-    }
-  }
-
-  public componentDidUpdate() {
-    if (!REACT_16) {
-      this.renderChild();
+    if (this.props.children && !nextProps.children) {
+      this.unmountContainer();
     }
   }
 
   public componentWillUnmount() {
-    if (!REACT_16) {
-      ReactDOM.unmountComponentAtNode(this.domContainer);
+    this.destroyContainer();
+  }
+
+  private createContainer() {
+    if (!document || !document.body) {
+      throw Error('There is no "body" in "document"');
     }
-    if (this.domContainer.parentNode) {
+
+    if (!this.domContainer) {
+      RenderContainerBase.compactIds();
+      this.rootId = RenderContainerBase.getId();
+
+      const domContainer = document.createElement('div');
+      domContainer.setAttribute('class', 'react-ui');
+      domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
+      this.domContainer = domContainer;
+    }
+  }
+
+  private mountContainer() {
+    if (!this.domContainer) {
+      this.createContainer();
+    }
+    if (this.domContainer && this.domContainer.parentNode !== document.body) {
+      document.body.appendChild(this.domContainer);
+      if (window.ReactTesting) {
+        window.ReactTesting.addRenderContainer(this.rootId, this);
+      }
+    }
+  }
+
+  private destroyContainer() {
+    if (this.domContainer) {
+      this.unmountContainer();
+      this.domContainer = null;
+      RenderContainerBase.releaseId(this.rootId);
+    }
+  }
+
+  private unmountContainer() {
+    if (this.domContainer && this.domContainer.parentNode) {
       this.domContainer.parentNode.removeChild(this.domContainer);
-    }
 
-    // @ts-ignore
-    if (window.ReactTesting) {
-      // @ts-ignore
-      window.ReactTesting.removeRenderContainer(this.rootId);
+      if (window.ReactTesting) {
+        window.ReactTesting.removeRenderContainer(this.rootId);
+      }
     }
   }
+}
 
-  private nextId() {
-    return ++RenderContainer.lastId;
-  }
+class RenderContainerNativePortal extends RenderContainerBase {
+  public render(): JSX.Element {
+    if (this.props.children) {
+      if (!this.domContainer) {
+        throw Error('There is no "this.domContainer"');
+      }
 
-  private setId(id: number) {
-    RenderContainer.lastId = id;
-  }
-
-  private hydrateId() {
-    const nodes = document.querySelectorAll('[data-rendered-container-id]');
-    if (nodes.length === 0) {
-      return;
+      return (
+        <React.Fragment>
+          {this.props.anchor}
+          {ReactDOM.createPortal(this.props.children, this.domContainer)}
+          <NativePortal key="portal-ref" rt_rootID={this.rootId} />
+        </React.Fragment>
+      );
     }
-    const lastNode = nodes[nodes.length - 1];
-    const containerId = +(lastNode.getAttribute('data-rendered-container-id') || 0);
-    this.setId(containerId);
+
+    return <React.Fragment>{this.props.anchor}</React.Fragment>;
+  }
+}
+
+class RenderContainerCustomPortal extends RenderContainerBase {
+  public render(): JSX.Element {
+    return <CustomPortal rt_rootID={this.rootId}>{this.props.anchor}</CustomPortal>;
+  }
+
+  public componentDidMount() {
+    this.renderChild();
+  }
+
+  public componentDidUpdate() {
+    this.renderChild();
+  }
+
+  public componentWillUnmount() {
+    this.unmountChildren();
+    super.componentWillUnmount();
   }
 
   private renderChild() {
+    if (this.props.children) {
+      this.mountChildren();
+    } else {
+      this.unmountChildren();
+    }
+  }
+  private mountChildren() {
+    if (!this.domContainer) {
+      throw Error('There is no "this.domContainer"');
+    }
     ReactDOM.unstable_renderSubtreeIntoContainer(
       this,
       <RootContainer rt_portalID={this.rootId}>{this.props.children}</RootContainer>,
       this.domContainer,
     );
   }
-}
 
-class Portal extends React.Component<{ rt_rootID: number }> {
-  public componentDidMount() {
-    if (!this.props.children) {
-      return;
-    }
-
-    const element = ReactDOM.findDOMNode(this);
-
-    if (element && element instanceof Element) {
-      const rootId = element.getAttribute('data-render-container-id');
-      const rootIdAttribute = rootId ? `${rootId} ${this.props.rt_rootID}` : `${this.props.rt_rootID}`;
-
-      element.setAttribute('data-render-container-id', rootIdAttribute);
+  private unmountChildren() {
+    if (this.domContainer) {
+      ReactDOM.unmountComponentAtNode(this.domContainer);
     }
   }
-
-  public render() {
-    return this.props.children || <noscript data-render-container-id={this.props.rt_rootID} />;
-  }
 }
 
-function RootContainer(props: { children?: React.ReactNode; rt_portalID: number }) {
-  return React.Children.only(props.children);
-}
+const HAS_BUILTIN_PORTAL = !!ReactDOM.createPortal;
+
+export default (HAS_BUILTIN_PORTAL ? RenderContainerNativePortal : RenderContainerCustomPortal);
