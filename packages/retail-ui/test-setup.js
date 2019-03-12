@@ -6,6 +6,7 @@ import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import {RenderContainerBase} from './components/RenderContainer/RenderContainer';
+import {ZIndexStorage} from './components/ZIndex/ZIndex';
 
 configure({ adapter: new Adapter() });
 
@@ -37,7 +38,10 @@ delete React.PropTypes;
 // than write "__mock__" implementation and call
 // ```jest.mock(...)``` in every test (including indirect ones)
 
-// Stable data-rendered-container-id / keys for every test
 beforeAll(() => {
+  // Stable data-rendered-container-id / keys for every test
   RenderContainerBase.getId = () => 1;
+
+  // Stable zIndex for every test
+  ZIndexStorage.incrementZIndex = () => 1000
 });
