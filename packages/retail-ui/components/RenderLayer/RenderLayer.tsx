@@ -19,6 +19,12 @@ class RenderLayer extends React.Component<RenderLayerProps> {
     remove: () => void;
   } | null = null;
 
+  constructor(props: Readonly<RenderLayerProps>, context: any) {
+    super(props, context);
+    this.handleFocusOutside = this.handleFocusOutside.bind(this);
+    this.handleNativeDocClick = this.handleNativeDocClick.bind(this);
+  }
+
   public componentDidMount() {
     if (this.props.active) {
       this.attachListeners();
@@ -69,13 +75,13 @@ class RenderLayer extends React.Component<RenderLayerProps> {
     return findDOMNode(this) as HTMLElement;
   }
 
-  private handleFocusOutside = (event: Event) => {
+  private handleFocusOutside(event: Event) {
     if (this.props.onFocusOutside) {
       this.props.onFocusOutside(event);
     }
   };
 
-  private handleNativeDocClick = (event: Event) => {
+  private handleNativeDocClick(event: Event) {
     const target = event.target || event.srcElement;
     const node = this.getDomNode();
 
