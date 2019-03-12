@@ -9,16 +9,16 @@ interface RenderContainerProps {
   children?: React.ReactNode;
 }
 
-class RenderContainerBase extends React.Component<RenderContainerProps> {
+export class RenderContainerBase extends React.Component<RenderContainerProps> {
   public static ids: boolean[] = [true];
 
-  private static getId() {
+  public static getId() {
     return RenderContainerBase.ids.push(true) - 1;
   }
-  private static releaseId(rootId: number) {
+  public static releaseId(rootId: number) {
     RenderContainerBase.ids[rootId] = false;
   }
-  private static compactIds() {
+  public static compactIds() {
     const idsCounter = RenderContainerBase.ids;
     while (idsCounter.length && idsCounter[idsCounter.length - 1] === false) {
       idsCounter.pop();
