@@ -9,7 +9,7 @@ import { MenuItemState } from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
-import { ArrowTriangleDown } from '@skbkontur/react-icons';
+import ArrowTriangleDown from '@skbkontur/react-icons/ArrowTriangleDown';
 import styles from './CustomComboBox.less';
 import ComboBoxMenu from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
