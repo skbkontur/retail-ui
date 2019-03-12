@@ -63,7 +63,6 @@ interface ComboBoxViewProps<T> {
 class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   public static defaultProps = {
     renderItem: (item: any) => item,
-    renderNotFound: () => 'Не найдено',
     renderValue: (item: any) => item,
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,

@@ -5,3 +5,19 @@ let initialState = {};
 
 <Select items={items} value={state.value} onChange={(_, value) => setState({ value })} />;
 ```
+
+#### Локали по умолчанию (см. `LocaleProvider`)
+
+```typescript
+interface SelectLocale {
+  placeholder?: React.ReactNode;
+}
+
+const ru_RU = {
+  placeholder: 'ничего не выбрано',
+};
+
+const en_EN = {
+  placeholder: 'nothing selected',
+};
+```

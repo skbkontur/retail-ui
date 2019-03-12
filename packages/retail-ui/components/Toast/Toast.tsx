@@ -143,7 +143,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
 
 export default Toast;
 
-function safelyCall(fn: Nullable<((a?: any) => any)>, ...args: any[]) {
+function safelyCall(fn: Nullable<(a?: any) => any>, ...args: any[]) {
   if (fn) {
     fn(...args);
   }

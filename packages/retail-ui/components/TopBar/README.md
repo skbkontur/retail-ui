@@ -37,7 +37,7 @@ let contentStyle = {
       </TopBar.Item>
       <TopBar.User userName="Alexander The Great" />
       <TopBar.Divider />
-      <TopBar.Item onClick={() => alert('Logout!')}>Выйти</TopBar.Item>
+      <TopBar.Logout onClick={() => alert('Logout!')} />
     </TopBar.End>
   </TopBar>
   <Loader active caption="neverending...">
@@ -81,4 +81,32 @@ let contentStyle = {
     <div style={contentStyle} />
   </Loader>
 </div>;
+```
+
+#### Локали по умолчанию (см. `LocaleProvider`)
+
+```typescript
+interface TopBarLocale {
+  logout?: string;
+  cabinetTitle?: string;
+  cabinetSettings?: string;
+  cabinetCertificates?: string;
+  cabinetServices?: string;
+}
+
+const ru_RU = {
+  cabinetTitle: 'Личный кабинет Контура',
+  cabinetSettings: 'Настройка входа в сервисы',
+  cabinetCertificates: 'Сертификаты',
+  cabinetServices: 'Оплата сервисов',
+  logout: 'Выйти',
+};
+
+const en_EN = {
+  cabinetTitle: 'Personal account Kontur',
+  cabinetSettings: 'Configure login services',
+  cabinetCertificates: 'Certificates',
+  cabinetServices: 'Payment for services',
+  logout: 'Logout',
+};
 ```

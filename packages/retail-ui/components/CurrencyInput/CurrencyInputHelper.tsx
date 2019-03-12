@@ -8,8 +8,8 @@ export default class CurrencyInputHelper {
     return selection.start === selection.end
       ? CursorHelper.calculatePosition(CurrencyHelper.getInfo(value).cursorMap, selection.start, step)
       : step < 0
-        ? selection.start
-        : selection.end;
+      ? selection.start
+      : selection.end;
   }
 
   public static extendSelection(value: string, selection: Selection, step: number) {
