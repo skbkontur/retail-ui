@@ -88,7 +88,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     let total = null;
     if (items && renderTotalCount && totalCount && items.length < totalCount) {
       total = (
-        <MenuItem disabled>
+        <MenuItem disabled key="total">
           <div style={{ fontSize: 12 }}>{renderTotalCount(items.length, totalCount)}</div>
         </MenuItem>
       );
