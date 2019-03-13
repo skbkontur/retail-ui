@@ -234,13 +234,9 @@ const getItems = query =>
       { value: 3, label: 'Third' },
       { value: 4, label: 'Fourth' },
       { value: 5, label: 'Fifth' },
-      { value: 6, label: 'Sixth' }
+      { value: 6, label: 'Sixth' },
     ]
-      .filter(
-        x =>
-          x.label.toLowerCase().includes(query.toLowerCase()) ||
-          x.value.toString(10) === query
-      )
+      .filter(x => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query)
       .map(({ label, ...rest }) => {
         const start = label.toLowerCase().indexOf(query.toLowerCase());
         const end = start + query.length;
@@ -248,26 +244,27 @@ const getItems = query =>
         return {
           ...rest,
           label,
-          highlightedLabel: start >= 0 ? (
-            <span>
-              {label.substring(0, start)}
-              <strong
-                style={{
-                  fontSize: '1.1em'
-                }}
-              >
-                {label.substring(start, end)}
-              </strong>
-              {label.substring(end)}
-            </span>
-          ) : null
+          highlightedLabel:
+            start >= 0 ? (
+              <span>
+                {label.substring(0, start)}
+                <strong
+                  style={{
+                    fontSize: '1.1em',
+                  }}
+                >
+                  {label.substring(start, end)}
+                </strong>
+                {label.substring(end)}
+              </span>
+            ) : null,
         };
-      })
+      }),
   ).then(delay(500));
 
 const initialState = {
   selected: { value: 3, label: 'Third' },
-  error: false
+  error: false,
 };
 
 const handleChange = (_, item) => setState({ selected: item, error: false });
@@ -276,19 +273,15 @@ const handleUnexpectedInput = () => setState({ error: true, selected: null });
 
 const handleFocus = () => setState({ error: false });
 
-const renderItem = (item) => {
+const renderItem = item => {
   if (item.highlightedLabel) {
     return item.highlightedLabel;
   }
 
   return item.label;
-}
+};
 
-<Tooltip
-  closeButton={false}
-  render={() => 'Item must be selected!'}
-  trigger={state.error ? 'opened' : 'closed'}
->
+<Tooltip closeButton={false} render={() => 'Item must be selected!'} trigger={state.error ? 'opened' : 'closed'}>
   <ComboBox
     error={state.error}
     getItems={getItems}
@@ -404,4 +397,26 @@ class ComboboxExample extends React.Component {
 }
 
 <ComboboxExample />;
+```
+
+#### Локали по умолчанию (см. `LocaleProvider`)
+
+```typescript
+interface ComboBoxLocale {
+  notFound?: string;
+  errorNetworkButton?: string;
+  errorNetworkMessage?: string;  
+}
+
+const ru_RU = {
+  notFound: 'Не найдено',
+  errorNetworkButton: 'Обновить',
+  errorNetworkMessage: 'Что-то пошло не так. Проверьте соединение с интернетом и попробуйте еще раз',
+};
+
+const en_EN = {
+  notFound: 'Not found',
+  errorNetworkButton: 'Refresh',
+  errorNetworkMessage: 'Something went wrong. Check your internet connection and try again',
+};
 ```

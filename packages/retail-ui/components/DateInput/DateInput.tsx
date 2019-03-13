@@ -76,10 +76,10 @@ export interface DateInputProps {
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
-export type DateInputSetStateCallBack = ((
+export type DateInputSetStateCallBack = (
   prevState: Readonly<DateInputState>,
   props?: DateInputProps,
-) => DateInputState | Pick<DateInputState, keyof DateInputState> | null);
+) => DateInputState | Pick<DateInputState, keyof DateInputState> | null;
 
 class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static defaultProps = {

@@ -63,8 +63,8 @@ const OkIcon = require('@skbkontur/react-icons/Ok').default;
 
 const initialState = {
   loading: false,
-  success: false
-}
+  success: false,
+};
 
 const delay = (time = 0) => data => new Promise(resolve => setTimeout(resolve, time, data));
 
@@ -72,14 +72,14 @@ const handleLoadingStart = () => {
   delay(2000)()
     .then(() => new Promise(resolve => setState({ loading: false, success: true }, resolve)))
     .then(delay(1000))
-    .then(() => setState({ success: false }))
+    .then(() => setState({ success: false }));
 };
 
 const handleClick = () => {
   setState({ loading: true, success: false }, handleLoadingStart);
-}
+};
 
 <Button width={150} onClick={handleClick} disabled={state.loading}>
   {state.loading ? <Spinner type="mini" caption={null} /> : state.success ? <OkIcon /> : 'Сохранить'}
-</Button>
+</Button>;
 ```

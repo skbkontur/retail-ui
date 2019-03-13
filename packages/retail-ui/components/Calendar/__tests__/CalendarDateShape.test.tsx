@@ -22,9 +22,11 @@ test('CDS.isEqual returns false on different dates', () => {
 test('CDS.isLess returns true if date is before given', () => {
   const cases = [[[10, 3, 2017], [11, 3, 2017]], [[10, 3, 2017], [10, 4, 2017]], [[10, 3, 2017], [10, 3, 2018]]];
 
-  cases.map(x => x.map(y => CDS.create(y[0], y[1], y[2]))).forEach(([date1, date2]) => {
-    expect(CDS.isLess(date1, date2)).toBe(true);
-  });
+  cases
+    .map(x => x.map(y => CDS.create(y[0], y[1], y[2])))
+    .forEach(([date1, date2]) => {
+      expect(CDS.isLess(date1, date2)).toBe(true);
+    });
 });
 
 test('CDS.isLess returns false if date is after or equal given', () => {
@@ -35,9 +37,11 @@ test('CDS.isLess returns false if date is after or equal given', () => {
     [[10, 3, 2017], [10, 3, 2017]],
   ];
 
-  cases.map(x => x.map(y => CDS.create(y[0], y[1], y[2]))).forEach(([date1, date2]) => {
-    expect(CDS.isLess(date1, date2)).toBe(false);
-  });
+  cases
+    .map(x => x.map(y => CDS.create(y[0], y[1], y[2])))
+    .forEach(([date1, date2]) => {
+      expect(CDS.isLess(date1, date2)).toBe(false);
+    });
 });
 
 test('CDS.isLessOrEqual returns true if date is before or equal given', () => {
@@ -48,17 +52,21 @@ test('CDS.isLessOrEqual returns true if date is before or equal given', () => {
     [[10, 3, 2017], [10, 3, 2017]],
   ];
 
-  cases.map(x => x.map(y => CDS.create(y[0], y[1], y[2]))).forEach(([date1, date2]) => {
-    expect(CDS.isLessOrEqual(date1, date2)).toBe(true);
-  });
+  cases
+    .map(x => x.map(y => CDS.create(y[0], y[1], y[2])))
+    .forEach(([date1, date2]) => {
+      expect(CDS.isLessOrEqual(date1, date2)).toBe(true);
+    });
 });
 
 test('CDS.isLessOrEqual returns false if date is after given', () => {
   const cases = [[[10, 3, 2017], [9, 3, 2017]], [[10, 3, 2017], [10, 2, 2017]], [[10, 3, 2017], [10, 3, 2016]]];
 
-  cases.map(x => x.map(y => CDS.create(y[0], y[1], y[2]))).forEach(([date1, date2]) => {
-    expect(CDS.isLessOrEqual(date1, date2)).toBe(false);
-  });
+  cases
+    .map(x => x.map(y => CDS.create(y[0], y[1], y[2])))
+    .forEach(([date1, date2]) => {
+      expect(CDS.isLessOrEqual(date1, date2)).toBe(false);
+    });
 });
 
 test('CDS.isGreater returns false if date is before or equal given', () => {
@@ -69,25 +77,31 @@ test('CDS.isGreater returns false if date is before or equal given', () => {
     [[10, 3, 2017], [10, 3, 2017]],
   ];
 
-  cases.map(x => x.map(y => CDS.create(y[0], y[1], y[2]))).forEach(([date1, date2]) => {
-    expect(CDS.isGreater(date1, date2)).toBe(false);
-  });
+  cases
+    .map(x => x.map(y => CDS.create(y[0], y[1], y[2])))
+    .forEach(([date1, date2]) => {
+      expect(CDS.isGreater(date1, date2)).toBe(false);
+    });
 });
 
 test('CDS.isGreater returns true if date is after given', () => {
   const cases = [[[10, 3, 2017], [9, 3, 2017]], [[10, 3, 2017], [10, 2, 2017]], [[10, 3, 2017], [10, 3, 2016]]];
 
-  cases.map(x => x.map(y => CDS.create(y[0], y[1], y[2]))).forEach(([date1, date2]) => {
-    expect(CDS.isGreater(date1, date2)).toBe(true);
-  });
+  cases
+    .map(x => x.map(y => CDS.create(y[0], y[1], y[2])))
+    .forEach(([date1, date2]) => {
+      expect(CDS.isGreater(date1, date2)).toBe(true);
+    });
 });
 
 test('CDS.isGreaterOrEqual returns false if date is before given', () => {
   const cases = [[[10, 3, 2017], [11, 3, 2017]], [[10, 3, 2017], [10, 4, 2017]], [[10, 3, 2017], [10, 3, 2018]]];
 
-  cases.map(x => x.map(y => CDS.create(y[0], y[1], y[2]))).forEach(([date1, date2]) => {
-    expect(CDS.isGreaterOrEqual(date1, date2)).toBe(false);
-  });
+  cases
+    .map(x => x.map(y => CDS.create(y[0], y[1], y[2])))
+    .forEach(([date1, date2]) => {
+      expect(CDS.isGreaterOrEqual(date1, date2)).toBe(false);
+    });
 });
 
 test('CDS.isGreaterOrEqual returns true if date is after or equal given', () => {
@@ -98,9 +112,11 @@ test('CDS.isGreaterOrEqual returns true if date is after or equal given', () => 
     [[10, 3, 2017], [10, 3, 2017]],
   ];
 
-  cases.map(x => x.map(y => CDS.create(y[0], y[1], y[2]))).forEach(([date1, date2]) => {
-    expect(CDS.isGreaterOrEqual(date1, date2)).toBe(true);
-  });
+  cases
+    .map(x => x.map(y => CDS.create(y[0], y[1], y[2])))
+    .forEach(([date1, date2]) => {
+      expect(CDS.isGreaterOrEqual(date1, date2)).toBe(true);
+    });
 });
 
 test('CDS.isBetween returns true if date is between given', () => {

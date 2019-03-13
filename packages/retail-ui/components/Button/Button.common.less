@@ -136,52 +136,52 @@
     padding-left: 15px;
   }
 
-  // Use Link
-  .root.link {
-    display: inline;
-    padding: 0;
-    margin: 0;
-    background: none;
-    border: none;
-    box-shadow: none;
-    line-height: inherit;
-
-    .caption {
-      display: inline;
-    }
-
-    &.disabled {
-      box-shadow: none;
-      background: none;
-    }
-
-    .icon {
-      padding-right: @linkIconPadding;
-    }
-
-    .warning,
-    .error {
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-    }
-
-    .error {
-      background: @error-secondary;
-    }
-  }
-
   .linkMixin(link, @link-color, @link-hover-color, @link-hover-color, @link-active-color);
 
+  /*
+   * common styles with
+   * increased specificity
+   */
   .wrap {
     box-sizing: border-box;
     display: inline-block;
 
-    .root.disabled {
-      background: @bg-disabled;
-      color: #808080;
-      cursor: default;
-      pointer-events: none;
+    .root {
+      &.disabled {
+        background: @bg-disabled;
+        color: #808080;
+        cursor: default;
+        pointer-events: none;
+      }
+
+      &.link {
+        display: inline;
+        padding: 0;
+        margin: 0;
+        background: none;
+        border: none;
+        box-shadow: none;
+        line-height: inherit;
+
+        .caption {
+          display: inline;
+        }
+
+        .icon {
+          padding-right: @linkIconPadding;
+        }
+
+        .warning,
+        .error {
+          left: -2px;
+          right: -2px;
+          bottom: -2px;
+        }
+
+        .error {
+          background: @error-secondary;
+        }
+      }
     }
 
     .narrow {

@@ -1,5 +1,9 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
+import { CustomComboBoxLocaleHelper } from '../../CustomComboBox/locale';
+import { LangCodes } from '../../LocaleProvider';
+import { defaultLangCode } from '../../LocaleProvider/constants';
+import LocaleProvider from '../../LocaleProvider/LocaleProvider';
 import ComboBox, { ComboBoxProps } from '../ComboBox';
 import { mount, ReactWrapper } from 'enzyme';
 import InputLikeText from '../../internal/InputLikeText';
@@ -1097,6 +1101,86 @@ describe('ComboBox', () => {
         loading: true,
         opened: true,
       });
+    });
+  });
+
+  describe('Locale', () => {
+    let search: jest.Mock<Promise<any>>;
+    let promise: Promise<any>;
+    let wrapper: ReactWrapper;
+    beforeEach(() => {
+      [search, promise] = searchFactory(Promise.resolve(null));
+    });
+    const focus = async (): Promise<void> => {
+      (wrapper.find(ComboBox).instance() as ComboBox<any>).focus();
+      await promise;
+      wrapper.update();
+    };
+
+    it('render without LocaleProvider', async () => {
+      wrapper = mount(<ComboBox getItems={search} />);
+      const expectedText = CustomComboBoxLocaleHelper.get(defaultLangCode).notFound;
+
+      await focus();
+
+      expect(wrapper.find(MenuItem).text()).toBe(expectedText);
+    });
+
+    it('render default locale', async () => {
+      wrapper = mount(
+        <LocaleProvider>
+          <ComboBox getItems={search} />
+        </LocaleProvider>,
+      );
+      const expectedText = CustomComboBoxLocaleHelper.get(defaultLangCode).notFound;
+
+      await focus();
+
+      expect(wrapper.find(MenuItem).text()).toBe(expectedText);
+    });
+
+    it('render correct locale when set langCode', async () => {
+      wrapper = mount(
+        <LocaleProvider langCode={LangCodes.en_EN}>
+          <ComboBox getItems={search} />
+        </LocaleProvider>,
+      );
+      const expectedText = CustomComboBoxLocaleHelper.get(LangCodes.en_EN).notFound;
+
+      await focus();
+
+      expect(wrapper.find(MenuItem).text()).toBe(expectedText);
+    });
+
+    it('render custom locale', async () => {
+      const customText = 'custom notFound';
+      wrapper = mount(
+        <LocaleProvider
+          locale={{
+            ComboBox: { notFound: customText },
+          }}
+        >
+          <ComboBox getItems={search} />
+        </LocaleProvider>,
+      );
+
+      await focus();
+
+      expect(wrapper.find(MenuItem).text()).toBe(customText);
+    });
+
+    it('updates when langCode changes', async () => {
+      wrapper = mount(
+        <LocaleProvider>
+          <ComboBox getItems={search} />
+        </LocaleProvider>,
+      );
+      const expected = CustomComboBoxLocaleHelper.get(LangCodes.en_EN).notFound;
+
+      wrapper.setProps({ langCode: LangCodes.en_EN });
+      await focus();
+
+      expect(wrapper.find(MenuItem).text()).toBe(expected);
     });
   });
 });

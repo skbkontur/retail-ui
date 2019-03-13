@@ -9,7 +9,7 @@ import { MenuItemState } from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
-import { ArrowTriangleDown } from '@skbkontur/react-icons';
+import ArrowTriangleDown from '@skbkontur/react-icons/ArrowTriangleDown';
 import styles from './CustomComboBox.less';
 import ComboBoxMenu from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -63,7 +63,6 @@ interface ComboBoxViewProps<T> {
 class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   public static defaultProps = {
     renderItem: (item: any) => item,
-    renderNotFound: () => 'Не найдено',
     renderValue: (item: any) => item,
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,

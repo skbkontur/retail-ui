@@ -1,10 +1,10 @@
+import BabyIcon from '@skbkontur/react-icons/Baby';
+import { storiesOf } from '@storybook/react';
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import BabyIcon from '@skbkontur/react-icons/Baby';
+import Logotype from '../../Logotype';
 
 import TopBar from '../TopBar';
-import Logotype from '../../Logotype';
 
 const Item = TopBar.Item;
 const Start = TopBar.Start;
@@ -12,6 +12,7 @@ const End = TopBar.End;
 const ItemStatic = TopBar.ItemStatic;
 const User = TopBar.User;
 const Divider = TopBar.Divider;
+const Logout = TopBar.Logout;
 
 storiesOf('TopBar', module)
   .add('TopBar Old', () => (
@@ -47,7 +48,7 @@ storiesOf('TopBar', module)
         </Item>
         <User userName="Alexander The Great" />
         <Divider />
-        <Item onClick={() => alert('Logout!')}>Выйти</Item>
+        <Logout onClick={() => alert('Logout!')} />
       </End>
     </TopBar>
   ));

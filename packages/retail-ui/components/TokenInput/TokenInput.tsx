@@ -77,7 +77,6 @@ const defaultRenderToken = <T extends any>(
 export default class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static defaultProps: Partial<TokenInputProps<any>> = {
     selectedItems: [],
-    renderNotFound: () => 'Не найдено',
     renderItem: identity,
     renderValue: identity,
     valueToItem: (item: string) => item,

@@ -121,7 +121,7 @@ class CustomComboBox<T> extends React.Component<CustomComboBoxProps<T>, CustomCo
   public loaderShowDelay: Nullable<Promise<never>>;
   private focused: boolean = false;
   private cancelationToken: Nullable<(reason?: Error) => void> = null;
-  public cancelLoaderDelay: (() => void) = () => null;
+  public cancelLoaderDelay: () => void = () => null;
 
   /**
    * @public

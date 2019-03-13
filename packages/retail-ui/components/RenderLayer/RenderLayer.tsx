@@ -74,7 +74,7 @@ class RenderLayer extends React.Component<RenderLayerProps> {
   };
 
   private handleNativeDocClick = (event: Event) => {
-    const target = (event.target || event.srcElement);
+    const target = event.target || event.srcElement;
     const node = this.getDomNode();
 
     if (target instanceof Element && containsTargetOrRenderContainer(target)(node)) {

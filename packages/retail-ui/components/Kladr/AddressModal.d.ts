@@ -5,11 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 export interface AddressModalProps {
   address: Address;
   title: string;
-  onChange: (
-    value: {
-      address: Address;
-    },
-  ) => void;
+  onChange: (value: { address: Address }) => void;
   onClose: () => void;
 }
 

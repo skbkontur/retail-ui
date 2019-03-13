@@ -11,3 +11,22 @@ const { default: Gapped } = require('../Gapped');
   </div>
 </Gapped>;
 ```
+
+#### Локали по умолчанию (см. `LocaleProvider`)
+
+```typescript
+interface LogotypeLocale {
+  suffix?: string;
+  prefix?: string;
+}
+
+const ru_RU = {
+  prefix: 'к',
+  suffix: 'нтур',
+};
+
+const en_EN = {
+  prefix: 'k',
+  suffix: 'ntur',
+};
+```
