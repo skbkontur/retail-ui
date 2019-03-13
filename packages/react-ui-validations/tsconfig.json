@@ -1,8 +1,3 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "module": "es2015",
-    "declarationDir": "./build/declaration"
-  }
+  "extends": "../../tsconfig.json"
 }
