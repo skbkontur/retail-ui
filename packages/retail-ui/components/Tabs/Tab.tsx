@@ -1,12 +1,10 @@
-import events from 'add-event-listener';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
 import cn from 'classnames';
-
-import styles = require('./Tab.less');
-import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+
+import styles from './Tab.less';
 
 export interface TabIndicators {
   error: boolean;
@@ -25,12 +23,12 @@ export interface TabProps {
   /**
    * Component to use as a tab
    */
-  component?: React.ComponentType<any> | string;
+  component: React.ComponentType<any> | string;
 
   /**
    * Link href
    */
-  href?: string;
+  href: string;
 
   /**
    * Tab identifier
@@ -92,6 +90,30 @@ export interface TabState {
   focusedByKeyboard: boolean;
 }
 
+const KEYCODE_TAB = 9;
+const KEYCODE_ARROW_LEFT = 37;
+const KEYCODE_ARROW_UP = 38;
+const KEYCODE_ARROW_RIGHT = 39;
+const KEYCODE_ARROW_DOWN = 40;
+
+let isListening: boolean;
+let focusKeyPressed: boolean;
+
+function listenTabPresses() {
+  if (!isListening) {
+    window.addEventListener('keydown', (event: KeyboardEvent) => {
+      focusKeyPressed = [
+        KEYCODE_TAB,
+        KEYCODE_ARROW_LEFT,
+        KEYCODE_ARROW_UP,
+        KEYCODE_ARROW_RIGHT,
+        KEYCODE_ARROW_DOWN,
+      ].includes(event.keyCode);
+    });
+    isListening = true;
+  }
+}
+
 /**
  * Tab element of Tabs component
  *
@@ -108,8 +130,26 @@ export interface TabState {
  * Works only inside Tabs component, otherwise throws
  */
 class Tab extends React.Component<TabProps, TabState> {
-  public static propTypes = {};
-  public static contextTypes = {};
+  public static propTypes = {
+    children: PropTypes.node,
+    component: PropTypes.any,
+    disabled: PropTypes.bool,
+    href: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
+    onKeyDown: PropTypes.func,
+  };
+
+  public static contextTypes = {
+    activeTab: PropTypes.string.isRequired,
+    addTab: PropTypes.func.isRequired,
+    notifyUpdate: PropTypes.func.isRequired,
+    removeTab: PropTypes.func.isRequired,
+    switchTab: PropTypes.func.isRequired,
+    shiftFocus: PropTypes.func.isRequired,
+    vertical: PropTypes.bool.isRequired,
+  };
+
   public static defaultProps = {
     component: 'a',
     href: 'javascript:',
@@ -121,15 +161,14 @@ class Tab extends React.Component<TabProps, TabState> {
     focusedByKeyboard: false,
   };
 
-  private _node: Nullable<React.ReactElement<any>> = null;
-  private getProps = createPropsGetter(Tab.defaultProps);
+  private tabComponent: Nullable<React.ReactElement<Tab>> = null;
 
   public componentWillMount() {
     invariant(typeof this.context.addTab === 'function', 'Tab should be placed inside Tabs component');
   }
 
   public componentDidMount() {
-    this._addTab();
+    this.context.addTab(this.getId(), this.getTabInstance);
     listenTabPresses();
   }
 
@@ -140,51 +179,35 @@ class Tab extends React.Component<TabProps, TabState> {
   }
 
   public componentWillUnmount() {
-    this._removeTab();
+    this.context.removeTab(this.getId());
   }
 
-  public render(): JSX.Element {
-    const {
-      id,
-      children,
-      disabled,
-      onClick,
-      onKeyDown,
-      error,
-      warning,
-      success,
-      primary,
-      component,
-      ...rest
-    } = this.props;
+  public render() {
+    const { children, disabled, error, warning, success, primary, component: Component, href, style } = this.props;
 
-    const Component = this.getProps().component;
-    const href = this.getProps().href;
-
-    const isActive = this.context.activeTab === this._getId();
-    const isDisabled = Boolean(this.props.disabled);
+    const isActive = this.context.activeTab === this.getId();
     const isVertical = this.context.vertical;
-    const indicators = this.getIndicators();
+
     return (
       <Component
-        className={cn(
-          styles.root,
-          isVertical && styles.vertical,
-          indicators.primary && styles.primary,
-          indicators.success && styles.success,
-          indicators.warning && styles.warning,
-          indicators.error && styles.error,
-          isActive && styles.active,
-          isDisabled && styles.disabled,
-        )}
-        onBlur={!isDisabled ? this._handleBlur : this._noop}
-        onClick={!isDisabled ? this._switchTab : this._noop}
-        onFocus={!isDisabled ? this._handleFocus : this._noop}
-        onKeyDown={!isDisabled ? this._handleKeyDown : this._noop}
-        tabIndex={isDisabled ? -1 : 0}
-        ref={this._refNode}
+        className={cn({
+          [styles.root]: true,
+          [styles.vertical]: isVertical,
+          [styles.primary]: primary,
+          [styles.success]: success,
+          [styles.warning]: warning,
+          [styles.error]: error,
+          [styles.active]: isActive,
+          [styles.disabled]: disabled,
+        })}
+        onBlur={this.handleBlur}
+        onClick={this.switchTab}
+        onFocus={this.handleFocus}
+        onKeyDown={this.handleKeyDown}
+        tabIndex={disabled ? -1 : 0}
+        ref={this.refTabComponent}
         href={href}
-        {...rest}
+        style={style}
       >
         {children}
         {this.state.focusedByKeyboard && <div className={styles.focus} />}
@@ -202,27 +225,21 @@ class Tab extends React.Component<TabProps, TabState> {
     };
   }
 
-  public getUnderlyingNode = () => this._node;
+  public getUnderlyingNode = () => this.tabComponent;
 
-  private _noop = () => undefined;
+  private getId = () => this.props.id || this.props.href;
 
-  private _getId = () => this.props.id || this.getProps().href;
-
-  private _addTab() {
-    this.context.addTab(this._getId(), this._getNode);
-  }
-
-  private _removeTab() {
-    this.context.removeTab(this._getId());
-  }
-
-  private _refNode = (element: React.ReactElement<any>) => {
-    this._node = element;
+  private refTabComponent = (instance: React.ReactElement<any>) => {
+    this.tabComponent = instance;
   };
 
-  private _getNode = () => this;
+  private getTabInstance = () => this;
 
-  private _switchTab = (event: React.MouseEvent<HTMLElement>) => {
+  private switchTab = (event: React.MouseEvent<HTMLElement>) => {
+    if (this.props.disabled) {
+      return;
+    }
+
     const id = this.props.id || this.props.href!;
     if (this.props.onClick) {
       this.props.onClick(event);
@@ -233,7 +250,11 @@ class Tab extends React.Component<TabProps, TabState> {
     this.context.switchTab(id);
   };
 
-  private _handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (this.props.disabled) {
+      return;
+    }
+
     if (this.props.onKeyDown) {
       this.props.onKeyDown(event);
       if (event.defaultPrevented) {
@@ -244,19 +265,23 @@ class Tab extends React.Component<TabProps, TabState> {
       case KEYCODE_ARROW_LEFT:
       case KEYCODE_ARROW_UP:
         event.preventDefault();
-        this.context.shiftFocus(this._getId(), -1);
+        this.context.shiftFocus(this.getId(), -1);
         return;
       case KEYCODE_ARROW_RIGHT:
       case KEYCODE_ARROW_DOWN:
         event.preventDefault();
-        this.context.shiftFocus(this._getId(), 1);
+        this.context.shiftFocus(this.getId(), 1);
         return;
       default:
         return;
     }
   };
 
-  private _handleFocus = () => {
+  private handleFocus = () => {
+    if (this.props.disabled) {
+      return;
+    }
+
     // focus event fires before keyDown eventlistener
     // so we should check focusKeyPressed in async way
     process.nextTick(() => {
@@ -267,55 +292,13 @@ class Tab extends React.Component<TabProps, TabState> {
     });
   };
 
-  private _handleBlur = () => {
+  private handleBlur = () => {
+    if (this.props.disabled) {
+      return;
+    }
+
     this.setState({ focusedByKeyboard: false });
   };
-}
-
-const { string, node, func, any, bool } = PropTypes;
-
-Tab.propTypes = {
-  children: node,
-  component: any,
-  disabled: bool,
-  href: string,
-  id: string.isRequired,
-  onClick: func,
-  onKeyDown: func,
-};
-
-Tab.contextTypes = {
-  activeTab: string.isRequired,
-  addTab: func.isRequired,
-  notifyUpdate: func.isRequired,
-  removeTab: func.isRequired,
-  switchTab: func.isRequired,
-  shiftFocus: func.isRequired,
-  vertical: bool.isRequired,
-};
-
-const KEYCODE_TAB = 9;
-const KEYCODE_ARROW_LEFT = 37;
-const KEYCODE_ARROW_UP = 38;
-const KEYCODE_ARROW_RIGHT = 39;
-const KEYCODE_ARROW_DOWN = 40;
-
-let isListening: boolean;
-let focusKeyPressed: boolean;
-
-function listenTabPresses() {
-  if (!isListening) {
-    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
-      focusKeyPressed = [
-        KEYCODE_TAB,
-        KEYCODE_ARROW_LEFT,
-        KEYCODE_ARROW_UP,
-        KEYCODE_ARROW_RIGHT,
-        KEYCODE_ARROW_DOWN,
-      ].includes(event.keyCode);
-    });
-    isListening = true;
-  }
 }
 
 export default Tab;
