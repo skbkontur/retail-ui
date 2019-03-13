@@ -30,6 +30,9 @@ function createConfig(publicPath, output) {
           test: /\.(ts|tsx)$/,
           exclude: /node_modules/,
           loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+          },
         },
         {
           test: /\.md$/,
@@ -37,35 +40,11 @@ function createConfig(publicPath, output) {
           use: ['react-hot-loader', 'babel-loader', './loaders/markdown-loader'],
         },
         {
-          test: /\.(css|less)$/,
-          exclude: /node_modules/,
-          use: [
-            'classnames-loader',
-            'style-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[name]-[local]-[hash:base64:4]',
-              },
-            },
-            'less-loader',
-          ],
-        },
-        {
           test: /\.(woff|woff2|eot|svg|ttf|gif|png)$/,
-          exclude: /node_modules/,
           use: 'file-loader',
         },
         {
-          test: /\.(js|jsx)$/,
-          include: /retail-ui/,
-          exclude: /retail-ui(\\|\/)node_modules/,
-          use: 'babel-loader',
-        },
-        {
           test: /\.(css|less)$/,
-          include: /retail-ui/,
           use: [
             'style-loader',
             {
@@ -76,17 +55,11 @@ function createConfig(publicPath, output) {
             },
             'less-loader',
           ],
-        },
-        {
-          test: /\.(woff|woff2|eot|svg|ttf|gif|png)$/,
-          include: /retail-ui/,
-          use: 'file-loader',
         },
       ],
     },
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      modules: ['node_modules', 'web_modules'],
       alias: {
         Demo: path.resolve(__dirname, './docs/components/Demo.tsx'),
         src: path.resolve(__dirname, 'src'),
