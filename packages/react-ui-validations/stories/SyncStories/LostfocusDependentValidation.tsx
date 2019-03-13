@@ -1,10 +1,10 @@
 import * as React from 'react';
+import Button from 'retail-ui/components/Button';
+import Gapped from 'retail-ui/components/Gapped';
+import Input from 'retail-ui/components/Input';
 import { text, ValidationInfo } from '../../src';
 import ValidationContainer from '../../src/ValidationContainer';
-import Gapped from 'retail-ui/components/Gapped';
 import ValidationWrapperV1 from '../../src/ValidationWrapperV1';
-import Input from 'retail-ui/components/Input';
-import Button from 'retail-ui/components/Button';
 import { Nullable } from '../../typings/Types';
 import { ValidationState } from '../ValidationHelper';
 

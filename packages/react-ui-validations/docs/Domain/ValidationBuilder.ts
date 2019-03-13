@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { ValidationBehaviour, ValidationInfo } from '../../src';
 import { Nullable } from '../../typings/Types';
-import { ValidationInfo, ValidationBehaviour } from '../../src';
 
 export type ValidationResultFor<T> = Partial<{ [Key in keyof T]: ValidationInfo }>;
 

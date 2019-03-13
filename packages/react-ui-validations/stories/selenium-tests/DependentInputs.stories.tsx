@@ -1,8 +1,8 @@
-import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import * as React from 'react';
 import Input from 'retail-ui/components/Input';
+import { text, ValidationContainer, ValidationInfo, ValidationWrapperV1 } from '../../src';
 import { Nullable } from '../../typings/Types';
-import { ValidationContainer, ValidationWrapperV1, text, ValidationInfo } from '../../src';
 
 interface Example1State {
   value1: string;

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Input from 'retail-ui/components/Input';
 import DatePicker from 'retail-ui/components/DatePicker';
-import { ValidationInfo, ValidationWrapperV1, RenderErrorMessage } from '../../src';
+import Input from 'retail-ui/components/Input';
+import { RenderErrorMessage, ValidationInfo, ValidationWrapperV1 } from '../../src';
 import { Nullable } from '../../typings/Types';
 
 interface ValidationProps<TValue> {
@@ -86,9 +86,7 @@ export function lessThanDate(value: Date): ((value: Nullable<string>) => Nullabl
   };
 }
 
-type ExtractProps<TComponentOrTProps> = TComponentOrTProps extends React.ComponentType<
-    infer P
-    >
+type ExtractProps<TComponentOrTProps> = TComponentOrTProps extends React.ComponentType<infer P>
   ? (P extends { value?: any } ? P : never)
   : never;
 
@@ -96,12 +94,12 @@ type ExtractValue<TComponent> = ExtractProps<TComponent> extends { value?: null 
 
 function wrapControl<TComponent extends React.ComponentType<ExtractProps<TComponent>>>(
   controlType: TComponent,
-): React.ComponentType<WrappedProps<
+): React.ComponentType<
+  WrappedProps<
     ExtractValue<TComponent>,
     JSX.LibraryManagedAttributes<TComponent, { value?: ExtractValue<TComponent> } & ExtractProps<TComponent>>
-    >
   >
-{
+> {
   return props => {
     const { controlProps, validationWrapperProps } = prepareProps(props);
     const control = React.createElement(controlType, controlProps) as React.ReactElement<any>;
@@ -111,6 +109,6 @@ function wrapControl<TComponent extends React.ComponentType<ExtractProps<TCompon
 
 const WrappedInput = wrapControl(Input);
 export { WrappedInput as Input };
+export { WrappedDatePicker as DatePicker };
 
 const WrappedDatePicker = wrapControl(DatePicker);
-export { WrappedDatePicker as DatePicker };
