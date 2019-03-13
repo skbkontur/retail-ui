@@ -1,5 +1,3 @@
-'use strict';
-
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
@@ -9,10 +7,7 @@ function readVersionFromPackageJson(packageJsonPath) {
   return 'v' + content.version;
 }
 
-let libraryVersion = process.env.TRAVIS_TAG;
-if (!libraryVersion) {
-  libraryVersion = readVersionFromPackageJson(path.resolve('package.json'));
-}
+const libraryVersion = readVersionFromPackageJson(path.resolve('package.json'));
 
 function createConfig(publicPath, output) {
   return {
