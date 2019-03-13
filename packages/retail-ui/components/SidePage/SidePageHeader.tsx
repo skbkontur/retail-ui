@@ -86,6 +86,7 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
                 href="javascript:"
                 className={classNames(styles.close, { [styles.fixed]: fixed })}
                 onClick={requestClose}
+                data-tid="SidePage-Close"
               >
                 <SVGCross className={styles.closeIcon} />
               </a>
