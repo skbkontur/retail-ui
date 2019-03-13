@@ -6,7 +6,7 @@ import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 import Input from 'retail-ui/components/Input';
 import Button from 'retail-ui/components/Button';
 import RadioGroup from 'retail-ui/components/RadioGroup';
-import ComboBoxOld from 'retail-ui/components/ComboBoxOld';
+import ComboBox from 'retail-ui/components/ComboBox';
 import Select from 'retail-ui/components/Select';
 import DatePicker from 'retail-ui/components/DatePicker';
 import Textarea from 'retail-ui/components/Textarea';
@@ -68,19 +68,16 @@ const FormEditor: React.SFC<FormEditorProps> = ({ data, validationInfoValue, onC
       </Form.Line>
       <Form.Line title="Город">
         <ValidationWrapperV1 validationInfo={validationInfoValue.city}>
-          <ComboBoxOld
+          <ComboBox
             valueToString={x => x}
             renderValue={x => x}
             renderItem={x => x}
-            info={async (x: any) => x}
+            itemToValue={x => x}
             value={data.city}
-            source={async query => {
+            getItems={async query => {
               const cities = ['City 1', 'City 2', 'City 3'];
               const result = !query ? cities : cities.filter(x => x.includes(query));
-              return {
-                values: result,
-                infos: result,
-              };
+              return result;
             }}
             onChange={(_, value) => onChange({ city: value })}
           />
