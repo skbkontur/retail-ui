@@ -1,4 +1,4 @@
-import commonjs from 'rollup-plugin-commonjs'
+import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
 import typescript2 from 'rollup-plugin-typescript2';
@@ -14,6 +14,7 @@ export function buildConfig(outputDir, reactUiPackageName) {
     plugins: [
       typescript2({
         useTsconfigDeclarationDir: true,
+        tsconfig: './prod.tsconfig.json',
       }),
       resolve(),
       commonjs(),
