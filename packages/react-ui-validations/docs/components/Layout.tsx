@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
-import styled from 'styled-components';
 import Logotype from 'retail-ui/components/Logotype';
-import Examples from './Pages/Examples';
+import styled from 'styled-components';
 import Concepts from './Pages/Concepts';
+import Examples from './Pages/Examples';
 
 const Layout: React.SFC = ({ children }) => {
   return (

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import Code from 'react-syntax-highlighter';
+import styled from 'styled-components';
 
 interface DemoProps {
   demo?: React.ComponentClass<any>;

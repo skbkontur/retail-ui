@@ -4,7 +4,7 @@ import Code from 'react-syntax-highlighter';
 import Button from 'retail-ui/components/Button';
 import Link from 'retail-ui/components/Link';
 import { ValidationContainer } from '../../../../src';
-import { Input, DatePicker, lessThanDate } from '../../../Domain/ControlsWithValidations';
+import { DatePicker, Input, lessThanDate } from '../../../Domain/ControlsWithValidations';
 import Demo from '../../Demo';
 import Form from '../../Form';
 

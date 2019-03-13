@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Nullable } from '../typings/Types';
-import ValidationWrapper, { RenderErrorMessage, ValidationLevel, ValidationBehaviour } from './ValidationWrapper';
 import { tooltip } from './ErrorRenderer';
+import ValidationWrapper, { RenderErrorMessage, ValidationBehaviour, ValidationLevel } from './ValidationWrapper';
 
 export interface ValidationInfo {
   type?: ValidationBehaviour;

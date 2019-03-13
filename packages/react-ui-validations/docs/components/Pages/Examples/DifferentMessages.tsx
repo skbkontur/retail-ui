@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
-import Input from 'retail-ui/components/Input';
 import Button from 'retail-ui/components/Button';
-import { ValidationContainer, ValidationWrapperV1, text } from '../../../../src';
+import Input from 'retail-ui/components/Input';
+import { text, ValidationContainer, ValidationWrapperV1 } from '../../../../src';
+import { ContactInfo, FormEditorProps } from '../../../Domain/ContactInfo';
 import { ValidationResultFor } from '../../../Domain/ValidationBuilder';
 import Demo from '../../Demo';
 import Form from '../../Form';
-import { ContactInfo, FormEditorProps } from '../../../Domain/ContactInfo';
 
 function FormEditor({ data, validationInfo, onChange }: FormEditorProps) {
   validationInfo = validationInfo || {};
