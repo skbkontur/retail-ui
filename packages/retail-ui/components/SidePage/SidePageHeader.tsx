@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-
+import { SVGCross } from '../internal/cross';
 import Sticky from '../Sticky';
 import { SidePageContext } from './SidePageContext';
 import styles from './SidePage.less';
@@ -30,7 +30,7 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps>
       <SidePageContext.Consumer>
         {({ requestClose }) => (
           <a href="javascript:" className={styles.close} onClick={requestClose}>
-            <span>×</span>
+            <SVGCross className={styles.closeIcon} />
           </a>
         )}
       </SidePageContext.Consumer>
