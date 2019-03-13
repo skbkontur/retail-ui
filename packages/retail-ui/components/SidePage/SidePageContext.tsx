@@ -1,5 +1,5 @@
 import * as React from 'react';
-import createReactContext = require('create-react-context');
+import createReactContext from 'create-react-context';
 import { SidePageFooter } from './SidePageFooter';
 
 export interface SidePageContextType {
