@@ -173,7 +173,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
 
   public render(): JSX.Element {
     const { corners = 0 } = this.props;
-    const RADIUS = this.props.size === 'small' ? '1px' : '2px';
+    const RADIUS = this.props.size === 'small' && !isFlatDesign ? '1px' : '2px';
 
     const SIZE_CLASSES = {
       small: classes.sizeSmall,
