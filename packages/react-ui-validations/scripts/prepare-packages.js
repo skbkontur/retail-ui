@@ -21,8 +21,6 @@ fs.writeFileSync('build/react-ui-dist/package.json', JSON.stringify(reactUIpacka
 function prepareCommonFiles(targetDir) {
   shell.rm('-rf', targetDir + '/src/*');
   shell.cp('-R', 'src/', targetDir);
-  shell.cp('.npmrc', targetDir);
-  shell.cp('build/declaration/index.d.ts', targetDir);
   shell.cp('README.md', targetDir);
   shell.cp('CHANGELOG.md', targetDir);
 }
