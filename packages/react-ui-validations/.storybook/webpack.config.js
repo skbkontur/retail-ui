@@ -7,7 +7,7 @@ module.exports = function(sourceConfig, env, defaultConfig) {
       ...defaultConfig.entry,
       preview: [
         require.resolve('babel-polyfill'),
-        require.resolve('./react-selenium-testing.js'),
+        require.resolve('react-ui-testing/react-selenium-testing'),
         require.resolve('../stories/styles/reset.less'),
         require.resolve('../stories/styles/typography.less'),
         ...defaultConfig.entry.preview,
@@ -25,12 +25,17 @@ module.exports = function(sourceConfig, env, defaultConfig) {
           },
         },
         {
-          test: /\.less$/,
-          loaders: ['style-loader', 'css-loader', 'less-loader'],
-        },
-        {
-          test: /\.css$/,
-          loaders: ['style-loader', 'css-loader'],
+          test: /\.(css|less)$/,
+          loaders: [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                localIdentName: '[name]-[local]-[hash:base64:4]',
+              },
+            },
+            'less-loader',
+          ],
         },
         {
           test: /\.(png|woff|woff2|eot)$/,
@@ -41,7 +46,6 @@ module.exports = function(sourceConfig, env, defaultConfig) {
     resolve: {
       ...defaultConfig.resolve,
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      modules: ['node_modules', 'local_modules', 'web_modules'],
     },
     plugins: [
       ...defaultConfig.plugins,
