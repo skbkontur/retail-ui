@@ -4,7 +4,7 @@ import * as CDS from './CalendarDateShape';
 
 import config from './config';
 
-import classes = require('./MonthView.less');
+import styles from './MonthView.less';
 
 import DateSelect from '../DateSelect';
 
@@ -80,15 +80,15 @@ export const MonthView = ({
   };
 
   return (
-    <div className={classes.month} style={{ top }} key={month + '-' + year}>
+    <div className={styles.month} style={{ top }} key={month + '-' + year}>
       <div
-        style={{ ...styles.monthTitle, top: headerTop, borderBottomColor }}
+        style={{ lineHeight: config.MONTH_TITLE_HEIGHT, top: headerTop, borderBottomColor }}
         className={classNames({
-          [classes.monthTitle]: true,
-          [classes.headerSticked]: isHeaderSticked,
+          [styles.monthTitle]: true,
+          [styles.headerSticked]: isHeaderSticked,
         })}
       >
-        <div className={classes.headerMonth}>
+        <div className={styles.headerMonth}>
           <DateSelect
             disabled={monthSelectDisabled}
             width={85}
@@ -101,7 +101,7 @@ export const MonthView = ({
           />
         </div>
         {isYearVisible && (
-          <div className={classes.headerYear} style={{ top: yearTop }}>
+          <div className={styles.headerYear} style={{ top: yearTop }}>
             <DateSelect
               disabled={yearSelectDisabled}
               width={50}
@@ -118,13 +118,4 @@ export const MonthView = ({
       {children}
     </div>
   );
-};
-
-const styles = {
-  header: {
-    lineHeight: config.MONTH_TITLE_HEIGHT + 'px',
-  },
-  monthTitle: {
-    lineHeight: config.MONTH_TITLE_HEIGHT + 'px',
-  },
 };

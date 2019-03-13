@@ -6,7 +6,7 @@ import LayoutEvents from '../../lib/LayoutEvents';
 // Note SpinnerType нужен для генерации правильного .d.ts файла
 // @ts-ignore — Свойство "SpinnerType" объявлено, но его значение не было прочитано
 import Spinner, { SpinnerType, SpinnerProps } from '../Spinner';
-import styles = require('./Loader.less');
+import styles from './Loader.less';
 import { Nullable } from '../../typings/utility-types';
 
 export interface LoaderProps {

@@ -4,7 +4,7 @@ import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
 import cn from 'classnames';
 
-import styles = require('./Tab.less');
+import styles from './Tab.less';
 import { Nullable } from '../../typings/utility-types';
 
 export interface TabIndicators {

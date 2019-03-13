@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import * as React from 'react';
 
 import Paging from '../Paging';
-import PagingStyles = require('../Paging.less');
+import PagingStyles from '../Paging.less';
 
 describe('Pager', () => {
   it('renders', () => {
