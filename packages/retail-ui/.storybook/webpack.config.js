@@ -8,6 +8,8 @@ const isProd = process.env.NODE_ENV === 'production';
 module.exports = (baseConfig, env) => {
   const config = baseConfig;
 
+  config.entry.preview.unshift(path.resolve(__dirname, '../../react-ui-testing/react-selenium-testing.js'));
+
   config.resolve.extensions.unshift('.ts', '.tsx');
 
   config.module.rules.push(
@@ -41,6 +43,7 @@ module.exports = (baseConfig, env) => {
   config.plugins.push(
     new webpack.DefinePlugin({
       'process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS': JSON.stringify(process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS),
+      'process.env.enableReactTesting': JSON.stringify(process.env.enableReactTesting),
     }),
     new WatchExternalFilesPlugin({
       files: ['*.less'],
