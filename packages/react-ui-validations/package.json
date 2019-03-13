@@ -26,12 +26,9 @@
   "types": "./index.d.ts",
   "author": "exactlynosense <whois.ard@gmail.com>",
   "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/skbkontur/react-ui-validations.git"
-  },
+  "repository": "https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations",
   "bugs": {
-    "url": "https://github.com/skbkontur/react-ui-validations/issues"
+    "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "files": [
     "index.d.ts",

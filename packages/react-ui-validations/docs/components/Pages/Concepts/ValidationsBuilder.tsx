@@ -125,7 +125,7 @@ function FormEditor({ data, validationInfo, onChange }: FormEditorProps): React.
         </ul>
         <p>
           Пример реализации можно найти в{' '}
-          <Link href="https://github.com/skbkontur/react-ui-validations/tree/master/docs">
+          <Link href="https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/docs">
             исходном коде документации
           </Link>
           .
