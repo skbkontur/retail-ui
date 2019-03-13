@@ -2,8 +2,7 @@
 
 var renderStory = require('./utils').renderStory;
 
-const BUTTON_SELECTOR = '[class^="Button-root"]';
-const RADIO_SELECTOR = '[class^="Radio-root"]';
+const FIRST_RADIO_SELECTOR = '[data-comp-name="RadioGroup"] > span > label';
 
 gemini.suite('RadioGroup', suite => {
   suite
@@ -11,13 +10,13 @@ gemini.suite('RadioGroup', suite => {
     .setCaptureElements('#RadioGroup-wrap')
     .capture('plain')
     .capture('hovered', (actions, find) => {
-      actions.mouseMove(find(RADIO_SELECTOR));
+      actions.mouseMove(find(FIRST_RADIO_SELECTOR));
     })
     .capture('clicked', (actions, find) => {
-      actions.click(find(RADIO_SELECTOR));
+      actions.click(find(FIRST_RADIO_SELECTOR));
     })
     .capture('mouseLeave', (actions, find) => {
-      actions.click(find(BUTTON_SELECTOR), 0, [0, 0]);
+      actions.click(find('[data-tid="JustButton"]'));
     })
     .capture('tabPress', (actions, find) => {
       actions.sendKeys(gemini.TAB);

@@ -490,8 +490,12 @@ class ComboBoxWithExternalValue extends React.Component {
         warning={this.state.warning}
         ref={element => (this.combobox = element)}
       />
-      <Button onClick={this.fill}>Set `First`</Button>
-      <Button onClick={this.reset}>Reset</Button>
+      <span data-tid="ButtonWrapper">
+        <Button onClick={this.fill}>Set `First`</Button>
+      </span>
+      <span data-tid="ButtonWrapper">
+        <Button onClick={this.reset}>Reset</Button>
+      </span>
       <div>
         this.state.value: <code>{JSON.stringify(this.state.value)}</code>
       </div>
