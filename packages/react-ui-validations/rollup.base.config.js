@@ -22,6 +22,6 @@ export function buildConfig(outputDir, reactUiPackageName) {
         REACT_UI_PACKAGE: JSON.stringify(reactUiPackageName),
       }),
     ],
-    external: ['lodash.isequal', 'react-dom', 'react', 'prop-types'],
+    external: ['lodash.isequal', 'react-dom', 'react', 'prop-types', 'warning'],
   };
 }
