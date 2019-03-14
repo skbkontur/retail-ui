@@ -32,7 +32,8 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
         renderNotFound={this.renderNotFound}
         placeholder={(locale && locale.countryPlaceholder) || ''}
         width={'100%'}
-        autocomplete={true}
+        drawArrow={false}
+        searchOnFocus={false}
         limit={limit}
       />
     );

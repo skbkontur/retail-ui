@@ -75,7 +75,7 @@ class Logotype extends React.Component<LogotypeProps> {
     href: '/',
   };
 
-  public readonly locale: LogotypeLocale = {};
+  private readonly locale!: LogotypeLocale;
 
   private logoWrapper: Nullable<HTMLElement> = null;
   private isWidgetInited: boolean = false;

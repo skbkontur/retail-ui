@@ -31,7 +31,8 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
         renderNotFound={this.renderNotFound}
         placeholder={locale!.searchPlaceholder}
         width={'100%'}
-        autocomplete={true}
+        drawArrow={false}
+        searchOnFocus={false}
         limit={limit}
       />
     );
