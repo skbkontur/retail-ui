@@ -12,7 +12,7 @@ import { formatDate, parseDateString } from './DatePickerHelpers';
 import { CalendarDateShape } from '../Calendar';
 import { tryGetValidDateShape, isValidDate } from './DateShape';
 
-import styles = require('./DatePicker.less');
+import styles from './DatePicker.less';
 import { Nullable } from '../../typings/utility-types';
 
 const INPUT_PASS_PROPS = {
