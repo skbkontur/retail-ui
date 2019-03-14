@@ -1,4 +1,4 @@
 export interface TokenInputLocale {
-  addButtonComment?: string;
-  addButtonTitle?: string;
+  addButtonComment: string;
+  addButtonTitle: string;
 }

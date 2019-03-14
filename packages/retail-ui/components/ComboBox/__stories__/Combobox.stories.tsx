@@ -70,11 +70,13 @@ storiesOf('ComboBox', module)
   .add('with rejections', () => <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />)
   .add('disabled', () => <TestComboBox autoFocus disabled onSearch={search} renderItem={renderValue} />)
   .add('with custom elements', () => (
+    // @ts-ignore undocumented feature
     <TestComboBox onSearch={searchWithCustomElements} renderItem={renderValue} onUnexpectedInput={errorStrategy} />
   ))
   .add('autocomplete', () => (
     <TestComboBox
-      autocomplete
+      drawArrow={false}
+      searchOnFocus={false}
       onSearch={search}
       renderItem={renderValue}
       totalCount={12}
@@ -95,7 +97,8 @@ storiesOf('ComboBox', module)
   .add('with autoFocus and autocomplete', () => (
     <TestComboBox
       autoFocus
-      autocomplete
+      drawArrow={false}
+      searchOnFocus={false}
       onSearch={search}
       renderItem={renderValue}
       totalCount={12}
@@ -110,11 +113,13 @@ storiesOf('ComboBox', module)
   .add('with right align', () => <SimpleCombobox align={'right'} placeholder={'placeholder'} noInitialValue={true} />)
   .add('with maxLength', () => <SimpleCombobox maxLength={10} placeholder={'placeholder'} noInitialValue={true} />)
   .add('toogle error', () => <ComboBoxWithErrorToggler />)
-  .add('with `null` onUnexpectedInput', () => <ComboBox onUnexpectedInput={() => null} />)
+  .add('with `null` onUnexpectedInput', () => (
+    <ComboBox getItems={() => Promise.resolve([])} onUnexpectedInput={() => null} />
+  ))
   .add('with external value', () => <ComboBoxWithExternalValue />)
   .add('with renderItem state', () => <SimpleCombobox renderItem={(_, state) => String(state)} />)
   .add('open, close, search methods', () => {
-    let combobox: Nullable<ComboBox<any>> = null;
+    let combobox: Nullable<ComboBox<ValueType>> = null;
     return (
       <div>
         <ComboBox
@@ -124,6 +129,7 @@ storiesOf('ComboBox', module)
           renderItem={i => i.name}
           valueToString={v => v.name}
           renderValue={v => v.name}
+          itemToValue={v => v.name}
         />{' '}
         <span className="control-buttons">
           <button onClick={() => combobox && combobox.open()}>open</button>{' '}
@@ -172,7 +178,7 @@ class ComboBoxWithErrorToggler extends React.Component<{}, ComboBoxWithErrorTogg
   public render() {
     return (
       <>
-        <ComboBox error={this.state.error} value={this.state.value} />
+        <ComboBox error={this.state.error} value={this.state.value} getItems={() => Promise.resolve([{ label: 0 }])} />
         <Toggle
           onChange={value =>
             this.setState(state => ({
@@ -197,12 +203,16 @@ interface ComboBoxState {
   warning: boolean;
 }
 
-interface TestComboboxProps<T> extends Omit<ComboBoxProps<T>, 'onUnexpectedInput'> {
-  onSearch?: (query: string) => Promise<T[]>;
-  onUnexpectedInput?: (setState: (state: Partial<ComboBoxState>) => void) => (x: string) => any;
+interface TestComboboxProps<T> extends Omit<ComboBoxProps<T>, 'onUnexpectedInput' | 'getItems'> {
+  onSearch: (query: string) => Promise<T[]>;
+  onUnexpectedInput?: (updateState: (newState: Partial<ComboBoxState>) => void) => (x: string) => any;
 }
 
-class TestComboBox extends React.Component<TestComboboxProps<any>, ComboBoxState> {
+class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBoxState> {
+  public static defaultProps = {
+    ...ComboBox.defaultProps,
+    onSearch: () => Promise.resolve([]),
+  };
   public state: ComboBoxState = {
     value: null,
     error: false,
@@ -216,10 +226,11 @@ class TestComboBox extends React.Component<TestComboboxProps<any>, ComboBoxState
       <div>
         <ComboBox
           align={this.props.align}
-          autocomplete={this.props.autocomplete}
+          drawArrow={this.props.drawArrow}
+          searchOnFocus={this.props.searchOnFocus}
           autoFocus={this.props.autoFocus}
           borderless={this.props.borderless}
-          itemToValue={x => (x as ValueType).id}
+          itemToValue={x => x.id}
           disabled={this.props.disabled}
           error={this.state.error}
           warning={this.state.warning}
@@ -230,12 +241,10 @@ class TestComboBox extends React.Component<TestComboboxProps<any>, ComboBoxState
           getItems={this.props.onSearch}
           renderItem={this.props.renderItem}
           renderValue={renderValue}
-          valueToString={x => (x as ValueType).name}
+          valueToString={x => x.name}
           placeholder="numbers"
           onChange={this.handleChange}
-          onUnexpectedInput={
-            this.props.onUnexpectedInput ? this.props.onUnexpectedInput(this.setState.bind(this)) : undefined
-          }
+          onUnexpectedInput={this.props.onUnexpectedInput ? this.props.onUnexpectedInput(this.updateState) : undefined}
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Найдено ${found} из ${total}`}
           ref={el => {
@@ -257,6 +266,8 @@ class TestComboBox extends React.Component<TestComboboxProps<any>, ComboBoxState
     );
   }
 
+  private updateState = (newState: Partial<ComboBoxState>) => this.setState(state => ({ ...state, ...newState }));
+
   private handleChange = (_: any, value: ValueType) => {
     this.setState({ value, error: false });
   };
@@ -272,6 +283,10 @@ interface SimpleComboboxState {
 }
 
 class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps<any>, SimpleComboboxState> {
+  public static defaultProps = {
+    ...ComboBox.defaultProps,
+    getItems: () => Promise.resolve([]),
+  };
   public state: SimpleComboboxState = {
     value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
   };
@@ -303,7 +318,8 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     );
 }
 
-class ComplexCombobox extends React.Component<ComboBoxProps<any>, {}> {
+class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems'>, {}> {
+  public static defaultProps = ComboBox.defaultProps;
   public state = {
     value: null,
   };
@@ -396,7 +412,7 @@ function warningStrategy(setState: (state: Partial<ComboBoxState>) => void): (x:
   };
 }
 
-const items = [
+const items: ValueType[] = [
   { id: 1, name: 'one' },
   { id: 2, name: 'two' },
   { id: 3, name: 'three' },
@@ -413,12 +429,12 @@ const items = [
   { id: 99, name: 'Putinka' },
 ];
 
-function search(query: string): Promise<any> {
+function search(query: string) {
   return Promise.resolve(items.filter(x => ~x.name.toLowerCase().indexOf(query.toLowerCase())));
 }
 
 let searchCount = 0;
-function searchWithRejections(query: string): Promise<any> {
+function searchWithRejections(query: string): Promise<ValueType[]> {
   const random = (v: number) => Math.random() * v;
 
   const delay = (v: any) => new Promise(resolve => setTimeout(resolve, random(5) * 100, v));
@@ -427,7 +443,10 @@ function searchWithRejections(query: string): Promise<any> {
   return Promise.resolve()
     .then(delay)
     .then(() => {
-      searchCount % 2 ? Promise.reject() : items.filter(x => ~x.name.indexOf(query.toLowerCase()));
+      if (searchCount % 2) {
+        throw new Error();
+      }
+      return items.filter(x => ~x.name.indexOf(query.toLowerCase()));
     });
 }
 
@@ -474,7 +493,7 @@ function renderValue({ id, name }: ValueType): React.ReactNode {
 
 class ComboBoxWithExternalValue extends React.Component {
   public state = {
-    value: { value: 1, label: 'First' },
+    value: { value: '1', label: 'First' },
     warning: false,
   };
 
@@ -500,7 +519,7 @@ class ComboBoxWithExternalValue extends React.Component {
 
   private fill = () => {
     this.setState({
-      value: { value: 1, label: 'First' },
+      value: { value: '1', label: 'First' },
       warning: false,
     });
   };
@@ -517,12 +536,12 @@ class ComboBoxWithExternalValue extends React.Component {
 
   private getItems = (q: string) =>
     Promise.resolve(
-      [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }].filter(
-        x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q,
+      [{ value: '1', label: 'First' }, { value: '2', label: 'Second' }].filter(
+        x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value === q,
       ),
     );
 
-  private onChange = (_: any, value: { value: number; label: string }) => this.setState({ value, warning: false });
+  private onChange = (_: any, value: { value: string; label: string }) => this.setState({ value, warning: false });
 
   private onUnexpectedInput = (query: string) => {
     this.setState({
