@@ -20,8 +20,28 @@
       color: @color;
       border: @border;
 
+      .arrow {
+        background: @bgColor;
+        box-shadow: 0 0 0 1px @bgColor;
+      }
+
+      .arrow_left {
+        background: @bgColor;
+        box-shadow: 0 0 0 1px @bgColor;
+      }
+
       &:hover {
         background: @bgHoverColor;
+
+        .arrow {
+          background: @bgHoverColor;
+          box-shadow: 0 0 0 1px @bgHoverColor;
+        }
+
+        .arrow_left {
+          background: @bgHoverColor;
+          box-shadow: 0 0 0 1px @bgHoverColor;
+        }
       }
 
       &.focus {
@@ -29,12 +49,25 @@
         border: 1px solid @flat-border-color-focus;
         position: relative;
         z-index: 2;
+
+        .arrow,
+        .arrow_left {
+          box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @flat-border-color-focus;
+        }
       }
     }
 
     .@{className}:active,
     .@{className}.active {
       background: @bgActiveColor;
+      border: @border;
+      box-shadow: none;
+
+      .arrow,
+      .arrow_left {
+        background: @bgActiveColor;
+        box-shadow: 0 0 0 1px @bgActiveColor;
+      }
     }
   }
 
@@ -43,12 +76,40 @@
       height: @control-height-small;
     }
   }
+  .buttonSizeMixin(
+    sizeSmall,
+    16.8px,
+    7.5px,
+    -7.5px,
+    -9.6px,
+    -7.7px,
+    rotate(53deg) skewX(24deg) skewY(10deg),
+    linear-gradient(-56deg, transparent 47.5%, #ccc 0, #ccc 73.5%, transparent 0),
+    7px,
+    7px,
+    -207px,
+    441%
+  );
 
   .sizeMedium {
     &:not(.link) {
       height: @control-height-medium;
     }
   }
+  .buttonSizeMixin(
+    sizeMedium,
+    20.2px,
+    9px,
+    -10.2px,
+    -9.6px,
+    -9.5px,
+    rotate(53deg) skewX(24deg) skewY(8deg),
+    linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0),
+    0,
+    0,
+    -207px,
+    441%
+  );
 
   .DEPRECATED_sizeMedium {
     font-size: 16px;
@@ -63,21 +124,50 @@
       }
     }
   }
+  .buttonSizeMixin(
+    DEPRECATED_sizeMedium,
+    20.2px,
+    9px,
+    -10.2px,
+    -9.6px,
+    -9.5px,
+    rotate(53deg) skewX(24deg) skewY(8deg),
+    linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0),
+    0,
+    0,
+    -208px,
+    441%
+  );
 
   .sizeLarge {
     &:not(.link) {
       height: @control-height-large;
     }
   }
+  .buttonSizeMixin(
+    sizeLarge,
+    21.7px,
+    10.2px,
+    -10.8px,
+    -10.6px,
+    -10.2px,
+    rotate(53deg) skewX(25deg) skewY(10deg),
+    linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0),
+    -32px,
+    -36px,
+    -198px,
+    700%
+  );
 
   // Use Default
+
   .buttonColorMixin(
     default,
     none,
-    @btn-flat-default-bg,
+    #fff,
     @btn-flat-default-hover-bg,
     @btn-flat-default-active-bg,
-    @btn-flat-default-disabled-bg,
+    @btn-flat-disabled-bg,
     @btn-flat-default-border
   );
 
@@ -140,6 +230,16 @@
     background: @btn-flat-checked-bg;
     color: #fff;
 
+    .arrow {
+      background: @btn-flat-checked-bg;
+      box-shadow: 0 0 0 1px @btn-flat-checked-bg;
+    }
+
+    .arrow_left {
+      background: @btn-flat-checked-bg;
+      box-shadow: 0 0 0 1px @btn-flat-checked-bg;
+    }
+
     &:hover {
       background: @btn-flat-checked-bg;
     }
@@ -148,32 +248,42 @@
       box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px @border-color-focus;
       position: relative;
       z-index: 2;
+
+      .arrow {
+        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-focus;
+      }
+
+      .arrow.arrow_warning {
+        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-warning;
+      }
+
+      .arrow.arrow_error {
+        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-error;
+      }
     }
   }
 
   .root.disabled {
     border-color: transparent;
-  }
 
-  // TODO: arrow styles
-  .arrow {
-    content: '';
-  }
+    .arrow {
+      background: @btn-flat-disabled-bg;
+      box-shadow: 0 0 0 1px @btn-flat-disabled-bg;
+    }
 
-  .arrow_loading {
-    content: '';
-  }
-
-  .arrow_warning {
-    content: '';
-  }
-
-  .arrow_error {
-    content: '';
+    .arrow_left {
+      background: @btn-flat-disabled-bg;
+      box-shadow: 0 0 0 1px @btn-flat-disabled-bg;
+    }
   }
 
   .wrap_arrow {
-    content: '';
+    margin-right: 10px;
+  }
+
+  .wrap_arrow_left {
+    margin-right: 0;
+    margin-left: 10px;
   }
 
   .borderless {
