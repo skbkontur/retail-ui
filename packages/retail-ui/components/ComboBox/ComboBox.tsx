@@ -1,8 +1,5 @@
 import * as React from 'react';
-
-import createReducer from '../CustomComboBox/reducer';
-import { reducers as defaultReducers } from '../CustomComboBox/reducer/default';
-import { reducers as autocompleteReducers } from '../CustomComboBox/reducer/autocomplete';
+import warning from 'warning';
 
 import CustomComboBox from '../CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
@@ -12,8 +9,21 @@ export interface ComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
   /**
    * Включает режим автокомплита
+   * @deprecated используйте флаги `searchOnFocus` и `drawArrow`.
+   * Установка обоих флагов в `false` соответствует режиму автокомплита
    */
   autocomplete?: boolean;
+
+  /**
+   * Вызывает функцию поиска `getItems` при фокусе и очистке поля ввода
+   * @default true
+   */
+  searchOnFocus?: boolean;
+  /**
+   * Рисует справа иконку в виде стрелки
+   * @default true
+   */
+  drawArrow?: boolean;
 
   autoFocus?: boolean;
 
@@ -21,8 +31,8 @@ export interface ComboBoxProps<T> {
 
   /**
    * Не использовать Portal для рендеринга меню.
-   * По-умолчанию `false`.
    * См. https://github.com/skbkontur/retail-ui/issues/15
+   * @default false
    */
   disablePortal?: boolean;
 
@@ -35,14 +45,15 @@ export interface ComboBoxProps<T> {
    * По умолчанию ожидаются объекты с типом `{ value: string, label: string }`.
    *
    * Элементы могут быть любого типа. В этом случае необходимо определить
-   * свойства `itemToValue`, `renderValue`, `renderItem`, `valueToString?`
+   * свойства `itemToValue`, `renderValue`, `renderItem`, `valueToString`
    */
-  getItems?: (query: string) => Promise<T[]>;
+  getItems: (query: string) => Promise<T[]>;
 
   /**
    * Необходим для сравнения полученных результатов с `value`
+   * @default item => item.label
    */
-  itemToValue?: (item: T) => string | number;
+  itemToValue: (item: T) => string | number;
 
   maxLength?: number;
 
@@ -59,7 +70,7 @@ export interface ComboBoxProps<T> {
    * если результатом функции будет строка,
    * то она станет следующим состояним полем ввода
    */
-  onInputChange?: (query: string) => any;
+  onInputChange?: (query: string) => Nullable<string> | void;
 
   /**
    * Функция для обработки ситуации, когда была введена
@@ -81,8 +92,9 @@ export interface ComboBoxProps<T> {
   /**
    * Функция отрисовки элементов результата поиска.
    * Не применяется если элемент является функцией или React-элементом
+   * @default item => item.label
    */
-  renderItem?: (item: T, state?: MenuItemState) => React.ReactNode;
+  renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
 
   /**
    * Функция для отрисовки сообщения о пустом результате поиска
@@ -96,8 +108,9 @@ export interface ComboBoxProps<T> {
 
   /**
    * Функция отрисовки выбранного значения
+   * @default item => item.label
    */
-  renderValue?: (item: T) => React.ReactNode;
+  renderValue: (item: T) => React.ReactNode;
 
   /**
    * Общее количество элементов.
@@ -114,8 +127,9 @@ export interface ComboBoxProps<T> {
 
   /**
    * Необходим для преобразования `value` в строку при фокусировке
+   * @default item => item.label
    */
-  valueToString?: (item: T) => string;
+  valueToString: (item: T) => string;
 
   size?: 'small' | 'medium' | 'large';
 
@@ -126,19 +140,30 @@ export interface ComboBoxProps<T> {
   maxMenuHeight?: number | string;
 }
 
-const defaultReducer = createReducer(defaultReducers);
-const autocompleteReducer = createReducer(autocompleteReducers);
+export interface ComboBoxItem {
+  value: string;
+  label: string;
+}
 
-class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
+class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public static defaultProps = {
-    itemToValue: (item: any) => item.value,
-    valueToString: (item: any) => item.label,
-    renderValue: (item: any) => item.label,
-    renderItem: (item: any) => item.label,
+    itemToValue: (item: ComboBoxItem) => item.value,
+    valueToString: (item: ComboBoxItem) => item.label,
+    renderValue: (item: ComboBoxItem) => item.label,
+    renderItem: (item: ComboBoxItem) => item.label,
     menuAlign: 'left',
+    searchOnFocus: true,
+    drawArrow: true,
   };
 
-  private comboboxElement: Nullable<CustomComboBox> = null;
+  private comboboxElement: Nullable<CustomComboBox<T>> = null;
+
+  public componentDidMount() {
+    warning(
+      this.props.autocomplete === undefined,
+      '`autocompelete` flag is deprecated, please use `drawArrow` and `searchOnFocus` instead',
+    );
+  }
 
   /**
    * @public
@@ -217,16 +242,21 @@ class ComboBox<T> extends React.Component<ComboBoxProps<T>> {
   }
 
   public render() {
-    const { autocomplete, ...rest } = this.props;
-    const props = {
-      ...rest,
-      openButton: !autocomplete,
-      reducer: autocomplete ? autocompleteReducer : defaultReducer,
-    };
+    const { autocomplete, ...restProps } = this.props;
+    let { drawArrow, searchOnFocus } = this.props;
+
+    if (autocomplete !== undefined) {
+      drawArrow = !Boolean(autocomplete);
+      searchOnFocus = !Boolean(autocomplete);
+    }
 
     return (
-      // @ts-ignore
-      <CustomComboBox {...props} ref={element => (this.comboboxElement = element)} />
+      <CustomComboBox
+        {...restProps}
+        drawArrow={drawArrow}
+        searchOnFocus={searchOnFocus}
+        ref={element => (this.comboboxElement = element)}
+      />
     );
   }
 }
