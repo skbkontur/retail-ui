@@ -249,7 +249,12 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
         ref: (x: any) => {
           const child = children as any; // todo type or maybe React.Children.only
           if (child && child.ref) {
-            child.ref(x);
+            if (typeof child.ref === 'function') {
+              child.ref(x);
+            }
+            if (child.ref.hasOwnProperty('current')) {
+              child.ref.current = x;
+            }
           }
           this.child = x;
         },
