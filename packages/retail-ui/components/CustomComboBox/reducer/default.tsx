@@ -146,7 +146,7 @@ const Effect = {
     if (index >= 0) {
       // FIXME: accessing private props
       // @ts-ignore
-      process.nextTick(() => menu && menu._scrollToSelected());
+      process.nextTick(() => menu && menu.scrollToSelected());
       return;
     }
 
@@ -176,7 +176,7 @@ const Effect = {
     if (menu) {
       // FIXME: accessing private props
       // @ts-ignore
-      menu._move(direction);
+      menu.move(direction);
     }
   },
   ResetHighlightedMenuItem: ((dispatch, getState, getProps, getInstance) => {
