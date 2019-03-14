@@ -27,10 +27,6 @@ export function locale<C>(controlName: keyof LocaleControls, localeHelper: Local
         const localeFromContext = this._localeContext.locale && this._localeContext.locale[this.controlName];
         return Object.assign({}, this.localeHelper.get(langCode), localeFromContext);
       }
-
-      public set locale(value: C) {
-        // empty block
-      }
     };
     Object.defineProperty(LocaleDecorator, 'name', { value: constructor.name });
     return LocaleDecorator;
