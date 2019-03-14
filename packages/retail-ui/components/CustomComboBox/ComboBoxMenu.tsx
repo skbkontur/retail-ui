@@ -32,7 +32,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     requestStatus: ComboBoxRequestStatus.Unknown,
   };
 
-  public readonly locale: ComboBoxLocale = {};
+  private readonly locale!: ComboBoxLocale;
 
   public render() {
     const {

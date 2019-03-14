@@ -1,3 +1,3 @@
 export interface PagingLocale {
-  forward?: string;
+  forward: string;
 }
