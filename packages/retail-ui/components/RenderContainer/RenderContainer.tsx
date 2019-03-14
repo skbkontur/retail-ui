@@ -25,11 +25,14 @@ export class RenderContainerBase extends React.Component<RenderContainerProps> {
     }
   }
 
-  protected rootId: number = 0;
+  protected readonly rootId: number;
   protected domContainer: Nullable<HTMLElement> = null;
 
   constructor(props: RenderContainerProps) {
     super(props);
+
+    RenderContainerBase.compactIds();
+    this.rootId = RenderContainerBase.getId();
 
     if (props.children) {
       this.mountContainer();
@@ -47,6 +50,7 @@ export class RenderContainerBase extends React.Component<RenderContainerProps> {
 
   public componentWillUnmount() {
     this.destroyContainer();
+    RenderContainerBase.releaseId(this.rootId);
   }
 
   private createContainer() {
@@ -55,9 +59,6 @@ export class RenderContainerBase extends React.Component<RenderContainerProps> {
     }
 
     if (!this.domContainer) {
-      RenderContainerBase.compactIds();
-      this.rootId = RenderContainerBase.getId();
-
       const domContainer = document.createElement('div');
       domContainer.setAttribute('class', 'react-ui');
       domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
@@ -81,7 +82,6 @@ export class RenderContainerBase extends React.Component<RenderContainerProps> {
     if (this.domContainer) {
       this.unmountContainer();
       this.domContainer = null;
-      RenderContainerBase.releaseId(this.rootId);
     }
   }
 
