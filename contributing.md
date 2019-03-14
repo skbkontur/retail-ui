@@ -15,7 +15,7 @@
 - `Windows`:
   - `yarn global add windows-build-tools`
 - `OS X`:
-  - `xcode-select install`
+  - `xcode-select --install`
 
 ## Tests/Build/Storybook
 
@@ -33,3 +33,5 @@
 ## TypesScript
 
 Используется `tslint` и `strict mode`. Не стоит злоупотреблять флагами `/* tslint:disable */`
+
+Не используйте нижнее подчеркивание в начале имени в наименованиях приватных полей. Если заметите использование — нужно переименовывать (убирать подчеркивание) у всех компонентов, код которых вы трогаете.
