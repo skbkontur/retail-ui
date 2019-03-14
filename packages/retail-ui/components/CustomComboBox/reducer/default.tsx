@@ -258,7 +258,7 @@ const reducers: CustomComboBoxReducers<any> = {
       inputChanged: true,
       textValue: action.value,
     };
-    if (!action.value && props.searchOnFocus) {
+    if (!action.value && !props.searchOnFocus) {
       return [
         {
           ...newState,
