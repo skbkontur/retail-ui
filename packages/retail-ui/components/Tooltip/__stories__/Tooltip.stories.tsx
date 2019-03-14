@@ -1,7 +1,7 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import Tooltip, { TooltipTrigger, TooltipProps } from '../Tooltip';
+import Tooltip, { TooltipProps, TooltipTrigger } from '../Tooltip';
 import Button from '../../Button';
 import { PopupPosition, PopupPositions } from '../../Popup';
 import { createPropsGetter } from '../../internal/createPropsGetter';
@@ -166,7 +166,8 @@ storiesOf('Tooltip', module)
     <DynamicContentStory TooltipComponentClass={InternalDynamicContentTooltip} />
   ))
   .add('Tooltip with trigger=click', () => <TooltipWithClickTrigger />)
-  .add('Tooltip with dynamic anchor', () => <DynamicAnchorTooltip />);
+  .add('Tooltip with dynamic anchor', () => <DynamicAnchorTooltip />)
+  .add('Multiple tooltips with useWrapper=false', () => <MultipleTooltips />);
 
 interface MyCustomTooltipState {
   state: TooltipTrigger;
@@ -222,6 +223,9 @@ class ManualTooltip extends React.Component<TestTooltipProps, MyCustomTooltipSta
 }
 
 const SMALL_CONTENT = <span>Sample text</span>;
+function getSmallContent() {
+  return SMALL_CONTENT;
+}
 const LARGE_CONTENT = (
   <span>
     Sample text, sample text, sample text, sample text, sample text
@@ -370,19 +374,14 @@ const DynamicContentStory = (props: DynamicContentStoryProps) => {
   );
 };
 
-class DynamicAnchorTooltip extends React.Component<{}, {}> {
-  public render() {
-    return (
-      <div style={{ padding: 100 }}>
-        <Tooltip pos={'bottom left'} render={this.tooltipContentGetter} trigger={'hover'} useWrapper={false}>
-          <DynamicAnchor />
-        </Tooltip>
-      </div>
-    );
-  }
-  private tooltipContentGetter = () => {
-    return <span>Content</span>;
-  };
+function DynamicAnchorTooltip() {
+  return (
+    <div style={{ padding: 100 }}>
+      <Tooltip pos={'bottom left'} render={getSmallContent} trigger={'hover'} useWrapper={false}>
+        <DynamicAnchor />
+      </Tooltip>
+    </div>
+  );
 }
 
 class TooltipWithClickTrigger extends React.Component<{}, {}> {
@@ -415,4 +414,20 @@ class TooltipWithClickTrigger extends React.Component<{}, {}> {
       </Gapped>
     );
   };
+}
+
+function MultipleTooltips() {
+  return (
+    <div style={{ padding: 150 }}>
+      <Tooltip pos={'top center'} trigger={'click'} useWrapper={false} render={getSmallContent}>
+        <Tooltip pos={'right middle'} trigger={'click'} useWrapper={false} render={getSmallContent}>
+          <Tooltip pos={'bottom center'} trigger={'click'} useWrapper={false} render={getSmallContent}>
+            <Tooltip pos={'left middle'} trigger={'click'} useWrapper={false} render={getSmallContent}>
+              <span>Poor anchor</span>
+            </Tooltip>
+          </Tooltip>
+        </Tooltip>
+      </Tooltip>
+    </div>
+  );
 }
