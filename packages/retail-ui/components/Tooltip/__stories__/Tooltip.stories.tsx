@@ -125,7 +125,7 @@ storiesOf('Tooltip', module)
       <Tooltip render={() => 'No disableAnimations prop'} trigger={'hover'}>
         <Button>Hover me (No disableAnimations prop)</Button>
       </Tooltip>
-      <Tooltip render={() => 'disableAnimations={false}'} trigger={'hover'} disableAnimations>
+      <Tooltip render={() => 'disableAnimations={false}'} trigger={'hover'} disableAnimations={false}>
         <Button>Hover me (disableAnimations: false)</Button>
       </Tooltip>
       <Tooltip render={() => 'disableAnimations={true}'} trigger={'hover'} disableAnimations>
