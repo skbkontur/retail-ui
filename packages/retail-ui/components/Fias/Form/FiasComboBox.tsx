@@ -19,6 +19,7 @@ interface FiasComboBoxState {
 }
 
 export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBoxState> {
+  public static defaultProps = ComboBox.defaultProps;
   public state: FiasComboBoxState = {
     searchText: '',
     totalCount: 0,
