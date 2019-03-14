@@ -158,6 +158,13 @@ class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
 
   private comboboxElement: Nullable<CustomComboBox<T>> = null;
 
+  public componentDidMount() {
+    warning(
+      this.props.autocomplete === undefined,
+      '`autocompelete` flag is deprecated, please use `drawArrow` and `searchOnFocus` instead',
+    );
+  }
+
   /**
    * @public
    */
@@ -237,13 +244,6 @@ class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public render() {
     const { autocomplete, ...restProps } = this.props;
     let { drawArrow, searchOnFocus } = this.props;
-
-    if (process.env.NODE_ENV !== 'production') {
-      warning(
-        autocomplete === undefined,
-        '`autocompelete` flag is deprecated, please use `drawArrow` and `searchOnFocus` instead',
-      );
-    }
 
     if (autocomplete !== undefined) {
       drawArrow = !Boolean(autocomplete);
