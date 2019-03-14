@@ -1,9 +1,6 @@
 import * as React from 'react';
 import warning from 'warning';
 
-import createReducer from '../CustomComboBox/reducer';
-import { reducers as defaultReducers } from '../CustomComboBox/reducer/default';
-
 import CustomComboBox from '../CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
@@ -258,7 +255,6 @@ class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
         {...restProps}
         drawArrow={drawArrow}
         searchOnFocus={searchOnFocus}
-        reducer={createReducer(defaultReducers)}
         ref={element => (this.comboboxElement = element)}
       />
     );

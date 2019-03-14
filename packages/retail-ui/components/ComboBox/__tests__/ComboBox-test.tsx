@@ -12,7 +12,7 @@ import Menu from '../../Menu/Menu';
 import { delay } from 'retail-ui/lib/utils';
 import CustomComboBox, { DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../CustomComboBox/CustomComboBox';
 import ComboBoxView from '../../CustomComboBox/ComboBoxView';
-import { Effect } from '../../CustomComboBox/reducer/default';
+import { Effect } from '../../CustomComboBox/CustomComboBoxReducer';
 import { ComboBoxRequestStatus } from '../../CustomComboBox/CustomComboBoxTypes';
 
 function clickOutside() {

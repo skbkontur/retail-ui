@@ -3,13 +3,44 @@ import ReactDOM from 'react-dom';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
-import { CustomComboBoxProps, DefaultState, CustomComboBoxEffect, CustomComboBoxReducers } from '../CustomComboBox';
-import LayoutEvents from '../../../lib/LayoutEvents';
-import { Nullable } from '../../../typings/utility-types';
-import ComboBoxView from '../ComboBoxView';
-import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
-import { ComboBoxRequestStatus } from '../CustomComboBoxTypes';
-import { getFirstFocusableElement, getNextFocusableElement } from '../../../lib/dom/getFocusableElements';
+import CustomComboBox, { CustomComboBoxProps, DefaultState, CustomComboBoxState } from './CustomComboBox';
+import LayoutEvents from '../../lib/LayoutEvents';
+import { Nullable } from '../../typings/utility-types';
+import ComboBoxView from './ComboBoxView';
+import reactGetTextContent from '../../lib/reactGetTextContent/reactGetTextContent';
+import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
+import { getFirstFocusableElement, getNextFocusableElement } from '../../lib/dom/getFocusableElements';
+
+export type CustomComboBoxAction<T> =
+  | { type: 'TextClear' }
+  | { type: 'ValueChange'; value: T; keepFocus: boolean }
+  | { type: 'TextChange'; value: string }
+  | { type: 'KeyPress'; event: React.KeyboardEvent }
+  | {
+      type: 'DidUpdate';
+      prevProps: CustomComboBoxProps<T>;
+      prevState: CustomComboBoxState<T>;
+    }
+  | { type: 'Mount' }
+  | { type: 'Focus' }
+  | { type: 'InputClick' }
+  | { type: 'Blur' }
+  | { type: 'Reset' }
+  | { type: 'Open' }
+  | { type: 'Close' }
+  | { type: 'Search'; query: string }
+  | { type: 'RequestItems' }
+  | { type: 'ReceiveItems'; items: T[] }
+  | { type: 'RequestFailure'; repeatRequest: () => void }
+  | { type: 'FocusNextElement' }
+  | { type: 'CancelRequest' };
+
+export type CustomComboBoxEffect<T> = (
+  dispatch: (action: CustomComboBoxAction<T>) => void,
+  getState: () => CustomComboBoxState<T>,
+  getProps: () => CustomComboBoxProps<T>,
+  getInstance: () => CustomComboBox<T>,
+) => void;
 
 type Effect = CustomComboBoxEffect<any>;
 
@@ -42,7 +73,7 @@ const getValueString = (value: any, valueToString: CustomComboBoxProps<any>['val
   return value ? valueToString(value) : '';
 };
 
-const Effect: EffectFactory = {
+export const Effect: EffectFactory = {
   Search: query => (dispatch, getState, getProps, getInstance) => {
     getInstance().search(query);
   },
@@ -201,190 +232,195 @@ const Effect: EffectFactory = {
   },
 };
 
-const reducers: CustomComboBoxReducers<any> = {
-  Mount: (state, props) => ({
-    ...DefaultState,
-    inputChanged: false,
-    textValue: getValueString(props.value, props.valueToString),
-  }),
-  DidUpdate(state, props, action) {
-    if (isEqual(props.value, action.prevProps.value)) {
+const never = (_: never) => null;
+
+export function reducer<T>(
+  state: CustomComboBoxState<T>,
+  props: CustomComboBoxProps<T>,
+  action: CustomComboBoxAction<T>,
+): Pick<CustomComboBoxState<T>, never> | [Pick<CustomComboBoxState<T>, never>, Array<CustomComboBoxEffect<T>>] {
+  switch (action.type) {
+    case 'TextClear': {
+      return { textValue: '' };
+    }
+    case 'ValueChange': {
+      const { value, keepFocus } = action;
+      const textValue = getValueString(value, props.valueToString);
+      if (keepFocus) {
+        return [
+          {
+            opened: false,
+            inputChanged: false,
+            editing: true,
+            items: null,
+            textValue,
+          },
+          [Effect.Change(value), Effect.CancelRequest, Effect.InputFocus],
+        ];
+      }
+      return [
+        {
+          opened: false,
+          inputChanged: false,
+          editing: false,
+          items: null,
+          textValue,
+        },
+        [Effect.Change(value), Effect.CancelRequest],
+      ];
+    }
+    case 'TextChange': {
+      const newState = {
+        inputChanged: true,
+        textValue: action.value,
+      };
+      if (!action.value && !props.searchOnFocus) {
+        return [
+          {
+            ...newState,
+            opened: false,
+            items: null,
+          },
+          [Effect.InputChange],
+        ];
+      }
+      return [newState, [Effect.DebouncedSearch, Effect.InputChange]];
+    }
+    case 'KeyPress': {
+      const { event } = action;
+      switch (event.key) {
+        case 'Enter':
+          event.preventDefault();
+          return [state, [Effect.SelectMenuItem(event as React.KeyboardEvent<HTMLElement>)]];
+        case 'ArrowUp':
+        case 'ArrowDown':
+          event.preventDefault();
+          const effects = [Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? 'up' : 'down')];
+          if (!state.opened) {
+            effects.push(Effect.Search(state.textValue));
+          }
+          return [state, effects];
+        case 'Escape':
+          return {
+            items: null,
+            opened: false,
+          };
+        default:
+          return state;
+      }
+    }
+    case 'DidUpdate': {
+      if (isEqual(props.value, action.prevProps.value)) {
+        return state;
+      }
+
+      return {
+        opened: false,
+        textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString),
+      };
+    }
+    case 'Mount': {
+      return {
+        textValue: getValueString(props.value, props.valueToString),
+      };
+    }
+    case 'Focus': {
+      const newState = {
+        focused: true,
+        editing: true,
+      };
+      if (!props.searchOnFocus) {
+        return [newState, [Effect.Focus]];
+      }
+      if (state.editing) {
+        return [newState, [Effect.Search(state.textValue), Effect.Focus]];
+      }
+      return [newState, [Effect.Search(''), Effect.Focus, Effect.SelectInputText]];
+    }
+    case 'InputClick': {
+      if (!state.opened && props.searchOnFocus) {
+        return [state, [Effect.Search('')]];
+      }
       return state;
     }
+    case 'Blur': {
+      const { inputChanged, items } = state;
+      if (!inputChanged) {
+        return [
+          {
+            focused: false,
+            opened: false,
+            items: null,
+            editing: false,
+          },
+          [Effect.Blur, Effect.CancelRequest],
+        ];
+      }
 
-    return {
-      opened: false,
-      textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString),
-    };
-  },
-  Blur(state, props, action) {
-    const { inputChanged, items } = state;
-    if (!inputChanged) {
       return [
         {
           focused: false,
           opened: false,
           items: null,
-          editing: false,
         },
-        [Effect.Blur, Effect.CancelRequest],
+        [Effect.Blur, Effect.CancelRequest, Effect.UnexpectedInput(state.textValue, items)],
       ];
     }
-
-    return [
-      {
-        focused: false,
-        opened: false,
-        items: null,
-      },
-      [Effect.Blur, Effect.CancelRequest, Effect.UnexpectedInput(state.textValue, items)],
-    ];
-  },
-  Focus(state, props, action) {
-    const newState = {
-      focused: true,
-      editing: true,
-    };
-    if (!props.searchOnFocus) {
-      return [newState, [Effect.Focus]];
+    case 'Reset': {
+      return DefaultState;
     }
-    if (state.editing) {
-      return [newState, [Effect.Search(state.textValue), Effect.Focus]];
+    case 'Open': {
+      return { opened: true };
     }
-    return [newState, [Effect.Search(''), Effect.Focus, Effect.SelectInputText]];
-  },
-  TextChange(state, props, action) {
-    const newState = {
-      inputChanged: true,
-      textValue: action.value,
-    };
-    if (!action.value && !props.searchOnFocus) {
+    case 'Close': {
+      return { opened: false, items: null };
+    }
+    case 'Search': {
+      return [state, [Effect.Search(action.query)]];
+    }
+    case 'RequestItems': {
+      return {
+        loading: true,
+        opened: true,
+        requestStatus: ComboBoxRequestStatus.Pending,
+      };
+    }
+    case 'ReceiveItems': {
+      const shouldResetMenuHighlight = state.textValue === '';
       return [
         {
-          ...newState,
-          opened: false,
-          items: null,
+          loading: false,
+          opened: true,
+          items: action.items,
+          requestStatus: ComboBoxRequestStatus.Success,
         },
-        [Effect.InputChange],
+        [shouldResetMenuHighlight ? Effect.ResetHighlightedMenuItem : Effect.HighlightMenuItem, Effect.Reflow],
       ];
     }
-    return [newState, [Effect.DebouncedSearch, Effect.InputChange]];
-  },
-  TextClear(state, props, action) {
-    return {
-      textValue: '',
-    };
-  },
-  ValueChange(state, props, { value, keepFocus }) {
-    const textValue = getValueString(value, props.valueToString);
-    if (keepFocus) {
+    case 'RequestFailure': {
       return [
         {
-          opened: false,
-          inputChanged: false,
-          editing: true,
+          loading: false,
+          opened: true,
           items: null,
-          textValue,
+          requestStatus: ComboBoxRequestStatus.Failed,
+          repeatRequest: action.repeatRequest,
         },
-        [Effect.Change(value), Effect.CancelRequest, Effect.InputFocus],
+        [Effect.HighlightMenuItem],
       ];
     }
-    return [
-      {
-        opened: false,
-        inputChanged: false,
-        editing: false,
-        items: null,
-        textValue,
-      },
-      [Effect.Change(value), Effect.CancelRequest],
-    ];
-  },
-  KeyPress(state, props, { event }) {
-    switch (event.key) {
-      case 'Enter':
-        event.preventDefault();
-        return [state, [Effect.SelectMenuItem(event as React.KeyboardEvent<HTMLElement>)]];
-      case 'ArrowUp':
-      case 'ArrowDown':
-        event.preventDefault();
-        const effects = [Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? 'up' : 'down')];
-        if (!state.opened) {
-          effects.push(Effect.Search(state.textValue));
-        }
-        return [state, effects];
-      case 'Escape':
-        return {
-          items: null,
-          opened: false,
-        };
-      default:
-        return state;
+    case 'FocusNextElement': {
+      return [state, [Effect.FocusNextElement]];
     }
-  },
-  InputClick(state, props, action) {
-    if (!state.opened && props.searchOnFocus) {
-      return [state, [Effect.Search('')]];
+    case 'CancelRequest': {
+      return {
+        loading: false,
+        requestStatus: ComboBoxRequestStatus.Unknown,
+      };
     }
-    return state;
-  },
-  RequestItems(state, props, action) {
-    return {
-      loading: true,
-      opened: true,
-      requestStatus: ComboBoxRequestStatus.Pending,
-    };
-  },
-  ReceiveItems(state, props, action) {
-    const shouldResetMenuHighlight = state.textValue === '';
-    return [
-      {
-        loading: false,
-        opened: true,
-        items: action.items,
-        requestStatus: ComboBoxRequestStatus.Success,
-      },
-      [shouldResetMenuHighlight ? Effect.ResetHighlightedMenuItem : Effect.HighlightMenuItem, Effect.Reflow],
-    ];
-  },
-  RequestFailure(state, props, action) {
-    return [
-      {
-        loading: false,
-        opened: true,
-        items: null,
-        requestStatus: ComboBoxRequestStatus.Failed,
-        repeatRequest: action.repeatRequest,
-      },
-      [Effect.HighlightMenuItem],
-    ];
-  },
-  CancelRequest: () => {
-    return {
-      loading: false,
-      requestStatus: ComboBoxRequestStatus.Unknown,
-    };
-  },
-  Reset() {
-    return DefaultState;
-  },
-  Open: () => {
-    return {
-      opened: true,
-    };
-  },
-  Close: () => {
-    return {
-      opened: false,
-      items: null,
-    };
-  },
-  Search: (state, props, { query }) => {
-    return [state, [Effect.Search(query)]];
-  },
-  FocusNextElement: (state, props, action) => {
-    return [state, [Effect.FocusNextElement]];
-  },
-};
-
-export { reducers, Effect, getValueString };
+    default: {
+      never(action);
+    }
+  }
+  return state;
+}

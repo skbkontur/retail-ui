@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Effect } from '../default';
+import { Effect } from '../CustomComboBoxReducer';
 
 interface ItemType {
   value: number;
