@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-
+import { BGRuler } from '../../../lib/BGRuler';
 import FxInput from '../FxInput';
 import { createPropsGetter } from '../../internal/createPropsGetter';
 import { InputType } from '../../Input/Input';
@@ -13,7 +13,8 @@ storiesOf('FxInput', module)
     <TestWrapper>
       <TestFxInput borderless />
     </TestWrapper>
-  ));
+  ))
+  .add('with width', () => <WithWidth />);
 
 interface TestFxInputProps {
   type?: 'currency' | InputType;
@@ -91,4 +92,54 @@ class TestWrapper extends React.Component<{
       </div>
     );
   }
+}
+
+class WithWidth extends React.Component<
+  {},
+  {
+    isFixedWidth: boolean;
+  }
+> {
+  public state = {
+    isFixedWidth: false,
+  };
+
+  public render() {
+    const { isFixedWidth } = this.state;
+    const FIXED = '200px';
+    const AUTO = 'auto';
+    const wrapperWidth = isFixedWidth ? FIXED : AUTO;
+    return (
+      <div style={{ width: 500 }}>
+        <button id="toggle-width" onClick={this.toggleWidth}>
+          Set wrapper width to: {isFixedWidth ? AUTO : FIXED}
+        </button>
+        <br />
+        <br />
+        <TestWrapper width={wrapperWidth} ruler>
+          <FxInput placeholder="no width" onChange={this.onChange} />
+        </TestWrapper>
+
+        <TestWrapper width={wrapperWidth} ruler>
+          <FxInput width="100%" placeholder="100%" onChange={this.onChange} />
+        </TestWrapper>
+
+        <TestWrapper width={wrapperWidth} ruler>
+          <FxInput width={100} placeholder="100px" onChange={this.onChange} />
+        </TestWrapper>
+
+        <TestWrapper width={wrapperWidth} ruler>
+          <FxInput width={400} placeholder="400px" onChange={this.onChange} />
+        </TestWrapper>
+      </div>
+    );
+  }
+
+  private toggleWidth = () => {
+    this.setState({
+      isFixedWidth: !this.state.isFixedWidth,
+    });
+  };
+
+  private onChange = () => null;
 }
