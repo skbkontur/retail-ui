@@ -11,9 +11,13 @@
   @color,
   @bgColor,
   @bgHoverColor,
+  @borderHoverColor,
   @bgActiveColor,
   @bgDisabledColor,
-  @border
+  @border,
+  @arrowShadow,
+  @arrowHoverShadow,
+  @arrowActiveShadow
 ) {
     .@{className} {
       background: @bgColor;
@@ -22,25 +26,22 @@
 
       .arrow {
         background: @bgColor;
-        box-shadow: 0 0 0 1px @bgColor;
+        box-shadow: @arrowShadow;
       }
 
       .arrow_left {
         background: @bgColor;
-        box-shadow: 0 0 0 1px @bgColor;
+        box-shadow: @arrowShadow;
       }
 
       &:hover {
         background: @bgHoverColor;
+        border-color: @borderHoverColor;
 
-        .arrow {
-          background: @bgHoverColor;
-          box-shadow: 0 0 0 1px @bgHoverColor;
-        }
-
+        .arrow,
         .arrow_left {
           background: @bgHoverColor;
-          box-shadow: 0 0 0 1px @bgHoverColor;
+          box-shadow: @arrowHoverShadow;
         }
       }
 
@@ -66,22 +67,17 @@
       .arrow,
       .arrow_left {
         background: @bgActiveColor;
-        box-shadow: 0 0 0 1px @bgActiveColor;
+        box-shadow: @arrowActiveShadow;
       }
     }
   }
 
-  .sizeSmall {
-    &:not(.link) {
-      height: @control-height-small;
-    }
-  }
   .buttonSizeMixin(
     sizeSmall,
-    16.8px,
+    16.6px,
     7.5px,
-    -7.5px,
-    -9.6px,
+    -8px,
+    -9px,
     -7.7px,
     rotate(53deg) skewX(24deg) skewY(10deg),
     linear-gradient(-56deg, transparent 47.5%, #ccc 0, #ccc 73.5%, transparent 0),
@@ -90,6 +86,16 @@
     -207px,
     441%
   );
+
+  .sizeSmall {
+    &:not(.link) {
+      height: @control-height-small;
+    }
+
+    .arrow {
+      border-radius: 2px 2px 4px 16px;
+    }
+  }
 
   .sizeMedium {
     &:not(.link) {
@@ -149,7 +155,7 @@
     21.7px,
     10.2px,
     -10.8px,
-    -10.6px,
+    -10.8px,
     -10.2px,
     rotate(53deg) skewX(25deg) skewY(10deg),
     linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0),
@@ -166,9 +172,13 @@
     none,
     #fff,
     @btn-flat-default-hover-bg,
+    @btn-flat-default-hover-border-color,
     @btn-flat-default-active-bg,
     @btn-flat-disabled-bg,
-    @btn-flat-default-border
+    @btn-flat-default-border,
+    @btn-flat-default-shadow-arrow,
+    @btn-flat-default-hover-shadow-arrow,
+    @btn-flat-default-active-shadow-arrow
   );
 
   // Use Primary
@@ -178,9 +188,13 @@
     #fff,
     @btn-flat-primary-bg,
     @btn-flat-primary-hover-bg,
+    @btn-flat-primary-hover-bg,
     @btn-flat-primary-active-bg,
     @btn-flat-primary-disabled-bg,
-    @btn-flat-primary-border
+    @btn-flat-primary-border,
+    @btn-flat-primary-shadow-arrow,
+    @btn-flat-primary-hover-shadow-arrow,
+    @btn-flat-primary-active-shadow-arrow
   );
 
   // Use Success
@@ -190,9 +204,13 @@
     #fff,
     @btn-flat-success-bg,
     @btn-flat-success-hover-bg,
+    @btn-flat-success-hover-bg,
     @btn-flat-success-active-bg,
     @btn-flat-success-disabled-bg,
-    @btn-flat-success-border
+    @btn-flat-success-border,
+    @btn-flat-success-shadow-arrow,
+    @btn-flat-success-hover-shadow-arrow,
+    @btn-flat-success-active-shadow-arrow
   );
 
   // Use Danger
@@ -202,9 +220,13 @@
     #fff,
     @btn-flat-danger-bg,
     @btn-flat-danger-hover-bg,
+    @btn-flat-danger-hover-bg,
     @btn-flat-danger-active-bg,
     @btn-flat-danger-disabled-bg,
-    @btn-flat-danger-border
+    @btn-flat-danger-border,
+    @btn-flat-danger-shadow-arrow,
+    @btn-flat-danger-hover-shadow-arrow,
+    @btn-flat-danger-active-shadow-arrow
   );
 
   // Use Pay
@@ -214,9 +236,13 @@
     none,
     @btn-flat-pay-bg,
     @btn-flat-pay-hover-bg,
+    @btn-flat-pay-hover-bg,
     @btn-flat-pay-active-bg,
     @btn-flat-pay-disabled-bg,
-    @btn-flat-pay-border
+    @btn-flat-pay-border,
+    @btn-flat-pay-shadow-arrow,
+    @btn-flat-pay-hover-shadow-arrow,
+    @btn-flat-pay-active-shadow-arrow
   );
 
   .root.link.linkError {
@@ -240,12 +266,23 @@
       box-shadow: 0 0 0 1px @btn-flat-checked-bg;
     }
 
+    &.default {
+      .arrow {
+        box-shadow: 1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px @btn-flat-checked-bg;
+      }
+
+      .arrow_left {
+        box-shadow: 1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px @btn-flat-checked-bg;
+      }
+    }
+
     &:hover {
       background: @btn-flat-checked-bg;
+      border-color: @btn-flat-checked-bg;
     }
 
     &.focus {
-      box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px @border-color-focus;
+      box-shadow: inset 0 0 0 1px #fff, 0 0 0 1px @border-color-focus;
       position: relative;
       z-index: 2;
 
