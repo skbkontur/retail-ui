@@ -35,8 +35,8 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     highlightedIndex: -1,
   };
 
-  private _scrollContainer: Nullable<ScrollContainer>;
-  private _highlighted: Nullable<MenuItem>;
+  private scrollContainer: Nullable<ScrollContainer>;
+  private highlighted: Nullable<MenuItem>;
 
   private unmounted = false;
 
@@ -49,7 +49,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
       x => typeof x === 'object' && x.props.icon,
     );
 
-    if (this._isEmpty()) {
+    if (this.isEmpty()) {
       return null;
     }
 
@@ -59,7 +59,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
       >
         <ScrollContainer
-          ref={this._refScrollContainer}
+          ref={this.refScrollContainer}
           maxHeight={this.props.maxHeight}
           preventWindowScroll={this.props.preventWindowScroll}
         >
@@ -82,15 +82,15 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
               let ref = child.ref;
               if (highlight && typeof child.ref !== 'string') {
-                ref = this._refHighlighted.bind(this, child.ref);
+                ref = this.refHighlighted.bind(this, child.ref);
               }
 
               return React.cloneElement<MenuItemProps, MenuItem>(child, {
                 ref,
                 state: highlight ? 'hover' : child.props.state,
-                onClick: this._select.bind(this, index, false),
-                onMouseEnter: this._highlight.bind(this, index),
-                onMouseLeave: this._unhighlight,
+                onClick: this.select.bind(this, index, false),
+                onMouseEnter: this.highlight.bind(this, index),
+                onMouseLeave: this.unhighlight,
               });
             }
             return child;
@@ -104,21 +104,21 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
    * @public
    */
   public up() {
-    this._move(-1);
+    this.move(-1);
   }
 
   /**
    * @public
    */
   public down() {
-    this._move(1);
+    this.move(1);
   }
 
   /**
    * @public
    */
   public enter(event: React.SyntheticEvent<HTMLElement>) {
-    return this._select(this.state.highlightedIndex, true, event);
+    return this.select(this.state.highlightedIndex, true, event);
   }
 
   /**
@@ -136,43 +136,43 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   public highlightItem(index: number) {
-    this._highlight(index);
+    this.highlight(index);
   }
 
-  private _refScrollContainer = (scrollContainer: Nullable<ScrollContainer>) => {
-    this._scrollContainer = scrollContainer;
+  private refScrollContainer = (scrollContainer: Nullable<ScrollContainer>) => {
+    this.scrollContainer = scrollContainer;
   };
 
-  private _refHighlighted(
+  private refHighlighted(
     originalRef: ((menuItem: MenuItem | null) => any) | React.RefObject<MenuItem> | null | undefined,
     menuItem: MenuItem | null,
   ) {
-    this._highlighted = menuItem;
+    this.highlighted = menuItem;
 
     if (typeof originalRef === 'function') {
       originalRef(menuItem);
     }
   }
 
-  private _scrollToSelected = () => {
-    if (this._scrollContainer && this._highlighted) {
-      this._scrollContainer.scrollTo(ReactDOM.findDOMNode(this._highlighted) as HTMLElement);
+  private scrollToSelected = () => {
+    if (this.scrollContainer && this.highlighted) {
+      this.scrollContainer.scrollTo(ReactDOM.findDOMNode(this.highlighted) as HTMLElement);
     }
   };
 
-  private _scrollToTop = () => {
-    if (this._scrollContainer) {
-      this._scrollContainer.scrollToTop();
+  private scrollToTop = () => {
+    if (this.scrollContainer) {
+      this.scrollContainer.scrollToTop();
     }
   };
 
-  private _scrollToBottom = () => {
-    if (this._scrollContainer) {
-      this._scrollContainer.scrollToBottom();
+  private scrollToBottom = () => {
+    if (this.scrollContainer) {
+      this.scrollContainer.scrollToBottom();
     }
   };
 
-  private _select(index: number, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
+  private select(index: number, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
     const item = childrenToArray(this.props.children)[index];
     if (isActiveElement(item)) {
       if (shouldHandleHref && item.props.href) {
@@ -193,15 +193,15 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     return false;
   }
 
-  private _highlight = (index: number) => {
+  private highlight = (index: number) => {
     this.setState({ highlightedIndex: index });
   };
 
-  private _unhighlight = () => {
+  private unhighlight = () => {
     this.setState({ highlightedIndex: -1 });
   };
 
-  private _move(step: number) {
+  private move(step: number) {
     if (this.unmounted) {
       // NOTE workaround, because `ComboBox` call `process.nextTick` in reducer
       return;
@@ -226,13 +226,13 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         this.setState({ highlightedIndex: index }, () => {
           switch (activeElements.indexOf(child)) {
             case 0:
-              this._scrollToTop();
+              this.scrollToTop();
               break;
             case activeElements.length - 1:
-              this._scrollToBottom();
+              this.scrollToBottom();
               break;
             default:
-              this._scrollToSelected();
+              this.scrollToSelected();
           }
         });
         return;
@@ -240,7 +240,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     } while (index !== this.state.highlightedIndex);
   }
 
-  private _isEmpty() {
+  private isEmpty() {
     const { children } = this.props;
     return !children || !childrenToArray(children).filter(isExist).length;
   }

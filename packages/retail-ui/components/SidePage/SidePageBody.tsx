@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles = require('./SidePage.less');
+import styles from './SidePage.less';
 import { SidePageContextType, withContext } from './SidePageContext';
 
 export interface SidePageBodyProps {

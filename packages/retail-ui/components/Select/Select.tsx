@@ -196,7 +196,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     return element;
   };
 
-  public readonly locale: SelectLocale = {};
+  private readonly locale!: SelectLocale;
 
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;

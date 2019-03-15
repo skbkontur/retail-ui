@@ -7,13 +7,13 @@ import { TokenInputLocale } from '../TokenInput/locale';
 import { TopBarLocale } from '../TopBar/locale';
 
 export interface LocaleControls {
-  Spinner?: SpinnerLocale;
-  TokenInput?: TokenInputLocale;
-  ComboBox?: ComboBoxLocale;
-  TopBar?: TopBarLocale;
-  Select?: SelectLocale;
-  Paging?: PagingLocale;
-  Logotype?: LogotypeLocale;
+  Spinner?: Partial<SpinnerLocale>;
+  TokenInput?: Partial<TokenInputLocale>;
+  ComboBox?: Partial<ComboBoxLocale>;
+  TopBar?: Partial<TopBarLocale>;
+  Select?: Partial<SelectLocale>;
+  Paging?: Partial<PagingLocale>;
+  Logotype?: Partial<LogotypeLocale>;
 }
 
 export enum LangCodes {
