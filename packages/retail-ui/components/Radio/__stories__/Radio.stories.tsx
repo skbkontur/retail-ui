@@ -46,4 +46,19 @@ storiesOf('Radio', module)
     }
 
     return <Comp />;
+  })
+  .add('Highlighted', () => {
+    return (
+      <div>
+        <div>
+          <Radio value={'value'} checked />
+        </div>
+        <div>
+          <Radio value={'value'} checked warning />
+        </div>
+        <div>
+          <Radio value={'value'} checked error />
+        </div>
+      </div>
+    );
   });
