@@ -8,6 +8,7 @@ import Corners from '../Button/Corners';
 import '../ensureOldIEClassName';
 import styles from './Group.less';
 import { Nullable } from '../../typings/utility-types';
+import Button from '../Button';
 
 export interface GroupProps {
   width?: React.CSSProperties['width'];
@@ -77,7 +78,16 @@ class Group extends React.Component<GroupProps> {
             width = '100%';
           }
 
-          child = React.cloneElement(child, { corners, width });
+          const cloneProps = {
+            width,
+            corners,
+          };
+
+          if (child.type !== Button) {
+            delete cloneProps.corners;
+          }
+
+          child = React.cloneElement(child, cloneProps);
 
           return (
             <div className={wrapCss}>
