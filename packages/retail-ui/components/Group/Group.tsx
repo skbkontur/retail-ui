@@ -44,8 +44,10 @@ class Group extends React.Component<GroupProps> {
       }
     });
 
+    const rootCss = classNames(styles.root, { [styles.hasWidth]: this.props.width !== undefined });
+
     return (
-      <span className={styles.root} style={style}>
+      <span className={rootCss} style={style}>
         {React.Children.map(this.props.children, child => {
           if (!child || !React.isValidElement<GroupChildProps>(child)) {
             return null;
