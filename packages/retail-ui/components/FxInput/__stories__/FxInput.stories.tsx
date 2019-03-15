@@ -9,7 +9,11 @@ import { Nullable } from '../../../typings/utility-types';
 storiesOf('FxInput', module)
   .add('type text', () => <TestFxInput />)
   .add('type currency', () => <TestFxInput type={'currency'} fractionDigits={4} />)
-  .add('with borderless', () => <TestFxInput borderless />);
+  .add('borderless', () => (
+    <TestWrapper>
+      <TestFxInput borderless />
+    </TestWrapper>
+  ));
 
 interface TestFxInputProps {
   type?: 'currency' | InputType;
@@ -64,4 +68,27 @@ class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
       auto: true,
     });
   };
+}
+
+class TestWrapper extends React.Component<{
+  width?: number | string;
+  ruler?: boolean;
+}> {
+  public render() {
+    const { width, ruler, children } = this.props;
+    const style: React.CSSProperties = {
+      position: 'relative',
+      width,
+      padding: 10,
+      paddingTop: (ruler && 30) || 10,
+      marginBottom: 15,
+      background: '#eee',
+    };
+    return (
+      <div style={style}>
+        {ruler && <BGRuler color="#888" left={10} right={9} />}
+        {children}
+      </div>
+    );
+  }
 }
