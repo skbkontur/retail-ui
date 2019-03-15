@@ -72,3 +72,14 @@ gemini.suite('Checkbox indeterminate', suite => {
       actions.sendKeys(gemini.TAB);
     });
 });
+
+gemini.suite('Checkbox highlighted', suite => {
+  suite
+    .before(renderStory('Checkbox', 'highlighted'))
+    .setCaptureElements('#test-element')
+    .capture('plain')
+    .capture('tabPress', (actions, find) => {
+      actions.click(find('body'), 0, [0, 0]);
+      actions.sendKeys(gemini.TAB);
+    });
+});
