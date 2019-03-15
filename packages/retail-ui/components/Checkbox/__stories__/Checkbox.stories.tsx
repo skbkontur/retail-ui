@@ -150,4 +150,24 @@ storiesOf('Checkbox', module)
       </div>
     );
   })
-  .add('indeterminate', () => <IndeterminatePlayground>Label</IndeterminatePlayground>);
+  .add('indeterminate', () => <IndeterminatePlayground>Label</IndeterminatePlayground>)
+  .add('highlighted', () => {
+    const checkboxWrapperStyles = { margin: 5 };
+    return (
+      <div>
+        <div style={checkboxWrapperStyles}>
+          <Checkbox checked>Highlighted default</Checkbox>
+        </div>
+        <div style={checkboxWrapperStyles}>
+          <Checkbox checked warning>
+            Highlighted warning
+          </Checkbox>
+        </div>
+        <div style={checkboxWrapperStyles}>
+          <Checkbox checked error>
+            Highlighted error
+          </Checkbox>
+        </div>
+      </div>
+    );
+  });
