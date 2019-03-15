@@ -8,7 +8,7 @@ import { Nullable } from '../../../typings/utility-types';
 
 storiesOf('FxInput', module)
   .add('type text', () => <TestFxInput />)
-  .add('type currency', () => <TestFxInput type={'currency'} fractionDigits={4} autoFocus />)
+  .add('type currency', () => <TestFxInput type={'currency'} fractionDigits={4} />)
   .add('with borderless', () => <TestFxInput borderless />);
 
 interface TestFxInputProps {
@@ -40,17 +40,10 @@ class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
     };
   }
 
-  public componentDidMount() {
-    if (this.fxInput) {
-      this.fxInput.focus();
-    }
-  }
-
   public render(): JSX.Element {
     return (
       <FxInput
         auto={this.state.auto}
-        autoFocus={this.props.autoFocus}
         borderless={this.props.borderless}
         type={this.getProps().type}
         value={this.state.value}
