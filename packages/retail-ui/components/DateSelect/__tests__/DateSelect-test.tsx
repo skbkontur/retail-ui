@@ -1,6 +1,6 @@
 import * as React from 'react';
 import DateSelect from '../DateSelect';
-import styles = require('../DateSelect.less');
+import styles from '../DateSelect.less';
 import { mount } from 'enzyme';
 import { DateSelectProps } from '../DateSelect';
 

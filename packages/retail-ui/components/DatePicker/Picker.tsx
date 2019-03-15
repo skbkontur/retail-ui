@@ -4,7 +4,7 @@ import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import { formatDate } from './DatePickerHelpers';
 
-import styles = require('./Picker.less');
+import styles from './Picker.less';
 import { Nullable } from '../../typings/utility-types';
 import { isLess, isGreater } from '../Calendar/CalendarDateShape';
 

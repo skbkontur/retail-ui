@@ -479,12 +479,10 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     const positions = this.props.positions;
     const anchorElement = this.anchorElement;
 
-    if (process.env.NODE_ENV !== 'production') {
-      warning(
-        anchorElement && anchorElement instanceof HTMLElement,
-        'Anchor element is not defined or not instance of HTMLElement',
-      );
-    }
+    warning(
+      anchorElement && anchorElement instanceof HTMLElement,
+      'Anchor element is not defined or not instance of HTMLElement',
+    );
 
     if (!(anchorElement && anchorElement instanceof HTMLElement)) {
       return location;
