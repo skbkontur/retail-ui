@@ -18,7 +18,7 @@ module.exports = function(sourceConfig, env, defaultConfig) {
       rules: [
         {
           test: /\.(ts|tsx)$/,
-          include: /react-ui-validations/,
+          include: [/react-ui-validations/, /packages(\/|\\)retail-ui/],
           loader: 'ts-loader',
           options: {
             transpileOnly: true,
