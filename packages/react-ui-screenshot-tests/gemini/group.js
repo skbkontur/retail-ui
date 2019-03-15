@@ -26,4 +26,11 @@ gemini.suite('Group', () => {
       .setCaptureElements('#test-element')
       .capture('with custom Inputs width');
   });
+
+  gemini.suite('Group with width', suite => {
+    suite
+      .before(renderStory('Group', 'With width'))
+      .setCaptureElements('#test-element')
+      .capture('with width');
+  });
 });
