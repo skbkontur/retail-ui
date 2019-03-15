@@ -174,7 +174,7 @@ export const Effect: EffectFactory = {
     if (index >= 0) {
       // FIXME: accessing private props
       // @ts-ignore
-      process.nextTick(() => menu && menu._scrollToSelected());
+      process.nextTick(() => menu && menu.scrollToSelected());
       return;
     }
 
