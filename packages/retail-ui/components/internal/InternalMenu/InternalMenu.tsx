@@ -243,8 +243,15 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
   ) {
     this.highlighted = menuItem;
 
+    if (!originalRef || typeof originalRef === 'string') {
+      return;
+    }
+
     if (typeof originalRef === 'function') {
       originalRef(menuItem);
+    } else if (typeof originalRef === 'object') {
+      // @ts-ignore see issue https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065
+      originalRef.current = menuItem;
     }
   }
 
