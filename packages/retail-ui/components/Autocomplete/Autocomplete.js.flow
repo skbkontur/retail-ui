@@ -3,14 +3,14 @@ import type { InputProps } from '../Input';
 
 export type AutocompleteProps = {
   ...$Exact<InputProps>,
-  renderItem: (item: string) => React$Node,
+  renderItem?: (item: string) => React$Node,
   source?: string[] | ((patter: string) => Promise<string[]>),
-  disablePortal: boolean,
-  hasShadow: boolean,
-  menuAlign: 'left' | 'right',
-  menuMaxHeight: number | string,
+  disablePortal?: boolean,
+  hasShadow?: boolean,
+  menuAlign?: 'left' | 'right',
+  menuMaxHeight?: number | string,
   menuWidth?: number | string,
-  preventWindowScroll: boolean,
+  preventWindowScroll?: boolean,
   onChange: (
     event: {
       target: {
@@ -20,7 +20,7 @@ export type AutocompleteProps = {
     value: string,
   ) => void,
   onBlur?: () => void,
-  size: $PropertyType<InputProps, 'size'>,
+  size?: $PropertyType<InputProps, 'size'>,
   value: string,
 };
 
