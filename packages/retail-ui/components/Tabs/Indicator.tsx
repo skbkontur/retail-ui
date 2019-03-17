@@ -5,7 +5,7 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import throttle from 'lodash.throttle';
 import Tab, { TabIndicators } from './Tab';
 
-import styles = require('./Indicator.less');
+import styles from './Indicator.less';
 import { Nullable } from '../../typings/utility-types';
 
 export interface IndicatorProps {

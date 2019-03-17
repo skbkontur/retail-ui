@@ -11,7 +11,7 @@ import CalendarScrollEvents from './CalendarScrollEvents';
 
 import { Month } from './Month';
 
-import classes = require('./Calendar.less');
+import styles from './Calendar.less';
 import { Nullable } from '../../typings/utility-types';
 
 export type CalendarDateShape = CDS.CalendarDateShape;
@@ -42,6 +42,8 @@ const getTodayDate = () => {
     year: date.getFullYear(),
   };
 };
+
+const wrapperStyle = { height: config.WRAPPER_HEIGHT };
 
 class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static defaultProps = {
@@ -86,8 +88,8 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
   public render() {
     const positions = this._getMonthPositions();
     return (
-      <div className={classes.root} onWheel={this._handleWheel}>
-        <div style={styles.wrapper} className={classes.wrapper}>
+      <div className={styles.root} onWheel={this._handleWheel}>
+        <div style={wrapperStyle} className={styles.wrapper}>
           {this.state.months
             .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
             .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month))
@@ -290,11 +292,5 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
     );
   };
 }
-
-const styles = {
-  wrapper: {
-    height: config.WRAPPER_HEIGHT,
-  },
-};
 
 export default Calendar;

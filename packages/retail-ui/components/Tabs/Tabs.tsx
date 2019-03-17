@@ -6,7 +6,7 @@ import * as PropTypes from 'prop-types';
 import Indicator from './Indicator';
 import Tab from './Tab';
 
-import styles = require('./Tabs.less');
+import styles from './Tabs.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 
 export interface TabsProps {

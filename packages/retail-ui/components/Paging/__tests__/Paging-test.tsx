@@ -6,7 +6,7 @@ import LocaleProvider, { LangCodes } from '../../LocaleProvider';
 import { PagingLocaleHelper } from '../locale';
 
 import Paging from '../Paging';
-import PagingStyles = require('../Paging.less');
+import PagingStyles from '../Paging.less';
 
 describe('Pager', () => {
   it('renders', () => {
