@@ -49,7 +49,13 @@ storiesOf('Baseline', module)
       <span>Text</span>
       <Input size="small" value="Small Input" width={80} />
       <Input size="medium" value="Medium Input" width={80} />
-      <ComboBox placeholder="InputLikeText" width={120} autocomplete />
+      <ComboBox
+        placeholder="InputLikeText"
+        width={120}
+        drawArrow={false}
+        searchOnFocus={false}
+        getItems={() => Promise.resolve([])}
+      />
     </div>
   ))
   .add('Text, Large Input', () => (
