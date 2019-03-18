@@ -191,31 +191,27 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
   }
 
   public async focus(): Promise<void> {
-    if (this.child) {
-      const childDomElement = ReactDom.findDOMNode(this.child);
-      if (childDomElement != null && childDomElement instanceof HTMLElement) {
-        await smoothScrollIntoView(
-          childDomElement,
-          this.context.validationContext.getSettings().scroll.verticalOffset || 50,
-        );
-        if (this.child != null && typeof this.child.focus === 'function') {
-          this.child.focus();
-        }
+    const childDomElement = ReactDom.findDOMNode(this);
+    if (childDomElement != null && childDomElement instanceof HTMLElement) {
+      await smoothScrollIntoView(
+        childDomElement,
+        this.context.validationContext.getSettings().scroll.verticalOffset || 50,
+      );
+      if (this.child != null && typeof this.child.focus === 'function') {
+        this.child.focus();
       }
-      this.isChanging = false;
     }
+    this.isChanging = false;
   }
 
   public getControlPosition(): Nullable<Point> {
-    if (this.child) {
-      const childDomElement = ReactDom.findDOMNode(this.child);
-      if (childDomElement != null && childDomElement instanceof HTMLElement) {
-        const rect = childDomElement.getBoundingClientRect();
-        return {
-          x: rect.top,
-          y: rect.left,
-        };
-      }
+    const childDomElement = ReactDom.findDOMNode(this);
+    if (childDomElement != null && childDomElement instanceof HTMLElement) {
+      const rect = childDomElement.getBoundingClientRect();
+      return {
+        x: rect.top,
+        y: rect.left,
+      };
     }
     return null;
   }
