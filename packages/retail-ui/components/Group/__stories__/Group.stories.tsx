@@ -1,7 +1,7 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-
+import { BGRuler } from '../../../lib/BGRuler';
 import Group from '../Group';
 import Input from '../../Input';
 import Button from '../../Button';
@@ -47,4 +47,23 @@ storiesOf('Group', module)
         Push
       </Button>
     </Group>
+  ))
+  .add('With width', () => (
+    <div style={{ background: '#eee', padding: '30px 10px 10px', position: 'relative' }}>
+      <BGRuler color="#888" left={10} right={9} />
+      <Group width={240}>
+        <Button>
+          <DeleteIcon />
+        </Button>
+        <Input placeholder="240px" mainInGroup />
+      </Group>
+      <br />
+      <br />
+      <Group>
+        <Button>
+          <DeleteIcon />
+        </Button>
+        <Input placeholder="no width" mainInGroup />
+      </Group>
+    </div>
   ));
