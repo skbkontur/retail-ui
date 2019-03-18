@@ -67,3 +67,10 @@ gemini.suite('Button with width', suite => {
     .setCaptureElements('#test-element')
     .capture('plain');
 });
+
+gemini.suite('Button different states', suite => {
+  suite
+    .before(renderStory('Button', 'table'))
+    .setCaptureElements('#test-element')
+    .capture('plain');
+});
