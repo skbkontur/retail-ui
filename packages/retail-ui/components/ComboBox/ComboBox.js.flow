@@ -1,7 +1,12 @@
 /* @flow */
 import type { MenuItemState } from '../MenuItem';
 
-export type ComboBoxProps<T> = {|
+export type ComboBoxItem = {
+  value: string | number;
+  label: string;
+};
+
+export type ComboBoxProps<T = ComboBoxItem> = {|
   align?: 'left' | 'center' | 'right',
   autocomplete?: boolean,
   autoFocus?: boolean,
@@ -40,7 +45,7 @@ export type ComboBoxProps<T> = {|
   maxMenuHeight?: number | string,
 |};
 
-declare class ComboBox<T> extends React$Component<ComboBoxProps<T>> {
+declare class ComboBox<T = ComboBoxItem> extends React$Component<ComboBoxProps<T>> {
   focus(): void;
   search(query?: string): void;
   open(): void;

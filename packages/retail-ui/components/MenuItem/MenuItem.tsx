@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { isFunction } from '../../lib/utils';
 
 import styles from './MenuItem.less';
 
@@ -81,7 +82,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
     });
 
     let content = children;
-    if (typeof children === 'function') {
+    if (isFunction(children)) {
       content = children(this.props.state);
     }
 
