@@ -50,14 +50,14 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
     this.updateReadyToFix();
   };
 
-  public render = (): JSX.Element => {
+  public render(): JSX.Element {
     const { isReadyToFix } = this.state;
     return (
       <div ref={this.wrapperRef}>
-        {isReadyToFix ? <Sticky side="top">{fixed => this.renderHeader(fixed)}</Sticky> : this.renderHeader()}
+        {isReadyToFix ? <Sticky side="top">{this.renderHeader}</Sticky> : this.renderHeader()}
       </div>
     );
-  };
+  }
 
   private renderHeader = (fixed: boolean = false) => {
     return (
@@ -93,13 +93,9 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
 
   private updateReadyToFix = () => {
     if (this.wrapper) {
-      const wrapperScrolledUp = -this.wrapper.getBoundingClientRect().top;
-      const isReadyToFix = this.regularHeight - wrapperScrolledUp <= FIXED_HEADER_HEIGHT;
-      if (this.state.isReadyToFix !== isReadyToFix) {
-        this.setState({
-          isReadyToFix,
-        });
-      }
+      const wrapperScrolledUp = this.wrapper.getBoundingClientRect().top;
+      const isReadyToFix = this.regularHeight + wrapperScrolledUp <= FIXED_HEADER_HEIGHT;
+      this.setState(state => (state.isReadyToFix !== isReadyToFix ? { isReadyToFix } : state));
     }
   };
 
