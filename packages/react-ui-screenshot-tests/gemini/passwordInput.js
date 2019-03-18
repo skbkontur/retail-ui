@@ -11,7 +11,7 @@ gemini.suite('PasswordInput', suite => {
       actions.sendKeys(find('input'), 'Test...');
     })
     .capture('With visible password', (actions, find) => {
-      actions.click(find('[data-comp-name^="EyeClosedIcon"]'));
+      actions.click(find('[data-tid="PasswordInputEyeIcon"]'));
     });
 });
 
