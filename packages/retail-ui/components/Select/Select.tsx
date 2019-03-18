@@ -1,3 +1,4 @@
+import { locale } from '../LocaleProvider/decorators';
 import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
 
 import events from 'add-event-listener';
@@ -17,10 +18,12 @@ import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import RenderLayer from '../RenderLayer';
 import Item from './Item';
+import { SelectLocale, SelectLocaleHelper } from './locale';
 
 import styles from './Select.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { isFunction } from 'retail-ui/lib/utils';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -90,6 +93,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
   focus: (event?: any) => void;
 }
 
+@locale('Select', SelectLocaleHelper)
 class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static propTypes = {
     /**
@@ -175,7 +179,6 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
   };
 
   public static defaultProps = {
-    placeholder: 'ничего не выбрано',
     renderValue,
     renderItem,
     areValuesEqual,
@@ -192,6 +195,8 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     );
     return element;
   };
+
+  private readonly locale!: SelectLocale;
 
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
@@ -289,7 +294,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
             [styles.customUsePlaceholder]: this.props.use !== 'default',
           })}
         >
-          {this.props.placeholder}
+          {this.props.placeholder || this.locale.placeholder}
         </span>
       ),
       isPlaceholder: true,
@@ -386,7 +391,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
           {search}
           {this.mapItems(
             (iValue: TValue, item: TItem | (() => React.ReactNode), i: number, comment: Nullable<React.ReactNode>) => {
-              if (typeof item === 'function') {
+              if (isFunction(item)) {
                 const element = item();
 
                 if (React.isValidElement(element)) {

@@ -14,9 +14,9 @@ export type TooltipProps = {|
   trigger: TooltipTrigger,
   onCloseClick?: MouseEventHandler<HTMLElement>,
   onCloseRequest?: () => void,
-  allowedPositions: PopupPosition[],
-  disableAnimations: boolean,
-  useWrapper: boolean,
+  allowedPositions?: PopupPosition[],
+  disableAnimations?: boolean,
+  useWrapper?: boolean,
 |};
 
 export type TooltipState = {|

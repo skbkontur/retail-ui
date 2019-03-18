@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.43.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.42.0...retail-ui@0.43.0) (2019-03-12)
+
+
+### Bug Fixes
+
+* **Button:** fix disabled link background ([9c2cdae](https://github.com/skbkontur/retail-ui/commit/9c2cdae)), closes [#1213](https://github.com/skbkontur/retail-ui/issues/1213)
+* **ComboBox:** correct import specific icon, not all ([9f0fcbf](https://github.com/skbkontur/retail-ui/commit/9f0fcbf))
+* **ComboBox:** repair blur when menu is not open ([0861a90](https://github.com/skbkontur/retail-ui/commit/0861a90))
+* **ComboBoxMenu:** unique keys warning ([7ead9fc](https://github.com/skbkontur/retail-ui/commit/7ead9fc))
+* **Modal:** enable adaptive style by default ([284ad95](https://github.com/skbkontur/retail-ui/commit/284ad95)), closes [#1164](https://github.com/skbkontur/retail-ui/issues/1164)
+* **Tooltip:** fix svg icons click in ie11 ([d99676d](https://github.com/skbkontur/retail-ui/commit/d99676d)), closes [#1107](https://github.com/skbkontur/retail-ui/issues/1107)
+* **Tooltip:** handleClickOutside detects content ([c69773b](https://github.com/skbkontur/retail-ui/commit/c69773b)), closes [#1210](https://github.com/skbkontur/retail-ui/issues/1210)
+
+
+### Features
+
+* **ComboBox:** add localization ([2bc0300](https://github.com/skbkontur/retail-ui/commit/2bc0300))
+* **LocaleContext:** localization controls ([4d5a412](https://github.com/skbkontur/retail-ui/commit/4d5a412))
+* **Logotype:** add localization ([47fa21e](https://github.com/skbkontur/retail-ui/commit/47fa21e))
+* **Paging:** add localization ([ef982db](https://github.com/skbkontur/retail-ui/commit/ef982db))
+* **Select:** add localization ([8a539be](https://github.com/skbkontur/retail-ui/commit/8a539be))
+* **Spinner:** add localization ([265deee](https://github.com/skbkontur/retail-ui/commit/265deee))
+* **TokenInput:** add localization ([49d7742](https://github.com/skbkontur/retail-ui/commit/49d7742))
+* **TopBar:** add `TopBar.Logout` for localization ([18533e9](https://github.com/skbkontur/retail-ui/commit/18533e9))
+* **TopBar:** add localization ([50accaf](https://github.com/skbkontur/retail-ui/commit/50accaf))
+
+
+
+
+
 # [0.42.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.41.1...retail-ui@0.42.0) (2019-03-05)
 
 ### Bug Fixes

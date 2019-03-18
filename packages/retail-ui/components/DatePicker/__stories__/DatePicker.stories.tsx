@@ -75,17 +75,16 @@ class DatePickerWithError extends React.Component<any, any> {
 const dateForMock = new Date('2017-01-02');
 
 storiesOf('DatePicker', module)
-  .addDecorator(
-    story =>
-      process.env.NODE_ENV === 'test' ? (
-        <div>
-          <h2>Mocked date {dateForMock.toDateString()}</h2>
-          <MockDate date={dateForMock} />
-          {story()}
-        </div>
-      ) : (
-        <div>{story()}</div>
-      ),
+  .addDecorator(story =>
+    process.env.NODE_ENV === 'test' ? (
+      <div>
+        <h2>Mocked date {dateForMock.toDateString()}</h2>
+        <MockDate date={dateForMock} />
+        {story()}
+      </div>
+    ) : (
+      <div>{story()}</div>
+    ),
   )
   .add('with mouseevent handlers', () => (
     <div style={{ paddingTop: 200 }}>

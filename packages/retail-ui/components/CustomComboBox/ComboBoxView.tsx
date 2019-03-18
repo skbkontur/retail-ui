@@ -9,7 +9,7 @@ import { MenuItemState } from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
-import { ArrowTriangleDown } from '@skbkontur/react-icons';
+import ArrowTriangleDown from '@skbkontur/react-icons/ArrowTriangleDown';
 import styles from './CustomComboBox.less';
 import ComboBoxMenu from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -26,7 +26,7 @@ interface ComboBoxViewProps<T> {
   loading?: boolean;
   menuAlign?: 'left' | 'right';
   opened?: boolean;
-  openButton?: boolean;
+  drawArrow?: boolean;
   placeholder?: string;
   size?: 'small' | 'medium' | 'large';
   textValue?: string;
@@ -63,7 +63,6 @@ interface ComboBoxViewProps<T> {
 class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   public static defaultProps = {
     renderItem: (item: any) => item,
-    renderNotFound: () => 'Не найдено',
     renderValue: (item: any) => item,
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,
@@ -257,13 +256,13 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   );
 
   private getRightIcon = () => {
-    const { loading, items, openButton } = this.props;
+    const { loading, items, drawArrow } = this.props;
 
     if (loading && items && !!items.length) {
       return this.renderSpinner();
     }
 
-    if (openButton) {
+    if (drawArrow) {
       return (
         <span className={styles.arrowWrapper}>
           <ArrowTriangleDown />

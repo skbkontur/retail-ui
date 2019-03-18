@@ -25,3 +25,19 @@ class Paginator3000 extends React.Component {
 
 <Paginator3000 />;
 ```
+
+#### Локали по умолчанию (см. `LocaleProvider`)
+
+```typescript
+interface PagingLocale {
+  forward?: string;
+}
+
+const ru_RU = {
+  forward: 'Дальше',
+};
+
+const en_EN = {
+  forward: 'Forward',
+};
+```

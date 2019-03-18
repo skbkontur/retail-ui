@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { locale } from '../LocaleProvider/decorators';
 import Popup from '../Popup/Popup';
 import ComboBoxMenu, { ComboBoxMenuProps } from '../CustomComboBox/ComboBoxMenu';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
+import { TokenInputLocaleHelper, TokenInputLocale } from './locale';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
@@ -11,7 +13,10 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   onAddItem: (item: string) => void;
 }
 
+@locale('TokenInput', TokenInputLocaleHelper)
 export default class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
+  private readonly locale!: TokenInputLocale;
+
   private menu: Menu | null = null;
 
   public render() {
@@ -60,14 +65,13 @@ export default class TokenInputMenu<T = string> extends React.Component<TokenInp
       return;
     }
 
+    const { addButtonComment, addButtonTitle } = this.locale;
+
     const handleAddItemNoteClick = () => this.props.onAddItem(value);
 
-    // TODO при переопределении delimiters это будет выглядеть не очень
-    const comment = 'Нажмите Enter или поставьте запятую';
-
     return (
-      <MenuItem onClick={handleAddItemNoteClick} comment={comment}>
-        Добавить {value}
+      <MenuItem onClick={handleAddItemNoteClick} comment={addButtonComment} key="renderAddButton">
+        {addButtonTitle} {value}
       </MenuItem>
     );
   };

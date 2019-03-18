@@ -247,7 +247,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           {...props}
           value={address}
           width={width}
-          autocomplete={true}
+          drawArrow={false}
+          searchOnFocus={false}
           limit={this.props.limit}
           ref={createRef}
         />
@@ -399,6 +400,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       return element ? element.name : '';
     };
 
+    const itemToValue = valueToString;
+
     return {
       getItems,
       onChange,
@@ -406,6 +409,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       onUnexpectedInput,
       renderItem,
       renderValue,
+      itemToValue,
       valueToString,
       renderNotFound,
     };

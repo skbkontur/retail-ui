@@ -4,7 +4,9 @@ import events from 'add-event-listener';
 import ArrowChevronDownIcon from '@skbkontur/react-icons/ArrowChevronDown';
 
 import stopPropagation from '../../lib/events/stopPropagation';
+import { locale } from '../LocaleProvider/decorators';
 import { Nullable } from '../../typings/utility-types';
+import { LogotypeLocale, LogotypeLocaleHelper } from './locale';
 import ProductWidget from './ProductWidget';
 import styles from './Logotype.less';
 import classnames from 'classnames';
@@ -18,12 +20,10 @@ const createCloud = (color: string) => (
   </svg>
 );
 
-interface LogotypeLocale {
+interface LogotypePropLocale {
   suffix: string;
   prefix: string;
 }
-
-const defaultLocale: LogotypeLocale = { prefix: 'к', suffix: 'нтур' };
 
 export interface LogotypeProps {
   /**
@@ -51,9 +51,10 @@ export interface LogotypeProps {
    * Словарь текстовых констант
    * @default { prefix: 'к', suffix: 'нтур' }
    */
-  locale: LogotypeLocale;
+  locale?: LogotypePropLocale;
 }
 
+@locale('Logotype', LogotypeLocaleHelper)
 class Logotype extends React.Component<LogotypeProps> {
   public static propTypes = {
     color: PropTypes.string,
@@ -72,8 +73,9 @@ class Logotype extends React.Component<LogotypeProps> {
     textColor: '#000',
     component: 'a',
     href: '/',
-    locale: defaultLocale,
   };
+
+  private readonly locale!: LogotypeLocale;
 
   private logoWrapper: Nullable<HTMLElement> = null;
   private isWidgetInited: boolean = false;
@@ -91,7 +93,15 @@ class Logotype extends React.Component<LogotypeProps> {
   }
 
   public render(): JSX.Element {
-    const { color, textColor, component: Component, suffix, href, withWidget, locale } = this.props;
+    const {
+      color,
+      textColor,
+      component: Component,
+      suffix,
+      href,
+      withWidget,
+      locale: propLocale = this.locale,
+    } = this.props;
     const dropdownClassName = classnames(styles.dropdown, {
       [styles.inline]: !withWidget,
     });
@@ -100,10 +110,10 @@ class Logotype extends React.Component<LogotypeProps> {
       <div id="spwDropdown" className={dropdownClassName}>
         <span ref={this.refLogoWrapper} className={styles.widgetWrapper}>
           <Component href={href} tabIndex="-1" className={styles.root}>
-            <span style={{ color: textColor }}>{locale.prefix}</span>
+            <span style={{ color: textColor }}>{propLocale.prefix}</span>
             <span style={{ color }}>{createCloud(color)}</span>
             <span style={{ color: textColor }}>
-              {locale.suffix}
+              {propLocale.suffix}
               {suffix && '.'}
             </span>
             {suffix && <span style={{ color }}>{suffix}</span>}

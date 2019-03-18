@@ -15,6 +15,7 @@ import { isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 import warning from 'warning';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
+import { isFunction } from 'retail-ui/lib/utils';
 
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
@@ -374,7 +375,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private renderChildren() {
-    return typeof this.props.children === 'function' ? this.props.children() : this.props.children;
+    return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
 
   private refPopupElement = (zIndex: ZIndex | null) => {
@@ -479,12 +480,10 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     const positions = this.props.positions;
     const anchorElement = this.anchorElement;
 
-    if (process.env.NODE_ENV !== 'production') {
-      warning(
-        anchorElement && anchorElement instanceof HTMLElement,
-        'Anchor element is not defined or not instance of HTMLElement',
-      );
-    }
+    warning(
+      anchorElement && anchorElement instanceof HTMLElement,
+      'Anchor element is not defined or not instance of HTMLElement',
+    );
 
     if (!(anchorElement && anchorElement instanceof HTMLElement)) {
       return location;

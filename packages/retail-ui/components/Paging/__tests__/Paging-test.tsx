@@ -1,9 +1,12 @@
 // tslint:disable
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
+import { defaultLangCode } from '../../LocaleProvider/constants';
+import LocaleProvider, { LangCodes } from '../../LocaleProvider';
+import { PagingLocaleHelper } from '../locale';
 
 import Paging from '../Paging';
-import PagingStyles = require('../Paging.less');
+import PagingStyles from '../Paging.less';
 
 describe('Pager', () => {
   it('renders', () => {
@@ -137,5 +140,50 @@ describe('Pager', () => {
     wrapper.simulate('focus');
 
     expect(wrapper.state('keyboardControl')).toBe(true);
+  });
+
+  describe('Locale', () => {
+    let wrapper: ReactWrapper;
+    const getForwardText = () => wrapper.find(`span.${PagingStyles.forwardLink}`).text();
+    const PagingContext = () => <Paging pagesCount={5} activePage={1} onPageChange={() => {}} />;
+
+    it('render without LocaleProvider', () => {
+      wrapper = mount(PagingContext());
+      const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
+
+      expect(getForwardText()).toBe(expectedText);
+    });
+
+    it('render default locale', () => {
+      wrapper = mount(<LocaleProvider>{PagingContext()}</LocaleProvider>);
+      const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
+
+      expect(getForwardText()).toBe(expectedText);
+    });
+
+    it('render default locale', () => {
+      wrapper = mount(<LocaleProvider langCode={LangCodes.en_EN}>{PagingContext()}</LocaleProvider>);
+      const expectedText = PagingLocaleHelper.get(LangCodes.en_EN).forward;
+
+      expect(getForwardText()).toBe(expectedText);
+    });
+
+    it('render custom locale', () => {
+      const customPlaceholder = 'custom forward';
+      wrapper = mount(
+        <LocaleProvider locale={{ Paging: { forward: customPlaceholder } }}>{PagingContext()}</LocaleProvider>,
+      );
+
+      expect(getForwardText()).toBe(customPlaceholder);
+    });
+
+    it('updates when langCode changes', () => {
+      wrapper = mount(<LocaleProvider langCode={LangCodes.en_EN}>{PagingContext()}</LocaleProvider>);
+      const expectedText = PagingLocaleHelper.get(LangCodes.ru_RU).forward;
+
+      wrapper.setProps({ langCode: LangCodes.ru_RU });
+
+      expect(getForwardText()).toBe(expectedText);
+    });
   });
 });

@@ -50,7 +50,7 @@ let removeTooltip = () => setState(state => ({ tooltip: false }));
 ```jsx
 const DatePickerHelpers = require('./DatePickerHelpers');
 const initialState = {
-  value: ''
+  value: '',
 };
 
 const handleChange = (_, value) => setState({ value });
@@ -60,36 +60,34 @@ const createRandomHolidays = () => {
   const today = new Date();
 
   for (let index = 0; index < holidays.length; index++) {
-    const day = new Date(
-      today.setDate(today.getDate() + 1 + index).valueOf()
-    );
+    const day = new Date(today.setDate(today.getDate() + 1 + index).valueOf());
 
     const holiday = {
       date: day.getDate(),
       month: day.getMonth(),
-      year: day.getFullYear()
+      year: day.getFullYear(),
     };
 
     holidays[index] = DatePickerHelpers.formatDate(holiday);
   }
 
   return holidays;
-}
+};
 
 const isHoliday = (day, isWeekend) => {
   const today = new Date();
   const holiday = {
-      date: today.getDate(),
-      month: today.getMonth(),
-      year: today.getFullYear()
-    };
+    date: today.getDate(),
+    month: today.getMonth(),
+    year: today.getFullYear(),
+  };
 
   if (day === DatePickerHelpers.formatDate(holiday)) {
     return !isWeekend;
   }
 
   return isWeekend;
-}
+};
 
 <DatePicker isHoliday={isHoliday} value={state.value} onChange={handleChange} enableTodayLink />;
 ```
