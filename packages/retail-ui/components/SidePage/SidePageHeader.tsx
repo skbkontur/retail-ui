@@ -4,6 +4,7 @@ import Sticky from '../Sticky';
 import { SVGCross } from '../internal/cross';
 import { SidePageContext } from './SidePageContext';
 import styles from './SidePage.less';
+import { isFunction } from 'retail-ui/lib/utils';
 
 const REGULAR_HEADER_PADDING_TOP = 25;
 const FIXED_HEADER_PADDING_TOP = 13;
@@ -64,7 +65,7 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
       <div className={classNames(styles.header, { [styles.fixed]: fixed })}>
         {this.renderClose()}
         <div className={classNames(styles.title, { [styles.fixed]: fixed })}>
-          {typeof this.props.children === 'function' ? this.props.children(fixed) : this.props.children}
+          {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
         </div>
       </div>
     );

@@ -2,6 +2,7 @@ const { renameSync } = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 const config = require('./styleguide.config.js');
+const semver = require('semver');
 
 const excludeVersions = ['0.8.8'];
 
@@ -14,6 +15,15 @@ if (error) {
 
 const { versions, 'dist-tags': tags } = JSON.parse(stdout.toString());
 const isStable = config.version === tags.latest;
+const isOldVersion = semver.lt(config.version, tags.latest);
+
+if (isOldVersion) {
+  renameSync(
+    config.styleguideDir,
+    path.join(config.styleguideDir, '..', config.version)
+  );
+  process.exit(0);
+}
 
 if (!isStable) {
   renameSync(config.styleguideDir, path.join(config.styleguideDir, '..', 'next'));
