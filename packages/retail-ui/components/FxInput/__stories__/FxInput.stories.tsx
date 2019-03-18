@@ -4,7 +4,6 @@ import { BGRuler } from '../../../lib/BGRuler';
 import FxInput from '../FxInput';
 import { createPropsGetter } from '../../internal/createPropsGetter';
 import { InputType } from '../../Input/Input';
-import { Nullable } from '../../../typings/utility-types';
 
 storiesOf('FxInput', module)
   .add('type text', () => <TestFxInput />)
@@ -34,7 +33,6 @@ class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
   };
 
   private getProps = createPropsGetter(TestFxInput.defaultProps);
-  private fxInput: Nullable<FxInput>;
 
   constructor(props: TestFxInputProps) {
     super(props);
@@ -54,7 +52,6 @@ class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
         value={this.state.value}
         onRestore={this.handleRestore}
         onChange={this.handleChange}
-        ref={instance => (this.fxInput = instance)}
       />
     );
   }
