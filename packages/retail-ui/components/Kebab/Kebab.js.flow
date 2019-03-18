@@ -5,10 +5,11 @@ export type KebabProps = {|
   disabled?: boolean,
   onClose: () => void,
   onOpen: () => void,
-  size: 'small' | 'medium' | 'large',
-  positions: PopupPosition[],
+  size?: 'small' | 'medium' | 'large',
+  positions?: PopupPosition[],
   menuMaxHeight?: number | string,
-  disableAnimations: boolean,
+  disableAnimations?: boolean,
+  children: React$Node
 |};
 
 export type KebabState = {|
