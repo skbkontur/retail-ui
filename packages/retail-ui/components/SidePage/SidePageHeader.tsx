@@ -5,6 +5,12 @@ import { SVGCross } from '../internal/cross';
 import { SidePageContext } from './SidePageContext';
 import styles from './SidePage.less';
 
+const REGULAR_HEADER_PADDING_TOP = 25;
+const FIXED_HEADER_PADDING_TOP = 13;
+const FONT_FAMILY_CORRECTION = 1;
+const CLOSE_ELEMENT_OFFSET = REGULAR_HEADER_PADDING_TOP - FIXED_HEADER_PADDING_TOP - FONT_FAMILY_CORRECTION;
+const FIXED_HEADER_HEIGHT = 50;
+
 export interface SidePageHeaderProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 }
@@ -14,8 +20,6 @@ export interface SidePageHeaderState {
 }
 
 export default class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
-  public static FIXED_HEIGHT = 50;
-
   public state = {
     isReadyToFix: false,
   };
@@ -32,10 +36,6 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
       this.lastRegularHeight = this.wrapper.getBoundingClientRect().height;
     }
     return this.lastRegularHeight;
-  }
-
-  public get fixedHeight(): number {
-    return SidePageHeader.FIXED_HEIGHT;
   }
 
   public componentDidMount = () => {
@@ -71,14 +71,8 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
   };
 
   private renderClose = () => {
-    const HEADER_PADDING_TOP = 25;
-    const FIXED_HEADER_PADDING_TOP = 13;
-    const FONT_FAMILY_CORRECTION = 1;
-    // The difference between offsetTop of the ".close" element in the regular and fixed modes.
-    // It's used for the smooth ".close" element transition.
-    const diffOffset = HEADER_PADDING_TOP - FIXED_HEADER_PADDING_TOP - FONT_FAMILY_CORRECTION;
     return (
-      <Sticky side="top" offset={diffOffset}>
+      <Sticky side="top" offset={CLOSE_ELEMENT_OFFSET}>
         {fixed => (
           <SidePageContext.Consumer>
             {({ requestClose }) => (
@@ -100,7 +94,7 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
   private updateReadyToFix = () => {
     if (this.wrapper) {
       const wrapperScrolledUp = -this.wrapper.getBoundingClientRect().top;
-      const isReadyToFix = this.regularHeight - wrapperScrolledUp <= this.fixedHeight;
+      const isReadyToFix = this.regularHeight - wrapperScrolledUp <= FIXED_HEADER_HEIGHT;
       if (this.state.isReadyToFix !== isReadyToFix) {
         this.setState({
           isReadyToFix,
