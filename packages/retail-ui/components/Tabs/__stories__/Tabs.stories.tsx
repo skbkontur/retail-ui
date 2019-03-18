@@ -52,6 +52,7 @@ class MyLink extends React.Component<any> {
 }
 
 const MyLinkTab = (props: TabProps) => <Tab component={MyLink} {...props} />;
+MyLinkTab.defaultProps = Tab.defaultProps;
 
 class TabsWithMyLink extends React.Component<any, any> {
   public state = {
