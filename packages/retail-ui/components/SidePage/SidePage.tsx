@@ -156,7 +156,6 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderContainer(): JSX.Element {
     const { delta, classes, style } = this.getZIndexProps();
-    const sidePageWidth = this.getWidth();
 
     return (
       <ZIndex delta={delta} className={classes} onScroll={LayoutEvents.emit} style={style}>
@@ -169,7 +168,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
               <SidePageContext.Provider
                 value={{
                   requestClose: this.requestClose,
-                  width: sidePageWidth,
+                  getWidth: this.getWidth,
                   updateLayout: this.updateLayout,
                   footerRef: this.footerRef,
                 }}
@@ -184,12 +183,12 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     );
   }
 
-  private getWidth() {
+  private getWidth = () => {
     if (!this.layoutRef) {
       return 'auto';
     }
     return this.layoutRef.getBoundingClientRect().width;
-  }
+  };
 
   private renderShadow(): JSX.Element {
     const { delta, classes, style } = this.getZIndexProps();
