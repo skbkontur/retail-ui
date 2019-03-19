@@ -15,7 +15,7 @@ import { isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 import warning from 'warning';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction } from 'retail-ui/lib/utils';
+import { isFunction } from '../../lib/utils';
 
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
