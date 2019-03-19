@@ -193,7 +193,11 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
     }
 
-    return children;
+    if (React.isValidElement(children)) {
+      return children;
+    }
+
+    return <span>{children}</span>;
   }
 
   public renderContent = () => {
