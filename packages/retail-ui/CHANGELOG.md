@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.44.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.44.0...retail-ui@0.44.1) (2019-03-19)
+
+
+### Bug Fixes
+
+* **retail-ui:** fix some imports for `[@skbkontur](https://github.com/skbkontur)/react-ui` ([d4c19a8](https://github.com/skbkontur/retail-ui/commit/d4c19a8))
+
+
+
+
+
 # [0.44.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.43.0...retail-ui@0.44.0) (2019-03-19)
 
 
