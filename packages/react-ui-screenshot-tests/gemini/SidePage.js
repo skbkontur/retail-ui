@@ -47,4 +47,30 @@ gemini.suite('SidePage', suite => {
         action.click(find('#update'));
       });
   });
+
+  gemini.suite('fixed long title', suite => {
+    suite
+      .before(renderStory('SidePage', 'With long title'))
+      .setCaptureElements('html')
+      .ignoreElements({ every: 'button' })
+      .capture('not fixed')
+      .capture('fixed close element', (actions, find) => {
+        actions.executeJS(function(window) {
+          var sidePageContainer = window.document.querySelector('[class^="SidePage-container"]');
+          var sidePageHeader = window.document.querySelector('[class^="SidePage-header"]');
+          var fixedHeaderHeight = 50;
+
+          sidePageContainer.scrollTop = (sidePageHeader.offsetHeight - fixedHeaderHeight) / 2;
+        });
+      })
+      .capture('fixed header', (actions, find) => {
+        actions.executeJS(function(window) {
+          var sidePageContainer = window.document.querySelector('[class^="SidePage-container"]');
+          var sidePageHeader = window.document.querySelector('[class^="SidePage-header"]');
+          var fixedHeaderHeight = 50;
+
+          sidePageContainer.scrollTop = sidePageHeader.offsetHeight - fixedHeaderHeight;
+        });
+      });
+  });
 });

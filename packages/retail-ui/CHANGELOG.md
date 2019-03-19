@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.44.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.44.0...retail-ui@0.44.1) (2019-03-19)
+
+
+### Bug Fixes
+
+* **retail-ui:** fix some imports for `[@skbkontur](https://github.com/skbkontur)/react-ui` ([d4c19a8](https://github.com/skbkontur/retail-ui/commit/d4c19a8))
+
+
+
+
+
+# [0.44.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.43.0...retail-ui@0.44.0) (2019-03-19)
+
+
+### Bug Fixes
+
+* **ComboBox:** typings issues ([d51d66d](https://github.com/skbkontur/retail-ui/commit/d51d66d))
+* **Group:** fix flexbox width bug in IE ([6b9dd7a](https://github.com/skbkontur/retail-ui/commit/6b9dd7a)), closes [#1199](https://github.com/skbkontur/retail-ui/issues/1199) [#1234](https://github.com/skbkontur/retail-ui/issues/1234)
+* **Group:** pass "corners" prop only for Button ([54b9d13](https://github.com/skbkontur/retail-ui/commit/54b9d13)), closes [#1225](https://github.com/skbkontur/retail-ui/issues/1225)
+* **retail-ui:** add optional for some props and default for generic ([07003a4](https://github.com/skbkontur/retail-ui/commit/07003a4))
+* **SidePage:** change header paddings according to the guides ([722d00f](https://github.com/skbkontur/retail-ui/commit/722d00f))
+* **SidePage:** fix scrollbar overlapping by the footer with wrong width ([f3468b1](https://github.com/skbkontur/retail-ui/commit/f3468b1))
+* **SidePage:** remove empty space from the fixed header ([48a53f9](https://github.com/skbkontur/retail-ui/commit/48a53f9)), closes [#971](https://github.com/skbkontur/retail-ui/issues/971)
+
+
+### Features
+
+* **ComboBox:** add props `searchOnFocus` and `drawArrow` ([a605c22](https://github.com/skbkontur/retail-ui/commit/a605c22))
+
+
+
+
+
 # [0.43.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.42.0...retail-ui@0.43.0) (2019-03-12)
 
 
