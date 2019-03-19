@@ -7,7 +7,7 @@ function createPlainSuite(suiteName, selector) {
   });
 }
 
-const longString = new Array(500).fill('a').join('');
+const longString = 'a'.repeat(100);
 
 // Small, medium and large inputs (plain, focused, typed)
 gemini.suite('Inputs with different sizes', parentSuite => {
