@@ -23,7 +23,7 @@ import { SelectLocale, SelectLocaleHelper } from './locale';
 import styles from './Select.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { isFunction } from 'retail-ui/lib/utils';
+import { isFunction } from '../../lib/utils';
 
 export interface ButtonParams {
   disabled?: boolean;
