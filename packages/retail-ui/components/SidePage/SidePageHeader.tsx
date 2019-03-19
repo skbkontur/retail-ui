@@ -4,7 +4,7 @@ import Sticky from '../Sticky';
 import { SVGCross } from '../internal/cross';
 import { SidePageContext } from './SidePageContext';
 import styles from './SidePage.less';
-import { isFunction } from 'retail-ui/lib/utils';
+import { isFunction } from '../../lib/utils';
 
 const REGULAR_HEADER_PADDING_TOP = 25;
 const FIXED_HEADER_PADDING_TOP = 13;
