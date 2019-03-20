@@ -6,12 +6,16 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const isProd = process.env.NODE_ENV === 'production';
 const enableReactTesting = process.env.enableReactTesting;
 const REACT_SELENIUM_TESTING_PATH = path.resolve(__dirname, '../../react-ui-testing/react-selenium-testing.js');
+const SCREENSHOT_TESTS_STYLES_PATH = path.resolve(
+  __dirname,
+  '../../react-ui-screenshot-tests/screenshotTestStyles.less',
+);
 
 module.exports = (baseConfig, env) => {
   const config = baseConfig;
 
   if (enableReactTesting) {
-    config.entry.preview.unshift(REACT_SELENIUM_TESTING_PATH);
+    config.entry.preview.unshift(REACT_SELENIUM_TESTING_PATH, SCREENSHOT_TESTS_STYLES_PATH);
   }
 
   config.resolve.extensions.unshift('.ts', '.tsx');
