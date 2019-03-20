@@ -17,7 +17,7 @@ using Waiter = SKBKontur.SeleniumTesting.Assertions.Waiter;
 
 namespace SKBKontur.SeleniumTesting
 {
-    public class ControlBase : ISearchContainer
+    public class ControlBase : IControlBase
     {
         public ControlBase(ISearchContainer container, ISelector selector)
         {

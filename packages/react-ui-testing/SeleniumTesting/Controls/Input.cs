@@ -6,7 +6,7 @@ using OpenQA.Selenium;
 
 namespace SKBKontur.SeleniumTesting.Controls
 {
-    public class Input : ControlBase
+    public class Input : ControlBase, IInput
     {
         public Input(ISearchContainer container, ISelector selector)
             : base(container, selector)
