@@ -32,11 +32,11 @@ namespace SKBKontur.SeleniumTesting.Controls
         public void SelectItemById([NotNull] string id)
         {
             ExecuteAction(element =>
-                {
-                    var items = GetReactProp<JsonArray>("items");
-                    var index = items.ToList().FindIndex(x => ElementMatchToValue(id, x));
-                    element.FindElements(By.CssSelector($"[data-comp-name='{"Radio"}']")).ElementAt(index).Click();
-                }, $"SelectItemById({id})");
+            {
+                var items = GetReactProp<JsonArray>("items");
+                var index = items.ToList().FindIndex(x => ElementMatchToValue(id, x));
+                element.FindElements(By.CssSelector("span > label > div")).ElementAt(index).Click();
+            }, $"SelectItemById({id})");
         }
 
         private static bool ElementMatchToValue(object value, object x)
