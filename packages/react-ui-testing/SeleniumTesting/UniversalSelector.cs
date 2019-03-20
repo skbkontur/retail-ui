@@ -86,20 +86,29 @@ namespace SKBKontur.SeleniumTesting
 
         private static string ConvertSelectorPartToCssSelector(string universalSelector)
         {
-            var regexp = new Regex(@"((##\(.*?\))|##([^\.\[\]#\']+))|(\.([^\.\[\]#\']+))|(\[.*?\])|([^\.\[\]#\']+)");
+            var regexp = new Regex(@"((##\(.*?\))|##([^\.\[\]#\']+))|(\.([^\.\[\]#\']+))|(\[.*?\])|([^\.\[\]\:#\']+)");
             return regexp.Replace(universalSelector, x =>
-                {
-                    var part = x.Value;
-                    if(part.StartsWith("##"))
-                    {
-                        return $"[data-tid~='{part.Replace("##", "").Replace("(", "").Replace(")", "")}']";
-                    }
-                    if(IsComponentNameSelector(part))
-                    {
-                        return $"[data-comp-name~='{part}']";
-                    }
-                    return part;
-                });
+            {
+                var part = x.Value;
+                var cssPart = GetCssSelectorPart(part);
+                return cssPart;
+            });
+        }
+
+        private static string GetCssSelectorPart(string part)
+        {
+            var searchOperator = part.EndsWith("^^") ? "*" : "~";
+            var clearedPart = part.Replace("^^", "");
+
+            if (clearedPart.StartsWith("##"))
+            {
+                return $"[data-tid{searchOperator}='{clearedPart.Replace("##", "").Replace("(", "").Replace(")", "")}']";
+            }
+            if (IsComponentNameSelector(clearedPart))
+            {
+                return $"[data-comp-name{searchOperator}='{clearedPart}']";
+            }
+            return part;
         }
 
         public override string ToString()
