@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
 
 using JetBrains.Annotations;
 
+using Kontur.Selone.Extensions;
 using Kontur.Selone.Properties;
 
 using OpenQA.Selenium;
@@ -18,16 +19,16 @@ namespace SKBKontur.SeleniumTesting
 {
     public class ControlBase : ISearchContainer
     {
-        protected ControlBase(ISearchContainer container, ISelector selector)
+        public ControlBase(ISearchContainer container, ISelector selector)
         {
-            this.container = container;
-            this.selector = selector;
+            Container = container;
+            Selector = selector;
         }
 
         [Obsolete]
         public void SendKeysToBody(string keys)
         {
-            container.SearchGlobal(new UniversalSelector("body")).SendKeys(keys);
+            Container.SearchGlobal(new UniversalSelector("body")).SendKeys(keys);
         }
 
         public bool HasError()
@@ -41,7 +42,7 @@ namespace SKBKontur.SeleniumTesting
         {
             ExecuteAction(x =>
                 {
-                    var actions = container.CreateWebDriverActions();
+                    var actions = Container.CreateWebDriverActions();
                     actions.MoveToElement(x).Perform();
                 }, "Mouseover()");
         }
@@ -150,12 +151,12 @@ namespace SKBKontur.SeleniumTesting
             if(exception is ElementNotFoundException)
             {
                 var notFountException = exception as ElementNotFoundException;
-                result.AppendLine($"  не смогли долждаться присутсвия элемента: {notFountException.Control.GetControlTypeDesription()}({notFountException.Control.GetAbsolutePathBySelectors()})");
+                result.AppendLine($"  не смогли дождаться присутствия элемента: {notFountException.Control.GetControlTypeDesription()}({notFountException.Control.GetAbsolutePathBySelectors()})");
                 result.AppendLine($"Время ожидания: {(int)timeout.TotalMilliseconds}ms.");
             }
             else
             {
-                result.AppendLine($"  не смогли дождаться присутсвия элемента (время ожидания: {(int)timeout.TotalMilliseconds}ms), т.к. было получено исключение:");
+                result.AppendLine($"  не смогли дождаться присутствия элемента (время ожидания: {(int)timeout.TotalMilliseconds}ms), т.к. было получено исключение:");
                 result.AppendLine(exception.ToString());
             }
             return result.ToString();
@@ -187,17 +188,17 @@ namespace SKBKontur.SeleniumTesting
             {
                 if(cachedContext != null)
                 {
-                    if(!selector.MatchElement(cachedContext))
+                    if(!Selector.MatchElement(cachedContext))
                     {
                         ClearCachedElement();
-                        Console.WriteLine("Cached element cleared for {0}", selector);
+                        Console.WriteLine("Cached element cleared for {0}", Selector);
                     }
                 }
-                return (cachedContext ?? (cachedContext = container.Search(selector)));
+                return (cachedContext ?? (cachedContext = Container.Search(Selector)));
             }
             catch(NoSuchElementException ex)
             {
-                throw new ElementNotFoundException(this, container, GetType(), selector, ex);
+                throw new ElementNotFoundException(this, Container, GetType(), Selector, ex);
             }
         }
 
@@ -208,17 +209,17 @@ namespace SKBKontur.SeleniumTesting
 
         public IWebElement SearchGlobal(ISelector selector)
         {
-            return container.SearchGlobal(selector);
+            return Container.SearchGlobal(selector);
         }
 
         public object ExecuteScript(string script, params object[] arguments)
         {
-            return GetValueFromElement(x => container.ExecuteScript(script, arguments));
+            return GetValueFromElement(x => Container.ExecuteScript(script, arguments));
         }
 
         public object ExecuteScript(string script, Func<IWebElement, object[]> argumentsSelector)
         {
-            return GetValueFromElement(x => container.ExecuteScript(script, argumentsSelector(x)));
+            return GetValueFromElement(x => Container.ExecuteScript(script, argumentsSelector(x)));
         }
 
         [NotNull]
@@ -226,19 +227,19 @@ namespace SKBKontur.SeleniumTesting
         {
             return string.Join(
                 " ",
-                new[] {container.GetAbsolutePathBySelectors(), selector.ToString()}
+                new[] {Container.GetAbsolutePathBySelectors(), Selector.ToString()}
                     .Where(x => x != null)
                 );
         }
 
         public ISearchContainer GetRootContainer()
         {
-            return container.GetRootContainer();
+            return Container.GetRootContainer();
         }
 
         public Actions CreateWebDriverActions()
         {
-            return container.CreateWebDriverActions();
+            return Container.CreateWebDriverActions();
         }
 
         public string GetControlTypeDesription()
@@ -272,12 +273,12 @@ namespace SKBKontur.SeleniumTesting
             return Property(() => GetValueFromElement(action), description ?? "text");
         }
 
-        protected IProp<T> ReactProperty<T>(string property, string description = null)
+        public IProp<T> ReactProperty<T>(string property, string description = null)
         {
             return Property(() => GetReactProp<T>(property), description ?? $"ReactProperty: '{property}'");
         }
 
-        protected IProp<T> Property<T>(Func<T> property, string description)
+        public IProp<T> Property<T>(Func<T> property, string description)
         {
             return Prop.Create(property, FormatDescription(description));
         }
@@ -288,7 +289,7 @@ namespace SKBKontur.SeleniumTesting
         }
 
         private IWebElement cachedContext;
-        private readonly ISelector selector;
-        protected readonly ISearchContainer container;
+        public readonly ISelector Selector;
+        public readonly ISearchContainer Container;
     }
 }

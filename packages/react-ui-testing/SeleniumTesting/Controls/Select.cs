@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -101,7 +101,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             {
                 var noScriptElement = GetValueFromElement(x => x.FindElement(By.CssSelector("noscript")));
                 var renderContainerId = noScriptElement.GetAttribute("data-render-container-id");
-                var renderContainer = container.SearchGlobal(new BySelector(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']")));
+                var renderContainer = Container.SearchGlobal(new BySelector(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']")));
                 return renderContainer;
             }
             catch
