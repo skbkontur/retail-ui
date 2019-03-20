@@ -14,7 +14,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         public void ClickViaJavascript()
         {
             ExecuteAction(
-                x => ExecuteScript("arguments[0].click();", x.FindElement(By.TagName("button"))),
+                x => ExecuteScript("arguments[0].click();", x.FindElement(By.TagName("div"))),
                 "ClickViaJavascript");
         }
 
