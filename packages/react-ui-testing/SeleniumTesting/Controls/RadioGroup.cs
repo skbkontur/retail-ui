@@ -69,7 +69,14 @@ namespace SKBKontur.SeleniumTesting.Controls
         [NotNull]
         public List<string> GetItems()
         {
-            return GetReactProp<object[][]>("items").Select(x => x[0].ToString()).ToList();
+            try
+            {
+                return GetReactProp<object[][]>("items").Select(x => x[0].ToString()).ToList();
+            }
+            catch (InvalidCastException e)
+            {
+                return GetReactProp<object[]>("items").Select(x => x.ToString()).ToList();
+            }
         }
     }
 }
