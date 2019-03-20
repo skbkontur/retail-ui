@@ -69,6 +69,18 @@ namespace SKBKontur.SeleniumTesting
             }
         }
 
+        public IProp<bool> IsEnabled => Property(() =>
+        {
+            try
+            {
+                return GetValueFromElement(element => element.Enabled);
+            }
+            catch
+            {
+                return false;
+            }
+        }, "IsEnabled");
+
         public virtual bool IsFoundBySelector
         {
             get
