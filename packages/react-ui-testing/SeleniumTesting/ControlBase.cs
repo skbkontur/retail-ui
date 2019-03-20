@@ -99,6 +99,12 @@ namespace SKBKontur.SeleniumTesting
 
         public virtual void Click()
         {
+            if (customClickExecutor != null)
+            {
+                customClickExecutor.Click(this);
+                return;
+            }
+
             ExecuteAction(x => x.Click(), "Click");
         }
 
@@ -165,6 +171,11 @@ namespace SKBKontur.SeleniumTesting
         internal void ClearCachedElement()
         {
             cachedContext = null;
+        }
+
+        public void SetClickExecutor(IControlBaseClickExecutor executor)
+        {
+            customClickExecutor = executor;
         }
 
         protected T GetReactProp<T>(string propName)
@@ -289,6 +300,7 @@ namespace SKBKontur.SeleniumTesting
         }
 
         private IWebElement cachedContext;
+        private IControlBaseClickExecutor customClickExecutor;
         public readonly ISelector Selector;
         public readonly ISearchContainer Container;
     }
