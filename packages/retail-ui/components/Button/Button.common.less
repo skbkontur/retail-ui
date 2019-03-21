@@ -313,3 +313,121 @@
     }
   }
 }
+
+.buttonUseColorsMixin(
+@className,
+@btnHoverBackground,
+@arrowHoverBackground,
+@arrowLeftHoverBackground,
+@hoverShadow,
+@hoverShadowArrow,
+@hoverShadowArrowLeft,
+@hoverBorderColor,
+@activeColor,
+@activeShadow,
+@activeShadowArrow,
+@activeShadowArrowLeft,
+@btnBackground,
+@arrowBackground,
+@arrowLeftBackground,
+@shadow,
+@shadowArrow,
+@shadowArrowLeft,
+@color,
+@border,
+@focusBorderColor,
+@focusBorder,
+@focusShadowWidth
+) {
+  .@{className} {
+    background: @btnBackground;
+    color: @color;
+    box-shadow: @shadow;
+    border: @border;
+
+    .arrow {
+      background: @arrowBackground;
+      box-shadow: @shadowArrow;
+    }
+
+    .arrow_left {
+      background: @arrowLeftBackground;
+      box-shadow: @shadowArrowLeft;
+    }
+
+    .arrow.arrow_warning {
+      box-shadow: 2px -2px 0 0 @border-color-warning;
+    }
+
+    .arrow.arrow_error {
+      box-shadow: 2px -2px 0 0 @border-color-error;
+    }
+
+    &:hover {
+      background: @btnHoverBackground;
+      box-shadow: @hoverShadow;
+      border-color: @hoverBorderColor;
+
+      .arrow {
+        background: @arrowHoverBackground;
+        box-shadow: @hoverShadowArrow;
+      }
+
+      .arrow_left {
+        background: @arrowLeftHoverBackground;
+        box-shadow: @hoverShadowArrowLeft;
+      }
+
+      .arrow.arrow_warning {
+        box-shadow: 2px -2px 0 0 @border-color-warning;
+      }
+
+      .arrow.arrow_error {
+        box-shadow: 2px -2px 0 0 @border-color-error;
+      }
+    }
+
+    &.focus {
+      box-shadow: inset 0 0 0 1px #fff, 0 0 0 @focusShadowWidth @focusBorderColor;
+      position: relative;
+      z-index: 2;
+      border: @focusBorder;
+
+      .arrow {
+        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @focusBorderColor;
+      }
+
+      .arrow.arrow_warning {
+        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-warning;
+      }
+
+      .arrow.arrow_error {
+        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-error;
+      }
+    }
+  }
+
+  .@{className}:active,
+  .@{className}.active {
+    background: @activeColor;
+    box-shadow: @activeShadow;
+    border: @border;
+
+    .arrow {
+      background: @activeColor;
+      box-shadow: @activeShadowArrow;
+    }
+
+    .arrow_left {
+      box-shadow: @activeShadowArrowLeft;
+    }
+
+    .arrow.arrow_warning {
+      box-shadow: 2px -2px 0 0 @border-color-warning;
+    }
+
+    .arrow.arrow_error {
+      box-shadow: 2px -2px 0 0 @border-color-error;
+    }
+  }
+}

@@ -24,115 +24,6 @@
     margin-left: 10px;
   }
 
-  .buttonColorMixin(
-  @className,
-  @hoverColorStart,
-  @hoverColorEnd,
-  @hoverShadow,
-  @hoverShadowArrow,
-  @hoverShadowArrowLeft,
-  @activeColor,
-  @activeShadow,
-  @activeShadowArrow,
-  @activeShadowArrowLeft,
-  @colorStart,
-  @colorEnd,
-  @shadow,
-  @shadowArrow,
-  @shadowArrowLeft,
-  @bg,
-  @color,
-  @border: @bg
-) {
-    .@{className} {
-      background-image: linear-gradient(@colorStart, @colorEnd);
-      color: @color;
-      box-shadow: @shadow;
-
-      .arrow {
-        background-image: linear-gradient(to bottom right, @colorStart, @colorEnd);
-        box-shadow: @shadowArrow;
-      }
-
-      .arrow_left {
-        background-image: linear-gradient(to top left, @colorStart, @colorEnd);
-        box-shadow: @shadowArrowLeft;
-      }
-
-      .arrow.arrow_warning {
-        box-shadow: 2px -2px 0 0 @border-color-warning;
-      }
-
-      .arrow.arrow_error {
-        box-shadow: 2px -2px 0 0 @border-color-error;
-      }
-
-      &:hover {
-        background-image: linear-gradient(@hoverColorStart, @hoverColorEnd);
-        box-shadow: @hoverShadow;
-
-        .arrow {
-          background-image: linear-gradient(to bottom right, @hoverColorStart, @hoverColorEnd);
-          box-shadow: @hoverShadowArrow;
-        }
-
-        .arrow_left {
-          background-image: linear-gradient(to top left, @hoverColorStart, @hoverColorEnd);
-          box-shadow: @hoverShadowArrowLeft;
-        }
-
-        .arrow.arrow_warning {
-          box-shadow: 2px -2px 0 0 @border-color-warning;
-        }
-
-        .arrow.arrow_error {
-          box-shadow: 2px -2px 0 0 @border-color-error;
-        }
-      }
-
-      &.focus {
-        box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px @border-color-focus;
-        position: relative;
-        z-index: 2;
-
-        .arrow {
-          box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-focus;
-        }
-
-        .arrow.arrow_warning {
-          box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-warning;
-        }
-
-        .arrow.arrow_error {
-          box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-error;
-        }
-      }
-    }
-
-    .@{className}:active,
-    .@{className}.active {
-      background: @activeColor;
-      box-shadow: @activeShadow;
-
-      .arrow {
-        background: @activeColor;
-        box-shadow: @activeShadowArrow;
-      }
-
-      .arrow_left {
-        box-shadow: @activeShadowArrowLeft;
-      }
-
-      .arrow.arrow_warning {
-        box-shadow: 2px -2px 0 0 @border-color-warning;
-      }
-
-      .arrow.arrow_error {
-        box-shadow: 2px -2px 0 0 @border-color-error;
-      }
-    }
-  }
-
   .sizeSmall {
     &:not(.link) {
       height: @control-height-small - 2;
@@ -216,105 +107,134 @@
   );
 
   // Use Default
-  .buttonColorMixin(
+  .buttonUseColorsMixin(
     default,
-    @btn-default-hover-bg-start,
-    @btn-default-hover-bg-end,
+    linear-gradient(@btn-default-hover-bg-start, @btn-default-hover-bg-end),
+    linear-gradient(to bottom right, @btn-default-hover-bg-start, @btn-default-hover-bg-end),
+    linear-gradient(to top left, @btn-default-hover-bg-start, @btn-default-hover-bg-end),
     @btn-default-hover-shadow,
     @btn-default-hover-shadow-arrow,
     @btn-default-hover-shadow-arrow-left,
+    transparent,
     @btn-default-active-bg,
     @btn-default-active-shadow,
     @btn-default-active-shadow-arrow,
     @btn-default-active-shadow-arrow-left,
-    @btn-default-bg-start,
-    @btn-default-bg-end,
+    linear-gradient(@btn-default-bg-start, @btn-default-bg-end),
+    linear-gradient(to bottom right, @btn-default-bg-start, @btn-default-bg-end),
+    linear-gradient(to top left, @btn-default-bg-start, @btn-default-bg-end),
     @btn-default-shadow,
     @btn-default-shadow-arrow,
     @btn-default-shadow-arrow-left,
-    @btn-default-bg,
     none,
-    @border-color-gray-dark
+    none,
+    @border-color-focus,
+    none,
+    2px
   );
   // Use Primary
-  .buttonColorMixin(
+  .buttonUseColorsMixin(
     primary,
-    @btn-primary-hover-bg-start,
-    @btn-primary-hover-bg-end,
+    linear-gradient(@btn-primary-hover-bg-start, @btn-primary-hover-bg-end),
+    linear-gradient(to bottom right, @btn-primary-hover-bg-start, @btn-primary-hover-bg-end),
+    linear-gradient(to top left, @btn-primary-hover-bg-start, @btn-primary-hover-bg-end),
     @btn-primary-hover-shadow,
     @btn-primary-hover-shadow-arrow,
     @btn-primary-hover-shadow-arrow-left,
+    transparent,
     @btn-primary-active-bg,
     @btn-primary-active-shadow,
     @btn-primary-active-shadow-arrow,
     @btn-primary-active-shadow-arrow-left,
-    @btn-primary-bg-start,
-    @btn-primary-bg-end,
+    linear-gradient(@btn-primary-bg-start, @btn-primary-bg-end),
+    linear-gradient(to bottom right, @btn-primary-bg-start, @btn-primary-bg-end),
+    linear-gradient(to top left, @btn-primary-bg-start, @btn-primary-bg-end),
     @btn-primary-shadow,
     @btn-primary-shadow-arrow,
     @btn-primary-shadow-arrow-left,
-    @btn-primary-bg,
-    #fff
+    #fff,
+    none,
+    @border-color-focus,
+    none,
+    2px
   );
   // Use Success
-  .buttonColorMixin(
+  .buttonUseColorsMixin(
     success,
-    @btn-success-hover-bg-start,
-    @btn-success-hover-bg-end,
+    linear-gradient(@btn-success-hover-bg-start, @btn-success-hover-bg-end),
+    linear-gradient(to bottom right, @btn-success-hover-bg-start, @btn-success-hover-bg-end),
+    linear-gradient(to top left, @btn-success-hover-bg-start, @btn-success-hover-bg-end),
     @btn-success-hover-shadow,
     @btn-success-hover-shadow-arrow,
     @btn-success-hover-shadow-arrow-left,
+    transparent,
     @btn-success-active-bg,
     @btn-success-active-shadow,
     @btn-success-active-shadow-arrow,
     @btn-success-active-shadow-arrow-left,
-    @btn-success-bg-start,
-    @btn-success-bg-end,
+    linear-gradient(@btn-success-bg-start, @btn-success-bg-end),
+    linear-gradient(to bottom right, @btn-success-bg-start, @btn-success-bg-end),
+    linear-gradient(to top left, @btn-success-bg-start, @btn-success-bg-end),
     @btn-success-shadow,
     @btn-success-shadow-arrow,
     @btn-success-shadow-arrow-left,
-    @btn-success-bg,
-    #fff
+    #fff,
+    none,
+    @border-color-focus,
+    none,
+    2px
   );
   // Use Danger
-  .buttonColorMixin(
+  .buttonUseColorsMixin(
     danger,
-    @btn-danger-hover-bg-start,
-    @btn-danger-hover-bg-end,
+    linear-gradient(@btn-danger-hover-bg-start, @btn-danger-hover-bg-end),
+    linear-gradient(to bottom right, @btn-danger-hover-bg-start, @btn-danger-hover-bg-end),
+    linear-gradient(to top left, @btn-danger-hover-bg-start, @btn-danger-hover-bg-end),
     @btn-danger-hover-shadow,
     @btn-danger-hover-shadow-arrow,
     @btn-danger-hover-shadow-arrow-left,
+    transparent,
     @btn-danger-active-bg,
     @btn-danger-active-shadow,
     @btn-danger-active-shadow-arrow,
     @btn-danger-active-shadow-arrow-left,
-    @btn-danger-bg-start,
-    @btn-danger-bg-end,
+    linear-gradient(@btn-danger-bg-start, @btn-danger-bg-end),
+    linear-gradient(to bottom right, @btn-danger-bg-start, @btn-danger-bg-end),
+    linear-gradient(to top left, @btn-danger-bg-start, @btn-danger-bg-end),
     @btn-danger-shadow,
     @btn-danger-shadow-arrow,
     @btn-danger-shadow-arrow-left,
-    @btn-danger-bg,
-    #fff
+    #fff,
+    none,
+    @border-color-focus,
+    none,
+    2px
   );
   // Use Pay
-  .buttonColorMixin(
+  .buttonUseColorsMixin(
     pay,
-    @btn-pay-hover-bg-start,
-    @btn-pay-hover-bg-end,
+    linear-gradient(@btn-pay-hover-bg-start, @btn-pay-hover-bg-end),
+    linear-gradient(to bottom right, @btn-pay-hover-bg-start, @btn-pay-hover-bg-end),
+    linear-gradient(to top left, @btn-pay-hover-bg-start, @btn-pay-hover-bg-end),
     @btn-pay-hover-shadow,
     @btn-pay-hover-shadow-arrow,
     @btn-pay-hover-shadow-arrow-left,
+    transparent,
     @btn-pay-active-bg,
     @btn-pay-active-shadow,
     @btn-pay-active-shadow-arrow,
     @btn-pay-active-shadow-arrow-left,
-    @btn-pay-bg-start,
-    @btn-pay-bg-end,
+    linear-gradient(@btn-pay-bg-start, @btn-pay-bg-end),
+    linear-gradient(to bottom right, @btn-pay-bg-start, @btn-pay-bg-end),
+    linear-gradient(to top left, @btn-pay-bg-start, @btn-pay-bg-end),
     @btn-pay-shadow,
     @btn-pay-shadow-arrow,
     @btn-pay-shadow-arrow-left,
-    @btn-pay-bg,
-    none
+    none,
+    none,
+    @border-color-focus,
+    none,
+    2px
   );
 
   // End Use
