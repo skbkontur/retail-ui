@@ -9,7 +9,7 @@ gemini.suite('ComboBox', () => {
         .ignoreElements('[data-comp-name="Spinner"]')
         .capture('plain')
         .capture('focused first element', (action, find) => {
-          action.click(find('[data-comp-name^="Input"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
         });
     });
 
@@ -52,7 +52,7 @@ gemini.suite('ComboBox', () => {
         .setCaptureElements('#test-element')
         .capture('plain')
         .capture('opened', (action, find) => {
-          action.click(find('[data-comp-name^="Input"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
         })
         .capture('hovered', (action, find) => {
           targetMenuItem = find('[data-comp-name="MenuItem"]:nth-of-type(4)');
@@ -68,7 +68,7 @@ gemini.suite('ComboBox', () => {
         .before(renderStory('ComboBox', 'always reject'))
         .setCaptureElements('#test-element')
         .capture('opened', (action, find) => {
-          action.click(find('[data-comp-name^="Input"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
         });
     });
 
@@ -78,7 +78,7 @@ gemini.suite('ComboBox', () => {
         .setCaptureElements('#test-element')
         .capture('plain')
         .capture('opened', (action, find) => {
-          action.click(find('[data-comp-name^="Input"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
         })
         .capture('hovered', (action, find) => {
           targetMenuItem = find('[data-comp-name="MenuItem"]:nth-of-type(4)');
@@ -94,14 +94,14 @@ gemini.suite('ComboBox', () => {
         .before(renderStory('ComboBox', 'simple combobox'))
         .setCaptureElements('#test-element')
         .capture('search result', (action, find) => {
-          action.click(find('[data-comp-name^="Input"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
           action.sendKeys('input', 'Second');
         })
         .capture('selcted', action => {
           action.sendKeys(gemini.ENTER);
         })
         .capture('opened again', (action, find) => {
-          action.click(find('[data-comp-name^="Input"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
         });
     });
 
@@ -110,7 +110,7 @@ gemini.suite('ComboBox', () => {
         .before(renderStory('ComboBox', 'simple combobox'))
         .setCaptureElements('#test-element')
         .capture('search result', (action, find) => {
-          action.click(find('[data-comp-name^="Input"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
           action.sendKeys('input', 'Такого точно нету');
         });
     });
@@ -137,7 +137,7 @@ gemini.suite('ComboBox', () => {
         .before(renderStory('ComboBox', 'simple combobox'))
         .setCaptureElements('#test-element')
         .capture('select', (action, find) => {
-          action.click(find('[data-comp-name^="Input"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
           action.sendKeys(gemini.ARROW_DOWN);
           action.sendKeys(gemini.ARROW_DOWN);
           action.sendKeys(gemini.ARROW_DOWN);
@@ -172,14 +172,14 @@ gemini.suite('ComboBox', () => {
         .before(renderStory('ComboBox', 'simple combobox'))
         .setCaptureElements('#test-element')
         .capture('editing', (action, find) => {
-          action.click(find('[data-comp-name^="Input"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
           action.sendKeys('input', 'Second');
         })
         .capture('select', (action, find) => {
           action.click(find('body'));
         })
         .capture('selected', (action, find) => {
-          action.click(find('[data-comp-name^="Input"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
         });
     });
 
