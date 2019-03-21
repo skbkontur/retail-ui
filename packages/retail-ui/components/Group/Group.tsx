@@ -83,7 +83,7 @@ class Group extends React.Component<GroupProps> {
             corners,
           };
 
-          if (child.type !== Button) {
+          if ((child.type as React.ComponentClass<GroupChildProps>).name !== Button.name) {
             delete cloneProps.corners;
           }
 

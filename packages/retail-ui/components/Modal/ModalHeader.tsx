@@ -12,7 +12,7 @@ export interface HeaderProps {
 }
 
 export function isHeader(child: React.ReactChild): child is React.ReactElement<HeaderProps> {
-  return React.isValidElement<HeaderProps>(child) && child.type === Header;
+  return React.isValidElement<HeaderProps>(child) && (child.type as React.ComponentClass<HeaderProps>).name === Header.name;
 }
 
 export class Header extends React.Component<HeaderProps> {

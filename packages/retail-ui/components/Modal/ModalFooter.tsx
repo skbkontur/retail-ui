@@ -15,7 +15,7 @@ export interface FooterProps {
 }
 
 export function isFooter(child: React.ReactChild): child is React.ReactElement<FooterProps> {
-  return React.isValidElement<FooterProps>(child) && child.type === Footer;
+  return React.isValidElement<FooterProps>(child) && (child.type as React.ComponentClass<FooterProps>).name === Footer.name;
 }
 
 /**
