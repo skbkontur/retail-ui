@@ -6,72 +6,6 @@
 :local {
   .commonStyles();
 
-  .buttonColorMixin(
-  @className,
-  @color,
-  @bgColor,
-  @bgHoverColor,
-  @borderHoverColor,
-  @bgActiveColor,
-  @bgDisabledColor,
-  @border,
-  @arrowShadow,
-  @arrowHoverShadow,
-  @arrowActiveShadow
-) {
-    .@{className} {
-      background: @bgColor;
-      color: @color;
-      border: @border;
-
-      .arrow {
-        background: @bgColor;
-        box-shadow: @arrowShadow;
-      }
-
-      .arrow_left {
-        background: @bgColor;
-        box-shadow: @arrowShadow;
-      }
-
-      &:hover {
-        background: @bgHoverColor;
-        border-color: @borderHoverColor;
-
-        .arrow,
-        .arrow_left {
-          background: @bgHoverColor;
-          box-shadow: @arrowHoverShadow;
-        }
-      }
-
-      &.focus {
-        box-shadow: inset 0 0 0 1px #fff, 0 0 0 1px @flat-border-color-focus;
-        border: 1px solid @flat-border-color-focus;
-        position: relative;
-        z-index: 2;
-
-        .arrow,
-        .arrow_left {
-          box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @flat-border-color-focus;
-        }
-      }
-    }
-
-    .@{className}:active,
-    .@{className}.active {
-      background: @bgActiveColor;
-      border: @border;
-      box-shadow: none;
-
-      .arrow,
-      .arrow_left {
-        background: @bgActiveColor;
-        box-shadow: @arrowActiveShadow;
-      }
-    }
-  }
-
   .buttonSizeMixin(
     sizeSmall,
     16.6px,
@@ -166,83 +100,138 @@
   );
 
   // Use Default
-
-  .buttonColorMixin(
+  .buttonUseColorsMixin(
     default,
-    none,
-    #fff,
     @btn-flat-default-hover-bg,
+    @btn-flat-default-hover-bg,
+    @btn-flat-default-hover-bg,
+    none,
+    @btn-flat-default-hover-shadow-arrow,
+    @btn-flat-default-hover-shadow-arrow,
     @btn-flat-default-hover-border-color,
     @btn-flat-default-active-bg,
-    @btn-flat-disabled-bg,
-    @btn-flat-default-border,
+    none,
+    @btn-flat-default-active-shadow-arrow,
+    @btn-flat-default-active-shadow-arrow,
+    #fff,
+    #fff,
+    #fff,
+    none,
     @btn-flat-default-shadow-arrow,
-    @btn-flat-default-hover-shadow-arrow,
-    @btn-flat-default-active-shadow-arrow
+    @btn-flat-default-shadow-arrow,
+    none,
+    @btn-flat-default-border,
+    @flat-border-color-focus,
+    @btn-flat-focus-border,
+    1px
   );
 
   // Use Primary
-
-  .buttonColorMixin(
+  .buttonUseColorsMixin(
     primary,
-    #fff,
-    @btn-flat-primary-bg,
     @btn-flat-primary-hover-bg,
+    @btn-flat-primary-hover-bg,
+    @btn-flat-primary-hover-bg,
+    none,
+    @btn-flat-primary-hover-shadow-arrow,
+    @btn-flat-primary-hover-shadow-arrow,
     @btn-flat-primary-hover-bg,
     @btn-flat-primary-active-bg,
-    @btn-flat-primary-disabled-bg,
-    @btn-flat-primary-border,
+    none,
+    @btn-flat-primary-active-shadow-arrow,
+    @btn-flat-primary-active-shadow-arrow,
+    @btn-flat-primary-bg,
+    @btn-flat-primary-bg,
+    @btn-flat-primary-bg,
+    none,
     @btn-flat-primary-shadow-arrow,
-    @btn-flat-primary-hover-shadow-arrow,
-    @btn-flat-primary-active-shadow-arrow
+    @btn-flat-primary-shadow-arrow,
+    #fff,
+    @btn-flat-primary-border,
+    @flat-border-color-focus,
+    @btn-flat-focus-border,
+    1px
   );
 
   // Use Success
-
-  .buttonColorMixin(
+  .buttonUseColorsMixin(
     success,
-    #fff,
-    @btn-flat-success-bg,
     @btn-flat-success-hover-bg,
+    @btn-flat-success-hover-bg,
+    @btn-flat-success-hover-bg,
+    none,
+    @btn-flat-success-hover-shadow-arrow,
+    @btn-flat-success-hover-shadow-arrow,
     @btn-flat-success-hover-bg,
     @btn-flat-success-active-bg,
-    @btn-flat-success-disabled-bg,
-    @btn-flat-success-border,
+    none,
+    @btn-flat-success-active-shadow-arrow,
+    @btn-flat-success-active-shadow-arrow,
+    @btn-flat-success-bg,
+    @btn-flat-success-bg,
+    @btn-flat-success-bg,
+    none,
     @btn-flat-success-shadow-arrow,
-    @btn-flat-success-hover-shadow-arrow,
-    @btn-flat-success-active-shadow-arrow
+    @btn-flat-success-shadow-arrow,
+    #fff,
+    @btn-flat-success-border,
+    @flat-border-color-focus,
+    @btn-flat-focus-border,
+    1px
   );
 
   // Use Danger
-
-  .buttonColorMixin(
+  .buttonUseColorsMixin(
     danger,
-    #fff,
-    @btn-flat-danger-bg,
     @btn-flat-danger-hover-bg,
+    @btn-flat-danger-hover-bg,
+    @btn-flat-danger-hover-bg,
+    none,
+    @btn-flat-danger-hover-shadow-arrow,
+    @btn-flat-danger-hover-shadow-arrow,
     @btn-flat-danger-hover-bg,
     @btn-flat-danger-active-bg,
-    @btn-flat-danger-disabled-bg,
-    @btn-flat-danger-border,
+    none,
+    @btn-flat-danger-active-shadow-arrow,
+    @btn-flat-danger-active-shadow-arrow,
+    @btn-flat-danger-bg,
+    @btn-flat-danger-bg,
+    @btn-flat-danger-bg,
+    none,
     @btn-flat-danger-shadow-arrow,
-    @btn-flat-danger-hover-shadow-arrow,
-    @btn-flat-danger-active-shadow-arrow
+    @btn-flat-danger-shadow-arrow,
+    #fff,
+    @btn-flat-danger-border,
+    @flat-border-color-focus,
+    @btn-flat-focus-border,
+    1px
   );
 
   // Use Pay
-
-  .buttonColorMixin(
+  .buttonUseColorsMixin(
     pay,
-    none,
-    @btn-flat-pay-bg,
     @btn-flat-pay-hover-bg,
+    @btn-flat-pay-hover-bg,
+    @btn-flat-pay-hover-bg,
+    none,
+    @btn-flat-pay-hover-shadow-arrow,
+    @btn-flat-pay-hover-shadow-arrow,
     @btn-flat-pay-hover-bg,
     @btn-flat-pay-active-bg,
-    @btn-flat-pay-disabled-bg,
-    @btn-flat-pay-border,
+    none,
+    @btn-flat-pay-active-shadow-arrow,
+    @btn-flat-pay-active-shadow-arrow,
+    @btn-flat-pay-bg,
+    @btn-flat-pay-bg,
+    @btn-flat-pay-bg,
+    none,
     @btn-flat-pay-shadow-arrow,
-    @btn-flat-pay-hover-shadow-arrow,
-    @btn-flat-pay-active-shadow-arrow
+    @btn-flat-pay-shadow-arrow,
+    none,
+    @btn-flat-pay-border,
+    @flat-border-color-focus,
+    @btn-flat-focus-border,
+    1px
   );
 
   .root.link.linkError {
