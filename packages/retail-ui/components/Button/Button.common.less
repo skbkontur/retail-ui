@@ -146,6 +146,15 @@
     box-sizing: border-box;
     display: inline-block;
 
+    &_arrow {
+      margin-right: 10px;
+
+      &_left {
+        margin-right: 0;
+        margin-left: 10px;
+      }
+    }
+
     .root {
       &.disabled {
         background: @bg-disabled;
@@ -420,6 +429,83 @@
 
     .arrow_left {
       box-shadow: @activeShadowArrowLeft;
+    }
+
+    .arrow.arrow_warning {
+      box-shadow: 2px -2px 0 0 @border-color-warning;
+    }
+
+    .arrow.arrow_error {
+      box-shadow: 2px -2px 0 0 @border-color-error;
+    }
+  }
+}
+
+.buttonStateColorsMixin(
+@checkedBackground,
+@checkedBoxShadow,
+@checkedArrowShadow,
+@checkedArrowLeftShadow,
+@hoverBorderColor,
+@focusShadowWidth,
+@disabledArrowBackground,
+@disabledShadow,
+@disabledArrowShadow
+) {
+  .root.checked {
+    background: @checkedBackground;
+    box-shadow: @checkedBoxShadow;
+    color: #fff;
+
+    .arrow {
+      background: @checkedBackground;
+      box-shadow: @checkedArrowShadow;
+    }
+
+    .arrow_left {
+      background: @checkedBackground;
+      box-shadow: @checkedArrowLeftShadow;
+    }
+
+    .arrow.arrow_error {
+      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3), 2px -2px 0 0 @border-color-error;
+    }
+
+    .arrow.arrow_warning {
+      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3), 2px -2px 0 0 @border-color-warning;
+    }
+
+    &:hover {
+      background: @checkedBackground;
+      border-color: @hoverBorderColor;
+    }
+
+    &.focus {
+      box-shadow: inset 0 0 0 1px #fff, 0 0 0 @focusShadowWidth @border-color-focus;
+      position: relative;
+      z-index: 2;
+
+      .arrow {
+        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-focus;
+      }
+
+      .arrow.arrow_warning {
+        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-warning;
+      }
+
+      .arrow.arrow_error {
+        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-error;
+      }
+    }
+  }
+
+  .root.disabled {
+    box-shadow: @disabledShadow;
+    border-color: transparent;
+
+    .arrow {
+      background: @disabledArrowBackground;
+      box-shadow: @disabledArrowShadow;
     }
 
     .arrow.arrow_warning {
