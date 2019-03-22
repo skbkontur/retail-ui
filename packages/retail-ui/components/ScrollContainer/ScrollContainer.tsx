@@ -31,8 +31,12 @@ export interface ScrollContainerState {
 }
 
 export default class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
-  public static propTypes = {};
-
+  public static propTypes = {
+    invert: PropTypes.bool,
+    maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    preventWindowScroll: PropTypes.bool,
+    onScrollStateChange: PropTypes.func,
+  };
   public state: ScrollContainerState = {
     scrollActive: false,
     scrollSize: 0,
@@ -304,10 +308,3 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
     }
   }
 }
-
-ScrollContainer.propTypes = {
-  invert: PropTypes.bool,
-  maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  preventWindowScroll: PropTypes.bool,
-  onScrollStateChange: PropTypes.func,
-};

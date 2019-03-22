@@ -7,7 +7,7 @@ import Prevent from './Prevent';
 
 import Radio, { SyntheticRadioEvent } from '../Radio';
 
-import styles = require('./RadioGroup.less');
+import styles from './RadioGroup.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 

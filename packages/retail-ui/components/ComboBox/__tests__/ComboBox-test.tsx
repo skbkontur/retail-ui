@@ -9,7 +9,7 @@ import { mount, ReactWrapper } from 'enzyme';
 import InputLikeText from '../../internal/InputLikeText';
 import MenuItem from '../../MenuItem/MenuItem';
 import Menu from '../../Menu/Menu';
-import { delay } from 'retail-ui/lib/utils';
+import { delay } from '../../../lib/utils';
 import CustomComboBox, { DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../CustomComboBox/CustomComboBox';
 import ComboBoxView from '../../CustomComboBox/ComboBoxView';
 import { Effect } from '../../CustomComboBox/CustomComboBoxReducer';

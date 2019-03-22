@@ -7,6 +7,7 @@ import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import styles from './Sticky.less';
 import classNames from 'classnames';
+import { isFunction } from '../../lib/utils';
 
 export interface StickyProps {
   side: 'top' | 'bottom';
@@ -121,7 +122,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     let children = this.props.children;
-    if (typeof children === 'function') {
+    if (isFunction(children)) {
       children = children(this.state.fixed);
     }
 

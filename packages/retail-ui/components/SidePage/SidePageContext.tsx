@@ -1,17 +1,17 @@
 import * as React from 'react';
-import createReactContext = require('create-react-context');
+import createReactContext from 'create-react-context';
 import { SidePageFooter } from './SidePageFooter';
 
 export interface SidePageContextType {
   requestClose: () => void;
-  width: number | string;
+  getWidth: () => number | string;
   updateLayout: () => void;
   footerRef: (ref: SidePageFooter | null) => void;
 }
 
 export const SidePageContext = createReactContext<SidePageContextType>({
   requestClose: () => undefined,
-  width: 'auto',
+  getWidth: () => 'auto',
   updateLayout: () => undefined,
   footerRef: () => undefined,
 });

@@ -79,7 +79,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     keyboardControl: this.props.useGlobalListener,
   };
 
-  public readonly locale: PagingLocale = {};
+  private readonly locale!: PagingLocale;
 
   private addedGlobalListener: boolean = false;
   private container: HTMLSpanElement | null = null;
@@ -159,7 +159,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       [styles.focused]: focused,
       [styles.disabled]: disabled,
     });
-    const { component: Component, strings: { forward = this.locale.forward } = {}, caption = forward } = this.props;
+    const { component: Component, strings: { forward = this.locale.forward } = {}, caption } = this.props;
 
     return (
       <Component
@@ -170,7 +170,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
         tabIndex={-1}
         pageNumber={'forward' as 'forward'}
       >
-        {caption}
+        {caption || forward}
         <span className={styles.forwardIcon}>
           <ArrowChevronRightIcon size="18px" />
         </span>
