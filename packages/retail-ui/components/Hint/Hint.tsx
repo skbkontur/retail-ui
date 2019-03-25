@@ -10,6 +10,7 @@ import { MouseEventType } from '../../typings/event-types';
 const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';
 const POPUP_MARGIN = 15;
+const PIN_OFFSET = 8;
 
 export interface HintProps {
   children?: React.ReactNode;
@@ -115,6 +116,7 @@ class Hint extends React.Component<HintProps, HintState> {
         backgroundColor={HINT_BACKGROUND_COLOR}
         borderColor={HINT_BORDER_COLOR}
         disableAnimations={this.props.disableAnimations}
+        pinOffset={PIN_OFFSET}
         {...popupProps}
       >
         {this.renderContent()}
