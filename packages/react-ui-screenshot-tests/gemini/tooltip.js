@@ -77,6 +77,7 @@ gemini.suite('Tooltip with external dynamic content', suite => {
   suite
     .before(renderStory('Tooltip', 'Tooltip with external dynamic content'))
     .setCaptureElements('#test-element')
+    .ignoreElements({ every: 'button' })
     .capture('01 - plain')
 
     .capture('02 - changes top position if does not fit', (actions, find) => {
