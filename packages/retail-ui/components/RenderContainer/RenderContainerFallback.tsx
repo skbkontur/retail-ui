@@ -33,7 +33,7 @@ export class Portal extends React.Component<PortalPros> {
   }
 }
 
-export class RenderContainer extends React.Component<RenderContainerFallbackProps> {
+export class RenderInnerContainer extends React.Component<RenderContainerFallbackProps> {
   public render(): JSX.Element {
     return <Portal rt_rootID={this.props.rootId}>{this.props.anchor}</Portal>;
   }

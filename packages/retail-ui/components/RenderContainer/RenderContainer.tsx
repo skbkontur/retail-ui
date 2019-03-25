@@ -1,17 +1,19 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { Nullable } from '../../typings/utility-types';
-import { RenderContainer as RenderContainerFallback } from './RenderContainerFallback';
-import { RenderContainer as RenderContainerNative } from './RenderContainerNative';
+import { RenderInnerContainer as RenderContainerFallback } from './RenderContainerFallback';
+import { RenderInnerContainer as RenderContainerNative } from './RenderContainerNative';
 import { RenderContainerProps } from './RenderContainerTypes';
 
 let rootId = 0;
 const HAS_BUILTIN_PORTAL = !!ReactDOM.createPortal;
+const RenderInnerContainer = HAS_BUILTIN_PORTAL ? RenderContainerNative : RenderContainerFallback;
 
 export class RenderContainer extends React.Component<RenderContainerProps> {
+  private static getRootId = () => (rootId += 1);
   private domContainer: Nullable<HTMLElement> = null;
 
-  private readonly rootId: number = rootId++;
+  private readonly rootId: number = RenderContainer.getRootId();
 
   constructor(props: RenderContainerProps) {
     super(props);
@@ -35,9 +37,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   public render() {
-    const Container = HAS_BUILTIN_PORTAL ? RenderContainerNative : RenderContainerFallback;
-
-    return <Container {...this.props} domContainer={this.domContainer} rootId={this.rootId} />;
+    return <RenderInnerContainer {...this.props} domContainer={this.domContainer} rootId={this.rootId} />;
   }
 
   private createContainer() {

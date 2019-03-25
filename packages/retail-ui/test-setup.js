@@ -5,8 +5,8 @@ import 'babel-polyfill';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
-import {RenderContainerBase} from './components/RenderContainer/RenderContainer';
-import {ZIndexStorage} from './components/ZIndex/ZIndex';
+import RenderContainer from './components/RenderContainer';
+import { ZIndexStorage } from './components/ZIndex';
 
 configure({ adapter: new Adapter() });
 
@@ -40,8 +40,8 @@ delete React.PropTypes;
 
 beforeAll(() => {
   // Stable data-rendered-container-id / keys for every test
-  RenderContainerBase.getId = () => 1;
+  RenderContainer.getRootId = () => 1;
 
   // Stable zIndex for every test
-  ZIndexStorage.incrementZIndex = () => 1000
+  ZIndexStorage.incrementZIndex = () => 1000;
 });

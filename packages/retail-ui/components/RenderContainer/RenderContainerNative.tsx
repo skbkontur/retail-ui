@@ -12,7 +12,7 @@ export function Portal(props: PortalPros) {
   return <noscript data-render-container-id={props.rt_rootID} />;
 }
 
-export class RenderContainer extends React.Component<RenderContainerNativeProps> {
+export class RenderInnerContainer extends React.Component<RenderContainerNativeProps> {
   public render(): JSX.Element {
     if (this.props.children) {
       if (!this.props.domContainer) {
