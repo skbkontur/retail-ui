@@ -5,11 +5,13 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@types/less": "^3.0.0",
+    "ast-types": "0.12.1",
+    "css-selector-tokenizer": "^0.7.1",
     "easy-renamer": "^0.3.1",
     "glob": "^7.1.2",
     "jest": "^23.1.0",
     "jscodeshift": "^0.6.3",
+    "less": "^3.9.0",
     "shelljs": "^0.8.2"
   },
   "scripts": {
@@ -17,9 +19,6 @@
   },
   "devDependencies": {
     "@types/jscodeshift": "^0.6.0",
-    "@types/less": "^3.0.0",
-    "ast-types": "^0.12.2",
-    "css-selector-tokenizer": "^0.7.1",
-    "less": "^3.9.0"
+    "@types/less": "^3.0.0"
   }
 }

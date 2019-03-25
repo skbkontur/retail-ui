@@ -1,10 +1,13 @@
 import defaultThemeVariables from '../components/variables.less';
 import flatThemeVariables from '../components/variables.flat.less';
 
-interface VariablesObject {
-  [key: string]: string;
-}
+type VariablesObject = typeof defaultThemeVariables;
+
 type ThemeType = 'default' | 'flat';
+
+export interface DynamicStylesType {
+  [key: string]: (theme: VariablesObject) => string;
+}
 
 export default class ThemeManager {
   public static getVariables(themeType: ThemeType): VariablesObject {

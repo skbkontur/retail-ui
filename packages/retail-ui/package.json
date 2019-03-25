@@ -36,6 +36,7 @@
     "classnames": "^2.2.6",
     "create-react-context": "^0.2.2",
     "csstype": "^2.6.1",
+    "emotion": "^10.0.9",
     "exenv": "^1.2.2",
     "fbemitter": "^2.1.1",
     "fbjs": "^0.8.17",
