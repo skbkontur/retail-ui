@@ -1,5 +1,10 @@
 import defaultThemeVariables from '../components/variables.less';
 import flatThemeVariables from '../components/variables.flat.less';
+<<<<<<< HEAD
+=======
+import Upgrades from './Upgrades';
+import { Mutable } from "../typings/utility-types";
+>>>>>>> refactor(ThemeManager): add types
 
 type VariablesObject = typeof defaultThemeVariables;
 
@@ -8,14 +13,6 @@ type ThemeType = 'default' | 'flat';
 export interface DynamicStylesType {
   [key: string]: (theme: VariablesObject) => string;
 }
-<<<<<<< HEAD
-=======
-type VariablesObject = typeof defaultThemeVariables & typeof flatThemeVariables
-
-export interface DynamicStylesType {
-  [key: string]: (theme: VariablesObject) => string
-}
->>>>>>> refactor(ThemeManager): add DynamicStylesType
 
 export default class ThemeManager {
   public static getVariables(themeType: ThemeType): VariablesObject {
@@ -40,6 +37,7 @@ export default class ThemeManager {
     }
   }
 
+<<<<<<< HEAD
   public static resetVariablesToDefaultValues(themeType: ThemeType): VariablesObject {
     if (themeType === 'default') {
       this.defaultThemeVariables = defaultThemeVariables;
@@ -52,6 +50,29 @@ export default class ThemeManager {
     }
 
     throw new Error(`Incompatible them type in argument: ${themeType}`);
+=======
+  private static isFlatDesign: boolean = Upgrades.isFlatDesignEnabled();
+  private static variablesConstructed: boolean = false;
+  private static variables: VariablesObject = {} as VariablesObject;
+
+  private static constructVariablesObject() {
+    const bothThemesKeys = [...Object.keys(defaultThemeVariables), ...Object.keys(flatThemeVariables)] as Array<
+      keyof VariablesObject
+    >;
+
+    this.variables = bothThemesKeys.reduce(
+      (resultObj: Mutable<VariablesObject>, currentKey: keyof VariablesObject) => {
+        if (this.isFlatDesign) {
+          resultObj[currentKey] = (flatThemeVariables as IndexSignature)[currentKey];
+        } else {
+          resultObj[currentKey] = (defaultThemeVariables as IndexSignature)[currentKey];
+        }
+        return resultObj as VariablesObject;
+      },
+      {} as VariablesObject,
+    );
+    this.variablesConstructed = true;
+>>>>>>> refactor(ThemeManager): add types
   }
 
   private static defaultThemeVariables: VariablesObject = defaultThemeVariables;

@@ -339,6 +339,8 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
       .insertAfter(themeConst);
   });
 
+  
+
   const result = root.toSource(TO_SOURCE_OPTIONS);
 
   // console.log('[extract-dynamic-classes.ts]', 'extractDynamicClasses', '\n', result);
