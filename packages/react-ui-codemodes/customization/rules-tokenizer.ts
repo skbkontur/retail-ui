@@ -92,7 +92,7 @@ export function tokenize(rulesetsMap: IDynamicRulesetsMap): ITokenizedDynamicRul
         const className = targetToken.name;
         if (!tokenizedMap.has(className)) {
           tokenizedMap.set(className, {
-            isPartial: dynamicRuleset.isPartial,
+            isPartial: false,
             rules: {},
             cascade: new Map(),
           });
@@ -216,7 +216,7 @@ function processToken(
       // it's dynamic class name, nothing left of it's static counterpart
       t.name = `:dynamic(${tClassName})`;
     } else {
-      // it's static class name (still coming from css)
+      // it's static class name (still fully or partially comes from css)
       t.name = `:static(${tClassName})`;
     }
   }

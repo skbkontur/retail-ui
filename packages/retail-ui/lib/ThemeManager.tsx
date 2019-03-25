@@ -5,7 +5,7 @@ type VariablesObject = typeof defaultThemeVariables;
 
 type ThemeType = 'default' | 'flat';
 
-export interface DynamicStylesType {
+export interface DynamicClassesType {
   [key: string]: (theme: VariablesObject) => string;
 }
 

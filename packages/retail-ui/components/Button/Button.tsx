@@ -183,7 +183,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
       type: this.props.type,
       className: classNames({
         [classes.root]: true,
-        [(classes as { [name: string]: string })[this.props.use!] || classes.default]: true,
+        [classes[this.props.use!] || classes.default]: true,
         [classes.active]: this.props.active,
         [classes.checked]: this.props.checked,
         [classes.disabled]: this.props.disabled || this.props.loading,

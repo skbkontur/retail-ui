@@ -5,6 +5,7 @@ import { parseLess } from './less-parser';
 import { DynamicRulesAggregator, IDynamicRulesetsMap } from './dynamic-rules-aggregator';
 import { ITokenizedDynamicRulesMap, tokenize } from './rules-tokenizer';
 import { Identifier, ImportDeclaration } from 'ast-types/gen/nodes';
+import { NodePath } from 'ast-types';
 
 let DRA_ID = 0;
 const ROOT_PATH = process.cwd();
@@ -65,6 +66,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             const dynamicRulesAggregator = new DynamicRulesAggregator(DRA_ID++);
             // NOTE: we use dynamicRulesAggregator in the way we'd use 'out' in C#
             parseLess(lessFilePath, dynamicRulesAggregator);
+            // console.log(parseLess(lessFilePath, dynamicRulesAggregator), '\n\n');
             parsedLess.set(lessFilePath, dynamicRulesAggregator.getRulesets());
           }
           stylesMap.set(specifier, parsedLess.get(lessFilePath)!);
@@ -91,6 +93,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
               const dynamicRulesAggregator = new DynamicRulesAggregator(DRA_ID++);
               // NOTE: we use dynamicRulesAggregator in the way we'd use 'out' in C#
               parseLess(lessFilePath, dynamicRulesAggregator);
+              // console.log(parseLess(lessFilePath, dynamicRulesAggregator), '\n\n');
               parsedLess.set(lessFilePath, dynamicRulesAggregator.getRulesets());
             }
             stylesMap.set(styleNode, parsedLess.get(lessFilePath)!);
@@ -156,7 +159,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
 
   const themeManagerIdentifier = j.identifier('ThemeManager');
-  const dynamicStylesTypeIdentifier = j.identifier('DynamicStylesType');
+  const dynamicStylesTypeIdentifier = j.identifier('DynamicClassesType');
   const themeManagerImportPath = path.relative(path.dirname(fileInfo.path), THEME_MANAGER_PATH).replace(/\\/g, '/');
   const themeManagerImportStatement = j.importDeclaration(
     [j.importDefaultSpecifier(themeManagerIdentifier), j.importSpecifier(dynamicStylesTypeIdentifier)],
@@ -175,11 +178,11 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   ]);
 
   const stylesIdentifiers = Array.from(stylesMap.keys());
-
+  const dynamicStylesDeclarationIdentifiers: Identifier[] = [];
   tokenizedStylesMap.forEach((styles, identifier) => {
     const objectProperties: any[] = [];
     const dynamicStyleArgumentIdentifier = j.identifier('theme');
-    const dynamicStylesIdentifier = j.identifier(`${identifier.name}Dynamic`);
+    const dynamicStylesIdentifier = j.identifier(nameToDynamic(identifier.name));
 
     styles.forEach((ruleset, className) => {
       const templateLiteralQuasis: any[] = [];
@@ -326,8 +329,9 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
     });
 
     const objectExpression = j.objectExpression(objectProperties);
-    const dynamicStylesIdentifierWithType = j.identifier(`${identifier.name}Dynamic`);
+    const dynamicStylesIdentifierWithType = j.identifier(nameToDynamic(identifier.name));
     dynamicStylesIdentifierWithType.typeAnnotation = j.tsTypeAnnotation(j.tsTypeReference(dynamicStylesTypeIdentifier));
+    dynamicStylesDeclarationIdentifiers.push(dynamicStylesIdentifierWithType);
     const dynamicStylesConst = j.variableDeclaration('const', [
       j.variableDeclarator(dynamicStylesIdentifierWithType, objectExpression),
     ]);
@@ -339,7 +343,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
         (node.declarations[0].id === themeIdentifier || stylesIdentifiers.includes(node.declarations[0].id)),
     );
 
-    if(positionsToInsert.length === 0) {
+    if (positionsToInsert.length === 0) {
       positionsToInsert = root.find(j.ImportDeclaration);
     }
 
@@ -362,28 +366,82 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
           type: 'Identifier',
         },
       })
-      .filter(
-        node => node.value && node.value.property && propertyNames.includes((node.value.property as Identifier).name),
-      )
+      .filter(node => {
+        const isOneOfProperties =
+          node.value && node.value.property && propertyNames.includes((node.value.property as Identifier).name);
+        if (isOneOfProperties) {
+          return isNotWithinDynamicStyles(node, dynamicStylesDeclarationIdentifiers);
+        }
+        return false;
+      })
       .forEach(val => {
         const className = (val.value.property as Identifier).name;
         const dynamicRuleset = dynamicCounterpart.get(className)!;
-        console.count(`${dynamicRuleset.isPartial}`);
-        val.replace(j.callExpression(
-          j.memberExpression(
-            j.identifier(`${styleIdentifier.name}Dynamic`),
-            j.identifier(className)
-          ),
-          [themeIdentifier]
-        ))
+
+        // console.log('[extract-dynamic-classes.ts]', '', val.parent.value.type, className, dynamicRuleset.isPartial);
+        // console.count(`${dynamicRuleset.isPartial}`);
+        if (dynamicRuleset.isPartial) {
+          // hard case: we have to properly place dynamic rule alongside with the static one
+          const parentNode = val.parent.value;
+          console.log('[extract-dynamic-classes.ts]', '', parentNode.type, className);
+          switch (parentNode.type) {
+            case 'ObjectProperty':
+              const holdingObject = val.parent.parent.value;
+              if (!holdingObject) {
+                throw new Error('Could not find holding object, something is terribly wrong');
+              }
+
+              const indexOfProperty = holdingObject.properties.indexOf(parentNode);
+              const property = j.property(
+                'init',
+                j.callExpression(
+                  j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), j.identifier(className)),
+                  [themeIdentifier],
+                ),
+                parentNode.value,
+              );
+              property.computed = true;
+              holdingObject.properties.splice(indexOfProperty + 1, 0, property);
+
+              break;
+            case 'LogicalExpression':
+              parentNode;
+              break;
+            default:
+              throw new Error(`New case for partial ruleset: ${parentNode.type}, please implement`);
+          }
+        } else {
+          // easy case - just replace
+          val.replace(
+            j.callExpression(
+              j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), j.identifier(className)),
+              [themeIdentifier],
+            ),
+          );
+        }
       });
   });
 
   const result = root.toSource(TO_SOURCE_OPTIONS);
 
-  // console.log('[extract-dynamic-classes.ts]', 'extractDynamicClasses', '\n', result);
+  console.log('[extract-dynamic-classes.ts]', 'extractDynamicClasses', '\n', result);
 
   return result;
+}
+
+function isNotWithinDynamicStyles(nodePath: NodePath<any>, targets: any[]) {
+  while (nodePath.parent) {
+    const parentValue = nodePath.parent.value;
+    if (parentValue && parentValue.type === 'VariableDeclarator' && targets.includes(parentValue.id)) {
+      return false;
+    }
+    nodePath = nodePath.parent;
+  }
+  return true;
+}
+
+function nameToDynamic(name: string) {
+  return `dynamic${name.charAt(0).toUpperCase()}${name.substr(1)}`;
 }
 
 module.exports = extractDynamicClasses;
