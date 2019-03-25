@@ -181,20 +181,11 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   public render() {
     const props = this.props;
     const content = this.renderContent();
+    const { popupProps, layerProps = {} } = this.getProps();
+    const anchorElement = props.children || props.anchorElement;
+    const popup = this.renderPopup(anchorElement, popupProps, content);
 
-    if (content != null) {
-      const { popupProps, layerProps } = this.getProps();
-      const anchorElement = props.children || props.anchorElement;
-      const popup = this.renderPopup(anchorElement, popupProps, content);
-
-      return layerProps ? <RenderLayer {...layerProps}>{popup}</RenderLayer> : popup;
-    }
-
-    if (React.isValidElement(props.children)) {
-      return props.children;
-    }
-
-    return <span>{props.children}</span>;
+    return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
   }
 
   public renderContent = () => {

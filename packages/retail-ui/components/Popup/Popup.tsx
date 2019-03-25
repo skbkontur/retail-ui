@@ -315,8 +315,9 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
   private renderContent() {
     const props = this.props;
+    const children = this.renderChildren();
 
-    if (!props.opened) {
+    if (!props.opened || !children) {
       return null;
     }
 
@@ -362,7 +363,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
             >
               <div className={styles.content}>
                 <div className={styles.contentInner} style={{ backgroundColor }}>
-                  {this.renderChildren()}
+                  {children}
                 </div>
               </div>
               {this.renderPin(location.position)}
