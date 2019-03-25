@@ -174,6 +174,8 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
     ),
   ]);
 
+  const stylesIdentifiers = Array.from(stylesMap.keys());
+
   tokenizedStylesMap.forEach((styles, identifier) => {
     const objectProperties: any[] = [];
     const dynamicStyleArgumentIdentifier = j.identifier('theme');
@@ -244,7 +246,11 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             );
             quasi = '';
             const variableName = cascadeNamePart.replace(':dynamic(', '').replace(')', '');
-            templateLiteralExpressions.push(j.callExpression(j.memberExpression(dynamicStylesIdentifier, j.identifier(variableName)), [dynamicStyleArgumentIdentifier]));
+            templateLiteralExpressions.push(
+              j.callExpression(j.memberExpression(dynamicStylesIdentifier, j.identifier(variableName)), [
+                dynamicStyleArgumentIdentifier,
+              ]),
+            );
           } else if (cascadeNamePart.startsWith(':global')) {
             const globalSelector = cascadeNamePart.replace(':global(', '').replace(')', '');
             quasi = quasi + globalSelector;
@@ -326,13 +332,16 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
       j.variableDeclarator(dynamicStylesIdentifierWithType, objectExpression),
     ]);
 
-    const stylesIdentifiers = Array.from(stylesMap.keys());
-    const positionsToInsert = root.find(
+    let positionsToInsert: any = root.find(
       j.VariableDeclaration,
       node =>
         node.declarations &&
         (node.declarations[0].id === themeIdentifier || stylesIdentifiers.includes(node.declarations[0].id)),
     );
+
+    if(positionsToInsert.length === 0) {
+      positionsToInsert = root.find(j.ImportDeclaration);
+    }
 
     positionsToInsert
       .at(positionsToInsert.length - 1)
@@ -340,13 +349,39 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
       .insertAfter(themeConst);
   });
 
-  stylesMap.forEach((_, identifier) => {
-    // replace usages
+  stylesIdentifiers.forEach(styleIdentifier => {
+    const dynamicCounterpart = tokenizedStylesMap.get(styleIdentifier)!;
+    const propertyNames = Array.from(dynamicCounterpart.keys()).map(k => k.replace('.', ''));
+    root
+      .find(j.MemberExpression, {
+        object: {
+          type: 'Identifier',
+          name: styleIdentifier.name,
+        },
+        property: {
+          type: 'Identifier',
+        },
+      })
+      .filter(
+        node => node.value && node.value.property && propertyNames.includes((node.value.property as Identifier).name),
+      )
+      .forEach(val => {
+        const className = (val.value.property as Identifier).name;
+        const dynamicRuleset = dynamicCounterpart.get(className)!;
+        console.count(`${dynamicRuleset.isPartial}`);
+        val.replace(j.callExpression(
+          j.memberExpression(
+            j.identifier(`${styleIdentifier.name}Dynamic`),
+            j.identifier(className)
+          ),
+          [themeIdentifier]
+        ))
+      });
   });
 
   const result = root.toSource(TO_SOURCE_OPTIONS);
 
-  console.log('[extract-dynamic-classes.ts]', 'extractDynamicClasses', '\n', result);
+  // console.log('[extract-dynamic-classes.ts]', 'extractDynamicClasses', '\n', result);
 
   return result;
 }
