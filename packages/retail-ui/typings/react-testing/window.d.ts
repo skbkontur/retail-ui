@@ -3,5 +3,3 @@ declare global {
     ReactTesting: ReactTesting;
   }
 }
-
-export {};

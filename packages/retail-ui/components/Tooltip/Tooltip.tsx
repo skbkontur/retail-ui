@@ -154,26 +154,11 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus'];
 
+  public state: TooltipState = { opened: false };
+
   private hoverTimeout: Nullable<number> = null;
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPosition[]> = null;
-
-  constructor(props: Readonly<TooltipProps>, context: any) {
-    super(props, context);
-    this.state = {
-      opened: false,
-    };
-
-    this.refContent = this.refContent.bind(this);
-    this.renderContent = this.renderContent.bind(this);
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
-    this.handleMouseLeave = this.handleMouseLeave.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleCloseButtonClick = this.handleCloseButtonClick.bind(this);
-    this.handleClickOutsideAnchor = this.handleClickOutsideAnchor.bind(this);
-  }
 
   public componentWillReceiveProps(nextProps: TooltipProps) {
     if (nextProps.trigger === 'closed') {
@@ -212,7 +197,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     return <span>{props.children}</span>;
   }
 
-  public renderContent() {
+  public renderContent = () => {
     const content = this.props.render ? this.props.render() : null;
     if (content == null) {
       return null;
@@ -224,7 +209,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         {this.renderCloseButton()}
       </div>
     );
-  }
+  };
 
   public renderCloseButton() {
     const hasCross =
@@ -267,9 +252,9 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     );
   }
 
-  private refContent(node: HTMLElement | null) {
+  private refContent = (node: HTMLElement | null) => {
     this.contentElement = node;
-  }
+  };
 
   private getPositions() {
     if (!this.positions) {
@@ -286,7 +271,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   private getProps(): {
-    layerProps: Nullable<Partial<RenderLayerProps>>;
+    layerProps?: Partial<RenderLayerProps>;
     popupProps: Partial<PopupProps>;
   } {
     const props = this.props;
@@ -306,7 +291,6 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
       case 'closed':
         return {
-          layerProps: null,
           popupProps: {
             opened: false,
             useWrapper,
@@ -316,7 +300,6 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       case 'hoverAnchor':
       case 'hover':
         return {
-          layerProps: null,
           popupProps: {
             onMouseEnter: this.handleMouseEnter,
             onMouseLeave: this.handleMouseLeave,
@@ -338,7 +321,6 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
       case 'focus':
         return {
-          layerProps: null,
           popupProps: {
             onFocus: this.handleFocus,
             onBlur: this.handleBlur,
@@ -359,7 +341,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     this.setState({ opened: false });
   }
 
-  private handleMouseEnter(event: MouseEventType) {
+  private handleMouseEnter = (event: MouseEventType) => {
     const isHoverAnchor = this.props.trigger === 'hoverAnchor';
     if (isHoverAnchor && event.target === this.contentElement) {
       return;
@@ -370,9 +352,9 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       this.hoverTimeout = null;
     }
     this.open();
-  }
+  };
 
-  private handleMouseLeave(event: MouseEventType) {
+  private handleMouseLeave = (event: MouseEventType) => {
     const triggerIsHover = this.props.trigger === 'hover';
     if (triggerIsHover && event.relatedTarget === this.contentElement) {
       return;
@@ -388,20 +370,20 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         this.close();
       }, Tooltip.closeDelay);
     }
-  }
+  };
 
-  private handleClick() {
+  private handleClick = () => {
     this.open();
-  }
+  };
 
-  private handleClickOutsideAnchor(event: Event) {
+  private handleClickOutsideAnchor = (event: Event) => {
     if (this.isClickOutsideContent(event)) {
       if (this.props.onCloseRequest) {
         this.props.onCloseRequest();
       }
       this.close();
     }
-  }
+  };
 
   private isClickOutsideContent(event: Event) {
     if (this.contentElement && event.target instanceof Element) {
@@ -411,15 +393,15 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     return true;
   }
 
-  private handleFocus() {
+  private handleFocus = () => {
     this.open();
-  }
+  };
 
-  private handleBlur() {
+  private handleBlur = () => {
     this.close();
-  }
+  };
 
-  private handleCloseButtonClick(event: React.MouseEvent<HTMLElement>) {
+  private handleCloseButtonClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
     if (this.props.onCloseClick) {
@@ -435,7 +417,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     }
 
     this.close();
-  }
+  };
 }
 
 export default Tooltip;

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Events from 'add-event-listener';
 import { findDOMNode } from 'react-dom';
 import listenFocusOutside, { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 
@@ -18,12 +17,6 @@ class RenderLayer extends React.Component<RenderLayerProps> {
   private focusOutsideListenerToken: {
     remove: () => void;
   } | null = null;
-
-  constructor(props: Readonly<RenderLayerProps>, context: any) {
-    super(props, context);
-    this.handleFocusOutside = this.handleFocusOutside.bind(this);
-    this.handleNativeDocClick = this.handleNativeDocClick.bind(this);
-  }
 
   public componentDidMount() {
     if (this.props.active) {
@@ -53,11 +46,11 @@ class RenderLayer extends React.Component<RenderLayerProps> {
   private attachListeners() {
     if (this.props.onFocusOutside) {
       this.focusOutsideListenerToken = listenFocusOutside(() => [this.getDomNode()], this.handleFocusOutside);
-      Events.addEventListener(window, 'blur', this.handleFocusOutside);
+      window.addEventListener('blur', this.handleFocusOutside);
     }
 
     if (this.props.onClickOutside) {
-      Events.addEventListener(document, 'mousedown', this.handleNativeDocClick);
+      document.addEventListener('mousedown', this.handleNativeDocClick);
     }
   }
 
@@ -67,21 +60,21 @@ class RenderLayer extends React.Component<RenderLayerProps> {
       this.focusOutsideListenerToken = null;
     }
 
-    Events.removeEventListener(window, 'blur', this.handleFocusOutside);
-    Events.removeEventListener(document, 'mousedown', this.handleNativeDocClick);
+    window.removeEventListener('blur', this.handleFocusOutside);
+    document.removeEventListener('mousedown', this.handleNativeDocClick);
   }
 
   private getDomNode() {
     return findDOMNode(this) as HTMLElement;
   }
 
-  private handleFocusOutside(event: Event) {
+  private handleFocusOutside = (event: Event) => {
     if (this.props.onFocusOutside) {
       this.props.onFocusOutside(event);
     }
   };
 
-  private handleNativeDocClick(event: Event) {
+  private handleNativeDocClick = (event: Event) => {
     const target = event.target || event.srcElement;
     const node = this.getDomNode();
 
