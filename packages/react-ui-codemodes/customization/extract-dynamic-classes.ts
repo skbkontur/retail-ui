@@ -16,7 +16,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   const root = j(fileInfo.source);
 
   const parsedLess = new Map<string, IDynamicRulesetsMap>();
-  const simpleStylesMap = new Map<Identifier, IDynamicRulesetsMap>();
+  const stylesMap = new Map<Identifier, IDynamicRulesetsMap>();
 
   let importDeclarations = root.find(j.ImportDeclaration);
 
@@ -59,7 +59,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
           throw new Error('Multiple specifiers for style import!');
         }
         const specifier = node.specifiers[0].local as Identifier;
-        if (specifier && !simpleStylesMap.has(specifier)) {
+        if (specifier && !stylesMap.has(specifier)) {
           const lessFilePath = path.resolve(ROOT_PATH, path.dirname(fileInfo.path), node.source.value as string);
           if (!parsedLess.has(lessFilePath)) {
             const dynamicRulesAggregator = new DynamicRulesAggregator(DRA_ID++);
@@ -67,7 +67,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             parseLess(lessFilePath, dynamicRulesAggregator);
             parsedLess.set(lessFilePath, dynamicRulesAggregator.getRulesets());
           }
-          simpleStylesMap.set(specifier, parsedLess.get(lessFilePath)!);
+          stylesMap.set(specifier, parsedLess.get(lessFilePath)!);
         }
       }
     });
@@ -85,7 +85,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
         const lessFile = (requireStatement.value.arguments[0] as any).value as string;
         if (lessFile.endsWith('.less') && !lessFile.endsWith('.flat.less')) {
           const styleNode = declaration.declarations[0].id;
-          if (styleNode && !simpleStylesMap.has(styleNode)) {
+          if (styleNode && !stylesMap.has(styleNode)) {
             const lessFilePath = path.resolve(ROOT_PATH, path.dirname(fileInfo.path), lessFile);
             if (!parsedLess.has(lessFilePath)) {
               const dynamicRulesAggregator = new DynamicRulesAggregator(DRA_ID++);
@@ -93,7 +93,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
               parseLess(lessFilePath, dynamicRulesAggregator);
               parsedLess.set(lessFilePath, dynamicRulesAggregator.getRulesets());
             }
-            simpleStylesMap.set(styleNode, parsedLess.get(lessFilePath)!);
+            stylesMap.set(styleNode, parsedLess.get(lessFilePath)!);
           }
         }
       }
@@ -107,7 +107,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
       const lessFile = (requireStatement.value.arguments[0] as any).value as string;
       if (lessFile.endsWith('.less') && !lessFile.endsWith('.flat.less')) {
         const styleNode = declaration.declarations[0].id;
-        if (styleNode && !simpleStylesMap.has(styleNode)) {
+        if (styleNode && !stylesMap.has(styleNode)) {
           const lessFilePath = path.resolve(ROOT_PATH, path.dirname(fileInfo.path), lessFile);
           if (!parsedLess.has(lessFilePath)) {
             const dynamicRulesAggregator = new DynamicRulesAggregator(DRA_ID++);
@@ -115,19 +115,19 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             parseLess(lessFilePath, dynamicRulesAggregator);
             parsedLess.set(lessFilePath, dynamicRulesAggregator.getRulesets());
           }
-          simpleStylesMap.set(styleNode, parsedLess.get(lessFilePath)!);
+          stylesMap.set(styleNode, parsedLess.get(lessFilePath)!);
         }
       }
     }
   });
 
-  if (!simpleStylesMap.size) {
+  if (!stylesMap.size) {
     return root.toSource();
   }
 
   const tokenizedStylesMap: Map<Identifier, ITokenizedDynamicRulesMap> = new Map();
 
-  simpleStylesMap.forEach((styles, identifier) => {
+  stylesMap.forEach((styles, identifier) => {
     tokenizedStylesMap.set(identifier, tokenize(styles));
   });
 
@@ -244,7 +244,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             );
             quasi = '';
             const variableName = cascadeNamePart.replace(':dynamic(', '').replace(')', '');
-            templateLiteralExpressions.push(j.memberExpression(dynamicStylesIdentifier, j.identifier(variableName)));
+            templateLiteralExpressions.push(j.callExpression(j.memberExpression(dynamicStylesIdentifier, j.identifier(variableName)), [dynamicStyleArgumentIdentifier]));
           } else if (cascadeNamePart.startsWith(':global')) {
             const globalSelector = cascadeNamePart.replace(':global(', '').replace(')', '');
             quasi = quasi + globalSelector;
@@ -253,7 +253,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
           }
         });
 
-        quasi = quasi + ': {';
+        quasi = quasi + ' {';
 
         const cascadeRules = Object.keys(cascadeRulesObject);
         for (let i = 0; i < cascadeRules.length; i++) {
@@ -307,9 +307,10 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
           [dynamicStyleArgumentIdentifier],
           j.blockStatement([
             j.returnStatement(
-              j.callExpression(emotionCssImportIdentifier!, [
+              j.taggedTemplateExpression(
+                emotionCssImportIdentifier!,
                 j.templateLiteral(templateLiteralQuasis, templateLiteralExpressions),
-              ]),
+              ),
             ),
           ]),
         ),
@@ -325,7 +326,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
       j.variableDeclarator(dynamicStylesIdentifierWithType, objectExpression),
     ]);
 
-    const stylesIdentifiers = Array.from(simpleStylesMap.keys());
+    const stylesIdentifiers = Array.from(stylesMap.keys());
     const positionsToInsert = root.find(
       j.VariableDeclaration,
       node =>
@@ -339,11 +340,13 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
       .insertAfter(themeConst);
   });
 
-  
+  stylesMap.forEach((_, identifier) => {
+    // replace usages
+  });
 
   const result = root.toSource(TO_SOURCE_OPTIONS);
 
-  // console.log('[extract-dynamic-classes.ts]', 'extractDynamicClasses', '\n', result);
+  console.log('[extract-dynamic-classes.ts]', 'extractDynamicClasses', '\n', result);
 
   return result;
 }
