@@ -149,23 +149,30 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   tokenizedStylesMap.forEach((styles, identifier) => {
     const objectProperties: any[] = [];
     const dynamicStyleArgumentIdentifier = j.identifier('theme');
+    const dynamicStylesIdentifier = j.identifier(`${identifier.name}Dynamic`);
+
     styles.forEach((ruleset, className) => {
       const templateLiteralQuasis: any[] = [];
       const templateLiteralExpressions: any[] = [];
-      console.log('[extract-dynamic-classes.ts]', 'ruleset', ruleset.cascade.entries());
 
-      const rules = Object.keys(ruleset.rules);
-
-      for (let i = 0; i < rules.length; i++) {
-        const ruleName = rules[i];
-        let quasi = `${'\n\t\t\t'}${ruleName}: `;
-        const values = ruleset.rules[ruleName];
-        values.forEach(value => {
+      const ownRules = Object.keys(ruleset.rules);
+      const cascades = ruleset.cascade;
+      let quasi = '';
+      for (let i = 0; i < ownRules.length; i++) {
+        const ruleName = ownRules[i];
+        quasi = `${'\n\t\t\t'}${ruleName}: `;
+        const ruleParts = ruleset.rules[ruleName];
+        ruleParts.forEach(value => {
           if (value.startsWith(':variable')) {
-            templateLiteralQuasis.push(j.templateElement({
-              cooked: quasi,
-              raw: quasi
-            }, false));
+            templateLiteralQuasis.push(
+              j.templateElement(
+                {
+                  cooked: quasi,
+                  raw: quasi,
+                },
+                false,
+              ),
+            );
             const variableName = value.replace(':variable(', '').replace(')', '');
             templateLiteralExpressions.push(
               j.memberExpression(dynamicStyleArgumentIdentifier, j.identifier(variableName)),
@@ -175,14 +182,95 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             quasi = quasi + value;
           }
         });
-        if(i === rules.length - 1) {
-          quasi = quasi + '\n\t\t';
-          templateLiteralQuasis.push(j.templateElement({
-            cooked: quasi,
-            raw: quasi
-          }, true));
-        }
+        quasi = quasi + ';';
       }
+
+      if (ownRules.length > 0 && cascades.size > 0) {
+        quasi = quasi + '\n';
+      }
+
+      cascades.forEach((cascadeRulesObject, cascadeNameParts) => {
+        quasi = quasi + '\n\t\t\t';
+        cascadeNameParts.forEach(cascadeNamePart => {
+          if (cascadeNamePart.startsWith(':static')) {
+            templateLiteralQuasis.push(
+              j.templateElement(
+                {
+                  cooked: quasi,
+                  raw: quasi,
+                },
+                false,
+              ),
+            );
+            quasi = '';
+            const variableName = cascadeNamePart.replace(':static(', '').replace(')', '');
+            templateLiteralExpressions.push(j.memberExpression(identifier, j.identifier(variableName)));
+          } else if (cascadeNamePart.startsWith(':dynamic')) {
+            templateLiteralQuasis.push(
+              j.templateElement(
+                {
+                  cooked: quasi,
+                  raw: quasi,
+                },
+                false,
+              ),
+            );
+            quasi = '';
+            const variableName = cascadeNamePart.replace(':dynamic(', '').replace(')', '');
+            templateLiteralExpressions.push(j.memberExpression(dynamicStylesIdentifier, j.identifier(variableName)));
+          } else if (cascadeNamePart.startsWith(':global')) {
+            const globalSelector = cascadeNamePart.replace(':global(', '').replace(')', '');
+            quasi = quasi + globalSelector;
+          } else {
+            quasi = quasi + cascadeNamePart;
+          }
+        });
+
+        quasi = quasi + ': {';
+
+        const cascadeRules = Object.keys(cascadeRulesObject);
+        for (let i = 0; i < cascadeRules.length; i++) {
+          const ruleName = cascadeRules[i];
+          quasi = quasi + `${'\n\t\t\t\t'}${ruleName}: `;
+          const ruleParts = cascadeRulesObject[ruleName];
+          ruleParts.forEach(value => {
+            if (value.startsWith(':variable')) {
+              templateLiteralQuasis.push(
+                j.templateElement(
+                  {
+                    cooked: quasi,
+                    raw: quasi,
+                  },
+                  false,
+                ),
+              );
+              const variableName = value.replace(':variable(', '').replace(')', '');
+              templateLiteralExpressions.push(
+                j.memberExpression(dynamicStyleArgumentIdentifier, j.identifier(variableName)),
+              );
+              quasi = '';
+            } else {
+              quasi = quasi + value;
+            }
+          });
+
+          quasi = quasi + ';';
+
+          if (i === cascadeRules.length - 1) {
+            quasi = quasi + '\n\t\t\t}';
+          }
+        }
+      });
+
+      templateLiteralQuasis.push(
+        j.templateElement(
+          {
+            cooked: `${quasi}\n\t\t`,
+            raw: `${quasi}\n\t\t`,
+          },
+          true,
+        ),
+      );
 
       const property = j.property(
         'init',
@@ -204,10 +292,10 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
     });
 
     const objectExpression = j.objectExpression(objectProperties);
-    const dynamicStylesIdentifier = j.identifier(`${identifier.name}Dynamic`);
-    dynamicStylesIdentifier.typeAnnotation = j.tsTypeAnnotation(j.tsTypeReference(dynamicStylesTypeIdentifier));
+    const dynamicStylesIdentifierWithType = j.identifier(`${identifier.name}Dynamic`);
+    dynamicStylesIdentifierWithType.typeAnnotation = j.tsTypeAnnotation(j.tsTypeReference(dynamicStylesTypeIdentifier));
     const dynamicStylesConst = j.variableDeclaration('const', [
-      j.variableDeclarator(dynamicStylesIdentifier, objectExpression),
+      j.variableDeclarator(dynamicStylesIdentifierWithType, objectExpression),
     ]);
 
     root
