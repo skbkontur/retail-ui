@@ -6,6 +6,7 @@ import { DynamicRulesAggregator, IDynamicRulesetsMap } from './dynamic-rules-agg
 import { ITokenizedDynamicRulesMap, tokenize } from './rules-tokenizer';
 import { Identifier, ImportDeclaration } from 'ast-types/gen/nodes';
 
+let DRA_ID = 0;
 const ROOT_PATH = process.cwd();
 const TO_SOURCE_OPTIONS: any = { quote: 'single' };
 const THEME_MANAGER_PATH = path.join('..', 'retail-ui', 'lib', 'ThemeManager');
@@ -16,7 +17,6 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
 
   const parsedLess = new Map<string, IDynamicRulesetsMap>();
   const simpleStylesMap = new Map<Identifier, IDynamicRulesetsMap>();
-  // const conditionalStylesMap = new Map<Identifier, object>();
 
   let importDeclarations = root.find(j.ImportDeclaration);
 
@@ -60,23 +60,19 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
         }
         const specifier = node.specifiers[0].local as Identifier;
         if (specifier && !simpleStylesMap.has(specifier)) {
-          const lessPath = path.resolve(ROOT_PATH, path.dirname(fileInfo.path), node.source.value as string);
-          if (!parsedLess.has(lessPath)) {
-            const dynamicRulesAggregator = new DynamicRulesAggregator();
+          const lessFilePath = path.resolve(ROOT_PATH, path.dirname(fileInfo.path), node.source.value as string);
+          if (!parsedLess.has(lessFilePath)) {
+            const dynamicRulesAggregator = new DynamicRulesAggregator(DRA_ID++);
             // NOTE: we use dynamicRulesAggregator in the way we'd use 'out' in C#
-            /*const modifiedCss = */ parseLess(lessPath, dynamicRulesAggregator);
-            /*console.groupCollapsed('modified css');
-            console.log('[extract-dynamic-classes.ts]', modifiedCss.substr(0, modifiedCss.indexOf('\n')) + '...');
-            console.groupEnd();*/
-
-            parsedLess.set(lessPath, dynamicRulesAggregator.getRulesets());
+            parseLess(lessFilePath, dynamicRulesAggregator);
+            parsedLess.set(lessFilePath, dynamicRulesAggregator.getRulesets());
           }
-          simpleStylesMap.set(specifier, parsedLess.get(lessPath)!);
+          simpleStylesMap.set(specifier, parsedLess.get(lessFilePath)!);
         }
       }
     });
 
-  /*root.find(jscodeshift.CallExpression, { callee: { name: 'require' } }).forEach(requireStatement => {
+  root.find(j.CallExpression, { callee: { name: 'require' } }).forEach(requireStatement => {
     if (requireStatement.parent.value && requireStatement.parent.value.type === 'ConditionalExpression') {
       if (requireStatement.parent.parent && requireStatement.parent.parent.parent) {
         const declaration = requireStatement.parent.parent.parent.value;
@@ -85,13 +81,49 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             throw new Error('Multiple declarations for styles require!');
           }
         }
-        const styleNode = requireStatement.parent.parent.parent.value.declarations[0].id;
-        if (!stylesMap.has(styleNode)) {
-          stylesMap.set(styleNode, (requireStatement.value.arguments[0] as StringLiteral).value);
+
+        const lessFile = (requireStatement.value.arguments[0] as any).value as string;
+        if (lessFile.endsWith('.less') && !lessFile.endsWith('.flat.less')) {
+          const styleNode = declaration.declarations[0].id;
+          if (styleNode && !simpleStylesMap.has(styleNode)) {
+            const lessFilePath = path.resolve(ROOT_PATH, path.dirname(fileInfo.path), lessFile);
+            if (!parsedLess.has(lessFilePath)) {
+              const dynamicRulesAggregator = new DynamicRulesAggregator(DRA_ID++);
+              // NOTE: we use dynamicRulesAggregator in the way we'd use 'out' in C#
+              parseLess(lessFilePath, dynamicRulesAggregator);
+              parsedLess.set(lessFilePath, dynamicRulesAggregator.getRulesets());
+            }
+            simpleStylesMap.set(styleNode, parsedLess.get(lessFilePath)!);
+          }
+        }
+      }
+    } else if (requireStatement.parent.value && requireStatement.parent.value.type === 'VariableDeclarator') {
+      const declaration = requireStatement.parent.parent.value;
+      if (declaration.declarations && declaration.declarations.length > 0) {
+        if (declaration.declarations.length > 1) {
+          throw new Error('Multiple declarations for styles require!');
+        }
+      }
+      const lessFile = (requireStatement.value.arguments[0] as any).value as string;
+      if (lessFile.endsWith('.less') && !lessFile.endsWith('.flat.less')) {
+        const styleNode = declaration.declarations[0].id;
+        if (styleNode && !simpleStylesMap.has(styleNode)) {
+          const lessFilePath = path.resolve(ROOT_PATH, path.dirname(fileInfo.path), lessFile);
+          if (!parsedLess.has(lessFilePath)) {
+            const dynamicRulesAggregator = new DynamicRulesAggregator(DRA_ID++);
+            // NOTE: we use dynamicRulesAggregator in the way we'd use 'out' in C#
+            parseLess(lessFilePath, dynamicRulesAggregator);
+            parsedLess.set(lessFilePath, dynamicRulesAggregator.getRulesets());
+          }
+          simpleStylesMap.set(styleNode, parsedLess.get(lessFilePath)!);
         }
       }
     }
-  });*/
+  });
+
+  if (!simpleStylesMap.size) {
+    return root.toSource();
+  }
 
   const tokenizedStylesMap: Map<Identifier, ITokenizedDynamicRulesMap> = new Map();
 
@@ -138,13 +170,9 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   const themeConst = j.variableDeclaration('const', [
     j.variableDeclarator(
       themeIdentifier,
-      j.callExpression(j.memberExpression(themeManagerIdentifier, j.identifier('getVariables')), [
-        j.literal('default'),
-      ]),
+      j.callExpression(j.memberExpression(themeManagerIdentifier, j.identifier('getVariables')), []),
     ),
   ]);
-  importDeclarations = root.find(j.ImportDeclaration);
-  importDeclarations.at(importDeclarations.length - 1).insertAfter(themeConst);
 
   tokenizedStylesMap.forEach((styles, identifier) => {
     const objectProperties: any[] = [];
@@ -158,8 +186,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
       const ownRules = Object.keys(ruleset.rules);
       const cascades = ruleset.cascade;
       let quasi = '';
-      for (let i = 0; i < ownRules.length; i++) {
-        const ruleName = ownRules[i];
+      for (const ruleName of ownRules) {
         quasi = `${'\n\t\t\t'}${ruleName}: `;
         const ruleParts = ruleset.rules[ruleName];
         ruleParts.forEach(value => {
@@ -298,9 +325,18 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
       j.variableDeclarator(dynamicStylesIdentifierWithType, objectExpression),
     ]);
 
-    root
-      .find(j.VariableDeclaration, node => node.declarations && node.declarations[0].id === themeIdentifier)
-      .insertAfter(dynamicStylesConst);
+    const stylesIdentifiers = Array.from(simpleStylesMap.keys());
+    const positionsToInsert = root.find(
+      j.VariableDeclaration,
+      node =>
+        node.declarations &&
+        (node.declarations[0].id === themeIdentifier || stylesIdentifiers.includes(node.declarations[0].id)),
+    );
+
+    positionsToInsert
+      .at(positionsToInsert.length - 1)
+      .insertAfter(dynamicStylesConst)
+      .insertAfter(themeConst);
   });
 
   const result = root.toSource(TO_SOURCE_OPTIONS);
