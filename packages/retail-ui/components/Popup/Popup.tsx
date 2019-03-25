@@ -14,6 +14,8 @@ import { isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 import warning from 'warning';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
+import { isFunction } from '../../lib/utils';
+import LifeCycleProxy from '../internal/LifeCycleProxy';
 
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
@@ -192,7 +194,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     this.handleLayoutEvent = this.handleLayoutEvent.bind(this);
     this.updateLocation = this.updateLocation.bind(this);
     this.resetLocation = this.resetLocation.bind(this);
-
   }
 
   public componentDidMount() {
@@ -216,14 +217,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
     if (isGoingToClose) {
       this.resetLocation();
-    }
-  }
-
-  public componentDidUpdate(prevProps: PopupProps, prevState: PopupState) {
-    const hadNoLocation = prevState.location === null;
-    const hasLocation = this.state.location !== null;
-    if (hadNoLocation && hasLocation && this.props.onOpen) {
-      this.props.onOpen();
     }
   }
 
@@ -260,7 +253,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     const element = this.extractElement(instance);
     this.updateAnchorElement(element);
     this.anchorElement = element;
-  };
+  }
 
   private extractElement(instance: React.ReactInstance | null) {
     if (!instance) {
@@ -315,27 +308,27 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     if (this.props.onMouseEnter) {
       this.props.onMouseEnter(event);
     }
-  };
+  }
   private handleMouseLeave(event: MouseEventType) {
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(event);
     }
-  };
+  }
   private handleClick(event: MouseEventType) {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
-  };
+  }
   private handleFocus(event: FocusEventType) {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
-  };
+  }
   private handleBlur(event: FocusEventType) {
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
-  };
+  }
 
   private renderContent() {
     const props = this.props;
@@ -355,55 +348,59 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
     const disableAnimations = props.disableAnimations;
 
+    // This need to correct handle order of lifecycle hooks with portal and react@15
+    // For more details see issue #1257
     return (
-      <Transition
-        timeout={TRANSITION_TIMEOUT}
-        appear={!disableAnimations}
-        in={true}
-        mountOnEnter
-        unmountOnExit
-        enter={!disableAnimations}
-        exit={!disableAnimations}
-      >
-        {(state: string) => (
-          <ZIndex
-            key={this.state.location ? 'real' : 'dummy'}
-            delta={1000}
-            ref={this.refPopupElement}
-            className={cn({
-              [styles.popup]: true,
-              [styles['popup-ignore-hover']]: props.ignoreHover,
-              [styles.shadow]: props.hasShadow,
-              [styles['transition-enter']]: state === 'entering',
-              [styles['transition-enter-active']]: state === 'entered',
-              [styles['transition-exit']]: state === 'exiting',
-              [styles[('transition-enter-' + direction) as keyof typeof styles]]: true,
-            })}
-            style={rootStyle}
-            onMouseEnter={this.handleMouseEnter}
-            onMouseLeave={this.handleMouseLeave}
-          >
-            <div className={styles.content}>
-              <div className={styles.contentInner} style={{ backgroundColor }}>
-                {this.renderChildren()}
+      <LifeCycleProxy onDidUpdate={this.handleDidUpdate} props={this.state}>
+        <Transition
+          timeout={TRANSITION_TIMEOUT}
+          appear={!disableAnimations}
+          in={true}
+          mountOnEnter
+          unmountOnExit
+          enter={!disableAnimations}
+          exit={!disableAnimations}
+        >
+          {(state: string) => (
+            <ZIndex
+              key={this.state.location ? 'real' : 'dummy'}
+              delta={1000}
+              ref={this.refPopupElement}
+              className={cn({
+                [styles.popup]: true,
+                [styles['popup-ignore-hover']]: props.ignoreHover,
+                [styles.shadow]: props.hasShadow,
+                [styles['transition-enter']]: state === 'entering',
+                [styles['transition-enter-active']]: state === 'entered',
+                [styles['transition-exit']]: state === 'exiting',
+                [styles[('transition-enter-' + direction) as keyof typeof styles]]: true,
+              })}
+              style={rootStyle}
+              onMouseEnter={this.handleMouseEnter}
+              onMouseLeave={this.handleMouseLeave}
+            >
+              <div className={styles.content}>
+                <div className={styles.contentInner} style={{ backgroundColor }}>
+                  {this.renderChildren()}
+                </div>
               </div>
-            </div>
-            {this.renderPin(location.position)}
-          </ZIndex>
-        )}
-      </Transition>
+              {this.renderPin(location.position)}
+            </ZIndex>
+          )}
+        </Transition>
+      </LifeCycleProxy>
     );
   }
 
   private renderChildren() {
-    return typeof this.props.children === 'function' ? this.props.children() : this.props.children;
+    return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
 
   private refPopupElement(zIndex: ZIndex | null) {
     if (zIndex) {
       this.lastPopupElement = zIndex && (findDOMNode(zIndex) as HTMLElement);
     }
-  };
+  }
 
   private renderPin(position: string): React.ReactNode {
     /**
@@ -438,6 +435,14 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     if (this.state.location) {
       this.updateLocation();
     }
+  }
+
+  private handleDidUpdate = (prevProps: PopupState, props: PopupState) => {
+    const hadNoLocation = prevProps.location === null;
+    const hasLocation = props.location !== null;
+    if (hadNoLocation && hasLocation && this.props.onOpen) {
+      this.props.onOpen();
+    }
   };
 
   private delayUpdateLocation() {
@@ -468,7 +473,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   private resetLocation() {
     this.cancelDelayedUpdateLocation();
     this.setState({ location: null });
-  };
+  }
 
   private locationEquals(x: Nullable<PopupLocation>, y: Nullable<PopupLocation>) {
     if (x === y) {

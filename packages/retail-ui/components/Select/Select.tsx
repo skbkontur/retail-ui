@@ -23,6 +23,7 @@ import { SelectLocale, SelectLocaleHelper } from './locale';
 import styles from './Select.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { isFunction } from '../../lib/utils';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -390,7 +391,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
           {search}
           {this.mapItems(
             (iValue: TValue, item: TItem | (() => React.ReactNode), i: number, comment: Nullable<React.ReactNode>) => {
-              if (typeof item === 'function') {
+              if (isFunction(item)) {
                 const element = item();
 
                 if (React.isValidElement(element)) {

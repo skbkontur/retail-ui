@@ -99,71 +99,80 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
   <RenderContainer
     anchor={null}
   >
-    <Transition
-      appear={true}
-      enter={true}
-      exit={true}
-      in={true}
-      mountOnEnter={true}
-      onEnter={[Function]}
-      onEntered={[Function]}
-      onEntering={[Function]}
-      onExit={[Function]}
-      onExited={[Function]}
-      onExiting={[Function]}
-      timeout={
+    <LifeCycleProxy
+      onDidUpdate={[Function]}
+      props={
         Object {
-          "enter": 0,
-          "exit": 200,
+          "location": null,
         }
       }
-      unmountOnExit={true}
     >
-      <ZIndex
-        className="popup transition-enter-top"
-        delta={1000}
-        key="dummy"
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
-        render={true}
-        style={
+      <Transition
+        appear={true}
+        enter={true}
+        exit={true}
+        in={true}
+        mountOnEnter={true}
+        onEnter={[Function]}
+        onEntered={[Function]}
+        onEntering={[Function]}
+        onExit={[Function]}
+        onExited={[Function]}
+        onExiting={[Function]}
+        timeout={
           Object {
-            "left": -9999,
-            "maxWidth": 500,
-            "top": -9999,
+            "enter": 0,
+            "exit": 200,
           }
         }
+        unmountOnExit={true}
       >
-        <div
+        <ZIndex
           className="popup transition-enter-top"
+          delta={1000}
+          key="dummy"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
+          render={true}
           style={
             Object {
               "left": -9999,
               "maxWidth": 500,
               "top": -9999,
-              "zIndex": 1000,
             }
           }
         >
           <div
-            className="content"
+            className="popup transition-enter-top"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            style={
+              Object {
+                "left": -9999,
+                "maxWidth": 500,
+                "top": -9999,
+                "zIndex": 1000,
+              }
+            }
           >
             <div
-              className="contentInner"
-              style={
-                Object {
-                  "backgroundColor": undefined,
-                }
-              }
+              className="content"
             >
-              Test content
+              <div
+                className="contentInner"
+                style={
+                  Object {
+                    "backgroundColor": undefined,
+                  }
+                }
+              >
+                Test content
+              </div>
             </div>
           </div>
-        </div>
-      </ZIndex>
-    </Transition>
+        </ZIndex>
+      </Transition>
+    </LifeCycleProxy>
     <Portal
       key="portal-ref"
       rt_rootID={1}

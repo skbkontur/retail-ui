@@ -205,7 +205,11 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       return layerProps ? <RenderLayer {...layerProps}>{popup}</RenderLayer> : popup;
     }
 
-    return props.children;
+    if (React.isValidElement(props.children)) {
+      return props.children;
+    }
+
+    return <span>{props.children}</span>;
   }
 
   public renderContent() {
@@ -220,7 +224,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         {this.renderCloseButton()}
       </div>
     );
-  };
+  }
 
   public renderCloseButton() {
     const hasCross =
@@ -265,7 +269,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
   private refContent(node: HTMLElement | null) {
     this.contentElement = node;
-  };
+  }
 
   private getPositions() {
     if (!this.positions) {
@@ -366,7 +370,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
       this.hoverTimeout = null;
     }
     this.open();
-  };
+  }
 
   private handleMouseLeave(event: MouseEventType) {
     const triggerIsHover = this.props.trigger === 'hover';
@@ -384,7 +388,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
         this.close();
       }, Tooltip.closeDelay);
     }
-  };
+  }
 
   private handleClick() {
     this.open();

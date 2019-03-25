@@ -51,11 +51,11 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
     return (
       <div style={{ height: this.getContentHeight() }} ref={this.refWrapper}>
         <SidePageContext.Consumer>
-          {({ width }) => (
+          {({ getWidth }) => (
             <div
               className={styles.footer}
               style={{
-                width,
+                width: getWidth(),
               }}
             >
               <div
