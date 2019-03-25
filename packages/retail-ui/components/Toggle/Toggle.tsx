@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import Upgrades from '../../lib/Upgrades';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
-
 const styles = isFlatDesign ? require('./Toggle.flat.less') : require('./Toggle.less');
 
 let isListening: boolean;

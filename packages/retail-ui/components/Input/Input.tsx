@@ -1,18 +1,14 @@
 import classNames from 'classnames';
 import * as React from 'react';
-
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
-
-import CssStyles from './Input.less';
 import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
 import MaskedInput from '../internal/MaskedInput/MaskedInput';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
-
-const classes: typeof CssStyles = isFlatDesign ? require('./Input.flat.less') : require('./Input.less');
+const classes = isFlatDesign ? require('./Input.flat.less') : require('./Input.less');
 
 const isDeleteKey = (key: string) => {
   return key === 'Backspace' || key === 'Delete';

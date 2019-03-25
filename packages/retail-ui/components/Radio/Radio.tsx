@@ -1,14 +1,11 @@
 import classNames from 'classnames';
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
-
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 import { Nullable, Override } from '../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
-
 const styles = isFlatDesign ? require('./Radio.flat.less') : require('./Radio.less');
 
 export interface SyntheticRadioEvent<T> {

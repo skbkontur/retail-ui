@@ -2,16 +2,11 @@ import * as React from 'react';
 import * as events from 'add-event-listener';
 import classNames from 'classnames';
 import Upgrades from '../../lib/Upgrades';
-
 import Corners from './Corners';
-
 import '../ensureOldIEClassName';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
-
-import CssStyles from './Button.less';
-
-const classes: typeof CssStyles = isFlatDesign ? require('./Button.flat.less') : require('./Button.less');
+const classes = isFlatDesign ? require('./Button.flat.less') : require('./Button.less');
 
 const KEYCODE_TAB = 9;
 

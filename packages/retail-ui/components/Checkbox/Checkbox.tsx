@@ -2,13 +2,11 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
 import OkIcon from '@skbkontur/react-icons/Ok';
-
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 import { Nullable, Override } from '../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
-
 const styles = isFlatDesign ? require('./Checkbox.flat.less') : require('./Checkbox.less');
 
 const KEYCODE_TAB = 9;

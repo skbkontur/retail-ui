@@ -1,23 +1,17 @@
 import classNames from 'classnames';
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
-
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import throttle from 'lodash.throttle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { getTextAreaHeight } from './TextareaHelpers';
-
 import { TextareaAdapter } from './Textarea.adapter';
 import { Nullable, Override } from '../../typings/utility-types';
-
 import Upgrades from '../../lib/Upgrades';
-import CssStyles from './Textarea.less';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
-
-const styles: typeof CssStyles = isFlatDesign ? require('./Textarea.flat.less') : require('./Textarea.less');
+const styles = isFlatDesign ? require('./Textarea.flat.less') : require('./Textarea.less');
 
 const DEFAULT_WIDTH = 250;
 
