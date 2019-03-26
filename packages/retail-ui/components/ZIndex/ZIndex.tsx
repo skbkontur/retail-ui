@@ -38,7 +38,7 @@ export default class ZIndex extends React.Component<ZIndexProps> {
   }
 }
 
-class ZIndexStorage {
+export class ZIndexStorage {
   public static incrementZIndex = (delta: number): number => {
     if (delta <= 0) {
       throw new Error();
