@@ -114,7 +114,7 @@ export function tokenize(rulesetsMap: IDynamicRulesetsMap): ITokenizedDynamicRul
       const tokens = selector.nodes;
       const isBasic = tokens.length === 1 && tokens[0].type === 'class';
       if (isBasic) {
-        console.warn('Got basic selector on second pass, skipping');
+        console.warn(`Got basic selector ${tokens[0].name} on second pass, skipping`);
         return;
       }
 

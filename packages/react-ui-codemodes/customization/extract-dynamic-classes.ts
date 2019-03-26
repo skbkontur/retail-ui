@@ -116,6 +116,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             const dynamicRulesAggregator = new DynamicRulesAggregator(DRA_ID++);
             // NOTE: we use dynamicRulesAggregator in the way we'd use 'out' in C#
             parseLess(lessFilePath, dynamicRulesAggregator);
+            // console.log(parseLess(lessFilePath, dynamicRulesAggregator), '\n\n');
             parsedLess.set(lessFilePath, dynamicRulesAggregator.getRulesets());
           }
           stylesMap.set(styleNode, parsedLess.get(lessFilePath)!);
@@ -191,8 +192,10 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
       const ownRules = Object.keys(ruleset.rules);
       const cascades = ruleset.cascade;
       let quasi = '';
+
+      // fill own rules
       for (const ruleName of ownRules) {
-        quasi = `${'\n\t\t\t'}${ruleName}: `;
+        quasi = quasi + `${'\n\t\t\t'}${ruleName}: `;
         const ruleParts = ruleset.rules[ruleName];
         ruleParts.forEach(value => {
           if (value.startsWith(':variable')) {
@@ -221,6 +224,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
         quasi = quasi + '\n';
       }
 
+      // fill cascades
       cascades.forEach((cascadeRulesObject, cascadeNameParts) => {
         quasi = quasi + '\n\t\t\t';
         cascadeNameParts.forEach(cascadeNamePart => {
@@ -355,24 +359,20 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
 
   stylesIdentifiers.forEach(styleIdentifier => {
     const dynamicCounterpart = tokenizedStylesMap.get(styleIdentifier)!;
-    const propertyNames = Array.from(dynamicCounterpart.keys()).map(k => k.replace('.', ''));
+    // const propertyNames = Array.from(dynamicCounterpart.keys()).map(k => k.replace('.', ''));
     root
       .find(j.MemberExpression, {
         object: {
           type: 'Identifier',
           name: styleIdentifier.name,
-        },
-        property: {
-          type: 'Identifier',
-        },
+        }
       })
       .filter(node => {
-        const isOneOfProperties =
-          node.value && node.value.property && propertyNames.includes((node.value.property as Identifier).name);
-        if (isOneOfProperties) {
-          return isNotWithinDynamicStyles(node, dynamicStylesDeclarationIdentifiers);
-        }
-        return false;
+        // NOTE: we have to skip 'isOneOfProperties' check to handle styles[foo] case
+        // It's assumed, that ([)object: Identifier).name check is sufficient. Name can't collide with other variables,
+        // because of the no-shadowed-var rule.
+        // const isOneOfProperties = node.value && node.value.property && propertyNames.includes((node.value.property as Identifier).name);
+        return isNotWithinDynamicStyles(node, dynamicStylesDeclarationIdentifiers);
       })
       .forEach(val => {
         let className = '';
@@ -381,7 +381,32 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
         } else if (val.value.property.type === 'StringLiteral') {
           className = (val.value.property as StringLiteral).value;
         } else {
-          throw new Error(`Property is ${val.value.property.type}, please implement`);
+          // a special case of styles[foo], replace with cx
+          if (!emotionCxImportIdentifier) {
+            // we didn't import cx from emotion
+            emotionCxImportIdentifier = j.identifier('cx');
+            emotionImportStatement!.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
+          }
+
+          console.warn(`Dynamic invocation encountered: ${styleIdentifier.name}[${j(val.value.property).toSource()}]. Consider revising.`);
+
+          const superDynamicStyles = j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), val.value.property);
+          superDynamicStyles.computed = true;
+
+          const cxExpression = j.callExpression(emotionCxImportIdentifier, [
+            val.value,
+            j.logicalExpression('&&',
+              superDynamicStyles,
+              j.callExpression(
+                superDynamicStyles,
+                [themeIdentifier],
+              )
+              )
+          ]);
+
+          val.replace(cxExpression);
+
+          return;
         }
 
         if (!className) {
@@ -390,7 +415,8 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
         const dynamicRuleset = dynamicCounterpart.get(className);
 
         if (!dynamicRuleset) {
-          throw new Error(`Could not get dynamicRuleset for className=${className}`);
+          // it's a static class
+          return;
         }
 
         // console.log('[extract-dynamic-classes.ts]', '', val.parent.value.type, className, dynamicRuleset.isPartial);
@@ -483,21 +509,19 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
           }
         } else {
           // easy case - just replace; respect computed
-          const memberExpression = j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), j.identifier(className));
-          memberExpression.computed = val.value.computed;
-          val.replace(
-            j.callExpression(
-              memberExpression,
-              [themeIdentifier],
-            ),
+          const memberExpression = j.memberExpression(
+            j.identifier(nameToDynamic(styleIdentifier.name)),
+            j.identifier(className),
           );
+          memberExpression.computed = val.value.computed;
+          val.replace(j.callExpression(memberExpression, [themeIdentifier]));
         }
       });
   });
 
   const result = root.toSource(TO_SOURCE_OPTIONS);
 
-  console.log('[extract-dynamic-classes.ts]', 'extractDynamicClasses', '\n', result);
+  // console.log('[extract-dynamic-classes.ts]', 'extractDynamicClasses', '\n', result);
 
   return result;
 }
