@@ -13,7 +13,7 @@ export function Portal(props: PortalProps) {
 }
 
 export class RenderInnerContainer extends React.Component<RenderContainerNativeProps> {
-  public render(): JSX.Element {
+  public render() {
     if (this.props.children) {
       if (!this.props.domContainer) {
         throw Error('There is no "this.domContainer"');
@@ -28,6 +28,6 @@ export class RenderInnerContainer extends React.Component<RenderContainerNativeP
       );
     }
 
-    return <React.Fragment>{this.props.anchor}</React.Fragment>;
+    return this.props.anchor;
   }
 }
