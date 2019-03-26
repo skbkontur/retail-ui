@@ -10,7 +10,10 @@ const rootStyle: Partial<React.CSSProperties> = {
   width: '1000px',
 };
 
-const iconUpdates: IconName[][] = [['Delta', 'UserAdd', 'Youtube2']];
+const iconUpdates: IconName[][] = [
+  ['Delta', 'UserAdd', 'Youtube2'],
+  ['UserLock', 'Viber', 'Viber2', 'WhatsApp', 'WhatsApp2', 'Spinner'],
+];
 
 interface TestIconProps {
   name: IconName;
@@ -44,7 +47,7 @@ class TestIcon extends React.Component<TestIconProps> {
 storiesOf('Icon', module).add('All icons', () => (
   <div style={rootStyle}>
     {(Object.keys(Icons) as IconName[])
-      .filter(name => !iconUpdates.every(update => update.includes(name)))
+      .filter(name => !iconUpdates.some(update => update.includes(name)))
       .sort()
       .map(name => (
         <TestIcon key={name} name={name} />
