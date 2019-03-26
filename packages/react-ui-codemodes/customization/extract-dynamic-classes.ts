@@ -365,7 +365,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
         object: {
           type: 'Identifier',
           name: styleIdentifier.name,
-        }
+        },
       })
       .filter(node => {
         // NOTE: we have to skip 'isOneOfProperties' check to handle styles[foo] case
@@ -388,20 +388,21 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             emotionImportStatement!.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
           }
 
-          console.warn(`Dynamic invocation encountered: ${styleIdentifier.name}[${j(val.value.property).toSource()}]. Consider revising.`);
+          console.warn(
+            `Dynamic invocation encountered: ${styleIdentifier.name}[${j(
+              val.value.property,
+            ).toSource()}]. Consider revising.`,
+          );
 
-          const superDynamicStyles = j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), val.value.property);
+          const superDynamicStyles = j.memberExpression(
+            j.identifier(nameToDynamic(styleIdentifier.name)),
+            val.value.property,
+          );
           superDynamicStyles.computed = true;
 
           const cxExpression = j.callExpression(emotionCxImportIdentifier, [
             val.value,
-            j.logicalExpression('&&',
-              superDynamicStyles,
-              j.callExpression(
-                superDynamicStyles,
-                [themeIdentifier],
-              )
-              )
+            j.logicalExpression('&&', superDynamicStyles, j.callExpression(superDynamicStyles, [themeIdentifier])),
           ]);
 
           val.replace(cxExpression);
@@ -426,26 +427,50 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
           const parentNode = val.parent.value;
           switch (parentNode.type) {
             case 'ObjectProperty': {
-              const holdingObject = val.parent.parent.value;
-              if (!holdingObject) {
-                throw new Error('Could not find holding object, something is terribly wrong');
-              }
+              if (parentNode.key === val.value) {
+                // it's used as a computed key, most probably inside classnames or simple classes object
+                const holdingObject = val.parent.parent.value;
+                if (!holdingObject) {
+                  throw new Error('Could not find holding object, something is terribly wrong');
+                }
 
-              const indexOfProperty = holdingObject.properties.indexOf(parentNode);
-              const property = j.property(
-                'init',
-                j.callExpression(
-                  j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), j.identifier(className)),
-                  [themeIdentifier],
-                ),
-                parentNode.value,
-              );
-              property.computed = true;
-              holdingObject.properties.splice(indexOfProperty + 1, 0, property);
+                const indexOfProperty = holdingObject.properties.indexOf(parentNode);
+                const property = j.property(
+                  'init',
+                  j.callExpression(
+                    j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), j.identifier(className)),
+                    [themeIdentifier],
+                  ),
+                  parentNode.value,
+                );
+                property.computed = true;
+                holdingObject.properties.splice(indexOfProperty + 1, 0, property);
+              } else if (parentNode.value === val.value) {
+                // it's used as a value inside things like SIZE_CLASS_NAMES
+
+                if (!emotionCxImportIdentifier) {
+                  // we didn't import cx from emotion
+                  emotionCxImportIdentifier = j.identifier('cx');
+                  emotionImportStatement!.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
+                }
+
+                const cxExpression = j.callExpression(emotionCxImportIdentifier, [
+                  val.value,
+                  j.callExpression(
+                    j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), j.identifier(className)),
+                    [themeIdentifier],
+                  ),
+                ]);
+                val.replace(cxExpression);
+              } else {
+                // it's magic
+                throw new Error(`Partial class name is used as ObjectProperty in unknown manner, please implement`);
+              }
 
               break;
             }
-            case 'LogicalExpression': {
+            case 'LogicalExpression':
+            case 'ConditionalExpression': {
               if (!emotionCxImportIdentifier) {
                 // we didn't import cx from emotion
                 emotionCxImportIdentifier = j.identifier('cx');
@@ -504,7 +529,11 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
               break;
             }
             default: {
-              throw new Error(`New case for partial ruleset: ${parentNode.type}, please implement`);
+              throw new Error(
+                `New case for partial ruleset ${styleIdentifier.name}.${className}: ${
+                  parentNode.type
+                }, please implement`,
+              );
             }
           }
         } else {
