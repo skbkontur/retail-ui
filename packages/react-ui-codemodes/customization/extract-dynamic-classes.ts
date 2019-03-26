@@ -160,17 +160,17 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
 
   const themeManagerIdentifier = j.identifier('ThemeManager');
-  const dynamicStylesTypeIdentifier = j.identifier('DynamicClassesType');
+  const themeTypeIdentifier = j.identifier('ITheme');
   const themeManagerImportPath = path.relative(path.dirname(fileInfo.path), THEME_MANAGER_PATH).replace(/\\/g, '/');
   const themeManagerImportStatement = j.importDeclaration(
-    [j.importDefaultSpecifier(themeManagerIdentifier), j.importSpecifier(dynamicStylesTypeIdentifier)],
+    [j.importDefaultSpecifier(themeManagerIdentifier), j.importSpecifier(themeTypeIdentifier)],
     j.literal(themeManagerImportPath),
   );
 
   importDeclarations = root.find(j.ImportDeclaration);
   importDeclarations.at(importDeclarations.length - 1).insertAfter(themeManagerImportStatement);
 
-  const themeIdentifier = j.identifier('defaultTheme');
+  const themeIdentifier = j.identifier('theme');
   const themeConst = j.variableDeclaration('const', [
     j.variableDeclarator(
       themeIdentifier,
@@ -182,8 +182,9 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   const dynamicStylesDeclarationIdentifiers: Identifier[] = [];
   tokenizedStylesMap.forEach((styles, identifier) => {
     const objectProperties: any[] = [];
-    const dynamicStyleArgumentIdentifier = j.identifier('theme');
     const dynamicStylesIdentifier = j.identifier(nameToDynamic(identifier.name));
+    const themeArgumentIdentifier = j.identifier('t');
+
 
     styles.forEach((ruleset, className) => {
       const templateLiteralQuasis: any[] = [];
@@ -210,7 +211,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             );
             const variableName = value.replace(':variable(', '').replace(')', '');
             templateLiteralExpressions.push(
-              j.memberExpression(dynamicStyleArgumentIdentifier, j.identifier(variableName)),
+              j.memberExpression(themeArgumentIdentifier, j.identifier(variableName)),
             );
             quasi = '';
           } else {
@@ -255,7 +256,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             const variableName = cascadeNamePart.replace(':dynamic(', '').replace(')', '');
             templateLiteralExpressions.push(
               j.callExpression(j.memberExpression(dynamicStylesIdentifier, j.identifier(variableName)), [
-                dynamicStyleArgumentIdentifier,
+                themeArgumentIdentifier,
               ]),
             );
           } else if (cascadeNamePart.startsWith(':global')) {
@@ -286,7 +287,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
               );
               const variableName = value.replace(':variable(', '').replace(')', '');
               templateLiteralExpressions.push(
-                j.memberExpression(dynamicStyleArgumentIdentifier, j.identifier(variableName)),
+                j.memberExpression(themeArgumentIdentifier, j.identifier(variableName)),
               );
               quasi = '';
             } else {
@@ -312,12 +313,15 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
         ),
       );
 
+      const themeArgumentAnnotatedIdentifier = j.identifier('t');
+      themeArgumentAnnotatedIdentifier.typeAnnotation = j.tsTypeAnnotation(j.tsTypeReference(themeTypeIdentifier));
+
       const property = j.property(
         'init',
         j.identifier(className),
         j.functionExpression(
           null,
-          [dynamicStyleArgumentIdentifier],
+          [themeArgumentAnnotatedIdentifier],
           j.blockStatement([
             j.returnStatement(
               j.taggedTemplateExpression(
@@ -333,11 +337,9 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
     });
 
     const objectExpression = j.objectExpression(objectProperties);
-    const dynamicStylesIdentifierWithType = j.identifier(nameToDynamic(identifier.name));
-    dynamicStylesIdentifierWithType.typeAnnotation = j.tsTypeAnnotation(j.tsTypeReference(dynamicStylesTypeIdentifier));
-    dynamicStylesDeclarationIdentifiers.push(dynamicStylesIdentifierWithType);
+    dynamicStylesDeclarationIdentifiers.push(dynamicStylesIdentifier);
     const dynamicStylesConst = j.variableDeclaration('const', [
-      j.variableDeclarator(dynamicStylesIdentifierWithType, objectExpression),
+      j.variableDeclarator(dynamicStylesIdentifier, objectExpression),
     ]);
 
     let positionsToInsert: any = root.find(
@@ -567,7 +569,7 @@ function isNotWithinDynamicStyles(nodePath: NodePath<any>, targets: any[]) {
 }
 
 function nameToDynamic(name: string) {
-  return `dynamic${name.charAt(0).toUpperCase()}${name.substr(1)}`;
+  return `js${name.charAt(0).toUpperCase()}${name.substr(1)}`;
 }
 
 module.exports = extractDynamicClasses;

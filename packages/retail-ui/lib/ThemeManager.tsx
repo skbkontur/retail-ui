@@ -7,10 +7,7 @@ interface IndexSignature {
   [key: string]: string;
 }
 type VariablesObject = typeof defaultThemeVariables & typeof flatThemeVariables
-
-export interface DynamicClassesType {
-  [key: string]: (theme: VariablesObject) => string
-}
+export interface ITheme extends VariablesObject {}
 
 export default class ThemeManager {
   public static getVariables(): VariablesObject {
