@@ -4,7 +4,7 @@ import * as path from 'path';
 import { parseLess } from './less-parser';
 import { DynamicRulesAggregator, IDynamicRulesetsMap } from './dynamic-rules-aggregator';
 import { ITokenizedDynamicRulesMap, tokenize } from './rules-tokenizer';
-import { Identifier, ImportDeclaration } from 'ast-types/gen/nodes';
+import { Identifier, ImportDeclaration, StringLiteral } from 'ast-types/gen/nodes';
 import { NodePath } from 'ast-types';
 
 let DRA_ID = 0;
@@ -375,17 +375,31 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
         return false;
       })
       .forEach(val => {
-        const className = (val.value.property as Identifier).name;
-        const dynamicRuleset = dynamicCounterpart.get(className)!;
+        let className = '';
+        if (val.value.property.type === 'Identifier') {
+          className = (val.value.property as Identifier).name;
+        } else if (val.value.property.type === 'StringLiteral') {
+          className = (val.value.property as StringLiteral).value;
+        } else {
+          throw new Error(`Property is ${val.value.property.type}, please implement`);
+        }
+
+        if (!className) {
+          throw new Error(`Could not extract class name`);
+        }
+        const dynamicRuleset = dynamicCounterpart.get(className);
+
+        if (!dynamicRuleset) {
+          throw new Error(`Could not get dynamicRuleset for className=${className}`);
+        }
 
         // console.log('[extract-dynamic-classes.ts]', '', val.parent.value.type, className, dynamicRuleset.isPartial);
         // console.count(`${dynamicRuleset.isPartial}`);
         if (dynamicRuleset.isPartial) {
           // hard case: we have to properly place dynamic rule alongside with the static one
           const parentNode = val.parent.value;
-          console.log('[extract-dynamic-classes.ts]', '', parentNode.type, className);
           switch (parentNode.type) {
-            case 'ObjectProperty':
+            case 'ObjectProperty': {
               const holdingObject = val.parent.parent.value;
               if (!holdingObject) {
                 throw new Error('Could not find holding object, something is terribly wrong');
@@ -404,17 +418,76 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
               holdingObject.properties.splice(indexOfProperty + 1, 0, property);
 
               break;
-            case 'LogicalExpression':
-              parentNode;
+            }
+            case 'LogicalExpression': {
+              if (!emotionCxImportIdentifier) {
+                // we didn't import cx from emotion
+                emotionCxImportIdentifier = j.identifier('cx');
+                emotionImportStatement!.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
+              }
+
+              const cxExpression = j.callExpression(emotionCxImportIdentifier, [
+                val.value,
+                j.callExpression(
+                  j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), j.identifier(className)),
+                  [themeIdentifier],
+                ),
+              ]);
+
+              val.replace(cxExpression);
               break;
-            default:
+            }
+            case 'JSXExpressionContainer': {
+              const holdingAttr = val.parent.parent.value;
+              if (holdingAttr.name.name !== 'className') {
+                throw new Error(`Partial class name is used in attribute ${holdingAttr.name.name}, please implement`);
+              } else {
+                if (!emotionCxImportIdentifier) {
+                  // we didn't import cx from emotion
+                  emotionCxImportIdentifier = j.identifier('cx');
+                  emotionImportStatement!.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
+                }
+
+                const cxExpression = j.callExpression(emotionCxImportIdentifier, [
+                  val.value,
+                  j.callExpression(
+                    j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), j.identifier(className)),
+                    [themeIdentifier],
+                  ),
+                ]);
+
+                val.replace(cxExpression);
+              }
+
+              break;
+            }
+            case 'CallExpression': {
+              if (emotionCxImportIdentifier && parentNode.callee.name === emotionCxImportIdentifier.name) {
+                const indexOfArg = parentNode.arguments.indexOf(val.value);
+                parentNode.arguments.splice(
+                  indexOfArg + 1,
+                  0,
+                  j.callExpression(
+                    j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), j.identifier(className)),
+                    [themeIdentifier],
+                  ),
+                );
+              } else {
+                throw new Error(`CallExpression for partial ruleset is not within classnames call, please implement`);
+              }
+              break;
+            }
+            default: {
               throw new Error(`New case for partial ruleset: ${parentNode.type}, please implement`);
+            }
           }
         } else {
-          // easy case - just replace
+          // easy case - just replace; respect computed
+          const memberExpression = j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), j.identifier(className));
+          memberExpression.computed = val.value.computed;
           val.replace(
             j.callExpression(
-              j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), j.identifier(className)),
+              memberExpression,
               [themeIdentifier],
             ),
           );
@@ -442,6 +515,19 @@ function isNotWithinDynamicStyles(nodePath: NodePath<any>, targets: any[]) {
 
 function nameToDynamic(name: string) {
   return `dynamic${name.charAt(0).toUpperCase()}${name.substr(1)}`;
+}
+
+function findPlaceToAddDeclaration(target: NodePath): any[] | null {
+  while (target.parent) {
+    // ArrowFunctionExpression fits both: class field initializers and functional components
+    if (target.parent.value.type === 'ClassMethod' || target.parent.value.type === 'ArrowFunctionExpression') {
+      return target.parent.value.body.body;
+    }
+
+    target = target.parent;
+  }
+
+  return null;
 }
 
 module.exports = extractDynamicClasses;
