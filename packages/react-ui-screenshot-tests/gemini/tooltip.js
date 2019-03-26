@@ -74,7 +74,7 @@ gemini.suite('Tooltip', () => {
       .skip.in('firefox', 'в firefox завезли поддержку focusin/focusout только с 52ой версии');
   });
 
-  gemini.suite('Tooltip with external dynamic content', suite => {
+  gemini.suite('with external dynamic content', suite => {
     suite
       .before(renderStory('Tooltip', 'Tooltip with external dynamic content'))
       .setCaptureElements('#test-element')
