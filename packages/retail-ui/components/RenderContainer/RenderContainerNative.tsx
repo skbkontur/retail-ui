@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Nullable } from '../../typings/utility-types';
-import { PortalPros, RenderContainerProps } from './RenderContainerTypes';
+import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 
 interface RenderContainerNativeProps extends RenderContainerProps {
   domContainer: Nullable<HTMLElement>;
   rootId: number;
 }
 
-export function Portal(props: PortalPros) {
+export function Portal(props: PortalProps) {
   return <noscript data-render-container-id={props.rt_rootID} />;
 }
 

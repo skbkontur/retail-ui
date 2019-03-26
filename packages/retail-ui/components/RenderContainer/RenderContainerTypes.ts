@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export interface PortalPros {
+export interface PortalProps {
   rt_rootID: number;
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Nullable } from '../../typings/utility-types';
-import { PortalPros, RenderContainerProps } from './RenderContainerTypes';
+import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 
 interface RenderContainerFallbackProps extends RenderContainerProps {
   domContainer: Nullable<HTMLElement>;
@@ -12,7 +12,7 @@ export function RootContainer(props: { children?: React.ReactNode; rt_portalID: 
   return React.Children.only(props.children);
 }
 
-export class Portal extends React.Component<PortalPros> {
+export class Portal extends React.Component<PortalProps> {
   public componentDidMount() {
     if (!this.props.children) {
       return;
