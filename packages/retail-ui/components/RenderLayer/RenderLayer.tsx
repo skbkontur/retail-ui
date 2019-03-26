@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Events from 'add-event-listener';
 import { findDOMNode } from 'react-dom';
 import listenFocusOutside, { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 
@@ -45,11 +44,14 @@ class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   private attachListeners() {
-    this.focusOutsideListenerToken = listenFocusOutside(() => [this.getDomNode()], this.handleFocusOutside);
+    if (this.props.onFocusOutside) {
+      this.focusOutsideListenerToken = listenFocusOutside(() => [this.getDomNode()], this.handleFocusOutside);
+      window.addEventListener('blur', this.handleFocusOutside);
+    }
 
-    Events.addEventListener(window, 'blur', this.handleFocusOutside);
-
-    Events.addEventListener(document, 'mousedown', this.handleNativeDocClick);
+    if (this.props.onClickOutside) {
+      document.addEventListener('mousedown', this.handleNativeDocClick);
+    }
   }
 
   private detachListeners() {
@@ -58,9 +60,8 @@ class RenderLayer extends React.Component<RenderLayerProps> {
       this.focusOutsideListenerToken = null;
     }
 
-    Events.removeEventListener(window, 'blur', this.handleFocusOutside);
-
-    Events.removeEventListener(document, 'mousedown', this.handleNativeDocClick);
+    window.removeEventListener('blur', this.handleFocusOutside);
+    document.removeEventListener('mousedown', this.handleNativeDocClick);
   }
 
   private getDomNode() {

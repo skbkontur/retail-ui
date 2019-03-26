@@ -1,32 +1,27 @@
-import resolve from "rollup-plugin-node-resolve";
-import babel from "rollup-plugin-babel";
+import commonjs from 'rollup-plugin-commonjs';
+import resolve from 'rollup-plugin-node-resolve';
+import replace from 'rollup-plugin-replace';
+import typescript2 from 'rollup-plugin-typescript2';
 
 export function buildConfig(outputDir, reactUiPackageName) {
-    return {
-        input: "src/index.js",
-        output: {
-            file: outputDir + "/index.js",
-            format: "cjs",
-            sourcemap: outputDir + "/index.js.map",
-        },
-        plugins: [
-            resolve({
-                extensions: [".js", ".jsx"],
-            }),
-            babel({
-                plugins: [
-                    "external-helpers",
-                    [
-                        "transform-define",
-                        {
-                            REACT_UI_PACKAGE: reactUiPackageName,
-                        },
-                    ],
-                ],
-                exclude: "node_modules/**",
-                externalHelpers: false,
-            }),
-        ],
-        external: ["lodash.isequal", "react-dom", "react", "prop-types", "add-event-listener"],
-    };
+  return {
+    input: 'src/index.tsx',
+    output: {
+      file: 'build/' + outputDir + '/index.js',
+      format: 'cjs',
+      sourcemap: 'build/' + outputDir + '/index.js.map',
+    },
+    plugins: [
+      typescript2({
+        useTsconfigDeclarationDir: true,
+        tsconfig: './prod.tsconfig.json',
+      }),
+      resolve(),
+      commonjs(),
+      replace({
+        REACT_UI_PACKAGE: JSON.stringify(reactUiPackageName),
+      }),
+    ],
+    external: ['lodash.isequal', 'react-dom', 'react', 'prop-types', 'warning'],
+  };
 }
