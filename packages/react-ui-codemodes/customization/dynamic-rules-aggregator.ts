@@ -1,16 +1,32 @@
 /* tslint:disable:no-console */
 
-export interface IDynamicRules { [key: string]: string }
-export interface IDynamicRuleset { isPartial: boolean, rules: IDynamicRules }
+export interface IDynamicRules {
+  [key: string]: string;
+}
+export interface IDynamicRuleset {
+  isPartial: boolean;
+  rules: IDynamicRules;
+}
+interface IRemovalInfoExtra {
+  index: number;
+}
+export interface IRemovalInfo {
+  filePath: string;
+  rule: string;
+  extra: IRemovalInfoExtra;
+}
 export type IDynamicRulesetsMap = Map<string, IDynamicRuleset>;
 export interface IDynamicRulesAggregator {
   addRuleset(className: string, ruleset: IDynamicRuleset): void;
   getRulesets(): IDynamicRulesetsMap;
+  markForRemoval(filePath: string, rule: string, extra: IRemovalInfoExtra): void;
+  getRemovals(): IRemovalInfo[];
 }
 
 // NOTE: we need this whole pile of hack just because less creates deep copy of the passed options
 
 const RuleSets: IDynamicRulesetsMap[] = [];
+const Removals: IRemovalInfo[] = [];
 
 export class DynamicRulesAggregator implements IDynamicRulesAggregator {
   private readonly _id: number;
@@ -28,10 +44,14 @@ export class DynamicRulesAggregator implements IDynamicRulesAggregator {
       console.log(`Adding ruleset for existing key=${key}, trying to merge`);
       const existing = RuleSets[this._id].get(key)!;
       Object.keys(ruleset.rules).forEach(ruleName => {
-        if(existing.rules[ruleName]) {
-          console.warn(`Merge conflict: already has rule for ${ruleName} - overriding ${existing.rules[ruleName]} with ${ruleset.rules[ruleName]}. Consider revising sources.`)
+        if (existing.rules[ruleName]) {
+          console.warn(
+            `Merge conflict: already has rule for ${ruleName} - overriding ${existing.rules[ruleName]} with ${
+              ruleset.rules[ruleName]
+            }. Consider revising sources.`,
+          );
         }
-        existing.rules[ruleName] = ruleset.rules[ruleName]
+        existing.rules[ruleName] = ruleset.rules[ruleName];
       });
       console.log(`Done merging key=${key}`);
     }
@@ -41,5 +61,13 @@ export class DynamicRulesAggregator implements IDynamicRulesAggregator {
 
   public getRulesets(): IDynamicRulesetsMap {
     return RuleSets[this._id];
+  }
+
+  public markForRemoval(filePath: string, rule: string, extra: IRemovalInfoExtra): void {
+    Removals.push({ filePath, rule, extra });
+  }
+
+  public getRemovals(): IRemovalInfo[] {
+    return Removals;
   }
 }

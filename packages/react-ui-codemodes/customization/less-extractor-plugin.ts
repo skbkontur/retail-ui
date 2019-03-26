@@ -54,9 +54,9 @@ export class ExtractDynamicRulesPlugin implements Less.Plugin {
   }
 
   public install(less: LessStatic, pluginManager: Less.PluginManager & PluginManagerInternal) {
-    const dynamicRulesMap = this._options.dynamicRulesAggregator;
+    const dra = this._options.dynamicRulesAggregator;
     pluginManager.addVisitor!(new EDRPreVisitor(less));
-    pluginManager.addVisitor!(new EDRVisitor(less, dynamicRulesMap));
+    pluginManager.addVisitor!(new EDRVisitor(less, dra));
   }
 
   public setOptions(dynamicRulesMap: IDynamicRulesAggregator) {
@@ -73,6 +73,7 @@ class EDRPreVisitor implements IVisitor {
 
   private _less: LessStatic & any;
   private _visitor: IVisitor;
+
   constructor(less: LessStatic) {
     const LessVisitor = (less as any).visitors.Visitor;
     this._less = less;
@@ -204,6 +205,14 @@ class EDRVisitor implements IVisitor {
     const rule = this._currentRule;
     if (ruleset && rule && rule.__RULE_TO_EXTRACT__) {
       this._extractingRules[rule.name] = extractRuleValue(rule.value as ILessRule);
+      this._dra.markForRemoval(
+        rule.fileInfo().filename,
+        rule
+          .toCSS({ tabLevel: 0 })
+          .replace(/:variable\(/g, '@')
+          .replace(/\)/g, ''),
+        { index: rule._index },
+      );
       replaceRuleWithComment(rule, ruleset, this._less);
     }
     this._currentRule = null;

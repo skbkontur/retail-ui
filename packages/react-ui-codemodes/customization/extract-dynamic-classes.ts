@@ -2,15 +2,17 @@
 import { API, FileInfo } from 'jscodeshift/src/core';
 import * as path from 'path';
 import { parseLess } from './less-parser';
-import { DynamicRulesAggregator, IDynamicRulesetsMap } from './dynamic-rules-aggregator';
+import { DynamicRulesAggregator, IDynamicRulesetsMap, IRemovalInfo } from './dynamic-rules-aggregator';
 import { ITokenizedDynamicRulesMap, tokenize } from './rules-tokenizer';
 import { Identifier, ImportDeclaration, StringLiteral } from 'ast-types/gen/nodes';
 import { NodePath } from 'ast-types';
+import * as fs from 'fs';
 
 let DRA_ID = 0;
 const ROOT_PATH = process.cwd();
 const TO_SOURCE_OPTIONS: any = { quote: 'single' };
 const THEME_MANAGER_PATH = path.join('..', 'retail-ui', 'lib', 'ThemeManager');
+let rulesToRemove: IRemovalInfo[] = [];
 
 function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   const j = api.jscodeshift;
@@ -68,6 +70,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             parseLess(lessFilePath, dynamicRulesAggregator);
             // console.log(parseLess(lessFilePath, dynamicRulesAggregator), '\n\n');
             parsedLess.set(lessFilePath, dynamicRulesAggregator.getRulesets());
+            rulesToRemove = rulesToRemove.concat(dynamicRulesAggregator.getRemovals());
           }
           stylesMap.set(specifier, parsedLess.get(lessFilePath)!);
         }
@@ -95,6 +98,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
               parseLess(lessFilePath, dynamicRulesAggregator);
               // console.log(parseLess(lessFilePath, dynamicRulesAggregator), '\n\n');
               parsedLess.set(lessFilePath, dynamicRulesAggregator.getRulesets());
+              rulesToRemove = rulesToRemove.concat(dynamicRulesAggregator.getRemovals());
             }
             stylesMap.set(styleNode, parsedLess.get(lessFilePath)!);
           }
@@ -118,6 +122,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             parseLess(lessFilePath, dynamicRulesAggregator);
             // console.log(parseLess(lessFilePath, dynamicRulesAggregator), '\n\n');
             parsedLess.set(lessFilePath, dynamicRulesAggregator.getRulesets());
+            rulesToRemove = rulesToRemove.concat(dynamicRulesAggregator.getRemovals());
           }
           stylesMap.set(styleNode, parsedLess.get(lessFilePath)!);
         }
@@ -185,7 +190,6 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
     const dynamicStylesIdentifier = j.identifier(nameToDynamic(identifier.name));
     const themeArgumentIdentifier = j.identifier('t');
 
-
     styles.forEach((ruleset, className) => {
       const templateLiteralQuasis: any[] = [];
       const templateLiteralExpressions: any[] = [];
@@ -210,9 +214,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
               ),
             );
             const variableName = value.replace(':variable(', '').replace(')', '');
-            templateLiteralExpressions.push(
-              j.memberExpression(themeArgumentIdentifier, j.identifier(variableName)),
-            );
+            templateLiteralExpressions.push(j.memberExpression(themeArgumentIdentifier, j.identifier(variableName)));
             quasi = '';
           } else {
             quasi = quasi + value;
@@ -286,9 +288,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
                 ),
               );
               const variableName = value.replace(':variable(', '').replace(')', '');
-              templateLiteralExpressions.push(
-                j.memberExpression(themeArgumentIdentifier, j.identifier(variableName)),
-              );
+              templateLiteralExpressions.push(j.memberExpression(themeArgumentIdentifier, j.identifier(variableName)));
               quasi = '';
             } else {
               quasi = quasi + value;
@@ -553,6 +553,12 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   const result = root.toSource(TO_SOURCE_OPTIONS);
 
   // console.log('[extract-dynamic-classes.ts]', 'extractDynamicClasses', '\n', result);
+
+  fs.writeFileSync(
+    `${path.join(path.dirname(fileInfo.path), path.basename(fileInfo.path))}.removals.txt`,
+    rulesToRemove.map(r => `${r.filePath}@(${r.extra.index})[${r.rule}]`).join('\n'),
+    { encoding: 'utf8' },
+  );
 
   return result;
 }
