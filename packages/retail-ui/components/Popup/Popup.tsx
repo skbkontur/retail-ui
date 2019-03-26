@@ -15,7 +15,8 @@ import { isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 import warning from 'warning';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction } from 'retail-ui/lib/utils';
+import { isFunction } from '../../lib/utils';
+import LifeCycleProxy from '../internal/LifeCycleProxy';
 
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
@@ -206,14 +207,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
   }
 
-  public componentDidUpdate(prevProps: PopupProps, prevState: PopupState) {
-    const hadNoLocation = prevState.location === null;
-    const hasLocation = this.state.location !== null;
-    if (hadNoLocation && hasLocation && this.props.onOpen) {
-      this.props.onOpen();
-    }
-  }
-
   public componentWillUnmount() {
     this.cancelDelayedUpdateLocation();
     this.removeEventListeners(this.anchorElement);
@@ -247,7 +240,11 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         active={Boolean(onCloseRequest) && opened}
       >
         <RenderContainer anchor={child} ref={child ? this.refAnchorElement : undefined}>
-          {this.renderContent()}
+          {/* This need to correct handle order of lifecycle hooks with portal and react@15 */}
+          {/* For more details see issue #1257*/}
+          <LifeCycleProxy onDidUpdate={this.handleDidUpdate} props={this.state}>
+            {this.renderContent()}
+          </LifeCycleProxy>
         </RenderContainer>
       </RenderLayer>
     );
@@ -424,6 +421,14 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
     if (this.state.location) {
       this.updateLocation();
+    }
+  };
+
+  private handleDidUpdate = (prevProps: PopupState, props: PopupState) => {
+    const hadNoLocation = prevProps.location === null;
+    const hasLocation = props.location !== null;
+    if (hadNoLocation && hasLocation && this.props.onOpen) {
+      this.props.onOpen();
     }
   };
 

@@ -1690,10 +1690,10 @@
     universal-user-agent "^2.0.0"
     url-template "^2.0.8"
 
-"@skbkontur/react-icons@^3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-3.1.2.tgz#aa685e4ba57b1f72fdc364e123478bb9500caaae"
-  integrity sha512-Yo8YxTEYnJA4iKY33nhKdodqW3JpmmcLCwmS1WWtpftIN3KP1nlLzJywMh17nZbDVY5WKb1YS2VD2rQLHeDxtQ==
+"@skbkontur/react-icons@^3.1.5":
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-3.1.5.tgz#0f561f1a013322888df2d798446a2717200cb70d"
+  integrity sha512-Xio25lCJakjfKgWz3fuEkVu2IqwuNJuE9b5yZ3294ARJv/SHGT8RlW4PwIT4XYdDtJKoAX6yy2sF9tPITh2VBw==
   dependencies:
     tslib "^1.9.2"
 
@@ -14971,11 +14971,6 @@ semver@~5.3.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
   integrity sha1-myzl094C0XxgEq0yaqa00M9U+U8=
 
-semver@^5.6.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-5.6.0.tgz#7e74256fbaa49c75aa7c7a205cc22799cac80004"
-  integrity sha512-RS9R6R35NYgQn++fkDWaOmqGoj4Ek9gGs+DPxNUZKuwE183xjJroKvyo1IzVFeXvUrvmALy6FWD5xrdJT25gMg==
-
 send@0.16.2:
   version "0.16.2"
   resolved "https://registry.yarnpkg.com/send/-/send-0.16.2.tgz#6ecca1e0f8c156d141597559848df64730a6bbc1"
@@ -17116,7 +17111,7 @@ wcwidth@^1.0.0, wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-wd@^1.10.1, wd@^1.6.2:
+wd@^1.6.2:
   version "1.10.3"
   resolved "https://registry.yarnpkg.com/wd/-/wd-1.10.3.tgz#395ac7eb58a98e556369f8f8e5f845d91fb152a3"
   integrity sha512-ffqqZDtFFLeg5u/4pw2vYKECW+z+vW6vc+7rcqF15uu1/rmw3BydV84BONNc9DIcQ5Z7gQFS/hAuMvj53eVtSg==

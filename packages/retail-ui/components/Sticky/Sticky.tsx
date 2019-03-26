@@ -7,7 +7,7 @@ import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import styles from './Sticky.less';
 import classNames from 'classnames';
-import { isFunction } from 'retail-ui/lib/utils';
+import { isFunction } from '../../lib/utils';
 
 export interface StickyProps {
   side: 'top' | 'bottom';
