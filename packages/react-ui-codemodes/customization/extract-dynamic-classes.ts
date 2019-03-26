@@ -541,17 +541,4 @@ function nameToDynamic(name: string) {
   return `dynamic${name.charAt(0).toUpperCase()}${name.substr(1)}`;
 }
 
-function findPlaceToAddDeclaration(target: NodePath): any[] | null {
-  while (target.parent) {
-    // ArrowFunctionExpression fits both: class field initializers and functional components
-    if (target.parent.value.type === 'ClassMethod' || target.parent.value.type === 'ArrowFunctionExpression') {
-      return target.parent.value.body.body;
-    }
-
-    target = target.parent;
-  }
-
-  return null;
-}
-
 module.exports = extractDynamicClasses;
