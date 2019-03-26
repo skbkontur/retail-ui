@@ -353,6 +353,10 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
       positionsToInsert = root.find(j.ImportDeclaration);
     }
 
+    // CAN WRITE TO FILE HERE!!! ))
+    // const some = j(dynamicStylesConst).toSource();
+    // fs.writeFileSync(..)
+
     positionsToInsert
       .at(positionsToInsert.length - 1)
       .insertAfter(dynamicStylesConst)
