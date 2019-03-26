@@ -56,7 +56,7 @@
     "warning": "^4.0.1"
   },
   "devDependencies": {
-    "@skbkontur/react-icons": "^3.1.2",
+    "@skbkontur/react-icons": "^3.1.5",
     "@skbkontur/typed-css-modules-loader": "^0.1.4",
     "@storybook/addon-actions": "3.4.8",
     "@storybook/addon-knobs": "3.4.8",
