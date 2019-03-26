@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.44.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.44.1...retail-ui@0.44.2) (2019-03-26)
+
+
+### Bug Fixes
+
+* **ComboBoxOld:** bring typings back ([65d26cd](https://github.com/skbkontur/retail-ui/commit/65d26cd))
+* **hint:** add pin offset ([9c68d44](https://github.com/skbkontur/retail-ui/commit/9c68d44)), closes [#1265](https://github.com/skbkontur/retail-ui/issues/1265)
+* **Input:** fix input outlines in IE ([2594500](https://github.com/skbkontur/retail-ui/commit/2594500)), closes [#1197](https://github.com/skbkontur/retail-ui/issues/1197)
+* **Popup:** call `onOpen` prop in right moment for react@15 ([07d98e7](https://github.com/skbkontur/retail-ui/commit/07d98e7)), closes [#1257](https://github.com/skbkontur/retail-ui/issues/1257)
+* **Tooltip:** correct render invalid react element ([d49b9fd](https://github.com/skbkontur/retail-ui/commit/d49b9fd))
+* **Tooltip:** loosing focus on show/hide content ([83b86f7](https://github.com/skbkontur/retail-ui/commit/83b86f7))
+
+
+### Performance Improvements
+
+* **Popup:** bind instead of field initializer ([e1bfba1](https://github.com/skbkontur/retail-ui/commit/e1bfba1))
+* **Popup:** do not renderContent if closed ([49b03a6](https://github.com/skbkontur/retail-ui/commit/49b03a6))
+* **Popup:** less event subscriptions ([eb30481](https://github.com/skbkontur/retail-ui/commit/eb30481))
+* **Popup:** remove RenderLayer/onCloseRequest ([1763036](https://github.com/skbkontur/retail-ui/commit/1763036))
+* **RenderContainer:** lazy domContainer ([7a193fe](https://github.com/skbkontur/retail-ui/commit/7a193fe))
+* **RenderLayer:** bind instead of field initializer ([a7a940b](https://github.com/skbkontur/retail-ui/commit/a7a940b))
+* **RenderLayer:** less event subscriptions ([f095eca](https://github.com/skbkontur/retail-ui/commit/f095eca))
+* **Tooltip:** bind instead of field initializer ([e4a1ef5](https://github.com/skbkontur/retail-ui/commit/e4a1ef5))
+* **Tooltip:** skip RenderLayer if unneeded ([9719e45](https://github.com/skbkontur/retail-ui/commit/9719e45))
+
+
+
+
+
 ## [0.44.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.44.0...retail-ui@0.44.1) (2019-03-19)
 
 
