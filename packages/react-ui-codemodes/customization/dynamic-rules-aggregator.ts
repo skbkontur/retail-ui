@@ -25,12 +25,15 @@ export class DynamicRulesAggregator implements IDynamicRulesAggregator {
 
   public addRuleset(key: string, ruleset: IDynamicRuleset): void {
     if (RuleSets[this._id].has(key)) {
-      console.log('=======================');
-      console.log('addRule key', key);
-      console.log('addRule old', RuleSets[this._id].get(key));
-      console.log('addRule new', ruleset);
-      console.log('=======================');
-      console.log('\n');
+      console.log(`Adding ruleset for existing key=${key}, trying to merge`);
+      const existing = RuleSets[this._id].get(key)!;
+      Object.keys(ruleset.rules).forEach(ruleName => {
+        if(existing.rules[ruleName]) {
+          console.warn(`Merge conflict: already has rule for ${ruleName} - overriding ${existing.rules[ruleName]} with ${ruleset.rules[ruleName]}. Consider revising sources.`)
+        }
+        existing.rules[ruleName] = ruleset.rules[ruleName]
+      });
+      console.log(`Done merging key=${key}`);
     }
 
     RuleSets[this._id].set(key, ruleset);
