@@ -1,3 +1,21 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## 0.7.1 (2019-03-26)
+
+
+### Bug Fixes
+
+* **ComboBoxOld:** bring typings back ([65d26cd](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/65d26cd))
+* **ValidationWrapper:** scroll to element even if child ref is empty ([58ad2fc](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/58ad2fc))
+* **ValidationWrapper:** support different refs ([#1243](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/1243)) ([b63038a](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/b63038a))
+
+
+
+
+
 v0.2.15
 
 - Добавлены тайпинги для Typescript
