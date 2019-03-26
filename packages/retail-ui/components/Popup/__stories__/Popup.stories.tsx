@@ -7,6 +7,7 @@ import Tooltip from '../../Tooltip';
 import ComboBox from '../../ComboBox';
 import Hint from '../../Hint';
 import Select from '../../Select';
+import RenderLayer from '../../RenderLayer';
 
 storiesOf('Popup', module)
   .add('All pin opened', () => <AllCases small={false} padding={'50px 100px'} />)
@@ -270,21 +271,26 @@ class PopupWithPositions extends Component<any, any> {
           }}
         />
         {this.state.anchor && (
-          <Popup
-            hasPin
-            hasShadow
-            onCloseRequest={this._clickHandler}
-            anchorElement={this.state.anchor}
-            opened={this.state.opened}
-            margin={13}
-            positions={['bottom left', 'bottom right', 'top left', 'top right']}
-            backgroundColor={'#fff'}
-            pinSize={10}
-            pinOffset={7}
-            disableAnimations={this.props.disableAnimations}
+          <RenderLayer
+            onClickOutside={this._clickHandler}
+            onFocusOutside={this._clickHandler}
+            active={this.state.opened}
           >
-            <div style={{ padding: '10px 20px', fontSize: '30px' }}>{this.props.placeholder || 'Placeholder'}</div>
-          </Popup>
+            <Popup
+              hasPin
+              hasShadow
+              anchorElement={this.state.anchor}
+              opened={this.state.opened}
+              margin={13}
+              positions={['bottom left', 'bottom right', 'top left', 'top right']}
+              backgroundColor={'#fff'}
+              pinSize={10}
+              pinOffset={7}
+              disableAnimations={this.props.disableAnimations}
+            >
+              <div style={{ padding: '10px 20px', fontSize: '30px' }}>{this.props.placeholder || 'Placeholder'}</div>
+            </Popup>
+          </RenderLayer>
         )}
       </div>
     );
