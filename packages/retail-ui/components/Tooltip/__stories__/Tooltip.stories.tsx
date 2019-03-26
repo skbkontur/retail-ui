@@ -8,6 +8,7 @@ import { createPropsGetter } from '../../internal/createPropsGetter';
 import Textarea from '../../Textarea';
 import Checkbox from '../../Checkbox';
 import Gapped from '../../Gapped';
+import Input from '../../Input';
 
 interface TestTooltipProps {
   pos?: PopupPosition;
@@ -167,7 +168,28 @@ storiesOf('Tooltip', module)
   ))
   .add('Tooltip with trigger=click', () => <TooltipWithClickTrigger />)
   .add('Tooltip with dynamic anchor', () => <DynamicAnchorTooltip />)
-  .add('Multiple tooltips with useWrapper=false', () => <MultipleTooltips />);
+  .add('Multiple tooltips with useWrapper=false', () => <MultipleTooltips />)
+  .add('Tooltip with Input and switchable content', () => <TooltipWithInput />);
+
+class TooltipWithInput extends React.Component {
+  public state = { show: false };
+  public render() {
+    return (
+      <div style={{ padding: '0 10px 70px' }}>
+        <Tooltip render={this.renderContent} pos="bottom right" trigger="click">
+          <Input onChange={(_, v) => this.setState({ show: Boolean(v) })} />
+        </Tooltip>
+      </div>
+    );
+  }
+
+  public renderContent = () => {
+    if (this.state.show) {
+      return <span>{'Content'}</span>;
+    }
+    return null;
+  };
+}
 
 interface MyCustomTooltipState {
   state: TooltipTrigger;
