@@ -123,24 +123,95 @@ storiesOf('Input', module)
       </div>
     </div>
   ))
-  .add('Input with mask', () => (
-    <Gapped vertical>
-      <p>
-        <span>Mask:</span> <span>+7 999 999-99-99</span>{' '}
-        <Input
-          width="150"
-          mask="+7 999 999-99-99"
-          maskChar={'_'}
-          placeholder="+7"
-          alwaysShowMask
-          formatChars={{ '9': '[0-9]', a: '[A-Za-z]', '*': '[A-Za-z0-9]' }}
-        />
-      </p>
-      <p>
-        <span>Mask:</span> <span>99aa9999</span>{' '}
-        <Input width="150" mask="99aa9999" maskChar={'_'} placeholder="99aa9999" />
-      </p>
-    </Gapped>
+  .add('Placeholder and Mask', () => (
+    <div>
+      <table style={{ borderSpacing: 10 }}>
+        <tr>
+          <td />
+          <td>width: "auto"</td>
+          <td>width: 100px</td>
+          <td>width: 350px</td>
+        </tr>
+        <tr>
+          <td>placeholder</td>
+          <td>
+            <Input placeholder="1234567890 1234567890 1234567890" />
+          </td>
+          <td>
+            <Input width={100} placeholder="1234567890 1234567890 1234567890" />
+          </td>
+          <td>
+            <Input width={350} placeholder="1234567890 1234567890 1234567890" />
+          </td>
+        </tr>
+        <tr>
+          <td> mask</td>
+          <td>
+            <Input mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
+          </td>
+          <td>
+            <Input width={100} mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
+          </td>
+          <td>
+            <Input width={350} mask="********** ********** **********" maskChar={'_'} alwaysShowMask />
+          </td>
+        </tr>
+        <tr>
+          <td>placeholder and mask</td>
+          <td>
+            <Input
+              mask="********** ********** **********"
+              maskChar={'_'}
+              alwaysShowMask
+              placeholder="1234567890 1234567890 1234567890"
+            />
+          </td>
+          <td>
+            <Input
+              width={100}
+              mask="********** ********** **********"
+              maskChar={'_'}
+              alwaysShowMask
+              placeholder="1234567890 1234567890 1234567890"
+            />
+          </td>
+          <td>
+            <Input
+              width={350}
+              mask="********** ********** **********"
+              maskChar={'_'}
+              alwaysShowMask
+              placeholder="1234567890 1234567890 1234567890"
+            />
+          </td>
+        </tr>
+      </table>
+      <table style={{ borderSpacing: 10 }}>
+        <tr>
+          <td />
+          <td>focused</td>
+          <td>blured</td>
+        </tr>
+        <tr>
+          <td>placeholder and mask</td>
+          <td>
+            <Input
+              autoFocus
+              mask="********** ********** **********"
+              maskChar={'_'}
+              placeholder="1234567890 1234567890 1234567890"
+            />
+          </td>
+          <td>
+            <Input
+              mask="********** ********** **********"
+              maskChar={'_'}
+              placeholder="1234567890 1234567890 1234567890"
+            />
+          </td>
+        </tr>
+      </table>
+    </div>
   ))
   .add('Input with phone mask', () => (
     <Input width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />

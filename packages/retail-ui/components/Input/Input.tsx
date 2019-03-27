@@ -193,6 +193,12 @@ class Input extends React.Component<InputProps, InputState> {
     this.input.setSelectionRange(start, end);
   }
 
+  public get isMaskVisible(): boolean {
+    const { mask, alwaysShowMask } = this.props;
+    const { focused } = this.state;
+    return Boolean(mask && (focused || alwaysShowMask));
+  }
+
   public render(): JSX.Element {
     const {
       onMouseEnter,
@@ -255,7 +261,7 @@ class Input extends React.Component<InputProps, InputState> {
       style: { textAlign: align },
       ref: this.refInput,
       type: 'text',
-      placeholder: !polyfillPlaceholder ? placeholder : undefined,
+      placeholder: !this.isMaskVisible && !polyfillPlaceholder ? placeholder : undefined,
       disabled,
     };
 
@@ -333,7 +339,7 @@ class Input extends React.Component<InputProps, InputState> {
   private renderPlaceholder() {
     let placeholder = null;
 
-    if (this.state.polyfillPlaceholder && this.props.placeholder && !this.props.alwaysShowMask && !this.props.value) {
+    if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
       placeholder = (
         <div className={classes.placeholder} style={{ textAlign: this.props.align || 'inherit' }}>
           {this.props.placeholder}
