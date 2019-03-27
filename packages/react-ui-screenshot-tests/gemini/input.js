@@ -112,12 +112,7 @@ gemini.suite('Input with mask', suite => {
       action.click(input);
     })
     .capture('Editing', action => {
-      /** NOTE: ухищрения, чтоб не мигал в ie */
-      const sampleString = '912247';
-      sampleString.split('').forEach(char => {
-        action.wait(500);
-        action.sendKeys(input, char);
-      });
+      action.sendKeys(input, '9');
     })
     .capture('Blured', action => {
       action.sendKeys(input, gemini.TAB);
