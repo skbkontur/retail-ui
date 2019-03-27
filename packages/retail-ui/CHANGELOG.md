@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.44.3](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.44.2...retail-ui@0.44.3) (2019-03-27)
+
+
+### Bug Fixes
+
+* **Input:** don't show placeholder if mask is visible ([1c40f1d](https://github.com/skbkontur/retail-ui/commit/1c40f1d))
+* **Input:** fix placeholder width for masked input ([8696f40](https://github.com/skbkontur/retail-ui/commit/8696f40)), closes [#1272](https://github.com/skbkontur/retail-ui/issues/1272)
+
+
+
+
+
 ## [0.44.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.44.1...retail-ui@0.44.2) (2019-03-26)
 
 
