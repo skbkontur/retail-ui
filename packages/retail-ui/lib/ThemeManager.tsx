@@ -1,16 +1,15 @@
 import defaultThemeVariables from '../components/variables.less';
 import flatThemeVariables from '../components/variables.flat.less';
 import Upgrades from './Upgrades';
-import { Mutable } from "../typings/utility-types";
 
 interface IndexSignature {
   [key: string]: string;
 }
+
 type VariablesObject = typeof defaultThemeVariables & typeof flatThemeVariables;
 type IndexedDefaultVariables = typeof defaultThemeVariables & IndexSignature;
 type IndexedFlatVariables = typeof flatThemeVariables & IndexSignature;
 type IndexedVariablesObject = IndexedDefaultVariables & IndexedFlatVariables;
-export interface ITheme extends VariablesObject {}
 
 class ThemeManagerConstructor {
   private isFlatDesign: boolean = Upgrades.isFlatDesignEnabled();
@@ -21,6 +20,7 @@ class ThemeManagerConstructor {
     this.defaultVariables = this.variables = this.constructVariablesObject();
   }
 
+  public getVariables(): VariablesObject {
     return this.variables;
   }
 
@@ -40,27 +40,26 @@ class ThemeManagerConstructor {
 
   // DO we need it?
   public resetVariablesToDefaultValues(): VariablesObject {
-    this.variables = this.defaultVariables as VariablesObject;
-    return this.variables;
+    return (this.variables = this.defaultVariables as VariablesObject);
   }
 
   private constructVariablesObject(): VariablesObject {
     const bothThemesKeys = [...Object.keys(defaultThemeVariables), ...Object.keys(flatThemeVariables)] as Array<
       keyof VariablesObject
     >;
-
     return bothThemesKeys.reduce(
       (resultObj, currentKey) => {
         if (this.isFlatDesign) {
-          (resultObj as IndexSignature)[currentKey] = (flatThemeVariables as IndexedFlatVariables)[currentKey];
+          (resultObj as IndexSignature)[currentKey] = (flatThemeVariables as IndexSignature)[currentKey];
         } else {
-          (resultObj as IndexSignature)[currentKey] = (defaultThemeVariables as IndexedDefaultVariables)[currentKey];
+          (resultObj as IndexSignature)[currentKey] = (defaultThemeVariables as IndexSignature)[currentKey];
         }
         return resultObj;
       },
-      {} as IndexedVariablesObject,
+      {} as VariablesObject,
     );
   }
 }
 
+export interface ITheme extends VariablesObject {}
 export default new ThemeManagerConstructor();
