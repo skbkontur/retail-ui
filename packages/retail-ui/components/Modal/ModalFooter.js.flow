@@ -1,0 +1,10 @@
+/* @flow */
+
+export type FooterProps = {|
+  panel?: boolean,
+  sticky?: boolean,
+|};
+
+declare export function isFooter(child: React$Node): boolean;
+
+declare export class Footer extends React$Component<FooterProps> {}
