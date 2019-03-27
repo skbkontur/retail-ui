@@ -258,22 +258,11 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
   private addEventListeners(element: Nullable<HTMLElement>) {
     if (element && element instanceof HTMLElement) {
-      const props = this.props;
-      if (props.onMouseEnter) {
-        element.addEventListener('mouseenter', this.handleMouseEnter);
-      }
-      if (props.onMouseLeave) {
-        element.addEventListener('mouseleave', this.handleMouseLeave);
-      }
-      if (props.onClick) {
-        element.addEventListener('click', this.handleClick);
-      }
-      if (props.onFocus) {
-        element.addEventListener('focusin', this.handleFocus as EventListener);
-      }
-      if (props.onBlur) {
-        element.addEventListener('focusout', this.handleBlur as EventListener);
-      }
+      element.addEventListener('mouseenter', this.handleMouseEnter);
+      element.addEventListener('mouseleave', this.handleMouseLeave);
+      element.addEventListener('click', this.handleClick);
+      element.addEventListener('focusin', this.handleFocus as EventListener);
+      element.addEventListener('focusout', this.handleBlur as EventListener);
     }
   }
 
