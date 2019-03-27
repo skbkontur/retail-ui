@@ -108,7 +108,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
      */
     backgroundColor: PropTypes.string,
 
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
     /**
      * Показывать ли пин
